@@ -160,5 +160,14 @@ namespace PlansModule.Designer
             DesignerItem.Width = maxLeft - minLeft;
             DesignerItem.Height = maxTop - minTop;
         }
+
+        public void Test()
+        {
+            foreach (var thumb in thumbs)
+            {
+                thumb.Width *= 2;
+                thumb.Height *= 2;
+            }
+        }
     }
 }

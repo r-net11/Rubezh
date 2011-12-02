@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using FiresecAPI.Models;
 using System.Diagnostics;
+using PlansModule.ViewModels;
 
 namespace PlansModule.Views
 {
@@ -11,7 +12,7 @@ namespace PlansModule.Views
         public ToolboxView()
         {
             InitializeComponent();
-            Loaded += new RoutedEventHandler(ToolboxView_Loaded);
+            EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyDownEvent, new KeyEventHandler(OnKeyDown), true);
         }
 
         private Point? dragStartPoint = null;
@@ -78,21 +79,46 @@ namespace PlansModule.Views
             return elementBase;
         }
 
-        void ToolboxView_Loaded(object sender, RoutedEventArgs e)
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            FocusManager.SetIsFocusScope(_stackPanel, true);
+            if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                PressButton(copyButton);
+            }
+            if (e.Key == Key.X && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                PressButton(cutButton);
+            }
+            if (e.Key == Key.V && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                PressButton(pasteButton);
+            }
+            if (e.Key == Key.Z && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                PressButton(undoButton);
+            }
+            if (e.Key == Key.Y && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                PressButton(redoButton);
+            }
+            if (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                (DataContext as PlansViewModel).DesignerCanvas.SelectAll();
+            }
+            if (e.Key == Key.Delete)
+            {
+                (DataContext as PlansViewModel).DesignerCanvas.RemoveAllSelected();
+            }
+            if (e.Key == Key.T && Keyboard.Modifiers == ModifierKeys.Control)
+            {
+                (DataContext as PlansViewModel).DesignerCanvas.Test();
+            }
         }
 
-        private void StackPanel_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        void PressButton(Button button)
         {
-            Trace.WriteLine("StackPanel_GotKeyboardFocus");
-            FocusManager.SetIsFocusScope(_stackPanel, true);
-        }
-
-        private void StackPanel_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            Trace.WriteLine("StackPanel_LostKeyboardFocus");
-            FocusManager.SetIsFocusScope(_stackPanel, true);
+            if (button.Command.CanExecute(null))
+                button.Command.Execute(null);
         }
     }
 }

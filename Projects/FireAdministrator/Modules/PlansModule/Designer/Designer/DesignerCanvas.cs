@@ -34,7 +34,6 @@ namespace PlansModule.Designer
             Height = 100;
 
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-            SelectAllCommand = new RelayCommand(OnSelectAll);
             PreviewMouseDown += new MouseButtonEventHandler(On_PreviewMouseDown);
             DataContext = this;
         }
@@ -102,8 +101,7 @@ namespace PlansModule.Designer
             PlansModule.HasChanges = true;
         }
 
-        public RelayCommand SelectAllCommand { get; private set; }
-        void OnSelectAll()
+        public void SelectAll()
         {
             foreach(var designerItem in Items)
                 designerItem.IsSelected = true;
@@ -347,6 +345,14 @@ namespace PlansModule.Designer
         public void EndChange()
         {
             ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
+        }
+
+        public void Test()
+        {
+            foreach (DesignerItem item in this.SelectedItems)
+            {
+                item.Test();
+            }
         }
     }
 }

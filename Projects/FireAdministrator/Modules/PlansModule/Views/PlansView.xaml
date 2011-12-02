@@ -3,15 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:PlansModule.Views">
     
-    <UserControl.InputBindings>
-        <KeyBinding Key="c" Modifiers="Control" Command="{Binding CopyCommand}" />
-        <KeyBinding Key="x" Modifiers="Control" Command="{Binding CutCommand}" />
-        <KeyBinding Key="v" Modifiers="Control" Command="{Binding PasteCommand}" />
-        <KeyBinding Key="u" Modifiers="Control" Command="{Binding UndoCommand}" />
-        <KeyBinding Key="r" Modifiers="Control" Command="{Binding RedoCommand}" />
-        <KeyBinding Key="a" Modifiers="Control" Command="{Binding DesignerCanvas.SelectAllCommand}" />
-    </UserControl.InputBindings>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

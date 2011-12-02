@@ -23,9 +23,9 @@
                 <DockPanel>
                     <WrapPanel DockPanel.Dock="Bottom">
                         <Label Content="Слой: " VerticalAlignment="Center" />
-                        <ExtToolkit:IntegerUpDown IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="23" Width="100" />
+                        <ExtToolkit:IntegerUpDown IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="23" Width="50" />
                         <Label Content=" Длительность: " VerticalAlignment="Center" />
-                        <ExtToolkit:IntegerUpDown IsEditable="False" Height="23" Width="100" Minimum="100" Maximum="10000" Increment="100"
+                        <ExtToolkit:IntegerUpDown IsEditable="False" Height="23" Width="50" Minimum="100" Maximum="10000" Increment="100"
                                                   Text="{Binding Duration, Mode=TwoWay}" />
                         <Button Margin="10,5,0,0" Command="{Binding ImportSvgCommand}" Content="Импорт из .svg" />
                         <Button Margin="10,5,0,0" Command="{Binding ExportSvgCommand}" Content="Экспорт в .svg" />

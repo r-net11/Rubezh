@@ -350,5 +350,13 @@ namespace PlansModule.Designer
                 }
             }
         }
+
+        public void Test()
+        {
+            if (PolygonResizeChrome != null)
+            {
+                PolygonResizeChrome.Test();
+            }
+        }
     }
 }
