@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Windows;
 
 namespace LibraryModule.Views
 {
@@ -10,10 +9,9 @@ namespace LibraryModule.Views
             InitializeComponent();
         }
 
-        void OnContextMenuOpening(object sender, ContextMenuEventArgs e)
+        void TabControl_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            FrameworkElement frameworkElement = sender as FrameworkElement;
-            frameworkElement.ContextMenu.DataContext = DataContext;
+            (Resources["tabItemContextMenu"] as ContextMenu).DataContext = DataContext;
         }
     }
 }
