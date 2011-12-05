@@ -87,8 +87,8 @@ namespace PlansModule.ViewModels
             }
             foreach (var elementBase in Buffer)
             {
-                elementBase.Left = elementBase.Left - minLeft + PlanDesignerView.Current._scrollViewer.HorizontalOffset / PlanDesignerViewModel.ZoomFactor;
-                elementBase.Top = elementBase.Top - minTop + PlanDesignerView.Current._scrollViewer.VerticalOffset / PlanDesignerViewModel.ZoomFactor;
+                elementBase.Left = elementBase.Left - minLeft + PlanDesignerView.Current._scrollViewer.HorizontalOffset / PlanDesignerViewModel.Zoom;
+                elementBase.Top = elementBase.Top - minTop + PlanDesignerView.Current._scrollViewer.VerticalOffset / PlanDesignerViewModel.Zoom;
             }
             maxRight -= minLeft;
             maxBottom -= minTop;

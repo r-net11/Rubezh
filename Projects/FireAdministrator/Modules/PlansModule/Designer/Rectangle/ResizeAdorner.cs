@@ -10,10 +10,10 @@ namespace PlansModule.Designer
         private VisualCollection visuals;
         private ResizeChrome chrome;
 
-        public ResizeAdorner(ContentControl designerItem)
+        public ResizeAdorner(DesignerItem designerItem)
             : base(designerItem)
         {
-            this.chrome = new ResizeChrome();
+            this.chrome = new ResizeChrome(designerItem);
             this.visuals = new VisualCollection(this);
             this.visuals.Add(this.chrome);
             this.chrome.DataContext = designerItem;

@@ -93,10 +93,10 @@ namespace PlansModule.ViewModels
             foreach (var designerItem in DesignerCanvas.Items)
             {
                 ElementBase elementBase = designerItem.ElementBase;
-                elementBase.Left = Canvas.GetLeft(designerItem) / ZoomFactor;
-                elementBase.Top = Canvas.GetTop(designerItem) / ZoomFactor;
-                elementBase.Width = designerItem.Width / ZoomFactor;
-                elementBase.Height = designerItem.Height / ZoomFactor;
+                elementBase.Left = Canvas.GetLeft(designerItem);
+                elementBase.Top = Canvas.GetTop(designerItem);
+                elementBase.Width = designerItem.Width;
+                elementBase.Height = designerItem.Height;
 
                 if (elementBase is ElementBasePolygon)
                 {

@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:PlansModule.Designer">
+
+    <Style TargetType="{x:Type local:PolygonThumb}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Ellipse>
+                        <Ellipse.Fill>
+                            <RadialGradientBrush Center="0.3, 0.3"
+                                     GradientOrigin="0.3, 0.3"
+                                     RadiusX="0.7"
+                                     RadiusY="0.7">
+                                <GradientStop Color="White" Offset="0" />
+                                <GradientStop Color="DarkSlateGray" Offset="0.9" />
+                            </RadialGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

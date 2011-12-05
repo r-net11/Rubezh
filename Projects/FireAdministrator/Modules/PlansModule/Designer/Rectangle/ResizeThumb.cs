@@ -63,19 +63,16 @@ namespace PlansModule.Designer
                     if (designerItem.IsPolygon)
                         continue;
 
-                    double width = 0;
-                    double height = 0;
-
                     switch (VerticalAlignment)
                     {
                         case VerticalAlignment.Bottom:
                             dragDeltaVertical = Math.Min(-e.VerticalChange, minDeltaVertical);
-                            height = designerItem.ActualHeight - dragDeltaVertical;
+                            designerItem.Height = designerItem.ActualHeight - dragDeltaVertical;
                             break;
                         case VerticalAlignment.Top:
                             dragDeltaVertical = Math.Min(Math.Max(-minTop, e.VerticalChange), minDeltaVertical);
                             Canvas.SetTop(designerItem, Canvas.GetTop(designerItem) + dragDeltaVertical);
-                            height = designerItem.ActualHeight - dragDeltaVertical;
+                            designerItem.Height = designerItem.ActualHeight - dragDeltaVertical;
                             break;
                     }
 
@@ -84,21 +81,13 @@ namespace PlansModule.Designer
                         case HorizontalAlignment.Left:
                             dragDeltaHorizontal = Math.Min(Math.Max(-minLeft, e.HorizontalChange), minDeltaHorizontal);
                             Canvas.SetLeft(designerItem, Canvas.GetLeft(designerItem) + dragDeltaHorizontal);
-                            width = designerItem.ActualWidth - dragDeltaHorizontal;
+                            designerItem.Width = designerItem.ActualWidth - dragDeltaHorizontal;
                             break;
                         case HorizontalAlignment.Right:
                             dragDeltaHorizontal = Math.Min(-e.HorizontalChange, minDeltaHorizontal);
-                            width = designerItem.ActualWidth - dragDeltaHorizontal;
+                            designerItem.Width = designerItem.ActualWidth - dragDeltaHorizontal;
                             break;
                     }
-
-                    width = Math.Min(width, DesignerCanvas.Width - Canvas.GetLeft(designerItem));
-                    height = Math.Min(height, DesignerCanvas.Height - Canvas.GetTop(designerItem));
-
-                    designerItem.Width = width;
-                    designerItem.Height = height;
-                    designerItem.ElementBase.Width = width / DesignerCanvas.PlanDesignerViewModel.ZoomFactor;
-                    designerItem.ElementBase.Height = height / DesignerCanvas.PlanDesignerViewModel.ZoomFactor;
                 }
 
                 e.Handled = true;

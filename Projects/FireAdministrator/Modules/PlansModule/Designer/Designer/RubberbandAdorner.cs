@@ -21,6 +21,22 @@ namespace PlansModule.Designer
             get { return this.visuals.Count; }
         }
 
+        protected override Size ArrangeOverride(Size arrangeBounds)
+        {
+            this.adornerCanvas.Arrange(new Rect(arrangeBounds));
+            return arrangeBounds;
+        }
+
+        protected override Visual GetVisualChild(int index)
+        {
+            return this.visuals[index];
+        }
+
+        double ZoomFactor
+        {
+            get { return designerCanvas.PlanDesignerViewModel.Zoom; }
+        }
+
         public RubberbandAdorner(DesignerCanvas designerCanvas, Point? dragStartPoint)
             : base(designerCanvas)
         {
@@ -37,7 +53,7 @@ namespace PlansModule.Designer
             this.rubberband = new Rectangle()
             {
                 Stroke = Brushes.Navy,
-                StrokeThickness = 1,
+                StrokeThickness = 1 / ZoomFactor,
                 StrokeDashArray = new DoubleCollection(new double[] { 2 })
             };
 
@@ -74,19 +90,10 @@ namespace PlansModule.Designer
             }
         }
 
-        protected override Size ArrangeOverride(Size arrangeBounds)
-        {
-            this.adornerCanvas.Arrange(new Rect(arrangeBounds));
-            return arrangeBounds;
-        }
-
-        protected override Visual GetVisualChild(int index)
-        {
-            return this.visuals[index];
-        }
-
         private void UpdateRubberband()
         {
+            rubberband.StrokeThickness = 1 / ZoomFactor;
+
             double left = Math.Min(this.startPoint.Value.X, this.endPoint.Value.X);
             double top = Math.Min(this.startPoint.Value.Y, this.endPoint.Value.Y);
 

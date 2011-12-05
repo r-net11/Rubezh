@@ -149,8 +149,8 @@ namespace PlansModule.Designer
             var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
 
             Point position = e.GetPosition(this);
-            elementBase.Left = Math.Max(0, (position.X - elementBase.Height / 2) / PlanDesignerViewModel.ZoomFactor);
-            elementBase.Top = Math.Max(0, (position.Y - elementBase.Height / 2) / PlanDesignerViewModel.ZoomFactor);
+            elementBase.Left = Math.Max(0, position.X - elementBase.Height / 2);
+            elementBase.Top = Math.Max(0, position.Y - elementBase.Height / 2);
 
             var designerItem = AddElement(elementBase);
 
@@ -218,8 +218,8 @@ namespace PlansModule.Designer
         {
             var designerItem = new DesignerItem()
             {
-                MinWidth = 10 * PlanDesignerViewModel.ZoomFactor,
-                MinHeight = 10 * PlanDesignerViewModel.ZoomFactor,
+                MinWidth = 10,
+                MinHeight = 10,
                 ElementBase = elementBase,
                 IsPolygon = elementBase is ElementBasePolygon,
                 Opacity = ((elementBase is IElementZone) || (elementBase is ElementSubPlan)) ? 0.5 : 1
@@ -347,11 +347,11 @@ namespace PlansModule.Designer
             ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
         }
 
-        public void Test()
+        public void Zoom(double zoom)
         {
             foreach (DesignerItem item in this.SelectedItems)
             {
-                item.Test();
+                item.Zoom(zoom);
             }
         }
     }

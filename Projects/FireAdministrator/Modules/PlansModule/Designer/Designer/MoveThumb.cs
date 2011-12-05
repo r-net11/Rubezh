@@ -76,8 +76,8 @@ namespace PlansModule.Designer
                     double top = Canvas.GetTop(designerItem) + deltaVertical;
                     Canvas.SetLeft(designerItem, left);
                     Canvas.SetTop(designerItem, top);
-                    designerItem.ElementBase.Left = left / DesignerCanvas.PlanDesignerViewModel.ZoomFactor;
-                    designerItem.ElementBase.Top = top / DesignerCanvas.PlanDesignerViewModel.ZoomFactor;
+                    designerItem.ElementBase.Left = left;
+                    designerItem.ElementBase.Top = top;
                 }
 
                 DesignerCanvas.InvalidateMeasure();
