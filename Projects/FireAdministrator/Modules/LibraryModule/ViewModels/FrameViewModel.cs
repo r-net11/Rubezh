@@ -19,11 +19,6 @@ namespace LibraryModule.ViewModels
             ExportSvgCommand = new RelayCommand(OnExportSvg);
         }
 
-        public string Test
-        {
-            get { return "FrameViewModel"; }
-        }
-
         public LibraryFrame Frame { get; private set; }
 
         public int Layer
@@ -75,12 +70,12 @@ namespace LibraryModule.ViewModels
         public RelayCommand ImportSvgCommand { get; private set; }
         void OnImportSvg()
         {
-            var openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Text Files (.svg)|*.svg";
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Svg Files (.svg)|*.svg";
 
-            if (openFileDialog1.ShowDialog() == true)
+            if (openFileDialog.ShowDialog() == true)
             {
-                Frame.Image = ImageConverters.Svg2Xaml(openFileDialog1.FileName, PathHelper.TransormFileName);
+                Frame.Image = ImageConverters.Svg2Xaml(openFileDialog.FileName);
                 OnPropertyChanged("XamlOfImage");
 
                 LibraryModule.HasChanges = true;
@@ -90,16 +85,14 @@ namespace LibraryModule.ViewModels
         public RelayCommand ExportSvgCommand { get; private set; }
         void OnExportSvg()
         {
-            var openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Text Files (.svg)|*.svg";
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Svg Files (.svg)|*.svg";
+            saveFileDialog.RestoreDirectory = true;
+            saveFileDialog.DefaultExt = "Svg Files (.svg)|*.svg";
+            saveFileDialog.ValidateNames = true;
 
-            if (openFileDialog1.ShowDialog() == true)
-            {
-                Frame.Image = ImageConverters.Svg2Xaml(openFileDialog1.FileName, PathHelper.TransormFileName);
-                OnPropertyChanged("XamlOfImage");
-
-                LibraryModule.HasChanges = true;
-            }
+            if (saveFileDialog.ShowDialog() == true)
+                ImageConverters.Xaml2Svg(Frame.Image, saveFileDialog.FileName);
         }
     }
 }
