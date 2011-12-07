@@ -26,6 +26,7 @@
     <Compile Include="AutoGenOutputFiles\OutputFilesReportTemplates.wxs" />
     <Compile Include="AutoGenOutputFiles\OutputFilesSounds.wxs" />
     <Compile Include="AutoGenOutputFiles\OutputFilesXmlConfig.wxs" />
+    <Compile Include="Binary_FiresecService.wxs" />
     <Compile Include="Features_FiresecService.wxs" />
     <Compile Include="Files_FiresecService.wxs" />
     <Compile Include="Output.wxs" />

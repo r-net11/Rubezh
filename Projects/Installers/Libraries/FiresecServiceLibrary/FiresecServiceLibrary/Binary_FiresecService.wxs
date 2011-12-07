@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<Binary Id="SockProxy.dll" SourceFile="SockProxy.dll" />
+		<Binary Id="FS_Server.Exe" SourceFile="FS_Server.Exe" />
+		<Binary Id="FS_Types.dll" SourceFile="FS_Types.dll" />
+		<Binary Id="fscTest.exe" SourceFile="fscTest.exe" />
+		<Binary Id="rubezh2010.xml" SourceFile="rubezh2010.xml" />
+	</Fragment>
+</Wix>

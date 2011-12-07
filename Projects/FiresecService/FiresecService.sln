@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecDirect", "FiresecDir
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecAPI", "..\Common\FiresecServiceAPI\FiresecAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Firesec2", "Firesec2\Firesec2.csproj", "{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -100,18 +98,6 @@ Global
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x64.Build.0 = Release|x64
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x86.ActiveCfg = Release|x86
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}.Release|x86.Build.0 = Release|x86
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Release|x64.ActiveCfg = Release|Any CPU
-		{408AE6FB-1095-4A90-8B7E-AFD664F6B9FE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
