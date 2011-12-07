@@ -91,5 +91,33 @@
 				</File>
 			</Component>
 		</DirectoryRef>
+
+		<DirectoryRef Id="FiresecServiceConfigFolder">
+			<Component Id="FSServerComponent" Guid="9A457E66-900E-4F8D-AA3E-8AD692ABC471">
+				<File Id="FS_Server.Exe" Name="PlansConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
+							DiskId="1" KeyPath="yes">
+				</File>
+			</Component>
+			<Component Id="FSTypesComponent" Guid="627FE8AF-8E36-4A64-BDAD-07D6C3E9634D">
+				<File Id="FS_Types.dll" Name="FS_Types.dll" Source="$(var.FiresecService.TargetDir)\Configuration\"
+							DiskId="1" KeyPath="yes">
+				</File>
+			</Component>
+			<Component Id="FscTestComponent" Guid="599F2AF6-0269-4F9A-A626-3319A5BA4137">
+				<File Id="fscTest.exe" Name="fscTest.exe" Source="$(var.FiresecService.TargetDir)\Configuration\"
+							DiskId="1" KeyPath="yes">
+				</File>
+			</Component>
+			<Component Id="Rubezh2010Component" Guid="DE680DC7-57AC-464E-B873-D29C92F52533">
+				<File Id="rubezh2010.xml" Name="rubezh2010.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
+							DiskId="1" KeyPath="yes">
+				</File>
+			</Component>
+			<Component Id="SockProxyComponent" Guid="45A0DE13-E500-4830-BCA7-646F22B2979C">
+				<File Id="SockProxy.dll" Name="SockProxy.dll" Source="$(var.FiresecService.TargetDir)\Configuration\"
+							DiskId="1" KeyPath="yes">
+				</File>
+			</Component>
+		</DirectoryRef>
 	</Fragment>
 </Wix>
