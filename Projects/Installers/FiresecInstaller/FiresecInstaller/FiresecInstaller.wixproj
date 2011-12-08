@@ -27,6 +27,7 @@
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Binary_Firesec.wxs" />
     <Compile Include="CustomActions.wxs" />
     <Compile Include="Features_Firesec.wxs" />
     <Compile Include="Files_Firesec.wxs" />

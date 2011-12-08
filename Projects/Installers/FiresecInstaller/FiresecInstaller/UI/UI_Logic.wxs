@@ -49,7 +49,6 @@ Patch dialog sequence:
       <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="SetupTypeDlg" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
       <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
       <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
-      
 
       <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath" Order="3">1</Publish>
       <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
@@ -113,13 +112,13 @@ Patch dialog sequence:
       <Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="MaintenanceTypeDialog" Order="2">
         WixUI_InstallMode = "Repair" OR WixUI_InstallMode = "Remove"
       </Publish>
-      
+
 
       <Publish Dialog="SQLLogin" Control="Back" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
       <Publish Dialog="SQLLogin" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
       <Publish Dialog="SQLLogin" Control="Next" Property="SQLINSTANCE" Value="[SQLINSTANCE]">1</Publish>
       <Publish Dialog="SQLLogin" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-      
+
       <Publish Dialog="MaintenanceWelcomeDialog" Control="Next" Event="NewDialog" Value="MaintenanceTypeDialog">1</Publish>
 
       <Publish Dialog="MaintenanceTypeDialog" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
@@ -144,7 +143,7 @@ Patch dialog sequence:
         <Show Dialog="MaintenanceWelcomeDialog" Before="ProgressDlg" Overridable="yes">Installed AND NOT RESUME AND NOT Preselected AND NOT PATCH</Show>
         <Show Dialog="WelcomeDialog" Before="ProgressDlg" Overridable="yes">NOT Installed OR PATCH</Show>
       </InstallUISequence>
-      
+
     </UI>
   </Fragment>
 </Wix>

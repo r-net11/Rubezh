@@ -4,11 +4,6 @@
 		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 	<?include Variables_FiresecService.wxi?>
 	<Fragment>
-		<Property Id="FiresecServiceInstallDirId" Value="$(var.FiresecServiceLocationId)" />
-		<Property Id="FiresecServiceName" Value="$(var.FiresecService.TargetFileName)" />
-		<Property Id="OLDFIRESECINSTALLDIR" Value="C:\Program Files\Firesec" />
-		<Property Id="OLDFIRESECFILESDIR" Value="..\..\FiresecBin" />
-
 		<DirectoryRef Id="FIRESECSERVICELOCATION">
 			<Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
 				<File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
@@ -70,42 +65,21 @@
 			</Component>
 		</DirectoryRef>
 
-		<!--<DirectoryRef Id="FIRESECSERVICELOCATION">
-			<Component Id="CopyFiresecFiles" Guid="1A67E62A-0229-490E-BC25-0072E96EA54A">
-				<CreateFolder Directory="FIRESECSERVICELOCATION" />
-				<CopyFile Id="Copy_FS_Server.Exe" DestinationProperty="OLDFIRESECINSTALLDIR" SourceDirectory="..\..\FiresecBin" SourceName="FS_Server.Exe"/>
-				<CopyFile Id="Copy_FS_Types.dll" DestinationProperty="OLDFIRESECINSTALLDIR" SourceDirectory="..\..\FiresecBin" SourceName="FS_Types.dll"/>
-				<CopyFile Id="Copy_fscTest.exe" DestinationProperty="OLDFIRESECINSTALLDIR" SourceDirectory="..\..\FiresecBin" SourceName="fscTest.exe"/>
-				<CopyFile Id="Copy_rubezh2010.xml" DestinationProperty="OLDFIRESECINSTALLDIR" SourceDirectory="..\..\FiresecBin" SourceName="rubezh2010.xml"/>
-				<CopyFile Id="Copy_SockProxy.dll" DestinationProperty="OLDFIRESECINSTALLDIR" SourceDirectory="..\..\FiresecBin" SourceName="SockProxy.dll"/>
+		<DirectoryRef Id="OLDFIRESECINSTALLDIR">
+			<Component Id="FSServerComponent" Guid="DF42F094-B5C7-4028-BC73-E391D96EA8FE" Permanent="yes">
+				<File Id="FS_Server.Exe" Source="..\..\FiresecBin\FS_Server.Exe" DiskId="1" KeyPath="yes" />
 			</Component>
-		</DirectoryRef>-->
-
-		<DirectoryRef Id="FIRESECSERVICELOCATION">
-			<Component Id="FSServerComponent" Guid="*" >
-				<File Id="FS_Server.Exe" Source="..\..\FiresecBin\FS_Server.Exe" DiskId="1" KeyPath="yes">
-					<CopyFile Id="Copy_FS_Server.Exe" DestinationProperty="OLDFIRESECINSTALLDIR" />
-				</File>
+			<Component Id="FSTypesComponent" Guid="AF254545-9341-4731-99EF-F33DBC7F4F4B" Permanent="yes">
+				<File Id="FS_Types.dll" Source="..\..\FiresecBin\FS_Types.dll" DiskId="1" KeyPath="yes" />
 			</Component>
-			<Component Id="FSTypesComponent" Guid="*">
-				<File Id="FS_Types.dll" Source="..\..\FiresecBin\FS_Types.dll" DiskId="1" KeyPath="yes">
-					<CopyFile Id="Copy_FS_Types.dll" DestinationProperty="OLDFIRESECINSTALLDIR" />
-				</File>
+			<Component Id="FscTestComponent" Guid="9C192680-3925-435B-A36E-D218FC7D7426" Permanent="yes">
+				<File Id="fscTest.exe" Source="..\..\FiresecBin\fscTest.exe" DiskId="1" KeyPath="yes" />
 			</Component>
-			<Component Id="FscTestComponent" Guid="*">
-				<File Id="fscTest.exe" Source="..\..\FiresecBin\fscTest.exe" DiskId="1" KeyPath="yes">
-					<CopyFile Id="Copy_fscTest.exe" DestinationProperty="OLDFIRESECINSTALLDIR" />
-				</File>
+			<Component Id="Rubezh2010Component" Guid="620E3931-13E0-42D8-BB79-EA1A3F28EAA9" Permanent="yes">
+				<File Id="rubezh2010.xml" Source="..\..\FiresecBin\rubezh2010.xml" DiskId="1" KeyPath="yes" />
 			</Component>
-			<Component Id="Rubezh2010Component" Guid="*">
-				<File Id="rubezh2010.xml" Source="..\..\FiresecBin\rubezh2010.xml" DiskId="1" KeyPath="yes">
-					<CopyFile Id="Copy_rubezh2010.xml" DestinationProperty="OLDFIRESECINSTALLDIR"/>
-				</File>
-			</Component>
-			<Component Id="SockProxyComponent" Guid="*" >
-				<File Id="SockProxy.dll" Source="..\..\FiresecBin\SockProxy.dll" DiskId="1" KeyPath="yes">
-					<CopyFile Id="Copy_SockProxy.dll" DestinationProperty="OLDFIRESECINSTALLDIR" />
-				</File>
+			<Component Id="SockProxyComponent" Guid="90FD31A6-82C1-4AB7-9C54-D03E1B920406" Permanent="yes">
+				<File Id="SockProxy.dll" Source="..\..\FiresecBin\SockProxy.dll" DiskId="1" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 	</Fragment>

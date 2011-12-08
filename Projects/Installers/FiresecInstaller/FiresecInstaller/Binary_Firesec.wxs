@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+		<Binary Id="FiresecDataBaseStructureSql" SourceFile="Data\FiresecDataBaseStructureSql.sql" />
+		<Binary Id="FiresecBanner" SourceFile="Data\FiresecBanner.bmp" />
+		<Binary Id="InstallChoiceLogo.bmp" SourceFile="Data\InstallChoiceLogo.bmp" />
+		<Binary Id="DestinationFolder.ico" SourceFile="Data\DestinationFolder.ico" />
+		<Binary Id="Up.ico" SourceFile="Data\Up.ico" />
+		<Binary Id="NewFolder.ico" SourceFile="Data\NewFolder.ico" />
+		<Binary Id="InstallFolderError.ico" SourceFile="Data\InstallFolderError.ico" />
+		<Binary Id="InstallFull.ico" SourceFile="Data\InstallFull.ico" />
+		<Binary Id="InstallClient.ico" SourceFile="Data\InstallClient.ico" />
+		<Binary Id="SetupProgress.ico" SourceFile="Data\SetupProgress.ico" />
+		<WixVariable Id="WixUIBannerBmp" Value="Data\FiresecBanner.bmp" />
+	</Fragment>
+</Wix>

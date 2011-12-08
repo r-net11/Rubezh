@@ -30,6 +30,7 @@
     <Compile Include="Features_FiresecService.wxs" />
     <Compile Include="Files_FiresecService.wxs" />
     <Compile Include="Output.wxs" />
+    <Compile Include="Properties_FiresecService.wxs" />
     <Compile Include="Shortcuts_FiresecService.wxs" />
   </ItemGroup>
   <ItemGroup>
