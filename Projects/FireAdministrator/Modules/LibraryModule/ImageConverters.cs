@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Windows.Controls;
 using System.Windows.Markup;
@@ -9,14 +10,18 @@ namespace LibraryModule
 {
     public static class ImageConverters
     {
-        public static string Svg2Xaml(string svgFileName, string xslFileName)
+        static readonly string XslFilesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "XslFiles");
+        static readonly string Svg2XamlXslFile = Path.Combine(XslFilesDirectory, "svg2xaml.xsl");
+        static readonly string Xaml2SvgXslFile = Path.Combine(XslFilesDirectory, "xaml2svg.xsl");
+
+        public static string Svg2Xaml(string svgFileName)
         {
             if (File.Exists(svgFileName) == false ||
-                File.Exists(xslFileName) == false) return null;
+                File.Exists(Svg2XamlXslFile) == false) return null;
 
             var xslt = new XslCompiledTransform();
             var settings = new XsltSettings(true, true);
-            xslt.Load(xslFileName, settings, new XmlUrlResolver());
+            xslt.Load(Svg2XamlXslFile, settings, new XmlUrlResolver());
 
             var xamlOfSvg = new StringBuilder();
             var xmlReaderSettings = new XmlReaderSettings();
@@ -27,6 +32,22 @@ namespace LibraryModule
             {
                 xslt.Transform(xmlReader, xmlWriter);
                 return xamlOfSvg.ToString();
+            }
+        }
+
+        public static void Xaml2Svg(string xaml, string svgFileName)
+        {
+            if (CheckXaml2SvgFiles() == false)
+                return;
+
+            var xslt = new XslCompiledTransform();
+            var settings = new XsltSettings(true, true);
+            xslt.Load(Xaml2SvgXslFile, settings, new XmlUrlResolver());
+
+            using (var xmlReader = XmlReader.Create(new StringReader(xaml)))
+            using (var xmlWriter = XmlWriter.Create(svgFileName))
+            {
+                xslt.Transform(xmlReader, xmlWriter);
             }
         }
 
@@ -46,6 +67,24 @@ namespace LibraryModule
             {
                 return null;
             }
+        }
+
+        static bool CheckXaml2SvgFiles()
+        {
+            var xaml2svgDirectory = Path.Combine(XslFilesDirectory, "xaml2svg");
+
+            if (File.Exists(Xaml2SvgXslFile) == false ||
+                Directory.Exists(xaml2svgDirectory) == false ||
+                File.Exists(Path.Combine(xaml2svgDirectory, "animation.xsl")) == false ||
+                File.Exists(Path.Combine(xaml2svgDirectory, "brushes.xsl")) == false ||
+                File.Exists(Path.Combine(xaml2svgDirectory, "canvas.xsl")) == false ||
+                File.Exists(Path.Combine(xaml2svgDirectory, "geometry.xsl")) == false ||
+                File.Exists(Path.Combine(xaml2svgDirectory, "properties-MODIF.xsl")) == false ||
+                File.Exists(Path.Combine(xaml2svgDirectory, "properties.xsl")) == false ||
+                File.Exists(Path.Combine(xaml2svgDirectory, "shapes.xsl")) == false ||
+                File.Exists(Path.Combine(xaml2svgDirectory, "transform.xsl")) == false)
+                return false;
+            return true;
         }
     }
 }

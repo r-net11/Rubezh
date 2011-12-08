@@ -74,18 +74,6 @@ namespace PlansModule.Designer
             get { return VisualTreeHelper.GetParent(this) as DesignerCanvas; }
         }
 
-        double ZoomFactor
-        {
-            get
-            {
-                if (DesignerCanvas != null)
-                {
-                    return DesignerCanvas.PlanDesignerViewModel.ZoomFactor;
-                }
-                return 1;
-            }
-        }
-
         bool _isVisibleLayout;
         public bool IsVisibleLayout
         {
@@ -121,6 +109,7 @@ namespace PlansModule.Designer
         }
 
         public PolygonResizeChrome PolygonResizeChrome { get; set; }
+        public ResizeChrome ResizeChrome { get; set; }
         public bool IsPointAdding { get; set; }
         public ElementBase ElementBase { get; set; }
 
@@ -216,17 +205,6 @@ namespace PlansModule.Designer
 
         public void Redraw()
         {
-            if (ElementBase is ElementBasePolygon)
-            {
-                ElementBasePolygon elementBasePolygon = ElementBase as ElementBasePolygon;
-                var pointCollection = new PointCollection();
-                foreach (var point in elementBasePolygon.PolygonPoints)
-                {
-                    pointCollection.Add(new Point(point.X * ZoomFactor, point.Y * ZoomFactor));
-                }
-                elementBasePolygon.PolygonPoints = pointCollection;
-            }
-
             if (ElementBase is IElementZone)
             {
                 IElementZone elementZone = ElementBase as IElementZone;
@@ -252,10 +230,10 @@ namespace PlansModule.Designer
                 Content = frameworkElement;
             }
 
-            Canvas.SetLeft(this, ElementBase.Left * ZoomFactor);
-            Canvas.SetTop(this, ElementBase.Top * ZoomFactor);
-            Width = ElementBase.Width * ZoomFactor;
-            Height = ElementBase.Height * ZoomFactor;
+            Canvas.SetLeft(this, ElementBase.Left);
+            Canvas.SetTop(this, ElementBase.Top);
+            Width = ElementBase.Width;
+            Height = ElementBase.Height;
             UpdatePolygonAdorner();
         }
 
@@ -336,26 +314,30 @@ namespace PlansModule.Designer
 
         public void SavePropertiesToElementBase()
         {
-            ElementBase.Left = Canvas.GetLeft(this) / ZoomFactor;
-            ElementBase.Top = Canvas.GetTop(this) / ZoomFactor;
-            ElementBase.Width = this.Width / ZoomFactor;
-            ElementBase.Height = this.Height / ZoomFactor;
+            ElementBase.Left = Canvas.GetLeft(this);
+            ElementBase.Top = Canvas.GetTop(this);
+            ElementBase.Width = this.Width;
+            ElementBase.Height = this.Height;
             if (ElementBase is ElementBasePolygon)
             {
                 ElementBasePolygon elementPolygon = ElementBase as ElementBasePolygon;
                 elementPolygon.PolygonPoints = new PointCollection();
                 foreach (var point in (this.Content as Polygon).Points)
                 {
-                    elementPolygon.PolygonPoints.Add(new Point(point.X / ZoomFactor, point.Y / ZoomFactor));
+                    elementPolygon.PolygonPoints.Add(new Point(point.X, point.Y));
                 }
             }
         }
 
-        public void Test()
+        public void Zoom(double zoom)
         {
             if (PolygonResizeChrome != null)
             {
-                PolygonResizeChrome.Test();
+                PolygonResizeChrome.Zoom(zoom);
+            }
+            if (ResizeChrome != null)
+            {
+                ResizeChrome.Zoom(zoom);
             }
         }
     }

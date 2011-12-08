@@ -47,6 +47,13 @@ namespace InstructionsModule.ViewModels
         public void Update()
         {
             OnPropertyChanged("Instruction");
+            OnPropertyChanged("InstructionType");
+            OnPropertyChanged("StateType");
+            OnPropertyChanged("InstructionText");
+            OnPropertyChanged("InstructionNo");
+            OnPropertyChanged("InstructionType");
+            OnPropertyChanged("InstructionDevices");
+            OnPropertyChanged("InstructionZones");
         }
     }
 }

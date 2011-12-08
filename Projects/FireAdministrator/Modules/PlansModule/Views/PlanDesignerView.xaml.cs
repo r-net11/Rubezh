@@ -10,6 +10,9 @@ namespace PlansModule.Views
     public partial class PlanDesignerView : UserControl
     {
         public static PlanDesignerView Current { get; set; }
+        Point? lastMousePositionOnTarget;
+        Point? lastCenterPositionOnTarget;
+        double initialScale = 1;
 
         public static void Update()
         {
@@ -33,10 +36,13 @@ namespace PlansModule.Views
             _scrollViewer.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
             _scrollViewer.MouseMove += OnMouseMove;
             _scrollViewer.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
+            _scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
         }
 
         void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            lastMousePositionOnTarget = Mouse.GetPosition(_grid);
+
             if (e.Delta > 0)
             {
                 slider.Value += 0.2;
@@ -78,22 +84,24 @@ namespace PlansModule.Views
 
             (DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(newZoom);
 
-            var position = Mouse.GetPosition(_grid);
+            scaleTransform.ScaleX = newZoom;
+            scaleTransform.ScaleY = newZoom;
 
-            double newOffsetX = _scrollViewer.HorizontalOffset + (position.X - 25) * (deltaZoom - 1) / deltaZoom;
-            double newOffsetY = _scrollViewer.VerticalOffset + (position.Y - 25) * (deltaZoom - 1) / deltaZoom;
-
-            _scrollViewer.ScrollToHorizontalOffset(newOffsetX);
-            _scrollViewer.ScrollToVerticalOffset(newOffsetY);
+            var centerOfViewport = new Point(_scrollViewer.ViewportWidth / 2, _scrollViewer.ViewportHeight / 2);
+            lastCenterPositionOnTarget = _scrollViewer.TranslatePoint(centerOfViewport, _grid);
         }
 
         private void OnSizeToFit(object sender, RoutedEventArgs e)
         {
-            double scaleX = (_scrollViewer.ActualWidth - 30) / _contentControl.ActualWidth;
-            double scaleY = (_scrollViewer.ActualHeight - 30) / _contentControl.ActualHeight;
-            double scale = Math.Max(scaleX, scaleY);
+            var canvas = _contentControl.Content as Canvas;
+            if (canvas == null)
+                return;
 
-            //(DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(scale);
+            double scaleX = (_scrollViewer.ActualWidth - 30) / canvas.Width;
+            double scaleY = (_scrollViewer.ActualHeight - 30) / canvas.Height;
+            double scale = Math.Min(scaleX, scaleY);
+            initialScale = scale;
+
             if (scale >= 1)
             {
                 slider.Value = scale;
@@ -102,8 +110,69 @@ namespace PlansModule.Views
             {
                 slider.Value = 2 - 1 / scale;
             }
-            //(DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom((DataContext as PlansViewModel).PlanDesignerViewModel.ZoomFactor / scale);
         }
+
+        void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            if (e.ExtentHeightChange == 0 && e.ExtentWidthChange == 0)
+                return;
+
+            Point? targetBefore = null;
+            Point? targetNow = null;
+
+            if (!lastMousePositionOnTarget.HasValue)
+            {
+                if (lastCenterPositionOnTarget.HasValue)
+                {
+                    var centerOfViewport = new Point(_scrollViewer.ViewportWidth / 2, _scrollViewer.ViewportHeight / 2);
+                    Point centerOfTargetNow = _scrollViewer.TranslatePoint(centerOfViewport, _grid);
+
+                    targetBefore = lastCenterPositionOnTarget;
+                    targetNow = centerOfTargetNow;
+                }
+            }
+            else
+            {
+                targetBefore = lastMousePositionOnTarget;
+                targetNow = Mouse.GetPosition(_grid);
+
+                lastMousePositionOnTarget = null;
+            }
+
+            if (targetBefore.HasValue)
+            {
+                double dXInTargetPixels = targetNow.Value.X - targetBefore.Value.X;
+                double dYInTargetPixels = targetNow.Value.Y - targetBefore.Value.Y;
+
+                double multiplicatorX = e.ExtentWidth / _grid.ActualWidth;
+                double multiplicatorY = e.ExtentHeight / _grid.ActualHeight;
+
+                double newOffsetX = _scrollViewer.HorizontalOffset - dXInTargetPixels * multiplicatorX;
+                double newOffsetY = _scrollViewer.VerticalOffset - dYInTargetPixels * multiplicatorY;
+
+                if (double.IsNaN(newOffsetX) || double.IsNaN(newOffsetY))
+                    return;
+
+                _scrollViewer.ScrollToHorizontalOffset(newOffsetX);
+                _scrollViewer.ScrollToVerticalOffset(newOffsetY);
+            }
+        }
+
+        void FullSize()
+        {
+            var canvas = _contentControl.Content as Canvas;
+            if (canvas == null)
+                return;
+
+            double scaleX = (_scrollViewer.ActualWidth - 30) / canvas.Width;
+            double scaleY = (_scrollViewer.ActualHeight - 30) / canvas.Height;
+            double scale = Math.Min(scaleX, scaleY);
+            initialScale = scale;
+
+            scaleTransform.ScaleX = scale;
+            scaleTransform.ScaleY = scale;
+        }
+
 
         #region Hand Moving
         Point? lastDragPoint;

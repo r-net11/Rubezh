@@ -9,6 +9,11 @@
 
         <ScrollViewer Grid.Row="0" Name="_scrollViewer" VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Visible">
             <Grid Name="_grid">
+                <Grid.LayoutTransform>
+                    <TransformGroup>
+                        <ScaleTransform x:Name="scaleTransform"/>
+                    </TransformGroup>
+                </Grid.LayoutTransform>
                 <ContentControl Name="_contentControl" Background="White" Content="{Binding DesignerCanvas}" />
             </Grid>
         </ScrollViewer>

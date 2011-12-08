@@ -19,6 +19,12 @@
 			<ComponentRef Id="FiresecServiceProgramsMenuShortcutUninstall" />
 			<ComponentRef Id="FiresecServiceDesktopShortcut" />
 			<ComponentGroupRef Id="ConfigurationGroup"/>
+			<!--<ComponentRef Id="CopyFiresecFiles"/>-->
+			<ComponentRef Id="FSServerComponent"/>
+			<ComponentRef Id="FSTypesComponent"/>
+			<ComponentRef Id="FscTestComponent"/>
+			<ComponentRef Id="Rubezh2010Component"/>
+			<ComponentRef Id="SockProxyComponent"/>
 			<!--<ComponentRef Id="Autorun"/>-->
 		</Feature>
 	</Fragment>

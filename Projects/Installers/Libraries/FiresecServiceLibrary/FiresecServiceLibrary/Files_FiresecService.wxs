@@ -6,7 +6,9 @@
 	<Fragment>
 		<Property Id="FiresecServiceInstallDirId" Value="$(var.FiresecServiceLocationId)" />
 		<Property Id="FiresecServiceName" Value="$(var.FiresecService.TargetFileName)" />
-		
+		<Property Id="OLDFIRESECINSTALLDIR" Value="C:\Program Files\Firesec" />
+		<Property Id="OLDFIRESECFILESDIR" Value="..\..\FiresecBin" />
+
 		<DirectoryRef Id="FIRESECSERVICELOCATION">
 			<Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
 				<File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
@@ -43,30 +45,6 @@
 							DiskId="1" KeyPath="yes">
 				</File>
 			</Component>
-
-			<!--<Component Id="Autorun" Guid="520FC85A-90A0-4FDB-806B-A5E22657DF7F">
-				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
-					<RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName) /Start /Hide" />
-				</RegistryKey>
-			</Component>-->
-			
-			<!--Установка и запуск службы-->
-			<!--<Component Id="FiresecWindowsService" Guid="B105CAB0-BBEB-4EE5-B2F8-9DAF3B1973F8">
-				<File Id="FiresecWindowsServiceExe" Name="$(var.FiresecWindowsService.TargetFileName)"
-							Source="$(var.FiresecWindowsService.TargetDir)" KeyPath="yes" DiskId="1"/>
-				<ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Что-то делает"
-												Name="FiresecServer" DisplayName="Сервер КБПА" Start="auto" Account="LocalSystem"
-												ErrorControl="ignore" Interactive="no" Arguments="$(var.FiresecService.TargetFileName)">
-					<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
-															RestartServiceDelayInSeconds="100"/>
-				</ServiceInstall>
-				<ServiceControl Id="StartService" Stop="uninstall" Remove="uninstall" Name="FiresecServer" Wait="yes"/>
-			</Component>-->
-			
-			<!--<Component Id="StartService" Guid="FEDE1A08-EEA7-4D39-8011-C871FA84514A">
-				<CreateFolder Directory="FIRESECSERVICELOCATION" />
-				<ServiceControl Id="StartService" Stop="uninstall" Remove="uninstall" Name="FiresecServer" Wait="yes"/>
-			</Component>-->
 		</DirectoryRef>
 
 		<DirectoryRef Id="FiresecServiceConfigFolder">
@@ -88,6 +66,45 @@
 			<Component Id="DeviceConfiguration" Guid="188AAA95-581A-4352-B11E-38C0CDE13C16">
 				<File Id="DeviceConfiguration" Name="DeviceConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
 							DiskId="1" KeyPath="yes">
+				</File>
+			</Component>
+		</DirectoryRef>
+
+		<!--<DirectoryRef Id="FIRESECSERVICELOCATION">
+			<Component Id="CopyFiresecFiles" Guid="1A67E62A-0229-490E-BC25-0072E96EA54A">
+				<CreateFolder Directory="FIRESECSERVICELOCATION" />
+				<CopyFile Id="Copy_FS_Server.Exe" DestinationProperty="OLDFIRESECINSTALLDIR" SourceDirectory="..\..\FiresecBin" SourceName="FS_Server.Exe"/>
+				<CopyFile Id="Copy_FS_Types.dll" DestinationProperty="OLDFIRESECINSTALLDIR" SourceDirectory="..\..\FiresecBin" SourceName="FS_Types.dll"/>
+				<CopyFile Id="Copy_fscTest.exe" DestinationProperty="OLDFIRESECINSTALLDIR" SourceDirectory="..\..\FiresecBin" SourceName="fscTest.exe"/>
+				<CopyFile Id="Copy_rubezh2010.xml" DestinationProperty="OLDFIRESECINSTALLDIR" SourceDirectory="..\..\FiresecBin" SourceName="rubezh2010.xml"/>
+				<CopyFile Id="Copy_SockProxy.dll" DestinationProperty="OLDFIRESECINSTALLDIR" SourceDirectory="..\..\FiresecBin" SourceName="SockProxy.dll"/>
+			</Component>
+		</DirectoryRef>-->
+
+		<DirectoryRef Id="FIRESECSERVICELOCATION">
+			<Component Id="FSServerComponent" Guid="*" >
+				<File Id="FS_Server.Exe" Source="..\..\FiresecBin\FS_Server.Exe" DiskId="1" KeyPath="yes">
+					<CopyFile Id="Copy_FS_Server.Exe" DestinationProperty="OLDFIRESECINSTALLDIR" />
+				</File>
+			</Component>
+			<Component Id="FSTypesComponent" Guid="*">
+				<File Id="FS_Types.dll" Source="..\..\FiresecBin\FS_Types.dll" DiskId="1" KeyPath="yes">
+					<CopyFile Id="Copy_FS_Types.dll" DestinationProperty="OLDFIRESECINSTALLDIR" />
+				</File>
+			</Component>
+			<Component Id="FscTestComponent" Guid="*">
+				<File Id="fscTest.exe" Source="..\..\FiresecBin\fscTest.exe" DiskId="1" KeyPath="yes">
+					<CopyFile Id="Copy_fscTest.exe" DestinationProperty="OLDFIRESECINSTALLDIR" />
+				</File>
+			</Component>
+			<Component Id="Rubezh2010Component" Guid="*">
+				<File Id="rubezh2010.xml" Source="..\..\FiresecBin\rubezh2010.xml" DiskId="1" KeyPath="yes">
+					<CopyFile Id="Copy_rubezh2010.xml" DestinationProperty="OLDFIRESECINSTALLDIR"/>
+				</File>
+			</Component>
+			<Component Id="SockProxyComponent" Guid="*" >
+				<File Id="SockProxy.dll" Source="..\..\FiresecBin\SockProxy.dll" DiskId="1" KeyPath="yes">
+					<CopyFile Id="Copy_SockProxy.dll" DestinationProperty="OLDFIRESECINSTALLDIR" />
 				</File>
 			</Component>
 		</DirectoryRef>

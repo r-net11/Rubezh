@@ -43,7 +43,7 @@ namespace ReportsModule.Reports
                         if (device.IndicatorLogic.Zones.Count == 1)
                         {
                             var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.IndicatorLogic.Zones[0]);
-                            zonePresentationName = "Зоны: " + zone != null ? zone.PresentationName : "";
+                            zonePresentationName = "Зоны: " + zone == null ? zone.PresentationName : "";
                         }
                         else
                         {

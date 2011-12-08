@@ -75,7 +75,7 @@ namespace PlansModule.ViewModels
             foreach (var elementSubPlan in _plan.ElementSubPlans)
             {
                 var subPlanViewModel = new ElementSubPlanViewModel(elementSubPlan);
-                DrawElement(subPlanViewModel.ElementSubPlanView, elementSubPlan);
+                DrawElement(subPlanViewModel.ElementSubPlanView, elementSubPlan, subPlanViewModel);
                 SubPlans.Add(subPlanViewModel);
             }
 
@@ -85,7 +85,7 @@ namespace PlansModule.ViewModels
                 {
                     var elementPolygonZone = RectangleZoneToPolygon(elementRectangleZone);
                     var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
-                    DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone);
+                    DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone, elementZoneViewModel);
                     Zones.Add(elementZoneViewModel);
                 }
             }
@@ -95,7 +95,7 @@ namespace PlansModule.ViewModels
                 if (elementPolygonZone.ZoneNo != null)
                 {
                     var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
-                    DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone);
+                    DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone, elementZoneViewModel);
                     Zones.Add(elementZoneViewModel);
                 }
             }
@@ -103,7 +103,7 @@ namespace PlansModule.ViewModels
             foreach (var elementDevice in _plan.ElementDevices)
             {
                 var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice);
-                DrawElement(elementDeviceViewModel.ElementDeviceView, elementDevice);
+                DrawElement(elementDeviceViewModel.ElementDeviceView, elementDevice, elementDeviceViewModel);
                 Devices.Add(elementDeviceViewModel);
             }
         }
@@ -118,9 +118,9 @@ namespace PlansModule.ViewModels
             _canvas.Children.Add(frameworkElement);
         }
 
-        void DrawElement(UserControl userControl, ElementBase elementBase)
+        void DrawElement(UserControl userControl, ElementBase elementBase, BaseViewModel elementViewModel)
         {
-            userControl.DataContext = elementBase;
+            userControl.DataContext = elementViewModel;
             userControl.Width = elementBase.Width;
             userControl.Height = elementBase.Height;
             Canvas.SetLeft(userControl, elementBase.Left);

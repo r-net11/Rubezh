@@ -111,7 +111,7 @@ namespace PlansModule.Views
             }
             if (e.Key == Key.T && Keyboard.Modifiers == ModifierKeys.Control)
             {
-                (DataContext as PlansViewModel).DesignerCanvas.Test();
+                (DataContext as PlansViewModel).DesignerCanvas.Zoom(2);
             }
         }
 

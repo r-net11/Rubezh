@@ -26,6 +26,7 @@
     <Compile Include="AutoGenOutputFiles\OutputFilesReportTemplates.wxs" />
     <Compile Include="AutoGenOutputFiles\OutputFilesSounds.wxs" />
     <Compile Include="AutoGenOutputFiles\OutputFilesXmlConfig.wxs" />
+    <Compile Include="Binary_FiresecService.wxs" />
     <Compile Include="Features_FiresecService.wxs" />
     <Compile Include="Files_FiresecService.wxs" />
     <Compile Include="Output.wxs" />
@@ -68,6 +69,7 @@
   <ItemGroup>
     <Folder Include="AutoGenOutputFiles" />
     <Folder Include="Data" />
+    <Folder Include="FiresecBin" />
     <Folder Include="Xslt" />
   </ItemGroup>
   <ItemGroup>
@@ -83,6 +85,11 @@
     <Content Include="Data\NewFolder.ico" />
     <Content Include="Data\Thumbs.db" />
     <Content Include="Data\Up.ico" />
+    <Content Include="FiresecBin\fscTest.exe" />
+    <Content Include="FiresecBin\FS_Server.exe" />
+    <Content Include="FiresecBin\FS_Types.dll" />
+    <Content Include="FiresecBin\rubezh2010.xml" />
+    <Content Include="FiresecBin\SockProxy.dll" />
     <Content Include="Pre-Build commands.txt" />
     <Content Include="Variables_FiresecService.wxi" />
     <Content Include="Xslt\WixIcons.xslt" />

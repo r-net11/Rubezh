@@ -56,10 +56,10 @@ Patch dialog sequence:
 
       <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
 
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreement">NOT Installed AND NOT PATCH</Publish>
-      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">Installed AND PATCH</Publish>
+      <Publish Dialog="WelcomeDialog" Control="Next" Event="NewDialog" Value="LicenseAgreement">NOT Installed AND NOT PATCH</Publish>
+      <Publish Dialog="WelcomeDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">Installed AND PATCH</Publish>
 
-      <Publish Dialog="LicenseAgreement" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+      <Publish Dialog="LicenseAgreement" Control="Back" Event="NewDialog" Value="WelcomeDialog">1</Publish>
       <Publish Dialog="LicenseAgreement" Control="Next" Event="NewDialog" Value="DestinationFolder">AgreeToLicense = "Yes"</Publish>
       <Publish Dialog="LicenseAgreement" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
@@ -120,12 +120,12 @@ Patch dialog sequence:
       <Publish Dialog="SQLLogin" Control="Next" Property="SQLINSTANCE" Value="[SQLINSTANCE]">1</Publish>
       <Publish Dialog="SQLLogin" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
       
-      <Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDialog">1</Publish>
+      <Publish Dialog="MaintenanceWelcomeDialog" Control="Next" Event="NewDialog" Value="MaintenanceTypeDialog">1</Publish>
 
       <Publish Dialog="MaintenanceTypeDialog" Control="ChangeButton" Event="NewDialog" Value="CustomizeDlg">1</Publish>
       <Publish Dialog="MaintenanceTypeDialog" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
       <Publish Dialog="MaintenanceTypeDialog" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
-      <Publish Dialog="MaintenanceTypeDialog" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
+      <Publish Dialog="MaintenanceTypeDialog" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDialog">1</Publish>
 
 
       <Publish Dialog="SetupTypeDlg" Control="Back" Event="NewDialog" Value="DestinationFolder">1</Publish>
@@ -141,7 +141,8 @@ Patch dialog sequence:
 
       <InstallUISequence>
         <Show Dialog="SetupProgress" Before="ExecuteAction" Overridable="yes" />
-        <!--<Show Dialog="ResumeDialog" Before="SetupProgress" Overridable="yes">Installed AND (RESUME OR Preselected)</Show>-->
+        <Show Dialog="MaintenanceWelcomeDialog" Before="ProgressDlg" Overridable="yes">Installed AND NOT RESUME AND NOT Preselected AND NOT PATCH</Show>
+        <Show Dialog="WelcomeDialog" Before="ProgressDlg" Overridable="yes">NOT Installed OR PATCH</Show>
       </InstallUISequence>
       
     </UI>

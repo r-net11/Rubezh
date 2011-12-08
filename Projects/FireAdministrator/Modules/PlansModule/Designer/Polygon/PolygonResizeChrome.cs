@@ -27,7 +27,12 @@ namespace PlansModule.Designer
             get { return DesignerItem.Content as Polygon; }
         }
 
-        List<Thumb> thumbs = new List<Thumb>();
+        double ZoomFactor
+        {
+            get { return DesignerCanvas.PlanDesignerViewModel.Zoom; }
+        }
+
+        List<PolygonThumb> thumbs = new List<PolygonThumb>();
 
         public PolygonResizeChrome(DesignerItem designerItem)
         {
@@ -49,11 +54,12 @@ namespace PlansModule.Designer
 
             foreach (var point in Polygon.Points)
             {
-                var thumb = new Thumb()
+                var thumb = new PolygonThumb()
                 {
-                    Width = 10,
-                    Height = 10,
-                    Margin = new Thickness(-5, -5, 0, 0),
+                    Width = 7 / ZoomFactor,
+                    Height = 7 / ZoomFactor,
+                    Margin = new Thickness(-3.5 / ZoomFactor, -3.5 / ZoomFactor, 0, 0),
+                    BorderThickness = new Thickness(0),
                     Focusable = true
                 };
                 Canvas.SetLeft(thumb, point.X);
@@ -69,13 +75,14 @@ namespace PlansModule.Designer
 
         void thumb_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            var thumb = sender as Thumb;
+            var thumb = sender as PolygonThumb;
             if (e.Key == System.Windows.Input.Key.Delete)
             {
                 thumbs.Remove(thumb);
                 SavePolygonPointsFromThumb();
                 PlansModule.HasChanges = true;
                 Initialize();
+                e.Handled = true;
             }
         }
 
@@ -93,7 +100,7 @@ namespace PlansModule.Designer
 
         private void _thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            var currentThumb = sender as Thumb;
+            var currentThumb = sender as PolygonThumb;
 
             double left = Canvas.GetLeft(DesignerItem) + Canvas.GetLeft(currentThumb) + e.HorizontalChange;
             double top = Canvas.GetTop(DesignerItem) + Canvas.GetTop(currentThumb) + e.VerticalChange;
@@ -161,12 +168,13 @@ namespace PlansModule.Designer
             DesignerItem.Height = maxTop - minTop;
         }
 
-        public void Test()
+        public void Zoom(double zoom)
         {
             foreach (var thumb in thumbs)
             {
-                thumb.Width *= 2;
-                thumb.Height *= 2;
+                thumb.Width = 7 / zoom;
+                thumb.Height = 7 / zoom;
+                thumb.Margin = new Thickness(-3.5 / zoom, -3.5 / zoom, 0, 0);
             }
         }
     }
