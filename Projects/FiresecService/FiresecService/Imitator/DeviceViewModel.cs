@@ -45,14 +45,43 @@ namespace FiresecService.Imitator
                 Select(state => new DeviceDriverState()
                 {
                     Code = state.DriverState.Code,
+                    DriverState = state.DriverState.Copy(),
                     Time = DateTime.Now
                 })
             );
             deviceStates.Add(DeviceState);
 
             CallbackManager.OnDeviceStatesChanged(deviceStates);
+            CalculateZones();
 
             OnPropertyChanged("State");
+        }
+
+        void CalculateZones()
+        {
+            if (FiresecManager.DeviceConfigurationStates.ZoneStates == null)
+                return;
+
+            foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
+            {
+                StateType minZoneStateType = StateType.Norm;
+                foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates.
+                    Where(x => x.Device.ZoneNo == zoneState.No && !x.Device.Driver.IgnoreInZoneState))
+                {
+                    if (deviceState.StateType < minZoneStateType)
+                        minZoneStateType = deviceState.StateType;
+                }
+
+                if (FiresecManager.DeviceConfigurationStates.DeviceStates.
+                    Any(x => x.Device.ZoneNo == zoneState.No) == false)
+                    minZoneStateType = StateType.Unknown;
+
+                if (zoneState.StateType != minZoneStateType)
+                {
+                    zoneState.StateType = minZoneStateType;
+                    CallbackManager.OnZoneStateChanged(zoneState);
+                }
+            }
         }
 
         public int Level

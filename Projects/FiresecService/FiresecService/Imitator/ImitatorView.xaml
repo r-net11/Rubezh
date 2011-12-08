@@ -36,7 +36,6 @@
         <TextBlock Grid.Row="2" Text="Состояния" Margin="5" FontWeight="Bold" />
         
         <Grid Grid.Row="3" DataContext="{Binding SelectedDevice}">
-
             <DataGrid ItemsSource="{Binding DriverStates}"
                       AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="False" RowHeaderWidth="0">
                 <DataGrid.Columns>
@@ -45,7 +44,6 @@
                     <DataGridCheckBoxColumn Header="Есть" Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
-            
         </Grid>
     </Grid>
 </Window>
