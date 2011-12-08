@@ -1,7 +1,6 @@
 ﻿<Window x:Class="FireMonitor.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:CustomWindow="clr-namespace:CustomWindow;assembly=CustomWindow"
         xmlns:Views="clr-namespace:FireMonitor"
         WindowStartupLocation="CenterScreen"
         Title="Станция пожарного мониторинга"
