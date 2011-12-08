@@ -79,6 +79,8 @@ namespace DevicesModule.Views
         void OnDataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
         {
             var deviceViewModel = DataContext as DeviceViewModel;
+            if (deviceViewModel.Driver.CanEditAddress == false || deviceViewModel.Driver.HasAddress == false)
+                return;
             SetBounds();
 
             string text = deviceViewModel.Address;
