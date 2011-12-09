@@ -2,10 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
-using Infrastructure;
-using PlansModule.Events;
-using FiresecAPI.Models;
-using System.Collections.Generic;
 
 namespace PlansModule.Designer
 {

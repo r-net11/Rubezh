@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Input;
 using FiresecAPI.Models;
-using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
-using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {

@@ -1,9 +1,8 @@
-﻿using System.Diagnostics;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using PlansModule.ViewModels;
-using System;
 
 namespace PlansModule.Views
 {

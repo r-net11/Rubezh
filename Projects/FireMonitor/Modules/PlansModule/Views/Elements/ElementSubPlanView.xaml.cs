@@ -1,8 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Infrastructure;
 using PlansModule.Events;
-using System;
 
 namespace PlansModule
 {

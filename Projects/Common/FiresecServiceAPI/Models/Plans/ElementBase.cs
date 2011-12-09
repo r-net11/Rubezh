@@ -1,6 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using System.Windows;
-using System;
 
 namespace FiresecAPI.Models
 {

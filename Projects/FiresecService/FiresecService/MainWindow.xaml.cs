@@ -1,12 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.ServiceProcess;
 using System.Windows;
 using FiresecService;
 using FiresecService.Imitator;
-using System.ServiceProcess;
 using FiresecService.Service;
-using System.Diagnostics;
-using Hardcodet.Wpf.TaskbarNotification;
 
 namespace FiresecServiceRunner
 {
@@ -142,7 +140,7 @@ namespace FiresecServiceRunner
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
-            MyNotifyIcon.Dispose();
+            _notificationIcon.Dispose();
             base.OnClosing(e);
         }
 

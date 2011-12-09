@@ -1,8 +1,7 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
-using System.Diagnostics;
 using System.Windows.Shapes;
-using System.Collections.Generic;
 
 namespace PlansModule.Designer
 {

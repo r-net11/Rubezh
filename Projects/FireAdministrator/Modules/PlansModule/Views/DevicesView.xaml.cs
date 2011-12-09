@@ -3,9 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using FiresecAPI.Models;
-using PlansModule.Designer;
-using PlansModule.ViewModels;
 using FiresecClient;
+using PlansModule.ViewModels;
 
 namespace PlansModule.Views
 {

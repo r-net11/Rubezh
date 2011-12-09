@@ -1,8 +1,8 @@
-﻿using System.Windows.Controls;
+﻿using System.Linq;
+using System.Windows.Controls;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using PlansModule.Designer;
-using System.Linq;
 
 namespace PlansModule.ViewModels
 {

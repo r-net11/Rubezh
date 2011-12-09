@@ -47,7 +47,7 @@
                         <Path x:Name="IsExpandedIcon" Data="M2,2 L14,7 L2,14 z" Fill="{TemplateBinding BorderBrush}" UseLayoutRounding="False" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" />
                         <Path x:Name="IsCollapsedIcon" Data="M2,2 L14,2 L7,14 z" Fill="{TemplateBinding BorderBrush}" UseLayoutRounding="False" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" />
 
-                        <Polygon x:Name="IsExpandedPolygon" Fill="{TemplateBinding BorderBrush}" UseLayoutRounding="False" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
+                        <Polygon x:Name="IsExpandedPolygon" Fill="Gray" UseLayoutRounding="False" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
                             <Polygon.Points>
                                 <Point X="10" Y="0" />
                                 <Point X="10" Y="10" />
@@ -55,7 +55,7 @@
                             </Polygon.Points>
                         </Polygon>
 
-                        <Polygon x:Name="IsCollapsedPolygon" Fill="{TemplateBinding BorderBrush}" UseLayoutRounding="False" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
+                        <Polygon x:Name="IsCollapsedPolygon" Fill="Gray" UseLayoutRounding="False" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
                             <Polygon.Points>
                                 <Point X="0" Y="0" />
                                 <Point X="10" Y="5" />

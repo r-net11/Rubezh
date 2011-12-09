@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Diagnostics;
 
 namespace PlansModule.Views
 {

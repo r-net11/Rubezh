@@ -1,9 +1,9 @@
-﻿using Infrastructure;
+﻿using System;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using PlansModule.ViewModels;
 using PlansModule.Events;
-using System;
+using PlansModule.ViewModels;
 
 namespace PlansModule
 {

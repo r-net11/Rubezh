@@ -3,7 +3,6 @@ using System.Configuration;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using FiresecAPI;
-using System.Collections.Specialized;
 
 namespace FiresecClient
 {

@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.Practices.Prism.Events;
+﻿using System.Collections.Generic;
 using FiresecAPI.Models;
-using System.Collections.Generic;
+using Microsoft.Practices.Prism.Events;
 
 namespace PlansModule.Events
 {
