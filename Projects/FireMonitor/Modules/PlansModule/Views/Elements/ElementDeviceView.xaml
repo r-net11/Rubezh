@@ -1,11 +1,7 @@
 ﻿<UserControl x:Class="PlansModule.ViewModels.ElementDeviceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Devices="clr-namespace:DeviceControls;assembly=DeviceControls"
-             xmlns:Converters="clr-namespace:PlansModule.Converters">
-    <UserControl.Resources>
-        <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
-    </UserControl.Resources>
+             xmlns:Devices="clr-namespace:DeviceControls;assembly=DeviceControls">
     
     <Grid MouseEnter="Grid_MouseEnter" MouseLeave="Grid_MouseLeave" ToolTip="{Binding ToolTip}">
         <Grid.ContextMenu>

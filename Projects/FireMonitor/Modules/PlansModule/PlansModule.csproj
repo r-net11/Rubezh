@@ -58,8 +58,6 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\IsOffToStringConverter.cs" />
-    <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\StateToIconConverter.cs" />
     <Compile Include="Events\ElementDeviceSelectedEvent.cs" />
     <Compile Include="Events\ElementZoneSelectedEvent.cs" />
@@ -97,20 +95,11 @@
     <Compile Include="Views\CanvasView.xaml.cs">
       <DependentUpon>CanvasView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\FakePresentation\DoorView.xaml.cs">
-      <DependentUpon>DoorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FakePresentation\PhoneView.xaml.cs">
-      <DependentUpon>PhoneView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PlansView.xaml.cs">
       <DependentUpon>PlansView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlanTreeView.xaml.cs">
       <DependentUpon>PlanTreeView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FakePresentation\VideoView.xaml.cs">
-      <DependentUpon>VideoView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -177,23 +166,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\FakePresentation\DoorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FakePresentation\PhoneView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\PlansView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlanTreeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FakePresentation\VideoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

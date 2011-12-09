@@ -3,13 +3,14 @@ using System.Windows.Data;
 using System.Windows.Media;
 using FiresecAPI.Models;
 
-namespace PlansModule.Converters
+namespace Controls.Converters
 {
-    public class StateToColorConverter : IValueConverter
+    public class ZoneStateToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            switch ((StateType) value)
+            ZoneState zoneState = (ZoneState)value;
+            switch (zoneState.StateType)
             {
                 case StateType.Fire:
                     return Brushes.Red;
@@ -30,9 +31,13 @@ namespace PlansModule.Converters
                     return Brushes.Gray;
 
                 case StateType.Info:
+                    if (zoneState.RevertColorsForGuardZone)
+                        return Brushes.Green;
                     return Brushes.Blue;
 
                 case StateType.Norm:
+                    if (zoneState.RevertColorsForGuardZone == false)
+                        return Brushes.Blue;
                     return Brushes.Green;
 
                 default:
