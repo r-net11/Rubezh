@@ -14,6 +14,7 @@ namespace PlansModule
         {
             ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlan);
             ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(OnShowDeviceOnPlan);
+            ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Subscribe(OnShowZoneOnPlan);
 
             RegisterResources();
             CreateViewModels();
@@ -38,6 +39,12 @@ namespace PlansModule
         {
             ServiceFactory.Layout.Show(_plansViewModel);
             _plansViewModel.ShowDevice(deviceUID);
+        }
+
+        static void OnShowZoneOnPlan(ulong zoneNo)
+        {
+            ServiceFactory.Layout.Show(_plansViewModel);
+            _plansViewModel.ShowZone(zoneNo);
         }
     }
 }

@@ -24,8 +24,8 @@ namespace PlansModule.ViewModels
 
         public PlanCanvasViewModel(Canvas canvas)
         {
-            _canvas = canvas;
-            _canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
+            //_canvas = canvas;
+            //_canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
             ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
             ServiceFactory.Events.GetEvent<ElementDeviceSelectedEvent>().Subscribe(OnElementDeviceSelected);
             ServiceFactory.Events.GetEvent<ElementZoneSelectedEvent>().Subscribe(OnElementZoneSelected);
@@ -41,6 +41,10 @@ namespace PlansModule.ViewModels
 
         public void DrawPlan()
         {
+            Canvas newCanvas = new Canvas();
+            
+            _canvas = newCanvas;
+
             SubPlans = new List<ElementSubPlanViewModel>();
             Zones = new List<ElementZoneViewModel>();
             Devices = new List<ElementDeviceViewModel>();
@@ -100,10 +104,13 @@ namespace PlansModule.ViewModels
 
             foreach (var elementDevice in _plan.ElementDevices)
             {
+                //continue;
                 var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice);
                 DrawElement(elementDeviceViewModel.ElementDeviceView, elementDevice, elementDeviceViewModel);
                 Devices.Add(elementDeviceViewModel);
             }
+
+            PlansViewModel.Current.MainCanvas = newCanvas;
         }
 
         void DrawElement(ElementBase elementBase)
@@ -168,10 +175,10 @@ namespace PlansModule.ViewModels
             Devices.FirstOrDefault(x => x.DeviceUID == deviceUID).IsSelected = true;
         }
 
-        public void SelectZone(ulong? zoneNo)
+        public void SelectZone(ulong zoneNo)
         {
             Zones.ForEach(x => x.IsSelected = false);
-            Zones.FirstOrDefault(x => x.ZoneNo == zoneNo).IsSelected = true;
+            Zones.FirstOrDefault(x => x.ZoneNo.Value == zoneNo).IsSelected = true;
         }
 
         void OnPlanStateChanged(Guid planUID)
@@ -186,7 +193,7 @@ namespace PlansModule.ViewModels
         {
             foreach (var subPlan in SubPlans)
             {
-                var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x._plan.UID == subPlan.PlanUID);
+                var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x.Plan.UID == subPlan.PlanUID);
                 if (planViewModel != null)
                 {
                     subPlan.StateType = planViewModel.StateType;

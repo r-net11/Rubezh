@@ -69,6 +69,9 @@ namespace PlansModule.ViewModels
                 _isSelected = value;
                 ElementZoneView._polygon.StrokeThickness = value ? 1 : 0;
                 OnPropertyChanged("IsSelected");
+
+                if (value)
+                    ElementZoneView.Flush();
             }
         }
 

@@ -6,6 +6,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Infrastructure;
 using PlansModule.Events;
+using System.Windows.Media;
 
 namespace PlansModule.ViewModels
 {
@@ -32,38 +33,39 @@ namespace PlansModule.ViewModels
             _selectationRectangle.StrokeThickness = 1;
         }
 
+        Ellipse _flushEllipse;
+
         public void Flush()
         {
             var thicknessAnimationUsingKeyFrames = new ThicknessAnimationUsingKeyFrames();
             thicknessAnimationUsingKeyFrames.KeyFrames = new ThicknessKeyFrameCollection();
 
+            double delta = (Width - Height) / 2;
+
             var thicknessAnimation = new ThicknessAnimation()
             {
-                From = new Thickness(0),
-                To = new Thickness(-500),
-                Duration = new Duration(TimeSpan.FromSeconds(1))
+                From = new Thickness(delta, 0, delta, 0),
+                To = new Thickness(delta - 500, -500, delta - 500, -500),
+                Duration = new Duration(TimeSpan.FromSeconds(1)),
+                AutoReverse = true
             };
             thicknessAnimation.Completed += new EventHandler(animation_Completed);
 
-            _flushEllipse.Visibility = Visibility.Visible;
+            _flushEllipse = new Ellipse()
+            {
+                Fill = new SolidColorBrush(Colors.LightBlue),
+                Stroke = new SolidColorBrush(Colors.Orange),
+                StrokeThickness = 5,
+                Opacity = 0.5
+            };
+
+            _grid.Children.Add(_flushEllipse);
             _flushEllipse.BeginAnimation(Ellipse.MarginProperty, thicknessAnimation);
         }
 
         void animation_Completed(object sender, EventArgs e)
         {
-            var thicknessAnimation = new ThicknessAnimation()
-            {
-                From = new Thickness(-500),
-                To = new Thickness(0),
-                Duration = new Duration(TimeSpan.FromSeconds(1))
-            };
-            thicknessAnimation.Completed += new EventHandler(animation_Completed2);
-            _flushEllipse.BeginAnimation(Ellipse.MarginProperty, thicknessAnimation);
-        }
-
-        void animation_Completed2(object sender, EventArgs e)
-        {
-            _flushEllipse.Visibility = Visibility.Collapsed;
+            _grid.Children.Remove(_flushEllipse);
         }
     }
 }

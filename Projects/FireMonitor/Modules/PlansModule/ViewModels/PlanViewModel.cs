@@ -12,21 +12,21 @@ namespace PlansModule.ViewModels
 {
     public class PlanViewModel : TreeBaseViewModel<PlanViewModel>
     {
-        public Plan _plan;
-        public List<DeviceState> _deviceStates;
+        public Plan Plan;
+        public List<DeviceState> DeviceStates;
         StateType _selfState;
 
         public PlanViewModel(Plan plan, ObservableCollection<PlanViewModel> source)
         {
-            _plan = plan;
+            Plan = plan;
             Source = source;
-            _deviceStates = new List<DeviceState>();
+            DeviceStates = new List<DeviceState>();
             foreach (var elementDevice in plan.ElementDevices)
             {
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
                 if (deviceState != null)
                 {
-                    _deviceStates.Add(deviceState);
+                    DeviceStates.Add(deviceState);
                     deviceState.StateChanged += new Action(UpdateSelfState);
                 }
             }
@@ -36,12 +36,12 @@ namespace PlansModule.ViewModels
 
         public string Caption
         {
-            get { return _plan.Caption; }
+            get { return Plan.Caption; }
         }
 
         public string Description
         {
-            get { return _plan.Description; }
+            get { return Plan.Description; }
         }
 
         StateType _stateType;
@@ -51,7 +51,7 @@ namespace PlansModule.ViewModels
             set
             {
                 _stateType = value;
-                ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Publish(_plan.UID);
+                ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Publish(Plan.UID);
                 OnPropertyChanged("StateType");
             }
         }
@@ -60,7 +60,7 @@ namespace PlansModule.ViewModels
         {
             int minPriority = 8;
 
-            foreach (var deviceState in _deviceStates)
+            foreach (var deviceState in DeviceStates)
             {
                 int priority = (int) deviceState.StateType;
                 if (priority < minPriority)

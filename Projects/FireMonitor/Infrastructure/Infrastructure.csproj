@@ -66,6 +66,7 @@
     <Compile Include="Events\ShowDeviceEvent.cs" />
     <Compile Include="Events\ShowJournalEvent.cs" />
     <Compile Include="Events\ShowPlanEvent.cs" />
+    <Compile Include="Events\ShowZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowZonesEvent.cs" />
     <Compile Include="ILayoutService.cs" />
     <Compile Include="ISecurityService.cs" />

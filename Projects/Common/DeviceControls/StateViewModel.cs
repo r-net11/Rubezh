@@ -10,14 +10,11 @@ namespace DeviceControls
 {
     public class StateViewModel : IDisposable
     {
-        #region Private Fields
-
         readonly List<LibraryFrame> _frames;
         readonly List<Canvas> _canvases;
         int _tick;
         int _startTick;
-
-        #endregion
+        public static DispatcherTimer Timer { get; set; }
 
         public StateViewModel(LibraryState state, ICollection<Canvas> stateCanvases)
         {
@@ -47,7 +44,6 @@ namespace DeviceControls
             Timer.Start();
         }
 
-        public static DispatcherTimer Timer { get; set; }
         void OnTick(object sender, EventArgs e)
         {
             try

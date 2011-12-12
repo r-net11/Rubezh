@@ -82,25 +82,52 @@ namespace PlansModule.ViewModels
             set
             {
                 _selectedPlan = value;
-                PlanCanvasViewModel.Initialize(value._plan);
+                PlanCanvasViewModel.Initialize(value.Plan);
                 OnPropertyChanged("SelectedPlan");
             }
         }
 
         public void OnSelectPlan(Guid PlanUID)
         {
-            SelectedPlan = Plans.FirstOrDefault(x => x._plan.UID == PlanUID);
+            SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == PlanUID);
         }
 
         public void ShowDevice(Guid deviceUID)
         {
             foreach (var planViewModel in Plans)
             {
-                if (planViewModel._deviceStates.Any(x => x.UID == deviceUID))
+                if (planViewModel.DeviceStates.Any(x => x.UID == deviceUID))
                 {
                     SelectedPlan = planViewModel;
                     PlanCanvasViewModel.SelectDevice(deviceUID);
                     return;
+                }
+            }
+        }
+
+        public void ShowZone(ulong zoneNo)
+        {
+            foreach (var planViewModel in Plans)
+            {
+                foreach (var zone in planViewModel.Plan.ElementPolygonZones)
+                {
+                    if (zone.ZoneNo.HasValue)
+                        if (zone.ZoneNo.Value == zoneNo)
+                        {
+                            SelectedPlan = planViewModel;
+                            PlanCanvasViewModel.SelectZone(zoneNo);
+                            return;
+                        }
+                }
+                foreach (var zone in planViewModel.Plan.ElementRectangleZones)
+                {
+                    if (zone.ZoneNo.HasValue)
+                        if (zone.ZoneNo.Value == zoneNo)
+                        {
+                            SelectedPlan = planViewModel;
+                            PlanCanvasViewModel.SelectZone(zoneNo);
+                            return;
+                        }
                 }
             }
         }
