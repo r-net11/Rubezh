@@ -2,7 +2,6 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using FiresecAPI.Models;
-using System.Diagnostics;
 using PlansModule.ViewModels;
 
 namespace PlansModule.Views

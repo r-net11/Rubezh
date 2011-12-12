@@ -4,8 +4,8 @@
              xmlns:Converters="clr-namespace:DevicesModule.Converters">
     <UserControl.Resources>
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
-        <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
     </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -63,24 +63,22 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}" >
-            <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}">
-                <StackPanel Margin="10">
-                    <StackPanel Orientation="Horizontal">
+        <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="11" TextBlock.Foreground="White" >
+            <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="{StaticResource HighlightedBackgoundBrush}">
                         <StackPanel Orientation="Horizontal" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="{Binding Device.PresentationAddress}" Foreground="White" />
-                            <TextBlock Text=" - " Foreground="White" />
+                            <TextBlock Text="{Binding Device.PresentationAddress}" />
+                            <TextBlock Text=" - " />
                         </StackPanel>
-                        <TextBlock Text="{Binding Driver.Name}" Foreground="White" />
+                        <TextBlock Text="{Binding Driver.Name}" />
+                        <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
+                        <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Состояние" FontWeight="Bold" Foreground="White" />
-                        <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Foreground="White" Margin="2, 0, 0, 0" />
-                    </StackPanel>
-                    <ItemsControl ItemsSource="{Binding DeviceState.ParentStringStates}">
+                    <ItemsControl ItemsSource="{Binding DeviceState.ParentStringStates}" Margin="0, 5, 0, 0">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding .}" Foreground="White" />
+                                <TextBlock Text="{Binding .}" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -90,7 +88,7 @@
                                 <StackPanel Orientation="Horizontal">
                                     <Button Content="Сбросить" Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
                                             Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}" CommandParameter="{Binding DriverState.Name}" />
-                                    <TextBlock Text="{Binding DriverState.Name}" Foreground="White" />
+                                    <TextBlock Text="{Binding DriverState.Name}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
@@ -99,7 +97,7 @@
                         <ItemsControl ItemsSource="{Binding Parameters}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding}" Foreground="White" />
+                                    <TextBlock Text="{Binding}" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

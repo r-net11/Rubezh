@@ -30,10 +30,7 @@
 			<ComponentRef Id="FASoundsModuleComponent" />
 			<ComponentRef Id="FAFiltersModuleComponent" />
 			<ComponentRef Id="FAU2UConsult"/>
-			<!--<ComponentRef Id="ProgramMenuDir" />-->
 			<ComponentRef Id="FAProgramsMenuShortcut" />
-			<ComponentRef Id="FAProgramsMenuShortcutUninstall" />
-			<!--<ComponentRef Id="DesktopFolder" />-->
 			<ComponentRef Id="FADesktopShortcut" />
 		</Feature>
 	</Fragment>

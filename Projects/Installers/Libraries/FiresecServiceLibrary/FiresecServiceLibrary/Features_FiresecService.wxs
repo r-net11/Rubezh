@@ -16,10 +16,9 @@
 			<ComponentRef Id="DeviceLibrary"/>
 			<ComponentRef Id="DeviceConfiguration"/>
 			<ComponentRef Id="FiresecServiceProgramsMenuShortcut" />
-			<ComponentRef Id="FiresecServiceProgramsMenuShortcutUninstall" />
+			<!--<ComponentRef Id="FiresecServiceProgramsMenuShortcutUninstall" />-->
 			<ComponentRef Id="FiresecServiceDesktopShortcut" />
 			<ComponentGroupRef Id="ConfigurationGroup"/>
-			<!--<ComponentRef Id="CopyFiresecFiles"/>-->
 			<ComponentRef Id="FSServerComponent"/>
 			<ComponentRef Id="FSTypesComponent"/>
 			<ComponentRef Id="FscTestComponent"/>

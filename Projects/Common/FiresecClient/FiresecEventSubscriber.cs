@@ -57,7 +57,28 @@ namespace FiresecClient
         {
             var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == newZoneState.No);
             zoneState.StateType = newZoneState.StateType;
+            zoneState.RevertColorsForGuardZone = IsZoneOnGuard(newZoneState);
             OnZoneStateChanged(zoneState.No);
+        }
+
+        public bool IsZoneOnGuard(ZoneState zoneState)
+        {
+            var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneState.No);
+            if (zone.ZoneType == ZoneType.Guard)
+            {
+                foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
+                {
+                    if (deviceState.Device.ZoneNo.HasValue)
+                    {
+                        if (deviceState.Device.ZoneNo.Value == zone.No.Value)
+                        {
+                            if (deviceState.States.Any(x => x.Code == "OnGuard") == false)
+                                return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
 
         public void NewJournalRecord(JournalRecord journalRecord)

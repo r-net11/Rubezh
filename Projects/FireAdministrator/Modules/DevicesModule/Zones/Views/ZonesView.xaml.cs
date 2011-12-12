@@ -1,7 +1,6 @@
-﻿using System.Windows.Controls;
-using Microsoft.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using DevicesModule.ViewModels;
-using System.Windows;
 
 namespace DevicesModule.Views
 {

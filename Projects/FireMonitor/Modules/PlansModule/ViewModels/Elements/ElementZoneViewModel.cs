@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Controls;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -14,7 +13,8 @@ namespace PlansModule.ViewModels
     {
         public ElementZoneView ElementZoneView { get; private set; }
         public ulong? ZoneNo { get; private set; }
-        Zone _zone;
+        public Zone Zone { get; private set; }
+        public ZoneState ZoneState { get; private set; }
 
         public ElementZoneViewModel(ElementPolygonZone elementPolygonZone)
         {
@@ -24,7 +24,8 @@ namespace PlansModule.ViewModels
             FiresecEventSubscriber.ZoneStateChangedEvent += OnZoneStateChanged;
 
             ZoneNo = elementPolygonZone.ZoneNo;
-            _zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
+            Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
+            ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
 
             ElementZoneView = new ElementZoneView();
             foreach (var polygonPoint in elementPolygonZone.PolygonPoints)
@@ -35,9 +36,17 @@ namespace PlansModule.ViewModels
             OnZoneStateChanged(ZoneNo);
         }
 
+        void OnZoneStateChanged(ulong? zoneNo)
+        {
+            if (ZoneNo == zoneNo)
+            {
+                StateType = ZoneState.StateType;
+            }
+        }
+
         public string PresentationName
         {
-            get { return "Зона " + _zone.No + "." + _zone.Name; }
+            get { return "Зона " + Zone.No + "." + Zone.Name; }
         }
 
         StateType _stateType;
@@ -96,18 +105,6 @@ namespace PlansModule.ViewModels
             if (ServiceFactory.SecurityService.Validate())
             {
                 FiresecManager.RemoveFromIgnoreList(DevicesToIgnore);
-            }
-        }
-
-        void OnZoneStateChanged(ulong? zoneNo)
-        {
-            if (ZoneNo == zoneNo)
-            {
-                var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
-                if (zoneState != null)
-                {
-                    StateType = zoneState.StateType;
-                }
             }
         }
     }

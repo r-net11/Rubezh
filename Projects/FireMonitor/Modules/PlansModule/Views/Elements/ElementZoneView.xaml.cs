@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
-using PlansModule.Events;
 using Infrastructure;
+using PlansModule.Events;
 
 namespace PlansModule
 {

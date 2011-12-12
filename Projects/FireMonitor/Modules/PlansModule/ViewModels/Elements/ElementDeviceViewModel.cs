@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Controls;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -45,6 +44,9 @@ namespace PlansModule.ViewModels
                 _isSelected = value;
                 ElementDeviceView._selectationRectangle.StrokeThickness = value ? 1 : 0;
                 OnPropertyChanged("IsSelected");
+
+                if (value)
+                    ElementDeviceView.Flush();
             }
         }
 

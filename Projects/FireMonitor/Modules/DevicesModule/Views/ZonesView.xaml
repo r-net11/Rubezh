@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:DevicesModule.Converters">
     <UserControl.Resources>
-        <Converters:StateToColorConverter x:Key="StateToColorConverter" />
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
     
@@ -27,7 +26,7 @@
                                     <Setter Property="Margin" Value="0"/>
                                     <Setter Property="VerticalContentAlignment" Value="Center" />
                                     <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}"/>
+                                    <Setter Property="Background" Value="{Binding ZoneState., Converter={StaticResource ZoneStateToColorConverter}}"/>
                                     <Setter Property="BorderThickness" Value="1" />
                                     <Setter Property="BorderBrush" Value="Transparent" />
                                     <Setter Property="Foreground" Value="Blue" />
@@ -43,17 +42,16 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
-                                ToolTip="{Binding Zone.Name}"
-                                Command="{Binding SelectCommand}">
+                                            Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
+                                            ToolTip="{Binding Zone.Name}"
+                                            Command="{Binding SelectCommand}">
                                         <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                         <Button.Style>
                                             <Style TargetType="Button">
                                                 <Setter Property="Template">
                                                     <Setter.Value>
                                                         <ControlTemplate TargetType="Button">
-                                                            <Border x:Name="Border" CornerRadius="2"
-                                                            Background="{TemplateBinding Background}">
+                                                            <Border x:Name="Border" CornerRadius="2" Background="{TemplateBinding Background}">
                                                                 <ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
                                                             </Border>
                                                             <ControlTemplate.Triggers>

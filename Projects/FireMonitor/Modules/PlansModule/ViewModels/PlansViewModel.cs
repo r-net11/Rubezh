@@ -100,7 +100,7 @@ namespace PlansModule.ViewModels
                 {
                     SelectedPlan = planViewModel;
                     PlanCanvasViewModel.SelectDevice(deviceUID);
-                    break;
+                    return;
                 }
             }
         }

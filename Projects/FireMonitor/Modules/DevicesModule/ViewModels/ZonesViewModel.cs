@@ -59,7 +59,9 @@ namespace DevicesModule.ViewModels
             {
                 var zoneViewModel = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
                 if (zoneViewModel != null)
+                {
                     zoneViewModel.StateType = zoneState.StateType;
+                }
             }
         }
 

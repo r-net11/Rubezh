@@ -3,13 +3,13 @@ using System.Windows.Data;
 using System.Windows.Media;
 using FiresecAPI.Models;
 
-namespace DevicesModule.Converters
+namespace Controls.Converters
 {
     public class StateToColorConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            switch ((StateType) value)
+            switch ((StateType)value)
             {
                 case StateType.Fire:
                     return Brushes.Red;

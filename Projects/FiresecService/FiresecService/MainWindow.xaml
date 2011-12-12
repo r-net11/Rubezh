@@ -3,15 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         Title="Сервер Firesec" Height="600" Width="600" Icon="Firesec.ico" StateChanged="Window_StateChanged">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Colours.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Fonts.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/Common;component/Styles/Controls.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
+
     <DockPanel LastChildFill="True" Margin="5">
         <StackPanel DockPanel.Dock="Top">
             <Button Content="Старт" Click="OnConnect" Height="100" Margin="2" Background="YellowGreen" Foreground="White" FontSize="23" />
@@ -20,7 +12,7 @@
             <Button Content="имитатор" Click="OnShowImitator" Height="auto" Margin="2" Background="SkyBlue" Foreground="White" FontSize="17" />
         </StackPanel>
         <TextBox Name="_textBox" Margin="2" />
-        <tb:TaskbarIcon x:Name="MyNotifyIcon" IconSource="Firesec.ico" ToolTipText="Сервер Firesec">
+        <tb:TaskbarIcon x:Name="_notificationIcon" IconSource="Firesec.ico" ToolTipText="Сервер Firesec">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Показать" Click="MenuItem_Click" />

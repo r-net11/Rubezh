@@ -29,10 +29,7 @@
 			<ComponentRef Id="FMCallModuleComponent"/>
 			<ComponentRef Id="FMAlarmModuleComponent"/>
 			<ComponentRef Id="FMlog4netComponent"/>
-			<!--<ComponentRef Id="FMProgramMenuDir" />-->
 			<ComponentRef Id="FMProgramsMenuShortcut" />
-			<ComponentRef Id="FMProgramsMenuShortcutUninstall" />
-			<!--<ComponentRef Id="DesktopFolder" />-->
 			<ComponentRef Id="FMDesktopShortcut" />
 		</Feature>
 	</Fragment>

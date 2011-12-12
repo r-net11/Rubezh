@@ -4,9 +4,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
-using System.Collections.Generic;
-using PlansModule.Events;
-using System.Linq;
 
 namespace PlansModule.ViewModels
 {

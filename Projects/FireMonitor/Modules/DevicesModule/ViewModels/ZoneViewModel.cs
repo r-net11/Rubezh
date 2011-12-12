@@ -9,16 +9,17 @@ namespace DevicesModule.ViewModels
 {
     public class ZoneViewModel : BaseViewModel
     {
+        public Zone Zone { get; private set; }
+        public ZoneState ZoneState { get; private set; }
+
         public ZoneViewModel(Zone zone)
         {
             SelectCommand = new RelayCommand(OnSelect);
 
             Zone = zone;
-            var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
-            StateType = zoneState.StateType;
+            ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
+            StateType = ZoneState.StateType;
         }
-
-        public Zone Zone { get; private set; }
 
         public RelayCommand SelectCommand { get; private set; }
         void OnSelect()
@@ -28,7 +29,7 @@ namespace DevicesModule.ViewModels
 
         public string PresentationName
         {
-            get { return Zone.No + "." + Zone.Name; }
+            get { return Zone.PresentationName; }
         }
 
         StateType _stateType;

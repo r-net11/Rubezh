@@ -13,25 +13,21 @@
 				ElementPath="//configuration/connectionStrings/add[\[]@name='FiresecService.Properties.Settings.FiresecConnectionString'[\]]/@connectionString"
 				Value="Data Source=localhost\[SQLINSTANCE];Initial Catalog=Firesec;Integrated Security=True" />
 			</Component>
-
-			<!--<Component Id="FiresecWindowsService" Guid="B105CAB0-BBEB-4EE5-B2F8-9DAF3B1973F8">
-				<File Id="FiresecWindowsServiceExe" Name="$(var.FiresecWindowsService.TargetFileName)"
-							Source="$(var.FiresecWindowsService.TargetDir)" KeyPath="yes" DiskId="1"/>
-				<ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Что-то делает"
-												Name="FiresecServer" DisplayName="Сервер КБПА" Start="auto" Account="LocalSystem"
-												ErrorControl="ignore" Interactive="yes" Arguments="[FiresecServiceName] /Start /Hide">
-					<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
-															RestartServiceDelayInSeconds="100"/>
-				</ServiceInstall>
-				<ServiceControl Id="StartService" Stop="uninstall" Remove="uninstall" Name="FiresecServer" Wait="yes"/>
-			</Component>-->
-			
 			<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
 				<CreateFolder Directory="FIRESECSERVICELOCATION" />
 				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes" 
 												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="yes" ContinueOnError="no">
 					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" ContinueOnError="no"/>
 				</sql:SqlDatabase>
+			</Component>
+		</DirectoryRef>
+		
+		<DirectoryRef Id="ProgramMenuDir">
+			<Component Id="FiresecProgramsMenuShortcutUninstall" Guid="CC6AE248-D8F1-4801-8720-0D7AF2177780">
+				<Shortcut Id="FAUninstallProduct" Name="Удалить Firesec" Target="[System64Folder]msiexec.exe"
+									Arguments="/x [ProductCode]" Description="Удаляет Firesec с данного компьютера" />
+				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
+											 Value="1" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 	</Fragment>

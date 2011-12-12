@@ -2,14 +2,17 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Converters="clr-namespace:Controls.Converters">
 
-    <Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />
     <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    <Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
-    <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
-    <Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
-    <Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
     <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+    <Converters:LevelToMarginConverter x:Key="LevelToMarginConverter" />
+    <Converters:CollectionViewFactoryConverter x:Key="CollectionViewFactoryConverter" />
     <Converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
     <Converters:ColorToNameConverter x:Key="ColorToNameConverter" />
+    <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
+    <Converters:StateToColorConverter x:Key="StateToColorConverter" />
+    <Converters:ZoneStateToColorConverter x:Key="ZoneStateToColorConverter" />
+    <Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
+    <Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
+    <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
 
 </ResourceDictionary>

@@ -62,8 +62,11 @@
     <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\ColorToNameConverter.cs" />
+    <Compile Include="Converters\IsOffToStringConverter.cs" />
     <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Converters\StateToColorConverter.cs" />
+    <Compile Include="Converters\ZoneStateToColorConverter.cs" />
     <Compile Include="DataGridProperties.cs" />
     <Compile Include="PasswordBoxControl.cs" />
     <Compile Include="BrightnessToColorConverter.cs" />

@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Shapes;
-using DeviceControls;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;

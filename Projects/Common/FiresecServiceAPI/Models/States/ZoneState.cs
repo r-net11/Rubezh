@@ -8,7 +8,10 @@ namespace FiresecAPI.Models
         public ZoneState()
         {
             StateType = StateType.No;
+            RevertColorsForGuardZone = false;
         }
+
+        public bool RevertColorsForGuardZone { get; set; }
 
         [DataMember]
         public ulong? No { get; set; }
