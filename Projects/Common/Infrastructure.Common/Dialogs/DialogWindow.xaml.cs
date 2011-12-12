@@ -32,12 +32,17 @@ namespace Infrastructure.Common
 
                 var newHeight = userControl.MinHeight + 30; // + dialog window title heigh
                 var newWidth = userControl.MinWidth;
+                MinHeight = newHeight + 30 + 30;
+                MinWidth = newWidth + 30;
 
-                MinHeight = Height = newHeight + 30 + 30;
-                MinWidth = Width = newWidth + 30;
+                if (double.IsNaN(Height))
+                {
+                    Height = MinHeight;
+                    Width = MinWidth;
 
-                Left += ((oldWidth - ActualWidth) / 2);
-                Top += ((oldHeight - ActualHeight) / 2);
+                    Left += ((oldWidth - ActualWidth) / 2);
+                    Top += ((oldHeight - ActualHeight) / 2);
+                }
             }
         }
 
@@ -91,7 +96,7 @@ namespace Infrastructure.Common
                 CloseContent();
         }
 
-        private void OnCloseButton(object sender, RoutedEventArgs e)
+        void OnCloseButton(object sender, RoutedEventArgs e)
         {
             Close();
             CloseContent();
@@ -104,7 +109,7 @@ namespace Infrastructure.Common
                 content.Close(false);
         }
 
-        private void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+        void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             if (this.Width + e.HorizontalChange > 10)
                 this.Width += e.HorizontalChange;

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using DevicesModule.ViewModels;
+using DevicesModule.Views;
 using Infrastructure.Common;
 
 namespace FireAdministrator
@@ -39,7 +41,19 @@ namespace FireAdministrator
 
         void dialog_Closed(object sender, System.EventArgs e)
         {
-            ActiveWindows.Remove((DialogWindow)sender);
+            ActiveWindows.Remove((DialogWindow) sender);
+        }
+
+        void ZonesSelectionViewClosed(object sender, System.EventArgs e)
+        {
+            var dialog = (DialogWindow) sender;
+            if (dialog.ViewModel is ZonesSelectionViewModel)
+            {
+                ZonesSelectionView.CustomWidth = dialog.Width;
+                ZonesSelectionView.CustomHeight = dialog.Height;
+                ZonesSelectionView.CustomTop = dialog.Top;
+                ZonesSelectionView.CustomLeft = dialog.Left;
+            }
         }
 
         public void HideWindow(string name)
@@ -69,11 +83,19 @@ namespace FireAdministrator
         {
             try
             {
-                var dialog = new DialogWindow
-                {
-                    //Owner = parentWindow
-                };
+                DialogWindow dialog = new DialogWindow();
                 dialog.SetContent(model);
+                if (dialog.ViewModel is ZonesSelectionViewModel)
+                {
+                    if (ZonesSelectionView.CustomWidth != 0)
+                    {
+                        dialog.Width = ZonesSelectionView.CustomWidth;
+                        dialog.Height = ZonesSelectionView.CustomHeight;
+                        dialog.Left = ZonesSelectionView.CustomLeft;
+                        dialog.Top = ZonesSelectionView.CustomTop;
+                    }
+                    dialog.Closed += new EventHandler(ZonesSelectionViewClosed);
+                }
 
                 bool? result = dialog.ShowDialog();
                 if (result == null)
