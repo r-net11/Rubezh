@@ -59,7 +59,7 @@ namespace FireMonitor
         void InitializeKnownModules()
         {
             var devicesModule = new DevicesModule.DevicesModule();
-            var journalModule = new JournalModule.JournalModule();
+            //var journalModule = new JournalModule.JournalModule();
             var alarmModule = new AlarmModule.AlarmModule();
             var reportsModule = new ReportsModule.ReportsModule();
             var callModule = new CallModule.CallModule();

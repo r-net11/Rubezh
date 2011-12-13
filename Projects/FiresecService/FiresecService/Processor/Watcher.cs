@@ -51,7 +51,7 @@ namespace FiresecService
         }
 
         int LastEventId = 0;
-        List<DeviceState> ChangedDevices;
+        HashSet<DeviceState> ChangedDevices;
 
         void SetLastEvent()
         {
@@ -82,7 +82,7 @@ namespace FiresecService
 
         void OnParametersChanged()
         {
-            ChangedDevices = new List<DeviceState>();
+            ChangedDevices = new HashSet<DeviceState>();
             var coreParameters = FiresecInternalClient.GetDeviceParams();
             try
             {
@@ -100,6 +100,7 @@ namespace FiresecService
                                 if (parameter.Value != innerParameter.value && parameter.Visible)
                                 {
                                     ChangedDevices.Add(deviceState);
+                                    Trace.WriteLine("xxx OnParametersChanged");
                                 }
                                 parameter.Value = innerParameter.value;
                             }
@@ -108,14 +109,14 @@ namespace FiresecService
                 }
 
                 if (ChangedDevices.Count > 0)
-                    CallbackManager.OnDeviceParametersChanged(ChangedDevices);
+                    CallbackManager.OnDeviceParametersChanged(ChangedDevices.ToList());
             }
             catch (Exception) { }
         }
 
         public void OnStateChanged()
         {
-            ChangedDevices = new List<DeviceState>();
+            ChangedDevices = new HashSet<DeviceState>();
             var coreState = FiresecInternalClient.GetCoreState();
             try
             {
@@ -124,7 +125,7 @@ namespace FiresecService
                 CalculateZones();
 
                 if (ChangedDevices.Count > 0)
-                    CallbackManager.OnDeviceStatesChanged(ChangedDevices);
+                    CallbackManager.OnDeviceStatesChanged(ChangedDevices.ToList());
             }
             catch (Exception) { }
         }
@@ -180,7 +181,7 @@ namespace FiresecService
                 if (hasOneChangedState)
                 {
                     ChangedDevices.Add(deviceState);
-                    Trace.WriteLine("ChangedDevices.Add(deviceState);");
+                    Trace.WriteLine("xxx SetStates");
                 }
             }
         }
@@ -189,7 +190,7 @@ namespace FiresecService
         {
             foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
-                deviceState.ParentStates = new List<ParentDeviceState>();
+                deviceState.ParentStates.ForEach(x => x.IsDeleting = true);
             }
 
             foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
@@ -198,17 +199,42 @@ namespace FiresecService
                 {
                     foreach (var chilDevice in FiresecManager.DeviceConfigurationStates.DeviceStates)
                     {
-                        if (chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree) &&
-                            chilDevice.PlaceInTree != deviceState.PlaceInTree)
+                        if (chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree) && chilDevice.PlaceInTree != deviceState.PlaceInTree)
                         {
-                            chilDevice.ParentStates.Add(new ParentDeviceState()
+                            var parentDeviceState = new ParentDeviceState()
                             {
                                 ParentDeviceId = deviceState.UID,
                                 Code = state.Code,
-                                DriverState = state.DriverState
-                            });
-                            ChangedDevices.Add(chilDevice);
+                                DriverState = state.DriverState,
+                                IsDeleting = false
+                            };
+
+                            var existingParentDeviceState = chilDevice.ParentStates.FirstOrDefault(x => x.ParentDeviceId == parentDeviceState.ParentDeviceId && x.Code == parentDeviceState.Code && x.DriverState == parentDeviceState.DriverState);
+                            if (existingParentDeviceState == null)
+                            {
+                                chilDevice.ParentStates.Add(parentDeviceState);
+                                ChangedDevices.Add(chilDevice);
+                                Trace.WriteLine("xxx PropogateStates Start");
+                            }
+                            else
+                            {
+                                existingParentDeviceState.IsDeleting = false;
+                            }
                         }
+                    }
+                }
+            }
+
+            foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+            {
+                for (int i = deviceState.ParentStates.Count(); i > 0; i--)
+                {
+                    var parentState = deviceState.ParentStates[i - 1];
+                    if (parentState.IsDeleting)
+                    {
+                        deviceState.ParentStates.RemoveAt(i - 1);
+                        ChangedDevices.Add(deviceState);
+                        Trace.WriteLine("xxx PropogateStates End");
                     }
                 }
             }

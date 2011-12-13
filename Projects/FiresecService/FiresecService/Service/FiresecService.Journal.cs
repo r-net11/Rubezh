@@ -27,10 +27,12 @@ namespace FiresecService
 
         public IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
         {
-            return DataBaseContext.JournalRecords.AsEnumerable().Reverse().
+            var filteredJournal = 
+                DataBaseContext.JournalRecords.AsEnumerable().Reverse().
                 Where(journal => journalFilter.CheckDaysConstraint(journal.SystemTime)).
                 Where(journal => JournalFilterHelper.FilterRecord(journalFilter, journal)).
                 Take(journalFilter.LastRecordsCount);
+            return filteredJournal;
         }
 
         public IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)

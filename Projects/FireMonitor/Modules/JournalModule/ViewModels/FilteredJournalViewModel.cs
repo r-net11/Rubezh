@@ -25,10 +25,9 @@ namespace JournalModule.ViewModels
         {
             try
             {
-                JournalRecords = new ObservableCollection<JournalRecordViewModel>(
-                    FiresecManager.GetFilteredJournal(JournalFilter).
-                    Select(journalRecord => new JournalRecordViewModel(journalRecord))
-                );
+                var journalRecords = FiresecManager.GetFilteredJournal(JournalFilter);
+                var journalRecordsViewModel = journalRecords.Select(journalRecord => new JournalRecordViewModel(journalRecord));
+                JournalRecords = new ObservableCollection<JournalRecordViewModel>(journalRecordsViewModel);
 
                 FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournaRecordEvent);
             }

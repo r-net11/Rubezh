@@ -8,6 +8,7 @@ namespace FiresecAPI.Models
     {
         public Device ParentDevice { get; set; }
         public DriverState DriverState { get; set; }
+        public bool IsDeleting { get; set; }
 
         [DataMember]
         public Guid ParentDeviceId { get; set; }
