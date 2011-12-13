@@ -33,10 +33,10 @@ namespace Controls.Converters
                 case StateType.Info:
                     if (zoneState.RevertColorsForGuardZone)
                         return Brushes.Green;
-                    return Brushes.Blue;
+                    return Brushes.LightBlue;
 
                 case StateType.Norm:
-                    if (zoneState.RevertColorsForGuardZone == false)
+                    if (zoneState.RevertColorsForGuardZone)
                         return Brushes.Blue;
                     return Brushes.Green;
 

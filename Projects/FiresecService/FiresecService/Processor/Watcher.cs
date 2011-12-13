@@ -5,6 +5,7 @@ using Common;
 using Firesec;
 using FiresecAPI.Models;
 using FiresecService.Converters;
+using System.Diagnostics;
 
 namespace FiresecService
 {
@@ -141,7 +142,7 @@ namespace FiresecService
                     {
                         var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);
                         var state = deviceState.States.FirstOrDefault(x => x.Code == driverState.Code);
-                        if (state != null || innerState != null)
+                        if ((state != null) != (innerState != null))
                         {
                             hasOneChangedState = true;
                         }
@@ -179,6 +180,7 @@ namespace FiresecService
                 if (hasOneChangedState)
                 {
                     ChangedDevices.Add(deviceState);
+                    Trace.WriteLine("ChangedDevices.Add(deviceState);");
                 }
             }
         }
