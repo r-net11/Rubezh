@@ -11,7 +11,6 @@
                 <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
             </ContextMenu>
         </Grid.ContextMenu>
-        <Ellipse Fill="LightBlue" Opacity="0.5" Margin="0" Stroke="Orange" StrokeThickness="5" Name="_flushEllipse" Visibility="Collapsed" />
         <Rectangle Name="_mouseOverRectangle" Stroke="Red" StrokeThickness="0" Margin="-1" />
         <Rectangle Name="_selectationRectangle" Stroke="Orange" StrokeThickness="0" Margin="-1" />
         <Devices:DeviceControl Name="_deviceControl" PreviewMouseDown="_deviceControl_PreviewMouseDown" />

@@ -46,6 +46,11 @@
                                             ToolTip="{Binding Zone.Name}"
                                             Command="{Binding SelectCommand}">
                                         <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                        <Button.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
+                                            </ContextMenu>
+                                        </Button.ContextMenu>
                                         <Button.Style>
                                             <Style TargetType="Button">
                                                 <Setter Property="Template">

@@ -12,6 +12,9 @@ namespace DevicesModule.ViewModels
 {
     public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
     {
+        public Device Device { get; private set; }
+        public DeviceState DeviceState { get; private set; }
+
         public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
             Source = sourceDevices;
@@ -25,9 +28,6 @@ namespace DevicesModule.ViewModels
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             ResetCommand = new RelayCommand<string>(OnReset, CanReset);
         }
-
-        public Device Device { get; private set; }
-        public DeviceState DeviceState { get; private set; }
 
         public Driver Driver
         {
@@ -165,7 +165,14 @@ namespace DevicesModule.ViewModels
 
         public bool CanShowOnPlan()
         {
-            return true;
+            foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+            {
+                if (plan.ElementDevices.Any(x => x.DeviceUID == Device.UID))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public RelayCommand ShowPlanCommand { get; private set; }

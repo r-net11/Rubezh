@@ -6,12 +6,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
             <ContentControl Content="{Binding DeviceControlContent}" Width="50" Height="50" Background="Black" Margin="0, 0, 0, 5" />
-            <Label Content="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="5" VerticalAlignment="Center" />
+            <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="5" VerticalAlignment="Center" Foreground="White" />
         </StackPanel>
         <TabControl Grid.Row="1">
             <TabItem Header="Основные">
@@ -20,41 +19,41 @@
                         <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Image Source="{Binding Driver.ImageSource}" Width="20" Height="20" Margin="5" />
                         </StackPanel>
-                        <Label Content="{Binding Driver.Name}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Driver.Name}" VerticalAlignment="Center" Foreground="White" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="3">
-                        <Label Content="Тип устройства: " FontWeight="Bold" />
-                        <Label Content="{Binding Driver.CategoryName}" />
-                        <Label Content=", " />
-                        <Label Content="{Binding Driver.DeviceTypeName}" />
+                    <StackPanel Orientation="Horizontal" Margin="1">
+                        <TextBlock Text="Тип устройства: " FontWeight="Bold" Foreground="Orange" />
+                        <TextBlock Text="{Binding Driver.CategoryName}" Foreground="White" />
+                        <TextBlock Text=", " Foreground="White" />
+                        <TextBlock Text="{Binding Driver.DeviceTypeName}" Foreground="White" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="3">
-                        <Label Content="Подключено: " FontWeight="Bold" />
-                        <Label Content="{Binding ConnectedTo}" />
+                    <StackPanel Orientation="Horizontal" Margin="1">
+                        <TextBlock Text="Подключено: " FontWeight="Bold" Foreground="Orange" />
+                        <TextBlock Text="{Binding ConnectedTo}" Foreground="White" />
                     </StackPanel>
-                    <StackPanel Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" Margin="3">
-                        <Label Content="Зона:" FontWeight="Bold" />
-                        <Label Content="{Binding PresentationZone}" />
+                    <StackPanel Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" Margin="1">
+                        <TextBlock Text="Зона: " FontWeight="Bold" Foreground="Orange" />
+                        <TextBlock Text="{Binding PresentationZone}" Foreground="White" />
                     </StackPanel>
-                    <StackPanel Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="3">
-                        <Label Content="Логика срабатывания по состоянию зон:" FontWeight="Bold" />
-                        <Label Content="{Binding PresentationZone}" />
+                    <StackPanel Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
+                        <TextBlock Text="Логика срабатывания по состоянию зон:" FontWeight="Bold" Foreground="Orange" />
+                        <TextBlock Text="{Binding PresentationZone}" Foreground="White" />
                     </StackPanel>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Состояние">
+            <TabItem Header="Состояние" TextElement.Foreground="White">
                 <StackPanel>
                     <ItemsControl ItemsSource="{Binding DeviceState.ParentStringStates}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding .}" Foreground="White" />
+                                <TextBlock Text="{Binding .}" Margin="1" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                     <ItemsControl ItemsSource="{Binding DeviceState.States}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding DriverState.Name}" Foreground="White" />
+                                <TextBlock Text="{Binding DriverState.Name}" Margin="1" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -62,7 +61,7 @@
                         <ItemsControl ItemsSource="{Binding Parameters}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding}" />
+                                    <TextBlock Text="{Binding .}" Margin="1"  />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

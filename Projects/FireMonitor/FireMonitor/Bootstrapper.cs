@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Windows;
 
 namespace FireMonitor
 {
@@ -43,6 +44,10 @@ namespace FireMonitor
                     ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
                 }
                 preLoadWindow.Close();
+            }
+            else
+            {
+                Application.Current.Shutdown();
             }
         }
 

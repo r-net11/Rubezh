@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
@@ -20,9 +21,13 @@ namespace SecurityModule.ViewModels
             }
             RemoteAccessTypes.Find(x => x.RemoteAccessType == remoteAccess.RemoteAccessType).IsActive = true;
 
-            HostNameOrAddressList = new ObservableCollection<string>(
-                remoteAccess.HostNameOrAddressList.Select(x => x)
-            );
+            HostNameOrAddressList = new ObservableCollection<string>();
+            if (HostNameOrAddressList.IsNotNullOrEmpty())
+            {
+                HostNameOrAddressList = new ObservableCollection<string>(
+                    remoteAccess.HostNameOrAddressList.Select(x => x)
+                );
+            }
 
             Initialize();
         }
