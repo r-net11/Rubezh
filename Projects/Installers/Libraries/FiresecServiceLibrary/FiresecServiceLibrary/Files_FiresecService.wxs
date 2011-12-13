@@ -21,6 +21,11 @@
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
+			<Component Id="ControlsComponent" Guid="0BF89DF2-D693-44C1-9496-F23DC2F40E24">
+				<File Id="ControlsDll" Name="$(var.Controls.TargetFileName)" Source="$(var.Controls.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
 			<Component Id="FiresecComponent" Guid="41974E04-F90D-4B43-9334-527425544AE8">
 				<File Id="FiresecDll" Name="$(var.Firesec.TargetFileName)" Source="$(var.Firesec.TargetPath)"
 							DiskId="1" KeyPath="yes" />
@@ -39,6 +44,12 @@
 				<File Id="TrayDll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.FiresecService.TargetDir)"
 							DiskId="1" KeyPath="yes">
 				</File>
+			</Component>
+
+			<Component Id="Autorun" Guid="A35143F0-4713-4061-BA6F-E94C6FBE458C">
+				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
+					<RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName) /Start /Hide" />
+				</RegistryKey>
 			</Component>
 		</DirectoryRef>
 
@@ -65,22 +76,5 @@
 			</Component>
 		</DirectoryRef>
 
-		<DirectoryRef Id="OLDFIRESECINSTALLDIR">
-			<Component Id="FSServerComponent" Guid="DF42F094-B5C7-4028-BC73-E391D96EA8FE" Permanent="yes">
-				<File Id="FS_Server.Exe" Source="..\..\FiresecBin\FS_Server.Exe" DiskId="1" KeyPath="yes" />
-			</Component>
-			<Component Id="FSTypesComponent" Guid="AF254545-9341-4731-99EF-F33DBC7F4F4B" Permanent="yes">
-				<File Id="FS_Types.dll" Source="..\..\FiresecBin\FS_Types.dll" DiskId="1" KeyPath="yes" />
-			</Component>
-			<Component Id="FscTestComponent" Guid="9C192680-3925-435B-A36E-D218FC7D7426" Permanent="yes">
-				<File Id="fscTest.exe" Source="..\..\FiresecBin\fscTest.exe" DiskId="1" KeyPath="yes" />
-			</Component>
-			<Component Id="Rubezh2010Component" Guid="620E3931-13E0-42D8-BB79-EA1A3F28EAA9" Permanent="yes">
-				<File Id="rubezh2010.xml" Source="..\..\FiresecBin\rubezh2010.xml" DiskId="1" KeyPath="yes" />
-			</Component>
-			<Component Id="SockProxyComponent" Guid="90FD31A6-82C1-4AB7-9C54-D03E1B920406" Permanent="yes">
-				<File Id="SockProxy.dll" Source="..\..\FiresecBin\SockProxy.dll" DiskId="1" KeyPath="yes" />
-			</Component>
-		</DirectoryRef>
 	</Fragment>
 </Wix>

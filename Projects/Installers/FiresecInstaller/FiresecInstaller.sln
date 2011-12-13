@@ -1,10 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "FireAdministratorInstaller", "FireAdministratorInstaller\FireAdministratorInstaller.wixproj", "{C8AC5D0E-A7A1-45C5-A0AC-2749DAB8D02A}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "FireMonitorInstaller", "FireMonitorInstaller\FireMonitorInstaller.wixproj", "{36E9E678-1936-413F-9F37-85714968377D}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecWindowsService", "FiresecWindowsService\FiresecWindowsService.csproj", "{C64B0B3A-EB25-4880-8BBB-2C9B1E1E3873}"
 EndProject
 Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "FiresecInstaller", "FiresecInstaller\FiresecInstaller.wixproj", "{184068E9-B59D-4B55-A57B-60C9CC3450F2}"
@@ -21,26 +17,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C8AC5D0E-A7A1-45C5-A0AC-2749DAB8D02A}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{C8AC5D0E-A7A1-45C5-A0AC-2749DAB8D02A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{C8AC5D0E-A7A1-45C5-A0AC-2749DAB8D02A}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{C8AC5D0E-A7A1-45C5-A0AC-2749DAB8D02A}.Debug|x86.ActiveCfg = Debug|x86
-		{C8AC5D0E-A7A1-45C5-A0AC-2749DAB8D02A}.Debug|x86.Build.0 = Debug|x86
-		{C8AC5D0E-A7A1-45C5-A0AC-2749DAB8D02A}.Release|Any CPU.ActiveCfg = Release|x86
-		{C8AC5D0E-A7A1-45C5-A0AC-2749DAB8D02A}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{C8AC5D0E-A7A1-45C5-A0AC-2749DAB8D02A}.Release|Mixed Platforms.Build.0 = Release|x86
-		{C8AC5D0E-A7A1-45C5-A0AC-2749DAB8D02A}.Release|x86.ActiveCfg = Release|x86
-		{C8AC5D0E-A7A1-45C5-A0AC-2749DAB8D02A}.Release|x86.Build.0 = Release|x86
-		{36E9E678-1936-413F-9F37-85714968377D}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{36E9E678-1936-413F-9F37-85714968377D}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{36E9E678-1936-413F-9F37-85714968377D}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{36E9E678-1936-413F-9F37-85714968377D}.Debug|x86.ActiveCfg = Debug|x86
-		{36E9E678-1936-413F-9F37-85714968377D}.Debug|x86.Build.0 = Debug|x86
-		{36E9E678-1936-413F-9F37-85714968377D}.Release|Any CPU.ActiveCfg = Release|x86
-		{36E9E678-1936-413F-9F37-85714968377D}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{36E9E678-1936-413F-9F37-85714968377D}.Release|Mixed Platforms.Build.0 = Release|x86
-		{36E9E678-1936-413F-9F37-85714968377D}.Release|x86.ActiveCfg = Release|x86
-		{36E9E678-1936-413F-9F37-85714968377D}.Release|x86.Build.0 = Release|x86
 		{C64B0B3A-EB25-4880-8BBB-2C9B1E1E3873}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{C64B0B3A-EB25-4880-8BBB-2C9B1E1E3873}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{C64B0B3A-EB25-4880-8BBB-2C9B1E1E3873}.Debug|Mixed Platforms.Build.0 = Debug|x86

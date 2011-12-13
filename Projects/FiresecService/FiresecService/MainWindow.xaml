@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:tb="http://www.hardcodet.net/taskbar"
         Title="Сервер Firesec" Height="600" Width="600" Icon="Firesec.ico" StateChanged="Window_StateChanged">
-
     <DockPanel LastChildFill="True" Margin="5">
         <StackPanel DockPanel.Dock="Top">
             <Button Content="Старт" Click="OnConnect" Height="100" Margin="2" Background="YellowGreen" Foreground="White" FontSize="23" />

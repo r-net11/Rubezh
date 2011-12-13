@@ -5,9 +5,9 @@
 		<Feature Id="FiresecServiceFeature" Title="$(var.FiresecServiceName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="FIRESECSERVICELOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="MainExe" />
-			<!--<ComponentRef Id="FiresecServiceExe"/>-->
 			<ComponentRef Id="FiresecServiceConfig" />
 			<ComponentRef Id="CommonComponent" />
+			<ComponentRef Id="ControlsComponent"/>
 			<ComponentRef Id="FiresecComponent" />
 			<ComponentRef Id="FiresecAPIComponent" />
 			<ComponentRef Id="TrayComponent"/>
@@ -16,15 +16,9 @@
 			<ComponentRef Id="DeviceLibrary"/>
 			<ComponentRef Id="DeviceConfiguration"/>
 			<ComponentRef Id="FiresecServiceProgramsMenuShortcut" />
-			<!--<ComponentRef Id="FiresecServiceProgramsMenuShortcutUninstall" />-->
 			<ComponentRef Id="FiresecServiceDesktopShortcut" />
+			<ComponentRef Id="Autorun"/>
 			<ComponentGroupRef Id="ConfigurationGroup"/>
-			<ComponentRef Id="FSServerComponent"/>
-			<ComponentRef Id="FSTypesComponent"/>
-			<ComponentRef Id="FscTestComponent"/>
-			<ComponentRef Id="Rubezh2010Component"/>
-			<ComponentRef Id="SockProxyComponent"/>
-			<!--<ComponentRef Id="Autorun"/>-->
 		</Feature>
 	</Fragment>
 </Wix>

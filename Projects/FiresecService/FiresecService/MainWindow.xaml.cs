@@ -84,27 +84,19 @@ namespace FiresecServiceRunner
                         break;
                 }
             }
-            if (service)
+            if (start)
             {
+                FiresecManager.ConnectFiresecCOMServer("adm", "");
+                FiresecServiceManager.Open();
+            }
+            if (start && convertConfiguration)
+                ConfigurationConverter.Convert();
+            if (convertJournal)
+                JournalDataConverter.Convert();
+            if (hide)
                 this.Hide();
-                ServiceBase.Run(new WindowsService());
-            }
-            else
-            {
-                if (start)
-                {
-                    FiresecManager.ConnectFiresecCOMServer("adm", "");
-                    FiresecServiceManager.Open();
-                }
-                if (start && convertConfiguration)
-                    ConfigurationConverter.Convert();
-                if (convertJournal)
-                    JournalDataConverter.Convert();
-                if (hide)
-                    this.Hide();
-                if (exit)
-                    this.Close();
-            }
+            if (exit)
+                this.Close();
         }
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -132,7 +124,7 @@ namespace FiresecServiceRunner
         {
             JournalDataConverter.Convert();
         }
-        
+
         private void MenuItem_Click_5(object sender, RoutedEventArgs e)
         {
             this.Close();
