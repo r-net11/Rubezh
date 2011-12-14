@@ -55,7 +55,7 @@ namespace PlansModule.ViewModels
             _canvas.Background = new SolidColorBrush(_plan.BackgroundColor);
             if (_plan.BackgroundPixels != null)
             {
-                _canvas.Background = PlanElementsHelper.CreateBrush(_plan.BackgroundPixels);
+                _canvas.Background = PlanElementsHelper.CreateBrush(_plan.BackgroundPixels); //TODO: ~20-25 % общего времени
             }
 
             foreach (var elementRectangle in _plan.ElementRectangles)
@@ -105,7 +105,7 @@ namespace PlansModule.ViewModels
             foreach (var elementDevice in _plan.ElementDevices)
             {
                 //continue;
-                var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice);
+                var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice); //TODO: ~50-60 % общего времени
                 DrawElement(elementDeviceViewModel.ElementDeviceView, elementDevice, elementDeviceViewModel);
                 Devices.Add(elementDeviceViewModel);
             }

@@ -23,15 +23,15 @@ namespace PlansModule.ViewModels
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
 
-            ElementDeviceView = new ElementDeviceView();
+            ElementDeviceView = new ElementDeviceView(); //TODO: ~25 %
 
             DeviceUID = elementDevice.DeviceUID;
             Device = elementDevice.Device;
-            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
+            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID); // TODO: ~20%
             if (Device != null)
             {
                 ElementDeviceView._deviceControl.DriverId = Device.Driver.UID;
-                OnDeviceStateChanged(DeviceUID);
+                OnDeviceStateChanged(DeviceUID); // TODO: ~17%
             }
         }
 
