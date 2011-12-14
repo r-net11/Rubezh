@@ -1,9 +1,0 @@
-﻿<base:UserControlBase x:Class="Controls.XTextBox"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:base="clr-namespace:ControlBase;assembly=ControlBase">
-    <base:UserControlBase.Resources>
-        <BitmapImage x:Key="IconImage" UriSource="Resources/XTextBox.png" />
-    </base:UserControlBase.Resources>
-    <TextBox Name="textBox" />
-</base:UserControlBase>
