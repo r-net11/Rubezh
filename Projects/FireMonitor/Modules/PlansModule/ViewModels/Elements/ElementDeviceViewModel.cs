@@ -7,25 +7,52 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using DeviceControls;
+using System.Windows.Controls;
+using System.Windows.Shapes;
+using System.Windows.Media;
+using PlansModule.Events;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
     public class ElementDeviceViewModel : BaseViewModel
     {
         public ElementDeviceView ElementDeviceView { get; private set; }
+        ElementDevice ElementDevice;
+        public Guid DeviceUID { get; private set; }
         Device Device;
         DeviceState DeviceState;
-        public Guid DeviceUID { get; private set; }
 
         public ElementDeviceViewModel(ElementDevice elementDevice)
         {
+            ElementDevice = elementDevice;
             DeviceUID = elementDevice.DeviceUID;
             Device = elementDevice.Device;
+            DeviceState = elementDevice.DeviceState;
+        }
 
-            Action initializer = new Action(Initialize);
-            IAsyncResult result = initializer.BeginInvoke(null, null);
+        object locker = new object();
 
-            ElementDeviceView = new ElementDeviceView(); //TODO: ~25 %
+        public void DrawElementDevice()
+        {
+            lock (locker)
+            {
+                if (ElementDeviceView != null)
+                    return;
+
+                ElementDeviceView = new ElementDeviceView()
+                {
+                    DataContext = this
+                };
+            }
+            ElementDeviceView._deviceControl.IsManualUpdate = true;
+
+            ElementDeviceView.Width = ElementDevice.Width;
+            ElementDeviceView.Height = ElementDevice.Height;
+            Canvas.SetLeft(ElementDeviceView, ElementDevice.Left);
+            Canvas.SetTop(ElementDeviceView, ElementDevice.Top);
+
             if (Device != null)
             {
                 ElementDeviceView._deviceControl.DriverId = Device.Driver.UID;
@@ -58,10 +85,13 @@ namespace PlansModule.ViewModels
             set
             {
                 _isSelected = value;
+                DrawElementDevice();
                 ElementDeviceView._selectationRectangle.StrokeThickness = value ? 1 : 0;
                 OnPropertyChanged("IsSelected");
 
                 if (value) ElementDeviceView.Flush();
+                {
+                }
             }
         }
 
@@ -102,6 +132,13 @@ namespace PlansModule.ViewModels
                 ElementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
                     from state in DeviceState.States
                     select state.DriverState.Code);
+                ElementDeviceView._deviceControl.Update();
+
+                //DeviceControl.StateType = DeviceState.StateType;
+                //DeviceControl.AdditionalStateCodes = new List<string>(
+                //    from state in DeviceState.States
+                //    select state.DriverState.Code);
+                //DeviceControl.Update();
 
                 UpdateTooltip();
             }

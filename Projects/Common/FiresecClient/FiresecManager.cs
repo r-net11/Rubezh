@@ -115,6 +115,11 @@ namespace FiresecClient
                     {
                         plan.ElementDevices.RemoveAt(i - 1);
                     }
+                    var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                    if (deviceState != null)
+                    {
+                        elementDevice.DeviceState = deviceState;
+                    }
                 }
 
                 foreach (var elementZone in plan.ElementPolygonZones)

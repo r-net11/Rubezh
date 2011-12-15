@@ -1,4 +1,4 @@
-﻿<project name="Simple" default="run">
+<project name="Simple" default="run">
 	<property name="nant.settings.currentframework" value="net-4.0" />
 	<property name="debug" value="true"/>
 	<property name="intellectFolder" value="..\ItvIntegration"/>
