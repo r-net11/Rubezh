@@ -99,6 +99,7 @@ namespace PlansModule.ViewModels
 
             foreach (var elementDevice in _plan.ElementDevices)
             {
+                var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice);
                 Devices.Add(elementDeviceViewModel);
             }
 
@@ -128,7 +129,8 @@ namespace PlansModule.ViewModels
             foreach (var elementDeviceViewModel in Devices)
             {
                 elementDeviceViewModel.DrawElementDevice();
-                _canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
+                if (elementDeviceViewModel.ElementDeviceView.Parent == null)
+                    _canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
             }
         }
 

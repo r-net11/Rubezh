@@ -5,7 +5,6 @@
 
 	<target name="run">		
 		<call target="Clean" />
-		<call target="Compile" />
 		<call target="CopyFiles" />
 	</target>
 	

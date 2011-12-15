@@ -42,7 +42,8 @@ namespace FireAdministrator.ViewModels
         public RelayCommand ConnectCommand { get; private set; }
         void OnConnect()
         {
-            string message = FiresecManager.Connect(UserName, Password);
+            string serverAddress = ConfigurationManager.AppSettings["TCPBaseAddress"] as string;
+            string message = FiresecManager.Connect(serverAddress, UserName, Password);
             if (message == null)
             {
                 Close(true);

@@ -15,7 +15,7 @@ namespace RepFileManager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var result = FiresecManager.Connect("adm", "");
+            var result = FiresecManager.Connect("net.tcp://localhost:8000/FiresecService/", "adm", "");
             if (result != null)
             {
                 MessageBox.Show(result);

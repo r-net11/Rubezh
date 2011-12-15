@@ -197,7 +197,7 @@
     <Compile Include="Models\Device\Direction.cs" />
     <Compile Include="Models\Driver\Driver.cs" />
     <Compile Include="Models\Driver\DriverProperty.cs" />
-    <Compile Include="DriversHelper.cs" />
+    <Compile Include="Models\DriversHelper.cs" />
     <Compile Include="Models\States\DriverState.cs" />
     <Compile Include="Models\Driver\Parameter.cs" />
     <Compile Include="Models\Driver\Property.cs" />
