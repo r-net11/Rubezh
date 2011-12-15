@@ -29,9 +29,9 @@
 			<Component Id="FiresecComponent" Guid="41974E04-F90D-4B43-9334-527425544AE8">
 				<File Id="FiresecDll" Name="$(var.Firesec.TargetFileName)" Source="$(var.Firesec.TargetPath)"
 							DiskId="1" KeyPath="yes" />
-				<File Id="InteropFSTypes" Name="Interop.FS_Types.dll" Source="$(var.Firesec.TargetDir)"
+				<File Id="InteropFSTypes" Name="Interop.FS_Types.dll" Source="$(var.FiresecService.TargetDir)"
 							DiskId="1"/>
-				<File Id="InteropMscoree" Name="Interop.mscoree.dll" Source="$(var.Firesec.TargetDir)"
+				<File Id="InteropMscoree" Name="Interop.mscoree.dll" Source="$(var.FiresecService.TargetDir)"
 							DiskId="1"/>
 			</Component>
 
