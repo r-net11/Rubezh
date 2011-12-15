@@ -39,9 +39,7 @@ namespace PlansModule.ViewModels
         void OnZoneStateChanged(ulong? zoneNo)
         {
             if (ZoneNo == zoneNo)
-            {
                 StateType = ZoneState.StateType;
-            }
         }
 
         public string PresentationName
@@ -97,18 +95,14 @@ namespace PlansModule.ViewModels
         void OnDisable()
         {
             if (ServiceFactory.SecurityService.Validate())
-            {
                 FiresecManager.AddToIgnoreList(DevicesToIgnore);
-            }
         }
 
         public RelayCommand EnableCommand { get; private set; }
         void OnEnable()
         {
             if (ServiceFactory.SecurityService.Validate())
-            {
                 FiresecManager.RemoveFromIgnoreList(DevicesToIgnore);
-            }
         }
     }
 }

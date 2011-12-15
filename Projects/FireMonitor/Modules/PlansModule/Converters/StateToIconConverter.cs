@@ -8,11 +8,9 @@ namespace PlansModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            string icon = StateToIcon((StateType) value);
+            var icon = StateToIcon((StateType) value);
             if (icon != null)
-            {
                 return FiresecClient.FileHelper.GetIconFilePath(icon + ".ico");
-            }
             return null;
         }
 

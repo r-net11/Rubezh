@@ -41,21 +41,22 @@ namespace PlansModule.ViewModels
 
         public void DrawPlan()
         {
-            Canvas newCanvas = new Canvas();
-            
-            _canvas = newCanvas;
-
             SubPlans = new List<ElementSubPlanViewModel>();
             Zones = new List<ElementZoneViewModel>();
             Devices = new List<ElementDeviceViewModel>();
 
+            _canvas = new Canvas();
+
             _canvas.Children.Clear();
             _canvas.Width = _plan.Width;
             _canvas.Height = _plan.Height;
-            _canvas.Background = new SolidColorBrush(_plan.BackgroundColor);
             if (_plan.BackgroundPixels != null)
             {
                 _canvas.Background = PlanElementsHelper.CreateBrush(_plan.BackgroundPixels); //TODO: ~20-25 % общего времени
+            }
+            else
+            {
+                _canvas.Background = new SolidColorBrush(_plan.BackgroundColor);
             }
 
             foreach (var elementRectangle in _plan.ElementRectangles)
@@ -81,36 +82,28 @@ namespace PlansModule.ViewModels
                 SubPlans.Add(subPlanViewModel);
             }
 
-            foreach (var elementRectangleZone in _plan.ElementRectangleZones)
+            foreach (var elementRectangleZone in _plan.ElementRectangleZones.Where(x => x.ZoneNo != null))
             {
-                if (elementRectangleZone.ZoneNo != null)
-                {
-                    var elementPolygonZone = RectangleZoneToPolygon(elementRectangleZone);
-                    var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
-                    DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone, elementZoneViewModel);
-                    Zones.Add(elementZoneViewModel);
-                }
+                var elementZoneViewModel = new ElementZoneViewModel(RectangleZoneToPolygon(elementRectangleZone));
+                DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone, elementZoneViewModel);
+                Zones.Add(elementZoneViewModel);
             }
 
-            foreach (var elementPolygonZone in _plan.ElementPolygonZones)
+            foreach (var elementPolygonZone in _plan.ElementPolygonZones.Where(x => x.ZoneNo != null))
             {
-                if (elementPolygonZone.ZoneNo != null)
-                {
-                    var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
-                    DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone, elementZoneViewModel);
-                    Zones.Add(elementZoneViewModel);
-                }
+                var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
+                DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone, elementZoneViewModel);
+                Zones.Add(elementZoneViewModel);
             }
 
             foreach (var elementDevice in _plan.ElementDevices)
             {
-                //continue;
                 var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice); //TODO: ~50-60 % общего времени
                 DrawElement(elementDeviceViewModel.ElementDeviceView, elementDevice, elementDeviceViewModel);
                 Devices.Add(elementDeviceViewModel);
             }
 
-            PlansViewModel.Current.MainCanvas = newCanvas;
+            PlansViewModel.Current.MainCanvas = _canvas;
         }
 
         void DrawElement(ElementBase elementBase)
@@ -184,9 +177,7 @@ namespace PlansModule.ViewModels
         void OnPlanStateChanged(Guid planUID)
         {
             if ((_plan != null) && (_plan.UID == planUID))
-            {
                 UpdateSubPlans();
-            }
         }
 
         void UpdateSubPlans()
@@ -195,18 +186,14 @@ namespace PlansModule.ViewModels
             {
                 var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x.Plan.UID == subPlan.PlanUID);
                 if (planViewModel != null)
-                {
                     subPlan.StateType = planViewModel.StateType;
-                }
             }
         }
 
         void ResetView()
         {
             if (CanvasView.Current != null)
-            {
                 CanvasView.Current.Reset();
-            }
         }
     }
 }

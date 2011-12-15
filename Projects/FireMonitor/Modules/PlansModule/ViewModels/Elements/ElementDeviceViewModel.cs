@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -18,21 +19,36 @@ namespace PlansModule.ViewModels
 
         public ElementDeviceViewModel(ElementDevice elementDevice)
         {
+            DeviceUID = elementDevice.DeviceUID;
+            Device = elementDevice.Device;
+
+            Action initializer = new Action(Initialize);
+            IAsyncResult result = initializer.BeginInvoke(null, null);
+
+            ElementDeviceView = new ElementDeviceView(); //TODO: ~25 %
+            if (Device != null)
+            {
+                ElementDeviceView._deviceControl.DriverId = Device.Driver.UID;
+            }
+            ElementDeviceView._deviceControl.StateType = DeviceState.StateType;
+            ElementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
+                from state in DeviceState.States
+                select state.DriverState.Code);
+
+            initializer.EndInvoke(result);
+        }
+
+        void Initialize()
+        {
+            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID); // TODO: ~20%
+            if (Device != null)
+            {
+                UpdateTooltip();
+            }
             ShowInTreeCommand = new RelayCommand(OnShowInTree);
             DisableCommand = new RelayCommand(OnDisable);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
-
-            ElementDeviceView = new ElementDeviceView(); //TODO: ~25 %
-
-            DeviceUID = elementDevice.DeviceUID;
-            Device = elementDevice.Device;
-            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID); // TODO: ~20%
-            if (Device != null)
-            {
-                ElementDeviceView._deviceControl.DriverId = Device.Driver.UID;
-                OnDeviceStateChanged(DeviceUID); // TODO: ~17%
-            }
         }
 
         bool _isSelected;
@@ -45,8 +61,7 @@ namespace PlansModule.ViewModels
                 ElementDeviceView._selectationRectangle.StrokeThickness = value ? 1 : 0;
                 OnPropertyChanged("IsSelected");
 
-                if (value)
-                    ElementDeviceView.Flush();
+                if (value) ElementDeviceView.Flush();
             }
         }
 
@@ -70,9 +85,7 @@ namespace PlansModule.ViewModels
         void OnDisable()
         {
             if (ServiceFactory.SecurityService.Validate())
-            {
                 DeviceState.ChangeDisabled();
-            }
         }
 
         public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -107,34 +120,37 @@ namespace PlansModule.ViewModels
 
         void UpdateTooltip()
         {
-            string tooltip = "";
-            tooltip = Device.PresentationAddress + " - " + Device.Driver.ShortName + "\n";
+            var tooltipBuilder = new StringBuilder();
+            tooltipBuilder.Append(Device.PresentationAddress);
+            tooltipBuilder.Append(" - ");
+            tooltipBuilder.Append(Device.Driver.ShortName);
+            tooltipBuilder.Append("\n");
 
             if (DeviceState.ParentStringStates != null)
             {
                 foreach (var parentState in DeviceState.ParentStringStates)
                 {
-                    tooltip += parentState + "\n";
+                    tooltipBuilder.AppendLine(parentState);
                 }
             }
 
             foreach (var state in DeviceState.States)
             {
-                tooltip += state.DriverState.Name + "\n";
+                tooltipBuilder.AppendLine(state.DriverState.Name);
             }
 
             if (DeviceState.Parameters != null)
-                foreach (var parameter in DeviceState.Parameters)
+            {
+                var nullString = "<NULL>";
+                foreach (var parameter in DeviceState.Parameters.Where(x => x.Visible && string.IsNullOrEmpty(x.Value) == false && x.Value != nullString))
                 {
-                    if (parameter.Visible)
-                    {
-                        if ((string.IsNullOrEmpty(parameter.Value)) || (parameter.Value == "<NULL>"))
-                            continue;
-                        tooltip += parameter.Caption + " - " + parameter.Value + "\n";
-                    }
+                    tooltipBuilder.Append(parameter.Caption);
+                    tooltipBuilder.Append(" - ");
+                    tooltipBuilder.AppendLine(parameter.Value);
                 }
+            }
 
-            ToolTip = tooltip;
+            ToolTip = tooltipBuilder.ToString();
         }
     }
 }

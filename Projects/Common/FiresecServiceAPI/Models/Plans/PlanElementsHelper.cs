@@ -8,16 +8,16 @@ namespace FiresecAPI
     {
         public static Brush CreateBrush(byte[] backgroundPixels)
         {
-            BitmapImage bitmapImage = null;
             using (var imageStream = new MemoryStream(backgroundPixels))
             {
-                bitmapImage = new BitmapImage();
+                BitmapImage bitmapImage = new BitmapImage();
                 bitmapImage.BeginInit();
                 bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
                 bitmapImage.StreamSource = imageStream;
                 bitmapImage.EndInit();
+
+                return new ImageBrush(bitmapImage);
             }
-            return new ImageBrush(bitmapImage);
         }
     }
 }

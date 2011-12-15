@@ -14,7 +14,7 @@ namespace PlansModule.ViewModels
     {
         public Plan Plan;
         public List<DeviceState> DeviceStates;
-        StateType _selfState;
+        StateType _selfState = StateType.No;
 
         public PlanViewModel(Plan plan, ObservableCollection<PlanViewModel> source)
         {
@@ -58,35 +58,27 @@ namespace PlansModule.ViewModels
 
         public void UpdateSelfState()
         {
-            int minPriority = 8;
-
             foreach (var deviceState in DeviceStates)
             {
-                int priority = (int) deviceState.StateType;
-                if (priority < minPriority)
-                    minPriority = priority;
+                if (deviceState.StateType < _selfState)
+                    _selfState = deviceState.StateType;
             }
-            _selfState = (StateType) minPriority;
 
             UpdateState();
         }
 
         public void UpdateState()
         {
-            int minPriority = (int) _selfState;
+            StateType = _selfState;
 
             foreach (var planViewModel in Children)
             {
-                int priority = (int) planViewModel.StateType;
-                if (priority < minPriority)
-                    minPriority = priority;
+                if (planViewModel.StateType < StateType)
+                    StateType = planViewModel.StateType;
             }
-            StateType = (StateType) minPriority;
 
             if (Parent != null)
-            {
                 Parent.UpdateState();
-            }
         }
     }
 }

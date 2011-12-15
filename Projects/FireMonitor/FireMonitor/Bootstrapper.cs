@@ -1,11 +1,11 @@
 ﻿using System.Linq;
+using System.Windows;
 using AlarmModule.Events;
 using FireMonitor.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using System.Windows;
 
 namespace FireMonitor
 {

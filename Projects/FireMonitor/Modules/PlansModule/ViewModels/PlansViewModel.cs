@@ -109,25 +109,23 @@ namespace PlansModule.ViewModels
         {
             foreach (var planViewModel in Plans)
             {
-                foreach (var zone in planViewModel.Plan.ElementPolygonZones)
+                foreach (var zone in planViewModel.Plan.ElementPolygonZones.Where(x => x.ZoneNo.HasValue))
                 {
-                    if (zone.ZoneNo.HasValue)
-                        if (zone.ZoneNo.Value == zoneNo)
-                        {
-                            SelectedPlan = planViewModel;
-                            PlanCanvasViewModel.SelectZone(zoneNo);
-                            return;
-                        }
+                    if (zone.ZoneNo.Value == zoneNo)
+                    {
+                        SelectedPlan = planViewModel;
+                        PlanCanvasViewModel.SelectZone(zoneNo);
+                        return;
+                    }
                 }
-                foreach (var zone in planViewModel.Plan.ElementRectangleZones)
+                foreach (var zone in planViewModel.Plan.ElementRectangleZones.Where(x => x.ZoneNo.HasValue))
                 {
-                    if (zone.ZoneNo.HasValue)
-                        if (zone.ZoneNo.Value == zoneNo)
-                        {
-                            SelectedPlan = planViewModel;
-                            PlanCanvasViewModel.SelectZone(zoneNo);
-                            return;
-                        }
+                    if (zone.ZoneNo.Value == zoneNo)
+                    {
+                        SelectedPlan = planViewModel;
+                        PlanCanvasViewModel.SelectZone(zoneNo);
+                        return;
+                    }
                 }
             }
         }
