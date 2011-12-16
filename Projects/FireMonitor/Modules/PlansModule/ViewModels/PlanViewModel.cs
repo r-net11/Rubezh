@@ -58,6 +58,8 @@ namespace PlansModule.ViewModels
 
         public void UpdateSelfState()
         {
+            _selfState = StateType.No;
+
             foreach (var deviceState in DeviceStates)
             {
                 if (deviceState.StateType < _selfState)
