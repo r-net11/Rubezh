@@ -88,6 +88,7 @@
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\SetPasswordHelper.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\TelephoneLineDetailsViewModel.cs" />
     <Compile Include="Devices\Views\Actions\CustomAdminFunctionsCommandView.xaml.cs">
       <DependentUpon>CustomAdminFunctionsCommandView.xaml</DependentUpon>
     </Compile>
@@ -119,6 +120,9 @@
     </Compile>
     <Compile Include="Devices\Views\Actions\SetPasswordView.xaml.cs">
       <DependentUpon>SetPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertyDetails\TelephoneLineDetailsView.xaml.cs">
+      <DependentUpon>TelephoneLineDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Validation\Converters\ErrorLevelToColorConverter.cs" />
     <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
@@ -363,6 +367,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\Actions\SetPasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\PropertyDetails\TelephoneLineDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

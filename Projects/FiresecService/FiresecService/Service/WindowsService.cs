@@ -4,11 +4,6 @@ namespace FiresecService.Service
 {
     public class WindowsService : ServiceBase
     {
-        public WindowsService()
-        {
-
-        }
-
         protected override void OnStart(string[] args)
         {
             base.OnStart(args);

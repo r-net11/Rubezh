@@ -2,15 +2,26 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:tb="http://www.hardcodet.net/taskbar"
-        Title="Сервер Firesec" Height="600" Width="600" Icon="Firesec.ico" StateChanged="Window_StateChanged">
-    <DockPanel LastChildFill="True" Margin="5">
-        <StackPanel DockPanel.Dock="Top">
-            <Button Content="Старт" Click="OnConnect" Height="100" Margin="2" Background="YellowGreen" Foreground="White" FontSize="23" />
-            <Button Content="конвертация конфигурации" Click="OnConvertConfiguration"  Height="auto" Margin="2" Background="SkyBlue" Foreground="White" FontSize="17" />
-            <Button Content="конвертация журнала событий" Click="OnConvertJournal"  Height="auto" Margin="2" Background="SkyBlue" Foreground="White" FontSize="17" />
-            <Button Content="имитатор" Click="OnShowImitator" Height="auto" Margin="2" Background="SkyBlue" Foreground="White" FontSize="17" />
+        Title="Сервер Firesec"
+        Height="600" Width="600"
+        Icon="Firesec.ico"
+        StateChanged="Window_StateChanged">
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+    
+        <StackPanel Grid.Row="0">
+            <Button Content="Старт" Click="OnConnect" Margin="2" />
+            <Button Content="Конвертация конфигурации" Click="OnConvertConfiguration" Margin="2" />
+            <Button Content="Конвертация журнала событий" Click="OnConvertJournal" Margin="2" />
+            <Button Content="Имитатор" Click="OnShowImitator" Margin="2" />
         </StackPanel>
-        <TextBox Name="_textBox" Margin="2" />
+
+        <TextBox Grid.Row="1" Name="_textBox" Margin="2" />
+        
         <tb:TaskbarIcon x:Name="_notificationIcon" IconSource="Firesec.ico" ToolTipText="Сервер Firesec">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
@@ -23,5 +34,5 @@
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>
         </tb:TaskbarIcon>
-    </DockPanel>
+    </Grid>
 </Window>

@@ -199,6 +199,7 @@ namespace DevicesModule.ViewModels
                 case DriverType.Compressor:
                 case DriverType.CompensationPump:
                 case DriverType.Direction:
+                case DriverType.UOO_TL:
                     return true;
             }
             return false;
@@ -226,6 +227,10 @@ namespace DevicesModule.ViewModels
 
                 case DriverType.Direction:
                     DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new GroupDetailsViewModel(Device));
+                    break;
+
+                case DriverType.UOO_TL:
+                    DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new TelephoneLineDetailsViewModel(Device));
                     break;
             }
             OnPropertyChanged("PresentationZone");

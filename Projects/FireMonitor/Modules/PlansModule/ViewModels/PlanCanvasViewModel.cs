@@ -11,6 +11,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
 using PlansModule.Views;
+using System.ComponentModel;
+using System.Threading;
 
 namespace PlansModule.ViewModels
 {
@@ -83,19 +85,19 @@ namespace PlansModule.ViewModels
                 SubPlans.Add(subPlanViewModel);
             }
 
-            foreach (var elementRectangleZone in _plan.ElementRectangleZones.Where(x => x.ZoneNo != null))
-            {
-                var elementZoneViewModel = new ElementZoneViewModel(RectangleZoneToPolygon(elementRectangleZone));
-                DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone, elementZoneViewModel);
-                Zones.Add(elementZoneViewModel);
-            }
+            //foreach (var elementRectangleZone in _plan.ElementRectangleZones.Where(x => x.ZoneNo != null))
+            //{
+            //    var elementZoneViewModel = new ElementZoneViewModel(RectangleZoneToPolygon(elementRectangleZone));
+            //    DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone, elementZoneViewModel);
+            //    Zones.Add(elementZoneViewModel);
+            //}
 
-            foreach (var elementPolygonZone in _plan.ElementPolygonZones.Where(x => x.ZoneNo != null))
-            {
-                var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
-                DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone, elementZoneViewModel);
-                Zones.Add(elementZoneViewModel);
-            }
+            //foreach (var elementPolygonZone in _plan.ElementPolygonZones.Where(x => x.ZoneNo != null))
+            //{
+            //    var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
+            //    DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone, elementZoneViewModel);
+            //    Zones.Add(elementZoneViewModel);
+            //}
 
             foreach (var elementDevice in _plan.ElementDevices)
             {
@@ -126,11 +128,27 @@ namespace PlansModule.ViewModels
 
         void DrawDevices()
         {
+            //return;
+            foreach (var elementRectangleZone in _plan.ElementRectangleZones.Where(x => x.ZoneNo != null))
+            {
+                var elementZoneViewModel = new ElementZoneViewModel(RectangleZoneToPolygon(elementRectangleZone));
+                DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone, elementZoneViewModel);
+                Zones.Add(elementZoneViewModel);
+            }
+
+            foreach (var elementPolygonZone in _plan.ElementPolygonZones.Where(x => x.ZoneNo != null))
+            {
+                var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
+                DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone, elementZoneViewModel);
+                Zones.Add(elementZoneViewModel);
+            }
+
             foreach (var elementDeviceViewModel in Devices)
             {
                 elementDeviceViewModel.DrawElementDevice();
-                if (elementDeviceViewModel.ElementDeviceView.Parent == null)
-                    _canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
+                if (elementDeviceViewModel.ElementDeviceView.Parent != null)
+                    return;
+                _canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
             }
         }
 

@@ -9,6 +9,9 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
         <Label Grid.Column="0" Content="Время выхода на режим" HorizontalAlignment="Right" />
         <extToolkit:IntegerUpDown Grid.Column="1" Value="{Binding Timeout}" Minimum="2" />
     </Grid>

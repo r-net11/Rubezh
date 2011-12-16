@@ -54,8 +54,7 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("A7BB2FD0-0088-49AE-8C04-7D6FA22C79D6", 0, "БУНС-2", DriverType.BUNS_2));
             DriverDataList.Add(new DriverData("F966D47B-468D-40A5-ACA7-9BE30D0A3847", 0, "Модуль сопряжения МС-3", DriverType.MS_3));
             DriverDataList.Add(new DriverData("{868ED643-0ED6-48CD-A0E0-4AD46104C419}", 0, "Модуль сопряжения МС-4", DriverType.MS_4));
-            DriverDataList.Add(new DriverData("{584BC59A-28D5-430B-90BF-592E40E843A6}", 0, "Устройство оконечное объектовое", DriverType.UOO));
-            DriverDataList.Add(new DriverData("{584BC59A-28D5-430B-90BF-592E40E843A6}", 0, "Модуль доставки сообщений", DriverType.MessagePostModule));
+            DriverDataList.Add(new DriverData("{584BC59A-28D5-430B-90BF-592E40E843A6}", 0, "Устройство оконечное объектовое", DriverType.UOO_TL));
             DriverDataList.Add(new DriverData("28A7487A-BA32-486C-9955-E251AF2E9DD4", 0, "Блок индикации", DriverType.IndicationBlock));
             DriverDataList.Add(new DriverData("E750EF8F-54C3-4B00-8C72-C7BEC9E59BFC", 0, "Прибор Рубеж-10AM", DriverType.Rubezh_10AM));
             DriverDataList.Add(new DriverData("F3485243-2F60-493B-8A4E-338C61EF6581", 0, "Прибор Рубеж-4A", DriverType.Rubezh_4A));
