@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -18,5 +19,12 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public StateType StateType { get; set; }
+
+        public event Action StateChanged;
+        public void OnStateChanged()
+        {
+            if (StateChanged != null)
+                StateChanged();
+        }
     }
 }

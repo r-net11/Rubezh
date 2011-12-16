@@ -68,13 +68,11 @@ namespace JournalModule.ViewModels
                 Device device = null;
                 if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
                 {
-                    device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
-                         x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+                    device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
                 }
                 else
                 {
-                    device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
-                           x => x.DatabaseId == journalRecord.PanelDatabaseId);
+                    device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.PanelDatabaseId);
                 }
 
                 if ((result = (device != null)))

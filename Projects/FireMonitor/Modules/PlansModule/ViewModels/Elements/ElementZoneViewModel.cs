@@ -21,41 +21,27 @@ namespace PlansModule.ViewModels
             ShowInTreeCommand = new RelayCommand(OnShowInTree);
             DisableCommand = new RelayCommand(OnDisable);
             EnableCommand = new RelayCommand(OnEnable);
-            FiresecEventSubscriber.ZoneStateChangedEvent += OnZoneStateChanged;
 
             ZoneNo = elementPolygonZone.ZoneNo;
             Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
             ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
+            ZoneState.StateChanged += new Action(ZoneState_StateChanged);
 
             ElementZoneView = new ElementZoneView();
             foreach (var polygonPoint in elementPolygonZone.PolygonPoints)
             {
                 ElementZoneView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
-
-            OnZoneStateChanged(ZoneNo);
         }
 
-        void OnZoneStateChanged(ulong? zoneNo)
+        void ZoneState_StateChanged()
         {
-            if (ZoneNo == zoneNo)
-                StateType = ZoneState.StateType;
+            OnPropertyChanged("ZoneState");
         }
 
         public string PresentationName
         {
             get { return "Зона " + Zone.No + "." + Zone.Name; }
-        }
-
-        StateType _stateType;
-        public StateType StateType
-        {
-            get { return _stateType; }
-            set
-            {
-                _stateType = value;
-                OnPropertyChanged("StateType");
-            }
         }
 
         bool _isSelected;

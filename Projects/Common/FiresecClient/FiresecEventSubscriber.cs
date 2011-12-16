@@ -39,6 +39,8 @@ namespace FiresecClient
                     }
                 }
 
+                deviceState.OnStateChanged();
+
                 OnDeviceStateChanged(deviceState.UID);
             }
         }
@@ -58,6 +60,7 @@ namespace FiresecClient
             var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == newZoneState.No);
             zoneState.StateType = newZoneState.StateType;
             zoneState.RevertColorsForGuardZone = IsZoneOnGuard(newZoneState);
+            zoneState.OnStateChanged();
             OnZoneStateChanged(zoneState.No);
         }
 
@@ -108,9 +111,6 @@ namespace FiresecClient
         {
             if (DeviceStateChangedEvent != null)
                 DeviceStateChangedEvent(deviceUID);
-
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
-            deviceState.OnStateChanged();
         }
 
         public static event Action<Guid> DeviceParametersChangedEvent;

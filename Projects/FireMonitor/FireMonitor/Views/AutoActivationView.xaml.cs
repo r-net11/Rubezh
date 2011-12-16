@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
@@ -50,34 +51,12 @@ namespace FireMonitor
         void OnChangeAutoActivation()
         {
             IsAutoActivation = !IsAutoActivation;
-
-            //if (IsAutoActivation)
-            //{
-            //    FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewEvent);
-            //    IsAutoActivation = false;
-            //}
-            //else
-            //{
-            //    FiresecEventSubscriber.NewJournalRecordEvent -= new Action<JournalRecord>(OnNewEvent);
-            //    IsAutoActivation = true;
-            //}
         }
 
         public RelayCommand ChangePlansAutoActivationCommand { get; private set; }
         void OnChangePlansAutoActivation()
         {
             IsPlansAutoActivation = !IsPlansAutoActivation;
-
-            //if (IsAutoActivation)
-            //{
-            //    FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewEvent);
-            //    IsAutoActivation = false;
-            //}
-            //else
-            //{
-            //    FiresecEventSubscriber.NewJournalRecordEvent -= new Action<JournalRecord>(OnNewEvent);
-            //    IsAutoActivation = true;
-            //}
         }
 
         void OnNewJournalRecord(JournalRecord journalRecord)
@@ -86,13 +65,18 @@ namespace FireMonitor
             {
                 if (!App.Current.MainWindow.IsActive)
                 {
-                    App.Current.MainWindow.WindowState = WindowState.Maximized;
+                    //App.Current.MainWindow.WindowState = WindowState.Maximized;
                     App.Current.MainWindow.Activate();
                 }
             }
             if (IsPlansAutoActivation)
             {
-                ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
+                if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
+                {
+                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+                    if (device != null)
+                        ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(device.UID);
+                }
             }
         }
 
