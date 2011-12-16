@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Controls;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -13,42 +14,50 @@ namespace PlansModule.ViewModels
     public class ElementDeviceViewModel : BaseViewModel
     {
         public ElementDeviceView ElementDeviceView { get; private set; }
+        ElementDevice ElementDevice;
+        public Guid DeviceUID { get; private set; }
         Device Device;
         DeviceState DeviceState;
-        public Guid DeviceUID { get; private set; }
 
         public ElementDeviceViewModel(ElementDevice elementDevice)
         {
-            DeviceUID = elementDevice.DeviceUID;
-            Device = elementDevice.Device;
-
-            Action initializer = new Action(Initialize);
-            IAsyncResult result = initializer.BeginInvoke(null, null);
-
-            ElementDeviceView = new ElementDeviceView(); //TODO: ~25 %
-            if (Device != null)
-            {
-                ElementDeviceView._deviceControl.DriverId = Device.Driver.UID;
-            }
-            ElementDeviceView._deviceControl.StateType = DeviceState.StateType;
-            ElementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
-                from state in DeviceState.States
-                select state.DriverState.Code);
-
-            initializer.EndInvoke(result);
-        }
-
-        void Initialize()
-        {
-            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID); // TODO: ~20%
-            if (Device != null)
-            {
-                UpdateTooltip();
-            }
             ShowInTreeCommand = new RelayCommand(OnShowInTree);
             DisableCommand = new RelayCommand(OnDisable);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
+
+            ElementDevice = elementDevice;
+            DeviceUID = elementDevice.DeviceUID;
+            Device = elementDevice.Device;
+            DeviceState = elementDevice.DeviceState;
+        }
+
+        object locker = new object();
+
+        public void DrawElementDevice()
+        {
+            lock (locker)
+            {
+                if (ElementDeviceView != null)
+                    return;
+
+                ElementDeviceView = new ElementDeviceView()
+                {
+                    DataContext = this
+                };
+            }
+            ElementDeviceView._deviceControl.IsManualUpdate = true;
+
+            ElementDeviceView.Width = ElementDevice.Width;
+            ElementDeviceView.Height = ElementDevice.Height;
+            Canvas.SetLeft(ElementDeviceView, ElementDevice.Left);
+            Canvas.SetTop(ElementDeviceView, ElementDevice.Top);
+
+            if (Device != null)
+            {
+                ElementDeviceView._deviceControl.DriverId = Device.Driver.UID;
+                OnDeviceStateChanged(Device.UID);
+            }
         }
 
         bool _isSelected;
@@ -58,10 +67,14 @@ namespace PlansModule.ViewModels
             set
             {
                 _isSelected = value;
+                DrawElementDevice();
                 ElementDeviceView._selectationRectangle.StrokeThickness = value ? 1 : 0;
                 OnPropertyChanged("IsSelected");
 
-                if (value) ElementDeviceView.Flush();
+                if (value)
+                {
+                    ElementDeviceView.Flush();
+                }
             }
         }
 
@@ -102,6 +115,7 @@ namespace PlansModule.ViewModels
                 ElementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
                     from state in DeviceState.States
                     select state.DriverState.Code);
+                ElementDeviceView._deviceControl.Update();
 
                 UpdateTooltip();
             }
@@ -120,23 +134,23 @@ namespace PlansModule.ViewModels
 
         void UpdateTooltip()
         {
-            var tooltipBuilder = new StringBuilder();
-            tooltipBuilder.Append(Device.PresentationAddress);
-            tooltipBuilder.Append(" - ");
-            tooltipBuilder.Append(Device.Driver.ShortName);
-            tooltipBuilder.Append("\n");
+            var stringBuilder = new StringBuilder();
+            stringBuilder.Append(Device.PresentationAddress);
+            stringBuilder.Append(" - ");
+            stringBuilder.Append(Device.Driver.ShortName);
+            stringBuilder.Append("\n");
 
             if (DeviceState.ParentStringStates != null)
             {
                 foreach (var parentState in DeviceState.ParentStringStates)
                 {
-                    tooltipBuilder.AppendLine(parentState);
+                    stringBuilder.AppendLine(parentState);
                 }
             }
 
             foreach (var state in DeviceState.States)
             {
-                tooltipBuilder.AppendLine(state.DriverState.Name);
+                stringBuilder.AppendLine(state.DriverState.Name);
             }
 
             if (DeviceState.Parameters != null)
@@ -144,13 +158,13 @@ namespace PlansModule.ViewModels
                 var nullString = "<NULL>";
                 foreach (var parameter in DeviceState.Parameters.Where(x => x.Visible && string.IsNullOrEmpty(x.Value) == false && x.Value != nullString))
                 {
-                    tooltipBuilder.Append(parameter.Caption);
-                    tooltipBuilder.Append(" - ");
-                    tooltipBuilder.AppendLine(parameter.Value);
+                    stringBuilder.Append(parameter.Caption);
+                    stringBuilder.Append(" - ");
+                    stringBuilder.AppendLine(parameter.Value);
                 }
             }
 
-            ToolTip = tooltipBuilder.ToString();
+            ToolTip = stringBuilder.ToString();
         }
     }
 }

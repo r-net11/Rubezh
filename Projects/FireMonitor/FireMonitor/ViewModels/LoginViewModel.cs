@@ -77,7 +77,8 @@ namespace FireMonitor.ViewModels
             switch (_passwordViewType)
             {
                 case PasswordViewType.Connect:
-                    message = FiresecManager.Connect(UserName, Password);
+                    string serverAddress = ConfigurationManager.AppSettings["TCPBaseAddress"] as string;
+                    message = FiresecManager.Connect(serverAddress, UserName, Password);
                     break;
 
                 case PasswordViewType.Reconnect:

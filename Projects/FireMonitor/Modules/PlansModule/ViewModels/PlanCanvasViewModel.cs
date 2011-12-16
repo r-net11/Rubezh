@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
@@ -24,8 +25,6 @@ namespace PlansModule.ViewModels
 
         public PlanCanvasViewModel(Canvas canvas)
         {
-            //_canvas = canvas;
-            //_canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
             ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
             ServiceFactory.Events.GetEvent<ElementDeviceSelectedEvent>().Subscribe(OnElementDeviceSelected);
             ServiceFactory.Events.GetEvent<ElementZoneSelectedEvent>().Subscribe(OnElementZoneSelected);
@@ -41,6 +40,8 @@ namespace PlansModule.ViewModels
 
         public void DrawPlan()
         {
+            _canvas = new Canvas();
+            _canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
             SubPlans = new List<ElementSubPlanViewModel>();
             Zones = new List<ElementZoneViewModel>();
             Devices = new List<ElementDeviceViewModel>();
@@ -98,12 +99,39 @@ namespace PlansModule.ViewModels
 
             foreach (var elementDevice in _plan.ElementDevices)
             {
-                var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice); //TODO: ~50-60 % общего времени
-                DrawElement(elementDeviceViewModel.ElementDeviceView, elementDevice, elementDeviceViewModel);
+                var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice);
                 Devices.Add(elementDeviceViewModel);
             }
 
+            DrawDevicesAsync();
+
             PlansViewModel.Current.MainCanvas = _canvas;
+        }
+
+        DispatcherTimer DispatcherTimer;
+
+        public void DrawDevicesAsync()
+        {
+            DispatcherTimer = new DispatcherTimer();
+            DispatcherTimer.Tick += new EventHandler(DispatcherTimer_Tick);
+            DispatcherTimer.Interval = TimeSpan.FromMilliseconds(1);
+            DispatcherTimer.IsEnabled = true;
+        }
+
+        void DispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            DispatcherTimer.IsEnabled = false;
+            DrawDevices();
+        }
+
+        void DrawDevices()
+        {
+            foreach (var elementDeviceViewModel in Devices)
+            {
+                elementDeviceViewModel.DrawElementDevice();
+                if (elementDeviceViewModel.ElementDeviceView.Parent == null)
+                    _canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
+            }
         }
 
         void DrawElement(ElementBase elementBase)

@@ -25,6 +25,7 @@
         BUNS_2,
         MS_3,
         MS_4,
+        UOO,
         MessagePostModule,
         IndicationBlock,
         Rubezh_10AM,

@@ -100,7 +100,6 @@ namespace FiresecService
                                 if (parameter.Value != innerParameter.value && parameter.Visible)
                                 {
                                     ChangedDevices.Add(deviceState);
-                                    Trace.WriteLine("xxx OnParametersChanged");
                                 }
                                 parameter.Value = innerParameter.value;
                             }
@@ -181,7 +180,6 @@ namespace FiresecService
                 if (hasOneChangedState)
                 {
                     ChangedDevices.Add(deviceState);
-                    Trace.WriteLine("xxx SetStates");
                 }
             }
         }
@@ -214,7 +212,6 @@ namespace FiresecService
                             {
                                 chilDevice.ParentStates.Add(parentDeviceState);
                                 ChangedDevices.Add(chilDevice);
-                                Trace.WriteLine("xxx PropogateStates Start");
                             }
                             else
                             {
@@ -234,7 +231,6 @@ namespace FiresecService
                     {
                         deviceState.ParentStates.RemoveAt(i - 1);
                         ChangedDevices.Add(deviceState);
-                        Trace.WriteLine("xxx PropogateStates End");
                     }
                 }
             }

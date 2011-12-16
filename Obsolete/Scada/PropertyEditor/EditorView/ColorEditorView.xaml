@@ -1,5 +1,0 @@
-﻿<UserControl x:Class="PropertyEditor.ColorEditorView"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ComboBox ItemsSource="{Binding StringColors}" SelectedValue="{Binding StringSelectedColor, Mode=TwoWay}" />
-</UserControl>

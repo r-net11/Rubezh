@@ -11,7 +11,7 @@ namespace FiresecClient
         static FiresecEventSubscriber _firesecEventSubscriber;
         static DuplexChannelFactory<IFiresecService> _duplexChannelFactory;
 
-        public static IFiresecService Create()
+        public static IFiresecService Create(string serverAddress)
         {
             var binding = new NetTcpBinding();
             binding.MaxBufferPoolSize = Int32.MaxValue;
@@ -29,7 +29,7 @@ namespace FiresecClient
             binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
             binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
 
-            var endpointAddress = new EndpointAddress(new Uri(ConfigurationManager.AppSettings["TCPBaseAddress"] as string));
+            var endpointAddress = new EndpointAddress(new Uri(serverAddress));
 
             _firesecEventSubscriber = new FiresecEventSubscriber();
             _duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecEventSubscriber), binding, endpointAddress);

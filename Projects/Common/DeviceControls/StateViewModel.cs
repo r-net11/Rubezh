@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace DeviceControls
 {
@@ -33,7 +34,8 @@ namespace DeviceControls
                 stateCanvases.Add(canvas);
             }
             _canvases[0].Visibility = Visibility.Visible;
-            if (_frames.Count <= 1) return;
+            if (_frames.Count <= 1)
+                return;
             Timer.Tick += OnTick;
         }
 

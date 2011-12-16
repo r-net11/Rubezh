@@ -1,11 +1,10 @@
-﻿<project name="Simple" default="run">
+<project name="Simple" default="run">
 	<property name="nant.settings.currentframework" value="net-4.0" />
 	<property name="debug" value="true"/>
 	<property name="intellectFolder" value="..\ItvIntegration"/>
 
 	<target name="run">		
 		<call target="Clean" />
-		<call target="Compile" />
 		<call target="CopyFiles" />
 	</target>
 	

@@ -19,9 +19,9 @@ namespace FiresecClient
 
         static public SafeFiresecService FiresecService { get; private set; }
 
-        public static string Connect(string login, string password)
+        public static string Connect(string serverAddress, string login, string password)
         {
-            FiresecService = new SafeFiresecService(FiresecServiceFactory.Create());
+            FiresecService = new SafeFiresecService(FiresecServiceFactory.Create(serverAddress));
 
             string result = FiresecService.Connect(login, password);
             if (result != null)
@@ -114,6 +114,11 @@ namespace FiresecClient
                     else
                     {
                         plan.ElementDevices.RemoveAt(i - 1);
+                    }
+                    var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                    if (deviceState != null)
+                    {
+                        elementDevice.DeviceState = deviceState;
                     }
                 }
 

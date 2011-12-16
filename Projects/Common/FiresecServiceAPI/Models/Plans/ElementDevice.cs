@@ -15,6 +15,7 @@ namespace FiresecAPI.Models
         }
 
         public Device Device { get; set; }
+        public DeviceState DeviceState { get; set; }
 
         [DataMember]
         public Guid DeviceUID { get; set; }

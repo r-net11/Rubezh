@@ -9,7 +9,7 @@ namespace ItvIntegration
     {
         public void Initialize()
         {
-            var result = FiresecManager.Connect("adm", "");
+            var result = FiresecManager.Connect("net.tcp://localhost:8000/FiresecService/", "adm", "");
             if (result != null)
             {
                 MessageBox.Show(result);
