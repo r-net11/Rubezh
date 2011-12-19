@@ -15,7 +15,6 @@
                         <ScaleTransform x:Name="scaleTransform"/>
                     </TransformGroup>
                 </Grid.LayoutTransform>
-                <!--<Canvas Name="_canvas" />-->
                 <ContentControl Name="_contentControl" Background="White" HorizontalAlignment="Left"
                             Content="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}, Path=DataContext.MainCanvas}" />
             </Grid>

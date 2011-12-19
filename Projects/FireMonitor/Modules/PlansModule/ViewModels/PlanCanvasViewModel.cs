@@ -4,151 +4,115 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
 using PlansModule.Views;
-using System.ComponentModel;
-using System.Threading;
 
 namespace PlansModule.ViewModels
 {
     public class PlanCanvasViewModel : RegionViewModel
     {
-        Plan _plan;
-        Canvas _canvas;
+        public Plan Plan { get; private set; }
+        public Canvas Canvas { get; private set; }
 
         public List<ElementSubPlanViewModel> SubPlans { get; set; }
         public List<ElementZoneViewModel> Zones { get; set; }
         public List<ElementDeviceViewModel> Devices { get; set; }
 
-        public PlanCanvasViewModel(Canvas canvas)
+        public PlanCanvasViewModel(Plan plan)
         {
+            Plan = plan;
+            DrawPlan();
+
             ServiceFactory.Events.GetEvent<PlanStateChangedEvent>().Subscribe(OnPlanStateChanged);
             ServiceFactory.Events.GetEvent<ElementDeviceSelectedEvent>().Subscribe(OnElementDeviceSelected);
             ServiceFactory.Events.GetEvent<ElementZoneSelectedEvent>().Subscribe(OnElementZoneSelected);
         }
 
-        public void Initialize(Plan plan)
+        public void Update()
         {
-            _plan = plan;
-            DrawPlan();
             UpdateSubPlans();
             ResetView();
         }
 
         public void DrawPlan()
         {
-            _canvas = new Canvas();
-            _canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
+            Canvas = new Canvas();
+            Canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
             SubPlans = new List<ElementSubPlanViewModel>();
             Zones = new List<ElementZoneViewModel>();
             Devices = new List<ElementDeviceViewModel>();
 
-            _canvas = new Canvas();
+            Canvas = new Canvas();
 
-            _canvas.Children.Clear();
-            _canvas.Width = _plan.Width;
-            _canvas.Height = _plan.Height;
-            if (_plan.BackgroundPixels != null)
+            Canvas.Children.Clear();
+            Canvas.Width = Plan.Width;
+            Canvas.Height = Plan.Height;
+            if (Plan.BackgroundPixels != null)
             {
-                _canvas.Background = PlanElementsHelper.CreateBrush(_plan.BackgroundPixels); //TODO: ~20-25 % общего времени
+                Canvas.Background = PlanElementsHelper.CreateBrush(Plan.BackgroundPixels); //TODO: ~20-25 % общего времени
             }
             else
             {
-                _canvas.Background = new SolidColorBrush(_plan.BackgroundColor);
+                Canvas.Background = new SolidColorBrush(Plan.BackgroundColor);
             }
 
-            foreach (var elementRectangle in _plan.ElementRectangles)
+            foreach (var elementRectangle in Plan.ElementRectangles)
             {
                 DrawElement(elementRectangle);
             }
-            foreach (var elementEllipse in _plan.ElementEllipses)
+            foreach (var elementEllipse in Plan.ElementEllipses)
             {
                 DrawElement(elementEllipse);
             }
-            foreach (var elementTextBlock in _plan.ElementTextBlocks)
+            foreach (var elementTextBlock in Plan.ElementTextBlocks)
             {
                 DrawElement(elementTextBlock);
             }
-            foreach (var elementPolygon in _plan.ElementPolygons)
+            foreach (var elementPolygon in Plan.ElementPolygons)
             {
                 DrawElement(elementPolygon);
             }
-            foreach (var elementSubPlan in _plan.ElementSubPlans)
+            foreach (var elementSubPlan in Plan.ElementSubPlans)
             {
                 var subPlanViewModel = new ElementSubPlanViewModel(elementSubPlan);
                 DrawElement(subPlanViewModel.ElementSubPlanView, elementSubPlan, subPlanViewModel);
                 SubPlans.Add(subPlanViewModel);
             }
 
-            //foreach (var elementRectangleZone in _plan.ElementRectangleZones.Where(x => x.ZoneNo != null))
-            //{
-            //    var elementZoneViewModel = new ElementZoneViewModel(RectangleZoneToPolygon(elementRectangleZone));
-            //    DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone, elementZoneViewModel);
-            //    Zones.Add(elementZoneViewModel);
-            //}
-
-            //foreach (var elementPolygonZone in _plan.ElementPolygonZones.Where(x => x.ZoneNo != null))
-            //{
-            //    var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
-            //    DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone, elementZoneViewModel);
-            //    Zones.Add(elementZoneViewModel);
-            //}
-
-            foreach (var elementDevice in _plan.ElementDevices)
-            {
-                var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice);
-                Devices.Add(elementDeviceViewModel);
-            }
-
-            DrawDevicesAsync();
-
-            PlansViewModel.Current.MainCanvas = _canvas;
-        }
-
-        DispatcherTimer DispatcherTimer;
-
-        public void DrawDevicesAsync()
-        {
-            DispatcherTimer = new DispatcherTimer();
-            DispatcherTimer.Tick += new EventHandler(DispatcherTimer_Tick);
-            DispatcherTimer.Interval = TimeSpan.FromMilliseconds(1);
-            DispatcherTimer.IsEnabled = true;
-        }
-
-        void DispatcherTimer_Tick(object sender, EventArgs e)
-        {
-            DispatcherTimer.IsEnabled = false;
-            DrawDevices();
-        }
-
-        void DrawDevices()
-        {
-            //return;
-            foreach (var elementRectangleZone in _plan.ElementRectangleZones.Where(x => x.ZoneNo != null))
+            foreach (var elementRectangleZone in Plan.ElementRectangleZones.Where(x => x.ZoneNo != null))
             {
                 var elementZoneViewModel = new ElementZoneViewModel(RectangleZoneToPolygon(elementRectangleZone));
                 DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone, elementZoneViewModel);
                 Zones.Add(elementZoneViewModel);
             }
 
-            foreach (var elementPolygonZone in _plan.ElementPolygonZones.Where(x => x.ZoneNo != null))
+            foreach (var elementPolygonZone in Plan.ElementPolygonZones.Where(x => x.ZoneNo != null))
             {
                 var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
                 DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone, elementZoneViewModel);
                 Zones.Add(elementZoneViewModel);
             }
 
+            foreach (var elementDevice in Plan.ElementDevices)
+            {
+                var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice);
+                Devices.Add(elementDeviceViewModel);
+            }
+            DrawDevices();
+        }
+
+        void DrawDevices()
+        {
             foreach (var elementDeviceViewModel in Devices)
             {
                 elementDeviceViewModel.DrawElementDevice();
                 if (elementDeviceViewModel.ElementDeviceView.Parent != null)
                     return;
-                _canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
+                Canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
             }
         }
 
@@ -159,7 +123,7 @@ namespace PlansModule.ViewModels
             frameworkElement.Height = elementBase.Height;
             Canvas.SetLeft(frameworkElement, elementBase.Left);
             Canvas.SetTop(frameworkElement, elementBase.Top);
-            _canvas.Children.Add(frameworkElement);
+            Canvas.Children.Add(frameworkElement);
         }
 
         void DrawElement(UserControl userControl, ElementBase elementBase, BaseViewModel elementViewModel)
@@ -169,7 +133,7 @@ namespace PlansModule.ViewModels
             userControl.Height = elementBase.Height;
             Canvas.SetLeft(userControl, elementBase.Left);
             Canvas.SetTop(userControl, elementBase.Top);
-            _canvas.Children.Add(userControl);
+            Canvas.Children.Add(userControl);
         }
 
         ElementPolygonZone RectangleZoneToPolygon(ElementRectangleZone elementRectangleZone)
@@ -222,7 +186,7 @@ namespace PlansModule.ViewModels
 
         void OnPlanStateChanged(Guid planUID)
         {
-            if ((_plan != null) && (_plan.UID == planUID))
+            if ((Plan != null) && (Plan.UID == planUID))
                 UpdateSubPlans();
         }
 

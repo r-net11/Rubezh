@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
@@ -13,20 +14,34 @@ namespace PlansModule.ViewModels
 {
     public class PlansViewModel : RegionViewModel
     {
-        public PlanCanvasViewModel PlanCanvasViewModel { get; set; }
+        public PlanCanvasViewModel SelectedPlanCanvasViewModel { get; set; }
         public static PlansViewModel Current;
 
         public PlansViewModel()
         {
             Current = this;
             MainCanvas = new Canvas();
-            PlanCanvasViewModel = new PlanCanvasViewModel(MainCanvas);
             ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
+
+            DrawAllPlans();
 
             Plans = new ObservableCollection<PlanViewModel>();
             BuildTree();
             if (Plans.IsNotNullOrEmpty())
                 SelectedPlan = Plans[0];
+        }
+
+        List<PlanCanvasViewModel> PlanCanvasViewModels;
+
+        void DrawAllPlans()
+        {
+            PlanCanvasViewModels = new List<PlanCanvasViewModel>();
+
+            foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+            {
+                var planCanvasViewModel = new PlanCanvasViewModel(plan);
+                PlanCanvasViewModels.Add(planCanvasViewModel);
+            }
         }
 
         void BuildTree()
@@ -82,7 +97,9 @@ namespace PlansModule.ViewModels
             set
             {
                 _selectedPlan = value;
-                PlanCanvasViewModel.Initialize(value.Plan);
+                SelectedPlanCanvasViewModel = PlanCanvasViewModels.FirstOrDefault(x => x.Plan.UID == value.Plan.UID);
+                SelectedPlanCanvasViewModel.Update();
+                MainCanvas = SelectedPlanCanvasViewModel.Canvas;
                 OnPropertyChanged("SelectedPlan");
             }
         }
@@ -99,7 +116,7 @@ namespace PlansModule.ViewModels
                 if (planViewModel.DeviceStates.Any(x => x.UID == deviceUID))
                 {
                     SelectedPlan = planViewModel;
-                    PlanCanvasViewModel.SelectDevice(deviceUID);
+                    SelectedPlanCanvasViewModel.SelectDevice(deviceUID);
                     return;
                 }
             }
@@ -114,7 +131,7 @@ namespace PlansModule.ViewModels
                     if (zone.ZoneNo.Value == zoneNo)
                     {
                         SelectedPlan = planViewModel;
-                        PlanCanvasViewModel.SelectZone(zoneNo);
+                        SelectedPlanCanvasViewModel.SelectZone(zoneNo);
                         return;
                     }
                 }
@@ -123,7 +140,7 @@ namespace PlansModule.ViewModels
                     if (zone.ZoneNo.Value == zoneNo)
                     {
                         SelectedPlan = planViewModel;
-                        PlanCanvasViewModel.SelectZone(zoneNo);
+                        SelectedPlanCanvasViewModel.SelectZone(zoneNo);
                         return;
                     }
                 }
