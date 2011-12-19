@@ -13,4 +13,5 @@
   <?define SoundsFolder="Sounds"?>
   <?define ReportTemplatesFolder="ReportTemplates"?>
   <?define Codepage="1251" ?>
+  <?define BrandName="Firesec"?>
 </Include>
