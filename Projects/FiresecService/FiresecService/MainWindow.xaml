@@ -4,20 +4,21 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         Title="Сервер Firesec"
         Height="600" Width="600"
+        Background="Black"
         Icon="Firesec.ico"
         StateChanged="Window_StateChanged">
     
-    <Grid>
+    <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
     
         <StackPanel Grid.Row="0">
-            <Button Content="Старт" Click="OnConnect" Margin="2" />
-            <Button Content="Конвертация конфигурации" Click="OnConvertConfiguration" Margin="2" />
-            <Button Content="Конвертация журнала событий" Click="OnConvertJournal" Margin="2" />
-            <Button Content="Имитатор" Click="OnShowImitator" Margin="2" />
+            <Button Content="Старт" Click="OnConnect" Margin="1" />
+            <Button Content="Конвертация конфигурации" Click="OnConvertConfiguration" Margin="1" />
+            <Button Content="Конвертация журнала событий" Click="OnConvertJournal" Margin="1" />
+            <Button Content="Имитатор" Click="OnShowImitator" Margin="1" />
         </StackPanel>
 
         <TextBox Grid.Row="1" Name="_textBox" Margin="2" />

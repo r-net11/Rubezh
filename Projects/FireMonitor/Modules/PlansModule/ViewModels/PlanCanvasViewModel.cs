@@ -194,7 +194,7 @@ namespace PlansModule.ViewModels
         {
             foreach (var subPlan in SubPlans)
             {
-                var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x.Plan.UID == subPlan.PlanUID);
+                var planViewModel = PlansViewModel.Current.Plans.FirstOrDefault(x => x.Plan.UID == subPlan.ElementSubPlan.PlanUID);
                 if (planViewModel != null)
                     subPlan.StateType = planViewModel.StateType;
             }

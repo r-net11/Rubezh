@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.6"
-                 ToolTip="{Binding PresentationName}" Fill="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
+                 ToolTip="{Binding ElementSubPlan.PresentationName}" Fill="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
                  MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave" PreviewMouseLeftButtonDown="_polygon_PreviewMouseLeftButtonDown">
     </Polygon>
 </UserControl>

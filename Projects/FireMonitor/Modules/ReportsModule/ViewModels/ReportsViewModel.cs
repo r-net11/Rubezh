@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Common;
 using ReportsModule.Reports;
 using SAPBusinessObjects.WPF.Viewer;
+using System.Collections.Generic;
 
 namespace ReportsModule.ViewModels
 {
@@ -8,14 +9,20 @@ namespace ReportsModule.ViewModels
     {
         public ReportsViewModel()
         {
-            ShowJournalReportCommand = new RelayCommand(OnShowJournalReportCommand);
-            ShowDeviceListReportCommand = new RelayCommand(OnShowDeviceListReportCommand);
-            ShowDeviceParamsReportCommand = new RelayCommand(OnShowDeviceParamsReportCommand);
-            ShowDriverCountReportCommand = new RelayCommand(OnShowDriverCountReportCommand);
-            ShowIndicationBlockReportCommand = new RelayCommand(OnShowIndicationBlockReportCommand);
+            ReportNames = new List<string>();
+            ReportNames.Add("");
+            ReportNames.Add("Блоки индикации");
+            ReportNames.Add("Журнал событий");
+            ReportNames.Add("Количество устройств по типам");
+            ReportNames.Add("Параметры устройств");
+            ReportNames.Add("Список устройств");
         }
 
-        public CrystalReportsViewer CrystalReportsViewer { get; set; }
+        void ShowCrystalReport(BaseReport baseReport)
+        {
+            baseReport.LoadData();
+            ReportContent = baseReport.CreateCrystalReportViewer();
+        }
 
         object _reportContent;
         public object ReportContent
@@ -28,74 +35,40 @@ namespace ReportsModule.ViewModels
             }
         }
 
-        public object IndicationBlockReport
-        {
-            get { return ShowReport(new ReportIndicationBlock()); }
-        }
+        public List<string> ReportNames { get; private set; }
 
-        public object DriverCountReport
+        string _selectedReportName;
+        public string SelectedReportName
         {
-            get { return ShowReport(new ReportDriverCounter()); }
-        }
-
-        public object DeviceParamsReport
-        {
-            get 
+            get { return _selectedReportName; }
+            set
             {
-                return ShowReport(new ReportDeviceParams());
+                _selectedReportName = value;
+                OnPropertyChanged("SelectedReportName");
+
+                switch(value)
+                {
+                    case "Блоки индикации":
+                        ShowCrystalReport(new ReportIndicationBlock());
+                        return;
+
+                    case "Журнал событий":
+                        ShowCrystalReport(new ReportJournal());
+                        return;
+
+                    case "Количество устройств по типам":
+                        ShowCrystalReport(new ReportDriverCounter());
+                        return;
+
+                    case "Параметры устройств":
+                        ShowCrystalReport(new ReportDeviceParams());
+                        return;
+
+                    case "Список устройств":
+                        ShowCrystalReport(new ReportDevicesList());
+                        return;
+                }
             }
-        }
-
-        public object DeviceListReport
-        {
-            get { return ShowReport(new ReportDevicesList()); }
-        }
-
-        public object JournalReport
-        {
-            get { return ShowReport(new ReportJournal()); }
-        }
-
-        void ShowCrystalReport(BaseReport report)
-        {
-            report.LoadData();
-            ReportContent = report.CreateCrystalReportViewer();
-        }
-
-        object ShowReport(BaseReport report)
-        {
-            report.LoadData();
-            return report.CreateCrystalReportViewer();
-        }
-
-        public RelayCommand ShowDriverCountReportCommand { get; private set; }
-        void OnShowDriverCountReportCommand()
-        {
-            ShowCrystalReport(new ReportDriverCounter());
-        }
-
-        public RelayCommand ShowDeviceParamsReportCommand { get; private set; }
-        void OnShowDeviceParamsReportCommand()
-        {
-            ShowCrystalReport(new ReportDeviceParams());
-        }
-
-        public RelayCommand ShowDeviceListReportCommand { get; private set; }
-        void OnShowDeviceListReportCommand()
-        {
-            ShowCrystalReport(new ReportDevicesList());
-        }
-
-        public RelayCommand ShowJournalReportCommand { get; private set; }
-        void OnShowJournalReportCommand()
-        {
-            ShowCrystalReport(new ReportJournal());
-        }
-
-        public RelayCommand ShowIndicationBlockReportCommand { get; private set; }
-        void OnShowIndicationBlockReportCommand()
-        {
-            ShowCrystalReport(new ReportIndicationBlock());
         }
     }
 }

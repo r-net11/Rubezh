@@ -23,13 +23,11 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                        <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        </StackPanel>
-                                        <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" />
-                                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                        </StackPanel>
+                                        <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                            Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                        <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                        <Image Source="{Binding Driver.ImageSource}" Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}"
+                                            Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
                                     </StackPanel>
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="{Binding Driver.ShortName}">

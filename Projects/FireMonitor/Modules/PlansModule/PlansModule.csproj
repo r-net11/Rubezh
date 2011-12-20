@@ -61,9 +61,6 @@
     <Compile Include="Converters\StateToIconConverter.cs" />
     <Compile Include="Events\ElementDeviceSelectedEvent.cs" />
     <Compile Include="Events\ElementZoneSelectedEvent.cs" />
-    <Compile Include="ViewModels\TestPlanView.xaml.cs">
-      <DependentUpon>TestPlanView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Elements\ElementSubPlanView.xaml.cs">
       <DependentUpon>ElementSubPlanView.xaml</DependentUpon>
     </Compile>
@@ -150,10 +147,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ViewModels\TestPlanView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Имитатор состояний устройств" Height="600" Width="600">
 
-    <Grid>
+    <Grid Background="Black">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -11,37 +11,31 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Устройства" Margin="5" FontWeight="Bold" />
+        <Label Grid.Row="0" Content="Устройства" Margin="2" FontWeight="Bold" />
 
-        <Border Grid.Row="1" CornerRadius="5" BorderThickness="0" Margin="5" Background="{DynamicResource BackgroundBrush}">
-            <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
-                  AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True" RowHeaderWidth="0">
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Устройство">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                    <TextBlock Text="{Binding Name}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Состояние" Binding="{Binding StateType}"  Width="*" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Border>
+        <DataGrid Grid.Row="1" Margin="5" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Устройство">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                <TextBlock Text="{Binding Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Состояние" Binding="{Binding StateType}"  Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
 
-        <TextBlock Grid.Row="2" Text="Состояния" Margin="5" FontWeight="Bold" />
+        <Label Grid.Row="2" Content="Состояния" Margin="2" FontWeight="Bold" />
 
-        <Border Grid.Row="3" DataContext="{Binding SelectedDevice}" CornerRadius="5" BorderThickness="0" Margin="5" Background="{DynamicResource BackgroundBrush}">
-            <DataGrid ItemsSource="{Binding DriverStates}"
-                      AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="False" RowHeaderWidth="0">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Название" Binding="{Binding DriverState.Name}" />
-                    <DataGridTextColumn Header="Состояние" Binding="{Binding DriverState.StateType}" />
-                    <DataGridCheckBoxColumn Header="Есть" Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}" Width="*" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Border>
+        <DataGrid Grid.Row="3" Margin="5" DataContext="{Binding SelectedDevice}" ItemsSource="{Binding DriverStates}" IsReadOnly="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding DriverState.Name}" />
+                <DataGridTextColumn Header="Состояние" Binding="{Binding DriverState.StateType}" />
+                <DataGridCheckBoxColumn Header="Есть" Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

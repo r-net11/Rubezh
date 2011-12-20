@@ -12,47 +12,31 @@
     <DockPanel>
         <Border DockPanel.Dock="Bottom" CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}"
                 Visibility="{Binding SelectedRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
-            <Grid DataContext="{Binding SelectedRecord}">
+            <Grid DataContext="{Binding SelectedRecord}" TextElement.Foreground="White">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" Grid.ColumnSpan="2" Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}">
-                    <WrapPanel HorizontalAlignment="Center">
-                        <TextBlock Text="Класс: " Foreground="White" />
-                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" Foreground="White" />
-                    </WrapPanel>
-                </Border>
-                <Border Grid.Row="1" Grid.Column="0">
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Text="{Binding Description}" Foreground="White" />
-                        <WrapPanel Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}">
-                            <TextBlock Text="Пользователь: " Foreground="White" />
-                            <TextBlock Text="{Binding User}" Foreground="White" />
-                        </WrapPanel>
-                    </StackPanel>
-                </Border>
-                <Border Grid.Row="1" Grid.Column="1">
-                    <StackPanel VerticalAlignment="Center">
-                        <WrapPanel>
-                            <TextBlock Text="Время: " Foreground="White" />
-                            <TextBlock Text="{Binding SystemTime}" Foreground="White" />
-                        </WrapPanel>
-                        <WrapPanel Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}">
-                            <Label Content="Устройство - Датчик: " Foreground="White" />
-                            <Label Content="{Binding Device}" Foreground="White" />
-                        </WrapPanel>
-                        <WrapPanel Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}">
-                            <TextBlock Text="Устройство: " Foreground="White" />
-                            <TextBlock Text="{Binding Panel}" Foreground="White" />
-                        </WrapPanel>
-                    </StackPanel>
-                </Border>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Класс" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Пользователь" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Время" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Устройство - Датчик" Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Устройство" Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding User}" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SystemTime}" />
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Device}" Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Panel}" Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}" />
+                <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Description}" />
             </Grid>
         </Border>
         <DataGrid Name="journalDataGrid" DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}"

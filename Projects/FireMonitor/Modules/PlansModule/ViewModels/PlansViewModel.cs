@@ -98,15 +98,15 @@ namespace PlansModule.ViewModels
             {
                 _selectedPlan = value;
                 SelectedPlanCanvasViewModel = PlanCanvasViewModels.FirstOrDefault(x => x.Plan.UID == value.Plan.UID);
-                SelectedPlanCanvasViewModel.Update();
                 MainCanvas = SelectedPlanCanvasViewModel.Canvas;
+                SelectedPlanCanvasViewModel.Update();
                 OnPropertyChanged("SelectedPlan");
             }
         }
 
-        public void OnSelectPlan(Guid PlanUID)
+        public void OnSelectPlan(Guid planUID)
         {
-            SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == PlanUID);
+            SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == planUID);
         }
 
         public void ShowDevice(Guid deviceUID)

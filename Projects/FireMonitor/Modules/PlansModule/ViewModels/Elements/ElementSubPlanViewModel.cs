@@ -7,21 +7,18 @@ namespace PlansModule.ViewModels
     public class ElementSubPlanViewModel : BaseViewModel
     {
         public ElementSubPlanView ElementSubPlanView { get; private set; }
-        public Guid PlanUID { get; private set; }
-        public string PresentationName { get; private set; }
+        public ElementSubPlan ElementSubPlan { get; private set; }
 
         public ElementSubPlanViewModel(ElementSubPlan elementSubPlan)
         {
-            PlanUID = elementSubPlan.UID;
-            if (elementSubPlan.Plan != null)
-                PresentationName = elementSubPlan.Plan.Caption;
+            ElementSubPlan = elementSubPlan;
 
             ElementSubPlanView = new ElementSubPlanView();
             foreach (var polygonPoint in elementSubPlan.PolygonPoints)
             {
                 ElementSubPlanView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
             }
-            ElementSubPlanView.PlanUID = elementSubPlan.UID;
+            ElementSubPlanView.PlanUID = elementSubPlan.PlanUID;
         }
 
         StateType _stateType;
