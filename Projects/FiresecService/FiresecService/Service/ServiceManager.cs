@@ -15,7 +15,7 @@ namespace FiresecService
 
             _serviceHost = new ServiceHost(typeof(FiresecService));
 
-            NetTcpBinding binding = new NetTcpBinding()
+            var binding = new NetTcpBinding()
             {
                 MaxReceivedMessageSize = Int32.MaxValue,
                 MaxBufferPoolSize = Int32.MaxValue,
@@ -33,15 +33,6 @@ namespace FiresecService
 
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
             _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, new Uri(ConfigurationManager.AppSettings["TCPBaseAddress"] as string));
-
-            ServiceMetadataBehavior behavior = _serviceHost.Description.Behaviors.Find<ServiceMetadataBehavior>();
-            if (behavior == null)
-            {
-                behavior = new ServiceMetadataBehavior();
-                behavior.HttpGetUrl = new Uri(ConfigurationManager.AppSettings["HTTPBaseAddress"] as string);
-                behavior.HttpGetEnabled = true;
-                _serviceHost.Description.Behaviors.Add(behavior);
-            }
 
             _serviceHost.Open();
         }

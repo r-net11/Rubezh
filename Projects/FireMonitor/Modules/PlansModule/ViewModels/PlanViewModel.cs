@@ -12,8 +12,9 @@ namespace PlansModule.ViewModels
 {
     public class PlanViewModel : TreeBaseViewModel<PlanViewModel>
     {
-        public Plan Plan;
+        public Plan Plan { get; private set; }
         public List<DeviceState> DeviceStates;
+        public List<ZoneState> ZoneStates;
         StateType _selfState = StateType.No;
 
         public PlanViewModel(Plan plan, ObservableCollection<PlanViewModel> source)
@@ -30,18 +31,27 @@ namespace PlansModule.ViewModels
                     deviceState.StateChanged += new Action(UpdateSelfState);
                 }
             }
+            ZoneStates = new List<ZoneState>();
+            foreach (var elementRectangleZone in plan.ElementRectangleZones)
+            {
+                if (elementRectangleZone.ZoneNo.HasValue)
+                {
+                    var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == elementRectangleZone.ZoneNo.Value);
+                    if (zoneState != null)
+                        ZoneStates.Add(zoneState);
+                }
+            }
+            foreach (var elementPolygonZone in plan.ElementPolygonZones)
+            {
+                if (elementPolygonZone.ZoneNo.HasValue)
+                {
+                    var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == elementPolygonZone.ZoneNo.Value);
+                    if (zoneState != null)
+                        ZoneStates.Add(zoneState);
+                }
+            }
 
             UpdateSelfState();
-        }
-
-        public string Caption
-        {
-            get { return Plan.Caption; }
-        }
-
-        public string Description
-        {
-            get { return Plan.Description; }
         }
 
         StateType _stateType;
@@ -60,10 +70,10 @@ namespace PlansModule.ViewModels
         {
             _selfState = StateType.No;
 
-            foreach (var deviceState in DeviceStates)
+            foreach (var zoneState in ZoneStates)
             {
-                if (deviceState.StateType < _selfState)
-                    _selfState = deviceState.StateType;
+                if (zoneState.StateType < _selfState)
+                    _selfState = zoneState.StateType;
             }
 
             UpdateState();
