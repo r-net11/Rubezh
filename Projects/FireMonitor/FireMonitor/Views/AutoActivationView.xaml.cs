@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.ComponentModel;
-using System.Windows;
+using System.Linq;
 using System.Windows.Controls;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -20,29 +19,25 @@ namespace FireMonitor
 
             ChangeAutoActivationCommand = new RelayCommand(OnChangeAutoActivation);
             ChangePlansAutoActivationCommand = new RelayCommand(OnChangePlansAutoActivation);
-            IsAutoActivation = true;
-            IsPlansAutoActivation = true;
             FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalRecord);
         }
 
-        bool _isAutoActivation;
         public bool IsAutoActivation
         {
-            get { return _isAutoActivation; }
+            get { return ClientSettings.AutoActivationSettings.IsAutoActivation; }
             set
             {
-                _isAutoActivation = value;
+                ClientSettings.AutoActivationSettings.IsAutoActivation = value;
                 OnPropertyChanged("IsAutoActivation");
             }
         }
 
-        bool _isPlansAutoActivation;
         public bool IsPlansAutoActivation
         {
-            get { return _isPlansAutoActivation; }
+            get { return ClientSettings.AutoActivationSettings.IsPlansAutoActivation; }
             set
             {
-                _isPlansAutoActivation = value;
+                ClientSettings.AutoActivationSettings.IsPlansAutoActivation = value;
                 OnPropertyChanged("IsPlansAutoActivation");
             }
         }
@@ -57,6 +52,7 @@ namespace FireMonitor
         void OnChangePlansAutoActivation()
         {
             IsPlansAutoActivation = !IsPlansAutoActivation;
+            OnPropertyChanged("IsPlansAutoActivation");
         }
 
         void OnNewJournalRecord(JournalRecord journalRecord)

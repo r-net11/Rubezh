@@ -14,6 +14,8 @@ namespace LibraryModule.ViewModels
             AddDeviceCommand = new RelayCommand(OnAddDevice);
             RemoveDeviceCommand = new RelayCommand(OnRemoveDevice, CanRemoveDevice);
 
+            // Чтобы протестить случай, когда для какого-то устройства из библиотеки нету драйвера.
+            //FiresecManager.LibraryConfiguration.Devices[0].DriverId = System.Guid.NewGuid();
             DeviceViewModels = new ObservableCollection<DeviceViewModel>(
                 FiresecManager.LibraryConfiguration.Devices.Select(device => new DeviceViewModel(device))
             );

@@ -17,13 +17,22 @@ namespace LibraryModule.ViewModels
         public DeviceViewModel(LibraryDevice device)
         {
             Device = device;
-            _driver = FiresecManager.Drivers.First(x => x.UID == Device.DriverId);
-            if (Device.States == null)
-                SetDefaultStateTo(Device);
+            _driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == Device.DriverId);
+            if (_driver == null)
+            {
+                _driver = FiresecManager.UnknownDeviceDriver;
+                Device.DriverId = _driver.UID;
+                Device.States = null;
+                StateViewModels = new ObservableCollection<StateViewModel>();
+            }
+            else
+            {
+                if (Device.States == null) SetDefaultStateTo(Device);
 
-            StateViewModels = new ObservableCollection<StateViewModel>(
-                Device.States.Select(state => new StateViewModel(state, _driver))
-            );
+                StateViewModels = new ObservableCollection<StateViewModel>(
+                    Device.States.Select(state => new StateViewModel(state, _driver))
+                );
+            }
 
             AddStateCommand = new RelayCommand(OnAddState);
             AddAdditionalStateCommand = new RelayCommand(OnAddAdditionalState);
