@@ -76,17 +76,17 @@
     <Folder Include="UI" />
   </ItemGroup>
   <ItemGroup>
-    <WixLibrary Include="FireMonitorLibrary">
-      <HintPath>..\..\Libraries\FireMonitorLibrary\FireMonitorLibrary\bin\Debug\FireMonitorLibrary.wixlib</HintPath>
-      <Name>FireMonitorLibrary</Name>
+    <WixLibrary Include="FiresecServiceLibrary">
+      <HintPath>..\..\Libraries\FiresecServiceLibrary\FiresecServiceLibrary\bin\Release\FiresecServiceLibrary.wixlib</HintPath>
+      <Name>FiresecServiceLibrary</Name>
     </WixLibrary>
     <WixLibrary Include="FireAdministratorLibrary">
-      <HintPath>..\..\Libraries\FireAdministratorLibrary\FireAdministratorLibrary\bin\Debug\FireAdministratorLibrary.wixlib</HintPath>
+      <HintPath>..\..\Libraries\FireAdministratorLibrary\FireAdministratorLibrary\bin\Release\FireAdministratorLibrary.wixlib</HintPath>
       <Name>FireAdministratorLibrary</Name>
     </WixLibrary>
-    <WixLibrary Include="FiresecServiceLibrary">
-      <HintPath>..\..\Libraries\FiresecServiceLibrary\FiresecServiceLibrary\bin\Debug\FiresecServiceLibrary.wixlib</HintPath>
-      <Name>FiresecServiceLibrary</Name>
+    <WixLibrary Include="FireMonitorLibrary">
+      <HintPath>..\..\Libraries\FireMonitorLibrary\FireMonitorLibrary\bin\Release\FireMonitorLibrary.wixlib</HintPath>
+      <Name>FireMonitorLibrary</Name>
     </WixLibrary>
   </ItemGroup>
   <ItemGroup>

@@ -49,15 +49,15 @@
 							DiskId="1" KeyPath="yes" />
 			</Component>
 			
-			<Component Id="FMlog4netComponent" Guid="5314A634-BE41-42E6-913A-B8D671734192">
+			<!--<Component Id="FMlog4netComponent" Guid="5314A634-BE41-42E6-913A-B8D671734192">
 				<File Id="FMlog4netDll" Name="log4net.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
-			</Component>
+			</Component>-->
 
-			<Component Id="FMCustomWindowComponent" Guid="AEC425A8-9F07-472A-A1F4-7B67A0C05851">
+			<!--<Component Id="FMCustomWindowComponent" Guid="AEC425A8-9F07-472A-A1F4-7B67A0C05851">
 				<File Id="FMCustomWindowDll" Name="CustomWindow.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
-			</Component>
+			</Component>-->
 
 			<Component Id="FMCommonComponent" Guid="1898D56A-2113-4A02-9469-3BE83C3A147F">
 				<File Id="FMCommonDll" Name="$(var.Common.TargetFileName)" Source="$(var.Common.TargetPath)"

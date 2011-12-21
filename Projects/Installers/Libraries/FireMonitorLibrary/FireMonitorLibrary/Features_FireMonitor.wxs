@@ -18,7 +18,7 @@
 			<ComponentRef Id="FMPrismComponent" />
 			<ComponentRef Id="FMPrismUnityExtensionsComponent" />
 			<ComponentRef Id="FMWPFToolkitExtendedComponent" />
-			<ComponentRef Id="FMCustomWindowComponent" />
+			<!--<ComponentRef Id="FMCustomWindowComponent" />-->
 			<ComponentRef Id="FMServiceLocationComponent" />
 			<ComponentRef Id="FMInfrastructure.CommonComponent" />
 			<ComponentRef Id="FMInfrastructureComponent" />
@@ -28,7 +28,7 @@
 			<ComponentRef Id="FMReportsModuleComponent" />
 			<ComponentRef Id="FMCallModuleComponent"/>
 			<ComponentRef Id="FMAlarmModuleComponent"/>
-			<ComponentRef Id="FMlog4netComponent"/>
+			<!--<ComponentRef Id="FMlog4netComponent"/>-->
 			<ComponentRef Id="FMProgramsMenuShortcut" />
 			<ComponentRef Id="FMDesktopShortcut" />
 		</Feature>
