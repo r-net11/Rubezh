@@ -6,6 +6,7 @@
   <?define UpgradeCode="E0FEB494-D0FB-4F3F-8D98-5107DF4C0DFD" ?>
   <?define Manufacturer='Группа компаний "Рубеж"' ?>
   <?define FiresecServiceName="FiresecService"?>
+  <?define FireMonitorName="FireMonitor"?>
   <?define FireAdministratorName="FireAdministrator"?>
   <?define FireMonitorName="FireMonitor"?>
   <?define ConfigurationFolder="Configuration"?>

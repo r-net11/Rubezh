@@ -12,5 +12,6 @@
 		<Binary Id="InstallClient.ico" SourceFile="Data\InstallClient.ico" />
 		<Binary Id="SetupProgress.ico" SourceFile="Data\SetupProgress.ico" />
 		<WixVariable Id="WixUIBannerBmp" Value="Data\FiresecBanner.bmp" />
+		<Binary Id="FiresecCustomActionDll" SourceFile="$(var.FiresecCustomAction.TargetDir)$(var.FiresecCustomAction.TargetName).CA.dll" />
 	</Fragment>
 </Wix>

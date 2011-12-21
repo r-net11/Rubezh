@@ -7,17 +7,14 @@
 			<Component Id="ChangeConnectionsSettings" Guid="218643AE-C10B-46B7-B363-22DD8DDC89BF">
 				<CreateFolder Directory="FIRESECSERVICELOCATION" />
 				<util:XmlFile Id="XmlConnectionSettings" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="setValue" 
-											ElementPath="//configuration/connectionStrings/add[\[]@name='FiresecService.Properties.Settings.PersonsConnectionString'[\]]/@connectionString"
-											Value="Data Source=localhost\[SQLINSTANCE];Initial Catalog=Persons;Integrated Security=True" />
-				<util:XmlFile Id="XmlConnectionSettings2" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="setValue"
-				ElementPath="//configuration/connectionStrings/add[\[]@name='FiresecService.Properties.Settings.FiresecConnectionString'[\]]/@connectionString"
-				Value="Data Source=localhost\[SQLINSTANCE];Initial Catalog=Firesec;Integrated Security=True" />
+											ElementPath="//configuration/connectionStrings/add[\[]@name='FiresecService.Properties.Settings.FiresecConnectionString'[\]]/@connectionString"
+											Value="Data Source=localhost\[SQLINSTANCE];Initial Catalog=Firesec;Integrated Security=True" />
 			</Component>
 			<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
 				<CreateFolder Directory="FIRESECSERVICELOCATION" />
 				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes" 
-												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="yes" ContinueOnError="no">
-					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" ContinueOnError="no"/>
+												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="no" ContinueOnError="yes">
+					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" ContinueOnError="yes"/>
 				</sql:SqlDatabase>
 			</Component>
 		</DirectoryRef>

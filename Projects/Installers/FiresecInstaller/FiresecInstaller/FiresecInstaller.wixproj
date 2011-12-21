@@ -25,6 +25,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <OutputPath>bin\$(Configuration)\</OutputPath>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
+    <LinkerAdditionalOptions>-cultures:ru-RU%3ben-US</LinkerAdditionalOptions>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Binary_Firesec.wxs" />
@@ -89,6 +90,14 @@
     </WixLibrary>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FiresecCustomAction\FiresecCustomAction.csproj">
+      <Name>FiresecCustomAction</Name>
+      <Project>{4b90a814-2e9d-4677-9f10-f1334dbfc214}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\FiresecWindowsService\FiresecWindowsService.csproj">
       <Name>FiresecWindowsService</Name>
       <Project>{c64b0b3a-eb25-4880-8bbb-2c9b1e1e3873}</Project>

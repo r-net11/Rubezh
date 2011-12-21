@@ -17,6 +17,9 @@
     <Property Id="CHECKSQLSERVER" Value="0" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
     <Property Id="INSTALLLEVEL" Value="1" />
+    <Property Id="FIRESECSERVICENAME" Value="$(var.FiresecServiceName)" />
+    <Property Id="FIREMONITORNAME" Value="$(var.FireMonitorName)" />
+    <Property Id="FIREADMINISTRATORNAME" Value="$(var.FireAdministratorName)" />
     
     <Icon Id="FiresecIcon" SourceFile="Data\Firesec.ico"/>
 
@@ -58,6 +61,7 @@
     <FeatureRef Id="FiresecFeature" />
     
     <InstallExecuteSequence>
+      <Custom Action="CloseApplications" Before="RemoveFiles" />  
       <Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full"</Custom>
     </InstallExecuteSequence>
 

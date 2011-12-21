@@ -4,6 +4,8 @@
 		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 	<?include Variables_FiresecService.wxi?>
 	<Fragment>
+		<util:CloseApplication Id="CalcCloseAction" CloseMessage="yes" Target="$(var.FiresecService.TargetFileName)" RebootPrompt="no" />
+
 		<DirectoryRef Id="FIRESECSERVICELOCATION">
 			<Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
 				<File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
