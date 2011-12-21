@@ -29,7 +29,7 @@
                     <TextBlock Grid.Column="0" Grid.Row="0" Text="Описание:   " FontWeight="Black" />
                     <TextBlock Grid.Column="0" Grid.Row="1" Text="Зоны:   " FontWeight="Black" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
                     <TextBlock Grid.Column="0" Grid.Row="2" Text="Устройства:   " FontWeight="Black" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
-                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding InstructionText}" />
+                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding InstructionText}"/>
                     <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding InstructionZones, Converter={StaticResource ZonesToStringConverter}}" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
                     <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding InstructionDevices, Converter={StaticResource DevicesToStringConverter}}" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
                 </Grid>

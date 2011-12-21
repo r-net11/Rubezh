@@ -127,6 +127,15 @@ namespace InstructionsModule.ViewModels
             }
         }
 
+        void ExpandAllChild(DeviceViewModel parentDeviceViewModel)
+        {
+            parentDeviceViewModel.IsExpanded = true;
+            foreach (var deviceViewModel in parentDeviceViewModel.Children)
+            {
+                ExpandAllChild(deviceViewModel);
+            }
+        }
+
         public List<Guid> InstructionDevicesList { get; set; }
         public ObservableCollection<DeviceViewModel> AvailableDevices { get; set; }
         public ObservableCollection<DeviceViewModel> InstructionDevices { get; set; }
@@ -183,6 +192,7 @@ namespace InstructionsModule.ViewModels
         public RelayCommand AddAllCommand { get; private set; }
         void OnAddAll()
         {
+            ExpandAllChild(AvailableDevices[0]);
             foreach (var deviceViewModel in AvailableDevices)
             {
                 if (deviceViewModel.IsBold)
