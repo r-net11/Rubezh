@@ -72,23 +72,14 @@ namespace FireMonitor
 
         public bool ShowModalWindow(IDialogContent model)
         {
-            return ShowModalWindow(model, Application.Current.MainWindow);
-        }
-
-        public bool ShowModalWindow(IDialogContent model, Window parentWindow)
-        {
             try
             {
-                var dialog = new DialogWindow
-                {
-                    //Owner = parentWindow
-                };
+                var dialog = new DialogWindow();
                 dialog.SetContent(model);
 
                 bool? result = dialog.ShowDialog();
                 if (result == null)
-                {
-                }
+                    return false;
 
                 return (bool) result;
             }

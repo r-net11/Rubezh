@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using Infrastructure.Common;
 
-namespace FireMonitor
+namespace Infrastructure.Common
 {
-    public class ResourceService : IResourceService
+    public class ResourceService
     {
         public void AddResource(ResourceDescription description)
         {

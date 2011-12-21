@@ -1,16 +1,17 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Infrastructure.Common;
+using System.Collections.ObjectModel;
 
-namespace FiresecService.Imitator
+namespace FiresecService.ViewModels
 {
-    public partial class ImitatorView : Window, INotifyPropertyChanged
+    public class ImitatorViewModel : DialogContent
     {
-        public ImitatorView()
+        public ImitatorViewModel()
         {
-            InitializeComponent();
-            DataContext = this;
-
+            Title = "Имитатор устройств";
             Devices = new ObservableCollection<DeviceViewModel>();
 
             foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
@@ -31,13 +32,6 @@ namespace FiresecService.Imitator
                 _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
     }
 }

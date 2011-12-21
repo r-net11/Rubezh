@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using FiresecAPI.Models;
 
-namespace FiresecService.Imitator
+namespace FiresecService.ViewModels
 {
     public class DeviceViewModel : INotifyPropertyChanged
     {

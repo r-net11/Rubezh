@@ -88,14 +88,7 @@ namespace FireMonitor
             set { _alarmGroups.DataContext = _alarmGroups.Content = value; }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
-
-        void EssentialWindow_Closing(object sender, CancelEventArgs e)
+        void OnWindow_Closing(object sender, CancelEventArgs e)
         {
             AlarmPlayerHelper.Dispose();
             ClientSettings.SaveSettings();
@@ -119,9 +112,16 @@ namespace FireMonitor
             }
         }
 
-        void EssentialWindow_Closed(object sender, EventArgs e)
+        void OnlWindow_Closed(object sender, EventArgs e)
         {
             FiresecManager.Disconnect();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
     }
 }

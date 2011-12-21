@@ -165,7 +165,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Imitator\DeviceStateViewModel.cs" />
+    <Compile Include="Imitator\ViewModels\DeviceStateViewModel.cs" />
+    <Compile Include="Imitator\ViewModels\ImitatorViewModel.cs" />
+    <Compile Include="Imitator\Views\ImitatorView.xaml.cs">
+      <DependentUpon>ImitatorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\UserDialogService.cs" />
     <Compile Include="Processor\ArchiveFilterHelper.cs" />
     <Compile Include="Processor\ConfigurationFileManager.cs" />
     <Compile Include="Processor\JournalFilterHelper.cs" />
@@ -175,10 +180,7 @@
     <Compile Include="Service\FiresecService.Devices.cs" />
     <Compile Include="Service\FiresecService.Journal.cs" />
     <Compile Include="Service\ServiceManager.cs" />
-    <Compile Include="Imitator\DeviceViewModel.cs" />
-    <Compile Include="Imitator\ImitatorView.xaml.cs">
-      <DependentUpon>ImitatorView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Imitator\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Service\WindowsService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -211,6 +213,14 @@
     <Compile Include="XSD\ZoneLogic.cs">
       <DependentUpon>ZoneLogic.xsd</DependentUpon>
     </Compile>
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Imitator\Views\ImitatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -229,10 +239,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Imitator\ImitatorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Processor\FiresecInternalClient.cs" />
@@ -331,6 +337,10 @@
     <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Firesec\Firesec.csproj">
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>

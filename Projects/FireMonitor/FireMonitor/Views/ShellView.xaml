@@ -10,8 +10,8 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-        Closing="EssentialWindow_Closing"
-        Closed="EssentialWindow_Closed">
+        Closing="OnWindow_Closing"
+        Closed="OnlWindow_Closed">
     <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="#151515">
         <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
             <DockPanel>

@@ -1,10 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
-using System.ServiceProcess;
 using System.Windows;
 using FiresecService;
-using FiresecService.Imitator;
-using FiresecService.Service;
+using FiresecService.Infrastructure;
+using FiresecService.ViewModels;
+using Infrastructure.Common;
 
 namespace FiresecServiceRunner
 {
@@ -19,6 +20,9 @@ namespace FiresecServiceRunner
             DirectoryInfo dirInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
             Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
             AnalizeCommandLine();
+
+            var resourceService = new ResourceService();
+            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
         public static void AddMessage(string message)
@@ -45,8 +49,7 @@ namespace FiresecServiceRunner
 
         void OnShowImitator(object sender, RoutedEventArgs e)
         {
-            var imitatorView = new ImitatorView();
-            imitatorView.Show();
+            UserDialogService.ShowModalWindow(new ImitatorViewModel());
         }
 
         void AnalizeCommandLine()
@@ -99,35 +102,38 @@ namespace FiresecServiceRunner
                 this.Close();
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void OnShow(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Normal;
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void OnHide(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Minimized;
         }
 
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        void OnClose(object sender, RoutedEventArgs e)
         {
-            FiresecManager.ConnectFiresecCOMServer("adm", "");
-            FiresecServiceManager.Open();
+            Close();
         }
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        void OnMinimize(object sender, RoutedEventArgs e)
         {
-            ConfigurationConverter.Convert();
+            WindowState = System.Windows.WindowState.Minimized;
         }
 
-        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            JournalDataConverter.Convert();
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+                this.DragMove();
         }
 
-        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            this.Close();
+            if (this.Width + e.HorizontalChange > 10)
+                this.Width += e.HorizontalChange;
+            if (this.Height + e.VerticalChange > 10)
+                this.Height += e.VerticalChange;
         }
 
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
@@ -146,6 +152,14 @@ namespace FiresecServiceRunner
             {
                 this.ShowInTaskbar = true;
             }
+        }
+
+        void OnWindow_Closing(object sender, CancelEventArgs e)
+        {
+        }
+
+        void OnWindow_Closed(object sender, EventArgs e)
+        {
         }
     }
 }

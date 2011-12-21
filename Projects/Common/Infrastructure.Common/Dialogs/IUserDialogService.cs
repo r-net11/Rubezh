@@ -8,6 +8,5 @@ namespace Infrastructure.Common
         void HideWindow(string name);
         void ResetWindow(string name);
         bool ShowModalWindow(IDialogContent model);
-        bool ShowModalWindow(IDialogContent model, Window parentWindow);
     }
 }
