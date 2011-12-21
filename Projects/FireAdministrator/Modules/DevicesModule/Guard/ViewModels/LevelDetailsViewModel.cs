@@ -7,7 +7,6 @@ namespace DevicesModule.ViewModels
 {
     public class LevelDetailsViewModel : SaveCancelDialogContent
     {
-        bool _isNew;
         public GuardLevel GuardLevel { get; private set; }
 
         public LevelDetailsViewModel(GuardLevel guardLevel = null)
@@ -19,13 +18,11 @@ namespace DevicesModule.ViewModels
             if (guardLevel == null)
             {
                 Title = "Создать уровень доступа";
-                _isNew = true;
                 GuardLevel = new GuardLevel();
             }
             else
             {
                 Title = "Редактировать уровень доступа";
-                _isNew = false;
                 GuardLevel = guardLevel;
                 Name = guardLevel.Name;
 

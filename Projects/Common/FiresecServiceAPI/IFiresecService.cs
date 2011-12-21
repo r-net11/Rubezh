@@ -15,7 +15,7 @@ namespace FiresecAPI
         [OperationContract]
         string Reconnect(string userName, string password);
 
-        [OperationContract(IsTerminating = true)]
+        [OperationContract(IsTerminating = true, IsOneWay = true)]
         void Disconnect();
 
         [OperationContract(IsOneWay = true)]

@@ -71,7 +71,6 @@ namespace FiresecService
                         try
                         {
                             serviceInstance.Callback.NewJournalRecord(journalRecord);
-                            FiresecServiceRunner.MainWindow.AddMessage("New Journal Event");
                         }
                         catch
                         {

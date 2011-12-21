@@ -47,7 +47,7 @@ namespace FireAdministrator
 
         static void RegisterServices()
         {
-            ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ResourceService());
+            ServiceFactory.Initialize(new LayoutService(), new UserDialogService());
             ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(x => { InitializeKnownModules(); });
         }
 

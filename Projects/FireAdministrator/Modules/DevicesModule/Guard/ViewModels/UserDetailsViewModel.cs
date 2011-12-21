@@ -7,7 +7,6 @@ namespace DevicesModule.ViewModels
     public class UserDetailsViewModel : SaveCancelDialogContent
     {
         public GuardUser GuardUser { get; private set; }
-        bool _isNew;
 
         public UserDetailsViewModel(GuardUser guardUser = null)
         {
@@ -16,13 +15,11 @@ namespace DevicesModule.ViewModels
             if (guardUser == null)
             {
                 Title = "Создать пользователя";
-                _isNew = true;
                 GuardUser = new GuardUser();
             }
             else
             {
                 Title = "Редактировать пользователя";
-                _isNew = false;
                 GuardUser = guardUser;
             }
 

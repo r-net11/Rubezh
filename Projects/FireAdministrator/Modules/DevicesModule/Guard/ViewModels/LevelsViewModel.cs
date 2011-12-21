@@ -57,7 +57,6 @@ namespace DevicesModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(levelDetailsViewModel))
             {
                 SelectedLevel.GuardLevel = levelDetailsViewModel.GuardLevel;
-
                 DevicesModule.HasChanges = true;
             }
         }
@@ -70,7 +69,6 @@ namespace DevicesModule.ViewModels
             {
                 FiresecManager.DeviceConfiguration.GuardLevels.Add(guardLevelDetailsViewModel.GuardLevel);
                 Levels.Add(new LevelViewModel(guardLevelDetailsViewModel.GuardLevel));
-
                 DevicesModule.HasChanges = true;
             }
         }

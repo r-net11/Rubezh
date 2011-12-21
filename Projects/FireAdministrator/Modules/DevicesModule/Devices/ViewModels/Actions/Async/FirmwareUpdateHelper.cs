@@ -34,7 +34,6 @@ namespace DevicesModule.ViewModels
 
                 _question = FiresecManager.DeviceVerifyFirmwareVersion(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
                 FiresecManager.DeviceUpdateFirmware(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
-                return;
 
                 var asyncInstanceOperationHelper = new AsyncInstanceOperationHelper();
                 asyncInstanceOperationHelper.Run(OnVarifyPropgress, OnVerifyCompleted, _device.PresentationAddressDriver + ". Обновление прошивки");

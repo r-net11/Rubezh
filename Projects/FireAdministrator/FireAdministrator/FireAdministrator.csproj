@@ -89,7 +89,6 @@
     <Compile Include="Views\NavigationView.xaml.cs">
       <DependentUpon>NavigationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\ResourceService.cs" />
     <Compile Include="Views\PreLoadWindow.xaml.cs">
       <DependentUpon>PreLoadWindow.xaml</DependentUpon>
     </Compile>

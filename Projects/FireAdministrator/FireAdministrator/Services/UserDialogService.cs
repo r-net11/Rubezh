@@ -83,23 +83,24 @@ namespace FireAdministrator
         {
             try
             {
-                DialogWindow dialog = new DialogWindow();
-                dialog.SetContent(model);
-                if (dialog.ViewModel is ZonesSelectionViewModel)
+                var dialogWindow = new DialogWindow();
+                dialogWindow.SetContent(model);
+                if (dialogWindow.ViewModel is ZonesSelectionViewModel)
                 {
                     if (ZonesSelectionView.CustomWidth != 0)
                     {
-                        dialog.Width = ZonesSelectionView.CustomWidth;
-                        dialog.Height = ZonesSelectionView.CustomHeight;
-                        dialog.Left = ZonesSelectionView.CustomLeft;
-                        dialog.Top = ZonesSelectionView.CustomTop;
+                        dialogWindow.Width = ZonesSelectionView.CustomWidth;
+                        dialogWindow.Height = ZonesSelectionView.CustomHeight;
+                        dialogWindow.Left = ZonesSelectionView.CustomLeft;
+                        dialogWindow.Top = ZonesSelectionView.CustomTop;
                     }
-                    dialog.Closed += new EventHandler(ZonesSelectionViewClosed);
+                    dialogWindow.Closed += new EventHandler(ZonesSelectionViewClosed);
                 }
 
-                bool? result = dialog.ShowDialog();
+                bool? result = dialogWindow.ShowDialog();
                 if (result == null)
                 {
+                    return false;
                 }
 
                 return (bool) result;

@@ -58,7 +58,6 @@ namespace DevicesModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
             {
                 SelectedUser.GuardUser = userDetailsViewModel.GuardUser;
-
                 DevicesModule.HasChanges = true;
             }
         }
@@ -71,7 +70,6 @@ namespace DevicesModule.ViewModels
             {
                 FiresecManager.DeviceConfiguration.GuardUsers.Add(userDetailsViewModel.GuardUser);
                 Users.Add(new UserViewModel(userDetailsViewModel.GuardUser));
-
                 DevicesModule.HasChanges = true;
             }
         }

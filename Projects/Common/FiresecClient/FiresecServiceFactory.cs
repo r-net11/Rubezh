@@ -52,7 +52,7 @@ namespace FiresecClient
 
         public static void Dispose()
         {
-            if (_duplexChannelFactory.State == CommunicationState.Created)
+            if ((_duplexChannelFactory != null) && (_duplexChannelFactory.State == CommunicationState.Created))
                 _duplexChannelFactory.Close();
         }
     }

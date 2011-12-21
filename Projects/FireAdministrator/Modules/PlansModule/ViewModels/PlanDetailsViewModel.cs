@@ -5,20 +5,17 @@ namespace PlansModule.ViewModels
 {
     public class PlanDetailsViewModel : SaveCancelDialogContent
     {
-        bool _isNew;
         public Plan Plan { get; private set; }
 
         public PlanDetailsViewModel(Plan plan = null)
         {
             if (plan != null)
             {
-                _isNew = false;
                 Title = "Редактировать план";
                 Plan = plan;
             }
             else
             {
-                _isNew = true;
                 Title = "Создать план";
                 Plan = new Plan()
                 {
