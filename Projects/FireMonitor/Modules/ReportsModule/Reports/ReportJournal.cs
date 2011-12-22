@@ -54,9 +54,6 @@ namespace ReportsModule.Reports
 
             var crystalReportsViewer = new CrystalReportsViewer();
             crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
-            crystalReportsViewer.ShowLogo = false;
-            crystalReportsViewer.ShowToggleSidePanelButton = false;
-            crystalReportsViewer.ToggleSidePanel = SAPBusinessObjects.WPF.Viewer.Constants.SidePanelKind.None;
             return crystalReportsViewer;
         }
 

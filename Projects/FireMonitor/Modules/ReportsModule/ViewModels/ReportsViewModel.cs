@@ -22,6 +22,20 @@ namespace ReportsModule.ViewModels
         {
             baseReport.LoadData();
             ReportContent = baseReport.CreateCrystalReportViewer();
+            ReportViewerSettings((CrystalReportsViewer)ReportContent);
+        }
+
+        void ReportViewerSettings(CrystalReportsViewer crystalReportsViewer)
+        {
+            crystalReportsViewer.ShowLogo = false;
+            crystalReportsViewer.ShowToggleSidePanelButton = true;
+            crystalReportsViewer.ShowRefreshButton = true;
+            crystalReportsViewer.ShowSearchTextButton = true;
+            crystalReportsViewer.ShowStatusbar = true;
+            crystalReportsViewer.ShowToolbar = true;
+            crystalReportsViewer.ViewerCore.Zoom(79);
+            crystalReportsViewer.ViewerCore.SelectionMode = Constants.ObjectSelectionMode.Multiple;
+            crystalReportsViewer.ToggleSidePanel = SAPBusinessObjects.WPF.Viewer.Constants.SidePanelKind.GroupTree;
         }
 
         object _reportContent;
