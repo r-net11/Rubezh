@@ -10,11 +10,13 @@ using System.Windows.Media;
 
 namespace PlansModule.ViewModels
 {
-    public partial class ElementDeviceView : UserControl
+    public partial class ElementDeviceView : Grid
     {
         public ElementDeviceView()
         {
             InitializeComponent();
+            MouseEnter += new MouseEventHandler(Grid_MouseEnter);
+            MouseLeave += new MouseEventHandler(Grid_MouseLeave);
         }
 
         void Grid_MouseEnter(object sender, MouseEventArgs e)
@@ -59,13 +61,13 @@ namespace PlansModule.ViewModels
                 Opacity = 0.5
             };
 
-            _grid.Children.Add(_flushEllipse);
+            Children.Add(_flushEllipse);
             _flushEllipse.BeginAnimation(Ellipse.MarginProperty, thicknessAnimation);
         }
 
         void animation_Completed(object sender, EventArgs e)
         {
-            _grid.Children.Remove(_flushEllipse);
+            Children.Remove(_flushEllipse);
         }
     }
 }

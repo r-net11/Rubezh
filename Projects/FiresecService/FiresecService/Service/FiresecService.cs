@@ -10,6 +10,8 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.DatabaseConverter;
 using FiresecServiceRunner;
+using FiresecService.Views;
+using FiresecService.ViewModels;
 
 namespace FiresecService
 {
@@ -22,7 +24,13 @@ namespace FiresecService
         string _userLogin;
         string _userName;
         string _userIpAddress;
+        Guid _firesecServiceUID;
         public static readonly object Locker = new object();
+
+        public FiresecService()
+        {
+            _firesecServiceUID = new Guid();
+        }
 
         public string Connect(string login, string password)
         {
@@ -32,7 +40,16 @@ namespace FiresecService
                 {
                     if (CheckRemoteAccessPermissions(login))
                     {
-                        MainWindow.AddMessage("Connected. UserName = " + login + ". SessionId = " + OperationContext.Current.SessionId);
+                        MainView.AddMessage("Connected. UserName = " + login + ". SessionId = " + OperationContext.Current.SessionId);
+
+                        var connectionViewModel = new ConnectionViewModel()
+                        {
+                            FiresecServiceUID = _firesecServiceUID,
+                            UserName = _userLogin,
+                            IpAddress = _userIpAddress
+                        };
+                        MainViewModel.Current.Connections.Add(connectionViewModel);
+
                         DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
 
                         Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
@@ -51,8 +68,11 @@ namespace FiresecService
             var oldUserName = _userName;
             if (CheckLogin(login, password))
             {
-                DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал");
-                DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял");
+                var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.FiresecServiceUID == _firesecServiceUID);
+                connectionViewModel.UserName = login;
+
+                //DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал");
+                //DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял");
 
                 return null;
             }
@@ -62,6 +82,9 @@ namespace FiresecService
         [OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.AfterCall)]
         public void Disconnect()
         {
+            var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.FiresecServiceUID == _firesecServiceUID);
+            MainViewModel.Current.Connections.Remove(connectionViewModel);
+
             DatabaseHelper.AddInfoMessage(_userName, "Выход пользователя из системы");
             CallbackManager.Remove(this);
         }

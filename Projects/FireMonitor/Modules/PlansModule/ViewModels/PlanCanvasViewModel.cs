@@ -126,14 +126,14 @@ namespace PlansModule.ViewModels
             Canvas.Children.Add(frameworkElement);
         }
 
-        void DrawElement(UserControl userControl, ElementBase elementBase, BaseViewModel elementViewModel)
+        void DrawElement(FrameworkElement frameworkElement, ElementBase elementBase, BaseViewModel elementViewModel)
         {
-            userControl.DataContext = elementViewModel;
-            userControl.Width = elementBase.Width;
-            userControl.Height = elementBase.Height;
-            Canvas.SetLeft(userControl, elementBase.Left);
-            Canvas.SetTop(userControl, elementBase.Top);
-            Canvas.Children.Add(userControl);
+            frameworkElement.DataContext = elementViewModel;
+            frameworkElement.Width = elementBase.Width;
+            frameworkElement.Height = elementBase.Height;
+            Canvas.SetLeft(frameworkElement, elementBase.Left);
+            Canvas.SetTop(frameworkElement, elementBase.Top);
+            Canvas.Children.Add(frameworkElement);
         }
 
         ElementPolygonZone RectangleZoneToPolygon(ElementRectangleZone elementRectangleZone)

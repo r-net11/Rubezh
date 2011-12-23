@@ -1,16 +1,16 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 using Infrastructure;
 using PlansModule.Events;
-using System.Windows.Media.Animation;
-using System.Windows;
-using System;
-using System.Windows.Shapes;
-using System.Windows.Media;
 
 namespace PlansModule
 {
-    public partial class ElementZoneView : UserControl
+    public partial class ElementZoneView : ContentControl
     {
         public ElementZoneView()
         {

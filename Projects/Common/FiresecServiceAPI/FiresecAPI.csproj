@@ -142,6 +142,7 @@
     <Compile Include="Models\Driver\DriverPropertyParameter.cs" />
     <Compile Include="Models\Driver\DriverPropertyTypeEnum.cs" />
     <Compile Include="Models\Driver\DriverType.cs" />
+    <Compile Include="Models\EnumHelper.cs" />
     <Compile Include="Models\Library\LibraryDevice.cs" />
     <Compile Include="Models\Library\LibraryFrame.cs" />
     <Compile Include="Models\Library\LibraryState.cs" />
@@ -157,12 +158,16 @@
     <Compile Include="Models\Plans\IZIndexedElement.cs" />
     <Compile Include="Models\Plans\PlanElementsHelper.cs" />
     <Compile Include="Models\Plans\ElementRectangle.cs" />
+    <Compile Include="Models\Security\PermissionType.cs" />
+    <Compile Include="Models\Security\RemoteAccessType.cs" />
     <Compile Include="Models\Security\UserRole.cs" />
     <Compile Include="Models\System\ArchiveDefaultState.cs" />
+    <Compile Include="Models\System\ArchiveDefaultStateType.cs" />
     <Compile Include="Models\System\ArchiveFilter.cs" />
     <Compile Include="Models\System\BeeperType.cs" />
     <Compile Include="Models\System\InstructionType.cs" />
     <Compile Include="Models\Security\RemoteAccess.cs" />
+    <Compile Include="Models\System\SubsystemType.cs" />
     <Compile Include="Models\Zone\Clause.cs" />
     <Compile Include="Models\Zone\GuardZoneType.cs" />
     <Compile Include="Models\Zone\ZoneLogicJoinOperator.cs" />

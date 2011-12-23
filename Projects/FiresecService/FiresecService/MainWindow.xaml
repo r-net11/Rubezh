@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:Views="clr-namespace:FiresecService.Views"
         WindowStartupLocation="CenterScreen"
         Title="Сервер Firesec"
         FontFamily="Tahoma"
@@ -38,42 +39,19 @@
                     </Grid>
                 </Border>
                 <Thumb DockPanel.Dock="Bottom" DragDelta="Thumb_DragDelta" HorizontalAlignment="Right" Width="10" Height="10" Style="{DynamicResource ResizeThumbStyle}" />
-                <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
 
-                    <TabControl Grid.Row="0" Background="{DynamicResource AlternativeBackgroundBrush}">
-                        <TabItem Header="Управление">
-                            <StackPanel>
-                                <Button Content="Старт" Click="OnConnect" Margin="1" />
-                                <Button Content="Имитатор" Click="OnShowImitator" Margin="1" />
-                            </StackPanel>
-                        </TabItem>
-                        <TabItem Header="Конвертация">
-                            <StackPanel>
-                                <Button Content="Конвертация конфигурации" Click="OnConvertConfiguration" Margin="1" />
-                                <Button Content="Конвертация журнала событий" Click="OnConvertJournal" Margin="1" />
-                            </StackPanel>
-                        </TabItem>
-                    </TabControl>
+                <tb:TaskbarIcon x:Name="_notificationIcon" IconSource="Firesec.ico" ToolTipText="Сервер Firesec">
+                    <tb:TaskbarIcon.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Показать" Click="OnShow" />
+                            <MenuItem Header="Скрыть" Click="OnHide" />
+                            <MenuItem Header="Закрыть" Click="OnClose" />
+                        </ContextMenu>
+                    </tb:TaskbarIcon.ContextMenu>
+                </tb:TaskbarIcon>
+                
+                <Views:MainView x:Name="_mainView" />
 
-                    <TextBox Grid.Row="1" Name="_textBox" Margin="2" />
-
-                    <tb:TaskbarIcon x:Name="_notificationIcon" IconSource="Firesec.ico" ToolTipText="Сервер Firesec">
-                        <tb:TaskbarIcon.ContextMenu>
-                            <ContextMenu>
-                                <MenuItem Header="Показать" Click="OnShow" />
-                                <MenuItem Header="Скрыть" Click="OnHide" />
-                                <MenuItem Header="Запустить" Click="OnConnect" />
-                                <MenuItem Header="Конвертация конфигурации" Click="OnConvertConfiguration" />
-                                <MenuItem Header="Конвертация журналов" Click="OnConvertJournal" />
-                                <MenuItem Header="Закрыть" Click="OnClose" />
-                            </ContextMenu>
-                        </tb:TaskbarIcon.ContextMenu>
-                    </tb:TaskbarIcon>
-                </Grid>
             </DockPanel>
         </Border>
     </Border>

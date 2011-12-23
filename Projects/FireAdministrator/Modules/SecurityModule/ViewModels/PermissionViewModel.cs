@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common;
+using Common;
 
 namespace SecurityModule.ViewModels
 {
@@ -8,7 +9,7 @@ namespace SecurityModule.ViewModels
         public PermissionViewModel(PermissionType permissionType)
         {
             PermissionType = permissionType;
-            PermissionTypeName = EnumsConverter.PermissionTypeToString(permissionType);
+            PermissionTypeName = EnumHelper.ToString(permissionType);
         }
 
         public PermissionType PermissionType { get; private set; }

@@ -53,7 +53,7 @@ namespace FiresecAPI.Models
                     continue;
                 }
 
-                result += "состояние " + EnumsConverter.ZoneLogicStateToString(clause.State);
+                result += "состояние " + EnumHelper.ToString(clause.State);
 
                 string stringOperation = null;
                 switch (clause.Operation)

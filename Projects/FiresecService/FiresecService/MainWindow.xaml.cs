@@ -6,50 +6,23 @@ using FiresecService;
 using FiresecService.Infrastructure;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
+using System.Collections.ObjectModel;
 
 namespace FiresecServiceRunner
 {
     public partial class MainWindow : Window
     {
-        public static MainWindow Current { get; private set; }
-
         public MainWindow()
         {
             InitializeComponent();
-            Current = this;
             DirectoryInfo dirInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
             Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
             AnalizeCommandLine();
 
             var resourceService = new ResourceService();
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-        }
 
-        public static void AddMessage(string message)
-        {
-            Current._textBox.AppendText(message);
-            Current._textBox.AppendText(Environment.NewLine);
-        }
-
-        void OnConnect(object sender, RoutedEventArgs e)
-        {
-            FiresecManager.ConnectFiresecCOMServer("adm", "");
-            FiresecServiceManager.Open();
-        }
-
-        void OnConvertConfiguration(object sender, RoutedEventArgs e)
-        {
-            ConfigurationConverter.Convert();
-        }
-
-        void OnConvertJournal(object sender, RoutedEventArgs e)
-        {
-            JournalDataConverter.Convert();
-        }
-
-        void OnShowImitator(object sender, RoutedEventArgs e)
-        {
-            UserDialogService.ShowModalWindow(new ImitatorViewModel());
+            _mainView.DataContext = new MainViewModel();
         }
 
         void AnalizeCommandLine()

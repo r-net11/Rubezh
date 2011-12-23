@@ -9,7 +9,7 @@ namespace DevicesModule.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value is ZoneLogicState)
-                return EnumsConverter.ZoneLogicStateToString((ZoneLogicState) value);
+                return EnumHelper.ToString((ZoneLogicState) value);
             return "";
         }
 

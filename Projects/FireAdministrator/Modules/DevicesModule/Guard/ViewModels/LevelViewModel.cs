@@ -33,7 +33,7 @@ namespace DevicesModule.ViewModels
                 var stringBuilder = new StringBuilder();
                 foreach (var zoneLevel in GuardLevel.ZoneLevels)
                 {
-                    stringBuilder.Append(EnumHelper.GetEnumDescription(zoneLevel.ZoneActionType) + " ");
+                    stringBuilder.Append(EnumHelper.ToString(zoneLevel.ZoneActionType) + " ");
                     var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneLevel.ZoneNo);
                     stringBuilder.Append(zone.PresentationName);
                     stringBuilder.Append(", ");

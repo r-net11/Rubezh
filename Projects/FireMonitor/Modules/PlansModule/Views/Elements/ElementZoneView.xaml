@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="PlansModule.ElementZoneView"
+﻿<ContentControl x:Class="PlansModule.ElementZoneView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
@@ -15,4 +15,4 @@
             </Polygon.ContextMenu>
         </Polygon>
     </Grid>
-</UserControl>
+</ContentControl>

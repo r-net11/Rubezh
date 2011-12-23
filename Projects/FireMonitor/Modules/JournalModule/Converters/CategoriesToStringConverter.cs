@@ -19,7 +19,7 @@ namespace JournalModule.Converters
 
                 foreach (var category in categories)
                 {
-                    result.Append(EnumsConverter.CategoryTypeToCategoryName(category));
+                    result.Append(EnumHelper.ToString(category));
                     result.Append(delimString);
                 }
 

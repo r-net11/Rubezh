@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI.Models;
+using Common;
 
 namespace InstructionsModule.Converters
 {
@@ -17,9 +18,10 @@ namespace InstructionsModule.Converters
                 foreach (InstructionType instructionType in Enum.GetValues(typeof(InstructionType)))
                 {
                     if ((Enum.GetName(typeof(InstructionType), instructionType) == value.ToString()))
-                        return FiresecAPI.Models.EnumsConverter.InstructionTypeToString(instructionType);
+                        return EnumHelper.ToString(instructionType);
                 }
-                return FiresecAPI.Models.EnumsConverter.InstructionTypeToString(new InstructionType());
+
+                return EnumHelper.ToString(new InstructionType());
             }
         }
 

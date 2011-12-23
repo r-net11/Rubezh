@@ -6,7 +6,7 @@ using PlansModule.Events;
 
 namespace PlansModule
 {
-    public partial class ElementSubPlanView : UserControl
+    public partial class ElementSubPlanView : ContentControl
     {
         public Guid PlanUID { get; set; }
 

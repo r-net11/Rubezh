@@ -3,13 +3,6 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
-    public enum RemoteAccessType
-    {
-        RemoteAccessBanned,
-        RemoteAccessAllowed,
-        SelectivelyAllowed
-    }
-
     [DataContract]
     public class RemoteAccess
     {

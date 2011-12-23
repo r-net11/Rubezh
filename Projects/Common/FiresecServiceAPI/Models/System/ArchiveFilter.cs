@@ -4,13 +4,6 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
-    public enum SubsystemType
-    {
-        Fire,
-        Guard,
-        Other
-    };
-
     [DataContract]
     public class ArchiveFilter
     {

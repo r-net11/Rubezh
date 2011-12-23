@@ -3,15 +3,6 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
-    public enum ArchiveDefaultStateType
-    {
-        LastHours,
-        LastDays,
-        All,
-        FromDate,
-        RangeDate
-    }
-
     [DataContract]
     public class ArchiveDefaultState
     {

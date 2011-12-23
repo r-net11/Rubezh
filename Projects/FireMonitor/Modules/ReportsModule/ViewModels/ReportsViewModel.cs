@@ -10,7 +10,6 @@ namespace ReportsModule.ViewModels
         public ReportsViewModel()
         {
             ReportNames = new List<string>();
-            ReportNames.Add("");
             ReportNames.Add("Блоки индикации");
             ReportNames.Add("Журнал событий");
             ReportNames.Add("Количество устройств по типам");

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
+using Common;
+using FiresecAPI.Models;
 
 namespace FiltersModule.Converters
 {
@@ -7,8 +9,7 @@ namespace FiltersModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return FiresecAPI.Models.EnumsConverter.CategoryTypeToCategoryName(
-                (FiresecAPI.Models.DeviceCategoryType) value);
+            return EnumHelper.ToString((FiresecAPI.Models.DeviceCategoryType) value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

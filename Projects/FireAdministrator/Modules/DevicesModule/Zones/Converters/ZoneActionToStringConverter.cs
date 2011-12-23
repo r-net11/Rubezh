@@ -11,7 +11,7 @@ namespace DevicesModule.Converters
         {
             if (value is ZoneActionType)
             {
-                return EnumHelper.GetEnumDescription((ZoneActionType)value);
+                return EnumHelper.ToString((ZoneActionType)value);
             }
             return "";
         }
