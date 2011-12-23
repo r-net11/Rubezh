@@ -1,7 +1,10 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Helpers="clr-namespace:Controls">
+                    xmlns:Helpers="clr-namespace:Controls"
+                    xmlns:Converters="clr-namespace:Controls.Converters">
 
+    <Converters:ColorToBrushConverter x:Key="ColorToBrushConverter2" />
+    <Converters:ColorToNameConverter x:Key="ColorToNameConverter2" />
     <Helpers:ColorsHelper x:Key="ColorsHelper"/>
 
     <Style x:Key="ColorPickerComboBox" TargetType="ComboBox">
@@ -16,8 +19,8 @@
                         </Grid.ColumnDefinitions>
                         <Border Grid.Column="0" BorderThickness="1" CornerRadius="2" 
                             BorderBrush="Black" Width="50" VerticalAlignment="Stretch"
-                            Background="{Binding ., Converter={StaticResource ColorToBrushConverter}}"/>
-                        <TextBlock Grid.Column="1" Text="{Binding ., Converter={StaticResource ColorToNameConverter}}" Margin="5, 0, 0, 0" VerticalAlignment="Center" />
+                            Background="{Binding ., Converter={StaticResource ColorToBrushConverter2}}"/>
+                        <TextBlock Grid.Column="1" Text="{Binding ., Converter={StaticResource ColorToNameConverter2}}" Margin="5, 0, 0, 0" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </Setter.Value>

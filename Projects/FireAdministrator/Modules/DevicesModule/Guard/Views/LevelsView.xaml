@@ -4,7 +4,8 @@
     <Grid>
         <DataGrid Grid.Column="0" ItemsSource="{Binding Levels}" SelectedItem="{Binding SelectedLevel}" SelectionChanged="DataGrid_SelectionChanged" MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding GuardLevel.Name}" />
+                <DataGridTextColumn Header="Название" Binding="{Binding GuardLevel.Name}" />
+                <DataGridTextColumn Header="Зоны" Binding="{Binding Zones}" Width="*" />
             </DataGrid.Columns>
             <DataGrid.ContextMenu>
                 <ContextMenu>

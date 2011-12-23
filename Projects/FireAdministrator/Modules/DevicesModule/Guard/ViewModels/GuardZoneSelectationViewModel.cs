@@ -11,17 +11,16 @@ namespace DevicesModule.ViewModels
         public GuardZoneSelectationViewModel()
         {
             Title = "Выбор зоны";
+
+            Zones = (from Zone zone in FiresecManager.DeviceConfiguration.Zones
+                    where zone.ZoneType == ZoneType.Guard
+                    select zone).ToList();
+
+            if (Zones.Count > 0)
+                SelectedZone = Zones[0];
         }
 
-        public List<Zone> Zones
-        {
-            get
-            {
-                return (from Zone zone in FiresecManager.DeviceConfiguration.Zones
-                        where zone.ZoneType == ZoneType.Guard
-                          select zone).ToList();
-            }
-        }
+        public List<Zone> Zones{get;private set;}
 
         Zone _selectedZone;
         public Zone SelectedZone
@@ -32,6 +31,11 @@ namespace DevicesModule.ViewModels
                 _selectedZone = value;
                 OnPropertyChanged("SelectedZone");
             }
+        }
+
+        protected override bool CanSave()
+        {
+            return SelectedZone != null;
         }
     }
 }

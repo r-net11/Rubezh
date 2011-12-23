@@ -51,7 +51,6 @@
                                 <MenuItem Header="Инструкции" Command="{Binding ShowInstructionCommand}" Margin="2" />
                                 <MenuItem Header="Оповещение по телефону" Command="{Binding NotifyPhoneCommand}" Margin="2" />
                                 <MenuItem Header="СМС сообщение" Command="{Binding NotifySmsCommand}" Margin="2" />
-                                <MenuItem Header="Включить видео" Command="{Binding ShowVideoCommand}" Margin="2" />
                                 <Separator />
                                 <MenuItem Header="Отложить" Command="{Binding LeaveCommand}" Margin="2" />
                             </ContextMenu>

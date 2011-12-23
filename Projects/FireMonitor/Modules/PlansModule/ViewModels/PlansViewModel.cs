@@ -97,9 +97,12 @@ namespace PlansModule.ViewModels
             set
             {
                 _selectedPlan = value;
-                SelectedPlanCanvasViewModel = PlanCanvasViewModels.FirstOrDefault(x => x.Plan.UID == value.Plan.UID);
-                MainCanvas = SelectedPlanCanvasViewModel.Canvas;
-                SelectedPlanCanvasViewModel.Update();
+                if (value != null)
+                {
+                    SelectedPlanCanvasViewModel = PlanCanvasViewModels.FirstOrDefault(x => x.Plan.UID == value.Plan.UID);
+                    MainCanvas = SelectedPlanCanvasViewModel.Canvas;
+                    SelectedPlanCanvasViewModel.Update();
+                }
                 OnPropertyChanged("SelectedPlan");
             }
         }

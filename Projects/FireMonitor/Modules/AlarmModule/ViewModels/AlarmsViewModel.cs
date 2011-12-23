@@ -83,8 +83,8 @@ namespace AlarmModule.ViewModels
             if (_alarmType == null || alarm.AlarmType == _alarmType)
             {
                 Alarms.Remove(Alarms.FirstOrDefault(x => x.Alarm.DeviceUID == alarm.DeviceUID));
-                if (Alarms.Count == 0)
-                    ServiceFactory.Layout.Close();
+                //if (Alarms.Count == 0)
+                //    ServiceFactory.Layout.Close();
             }
         }
 

@@ -44,7 +44,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <TabControl Grid.Row="0">
+                    <TabControl Grid.Row="0" Background="{DynamicResource AlternativeBackgroundBrush}">
                         <TabItem Header="Управление">
                             <StackPanel>
                                 <Button Content="Старт" Click="OnConnect" Margin="1" />

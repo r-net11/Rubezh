@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI.Models;
+using Common;
 
 namespace DevicesModule.Converters
 {
@@ -10,14 +11,7 @@ namespace DevicesModule.Converters
         {
             if (value is ZoneActionType)
             {
-                switch ((ZoneActionType) value)
-                {
-                    case ZoneActionType.Set:
-                        return "Поставить на охрану";
-
-                    case ZoneActionType.Unset:
-                        return "Снять с охраны";
-                }
+                return EnumHelper.GetEnumDescription((ZoneActionType)value);
             }
             return "";
         }

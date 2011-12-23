@@ -66,26 +66,6 @@
     <CodeAnalysisRuleDirectories>;C:\Program Files\Microsoft Visual Studio 10.0\Team Tools\Static Analysis Tools\FxCop\\Rules</CodeAnalysisRuleDirectories>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.Prism">
-      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.Unity">
-      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xaml">
-      <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="WindowsBase" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
@@ -236,90 +216,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Designer\Designer\DesignerCanvas.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Designer\Designer\DesignerItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Designer\Polygon\PolygonResizeChrome.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ElementProperties\Views\DesignerPropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ElementProperties\Views\DevicePropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ElementProperties\Views\EllipsePropertiesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ElementProperties\Views\PolygonPropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ElementProperties\Views\RectanglePropertiesView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="ElementProperties\Views\SubPlanPropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ElementProperties\Views\TextBlockPropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ElementProperties\Views\ZonePropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ElementsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ToolboxView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Designer\Rectangle\ResizeChrome.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\DevicesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PlanDesignerView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PlansTreeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PlansView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PlansMenuView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\PlanDetailsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -329,4 +225,48 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <ReferencePath Include="D:\Projects\Projects\Common\Common\bin\Debug\Common.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\Controls\bin\Debug\Controls.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\DeviceControls\bin\Debug\DeviceControls.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\DialogWindow\DialogWindow\bin\Debug\DialogBox.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\FiresecServiceAPI\bin\Debug\FiresecAPI.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\FiresecClient\bin\Debug\FiresecClient.dll" />
+    <ReferencePath Include="D:\Projects\Projects\Common\Infrastructure.Common\bin\Debug\Infrastructure.Common.dll" />
+    <ReferencePath Include="D:\Projects\Projects\FireAdministrator\Infrastructure\bin\Debug\Infrastructure.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\Microsoft.CSharp.dll" />
+    <ReferencePath Include="D:\Projects\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll" />
+    <ReferencePath Include="D:\Projects\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\mscorlib.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\PresentationCore.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\PresentationFramework.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Core.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.DataSetExtensions.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Data.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Drawing.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xaml.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\System.Xml.Linq.dll" />
+    <ReferencePath Include="C:\Program Files\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0\WindowsBase.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\ElementProperties\Views\DesignerPropertiesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\ElementProperties\Views\DevicePropertiesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\ElementProperties\Views\EllipsePropertiesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\ElementProperties\Views\PolygonPropertiesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\ElementProperties\Views\RectanglePropertiesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\ElementProperties\Views\SubPlanPropertiesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\ElementProperties\Views\TextBlockPropertiesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\ElementProperties\Views\ZonePropertiesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\Views\ElementsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\Views\ToolboxView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\Views\DevicesView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\Views\PlanDesignerView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\Views\PlansTreeView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\Views\PlansView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\Views\PlansMenuView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\Views\PlanDetailsView.g.cs" />
+    <Compile Include="D:\Projects\Projects\FireAdministrator\Modules\PlansModule\obj\Debug\GeneratedInternalTypeHelper.g.cs" />
+  </ItemGroup>
 </Project>

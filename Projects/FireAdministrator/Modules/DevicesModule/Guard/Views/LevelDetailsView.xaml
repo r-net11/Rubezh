@@ -11,7 +11,7 @@
         <StackPanel>
             <DockPanel>
                 <Label DockPanel.Dock="Left" Content="Название" />
-                <TextBox DockPanel.Dock="Right" Text="{Binding Name}" />
+                <TextBox DockPanel.Dock="Right" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" />
             </DockPanel>
 
             <Button Command="{Binding AddCommand}" ToolTip="Добавить зону" Style="{StaticResource ToolarButtonStyle}" HorizontalAlignment="Left">
@@ -24,7 +24,7 @@
                         <DockPanel>
                             <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
 
-                                <ComboBox ItemsSource="{Binding AvailableActions}" SelectedItem="{Binding ZoneLevel.ZoneActionType}" Width="150" Margin="2">
+                                <ComboBox ItemsSource="{Binding AvailableActions}" SelectedItem="{Binding ZoneLevel.ZoneActionType}" VerticalAlignment="Center" Width="150" Margin="2">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding ., Converter={StaticResource ZoneActionToStringConverter}}" />

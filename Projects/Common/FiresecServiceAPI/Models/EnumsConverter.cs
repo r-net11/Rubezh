@@ -269,9 +269,6 @@ namespace FiresecAPI.Models
                 case ZoneLogicState.MPTOn:
                     return "Включение модуля пожаротушения";
 
-                //case ZoneLogicState.zsExitDelay_Unused:
-                //    return "Не используется";
-
                 case ZoneLogicState.Alarm:
                     return "Тревога";
 

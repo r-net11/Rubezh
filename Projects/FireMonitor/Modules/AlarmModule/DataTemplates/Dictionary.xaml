@@ -15,8 +15,4 @@
         <Views:InstructionView />
     </DataTemplate>
     
-    <DataTemplate DataType="{x:Type ViewModels:VideoViewModel}">
-        <Views:VideoView />
-    </DataTemplate>
-    
 </ResourceDictionary>

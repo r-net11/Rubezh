@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ServiceProcess;
 using System.Diagnostics;
 using System.IO;
+using System.ServiceProcess;
 
 namespace FiresecWindowsService
 {
     class Program : ServiceBase
     {
-        public Program()
-        {
-        }
-
         static void Main(string[] args)
         {
             ServiceBase.Run(new Program());

@@ -22,7 +22,6 @@ namespace AlarmModule.ViewModels
             ShowDeviceCommand = new RelayCommand(OnShowDevice);
             ShowZoneCommand = new RelayCommand(OnShowZone);
             ShowInstructionCommand = new RelayCommand(OnShowInstruction);
-            ShowVideoCommand = new RelayCommand(OnShowVideo);
 
             LeaveCommand = new RelayCommand(OnLeave);
         }
@@ -143,12 +142,6 @@ namespace AlarmModule.ViewModels
         public RelayCommand NotifySmsCommand { get; private set; }
         void OnNotifySms()
         {
-        }
-
-        public RelayCommand ShowVideoCommand { get; private set; }
-        void OnShowVideo()
-        {
-            ServiceFactory.UserDialogs.ShowModalWindow(new VideoViewModel());
         }
     }
 }
