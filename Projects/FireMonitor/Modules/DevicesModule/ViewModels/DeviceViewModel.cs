@@ -17,21 +17,20 @@ namespace DevicesModule.ViewModels
 
         public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
-            Source = sourceDevices;
-            Device = device;
-            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
-            UpdateParameters();
-
             ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
             ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
             DisableCommand = new RelayCommand(OnDisable, CanDisable);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             ResetCommand = new RelayCommand<string>(OnReset, CanReset);
-        }
 
-        public Driver Driver
-        {
-            get { return Device.Driver; }
+            Source = sourceDevices;
+            Device = device;
+
+            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
+            DeviceState.StateChanged += new System.Action(OnStateChanged);
+            DeviceState.ParametersChanged += new System.Action(OnParametersChanged);
+            OnStateChanged();
+            OnParametersChanged();
         }
 
         public string PresentationZone
@@ -39,10 +38,15 @@ namespace DevicesModule.ViewModels
             get { return Device.GetPersentationZone(); }
         }
 
-        public void UpdateParameters()
+        void OnStateChanged()
         {
-            Update();
+            OnPropertyChanged("StateType");
+            OnPropertyChanged("DeviceState");
+            OnPropertyChanged("DeviceState.States");
+        }
 
+        void OnParametersChanged()
+        {
             if (DeviceState != null && DeviceState.Parameters.IsNotNullOrEmpty())
             {
                 foreach (var parameter in DeviceState.Parameters)
@@ -154,13 +158,6 @@ namespace DevicesModule.ViewModels
                 _temperature = value;
                 OnPropertyChanged("Temperature");
             }
-        }
-
-        public void Update()
-        {
-            OnPropertyChanged("StateType");
-            OnPropertyChanged("DeviceState");
-            OnPropertyChanged("DeviceState.States");
         }
 
         public bool CanShowOnPlan()

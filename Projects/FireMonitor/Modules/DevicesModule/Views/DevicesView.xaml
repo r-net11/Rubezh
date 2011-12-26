@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
-            <DataGrid Name="dataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+            <DataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" MinWidth="250">
                         <DataGridTemplateColumn.CellTemplate>
@@ -26,20 +26,19 @@
                                         <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                         <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                        <Image Source="{Binding Driver.ImageSource}" Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}"
+                                        <Image Source="{Binding Device.Driver.ImageSource}" Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}"
                                             Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
                                     </StackPanel>
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding Driver.ShortName}">
-                                            <TextBlock.ContextMenu>
-                                                <ContextMenu>
-                                                    <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
-                                                    <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" />
-                                                    <MenuItem Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
-                                                    <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                                                </ContextMenu>
-                                            </TextBlock.ContextMenu></TextBlock>
-                                    </StackPanel>
+                                    <TextBlock Grid.Column="1" Text="{Binding Device.Driver.ShortName}">
+                                        <TextBlock.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
+                                                <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" />
+                                                <MenuItem Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
+                                                <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                            </ContextMenu>
+                                        </TextBlock.ContextMenu>
+                                    </TextBlock>
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -47,7 +46,7 @@
                     <DataGridTemplateColumn Header="Адрес" MinWidth="50">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Device.PresentationAddress}" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <TextBlock Text="{Binding Device.PresentationAddress}" Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -65,11 +64,11 @@
             <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="{StaticResource HighlightedBackgoundBrush}">
-                        <StackPanel Orientation="Horizontal" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
                             <TextBlock Text="{Binding Device.PresentationAddress}" />
                             <TextBlock Text=" - " />
                         </StackPanel>
-                        <TextBlock Text="{Binding Driver.Name}" />
+                        <TextBlock Text="{Binding Device.Driver.Name}" />
                         <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
                         <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
                     </StackPanel>

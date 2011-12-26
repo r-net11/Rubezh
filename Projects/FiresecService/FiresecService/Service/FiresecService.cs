@@ -83,7 +83,7 @@ namespace FiresecService
         public void Disconnect()
         {
             var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.FiresecServiceUID == _firesecServiceUID);
-            MainViewModel.Current.Connections.Remove(connectionViewModel);
+            MainViewModel.Current.RemoveConnection(connectionViewModel);
 
             DatabaseHelper.AddInfoMessage(_userName, "Выход пользователя из системы");
             CallbackManager.Remove(this);

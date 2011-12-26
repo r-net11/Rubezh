@@ -13,7 +13,8 @@ namespace DeviveModelManager
 
         public void Build()
         {
-            FiresecManager.Connect("adm", "");
+            FiresecManager.Connect("net.tcp://localhost:8000/FiresecService/", "adm", "");
+            FiresecManager.SelectiveFetch();
 
             RootTreeItem = RootHelper.CreateRoot();
             RootTreeItem.Name = "Компьютер";

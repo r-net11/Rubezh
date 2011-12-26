@@ -72,7 +72,7 @@
                 </StackPanel>
             </TabItem.Header>
         </TabItem>
-        <TabItem IsSelected="{Binding IsCallSelected}">
+        <TabItem IsSelected="{Binding IsCallSelected}" Visibility="Collapsed">
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Controls;component/Images/phone.png" />

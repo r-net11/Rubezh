@@ -20,7 +20,24 @@ namespace DevicesModule.ViewModels
 
             Zone = zone;
             ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
+            ZoneState.StateChanged += new System.Action(OnStateChanged);
+            OnStateChanged();
+        }
+
+        void OnStateChanged()
+        {
             StateType = ZoneState.StateType;
+        }
+
+        StateType _stateType;
+        public StateType StateType
+        {
+            get { return _stateType; }
+            set
+            {
+                _stateType = value;
+                OnPropertyChanged("StateType");
+            }
         }
 
         public RelayCommand SelectCommand { get; private set; }
@@ -48,22 +65,6 @@ namespace DevicesModule.ViewModels
         void OnShowOnPlan()
         {
             ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Zone.No.Value);
-        }
-
-        public string PresentationName
-        {
-            get { return Zone.PresentationName; }
-        }
-
-        StateType _stateType;
-        public StateType StateType
-        {
-            get { return _stateType; }
-            set
-            {
-                _stateType = value;
-                OnPropertyChanged("StateType");
-            }
         }
     }
 }

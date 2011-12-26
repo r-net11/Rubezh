@@ -341,12 +341,22 @@ namespace FiresecClient
             return FiresecService.DeviceCustomFunctionExecute(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID, functionName);
         }
 
+        public static void Test()
+        {
+            FiresecService.Test();
+        }
+
+        public static void StopProgress()
+        {
+            FiresecService.StopProgress();
+        }
+
         public static void LoadFromFile(string fileName)
         {
             var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
             using (var fileStream = new FileStream(fileName, FileMode.Open))
             {
-                FiresecManager.DeviceConfiguration = (DeviceConfiguration) dataContractSerializer.ReadObject(fileStream);
+                FiresecManager.DeviceConfiguration = (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
             }
 
             UpdateConfiguration();
@@ -359,16 +369,6 @@ namespace FiresecClient
             {
                 dataContractSerializer.WriteObject(fileStream, FiresecManager.DeviceConfiguration);
             }
-        }
-
-        public static void Test()
-        {
-            FiresecService.Test();
-        }
-
-        public static void StopProgress()
-        {
-            FiresecService.StopProgress();
         }
     }
 }

@@ -8,13 +8,13 @@ namespace DevicesModule.Views
         public DevicesView()
         {
             InitializeComponent();
-            this.Loaded += new RoutedEventHandler(DevicesView_Loaded);
+            this.Loaded += new RoutedEventHandler(OnLoaded);
         }
 
-        void DevicesView_Loaded(object sender, RoutedEventArgs e)
+        void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (dataGrid.SelectedItem != null)
-                dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+            if (_devicesDataGrid.SelectedItem != null)
+                _devicesDataGrid.ScrollIntoView(_devicesDataGrid.SelectedItem);
         }
     }
 }

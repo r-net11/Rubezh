@@ -24,28 +24,23 @@ namespace PlansModule.ViewModels
             ShowInTreeCommand = new RelayCommand(OnShowInTree);
             DisableCommand = new RelayCommand(OnDisable);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-            FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
 
             ElementDevice = elementDevice;
             DeviceUID = elementDevice.DeviceUID;
             Device = elementDevice.Device;
             DeviceState = elementDevice.DeviceState;
+            DeviceState.StateChanged += new Action(OnDeviceStateChanged);
         }
-
-        object locker = new object();
 
         public void DrawElementDevice()
         {
-            lock (locker)
-            {
-                if (ElementDeviceView != null)
-                    return;
+            if (ElementDeviceView != null)
+                return;
 
-                ElementDeviceView = new ElementDeviceView()
-                {
-                    DataContext = this
-                };
-            }
+            ElementDeviceView = new ElementDeviceView()
+            {
+                DataContext = this,
+            };
             ElementDeviceView._deviceControl.IsManualUpdate = true;
 
             ElementDeviceView.Width = ElementDevice.Width;
@@ -56,7 +51,7 @@ namespace PlansModule.ViewModels
             if (Device != null)
             {
                 ElementDeviceView._deviceControl.DriverId = Device.Driver.UID;
-                OnDeviceStateChanged(Device.UID);
+                OnDeviceStateChanged();
             }
         }
 
@@ -107,18 +102,15 @@ namespace PlansModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
         }
 
-        void OnDeviceStateChanged(Guid deviceUID)
+        void OnDeviceStateChanged()
         {
-            if (deviceUID == DeviceUID)
-            {
-                ElementDeviceView._deviceControl.StateType = DeviceState.StateType;
-                ElementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
-                    from state in DeviceState.States
-                    select state.DriverState.Code);
-                ElementDeviceView._deviceControl.Update();
+            ElementDeviceView._deviceControl.StateType = DeviceState.StateType;
+            ElementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
+                from state in DeviceState.States
+                select state.DriverState.Code);
+            ElementDeviceView._deviceControl.Update();
 
-                UpdateTooltip();
-            }
+            UpdateTooltip();
         }
 
         string _toolTip;

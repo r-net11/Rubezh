@@ -18,7 +18,7 @@ namespace AssadProcessor
 
         public void Start()
         {
-            FiresecManager.Connect("adm", "");
+            FiresecManager.Connect("net.tcp://localhost:8000/FiresecService/", "adm", "");
 
             Services.NetManager.Start();
             _watcher = new Watcher();

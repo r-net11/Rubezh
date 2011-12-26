@@ -70,5 +70,12 @@ namespace FiresecAPI.Models
             if (StateChanged != null)
                 StateChanged();
         }
+
+        public event Action ParametersChanged;
+        public void OnParametersChanged()
+        {
+            if (ParametersChanged != null)
+                ParametersChanged();
+        }
     }
 }

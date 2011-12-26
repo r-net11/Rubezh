@@ -17,7 +17,7 @@ namespace DevicesModule.ViewModels
         public DeviceDetailsViewModel(Guid deviceUID)
         {
             Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
+            DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
             if (DeviceState != null)
                 DeviceState.StateChanged += new Action(deviceState_StateChanged);
             DeviceControlViewModel = new DeviceControlViewModel(Device);
@@ -25,9 +25,9 @@ namespace DevicesModule.ViewModels
             Title = Device.Driver.ShortName + " " + Device.DottedAddress;
         }
 
-        public Driver Driver
+        public string PresentationZone
         {
-            get { return Device.Driver; }
+            get { return Device.GetPersentationZone(); }
         }
 
         void deviceState_StateChanged()
@@ -54,16 +54,6 @@ namespace DevicesModule.ViewModels
 
                 return _deviceControl;
             }
-        }
-
-        public string ConnectedTo
-        {
-            get { return Device.ConnectedTo; }
-        }
-
-        public string PresentationZone
-        {
-            get { return Device.GetPersentationZone(); }
         }
 
         public List<string> Parameters

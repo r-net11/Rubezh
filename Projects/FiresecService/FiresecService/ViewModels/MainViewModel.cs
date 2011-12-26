@@ -60,5 +60,15 @@ namespace FiresecService.ViewModels
                 OnPropertyChanged("SelectedConnection");
             }
         }
+
+        public void RemoveConnection(ConnectionViewModel connectionViewModel)
+        {
+            Dispatcher.Invoke(new Action(
+            delegate()
+            {
+                Connections.Remove(connectionViewModel);
+            }
+            ));
+        }
     }
 }

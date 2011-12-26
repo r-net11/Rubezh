@@ -22,8 +22,6 @@ namespace DevicesModule.ViewModels
                 ExpandChild(Devices[0]);
                 SelectedDevice = Devices[0];
             }
-
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
         }
 
         ObservableCollection<DeviceViewModel> _devices;
@@ -50,6 +48,27 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        void BuildDeviceTree()
+        {
+            Devices = new ObservableCollection<DeviceViewModel>();
+            AllDevices = new List<DeviceViewModel>();
+            AddDevice(FiresecManager.DeviceConfiguration.RootDevice, null);
+        }
+
+        DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
+        {
+            var deviceViewModel = new DeviceViewModel(device, Devices) { Parent = parentDeviceViewModel };
+            AllDevices.Add(deviceViewModel);
+
+            Devices.Insert(Devices.IndexOf(parentDeviceViewModel) + 1, deviceViewModel);
+            foreach (var childDevice in device.Children)
+            {
+                deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
+            }
+
+            return deviceViewModel;
+        }
+
         void CollapseChild(DeviceViewModel parentDeviceViewModel)
         {
             parentDeviceViewModel.IsExpanded = false;
@@ -71,11 +90,25 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void OnDeviceStateChanged(Guid deviceUID)
+        #region DeviceSelection
+
+        public List<DeviceViewModel> AllDevices;
+
+        public void Select(Guid deviceUID)
         {
             var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
             if (deviceViewModel != null)
-                deviceViewModel.Update();
+            {
+                deviceViewModel.ExpantToThis();
+                SelectedDevice = deviceViewModel;
+            }
+        }
+
+        #endregion
+
+        void OnDeviceStateChanged(Guid deviceUID)
+        {
+            var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 
             if (deviceViewModel.Device.Driver.DriverType == DriverType.Valve)
             {
@@ -103,50 +136,5 @@ namespace DevicesModule.ViewModels
                 }
             }
         }
-
-        void OnDeviceStateChangedEvent(Guid deviceUID)
-        {
-            DeviceViewModel deviceViewModel = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
-            if (deviceViewModel == null)
-                return;
-            deviceViewModel.UpdateParameters();
-        }
-
-        void BuildDeviceTree()
-        {
-            Devices = new ObservableCollection<DeviceViewModel>();
-            AllDevices = new List<DeviceViewModel>();
-            AddDevice(FiresecManager.DeviceConfiguration.RootDevice, null);
-        }
-
-        DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
-        {
-            var deviceViewModel = new DeviceViewModel(device, Devices) { Parent = parentDeviceViewModel };
-            AllDevices.Add(deviceViewModel);
-
-            Devices.Insert(Devices.IndexOf(parentDeviceViewModel) + 1, deviceViewModel);
-            foreach (var childDevice in device.Children)
-            {
-                deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
-            }
-
-            return deviceViewModel;
-        }
-
-        #region DeviceSelection
-
-        public List<DeviceViewModel> AllDevices;
-
-        public void Select(Guid deviceUID)
-        {
-            var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-            if (deviceViewModel != null)
-            {
-                deviceViewModel.ExpantToThis();
-                SelectedDevice = deviceViewModel;
-            }
-        }
-
-        #endregion
     }
 }

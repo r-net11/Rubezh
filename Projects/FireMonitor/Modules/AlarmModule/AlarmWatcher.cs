@@ -16,11 +16,11 @@ namespace AlarmModule
         public AlarmWatcher()
         {
             Alarms = new List<Alarm>();
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(FiresecEventSubscriber_DeviceStateChangedEvent);
-            FiresecEventSubscriber_DeviceStateChangedEvent(Guid.Empty);
+            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
+            OnDeviceStateChangedEvent(Guid.Empty);
         }
 
-        void FiresecEventSubscriber_DeviceStateChangedEvent(Guid obj)
+        void OnDeviceStateChangedEvent(Guid obj)
         {
             Alarms.ForEach(x => x.IsDeleting = true);
 

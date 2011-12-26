@@ -34,7 +34,6 @@ namespace FireMonitor
         void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
-            //IsAlarmSelected = true;
         }
 
         void DeselectAll()

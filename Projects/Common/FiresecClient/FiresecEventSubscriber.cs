@@ -40,8 +40,8 @@ namespace FiresecClient
                 }
 
                 deviceState.OnStateChanged();
-
-                OnDeviceStateChanged(deviceState.UID);
+                if (DeviceStateChangedEvent != null)
+                    DeviceStateChangedEvent(deviceState.UID);
             }
         }
 
@@ -51,7 +51,10 @@ namespace FiresecClient
             {
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
                 deviceState.Parameters = newDeviceState.Parameters;
-                OnDeviceParametersChanged(deviceState.UID);
+
+                deviceState.OnParametersChanged();
+                if (DeviceParametersChangedEvent != null)
+                    DeviceParametersChangedEvent(deviceState.UID);
             }
         }
 
@@ -60,8 +63,10 @@ namespace FiresecClient
             var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == newZoneState.No);
             zoneState.StateType = newZoneState.StateType;
             zoneState.RevertColorsForGuardZone = IsZoneOnGuard(newZoneState);
+
             zoneState.OnStateChanged();
-            OnZoneStateChanged(zoneState.No);
+            if (ZoneStateChangedEvent != null)
+                ZoneStateChangedEvent(zoneState.No);
         }
 
         public bool IsZoneOnGuard(ZoneState zoneState)
@@ -86,11 +91,11 @@ namespace FiresecClient
 
         public void NewJournalRecord(JournalRecord journalRecord)
         {
-            OnNewJournalRecordEvent(journalRecord);
+            if (NewJournalRecordEvent != null)
+                NewJournalRecordEvent(journalRecord);
         }
 
         public delegate bool ProgressDelegate(int stage, string comment, int percentComplete, int bytesRW);
-
         public static event ProgressDelegate OperationProgress;
         public static bool OnOperationProgress(int stage, string comment, int percentComplete, int bytesRW)
         {
@@ -100,31 +105,8 @@ namespace FiresecClient
         }
 
         public static event Action<JournalRecord> NewJournalRecordEvent;
-        public static void OnNewJournalRecordEvent(JournalRecord journalRecord)
-        {
-            if (NewJournalRecordEvent != null)
-                NewJournalRecordEvent(journalRecord);
-        }
-
         public static event Action<Guid> DeviceStateChangedEvent;
-        public static void OnDeviceStateChanged(Guid deviceUID)
-        {
-            if (DeviceStateChangedEvent != null)
-                DeviceStateChangedEvent(deviceUID);
-        }
-
         public static event Action<Guid> DeviceParametersChangedEvent;
-        public static void OnDeviceParametersChanged(Guid deviceUID)
-        {
-            if (DeviceParametersChangedEvent != null)
-                DeviceParametersChangedEvent(deviceUID);
-        }
-
         public static event Action<ulong?> ZoneStateChangedEvent;
-        public static void OnZoneStateChanged(ulong? zoneNo)
-        {
-            if (ZoneStateChangedEvent != null)
-                ZoneStateChangedEvent(zoneNo);
-        }
     }
 }
