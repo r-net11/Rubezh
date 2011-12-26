@@ -188,10 +188,14 @@
             <Component Id="cmpDC4167C9D26EAA92219A1BB4B4C09DDD" Guid="{D2FD9518-2E41-4D50-AE37-C6BD9AB72950}">
                 <File Id="fil3C12579D8FDDC2297C6E18B3A418EDB3" Source="..\..\Configuration\Icons\Электроконтактный.ico" />
             </Component>
+          <Component Id="Unknown_Device" Guid="{F52B785C-4A2E-4230-A3A8-95848FAF4C9D}">
+            <File Id="Unknown_Device" Source="..\..\Configuration\Icons\Unknown_Device.ico" />
+          </Component>
         </DirectoryRef>
     </Fragment>
     <Fragment>
         <ComponentGroup Id="FiresecServiceIconsFolder">
+          <ComponentRef Id="Unknown_Device" />
             <ComponentRef Id="cmp28F2CB3051A251FF9EF13A0BDF342F34" />
             <ComponentRef Id="cmp74F5D80A9AA0814FEB52C8A12F076ECB" />
             <ComponentRef Id="cmp1FBB923EEEB4188DA06EF4A8C6061224" />

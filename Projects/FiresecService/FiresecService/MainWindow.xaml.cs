@@ -15,6 +15,7 @@ namespace FiresecServiceRunner
         public MainWindow()
         {
             InitializeComponent();
+
             DirectoryInfo dirInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
             Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
             AnalizeCommandLine();
@@ -134,5 +135,6 @@ namespace FiresecServiceRunner
         void OnWindow_Closed(object sender, EventArgs e)
         {
         }
+
     }
 }

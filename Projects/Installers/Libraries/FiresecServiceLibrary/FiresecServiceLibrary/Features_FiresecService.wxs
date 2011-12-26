@@ -10,6 +10,7 @@
 			<ComponentRef Id="ControlsComponent"/>
 			<ComponentRef Id="FiresecComponent" />
 			<ComponentRef Id="FiresecAPIComponent" />
+			<ComponentRef Id="InfrastructureCommonComponent"/>
 			<ComponentRef Id="TrayComponent"/>
 			<ComponentRef Id="PlansConfiguration"/>
 			<ComponentRef Id="SecurityConfiguration"/>

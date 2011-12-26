@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Include>
-  <?define ProductName="FireAdministrator" ?>
-  <?define ProductVersion="1.0.0.0" ?>
-  <?define ProductCode="D662E7E3-70DA-423D-B9B4-DE622378429C" ?>
-  <?define UpgradeCode="B5C83A02-2776-47E1-AB9F-114AA0B86800" ?>
-  <?define Manufacturer='Группа компаний "Рубеж"' ?>
-  <?define Codepage="1251" ?>
-</Include>

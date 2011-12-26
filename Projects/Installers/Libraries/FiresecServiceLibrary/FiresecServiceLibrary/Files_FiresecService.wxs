@@ -28,6 +28,11 @@
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
+			<Component Id="InfrastructureCommonComponent" Guid="6613AC03-F043-4D1B-8CC8-97EF2954B820">
+				<File Id="InfrastructureCommonDll" Name="$(var.Infrastructure.Common.TargetFileName)" Source="$(var.Infrastructure.Common.TargetPath)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
 			<Component Id="FiresecComponent" Guid="41974E04-F90D-4B43-9334-527425544AE8">
 				<File Id="FiresecDll" Name="$(var.Firesec.TargetFileName)" Source="$(var.Firesec.TargetPath)"
 							DiskId="1" KeyPath="yes" />
