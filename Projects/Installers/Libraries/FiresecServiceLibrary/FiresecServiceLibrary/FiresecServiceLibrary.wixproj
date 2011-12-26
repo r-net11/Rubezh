@@ -36,56 +36,6 @@
     <Compile Include="Shortcuts_FiresecService.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Common\Common\Common.csproj">
-      <Name>Common</Name>
-      <Project>{fe37b6d4-73e5-40f2-a770-a974561430b8}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Common\Controls\Controls.csproj">
-      <Name>Controls</Name>
-      <Project>{0f0ace8e-e606-4fca-b6b2-2f1fd86121de}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
-      <Name>FiresecAPI</Name>
-      <Project>{75ddfd5c-6572-4d90-961a-4e08d65b8fe7}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
-      <Name>Infrastructure.Common</Name>
-      <Project>{d57cb190-a30e-4a3d-a674-f1766ce1cc72}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\FiresecService\FiresecService\FiresecService.csproj">
-      <Name>FiresecService</Name>
-      <Project>{903ca80d-886e-43af-a631-beb260f8f93d}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\FiresecService\Firesec\Firesec.csproj">
-      <Name>Firesec</Name>
-      <Project>{d8d5bb16-daa5-4755-a924-34ac8dce19e8}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="AutoGenOutputFiles" />
     <Folder Include="Data" />
     <Folder Include="FiresecBin" />
@@ -129,6 +79,16 @@
       <HintPath>$(WixExtDir)\WixSqlExtension.dll</HintPath>
       <Name>WixSqlExtension</Name>
     </WixExtension>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\FiresecService\FiresecService\FiresecService.csproj">
+      <Name>FiresecService</Name>
+      <Project>{903ca80d-886e-43af-a631-beb260f8f93d}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
