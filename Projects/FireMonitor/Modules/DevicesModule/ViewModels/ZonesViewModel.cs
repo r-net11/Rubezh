@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using DevicesModule.Events;
@@ -44,16 +43,7 @@ namespace DevicesModule.ViewModels
                 SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
         }
 
-        ObservableCollection<DeviceViewModel> _devices;
-        public ObservableCollection<DeviceViewModel> Devices
-        {
-            get { return _devices; }
-            set
-            {
-                _devices = value;
-                OnPropertyChanged("Devices");
-            }
-        }
+        public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
         void InitializeDevices()
         {
@@ -80,27 +70,27 @@ namespace DevicesModule.ViewModels
                 }
             }
 
-            var deviceViewModels = new ObservableCollection<DeviceViewModel>();
+            Devices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
-                deviceViewModels.Add(new DeviceViewModel(device, deviceViewModels)
+                Devices.Add(new DeviceViewModel(device, Devices)
                 {
                     IsExpanded = true,
                     IsBold = device.Driver.IsZoneDevice || device.Driver.IsZoneLogicDevice
                 });
             }
 
-            foreach (var device in deviceViewModels)
+            foreach (var device in Devices)
             {
                 if (device.Device.Parent != null)
                 {
-                    var parent = deviceViewModels.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+                    var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
                     device.Parent = parent;
                     parent.Children.Add(device);
                 }
             }
 
-            Devices = deviceViewModels;
+            OnPropertyChanged("Devices");
         }
     }
 }

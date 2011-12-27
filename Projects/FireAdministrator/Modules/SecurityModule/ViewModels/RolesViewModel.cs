@@ -20,11 +20,8 @@ namespace SecurityModule.ViewModels
             AddCommand = new RelayCommand(OnAdd);
 
             Roles = new ObservableCollection<RoleViewModel>();
-            if (FiresecManager.SecurityConfiguration.UserRoles.IsNotNullOrEmpty())
-            {
-                foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)
-                    Roles.Add(new RoleViewModel(role));
-            }
+            foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)
+                Roles.Add(new RoleViewModel(role));
 
             if (Roles.Count > 0)
                 SelectedRole = Roles[0];
@@ -51,8 +48,7 @@ namespace SecurityModule.ViewModels
             if (result == MessageBoxResult.Yes)
             {
                 FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);
-                FiresecManager.SecurityConfiguration.Users =
-                    FiresecManager.SecurityConfiguration.Users.Where(x => x.RoleId != SelectedRole.Role.Id).ToList();
+                FiresecManager.SecurityConfiguration.Users = FiresecManager.SecurityConfiguration.Users.Where(x => x.RoleId != SelectedRole.Role.Id).ToList();
                 Roles.Remove(SelectedRole);
 
                 SecurityModule.HasChanges = true;

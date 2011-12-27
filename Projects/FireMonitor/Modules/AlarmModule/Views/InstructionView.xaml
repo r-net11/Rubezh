@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinHeight="400" MinWidth="400">
-    <Grid>
-        <Label Content="{Binding Path=Instruction.Text}" />
-    </Grid>
+    
+    <Label Content="{Binding Path=Instruction.Text}" />
 </UserControl>

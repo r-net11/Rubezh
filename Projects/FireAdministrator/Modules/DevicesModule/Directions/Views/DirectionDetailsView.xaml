@@ -34,27 +34,27 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Grid.Column="0">
-                                <Hyperlink Command="{Binding ChooseRmCommand}" Style="{StaticResource HyperlinkStyle}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding DeviceRm.Driver.ShortName}" />
-                                        <TextBlock Text="{Binding DeviceRm.DottedAddress}" Margin="10, 0, 0, 0" />
-                                    </StackPanel>
+                        <Hyperlink Command="{Binding ChooseRmCommand}" Style="{StaticResource HyperlinkStyle}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding DeviceRm.Driver.ShortName}" />
+                                <TextBlock Text="{Binding DeviceRm.DottedAddress}" Margin="10, 0, 0, 0" />
+                            </StackPanel>
                                         
-                                    <TextBlock Text="Нажмите для выбора устройства" Margin="2">
-                                        <TextBlock.Style>
-                                            <Style>
-                                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                                                <Style.Triggers>
-                                                <DataTrigger Binding="{Binding DeviceRm}" Value="{x:Null}">
-                                                    <Setter Property="TextBlock.Visibility" Value="Visible" />
-                                                </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                        
-                                </Hyperlink>
+                            <TextBlock Text="Нажмите для выбора устройства" Margin="2">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="TextBlock.Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                        <DataTrigger Binding="{Binding DeviceRm}" Value="{x:Null}">
+                                            <Setter Property="TextBlock.Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
                             </TextBlock>
+                                        
+                        </Hyperlink>
+                    </TextBlock>
 
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <Button Command="{Binding ResetRmCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}" HorizontalAlignment="Right">

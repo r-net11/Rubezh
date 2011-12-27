@@ -40,17 +40,17 @@ namespace PlansModule.ViewModels
 
         public void DrawPlan()
         {
-            Canvas = new Canvas();
-            Canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
             SubPlans = new List<ElementSubPlanViewModel>();
             Zones = new List<ElementZoneViewModel>();
             Devices = new List<ElementDeviceViewModel>();
 
-            Canvas = new Canvas();
+            Canvas = new Canvas()
+            {
+                Width = Plan.Width,
+                Height = Plan.Height
+            };
+            Canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
 
-            Canvas.Children.Clear();
-            Canvas.Width = Plan.Width;
-            Canvas.Height = Plan.Height;
             if (Plan.BackgroundPixels != null)
             {
                 Canvas.Background = PlanElementsHelper.CreateBrush(Plan.BackgroundPixels); //TODO: ~20-25 % общего времени

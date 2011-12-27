@@ -5,11 +5,11 @@
     
     <UserControl.Resources>
         <DataTemplate x:Key="ElementDataTemplate">
-            <StackPanel Orientation="Horizontal">
+            <WrapPanel>
                 <CheckBox IsChecked="{Binding IsVisible}" Margin="1" />
                 <CheckBox IsChecked="{Binding IsSelectable}" Margin="1" />
                 <TextBlock Text="{Binding Name}" Margin="1" />
-            </StackPanel>
+            </WrapPanel>
         </DataTemplate>
     </UserControl.Resources>
     
@@ -18,37 +18,37 @@
             <StackPanel>
                 <Expander Header="Элементы" Foreground="White">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                        <WrapPanel>
                             <CheckBox IsChecked="{Binding IsElementsVisible}" Margin="1" />
                             <CheckBox IsChecked="{Binding IsElementsSelectable}" Margin="1" />
-                        </StackPanel>
+                            </WrapPanel>
                         <ListBox ItemsSource="{Binding Elements}" ItemTemplate="{StaticResource ElementDataTemplate}" />
                     </StackPanel>
                 </Expander>
                 <Expander Header="Зоны" Foreground="White">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                        <WrapPanel>
                             <CheckBox IsChecked="{Binding IsZonesVisible}" Margin="1" />
                             <CheckBox IsChecked="{Binding IsZonesSelectable}" Margin="1" />
-                        </StackPanel>
+                            </WrapPanel>
                         <ListBox ItemsSource="{Binding Zones}" ItemTemplate="{StaticResource ElementDataTemplate}" />
                     </StackPanel>
                 </Expander>
                 <Expander Header="Подпланы" Foreground="White">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                        <WrapPanel>
                             <CheckBox IsChecked="{Binding IsSubPlansVisible}" Margin="1" />
                             <CheckBox IsChecked="{Binding IsSubPlansSelectable}" Margin="1" />
-                        </StackPanel>
+                        </WrapPanel>
                         <ListBox ItemsSource="{Binding SubPlans}" ItemTemplate="{StaticResource ElementDataTemplate}" />
                     </StackPanel>
                 </Expander>
                 <Expander Header="Устройства" Foreground="White">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                        <WrapPanel>
                             <CheckBox IsChecked="{Binding IsDevicesVisible}" Margin="1" />
                             <CheckBox IsChecked="{Binding IsDevicesSelectable}" Margin="1" />
-                        </StackPanel>
+                        </WrapPanel>
                         <ListBox ItemsSource="{Binding Devices}" ItemTemplate="{StaticResource ElementDataTemplate}" />
                     </StackPanel>
                 </Expander>

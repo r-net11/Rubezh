@@ -5,6 +5,7 @@
     <UserControl.Resources>
         <Converters:RemoteAccessTypeToStringConverter x:Key="RemoteAccessTypeToStringConverter" />
     </UserControl.Resources>
+    
     <DockPanel LastChildFill="True">
         <ItemsControl DockPanel.Dock="Top" Margin="0,17,0,7" ItemsSource="{Binding RemoteAccessTypes}">
             <ItemsControl.ItemTemplate>

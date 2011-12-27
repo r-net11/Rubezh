@@ -9,7 +9,7 @@
             <ColumnDefinition Width="*" MinWidth="200" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
-            <DataGrid Grid.Column="0" Name="_directionDataGrid" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" SelectionChanged="DataGrid_SelectionChanged" MouseDoubleClick="DataGrid_MouseDoubleClick">
+            <DataGrid Grid.Column="0" Name="_directionDataGrid" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" SelectionChanged="DataGrid_SelectionChanged" PreviewMouseDown="DataGrid_PreviewMouseDown" MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Direction.Id}" />
                     <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Direction.Name}" />

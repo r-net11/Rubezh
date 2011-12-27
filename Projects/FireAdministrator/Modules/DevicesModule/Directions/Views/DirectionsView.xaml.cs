@@ -42,9 +42,7 @@ namespace DevicesModule.Views
         {
             var dataGrid = sender as DataGrid;
             if (dataGrid.SelectedItem != null)
-            {
                 dataGrid.ScrollIntoView(dataGrid.SelectedItem);
-            }
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -53,6 +51,16 @@ namespace DevicesModule.Views
             var directionsViewModel = dataGrid.DataContext as DirectionsViewModel;
             if (directionsViewModel.EditCommand.CanExecute(null))
                 directionsViewModel.EditCommand.Execute();
+        }
+
+        private void DataGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            IInputElement element = e.MouseDevice.DirectlyOver;
+            if ((element != null && element is FrameworkElement && ((FrameworkElement)element).Parent is DataGridCell) == false)
+            {
+                var dataGrid = sender as DataGrid;
+                dataGrid.SelectedItem = null;
+            }
         }
     }
 }

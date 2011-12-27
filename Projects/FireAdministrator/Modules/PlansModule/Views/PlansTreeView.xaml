@@ -6,22 +6,11 @@
             <DataGridTemplateColumn Header="Название" Width="250">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <WrapPanel Grid.Column="0" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                <StackPanel Width="16">
-                                    <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </WrapPanel>
-                            <StackPanel Grid.Column="1">
-                                <TextBlock Text="{Binding Plan.Caption}" />
-                            </StackPanel>
-                        </Grid>
+                        <WrapPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                            <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="16"
+                                Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding Plan.Caption}" />
+                        </WrapPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

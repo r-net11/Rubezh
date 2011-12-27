@@ -15,9 +15,6 @@ namespace DevicesModule.ViewModels
 
         public ZoneDevicesViewModel()
         {
-            Devices = new ObservableCollection<DeviceViewModel>();
-            AvailableDevices = new ObservableCollection<DeviceViewModel>();
-
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
@@ -57,11 +54,14 @@ namespace DevicesModule.ViewModels
                 }
             }
 
-            Devices.Clear();
+            Devices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
-                var deviceViewModel = new DeviceViewModel(device, Devices);
-                deviceViewModel.IsExpanded = true;
+                var deviceViewModel = new DeviceViewModel(device, Devices)
+                {
+                    IsExpanded = true,
+                    IsBold = device.Driver.IsZoneDevice || device.Driver.IsZoneLogicDevice
+                };
                 Devices.Add(deviceViewModel);
             }
 
@@ -72,11 +72,14 @@ namespace DevicesModule.ViewModels
                 parent.Children.Add(device);
             }
 
-            AvailableDevices.Clear();
+            AvailableDevices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in availableDevices)
             {
-                var deviceViewModel = new DeviceViewModel(device, AvailableDevices);
-                deviceViewModel.IsExpanded = true;
+                var deviceViewModel = new DeviceViewModel(device, AvailableDevices)
+                {
+                    IsExpanded = true,
+                    IsBold = device.Driver.IsZoneDevice
+                };
                 AvailableDevices.Add(deviceViewModel);
             }
 
@@ -86,6 +89,8 @@ namespace DevicesModule.ViewModels
                 device.Parent = parent;
                 parent.Children.Add(device);
             }
+
+            OnPropertyChanged("Devices");
 
             if (Devices.Count > 0)
                 SelectedDevice = Devices[Devices.Count - 1];
@@ -102,12 +107,9 @@ namespace DevicesModule.ViewModels
             SelectedAvailableDevice = null;
         }
 
-        public void DropDevicesZoneNo()
+        public void UpdateAvailableDevices()
         {
-            foreach (var device in Devices)
-            {
-                device.Device.ZoneNo = null;
-            }
+            OnPropertyChanged("AvailableDevices");
         }
 
         public ObservableCollection<DeviceViewModel> Devices { get; private set; }
@@ -146,6 +148,7 @@ namespace DevicesModule.ViewModels
         {
             SelectedAvailableDevice.Device.ZoneNo = _zoneNo;
             Initialize(_zoneNo);
+            UpdateAvailableDevices();
             DevicesModule.HasChanges = true;
         }
 
@@ -159,7 +162,7 @@ namespace DevicesModule.ViewModels
         {
             SelectedDevice.Device.ZoneNo = null;
             Initialize(_zoneNo);
-
+            UpdateAvailableDevices();
             DevicesModule.HasChanges = true;
         }
 

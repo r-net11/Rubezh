@@ -8,6 +8,7 @@
         <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
         <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
     </UserControl.Resources>
+    
     <Grid>
         <ItemsControl ItemsSource="{Binding AlarmGroups}">
             <ItemsControl.ItemsPanel>

@@ -31,16 +31,19 @@ namespace DevicesModule.Views
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            var dataGrid = sender as DataGrid;
+            var zonesViewModel = dataGrid.DataContext as ZonesViewModel;
+            if (zonesViewModel.EditCommand.CanExecute(null))
+                zonesViewModel.EditCommand.Execute();
+        }
+
+        private void DataGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
             IInputElement element = e.MouseDevice.DirectlyOver;
-            if (element != null && element is FrameworkElement)
+            if ((element != null && element is FrameworkElement && ((FrameworkElement)element).Parent is DataGridCell) == false)
             {
-                if (((FrameworkElement)element).Parent is DataGridCell)
-                {
-                    var dataGrid = sender as DataGrid;
-                    var zonesViewModel = dataGrid.DataContext as ZonesViewModel;
-                    if (zonesViewModel.EditCommand.CanExecute(null))
-                        zonesViewModel.EditCommand.Execute();
-                }
+                var dataGrid = sender as DataGrid;
+                dataGrid.SelectedItem = null;
             }
         }
     }

@@ -11,7 +11,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="DataGrid_SelectionChanged" MouseDoubleClick="DataGrid_MouseDoubleClick">
+            <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="DataGrid_SelectionChanged" PreviewMouseDown="DataGrid_PreviewMouseDown" MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
                     <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />

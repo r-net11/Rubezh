@@ -41,6 +41,8 @@ namespace DevicesModule.ViewModels
                 _selectedZone = value;
                 if (value != null)
                     ZoneDevices.Initialize(value.No.Value);
+                else
+                    ZoneDevices.Clear();
 
                 OnPropertyChanged("SelectedZone");
             }
@@ -77,12 +79,10 @@ namespace DevicesModule.ViewModels
             if (dialogResult == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
+                FiresecManager.DeviceConfiguration.Devices.ForEach(x => { if ((x.ZoneNo != null) && (x.ZoneNo.Value == SelectedZone.Zone.No)) x.ZoneNo = null; });
                 Zones.Remove(SelectedZone);
-                ZoneDevices.DropDevicesZoneNo();
-                ZoneDevices.Clear();
-                if (Zones.Count > 0)
-                    SelectedZone = Zones[0];
-
+                SelectFirstZone();
+                ZoneDevices.UpdateAvailableDevices();
                 DevicesModule.HasChanges = true;
             }
         }
@@ -108,9 +108,9 @@ namespace DevicesModule.ViewModels
             if (dialogResult == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration.Zones.Clear();
-                Zones.Clear();
                 FiresecManager.DeviceConfiguration.Devices.ForEach(x => x.ZoneNo = null);
-                ZoneDevices.Clear();
+                Zones.Clear();
+                SelectedZone = null;
 
                 DevicesModule.HasChanges = true;
             }
@@ -122,22 +122,27 @@ namespace DevicesModule.ViewModels
             var dialogResult = DialogBox.DialogBox.Show("Вы уверены, что хотите удалить все пустые зоны ?", MessageBoxButton.YesNo);
             if (dialogResult == MessageBoxResult.Yes)
             {
-                var devices = FiresecManager.DeviceConfiguration.Devices;
                 var emptyZones = new List<ZoneViewModel>(
                     Zones.Where(zone => FiresecManager.DeviceConfiguration.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneNo == zone.No) == false)
                 );
-
                 foreach (var emptyZone in emptyZones)
                 {
                     FiresecManager.DeviceConfiguration.Zones.Remove(emptyZone.Zone);
                     Zones.Remove(emptyZone);
                 }
 
-                if (Zones.Count > 0)
-                    SelectedZone = Zones[0];
+                SelectFirstZone();
 
                 DevicesModule.HasChanges = true;
             }
+        }
+
+        void SelectFirstZone()
+        {
+            if (Zones.Count > 0)
+                SelectedZone = Zones[0];
+            else
+                SelectedZone = null;
         }
 
         public override void OnShow()

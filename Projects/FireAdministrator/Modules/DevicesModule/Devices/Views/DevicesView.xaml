@@ -13,18 +13,12 @@
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <WrapPanel Grid.Column="0" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                        <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                       Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                        <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
-                                                    Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    </WrapPanel>
-                                    <TextBlock Text="{Binding Driver.ShortName}" Grid.Column="1">
+                                <WrapPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                    <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
+                                        Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <TextBlock Text="{Binding Driver.ShortName}">
                                         <TextBlock.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
@@ -36,7 +30,7 @@
                                             </ContextMenu>
                                         </TextBlock.ContextMenu>
                                     </TextBlock>
-                                </Grid>
+                                </WrapPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -78,7 +72,7 @@
                                         </TextBlock.InputBindings>
                                     </TextBlock>
                                     <TextBlock Text="{Binding PresentationZone}" Visibility="{Binding Driver.IsIndicatorDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                                                    <TextBlock.InputBindings>
+                                        <TextBlock.InputBindings>
                                             <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowIndicatorLogicCommand}" />
                                         </TextBlock.InputBindings>
                                     </TextBlock>

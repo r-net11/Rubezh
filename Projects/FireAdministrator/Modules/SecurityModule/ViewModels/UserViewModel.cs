@@ -20,19 +20,18 @@ namespace SecurityModule.ViewModels
             {
                 _user = value;
 
-                _roleName = string.Empty;
+                RoleName = string.Empty;
                 if (value != null)
                 {
                     var role = FiresecManager.SecurityConfiguration.UserRoles.FirstOrDefault(x => x.Id == value.RoleId);
                     if (role != null)
-                        _roleName = role.Name;
+                        RoleName = role.Name;
                 }
 
                 OnPropertyChanged("User");
             }
         }
 
-        string _roleName;
-        public string RoleName { get { return _roleName; } }
+        public string RoleName { get; private set; }
     }
 }

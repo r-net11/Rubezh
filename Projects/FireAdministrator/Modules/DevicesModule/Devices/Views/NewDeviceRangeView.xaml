@@ -10,10 +10,10 @@
         <ListBox Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
+                    <WrapPanel>
                         <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="1" />
                         <TextBlock Text="{Binding Name}" Margin="1" />
-                    </StackPanel>
+                    </WrapPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

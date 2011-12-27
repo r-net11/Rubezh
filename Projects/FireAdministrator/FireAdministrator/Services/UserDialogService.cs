@@ -84,6 +84,16 @@ namespace FireAdministrator
             try
             {
                 var dialogWindow = new DialogWindow();
+
+                try
+                {
+                    dialogWindow.Owner = App.Current.MainWindow;
+                }
+                catch
+                {
+                    dialogWindow.ShowInTaskbar = true;
+                }
+
                 dialogWindow.SetContent(model);
                 if (dialogWindow.ViewModel is ZonesSelectionViewModel)
                 {

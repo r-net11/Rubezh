@@ -19,52 +19,33 @@
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                        <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        </StackPanel>
-                                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                        </StackPanel>
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding Driver.ShortName}">
-                                            <TextBlock.Style>
-                                                <Style>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Device.Driver.IsZoneDevice}" Value="True">
-                                                            <DataTrigger.Setters>
-                                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                            </DataTrigger.Setters>
-                                                        </DataTrigger>
-                                                        <DataTrigger Binding="{Binding Device.Driver.IsZoneLogicDevice}" Value="True">
-                                                            <DataTrigger.Setters>
-                                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                            </DataTrigger.Setters>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </StackPanel>
-
-                                </Grid>
+                                <WrapPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                    <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
+                                        Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <TextBlock Text="{Binding Driver.ShortName}">
+                                        <TextBlock.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsBold}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </WrapPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
                     <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
-
                 </DataGrid.Columns>
             </DataGrid>
+            
             <Grid Grid.Row="1">
                 <StackPanel Orientation="Horizontal">
                     <Button Command="{Binding AddCommand}" ToolTip="Добавить в зону" Style="{StaticResource ToolarButtonStyle}">
@@ -90,48 +71,32 @@
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                        <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        </StackPanel>
-                                        <StackPanel Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                        </StackPanel>
-                                    </StackPanel>
-
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Text="{Binding Driver.ShortName}">
-                                            <TextBlock.Style>
-                                                <Style>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Device.Driver.IsZoneDevice}" Value="True">
-                                                            <DataTrigger.Setters>
-                                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                            </DataTrigger.Setters>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-                                    </StackPanel>
-
-                                </Grid>
+                                <WrapPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                    <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
+                                        Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <TextBlock Text="{Binding Driver.ShortName}">
+                                        <TextBlock.Style>
+                                            <Style>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding IsBold}" Value="True">
+                                                        <DataTrigger.Setters>
+                                                            <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                                                        </DataTrigger.Setters>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </WrapPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
                     <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
-
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
     </Grid>
-
 </UserControl>
