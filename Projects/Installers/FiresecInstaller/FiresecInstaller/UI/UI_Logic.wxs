@@ -36,7 +36,6 @@ Patch dialog sequence:
   <Fragment>
     <UI Id="WixUI_Wizard">
       <UIRef Id="UITextStyles"/>
-      <UIRef Id="UIProperties"/>
       <UIRef Id="UIElements"/>
       <UIRef Id="UIDialogs"/>
       <UIRef Id="WixUI_Common"/>

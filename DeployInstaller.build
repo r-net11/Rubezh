@@ -1,6 +1,6 @@
 ﻿<project name="Simple" default="run">
 	<property name="nant.settings.currentframework" value="net-4.0" />
-	<property name="debug" value="true" />
+	<property name="debug" value="false" />
 	<target name="run">
 		<call target="Clear" />
 		<call target="CopyFiles" />
@@ -26,7 +26,7 @@
 		</copy>
 	</target>
 	<target name="CompileAll">
-		<msbuild project="Projects\FiresecService\FiresecService.sln">
+		  <msbuild project="Projects\FiresecService\FiresecService.sln">
 			<property name="Configuration" value="Release" />
 		</msbuild>
 		<msbuild project="Projects\FireAdministrator\FireAdministrator.sln">

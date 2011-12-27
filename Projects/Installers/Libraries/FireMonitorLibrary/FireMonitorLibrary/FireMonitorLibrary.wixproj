@@ -23,7 +23,6 @@
   <ItemGroup>
     <Compile Include="Features_FireMonitor.wxs" />
     <Compile Include="Files_FireMonitor.wxs" />
-    <Compile Include="Library.wxs" />
     <Compile Include="Shortcuts_FireMonitor.wxs" />
   </ItemGroup>
   <ItemGroup>

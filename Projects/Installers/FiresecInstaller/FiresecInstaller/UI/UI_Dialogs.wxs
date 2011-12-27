@@ -23,8 +23,7 @@
 								 Property="SHORTCUT_DESKTOP" CheckBoxValue="1" />
 				<Control Id="ShortcutProgramMenu" Type="CheckBox" Height="18" Width="295" X="26" Y="79" Text="Создать ярлык в меню Пуск"
 								 Property="SHORTCUT_PROGRAMMENU" CheckBoxValue="1" />
-				<Control Id="Run" Type="CheckBox" Height="18" Width="295" X="26" Y="100" Text="Конвертация конфигурации"
-								 Property="CONVERTCONFIGURATION" CheckBoxValue="1" >
+				<Control Id="Run" Type="CheckBox" Height="18" Width="295" X="26" Y="100"  Text="Конвертация конфигурации" Property="CONVERTCONFIGURATION" CheckBoxValue="1" >
 					<Condition Action="show">SETUPCHOICE = "Full"</Condition>
 					<Condition Action="hide">SETUPCHOICE = "Client"</Condition>
 				</Control>

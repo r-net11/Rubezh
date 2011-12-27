@@ -33,12 +33,10 @@
     <Compile Include="Features_Firesec.wxs" />
     <Compile Include="Files_Firesec.wxs" />
     <Compile Include="FiresecInstaller.wxs" />
-    <Compile Include="Properties_Firesec.wxs" />
     <Compile Include="RemoveUsersDirectory.wxs" />
     <Compile Include="UI\UI_Dialogs.wxs" />
     <Compile Include="UI\UI_Elements.wxs" />
     <Compile Include="UI\UI_Logic.wxs" />
-    <Compile Include="UI\UI_Properties.wxs" />
     <Compile Include="UI\UI_TextStyle.wxs" />
   </ItemGroup>
   <ItemGroup>

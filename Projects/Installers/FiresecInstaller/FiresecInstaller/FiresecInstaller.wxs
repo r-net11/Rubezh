@@ -11,15 +11,22 @@
     <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
     
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
-    <Property Id="SHORTCUT_PROGRAMMENU" Value="1" />
-    <Property Id="SHORTCUT_DESKTOP" Value="1" />
-    <Property Id="CONVERTCONFIGURATION" Value="0" />
+    <Property Id="SHORTCUT_PROGRAMMENU" />
+    <Property Id="SHORTCUT_DESKTOP" />
+    <Property Id="CONVERTCONFIGURATION" />
     <Property Id="CHECKSQLSERVER" Value="0" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
     <Property Id="INSTALLLEVEL" Value="1" />
     <Property Id="FIRESECSERVICENAME" Value="$(var.FiresecServiceName)" />
     <Property Id="FIREMONITORNAME" Value="$(var.FireMonitorName)" />
     <Property Id="FIREADMINISTRATORNAME" Value="$(var.FireAdministratorName)" />
+    <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+    <Property Id="WixUI_Mode" Value="Mondo" />
+    <Property Id="AgreeToLicense" Value="No" />
+    <Property Id="SETUPCHOICE" Value="Full" />
+    <Property Id="IS_SQLSERVER_USERNAME" Value="sa" />
+    <Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
+    <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
     
     <Icon Id="FiresecIcon" SourceFile="Data\Firesec.ico"/>
 

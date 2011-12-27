@@ -8,7 +8,6 @@
   <?define FiresecServiceName="FiresecService"?>
   <?define FireMonitorName="FireMonitor"?>
   <?define FireAdministratorName="FireAdministrator"?>
-  <?define FireMonitorName="FireMonitor"?>
   <?define ConfigurationFolder="Configuration"?>
   <?define IconsFolder="Icons"?>
   <?define SoundsFolder="Sounds"?>
