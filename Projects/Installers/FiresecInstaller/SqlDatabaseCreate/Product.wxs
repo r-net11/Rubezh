@@ -7,7 +7,7 @@
 		<Binary Id="FiresecDataBaseStructureSql" SourceFile="FiresecDataBaseStructureSql.sql" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-		<!--<MediaTemplate />-->
+		<MediaTemplate />
 
 		<Feature Id="ProductFeature" Title="SqlDatabaseCreate" Level="1">
 			<ComponentRef Id="SqlComponent" />
