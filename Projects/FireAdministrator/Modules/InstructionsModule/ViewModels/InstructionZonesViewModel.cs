@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Common;
 using DevicesModule.ViewModels;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 
@@ -58,7 +58,7 @@ namespace InstructionsModule.ViewModels
         public ObservableCollection<ZoneViewModel> InstructionZones { get; set; }
 
         ZoneViewModel _selectedAvailableZone;
-        public ZoneViewModel SelectedAvailableZone 
+        public ZoneViewModel SelectedAvailableZone
         {
             get { return _selectedAvailableZone; }
             set

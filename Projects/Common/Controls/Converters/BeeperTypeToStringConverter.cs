@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Data;
-using Common;
 using FiresecAPI.Models;
 
 namespace Controls.Converters
@@ -9,7 +8,7 @@ namespace Controls.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return EnumHelper.ToString((FiresecAPI.Models.BeeperType)value);
+            return ((FiresecAPI.Models.BeeperType) value).ToDescription();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -116,7 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlarmPlayerHelper.cs" />
-    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
     <Compile Include="ObjectCopier.cs" />

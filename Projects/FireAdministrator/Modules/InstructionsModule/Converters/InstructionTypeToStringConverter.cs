@@ -18,10 +18,10 @@ namespace InstructionsModule.Converters
                 foreach (InstructionType instructionType in Enum.GetValues(typeof(InstructionType)))
                 {
                     if ((Enum.GetName(typeof(InstructionType), instructionType) == value.ToString()))
-                        return EnumHelper.ToString(instructionType);
+                        return instructionType.ToDescription();
                 }
 
-                return EnumHelper.ToString(new InstructionType());
+                return new InstructionType().ToDescription();
             }
         }
 

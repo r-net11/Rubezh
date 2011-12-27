@@ -19,7 +19,7 @@ namespace FiltersModule.Converters
 
                 foreach (var category in categories)
                 {
-                    result.Append(EnumHelper.ToString(category));
+                    result.Append(category.ToDescription());
                     result.Append(delimString);
                 }
 

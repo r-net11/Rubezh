@@ -7,7 +7,7 @@ namespace JournalModule.Converters
     {
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return EnumHelper.ToString((ArchiveDefaultStateType) value);
+            return ((ArchiveDefaultStateType) value).ToDescription();
         }
 
         public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)

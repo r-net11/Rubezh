@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI.Models;
+using Common;
 
 namespace DevicesModule.Converters
 {
@@ -9,7 +10,7 @@ namespace DevicesModule.Converters
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             if (value is ZoneLogicState)
-                return EnumHelper.ToString((ZoneLogicState) value);
+                return ((ZoneLogicState) value).ToDescription();
             return "";
         }
 

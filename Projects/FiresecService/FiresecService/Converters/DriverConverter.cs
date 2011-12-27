@@ -141,7 +141,7 @@ namespace FiresecService.Converters
             }
 
             driver.Category = (DeviceCategoryType) int.Parse(innerDriver.cat);
-            driver.CategoryName = EnumHelper.ToString(driver.Category);
+            driver.CategoryName = driver.Category.ToDescription();
 
             driver.DeviceType = DeviceType.FireSecurity;
             if (innerDriver.options != null)
@@ -155,7 +155,7 @@ namespace FiresecService.Converters
                 if (innerDriver.options.Contains("TechOnly"))
                     driver.DeviceType = DeviceType.Technoligical;
             }
-            driver.DeviceTypeName = EnumHelper.ToString(driver.DeviceType);
+            driver.DeviceTypeName = driver.DeviceType.ToDescription();
 
             driver.IsIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 1);
             driver.IsAssadIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 0);

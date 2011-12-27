@@ -53,7 +53,7 @@ namespace FiresecAPI.Models
                     continue;
                 }
 
-                result += "состояние " + EnumHelper.ToString(clause.State);
+                result += "состояние " + clause.State.ToDescription();
 
                 string stringOperation = null;
                 switch (clause.Operation)

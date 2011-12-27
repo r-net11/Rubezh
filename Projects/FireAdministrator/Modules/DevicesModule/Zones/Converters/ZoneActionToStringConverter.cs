@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI.Models;
-using Common;
 
 namespace DevicesModule.Converters
 {
@@ -11,7 +10,7 @@ namespace DevicesModule.Converters
         {
             if (value is ZoneActionType)
             {
-                return EnumHelper.ToString((ZoneActionType)value);
+                return ((ZoneActionType) value).ToDescription();
             }
             return "";
         }

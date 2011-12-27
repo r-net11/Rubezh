@@ -142,7 +142,8 @@
     <Compile Include="Models\Driver\DriverPropertyParameter.cs" />
     <Compile Include="Models\Driver\DriverPropertyTypeEnum.cs" />
     <Compile Include="Models\Driver\DriverType.cs" />
-    <Compile Include="Models\EnumHelper.cs" />
+    <Compile Include="Models\EnumsConverter.cs" />
+    <Compile Include="Models\ExtensionMethods.cs" />
     <Compile Include="Models\Library\LibraryDevice.cs" />
     <Compile Include="Models\Library\LibraryFrame.cs" />
     <Compile Include="Models\Library\LibraryState.cs" />
@@ -174,7 +175,6 @@
     <Compile Include="Models\Zone\ZoneLogicOperation.cs" />
     <Compile Include="Models\Zone\ZoneLogicState.cs" />
     <Compile Include="Models\Zone\ZoneType.cs" />
-    <Compile Include="Models\EnumsConverter.cs" />
     <Compile Include="Models\Guard\GuardLevel.cs" />
     <Compile Include="Models\Guard\GuardUser.cs" />
     <Compile Include="Models\Guard\ZoneActionType.cs" />

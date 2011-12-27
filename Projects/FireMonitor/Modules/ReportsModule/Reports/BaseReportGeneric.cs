@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Common;
 using CrystalDecisions.CrystalReports.Engine;
+using FiresecAPI.Models;
 using FiresecClient;
 using SAPBusinessObjects.WPF.Viewer;
 

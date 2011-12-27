@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Data;
-using Common;
 using FiresecAPI.Models;
 
 namespace JournalModule.Converters
@@ -19,7 +18,7 @@ namespace JournalModule.Converters
 
                 foreach (var category in categories)
                 {
-                    result.Append(EnumHelper.ToString(category));
+                    result.Append(category.ToDescription());
                     result.Append(delimString);
                 }
 
