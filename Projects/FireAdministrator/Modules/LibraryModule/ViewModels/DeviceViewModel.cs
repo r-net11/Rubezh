@@ -12,6 +12,19 @@ namespace LibraryModule.ViewModels
 {
     public class DeviceViewModel : BaseViewModel
     {
+        public static Driver UnknownDeviceDriver
+        {
+            get
+            {
+                return new Driver()
+                {
+                    ImageSource = FileHelper.GetIconFilePath("Unknown_Device") + ".ico",
+                    UID = new Guid("00000000-0000-0000-0000-000000000000"),
+                    Name = "Неизвестное устройство",
+                    States = new List<DriverState>(),
+                };
+            }
+        }
         readonly Driver _driver;
 
         public DeviceViewModel(LibraryDevice device)
@@ -20,7 +33,7 @@ namespace LibraryModule.ViewModels
             _driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == Device.DriverId);
             if (_driver == null)
             {
-                _driver = FiresecManager.UnknownDeviceDriver;
+                _driver = UnknownDeviceDriver;
                 Device.DriverId = _driver.UID;
                 Device.States = null;
                 StateViewModels = new ObservableCollection<StateViewModel>();

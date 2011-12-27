@@ -43,7 +43,6 @@ namespace FiresecClient
             PlansConfiguration = FiresecService.GetPlansConfiguration();
             SecurityConfiguration = FiresecService.GetSecurityConfiguration();
             Drivers = FiresecService.GetDrivers();
-            Drivers.Add(UnknownDeviceDriver);
             DeviceConfiguration = FiresecService.GetDeviceConfiguration();
             DeviceStates = FiresecService.GetStates();
 
@@ -56,20 +55,6 @@ namespace FiresecClient
             FiresecService.StartPing();
 
             synchronizer.EndInvoke(result);
-        }
-
-        public static Driver UnknownDeviceDriver
-        {
-            get
-            {
-                return new Driver()
-                {
-                    ImageSource = FileHelper.GetIconFilePath("Unknown_Device") + ".ico",
-                    UID = new Guid("00000000-0000-0000-0000-000000000000"),
-                    Name = "Неизвестное устройство",
-                    States = new List<DriverState>(),
-                };
-            }
         }
 
         public static string Reconnect(string login, string password)
@@ -356,7 +341,7 @@ namespace FiresecClient
             var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
             using (var fileStream = new FileStream(fileName, FileMode.Open))
             {
-                FiresecManager.DeviceConfiguration = (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
+                FiresecManager.DeviceConfiguration = (DeviceConfiguration) dataContractSerializer.ReadObject(fileStream);
             }
 
             UpdateConfiguration();
