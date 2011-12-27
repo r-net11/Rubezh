@@ -93,7 +93,7 @@
 				<Control Id="ChangeFolder" Type="PushButton" X="36" Y="243" Width="126" Height="17" Text="Изменить &amp;папку назначения..." TabSkip="no" />
 				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
 				<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="no" Disabled="yes" FixedSize="yes" />
-				<Control Id="DestFolder" Type="Icon" X="18" Y="91" Width="24" Height="25" Text="DestinationFolder.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
+				<Control Id="DestFolder" Type="Icon" X="18" Y="91" Width="24" Height="25" Text="DestFolder.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
 				<Control Id="DlgDesc" Type="Text" X="20" Y="62" Width="340" Height="20" Text="Нажмите &quot;Далее&quot;, чтобы установить в данную папку, или &quot;Изменить&quot;, чтобы выбрать другую папку." TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgTitle" Type="Text" X="10" Y="50" Width="292" Height="15" Text="{&amp;MSSansBold8}Папка назначения" TabSkip="yes" Transparent="yes" />
 				<Control Id="Copyright" Type="Text" X="20" Y="180" Width="340" Height="25" Text="ПРЕДУПРЕЖДЕНИЕ: Эта программа защищена законом об авторских правах и международными соглашениями." TabSkip="yes" Transparent="yes" />
@@ -110,7 +110,7 @@
 					<Publish Event="EndDialog" Value="Return">1</Publish>
 				</Control>
 				<Control Id="Text1" Type="Text" X="55" Y="22" Width="298" Height="50" Text="[INSTALLLOCATION]&#xA;&#xA;- неправильно указан путь к каталогу.  Выберите другой целевой каталог." TabSkip="yes" />
-				<Control Id="Icon1" Type="Icon" X="20" Y="22" Width="24" Height="24" Text="InstallFolderError.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
+				<Control Id="Icon1" Type="Icon" X="20" Y="22" Width="24" Height="24" Text="InstFolderErr.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
 			</Dialog>
 
 			<Dialog Id="InstallChangeFolder" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" NoMinimize="yes">
@@ -136,7 +136,7 @@
 				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
 				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
-				<Control Id="Bitmap1" Type="Bitmap" X="0" Y="46" Width="105" Height="171" Text="InstallChoiceLogo.bmp" TabSkip="yes" Disabled="yes" />
+				<Control Id="Bitmap1" Type="Bitmap" X="0" Y="46" Width="105" Height="171" Text="InstChoiceLogo.bmp" TabSkip="yes" Disabled="yes" />
 				<Control Id="DlgTitle" Type="Text" X="115" Y="43" Width="244" Height="15" Text="{&amp;MSSansBold8}Выбор компонент" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgText" Type="Text" X="115" Y="60" Width="249" Height="13" Text="Выберите компоненты для установки." TabSkip="yes" />
 				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />

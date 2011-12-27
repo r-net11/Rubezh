@@ -14,7 +14,7 @@
 				<CreateFolder Directory="FIRESECSERVICELOCATION" />
 				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes" 
 												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="no" ContinueOnError="yes">
-					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDataBaseStructureSql" ExecuteOnInstall="yes" ContinueOnError="yes"/>
+					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDBSql" ExecuteOnInstall="yes" ContinueOnError="yes"/>
 				</sql:SqlDatabase>
 			</Component>
 		</DirectoryRef>

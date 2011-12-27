@@ -62,7 +62,9 @@
     
     <InstallExecuteSequence>
       <Custom Action="CloseApplications" Before="RemoveFiles" />  
-      <Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full"</Custom>
+      <Custom Action="StartAppOnExit" After="InstallFinalize">
+        SETUPCHOICE="Full" AND CONVERTCONFIGURATION = "1"
+      </Custom>
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">
