@@ -4,8 +4,10 @@
 	<property name="intellectFolder" value="..\ItvIntegration"/>
 
 	<target name="run">		
+		<call target="Compile" />
 		<call target="Clean" />
 		<call target="CopyFiles" />
+		<call target="CompileItv" />
 	</target>
 	
 	<target name="Clean">
@@ -18,6 +20,12 @@
 	<target name="Compile">
 		<msbuild project="Projects\FiresecService\FiresecService.sln">
 			<property name="Configuration" value="Release"/>
+		</msbuild>
+	</target>
+	
+	<target name="CompileItv">
+		<msbuild project="Projects\ITV\ItvIntegration.sln">
+			<property name="Configuration" value="Debug"/>
 		</msbuild>
 	</target>
 	

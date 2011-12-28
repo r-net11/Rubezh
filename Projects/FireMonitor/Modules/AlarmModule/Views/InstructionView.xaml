@@ -1,8 +1,6 @@
 ﻿<UserControl x:Class="AlarmModule.Views.InstructionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"             
              MinHeight="400" MinWidth="400">
-    
     <Label Content="{Binding Path=Instruction.Text}" />
 </UserControl>

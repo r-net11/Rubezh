@@ -1,6 +1,5 @@
 ﻿<UserControl x:Class="FireMonitor.SoundView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"             
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid>
         <Button Command="{Binding PlaySoundCommand}" ToolTip="Вкл/Выкл звук" Style="{StaticResource ToolarButtonStyle}">

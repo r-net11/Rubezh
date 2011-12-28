@@ -1,11 +1,9 @@
 ﻿<UserControl x:Class="DevicesModule.Views.ValveDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"             
              xmlns:Converters="clr-namespace:DevicesModule.Converters"
              MinWidth="400" MinHeight="150">
-
     <UserControl.Resources>
         <Converters:ValveActionConverter x:Key="ValveActionConverter" />
     </UserControl.Resources>
