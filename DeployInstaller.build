@@ -9,12 +9,12 @@
 		<call target="CompileAll" />
 	</target>
 	<target name="Clear">
-		<delete dir="Projects\FiresecService\FiresecService\bin\Debug\Configuration" />
-		<delete dir="Projects\FiresecService\FiresecService\bin\Debug\Pictures" />
-		<delete dir="Projects\FiresecService\FiresecService\bin\Debug\Temp" />
+		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Configuration" />
+		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Pictures" />
+		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Temp" />
 	</target>
 	<target name="CopyFiles">
-		<copy todir="Projects\FiresecService\FiresecService\bin\Debug\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
+		<copy todir="Projects\FiresecService\FiresecService\bin\Release\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
 			<fileset basedir="Projects\Deploy\Configuration">
 				<include name="**\*" />
 			</fileset>
