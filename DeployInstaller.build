@@ -1,6 +1,8 @@
-﻿<project name="Simple" default="run">
-	<property name="nant.settings.currentframework" value="net-4.0" />
+﻿<?xml version="1.0"?>
+<project name="Simple" default="run">
+	<property name="nant.settings.currentframework" value="net-4.0" />	
 	<property name="debug" value="false" />
+	<property name="release" value="true" />
 	<target name="run">
 		<call target="Clear" />
 		<call target="CopyFiles" />
@@ -17,35 +19,16 @@
 				<include name="**\*" />
 			</fileset>
 		</copy>
-	</target>
-	<target name="CopyFiresecBins">
-		<copy todir="C:\Program Files\Firesec">
-			<fileset basedir="3rdParty\Firesec\Firesec bin">
-				<include name="*" />
-			</fileset>
-		</copy>
-	</target>
+	</target>	
 	<target name="CompileAll">
-		  <msbuild project="Projects\FiresecService\FiresecService.sln">
+		<msbuild project="Projects\FiresecService\FiresecService.sln">
 			<property name="Configuration" value="Release" />
-		</msbuild>
+		</msbuild>	
 		<msbuild project="Projects\FireAdministrator\FireAdministrator.sln">
 			<property name="Configuration" value="Release" />
 		</msbuild>
 		<msbuild project="Projects\FireMonitor\FireMonitor.sln">
 			<property name="Configuration" value="Release" />
-		</msbuild>
-		<msbuild project="Projects\Installers\Libraries\FiresecServiceLibrary\FiresecServiceLibrary.sln">
-			<property name="Configuration" value="Release" />
-		</msbuild>
-		<msbuild project="Projects\Installers\Libraries\FiresecServiceLibrary\FiresecServiceLibrary.sln">
-			<property name="Configuration" value="Release" />
-		</msbuild>
-		<msbuild project="Projects\Installers\Libraries\FireMonitorLibrary\FireMonitorLibrary.sln">
-			<property name="Configuration" value="Release" />
-		</msbuild>
-		<msbuild project="Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
-			<property name="Configuration" value="Release" />
-		</msbuild>
+		</msbuild>		
 	</target>
 </project>

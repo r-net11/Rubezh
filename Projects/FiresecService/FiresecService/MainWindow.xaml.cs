@@ -135,6 +135,5 @@ namespace FiresecServiceRunner
         void OnWindow_Closed(object sender, EventArgs e)
         {
         }
-
     }
 }
