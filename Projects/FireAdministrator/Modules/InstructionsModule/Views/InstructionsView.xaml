@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="InstructionsModule.Views.InstructionsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:InstructionsModule.Converters">
     <UserControl.Resources>
         <Converters:InstructionTypeToStringConverter  x:Key="InstructionTypeToStringConverter" />
@@ -8,32 +9,15 @@
         <Converters:DevicesToStringConverter  x:Key="DevicesToStringConverter" />
         <Converters:ZonesToStringConverter  x:Key="ZonesToStringConverter" />
     </UserControl.Resources>
-    <DataGrid ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}">
+
+    <Controls:XDataGrid ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}">
         <DataGrid.Columns>
-            <DataGridTextColumn Header="Номер" Binding="{Binding InstructionNo}" Width="1*" />
-            <DataGridTextColumn Header="Тип инструкции"  Width="1*" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource InstructionTypeToStringConverter}}" />
-            <DataGridTextColumn Header="Состояние" Width="1*" Binding="{Binding Instruction.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+            <DataGridTextColumn Header="Название" Width="200" Binding="{Binding Instruction.Name}" />
+            <DataGridTextColumn Header="Тип инструкции" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource InstructionTypeToStringConverter}}" />
+            <DataGridTextColumn Header="Состояние" Binding="{Binding Instruction.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+            <DataGridTextColumn Header="Зоны" Width="200" Binding="{Binding Instruction.Zones, Converter={StaticResource ZonesToStringConverter}}" />
+            <DataGridTextColumn Header="Устройства" Width="200" Binding="{Binding Instruction.Devices, Converter={StaticResource DevicesToStringConverter}}" />
+            <DataGridTextColumn Header="Описание" Width="*" Binding="{Binding Instruction.Text}" />
         </DataGrid.Columns>
-        <DataGrid.RowDetailsTemplate>
-            <DataTemplate>
-                <Grid Margin="7">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Grid.Row="0" Text="Описание:   " FontWeight="Black" />
-                    <TextBlock Grid.Column="0" Grid.Row="1" Text="Зоны:   " FontWeight="Black" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
-                    <TextBlock Grid.Column="0" Grid.Row="2" Text="Устройства:   " FontWeight="Black" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
-                    <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding InstructionText}"/>
-                    <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding InstructionZones, Converter={StaticResource ZonesToStringConverter}}" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
-                    <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding InstructionDevices, Converter={StaticResource DevicesToStringConverter}}" Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}" />
-                </Grid>
-            </DataTemplate>
-        </DataGrid.RowDetailsTemplate>
-    </DataGrid>
+    </Controls:XDataGrid>
 </UserControl>

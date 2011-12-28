@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Common;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
@@ -14,6 +13,10 @@ namespace SecurityModule.ViewModels
     {
         public RemoteAccessViewModel(RemoteAccess remoteAccess)
         {
+            AddCommand = new RelayCommand(OnAdd);
+            RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+            ServiceFactory.Events.GetEvent<RemoteAccessTypeChecked>().Subscribe(OnRemoteAccessTypeChecked);
+
             RemoteAccessTypes = new List<RemoteAccessTypeViewModel>();
             foreach (RemoteAccessType remoteAccessType in Enum.GetValues(typeof(RemoteAccessType)))
             {
@@ -28,16 +31,6 @@ namespace SecurityModule.ViewModels
                     remoteAccess.HostNameOrAddressList.Select(x => x)
                 );
             }
-
-            Initialize();
-        }
-
-        void Initialize()
-        {
-            AddCommand = new RelayCommand(OnAdd);
-            RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-
-            ServiceFactory.Events.GetEvent<RemoteAccessTypeChecked>().Subscribe(OnRemoteAccessTypeChecked);
         }
 
         public List<RemoteAccessTypeViewModel> RemoteAccessTypes { get; private set; }

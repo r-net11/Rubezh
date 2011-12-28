@@ -124,6 +124,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="XButton.cs" />
+    <Compile Include="XDataGrid.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -168,6 +169,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\MenuStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\PasswordBoxStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -220,10 +225,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\OutlookTabControlStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\ToolBarStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -323,6 +324,10 @@
     <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

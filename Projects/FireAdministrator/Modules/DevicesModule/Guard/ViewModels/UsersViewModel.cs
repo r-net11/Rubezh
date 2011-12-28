@@ -5,7 +5,7 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class UsersViewModel : RegionViewModel
+    public class UsersViewModel : RegionViewModel, IEditingViewModel
     {
         public UsersViewModel()
         {

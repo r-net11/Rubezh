@@ -6,7 +6,7 @@ using Infrastructure.Common;
 
 namespace SecurityModule.ViewModels
 {
-    public class UsersViewModel : RegionViewModel
+    public class UsersViewModel : RegionViewModel, IEditingViewModel
     {
         public UsersViewModel()
         {
@@ -35,6 +35,19 @@ namespace SecurityModule.ViewModels
             {
                 _selectedUser = value;
                 OnPropertyChanged("SelectedUser");
+            }
+        }
+
+        public RelayCommand AddCommand { get; private set; }
+        void OnAdd()
+        {
+            var userDetailsViewModel = new UserDetailsViewModel();
+            if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
+            {
+                FiresecManager.SecurityConfiguration.Users.Add(userDetailsViewModel.User);
+                Users.Add(new UserViewModel(userDetailsViewModel.User));
+
+                SecurityModule.HasChanges = true;
             }
         }
 
@@ -74,19 +87,6 @@ namespace SecurityModule.ViewModels
         bool CanEdit()
         {
             return SelectedUser != null;
-        }
-
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
-            var userDetailsViewModel = new UserDetailsViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
-            {
-                FiresecManager.SecurityConfiguration.Users.Add(userDetailsViewModel.User);
-                Users.Add(new UserViewModel(userDetailsViewModel.User));
-
-                SecurityModule.HasChanges = true;
-            }
         }
 
         public override void OnShow()

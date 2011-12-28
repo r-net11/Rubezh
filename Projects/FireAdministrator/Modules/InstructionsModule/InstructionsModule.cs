@@ -34,7 +34,7 @@ namespace InstructionsModule
         {
             if (instructionNo != null)
             {
-                _instructionsViewModel.SelectedInstruction = _instructionsViewModel.Instructions.FirstOrDefault(x => x.InstructionNo == instructionNo.Value);
+                _instructionsViewModel.SelectedInstruction = _instructionsViewModel.Instructions.FirstOrDefault(x => x.Instruction.No == instructionNo.Value);
             }
             ServiceFactory.Layout.Show(_instructionsViewModel);
         }

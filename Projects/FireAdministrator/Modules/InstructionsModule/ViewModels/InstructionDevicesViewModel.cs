@@ -14,18 +14,15 @@ namespace InstructionsModule.ViewModels
     {
         public InstructionDevicesViewModel(List<Guid> instructionDevicesList)
         {
-            Title = "Выбор устройства";
-
-            InstructionDevicesList = new List<Guid>(instructionDevicesList);
-            InstructionDevices = new ObservableCollection<DeviceViewModel>();
-            AvailableDevices = new ObservableCollection<DeviceViewModel>();
-
-            UpdateDevices();
-
             AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
             AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+            Title = "Выбор устройства";
+
+            InstructionDevicesList = new List<Guid>(instructionDevicesList);
+
+            UpdateDevices();
         }
 
         void UpdateDevices()
@@ -52,10 +49,10 @@ namespace InstructionsModule.ViewModels
                 }
             }
 
-            InstructionDevices.Clear();
+            InstructionDevices = new ObservableCollection<DeviceViewModel>();
             BuildTree(instructionDevices, InstructionDevices);
 
-            AvailableDevices.Clear();
+            AvailableDevices = new ObservableCollection<DeviceViewModel>();
             BuildTree(availableDevices, AvailableDevices);
 
             if (InstructionDevices.IsNotNullOrEmpty())
@@ -79,6 +76,9 @@ namespace InstructionsModule.ViewModels
             {
                 SelectedAvailableDevice = null;
             }
+
+            OnPropertyChanged("InstructionDevices");
+            OnPropertyChanged("AvailableDevices");
         }
 
         void BuildTree(HashSet<Device> hashSetDevices, ObservableCollection<DeviceViewModel> devices)
@@ -137,8 +137,8 @@ namespace InstructionsModule.ViewModels
         }
 
         public List<Guid> InstructionDevicesList { get; set; }
-        public ObservableCollection<DeviceViewModel> AvailableDevices { get; set; }
-        public ObservableCollection<DeviceViewModel> InstructionDevices { get; set; }
+        public ObservableCollection<DeviceViewModel> AvailableDevices { get; private set; }
+        public ObservableCollection<DeviceViewModel> InstructionDevices { get; private set; }
 
         DeviceViewModel _selectedAvailableDevice;
         public DeviceViewModel SelectedAvailableDevice

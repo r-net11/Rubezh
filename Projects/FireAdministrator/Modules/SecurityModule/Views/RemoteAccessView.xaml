@@ -6,19 +6,29 @@
         <Converters:RemoteAccessTypeToStringConverter x:Key="RemoteAccessTypeToStringConverter" />
     </UserControl.Resources>
     
-    <DockPanel LastChildFill="True">
-        <ItemsControl DockPanel.Dock="Top" Margin="0,17,0,7" ItemsSource="{Binding RemoteAccessTypes}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ItemsControl Grid.Row="0" ItemsSource="{Binding RemoteAccessTypes}" Margin="0,17,0,7">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <RadioButton IsChecked="{Binding IsActive}"
                               Content="{Binding RemoteAccessType, Converter={StaticResource RemoteAccessTypeToStringConverter}}"
-                              Checked="RadioButton_Checked"
-                              Margin="1.5" Foreground="White" />
+                              Checked="RadioButton_Checked" Margin="1.5" Foreground="White" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <DockPanel Name="_computersList" LastChildFill="True">
-            <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Left">
+
+        <Grid Grid.Row="1" Name="_remoteMachinesGrid" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ListBox Grid.Row="0" ItemsSource="{Binding HostNameOrAddressList}" SelectedItem="{Binding SelectedHostNameOrAddress}" Margin="3" />
+
+            <WrapPanel Grid.Row="1" HorizontalAlignment="Left">
                 <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/Add.png" Height="24" />
                 </Button>
@@ -26,10 +36,6 @@
                     <Image Source="/Controls;component/Images/Delete.png" Height="24" />
                 </Button>
             </WrapPanel>
-            <ListBox ItemsSource="{Binding HostNameOrAddressList}"
-                     SelectedItem="{Binding SelectedHostNameOrAddress}"
-                     DataContextChanged="ListBox_DataContextChanged"
-                     Margin="3" />
-        </DockPanel>
-    </DockPanel>
+        </Grid>
+    </Grid>
 </UserControl>

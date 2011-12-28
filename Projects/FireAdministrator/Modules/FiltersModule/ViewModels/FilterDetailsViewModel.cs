@@ -89,12 +89,8 @@ namespace FiltersModule.ViewModels
 
         public JournalFilter GetModel()
         {
-            JournalFilter.Events =
-                EventViewModels.Where(x => x.IsChecked).Select(x => x.Id).Cast<StateType>().ToList();
-
-            JournalFilter.Categories =
-                CategoryViewModels.Where(x => x.IsChecked).Select(x => x.Id).Cast<DeviceCategoryType>().ToList();
-
+            JournalFilter.Events = EventViewModels.Where(x => x.IsChecked).Select(x => x.Id).Cast<StateType>().ToList();
+            JournalFilter.Categories = CategoryViewModels.Where(x => x.IsChecked).Select(x => x.Id).Cast<DeviceCategoryType>().ToList();
             return JournalFilter;
         }
 

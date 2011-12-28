@@ -94,6 +94,7 @@
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\IDialogContent.cs" />
+    <Compile Include="Dialogs\IEditingViewModel.cs" />
     <Compile Include="Dialogs\SaveCancelDialogContent.cs" />
     <Compile Include="Dialogs\IStandartDialogService.cs" />
     <Compile Include="Dialogs\IUserDialogService.cs" />

@@ -11,7 +11,7 @@ using Infrastructure.Common;
 
 namespace SecurityModule.ViewModels
 {
-    public class RolesViewModel : RegionViewModel
+    public class RolesViewModel : RegionViewModel, IEditingViewModel
     {
         public RolesViewModel()
         {
@@ -37,6 +37,19 @@ namespace SecurityModule.ViewModels
             {
                 _selectedRole = value;
                 OnPropertyChanged("SelectedRole");
+            }
+        }
+
+        public RelayCommand AddCommand { get; private set; }
+        void OnAdd()
+        {
+            var roleDetailsViewModel = new RoleDetailsViewModel();
+            if (ServiceFactory.UserDialogs.ShowModalWindow(roleDetailsViewModel))
+            {
+                FiresecManager.SecurityConfiguration.UserRoles.Add(roleDetailsViewModel.Role);
+                Roles.Add(new RoleViewModel(roleDetailsViewModel.Role));
+
+                SecurityModule.HasChanges = true;
             }
         }
 
@@ -93,19 +106,6 @@ namespace SecurityModule.ViewModels
         bool CanEditDelete()
         {
             return SelectedRole != null;
-        }
-
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
-            var roleDetailsViewModel = new RoleDetailsViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(roleDetailsViewModel))
-            {
-                FiresecManager.SecurityConfiguration.UserRoles.Add(roleDetailsViewModel.Role);
-                Roles.Add(new RoleViewModel(roleDetailsViewModel.Role));
-
-                SecurityModule.HasChanges = true;
-            }
         }
 
         public override void OnShow()

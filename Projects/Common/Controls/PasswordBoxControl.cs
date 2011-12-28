@@ -13,7 +13,7 @@ namespace Controls
         {
             savedCallback = HandlePasswordChanged;
 
-            PasswordBox passwordBox = new PasswordBox();
+            var passwordBox = new PasswordBox();
             passwordBox.PasswordChanged += savedCallback;
             Child = passwordBox;
         }

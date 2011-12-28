@@ -5,34 +5,41 @@ using Infrastructure.Common;
 
 namespace FiltersModule.ViewModels
 {
-    public class FiltersViewModel : RegionViewModel
+    public class FiltersViewModel : RegionViewModel, IEditingViewModel
     {
         public FiltersViewModel()
         {
-            CreateCommand = new RelayCommand(OnCreate);
-            EditCommand = new RelayCommand(OnEdit, CanEditOrRemove);
-            RemoveCommand = new RelayCommand(OnRemove, CanEditOrRemove);
-        }
+            AddCommand = new RelayCommand(OnAdd);
+            EditCommand = new RelayCommand(OnEdit, CanEditRemove);
+            DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
 
-        public void Initialize()
-        {
-            FilterViewModels = new ObservableCollection<FilterViewModel>(
+            Filters = new ObservableCollection<FilterViewModel>(
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Select(journalFilter => new FilterViewModel(journalFilter))
             );
         }
 
-        public ObservableCollection<FilterViewModel> FilterViewModels { get; private set; }
-        public FilterViewModel SelectedFilter { get; set; }
+        public ObservableCollection<FilterViewModel> Filters { get; private set; }
 
-        public RelayCommand CreateCommand { get; private set; }
-        void OnCreate()
+        FilterViewModel _selectedFilter;
+        public FilterViewModel SelectedFilter
+        {
+            get { return _selectedFilter; }
+            set
+            {
+                value = _selectedFilter;
+                OnPropertyChanged("SelectedFilter");
+            }
+        }
+
+        public RelayCommand AddCommand { get; private set; }
+        void OnAdd()
         {
             var filterDetailsViewModel = new FilterDetailsViewModel();
             if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
             {
                 var filter = filterDetailsViewModel.GetModel();
                 FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filter);
-                FilterViewModels.Add(new FilterViewModel(filter));
+                Filters.Add(new FilterViewModel(filter));
 
                 FilterModule.HasChanges = true;
             }
@@ -52,16 +59,16 @@ namespace FiltersModule.ViewModels
             }
         }
 
-        bool CanEditOrRemove()
+        bool CanEditRemove()
         {
             return SelectedFilter != null;
         }
 
-        public RelayCommand RemoveCommand { get; private set; }
-        void OnRemove()
+        public RelayCommand DeleteCommand { get; private set; }
+        void OnDelete()
         {
             FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
-            FilterViewModels.Remove(SelectedFilter);
+            Filters.Remove(SelectedFilter);
 
             FilterModule.HasChanges = true;
         }

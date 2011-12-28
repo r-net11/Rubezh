@@ -9,28 +9,24 @@ namespace SecurityModule.Views
         public RemoteAccessView()
         {
             InitializeComponent();
-        }
-
-        void ListBox_DataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
-        {
-            SetVisibility();
+            Update();
         }
 
         void RadioButton_Checked(object sender, System.Windows.RoutedEventArgs e)
         {
-            SetVisibility();
+            Update();
         }
 
-        void SetVisibility()
+        private void Update()
         {
             var remoteAccessViewModel = DataContext as RemoteAccessViewModel;
             if (remoteAccessViewModel == null)
                 return;
 
             if (remoteAccessViewModel.RemoteAccessTypes.Find(x => x.IsActive).RemoteAccessType == RemoteAccessType.SelectivelyAllowed)
-                _computersList.Visibility = System.Windows.Visibility.Visible;
+                _remoteMachinesGrid.Visibility = System.Windows.Visibility.Visible;
             else
-                _computersList.Visibility = System.Windows.Visibility.Collapsed;
+                _remoteMachinesGrid.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }

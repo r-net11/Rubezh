@@ -11,52 +11,61 @@ namespace SecurityModule.ViewModels
 {
     public class UserDetailsViewModel : SaveCancelDialogContent
     {
+        public RemoteAccessViewModel RemoteAccess { get; set; }
         public User User { get; private set; }
+        public bool IsNew { get; private set; }
+        public bool IsNotNew { get { return !IsNew; } }
 
-        public UserDetailsViewModel()
+        public UserDetailsViewModel(User user = null)
         {
-            Title = "Создание новой учетной записи";
-            IsNew = true;
-
-            User = new User()
+            if (user != null)
             {
-                Id = FiresecManager.SecurityConfiguration.Users.Max(x => x.Id) + 1,
-                Name = "",
-                Login = "",
-                PasswordHash = HashHelper.GetHashFromString(""),
-            };
-
-            Initialize();
-        }
-
-        public UserDetailsViewModel(User user)
-        {
-            Title = string.Format("Свойства учетной записи: {0}", user.Name);
-            IsNew = false;
-
-            User = user;
-
-            Initialize();
-        }
-
-        void Initialize()
-        {
-            Password = string.Empty;
-            NewPassword = string.Empty;
-            NewPasswordConfirmation = string.Empty;
-
-            Roles = new ObservableCollection<UserRole>() { null };
-            if (FiresecManager.SecurityConfiguration.UserRoles.IsNotNullOrEmpty())
+                Title = string.Format("Свойства учетной записи: {0}", user.Name);
+                IsNew = false;
+                IsChangePassword = false;
+                User = user;
+            }
+            else
             {
-                foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)
-                    Roles.Add(role);
+                Title = "Создание новой учетной записи";
+                IsNew = true;
+                IsChangePassword = true;
+
+                User = new User()
+                {
+                    Id = FiresecManager.SecurityConfiguration.Users.Max(x => x.Id) + 1,
+                    Name = "",
+                    Login = "",
+                    PasswordHash = HashHelper.GetHashFromString("")
+                };
             }
 
             CopyProperties();
         }
 
-        public bool IsNew { get; private set; }
-        public bool IsNotNew { get { return !IsNew; } }
+        void CopyProperties()
+        {
+            Login = User.Login;
+            Name = User.Name;
+
+            Roles = new ObservableCollection<UserRole>();
+            foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)
+                Roles.Add(role);
+
+            if (IsNew)
+            {
+                if (Roles.Count > 0)
+                    UserRole = Roles[0];
+            }
+            else
+            {
+                UserRole = Roles.FirstOrDefault(role => role.Id == User.RoleId);
+            }
+
+            RemoteAccess = (IsNew || User.RemoreAccess == null) ?
+                new RemoteAccessViewModel(new RemoteAccess() { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
+                new RemoteAccessViewModel(User.RemoreAccess);
+        }
 
         string _login;
         public string Login
@@ -91,25 +100,14 @@ namespace SecurityModule.ViewModels
             }
         }
 
-        string _newPass;
-        public string NewPassword
+        string _passwordConfirmation;
+        public string PasswordConfirmation
         {
-            get { return _newPass; }
+            get { return _passwordConfirmation; }
             set
             {
-                _newPass = value;
-                OnPropertyChanged("NewPassword");
-            }
-        }
-
-        string _newPassConfirm;
-        public string NewPasswordConfirmation
-        {
-            get { return _newPassConfirm; }
-            set
-            {
-                _newPassConfirm = value;
-                OnPropertyChanged("NewPasswordConfirmation");
+                _passwordConfirmation = value;
+                OnPropertyChanged("PasswordConfirmation");
             }
         }
 
@@ -182,27 +180,13 @@ namespace SecurityModule.ViewModels
             }
         }
 
-        public RemoteAccessViewModel RemoteAccess { get; set; }
-
-        void CopyProperties()
-        {
-            Login = User.Login;
-            Name = User.Name;
-            UserRole = IsNew ? Roles[0] : Roles.Where(role => role != null).First(role => role.Id == User.RoleId);
-            RemoteAccess = (IsNew || User.RemoreAccess == null) ?
-                new RemoteAccessViewModel(new RemoteAccess() { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
-                new RemoteAccessViewModel(User.RemoreAccess);
-        }
-
         void SaveProperties()
         {
             User.Login = Login;
             User.Name = Name;
 
-            if (IsNew)
+            if (IsChangePassword)
                 User.PasswordHash = HashHelper.GetHashFromString(Password);
-            else if (IsChangePassword)
-                User.PasswordHash = HashHelper.GetHashFromString(NewPassword);
 
             User.RoleId = UserRole.Id;
             User.Permissions = new List<PermissionType>(
@@ -213,7 +197,7 @@ namespace SecurityModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            if (CheckLogin() && CheckPass() && CheckRole())
+            if (CheckLogin() && CheckPassword() && CheckRole())
                 SaveProperties();
             else
                 cancel = true;
@@ -228,39 +212,23 @@ namespace SecurityModule.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Login))
             {
-                ShowMessage("Сначала введите логин");
+                ShowMessage("Логин не может быть пустым");
                 return false;
             }
             else if (Login != User.Login && FiresecManager.SecurityConfiguration.Users.Any(user => user.Login == Login))
             {
-                ShowMessage("Введенный логин уже зарезервирован");
+                ShowMessage("Пользователь с таким логином уже существует");
                 return false;
             }
             return true;
         }
 
-        bool CheckPass()
+        bool CheckPassword()
         {
-            if (IsNew)
+            if (Password != PasswordConfirmation)
             {
-                if (NewPassword != NewPasswordConfirmation)
-                {
-                    ShowMessage("Поля \"Пароль\" и \"Подтверждение\" должны совпадать");
-                    return false;
-                }
-            }
-            else if (IsChangePassword)
-            {
-                if (!HashHelper.CheckPass(Password, User.PasswordHash))
-                {
-                    ShowMessage("Значение в поле \"Действующий пароль\" неверное");
-                    return false;
-                }
-                if (NewPassword != NewPasswordConfirmation)
-                {
-                    ShowMessage("Поля \"Новый пароль\" и \"Подтверждение\" должны совпадать");
-                    return false;
-                }
+                ShowMessage("Поля \"Пароль\" и \"Подтверждение\" должны совпадать");
+                return false;
             }
             return true;
         }
@@ -269,7 +237,7 @@ namespace SecurityModule.ViewModels
         {
             if (UserRole == null)
             {
-                ShowMessage("Сначала выберите роль");
+                ShowMessage("Не выбрана роль");
                 return false;
             }
             return true;

@@ -2,14 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-        <Button Command="{Binding CreateCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+        <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/Add.png" Height="24" />
-        </Button>
-        <Button Command="{Binding RemoveCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Delete.png" Height="24" />
         </Button>
         <Button Command="{Binding EditCommand}" ToolTip="Редактировать" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/Edit.png" Height="24" />
+        </Button>
+        <Button Command="{Binding DeleteCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Delete.png" Height="24" />
         </Button>
     </StackPanel>
 </UserControl>

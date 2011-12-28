@@ -6,7 +6,7 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class DirectionsViewModel : RegionViewModel
+    public class DirectionsViewModel : RegionViewModel, IEditingViewModel
     {
         public DirectionsViewModel()
         {

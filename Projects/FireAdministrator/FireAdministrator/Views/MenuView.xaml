@@ -3,27 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <StackPanel Orientation="Horizontal">
-
         <Button Click="OnCreateNew" ToolTip="Создать новый" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/new.png" Height="24" />
         </Button>
-
         <Button Click="OnLoadFromFile" ToolTip="Считать из файла" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/load.png" Height="24" />
         </Button>
-
         <Button Click="OnSaveToFile" ToolTip="Сохранить в файл" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/save.png" Height="24" />
         </Button>
-
         <Button Click="OnValidate"  ToolTip="Проверить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/check.png" Height="24" />
         </Button>
-
         <Button Click="OnSetNewConfig" ToolTip="Ok" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/download.png" Height="24" />
         </Button>
-
     </StackPanel>
-
 </UserControl>

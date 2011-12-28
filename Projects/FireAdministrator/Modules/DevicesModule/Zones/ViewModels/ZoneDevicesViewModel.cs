@@ -177,7 +177,10 @@ namespace DevicesModule.ViewModels
             var zoneLogicViewModel = new ZoneLogicViewModel(SelectedDevice.Device);
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel))
+            {
                 DevicesModule.HasChanges = true;
+                Initialize(_zoneNo);
+            }
         }
     }
 }

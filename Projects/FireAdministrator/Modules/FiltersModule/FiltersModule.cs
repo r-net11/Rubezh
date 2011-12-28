@@ -26,7 +26,6 @@ namespace FiltersModule
         void CreateViewModels()
         {
             _filtersViewModel = new FiltersViewModel();
-            _filtersViewModel.Initialize();
         }
 
         static void OnShowJournal(string obj)

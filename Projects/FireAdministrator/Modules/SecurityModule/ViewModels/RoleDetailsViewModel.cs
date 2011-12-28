@@ -14,34 +14,38 @@ namespace SecurityModule.ViewModels
     {
         public UserRole Role { get; private set; }
 
-        public RoleDetailsViewModel()
+        public RoleDetailsViewModel(UserRole role = null)
         {
-            Title = "Создание новой роли";
-
-            if (FiresecManager.SecurityConfiguration.UserRoles.IsNotNullOrEmpty())
-                Role = new UserRole() { Id = FiresecManager.SecurityConfiguration.UserRoles.Max(x => x.Id) + 1 };
+            if (role != null)
+            {
+                Title = string.Format("Свойства роли: {0}", role.Name);
+                Role = role;
+            }
             else
-                Role = new UserRole() { Id = 1 };
+            {
+                Title = "Создание новой роли";
 
-            Initialize();
+                if (FiresecManager.SecurityConfiguration.UserRoles.IsNotNullOrEmpty())
+                    Role = new UserRole() { Id = FiresecManager.SecurityConfiguration.UserRoles.Max(x => x.Id) + 1 };
+                else
+                    Role = new UserRole() { Id = 1 };
+            }
+
+            CopyProperties();
         }
 
-        public RoleDetailsViewModel(UserRole role)
-        {
-            Title = string.Format("Свойства роли: {0}", role.Name);
-
-            Role = role;
-
-            Initialize();
-        }
-
-        void Initialize()
+        void CopyProperties()
         {
             Permissions = new ObservableCollection<PermissionViewModel>();
             foreach (PermissionType permissionType in Enum.GetValues(typeof(PermissionType)))
                 Permissions.Add(new PermissionViewModel(permissionType));
 
-            CopyProperties();
+            Name = Role.Name;
+            if (Role.Permissions.IsNotNullOrEmpty())
+            {
+                foreach (var permissionType in Role.Permissions)
+                    Permissions.First(permission => permission.PermissionType == permissionType).IsEnable = true;
+            }
         }
 
         string _name;
@@ -56,16 +60,6 @@ namespace SecurityModule.ViewModels
         }
 
         public ObservableCollection<PermissionViewModel> Permissions { get; private set; }
-
-        void CopyProperties()
-        {
-            Name = Role.Name;
-            if (Role.Permissions.IsNotNullOrEmpty())
-            {
-                foreach (var permissionType in Role.Permissions)
-                    Permissions.First(permission => permission.PermissionType == permissionType).IsEnable = true;
-            }
-        }
 
         void SaveProperties()
         {

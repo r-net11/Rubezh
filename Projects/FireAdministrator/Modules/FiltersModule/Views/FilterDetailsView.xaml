@@ -3,22 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:FiltersModule.Converters"
              xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
-             MinWidth="525" MinHeight="325">
+             MinWidth="550" MinHeight="350">
     <UserControl.Resources>
         <Converters:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converters:CategoryTypeToCategoryNameConverter x:Key="CategoryTypeToCategoryNameConverter" />
-        <SolidColorBrush x:Key="headerBrush">OrangeRed</SolidColorBrush>
-        <Style x:Key="textBoxInError" TargetType="TextBox">
-            <Style.Triggers>
-                <Trigger Property="Validation.HasError" Value="true">
-                    <Setter Property="ToolTip" Value="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=(Validation.Errors)[0].ErrorContent}" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
     </UserControl.Resources>
 
 
-    <Border CornerRadius="5" Margin="3" Padding="5" Background="{DynamicResource BackgroundBrush}">
+    <Border CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
         <StackPanel>
             <Grid Margin="2">
                 <Grid.ColumnDefinitions>
@@ -72,5 +64,4 @@
             </StackPanel>
         </StackPanel>
     </Border>
-
 </UserControl>

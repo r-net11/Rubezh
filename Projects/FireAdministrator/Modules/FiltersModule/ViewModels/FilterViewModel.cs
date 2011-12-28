@@ -18,6 +18,18 @@ namespace FiltersModule.ViewModels
             {
                 _journalFilter = value;
                 OnPropertyChanged("JournalFilter");
+                OnPropertyChanged("CountDescription");
+            }
+        }
+
+        public string CountDescription
+        {
+            get
+            {
+                string result = JournalFilter.LastRecordsCount.ToString() + " записей";
+                if (JournalFilter.IsLastDaysCountActive)
+                    result += " за " + JournalFilter.LastDaysCount.ToString() + " последних дней";
+                return result;
             }
         }
     }

@@ -9,13 +9,13 @@ using Infrastructure.Common;
 
 namespace InstructionsModule.ViewModels
 {
-    public class InstructionsViewModel : RegionViewModel
+    public class InstructionsViewModel : RegionViewModel, IEditingViewModel
     {
         public InstructionsViewModel()
         {
             AddCommand = new RelayCommand(OnAdd);
-            RemoveCommand = new RelayCommand(OnRemove, CanEditRemove);
-            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+            DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
+            DeleteAllCommand = new RelayCommand(OnDeleteAll, CanRemoveAll);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 
             Instructions = new ObservableCollection<InstructionViewModel>();
@@ -29,11 +29,11 @@ namespace InstructionsModule.ViewModels
                 {
                     if (instruction.InstructionType == InstructionType.Details)
                     {
-                        instruction.InstructionDevicesList = new List<System.Guid>(
-                            instruction.InstructionDevicesList.Where(deviceGuid => FiresecManager.DeviceConfiguration.Devices.Any(x => x.UID == deviceGuid))
+                        instruction.Devices = new List<System.Guid>(
+                            instruction.Devices.Where(deviceGuid => FiresecManager.DeviceConfiguration.Devices.Any(x => x.UID == deviceGuid))
                         );
-                        instruction.InstructionZonesList = new List<ulong?>(
-                            instruction.InstructionZonesList.Where(zoneNumber => FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == zoneNumber))
+                        instruction.Zones = new List<ulong?>(
+                            instruction.Zones.Where(zoneNumber => FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == zoneNumber))
                         );
                     }
                     Instructions.Add(new InstructionViewModel(instruction));
@@ -61,11 +61,21 @@ namespace InstructionsModule.ViewModels
         void OnAdd()
         {
             var instructionDetailsViewModel = new InstructionDetailsViewModel();
-            instructionDetailsViewModel.Initialize();
             if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel))
             {
                 Instructions.Add(new InstructionViewModel(instructionDetailsViewModel.Instruction));
                 FiresecManager.SystemConfiguration.Instructions.Add(instructionDetailsViewModel.Instruction);
+                InstructionsModule.HasChanges = true;
+            }
+        }
+
+        public RelayCommand EditCommand { get; private set; }
+        void OnEdit()
+        {
+            var instructionDetailsViewModel = new InstructionDetailsViewModel(SelectedInstruction.Instruction);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel))
+            {
+                SelectedInstruction.Update();
                 InstructionsModule.HasChanges = true;
             }
         }
@@ -80,8 +90,8 @@ namespace InstructionsModule.ViewModels
             return (Instructions.IsNotNullOrEmpty());
         }
 
-        public RelayCommand RemoveCommand { get; private set; }
-        void OnRemove()
+        public RelayCommand DeleteCommand { get; private set; }
+        void OnDelete()
         {
             FiresecManager.SystemConfiguration.Instructions.Remove(SelectedInstruction.Instruction);
             Instructions.Remove(SelectedInstruction);
@@ -90,8 +100,8 @@ namespace InstructionsModule.ViewModels
             InstructionsModule.HasChanges = true;
         }
 
-        public RelayCommand RemoveAllCommand { get; private set; }
-        void OnRemoveAll()
+        public RelayCommand DeleteAllCommand { get; private set; }
+        void OnDeleteAll()
         {
             SelectedInstruction = null;
             Instructions.Clear();
@@ -99,21 +109,9 @@ namespace InstructionsModule.ViewModels
             InstructionsModule.HasChanges = true;
         }
 
-        public RelayCommand EditCommand { get; private set; }
-        void OnEdit()
-        {
-            var instructionDetailsViewModel = new InstructionDetailsViewModel();
-            instructionDetailsViewModel.Initialize(SelectedInstruction.Instruction);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel))
-            {
-                SelectedInstruction.Update();
-                InstructionsModule.HasChanges = true;
-            }
-        }
-
         public override void OnShow()
         {
-            var instructionsMenuViewModel = new InstructionsMenuViewModel(AddCommand, EditCommand, RemoveCommand, RemoveAllCommand);
+            var instructionsMenuViewModel = new InstructionsMenuViewModel(AddCommand, EditCommand, DeleteCommand, DeleteAllCommand);
             ServiceFactory.Layout.ShowMenu(instructionsMenuViewModel);
         }
 

@@ -4,9 +4,9 @@
         Title="" Height="100" Width="300" ResizeMode="NoResize"
         ShowInTaskbar="False" Topmost="True" WindowStartupLocation="CenterScreen" WindowStyle="None"
         Background="{StaticResource BackgroundBrush}" Foreground="White">
-    <Grid>
+    <Border CornerRadius="5">
         <TextBlock Text="Инициализация компонент..."
                    HorizontalAlignment="Center" VerticalAlignment="Center"
                    FontSize="17" FontWeight="Black"/>
-    </Grid>
+    </Border>
 </Window>

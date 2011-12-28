@@ -8,7 +8,7 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZonesViewModel : RegionViewModel
+    public class ZonesViewModel : RegionViewModel, IEditingViewModel
     {
         public ZoneDevicesViewModel ZoneDevices { get; set; }
 
@@ -155,5 +155,45 @@ namespace DevicesModule.ViewModels
         {
             ServiceFactory.Layout.ShowMenu(null);
         }
+
+        //#region Члены IEditingViewModel
+
+        //RelayCommand IEditingViewModel.AddCommand
+        //{
+        //    get
+        //    {
+        //        throw new System.NotImplementedException();
+        //    }
+        //    private set
+        //    {
+        //        throw new System.NotImplementedException();
+        //    }
+        //}
+
+        //RelayCommand IEditingViewModel.DeleteCommand
+        //{
+        //    get
+        //    {
+        //        throw new System.NotImplementedException();
+        //    }
+        //    set
+        //    {
+        //        throw new System.NotImplementedException();
+        //    }
+        //}
+
+        //RelayCommand IEditingViewModel.EditCommand
+        //{
+        //    get
+        //    {
+        //        throw new System.NotImplementedException();
+        //    }
+        //    set
+        //    {
+        //        throw new System.NotImplementedException();
+        //    }
+        //}
+
+        //#endregion
     }
 }

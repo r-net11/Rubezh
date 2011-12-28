@@ -195,4 +195,18 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+
+
+    <Style TargetType="{x:Type local:XDataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
+        <Setter Property="ContextMenu">
+            <Setter.Value>
+                <ContextMenu>
+                    <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
+                    <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
+                    <MenuItem Header="Редактировать" Command="{Binding EditCommand}" />
+                </ContextMenu>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
 </ResourceDictionary>

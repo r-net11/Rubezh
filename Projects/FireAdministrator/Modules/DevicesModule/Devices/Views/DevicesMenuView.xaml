@@ -12,19 +12,15 @@
         <Button ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/add.png" Height="24" />
         </Button>
-
         <Button Command="{Binding CopyCommand}" ToolTip="Копировать" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/copy.png" Height="24" />
         </Button>
-
         <Button Command="{Binding CutCommand}" ToolTip="Вырезать" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/cut.png" Height="24" />
         </Button>
-
         <Button Command="{Binding PasteCommand}" ToolTip="Вставить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/paste.png" Height="24" />
         </Button>
-
         <Menu Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}">
             <MenuItem>
                 <MenuItem.Header>

@@ -5,7 +5,7 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class LevelsViewModel : RegionViewModel
+    public class LevelsViewModel : RegionViewModel, IEditingViewModel
     {
         public LevelsViewModel()
         {

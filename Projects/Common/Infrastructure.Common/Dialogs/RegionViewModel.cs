@@ -8,7 +8,6 @@
         {
         }
 
-        //public abstract void Dispose();
         public virtual void OnShow()
         {
         }

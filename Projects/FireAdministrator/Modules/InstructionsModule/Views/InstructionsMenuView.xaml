@@ -5,13 +5,13 @@
         <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/Add.png" Height="24" />
         </Button>
-        <Button Command="{Binding RemoveCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Delete.png" Height="24" />
-        </Button>
         <Button Command="{Binding EditCommand}" ToolTip="Редактировать" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/Edit.png" Height="24" />
         </Button>
-        <Button Command="{Binding RemoveAllCommand}" ToolTip="Удалить все инструкции" Style="{StaticResource ToolarButtonStyle}">
+        <Button Command="{Binding DeleteCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/Delete.png" Height="24" />
+        </Button>
+        <Button Command="{Binding DeleteAllCommand}" ToolTip="Удалить все инструкции" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/DeleteAll.png" Height="24" />
         </Button>
     </StackPanel>

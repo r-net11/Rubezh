@@ -12,6 +12,11 @@ namespace InstructionsModule.ViewModels
     {
         public InstructionZonesViewModel(List<ulong?> instructionZonesList)
         {
+            AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
+            RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
+            AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
+            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+
             Title = "Выбор зоны";
 
             InstructionZonesList = new List<ulong?>(instructionZonesList);
@@ -21,11 +26,6 @@ namespace InstructionsModule.ViewModels
             InicializeZones();
             if (InstructionZones.IsNotNullOrEmpty())
                 SelectedInstructionZone = InstructionZones[0];
-
-            AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
-            RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
-            AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
-            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
         }
 
         void InicializeZones()

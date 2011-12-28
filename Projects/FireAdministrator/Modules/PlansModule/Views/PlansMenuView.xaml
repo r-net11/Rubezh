@@ -6,18 +6,14 @@
         <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/Add.png" Height="24" />
         </Button>
-
         <Button Command="{Binding EditCommand}" ToolTip="Редактировать" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/Edit.png" Height="24" />
         </Button>
-
         <Button Command="{Binding RemoveCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/Delete.png" Height="24" />
         </Button>
-
         <Button Command="{Binding AddSubPlanCommand}" ToolTip="Добавить дочерний план" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/AddChild.png" Height="24" />
         </Button>
-
     </StackPanel>
 </UserControl>

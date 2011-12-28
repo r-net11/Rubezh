@@ -14,42 +14,47 @@ namespace InstructionsModule.ViewModels
     {
         public Instruction Instruction { get; private set; }
 
-        public InstructionDetailsViewModel()
+        public InstructionDetailsViewModel(Instruction instruction = null)
+        {
+            SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelect);
+            SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
+
+            if (instruction != null)
+            {
+                Title = "Редактирование инструкции";
+                Instruction = instruction;
+            }
+            else
+            {
+                Title = "Новая инструкция";
+
+                InstructionNo = 0;
+                if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
+                    InstructionNo = FiresecManager.SystemConfiguration.Instructions.Select(x => x.No).Max() + 1;
+
+                Instruction = new Instruction();
+            }
+
+            CopyProperties();
+        }
+
+        void CopyProperties()
         {
             InstructionZones = new ObservableCollection<ulong?>();
             InstructionDevices = new ObservableCollection<Guid>();
 
-            SelectZoneCommand = new RelayCommand(OnSelectZoneCommand, CanSelect);
-            SelectDeviceCommand = new RelayCommand(OnSelectDeviceCommand, CanSelect);
-        }
-
-        public void Initialize()
-        {
-            Title = "Новая инструкция";
-
-            InstructionNo = 0;
-            if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
-                InstructionNo = FiresecManager.SystemConfiguration.Instructions.Select(x => x.No).Max() + 1;
-
-            Instruction = new Instruction();
-        }
-
-        public void Initialize(Instruction instruction)
-        {
-            Title = "Редактирование инструкции";
-
-            Instruction = instruction;
-            Text = instruction.Text;
-            StateType = instruction.StateType;
-            InstructionNo = instruction.No;
-            InstructionType = instruction.InstructionType;
+            InstructionNo = Instruction.No;
+            Name = Instruction.Name;
+            Text = Instruction.Text;
+            StateType = Instruction.StateType;
+            InstructionType = Instruction.InstructionType;
             switch (InstructionType)
             {
                 case InstructionType.Details:
-                    if (Instruction.InstructionZonesList.IsNotNullOrEmpty())
-                        InstructionZones = new ObservableCollection<ulong?>(Instruction.InstructionZonesList);
-                    if (Instruction.InstructionDevicesList.IsNotNullOrEmpty())
-                        InstructionDevices = new ObservableCollection<Guid>(Instruction.InstructionDevicesList);
+                    if (Instruction.Zones.IsNotNullOrEmpty())
+                        InstructionZones = new ObservableCollection<ulong?>(Instruction.Zones);
+                    if (Instruction.Devices.IsNotNullOrEmpty())
+                        InstructionDevices = new ObservableCollection<Guid>(Instruction.Devices);
                     break;
 
                 case InstructionType.General:
@@ -57,36 +62,37 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        ObservableCollection<ulong?> _instructionZones;
-        public ObservableCollection<ulong?> InstructionZones
+        ulong _instructionNo;
+        public ulong InstructionNo
         {
-            get { return _instructionZones; }
+            get { return _instructionNo; }
             set
             {
-                _instructionZones = value;
-                OnPropertyChanged("InstructionZones");
+                _instructionNo = value;
+                OnPropertyChanged("InstructionNo");
             }
         }
 
-        ObservableCollection<Guid> _instructionDevices;
-        public ObservableCollection<Guid> InstructionDevices
+        string _name;
+        public string Name
         {
-            get { return _instructionDevices; }
+            get { return _name; }
             set
             {
-                _instructionDevices = value;
-                OnPropertyChanged("InstructionDevices");
+                _name = value;
+                OnPropertyChanged("Name");
             }
         }
 
-        public List<StateType> AvailableStates
+        string _text;
+        public string Text
         {
-            get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>()); }
-        }
-
-        public List<InstructionType> AvailableInstructionsType
-        {
-            get { return new List<InstructionType>(Enum.GetValues(typeof(InstructionType)).OfType<InstructionType>()); }
+            get { return _text; }
+            set
+            {
+                _text = value;
+                OnPropertyChanged("Text");
+            }
         }
 
         StateType _stateType;
@@ -111,25 +117,35 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        string _text;
-        public string Text
+        public List<StateType> AvailableStates
         {
-            get { return _text; }
+            get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>()); }
+        }
+
+        public List<InstructionType> AvailableInstructionsType
+        {
+            get { return new List<InstructionType>(Enum.GetValues(typeof(InstructionType)).OfType<InstructionType>()); }
+        }
+
+        ObservableCollection<ulong?> _instructionZones;
+        public ObservableCollection<ulong?> InstructionZones
+        {
+            get { return _instructionZones; }
             set
             {
-                _text = value;
-                OnPropertyChanged("Text");
+                _instructionZones = value;
+                OnPropertyChanged("InstructionZones");
             }
         }
 
-        ulong _instructionNo;
-        public ulong InstructionNo
+        ObservableCollection<Guid> _instructionDevices;
+        public ObservableCollection<Guid> InstructionDevices
         {
-            get { return _instructionNo; }
+            get { return _instructionDevices; }
             set
             {
-                _instructionNo = value;
-                OnPropertyChanged("InstructionNo");
+                _instructionDevices = value;
+                OnPropertyChanged("InstructionDevices");
             }
         }
 
@@ -168,19 +184,20 @@ namespace InstructionsModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
+            Instruction.No = InstructionNo;
+            Instruction.Name = Name;
             Instruction.Text = Text;
             Instruction.StateType = StateType;
             Instruction.InstructionType = InstructionType;
-            Instruction.No = InstructionNo;
             if (InstructionType == InstructionType.Details)
             {
-                Instruction.InstructionDevicesList = InstructionDevices.ToList();
-                Instruction.InstructionZonesList = InstructionZones.ToList();
+                Instruction.Devices = InstructionDevices.ToList();
+                Instruction.Zones = InstructionZones.ToList();
             }
             else
             {
-                Instruction.InstructionDevicesList = new List<Guid>();
-                Instruction.InstructionZonesList = new List<ulong?>();
+                Instruction.Devices = new List<Guid>();
+                Instruction.Zones = new List<ulong?>();
             }
         }
     }
