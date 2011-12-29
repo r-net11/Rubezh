@@ -32,16 +32,6 @@
   <ItemGroup>
     <Folder Include="Data" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\FireMonitor\FireMonitor\FireMonitor.csproj">
-      <Name>FireMonitor</Name>
-      <Project>{d1ea90c8-d176-442f-a5dd-8ab97b476821}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--
 	To modify your build process, add your task inside one of the targets below and uncomment it.

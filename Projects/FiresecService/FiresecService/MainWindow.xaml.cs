@@ -69,7 +69,7 @@ namespace FiresecServiceRunner
             if (convertJournal)
                 JournalDataConverter.Convert();
             if (hide)
-                this.Hide();
+                this.WindowState = WindowState.Minimized;
             if (exit)
                 this.Close();
         }

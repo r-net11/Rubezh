@@ -93,7 +93,7 @@ namespace AlarmModule.ViewModels
             {
                 foreach (var instruction in AvailableStateTypeInstructions)
                 {
-                    if (instruction.Devices.Contains(deviceUID))
+                    if (instruction.Devices.IsNotNullOrEmpty() && instruction.Devices.Contains(deviceUID))
                     {
                         Instruction = instruction;
                         return true;
@@ -110,7 +110,7 @@ namespace AlarmModule.ViewModels
             {
                 foreach (var instruction in AvailableStateTypeInstructions)
                 {
-                    if (instruction.InstructionZonesList.IsNotNullOrEmpty() && instruction.InstructionZonesList.Contains(zoneNo))
+                    if (instruction.Zones.IsNotNullOrEmpty() && instruction.Zones.Contains(zoneNo))
                     {
                         Instruction = instruction;
                         return true;
