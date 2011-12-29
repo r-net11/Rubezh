@@ -4,18 +4,18 @@ namespace InstructionsModule.ViewModels
 {
     public class InstructionsMenuViewModel
     {
-        public InstructionsMenuViewModel(RelayCommand addCommand, RelayCommand editCommand, 
-            RelayCommand removeCommand, RelayCommand removeAllCommand)
+        public InstructionsMenuViewModel(RelayCommand addCommand, RelayCommand editCommand,
+            RelayCommand deleteCommand, RelayCommand deleteAllCommand)
         {
             AddCommand = addCommand;
-            RemoveCommand = removeCommand;
+            DeleteCommand = deleteCommand;
             EditCommand = editCommand;
-            RemoveAllCommand = removeAllCommand;
+            DeleteAllCommand = deleteAllCommand;
         }
 
         public RelayCommand AddCommand { get; private set; }
         public RelayCommand EditCommand { get; private set; }
-        public RelayCommand RemoveCommand { get; private set; }
-        public RelayCommand RemoveAllCommand { get; private set; }
+        public RelayCommand DeleteCommand { get; private set; }
+        public RelayCommand DeleteAllCommand { get; private set; }
     }
 }

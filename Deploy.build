@@ -2,12 +2,10 @@
 <project name="Simple" default="run">
 	<property name="nant.settings.currentframework" value="net-4.0" />	
 	<target name="run">
-		<call target="Clear" />
-		<call target="CopyFiles" />
+		<call target="Clear" />		
 		<call target="CompileAll" />
 	</target>
-	<target name="Clear">
-		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Configuration" />
+	<target name="Clear">		
 		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Pictures" />
 		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Temp" />
 	</target>
