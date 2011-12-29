@@ -26,7 +26,7 @@ namespace FiltersModule.ViewModels
             get { return _selectedFilter; }
             set
             {
-                value = _selectedFilter;
+                _selectedFilter = value;
                 OnPropertyChanged("SelectedFilter");
             }
         }

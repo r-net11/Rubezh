@@ -1,5 +1,4 @@
-﻿using System.Windows;
-
+﻿
 namespace Infrastructure.Common
 {
     public interface IUserDialogService

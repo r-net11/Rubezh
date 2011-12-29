@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using FiresecAPI;

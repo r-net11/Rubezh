@@ -2,8 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using PlansModule.ViewModels;
-using System.Collections.Generic;
 
 namespace PlansModule.Views
 {

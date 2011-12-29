@@ -9,9 +9,8 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.DatabaseConverter;
-using FiresecServiceRunner;
-using FiresecService.Views;
 using FiresecService.ViewModels;
+using FiresecService.Views;
 
 namespace FiresecService
 {

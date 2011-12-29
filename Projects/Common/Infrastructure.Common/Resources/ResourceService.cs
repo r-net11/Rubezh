@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Infrastructure.Common;
 
 namespace Infrastructure.Common
 {

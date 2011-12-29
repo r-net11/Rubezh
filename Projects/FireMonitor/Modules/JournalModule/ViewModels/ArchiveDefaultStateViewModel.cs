@@ -3,7 +3,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using JournalModule.Events;
 
-using FiresecAPI.Models;
 
 namespace JournalModule.ViewModels
 {

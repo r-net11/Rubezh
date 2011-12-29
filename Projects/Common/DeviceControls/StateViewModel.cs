@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
 using FiresecAPI.Models;
-using System.Diagnostics;
 
 namespace DeviceControls
 {

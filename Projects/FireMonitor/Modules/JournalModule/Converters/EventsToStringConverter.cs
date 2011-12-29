@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Data;
-using Common;
 using FiresecAPI.Models;
 
 namespace JournalModule.Converters

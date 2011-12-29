@@ -3,10 +3,8 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using FiresecService;
-using FiresecService.Infrastructure;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
-using System.Collections.ObjectModel;
 
 namespace FiresecServiceRunner
 {

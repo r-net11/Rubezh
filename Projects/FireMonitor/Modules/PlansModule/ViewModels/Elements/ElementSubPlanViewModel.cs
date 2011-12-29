@@ -1,5 +1,4 @@
-﻿using System;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common;
 
 namespace PlansModule.ViewModels

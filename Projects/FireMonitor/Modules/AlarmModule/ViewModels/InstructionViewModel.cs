@@ -65,25 +65,25 @@ namespace AlarmModule.ViewModels
             switch (alarmType)
             {
                 case AlarmType.Fire:
-                    return (StateType) 0;
+                    return StateType.Fire;
 
                 case AlarmType.Attention:
-                    return (StateType) 1;
+                    return StateType.Attention;
 
                 case AlarmType.Failure:
-                    return (StateType) 2;
+                    return StateType.Failure;
 
                 case AlarmType.Off:
-                    return (StateType) 4;
+                    return StateType.Off;
 
                 case AlarmType.Info:
-                    return (StateType) 6;
+                    return StateType.Info;
 
                 case AlarmType.Service:
-                    return (StateType) 3;
+                    return StateType.Service;
 
                 default:
-                    return (StateType) 8;
+                    return StateType.No;
             }
         }
 
@@ -93,7 +93,7 @@ namespace AlarmModule.ViewModels
             {
                 foreach (var instruction in AvailableStateTypeInstructions)
                 {
-                    if (instruction.InstructionDevicesList.IsNotNullOrEmpty() && instruction.InstructionDevicesList.Contains(deviceUID))
+                    if (instruction.Devices.Contains(deviceUID))
                     {
                         Instruction = instruction;
                         return true;

@@ -7,6 +7,12 @@ namespace FiresecAPI.Models
     [DataContract]
     public class Instruction
     {
+        public Instruction()
+        {
+            Zones = new List<ulong?>();
+            Devices = new List<Guid>();
+        }
+
         [DataMember]
         public ulong No { get; set; }
 

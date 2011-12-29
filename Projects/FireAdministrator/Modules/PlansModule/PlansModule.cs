@@ -1,11 +1,9 @@
-﻿using System;
+﻿using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using PlansModule.Events;
 using PlansModule.ViewModels;
-using FiresecAPI.Models;
-using FiresecClient;
 
 namespace PlansModule
 {

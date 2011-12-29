@@ -11,9 +11,9 @@
 namespace ReportsModule.CrystalReports {
     using System;
     using System.ComponentModel;
-    using CrystalDecisions.Shared;
-    using CrystalDecisions.ReportSource;
     using CrystalDecisions.CrystalReports.Engine;
+    using CrystalDecisions.ReportSource;
+    using CrystalDecisions.Shared;
     
     
     public class DeviceParamsCrystalReport : ReportClass {

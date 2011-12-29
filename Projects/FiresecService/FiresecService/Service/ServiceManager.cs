@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.ServiceModel;
-using System.ServiceModel.Description;
 
 namespace FiresecService
 {

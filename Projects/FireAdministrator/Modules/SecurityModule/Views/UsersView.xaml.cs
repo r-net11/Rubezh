@@ -1,6 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Windows;
-using SecurityModule.ViewModels;
 
 namespace SecurityModule.Views
 {
