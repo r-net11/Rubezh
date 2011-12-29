@@ -2,7 +2,8 @@
 <project name="Simple" default="run">
 	<property name="nant.settings.currentframework" value="net-4.0" />	
 	<target name="run">
-		<call target="Clear" />		
+		<call target="Clear" />	
+		<call target="CopyFiles" />		
 		<call target="CompileAll" />
 	</target>
 	<target name="Clear">		
@@ -10,7 +11,7 @@
 		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Temp" />
 	</target>
 	<target name="CopyFiles">
-		<copy todir="Projects\FiresecService\FiresecService\bin\Release\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
+		<copy todir="Projects\FiresecService\FiresecService\bin\Release\Configuration" includeemptydirs="true" overwrite="false" verbose="true">
 			<fileset basedir="Projects\Deploy\Configuration">
 				<include name="**\*" />
 			</fileset>
