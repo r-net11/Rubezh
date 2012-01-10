@@ -40,30 +40,28 @@ namespace Test
             var resources = System.Windows.Application.LoadComponent(new Uri("DataGridStyle.xaml", UriKind.Relative)) as System.Windows.ResourceDictionary;
 
             app.Resources.MergedDictionaries.Add(resources);
-
-            //Uri uri = new Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml");
-            //_currentDeviceView.Resources.Source = uri;
-            //StreamResourceInfo sri = System.Windows.Application.GetResourceStream(uri);
-            //ResourceDictionary resources = (ResourceDictionary)ResourceHelper.BamlReader(sri.Stream);
-            //ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
-            //_currentDeviceView.Resources.MergedDictionaries.Add(resources);
             elementHost.Child = _currentDeviceView;
             
-            if (DeviceId != Guid.Empty)
-            {
-                _currentDeviceViewModel.Inicialize(DeviceId);
-            }
+            //if (DeviceId != Guid.Empty)
+            //{
+            //    _currentDeviceViewModel.Inicialize(DeviceId);
+            //}
         }
 
         private void StartFiresecClient()
         {
-            FiresecManager.Connect("adm", "");
+            FiresecManager.Connect("net.tcp://localhost:8000/FiresecService/", "adm", "");
+            FiresecManager.ActiveXFetch();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             _currentDeviceViewModel.SelectDevice();
             DeviceId = _currentDeviceViewModel.DeviceId;
+            if (DeviceId != Guid.Empty)
+            {
+                _currentDeviceViewModel.Inicialize(DeviceId);
+            }
         }
     }
 }

@@ -141,11 +141,6 @@ namespace CurrentDeviceModule.ViewModels
             var deviceDetailsViewModel = new CurrentDeviceDetailsViewModel(DeviceId);
             deviceDetailsView.DataContext = deviceDetailsViewModel;
             deviceDetailsView.ShowDialog();
-            //System.Windows.Application.Current.Resources.MergedDictionaries.Add(rd);
-            //CurrentDeviceDetailsView deviceDetailsView = new CurrentDeviceDetailsView();
-            //StreamResourceInfo sri = System.Windows.Application.GetResourceStream(uri);
-            //ResourceDictionary resources = (ResourceDictionary)ResourceHelper.BamlReader(sri.Stream);
-            
         }
     }
 }

@@ -4,22 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Views="clr-namespace:DeviceControls;assembly=DeviceControls"
-             xmlns:Converters="clr-namespace:CurrentDeviceModule.Converters"
-             mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    <Grid>
+             xmlns:Converters="clr-namespace:CurrentDeviceModule.Converters">
         <ContentControl Content="{Binding CurrentDeviceControl}" Margin="0" 
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <ContentControl.Resources>
-                
-                <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-                <Converters:StateTypeToStringConverter2 x:Key="StateTypeToStringConverter2" />
-            </ContentControl.Resources>
             <ContentControl.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Отключить"
                               Background="Aqua">
-                        
                     </MenuItem>
                     <MenuItem Header="Свойства устройства" Command="{Binding ShowPropertiesCommand}" 
                               Background="Aqua">
@@ -32,5 +23,4 @@
                 </ToolTip>
             </ContentControl.ToolTip>
         </ContentControl>
-    </Grid>
 </UserControl>

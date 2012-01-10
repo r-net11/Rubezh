@@ -22,8 +22,6 @@ namespace CurrentDeviceModule.Views
     {
         public ActiveXDeviceDetailsView()
         {
-            //System.Uri resourceLocater2 = new System.Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml");
-            //System.Windows.Application.LoadComponent(this, resourceLocater2);
             try
             {
                 InitializeComponent();

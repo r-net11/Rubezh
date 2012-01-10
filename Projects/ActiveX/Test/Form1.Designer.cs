@@ -36,7 +36,7 @@
             // 
             this.elementHost.Location = new System.Drawing.Point(12, 12);
             this.elementHost.Name = "elementHost";
-            this.elementHost.Size = new System.Drawing.Size(200, 100);
+            this.elementHost.Size = new System.Drawing.Size(268, 125);
             this.elementHost.TabIndex = 0;
             this.elementHost.Text = "elementHost";
             this.elementHost.Child = null;

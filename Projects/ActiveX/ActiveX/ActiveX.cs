@@ -15,6 +15,7 @@ using CurrentDeviceModule.Views;
 using FiresecClient;
 using System.Windows;
 using System.Windows.Resources;
+using System.Windows.Media;
 
 namespace ActiveX
 {
@@ -27,6 +28,7 @@ namespace ActiveX
         public ActiveX()
         {
             InitializeComponent();
+            InitializeCurrentDevice();
         }
 
         CurrentDeviceViewModel _currentDeviceViewModel;
@@ -40,23 +42,18 @@ namespace ActiveX
             InitializeCurrentDevice();
         }
 
-        private void InitializeCurrentDevice()
+        public void InitializeCurrentDevice()
         {
             _currentDeviceViewModel = new CurrentDeviceViewModel();
             _currentDeviceView = new CurrentDeviceView();
             _currentDeviceView.DataContext = _currentDeviceViewModel;
 
-            var app = new System.Windows.Application();
-            Uri uri = new Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml");
-            var resources = System.Windows.Application.LoadComponent(uri) as System.Windows.ResourceDictionary;
+            //var app = new System.Windows.Application();
+            //Uri uri = new Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml");
+            //var resources = System.Windows.Application.LoadComponent(uri) as System.Windows.ResourceDictionary;
 
-            app.Resources.MergedDictionaries.Add(resources);
+            //app.Resources.MergedDictionaries.Add(resources);
             
-            //_currentDeviceView.Resources.Source = uri;
-            //StreamResourceInfo sri = System.Windows.Application.GetResourceStream(uri);
-            //ResourceDictionary resources = (ResourceDictionary)ResourceHelper.BamlReader(sri.Stream);
-            //ResourceDictionary rd = new ResourceDictionary() { Source = new System.Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml") };
-            //_currentDeviceView.Resources.MergedDictionaries.Add(resources);
             elementHost.Child = _currentDeviceView;
 
             if (DeviceId != Guid.Empty)
@@ -70,15 +67,21 @@ namespace ActiveX
             base.OnSizeChanged(e);
             elementHost.Width = Width;
             elementHost.Height = Height;
+            var curDevView = elementHost.Child as CurrentDeviceView;
+            curDevView.LayoutTransform = new ScaleTransform(Width / 500, Height / 500);
         }
 
         private void StartFiresecClient()
         {
-            FiresecManager.Connect("adm", "");
+            FiresecManager.Connect("net.tcp://localhost:8000/FiresecService/", "adm", "");
+            FiresecManager.ActiveXFetch();
         }
 
         public void GetPages(Microsoft.VisualStudio.OLE.Interop.CAUUID[] pPages)
         {
+            //ResourceDictionary rsd = new ResourceDictionary();
+            //rsd.Source = new Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml");
+            //System.Windows.Application.Current.Resources.MergedDictionaries.Add(rsd);
             _currentDeviceViewModel.SelectDevice();
             DeviceId = _currentDeviceViewModel.DeviceId;
         }
