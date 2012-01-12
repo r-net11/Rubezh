@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using ReportsModule.Models;
+using System;
 
 namespace ReportsModule.Reports
 {
@@ -18,16 +19,31 @@ namespace ReportsModule.Reports
 
             foreach (var driver in FiresecManager.Drivers)
             {
-                if (driver.IsPlaceable && driver.ShortName != "Компьютер")
+                if (driver.IsPlaceable && driver.DriverType != DriverType.Computer)
                 {
-                    var devices = FiresecManager.DeviceConfiguration.Devices.FindAll(x => x.Driver.UID == driver.UID);
-                    if (devices.IsNotNullOrEmpty())
+                    AddDrivers(driver);
+                }
+                else
+                {
+                    switch (driver.DriverType)
                     {
-                        DataList.Add(new ReportDriverCounterModel()
-                        {
-                            DriverName = driver.ShortName,
-                            Count = devices.Count
-                        });
+                        case DriverType.IndicationBlock:
+                            AddDrivers(driver);
+                            break;
+                        case DriverType.MS_1:
+                            AddDrivers(driver);
+                            break;
+                        case DriverType.MS_2:
+                            AddDrivers(driver);
+                            break;
+                        case DriverType.MS_3:
+                            AddDrivers(driver);
+                            break;
+                        case DriverType.MS_4:
+                            AddDrivers(driver);
+                            break;
+                        default:
+                            break;
                     }
                 }
             }
@@ -37,6 +53,19 @@ namespace ReportsModule.Reports
                 DriverName = "Всего устройств",
                 Count = CountDrivers()
             });
+        }
+
+        void AddDrivers(Driver driver)
+        {
+            var devices = FiresecManager.DeviceConfiguration.Devices.FindAll(x => x.Driver.UID == driver.UID);
+            if (devices.IsNotNullOrEmpty())
+            {
+                DataList.Add(new ReportDriverCounterModel()
+                {
+                    DriverName = driver.ShortName,
+                    Count = devices.Count
+                });
+            }
         }
 
         int CountDrivers()

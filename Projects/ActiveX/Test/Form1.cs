@@ -29,23 +29,20 @@ namespace Test
             StartFiresecClient();
             InitializeCurrentDevice();
         }
-        System.Windows.Application app;
+
         private void InitializeCurrentDevice()
         {
             _currentDeviceViewModel = new CurrentDeviceViewModel();
             _currentDeviceView = new CurrentDeviceView();
             _currentDeviceView.DataContext = _currentDeviceViewModel;
 
-            app = new System.Windows.Application();
-            var resources = System.Windows.Application.LoadComponent(new Uri("DataGridStyle.xaml", UriKind.Relative)) as System.Windows.ResourceDictionary;
-
-            app.Resources.MergedDictionaries.Add(resources);
             elementHost.Child = _currentDeviceView;
             
-            //if (DeviceId != Guid.Empty)
-            //{
-            //    _currentDeviceViewModel.Inicialize(DeviceId);
-            //}
+
+            if (DeviceId != Guid.Empty)
+            {
+                _currentDeviceViewModel.Inicialize(DeviceId);
+            }
         }
 
         private void StartFiresecClient()

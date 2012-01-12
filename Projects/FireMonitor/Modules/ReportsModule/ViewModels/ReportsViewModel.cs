@@ -2,6 +2,7 @@
 using Infrastructure.Common;
 using ReportsModule.Reports;
 using SAPBusinessObjects.WPF.Viewer;
+using System.Windows.Controls.Primitives;
 
 namespace ReportsModule.ViewModels
 {
@@ -26,6 +27,9 @@ namespace ReportsModule.ViewModels
 
         void ReportViewerSettings(CrystalReportsViewer crystalReportsViewer)
         {
+            crystalReportsViewer.ToggleSidePanel = SAPBusinessObjects.WPF.Viewer.Constants.SidePanelKind.GroupTree;
+            var stb = crystalReportsViewer.FindName("mainToolbar") as System.Windows.Controls.ToolBar;
+            
             crystalReportsViewer.ShowLogo = false;
             crystalReportsViewer.ShowToggleSidePanelButton = true;
             crystalReportsViewer.ShowRefreshButton = true;
@@ -34,7 +38,25 @@ namespace ReportsModule.ViewModels
             crystalReportsViewer.ShowToolbar = true;
             crystalReportsViewer.ViewerCore.Zoom(79);
             crystalReportsViewer.ViewerCore.SelectionMode = Constants.ObjectSelectionMode.Multiple;
-            crystalReportsViewer.ToggleSidePanel = SAPBusinessObjects.WPF.Viewer.Constants.SidePanelKind.GroupTree;
+            crystalReportsViewer.Refresh += new RefreshEventHandler(OnRefresh);
+            if (stb != null)
+            {
+                stb.IsEnabled = true;
+            }
+        }
+
+        void OnRefresh(object obj,ViewerEventArgs e)
+        {
+            var view = obj as CrystalReportsViewer;
+            if (view != null)
+            {
+                view.ViewerCore.CurrentPageNumber = 3;
+            }
+            var stb = view.FindName("mainToolbar") as System.Windows.Controls.ToolBar;
+            if (stb != null)
+            {
+                stb.IsEnabled = true;
+            }
         }
 
         object _reportContent;

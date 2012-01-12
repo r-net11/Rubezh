@@ -27,6 +27,7 @@ namespace SoundsModule.ViewModels
                     continue;
                 }
                 var newSound = new Sound() { StateType = stateType };
+
                 if (FiresecClient.FiresecManager.SystemConfiguration.Sounds.IsNotNullOrEmpty())
                 {
                     var sound = FiresecClient.FiresecManager.SystemConfiguration.Sounds.FirstOrDefault(x => x.StateType == stateType);
@@ -41,8 +42,8 @@ namespace SoundsModule.ViewModels
                 }
                 Sounds.Add(new SoundViewModel(newSound));
             }
-
-            SelectedSound = Sounds[0];
+            if (Sounds.IsNotNullOrEmpty())
+                SelectedSound = Sounds[0];
         }
 
         public ObservableCollection<SoundViewModel> Sounds { get; private set; }

@@ -55,15 +55,12 @@ namespace ReportsModule.Reports
                     if (device.Driver.DriverType == DriverType.PumpStation)
                     {
                     }
-                    for (int i = 0; i < 5; ++i)
+                    DataList.Add(new ReportDeviceListModel()
                     {
-                        DataList.Add(new ReportDeviceListModel()
-                        {
-                            Type = type,
-                            Address = address,
-                            ZoneName = zonePresentationName
-                        });
-                    }
+                        Type = type,
+                        Address = address,
+                        ZoneName = zonePresentationName
+                    });
                 }
             }
         }

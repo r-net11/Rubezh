@@ -137,6 +137,7 @@ namespace DevicesModule.ViewModels
             return true;
         }
 
+
         public RelayCommand CopyCommand { get; private set; }
         void OnCopy()
         {
@@ -191,7 +192,7 @@ namespace DevicesModule.ViewModels
 
         public static void UpdateGuardVisibility()
         {
-            var hasSecurityDevice = FiresecManager.DeviceConfiguration.Devices.Any(x=>x.Driver.DeviceType == DeviceType.Sequrity);
+            var hasSecurityDevice = FiresecManager.DeviceConfiguration.Devices.Any(x => x.Driver.DeviceType == DeviceType.Sequrity);
             ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Publish(hasSecurityDevice);
         }
     }

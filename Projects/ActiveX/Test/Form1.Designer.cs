@@ -36,14 +36,14 @@
             // 
             this.elementHost.Location = new System.Drawing.Point(12, 12);
             this.elementHost.Name = "elementHost";
-            this.elementHost.Size = new System.Drawing.Size(268, 125);
+            this.elementHost.Size = new System.Drawing.Size(137, 143);
             this.elementHost.TabIndex = 0;
             this.elementHost.Text = "elementHost";
             this.elementHost.Child = null;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 231);
+            this.button1.Location = new System.Drawing.Point(12, 161);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -55,7 +55,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 266);
+            this.ClientSize = new System.Drawing.Size(161, 189);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.elementHost);
             this.Name = "Form1";

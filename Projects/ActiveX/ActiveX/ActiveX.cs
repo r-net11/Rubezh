@@ -47,14 +47,7 @@ namespace ActiveX
             _currentDeviceViewModel = new CurrentDeviceViewModel();
             _currentDeviceView = new CurrentDeviceView();
             _currentDeviceView.DataContext = _currentDeviceViewModel;
-
-            //var app = new System.Windows.Application();
-            //Uri uri = new Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml");
-            //var resources = System.Windows.Application.LoadComponent(uri) as System.Windows.ResourceDictionary;
-
-            //app.Resources.MergedDictionaries.Add(resources);
             
-            elementHost.Child = _currentDeviceView;
 
             if (DeviceId != Guid.Empty)
             {
@@ -67,8 +60,8 @@ namespace ActiveX
             base.OnSizeChanged(e);
             elementHost.Width = Width;
             elementHost.Height = Height;
-            var curDevView = elementHost.Child as CurrentDeviceView;
-            curDevView.LayoutTransform = new ScaleTransform(Width / 500, Height / 500);
+            //var curDevView = elementHost.Child as CurrentDeviceView;
+            //curDevView.LayoutTransform = new ScaleTransform(Width / 500, Height / 500);
         }
 
         private void StartFiresecClient()
@@ -79,11 +72,13 @@ namespace ActiveX
 
         public void GetPages(Microsoft.VisualStudio.OLE.Interop.CAUUID[] pPages)
         {
-            //ResourceDictionary rsd = new ResourceDictionary();
-            //rsd.Source = new Uri("pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/DataGridStyle.xaml");
-            //System.Windows.Application.Current.Resources.MergedDictionaries.Add(rsd);
             _currentDeviceViewModel.SelectDevice();
             DeviceId = _currentDeviceViewModel.DeviceId;
+            elementHost.Child = _currentDeviceView;
+            //var curDevView = elementHost.Child as CurrentDeviceView;
+            //var dataCon = curDevView.DataContext as CurrentDeviceViewModel;
+            //dataCon.CurrentDeviceControl.Layotu
+            //curDevView.LayoutTransform = new ScaleTransform(Width / 500, Height / 500);
         }
 
         #region ActiveX Control Registration
