@@ -16,11 +16,9 @@ namespace FiresecService
             ConvertConfiguration();
 
             ConfigurationFileManager.SetDeviceConfiguration(DeviceConfiguration);
-            ConfigurationFileManager.SetSecurityConfiguration(FiresecManager.SecurityConfiguration);
 
             var plans = FiresecInternalClient.GetPlans();
             var plansConfiguration = PlansConverter.Convert(plans);
-
             ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
 
             FiresecManager.DeviceConfiguration = DeviceConfiguration;

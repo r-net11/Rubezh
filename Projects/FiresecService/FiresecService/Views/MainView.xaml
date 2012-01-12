@@ -7,7 +7,6 @@
         <TabControl Background="{DynamicResource AlternativeBackgroundBrush}">
             <TabItem Header="Управление">
                 <StackPanel>
-                    <Button Content="Старт" Command="{Binding ConnectCommand}" Margin="1" />
                     <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Margin="1" />
                 </StackPanel>
             </TabItem>

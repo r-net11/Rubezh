@@ -16,10 +16,6 @@ namespace FiresecService
         public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
 
-        public FiresecManager()
-        {
-        }
-
         public static bool ConnectFiresecCOMServer(string login, string password)
         {
             DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();

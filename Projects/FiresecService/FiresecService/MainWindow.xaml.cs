@@ -14,64 +14,32 @@ namespace FiresecServiceRunner
         {
             InitializeComponent();
 
-            DirectoryInfo dirInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
-            Environment.CurrentDirectory = dirInfo.FullName.Replace(dirInfo.Name, "");
-            AnalizeCommandLine();
-
             var resourceService = new ResourceService();
             resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-
             _mainView.DataContext = new MainViewModel();
+
+            DirectoryInfo directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
+            Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
+            AnalizeCommandLine();
+
+            this.WindowState = WindowState.Minimized;
         }
 
         void AnalizeCommandLine()
         {
             var commandLineArgs = Environment.GetCommandLineArgs();
-            bool start = false;
-            bool convertConfiguration = false;
-            bool exit = false;
-            bool convertJournal = false;
-            bool hide = false;
-            bool service = false;
             for (int i = 0; i != commandLineArgs.Length; ++i)
             {
                 switch (commandLineArgs[i])
                 {
-                    case "/Start":
-                        start = true;
-                        break;
                     case "/Convert":
-                        convertConfiguration = true;
+                        ConfigurationConverter.Convert();
                         break;
                     case "/ConvertJournal":
-                        convertJournal = true;
-                        break;
-                    case "/Exit":
-                        exit = true;
-                        break;
-                    case "/Hide":
-                        hide = true;
-                        break;
-                    case "/service":
-                        service = true;
-                        break;
-                    default:
+                        JournalDataConverter.Convert();
                         break;
                 }
             }
-            if (start)
-            {
-                FiresecManager.ConnectFiresecCOMServer("adm", "");
-                FiresecServiceManager.Open();
-            }
-            if (start && convertConfiguration)
-                ConfigurationConverter.Convert();
-            if (convertJournal)
-                JournalDataConverter.Convert();
-            if (hide)
-                this.WindowState = WindowState.Minimized;
-            if (exit)
-                this.Close();
         }
 
         private void OnShow(object sender, RoutedEventArgs e)
@@ -86,12 +54,8 @@ namespace FiresecServiceRunner
 
         void OnClose(object sender, RoutedEventArgs e)
         {
-            Close();
-        }
-
-        void OnMinimize(object sender, RoutedEventArgs e)
-        {
-            WindowState = System.Windows.WindowState.Minimized;
+            if (MessageBox.Show("Вы уверены, что хотите остановить сервер?", "Вы уверены, что хотите остановить сервер?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                Close();
         }
 
         void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -124,14 +88,6 @@ namespace FiresecServiceRunner
             {
                 this.ShowInTaskbar = true;
             }
-        }
-
-        void OnWindow_Closing(object sender, CancelEventArgs e)
-        {
-        }
-
-        void OnWindow_Closed(object sender, EventArgs e)
-        {
         }
     }
 }
