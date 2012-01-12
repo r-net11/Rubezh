@@ -5,13 +5,13 @@ namespace JournalModule.ViewModels
 {
     public class DeviceViewModel : BaseViewModel
     {
-        Device _device;
-
         public DeviceViewModel(Device device)
         {
-            _device = device;
+            Device = device;
             IsChecked = true;
         }
+
+        public Device Device { get; private set; }
 
         bool _isChecked;
         public bool IsChecked
@@ -24,9 +24,6 @@ namespace JournalModule.ViewModels
             }
         }
 
-        public string DatabaseId { get { return _device.DatabaseId; } }
-        public string ImageSource { get { return _device.Driver.ImageSource; } }
-        public string Name { get { return _device.Driver.ShortName; } }
-        public string Address { get { return _device.DottedAddress; } }
+        public string DatabaseId { get { return Device.DatabaseId; } }
     }
 }

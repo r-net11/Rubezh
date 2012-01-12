@@ -19,6 +19,7 @@ namespace FiresecService.Converters
                 DeviceDatabaseId = innerJournalRecord.IDDevices,
                 PanelDatabaseId = innerJournalRecord.IDDevicesSource,
                 User = innerJournalRecord.UserInfo,
+                Detalization = innerJournalRecord.CLC_Detalization,
                 SubsystemType = EnumsConverter.StringToSubsystemType(innerJournalRecord.IDSubSystem),
                 StateType = (StateType) int.Parse(innerJournalRecord.IDTypeEvents),
             };

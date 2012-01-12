@@ -7,4 +7,8 @@
         <Views:LoginView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:AboutViewModel}">
+        <Views:AboutView />
+    </DataTemplate>
+
 </ResourceDictionary>

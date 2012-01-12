@@ -22,17 +22,17 @@ namespace FireMonitor.ViewModels
             {
                 case PasswordViewType.Connect:
                     UserName = ConfigurationManager.AppSettings["DefaultLogin"] as string;
-                    IsUserNameEnabled = true;
+                    CanEditUserName = true;
                     break;
 
                 case PasswordViewType.Reconnect:
                     UserName = "";
-                    IsUserNameEnabled = true;
+                    CanEditUserName = true;
                     break;
 
                 case PasswordViewType.Validate:
-                    UserName = FiresecManager.CurrentUser.Name;
-                    IsUserNameEnabled = false;
+                    UserName = FiresecManager.CurrentUser.Login;
+                    CanEditUserName = false;
                     break;
             }
         }
@@ -59,14 +59,14 @@ namespace FireMonitor.ViewModels
             }
         }
 
-        bool _isUserNameEnabled;
-        public bool IsUserNameEnabled
+        bool _canEditUserName;
+        public bool CanEditUserName
         {
-            get { return _isUserNameEnabled; }
+            get { return _canEditUserName; }
             set
             {
-                _isUserNameEnabled = value;
-                OnPropertyChanged("IsUserNameEnabled");
+                _canEditUserName = value;
+                OnPropertyChanged("CanEditUserName");
             }
         }
 

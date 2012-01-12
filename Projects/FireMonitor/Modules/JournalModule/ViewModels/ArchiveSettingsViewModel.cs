@@ -6,14 +6,27 @@ using Infrastructure;
 using Infrastructure.Common;
 using JournalModule.Events;
 
-
 namespace JournalModule.ViewModels
 {
     public class ArchiveSettingsViewModel : SaveCancelDialogContent
     {
         public ArchiveSettingsViewModel(ArchiveDefaultState archiveDefaultState)
         {
-            Initialize();
+            Title = "Настройки";
+
+            ArchiveDefaultStates = new ObservableCollection<ArchiveDefaultStateViewModel>();
+            foreach (ArchiveDefaultStateType item in Enum.GetValues(typeof(ArchiveDefaultStateType)))
+            {
+                ArchiveDefaultStates.Add(new ArchiveDefaultStateViewModel(item));
+            }
+
+            HoursCount = 1;
+            DaysCount = 1;
+            StartDate = ArchiveFirstDate;
+            EndDate = NowDate;
+
+            ServiceFactory.Events.GetEvent<ArchiveDefaultStateCheckedEvent>().Subscribe(OnArchiveDefaultStateCheckedEvent);
+
 
             ArchiveDefaultStates.First(x => x.ArchiveDefaultStateType == archiveDefaultState.ArchiveDefaultStateType).IsActive = true;
             switch (archiveDefaultState.ArchiveDefaultStateType)
@@ -44,24 +57,6 @@ namespace JournalModule.ViewModels
                 default:
                     break;
             }
-        }
-
-        void Initialize()
-        {
-            Title = "Настройки";
-
-            ArchiveDefaultStates = new ObservableCollection<ArchiveDefaultStateViewModel>();
-            foreach (ArchiveDefaultStateType item in Enum.GetValues(typeof(ArchiveDefaultStateType)))
-            {
-                ArchiveDefaultStates.Add(new ArchiveDefaultStateViewModel(item));
-            }
-
-            HoursCount = 1;
-            DaysCount = 1;
-            StartDate = ArchiveFirstDate;
-            EndDate = NowDate;
-
-            ServiceFactory.Events.GetEvent<ArchiveDefaultStateCheckedEvent>().Subscribe(OnArchiveDefaultStateCheckedEvent);
         }
 
         public ObservableCollection<ArchiveDefaultStateViewModel> ArchiveDefaultStates { get; private set; }

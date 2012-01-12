@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Threading;
 
-namespace FireMonitor
+namespace FireMonitor.Views
 {
     public partial class TimePresenterView : UserControl
     {

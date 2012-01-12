@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace FireMonitor
+namespace FireMonitor.Views
 {
     public partial class PreLoadWindow : Window
     {

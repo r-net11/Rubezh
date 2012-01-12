@@ -7,7 +7,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 
-namespace FireMonitor
+namespace FireMonitor.Views
 {
     public partial class SoundView : UserControl, INotifyPropertyChanged
     {

@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
+using FireMonitor.Views;
 
 namespace FireMonitor
 {

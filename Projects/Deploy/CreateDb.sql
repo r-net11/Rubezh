@@ -18,6 +18,7 @@ CREATE TABLE [dbo].[Journal](
 	[UserName] [nvarchar](max) NULL,
 	[StateType] [int] NULL,
 	[SubSystemType] [int] NULL,
+	[Detalization] [nvarchar](max) NULL
  CONSTRAINT [PK_Journal] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC

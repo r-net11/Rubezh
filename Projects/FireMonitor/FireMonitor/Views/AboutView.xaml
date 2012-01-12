@@ -1,0 +1,9 @@
+﻿<UserControl x:Class="FireMonitor.Views.AboutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             MinWidth="400" MinHeight="200">
+    <StackPanel>
+        <TextBlock Text="Оперативная задача ОПС Firesec-2" FontWeight="Bold" Foreground="White" Margin="2" />
+        <TextBlock Text="Версия 1.0" Foreground="White" Margin="2" />
+    </StackPanel>
+</UserControl>

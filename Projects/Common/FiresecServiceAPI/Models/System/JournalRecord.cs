@@ -57,6 +57,10 @@ namespace FiresecAPI.Models
         [DataMember]
         public StateType StateType { get; set; }
 
+        [Column(DbType = "NVarChar(MAX)")]
+        [DataMember]
+        public string Detalization { get; set; }
+
         public bool Equals(JournalRecord x, JournalRecord y)
         {
             if (object.ReferenceEquals(x, y)) return true;

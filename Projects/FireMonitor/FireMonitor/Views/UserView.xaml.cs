@@ -3,7 +3,7 @@ using FireMonitor.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 
-namespace FireMonitor
+namespace FireMonitor.Views
 {
     public partial class UserView : UserControl
     {
@@ -18,9 +18,7 @@ namespace FireMonitor
         void OnChangeUser()
         {
             var loginViewModel = new LoginViewModel(LoginViewModel.PasswordViewType.Reconnect);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel))
-            {
-            }
+            ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel);
         }
     }
 }
