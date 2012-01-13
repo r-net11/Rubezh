@@ -20,9 +20,7 @@ namespace Controls
         static DataGridProperties()
         {
             var metadata = new FrameworkPropertyMetadata((Brush)null);
-            HeaderBrushProperty = DependencyProperty.RegisterAttached("HeaderBrush",
-                                                                typeof(Brush),
-                                                                typeof(DataGridProperties), metadata);
+            HeaderBrushProperty = DependencyProperty.RegisterAttached("HeaderBrush", typeof(Brush), typeof(DataGridProperties), metadata);
         }
     }
 }

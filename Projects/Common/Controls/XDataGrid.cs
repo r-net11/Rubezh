@@ -8,11 +8,8 @@ namespace Controls
     {
         static XDataGrid()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(
-                typeof(XDataGrid),
-                new FrameworkPropertyMetadata(typeof(XDataGrid)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(XDataGrid), new FrameworkPropertyMetadata(typeof(XDataGrid)));
         }
-
 
         public XDataGrid()
         {

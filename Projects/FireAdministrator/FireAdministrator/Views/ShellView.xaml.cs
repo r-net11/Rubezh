@@ -9,8 +9,10 @@ using Common;
 using DevicesModule.Views;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure;
+using FireAdministrator.ViewModels;
 
-namespace FireAdministrator
+namespace FireAdministrator.Views
 {
     public partial class ShellView : Window, INotifyPropertyChanged
     {
@@ -72,6 +74,8 @@ namespace FireAdministrator
 
         void OnShowAbout(object sender, RoutedEventArgs e)
         {
+            var aboutViewModel = new AboutViewModel();
+            ServiceFactory.UserDialogs.ShowModalWindow(aboutViewModel);
         }
 
         public IViewPart MainContent

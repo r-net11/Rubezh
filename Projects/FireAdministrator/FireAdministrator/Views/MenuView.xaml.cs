@@ -9,7 +9,7 @@ using Infrastructure;
 using Infrastructure.Events;
 using Microsoft.Win32;
 
-namespace FireAdministrator
+namespace FireAdministrator.Views
 {
     public partial class MenuView : UserControl
     {

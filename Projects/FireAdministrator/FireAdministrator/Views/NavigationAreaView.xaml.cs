@@ -4,11 +4,11 @@ using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Events;
 
-namespace FireAdministrator
+namespace FireAdministrator.Views
 {
-    public partial class NavigationView : UserControl, INotifyPropertyChanged
+    public partial class NavigationAreaView : UserControl, INotifyPropertyChanged
     {
-        public NavigationView()
+        public NavigationAreaView()
         {
             InitializeComponent();
             DataContext = this;

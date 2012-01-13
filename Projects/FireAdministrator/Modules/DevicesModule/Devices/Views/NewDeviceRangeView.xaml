@@ -1,22 +1,28 @@
 ﻿<UserControl x:Class="DevicesModule.Views.NewDeviceRangeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             MinHeight="400" MinWidth="400">
+             MinWidth="600" MinHeight="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListBox Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <WrapPanel>
-                        <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="1" />
-                        <TextBlock Text="{Binding Name}" Margin="1" />
-                    </WrapPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" CanUserSortColumns="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Название" MinWidth="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="1" />
+                                <TextBlock Text="{Binding ShortName}" Margin="1" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Полное название" Binding="{Binding Name}" MinWidth="200" />
+                <DataGridTextColumn Header="Класс" Binding="{Binding DeviceClassName}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
         <Grid Grid.Row="1" Visibility="{Binding AddMany, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

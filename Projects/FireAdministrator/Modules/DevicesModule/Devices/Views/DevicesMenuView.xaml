@@ -9,8 +9,14 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-        <Button ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
+        <Button Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/add.png" Height="24" />
+        </Button>
+        <Button Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/edit.png" Height="24" />
+        </Button>
+        <Button Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
+            <Image Source="/Controls;component/Images/delete.png" Height="24" />
         </Button>
         <Button Command="{Binding CopyCommand}" ToolTip="Копировать" Style="{StaticResource ToolarButtonStyle}">
             <Image Source="/Controls;component/Images/copy.png" Height="24" />

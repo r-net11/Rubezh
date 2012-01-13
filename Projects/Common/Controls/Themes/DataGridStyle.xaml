@@ -57,11 +57,9 @@
                             Padding ="{TemplateBinding Padding}"
                             SeparatorVisibility="{TemplateBinding SeparatorVisibility}"
                             SeparatorBrush="{TemplateBinding SeparatorBrush}">
-                            <Border BorderThickness="0">
-                                <TextBlock FontSize="12" FontWeight="Bold" FontFamily="Arial" Text="{Binding}" Margin="4,0,4,0"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                            <Border BorderThickness="0" TextBlock.FontSize="12" TextBlock.FontWeight="Bold" TextBlock.FontFamily="Arial"
+                                    Margin="4,0,4,0" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding}" />
                             </Border>
                         </dg:DataGridHeaderBorder>
                         <Thumb x:Name="PART_LeftHeaderGripper" HorizontalAlignment="Left" Style="{StaticResource ColumnHeaderRightGripperStyle}"/>

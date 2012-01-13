@@ -1,6 +1,7 @@
 ﻿using System;
 using Infrastructure;
 using Infrastructure.Common;
+using FireAdministrator.Views;
 
 namespace FireAdministrator
 {

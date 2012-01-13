@@ -10,7 +10,7 @@
         <Converters:ZoneLogicJoinOperatorConverter x:Key="ZoneLogicJoinOperatorConverter" />
     </UserControl.Resources>
 
-    <Border Grid.Column="1" CornerRadius="5" Margin="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
+    <Border CornerRadius="5" Margin="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

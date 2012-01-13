@@ -213,7 +213,7 @@ namespace FiresecAPI.Models
             if (fullCopy)
             {
                 newDevice.UID = UID;
-                //newDevice.DatabaseId = DatabaseId;
+                newDevice.DatabaseId = DatabaseId;
             }
 
             if (ZoneLogic != null)

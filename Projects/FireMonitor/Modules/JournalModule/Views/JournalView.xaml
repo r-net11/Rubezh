@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls"
              xmlns:Converter="clr-namespace:JournalModule.Converters"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
     <UserControl.Resources>
         <Converter:StateToColorConverter x:Key="StateToColorConverter" />
@@ -27,7 +28,6 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Класс" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Пользователь" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
@@ -40,16 +40,8 @@
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SystemTime}" />
                 <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Device}" Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}" />
                 <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Panel}" Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}" />
-                <TextBlock Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Description}" />
-                <extToolkit:RichTextBox Grid.Row="6" Grid.Column="0" Text="{Binding Detalization, Mode=OneWay}" IsReadOnly="True" BorderThickness="0" Background="Transparent" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <extToolkit:RichTextBox.TextFormatter>
-                        <extToolkit:RtfFormatter />
-                    </extToolkit:RichTextBox.TextFormatter>
-                </extToolkit:RichTextBox>
-                <StackPanel>
-                    <RichTextBox x:Name="richTextBox" />
-                    <extToolkit:RichTextBox Name="richTextBox2" />
-                </StackPanel>
+                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Description}" />
+                <Controls:XRichTextBox Grid.Row="6" Grid.Column="1" Text="{Binding Detalization, Mode=OneWay}" BorderThickness="0" Background="Transparent" Foreground="White" />
             </Grid>
         </Border>
         <DataGrid DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}"

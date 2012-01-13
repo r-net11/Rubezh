@@ -133,15 +133,5 @@ namespace AlarmModule.ViewModels
         void OnShowZone()
         {
         }
-
-        public RelayCommand NotifyPhoneCommand { get; private set; }
-        void OnNotifyPhone()
-        {
-        }
-
-        public RelayCommand NotifySmsCommand { get; private set; }
-        void OnNotifySms()
-        {
-        }
     }
 }
