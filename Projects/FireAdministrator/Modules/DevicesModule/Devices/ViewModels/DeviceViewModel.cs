@@ -24,7 +24,6 @@ namespace DevicesModule.ViewModels
             AddManyCommand = new RelayCommand(OnAddMany, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic);
-            ShowIndicatorLogicCommand = new RelayCommand(OnShowIndicatorLogic);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
             ShowZoneCommand = new RelayCommand(OnShowZone);
 
@@ -136,7 +135,6 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("PresentationZone");
         }
 
-        public RelayCommand ShowIndicatorLogicCommand { get; private set; }
         void OnShowIndicatorLogic()
         {
             var indicatorDetailsViewModel = new IndicatorDetailsViewModel(Device);
@@ -182,6 +180,7 @@ namespace DevicesModule.ViewModels
             Parent.Children.Remove(this);
             Parent.Update();
             Parent.IsExpanded = true;
+            Parent = null;
 
             FiresecManager.DeviceConfiguration.Update();
             DevicesModule.HasChanges = true;

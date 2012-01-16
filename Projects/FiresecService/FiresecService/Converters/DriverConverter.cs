@@ -54,6 +54,9 @@ namespace FiresecService.Converters
                 driver.CanExecuteCustomAdminFunctions = innerDriver.options.Contains("CustomIOCTLFunctions");
             }
 
+            var metadataClass = Metadata.@class.FirstOrDefault(x => x.clsid == innerDriver.clsid);
+            driver.DeviceClassName = metadataClass.param.FirstOrDefault(x => x.name == "DeviceClassName").value;
+
             var driverData = DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == innerDriver.id && x.IgnoreLevel < 2);
             if (driverData != null)
                 driver.DriverType = driverData.DriverType;
@@ -119,7 +122,6 @@ namespace FiresecService.Converters
             }
             else
             {
-                var metadataClass = Metadata.@class.FirstOrDefault(x => x.clsid == innerDriver.clsid);
                 imageSource = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
             }
 

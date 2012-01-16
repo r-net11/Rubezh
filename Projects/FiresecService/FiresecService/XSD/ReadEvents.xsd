@@ -11,6 +11,7 @@
       <xs:element name="IDTypeEvents" type="xs:string" minOccurs="1" maxOccurs="1" />
       <xs:element name="EventDesc" type="xs:string" minOccurs="1" maxOccurs="1" />
       <xs:element name="UserInfo" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="CLC_Detalization" type="xs:string" minOccurs="1" maxOccurs="1" />
       <xs:element name="IDDevices" type="xs:string" minOccurs="1" maxOccurs="1" />
       <xs:element name="IDDevicesSource" type="xs:string" minOccurs="1" maxOccurs="1" />
       <xs:element name="CLC_DeviceSource" type="xs:string" minOccurs="1" maxOccurs="1" />

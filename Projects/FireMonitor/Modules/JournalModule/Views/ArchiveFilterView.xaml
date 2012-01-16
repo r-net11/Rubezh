@@ -33,19 +33,19 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,23,0">
                             <Label Content="С" />
-                            <Calendar Name="_startDate" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
+                            <Calendar Name="_startDate" SelectionMode="SingleDate" IsTodayHighlighted="False" BorderThickness="0" Margin="2"
                                   DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneTime}"
                                   DisplayDateEnd="{Binding SelectedDate, ElementName=_endDate, UpdateSourceTrigger=PropertyChanged}"
                                   SelectedDate="{Binding StartDate}" />
-                            <extToolkit:TimePicker Width="100"  Margin="2" Value="{Binding StartTime}" VerticalAlignment="Top" />
+                            <extToolkit:TimePicker Width="100" Value="{Binding StartTime}" Margin="4" VerticalAlignment="Top" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Label Content="До" />
-                            <Calendar Name="_endDate" BorderThickness="2" BorderBrush="#66ff9829" Margin="2" SelectionMode="SingleDate" VerticalAlignment="Top" IsTodayHighlighted="False"
+                            <Label Content="По" />
+                            <Calendar Name="_endDate" SelectionMode="SingleDate" IsTodayHighlighted="False" BorderThickness="0" Margin="2"
                                   DisplayDateStart="{Binding SelectedDate, ElementName=_startDate, UpdateSourceTrigger=PropertyChanged}"
                                   DisplayDateEnd="{Binding NowDate, Mode=OneTime}"
                                   SelectedDate="{Binding EndDate}" />
-                            <extToolkit:TimePicker Width="100"  Margin="2" Value="{Binding EndTime}" VerticalAlignment="Top" />
+                            <extToolkit:TimePicker Value="{Binding EndTime}" Width="100" Margin="4" VerticalAlignment="Top" />
                         </StackPanel>
                     </Grid>
                     <CheckBox Margin="2" HorizontalAlignment="Center" Foreground="White"
@@ -86,7 +86,7 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label Grid.Row="0" Grid.Column="0" Content="Классы событий" />
-                        <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding JournalTypes, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=Id}">
+                        <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding JournalTypes}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <WrapPanel>
@@ -98,9 +98,7 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                         <Label Grid.Row="0" Grid.Column="1" Content="События" />
-                        <ListBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding JournalEvents,
-                                Converter={StaticResource CollectionViewFactoryConverter},
-                                ConverterParameter=ClassId}">
+                        <ListBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding JournalEvents}">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <WrapPanel>
@@ -114,29 +112,32 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Устройства" Padding="3">
-                <StackPanel>
-                    <CheckBox Content="Включить фильтр по следующим приборам" Margin="5"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <CheckBox Grid.Row="0" Content="Включить фильтр по следующим приборам" Margin="5"
                         IsChecked="{Binding IsDeviceFilterOn, UpdateSourceTrigger=PropertyChanged}" Foreground="White" />
 
-                    <DataGrid ItemsSource="{Binding Devices, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=Name}"
-                              IsEnabled="{Binding IsDeviceFilterOn}"
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Devices}" IsEnabled="{Binding IsDeviceFilterOn}"
                               IsReadOnly="False" Margin="5" DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}">
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="Тип" IsReadOnly="True" MinWidth="170">
+                            <DataGridTemplateColumn Header="Тип" IsReadOnly="False" MinWidth="170">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <WrapPanel>
-                                            <CheckBox IsChecked="{Binding IsChecked}" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
-                                            <Image Source="{Binding ImageSource}" Margin="0, 0, 5, 0" />
-                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                            <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
+                                            <Image Source="{Binding Device.Driver.ImageSource}" Margin="0, 0, 5, 0" />
+                                            <TextBlock Text="{Binding Device.Driver.ShortName}" VerticalAlignment="Center" />
                                         </WrapPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" IsReadOnly="True" MinWidth="120" Width="*" />
+                            <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" IsReadOnly="True" MinWidth="120" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
+                </Grid>
             </TabItem>
         </TabControl>
     </DockPanel>

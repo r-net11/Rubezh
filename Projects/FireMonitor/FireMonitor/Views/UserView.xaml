@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="FireMonitor.UserView"
+﻿<UserControl x:Class="FireMonitor.Views.UserView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <Grid>
-        <Button Command="{Binding ChangeUserCommand}" ToolTip="Сменить пользователя" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/user.png" Height="24" Opacity="0.5" />
-        </Button>
-    </Grid>
+
+    <Button Command="{Binding ChangeUserCommand}" ToolTip="Сменить пользователя" Style="{StaticResource ToolarButtonStyle}">
+        <Image Source="/Controls;component/Images/user.png" Height="24" Opacity="0.5" />
+    </Button>
+
 </UserControl>

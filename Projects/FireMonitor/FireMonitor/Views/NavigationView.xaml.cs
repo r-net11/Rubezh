@@ -8,7 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
 
-namespace FireMonitor
+namespace FireMonitor.Views
 {
     public partial class NavigationView : UserControl, INotifyPropertyChanged
     {

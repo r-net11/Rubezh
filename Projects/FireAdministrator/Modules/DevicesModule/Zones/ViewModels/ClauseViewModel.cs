@@ -37,11 +37,13 @@ namespace DevicesModule.ViewModels
                 {
                     case DriverType.Valve:
                     case DriverType.PumpStation:
-                        return new List<ZoneLogicState>() { ZoneLogicState.Fire,
+                    case DriverType.MDU:
+                    case DriverType.MRO:
+                        return new List<ZoneLogicState>() {
+                            ZoneLogicState.Fire,
                             ZoneLogicState.Attention,
                             ZoneLogicState.MPTAutomaticOn,
-                            ZoneLogicState.MPTOn,
-                            ZoneLogicState.AM1TOn};
+                            ZoneLogicState.MPTOn};
 
                     case DriverType.RM_1:
                         var states = Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();

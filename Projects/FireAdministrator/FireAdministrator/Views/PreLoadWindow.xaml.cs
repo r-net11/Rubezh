@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace FireAdministrator
+namespace FireAdministrator.Views
 {
     public partial class PreLoadWindow : Window
     {

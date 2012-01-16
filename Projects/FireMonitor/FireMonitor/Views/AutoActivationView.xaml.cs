@@ -8,7 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 
-namespace FireMonitor
+namespace FireMonitor.Views
 {
     public partial class AutoActivationView : UserControl, INotifyPropertyChanged
     {

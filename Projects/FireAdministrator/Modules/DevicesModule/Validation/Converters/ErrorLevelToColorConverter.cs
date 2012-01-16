@@ -15,13 +15,13 @@ namespace DevicesModule.Validation.Converters
                     return Brushes.DarkRed;
 
                 case ErrorLevel.CannotWrite:
-                    return Brushes.OrangeRed;
+                    return Brushes.DarkOrange;
 
                 case ErrorLevel.Warning:
-                    return Brushes.Orange;
+                    return Brushes.Blue;
 
                 default:
-                    return Brushes.Orange;
+                    return Brushes.Blue;
             }
         }
 

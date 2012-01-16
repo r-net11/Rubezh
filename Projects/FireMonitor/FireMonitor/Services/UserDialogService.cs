@@ -74,10 +74,20 @@ namespace FireMonitor
         {
             try
             {
-                var dialog = new DialogWindow();
-                dialog.SetContent(model);
+                var dialogWindow = new DialogWindow();
 
-                bool? result = dialog.ShowDialog();
+                try
+                {
+                    dialogWindow.Owner = App.Current.MainWindow;
+                }
+                catch
+                {
+                    dialogWindow.ShowInTaskbar = true;
+                }
+
+                dialogWindow.SetContent(model);
+
+                bool? result = dialogWindow.ShowDialog();
                 if (result == null)
                     return false;
 

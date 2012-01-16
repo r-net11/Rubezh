@@ -6,7 +6,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 
-
 namespace JournalModule.ViewModels
 {
     public class ArchiveViewModel : RegionViewModel
@@ -22,22 +21,6 @@ namespace JournalModule.ViewModels
 
             ShowFilterCommand = new RelayCommand(OnShowFilter);
             ShowSettingsCommand = new RelayCommand(OnShowSettings);
-        }
-
-        bool _isFilterOn;
-        public bool IsFilterOn
-        {
-            get { return _isFilterOn; }
-            set
-            {
-                if (value)
-                    ApplyFilter();
-                else
-                    SetDefaultArchiveContent();
-
-                _isFilterOn = value;
-                OnPropertyChanged("IsFilterOn");
-            }
         }
 
         ObservableCollection<JournalRecordViewModel> _journalRecords;
@@ -59,6 +42,22 @@ namespace JournalModule.ViewModels
             {
                 _selectedRecord = value;
                 OnPropertyChanged("SelectedRecord");
+            }
+        }
+
+        bool _isFilterOn;
+        public bool IsFilterOn
+        {
+            get { return _isFilterOn; }
+            set
+            {
+                if (value)
+                    ApplyFilter();
+                else
+                    SetDefaultArchiveContent();
+
+                _isFilterOn = value;
+                OnPropertyChanged("IsFilterOn");
             }
         }
 
@@ -148,7 +147,7 @@ namespace JournalModule.ViewModels
                 _archiveDefaultState = archiveSettingsViewModel.GetModel();
                 ClientSettings.ArchiveDefaultState = _archiveDefaultState;
                 if (IsFilterOn == false)
-                    IsFilterOn = false;
+                    SetDefaultArchiveContent();
             }
         }
     }

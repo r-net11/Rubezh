@@ -10,10 +10,15 @@ namespace JournalModule.ViewModels
     {
         public ArchiveFilterViewModel(ArchiveFilter archiveFilter)
         {
+            Title = "Настройки фильтра";
+            ClearCommand = new RelayCommand(OnClear);
+            SaveCommand = new RelayCommand(OnSave);
+            CancelCommand = new RelayCommand(OnCancel);
+
             Initialize();
 
-            _startDate = archiveFilter.StartDate;
-            _endDate = archiveFilter.EndDate;
+            StartDate = archiveFilter.StartDate;
+            EndDate = archiveFilter.EndDate;
             UseSystemDate = archiveFilter.UseSystemDate;
 
             if (archiveFilter.Descriptions.IsNotNullOrEmpty())
@@ -40,8 +45,6 @@ namespace JournalModule.ViewModels
 
         void Initialize()
         {
-            Title = "Настройки фильтра";
-
             JournalEvents = new List<EventViewModel>(
                 FiresecClient.FiresecManager.GetDistinctRecords().
                 Select(journalRecord => new EventViewModel(journalRecord.StateType, journalRecord.Description))
@@ -62,10 +65,6 @@ namespace JournalModule.ViewModels
             {
                 Subsystems.Add(new SubsystemViewModel(item));
             }
-
-            ClearCommand = new RelayCommand(OnClear);
-            SaveCommand = new RelayCommand(OnSave);
-            CancelCommand = new RelayCommand(OnCancel);
         }
 
         public DateTime ArchiveFirstDate
@@ -99,8 +98,7 @@ namespace JournalModule.ViewModels
             get { return _startDate; }
             set
             {
-                _startDate = new DateTime(value.Year, value.Month, value.Day,
-                                          _startDate.Hour, _startDate.Minute, _startDate.Second);
+                _startDate = value;
                 OnPropertyChanged("StartDate");
             }
         }
@@ -109,8 +107,7 @@ namespace JournalModule.ViewModels
             get { return _startDate; }
             set
             {
-                _startDate = new DateTime(_startDate.Year, _startDate.Month, _startDate.Day,
-                                            value.Hour, value.Minute, value.Second);
+                _startDate = value;
                 OnPropertyChanged("StartTime");
             }
         }
@@ -121,8 +118,7 @@ namespace JournalModule.ViewModels
             get { return _endDate; }
             set
             {
-                _endDate = new DateTime(value.Year, value.Month, value.Day,
-                                        _endDate.Hour, _endDate.Minute, _endDate.Second); ;
+                _endDate = value;
                 OnPropertyChanged("EndDate");
             }
         }
@@ -131,8 +127,7 @@ namespace JournalModule.ViewModels
             get { return _endDate; }
             set
             {
-                _endDate = new DateTime(_endDate.Year, _endDate.Month, _endDate.Day,
-                                          value.Hour, value.Minute, value.Second);
+                _endDate = value;
                 OnPropertyChanged("EndTime");
             }
         }
@@ -157,16 +152,10 @@ namespace JournalModule.ViewModels
                 StartDate = StartDate,
                 EndDate = EndDate,
                 UseSystemDate = UseSystemDate,
-                Descriptions = new List<string>(
-                    JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)
-                ),
-                DeviceDatabaseIds = new List<string>(
-                    Devices.Where(x => x.IsChecked).Select(x => x.DatabaseId)
-                ),
+                Descriptions = new List<string>(JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)),
+                DeviceDatabaseIds = new List<string>(Devices.Where(x => x.IsChecked).Select(x => x.DatabaseId)),
                 IsDeviceFilterOn = IsDeviceFilterOn,
-                Subsystems = new List<SubsystemType>(
-                    Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)
-                ),
+                Subsystems = new List<SubsystemType>(Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)),
             };
         }
 

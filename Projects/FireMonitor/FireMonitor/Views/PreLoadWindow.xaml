@@ -1,4 +1,4 @@
-﻿<Window x:Class="FireMonitor.PreLoadWindow"
+﻿<Window x:Class="FireMonitor.Views.PreLoadWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="" Height="100" Width="300" ResizeMode="NoResize"

@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using FiresecAPI.Models;
 using FiresecClient;
 
-namespace FireMonitor
+namespace FireMonitor.Views
 {
     public partial class ConnectionIndicatorView : UserControl, INotifyPropertyChanged
     {

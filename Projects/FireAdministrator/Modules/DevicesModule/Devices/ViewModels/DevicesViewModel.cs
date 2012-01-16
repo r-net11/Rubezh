@@ -149,8 +149,8 @@ namespace DevicesModule.ViewModels
         {
             _deviceToCopy = SelectedDevice.Device.Copy(_isFullCopy = true);
             SelectedDevice.RemoveCommand.Execute();
-            FiresecManager.DeviceConfiguration.Update();
 
+            FiresecManager.DeviceConfiguration.Update();
             DevicesModule.HasChanges = true;
             UpdateGuardVisibility();
         }
@@ -170,6 +170,7 @@ namespace DevicesModule.ViewModels
             pasteDevice.Parent = SelectedDevice.Device;
 
             var newDevice = AddDevice(pasteDevice, SelectedDevice);
+            SelectedDevice.Children.Add(newDevice);
             CollapseChild(newDevice);
 
             FiresecManager.DeviceConfiguration.Update();

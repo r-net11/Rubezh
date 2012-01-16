@@ -8,24 +8,22 @@
         <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
         <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
     </UserControl.Resources>
-    
-    <Grid>
-        <ItemsControl ItemsSource="{Binding AlarmGroups}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
+
+    <ItemsControl ItemsSource="{Binding AlarmGroups}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Grid ToolTip="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}">
                     <Controls:AlarmButton Command="{Binding ShowCommand}" Width="70" Height="70" Margin="5 2"
-                             GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
-                             IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}"
-                             PathToIcon="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}"
-                             ToolTip="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}">
-                    </Controls:AlarmButton>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-    </Grid>
+                        GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
+                        IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}"
+                        PathToIcon="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
+                </Grid>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
 </UserControl>

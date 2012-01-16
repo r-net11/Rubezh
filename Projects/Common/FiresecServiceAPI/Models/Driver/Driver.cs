@@ -39,6 +39,9 @@ namespace FiresecAPI.Models
         public string ShortName { get; set; }
 
         [DataMember]
+        public string DeviceClassName { get; set; }
+
+        [DataMember]
         public bool HasAddress { get; set; }
 
         [DataMember]

@@ -79,15 +79,19 @@
     </Compile>
     <Compile Include="Bootsrapper.cs" />
     <Compile Include="Services\LayoutService.cs" />
+    <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="Views\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MenuView.xaml.cs">
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NavigationView.xaml.cs">
-      <DependentUpon>NavigationView.xaml</DependentUpon>
+    <Compile Include="Views\NavigationAreaView.xaml.cs">
+      <DependentUpon>NavigationAreaView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PreLoadWindow.xaml.cs">
       <DependentUpon>PreLoadWindow.xaml</DependentUpon>
@@ -129,6 +133,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LoginView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -137,7 +145,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NavigationView.xaml">
+    <Page Include="Views\NavigationAreaView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
