@@ -3,6 +3,7 @@ using Infrastructure.Common;
 using ReportsModule.Reports;
 using SAPBusinessObjects.WPF.Viewer;
 using System.Windows.Controls.Primitives;
+using System.Windows;
 
 namespace ReportsModule.ViewModels
 {
@@ -39,11 +40,27 @@ namespace ReportsModule.ViewModels
             crystalReportsViewer.ViewerCore.Zoom(79);
             crystalReportsViewer.ViewerCore.SelectionMode = Constants.ObjectSelectionMode.Multiple;
             crystalReportsViewer.Refresh += new RefreshEventHandler(OnRefresh);
+            crystalReportsViewer.ViewChange += new System.Windows.RoutedEventHandler(OnViewChange);
             if (stb != null)
             {
                 stb.IsEnabled = true;
             }
         }
+
+        void OnViewChange(object obj, RoutedEventArgs args)
+        {
+            var view = obj as CrystalReportsViewer;
+            if (view != null)
+            {
+                view.ViewerCore.CurrentPageNumber = 3;
+            }
+            var stb = view.FindName("mainToolbar") as System.Windows.Controls.ToolBar;
+            if (stb != null)
+            {
+                stb.IsEnabled = true;
+            }
+        }
+
 
         void OnRefresh(object obj,ViewerEventArgs e)
         {
