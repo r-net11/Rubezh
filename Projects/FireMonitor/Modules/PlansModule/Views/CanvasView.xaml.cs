@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using PlansModule.ViewModels;
+using System.Windows.Media;
 
 namespace PlansModule.Views
 {
@@ -33,6 +35,7 @@ namespace PlansModule.Views
             _scrollViewer.MouseMove += OnMouseMove;
 
             slider.ValueChanged += OnSliderValueChanged;
+            deviceSlider.ValueChanged += deviceSlider_ValueChanged;
 
             this.Loaded += new RoutedEventHandler(CanvasView_Loaded);
         }
@@ -106,9 +109,14 @@ namespace PlansModule.Views
         {
             if (e.NewValue == 0)
                 return;
+            UpdateSlider();
+            UpdateDeviceSlider();
+        }
 
-            scaleTransform.ScaleX = e.NewValue * initialScale;
-            scaleTransform.ScaleY = e.NewValue * initialScale;
+        void UpdateSlider()
+        {
+            scaleTransform.ScaleX = slider.Value * initialScale;
+            scaleTransform.ScaleY = slider.Value * initialScale;
 
             var centerOfViewport = new Point(_scrollViewer.ViewportWidth / 2, _scrollViewer.ViewportHeight / 2);
             lastCenterPositionOnTarget = _scrollViewer.TranslatePoint(centerOfViewport, grid);
@@ -171,10 +179,50 @@ namespace PlansModule.Views
             double scaleX = (_scrollViewer.ActualWidth - 30) / canvas.Width;
             double scaleY = (_scrollViewer.ActualHeight - 30) / canvas.Height;
             double scale = Math.Min(scaleX, scaleY);
+            if (scale < 0)
+                return;
             initialScale = scale;
 
             scaleTransform.ScaleX = scale;
             scaleTransform.ScaleY = scale;
+
+            UpdateDeviceSlider();
+        }
+
+        private void OnDeviceZoomOut(object sender, RoutedEventArgs e)
+        {
+            deviceSlider.Value--;
+        }
+
+        private void OnDeviceZoomIn(object sender, RoutedEventArgs e)
+        {
+            deviceSlider.Value++;
+        }
+
+        private void deviceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            UpdateDeviceSlider();
+        }
+
+        void UpdateDeviceSlider()
+        {
+            var canvas = _contentControl.Content as Canvas;
+            if (canvas == null)
+                return;
+
+            foreach (var child in canvas.Children)
+            {
+                if (child is ElementDeviceView)
+                {
+                    ElementDeviceView elementDeviceView = child as ElementDeviceView;
+
+                    double scale = deviceSlider.Value / (slider.Value * initialScale);
+                    var deviceScaleTransform = new ScaleTransform();
+                    deviceScaleTransform.ScaleX = scale;
+                    deviceScaleTransform.ScaleY = scale;
+                    elementDeviceView.LayoutTransform = deviceScaleTransform;
+                }
+            }
         }
     }
 }

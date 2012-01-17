@@ -24,15 +24,26 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Click="OnZoomOut" ToolTip="Уменьшить" Style="{StaticResource ToolarButtonStyle}">
+            <Button Grid.Column="0" Click="OnDeviceZoomOut" ToolTip="Уменьшить размер устройства" Style="{StaticResource ToolarButtonStyle}">
                 <Image Source="/Controls;component/Images/ZoomOut.png" Height="24" />
             </Button>
-            <Slider Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Minimum="-8" Maximum="10" Value="1" x:Name="slider"/>
-            <Button Grid.Column="2" Click="OnZoomIn" ToolTip="Увеличить" Style="{StaticResource ToolarButtonStyle}">
+            <Slider Grid.Column="1" x:Name="deviceSlider" Orientation="Horizontal" Minimum="1" Maximum="100" Value="10" VerticalAlignment="Center"/>
+            <Button Grid.Column="2" Click="OnDeviceZoomIn" ToolTip="Увеличить размер устройства" Style="{StaticResource ToolarButtonStyle}">
                 <Image Source="/Controls;component/Images/ZoomIn.png" Height="24" />
             </Button>
-            <Button Grid.Column="3" Content="Size" Click="OnSizeToFit" />
+
+            <Button Grid.Column="3" Click="OnZoomOut" ToolTip="Уменьшить масштаб плана" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/ZoomOut.png" Height="24" />
+            </Button>
+            <Slider Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center" Minimum="-8" Maximum="10" Value="1" x:Name="slider"/>
+            <Button Grid.Column="5" Click="OnZoomIn" ToolTip="Увеличить масштаб плана" Style="{StaticResource ToolarButtonStyle}">
+                <Image Source="/Controls;component/Images/ZoomIn.png" Height="24" />
+            </Button>
+            <Button Grid.Column="6" Content="Size" Click="OnSizeToFit" />
         </Grid>
     </Grid>
 </UserControl>

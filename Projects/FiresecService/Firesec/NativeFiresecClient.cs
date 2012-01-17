@@ -101,8 +101,6 @@ namespace Firesec
             Connectoin.StoreUserMessage(message);
         }
 
-        //*********************************************************************
-
         public static void DeviceWriteConfig(string coreConfig, string devicePath)
         {
             Connectoin.DeviceWriteConfig(coreConfig, devicePath);
@@ -181,8 +179,6 @@ namespace Firesec
         {
             return Connectoin.DeviceCustomFunctionExecute(coreConfig, devicePath, functionName);
         }
-
-        //*********************************************************************
 
         static FS_Types.IFSC_Connection GetConnection(string login, string password)
         {

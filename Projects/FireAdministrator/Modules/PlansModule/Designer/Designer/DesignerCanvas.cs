@@ -176,6 +176,10 @@ namespace PlansModule.Designer
             {
                 Plan.ElementPolygons.Add(elementBase as ElementPolygon);
             }
+            if (elementBase is ElementPolyline)
+            {
+                Plan.ElementPolylines.Add(elementBase as ElementPolyline);
+            }
             if (elementBase is ElementTextBlock)
             {
                 Plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
@@ -221,6 +225,8 @@ namespace PlansModule.Designer
                 MinHeight = 10,
                 ElementBase = elementBase,
                 IsPolygon = elementBase is ElementBasePolygon,
+                IsDevice = elementBase is ElementDevice,
+                IsPolyline = elementBase is ElementPolyline,
                 Opacity = ((elementBase is IElementZone) || (elementBase is ElementSubPlan)) ? 0.5 : 1
             };
 
@@ -267,20 +273,29 @@ namespace PlansModule.Designer
                 var selectedItem = SelectedItems.FirstOrDefault();
                 if (selectedItem == null)
                     return;
-                if (selectedItem.IsPolygon == false)
+                if ((selectedItem.IsPolygon == false) && (selectedItem.IsPolyline == false))
                     return;
 
                 IsPointAdding = false;
 
-                var item = selectedItem;
-                var polygon = item.Content as Polygon;
+                PointCollection pointCollection = null;
+                if (selectedItem.Content is Polygon)
+                {
+                    var polygon = selectedItem.Content as Polygon;
+                    pointCollection = polygon.Points;
+                }
+                if (selectedItem.Content is Polyline)
+                {
+                    var polyline = selectedItem.Content as Polyline;
+                    pointCollection = polyline.Points;
+                }
 
                 Point currentPoint = e.GetPosition(selectedItem);
                 var minDistance = double.MaxValue;
                 int minIndex = 0;
-                for (int i = 0; i < polygon.Points.Count; ++i)
+                for (int i = 0; i < pointCollection.Count; ++i)
                 {
-                    var polygonPoint = polygon.Points[i];
+                    var polygonPoint = pointCollection[i];
                     var distance = Math.Pow(currentPoint.X - polygonPoint.X, 2) + Math.Pow(currentPoint.Y - polygonPoint.Y, 2);
                     if (distance < minDistance)
                     {
@@ -290,10 +305,35 @@ namespace PlansModule.Designer
                 }
                 minIndex = minIndex + 1;
                 Point point = e.GetPosition(selectedItem);
-                polygon.Points.Insert(minIndex, point);
+                pointCollection.Insert(minIndex, point);
 
                 var designerItem = Items.FirstOrDefault(x => x.IsPointAdding);
                 designerItem.UpdatePolygonAdorner();
+
+                e.Handled = true;
+            }
+
+            return;
+            bool isPolyLineDrawing = true;
+            if (isPolyLineDrawing)
+            {
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    Point point = e.GetPosition(this);
+                    Ellipse ellipse = new Ellipse()
+                    {
+                        Width = 10,
+                        Height = 10,
+                        Fill = new SolidColorBrush(Colors.Red)
+                    };
+                    Canvas.SetLeft(ellipse, point.X);
+                    Canvas.SetTop(ellipse, point.Y);
+                    this.Children.Add(ellipse);
+                }
+                else
+                {
+                    isPolyLineDrawing = false;
+                }
 
                 e.Handled = true;
             }
@@ -346,11 +386,16 @@ namespace PlansModule.Designer
             ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
         }
 
-        public void Zoom(double zoom)
+        public void UpdateZoom()
         {
-            foreach (DesignerItem item in this.SelectedItems)
+            foreach (DesignerItem designerItem in this.SelectedItems)
             {
-                item.Zoom(zoom);
+                designerItem.UpdateZoom();
+            }
+
+            foreach (DesignerItem designerItem in this.Items)
+            {
+                designerItem.UpdateZoomDevice();
             }
         }
     }

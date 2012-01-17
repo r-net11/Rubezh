@@ -15,8 +15,6 @@ namespace PlansModule
 
         public PlansModule()
         {
-            //Test();
-
             ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlans);
 
             RegisterResources();
@@ -28,8 +26,8 @@ namespace PlansModule
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Designer/DesignerCanvas.xaml"));
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Designer/DesignerItem.xaml"));
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Rectangle/ResizeChrome.xaml"));
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Polygon/PolygonResizeChrome.xaml"));
+            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Rectangle/ResizeChromeRectangle.xaml"));
+            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Polygon/ResizeChromePolygon.xaml"));
         }
 
         static void CreateViewModels()

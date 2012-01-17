@@ -8,23 +8,23 @@ using System.Windows.Shapes;
 
 namespace PlansModule.Designer
 {
-    public class PolygonResizeChrome : Canvas
+    public class ResizeChromePolyline : Canvas, IResizeChromeBase
     {
-        static PolygonResizeChrome()
+        static ResizeChromePolyline()
         {
-            FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(PolygonResizeChrome), new FrameworkPropertyMetadata(typeof(PolygonResizeChrome)));
+            FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(ResizeChromePolyline), new FrameworkPropertyMetadata(typeof(ResizeChromePolyline)));
         }
 
         DesignerItem DesignerItem;
-        
+
         DesignerCanvas DesignerCanvas
         {
             get { return DesignerItem.DesignerCanvas; }
         }
 
-        Polygon Polygon
+        Polyline Polyline
         {
-            get { return DesignerItem.Content as Polygon; }
+            get { return DesignerItem.Content as Polyline; }
         }
 
         double ZoomFactor
@@ -32,12 +32,12 @@ namespace PlansModule.Designer
             get { return DesignerCanvas.PlanDesignerViewModel.Zoom; }
         }
 
-        List<PolygonThumb> thumbs = new List<PolygonThumb>();
+        List<ThumbPolygon> thumbs = new List<ThumbPolygon>();
 
-        public PolygonResizeChrome(DesignerItem designerItem)
+        public ResizeChromePolyline(DesignerItem designerItem)
         {
             DesignerItem = designerItem;
-            designerItem.PolygonResizeChrome = this;
+            designerItem.ResizeChromeBase = this;
             Initialize();
         }
 
@@ -52,9 +52,9 @@ namespace PlansModule.Designer
             this.Children.Clear();
             thumbs.Clear();
 
-            foreach (var point in Polygon.Points)
+            foreach (var point in Polyline.Points)
             {
-                var thumb = new PolygonThumb()
+                var thumb = new ThumbPolygon()
                 {
                     Width = 7 / ZoomFactor,
                     Height = 7 / ZoomFactor,
@@ -75,7 +75,7 @@ namespace PlansModule.Designer
 
         void thumb_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            var thumb = sender as PolygonThumb;
+            var thumb = sender as ThumbPolygon;
             if (e.Key == System.Windows.Input.Key.Delete)
             {
                 thumbs.Remove(thumb);
@@ -100,7 +100,7 @@ namespace PlansModule.Designer
 
         private void _thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
-            var currentThumb = sender as PolygonThumb;
+            var currentThumb = sender as ThumbPolygon;
 
             double left = Canvas.GetLeft(DesignerItem) + Canvas.GetLeft(currentThumb) + e.HorizontalChange;
             double top = Canvas.GetTop(DesignerItem) + Canvas.GetTop(currentThumb) + e.VerticalChange;
@@ -127,10 +127,10 @@ namespace PlansModule.Designer
 
         void SavePolygonPointsFromThumb()
         {
-            Polygon.Points.Clear();
+            Polyline.Points.Clear();
             foreach (var thumb in thumbs)
             {
-                Polygon.Points.Add(new Point(Canvas.GetLeft(thumb), Canvas.GetTop(thumb)));
+                Polyline.Points.Add(new Point(Canvas.GetLeft(thumb), Canvas.GetTop(thumb)));
             }
         }
 
@@ -140,7 +140,7 @@ namespace PlansModule.Designer
             double minTop = double.MaxValue;
             double maxLeft = 0;
             double maxTop = 0;
-            foreach (var point in Polygon.Points)
+            foreach (var point in Polyline.Points)
             {
                 minLeft = Math.Min(point.X, minLeft);
                 minTop = Math.Min(point.Y, minTop);
@@ -158,18 +158,19 @@ namespace PlansModule.Designer
             }
 
             var points = new PointCollection();
-            foreach (var point in Polygon.Points)
+            foreach (var point in Polyline.Points)
             {
                 points.Add(new Point(point.X - minLeft, point.Y - minTop));
             }
-            Polygon.Points = points;
+            Polyline.Points = points;
 
             DesignerItem.Width = maxLeft - minLeft;
             DesignerItem.Height = maxTop - minTop;
         }
 
-        public void Zoom(double zoom)
+        public void UpdateZoom()
         {
+            var zoom = DesignerCanvas.PlanDesignerViewModel.Zoom;
             foreach (var thumb in thumbs)
             {
                 thumb.Width = 7 / zoom;

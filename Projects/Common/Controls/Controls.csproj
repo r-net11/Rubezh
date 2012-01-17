@@ -100,6 +100,7 @@
     <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
     <Compile Include="DataGridProperties.cs" />
+    <Compile Include="DigitalPasswordHelper.cs" />
     <Compile Include="PasswordBoxControl.cs" />
     <Compile Include="BrightnessToColorConverter.cs" />
     <Compile Include="ColorToAlphaColorConverter.cs" />

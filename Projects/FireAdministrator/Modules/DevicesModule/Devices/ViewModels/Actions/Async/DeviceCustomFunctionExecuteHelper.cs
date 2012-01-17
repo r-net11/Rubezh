@@ -25,7 +25,12 @@ namespace DevicesModule.ViewModels
 
         static void OnlCompleted()
         {
-            MessageBox.Show(_result);
+            if (_result == null)
+            {
+                DialogBox.DialogBox.Show("Ошибка при выполнении операции");
+                return;
+            }
+            DialogBox.DialogBox.Show(_result);
         }
     }
 }

@@ -24,6 +24,11 @@ namespace DevicesModule.ViewModels
 
         static void OnlCompleted()
         {
+            if (_description == null)
+            {
+                DialogBox.DialogBox.Show("Ошибка при выполнении операции");
+                return;
+            }
             ServiceFactory.UserDialogs.ShowModalWindow(new DeviceDescriptionViewModel(_device.UID, _description));
         }
     }

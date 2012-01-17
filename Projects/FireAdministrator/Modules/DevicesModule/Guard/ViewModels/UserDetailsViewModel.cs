@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using Controls;
 
 namespace DevicesModule.ViewModels
 {
@@ -138,6 +139,13 @@ namespace DevicesModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
+            if (!DigitalPasswordHelper.Check(Password))
+            {
+                DialogBox.DialogBox.Show("Пароль может содержать только цифры");
+                cancel = true;
+                return;
+            }
+
             SaveProperies();
         }
     }

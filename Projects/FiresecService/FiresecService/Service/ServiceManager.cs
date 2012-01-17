@@ -12,7 +12,7 @@ namespace FiresecService
         {
             CheckHost();
 
-            _serviceHost = new ServiceHost(typeof(FiresecService));
+            _serviceHost = new ServiceHost(typeof(SafeFiresecService));
 
             var binding = new NetTcpBinding()
             {

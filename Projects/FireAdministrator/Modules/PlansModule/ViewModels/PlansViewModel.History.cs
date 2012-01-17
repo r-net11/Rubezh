@@ -83,6 +83,7 @@ namespace PlansModule.ViewModels
                         designerItem.ElementBase = elementBase.Clone();
                         designerItem.Redraw();
                     }
+                    DesignerCanvas.UpdateZoom();
                     return;
 
                 case ActionType.Added:
@@ -115,6 +116,7 @@ namespace PlansModule.ViewModels
                         designerItem.ElementBase = elementBase.Clone();
                         designerItem.Redraw();
                     }
+                    DesignerCanvas.UpdateZoom();
                     return;
 
                 case ActionType.Added:

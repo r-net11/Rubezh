@@ -36,6 +36,8 @@ namespace PlansModule.Views
             _scrollViewer.MouseMove += OnMouseMove;
             _scrollViewer.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
             _scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
+
+            deviceSlider.ValueChanged +=new RoutedPropertyChangedEventHandler<double>(deviceSlider_ValueChanged);
         }
 
         void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -214,5 +216,20 @@ namespace PlansModule.Views
             lastDragPoint = null;
         }
         #endregion
+
+        private void OnDeviceZoomOut(object sender, RoutedEventArgs e)
+        {
+            deviceSlider.Value--;
+        }
+
+        private void OnDeviceZoomIn(object sender, RoutedEventArgs e)
+        {
+            deviceSlider.Value++;
+        }
+
+        private void deviceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            (DataContext as PlansViewModel).PlanDesignerViewModel.ChangeDeviceZoom(e.NewValue);
+        }
     }
 }

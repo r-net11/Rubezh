@@ -46,6 +46,10 @@ namespace PlansModule.Views
 
             switch (itemType)
             {
+                case "ElementPolyLine":
+                    elementBase = new ElementPolyline();
+                    break;
+
                 case "ElementRectangle":
                     elementBase = new ElementRectangle();
                     break;
@@ -107,10 +111,6 @@ namespace PlansModule.Views
             if (e.Key == Key.Delete)
             {
                 (DataContext as PlansViewModel).DesignerCanvas.RemoveAllSelected();
-            }
-            if (e.Key == Key.T && Keyboard.Modifiers == ModifierKeys.Control)
-            {
-                (DataContext as PlansViewModel).DesignerCanvas.Zoom(2);
             }
         }
 

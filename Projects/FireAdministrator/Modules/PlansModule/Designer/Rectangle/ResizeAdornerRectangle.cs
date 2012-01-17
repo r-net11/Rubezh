@@ -4,15 +4,15 @@ using System.Windows.Media;
 
 namespace PlansModule.Designer
 {
-    public class ResizeAdorner : Adorner
+    public class ResizeAdornerRectangle : Adorner
     {
         private VisualCollection visuals;
-        private ResizeChrome chrome;
+        private ResizeChromeRectangle chrome;
 
-        public ResizeAdorner(DesignerItem designerItem)
+        public ResizeAdornerRectangle(DesignerItem designerItem)
             : base(designerItem)
         {
-            this.chrome = new ResizeChrome(designerItem);
+            this.chrome = new ResizeChromeRectangle(designerItem);
             this.visuals = new VisualCollection(this);
             this.visuals.Add(this.chrome);
             this.chrome.DataContext = designerItem;
