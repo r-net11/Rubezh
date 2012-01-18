@@ -4,9 +4,14 @@
              xmlns:tb="http://www.hardcodet.net/taskbar">
     
     <Grid Margin="10">
-        <TabControl Background="{DynamicResource AlternativeBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TabControl Grid.Row="0" Background="{DynamicResource AlternativeBackgroundBrush}">
             <TabItem Header="Управление">
                 <StackPanel>
+                    <Button Content="Перезагрузить" Command="{Binding ReloadCommand}" Margin="1" />
                     <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Margin="1" />
                 </StackPanel>
             </TabItem>
@@ -28,5 +33,8 @@
                 <TextBox Grid.Row="1" Name="_textBox" Margin="2" />
             </TabItem>
         </TabControl>
+        <Grid Grid.Row="1">
+            <TextBlock Name="_statusTextBlock" Foreground="White" Margin="2" />
+        </Grid>
     </Grid>
 </UserControl>

@@ -1,6 +1,5 @@
 ﻿using Infrastructure.Common;
 using PlansModule.Designer;
-using System.Windows;
 
 namespace PlansModule.ViewModels
 {

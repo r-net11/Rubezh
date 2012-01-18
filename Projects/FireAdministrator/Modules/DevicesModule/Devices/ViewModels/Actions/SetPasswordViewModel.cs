@@ -1,7 +1,7 @@
 ﻿using System;
+using Controls;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using Controls;
 
 namespace DevicesModule.ViewModels
 {

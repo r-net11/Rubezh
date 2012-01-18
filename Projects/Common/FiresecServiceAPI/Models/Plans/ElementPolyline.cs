@@ -6,7 +6,7 @@ using System.Windows.Shapes;
 namespace FiresecAPI.Models
 {
     [DataContract]
-    public class ElementPolyline : ElementBase, IZIndexedElement
+    public class ElementPolyline : ElementBasePointCollection, IZIndexedElement
     {
         public ElementPolyline()
         {
@@ -17,9 +17,6 @@ namespace FiresecAPI.Models
             PolygonPoints.Add(new Point(0, 0));
             PolygonPoints.Add(new Point(100, 100));
         }
-
-        [DataMember]
-        public PointCollection PolygonPoints { get; set; }
 
         [DataMember]
         public Color BackgroundColor { get; set; }

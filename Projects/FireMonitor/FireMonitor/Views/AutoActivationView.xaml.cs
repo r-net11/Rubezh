@@ -59,9 +59,8 @@ namespace FireMonitor.Views
         {
             if (IsAutoActivation)
             {
-                if (!App.Current.MainWindow.IsActive)
+                if ((App.Current.MainWindow != null) && (App.Current.MainWindow.IsActive == false))
                 {
-                    //App.Current.MainWindow.WindowState = WindowState.Maximized;
                     App.Current.MainWindow.Activate();
                 }
             }
