@@ -90,11 +90,18 @@
   <ItemGroup>
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\Designer\DesignerItem.cs" />
+    <Compile Include="Designer\Designer\IResizeChromeBase.cs" />
+    <Compile Include="Designer\Polyline\ResizeAdornerPolyline.cs" />
+    <Compile Include="Designer\Polyline\ResizeChromePolyline.cs" />
+    <Compile Include="Designer\Polyline\ResizeDecoratorPolyline.cs">
+      <Generator>MSBuild:Compile</Generator>
+    </Compile>
     <Compile Include="Designer\Designer\MoveThumb.cs" />
     <Compile Include="Designer\Designer\RubberbandAdorner.cs" />
-    <Compile Include="Designer\Polygon\PolygonThumb.cs" />
+    <Compile Include="Designer\Polygon\ThumbPolygon.cs" />
     <Compile Include="ElementProperties\ViewModels\DesignerPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\ImagePropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\ViewModels\PolylinePropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\SubPlanPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\Views\DesignerPropertiesView.xaml.cs">
       <DependentUpon>DesignerPropertiesView.xaml</DependentUpon>
@@ -111,6 +118,9 @@
       <DependentUpon>PolygonPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementProperties\ViewModels\PolygonPropertiesViewModel.cs" />
+    <Compile Include="ElementProperties\Views\PolylinePropertiesView.xaml.cs">
+      <DependentUpon>PolylinePropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ElementProperties\Views\RectanglePropertiesView.xaml.cs">
       <DependentUpon>RectanglePropertiesView.xaml</DependentUpon>
     </Compile>
@@ -144,13 +154,13 @@
     <Compile Include="Views\ToolboxView.xaml.cs">
       <DependentUpon>ToolboxView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Designer\Polygon\PolygonResizeAdorner.cs" />
-    <Compile Include="Designer\Polygon\PolygonResizeChrome.cs" />
-    <Compile Include="Designer\Polygon\PolygonResizeDecorator.cs" />
-    <Compile Include="Designer\Rectangle\ResizeAdorner.cs" />
-    <Compile Include="Designer\Rectangle\ResizeChrome.cs" />
-    <Compile Include="Designer\Rectangle\ResizeDecorator.cs" />
-    <Compile Include="Designer\Rectangle\ResizeThumb.cs" />
+    <Compile Include="Designer\Polygon\ResizeAdornerPolygon.cs" />
+    <Compile Include="Designer\Polygon\ResizeChromePolygon.cs" />
+    <Compile Include="Designer\Polygon\ResizeDecoratorPolygon.cs" />
+    <Compile Include="Designer\Rectangle\ResizeAdornerRectangle.cs" />
+    <Compile Include="Designer\Rectangle\ResizeChromeRectangle.cs" />
+    <Compile Include="Designer\Rectangle\ResizeDecoratorRectangle.cs" />
+    <Compile Include="Designer\Rectangle\ResizeThumbRectangle.cs" />
     <Compile Include="PlansModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -248,7 +258,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Designer\Polygon\PolygonResizeChrome.xaml">
+    <Page Include="Designer\Polyline\ResizeChromePolyline.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Designer\Polygon\ResizeChromePolygon.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -265,6 +279,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="ElementProperties\Views\PolygonPropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ElementProperties\Views\PolylinePropertiesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -292,7 +310,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Designer\Rectangle\ResizeChrome.xaml">
+    <Page Include="Designer\Rectangle\ResizeChromeRectangle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

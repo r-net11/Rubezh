@@ -42,25 +42,30 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
+                    <DataGridTemplateColumn Header="Логика" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding PresentationZone}" Visibility="{Binding Device.Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
                 </DataGrid.Columns>
             </DataGrid>
-            
-            <Grid Grid.Row="1">
-                <StackPanel Orientation="Horizontal">
-                    <Button Command="{Binding AddCommand}" ToolTip="Добавить в зону" Style="{StaticResource ToolarButtonStyle}">
-                        <Image Source="/Controls;component/Images/ArrowUp.png" Height="24" />
-                    </Button>
 
-                    <Button Command="{Binding RemoveCommand}" ToolTip="Удалить из зоны" Style="{StaticResource ToolarButtonStyle}">
-                        <Image Source="/Controls;component/Images/ArrowDown.png" Height="24" />
-                    </Button>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button Command="{Binding AddCommand}" ToolTip="Добавить в зону" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/ArrowUp.png" Height="24" />
+                </Button>
 
-                    <Button Command="{Binding ShowZoneLogicCommand}" ToolTip="Логика" Style="{StaticResource ToolarButtonStyle}">
-                        <Image Source="/Controls;component/Images/logic.png" Height="24" />
-                    </Button>
-                </StackPanel>
-            </Grid>
+                <Button Command="{Binding RemoveCommand}" ToolTip="Удалить из зоны" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/ArrowDown.png" Height="24" />
+                </Button>
+
+                <Button Command="{Binding ShowZoneLogicCommand}" ToolTip="Логика" Style="{StaticResource ToolarButtonStyle}">
+                    <Image Source="/Controls;component/Images/logic.png" Height="24" />
+                </Button>
+            </StackPanel>
         </Grid>
 
         <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />

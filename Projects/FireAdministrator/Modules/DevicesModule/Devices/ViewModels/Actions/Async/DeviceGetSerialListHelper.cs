@@ -23,6 +23,11 @@ namespace DevicesModule.ViewModels
 
         static void OnlCompleted()
         {
+            if (_serials == null)
+            {
+                DialogBox.DialogBox.Show("Ошибка при выполнении операции");
+                return;
+            }
             ServiceFactory.UserDialogs.ShowModalWindow(new BindMsViewModel(_device, _serials));
         }
     }

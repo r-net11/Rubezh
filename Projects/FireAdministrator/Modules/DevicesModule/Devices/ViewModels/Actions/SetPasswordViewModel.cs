@@ -1,6 +1,7 @@
 ﻿using System;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Controls;
 
 namespace DevicesModule.ViewModels
 {
@@ -52,9 +53,17 @@ namespace DevicesModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
+            if (!DigitalPasswordHelper.Check(Password) || !DigitalPasswordHelper.Check(PasswordConfirm))
+            {
+                DialogBox.DialogBox.Show("Пароль может содержать только цифры");
+                cancel = true;
+                return;
+            }
+
             if (Password != PasswordConfirm)
             {
-                DialogBox.DialogBox.Show("Пароль не был корректно подтвержден. Пароль и подтверждение должны совпадать");
+                DialogBox.DialogBox.Show("Пароль и подтверждение пароля должны совпадать");
+                cancel = true;
                 return;
             }
 

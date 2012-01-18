@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -23,7 +24,12 @@ namespace DevicesModule.ViewModels
 
         static void OnlCompleted()
         {
-            //ServiceFactory.UserDialogs.ShowModalWindow(new DeviceDescriptionViewModel(_device.UID, _description));
+            if (_deviceConfiguration == null)
+            {
+                DialogBox.DialogBox.Show("Ошибка при выполнении операции");
+                return;
+            }
+            //ServiceFactory.UserDialogs.ShowModalWindow(new DeviceDescriptionViewModel(_device.UID, _deviceConfiguration));
         }
     }
 }

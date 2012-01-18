@@ -38,37 +38,37 @@ namespace PlansModule.ViewModels
             {
                 DesignerCanvas.Create(elementRectangle);
             }
-
             foreach (var elementEllipse in plan.ElementEllipses)
             {
                 DesignerCanvas.Create(elementEllipse);
             }
-
             foreach (var elementTextBlock in plan.ElementTextBlocks)
             {
                 DesignerCanvas.Create(elementTextBlock);
             }
-
             foreach (var elementPolygon in plan.ElementPolygons)
             {
                 DesignerCanvas.Create(elementPolygon);
             }
+            if (plan.ElementPolylines == null)
+                plan.ElementPolylines = new List<ElementPolyline>();
 
+            foreach (var elementPolyline in plan.ElementPolylines)
+            {
+                DesignerCanvas.Create(elementPolyline);
+            }
             foreach (var elementRectangleZone in plan.ElementRectangleZones)
             {
                 DesignerCanvas.Create(elementRectangleZone);
             }
-
             foreach (var elementPolygonZone in plan.ElementPolygonZones)
             {
                 DesignerCanvas.Create(elementPolygonZone);
             }
-
             foreach (var elementSubPlan in plan.ElementSubPlans)
             {
                 DesignerCanvas.Create(elementSubPlan);
             }
-
             foreach (var elementDevice in plan.ElementDevices)
             {
                 DesignerCanvas.Create(elementDevice);
@@ -119,6 +119,11 @@ namespace PlansModule.ViewModels
                 {
                     ElementPolygon elementPolygon = elementBase as ElementPolygon;
                     Plan.ElementPolygons.Add(elementPolygon);
+                }
+                if (elementBase is ElementPolyline)
+                {
+                    ElementPolyline elementPolyline = elementBase as ElementPolyline;
+                    Plan.ElementPolylines.Add(elementPolyline);
                 }
                 if (elementBase is ElementPolygonZone)
                 {

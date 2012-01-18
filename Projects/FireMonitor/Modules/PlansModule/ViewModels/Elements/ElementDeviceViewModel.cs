@@ -43,8 +43,8 @@ namespace PlansModule.ViewModels
             };
             ElementDeviceView._deviceControl.IsManualUpdate = true;
 
-            ElementDeviceView.Width = ElementDevice.Width;
-            ElementDeviceView.Height = ElementDevice.Height;
+            ElementDeviceView.Width = 10;
+            ElementDeviceView.Height = 10;
             Canvas.SetLeft(ElementDeviceView, ElementDevice.Left);
             Canvas.SetTop(ElementDeviceView, ElementDevice.Top);
 

@@ -4,7 +4,7 @@ using System.Windows.Documents;
 
 namespace PlansModule.Designer
 {
-    public class ResizeDecorator : Control
+    public class ResizeDecoratorRectangle : Control
     {
         private Adorner adorner;
 
@@ -15,10 +15,10 @@ namespace PlansModule.Designer
         }
 
         public static readonly DependencyProperty ShowDecoratorProperty =
-            DependencyProperty.Register("ShowDecorator", typeof(bool), typeof(ResizeDecorator),
+            DependencyProperty.Register("ShowDecorator", typeof(bool), typeof(ResizeDecoratorRectangle),
             new FrameworkPropertyMetadata(false, new PropertyChangedCallback(ShowDecoratorProperty_Changed)));
 
-        public ResizeDecorator()
+        public ResizeDecoratorRectangle()
         {
             Unloaded += new RoutedEventHandler(this.ResizeDecorator_Unloaded);
         }
@@ -40,7 +40,7 @@ namespace PlansModule.Designer
                 if (adornerLayer != null)
                 {
                     DesignerItem designerItem = this.DataContext as DesignerItem;
-                    this.adorner = new ResizeAdorner(designerItem);
+                    this.adorner = new ResizeAdornerRectangle(designerItem);
                     adornerLayer.Add(this.adorner);
 
                     if (this.ShowDecorator)
@@ -75,7 +75,7 @@ namespace PlansModule.Designer
 
         private static void ShowDecoratorProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ResizeDecorator decorator = (ResizeDecorator)d;
+            ResizeDecoratorRectangle decorator = (ResizeDecoratorRectangle)d;
 
             if (decorator.Visibility == Visibility.Collapsed)
                 return;

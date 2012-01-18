@@ -5,9 +5,9 @@ using System.Windows.Controls.Primitives;
 
 namespace PlansModule.Designer
 {
-    public class ResizeThumb : Thumb
+    public class ResizeThumbRectangle : Thumb
     {
-        DesignerItem DesignerItem
+        public DesignerItem DesignerItem
         {
             get { return DataContext as DesignerItem; }
         }
@@ -17,7 +17,7 @@ namespace PlansModule.Designer
             get { return DesignerItem.DesignerCanvas; }
         }
 
-        public ResizeThumb()
+        public void InitializeDragEvents()
         {
             DragStarted += new DragStartedEventHandler(this.ResizeThumb_DragStarted);
             DragDelta += new DragDeltaEventHandler(this.ResizeThumb_DragDelta);
@@ -53,9 +53,9 @@ namespace PlansModule.Designer
                     minDeltaHorizontal = Math.Min(minDeltaHorizontal, designerItem.ActualWidth - designerItem.MinWidth);
                 }
 
-                foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
+                foreach (var designerItem in DesignerCanvas.SelectedItems)
                 {
-                    if (designerItem.IsPolygon)
+                    if ((designerItem.IsDevice) || (designerItem.IsPolygon))
                         continue;
 
                     switch (VerticalAlignment)

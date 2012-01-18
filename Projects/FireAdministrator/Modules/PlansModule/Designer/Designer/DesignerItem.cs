@@ -24,9 +24,7 @@ namespace PlansModule.Designer
         }
 
         public static readonly DependencyProperty IsSelectedProperty =
-          DependencyProperty.Register("IsSelected", typeof(bool),
-                                      typeof(DesignerItem),
-                                      new FrameworkPropertyMetadata(false));
+          DependencyProperty.Register("IsSelected", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
 
         public bool IsSelectable
         {
@@ -35,9 +33,7 @@ namespace PlansModule.Designer
         }
 
         public static readonly DependencyProperty IsSelectableProperty =
-          DependencyProperty.Register("IsSelectable", typeof(bool),
-                                      typeof(DesignerItem),
-                                      new FrameworkPropertyMetadata(false));
+          DependencyProperty.Register("IsSelectable", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
 
         public bool IsPolygon
         {
@@ -46,9 +42,25 @@ namespace PlansModule.Designer
         }
 
         public static readonly DependencyProperty IsPolygonProperty =
-          DependencyProperty.Register("IsPolygon", typeof(bool),
-                                      typeof(DesignerItem),
-                                      new FrameworkPropertyMetadata(false));
+          DependencyProperty.Register("IsPolygon", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
+
+        public bool IsDevice
+        {
+            get { return (bool)GetValue(IsDeviceProperty); }
+            set { SetValue(IsDeviceProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsDeviceProperty =
+          DependencyProperty.Register("IsDevice", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
+
+        public bool IsPolyline
+        {
+            get { return (bool)GetValue(IsPolylineProperty); }
+            set { SetValue(IsPolylineProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsPolylineProperty =
+          DependencyProperty.Register("IsPolyline", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
 
         public static readonly DependencyProperty MoveThumbTemplateProperty =
             DependencyProperty.RegisterAttached("MoveThumbTemplate", typeof(ControlTemplate), typeof(DesignerItem));
@@ -73,6 +85,20 @@ namespace PlansModule.Designer
         {
             get { return VisualTreeHelper.GetParent(this) as DesignerCanvas; }
         }
+
+        public DesignerItem()
+        {
+            AddPointCommand = new RelayCommand(OnAddPoint);
+            DeleteCommand = new RelayCommand(OnDelete);
+            ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+            this.Loaded += new RoutedEventHandler(this.DesignerItem_Loaded);
+            IsVisibleLayout = true;
+            IsSelectableLayout = true;
+        }
+
+        public IResizeChromeBase ResizeChromeBase { get; set; }
+        public bool IsPointAdding { get; set; }
+        public ElementBase ElementBase { get; set; }
 
         bool _isVisibleLayout;
         public bool IsVisibleLayout
@@ -106,21 +132,6 @@ namespace PlansModule.Designer
                     IsSelected = false;
                 }
             }
-        }
-
-        public PolygonResizeChrome PolygonResizeChrome { get; set; }
-        public ResizeChrome ResizeChrome { get; set; }
-        public bool IsPointAdding { get; set; }
-        public ElementBase ElementBase { get; set; }
-
-        public DesignerItem()
-        {
-            AddPointCommand = new RelayCommand(OnAddPoint);
-            DeleteCommand = new RelayCommand(OnDelete);
-            ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-            this.Loaded += new RoutedEventHandler(this.DesignerItem_Loaded);
-            IsVisibleLayout = true;
-            IsSelectableLayout = true;
         }
 
         public RelayCommand AddPointCommand { get; private set; }
@@ -164,6 +175,14 @@ namespace PlansModule.Designer
 
                 var polygonPropertiesViewModel = new PolygonPropertiesViewModel(ElementBase as ElementPolygon);
                 result = ServiceFactory.UserDialogs.ShowModalWindow(polygonPropertiesViewModel);
+            }
+            if (ElementBase is ElementPolyline)
+            {
+                ElementPolyline elementPolyline = ElementBase as ElementPolyline;
+                elementPolyline.PolygonPoints = new PointCollection((Content as Polyline).Points);
+
+                var polylinePropertiesViewModel = new PolylinePropertiesViewModel(ElementBase as ElementPolyline);
+                result = ServiceFactory.UserDialogs.ShowModalWindow(polylinePropertiesViewModel);
             }
             if (ElementBase is ElementPolygonZone)
             {
@@ -239,9 +258,9 @@ namespace PlansModule.Designer
 
         public void UpdatePolygonAdorner()
         {
-            if (PolygonResizeChrome != null)
+            if (ResizeChromeBase != null)
             {
-                PolygonResizeChrome.Initialize();
+                ResizeChromeBase.Initialize();
             }
         }
 
@@ -273,7 +292,7 @@ namespace PlansModule.Designer
             if (this.Template != null)
             {
                 ContentPresenter contentPresenter = this.Template.FindName("PART_ContentPresenter", this) as ContentPresenter;
-                MoveThumb moveThumb = this.Template.FindName("PART_MoveThumb", this) as MoveThumb;
+                MoveThumb moveThumb = this.Template.FindName("PART_MoveThumbRectangle", this) as MoveThumb;
 
                 if (contentPresenter != null && moveThumb != null)
                 {
@@ -290,6 +309,8 @@ namespace PlansModule.Designer
                     }
                 }
             }
+
+            UpdateZoomDevice();
         }
 
         public void Add()
@@ -327,17 +348,32 @@ namespace PlansModule.Designer
                     elementPolygon.PolygonPoints.Add(new Point(point.X, point.Y));
                 }
             }
+            if (ElementBase is ElementPolyline)
+            {
+                ElementPolyline elementPolyline = ElementBase as ElementPolyline;
+                elementPolyline.PolygonPoints = new PointCollection();
+                foreach (var point in (this.Content as Polyline).Points)
+                {
+                    elementPolyline.PolygonPoints.Add(new Point(point.X, point.Y));
+                }
+            }
         }
 
-        public void Zoom(double zoom)
+        public void UpdateZoom()
         {
-            if (PolygonResizeChrome != null)
+            if (ResizeChromeBase != null)
             {
-                PolygonResizeChrome.Zoom(zoom);
+                ResizeChromeBase.UpdateZoom();
             }
-            if (ResizeChrome != null)
+        }
+
+        public void UpdateZoomDevice()
+        {
+            if (IsDevice)
             {
-                ResizeChrome.Zoom(zoom);
+                double zoom = DesignerCanvas.PlanDesignerViewModel.DeviceZoom / DesignerCanvas.PlanDesignerViewModel.Zoom;
+                this.Width = zoom;
+                this.Height = zoom;
             }
         }
     }

@@ -2,7 +2,7 @@
 
 namespace PlansModule.Designer
 {
-    public class PolygonThumb : Thumb
+    public class ThumbPolygon : Thumb
     {
     }
 }

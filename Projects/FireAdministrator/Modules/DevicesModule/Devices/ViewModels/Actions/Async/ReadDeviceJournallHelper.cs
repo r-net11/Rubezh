@@ -25,6 +25,11 @@ namespace DevicesModule.ViewModels
 
         static void OnCompleted()
         {
+            if (_journal == null)
+            {
+                DialogBox.DialogBox.Show("Ошибка при выполнении операции");
+                return;
+            }
             ServiceFactory.UserDialogs.ShowModalWindow(new DeviceJournalViewModel(_journal));
         }
     }

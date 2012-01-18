@@ -101,14 +101,7 @@ namespace PlansModule.ViewModels
             {
                 var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice);
                 Devices.Add(elementDeviceViewModel);
-            }
-            DrawDevices();
-        }
 
-        void DrawDevices()
-        {
-            foreach (var elementDeviceViewModel in Devices)
-            {
                 elementDeviceViewModel.DrawElementDevice();
                 if (elementDeviceViewModel.ElementDeviceView.Parent != null)
                     return;

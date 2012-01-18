@@ -3,15 +3,19 @@
                     xmlns:local="clr-namespace:PlansModule.Designer">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/PlansModule;component/Designer/Rectangle/ResizeChrome.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/PlansModule;component/Designer/Rectangle/ResizeChromeRectangle.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <ControlTemplate x:Key="MoveThumbTemplate" TargetType="{x:Type local:MoveThumb}">
+    <ControlTemplate x:Key="MoveThumbRectangleTemplate" TargetType="{x:Type local:MoveThumb}">
         <Rectangle Fill="Transparent" />
     </ControlTemplate>
 
     <ControlTemplate x:Key="MoveThumbPolygonTemplate" TargetType="{x:Type local:MoveThumb}">
-        <Polygon DataContext="{Binding Content}" Fill="Green" Points="{Binding Points}" />
+        <Polygon DataContext="{Binding Content}" Fill="Transparent" Points="{Binding Points}" />
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="MoveThumbPolylineTemplate" TargetType="{x:Type local:MoveThumb}">
+        <Polyline DataContext="{Binding Content}" Fill="Transparent" Points="{Binding Points}" Opacity="0.01" Stroke="White" StrokeThickness="10" />
     </ControlTemplate>
 
     <Style TargetType="{x:Type local:DesignerItem}">
@@ -21,17 +25,19 @@
                 <ControlTemplate TargetType="{x:Type local:DesignerItem}">
                     <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}">
                         <Grid Name="PART_Adorners">
-                            <local:MoveThumb x:Name="PART_MoveThumb" Cursor="SizeAll" Template="{StaticResource MoveThumbTemplate}" />
-                            <local:MoveThumb x:Name="PART_MoveThumbPolygon" Cursor="SizeAll" Template="{StaticResource MoveThumbPolygonTemplate}" />
-                            <local:ResizeDecorator x:Name="PART_DesignerItemDecorator" />
-                            <local:PolygonResizeDecorator x:Name="PART_DesignerItemPolygonResizeDecorator" />
+                            <local:MoveThumb x:Name="PART_MoveThumbRectangle" Cursor="SizeAll" Template="{StaticResource MoveThumbRectangleTemplate}" Visibility="Visible" />
+                            <local:MoveThumb x:Name="PART_MoveThumbRectanglePolygon" Cursor="SizeAll" Template="{StaticResource MoveThumbPolygonTemplate}" Visibility="Collapsed" />
+                            <local:MoveThumb x:Name="PART_MoveThumbRectanglePolyline" Cursor="SizeAll" Template="{StaticResource MoveThumbPolylineTemplate}" Visibility="Collapsed" />
+                            <local:ResizeDecoratorRectangle x:Name="PART_ResizeDecoratorRectangle" Visibility="Visible" />
+                            <local:ResizeDecoratorPolygon x:Name="PART_ResizeDecoratorPolygon" Visibility="Collapsed" />
+                            <local:ResizeDecoratorPolyline x:Name="PART_ResizeDecoratorPolyline" Visibility="Collapsed" />
                         </Grid>
                         <ContentPresenter x:Name="PART_ContentPresenter"
-                                     Content="{TemplateBinding ContentControl.Content}"
-                                     Margin="{TemplateBinding Padding}" />
+                                     Content="{TemplateBinding ContentControl.Content}" />
                         <Grid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Добавить точку" Command="{Binding AddPointCommand}" Visibility="{Binding IsPolygon, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <MenuItem Header="Добавить точку" Command="{Binding AddPointCommand}" Visibility="{Binding IsPolyline, Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
                                 <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                             </ContextMenu>
@@ -39,24 +45,33 @@
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="PART_DesignerItemDecorator" Property="ShowDecorator" Value="True" />
-                            <Setter TargetName="PART_DesignerItemPolygonResizeDecorator" Property="ShowDecorator" Value="True" />
-                        </Trigger>
-                        <Trigger Property="IsPolygon" Value="True">
-                            <Setter TargetName="PART_DesignerItemDecorator" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="PART_MoveThumb" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="PART_DesignerItemPolygonResizeDecorator" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="PART_MoveThumbPolygon" Property="Visibility" Value="Visible" />
-                        </Trigger>
-                        <Trigger Property="IsPolygon" Value="False">
-                            <Setter TargetName="PART_DesignerItemDecorator" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="PART_MoveThumb" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="PART_DesignerItemPolygonResizeDecorator" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="PART_MoveThumbPolygon" Property="Visibility" Value="Collapsed" />
-                        </Trigger>
                         <Trigger Property="IsSelectable" Value="False">
                             <Setter TargetName="PART_Adorners" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="PART_ResizeDecoratorRectangle" Property="ShowDecorator" Value="True" />
+                            <Setter TargetName="PART_ResizeDecoratorPolygon" Property="ShowDecorator" Value="True" />
+                            <Setter TargetName="PART_ResizeDecoratorPolyline" Property="ShowDecorator" Value="True" />
+                        </Trigger>
+                        <Trigger Property="IsPolygon" Value="True">
+                            <Setter TargetName="PART_ResizeDecoratorRectangle" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_MoveThumbRectangle" Property="Visibility" Value="Collapsed" />
+                            
+                            <Setter TargetName="PART_ResizeDecoratorPolygon" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_MoveThumbRectanglePolygon" Property="Visibility" Value="Visible" />
+
+                            <Setter TargetName="PART_ResizeDecoratorPolyline" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_MoveThumbRectanglePolyline" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="IsPolyline" Value="True">
+                            <Setter TargetName="PART_ResizeDecoratorRectangle" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_MoveThumbRectangle" Property="Visibility" Value="Collapsed" />
+                            
+                            <Setter TargetName="PART_ResizeDecoratorPolygon" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_MoveThumbRectanglePolygon" Property="Visibility" Value="Collapsed" />
+
+                            <Setter TargetName="PART_ResizeDecoratorPolyline" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_MoveThumbRectanglePolyline" Property="Visibility" Value="Visible" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     
     <StackPanel Orientation="Horizontal">
-        <Border CornerRadius="5" BorderThickness="0" Margin="2" Background="{DynamicResource BackgroundBrush}">
+        <Border CornerRadius="5" Margin="2" Background="{DynamicResource BackgroundBrush}">
             <StackPanel Orientation="Horizontal">
                 <Button Command="{Binding ShowDevicesCommand}" ToolTip="Устройства" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/Tree.png" Height="24" />
@@ -15,7 +15,7 @@
             </StackPanel>
         </Border>
 
-        <Border CornerRadius="5" BorderThickness="0" Margin="2" Background="{DynamicResource BackgroundBrush}">
+        <Border CornerRadius="5" Margin="2" Background="{DynamicResource BackgroundBrush}">
             <StackPanel Orientation="Horizontal">
                 <Button Name="copyButton" Command="{Binding CopyCommand}" ToolTip="Копировать" Style="{StaticResource ToolarButtonStyle}" Margin="2">
                     <Image Source="/Controls;component/Images/Copy.png" Height="24" />
@@ -35,7 +35,7 @@
             </StackPanel>
         </Border>
 
-        <Border CornerRadius="5" BorderThickness="0" Margin="2" Background="{DynamicResource BackgroundBrush}">
+        <Border CornerRadius="5" Margin="2" Background="{DynamicResource BackgroundBrush}">
             <StackPanel Orientation="Horizontal">
                 <Button Command="{Binding PlanDesignerViewModel.MoveToFrontCommand}" ToolTip="Вверх" Style="{StaticResource ToolarButtonStyle}">
                     <Image Source="/Controls;component/Images/MoveForward.png" Height="24" />
@@ -55,8 +55,9 @@
             </StackPanel>
         </Border>
 
-        <Border CornerRadius="5" BorderThickness="0" Margin="2" Background="{DynamicResource BackgroundBrush}">
+        <Border CornerRadius="5" Margin="2" Background="{DynamicResource BackgroundBrush}">
             <StackPanel Orientation="Horizontal">
+                <Image Source="/Controls;component/Images/Rectangle.png" Name="ElementPolyLine" ToolTip="Линия" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
                 <Image Source="/Controls;component/Images/Rectangle.png" Name="ElementRectangle" ToolTip="Прямоугольник" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
                 <Image Source="/Controls;component/Images/Ellipse.png" Name="ElementEllipse" ToolTip="Эллипс" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
                 <Image Source="/Controls;component/Images/Polygon.png" Name="ElementPolygon" ToolTip="Многоугольник" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" Height="24" Margin="2" />
@@ -67,7 +68,7 @@
             </StackPanel>
         </Border>
 
-        <Border CornerRadius="5" BorderThickness="0" Margin="2" Background="{DynamicResource BackgroundBrush}" Visibility="Collapsed">
+        <Border CornerRadius="5" Margin="2" Background="{DynamicResource BackgroundBrush}" Visibility="Collapsed">
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Controls;component/Images/shapes-align-hori-center.png" Height="24" />

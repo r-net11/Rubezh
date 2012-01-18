@@ -4,7 +4,7 @@ using System.Windows.Documents;
 
 namespace PlansModule.Designer
 {
-    public class PolygonResizeDecorator : Control
+    public class ResizeDecoratorPolygon : Control
     {
         private Adorner adorner;
 
@@ -15,10 +15,10 @@ namespace PlansModule.Designer
         }
 
         public static readonly DependencyProperty ShowDecoratorProperty =
-            DependencyProperty.Register("ShowDecorator", typeof(bool), typeof(PolygonResizeDecorator),
+            DependencyProperty.Register("ShowDecorator", typeof(bool), typeof(ResizeDecoratorPolygon),
             new FrameworkPropertyMetadata(false, new PropertyChangedCallback(ShowDecoratorProperty_Changed)));
 
-        public PolygonResizeDecorator()
+        public ResizeDecoratorPolygon()
         {
             Unloaded += new RoutedEventHandler(this.ResizeDecorator_Unloaded);
         }
@@ -40,7 +40,7 @@ namespace PlansModule.Designer
                 if (adornerLayer != null)
                 {
                     DesignerItem designerItem = this.DataContext as DesignerItem;
-                    this.adorner = new PolygonResizeAdorner(designerItem);
+                    this.adorner = new ResizeAdornerPolygon(designerItem);
                     adornerLayer.Add(this.adorner);
 
                     if (this.ShowDecorator)
@@ -75,7 +75,7 @@ namespace PlansModule.Designer
 
         private static void ShowDecoratorProperty_Changed(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            PolygonResizeDecorator decorator = (PolygonResizeDecorator)dependencyObject;
+            ResizeDecoratorPolygon decorator = (ResizeDecoratorPolygon)dependencyObject;
 
             if (decorator.Visibility == Visibility.Collapsed)
                 return;

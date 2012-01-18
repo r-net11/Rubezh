@@ -35,6 +35,10 @@
         <Views:PolygonPropertiesView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:PolylinePropertiesViewModel}">
+        <Views:PolylinePropertiesView />
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:TextBlockPropertiesViewModel}">
         <Views:TextBlockPropertiesView />
     </DataTemplate>

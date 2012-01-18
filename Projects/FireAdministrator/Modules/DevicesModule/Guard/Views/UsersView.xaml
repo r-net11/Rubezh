@@ -2,13 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-    <Grid>
-        <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Width="1*" Binding="{Binding GuardUser.Id}" />
-                <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding GuardUser.Name}" />
-                <DataGridTextColumn Header="ФИО" Width="1*" Binding="{Binding GuardUser.FIO}" />
-            </DataGrid.Columns>
-        </Controls:XDataGrid>
-    </Grid>
+
+    <Controls:XDataGrid Grid.Column="0" ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" CanUserSortColumns="True">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="№" Width="50" Binding="{Binding GuardUser.Id}" />
+            <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding GuardUser.Name}" />
+            <DataGridTextColumn Header="ФИО" Width="1*" Binding="{Binding GuardUser.FIO}" />
+            <DataGridTextColumn Header="Должность" Width="1*" Binding="{Binding GuardUser.Function}" />
+        </DataGrid.Columns>
+    </Controls:XDataGrid>
 </UserControl>

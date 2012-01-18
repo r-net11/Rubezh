@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
@@ -31,6 +32,11 @@ namespace DevicesModule.ViewModels
                     IsZone = true;
                     if (device.IndicatorLogic.Zones != null)
                         _zones = device.IndicatorLogic.Zones;
+
+                    OnColor = IndicatorColorType.Red;
+                    OffColor = IndicatorColorType.Green;
+                    FailureColor = IndicatorColorType.Orange;
+                    ConnectionColor = IndicatorColorType.Orange;
                     break;
 
                 case IndicatorLogicType.Device:
@@ -73,9 +79,10 @@ namespace DevicesModule.ViewModels
                 string presenrationZones = "";
                 for (int i = 0; i < _zones.Count; ++i)
                 {
+                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == _zones[i]);
                     if (i > 0)
-                        presenrationZones += ",";
-                    presenrationZones += _zones[i];
+                        presenrationZones += ", ";
+                    presenrationZones += zone.PresentationName;
                 }
                 return presenrationZones;
             }
@@ -179,7 +186,7 @@ namespace DevicesModule.ViewModels
             {
                 _indicatorDevice.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Device;
                 _indicatorDevice.IndicatorLogic.Device = SelectedDevice;
-                _indicatorDevice.IndicatorLogic.DeviceUID = SelectedDevice.UID;
+                _indicatorDevice.IndicatorLogic.DeviceUID = (SelectedDevice == null) ? Guid.Empty : SelectedDevice.UID;
                 _indicatorDevice.IndicatorLogic.OnColor = OnColor;
                 _indicatorDevice.IndicatorLogic.OffColor = OffColor;
                 _indicatorDevice.IndicatorLogic.FailureColor = FailureColor;

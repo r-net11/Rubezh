@@ -4,10 +4,10 @@ using System.Windows.Media;
 
 namespace PlansModule.Designer
 {
-    public class PolygonResizeAdorner : Adorner
+    public class ResizeAdornerPolygon : Adorner
     {
         private VisualCollection visuals;
-        private PolygonResizeChrome chrome;
+        private ResizeChromePolygon chrome;
 
         protected override int VisualChildrenCount
         {
@@ -17,10 +17,10 @@ namespace PlansModule.Designer
             }
         }
 
-        public PolygonResizeAdorner(DesignerItem designerItem)
+        public ResizeAdornerPolygon(DesignerItem designerItem)
             : base(designerItem)
         {
-            this.chrome = new PolygonResizeChrome(designerItem);
+            this.chrome = new ResizeChromePolygon(designerItem);
             this.visuals = new VisualCollection(this);
             this.visuals.Add(this.chrome);
             this.chrome.DataContext = designerItem;

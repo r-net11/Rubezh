@@ -13,14 +13,14 @@ namespace FiresecService
         static List<FiresecService> _serviceInstances;
         static List<FiresecService> _failedServiceInstances;
 
-        public static void Add(FiresecService serviceInstance)
+        public static void Add(FiresecService firesecService)
         {
-            _serviceInstances.Add(serviceInstance);
+            _serviceInstances.Add(firesecService);
         }
 
-        public static void Remove(FiresecService serviceInstance)
+        public static void Remove(FiresecService firesecService)
         {
-            _serviceInstances.Remove(serviceInstance);
+            _serviceInstances.Remove(firesecService);
         }
 
         static void Clean()
