@@ -55,7 +55,7 @@
 
 			<Component Id="Autorun" Guid="A35143F0-4713-4061-BA6F-E94C6FBE458C">
 				<RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
-					<RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName) /Start /Hide" />
+					<RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)" />
 				</RegistryKey>
 			</Component>
 		</DirectoryRef>

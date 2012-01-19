@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
-		<CustomAction Id="StartAppOnExit" FileKey="FiresecServiceExe" ExeCommand="/Start /Hide /Convert /ConvertJournal /Exit"
+		<CustomAction Id="StartAppOnExit" FileKey="FiresecServiceExe" ExeCommand="/Convert /ConvertJournal"
 									Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
 		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="KillFiresecServiceProcess"/>
 	</Fragment>

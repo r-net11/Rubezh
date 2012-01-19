@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Windows.Input;
 
 namespace InstructionsModule.ViewModels
 {
@@ -12,11 +13,11 @@ namespace InstructionsModule.ViewModels
     {
         public InstructionsViewModel()
         {
-            AddCommand = new RelayCommand(OnAdd);
+            AddCommand = new RelayCommand(OnAdd, Key.N);
             DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
             DeleteAllCommand = new RelayCommand(OnDeleteAll, CanRemoveAll);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
-
+            InputBindingsProp = new InputBindingCollection(KeyBindingList());
             Instructions = new ObservableCollection<InstructionViewModel>();
         }
 
@@ -106,6 +107,22 @@ namespace InstructionsModule.ViewModels
             Instructions.Clear();
             FiresecManager.SystemConfiguration.Instructions.Clear();
             InstructionsModule.HasChanges = true;
+        }
+
+        public InputBindingCollection InputBindingsProp { get; set; }
+
+        public InputBindingCollection KeyBindingList()
+        {
+            InputBindingCollection inputBindings = new InputBindingCollection();
+            List<KeyBinding> keyBindings = new List<KeyBinding>();
+
+            KeyBinding keyBinding = new KeyBinding();
+            keyBinding.Key = Key.N;
+            keyBinding.Command = AddCommand;
+            keyBindings.Add(keyBinding);
+
+            inputBindings.AddRange(keyBindings);
+            return inputBindings;
         }
 
         public override void OnShow()

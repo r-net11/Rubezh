@@ -1,11 +1,14 @@
-﻿using Infrastructure.Common;
-using System.Windows.Input;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Infrastructure.Common;
 
 namespace InstructionsModule.ViewModels
 {
-    public class InstructionsMenuViewModel
+    public class InstructionsKeys
     {
-        public InstructionsMenuViewModel(RelayCommand addCommand, RelayCommand editCommand,
+        public InstructionsKeys(RelayCommand addCommand, RelayCommand editCommand,
             RelayCommand deleteCommand, RelayCommand deleteAllCommand)
         {
             AddCommand = addCommand;

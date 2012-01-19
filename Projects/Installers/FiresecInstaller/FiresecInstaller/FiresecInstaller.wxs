@@ -37,14 +37,14 @@
             <Directory Id="FiresecServiceConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FiresecServiceIconsFolder" Name="$(var.IconsFolder)" />
               <Directory Id="FiresecServiceSoundsFolder" Name="$(var.SoundsFolder)" />
-              <Directory Id="FiresecServiceReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
+              <!--<Directory Id="FiresecServiceReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />-->
             </Directory>
           </Directory>
           <Directory Id="FIREADMINISTRATORLOCATION" Name="$(var.FireAdministratorName)">
             <Directory Id="FireAdmConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FireAdmIconsFolder" Name="$(var.IconsFolder)" />
               <Directory Id="FireAdmSoundsFolder" Name="$(var.SoundsFolder)" />
-              <Directory Id="FireAdmReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
+              <!--<Directory Id="FireAdmReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />-->
             </Directory>
           </Directory>
           <Directory Id="FIREMONITORLOCATION" Name="$(var.FireMonitorName)">

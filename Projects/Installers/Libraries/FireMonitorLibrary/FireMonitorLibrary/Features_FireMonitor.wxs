@@ -29,6 +29,7 @@
 			<ComponentRef Id="FMAlarmModuleComponent"/>
 			<ComponentRef Id="FMProgramsMenuShortcut" />
 			<ComponentRef Id="FMDesktopShortcut" />
+			<ComponentGroupRef Id="FireMonReportTemplatesFolder"/>
 		</Feature>
 	</Fragment>
 </Wix>

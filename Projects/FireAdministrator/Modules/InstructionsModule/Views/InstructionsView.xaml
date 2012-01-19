@@ -2,7 +2,9 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-             xmlns:Converters="clr-namespace:InstructionsModule.Converters">
+             xmlns:Converters="clr-namespace:InstructionsModule.Converters"
+             xmlns:dg="clr-namespace:InstructionsModule.ViewModels"
+             >
     <UserControl.Resources>
         <Converters:InstructionTypeToStringConverter  x:Key="InstructionTypeToStringConverter" />
         <Converters:InstructionTypeToVisibilityConverter  x:Key="InstructionTypeToVisibilityConverter" />

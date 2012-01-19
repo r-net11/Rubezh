@@ -103,8 +103,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\DGInputBindings.cs" />
     <Compile Include="ViewModels\InstructionDetailsViewModel.cs" />
     <Compile Include="ViewModels\InstructionDevicesViewModel.cs" />
+    <Compile Include="ViewModels\InstructionsKeys.cs" />
     <Compile Include="ViewModels\InstructionsMenuViewModel.cs" />
     <Compile Include="ViewModels\InstructionsViewModel.cs" />
     <Compile Include="ViewModels\InstructionViewModel.cs" />

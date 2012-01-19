@@ -36,8 +36,8 @@
 				<RemoveFolder Id="RemoveAdmIconsLocation" On="uninstall" Directory="FireAdmIconsFolder"/>
 				<RemoveFile Id="RemoveAdmSounds" On="uninstall" Name="*.*" Directory="FireAdmSoundsFolder" />
 				<RemoveFolder Id="RemoveAdmSoundsLocation" On="uninstall" Directory="FireAdmSoundsFolder"/>
-				<RemoveFile Id="RemoveAdmReportTemplates" On="uninstall" Name="*.*" Directory="FireAdmReportTemplatesFolder" />
-				<RemoveFolder Id="RemoveAdmReportTemplatesLocation" On="uninstall" Directory="FireAdmReportTemplatesFolder"/>
+				<!--<RemoveFile Id="RemoveAdmReportTemplates" On="uninstall" Name="*.*" Directory="FireAdmReportTemplatesFolder" />-->
+				<!--<RemoveFolder Id="RemoveAdmReportTemplatesLocation" On="uninstall" Directory="FireAdmReportTemplatesFolder"/>-->
 				<RemoveFolder Id="RemoveFireAdmConfigLocation" On="uninstall" Directory="FireAdmConfigFolder"/>
 				<RemoveFolder Id="RemoveFireAdmLocation" On="uninstall" Directory="FIREADMINISTRATORLOCATION"/>
 			</Component>

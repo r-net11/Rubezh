@@ -16,6 +16,17 @@
 				<include name="**\*" />
 			</fileset>
 		</copy>
+		<copy todir="Projects\FireMonitor\FireMonitor\bin\Debug\Configuration\ReportTemplates" includeemptydirs="true" overwrite="true" verbose="true">
+			<fileset basedir="Projects\Deploy\Configuration\ReportTemplates">
+				<include name="**\*" />
+			</fileset>
+		</copy>
+		<copy todir="Projects\FireMonitor\FireMonitor\bin\Release\Configuration\ReportTemplates" includeemptydirs="true" overwrite="true" verbose="true">
+			<fileset basedir="Projects\Deploy\Configuration\ReportTemplates">
+				<include name="**\*" />
+			</fileset>
+		</copy>
+		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Configuration\ReportTemplates" />
 	</target>	
 	<target name="CompileAll">
 		<msbuild project="Projects\FiresecService\FiresecService.sln">

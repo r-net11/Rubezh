@@ -13,34 +13,8 @@ namespace ReportsModule.Reports
             base.ReportFileName = "IndicationBlockCrystalReport.rpt";
         }
 
-        void TestInitialize()
-        {
-            DataList = new List<ReportIndicationBlockModel>();
-            for (int i = 0; i < 91; ++i)
-            {
-                DataList.Add(new ReportIndicationBlockModel()
-                {
-                    Number = i.ToString(),
-                    PresentationName = "TestPresentationName",
-                    BlockIndicationNumber = i.ToString(),
-                    PageNumber = i.ToString()
-                });
-            }
-            for (int i = 91; i < 100; ++i)
-            {
-                DataList.Add(new ReportIndicationBlockModel()
-                {
-                    Number = "",
-                    PresentationName = "",
-                    BlockIndicationNumber = i.ToString(),
-                    PageNumber = i.ToString()
-                });
-            }
-        }
-
         public override void LoadData()
         {
-            //TestInitialize();
             var IndicationBlockList = new List<IndicationBlocksList>();
             if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
             {
