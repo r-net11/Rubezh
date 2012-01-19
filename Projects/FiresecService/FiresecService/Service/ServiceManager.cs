@@ -10,7 +10,7 @@ namespace FiresecService
 
         public static void Open()
         {
-            CheckHost();
+            Close();
 
             _serviceHost = new ServiceHost(typeof(SafeFiresecService));
 
@@ -37,11 +37,6 @@ namespace FiresecService
         }
 
         public static void Close()
-        {
-            CheckHost();
-        }
-
-        static void CheckHost()
         {
             if (_serviceHost != null && _serviceHost.State != CommunicationState.Closed && _serviceHost.State != CommunicationState.Closing)
                 _serviceHost.Close();

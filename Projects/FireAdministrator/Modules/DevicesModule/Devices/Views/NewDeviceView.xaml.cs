@@ -1,6 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using Infrastructure.Common;
-using System.Windows;
 
 namespace DevicesModule.Views
 {

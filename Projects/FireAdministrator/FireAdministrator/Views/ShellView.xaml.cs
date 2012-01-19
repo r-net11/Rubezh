@@ -7,10 +7,10 @@ using System.Windows;
 using System.Windows.Input;
 using Common;
 using DevicesModule.Views;
-using FiresecClient;
-using Infrastructure.Common;
-using Infrastructure;
 using FireAdministrator.ViewModels;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
 
 namespace FireAdministrator.Views
 {

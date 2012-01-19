@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Windows;
 using FiresecService.Infrastructure;
 using Infrastructure.Common;
-using System.Windows;
 
 namespace FiresecService.ViewModels
 {
@@ -16,6 +16,7 @@ namespace FiresecService.ViewModels
             ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
             ConvertJournalCommand = new RelayCommand(OnConvertConfiguration);
             ShowImitatorCommand = new RelayCommand(OnShowImitator);
+            ReloadCommand = new RelayCommand(OnReload);
 
             Connections = new ObservableCollection<ConnectionViewModel>();
 
@@ -24,8 +25,20 @@ namespace FiresecService.ViewModels
 
         void Start()
         {
+            FiresecInternalClient.Disconnect();
+
             FiresecManager.ConnectFiresecCOMServer("adm", "");
             FiresecServiceManager.Open();
+        }
+
+        public RelayCommand ReloadCommand { get; private set; }
+        void OnReload()
+        {
+            FiresecInternalClient.Disconnect();
+            FiresecServiceManager.Close();
+
+            Connections = new ObservableCollection<ConnectionViewModel>();
+            Start();
         }
 
         public RelayCommand ConvertConfigurationCommand { get; private set; }

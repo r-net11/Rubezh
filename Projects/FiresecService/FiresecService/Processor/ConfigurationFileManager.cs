@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
 
@@ -30,7 +31,14 @@ namespace FiresecService
             }
             catch
             {
-                return new DeviceConfiguration();
+                var deviceConfiguration = new DeviceConfiguration();
+                var device = new Device();
+                device.DriverUID = new Guid(DriversHelper.DriverDataList.FirstOrDefault(x=>x.DriverType == DriverType.Computer).DriverId);
+                deviceConfiguration.Devices.Add(device);
+                deviceConfiguration.RootDevice = device;
+
+                SetDeviceConfiguration(deviceConfiguration);
+                return deviceConfiguration;
             }
         }
 
@@ -56,7 +64,9 @@ namespace FiresecService
             }
             catch
             {
-                return new SystemConfiguration();
+                var systemConfiguration = new SystemConfiguration();
+                SetSystemConfiguration(systemConfiguration);
+                return systemConfiguration;
             }
         }
 
@@ -81,7 +91,9 @@ namespace FiresecService
             }
             catch
             {
-                return new LibraryConfiguration();
+                var libraryConfiguration = new LibraryConfiguration();
+                SetLibraryConfiguration(libraryConfiguration);
+                return libraryConfiguration;
             }
         }
 
@@ -106,7 +118,9 @@ namespace FiresecService
             }
             catch
             {
-                return new PlansConfiguration();
+                var plansConfiguration = new PlansConfiguration();
+                SetPlansConfiguration(plansConfiguration);
+                return plansConfiguration;
             }
         }
 
@@ -131,7 +145,9 @@ namespace FiresecService
             }
             catch
             {
-                return new SecurityConfiguration();
+                var securityConfiguration = new SecurityConfiguration();
+                SetSecurityConfiguration(securityConfiguration);
+                return securityConfiguration;
             }
         }
 
