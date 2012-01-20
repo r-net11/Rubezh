@@ -24,13 +24,17 @@ namespace PlansModule.Designer
             DragCompleted += new DragCompletedEventHandler(MoveThumb_DragCompleted);
         }
 
+        bool wasMoved;
+
         private void MoveThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
+            wasMoved = false;
             DesignerCanvas.BeginChange();
         }
 
         void MoveThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
+            if(wasMoved)
             DesignerCanvas.EndChange();
         }
 
@@ -38,6 +42,8 @@ namespace PlansModule.Designer
         {
             if (DesignerItem.IsSelected)
             {
+                wasMoved = true;
+
                 double minLeft = double.MaxValue;
                 double minTop = double.MaxValue;
                 double maxRight = 0;

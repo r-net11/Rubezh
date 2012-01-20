@@ -76,6 +76,10 @@ namespace PlansModule.ViewModels
             {
                 DrawElement(elementPolygon);
             }
+            foreach (var elementPolyline in Plan.ElementPolylines)
+            {
+                DrawElement(elementPolyline);
+            }
             foreach (var elementSubPlan in Plan.ElementSubPlans)
             {
                 var subPlanViewModel = new ElementSubPlanViewModel(elementSubPlan);

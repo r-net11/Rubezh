@@ -68,9 +68,20 @@ namespace FireMonitor.Views
             {
                 if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
                 {
+                    var stateType = StateType.No;
+                    foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
+                    {
+                        if (deviceState.StateType < stateType)
+                            stateType = deviceState.StateType;
+                    }
+
                     var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
                     if (device != null)
-                        ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(device.UID);
+                    {
+                        var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+                        if (deviceState.StateType <= stateType)
+                            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(device.UID);
+                    }
                 }
             }
         }

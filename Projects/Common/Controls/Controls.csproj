@@ -124,6 +124,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ToolBarButton.cs" />
     <Compile Include="XButton.cs" />
     <Compile Include="XDataGrid.cs" />
     <Compile Include="XRichTextBox.cs" />

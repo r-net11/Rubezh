@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System;
 
 namespace AlarmModule.ViewModels
 {
@@ -13,15 +14,16 @@ namespace AlarmModule.ViewModels
     {
         public AlarmsViewModel(List<Alarm> alarms, AlarmType? alarmType)
         {
+            ResetAllCommand = new RelayCommand(OnResetAll, CanResetAll);
+            RemoveAllFromIgnoreListCommand = new RelayCommand(OnRemoveAllFromIgnoreList, CanRemoveAllFromIgnoreList);
+            ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Subscribe(OnResetAlarm);
+            ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
+            ServiceFactory.Events.GetEvent<MoveAlarmToEndEvent>().Subscribe(OnMoveAlarmToEnd);
+
             _alarmType = alarmType;
             Alarms = new ObservableCollection<AlarmViewModel>(
                 alarms.Select(alarm => new AlarmViewModel(alarm))
             );
-
-            ResetAllCommand = new RelayCommand(OnResetAll, canReset);
-            ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Subscribe(OnResetAlarm);
-            ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
-            ServiceFactory.Events.GetEvent<MoveAlarmToEndEvent>().Subscribe(OnMoveAlarmToEnd);
         }
 
         AlarmType? _alarmType;
@@ -39,7 +41,7 @@ namespace AlarmModule.ViewModels
             }
         }
 
-        bool canReset()
+        bool CanResetAll()
         {
             return Alarms.Count > 0;
         }
@@ -72,6 +74,30 @@ namespace AlarmModule.ViewModels
             FiresecManager.ResetStates(resetItems);
         }
 
+        public bool CanRemoveAllFromIgnoreList()
+        {
+            return Alarms.Any(x => x.AlarmType == AlarmType.Off);
+        }
+
+        public RelayCommand RemoveAllFromIgnoreListCommand { get; private set; }
+        void OnRemoveAllFromIgnoreList()
+        {
+            var deviceUIDs = new List<Guid>();
+            foreach (var alarmViewModel in Alarms)
+            {
+                if (alarmViewModel.AlarmType == AlarmType.Off)
+                {
+                    var deviceUID = alarmViewModel.Alarm.DeviceUID;
+                    var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
+                    if (deviceState.CanDisable() && deviceState.IsDisabled)
+
+                        deviceUIDs.Add(deviceUID);
+                }
+            }
+
+            FiresecManager.RemoveFromIgnoreList(deviceUIDs);
+        }
+
         void OnAlarmAdded(Alarm alarm)
         {
             if (_alarmType == null || alarm.AlarmType == _alarmType)
@@ -83,8 +109,6 @@ namespace AlarmModule.ViewModels
             if (_alarmType == null || alarm.AlarmType == _alarmType)
             {
                 Alarms.Remove(Alarms.FirstOrDefault(x => x.Alarm.DeviceUID == alarm.DeviceUID));
-                //if (Alarms.Count == 0)
-                //    ServiceFactory.Layout.Close();
             }
         }
 

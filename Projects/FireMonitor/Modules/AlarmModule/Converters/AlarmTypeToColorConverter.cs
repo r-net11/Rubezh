@@ -23,7 +23,7 @@ namespace AlarmModule.Converters
                     return "Wheat";
 
                 case AlarmType.Info:
-                    return "Green";
+                    return "Blue";
 
                 case AlarmType.Service:
                     return "SkyBlue";
