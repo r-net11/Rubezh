@@ -1,7 +1,9 @@
 ﻿<UserControl x:Class="DevicesModule.Views.ValidationErrorsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:DevicesModule.Validation.Converters">
+             xmlns:Converters="clr-namespace:DevicesModule.Validation.Converters"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+    
     <UserControl.Resources>
         <Converters:ErrorLevelToColorConverter x:Key="ErrorLevelToColorConverter" />
     </UserControl.Resources>
@@ -30,8 +32,6 @@
                 </DataGrid.CellStyle>
             </DataGrid>
         </Grid>
-        <Button Grid.Column="1" Click="Button_Click" VerticalAlignment="Top" Margin="2" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/deleteCross.png" Height="16" />
-        </Button>
+        <Controls:ToolBarButton Grid.Column="1" Click="Button_Click" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
     </Grid>
 </UserControl>

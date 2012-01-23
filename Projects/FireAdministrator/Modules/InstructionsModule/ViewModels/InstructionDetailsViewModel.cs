@@ -27,7 +27,7 @@ namespace InstructionsModule.ViewModels
             {
                 Title = "Новая инструкция";
 
-                InstructionNo = 0;
+                InstructionNo = 1;
                 if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
                     InstructionNo = FiresecManager.SystemConfiguration.Instructions.Select(x => x.No).Max() + 1;
 

@@ -15,9 +15,21 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="3*" MinWidth="200" />
             </Grid.ColumnDefinitions>
-            <Views:PlansTreeView Grid.Column="0" SizeChanged="OnSizeChanged" />
+
+            <TabControl Grid.Column="0">
+                <TabItem Header="Дерево">
+                    <Views:PlansTreeView SizeChanged="OnSizeChanged" />
+                </TabItem>
+                <TabItem Header="Устройства">
+
+                </TabItem>
+                <TabItem Header="Слои">
+
+                </TabItem>
+            </TabControl>
+            
             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
-            <Border Grid.Column="2" CornerRadius="5" BorderThickness="0" Padding="5" Background="{DynamicResource BackgroundBrush}">
+            <Border Grid.Column="2" CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
                 <Views:PlanDesignerView />
             </Border>
         </Grid>

@@ -9,7 +9,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Border Grid.Column="1" CornerRadius="5" BorderThickness="0" Margin="5, 0, 0, 0" Background="{DynamicResource BackgroundBrush}">
+            <Border Grid.Column="1" CornerRadius="5" Margin="5, 0, 0, 0" Background="{DynamicResource BackgroundBrush}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />

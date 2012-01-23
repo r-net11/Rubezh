@@ -14,13 +14,13 @@ namespace DevicesModule.ViewModels
             Device = device;
         }
 
-        public void Initialize(PDUGroupDevice device)
+        public void Initialize(PDUGroupDevice pDUGroupDevice)
         {
-            Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.DeviceUID);
+            Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pDUGroupDevice.DeviceUID);
 
-            IsInversion = device.IsInversion;
-            OnDelay = device.OnDelay;
-            OffDelay = device.OffDelay;
+            IsInversion = pDUGroupDevice.IsInversion;
+            OnDelay = pDUGroupDevice.OnDelay;
+            OffDelay = pDUGroupDevice.OffDelay;
         }
 
         bool _isInversion;

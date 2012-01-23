@@ -10,22 +10,17 @@
     
     <ScrollViewer HorizontalScrollBarVisibility="Visible">
         <TreeView Name="treeView" ContextMenuOpening="ContextMenu_ContextMenuOpening"
-                  ItemsSource="{Binding DeviceViewModels,
-                                        Converter={StaticResource CollectionViewFactoryConverter},
-                                        ConverterParameter=Name}"
-                  SelectedItemChanged="LibraryTree_SelectedItemChanged">
+                  ItemsSource="{Binding DeviceViewModels}" SelectedItemChanged="LibraryTree_SelectedItemChanged">
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding StateViewModels, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=ClassName;AdditionalName}">
                     <WrapPanel Margin="0,3">
-                        <Image Width="14" Margin="5,0" Source="{Binding ImageSource}" />
-                        <TextBlock Text="{Binding Name}" />
+                        <Image Width="14" Margin="5,0" Source="{Binding Driver.ImageSource}" />
+                        <TextBlock Text="{Binding Driver.ShortName}" />
                     </WrapPanel>
                     <HierarchicalDataTemplate.ItemTemplate>
                         <DataTemplate>
                             <WrapPanel>
-                                <WrapPanel Visibility="{Binding IsAdditional, Converter={StaticResource BooleanToVisibilityConverter}}" Width="17">
-                                    <CheckBox Grid.Column="0" IsChecked="{Binding IsChecked}" />
-                                </WrapPanel>
+                                <CheckBox IsChecked="{Binding IsChecked}" Visibility="{Binding IsAdditional, Converter={StaticResource BooleanToVisibilityConverter}}" Width="17" />
                                 <TextBlock Grid.Column="1" Text="{Binding Name}" ToolTip="{Binding RelativeSource={RelativeSource Self}, Path=Text}" />
                             </WrapPanel>
                         </DataTemplate>

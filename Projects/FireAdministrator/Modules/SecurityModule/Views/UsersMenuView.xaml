@@ -1,16 +1,11 @@
 ﻿<UserControl x:Class="SecurityModule.Views.UsersMenuView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
     <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-        <Button Command="{Binding AddCommand}" ToolTip="Добавить" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Add.png" Height="24" />
-        </Button>
-        <Button Command="{Binding EditCommand}" ToolTip="Редактировать" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Edit.png" Height="24" />
-        </Button>
-        <Button Command="{Binding DeleteCommand}" ToolTip="Удалить" Style="{StaticResource ToolarButtonStyle}">
-            <Image Source="/Controls;component/Images/Delete.png" Height="24" />
-        </Button>
+        <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+        <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
+        <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
     </StackPanel>
 </UserControl>

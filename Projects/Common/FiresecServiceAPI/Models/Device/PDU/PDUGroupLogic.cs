@@ -16,5 +16,12 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public bool AMTPreset { get; set; }
+
+        public override string ToString()
+        {
+            if (Devices.Count > 0)
+                return "Выбрано устройств: " + Devices.Count.ToString();
+            return "";
+        }
     }
 }

@@ -118,6 +118,8 @@ namespace DevicesModule.ViewModels
                     return Device.ZoneLogic.ToString();
                 if (Device.Driver.IsIndicatorDevice && Device.IndicatorLogic != null)
                     return Device.IndicatorLogic.ToString();
+                if ((Device.Driver.DriverType == DriverType.Direction) && (Device.PDUGroupLogic != null))
+                    return Device.PDUGroupLogic.ToString();
                 return "";
             }
         }

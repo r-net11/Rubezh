@@ -35,7 +35,7 @@ namespace DevicesModule.ViewModels
             if (FiresecManager.DeviceConfiguration.Directions.Count > 0)
                 Direction.Id = FiresecManager.DeviceConfiguration.Directions.Max(x => x.Id) + 1;
             else
-                Direction.Id = 0;
+                Direction.Id = 1;
 
             Direction.Name = "Новое направление " + Direction.Id.ToString();
         }
@@ -137,8 +137,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ChooseRmCommand { get; private set; }
         void OnChooseRm()
         {
-            var directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel();
-            directionDeviceSelectorViewModel.Initialize(Direction, true);
+            var directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel(Direction, DriverType.RM_1);
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel))
                 DeviceRm = directionDeviceSelectorViewModel.SelectedDevice.Device;
@@ -147,8 +146,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ChooseButtonCommand { get; private set; }
         void OnChooseButton()
         {
-            var directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel();
-            directionDeviceSelectorViewModel.Initialize(Direction, false);
+            var directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel(Direction, DriverType.ShuzUnblockButton);
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel))
                 DeviceButton = directionDeviceSelectorViewModel.SelectedDevice.Device;

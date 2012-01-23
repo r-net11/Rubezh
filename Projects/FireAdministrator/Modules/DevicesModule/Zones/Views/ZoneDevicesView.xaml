@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="DevicesModule.Views.ZoneDevicesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -54,17 +55,9 @@
             </DataGrid>
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
-                <Button Command="{Binding AddCommand}" ToolTip="Добавить в зону" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/ArrowUp.png" Height="24" />
-                </Button>
-
-                <Button Command="{Binding RemoveCommand}" ToolTip="Удалить из зоны" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/ArrowDown.png" Height="24" />
-                </Button>
-
-                <Button Command="{Binding ShowZoneLogicCommand}" ToolTip="Логика" Style="{StaticResource ToolarButtonStyle}">
-                    <Image Source="/Controls;component/Images/logic.png" Height="24" />
-                </Button>
+                <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить в зону" ImageSource="/Controls;component/Images/ArrowUp.png" />
+                <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить из зоны" ImageSource="/Controls;component/Images/ArrowDown.png" />
+                <Controls:ToolBarButton Command="{Binding ShowZoneLogicCommand}" ToolTip="Логика" ImageSource="/Controls;component/Images/logic.png" />
             </StackPanel>
         </Grid>
 
