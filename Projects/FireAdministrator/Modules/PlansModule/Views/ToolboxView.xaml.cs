@@ -20,6 +20,7 @@ namespace PlansModule.Views
         {
             base.OnPreviewMouseDown(e);
             this.dragStartPoint = new Point?(e.GetPosition(this));
+            e.Handled = true;
         }
 
         private void On_MouseMove(object sender, MouseEventArgs e)
@@ -32,9 +33,10 @@ namespace PlansModule.Views
 
             if (this.dragStartPoint.HasValue)
             {
-                var elementBase = CreateNewElementBase((sender as Image).Name);
+                var elementBase = CreateNewElementBase((sender as Controls.ToolBarButton).Name);
                 var dataObject = new DataObject("DESIGNER_ITEM", elementBase);
                 DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Copy);
+                e.Handled = true;
             }
 
             e.Handled = true;

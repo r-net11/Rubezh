@@ -9,14 +9,9 @@ namespace DevicesModule.ViewModels
 {
     public class DirectionDeviceSelectorViewModel : SaveCancelDialogContent
     {
-        public DirectionDeviceSelectorViewModel()
+        public DirectionDeviceSelectorViewModel(Direction direction, DriverType driverType)
         {
             Title = "Выбор устройства";
-        }
-
-        public void Initialize(Direction direction, bool isRm)
-        {
-            DriverType driverType = isRm ? DriverType.RM_1 : DriverType.ShuzUnblockButton;
 
             var devices = new HashSet<Device>();
 

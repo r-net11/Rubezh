@@ -116,8 +116,10 @@ namespace DevicesModule.ViewModels
                 for (int i = 0; i < Zones.Count; ++i)
                 {
                     if (i > 0)
-                        presenrationZones.Append(",");
-                    presenrationZones.Append(Zones[i]);
+                        presenrationZones.Append(", ");
+                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Zones[i]);
+                    if (zone != null)
+                        presenrationZones.Append(zone.PresentationName);
                 }
 
                 return presenrationZones.ToString();

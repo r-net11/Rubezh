@@ -76,8 +76,8 @@ namespace FiresecAPI.Models
 
                 if (Driver.IsChildAddressReservedRange)
                 {
-                    int endAddress = IntAddress + Driver.ChildAddressReserveRangeCount;
-                    if (endAddress >> 8 != IntAddress >> 8) //endAddress / 256 == endAddress >> 8
+                    int endAddress = IntAddress + Driver.ChildAddressReserveRangeCount - 1;
+                    if (endAddress >> 8 != IntAddress >> 8)
                         endAddress = (IntAddress / 256) * 256 + 255;
                     address += " - " + AddressConverter.IntToStringAddress(Driver, endAddress);
                 }

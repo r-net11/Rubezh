@@ -102,6 +102,7 @@ namespace DevicesModule.ViewModels
             {
                 _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
+                OnPropertyChanged("CanEditProperties");
             }
         }
 
@@ -124,6 +125,14 @@ namespace DevicesModule.ViewModels
             {
                 _selectedAvailableDevice = value;
                 OnPropertyChanged("SelectedAvailableDevice");
+            }
+        }
+
+        public bool CanEditProperties
+        {
+            get
+            {
+                return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType != DriverType.AM1_T));
             }
         }
 
@@ -169,11 +178,13 @@ namespace DevicesModule.ViewModels
             _device.PDUGroupLogic.AMTPreset = Devices.Any(x => x.Device.Driver.DriverType == DriverType.AM1_T);
             foreach (var device in Devices)
             {
-                var pDUGroupDevice = new PDUGroupDevice();
-                pDUGroupDevice.DeviceUID = device.Device.UID;
-                pDUGroupDevice.IsInversion = device.IsInversion;
-                pDUGroupDevice.OnDelay = device.OnDelay;
-                pDUGroupDevice.OffDelay = device.OffDelay;
+                var pDUGroupDevice = new PDUGroupDevice()
+                {
+                    DeviceUID = device.Device.UID,
+                    IsInversion = device.IsInversion,
+                    OnDelay = device.OnDelay,
+                    OffDelay = device.OffDelay
+                };
                 _device.PDUGroupLogic.Devices.Add(pDUGroupDevice);
             }
         }

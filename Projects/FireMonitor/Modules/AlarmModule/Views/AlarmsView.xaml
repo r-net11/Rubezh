@@ -2,8 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:AlarmModule.Views"
-             xmlns:Converters="clr-namespace:AlarmModule.Converters"
-             >
+             xmlns:Converters="clr-namespace:AlarmModule.Converters">
     <UserControl.Resources>
         <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
         <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
@@ -59,7 +58,10 @@
                 </Style>
             </DataGrid.RowStyle>
         </DataGrid>
-        <StackPanel Grid.Row="1" HorizontalAlignment="Right">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" Margin="2">
+                <TextBlock Text="Включить все" FontSize="12" />
+            </Button>
             <Button Command="{Binding ResetAllCommand}" Width="100" Height="30" Margin="2">
                 <TextBlock Text="Сбросить все" FontSize="12" />
             </Button>

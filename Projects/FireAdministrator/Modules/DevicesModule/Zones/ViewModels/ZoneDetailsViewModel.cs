@@ -15,9 +15,11 @@ namespace DevicesModule.ViewModels
         {
             Title = "Создание новой зоны";
 
-            var newZone = new Zone();
-            newZone.Name = "Новая зона";
-            newZone.No = 0;
+            var newZone = new Zone()
+            {
+                Name = "Новая зона",
+                No = 1
+            };
             if (FiresecManager.DeviceConfiguration.Zones.Count != 0)
                 newZone.No = FiresecManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1;
 

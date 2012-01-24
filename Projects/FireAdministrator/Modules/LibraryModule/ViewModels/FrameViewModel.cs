@@ -12,9 +12,9 @@ namespace LibraryModule.ViewModels
         public static readonly int DefaultDuration = 300;
         public static readonly int DefaultLayer = 0;
 
-        public FrameViewModel(LibraryFrame frame)
+        public FrameViewModel(LibraryFrame libraryFrame)
         {
-            Frame = frame;
+            Frame = libraryFrame;
             ImportSvgCommand = new RelayCommand(OnImportSvg);
             ExportSvgCommand = new RelayCommand(OnExportSvg);
         }
@@ -70,8 +70,10 @@ namespace LibraryModule.ViewModels
         public RelayCommand ImportSvgCommand { get; private set; }
         void OnImportSvg()
         {
-            var openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Svg Files (.svg)|*.svg";
+            var openFileDialog = new OpenFileDialog()
+            {
+                Filter = "Svg Files (.svg)|*.svg"
+            };
 
             if (openFileDialog.ShowDialog() == true)
             {
@@ -85,11 +87,13 @@ namespace LibraryModule.ViewModels
         public RelayCommand ExportSvgCommand { get; private set; }
         void OnExportSvg()
         {
-            var saveFileDialog = new SaveFileDialog();
-            saveFileDialog.Filter = "Svg Files (.svg)|*.svg";
-            saveFileDialog.RestoreDirectory = true;
-            saveFileDialog.DefaultExt = "Svg Files (.svg)|*.svg";
-            saveFileDialog.ValidateNames = true;
+            var saveFileDialog = new SaveFileDialog()
+            {
+                Filter = "Svg Files (.svg)|*.svg",
+                RestoreDirectory = true,
+                DefaultExt = "Svg Files (.svg)|*.svg",
+                ValidateNames = true
+            };
 
             if (saveFileDialog.ShowDialog() == true)
                 ImageConverters.Xaml2Svg(Frame.Image, saveFileDialog.FileName);
