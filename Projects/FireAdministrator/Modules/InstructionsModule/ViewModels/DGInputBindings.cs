@@ -10,15 +10,15 @@ using System.Windows.Media;
 
 namespace InstructionsModule.ViewModels
 {
-    public class DGInputBindings : UIElement
+    public class DGInputBindings : UserControl
     {
-        public static InputBindingCollection GetInputBindings(UIElement element)
+        public static InputBindingCollection GetInputBindings(UserControl element)
         {
             return (InputBindingCollection)element.GetValue(InputBindingsProperty);
         }
 
         public static void SetInputBindings(
-          UIElement element, InputBindingCollection value)
+          UserControl element, InputBindingCollection value)
         {
             element.SetValue(InputBindingsProperty, value);
         }
@@ -27,6 +27,6 @@ namespace InstructionsModule.ViewModels
             DependencyProperty.RegisterAttached(
             "InputBindings",
             typeof(InputBindingCollection),
-            typeof(UIElement), new FrameworkPropertyMetadata());
+            typeof(UserControl), new FrameworkPropertyMetadata());
     }
 }

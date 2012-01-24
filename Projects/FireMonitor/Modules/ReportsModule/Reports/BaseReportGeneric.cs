@@ -20,18 +20,19 @@ namespace ReportsModule.Reports
         protected List<T> _dataList;
         public List<T> DataList { get; protected set; }
 
-        public override CrystalReportsViewer CreateCrystalReportViewer()
+        public override ReportDocument CreateCrystalReportDocument()
         {
             if (DataList.IsNotNullOrEmpty() == false)
-                return new CrystalReportsViewer();
+                return new ReportDocument();
 
             reportDocument = new ReportDocument();
             reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
             reportDocument.SetDataSource(DataList);
 
-            var crystalReportsViewer = new CrystalReportsViewer();
-            crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
-            return crystalReportsViewer;
+            //var crystalReportsViewer = new CrystalReportsViewer();
+            //crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
+            return reportDocument;
         }
+
     }
 }

@@ -5,6 +5,7 @@ using Infrastructure;
 using JournalModule.ViewModels;
 using ReportsModule.Models;
 using SAPBusinessObjects.WPF.Viewer;
+using CrystalDecisions.CrystalReports.Engine;
 
 namespace ReportsModule.Reports
 {
@@ -41,19 +42,19 @@ namespace ReportsModule.Reports
         public DateTime EndDate { get; set; }
         public DateTime StartDate { get; set; }
 
-        public override CrystalReportsViewer CreateCrystalReportViewer()
+        public override ReportDocument CreateCrystalReportDocument()
         {
             if (DataList.IsNotNullOrEmpty() == false)
-                return new CrystalReportsViewer();
+                return new ReportDocument();
 
             reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
             reportDocument.SetDataSource(DataList);
             reportDocument.SetParameterValue("StartDate", StartDate.ToString());
             reportDocument.SetParameterValue("EndDate", EndDate.ToString());
 
-            var crystalReportsViewer = new CrystalReportsViewer();
-            crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
-            return crystalReportsViewer;
+            //var crystalReportsViewer = new CrystalReportsViewer();
+            //crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
+            return reportDocument;
         }
 
         private class ReportArchiveFilter

@@ -1,4 +1,5 @@
 ﻿using SAPBusinessObjects.WPF.Viewer;
+using CrystalDecisions.CrystalReports.Engine;
 
 namespace ReportsModule.Reports
 {
@@ -6,9 +7,10 @@ namespace ReportsModule.Reports
     {
         public virtual void LoadData(){ }
 
-        public virtual CrystalReportsViewer CreateCrystalReportViewer()
+        public virtual ReportDocument CreateCrystalReportDocument()
         {
-            return new CrystalReportsViewer();
+            return new ReportDocument();
         }
+
     }
 }
