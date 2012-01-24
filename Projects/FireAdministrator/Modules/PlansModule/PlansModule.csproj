@@ -142,8 +142,10 @@
     <Compile Include="Events\ElementAddedEvent.cs" />
     <Compile Include="Events\ElementChangedEvent.cs" />
     <Compile Include="Events\ElementRemovedEvent.cs" />
+    <Compile Include="Events\ShowDeviceEvent.cs" />
     <Compile Include="ViewModels\ElementsViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModel.cs" />
+    <Compile Include="ViewModels\PlanDesignerViewModel.DeviceInZones.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.ZIndex.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.Zoom.cs" />
     <Compile Include="ViewModels\PlansViewModel.CopyPaste.cs" />

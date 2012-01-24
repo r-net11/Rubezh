@@ -4,6 +4,11 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
+using PlansModule.Views;
+using PlansModule.Events;
+using System;
+using System.Linq;
+using System.Diagnostics;
 
 namespace PlansModule.ViewModels
 {
@@ -16,8 +21,6 @@ namespace PlansModule.ViewModels
             RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
             EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
             AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
-            ShowElementsCommand = new RelayCommand(OnShowElements);
-            ShowDevicesCommand = new RelayCommand(OnShowDevices);
 
             DesignerCanvas = new DesignerCanvas();
             PlanDesignerViewModel = new PlanDesignerViewModel();
@@ -29,7 +32,12 @@ namespace PlansModule.ViewModels
             DevicesViewModel = new DevicesViewModel();
 
             Initialize();
+
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
         }
+
+        public DevicesViewModel DevicesViewModel { get; private set; }
+        public ElementsViewModel ElementsViewModel { get; private set; }
 
         void Initialize()
         {
@@ -100,8 +108,15 @@ namespace PlansModule.ViewModels
                 if (value != null)
                 {
                     PlanDesignerViewModel.ChangeZoom(1);
+
+                    //if (PlanDesignerView.Current != null)
+                    //{
+                    //    PlanDesignerView.Current.FullSize();
+                    //}
+
                     PlanDesignerViewModel.Save();
                     PlanDesignerViewModel.Initialize(value.Plan);
+                    //PlanDesignerViewModel.UpdateDeviceInZones();
                     ResetHistory();
                     ElementsViewModel.Update();
                 }
@@ -202,19 +217,42 @@ namespace PlansModule.ViewModels
             }
         }
 
-        ElementsViewModel ElementsViewModel;
-        DevicesViewModel DevicesViewModel;
-
-        public RelayCommand ShowElementsCommand { get; private set; }
-        void OnShowElements()
+        void OnShowDevice(Guid deviceUID)
         {
-            ServiceFactory.UserDialogs.ShowWindow(ElementsViewModel, isTopMost: true, name: "PlanElements");
-        }
+            foreach (var plan in Plans)
+            {
+                Trace.WriteLine(plan.Plan.UID);
+            }
 
-        public RelayCommand ShowDevicesCommand { get; private set; }
-        void OnShowDevices()
-        {
-            ServiceFactory.UserDialogs.ShowWindow(DevicesViewModel, isTopMost: true, name:"PlanDevices");
+            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            if (device.PlanUIDs.Count > 0)
+            {
+                var planUid = device.PlanUIDs[0];
+
+                Trace.WriteLine("===============");
+                Trace.WriteLine(planUid);
+
+                SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == planUid);
+
+                if (PlanDesignerView.Current != null)
+                {
+                    PlanDesignerView.Current.FullSize();
+                }
+
+                DesignerCanvas.DeselectAll();
+
+                foreach (var designerItem in DesignerCanvas.Items)
+                {
+                    if (designerItem.ElementBase is ElementDevice)
+                    {
+                        ElementDevice elementDevice = designerItem.ElementBase as ElementDevice;
+                        if (elementDevice.DeviceUID == deviceUID)
+                        {
+                            designerItem.IsSelected = true;
+                        }
+                    }
+                }
+            }
         }
 
         public override void OnShow()
@@ -222,17 +260,11 @@ namespace PlansModule.ViewModels
             ServiceFactory.Layout.ShowMenu(new PlansMenuViewModel(this));
             FiresecManager.UpdatePlansConfiguration();
             DevicesViewModel.Update();
-
-            ServiceFactory.UserDialogs.ResetWindow("PlanElements");
-            ServiceFactory.UserDialogs.ResetWindow("PlanDevices");
         }
 
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
-
-            ServiceFactory.UserDialogs.HideWindow("PlanElements");
-            ServiceFactory.UserDialogs.HideWindow("PlanDevices");
         }
     }
 }

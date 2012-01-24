@@ -313,23 +313,14 @@ namespace PlansModule.Designer
             UpdateZoomDevice();
         }
 
-        public void Add()
-        {
-            if (ElementBase is ElementDevice)
-            {
-                var elementDevice = ElementBase as ElementDevice;
-                elementDevice.Device.PlanUIDs.Add(elementDevice.UID);
-                ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Publish(elementDevice.Device.UID);
-            }
-        }
-
         public void Remove()
         {
             if (ElementBase is ElementDevice)
             {
                 var elementDevice = ElementBase as ElementDevice;
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                device.PlanUIDs.Add(elementDevice.UID);
+                device.PlanUIDs.Remove(elementDevice.UID);
+                ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Publish(elementDevice.Device.UID);
             }
         }
 

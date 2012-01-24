@@ -10,14 +10,15 @@ namespace PlansModule.ViewModels
 {
     public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
     {
-        public Device Device { get; private set; }
-
         public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
+            ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
             ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Subscribe(x => { OnPropertyChanged("PresentationZone"); });
             Source = sourceDevices;
             Device = device;
         }
+
+        public Device Device { get; private set; }
 
         public string PresentationZone
         {
@@ -51,6 +52,15 @@ namespace PlansModule.ViewModels
         public void Update()
         {
             OnPropertyChanged("IsOnPlan");
+        }
+
+        public RelayCommand ShowOnPlanCommand { get; private set; }
+        void OnShowOnPlan()
+        {
+            if (Device.PlanUIDs.Count > 0)
+            {
+                ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Device.UID);
+            }
         }
     }
 }

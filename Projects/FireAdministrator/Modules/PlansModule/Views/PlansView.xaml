@@ -21,10 +21,10 @@
                     <Views:PlansTreeView SizeChanged="OnSizeChanged" />
                 </TabItem>
                 <TabItem Header="Устройства">
-
+                    <Views:DevicesView DataContext="{Binding DevicesViewModel}" />
                 </TabItem>
                 <TabItem Header="Слои">
-
+                    <Views:ElementsView DataContext="{Binding ElementsViewModel}" />
                 </TabItem>
             </TabControl>
             

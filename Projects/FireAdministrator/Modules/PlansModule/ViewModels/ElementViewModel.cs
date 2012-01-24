@@ -1,19 +1,22 @@
 ﻿using Infrastructure.Common;
 using PlansModule.Designer;
+using FiresecAPI.Models;
+using PlansModule.Events;
+using Infrastructure;
 
 namespace PlansModule.ViewModels
 {
     public class ElementViewModel : BaseViewModel
     {
-        public DesignerItem DesignerItem { get; private set; }
-
         public ElementViewModel(DesignerItem designerItem, string name)
         {
+            ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
             DesignerItem = designerItem;
             Name = name;
         }
 
-        public string Name { get; set; }
+        public DesignerItem DesignerItem { get; private set; }
+        public string Name { get; private set; }
 
         public bool IsVisible
         {
@@ -32,6 +35,19 @@ namespace PlansModule.ViewModels
             {
                 DesignerItem.IsSelectableLayout = value;
                 OnPropertyChanged("IsSelectable");
+            }
+        }
+
+        public RelayCommand ShowOnPlanCommand { get; private set; }
+        void OnShowOnPlan()
+        {
+            if (DesignerItem.ElementBase is ElementDevice)
+            {
+                ElementDevice elementDevice = DesignerItem.ElementBase as ElementDevice;
+                if (elementDevice.Device.PlanUIDs.Count > 0)
+                {
+                    ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(elementDevice.Device.UID);
+                }
             }
         }
     }

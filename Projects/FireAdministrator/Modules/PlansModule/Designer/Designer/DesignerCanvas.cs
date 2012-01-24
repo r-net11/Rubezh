@@ -209,8 +209,8 @@ namespace PlansModule.Designer
                 if (elementDevice.Device == null)
                 {
                     elementDevice.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                    elementDevice.Device.PlanUIDs.Add(elementBase.UID);
-                }                
+                }
+                elementDevice.Device.PlanUIDs.Add(elementBase.UID);
                 ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Publish(elementDevice.Device.UID);
             }
 

@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using PlansModule.Designer;
 using PlansModule.Events;
 using PlansModule.Views;
+using FiresecClient;
 
 namespace PlansModule.ViewModels
 {
@@ -146,95 +147,6 @@ namespace PlansModule.ViewModels
                     Plan.ElementSubPlans.Add(elementSubPlan);
                 }
             }
-        }
-
-        void UpdateDeviceInZones()
-        {
-            foreach (var designerItem in DesignerCanvas.Items)
-            {
-                ElementDevice elementDevice = designerItem.ElementBase as ElementDevice;
-                if (elementDevice != null)
-                {
-                    var device = elementDevice.Device;
-
-                    var zones = new List<ulong>();
-
-                    foreach (var elementPolygonZoneItem in DesignerCanvas.Items)
-                    {
-                        ElementPolygonZone elementPolygonZone = elementPolygonZoneItem.ElementBase as ElementPolygonZone;
-                        if (elementPolygonZone != null)
-                        {
-                            var point = new Point((int) Canvas.GetLeft(designerItem) - (int) Canvas.GetLeft(elementPolygonZoneItem),
-                                (int) Canvas.GetTop(designerItem) - (int) Canvas.GetTop(elementPolygonZoneItem));
-                            bool isInPolygon = IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
-                            if (isInPolygon)
-                                if (elementPolygonZone.ZoneNo.HasValue)
-                                    zones.Add(elementPolygonZone.ZoneNo.Value);
-                        }
-
-                        ElementRectangleZone elementRectangleZone = elementPolygonZoneItem.ElementBase as ElementRectangleZone;
-                        if (elementRectangleZone != null)
-                        {
-                            var point = new Point((int) Canvas.GetLeft(designerItem) - (int) Canvas.GetLeft(elementPolygonZoneItem),
-                                (int) Canvas.GetTop(designerItem) - (int) Canvas.GetTop(elementPolygonZoneItem));
-
-                            bool isInRectangle = ((point.X > 0) && (point.X < elementRectangleZone.Width) && (point.Y > 0) && (point.Y < elementRectangleZone.Height));
-
-                            if (isInRectangle)
-                                if (elementRectangleZone.ZoneNo.HasValue)
-                                    zones.Add(elementRectangleZone.ZoneNo.Value);
-                        }
-                    }
-
-                    if (device.ZoneNo.HasValue)
-                    {
-                        var isInZone = zones.Any(x => x == device.ZoneNo.Value);
-                        if (isInZone == false)
-                        {
-                            if (zones.Count > 0)
-                            {
-                                device.ZoneNo = zones[0];
-                                ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
-                            }
-                            else
-                            {
-                                device.ZoneNo = null;
-                                ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (zones.Count > 0)
-                        {
-                            device.ZoneNo = zones[0];
-                            ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
-                        }
-                    }
-                }
-            }
-        }
-
-        bool IsPointInPolygon(Point point, Polygon polygon)
-        {
-            var j = polygon.Points.Count - 1;
-            var oddNodes = false;
-
-            for (var i = 0; i < polygon.Points.Count; ++i)
-            {
-                if (polygon.Points[i].Y < point.Y && polygon.Points[j].Y >= point.Y ||
-                    polygon.Points[j].Y < point.Y && polygon.Points[i].Y >= point.Y)
-                {
-                    if (polygon.Points[i].X +
-                        (point.Y - polygon.Points[i].Y) / (polygon.Points[j].Y - polygon.Points[i].Y) * (polygon.Points[j].X - polygon.Points[i].X) < point.X)
-                    {
-                        oddNodes = !oddNodes;
-                    }
-                }
-                j = i;
-            }
-
-            return oddNodes;
         }
     }
 }

@@ -9,11 +9,10 @@ using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {
-    public class DevicesViewModel : DialogContent
+    public class DevicesViewModel : BaseViewModel
     {
         public DevicesViewModel()
         {
-            Title = "Устройства";
             ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Subscribe(OnDeviceChanged);
             ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Subscribe(OnDeviceChanged);
             Devices = new ObservableCollection<DeviceViewModel>();

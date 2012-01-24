@@ -38,6 +38,8 @@ namespace PlansModule.Views
             _scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
 
             deviceSlider.ValueChanged +=new RoutedPropertyChangedEventHandler<double>(deviceSlider_ValueChanged);
+
+            //FullSize();
         }
 
         void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -159,7 +161,7 @@ namespace PlansModule.Views
             }
         }
 
-        void FullSize()
+        public void FullSize()
         {
             var canvas = _contentControl.Content as Canvas;
             if (canvas == null)
@@ -173,7 +175,6 @@ namespace PlansModule.Views
             scaleTransform.ScaleX = scale;
             scaleTransform.ScaleY = scale;
         }
-
 
         #region Hand Moving
         Point? lastDragPoint;

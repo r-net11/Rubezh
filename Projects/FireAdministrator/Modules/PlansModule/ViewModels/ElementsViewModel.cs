@@ -10,14 +10,13 @@ using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {
-    public class ElementsViewModel : DialogContent
+    public class ElementsViewModel : BaseViewModel
     {
         DesignerCanvas DesignerCanvas;
 
         public ElementsViewModel(DesignerCanvas designerCanvas)
         {
             DesignerCanvas = designerCanvas;
-            Title = "Элементы на плане";
             Devices = new ObservableCollection<ElementViewModel>();
             Zones = new ObservableCollection<ElementViewModel>();
             SubPlans = new ObservableCollection<ElementViewModel>();
@@ -116,6 +115,34 @@ namespace PlansModule.ViewModels
         public ObservableCollection<ElementViewModel> Zones { get; private set; }
         public ObservableCollection<ElementViewModel> SubPlans { get; private set; }
         public ObservableCollection<ElementViewModel> Elements { get; private set; }
+
+        public bool HasDevices
+        {
+            get { return Devices.Count > 0; }
+        }
+
+        public bool HasZones
+        {
+            get { return Zones.Count > 0; }
+        }
+
+        public bool HasSubPlans
+        {
+            get { return SubPlans.Count > 0; }
+        }
+
+        public bool HasElements
+        {
+            get { return Elements.Count > 0; }
+        }
+
+        void UpdateHasItems()
+        {
+            OnPropertyChanged("HasDevices");
+            OnPropertyChanged("HasZones");
+            OnPropertyChanged("HasSubPlans");
+            OnPropertyChanged("HasElements");
+        }
 
         bool _isDevicesVisible;
         public bool IsDevicesVisible
@@ -231,6 +258,8 @@ namespace PlansModule.ViewModels
                     AddDesignerItem(designerItem);
                 }
             }
+
+            UpdateHasItems();
         }
 
         void OnElementRemoved(List<ElementBase> elements)
@@ -261,6 +290,8 @@ namespace PlansModule.ViewModels
                     Elements.Remove(element);
                 }
             }
+
+            UpdateHasItems();
         }
 
         void OnElementChanged(List<ElementBase> elements)

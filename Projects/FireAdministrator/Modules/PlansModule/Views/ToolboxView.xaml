@@ -6,13 +6,6 @@
     <StackPanel Orientation="Horizontal">
         <Border CornerRadius="5" Margin="2" Background="{DynamicResource BackgroundBrush}">
             <StackPanel Orientation="Horizontal">
-                <Controls:ToolBarButton Command="{Binding ShowDevicesCommand}" ToolTip="Устройства" ImageSource="/Controls;component/Images/Tree.png" />
-                <Controls:ToolBarButton Command="{Binding ShowElementsCommand}" ToolTip="Слои" ImageSource="/Controls;component/Images/Layers.png" />
-            </StackPanel>
-        </Border>
-
-        <Border CornerRadius="5" Margin="2" Background="{DynamicResource BackgroundBrush}">
-            <StackPanel Orientation="Horizontal">
                 <Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать 2" ImageSource="/Controls;component/Images/Copy.png" />
                 <Controls:ToolBarButton Name="copyButton" Command="{Binding CopyCommand}" ToolTip="Копировать" ImageSource="/Controls;component/Images/Copy.png" />
                 <Controls:ToolBarButton Name="cutButton" Command="{Binding CutCommand}" ToolTip="Вырезать" ImageSource="/Controls;component/Images/Cut.png" />
@@ -61,5 +54,4 @@
             </StackPanel>
         </Border>
     </StackPanel>
-    
 </UserControl>
