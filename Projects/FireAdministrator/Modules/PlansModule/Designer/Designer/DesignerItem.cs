@@ -20,7 +20,19 @@ namespace PlansModule.Designer
         public bool IsSelected
         {
             get { return (bool)GetValue(IsSelectedProperty); }
-            set { SetValue(IsSelectedProperty, value); }
+            set
+            {
+                SetValue(IsSelectedProperty, value);
+                if (value)
+                {
+                    if (ElementBase is ElementDevice)
+                    {
+                        ElementDevice elementDevice = ElementBase as ElementDevice;
+                        ServiceFactory.Events.GetEvent<ElementDeviceSelectedEvent>().Publish(elementDevice.DeviceUID);
+                    }
+                    ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Publish(ElementBase.UID);
+                }
+            }
         }
 
         public static readonly DependencyProperty IsSelectedProperty =
@@ -319,7 +331,7 @@ namespace PlansModule.Designer
             {
                 var elementDevice = ElementBase as ElementDevice;
                 var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                device.PlanUIDs.Remove(elementDevice.UID);
+                device.PlanElementUIDs.Remove(elementDevice.UID);
                 ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Publish(elementDevice.Device.UID);
             }
         }

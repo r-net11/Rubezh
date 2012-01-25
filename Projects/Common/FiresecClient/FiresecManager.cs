@@ -132,7 +132,7 @@ namespace FiresecClient
 
         public static void UpdatePlansConfiguration()
         {
-            FiresecManager.DeviceConfiguration.Devices.ForEach(x => { x.PlanUIDs.Clear(); });
+            FiresecManager.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 
             foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
             {
@@ -143,7 +143,7 @@ namespace FiresecClient
                     var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
                     if (device != null)
                     {
-                        device.PlanUIDs.Add(elementDevice.UID);
+                        device.PlanElementUIDs.Add(elementDevice.UID);
                         elementDevice.Device = device;
                     }
                     else

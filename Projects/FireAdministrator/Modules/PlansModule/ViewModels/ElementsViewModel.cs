@@ -26,6 +26,7 @@ namespace PlansModule.ViewModels
             ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
             ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
             //ServiceFactory.Events.GetEvent<PlanChangedEvent>().Subscribe(OnPlansChanged);
+            ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
             Update();
         }
 
@@ -292,6 +293,10 @@ namespace PlansModule.ViewModels
             }
 
             UpdateHasItems();
+        }
+
+        void OnElementSelected(List<ElementBase> elements)
+        {
         }
 
         void OnElementChanged(List<ElementBase> elements)

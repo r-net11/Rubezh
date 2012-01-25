@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using System.Collections.Generic;
 
 namespace PlansModule.ViewModels
 {
@@ -15,13 +16,39 @@ namespace PlansModule.ViewModels
         {
             ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Subscribe(OnDeviceChanged);
             ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Subscribe(OnDeviceChanged);
+            ServiceFactory.Events.GetEvent<ElementDeviceSelectedEvent>().Subscribe(OnElementDeviceSelected);
+            AllDevices = new List<DeviceViewModel>();
             Devices = new ObservableCollection<DeviceViewModel>();
 
             Update();
         }
 
+        #region DeviceSelection
+
+        public List<DeviceViewModel> AllDevices;
+
+        void AddChildPlainDevices(DeviceViewModel parentViewModel)
+        {
+            AllDevices.Add(parentViewModel);
+            foreach (var childViewModel in parentViewModel.Children)
+            {
+                AddChildPlainDevices(childViewModel);
+            }
+        }
+
+        public void Select(Guid deviceUID)
+        {
+            var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+            if (deviceViewModel != null)
+                deviceViewModel.ExpantToThis();
+            SelectedDevice = deviceViewModel;
+        }
+
+        #endregion
+
         public void Update()
         {
+            AllDevices.Clear();
             Devices.Clear();
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
@@ -29,6 +56,7 @@ namespace PlansModule.ViewModels
                 var deviceViewModel = new DeviceViewModel(device, Devices);
                 deviceViewModel.IsExpanded = true;
                 Devices.Add(deviceViewModel);
+                AllDevices.Add(deviceViewModel);
             }
 
             foreach (var device in Devices)
@@ -69,6 +97,11 @@ namespace PlansModule.ViewModels
             {
                 device.Update();
             }
+        }
+
+        void OnElementDeviceSelected(Guid deviceUID)
+        {
+            Select(deviceUID);
         }
 
         void CollapseChild(DeviceViewModel parentDeviceViewModel)

@@ -45,7 +45,7 @@ namespace PlansModule.ViewModels
         {
             get
             {
-                return Device.PlanUIDs.Count > 0;
+                return Device.PlanElementUIDs.Count > 0;
             }
         }
 
@@ -57,9 +57,9 @@ namespace PlansModule.ViewModels
         public RelayCommand ShowOnPlanCommand { get; private set; }
         void OnShowOnPlan()
         {
-            if (Device.PlanUIDs.Count > 0)
+            if (Device.PlanElementUIDs.Count > 0)
             {
-                ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Device.UID);
+                ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Publish(Device.PlanElementUIDs[0]);
             }
         }
     }

@@ -41,14 +41,7 @@ namespace PlansModule.ViewModels
         public RelayCommand ShowOnPlanCommand { get; private set; }
         void OnShowOnPlan()
         {
-            if (DesignerItem.ElementBase is ElementDevice)
-            {
-                ElementDevice elementDevice = DesignerItem.ElementBase as ElementDevice;
-                if (elementDevice.Device.PlanUIDs.Count > 0)
-                {
-                    ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(elementDevice.Device.UID);
-                }
-            }
+            ServiceFactory.Events.GetEvent<ShowElementEvent>().Publish(DesignerItem.ElementBase.UID);
         }
     }
 }

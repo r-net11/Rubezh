@@ -230,7 +230,7 @@ namespace FiresecService.Converters
                                                     (deviceShapeId == intId.ToString()))
                                                 {
                                                     elementDevice.DeviceUID = device.UID;
-                                                    device.PlanUIDs.Add(elementDevice.UID);
+                                                    device.PlanElementUIDs.Add(elementDevice.UID);
                                                 }
                                             }
                                         }

@@ -16,7 +16,7 @@ namespace FiresecAPI.Models
             Properties = new List<Property>();
             IndicatorLogic = new IndicatorLogic();
             PDUGroupLogic = new PDUGroupLogic();
-            PlanUIDs = new List<Guid>();
+            PlanElementUIDs = new List<Guid>();
         }
 
         public Driver Driver { get; set; }
@@ -60,7 +60,7 @@ namespace FiresecAPI.Models
         public bool IsRmAlarmDevice { get; set; }
 
         [DataMember]
-        public List<Guid> PlanUIDs { get; set; }
+        public List<Guid> PlanElementUIDs { get; set; }
 
         [DataMember]
         public bool IsMonitoringDisabled { get; set; }

@@ -33,7 +33,8 @@ namespace PlansModule.ViewModels
 
             Initialize();
 
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
+            ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
+            ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Subscribe(OnShowElementDevice);
         }
 
         public DevicesViewModel DevicesViewModel { get; private set; }
@@ -102,6 +103,8 @@ namespace PlansModule.ViewModels
             get { return _selectedPlan; }
             set
             {
+                if (_selectedPlan == value)
+                    return;
                 _selectedPlan = value;
                 OnPropertyChanged("SelectedPlan");
 
@@ -217,39 +220,30 @@ namespace PlansModule.ViewModels
             }
         }
 
-        void OnShowDevice(Guid deviceUID)
+        void OnShowElement(Guid elementUID)
+        {
+            DesignerCanvas.DeselectAll();
+
+            foreach (var designerItem in DesignerCanvas.Items)
+            {
+                if (designerItem.ElementBase.UID == elementUID)
+                {
+                    designerItem.IsSelected = true;
+                }
+            }
+        }
+
+        void OnShowElementDevice(Guid deviceUID)
         {
             foreach (var plan in Plans)
             {
-                Trace.WriteLine(plan.Plan.UID);
-            }
-
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            if (device.PlanUIDs.Count > 0)
-            {
-                var planUid = device.PlanUIDs[0];
-
-                Trace.WriteLine("===============");
-                Trace.WriteLine(planUid);
-
-                SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == planUid);
-
-                if (PlanDesignerView.Current != null)
+                foreach (var elementDevice in plan.Plan.ElementDevices)
                 {
-                    PlanDesignerView.Current.FullSize();
-                }
-
-                DesignerCanvas.DeselectAll();
-
-                foreach (var designerItem in DesignerCanvas.Items)
-                {
-                    if (designerItem.ElementBase is ElementDevice)
+                    if (elementDevice.UID == deviceUID)
                     {
-                        ElementDevice elementDevice = designerItem.ElementBase as ElementDevice;
-                        if (elementDevice.DeviceUID == deviceUID)
-                        {
-                            designerItem.IsSelected = true;
-                        }
+                        SelectedPlan = plan;
+                        OnShowElement(deviceUID);
+                        return;
                     }
                 }
             }
