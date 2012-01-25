@@ -38,9 +38,11 @@
                                         </Style>
                                     </TextBlock.Style>
                                 </TextBlock>
-                                <Button Content="Показать" Command="{Binding ShowOnPlanCommand}" Margin="1" />
                             </StackPanel>
 
+                            <Grid.InputBindings>
+                                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
+                            </Grid.InputBindings>
                         </Grid>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
