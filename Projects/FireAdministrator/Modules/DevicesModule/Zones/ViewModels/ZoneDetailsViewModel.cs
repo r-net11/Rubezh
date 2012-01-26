@@ -9,42 +9,45 @@ namespace DevicesModule.ViewModels
 {
     public class ZoneDetailsViewModel : SaveCancelDialogContent
     {
-        public Zone _zone;
+        bool _isNew;
+        public Zone Zone;
 
-        public void Initialize()
+        public ZoneDetailsViewModel(Zone zone = null)
         {
-            Title = "Создание новой зоны";
-
-            var newZone = new Zone()
+            if (zone == null)
             {
-                Name = "Новая зона",
-                No = 1
-            };
-            if (FiresecManager.DeviceConfiguration.Zones.Count != 0)
-                newZone.No = FiresecManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1;
+                _isNew = true;
+                Title = "Создание новой зоны";
 
-            CopyProperties(newZone);
+                var _zone = new Zone()
+                {
+                    Name = "Новая зона",
+                    No = 1
+                };
+                if (FiresecManager.DeviceConfiguration.Zones.Count != 0)
+                    _zone.No = FiresecManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1;
+            }
+            else
+            {
+                _isNew = false;
+                Title = string.Format("Свойства зоны: {0}", zone.PresentationName);
+                Zone = zone;
+            }
+            CopyProperties();
         }
 
-        public void Initialize(Zone zone)
+        void CopyProperties()
         {
-            Title = string.Format("Свойства зоны:   {0}", zone.PresentationName);
-            CopyProperties(zone);
-        }
-
-        void CopyProperties(Zone zone)
-        {
-            _zone = zone;
-            ZoneType = zone.ZoneType;
-            Name = zone.Name;
-            No = zone.No;
-            Description = zone.Description;
-            DetectorCount = zone.DetectorCount;
-            EvacuationTime = zone.EvacuationTime;
-            AutoSet = zone.AutoSet;
-            Delay = zone.Delay;
-            Skipped = zone.Skipped;
-            GuardZoneType = zone.GuardZoneType;
+            ZoneType = Zone.ZoneType;
+            Name = Zone.Name;
+            No = Zone.No;
+            Description = Zone.Description;
+            DetectorCount = Zone.DetectorCount;
+            EvacuationTime = Zone.EvacuationTime;
+            AutoSet = Zone.AutoSet;
+            Delay = Zone.Delay;
+            Skipped = Zone.Skipped;
+            GuardZoneType = Zone.GuardZoneType;
         }
 
         public List<ZoneType> AvailableZoneTypes
@@ -196,31 +199,31 @@ namespace DevicesModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            if (_zone.No != No && FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == No))
+            if (Zone.No != No && FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == No))
             {
                 DialogBox.DialogBox.Show("Зона с таким номером уже существует");
                 return;
             }
 
-            if (_zone.No != No)
+            if (Zone.No != No)
             {
                 foreach (var device in FiresecManager.DeviceConfiguration.Devices)
                 {
-                    if (device.ZoneNo == _zone.No)
+                    if (device.ZoneNo == Zone.No)
                         device.ZoneNo = No;
                 }
             }
 
-            _zone.ZoneType = ZoneType;
-            _zone.Name = Name;
-            _zone.No = No;
-            _zone.Description = Description;
-            _zone.DetectorCount = DetectorCount;
-            _zone.EvacuationTime = EvacuationTime;
-            _zone.AutoSet = AutoSet;
-            _zone.Delay = Delay;
-            _zone.Skipped = Skipped;
-            _zone.GuardZoneType = GuardZoneType;
+            Zone.ZoneType = ZoneType;
+            Zone.Name = Name;
+            Zone.No = No;
+            Zone.Description = Description;
+            Zone.DetectorCount = DetectorCount;
+            Zone.EvacuationTime = EvacuationTime;
+            Zone.AutoSet = AutoSet;
+            Zone.Delay = Delay;
+            Zone.Skipped = Skipped;
+            Zone.GuardZoneType = GuardZoneType;
         }
     }
 }

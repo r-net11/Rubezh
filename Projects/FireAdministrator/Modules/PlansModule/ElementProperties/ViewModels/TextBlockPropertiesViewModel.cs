@@ -1,6 +1,7 @@
 ﻿using System.Windows.Media;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using System.Collections.Generic;
 
 namespace PlansModule.ViewModels
 {
@@ -13,6 +14,12 @@ namespace PlansModule.ViewModels
             Title = "Свойства фигуры: Надпись";
             _elementTextBlock = elementTextBlock;
             CopyProperties();
+
+            Fonts = new List<string>();
+            foreach (var fontfamily in System.Drawing.FontFamily.Families)
+            {
+                Fonts.Add(fontfamily.Name);
+            }
         }
 
         void CopyProperties()
@@ -22,6 +29,19 @@ namespace PlansModule.ViewModels
             ForegroundColor = _elementTextBlock.ForegroundColor;
             BorderColor = _elementTextBlock.BorderColor;
             StrokeThickness = _elementTextBlock.BorderThickness;
+            FontSize = _elementTextBlock.FontSize;
+            FontFamilyName = _elementTextBlock.FontFamilyName;
+        }
+
+        string _text;
+        public string Text
+        {
+            get { return _text; }
+            set
+            {
+                _text = value;
+                OnPropertyChanged("Text");
+            }
         }
 
         Color _backgroundColor;
@@ -68,24 +88,39 @@ namespace PlansModule.ViewModels
             }
         }
 
-        string _text;
-        public string Text
+        double _fontSize;
+        public double FontSize
         {
-            get { return _text; }
+            get { return _fontSize; }
             set
             {
-                _text = value;
-                OnPropertyChanged("Text");
+                _fontSize = value;
+                OnPropertyChanged("FontSize");
+            }
+        }
+
+        public List<string> Fonts { get; private set; }
+
+        string _fontFamilyName;
+        public string FontFamilyName
+        {
+            get { return _fontFamilyName; }
+            set
+            {
+                _fontFamilyName = value;
+                OnPropertyChanged("FontFamilyName");
             }
         }
 
         protected override void Save(ref bool cancel)
         {
+            _elementTextBlock.Text = Text;
             _elementTextBlock.BackgroundColor = BackgroundColor;
             _elementTextBlock.ForegroundColor = ForegroundColor;
             _elementTextBlock.BorderColor = BorderColor;
             _elementTextBlock.BorderThickness = StrokeThickness;
-            _elementTextBlock.Text = Text;
+            _elementTextBlock.FontSize = FontSize;
+            _elementTextBlock.FontFamilyName = FontFamilyName;
         }
     }
 }

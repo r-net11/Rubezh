@@ -62,11 +62,10 @@ namespace DevicesModule.ViewModels
         void OnAdd()
         {
             var zoneDetailsViewModel = new ZoneDetailsViewModel();
-            zoneDetailsViewModel.Initialize();
             if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
             {
-                FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel._zone);
-                Zones.Add(new ZoneViewModel(zoneDetailsViewModel._zone));
+                FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.Zone);
+                Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
 
                 DevicesModule.HasChanges = true;
             }
@@ -90,11 +89,10 @@ namespace DevicesModule.ViewModels
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            var zoneDetailsViewModel = new ZoneDetailsViewModel();
-            zoneDetailsViewModel.Initialize(SelectedZone.Zone);
+            var zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
             if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
             {
-                SelectedZone.Zone = zoneDetailsViewModel._zone;
+                SelectedZone.Zone = zoneDetailsViewModel.Zone;
                 SelectedZone.Update();
 
                 DevicesModule.HasChanges = true;
@@ -155,45 +153,5 @@ namespace DevicesModule.ViewModels
         {
             ServiceFactory.Layout.ShowMenu(null);
         }
-
-        //#region Члены IEditingViewModel
-
-        //RelayCommand IEditingViewModel.AddCommand
-        //{
-        //    get
-        //    {
-        //        throw new System.NotImplementedException();
-        //    }
-        //    private set
-        //    {
-        //        throw new System.NotImplementedException();
-        //    }
-        //}
-
-        //RelayCommand IEditingViewModel.DeleteCommand
-        //{
-        //    get
-        //    {
-        //        throw new System.NotImplementedException();
-        //    }
-        //    set
-        //    {
-        //        throw new System.NotImplementedException();
-        //    }
-        //}
-
-        //RelayCommand IEditingViewModel.EditCommand
-        //{
-        //    get
-        //    {
-        //        throw new System.NotImplementedException();
-        //    }
-        //    set
-        //    {
-        //        throw new System.NotImplementedException();
-        //    }
-        //}
-
-        //#endregion
     }
 }

@@ -19,11 +19,6 @@ namespace DevicesModule.ViewModels
             AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
 
-            Initialize(guardUser);
-        }
-
-        void Initialize(GuardUser guardUser)
-        {
             LevelNames = guardUser.LevelNames;
             TargetLevels = new ObservableCollection<LevelViewModel>();
             SourceLevels = new ObservableCollection<LevelViewModel>();

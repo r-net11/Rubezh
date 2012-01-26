@@ -18,11 +18,6 @@ namespace DevicesModule.ViewModels
             AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
 
-            Initialize(zones);
-        }
-
-        void Initialize(List<ulong?> zones)
-        {
             Zones = zones;
             TargetZones = new ObservableCollection<ZoneViewModel>();
             SourceZones = new ObservableCollection<ZoneViewModel>();

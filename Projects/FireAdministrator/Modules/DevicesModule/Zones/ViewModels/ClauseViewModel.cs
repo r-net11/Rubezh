@@ -163,8 +163,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowZonesCommand { get; private set; }
         void OnShowZones()
         {
-            var zonesSelectionViewModel = new ZonesSelectionViewModel();
-            zonesSelectionViewModel.Initialize(_device, Zones, SelectedState);
+            var zonesSelectionViewModel = new ZonesSelectionViewModel(_device, Zones, SelectedState);
             if (ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectionViewModel))
             {
                 Zones = zonesSelectionViewModel.Zones;

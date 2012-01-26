@@ -12,34 +12,35 @@ namespace PlansModule.ViewModels
 {
     public class ElementsViewModel : BaseViewModel
     {
-        DesignerCanvas DesignerCanvas;
-
         public ElementsViewModel(DesignerCanvas designerCanvas)
         {
-            DesignerCanvas = designerCanvas;
-
-            ElementGroupDevices = new ElementGroupViewModel() { Name = "Устройства" };
-            ElementGroupZones = new ElementGroupViewModel() { Name = "Зоны" };
-            ElementGroupSubPlans = new ElementGroupViewModel() { Name = "Подпланы" };
-            ElementGroupElements = new ElementGroupViewModel() { Name = "Элементы" };
-            ElementGroups = new List<ElementGroupViewModel>();
-            ElementGroups.Add(ElementGroupDevices);
-            ElementGroups.Add(ElementGroupZones);
-            ElementGroups.Add(ElementGroupSubPlans);
-            ElementGroups.Add(ElementGroupElements);
-
             ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementAdded);
             ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
             ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
             ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
+            DesignerCanvas = designerCanvas;
+
+            Elements = new ObservableCollection<ElementBaseViewModel>();
             Update();
         }
 
-        public List<ElementGroupViewModel> ElementGroups { get; private set; }
-        ElementGroupViewModel ElementGroupDevices;
-        ElementGroupViewModel ElementGroupZones;
-        ElementGroupViewModel ElementGroupSubPlans;
-        ElementGroupViewModel ElementGroupElements;
+        DesignerCanvas DesignerCanvas;
+        public ObservableCollection<ElementBaseViewModel> Elements { get; set; }
+        ElementGroupViewModel ElementDevices;
+        ElementGroupViewModel ElementZones;
+        ElementGroupViewModel ElementSubPlans;
+        ElementGroupViewModel ElementElements;
+
+        ElementViewModel _selectedElement;
+        public ElementViewModel SelectedElement
+        {
+            get { return _selectedElement; }
+            set
+            {
+                _selectedElement = value;
+                OnPropertyChanged("SelectedElement");
+            }
+        }
 
         void OnPlansChanged(Guid planUID)
         {
@@ -48,15 +49,49 @@ namespace PlansModule.ViewModels
 
         public void Update()
         {
-            foreach (var elementGroup in ElementGroups)
-            {
-                elementGroup.Elements.Clear();
-            }
+            AllElements = new List<ElementViewModel>();
+            Elements.Clear();
+            Elements.Add(ElementDevices = new ElementGroupViewModel(Elements, this, "Устройства", "Device"));
+            Elements.Add(ElementZones = new ElementGroupViewModel(Elements, this, "Зоны", "Zone"));
+            Elements.Add(ElementSubPlans = new ElementGroupViewModel(Elements, this, "Подпланы", "SubPlan"));
+            Elements.Add(ElementElements = new ElementGroupViewModel(Elements, this, "Элементы", "Element"));
 
             foreach (var designerItem in DesignerCanvas.Items)
             {
                 AddDesignerItem(designerItem);
             }
+
+            CollapseChild(ElementDevices);
+            ExpandChild(ElementDevices);
+            CollapseChild(ElementZones);
+            ExpandChild(ElementZones);
+            CollapseChild(ElementSubPlans);
+            ExpandChild(ElementSubPlans);
+            CollapseChild(ElementElements);
+            ExpandChild(ElementElements);
+        }
+
+        #region ElementSelection
+
+        public List<ElementViewModel> AllElements;
+
+        public void Select(Guid elementUID)
+        {
+            var elementViewModel = AllElements.FirstOrDefault(x => x.ElementUID == elementUID);
+            if (elementViewModel != null)
+                elementViewModel.ExpantToThis();
+            SelectedElement = elementViewModel;
+        }
+
+        #endregion
+
+        void AddElement(ElementGroupViewModel parentElementViewModel, ElementViewModel elementViewModel)
+        {
+            elementViewModel.Parent = parentElementViewModel;
+            parentElementViewModel.Children.Add(elementViewModel);
+            var indexOf = Elements.IndexOf(parentElementViewModel);
+            Elements.Insert(indexOf + 1, elementViewModel);
+            AllElements.Add(elementViewModel);
         }
 
         void AddDesignerItem(DesignerItem designerItem)
@@ -68,7 +103,7 @@ namespace PlansModule.ViewModels
             {
                 ElementDevice elementDevice = elementBase as ElementDevice;
                 name = elementDevice.Device.DottedAddress + " " + elementDevice.Device.Driver.ShortName;
-                ElementGroupDevices.Elements.Add(new ElementViewModel(designerItem, name));
+                AddElement(ElementDevices, new ElementViewModel(Elements, designerItem, name, "Device"));
             }
             if (elementBase is IElementZone)
             {
@@ -81,7 +116,7 @@ namespace PlansModule.ViewModels
                 {
                     name = "Несвязанная зона";
                 }
-                ElementGroupZones.Elements.Add(new ElementViewModel(designerItem, name));
+                AddElement(ElementZones, new ElementViewModel(Elements, designerItem, name, "Zone"));
             }
             if (elementBase is ElementSubPlan)
             {
@@ -94,31 +129,23 @@ namespace PlansModule.ViewModels
                 {
                     name = "Несвязанный подплан";
                 }
-                ElementGroupSubPlans.Elements.Add(new ElementViewModel(designerItem, name));
+                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, name, "SubPlan"));
             }
             if (elementBase is ElementEllipse)
             {
-                ElementGroupElements.Elements.Add(new ElementViewModel(designerItem, "Эллипс"));
+                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, "Эллипс", "Element"));
             }
             if (elementBase is ElementPolygon)
             {
-                ElementGroupElements.Elements.Add(new ElementViewModel(designerItem, "Многоугольник"));
+                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, name, "SubPlan"));
             }
             if (elementBase is ElementRectangle)
             {
-                ElementGroupElements.Elements.Add(new ElementViewModel(designerItem, "Прямоугольник"));
+                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, "Прямоугольник", "Element"));
             }
             if (elementBase is ElementTextBlock)
             {
-                ElementGroupElements.Elements.Add(new ElementViewModel(designerItem, "Надпись"));
-            }
-        }
-
-        void UpdateHasItems()
-        {
-            foreach (var elementGroup in ElementGroups)
-            {
-                elementGroup.UpdateHasElements();
+                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, "Надпись", "Element"));
             }
         }
 
@@ -132,25 +159,18 @@ namespace PlansModule.ViewModels
                     AddDesignerItem(designerItem);
                 }
             }
-
-            UpdateHasItems();
         }
 
         void OnElementRemoved(List<ElementBase> elements)
         {
-            foreach(var elementBase in elements)
+            foreach (var elementBase in elements)
             {
-                foreach (var elementGroup in ElementGroups)
+                var element = AllElements.FirstOrDefault(x => x.ElementUID == elementBase.UID);
+                if (element != null)
                 {
-                    var element = elementGroup.Elements.FirstOrDefault(x => x.DesignerItem.ElementBase.UID == elementBase.UID);
-                    if (element != null)
-                    {
-                        elementGroup.Elements.Remove(element);
-                    }
+                    Elements.Remove(element);
                 }
             }
-
-            UpdateHasItems();
         }
 
         void OnElementChanged(List<ElementBase> elements)
@@ -159,17 +179,25 @@ namespace PlansModule.ViewModels
 
         void OnElementSelected(Guid elementUID)
         {
-            foreach (var elementGroup in ElementGroups)
+            Select(elementUID);
+        }
+
+        void CollapseChild(ElementBaseViewModel parentElementViewModel)
+        {
+            parentElementViewModel.IsExpanded = false;
+
+            foreach (var elementViewModel in parentElementViewModel.Children)
             {
-                foreach (var element in elementGroup.Elements)
-                {
-                    if (element.DesignerItem.ElementBase.UID == elementUID)
-                    {
-                        elementGroup.IsExpanded = true;
-                        elementGroup.SelectedElement = element;
-                        return;
-                    }
-                }
+                CollapseChild(elementViewModel);
+            }
+        }
+
+        void ExpandChild(ElementBaseViewModel parentElementViewModel)
+        {
+            parentElementViewModel.IsExpanded = true;
+            foreach (var elementViewModel in parentElementViewModel.Children)
+            {
+                ExpandChild(elementViewModel);
             }
         }
     }

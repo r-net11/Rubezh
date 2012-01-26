@@ -9,7 +9,9 @@ namespace DevicesModule.ViewModels
 {
     public class ZonesSelectionViewModel : SaveCancelDialogContent
     {
-        public ZonesSelectionViewModel()
+        public List<ulong?> Zones { get; private set; }
+
+        public ZonesSelectionViewModel(Device device, List<ulong?> zones, ZoneLogicState zoneLogicState)
         {
             Title = "Выбор зон";
 
@@ -17,12 +19,7 @@ namespace DevicesModule.ViewModels
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);
             AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
-        }
 
-        public List<ulong?> Zones { get; private set; }
-
-        public void Initialize(Device device, List<ulong?> zones, ZoneLogicState zoneLogicState)
-        {
             Zones = zones;
             TargetZones = new ObservableCollection<ZoneViewModel>();
             SourceZones = new ObservableCollection<ZoneViewModel>();

@@ -7,19 +7,15 @@ namespace DevicesModule.ViewModels
 {
     public class DirectionViewModel : BaseViewModel
     {
+        public Direction Direction { get; private set; }
+
         public DirectionViewModel(Direction direction)
         {
             AddZoneCommand = new RelayCommand(OnAddZone, CanAdd);
             RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemove);
 
             Direction = direction;
-            Initialize();
-        }
 
-        public Direction Direction { get; private set; }
-
-        void Initialize()
-        {
             Zones = new ObservableCollection<ZoneViewModel>();
             SourceZones = new ObservableCollection<ZoneViewModel>();
 

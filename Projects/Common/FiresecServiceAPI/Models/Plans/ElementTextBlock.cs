@@ -12,6 +12,8 @@ namespace FiresecAPI.Models
         {
             Text = "Text";
             ForegroundColor = Colors.Black;
+            FontSize = 10;
+            FontFamilyName = "Arial";
         }
 
         [DataMember]
@@ -33,6 +35,9 @@ namespace FiresecAPI.Models
         public double FontSize { get; set; }
 
         [DataMember]
+        public string FontFamilyName { get; set; }
+
+        [DataMember]
         public int ZIndex { get; set; }
 
         public override FrameworkElement Draw()
@@ -43,7 +48,11 @@ namespace FiresecAPI.Models
                 Background = new SolidColorBrush(BackgroundColor),
                 Foreground = new SolidColorBrush(ForegroundColor),
                 BorderBrush = new SolidColorBrush(BorderColor),
-                BorderThickness = new Thickness(BorderThickness)
+                BorderThickness = new Thickness(BorderThickness),
+                FontSize = FontSize,
+                FontFamily = new FontFamily(FontFamilyName),
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalAlignment = HorizontalAlignment.Center
             };
             return textBlock;
         }
@@ -57,7 +66,8 @@ namespace FiresecAPI.Models
                 ForegroundColor = ForegroundColor,
                 BorderColor = BorderColor,
                 BorderThickness = BorderThickness,
-                FontSize = FontSize
+                FontSize = FontSize,
+                FontFamilyName = FontFamilyName
             };
             Copy(elementBase);
             return elementBase;

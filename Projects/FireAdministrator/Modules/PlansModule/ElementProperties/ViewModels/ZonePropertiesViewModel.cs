@@ -13,6 +13,7 @@ namespace PlansModule.ViewModels
         public ZonePropertiesViewModel(IElementZone iElementZone)
         {
             IElementZone = iElementZone;
+            CreateCommand = new RelayCommand(OnCreate);
             Title = "Свойства фигуры: Зона";
             Zones = new List<Zone>(FiresecManager.DeviceConfiguration.Zones);
             if (iElementZone.ZoneNo.HasValue)
@@ -30,6 +31,12 @@ namespace PlansModule.ViewModels
                 _selectedZone = value;
                 OnPropertyChanged("SelectedZone");
             }
+        }
+
+        public RelayCommand CreateCommand { get; private set; }
+        void OnCreate()
+        {
+
         }
 
         protected override void Save(ref bool cancel)

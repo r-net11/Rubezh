@@ -3,24 +3,34 @@ using PlansModule.Designer;
 using FiresecAPI.Models;
 using PlansModule.Events;
 using Infrastructure;
+using System;
+using System.Collections.ObjectModel;
 
 namespace PlansModule.ViewModels
 {
-    public class ElementViewModel : BaseViewModel
+    public class ElementViewModel : ElementBaseViewModel
     {
-        public ElementViewModel(DesignerItem designerItem, string name)
+        public ElementViewModel(ObservableCollection<ElementBaseViewModel> sourceElement, DesignerItem designerItem, string name, string elementType)
         {
+            Source = sourceElement;
             ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
             DesignerItem = designerItem;
+            ElementUID = DesignerItem.ElementBase.UID;
             Name = name;
+            ElementType = elementType;
         }
 
-        public DesignerItem DesignerItem { get; private set; }
+        DesignerItem DesignerItem;
+        public Guid ElementUID { get; private set; }
         public string Name { get; private set; }
+        public string ElementType { get; private set; }
 
         public bool IsVisible
         {
-            get { return DesignerItem.IsVisibleLayout; }
+            get
+            {
+                return DesignerItem.IsVisibleLayout;
+            }
             set
             {
                 DesignerItem.IsVisibleLayout = value;
@@ -30,7 +40,10 @@ namespace PlansModule.ViewModels
 
         public bool IsSelectable
         {
-            get { return DesignerItem.IsSelectableLayout; }
+            get
+            {
+                return DesignerItem.IsSelectableLayout;
+            }
             set
             {
                 DesignerItem.IsSelectableLayout = value;

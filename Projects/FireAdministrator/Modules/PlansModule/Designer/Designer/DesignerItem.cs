@@ -106,6 +106,7 @@ namespace PlansModule.Designer
             this.Loaded += new RoutedEventHandler(this.DesignerItem_Loaded);
             IsVisibleLayout = true;
             IsSelectableLayout = true;
+            this.MouseDoubleClick += new MouseButtonEventHandler((object o, MouseButtonEventArgs x) => {OnShowProperties();});
         }
 
         public IResizeChromeBase ResizeChromeBase { get; set; }

@@ -3,11 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              MinHeight="400" MinWidth="400">
 
-    <DataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="DataGrid_SelectionChanged">
-        <DataGrid.Columns>
-            <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
-            <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-            <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
-        </DataGrid.Columns>
-    </DataGrid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionChanged="DataGrid_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
+                <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button Grid.Row="1" Content="Создать" Command="{Binding CreateCommand}" HorizontalAlignment="Right" Width="100" />
+    </Grid>
 </UserControl>

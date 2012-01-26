@@ -146,9 +146,10 @@
     <Compile Include="Events\ElementSelectedEvent.cs" />
     <Compile Include="Events\ShowElementDeviceEvent.cs" />
     <Compile Include="Events\ShowElementEvent.cs" />
-    <Compile Include="ViewModels\ElementGroupViewModel.cs" />
     <Compile Include="ViewModels\ElementsViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModel.cs" />
+    <Compile Include="ViewModels\ElementBaseViewModel.cs" />
+    <Compile Include="ViewModels\ElementGroupViewModel.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.DeviceInZones.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.ZIndex.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.Zoom.cs" />

@@ -86,27 +86,27 @@ namespace DeviceControls
 
         public static Viewbox GetDefaultPicture(Guid DriverId)
         {
-            var canvas = new Canvas();
+            UIElement content = null;
 
             var device = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
             if (device != null)
             {
-                var state = device.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.Norm);
-                canvas = Helper.Xml2Canvas(state.Frames[0].Image, 0);
+                var state = device.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.No);
+                Canvas canvas = Helper.Xml2Canvas(state.Frames[0].Image, 0);
+                content = canvas;
             }
             else
             {
-                canvas = new Canvas()
+                var textBlock = new TextBlock()
                 {
-                    Width = 500,
-                    Height = 500,
-                    Background = new SolidColorBrush(Colors.Magenta)
+                    Text = "?"
                 };
+                content = textBlock;
             }
 
             var viewbox = new Viewbox()
             {
-                Child = canvas
+                Child = content
             };
             return viewbox;
         }

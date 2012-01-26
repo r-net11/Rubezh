@@ -2,79 +2,63 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common;
 using System.Collections.ObjectModel;
 
 namespace PlansModule.ViewModels
 {
-    public class ElementGroupViewModel : BaseViewModel
+    public class ElementGroupViewModel : ElementBaseViewModel
     {
-        public ElementGroupViewModel()
+        public ElementGroupViewModel(ObservableCollection<ElementBaseViewModel> sourceElements, ElementsViewModel elementsViewModel, string name, string elementType)
         {
-            _isAllVisible = true;
-            _isAllSelectable = true;
-            Elements = new ObservableCollection<ElementViewModel>();
+            Source = sourceElements;
+            IsBold = true;
+            ElementsViewModel = elementsViewModel;
+            Name = name;
+            ElementType = elementType;
+            _isVisible = true;
+            _isSelectable = true;
         }
 
-        public string Name { get; set; }
-        public ObservableCollection<ElementViewModel> Elements { get; set; }
+        ElementsViewModel ElementsViewModel;
+        public string Name { get; private set; }
+        public string ElementType { get; private set; }
 
-        ElementViewModel _selectedElement;
-        public ElementViewModel SelectedElement
+        bool _isVisible;
+        public bool IsVisible
         {
-            get { return _selectedElement; }
+            get
+            {
+                return _isVisible;
+            }
             set
             {
-                _selectedElement = value;
-                OnPropertyChanged("SelectedElement");
+                _isVisible = value;
+                foreach (var elementViewModel in ElementsViewModel.AllElements)
+                {
+                    if (elementViewModel.ElementType == ElementType)
+                        elementViewModel.IsVisible = value;
+                    OnPropertyChanged("IsVisible");
+                }
             }
         }
 
-        bool _isExpanded;
-        public bool IsExpanded
+        bool _isSelectable;
+        public bool IsSelectable
         {
-            get { return _isExpanded; }
+            get
+            {
+                return _isSelectable;
+            }
             set
             {
-                _isExpanded = value;
-                OnPropertyChanged("IsExpanded");
+                _isSelectable = value;
+                foreach (var elementViewModel in ElementsViewModel.AllElements)
+                {
+                    if (elementViewModel.ElementType == ElementType)
+                        elementViewModel.IsSelectable = value;
+                }
+                OnPropertyChanged("IsSelectable");
             }
-        }
-
-        bool _isAllVisible;
-        public bool IsAllVisible
-        {
-            get { return _isAllVisible; }
-            set
-            {
-                _isAllVisible = value;
-                foreach (var device in Elements)
-                    device.IsVisible = value;
-                OnPropertyChanged("IsAllVisible");
-            }
-        }
-
-        bool _isAllSelectable;
-        public bool IsAllSelectable
-        {
-            get { return _isAllSelectable; }
-            set
-            {
-                _isAllSelectable = value;
-                foreach (var device in Elements)
-                    device.IsSelectable = value;
-                OnPropertyChanged("IsAllSelectable");
-            }
-        }
-
-        public bool HasElements
-        {
-            get { return Elements.Count > 0; }
-        }
-
-        public void UpdateHasElements()
-        {
-            OnPropertyChanged("HasElements");
         }
     }
 }

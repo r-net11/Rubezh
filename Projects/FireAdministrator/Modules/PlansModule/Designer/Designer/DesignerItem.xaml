@@ -32,8 +32,7 @@
                             <local:ResizeDecoratorPolygon x:Name="PART_ResizeDecoratorPolygon" Visibility="Collapsed" />
                             <local:ResizeDecoratorPolyline x:Name="PART_ResizeDecoratorPolyline" Visibility="Collapsed" />
                         </Grid>
-                        <ContentPresenter x:Name="PART_ContentPresenter"
-                                     Content="{TemplateBinding ContentControl.Content}" />
+                        <ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding ContentControl.Content}" />
                         <Grid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Добавить точку" Command="{Binding AddPointCommand}" Visibility="{Binding IsPolygon, Converter={StaticResource BoolToVisibilityConverter}}" />

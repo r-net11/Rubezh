@@ -152,12 +152,14 @@ namespace PlansModule.Designer
             elementBase.Top = Math.Max(0, position.Y - elementBase.Height / 2);
 
             var designerItem = AddElement(elementBase);
+            if (designerItem != null)
+            {
+                this.DeselectAll();
+                designerItem.IsSelected = true;
+                PlanDesignerViewModel.MoveToFrontCommand.Execute();
 
-            this.DeselectAll();
-            designerItem.IsSelected = true;
-            PlanDesignerViewModel.MoveToFrontCommand.Execute();
-
-            ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase>() { elementBase });
+                ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase>() { elementBase });
+            }
 
             e.Handled = true;
         }
@@ -186,10 +188,16 @@ namespace PlansModule.Designer
             }
             if (elementBase is ElementRectangleZone)
             {
+                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementBase as IElementZone);
+                if (ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel) == false)
+                    return null;
                 Plan.ElementRectangleZones.Add(elementBase as ElementRectangleZone);
             }
             if (elementBase is ElementPolygonZone)
             {
+                var zonePropertiesViewModel = new ZonePropertiesViewModel(elementBase as IElementZone);
+                if (ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel) == false)
+                    return null;
                 Plan.ElementPolygonZones.Add(elementBase as ElementPolygonZone);
             }
             if (elementBase is ElementSubPlan)
