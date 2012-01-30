@@ -107,16 +107,16 @@ namespace FireAdministrator.Views
         {
             AlarmPlayerHelper.Dispose();
 
-            if (DevicesModule.DevicesModule.HasChanges || PlansModule.PlansModule.HasChanges ||
-                SoundsModule.SoundsModule.HasChanges ||
-                FiltersModule.FilterModule.HasChanges || LibraryModule.LibraryModule.HasChanges ||
-                InstructionsModule.InstructionsModule.HasChanges || SecurityModule.SecurityModule.HasChanges)
+            if (ServiceFactory.SaveService.DevicesChanged || ServiceFactory.SaveService.PlansChanged ||
+                ServiceFactory.SaveService.SoundsChanged ||
+                ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.LibraryChanged ||
+                ServiceFactory.SaveService.InstructionsChanged || ServiceFactory.SaveService.SecurityChanged)
             {
                 var result = DialogBox.DialogBox.Show("Сохранить изменения в настройках?", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
                 switch (result)
                 {
                     case MessageBoxResult.Yes:
-                        FiresecManager.SetConfiguration();
+                        this._menuView.SetNewConfig();
                         return;
 
                     case MessageBoxResult.No:

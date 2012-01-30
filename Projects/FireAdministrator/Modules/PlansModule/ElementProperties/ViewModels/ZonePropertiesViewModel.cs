@@ -3,6 +3,8 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace PlansModule.ViewModels
 {
@@ -36,7 +38,11 @@ namespace PlansModule.ViewModels
         public RelayCommand CreateCommand { get; private set; }
         void OnCreate()
         {
-
+            var createZoneEventArg = new CreateZoneEventArg();
+            ServiceFactory.Events.GetEvent<CreateZoneEvent>().Publish(createZoneEventArg);
+            IElementZone.ZoneNo = createZoneEventArg.ZoneNo;
+            if (createZoneEventArg.Cancel == false)
+                Close(true);
         }
 
         protected override void Save(ref bool cancel)

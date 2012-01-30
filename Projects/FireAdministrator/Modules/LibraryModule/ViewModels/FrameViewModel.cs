@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Microsoft.Win32;
+using Infrastructure;
 
 namespace LibraryModule.ViewModels
 {
@@ -29,7 +30,7 @@ namespace LibraryModule.ViewModels
                 if (value != Frame.Layer)
                 {
                     Frame.Layer = value;
-                    LibraryModule.HasChanges = true;
+                    ServiceFactory.SaveService.LibraryChanged = true;
                 }
             }
         }
@@ -42,7 +43,7 @@ namespace LibraryModule.ViewModels
                 if (value != Frame.Duration)
                 {
                     Frame.Duration = value;
-                    LibraryModule.HasChanges = true;
+                    ServiceFactory.SaveService.LibraryChanged = true;
                 }
             }
         }
@@ -80,7 +81,7 @@ namespace LibraryModule.ViewModels
                 Frame.Image = ImageConverters.Svg2Xaml(openFileDialog.FileName);
                 OnPropertyChanged("XamlOfImage");
 
-                LibraryModule.HasChanges = true;
+                ServiceFactory.SaveService.LibraryChanged = true;
             }
         }
 

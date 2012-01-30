@@ -55,7 +55,7 @@
                                     <ColumnDefinition Width="auto" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Views:MenuView Grid.Column="0" Margin="1, 0, 0, 1" />
+                                <Views:MenuView Grid.Column="0" x:Name="_menuView" Margin="1, 0, 0, 1" />
                                 <ContentControl Grid.Column="1" Name="_menu" MinWidth="400" />
                             </Grid>
                         </Grid>
@@ -65,7 +65,7 @@
                 <Grid>
                     <DockPanel>
                         <Grid DockPanel.Dock="Bottom">
-                            <ContentControl Name="_validationArea" />
+                            <ContentControl Name="_validationArea" Margin="5 0 0 5" />
                         </Grid>
                         <Grid>
                             <Grid.ColumnDefinitions>

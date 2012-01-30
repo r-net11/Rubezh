@@ -47,7 +47,7 @@ namespace SecurityModule.ViewModels
                 FiresecManager.SecurityConfiguration.Users.Add(userDetailsViewModel.User);
                 Users.Add(new UserViewModel(userDetailsViewModel.User));
 
-                SecurityModule.HasChanges = true;
+                ServiceFactory.SaveService.SecurityChanged = true;
             }
         }
 
@@ -61,7 +61,7 @@ namespace SecurityModule.ViewModels
                 FiresecManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
                 Users.Remove(SelectedUser);
 
-                SecurityModule.HasChanges = true;
+                ServiceFactory.SaveService.SecurityChanged = true;
             }
         }
 
@@ -80,7 +80,7 @@ namespace SecurityModule.ViewModels
                 SelectedUser.User = userDetailsViewModel.User;
                 FiresecManager.SecurityConfiguration.Users.Add(SelectedUser.User);
 
-                SecurityModule.HasChanges = true;
+                ServiceFactory.SaveService.SecurityChanged = true;
             }
         }
 

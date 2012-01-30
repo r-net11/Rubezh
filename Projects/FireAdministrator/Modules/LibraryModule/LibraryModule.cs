@@ -7,7 +7,6 @@ namespace LibraryModule
 {
     public class LibraryModule
     {
-        public static bool HasChanges { get; set; }
         static LibraryViewModel _libraryViewModel;
 
         public LibraryModule()

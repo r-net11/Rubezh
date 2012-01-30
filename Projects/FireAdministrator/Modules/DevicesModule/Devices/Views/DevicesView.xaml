@@ -22,6 +22,11 @@
                                     <TextBlock Text="{Binding Driver.ShortName}" />
                                     <StackPanel.ContextMenu>
                                         <ContextMenu>
+                                            <MenuItem Header="Копировать" Command="{Binding CopyCommand}" />
+                                            <MenuItem Header="Вырезать" Command="{Binding CutCommand}" />
+                                            <MenuItem Header="Вставить" Command="{Binding PasteCommand}" />
+                                            <MenuItem Header="Вставить как" Command="{Binding PasteAsCommand}" />
+                                            <Separator />
                                             <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
                                             <MenuItem Header="Добавить несколько" Command="{Binding AddManyCommand}" />
                                             <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
@@ -33,7 +38,28 @@
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                    <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
+                                        Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <TextBlock Text="{Binding Driver.ShortName}"
+                                               Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                                    <ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}"
+                                              Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding ShortName}" Foreground="Black" />
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
+                    
                     <DataGridTemplateColumn Header="Адрес" Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>

@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using Infrastructure;
 
 namespace PlansModule.Designer
 {
@@ -85,7 +86,7 @@ namespace PlansModule.Designer
                 DesignerCanvas.InvalidateMeasure();
                 e.Handled = true;
 
-                PlansModule.HasChanges = true;
+                ServiceFactory.SaveService.PlansChanged = true;
             }
         }
     }

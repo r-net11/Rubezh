@@ -40,11 +40,6 @@ namespace FiresecClient.Validation
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                //if (device.DriverUID == new Guid("96CDBD7E-29F6-45D4-9028-CF10332FAB1A"))
-                //{
-                //    ++pduCount;
-                //    --pduCount;
-                //}
                 if (device.Driver.DriverType == PduDriverType)
                 {
                     ++pduCount;
@@ -150,7 +145,7 @@ namespace FiresecClient.Validation
 
         static void ValidateDeviceExtendedZoneLogic(Device device)
         {
-            if (device.Driver.IsZoneLogicDevice && device.ZoneLogic == null)
+            if (device.Driver.IsZoneLogicDevice && device.ZoneLogic == null && device.Driver.DriverType != DriverType.ASPT)
                 DeviceErrors.Add(new DeviceError(device, "Отсутствуют настроенные режимы срабатывания", ErrorLevel.CannotWrite));
         }
 
@@ -376,7 +371,7 @@ namespace FiresecClient.Validation
 
         static void ValidateZoneDetectorCount(Zone zone, List<Device> zoneDevices)
         {
-            if (zone.DetectorCount > zoneDevices.Where(x => x.Driver.IsZoneDevice).Count())
+            if ((zone.ZoneType == ZoneType.Fire) && (zone.DetectorCount > zoneDevices.Where(x => x.Driver.IsZoneDevice).Count()))
                 ZoneErrors.Add(new ZoneError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ErrorLevel.Warning));
         }
 

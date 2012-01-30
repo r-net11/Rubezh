@@ -97,7 +97,7 @@ namespace PlansModule.Designer
                 }
             }
 
-            PlansModule.HasChanges = true;
+            ServiceFactory.SaveService.PlansChanged = true;
         }
 
         public void SelectAll()
@@ -354,7 +354,7 @@ namespace PlansModule.Designer
             if (ServiceFactory.UserDialogs.ShowModalWindow(designerPropertiesViewModel))
             {
                 Update();
-                PlansModule.HasChanges = true;
+                ServiceFactory.SaveService.PlansChanged = true;
             }
         }
 

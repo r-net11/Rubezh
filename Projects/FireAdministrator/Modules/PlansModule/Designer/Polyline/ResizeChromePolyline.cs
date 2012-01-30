@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Infrastructure;
 
 namespace PlansModule.Designer
 {
@@ -80,7 +81,7 @@ namespace PlansModule.Designer
             {
                 thumbs.Remove(thumb);
                 SavePolygonPointsFromThumb();
-                PlansModule.HasChanges = true;
+                ServiceFactory.SaveService.PlansChanged = true;
                 Initialize();
                 e.Handled = true;
             }
@@ -122,7 +123,7 @@ namespace PlansModule.Designer
 
             ArrangeSize();
             SavePolygonPointsFromThumb();
-            PlansModule.HasChanges = true;
+            ServiceFactory.SaveService.PlansChanged = true;
         }
 
         void SavePolygonPointsFromThumb()

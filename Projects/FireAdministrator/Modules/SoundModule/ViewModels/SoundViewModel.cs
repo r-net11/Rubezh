@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure;
 
 namespace SoundsModule.ViewModels
 {
@@ -29,7 +30,7 @@ namespace SoundsModule.ViewModels
             {
                 Sound.SoundName = value;
                 OnPropertyChanged("SoundName");
-                SoundsModule.HasChanges = true;
+                ServiceFactory.SaveService.SoundsChanged = true;
             }
         }
 
@@ -40,7 +41,7 @@ namespace SoundsModule.ViewModels
             {
                 Sound.BeeperType = value;
                 OnPropertyChanged("BeeperType");
-                SoundsModule.HasChanges = true;
+                ServiceFactory.SaveService.SoundsChanged = true;
             }
         }
 
@@ -51,7 +52,7 @@ namespace SoundsModule.ViewModels
             {
                 Sound.IsContinious = value;
                 OnPropertyChanged("IsContinious");
-                SoundsModule.HasChanges = true;
+                ServiceFactory.SaveService.SoundsChanged = true;
             }
         }
 

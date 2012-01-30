@@ -9,7 +9,6 @@ namespace DevicesModule
 {
     public class DevicesModule
     {
-        public static bool HasChanges { get; set; }
         static DevicesViewModel _devicesViewModel;
         static ZonesViewModel _zonesViewModel;
         static DirectionsViewModel _directionsViewModel;

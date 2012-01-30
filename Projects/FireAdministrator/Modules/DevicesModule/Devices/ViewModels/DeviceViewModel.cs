@@ -27,9 +27,14 @@ namespace DevicesModule.ViewModels
             ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
             ShowZoneCommand = new RelayCommand(OnShowZone);
 
+            //DevicesViewModel
+
             Source = sourceDevices;
             Device = device;
             PropertiesViewModel = new DeviceProperties.PropertiesViewModel(device);
+
+            AvailvableDrivers = new ObservableCollection<Driver>();
+            UpdateDriver();
         }
 
         public void Update()
@@ -47,6 +52,13 @@ namespace DevicesModule.ViewModels
         public Driver Driver
         {
             get { return Device.Driver; }
+            set
+            {
+                Device.Driver = value;
+                OnPropertyChanged("Device");
+                OnPropertyChanged("Device.Driver");
+                OnPropertyChanged("PresentationZone");
+            }
         }
 
         public string Address
@@ -64,7 +76,7 @@ namespace DevicesModule.ViewModels
                     Device.SetAddress(value);
                     OnPropertyChanged("Address");
 
-                    DevicesModule.HasChanges = true;
+                    ServiceFactory.SaveService.DevicesChanged = true;
                 }
             }
         }
@@ -77,7 +89,7 @@ namespace DevicesModule.ViewModels
                 Device.Description = value;
                 OnPropertyChanged("Description");
 
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
 
@@ -99,7 +111,7 @@ namespace DevicesModule.ViewModels
                 Device.ZoneNo = value.No;
                 OnPropertyChanged("Zone");
 
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
 
@@ -133,14 +145,16 @@ namespace DevicesModule.ViewModels
         void OnShowZoneLogic()
         {
             var zoneLogicViewModel = new ZoneLogicViewModel(Device);
-            DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel))
+                ServiceFactory.SaveService.DevicesChanged = true;
             OnPropertyChanged("PresentationZone");
         }
 
         void OnShowIndicatorLogic()
         {
             var indicatorDetailsViewModel = new IndicatorDetailsViewModel(Device);
-            DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel))
+                ServiceFactory.SaveService.DevicesChanged = true;
             OnPropertyChanged("PresentationZone");
         }
 
@@ -154,7 +168,7 @@ namespace DevicesModule.ViewModels
         {
             if (ServiceFactory.UserDialogs.ShowModalWindow(new NewDeviceViewModel(this)))
             {
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
                 DevicesViewModel.UpdateGuardVisibility();
             }
         }
@@ -164,7 +178,7 @@ namespace DevicesModule.ViewModels
         {
             if (ServiceFactory.UserDialogs.ShowModalWindow(new NewDeviceRangeViewModel(this)))
             {
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
                 DevicesViewModel.UpdateGuardVisibility();
             }
         }
@@ -185,7 +199,7 @@ namespace DevicesModule.ViewModels
             Parent = null;
 
             FiresecManager.DeviceConfiguration.Update();
-            DevicesModule.HasChanges = true;
+            ServiceFactory.SaveService.DevicesChanged = true;
             DevicesViewModel.UpdateGuardVisibility();
         }
 
@@ -216,22 +230,26 @@ namespace DevicesModule.ViewModels
                     break;
 
                 case DriverType.Valve:
-                    DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new ValveDetailsViewModel(Device));
+                    if (ServiceFactory.UserDialogs.ShowModalWindow(new ValveDetailsViewModel(Device)))
+                        ServiceFactory.SaveService.DevicesChanged = true;
                     break;
 
                 case DriverType.Pump:
                 case DriverType.JokeyPump:
                 case DriverType.Compressor:
                 case DriverType.CompensationPump:
-                    DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new PumpDetailsViewModel(Device));
+                    if (ServiceFactory.UserDialogs.ShowModalWindow(new PumpDetailsViewModel(Device)))
+                        ServiceFactory.SaveService.DevicesChanged = true;
                     break;
 
                 case DriverType.Direction:
-                    DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new GroupDetailsViewModel(Device));
+                    if (ServiceFactory.UserDialogs.ShowModalWindow(new GroupDetailsViewModel(Device)))
+                        ServiceFactory.SaveService.DevicesChanged = true;
                     break;
 
                 case DriverType.UOO_TL:
-                    DevicesModule.HasChanges = ServiceFactory.UserDialogs.ShowModalWindow(new TelephoneLineDetailsViewModel(Device));
+                    if (ServiceFactory.UserDialogs.ShowModalWindow(new TelephoneLineDetailsViewModel(Device)))
+                        ServiceFactory.SaveService.DevicesChanged = true;
                     break;
             }
             OnPropertyChanged("PresentationZone");
@@ -242,5 +260,43 @@ namespace DevicesModule.ViewModels
         {
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneNo);
         }
+
+        public ObservableCollection<Driver> AvailvableDrivers { get; private set; }
+
+        void UpdateDriver()
+        {
+            AvailvableDrivers.Clear();
+            if (CanChangeDriver)
+            {
+                foreach (var driverUID in Device.Parent.Driver.AvaliableChildren)
+                {
+                    var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == driverUID);
+                    if (CanDriverBeChanged(driver))
+                    {
+                        AvailvableDrivers.Add(driver);
+                    }
+                }
+            }
+        }
+
+        public bool CanDriverBeChanged(Driver driver)
+        {
+            if (driver == null)
+                return false;
+            return (driver.Category == DeviceCategoryType.Sensor) || (driver.Category == DeviceCategoryType.Effector);
+        }
+
+        public bool CanChangeDriver
+        {
+            get
+            {
+                return CanDriverBeChanged(Device.Driver);
+            }
+        }
+
+        public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
+        public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
+        public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
+        public RelayCommand PasteAsCommand { get { return DevicesViewModel.Current.PasteAsCommand; } }
     }
 }

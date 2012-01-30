@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
         {
             FiresecManager.DeviceConfiguration.GuardLevels.Remove(SelectedLevel.GuardLevel);
             Levels.Remove(SelectedLevel);
-            DevicesModule.HasChanges = true;
+            ServiceFactory.SaveService.DevicesChanged = true;
         }
 
         public RelayCommand EditCommand { get; private set; }
@@ -57,7 +57,7 @@ namespace DevicesModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(levelDetailsViewModel))
             {
                 SelectedLevel.GuardLevel = levelDetailsViewModel.GuardLevel;
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
 
@@ -69,7 +69,7 @@ namespace DevicesModule.ViewModels
             {
                 FiresecManager.DeviceConfiguration.GuardLevels.Add(guardLevelDetailsViewModel.GuardLevel);
                 Levels.Add(new LevelViewModel(guardLevelDetailsViewModel.GuardLevel));
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
 

@@ -12,11 +12,14 @@ namespace DevicesModule.ViewModels
 {
     public class DevicesViewModel : RegionViewModel
     {
+        public static DevicesViewModel Current { get; private set; }
         public DevicesViewModel()
         {
+            Current = this;
             CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
             CutCommand = new RelayCommand(OnCut, CanCutCopy);
             PasteCommand = new RelayCommand(OnPaste, CanPaste);
+            PasteAsCommand = new RelayCommand(OnPasteAs, CanPasteAs);
             DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
 
             BuildTree();
@@ -132,11 +135,8 @@ namespace DevicesModule.ViewModels
 
         bool CanCutCopy()
         {
-            if (SelectedDevice == null || SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Driver.DriverType == DriverType.Computer)
-                return false;
-            return true;
+            return !(SelectedDevice == null || SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Driver.DriverType == DriverType.Computer);
         }
-
 
         public RelayCommand CopyCommand { get; private set; }
         void OnCopy()
@@ -151,15 +151,13 @@ namespace DevicesModule.ViewModels
             SelectedDevice.RemoveCommand.Execute();
 
             FiresecManager.DeviceConfiguration.Update();
-            DevicesModule.HasChanges = true;
+            ServiceFactory.SaveService.DevicesChanged = true;
             UpdateGuardVisibility();
         }
 
         bool CanPaste()
         {
-            if (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.UID))
-                return true;
-            return false;
+            return (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.UID));
         }
 
         public RelayCommand PasteCommand { get; private set; }
@@ -174,8 +172,33 @@ namespace DevicesModule.ViewModels
             CollapseChild(newDevice);
 
             FiresecManager.DeviceConfiguration.Update();
-            DevicesModule.HasChanges = true;
+            ServiceFactory.SaveService.DevicesChanged = true;
             UpdateGuardVisibility();
+        }
+
+        bool CanPasteAs()
+        {
+            return (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.UID) && _deviceToCopy.Driver.Category == DeviceCategoryType.Device);
+        }
+
+        public RelayCommand PasteAsCommand { get; private set; }
+        void OnPasteAs()
+        {
+            var pasteAsViewModel = new PasteAsViewModel();
+            if (ServiceFactory.UserDialogs.ShowModalWindow(pasteAsViewModel))
+            {
+                var pasteDevice = _deviceToCopy.Copy(_isFullCopy);
+                SelectedDevice.Device.Children.Add(pasteDevice);
+                pasteDevice.Parent = SelectedDevice.Device;
+
+                var newDevice = AddDevice(pasteDevice, SelectedDevice);
+                SelectedDevice.Children.Add(newDevice);
+                CollapseChild(newDevice);
+
+                FiresecManager.DeviceConfiguration.Update();
+                ServiceFactory.SaveService.DevicesChanged = true;
+                UpdateGuardVisibility();
+            }
         }
 
         public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }

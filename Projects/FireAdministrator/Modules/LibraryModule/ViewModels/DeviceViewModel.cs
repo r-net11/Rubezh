@@ -130,7 +130,7 @@ namespace LibraryModule.ViewModels
             {
                 LibraryDevice.States.Add(addStateViewModel.SelectedItem.State);
                 StateViewModels.Add(addStateViewModel.SelectedItem);
-                LibraryModule.HasChanges = true;
+                ServiceFactory.SaveService.LibraryChanged = true;
             }
         }
 
@@ -142,7 +142,7 @@ namespace LibraryModule.ViewModels
             {
                 LibraryDevice.States.Add(addAdditionalStateViewModel.SelectedItem.State);
                 StateViewModels.Add(addAdditionalStateViewModel.SelectedItem);
-                LibraryModule.HasChanges = true;
+                ServiceFactory.SaveService.LibraryChanged = true;
             }
         }
 
@@ -157,7 +157,7 @@ namespace LibraryModule.ViewModels
             {
                 LibraryDevice.States.Remove(SelectedStateViewModel.State);
                 StateViewModels.Remove(SelectedStateViewModel);
-                LibraryModule.HasChanges = true;
+                ServiceFactory.SaveService.LibraryChanged = true;
             }
         }
 

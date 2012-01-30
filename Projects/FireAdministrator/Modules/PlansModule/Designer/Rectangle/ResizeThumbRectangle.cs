@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using Infrastructure;
 
 namespace PlansModule.Designer
 {
@@ -86,7 +87,7 @@ namespace PlansModule.Designer
                 }
 
                 e.Handled = true;
-                PlansModule.HasChanges = true;
+                ServiceFactory.SaveService.PlansChanged = true;
             }
         }
     }

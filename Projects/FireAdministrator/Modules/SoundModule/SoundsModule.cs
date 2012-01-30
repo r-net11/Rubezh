@@ -7,7 +7,6 @@ namespace SoundsModule
 {
     public class SoundsModule
     {
-        public static bool HasChanges { get; set; }
         static SoundsViewModel _soundsViewModel;
 
         public SoundsModule()

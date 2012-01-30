@@ -8,12 +8,14 @@ namespace Infrastructure
     {
         public static void Initialize(ILayoutService ILayoutService, IUserDialogService IUserDialogService)
         {
+            SaveService = new SaveService();
             Events = new EventAggregator();
             ResourceService = new ResourceService();
             Layout = ILayoutService;
             UserDialogs = IUserDialogService;
         }
 
+        public static SaveService SaveService { get; private set; }
         public static IEventAggregator Events { get; private set; }
         public static ResourceService ResourceService { get; private set; }
         public static ILayoutService Layout { get; private set; }

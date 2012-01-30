@@ -48,7 +48,7 @@ namespace DevicesModule.ViewModels
             FiresecManager.DeviceConfiguration.GuardUsers.Remove(SelectedUser.GuardUser);
             Users.Remove(SelectedUser);
 
-            DevicesModule.HasChanges = true;
+            ServiceFactory.SaveService.DevicesChanged = true;
         }
 
         public RelayCommand EditCommand { get; private set; }
@@ -58,7 +58,7 @@ namespace DevicesModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
             {
                 SelectedUser.GuardUser = userDetailsViewModel.GuardUser;
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
 
@@ -70,7 +70,7 @@ namespace DevicesModule.ViewModels
             {
                 FiresecManager.DeviceConfiguration.GuardUsers.Add(userDetailsViewModel.GuardUser);
                 Users.Add(new UserViewModel(userDetailsViewModel.GuardUser));
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
 

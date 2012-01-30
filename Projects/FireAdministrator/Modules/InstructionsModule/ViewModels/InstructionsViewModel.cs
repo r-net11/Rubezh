@@ -65,7 +65,7 @@ namespace InstructionsModule.ViewModels
             {
                 Instructions.Add(new InstructionViewModel(instructionDetailsViewModel.Instruction));
                 FiresecManager.SystemConfiguration.Instructions.Add(instructionDetailsViewModel.Instruction);
-                InstructionsModule.HasChanges = true;
+                ServiceFactory.SaveService.InstructionsChanged = true;
             }
         }
 
@@ -76,7 +76,7 @@ namespace InstructionsModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel))
             {
                 SelectedInstruction.Update();
-                InstructionsModule.HasChanges = true;
+                ServiceFactory.SaveService.InstructionsChanged = true;
             }
         }
 
@@ -97,7 +97,7 @@ namespace InstructionsModule.ViewModels
             Instructions.Remove(SelectedInstruction);
             if (Instructions.IsNotNullOrEmpty())
                 SelectedInstruction = Instructions[0];
-            InstructionsModule.HasChanges = true;
+            ServiceFactory.SaveService.InstructionsChanged = true;
         }
 
         public RelayCommand DeleteAllCommand { get; private set; }
@@ -106,7 +106,7 @@ namespace InstructionsModule.ViewModels
             SelectedInstruction = null;
             Instructions.Clear();
             FiresecManager.SystemConfiguration.Instructions.Clear();
-            InstructionsModule.HasChanges = true;
+            ServiceFactory.SaveService.InstructionsChanged = true;
         }
 
         public InputBindingCollection InputBindingsProp { get; set; }

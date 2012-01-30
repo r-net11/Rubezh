@@ -217,15 +217,6 @@ namespace FiresecClient
             FiresecServiceFactory.Dispose();
         }
 
-        public static void SetConfiguration()
-        {
-            FiresecService.SetSystemConfiguration(SystemConfiguration);
-            FiresecService.SetSecurityConfiguration(SecurityConfiguration);
-            FiresecService.SetLibraryConfiguration(LibraryConfiguration);
-            FiresecService.SetDeviceConfiguration(DeviceConfiguration);
-            FiresecService.SetPlansConfiguration(PlansConfiguration);
-        }
-
         public static void AddToIgnoreList(List<Guid> deviceUIDs)
         {
             FiresecService.AddToIgnoreList(deviceUIDs);

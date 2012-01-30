@@ -5,6 +5,7 @@ using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -14,6 +15,7 @@ namespace DevicesModule.ViewModels
 
         public ZonesViewModel()
         {
+            ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
@@ -58,6 +60,23 @@ namespace DevicesModule.ViewModels
             return Zones.Count > 0;
         }
 
+        void OnCreateZone(CreateZoneEventArg createZoneEventArg)
+        {
+            var zoneDetailsViewModel = new ZoneDetailsViewModel();
+            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
+            {
+                FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.Zone);
+                createZoneEventArg.ZoneNo = zoneDetailsViewModel.Zone.No;
+
+                ServiceFactory.SaveService.DevicesChanged = true;
+            }
+            else
+            {
+                createZoneEventArg.Cancel = true;
+                createZoneEventArg.ZoneNo = null;
+            }
+        }
+
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
@@ -67,7 +86,7 @@ namespace DevicesModule.ViewModels
                 FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.Zone);
                 Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
 
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
 
@@ -82,7 +101,7 @@ namespace DevicesModule.ViewModels
                 Zones.Remove(SelectedZone);
                 SelectFirstZone();
                 ZoneDevices.UpdateAvailableDevices();
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
 
@@ -95,7 +114,7 @@ namespace DevicesModule.ViewModels
                 SelectedZone.Zone = zoneDetailsViewModel.Zone;
                 SelectedZone.Update();
 
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
 
@@ -110,7 +129,7 @@ namespace DevicesModule.ViewModels
                 Zones.Clear();
                 SelectedZone = null;
 
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
 
@@ -131,7 +150,7 @@ namespace DevicesModule.ViewModels
 
                 SelectFirstZone();
 
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
 

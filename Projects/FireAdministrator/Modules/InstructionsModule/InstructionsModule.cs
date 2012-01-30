@@ -8,7 +8,6 @@ namespace InstructionsModule
 {
     public class InstructionsModule
     {
-        public static bool HasChanges { get; set; }
         static InstructionsViewModel _instructionsViewModel;
 
         public InstructionsModule()

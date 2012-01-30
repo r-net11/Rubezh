@@ -7,7 +7,6 @@ namespace FiltersModule
 {
     public class FilterModule
     {
-        public static bool HasChanges { get; set; }
         static FiltersViewModel _filtersViewModel;
 
         public FilterModule()

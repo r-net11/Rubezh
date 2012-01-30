@@ -157,7 +157,7 @@ namespace PlansModule.ViewModels
 
                 FiresecManager.PlansConfiguration.Plans.Add(plan);
                 FiresecManager.PlansConfiguration.Update();
-                PlansModule.HasChanges = true;
+                ServiceFactory.SaveService.PlansChanged = true;
             }
         }
 
@@ -178,7 +178,7 @@ namespace PlansModule.ViewModels
                 SelectedPlan.Update();
                 SelectedPlan = planViewModel;
                 FiresecManager.PlansConfiguration.Update();
-                PlansModule.HasChanges = true;
+                ServiceFactory.SaveService.PlansChanged = true;
             }
         }
 
@@ -205,7 +205,7 @@ namespace PlansModule.ViewModels
             }
 
             FiresecManager.PlansConfiguration.Update();
-            PlansModule.HasChanges = true;
+            ServiceFactory.SaveService.PlansChanged = true;
         }
 
         public RelayCommand EditCommand { get; private set; }
@@ -216,7 +216,7 @@ namespace PlansModule.ViewModels
             {
                 SelectedPlan.Update();
                 DesignerCanvas.Update();
-                PlansModule.HasChanges = true;
+                ServiceFactory.SaveService.PlansChanged = true;
             }
         }
 

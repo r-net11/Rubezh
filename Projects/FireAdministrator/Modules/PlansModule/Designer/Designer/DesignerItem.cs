@@ -230,7 +230,7 @@ namespace PlansModule.Designer
             if (result)
             {
                 Redraw();
-                PlansModule.HasChanges = true;
+                ServiceFactory.SaveService.PlansChanged = true;
                 DesignerCanvas.EndChange();
             }
         }

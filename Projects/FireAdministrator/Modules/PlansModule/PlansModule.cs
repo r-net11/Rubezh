@@ -9,8 +9,6 @@ namespace PlansModule
 {
     public class PlansModule
     {
-        public static bool HasChanges { get; set; }
-
         static PlansViewModel _plansViewModel;
 
         public PlansModule()

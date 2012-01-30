@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure;
 
 namespace LibraryModule.ViewModels
 {
@@ -101,7 +102,7 @@ namespace LibraryModule.ViewModels
             State.Frames.Add(defaultFrame);
             FrameViewModels.Add(new FrameViewModel(defaultFrame));
 
-            LibraryModule.HasChanges = true;
+            ServiceFactory.SaveService.LibraryChanged = true;
         }
 
         public RelayCommand RemoveFrameCommand { get; private set; }
@@ -116,7 +117,7 @@ namespace LibraryModule.ViewModels
                 State.Frames.Remove(SelectedFrameViewModel.Frame);
                 FrameViewModels.Remove(SelectedFrameViewModel);
 
-                LibraryModule.HasChanges = true;
+                ServiceFactory.SaveService.LibraryChanged = true;
             }
         }
 

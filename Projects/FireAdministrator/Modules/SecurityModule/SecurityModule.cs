@@ -39,7 +39,5 @@ namespace SecurityModule
             _groupsViewModel = new RolesViewModel();
             ServiceFactory.Layout.Show(_groupsViewModel);
         }
-
-        public static bool HasChanges { get; set; }
     }
 }

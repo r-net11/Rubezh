@@ -48,7 +48,7 @@ namespace PlansModule.ViewModels
         {
             OnCopy();
             DesignerCanvas.RemoveAllSelected();
-            PlansModule.HasChanges = true;
+            ServiceFactory.SaveService.PlansChanged = true;
         }
 
         bool CanPaste(object obj)
@@ -69,7 +69,7 @@ namespace PlansModule.ViewModels
                 designerItem.IsSelected = true;
             }
             ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements);
-            PlansModule.HasChanges = true;
+            ServiceFactory.SaveService.PlansChanged = true;
         }
 
         void NormalizeBuffer()

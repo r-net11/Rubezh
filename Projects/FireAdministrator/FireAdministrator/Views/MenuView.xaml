@@ -8,6 +8,6 @@
         <Controls:ToolBarButton Click="OnLoadFromFile" ToolTip="Считать из файла" ImageSource="/Controls;component/Images/load.png" />
         <Controls:ToolBarButton Click="OnSaveToFile" ToolTip="Сохранить в файл" ImageSource="/Controls;component/Images/save.png" />
         <Controls:ToolBarButton Click="OnValidate"  ToolTip="Проверить" ImageSource="/Controls;component/Images/check.png" />
-        <Controls:ToolBarButton Click="OnSetNewConfig" ToolTip="Ok" ImageSource="/Controls;component/Images/download.png" />
+        <Controls:ToolBarButton Click="OnSetNewConfig" ToolTip="Ok" Name="_saveButton" IsEnabled="False" ImageSource="/Controls;component/Images/download.png" />
     </StackPanel>
 </UserControl>

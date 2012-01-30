@@ -15,6 +15,10 @@
         <Views:NewDeviceRangeView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:PasteAsViewModel}">
+        <Views:PasteAsView />
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:DevicesMenuViewModel}">
         <Views:DevicesMenuView />
     </DataTemplate>

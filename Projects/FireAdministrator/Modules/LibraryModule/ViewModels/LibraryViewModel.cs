@@ -46,7 +46,7 @@ namespace LibraryModule.ViewModels
                 FiresecManager.LibraryConfiguration.Devices.Add(addDeviceViewModel.SelectedItem.LibraryDevice);
                 DeviceViewModels.Add(addDeviceViewModel.SelectedItem);
 
-                LibraryModule.HasChanges = true;
+                ServiceFactory.SaveService.LibraryChanged = true;
             }
         }
 
@@ -62,7 +62,7 @@ namespace LibraryModule.ViewModels
                 FiresecManager.LibraryConfiguration.Devices.Remove(SelectedDeviceViewModel.LibraryDevice);
                 DeviceViewModels.Remove(SelectedDeviceViewModel);
 
-                LibraryModule.HasChanges = true;
+                ServiceFactory.SaveService.LibraryChanged = true;
             }
         }
 

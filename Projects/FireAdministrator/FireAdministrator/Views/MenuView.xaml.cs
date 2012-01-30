@@ -17,21 +17,40 @@ namespace FireAdministrator.Views
         {
             InitializeComponent();
             DataContext = this;
+            ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
+        }
+
+        void SaveService_Changed()
+        {
+            _saveButton.IsEnabled = true;
         }
 
         void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
+            SetNewConfig();
+        }
+
+        public void SetNewConfig()
+        {
             PlansModule.PlansModule.Save();
 
-            FiresecManager.SetConfiguration();
+            if (ServiceFactory.SaveService.DevicesChanged)
+                FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
 
-            SoundsModule.SoundsModule.HasChanges = false;
-            DevicesModule.DevicesModule.HasChanges = false;
-            FiltersModule.FilterModule.HasChanges = false;
-            LibraryModule.LibraryModule.HasChanges = false;
-            InstructionsModule.InstructionsModule.HasChanges = false;
-            SecurityModule.SecurityModule.HasChanges = false;
-            PlansModule.PlansModule.HasChanges = false;
+            if (ServiceFactory.SaveService.PlansChanged)
+                FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+
+            if (ServiceFactory.SaveService.SecurityChanged)
+                FiresecManager.FiresecService.SetSecurityConfiguration(FiresecManager.SecurityConfiguration);
+
+            if (ServiceFactory.SaveService.LibraryChanged)
+                FiresecManager.FiresecService.SetLibraryConfiguration(FiresecManager.LibraryConfiguration);
+
+            if ((ServiceFactory.SaveService.InstructionsChanged) || (ServiceFactory.SaveService.SoundsChanged) || (ServiceFactory.SaveService.FilterChanged))
+                FiresecManager.FiresecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
+
+            ServiceFactory.SaveService.Reset();
+            _saveButton.IsEnabled = false;
         }
 
         void OnCreateNew(object sender, RoutedEventArgs e)
@@ -53,8 +72,8 @@ namespace FireAdministrator.Views
                 ServiceFactory.Layout.Close();
                 ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
 
-                DevicesModule.DevicesModule.HasChanges = true;
-                PlansModule.PlansModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
+                ServiceFactory.SaveService.PlansChanged = true;
 
                 DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
             }
@@ -76,7 +95,7 @@ namespace FireAdministrator.Views
             ServiceFactory.Layout.Close();
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
 
-            DevicesModule.DevicesModule.HasChanges = true;
+            ServiceFactory.SaveService.DevicesChanged = true;
         }
 
         void OnSaveToFile(object sender, RoutedEventArgs e)

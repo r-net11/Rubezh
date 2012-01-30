@@ -115,6 +115,7 @@
     <Compile Include="Devices\ViewModels\Actions\DeviceJournalViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceGetInformationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\ProgressViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PasteAsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\SetPasswordHelper.cs" />
@@ -141,6 +142,9 @@
     </Compile>
     <Compile Include="Devices\Views\Actions\ProgressView.xaml.cs">
       <DependentUpon>ProgressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PasteAsView.xaml.cs">
+      <DependentUpon>PasteAsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PropertyDetails\Indicator\IndicatorDeviceSelectionView.xaml.cs">
       <DependentUpon>IndicatorDeviceSelectionView.xaml</DependentUpon>
@@ -377,6 +381,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\Actions\ProgressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\PasteAsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

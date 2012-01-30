@@ -19,13 +19,13 @@ namespace DevicesModule.ViewModels
                 _isNew = true;
                 Title = "Создание новой зоны";
 
-                var _zone = new Zone()
+                Zone = new Zone()
                 {
                     Name = "Новая зона",
                     No = 1
                 };
                 if (FiresecManager.DeviceConfiguration.Zones.Count != 0)
-                    _zone.No = FiresecManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1;
+                    Zone.No = FiresecManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1;
             }
             else
             {

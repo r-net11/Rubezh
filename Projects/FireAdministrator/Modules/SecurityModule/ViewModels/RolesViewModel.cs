@@ -48,7 +48,7 @@ namespace SecurityModule.ViewModels
                 FiresecManager.SecurityConfiguration.UserRoles.Add(roleDetailsViewModel.Role);
                 Roles.Add(new RoleViewModel(roleDetailsViewModel.Role));
 
-                SecurityModule.HasChanges = true;
+                ServiceFactory.SaveService.SecurityChanged = true;
             }
         }
 
@@ -63,7 +63,7 @@ namespace SecurityModule.ViewModels
                 FiresecManager.SecurityConfiguration.Users = FiresecManager.SecurityConfiguration.Users.Where(x => x.RoleId != SelectedRole.Role.Id).ToList();
                 Roles.Remove(SelectedRole);
 
-                SecurityModule.HasChanges = true;
+                ServiceFactory.SaveService.SecurityChanged = true;
             }
         }
 
@@ -80,7 +80,7 @@ namespace SecurityModule.ViewModels
                 SelectedRole.Role = roleDetailsViewModel.Role;
                 FiresecManager.SecurityConfiguration.UserRoles.Add(SelectedRole.Role);
 
-                SecurityModule.HasChanges = true;
+                ServiceFactory.SaveService.SecurityChanged = true;
             }
         }
 

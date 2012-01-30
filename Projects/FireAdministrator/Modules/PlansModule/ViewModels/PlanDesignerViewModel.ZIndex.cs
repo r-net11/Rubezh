@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using PlansModule.Designer;
+using Infrastructure;
 
 namespace PlansModule.ViewModels
 {
@@ -44,7 +45,7 @@ namespace PlansModule.ViewModels
                 }
             }
 
-            PlansModule.HasChanges = true;
+            ServiceFactory.SaveService.PlansChanged = true;
         }
 
         public RelayCommand SendToBackCommand { get; private set; }
@@ -70,7 +71,7 @@ namespace PlansModule.ViewModels
                 }
             }
 
-            PlansModule.HasChanges = true;
+            ServiceFactory.SaveService.PlansChanged = true;
         }
 
         public RelayCommand MoveForwardCommand { get; private set; }
@@ -86,7 +87,7 @@ namespace PlansModule.ViewModels
                 }
             }
 
-            PlansModule.HasChanges = true;
+            ServiceFactory.SaveService.PlansChanged = true;
         }
 
         public RelayCommand MoveBackwardCommand { get; private set; }
@@ -102,7 +103,7 @@ namespace PlansModule.ViewModels
                 }
             }
 
-            PlansModule.HasChanges = true;
+            ServiceFactory.SaveService.PlansChanged = true;
         }
 
         void NormalizeZIndex()

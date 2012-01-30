@@ -148,7 +148,7 @@ namespace DevicesModule.ViewModels
             SelectedAvailableDevice.Device.ZoneNo = _zoneNo;
             Initialize(_zoneNo);
             UpdateAvailableDevices();
-            DevicesModule.HasChanges = true;
+            ServiceFactory.SaveService.DevicesChanged = true;
         }
 
         public bool CanRemove()
@@ -162,7 +162,7 @@ namespace DevicesModule.ViewModels
             SelectedDevice.Device.ZoneNo = null;
             Initialize(_zoneNo);
             UpdateAvailableDevices();
-            DevicesModule.HasChanges = true;
+            ServiceFactory.SaveService.DevicesChanged = true;
         }
 
         public bool CanShowZoneLogic()
@@ -177,7 +177,7 @@ namespace DevicesModule.ViewModels
 
             if (ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel))
             {
-                DevicesModule.HasChanges = true;
+                ServiceFactory.SaveService.DevicesChanged = true;
                 Initialize(_zoneNo);
             }
         }
