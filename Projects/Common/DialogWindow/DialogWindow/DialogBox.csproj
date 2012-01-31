@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DialogWindow.cs" />
+    <Compile Include="UserDialogService.cs" />
     <Compile Include="ViewModel\UserDialogViewModel.cs" />
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -129,10 +130,6 @@
     <Resource Include="DialogBoxImages\warning.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\FireMonitor\Infrastructure\Infrastructure.csproj">
-      <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
-      <Name>Infrastructure</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>

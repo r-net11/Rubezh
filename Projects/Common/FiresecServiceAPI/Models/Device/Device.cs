@@ -204,6 +204,7 @@ namespace FiresecAPI.Models
         {
             var newDevice = new Device()
             {
+                DriverUID = DriverUID,
                 Driver = Driver,
                 IntAddress = IntAddress,
                 Description = Description,

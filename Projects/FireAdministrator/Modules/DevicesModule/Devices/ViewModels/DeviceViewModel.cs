@@ -27,8 +27,6 @@ namespace DevicesModule.ViewModels
             ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
             ShowZoneCommand = new RelayCommand(OnShowZone);
 
-            //DevicesViewModel
-
             Source = sourceDevices;
             Device = device;
             PropertiesViewModel = new DeviceProperties.PropertiesViewModel(device);

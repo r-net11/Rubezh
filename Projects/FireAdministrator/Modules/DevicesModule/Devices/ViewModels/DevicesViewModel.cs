@@ -164,41 +164,45 @@ namespace DevicesModule.ViewModels
         void OnPaste()
         {
             var pasteDevice = _deviceToCopy.Copy(_isFullCopy);
-            SelectedDevice.Device.Children.Add(pasteDevice);
-            pasteDevice.Parent = SelectedDevice.Device;
+            PasteDevice(pasteDevice);
+        }
 
-            var newDevice = AddDevice(pasteDevice, SelectedDevice);
+        bool CanPasteAs()
+        {
+            return (SelectedDevice != null && _deviceToCopy != null &&
+                (DriversHelper.PanelDrivers.Contains(_deviceToCopy.Driver.DriverType) || DriversHelper.UsbPanelDrivers.Contains(_deviceToCopy.Driver.DriverType)) &&
+                (SelectedDevice.Driver.DriverType == DriverType.Computer || SelectedDevice.Driver.DriverType == DriverType.USB_Channel_1 || SelectedDevice.Driver.DriverType == DriverType.USB_Channel_2));
+        }
+
+        public RelayCommand PasteAsCommand { get; private set; }
+        void OnPasteAs()
+        {
+            var pasteAsViewModel = new PasteAsViewModel(SelectedDevice.Driver.DriverType);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(pasteAsViewModel))
+            {
+                var pasteDevice = _deviceToCopy.Copy(_isFullCopy);
+
+                pasteDevice.DriverUID = pasteAsViewModel.SelectedDriver.UID;
+                pasteDevice.Driver = pasteAsViewModel.SelectedDriver;
+
+                pasteDevice.SynchronizeChildern();
+
+                PasteDevice(pasteDevice);
+            }
+        }
+
+        void PasteDevice(Device device)
+        {
+            SelectedDevice.Device.Children.Add(device);
+            device.Parent = SelectedDevice.Device;
+
+            var newDevice = AddDevice(device, SelectedDevice);
             SelectedDevice.Children.Add(newDevice);
             CollapseChild(newDevice);
 
             FiresecManager.DeviceConfiguration.Update();
             ServiceFactory.SaveService.DevicesChanged = true;
             UpdateGuardVisibility();
-        }
-
-        bool CanPasteAs()
-        {
-            return (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.UID) && _deviceToCopy.Driver.Category == DeviceCategoryType.Device);
-        }
-
-        public RelayCommand PasteAsCommand { get; private set; }
-        void OnPasteAs()
-        {
-            var pasteAsViewModel = new PasteAsViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(pasteAsViewModel))
-            {
-                var pasteDevice = _deviceToCopy.Copy(_isFullCopy);
-                SelectedDevice.Device.Children.Add(pasteDevice);
-                pasteDevice.Parent = SelectedDevice.Device;
-
-                var newDevice = AddDevice(pasteDevice, SelectedDevice);
-                SelectedDevice.Children.Add(newDevice);
-                CollapseChild(newDevice);
-
-                FiresecManager.DeviceConfiguration.Update();
-                ServiceFactory.SaveService.DevicesChanged = true;
-                UpdateGuardVisibility();
-            }
         }
 
         public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }

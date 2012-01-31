@@ -26,10 +26,13 @@ namespace DevicesModule.ViewModels
             Device = device;
 
             DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
-            DeviceState.StateChanged += new System.Action(OnStateChanged);
-            DeviceState.ParametersChanged += new System.Action(OnParametersChanged);
-            OnStateChanged();
-            OnParametersChanged();
+            if (DeviceState != null)
+            {
+                DeviceState.StateChanged += new System.Action(OnStateChanged);
+                DeviceState.ParametersChanged += new System.Action(OnParametersChanged);
+                OnStateChanged();
+                OnParametersChanged();
+            }
         }
 
         public string PresentationZone

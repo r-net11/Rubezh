@@ -7,12 +7,14 @@ namespace FiresecClient
     {
         public static Device AddChild(this Device parentDevice, Driver newDriver, int newAddress)
         {
-            var device = new Device();
-            device.DriverUID = newDriver.UID;
-            device.Driver = newDriver;
-            device.IntAddress = newAddress;
+            var device = new Device()
+            {
+                DriverUID = newDriver.UID,
+                Driver = newDriver,
+                IntAddress = newAddress,
+                Parent = parentDevice
+            };
             parentDevice.Children.Add(device);
-            device.Parent = parentDevice;
             AddAutoCreateChildren(device);
 
             return device;
@@ -26,15 +28,40 @@ namespace FiresecClient
 
                 for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; ++i)
                 {
-                    var childDevice = new Device()
+                    device.AddChild(autoCreateDriver, i);
+                }
+            }
+        }
+
+        public static void SynchronizeChildern(this Device device)
+        {
+            for (int i = device.Children.Count(); i > 0; i--)
+            {
+                var childDevice = device.Children[i - 1];
+
+                if (device.Driver.AvaliableChildren.Contains(childDevice.Driver.UID) == false)
+                {
+                    device.Children.RemoveAt(i - 1);
+                }
+            }
+
+            foreach (var autoCreateChildUID in device.Driver.AutoCreateChildren)
+            {
+                var autoCreateDriver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == autoCreateChildUID);
+
+                for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; ++i)
+                {
+                    var newDevice = new Device()
                     {
                         DriverUID = autoCreateDriver.UID,
                         Driver = autoCreateDriver,
                         IntAddress = i
                     };
-
-                    device.Children.Add(childDevice);
-                    AddAutoCreateChildren(childDevice);
+                    if (device.Children.Any(x => x.Driver.DriverType == newDevice.Driver.DriverType && x.IntAddress == newDevice.IntAddress) == false)
+                    {
+                        device.Children.Add(newDevice);
+                        newDevice.Parent = device;
+                    }
                 }
             }
         }

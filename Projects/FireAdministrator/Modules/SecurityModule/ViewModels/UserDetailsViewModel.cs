@@ -205,7 +205,7 @@ namespace SecurityModule.ViewModels
 
         void ShowMessage(string message)
         {
-            DialogBox.DialogBox.Show(message, MessageBoxButton.OK, MessageBoxImage.Information);
+            DialogBox.DialogBox.Show(message);
         }
 
         bool CheckLogin()

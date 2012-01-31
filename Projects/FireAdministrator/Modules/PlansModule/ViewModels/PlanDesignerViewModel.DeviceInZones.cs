@@ -79,7 +79,7 @@ namespace PlansModule.ViewModels
                         {
                             if (zones.Count > 0)
                             {
-                                if (System.Windows.MessageBox.Show("Изменить зону устройства " + deviceName + " с " + deviceZoneName + " на " + firstZoneName + " ?", "", System.Windows.MessageBoxButton.YesNo) == System.Windows.MessageBoxResult.Yes)
+                                if (DialogBox.DialogBox.ShowQuestion("Изменить зону устройства " + deviceName + " с " + deviceZoneName + " на " + firstZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
                                 {
                                     designerItem.IsSelected = true;
                                     device.ZoneNo = zones[0];
@@ -88,7 +88,7 @@ namespace PlansModule.ViewModels
                             }
                             else
                             {
-                                if (System.Windows.MessageBox.Show("Удалить устройство " + deviceName + " из зоны " + deviceZoneName + " ?", "", System.Windows.MessageBoxButton.YesNo) == System.Windows.MessageBoxResult.Yes)
+                                if (DialogBox.DialogBox.ShowQuestion("Удалить устройство " + deviceName + " из зоны " + deviceZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
                                 {
                                     designerItem.IsSelected = true;
                                     device.ZoneNo = null;
@@ -101,7 +101,7 @@ namespace PlansModule.ViewModels
                     {
                         if (zones.Count > 0)
                         {
-                            if (System.Windows.MessageBox.Show("Добавить устройство " + deviceName + " в зону " + firstZoneName + " ?", "", System.Windows.MessageBoxButton.YesNo) == System.Windows.MessageBoxResult.Yes)
+                            if (DialogBox.DialogBox.ShowQuestion("Добавить устройство " + deviceName + " в зону " + firstZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
                             {
                                 designerItem.IsSelected = true;
                                 device.ZoneNo = zones[0];

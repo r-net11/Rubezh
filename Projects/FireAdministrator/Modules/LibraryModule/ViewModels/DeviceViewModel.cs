@@ -149,11 +149,9 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveState()
         {
-            var dialogResult = DialogBox.DialogBox.Show("Удалить выбранное состояние?",
-                                                MessageBoxButton.OKCancel,
-                                                MessageBoxImage.Question);
+            var dialogResult = DialogBox.DialogBox.ShowQuestion("Удалить выбранное состояние?");
 
-            if (dialogResult == MessageBoxResult.OK)
+            if (dialogResult == MessageBoxResult.Yes)
             {
                 LibraryDevice.States.Remove(SelectedStateViewModel.State);
                 StateViewModels.Remove(SelectedStateViewModel);

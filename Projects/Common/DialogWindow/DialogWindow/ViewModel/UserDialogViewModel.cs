@@ -6,13 +6,13 @@ namespace DialogBox.ViewModel
 {
     public class UserDialogViewModel : DialogContent
     {
-        public UserDialogViewModel(string message) :
-            this(message, MessageBoxButton.OK, MessageBoxImage.None)
-        { }
+        //public UserDialogViewModel(string message) :
+        //    this(message, MessageBoxButton.OK, MessageBoxImage.None)
+        //{ }
 
-        public UserDialogViewModel(string message, MessageBoxButton button) :
-            this(message, button, MessageBoxImage.None)
-        { }
+        //public UserDialogViewModel(string message, MessageBoxButton button) :
+        //    this(message, button, MessageBoxImage.None)
+        //{ }
 
         public UserDialogViewModel(string message, MessageBoxButton button, MessageBoxImage image)
         {
@@ -25,9 +25,7 @@ namespace DialogBox.ViewModel
 
         void Initialize()
         {
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-
-            Title = "Firesec.Inc";
+            Title = "Firesec";
 
             Result = MessageBoxResult.None;
 

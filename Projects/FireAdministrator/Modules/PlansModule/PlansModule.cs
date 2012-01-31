@@ -28,7 +28,7 @@ namespace PlansModule
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Polygon/ResizeChromePolygon.xaml"));
         }
 
-        static void CreateViewModels()
+        public static void CreateViewModels()
         {
             _plansViewModel = new PlansViewModel();
         }

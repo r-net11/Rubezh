@@ -22,6 +22,7 @@ namespace DevicesModule
             ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
             ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Subscribe(OnShowGuardUsers);
             ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Subscribe(OnShowGuardLevels);
+            ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
 
             RegisterResources();
             CreateViewModels();
@@ -74,6 +75,11 @@ namespace DevicesModule
         static void OnShowGuardLevels(string obj)
         {
             ServiceFactory.Layout.Show(_levelsViewModel);
+        }
+
+        static void OnCreateZone(CreateZoneEventArg createZoneEventArg)
+        {
+            _zonesViewModel.CreateZone(createZoneEventArg);
         }
     }
 }

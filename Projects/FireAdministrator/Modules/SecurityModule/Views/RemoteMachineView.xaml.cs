@@ -125,18 +125,14 @@ namespace SecurityModule.Views
             int ipAddressByte = GetIpAddressByte(index);
             if (ipAddressByte < IpAddressBytes[index].Min)
             {
-                DialogBox.DialogBox.Show(
-                    string.Format(MessageFormat, ipAddressByte, IpAddressBytes[index].Min, IpAddressBytes[index].Max),
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                DialogBox.DialogBox.ShowExclamation(string.Format(MessageFormat, ipAddressByte, IpAddressBytes[index].Min, IpAddressBytes[index].Max));
 
                 SetIpAddressByte(index, IpAddressBytes[index].Min);
                 addressEditor.CaretIndex = caretIndex;
             }
             else if (ipAddressByte > IpAddressBytes[index].Max)
             {
-                DialogBox.DialogBox.Show(
-                    string.Format(MessageFormat, ipAddressByte, IpAddressBytes[index].Min, IpAddressBytes[index].Max),
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                DialogBox.DialogBox.ShowExclamation(string.Format(MessageFormat, ipAddressByte, IpAddressBytes[index].Min, IpAddressBytes[index].Max));
 
                 SetIpAddressByte(index, IpAddressBytes[index].Max);
                 addressEditor.CaretIndex = caretIndex;

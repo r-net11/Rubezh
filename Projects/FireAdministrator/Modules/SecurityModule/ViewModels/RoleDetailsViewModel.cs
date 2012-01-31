@@ -73,13 +73,13 @@ namespace SecurityModule.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Name))
             {
-                DialogBox.DialogBox.Show("Сначала введите название роли", MessageBoxButton.OK, MessageBoxImage.Information);
+                DialogBox.DialogBox.Show("Сначала введите название роли");
                 cancel = true;
                 return;
             }
             else if (Name != Role.Name && FiresecManager.SecurityConfiguration.UserRoles.Any(role => role.Name == Name))
             {
-                DialogBox.DialogBox.Show("Роль с таким названием уже существует", MessageBoxButton.OK, MessageBoxImage.Information);
+                DialogBox.DialogBox.Show("Роль с таким названием уже существует");
                 cancel = true;
                 return;
             }

@@ -49,7 +49,7 @@ namespace FireAdministrator.ViewModels
                 Close(true);
                 return;
             }
-            MessageBox.Show(message);
+            DialogBox.DialogBox.Show(message);
         }
 
         public RelayCommand CancelCommand { get; private set; }

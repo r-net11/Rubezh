@@ -15,7 +15,6 @@ namespace DevicesModule.ViewModels
 
         public ZonesViewModel()
         {
-            ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
@@ -60,7 +59,7 @@ namespace DevicesModule.ViewModels
             return Zones.Count > 0;
         }
 
-        void OnCreateZone(CreateZoneEventArg createZoneEventArg)
+        public void CreateZone(CreateZoneEventArg createZoneEventArg)
         {
             var zoneDetailsViewModel = new ZoneDetailsViewModel();
             if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
@@ -93,7 +92,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            var dialogResult = DialogBox.DialogBox.Show("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName, MessageBoxButton.YesNo);
+            var dialogResult = DialogBox.DialogBox.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName);
             if (dialogResult == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
@@ -121,7 +120,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteAllCommand { get; private set; }
         void OnDeleteAll()
         {
-            var dialogResult = DialogBox.DialogBox.Show("Вы уверены, что хотите удалить все зоны ?", MessageBoxButton.YesNo);
+            var dialogResult = DialogBox.DialogBox.ShowQuestion("Вы уверены, что хотите удалить все зоны ?");
             if (dialogResult == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration.Zones.Clear();
@@ -136,7 +135,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteAllEmptyCommand { get; private set; }
         void OnDeleteAllEmpty()
         {
-            var dialogResult = DialogBox.DialogBox.Show("Вы уверены, что хотите удалить все пустые зоны ?", MessageBoxButton.YesNo);
+            var dialogResult = DialogBox.DialogBox.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?");
             if (dialogResult == MessageBoxResult.Yes)
             {
                 var emptyZones = new List<ZoneViewModel>(

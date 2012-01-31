@@ -10,20 +10,19 @@ namespace PlansModule.ViewModels
 {
     public class ElementViewModel : ElementBaseViewModel
     {
-        public ElementViewModel(ObservableCollection<ElementBaseViewModel> sourceElement, DesignerItem designerItem, string name, string elementType)
+        public ElementViewModel(ObservableCollection<ElementBaseViewModel> sourceElement, DesignerItem designerItem, string name)
         {
             Source = sourceElement;
             ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
             DesignerItem = designerItem;
             ElementUID = DesignerItem.ElementBase.UID;
             Name = name;
-            ElementType = elementType;
         }
 
         DesignerItem DesignerItem;
         public Guid ElementUID { get; private set; }
         public string Name { get; private set; }
-        public string ElementType { get; private set; }
+        public string ElementType { get; set; }
 
         public bool IsVisible
         {
@@ -51,7 +50,6 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public RelayCommand ShowOnPlanCommand { get; private set; }
         void OnShowOnPlan()
         {
             ServiceFactory.Events.GetEvent<ShowElementEvent>().Publish(DesignerItem.ElementBase.UID);

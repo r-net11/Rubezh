@@ -255,7 +255,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ReadCommand { get; private set; }
         void OnRead()
         {
-            MessageBox.Show("Эта функция пока не реализована");
+            DialogBox.DialogBox.Show("Эта функция пока не реализована");
         }
 
         protected override void Save(ref bool cancel)

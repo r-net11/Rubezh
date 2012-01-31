@@ -5,6 +5,7 @@
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
+    
     <DockPanel LastChildFill="True">
         <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,11,11">
             <Button Content="Ok"

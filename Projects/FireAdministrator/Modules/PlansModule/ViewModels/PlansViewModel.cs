@@ -108,6 +108,8 @@ namespace PlansModule.ViewModels
                 _selectedPlan = value;
                 OnPropertyChanged("SelectedPlan");
 
+                PlanDesignerViewModel.Save();
+
                 if (value != null)
                 {
                     PlanDesignerViewModel.ChangeZoom(1);
@@ -116,13 +118,12 @@ namespace PlansModule.ViewModels
                     //{
                     //    PlanDesignerView.Current.FullSize();
                     //}
-
-                    PlanDesignerViewModel.Save();
+                    
                     PlanDesignerViewModel.Initialize(value.Plan);
                     //PlanDesignerViewModel.UpdateDeviceInZones();
-                    ResetHistory();
                     ElementsViewModel.Update();
                 }
+                ResetHistory();
             }
         }
 
@@ -185,27 +186,29 @@ namespace PlansModule.ViewModels
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
-            var selectedPlan = SelectedPlan;
             var parent = SelectedPlan.Parent;
             var plan = SelectedPlan.Plan;
 
             if (parent == null)
             {
-                selectedPlan.IsExpanded = false;
-                Plans.Remove(selectedPlan);
+                SelectedPlan.IsExpanded = false;
+                Plans.Remove(SelectedPlan);
                 FiresecManager.PlansConfiguration.Plans.Remove(plan);
             }
             else
             {
                 parent.IsExpanded = false;
                 parent.Plan.Children.Remove(plan);
-                parent.Children.Remove(selectedPlan);
+                parent.Children.Remove(SelectedPlan);
                 parent.Update();
                 parent.IsExpanded = true;
             }
 
             FiresecManager.PlansConfiguration.Update();
             ServiceFactory.SaveService.PlansChanged = true;
+
+            if (Plans.Count > 0)
+                SelectedPlan = Plans[0];
         }
 
         public RelayCommand EditCommand { get; private set; }

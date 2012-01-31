@@ -53,11 +53,9 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveDeviceCommand { get; private set; }
         void OnRemoveDevice()
         {
-            var result = DialogBox.DialogBox.Show("Вы уверены что хотите удалить выбранное устройство?",
-                                          MessageBoxButton.OKCancel,
-                                          MessageBoxImage.Question);
+            var result = DialogBox.DialogBox.ShowQuestion("Вы уверены что хотите удалить выбранное устройство?");
 
-            if (result == MessageBoxResult.OK)
+            if (result == MessageBoxResult.Yes)
             {
                 FiresecManager.LibraryConfiguration.Devices.Remove(SelectedDeviceViewModel.LibraryDevice);
                 DeviceViewModels.Remove(SelectedDeviceViewModel);

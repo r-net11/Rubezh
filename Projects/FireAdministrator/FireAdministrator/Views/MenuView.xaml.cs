@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
 using Microsoft.Win32;
+using System.Collections.Generic;
 
 namespace FireAdministrator.Views
 {
@@ -55,27 +56,33 @@ namespace FireAdministrator.Views
 
         void OnCreateNew(object sender, RoutedEventArgs e)
         {
-            var result = DialogBox.DialogBox.Show("Вы уверены, что хотите создать новую конфигурацию", MessageBoxButton.YesNo);
+            var result = DialogBox.DialogBox.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
             if (result == MessageBoxResult.Yes)
             {
-                FiresecManager.DeviceConfiguration.Devices = new System.Collections.Generic.List<Device>();
-                FiresecManager.DeviceConfiguration.Zones = new System.Collections.Generic.List<Zone>();
-                FiresecManager.DeviceConfiguration.Directions = new System.Collections.Generic.List<Direction>();
+                FiresecManager.DeviceConfiguration.Devices = new List<Device>();
+                FiresecManager.DeviceConfiguration.Zones = new List<Zone>();
+                FiresecManager.DeviceConfiguration.Directions = new List<Direction>();
 
-                Device device = new Device();
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer);
-                device.DriverUID = device.Driver.UID;
+                var device = new Device()
+                {
+                    DriverUID = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer).UID,
+                    Driver =    FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer)
+                };
                 FiresecManager.DeviceConfiguration.RootDevice = device;
                 FiresecManager.DeviceConfiguration.Update();
 
-                DevicesModule.DevicesModule.CreateViewModels();
-                ServiceFactory.Layout.Close();
-                ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+                FiresecManager.PlansConfiguration.Plans = new List<Plan>();
+                FiresecManager.PlansConfiguration.Update();
 
                 ServiceFactory.SaveService.DevicesChanged = true;
                 ServiceFactory.SaveService.PlansChanged = true;
-
                 DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
+
+                DevicesModule.DevicesModule.CreateViewModels();
+                PlansModule.PlansModule.CreateViewModels();
+
+                ServiceFactory.Layout.Close();
+                ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
             }
         }
 

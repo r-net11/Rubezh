@@ -117,5 +117,33 @@ namespace FiresecAPI.Models
             //DriverDataList.Add(new DriverData("zone", 0, "zone"));
             //DriverDataList.Add(new DriverData("monitor", 0, "monitor"));
         }
+
+        public static List<DriverType> PanelDrivers
+        {
+            get
+            {
+                var panelDrivers = new List<DriverType>();
+                panelDrivers.Add(DriverType.BUNS);
+                panelDrivers.Add(DriverType.BUNS_2);
+                panelDrivers.Add(DriverType.Rubezh_2AM);
+                panelDrivers.Add(DriverType.Rubezh_2OP);
+                panelDrivers.Add(DriverType.Rubezh_4A);
+                return panelDrivers;
+            }
+        }
+
+        public static List<DriverType> UsbPanelDrivers
+        {
+            get
+            {
+                var usbPanelDrivers = new List<DriverType>();
+                usbPanelDrivers.Add(DriverType.USB_BUNS);
+                usbPanelDrivers.Add(DriverType.USB_BUNS_2);
+                usbPanelDrivers.Add(DriverType.USB_Rubezh_2AM);
+                usbPanelDrivers.Add(DriverType.USB_Rubezh_2OP);
+                usbPanelDrivers.Add(DriverType.USB_Rubezh_4A);
+                return usbPanelDrivers;
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace Infrastructure.Common
             _propertyChangeHelper.SetValue(this, ref field, value, propertyNames);
         }
 
-        protected void OnPropertyChanged(string propertyName)
+        public void OnPropertyChanged(string propertyName)
         {
             _propertyChangeHelper.NotifyPropertyChanged(this, propertyName);
         }

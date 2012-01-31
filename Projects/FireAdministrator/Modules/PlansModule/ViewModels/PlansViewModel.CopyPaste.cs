@@ -95,7 +95,7 @@ namespace PlansModule.ViewModels
 
             if ((maxRight > PlanDesignerViewModel.Plan.Width) || (maxBottom > PlanDesignerViewModel.Plan.Height))
             {
-                MessageBox.Show("Размер вставляемого содержимого больше размеров плана");
+                DialogBox.DialogBox.Show("Размер вставляемого содержимого больше размеров плана");
             }
         }
     }

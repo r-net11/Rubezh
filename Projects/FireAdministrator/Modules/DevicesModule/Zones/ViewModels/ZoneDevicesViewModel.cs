@@ -17,6 +17,8 @@ namespace DevicesModule.ViewModels
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
+            Devices = new ObservableCollection<DeviceViewModel>();
+            AvailableDevices = new ObservableCollection<DeviceViewModel>();
         }
 
         public void Initialize(ulong? zoneNo)
@@ -53,7 +55,7 @@ namespace DevicesModule.ViewModels
                 }
             }
 
-            Devices = new ObservableCollection<DeviceViewModel>();
+            Devices.Clear();
             foreach (var device in devices)
             {
                 var deviceViewModel = new DeviceViewModel(device, Devices)
@@ -71,7 +73,7 @@ namespace DevicesModule.ViewModels
                 parent.Children.Add(device);
             }
 
-            AvailableDevices = new ObservableCollection<DeviceViewModel>();
+            AvailableDevices.Clear();
             foreach (var device in availableDevices)
             {
                 var deviceViewModel = new DeviceViewModel(device, AvailableDevices)

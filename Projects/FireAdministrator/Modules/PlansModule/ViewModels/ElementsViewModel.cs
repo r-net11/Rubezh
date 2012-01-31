@@ -26,13 +26,13 @@ namespace PlansModule.ViewModels
 
         DesignerCanvas DesignerCanvas;
         public ObservableCollection<ElementBaseViewModel> Elements { get; set; }
-        ElementGroupViewModel ElementDevices;
-        ElementGroupViewModel ElementZones;
-        ElementGroupViewModel ElementSubPlans;
-        ElementGroupViewModel ElementElements;
+        ElementBaseViewModel ElementDevices;
+        ElementBaseViewModel ElementZones;
+        ElementBaseViewModel ElementSubPlans;
+        ElementBaseViewModel ElementElements;
 
-        ElementViewModel _selectedElement;
-        public ElementViewModel SelectedElement
+        ElementBaseViewModel _selectedElement;
+        public ElementBaseViewModel SelectedElement
         {
             get { return _selectedElement; }
             set
@@ -85,8 +85,18 @@ namespace PlansModule.ViewModels
 
         #endregion
 
-        void AddElement(ElementGroupViewModel parentElementViewModel, ElementViewModel elementViewModel)
+        void UpdateHasChildren()
         {
+            ElementDevices.OnPropertyChanged("HasChildren");
+            ElementZones.OnPropertyChanged("HasChildren");
+            ElementSubPlans.OnPropertyChanged("HasChildren");
+            ElementElements.OnPropertyChanged("HasChildren");
+        }
+
+        void AddElement(ElementBaseViewModel parentElementViewModel, ElementViewModel elementViewModel)
+        {
+            elementViewModel.ElementType = (parentElementViewModel as ElementGroupViewModel).ElementType;
+
             elementViewModel.Parent = parentElementViewModel;
             parentElementViewModel.Children.Add(elementViewModel);
             var indexOf = Elements.IndexOf(parentElementViewModel);
@@ -103,7 +113,7 @@ namespace PlansModule.ViewModels
             {
                 ElementDevice elementDevice = elementBase as ElementDevice;
                 name = elementDevice.Device.DottedAddress + " " + elementDevice.Device.Driver.ShortName;
-                AddElement(ElementDevices, new ElementViewModel(Elements, designerItem, name, "Device"));
+                AddElement(ElementDevices, new ElementViewModel(Elements, designerItem, name));
             }
             if (elementBase is IElementZone)
             {
@@ -116,7 +126,7 @@ namespace PlansModule.ViewModels
                 {
                     name = "Несвязанная зона";
                 }
-                AddElement(ElementZones, new ElementViewModel(Elements, designerItem, name, "Zone"));
+                AddElement(ElementZones, new ElementViewModel(Elements, designerItem, name));
             }
             if (elementBase is ElementSubPlan)
             {
@@ -129,23 +139,27 @@ namespace PlansModule.ViewModels
                 {
                     name = "Несвязанный подплан";
                 }
-                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, name, "SubPlan"));
+                AddElement(ElementSubPlans, new ElementViewModel(Elements, designerItem, name));
             }
             if (elementBase is ElementEllipse)
             {
-                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, "Эллипс", "Element"));
+                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, "Эллипс"));
             }
             if (elementBase is ElementPolygon)
             {
-                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, name, "SubPlan"));
+                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, "Многоугольник"));
+            }
+            if (elementBase is ElementPolyline)
+            {
+                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, "Линия"));
             }
             if (elementBase is ElementRectangle)
             {
-                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, "Прямоугольник", "Element"));
+                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, "Прямоугольник"));
             }
             if (elementBase is ElementTextBlock)
             {
-                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, "Надпись", "Element"));
+                AddElement(ElementElements, new ElementViewModel(Elements, designerItem, "Надпись"));
             }
         }
 
@@ -159,6 +173,7 @@ namespace PlansModule.ViewModels
                     AddDesignerItem(designerItem);
                 }
             }
+            UpdateHasChildren();
         }
 
         void OnElementRemoved(List<ElementBase> elements)
@@ -171,6 +186,7 @@ namespace PlansModule.ViewModels
                     Elements.Remove(element);
                 }
             }
+            UpdateHasChildren();
         }
 
         void OnElementChanged(List<ElementBase> elements)

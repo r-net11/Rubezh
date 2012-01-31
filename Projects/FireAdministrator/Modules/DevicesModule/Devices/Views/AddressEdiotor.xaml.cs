@@ -213,18 +213,14 @@ namespace DevicesModule.Views
             int leftPart = LeftPart;
             if (leftPart < LeftPartMin)
             {
-                DialogBox.DialogBox.Show(
-                    string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax),
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                DialogBox.DialogBox.ShowExclamation(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
 
                 LeftPart = LeftPartMin;
                 addressEditor.CaretIndex = caretIndex;
             }
             else if (leftPart > LeftPartMax)
             {
-                DialogBox.DialogBox.Show(
-                    string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax),
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                DialogBox.DialogBox.ShowExclamation(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
 
                 LeftPart = LeftPartMax;
                 addressEditor.CaretIndex = caretIndex;
@@ -241,18 +237,14 @@ namespace DevicesModule.Views
 
             if (rightPart < RightPartMin)
             {
-                DialogBox.DialogBox.Show(
-                    string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax),
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                DialogBox.DialogBox.ShowExclamation(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
 
                 RightPart = RightPartMin;
                 addressEditor.CaretIndex = caretIndex;
             }
             else if (rightPart > RightPartMax)
             {
-                DialogBox.DialogBox.Show(
-                    string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax),
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                DialogBox.DialogBox.ShowExclamation(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
 
                 RightPart = RightPartMax;
                 addressEditor.CaretIndex = caretIndex;

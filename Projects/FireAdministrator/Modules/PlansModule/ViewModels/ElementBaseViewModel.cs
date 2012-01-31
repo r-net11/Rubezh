@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
     public class ElementBaseViewModel : TreeBaseViewModel<ElementBaseViewModel>
     {
+        public RelayCommand ShowOnPlanCommand { get; protected set; }
     }
 }
