@@ -14,24 +14,23 @@ namespace ReportsModule.ViewModels
     {
         public ReportsViewModel()
         {
-            ReportNames = new List<string>();
-            ReportNames.Add("Блоки индикации");
-            ReportNames.Add("Журнал событий");
-            ReportNames.Add("Количество устройств по типам");
-            ReportNames.Add("Параметры устройств");
-            ReportNames.Add("Список устройств");
-            //ReportWindow = new Window();
-            //CrystalReportsViewer = new CrystalReportsViewer();
-            //ReportWindow.Content = CrystalReportsViewer;
-            //ReportViewerSettings(CrystalReportsViewer);
-            //ReportContent = CrystalReportsViewer;
+            ReportNames = new List<string>()
+            {
+                "Блоки индикации",
+                "Журнал событий",
+                "Количество устройств по типам",
+                "Параметры устройств",
+                "Список устройств"
+            };
+            CrystalReportsViewer = new CrystalReportsViewer();
+            ReportViewerSettings(CrystalReportsViewer);
+            ReportContent = CrystalReportsViewer;
         }
 
         void ShowCrystalReport(BaseReport baseReport)
         {
             baseReport.LoadData();
             CrystalReportsViewer.ViewerCore.ReportSource = baseReport.CreateCrystalReportDocument();
-            ReportWindow.Show();
         }
 
         void ReportViewerSettings(CrystalReportsViewer crystalReportsViewer)
@@ -121,7 +120,6 @@ namespace ReportsModule.ViewModels
 
         public CrystalReportsViewer CrystalReportsViewer { get; private set; }
         public List<string> ReportNames { get; private set; }
-        public Window ReportWindow { get; private set; }
 
         string _selectedReportName;
         public string SelectedReportName

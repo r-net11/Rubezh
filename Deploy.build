@@ -38,14 +38,5 @@
 		<msbuild project="Projects\FireMonitor\FireMonitor.sln">
 			<property name="Configuration" value="Release" />
 		</msbuild>	
-		<msbuild project="Projects\Assad\Assad.sln">
-			<property name="Configuration" value="Debug" />
-		</msbuild>
-		<msbuild project="Projects\Assad\DeviceModelManager.sln">
-			<property name="Configuration" value="Debug" />
-		</msbuild>
-		<msbuild project="Projects\MultiClient\MultiClient.sln">
-			<property name="Configuration" value="Debug" />
-		</msbuild>		
 	</target>
 </project>
