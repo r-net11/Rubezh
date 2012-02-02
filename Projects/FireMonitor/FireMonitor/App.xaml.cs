@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using FiresecClient;
+using Controls.MessageBox;
 
 namespace FireMonitor
 {
@@ -20,7 +21,7 @@ namespace FireMonitor
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            DialogBox.DialogBox.Show(e.ExceptionObject.ToString());
+            MessageBoxService.ShowException(e.ExceptionObject.ToString());
         }
 
         protected override void OnExit(ExitEventArgs e)

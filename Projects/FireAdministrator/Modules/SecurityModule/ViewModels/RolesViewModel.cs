@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace SecurityModule.ViewModels
 {
@@ -55,7 +56,7 @@ namespace SecurityModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            var result = DialogBox.DialogBox.ShowQuestion(string.Format("Вы уверенны, что хотите удалить роль \"{0}\" из списка? Тогда будут удалены и все пользователи с этой ролью", SelectedRole.Role.Name));
+            var result = MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить роль \"{0}\" из списка? Тогда будут удалены и все пользователи с этой ролью", SelectedRole.Role.Name));
             if (result == MessageBoxResult.Yes)
             {
                 FiresecManager.SecurityConfiguration.UserRoles.Remove(SelectedRole.Role);

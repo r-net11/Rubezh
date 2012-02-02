@@ -127,7 +127,7 @@
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\SubsystemTypeToStringConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
-    <Compile Include="JournalModule.cs" />
+    <Compile Include="JournalModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -188,10 +188,6 @@
     <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj">
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
       <Name>Controls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\DialogWindow\DialogWindow\DialogBox.csproj">
-      <Project>{8F228E65-E3D4-4A94-BC30-E5C428FE3493}</Project>
-      <Name>DialogBox</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\FiresecClient\FiresecClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>

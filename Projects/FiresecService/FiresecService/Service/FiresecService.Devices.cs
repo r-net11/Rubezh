@@ -9,6 +9,12 @@ namespace FiresecService
 {
     public partial class FiresecService
     {
+        void NotifyConfigurationChanged()
+        {
+            DeviceStatesConverter.Convert();
+            CallbackManager.OnConfigurationChanged(this.FiresecServiceUID);
+        }
+
         public void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
         {
             ConfigurationFileManager.SetDeviceConfiguration(deviceConfiguration);
@@ -16,6 +22,8 @@ namespace FiresecService
 
             ConfigurationConverter.ConvertBack(deviceConfiguration, true);
             //FiresecInternalClient.SetNewConfig(ConfigurationConverter.FiresecConfiguration);
+
+            NotifyConfigurationChanged();
         }
 
         public void DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
@@ -23,6 +31,8 @@ namespace FiresecService
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
             FiresecInternalClient.DeviceWriteConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+
+            NotifyConfigurationChanged();
         }
 
         public void DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration)
@@ -33,6 +43,8 @@ namespace FiresecService
                 if (device.Driver.CanWriteDatabase)
                     FiresecInternalClient.DeviceWriteConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
             }
+
+            NotifyConfigurationChanged();
         }
 
         public void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password)
@@ -155,6 +167,20 @@ namespace FiresecService
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
             return FiresecInternalClient.DeviceCustomFunctionExecute(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, functionName);
+        }
+
+        public string DeviceGetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            ConfigurationConverter.ConvertBack(deviceConfiguration, false);
+            var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            return FiresecInternalClient.DeviceGetGuardUsersList(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+        }
+
+        public string DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            ConfigurationConverter.ConvertBack(deviceConfiguration, false);
+            var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            return FiresecInternalClient.DeviceGetMDS5Data(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
         }
 
         public void AddToIgnoreList(List<Guid> deviceGuids)

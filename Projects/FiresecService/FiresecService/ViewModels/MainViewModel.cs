@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using FiresecService.Infrastructure;
 using Infrastructure.Common;
+using System.Configuration;
 
 namespace FiresecService.ViewModels
 {
@@ -27,7 +28,9 @@ namespace FiresecService.ViewModels
         {
             FiresecInternalClient.Disconnect();
 
-            FiresecManager.ConnectFiresecCOMServer("adm", "");
+            string oldFiresecLogin = ConfigurationManager.AppSettings["OldFiresecLogin"] as string;
+            string oldFiresecPassword = ConfigurationManager.AppSettings["OldFiresecPassword"] as string;
+            FiresecManager.ConnectFiresecCOMServer(oldFiresecLogin, oldFiresecPassword);
             FiresecServiceManager.Open();
         }
 

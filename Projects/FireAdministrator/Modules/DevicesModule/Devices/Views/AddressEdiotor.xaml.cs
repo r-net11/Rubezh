@@ -2,6 +2,8 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using DevicesModule.ViewModels;
+using Controls;
+using Controls.MessageBox;
 
 namespace DevicesModule.Views
 {
@@ -213,14 +215,14 @@ namespace DevicesModule.Views
             int leftPart = LeftPart;
             if (leftPart < LeftPartMin)
             {
-                DialogBox.DialogBox.ShowExclamation(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
+                MessageBoxService.ShowWarning(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
 
                 LeftPart = LeftPartMin;
                 addressEditor.CaretIndex = caretIndex;
             }
             else if (leftPart > LeftPartMax)
             {
-                DialogBox.DialogBox.ShowExclamation(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
+                MessageBoxService.ShowWarning(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
 
                 LeftPart = LeftPartMax;
                 addressEditor.CaretIndex = caretIndex;
@@ -237,14 +239,14 @@ namespace DevicesModule.Views
 
             if (rightPart < RightPartMin)
             {
-                DialogBox.DialogBox.ShowExclamation(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
+                MessageBoxService.ShowWarning(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
 
                 RightPart = RightPartMin;
                 addressEditor.CaretIndex = caretIndex;
             }
             else if (rightPart > RightPartMax)
             {
-                DialogBox.DialogBox.ShowExclamation(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
+                MessageBoxService.ShowWarning(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
 
                 RightPart = RightPartMax;
                 addressEditor.CaretIndex = caretIndex;

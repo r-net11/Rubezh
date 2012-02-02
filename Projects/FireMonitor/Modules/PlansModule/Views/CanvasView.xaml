@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="PlansModule.Views.CanvasView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -29,21 +30,13 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Click="OnDeviceZoomOut" ToolTip="Уменьшить размер устройства" Style="{StaticResource ToolarButtonStyle}">
-                <Image Source="/Controls;component/Images/ZoomOut.png" Height="24" />
-            </Button>
+            <Controls:ToolBarButton Grid.Column="0" Click="OnDeviceZoomOut" ToolTip="Уменьшить размер устройства" ImageSource="/Controls;component/Images/ZoomOut.png" />
             <Slider Grid.Column="1" x:Name="deviceSlider" Orientation="Horizontal" Minimum="1" Maximum="10" Value="1" VerticalAlignment="Center"/>
-            <Button Grid.Column="2" Click="OnDeviceZoomIn" ToolTip="Увеличить размер устройства" Style="{StaticResource ToolarButtonStyle}">
-                <Image Source="/Controls;component/Images/ZoomIn.png" Height="24" />
-            </Button>
+            <Controls:ToolBarButton Grid.Column="2" Click="OnDeviceZoomIn" ToolTip="Увеличить размер устройства" ImageSource="/Controls;component/Images/ZoomIn.png" />
 
-            <Button Grid.Column="3" Click="OnZoomOut" ToolTip="Уменьшить масштаб плана" Style="{StaticResource ToolarButtonStyle}">
-                <Image Source="/Controls;component/Images/ZoomOut.png" Height="24" />
-            </Button>
+            <Controls:ToolBarButton Grid.Column="3" Click="OnZoomOut" ToolTip="Уменьшить масштаб плана" ImageSource="/Controls;component/Images/ZoomOut.png" />
             <Slider Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center" Minimum="1" Maximum="10" Value="1" x:Name="slider"/>
-            <Button Grid.Column="5" Click="OnZoomIn" ToolTip="величить масштаб плана" Style="{StaticResource ToolarButtonStyle}">
-                <Image Source="/Controls;component/Images/ZoomIn.png" Height="24" />
-            </Button>
+            <Controls:ToolBarButton Grid.Column="5" Click="OnZoomIn" ToolTip="величить масштаб плана" ImageSource="/Controls;component/Images/ZoomIn.png" />
         </Grid>
     </Grid>
 </UserControl>

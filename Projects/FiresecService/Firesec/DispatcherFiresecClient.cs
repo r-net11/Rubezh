@@ -151,6 +151,16 @@ namespace Firesec
             return (string) control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceCustomFunctionExecute), coreConfig, devicePath, functionName);
         }
 
+        public static string DeviceGetGuardUsersList(string coreConfig, string devicePath)
+        {
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetGuardUsersList), coreConfig, devicePath);
+        }
+
+        public static string DeviceGetMDS5Data(string coreConfig, string devicePath)
+        {
+            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetMDS5Data), coreConfig, devicePath);
+        }
+
         public static string DeviceReadConfig(string coreConfig, string devicePath)
         {
             return (string) control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceReadConfig), coreConfig, devicePath);

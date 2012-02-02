@@ -6,11 +6,11 @@ using PlansModule.ViewModels;
 
 namespace PlansModule
 {
-    public class PlansModule
+    public class PlansModuleLoader
     {
         static PlansViewModel _plansViewModel;
 
-        public PlansModule()
+        public PlansModuleLoader()
         {
             ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlan);
             ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(OnShowDeviceOnPlan);
@@ -25,7 +25,7 @@ namespace PlansModule
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        void CreateViewModels()
+        public static void CreateViewModels()
         {
             _plansViewModel = new PlansViewModel();
         }

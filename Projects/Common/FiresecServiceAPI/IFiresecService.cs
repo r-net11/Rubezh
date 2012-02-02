@@ -10,7 +10,7 @@ namespace FiresecAPI
     public interface IFiresecService
     {
         [OperationContract(IsInitiating = true)]
-        string Connect(string userName, string password);
+        string Connect(string clientCallbackAddress, string userName, string password);
 
         [OperationContract]
         string Reconnect(string userName, string password);
@@ -71,6 +71,12 @@ namespace FiresecAPI
 
         [OperationContract]
         string DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName);
+
+        [OperationContract]
+        string DeviceGetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+
+        [OperationContract]
+        string DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
         SystemConfiguration GetSystemConfiguration();

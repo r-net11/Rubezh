@@ -11,6 +11,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using FireMonitor.ViewModels;
+using Controls.MessageBox;
 
 namespace FireMonitor.Views
 {
@@ -103,7 +104,7 @@ namespace FireMonitor.Views
 
             if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Logout) == false)
             {
-                DialogBox.DialogBox.Show("Нет прав для выхода из программы");
+                MessageBoxService.Show("Нет прав для выхода из программы");
                 e.Cancel = true;
                 return;
             }

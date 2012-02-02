@@ -12,16 +12,17 @@ namespace FiresecClient
 
         public static IFiresecService Create(string serverAddress)
         {
-            var binding = new NetTcpBinding();
-            binding.MaxBufferPoolSize = Int32.MaxValue;
-            binding.MaxConnections = 10;
-            binding.OpenTimeout = TimeSpan.FromMinutes(10);
+            var binding = new NetTcpBinding()
+            {
+                MaxBufferPoolSize = Int32.MaxValue,
+                MaxConnections = 10,
+                OpenTimeout = TimeSpan.FromMinutes(10),
+                ListenBacklog = 10,
+                ReceiveTimeout = TimeSpan.FromMinutes(10),
+                MaxBufferSize = Int32.MaxValue,
+                MaxReceivedMessageSize = Int32.MaxValue
+            };
             binding.ReliableSession.InactivityTimeout = TimeSpan.FromMinutes(10);
-            binding.ListenBacklog = 10;
-            binding.ReceiveTimeout = TimeSpan.FromMinutes(10);
-            binding.MaxBufferSize = Int32.MaxValue;
-            binding.MaxReceivedMessageSize = Int32.MaxValue;
-            binding.MaxBufferPoolSize = Int32.MaxValue;
             binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
             binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
             binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;

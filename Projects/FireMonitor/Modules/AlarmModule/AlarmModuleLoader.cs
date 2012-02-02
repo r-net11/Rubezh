@@ -4,11 +4,11 @@ using Infrastructure.Common;
 
 namespace AlarmModule
 {
-    public class AlarmModule
+    public class AlarmModuleLoader
     {
         static AlarmWatcher AlarmWatcher;
 
-        public AlarmModule()
+        public AlarmModuleLoader()
         {
             ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupListViewModel());
 
@@ -21,7 +21,7 @@ namespace AlarmModule
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        static void CreateViewModels()
+        public static void CreateViewModels()
         {
             AlarmWatcher = new AlarmWatcher();
         }

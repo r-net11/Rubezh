@@ -5,11 +5,11 @@ using ReportsModule.ViewModels;
 
 namespace ReportsModule
 {
-    public class ReportsModule
+    public class ReportsModuleLoader
     {
         static ReportsViewModel ReportsViewModel;
 
-        public ReportsModule()
+        public ReportsModuleLoader()
         {
             ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(OnShowReports);
 
@@ -22,7 +22,7 @@ namespace ReportsModule
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        static void CreateViewModels()
+        public static void CreateViewModels()
         {
             ReportsViewModel = new ReportsViewModel();
         }

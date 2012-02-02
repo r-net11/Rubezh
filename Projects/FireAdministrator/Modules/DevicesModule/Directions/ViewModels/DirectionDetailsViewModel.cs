@@ -4,6 +4,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -158,7 +159,7 @@ namespace DevicesModule.ViewModels
             {
                 if (FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id))
                 {
-                    DialogBox.DialogBox.Show("Невозможно сохранить. Номера направдений совпадают");
+                    MessageBoxService.Show("Невозможно сохранить. Номера направдений совпадают");
                     cancel = true;
                     return;
                 }
@@ -168,7 +169,7 @@ namespace DevicesModule.ViewModels
             {
                 if (Id != Direction.Id && FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id))
                 {
-                    DialogBox.DialogBox.Show("Невозможно сохранить. Номера направдений совпадают");
+                    MessageBoxService.Show("Невозможно сохранить. Номера направдений совпадают");
                     cancel = true;
                     return;
                 }

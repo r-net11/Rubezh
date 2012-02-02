@@ -1,43 +1,34 @@
 ﻿using System.Windows;
 using Infrastructure;
 using Infrastructure.Common;
+using System;
 
-namespace DialogBox.ViewModel
+namespace Controls.MessageBox
 {
-    public class UserDialogViewModel : DialogContent
+    public class MessageBoxViewModel : DialogContent
     {
-        //public UserDialogViewModel(string message) :
-        //    this(message, MessageBoxButton.OK, MessageBoxImage.None)
-        //{ }
-
-        //public UserDialogViewModel(string message, MessageBoxButton button) :
-        //    this(message, button, MessageBoxImage.None)
-        //{ }
-
-        public UserDialogViewModel(string message, MessageBoxButton button, MessageBoxImage image)
+        public MessageBoxViewModel(string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false)
         {
-            Message = message;
-            SetButtonsVisibility(button);
-            SetImageVisibility(image);
-
-            Initialize();
-        }
-
-        void Initialize()
-        {
-            Title = "Firesec";
-
-            Result = MessageBoxResult.None;
-
             OkCommand = new RelayCommand(OnOk);
             CancelCommand = new RelayCommand(OnCancel);
             YesCommand = new RelayCommand(OnYes);
             NoCommand = new RelayCommand(OnNo);
+            CopyCommand = new RelayCommand(OnCopy);
+            Title = "Firesec";
+            if (isException)
+                Title = "В результате работы программы возникло исключение";
+
+            IsException = isException;
+            Message = message;
+            SetButtonsVisibility(messageBoxButton);
+            SetImageVisibility(messageBoxImage);
+
+            Result = MessageBoxResult.None;
         }
 
-        void SetButtonsVisibility(MessageBoxButton button)
+        void SetButtonsVisibility(MessageBoxButton messageBoxButton)
         {
-            switch (button)
+            switch (messageBoxButton)
             {
                 case MessageBoxButton.OK:
                     IsOkButtonVisible = true;
@@ -61,28 +52,24 @@ namespace DialogBox.ViewModel
             }
         }
 
-        void SetImageVisibility(MessageBoxImage image)
+        void SetImageVisibility(MessageBoxImage messageBoxImage)
         {
-            switch (image)
+            switch (messageBoxImage)
             {
                 case MessageBoxImage.Information:
                     IsInformationImageVisible = true;
-                    break;
-
-                case MessageBoxImage.None:
-                    IsNoneImageVisible = true;
                     break;
 
                 case MessageBoxImage.Question:
                     IsQuestionImageVisible = true;
                     break;
 
-                case MessageBoxImage.Stop:
-                    IsStopImageVisible = true;
-                    break;
-
                 case MessageBoxImage.Warning:
                     IsWarningImageVisible = true;
+                    break;
+
+                case MessageBoxImage.Error:
+                    IsErrorImageVisible = true;
                     break;
             }
         }
@@ -93,12 +80,12 @@ namespace DialogBox.ViewModel
         public bool IsNoButtonVisible { get; private set; }
 
         public bool IsInformationImageVisible { get; private set; }
-        public bool IsNoneImageVisible { get; private set; }
         public bool IsQuestionImageVisible { get; private set; }
-        public bool IsStopImageVisible { get; private set; }
         public bool IsWarningImageVisible { get; private set; }
+        public bool IsErrorImageVisible { get; private set; }
 
-        public string Message { get; private set; }
+        public bool IsException { get; private set; }
+        public string Message { get; set; }
         public MessageBoxResult Result { get; set; }
 
         public RelayCommand OkCommand { get; private set; }
@@ -127,6 +114,12 @@ namespace DialogBox.ViewModel
         {
             Result = MessageBoxResult.No;
             Close(true);
+        }
+
+        public RelayCommand CopyCommand { get; private set; }
+        void OnCopy()
+        {
+            Clipboard.SetText(Message);
         }
     }
 }

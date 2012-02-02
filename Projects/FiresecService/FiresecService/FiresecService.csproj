@@ -175,6 +175,7 @@
     <Compile Include="Processor\ConfigurationFileManager.cs" />
     <Compile Include="Processor\JournalFilterHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
+    <Compile Include="Service\FiresecCallbackServiceCreator.cs" />
     <Compile Include="Service\FiresecService.Configuration.cs" />
     <Compile Include="Service\FiresecService.cs" />
     <Compile Include="Service\FiresecService.Devices.cs" />

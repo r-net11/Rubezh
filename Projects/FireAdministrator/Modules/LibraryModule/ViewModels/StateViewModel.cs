@@ -6,6 +6,7 @@ using System.Windows;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure;
+using Controls.MessageBox;
 
 namespace LibraryModule.ViewModels
 {
@@ -108,7 +109,7 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveFrameCommand { get; private set; }
         void OnRemoveFrame()
         {
-            var result = DialogBox.DialogBox.ShowQuestion("Удалить выбранный кадр?");
+            var result = MessageBoxService.ShowQuestion("Удалить выбранный кадр?");
 
             if (result == MessageBoxResult.Yes)
             {

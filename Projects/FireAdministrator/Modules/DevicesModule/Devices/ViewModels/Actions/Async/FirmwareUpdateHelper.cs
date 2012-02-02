@@ -3,6 +3,7 @@ using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
 using Microsoft.Win32;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -47,7 +48,7 @@ namespace DevicesModule.ViewModels
 
         static void OnVerifyCompleted()
         {
-            if (DialogBox.DialogBox.ShowQuestion(_question) == MessageBoxResult.Yes)
+            if (MessageBoxService.ShowQuestion(_question) == MessageBoxResult.Yes)
             {
                 var asyncInstanceOperationHelper = new AsyncInstanceOperationHelper();
                 asyncInstanceOperationHelper.Run(OnUpdatePropgress, OnUpdateCompleted, _device.PresentationAddressDriver + ". Обновление прошивки");
@@ -62,7 +63,7 @@ namespace DevicesModule.ViewModels
         static void OnUpdateCompleted()
         {
             var result = _result;
-            //DialogBox.DialogBox.Show(_result);
+            //MessageBoxService.Show(_result);
         }
     }
 }

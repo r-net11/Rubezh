@@ -6,6 +6,8 @@ using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Controls;
+using Controls.MessageBox;
 
 namespace SecurityModule.ViewModels
 {
@@ -205,7 +207,7 @@ namespace SecurityModule.ViewModels
 
         void ShowMessage(string message)
         {
-            DialogBox.DialogBox.Show(message);
+            MessageBoxService.Show(message);
         }
 
         bool CheckLogin()

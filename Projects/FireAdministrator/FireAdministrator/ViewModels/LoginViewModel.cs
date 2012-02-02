@@ -2,6 +2,7 @@
 using System.Windows;
 using FiresecClient;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace FireAdministrator.ViewModels
 {
@@ -42,14 +43,15 @@ namespace FireAdministrator.ViewModels
         public RelayCommand ConnectCommand { get; private set; }
         void OnConnect()
         {
-            string serverAddress = ConfigurationManager.AppSettings["TCPBaseAddress"] as string;
-            string message = FiresecManager.Connect(serverAddress, UserName, Password);
+            string clientCallbackAddress = ConfigurationManager.AppSettings["ClientCallbackAddress"] as string;
+            string serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+            string message = FiresecManager.Connect(clientCallbackAddress, serverAddress, UserName, Password);
             if (message == null)
             {
                 Close(true);
                 return;
             }
-            DialogBox.DialogBox.Show(message);
+            MessageBoxService.Show(message);
         }
 
         public RelayCommand CancelCommand { get; private set; }

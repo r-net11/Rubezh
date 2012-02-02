@@ -16,11 +16,11 @@ namespace FiresecService
             FiresecService = new FiresecService();
         }
 
-        public string Connect(string userName, string password)
+        public string Connect(string clientCallbackAddress, string userName, string password)
         {
             try
             {
-                return FiresecService.Connect(userName, password);
+                return FiresecService.Connect(clientCallbackAddress, userName, password);
             }
             catch
             {
@@ -253,6 +253,30 @@ namespace FiresecService
             try
             {
                 return FiresecService.DeviceCustomFunctionExecute(deviceConfiguration, deviceUID, functionName);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public string DeviceGetGuardUsersList(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            try
+            {
+                return FiresecService.DeviceGetGuardUsersList(deviceConfiguration, deviceUID);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public string DeviceGetMDS5Data(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            try
+            {
+                return FiresecService.DeviceGetMDS5Data(deviceConfiguration, deviceUID);
             }
             catch
             {

@@ -6,6 +6,8 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using Controls;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -92,7 +94,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            var dialogResult = DialogBox.DialogBox.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName);
+            var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName);
             if (dialogResult == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
@@ -120,7 +122,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteAllCommand { get; private set; }
         void OnDeleteAll()
         {
-            var dialogResult = DialogBox.DialogBox.ShowQuestion("Вы уверены, что хотите удалить все зоны ?");
+            var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все зоны ?");
             if (dialogResult == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration.Zones.Clear();
@@ -135,7 +137,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteAllEmptyCommand { get; private set; }
         void OnDeleteAllEmpty()
         {
-            var dialogResult = DialogBox.DialogBox.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?");
+            var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все пустые зоны ?");
             if (dialogResult == MessageBoxResult.Yes)
             {
                 var emptyZones = new List<ZoneViewModel>(

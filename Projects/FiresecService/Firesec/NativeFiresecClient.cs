@@ -180,6 +180,16 @@ namespace Firesec
             return Connectoin.DeviceCustomFunctionExecute(coreConfig, devicePath, functionName);
         }
 
+        public static string DeviceGetGuardUsersList(string coreConfig, string devicePath)
+        {
+            return Connectoin.DeviceGetGuardUsersList(coreConfig, devicePath);
+        }
+
+        public static string DeviceGetMDS5Data(string coreConfig, string devicePath)
+        {
+            return Connectoin.DeviceGetMDS5Data(coreConfig, devicePath);
+        }
+
         static FS_Types.IFSC_Connection GetConnection(string login, string password)
         {
             ObjectHandle objectHandle = Activator.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");

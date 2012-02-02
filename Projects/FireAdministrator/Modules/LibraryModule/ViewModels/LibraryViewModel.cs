@@ -4,6 +4,8 @@ using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Controls;
+using Controls.MessageBox;
 
 namespace LibraryModule.ViewModels
 {
@@ -53,7 +55,7 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveDeviceCommand { get; private set; }
         void OnRemoveDevice()
         {
-            var result = DialogBox.DialogBox.ShowQuestion("Вы уверены что хотите удалить выбранное устройство?");
+            var result = MessageBoxService.ShowQuestion("Вы уверены что хотите удалить выбранное устройство?");
 
             if (result == MessageBoxResult.Yes)
             {

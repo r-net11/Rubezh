@@ -3,6 +3,7 @@ using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace SecurityModule.ViewModels
 {
@@ -54,7 +55,7 @@ namespace SecurityModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            var result = DialogBox.DialogBox.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name));
+            var result = MessageBoxService.ShowQuestion(string.Format("Вы уверенны, что хотите удалить пользователя \"{0}\" из списка", SelectedUser.User.Name));
             if (result == MessageBoxResult.Yes)
             {
                 FiresecManager.SecurityConfiguration.Users.Remove(SelectedUser.User);

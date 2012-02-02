@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -201,7 +202,7 @@ namespace DevicesModule.ViewModels
         {
             if (Zone.No != No && FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == No))
             {
-                DialogBox.DialogBox.Show("Зона с таким номером уже существует");
+                MessageBoxService.Show("Зона с таким номером уже существует");
                 return;
             }
 

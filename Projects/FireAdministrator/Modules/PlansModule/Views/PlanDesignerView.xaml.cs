@@ -17,10 +17,7 @@ namespace PlansModule.Views
         {
             if (Current != null)
             {
-                Current.slider.Value = 1;
-                Current._scrollViewer.ScrollToHorizontalOffset(0);
-                Current._scrollViewer.ScrollToVerticalOffset(0);
-                Current.slider.Value = 1;
+                Current.Reset();
             }
         }
 
@@ -30,16 +27,32 @@ namespace PlansModule.Views
             InitializeComponent();
 
             _scrollViewer.PreviewMouseWheel += OnPreviewMouseWheel;
-            slider.ValueChanged += OnSliderValueChanged;
-
             _scrollViewer.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
-            _scrollViewer.MouseMove += OnMouseMove;
             _scrollViewer.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
+            _scrollViewer.MouseMove += OnMouseMove;
             _scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
 
+            slider.ValueChanged += OnSliderValueChanged;
             deviceSlider.ValueChanged +=new RoutedPropertyChangedEventHandler<double>(deviceSlider_ValueChanged);
 
-            //FullSize();
+            this.Loaded += new RoutedEventHandler(OnLoaded);
+            this.SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
+        }
+
+        void OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Reset();
+        }
+
+        void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Reset();
+        }
+
+        public void Reset()
+        {
+            FullSize();
+            slider.Value = 1;
         }
 
         void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
@@ -70,49 +83,16 @@ namespace PlansModule.Views
 
         void OnSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            double newZoom = e.NewValue;
-            double oldZoom = e.OldValue;
+            if (e.NewValue == 0)
+                return;
 
-            if (newZoom < 1)
-            {
-                newZoom = 1 / (-newZoom + 2);
-            }
+            (DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(slider.Value * initialScale);
 
-            if (oldZoom < 1)
-            {
-                oldZoom = 1 / (-oldZoom + 2);
-            }
-
-            double deltaZoom = newZoom / oldZoom;
-
-            (DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(newZoom);
-
-            scaleTransform.ScaleX = newZoom;
-            scaleTransform.ScaleY = newZoom;
+            scaleTransform.ScaleX = slider.Value * initialScale;
+            scaleTransform.ScaleY = slider.Value * initialScale;
 
             var centerOfViewport = new Point(_scrollViewer.ViewportWidth / 2, _scrollViewer.ViewportHeight / 2);
             lastCenterPositionOnTarget = _scrollViewer.TranslatePoint(centerOfViewport, _grid);
-        }
-
-        private void OnSizeToFit(object sender, RoutedEventArgs e)
-        {
-            var canvas = _contentControl.Content as Canvas;
-            if (canvas == null)
-                return;
-
-            double scaleX = (_scrollViewer.ActualWidth - 30) / canvas.Width;
-            double scaleY = (_scrollViewer.ActualHeight - 30) / canvas.Height;
-            double scale = Math.Min(scaleX, scaleY);
-            initialScale = scale;
-
-            if (scale >= 1)
-            {
-                slider.Value = scale;
-            }
-            if (scale < 1)
-            {
-                slider.Value = 2 - 1 / scale;
-            }
         }
 
         void OnScrollViewerScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -161,7 +141,7 @@ namespace PlansModule.Views
             }
         }
 
-        public void FullSize()
+        void FullSize()
         {
             var canvas = _contentControl.Content as Canvas;
             if (canvas == null)
@@ -170,10 +150,14 @@ namespace PlansModule.Views
             double scaleX = (_scrollViewer.ActualWidth - 30) / canvas.Width;
             double scaleY = (_scrollViewer.ActualHeight - 30) / canvas.Height;
             double scale = Math.Min(scaleX, scaleY);
+            if (scale < 0)
+                return;
             initialScale = scale;
 
             scaleTransform.ScaleX = scale;
             scaleTransform.ScaleY = scale;
+
+            (DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(slider.Value * initialScale);
         }
 
         #region Hand Moving

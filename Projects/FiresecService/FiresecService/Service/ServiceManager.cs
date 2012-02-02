@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.ServiceModel;
+using Common;
 
 namespace FiresecService
 {
@@ -29,9 +30,12 @@ namespace FiresecService
             binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
             binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
             binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
-
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
-            _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, new Uri(ConfigurationManager.AppSettings["TCPBaseAddress"] as string));
+
+            string serverName = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+            string machineName = MachineNameHelper.GetMachineName();
+            serverName = serverName.Replace("localhost", machineName);
+            _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, new Uri(serverName));
 
             _serviceHost.Open();
         }

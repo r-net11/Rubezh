@@ -11,6 +11,7 @@ using FireAdministrator.ViewModels;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace FireAdministrator.Views
 {
@@ -112,7 +113,7 @@ namespace FireAdministrator.Views
                 ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.LibraryChanged ||
                 ServiceFactory.SaveService.InstructionsChanged || ServiceFactory.SaveService.SecurityChanged)
             {
-                var result = DialogBox.DialogBox.ShowQuestion("Сохранить изменения в настройках?");
+                var result = MessageBoxService.ShowQuestion("Сохранить изменения в настройках?");
                 switch (result)
                 {
                     case MessageBoxResult.Yes:

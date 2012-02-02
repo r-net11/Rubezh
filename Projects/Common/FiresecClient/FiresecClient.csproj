@@ -107,6 +107,8 @@
     <Compile Include="Extentions\DevicePresentationZoneExtention.cs" />
     <Compile Include="Extentions\DeviceStateDisableExtention.cs" />
     <Compile Include="FileHelper.cs" />
+    <Compile Include="FiresecCallbackService.cs" />
+    <Compile Include="FiresecCallbackServiceManager.cs" />
     <Compile Include="FiresecEventSubscriber.cs" />
     <Compile Include="FiresecManager.cs" />
     <Compile Include="FiresecServiceFactory.cs" />

@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using Controls.MessageBox;
 
 namespace PlansModule.ViewModels
 {
@@ -79,7 +80,7 @@ namespace PlansModule.ViewModels
                         {
                             if (zones.Count > 0)
                             {
-                                if (DialogBox.DialogBox.ShowQuestion("Изменить зону устройства " + deviceName + " с " + deviceZoneName + " на " + firstZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
+                                if (MessageBoxService.ShowQuestion("Изменить зону устройства " + deviceName + " с " + deviceZoneName + " на " + firstZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
                                 {
                                     designerItem.IsSelected = true;
                                     device.ZoneNo = zones[0];
@@ -88,7 +89,7 @@ namespace PlansModule.ViewModels
                             }
                             else
                             {
-                                if (DialogBox.DialogBox.ShowQuestion("Удалить устройство " + deviceName + " из зоны " + deviceZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
+                                if (MessageBoxService.ShowQuestion("Удалить устройство " + deviceName + " из зоны " + deviceZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
                                 {
                                     designerItem.IsSelected = true;
                                     device.ZoneNo = null;
@@ -101,7 +102,7 @@ namespace PlansModule.ViewModels
                     {
                         if (zones.Count > 0)
                         {
-                            if (DialogBox.DialogBox.ShowQuestion("Добавить устройство " + deviceName + " в зону " + firstZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
+                            if (MessageBoxService.ShowQuestion("Добавить устройство " + deviceName + " в зону " + firstZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
                             {
                                 designerItem.IsSelected = true;
                                 device.ZoneNo = zones[0];

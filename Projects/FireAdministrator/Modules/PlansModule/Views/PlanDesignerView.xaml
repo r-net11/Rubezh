@@ -34,9 +34,8 @@
             <Controls:ToolBarButton Grid.Column="2" Click="OnDeviceZoomIn" ToolTip="Увеличить размер устройства" ImageSource="/Controls;component/Images/ZoomIn.png" />
 
             <Controls:ToolBarButton Grid.Column="3" Click="OnZoomOut" ToolTip="Уменьшить масштаб плана" ImageSource="/Controls;component/Images/ZoomOut.png" />
-            <Slider Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center" Minimum="-8" Maximum="10" Value="1" x:Name="slider"/>
+            <Slider Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center" Minimum="1" Maximum="10" Value="1" x:Name="slider"/>
             <Controls:ToolBarButton Grid.Column="5" Click="OnZoomIn" ToolTip="Увеличить масштаб плана" ImageSource="/Controls;component/Images/ZoomIn.png" />
-            <Button Grid.Column="6" Content="Size" Click="OnSizeToFit" />
         </Grid>
     </Grid>
 </UserControl>

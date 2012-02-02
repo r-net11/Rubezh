@@ -151,6 +151,16 @@ namespace FiresecService
             return DispatcherFiresecClient.DeviceCustomFunctionExecute(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, functionName);
         }
 
+        public static string DeviceGetGuardUsersList(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        {
+            return DispatcherFiresecClient.DeviceGetGuardUsersList(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+        }
+
+        public static string DeviceGetMDS5Data(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        {
+            return DispatcherFiresecClient.DeviceGetMDS5Data(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+        }
+
         public static void NewEventsAvailable(int eventMask)
         {
             if (NewEvent != null)

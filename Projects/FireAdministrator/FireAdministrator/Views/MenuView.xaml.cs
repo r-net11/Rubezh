@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Events;
 using Microsoft.Win32;
 using System.Collections.Generic;
+using Controls.MessageBox;
 
 namespace FireAdministrator.Views
 {
@@ -56,7 +57,7 @@ namespace FireAdministrator.Views
 
         void OnCreateNew(object sender, RoutedEventArgs e)
         {
-            var result = DialogBox.DialogBox.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
+            var result = MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
             if (result == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration.Devices = new List<Device>();

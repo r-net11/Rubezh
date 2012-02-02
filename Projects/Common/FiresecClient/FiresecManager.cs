@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
+using System.ServiceModel;
 
 namespace FiresecClient
 {
@@ -19,11 +20,13 @@ namespace FiresecClient
 
         static public SafeFiresecService FiresecService { get; private set; }
 
-        public static string Connect(string serverAddress, string login, string password)
+        public static string Connect(string clientCallbackAddress, string serverAddress, string login, string password)
         {
+            FiresecCallbackServiceManager.Open(clientCallbackAddress);
+
             FiresecService = new SafeFiresecService(FiresecServiceFactory.Create(serverAddress));
 
-            string result = FiresecService.Connect(login, password);
+            string result = FiresecService.Connect(clientCallbackAddress, login, password);
             if (result != null)
             {
                 return result;
@@ -33,10 +36,10 @@ namespace FiresecClient
             return null;
         }
 
-        public static void SelectiveFetch()
+        public static void SelectiveFetch(bool updateFiles = true)
         {
-            Action synchronizer = new Action(FileHelper.Synchronize);
-            IAsyncResult result = synchronizer.BeginInvoke(null, null);
+            if (updateFiles)
+                FileHelper.Synchronize();
 
             SystemConfiguration = FiresecService.GetSystemConfiguration();
             LibraryConfiguration = FiresecService.GetLibraryConfiguration();
@@ -53,8 +56,6 @@ namespace FiresecClient
 
             FiresecService.Subscribe();
             FiresecService.StartPing();
-
-            synchronizer.EndInvoke(result);
         }
 
         public static void ActiveXFetch()
@@ -185,7 +186,8 @@ namespace FiresecClient
             foreach (var deviceState in DeviceStates.DeviceStates)
             {
                 deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
-                if (deviceState.Device == null) continue;
+                if (deviceState.Device == null)
+                    continue;
 
                 foreach (var state in deviceState.States)
                 {
@@ -215,6 +217,7 @@ namespace FiresecClient
                 FiresecService.Disconnect();
             }
             FiresecServiceFactory.Dispose();
+            FiresecCallbackServiceManager.Close();
         }
 
         public static void AddToIgnoreList(List<Guid> deviceUIDs)
@@ -350,6 +353,16 @@ namespace FiresecClient
         public static string DeviceCustomFunctionExecute(Guid deviceUID, string functionName)
         {
             return FiresecService.DeviceCustomFunctionExecute(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID, functionName);
+        }
+
+        public static string DeviceGetGuardUsersList(Guid deviceUID)
+        {
+            return FiresecService.DeviceGetGuardUsersList(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID);
+        }
+
+        public static string DeviceGetMDS5Data(Guid deviceUID)
+        {
+            return FiresecService.DeviceGetMDS5Data(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID);
         }
 
         public static void Test()

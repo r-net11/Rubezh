@@ -101,7 +101,7 @@
     </Compile>
     <Compile Include="ViewModels\Elements\ElementDeviceViewModel.cs" />
     <Compile Include="ViewModels\Elements\ElementSubPlanViewModel.cs" />
-    <Compile Include="PlansModule.cs" />
+    <Compile Include="PlansModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -156,10 +156,6 @@
     <ProjectReference Include="..\..\..\Common\DeviceControls\DeviceControls.csproj">
       <Project>{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2}</Project>
       <Name>DeviceControls</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\DialogWindow\DialogWindow\DialogBox.csproj">
-      <Project>{8F228E65-E3D4-4A94-BC30-E5C428FE3493}</Project>
-      <Name>DialogBox</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\FiresecClient\FiresecClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>

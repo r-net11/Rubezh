@@ -67,11 +67,11 @@ namespace FiresecClient
             Ping();
         }
 
-        public string Connect(string userName, string password)
+        public string Connect(string clientCallbackAddress, string userName, string password)
         {
             try
             {
-                return _iFiresecService.Connect(userName, password);
+                return _iFiresecService.Connect(clientCallbackAddress, userName, password);
             }
             catch
             {
@@ -324,6 +324,32 @@ namespace FiresecClient
             try
             {
                 return _iFiresecService.DeviceCustomFunctionExecute(deviceConfiguration, deviceUID, functionName);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
+            }
+        }
+
+        public string DeviceGetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            try
+            {
+                return _iFiresecService.DeviceGetGuardUsersList(deviceConfiguration, deviceUID);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
+            }
+        }
+
+        public string DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            try
+            {
+                return _iFiresecService.DeviceGetMDS5Data(deviceConfiguration, deviceUID);
             }
             catch
             {

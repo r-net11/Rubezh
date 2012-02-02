@@ -5,7 +5,7 @@ using System.Text;
 using Infrastructure.Common;
 using System.Windows;
 
-namespace DialogBox
+namespace Controls.MessageBox
 {
     internal static class UserDialogService
     {

@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using Controls.MessageBox;
 
 namespace FireAdministrator
 {
@@ -26,7 +27,7 @@ namespace FireAdministrator
 
                 if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
                 {
-                    DialogBox.DialogBox.Show("Нет прав на работу с программой");
+                    MessageBoxService.Show("Нет прав на работу с программой");
                     FiresecManager.Disconnect();
                 }
                 else

@@ -9,40 +9,45 @@ namespace PlansModule.Views
 {
     public partial class CanvasView : UserControl
     {
+        public static CanvasView Current { get; set; }
         Point? lastCenterPositionOnTarget;
         Point? lastMousePositionOnTarget;
         Point? lastDragPoint;
-
-        public static CanvasView Current { get; set; }
-
-        public void Reset()
-        {
-            FullSize();
-            slider.Value = 1;
-        }
+        double initialScale = 1;
 
         public CanvasView()
         {
             Current = this;
             InitializeComponent();
 
-            _scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
-            _scrollViewer.MouseLeftButtonUp += OnMouseLeftButtonUp;
-            _scrollViewer.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
             _scrollViewer.PreviewMouseWheel += OnPreviewMouseWheel;
-
             _scrollViewer.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
+            _scrollViewer.PreviewMouseLeftButtonUp += OnMouseLeftButtonUp;
+            _scrollViewer.MouseLeftButtonUp += OnMouseLeftButtonUp;
             _scrollViewer.MouseMove += OnMouseMove;
+            _scrollViewer.ScrollChanged += OnScrollViewerScrollChanged;
 
             slider.ValueChanged += OnSliderValueChanged;
             deviceSlider.ValueChanged += deviceSlider_ValueChanged;
 
-            this.Loaded += new RoutedEventHandler(CanvasView_Loaded);
+            this.Loaded += new RoutedEventHandler(OnLoaded);
+            this.SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
         }
 
-        void CanvasView_Loaded(object sender, RoutedEventArgs e)
+        void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             Reset();
+        }
+
+        void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            Reset();
+        }
+
+        public void Reset()
+        {
+            FullSize();
+            slider.Value = 1;
         }
 
         void OnMouseMove(object sender, MouseEventArgs e)
@@ -168,8 +173,6 @@ namespace PlansModule.Views
             }
         }
 
-        double initialScale = 1;
-
         void FullSize()
         {
             var canvas = _contentControl.Content as Canvas;
@@ -217,9 +220,11 @@ namespace PlansModule.Views
                     ElementDeviceView elementDeviceView = child as ElementDeviceView;
 
                     double scale = deviceSlider.Value / (slider.Value * initialScale);
-                    var deviceScaleTransform = new ScaleTransform();
-                    deviceScaleTransform.ScaleX = scale;
-                    deviceScaleTransform.ScaleY = scale;
+                    var deviceScaleTransform = new ScaleTransform()
+                    {
+                        ScaleX = scale,
+                        ScaleY = scale
+                    };
                     elementDeviceView.LayoutTransform = deviceScaleTransform;
                 }
             }

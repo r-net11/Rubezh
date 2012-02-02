@@ -118,6 +118,7 @@
     <Compile Include="AlarmPlayerHelper.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
+    <Compile Include="MachineNameHelper.cs" />
     <Compile Include="ObjectCopier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -66,7 +67,7 @@ namespace DevicesModule.ViewModels
             {
                 if (Device.Parent.Children.Where(x => x != Device).Any(x => x.PresentationAddress == value))
                 {
-                    DialogBox.DialogBox.Show("Устройство с таким адресом уже существует");
+                    MessageBoxService.Show("Устройство с таким адресом уже существует");
                     OnPropertyChanged("Address");
                 }
                 else

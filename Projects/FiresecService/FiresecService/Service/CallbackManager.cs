@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
+using System;
 
 namespace FiresecService
 {
@@ -130,6 +131,26 @@ namespace FiresecService
                     try
                     {
                         serviceInstance.Callback.ZoneStateChanged(zoneState);
+                    }
+                    catch
+                    {
+                        _failedServiceInstances.Add(serviceInstance);
+                    }
+            }
+
+            Clean();
+        }
+
+        public static void OnConfigurationChanged(Guid firesecServiceUID)
+        {
+            _failedServiceInstances = new List<FiresecService>();
+
+            foreach (var serviceInstance in _serviceInstances)
+            {
+                if (serviceInstance.IsSubscribed)
+                    try
+                    {
+                        serviceInstance.FiresecCallbackService.ConfigurationChanged();
                     }
                     catch
                     {

@@ -113,12 +113,6 @@ namespace PlansModule.ViewModels
                 if (value != null)
                 {
                     PlanDesignerViewModel.ChangeZoom(1);
-
-                    //if (PlanDesignerView.Current != null)
-                    //{
-                    //    PlanDesignerView.Current.FullSize();
-                    //}
-                    
                     PlanDesignerViewModel.Initialize(value.Plan);
                     //PlanDesignerViewModel.UpdateDeviceInZones();
                     ElementsViewModel.Update();
@@ -257,6 +251,7 @@ namespace PlansModule.ViewModels
             ServiceFactory.Layout.ShowMenu(new PlansMenuViewModel(this));
             FiresecManager.UpdatePlansConfiguration();
             DevicesViewModel.Update();
+            DesignerCanvas.DeselectAll();
         }
 
         public override void OnHide()

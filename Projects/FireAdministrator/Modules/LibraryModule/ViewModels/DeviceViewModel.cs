@@ -7,6 +7,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace LibraryModule.ViewModels
 {
@@ -149,7 +150,7 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveStateCommand { get; private set; }
         void OnRemoveState()
         {
-            var dialogResult = DialogBox.DialogBox.ShowQuestion("Удалить выбранное состояние?");
+            var dialogResult = MessageBoxService.ShowQuestion("Удалить выбранное состояние?");
 
             if (dialogResult == MessageBoxResult.Yes)
             {

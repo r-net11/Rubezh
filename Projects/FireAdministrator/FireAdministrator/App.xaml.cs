@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using FiresecClient;
+using Controls.MessageBox;
 
 namespace FireAdministrator
 {
@@ -14,13 +15,15 @@ namespace FireAdministrator
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 #endif
 
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+
             var bootstrapper = new Bootsrapper();
             bootstrapper.Initialize();
         }
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            DialogBox.DialogBox.Show(e.ExceptionObject.ToString());
+            MessageBoxService.ShowException(e.ExceptionObject.ToString());
         }
 
         protected override void OnExit(ExitEventArgs e)

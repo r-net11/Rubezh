@@ -26,7 +26,6 @@ namespace SettingsModule
         void CreateViewModels()
         {
             _settingsViewModel = new SettingsViewModel();
-            _settingsViewModel.Initialize();
         }
 
         static void OnShowSettings(string obj)

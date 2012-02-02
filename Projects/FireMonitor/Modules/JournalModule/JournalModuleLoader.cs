@@ -5,25 +5,29 @@ using JournalModule.ViewModels;
 
 namespace JournalModule
 {
-    public class JournalModule
+    public class JournalModuleLoader
     {
         static JournalsViewModel JournalsViewModel;
         static ArchiveViewModel ArchiveViewModel;
 
-        public JournalModule()
+        public JournalModuleLoader()
         {
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
             ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(OnShowArchive);
 
-            JournalsViewModel = new JournalsViewModel();
-            ArchiveViewModel = new ArchiveViewModel();
-
             RegisterResources();
+            CreateViewModels();
         }
 
         void RegisterResources()
         {
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+        }
+
+        public static void CreateViewModels()
+        {
+            JournalsViewModel = new JournalsViewModel();
+            ArchiveViewModel = new ArchiveViewModel();
         }
 
         static void OnShowJournal(object obj)

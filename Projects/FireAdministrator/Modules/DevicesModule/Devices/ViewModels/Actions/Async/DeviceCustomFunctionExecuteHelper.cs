@@ -1,5 +1,7 @@
 ﻿using FiresecAPI.Models;
 using FiresecClient;
+using Controls;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -26,10 +28,10 @@ namespace DevicesModule.ViewModels
         {
             if (_result == null)
             {
-                DialogBox.DialogBox.Show("Ошибка при выполнении операции");
+                MessageBoxService.Show("Ошибка при выполнении операции");
                 return;
             }
-            DialogBox.DialogBox.Show(_result);
+            MessageBoxService.Show(_result);
         }
     }
 }

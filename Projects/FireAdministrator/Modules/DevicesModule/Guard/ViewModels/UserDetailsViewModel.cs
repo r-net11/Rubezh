@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -141,7 +142,7 @@ namespace DevicesModule.ViewModels
         {
             if (!DigitalPasswordHelper.Check(Password))
             {
-                DialogBox.DialogBox.Show("Пароль может содержать только цифры");
+                MessageBoxService.Show("Пароль может содержать только цифры");
                 cancel = true;
                 return;
             }

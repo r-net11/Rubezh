@@ -3,6 +3,7 @@ using System.Windows;
 using Common;
 using FiresecClient;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace FireMonitor.ViewModels
 {
@@ -77,8 +78,9 @@ namespace FireMonitor.ViewModels
             switch (_passwordViewType)
             {
                 case PasswordViewType.Connect:
-                    string serverAddress = ConfigurationManager.AppSettings["TCPBaseAddress"] as string;
-                    message = FiresecManager.Connect(serverAddress, UserName, Password);
+                    string clientCallbackAddress = ConfigurationManager.AppSettings["ClientCallbackAddress"] as string;
+                    string serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+                    message = FiresecManager.Connect(clientCallbackAddress, serverAddress, UserName, Password);
                     break;
 
                 case PasswordViewType.Reconnect:
@@ -97,7 +99,7 @@ namespace FireMonitor.ViewModels
                 Close(true);
                 return;
             }
-            DialogBox.DialogBox.Show(message);
+            MessageBoxService.Show(message);
         }
 
         public RelayCommand CancelCommand { get; private set; }

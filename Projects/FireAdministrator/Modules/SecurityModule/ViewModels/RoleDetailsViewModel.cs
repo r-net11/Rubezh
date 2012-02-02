@@ -6,6 +6,7 @@ using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace SecurityModule.ViewModels
 {
@@ -73,13 +74,13 @@ namespace SecurityModule.ViewModels
         {
             if (string.IsNullOrWhiteSpace(Name))
             {
-                DialogBox.DialogBox.Show("Сначала введите название роли");
+                MessageBoxService.Show("Сначала введите название роли");
                 cancel = true;
                 return;
             }
             else if (Name != Role.Name && FiresecManager.SecurityConfiguration.UserRoles.Any(role => role.Name == Name))
             {
-                DialogBox.DialogBox.Show("Роль с таким названием уже существует");
+                MessageBoxService.Show("Роль с таким названием уже существует");
                 cancel = true;
                 return;
             }

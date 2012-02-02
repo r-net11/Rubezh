@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using PlansModule.Designer;
 using PlansModule.Events;
 using PlansModule.Views;
+using Controls.MessageBox;
 
 namespace PlansModule.ViewModels
 {
@@ -95,7 +96,7 @@ namespace PlansModule.ViewModels
 
             if ((maxRight > PlanDesignerViewModel.Plan.Width) || (maxBottom > PlanDesignerViewModel.Plan.Height))
             {
-                DialogBox.DialogBox.Show("Размер вставляемого содержимого больше размеров плана");
+                MessageBoxService.Show("Размер вставляемого содержимого больше размеров плана");
             }
         }
     }

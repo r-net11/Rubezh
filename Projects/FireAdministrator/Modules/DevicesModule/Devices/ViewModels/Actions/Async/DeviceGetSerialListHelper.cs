@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -25,7 +26,7 @@ namespace DevicesModule.ViewModels
         {
             if (_serials == null)
             {
-                DialogBox.DialogBox.Show("Ошибка при выполнении операции");
+                MessageBoxService.Show("Ошибка при выполнении операции");
                 return;
             }
             ServiceFactory.UserDialogs.ShowModalWindow(new BindMsViewModel(_device, _serials));

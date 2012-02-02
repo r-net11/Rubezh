@@ -6,6 +6,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Win32;
+using System.Net;
+using System.Windows;
 
 namespace SettingsModule.ViewModels
 {
@@ -18,17 +20,14 @@ namespace SettingsModule.ViewModels
             LoadConfigurationCommand = new RelayCommand(OnLoadConfiguration);
         }
 
-        public void Initialize()
-        {
-        }
-
         public RelayCommand ShowDriversCommand { get; private set; }
         void OnShowDrivers()
         {
+            int y = 0;
+            int x = 10 / y;
             var driversView = new DriversView();
             driversView.ShowDialog();
         }
-
         public RelayCommand SaveConfigurationCommand { get; private set; }
         void OnSaveConfiguration()
         {

@@ -2,6 +2,7 @@
 using Controls;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -55,14 +56,14 @@ namespace DevicesModule.ViewModels
         {
             if (!DigitalPasswordHelper.Check(Password) || !DigitalPasswordHelper.Check(PasswordConfirm))
             {
-                DialogBox.DialogBox.Show("Пароль может содержать только цифры");
+                MessageBoxService.Show("Пароль может содержать только цифры");
                 cancel = true;
                 return;
             }
 
             if (Password != PasswordConfirm)
             {
-                DialogBox.DialogBox.Show("Пароль и подтверждение пароля должны совпадать");
+                MessageBoxService.Show("Пароль и подтверждение пароля должны совпадать");
                 cancel = true;
                 return;
             }

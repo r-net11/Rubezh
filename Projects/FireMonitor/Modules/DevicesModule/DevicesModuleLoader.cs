@@ -6,12 +6,12 @@ using Infrastructure.Events;
 
 namespace DevicesModule
 {
-    public class DevicesModule
+    public class DevicesModuleLoader
     {
         static DevicesViewModel DevicesViewModel;
         static ZonesViewModel ZonesViewModel;
 
-        public DevicesModule()
+        public DevicesModuleLoader()
         {
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
@@ -26,7 +26,7 @@ namespace DevicesModule
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        static void CreateViewModels()
+        public static void CreateViewModels()
         {
             DevicesViewModel = new DevicesViewModel();
             ZonesViewModel = new ZonesViewModel();

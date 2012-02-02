@@ -4,6 +4,7 @@ using System.Text;
 using System.Windows;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -255,7 +256,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ReadCommand { get; private set; }
         void OnRead()
         {
-            DialogBox.DialogBox.Show("Эта функция пока не реализована");
+            MessageBoxService.Show("Эта функция пока не реализована");
         }
 
         protected override void Save(ref bool cancel)

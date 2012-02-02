@@ -5,11 +5,11 @@ using Infrastructure.Events;
 
 namespace CallModule
 {
-    public class CallModule
+    public class CallModuleLoader
     {
         static CallViewModel CallViewModel;
 
-        public CallModule()
+        public CallModuleLoader()
         {
             ServiceFactory.Events.GetEvent<ShowCallEvent>().Subscribe(OnShowCall);
 
@@ -22,7 +22,7 @@ namespace CallModule
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        static void CreateViewModels()
+        public static void CreateViewModels()
         {
             CallViewModel = new CallViewModel();
         }
