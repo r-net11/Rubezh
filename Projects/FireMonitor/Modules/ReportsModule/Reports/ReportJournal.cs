@@ -45,7 +45,10 @@ namespace ReportsModule.Reports
         public override ReportDocument CreateCrystalReportDocument()
         {
             if (DataList.IsNotNullOrEmpty() == false)
-                return new ReportDocument();
+            {
+                reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
+                return reportDocument;
+            }
 
             reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
             reportDocument.SetDataSource(DataList);

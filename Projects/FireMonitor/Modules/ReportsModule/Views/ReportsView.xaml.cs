@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using ReportsModule.ViewModels;
 
 namespace ReportsModule.Views
 {
@@ -8,6 +9,5 @@ namespace ReportsModule.Views
         {
             InitializeComponent();
         }
-
     }
 }

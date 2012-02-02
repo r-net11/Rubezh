@@ -55,6 +55,7 @@
               <Directory Id="FireMonReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
             </Directory>
           </Directory>
+          <Merge Id="HASPMSM" Language="1033" DiskId="1" SourceFile="MergeModules\haspds.msm"/>
         </Directory>
       </Directory>
       <!--Пуск\Программы\FiresecService-->
@@ -63,8 +64,9 @@
       </Directory>
       <!--Рабочий стол-->
       <Directory Id="DesktopFolder" />
+      
     </Directory>
-
+    
     <FeatureRef Id="FiresecFeature" />
     
     <InstallExecuteSequence>

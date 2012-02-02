@@ -7,6 +7,10 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Controls;
 using Infrastructure;
+using ReportsModule.Views;
+using CrystalDecisions.CrystalReports.Engine;
+using System.ComponentModel;
+using CrystalDecisions.Shared;
 
 namespace ReportsModule.ViewModels
 {
@@ -14,6 +18,13 @@ namespace ReportsModule.ViewModels
     {
         public ReportsViewModel()
         {
+            FirstPageCommand = new RelayCommand(OnFirstPage, IsReportLoad);
+            NextPageCommand = new RelayCommand(OnNextPage, IsReportLoad);
+            PreviousPageCommand = new RelayCommand(OnPreviousPage, IsReportLoad);
+            LastPageCommand = new RelayCommand(OnLastPage, IsReportLoad);
+            FidthToPageCommand = new RelayCommand(OnFidthToPage, IsReportLoad);
+            SaveReportCommand = new RelayCommand(OnSaveReportCommand, IsReportLoad);
+
             ReportNames = new List<string>()
             {
                 "Блоки индикации",
@@ -22,104 +33,76 @@ namespace ReportsModule.ViewModels
                 "Параметры устройств",
                 "Список устройств"
             };
-            CrystalReportsViewer = new CrystalReportsViewer();
-            ReportViewerSettings(CrystalReportsViewer);
-            ReportContent = CrystalReportsViewer;
+            ViewerCoreControl = new SAPBusinessObjects.WPF.Viewer.ViewerCore();
         }
 
         void ShowCrystalReport(BaseReport baseReport)
         {
             baseReport.LoadData();
-            CrystalReportsViewer.ViewerCore.ReportSource = baseReport.CreateCrystalReportDocument();
+            var viewerCore = new SAPBusinessObjects.WPF.Viewer.ViewerCore();
+            viewerCore.ToggleSidePanel = Constants.SidePanelKind.None;
+            viewerCore.SelectionMode = Constants.ObjectSelectionMode.One;
+            viewerCore.ReportSource = baseReport.CreateCrystalReportDocument();
+            ViewerCoreControl = viewerCore;
         }
 
-        void ReportViewerSettings(CrystalReportsViewer crystalReportsViewer)
+        public int ZoomValue 
         {
-            crystalReportsViewer.ToggleSidePanel = SAPBusinessObjects.WPF.Viewer.Constants.SidePanelKind.None;
-            crystalReportsViewer.ShowLogo = false;
-            crystalReportsViewer.ShowRefreshButton = true;
-            crystalReportsViewer.ShowSearchTextButton = true;
-            crystalReportsViewer.ShowStatusbar = true;
-            crystalReportsViewer.ShowToolbar = true;
-            crystalReportsViewer.ViewerCore.Zoom(79);
-            crystalReportsViewer.ViewerCore.SelectionMode = Constants.ObjectSelectionMode.Multiple;
-            crystalReportsViewer.ShowToggleSidePanelButton = false;
-            crystalReportsViewer.Loaded +=new RoutedEventHandler(crystalReportsViewer_Loaded);
-            crystalReportsViewer.Refresh += new RefreshEventHandler(OnRefresh);
-        }
-
-        void crystalReportsViewer_Loaded(object sender, RoutedEventArgs e)
-        {
-            var crystalReportsViewer = sender as CrystalReportsViewer;
-            if (crystalReportsViewer != null)
-            {
-                var stb = crystalReportsViewer.FindName("statusBar") as StatusBar;
-                int i = 0;
-                foreach (var item in stb.Items)
-                {
-                    var btn3 = ((StatusBarItem)item).Content as Button;
-                    if ((i == 4)&&(btn3 != null))
-                    {
-                        btn3.Focus();
-                    }
-                    i++;
-                }
-                stb.Items.MoveCurrentToPosition(4);
-            }
-        }
-
-        public void OnUpdate()
-        {
-            if (CrystalReportsViewer != null)
-            {
-                var stb = CrystalReportsViewer.FindName("statusBar") as StatusBar;
-                int i = 0;
-                foreach (var item in stb.Items)
-                {
-                    var btn3 = ((StatusBarItem)item).Content as Button;
-                    if ((i == 4) && (btn3 != null))
-                    {
-                        btn3.Focus();
-                    }
-                    i++;
-                }
-                stb.Items.MoveCurrentToPosition(4);
-            }
-        }
-
-        void OnRefresh(object obj, ViewerEventArgs e)
-        {
-            var crystalReportsViewer = obj as CrystalReportsViewer;
-            if (crystalReportsViewer != null)
-            {
-                var stb = crystalReportsViewer.FindName("statusBar") as StatusBar;
-                int i = 0;
-                foreach (var item in stb.Items)
-                {
-                    var btn3 = ((StatusBarItem)item).Content as Button;
-                    if ((i == 4) && (btn3 != null))
-                    {
-                        btn3.Focus();
-                    }
-                    i++;
-                }
-                stb.Items.MoveCurrentToPosition(4);
-            }
-        }
-
-        object _reportContent;
-        public object ReportContent
-        {
-            get { return _reportContent; }
+            get { return ViewerCoreControl.ZoomFactor; }
             set
             {
-                _reportContent = value;
-                OnPropertyChanged("ReportContent");
+                ViewerCoreControl.ZoomFactor = value;
+                ViewerCoreControl.Zoom(value);
+                Update();
+            }
+        }
+        public double ZoomMinimumValue { get { return 1; } }
+        public double ZoomMaximumValue { get { return 1000; } }
+
+        ViewerCore _viewerCore;
+        public ViewerCore ViewerCoreControl
+        {
+            get { return _viewerCore; }
+            set
+            {
+                _viewerCore = value;
+                OnPropertyChanged("ViewerCoreControl");
             }
         }
 
-        public CrystalReportsViewer CrystalReportsViewer { get; private set; }
         public List<string> ReportNames { get; private set; }
+
+        public string TotalPageNumber
+        {
+            get
+            {
+                if (ViewerCoreControl.GetLastPageNumber() > 0)
+                    return ViewerCoreControl.GetLastPageNumber().ToString();
+                else
+                    return "";
+            }
+        }
+
+        public string CurrentPageNumber
+        {
+            get
+            {
+                return ViewerCoreControl.CurrentPageNumber.ToString();
+            }
+            set
+            {
+                int pageNumber = 0;
+                if (int.TryParse(value, out pageNumber))
+                {
+                    if (pageNumber > 0 && pageNumber < ViewerCoreControl.TotalPageNumber)
+                    {
+                        ViewerCoreControl.CurrentPageNumber = pageNumber;
+                        ViewerCoreControl.ShowNthPage(pageNumber);
+                        Update();
+                    }
+                }
+            }
+        }
 
         string _selectedReportName;
         public string SelectedReportName
@@ -130,7 +113,7 @@ namespace ReportsModule.ViewModels
                 _selectedReportName = value;
                 OnPropertyChanged("SelectedReportName");
 
-                switch(value)
+                switch (value)
                 {
                     case "Блоки индикации":
                         ShowCrystalReport(new ReportIndicationBlock());
@@ -153,6 +136,60 @@ namespace ReportsModule.ViewModels
                         return;
                 }
             }
+        }
+
+        bool IsReportLoad()
+        {
+            return SelectedReportName != null;
+        }
+
+        public RelayCommand FirstPageCommand { get; private set; }
+        void OnFirstPage()
+        {
+            ViewerCoreControl.ShowFirstPage();
+            Update();
+        }
+
+        public RelayCommand NextPageCommand { get; private set; }
+        void OnNextPage()
+        {
+            ViewerCoreControl.ShowNextPage();
+            Update();
+        }
+
+        public RelayCommand PreviousPageCommand { get; private set; }
+        void OnPreviousPage()
+        {
+            ViewerCoreControl.ShowPreviousPage();
+            Update();
+        }
+
+        public RelayCommand LastPageCommand { get; private set; }
+        void OnLastPage()
+        {
+            ViewerCoreControl.ShowLastPage();
+            Update();
+        }
+
+        public RelayCommand FidthToPageCommand { get; private set; }
+        void OnFidthToPage()
+        {
+            ViewerCoreControl.ZoomFactor = 79;
+            ViewerCoreControl.Zoom(ViewerCoreControl.ZoomFactor);
+            Update();
+        }
+
+        public RelayCommand SaveReportCommand { get; private set; }
+        void OnSaveReportCommand()
+        {
+            ViewerCoreControl.ExportReport();
+        }
+
+        void Update()
+        {
+            OnPropertyChanged("ZoomValue");
+            OnPropertyChanged("CurrentPageNumber");
+            OnPropertyChanged("TotalPageNumber");
         }
     }
 }

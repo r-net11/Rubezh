@@ -4,6 +4,7 @@
   <Fragment>
     <Feature Id="FiresecFeature" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
              ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <MergeRef Id="HASPMSM" />
       <Feature Id="FiresecService" Level="1" ConfigurableDirectory="FIRESECSERVICELOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local" >
         <Condition Level="0">INSTALLLEVEL=2</Condition>
         <FeatureRef Id="FiresecServiceFeature" />
