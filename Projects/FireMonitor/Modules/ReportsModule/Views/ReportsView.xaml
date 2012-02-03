@@ -7,18 +7,25 @@
         <Border DockPanel.Dock="Top" Background="{DynamicResource BackgroundBrush}" CornerRadius="2">
             <StackPanel Margin="2" HorizontalAlignment="Left" Orientation="Horizontal">
                 <ComboBox ItemsSource="{Binding ReportNames}" SelectedItem="{Binding SelectedReportName}" Height="25"/>
+                <Controls:ToolBarButton Name="refreshPageButton" Command="{Binding RefreshCommand}" ToolTip="Обновить отчет" ImageSource="/Controls;component/Images/Refresh.png" />
+                <Controls:ToolBarButton Name="filterButton" Command="{Binding FilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png"
+                                        Visibility="{Binding IsJournalReport, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <Controls:ToolBarButton Name="firstPageButton" Command="{Binding FirstPageCommand}" ToolTip="Начальная страница" ImageSource="/Controls;component/Images/LeftLeft.png" />
                 <Controls:ToolBarButton Name="prevPageButton" Command="{Binding PreviousPageCommand}" ToolTip="Предыдущая страница" ImageSource="/Controls;component/Images/Left.png" />
                 <TextBox Text="{Binding CurrentPageNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" 
-                         MinHeight="25" Height="30" MinWidth="25" Width="30" FontSize="20" />
+                         MinHeight="25" Height="30" MinWidth="25" FontSize="20" />
                 <Label Content="/" VerticalContentAlignment="Center" FontSize="20"/>
                 <Label Content="{Binding TotalPageNumber}" VerticalContentAlignment="Center" FontSize="20"/>
                 <Controls:ToolBarButton Name="nextPageButton" Command="{Binding NextPageCommand}" ToolTip="Следующая страница" ImageSource="/Controls;component/Images/Right.png" />
                 <Controls:ToolBarButton Name="lastPageButton" Command="{Binding LastPageCommand}" ToolTip="Последняя страница" ImageSource="/Controls;component/Images/RightRight.png" />
                 <Slider Orientation="Horizontal" VerticalAlignment="Center" Minimum="{Binding ZoomMinimumValue}" Maximum="{Binding ZoomMaximumValue}"
-                        Value="{Binding ZoomValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        Value="{Binding ZoomValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsReportLoad}"/>
                 <Controls:ToolBarButton Name="fidthToPageButton" Command="{Binding FidthToPageCommand}" ToolTip="По размеру страницы" ImageSource="/Controls;component/Images/FidthToPage.png" />
                 <Controls:ToolBarButton Name="saveReportButton" Command="{Binding SaveReportCommand}" ToolTip="Экспорт отчета" ImageSource="/Controls;component/Images/save.png" />
+                <Controls:ToolBarButton Name="printReportButton" Command="{Binding PrintReportCommand}" ToolTip="Печать отчета" ImageSource="/Controls;component/Images/Print.png" />
+                <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" 
+                         MinHeight="25" Height="30" MinWidth="150" FontSize="20" />
+                <Controls:ToolBarButton Name="searchButton" Command="{Binding SearchCommand}" ToolTip="Печать отчета" ImageSource="/Controls;component/Images/Search.png" />
             </StackPanel>
         </Border>
         <cr:ViewerCore Content="{Binding ViewerCoreControl}" Margin="0, 5, 0, 0" />

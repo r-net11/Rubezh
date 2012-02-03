@@ -6,6 +6,7 @@ using JournalModule.ViewModels;
 using ReportsModule.Models;
 using SAPBusinessObjects.WPF.Viewer;
 using CrystalDecisions.CrystalReports.Engine;
+using System.Collections.Generic;
 
 namespace ReportsModule.Reports
 {
@@ -14,33 +15,37 @@ namespace ReportsModule.Reports
         public ReportJournal()
         {
             base.ReportFileName = "JournalCrystalReport.rpt";
+            ReportArchiveFilter = new ReportArchiveFilter();
+        }
+
+        public ReportJournal(ArchiveFilterViewModel archiveFilterViewModel)
+        {
+            base.ReportFileName = "JournalCrystalReport.rpt";
+            ReportArchiveFilter = new ReportArchiveFilter(archiveFilterViewModel);
         }
 
         public override void LoadData()
         {
-            var reportArchiveFilter = new ReportArchiveFilter();
-            if (reportArchiveFilter.ShowFilter())
+            foreach (var journalRecord in ReportArchiveFilter.JournalRecords)
             {
-                foreach (var journalRecord in FiresecManager.GetFilteredArchive(reportArchiveFilter.ArchiveFilterViewModel.GetModel()))
+                DataList.Add(new ReportJournalModel()
                 {
-                    DataList.Add(new ReportJournalModel()
-                    {
-                        DeviceTime = journalRecord.DeviceTime.ToString(),
-                        SystemTime = journalRecord.SystemTime.ToString(),
-                        ZoneName = journalRecord.ZoneName,
-                        Description = journalRecord.Description,
-                        Device = journalRecord.DeviceName,
-                        Panel = journalRecord.PanelName,
-                        User = journalRecord.User
-                    });
-                }
-                StartDate = reportArchiveFilter.ArchiveFilterViewModel.StartDate;
-                EndDate = reportArchiveFilter.ArchiveFilterViewModel.EndDate;
+                    DeviceTime = journalRecord.DeviceTime.ToString(),
+                    SystemTime = journalRecord.SystemTime.ToString(),
+                    ZoneName = journalRecord.ZoneName,
+                    Description = journalRecord.Description,
+                    Device = journalRecord.DeviceName,
+                    Panel = journalRecord.PanelName,
+                    User = journalRecord.User
+                });
             }
+            StartDate = ReportArchiveFilter.StartDate;
+            EndDate = ReportArchiveFilter.EndDate;
         }
 
         public DateTime EndDate { get; set; }
         public DateTime StartDate { get; set; }
+        public ReportArchiveFilter ReportArchiveFilter { get; set; }
 
         public override ReportDocument CreateCrystalReportDocument()
         {
@@ -49,37 +54,54 @@ namespace ReportsModule.Reports
                 reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
                 return reportDocument;
             }
-
             reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
             reportDocument.SetDataSource(DataList);
             reportDocument.SetParameterValue("StartDate", StartDate.ToString());
             reportDocument.SetParameterValue("EndDate", EndDate.ToString());
 
-            //var crystalReportsViewer = new CrystalReportsViewer();
-            //crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
             return reportDocument;
         }
+    }
 
-        private class ReportArchiveFilter
+    public class ReportArchiveFilter
+    {
+        public ReportArchiveFilter()
         {
-            public ArchiveFilterViewModel ArchiveFilterViewModel { get; set; }
-            ArchiveFilter _archiveFilter;
+            SetDefaultFilter();
+            Initialize();
+        }
 
-            public ReportArchiveFilter()
-            {
-                _archiveFilter = new ArchiveFilter()
-                {
-                    EndDate = DateTime.Now,
-                    StartDate = DateTime.Now.AddDays(-1),
-                    UseSystemDate = false
-                };
-            }
+        public ReportArchiveFilter(ArchiveFilterViewModel archiveFilterViewModel)
+        {
+            ArchiveFilter = archiveFilterViewModel.GetModel();
+            StartDate = archiveFilterViewModel.StartDate;
+            EndDate = archiveFilterViewModel.EndDate;
+            Initialize();
+        }
 
-            public bool ShowFilter()
-            {
-                ArchiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
-                return ServiceFactory.UserDialogs.ShowModalWindow(ArchiveFilterViewModel);
-            }
+        void Initialize()
+        {
+            JournalRecords = new List<JournalRecord>();
+            LoadArchive();
+        }
+
+        public readonly DateTime ArchiveFirstDate = FiresecManager.GetArchiveStartDate();
+        public List<JournalRecord> JournalRecords { get; set; }
+        ArchiveFilter ArchiveFilter { get; set; }
+        public bool IsFilterOn { get; set; }
+        public DateTime StartDate { get; private set; }
+        public DateTime EndDate { get; private set; }
+
+        public void SetDefaultFilter()
+        {
+            ArchiveFilter = new ArchiveFilter() { StartDate = ArchiveFirstDate, EndDate = DateTime.Now };
+            StartDate = ArchiveFirstDate;
+            EndDate = DateTime.Now;
+        }
+
+        public void LoadArchive()
+        {
+            JournalRecords = new List<JournalRecord>(FiresecManager.GetFilteredArchive(ArchiveFilter));
         }
     }
 }

@@ -11,6 +11,10 @@ using ReportsModule.Views;
 using CrystalDecisions.CrystalReports.Engine;
 using System.ComponentModel;
 using CrystalDecisions.Shared;
+using FiresecAPI.Models;
+using System;
+using JournalModule.ViewModels;
+using FiresecClient;
 
 namespace ReportsModule.ViewModels
 {
@@ -18,12 +22,16 @@ namespace ReportsModule.ViewModels
     {
         public ReportsViewModel()
         {
-            FirstPageCommand = new RelayCommand(OnFirstPage, IsReportLoad);
-            NextPageCommand = new RelayCommand(OnNextPage, IsReportLoad);
-            PreviousPageCommand = new RelayCommand(OnPreviousPage, IsReportLoad);
-            LastPageCommand = new RelayCommand(OnLastPage, IsReportLoad);
-            FidthToPageCommand = new RelayCommand(OnFidthToPage, IsReportLoad);
-            SaveReportCommand = new RelayCommand(OnSaveReportCommand, IsReportLoad);
+            FirstPageCommand = new RelayCommand(OnFirstPage, GetIsReportLoad);
+            NextPageCommand = new RelayCommand(OnNextPage, GetIsReportLoad);
+            PreviousPageCommand = new RelayCommand(OnPreviousPage, GetIsReportLoad);
+            LastPageCommand = new RelayCommand(OnLastPage, GetIsReportLoad);
+            FidthToPageCommand = new RelayCommand(OnFidthToPage, GetIsReportLoad);
+            SaveReportCommand = new RelayCommand(OnSaveReportCommand, GetIsReportLoad);
+            PrintReportCommand = new RelayCommand(OnPrintReport, GetIsReportLoad);
+            RefreshCommand = new RelayCommand(OnRefresh, GetIsReportLoad);
+            FilterCommand = new RelayCommand(OnFilter, GetIsReportLoad);
+            SearchCommand = new RelayCommand(OnSearch, GetIsReportLoad);
 
             ReportNames = new List<string>()
             {
@@ -41,12 +49,11 @@ namespace ReportsModule.ViewModels
             baseReport.LoadData();
             var viewerCore = new SAPBusinessObjects.WPF.Viewer.ViewerCore();
             viewerCore.ToggleSidePanel = Constants.SidePanelKind.None;
-            viewerCore.SelectionMode = Constants.ObjectSelectionMode.One;
             viewerCore.ReportSource = baseReport.CreateCrystalReportDocument();
             ViewerCoreControl = viewerCore;
         }
 
-        public int ZoomValue 
+        public int ZoomValue
         {
             get { return ViewerCoreControl.ZoomFactor; }
             set
@@ -58,19 +65,9 @@ namespace ReportsModule.ViewModels
         }
         public double ZoomMinimumValue { get { return 1; } }
         public double ZoomMaximumValue { get { return 1000; } }
-
-        ViewerCore _viewerCore;
-        public ViewerCore ViewerCoreControl
-        {
-            get { return _viewerCore; }
-            set
-            {
-                _viewerCore = value;
-                OnPropertyChanged("ViewerCoreControl");
-            }
-        }
-
         public List<string> ReportNames { get; private set; }
+        public bool IsReportLoad { get { return GetIsReportLoad(); } }
+        public bool IsJournalReport { get { return SelectedReportName == "Журнал событий"; } }
 
         public string TotalPageNumber
         {
@@ -87,20 +84,48 @@ namespace ReportsModule.ViewModels
         {
             get
             {
-                return ViewerCoreControl.CurrentPageNumber.ToString();
+                if (ViewerCoreControl.CurrentPageNumber == 0)
+                    return 1.ToString();
+                else
+                    return ViewerCoreControl.CurrentPageNumber.ToString();
             }
             set
             {
                 int pageNumber = 0;
                 if (int.TryParse(value, out pageNumber))
                 {
-                    if (pageNumber > 0 && pageNumber < ViewerCoreControl.TotalPageNumber)
+                    if (pageNumber > 0 && pageNumber <= ViewerCoreControl.TotalPageNumber)
                     {
                         ViewerCoreControl.CurrentPageNumber = pageNumber;
                         ViewerCoreControl.ShowNthPage(pageNumber);
                         Update();
                     }
                 }
+            }
+        }
+
+        string _searchText;
+        public string SearchText
+        {
+            get
+            {
+                return _searchText;
+            }
+            set
+            {
+                _searchText = value;
+                OnPropertyChanged("SearchText");
+            }
+        }
+
+        ViewerCore _viewerCore;
+        public ViewerCore ViewerCoreControl
+        {
+            get { return _viewerCore; }
+            set
+            {
+                _viewerCore = value;
+                OnPropertyChanged("ViewerCoreControl");
             }
         }
 
@@ -112,7 +137,8 @@ namespace ReportsModule.ViewModels
             {
                 _selectedReportName = value;
                 OnPropertyChanged("SelectedReportName");
-
+                OnPropertyChanged("IsReportLoad");
+                OnPropertyChanged("IsJournalReport");
                 switch (value)
                 {
                     case "Блоки индикации":
@@ -136,11 +162,6 @@ namespace ReportsModule.ViewModels
                         return;
                 }
             }
-        }
-
-        bool IsReportLoad()
-        {
-            return SelectedReportName != null;
         }
 
         public RelayCommand FirstPageCommand { get; private set; }
@@ -185,11 +206,50 @@ namespace ReportsModule.ViewModels
             ViewerCoreControl.ExportReport();
         }
 
+        public RelayCommand PrintReportCommand { get; private set; }
+        void OnPrintReport()
+        {
+            ViewerCoreControl.PrintReport();
+        }
+
+        public RelayCommand RefreshCommand { get; private set; }
+        void OnRefresh()
+        {
+            SelectedReportName = SelectedReportName;
+            Update();
+        }
+
+        public RelayCommand FilterCommand { get; private set; }
+        void OnFilter()
+        {
+            var archiveFilter = new ArchiveFilter()
+            {
+                EndDate = DateTime.Now,
+                StartDate = DateTime.Now.AddDays(-1),
+                UseSystemDate = false
+            };
+            var archiveFilterViewModel = new ArchiveFilterViewModel(archiveFilter);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
+            {
+                ShowCrystalReport(new ReportJournal(archiveFilterViewModel));
+            }
+        }
+
+        public RelayCommand SearchCommand { get; private set; }
+        void OnSearch()
+        {
+            ViewerCoreControl.SearchForText(SearchText, false, false);
+        }
+
         void Update()
         {
             OnPropertyChanged("ZoomValue");
             OnPropertyChanged("CurrentPageNumber");
             OnPropertyChanged("TotalPageNumber");
+        }
+        bool GetIsReportLoad()
+        {
+            return SelectedReportName != null;
         }
     }
 }
