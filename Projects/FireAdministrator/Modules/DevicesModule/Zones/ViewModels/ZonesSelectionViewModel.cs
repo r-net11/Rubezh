@@ -4,9 +4,11 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
+    [SaveSizeAttribute]
     public class ZonesSelectionViewModel : SaveCancelDialogContent
     {
         public List<ulong?> Zones { get; private set; }

@@ -26,7 +26,6 @@ namespace FiresecAPI.Models
             ElementRectangleZones = new List<ElementRectangleZone>();
             ElementPolygonZones = new List<ElementPolygonZone>();
             ElementDevices = new List<ElementDevice>();
-
             ElementRectangles = new List<ElementRectangle>();
             ElementEllipses = new List<ElementEllipse>();
             ElementTextBlocks = new List<ElementTextBlock>();

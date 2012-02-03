@@ -14,8 +14,14 @@ namespace PlansModule.ViewModels
 {
     public partial class PlansViewModel : RegionViewModel
     {
+        public DevicesViewModel DevicesViewModel { get; private set; }
+        public ElementsViewModel ElementsViewModel { get; private set; }
+
         public PlansViewModel()
         {
+            ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
+            ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Subscribe(OnShowElementDevice);
+
             AddCommand = new RelayCommand(OnAdd);
             AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
             RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
@@ -32,13 +38,7 @@ namespace PlansModule.ViewModels
             DevicesViewModel = new DevicesViewModel();
 
             Initialize();
-
-            ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
-            ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Subscribe(OnShowElementDevice);
         }
-
-        public DevicesViewModel DevicesViewModel { get; private set; }
-        public ElementsViewModel ElementsViewModel { get; private set; }
 
         void Initialize()
         {

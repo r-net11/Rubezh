@@ -169,6 +169,7 @@ namespace PlansModule.Designer
                 PlanDesignerViewModel.MoveToFrontCommand.Execute();
 
                 ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase>() { elementBase });
+                ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(new List<ElementBase>() { elementBase });
             }
 
             e.Handled = true;

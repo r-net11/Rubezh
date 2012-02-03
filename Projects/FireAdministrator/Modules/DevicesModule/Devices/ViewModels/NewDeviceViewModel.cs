@@ -4,9 +4,11 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
+    [SaveSizeAttribute]
     public class NewDeviceViewModel : SaveCancelDialogContent
     {
         public NewDeviceViewModel(DeviceViewModel parent)

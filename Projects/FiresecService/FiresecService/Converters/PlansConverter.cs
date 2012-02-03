@@ -27,6 +27,11 @@ namespace FiresecService.Converters
                         Width = Double.Parse(innerPlan.width) * 10
                     };
 
+                    if (innerPlan.caption == "Прав.часть чердак")
+                    {
+                        var x = 1;
+                    }
+
                     foreach (var innerLayer in innerPlan.layer)
                     {
                         if (innerLayer.elements == null)
@@ -154,6 +159,12 @@ namespace FiresecService.Converters
                             case "Несвязанные зоны":
                             case "Пожарные зоны":
                             case "Охранные зоны":
+
+                                if (innerPlan.caption == "Прав.часть чердак")
+                                {
+                                    var x = 1;
+                                }
+
                                 foreach (var innerZone in innerLayer.elements)
                                 {
                                     ulong? zoneNo = null;
@@ -164,8 +175,7 @@ namespace FiresecService.Converters
                                     {
                                         foreach (var zoneShapeId in zone.ShapeIds)
                                         {
-                                            if ((zoneShapeId == longId.ToString()) ||
-                                                (zoneShapeId == intId.ToString()))
+                                            if ((zoneShapeId == longId.ToString()) || (zoneShapeId == intId.ToString()))
                                             {
                                                 zoneNo = zone.No;
                                             }
@@ -184,6 +194,10 @@ namespace FiresecService.Converters
                                                 elementPolygonZone.PolygonPoints = GetPointCollection(innerZone);
                                                 elementPolygonZone.Normalize();
                                                 plan.ElementPolygonZones.Add(elementPolygonZone);
+                                                if (innerPlan.caption == "Прав.часть чердак")
+                                                {
+                                                    var x = 1;
+                                                }
                                             };
                                             break;
 
@@ -216,9 +230,7 @@ namespace FiresecService.Converters
                                         var elementDevice = new ElementDevice()
                                         {
                                             Left = Parse(innerRect.left),
-                                            Top = Parse(innerRect.top)//,
-                                            //Width = Parse(innerRect.right) - Parse(innerRect.left),
-                                            //Height = Parse(innerRect.bottom) - Parse(innerRect.top)
+                                            Top = Parse(innerRect.top)
                                         };
                                         plan.ElementDevices.Add(elementDevice);
 
@@ -226,8 +238,7 @@ namespace FiresecService.Converters
                                         {
                                             foreach (var deviceShapeId in device.ShapeIds)
                                             {
-                                                if ((deviceShapeId == longId.ToString()) ||
-                                                    (deviceShapeId == intId.ToString()))
+                                                if ((deviceShapeId == longId.ToString()) || (deviceShapeId == intId.ToString()))
                                                 {
                                                     elementDevice.DeviceUID = device.UID;
                                                     device.PlanElementUIDs.Add(elementDevice.UID);

@@ -16,6 +16,8 @@ namespace PlansModule.ViewModels
     {
         public void UpdateDeviceInZones()
         {
+            Dictionary<Device, ulong?> deviceInZones = new Dictionary<Device, ulong?>();
+
             foreach (var designerItem in DesignerCanvas.Items)
             {
                 ElementDevice elementDevice = designerItem.ElementBase as ElementDevice;
@@ -23,7 +25,7 @@ namespace PlansModule.ViewModels
                 {
                     var device = elementDevice.Device;
                     if (device.Driver.IsZoneDevice == false)
-                        return;
+                        continue;
                     var zones = new List<ulong>();
 
                     foreach (var elementPolygonZoneItem in DesignerCanvas.Items)
@@ -33,7 +35,9 @@ namespace PlansModule.ViewModels
                         {
                             var point = new Point((int)Canvas.GetLeft(designerItem) - (int)Canvas.GetLeft(elementPolygonZoneItem),
                                 (int)Canvas.GetTop(designerItem) - (int)Canvas.GetTop(elementPolygonZoneItem));
+
                             bool isInPolygon = IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
+
                             if (isInPolygon)
                                 if (elementPolygonZone.ZoneNo.HasValue)
                                     zones.Add(elementPolygonZone.ZoneNo.Value);
@@ -53,26 +57,6 @@ namespace PlansModule.ViewModels
                         }
                     }
 
-                    var deviceName = device.Driver.ShortName + " - " + device.DottedAddress;
-
-                    var firstZoneName = "";
-                    if (zones.Count > 0)
-                    {
-                        firstZoneName = zones[0].ToString();
-                        var firsZone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zones[0]);
-                        if (firsZone != null)
-                            firstZoneName = firsZone.PresentationName;
-                    }
-
-                    var deviceZoneName = "";
-                    if (device.ZoneNo.HasValue)
-                    {
-                        deviceZoneName = device.ZoneNo.ToString();
-                        var deviceZone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
-                        if (deviceZone != null)
-                            deviceZoneName = deviceZone.PresentationName;
-                    }
-
                     if (device.ZoneNo.HasValue)
                     {
                         var isInZone = zones.Any(x => x == device.ZoneNo.Value);
@@ -80,21 +64,11 @@ namespace PlansModule.ViewModels
                         {
                             if (zones.Count > 0)
                             {
-                                if (MessageBoxService.ShowQuestion("Изменить зону устройства " + deviceName + " с " + deviceZoneName + " на " + firstZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
-                                {
-                                    designerItem.IsSelected = true;
-                                    device.ZoneNo = zones[0];
-                                    ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
-                                }
+                                deviceInZones.Add(device, zones[0]);
                             }
                             else
                             {
-                                if (MessageBoxService.ShowQuestion("Удалить устройство " + deviceName + " из зоны " + deviceZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
-                                {
-                                    designerItem.IsSelected = true;
-                                    device.ZoneNo = null;
-                                    ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
-                                }
+                                deviceInZones.Add(device, null);
                             }
                         }
                     }
@@ -102,15 +76,17 @@ namespace PlansModule.ViewModels
                     {
                         if (zones.Count > 0)
                         {
-                            if (MessageBoxService.ShowQuestion("Добавить устройство " + deviceName + " в зону " + firstZoneName + " ?") == System.Windows.MessageBoxResult.Yes)
-                            {
-                                designerItem.IsSelected = true;
-                                device.ZoneNo = zones[0];
-                                ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
-                            }
+                            device.ZoneNo = zones[0];
+                            ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
                         }
                     }
                 }
+            }
+
+            if (deviceInZones.Count > 0)
+            {
+                var deviceInZoneViewModel = new DevicesInZoneViewModel(deviceInZones);
+                var result = ServiceFactory.UserDialogs.ShowModalWindow(deviceInZoneViewModel);
             }
         }
 

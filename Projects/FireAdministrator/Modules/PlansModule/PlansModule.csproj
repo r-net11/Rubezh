@@ -146,6 +146,7 @@
     <Compile Include="Events\ElementSelectedEvent.cs" />
     <Compile Include="Events\ShowElementDeviceEvent.cs" />
     <Compile Include="Events\ShowElementEvent.cs" />
+    <Compile Include="ViewModels\DevicesInZoneViewModel.cs" />
     <Compile Include="ViewModels\ElementsViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModel.cs" />
     <Compile Include="ViewModels\ElementBaseViewModel.cs" />
@@ -155,6 +156,9 @@
     <Compile Include="ViewModels\PlanDesignerViewModel.Zoom.cs" />
     <Compile Include="ViewModels\PlansViewModel.CopyPaste.cs" />
     <Compile Include="ViewModels\PlansViewModel.History.cs" />
+    <Compile Include="Views\DevicesInZoneView.xaml.cs">
+      <DependentUpon>DevicesInZoneView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ElementsView.xaml.cs">
       <DependentUpon>ElementsView.xaml</DependentUpon>
     </Compile>
@@ -302,6 +306,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ElementProperties\Views\ZonePropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DevicesInZoneView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

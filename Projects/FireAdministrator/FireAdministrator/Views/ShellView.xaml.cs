@@ -1,17 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using Common;
-using DevicesModule.Views;
+using Controls.MessageBox;
 using FireAdministrator.ViewModels;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Controls.MessageBox;
 
 namespace FireAdministrator.Views
 {
@@ -21,7 +19,6 @@ namespace FireAdministrator.Views
         {
             InitializeComponent();
             DataContext = this;
-            LoadZonesSelectionViewCustomLocation();
         }
 
         void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -132,73 +129,8 @@ namespace FireAdministrator.Views
 
         void Window_Closed(object sender, System.EventArgs e)
         {
-            SaveZonesSelectionViewCustomLocation();
             FiresecManager.Disconnect();
             Application.Current.Shutdown();
-        }
-
-        void LoadZonesSelectionViewCustomLocation()
-        {
-            try
-            {
-                ZonesSelectionView.CustomWidth = double.Parse(ConfigurationManager.AppSettings["ZonesSelectionViewCustomWidth"]);
-                ZonesSelectionView.CustomHeight = double.Parse(ConfigurationManager.AppSettings["ZonesSelectionViewCustomHeight"]);
-                ZonesSelectionView.CustomLeft = double.Parse(ConfigurationManager.AppSettings["ZonesSelectionViewCustomLeft"]);
-                ZonesSelectionView.CustomTop = double.Parse(ConfigurationManager.AppSettings["ZonesSelectionViewCustomTop"]);
-                //var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                //foreach (KeyValueConfigurationElement property in config.AppSettings.Settings)
-                //{
-                //    switch (property.Key)
-                //    {
-                //        case "ZonesSelectionViewCustomWidth":
-                //            ZonesSelectionView.CustomWidth = double.Parse(property.Value);
-                //            break;
-                //        case "ZonesSelectionViewCustomHeight":
-                //            ZonesSelectionView.CustomHeight = double.Parse(property.Value);
-                //            break;
-                //        case "ZonesSelectionViewCustomLeft":
-                //            ZonesSelectionView.CustomLeft = double.Parse(property.Value);
-                //            break;
-                //        case "ZonesSelectionViewCustomTop":
-                //            ZonesSelectionView.CustomTop = double.Parse(property.Value);
-                //            break;
-                //        default:
-                //            break;
-                //    }
-                //}
-            }
-            catch { }
-        }
-
-        void SaveZonesSelectionViewCustomLocation()
-        {
-            try
-            {
-                var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                foreach (KeyValueConfigurationElement property in config.AppSettings.Settings)
-                {
-                    switch (property.Key)
-                    {
-                        case "ZonesSelectionViewCustomWidth":
-                            property.Value = ZonesSelectionView.CustomWidth.ToString();
-                            break;
-                        case "ZonesSelectionViewCustomHeight":
-                            property.Value = ZonesSelectionView.CustomHeight.ToString();
-                            break;
-                        case "ZonesSelectionViewCustomLeft":
-                            property.Value = ZonesSelectionView.CustomLeft.ToString();
-                            break;
-                        case "ZonesSelectionViewCustomTop":
-                            property.Value = ZonesSelectionView.CustomTop.ToString();
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
-                config.Save();
-            }
-            catch { }
         }
     }
 }

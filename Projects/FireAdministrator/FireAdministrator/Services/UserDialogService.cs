@@ -5,6 +5,8 @@ using System.Windows;
 using DevicesModule.ViewModels;
 using DevicesModule.Views;
 using Infrastructure.Common;
+using Infrastructure;
+using System.Configuration;
 
 namespace FireAdministrator
 {
@@ -44,16 +46,22 @@ namespace FireAdministrator
             ActiveWindows.Remove((DialogWindow) sender);
         }
 
-        void ZonesSelectionViewClosed(object sender, System.EventArgs e)
+        void OnSaveSizeViewClosed(object sender, System.EventArgs e)
         {
-            var dialog = (DialogWindow) sender;
-            if (dialog.ViewModel is ZonesSelectionViewModel)
-            {
-                ZonesSelectionView.CustomWidth = dialog.Width;
-                ZonesSelectionView.CustomHeight = dialog.Height;
-                ZonesSelectionView.CustomTop = dialog.Top;
-                ZonesSelectionView.CustomLeft = dialog.Left;
-            }
+            DialogWindow dialogWindow = sender as DialogWindow;
+            var viewModel = dialogWindow.ViewModel;
+            var typeName = viewModel.GetType().Name;
+
+            var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            configuration.AppSettings.Settings.Remove(typeName + "_Width");
+            configuration.AppSettings.Settings.Remove(typeName + "_Height");
+            configuration.AppSettings.Settings.Remove(typeName + "_Left");
+            configuration.AppSettings.Settings.Remove(typeName + "_Top");
+            configuration.AppSettings.Settings.Add(typeName + "_Width", dialogWindow.Width.ToString());
+            configuration.AppSettings.Settings.Add(typeName + "_Height", dialogWindow.Height.ToString());
+            configuration.AppSettings.Settings.Add(typeName + "_Left", dialogWindow.Left.ToString());
+            configuration.AppSettings.Settings.Add(typeName + "_Top", dialogWindow.Top.ToString());
+            configuration.Save();
         }
 
         public void HideWindow(string name)
@@ -95,16 +103,29 @@ namespace FireAdministrator
                 }
 
                 dialogWindow.SetContent(model);
-                if (dialogWindow.ViewModel is ZonesSelectionViewModel)
+
+                var viewModel = dialogWindow.ViewModel;
+                var isSaveSize = viewModel.GetType().GetCustomAttributes(true).Any(x => x is SaveSizeAttribute);
+                if (isSaveSize)
                 {
-                    if (ZonesSelectionView.CustomWidth != 0)
+                    var typeName = viewModel.GetType().Name;
+
+                    try
                     {
-                        dialogWindow.Width = ZonesSelectionView.CustomWidth;
-                        dialogWindow.Height = ZonesSelectionView.CustomHeight;
-                        dialogWindow.Left = ZonesSelectionView.CustomLeft;
-                        dialogWindow.Top = ZonesSelectionView.CustomTop;
+                        var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                        string stringWidth = configuration.AppSettings.Settings[typeName + "_Width"].Value;
+                        string stringHeight = ConfigurationManager.AppSettings[typeName + "_Height"];
+                        string stringLeft = ConfigurationManager.AppSettings[typeName + "_Left"];
+                        string stringTop = ConfigurationManager.AppSettings[typeName + "_Top"];
+
+                        dialogWindow.Width = double.Parse(stringWidth);
+                        dialogWindow.Height = double.Parse(stringHeight);
+                        dialogWindow.Left = double.Parse(stringLeft);
+                        dialogWindow.Top = double.Parse(stringTop);
                     }
-                    dialogWindow.Closed += new EventHandler(ZonesSelectionViewClosed);
+                    catch (Exception) { ;}
+
+                    dialogWindow.Closed += new EventHandler(OnSaveSizeViewClosed);
                 }
 
                 bool? result = dialogWindow.ShowDialog();

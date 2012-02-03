@@ -15,13 +15,14 @@ namespace PlansModule.ViewModels
 
         void InitializeHistory()
         {
-            ResetHistory();
             UndoCommand = new RelayCommand(OnUndo, CanUndo);
             RedoCommand = new RelayCommand(OnRedo, CanRedo);
 
             ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsAdded);
             ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementsRemoved);
             ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);
+
+            ResetHistory();
         }
 
         void ResetHistory()
