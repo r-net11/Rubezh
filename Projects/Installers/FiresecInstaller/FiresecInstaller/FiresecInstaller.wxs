@@ -37,14 +37,12 @@
             <Directory Id="FiresecServiceConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FiresecServiceIconsFolder" Name="$(var.IconsFolder)" />
               <Directory Id="FiresecServiceSoundsFolder" Name="$(var.SoundsFolder)" />
-              <!--<Directory Id="FiresecServiceReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />-->
             </Directory>
           </Directory>
           <Directory Id="FIREADMINISTRATORLOCATION" Name="$(var.FireAdministratorName)">
             <Directory Id="FireAdmConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FireAdmIconsFolder" Name="$(var.IconsFolder)" />
               <Directory Id="FireAdmSoundsFolder" Name="$(var.SoundsFolder)" />
-              <!--<Directory Id="FireAdmReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />-->
             </Directory>
           </Directory>
           <Directory Id="FIREMONITORLOCATION" Name="$(var.FireMonitorName)">
@@ -71,9 +69,6 @@
     
     <InstallExecuteSequence>
       <Custom Action="CloseApplications" Before="RemoveFiles" />  
-      <Custom Action="StartAppOnExit" After="InstallFinalize">
-        SETUPCHOICE="Full" AND CONVERTCONFIGURATION = "1"
-      </Custom>
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

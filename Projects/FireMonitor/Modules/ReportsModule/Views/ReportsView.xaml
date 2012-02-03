@@ -3,10 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cr="clr-namespace:SAPBusinessObjects.WPF.Viewer;assembly=SAPBusinessObjects.WPF.Viewer"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-    <DockPanel>
+    <DockPanel LastChildFill="True">
         <Border DockPanel.Dock="Top" Background="{DynamicResource BackgroundBrush}" CornerRadius="2">
             <StackPanel Margin="2" HorizontalAlignment="Left" Orientation="Horizontal">
-                <ComboBox ItemsSource="{Binding ReportNames}" SelectedItem="{Binding SelectedReportName}" Height="25"/>
+                <ComboBox ItemsSource="{Binding AvailableReportTypes}" SelectedItem="{Binding SelectedReportName}" Height="25" MinWidth="150">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource ReportTypeToStringConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
                 <Controls:ToolBarButton Name="refreshPageButton" Command="{Binding RefreshCommand}" ToolTip="Обновить отчет" ImageSource="/Controls;component/Images/Refresh.png" />
                 <Controls:ToolBarButton Name="filterButton" Command="{Binding FilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png"
                                         Visibility="{Binding IsJournalReport, Converter={StaticResource BoolToVisibilityConverter}}"/>
@@ -23,11 +29,17 @@
                 <Controls:ToolBarButton Name="fidthToPageButton" Command="{Binding FidthToPageCommand}" ToolTip="По размеру страницы" ImageSource="/Controls;component/Images/FidthToPage.png" />
                 <Controls:ToolBarButton Name="saveReportButton" Command="{Binding SaveReportCommand}" ToolTip="Экспорт отчета" ImageSource="/Controls;component/Images/save.png" />
                 <Controls:ToolBarButton Name="printReportButton" Command="{Binding PrintReportCommand}" ToolTip="Печать отчета" ImageSource="/Controls;component/Images/Print.png" />
-                <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" 
-                         MinHeight="25" Height="30" MinWidth="150" FontSize="20" />
-                <Controls:ToolBarButton Name="searchButton" Command="{Binding SearchCommand}" ToolTip="Печать отчета" ImageSource="/Controls;component/Images/Search.png" />
             </StackPanel>
         </Border>
-        <cr:ViewerCore Content="{Binding ViewerCoreControl}" Margin="0, 5, 0, 0" />
+        <Border DockPanel.Dock="Bottom" Background="{DynamicResource BackgroundBrush}" CornerRadius="2">
+            <StackPanel Margin="2" HorizontalAlignment="Left" Orientation="Horizontal">
+                <Controls:ToolBarButton Name="searchButton" Command="{Binding SearchCommand}" ToolTip="Найти" ImageSource="/Controls;component/Images/Search.png" />
+                <TextBox Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" 
+                         MinHeight="25" Height="30" MinWidth="150" FontSize="20" />
+            </StackPanel>
+        </Border>
+        <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="2">
+            <cr:ViewerCore Content="{Binding ViewerCoreControl}" Margin="0, 5, 0, 0" />
+        </Border>
     </DockPanel>
 </UserControl>

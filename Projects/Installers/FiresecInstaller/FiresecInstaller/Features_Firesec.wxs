@@ -11,7 +11,6 @@
         <ComponentRef Id="ChangeConnectionsSettings"/>
         <ComponentRef Id="SqlComponent"/>
         <ComponentRef Id="ClearOnUninstallFiresecService"/>
-        <!--<ComponentRef Id="FiresecWindowsService" />-->
       </Feature>
       <Feature Id="FiresecClient" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
         <FeatureRef Id="FireAdministratorFeature" />

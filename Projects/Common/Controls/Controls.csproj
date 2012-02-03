@@ -97,6 +97,7 @@
     <Compile Include="Converters\IsOffToStringConverter.cs" />
     <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
+    <Compile Include="Converters\ReportTypeToStringConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
     <Compile Include="DataGridProperties.cs" />

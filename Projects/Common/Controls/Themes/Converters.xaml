@@ -14,5 +14,5 @@
     <Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
     <Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
     <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
-
+    <Converters:ReportTypeToStringConverter x:Key="ReportTypeToStringConverter" />
 </ResourceDictionary>

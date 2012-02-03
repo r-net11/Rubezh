@@ -15,6 +15,7 @@ using FiresecAPI.Models;
 using System;
 using JournalModule.ViewModels;
 using FiresecClient;
+using System.Linq;
 
 namespace ReportsModule.ViewModels
 {
@@ -33,15 +34,8 @@ namespace ReportsModule.ViewModels
             FilterCommand = new RelayCommand(OnFilter, GetIsReportLoad);
             SearchCommand = new RelayCommand(OnSearch, GetIsReportLoad);
 
-            ReportNames = new List<string>()
-            {
-                "Блоки индикации",
-                "Журнал событий",
-                "Количество устройств по типам",
-                "Параметры устройств",
-                "Список устройств"
-            };
-            ViewerCoreControl = new SAPBusinessObjects.WPF.Viewer.ViewerCore();
+            ViewerCoreControl = new ViewerCore();
+            SelectedReportName = null;
         }
 
         void ShowCrystalReport(BaseReport baseReport)
@@ -65,9 +59,48 @@ namespace ReportsModule.ViewModels
         }
         public double ZoomMinimumValue { get { return 1; } }
         public double ZoomMaximumValue { get { return 1000; } }
-        public List<string> ReportNames { get; private set; }
         public bool IsReportLoad { get { return GetIsReportLoad(); } }
-        public bool IsJournalReport { get { return SelectedReportName == "Журнал событий"; } }
+        public bool IsJournalReport { get { return SelectedReportName == ReportType.ReportJournal; } }
+
+        public List<ReportType> AvailableReportTypes
+        {
+            get { return Enum.GetValues(typeof(ReportType)).Cast<ReportType>().ToList(); }
+        }
+
+        ReportType? _selectedReportName;
+        public ReportType? SelectedReportName
+        {
+            get { return _selectedReportName; }
+            set
+            {
+                _selectedReportName = value;
+                OnPropertyChanged("SelectedReportName");
+                OnPropertyChanged("IsReportLoad");
+                OnPropertyChanged("IsJournalReport");
+                switch (value)
+                {
+                    case ReportType.ReportIndicationBlock:
+                        ShowCrystalReport(new ReportIndicationBlock());
+                        return;
+
+                    case ReportType.ReportJournal:
+                        ShowCrystalReport(new ReportJournal());
+                        return;
+
+                    case ReportType.ReportDriverCounter:
+                        ShowCrystalReport(new ReportDriverCounter());
+                        return;
+
+                    case ReportType.ReportDeviceParams:
+                        ShowCrystalReport(new ReportDeviceParams());
+                        return;
+
+                    case ReportType.ReportDevicesList:
+                        ShowCrystalReport(new ReportDevicesList());
+                        return;
+                }
+            }
+        }
 
         public string TotalPageNumber
         {
@@ -107,10 +140,7 @@ namespace ReportsModule.ViewModels
         string _searchText;
         public string SearchText
         {
-            get
-            {
-                return _searchText;
-            }
+            get { return _searchText; }
             set
             {
                 _searchText = value;
@@ -126,41 +156,6 @@ namespace ReportsModule.ViewModels
             {
                 _viewerCore = value;
                 OnPropertyChanged("ViewerCoreControl");
-            }
-        }
-
-        string _selectedReportName;
-        public string SelectedReportName
-        {
-            get { return _selectedReportName; }
-            set
-            {
-                _selectedReportName = value;
-                OnPropertyChanged("SelectedReportName");
-                OnPropertyChanged("IsReportLoad");
-                OnPropertyChanged("IsJournalReport");
-                switch (value)
-                {
-                    case "Блоки индикации":
-                        ShowCrystalReport(new ReportIndicationBlock());
-                        return;
-
-                    case "Журнал событий":
-                        ShowCrystalReport(new ReportJournal());
-                        return;
-
-                    case "Количество устройств по типам":
-                        ShowCrystalReport(new ReportDriverCounter());
-                        return;
-
-                    case "Параметры устройств":
-                        ShowCrystalReport(new ReportDeviceParams());
-                        return;
-
-                    case "Список устройств":
-                        ShowCrystalReport(new ReportDevicesList());
-                        return;
-                }
             }
         }
 
@@ -238,7 +233,11 @@ namespace ReportsModule.ViewModels
         public RelayCommand SearchCommand { get; private set; }
         void OnSearch()
         {
-            ViewerCoreControl.SearchForText(SearchText, false, false);
+            if (!String.IsNullOrEmpty(SearchText))
+            {
+                ViewerCoreControl.SearchForText(SearchText, false, false);
+                Update();
+            }
         }
 
         void Update()
