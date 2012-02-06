@@ -35,4 +35,16 @@
         <Views:LevelsSelectationView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:GuardDevicesViewModel}">
+        <Views:GuardDevicesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardDevicesMenuViewModel}">
+        <Views:GuardDevicesMenuView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:GuardSynchronizationViewModel}">
+        <Views:GuardSynchronizationView />
+    </DataTemplate>
+
 </ResourceDictionary>

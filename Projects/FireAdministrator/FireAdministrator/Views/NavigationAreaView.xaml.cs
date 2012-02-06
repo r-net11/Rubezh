@@ -20,6 +20,7 @@ namespace FireAdministrator.Views
             ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Subscribe(x => { IsGuardVisible = x; });
             ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Subscribe(x => { _isGuardUsersSelected = true; OnPropertyChanged("IsGuardUsersSelected"); });
             ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Subscribe(x => { _isGuardLevelsSelected = true; OnPropertyChanged("IsGuardLevelsSelected"); });
+            ServiceFactory.Events.GetEvent<ShowGuardDevicesEvent>().Subscribe(x => { _isGuardDevicesSelected = true; OnPropertyChanged("IsGuardDevicesSelected"); });
 
             ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(x => { _isLibrarySelected = true; OnPropertyChanged("IsLibrarySelected"); });
             ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(x => { _isPlanSelected = true; OnPropertyChanged("IsPlanSelected"); });
@@ -128,6 +129,19 @@ namespace FireAdministrator.Views
                 if (value)
                     ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Publish(null);
                 OnPropertyChanged("IsGuardLevelsSelected");
+            }
+        }
+
+        bool _isGuardDevicesSelected;
+                public bool IsGuardDevicesSelected
+        {
+            get { return _isGuardDevicesSelected; }
+            set
+            {
+                _isGuardDevicesSelected = value;
+                if (value)
+                    ServiceFactory.Events.GetEvent<ShowGuardDevicesEvent>().Publish(null);
+                OnPropertyChanged("IsGuardDevicesSelected");
             }
         }
 

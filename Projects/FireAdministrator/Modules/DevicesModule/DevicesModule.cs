@@ -14,6 +14,7 @@ namespace DevicesModule
         static DirectionsViewModel _directionsViewModel;
         static UsersViewModel _usersViewModel;
         static LevelsViewModel _levelsViewModel;
+        static GuardDevicesViewModel _guardDevicesViewModel;
 
         public DevicesModule()
         {
@@ -22,6 +23,7 @@ namespace DevicesModule
             ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
             ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Subscribe(OnShowGuardUsers);
             ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Subscribe(OnShowGuardLevels);
+            ServiceFactory.Events.GetEvent<ShowGuardDevicesEvent>().Subscribe(OnShowGuardDevices);
             ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
 
             RegisterResources();
@@ -44,6 +46,7 @@ namespace DevicesModule
             _directionsViewModel = new DirectionsViewModel();
             _usersViewModel = new UsersViewModel();
             _levelsViewModel = new LevelsViewModel();
+            _guardDevicesViewModel = new GuardDevicesViewModel();
         }
 
         static void OnShowDevice(Guid deviceUID)
@@ -67,14 +70,19 @@ namespace DevicesModule
             ServiceFactory.Layout.Show(_directionsViewModel);
         }
 
-        static void OnShowGuardUsers(string obj)
+        static void OnShowGuardUsers(object obj)
         {
             ServiceFactory.Layout.Show(_usersViewModel);
         }
 
-        static void OnShowGuardLevels(string obj)
+        static void OnShowGuardLevels(object obj)
         {
             ServiceFactory.Layout.Show(_levelsViewModel);
+        }
+
+        static void OnShowGuardDevices(object obj)
+        {
+            ServiceFactory.Layout.Show(_guardDevicesViewModel);
         }
 
         static void OnCreateZone(CreateZoneEventArg createZoneEventArg)

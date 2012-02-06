@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
@@ -105,6 +106,8 @@ namespace DevicesModule.ViewModels
         void OnGetDescription(bool isUsb)
         {
             DeviceGetInformationHelper.Run(SelectedDevice.Device, isUsb);
+
+            //var description = FiresecManager.DeviceGetInformation(SelectedDevice.Device.UID, isUsb);
         }
 
         bool CanGetDescription(bool isUsb)

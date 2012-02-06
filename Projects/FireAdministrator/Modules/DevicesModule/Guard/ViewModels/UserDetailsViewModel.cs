@@ -140,12 +140,13 @@ namespace DevicesModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            if (!DigitalPasswordHelper.Check(Password))
-            {
-                MessageBoxService.Show("Пароль может содержать только цифры");
-                cancel = true;
-                return;
-            }
+            if (!string.IsNullOrEmpty(Password))
+                if (!DigitalPasswordHelper.Check(Password))
+                {
+                    MessageBoxService.Show("Пароль может содержать только цифры");
+                    cancel = true;
+                    return;
+                }
 
             SaveProperies();
         }

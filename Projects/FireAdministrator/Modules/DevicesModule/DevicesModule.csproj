@@ -158,6 +158,18 @@
     <Compile Include="Devices\Views\PropertyDetails\TelephoneLineDetailsView.xaml.cs">
       <DependentUpon>TelephoneLineDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Guard\ViewModels\GuardDevicesMenuViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardDevicesViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardSynchronizationViewModel.cs" />
+    <Compile Include="Guard\Views\GuardDevicesMenuView.xaml.cs">
+      <DependentUpon>GuardDevicesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\GuardDevicesView.xaml.cs">
+      <DependentUpon>GuardDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Guard\Views\GuardSynchronizationView.xaml.cs">
+      <DependentUpon>GuardSynchronizationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Validation\Converters\ErrorLevelToColorConverter.cs" />
     <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Zones\Converters\ClauseStateToStringConverter.cs" />
@@ -463,6 +475,18 @@
     <Page Include="Guard\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guard\Views\GuardDevicesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guard\Views\GuardDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Guard\Views\GuardSynchronizationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Guard\Views\LevelDetailsView.xaml">
       <SubType>Designer</SubType>

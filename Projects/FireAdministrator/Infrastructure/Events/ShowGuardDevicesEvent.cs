@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Events
 {
-    public class ShowGuardLevelsEvent : CompositePresentationEvent<object>
+    public class ShowGuardDevicesEvent : CompositePresentationEvent<object>
     {
     }
 }

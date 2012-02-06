@@ -99,6 +99,13 @@ namespace FiresecAPI.Models
         public void SetAddress(string address)
         {
             IntAddress = AddressConverter.StringToIntAddress(Driver, address);
+            if (Driver.IsChildAddressReservedRange)
+            {
+                for (int i = 0; i < Children.Count; i++)
+                {
+                    Children[i].IntAddress = IntAddress + i;
+                }
+            }
         }
 
         public string AddressFullPath

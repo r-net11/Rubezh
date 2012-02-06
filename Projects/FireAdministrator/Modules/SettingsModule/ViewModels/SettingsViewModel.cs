@@ -23,8 +23,8 @@ namespace SettingsModule.ViewModels
         public RelayCommand ShowDriversCommand { get; private set; }
         void OnShowDrivers()
         {
-            int y = 0;
-            int x = 10 / y;
+            //int y = 0;
+            //int x = 10 / y;
             var driversView = new DriversView();
             driversView.ShowDialog();
         }

@@ -4,5 +4,5 @@
         WindowState="Maximized" Height="800" Width="1100"
         Title="Список драйверов устройств">
     
-    <DataGrid ItemsSource="{Binding Drivers}" AutoGenerateColumns="true" CanUserSortColumns="True" />
+    <DataGrid ItemsSource="{Binding Drivers}" AutoGenerateColumns="true" CanUserSortColumns="True" FrozenColumnCount="1" />
 </Window>

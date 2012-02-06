@@ -15,7 +15,7 @@ namespace DevicesModule.ViewModels
         {
             _device = device;
             _isUsb = isUsb;
-            AsyncOperationHelper.Run(OnPropgress, OnlCompleted, _device.PresentationAddressDriver + ". Чтение информации об устройстве");
+            AsyncOperationHelper.Run(OnPropgress, OnCompleted, _device.PresentationAddressDriver + ". Чтение информации об устройстве");
         }
 
         static void OnPropgress()
@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
             _description = FiresecManager.DeviceGetInformation(_device.UID, _isUsb);
         }
 
-        static void OnlCompleted()
+        static void OnCompleted()
         {
             if (_description == null)
             {

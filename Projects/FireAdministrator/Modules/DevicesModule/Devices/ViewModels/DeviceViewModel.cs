@@ -68,15 +68,30 @@ namespace DevicesModule.ViewModels
                 if (Device.Parent.Children.Where(x => x != Device).Any(x => x.PresentationAddress == value))
                 {
                     MessageBoxService.Show("Устройство с таким адресом уже существует");
-                    OnPropertyChanged("Address");
                 }
                 else
                 {
                     Device.SetAddress(value);
-                    OnPropertyChanged("Address");
-
+                    if (Driver.IsChildAddressReservedRange)
+                    {
+                        foreach (var deviceViewModel in Children)
+                        {
+                            deviceViewModel.OnPropertyChanged("Address");
+                        }
+                    }
                     ServiceFactory.SaveService.DevicesChanged = true;
                 }
+                OnPropertyChanged("Address");
+            }
+        }
+
+        public bool CanEditAddress
+        {
+            get
+            {
+                if (Parent != null && Parent.Driver.IsChildAddressReservedRange)
+                    return false;
+                return Driver.CanEditAddress;
             }
         }
 
@@ -281,6 +296,10 @@ namespace DevicesModule.ViewModels
         public bool CanDriverBeChanged(Driver driver)
         {
             if (driver == null)
+                return false;
+            if (driver.IsAutoCreate)
+                return false;
+            if (Parent != null && Parent.Driver.IsChildAddressReservedRange)
                 return false;
             return (driver.Category == DeviceCategoryType.Sensor) || (driver.Category == DeviceCategoryType.Effector);
         }
