@@ -32,6 +32,16 @@
 			<ComponentRef Id="FAU2UConsult"/>
 			<ComponentRef Id="FAProgramsMenuShortcut" />
 			<ComponentRef Id="FADesktopShortcut" />
+			<ComponentRef Id="XslFiles1" />
+			<ComponentRef Id="XslFiles2" />
+			<ComponentRef Id="XslFiles3" />
+			<ComponentRef Id="XslFiles4" />
+			<ComponentRef Id="XslFiles5" />
+			<ComponentRef Id="XslFiles6" />
+			<ComponentRef Id="XslFiles7" />
+			<ComponentRef Id="XslFiles8" />
+			<ComponentRef Id="XslFiles9" />
+			<ComponentRef Id="XslFiles10" />
 		</Feature>
 	</Fragment>
 </Wix>

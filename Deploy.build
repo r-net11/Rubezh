@@ -26,6 +26,16 @@
 				<include name="**\*" />
 			</fileset>
 		</copy>
+		<copy todir="Projects\FireAdministrator\FireAdministrator\bin\Debug\XslFiles" includeemptydirs="true" overwrite="true" verbose="true">
+			<fileset basedir="Projects\Deploy\XslFiles">
+				<include name="**\*" />
+			</fileset>
+		</copy>
+		<copy todir="Projects\FireAdministrator\FireAdministrator\bin\Release\XslFiles" includeemptydirs="true" overwrite="true" verbose="true">
+			<fileset basedir="Projects\Deploy\XslFiles">
+				<include name="**\*" />
+			</fileset>
+		</copy>
 		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Configuration\ReportTemplates" />
 	</target>	
 	<target name="CompileAll">
