@@ -94,6 +94,11 @@ namespace InstructionsModule.ViewModels
             }
         }
 
+        public bool IsDetails
+        {
+            get { return InstructionType == InstructionType.Details; }
+        }
+
         StateType _stateType;
         public StateType StateType
         {
@@ -113,6 +118,7 @@ namespace InstructionsModule.ViewModels
             {
                 _instructionType = value;
                 OnPropertyChanged("InstructionType");
+                OnPropertyChanged("IsDetails");
             }
         }
 

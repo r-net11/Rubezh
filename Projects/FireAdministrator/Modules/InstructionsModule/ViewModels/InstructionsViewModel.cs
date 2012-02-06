@@ -13,12 +13,12 @@ namespace InstructionsModule.ViewModels
     {
         public InstructionsViewModel()
         {
-            AddCommand = new RelayCommand(OnAdd, Key.N);
+            AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
             DeleteAllCommand = new RelayCommand(OnDeleteAll, CanRemoveAll);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
-            InputBindingsProp = new InputBindingCollection(KeyBindingList());
             Instructions = new ObservableCollection<InstructionViewModel>();
+            InputBindingsProp = new InputBindingCollection(KeyBindingList());
         }
 
         public void Initialize()
@@ -109,7 +109,16 @@ namespace InstructionsModule.ViewModels
             ServiceFactory.SaveService.InstructionsChanged = true;
         }
 
-        public InputBindingCollection InputBindingsProp { get; set; }
+        InputBindingCollection _inputBindingProp;
+        public InputBindingCollection InputBindingsProp
+        {
+            get { return _inputBindingProp; }
+            set
+            {
+                _inputBindingProp = value;
+                OnPropertyChanged("InputBindingsProp");
+            }
+        }
 
         public InputBindingCollection KeyBindingList()
         {
@@ -117,8 +126,8 @@ namespace InstructionsModule.ViewModels
             List<KeyBinding> keyBindings = new List<KeyBinding>();
 
             KeyBinding keyBinding = new KeyBinding();
-            keyBinding.Key = Key.N;
-            keyBinding.Command = AddCommand;
+            keyBinding.Key = Key.LeftCtrl;
+            keyBinding.Command = ApplicationCommands.Close;
             keyBindings.Add(keyBinding);
 
             inputBindings.AddRange(keyBindings);

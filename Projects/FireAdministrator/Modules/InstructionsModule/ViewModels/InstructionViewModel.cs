@@ -1,5 +1,8 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace InstructionsModule.ViewModels
 {
@@ -10,6 +13,21 @@ namespace InstructionsModule.ViewModels
         public InstructionViewModel(Instruction instruction)
         {
             Instruction = instruction;
+        }
+
+        public InstructionType InstructionType
+        {
+            get { return Instruction.InstructionType; }
+            set
+            {
+                Instruction.InstructionType = value;
+                OnPropertyChanged("InstructionType");
+            }
+        }
+
+        public List<InstructionType> InstructionTypes
+        {
+            get { return Enum.GetValues(typeof(InstructionType)).Cast<InstructionType>().ToList(); }
         }
 
         public void Update()

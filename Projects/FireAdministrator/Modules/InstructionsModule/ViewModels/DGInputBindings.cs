@@ -23,10 +23,10 @@ namespace InstructionsModule.ViewModels
             element.SetValue(InputBindingsProperty, value);
         }
 
-        public static readonly DependencyProperty InputBindingsProperty =
-            DependencyProperty.RegisterAttached(
-            "InputBindings",
+        public static DependencyProperty InputBindingsProperty =
+            DependencyProperty.RegisterAttached("InputBindings",
             typeof(InputBindingCollection),
-            typeof(UserControl), new FrameworkPropertyMetadata());
+            typeof(UserControl), 
+            new FrameworkPropertyMetadata(new InputBindingCollection(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
     }
 }

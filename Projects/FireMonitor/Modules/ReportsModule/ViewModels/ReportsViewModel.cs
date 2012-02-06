@@ -1,21 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using FiresecAPI.Models;
+using Infrastructure;
 using Infrastructure.Common;
+using JournalModule.ViewModels;
 using ReportsModule.Reports;
 using SAPBusinessObjects.WPF.Viewer;
-using System.Windows.Controls.Primitives;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Controls;
-using Infrastructure;
-using ReportsModule.Views;
-using CrystalDecisions.CrystalReports.Engine;
-using System.ComponentModel;
-using CrystalDecisions.Shared;
-using FiresecAPI.Models;
-using System;
-using JournalModule.ViewModels;
-using FiresecClient;
-using System.Linq;
 
 namespace ReportsModule.ViewModels
 {
@@ -33,6 +24,8 @@ namespace ReportsModule.ViewModels
             RefreshCommand = new RelayCommand(OnRefresh, GetIsReportLoad);
             FilterCommand = new RelayCommand(OnFilter, GetIsReportLoad);
             SearchCommand = new RelayCommand(OnSearch, GetIsReportLoad);
+            ZoomInCommand = new RelayCommand(OnZoomIn, GetIsReportLoad);
+            ZoomOutCommand = new RelayCommand(OnZoomOut, GetIsReportLoad);
 
             ViewerCoreControl = new ViewerCore();
             SelectedReportName = null;
@@ -57,6 +50,7 @@ namespace ReportsModule.ViewModels
                 Update();
             }
         }
+
         public double ZoomMinimumValue { get { return 1; } }
         public double ZoomMaximumValue { get { return 1000; } }
         public bool IsReportLoad { get { return GetIsReportLoad(); } }
@@ -75,30 +69,30 @@ namespace ReportsModule.ViewModels
             {
                 _selectedReportName = value;
                 OnPropertyChanged("SelectedReportName");
-                OnPropertyChanged("IsReportLoad");
-                OnPropertyChanged("IsJournalReport");
                 switch (value)
                 {
                     case ReportType.ReportIndicationBlock:
                         ShowCrystalReport(new ReportIndicationBlock());
-                        return;
+                        break;
 
                     case ReportType.ReportJournal:
                         ShowCrystalReport(new ReportJournal());
-                        return;
+                        break;
 
                     case ReportType.ReportDriverCounter:
                         ShowCrystalReport(new ReportDriverCounter());
-                        return;
+                        break;
 
                     case ReportType.ReportDeviceParams:
                         ShowCrystalReport(new ReportDeviceParams());
-                        return;
+                        break;
 
                     case ReportType.ReportDevicesList:
                         ShowCrystalReport(new ReportDevicesList());
-                        return;
+                        break;
                 }
+                OnPropertyChanged("IsReportLoad");
+                OnPropertyChanged("IsJournalReport");
             }
         }
 
@@ -157,6 +151,22 @@ namespace ReportsModule.ViewModels
                 _viewerCore = value;
                 OnPropertyChanged("ViewerCoreControl");
             }
+        }
+
+        public RelayCommand ZoomOutCommand { get; private set; }
+        void OnZoomOut()
+        {
+            ViewerCoreControl.ZoomFactor -= 10;
+            ViewerCoreControl.Zoom(ViewerCoreControl.ZoomFactor);
+            Update();
+        }
+
+        public RelayCommand ZoomInCommand { get; private set; }
+        void OnZoomIn()
+        {
+            ViewerCoreControl.ZoomFactor += 10;
+            ViewerCoreControl.Zoom(ViewerCoreControl.ZoomFactor);
+            Update();
         }
 
         public RelayCommand FirstPageCommand { get; private set; }
@@ -240,7 +250,7 @@ namespace ReportsModule.ViewModels
             }
         }
 
-        void Update()
+        public void Update()
         {
             OnPropertyChanged("ZoomValue");
             OnPropertyChanged("CurrentPageNumber");

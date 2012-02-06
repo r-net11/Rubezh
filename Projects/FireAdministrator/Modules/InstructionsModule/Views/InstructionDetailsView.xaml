@@ -4,8 +4,6 @@
              xmlns:Converters="clr-namespace:InstructionsModule.Converters"
              MinWidth="600" MinHeight="370">
     <UserControl.Resources>
-        <Converters:InstructionTypeToVisibilityConverter  x:Key="InstructionTypeToVisibilityConverter" />
-        <Converters:InstructionTypeToStringConverter  x:Key="InstructionTypeToStringConverter" />
         <Converters:ZonesToStringConverter  x:Key="ZonesToStringConverter" />
         <Converters:DevicesToStringConverter  x:Key="DevicesToStringConverter" />
     </UserControl.Resources>
@@ -56,7 +54,7 @@
                 </Grid>
             </Grid>
             <StackPanel Grid.Row="1" Margin="0,10,0,0" HorizontalAlignment="Stretch"
-                            Visibility="{Binding InstructionType, Converter={StaticResource InstructionTypeToVisibilityConverter}}">
+                            Visibility="{Binding IsDetails, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TextBlock HorizontalAlignment="Stretch">
                     <Expander Margin="5" Padding="5" Header="Список зон" HorizontalAlignment="Center">
                         <Hyperlink Command="{Binding SelectZoneCommand}" Style="{StaticResource HyperlinkStyle}">
