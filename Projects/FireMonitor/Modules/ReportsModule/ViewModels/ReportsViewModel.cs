@@ -60,7 +60,7 @@ namespace ReportsModule.ViewModels
         {
             get { return Enum.GetValues(typeof(ReportType)).Cast<ReportType>().ToList(); }
         }
-
+         
         ReportType? _selectedReportName;
         public ReportType? SelectedReportName
         {

@@ -33,6 +33,7 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
+          <Merge Id="HASPMSM" Language="1033" DiskId="1" SourceFile="MergeModules\haspds.msm"/>
           <Directory Id="FIRESECSERVICELOCATION" Name="$(var.FiresecServiceName)">
             <Directory Id="FiresecServiceConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FiresecServiceIconsFolder" Name="$(var.IconsFolder)" />
@@ -52,8 +53,7 @@
               <Directory Id="FireMonSoundsFolder" Name="$(var.SoundsFolder)" />
               <Directory Id="FireMonReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
             </Directory>
-          </Directory>
-          <Merge Id="HASPMSM" Language="1033" DiskId="1" SourceFile="MergeModules\haspds.msm"/>
+          </Directory>          
         </Directory>
       </Directory>
       <!--Пуск\Программы\FiresecService-->
