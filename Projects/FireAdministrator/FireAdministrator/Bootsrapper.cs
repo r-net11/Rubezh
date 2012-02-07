@@ -49,7 +49,7 @@ namespace FireAdministrator
 
         static void RegisterServices()
         {
-            ServiceFactory.Initialize(new LayoutService(), new UserDialogService());
+            ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService());
             ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(x => { InitializeKnownModules(); });
         }
 

@@ -370,11 +370,6 @@ namespace FiresecClient
             FiresecService.Test();
         }
 
-        public static void StopProgress()
-        {
-            FiresecService.StopProgress();
-        }
-
         public static void LoadFromFile(string fileName)
         {
             var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));

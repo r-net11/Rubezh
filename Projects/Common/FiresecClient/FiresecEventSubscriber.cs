@@ -10,11 +10,6 @@ namespace FiresecClient
     [CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Single)]
     public class FiresecEventSubscriber : IFiresecCallback
     {
-        public void Progress(int stage, string comment, int percentComplete, int bytesRW)
-        {
-            OnOperationProgress(stage, comment, percentComplete, bytesRW);
-        }
-
         public void DeviceStateChanged(List<DeviceState> newDeviceStates)
         {
             foreach (var newDeviceState in newDeviceStates)
@@ -93,15 +88,6 @@ namespace FiresecClient
         {
             if (NewJournalRecordEvent != null)
                 NewJournalRecordEvent(journalRecord);
-        }
-
-        public delegate bool ProgressDelegate(int stage, string comment, int percentComplete, int bytesRW);
-        public static event ProgressDelegate OperationProgress;
-        public static bool OnOperationProgress(int stage, string comment, int percentComplete, int bytesRW)
-        {
-            if (OperationProgress != null)
-                return OperationProgress(stage, comment, percentComplete, bytesRW);
-            return false;
         }
 
         public static event Action<JournalRecord> NewJournalRecordEvent;

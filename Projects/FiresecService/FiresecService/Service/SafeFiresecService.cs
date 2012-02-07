@@ -573,16 +573,5 @@ namespace FiresecService
                 return null;
             }
         }
-
-        public void StopProgress()
-        {
-            try
-            {
-                FiresecService.StopProgress();
-            }
-            catch
-            {
-            };
-        }
     }
 }

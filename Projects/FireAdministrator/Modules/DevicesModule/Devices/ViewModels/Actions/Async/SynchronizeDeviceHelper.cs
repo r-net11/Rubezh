@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FiresecClient;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -15,7 +16,7 @@ namespace DevicesModule.ViewModels
             _isUsb = isUsb;
 
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == _deviceUID);
-            AsyncOperationHelper.Run(OnPropgress, null, device.PresentationAddressDriver + ". Установка времени");
+            ServiceFactory.ProgressService.Run(OnPropgress, null, device.PresentationAddressDriver + ". Установка времени");
         }
 
         static void OnPropgress()

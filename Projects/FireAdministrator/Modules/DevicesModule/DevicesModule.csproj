@@ -96,14 +96,12 @@
     <Compile Include="Devices\Converters\DevicePasswordTypeToIntConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\Converters\ZoneLogicJoinOperatorConverter.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\AsyncInstanceOperationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceCustomFunctionExecuteHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceReadConfigurationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceWriteConfigurationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\SynchronizeDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\WriteAllDeviceConfigurationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\CustomAdminFunctionsCommandViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Actions\Async\AsyncOperationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\FirmwareUpdateHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceGetSerialListHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\AutoSearchDeviceViewModel.cs" />
@@ -114,7 +112,6 @@
     <Compile Include="Devices\ViewModels\Actions\Async\ReadDeviceJournallHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\DeviceJournalViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceGetInformationHelper.cs" />
-    <Compile Include="Devices\ViewModels\Actions\ProgressViewModel.cs" />
     <Compile Include="Devices\ViewModels\PasteAsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
@@ -139,9 +136,6 @@
     </Compile>
     <Compile Include="Devices\Views\Actions\DeviceJournalView.xaml.cs">
       <DependentUpon>DeviceJournalView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\Actions\ProgressView.xaml.cs">
-      <DependentUpon>ProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PasteAsView.xaml.cs">
       <DependentUpon>PasteAsView.xaml</DependentUpon>
@@ -385,10 +379,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\Actions\DeviceJournalView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\Actions\ProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

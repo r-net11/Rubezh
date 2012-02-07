@@ -14,15 +14,14 @@ namespace FiresecClient
 
         public bool Progress(int stage, string comment, int percentComplete, int bytesRW)
         {
-            Trace.WriteLine("Progress: " + comment);
-
             if (ProgressEvent != null)
-                ProgressEvent();
+                return ProgressEvent(stage, comment, percentComplete, bytesRW);
 
-            return true;
+            return false;
         }
 
         public static event Action ConfigurationChangedEvent;
-        public static event Action ProgressEvent;
+        public delegate bool ProgressDelegate(int stage, string comment, int percentComplete, int bytesRW);
+        public static event ProgressDelegate ProgressEvent;
     }
 }

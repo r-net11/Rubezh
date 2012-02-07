@@ -4,14 +4,23 @@ using System.Linq;
 using System.Text;
 using System.ServiceModel;
 using Common;
+using System.Threading;
 
 namespace FiresecClient
 {
     public static class FiresecCallbackServiceManager
     {
         static ServiceHost _serviceHost;
+        static string _clientCallbackAddress;
 
         public static void Open(string clientCallbackAddress)
+        {
+            _clientCallbackAddress = clientCallbackAddress;
+            Thread thread = new Thread(OnOpen);
+            thread.Start();
+        }
+
+        public static void OnOpen()
         {
             Close();
 
@@ -35,8 +44,8 @@ namespace FiresecClient
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
 
             string machineName = MachineNameHelper.GetMachineName();
-            clientCallbackAddress = clientCallbackAddress.Replace("localhost", machineName);
-            _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecCallbackService", binding, new Uri(clientCallbackAddress));
+            _clientCallbackAddress = _clientCallbackAddress.Replace("localhost", machineName);
+            _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecCallbackService", binding, new Uri(_clientCallbackAddress));
 
             _serviceHost.Open();
         }

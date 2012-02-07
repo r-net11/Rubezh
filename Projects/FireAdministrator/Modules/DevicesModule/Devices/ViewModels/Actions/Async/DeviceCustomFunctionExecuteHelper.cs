@@ -2,6 +2,7 @@
 using FiresecClient;
 using Controls;
 using Controls.MessageBox;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -16,7 +17,7 @@ namespace DevicesModule.ViewModels
             _device = device;
             _functionCode = functionCode;
 
-            AsyncOperationHelper.Run(OnPropgress, OnlCompleted, device.PresentationAddressDriver + ". Выполнение функции");
+            ServiceFactory.ProgressService.Run(OnPropgress, OnlCompleted, device.PresentationAddressDriver + ". Выполнение функции");
         }
 
         static void OnPropgress()

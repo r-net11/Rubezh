@@ -71,10 +71,6 @@
         <Views:AutoSearchView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
-        <Views:ProgressView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:DeviceJournalViewModel}">
         <Views:DeviceJournalView />
     </DataTemplate>

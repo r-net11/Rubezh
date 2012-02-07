@@ -1,4 +1,5 @@
 ﻿using FiresecClient;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -6,7 +7,7 @@ namespace DevicesModule.ViewModels
     {
         public static void Run()
         {
-            AsyncOperationHelper.Run(OnPropgress, null, "Запись конфигурации во все устройства");
+            ServiceFactory.ProgressService.Run(OnPropgress, null, "Запись конфигурации во все устройства");
         }
 
         static void OnPropgress()

@@ -45,12 +45,8 @@ namespace FiresecService
                 {
                     try
                     {
-                        bool result = serviceInstance.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
-                        //serviceInstance.Callback.Progress(stage, comment, percentComplete, bytesRW);
-
-                        var mustStopProgress = serviceInstance.MustStopProgress;
-                        serviceInstance.MustStopProgress = false;
-                        return !mustStopProgress;
+                        bool isCanceled = serviceInstance.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
+                        return !isCanceled;
                     }
                     catch
                     {

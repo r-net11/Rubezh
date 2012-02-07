@@ -123,7 +123,11 @@ namespace Firesec
 
         public static string DeviceGetInformation(string coreConfig, string devicePath)
         {
-            return Connectoin.DeviceGetInformation(coreConfig, devicePath);
+            try
+            {
+                return Connectoin.DeviceGetInformation(coreConfig, devicePath);
+            }
+            catch (Exception e) { return null; }
         }
 
         public static string DeviceGetSerialList(string coreConfig, string devicePath)

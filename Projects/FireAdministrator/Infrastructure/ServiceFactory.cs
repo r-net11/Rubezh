@@ -6,14 +6,14 @@ namespace Infrastructure
 {
     public class ServiceFactory
     {
-        public static void Initialize(ILayoutService ILayoutService, IUserDialogService IUserDialogService)
+        public static void Initialize(ILayoutService ILayoutService, IUserDialogService IUserDialogService, IProgressService IProgressService)
         {
             SaveService = new SaveService();
             Events = new EventAggregator();
             ResourceService = new ResourceService();
             Layout = ILayoutService;
             UserDialogs = IUserDialogService;
-            ProgressService = new ProgressService();
+            ProgressService = IProgressService;
         }
 
         public static SaveService SaveService { get; private set; }
@@ -21,7 +21,7 @@ namespace Infrastructure
         public static ResourceService ResourceService { get; private set; }
         public static ILayoutService Layout { get; private set; }
         public static IUserDialogService UserDialogs { get; private set; }
-        public static ProgressService ProgressService { get; private set; }
+        public static IProgressService ProgressService { get; private set; }
 
         public static Window ShellView { get; set; }
     }

@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -20,7 +21,7 @@ namespace DevicesModule.ViewModels
             _password = password;
 
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.UID == _deviceUID);
-            AsyncOperationHelper.Run(OnPropgress, null, device.PresentationAddressDriver + ". Установка пароля");
+            ServiceFactory.ProgressService.Run(OnPropgress, null, device.PresentationAddressDriver + ". Установка пароля");
         }
 
         static void OnPropgress()

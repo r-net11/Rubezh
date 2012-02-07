@@ -98,12 +98,6 @@ namespace FiresecService
             IsSubscribed = true;
         }
 
-        public bool MustStopProgress;
-        public void StopProgress()
-        {
-            MustStopProgress = true;
-        }
-
         public List<string> GetFileNamesList(string directory)
         {
             lock (Locker)

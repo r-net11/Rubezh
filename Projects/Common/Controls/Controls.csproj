@@ -421,6 +421,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="MessageBox\DialogBoxImages\warning.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Search.png" />
   </ItemGroup>

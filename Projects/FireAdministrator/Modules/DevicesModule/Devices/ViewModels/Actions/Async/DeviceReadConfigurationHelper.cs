@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Models;
 using FiresecClient;
 using Controls.MessageBox;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -14,7 +15,7 @@ namespace DevicesModule.ViewModels
         {
             _device = device;
             _isUsb = isUsb;
-            AsyncOperationHelper.Run(OnPropgress, OnlCompleted, _device.PresentationAddressDriver + ". Чтение конфигурации из устройства");
+            ServiceFactory.ProgressService.Run(OnPropgress, OnlCompleted, _device.PresentationAddressDriver + ". Чтение конфигурации из устройства");
         }
 
         static void OnPropgress()

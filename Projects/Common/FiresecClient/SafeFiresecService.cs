@@ -687,18 +687,5 @@ namespace FiresecClient
             }
             return null;
         }
-
-        public void StopProgress()
-        {
-            try
-            {
-                _iFiresecService.StopProgress();
-            }
-            catch
-            {
-                OnConnectionLost();
-            }
-            return;
-        }
     }
 }

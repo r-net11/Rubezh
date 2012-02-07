@@ -1,30 +1,48 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure;
+using System.ComponentModel;
+using System.Windows.Threading;
 using FireAdministrator.ViewModels;
+using Infrastructure;
 
-namespace FireAdministrator.Services
+namespace FireAdministrator
 {
-    public class ProgressService
+    public class ProgressService : IProgressService
     {
-        public ProgressService()
-        {
+        ProgressViewModel _progressViewModel;
+        Action _work;
+        Action _completed;
 
+        public void Run(Action work, Action completed, string tite)
+        {
+            _work = work;
+            _completed = completed;
+            _progressViewModel = new ProgressViewModel(tite);
+
+            var backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
+            backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker_RunWorkerCompleted);
+            backgroundWorker.RunWorkerAsync();
+
+            ServiceFactory.UserDialogs.ShowModalWindow(_progressViewModel);
         }
 
-        ProgressViewModel ProgressViewModel;
-
-        public void Show()
+        void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
         {
-            ProgressViewModel = new ProgressViewModel();
-            ServiceFactory.UserDialogs.ShowModalWindow(ProgressViewModel);
+            if (_work != null)
+                _work();
         }
 
-        public void Hide()
+        void backgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            ProgressViewModel.CloseProgress();
+            Dispatcher.CurrentDispatcher.Invoke(new Action(StopProgress));
+
+            if (_completed != null)
+                _completed();
+        }
+
+        void StopProgress()
+        {
+            _progressViewModel.CloseProgress();
         }
     }
 }

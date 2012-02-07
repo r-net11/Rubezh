@@ -153,9 +153,6 @@ namespace FiresecAPI
         [OperationContract]
         [FaultContract(typeof(FiresecException))]
         string Test();
-
-        [OperationContract]
-        void StopProgress();
     }
 
     public class FiresecException : Exception
