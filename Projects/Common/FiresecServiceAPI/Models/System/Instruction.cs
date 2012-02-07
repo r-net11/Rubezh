@@ -11,6 +11,9 @@ namespace FiresecAPI.Models
         {
             Zones = new List<ulong?>();
             Devices = new List<Guid>();
+            No = 1;
+            Name = "";
+            Text = "";
         }
 
         [DataMember]

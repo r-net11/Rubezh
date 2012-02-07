@@ -22,19 +22,16 @@ namespace InstructionsModule.ViewModels
             {
                 Title = "Редактирование инструкции";
                 Instruction = instruction;
+                CopyProperties();
             }
             else
             {
                 Title = "Новая инструкция";
-
-                InstructionNo = 1;
+                Instruction = new Instruction();
+                CopyProperties();
                 if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
                     InstructionNo = FiresecManager.SystemConfiguration.Instructions.Select(x => x.No).Max() + 1;
-
-                Instruction = new Instruction();
             }
-
-            CopyProperties();
         }
 
         void CopyProperties()
@@ -109,6 +106,10 @@ namespace InstructionsModule.ViewModels
                 OnPropertyChanged("StateTypeFilter");
             }
         }
+        public List<StateType> AvailableStates
+        {
+            get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>()); }
+        }
 
         InstructionType _instructionType;
         public InstructionType InstructionType
@@ -121,12 +122,6 @@ namespace InstructionsModule.ViewModels
                 OnPropertyChanged("IsDetails");
             }
         }
-
-        public List<StateType> AvailableStates
-        {
-            get { return new List<StateType>(Enum.GetValues(typeof(StateType)).OfType<StateType>()); }
-        }
-
         public List<InstructionType> AvailableInstructionsType
         {
             get { return new List<InstructionType>(Enum.GetValues(typeof(InstructionType)).OfType<InstructionType>()); }

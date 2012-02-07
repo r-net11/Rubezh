@@ -31,9 +31,7 @@ namespace InstructionsModule.ViewModels
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                if ((device.Driver.Category == DeviceCategoryType.Sensor) ||
-                    (device.Driver.Category == DeviceCategoryType.Effector) ||
-                    (device.Driver.Category == DeviceCategoryType.Device))
+                if (!device.Driver.Children.IsNotNullOrEmpty())
                 {
                     if (InstructionDevicesList.Contains(device.UID))
                     {
@@ -48,21 +46,21 @@ namespace InstructionsModule.ViewModels
                 }
             }
 
-            InstructionDevices = new ObservableCollection<DeviceViewModel>();
+            InstructionDevices = new ObservableCollection<InstructionDeviceViewModel>();
             BuildTree(instructionDevices, InstructionDevices);
 
-            AvailableDevices = new ObservableCollection<DeviceViewModel>();
+            AvailableDevices = new ObservableCollection<InstructionDeviceViewModel>();
             BuildTree(availableDevices, AvailableDevices);
+
+
+            SelectedInstructionDevice = null;
+            SelectedAvailableDevice = null;
 
             if (InstructionDevices.IsNotNullOrEmpty())
             {
                 CollapseChild(InstructionDevices[0]);
                 ExpandChild(InstructionDevices[0]);
                 SelectedInstructionDevice = InstructionDevices[0];
-            }
-            else
-            {
-                SelectedInstructionDevice = null;
             }
 
             if (AvailableDevices.IsNotNullOrEmpty())
@@ -71,25 +69,17 @@ namespace InstructionsModule.ViewModels
                 ExpandChild(AvailableDevices[0]);
                 SelectedAvailableDevice = AvailableDevices[0];
             }
-            else
-            {
-                SelectedAvailableDevice = null;
-            }
 
             OnPropertyChanged("InstructionDevices");
             OnPropertyChanged("AvailableDevices");
         }
 
-        void BuildTree(HashSet<Device> hashSetDevices, ObservableCollection<DeviceViewModel> devices)
+        void BuildTree(HashSet<Device> hashSetDevices, ObservableCollection<InstructionDeviceViewModel> devices)
         {
             foreach (var device in hashSetDevices)
             {
-                var deviceViewModel = new DeviceViewModel(device, devices);
+                var deviceViewModel = new InstructionDeviceViewModel(device, devices);
                 deviceViewModel.IsExpanded = true;
-                if ((device.Driver.Category == DeviceCategoryType.Sensor) ||
-                    (device.Driver.Category == DeviceCategoryType.Effector) ||
-                    (device.Driver.Category == DeviceCategoryType.Device))
-                    deviceViewModel.IsBold = true;
                 devices.Add(deviceViewModel);
             }
 
@@ -104,7 +94,7 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        void CollapseChild(DeviceViewModel parentDeviceViewModel)
+        void CollapseChild(InstructionDeviceViewModel parentDeviceViewModel)
         {
             parentDeviceViewModel.IsExpanded = false;
 
@@ -114,7 +104,7 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        void ExpandChild(DeviceViewModel parentDeviceViewModel)
+        void ExpandChild(InstructionDeviceViewModel parentDeviceViewModel)
         {
             if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
             {
@@ -126,7 +116,7 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        void ExpandAllChild(DeviceViewModel parentDeviceViewModel)
+        void ExpandAllChild(InstructionDeviceViewModel parentDeviceViewModel)
         {
             parentDeviceViewModel.IsExpanded = true;
             foreach (var deviceViewModel in parentDeviceViewModel.Children)
@@ -136,11 +126,11 @@ namespace InstructionsModule.ViewModels
         }
 
         public List<Guid> InstructionDevicesList { get; set; }
-        public ObservableCollection<DeviceViewModel> AvailableDevices { get; private set; }
-        public ObservableCollection<DeviceViewModel> InstructionDevices { get; private set; }
+        public ObservableCollection<InstructionDeviceViewModel> AvailableDevices { get; private set; }
+        public ObservableCollection<InstructionDeviceViewModel> InstructionDevices { get; private set; }
 
-        DeviceViewModel _selectedAvailableDevice;
-        public DeviceViewModel SelectedAvailableDevice
+        InstructionDeviceViewModel _selectedAvailableDevice;
+        public InstructionDeviceViewModel SelectedAvailableDevice
         {
             get { return _selectedAvailableDevice; }
             set
@@ -150,8 +140,8 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        DeviceViewModel _selectedInstructionDevice;
-        public DeviceViewModel SelectedInstructionDevice
+        InstructionDeviceViewModel _selectedInstructionDevice;
+        public InstructionDeviceViewModel SelectedInstructionDevice
         {
             get { return _selectedInstructionDevice; }
             set
@@ -163,7 +153,7 @@ namespace InstructionsModule.ViewModels
 
         public bool CanAddOne()
         {
-            return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.IsBold));
+            return (SelectedAvailableDevice != null && !SelectedAvailableDevice.Device.Driver.Children.IsNotNullOrEmpty());
         }
 
         public bool CanAddAll()
@@ -173,7 +163,7 @@ namespace InstructionsModule.ViewModels
 
         public bool CanRemoveOne()
         {
-            return ((SelectedInstructionDevice != null) && (SelectedInstructionDevice.IsBold));
+            return ((SelectedInstructionDevice != null) && (!SelectedInstructionDevice.Device.Driver.Children.IsNotNullOrEmpty()));
         }
 
         public bool CanRemoveAll()
@@ -184,6 +174,7 @@ namespace InstructionsModule.ViewModels
         public RelayCommand AddOneCommand { get; private set; }
         void OnAddOne()
         {
+            //ExpandChild(SelectedAvailableDevice);
             InstructionDevicesList.Add(SelectedAvailableDevice.UID);
             UpdateDevices();
         }
@@ -194,7 +185,7 @@ namespace InstructionsModule.ViewModels
             ExpandAllChild(AvailableDevices[0]);
             foreach (var deviceViewModel in AvailableDevices)
             {
-                if (deviceViewModel.IsBold)
+                if (!deviceViewModel.Children.IsNotNullOrEmpty())
                     InstructionDevicesList.Add(deviceViewModel.UID);
             }
             UpdateDevices();
