@@ -12,8 +12,6 @@ namespace DevicesModule.ViewModels
 
         public UserDetailsViewModel(GuardUser guardUser = null)
         {
-            ChangeLevelsCommand = new RelayCommand(OnChangeLevels);
-
             if (guardUser == null)
             {
                 Title = "Создать пользователя";
@@ -111,30 +109,6 @@ namespace DevicesModule.ViewModels
             {
                 _canUnSetZone = value;
                 OnPropertyChanged("CanUnSetZone");
-            }
-        }
-
-        public string PresentationLevels
-        {
-            get
-            {
-                string presentationNames = "";
-                foreach (var levelName in GuardUser.LevelNames)
-                {
-                    presentationNames += levelName + ", ";
-                }
-                return presentationNames.TrimEnd(',', ' ');
-            }
-        }
-
-        public RelayCommand ChangeLevelsCommand { get; private set; }
-        void OnChangeLevels()
-        {
-            var levelsSelectationViewModel = new LevelsSelectationViewModel(GuardUser);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(levelsSelectationViewModel))
-            {
-                GuardUser.LevelNames = levelsSelectationViewModel.LevelNames;
-                OnPropertyChanged("PresentationLevels");
             }
         }
 

@@ -20,7 +20,7 @@ namespace FiresecAPI.Models
         public List<string> ShapeIds { get; set; }
 
         [DataMember]
-        public ulong? No { get; set; }
+        public ulong No { get; set; }
 
         [DataMember]
         public string Name { get; set; }

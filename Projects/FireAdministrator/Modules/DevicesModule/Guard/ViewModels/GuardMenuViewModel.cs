@@ -6,13 +6,13 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    class GuardDevicesMenuViewModel : BaseViewModel
+    class GuardMenuViewModel : BaseViewModel
     {
-        public GuardDevicesMenuViewModel(GuardDevicesViewModel context)
+        public GuardMenuViewModel(GuardViewModel context)
         {
             Context = context;
         }
 
-        public GuardDevicesViewModel Context { get; private set; }
+        public GuardViewModel Context { get; private set; }
     }
 }

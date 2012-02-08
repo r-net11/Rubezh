@@ -3,46 +3,18 @@
                     xmlns:Views="clr-namespace:DevicesModule.Views"
                     xmlns:ViewModels="clr-namespace:DevicesModule.ViewModels">
     
-    <DataTemplate DataType="{x:Type ViewModels:UsersViewModel}">
-        <Views:UsersView />
+    <DataTemplate DataType="{x:Type ViewModels:GuardViewModel}">
+        <Views:GuardView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LevelsViewModel}">
-        <Views:LevelsView />
+    <DataTemplate DataType="{x:Type ViewModels:GuardMenuViewModel}">
+        <Views:GuardMenuView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
         <Views:UserDetailsView />
     </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:UsersMenuViewModel}">
-        <Views:UsersMenuView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:LevelDetailsViewModel}">
-        <Views:LevelDetailsView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:LevelsMenuViewModel}">
-        <Views:LevelsMenuView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:GuardZoneSelectationViewModel}">
-        <Views:GuardZoneSelectationView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:LevelsSelectationViewModel}">
-        <Views:LevelsSelectationView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:GuardDevicesViewModel}">
-        <Views:GuardDevicesView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:GuardDevicesMenuViewModel}">
-        <Views:GuardDevicesMenuView />
-    </DataTemplate>
-
+    
     <DataTemplate DataType="{x:Type ViewModels:GuardSynchronizationViewModel}">
         <Views:GuardSynchronizationView />
     </DataTemplate>

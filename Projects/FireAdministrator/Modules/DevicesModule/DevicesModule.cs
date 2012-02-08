@@ -12,18 +12,14 @@ namespace DevicesModule
         static DevicesViewModel _devicesViewModel;
         static ZonesViewModel _zonesViewModel;
         static DirectionsViewModel _directionsViewModel;
-        static UsersViewModel _usersViewModel;
-        static LevelsViewModel _levelsViewModel;
-        static GuardDevicesViewModel _guardDevicesViewModel;
+        static GuardViewModel _guardViewModel;
 
         public DevicesModule()
         {
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
             ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
-            ServiceFactory.Events.GetEvent<ShowGuardUsersEvent>().Subscribe(OnShowGuardUsers);
-            ServiceFactory.Events.GetEvent<ShowGuardLevelsEvent>().Subscribe(OnShowGuardLevels);
-            ServiceFactory.Events.GetEvent<ShowGuardDevicesEvent>().Subscribe(OnShowGuardDevices);
+            ServiceFactory.Events.GetEvent<ShowGuardEvent>().Subscribe(OnShowGuardDevices);
             ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
 
             RegisterResources();
@@ -44,9 +40,7 @@ namespace DevicesModule
             _devicesViewModel = new DevicesViewModel();
             _zonesViewModel = new ZonesViewModel();
             _directionsViewModel = new DirectionsViewModel();
-            _usersViewModel = new UsersViewModel();
-            _levelsViewModel = new LevelsViewModel();
-            _guardDevicesViewModel = new GuardDevicesViewModel();
+            _guardViewModel = new GuardViewModel();
         }
 
         static void OnShowDevice(Guid deviceUID)
@@ -70,19 +64,9 @@ namespace DevicesModule
             ServiceFactory.Layout.Show(_directionsViewModel);
         }
 
-        static void OnShowGuardUsers(object obj)
-        {
-            ServiceFactory.Layout.Show(_usersViewModel);
-        }
-
-        static void OnShowGuardLevels(object obj)
-        {
-            ServiceFactory.Layout.Show(_levelsViewModel);
-        }
-
         static void OnShowGuardDevices(object obj)
         {
-            ServiceFactory.Layout.Show(_guardDevicesViewModel);
+            ServiceFactory.Layout.Show(_guardViewModel);
         }
 
         static void OnCreateZone(CreateZoneEventArg createZoneEventArg)

@@ -345,6 +345,19 @@ namespace FiresecClient
             }
         }
 
+        public string DeviceSetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID, string users)
+        {
+            try
+            {
+                return _iFiresecService.DeviceSetGuardUsersList(deviceConfiguration, deviceUID, users);
+            }
+            catch
+            {
+                OnConnectionLost();
+                return null;
+            }
+        }
+
         public string DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try

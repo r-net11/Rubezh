@@ -28,7 +28,7 @@ namespace FiresecService.Converters
                         {
                             foreach (var partZone in innerGuardUser.PinZ)
                             {
-                                //guardUser.Zones.Add(partZone.pidz);
+                                guardUser.Zones.Add(ulong.Parse(partZone.pidz));
                             }
                         }
 
@@ -43,7 +43,7 @@ namespace FiresecService.Converters
                             var DeviceUIDParameter = innerGuardUser.param.FirstOrDefault(x => x.name == "DeviceUID");
                             if (DeviceUIDParameter != null)
                             {
-                                guardUser.DeviceUID = DeviceUIDParameter.value;
+                                guardUser.DeviceUID = new Guid(DeviceUIDParameter.value);
                             }
 
                             var PasswordParameter = innerGuardUser.param.FirstOrDefault(x => x.name == "Password");
@@ -90,25 +90,6 @@ namespace FiresecService.Converters
 
             foreach (var guardUser in deviceConfiguration.GuardUsers)
             {
-                var zones = new HashSet<ulong>();
-                var devices = new HashSet<Guid>();
-                foreach (var levelName in guardUser.LevelNames)
-                {
-                    var guardLevel = deviceConfiguration.GuardLevels.FirstOrDefault(x=>x.Name == levelName);
-                    foreach (var zone in guardLevel.ZoneLevels)
-                    {
-                        zones.Add(zone.ZoneNo.Value);
-                    }
-                }
-                foreach (var zone in zones)
-                {
-                    foreach (var device in deviceConfiguration.Devices)
-                    {
-                        if ((device.ZoneNo.HasValue) && (device.ZoneNo.Value == zone))
-                            devices.Add(device.Parent.UID);
-                    }
-                }
-
                 var innerGuardUser = new partType()
                 {
                     type = "guarduser",
@@ -120,7 +101,7 @@ namespace FiresecService.Converters
                 ++no;
 
                 var innerZones = new List<partTypePinZ>();
-                foreach (var zone in zones)
+                foreach (var zone in guardUser.Zones)
                 {
                     innerZones.Add(new partTypePinZ() { pidz = zone.ToString() });
                 }
@@ -178,15 +159,13 @@ namespace FiresecService.Converters
                     });
                 }
 
-                foreach (var deviceUID in devices)
-                {
+                if (guardUser.DeviceUID != Guid.Empty)
                     innerGuardUsersParameters.Add(new paramType()
                     {
                         name = "DeviceUID",
                         type = "String",
-                        value = deviceUID.ToString()
+                        value = guardUser.DeviceUID.ToString()
                     });
-                }
 
                 if (string.IsNullOrEmpty(guardUser.KeyTM) == false)
                 {

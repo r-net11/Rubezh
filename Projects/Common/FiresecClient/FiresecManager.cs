@@ -360,6 +360,11 @@ namespace FiresecClient
             return FiresecService.DeviceGetGuardUsersList(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID);
         }
 
+        public static string DeviceSetGuardUsersList(Guid deviceUID, string users)
+        {
+            return FiresecService.DeviceSetGuardUsersList(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID, users);
+        }
+
         public static string DeviceGetMDS5Data(Guid deviceUID)
         {
             return FiresecService.DeviceGetMDS5Data(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID);

@@ -76,6 +76,9 @@ namespace FiresecAPI
         string DeviceGetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
+        string DeviceSetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID, string users);
+
+        [OperationContract]
         string DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]

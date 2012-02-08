@@ -27,11 +27,6 @@ namespace FiresecService.Converters
                         Width = Double.Parse(innerPlan.width) * 10
                     };
 
-                    if (innerPlan.caption == "Прав.часть чердак")
-                    {
-                        var x = 1;
-                    }
-
                     foreach (var innerLayer in innerPlan.layer)
                     {
                         if (innerLayer.elements == null)
@@ -88,11 +83,56 @@ namespace FiresecService.Converters
                                     }
                                 }
                                 break;
+                            case "Несвязанные зоны":
+                            case "Пожарные зоны":
+                            case "Охранные зоны":
                             case "Зоны":
+
                                 foreach (var innerElementLayer in innerLayer.elements)
                                 {
+                                    ulong? zoneNo = null;
+
+                                    long longId = long.Parse(innerElementLayer.id);
+                                    int intId = (int)longId;
+                                    foreach (var zone in ConfigurationConverter.DeviceConfiguration.Zones)
+                                    {
+                                        foreach (var zoneShapeId in zone.ShapeIds)
+                                        {
+                                            if ((zoneShapeId == longId.ToString()) || (zoneShapeId == intId.ToString()))
+                                            {
+                                                zoneNo = zone.No;
+                                            }
+                                        }
+                                    }
+
                                     switch (innerElementLayer.@class)
                                     {
+                                        case "TFS_PolyZoneShape":
+                                            if (innerElementLayer.points != null)
+                                            {
+                                                var elementPolygonZone = new ElementPolygonZone()
+                                                {
+                                                    ZoneNo = zoneNo,
+                                                };
+                                                elementPolygonZone.PolygonPoints = GetPointCollection(innerElementLayer);
+                                                elementPolygonZone.Normalize();
+                                                plan.ElementPolygonZones.Add(elementPolygonZone);
+                                            };
+                                            break;
+
+                                        case "TFS_ZoneShape":
+                                            var elementRectangleZone = new ElementRectangleZone()
+                                            {
+                                                ZoneNo = zoneNo,
+                                                Left = Math.Min(Parse(innerElementLayer.rect[0].left), Parse(innerElementLayer.rect[0].right)),
+                                                Top = Math.Min(Parse(innerElementLayer.rect[0].top), Parse(innerElementLayer.rect[0].bottom)),
+                                                Width = Math.Abs(Parse(innerElementLayer.rect[0].right) - Parse(innerElementLayer.rect[0].left)),
+                                                Height = Math.Abs(Parse(innerElementLayer.rect[0].bottom) - Parse(innerElementLayer.rect[0].top))
+                                            };
+
+                                            plan.ElementRectangleZones.Add(elementRectangleZone);
+                                            break;
+
                                         case "TSCDeRectangle":
                                             var elementRectangle = new ElementRectangle()
                                             {
@@ -152,66 +192,6 @@ namespace FiresecService.Converters
                                             elementPolygon.PolygonPoints = GetPointCollection(innerElementLayer);
                                             elementPolygon.Normalize();
                                             plan.ElementPolygons.Add(elementPolygon);
-                                            break;
-                                    }
-                                }
-                                break;
-                            case "Несвязанные зоны":
-                            case "Пожарные зоны":
-                            case "Охранные зоны":
-
-                                if (innerPlan.caption == "Прав.часть чердак")
-                                {
-                                    var x = 1;
-                                }
-
-                                foreach (var innerZone in innerLayer.elements)
-                                {
-                                    ulong? zoneNo = null;
-
-                                    long longId = long.Parse(innerZone.id);
-                                    int intId = (int)longId;
-                                    foreach (var zone in ConfigurationConverter.DeviceConfiguration.Zones)
-                                    {
-                                        foreach (var zoneShapeId in zone.ShapeIds)
-                                        {
-                                            if ((zoneShapeId == longId.ToString()) || (zoneShapeId == intId.ToString()))
-                                            {
-                                                zoneNo = zone.No;
-                                            }
-                                        }
-                                    }
-
-                                    switch (innerZone.@class)
-                                    {
-                                        case "TFS_PolyZoneShape":
-                                            if (innerZone.points != null)
-                                            {
-                                                var elementPolygonZone = new ElementPolygonZone()
-                                                {
-                                                    ZoneNo = zoneNo,
-                                                };
-                                                elementPolygonZone.PolygonPoints = GetPointCollection(innerZone);
-                                                elementPolygonZone.Normalize();
-                                                plan.ElementPolygonZones.Add(elementPolygonZone);
-                                                if (innerPlan.caption == "Прав.часть чердак")
-                                                {
-                                                    var x = 1;
-                                                }
-                                            };
-                                            break;
-
-                                        case "TFS_ZoneShape":
-                                            var elementRectangleZone = new ElementRectangleZone()
-                                            {
-                                                ZoneNo = zoneNo,
-                                                Left = Math.Min(Parse(innerZone.rect[0].left), Parse(innerZone.rect[0].right)),
-                                                Top = Math.Min(Parse(innerZone.rect[0].top), Parse(innerZone.rect[0].bottom)),
-                                                Width = Math.Abs(Parse(innerZone.rect[0].right) - Parse(innerZone.rect[0].left)),
-                                                Height = Math.Abs(Parse(innerZone.rect[0].bottom) - Parse(innerZone.rect[0].top))
-                                            };
-
-                                            plan.ElementRectangleZones.Add(elementRectangleZone);
                                             break;
                                     }
                                 }

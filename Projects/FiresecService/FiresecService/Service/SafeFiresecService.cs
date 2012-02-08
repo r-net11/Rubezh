@@ -272,6 +272,18 @@ namespace FiresecService
             }
         }
 
+        public string DeviceSetGuardUsersList(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, string users)
+        {
+            try
+            {
+                return FiresecService.DeviceSetGuardUsersList(deviceConfiguration, deviceUID, users);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
         public string DeviceGetMDS5Data(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try

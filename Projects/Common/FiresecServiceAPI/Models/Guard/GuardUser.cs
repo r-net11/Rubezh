@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -8,7 +9,7 @@ namespace FiresecAPI.Models
     {
         public GuardUser()
         {
-            LevelNames = new List<string>();
+            Zones = new List<ulong>();
         }
 
         [DataMember]
@@ -33,12 +34,12 @@ namespace FiresecAPI.Models
         public string Password { get; set; }
 
         [DataMember]
-        public string DeviceUID { get; set; }
+        public Guid DeviceUID { get; set; }
 
         [DataMember]
         public string KeyTM { get; set; }
 
         [DataMember]
-        public List<string> LevelNames { get; set; }
+        public List<ulong> Zones { get; set; }
     }
 }

@@ -30,28 +30,6 @@
             <Label Content="Права" />
             <CheckBox Content="Постановка на охрану" IsChecked="{Binding CanSetZone}" Margin="2" Foreground="White" />
             <CheckBox Content="Снятие с охраны" IsChecked="{Binding CanUnSetZone}" Margin="2" Foreground="White" />
-            <Label Content="Уровни доступа:" Margin="2" />
-
-            <TextBlock Margin="2">
-                <Hyperlink Command="{Binding ChangeLevelsCommand}" Style="{StaticResource HyperlinkStyle}">
-                    <TextBlock Text="{Binding PresentationLevels}" />                
-                    <TextBlock Text="Нажмите для выбора Уровней доступа" Margin="2">
-                        <TextBlock.Style>
-                            <Style>
-                                <Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding PresentationLevels}" Value="{x:Null}">
-                                        <Setter Property="TextBlock.Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding PresentationLevels}" Value="">
-                                        <Setter Property="TextBlock.Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>         
-                </Hyperlink>
-            </TextBlock>
         </StackPanel>
     </Border>
 </UserControl>

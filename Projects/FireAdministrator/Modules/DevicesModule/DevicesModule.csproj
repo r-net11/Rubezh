@@ -152,14 +152,16 @@
     <Compile Include="Devices\Views\PropertyDetails\TelephoneLineDetailsView.xaml.cs">
       <DependentUpon>TelephoneLineDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\ViewModels\GuardDevicesMenuViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardDevicesViewModel.cs" />
+    <Compile Include="Guard\Async\DeviceGetGuardUsersListHelper.cs" />
+    <Compile Include="Guard\Async\DeviceSetGuardUsersListHelper.cs" />
+    <Compile Include="Guard\ViewModels\GuardMenuViewModel.cs" />
+    <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardSynchronizationViewModel.cs" />
-    <Compile Include="Guard\Views\GuardDevicesMenuView.xaml.cs">
-      <DependentUpon>GuardDevicesMenuView.xaml</DependentUpon>
+    <Compile Include="Guard\Views\GuardMenuView.xaml.cs">
+      <DependentUpon>GuardMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\GuardDevicesView.xaml.cs">
-      <DependentUpon>GuardDevicesView.xaml</DependentUpon>
+    <Compile Include="Guard\Views\GuardView.xaml.cs">
+      <DependentUpon>GuardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Guard\Views\GuardSynchronizationView.xaml.cs">
       <DependentUpon>GuardSynchronizationView.xaml</DependentUpon>
@@ -175,17 +177,8 @@
     <Compile Include="DevicesModule.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\GroupDeviceViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionDeviceSelectorViewModel.cs" />
-    <Compile Include="Guard\ViewModels\LevelDetailsViewModel.cs" />
-    <Compile Include="Guard\ViewModels\LevelsMenuViewModel.cs" />
-    <Compile Include="Guard\ViewModels\LevelsSelectationViewModel.cs" />
-    <Compile Include="Guard\ViewModels\LevelsViewModel.cs" />
-    <Compile Include="Guard\ViewModels\LevelViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />
-    <Compile Include="Guard\ViewModels\UsersMenuViewModel.cs" />
-    <Compile Include="Guard\ViewModels\UsersViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserViewModel.cs" />
-    <Compile Include="Guard\ViewModels\GuardZoneSelectationViewModel.cs" />
-    <Compile Include="Guard\ViewModels\ZoneLevelViewModel.cs" />
     <Compile Include="Validation\ViewModels\ErrorEntityType.cs" />
     <Compile Include="Validation\ViewModels\ValidationErrorsViewModel.cs" />
     <Compile Include="Validation\ViewModels\ValidationErrorViewModel.cs" />
@@ -270,26 +263,8 @@
     <Compile Include="Devices\Views\PropertyDetails\ValveDetailsView.xaml.cs">
       <DependentUpon>ValveDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\LevelDetailsView.xaml.cs">
-      <DependentUpon>LevelDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guard\Views\LevelsMenuView.xaml.cs">
-      <DependentUpon>LevelsMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guard\Views\LevelsSelectationView.xaml.cs">
-      <DependentUpon>LevelsSelectationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guard\Views\LevelsView.xaml.cs">
-      <DependentUpon>LevelsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Guard\Views\UserDetailsView.xaml.cs">
       <DependentUpon>UserDetailsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guard\Views\UsersMenuView.xaml.cs">
-      <DependentUpon>UsersMenuView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Guard\Views\UsersView.xaml.cs">
-      <DependentUpon>UsersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Guard\Views\GuardZoneSelectationView.xaml.cs">
       <DependentUpon>GuardZoneSelectationView.xaml</DependentUpon>
@@ -466,11 +441,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Guard\Views\GuardDevicesMenuView.xaml">
+    <Page Include="Guard\Views\GuardMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guard\Views\GuardDevicesView.xaml">
+    <Page Include="Guard\Views\GuardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -478,31 +453,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Guard\Views\LevelDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guard\Views\LevelsMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guard\Views\LevelsSelectationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guard\Views\LevelsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Guard\Views\UserDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guard\Views\UsersMenuView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guard\Views\UsersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -80,8 +80,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        ulong? _no;
-        public ulong? No
+        ulong _no;
+        public ulong No
         {
             get { return _no; }
             set

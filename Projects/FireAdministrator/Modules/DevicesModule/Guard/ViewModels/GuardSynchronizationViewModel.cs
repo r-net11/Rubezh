@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using FiresecAPI.Models;
 using System.Collections.ObjectModel;
 using FiresecClient;
+using DevicesModule.Guard;
 
 namespace DevicesModule.ViewModels
 {
@@ -75,7 +76,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ReadDeviceCommand { get; private set; }
         void OnReadDevice()
         {
-            FiresecManager.DeviceGetGuardUsersList(Device.UID);
+            DeviceGetGuardUserListHelper.Run(Device);
         }
 
         bool CanWriteDevice()
@@ -86,7 +87,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand WriteDeviceCommand { get; private set; }
         void OnWriteDevice()
         {
-
+            DeviceSetGuardUsersListHelper.Run(Device, "");
         }
 
         protected override void Save(ref bool cancel)

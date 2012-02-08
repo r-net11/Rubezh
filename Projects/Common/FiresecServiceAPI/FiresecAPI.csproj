@@ -179,10 +179,8 @@
     <Compile Include="Models\Zone\ZoneLogicOperation.cs" />
     <Compile Include="Models\Zone\ZoneLogicState.cs" />
     <Compile Include="Models\Zone\ZoneType.cs" />
-    <Compile Include="Models\Guard\GuardLevel.cs" />
     <Compile Include="Models\Guard\GuardUser.cs" />
     <Compile Include="Models\Guard\ZoneActionType.cs" />
-    <Compile Include="Models\Guard\ZoneLevel.cs" />
     <Compile Include="Models\Plans\ElementDevice.cs" />
     <Compile Include="Models\Plans\ElementSubPlan.cs" />
     <Compile Include="Models\Plans\Plan.cs" />

@@ -21,7 +21,7 @@ namespace FiresecService
             FiresecManager.DeviceConfiguration = deviceConfiguration;
 
             ConfigurationConverter.ConvertBack(deviceConfiguration, true);
-            //FiresecInternalClient.SetNewConfig(ConfigurationConverter.FiresecConfiguration);
+            FiresecInternalClient.SetNewConfig(ConfigurationConverter.FiresecConfiguration);
 
             NotifyConfigurationChanged();
         }
@@ -174,6 +174,13 @@ namespace FiresecService
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
             return FiresecInternalClient.DeviceGetGuardUsersList(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+        }
+
+        public string DeviceSetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID, string users)
+        {
+            ConfigurationConverter.ConvertBack(deviceConfiguration, false);
+            var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            return FiresecInternalClient.DeviceSetGuardUsersList(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, users);
         }
 
         public string DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID)

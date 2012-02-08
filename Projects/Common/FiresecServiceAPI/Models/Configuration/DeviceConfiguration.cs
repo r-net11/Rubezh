@@ -14,7 +14,6 @@ namespace FiresecAPI.Models
             Zones = new List<Zone>();
             Directions = new List<Direction>();
             GuardUsers = new List<GuardUser>();
-            GuardLevels = new List<GuardLevel>();
         }
 
         public List<Device> Devices { get; set; }
@@ -31,8 +30,6 @@ namespace FiresecAPI.Models
         [DataMember]
         public List<GuardUser> GuardUsers { get; set; }
 
-        [DataMember]
-        public List<GuardLevel> GuardLevels { get; set; }
 
         [DataMember]
         public string ValidChars { get; set; }

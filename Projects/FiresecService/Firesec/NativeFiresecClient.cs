@@ -189,6 +189,11 @@ namespace Firesec
             return Connectoin.DeviceGetGuardUsersList(coreConfig, devicePath);
         }
 
+        public static string DeviceSetGuardUsersList(string coreConfig, string devicePath, string users)
+        {
+            return Connectoin.DeviceSetGuardUsersList(coreConfig, devicePath, users);
+        }
+
         public static string DeviceGetMDS5Data(string coreConfig, string devicePath)
         {
             return Connectoin.DeviceGetMDS5Data(coreConfig, devicePath);

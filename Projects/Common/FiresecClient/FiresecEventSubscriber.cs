@@ -73,7 +73,7 @@ namespace FiresecClient
                 {
                     if (deviceState.Device.ZoneNo.HasValue)
                     {
-                        if (deviceState.Device.ZoneNo.Value == zone.No.Value)
+                        if (deviceState.Device.ZoneNo.Value == zone.No)
                         {
                             if (deviceState.States.Any(x => x.Code == "OnGuard") == false)
                                 return true;
