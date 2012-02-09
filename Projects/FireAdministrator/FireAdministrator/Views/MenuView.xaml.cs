@@ -34,7 +34,28 @@ namespace FireAdministrator.Views
 
         public void SetNewConfig()
         {
+            if (CanChangeConfig == false)
+            {
+                MessageBoxService.Show("У вас нет прав на сохранение уонфигурации");
+                return;
+            }
+
             PlansModule.PlansModule.Save();
+
+            var validationErrorsViewModel = new ValidationErrorsViewModel();
+            if (validationErrorsViewModel.HasErrors)
+            {
+                ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
+
+                if (validationErrorsViewModel.CannotSave)
+                {
+                    MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+                    return;
+                }
+
+                if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") != MessageBoxResult.Yes)
+                    return;
+            }
 
             if (ServiceFactory.SaveService.DevicesChanged)
                 FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
@@ -116,7 +137,11 @@ namespace FireAdministrator.Views
 
         void OnValidate(object sender, RoutedEventArgs e)
         {
-            ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
+            var validationErrorsViewModel = new ValidationErrorsViewModel();
+            if (validationErrorsViewModel.HasErrors)
+            {
+                ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
+            }
         }
     }
 }

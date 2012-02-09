@@ -18,7 +18,7 @@ namespace DevicesModule.Validation.Converters
                     return Brushes.DarkOrange;
 
                 case ErrorLevel.Warning:
-                    return Brushes.Blue;
+                    return Brushes.Black;
 
                 default:
                     return Brushes.Blue;

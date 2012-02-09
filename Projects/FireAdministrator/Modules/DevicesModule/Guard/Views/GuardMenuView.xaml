@@ -7,6 +7,6 @@
         <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/Add.png" />
         <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
         <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
-        <Controls:ToolBarButton Command="{Binding ShowSynchronizationCommand}" ToolTip="Синхронизация" ImageSource="/Controls;component/Images/Settings.png" />
+        <Controls:ToolBarButton Command="{Binding ShowSynchronizationCommand}" ToolTip="Синхронизация" ImageSource="/Controls;component/Images/Settings.png" Visibility="Collapsed" />
     </StackPanel>
 </UserControl>

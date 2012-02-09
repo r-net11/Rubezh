@@ -97,6 +97,7 @@
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\Converters\ZoneLogicJoinOperatorConverter.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceCustomFunctionExecuteHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\Async\DeviceGetMDS5DataHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceReadConfigurationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceWriteConfigurationHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\SynchronizeDeviceHelper.cs" />

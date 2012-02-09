@@ -231,6 +231,27 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        public void EditDeviceUser()
+        {
+            if (SelectedDeviceUser != null)
+            {
+                var userDetailsViewModel = new UserDetailsViewModel(SelectedDeviceUser);
+                if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
+                {
+                    SelectedDeviceUser = userDetailsViewModel.GuardUser;
+                    ServiceFactory.SaveService.DevicesChanged = true;
+                }
+            }
+        }
+
+        public void EditUser()
+        {
+            if (SelectedAvailableUser != null)
+            {
+                OnEdit();
+            }
+        }
+
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
@@ -317,6 +338,7 @@ namespace DevicesModule.ViewModels
 
         public override void OnShow()
         {
+            FiresecManager.DeviceConfiguration.UpdateGuardConfiguration();
             ServiceFactory.Layout.ShowMenu(new GuardMenuViewModel(this));
             InitializeDevices();
         }

@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecClient.Validation;
 using Infrastructure.Common;
+using System.Collections.ObjectModel;
 
 namespace DevicesModule.ViewModels
 {
@@ -10,23 +11,32 @@ namespace DevicesModule.ViewModels
         public ValidationErrorsViewModel()
         {
             ClickCommand = new RelayCommand(OnClick);
+            Validate();
         }
 
+        public void Validate()
+        {
+            var errors = new List<ValidationErrorViewModel>();
+
+            DevicesValidator.Validate();
+            errors.AddRange(DevicesValidator.DeviceErrors.Select(x => new ValidationErrorViewModel(x)));
+            errors.AddRange(DevicesValidator.ZoneErrors.Select(x => new ValidationErrorViewModel(x)));
+            errors.AddRange(DevicesValidator.DirectionErrors.Select(x => new ValidationErrorViewModel(x)));
+
+            InstructionValidator.Validate();
+            errors.AddRange(InstructionValidator.InstructionErrors.Select(x => new ValidationErrorViewModel(x)));
+
+            Errors = new List<ValidationErrorViewModel>(errors);
+        }
+
+        List<ValidationErrorViewModel> _errors;
         public List<ValidationErrorViewModel> Errors
         {
-            get
+            get { return _errors; }
+            set
             {
-                var errors = new List<ValidationErrorViewModel>();
-
-                DevicesValidator.Validate();
-                errors.AddRange(DevicesValidator.DeviceErrors.Select(x => new ValidationErrorViewModel(x)));
-                errors.AddRange(DevicesValidator.ZoneErrors.Select(x => new ValidationErrorViewModel(x)));
-                errors.AddRange(DevicesValidator.DirectionErrors.Select(x => new ValidationErrorViewModel(x)));
-
-                InstructionValidator.Validate();
-                errors.AddRange(InstructionValidator.InstructionErrors.Select(x => new ValidationErrorViewModel(x)));
-
-                return errors;
+                _errors = value;
+                OnPropertyChanged("Errors");
             }
         }
 
@@ -39,6 +49,21 @@ namespace DevicesModule.ViewModels
                 _selectedError = value;
                 OnPropertyChanged("SelectedError");
             }
+        }
+
+        public bool HasErrors
+        {
+            get { return Errors.Count > 0; }
+        }
+
+        public bool CannotSave
+        {
+            get { return Errors.Any(x=>x.ErrorLevel == ErrorLevel.CannotSave); }
+        }
+
+        public bool CannotWrite
+        {
+            get { return Errors.Any(x => x.ErrorLevel == ErrorLevel.CannotWrite); }
         }
 
         public RelayCommand ClickCommand { get; private set; }

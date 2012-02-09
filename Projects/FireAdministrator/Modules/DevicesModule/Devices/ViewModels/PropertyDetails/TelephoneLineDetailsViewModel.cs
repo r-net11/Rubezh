@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -76,63 +74,89 @@ namespace DevicesModule.ViewModels
 
         void CopyProperties()
         {
-            Phone1 = StringToInt(Device.Properties.FirstOrDefault(x => x.Name == "Phone1").Value);
-            Phone2 = StringToInt(Device.Properties.FirstOrDefault(x => x.Name == "Phone2").Value);
-            Phone3 = StringToInt(Device.Properties.FirstOrDefault(x => x.Name == "Phone3").Value);
-            Phone4 = StringToInt(Device.Properties.FirstOrDefault(x => x.Name == "Phone4").Value);
-            ObjectNumber = StringToInt(Device.Properties.FirstOrDefault(x => x.Name == "ObjectNumber").Value);
-            TestDialtone = StringToInt(Device.Properties.FirstOrDefault(x => x.Name == "TestDialtone").Value);
-            TestVoltage = StringToInt(Device.Properties.FirstOrDefault(x => x.Name == "TestVoltage").Value);
-            CountRecalls = StringToInt(Device.Properties.FirstOrDefault(x => x.Name == "CountRecalls").Value);
-            Timeout = StringToInt(Device.Properties.FirstOrDefault(x => x.Name == "Timeout").Value);
-            OutcomingTest = StringToInt(Device.Properties.FirstOrDefault(x => x.Name == "OutcomingTest").Value);
+            Phone1 = StringToInt("Phone1");
+            Phone2 = StringToInt("Phone2");
+            Phone3 = StringToInt("Phone3");
+            Phone4 = StringToInt("Phone4");
+            ObjectNumber = StringToInt("ObjectNumber");
+            TestDialtone = StringToInt("TestDialtone");
+            TestVoltage = StringToInt("TestVoltage");
+            CountRecalls = StringToInt("CountRecalls");
+            Timeout = StringToInt("Timeout");
+            OutcomingTest = StringToInt("OutcomingTest");
 
             InitializeFilters();
-            var eventsFilter = Device.Properties.FirstOrDefault(x => x.Name == "EventsFilter").Value;
-            var array = eventsFilter.ToCharArray();
-            for (int i = 0; i < array.Count(); i++)
+            var eventsFilterString = Device.Properties.FirstOrDefault(x => x.Name == "EventsFilter");
+            if (eventsFilterString != null)
             {
-                FilterItems[i].IsActive = array[i] == '1';
+                var eventsFilter = eventsFilterString.Value;
+                var array = eventsFilter.ToCharArray();
+                for (int i = 0; i < array.Count(); i++)
+                {
+                    FilterItems[i].IsActive = array[i] == '1';
+                }
             }
         }
 
         void SaveProperties()
         {
-            Device.Properties.FirstOrDefault(x => x.Name == "Phone1").Value = Phone1.ToString();
-            Device.Properties.FirstOrDefault(x => x.Name == "Phone2").Value = Phone2.ToString();
-            Device.Properties.FirstOrDefault(x => x.Name == "Phone3").Value = Phone3.ToString();
-            Device.Properties.FirstOrDefault(x => x.Name == "Phone4").Value = Phone4.ToString();
-            Device.Properties.FirstOrDefault(x => x.Name == "ObjectNumber").Value = ObjectNumber.ToString();
-            Device.Properties.FirstOrDefault(x => x.Name == "TestDialtone").Value = TestDialtone.ToString();
-            Device.Properties.FirstOrDefault(x => x.Name == "TestVoltage").Value = TestVoltage.ToString();
-            Device.Properties.FirstOrDefault(x => x.Name == "CountRecalls").Value = CountRecalls.ToString();
-            Device.Properties.FirstOrDefault(x => x.Name == "Timeout").Value = Timeout.ToString();
-            Device.Properties.FirstOrDefault(x => x.Name == "OutcomingTest").Value = OutcomingTest.ToString();
+            Device.Properties = new List<Property>();
+
+            SaveProperty(Phone1, "Phone1");
+            SaveProperty(Phone2, "Phone2");
+            SaveProperty(Phone3, "Phone3");
+            SaveProperty(Phone4, "Phone4");
+            SaveProperty(ObjectNumber, "ObjectNumber");
+            SaveProperty(TestDialtone, "TestDialtone");
+            SaveProperty(TestVoltage, "TestVoltage");
+            SaveProperty(CountRecalls, "CountRecalls");
+            SaveProperty(Timeout, "Timeout");
+            SaveProperty(OutcomingTest, "OutcomingTest");
 
             var stringBuilder = new StringBuilder();
             foreach (var filterItem in FilterItems)
             {
                 stringBuilder.Append(filterItem.IsActive ? '1' : '0');
             }
-            Device.Properties.FirstOrDefault(x => x.Name == "EventsFilter").Value = stringBuilder.ToString();
+
+            var property = new Property()
+            {
+                Name = "EventsFilter",
+                Value = stringBuilder.ToString()
+            };
+            Device.Properties.Add(property);
         }
 
-        int StringToInt(string value)
+        int? StringToInt(string name)
         {
             try
             {
+                var value = Device.Properties.FirstOrDefault(x => x.Name == name).Value;
                 return System.Convert.ToInt32(value);
             }
             catch
             {
-                return 0;
+                return null;
+            }
+        }
+
+        void SaveProperty(int? intProperty, string propertyName)
+        {
+            if (intProperty.HasValue)
+            {
+                var property = new Property()
+                {
+                    Name = propertyName,
+                    Value = intProperty.Value.ToString()
+                };
+                Device.Properties.Add(property);
             }
         }
 
         public List<FilterItemViewModel> FilterItems { get; private set; }
 
-        int _phone1;
-        public int Phone1
+        int? _phone1;
+        public int? Phone1
         {
             get { return _phone1; }
             set
@@ -142,8 +166,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        int _phone2;
-        public int Phone2
+        int? _phone2;
+        public int? Phone2
         {
             get { return _phone2; }
             set
@@ -153,8 +177,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        int _phone3;
-        public int Phone3
+        int? _phone3;
+        public int? Phone3
         {
             get { return _phone3; }
             set
@@ -164,8 +188,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        int _phone4;
-        public int Phone4
+        int? _phone4;
+        public int? Phone4
         {
             get { return _phone4; }
             set
@@ -175,8 +199,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        int _objectNumber;
-        public int ObjectNumber
+        int? _objectNumber;
+        public int? ObjectNumber
         {
             get { return _objectNumber; }
             set
@@ -186,8 +210,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        int _testDialtone;
-        public int TestDialtone
+        int? _testDialtone;
+        public int? TestDialtone
         {
             get { return _testDialtone; }
             set
@@ -197,8 +221,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        int _testVoltage;
-        public int TestVoltage
+        int? _testVoltage;
+        public int? TestVoltage
         {
             get { return _testVoltage; }
             set
@@ -208,8 +232,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        int _countRecalls;
-        public int CountRecalls
+        int? _countRecalls;
+        public int? CountRecalls
         {
             get { return _countRecalls; }
             set
@@ -219,8 +243,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        int _timeout;
-        public int Timeout
+        int? _timeout;
+        public int? Timeout
         {
             get { return _timeout; }
             set
@@ -230,8 +254,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        int _outcomingTest;
-        public int OutcomingTest
+        int? _outcomingTest;
+        public int? OutcomingTest
         {
             get { return _outcomingTest; }
             set
@@ -256,7 +280,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ReadCommand { get; private set; }
         void OnRead()
         {
-            MessageBoxService.Show("Эта функция пока не реализована");
+            DeviceGetMDS5DataHelper.Run(Device);
         }
 
         protected override void Save(ref bool cancel)

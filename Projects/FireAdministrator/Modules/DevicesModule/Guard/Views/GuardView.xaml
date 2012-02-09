@@ -23,7 +23,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}">
+            <DataGrid Grid.Row="0" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*" />
                 </DataGrid.Columns>
@@ -32,7 +32,7 @@
                 <Controls:ToolBarButton Command="{Binding AddUserCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/ArrowUp.png" />
                 <Controls:ToolBarButton Command="{Binding RemoveUserCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/ArrowDown.png" />
             </StackPanel>
-            <DataGrid Grid.Row="2" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}">
+            <DataGrid Grid.Row="2" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}" MouseDoubleClick="DataGrid_MouseDoubleClick_1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="50" Binding="{Binding Id}" />
                     <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Name}" />

@@ -22,7 +22,7 @@
                 <Label Grid.Row="2" Grid.Column="0" Content="ФИО" />
                 <Label Grid.Row="3" Grid.Column="0" Content="Должность" />
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="2" />
-                <Controls:PasswordBoxControl Grid.Row="1" Grid.Column="1" Password="{Binding Path=Password}" Margin="2" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Password}" Margin="2" />
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding FIO}" Margin="2" />
                 <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Function}" Margin="2" />
             </Grid>

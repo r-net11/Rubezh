@@ -54,10 +54,27 @@ namespace DevicesModule.ViewModels
             return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReadDatabase));
         }
 
+        bool ValidateConfiguration()
+        {
+            var validationErrorsViewModel = new ValidationErrorsViewModel();
+            if (validationErrorsViewModel.HasErrors)
+            {
+                ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
+
+                if (validationErrorsViewModel.CannotSave || validationErrorsViewModel.CannotWrite)
+                {
+                    MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+                    return false;
+                }
+            }
+            return true;
+        }
+
         public RelayCommand<bool> WriteDeviceCommand { get; private set; }
         void OnWriteDevice(bool isUsb)
         {
-            DeviceWriteConfigurationHelper.Run(SelectedDevice.Device, isUsb);
+            if (ValidateConfiguration())
+                DeviceWriteConfigurationHelper.Run(SelectedDevice.Device, isUsb);
         }
 
         bool CanWriteDevice(bool isUsb)
@@ -68,7 +85,8 @@ namespace DevicesModule.ViewModels
         public RelayCommand WriteAllDeviceCommand { get; private set; }
         void OnWriteAllDevice()
         {
-            WriteAllDeviceConfigurationHelper.Run();
+            if (ValidateConfiguration())
+                WriteAllDeviceConfigurationHelper.Run();
         }
 
         bool CanWriteAllDevice()

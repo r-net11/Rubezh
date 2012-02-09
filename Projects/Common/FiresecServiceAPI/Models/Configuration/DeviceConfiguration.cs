@@ -55,6 +55,29 @@ namespace FiresecAPI.Models
             }
         }
 
+        public void UpdateGuardConfiguration()
+        {
+            foreach (var guardUser in GuardUsers)
+            {
+                var device = Devices.FirstOrDefault(x => x.UID == guardUser.DeviceUID);
+                if (device == null)
+                {
+                    guardUser.DeviceUID = Guid.Empty;
+                }
+                else
+                {
+                    var userZones = new List<ulong>();
+                    foreach (var zoneNo in guardUser.Zones)
+                    {
+                        var zone = Zones.FirstOrDefault(x => x.No == zoneNo);
+                        if (zone != null)
+                            userZones.Add(zoneNo);
+                    }
+                    guardUser.Zones = userZones;
+                }
+            }
+        }
+
         public DeviceConfiguration CopyOneBranch(Guid uid, bool isUsb)
         {
             var deviceConfiguration = new DeviceConfiguration();
