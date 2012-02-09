@@ -5,6 +5,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using System;
 
 namespace DevicesModule.ViewModels
 {
@@ -48,12 +49,9 @@ namespace DevicesModule.ViewModels
 
         public bool CanShowOnPlan()
         {
-            if (Zone.No.HasValue == false)
-                return false;
-
             foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
             {
-                if (plan.ElementPolygonZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == Zone.No.Value)))
+                if (plan.ElementPolygonZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == Zone.No)))
                 {
                     return true;
                 }
@@ -64,7 +62,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowOnPlanCommand { get; private set; }
         void OnShowOnPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Zone.No.Value);
+            ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Zone.No);
         }
     }
 }

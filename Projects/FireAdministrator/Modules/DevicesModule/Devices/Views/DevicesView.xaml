@@ -76,6 +76,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
+                    
                     <DataGridTemplateColumn Header="Зона" Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -102,7 +103,8 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Примечание" Width="*">
+                    
+                    <DataGridTemplateColumn Header="Примечание" Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Description}" />

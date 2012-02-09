@@ -108,6 +108,7 @@
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DigitalPasswordHelper.cs" />
+    <Compile Include="MiddleButtonScrollHelper.cs" />
     <Compile Include="PasswordBoxControl.cs" />
     <Compile Include="BrightnessToColorConverter.cs" />
     <Compile Include="ColorToAlphaColorConverter.cs" />
@@ -131,6 +132,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ScrollDataGrid.cs" />
     <Compile Include="ToolBarButton.cs" />
     <Compile Include="XButton.cs" />
     <Compile Include="XDataGrid.cs" />
