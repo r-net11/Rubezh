@@ -206,5 +206,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <Style TargetType="{x:Type local:ScrollDataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}" />
+
 </ResourceDictionary>

@@ -29,7 +29,7 @@ namespace Controls
         {
             if (e.MiddleButton == MouseButtonState.Pressed)
             {
-                MiddleButtonScrollHelper.SetStartPosition(sender, e);
+                MiddleButtonScrollHelper.StartScrolling(sender, e);
             }
         }
 
@@ -45,7 +45,7 @@ namespace Controls
         {
             if (e.MiddleButton == MouseButtonState.Pressed)
             {
-                MiddleButtonScrollHelper.Scrolling(sender, e, _scrollViewer);
+                MiddleButtonScrollHelper.UpdateScrolling(sender, e, _scrollViewer);
             }
             else
             {
