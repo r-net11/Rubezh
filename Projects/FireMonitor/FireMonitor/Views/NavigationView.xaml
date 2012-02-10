@@ -23,7 +23,7 @@
                 </StackPanel>
             </TabItem.Header>
         </TabItem>
-        <TabItem IsSelected="{Binding IsPlanSelected}">
+        <TabItem IsSelected="{Binding IsPlanSelected}" Visibility="{Binding IsPlanVivible, Converter={StaticResource BoolToVisibilityConverter}}">
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Controls;component/Images/map.png" />

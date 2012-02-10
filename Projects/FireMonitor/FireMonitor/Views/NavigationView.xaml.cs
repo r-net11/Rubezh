@@ -29,6 +29,8 @@ namespace FireMonitor.Views
             ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(x => { _isReportSelected = true; OnPropertyChanged("IsReportSelected"); });
             ServiceFactory.Events.GetEvent<ShowCallEvent>().Subscribe(x => { _isCallSelected = true; OnPropertyChanged("IsCallSelected"); });
             ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(x => { _isArchiveSelected = true; OnPropertyChanged("IsArchiveSelected"); });
+
+            IsPlanVivible = FiresecManager.PlansConfiguration.Plans.Count > 0;
         }
 
         void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -86,6 +88,8 @@ namespace FireMonitor.Views
                 OnPropertyChanged("IsAlarmSelected");
             }
         }
+
+        public bool IsPlanVivible { get; private set; }
 
         bool _isPlanSelected;
         public bool IsPlanSelected

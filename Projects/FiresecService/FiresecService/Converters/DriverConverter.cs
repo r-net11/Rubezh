@@ -266,7 +266,7 @@ namespace FiresecService.Converters
                                 break;
 
                             default:
-                                throw new Exception("Неизвестный тип свойства");
+                                continue;
                         }
                     }
                     driver.Properties.Add(driverProperty);

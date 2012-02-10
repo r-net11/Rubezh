@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Controls.MessageBox;
 
 namespace FiresecServiceRunner
 {
@@ -16,7 +17,7 @@ namespace FiresecServiceRunner
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.ExceptionObject.ToString());
+            MessageBoxService.Show(e.ExceptionObject.ToString());
         }
     }
 }

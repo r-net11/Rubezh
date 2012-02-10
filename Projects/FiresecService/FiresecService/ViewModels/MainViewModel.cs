@@ -4,6 +4,7 @@ using System.Windows;
 using FiresecService.Infrastructure;
 using Infrastructure.Common;
 using System.Configuration;
+using Controls.MessageBox;
 
 namespace FiresecService.ViewModels
 {
@@ -49,10 +50,10 @@ namespace FiresecService.ViewModels
         {
             if (Connections.Count > 0)
             {
-                MessageBox.Show("Один или несколько клиентов соединены с сервером. Клиенты должны быть отсоединены");
+                MessageBoxService.Show("Один или несколько клиентов соединены с сервером. Клиенты должны быть отсоединены");
                 return;
             }
-            if (MessageBox.Show("Вы уверены, что хотите конвертировать конфигурацию?", "Вы уверены, что хотите конвертировать конфигурацию?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать конфигурацию?") == MessageBoxResult.Yes)
             {
                 ConfigurationConverter.Convert();
                 Start();
@@ -64,10 +65,10 @@ namespace FiresecService.ViewModels
         {
             if (Connections.Count > 0)
             {
-                MessageBox.Show("Один или несколько клиентов соединены с сервером. Клиенты должны быть отсоединены");
+                MessageBoxService.Show("Один или несколько клиентов соединены с сервером. Клиенты должны быть отсоединены");
                 return;
             }
-            if (MessageBox.Show("Вы уверены, что хотите конвертировать журнал событий?", "Вы уверены, что хотите конвертировать журнал событий?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать журнал событий?") == MessageBoxResult.Yes)
             {
                 JournalDataConverter.Convert();
                 Start();

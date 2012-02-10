@@ -4,6 +4,7 @@ using System.Windows;
 using FiresecService;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace FiresecServiceRunner
 {
@@ -13,15 +14,23 @@ namespace FiresecServiceRunner
         {
             InitializeComponent();
 
-            var resourceService = new ResourceService();
-            resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-            _mainView.DataContext = new MainViewModel();
+            try
+            {
+                var resourceService = new ResourceService();
+                resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+                _mainView.DataContext = new MainViewModel();
 
-            DirectoryInfo directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
-            Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
-            AnalizeCommandLine();
+                DirectoryInfo directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
+                Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
+                AnalizeCommandLine();
 
-            this.WindowState = WindowState.Minimized;
+                this.WindowState = WindowState.Minimized;
+            }
+            catch (Exception e)
+            {
+                MessageBoxService.ShowException(e.ToString());
+                Application.Current.Shutdown();
+            }
         }
 
         void AnalizeCommandLine()
@@ -53,7 +62,7 @@ namespace FiresecServiceRunner
 
         void OnClose(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Вы уверены, что хотите остановить сервер?", "Вы уверены, что хотите остановить сервер?", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить сервер?") == MessageBoxResult.Yes)
                 Close();
         }
 
