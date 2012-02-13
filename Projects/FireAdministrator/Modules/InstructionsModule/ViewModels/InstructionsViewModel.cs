@@ -18,7 +18,6 @@ namespace InstructionsModule.ViewModels
             DeleteAllCommand = new RelayCommand(OnDeleteAll, CanRemoveAll);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
             Instructions = new ObservableCollection<InstructionViewModel>();
-            InputBindingsProp = new InputBindingCollection(KeyBindingList());
         }
 
         public void Initialize()
@@ -107,31 +106,6 @@ namespace InstructionsModule.ViewModels
             Instructions.Clear();
             FiresecManager.SystemConfiguration.Instructions.Clear();
             ServiceFactory.SaveService.InstructionsChanged = true;
-        }
-
-        InputBindingCollection _inputBindingProp;
-        public InputBindingCollection InputBindingsProp
-        {
-            get { return _inputBindingProp; }
-            set
-            {
-                _inputBindingProp = value;
-                OnPropertyChanged("InputBindingsProp");
-            }
-        }
-
-        public InputBindingCollection KeyBindingList()
-        {
-            InputBindingCollection inputBindings = new InputBindingCollection();
-            List<KeyBinding> keyBindings = new List<KeyBinding>();
-
-            KeyBinding keyBinding = new KeyBinding();
-            keyBinding.Key = Key.LeftCtrl;
-            keyBinding.Command = ApplicationCommands.Close;
-            keyBindings.Add(keyBinding);
-
-            inputBindings.AddRange(keyBindings);
-            return inputBindings;
         }
 
         public override void OnShow()

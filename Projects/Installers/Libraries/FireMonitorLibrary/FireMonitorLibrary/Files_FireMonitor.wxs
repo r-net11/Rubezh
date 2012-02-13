@@ -65,10 +65,10 @@
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
-			<Component Id="FMDialogBoxComponent" Guid="43F89A18-8D9E-4030-93E0-0238086991C6">
+			<!--<Component Id="FMDialogBoxComponent" Guid="43F89A18-8D9E-4030-93E0-0238086991C6">
 				<File Id="FMDialogBoxDll" Name="DialogBox.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
-			</Component>
+			</Component>-->
 
 			<Component Id="FMFiresecAPIComponent" Guid="DF810502-686B-4BCF-9A54-61BCA7E502B6">
 				<File Id="FMFiresecAPIDll" Name="FiresecAPI.dll" Source="$(var.FireMonitor.TargetDir)"

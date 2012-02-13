@@ -99,11 +99,6 @@ namespace InstructionsModule.ViewModels
             return InstructionZones.IsNotNullOrEmpty();
         }
 
-        //public bool CanSaveInstruction()
-        //{
-        //    return (InstructionZones.IsNotNullOrEmpty());
-        //}
-
         public RelayCommand AddOneCommand { get; private set; }
         void OnAddOne()
         {

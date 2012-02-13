@@ -11,7 +11,7 @@
 			<ComponentRef Id="FACommonComponent" />
 			<ComponentRef Id="FAControlsComponent" />
 			<ComponentRef Id="FADeviceControlsComponent" />
-			<ComponentRef Id="FADialogBoxComponent" />
+			<!--<ComponentRef Id="FADialogBoxComponent" />-->
 			<ComponentRef Id="FAFiresecAPIComponent" />
 			<ComponentRef Id="FAFiresecClientComponent" />
 			<ComponentRef Id="FADevicesModuleComponent" />

@@ -21,21 +21,22 @@ namespace Controls
 
     public static class MiddleButtonScrollHelper
     {
-        static double previousMouseXPos = 0;
-        static double previousMouseYPos = 0;
-        static double currentMouseXPos = 0;
-        static double currentMouseYPos = 0;
-        static bool isScrolling = false;
-        static DirectionType currentDirection;
-        static DirectionType previousDirection;
+        static bool _isScrolling = false;
+        static double _previousMouseXPos = 0;
+        static double _previousMouseYPos = 0;
+        static double _currentMouseXPos = 0;
+        static double _currentMouseYPos = 0;
+        static DirectionType _currentDirection;
+        static DirectionType _previousDirection;
+        static ScrollViewer _scrollViewer;
 
         static DirectionType DirectionX
         {
             get
             {
-                if ((currentMouseXPos - previousMouseXPos) > 0)
+                if ((_currentMouseXPos - _previousMouseXPos) > 0)
                     return DirectionType.Right;
-                if ((currentMouseXPos - previousMouseXPos) < 0)
+                if ((_currentMouseXPos - _previousMouseXPos) < 0)
                     return DirectionType.Left;
                 return DirectionType.None;
             }
@@ -45,29 +46,29 @@ namespace Controls
         {
             get
             {
-                if ((currentMouseYPos - previousMouseYPos) > 0)
+                if ((_currentMouseYPos - _previousMouseYPos) > 0)
                     return DirectionType.Down;
-                if ((currentMouseYPos - previousMouseYPos) < 0)
+                if ((_currentMouseYPos - _previousMouseYPos) < 0)
                     return DirectionType.Up;
                 return DirectionType.None;
             }
         }
 
-        static void _scroll(ScrollViewer scrollViewer)
+        static void Scroll()
         {
-            switch (currentDirection)
+            switch (_currentDirection)
             {
                 case DirectionType.Left:
-                    scrollViewer.LineLeft();
+                    _scrollViewer.LineLeft();
                     break;
                 case DirectionType.Right:
-                    scrollViewer.LineRight();
+                    _scrollViewer.LineRight();
                     break;
                 case DirectionType.Down:
-                    scrollViewer.LineDown();
+                    _scrollViewer.LineDown();
                     break;
                 case DirectionType.Up:
-                    scrollViewer.LineUp();
+                    _scrollViewer.LineUp();
                     break;
                 default:
                     break;
@@ -78,79 +79,81 @@ namespace Controls
         {
             if (DirectionX == DirectionType.None && DirectionY == DirectionType.None)
             {
-                currentDirection = previousDirection;
+                _currentDirection = _previousDirection;
             }
             else
             {
                 if (DirectionX == DirectionType.None)
                 {
-                    currentDirection = DirectionY;
+                    _currentDirection = DirectionY;
                 }
                 else
                     if (DirectionY == DirectionType.None)
                     {
-                        currentDirection = DirectionX;
+                        _currentDirection = DirectionX;
                     }
             }
         }
 
-        static void SetCursorDirection(Control control)
+        static void SetCursorDirection()
         {
-            if (control == null)
-                return;
-            switch (currentDirection)
+            switch (_currentDirection)
             {
                 case DirectionType.Left:
-                    control.Cursor = Cursors.ScrollW;
+                    _scrollViewer.Cursor = Cursors.ScrollW;
                     break;
                 case DirectionType.Right:
-                    control.Cursor = Cursors.ScrollE;
+                    _scrollViewer.Cursor = Cursors.ScrollE;
                     break;
                 case DirectionType.Down:
-                    control.Cursor = Cursors.ScrollS;
+                    _scrollViewer.Cursor = Cursors.ScrollS;
                     break;
                 case DirectionType.Up:
-                    control.Cursor = Cursors.ScrollN;
+                    _scrollViewer.Cursor = Cursors.ScrollN;
                     break;
                 default:
                     break;
             }
         }
 
-        public static void StartScrolling(object sender, MouseButtonEventArgs e, ScrollViewer scrollViewer)
+        public static void StartScrolling(ScrollViewer scrollViewer, MouseButtonEventArgs e)
         {
-            var control = sender as Control;
-            if (control == null)
+            if (scrollViewer == null)
                 return;
-            isScrolling = true;
-            previousMouseXPos = currentMouseXPos = control.PointToScreen(e.GetPosition(control)).X;
-            previousMouseYPos = currentMouseYPos = control.PointToScreen(e.GetPosition(control)).Y;
-            currentDirection = previousDirection = DirectionType.None;
-            control.Cursor = Cursors.ScrollAll;
+            _isScrolling = true;
+            _scrollViewer = scrollViewer;
+            _previousMouseXPos = _currentMouseXPos = scrollViewer.PointToScreen(e.GetPosition(scrollViewer)).X;
+            _previousMouseYPos = _currentMouseYPos = scrollViewer.PointToScreen(e.GetPosition(scrollViewer)).Y;
+            _currentDirection = _previousDirection = DirectionType.None;
+            _scrollViewer.Cursor = Cursors.ScrollAll;
         }
 
-        public static void UpdateScrolling(object sender, MouseEventArgs e, ScrollViewer scrollViewer)
+        public static void UpdateScrolling(MouseEventArgs e)
         {
-            var control = sender as Control;
-            if (control == null || scrollViewer == null || !isScrolling)
+            if (_scrollViewer == null || !_isScrolling)
                 return;
-            currentMouseXPos = control.PointToScreen(e.GetPosition(control)).X;
-            currentMouseYPos = control.PointToScreen(e.GetPosition(control)).Y;
+            _currentMouseXPos = _scrollViewer.PointToScreen(e.GetPosition(_scrollViewer)).X;
+            _currentMouseYPos = _scrollViewer.PointToScreen(e.GetPosition(_scrollViewer)).Y;
             SetDirection();
-            SetCursorDirection(control);
-            _scroll(scrollViewer);
-            previousMouseXPos = currentMouseXPos;
-            previousMouseYPos = currentMouseYPos;
-            previousDirection = currentDirection;
+            SetCursorDirection();
+            Scroll();
+            _previousMouseXPos = _currentMouseXPos;
+            _previousMouseYPos = _currentMouseYPos;
+            _previousDirection = _currentDirection;
         }
 
-        public static void StopScrolling(object sender)
+        public static void StopScrolling()
         {
-            var control = sender as Control;
-            if (control != null && isScrolling)
+            if (_scrollViewer != null && _isScrolling)
             {
-                isScrolling = false;
-                control.Cursor = Cursors.Arrow;
+                _scrollViewer.Cursor = Cursors.Arrow;
+                _isScrolling = false;
+                _previousMouseXPos = 0;
+                _previousMouseYPos = 0;
+                _currentMouseXPos = 0;
+                _currentMouseYPos = 0;
+                _currentDirection = _previousDirection = DirectionType.None;
+                _scrollViewer = null;
             }
         }
 

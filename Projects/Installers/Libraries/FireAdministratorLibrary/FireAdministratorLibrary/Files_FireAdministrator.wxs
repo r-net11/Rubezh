@@ -59,10 +59,10 @@
         <File Id="FADeviceControlsDll" Name="DeviceControls.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FADialogBoxComponent" Guid="15E89F54-1AA4-4A78-8658-FEE99DCBDD00">
+      <!--<Component Id="FADialogBoxComponent" Guid="15E89F54-1AA4-4A78-8658-FEE99DCBDD00">
         <File Id="FADialogBoxDll" Name="DialogBox.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
-      </Component>
+      </Component>-->
       <Component Id="FAFiresecAPIComponent" Guid="E752E9C7-BED1-4C5E-9A31-2CF3F8920C1A">
         <File Id="FAFiresecAPIDll" Name="FiresecAPI.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />

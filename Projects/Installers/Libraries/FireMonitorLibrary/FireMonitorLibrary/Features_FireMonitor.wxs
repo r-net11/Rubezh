@@ -11,7 +11,7 @@
 			<ComponentRef Id="FMCommonComponent" />
 			<ComponentRef Id="FMControlsComponent" />
 			<ComponentRef Id="FMDeviceControlsComponent" />
-			<ComponentRef Id="FMDialogBoxComponent" />
+			<!--<ComponentRef Id="FMDialogBoxComponent" />-->
 			<ComponentRef Id="FMFiresecAPIComponent" />
 			<ComponentRef Id="FMFiresecClientComponent" />
 			<ComponentRef Id="FMUnityComponent" />

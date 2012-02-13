@@ -10,7 +10,7 @@
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Controls:ScrollDataGrid Grid.Column="0" ItemsSource="{Binding InstructionDevices}" SelectedItem="{Binding SelectedInstructionDevice}"
-                  AutoGenerateColumns="False">
+                  AutoGenerateColumns="False" MouseDoubleClick="SelectedInstructionDeviceDoubleClick">
             <Controls:ScrollDataGrid.Columns>
                 <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                     <DataGridTemplateColumn.CellTemplate>
@@ -47,7 +47,7 @@
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
         <Controls:ScrollDataGrid Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}"
-                  AutoGenerateColumns="False">
+                  AutoGenerateColumns="False" MouseDoubleClick="SelectedAvailableDeviceDoubleClick">
             <Controls:ScrollDataGrid.Columns>
                 <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                     <DataGridTemplateColumn.CellTemplate>

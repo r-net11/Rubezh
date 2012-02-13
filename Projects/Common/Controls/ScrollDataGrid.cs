@@ -17,50 +17,52 @@ namespace Controls
 
         public ScrollDataGrid()
         {
-            MouseDown += new MouseButtonEventHandler(MouseMiddleDown);
-            MouseUp += new MouseButtonEventHandler(MouseMiddleUp);
-            MouseMove += new MouseEventHandler(MiddleMouseMove);
-            MouseLeave += new MouseEventHandler(MiddleMouseLeave);
             Loaded += new RoutedEventHandler(ScrollDataGridLoaded);
         }
 
         ScrollViewer _scrollViewer;
 
-        void MouseMiddleDown(object sender, MouseButtonEventArgs e)
+        void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
         {
             if (e.MiddleButton == MouseButtonState.Pressed)
             {
-                MiddleButtonScrollHelper.StartScrolling(sender, e, _scrollViewer);
+                MiddleButtonScrollHelper.StartScrolling(_scrollViewer, e);
             }
         }
 
-        void MouseMiddleUp(object sender, MouseButtonEventArgs e)
+        void OnMouseMiddleUp(object sender, MouseButtonEventArgs e)
         {
             if (e.MiddleButton == MouseButtonState.Released)
             {
-                MiddleButtonScrollHelper.StopScrolling(sender);
+                MiddleButtonScrollHelper.StopScrolling();
             }
         }
 
-        void MiddleMouseMove(object sender, MouseEventArgs e)
+        void OnMiddleMouseMove(object sender, MouseEventArgs e)
         {
             if (e.MiddleButton == MouseButtonState.Pressed)
             {
-                MiddleButtonScrollHelper.UpdateScrolling(sender, e, _scrollViewer);
+                MiddleButtonScrollHelper.UpdateScrolling(e);
             }
         }
 
-        void MiddleMouseLeave(object sender, MouseEventArgs e)
+        void OnMiddleMouseLeave(object sender, MouseEventArgs e)
         {
             if (e.MiddleButton == MouseButtonState.Pressed)
             {
-                MiddleButtonScrollHelper.StopScrolling(sender);
+                MiddleButtonScrollHelper.StopScrolling();
             }
         }
 
         void ScrollDataGridLoaded(object sender, RoutedEventArgs e)
         {
             _scrollViewer = MiddleButtonScrollHelper.FindVisualChild<ScrollViewer>(this);
+            if (_scrollViewer == null)
+                return;
+            _scrollViewer.PreviewMouseDown += new MouseButtonEventHandler(OnMouseMiddleDown);
+            _scrollViewer.PreviewMouseUp += new MouseButtonEventHandler(OnMouseMiddleUp);
+            _scrollViewer.PreviewMouseMove += new MouseEventHandler(OnMiddleMouseMove);
+            _scrollViewer.MouseLeave += new MouseEventHandler(OnMiddleMouseLeave);
         }
     }
 }
