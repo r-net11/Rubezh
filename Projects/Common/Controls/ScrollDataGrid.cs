@@ -20,6 +20,7 @@ namespace Controls
             MouseDown += new MouseButtonEventHandler(MouseMiddleDown);
             MouseUp += new MouseButtonEventHandler(MouseMiddleUp);
             MouseMove += new MouseEventHandler(MiddleMouseMove);
+            MouseLeave += new MouseEventHandler(MiddleMouseLeave);
             Loaded += new RoutedEventHandler(ScrollDataGridLoaded);
         }
 
@@ -29,7 +30,7 @@ namespace Controls
         {
             if (e.MiddleButton == MouseButtonState.Pressed)
             {
-                MiddleButtonScrollHelper.StartScrolling(sender, e);
+                MiddleButtonScrollHelper.StartScrolling(sender, e, _scrollViewer);
             }
         }
 
@@ -47,7 +48,11 @@ namespace Controls
             {
                 MiddleButtonScrollHelper.UpdateScrolling(sender, e, _scrollViewer);
             }
-            else
+        }
+
+        void MiddleMouseLeave(object sender, MouseEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed)
             {
                 MiddleButtonScrollHelper.StopScrolling(sender);
             }

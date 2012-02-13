@@ -25,36 +25,9 @@ namespace Controls
         static double previousMouseYPos = 0;
         static double currentMouseXPos = 0;
         static double currentMouseYPos = 0;
-        static double startMouseXPos = 0;
-        static double startMouseYPos = 0;
         static bool isScrolling = false;
         static DirectionType currentDirection;
         static DirectionType previousDirection;
-
-        static double DiffXPosAbs { get { return Math.Abs(currentMouseXPos - startMouseXPos); } }
-        static double DiffYPosAbs { get { return Math.Abs(currentMouseYPos - startMouseYPos); } }
-        static double SpeedXPos
-        {
-            get
-            {
-                if (DiffXPosAbs > 10)
-                    return 1;
-                if (DiffXPosAbs > 100)
-                    return 5;
-                return 0;
-            }
-        }
-        static double SpeedYPos
-        {
-            get
-            {
-                if (DiffYPosAbs > 10)
-                    return 1;
-                if (DiffYPosAbs > 100)
-                    return 5;
-                return 0;
-            }
-        }
 
         static DirectionType DirectionX
         {
@@ -85,16 +58,16 @@ namespace Controls
             switch (currentDirection)
             {
                 case DirectionType.Left:
-                    for (int i = 0; i < SpeedXPos; i++) scrollViewer.LineLeft();
+                    scrollViewer.LineLeft();
                     break;
                 case DirectionType.Right:
-                    for (int i = 0; i < SpeedXPos; i++) scrollViewer.LineRight();
+                    scrollViewer.LineRight();
                     break;
                 case DirectionType.Down:
-                    for (int i = 0; i < SpeedYPos; i++) scrollViewer.LineDown();
+                    scrollViewer.LineDown();
                     break;
                 case DirectionType.Up:
-                    for (int i = 0; i < SpeedYPos; i++) scrollViewer.LineUp();
+                    scrollViewer.LineUp();
                     break;
                 default:
                     break;
@@ -142,19 +115,16 @@ namespace Controls
                 default:
                     break;
             }
-            if (SpeedXPos == 0 && SpeedYPos == 0) control.Cursor = Cursors.ScrollAll;
         }
 
-        public static void StartScrolling(object sender, MouseButtonEventArgs e)
+        public static void StartScrolling(object sender, MouseButtonEventArgs e, ScrollViewer scrollViewer)
         {
             var control = sender as Control;
             if (control == null)
                 return;
             isScrolling = true;
-            startMouseXPos = control.PointToScreen(e.GetPosition(control)).X;
-            startMouseYPos = control.PointToScreen(e.GetPosition(control)).Y;
-            previousMouseXPos = currentMouseXPos = startMouseXPos;
-            previousMouseYPos = currentMouseYPos = startMouseYPos;
+            previousMouseXPos = currentMouseXPos = control.PointToScreen(e.GetPosition(control)).X;
+            previousMouseYPos = currentMouseYPos = control.PointToScreen(e.GetPosition(control)).Y;
             currentDirection = previousDirection = DirectionType.None;
             control.Cursor = Cursors.ScrollAll;
         }
@@ -162,7 +132,7 @@ namespace Controls
         public static void UpdateScrolling(object sender, MouseEventArgs e, ScrollViewer scrollViewer)
         {
             var control = sender as Control;
-            if (control == null || scrollViewer == null)
+            if (control == null || scrollViewer == null || !isScrolling)
                 return;
             currentMouseXPos = control.PointToScreen(e.GetPosition(control)).X;
             currentMouseYPos = control.PointToScreen(e.GetPosition(control)).Y;
