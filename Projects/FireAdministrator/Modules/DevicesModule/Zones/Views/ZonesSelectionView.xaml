@@ -10,13 +10,13 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
-            <DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}">
+            <Controls:ScrollDataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
                     <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
                     <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
                 </DataGrid.Columns>
-            </DataGrid>
+            </Controls:ScrollDataGrid>
         </Grid>
         <StackPanel Grid.Column="1" Margin="2">
             <Controls:ToolBarButton Command="{Binding AddOneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Left.png" />
@@ -25,13 +25,13 @@
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
         <Grid Grid.Column="2">
-            <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
+            <Controls:ScrollDataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
                     <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
                     <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
                 </DataGrid.Columns>
-            </DataGrid>
+            </Controls:ScrollDataGrid>
         </Grid>
     </Grid>
 </UserControl>

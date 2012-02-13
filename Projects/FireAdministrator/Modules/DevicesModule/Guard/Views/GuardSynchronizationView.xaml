@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="DevicesModule.Views.GuardSynchronizationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinWidth="600" MinHeight="500">
     <Grid>
         <Grid.RowDefinitions>
@@ -20,17 +21,17 @@
             <Button Content="Считать" Command="{Binding ReadDeviceCommand}" Margin="2" />
             <Button Content="Записать" Command="{Binding WriteDeviceCommand}" Margin="2" />
         </StackPanel>
-        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding SystemUsers}" SelectedItem="{Binding SelectedSystemUser}" Margin="2">
+        <Controls:ScrollDataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding SystemUsers}" SelectedItem="{Binding SelectedSystemUser}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Пароль" Binding="{Binding Password}" Width="*" />
             </DataGrid.Columns>
-        </DataGrid>
-        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" Margin="2">
+        </Controls:ScrollDataGrid>
+        <Controls:ScrollDataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Пароль" Binding="{Binding Password}" Width="*" />
             </DataGrid.Columns>
-        </DataGrid>
+        </Controls:ScrollDataGrid>
     </Grid>
 </UserControl>

@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="PlansModule.Views.PlansTreeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+    <Controls:ScrollDataGrid  ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Название" Width="250">
                 <DataGridTemplateColumn.CellTemplate>
@@ -16,5 +17,5 @@
             </DataGridTemplateColumn>
             <DataGridTextColumn Binding="{Binding Plan.Description}" Header="Описание" Width="*" />
         </DataGrid.Columns>
-    </DataGrid>
+    </Controls:ScrollDataGrid >
 </UserControl>

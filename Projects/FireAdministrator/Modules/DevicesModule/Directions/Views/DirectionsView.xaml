@@ -32,13 +32,13 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+                <Controls:ScrollDataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Binding="{Binding No}" />
                         <DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Name}" />
                         <DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding Description}" />
                     </DataGrid.Columns>
-                </DataGrid>
+                </Controls:ScrollDataGrid>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
                     <Controls:ToolBarButton Command="{Binding AddZoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/ArrowUp.png" />
                     <Controls:ToolBarButton Command="{Binding RemoveZoneCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/ArrowDown.png" />
@@ -48,13 +48,13 @@
             <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
 
             <Grid Grid.Row="2" SizeChanged="OnHeightChanged">
-                <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
+                <Controls:ScrollDataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Binding="{Binding No}" />
                         <DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Name}" />
                         <DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding Description}" />
                     </DataGrid.Columns>
-                </DataGrid>
+                </Controls:ScrollDataGrid>
             </Grid>
         </Grid>
     </Grid>

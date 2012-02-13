@@ -4,6 +4,7 @@
              xmlns:DataGridProperties="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:JournalModule.Converters"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinWidth="700" MinHeight="500">
     <UserControl.Resources>
         <Converters:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
@@ -120,7 +121,7 @@
                     <CheckBox Grid.Row="0" Content="Включить фильтр по следующим приборам" Margin="5"
                         IsChecked="{Binding IsDeviceFilterOn, UpdateSourceTrigger=PropertyChanged}" Foreground="White" />
 
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding Devices}" IsEnabled="{Binding IsDeviceFilterOn}"
+                    <Controls:ScrollDataGrid Grid.Row="1" ItemsSource="{Binding Devices}" IsEnabled="{Binding IsDeviceFilterOn}"
                               IsReadOnly="False" Margin="5" DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Тип" IsReadOnly="False" MinWidth="170">
@@ -136,7 +137,7 @@
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" IsReadOnly="True" MinWidth="120" Width="*" />
                         </DataGrid.Columns>
-                    </DataGrid>
+                    </Controls:ScrollDataGrid>
                 </Grid>
             </TabItem>
         </TabControl>

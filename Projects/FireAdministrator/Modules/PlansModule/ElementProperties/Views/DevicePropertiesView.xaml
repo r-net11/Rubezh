@@ -1,9 +1,10 @@
 ﻿<UserControl x:Class="PlansModule.Views.DevicePropertiesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinHeight="400" MinWidth="400">
 
-    <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="DataGrid_SelectionChanged">
+    <Controls:ScrollDataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="DataGrid_SelectionChanged">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                 <DataGridTemplateColumn.CellTemplate>
@@ -49,5 +50,5 @@
             <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
 
         </DataGrid.Columns>
-    </DataGrid>
+    </Controls:ScrollDataGrid>
 </UserControl>

@@ -12,8 +12,8 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
-            <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
-                <DataGrid.Columns>
+            <Controls:ScrollDataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
+                <Controls:ScrollDataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -42,8 +42,8 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
                     <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
-                </DataGrid.Columns>
-            </DataGrid>
+                </Controls:ScrollDataGrid.Columns>
+            </Controls:ScrollDataGrid>
         </Grid>
 
         <StackPanel Grid.Column="1" Margin="2">
@@ -56,12 +56,12 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
-                <DataGrid.Columns>
+            <Controls:ScrollDataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+                <Controls:ScrollDataGrid.Columns>
                     <DataGridTextColumn Width="1*" Header="Тип" Binding="{Binding Device.Driver.ShortName}" />
                     <DataGridTextColumn Width="1*" Header="Адрес" Binding="{Binding Device.DottedAddress}" />
-                </DataGrid.Columns>
-            </DataGrid>
+                </Controls:ScrollDataGrid.Columns>
+            </Controls:ScrollDataGrid>
             <Border CornerRadius="5" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}"
                         Grid.Row="1" Visibility="{Binding CanEditProperties, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid Margin="2">

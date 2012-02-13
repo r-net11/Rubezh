@@ -9,13 +9,13 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="2">
+        <Controls:ScrollDataGrid Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Binding="{Binding Driver.ShortName}" />
                 <DataGridTextColumn Header="Адрес" Binding="{Binding PresentationAddress}" />
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
             </DataGrid.Columns>
-        </DataGrid>
+        </Controls:ScrollDataGrid>
 
         <Grid Grid.Column="1" Margin="2">
             <Grid.RowDefinitions>
@@ -23,23 +23,23 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" MouseDoubleClick="DataGrid_MouseDoubleClick">
+            <Controls:ScrollDataGrid Grid.Row="0" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*" />
                 </DataGrid.Columns>
-            </DataGrid>
+            </Controls:ScrollDataGrid>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Controls:ToolBarButton Command="{Binding AddUserCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/ArrowUp.png" />
                 <Controls:ToolBarButton Command="{Binding RemoveUserCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/ArrowDown.png" />
             </StackPanel>
-            <DataGrid Grid.Row="2" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}" MouseDoubleClick="DataGrid_MouseDoubleClick_1">
+            <Controls:ScrollDataGrid Grid.Row="2" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}" MouseDoubleClick="DataGrid_MouseDoubleClick_1">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Width="50" Binding="{Binding Id}" />
                     <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Name}" />
                     <DataGridTextColumn Header="ФИО" Width="1*" Binding="{Binding FIO}" />
                     <DataGridTextColumn Header="Должность" Width="1*" Binding="{Binding Function}" />
                 </DataGrid.Columns>
-            </DataGrid>
+            </Controls:ScrollDataGrid>
         </Grid>
 
         <Grid Grid.Column="2" Margin="2">
@@ -48,20 +48,20 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <DataGrid Grid.Row="0" ItemsSource="{Binding UserZones}" SelectedItem="{Binding SelectedUserZone}">
+            <Controls:ScrollDataGrid Grid.Row="0" ItemsSource="{Binding UserZones}" SelectedItem="{Binding SelectedUserZone}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Binding="{Binding PresentationName}" Width="*" />
                 </DataGrid.Columns>
-            </DataGrid>
+            </Controls:ScrollDataGrid>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Controls:ToolBarButton Command="{Binding AddZoneCommand}" ToolTip="Добавить зону" ImageSource="/Controls;component/Images/ArrowUp.png" />
                 <Controls:ToolBarButton Command="{Binding RemoveZoneCommand}" ToolTip="Удалить зону" ImageSource="/Controls;component/Images/ArrowDown.png" />
             </StackPanel>
-            <DataGrid Grid.Row="2" ItemsSource="{Binding DeviceZones}" SelectedItem="{Binding SelectedDeviceZone}">
+            <Controls:ScrollDataGrid Grid.Row="2" ItemsSource="{Binding DeviceZones}" SelectedItem="{Binding SelectedDeviceZone}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название" Binding="{Binding PresentationName}" Width="*" />
                 </DataGrid.Columns>
-            </DataGrid>
+            </Controls:ScrollDataGrid>
         </Grid>
     </Grid>
 </UserControl>

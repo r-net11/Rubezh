@@ -1,9 +1,10 @@
 ﻿<UserControl x:Class="DevicesModule.Views.PasteAsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinWidth="600" MinHeight="500">
 
-    <DataGrid ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" CanUserSortColumns="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
+    <Controls:ScrollDataGrid ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" CanUserSortColumns="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Название" Width="*">
                 <DataGridTemplateColumn.CellTemplate>
@@ -16,5 +17,5 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
         </DataGrid.Columns>
-    </DataGrid>
+    </Controls:ScrollDataGrid>
 </UserControl>

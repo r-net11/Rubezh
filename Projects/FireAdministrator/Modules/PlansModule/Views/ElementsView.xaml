@@ -1,8 +1,9 @@
 ﻿<UserControl x:Class="PlansModule.Views.ElementsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-    <DataGrid Name="_elementsDataGrid" ItemsSource="{Binding Elements}" SelectedItem="{Binding SelectedElement}" IsReadOnly="False">
+    <Controls:ScrollDataGrid  Name="_elementsDataGrid" ItemsSource="{Binding Elements}" SelectedItem="{Binding SelectedElement}" IsReadOnly="False">
         <DataGrid.Columns>
             <DataGridTemplateColumn MinWidth="25" MaxWidth="25">
                 <DataGridTemplateColumn.CellTemplate>
@@ -50,5 +51,5 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
         </DataGrid.Columns>
-    </DataGrid>
+    </Controls:ScrollDataGrid >
 </UserControl>

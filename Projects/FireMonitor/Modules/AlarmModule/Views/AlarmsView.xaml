@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Views="clr-namespace:AlarmModule.Views"
-             xmlns:Converters="clr-namespace:AlarmModule.Converters">
+             xmlns:Converters="clr-namespace:AlarmModule.Converters"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <UserControl.Resources>
         <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
         <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
@@ -12,7 +13,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
+        <Controls:ScrollDataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
@@ -57,7 +58,7 @@
                     </Setter>
                 </Style>
             </DataGrid.RowStyle>
-        </DataGrid>
+        </Controls:ScrollDataGrid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" Margin="2">
                 <TextBlock Text="Включить все" FontSize="12" />
