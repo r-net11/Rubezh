@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using LibraryModule.ViewModels;
+using Controls;
 
 namespace LibraryModule.Views
 {
@@ -13,6 +14,11 @@ namespace LibraryModule.Views
             InitializeComponent();
             CommandBinding DeleteCmdBinding = new CommandBinding(ApplicationCommands.Delete, DeleteCmdExecuted, DeleteCmdCanExecuted);
             CommandBindings.Add(DeleteCmdBinding);
+
+            _scrollViewer.PreviewMouseDown += OnMouseMiddleDown;
+            _scrollViewer.PreviewMouseUp += OnMouseMiddleUp;
+            _scrollViewer.PreviewMouseMove += OnMiddleMouseMove;
+            _scrollViewer.MouseLeave += OnMiddleMouseLeave;
         }
 
         void DeleteCmdExecuted(object target, ExecutedRoutedEventArgs e)
@@ -66,6 +72,38 @@ namespace LibraryModule.Views
             else if ((treeView.SelectedItem as DeviceViewModel) != null)
                 for (var i = 0; i < contextMenu.Items.Count - 1; ++i)
                     (contextMenu.Items[i] as MenuItem).Visibility = Visibility.Visible;
+        }
+
+        void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                MiddleButtonScrollHelper.StartScrolling(_scrollViewer, e);
+            }
+        }
+
+        void OnMouseMiddleUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Released)
+            {
+                MiddleButtonScrollHelper.StopScrolling();
+            }
+        }
+
+        void OnMiddleMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                MiddleButtonScrollHelper.UpdateScrolling(e);
+            }
+        }
+
+        void OnMiddleMouseLeave(object sender, MouseEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                MiddleButtonScrollHelper.StopScrolling();
+            }
         }
     }
 }

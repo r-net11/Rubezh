@@ -8,7 +8,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     
-    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+    <ScrollViewer HorizontalScrollBarVisibility="Visible" Name="_scrollViewer">
         <TreeView Name="treeView" ContextMenuOpening="ContextMenu_ContextMenuOpening"
                   ItemsSource="{Binding DeviceViewModels}" SelectedItemChanged="LibraryTree_SelectedItemChanged">
             <TreeView.ItemTemplate>

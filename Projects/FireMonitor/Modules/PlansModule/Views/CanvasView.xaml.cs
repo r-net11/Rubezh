@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using PlansModule.ViewModels;
 using System.Windows.Media;
+using Controls;
 
 namespace PlansModule.Views
 {
@@ -19,6 +20,11 @@ namespace PlansModule.Views
         {
             Current = this;
             InitializeComponent();
+
+            _scrollViewer.PreviewMouseDown += OnMouseMiddleDown;
+            _scrollViewer.PreviewMouseUp += OnMouseMiddleUp;
+            _scrollViewer.PreviewMouseMove += OnMiddleMouseMove;
+            _scrollViewer.MouseLeave += OnMiddleMouseLeave;
 
             _scrollViewer.PreviewMouseWheel += OnPreviewMouseWheel;
             _scrollViewer.PreviewMouseLeftButtonDown += OnMouseLeftButtonDown;
@@ -227,6 +233,38 @@ namespace PlansModule.Views
                     };
                     elementDeviceView.LayoutTransform = deviceScaleTransform;
                 }
+            }
+        }
+
+        void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                MiddleButtonScrollHelper.StartScrolling(_scrollViewer, e);
+            }
+        }
+
+        void OnMouseMiddleUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Released)
+            {
+                MiddleButtonScrollHelper.StopScrolling();
+            }
+        }
+
+        void OnMiddleMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                MiddleButtonScrollHelper.UpdateScrolling(e);
+            }
+        }
+
+        void OnMiddleMouseLeave(object sender, MouseEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                MiddleButtonScrollHelper.StopScrolling();
             }
         }
     }

@@ -19,7 +19,7 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Name="_grid">
-                    <ScrollViewer>
+                    <ScrollViewer Name="_scrollViewer">
                         <ListBox Name="_zonesListBox" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" Width="{Binding ActualWidth, ElementName=_grid}" BorderThickness="0" Style="{x:Null}">
                             <ListBox.ItemContainerStyle>
                                 <Style TargetType="ListBoxItem">
