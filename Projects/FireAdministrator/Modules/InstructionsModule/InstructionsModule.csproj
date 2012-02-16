@@ -114,7 +114,6 @@
     <Compile Include="Views\InstructionsDevicesView.xaml.cs">
       <DependentUpon>InstructionsDevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\InstructionsDevicesViewModel.cs" />
     <Compile Include="Views\InstructionsMenuView.xaml.cs">
       <DependentUpon>InstructionsMenuView.xaml</DependentUpon>
     </Compile>

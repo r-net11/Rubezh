@@ -18,6 +18,7 @@ namespace LibraryModule.Views
             _scrollViewer.PreviewMouseDown += OnMouseMiddleDown;
             _scrollViewer.PreviewMouseUp += OnMouseMiddleUp;
             _scrollViewer.PreviewMouseMove += OnMiddleMouseMove;
+            _scrollViewer.PreviewMouseWheel += OnPreviewMouseWheel;
             _scrollViewer.MouseLeave += OnMiddleMouseLeave;
         }
 
@@ -104,6 +105,20 @@ namespace LibraryModule.Views
             {
                 MiddleButtonScrollHelper.StopScrolling();
             }
+        }
+
+        void OnPreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                _scrollViewer.LineUp();
+            }
+            else if (e.Delta < 0)
+            {
+                _scrollViewer.LineDown();
+            }
+
+            e.Handled = true;
         }
     }
 }
