@@ -20,29 +20,21 @@
 			<Component Id="FMPrismComponent" Guid="96941CB8-29AD-48EB-84C7-91961BD8A0DE">
 				<File Id="FMPrismDll" Name="Microsoft.Practices.Prism.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
-				<File Id="FMPrismXml" Name="Microsoft.Practices.Prism.xml" Source="$(var.FireMonitor.TargetDir)"
-							DiskId="1" />
 			</Component>
 
 			<Component Id="FMPrismUnityExtensionsComponent" Guid="4F741C40-A087-4D15-8A08-2A6053FF3ADE">
 				<File Id="FMPrismUnityExtensionsDll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
-				<File Id="FMPrismUnityExtensionsXml" Name="Microsoft.Practices.Prism.UnityExtensions.xml" Source="$(var.FireMonitor.TargetDir)"
-							DiskId="1" />
 			</Component>
 
 			<Component Id="FMUnityComponent" Guid="896A388E-834C-4210-BBD2-AE93CFC65A22">
 				<File Id="FMUnityDll" Name="Microsoft.Practices.Unity.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
-				<File Id="FMUnityXml" Name="Microsoft.Practices.Unity.xml" Source="$(var.FireMonitor.TargetDir)"
-							DiskId="1" />
 			</Component>
 
 			<Component Id="FMServiceLocationComponent" Guid="05BC10F0-F448-4DF9-9E17-74167F9B6602">
 				<File Id="FMServiceLocationDll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
-				<File Id="FMServiceLocationXml" Name="Microsoft.Practices.ServiceLocation.xml" Source="$(var.FireMonitor.TargetDir)"
-							DiskId="1" />
 			</Component>
 			
 			<Component Id="FMWPFToolkitExtendedComponent" Guid="C6CABA51-6169-46BD-93A9-7905325C328E">
@@ -64,11 +56,6 @@
 				<File Id="FMDeviceControlsDll" Name="DeviceControls.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
-
-			<!--<Component Id="FMDialogBoxComponent" Guid="43F89A18-8D9E-4030-93E0-0238086991C6">
-				<File Id="FMDialogBoxDll" Name="DialogBox.dll" Source="$(var.FireMonitor.TargetDir)"
-							DiskId="1" KeyPath="yes" />
-			</Component>-->
 
 			<Component Id="FMFiresecAPIComponent" Guid="DF810502-686B-4BCF-9A54-61BCA7E502B6">
 				<File Id="FMFiresecAPIDll" Name="FiresecAPI.dll" Source="$(var.FireMonitor.TargetDir)"

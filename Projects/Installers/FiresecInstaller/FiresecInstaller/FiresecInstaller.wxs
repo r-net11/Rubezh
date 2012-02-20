@@ -13,7 +13,6 @@
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
     <Property Id="SHORTCUT_PROGRAMMENU" />
     <Property Id="SHORTCUT_DESKTOP" />
-    <Property Id="CONVERTCONFIGURATION" />
     <Property Id="CHECKSQLSERVER" Value="0" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
     <Property Id="INSTALLLEVEL" Value="1" />

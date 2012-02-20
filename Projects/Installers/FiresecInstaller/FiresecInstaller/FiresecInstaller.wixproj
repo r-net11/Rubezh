@@ -55,7 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\SetupProgress.ico" />
-    <Content Include="MergeModules\haspds.msm" />
     <Content Include="Variables_Firesec.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
     <Content Include="Data\Firesec.ico" />
@@ -72,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data" />
-    <Folder Include="MergeModules" />
     <Folder Include="UI" />
   </ItemGroup>
   <ItemGroup>

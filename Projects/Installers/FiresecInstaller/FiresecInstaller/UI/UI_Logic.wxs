@@ -58,7 +58,7 @@ Patch dialog sequence:
       <Publish Dialog="WelcomeDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">Installed AND PATCH</Publish>
 
       <Publish Dialog="LicenseAgreement" Control="Back" Event="NewDialog" Value="WelcomeDialog">1</Publish>
-      <Publish Dialog="LicenseAgreement" Control="Next" Event="NewDialog" Value="DestinationFolder">AgreeToLicense = "Yes"</Publish>
+      <Publish Dialog="LicenseAgreement" Control="Next" Event="NewDialog" Value="DestinationFolder">1</Publish>
       <Publish Dialog="LicenseAgreement" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
       <Publish Dialog="DestinationFolder" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>

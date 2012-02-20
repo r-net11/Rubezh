@@ -52,7 +52,6 @@
     <Content Include="Data\InstallFull.ico" />
     <Content Include="Data\License.rtf" />
     <Content Include="Data\NewFolder.ico" />
-    <Content Include="Data\Thumbs.db" />
     <Content Include="Data\Up.ico" />
     <Content Include="FiresecBin\fscTest.exe" />
     <Content Include="FiresecBin\FS_Server.exe" />

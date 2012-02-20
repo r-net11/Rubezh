@@ -18,26 +18,18 @@
       <Component Id="FAPrismDllComponent" Guid="52F0C30C-9BB4-4013-A2B9-2835F2706B3E">
         <File Id="FAPrismDll" Name="Microsoft.Practices.Prism.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
-        <File Id="FAPrismXml" Name="Microsoft.Practices.Prism.xml" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" />
       </Component>
       <Component Id="FAPrismUnityExtensionsComponent" Guid="29CF2942-A8E0-47B0-B10E-6B4E47B0F668">
         <File Id="FAPrismUnityExtensionsDll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
-        <File Id="FAPrismUnityExtensionsXml" Name="Microsoft.Practices.Prism.UnityExtensions.xml" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" />
       </Component>
       <Component Id="FAUnityComponent" Guid="C97976F8-57B4-46CA-91D4-F02C74F980B3">
         <File Id="FAUnityDll" Name="Microsoft.Practices.Unity.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
-        <File Id="FAUnityXml" Name="Microsoft.Practices.Unity.xml" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" />
       </Component>
       <Component Id="FAServiceLocationComponent" Guid="EEDAF197-C871-4392-9F3F-93F3063404A4">
         <File Id="FAServiceLocationDll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
-        <File Id="FAServiceLocationXml" Name="Microsoft.Practices.ServiceLocation.xml" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" />
       </Component>
       <Component Id="FAWPFToolkitExtendedComponent" Guid="449EFC14-1C9F-417C-A2F1-421D461A88B4">
         <File Id="FAWPFToolkitExtendedDll" Name="WPFToolkit.Extended.dll" Source="$(var.FireAdministrator.TargetDir)"
@@ -59,10 +51,6 @@
         <File Id="FADeviceControlsDll" Name="DeviceControls.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <!--<Component Id="FADialogBoxComponent" Guid="15E89F54-1AA4-4A78-8658-FEE99DCBDD00">
-        <File Id="FADialogBoxDll" Name="DialogBox.dll" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" KeyPath="yes" />
-      </Component>-->
       <Component Id="FAFiresecAPIComponent" Guid="E752E9C7-BED1-4C5E-9A31-2CF3F8920C1A">
         <File Id="FAFiresecAPIDll" Name="FiresecAPI.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
