@@ -56,6 +56,7 @@ namespace Controls
 
         void ScrollDataGridLoaded(object sender, RoutedEventArgs e)
         {
+
             _scrollViewer = MiddleButtonScrollHelper.FindVisualChild<ScrollViewer>(this);
             if (_scrollViewer == null)
                 return;

@@ -30,9 +30,9 @@ namespace Controls
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var dataGrid = sender as DataGrid;
-            var zonesViewModel = dataGrid.DataContext as IEditingViewModel;
-            if (zonesViewModel.EditCommand.CanExecute(null))
-                zonesViewModel.EditCommand.Execute();
+            var viewModel = dataGrid.DataContext as IEditingViewModel;
+            if (viewModel != null && viewModel.EditCommand.CanExecute(null))
+                viewModel.EditCommand.Execute();
         }
 
         private void DataGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

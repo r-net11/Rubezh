@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace InstructionsModule.ViewModels
 {
@@ -18,6 +19,7 @@ namespace InstructionsModule.ViewModels
             DeleteAllCommand = new RelayCommand(OnDeleteAll, CanRemoveAll);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
             Instructions = new ObservableCollection<InstructionViewModel>();
+            var str = ButtonBase.ClickEvent.RoutingStrategy;
         }
 
         public void Initialize()
@@ -117,6 +119,16 @@ namespace InstructionsModule.ViewModels
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
+        }
+
+        public Key KeyGesture
+        {
+            get { return Key.D2; }
+        }
+
+        public ModifierKeys Modifier
+        {
+            get { return ModifierKeys.Control; }
         }
     }
 }

@@ -9,6 +9,9 @@
     </UserControl.Resources>
 
     <Controls:XDataGrid ItemsSource="{Binding Instructions}" SelectedItem="{Binding SelectedInstruction}">
+        <DataGrid.InputBindings>
+            <KeyBinding Command="{Binding AddCommand}" Modifiers="{Binding Modifier}" Key="{Binding KeyGesture}"/>
+        </DataGrid.InputBindings>
         <DataGrid.Columns>
             <DataGridTextColumn Header="Название" Width="200" Binding="{Binding Instruction.Name}" />
             <DataGridTextColumn Header="Тип инструкции" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource InstructionTypeToStringConverter}}" />

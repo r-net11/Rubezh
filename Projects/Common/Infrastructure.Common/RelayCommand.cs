@@ -21,11 +21,6 @@ namespace Infrastructure.Common
         {
         }
         
-        public RelayCommand(Action execute, Key key)
-            : this(execute, (Predicate<object>)null, key)
-        {
-        }
-
         public RelayCommand(Action execute, Predicate<object> canExecute)
         {
             if (execute == null)
@@ -44,34 +39,11 @@ namespace Infrastructure.Common
             _canExecute = (object obj) => { return canExecute(); };
         }
 
-        public RelayCommand(Action execute, Predicate<object> canExecute, Key key)
-        {
-            if (execute == null)
-            {
-                throw new ArgumentNullException("execute");
-            }
-
-            _execute = execute;
-            _canExecute = canExecute;
-
-            this.InputBindings = new InputBindingCollection();
-            KeyBinding keyBinding = new KeyBinding();
-            keyBinding.Key = key;
-            keyBinding.Command = this;
-            this.InputBindings.Add(keyBinding);
-        }
-
         #endregion // Constructors
 
         public void Execute()
         {
             _execute();
-        }
-
-        public InputBindingCollection InputBindings
-        {
-            get;
-            private set;
         }
 
         #region ICommand Members
