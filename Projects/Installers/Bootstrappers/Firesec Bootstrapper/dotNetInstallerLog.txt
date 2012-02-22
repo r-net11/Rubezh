@@ -84,3 +84,303 @@
 2012-02-20 18:06:08	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
 2012-02-20 18:06:08	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
 2012-02-20 18:06:19	dotNetInstaller finished, return code: -2 (0xfffffffe)
+2012-02-21 11:23:19	-------------------------------------------------------------------
+2012-02-21 11:23:19	dotNetInstaller (DNI), version 2.0.81.0
+2012-02-21 11:23:19	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-02-21 11:23:19	Operating system: Windows XP SP3
+2012-02-21 11:23:19	-------------------------------------------------------------------
+2012-02-21 11:23:19	Sequence: install
+2012-02-21 11:23:19	UI level: full
+2012-02-21 11:23:19	Configuration language id: 1049 
+2012-02-21 11:23:19	-- Loading supported components (lcid=1049)
+2012-02-21 11:23:19	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:19	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:19	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:19	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:19	--- Loaded 4 supported component(s)
+2012-02-21 11:23:19	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-02-21 11:23:19	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-02-21 11:23:19	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-02-21 11:23:19	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-02-21 11:23:19	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-02-21 11:23:19	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-02-21 11:23:19	-- Adding 'license' control, text='I have read and accepted the license agreement.', font=MS Shell Dlg (9 pt.), left=0, top=0, width=0, height=0
+2012-02-21 11:23:19	Extracting license 'RES_LICENSE' to C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{86D48646-2886-4FA0-9BAF-64691555A567}_license.txt
+2012-02-21 11:23:37	Deleting 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{86D48646-2886-4FA0-9BAF-64691555A567}_license.txt'
+2012-02-21 11:23:37	dotNetInstaller finished, return code: -2 (0xfffffffe)
+2012-02-21 11:23:41	-------------------------------------------------------------------
+2012-02-21 11:23:41	dotNetInstaller (DNI), version 2.0.81.0
+2012-02-21 11:23:41	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-02-21 11:23:41	Operating system: Windows XP SP3
+2012-02-21 11:23:41	-------------------------------------------------------------------
+2012-02-21 11:23:41	Sequence: install
+2012-02-21 11:23:41	UI level: full
+2012-02-21 11:23:41	Configuration language id: 1049 
+2012-02-21 11:23:41	-- Loading supported components (lcid=1049)
+2012-02-21 11:23:41	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:41	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:41	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:41	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:41	--- Loaded 4 supported component(s)
+2012-02-21 11:23:41	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-02-21 11:23:41	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-02-21 11:23:41	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-02-21 11:23:41	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-02-21 11:23:41	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-02-21 11:23:41	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-02-21 11:23:41	-- Adding 'license' control, text='I have read and accepted the license agreement.', font=MS Shell Dlg (9 pt.), left=0, top=0, width=0, height=0
+2012-02-21 11:23:41	Extracting license 'RES_LICENSE' to C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{387468A1-9200-4A47-918E-BA6A07E30445}_license.txt
+2012-02-21 11:23:51	-- Loading supported components (lcid=1049)
+2012-02-21 11:23:51	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:51	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:51	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:51	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:23:51	--- Loaded 4 supported component(s)
+2012-02-21 11:23:51	*** Failed to install one or more components: You must accept the license agreement.
+2012-02-21 11:24:00	Deleting 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{387468A1-9200-4A47-918E-BA6A07E30445}_license.txt'
+2012-02-21 11:24:00	dotNetInstaller finished, return code: -1 (0xffffffff)
+2012-02-21 11:31:22	-------------------------------------------------------------------
+2012-02-21 11:31:22	dotNetInstaller (DNI), version 2.0.81.0
+2012-02-21 11:31:22	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-02-21 11:31:22	Operating system: Windows XP SP3
+2012-02-21 11:31:22	-------------------------------------------------------------------
+2012-02-21 11:31:22	Sequence: install
+2012-02-21 11:31:22	UI level: full
+2012-02-21 11:31:22	Configuration language id: 1049 
+2012-02-21 11:31:22	-- Loading supported components (lcid=1049)
+2012-02-21 11:31:22	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:31:22	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:31:22	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:31:22	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:31:22	--- Loaded 4 supported component(s)
+2012-02-21 11:31:22	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-02-21 11:31:22	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-02-21 11:31:22	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-02-21 11:31:22	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-02-21 11:31:22	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-02-21 11:31:22	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-02-21 11:31:22	--- Complete Command
+2012-02-21 11:31:26	dotNetInstaller finished, return code: 0 (0x0)
+2012-02-21 11:31:28	-------------------------------------------------------------------
+2012-02-21 11:31:28	dotNetInstaller (DNI), version 2.0.81.0
+2012-02-21 11:31:28	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-02-21 11:31:28	Operating system: Windows XP SP3
+2012-02-21 11:31:28	-------------------------------------------------------------------
+2012-02-21 11:31:28	Sequence: install
+2012-02-21 11:31:28	UI level: full
+2012-02-21 11:31:28	Configuration language id: 1049 
+2012-02-21 11:31:28	-- Loading supported components (lcid=1049)
+2012-02-21 11:31:28	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:31:28	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:31:28	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:31:28	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:31:28	--- Loaded 4 supported component(s)
+2012-02-21 11:31:28	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-02-21 11:31:28	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-02-21 11:31:28	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-02-21 11:31:28	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-02-21 11:31:28	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-02-21 11:31:28	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-02-21 11:31:28	--- Complete Command
+2012-02-21 11:31:30	dotNetInstaller finished, return code: 0 (0x0)
+2012-02-21 11:35:54	-------------------------------------------------------------------
+2012-02-21 11:35:54	dotNetInstaller (DNI), version 2.0.81.0
+2012-02-21 11:35:54	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-02-21 11:35:54	Operating system: Windows XP SP3
+2012-02-21 11:35:54	-------------------------------------------------------------------
+2012-02-21 11:35:54	Sequence: install
+2012-02-21 11:35:54	UI level: full
+2012-02-21 11:35:54	Configuration language id: 1049 
+2012-02-21 11:35:54	-- Loading supported components (lcid=1049)
+2012-02-21 11:35:54	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:35:54	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:35:54	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:35:54	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 11:35:54	--- Loaded 4 supported component(s)
+2012-02-21 11:35:54	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-02-21 11:35:54	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-02-21 11:35:54	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-02-21 11:35:54	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-02-21 11:35:54	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-02-21 11:35:54	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-02-21 11:36:00	dotNetInstaller finished, return code: -2 (0xfffffffe)
+2012-02-21 14:24:03	-------------------------------------------------------------------
+2012-02-21 14:24:03	dotNetInstaller (DNI), version 2.0.81.0
+2012-02-21 14:24:03	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-02-21 14:24:03	Operating system: Windows XP SP3
+2012-02-21 14:24:03	-------------------------------------------------------------------
+2012-02-21 14:24:03	Sequence: install
+2012-02-21 14:24:03	UI level: full
+2012-02-21 14:24:03	Configuration language id: 1049 
+2012-02-21 14:24:03	-- Loading supported components (lcid=1049)
+2012-02-21 14:24:03	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:24:03	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:24:03	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:24:03	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:24:03	--- Loaded 4 supported component(s)
+2012-02-21 14:24:03	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-02-21 14:24:03	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-02-21 14:24:03	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-02-21 14:24:03	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-02-21 14:24:03	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-02-21 14:24:03	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-02-21 14:24:12	dotNetInstaller finished, return code: -2 (0xfffffffe)
+2012-02-21 14:46:03	-------------------------------------------------------------------
+2012-02-21 14:46:03	dotNetInstaller (DNI), version 2.0.81.0
+2012-02-21 14:46:03	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-02-21 14:46:03	Operating system: Windows XP SP3
+2012-02-21 14:46:03	-------------------------------------------------------------------
+2012-02-21 14:46:03	Sequence: install
+2012-02-21 14:46:03	UI level: full
+2012-02-21 14:46:03	Configuration language id: 1049 
+2012-02-21 14:46:03	-- Loading supported components (lcid=1049)
+2012-02-21 14:46:03	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:46:03	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:46:03	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:46:03	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:46:03	--- Loaded 4 supported component(s)
+2012-02-21 14:46:03	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-02-21 14:46:03	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-02-21 14:46:03	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-02-21 14:46:03	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-02-21 14:46:03	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-02-21 14:46:03	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-02-21 14:46:05	-- Loading supported components (lcid=1049)
+2012-02-21 14:46:05	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:46:05	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:46:05	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:46:05	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 14:46:05	--- Loaded 4 supported component(s)
+2012-02-21 14:46:05	Extracting embedded files for component '*': NO FILES EMBEDDED
+2012-02-21 14:46:05	--- Component 'rubezh_firesec_4_3.exe' (Firesec): EXECUTING
+2012-02-21 14:46:05	Extracting embedded files for component 'rubezh_firesec_4_3.exe': 1 CAB(s)
+2012-02-21 14:46:05	Resolved CAB path 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{C1B86793-3830-415D-BE06-A9D22D201A58}' for component 'RUBEZH_FIRESEC_4_3_EXE'
+2012-02-21 14:46:05	Extracting 'SETUP_RUBEZH_FIRESEC_4_3_EXE_1.CAB' for component 'RUBEZH_FIRESEC_4_3_EXE'
+2012-02-21 14:46:05	Extracting: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{C1B86793-3830-415D-BE06-A9D22D201A58}\rubezh_firesec_4_3.exe
+2012-02-21 14:46:06	Done: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{C1B86793-3830-415D-BE06-A9D22D201A58}\rubezh_firesec_4_3.exe
+2012-02-21 14:46:06	Executing: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{C1B86793-3830-415D-BE06-A9D22D201A58}\rubezh_firesec_4_3.exe -install -silent
+2012-02-21 14:46:26	--- Component 'rubezh_firesec_4_3.exe (Firesec): DIALOG CLOSED
+2012-02-21 14:46:26	*** Component 'rubezh_firesec_4_3.exe' (Firesec): ERROR - Error executing 'rubezh_firesec_4_3.exe' (Firesec): 2 (0x2)
+2012-02-21 14:46:26	--- Component 'rubezh_firesec_4_3.exe (Firesec)' FAILED: Error executing 'rubezh_firesec_4_3.exe' (Firesec): 2 (0x2)
+2012-02-21 14:46:31	--- Component 'rubezh_firesec_4_3.exe (Firesec): FAILED, ABORTING
+2012-02-21 14:46:31	*** Failed to install one or more components, closing (auto_close_on_error).
+2012-02-21 14:46:31	Deleting CAB folder: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{C1B86793-3830-415D-BE06-A9D22D201A58}
+2012-02-21 14:46:31	dotNetInstaller finished, return code: 2 (0x2)
+2012-02-21 15:01:13	-------------------------------------------------------------------
+2012-02-21 15:01:13	dotNetInstaller (DNI), version 2.0.81.0
+2012-02-21 15:01:13	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-02-21 15:01:13	Operating system: Windows XP SP3
+2012-02-21 15:01:13	-------------------------------------------------------------------
+2012-02-21 15:01:13	Sequence: install
+2012-02-21 15:01:13	UI level: full
+2012-02-21 15:01:13	Configuration language id: 1049 
+2012-02-21 15:01:13	-- Loading supported components (lcid=1049)
+2012-02-21 15:01:13	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:01:13	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:01:13	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:01:13	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:01:13	--- Loaded 4 supported component(s)
+2012-02-21 15:01:13	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-02-21 15:01:13	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-02-21 15:01:13	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-02-21 15:01:13	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-02-21 15:01:13	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-02-21 15:01:13	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-02-21 15:08:59	dotNetInstaller finished, return code: -2 (0xfffffffe)
+2012-02-21 15:09:06	-------------------------------------------------------------------
+2012-02-21 15:09:06	dotNetInstaller (DNI), version 2.0.81.0
+2012-02-21 15:09:06	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-02-21 15:09:06	Operating system: Windows XP SP3
+2012-02-21 15:09:06	-------------------------------------------------------------------
+2012-02-21 15:09:06	Sequence: install
+2012-02-21 15:09:06	UI level: full
+2012-02-21 15:09:06	Configuration language id: 1049 
+2012-02-21 15:09:06	-- Loading supported components (lcid=1049)
+2012-02-21 15:09:06	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:09:06	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:09:06	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:09:06	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:09:06	--- Loaded 4 supported component(s)
+2012-02-21 15:09:06	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-02-21 15:09:06	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-02-21 15:09:06	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-02-21 15:09:06	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-02-21 15:09:06	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-02-21 15:09:06	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-02-21 15:09:28	dotNetInstaller finished, return code: -2 (0xfffffffe)
+2012-02-21 15:56:00	-------------------------------------------------------------------
+2012-02-21 15:56:00	dotNetInstaller (DNI), version 2.0.81.0
+2012-02-21 15:56:00	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-02-21 15:56:00	Operating system: Windows XP SP3
+2012-02-21 15:56:00	-------------------------------------------------------------------
+2012-02-21 15:56:00	Sequence: install
+2012-02-21 15:56:00	UI level: full
+2012-02-21 15:56:00	Configuration language id: 1049 
+2012-02-21 15:56:00	-- Loading supported components (lcid=1049)
+2012-02-21 15:56:00	-- comp_Installer4.5x86XPSp2 (display_name='WindowsInstaller 4.5 (x86)', os_filter_lcid=, os_filter=, os_filter_min=Windows XP SP2, os_filter_max=Windows XP+, processor_architecture_filter=x86): LOADED
+2012-02-21 15:56:00	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:56:00	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:56:00	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:56:00	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:56:00	--- Loaded 5 supported component(s)
+2012-02-21 15:56:00	Checking file: C:\WINDOWS\system32\msi.dll
+2012-02-21 15:56:00	File version: C:\WINDOWS\system32\msi.dll - 3.1.4001.5503
+2012-02-21 15:56:00	-- comp_Installer4.5x86XPSp2 (WindowsInstaller 4.5 (x86)): NOT INSTALLED
+2012-02-21 15:56:00	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-02-21 15:56:00	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-02-21 15:56:00	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-02-21 15:56:00	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-02-21 15:56:00	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-02-21 15:56:00	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-02-21 15:56:03	-- Loading supported components (lcid=1049)
+2012-02-21 15:56:03	-- comp_Installer4.5x86XPSp2 (display_name='WindowsInstaller 4.5 (x86)', os_filter_lcid=, os_filter=, os_filter_min=Windows XP SP2, os_filter_max=Windows XP+, processor_architecture_filter=x86): LOADED
+2012-02-21 15:56:03	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:56:03	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:56:03	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:56:03	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 15:56:03	--- Loaded 5 supported component(s)
+2012-02-21 15:56:03	Extracting embedded files for component '*': NO FILES EMBEDDED
+2012-02-21 15:56:03	--- Component 'comp_Installer4.5x86XPSp2' (WindowsInstaller 4.5 (x86)): EXECUTING
+2012-02-21 15:56:03	Extracting embedded files for component 'comp_Installer4.5x86XPSp2': NO FILES EMBEDDED
+2012-02-21 15:56:04	Destination 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\WindowsInstaller_Download_2884\WindowsXP-KB942288-v3-x86.exe', exists=False, copy=False
+2012-02-21 15:56:04	Destination 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\WindowsInstaller_Download_2884\WindowsXP-KB942288-v3-x86.exe', exists=False, download=True
+2012-02-21 15:56:04	Opening download dialog 'Windows Installer 4.5 - Download Components'
+2012-02-21 15:56:04	Destination 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\WindowsInstaller_Download_2884\WindowsXP-KB942288-v3-x86.exe', exists=False, download=True
+2012-02-21 15:56:09	Destination 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\WindowsInstaller_Download_2884\WindowsXP-KB942288-v3-x86.exe', exists=False, copy=False
+2012-02-21 15:56:09	Destination 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\WindowsInstaller_Download_2884\WindowsXP-KB942288-v3-x86.exe', exists=False, download=True
+2012-02-21 15:56:09	Downloading 'Windows Installer 4.5', source='http://download.microsoft.com/download/2/6/1/261fca42-22c0-4f91-9451-0e0f2e08356d/WindowsXP-KB942288-v3-x86.exe', destination='C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\WindowsInstaller_Download_2884', full='C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\WindowsInstaller_Download_2884\WindowsXP-KB942288-v3-x86.exe', always download=True
+2012-02-21 15:56:09	Creating directory 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\WindowsInstaller_Download_2884'
+2012-02-21 15:56:09	Download 'Windows Installer 4.5', size=549 bytes: OK
+2012-02-21 15:56:09	--- Download OK
+2012-02-21 15:56:09	Closing download dialog 'Windows Installer 4.5 - Download Components'
+2012-02-21 15:56:09	Executing: "C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\WindowsInstaller_Download_2884\WindowsXP-KB942288-v3-x86.exe" "/norestart /q"
+2012-02-21 15:56:15	*** Component 'comp_Installer4.5x86XPSp2' (WindowsInstaller 4.5 (x86)): ERROR - Error executing 'comp_Installer4.5x86XPSp2' (WindowsInstaller 4.5 (x86)): 255 (0xff)
+2012-02-21 15:56:15	--- Component 'comp_Installer4.5x86XPSp2 (WindowsInstaller 4.5 (x86))' FAILED: Error executing 'comp_Installer4.5x86XPSp2' (WindowsInstaller 4.5 (x86)): 255 (0xff)
+2012-02-21 15:56:16	--- Component 'comp_Installer4.5x86XPSp2 (WindowsInstaller 4.5 (x86)): FAILED, ABORTING
+2012-02-21 15:56:16	*** Failed to install one or more components, closing (auto_close_on_error).
+2012-02-21 15:56:16	dotNetInstaller finished, return code: 255 (0xff)
+2012-02-21 16:57:39	-------------------------------------------------------------------
+2012-02-21 16:57:39	dotNetInstaller (DNI), version 2.0.81.0
+2012-02-21 16:57:39	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-02-21 16:57:39	Operating system: Windows XP SP3
+2012-02-21 16:57:39	-------------------------------------------------------------------
+2012-02-21 16:57:39	Sequence: install
+2012-02-21 16:57:39	UI level: full
+2012-02-21 16:57:39	Configuration language id: 1049 
+2012-02-21 16:57:39	-- Loading supported components (lcid=1049)
+2012-02-21 16:57:39	-- comp_Installer4.5x86XPSp2 (display_name='WindowsInstaller 4.5 (x86)', os_filter_lcid=, os_filter=, os_filter_min=Windows XP SP2, os_filter_max=Windows XP+, processor_architecture_filter=x86): LOADED
+2012-02-21 16:57:39	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 16:57:39	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 16:57:39	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 16:57:39	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-02-21 16:57:39	--- Loaded 5 supported component(s)
+2012-02-21 16:57:39	Checking file: C:\WINDOWS\system32\msi.dll
+2012-02-21 16:57:39	File version: C:\WINDOWS\system32\msi.dll - 3.1.4001.5503
+2012-02-21 16:57:39	-- comp_Installer4.5x86XPSp2 (WindowsInstaller 4.5 (x86)): NOT INSTALLED
+2012-02-21 16:57:39	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-02-21 16:57:39	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-02-21 16:57:39	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-02-21 16:57:39	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-02-21 16:57:39	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-02-21 16:57:39	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-02-21 16:57:45	dotNetInstaller finished, return code: -2 (0xfffffffe)

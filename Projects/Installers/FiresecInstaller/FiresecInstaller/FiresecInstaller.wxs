@@ -32,7 +32,6 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
-          <!--<Merge Id="HASPMSM" Language="1033" DiskId="1" SourceFile="MergeModules\haspds.msm"/>-->
           <Directory Id="FIRESECSERVICELOCATION" Name="$(var.FiresecServiceName)">
             <Directory Id="FiresecServiceConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FiresecServiceIconsFolder" Name="$(var.IconsFolder)" />

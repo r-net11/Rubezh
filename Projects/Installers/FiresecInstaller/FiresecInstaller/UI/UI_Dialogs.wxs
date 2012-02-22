@@ -15,14 +15,14 @@
 			<DialogRef Id="UserExit" />
 
 			<Dialog Id="WelcomeDialog" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
-				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)" >
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Disabled="yes" Text="!(loc.WixUIBack)" />
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Default="yes" Text="!(loc.WixUINext)" >
 					<Publish Property="WixUI_InstallMode" Value="Update">Installed AND PATCH</Publish>
 				</Control>
-				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
 					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
 				</Control>
 				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="!(loc.WelcomeDlgBitmap)" />
-				<Control Id="Back" Type="PushButton" X="175" Y="243" Width="56" Height="17" Disabled="yes" Text="!(loc.WixUIBack)" />
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Description" Type="Text" X="135" Y="80" Width="220" Height="60" Transparent="yes" NoPrefix="yes" Text="!(loc.WelcomeDlgDescription)" >
 					<Condition Action="show">NOT Installed OR NOT PATCH</Condition>
@@ -85,6 +85,52 @@
 				<Control Id="LocLabel" Type="Text" X="54" Y="91" Width="290" Height="15" Text="Установить $(var.BrandName) в:" TabSkip="yes" Transparent="yes" />
 			</Dialog>
 
+			<Dialog Id="CustomizeDialog" Width="374" Height="266" Title="!(loc.CustomizeDlg_Title)" TrackDiskSpace="yes">
+				<Control Id="Tree" Type="SelectionTree" X="25" Y="85" Width="175" Height="115" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="!(loc.CustomizeDlgTree)" />
+				<Control Id="Browse" Type="PushButton" X="294" Y="210" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
+					<Publish Event="SelectionBrowse" Value="BrowseDlg">1</Publish>
+					<Condition Action="hide">Installed</Condition>
+					<Condition Action="disable">Installed</Condition>
+				</Control>
+				<Control Id="Reset" Type="PushButton" X="10" Y="243" Width="81" Height="17" Text="!(loc.CustomizeDlgReset)">
+					<Publish Event="Reset" Value="0">1</Publish>
+					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
+				</Control>
+				<Control Id="DiskCost" Type="PushButton" X="91" Y="243" Width="100" Height="17" Text="!(loc.CustomizeDlgDiskCost)">
+					<Publish Event="SpawnDialog" Value="DiskCostDlg">1</Publish>
+					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
+				</Control>
+				<Control Id="Back" Type="PushButton" X="192" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
+				<Control Id="Next" Type="PushButton" X="248" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
+					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
+				</Control>
+				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+				</Control>
+				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.CustomizeDlgBannerBitmap)" />
+				<Control Id="Text" Type="Text" X="25" Y="55" Width="320" Height="20" Text="!(loc.CustomizeDlgText)" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
+				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+				<Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgDescription)" />
+				<Control Id="Title" Type="Text" X="15" Y="6" Width="210" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgTitle)" />
+				<Control Id="Box" Type="GroupBox" X="210" Y="81" Width="150" Height="118" />
+				<Control Id="ItemDescription" Type="Text" X="215" Y="90" Width="131" Height="50" Text="!(loc.CustomizeDlgItemDescription)">
+					<Subscribe Event="SelectionDescription" Attribute="Text" />
+				</Control>
+				<Control Id="ItemSize" Type="Text" X="215" Y="140" Width="131" Height="50" Text="!(loc.CustomizeDlgItemSize)">
+					<Subscribe Event="SelectionSize" Attribute="Text" />
+				</Control>
+				<Control Id="Location" Type="Text" X="90" Y="210" Width="200" Height="20" Text="!(loc.CustomizeDlgLocation)">
+					<Subscribe Event="SelectionPath" Attribute="Text" />
+					<Subscribe Event="SelectionPathOn" Attribute="Visible" />
+					<Condition Action="hide">Installed</Condition>
+				</Control>
+				<Control Id="LocationLabel" Type="Text" X="25" Y="210" Width="65" Height="10" Text="!(loc.CustomizeDlgLocationLabel)">
+					<Subscribe Event="SelectionPathOn" Attribute="Visible" />
+					<Condition Action="hide">Installed</Condition>
+				</Control>
+			</Dialog>
+
 			<Dialog Id="InstallChangeFolderError" X="50" Y="50" Width="358" Height="111" Title="$(var.BrandName) - Программа установки" NoMinimize="yes">
 				<Control Id="OkayButton" Type="PushButton" X="142" Y="82" Width="66" Height="17" Text="&amp;ОК" TabSkip="no" Default="yes">
 					<Publish Event="EndDialog" Value="Return">1</Publish>
@@ -124,8 +170,8 @@
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="2" TabSkip="yes" Disabled="yes" />
 				<Control Id="CompText" Type="Text" X="161" Y="165" Width="202" Height="41" Text="Будут установлены только монитор и администратор." TabSkip="yes" />
 				<Control Id="Text1" Type="Text" X="161" Y="101" Width="202" Height="41" Text="Будут установлены сервер, монитор и администратор." TabSkip="yes" Transparent="yes"/>
-				<Control Id="CompleteIco" Type="Icon" X="125" Y="165" Width="24" Height="24" Text="InstallClient.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
-				<Control Id="Icon1" Type="Icon" X="125" Y="101" Width="24" Height="24" Text="InstallFull.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes"/>
+				<Control Id="CompleteIcon" Type="Icon" X="125" Y="101" Width="24" Height="24" Text="InstallFull.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes"/>
+				<Control Id="ClientIcon" Type="Icon" X="125" Y="165" Width="24" Height="24" Text="InstallClient.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
 				<Control Id="Bitmap2" Type="Bitmap"  Width="374" Height="44" X="0" Y="0" Text="FiresecBanner" TabSkip="yes" Disabled="yes" FixedSize="yes"/>
 				<Control Id="Line2" Type="Line" Width="374" Height="2" X="0" Y="44" Disabled="yes" TabSkip="yes"/>
 			</Dialog>
@@ -210,40 +256,40 @@
 				<Control Id="SetupIcon" Type="Icon" X="15" Y="87" Width="25" Height="24" Text="SetupProgress.ico" TabSkip="yes" Disabled="yes" IconSize="32" />
 			</Dialog>
 
-      <Dialog Id="SQLLogin" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" NoMinimize="yes">
-        <Control Id="cboServers" Type="Edit" X="18" Y="106" Width="218" Height="16" Property="SQLINSTANCE" TabSkip="no"/>
-        <Control Id="lblAuthentication" Type="Text" X="18" Y="129" Width="334" Height="14" Text="Режим проверки подлинности:" TabSkip="no" NoPrefix="yes" />
-        <Control Id="RadioButtonGroup1" Type="RadioButtonGroup" X="25" Y="145" Width="343" Height="34" Property="IS_SQLSERVER_AUTHENTICATION" TabSkip="no" />
-        <Control Id="lblLoginID" Type="Text" X="43" Y="186" Width="48" Height="13" Text="&amp;Login ID:" TabSkip="no">
-          <Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
-          <Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
-        </Control>
-        <Control Id="EdtLogin" Type="Edit" X="92" Y="184" Width="218" Height="16" Property="IS_SQLSERVER_USERNAME" TabSkip="no">
-          <Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
-          <Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
-        </Control>
-        <Control Id="lblPswd" Type="Text" X="43" Y="208" Width="47" Height="13" Text="&amp;Password:" TabSkip="no">
-          <Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
-          <Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
-        </Control>
-        <Control Id="EdtPswd" Type="Edit" X="92" Y="208" Width="218" Height="16" Property="IS_SQLSERVER_PASSWORD" TabSkip="no" Password="yes">
-          <Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
-          <Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
-        </Control>
-        <Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
-        <Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
-        <Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
-        <Control Id="lblServer" Type="Text" X="18" Y="92" Width="88" Height="14" Text="&amp;Имя экземпляра:" TabSkip="no" />
-        <Control Id="lblSQLLoginIntro" Type="Text" X="17" Y="50" Width="345" Height="40" Text="Введите имя для экземпляра. Выберите режим проверки подлинности для использования при установке." TabSkip="no" Transparent="yes" />
-        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
-        <Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />
-        <Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        $(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
-        <Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
-        <Control Id="Banner" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="yes" Disabled="yes" />
-      </Dialog>
+			<Dialog Id="SQLLogin" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" NoMinimize="yes">
+				<Control Id="cboServers" Type="Edit" X="18" Y="106" Width="218" Height="16" Property="SQLINSTANCE" TabSkip="no"/>
+				<Control Id="lblAuthentication" Type="Text" X="18" Y="129" Width="334" Height="14" Text="Режим проверки подлинности:" TabSkip="no" NoPrefix="yes" />
+				<Control Id="RadioButtonGroup1" Type="RadioButtonGroup" X="25" Y="145" Width="343" Height="34" Property="IS_SQLSERVER_AUTHENTICATION" TabSkip="no" />
+				<Control Id="lblLoginID" Type="Text" X="43" Y="186" Width="48" Height="13" Text="&amp;Login ID:" TabSkip="no">
+					<Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
+					<Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
+				</Control>
+				<Control Id="EdtLogin" Type="Edit" X="92" Y="184" Width="218" Height="16" Property="IS_SQLSERVER_USERNAME" TabSkip="no">
+					<Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
+					<Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
+				</Control>
+				<Control Id="lblPswd" Type="Text" X="43" Y="208" Width="47" Height="13" Text="&amp;Password:" TabSkip="no">
+					<Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
+					<Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
+				</Control>
+				<Control Id="EdtPswd" Type="Edit" X="92" Y="208" Width="218" Height="16" Property="IS_SQLSERVER_PASSWORD" TabSkip="no" Password="yes">
+					<Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
+					<Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
+				</Control>
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
+				<Control Id="lblServer" Type="Text" X="18" Y="92" Width="88" Height="14" Text="&amp;Имя экземпляра:" TabSkip="no" />
+				<Control Id="lblSQLLoginIntro" Type="Text" X="17" Y="50" Width="345" Height="40" Text="Введите имя для экземпляра. Выберите режим проверки подлинности для использования при установке." TabSkip="no" Transparent="yes" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />
+				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        $(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
+				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="Banner" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="yes" Disabled="yes" FixedSize="yes"/>
+			</Dialog>
 
 			<Dialog Id="VerifyReadyDialog" X="10" Y="0" Width="374" Height="266" Title="!(loc.VerifyReadyDlg_Title)" TrackDiskSpace="yes">
-				<Control Id="Install" Type="PushButton" ElevationShield="yes" X="212" Y="243" Width="80" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
+				<Control Id="Install" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
 					<Condition Action="show">NOT Installed AND ALLUSERS</Condition>
 					<Condition Action="enable">NOT Installed</Condition>
 					<Condition Action="default">NOT Installed</Condition>
@@ -253,7 +299,7 @@
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
 				</Control>
-				<Control Id="InstallNoShield" Type="PushButton" ElevationShield="no" X="212" Y="243" Width="80" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
+				<Control Id="InstallNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
 					<Condition Action="show">NOT Installed AND NOT ALLUSERS</Condition>
 					<Condition Action="enable">NOT Installed</Condition>
 					<Condition Action="default">NOT Installed</Condition>
@@ -263,7 +309,7 @@
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
 				</Control>
-				<Control Id="Change" Type="PushButton" ElevationShield="yes" X="212" Y="243" Width="80" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgChange)">
+				<Control Id="Change" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgChange)">
 					<Condition Action="show">WixUI_InstallMode = "Change" AND ALLUSERS AND (ADDLOCAL OR REMOVE)</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Change"</Condition>
 					<Condition Action="default">WixUI_InstallMode = "Change"</Condition>
@@ -273,7 +319,7 @@
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
 				</Control>
-				<Control Id="ChangeNoShield" Type="PushButton" ElevationShield="no" X="212" Y="243" Width="80" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgChange)">
+				<Control Id="ChangeNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgChange)">
 					<Condition Action="show">WixUI_InstallMode = "Change" AND (NOT ALLUSERS OR (NOT ADDLOCAL AND NOT REMOVE))</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Change"</Condition>
 					<Condition Action="default">WixUI_InstallMode = "Change"</Condition>
@@ -283,7 +329,7 @@
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
 				</Control>
-				<Control Id="Repair" Type="PushButton" X="212" Y="243" Width="80" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRepair)">
+				<Control Id="Repair" Type="PushButton" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRepair)">
 					<Condition Action="show">WixUI_InstallMode = "Repair"</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Repair"</Condition>
 					<Condition Action="default">WixUI_InstallMode = "Repair"</Condition>
@@ -295,7 +341,7 @@
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
 				</Control>
-				<Control Id="Remove" Type="PushButton" ElevationShield="yes" X="212" Y="243" Width="80" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRemove)">
+				<Control Id="Remove" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRemove)">
 					<Condition Action="show">WixUI_InstallMode = "Remove" AND ALLUSERS</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Remove"</Condition>
 					<Publish Event="Remove" Value="All"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
@@ -305,7 +351,7 @@
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
 				</Control>
-				<Control Id="RemoveNoShield" Type="PushButton" ElevationShield="no" X="212" Y="243" Width="80" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRemove)">
+				<Control Id="RemoveNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRemove)">
 					<Condition Action="show">WixUI_InstallMode = "Remove" AND NOT ALLUSERS</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Remove"</Condition>
 					<Publish Event="Remove" Value="All"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
@@ -315,7 +361,7 @@
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
 				</Control>
-				<Control Id="Update" Type="PushButton" ElevationShield="yes" X="212" Y="243" Width="80" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgUpdate)">
+				<Control Id="Update" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgUpdate)">
 					<Condition Action="show">WixUI_InstallMode = "Update" AND ALLUSERS</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Update"</Condition>
 					<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
@@ -324,7 +370,7 @@
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
 				</Control>
-				<Control Id="UpdateNoShield" Type="PushButton" ElevationShield="no" X="212" Y="243" Width="80" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgUpdate)">
+				<Control Id="UpdateNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgUpdate)">
 					<Condition Action="show">WixUI_InstallMode = "Update" AND NOT ALLUSERS</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Update"</Condition>
 					<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
@@ -365,10 +411,10 @@
 					<Condition Action="show">WixUI_InstallMode = "Update"</Condition>
 				</Control>
 
-				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
 					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
 				</Control>
-				<Control Id="Back" Type="PushButton" X="156" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)">
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="!(loc.WixUIBack)">
 					<Condition Action="default">WixUI_InstallMode = "Remove"</Condition>
 				</Control>
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
@@ -433,52 +479,6 @@
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes" Text="!(loc.MaintenanceWelcomeDlgTitle)" />
 				<Control Id="Description" Type="Text" X="135" Y="70" Width="220" Height="60" Transparent="yes" NoPrefix="yes" Text="!(loc.MaintenanceWelcomeDlgDescription)" />
-			</Dialog>
-
-			<Dialog Id="CustomizeDialog" Width="374" Height="266" Title="!(loc.CustomizeDlg_Title)" TrackDiskSpace="yes">
-				<Control Id="Tree" Type="SelectionTree" X="25" Y="85" Width="175" Height="115" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="!(loc.CustomizeDlgTree)" />
-				<Control Id="Browse" Type="PushButton" X="294" Y="210" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
-					<Publish Event="SelectionBrowse" Value="BrowseDlg">1</Publish>
-					<Condition Action="hide">Installed</Condition>
-					<Condition Action="disable">Installed</Condition>
-				</Control>
-				<Control Id="Reset" Type="PushButton" X="10" Y="243" Width="81" Height="17" Text="!(loc.CustomizeDlgReset)">
-					<Publish Event="Reset" Value="0">1</Publish>
-					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
-				</Control>
-				<Control Id="DiskCost" Type="PushButton" X="91" Y="243" Width="100" Height="17" Text="!(loc.CustomizeDlgDiskCost)">
-					<Publish Event="SpawnDialog" Value="DiskCostDlg">1</Publish>
-					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
-				</Control>
-				<Control Id="Back" Type="PushButton" X="192" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
-				<Control Id="Next" Type="PushButton" X="248" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
-					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
-				</Control>
-				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
-					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
-				</Control>
-				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.CustomizeDlgBannerBitmap)" />
-				<Control Id="Text" Type="Text" X="25" Y="55" Width="320" Height="20" Text="!(loc.CustomizeDlgText)" />
-				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
-				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
-				<Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgDescription)" />
-				<Control Id="Title" Type="Text" X="15" Y="6" Width="210" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgTitle)" />
-				<Control Id="Box" Type="GroupBox" X="210" Y="81" Width="150" Height="118" />
-				<Control Id="ItemDescription" Type="Text" X="215" Y="90" Width="131" Height="50" Text="!(loc.CustomizeDlgItemDescription)">
-					<Subscribe Event="SelectionDescription" Attribute="Text" />
-				</Control>
-				<Control Id="ItemSize" Type="Text" X="215" Y="140" Width="131" Height="50" Text="!(loc.CustomizeDlgItemSize)">
-					<Subscribe Event="SelectionSize" Attribute="Text" />
-				</Control>
-				<Control Id="Location" Type="Text" X="90" Y="210" Width="200" Height="20" Text="!(loc.CustomizeDlgLocation)">
-					<Subscribe Event="SelectionPath" Attribute="Text" />
-					<Subscribe Event="SelectionPathOn" Attribute="Visible" />
-					<Condition Action="hide">Installed</Condition>
-				</Control>
-				<Control Id="LocationLabel" Type="Text" X="25" Y="210" Width="65" Height="10" Text="!(loc.CustomizeDlgLocationLabel)">
-					<Subscribe Event="SelectionPathOn" Attribute="Visible" />
-					<Condition Action="hide">Installed</Condition>
-				</Control>
 			</Dialog>
 		</UI>
 	</Fragment>
