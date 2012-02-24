@@ -38,7 +38,7 @@ namespace FireAdministrator.Views
         {
             if (CanChangeConfig == false)
             {
-                MessageBoxService.Show("У вас нет прав на сохранение уонфигурации");
+                MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
                 return;
             }
 
@@ -83,9 +83,10 @@ namespace FireAdministrator.Views
             var result = MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
             if (result == MessageBoxResult.Yes)
             {
-                FiresecManager.DeviceConfiguration.Devices = new List<Device>();
-                FiresecManager.DeviceConfiguration.Zones = new List<Zone>();
-                FiresecManager.DeviceConfiguration.Directions = new List<Direction>();
+                FiresecManager.DeviceConfiguration = new DeviceConfiguration();
+                FiresecManager.LibraryConfiguration = new LibraryConfiguration();
+                FiresecManager.PlansConfiguration = new PlansConfiguration();
+                FiresecManager.SystemConfiguration = new SystemConfiguration();
 
                 var device = new Device()
                 {
@@ -95,11 +96,7 @@ namespace FireAdministrator.Views
                 FiresecManager.DeviceConfiguration.RootDevice = device;
                 FiresecManager.DeviceConfiguration.Update();
 
-                FiresecManager.PlansConfiguration.Plans = new List<Plan>();
-                FiresecManager.PlansConfiguration.Update();
-
-                ServiceFactory.SaveService.DevicesChanged = true;
-                ServiceFactory.SaveService.PlansChanged = true;
+                ServiceFactory.SaveService.Reset();
                 DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
 
                 DevicesModule.DevicesModule.CreateViewModels();

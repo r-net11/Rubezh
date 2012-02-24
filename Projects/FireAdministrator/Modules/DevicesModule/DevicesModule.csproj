@@ -228,7 +228,6 @@
     <Compile Include="Devices\ViewModels\PropertyDetails\PumpDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\ValveDetailsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionsMenuViewModel.cs" />
-    <Compile Include="Zones\Events\CurrentClauseStateChangedEvent.cs" />
     <Compile Include="Zones\ViewModels\ClauseViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
@@ -529,7 +528,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Zones\Events\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

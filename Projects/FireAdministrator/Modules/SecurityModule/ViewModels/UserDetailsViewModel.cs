@@ -94,7 +94,7 @@ namespace SecurityModule.ViewModels
         string _password;
         public string Password
         {
-            get { return _password; }
+            get { return _password != null ? _password : ""; }
             set
             {
                 _password = value;
@@ -105,7 +105,7 @@ namespace SecurityModule.ViewModels
         string _passwordConfirmation;
         public string PasswordConfirmation
         {
-            get { return _passwordConfirmation; }
+            get { return _passwordConfirmation != null ? _passwordConfirmation : ""; }
             set
             {
                 _passwordConfirmation = value;

@@ -81,7 +81,10 @@ namespace FiresecService.Converters
             }
 
             device.IsRmAlarmDevice = device.Properties.Any(x => x.Name == "IsAlarmDevice");
-            device.Description = innerDevice.name;
+            var description = innerDevice.name;
+            if (description != null)
+                description = description.Replace('¹', '№');
+            device.Description = description;
             SetZone(device, innerDevice);
 
             device.ShapeIds = new List<string>();

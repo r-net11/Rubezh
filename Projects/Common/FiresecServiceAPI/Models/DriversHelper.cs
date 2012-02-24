@@ -82,8 +82,8 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("29F67E91-AD29-410C-B473-EFD341AF1D79", 0, "Технологическая адресная метка АМ4-Т", DriverType.AM4_T));
             DriverDataList.Add(new DriverData("A15D9258-D5B5-4A81-A60A-3C9A308FB528", 0, "Пожарная адресная метка АМ4-П", DriverType.AM4_P));
             DriverDataList.Add(new DriverData("1B6D6509-DEF0-42B2-B31C-F8383040BF18", 0, "Охранная адресная метка АМ4-О", DriverType.AM4_O));
-            DriverDataList.Add(new DriverData("44EEDF03-0F4C-4EBA-BD36-28F96BC6B16E", 0, "Модуль Управления Клапанами Дымоудаления", DriverType.MUKD));
-            DriverDataList.Add(new DriverData("B603CEBA-A3BF-48A0-BFC8-94BF652FB72A", 0, "Модуль Управления Клапанами Огнезащиты", DriverType.MUKO));
+            //DriverDataList.Add(new DriverData("44EEDF03-0F4C-4EBA-BD36-28F96BC6B16E", 0, "Модуль Управления Клапанами Дымоудаления", DriverType.MUKD));
+            //DriverDataList.Add(new DriverData("B603CEBA-A3BF-48A0-BFC8-94BF652FB72A", 0, "Модуль Управления Клапанами Огнезащиты", DriverType.MUKO));
             DriverDataList.Add(new DriverData("AF05094E-4556-4CEE-A3F3-981149264E89", 0, "Насосная Станция", DriverType.PumpStation));
             DriverDataList.Add(new DriverData("8BFF7596-AEF4-4BEE-9D67-1AE3DC63CA94", 0, "Насос", DriverType.Pump));
             DriverDataList.Add(new DriverData("68E8E353-8CFC-4C54-A1A8-D6B6BF4FD20F", 0, "Жокей-насос", DriverType.JokeyPump));

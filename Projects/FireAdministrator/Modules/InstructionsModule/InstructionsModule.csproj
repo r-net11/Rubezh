@@ -113,7 +113,6 @@
     </Compile>
     <Compile Include="ViewModels\InstructionDetailsViewModel.cs" />
     <Compile Include="ViewModels\InstructionDevicesViewModel.cs" />
-    <Compile Include="ViewModels\InstructionDeviceViewModel.cs" />
     <Compile Include="ViewModels\InstructionsMenuViewModel.cs" />
     <Compile Include="ViewModels\InstructionsViewModel.cs" />
     <Compile Include="ViewModels\InstructionViewModel.cs" />

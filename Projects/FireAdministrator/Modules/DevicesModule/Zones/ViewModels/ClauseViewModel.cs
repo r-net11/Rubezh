@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DevicesModule.Zones.Events;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -14,12 +13,14 @@ namespace DevicesModule.ViewModels
     {
         public List<ulong?> Zones { get; set; }
         Device _device;
+        ZoneLogicViewModel _zoneLogicViewModel;
 
-        public ClauseViewModel(Device device, Clause clause)
+        public ClauseViewModel(ZoneLogicViewModel zoneLogicViewModel, Device device, Clause clause)
         {
             ShowZonesCommand = new RelayCommand(OnShowZones);
             SelectDeviceCommand = new RelayCommand(OnSelectDevice);
 
+            _zoneLogicViewModel = zoneLogicViewModel;
             _device = device;
             Zones = clause.Zones.ToList();
             _selectedState = clause.State;
@@ -139,7 +140,7 @@ namespace DevicesModule.ViewModels
             Zones = new List<ulong?>();
             SelectedDevice = null;
 
-            ServiceFactory.Events.GetEvent<CurrentClauseStateChangedEvent>().Publish(SelectedState);
+            _zoneLogicViewModel.OnCurrentClauseStateChanged(SelectedState);
         }
 
         public string PresenrationZones

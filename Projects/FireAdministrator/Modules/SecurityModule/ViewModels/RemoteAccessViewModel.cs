@@ -24,12 +24,10 @@ namespace SecurityModule.ViewModels
             }
             RemoteAccessTypes.Find(x => x.RemoteAccessType == remoteAccess.RemoteAccessType).IsActive = true;
 
-            HostNameOrAddressList = new ObservableCollection<string>();
-            if (HostNameOrAddressList.IsNotNullOrEmpty())
+            HostNameOrAddressList = new ObservableCollection<string>(remoteAccess.HostNameOrAddressList);
+            if (HostNameOrAddressList.Count > 0)
             {
-                HostNameOrAddressList = new ObservableCollection<string>(
-                    remoteAccess.HostNameOrAddressList.Select(x => x)
-                );
+                SelectedHostNameOrAddress = HostNameOrAddressList[0];
             }
         }
 
@@ -45,16 +43,6 @@ namespace SecurityModule.ViewModels
                 _selectedHostNameOrAddress = value;
                 OnPropertyChanged("SelectedHostNameOrAddress");
             }
-        }
-
-        public RemoteAccess GetModel()
-        {
-            var remoteAccess = new RemoteAccess();
-            remoteAccess.RemoteAccessType = RemoteAccessTypes.Find(x => x.IsActive).RemoteAccessType;
-            if (remoteAccess.RemoteAccessType == RemoteAccessType.SelectivelyAllowed)
-                remoteAccess.HostNameOrAddressList = new List<string>(HostNameOrAddressList.ToList());
-
-            return remoteAccess;
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -82,9 +70,28 @@ namespace SecurityModule.ViewModels
             return SelectedHostNameOrAddress != null;
         }
 
+        public bool IsSelectivelyAllowed
+        {
+            get
+            {
+                return RemoteAccessTypes.FirstOrDefault(x => x.RemoteAccessType == RemoteAccessType.SelectivelyAllowed).IsActive;
+            }
+        }
+
         public void OnRemoteAccessTypeChecked(RemoteAccessTypeViewModel remoteAccessTypeViewModel)
         {
             RemoteAccessTypes.FindAll(x => x != remoteAccessTypeViewModel).ForEach(x => x.IsActive = false);
+            OnPropertyChanged("IsSelectivelyAllowed");
+        }
+
+        public RemoteAccess GetModel()
+        {
+            var remoteAccess = new RemoteAccess();
+            remoteAccess.RemoteAccessType = RemoteAccessTypes.Find(x => x.IsActive).RemoteAccessType;
+            if (remoteAccess.RemoteAccessType == RemoteAccessType.SelectivelyAllowed)
+                remoteAccess.HostNameOrAddressList = new List<string>(HostNameOrAddressList.ToList());
+
+            return remoteAccess;
         }
     }
 }

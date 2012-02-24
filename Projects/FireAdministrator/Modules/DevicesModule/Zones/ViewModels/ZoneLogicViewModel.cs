@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using DevicesModule.Zones.Events;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
@@ -18,8 +17,6 @@ namespace DevicesModule.ViewModels
             RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
             ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 
-            ServiceFactory.Events.GetEvent<CurrentClauseStateChangedEvent>().Subscribe(OnCurrentClauseStateChanged);
-
             Initialize(device);
         }
 
@@ -27,11 +24,11 @@ namespace DevicesModule.ViewModels
         {
             _device = device;
             Clauses = new ObservableCollection<ClauseViewModel>();
-            if (device.ZoneLogic != null && device.ZoneLogic.Clauses.IsNotNullOrEmpty())
+            if (device.ZoneLogic != null)
             {
                 foreach (var clause in device.ZoneLogic.Clauses)
                 {
-                    var clauseViewModel = new ClauseViewModel(_device, clause);
+                    var clauseViewModel = new ClauseViewModel(this, _device, clause);
                     Clauses.Add(clauseViewModel);
                 }
             }
@@ -42,7 +39,7 @@ namespace DevicesModule.ViewModels
 
             if (device.ZoneLogic.Clauses.Count == 0)
             {
-                var clauseViewModel = new ClauseViewModel(_device, new Clause());
+                var clauseViewModel = new ClauseViewModel(this, _device, new Clause());
                 Clauses.Add(clauseViewModel);
             }
 
@@ -87,12 +84,15 @@ namespace DevicesModule.ViewModels
         public ObservableCollection<ClauseViewModel> Clauses { get; private set; }
 
         bool _isBlocked = false;
-        void OnCurrentClauseStateChanged(ZoneLogicState zoneLogicState)
+        public void OnCurrentClauseStateChanged(ZoneLogicState zoneLogicState)
         {
             _isBlocked = ((zoneLogicState == ZoneLogicState.Lamp) || (zoneLogicState == ZoneLogicState.PCN));
-            var selectedClause = Clauses.FirstOrDefault(x => x.SelectedState == zoneLogicState);
-            Clauses.Clear();
-            Clauses.Add(selectedClause);
+            if (_isBlocked)
+            {
+                var selectedClause = Clauses.FirstOrDefault(x => x.SelectedState == zoneLogicState);
+                Clauses.Clear();
+                Clauses.Add(selectedClause);
+            }
         }
 
         public bool CanAdd()
@@ -108,7 +108,7 @@ namespace DevicesModule.ViewModels
                 Operation = ZoneLogicOperation.All,
                 State = ZoneLogicState.Fire
             };
-            var clauseViewModel = new ClauseViewModel(_device, clause);
+            var clauseViewModel = new ClauseViewModel(this, _device, clause);
             Clauses.Add(clauseViewModel);
             UpdateJoinOperatorVisibility();
         }
@@ -139,19 +139,44 @@ namespace DevicesModule.ViewModels
             var zoneLogic = new ZoneLogic();
             foreach (var clauseViewModel in Clauses)
             {
-                if (clauseViewModel.Zones.Count > 0)
+                switch (clauseViewModel.SelectedState)
                 {
-                    var clause = new Clause()
-                    {
-                        State = clauseViewModel.SelectedState,
-                        Operation = clauseViewModel.SelectedOperation,
-                        Zones = clauseViewModel.Zones
-                    };
-                    if (clauseViewModel.SelectedDevice != null)
-                    {
-                        clause.DeviceUID = clauseViewModel.SelectedDevice.UID;
-                    }
-                    zoneLogic.Clauses.Add(clause);
+                    case ZoneLogicState.AM1TOn:
+                        if (clauseViewModel.SelectedDevice != null)
+                        {
+                            var clause = new Clause()
+                            {
+                                State = clauseViewModel.SelectedState,
+                                Operation = clauseViewModel.SelectedOperation,
+                                DeviceUID = clauseViewModel.SelectedDevice.UID,
+                                Device = clauseViewModel.SelectedDevice
+                            };
+                            zoneLogic.Clauses.Add(clause);
+                        }
+                        break;
+
+                    case ZoneLogicState.Failure:
+                        {
+                            var clause = new Clause()
+                            {
+                                State = clauseViewModel.SelectedState,
+                            };
+                            zoneLogic.Clauses.Add(clause);
+                        }
+                        break;
+
+                    default:
+                        if (clauseViewModel.Zones.Count > 0)
+                        {
+                            var clause = new Clause()
+                            {
+                                State = clauseViewModel.SelectedState,
+                                Operation = clauseViewModel.SelectedOperation,
+                                Zones = clauseViewModel.Zones
+                            };
+                            zoneLogic.Clauses.Add(clause);
+                        }
+                        break;
                 }
             }
             _device.ZoneLogic = zoneLogic;

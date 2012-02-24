@@ -6,6 +6,11 @@ namespace FiresecAPI.Models
     [DataContract]
     public class RemoteAccess
     {
+        public RemoteAccess()
+        {
+            HostNameOrAddressList = new List<string>();
+        }
+
         [DataMember]
         public RemoteAccessType RemoteAccessType { get; set; }
 

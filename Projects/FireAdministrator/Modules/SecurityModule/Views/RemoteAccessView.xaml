@@ -17,12 +17,12 @@
                 <DataTemplate>
                     <RadioButton IsChecked="{Binding IsActive}"
                               Content="{Binding RemoteAccessType, Converter={StaticResource RemoteAccessTypeToStringConverter}}"
-                              Checked="RadioButton_Checked" Margin="1.5" Foreground="White" />
+                              Margin="1.5" Foreground="White" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <Grid Grid.Row="1" Name="_remoteMachinesGrid" Visibility="Collapsed">
+        <Grid Grid.Row="1" Visibility="{Binding IsSelectivelyAllowed, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
