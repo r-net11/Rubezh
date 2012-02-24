@@ -33,13 +33,15 @@
 			<Component Id="ClearOnUninstallFireAdministrator" Guid="05F988F3-055D-4C20-92A5-DBB3C5983C89">
 				<CreateFolder Directory="INSTALLLOCATION" />
 				<RemoveFile Id="RemoveAdmIcons" On="uninstall" Name="*.*" Directory="FireAdmIconsFolder" />
-				<RemoveFolder Id="RemoveAdmIconsLocation" On="uninstall" Directory="FireAdmIconsFolder"/>
+				<RemoveFolder Id="RemoveAdmIconsLocation" On="uninstall" Directory="FireAdmIconsFolder" />
 				<RemoveFile Id="RemoveAdmSounds" On="uninstall" Name="*.*" Directory="FireAdmSoundsFolder" />
-				<RemoveFolder Id="RemoveAdmSoundsLocation" On="uninstall" Directory="FireAdmSoundsFolder"/>
-				<!--<RemoveFile Id="RemoveAdmReportTemplates" On="uninstall" Name="*.*" Directory="FireAdmReportTemplatesFolder" />-->
-				<!--<RemoveFolder Id="RemoveAdmReportTemplatesLocation" On="uninstall" Directory="FireAdmReportTemplatesFolder"/>-->
-				<RemoveFolder Id="RemoveFireAdmConfigLocation" On="uninstall" Directory="FireAdmConfigFolder"/>
-				<RemoveFolder Id="RemoveFireAdmLocation" On="uninstall" Directory="FIREADMINISTRATORLOCATION"/>
+				<RemoveFolder Id="RemoveAdmSoundsLocation" On="uninstall" Directory="FireAdmSoundsFolder" />
+				<RemoveFile Id="RemoveAdmXaml2svg" On="uninstall" Name="*.*" Directory="FireAdmXaml2svgFolder" />
+				<RemoveFolder Id="RemoveAdmXaml2svgLocation" On="uninstall" Directory="FireAdmXaml2svgFolder"/>
+				<RemoveFile Id="RemoveAdmXslFiles" On="uninstall" Name="*.*" Directory="FireAdmXslFilesFolder" />
+				<RemoveFolder Id="RemoveAdmXslFilesLocation" On="uninstall" Directory="FireAdmXslFilesFolder" />
+				<RemoveFolder Id="RemoveFireAdmConfigLocation" On="uninstall" Directory="FireAdmConfigFolder" />
+				<RemoveFolder Id="RemoveFireAdmLocation" On="uninstall" Directory="FIREADMINISTRATORLOCATION" />
 			</Component>
 
 			<Component Id="ClearOnUninstallFiresecService" Guid="491AB89B-FE4A-4E99-A8D4-C486E13F2663">

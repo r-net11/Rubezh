@@ -11,6 +11,8 @@
   <?define ConfigurationFolder="Configuration"?>
   <?define IconsFolder="Icons"?>
   <?define SoundsFolder="Sounds"?>
+  <?define XslFilesFolder="XslFiles"?>
+  <?define xaml2svgFolder="xaml2svg"?>
   <?define ReportTemplatesFolder="ReportTemplates"?>
   <?define Codepage="1251" ?>
   <?define BrandName="Firesec"?>

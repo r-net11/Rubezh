@@ -102,13 +102,16 @@
 
     </DirectoryRef>
 
-    <DirectoryRef Id="FIREADMINISTRATORLOCATION">
+    <DirectoryRef Id="FireAdmXslFilesFolder">
       <Component Id="XslFiles1" Guid="7D3DEE7F-2E4B-4C4E-8B31-952A85D54538">
         <File Id="svg2xaml.xsl" Source="..\..\XslFiles\svg2xaml.xsl" />
       </Component>
       <Component Id="XslFiles2" Guid="BEDAE21B-CAB3-4CA3-AA3A-2AC39A1ACB0F">
         <File Id="xaml2svg.xsl" Source="..\..\XslFiles\xaml2svg.xsl" />
       </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="FireAdmXaml2svgFolder">
       <Component Id="XslFiles3" Guid="68C0D8EB-DF2E-4753-BAAF-D1446900FBA6">
         <File Id="animation.xsl" Source="..\..\XslFiles\xaml2svg\animation.xsl" />
       </Component>
@@ -134,6 +137,5 @@
         <File Id="transform.xsl" Source="..\..\XslFiles\xaml2svg\transform.xsl" />
       </Component>
     </DirectoryRef>
-      
   </Fragment>
 </Wix>
