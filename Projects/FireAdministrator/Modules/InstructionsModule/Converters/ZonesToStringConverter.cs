@@ -9,7 +9,7 @@ namespace InstructionsModule.Converters
     {
         public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            var zones = value as ICollection<ulong?>;
+            var zones = value as ICollection<ulong>;
             if (zones.IsNotNullOrEmpty())
             {
                 var delimString = ", ";

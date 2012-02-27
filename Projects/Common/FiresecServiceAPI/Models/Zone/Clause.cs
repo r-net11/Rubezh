@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
     {
         public Clause()
         {
-            Zones = new List<ulong?>();
+            Zones = new List<ulong>();
             Operation = ZoneLogicOperation.Any;
         }
 
@@ -22,7 +22,7 @@ namespace FiresecAPI.Models
         public ZoneLogicOperation? Operation { get; set; }
 
         [DataMember]
-        public List<ulong?> Zones { get; set; }
+        public List<ulong> Zones { get; set; }
 
         [DataMember]
         public Guid DeviceUID { get; set; }

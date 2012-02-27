@@ -30,7 +30,7 @@ namespace DevicesModule.ViewModels
 
             Source = sourceDevices;
             Device = device;
-            PropertiesViewModel = new DeviceProperties.PropertiesViewModel(device);
+            PropertiesViewModel = new PropertiesViewModel(device);
 
             AvailvableDrivers = new ObservableCollection<Driver>();
             UpdateDriver();
@@ -89,7 +89,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                if (Parent != null && Parent.Driver.IsChildAddressReservedRange)
+                if (Parent != null && Parent.Driver.IsChildAddressReservedRange && Parent.Driver.DriverType != DriverType.MRK_30)
                     return false;
                 return Driver.CanEditAddress;
             }
@@ -215,6 +215,7 @@ namespace DevicesModule.ViewModels
             FiresecManager.DeviceConfiguration.Update();
             ServiceFactory.SaveService.DevicesChanged = true;
             DevicesViewModel.UpdateGuardVisibility();
+            FiresecManager.InvalidateConfiguration();
         }
 
         bool CanShowProperties()
@@ -278,7 +279,8 @@ namespace DevicesModule.ViewModels
         public RelayCommand ShowZoneCommand { get; private set; }
         void OnShowZone()
         {
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneNo);
+            if (Device.ZoneNo.HasValue)
+                ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneNo.Value);
         }
 
         public ObservableCollection<Driver> AvailvableDrivers { get; private set; }

@@ -15,7 +15,7 @@ namespace FiresecAPI.Models
         public bool RevertColorsForGuardZone { get; set; }
 
         [DataMember]
-        public ulong? No { get; set; }
+        public ulong No { get; set; }
 
         [DataMember]
         public StateType StateType { get; set; }

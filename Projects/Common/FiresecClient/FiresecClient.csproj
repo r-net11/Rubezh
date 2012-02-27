@@ -120,6 +120,7 @@
     <Compile Include="FiresecCallbackService.cs" />
     <Compile Include="FiresecCallbackServiceManager.cs" />
     <Compile Include="FiresecEventSubscriber.cs" />
+    <Compile Include="FiresecManager.Configuration.cs" />
     <Compile Include="FiresecManager.cs" />
     <Compile Include="FiresecServiceFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

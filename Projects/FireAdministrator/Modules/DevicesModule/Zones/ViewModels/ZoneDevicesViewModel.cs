@@ -10,7 +10,7 @@ namespace DevicesModule.ViewModels
 {
     public class ZoneDevicesViewModel : BaseViewModel
     {
-        ulong? _zoneNo;
+        ulong _zoneNo;
 
         public ZoneDevicesViewModel()
         {
@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
         }
 
-        public void Initialize(ulong? zoneNo)
+        public void Initialize(ulong zoneNo)
         {
             _zoneNo = zoneNo;
 

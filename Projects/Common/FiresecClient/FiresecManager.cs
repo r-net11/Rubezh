@@ -2,22 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
 using FiresecAPI.Models;
-using System.ServiceModel;
 
 namespace FiresecClient
 {
-    public class FiresecManager
+    public partial class FiresecManager
     {
-        public static List<Driver> Drivers { get; set; }
-        public static DeviceConfiguration DeviceConfiguration { get; set; }
-        public static DeviceConfigurationStates DeviceStates { get; set; }
-        public static LibraryConfiguration LibraryConfiguration { get; set; }
-        public static SystemConfiguration SystemConfiguration { get; set; }
-        public static PlansConfiguration PlansConfiguration { get; set; }
-        public static SecurityConfiguration SecurityConfiguration { get; set; }
-
         static public SafeFiresecService FiresecService { get; private set; }
 
         public static string Connect(string clientCallbackAddress, string serverAddress, string login, string password)
@@ -36,43 +26,6 @@ namespace FiresecClient
             return null;
         }
 
-        public static void SelectiveFetch(bool updateFiles = true)
-        {
-            if (updateFiles)
-                FileHelper.Synchronize();
-
-            SystemConfiguration = FiresecService.GetSystemConfiguration();
-            LibraryConfiguration = FiresecService.GetLibraryConfiguration();
-            PlansConfiguration = FiresecService.GetPlansConfiguration();
-            SecurityConfiguration = FiresecService.GetSecurityConfiguration();
-            Drivers = FiresecService.GetDrivers();
-            DeviceConfiguration = FiresecService.GetDeviceConfiguration();
-            DeviceStates = FiresecService.GetStates();
-
-            UpdateDrivers();
-            UpdateConfiguration();
-            UpdatePlansConfiguration();
-            UpdateStates();
-
-            FiresecService.Subscribe();
-            FiresecService.StartPing();
-        }
-
-        public static void ActiveXFetch()
-        {
-            Drivers = FiresecService.GetDrivers();
-            LibraryConfiguration = FiresecService.GetLibraryConfiguration();
-            DeviceConfiguration = FiresecService.GetDeviceConfiguration();
-            DeviceStates = FiresecService.GetStates();
-
-            //UpdateDrivers();
-            UpdateActiveXConfiguration();
-            UpdateStates();
-
-            FiresecService.Subscribe();
-            FiresecService.StartPing();
-        }
-
         public static string Reconnect(string login, string password)
         {
             string result = FiresecService.Reconnect(login, password);
@@ -83,102 +36,6 @@ namespace FiresecClient
 
             _userLogin = login;
             return null;
-        }
-
-        public static void UpdateDrivers()
-        {
-            Drivers.ForEach(x => x.ImageSource = FileHelper.GetIconFilePath(x.ImageSource) + ".ico");
-        }
-
-        public static void UpdateActiveXConfiguration()
-        {
-            DeviceConfiguration.Update();
-
-            foreach (var device in DeviceConfiguration.Devices)
-            {
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-                if (device.Driver.IsIndicatorDevice || device.IndicatorLogic != null)
-                    device.IndicatorLogic.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
-
-                if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
-                {
-                    foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.DeviceUID != Guid.Empty))
-                    {
-                        clause.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
-                    }
-                }
-            }
-        }
-
-        public static void UpdateConfiguration()
-        {
-            PlansConfiguration.Update();
-            DeviceConfiguration.Update();
-
-            foreach (var device in DeviceConfiguration.Devices)
-            {
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-                if (device.Driver.IsIndicatorDevice || device.IndicatorLogic != null)
-                    device.IndicatorLogic.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
-
-                if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
-                {
-                    foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.DeviceUID != Guid.Empty))
-                    {
-                        clause.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
-                    }
-                }
-            }
-        }
-
-        public static void UpdatePlansConfiguration()
-        {
-            FiresecManager.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-
-            foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-            {
-                for (int i = plan.ElementDevices.Count(); i > 0; i--)
-                {
-                    var elementDevice = plan.ElementDevices[i - 1];
-
-                    var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                    if (device != null)
-                    {
-                        device.PlanElementUIDs.Add(elementDevice.UID);
-                        elementDevice.Device = device;
-                    }
-                    else
-                    {
-                        plan.ElementDevices.RemoveAt(i - 1);
-                    }
-                    var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-                    if (deviceState != null)
-                    {
-                        elementDevice.DeviceState = deviceState;
-                    }
-                }
-
-                foreach (var elementZone in plan.ElementPolygonZones)
-                {
-                    if (elementZone.ZoneNo.HasValue)
-                    {
-                        elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo.Value);
-                    }
-                }
-
-                foreach (var elementZone in plan.ElementRectangleZones)
-                {
-                    if (elementZone.ZoneNo.HasValue)
-                    {
-                        elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo.Value);
-                    }
-                }
-
-                foreach (var elementSubPlan in plan.ElementSubPlans)
-                {
-                    elementSubPlan.Plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == elementSubPlan.PlanUID);
-                }
-            }
         }
 
         public static void UpdateStates()

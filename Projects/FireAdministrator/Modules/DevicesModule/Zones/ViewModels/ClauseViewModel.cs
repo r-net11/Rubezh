@@ -11,7 +11,7 @@ namespace DevicesModule.ViewModels
 {
     public class ClauseViewModel : BaseViewModel
     {
-        public List<ulong?> Zones { get; set; }
+        public List<ulong> Zones { get; set; }
         Device _device;
         ZoneLogicViewModel _zoneLogicViewModel;
 
@@ -137,7 +137,7 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("CanSelectOperation");
             OnPropertyChanged("CanSelectZones");
             OnPropertyChanged("CanSelectDevice");
-            Zones = new List<ulong?>();
+            Zones = new List<ulong>();
             SelectedDevice = null;
 
             _zoneLogicViewModel.OnCurrentClauseStateChanged(SelectedState);

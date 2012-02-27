@@ -10,7 +10,7 @@ namespace InstructionsModule.ViewModels
 {
     public class InstructionZonesViewModel : SaveCancelDialogContent
     {
-        public InstructionZonesViewModel(List<ulong?> instructionZonesList)
+        public InstructionZonesViewModel(List<ulong> instructionZonesList)
         {
             AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
@@ -19,7 +19,7 @@ namespace InstructionsModule.ViewModels
 
             Title = "Выбор зоны";
 
-            InstructionZonesList = new List<ulong?>(instructionZonesList);
+            InstructionZonesList = new List<ulong>(instructionZonesList);
             InstructionZones = new ObservableCollection<ZoneViewModel>();
             AvailableZones = new ObservableCollection<ZoneViewModel>();
 
@@ -35,7 +35,7 @@ namespace InstructionsModule.ViewModels
                 var zoneViewModel = new ZoneViewModel(zone);
                 if (InstructionZonesList.IsNotNullOrEmpty())
                 {
-                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x.Value == zoneViewModel.No.Value);
+                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.No);
                     if (instructionZone != null)
                         InstructionZones.Add(zoneViewModel);
                     else
@@ -53,7 +53,7 @@ namespace InstructionsModule.ViewModels
                 SelectedAvailableZone = AvailableZones[0];
         }
 
-        public List<ulong?> InstructionZonesList { get; set; }
+        public List<ulong> InstructionZonesList { get; set; }
         public ObservableCollection<ZoneViewModel> AvailableZones { get; set; }
         public ObservableCollection<ZoneViewModel> InstructionZones { get; set; }
 
@@ -151,7 +151,7 @@ namespace InstructionsModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            InstructionZonesList = new List<ulong?>(from zone in InstructionZones select zone.No);
+            InstructionZonesList = new List<ulong>(from zone in InstructionZones select zone.No);
         }
     }
 }

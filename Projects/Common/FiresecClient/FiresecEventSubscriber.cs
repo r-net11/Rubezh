@@ -93,6 +93,6 @@ namespace FiresecClient
         public static event Action<JournalRecord> NewJournalRecordEvent;
         public static event Action<Guid> DeviceStateChangedEvent;
         public static event Action<Guid> DeviceParametersChangedEvent;
-        public static event Action<ulong?> ZoneStateChangedEvent;
+        public static event Action<ulong> ZoneStateChangedEvent;
     }
 }

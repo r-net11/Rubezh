@@ -33,6 +33,8 @@ namespace DevicesModule.Views
 
         const char DOT = '.';
         static readonly string MessageFormat = "Недопустимое значение {0}. Укажите значение в диапазоне от {1} до {2}.";
+        bool _hasDelimiter;
+        bool _isSaving;
 
         public AddressEditor()
         {
@@ -98,8 +100,6 @@ namespace DevicesModule.Views
             }
         }
 
-        bool _hasDelimiter;
-
         private static void OnDevicePropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
         {
             AddressEditor addressEditor = dp as AddressEditor;
@@ -129,6 +129,9 @@ namespace DevicesModule.Views
 
         void InitializeAddress()
         {
+            if(_isSaving)
+                return;
+
             string text = Address;
             if (text.Contains(" "))
                 text = text.Substring(0, text.IndexOf(' '));
@@ -158,10 +161,12 @@ namespace DevicesModule.Views
 
         void SaveAddress()
         {
+            _isSaving = true;
             if (_hasDelimiter)
                 Address = LeftPart.ToString() + '.' + RightPart.ToString();
             else
                 Address = LeftPart.ToString();
+            _isSaving = false;
         }
 
         void SetBounds()
@@ -176,11 +181,12 @@ namespace DevicesModule.Views
                 LeftPartMax = Device.Parent.Driver.ShleifCount;
                 if (LeftPartMax == 0)
                     LeftPartMax = 1;
-                if (Device.Parent.Driver.IsChildAddressReservedRange && Device.Parent.Driver.ChildAddressReserveRangeCount > 0)
+                if (Device.Parent.Driver.IsChildAddressReservedRange)
                 {
                     LeftPartMin = LeftPartMax = Device.Parent.IntAddress >> 8;
+                    LeftPartMax = LeftPartMax = Device.Parent.IntAddress >> 8;
                     RightPartMin = Device.Parent.IntAddress & 0xff;
-                    RightPartMax = RightPartMin + Device.Parent.Driver.ChildAddressReserveRangeCount;
+                    RightPartMax = RightPartMin + Device.Parent.GetReservedCount();
                 }
             }
         }
@@ -284,6 +290,7 @@ namespace DevicesModule.Views
                 LeftPart = LeftPartMax;
                 addressEditor.CaretIndex = caretIndex;
             }
+            addressEditor.CaretIndex = caretIndex;
         }
 
         void CheckRightPart()
@@ -308,6 +315,7 @@ namespace DevicesModule.Views
                 RightPart = RightPartMax;
                 addressEditor.CaretIndex = caretIndex;
             }
+            addressEditor.CaretIndex = caretIndex;
         }
 
         void OnSelectionChanged(object sender, System.Windows.RoutedEventArgs e)

@@ -43,7 +43,7 @@ namespace DevicesModule.ViewModels
             {
                 _selectedZone = value;
                 if (value != null)
-                    ZoneDevices.Initialize(value.No.Value);
+                    ZoneDevices.Initialize(value.No);
                 else
                     ZoneDevices.Clear();
 
@@ -103,6 +103,7 @@ namespace DevicesModule.ViewModels
                 SelectFirstZone();
                 ZoneDevices.UpdateAvailableDevices();
                 ServiceFactory.SaveService.DevicesChanged = true;
+                FiresecManager.InvalidateConfiguration();
             }
         }
 
@@ -131,6 +132,7 @@ namespace DevicesModule.ViewModels
                 SelectedZone = null;
 
                 ServiceFactory.SaveService.DevicesChanged = true;
+                FiresecManager.InvalidateConfiguration();
             }
         }
 
@@ -152,6 +154,7 @@ namespace DevicesModule.ViewModels
                 SelectFirstZone();
 
                 ServiceFactory.SaveService.DevicesChanged = true;
+                FiresecManager.InvalidateConfiguration();
             }
         }
 

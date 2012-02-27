@@ -237,7 +237,7 @@ namespace FiresecClient.Validation
         {
             if (device.Driver.HasShleif && device.Children.IsNotNullOrEmpty())
             {
-                var childrenZones = device.Children.Where(x => x.Driver.IsZoneDevice && x.ZoneNo != null).Select(x => x.ZoneNo).Distinct().ToList();
+                var childrenZones = device.Children.Where(x => x.Driver.IsZoneDevice && x.ZoneNo != null).Select(x => x.ZoneNo.Value).Distinct().ToList();
                 if (childrenZones.IsNotNullOrEmpty() == false)
                     return;
 
@@ -479,7 +479,7 @@ namespace FiresecClient.Validation
             return new string(str.Where(x => FiresecManager.DeviceConfiguration.ValidChars.Contains(x) == false).ToArray());
         }
 
-        static IEnumerable<Device> GetZoneDevices(ulong? zoneNo)
+        static IEnumerable<Device> GetZoneDevices(ulong zoneNo)
         {
             var zoneDevices = new List<Device>();
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)

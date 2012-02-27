@@ -11,7 +11,7 @@ namespace DevicesModule.ViewModels
     public class IndicatorDetailsViewModel : SaveCancelDialogContent
     {
         Device _indicatorDevice;
-        List<ulong?> _zones;
+        List<ulong> _zones;
 
         public IndicatorDetailsViewModel(Device device)
         {
@@ -25,7 +25,7 @@ namespace DevicesModule.ViewModels
             FailureColor = IndicatorColorType.Orange;
             ConnectionColor = IndicatorColorType.Orange;
 
-            _zones = new List<ulong?>();
+            _zones = new List<ulong>();
             _indicatorDevice = device;
 
             if (device.IndicatorLogic == null)

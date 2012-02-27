@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
     {
         public Direction()
         {
-            Zones = new List<ulong?>();
+            Zones = new List<ulong>();
         }
 
         [DataMember]
@@ -28,6 +28,6 @@ namespace FiresecAPI.Models
         public Guid DeviceButton { get; set; }
 
         [DataMember]
-        public List<ulong?> Zones { get; set; }
+        public List<ulong> Zones { get; set; }
     }
 }

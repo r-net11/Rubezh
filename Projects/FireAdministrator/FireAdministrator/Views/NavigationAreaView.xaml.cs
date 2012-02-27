@@ -64,7 +64,7 @@ namespace FireAdministrator.Views
             {
                 _isZonesSelected = value;
                 if (value)
-                    ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(null);
+                    ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(0);
                 OnPropertyChanged("IsZonesSelected");
             }
         }

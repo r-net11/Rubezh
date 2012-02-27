@@ -11,9 +11,9 @@ namespace DevicesModule.ViewModels
     [SaveSizeAttribute]
     public class ZonesSelectionViewModel : SaveCancelDialogContent
     {
-        public List<ulong?> Zones { get; private set; }
+        public List<ulong> Zones { get; private set; }
 
-        public ZonesSelectionViewModel(Device device, List<ulong?> zones, ZoneLogicState zoneLogicState)
+        public ZonesSelectionViewModel(Device device, List<ulong> zones, ZoneLogicState zoneLogicState)
         {
             Title = "Выбор зон";
 
@@ -165,7 +165,7 @@ namespace DevicesModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            Zones = new List<ulong?>(TargetZones.Select(x => x.No));
+            Zones = new List<ulong>(TargetZones.Select(x => x.No));
         }
     }
 }

@@ -36,7 +36,7 @@ namespace InstructionsModule.ViewModels
 
         void CopyProperties()
         {
-            InstructionZones = new ObservableCollection<ulong?>();
+            InstructionZones = new ObservableCollection<ulong>();
             InstructionDevices = new ObservableCollection<Guid>();
 
             InstructionNo = Instruction.No;
@@ -48,7 +48,7 @@ namespace InstructionsModule.ViewModels
             {
                 case InstructionType.Details:
                     if (Instruction.Zones.IsNotNullOrEmpty())
-                        InstructionZones = new ObservableCollection<ulong?>(Instruction.Zones);
+                        InstructionZones = new ObservableCollection<ulong>(Instruction.Zones);
                     if (Instruction.Devices.IsNotNullOrEmpty())
                         InstructionDevices = new ObservableCollection<Guid>(Instruction.Devices);
                     break;
@@ -127,8 +127,8 @@ namespace InstructionsModule.ViewModels
             get { return new List<InstructionType>(Enum.GetValues(typeof(InstructionType)).OfType<InstructionType>()); }
         }
 
-        ObservableCollection<ulong?> _instructionZones;
-        public ObservableCollection<ulong?> InstructionZones
+        ObservableCollection<ulong> _instructionZones;
+        public ObservableCollection<ulong> InstructionZones
         {
             get { return _instructionZones; }
             set
@@ -160,7 +160,7 @@ namespace InstructionsModule.ViewModels
             var instructionZonesViewModel = new InstructionZonesViewModel(InstructionZones.ToList());
             if (ServiceFactory.UserDialogs.ShowModalWindow(instructionZonesViewModel))
             {
-                InstructionZones = new ObservableCollection<ulong?>(instructionZonesViewModel.InstructionZonesList);
+                InstructionZones = new ObservableCollection<ulong>(instructionZonesViewModel.InstructionZonesList);
             }
         }
 
@@ -197,7 +197,7 @@ namespace InstructionsModule.ViewModels
             else
             {
                 Instruction.Devices = new List<Guid>();
-                Instruction.Zones = new List<ulong?>();
+                Instruction.Zones = new List<ulong>();
             }
         }
     }

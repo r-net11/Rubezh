@@ -19,7 +19,7 @@ namespace DevicesModule.ViewModels
             {
                 if (device.Driver.DriverType == driverType)
                 {
-                    if (device.Parent.Children.Any(x => x.Driver.IsZoneDevice && direction.Zones.Contains(x.ZoneNo)))
+                    if (device.Parent.Children.Any(x => x.Driver.IsZoneDevice && x.ZoneNo.HasValue && direction.Zones.Contains(x.ZoneNo.Value)))
                     {
                         device.AllParents.ForEach(x => { devices.Add(x); });
                         devices.Add(device);
