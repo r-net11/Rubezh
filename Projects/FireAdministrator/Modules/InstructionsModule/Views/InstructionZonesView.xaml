@@ -10,10 +10,10 @@
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Controls:ScrollDataGrid Grid.Column="0" ItemsSource="{Binding InstructionZones}" SelectedItem="{Binding SelectedInstructionZone}" MouseDoubleClick="SelectedInstructionZoneDoubleClick">
-            <Controls:ScrollDataGrid.Columns>
+            <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
                 <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
-                </Controls:ScrollDataGrid.Columns>
+            </DataGrid.Columns>
         </Controls:ScrollDataGrid>
         <StackPanel Grid.Column="1" Margin="2">
             <Controls:ToolBarButton Command="{Binding AddOneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Left.png" />
@@ -22,10 +22,10 @@
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
         <Controls:ScrollDataGrid Grid.Column="2" ItemsSource="{Binding AvailableZones}" SelectedItem="{Binding SelectedAvailableZone}" MouseDoubleClick="SelectedAvailableZoneDoubleClick">
-            <Controls:ScrollDataGrid.Columns>
+            <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
                 <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
-            </Controls:ScrollDataGrid.Columns>
+            </DataGrid.Columns>
         </Controls:ScrollDataGrid>
     </Grid>
 </UserControl>

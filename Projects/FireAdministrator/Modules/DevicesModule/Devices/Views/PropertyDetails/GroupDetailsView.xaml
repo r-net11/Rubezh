@@ -13,7 +13,7 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Controls:ScrollDataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
-                <Controls:ScrollDataGrid.Columns>
+                <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -42,7 +42,7 @@
                     </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
                     <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
-                </Controls:ScrollDataGrid.Columns>
+                </DataGrid.Columns>
             </Controls:ScrollDataGrid>
         </Grid>
 
@@ -57,10 +57,10 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Controls:ScrollDataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
-                <Controls:ScrollDataGrid.Columns>
+                <DataGrid.Columns>
                     <DataGridTextColumn Width="1*" Header="Тип" Binding="{Binding Device.Driver.ShortName}" />
                     <DataGridTextColumn Width="1*" Header="Адрес" Binding="{Binding Device.DottedAddress}" />
-                </Controls:ScrollDataGrid.Columns>
+                </DataGrid.Columns>
             </Controls:ScrollDataGrid>
             <Border CornerRadius="5" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}"
                         Grid.Row="1" Visibility="{Binding CanEditProperties, Converter={StaticResource BoolToVisibilityConverter}}">

@@ -8,7 +8,7 @@
         <Converters:BoolToStringConverter x:Key="BoolToStringConverter" />
     </UserControl.Resources>
 
-    <Controls:XDataGrid  Grid.Column="0" ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}" IsReadOnly="False">
+    <Controls:ScrollDataGrid  Grid.Column="0" ItemsSource="{Binding Sounds}" SelectedItem="{Binding SelectedSound}" IsReadOnly="False">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Состояние" Width="1*">
                 <DataGridTemplateColumn.CellTemplate>
@@ -63,5 +63,5 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
         </DataGrid.Columns>
-    </Controls:XDataGrid >
+    </Controls:ScrollDataGrid>
 </UserControl>

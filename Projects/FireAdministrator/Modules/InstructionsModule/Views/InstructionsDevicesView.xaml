@@ -11,7 +11,7 @@
         </Grid.ColumnDefinitions>
         <Controls:ScrollDataGrid Grid.Column="0" ItemsSource="{Binding InstructionDevices}" SelectedItem="{Binding SelectedInstructionDevice}"
                   AutoGenerateColumns="False" MouseDoubleClick="SelectedInstructionDeviceDoubleClick">
-            <Controls:ScrollDataGrid.Columns>
+            <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -38,7 +38,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Адрес" Width="70" Binding="{Binding Address}" />
-            </Controls:ScrollDataGrid.Columns>
+            </DataGrid.Columns>
         </Controls:ScrollDataGrid>
         <StackPanel Grid.Column="1" Margin="2">
             <Controls:ToolBarButton Command="{Binding AddOneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Left.png" />
@@ -48,7 +48,7 @@
         </StackPanel>
         <Controls:ScrollDataGrid Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}"
                   AutoGenerateColumns="False" MouseDoubleClick="SelectedAvailableDeviceDoubleClick">
-            <Controls:ScrollDataGrid.Columns>
+            <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -75,7 +75,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Адрес" Width="70" Binding="{Binding Address}" />
-            </Controls:ScrollDataGrid.Columns>
+            </DataGrid.Columns>
         </Controls:ScrollDataGrid>
     </Grid>
 </UserControl>
