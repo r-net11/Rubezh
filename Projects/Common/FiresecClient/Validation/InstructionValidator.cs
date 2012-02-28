@@ -25,7 +25,7 @@ namespace FiresecClient.Validation
             foreach (var instruction in FiresecManager.SystemConfiguration.Instructions)
             {
                 if (FiresecManager.SystemConfiguration.Instructions.Count(x =>
-                    ((x.InstructionType == instruction.InstructionType) && (x.InstructionType == InstructionType.General))) > 1)
+                    ((x.StateType == instruction.StateType) && (x.InstructionType == InstructionType.General))) > 1)
                 {
                     var instructionError =
                         new InstructionError(instruction, "Общая инструкция для данного состояния уже существует!", ErrorLevel.Warning);

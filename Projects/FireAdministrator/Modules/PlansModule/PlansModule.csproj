@@ -227,7 +227,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="StrongNameKey.snk" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">

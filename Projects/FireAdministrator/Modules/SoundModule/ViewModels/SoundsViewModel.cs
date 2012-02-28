@@ -15,7 +15,7 @@ namespace SoundsModule.ViewModels
             PlaySoundCommand = new RelayCommand(OnPlaySound, CanPlaySound);
         }
 
-        public void Inicialize()
+        public void Initialize()
         {
             IsNowPlaying = false;
 
