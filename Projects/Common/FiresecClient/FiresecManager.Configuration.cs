@@ -146,13 +146,12 @@ namespace FiresecClient
                 {
                     if (DeviceConfiguration.Zones.Any(x => x.No == device.ZoneNo) == false)
                         device.ZoneNo = null;
-
-                    device.ZoneLogic = null;
                 }
                 if (device.Driver.IsZoneLogicDevice)
                 {
                     if (device.ZoneLogic != null)
                     {
+                        var clauses = new List<Clause>();
                         foreach (var clause in device.ZoneLogic.Clauses)
                         {
                             if (DeviceConfiguration.Devices.Any(x => x.UID == clause.DeviceUID) == false)
@@ -168,7 +167,11 @@ namespace FiresecClient
                                     zones.Add(zoneNo);
                             }
                             clause.Zones = zones;
+
+                            if ((clause.Device != null) || (clause.Zones.Count > 0))
+                                clauses.Add(clause);
                         }
+                        device.ZoneLogic.Clauses = clauses;
                     }
                 }
 
@@ -180,6 +183,66 @@ namespace FiresecClient
                     device.ZoneNo = null;
                 if (!device.Driver.IsZoneLogicDevice)
                     device.ZoneLogic = null;
+            }
+        }
+
+        public static List<Zone> GetChannelZones(Device device)
+        {
+            UpdateZoneDevices();
+
+            var zones = new List<Zone>();
+
+            var channelDevice = device.Channel;
+
+            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+            {
+                if (channelDevice != null)
+                {
+                    if (zone.DevicesInZone.All(x => ((x.Channel != null) && (x.Channel.UID == channelDevice.UID))))
+                        zones.Add(zone);
+                }
+                else
+                {
+                    if (zone.DevicesInZone.All(x => (x.Parent.UID == device.UID)))
+                        zones.Add(zone);
+                }
+            }
+
+            return zones;
+        }
+
+        public static void UpdateZoneDevices()
+        {
+            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+            {
+                zone.DevicesInZone = new List<Device>();
+                zone.DeviceInZoneLogic = new List<Device>();
+            }
+
+            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+            {
+                if ((device.Driver.IsZoneDevice) && (device.ZoneNo != null))
+                {
+                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+                    if (zone != null)
+                    {
+                        zone.DevicesInZone.Add(device);
+                    }
+                }
+                if ((device.Driver.IsZoneLogicDevice) && (device.ZoneLogic != null))
+                {
+                    foreach (var clause in device.ZoneLogic.Clauses)
+                    {
+                        foreach (var clauseZone in clause.Zones)
+                        {
+                            var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == clauseZone);
+                            if (zone != null)
+                            {
+                                zone.DeviceInZoneLogic.Add(device);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

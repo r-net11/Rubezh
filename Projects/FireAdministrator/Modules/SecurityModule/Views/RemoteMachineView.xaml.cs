@@ -114,7 +114,7 @@ namespace SecurityModule.Views
                 return;
             try
             {
-                for (int i = 0; i < IpAddressBytes.Count; ++i)
+                for (int i = 0; i < IpAddressBytes.Count; i++)
                     CheckIpAddressByte(i);
             }
             catch { }

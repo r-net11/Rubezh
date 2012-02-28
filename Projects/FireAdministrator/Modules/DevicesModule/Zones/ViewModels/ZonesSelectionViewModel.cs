@@ -16,7 +16,6 @@ namespace DevicesModule.ViewModels
         public ZonesSelectionViewModel(Device device, List<ulong> zones, ZoneLogicState zoneLogicState)
         {
             Title = "Выбор зон";
-
             AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);
             AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
@@ -38,13 +37,13 @@ namespace DevicesModule.ViewModels
                     break;
             }
 
-            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+            var channelZones = FiresecManager.GetChannelZones(device);
+            foreach (var zone in channelZones)
             {
                 var zoneViewModel = new ZoneViewModel(zone);
 
                 if (zone.ZoneType != zoneTypeFilter)
                 {
-                    SourceZones.Add(zoneViewModel);
                     continue;
                 }
 
@@ -52,16 +51,6 @@ namespace DevicesModule.ViewModels
                 {
                     if (device.Parent.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneNo == zone.No) == false)
                     {
-                        SourceZones.Add(zoneViewModel);
-                        continue;
-                    }
-                }
-
-                if ((device.Parent.Driver.DriverType == DriverType.Rubezh_2OP) || (device.Parent.Driver.DriverType == DriverType.USB_Rubezh_2OP))
-                {
-                    if (device.Parent.Children.Any(x => x.ZoneNo == zone.No) == false)
-                    {
-                        SourceZones.Add(zoneViewModel);
                         continue;
                     }
                 }

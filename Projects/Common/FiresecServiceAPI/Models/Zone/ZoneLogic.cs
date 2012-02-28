@@ -22,7 +22,7 @@ namespace FiresecAPI.Models
         {
             string result = "";
 
-            for (int i = 0; i < Clauses.Count; ++i)
+            for (int i = 0; i < Clauses.Count; i++)
             {
                 var clause = Clauses[i];
 

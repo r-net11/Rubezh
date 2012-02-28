@@ -148,7 +148,7 @@ namespace DevicesModule.ViewModels
             get
             {
                 var presenrationZones = new StringBuilder();
-                for (int i = 0; i < Zones.Count; ++i)
+                for (int i = 0; i < Zones.Count; i++)
                 {
                     if (i > 0)
                         presenrationZones.Append(", ");

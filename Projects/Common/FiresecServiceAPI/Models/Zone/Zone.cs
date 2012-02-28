@@ -53,5 +53,8 @@ namespace FiresecAPI.Models
         {
             get { return No + "." + Name; }
         }
+
+        public List<Device> DevicesInZone { get; set; }
+        public List<Device> DeviceInZoneLogic { get; set; }
     }
 }

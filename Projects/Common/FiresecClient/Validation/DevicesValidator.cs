@@ -21,6 +21,8 @@ namespace FiresecClient.Validation
         public static void Validate()
         {
             FiresecManager.DeviceConfiguration.UpdateGuardConfiguration();
+            FiresecManager.InvalidateConfiguration();
+            FiresecManager.UpdateZoneDevices();
             ValidateDevices();
             ValidateZones();
             ValidateDirections();
@@ -75,23 +77,39 @@ namespace FiresecClient.Validation
 
         static void ValidateDeviceIndicatorOtherNetworkDevice(Device device)
         {
-            if (device.IndicatorLogic.Device != null && device.IndicatorLogic.Device.AllParents.IsNotNullOrEmpty() && (device.IndicatorLogic.Device.AllParents[1] != device.AllParents[1] || device.IndicatorLogic.Device.AllParents[2] != device.AllParents[2]))
-                DeviceErrors.Add(new DeviceError(device, "Для индикатора указано устройство находящееся в другой сети RS-485", ErrorLevel.CannotWrite));
+            if ((device.Driver.IsIndicatorDevice) && (device.IndicatorLogic.Device != null))
+            {
+                if ((device.IndicatorLogic.Device.Channel == null) && (device.IndicatorLogic.Device.Channel.UID != device.Channel.UID))
+                    DeviceErrors.Add(new DeviceError(device, "Для индикатора указано устройство находящееся в другой сети RS-485", ErrorLevel.CannotWrite));
+            }
+
+            //if (device.IndicatorLogic.Device != null && device.IndicatorLogic.Device.AllParents.IsNotNullOrEmpty() && (device.IndicatorLogic.Device.AllParents[1] != device.AllParents[1] || device.IndicatorLogic.Device.AllParents[2] != device.AllParents[2]))
+            //    DeviceErrors.Add(new DeviceError(device, "Для индикатора указано устройство находящееся в другой сети RS-485", ErrorLevel.CannotWrite));
         }
 
         static void ValidateDeviceIndicatorOtherNetworkZone(Device device)
         {
-            var zone = device.IndicatorLogic.Zones.FirstOrDefault(
-                zoneNo => GetZoneDevices(zoneNo).Any(x => x.AllParents.IsNotNullOrEmpty() && (x.AllParents[1] != device.AllParents[1] || x.AllParents[2] != device.AllParents[2])));
-            if (zone != null)
-                DeviceErrors.Add(new DeviceError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone), ErrorLevel.CannotWrite));
+            if (device.Driver.IsIndicatorDevice)
+            {
+                foreach (var zoneNo in device.IndicatorLogic.Zones)
+                {
+                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+                    if (zone.DevicesInZone.All(x=>((x.Channel != null) && (x.Channel.UID == device.Channel.UID)) == false))
+                        DeviceErrors.Add(new DeviceError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone), ErrorLevel.CannotWrite));
+                }
+            }
+
+            //var zone = device.IndicatorLogic.Zones.FirstOrDefault(
+            //    zoneNo => GetZoneDevices(zoneNo).Any(x => x.AllParents.IsNotNullOrEmpty() && (x.AllParents[1] != device.AllParents[1] || x.AllParents[2] != device.AllParents[2])));
+            //if (zone != null)
+            //    DeviceErrors.Add(new DeviceError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone), ErrorLevel.CannotWrite));
         }
 
         static void ValidateDeviceMaxDeviceOnLine(Device device)
         {
             if (device.Driver.HasShleif)
             {
-                for (int i = 1; i <= device.Driver.ShleifCount; ++i)
+                for (int i = 1; i <= device.Driver.ShleifCount; i++)
                 {
                     if (device.Children.Count(x => x.IntAddress >> 8 == i) > 255)
                     {
@@ -140,7 +158,7 @@ namespace FiresecClient.Validation
 
         static void ValidateDeviceExtendedZoneLogic(Device device)
         {
-            if (device.Driver.IsZoneLogicDevice && device.ZoneLogic == null &&
+            if (device.Driver.IsZoneLogicDevice && (device.ZoneLogic == null || device.ZoneLogic.Clauses.Count == 0) &&
                 device.Driver.DriverType != DriverType.ASPT && device.Driver.DriverType != DriverType.Exit)
                 DeviceErrors.Add(new DeviceError(device, "Отсутствуют настроенные режимы срабатывания", ErrorLevel.CannotWrite));
         }
@@ -176,7 +194,7 @@ namespace FiresecClient.Validation
             {
                 _validateDevicesWithSerialNumber.Add(device.DriverUID);
                 var serialNumbers = similarDevices.Select(x => GetSerialNumber(x)).ToList();
-                for (int i = 0; i < serialNumbers.Count; ++i)
+                for (int i = 0; i < serialNumbers.Count; i++)
                 {
                     if (string.IsNullOrWhiteSpace(serialNumbers[i]) || serialNumbers.Count(x => x == serialNumbers[i]) > 1)
                         DeviceErrors.Add(new DeviceError(similarDevices[i], "При наличии в конфигурации одинаковых USB устройств, их серийные номера должны быть указаны и отличны", ErrorLevel.CannotWrite));

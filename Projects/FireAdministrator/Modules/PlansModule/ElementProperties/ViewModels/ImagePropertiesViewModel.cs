@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Infrastructure.Common;
 using Microsoft.Win32;
+using Controls.MessageBox;
 
 namespace PlansModule.ViewModels
 {
@@ -35,22 +36,29 @@ namespace PlansModule.ViewModels
 
         public void UpdateImage()
         {
-            BitmapImage bitmapImage = null;
-            if (BackgroundPixels != null)
-                using (var imageStream = new MemoryStream(BackgroundPixels))
-                {
-                    bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmapImage.StreamSource = imageStream;
-                    bitmapImage.EndInit();
-                }
-            Image = new Image()
+            try
             {
-                Source = bitmapImage,
-                Stretch = Stretch.Uniform
-            };
-            OnPropertyChanged("Image");
+                BitmapImage bitmapImage = null;
+                if (BackgroundPixels != null)
+                    using (var imageStream = new MemoryStream(BackgroundPixels))
+                    {
+                        bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmapImage.StreamSource = imageStream;
+                        bitmapImage.EndInit();
+                    }
+                Image = new Image()
+                {
+                    Source = bitmapImage,
+                    Stretch = Stretch.Uniform
+                };
+                OnPropertyChanged("Image");
+            }
+            catch (Exception e)
+            {
+                MessageBoxService.ShowWarning("Возникла ошибка при загрузке изоюражения");
+            }
         }
 
         public RelayCommand RemovePictureCommand { get; private set; }

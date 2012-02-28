@@ -26,7 +26,7 @@ namespace FiresecClient
             {
                 var autoCreateDriver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == autoCreateDriverId);
 
-                for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; ++i)
+                for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
                 {
                     device.AddChild(autoCreateDriver, i);
                 }
@@ -49,7 +49,7 @@ namespace FiresecClient
             {
                 var autoCreateDriver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == autoCreateChildUID);
 
-                for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; ++i)
+                for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
                 {
                     var newDevice = new Device()
                     {

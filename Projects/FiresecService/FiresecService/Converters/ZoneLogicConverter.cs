@@ -22,9 +22,7 @@ namespace FiresecService.Converters
                     {
                         foreach (var item in innerClause.zone)
                         {
-                            if (string.IsNullOrWhiteSpace(item))
-                                clause.Zones.Add(null);
-                            else
+                            if (string.IsNullOrWhiteSpace(item) == false)
                                 clause.Zones.Add(ulong.Parse(item));
                         }
                     }

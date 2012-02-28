@@ -309,7 +309,7 @@ namespace PlansModule.Designer
                 Point currentPoint = e.GetPosition(selectedItem);
                 var minDistance = double.MaxValue;
                 int minIndex = 0;
-                for (int i = 0; i < pointCollection.Count; ++i)
+                for (int i = 0; i < pointCollection.Count; i++)
                 {
                     var polygonPoint = pointCollection[i];
                     var distance = Math.Pow(currentPoint.X - polygonPoint.X, 2) + Math.Pow(currentPoint.Y - polygonPoint.Y, 2);

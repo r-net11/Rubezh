@@ -11,9 +11,7 @@ namespace DevicesModule.ViewModels
         {
             Title = "Выбор устройства";
 
-            Devices = new List<Device>(
-                parentDevice.Children.Where(x => x.Driver.DriverType == DriverType.AM1_T)
-            );
+            Devices = new List<Device>(parentDevice.Children.Where(x => x.Driver.DriverType == DriverType.AM1_T));
         }
 
         public List<Device> Devices { get; private set; }

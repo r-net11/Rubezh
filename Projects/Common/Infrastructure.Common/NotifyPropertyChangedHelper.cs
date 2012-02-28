@@ -31,7 +31,7 @@ namespace Infrastructure.Common
             if (!EqualityComparer<T>.Default.Equals(field, value))
             {
                 field = value;
-                for (int i = 0; i < names.Length; ++i) // for loop is faster then foreach :)
+                for (int i = 0; i < names.Length; i++)
                 {
                     NotifyPropertyChanged(containingObject, names[i]);
                 }

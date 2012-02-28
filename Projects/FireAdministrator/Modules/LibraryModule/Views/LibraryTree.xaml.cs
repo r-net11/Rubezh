@@ -71,7 +71,7 @@ namespace LibraryModule.Views
             else if ((treeView.SelectedItem as StateViewModel) != null)
                 (contextMenu.Items[contextMenu.Items.Count - 1] as MenuItem).Visibility = Visibility.Visible;
             else if ((treeView.SelectedItem as DeviceViewModel) != null)
-                for (var i = 0; i < contextMenu.Items.Count - 1; ++i)
+                for (var i = 0; i < contextMenu.Items.Count - 1; i++)
                     (contextMenu.Items[i] as MenuItem).Visibility = Visibility.Visible;
         }
 

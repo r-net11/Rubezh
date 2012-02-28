@@ -95,7 +95,7 @@ namespace PlansModule.ViewModels
             var j = polygon.Points.Count - 1;
             var oddNodes = false;
 
-            for (var i = 0; i < polygon.Points.Count; ++i)
+            for (var i = 0; i < polygon.Points.Count; i++)
             {
                 if (polygon.Points[i].Y < point.Y && polygon.Points[j].Y >= point.Y ||
                     polygon.Points[j].Y < point.Y && polygon.Points[i].Y >= point.Y)

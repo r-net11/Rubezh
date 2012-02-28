@@ -44,19 +44,18 @@ namespace FiresecAPI.Models
                         if (DeviceUID != Guid.Empty)
                         {
                             var deviceString = "Устр: ";
-                            deviceString += Device.Driver.ShortName;
-                            deviceString += Device.DottedAddress;
+                            deviceString += Device.PresentationAddressDriver;
                             return deviceString;
                         }
                         break;
                     }
                 case IndicatorLogicType.Zone:
                     {
-                        if (Zones != null)
+                        if ((Zones != null) && (Zones.Count > 0))
                         {
                             var zonesString = "Зоны: ";
 
-                            for (int i = 0; i < Zones.Count; ++i)
+                            for (int i = 0; i < Zones.Count; i++)
                             {
                                 if (i > 0)
                                     zonesString += ",";

@@ -46,7 +46,7 @@ namespace Infrastructure.Common
             if (parent.IsExpanded)
             {
                 int indexOf = Source.IndexOf(parent);
-                for (int i = 0; i < parent.Children.Count; ++i)
+                for (int i = 0; i < parent.Children.Count; i++)
                 {
                     if (Source.Contains(parent.Children[i]) == false)
                         Source.Insert(indexOf + 1 + i, parent.Children[i]);

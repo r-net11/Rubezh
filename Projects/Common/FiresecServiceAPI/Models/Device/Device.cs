@@ -221,6 +221,16 @@ namespace FiresecAPI.Models
             }
         }
 
+        public Device Channel
+        {
+            get
+            {
+                return AllParents.FirstOrDefault(x => (x.Driver.DriverType == DriverType.USB_Channel ||
+                    x.Driver.DriverType == DriverType.USB_Channel_1 ||
+                    x.Driver.DriverType == DriverType.USB_Channel_2));
+            }
+        }
+
         public string ConnectedTo
         {
             get

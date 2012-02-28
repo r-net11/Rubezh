@@ -49,7 +49,7 @@ namespace Infrastructure.Common
         static UserControl FindUserControl(DependencyObject obj)
         {
             UserControl result = null;
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); ++i)
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
                 DependencyObject childObj = VisualTreeHelper.GetChild(obj, i);
                 if (childObj != null)
