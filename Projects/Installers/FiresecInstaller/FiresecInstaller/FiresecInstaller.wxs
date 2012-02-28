@@ -6,6 +6,8 @@
   
   <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
            Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
+    
+    
     <Package InstallerVersion="200" Compressed="yes" />
 
     <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
@@ -69,7 +71,7 @@
     <FeatureRef Id="FiresecFeature" />
     
     <InstallExecuteSequence>
-      <Custom Action="CloseApplications" Before="RemoveFiles" />  
+      <Custom Action="WixCloseApplications" Before="LaunchConditions" />
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

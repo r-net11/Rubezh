@@ -46,6 +46,12 @@
 
 			<Component Id="ClearOnUninstallFiresecService" Guid="491AB89B-FE4A-4E99-A8D4-C486E13F2663">
 				<CreateFolder Directory="INSTALLLOCATION" />
+				<RemoveFile Id="RemoveFSIcons" On="uninstall" Name="*.*" Directory="FiresecServiceIconsFolder" />
+				<RemoveFolder Id="RemoveFSIconsLocation" On="uninstall" Directory="FiresecServiceIconsFolder"/>
+				<RemoveFile Id="RemoveFSSounds" On="uninstall" Name="*.*" Directory="FiresecServiceSoundsFolder" />
+				<RemoveFolder Id="RemoveFSSoundsLocation" On="uninstall" Directory="FiresecServiceSoundsFolder"/>
+				<RemoveFile Id="RemoveFSConfigurations" On="uninstall" Name="*.*" Directory="FiresecServiceConfigFolder" />
+				<RemoveFolder Id="RemoveFSConfigLocation" On="uninstall" Directory="FiresecServiceConfigFolder" />
 				<RemoveFolder Id="FiresecServiceRemove" On="uninstall" Directory="FIRESECSERVICELOCATION"/>
 			</Component>
 		</DirectoryRef>

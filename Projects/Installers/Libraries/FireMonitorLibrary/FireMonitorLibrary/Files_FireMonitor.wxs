@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 	<?include Variables_FireMonitor.wxi?>
 	<Fragment>
 		<Icon Id="FireMonitorIcon" SourceFile="Data\Firesec.ico"/>
-		
+		<util:CloseApplication Id="FMCloseAction" CloseMessage="yes" Target="$(var.FireMonitor.TargetFileName)" RebootPrompt="no" />
+
 		<DirectoryRef Id="FIREMONITORLOCATION">
 
 			<Component Id="FireMonitorExe" Guid="9F7A8A3F-CAEB-4C63-AEC1-B51B4A8544F2">

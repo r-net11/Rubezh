@@ -4,7 +4,7 @@
 		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 	<?include Variables_FiresecService.wxi?>
 	<Fragment>
-		<util:CloseApplication Id="CalcCloseAction" CloseMessage="yes" Target="$(var.FiresecService.TargetFileName)" RebootPrompt="no" />
+		<util:CloseApplication Id="FSCloseAction" CloseMessage="yes" Target="$(var.FiresecService.TargetFileName)" RebootPrompt="no" />
 
 		<DirectoryRef Id="FIRESECSERVICELOCATION">
 			<Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
@@ -61,11 +61,7 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="FiresecServiceConfigFolder">
-			<Component Id="PlansConfiguration" Guid="7389E335-B577-4D09-9E36-25A6FA75BDD7">
-				<File Id="PlansConfiguration" Name="PlansConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-							DiskId="1" KeyPath="yes">
-				</File>
-			</Component>
+			
 			<Component Id="SecurityConfiguration" Guid="024037C2-F2FD-4A06-A14B-A23B5179E6DE">
 				<File Id="SecurityConfiguration" Name="SecurityConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
 							DiskId="1" KeyPath="yes">
@@ -76,11 +72,7 @@
 							DiskId="1" KeyPath="yes">
 				</File>
 			</Component>
-			<Component Id="DeviceConfiguration" Guid="188AAA95-581A-4352-B11E-38C0CDE13C16">
-				<File Id="DeviceConfiguration" Name="DeviceConfiguration.xml" Source="$(var.FiresecService.TargetDir)\Configuration\"
-							DiskId="1" KeyPath="yes">
-				</File>
-			</Component>
+			
 		</DirectoryRef>
 
 	</Fragment>

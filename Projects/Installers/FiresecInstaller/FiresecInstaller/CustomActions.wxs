@@ -3,6 +3,5 @@
 	<Fragment>
 		<CustomAction Id="StartAppOnExit" FileKey="FiresecServiceExe" ExeCommand="/Convert /ConvertJournal"
 									Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
-		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="KillFiresecServiceProcess" />
 	</Fragment>
 </Wix>

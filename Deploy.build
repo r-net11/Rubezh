@@ -4,7 +4,7 @@
 	<target name="run">
 		<call target="Clear" />	
 		<call target="CopyFiles" />		
-		<call target="CompileAll" />
+		<call target="CompileAll" />		
 	</target>
 	<target name="Clear">		
 		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Pictures" />
@@ -48,5 +48,5 @@
 		<msbuild project="Projects\FireMonitor\FireMonitor.sln">
 			<property name="Configuration" value="Release" />
 		</msbuild>	
-	</target>
+	</target>	
 </project>
