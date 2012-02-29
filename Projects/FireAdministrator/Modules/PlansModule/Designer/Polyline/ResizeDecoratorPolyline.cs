@@ -4,8 +4,7 @@ using System.Windows.Documents;
 
 namespace PlansModule.Designer
 {
-    public class ResizeDecoratorPolyline
-        : Control
+    public class ResizeDecoratorPolyline : Control
     {
         private Adorner adorner;
 

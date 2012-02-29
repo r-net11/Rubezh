@@ -229,12 +229,12 @@ namespace DevicesModule.Views
                 {
                     case Key.Right:
                         e.Handled = true;
-                        RighKeytHandle();
+                        OnRightKey();
                         return;
 
                     case Key.Left:
                         e.Handled = true;
-                        LeftKeyHandle();
+                        OnLeftKey();
                         return;
 
                     default:
@@ -244,7 +244,7 @@ namespace DevicesModule.Views
             e.Handled = true;
         }
 
-        void RighKeytHandle()
+        void OnRightKey()
         {
             if (addressEditor.CaretIndex >= addressEditor.Text.Length)
                 return;
@@ -254,7 +254,7 @@ namespace DevicesModule.Views
                 addressEditor.CaretIndex += 1;
         }
 
-        void LeftKeyHandle()
+        void OnLeftKey()
         {
             if (addressEditor.CaretIndex <= 0)
                 return;
@@ -279,16 +279,12 @@ namespace DevicesModule.Views
             if (leftPart < LeftPartMin)
             {
                 MessageBoxService.ShowWarning(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
-
                 LeftPart = LeftPartMin;
-                addressEditor.CaretIndex = caretIndex;
             }
             else if (leftPart > LeftPartMax)
             {
                 MessageBoxService.ShowWarning(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
-
                 LeftPart = LeftPartMax;
-                addressEditor.CaretIndex = caretIndex;
             }
             addressEditor.CaretIndex = caretIndex;
         }
@@ -304,16 +300,12 @@ namespace DevicesModule.Views
             if (rightPart < RightPartMin)
             {
                 MessageBoxService.ShowWarning(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
-
                 RightPart = RightPartMin;
-                addressEditor.CaretIndex = caretIndex;
             }
             else if (rightPart > RightPartMax)
             {
                 MessageBoxService.ShowWarning(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
-
                 RightPart = RightPartMax;
-                addressEditor.CaretIndex = caretIndex;
             }
             addressEditor.CaretIndex = caretIndex;
         }

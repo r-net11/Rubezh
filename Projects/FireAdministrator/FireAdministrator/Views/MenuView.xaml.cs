@@ -31,7 +31,10 @@ namespace FireAdministrator.Views
 
         void OnSetNewConfig(object sender, RoutedEventArgs e)
         {
-            SetNewConfig();
+            if (MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?") == MessageBoxResult.Yes)
+            {
+                SetNewConfig();
+            }
         }
 
         public void SetNewConfig()

@@ -17,7 +17,7 @@ namespace PlansModule.Designer
         }
 
         DesignerItem DesignerItem;
-        
+
         DesignerCanvas DesignerCanvas
         {
             get { return DesignerItem.DesignerCanvas; }
@@ -165,8 +165,8 @@ namespace PlansModule.Designer
             }
             Polygon.Points = points;
 
-            DesignerItem.Width = maxLeft - minLeft;
-            DesignerItem.Height = maxTop - minTop;
+            DesignerItem.ItemWidth = maxLeft - minLeft;
+            DesignerItem.ItemHeight = maxTop - minTop;
         }
 
         public void UpdateZoom()

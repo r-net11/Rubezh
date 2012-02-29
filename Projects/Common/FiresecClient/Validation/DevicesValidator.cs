@@ -7,14 +7,9 @@ namespace FiresecClient.Validation
 {
     public static class DevicesValidator
     {
-        public static List<ZoneError> ZoneErrors { get; set; }
         public static List<DeviceError> DeviceErrors { get; set; }
+        public static List<ZoneError> ZoneErrors { get; set; }
         public static List<DirectionError> DirectionErrors { get; set; }
-
-        static readonly DriverType NsDriverType = DriverType.PumpStation;
-        static readonly DriverType PduDriverType = DriverType.PDU;
-        static readonly DriverType IndicatorDriverType = DriverType.Indicator;
-        static readonly DriverType ZadvizhkaDriverType = DriverType.Valve;
 
         static List<Guid> _validateDevicesWithSerialNumber;
 
@@ -33,27 +28,15 @@ namespace FiresecClient.Validation
         {
             DeviceErrors = new List<DeviceError>();
             _validateDevicesWithSerialNumber = new List<Guid>();
-            int pduCount = 0;
+
+            ValidatePduCount();
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                if (device.Driver.DriverType == PduDriverType)
-                {
-                    ++pduCount;
-                }
-                else if (device.Driver.DriverType == IndicatorDriverType)
-                {
-                    if (device.IndicatorLogic.IndicatorLogicType == IndicatorLogicType.Zone)
-                        ValidateDeviceIndicatorOtherNetworkZone(device);
-                    else
-                        ValidateDeviceIndicatorOtherNetworkDevice(device);
-                }
-
-                if (string.IsNullOrWhiteSpace(device.Description) == false)
-                {
-                    ValidateDeviceComment(device);
-                    ValidateDeviceOnInvalidChars(device);
-                }
+                ValidateAddressEquality(device);
+                ValidateDeviceIndicatorOtherNetwor(device);
+                ValidateDeviceComment(device);
+                ValidateDeviceOnInvalidChars(device);
                 ValidateDeviceMaxDeviceOnLine(device);
                 ValidateDeviceOwnerZone(device);
                 ValidateDeviceAddress(device);
@@ -69,10 +52,49 @@ namespace FiresecClient.Validation
                 ValidateDeviceMaxExtCount(device);
                 ValidateDeviceSecurityPanel(device);
                 ValidateDeviceRangeAddress(device);
+                ValidateMRK30(device);
             }
+        }
 
+        static void ValidatePduCount()
+        {
+            int pduCount = 0;
+
+            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+            {
+                if (device.Driver.DriverType == DriverType.PDU)
+                {
+                    ++pduCount;
+                }
+            }
             if (pduCount > 10)
                 DeviceErrors.Add(new DeviceError(null, string.Format("Максимальное количество ПДУ - 10, сейчас - {0}", pduCount), ErrorLevel.Warning));
+        }
+
+        static void ValidateAddressEquality(Device device)
+        {
+            var addresses = new List<int>();
+            foreach(var childDevice in device.Children)
+            {
+                if (childDevice.Driver.HasAddress)
+                {
+                    if (addresses.Contains(childDevice.IntAddress))
+                        DeviceErrors.Add(new DeviceError(childDevice, string.Format("Дублируется адрес устройства"), ErrorLevel.CannotWrite));
+                    else
+                        addresses.Add(childDevice.IntAddress);
+                }
+            }
+        }
+
+        static void ValidateDeviceIndicatorOtherNetwor(Device device)
+        {
+            if (device.Driver.DriverType == DriverType.Indicator)
+            {
+                if (device.IndicatorLogic.IndicatorLogicType == IndicatorLogicType.Zone)
+                    ValidateDeviceIndicatorOtherNetworkZone(device);
+                else
+                    ValidateDeviceIndicatorOtherNetworkDevice(device);
+            }
         }
 
         static void ValidateDeviceIndicatorOtherNetworkDevice(Device device)
@@ -82,9 +104,6 @@ namespace FiresecClient.Validation
                 if ((device.IndicatorLogic.Device.Channel == null) && (device.IndicatorLogic.Device.Channel.UID != device.Channel.UID))
                     DeviceErrors.Add(new DeviceError(device, "Для индикатора указано устройство находящееся в другой сети RS-485", ErrorLevel.CannotWrite));
             }
-
-            //if (device.IndicatorLogic.Device != null && device.IndicatorLogic.Device.AllParents.IsNotNullOrEmpty() && (device.IndicatorLogic.Device.AllParents[1] != device.AllParents[1] || device.IndicatorLogic.Device.AllParents[2] != device.AllParents[2]))
-            //    DeviceErrors.Add(new DeviceError(device, "Для индикатора указано устройство находящееся в другой сети RS-485", ErrorLevel.CannotWrite));
         }
 
         static void ValidateDeviceIndicatorOtherNetworkZone(Device device)
@@ -98,11 +117,6 @@ namespace FiresecClient.Validation
                         DeviceErrors.Add(new DeviceError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone), ErrorLevel.CannotWrite));
                 }
             }
-
-            //var zone = device.IndicatorLogic.Zones.FirstOrDefault(
-            //    zoneNo => GetZoneDevices(zoneNo).Any(x => x.AllParents.IsNotNullOrEmpty() && (x.AllParents[1] != device.AllParents[1] || x.AllParents[2] != device.AllParents[2])));
-            //if (zone != null)
-            //    DeviceErrors.Add(new DeviceError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone), ErrorLevel.CannotWrite));
         }
 
         static void ValidateDeviceMaxDeviceOnLine(Device device)
@@ -122,14 +136,16 @@ namespace FiresecClient.Validation
 
         static void ValidateDeviceComment(Device device)
         {
-            if (device.Description.Length > 20)
-                DeviceErrors.Add(new DeviceError(device, "Длинное описание - в прибор будет записано описание из первых 20 символов", ErrorLevel.Warning));
+            if (string.IsNullOrWhiteSpace(device.Description) == false)
+                if (device.Description.Length > 20)
+                    DeviceErrors.Add(new DeviceError(device, "Длинное описание - в прибор будет записано описание из первых 20 символов", ErrorLevel.Warning));
         }
 
         static void ValidateDeviceOnInvalidChars(Device device)
         {
-            if (ValidateString(device.Description) == false)
-                DeviceErrors.Add(new DeviceError(device, string.Format("Символы \"{0}\" не допустимы для записи в устройства", InvalidChars(device.Description)), ErrorLevel.CannotWrite));
+            if (string.IsNullOrWhiteSpace(device.Description) == false)
+                if (ValidateString(device.Description) == false)
+                    DeviceErrors.Add(new DeviceError(device, string.Format("Символы \"{0}\" не допустимы для записи в устройства", InvalidChars(device.Description)), ErrorLevel.CannotWrite));
         }
 
         static void ValidateDeviceOwnerZone(Device device)
@@ -255,14 +271,21 @@ namespace FiresecClient.Validation
         {
             if (device.Driver.HasShleif && device.Children.IsNotNullOrEmpty())
             {
-                var childrenZones = device.Children.Where(x => x.Driver.IsZoneDevice && x.ZoneNo != null).Select(x => x.ZoneNo.Value).Distinct().ToList();
-                if (childrenZones.IsNotNullOrEmpty() == false)
-                    return;
+                var childZones = new List<Zone>();
+                foreach (var childDevice in device.Children)
+                {
+                    if (childDevice.Driver.IsZoneDevice && childDevice.ZoneNo != null)
+                    {
+                        var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == childDevice.ZoneNo.Value);
+                        if (zone != null)
+                            childZones.Add(zone);
+                    }
+                }
 
-                var childrenZonesDevices = new List<Device>();
-                childrenZones.ForEach(x => childrenZonesDevices.AddRange(GetZoneDevices(x)));
+                var childZonesDevices = new List<Device>();
+                childZones.ForEach(x => childZonesDevices.AddRange(x.DeviceInZoneLogic));
 
-                int extendedDevicesCount = childrenZonesDevices.Where(x => x.Driver.IsZoneLogicDevice && x.Parent != device).Distinct().Count();
+                int extendedDevicesCount = childZonesDevices.Where(x => x.Driver.IsZoneLogicDevice && x.Parent != device).Distinct().Count();
                 if (extendedDevicesCount > 250)
                     DeviceErrors.Add(new DeviceError(device, string.Format("В приборе не может быть более 250 внешних устройств. Сейчас : {0}", extendedDevicesCount), ErrorLevel.CannotWrite));
             }
@@ -348,34 +371,72 @@ namespace FiresecClient.Validation
             }
         }
 
+        static void ValidateMRK30(Device device)
+        {
+            if (device.Driver.DriverType == DriverType.MRK_30)
+            {
+                var reservedCount = device.GetReservedCount();
+                if (reservedCount < 1 || reservedCount > 30)
+                    DeviceErrors.Add(new DeviceError(device, string.Format("Количество подключаемых устройств должно быть в диапазоне 1 - 30: {0}", device.PresentationAddress), ErrorLevel.CannotWrite));
+
+                int minChildAddress = device.IntAddress + 1;
+                int maxChildAddress = device.IntAddress + reservedCount;
+                if (maxChildAddress / 256 != minChildAddress / 256)
+                    maxChildAddress = maxChildAddress - maxChildAddress % 256;
+
+                foreach (var childDevice in device.Parent.Children)
+                {
+                    if ((childDevice.IntAddress >= minChildAddress) && (childDevice.IntAddress <= maxChildAddress))
+                    {
+                        if (childDevice.Parent.UID != device.UID)
+                            DeviceErrors.Add(new DeviceError(device, string.Format("Устройство находится в зарезервированном диапазоне адресов МРК-30: {0}", childDevice.PresentationAddress), ErrorLevel.CannotWrite));
+                    }
+                }
+
+                foreach (var childDevice in device.Children)
+                {
+                    if ((childDevice.IntAddress < minChildAddress) && (childDevice.IntAddress > maxChildAddress))
+                    {
+                        DeviceErrors.Add(new DeviceError(device, string.Format("Устройство находится за пределами диапазона адресов МРК-30: {0}", childDevice.PresentationAddress), ErrorLevel.CannotWrite));
+                    }
+                }
+            }
+        }
+
         static void ValidateZones()
         {
             ZoneErrors = new List<ZoneError>();
 
-            int guardZonesCount = 0;
+            ValidateGuardZonesCount();
+
             foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
-                List<Device> zoneDevices = GetZoneDevices(zone.No).ToList();
-
-                if (zoneDevices.Count == 0)
+                if (zone.DevicesInZone.Count == 0)
                 {
                     ZoneErrors.Add(new ZoneError(zone, "В зоне отсутствуют устройства", ErrorLevel.Warning));
                 }
                 else
                 {
-                    ValidateZoneDetectorCount(zone, zoneDevices);
-                    ValidateZoneType(zone, zoneDevices);
-                    ValidateZoneOutDevices(zone, zoneDevices);
-                    ValidateZoneSingleNS(zone, zoneDevices);
-                    ValidateZoneDifferentLine(zone, zoneDevices);
-                    ValidateZoneSingleBoltInDirectionZone(zone, zoneDevices);
+                    ValidateZoneDetectorCount(zone);
+                    ValidateZoneType(zone);
+                    ValidateZoneOutDevices(zone);
+                    ValidateZoneSingleNS(zone);
+                    ValidateZoneDifferentLine(zone);
+                    ValidateZoneSingleBoltInDirectionZone(zone);
                 }
 
                 ValidateZoneNumber(zone);
                 ValidateZoneNameLength(zone);
                 ValidateZoneDescriptionLength(zone);
                 ValidateZoneName(zone);
+            }
+        }
 
+        static void ValidateGuardZonesCount()
+        {
+            int guardZonesCount = 0;
+            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+            {
                 if (zone.ZoneType == ZoneType.Guard)
                     ++guardZonesCount;
             }
@@ -383,73 +444,59 @@ namespace FiresecClient.Validation
                 ZoneErrors.Add(new ZoneError(null, string.Format("Превышено максимальное количество охранных зон ({0} из 64 максимально возможных)", guardZonesCount), ErrorLevel.CannotWrite));
         }
 
-        static void ValidateZoneDetectorCount(Zone zone, List<Device> zoneDevices)
+        static void ValidateZoneDetectorCount(Zone zone)
         {
-            if ((zone.ZoneType == ZoneType.Fire) && (zone.DetectorCount > zoneDevices.Where(x => x.Driver.IsZoneDevice).Count()))
+            if ((zone.ZoneType == ZoneType.Fire) && (zone.DetectorCount > zone.DevicesInZone.Count))
                 ZoneErrors.Add(new ZoneError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ErrorLevel.Warning));
         }
 
-        static void ValidateZoneType(Zone zone, List<Device> zoneDevices)
+        static void ValidateZoneType(Zone zone)
         {
             switch (zone.ZoneType)
             {
                 case ZoneType.Fire:
-                    var guardDevice = zoneDevices.FirstOrDefault(x => x.Driver.DeviceType == DeviceType.Sequrity);
+                    var guardDevice = zone.DevicesInZone.FirstOrDefault(x => x.Driver.DeviceType == DeviceType.Sequrity);
                     if (guardDevice != null)
                         ZoneErrors.Add(new ZoneError(zone, string.Format("В зону не может быть помещено охранное устройство ({0})", guardDevice.PresentationAddress), ErrorLevel.CannotSave));
                     break;
 
                 case ZoneType.Guard:
-                    var fireDevice = zoneDevices.FirstOrDefault(x => x.Driver.DeviceType == DeviceType.Fire);
+                    var fireDevice = zone.DevicesInZone.FirstOrDefault(x => x.Driver.DeviceType == DeviceType.Fire);
                     if (fireDevice != null)
                         ZoneErrors.Add(new ZoneError(zone, string.Format("В зону не может быть помещено пожарное устройство ({0})", fireDevice.PresentationAddress), ErrorLevel.CannotSave));
                     break;
             }
         }
 
-        static void ValidateDirections()
+        static void ValidateZoneOutDevices(Zone zone)
         {
-            DirectionErrors = new List<DirectionError>();
-
-            foreach (var direction in FiresecManager.DeviceConfiguration.Directions)
-            {
-                if (ValidateDirectionZonesContent(direction))
-                { }
-            }
+            //if (zoneDevices.All(x => x.Driver.IsOutDevice))
+            //    ZoneErrors.Add(new ZoneError(zone, "К зоне нельзя отнести только выходные устройства", ErrorLevel.CannotWrite));
         }
 
-        static void ValidateZoneOutDevices(Zone zone, List<Device> zoneDevices)
+        static void ValidateZoneSingleNS(Zone zone)
         {
-            if (zoneDevices.All(x => x.Driver.IsOutDevice))
-                ZoneErrors.Add(new ZoneError(zone, "К зоне нельзя отнести только выходные устройства", ErrorLevel.CannotWrite));
-        }
-
-        static void ValidateZoneSingleNS(Zone zone, List<Device> zoneDevices)
-        {
-            if (zoneDevices.Where(x => x.Driver.DriverType == NsDriverType).Count() > 1)
+            if (zone.DeviceInZoneLogic.Where(x => x.Driver.DriverType == DriverType.PumpStation).Count() > 1)
                 ZoneErrors.Add(new ZoneError(zone, "В одной зоне не может быть несколько внешних НС", ErrorLevel.CannotWrite));
         }
 
-        static void ValidateZoneDifferentLine(Zone zone, List<Device> zoneDevices)
+        static void ValidateZoneDifferentLine(Zone zone)
         {
-            var zoneAutoCreateDevices = zoneDevices.Where(x => x.Driver.IsAutoCreate && x.Driver.IsDeviceOnShleif).ToList();
-            if (zoneAutoCreateDevices.Count > 0)
+            var zoneAutoCreateDevices = zone.DevicesInZone.Where(x => x.Driver.IsAutoCreate && x.Driver.IsDeviceOnShleif).ToList();
+            foreach (var device in zoneAutoCreateDevices)
             {
-                foreach (var device in zoneAutoCreateDevices)
+                var shliefCount = device.AddressFullPath.Substring(0, device.AddressFullPath.IndexOf('.'));
+                if (shliefCount != "0" && zone.DevicesInZone.Any(x => x.AddressFullPath.Substring(0, x.AddressFullPath.IndexOf('.')) != shliefCount))
                 {
-                    var shliefCount = device.AddressFullPath.Substring(0, device.AddressFullPath.IndexOf('.'));
-                    if (shliefCount != "0" && zoneDevices.Any(x => x.AddressFullPath.Substring(0, x.AddressFullPath.IndexOf('.')) != shliefCount))
-                    {
-                        ZoneErrors.Add(new ZoneError(zone, string.Format("Адрес встроенного устройства ({0}) в зоне не соответствует номерам шлейфа прочих устройств", device.PresentationAddress), ErrorLevel.CannotWrite));
-                        return;
-                    }
+                    ZoneErrors.Add(new ZoneError(zone, string.Format("Адрес встроенного устройства ({0}) в зоне не соответствует номерам шлейфа прочих устройств", device.PresentationAddress), ErrorLevel.CannotWrite));
+                    return;
                 }
             }
         }
 
-        static void ValidateZoneSingleBoltInDirectionZone(Zone zone, List<Device> zoneDevices)
+        static void ValidateZoneSingleBoltInDirectionZone(Zone zone)
         {
-            if (zoneDevices.Count(x => x.Driver.DriverType == ZadvizhkaDriverType) > 1 && FiresecManager.DeviceConfiguration.Directions.Any(x => x.Zones.Contains(zone.No)))
+            if (zone.DeviceInZoneLogic.Count(x => x.Driver.DriverType == DriverType.Valve) > 1 && FiresecManager.DeviceConfiguration.Directions.Any(x => x.Zones.Contains(zone.No)))
                 ZoneErrors.Add(new ZoneError(zone, "В зоне направления не может быть более одной задвижки", ErrorLevel.CannotWrite));
         }
 
@@ -477,6 +524,17 @@ namespace FiresecClient.Validation
                 ZoneErrors.Add(new ZoneError(zone, "Не указано наименование зоны", ErrorLevel.CannotWrite));
         }
 
+        static void ValidateDirections()
+        {
+            DirectionErrors = new List<DirectionError>();
+
+            foreach (var direction in FiresecManager.DeviceConfiguration.Directions)
+            {
+                if (ValidateDirectionZonesContent(direction))
+                { }
+            }
+        }
+
         static bool ValidateDirectionZonesContent(Direction direction)
         {
             if (direction.Zones.IsNotNullOrEmpty() == false)
@@ -495,24 +553,6 @@ namespace FiresecClient.Validation
         static string InvalidChars(string str)
         {
             return new string(str.Where(x => FiresecManager.DeviceConfiguration.ValidChars.Contains(x) == false).ToArray());
-        }
-
-        static IEnumerable<Device> GetZoneDevices(ulong zoneNo)
-        {
-            var zoneDevices = new List<Device>();
-            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
-            {
-                if (device.ZoneNo != null)
-                {
-                    if (device.ZoneNo == zoneNo)
-                        yield return device;
-                }
-                else if (device.ZoneLogic != null && device.ZoneLogic.Clauses.IsNotNullOrEmpty())
-                {
-                    if (device.ZoneLogic.Clauses.Any(x => x.Zones.Contains(zoneNo)))
-                        yield return device;
-                }
-            }
         }
 
         static void ValidateGuardUsers()

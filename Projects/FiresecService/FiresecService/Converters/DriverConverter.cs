@@ -89,6 +89,8 @@ namespace FiresecService.Converters
                         break;
                 }
             }
+            if (driver.DriverType == DriverType.BUNS)
+                driver.ShleifCount = 2;
 
             driver.HasShleif = driver.ShleifCount == 0 ? false : true;
 

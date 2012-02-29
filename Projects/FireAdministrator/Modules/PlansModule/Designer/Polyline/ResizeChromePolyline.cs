@@ -165,8 +165,8 @@ namespace PlansModule.Designer
             }
             Polyline.Points = points;
 
-            DesignerItem.Width = maxLeft - minLeft;
-            DesignerItem.Height = maxTop - minTop;
+            DesignerItem.ItemWidth = maxLeft - minLeft;
+            DesignerItem.ItemHeight = maxTop - minTop;
         }
 
         public void UpdateZoom()

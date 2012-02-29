@@ -104,9 +104,9 @@ namespace PlansModule.Designer
             DeleteCommand = new RelayCommand(OnDelete);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
             this.Loaded += new RoutedEventHandler(this.DesignerItem_Loaded);
+            this.MouseDoubleClick += new MouseButtonEventHandler((object o, MouseButtonEventArgs x) => {OnShowProperties();});
             IsVisibleLayout = true;
             IsSelectableLayout = true;
-            this.MouseDoubleClick += new MouseButtonEventHandler((object o, MouseButtonEventArgs x) => {OnShowProperties();});
         }
 
         public IResizeChromeBase ResizeChromeBase { get; set; }
@@ -264,8 +264,8 @@ namespace PlansModule.Designer
 
             Canvas.SetLeft(this, ElementBase.Left);
             Canvas.SetTop(this, ElementBase.Top);
-            Width = ElementBase.Width;
-            Height = ElementBase.Height;
+            ItemWidth = ElementBase.Width;
+            ItemHeight = ElementBase.Height;
 
             UpdateZoomDevice();
             UpdatePolygonAdorner();
@@ -343,8 +343,9 @@ namespace PlansModule.Designer
         {
             ElementBase.Left = Canvas.GetLeft(this);
             ElementBase.Top = Canvas.GetTop(this);
-            ElementBase.Width = this.Width;
-            ElementBase.Height = this.Height;
+            ElementBase.Width = this.ItemWidth;
+            ElementBase.Height = this.ItemHeight;
+
             if (ElementBase is ElementBasePolygon)
             {
                 ElementBasePolygon elementPolygon = ElementBase as ElementBasePolygon;
@@ -389,6 +390,42 @@ namespace PlansModule.Designer
                 this.Height = zoom;
                 Canvas.SetLeft(this, ElementBase.Left - this.Width / 2);
                 Canvas.SetTop(this, ElementBase.Top - this.Height / 2);
+            }
+        }
+
+        public double ItemWidth
+        {
+            get
+            {
+                if (IsPolygon || IsPolyline)
+                    return Width - 20;
+                else
+                    return Width;
+            }
+            set
+            {
+                if (IsPolygon || IsPolyline)
+                    Width = value + 20;
+                else
+                    Width = value;
+            }
+        }
+
+        public double ItemHeight
+        {
+            get
+            {
+                if (IsPolygon || IsPolyline)
+                    return Height - 20;
+                else
+                    return Height;
+            }
+            set
+            {
+                if (IsPolygon || IsPolyline)
+                    Height = value + 20;
+                else
+                    Height = value;
             }
         }
     }

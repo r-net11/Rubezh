@@ -146,6 +146,7 @@ namespace DevicesModule.ViewModels
             StartAddress = StartDevice.EditingPresentationAddress;
             EndAddress = EndDevice.EditingPresentationAddress;
         }
+
         void CreateDevices()
         {
             int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
@@ -176,7 +177,7 @@ namespace DevicesModule.ViewModels
                     int reservedCount = SelectedDriver.ChildAddressReserveRangeCount;
                     if (SelectedDriver.DriverType == DriverType.MRK_30)
                         reservedCount = 30;
-                    i += reservedCount - 1;
+                    i += reservedCount;
                 }
             }
         }

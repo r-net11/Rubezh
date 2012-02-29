@@ -35,8 +35,8 @@ namespace PlansModule.Designer
 
         void MoveThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            if(wasMoved)
-            DesignerCanvas.EndChange();
+            if (wasMoved)
+                DesignerCanvas.EndChange();
         }
 
         private void MoveThumb_DragDelta(object sender, DragDeltaEventArgs e)
@@ -50,12 +50,12 @@ namespace PlansModule.Designer
                 double maxRight = 0;
                 double maxBottom = 0;
 
-                foreach (DesignerItem item in DesignerCanvas.SelectedItems)
+                foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
                 {
-                    minLeft = Math.Min(Canvas.GetLeft(item), minLeft);
-                    minTop = Math.Min(Canvas.GetTop(item), minTop);
-                    maxRight = Math.Max(Canvas.GetLeft(item) + item.Width, maxRight);
-                    maxBottom = Math.Max(Canvas.GetTop(item) + item.Height, maxBottom);
+                    minLeft = Math.Min(Canvas.GetLeft(designerItem), minLeft);
+                    minTop = Math.Min(Canvas.GetTop(designerItem), minTop);
+                    maxRight = Math.Max(Canvas.GetLeft(designerItem) + designerItem.ItemWidth, maxRight);
+                    maxBottom = Math.Max(Canvas.GetTop(designerItem) + designerItem.ItemHeight, maxBottom);
                 }
 
                 double deltaHorizontal = Math.Max(-minLeft, e.HorizontalChange);

@@ -40,6 +40,9 @@ namespace DevicesModule.ViewModels
 
             foreach (var child in parentAddressSystemDevice.Children)
             {
+                if (child.Driver.IsAutoCreate)
+                    continue;
+
                 if (driver.IsRangeEnabled)
                 {
                     if ((child.IntAddress < driver.MinAddress) && (child.IntAddress > driver.MaxAddress))
@@ -57,6 +60,9 @@ namespace DevicesModule.ViewModels
                 if (child.IntAddress > maxAddress)
                     maxAddress = child.IntAddress;
             }
+
+            if (parentDevice.Driver.DriverType == DriverType.MRK_30)
+                maxAddress = parentDevice.IntAddress;
 
             if (driver.IsRangeEnabled)
             {
@@ -86,8 +92,8 @@ namespace DevicesModule.ViewModels
                 }
                 else
                 {
-                    if (parentDevice.Children.Count > 0)
-                        if (((maxAddress + 1) & 256) != 0) // (maxAddress + 1) % 256;
+                    if (parentDevice.Children.Where(x=>x.Driver.IsAutoCreate == false).ToList().Count > 0)
+                        if (((maxAddress + 1) % 256) != 0)
                             maxAddress = maxAddress + 1;
                 }
             }
@@ -104,7 +110,7 @@ namespace DevicesModule.ViewModels
                 int range = device.Driver.ChildAddressReserveRangeCount;
                 for (int i = device.IntAddress + 1; i < device.IntAddress + range; i++)
                 {
-                    if ((i & 256) == 0) // i % 256;
+                    if ((i % 256) == 0)
                     {
                         i = device.IntAddress + range;
                         break;
@@ -132,7 +138,7 @@ namespace DevicesModule.ViewModels
                     if (reservedAddresses.Contains(i))
                         continue;
 
-                    if ((i & 256) == 0) // i % 256;
+                    if ((i % 256) == 0)
                         continue;
 
                     avaliableAddresses.Add(i);

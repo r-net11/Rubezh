@@ -240,8 +240,8 @@ namespace PlansModule.Designer
                 MinWidth = 10,
                 MinHeight = 10,
                 ElementBase = elementBase,
-                IsPolygon = elementBase is ElementBasePolygon,
                 IsDevice = elementBase is ElementDevice,
+                IsPolygon = elementBase is ElementBasePolygon,
                 IsPolyline = elementBase is ElementPolyline,
                 Opacity = ((elementBase is IElementZone) || (elementBase is ElementSubPlan)) ? 0.5 : 1
             };
