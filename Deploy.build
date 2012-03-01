@@ -11,7 +11,12 @@
 		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Temp" />
 	</target>
 	<target name="CopyFiles">
-		<copy todir="Projects\FiresecService\FiresecService\bin\Release\Configuration" includeemptydirs="true" overwrite="false" verbose="true">
+	<copy todir="Projects\FiresecService\FiresecService\bin\Debug\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
+			<fileset basedir="Projects\Deploy\Configuration">
+				<include name="**\*" />
+			</fileset>
+		</copy>
+		<copy todir="Projects\FiresecService\FiresecService\bin\Release\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
 			<fileset basedir="Projects\Deploy\Configuration">
 				<include name="**\*" />
 			</fileset>
@@ -36,6 +41,7 @@
 				<include name="**\*" />
 			</fileset>
 		</copy>
+		<delete dir="Projects\FiresecService\FiresecService\bin\Debug\Configuration\ReportTemplates" />
 		<delete dir="Projects\FiresecService\FiresecService\bin\Release\Configuration\ReportTemplates" />
 	</target>	
 	<target name="CompileAll">
