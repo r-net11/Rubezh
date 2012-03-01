@@ -83,7 +83,7 @@ namespace FiresecService.Converters
                     desc = zone.Description
                 };
 
-                if (zone.ShapeIds.Count > 0)
+                if (zone.ShapeIds != null && zone.ShapeIds.Count > 0)
                 {
                     var innerShapes = new List<shapeType>();
                     foreach (var shapeId in zone.ShapeIds)

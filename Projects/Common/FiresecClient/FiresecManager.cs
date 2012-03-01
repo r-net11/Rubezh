@@ -159,7 +159,8 @@ namespace FiresecClient
 
         public static void DeviceWriteConfiguration(Guid deviceUID, bool isUsb)
         {
-            FiresecService.DeviceWriteConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
+            //FiresecService.DeviceWriteConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
+            FiresecService.DeviceWriteConfiguration(DeviceConfiguration, deviceUID);
         }
 
         public static void WriteAllDeviceConfiguration()

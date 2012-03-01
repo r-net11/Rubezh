@@ -13,6 +13,8 @@ namespace DevicesModule.ViewModels
     public class DevicesViewModel : RegionViewModel
     {
         public static DevicesViewModel Current { get; private set; }
+        public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
+
         public DevicesViewModel()
         {
             Current = this;
@@ -92,7 +94,7 @@ namespace DevicesModule.ViewModels
             AddDevice(FiresecManager.DeviceConfiguration.RootDevice, null);
         }
 
-        DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
+        public DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
             var deviceViewModel = new DeviceViewModel(device, Devices);
             deviceViewModel.Parent = parentDeviceViewModel;
@@ -109,7 +111,7 @@ namespace DevicesModule.ViewModels
             return deviceViewModel;
         }
 
-        void CollapseChild(DeviceViewModel parentDeviceViewModel)
+        public void CollapseChild(DeviceViewModel parentDeviceViewModel)
         {
             parentDeviceViewModel.IsExpanded = false;
             foreach (var deviceViewModel in parentDeviceViewModel.Children)
@@ -118,7 +120,7 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        void ExpandChild(DeviceViewModel parentDeviceViewModel)
+        public void ExpandChild(DeviceViewModel parentDeviceViewModel)
         {
             if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
             {
@@ -205,8 +207,6 @@ namespace DevicesModule.ViewModels
             ServiceFactory.SaveService.DevicesChanged = true;
             UpdateGuardVisibility();
         }
-
-        public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
         public override void OnShow()
         {

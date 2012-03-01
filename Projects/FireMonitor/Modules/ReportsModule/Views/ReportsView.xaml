@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:cr="clr-namespace:SAPBusinessObjects.WPF.Viewer;assembly=SAPBusinessObjects.WPF.Viewer"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-    <DockPanel LastChildFill="True">
-        <Border DockPanel.Dock="Top" Background="{DynamicResource BackgroundBrush}" CornerRadius="2">
-            <StackPanel Margin="2" HorizontalAlignment="Left" Orientation="Horizontal">
-                <ComboBox ItemsSource="{Binding AvailableReportTypes}" SelectedItem="{Binding SelectedReportName}" Height="25" MinWidth="150">
+
+    <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="2">
+        <DockPanel LastChildFill="True" Margin="2">
+            <StackPanel DockPanel.Dock="Top" Margin="2" HorizontalAlignment="Left" Orientation="Horizontal">
+                <ComboBox ItemsSource="{Binding AvailableReportTypes}" SelectedItem="{Binding SelectedReportName}" Height="25" MinWidth="150" Margin="5, 0, 0, 0">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding ., Converter={StaticResource ReportTypeToStringConverter}}" />
@@ -27,9 +28,8 @@
                 <Controls:ToolBarButton Name="saveReportButton" Command="{Binding SaveReportCommand}" ToolTip="Экспорт отчета" ImageSource="/Controls;component/Images/save.png" />
                 <Controls:ToolBarButton Name="printReportButton" Command="{Binding PrintReportCommand}" ToolTip="Печать отчета" ImageSource="/Controls;component/Images/Print.png" />
             </StackPanel>
-        </Border>
-        <Border DockPanel.Dock="Bottom" Background="{DynamicResource BackgroundBrush}" CornerRadius="2">
-            <Grid Margin="2">
+
+            <Grid DockPanel.Dock="Bottom" Margin="2">
                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
                     <Controls:ToolBarButton Name="searchButton" Command="{Binding SearchCommand}" ToolTip="Найти" ImageSource="/Controls;component/Images/Search.png" 
                                         DockPanel.Dock="Left" HorizontalAlignment="Left"/>
@@ -44,9 +44,8 @@
                     <Controls:ToolBarButton Name="zoomInButton" Command="{Binding ZoomInCommand}" ToolTip="Увеличить масштаб" ImageSource="/Controls;component/Images/ZoomIn.png" />
                 </StackPanel>
             </Grid>
-        </Border>
-        <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="2" Name="_border">
+
             <cr:ViewerCore Content="{Binding ViewerCoreControl}" Margin="0, 5, 0, 0" />
-        </Border>
-    </DockPanel>
+        </DockPanel>
+    </Border>
 </UserControl>

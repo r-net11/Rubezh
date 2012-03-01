@@ -13,9 +13,14 @@ namespace DevicesModule.ViewModels
             Device parentAddressSystemDevice = parentDevice;
             if (driver.UseParentAddressSystem)
             {
-                parentAddressSystemDevice = parentAddressSystemDevice.Parent;
-
-                while (parentAddressSystemDevice.Driver.UseParentAddressSystem)
+                if (driver.DriverType == DriverType.MPT)
+                {
+                    while (parentAddressSystemDevice.Driver.UseParentAddressSystem)
+                    {
+                        parentAddressSystemDevice = parentAddressSystemDevice.Parent;
+                    }
+                }
+                else
                 {
                     parentAddressSystemDevice = parentAddressSystemDevice.Parent;
                 }

@@ -123,6 +123,7 @@
     <Compile Include="Devices\ViewModels\Actions\Async\ReadDeviceJournallHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\DeviceJournalViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceGetInformationHelper.cs" />
+    <Compile Include="Devices\ViewModels\Actions\DeviceTreeViewModel.cs" />
     <Compile Include="Devices\ViewModels\PasteAsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
@@ -141,6 +142,9 @@
     <Compile Include="Devices\ViewModels\Actions\BindMsViewModel.cs" />
     <Compile Include="Devices\Views\Actions\DeviceConfigurationView.xaml.cs">
       <DependentUpon>DeviceConfigurationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\Actions\DevicesTree.xaml.cs">
+      <DependentUpon>DevicesTree.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
@@ -376,6 +380,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\Actions\DeviceJournalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\Actions\DevicesTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

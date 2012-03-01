@@ -55,7 +55,7 @@ namespace ReportsModule.Models
     {
         private ElementPage() { }
 
-        public ElementPage(int number, List<ulong?> zonesNo, string presentationName)
+        public ElementPage(int number, List<ulong> zonesNo, string presentationName)
         {
             No = number;
             ZonesNo = zonesNo;
@@ -63,7 +63,7 @@ namespace ReportsModule.Models
         }
 
         public int No { get; set; }
-        public List<ulong?> ZonesNo { get; set; }
+        public List<ulong> ZonesNo { get; set; }
 
         string _presentationName;
         public string PresentationName

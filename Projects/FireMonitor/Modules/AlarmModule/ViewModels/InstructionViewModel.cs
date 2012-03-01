@@ -110,11 +110,12 @@ namespace AlarmModule.ViewModels
             {
                 foreach (var instruction in AvailableStateTypeInstructions)
                 {
-                    if (instruction.Zones.IsNotNullOrEmpty() && instruction.Zones.Contains(zoneNo))
-                    {
-                        Instruction = instruction;
-                        return true;
-                    }
+                    if (zoneNo != null)
+                        if (instruction.Zones.IsNotNullOrEmpty() && instruction.Zones.Contains(zoneNo.Value))
+                        {
+                            Instruction = instruction;
+                            return true;
+                        }
                 }
             }
 
