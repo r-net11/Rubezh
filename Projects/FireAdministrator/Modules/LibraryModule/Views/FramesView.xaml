@@ -22,7 +22,7 @@
         <TabControl.ContentTemplate>
             <DataTemplate>
                 <DockPanel>
-                    <WrapPanel DockPanel.Dock="Bottom">
+                    <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
                         <Label Content="Слой: " VerticalAlignment="Center" />
                         <ExtToolkit:IntegerUpDown IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="23" />
                         <Label Content=" Длительность: " VerticalAlignment="Center" />
@@ -30,17 +30,10 @@
                                                   IsEditable="False"
                                                   Text="{Binding Duration, Mode=TwoWay}"
                                                   Height="23" />
-                        <Button Margin="10,5,0,0"
-                                Command="{Binding ImportSvgCommand}"
-                                Content="Импорт из .svg" />
-                        <Button Margin="10,5,0,0"
-                                Command="{Binding ExportSvgCommand}"
-                                Content="Экспорт в .svg" />
-                    </WrapPanel>
-                    <ContentControl Width="500"
-                                    Height="500"
-                                    HorizontalAlignment="Center"
-                                    Content="{Binding XamlOfImage}">
+                        <Button Command="{Binding ImportSvgCommand}" Content="Импорт из .svg" Margin="10,5,0,0" />
+                        <Button Command="{Binding ExportSvgCommand}" Content="Экспорт в .svg" Margin="10,5,0,0" />
+                    </StackPanel>
+                    <ContentControl Content="{Binding XamlOfImage}" Width="500" Height="500" HorizontalAlignment="Center">
                         <ContentControl.LayoutTransform>
                             <ScaleTransform ScaleX="0.5" ScaleY="0.5" />
                         </ContentControl.LayoutTransform>

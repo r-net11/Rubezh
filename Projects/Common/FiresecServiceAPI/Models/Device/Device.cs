@@ -148,6 +148,9 @@ namespace FiresecAPI.Models
                 var address = new StringBuilder();
                 foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
                 {
+                    if (parentDevice.Driver.IsChildAddressReservedRange)
+                        continue;
+
                     address.Append(parentDevice.PresentationAddress);
                     address.Append(".");
                 }

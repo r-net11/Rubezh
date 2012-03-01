@@ -13,8 +13,8 @@ namespace Controls
 
         public XDataGrid()
         {
-            SelectionChanged +=new SelectionChangedEventHandler(DataGrid_SelectionChanged);
-            PreviewMouseDown +=new System.Windows.Input.MouseButtonEventHandler(DataGrid_PreviewMouseDown);
+            SelectionChanged += new SelectionChangedEventHandler(DataGrid_SelectionChanged);
+            PreviewMouseDown += new System.Windows.Input.MouseButtonEventHandler(DataGrid_PreviewMouseDown);
             MouseDoubleClick += new System.Windows.Input.MouseButtonEventHandler(DataGrid_MouseDoubleClick);
         }
 
@@ -29,20 +29,32 @@ namespace Controls
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if (PreviousDataGridCell != CurrentDataGridCell)
+                return;
+
             var dataGrid = sender as DataGrid;
             var viewModel = dataGrid.DataContext as IEditingViewModel;
-            if (viewModel != null && viewModel.EditCommand.CanExecute(null))
+            if (viewModel.EditCommand.CanExecute(null))
                 viewModel.EditCommand.Execute();
         }
 
         private void DataGrid_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            PreviousDataGridCell = CurrentDataGridCell;
             IInputElement element = e.MouseDevice.DirectlyOver;
-            if ((element != null && element is FrameworkElement && ((FrameworkElement)element).Parent is DataGridCell) == false)
+            if ((element != null && element is FrameworkElement) && (((FrameworkElement)element).Parent is DataGridCell))
             {
+                CurrentDataGridCell = ((FrameworkElement)element).Parent as DataGridCell;
+            }
+            else
+            {
+                CurrentDataGridCell = null;
                 var dataGrid = sender as DataGrid;
                 dataGrid.SelectedItem = null;
             }
         }
+
+        DataGridCell PreviousDataGridCell;
+        DataGridCell CurrentDataGridCell;
     }
 }

@@ -252,11 +252,17 @@ namespace PlansModule.ViewModels
             FiresecManager.UpdatePlansConfiguration();
             DevicesViewModel.Update();
             DesignerCanvas.DeselectAll();
+
+            if (ToolboxView.Current != null)
+                ToolboxView.Current.AcceptKeyboard = true;
         }
 
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
+
+            if (ToolboxView.Current != null)
+                ToolboxView.Current.AcceptKeyboard = false;
         }
     }
 }

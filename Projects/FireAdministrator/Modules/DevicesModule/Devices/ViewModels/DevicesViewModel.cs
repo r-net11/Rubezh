@@ -135,7 +135,8 @@ namespace DevicesModule.ViewModels
 
         bool CanCutCopy()
         {
-            return !(SelectedDevice == null || SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Driver.DriverType == DriverType.Computer);
+            return !(SelectedDevice == null || SelectedDevice.Parent == null ||
+                SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.AutoChild == SelectedDevice.Driver.UID);
         }
 
         public RelayCommand CopyCommand { get; private set; }

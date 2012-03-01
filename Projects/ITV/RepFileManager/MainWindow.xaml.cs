@@ -3,6 +3,7 @@ using System.Windows;
 using System.Xml.Serialization;
 using FiresecClient;
 using ItvIntergation.Ngi;
+using System.Configuration;
 
 namespace RepFileManager
 {
@@ -15,7 +16,11 @@ namespace RepFileManager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var result = FiresecManager.Connect("net.tcp://localhost:8000/FiresecService/", "adm", "");
+            string clientCallbackAddress = ConfigurationManager.AppSettings["ClientCallbackAddress"] as string;
+            string serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+            string defaultLogin = ConfigurationManager.AppSettings["DefaultLogin"] as string;
+            string defaultPassword = ConfigurationManager.AppSettings["DefaultPassword"] as string;
+            string result = FiresecManager.Connect(clientCallbackAddress, serverAddress, defaultLogin, defaultPassword);
             if (result != null)
             {
                 MessageBox.Show(result);

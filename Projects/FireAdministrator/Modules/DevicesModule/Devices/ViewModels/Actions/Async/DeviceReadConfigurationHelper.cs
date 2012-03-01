@@ -30,7 +30,7 @@ namespace DevicesModule.ViewModels
                 MessageBoxService.Show("Ошибка при выполнении операции");
                 return;
             }
-            //ServiceFactory.UserDialogs.ShowModalWindow(new DeviceDescriptionViewModel(_device.UID, _deviceConfiguration));
+            ServiceFactory.UserDialogs.ShowModalWindow(new DeviceConfigurationViewModel(_device.UID, _deviceConfiguration));
         }
     }
 }

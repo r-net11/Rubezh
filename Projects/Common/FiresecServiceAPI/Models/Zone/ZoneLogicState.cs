@@ -34,6 +34,12 @@ namespace FiresecAPI.Models
         Failure = 3,
 
         [DescriptionAttribute("Сработка АМ1-Т")]
-        AM1TOn = 11
+        AM1TOn = 11,
+
+        [DescriptionAttribute("Включение НС")]
+        PumpStationOn = 13,
+
+        [DescriptionAttribute("Выключение автоматики НС")]
+        PumpStationAutomaticOff = 14
     }
 }

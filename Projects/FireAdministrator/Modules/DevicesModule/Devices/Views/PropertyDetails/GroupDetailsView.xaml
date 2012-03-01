@@ -17,7 +17,7 @@
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <WrapPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                     <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
@@ -36,7 +36,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                </WrapPanel>
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -78,7 +78,7 @@
                         <Label Grid.Column="0" Grid.Row="0" Content="Задержка на включение, сек" HorizontalAlignment="Right" />
                         <Label Grid.Column="0" Grid.Row="1" Content="Удержание, сек" HorizontalAlignment="Right" />
                         <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="0" Value="{Binding OnDelay}" Minimum="0" Maximum="255" Margin="2" />
-                        <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding OffDelay}" Minimum="1" Maximum="255" Margin="2" />
+                        <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="1" Value="{Binding OffDelay}" Minimum="0" Maximum="255" Margin="2" />
                         <CheckBox Grid.Column="1" Grid.Row="2" Content="Инверсия вкл./выкл." IsChecked="{Binding IsInversion}" HorizontalAlignment="Right" Margin="2" Foreground="White" />
                     </Grid>
                 </Grid>

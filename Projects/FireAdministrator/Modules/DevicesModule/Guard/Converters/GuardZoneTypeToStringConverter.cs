@@ -14,7 +14,7 @@ namespace DevicesModule.Converters
                     return "Обычная";
 
                 case GuardZoneType.Passby:
-                    return "Проходная";
+                    return "Без права снятия";
 
                 case GuardZoneType.Delay:
                     return "С задержкой входа/выхода";

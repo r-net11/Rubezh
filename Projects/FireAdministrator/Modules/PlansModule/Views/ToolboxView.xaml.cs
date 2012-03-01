@@ -12,7 +12,12 @@ namespace PlansModule.Views
         {
             InitializeComponent();
             EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyDownEvent, new KeyEventHandler(OnKeyDown), true);
+            Current = this;
+            AcceptKeyboard = true;
         }
+
+        public static ToolboxView Current { get; private set; }
+        public bool AcceptKeyboard { get; set; }
 
         private Point? dragStartPoint = null;
 
@@ -86,6 +91,10 @@ namespace PlansModule.Views
 
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
+            if (AcceptKeyboard == false)
+                if (AcceptKeyboard == false)
+                return;
+
             if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control)
             {
                 PressButton(copyButton);
@@ -108,11 +117,15 @@ namespace PlansModule.Views
             }
             if (e.Key == Key.A && Keyboard.Modifiers == ModifierKeys.Control)
             {
-                (DataContext as PlansViewModel).DesignerCanvas.SelectAll();
+                var designerCanvas = (DataContext as PlansViewModel).DesignerCanvas;
+                if (designerCanvas != null)
+                    designerCanvas.SelectAll();
             }
             if (e.Key == Key.Delete)
             {
-                (DataContext as PlansViewModel).DesignerCanvas.RemoveAllSelected();
+                var designerCanvas = (DataContext as PlansViewModel).DesignerCanvas;
+                if (designerCanvas != null)
+                    designerCanvas.RemoveAllSelected();
             }
         }
 

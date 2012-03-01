@@ -71,8 +71,6 @@ namespace RepFileManager
                 drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzUnblockButton));
                 drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.HandDetector));
                 drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MUKD));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MUKO));
                 drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.PumpStation));
                 drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Pump));
                 drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.JokeyPump));

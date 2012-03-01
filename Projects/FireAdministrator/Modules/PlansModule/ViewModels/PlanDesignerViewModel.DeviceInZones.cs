@@ -20,6 +20,9 @@ namespace PlansModule.ViewModels
 
             foreach (var designerItem in DesignerCanvas.Items)
             {
+                var designerItemCenterX = Canvas.GetLeft(designerItem) + designerItem.Width / 2;
+                var designerItemCenterY = Canvas.GetTop(designerItem) + designerItem.Height / 2;
+
                 ElementDevice elementDevice = designerItem.ElementBase as ElementDevice;
                 if (elementDevice != null)
                 {
@@ -30,12 +33,12 @@ namespace PlansModule.ViewModels
 
                     foreach (var elementPolygonZoneItem in DesignerCanvas.Items)
                     {
+                        var point = new Point((int)(designerItemCenterX - Canvas.GetLeft(elementPolygonZoneItem)),
+                            (int)(designerItemCenterY - Canvas.GetTop(elementPolygonZoneItem)));
+
                         ElementPolygonZone elementPolygonZone = elementPolygonZoneItem.ElementBase as ElementPolygonZone;
                         if (elementPolygonZone != null)
                         {
-                            var point = new Point((int)Canvas.GetLeft(designerItem) - (int)Canvas.GetLeft(elementPolygonZoneItem),
-                                (int)Canvas.GetTop(designerItem) - (int)Canvas.GetTop(elementPolygonZoneItem));
-
                             bool isInPolygon = IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
 
                             if (isInPolygon)
@@ -46,9 +49,6 @@ namespace PlansModule.ViewModels
                         ElementRectangleZone elementRectangleZone = elementPolygonZoneItem.ElementBase as ElementRectangleZone;
                         if (elementRectangleZone != null)
                         {
-                            var point = new Point((int)Canvas.GetLeft(designerItem) - (int)Canvas.GetLeft(elementPolygonZoneItem),
-                                (int)Canvas.GetTop(designerItem) - (int)Canvas.GetTop(elementPolygonZoneItem));
-
                             bool isInRectangle = ((point.X > 0) && (point.X < elementRectangleZone.Width) && (point.Y > 0) && (point.Y < elementRectangleZone.Height));
 
                             if (isInRectangle)

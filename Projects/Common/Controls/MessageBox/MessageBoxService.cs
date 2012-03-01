@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Infrastructure;
 using Infrastructure.Common;
+using System;
 
 namespace Controls.MessageBox
 {
@@ -29,6 +30,8 @@ namespace Controls.MessageBox
 
         public static MessageBoxResult ShowException(string message)
         {
+            //Exception e = new Exception();
+            //e.StackTrace
             return ShowWindow(message, MessageBoxButton.OK, MessageBoxImage.Error, true);
         }
 

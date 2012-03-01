@@ -33,8 +33,6 @@ namespace PlansModule.ViewModels
         public RelayCommand CopyCommand { get; private set; }
         void OnCopy()
         {
-            Trace.WriteLine("Copy");
-
             PlanDesignerViewModel.Save();
             Buffer = new List<ElementBase>();
             foreach (var designerItem in DesignerCanvas.SelectedItems)

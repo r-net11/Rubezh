@@ -51,11 +51,11 @@
                     <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="9" Value="{Binding OutcomingTest}" Minimum="0" Maximum="160" Increment="10" Margin="2" />
                 </Grid>
             </Border>
-            <WrapPanel>
+            <StackPanel Orientation="Horizontal">
                 <Button Content="Считать настройки" Command="{Binding ReadCommand}" Width="150" Margin="2" />
                 <Button Content="Выбрать все" Command="{Binding SelectAllCommand}" Width="100" Margin="2" />
                 <Button Content="Отменить все" Command="{Binding DeselectAllCommand}" Width="100" Margin="2" />
-            </WrapPanel>
+            </StackPanel>
         </StackPanel>
         <ListBox Grid.Row="1" ItemsSource="{Binding FilterItems}">
             <ListBox.ItemTemplate>

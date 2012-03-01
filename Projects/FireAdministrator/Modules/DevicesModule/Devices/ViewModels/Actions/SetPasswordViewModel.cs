@@ -54,12 +54,18 @@ namespace DevicesModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            if (!DigitalPasswordHelper.Check(Password) || !DigitalPasswordHelper.Check(PasswordConfirm))
-            {
-                MessageBoxService.Show("Пароль может содержать только цифры");
-                cancel = true;
-                return;
-            }
+            if (Password == null)
+                Password = "";
+            if (PasswordConfirm == null)
+                PasswordConfirm = "";
+
+            if ((Password != "") && (PasswordConfirm != ""))
+                if (!DigitalPasswordHelper.Check(Password) || !DigitalPasswordHelper.Check(PasswordConfirm))
+                {
+                    MessageBoxService.Show("Пароль может содержать только цифры");
+                    cancel = true;
+                    return;
+                }
 
             if (Password != PasswordConfirm)
             {

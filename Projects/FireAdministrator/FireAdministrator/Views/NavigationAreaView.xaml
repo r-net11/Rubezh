@@ -69,10 +69,10 @@
             </TabItem>
             <TabItem IsSelected="{Binding IsSecuritySelected}" MouseLeftButtonUp="AccesRightsMouseLeftButtonUp">
                 <TabItem.Header>
-                    <WrapPanel>
+                    <StackPanel Orientation="Horizontal">
                         <Image />
                         <TextBlock Text="Права доступа" />
-                    </WrapPanel>
+                    </StackPanel>
                 </TabItem.Header>
             </TabItem>
             <TabItem IsSelected="{Binding IsUsersSelected}" Margin="15, 0, 0, 5"

@@ -85,6 +85,9 @@ namespace PlansModule.Designer
 
         public void RemoveAllSelected()
         {
+            if (SelectedElements.Count == 0)
+                return;
+
             ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>(SelectedElements));
 
             for (int i = Items.Count(); i > 0; i--)

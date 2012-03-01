@@ -48,11 +48,11 @@
                 </StackPanel>
             </Grid>
 
-            <WrapPanel HorizontalAlignment="Center" Margin="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="2">
                 <Label Content="Выбрать " VerticalAlignment="Center" />
                 <ExtToolkit:IntegerUpDown Maximum="{Binding RecordsMaxCount}" Minimum="1" Value="{Binding JournalFilter.LastRecordsCount}" Height="25" Width="50" />
                 <Label Margin="5,5,0,5" Content="последних записей" />
-            </WrapPanel>
+            </StackPanel>
 
             <StackPanel Grid.Column="1" HorizontalAlignment="Center" Margin="2">
                 <CheckBox HorizontalAlignment="Center" Content="дополнительный фильтр" IsChecked="{Binding JournalFilter.IsLastDaysCountActive, UpdateSourceTrigger=PropertyChanged}" Foreground="White" />

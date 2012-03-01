@@ -41,14 +41,45 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        Device _startDevice;
+        public Device StartDevice
+        {
+            get { return _startDevice; }
+            set
+            {
+                _startDevice = value;
+                OnPropertyChanged("StartDevice");
+            }
+        }
+
+        Device _endDevice;
+        public Device EndDevice
+        {
+            get { return _endDevice; }
+            set
+            {
+                _endDevice = value;
+                OnPropertyChanged("EndDevice");
+            }
+        }
+
         string _startAddress;
         public string StartAddress
         {
             get { return _startAddress; }
             set
             {
-                _startAddress = value;
-                OnPropertyChanged("StartAddress");
+                if (_startAddress != value)
+                {
+                    _startAddress = value;
+                    if (_startAddress.Contains("."))
+                    {
+                        if (EndAddress != null)
+                            EndAddress = _startAddress[0] + EndAddress.Substring(1);
+                    }
+                    ValidateAddresses();
+                    OnPropertyChanged("StartAddress");
+                }
             }
         }
 
@@ -58,8 +89,17 @@ namespace DevicesModule.ViewModels
             get { return _endAddress; }
             set
             {
-                _endAddress = value;
-                OnPropertyChanged("EndAddress");
+                if (_endAddress != value)
+                {
+                    _endAddress = value;
+                    if (_endAddress.Contains("."))
+                    {
+                        if (StartAddress != null)
+                            StartAddress = _endAddress[0] + StartAddress.Substring(1);
+                    }
+                    ValidateAddresses();
+                    OnPropertyChanged("EndAddress");
+                }
             }
         }
 
@@ -137,8 +177,47 @@ namespace DevicesModule.ViewModels
                     endAddress = avaliableAddresses[maxIndex + 2];
             }
 
-            StartAddress = AddressConverter.IntToStringAddress(SelectedDriver, startAddress);
-            EndAddress = AddressConverter.IntToStringAddress(SelectedDriver, endAddress);
+            StartDevice = new Device()
+            {
+                Driver = SelectedDriver,
+                IntAddress = startAddress,
+                Parent = _parent
+            };
+            EndDevice = new Device()
+            {
+                Driver = SelectedDriver,
+                IntAddress = startAddress,
+                Parent = _parent
+            };
+            StartAddress = StartDevice.PresentationAddress;
+            EndAddress = EndDevice.PresentationAddress;
+        }
+
+        void ValidateAddresses()
+        {
+            if ((StartAddress == null) || (EndAddress == null))
+                return;
+
+            int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
+            int endAddress = AddressConverter.StringToIntAddress(SelectedDriver, EndAddress);
+
+            var avaliableAddresses = NewDeviceHelper.GetAvaliableAddresses(SelectedDriver, ParentAddressSystemDevice);
+
+            if (startAddress > endAddress)
+            {
+                StartAddress = EndAddress;
+                EndAddress = StartAddress;
+                StartAddress = EndAddress;
+                EndAddress = StartAddress;
+            }
+            if (startAddress < avaliableAddresses.First())
+            {
+                ;
+            }
+            if (endAddress > avaliableAddresses.Last())
+            {
+                ;
+            }
         }
 
         void CreateDevices()

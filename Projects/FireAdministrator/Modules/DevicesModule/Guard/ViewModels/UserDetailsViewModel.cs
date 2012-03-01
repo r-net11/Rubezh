@@ -3,6 +3,8 @@ using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Controls.MessageBox;
+using FiresecClient;
+using System.Linq;
 
 namespace DevicesModule.ViewModels
 {
@@ -15,7 +17,13 @@ namespace DevicesModule.ViewModels
             if (guardUser == null)
             {
                 Title = "Создать пользователя";
-                GuardUser = new GuardUser();
+                GuardUser = new GuardUser()
+                {
+                    Id = 1
+                };
+
+                if (FiresecManager.DeviceConfiguration.GuardUsers.Count != 0)
+                    GuardUser.Id = FiresecManager.DeviceConfiguration.GuardUsers.Select(x => x.Id).Max() + 1;
             }
             else
             {
@@ -53,6 +61,8 @@ namespace DevicesModule.ViewModels
             set
             {
                 _name = value;
+                if ((_name != null) && (_name.Length > 20))
+                    _name = _name.Substring(0, 20);
                 OnPropertyChanged("Name");
             }
         }
@@ -64,6 +74,8 @@ namespace DevicesModule.ViewModels
             set
             {
                 _password = value;
+                if ((_password != null) && (_password.Length > 6))
+                    _password = _password.Substring(0, 6);
                 OnPropertyChanged("Password");
             }
         }

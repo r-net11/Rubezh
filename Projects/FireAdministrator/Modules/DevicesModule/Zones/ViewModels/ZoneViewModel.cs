@@ -27,9 +27,14 @@ namespace DevicesModule.ViewModels
             get { return Zone.Description; }
         }
 
-        public int DetectorCount
+        public string DetectorCount
         {
-            get { return Zone.DetectorCount; }
+            get
+            {
+                if (Zone.ZoneType == ZoneType.Fire)
+                    return Zone.DetectorCount.ToString();
+                return null;
+            }
         }
 
         public string EvacuationTime

@@ -20,6 +20,11 @@ namespace DevicesModule.ViewModels
             ShowDevicesCommand = new RelayCommand(OnShowDevices);
             ResetDeviceCommand = new RelayCommand(OnResetDevice);
 
+            OnColor = IndicatorColorType.Red;
+            OffColor = IndicatorColorType.Green;
+            FailureColor = IndicatorColorType.Orange;
+            ConnectionColor = IndicatorColorType.Orange;
+
             _zones = new List<ulong?>();
             _indicatorDevice = device;
 
@@ -32,20 +37,18 @@ namespace DevicesModule.ViewModels
                     IsZone = true;
                     if (device.IndicatorLogic.Zones != null)
                         _zones = device.IndicatorLogic.Zones;
-
-                    OnColor = IndicatorColorType.Red;
-                    OffColor = IndicatorColorType.Green;
-                    FailureColor = IndicatorColorType.Orange;
-                    ConnectionColor = IndicatorColorType.Orange;
                     break;
 
                 case IndicatorLogicType.Device:
                     IsDevice = true;
-                    OnColor = device.IndicatorLogic.OnColor;
-                    OffColor = device.IndicatorLogic.OffColor;
-                    FailureColor = device.IndicatorLogic.FailureColor;
-                    ConnectionColor = device.IndicatorLogic.ConnectionColor;
                     SelectedDevice = device.IndicatorLogic.Device;
+                    if (SelectedDevice != null)
+                    {
+                        OnColor = device.IndicatorLogic.OnColor;
+                        OffColor = device.IndicatorLogic.OffColor;
+                        FailureColor = device.IndicatorLogic.FailureColor;
+                        ConnectionColor = device.IndicatorLogic.ConnectionColor;
+                    }
                     break;
             }
         }

@@ -4,6 +4,7 @@ using System.Xml.Serialization;
 using Firesec.Groups;
 using Firesec.IndicatorsLogic;
 using Firesec.ZonesLogic;
+using System;
 
 namespace FiresecService
 {
@@ -65,10 +66,17 @@ namespace FiresecService
             if (string.IsNullOrEmpty(input))
                 return default(T);
 
-            using (var memoryStream = new MemoryStream(Encoding.Default.GetBytes(input)))
+            try
             {
-                var serializer = new XmlSerializer(typeof(T));
-                return (T) serializer.Deserialize(memoryStream);
+                using (var memoryStream = new MemoryStream(Encoding.Default.GetBytes(input)))
+                {
+                    var serializer = new XmlSerializer(typeof(T));
+                    return (T)serializer.Deserialize(memoryStream);
+                }
+            }
+            catch (Exception e)
+            {
+                return default(T);
             }
         }
 

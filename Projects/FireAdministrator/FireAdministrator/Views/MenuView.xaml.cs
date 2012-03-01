@@ -10,6 +10,8 @@ using Infrastructure.Events;
 using Microsoft.Win32;
 using System.Collections.Generic;
 using Controls.MessageBox;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace FireAdministrator.Views
 {
@@ -113,12 +115,35 @@ namespace FireAdministrator.Views
             get { return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ChangeConfigDevices)); }
         }
 
+        void OnValidate(object sender, RoutedEventArgs e)
+        {
+            ServiceFactory.Layout.ShowValidationArea(null);
+            var validationErrorsViewModel = new ValidationErrorsViewModel();
+            if (validationErrorsViewModel.HasErrors)
+            {
+                ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
+            }
+        }
+
+        void OnSaveToFile(object sender, RoutedEventArgs e)
+        {
+            var saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "firesec2 files|*.fsc2";
+            if (saveDialog.ShowDialog().Value)
+                SaveToFile(CopyFrom(), saveDialog.FileName);
+        }
+
         void OnLoadFromFile(object sender, RoutedEventArgs e)
         {
             var openDialog = new OpenFileDialog();
             openDialog.Filter = "firesec2 files|*.fsc2";
             if (openDialog.ShowDialog().Value)
-                FiresecManager.LoadFromFile(openDialog.FileName);
+            {
+                CopyTo(LoadFromFile(openDialog.FileName));
+
+                FiresecManager.UpdateConfiguration();
+                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+            }
 
             DevicesModule.DevicesModule.CreateViewModels();
             ServiceFactory.Layout.Close();
@@ -127,20 +152,49 @@ namespace FireAdministrator.Views
             ServiceFactory.SaveService.DevicesChanged = true;
         }
 
-        void OnSaveToFile(object sender, RoutedEventArgs e)
+        FullConfiguration CopyFrom()
         {
-            var saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "firesec2 files|*.fsc2";
-            if (saveDialog.ShowDialog().Value)
-                FiresecManager.SaveToFile(saveDialog.FileName);
+            return new FullConfiguration()
+            {
+                DeviceConfiguration = FiresecManager.DeviceConfiguration,
+                LibraryConfiguration = FiresecManager.LibraryConfiguration,
+                PlansConfiguration = FiresecManager.PlansConfiguration,
+                SecurityConfiguration = FiresecManager.SecurityConfiguration,
+                SystemConfiguration = FiresecManager.SystemConfiguration
+            };
         }
 
-        void OnValidate(object sender, RoutedEventArgs e)
+        void CopyTo(FullConfiguration fullConfiguration)
         {
-            var validationErrorsViewModel = new ValidationErrorsViewModel();
-            if (validationErrorsViewModel.HasErrors)
+            FiresecManager.DeviceConfiguration = fullConfiguration.DeviceConfiguration;
+            FiresecManager.LibraryConfiguration = fullConfiguration.LibraryConfiguration;
+            FiresecManager.PlansConfiguration = fullConfiguration.PlansConfiguration;
+            FiresecManager.SecurityConfiguration = fullConfiguration.SecurityConfiguration;
+            FiresecManager.SystemConfiguration = fullConfiguration.SystemConfiguration;
+        }
+
+        FullConfiguration LoadFromFile(string fileName)
+        {
+            try
             {
-                ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
+                var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
+                using (var fileStream = new FileStream(fileName, FileMode.Open))
+                {
+                    return (FullConfiguration)dataContractSerializer.ReadObject(fileStream);
+                }
+            }
+            catch
+            {
+                return new FullConfiguration();
+            }
+        }
+
+        void SaveToFile(FullConfiguration fullConfiguration, string fileName)
+        {
+            var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
+            using (var fileStream = new FileStream(fileName, FileMode.Create))
+            {
+                dataContractSerializer.WriteObject(fileStream, fullConfiguration);
             }
         }
     }

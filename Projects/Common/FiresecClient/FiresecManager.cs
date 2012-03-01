@@ -374,25 +374,5 @@ namespace FiresecClient
         {
             FiresecService.Test();
         }
-
-        public static void LoadFromFile(string fileName)
-        {
-            var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
-            using (var fileStream = new FileStream(fileName, FileMode.Open))
-            {
-                FiresecManager.DeviceConfiguration = (DeviceConfiguration) dataContractSerializer.ReadObject(fileStream);
-            }
-
-            UpdateConfiguration();
-        }
-
-        public static void SaveToFile(string fileName)
-        {
-            var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
-            using (var fileStream = new FileStream(fileName, FileMode.Create))
-            {
-                dataContractSerializer.WriteObject(fileStream, FiresecManager.DeviceConfiguration);
-            }
-        }
     }
 }

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <StackPanel>
         <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="300" Margin="2" Visibility="Visible" />
-        <Button Content="Сохранить конфигурацию в файл" Command="{Binding SaveConfigurationCommand}" Width="300" Margin="2" />
-        <Button Content="Загрузить конфигурацию из файла" Command="{Binding LoadConfigurationCommand}" Width="300" Margin="2" />
+        <Button Content="Конвертировать конфигурацию из старого формата" Command="{Binding ConvertConfigurationCommand}" Width="400" Margin="2" />
+        <Button Content="Конвертировать журнал событий из старого формата" Command="{Binding ConvertJournalCommand}" Width="400" Margin="2" />
     </StackPanel>
 </UserControl>

@@ -4,7 +4,7 @@
              MinWidth="350" MinHeight="100">
     
     <DockPanel LastChildFill="True">
-        <WrapPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,11,11">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,11,11">
             <Button Content="Копировать" Command="{Binding CopyCommand}" Margin="10,0,0,0" Width="100"
                     Visibility="{Binding IsException, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button Content="Ok" Command="{Binding OkCommand}" IsDefault="True" Margin="10,0,0,0" Width="100"
@@ -15,7 +15,7 @@
                     Visibility="{Binding IsNoButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
             <Button Content="Отмена" Command="{Binding CancelCommand}" Margin="10,0,0,0" Width="100"
                     Visibility="{Binding IsCancelButtonVisible, Converter={StaticResource BoolToVisibilityConverter}}" />
-        </WrapPanel>
+        </StackPanel>
         <Grid Margin="11">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />

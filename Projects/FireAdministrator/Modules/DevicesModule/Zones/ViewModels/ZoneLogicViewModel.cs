@@ -47,6 +47,7 @@ namespace DevicesModule.ViewModels
             }
 
             JoinOperator = device.ZoneLogic.JoinOperator;
+            UpdateJoinOperatorVisibility();
         }
 
         ZoneLogicJoinOperator _joinOperator;
@@ -67,11 +68,6 @@ namespace DevicesModule.ViewModels
                 JoinOperator = ZoneLogicJoinOperator.Or;
             else
                 JoinOperator = ZoneLogicJoinOperator.And;
-        }
-
-        public bool ShowZoneLogicJoinOperator
-        {
-            get { return Clauses.Count > 1; }
         }
 
         public bool IsRm
@@ -114,14 +110,28 @@ namespace DevicesModule.ViewModels
             };
             var clauseViewModel = new ClauseViewModel(_device, clause);
             Clauses.Add(clauseViewModel);
-            OnPropertyChanged("ShowZoneLogicJoinOperator");
+            UpdateJoinOperatorVisibility();
         }
 
         public RelayCommand<ClauseViewModel> RemoveCommand { get; private set; }
         void OnRemove(ClauseViewModel clauseViewModel)
         {
             Clauses.Remove(clauseViewModel);
-            OnPropertyChanged("ShowZoneLogicJoinOperator");
+            UpdateJoinOperatorVisibility();
+        }
+
+        void UpdateJoinOperatorVisibility()
+        {
+            foreach (var clause in Clauses)
+                clause.ShowJoinOperator = false;
+
+            if (Clauses.Count > 1)
+            {
+                foreach (var clause in Clauses)
+                    clause.ShowJoinOperator = true;
+
+                Clauses.Last().ShowJoinOperator = false;
+            }
         }
 
         protected override void Save(ref bool cancel)

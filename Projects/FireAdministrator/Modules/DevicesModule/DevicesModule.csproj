@@ -118,6 +118,7 @@
     <Compile Include="Devices\ViewModels\Actions\AutoSearchViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\AutoDetectDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\DeviceCommandsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Actions\DeviceConfigurationViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\DeviceDescriptionViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\ReadDeviceJournallHelper.cs" />
     <Compile Include="Devices\ViewModels\Actions\DeviceJournalViewModel.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDeviceSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\SetPasswordHelper.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\MptDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\TelephoneLineDetailsViewModel.cs" />
     <Compile Include="Devices\Views\Actions\CustomAdminFunctionsCommandView.xaml.cs">
       <DependentUpon>CustomAdminFunctionsCommandView.xaml</DependentUpon>
@@ -137,6 +139,9 @@
       <DependentUpon>BindMsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\Actions\BindMsViewModel.cs" />
+    <Compile Include="Devices\Views\Actions\DeviceConfigurationView.xaml.cs">
+      <DependentUpon>DeviceConfigurationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
     </Compile>
@@ -158,6 +163,9 @@
     </Compile>
     <Compile Include="Devices\Views\Actions\SetPasswordView.xaml.cs">
       <DependentUpon>SetPasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertyDetails\MptDetailsView.xaml.cs">
+      <DependentUpon>MptDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PropertyDetails\TelephoneLineDetailsView.xaml.cs">
       <DependentUpon>TelephoneLineDetailsView.xaml</DependentUpon>
@@ -360,6 +368,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Devices\Views\Actions\DeviceConfigurationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Devices\Views\Actions\DeviceDescriptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -389,6 +401,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\Actions\SetPasswordView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\PropertyDetails\MptDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

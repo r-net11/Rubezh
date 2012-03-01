@@ -2,9 +2,9 @@
 
 namespace DevicesModule.Views
 {
-    public partial class UserDetailsView : UserControl
+    public partial class MptDetailsView : UserControl
     {
-        public UserDetailsView()
+        public MptDetailsView()
         {
             InitializeComponent();
         }

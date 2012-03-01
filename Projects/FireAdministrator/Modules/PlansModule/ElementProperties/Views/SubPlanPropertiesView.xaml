@@ -14,13 +14,13 @@
                                 <ColumnDefinition Width="auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <WrapPanel Grid.Column="0" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                            <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                 <StackPanel Width="16">
                                     <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                     </StackPanel>
                                 </StackPanel>
-                            </WrapPanel>
+                            </StackPanel>
                             <StackPanel Grid.Column="1">
                                 <TextBlock Text="{Binding Plan.Caption}" />
                             </StackPanel>

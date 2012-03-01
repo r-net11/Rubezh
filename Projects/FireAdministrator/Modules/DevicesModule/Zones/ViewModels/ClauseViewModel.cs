@@ -45,10 +45,44 @@ namespace DevicesModule.ViewModels
                             ZoneLogicState.MPTAutomaticOn,
                             ZoneLogicState.MPTOn};
 
+                    case DriverType.Exit:
+                        switch (_device.Parent.Driver.DriverType)
+                        {
+                            case DriverType.Rubezh_4A:
+                            case DriverType.USB_Rubezh_4A:
+                                return new List<ZoneLogicState>() {
+                                    ZoneLogicState.Fire,
+                                    ZoneLogicState.Attention,
+                                    ZoneLogicState.MPTAutomaticOn,
+                                    ZoneLogicState.MPTOn,
+                                    ZoneLogicState.Failure};
+
+                            case DriverType.BUNS_2:
+                            case DriverType.USB_BUNS_2:
+                                return new List<ZoneLogicState>() {
+                                    ZoneLogicState.Fire,
+                                    ZoneLogicState.Attention,
+                                    ZoneLogicState.MPTAutomaticOn,
+                                    ZoneLogicState.MPTOn,
+                                    ZoneLogicState.PumpStationOn,
+                                    ZoneLogicState.PumpStationAutomaticOff,
+                                    ZoneLogicState.Failure};
+
+                            case DriverType.Rubezh_2OP:
+                            case DriverType.USB_Rubezh_2OP:
+                                var states = Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();
+                                states.Remove(ZoneLogicState.PumpStationOn);
+                                states.Remove(ZoneLogicState.PumpStationAutomaticOff);
+                                return states;
+                        }
+                        break;
+
                     case DriverType.RM_1:
-                        var states = Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();
-                        states.Remove(ZoneLogicState.Failure);
-                        return states;
+                        var rmStates = Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();
+                        rmStates.Remove(ZoneLogicState.PumpStationOn);
+                        rmStates.Remove(ZoneLogicState.PumpStationAutomaticOff);
+                        rmStates.Remove(ZoneLogicState.Failure);
+                        return rmStates;
                 }
                 return Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();
             }
@@ -157,6 +191,17 @@ namespace DevicesModule.ViewModels
             {
                 _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
+            }
+        }
+
+        bool _showJoinOperator;
+        public bool ShowJoinOperator
+        {
+            get { return _showJoinOperator; }
+            set
+            {
+                _showJoinOperator = value;
+                OnPropertyChanged("ShowJoinOperator");
             }
         }
 

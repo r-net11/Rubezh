@@ -17,10 +17,10 @@
         <Border Grid.Row="0" CornerRadius="5"  Margin="5" Background="{DynamicResource BackgroundBrush}">
             <StackPanel>
                 <Label Content="Индикатор состояния" Margin="2" FontWeight="Bold" />
-                <WrapPanel Margin="2">
+                <StackPanel Orientation="Horizontal"  Margin="2">
                     <RadioButton GroupName="1" IsChecked="{Binding IsZone}" Content="Зоны" Margin="0, 0, 100, 0" Foreground="White" />
                     <RadioButton GroupName="1" IsChecked="{Binding IsDevice}" Content="Устройства" Foreground="White" />
-                </WrapPanel>
+                </StackPanel>
             </StackPanel>
         </Border>
 

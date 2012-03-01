@@ -7,11 +7,11 @@
             <DataGridTemplateColumn Header="Название" Width="250">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <WrapPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                        <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="16"
                                 Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}"/>
                             <TextBlock Text="{Binding Plan.Caption}" />
-                        </WrapPanel>
+                        </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

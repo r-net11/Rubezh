@@ -18,8 +18,6 @@ namespace FiresecService.Converters
             {
                 foreach (var innerPlan in innerPlans.surface)
                 {
-                    MainView.SetStatus(innerPlan.caption);
-
                     var plan = new Plan()
                     {
                         Caption = innerPlan.caption,
@@ -207,10 +205,12 @@ namespace FiresecService.Converters
                                         long longId = long.Parse(innerDevice.id);
                                         int intId = (int)longId;
 
+                                        var height = Parse(innerRect.bottom) - Parse(innerRect.top);
+                                        var width = Parse(innerRect.right) - Parse(innerRect.left);
                                         var elementDevice = new ElementDevice()
                                         {
-                                            Left = Parse(innerRect.left),
-                                            Top = Parse(innerRect.top)
+                                            Left = Parse(innerRect.left) + height / 2,
+                                            Top = Parse(innerRect.top) + width / 2
                                         };
                                         plan.ElementDevices.Add(elementDevice);
 

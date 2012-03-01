@@ -29,6 +29,7 @@ namespace SecurityModule.ViewModels
                 }
 
                 OnPropertyChanged("User");
+                OnPropertyChanged("RoleName");
             }
         }
 

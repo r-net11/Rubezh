@@ -266,6 +266,8 @@ namespace PlansModule.Designer
             Canvas.SetTop(this, ElementBase.Top);
             Width = ElementBase.Width;
             Height = ElementBase.Height;
+
+            UpdateZoomDevice();
             UpdatePolygonAdorner();
         }
 
@@ -361,6 +363,13 @@ namespace PlansModule.Designer
                     elementPolyline.PolygonPoints.Add(new Point(point.X, point.Y));
                 }
             }
+            if (ElementBase is ElementDevice)
+            {
+                ElementBase.Left = Canvas.GetLeft(this) + this.Width / 2;
+                ElementBase.Top = Canvas.GetTop(this) + this.Height / 2;
+                ElementBase.Width = 0;
+                ElementBase.Height = 0;
+            }
         }
 
         public void UpdateZoom()
@@ -378,6 +387,8 @@ namespace PlansModule.Designer
                 double zoom = DesignerCanvas.PlanDesignerViewModel.DeviceZoom / DesignerCanvas.PlanDesignerViewModel.Zoom;
                 this.Width = zoom;
                 this.Height = zoom;
+                Canvas.SetLeft(this, ElementBase.Left - this.Width / 2);
+                Canvas.SetTop(this, ElementBase.Top - this.Height / 2);
             }
         }
     }

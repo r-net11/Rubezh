@@ -41,8 +41,6 @@ namespace FiresecService
                 {
                     if (CheckRemoteAccessPermissions(login))
                     {
-                        MainView.AddMessage("Connected. UserName = " + login + ". SessionId = " + OperationContext.Current.SessionId);
-
                         var connectionViewModel = new ConnectionViewModel()
                         {
                             FiresecServiceUID = FiresecServiceUID,

@@ -28,12 +28,6 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            <TabItem Header="Лог">
-                <TextBox Grid.Row="1" Name="_textBox" Margin="2" />
-            </TabItem>
         </TabControl>
-        <Grid Grid.Row="1">
-            <TextBlock Name="_statusTextBlock" Foreground="White" Margin="2" />
-        </Grid>
     </Grid>
 </UserControl>

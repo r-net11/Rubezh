@@ -12,7 +12,7 @@
         <Controls:ScrollDataGrid Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Binding="{Binding Driver.ShortName}" />
-                <DataGridTextColumn Header="Адрес" Binding="{Binding PresentationAddress}" />
+                <DataGridTextColumn Header="Адрес" Binding="{Binding DottedAddress}" />
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
             </DataGrid.Columns>
         </Controls:ScrollDataGrid>
@@ -25,7 +25,10 @@
             </Grid.RowDefinitions>
             <Controls:ScrollDataGrid Grid.Row="0" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="*" />
+                    <DataGridTextColumn Header="№" Width="50" Binding="{Binding GuardUser.Id}" />
+                    <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding GuardUser.Name}" />
+                    <DataGridTextColumn Header="Пароль" Width="1*" Binding="{Binding GuardUser.Password}" />
+                    <DataGridTextColumn Header="ФИО" Width="1*" Binding="{Binding GuardUser.FIO}" />
                 </DataGrid.Columns>
             </Controls:ScrollDataGrid>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -34,10 +37,10 @@
             </StackPanel>
             <Controls:ScrollDataGrid Grid.Row="2" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}" MouseDoubleClick="DataGrid_MouseDoubleClick_1">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Width="50" Binding="{Binding Id}" />
-                    <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Name}" />
-                    <DataGridTextColumn Header="ФИО" Width="1*" Binding="{Binding FIO}" />
-                    <DataGridTextColumn Header="Должность" Width="1*" Binding="{Binding Function}" />
+                    <DataGridTextColumn Header="№" Width="50" Binding="{Binding GuardUser.Id}" />
+                    <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding GuardUser.Name}" />
+                    <DataGridTextColumn Header="Пароль" Width="1*" Binding="{Binding GuardUser.Password}" />
+                    <DataGridTextColumn Header="ФИО" Width="1*" Binding="{Binding GuardUser.FIO}" />
                 </DataGrid.Columns>
             </Controls:ScrollDataGrid>
         </Grid>

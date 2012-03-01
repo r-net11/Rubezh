@@ -24,8 +24,8 @@ namespace DevicesModule.ViewModels
             ShowSynchronizationCommand = new RelayCommand(OnShowSynchronization, CanShowSynchronization);
 
             Devices = new ObservableCollection<Device>();
-            DeviceUsers = new ObservableCollection<GuardUser>();
-            AvailableUsers = new ObservableCollection<GuardUser>();
+            DeviceUsers = new ObservableCollection<UserViewModel>();
+            AvailableUsers = new ObservableCollection<UserViewModel>();
             UserZones = new ObservableCollection<Zone>();
             DeviceZones = new ObservableCollection<Zone>();
 
@@ -67,9 +67,9 @@ namespace DevicesModule.ViewModels
                 foreach (var guardUser in FiresecManager.DeviceConfiguration.GuardUsers)
                 {
                     if ((guardUser.DeviceUID == SelectedDevice.UID) || guardUser.Zones.Any(x => deviceZones.Contains(x)))
-                        DeviceUsers.Add(guardUser);
+                        DeviceUsers.Add(new UserViewModel(guardUser));
                     else
-                        AvailableUsers.Add(guardUser);
+                        AvailableUsers.Add(new UserViewModel(guardUser));
                 }
             }
 
@@ -83,7 +83,7 @@ namespace DevicesModule.ViewModels
             SelectedUserZone = null;
             SelectedDeviceZone = null;
 
-            if (SelectedDeviceUser != null)
+            if (SelectedDevice != null)
             {
                 var deviceZones = new List<ulong>();
                 foreach (var device in SelectedDevice.Children)
@@ -96,14 +96,14 @@ namespace DevicesModule.ViewModels
                 foreach (var zoneNo in deviceZones)
                 {
                     var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-                    if (SelectedDeviceUser.Zones.Contains(zoneNo))
+                    if ((SelectedDeviceUser != null) && (SelectedDeviceUser.GuardUser.Zones.Contains(zoneNo)))
                         UserZones.Add(zone);
                     else
                         DeviceZones.Add(zone);
                 }
-            }
 
-            UpdateZonesSelectation();
+                UpdateZonesSelectation();
+            }
         }
 
         void UpdateUsersSelectation()
@@ -138,10 +138,10 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public ObservableCollection<GuardUser> DeviceUsers { get; private set; }
+        public ObservableCollection<UserViewModel> DeviceUsers { get; private set; }
 
-        GuardUser _selectedDeviceUser;
-        public GuardUser SelectedDeviceUser
+        UserViewModel _selectedDeviceUser;
+        public UserViewModel SelectedDeviceUser
         {
             get { return _selectedDeviceUser; }
             set
@@ -152,10 +152,10 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public ObservableCollection<GuardUser> AvailableUsers { get; private set; }
+        public ObservableCollection<UserViewModel> AvailableUsers { get; private set; }
 
-        GuardUser _selectedAvailableUser;
-        public GuardUser SelectedAvailableUser
+        UserViewModel _selectedAvailableUser;
+        public UserViewModel SelectedAvailableUser
         {
             get { return _selectedAvailableUser; }
             set
@@ -215,7 +215,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            FiresecManager.DeviceConfiguration.GuardUsers.Remove(SelectedAvailableUser);
+            FiresecManager.DeviceConfiguration.GuardUsers.Remove(SelectedAvailableUser.GuardUser);
             AvailableUsers.Remove(SelectedAvailableUser);
             ServiceFactory.SaveService.DevicesChanged = true;
         }
@@ -223,10 +223,10 @@ namespace DevicesModule.ViewModels
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            var userDetailsViewModel = new UserDetailsViewModel(SelectedAvailableUser);
+            var userDetailsViewModel = new UserDetailsViewModel(SelectedAvailableUser.GuardUser);
             if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
             {
-                SelectedAvailableUser = userDetailsViewModel.GuardUser;
+                SelectedAvailableUser.GuardUser = userDetailsViewModel.GuardUser;
                 ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
@@ -235,10 +235,10 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedDeviceUser != null)
             {
-                var userDetailsViewModel = new UserDetailsViewModel(SelectedDeviceUser);
+                var userDetailsViewModel = new UserDetailsViewModel(SelectedDeviceUser.GuardUser);
                 if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
                 {
-                    SelectedDeviceUser = userDetailsViewModel.GuardUser;
+                    SelectedDeviceUser.GuardUser = userDetailsViewModel.GuardUser;
                     ServiceFactory.SaveService.DevicesChanged = true;
                 }
             }
@@ -259,7 +259,8 @@ namespace DevicesModule.ViewModels
             if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
             {
                 FiresecManager.DeviceConfiguration.GuardUsers.Add(userDetailsViewModel.GuardUser);
-                AvailableUsers.Add(userDetailsViewModel.GuardUser);
+                var userViewModel = new UserViewModel(userDetailsViewModel.GuardUser);
+                AvailableUsers.Add(userViewModel);
                 ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
@@ -277,7 +278,7 @@ namespace DevicesModule.ViewModels
                 if (guardUser.DeviceUID == SelectedDevice.UID)
                     guardUser.DeviceUID = Guid.Empty;
             }
-            SelectedAvailableUser.DeviceUID = SelectedDevice.UID;
+            SelectedAvailableUser.GuardUser.DeviceUID = SelectedDevice.UID;
 
             DeviceUsers.Add(SelectedAvailableUser);
             AvailableUsers.Remove(SelectedAvailableUser);
@@ -294,8 +295,8 @@ namespace DevicesModule.ViewModels
         public RelayCommand RemoveUserCommand { get; private set; }
         void OnRemoveUser()
         {
-            SelectedDeviceUser.DeviceUID = Guid.Empty;
-            SelectedDeviceUser.Zones.Clear();
+            SelectedDeviceUser.GuardUser.DeviceUID = Guid.Empty;
+            SelectedDeviceUser.GuardUser.Zones.Clear();
 
             AvailableUsers.Add(SelectedDeviceUser);
             DeviceUsers.Remove(SelectedDeviceUser);
@@ -306,13 +307,13 @@ namespace DevicesModule.ViewModels
 
         bool CanAddZone()
         {
-            return SelectedDeviceZone != null;
+            return ((SelectedDeviceUser != null) && (SelectedDeviceZone != null));
         }
 
         public RelayCommand AddZoneCommand { get; private set; }
         void OnAddZone()
         {
-            SelectedDeviceUser.Zones.Add(SelectedDeviceZone.No);
+            SelectedDeviceUser.GuardUser.Zones.Add(SelectedDeviceZone.No);
             UserZones.Add(SelectedDeviceZone);
             DeviceZones.Remove(SelectedDeviceZone);
 
@@ -328,7 +329,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand RemoveZoneCommand { get; private set; }
         void OnRemoveZone()
         {
-            SelectedDeviceUser.Zones.Add(SelectedUserZone.No);
+            SelectedDeviceUser.GuardUser.Zones.Add(SelectedUserZone.No);
             UserZones.Remove(SelectedUserZone);
             DeviceZones.Add(SelectedUserZone);
 

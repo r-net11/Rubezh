@@ -199,7 +199,7 @@ namespace DevicesModule.ViewModels
 
         bool CanRemove()
         {
-            return !(Parent == null || Driver.IsAutoCreate || Parent.Driver.AutoChild == Driver.UID);
+            return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.AutoChild == Driver.UID);
         }
 
         public RelayCommand RemoveCommand { get; private set; }
@@ -229,6 +229,7 @@ namespace DevicesModule.ViewModels
                 case DriverType.CompensationPump:
                 case DriverType.Direction:
                 case DriverType.UOO_TL:
+                case DriverType.MPT:
                     return true;
             }
             return false;
@@ -263,6 +264,11 @@ namespace DevicesModule.ViewModels
 
                 case DriverType.UOO_TL:
                     if (ServiceFactory.UserDialogs.ShowModalWindow(new TelephoneLineDetailsViewModel(Device)))
+                        ServiceFactory.SaveService.DevicesChanged = true;
+                    break;
+
+                case DriverType.MPT:
+                    if (ServiceFactory.UserDialogs.ShowModalWindow(new MptDetailsViewModel(Device)))
                         ServiceFactory.SaveService.DevicesChanged = true;
                     break;
             }

@@ -16,8 +16,9 @@ namespace SettingsModule.ViewModels
         public SettingsViewModel()
         {
             ShowDriversCommand = new RelayCommand(OnShowDrivers);
-            SaveConfigurationCommand = new RelayCommand(OnSaveConfiguration);
-            LoadConfigurationCommand = new RelayCommand(OnLoadConfiguration);
+
+            ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
+            ConvertJournalCommand = new RelayCommand(OnConvertJournal);
         }
 
         public RelayCommand ShowDriversCommand { get; private set; }
@@ -28,73 +29,15 @@ namespace SettingsModule.ViewModels
             var driversView = new DriversView();
             driversView.ShowDialog();
         }
-        public RelayCommand SaveConfigurationCommand { get; private set; }
-        void OnSaveConfiguration()
+
+        public RelayCommand ConvertConfigurationCommand { get; private set; }
+        void OnConvertConfiguration()
         {
-            var saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "firesec2 files|*.fsc2";
-            if (saveDialog.ShowDialog().Value)
-                SaveToFile(CopyFrom(), saveDialog.FileName);
         }
 
-        public RelayCommand LoadConfigurationCommand { get; private set; }
-        void OnLoadConfiguration()
+        public RelayCommand ConvertJournalCommand { get; private set; }
+        void OnConvertJournal()
         {
-            var openDialog = new OpenFileDialog();
-            openDialog.Filter = "firesec2 files|*.fsc2";
-            if (openDialog.ShowDialog().Value)
-            {
-                CopyTo(LoadFromFile(openDialog.FileName));
-
-                FiresecManager.UpdateConfiguration();
-                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-            }
-        }
-
-        FullConfiguration CopyFrom()
-        {
-            return new FullConfiguration()
-            {
-                DeviceConfiguration = FiresecManager.DeviceConfiguration,
-                LibraryConfiguration = FiresecManager.LibraryConfiguration,
-                PlansConfiguration = FiresecManager.PlansConfiguration,
-                SecurityConfiguration = FiresecManager.SecurityConfiguration,
-                SystemConfiguration = FiresecManager.SystemConfiguration
-            };
-        }
-
-        void CopyTo(FullConfiguration fullConfiguration)
-        {
-            FiresecManager.DeviceConfiguration = fullConfiguration.DeviceConfiguration;
-            FiresecManager.LibraryConfiguration = fullConfiguration.LibraryConfiguration;
-            FiresecManager.PlansConfiguration = fullConfiguration.PlansConfiguration;
-            FiresecManager.SecurityConfiguration = fullConfiguration.SecurityConfiguration;
-            FiresecManager.SystemConfiguration = fullConfiguration.SystemConfiguration;
-        }
-
-        FullConfiguration LoadFromFile(string fileName)
-        {
-            try
-            {
-                var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
-                using (var fileStream = new FileStream(fileName, FileMode.Open))
-                {
-                    return (FullConfiguration) dataContractSerializer.ReadObject(fileStream);
-                }
-            }
-            catch
-            {
-                return new FullConfiguration();
-            }
-        }
-
-        void SaveToFile(FullConfiguration fullConfiguration, string fileName)
-        {
-            var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
-            using (var fileStream = new FileStream(fileName, FileMode.Create))
-            {
-                dataContractSerializer.WriteObject(fileStream, fullConfiguration);
-            }
         }
     }
 }
