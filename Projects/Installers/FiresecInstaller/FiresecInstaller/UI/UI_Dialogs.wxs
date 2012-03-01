@@ -15,12 +15,6 @@
 			<DialogRef Id="UserExit" />
 
 			<Dialog Id="WelcomeDialog" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
-				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Default="yes" Text="!(loc.WixUINext)" >
-					<Publish Property="WixUI_InstallMode" Value="Update">Installed AND PATCH</Publish>
-				</Control>
-				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
-					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
-				</Control>
 				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="!(loc.WelcomeDlgBitmap)" />
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="10" Width="220" Height="60" Transparent="yes" NoPrefix="yes" 
@@ -44,14 +38,19 @@
 					<Condition Action="show">Installed AND PATCH</Condition>
 					<Condition Action="hide">NOT Installed OR NOT PATCH</Condition>
 				</Control>
+
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" >
+					<Publish Property="WixUI_InstallMode" Value="Update">Installed AND PATCH</Publish>
+				</Control>
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+				</Control>
 			</Dialog>
 
 			<Dialog Id="LicenseAgreement" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" Hidden="yes" NoMinimize="yes">
-				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
-				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
-				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
-				<Control Id="DlgDesc" Type="Text" X="21" Y="23" Width="292" Height="25" Text="Пожалуйста, прочитайте следующую важную информацию перед тем, как продолжить." TabSkip="yes" Transparent="yes" />
-				<Control Id="DlgTitle" Type="Text" X="10" Y="6" Width="292" Height="25" Text="{&amp;MSSansBold8}Информация" TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="25" Text="{&amp;MSSansBold8}Информация" TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgDesc" Type="Text" X="30" Y="22" Width="292" Height="25" 
+								 Text="Пожалуйста, прочитайте следующую важную информацию перед тем, как продолжить." TabSkip="yes" Transparent="yes" />
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        $(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
@@ -59,24 +58,28 @@
 				<Control Id="LicenseText" Type="ScrollableText" X="8" Y="54" Width="358" Height="130"  Sunken="yes" TabSkip="yes">
 					<Text SourceFile="Data\License.rtf" />
 				</Control>
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
 			</Dialog>
 
 			<Dialog Id="DestinationFolder" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" NoMinimize="yes" TrackDiskSpace="yes">
-				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
-				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
-				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
-				<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="no" Disabled="yes" FixedSize="yes" />
-				<Control Id="DlgTitle" Type="Text" X="20" Y="50" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор папки установки" TabSkip="yes" Transparent="yes" />
-				<Control Id="DlgDesc" Type="Text" X="20" Y="72" Width="340" Height="20" 
+				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор папки установки" TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="В какую папку вы хотите установить Firesec 2?" TabSkip="yes" Transparent="yes" />
+				<!--<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="no" Disabled="yes" FixedSize="yes" />-->
+				<Control Id="DlgDesc" Type="Text" X="30" Y="54" Width="327" Height="20" 
 								 Text="Нажмите &quot;Далее&quot;, чтобы продолжить. Если вы хотите выбрать другую папку, нажмите &quot;Обзор&quot;." TabSkip="yes" Transparent="yes" />
-				<Control Id="DestFolder" Type="Icon" X="20" Y="105" Width="24" Height="25" Text="DestFolder.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
-				<Control Id="Location" Type="Text" X="54" Y="115" Width="300" Height="26" Property="_BrowseProperty" Text="[INSTALLLOCATION]" TabSkip="yes" Transparent="yes" />
-				<Control Id="ChangeFolder" Type="PushButton" X="291" Y="115" Width="66" Height="17" Text="Обзор..." TabSkip="no" />
-				<Control Id="Copyright" Type="Text" X="20" Y="200" Width="340" Height="25" Text="{&amp;NormalText}Требуется 100,0 Mb свободного дискового пространства" TabSkip="yes" Transparent="yes" />
+				<Control Id="DestFolder" Type="Icon" X="30" Y="95" Width="24" Height="25" Text="DestFolder.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
+				<Control Id="Location" Type="Text" X="64" Y="105" Width="300" Height="26" Property="_BrowseProperty" Text="[INSTALLLOCATION]" TabSkip="yes" Transparent="yes" />
+				<Control Id="ChangeFolder" Type="PushButton" X="281" Y="105" Width="66" Height="17" Text="Обзор..." TabSkip="no" />
+				<Control Id="Copyright" Type="Text" X="30" Y="200" Width="340" Height="25" Text="{&amp;NormalText}Требуется 100,0 Mb свободного дискового пространства" TabSkip="yes" Transparent="yes" />
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        $(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
 			</Dialog>
 
 			<Dialog Id="InstallChangeFolderError" X="50" Y="50" Width="358" Height="111" Title="$(var.BrandName) - Программа установки" NoMinimize="yes">
@@ -106,11 +109,10 @@
 			</Dialog>
 
 			<Dialog Id="SetupType" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" NoMinimize="yes">
-				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
-				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
-				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
-				<Control Id="DlgTitle" Type="Text" X="20" Y="50" Width="244" Height="15" Text="{&amp;MSSansBold8}Выбор компонент" TabSkip="yes" Transparent="yes" />
-				<Control Id="DlgText" Type="Text" X="20" Y="70" Width="249" Height="13" Text="Выберите компоненты, которые вы хотите установить." TabSkip="yes" />
+				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="244" Height="15" Text="{&amp;MSSansBold8}Выбор компонентов" TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие компоненты должны быть установлены?" TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgText" Type="Text" X="30" Y="54" Width="340" Height="20" 
+								 Text="Выберите компоненты, которые вы хотите установить. Нажмите &quot;Далее&quot;, когда Вы будете готовы продолжить." TabSkip="yes" />
 				<Control Id="RadioGroup" Type="RadioButtonGroup" X="20" Y="80" Width="268" Height="106" Property="SETUPCHOICE" TabSkip="yes" />
 				<Control Id="Text1" Type="Text" X="76" Y="115" Width="202" Height="41" Text="Будут установлены сервер, монитор и администратор." TabSkip="yes" Transparent="yes"/>
 				<Control Id="CompleteIcon" Type="Icon" X="40" Y="115" Width="24" Height="24" Text="InstallFull.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes"/>
@@ -119,26 +121,27 @@
 				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        $(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="2" TabSkip="yes" Disabled="yes" />
-				
-				<Control Id="Bitmap2" Type="Bitmap"  Width="374" Height="44" X="0" Y="0" Text="FiresecBanner" TabSkip="yes" Disabled="yes" FixedSize="yes"/>
+				<!--<Control Id="Bitmap2" Type="Bitmap"  Width="374" Height="44" X="0" Y="0" Text="FiresecBanner" TabSkip="yes" Disabled="yes" FixedSize="yes"/>-->
 				<Control Id="Line2" Type="Line" Width="374" Height="2" X="0" Y="44" Disabled="yes" TabSkip="yes"/>
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
 			</Dialog>
 			
 			<Dialog Id="ShortcutsDlg" Width="374" Height="266" Title="$(var.BrandName) - Программа установки">
-				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
-				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
-				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
-
+				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Установка ярлыков." TabSkip="yes" Transparent="yes" />
 				<Control Id="ShortcutDesktop" Type="CheckBox" Height="18" Width="295" X="26" Y="58" Text="Создать ярлык на рабочем столе"
 								 Property="SHORTCUT_DESKTOP" CheckBoxValue="1" />
 				<Control Id="ShortcutProgramMenu" Type="CheckBox" Height="18" Width="295" X="26" Y="79" Text="Создать ярлык в меню Пуск"
 								 Property="SHORTCUT_PROGRAMMENU" CheckBoxValue="1" />
-
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        $(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
-				<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="no" Disabled="yes" FixedSize="yes" />
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
+				<!--<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="no" Disabled="yes" FixedSize="yes" />-->
 			</Dialog>
 
 			<Dialog Id="CustomizeDialog" Width="374" Height="266" Title="!(loc.CustomizeDlg_Title)" TrackDiskSpace="yes">
@@ -188,35 +191,41 @@
 			</Dialog>
 
 			<Dialog Id="SQLLogin" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" NoMinimize="yes">
-				<Control Id="cboServers" Type="Edit" X="18" Y="106" Width="218" Height="16" Property="SQLINSTANCE" TabSkip="no"/>
-				<Control Id="lblAuthentication" Type="Text" X="18" Y="129" Width="334" Height="14" Text="Режим проверки подлинности:" TabSkip="no" NoPrefix="yes" />
-				<Control Id="RadioButtonGroup1" Type="RadioButtonGroup" X="25" Y="145" Width="343" Height="34" Property="IS_SQLSERVER_AUTHENTICATION" TabSkip="no" />
-				<Control Id="lblLoginID" Type="Text" X="43" Y="186" Width="48" Height="13" Text="&amp;Login ID:" TabSkip="no">
+				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор экземпляра компонентов SQL Server 2005" TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Text="Укажите экземпляр компонентов, в котором будет создана база данных Firesec." TabSkip="yes" Transparent="yes" />
+				<Control Id="lblSQLLoginIntro" Type="Text" X="30" Y="50" Width="330" Height="40" 
+								 Text="Введите имя для экземпляра. Выберите режим проверки подлинности для использования при установке." TabSkip="no" Transparent="yes" />
+
+				<Control Id="lblServer" Type="Text" X="30" Y="92" Width="88" Height="14" Text="&amp;Имя экземпляра:" TabSkip="no" />
+				<Control Id="cboServers" Type="Edit" X="30" Y="106" Width="218" Height="16" Property="SQLINSTANCE" TabSkip="no"/>
+				<Control Id="lblAuthentication" Type="Text" X="30" Y="129" Width="334" Height="14" Text="Режим проверки подлинности:" TabSkip="no" NoPrefix="yes" />
+				<Control Id="RadioButtonGroup1" Type="RadioButtonGroup" X="37" Y="145" Width="343" Height="34" Property="IS_SQLSERVER_AUTHENTICATION" TabSkip="no" />
+				<Control Id="lblLoginID" Type="Text" X="55" Y="186" Width="48" Height="13" Text="&amp;Login ID:" TabSkip="no">
 					<Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
 					<Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
 				</Control>
-				<Control Id="EdtLogin" Type="Edit" X="92" Y="184" Width="218" Height="16" Property="IS_SQLSERVER_USERNAME" TabSkip="no">
+				<Control Id="EdtLogin" Type="Edit" X="104" Y="184" Width="218" Height="16" Property="IS_SQLSERVER_USERNAME" TabSkip="no">
 					<Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
 					<Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
 				</Control>
-				<Control Id="lblPswd" Type="Text" X="43" Y="208" Width="47" Height="13" Text="&amp;Password:" TabSkip="no">
+				<Control Id="lblPswd" Type="Text" X="55" Y="208" Width="47" Height="13" Text="&amp;Password:" TabSkip="no">
 					<Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
 					<Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
 				</Control>
-				<Control Id="EdtPswd" Type="Edit" X="92" Y="208" Width="218" Height="16" Property="IS_SQLSERVER_PASSWORD" TabSkip="no" Password="yes">
+				<Control Id="EdtPswd" Type="Edit" X="104" Y="208" Width="218" Height="16" Property="IS_SQLSERVER_PASSWORD" TabSkip="no" Password="yes">
 					<Condition Action="disable">IS_SQLSERVER_AUTHENTICATION=0</Condition>
 					<Condition Action="enable">IS_SQLSERVER_AUTHENTICATION=1</Condition>
 				</Control>
-				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
-				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
-				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
-				<Control Id="lblServer" Type="Text" X="18" Y="92" Width="88" Height="14" Text="&amp;Имя экземпляра:" TabSkip="no" />
-				<Control Id="lblSQLLoginIntro" Type="Text" X="17" Y="50" Width="345" Height="40" Text="Введите имя для экземпляра. Выберите режим проверки подлинности для использования при установке." TabSkip="no" Transparent="yes" />
+				
+				
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        $(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
-				<Control Id="Banner" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="yes" Disabled="yes" FixedSize="yes"/>
+				<!--<Control Id="Banner" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="yes" Disabled="yes" FixedSize="yes"/>-->
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" />
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Default="yes" />
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="no" Cancel="yes" />
 			</Dialog>
 
 			<Dialog Id="MaintenanceTypeDialog" X="50" Y="50" Width="374" Height="266" Title="!(loc.MaintenanceTypeDlg_Title)">
@@ -250,43 +259,35 @@
 				<Control Id="RemoveDisabledText" Type="Text" X="60" Y="191" Width="280" Height="20" NoPrefix="yes" Text="!(loc.MaintenanceTypeDlgRemoveDisabledText)" Hidden="yes">
 					<Condition Action="show">ARPNOREMOVE</Condition>
 				</Control>
-				<Control Id="Back" Type="PushButton" X="175" Y="243" Width="56" Height="17" Text="!(loc.WixUIBack)" />
-				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="56" Height="17" Disabled="yes" Text="!(loc.WixUINext)" />
-				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад"/>
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" Disabled="yes"/>
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
 					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
 				</Control>
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="3" Y="229" Width="50" Height="13" Text="{&amp;Tahoma8}        $(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
-				<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="yes" Disabled="yes" FixedSize="yes" />
+				<!--<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="yes" Disabled="yes" FixedSize="yes" />-->
 			</Dialog>
 
 			<Dialog Id="MaintenanceWelcomeDialog" X="50" Y="50" Width="374" Height="266" Title="!(loc.MaintenanceWelcomeDlg_Title)">
-				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="56" Height="17" Default="yes" Text="!(loc.WixUINext)">
-					<Publish Event="SpawnWaitDialog" Value="WaitForCostingDlg">!(wix.WixUICostingPopupOptOut) OR CostingComplete = 1</Publish>
-				</Control>
-				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
-					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
-				</Control>
 				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="!(loc.MaintenanceWelcomeDlgBitmap)" />
-				<Control Id="Back" Type="PushButton" X="175" Y="243" Width="56" Height="17" Disabled="yes" Text="!(loc.WixUIBack)" />
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes" Text="!(loc.MaintenanceWelcomeDlgTitle)" />
 				<Control Id="Description" Type="Text" X="135" Y="70" Width="220" Height="60" Transparent="yes" NoPrefix="yes" Text="!(loc.MaintenanceWelcomeDlgDescription)" />
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" Disabled="yes"/>
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" Default="yes">
+					<Publish Event="SpawnWaitDialog" Value="WaitForCostingDlg">!(wix.WixUICostingPopupOptOut) OR CostingComplete = 1</Publish>
+				</Control>
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
+					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+				</Control>
 			</Dialog>
 
 			<Dialog Id="VerifyReadyDialog" X="10" Y="0" Width="374" Height="266" Title="!(loc.VerifyReadyDlg_Title)" TrackDiskSpace="yes">
-				<Control Id="Install" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
-					<Condition Action="show">NOT Installed AND ALLUSERS</Condition>
-					<Condition Action="enable">NOT Installed</Condition>
-					<Condition Action="default">NOT Installed</Condition>
-					<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
-					<Publish Event="SpawnDialog" Value="OutOfRbDiskDlg">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST="P" OR NOT PROMPTROLLBACKCOST)</Publish>
-					<Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
-					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
-					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
-				</Control>
+				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="244" Height="15" Text="{&amp;MSSansBold8}Всё готово к установке" TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Text="Программа установки готова начать установку Firesec 2 на ваш компьютер." TabSkip="yes" Transparent="yes" />
 				<Control Id="InstallNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
 					<Condition Action="show">NOT Installed AND NOT ALLUSERS</Condition>
 					<Condition Action="enable">NOT Installed</Condition>
@@ -368,12 +369,17 @@
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
 				</Control>
 
-				<Control Id="InstallTitle" Type="Text" X="20" Y="50" Width="292" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes" Text="!(loc.VerifyReadyDlgInstallTitle)" >
+				<Control Id="InstallTitle" Type="Text" X="18" Y="10" Width="244" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes" Text="{&amp;MSSansBold8}Всё готово к установке">
 					<Condition Action="show">NOT Installed</Condition>
 				</Control>
-				<Control Id="InstallText" Type="Text" X="20" Y="70" Width="340" Height="80" Hidden="yes" Text="!(loc.VerifyReadyDlgInstallText)">
+				<Control Id="InstallTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes"
+								 Text="Программа установки готова начать установку Firesec 2 на ваш компьютер.">
 					<Condition Action="show">NOT Installed</Condition>
 				</Control>
+				<Control Id="InstallText" Type="Text" X="30" Y="54" Width="340" Height="80" Hidden="yes" Text="!(loc.VerifyReadyDlgInstallText)">
+					<Condition Action="show">NOT Installed</Condition>
+				</Control>
+				
 				<Control Id="ChangeTitle" Type="Text" X="20" Y="50" Width="300" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes" Text="!(loc.VerifyReadyDlgChangeTitle)">
 					<Condition Action="show">WixUI_InstallMode = "Change"</Condition>
 				</Control>
@@ -386,12 +392,18 @@
 				<Control Id="RepairText" Type="Text" X="20" Y="70" Width="320" Height="80" Hidden="yes" NoPrefix="yes" Text="!(loc.VerifyReadyDlgRepairText)">
 					<Condition Action="show">WixUI_InstallMode = "Repair"</Condition>
 				</Control>
-				<Control Id="RemoveTitle" Type="Text" X="20" Y="50" Width="300" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes" Text="!(loc.VerifyReadyDlgRemoveTitle)">
+				
+				<Control Id="RemoveTitle" Type="Text" X="18" Y="10" Width="244" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes" Text="{&amp;MSSansBold8}Всё готово к удалению">
 					<Condition Action="show">WixUI_InstallMode = "Remove"</Condition>
 				</Control>
-				<Control Id="RemoveText" Type="Text" X="20" Y="70" Width="320" Height="80" Hidden="yes" NoPrefix="yes" Text="!(loc.VerifyReadyDlgRemoveText)">
+				<Control Id="RemoveTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes" 
+								 Text="Программа установки готова удалить Firesec 2 и все ее компоненты с вашего компьютера.">
 					<Condition Action="show">WixUI_InstallMode = "Remove"</Condition>
 				</Control>
+				<Control Id="RemoveText" Type="Text" X="30" Y="54" Width="340" Height="80" Hidden="yes" NoPrefix="yes" Text="!(loc.VerifyReadyDlgRemoveText)">
+					<Condition Action="show">WixUI_InstallMode = "Remove"</Condition>
+				</Control>
+				
 				<Control Id="UpdateTitle" Type="Text" X="20" Y="50" Width="300" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes" Text="!(loc.VerifyReadyDlgUpdateTitle)">
 					<Condition Action="show">WixUI_InstallMode = "Update"</Condition>
 				</Control>
@@ -399,71 +411,87 @@
 					<Condition Action="show">WixUI_InstallMode = "Update"</Condition>
 				</Control>
 
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />
+				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        $(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
+				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
+				<!--<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="yes" Disabled="yes" FixedSize="yes" />-->
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад">
+					<Condition Action="default">WixUI_InstallMode = "Remove"</Condition>
+				</Control>
+				<Control Id="Install" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
+					<Condition Action="show">NOT Installed AND ALLUSERS</Condition>
+					<Condition Action="enable">NOT Installed</Condition>
+					<Condition Action="default">NOT Installed</Condition>
+					<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
+					<Publish Event="SpawnDialog" Value="OutOfRbDiskDlg">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST="P" OR NOT PROMPTROLLBACKCOST)</Publish>
+					<Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
+					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
+					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
+				</Control>
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="!(loc.WixUICancel)">
 					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
 				</Control>
-				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="!(loc.WixUIBack)">
-					<Condition Action="default">WixUI_InstallMode = "Remove"</Condition>
-				</Control>
-				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
-				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />
-				<Control Id="Branding2" Type="Text" X="3" Y="229" Width="50" Height="13" Text="{&amp;Tahoma8}        $(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
-				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
-				<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="yes" Disabled="yes" FixedSize="yes" />
 			</Dialog>
 
 			<Dialog Id="SetupProgress" X="50" Y="0" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" Modeless="yes">
-				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" Disabled="yes" />
-				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Disabled="yes" />
-				<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="no" Disabled="yes" FixedSize="yes" />
-				<Control Id="FilesLabel" Type="Text" X="50" Y="134" Width="300" Height="13" Property="FilesLabel" TabSkip="no" Transparent="yes">
-					<Subscribe Event="ActionData" Attribute="Text" />
-				</Control>
-				<Control Id="ActionText" Type="Text" X="100" Y="115" Width="209" Height="13" Property="ActionTextLabel" TabSkip="yes">
-					<Subscribe Event="ActionText" Attribute="Text" />
-				</Control>
-				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="yes" Default="yes" Cancel="yes" />
-				<Control Id="DlgDesc" Type="Text" X="20" Y="67" Width="332" Height="16" Text="Устанавливаются выбранные компоненты программы." TabSkip="yes" Hidden="yes" Transparent="yes">
+				
+				<!--<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="no" Disabled="yes" FixedSize="yes" />-->
+				
+				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Установка  $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>
 				</Control>
-				<Control Id="DlgTitle" Type="Text" X="10" Y="50" Width="292" Height="25" Text="{&amp;MSSansBold8}Установка  $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgDesc" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Устанавливаются выбранные компоненты программы." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>
 				</Control>
-				<Control Id="DlgText" Type="Text" X="50" Y="84" Width="300" Height="30" Text="Программа устанавливает $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgText" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа устанавливает $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>
 				</Control>
-				<Control Id="DlgTitle2" Type="Text" X="10" Y="50" Width="292" Height="20" Text="{&amp;MSSansBold8}Удаление программы $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
+				
+				<Control Id="DlgTitle2" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Удаление программы $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Remove"</Condition>
 				</Control>
-				<Control Id="DlgDesc2" Type="Text" X="15" Y="64" Width="320" Height="20" Text="Удаление выбранных компонентов программы. " TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgDesc2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Удаление выбранных компонентов программы. " TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Remove"</Condition>
 				</Control>
-				<Control Id="DlgText2" Type="Text" X="50" Y="84" Width="300" Height="30" Text="Программа установки удаляет $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgText2" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа удаления удаляет $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Remove"</Condition>
 				</Control>
+				
 				<Control Id="DlgTitle3" Type="Text" X="10" Y="50" Width="292" Height="20" Text="{&amp;MSSansBold8}Изменение программы $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Change"</Condition>
 				</Control>
-				<Control Id="DlgDesc3" Type="Text" X="15" Y="64" Width="20" Height="20" Text="Изменение выбранных компонентов программы. " TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgDesc3" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Изменение выбранных компонентов программы. " TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Change"</Condition>
 				</Control>
-				<Control Id="DlgText3" Type="Text" X="50" Y="84" Width="300" Height="30" Text="Программа установки изменяет $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgText3" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа установки изменяет $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Change"</Condition>
 				</Control>
+				
 				<Control Id="DlgTitle4" Type="Text" X="10" Y="50" Width="292" Height="20" Text="{&amp;MSSansBold8}Восстановление программы $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Repair"</Condition>
 				</Control>
-				<Control Id="DlgText4" Type="Text" X="50" Y="84" Width="300" Height="30" Text="Программа установки восстанавливает $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgText4" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа установки восстанавливает $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Repair"</Condition>
 				</Control>
+				
 				<Control Id="DlgTitle5" Type="Text" X="10" Y="50" Width="292" Height="20" Text="{&amp;MSSansBold8}Обновление программы $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Update"</Condition>
 				</Control>
-				<Control Id="DlgText5" Type="Text" X="50" Y="84" Width="300" Height="30" Text="Программа установки обновляет $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgText5" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа установки обновляет $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Update"</Condition>
 				</Control>
-
-				<Control Id="ActionProgress95" Type="ProgressBar" X="50" Y="153" Width="300" Height="12" Text="Выполнено" TabSkip="yes" Disabled="yes" ProgressBlocks="yes">
+				
+				<Control Id="SetupIcon" Type="Icon" X="30" Y="57" Width="25" Height="24" Text="SetupProgress.ico" TabSkip="yes" Disabled="yes" IconSize="32" />
+				
+				<Control Id="LbStatus" Type="Text" X="30" Y="90" Width="53" Height="12" Text="Состояние:" TabSkip="yes" />
+				<Control Id="ActionText" Type="Text" X="85" Y="90" Width="209" Height="13" Property="ActionTextLabel" TabSkip="yes">
+					<Subscribe Event="ActionText" Attribute="Text" />
+				</Control>
+				<Control Id="FilesLabel" Type="Text" X="30" Y="110" Width="300" Height="13" Property="FilesLabel" TabSkip="no" Transparent="yes">
+					<Subscribe Event="ActionData" Attribute="Text" />
+				</Control>
+				<Control Id="ActionProgress95" Type="ProgressBar" X="30" Y="128" Width="300" Height="12" Text="Выполнено" TabSkip="yes" Disabled="yes" ProgressBlocks="yes">
 					<Subscribe Event="InstallFiles" Attribute="Progress" />
 					<Subscribe Event="MoveFiles" Attribute="Progress" />
 					<Subscribe Event="RemoveFiles" Attribute="Progress" />
@@ -474,22 +502,15 @@
 					<Subscribe Event="AdminInstallFinalize" Attribute="Progress" />
 					<Subscribe Event="SetProgress" Attribute="Progress" />
 				</Control>
-				<Control Id="LbSec" Type="Text" X="205" Y="175" Width="32" Height="12" Text="сек." TabSkip="yes" Hidden="yes">
-					<Subscribe Event="TimeRemaining" Attribute="Visible" />
-				</Control>
-				<Control Id="ShowTime" Type="Text" X="158" Y="175" Width="38" Height="13" Text=" " TabSkip="yes" Hidden="yes">
-					<Subscribe Event="TimeRemaining" Attribute="Text" />
-					<Subscribe Event="EventMapping3" Attribute="Visible" />
-				</Control>
-				<Control Id="TextTime" Type="Text" X="50" Y="175" Width="96" Height="12" Text="Осталось прибл:" TabSkip="yes" Hidden="yes">
-					<Subscribe Event="TimeRemaining" Attribute="Visible" />
-				</Control>
+				
 				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="4" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}        $(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="3" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}        $(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
-				<Control Id="LbStatus" Type="Text" X="50" Y="116" Width="43" Height="12" Text="Состояние:" TabSkip="yes" />
-				<Control Id="SetupIcon" Type="Icon" X="15" Y="87" Width="25" Height="24" Text="SetupProgress.ico" TabSkip="yes" Disabled="yes" IconSize="32" />
+
+				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="&lt; &amp;Назад" TabSkip="no" Disabled="yes" />
+				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;Далее &gt;" TabSkip="no" Disabled="yes" />
+				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="&amp;Отмена" TabSkip="yes" Default="yes" Cancel="yes" />
 			</Dialog>
 		</UI>
 	</Fragment>
