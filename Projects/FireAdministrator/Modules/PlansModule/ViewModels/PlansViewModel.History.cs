@@ -18,6 +18,10 @@ namespace PlansModule.ViewModels
             UndoCommand = new RelayCommand(OnUndo, CanUndo);
             RedoCommand = new RelayCommand(OnRedo, CanRedo);
 
+            ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementsAdded);
+            ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementsRemoved);
+            ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementsChanged);
+
             ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementsAdded);
             ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementsRemoved);
             ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementsChanged);

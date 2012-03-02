@@ -47,10 +47,13 @@ namespace FiresecClient
 
         public void StartPing()
         {
-            _pingTimer = new System.Timers.Timer();
-            _pingTimer.Elapsed += new ElapsedEventHandler(OnTimerPing);
-            _pingTimer.Interval = 1000;
-            _pingTimer.Enabled = true;
+            if (_pingTimer != null)
+            {
+                _pingTimer = new System.Timers.Timer();
+                _pingTimer.Elapsed += new ElapsedEventHandler(OnTimerPing);
+                _pingTimer.Interval = 1000;
+                _pingTimer.Enabled = true;
+            }
         }
 
         public void StopPing()
@@ -658,6 +661,31 @@ namespace FiresecClient
                 OnConnectionLost();
             }
             return null;
+        }
+
+
+        public void ConvertConfiguration()
+        {
+            try
+            {
+                _iFiresecService.ConvertConfiguration();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+        }
+
+        public void ConvertJournal()
+        {
+            try
+            {
+                _iFiresecService.ConvertJournal();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
         }
 
         public string Ping()

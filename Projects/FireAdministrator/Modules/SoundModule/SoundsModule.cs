@@ -11,6 +11,7 @@ namespace SoundsModule
 
         public SoundsModule()
         {
+            ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Unsubscribe(OnShowSounds);
             ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(OnShowSounds);
 
             RegisterResources();

@@ -98,12 +98,15 @@ namespace FireAdministrator.Views
                 };
                 FiresecManager.DeviceConfiguration.RootDevice = device;
                 FiresecManager.DeviceConfiguration.Update();
+                FiresecManager.PlansConfiguration.Update();
 
-                ServiceFactory.SaveService.Reset();
-                DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
+                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
-                DevicesModule.DevicesModule.CreateViewModels();
-                PlansModule.PlansModule.CreateViewModels();
+                //ServiceFactory.SaveService.Reset();
+                //DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
+
+                //DevicesModule.DevicesModule.CreateViewModels();
+                //PlansModule.PlansModule.CreateViewModels();
 
                 ServiceFactory.Layout.Close();
                 ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
@@ -143,13 +146,11 @@ namespace FireAdministrator.Views
 
                 FiresecManager.UpdateConfiguration();
                 ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+
+                //DevicesModule.DevicesModule.CreateViewModels();
+                ServiceFactory.Layout.Close();
+                ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
             }
-
-            DevicesModule.DevicesModule.CreateViewModels();
-            ServiceFactory.Layout.Close();
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-
-            ServiceFactory.SaveService.DevicesChanged = true;
         }
 
         FullConfiguration CopyFrom()

@@ -12,6 +12,9 @@ namespace SecurityModule
 
         public SecurityModule()
         {
+            ServiceFactory.Events.GetEvent<ShowUsersEvent>().Unsubscribe(OnShowUsers);
+            ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Unsubscribe(OnShowUserGroups);
+
             ServiceFactory.Events.GetEvent<ShowUsersEvent>().Subscribe(OnShowUsers);
             ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Subscribe(OnShowUserGroups);
 

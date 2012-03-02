@@ -16,6 +16,12 @@ namespace DevicesModule
 
         public DevicesModule()
         {
+            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Unsubscribe(OnShowDevice);
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Unsubscribe(OnShowZone);
+            ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Unsubscribe(OnShowDirections);
+            ServiceFactory.Events.GetEvent<ShowGuardEvent>().Unsubscribe(OnShowGuardDevices);
+            ServiceFactory.Events.GetEvent<CreateZoneEvent>().Unsubscribe(OnCreateZone);
+
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
             ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
             ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);

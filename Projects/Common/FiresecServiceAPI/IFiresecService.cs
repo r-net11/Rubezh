@@ -151,6 +151,12 @@ namespace FiresecAPI
         Stream GetFile(string dirAndFileName);
 
         [OperationContract]
+        void ConvertConfiguration();
+
+        [OperationContract]
+        void ConvertJournal();
+
+        [OperationContract]
         string Ping();
 
         [OperationContract]

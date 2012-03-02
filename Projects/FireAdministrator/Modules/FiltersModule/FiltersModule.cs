@@ -11,6 +11,7 @@ namespace FiltersModule
 
         public FilterModule()
         {
+            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Unsubscribe(OnShowJournal);
             ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
 
             RegisterResources();

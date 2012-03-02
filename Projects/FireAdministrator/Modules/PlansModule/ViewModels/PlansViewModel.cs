@@ -19,6 +19,9 @@ namespace PlansModule.ViewModels
 
         public PlansViewModel()
         {
+            ServiceFactory.Events.GetEvent<ShowElementEvent>().Unsubscribe(OnShowElement);
+            ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Unsubscribe(OnShowElementDevice);
+
             ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
             ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Subscribe(OnShowElementDevice);
 

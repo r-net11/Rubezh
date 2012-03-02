@@ -23,8 +23,12 @@
                         </LinearGradientBrush>
                     </Border.Background>
                     <Grid>
-                        <TextBlock Name="_captionTextBlock" VerticalAlignment="Center" Margin="10, 0, 0, 0" HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" />
-                        <Button HorizontalAlignment="Right" Margin="0, 0, 10, 0" Click="OnCloseButton" Style="{StaticResource ToolarButtonStyle}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Name="_captionTextBlock" VerticalAlignment="Center" Margin="10, 0, 0, 0" HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" />
+                        <Button Grid.Column="1" Margin="0, 0, 10, 0" Click="OnCloseButton" Style="{StaticResource ToolarButtonStyle}">
                             <Image Source="/Controls;component/Images/Close.png" Height="16" />
                         </Button>
                     </Grid>

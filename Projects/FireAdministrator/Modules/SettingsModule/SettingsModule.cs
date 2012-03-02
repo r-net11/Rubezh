@@ -12,6 +12,7 @@ namespace SettingsModule
 
         public SettingsModule()
         {
+            ServiceFactory.Events.GetEvent<ShowSettingsEvent>().Unsubscribe(OnShowSettings);
             ServiceFactory.Events.GetEvent<ShowSettingsEvent>().Subscribe(OnShowSettings);
 
             RegisterResources();

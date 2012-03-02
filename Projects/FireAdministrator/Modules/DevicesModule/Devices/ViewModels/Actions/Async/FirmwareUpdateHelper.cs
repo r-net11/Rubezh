@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Windows;
+using Controls.MessageBox;
 using FiresecAPI.Models;
 using FiresecClient;
-using Microsoft.Win32;
-using Controls.MessageBox;
 using Infrastructure;
+using Microsoft.Win32;
 
 namespace DevicesModule.ViewModels
 {
@@ -34,9 +34,6 @@ namespace DevicesModule.ViewModels
                     fileStream.Read(bytes, 0, bytes.Length);
                 }
 
-                _question = FiresecManager.DeviceVerifyFirmwareVersion(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
-                FiresecManager.DeviceUpdateFirmware(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
-
                 ServiceFactory.ProgressService.Run(OnVarifyPropgress, OnVerifyCompleted, _device.PresentationAddressDriver + ". Обновление прошивки");
             }
         }
@@ -61,8 +58,8 @@ namespace DevicesModule.ViewModels
 
         static void OnUpdateCompleted()
         {
-            var result = _result;
-            //MessageBoxService.Show(_result);
+            if (string.IsNullOrEmpty(_result))
+            MessageBoxService.Show(_result);
         }
     }
 }

@@ -562,6 +562,28 @@ namespace FiresecService
             }
         }
 
+        public void ConvertConfiguration()
+        {
+            try
+            {
+                FiresecService.ConvertConfiguration();
+            }
+            catch
+            {
+            };
+        }
+
+        public void ConvertJournal()
+        {
+            try
+            {
+                FiresecService.ConvertJournal();
+            }
+            catch
+            {
+            };
+        }
+
         public string Ping()
         {
             try

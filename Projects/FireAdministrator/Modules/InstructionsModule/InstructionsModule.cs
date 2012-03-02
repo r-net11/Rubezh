@@ -12,6 +12,7 @@ namespace InstructionsModule
 
         public InstructionsModule()
         {
+            ServiceFactory.Events.GetEvent<ShowInstructionsEvent>().Unsubscribe(OnShowInstructions);
             ServiceFactory.Events.GetEvent<ShowInstructionsEvent>().Subscribe(OnShowInstructions);
 
             RegisterResources();

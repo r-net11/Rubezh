@@ -12,7 +12,7 @@ namespace FiresecService
         void NotifyConfigurationChanged()
         {
             DeviceStatesConverter.Convert();
-            CallbackManager.OnConfigurationChanged(this.FiresecServiceUID);
+            CallbackManager.OnConfigurationChanged();
         }
 
         public void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)

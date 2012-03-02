@@ -14,6 +14,11 @@ namespace PlansModule.ViewModels
     {
         public ElementsViewModel(DesignerCanvas designerCanvas)
         {
+            ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementAdded);
+            ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+            ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);
+            ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
+
             ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementAdded);
             ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
             ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);

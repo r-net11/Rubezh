@@ -121,6 +121,17 @@ namespace FiresecService
             }
         }
 
+        public void ConvertConfiguration()
+        {
+            ConfigurationConverter.Convert();
+            CallbackManager.OnConfigurationChanged();
+        }
+
+        public void ConvertJournal()
+        {
+            JournalDataConverter.Convert();
+        }
+
         public void Dispose()
         {
             Disconnect();

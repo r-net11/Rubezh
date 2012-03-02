@@ -139,7 +139,7 @@ namespace FiresecService
             Clean();
         }
 
-        public static void OnConfigurationChanged(Guid firesecServiceUID)
+        public static void OnConfigurationChanged()
         {
             _failedServiceInstances = new List<FiresecService>();
 

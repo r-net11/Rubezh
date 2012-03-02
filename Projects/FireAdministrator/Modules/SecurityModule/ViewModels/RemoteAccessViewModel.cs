@@ -15,6 +15,8 @@ namespace SecurityModule.ViewModels
         {
             AddCommand = new RelayCommand(OnAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+
+            ServiceFactory.Events.GetEvent<RemoteAccessTypeChecked>().Unsubscribe(OnRemoteAccessTypeChecked);
             ServiceFactory.Events.GetEvent<RemoteAccessTypeChecked>().Subscribe(OnRemoteAccessTypeChecked);
 
             RemoteAccessTypes = new List<RemoteAccessTypeViewModel>();

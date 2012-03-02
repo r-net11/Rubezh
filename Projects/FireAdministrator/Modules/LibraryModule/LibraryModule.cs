@@ -11,6 +11,7 @@ namespace LibraryModule
 
         public LibraryModule()
         {
+            ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Unsubscribe(OnShowLibrary);
             ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(OnShowLibrary);
 
             RegisterResources();

@@ -14,6 +14,10 @@ namespace PlansModule.ViewModels
     {
         public DevicesViewModel()
         {
+            ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Unsubscribe(OnDeviceChanged);
+            ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Unsubscribe(OnDeviceChanged);
+            ServiceFactory.Events.GetEvent<ElementDeviceSelectedEvent>().Unsubscribe(OnElementDeviceSelected);
+
             ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Subscribe(OnDeviceChanged);
             ServiceFactory.Events.GetEvent<DeviceRemovedEvent>().Subscribe(OnDeviceChanged);
             ServiceFactory.Events.GetEvent<ElementDeviceSelectedEvent>().Subscribe(OnElementDeviceSelected);
