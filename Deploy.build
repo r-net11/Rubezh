@@ -21,6 +21,11 @@
 				<include name="**\*" />
 			</fileset>
 		</copy>
+		<copy todir="Projects\Installers\FiresecInstaller\FiresecInstaller\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
+			<fileset basedir="Projects\Deploy\Configuration">
+				<include name="**\*" />
+			</fileset>
+		</copy>
 		<copy todir="Projects\FireMonitor\FireMonitor\bin\Debug\Configuration\ReportTemplates" includeemptydirs="true" overwrite="true" verbose="true">
 			<fileset basedir="Projects\Deploy\Configuration\ReportTemplates">
 				<include name="**\*" />
@@ -52,6 +57,9 @@
 			<property name="Configuration" value="Release" />
 		</msbuild>
 		<msbuild project="Projects\FireMonitor\FireMonitor.sln">
+			<property name="Configuration" value="Release" />
+		</msbuild>	
+		<msbuild project="Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
 			<property name="Configuration" value="Release" />
 		</msbuild>	
 	</target>	

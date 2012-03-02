@@ -36,11 +36,7 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\Firesec.ico" />
     <Content Include="Variables_FireAdministrator.wxi" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data" />
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <!--

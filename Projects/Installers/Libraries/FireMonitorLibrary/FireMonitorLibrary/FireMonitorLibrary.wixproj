@@ -26,11 +26,7 @@
     <Compile Include="Shortcuts_FireMonitor.wxs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Data\Firesec.ico" />
     <Content Include="Variables_FireMonitor.wxi" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUtilExtension">
