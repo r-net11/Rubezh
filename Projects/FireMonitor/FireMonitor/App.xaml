@@ -4,8 +4,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=60cb51bb08388ecc;component/Themes/Styles.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=60cb51bb08388ecc;component/Themes/ScrollBarStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Styles.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/ScrollBarStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
