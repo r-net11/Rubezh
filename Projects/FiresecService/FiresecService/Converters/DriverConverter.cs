@@ -144,7 +144,7 @@ namespace FiresecService.Converters
                     break;
             }
 
-            driver.Category = (DeviceCategoryType) int.Parse(innerDriver.cat);
+            driver.Category = (DeviceCategoryType)int.Parse(innerDriver.cat);
             driver.CategoryName = driver.Category.ToDescription();
 
             driver.DeviceType = DeviceType.FireSecurity;
@@ -176,17 +176,23 @@ namespace FiresecService.Converters
                     allChildren.Add(childDriver);
                 }
             }
-
-            driver.Children = new List<Guid>(
-                from drvType childInnerDriver in allChildren
-                where (DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == childInnerDriver.id).IgnoreLevel == 0)
-                select new Guid(childInnerDriver.id));
+            try
+            {
+                driver.Children = new List<Guid>(
+                    from drvType childInnerDriver in allChildren
+                    where (DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == childInnerDriver.id) != null &&
+                    DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == childInnerDriver.id).IgnoreLevel == 0)
+                    select new Guid(childInnerDriver.id));
+            }
+            catch (Exception e)
+            {
+                ;
+            }
 
             driver.AvaliableChildren = new List<Guid>(
                 from drvType childInnerDriver in allChildren
                 where childInnerDriver.acr_enabled != "1"
                 select new Guid(childInnerDriver.id));
-
             if (driver.DisableAutoCreateChildren)
             {
                 driver.AutoCreateChildren = new List<Guid>();
@@ -299,7 +305,7 @@ namespace FiresecService.Converters
                         Id = innerState.id,
                         Name = innerState.name,
                         AffectChildren = innerState.affectChildren == "1" ? true : false,
-                        StateType = (StateType) int.Parse(innerState.@class),
+                        StateType = (StateType)int.Parse(innerState.@class),
                         IsManualReset = innerState.manualReset == "1" ? true : false,
                         CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false,
                         IsAutomatic = innerState.type == "Auto" ? true : false,
