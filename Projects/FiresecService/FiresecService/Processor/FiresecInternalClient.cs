@@ -88,19 +88,19 @@ namespace FiresecService
             DispatcherFiresecClient.AddUserMessage(message);
         }
 
-        public static void DeviceSetPassword(Firesec.CoreConfiguration.config coreConfig, string devicePath, string password, int deviceUser)
+        public static bool DeviceSetPassword(Firesec.CoreConfiguration.config coreConfig, string devicePath, string password, int deviceUser)
         {
-            DispatcherFiresecClient.DeviceSetPassword(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, password, deviceUser);
+            return DispatcherFiresecClient.DeviceSetPassword(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, password, deviceUser);
         }
 
-        public static void DeviceDatetimeSync(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static bool DeviceDatetimeSync(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            DispatcherFiresecClient.DeviceDatetimeSync(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            return DispatcherFiresecClient.DeviceDatetimeSync(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
-        public static void DeviceRestart(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static bool DeviceRestart(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            DispatcherFiresecClient.DeviceRestart(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            return DispatcherFiresecClient.DeviceRestart(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
         public static string DeviceGetInformation(Firesec.CoreConfiguration.config coreConfig, string devicePath)
@@ -172,9 +172,10 @@ namespace FiresecService
                 NewEvent(eventMask);
         }
 
-        static bool FiresecEventAggregator_Progress(int stage, string comment, int percentComplete, int bytesRW)
+        static void FiresecEventAggregator_Progress(int stage, string comment, int percentComplete, int bytesRW)
         {
-            return Progress != null ? Progress(stage, comment, percentComplete, bytesRW) : false;
+            if (Progress != null)
+                Progress(stage, comment, percentComplete, bytesRW);
         }
 
         public static event Action<int> NewEvent;

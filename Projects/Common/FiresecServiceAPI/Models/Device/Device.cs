@@ -65,6 +65,9 @@ namespace FiresecAPI.Models
         [DataMember]
         public bool IsMonitoringDisabled { get; set; }
 
+        [DataMember]
+        public bool IsAltInterface { get; set; }
+
         public string EditingPresentationAddress
         {
             get

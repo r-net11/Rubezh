@@ -65,6 +65,12 @@ namespace FiresecService.Converters
                     device.UID = GuidHelper.ToGuid(UIDParam.value);
                 else
                     device.UID = Guid.NewGuid();
+
+                var AltInterfaceParam = innerDevice.param.FirstOrDefault(x => x.name == "sys$alt_interface");
+                if (AltInterfaceParam != null)
+                    device.IsAltInterface = true;
+                else
+                    device.IsAltInterface = false;
             }
 
             device.Properties = new List<Property>();
@@ -227,6 +233,16 @@ namespace FiresecService.Converters
                 });
             }
 
+            if (device.IsAltInterface)
+            {
+                parameters.Add(new paramType()
+                {
+                    name = "sys$alt_interface",
+                    type = "String",
+                    value = "USB"
+                });
+            }
+
             return parameters;
         }
 
@@ -247,6 +263,15 @@ namespace FiresecService.Converters
                         });
                     }
                 }
+            }
+
+            if (device.IsAltInterface)
+            {
+                propertyList.Add(new propType()
+                {
+                    name = "sys$alt_interface",
+                    value = "USB"
+                });
             }
 
             if (device.IsRmAlarmDevice)

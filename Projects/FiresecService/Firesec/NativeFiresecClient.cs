@@ -106,19 +106,43 @@ namespace Firesec
             Connectoin.DeviceWriteConfig(coreConfig, devicePath);
         }
 
-        public static void DeviceSetPassword(string coreConfig, string devicePath, string password, int deviceUser)
+        public static bool DeviceSetPassword(string coreConfig, string devicePath, string password, int deviceUser)
         {
-            Connectoin.DeviceSetPassword(coreConfig, devicePath, password, deviceUser);
+            try
+            {
+                Connectoin.DeviceSetPassword(coreConfig, devicePath, password, deviceUser);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public static void DeviceDatetimeSync(string coreConfig, string devicePath)
+        public static bool DeviceDatetimeSync(string coreConfig, string devicePath)
         {
-            Connectoin.DeviceDatetimeSync(coreConfig, devicePath);
+            try
+            {
+                Connectoin.DeviceDatetimeSync(coreConfig, devicePath);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public static void DeviceRestart(string coreConfig, string devicePath)
+        public static bool DeviceRestart(string coreConfig, string devicePath)
         {
-            Connectoin.DeviceRestart(coreConfig, devicePath);
+            try
+            {
+                Connectoin.DeviceRestart(coreConfig, devicePath);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public static string DeviceGetInformation(string coreConfig, string devicePath)

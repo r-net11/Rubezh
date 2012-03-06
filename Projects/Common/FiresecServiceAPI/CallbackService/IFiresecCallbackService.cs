@@ -8,7 +8,7 @@ namespace FiresecAPI
         [OperationContract(IsOneWay = true)]
         void ConfigurationChanged();
 
-        [OperationContract(IsOneWay = false)]
-        bool Progress(int stage, string comment, int percentComplete, int bytesRW);
+        [OperationContract(IsOneWay = true)]
+        void Progress(int stage, string comment, int percentComplete, int bytesRW);
     }
 }

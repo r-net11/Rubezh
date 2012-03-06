@@ -21,6 +21,9 @@ namespace FiresecAPI
         [OperationContract(IsOneWay = true)]
         void Subscribe();
 
+        [OperationContract(IsOneWay = true)]
+        void CancelProgress();
+
         [OperationContract]
         List<Driver> GetDrivers();
 
@@ -37,13 +40,13 @@ namespace FiresecAPI
         void DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration);
 
         [OperationContract]
-        void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password);
+        bool DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password);
 
         [OperationContract]
-        void DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        bool DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        void DeviceRestart(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        bool DeviceRestart(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
         string DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID);

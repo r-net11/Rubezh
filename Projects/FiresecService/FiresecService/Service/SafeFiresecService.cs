@@ -62,6 +62,17 @@ namespace FiresecService
             }
         }
 
+        public void CancelProgress()
+        {
+            try
+            {
+                FiresecService.CancelProgress();
+            }
+            catch
+            {
+            }
+        }
+
         public List<FiresecAPI.Models.Driver> GetDrivers()
         {
             try
@@ -119,36 +130,39 @@ namespace FiresecService
             }
         }
 
-        public void DeviceSetPassword(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, FiresecAPI.Models.DevicePasswordType devicePasswordType, string password)
+        public bool DeviceSetPassword(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, FiresecAPI.Models.DevicePasswordType devicePasswordType, string password)
         {
             try
             {
-                FiresecService.DeviceSetPassword(deviceConfiguration, deviceUID, devicePasswordType, password);
+                return FiresecService.DeviceSetPassword(deviceConfiguration, deviceUID, devicePasswordType, password);
             }
             catch
             {
+                return false;
             }
         }
 
-        public void DeviceDatetimeSync(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public bool DeviceDatetimeSync(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
-                FiresecService.DeviceDatetimeSync(deviceConfiguration, deviceUID);
+                return FiresecService.DeviceDatetimeSync(deviceConfiguration, deviceUID);
             }
             catch
             {
+                return false;
             }
         }
 
-        public void DeviceRestart(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public bool DeviceRestart(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
-                FiresecService.DeviceRestart(deviceConfiguration, deviceUID);
+                return FiresecService.DeviceRestart(deviceConfiguration, deviceUID);
             }
             catch
             {
+                return false;
             }
         }
 

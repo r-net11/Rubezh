@@ -3,6 +3,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using FiresecClient;
 using Controls.MessageBox;
+using System.Threading;
 
 namespace DevicesModule.ViewModels
 {
@@ -85,6 +86,15 @@ namespace DevicesModule.ViewModels
         public RelayCommand WriteAllDeviceCommand { get; private set; }
         void OnWriteAllDevice()
         {
+            //foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+            //{
+            //    if (device.Driver.CanWriteDatabase)
+            //    {
+            //        DeviceWriteConfigurationHelper.Run(device, false);
+            //        Thread.Sleep(1000);
+            //    }
+            //}
+
             if (ValidateConfiguration())
                 WriteAllDeviceConfigurationHelper.Run();
         }

@@ -40,7 +40,10 @@ namespace FiresecClient
 
         public static void UpdateDrivers()
         {
-            Drivers.ForEach(x => x.ImageSource = FileHelper.GetIconFilePath(x.ImageSource) + ".ico");
+            if (Drivers != null)
+            {
+                Drivers.ForEach(x => x.ImageSource = FileHelper.GetIconFilePath(x.ImageSource) + ".ico");
+            }
         }
 
         public static void UpdateConfiguration()

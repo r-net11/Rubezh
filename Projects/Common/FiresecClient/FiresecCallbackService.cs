@@ -12,12 +12,11 @@ namespace FiresecClient
                 ConfigurationChangedEvent();
         }
 
-        public bool Progress(int stage, string comment, int percentComplete, int bytesRW)
+        public void Progress(int stage, string comment, int percentComplete, int bytesRW)
         {
+            bool isCanceled;
             if (ProgressEvent != null)
-                return ProgressEvent(stage, comment, percentComplete, bytesRW);
-
-            return false;
+                isCanceled = ProgressEvent(stage, comment, percentComplete, bytesRW);
         }
 
         public static event Action ConfigurationChangedEvent;

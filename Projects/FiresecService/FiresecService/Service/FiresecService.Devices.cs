@@ -41,31 +41,34 @@ namespace FiresecService
             foreach (var device in deviceConfiguration.Devices)
             {
                 if (device.Driver.CanWriteDatabase)
+                {
                     FiresecInternalClient.DeviceWriteConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+                    System.Threading.Thread.Sleep(1000);
+                }
             }
 
             NotifyConfigurationChanged();
         }
 
-        public void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password)
+        public bool DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password)
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            FiresecInternalClient.DeviceSetPassword(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, password, (int) devicePasswordType);
+            return FiresecInternalClient.DeviceSetPassword(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, password, (int)devicePasswordType);
         }
 
-        public void DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public bool DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            FiresecInternalClient.DeviceDatetimeSync(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+            return FiresecInternalClient.DeviceDatetimeSync(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
         }
 
-        public void DeviceRestart(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public bool DeviceRestart(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            FiresecInternalClient.DeviceRestart(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+            return FiresecInternalClient.DeviceRestart(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
         }
 
         public string DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
@@ -99,6 +102,7 @@ namespace FiresecService
 
                 ConfigurationConverter.ConvertBack(deviceConfiguration, false);
                 var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+                fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_1.HXC";
                 return FiresecInternalClient.DeviceUpdateFirmware(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);
             }
         }
@@ -117,6 +121,7 @@ namespace FiresecService
 
                 ConfigurationConverter.ConvertBack(deviceConfiguration, false);
                 var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+                fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_2.HXC";
                 return FiresecInternalClient.DeviceVerifyFirmwareVersion(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);
             }
         }

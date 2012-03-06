@@ -25,6 +25,19 @@ namespace FireAdministrator.ViewModels
 
         public bool Progress(int stage, string comment, int percentComplete, int bytesRW)
         {
+            Dispatcher.Invoke(
+                System.Windows.Threading.DispatcherPriority.Normal,
+                    new Action(
+                    delegate()
+                    {
+                        OnProgress(stage, comment, percentComplete, bytesRW);
+                    }
+                ));
+            return false;
+        }
+
+        void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
+        {
             Description = comment;
             Percent = percentComplete;
 
@@ -37,10 +50,7 @@ namespace FireAdministrator.ViewModels
                 int stageNo = stage / (256 * 256);
                 int stageCount = stage - stageNo * 256 * 256;
             }
-
-            return IsCanceled;
         }
-
 
         int _percent;
         public int Percent
@@ -79,6 +89,7 @@ namespace FireAdministrator.ViewModels
         void OnStop()
         {
             IsCanceled = true;
+            FiresecManager.FiresecService.CancelProgress();
         }
 
         bool IsCanceled { get; set; }

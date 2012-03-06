@@ -120,6 +120,18 @@ namespace FiresecClient
             }
         }
 
+        public void CancelProgress()
+        {
+            try
+            {
+                _iFiresecService.CancelProgress();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+        }
+
         public List<Driver> GetDrivers()
         {
             try
@@ -195,39 +207,42 @@ namespace FiresecClient
             }
         }
 
-        public void DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password)
+        public bool DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password)
         {
             try
             {
-                _iFiresecService.DeviceSetPassword(deviceConfiguration, deviceUID, devicePasswordType, password);
+                return _iFiresecService.DeviceSetPassword(deviceConfiguration, deviceUID, devicePasswordType, password);
             }
             catch
             {
                 OnConnectionLost();
+                return false;
             }
         }
 
-        public void DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public bool DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
-                _iFiresecService.DeviceDatetimeSync(deviceConfiguration, deviceUID);
+                return _iFiresecService.DeviceDatetimeSync(deviceConfiguration, deviceUID);
             }
             catch
             {
                 OnConnectionLost();
+                return false;
             }
         }
 
-        public void DeviceRestart(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public bool DeviceRestart(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
-                _iFiresecService.DeviceRestart(deviceConfiguration, deviceUID);
+                return _iFiresecService.DeviceRestart(deviceConfiguration, deviceUID);
             }
             catch
             {
                 OnConnectionLost();
+                return false;
             }
         }
 

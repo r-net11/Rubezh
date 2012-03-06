@@ -1,4 +1,6 @@
-﻿namespace Firesec
+﻿using System.Diagnostics;
+using System;
+namespace Firesec
 {
     public class NotificationCallBack : FS_Types.IFS_CallBack
     {
@@ -7,9 +9,28 @@
             FiresecEventAggregator.OnNewEventAvaliable(EventMask);
         }
 
+        public static bool ContinueProgress = true;
+
         public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
-            return FiresecEventAggregator.OnProgress(Stage, Comment, PercentComplete, BytesRW);
+            try
+            {
+                FiresecEventAggregator.OnProgress(Stage, Comment, PercentComplete, BytesRW);
+                var result = ProgressState.ContinueProgress;
+                ProgressState.ContinueProgress = true;
+                Trace.WriteLine("OnProgress: " + result.ToString());
+                return result;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+
         }
+    }
+
+    public static class ProgressState
+    {
+        public static bool ContinueProgress;
     }
 }

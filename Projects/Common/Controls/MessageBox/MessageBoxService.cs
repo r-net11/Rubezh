@@ -28,10 +28,9 @@ namespace Controls.MessageBox
             return ShowWindow(message, MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
-        public static MessageBoxResult ShowException(string message)
+        public static MessageBoxResult ShowException(Exception e)
         {
-            //Exception e = new Exception();
-            //e.StackTrace
+            string message = e.Message.ToString() + "\n" + e.StackTrace.Split('\n')[0];
             return ShowWindow(message, MessageBoxButton.OK, MessageBoxImage.Error, true);
         }
 

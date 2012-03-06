@@ -60,11 +60,19 @@ namespace FiresecService
 
         public static void Update()
         {
+            var hasInvalidDriver = false;
             DeviceConfiguration.Update();
             foreach (var device in DeviceConfiguration.Devices)
             {
                 device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+                if (device.Driver == null)
+                {
+                    hasInvalidDriver = true;
+                    device.Parent.Children.Remove(device);
+                }
             }
+            if (hasInvalidDriver)
+                DeviceConfiguration.Update();
         }
     }
 }

@@ -12,6 +12,7 @@ using FiresecService.DatabaseConverter;
 using FiresecService.ViewModels;
 using FiresecService.Views;
 using System.ServiceModel.Description;
+using Firesec;
 
 namespace FiresecService
 {
@@ -94,6 +95,13 @@ namespace FiresecService
         public void Subscribe()
         {
             IsSubscribed = true;
+        }
+
+        public bool ContinueProgress = true;
+        public void CancelProgress()
+        {
+            ContinueProgress = false;
+            ProgressState.ContinueProgress = false;
         }
 
         public List<string> GetFileNamesList(string directory)

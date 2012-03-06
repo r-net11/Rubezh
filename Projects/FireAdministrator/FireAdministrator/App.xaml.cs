@@ -23,7 +23,7 @@ namespace FireAdministrator
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBoxService.ShowException(e.ExceptionObject.ToString());
+            MessageBoxService.ShowException(e.ExceptionObject as Exception);
         }
 
         protected override void OnExit(ExitEventArgs e)

@@ -1,7 +1,6 @@
-﻿using System.Windows;
-using Infrastructure;
+﻿using System;
+using System.Windows;
 using Infrastructure.Common;
-using System;
 
 namespace Controls.MessageBox
 {
@@ -119,7 +118,14 @@ namespace Controls.MessageBox
         public RelayCommand CopyCommand { get; private set; }
         void OnCopy()
         {
-            Clipboard.SetText(Message);
+            try
+            {
+                Clipboard.SetText(Message);
+            }
+            catch (Exception e)
+            {
+                return;
+            }
         }
     }
 }

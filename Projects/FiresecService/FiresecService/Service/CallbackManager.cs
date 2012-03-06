@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
 using System;
+using System.Diagnostics;
 
 namespace FiresecService
 {
@@ -36,7 +37,7 @@ namespace FiresecService
             catch { ;}
         }
 
-        public static bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
+        public static void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
         {
             lock (FiresecService.Locker)
             {
@@ -45,8 +46,12 @@ namespace FiresecService
                 {
                     try
                     {
-                        bool isCanceled = serviceInstance.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
-                        return !isCanceled;
+                        serviceInstance.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
+
+                        if (serviceInstance.ContinueProgress)
+                        {
+                            serviceInstance.ContinueProgress = true;
+                        }
                     }
                     catch
                     {
@@ -55,7 +60,6 @@ namespace FiresecService
                 }
 
                 Clean();
-                return false;
             }
         }
 

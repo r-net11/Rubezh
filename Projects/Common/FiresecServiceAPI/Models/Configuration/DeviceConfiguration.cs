@@ -97,10 +97,9 @@ namespace FiresecAPI.Models
                     ZoneNo = currentDevice.ZoneNo,
                     Properties = new List<Property>(currentDevice.Properties)
                 };
-                if ((currentDevice.UID == uid) && isUsb)
+                if ((currentDevice.UID == uid))
                 {
-                    if (currentDevice.Properties.Any(x => x.Name == "sys$alt_interface") == false)
-                        currentDevice.Properties.Add(new Property() { Name = "sys$alt_interface", Value = "USB" });
+                    copyDevice.IsAltInterface = isUsb;
                 }
 
                 if (copyChildDevice != null)

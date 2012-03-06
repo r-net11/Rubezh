@@ -28,7 +28,7 @@ namespace FiresecServiceRunner
             }
             catch (Exception e)
             {
-                MessageBoxService.ShowException(e.ToString());
+                MessageBoxService.ShowException(e);
                 Application.Current.Shutdown();
             }
         }
