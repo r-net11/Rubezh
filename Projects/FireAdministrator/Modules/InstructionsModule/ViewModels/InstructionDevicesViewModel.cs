@@ -111,8 +111,7 @@ namespace InstructionsModule.ViewModels
         {
             foreach (var deviceViewModel in AvailableDevices)
             {
-                if (!deviceViewModel.Children.IsNotNullOrEmpty())
-                    InstructionDevicesList.Add(deviceViewModel.UID);
+                InstructionDevicesList.Add(deviceViewModel.UID);
             }
             UpdateDevices();
         }
