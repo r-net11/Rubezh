@@ -64,13 +64,6 @@ namespace FiresecService
             return FiresecInternalClient.DeviceDatetimeSync(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
         }
 
-        public bool DeviceRestart(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-        {
-            ConfigurationConverter.ConvertBack(deviceConfiguration, false);
-            var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            return FiresecInternalClient.DeviceRestart(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
-        }
-
         public string DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);

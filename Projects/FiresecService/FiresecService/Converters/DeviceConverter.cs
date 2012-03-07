@@ -237,7 +237,7 @@ namespace FiresecService.Converters
             {
                 parameters.Add(new paramType()
                 {
-                    name = "sys$alt_interface",
+                    name = "SYS$Alt_Interface",
                     type = "String",
                     value = "USB"
                 });
@@ -269,7 +269,7 @@ namespace FiresecService.Converters
             {
                 propertyList.Add(new propType()
                 {
-                    name = "sys$alt_interface",
+                    name = "SYS$Alt_Interface",
                     value = "USB"
                 });
             }

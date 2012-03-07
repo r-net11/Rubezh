@@ -132,19 +132,6 @@ namespace Firesec
             }
         }
 
-        public static bool DeviceRestart(string coreConfig, string devicePath)
-        {
-            try
-            {
-                Connectoin.DeviceRestart(coreConfig, devicePath);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public static string DeviceGetInformation(string coreConfig, string devicePath)
         {
             try

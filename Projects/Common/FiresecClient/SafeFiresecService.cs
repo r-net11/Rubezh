@@ -233,19 +233,6 @@ namespace FiresecClient
             }
         }
 
-        public bool DeviceRestart(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-        {
-            try
-            {
-                return _iFiresecService.DeviceRestart(deviceConfiguration, deviceUID);
-            }
-            catch
-            {
-                OnConnectionLost();
-                return false;
-            }
-        }
-
         public string DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try

@@ -16,6 +16,6 @@ namespace Firesec
             DispatcherFiresecClient.ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
         }
 
-        public delegate void ProgressDelegate(int stage, string comment, int percentComplete, int bytesRW);
+        public delegate bool ProgressDelegate(int stage, string comment, int percentComplete, int bytesRW);
     }
 }

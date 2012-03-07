@@ -101,7 +101,7 @@ namespace FiresecService
         public void CancelProgress()
         {
             ContinueProgress = false;
-            ProgressState.ContinueProgress = false;
+            //ProgressState.ContinueProgress = false;
         }
 
         public List<string> GetFileNamesList(string directory)

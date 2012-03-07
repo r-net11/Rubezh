@@ -10,10 +10,13 @@ namespace FireAdministrator.ViewModels
 {
     public class ProgressViewModel : DialogContent
     {
+        bool ContinueProgress { get; set; }
+
         public ProgressViewModel(string title)
         {
             StopCommand = new RelayCommand(OnStop);
             Title = title;
+            ContinueProgress = true;
             FiresecCallbackService.ProgressEvent += new FiresecCallbackService.ProgressDelegate(Progress);
         }
 
@@ -33,7 +36,7 @@ namespace FireAdministrator.ViewModels
                         OnProgress(stage, comment, percentComplete, bytesRW);
                     }
                 ));
-            return false;
+            return ContinueProgress;
         }
 
         void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
@@ -88,10 +91,8 @@ namespace FireAdministrator.ViewModels
         public RelayCommand StopCommand { get; private set; }
         void OnStop()
         {
-            IsCanceled = true;
-            FiresecManager.FiresecService.CancelProgress();
+            ContinueProgress = false;
+            //FiresecManager.FiresecService.CancelProgress();
         }
-
-        bool IsCanceled { get; set; }
     }
 }

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.ComponentModel;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Firesec
 {
@@ -21,6 +23,9 @@ namespace Firesec
         static DispatcherFiresecClient()
         {
             control = new Control();
+
+            var thread = new Thread(new ThreadStart(WorkTask));
+            thread.Start();
         }
 
         public static bool Connect(string login, string password)
@@ -108,11 +113,6 @@ namespace Firesec
             return (bool)control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.DeviceDatetimeSync), coreConfig, devicePath);
         }
 
-        public static bool DeviceRestart(string coreConfig, string devicePath)
-        {
-            return (bool)control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.DeviceRestart), coreConfig, devicePath);
-        }
-
         public static string DeviceGetInformation(string coreConfig, string devicePath)
         {
             return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetInformation), coreConfig, devicePath);
@@ -175,12 +175,21 @@ namespace Firesec
 
         public static void ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
-            var backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += delegate(object s, DoWorkEventArgs args)
+            var progressData = new ProgressData()
             {
-                OnProgress(Stage, Comment, PercentComplete, BytesRW);
+                Stage = Stage,
+                Comment = Comment,
+                PercentComplete = PercentComplete,
+                BytesRW = BytesRW
             };
-            backgroundWorker.RunWorkerAsync();
+            AddTask(progressData);
+
+            //var backgroundWorker = new BackgroundWorker();
+            //backgroundWorker.DoWork += delegate(object s, DoWorkEventArgs args)
+            //{
+            //    OnProgress(Stage, Comment, PercentComplete, BytesRW);
+            //};
+            //backgroundWorker.RunWorkerAsync();
 
             //Control xControl = new Control();
             //control.Dispatcher.Invoke(new FiresecEventAggregator.ProgressDelegate(OnProgress), Stage, Comment, PercentComplete, BytesRW);
@@ -189,12 +198,54 @@ namespace Firesec
             //control.Dispatcher.BeginInvoke(new FiresecEventAggregator.ProgressDelegate(OnProgress), Stage, Comment, PercentComplete, BytesRW);
         }
 
-        static void OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
+        static object locker = new object();
+        static Queue<ProgressData> taskQ = new Queue<ProgressData>();
+
+        static void AddTask(ProgressData progressData)
+        {
+            lock (locker)
+            {
+                taskQ.Enqueue(progressData);
+                Monitor.PulseAll(locker);
+            }
+        }
+
+        static void WorkTask()
+        {
+            while (true)
+            {
+                ProgressData progressData;
+
+                lock (locker)
+                {
+                    while (taskQ.Count == 0)
+                        Monitor.Wait(locker);
+
+                    progressData = taskQ.Dequeue();
+
+                    var result = OnProgress(progressData.Stage, progressData.Comment, progressData.PercentComplete, progressData.BytesRW);
+                    NotificationCallBack.ContinueProgress = result;
+                }
+
+                Trace.WriteLine("Task: " + progressData.Comment);
+            }
+        }
+
+        static bool OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
             if (Progress != null)
-                Progress(Stage, Comment, PercentComplete, BytesRW);
+                return Progress(Stage, Comment, PercentComplete, BytesRW);
+            return true;
         }
 
         public static event FiresecEventAggregator.ProgressDelegate Progress;
+    }
+
+    public class ProgressData
+    {
+        public int Stage { get; set; }
+        public string Comment { get; set; }
+        public int PercentComplete { get; set; }
+        public int BytesRW { get; set; }
     }
 }

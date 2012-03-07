@@ -18,9 +18,9 @@ namespace FiresecService
             SetLastEvent();
         }
 
-        void FiresecInternalClient_Progress(int stage, string comment, int percentComplete, int bytesRW)
+        bool FiresecInternalClient_Progress(int stage, string comment, int percentComplete, int bytesRW)
         {
-            CallbackManager.OnProgress(stage, comment, percentComplete, bytesRW);
+            return CallbackManager.OnProgress(stage, comment, percentComplete, bytesRW);
         }
 
         void FiresecClient_NewEvent(int EventMask)

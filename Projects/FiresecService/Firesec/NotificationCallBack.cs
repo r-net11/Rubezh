@@ -16,8 +16,8 @@ namespace Firesec
             try
             {
                 FiresecEventAggregator.OnProgress(Stage, Comment, PercentComplete, BytesRW);
-                var result = ProgressState.ContinueProgress;
-                ProgressState.ContinueProgress = true;
+                var result = ContinueProgress;
+                ContinueProgress = true;
                 Trace.WriteLine("OnProgress: " + result.ToString());
                 return result;
             }
@@ -29,8 +29,8 @@ namespace Firesec
         }
     }
 
-    public static class ProgressState
-    {
-        public static bool ContinueProgress;
-    }
+    //public static class ProgressState
+    //{
+    //    public static bool ContinueProgress;
+    //}
 }

@@ -42,7 +42,14 @@ namespace FireAdministrator
 
         void StopProgress()
         {
-            _progressViewModel.CloseProgress();
+            try
+            {
+                _progressViewModel.CloseProgress();
+            }
+            catch (Exception e)
+            {
+                ;
+            }
         }
     }
 }

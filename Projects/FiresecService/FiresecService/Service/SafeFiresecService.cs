@@ -154,18 +154,6 @@ namespace FiresecService
             }
         }
 
-        public bool DeviceRestart(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
-        {
-            try
-            {
-                return FiresecService.DeviceRestart(deviceConfiguration, deviceUID);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
         public string DeviceGetInformation(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try

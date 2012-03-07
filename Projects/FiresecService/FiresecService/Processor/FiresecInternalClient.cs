@@ -98,11 +98,6 @@ namespace FiresecService
             return DispatcherFiresecClient.DeviceDatetimeSync(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
-        public static bool DeviceRestart(Firesec.CoreConfiguration.config coreConfig, string devicePath)
-        {
-            return DispatcherFiresecClient.DeviceRestart(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
-        }
-
         public static string DeviceGetInformation(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
             return DispatcherFiresecClient.DeviceGetInformation(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
@@ -172,10 +167,11 @@ namespace FiresecService
                 NewEvent(eventMask);
         }
 
-        static void FiresecEventAggregator_Progress(int stage, string comment, int percentComplete, int bytesRW)
+        static bool FiresecEventAggregator_Progress(int stage, string comment, int percentComplete, int bytesRW)
         {
             if (Progress != null)
-                Progress(stage, comment, percentComplete, bytesRW);
+                return Progress(stage, comment, percentComplete, bytesRW);
+            return true;
         }
 
         public static event Action<int> NewEvent;

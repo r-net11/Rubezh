@@ -46,9 +46,6 @@ namespace FiresecAPI
         bool DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        bool DeviceRestart(DeviceConfiguration deviceConfiguration, Guid deviceUID);
-
-        [OperationContract]
         string DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
