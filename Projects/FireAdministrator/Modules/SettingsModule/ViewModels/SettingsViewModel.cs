@@ -1,14 +1,10 @@
-﻿using System.IO;
-using System.Runtime.Serialization;
-using FiresecAPI.Models;
+﻿using System.Windows;
+using Controls.MessageBox;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Microsoft.Win32;
-using System.Net;
-using System.Windows;
-using Controls.MessageBox;
+using SettingsModule.Views;
 
 namespace SettingsModule.ViewModels
 {
@@ -25,8 +21,8 @@ namespace SettingsModule.ViewModels
         public RelayCommand ShowDriversCommand { get; private set; }
         void OnShowDrivers()
         {
-            int y = 0;
-            int x = 10 / y;
+            //int y = 0;
+            //int x = 10 / y;
 
             var driversView = new DriversView();
             driversView.ShowDialog();

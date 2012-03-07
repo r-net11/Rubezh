@@ -32,15 +32,6 @@ namespace FiresecClient.Validation
                     InstructionErrors.Add(instructionError);
                 }
             }
-
-            //foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
-            //{
-            //    var instructionsZone = (from instruction in FiresecManager.SystemConfiguration.Instructions
-            //                            where ((instruction.InstructionType == InstructionType.Zone) &&
-            //                            (instruction.StateType == stateType))
-            //                            select instruction);
-
-            //}
         }
     }
 }

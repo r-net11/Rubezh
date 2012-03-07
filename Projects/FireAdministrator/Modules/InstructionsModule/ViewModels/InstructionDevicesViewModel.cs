@@ -12,6 +12,19 @@ namespace InstructionsModule.ViewModels
 {
     public class InstructionDevicesViewModel : SaveCancelDialogContent
     {
+        public InstructionDevicesViewModel()
+        {
+            AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
+            RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
+            AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
+            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
+            Title = "Выбор устройства";
+
+            InstructionDevicesList = new List<Guid>();
+
+            UpdateDevices();
+        }
+
         public InstructionDevicesViewModel(List<Guid> instructionDevicesList)
         {
             AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
@@ -116,17 +129,17 @@ namespace InstructionsModule.ViewModels
             UpdateDevices();
         }
 
-        public RelayCommand RemoveAllCommand { get; private set; }
-        void OnRemoveAll()
-        {
-            InstructionDevicesList.Clear();
-            UpdateDevices();
-        }
-
         public RelayCommand RemoveOneCommand { get; private set; }
         void OnRemoveOne()
         {
             InstructionDevicesList.Remove(SelectedInstructionDevice.UID);
+            UpdateDevices();
+        }
+
+        public RelayCommand RemoveAllCommand { get; private set; }
+        void OnRemoveAll()
+        {
+            InstructionDevicesList.Clear();
             UpdateDevices();
         }
     }

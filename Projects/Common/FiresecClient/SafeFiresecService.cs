@@ -663,7 +663,6 @@ namespace FiresecClient
             return null;
         }
 
-
         public void ConvertConfiguration()
         {
             try

@@ -4,7 +4,7 @@ using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
 
-namespace SettingsModule.ViewModels
+namespace SettingsModule.Views
 {
     public partial class DriversView : Window
     {
