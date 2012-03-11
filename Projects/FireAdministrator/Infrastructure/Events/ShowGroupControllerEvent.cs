@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Events
 {
-    public class ShowJournalEvent : CompositePresentationEvent<object>
+    public class ShowGroupControllerEvent : CompositePresentationEvent<object>
     {
     }
 }

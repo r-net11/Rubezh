@@ -31,13 +31,13 @@ namespace SecurityModule
         {
         }
 
-        static void OnShowUsers(string obj)
+        static void OnShowUsers(object obj)
         {
             _usersViewModel = new UsersViewModel();
             ServiceFactory.Layout.Show(_usersViewModel);
         }
 
-        static void OnShowUserGroups(string obj)
+        static void OnShowUserGroups(object obj)
         {
             _groupsViewModel = new RolesViewModel();
             ServiceFactory.Layout.Show(_groupsViewModel);

@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
 
         public TelephoneLineDetailsViewModel(Device device)
         {
-            Title = "Параметры МС-ТЛ";
+            Title = "Параметры УОО-ТЛ";
             SelectAllCommand = new RelayCommand(OnSelectAll);
             DeselectAllCommand = new RelayCommand(OnDeselectAll);
             ReadCommand = new RelayCommand(OnRead);

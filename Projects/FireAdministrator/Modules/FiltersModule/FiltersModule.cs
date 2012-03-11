@@ -28,7 +28,7 @@ namespace FiltersModule
             _filtersViewModel = new FiltersViewModel();
         }
 
-        static void OnShowJournal(string obj)
+        static void OnShowJournal(object obj)
         {
             ServiceFactory.Layout.Show(_filtersViewModel);
         }

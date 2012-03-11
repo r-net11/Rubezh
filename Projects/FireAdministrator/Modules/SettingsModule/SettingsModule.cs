@@ -7,7 +7,6 @@ namespace SettingsModule
 {
     public class SettingsModule
     {
-        public static bool HasChanges { get; set; }
         static SettingsViewModel _settingsViewModel;
 
         public SettingsModule()
@@ -29,7 +28,7 @@ namespace SettingsModule
             _settingsViewModel = new SettingsViewModel();
         }
 
-        static void OnShowSettings(string obj)
+        static void OnShowSettings(object obj)
         {
             ServiceFactory.Layout.Show(_settingsViewModel);
         }

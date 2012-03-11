@@ -38,6 +38,9 @@ namespace FiresecService
         {
             lock (Locker)
             {
+                if (!FiresecManager.IsConnected)
+                    return "Нет соединения с ядром Firesec";
+
                 if (CheckLogin(login, password))
                 {
                     if (CheckRemoteAccessPermissions(login))

@@ -29,7 +29,7 @@ namespace SoundsModule
             _soundsViewModel.Initialize();
         }
 
-        static void OnShowSounds(string obj)
+        static void OnShowSounds(object obj)
         {
             ServiceFactory.Layout.Show(_soundsViewModel);
         }

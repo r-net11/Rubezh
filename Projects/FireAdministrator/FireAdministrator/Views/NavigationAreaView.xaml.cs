@@ -221,6 +221,19 @@ namespace FireAdministrator.Views
             }
         }
 
+        bool _isGroupControllerSelected;
+        public bool IsGroupControllerSelected
+        {
+            get { return _isGroupControllerSelected; }
+            set
+            {
+                _isGroupControllerSelected = value;
+                if (value)
+                    ServiceFactory.Events.GetEvent<ShowGroupControllerEvent>().Publish(null);
+                OnPropertyChanged("IsGroupControllerSelected");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged(string name)
         {

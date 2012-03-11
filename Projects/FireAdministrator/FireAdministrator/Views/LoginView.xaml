@@ -20,8 +20,8 @@
             </Grid.ColumnDefinitions>
             <Label Grid.Row="0" Grid.Column="0" Content="Логин" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" />
             <Label Grid.Row="1" Grid.Column="0" Content="Пароль" HorizontalAlignment="Right" VerticalAlignment="Center" FontWeight="Bold" />
-            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding UserName}" Margin="2" />
-            <Controls:PasswordBoxControl Grid.Row="1" Grid.Column="1" Password="{Binding Password}" Margin="2" />
+            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
+            <Controls:PasswordBoxControl Grid.Row="1" Grid.Column="1" Password="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10, 0" HorizontalAlignment="Right" >
             <Button Content="Ok" Command="{Binding ConnectCommand}" Width="100" Name="_btnOK" IsEnabled="True" />

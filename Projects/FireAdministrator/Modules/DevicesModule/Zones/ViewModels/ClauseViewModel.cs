@@ -40,6 +40,7 @@ namespace DevicesModule.ViewModels
                     case DriverType.PumpStation:
                     case DriverType.MDU:
                     case DriverType.MRO:
+                    case DriverType.ASPT:
                         return new List<ZoneLogicState>() {
                             ZoneLogicState.Fire,
                             ZoneLogicState.Attention,

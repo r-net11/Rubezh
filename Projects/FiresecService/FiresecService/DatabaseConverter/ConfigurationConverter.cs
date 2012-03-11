@@ -14,15 +14,15 @@ namespace FiresecService
         {
             FiresecConfiguration = FiresecInternalClient.GetCoreConfig();
             ConvertConfiguration();
+            FiresecManager.DeviceConfiguration = DeviceConfiguration;
+            FiresecManager.SetValidChars();
+            FiresecManager.Update();
 
             ConfigurationFileManager.SetDeviceConfiguration(DeviceConfiguration);
 
             var plans = FiresecInternalClient.GetPlans();
             var plansConfiguration = PlansConverter.Convert(plans);
             ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
-
-            FiresecManager.DeviceConfiguration = DeviceConfiguration;
-            FiresecManager.SetValidChars();
         }
 
         static void ConvertConfiguration()

@@ -63,6 +63,7 @@ namespace FireAdministrator
             var soundsModule = new SoundsModule.SoundsModule();
             var instructionsModule = new InstructionsModule.InstructionsModule();
             var settingsModule = new SettingsModule.SettingsModule();
+            var groupControllerViewModel = new GroupControllerModule.GroupControllerModule();
 
             ServiceFactory.SaveService.Reset();
         }

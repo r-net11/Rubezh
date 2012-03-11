@@ -5,6 +5,9 @@ using DevicesModule.ViewModels;
 using Controls;
 using Controls.MessageBox;
 using FiresecAPI.Models;
+using System.Windows.Controls.Primitives;
+using System.Windows.Threading;
+using System;
 
 namespace DevicesModule.Views
 {
@@ -12,7 +15,7 @@ namespace DevicesModule.Views
     {
         public static readonly DependencyProperty DeviceProperty =
             DependencyProperty.Register("Device", typeof(Device), typeof(AddressEditor),
-            new FrameworkPropertyMetadata(null,  new PropertyChangedCallback(OnDevicePropertyChanged)));
+            new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnDevicePropertyChanged)));
 
 
         public static readonly DependencyProperty AddressProperty =
@@ -41,7 +44,7 @@ namespace DevicesModule.Views
             InitializeComponent();
 
             LeftPartMin = 1;
-            LeftPartMax = 9;
+            LeftPartMax = 10;
             RightPartMin = 1;
             RightPartMax = 255;
         }
@@ -73,13 +76,13 @@ namespace DevicesModule.Views
             get
             {
                 if (_hasDelimiter)
-                    return int.Parse(addressEditor.Text.Remove(LeftPartLen));
+                    return int.Parse(addressEditor.Text.Remove(addressEditor.Text.IndexOf('.')));
                 return int.Parse(addressEditor.Text);
             }
             set
             {
                 if (_hasDelimiter)
-                    addressEditor.Text = value.ToString(LeftPartFormat) + addressEditor.Text.Substring(LeftPartLen);
+                    addressEditor.Text = value.ToString(LeftPartFormat) + addressEditor.Text.Substring(addressEditor.Text.IndexOf('.'));
                 else
                     addressEditor.Text = value.ToString(LeftPartFormat);
             }
@@ -90,13 +93,13 @@ namespace DevicesModule.Views
             get
             {
                 if (_hasDelimiter)
-                    return int.Parse(addressEditor.Text.Substring(LeftPartLen + 1));
+                    return int.Parse(addressEditor.Text.Substring(addressEditor.Text.IndexOf('.') + 1));
                 return -1;
             }
             set
             {
                 if (value > 0 && _hasDelimiter)
-                    addressEditor.Text = addressEditor.Text.Remove(LeftPartLen + 1) + value.ToString(RightPartFormat);
+                    addressEditor.Text = addressEditor.Text.Remove(addressEditor.Text.IndexOf('.') + 1) + value.ToString(RightPartFormat);
             }
         }
 
@@ -129,7 +132,7 @@ namespace DevicesModule.Views
 
         void InitializeAddress()
         {
-            if(_isSaving)
+            if (_isSaving)
                 return;
 
             string text = Address;
@@ -278,12 +281,12 @@ namespace DevicesModule.Views
             int leftPart = LeftPart;
             if (leftPart < LeftPartMin)
             {
-                MessageBoxService.ShowWarning(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
+                ShowError(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
                 LeftPart = LeftPartMin;
             }
             else if (leftPart > LeftPartMax)
             {
-                MessageBoxService.ShowWarning(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
+                ShowError(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
                 LeftPart = LeftPartMax;
             }
             addressEditor.CaretIndex = caretIndex;
@@ -299,12 +302,12 @@ namespace DevicesModule.Views
 
             if (rightPart < RightPartMin)
             {
-                MessageBoxService.ShowWarning(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
+                ShowError(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
                 RightPart = RightPartMin;
             }
             else if (rightPart > RightPartMax)
             {
-                MessageBoxService.ShowWarning(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
+                ShowError(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
                 RightPart = RightPartMax;
             }
             addressEditor.CaretIndex = caretIndex;
@@ -325,6 +328,32 @@ namespace DevicesModule.Views
         void OnPreviewHandled(object sender, DragEventArgs e)
         {
             e.Handled = true;
+        }
+
+        void ShowError(string message)
+        {
+            var toolTip = new ToolTip()
+            {
+                Content = message,
+                PlacementTarget = addressEditor,
+                Placement = PlacementMode.Top,
+                IsOpen = true
+            };
+            addressEditor.ToolTip = toolTip;
+
+            DispatcherTimer timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 3), IsEnabled = true };
+            timer.Tick += new EventHandler(delegate(object timerSender, EventArgs timerArgs)
+            {
+                if (toolTip != null)
+                {
+                    toolTip.IsOpen = false;
+                }
+                toolTip = null;
+                timer = null;
+
+            });
+
+            //MessageBoxService.ShowWarning(message);
         }
     }
 }

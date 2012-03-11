@@ -34,7 +34,7 @@ namespace PlansModule
             _plansViewModel = new PlansViewModel();
         }
 
-        static void OnShowPlans(string obj)
+        static void OnShowPlans(object obj)
         {
             ServiceFactory.Layout.Show(_plansViewModel);
         }

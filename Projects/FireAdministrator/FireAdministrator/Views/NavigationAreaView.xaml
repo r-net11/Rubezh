@@ -125,6 +125,14 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
+            <TabItem IsSelected="{Binding IsGroupControllerSelected}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/settings.png" />
+                        <TextBlock Text="ГК" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
         </TabControl>
     </DockPanel>
 </UserControl>

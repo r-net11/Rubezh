@@ -16,8 +16,9 @@ namespace FiresecService
         public static SystemConfiguration SystemConfiguration { get; set; }
         public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
+        public static bool IsConnected { get; private set; }
 
-        public static bool ConnectFiresecCOMServer(string login, string password)
+        public static void ConnectFiresecCOMServer(string login, string password)
         {
             DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
             SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
@@ -35,9 +36,10 @@ namespace FiresecService
                 var watcher = new Watcher();
                 watcher.Start();
 
-                return true;
+                IsConnected = true;
+                return;
             }
-            return false;
+            IsConnected = false;
         }
 
         static void ConvertMetadataFromFiresec()

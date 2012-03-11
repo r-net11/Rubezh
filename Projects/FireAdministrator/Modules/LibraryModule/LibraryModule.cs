@@ -28,7 +28,7 @@ namespace LibraryModule
             _libraryViewModel = new LibraryViewModel();
         }
 
-        static void OnShowLibrary(string obj)
+        static void OnShowLibrary(object obj)
         {
             ServiceFactory.Layout.Show(_libraryViewModel);
         }
