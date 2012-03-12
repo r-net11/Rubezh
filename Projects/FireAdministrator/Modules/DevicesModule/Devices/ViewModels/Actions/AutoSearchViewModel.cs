@@ -66,7 +66,7 @@ namespace DevicesModule.ViewModels
             var parentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == device.Parent.Id);
             parentDevice.Children.Add(device);
 
-            var parentDeviceViewModel = DeviceViewModels.FirstOrDefault(x => x.UID == parentDevice.UID);
+            var parentDeviceViewModel = DeviceViewModels.FirstOrDefault(x => x.Device.UID == parentDevice.UID);
 
             var deviceViewModel = new DeviceViewModel(device, parentDeviceViewModel.Source);
             deviceViewModel.Parent = parentDeviceViewModel;

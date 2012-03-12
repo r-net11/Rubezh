@@ -43,11 +43,6 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("HasChildren");
         }
 
-        public Guid UID
-        {
-            get { return Device.UID; }
-        }
-
         public Driver Driver
         {
             get { return Device.Driver; }

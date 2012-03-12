@@ -42,6 +42,8 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -55,7 +57,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converter\DriversHelper.cs" />
     <Compile Include="GroupControllerModule.cs" />
+    <Compile Include="Models\GCDevice.cs" />
+    <Compile Include="Models\GCDeviceConfiguration.cs" />
+    <Compile Include="Models\GCDriver.cs" />
+    <Compile Include="Models\GCDriversConfiguration.cs" />
+    <Compile Include="Models\GCDriverType.cs" />
+    <Compile Include="Models\GCProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -69,6 +78,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Converter\AddressControllerHelper.cs" />
+    <Compile Include="Converter\ConfigurationConverter.cs" />
+    <Compile Include="ViewModels\GCDeviceViewModel.cs" />
+    <Compile Include="Converter\GroupControllerHelper.cs" />
     <Compile Include="ViewModels\GroupControllerViewModel.cs" />
     <Compile Include="Views\GroupControllerView.xaml.cs">
       <DependentUpon>GroupControllerView.xaml</DependentUpon>
@@ -83,9 +96,7 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>

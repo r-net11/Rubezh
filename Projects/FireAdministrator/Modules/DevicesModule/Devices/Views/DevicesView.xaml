@@ -15,7 +15,7 @@
             <MenuItem Header="Добавить несколько" Command="{Binding AddManyCommand}" />
             <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
             <MenuItem Header="Настройка логики" Command="{Binding ShowZoneLogicCommand}"
-                                                            Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
         </ContextMenu>
     </UserControl.Resources>
