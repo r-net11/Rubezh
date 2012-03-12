@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\SetupProgress.ico" />
+    <Content Include="UI\UI_Variables.wxi" />
     <Content Include="Variables_Firesec.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
     <Content Include="Data\Firesec.ico" />

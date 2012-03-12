@@ -9,11 +9,9 @@
                         HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <ContentControl.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Отключить"
-                              Background="Aqua">
+                    <MenuItem Header="Отключить" Background="Black">
                     </MenuItem>
-                    <MenuItem Header="Свойства устройства" Command="{Binding ShowPropertiesCommand}" 
-                              Background="Aqua">
+                    <MenuItem Header="Свойства устройства" Command="{Binding ShowPropertiesCommand}" Background="Black">
                     </MenuItem>
                 </ContextMenu>
             </ContentControl.ContextMenu>

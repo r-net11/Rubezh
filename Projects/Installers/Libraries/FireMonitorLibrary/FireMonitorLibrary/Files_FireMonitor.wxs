@@ -76,8 +76,7 @@
 
 			<Component Id="FMInfrastructureComponent" Guid="079519E5-376E-4E61-98D5-B91B50CE1328">
 				<File Id="FMInfrastructureDll" Name="Infrastructure.dll"
-							Source="$(var.FireMonitor.TargetDir)"
-							DiskId="1" KeyPath="yes" />
+							Source="$(var.FireMonitor.TargetDir)" DiskId="1" KeyPath="yes" />
 			</Component>
 
 			<Component Id="FMPlansModuleComponent" Guid="37BDCE71-82B0-43DD-998A-82AAE306FCC4">

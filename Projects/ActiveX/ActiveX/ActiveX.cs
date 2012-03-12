@@ -1,21 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
-using Microsoft.VisualStudio.OLE.Interop;
-using System.Runtime.InteropServices;
-using CurrentDeviceModule.ViewModels;
-using Microsoft.Win32;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Text;
+//using System.Windows.Controls;
+using System.Windows.Forms;
+using CurrentDeviceModule.ViewModels;
 using CurrentDeviceModule.Views;
 using FiresecClient;
-using System.Windows;
-using System.Windows.Resources;
-using System.Windows.Media;
+using Microsoft.VisualStudio.OLE.Interop;
+using Microsoft.Win32;
 
 namespace ActiveX
 {

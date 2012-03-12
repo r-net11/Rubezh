@@ -136,7 +136,7 @@ namespace CurrentDeviceModule.ViewModels
 
         public RelayCommand ShowPropertiesCommand { get; private set; }
         public void OnShowProperties()
-        {
+        {            
             var deviceDetailsView = new CurrentDeviceDetailsView();
             var deviceDetailsViewModel = new CurrentDeviceDetailsViewModel(DeviceId);
             deviceDetailsView.DataContext = deviceDetailsViewModel;

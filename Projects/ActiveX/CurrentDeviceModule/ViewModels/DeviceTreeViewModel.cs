@@ -20,6 +20,12 @@ namespace CurrentDeviceModule.ViewModels
         public void Initialize()
         {
             BuildDeviceTree();
+            if (Devices.Count > 0)
+            {
+                CollapseChild(Devices[0]);
+                ExpandChild(Devices[0]);
+                SelectedDevice = Devices[0];
+            }
         }
 
         Guid _deviceId;
@@ -74,6 +80,27 @@ namespace CurrentDeviceModule.ViewModels
             }
 
             return elementTreeViewModel;
+        }
+
+        public void CollapseChild(ElementTreeViewModel parentDeviceViewModel)
+        {
+            parentDeviceViewModel.IsExpanded = false;
+            foreach (var deviceViewModel in parentDeviceViewModel.Children)
+            {
+                CollapseChild(deviceViewModel);
+            }
+        }
+
+        public void ExpandChild(ElementTreeViewModel parentDeviceViewModel)
+        {
+            if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
+            {
+                parentDeviceViewModel.IsExpanded = true;
+                foreach (var deviceViewModel in parentDeviceViewModel.Children)
+                {
+                    ExpandChild(deviceViewModel);
+                }
+            }
         }
 
         public RelayCommand OkCommand { get; private set; }

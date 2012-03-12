@@ -17,8 +17,17 @@ namespace Test
         public Form1()
         {
             InitializeComponent();
-        }
 
+            var app = new System.Windows.Application();
+            app.Resources.MergedDictionaries.Add(ResourceHelper.GetResourceDictionary());
+            app.ShutdownMode = System.Windows.ShutdownMode.OnExplicitShutdown;
+            // Load the ressources
+            //var uriStyles = new System.Uri("DataGridStyle.xaml", UriKind.Relative);
+            //var resourcesStyles = System.Windows.Application.LoadComponent(uriStyles) as System.Windows.ResourceDictionary;
+            // Merge it on application level
+            
+            //System.Windows.Application.GetResourceStream()
+        }
         CurrentDeviceViewModel _currentDeviceViewModel;
         CurrentDeviceView _currentDeviceView;
 
@@ -37,7 +46,7 @@ namespace Test
             _currentDeviceView.DataContext = _currentDeviceViewModel;
 
             elementHost.Child = _currentDeviceView;
-            
+
 
             if (DeviceId != Guid.Empty)
             {
@@ -53,12 +62,14 @@ namespace Test
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             _currentDeviceViewModel.SelectDevice();
             DeviceId = _currentDeviceViewModel.DeviceId;
             if (DeviceId != Guid.Empty)
             {
                 _currentDeviceViewModel.Inicialize(DeviceId);
             }
+            
         }
     }
 }
