@@ -19,9 +19,9 @@
 				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="!(loc.WelcomeDlgBitmap)" />
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="10" Width="220" Height="60" Transparent="yes" NoPrefix="yes" 
-								 Text="{&amp;MSSansBold12}Вас приветствует мастер установки Firesec" />
+								 Text="{&amp;MSSansBold12}Вас приветствует мастер установки Firesec 2" />
 				<Control Id="Description1" Type="Text" X="135" Y="50" Width="220" Height="60" Transparent="yes" NoPrefix="yes" 
-								 Text="{&amp;NormalText}Программа установит Firesec на ваш компьютер." >
+								 Text="{&amp;NormalText}Программа установит Firesec 2 на ваш компьютер." >
 					<Condition Action="show">NOT Installed OR NOT PATCH</Condition>
 					<Condition Action="hide">Installed AND PATCH</Condition>
 				</Control>
@@ -48,7 +48,7 @@
 				</Control>
 			</Dialog>
 
-			<Dialog Id="LicenseAgreement" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" Hidden="yes" NoMinimize="yes">
+			<Dialog Id="LicenseAgreement" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" Hidden="yes" NoMinimize="yes">
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="25" Text="{&amp;MSSansBold8}Информация" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgDesc" Type="Text" X="30" Y="22" Width="292" Height="25" 
 								 Text="Пожалуйста, прочитайте следующую важную информацию перед тем, как продолжить." TabSkip="yes" Transparent="yes" />
@@ -64,7 +64,7 @@
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="$(var.btnCancel)" TabSkip="no" Cancel="yes" />
 			</Dialog>
 
-			<Dialog Id="DestinationFolder" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" NoMinimize="yes" TrackDiskSpace="yes">
+			<Dialog Id="DestinationFolder" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes" TrackDiskSpace="yes">
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор папки установки" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="В какую папку вы хотите установить $(var.ProductName)?" TabSkip="yes" Transparent="yes" />
 				<!--<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="no" Disabled="yes" FixedSize="yes" />-->
@@ -83,7 +83,7 @@
 				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="$(var.btnBack)" TabSkip="no" />
 			</Dialog>
 
-			<Dialog Id="InstallChangeFolderError" X="50" Y="50" Width="358" Height="111" Title="$(var.BrandName) - Программа установки" NoMinimize="yes">
+			<Dialog Id="InstallChangeFolderError" X="50" Y="50" Width="358" Height="111" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
 				<Control Id="OkButton" Type="PushButton" X="142" Y="82" Width="66" Height="17" Text="&amp;ОК" TabSkip="no" Default="yes">
 					<Publish Event="EndDialog" Value="Return">1</Publish>
 				</Control>
@@ -91,7 +91,7 @@
 				<Control Id="Icon1" Type="Icon" X="20" Y="22" Width="24" Height="24" Text="InstFolderErr.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
 			</Dialog>
 
-			<Dialog Id="InstallChangeFolder" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" NoMinimize="yes">
+			<Dialog Id="InstallChangeFolder" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
 				<Control Id="Tail" Type="PathEdit" X="21" Y="207" Width="332" Height="17" Property="_BrowseProperty" TabSkip="no" Sunken="yes" Indirect="yes" />
 				<Control Id="OK" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;OK" TabSkip="no" Default="yes" />
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="$(var.btnCancel)" TabSkip="no" Cancel="yes" />
@@ -109,7 +109,7 @@
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
 			</Dialog>
 
-			<Dialog Id="SetupType" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" NoMinimize="yes">
+			<Dialog Id="SetupType" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="244" Height="15" Text="{&amp;MSSansBold8}Выбор компонентов" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие компоненты должны быть установлены?" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgText" Type="Text" X="30" Y="54" Width="340" Height="20" 
@@ -129,7 +129,7 @@
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="$(var.btnCancel)" TabSkip="no" Cancel="yes" />
 			</Dialog>
 			
-			<Dialog Id="ShortcutsDlg" Width="374" Height="266" Title="$(var.BrandName) - Программа установки">
+			<Dialog Id="ShortcutsDlg" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Установка ярлыков." TabSkip="yes" Transparent="yes" />
 				<Control Id="ShortcutDesktop" Type="CheckBox" Height="18" Width="295" X="26" Y="58" Text="Создать ярлык на рабочем столе" Property="SHORTCUT_DESKTOP" CheckBoxValue="1" />
 				<Control Id="ShortcutProgramMenu" Type="CheckBox" Height="18" Width="295" X="26" Y="79" Text="Создать ярлык в меню Пуск" Property="SHORTCUT_PROGRAMMENU" CheckBoxValue="1" />
@@ -190,9 +190,9 @@
 				</Control>
 			</Dialog>
 
-			<Dialog Id="SQLLogin" X="50" Y="50" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" NoMinimize="yes">
+			<Dialog Id="SQLLogin" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор экземпляра компонентов SQL Server 2005" TabSkip="yes" Transparent="yes" />
-				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Text="Укажите экземпляр компонентов, в котором будет создана база данных Firesec." TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Text="Укажите экземпляр компонентов, в котором будет создана база данных Firesec 2." TabSkip="yes" Transparent="yes" />
 				<Control Id="lblSQLLoginIntro" Type="Text" X="30" Y="50" Width="330" Height="40" 
 								 Text="Введите имя для экземпляра. Выберите режим проверки подлинности для использования при установке." TabSkip="no" Transparent="yes" />
 
@@ -446,7 +446,7 @@
 				</Control>
 			</Dialog>
 
-			<Dialog Id="SetupProgress" X="50" Y="0" Width="374" Height="266" Title="$(var.BrandName) - Программа установки" Modeless="yes">
+			<Dialog Id="SetupProgress" X="50" Y="0" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" Modeless="yes">
 				
 				<!--<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="no" Disabled="yes" FixedSize="yes" />-->
 				

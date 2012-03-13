@@ -555,3 +555,254 @@
 2012-03-12 14:35:34	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
 2012-03-12 14:35:34	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
 2012-03-12 14:36:58	dotNetInstaller finished, return code: -2 (0xfffffffe)
+2012-03-13 15:34:42	-------------------------------------------------------------------
+2012-03-13 15:34:42	dotNetInstaller (DNI), version 2.0.81.0
+2012-03-13 15:34:42	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-03-13 15:34:42	Operating system: Windows XP SP3
+2012-03-13 15:34:42	-------------------------------------------------------------------
+2012-03-13 15:34:42	Sequence: install
+2012-03-13 15:34:42	UI level: full
+2012-03-13 15:34:42	Configuration language id: 1049 
+2012-03-13 15:34:42	-- Loading supported components (lcid=1049)
+2012-03-13 15:34:42	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:34:42	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:34:42	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:34:42	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:34:42	--- Loaded 4 supported component(s)
+2012-03-13 15:34:42	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-03-13 15:34:42	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-03-13 15:34:42	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-03-13 15:34:42	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-03-13 15:34:42	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-03-13 15:34:42	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-03-13 15:34:47	-- Loading supported components (lcid=1049)
+2012-03-13 15:34:47	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:34:47	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:34:47	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:34:47	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:34:47	--- Loaded 4 supported component(s)
+2012-03-13 15:34:47	Extracting embedded files for component '*': NO FILES EMBEDDED
+2012-03-13 15:34:47	--- Component 'rubezh_firesec_4_3.exe' (Firesec): EXECUTING
+2012-03-13 15:34:47	Extracting embedded files for component 'rubezh_firesec_4_3.exe': 1 CAB(s)
+2012-03-13 15:34:47	Resolved CAB path 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}' for component 'RUBEZH_FIRESEC_4_3_EXE'
+2012-03-13 15:34:47	Extracting 'SETUP_RUBEZH_FIRESEC_4_3_EXE_1.CAB' for component 'RUBEZH_FIRESEC_4_3_EXE'
+2012-03-13 15:34:47	Extracting: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}\rubezh_firesec_4_3.exe
+2012-03-13 15:34:48	Done: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}\rubezh_firesec_4_3.exe
+2012-03-13 15:34:49	Executing: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}\rubezh_firesec_4_3.exe /SILENT
+2012-03-13 15:36:13	--- Component 'rubezh_firesec_4_3.exe (Firesec): DIALOG CLOSED
+2012-03-13 15:36:13	*** Component 'rubezh_firesec_4_3.exe' (Firesec): SUCCESS
+2012-03-13 15:36:13	--- Component 'SQLExpress2005' (MS SQL Express 2005): SKIPPED
+2012-03-13 15:36:13	--- Component 'CRRuntime32bit1302.msi' (CRRuntime): EXECUTING
+2012-03-13 15:36:13	Extracting embedded files for component 'CRRuntime32bit1302.msi': 1 CAB(s)
+2012-03-13 15:36:13	Resolved CAB path 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}' for component 'CRRUNTIME32BIT1302_MSI'
+2012-03-13 15:36:13	Extracting 'SETUP_CRRUNTIME32BIT1302_MSI_1.CAB' for component 'CRRUNTIME32BIT1302_MSI'
+2012-03-13 15:36:13	Extracting: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}\CRRuntime32bit1302.msi
+2012-03-13 15:36:28	Done: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}\CRRuntime32bit1302.msi
+2012-03-13 15:36:28	-- Package: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}\CRRuntime32bit1302.msi
+2012-03-13 15:36:28	-- Additional command-line parameters: /qb
+2012-03-13 15:36:28	Executing: msiexec /i "C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}\CRRuntime32bit1302.msi" /qb
+2012-03-13 15:37:14	--- Component 'CRRuntime32bit1302.msi (CRRuntime): DIALOG CLOSED
+2012-03-13 15:37:14	*** Component 'CRRuntime32bit1302.msi' (CRRuntime): ERROR - Error executing 'CRRuntime32bit1302.msi' (CRRuntime): 1603 (0x643)
+2012-03-13 15:37:14	--- Component 'CRRuntime32bit1302.msi (CRRuntime)' FAILED: Error executing 'CRRuntime32bit1302.msi' (CRRuntime): 1603 (0x643)
+2012-03-13 15:37:20	--- Component 'CRRuntime32bit1302.msi (CRRuntime): FAILED, CONTINUE
+2012-03-13 15:37:20	--- Component 'FiresecInstall.msi' (FiresecInstall): EXECUTING
+2012-03-13 15:37:20	Extracting embedded files for component 'FiresecInstall.msi': 1 CAB(s)
+2012-03-13 15:37:20	Resolved CAB path 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}' for component 'FIRESECINSTALL_MSI'
+2012-03-13 15:37:20	Extracting 'SETUP_FIRESECINSTALL_MSI_1.CAB' for component 'FIRESECINSTALL_MSI'
+2012-03-13 15:37:20	Extracting: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}\FiresecInstall.msi
+2012-03-13 15:37:20	Done: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}\FiresecInstall.msi
+2012-03-13 15:37:21	-- Package: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}\FiresecInstall.msi
+2012-03-13 15:37:21	Executing: msiexec /i "C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}\FiresecInstall.msi"
+2012-03-13 15:37:28	--- Component 'FiresecInstall.msi (FiresecInstall): DIALOG CLOSED
+2012-03-13 15:37:28	*** Component 'FiresecInstall.msi' (FiresecInstall): ERROR - Error executing 'FiresecInstall.msi' (FiresecInstall): 1602 (0x642)
+2012-03-13 15:37:28	--- Component 'FiresecInstall.msi (FiresecInstall)' FAILED: Error executing 'FiresecInstall.msi' (FiresecInstall): 1602 (0x642)
+2012-03-13 15:37:30	--- Component 'FiresecInstall.msi (FiresecInstall): FAILED, ABORTING
+2012-03-13 15:37:30	*** Failed to install one or more components, closing (auto_close_on_error).
+2012-03-13 15:37:30	Deleting CAB folder: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{34896C97-93C8-4C33-9B42-8587DD955AFA}
+2012-03-13 15:37:30	dotNetInstaller finished, return code: 1603 (0x643)
+2012-03-13 15:37:32	-------------------------------------------------------------------
+2012-03-13 15:37:32	dotNetInstaller (DNI), version 2.0.81.0
+2012-03-13 15:37:32	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-03-13 15:37:32	Operating system: Windows XP SP3
+2012-03-13 15:37:32	-------------------------------------------------------------------
+2012-03-13 15:37:32	Sequence: install
+2012-03-13 15:37:32	UI level: full
+2012-03-13 15:37:32	Configuration language id: 1049 
+2012-03-13 15:37:32	-- Loading supported components (lcid=1049)
+2012-03-13 15:37:32	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:37:32	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:37:32	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:37:32	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:37:32	--- Loaded 4 supported component(s)
+2012-03-13 15:37:32	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-03-13 15:37:32	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-03-13 15:37:32	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-03-13 15:37:32	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-03-13 15:37:32	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-03-13 15:37:32	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-03-13 15:37:42	dotNetInstaller finished, return code: -2 (0xfffffffe)
+2012-03-13 15:39:08	-------------------------------------------------------------------
+2012-03-13 15:39:08	dotNetInstaller (DNI), version 2.0.81.0
+2012-03-13 15:39:08	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-03-13 15:39:08	Operating system: Windows XP SP3
+2012-03-13 15:39:08	-------------------------------------------------------------------
+2012-03-13 15:39:08	Sequence: install
+2012-03-13 15:39:08	UI level: full
+2012-03-13 15:39:08	Configuration language id: 1049 
+2012-03-13 15:39:08	-- Loading supported components (lcid=1049)
+2012-03-13 15:39:08	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:39:08	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:39:08	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:39:08	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:39:08	--- Loaded 4 supported component(s)
+2012-03-13 15:39:08	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-03-13 15:39:08	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-03-13 15:39:08	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-03-13 15:39:08	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-03-13 15:39:08	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-03-13 15:39:08	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-03-13 15:39:11	-- Loading supported components (lcid=1049)
+2012-03-13 15:39:11	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:39:11	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:39:11	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:39:11	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:39:11	--- Loaded 4 supported component(s)
+2012-03-13 15:39:11	Extracting embedded files for component '*': NO FILES EMBEDDED
+2012-03-13 15:39:11	--- Component 'rubezh_firesec_4_3.exe' (Firesec): SKIPPED
+2012-03-13 15:39:11	--- Component 'SQLExpress2005' (MS SQL Express 2005): SKIPPED
+2012-03-13 15:39:11	--- Component 'CRRuntime32bit1302.msi' (CRRuntime): EXECUTING
+2012-03-13 15:39:11	Extracting embedded files for component 'CRRuntime32bit1302.msi': 1 CAB(s)
+2012-03-13 15:39:11	Resolved CAB path 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{6EE1B0C5-BA86-451A-B8A3-227E7934CB21}' for component 'CRRUNTIME32BIT1302_MSI'
+2012-03-13 15:39:11	Extracting 'SETUP_CRRUNTIME32BIT1302_MSI_1.CAB' for component 'CRRUNTIME32BIT1302_MSI'
+2012-03-13 15:39:11	Extracting: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{6EE1B0C5-BA86-451A-B8A3-227E7934CB21}\CRRuntime32bit1302.msi
+2012-03-13 15:39:14	Done: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{6EE1B0C5-BA86-451A-B8A3-227E7934CB21}\CRRuntime32bit1302.msi
+2012-03-13 15:39:14	-- Package: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{6EE1B0C5-BA86-451A-B8A3-227E7934CB21}\CRRuntime32bit1302.msi
+2012-03-13 15:39:14	-- Additional command-line parameters: /qb
+2012-03-13 15:39:14	Executing: msiexec /i "C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{6EE1B0C5-BA86-451A-B8A3-227E7934CB21}\CRRuntime32bit1302.msi" /qb
+2012-03-13 15:40:41	--- Component 'CRRuntime32bit1302.msi (CRRuntime): DIALOG CLOSED
+2012-03-13 15:40:41	*** Component 'CRRuntime32bit1302.msi' (CRRuntime): SUCCESS
+2012-03-13 15:40:41	--- Component 'FiresecInstall.msi' (FiresecInstall): EXECUTING
+2012-03-13 15:40:41	Extracting embedded files for component 'FiresecInstall.msi': 1 CAB(s)
+2012-03-13 15:40:41	Resolved CAB path 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{6EE1B0C5-BA86-451A-B8A3-227E7934CB21}' for component 'FIRESECINSTALL_MSI'
+2012-03-13 15:40:41	Extracting 'SETUP_FIRESECINSTALL_MSI_1.CAB' for component 'FIRESECINSTALL_MSI'
+2012-03-13 15:40:41	Extracting: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{6EE1B0C5-BA86-451A-B8A3-227E7934CB21}\FiresecInstall.msi
+2012-03-13 15:40:41	Done: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{6EE1B0C5-BA86-451A-B8A3-227E7934CB21}\FiresecInstall.msi
+2012-03-13 15:40:42	-- Package: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{6EE1B0C5-BA86-451A-B8A3-227E7934CB21}\FiresecInstall.msi
+2012-03-13 15:40:42	Executing: msiexec /i "C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{6EE1B0C5-BA86-451A-B8A3-227E7934CB21}\FiresecInstall.msi"
+2012-03-13 15:41:15	--- Component 'FiresecInstall.msi (FiresecInstall): DIALOG CLOSED
+2012-03-13 15:41:15	*** Component 'FiresecInstall.msi' (FiresecInstall): SUCCESS
+2012-03-13 15:41:15	-- Loading supported components (lcid=1049)
+2012-03-13 15:41:15	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:41:15	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:41:15	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:41:15	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 15:41:15	--- Loaded 4 supported component(s)
+2012-03-13 15:41:15	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-03-13 15:41:15	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-03-13 15:41:15	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-03-13 15:41:15	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-03-13 15:41:15	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-03-13 15:41:15	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-03-13 15:41:15	--- Complete Command
+2012-03-13 15:41:19	Deleting CAB folder: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{6EE1B0C5-BA86-451A-B8A3-227E7934CB21}
+2012-03-13 15:41:19	dotNetInstaller finished, return code: -2 (0xfffffffe)
+2012-03-13 16:49:54	-------------------------------------------------------------------
+2012-03-13 16:49:54	dotNetInstaller (DNI), version 2.0.81.0
+2012-03-13 16:49:54	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-03-13 16:49:54	Operating system: Windows XP SP3
+2012-03-13 16:49:54	-------------------------------------------------------------------
+2012-03-13 16:49:54	Sequence: install
+2012-03-13 16:49:54	UI level: full
+2012-03-13 16:49:54	Configuration language id: 1049 
+2012-03-13 16:49:54	-- Loading supported components (lcid=1049)
+2012-03-13 16:49:54	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 16:49:54	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 16:49:54	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 16:49:54	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 16:49:54	--- Loaded 4 supported component(s)
+2012-03-13 16:49:54	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-03-13 16:49:54	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-03-13 16:49:54	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' not found
+2012-03-13 16:49:54	-- SQLExpress2005 (MS SQL Express 2005): NOT INSTALLED
+2012-03-13 16:49:54	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-03-13 16:49:54	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-03-13 16:49:59	-- Loading supported components (lcid=1049)
+2012-03-13 16:49:59	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 16:49:59	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 16:49:59	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 16:49:59	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 16:49:59	--- Loaded 4 supported component(s)
+2012-03-13 16:49:59	Extracting embedded files for component '*': NO FILES EMBEDDED
+2012-03-13 16:49:59	--- Component 'rubezh_firesec_4_3.exe' (Firesec): SKIPPED
+2012-03-13 16:49:59	--- Component 'SQLExpress2005' (MS SQL Express 2005): EXECUTING
+2012-03-13 16:49:59	Extracting embedded files for component 'SQLExpress2005': 1 CAB(s)
+2012-03-13 16:49:59	Resolved CAB path 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{EF8E3160-3ABB-4E70-BCFA-C79AFD8A59E8}' for component 'SQLEXPRESS2005'
+2012-03-13 16:49:59	Extracting 'SETUP_SQLEXPRESS2005_1.CAB' for component 'SQLEXPRESS2005'
+2012-03-13 16:49:59	Extracting: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{EF8E3160-3ABB-4E70-BCFA-C79AFD8A59E8}\SQLEXPR32_RUS.EXE
+2012-03-13 16:50:02	Done: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{EF8E3160-3ABB-4E70-BCFA-C79AFD8A59E8}\SQLEXPR32_RUS.EXE
+2012-03-13 16:50:02	Extracting: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{EF8E3160-3ABB-4E70-BCFA-C79AFD8A59E8}\SQLServerSettings.ini
+2012-03-13 16:50:02	Done: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{EF8E3160-3ABB-4E70-BCFA-C79AFD8A59E8}\SQLServerSettings.ini
+2012-03-13 16:50:03	Executing: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{EF8E3160-3ABB-4E70-BCFA-C79AFD8A59E8}\SQLEXPR32_RUS.EXE /settings C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{EF8E3160-3ABB-4E70-BCFA-C79AFD8A59E8}\SQLServerSettings.ini /qb
+2012-03-13 16:59:45	--- Component 'SQLExpress2005 (MS SQL Express 2005): DIALOG CLOSED
+2012-03-13 16:59:45	*** Component 'SQLExpress2005' (MS SQL Express 2005): ERROR - Error executing 'SQLExpress2005' (MS SQL Express 2005): 5 (0x5)
+2012-03-13 16:59:45	--- Component 'SQLExpress2005 (MS SQL Express 2005)' FAILED: Error executing 'SQLExpress2005' (MS SQL Express 2005): 5 (0x5)
+2012-03-13 16:59:52	--- Component 'SQLExpress2005 (MS SQL Express 2005): FAILED, ABORTING
+2012-03-13 16:59:52	*** Failed to install one or more components, closing (auto_close_on_error).
+2012-03-13 16:59:52	Deleting CAB folder: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{EF8E3160-3ABB-4E70-BCFA-C79AFD8A59E8}
+2012-03-13 16:59:52	dotNetInstaller finished, return code: 5 (0x5)
+2012-03-13 17:00:52	-------------------------------------------------------------------
+2012-03-13 17:00:52	dotNetInstaller (DNI), version 2.0.81.0
+2012-03-13 17:00:52	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-03-13 17:00:52	Operating system: Windows XP SP3
+2012-03-13 17:00:52	-------------------------------------------------------------------
+2012-03-13 17:00:52	Sequence: install
+2012-03-13 17:00:52	UI level: full
+2012-03-13 17:00:52	Configuration language id: 1049 
+2012-03-13 17:00:52	-- Loading supported components (lcid=1049)
+2012-03-13 17:00:52	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:00:52	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:00:52	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:00:52	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:00:52	--- Loaded 4 supported component(s)
+2012-03-13 17:00:52	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-03-13 17:00:52	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-03-13 17:00:52	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' not found
+2012-03-13 17:00:52	-- SQLExpress2005 (MS SQL Express 2005): NOT INSTALLED
+2012-03-13 17:00:52	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-03-13 17:00:52	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-03-13 17:00:56	-- Loading supported components (lcid=1049)
+2012-03-13 17:00:56	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:00:56	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:00:56	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:00:56	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:00:56	--- Loaded 4 supported component(s)
+2012-03-13 17:00:56	Extracting embedded files for component '*': NO FILES EMBEDDED
+2012-03-13 17:00:56	--- Component 'rubezh_firesec_4_3.exe' (Firesec): SKIPPED
+2012-03-13 17:00:56	--- Component 'SQLExpress2005' (MS SQL Express 2005): EXECUTING
+2012-03-13 17:00:56	Extracting embedded files for component 'SQLExpress2005': 1 CAB(s)
+2012-03-13 17:00:56	Resolved CAB path 'C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{724BD4AF-7606-4455-8F26-CAACB9115DB5}' for component 'SQLEXPRESS2005'
+2012-03-13 17:00:56	Extracting 'SETUP_SQLEXPRESS2005_1.CAB' for component 'SQLEXPRESS2005'
+2012-03-13 17:00:56	Extracting: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{724BD4AF-7606-4455-8F26-CAACB9115DB5}\SQLEXPR32_RUS.EXE
+2012-03-13 17:00:56	Done: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{724BD4AF-7606-4455-8F26-CAACB9115DB5}\SQLEXPR32_RUS.EXE
+2012-03-13 17:00:56	Extracting: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{724BD4AF-7606-4455-8F26-CAACB9115DB5}\SQLServerSettings.ini
+2012-03-13 17:00:56	Done: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{724BD4AF-7606-4455-8F26-CAACB9115DB5}\SQLServerSettings.ini
+2012-03-13 17:00:57	Executing: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{724BD4AF-7606-4455-8F26-CAACB9115DB5}\SQLEXPR32_RUS.EXE /settings C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{724BD4AF-7606-4455-8F26-CAACB9115DB5}\SQLServerSettings.ini /qb
+2012-03-13 17:03:55	--- Component 'SQLExpress2005 (MS SQL Express 2005): DIALOG CLOSED
+2012-03-13 17:03:55	*** Component 'SQLExpress2005' (MS SQL Express 2005): SUCCESS
+2012-03-13 17:03:55	--- Component 'CRRuntime32bit1302.msi' (CRRuntime): SKIPPED
+2012-03-13 17:03:55	--- Component 'FiresecInstall.msi' (FiresecInstall): SKIPPED
+2012-03-13 17:03:55	-- Loading supported components (lcid=1049)
+2012-03-13 17:03:55	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:03:55	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:03:55	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:03:55	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-13 17:03:55	--- Loaded 4 supported component(s)
+2012-03-13 17:03:55	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-03-13 17:03:55	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-03-13 17:03:55	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-03-13 17:03:55	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-03-13 17:03:55	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-03-13 17:03:55	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-03-13 17:03:55	--- Complete Command
+2012-03-13 17:04:11	Deleting CAB folder: C:\DOCUME~1\MATAZO~1\LOCALS~1\Temp\{724BD4AF-7606-4455-8F26-CAACB9115DB5}
+2012-03-13 17:04:11	dotNetInstaller finished, return code: -2 (0xfffffffe)
