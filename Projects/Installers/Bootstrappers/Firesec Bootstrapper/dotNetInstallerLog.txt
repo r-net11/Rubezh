@@ -534,3 +534,24 @@
 2012-02-28 12:33:20	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
 2012-02-28 12:33:20	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
 2012-02-28 12:33:32	dotNetInstaller finished, return code: -2 (0xfffffffe)
+2012-03-12 14:35:34	-------------------------------------------------------------------
+2012-03-12 14:35:34	dotNetInstaller (DNI), version 2.0.81.0
+2012-03-12 14:35:34	Copyright (c) DevAge, Vestris Inc. & Contributors
+2012-03-12 14:35:34	Operating system: Windows XP SP3
+2012-03-12 14:35:34	-------------------------------------------------------------------
+2012-03-12 14:35:34	Sequence: install
+2012-03-12 14:35:34	UI level: full
+2012-03-12 14:35:34	Configuration language id: 1049 
+2012-03-12 14:35:34	-- Loading supported components (lcid=1049)
+2012-03-12 14:35:34	-- rubezh_firesec_4_3.exe (display_name='Firesec', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-12 14:35:34	-- SQLExpress2005 (display_name='MS SQL Express 2005', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-12 14:35:34	-- CRRuntime32bit1302.msi (display_name='CRRuntime', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-12 14:35:34	-- FiresecInstall.msi (display_name='FiresecInstall', os_filter_lcid=, os_filter=, os_filter_min=, os_filter_max=, processor_architecture_filter=): LOADED
+2012-03-12 14:35:34	--- Loaded 4 supported component(s)
+2012-03-12 14:35:34	-- rubezh_firesec_4_3.exe (Firesec): NOT INSTALLED
+2012-03-12 14:35:34	Checking whether registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' exists
+2012-03-12 14:35:34	Registry value 'SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names\SQL\SQLEXPRESS' found
+2012-03-12 14:35:34	-- SQLExpress2005 (MS SQL Express 2005): INSTALLED
+2012-03-12 14:35:34	-- CRRuntime32bit1302.msi (CRRuntime): NOT INSTALLED
+2012-03-12 14:35:34	-- FiresecInstall.msi (FiresecInstall): NOT INSTALLED
+2012-03-12 14:36:58	dotNetInstaller finished, return code: -2 (0xfffffffe)
