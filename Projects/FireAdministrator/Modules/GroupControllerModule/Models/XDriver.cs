@@ -7,17 +7,17 @@ using System.Runtime.Serialization;
 namespace GroupControllerModule.Models
 {
     [DataContract]
-    public class GCDriver
+    public class XDriver
     {
-        public GCDriver()
+        public XDriver()
         {
-            Properties = new List<GCProperty>();
+            Properties = new List<XProperty>();
             Children = new List<Guid>();
             AutoCreateChildren = new List<Guid>();
         }
 
         [DataMember]
-        public GCDriverType DriverType { get; set; }
+        public XDriverType DriverType { get; set; }
 
         [DataMember]
         public Guid UID { get; set; }
@@ -44,12 +44,42 @@ namespace GroupControllerModule.Models
         public bool IsChildAddressReservedRange { get; set; }
 
         [DataMember]
-        public List<GCProperty> Properties { get; set; }
+        public List<XProperty> Properties { get; set; }
 
         [DataMember]
         public List<Guid> Children { get; set; }
 
         [DataMember]
         public List<Guid> AutoCreateChildren { get; set; }
+
+        [DataMember]
+        public bool IsAutoCreate { get; set; }
+
+        [DataMember]
+        public Guid AutoChild { get; set; }
+
+        [DataMember]
+        public int AutoChildCount { get; set; }
+
+        [DataMember]
+        public int MinAutoCreateAddress { get; set; }
+
+        [DataMember]
+        public int MaxAutoCreateAddress { get; set; }
+
+        [DataMember]
+        public bool UseParentAddressSystem { get; set; }
+
+        [DataMember]
+        public bool IsRangeEnabled { get; set; }
+
+        [DataMember]
+        public int MinAddress { get; set; }
+
+        [DataMember]
+        public int MaxAddress { get; set; }
+
+        [DataMember]
+        public int ChildAddressReserveRangeCount { get; set; }
     }
 }

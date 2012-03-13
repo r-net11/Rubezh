@@ -9,11 +9,11 @@ namespace GroupControllerModule.ViewModels
 {
     public static class GroupControllerHelper
     {
-        public static GCDriver Create()
+        public static XDriver Create()
         {
-            var gCDriver = new GCDriver()
+            var xDriver = new XDriver()
             {
-                DriverType = GCDriverType.GroupController,
+                DriverType = XDriverType.GroupController,
                 UID = DriversHelper.GroupControllerUID,
                 OldDriverUID = Guid.Empty,
                 CanEditAddress = false,
@@ -23,8 +23,8 @@ namespace GroupControllerModule.ViewModels
                 Name = "Групповой контроллер",
                 ShortName = "ГК"
             };
-            gCDriver.Children.Add(DriversHelper.AddressControllerUID);
-            return gCDriver;
+            xDriver.Children.Add(DriversHelper.AddressControllerUID);
+            return xDriver;
         }
     }
 }

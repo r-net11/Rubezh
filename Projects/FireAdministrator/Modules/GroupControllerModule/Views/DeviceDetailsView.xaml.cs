@@ -2,9 +2,9 @@
 
 namespace GroupControllerModule.Views
 {
-    public partial class GroupControllerView : UserControl
+    public partial class DeviceDetailsView : UserControl
     {
-        public GroupControllerView()
+        public DeviceDetailsView()
         {
             InitializeComponent();
         }

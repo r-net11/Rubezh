@@ -19,14 +19,14 @@ namespace DevicesModule.ViewModels
 
         public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
-            Children = new ObservableCollection<DeviceViewModel>();
-
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             AddManyCommand = new RelayCommand(OnAddMany, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
             ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
             ShowZoneCommand = new RelayCommand(OnShowZone);
+
+            Children = new ObservableCollection<DeviceViewModel>();
 
             Source = sourceDevices;
             Device = device;

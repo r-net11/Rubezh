@@ -9,11 +9,11 @@ namespace GroupControllerModule.ViewModels
 {
     public static class AddressControllerHelper
     {
-        public static GCDriver Create()
+        public static XDriver Create()
         {
-            var gCDriver = new GCDriver()
+            var xDriver = new XDriver()
             {
-                DriverType = GCDriverType.AddressController,
+                DriverType = XDriverType.AddressController,
                 UID = DriversHelper.AddressControllerUID,
                 OldDriverUID = Guid.Empty,
                 CanEditAddress = false,
@@ -23,14 +23,14 @@ namespace GroupControllerModule.ViewModels
                 Name = "Контроллер адресных устройств",
                 ShortName = "КАУ"
             };
-            foreach (var driver in ConfigurationConverter.GCDriversConfiguration.Drivers)
+            foreach (var driver in XManager.DriversConfiguration.Drivers)
             {
                 if (DriversHelper.Drivers.Any(x=>x.ConnectToAddressController))
                 {
-                    gCDriver.Children.Add(driver.UID);
+                    xDriver.Children.Add(driver.UID);
                 }
             }
-            return gCDriver;
+            return xDriver;
         }
     }
 }

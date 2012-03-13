@@ -7,14 +7,12 @@ using System.Runtime.Serialization;
 namespace GroupControllerModule.Models
 {
     [DataContract]
-    public class GCDriversConfiguration
+    public class XProperty
     {
-        public GCDriversConfiguration()
-        {
-            Drivers = new List<GCDriver>();
-        }
+        [DataMember]
+        public string Name { get; set; }
 
         [DataMember]
-        public List<GCDriver> Drivers { get; set; }
+        public string Value { get; set; }
     }
 }

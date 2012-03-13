@@ -59,12 +59,15 @@
   <ItemGroup>
     <Compile Include="Converter\DriversHelper.cs" />
     <Compile Include="GroupControllerModule.cs" />
-    <Compile Include="Models\GCDevice.cs" />
-    <Compile Include="Models\GCDeviceConfiguration.cs" />
-    <Compile Include="Models\GCDriver.cs" />
-    <Compile Include="Models\GCDriversConfiguration.cs" />
-    <Compile Include="Models\GCDriverType.cs" />
-    <Compile Include="Models\GCProperty.cs" />
+    <Compile Include="Models\DeviceCommandsViewModel.cs" />
+    <Compile Include="Models\DeviceCreationExtention.cs" />
+    <Compile Include="Models\XDevice.cs" />
+    <Compile Include="Models\XDeviceConfiguration.cs" />
+    <Compile Include="Models\XDriver.cs" />
+    <Compile Include="Models\XDriversConfiguration.cs" />
+    <Compile Include="Models\XDriverType.cs" />
+    <Compile Include="Models\XManager.cs" />
+    <Compile Include="Models\XProperty.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -80,11 +83,24 @@
     </Compile>
     <Compile Include="Converter\AddressControllerHelper.cs" />
     <Compile Include="Converter\ConfigurationConverter.cs" />
-    <Compile Include="ViewModels\GCDeviceViewModel.cs" />
+    <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
+    <Compile Include="ViewModels\DevicesMenuViewModel.cs" />
+    <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="Converter\GroupControllerHelper.cs" />
-    <Compile Include="ViewModels\GroupControllerViewModel.cs" />
-    <Compile Include="Views\GroupControllerView.xaml.cs">
-      <DependentUpon>GroupControllerView.xaml</DependentUpon>
+    <Compile Include="ViewModels\DevicesViewModel.cs" />
+    <Compile Include="ViewModels\NewDeviceHelper.cs" />
+    <Compile Include="ViewModels\NewDeviceViewModel.cs" />
+    <Compile Include="Views\DeviceDetailsView.xaml.cs">
+      <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DevicesMenuView.xaml.cs">
+      <DependentUpon>DevicesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DevicesView.xaml.cs">
+      <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NewDeviceView.xaml.cs">
+      <DependentUpon>NewDeviceView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -102,7 +118,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GroupControllerView.xaml">
+    <Page Include="Views\DeviceDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DevicesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\NewDeviceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

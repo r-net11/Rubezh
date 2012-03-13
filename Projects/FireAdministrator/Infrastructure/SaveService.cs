@@ -80,6 +80,17 @@ namespace Infrastructure
             }
         }
 
+        bool _xDevicesChanged;
+        public bool XDevicesChanged
+        {
+            get { return _xDevicesChanged; }
+            set
+            {
+                _xDevicesChanged = value;
+                OnChanged();
+            }
+        }
+
         public event Action Changed;
         void OnChanged()
         {
@@ -96,6 +107,7 @@ namespace Infrastructure
             SoundsChanged = false;
             InstructionsChanged = false;
             LibraryChanged = false;
+            XDevicesChanged = false;
         }
     }
 }

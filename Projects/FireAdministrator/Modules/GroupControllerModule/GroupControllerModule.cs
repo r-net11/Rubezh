@@ -7,7 +7,7 @@ namespace GroupControllerModule
 {
     public class GroupControllerModule
     {
-        static GroupControllerViewModel _groupControllerViewModel;
+        static DevicesViewModel _groupControllerViewModel;
 
         public GroupControllerModule()
         {
@@ -25,7 +25,7 @@ namespace GroupControllerModule
 
         void CreateViewModels()
         {
-            _groupControllerViewModel = new GroupControllerViewModel();
+            _groupControllerViewModel = new DevicesViewModel();
         }
 
         static void OnShowGroupController(object obj)

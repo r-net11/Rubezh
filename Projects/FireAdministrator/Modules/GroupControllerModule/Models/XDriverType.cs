@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GroupControllerModule.Models
 {
-    public enum GCDriverType
+    public enum XDriverType
     {
         GroupController,
         AddressController,

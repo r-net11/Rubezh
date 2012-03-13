@@ -7,22 +7,22 @@ using System.Runtime.Serialization;
 namespace GroupControllerModule.Models
 {
     [DataContract]
-    public class GCDeviceConfiguration
+    public class XDeviceConfiguration
     {
-        public GCDeviceConfiguration()
+        public XDeviceConfiguration()
         {
-            Devices = new List<GCDevice>();
+            Devices = new List<XDevice>();
         }
 
-        public List<GCDevice> Devices { get; set; }
+        public List<XDevice> Devices { get; set; }
 
         [DataMember]
-        public GCDevice RootDevice { get; set; }
+        public XDevice RootDevice { get; set; }
 
 
         public void Update()
         {
-            Devices = new List<GCDevice>();
+            Devices = new List<XDevice>();
             if (RootDevice != null)
             {
                 RootDevice.Parent = null;
@@ -31,7 +31,7 @@ namespace GroupControllerModule.Models
             }
         }
 
-        void AddChild(GCDevice parentDevice)
+        void AddChild(XDevice parentDevice)
         {
             foreach (var device in parentDevice.Children)
             {
