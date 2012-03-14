@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
@@ -6,7 +7,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
-using System.Collections.Generic;
 
 namespace PlansModule.ViewModels
 {

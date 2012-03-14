@@ -1,17 +1,16 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls;
+using Controls.MessageBox;
 using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
 using Microsoft.Win32;
-using System.Collections.Generic;
-using Controls.MessageBox;
-using System.IO;
-using System.Runtime.Serialization;
 
 namespace FireAdministrator.Views
 {

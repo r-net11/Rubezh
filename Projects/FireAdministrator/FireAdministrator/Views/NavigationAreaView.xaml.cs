@@ -221,16 +221,40 @@ namespace FireAdministrator.Views
             }
         }
 
-        bool _isGroupControllerSelected;
-        public bool IsGroupControllerSelected
+        bool _isGCSelected;
+        public bool IsGCrSelected
         {
-            get { return _isGroupControllerSelected; }
+            get { return _isGCSelected; }
             set
             {
-                _isGroupControllerSelected = value;
+                _isGCSelected = value;
+                OnPropertyChanged("IsGCrSelected");
+            }
+        }
+
+        bool _isXDevicesSelected;
+        public bool IsXDevicesSelected
+        {
+            get { return _isXDevicesSelected; }
+            set
+            {
+                _isXDevicesSelected = value;
                 if (value)
-                    ServiceFactory.Events.GetEvent<ShowGroupControllerEvent>().Publish(null);
-                OnPropertyChanged("IsGroupControllerSelected");
+                    ServiceFactory.Events.GetEvent<ShowXDevicesEvent>().Publish(Guid.Empty);
+                OnPropertyChanged("IsXDevicesSelected");
+            }
+        }
+
+        bool _isXZonesSelected;
+        public bool IsXZonesSelected
+        {
+            get { return _isXZonesSelected; }
+            set
+            {
+                _isXZonesSelected = value;
+                if (value)
+                    ServiceFactory.Events.GetEvent<ShowXZonesEvent>().Publish(0);
+                OnPropertyChanged("IsXZonesSelected");
             }
         }
 
@@ -263,6 +287,17 @@ namespace FireAdministrator.Views
             }
         }
 
+        bool _isGKExpanded;
+        public bool IsGKExpanded
+        {
+            get { return _isGKExpanded; }
+            set
+            {
+                _isGKExpanded = value;
+                OnPropertyChanged("IsGKExpanded");
+            }
+        }
+
         void AccesRightsMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             IsAccesRightsExpanded = IsAccesRightsExpanded != true;
@@ -271,6 +306,11 @@ namespace FireAdministrator.Views
         void GuardMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             IsGuardExpanded = IsGuardExpanded != true;
+        }
+
+        void GKMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            IsGKExpanded = IsGKExpanded != true;
         }
     }
 }

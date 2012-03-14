@@ -2,8 +2,8 @@
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Events;
 
 namespace PlansModule.ViewModels

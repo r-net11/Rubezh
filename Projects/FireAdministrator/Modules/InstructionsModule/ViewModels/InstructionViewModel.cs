@@ -1,8 +1,8 @@
-﻿using FiresecAPI.Models;
-using Infrastructure.Common;
+﻿using System;
 using System.Collections.Generic;
-using System;
 using System.Linq;
+using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace InstructionsModule.ViewModels
 {

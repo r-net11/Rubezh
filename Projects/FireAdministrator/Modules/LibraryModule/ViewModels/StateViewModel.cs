@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using FiresecAPI.Models;
-using Infrastructure.Common;
-using Infrastructure;
 using Controls.MessageBox;
+using FiresecAPI.Models;
+using Infrastructure;
+using Infrastructure.Common;
 
 namespace LibraryModule.ViewModels
 {

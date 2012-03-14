@@ -4,11 +4,9 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
-using Controls.MessageBox;
 
 namespace PlansModule.ViewModels
 {

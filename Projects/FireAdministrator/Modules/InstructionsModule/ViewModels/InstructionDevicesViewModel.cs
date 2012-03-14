@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using System.Windows.Input;
 
 namespace InstructionsModule.ViewModels
 {

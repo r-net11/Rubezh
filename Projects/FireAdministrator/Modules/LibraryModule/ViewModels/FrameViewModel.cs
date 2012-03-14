@@ -1,8 +1,8 @@
 ﻿using System.Windows.Controls;
 using FiresecAPI.Models;
+using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.Win32;
-using Infrastructure;
 
 namespace LibraryModule.ViewModels
 {

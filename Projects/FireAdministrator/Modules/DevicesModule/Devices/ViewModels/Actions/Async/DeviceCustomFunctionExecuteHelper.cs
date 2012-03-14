@@ -1,7 +1,6 @@
-﻿using FiresecAPI.Models;
+﻿using Controls.MessageBox;
+using FiresecAPI.Models;
 using FiresecClient;
-using Controls;
-using Controls.MessageBox;
 using Infrastructure;
 
 namespace DevicesModule.ViewModels

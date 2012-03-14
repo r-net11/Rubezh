@@ -2,7 +2,6 @@
 using System.Linq;
 using FiresecClient.Validation;
 using Infrastructure.Common;
-using System.Collections.ObjectModel;
 
 namespace DevicesModule.ViewModels
 {

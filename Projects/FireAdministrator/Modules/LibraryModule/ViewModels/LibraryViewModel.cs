@@ -1,11 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using Controls.MessageBox;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Controls;
-using Controls.MessageBox;
 
 namespace LibraryModule.ViewModels
 {

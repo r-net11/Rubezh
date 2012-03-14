@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GroupControllerModule.Models;
 using FiresecAPI.Models;
+using GroupControllerModule.Models;
 
 namespace GroupControllerModule.Converter
 {

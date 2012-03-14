@@ -125,14 +125,33 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
-            <TabItem IsSelected="{Binding IsGroupControllerSelected}">
+            <TabItem IsSelected="{Binding IsGKSelected}" MouseLeftButtonUp="GKMouseLeftButtonUp">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/settings.png" />
+                        <Image />
                         <TextBlock Text="ГК" />
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
+            <TabItem IsSelected="{Binding IsXDevicesSelected}" Margin="15, 0, 0, 5"
+                     Visibility="{Binding IsGKExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/tree.png" />
+                        <TextBlock Text="Устройства" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+            <TabItem IsSelected="{Binding IsXZonesSelected}" Margin="15, 0, 0, 5"
+                     Visibility="{Binding IsGKExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="/Controls;component/Images/zones.png" />
+                        <TextBlock Text="Зоны" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+            
         </TabControl>
     </DockPanel>
 </UserControl>

@@ -1,10 +1,9 @@
-﻿using Infrastructure.Common;
-using PlansModule.Designer;
-using FiresecAPI.Models;
-using PlansModule.Events;
-using Infrastructure;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
+using Infrastructure;
+using Infrastructure.Common;
+using PlansModule.Designer;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {

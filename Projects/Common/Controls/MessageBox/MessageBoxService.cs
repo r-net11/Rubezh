@@ -1,7 +1,6 @@
-﻿using System.Windows;
-using Infrastructure;
+﻿using System;
+using System.Windows;
 using Infrastructure.Common;
-using System;
 
 namespace Controls.MessageBox
 {

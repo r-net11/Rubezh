@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Controls.MessageBox;
 using DevicesModule.DeviceProperties;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {

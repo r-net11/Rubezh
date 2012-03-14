@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Windows;
+using Controls.MessageBox;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
 using PlansModule.Events;
 using PlansModule.Views;
-using Controls.MessageBox;
 
 namespace PlansModule.ViewModels
 {

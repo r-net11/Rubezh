@@ -1,6 +1,5 @@
 ﻿using System;
 using FiresecAPI;
-using System.Diagnostics;
 
 namespace FiresecClient
 {

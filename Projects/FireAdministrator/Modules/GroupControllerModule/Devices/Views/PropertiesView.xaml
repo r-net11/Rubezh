@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="GroupControllerModule.Views.PropertiesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel Margin="2">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition SharedSizeGroup="group1" Width="600" />
+                <ColumnDefinition SharedSizeGroup="group2" Width="400" />
+            </Grid.ColumnDefinitions>
+        </Grid>
+        <ItemsControl ItemsSource="{Binding StringProperties}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="group1" />
+                            <ColumnDefinition SharedSizeGroup="group2" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding Caption}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" Text="{Binding Text}" Margin="2" VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl ItemsSource="{Binding BoolProperties}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="group1" />
+                            <ColumnDefinition SharedSizeGroup="group2" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding Caption}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked}" Margin="2" VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <ItemsControl ItemsSource="{Binding EnumProperties}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="group1" />
+                            <ColumnDefinition SharedSizeGroup="group2" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding Caption}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedValue}" Margin="2" VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</UserControl>

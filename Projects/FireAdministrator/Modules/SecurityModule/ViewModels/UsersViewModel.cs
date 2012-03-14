@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using Controls.MessageBox;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Controls.MessageBox;
 
 namespace SecurityModule.ViewModels
 {

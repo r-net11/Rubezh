@@ -55,19 +55,39 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converter\BinConverter.cs" />
     <Compile Include="Converter\DriversHelper.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\PropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertiesViewModel.cs" />
+    <Compile Include="Devices\Views\PropertiesView.xaml.cs">
+      <DependentUpon>PropertiesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GroupControllerModule.cs" />
-    <Compile Include="Models\DeviceCommandsViewModel.cs" />
-    <Compile Include="Models\DeviceCreationExtention.cs" />
-    <Compile Include="Models\XDevice.cs" />
-    <Compile Include="Models\XDeviceConfiguration.cs" />
-    <Compile Include="Models\XDriver.cs" />
-    <Compile Include="Models\XDriversConfiguration.cs" />
-    <Compile Include="Models\XDriverType.cs" />
-    <Compile Include="Models\XManager.cs" />
-    <Compile Include="Models\XProperty.cs" />
+    <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
+    <Compile Include="Models\Device\DeviceCreationExtention.cs" />
+    <Compile Include="Models\Device\XDevice.cs" />
+    <Compile Include="Models\Configuration\XDeviceConfiguration.cs" />
+    <Compile Include="Models\Driver\XDriverProperty.cs" />
+    <Compile Include="Models\Driver\XDriver.cs" />
+    <Compile Include="Models\Configuration\XDriversConfiguration.cs" />
+    <Compile Include="Models\Driver\XDriverPropertyParameter.cs" />
+    <Compile Include="Models\Driver\XDriverPropertyTypeEnum.cs" />
+    <Compile Include="Models\Driver\XDriverType.cs" />
+    <Compile Include="Models\Configuration\XManager.cs" />
+    <Compile Include="Models\Device\XProperty.cs" />
+    <Compile Include="Models\Formula\FormulaOperationType.cs" />
+    <Compile Include="Models\States\XDeviceState.cs" />
+    <Compile Include="Models\States\XStateType.cs" />
+    <Compile Include="Models\Zone\XZone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -83,24 +103,37 @@
     </Compile>
     <Compile Include="Converter\AddressControllerHelper.cs" />
     <Compile Include="Converter\ConfigurationConverter.cs" />
-    <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
-    <Compile Include="ViewModels\DevicesMenuViewModel.cs" />
-    <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Converter\GroupControllerHelper.cs" />
-    <Compile Include="ViewModels\DevicesViewModel.cs" />
-    <Compile Include="ViewModels\NewDeviceHelper.cs" />
-    <Compile Include="ViewModels\NewDeviceViewModel.cs" />
-    <Compile Include="Views\DeviceDetailsView.xaml.cs">
+    <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Devices\Views\DeviceDetailsView.xaml.cs">
       <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DevicesMenuView.xaml.cs">
+    <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
       <DependentUpon>DevicesMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\DevicesView.xaml.cs">
+    <Compile Include="Devices\Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\NewDeviceView.xaml.cs">
+    <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
+      <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZonesMenuView.xaml.cs">
+      <DependentUpon>ZonesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZonesView.xaml.cs">
+      <DependentUpon>ZonesView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -118,19 +151,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DeviceDetailsView.xaml">
+    <Page Include="Devices\Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DevicesMenuView.xaml">
+    <Page Include="Devices\Views\DevicesMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DevicesView.xaml">
+    <Page Include="Devices\Views\DevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\NewDeviceView.xaml">
+    <Page Include="Devices\Views\NewDeviceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\PropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Zones\Views\ZoneDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Zones\Views\ZonesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Zones\Views\ZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

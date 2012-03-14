@@ -91,6 +91,8 @@
     <Compile Include="Events\ShowSoundsEvent.cs" />
     <Compile Include="Events\ShowUserGroupsEvent.cs" />
     <Compile Include="Events\ShowUsersEvent.cs" />
+    <Compile Include="Events\ShowXDevicesEvent.cs" />
+    <Compile Include="Events\ShowXZonesEvent.cs" />
     <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="ILayoutService.cs" />
     <Compile Include="IProgressService.cs" />

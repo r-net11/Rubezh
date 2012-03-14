@@ -1,11 +1,9 @@
-﻿using Infrastructure.Common;
-using GroupControllerModule.Models;
-using FiresecClient;
+﻿using System;
 using System.Collections.Generic;
-using System;
 using System.Linq;
-using System.Collections.ObjectModel;
+using FiresecClient;
 using GroupControllerModule.Converter;
+using GroupControllerModule.Models;
 
 namespace GroupControllerModule.ViewModels
 {
@@ -14,7 +12,9 @@ namespace GroupControllerModule.ViewModels
         public void Convert()
         {
             ConvertDrivers();
+            XManager.DeviceConfiguration = new XDeviceConfiguration();
             ConvertDevices();
+            ConvertZones();
         }
 
         void ConvertDrivers()
@@ -71,8 +71,6 @@ namespace GroupControllerModule.ViewModels
 
         void ConvertDevices()
         {
-            XManager.DeviceConfiguration = new XDeviceConfiguration();
-
             var xRootDevice = new XDevice()
             {
                 UID = Guid.NewGuid(),
@@ -142,6 +140,21 @@ namespace GroupControllerModule.ViewModels
                         xChildDevice.Parent = xDevice;
                     }
                 }
+            }
+        }
+
+        void ConvertZones()
+        {
+            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+            {
+                var xZone = new XZone()
+                {
+                    No = zone.No,
+                    Name = zone.Name,
+                    Description = zone.Description,
+                    DetectorCount = zone.DetectorCount,
+                };
+                XManager.DeviceConfiguration.Zones.Add(xZone);
             }
         }
     }

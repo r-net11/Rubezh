@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="GroupControllerModule.Views.ZonesView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+
+    <Grid Margin="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" MinWidth="200" Name="leftColumn" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="3*" MinWidth="200" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Controls:XDataGrid ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№" Width="1*" Binding="{Binding XZone.No}" />
+                    <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding XZone.Name}" />
+                    <DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding XZone.Description}" />
+                    <DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding XZone.DetectorCount}" />
+                </DataGrid.Columns>
+            </Controls:XDataGrid>
+        </Grid>
+
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
+        <Grid Grid.Column="2" />
+    </Grid>
+</UserControl>

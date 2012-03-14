@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
-using FiresecClient;
 using Controls.MessageBox;
+using FiresecClient;
 
 namespace FireAdministrator
 {

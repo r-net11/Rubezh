@@ -1,8 +1,8 @@
 ﻿using System.Linq;
+using Controls.MessageBox;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {

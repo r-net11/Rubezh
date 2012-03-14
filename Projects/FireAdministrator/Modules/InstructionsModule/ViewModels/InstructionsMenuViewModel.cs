@@ -1,5 +1,4 @@
 ﻿using Infrastructure.Common;
-using System.Windows.Input;
 
 namespace InstructionsModule.ViewModels
 {

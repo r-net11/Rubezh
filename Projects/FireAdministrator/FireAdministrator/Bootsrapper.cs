@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using Controls.MessageBox;
 using FireAdministrator.ViewModels;
 using FireAdministrator.Views;
 using FiresecAPI.Models;
@@ -7,7 +8,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Controls.MessageBox;
 
 namespace FireAdministrator
 {

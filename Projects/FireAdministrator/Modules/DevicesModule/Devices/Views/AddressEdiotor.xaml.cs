@@ -1,13 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
-using DevicesModule.ViewModels;
-using Controls;
-using Controls.MessageBox;
-using FiresecAPI.Models;
 using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Threading;
-using System;
+using FiresecAPI.Models;
 
 namespace DevicesModule.Views
 {
