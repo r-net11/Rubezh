@@ -2,6 +2,7 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using GroupControllerModule.Converter;
 
 namespace GroupControllerModule
 {

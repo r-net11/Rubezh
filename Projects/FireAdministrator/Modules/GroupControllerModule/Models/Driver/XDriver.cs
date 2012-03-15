@@ -78,6 +78,9 @@ namespace GroupControllerModule.Models
         public int MaxAddress { get; set; }
 
         [DataMember]
+        public bool HasAddress { get; set; }
+
+        [DataMember]
         public int ChildAddressReserveRangeCount { get; set; }
     }
 }

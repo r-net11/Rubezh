@@ -18,7 +18,7 @@ namespace GroupControllerModule.Converter
                 List<byte> objectOutDependencesBytes = GetObjectOutDependencesBytes();
                 short outDependensesCount = (short)(objectOutDependencesBytes.Count() / 2);
                 List<byte> formulaBytes = GetFormulaBytes();
-                List<byte> propertiesBytes = GetPropertiesBytes();
+                List<byte> propertiesBytes = GetPropertiesBytes(device);
                 short propertiesBytesCount = (short)(propertiesBytes.Count() / 4);
 
                 var deviceBytes = new List<byte>();
@@ -61,16 +61,23 @@ namespace GroupControllerModule.Converter
             return bytes;
         }
 
-        static List<byte> GetPropertiesBytes()
+        static List<byte> GetPropertiesBytes(XDevice xDevice)
         {
             var bytes = new List<byte>();
 
-            byte parameterNo = 0;
-            short parameterValue = 0;
+            foreach (var property in xDevice.Properties)
+            {
+                var driverProperty = xDevice.Driver.Properties.FirstOrDefault(x=>x.Name == property.Name);
+                if (driverProperty.IsInternalDeviceParameter)
+                {
+                    byte parameterNo = driverProperty.No;
+                    short parameterValue = (short)property.Value;
 
-            bytes.Add(parameterNo);
-            bytes.AddRange(BitConverter.GetBytes(parameterValue));
-            bytes.Add(0);
+                    bytes.Add(parameterNo);
+                    bytes.AddRange(BitConverter.GetBytes(parameterValue));
+                    bytes.Add(0);
+                }
+            }
 
             return bytes;
         }

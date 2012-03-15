@@ -7,10 +7,12 @@ namespace GroupControllerModule.ViewModels
 {
     public class DevicesViewModel : RegionViewModel
     {
+        public static DevicesViewModel Current { get; private set; }
         public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
         public DevicesViewModel()
         {
+            Current = this;
             CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
             CutCommand = new RelayCommand(OnCut, CanCutCopy);
             PasteCommand = new RelayCommand(OnPaste, CanPaste);
@@ -89,7 +91,7 @@ namespace GroupControllerModule.ViewModels
 
         public void ExpandChild(DeviceViewModel parentDeviceViewModel)
         {
-            if (parentDeviceViewModel.Device.Driver.DriverType == XDriverType.GroupController)
+            if (parentDeviceViewModel.Device.Driver.DriverType == XDriverType.GK)
             {
                 parentDeviceViewModel.IsExpanded = true;
                 foreach (var deviceViewModel in parentDeviceViewModel.Children)

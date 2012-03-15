@@ -9,13 +9,9 @@
             <MenuItem Header="Копировать" Command="{Binding CopyCommand}" />
             <MenuItem Header="Вырезать" Command="{Binding CutCommand}" />
             <MenuItem Header="Вставить" Command="{Binding PasteCommand}" />
-            <MenuItem Header="Вставить как" Command="{Binding PasteAsCommand}" />
             <Separator />
             <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
-            <MenuItem Header="Добавить несколько" Command="{Binding AddManyCommand}" />
             <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
-            <MenuItem Header="Настройка логики" Command="{Binding ShowZoneLogicCommand}"
-                Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
         </ContextMenu>
     </UserControl.Resources>
@@ -93,8 +89,22 @@
                 </DataGrid.Columns>
             </Controls:ScrollDataGrid>
         </Grid>
-        <Border Grid.Row="1" CornerRadius="5" Margin="5, 0, 0, 0" Background="{DynamicResource BackgroundBrush}">
-            <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
-        </Border>
+        <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}" Margin="0, 10, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" CornerRadius="5" Background="{DynamicResource BackgroundBrush}">
+                <StackPanel HorizontalAlignment="Left" Margin="5">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
+                        <Label Content="{Binding Driver.Name}" FontWeight="Bold" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <Border Grid.Column="1" CornerRadius="5" Margin="5, 0, 0, 0" Background="{DynamicResource BackgroundBrush}">
+                <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
+            </Border>
+        </Grid>
     </Grid>
 </UserControl>

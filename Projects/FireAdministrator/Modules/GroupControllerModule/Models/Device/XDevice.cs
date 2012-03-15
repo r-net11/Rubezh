@@ -12,7 +12,9 @@ namespace GroupControllerModule.Models
         {
             Children = new List<XDevice>();
             Properties = new List<XProperty>();
+            DeviceParameters = new List<XDeviceParameter>();
             OutDependenceUIDs = new List<Guid>();
+            Zones = new List<ulong>();
         }
 
         public XDriver Driver { get; set; }
@@ -41,6 +43,12 @@ namespace GroupControllerModule.Models
         [DataMember]
         public List<XProperty> Properties { get; set; }
 
+        [DataMember]
+        public List<XDeviceParameter> DeviceParameters { get; set; }
+
+        [DataMember]
+        public List<ulong> Zones { get; set; }
+
         public int GetReservedCount()
         {
             int reservedCount = Driver.ChildAddressReserveRangeCount;
@@ -51,10 +59,23 @@ namespace GroupControllerModule.Models
                 var reservedCountProperty = Properties.FirstOrDefault(x => x.Name == "MRK30ChildCount");
                 if (reservedCountProperty != null)
                 {
-                    reservedCount = int.Parse(reservedCountProperty.Value);
+                    reservedCount = int.Parse((string)reservedCountProperty.Value);
                 }
             }
             return reservedCount;
+        }
+
+        public List<XDevice> AllParents
+        {
+            get
+            {
+                if (Parent == null)
+                    return new List<XDevice>();
+
+                List<XDevice> allParents = Parent.AllParents;
+                allParents.Add(Parent);
+                return allParents;
+            }
         }
 
         public XDevice Copy(bool fullCopy)

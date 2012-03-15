@@ -3,12 +3,12 @@
 namespace GroupControllerModule.Models
 {
     [DataContract]
-    public class XProperty
+    public class XDeviceParameter
     {
         [DataMember]
-        public string Name { get; set; }
+        public byte No { get; set; }
 
         [DataMember]
-        public object Value { get; set; }
+        public short Value { get; set; }
     }
 }

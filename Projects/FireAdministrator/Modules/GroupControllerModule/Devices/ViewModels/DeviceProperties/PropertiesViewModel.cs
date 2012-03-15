@@ -8,6 +8,7 @@ namespace GroupControllerModule.ViewModels
     {
         public XDevice XDevice { get; private set; }
         public List<StringPropertyViewModel> StringProperties { get; set; }
+        public List<ShortPropertyViewModel> ShortProperties { get; set; }
         public List<BoolPropertyViewModel> BoolProperties { get; set; }
         public List<EnumPropertyViewModel> EnumProperties { get; set; }
 
@@ -15,6 +16,7 @@ namespace GroupControllerModule.ViewModels
         {
             XDevice = xDevice;
             StringProperties = new List<StringPropertyViewModel>();
+            ShortProperties = new List<ShortPropertyViewModel>();
             BoolProperties = new List<BoolPropertyViewModel>();
             EnumProperties = new List<EnumPropertyViewModel>();
 
@@ -27,9 +29,11 @@ namespace GroupControllerModule.ViewModels
                         break;
 
                     case XDriverPropertyTypeEnum.StringType:
-                    case XDriverPropertyTypeEnum.IntType:
-                    case XDriverPropertyTypeEnum.ByteType:
                         StringProperties.Add(new StringPropertyViewModel(driverProperty, xDevice));
+                        break;
+
+                    case XDriverPropertyTypeEnum.IntType:
+                        ShortProperties.Add(new ShortPropertyViewModel(driverProperty, xDevice));
                         break;
 
                     case XDriverPropertyTypeEnum.BoolType:

@@ -10,11 +10,14 @@ namespace GroupControllerModule.ViewModels
 {
     public class ZonesViewModel : RegionViewModel, IEditingViewModel
     {
+        public ZoneDevicesViewModel ZoneDevices { get; set; }
+
         public ZonesViewModel()
         {
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+            ZoneDevices = new ZoneDevicesViewModel();
 
             Zones = new ObservableCollection<ZoneViewModel>(
                 from zone in XManager.DeviceConfiguration.Zones
@@ -34,6 +37,11 @@ namespace GroupControllerModule.ViewModels
             set
             {
                 _selectedZone = value;
+                if (value != null)
+                    ZoneDevices.Initialize(value.XZone.No);
+                else
+                    ZoneDevices.Clear();
+
                 OnPropertyChanged("SelectedZone");
             }
         }
@@ -70,6 +78,7 @@ namespace GroupControllerModule.ViewModels
                 XManager.DeviceConfiguration.Zones.Remove(SelectedZone.XZone);
                 Zones.Remove(SelectedZone);
                 SelectFirstZone();
+                ZoneDevices.UpdateAvailableDevices();
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }
         }

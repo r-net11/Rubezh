@@ -3,9 +3,10 @@ namespace GroupControllerModule.Models
 {
     public enum XDriverType
     {
-        GroupController,
-        AddressController,
-        AddressControllerIndicator,
+        GK,
+        KAU,
+        KAUIndicator,
+        KAUExit,
         RM_1,
         RM_2,
         RM_3,

@@ -1,10 +1,9 @@
 ﻿namespace GroupControllerModule.Models
 {
-    public enum XDriverPropertyTypeEnum
+    public enum XDriverDevicePropertyTypeEnum
     {
         EnumType,
-        StringType,
-        IntType,
+        ShortType,
         BoolType
     }
 }

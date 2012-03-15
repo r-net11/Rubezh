@@ -23,6 +23,20 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
+        <ItemsControl ItemsSource="{Binding ShortProperties}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition SharedSizeGroup="group1" />
+                            <ColumnDefinition SharedSizeGroup="group2" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0" Content="{Binding Caption}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" Text="{Binding Text}" Margin="2" VerticalAlignment="Center" />
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         <ItemsControl ItemsSource="{Binding BoolProperties}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

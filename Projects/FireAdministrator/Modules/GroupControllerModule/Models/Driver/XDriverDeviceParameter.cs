@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace GroupControllerModule.Models
 {
     [DataContract]
-    public class XDriverProperty
+    public class XDriverDeviceParameter
     {
-        public XDriverProperty()
+        public XDriverDeviceParameter()
         {
             Parameters = new List<XDriverPropertyParameter>();
         }
@@ -15,19 +15,10 @@ namespace GroupControllerModule.Models
         public byte No { get; set; }
 
         [DataMember]
-        public bool IsInternalDeviceParameter { get; set; }
-
-        [DataMember]
         public string Name { get; set; }
 
         [DataMember]
-        public string Caption { get; set; }
-
-        [DataMember]
-        public string ToolTip { get; set; }
-
-        [DataMember]
-        public object Default { get; set; }
+        public string Default { get; set; }
 
         [DataMember]
         public List<XDriverPropertyParameter> Parameters { get; set; }

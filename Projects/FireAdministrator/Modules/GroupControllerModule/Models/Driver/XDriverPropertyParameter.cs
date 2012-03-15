@@ -9,6 +9,6 @@ namespace GroupControllerModule.Models
         public string Name { get; set; }
 
         [DataMember]
-        public string Value { get; set; }
+        public object Value { get; set; }
     }
 }

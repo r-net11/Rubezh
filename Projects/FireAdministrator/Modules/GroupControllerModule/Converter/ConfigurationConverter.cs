@@ -2,89 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
-using GroupControllerModule.Converter;
 using GroupControllerModule.Models;
 
-namespace GroupControllerModule.ViewModels
+namespace GroupControllerModule.Converter
 {
     public class ConfigurationConverter
     {
         public void Convert()
         {
-            ConvertDrivers();
+            DriversConverter.Convert();
             XManager.DeviceConfiguration = new XDeviceConfiguration();
             ConvertDevices();
             ConvertZones();
         }
 
-        void ConvertDrivers()
-        {
-            XManager.DriversConfiguration = new XDriversConfiguration();
-
-            foreach (var driver in FiresecManager.Drivers)
-            {
-                var driverItem = DriversHelper.Drivers.FirstOrDefault(x => x.OldDriverType == driver.DriverType);
-                if (driverItem == null)
-                    continue;
-
-                var xDriver = new XDriver()
-                {
-                    DriverType = driverItem.XDriverType,
-                    UID = driver.UID,
-                    OldDriverUID = driver.UID,
-                    Name = driver.Name,
-                    ShortName = driver.ShortName,
-                    ImageSource = driver.ImageSource,
-                    HasImage = driver.HasImage,
-                    CanEditAddress = driver.CanEditAddress,
-                    IsChildAddressReservedRange = driver.IsChildAddressReservedRange,
-                    IsAutoCreate = driver.IsAutoCreate,
-                    AutoChild = driver.AutoChild,
-                    AutoChildCount = driver.AutoChildCount,
-                    MinAutoCreateAddress = driver.MinAutoCreateAddress,
-                    MaxAutoCreateAddress = driver.MaxAutoCreateAddress,
-                    UseParentAddressSystem = driver.UseParentAddressSystem,
-                    IsRangeEnabled = driver.IsRangeEnabled,
-                    MinAddress = driver.MinAddress,
-                    MaxAddress = driver.MaxAddress,
-                    ChildAddressReserveRangeCount = driver.ChildAddressReserveRangeCount
-                };
-
-                xDriver.Children = new List<Guid>();
-                foreach (var childDriver in driver.AvaliableChildren)
-                {
-                    xDriver.Children.Add(childDriver);
-                }
-
-                xDriver.AutoCreateChildren = new List<Guid>();
-                foreach (var childDriver in driver.AutoCreateChildren)
-                {
-                    xDriver.AutoCreateChildren.Add(childDriver);
-                }
-
-                XManager.DriversConfiguration.Drivers.Add(xDriver);
-            }
-
-            XManager.DriversConfiguration.Drivers.Add(GroupControllerHelper.Create());
-            XManager.DriversConfiguration.Drivers.Add(AddressControllerHelper.Create());
-        }
-
         void ConvertDevices()
         {
+            short kauAddress = 1;
+
             var xRootDevice = new XDevice()
             {
                 UID = Guid.NewGuid(),
-                DriverUID = DriversHelper.GroupControllerUID,
-                Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x=>x.DriverType == XDriverType.GroupController),
-                Address = "",
-                Description = "Описание для группового контроллера"
+                DriverUID = DriversHelper.GK_UID,
+                Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x=>x.DriverType == XDriverType.GK),
+                Address = ""
             };
             XManager.DeviceConfiguration.Devices.Add(xRootDevice);
             XManager.DeviceConfiguration.RootDevice = xRootDevice;
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                bool isPanel = false;
+                bool isKAU = false;
                 var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 
                 if (driver == null)
@@ -102,8 +50,8 @@ namespace GroupControllerModule.ViewModels
                         case FiresecAPI.Models.DriverType.USB_Rubezh_2AM:
                         case FiresecAPI.Models.DriverType.USB_Rubezh_2OP:
                         case FiresecAPI.Models.DriverType.USB_Rubezh_4A:
-                            isPanel = true;
-                            driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.AddressController);
+                            isKAU = true;
+                            driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
                             break;
 
                         default:
@@ -111,19 +59,23 @@ namespace GroupControllerModule.ViewModels
                     }
                 }
 
-                var xDevice = new XDevice()
+                if (isKAU)
                 {
-                    UID = device.UID,
-                    DriverUID = driver.UID,
-                    Driver = driver,
-                    Address = device.PresentationAddress,
-                    Description = device.Description
-                };
-                XManager.DeviceConfiguration.Devices.Add(xDevice);
-
-                if (isPanel)
+                    var kauDevice = xRootDevice.AddChild(driver, kauAddress++);
+                    kauDevice.UID = device.UID;
+                    XManager.DeviceConfiguration.Devices.Add(kauDevice);
+                }
+                else
                 {
-                    xRootDevice.Children.Add(xDevice);
+                    var xDevice = new XDevice()
+                    {
+                        UID = device.UID,
+                        DriverUID = driver.UID,
+                        Driver = driver,
+                        Address = device.PresentationAddress,
+                        Description = device.Description
+                    };
+                    XManager.DeviceConfiguration.Devices.Add(xDevice);
                 }
             }
 
@@ -132,7 +84,6 @@ namespace GroupControllerModule.ViewModels
                 var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
                 if (xDevice != null)
                 {
-                    xDevice.Children = new List<XDevice>();
                     foreach (var child in device.Children)
                     {
                         var xChildDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == child.UID);

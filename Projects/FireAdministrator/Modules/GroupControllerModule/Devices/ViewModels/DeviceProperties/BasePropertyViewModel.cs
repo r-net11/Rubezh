@@ -26,7 +26,7 @@ namespace GroupControllerModule.ViewModels
             get { return _xDriverProperty.ToolTip; }
         }
 
-        protected void Save(string value)
+        protected void Save(object value)
         {
             if (_xDevice.Properties == null)
                 _xDevice.Properties = new List<XProperty>();
