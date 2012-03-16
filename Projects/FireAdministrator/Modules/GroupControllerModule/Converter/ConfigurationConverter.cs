@@ -18,17 +18,27 @@ namespace GroupControllerModule.Converter
 
         void ConvertDevices()
         {
-            short kauAddress = 1;
+            byte kauAddress = 1;
 
-            var xRootDevice = new XDevice()
+            var systemDevice = new XDevice()
+            {
+                UID = Guid.NewGuid(),
+                DriverUID = DriversHelper.System_UID,
+                Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
+            };
+            XManager.DeviceConfiguration.Devices.Add(systemDevice);
+            XManager.DeviceConfiguration.RootDevice = systemDevice;
+
+            var gCDevice = new XDevice()
             {
                 UID = Guid.NewGuid(),
                 DriverUID = DriversHelper.GK_UID,
                 Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x=>x.DriverType == XDriverType.GK),
-                Address = ""
+                IntAddress = 1
             };
-            XManager.DeviceConfiguration.Devices.Add(xRootDevice);
-            XManager.DeviceConfiguration.RootDevice = xRootDevice;
+            systemDevice.Children.Add(gCDevice);
+            gCDevice.Parent = systemDevice;
+            XManager.DeviceConfiguration.Devices.Add(gCDevice);
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
@@ -61,7 +71,7 @@ namespace GroupControllerModule.Converter
 
                 if (isKAU)
                 {
-                    var kauDevice = xRootDevice.AddChild(driver, kauAddress++);
+                    var kauDevice = gCDevice.AddChild(driver, 0, kauAddress++);
                     kauDevice.UID = device.UID;
                     XManager.DeviceConfiguration.Devices.Add(kauDevice);
                 }
@@ -72,7 +82,8 @@ namespace GroupControllerModule.Converter
                         UID = device.UID,
                         DriverUID = driver.UID,
                         Driver = driver,
-                        Address = device.PresentationAddress,
+                        ShleifNo = (byte)(device.IntAddress >> 8),
+                        IntAddress = (byte)(device.IntAddress & 0xff),
                         Description = device.Description
                     };
                     XManager.DeviceConfiguration.Devices.Add(xDevice);

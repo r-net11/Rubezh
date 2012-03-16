@@ -80,16 +80,6 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public bool CanEditAddress
-        {
-            get
-            {
-                if (Parent != null && Parent.Driver.IsChildAddressReservedRange && Parent.Driver.DriverType != DriverType.MRK_30)
-                    return false;
-                return Driver.CanEditAddress;
-            }
-        }
-
         public string Description
         {
             get { return Device.Description; }

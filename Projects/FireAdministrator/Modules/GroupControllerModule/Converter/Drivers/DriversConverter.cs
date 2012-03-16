@@ -31,15 +31,16 @@ namespace GroupControllerModule.Converter
                     IsChildAddressReservedRange = driver.IsChildAddressReservedRange,
                     IsAutoCreate = driver.IsAutoCreate,
                     AutoChild = driver.AutoChild,
-                    AutoChildCount = driver.AutoChildCount,
-                    MinAutoCreateAddress = driver.MinAutoCreateAddress,
-                    MaxAutoCreateAddress = driver.MaxAutoCreateAddress,
+                    AutoChildCount = (byte)driver.AutoChildCount,
+                    MinAutoCreateAddress = (byte)driver.MinAutoCreateAddress,
+                    MaxAutoCreateAddress = (byte)driver.MaxAutoCreateAddress,
                     UseParentAddressSystem = driver.UseParentAddressSystem,
                     IsRangeEnabled = driver.IsRangeEnabled,
-                    MinAddress = driver.MinAddress,
-                    MaxAddress = driver.MaxAddress,
+                    MinAddress = (byte)driver.MinAddress,
+                    MaxAddress = (byte)driver.MaxAddress,
                     HasAddress = driver.HasAddress,
-                    ChildAddressReserveRangeCount = driver.ChildAddressReserveRangeCount
+                    ChildAddressReserveRangeCount = (byte)driver.ChildAddressReserveRangeCount,
+                    IsDeviceOnShleif = driver.IsDeviceOnShleif
                 };
 
                 xDriver.Children = new List<Guid>();
@@ -57,6 +58,7 @@ namespace GroupControllerModule.Converter
                 XManager.DriversConfiguration.Drivers.Add(xDriver);
             }
 
+            XManager.DriversConfiguration.Drivers.Add(GCSystemHelper.Create());
             XManager.DriversConfiguration.Drivers.Add(GCHelper.Create());
             XManager.DriversConfiguration.Drivers.Add(KAUHelper.Create());
             XManager.DriversConfiguration.Drivers.Add(KAUIndicatorHelper.Create());

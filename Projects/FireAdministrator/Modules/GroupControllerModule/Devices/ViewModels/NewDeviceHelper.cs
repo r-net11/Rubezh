@@ -6,7 +6,7 @@ namespace GroupControllerModule.ViewModels
 {
     public static class NewDeviceHelper
     {
-        public static int GetMinAddress(XDriver xDriver, XDevice parentXDevice)
+        public static byte GetMinAddress(XDriver xDriver, XDevice parentXDevice)
         {
             XDevice parentAddressSystemDevice = parentXDevice;
             if (xDriver.UseParentAddressSystem)
@@ -24,7 +24,7 @@ namespace GroupControllerModule.ViewModels
                 }
             }
 
-            int maxAddress = 0;
+            byte maxAddress = 0;
 
             if (xDriver.IsRangeEnabled)
             {
@@ -32,7 +32,7 @@ namespace GroupControllerModule.ViewModels
             }
             else
             {
-                maxAddress = 257;
+                maxAddress = 1;
 
                 if (parentXDevice.Driver.IsChildAddressReservedRange)
                 {
@@ -70,7 +70,7 @@ namespace GroupControllerModule.ViewModels
             {
                 if (parentXDevice.Children.Count > 0)
                     if (maxAddress + 1 <= xDriver.MaxAddress)
-                        maxAddress = maxAddress + 1;
+                        maxAddress = (byte)(maxAddress + 1);
             }
             else
             {
@@ -90,13 +90,13 @@ namespace GroupControllerModule.ViewModels
 
                     if (parentXDevice.Children.Count > 0)
                         if (maxAddress + 1 <= parentXDevice.IntAddress + reservedCount - 1)
-                            maxAddress = maxAddress + 1;
+                            maxAddress = (byte)(maxAddress + 1);
                 }
                 else
                 {
                     if (parentXDevice.Children.Where(x => x.Driver.IsAutoCreate == false).ToList().Count > 0)
                         if (((maxAddress + 1) % 256) != 0)
-                            maxAddress = maxAddress + 1;
+                            maxAddress = (byte)(maxAddress + 1);
                 }
             }
 
@@ -120,9 +120,9 @@ namespace GroupControllerModule.ViewModels
             {
                 var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == xDevice.Driver.AutoChild);
 
-                for (int i = 0; i < xDevice.Driver.AutoChildCount; i++)
+                for (byte i = 0; i < xDevice.Driver.AutoChildCount; i++)
                 {
-                    var autoDevice = xDevice.AddChild(driver, xDevice.IntAddress + i);
+                    var autoDevice = xDevice.AddChild(driver, xDevice.ShleifNo, (byte)(xDevice.IntAddress + i));
                     AddDevice(autoDevice, deviceViewModel);
                 }
             }

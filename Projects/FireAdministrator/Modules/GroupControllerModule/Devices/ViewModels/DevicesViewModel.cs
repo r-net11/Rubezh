@@ -91,7 +91,7 @@ namespace GroupControllerModule.ViewModels
 
         public void ExpandChild(DeviceViewModel parentDeviceViewModel)
         {
-            if (parentDeviceViewModel.Device.Driver.DriverType == XDriverType.GK)
+            if ((parentDeviceViewModel.Device.Driver.DriverType == XDriverType.System) || (parentDeviceViewModel.Device.Driver.DriverType == XDriverType.GK))
             {
                 parentDeviceViewModel.IsExpanded = true;
                 foreach (var deviceViewModel in parentDeviceViewModel.Children)

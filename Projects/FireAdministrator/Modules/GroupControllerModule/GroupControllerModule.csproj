@@ -62,6 +62,7 @@
   <ItemGroup>
     <Compile Include="Converter\BinConverter.cs" />
     <Compile Include="Converter\Drivers\DriversConverter.cs" />
+    <Compile Include="Converter\Drivers\GCSystem.cs" />
     <Compile Include="Converter\Drivers\KAUExitHelper.cs" />
     <Compile Include="Converter\Drivers\KAUIndicatorHelper.cs" />
     <Compile Include="Converter\Drivers\DriversHelper.cs" />
@@ -71,6 +72,9 @@
     <Compile Include="Devices\ViewModels\DeviceProperties\PropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\ShortPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
+    <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
+      <DependentUpon>AddressEdiotor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
@@ -160,6 +164,10 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\AddressEdiotor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>

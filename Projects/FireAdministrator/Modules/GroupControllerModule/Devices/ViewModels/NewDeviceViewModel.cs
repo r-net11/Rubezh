@@ -45,8 +45,8 @@ namespace GroupControllerModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            int address = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
-            XDevice xDevice = _parent.AddChild(SelectedDriver, address);
+            byte address = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
+            XDevice xDevice = _parent.AddChild(SelectedDriver, 1, address);
             NewDeviceHelper.AddDevice(xDevice, _parentDeviceViewModel);
 
             _parentDeviceViewModel.Update();

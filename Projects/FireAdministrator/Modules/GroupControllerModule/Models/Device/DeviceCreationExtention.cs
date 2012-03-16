@@ -4,13 +4,14 @@ namespace GroupControllerModule.Models
 {
     public static class XDeviceCreationExtention
     {
-        public static XDevice AddChild(this XDevice parentXDevice, XDriver newXDriver, int newAddress)
+        public static XDevice AddChild(this XDevice parentXDevice, XDriver newXDriver, byte shleifNo, byte intAddress)
         {
             var xDevice = new XDevice()
             {
                 DriverUID = newXDriver.UID,
                 Driver = newXDriver,
-                IntAddress = newAddress,
+                ShleifNo = shleifNo,
+                IntAddress = intAddress,
                 Parent = parentXDevice
             };
             parentXDevice.Children.Add(xDevice);
@@ -25,9 +26,9 @@ namespace GroupControllerModule.Models
             {
                 var autoCreateDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == autoCreateDriverId);
 
-                for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
+                for (byte i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
                 {
-                    xDevice.AddChild(autoCreateDriver, i);
+                    xDevice.AddChild(autoCreateDriver, 0, i);
                 }
             }
         }
@@ -48,7 +49,7 @@ namespace GroupControllerModule.Models
             {
                 var autoCreateDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == autoCreateChildUID);
 
-                for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
+                for (byte i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
                 {
                     var newDevice = new XDevice()
                     {

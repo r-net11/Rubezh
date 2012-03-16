@@ -61,8 +61,8 @@
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <StackPanel>
-                                    <!--<Views:AddressEditor Address="{Binding Address}" Device="{Binding Device}" Visibility="{Binding CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />-->
-                                    <TextBox Text="{Binding Address}" Visibility="{Binding CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <Views:AddressEditor Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}"
+                                        Address="{Binding Address}" Device="{Binding Device}" />
                                     <TextBlock Text="{Binding Address}" />
                                 </StackPanel>
                             </DataTemplate>

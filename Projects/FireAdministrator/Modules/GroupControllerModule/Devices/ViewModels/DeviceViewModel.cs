@@ -35,10 +35,6 @@ namespace GroupControllerModule.ViewModels
         public XDriver Driver
         {
             get { return Device.Driver; }
-            set
-            {
-                Device.Driver = value;
-            }
         }
 
         public string Address
@@ -52,7 +48,6 @@ namespace GroupControllerModule.ViewModels
                 }
                 else
                 {
-                    Device.Address = value;
                     if (Driver.IsChildAddressReservedRange)
                     {
                         foreach (var deviceViewModel in Children)
@@ -62,16 +57,6 @@ namespace GroupControllerModule.ViewModels
                     }
                 }
                 OnPropertyChanged("Address");
-            }
-        }
-
-        public bool CanEditAddress
-        {
-            get
-            {
-                if (Parent != null && Parent.Driver.IsChildAddressReservedRange && Parent.Driver.DriverType != XDriverType.MRK_30)
-                    return false;
-                return Driver.CanEditAddress;
             }
         }
 

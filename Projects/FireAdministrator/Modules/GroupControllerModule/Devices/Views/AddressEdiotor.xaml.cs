@@ -4,14 +4,17 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
-using FiresecAPI.Models;
+using GroupControllerModule.Models;
 
-namespace DevicesModule.Views
+namespace GroupControllerModule.Views
 {
     public partial class AddressEditor : UserControl
     {
+        static readonly string MessageFormat = "Недопустимое значение {0}. Укажите значение в диапазоне от {1} до {2}.";
+        bool _isSaving;
+
         public static readonly DependencyProperty DeviceProperty =
-            DependencyProperty.Register("Device", typeof(Device), typeof(AddressEditor),
+            DependencyProperty.Register("Device", typeof(XDevice), typeof(AddressEditor),
             new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnDevicePropertyChanged)));
 
 
@@ -19,19 +22,9 @@ namespace DevicesModule.Views
             DependencyProperty.Register("Address", typeof(string), typeof(AddressEditor),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnAddressPropertyChanged)));
 
-        public static readonly DependencyProperty CanEditAddressProperty =
-            DependencyProperty.Register("CanEditAddress", typeof(string), typeof(AddressEditor),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public bool CanEditAddress
+        public XDevice Device
         {
-            get { return (bool)GetValue(CanEditAddressProperty); }
-            set { SetValue(CanEditAddressProperty, value); }
-        }
-
-        public Device Device
-        {
-            get { return (Device)GetValue(DeviceProperty); }
+            get { return (XDevice)GetValue(DeviceProperty); }
             set { SetValue(DeviceProperty, value); }
         }
 
@@ -41,75 +34,6 @@ namespace DevicesModule.Views
             set { SetValue(AddressProperty, value); }
         }
 
-        const char DOT = '.';
-        static readonly string MessageFormat = "Недопустимое значение {0}. Укажите значение в диапазоне от {1} до {2}.";
-        bool _hasDelimiter;
-        bool _isSaving;
-
-        public AddressEditor()
-        {
-            InitializeComponent();
-
-            LeftPartMin = 1;
-            LeftPartMax = 10;
-            RightPartMin = 1;
-            RightPartMax = 255;
-        }
-
-        public int LeftPartMin { get; set; }
-        public int LeftPartMax { get; set; }
-        int LeftPartLen
-        {
-            get { return LeftPartMax.ToString().Length; }
-        }
-        string LeftPartFormat
-        {
-            get { return string.Format("D{0}", LeftPartLen); }
-        }
-
-        public int RightPartMin { get; set; }
-        public int RightPartMax { get; set; }
-        int RightPartLen
-        {
-            get { return RightPartMax.ToString().Length; }
-        }
-        string RightPartFormat
-        {
-            get { return string.Format("D{0}", RightPartLen); }
-        }
-
-        int LeftPart
-        {
-            get
-            {
-                if (_hasDelimiter)
-                    return int.Parse(addressEditor.Text.Remove(addressEditor.Text.IndexOf('.')));
-                return int.Parse(addressEditor.Text);
-            }
-            set
-            {
-                if (_hasDelimiter)
-                    addressEditor.Text = value.ToString(LeftPartFormat) + addressEditor.Text.Substring(addressEditor.Text.IndexOf('.'));
-                else
-                    addressEditor.Text = value.ToString(LeftPartFormat);
-            }
-        }
-
-        int RightPart
-        {
-            get
-            {
-                if (_hasDelimiter)
-                    return int.Parse(addressEditor.Text.Substring(addressEditor.Text.IndexOf('.') + 1));
-                return -1;
-            }
-            set
-            {
-                if (value > 0 && _hasDelimiter)
-                    addressEditor.Text = addressEditor.Text.Remove(addressEditor.Text.IndexOf('.') + 1) + value.ToString(RightPartFormat);
-            }
-        }
-
         private static void OnDevicePropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
         {
             AddressEditor addressEditor = dp as AddressEditor;
@@ -117,7 +41,6 @@ namespace DevicesModule.Views
             {
                 return;
             }
-
             addressEditor.InitializeDevice();
         }
 
@@ -128,8 +51,72 @@ namespace DevicesModule.Views
             {
                 return;
             }
-
             addressEditor.InitializeAddress();
+        }
+
+        public AddressEditor()
+        {
+            InitializeComponent();
+
+            LeftPartMin = (byte)1;
+            LeftPartMax = (byte)8;
+            RightPartMin = (byte)1;
+            RightPartMax = (byte)255;
+        }
+
+        public byte LeftPartMin { get; set; }
+        public byte LeftPartMax { get; set; }
+        public byte RightPartMin { get; set; }
+        public byte RightPartMax { get; set; }
+
+        byte LeftPartLen
+        {
+            get { return (byte)LeftPartMax.ToString().Length; }
+        }
+        byte RightPartLen
+        {
+            get { return (byte)RightPartMax.ToString().Length; }
+        }
+
+        string LeftPartFormat
+        {
+            get { return string.Format("D{0}", LeftPartLen); }
+        }
+        string RightPartFormat
+        {
+            get { return string.Format("D{0}", RightPartLen); }
+        }
+
+        int LeftPart
+        {
+            get
+            {
+                if (Device.Driver.IsDeviceOnShleif)
+                    return int.Parse(addressEditor.Text.Remove(addressEditor.Text.IndexOf('.')));
+                return int.Parse(addressEditor.Text);
+            }
+            set
+            {
+                if (Device.Driver.IsDeviceOnShleif)
+                    addressEditor.Text = value.ToString(LeftPartFormat) + addressEditor.Text.Substring(addressEditor.Text.IndexOf('.'));
+                else
+                    addressEditor.Text = value.ToString(LeftPartFormat);
+            }
+        }
+
+        int RightPart
+        {
+            get
+            {
+                if (Device.Driver.IsDeviceOnShleif)
+                    return int.Parse(addressEditor.Text.Substring(addressEditor.Text.IndexOf('.') + 1));
+                return 0;
+            }
+            set
+            {
+                if (value > 0 && Device.Driver.IsDeviceOnShleif)
+                    addressEditor.Text = addressEditor.Text.Remove(addressEditor.Text.IndexOf('.') + 1) + value.ToString(RightPartFormat);
+            }
         }
 
         void InitializeDevice()
@@ -148,21 +135,23 @@ namespace DevicesModule.Views
             if (_isSaving)
                 return;
 
-            string text = Address;
-            if (text.Contains(" "))
-                text = text.Substring(0, text.IndexOf(' '));
+            string text = "";
+            if (Device.Driver.IsDeviceOnShleif)
+                text = Device.ShleifNo.ToString() + "." + Device.IntAddress.ToString(RightPartFormat);
+            else
+                text = Device.IntAddress.ToString(LeftPartFormat);
 
-            if (_hasDelimiter = text.Contains(DOT.ToString()))
+            addressEditor.Text = text;
+
+            if (Device.Driver.IsDeviceOnShleif)
             {
                 addressEditor.MaxLength = LeftPartLen + 1 + RightPartLen;
-                addressEditor.Text = text;
                 LeftPart = LeftPart;
                 RightPart = RightPart;
             }
             else
             {
                 addressEditor.MaxLength = LeftPartLen;
-                addressEditor.Text = text;
                 LeftPart = LeftPart;
             }
 
@@ -178,10 +167,17 @@ namespace DevicesModule.Views
         void SaveAddress()
         {
             _isSaving = true;
-            if (_hasDelimiter)
+            if (Device.Driver.IsDeviceOnShleif)
+            {
+                Device.ShleifNo = (byte)LeftPart;
+                Device.IntAddress = (byte)RightPart;
                 Address = LeftPart.ToString() + '.' + RightPart.ToString();
+            }
             else
+            {
+                Device.IntAddress = (byte)LeftPart;
                 Address = LeftPart.ToString();
+            }
             _isSaving = false;
         }
 
@@ -194,17 +190,93 @@ namespace DevicesModule.Views
             }
             else
             {
-                LeftPartMax = Device.Parent.Driver.ShleifCount;
-                if (LeftPartMax == 0)
-                    LeftPartMax = 1;
+                LeftPartMax = 8;
                 if (Device.Parent.Driver.IsChildAddressReservedRange)
                 {
-                    LeftPartMin = LeftPartMax = Device.Parent.IntAddress >> 8;
-                    LeftPartMax = LeftPartMax = Device.Parent.IntAddress >> 8;
-                    RightPartMin = Device.Parent.IntAddress & 0xff;
-                    RightPartMax = RightPartMin + Device.Parent.GetReservedCount();
+                    LeftPartMin = LeftPartMax = Device.Parent.ShleifNo;
+                    LeftPartMax = LeftPartMax = Device.Parent.ShleifNo;
+                    RightPartMin = Device.Parent.IntAddress;
+                    RightPartMax = (byte)(RightPartMin + Device.Parent.GetReservedCount());
                 }
             }
+        }
+
+        void OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            CheckLeftPart();
+            CheckRightPart();
+            SaveAddress();
+        }
+
+        void CheckLeftPart()
+        {
+            int caretIndex = addressEditor.CaretIndex;
+            int leftPart = LeftPart;
+            if (leftPart < LeftPartMin)
+            {
+                ShowError(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
+                LeftPart = LeftPartMin;
+            }
+            else if (leftPart > LeftPartMax)
+            {
+                ShowError(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
+                LeftPart = LeftPartMax;
+            }
+            addressEditor.CaretIndex = caretIndex;
+        }
+
+        void CheckRightPart()
+        {
+            int caretIndex = addressEditor.CaretIndex;
+
+            int rightPart = RightPart;
+            if (rightPart == 0)
+                return;
+
+            if (rightPart < RightPartMin)
+            {
+                ShowError(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
+                RightPart = RightPartMin;
+            }
+            else if (rightPart > RightPartMax)
+            {
+                ShowError(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
+                RightPart = RightPartMax;
+            }
+            addressEditor.CaretIndex = caretIndex;
+        }
+
+        void OnRightKey()
+        {
+            if (addressEditor.CaretIndex >= addressEditor.Text.Length)
+                return;
+
+            addressEditor.CaretIndex += 1;
+            if (addressEditor.Text[addressEditor.CaretIndex] == '.')
+                addressEditor.CaretIndex += 1;
+        }
+
+        void OnLeftKey()
+        {
+            if (addressEditor.CaretIndex <= 0)
+                return;
+
+            if (addressEditor.Text[addressEditor.CaretIndex - 1] == '.')
+                addressEditor.CaretIndex -= 2;
+            else
+                addressEditor.CaretIndex -= 1;
+        }
+
+        void OnSelectionChanged(object sender, System.Windows.RoutedEventArgs e)
+        {
+            if (addressEditor.SelectionStart >= addressEditor.Text.Length)
+                addressEditor.SelectionStart = addressEditor.Text.Length - 1;
+
+            if (addressEditor.Text[addressEditor.SelectionStart] == '.')
+                addressEditor.SelectionStart += 1;
+
+            if (addressEditor.SelectionLength != 1)
+                addressEditor.SelectionLength = 1;
         }
 
         bool IsUndesirableKey(Key key)
@@ -258,84 +330,6 @@ namespace DevicesModule.Views
                 }
             }
             e.Handled = true;
-        }
-
-        void OnRightKey()
-        {
-            if (addressEditor.CaretIndex >= addressEditor.Text.Length)
-                return;
-
-            addressEditor.CaretIndex += 1;
-            if (addressEditor.Text[addressEditor.CaretIndex] == DOT)
-                addressEditor.CaretIndex += 1;
-        }
-
-        void OnLeftKey()
-        {
-            if (addressEditor.CaretIndex <= 0)
-                return;
-
-            if (addressEditor.Text[addressEditor.CaretIndex - 1] == DOT)
-                addressEditor.CaretIndex -= 2;
-            else
-                addressEditor.CaretIndex -= 1;
-        }
-
-        void OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            CheckLeftPart();
-            CheckRightPart();
-            SaveAddress();
-        }
-
-        void CheckLeftPart()
-        {
-            int caretIndex = addressEditor.CaretIndex;
-            int leftPart = LeftPart;
-            if (leftPart < LeftPartMin)
-            {
-                ShowError(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
-                LeftPart = LeftPartMin;
-            }
-            else if (leftPart > LeftPartMax)
-            {
-                ShowError(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
-                LeftPart = LeftPartMax;
-            }
-            addressEditor.CaretIndex = caretIndex;
-        }
-
-        void CheckRightPart()
-        {
-            int caretIndex = addressEditor.CaretIndex;
-
-            int rightPart = RightPart;
-            if (rightPart < 0)
-                return;
-
-            if (rightPart < RightPartMin)
-            {
-                ShowError(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
-                RightPart = RightPartMin;
-            }
-            else if (rightPart > RightPartMax)
-            {
-                ShowError(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
-                RightPart = RightPartMax;
-            }
-            addressEditor.CaretIndex = caretIndex;
-        }
-
-        void OnSelectionChanged(object sender, System.Windows.RoutedEventArgs e)
-        {
-            if (addressEditor.SelectionStart >= addressEditor.Text.Length)
-                addressEditor.SelectionStart = addressEditor.Text.Length - 1;
-
-            if (addressEditor.Text[addressEditor.SelectionStart] == DOT)
-                addressEditor.SelectionStart += 1;
-
-            if (addressEditor.SelectionLength != 1)
-                addressEditor.SelectionLength = 1;
         }
 
         void OnPreviewHandled(object sender, DragEventArgs e)

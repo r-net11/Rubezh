@@ -19,13 +19,17 @@ namespace GroupControllerModule.Converter
                 HasImage = true,
                 IsChildAddressReservedRange = false,
                 Name = "Контроллер адресных устройств",
-                ShortName = "КАУ"
+                ShortName = "КАУ",
+                IsRangeEnabled = true,
+                MinAddress = 1,
+                MaxAddress = 127
             };
             xDriver.AutoCreateChildren.Add(DriversHelper.KAUIndicator_UID);
             xDriver.AutoCreateChildren.Add(DriversHelper.KAUExit_UID);
             foreach (var driver in XManager.DriversConfiguration.Drivers)
             {
-                if (DriversHelper.Drivers.Any(x=>x.ConnectToAddressController))
+                var driverHelperItem = DriversHelper.Drivers.FirstOrDefault(x => x.XDriverType == driver.DriverType);
+                if (driverHelperItem != null && driverHelperItem.ConnectToAddressController)
                 {
                     xDriver.Children.Add(driver.UID);
                 }
@@ -37,7 +41,7 @@ namespace GroupControllerModule.Converter
                     No = 0,
                     Name = "Parameter 0",
                     Caption = "Порог питания основного",
-                    ToolTip = "Порог питания основного",
+                    ToolTip = "",
                     Default = 10,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
                     IsInternalDeviceParameter = true
@@ -50,7 +54,7 @@ namespace GroupControllerModule.Converter
                     No = 1,
                     Name = "Parameter 1",
                     Caption = "Порог питания резервного",
-                    ToolTip = "Порог питания резервного",
+                    ToolTip = "",
                     Default = 10,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
                     IsInternalDeviceParameter = true
@@ -63,7 +67,7 @@ namespace GroupControllerModule.Converter
                     No = 2,
                     Name = "Parameter 2",
                     Caption = "Число неответов адресных устройств",
-                    ToolTip = "Число неответов адресных устройств",
+                    ToolTip = "",
                     Default = 5,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
                     IsInternalDeviceParameter = true
@@ -76,13 +80,25 @@ namespace GroupControllerModule.Converter
                     No = 3,
                     Name = "Parameter 3",
                     Caption = "Интервал опроса шлейфов",
-                    ToolTip = "Интервал опроса шлейфов",
+                    ToolTip = "",
                     Default = 1,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
                     IsInternalDeviceParameter = true
                 }
                 );
 
+            var modeProperty = new XDriverProperty()
+            {
+                Name = "Mode",
+                Caption = "Линия",
+                ToolTip = "",
+                Default = 0,
+                DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
+                IsInternalDeviceParameter = false
+            };
+            modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Основная", Value = 0 });
+            modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Резервная", Value = 1 });
+            xDriver.Properties.Add(modeProperty);
 
             return xDriver;
         }

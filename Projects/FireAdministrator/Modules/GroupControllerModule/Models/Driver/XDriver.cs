@@ -57,13 +57,13 @@ namespace GroupControllerModule.Models
         public Guid AutoChild { get; set; }
 
         [DataMember]
-        public int AutoChildCount { get; set; }
+        public byte AutoChildCount { get; set; }
 
         [DataMember]
-        public int MinAutoCreateAddress { get; set; }
+        public byte MinAutoCreateAddress { get; set; }
 
         [DataMember]
-        public int MaxAutoCreateAddress { get; set; }
+        public byte MaxAutoCreateAddress { get; set; }
 
         [DataMember]
         public bool UseParentAddressSystem { get; set; }
@@ -72,15 +72,18 @@ namespace GroupControllerModule.Models
         public bool IsRangeEnabled { get; set; }
 
         [DataMember]
-        public int MinAddress { get; set; }
+        public byte MinAddress { get; set; }
 
         [DataMember]
-        public int MaxAddress { get; set; }
+        public byte MaxAddress { get; set; }
 
         [DataMember]
         public bool HasAddress { get; set; }
 
         [DataMember]
-        public int ChildAddressReserveRangeCount { get; set; }
+        public byte ChildAddressReserveRangeCount { get; set; }
+
+        [DataMember]
+        public bool IsDeviceOnShleif { get; set; }
     }
 }

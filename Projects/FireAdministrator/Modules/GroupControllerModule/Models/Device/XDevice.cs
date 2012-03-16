@@ -29,10 +29,10 @@ namespace GroupControllerModule.Models
         public Guid DriverUID { get; set; }
 
         [DataMember]
-        public string Address { get; set; }
+        public byte ShleifNo { get; set; }
 
         [DataMember]
-        public int IntAddress { get; set; }
+        public byte IntAddress { get; set; }
 
         [DataMember]
         public string Description { get; set; }
@@ -49,9 +49,33 @@ namespace GroupControllerModule.Models
         [DataMember]
         public List<ulong> Zones { get; set; }
 
-        public int GetReservedCount()
+        public string Address
         {
-            int reservedCount = Driver.ChildAddressReserveRangeCount;
+            get
+            {
+                if (Driver.HasAddress == false)
+                    return "";
+
+                if (Driver.IsDeviceOnShleif == false)
+                    return IntAddress.ToString();
+
+                return ShleifNo.ToString() + "." + IntAddress.ToString();
+            }
+        }
+
+        public bool CanEditAddress
+        {
+            get
+            {
+                if (Parent != null && Parent.Driver.IsChildAddressReservedRange && Parent.Driver.DriverType != XDriverType.MRK_30)
+                    return false;
+                return (Driver.HasAddress && Driver.CanEditAddress);
+            }
+        }
+
+        public byte GetReservedCount()
+        {
+            byte reservedCount = Driver.ChildAddressReserveRangeCount;
             if (Driver.DriverType == XDriverType.MRK_30)
             {
                 reservedCount = 30;
@@ -59,7 +83,7 @@ namespace GroupControllerModule.Models
                 var reservedCountProperty = Properties.FirstOrDefault(x => x.Name == "MRK30ChildCount");
                 if (reservedCountProperty != null)
                 {
-                    reservedCount = int.Parse((string)reservedCountProperty.Value);
+                    reservedCount = byte.Parse((string)reservedCountProperty.Value);
                 }
             }
             return reservedCount;
