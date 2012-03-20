@@ -154,9 +154,6 @@
     <Compile Include="Devices\Views\Actions\DeviceJournalView.xaml.cs">
       <DependentUpon>DeviceJournalView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\AddressEditor.xaml.cs">
-      <DependentUpon>AddressEditor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\Views\PasteAsView.xaml.cs">
       <DependentUpon>PasteAsView.xaml</DependentUpon>
     </Compile>
@@ -386,10 +383,6 @@
     <Page Include="Devices\Views\Actions\DevicesTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\AddressEditor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Devices\Views\PasteAsView.xaml">
       <SubType>Designer</SubType>
