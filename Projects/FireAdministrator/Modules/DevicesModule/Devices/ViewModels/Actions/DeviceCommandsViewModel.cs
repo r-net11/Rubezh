@@ -191,5 +191,27 @@ namespace DevicesModule.ViewModels
                 return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsAlternativeUSB));
             }
         }
+
+        #region
+
+        public string AutoDetectShortcut { get { return "Ctrl + F"; } }
+        public string ReadDeviceShortcut { get { return "Ctrl + R"; } }
+        public string GetDescriptionShortcut { get { return "Ctrl + D"; } }
+        public string GetDeviceJournalShortcut { get { return "Ctrl + J"; } }
+        public string WriteDeviceShortcut { get { return "Ctrl + W"; } }
+        public string WriteAllDeviceShortcut { get { return "Ctrl + Shift + W"; } }
+        public string SynchronizeDeviceShortcut { get { return ""; } }
+        public string UpdateSoftShortcut { get { return "Ctrl + U"; } }
+        public string SetPasswordShortcut { get { return "Ctrl + S"; } }
+        public string ExecuteCustomAdminFunctionShortcut { get { return ""; } }
+        public string UsbGetDescriptionShortcut { get { return "Alt + D"; } }
+        public string UsbGetDeviceJournalShortcut { get { return "Alt + J"; } }
+        public string UsbWriteDeviceShortcut { get { return "Alt + W"; } }
+        public string UsbSynchronizeShortcut { get { return ""; } }
+        public string UsbUpdateSoftShortcut { get { return "Alt + U"; } }
+        public string UsbSetPasswordShortcut { get { return "Alt + S"; } }
+        public string UsbExecuteCustomAdminFunctionsShortcut { get { return ""; } }
+
+        #endregion
     }
 }

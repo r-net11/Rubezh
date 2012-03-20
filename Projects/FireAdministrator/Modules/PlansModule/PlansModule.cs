@@ -32,6 +32,7 @@ namespace PlansModule
         public static void CreateViewModels()
         {
             _plansViewModel = new PlansViewModel();
+            
         }
 
         static void OnShowPlans(object obj)

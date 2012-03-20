@@ -101,6 +101,10 @@
         <File Id="FAFiltersModuleDll" Name="FiltersModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
+      <Component Id="FAGroupControllerModuleComponent" Guid="68DE1B95-D3B3-47AD-855B-E11A2BB1D349">
+        <File Id="FAGroupControllerModuleDll" Name="GroupControllerModule.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
 
     </DirectoryRef>
 

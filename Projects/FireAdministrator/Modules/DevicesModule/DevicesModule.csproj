@@ -147,15 +147,15 @@
     <Compile Include="Devices\Views\Actions\DevicesTree.xaml.cs">
       <DependentUpon>DevicesTree.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
-      <DependentUpon>AddressEdiotor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Devices\ViewModels\Actions\SetPasswordViewModel.cs" />
     <Compile Include="Devices\Views\Actions\DeviceDescriptionView.xaml.cs">
       <DependentUpon>DeviceDescriptionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Actions\DeviceJournalView.xaml.cs">
       <DependentUpon>DeviceJournalView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\AddressEditor.xaml.cs">
+      <DependentUpon>AddressEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PasteAsView.xaml.cs">
       <DependentUpon>PasteAsView.xaml</DependentUpon>
@@ -387,6 +387,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Devices\Views\AddressEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Devices\Views\PasteAsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -420,10 +424,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Directions\DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\AddressEdiotor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

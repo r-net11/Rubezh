@@ -63,7 +63,7 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                return IsAdditional ? ParentDriver.States.First(x => x.Code == State.Code).Name : null;
+                return IsAdditional ? ParentDriver.States.FirstOrDefault(x => x.Code == State.Code).Name : null;
             }
         }
 

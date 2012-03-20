@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using FiresecAPI.Models;
 using PlansModule.ViewModels;
+using Common;
 
 namespace PlansModule.Views
 {
@@ -11,9 +12,13 @@ namespace PlansModule.Views
         public ToolboxView()
         {
             InitializeComponent();
-            EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyDownEvent, new KeyEventHandler(OnKeyDown), true);
             Current = this;
             AcceptKeyboard = true;
+        }
+
+        static ToolboxView()
+        {
+            EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyDownEvent, new KeyEventHandler(OnKeyDownStatic), true);
         }
 
         public static ToolboxView Current { get; private set; }
@@ -89,10 +94,14 @@ namespace PlansModule.Views
             return elementBase;
         }
 
+        static void OnKeyDownStatic(object sender, KeyEventArgs e)
+        {
+            Current.OnKeyDown(sender, e);
+        }
+
         private void OnKeyDown(object sender, KeyEventArgs e)
         {
             if (AcceptKeyboard == false)
-                if (AcceptKeyboard == false)
                 return;
 
             if (e.Key == Key.C && Keyboard.Modifiers == ModifierKeys.Control)

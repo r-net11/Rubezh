@@ -10,44 +10,62 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-        <Controls:ToolBarButton Command="{Binding AddCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить" ImageSource="/Controls;component/Images/add.png" />
-        <Controls:ToolBarButton Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/edit.png" />
-        <Controls:ToolBarButton Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить" ImageSource="/Controls;component/Images/delete.png" />
-        <Controls:ToolBarButton Command="{Binding CopyCommand}" ToolTip="Копировать" ImageSource="/Controls;component/Images/copy.png" />
-        <Controls:ToolBarButton Command="{Binding CutCommand}" ToolTip="Вырезать" ImageSource="/Controls;component/Images/cut.png" />
-        <Controls:ToolBarButton Command="{Binding PasteCommand}" ToolTip="Вставить" ImageSource="/Controls;component/Images/paste.png" />
-        <Menu Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}">
-            <MenuItem>
+        <Controls:ToolBarButton Name="addButton" Command="{Binding AddCommand, UpdateSourceTrigger=PropertyChanged}" DataContext="{Binding SelectedDevice}" ToolTip="Добавить" ImageSource="/Controls;component/Images/add.png" />
+        <Controls:ToolBarButton Name="showPropertiesButton" Command="{Binding ShowPropertiesCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/edit.png" />
+        <Controls:ToolBarButton Name="removeButton" Command="{Binding RemoveCommand}" DataContext="{Binding SelectedDevice}" ToolTip="Удалить" ImageSource="/Controls;component/Images/delete.png" />
+        <Controls:ToolBarButton Name="copyButton" Command="{Binding CopyCommand, UpdateSourceTrigger=PropertyChanged}" ToolTip="Копировать" ImageSource="/Controls;component/Images/copy.png" />
+        <Controls:ToolBarButton Name="cutButton" Command="{Binding CutCommand, UpdateSourceTrigger=PropertyChanged}" ToolTip="Вырезать" ImageSource="/Controls;component/Images/cut.png" />
+        <Controls:ToolBarButton Name="pasteButton" Command="{Binding PasteCommand}" ToolTip="Вставить" ImageSource="/Controls;component/Images/paste.png" />
+        <Menu Name="_additionalMenu" Background="Transparent" VerticalAlignment="Center" DataContext="{Binding DeviceCommandsViewModel}">
+            <MenuItem >
                 <MenuItem.Header>
                     <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" />
                 </MenuItem.Header>
 
-                <MenuItem Command="{Binding AutoDetectCommand}" Header="Автопоиск" />
-                <MenuItem Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource False}" Header="Считать конфигурацию из устройства" />
-                <MenuItem Header="Синхронизировать охранных пользователей" IsEnabled="False" />
-                <MenuItem Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource False}" Header="Информация об устройстве" />
-                <MenuItem Command="{Binding GetDeveceJournalCommand}" CommandParameter="{StaticResource False}" Header="Журнал событий" />
+                <MenuItem Name="autoDetectButton" Command="{Binding AutoDetectCommand}" Header="_Автопоиск" 
+                          InputGestureText="{Binding AutoDetectShortcut}"/>
+                <MenuItem Name="readDeviceButton" Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource False}" Header="_Считать конфигурацию из устройства" 
+                          InputGestureText="{Binding ReadDeviceShortcut}"/>
+                <MenuItem Header="_Синхронизировать охранных пользователей" IsEnabled="False" />
+                <MenuItem Name="getDescriptionButton" Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource False}" Header="_Информация об устройстве" 
+                          InputGestureText="{Binding GetDescriptionShortcut}"/>
+                <MenuItem Name="getDeviceJournalButton" Command="{Binding GetDeveceJournalCommand}" CommandParameter="{StaticResource False}" Header="_Журнал событий" 
+                          InputGestureText="{Binding GetDeviceJournalShortcut}"/>
                 <Separator />
-                <MenuItem Command="{Binding WriteDeviceCommand}" CommandParameter="{StaticResource False}" Header="Записать конфигурацию в устройство" />
-                <MenuItem Command="{Binding WriteAllDeviceCommand}" Header="Записать конфигурацию во все устройства" />
+                <MenuItem Name="writeDeviceButton" Command="{Binding WriteDeviceCommand}" CommandParameter="{StaticResource False}" Header="_Записать конфигурацию в устройство" 
+                          InputGestureText="{Binding WriteDeviceShortcut}"/>
+                <MenuItem Name="writeAllDeviceButton" Command="{Binding WriteAllDeviceCommand}" Header="_Записать конфигурацию во все устройства" 
+                          InputGestureText="{Binding WriteAllDeviceShortcut}"/>
                 <Separator />
-                <MenuItem Command="{Binding SynchronizeDeviceCommand}" CommandParameter="{StaticResource False}" Header="Синзронизировать часы устройства с системными" />
-                <MenuItem Command="{Binding UpdateSoftCommand}" CommandParameter="{StaticResource False}" Header="Обновление ПО" />
-                <MenuItem Command="{Binding SetPasswordCommand}" CommandParameter="{StaticResource False}" Header="Задать пароль" />
-                <MenuItem Command="{Binding BindMsCommand}" Header="Привязать" />
-                <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource False}" Header="Другие функции" />
+                <MenuItem Name="synchronizeDeviceButton" Command="{Binding SynchronizeDeviceCommand}" CommandParameter="{StaticResource False}" Header="_Синзронизировать часы устройства с системными" 
+                          InputGestureText="{Binding SynchronizeDeviceShortcut}"/>
+                <MenuItem Name="updateSoftButton" Command="{Binding UpdateSoftCommand}" CommandParameter="{StaticResource False}" Header="_Обновление ПО" 
+                          InputGestureText="{Binding UpdateSoftShortcut}"/>
+                <MenuItem Name="setPasswordButton" Command="{Binding SetPasswordCommand}" CommandParameter="{StaticResource False}" Header="_Задать пароль" 
+                          InputGestureText="{Binding SetPasswordShortcut}"/>
+                <MenuItem Name="bindMsButton" Command="{Binding BindMsCommand}" Header="_Привязать" InputGestureText="{Binding BindMsShortcut}"/>
+                <MenuItem Name="executeCustomAdminFunctionButton" Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource False}" Header="_Другие функции" 
+                          InputGestureText="{Binding ExecuteCustomAdminFunctionShortcut}"/>
 
                 <MenuItem Header="USB" Margin="12, 0, 0, 0" IsEnabled="{Binding IsAlternativeUSB, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <MenuItem Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource True}" Header="Считать конфигурацию из устройства" />
-                    <MenuItem Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource True}" Header="Информация об устройстве" />
-                    <MenuItem Command="{Binding GetDeveceJournalCommand}" CommandParameter="{StaticResource True}" Header="Журнал событий" />
+                    <MenuItem Name="usbReadDeviceButton" Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Считать конфигурацию из устройства" 
+                              InputGestureText="{Binding UsbReadDeviceShortcut}"/>
+                    <MenuItem Name="usbGetDescription" Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource True}" Header="_Информация об устройстве" 
+                              InputGestureText="{Binding UsbGetDescriptionShortcut}" />
+                    <MenuItem Name="usbGetDeviceJournalButton" Command="{Binding GetDeveceJournalCommand}" CommandParameter="{StaticResource True}" Header="_Журнал событий" 
+                              InputGestureText="{Binding UsbGetDeviceJournalShortcut}"/>
                     <Separator />
-                    <MenuItem Command="{Binding WriteDeviceCommand}" CommandParameter="{StaticResource True}" Header="Записать конфигурацию в устройство" />
+                    <MenuItem Name="usbWriteDeviceButton" Command="{Binding WriteDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Записать конфигурацию в устройство" 
+                              InputGestureText="{Binding UsbWriteDeviceShortcut}"/>
                     <Separator />
-                    <MenuItem Command="{Binding SynchronizeDeviceCommand}" CommandParameter="{StaticResource True}" Header="Синзронизировать часы устройства с системными" />
-                    <MenuItem Command="{Binding UpdateSoftCommand}" CommandParameter="{StaticResource True}" Header="Обновление ПО" />
-                    <MenuItem Command="{Binding SetPasswordCommand}" CommandParameter="{StaticResource True}" Header="Задать пароль" />
-                    <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource True}" Header="Другие функции" />
+                    <MenuItem Name="usbSynchronize" Command="{Binding SynchronizeDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Синзронизировать часы устройства с системными" 
+                              InputGestureText="{Binding UsbSynchronizeShortcut}"/>
+                    <MenuItem Name="usbUpdateSoftButton" Command="{Binding UpdateSoftCommand}" CommandParameter="{StaticResource True}" Header="_Обновление ПО" 
+                              InputGestureText="{Binding UsbUpdateSoftShortcut}"/>
+                    <MenuItem Name="usbSetPasswordButton" Command="{Binding SetPasswordCommand}" CommandParameter="{StaticResource True}" Header="_Задать пароль" 
+                              InputGestureText="{Binding UsbSetPasswordShortcut}"/>
+                    <MenuItem Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource True}" Header="_Другие функции" 
+                              InputGestureText="{Binding UsbExecuteCustomAdminFunctionsShortcut}"/>
                 </MenuItem>
             </MenuItem>
         </Menu>

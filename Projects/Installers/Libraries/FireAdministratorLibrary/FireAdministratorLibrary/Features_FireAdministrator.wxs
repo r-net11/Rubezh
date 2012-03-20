@@ -11,7 +11,6 @@
 			<ComponentRef Id="FACommonComponent" />
 			<ComponentRef Id="FAControlsComponent" />
 			<ComponentRef Id="FADeviceControlsComponent" />
-			<!--<ComponentRef Id="FADialogBoxComponent" />-->
 			<ComponentRef Id="FAFiresecAPIComponent" />
 			<ComponentRef Id="FAFiresecClientComponent" />
 			<ComponentRef Id="FADevicesModuleComponent" />
@@ -29,6 +28,7 @@
 			<ComponentRef Id="FASettingsModuleComponent" />
 			<ComponentRef Id="FASoundsModuleComponent" />
 			<ComponentRef Id="FAFiltersModuleComponent" />
+			<ComponentRef Id="FAGroupControllerModuleComponent" />
 			<ComponentRef Id="FAU2UConsult"/>
 			<ComponentRef Id="FAProgramsMenuShortcut" />
 			<ComponentRef Id="FADesktopShortcut" />

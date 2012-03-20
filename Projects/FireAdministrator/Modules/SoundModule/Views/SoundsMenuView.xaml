@@ -4,7 +4,7 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
     <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-        <Button Command="{Binding PlaySoundCommand}" Style="{StaticResource ToolarButtonStyle}">
+        <Button Name="playButton" Command="{Binding PlaySoundCommand}" Style="{StaticResource ToolarButtonStyle}">
             <ContentControl>
                 <ContentControl.Style>
                     <Style>

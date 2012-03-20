@@ -1,21 +1,47 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-using DevicesModule.ViewModels;
+using System.Windows.Threading;
+using FiresecAPI.Models;
 
 namespace DevicesModule.Views
 {
-    public partial class addressEditor : UserControl
+    public partial class AddressEditor : UserControl
     {
+        public static readonly DependencyProperty DeviceProperty =
+            DependencyProperty.Register("Device", typeof(Device), typeof(AddressEditor),
+            new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnDevicePropertyChanged)));
+
+
+        public static readonly DependencyProperty AddressProperty =
+            DependencyProperty.Register("Address", typeof(string), typeof(AddressEditor),
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnAddressPropertyChanged)));
+
+        public Device Device
+        {
+            get { return (Device)GetValue(DeviceProperty); }
+            set { SetValue(DeviceProperty, value); }
+        }
+
+        public string Address
+        {
+            get { return (string)GetValue(AddressProperty); }
+            set { SetValue(AddressProperty, value); }
+        }
+
         const char DOT = '.';
         static readonly string MessageFormat = "Недопустимое значение {0}. Укажите значение в диапазоне от {1} до {2}.";
+        bool _hasDelimiter;
+        bool _isSaving;
 
-        public addressEditor()
+        public AddressEditor()
         {
             InitializeComponent();
 
             LeftPartMin = 1;
-            LeftPartMax = 9;
+            LeftPartMax = 10;
             RightPartMin = 1;
             RightPartMax = 255;
         }
@@ -46,14 +72,14 @@ namespace DevicesModule.Views
         {
             get
             {
-                if (_isHaveDelimiter)
-                    return int.Parse(addressEditor.Text.Remove(LeftPartLen));
+                if (_hasDelimiter)
+                    return int.Parse(addressEditor.Text.Remove(addressEditor.Text.IndexOf('.')));
                 return int.Parse(addressEditor.Text);
             }
             set
             {
-                if (_isHaveDelimiter)
-                    addressEditor.Text = value.ToString(LeftPartFormat) + addressEditor.Text.Substring(LeftPartLen);
+                if (_hasDelimiter)
+                    addressEditor.Text = value.ToString(LeftPartFormat) + addressEditor.Text.Substring(addressEditor.Text.IndexOf('.'));
                 else
                     addressEditor.Text = value.ToString(LeftPartFormat);
             }
@@ -63,26 +89,54 @@ namespace DevicesModule.Views
         {
             get
             {
-                if (_isHaveDelimiter)
-                    return int.Parse(addressEditor.Text.Substring(LeftPartLen + 1));
+                if (_hasDelimiter)
+                    return int.Parse(addressEditor.Text.Substring(addressEditor.Text.IndexOf('.') + 1));
                 return -1;
             }
             set
             {
-                if (value > 0 && _isHaveDelimiter)
-                    addressEditor.Text = addressEditor.Text.Remove(LeftPartLen + 1) + value.ToString(RightPartFormat);
+                if (value > 0 && _hasDelimiter)
+                    addressEditor.Text = addressEditor.Text.Remove(addressEditor.Text.IndexOf('.') + 1) + value.ToString(RightPartFormat);
             }
         }
 
-        bool _isHaveDelimiter;
-
-        void OnDataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        private static void OnDevicePropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
         {
-            var deviceViewModel = DataContext as DeviceViewModel;
-            SetBounds();
+            AddressEditor addressEditor = dp as AddressEditor;
+            if (addressEditor == null)
+            {
+                return;
+            }
+            addressEditor.InitializeDevice();
+        }
 
-            string text = deviceViewModel.Address;
-            if (_isHaveDelimiter = text.Contains(DOT.ToString()))
+        private static void OnAddressPropertyChanged(DependencyObject dp, DependencyPropertyChangedEventArgs e)
+        {
+            AddressEditor addressEditor = dp as AddressEditor;
+            if (addressEditor == null)
+            {
+                return;
+            }
+            addressEditor.InitializeAddress();
+        }
+
+        void InitializeDevice()
+        {
+            if (Device.Driver.CanEditAddress == false || Device.Driver.HasAddress == false)
+                return;
+            SetBounds();
+        }
+
+        void InitializeAddress()
+        {
+            if (_isSaving)
+                return;
+
+            string text = Address;
+            if (text.Contains(" "))
+                text = text.Substring(0, text.IndexOf(' '));
+
+            if (_hasDelimiter = text.Contains(DOT.ToString()))
             {
                 addressEditor.MaxLength = LeftPartLen + 1 + RightPartLen;
                 addressEditor.Text = text;
@@ -100,17 +154,40 @@ namespace DevicesModule.Views
             addressEditor.CaretIndex = 0;
         }
 
+        void OnLostFocus(object sender, System.Windows.RoutedEventArgs e)
+        {
+            SaveAddress();
+        }
+
+        void SaveAddress()
+        {
+            _isSaving = true;
+            if (_hasDelimiter)
+                Address = LeftPart.ToString() + '.' + RightPart.ToString();
+            else
+                Address = LeftPart.ToString();
+            _isSaving = false;
+        }
+
         void SetBounds()
         {
-            var deviceViewModel = DataContext as DeviceViewModel;
-            if (deviceViewModel.Driver.IsRangeEnabled)
+            if (Device.Driver.IsRangeEnabled)
             {
-                LeftPartMin = deviceViewModel.Driver.MinAddress;
-                LeftPartMax = deviceViewModel.Driver.MaxAddress;
+                LeftPartMin = Device.Driver.MinAddress;
+                LeftPartMax = Device.Driver.MaxAddress;
             }
             else
             {
-                LeftPartMax = deviceViewModel.Device.Parent.Driver.ShleifCount;
+                LeftPartMax = Device.Parent.Driver.ShleifCount;
+                if (LeftPartMax == 0)
+                    LeftPartMax = 1;
+                if (Device.Parent.Driver.IsChildAddressReservedRange)
+                {
+                    LeftPartMin = LeftPartMax = Device.Parent.IntAddress >> 8;
+                    LeftPartMax = LeftPartMax = Device.Parent.IntAddress >> 8;
+                    RightPartMin = Device.Parent.IntAddress & 0xff;
+                    RightPartMax = RightPartMin + Device.Parent.GetReservedCount();
+                }
             }
         }
 
@@ -152,12 +229,12 @@ namespace DevicesModule.Views
                 {
                     case Key.Right:
                         e.Handled = true;
-                        RighKeytHandle();
+                        OnRightKey();
                         return;
 
                     case Key.Left:
                         e.Handled = true;
-                        LeftKeyHandle();
+                        OnLeftKey();
                         return;
 
                     default:
@@ -167,7 +244,7 @@ namespace DevicesModule.Views
             e.Handled = true;
         }
 
-        void RighKeytHandle()
+        void OnRightKey()
         {
             if (addressEditor.CaretIndex >= addressEditor.Text.Length)
                 return;
@@ -177,7 +254,7 @@ namespace DevicesModule.Views
                 addressEditor.CaretIndex += 1;
         }
 
-        void LeftKeyHandle()
+        void OnLeftKey()
         {
             if (addressEditor.CaretIndex <= 0)
                 return;
@@ -192,6 +269,7 @@ namespace DevicesModule.Views
         {
             CheckLeftPart();
             CheckRightPart();
+            SaveAddress();
         }
 
         void CheckLeftPart()
@@ -200,22 +278,15 @@ namespace DevicesModule.Views
             int leftPart = LeftPart;
             if (leftPart < LeftPartMin)
             {
-                DialogBox.DialogBox.Show(
-                    string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax),
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
-
+                ShowError(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
                 LeftPart = LeftPartMin;
-                addressEditor.CaretIndex = caretIndex;
             }
             else if (leftPart > LeftPartMax)
             {
-                DialogBox.DialogBox.Show(
-                    string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax),
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
-
+                ShowError(string.Format(MessageFormat, leftPart, LeftPartMin, LeftPartMax));
                 LeftPart = LeftPartMax;
-                addressEditor.CaretIndex = caretIndex;
             }
+            addressEditor.CaretIndex = caretIndex;
         }
 
         void CheckRightPart()
@@ -228,22 +299,15 @@ namespace DevicesModule.Views
 
             if (rightPart < RightPartMin)
             {
-                DialogBox.DialogBox.Show(
-                    string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax),
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
-
+                ShowError(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
                 RightPart = RightPartMin;
-                addressEditor.CaretIndex = caretIndex;
             }
             else if (rightPart > RightPartMax)
             {
-                DialogBox.DialogBox.Show(
-                    string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax),
-                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
-
+                ShowError(string.Format(MessageFormat, rightPart, RightPartMin, RightPartMax));
                 RightPart = RightPartMax;
-                addressEditor.CaretIndex = caretIndex;
             }
+            addressEditor.CaretIndex = caretIndex;
         }
 
         void OnSelectionChanged(object sender, System.Windows.RoutedEventArgs e)
@@ -258,12 +322,35 @@ namespace DevicesModule.Views
                 addressEditor.SelectionLength = 1;
         }
 
-        void OnLostFocus(object sender, System.Windows.RoutedEventArgs e)
+        void OnPreviewHandled(object sender, DragEventArgs e)
         {
-            if (_isHaveDelimiter)
-                (DataContext as DeviceViewModel).Address = LeftPart.ToString() + '.' + RightPart.ToString();
-            else
-                (DataContext as DeviceViewModel).Address = LeftPart.ToString();
+            e.Handled = true;
+        }
+
+        void ShowError(string message)
+        {
+            var toolTip = new ToolTip()
+            {
+                Content = message,
+                PlacementTarget = addressEditor,
+                Placement = PlacementMode.Top,
+                IsOpen = true
+            };
+            addressEditor.ToolTip = toolTip;
+
+            DispatcherTimer timer = new DispatcherTimer { Interval = new TimeSpan(0, 0, 3), IsEnabled = true };
+            timer.Tick += new EventHandler(delegate(object timerSender, EventArgs timerArgs)
+            {
+                if (toolTip != null)
+                {
+                    toolTip.IsOpen = false;
+                }
+                toolTip = null;
+                timer = null;
+
+            });
+
+            //MessageBoxService.ShowWarning(message);
         }
     }
 }

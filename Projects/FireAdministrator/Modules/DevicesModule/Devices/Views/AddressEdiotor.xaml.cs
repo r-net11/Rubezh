@@ -1,4 +1,4 @@
-п»їusing System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -19,16 +19,6 @@ namespace DevicesModule.Views
             DependencyProperty.Register("Address", typeof(string), typeof(AddressEditor),
             new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, new PropertyChangedCallback(OnAddressPropertyChanged)));
 
-        public static readonly DependencyProperty CanEditAddressProperty =
-            DependencyProperty.Register("CanEditAddress", typeof(string), typeof(AddressEditor),
-            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-        public bool CanEditAddress
-        {
-            get { return (bool)GetValue(CanEditAddressProperty); }
-            set { SetValue(CanEditAddressProperty, value); }
-        }
-
         public Device Device
         {
             get { return (Device)GetValue(DeviceProperty); }
@@ -42,7 +32,7 @@ namespace DevicesModule.Views
         }
 
         const char DOT = '.';
-        static readonly string MessageFormat = "РќРµРґРѕРїСѓСЃС‚РёРјРѕРµ Р·РЅР°С‡РµРЅРёРµ {0}. РЈРєР°Р¶РёС‚Рµ Р·РЅР°С‡РµРЅРёРµ РІ РґРёР°РїР°Р·РѕРЅРµ РѕС‚ {1} РґРѕ {2}.";
+        static readonly string MessageFormat = "Недопустимое значение {0}. Укажите значение в диапазоне от {1} до {2}.";
         bool _hasDelimiter;
         bool _isSaving;
 
@@ -117,7 +107,6 @@ namespace DevicesModule.Views
             {
                 return;
             }
-
             addressEditor.InitializeDevice();
         }
 
@@ -128,23 +117,18 @@ namespace DevicesModule.Views
             {
                 return;
             }
-
             addressEditor.InitializeAddress();
         }
 
         void InitializeDevice()
         {
-            if (Device.CanEditAddress == false)
+            if (Device.Driver.CanEditAddress == false || Device.Driver.HasAddress == false)
                 return;
-
             SetBounds();
         }
 
         void InitializeAddress()
         {
-            if (Device.CanEditAddress == false)
-                return;
-
             if (_isSaving)
                 return;
 
@@ -365,6 +349,8 @@ namespace DevicesModule.Views
                 timer = null;
 
             });
+
+            //MessageBoxService.ShowWarning(message);
         }
     }
 }

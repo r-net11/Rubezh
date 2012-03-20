@@ -7,6 +7,8 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using Common;
+using DevicesModule.Views;
 
 namespace DevicesModule.ViewModels
 {
@@ -212,11 +214,17 @@ namespace DevicesModule.ViewModels
         {
             var devicesMenuViewModel = new DevicesMenuViewModel(this);
             ServiceFactory.Layout.ShowMenu(devicesMenuViewModel);
+
+            if (DevicesMenuView.Current != null)
+                DevicesMenuView.Current.AcceptKeyboard = true;
         }
 
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
+
+            if (DevicesMenuView.Current != null)
+                DevicesMenuView.Current.AcceptKeyboard = false;
         }
 
         public static void UpdateGuardVisibility()
@@ -224,5 +232,7 @@ namespace DevicesModule.ViewModels
             var hasSecurityDevice = FiresecManager.DeviceConfiguration.Devices.Any(x => x.Driver.DeviceType == DeviceType.Sequrity);
             ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Publish(hasSecurityDevice);
         }
+
+        
     }
 }

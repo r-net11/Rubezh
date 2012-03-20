@@ -5,6 +5,7 @@ using Common;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using SoundsModule.Views;
 
 namespace SoundsModule.ViewModels
 {
@@ -14,7 +15,6 @@ namespace SoundsModule.ViewModels
         {
             PlaySoundCommand = new RelayCommand(OnPlaySound, CanPlaySound);
         }
-
         public void Initialize()
         {
             IsNowPlaying = false;
@@ -96,6 +96,9 @@ namespace SoundsModule.ViewModels
         {
             var soundsMenuViewModel = new SoundsMenuViewModel(this);
             ServiceFactory.Layout.ShowMenu(soundsMenuViewModel);
+
+            if (SoundsMenuView.Current != null)
+                SoundsMenuView.Current.AcceptKeyboard = true;
         }
 
         public override void OnHide()
@@ -103,6 +106,9 @@ namespace SoundsModule.ViewModels
             ServiceFactory.Layout.ShowMenu(null);
             IsNowPlaying = false;
             AlarmPlayerHelper.Stop();
+
+            if (SoundsMenuView.Current != null)
+                SoundsMenuView.Current.AcceptKeyboard = false;
         }
     }
 }
