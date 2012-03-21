@@ -4,7 +4,7 @@ namespace GroupControllerModule.Models
     public enum XDriverType
     {
         System,
-        GK,
+        GC,
         KAU,
         KAUIndicator,
         KAUExit,

@@ -9,7 +9,7 @@ namespace GroupControllerModule.ViewModels
 {
     public class ZoneDevicesViewModel : BaseViewModel
     {
-        ulong _zoneNo;
+        XZone Zone;
 
         public ZoneDevicesViewModel()
         {
@@ -19,16 +19,17 @@ namespace GroupControllerModule.ViewModels
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
         }
 
-        public void Initialize(ulong zoneNo)
+        public void Initialize(XZone zone)
         {
-            _zoneNo = zoneNo;
+            Zone = zone;
 
             var devices = new HashSet<XDevice>();
             var availableDevices = new HashSet<XDevice>();
 
             foreach (var device in XManager.DeviceConfiguration.Devices)
             {
-                if (device.Zones.Contains(zoneNo))
+                if (Zone.DeviceUIDs.Contains(device.UID))
+                //if (device.Zones.Contains(Zone.No))
                 {
                     device.AllParents.ForEach(x => { devices.Add(x); });
                     devices.Add(device);
@@ -46,7 +47,8 @@ namespace GroupControllerModule.ViewModels
                 var deviceViewModel = new DeviceViewModel(device, Devices)
                 {
                     IsExpanded = true,
-                    IsBold = device.Zones.Contains(zoneNo)
+                    IsBold = Zone.DeviceUIDs.Contains(device.UID)
+                    //IsBold = device.Zones.Contains(Zone.No)
                 };
                 Devices.Add(deviceViewModel);
             }
@@ -64,7 +66,7 @@ namespace GroupControllerModule.ViewModels
                 var deviceViewModel = new DeviceViewModel(device, AvailableDevices)
                 {
                     IsExpanded = true,
-                    IsBold = device.Zones.Contains(zoneNo)
+                    IsBold = device.Driver.IsDeviceOnShleif
                 };
                 AvailableDevices.Add(deviceViewModel);
             }
@@ -126,29 +128,35 @@ namespace GroupControllerModule.ViewModels
 
         public bool CanAdd()
         {
-            return SelectedAvailableDevice != null;
+            return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.Driver.IsDeviceOnShleif));
         }
 
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            if (SelectedAvailableDevice.Device.Zones.Contains(_zoneNo) == false)
-                SelectedAvailableDevice.Device.Zones.Add(_zoneNo);
-            Initialize(_zoneNo);
+            if (Zone.DeviceUIDs.Contains(SelectedAvailableDevice.Device.UID) == false)
+                Zone.DeviceUIDs.Add(SelectedAvailableDevice.Device.UID);
+
+            if (SelectedAvailableDevice.Device.Zones.Contains(Zone.No) == false)
+                SelectedAvailableDevice.Device.Zones.Add(Zone.No);
+
+            Initialize(Zone);
             UpdateAvailableDevices();
             ServiceFactory.SaveService.DevicesChanged = true;
         }
 
         public bool CanRemove()
         {
-            return SelectedDevice != null;
+            return ((SelectedDevice != null) && (SelectedDevice.Driver.IsDeviceOnShleif));
         }
 
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
-            SelectedDevice.Device.Zones.Remove(_zoneNo);
-            Initialize(_zoneNo);
+            Zone.DeviceUIDs.Remove(SelectedDevice.Device.UID);
+            SelectedDevice.Device.Zones.Remove(Zone.No);
+
+            Initialize(Zone);
             UpdateAvailableDevices();
             ServiceFactory.SaveService.XDevicesChanged = true;
         }

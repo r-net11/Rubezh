@@ -15,12 +15,13 @@ namespace GroupControllerModule.Models
             DeviceParameters = new List<XDeviceParameter>();
             OutDependenceUIDs = new List<Guid>();
             Zones = new List<ulong>();
+            DeviceLogic = new XDeviceLogic();
         }
 
         public XDriver Driver { get; set; }
         public XDevice Parent { get; set; }
         public List<Guid> OutDependenceUIDs { get; set; }
-        public short ObjectNo { get; set; }
+        public short InternalKAUNo { get; set; }
 
         [DataMember]
         public Guid UID { get; set; }
@@ -48,6 +49,9 @@ namespace GroupControllerModule.Models
 
         [DataMember]
         public List<ulong> Zones { get; set; }
+
+        [DataMember]
+        public XDeviceLogic DeviceLogic { get; set; }
 
         public string Address
         {

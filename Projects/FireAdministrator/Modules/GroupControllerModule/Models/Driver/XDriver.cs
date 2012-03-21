@@ -15,6 +15,9 @@ namespace GroupControllerModule.Models
         }
 
         [DataMember]
+        public short DriverTypeNo { get; set; }
+
+        [DataMember]
         public XDriverType DriverType { get; set; }
 
         [DataMember]
@@ -85,5 +88,8 @@ namespace GroupControllerModule.Models
 
         [DataMember]
         public bool IsDeviceOnShleif { get; set; }
+
+        [DataMember]
+        public bool HasLogic { get; set; }
     }
 }

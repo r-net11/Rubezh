@@ -33,7 +33,7 @@ namespace GroupControllerModule.Converter
             {
                 UID = Guid.NewGuid(),
                 DriverUID = DriversHelper.GK_UID,
-                Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x=>x.DriverType == XDriverType.GK),
+                Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x=>x.DriverType == XDriverType.GC),
                 IntAddress = 1
             };
             systemDevice.Children.Add(gCDevice);
@@ -117,6 +117,21 @@ namespace GroupControllerModule.Converter
                     DetectorCount = zone.DetectorCount,
                 };
                 XManager.DeviceConfiguration.Zones.Add(xZone);
+            }
+
+            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+            {
+                var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.UID == device.UID);
+                if ((device.Driver.IsZoneDevice) && (device.ZoneNo.HasValue))
+                {
+                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo.Value);
+                    var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == zone.No);
+                    if (zone != null)
+                    {
+                        xDevice.Zones.Add(xZone.No);
+                        xZone.DeviceUIDs.Add(device.UID);
+                    }
+                }
             }
         }
     }

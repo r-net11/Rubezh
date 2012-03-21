@@ -10,6 +10,7 @@ namespace GroupControllerModule.Converter
         {
             var xDriver = new XDriver()
             {
+                DriverTypeNo = 0x102,
                 DriverType = XDriverType.KAU,
                 UID = DriversHelper.KAU_UID,
                 OldDriverUID = Guid.Empty,
@@ -25,7 +26,7 @@ namespace GroupControllerModule.Converter
                 MaxAddress = 127
             };
             xDriver.AutoCreateChildren.Add(DriversHelper.KAUIndicator_UID);
-            xDriver.AutoCreateChildren.Add(DriversHelper.KAUExit_UID);
+            //xDriver.AutoCreateChildren.Add(DriversHelper.KAUExit_UID);
             foreach (var driver in XManager.DriversConfiguration.Drivers)
             {
                 var driverHelperItem = DriversHelper.Drivers.FirstOrDefault(x => x.XDriverType == driver.DriverType);

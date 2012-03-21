@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using GroupControllerModule.Models;
+using GroupControllerModule.ViewModels;
+using Infrastructure;
+using System.Text;
 
 namespace GroupControllerModule.Converter
 {
@@ -10,27 +12,95 @@ namespace GroupControllerModule.Converter
     {
         public static void Convert()
         {
+            foreach (var zone in XManager.DeviceConfiguration.Zones)
+            {
+                zone.KAUDevices = new List<XDevice>();
+                foreach (var deviceUID in zone.DeviceUIDs)
+                {
+                    var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+                    var kauDevice = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
+
+                    if (zone.KAUDevices.Any(x => x.UID == kauDevice.UID) == false)
+                        zone.KAUDevices.Add(kauDevice);
+                }
+            }
+
+            //var message = new StringBuilder();
+
             foreach (var device in XManager.DeviceConfiguration.Devices)
             {
-                short type = 0x100;
-                short address = 0x01;
-                short initializationTableOffset = 0;
-                List<byte> objectOutDependencesBytes = GetObjectOutDependencesBytes();
-                short outDependensesCount = (short)(objectOutDependencesBytes.Count() / 2);
-                List<byte> formulaBytes = GetFormulaBytes();
-                List<byte> propertiesBytes = GetPropertiesBytes(device);
-                short propertiesBytesCount = (short)(propertiesBytes.Count() / 4);
+                if (device.Driver.DriverType == XDriverType.KAU)
+                {
+                    device.InternalKAUNo = 1;
+                    short currentNo = 3;
 
-                var deviceBytes = new List<byte>();
-                deviceBytes.AddRange(BitConverter.GetBytes(type));
-                deviceBytes.AddRange(BitConverter.GetBytes(address));
-                deviceBytes.AddRange(BitConverter.GetBytes(initializationTableOffset));
-                deviceBytes.AddRange(BitConverter.GetBytes(outDependensesCount));
-                deviceBytes.AddRange(objectOutDependencesBytes);
-                deviceBytes.AddRange(formulaBytes);
-                deviceBytes.AddRange(BitConverter.GetBytes(propertiesBytesCount));
-                deviceBytes.AddRange(propertiesBytes);
+                    foreach (var childDevice in device.Children)
+                    {
+                        if (childDevice.Driver.DriverType == XDriverType.KAUIndicator)
+                            childDevice.InternalKAUNo = 2;
+                        else
+                            childDevice.InternalKAUNo = currentNo++;
+                    }
+
+                    var indicatorDevice = device.Children.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAUIndicator);
+                    var indicatorBytes = GetDeviceBytes(indicatorDevice);
+                    //message.AppendLine(indicatorDevice.Driver.ShortName + " - " + indicatorDevice.Address + ": " + BytesToString(indicatorBytes));
+
+                    foreach (var childDevice in device.Children)
+                    {
+                        if (childDevice.Driver.DriverType != XDriverType.KAUIndicator)
+                        {
+                            var bytes = GetDeviceBytes(childDevice);
+                            //message.AppendLine(childDevice.Driver.ShortName + " - " + childDevice.Address + ": " + BytesToString(bytes));
+                        }
+                    }
+
+                    foreach (var zone in XManager.DeviceConfiguration.Zones)
+                    {
+                        if ((zone.KAUDevices.Count == 1) && (zone.KAUDevices[0].UID == device.UID))
+                        {
+                            zone.InternalKAUNo = currentNo++;
+                            var bytes = GetZoneBytes(zone);
+                            //message.AppendLine(zone.No.ToString() + " - " + zone.Name + ": " + BytesToString(bytes));
+                        }
+                    }
+                }
             }
+
+            var deviceConverterViewModel = new DeviceConverterViewModel();
+            //deviceConverterViewModel.BinText = message.ToString();
+            ServiceFactory.UserDialogs.ShowModalWindow(deviceConverterViewModel);
+        }
+
+        static List<byte> GetZoneBytes(XZone zone)
+        {
+            var zoneBytes = new List<byte>();
+            return zoneBytes;
+        }
+
+        static List<byte> GetDeviceBytes(XDevice device)
+        {
+            short type = device.Driver.DriverTypeNo;
+            short address = 0;
+            if (device.Driver.IsDeviceOnShleif)
+                address = (short)(device.ShleifNo * 256 + device.IntAddress);
+            List<byte> objectOutDependencesBytes = GetObjectOutDependencesBytes();
+            short outDependensesCount = (short)(objectOutDependencesBytes.Count() / 2);
+            List<byte> formulaBytes = GetFormulaBytes();
+            short initializationTableOffset = (short)(8 + objectOutDependencesBytes.Count() + formulaBytes.Count());
+            List<byte> propertiesBytes = GetPropertiesBytes(device);
+            short propertiesBytesCount = (short)(propertiesBytes.Count() / 4);
+
+            var deviceBytes = new List<byte>();
+            deviceBytes.AddRange(BitConverter.GetBytes(type));
+            deviceBytes.AddRange(BitConverter.GetBytes(address));
+            deviceBytes.AddRange(BitConverter.GetBytes(initializationTableOffset));
+            deviceBytes.AddRange(BitConverter.GetBytes(outDependensesCount));
+            deviceBytes.AddRange(objectOutDependencesBytes);
+            deviceBytes.AddRange(formulaBytes);
+            deviceBytes.AddRange(BitConverter.GetBytes(propertiesBytesCount));
+            deviceBytes.AddRange(propertiesBytes);
+            return deviceBytes;
         }
 
         static List<byte> GetObjectOutDependencesBytes()
@@ -81,5 +151,15 @@ namespace GroupControllerModule.Converter
 
             return bytes;
         }
+
+        //static string BytesToString(List<byte> bytes)
+        //{
+        //    var message = new StringBuilder();
+        //    foreach (var b in bytes)
+        //    {
+        //        message.Append(b.ToString("x2") + " ");
+        //    }
+        //    return message.ToString();
+        //}
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Runtime.Serialization;
+using System;
+using System.Collections.Generic;
 
 namespace GroupControllerModule.Models
 {
@@ -8,7 +10,12 @@ namespace GroupControllerModule.Models
         public XZone()
         {
             DetectorCount = 2;
+            DeviceUIDs = new List<Guid>();
+            KAUDevices = new List<XDevice>();
         }
+
+        public List<XDevice> KAUDevices { get; set; }
+        public short InternalKAUNo { get; set; }
 
         [DataMember]
         public ulong No { get; set; }
@@ -21,6 +28,9 @@ namespace GroupControllerModule.Models
 
         [DataMember]
         public int DetectorCount { get; set; }
+
+        [DataMember]
+        public List<Guid> DeviceUIDs { get; set; }
 
         public string PresentationName
         {

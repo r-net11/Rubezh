@@ -40,7 +40,8 @@ namespace GroupControllerModule.Converter
                     MaxAddress = (byte)driver.MaxAddress,
                     HasAddress = driver.HasAddress,
                     ChildAddressReserveRangeCount = (byte)driver.ChildAddressReserveRangeCount,
-                    IsDeviceOnShleif = driver.IsDeviceOnShleif
+                    IsDeviceOnShleif = driver.IsDeviceOnShleif,
+                    HasLogic = driver.IsZoneLogicDevice
                 };
 
                 xDriver.Children = new List<Guid>();
@@ -62,7 +63,7 @@ namespace GroupControllerModule.Converter
             XManager.DriversConfiguration.Drivers.Add(GCHelper.Create());
             XManager.DriversConfiguration.Drivers.Add(KAUHelper.Create());
             XManager.DriversConfiguration.Drivers.Add(KAUIndicatorHelper.Create());
-            XManager.DriversConfiguration.Drivers.Add(KAUExitHelper.Create());
+            //XManager.DriversConfiguration.Drivers.Add(KAUExitHelper.Create());
         }
     }
 }

@@ -9,7 +9,7 @@ namespace GroupControllerModule.Converter
         {
             var xDriver = new XDriver()
             {
-                DriverType = XDriverType.GK,
+                DriverType = XDriverType.GC,
                 UID = DriversHelper.GK_UID,
                 OldDriverUID = Guid.Empty,
                 CanEditAddress = false,

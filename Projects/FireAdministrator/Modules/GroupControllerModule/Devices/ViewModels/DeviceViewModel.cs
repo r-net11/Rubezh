@@ -105,7 +105,7 @@ namespace GroupControllerModule.ViewModels
 
         bool CanShowProperties()
         {
-            return false;
+            return (Driver.HasLogic);
         }
 
         public RelayCommand ShowPropertiesCommand { get; private set; }

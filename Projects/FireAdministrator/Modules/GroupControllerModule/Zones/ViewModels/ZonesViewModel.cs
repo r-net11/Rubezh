@@ -38,7 +38,7 @@ namespace GroupControllerModule.ViewModels
             {
                 _selectedZone = value;
                 if (value != null)
-                    ZoneDevices.Initialize(value.XZone.No);
+                    ZoneDevices.Initialize(value.XZone);
                 else
                     ZoneDevices.Clear();
 

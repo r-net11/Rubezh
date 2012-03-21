@@ -66,6 +66,10 @@
     <Compile Include="Converter\Drivers\KAUExitHelper.cs" />
     <Compile Include="Converter\Drivers\KAUIndicatorHelper.cs" />
     <Compile Include="Converter\Drivers\DriversHelper.cs" />
+    <Compile Include="Converter\BytesToStringConverter.cs" />
+    <Compile Include="Converter\ViewModels\BinObjectViewModel.cs" />
+    <Compile Include="Converter\ViewModels\DeviceConverterViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ClauseViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
@@ -75,14 +79,20 @@
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter\Views\DeviceConverterView.xaml.cs">
+      <DependentUpon>DeviceConverterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="GroupControllerModule.cs" />
     <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
+    <Compile Include="Models\Bin\BinaryFormatterBase.cs" />
+    <Compile Include="Models\Bin\DeviceBinaryFormatter.cs" />
     <Compile Include="Models\Device\DeviceCreationExtention.cs" />
     <Compile Include="Models\Device\XDevice.cs" />
     <Compile Include="Models\Configuration\XDeviceConfiguration.cs" />
+    <Compile Include="Models\Device\XDeviceLogic.cs" />
     <Compile Include="Models\Device\XDeviceParameter.cs" />
     <Compile Include="Models\Driver\XDriverDeviceParameter.cs" />
     <Compile Include="Models\Driver\XDriverDeviceParameterType.cs" />
@@ -168,6 +178,10 @@
     <Page Include="Devices\Views\AddressEdiotor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Converter\Views\DeviceConverterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
