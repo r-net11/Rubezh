@@ -64,6 +64,7 @@ namespace FireAdministrator
             var instructionsModule = new InstructionsModule.InstructionsModule();
             var settingsModule = new SettingsModule.SettingsModule();
             var groupControllerViewModel = new GroupControllerModule.GroupControllerModule();
+            var videoViewModel = new VideoModule.VideoModule();
 
             ServiceFactory.SaveService.Reset();
         }

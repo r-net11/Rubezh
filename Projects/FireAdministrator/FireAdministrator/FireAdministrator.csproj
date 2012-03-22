@@ -255,6 +255,10 @@
       <Project>{1D308F1E-F990-4CB8-8613-609C3637130D}</Project>
       <Name>SoundsModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\VideoModule\VideoModule.csproj">
+      <Project>{C33E3B0E-C6A8-477D-A836-8418FB1EEF46}</Project>
+      <Name>VideoModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

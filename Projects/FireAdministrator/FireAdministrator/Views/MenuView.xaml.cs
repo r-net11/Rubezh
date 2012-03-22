@@ -73,7 +73,10 @@ namespace FireAdministrator.Views
             if (ServiceFactory.SaveService.LibraryChanged)
                 FiresecManager.FiresecService.SetLibraryConfiguration(FiresecManager.LibraryConfiguration);
 
-            if ((ServiceFactory.SaveService.InstructionsChanged) || (ServiceFactory.SaveService.SoundsChanged) || (ServiceFactory.SaveService.FilterChanged))
+            if ((ServiceFactory.SaveService.InstructionsChanged) ||
+                (ServiceFactory.SaveService.SoundsChanged) ||
+                (ServiceFactory.SaveService.FilterChanged) ||
+                (ServiceFactory.SaveService.CamerasChanged))
                 FiresecManager.FiresecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
 
             ServiceFactory.SaveService.Reset();

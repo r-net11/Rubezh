@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C33E3B0E-C6A8-477D-A836-8418FB1EEF46}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>VideoModule</RootNamespace>
+    <AssemblyName>VideoModule</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="VideoModule.cs" />
+    <Compile Include="ViewModels\CameraDetailsViewModel.cs" />
+    <Compile Include="ViewModels\CameraViewModel.cs" />
+    <Compile Include="ViewModels\CamerasMenuViewModel.cs" />
+    <Compile Include="ViewModels\CamerasViewModel.cs" />
+    <Compile Include="ViewModels\ZoneSelectationViewModel.cs" />
+    <Compile Include="Views\CameraDetailsView.xaml.cs">
+      <DependentUpon>CameraDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CamerasMenuView.xaml.cs">
+      <DependentUpon>CamerasMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CamerasView.xaml.cs">
+      <DependentUpon>CamerasView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VideoWindow.xaml.cs">
+      <DependentUpon>VideoWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ZoneSelectationView.xaml.cs">
+      <DependentUpon>ZoneSelectationView.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CameraDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CamerasMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VideoWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ZoneSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\CamerasView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj">
+      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Video\Vlc.DotNet.Core\Vlc.DotNet.Core.csproj">
+      <Project>{0DC24B0B-6862-4615-B62D-81795D2CDD07}</Project>
+      <Name>Vlc.DotNet.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Video\Vlc.DotNet.Forms\Vlc.DotNet.Forms.csproj">
+      <Project>{A720906B-705B-4666-BBB9-AC54B9208BEB}</Project>
+      <Name>Vlc.DotNet.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
+      <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

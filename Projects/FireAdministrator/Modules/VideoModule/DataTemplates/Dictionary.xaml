@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Views="clr-namespace:VideoModule.Views"
+                    xmlns:ViewModels="clr-namespace:VideoModule.ViewModels">
+
+    <DataTemplate DataType="{x:Type ViewModels:CamerasViewModel}">
+        <Views:CamerasView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:CameraDetailsViewModel}">
+        <Views:CameraDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZoneSelectationViewModel}">
+        <Views:ZoneSelectationView />
+    </DataTemplate>    
+
+    <DataTemplate DataType="{x:Type ViewModels:CamerasMenuViewModel}">
+        <Views:CamerasMenuView />
+    </DataTemplate>
+
+</ResourceDictionary>

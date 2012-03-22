@@ -30,6 +30,7 @@ namespace FireAdministrator
         {
             base.OnExit(e);
             FiresecManager.Disconnect();
+            VideoModule.VideoModule.Close();
         }
     }
 }

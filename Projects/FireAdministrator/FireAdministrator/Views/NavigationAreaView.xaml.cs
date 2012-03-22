@@ -298,6 +298,19 @@ namespace FireAdministrator.Views
             }
         }
 
+        bool _isVideoSelected;
+        public bool IsVideoSelected
+        {
+            get { return _isVideoSelected; }
+            set
+            {
+                _isVideoSelected = value;
+                if (value)
+                    ServiceFactory.Events.GetEvent<ShowVideoEvent>().Publish(null);
+                OnPropertyChanged("IsVideoSelected");
+            }
+        }
+
         void AccesRightsMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             IsAccesRightsExpanded = IsAccesRightsExpanded != true;

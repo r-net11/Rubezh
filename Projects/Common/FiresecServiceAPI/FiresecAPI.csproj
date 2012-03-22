@@ -184,6 +184,7 @@
     <Compile Include="Models\System\InstructionType.cs" />
     <Compile Include="Models\Security\RemoteAccess.cs" />
     <Compile Include="Models\System\SubsystemType.cs" />
+    <Compile Include="Models\Video\Camera.cs" />
     <Compile Include="Models\Zone\Clause.cs" />
     <Compile Include="Models\Zone\GuardZoneType.cs" />
     <Compile Include="Models\Zone\ZoneLogicJoinOperator.cs" />

@@ -91,12 +91,26 @@ namespace Infrastructure
             }
         }
 
+        bool _camerasChanged;
+        public bool CamerasChanged
+        {
+            get { return _camerasChanged; }
+            set
+            {
+                _camerasChanged = value;
+                OnChanged();
+            }
+        }
+
         public event Action Changed;
         void OnChanged()
         {
+            HasChanges = true;
             if (Changed != null)
                 Changed();
         }
+
+        public bool HasChanges { get; private set; }
 
         public void Reset()
         {
@@ -108,6 +122,8 @@ namespace Infrastructure
             InstructionsChanged = false;
             LibraryChanged = false;
             XDevicesChanged = false;
+            CamerasChanged = false;
+            HasChanges = false;
         }
     }
 }

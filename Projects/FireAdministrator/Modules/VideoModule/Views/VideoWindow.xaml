@@ -1,0 +1,8 @@
+﻿<Window x:Class="VideoModule.Views.VideoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="VideoWindow" Height="400" Width="400">
+    <Grid>
+        <WindowsFormsHost Grid.Row="1" Name="_windowsFormsHost" />
+    </Grid>
+</Window>

@@ -105,10 +105,7 @@ namespace FireAdministrator.Views
         {
             AlarmPlayerHelper.Dispose();
 
-            if (ServiceFactory.SaveService.DevicesChanged || ServiceFactory.SaveService.PlansChanged ||
-                ServiceFactory.SaveService.SoundsChanged ||
-                ServiceFactory.SaveService.FilterChanged || ServiceFactory.SaveService.LibraryChanged ||
-                ServiceFactory.SaveService.InstructionsChanged || ServiceFactory.SaveService.SecurityChanged)
+            if (ServiceFactory.SaveService.HasChanges)
             {
                 var result = MessageBoxService.ShowQuestion("Сохранить изменения в настройках?");
                 switch (result)

@@ -98,8 +98,11 @@ namespace GroupControllerModule.Converter
                     foreach (var child in device.Children)
                     {
                         var xChildDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == child.UID);
-                        xDevice.Children.Add(xChildDevice);
-                        xChildDevice.Parent = xDevice;
+                        if (xChildDevice != null)
+                        {
+                            xDevice.Children.Add(xChildDevice);
+                            xChildDevice.Parent = xDevice;
+                        }
                     }
                 }
             }
