@@ -2,6 +2,7 @@
 using System.Windows;
 using Controls.MessageBox;
 using FiresecClient;
+using Infrastructure.Common;
 
 namespace FireAdministrator
 {
@@ -30,7 +31,7 @@ namespace FireAdministrator
         {
             base.OnExit(e);
             FiresecManager.Disconnect();
-            VideoModule.VideoModule.Close();
+            VideoService.Close();
         }
     }
 }

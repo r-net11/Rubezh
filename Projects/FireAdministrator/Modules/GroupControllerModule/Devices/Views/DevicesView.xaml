@@ -13,6 +13,7 @@
             <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
             <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
             <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+            <MenuItem Header="Логика" Command="{Binding ShowLogicCommand}" />
         </ContextMenu>
     </UserControl.Resources>
 

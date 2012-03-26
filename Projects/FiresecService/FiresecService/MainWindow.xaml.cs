@@ -63,7 +63,10 @@ namespace FiresecServiceRunner
         void OnClose(object sender, RoutedEventArgs e)
         {
             if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить сервер?") == MessageBoxResult.Yes)
+            {
                 Close();
+                Application.Current.Shutdown();
+            }
         }
 
         void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)

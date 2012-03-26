@@ -2,7 +2,6 @@
 using Infrastructure.Common;
 using Infrastructure.Events;
 using VideoModule.ViewModels;
-using Vlc.DotNet.Core;
 
 namespace VideoModule
 {
@@ -32,11 +31,6 @@ namespace VideoModule
         static void OnShowVideos(object obj)
         {
             ServiceFactory.Layout.Show(_camerasViewModel);
-        }
-
-        public static void Close()
-        {
-            VlcContext.CloseAll();
         }
     }
 }

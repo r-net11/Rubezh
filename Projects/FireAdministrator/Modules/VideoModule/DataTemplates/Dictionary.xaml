@@ -11,8 +11,8 @@
         <Views:CameraDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ZoneSelectationViewModel}">
-        <Views:ZoneSelectationView />
+    <DataTemplate DataType="{x:Type ViewModels:ZonesSelectationViewModel}">
+        <Views:ZonesSelectationView />
     </DataTemplate>    
 
     <DataTemplate DataType="{x:Type ViewModels:CamerasMenuViewModel}">

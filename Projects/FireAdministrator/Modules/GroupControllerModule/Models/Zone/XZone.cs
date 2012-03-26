@@ -18,7 +18,7 @@ namespace GroupControllerModule.Models
         public short InternalKAUNo { get; set; }
 
         [DataMember]
-        public ulong No { get; set; }
+        public short No { get; set; }
 
         [DataMember]
         public string Name { get; set; }
@@ -27,7 +27,7 @@ namespace GroupControllerModule.Models
         public string Description { get; set; }
 
         [DataMember]
-        public int DetectorCount { get; set; }
+        public short DetectorCount { get; set; }
 
         [DataMember]
         public List<Guid> DeviceUIDs { get; set; }

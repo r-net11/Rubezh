@@ -1,5 +1,9 @@
-﻿using FiresecAPI.Models;
+﻿using System.Linq;
+using System.Text;
+using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common;
+using System.Collections.Generic;
 
 namespace VideoModule.ViewModels
 {
@@ -12,9 +16,30 @@ namespace VideoModule.ViewModels
             Camera = camera;
         }
 
+        public string PresenrationZones
+        {
+            get
+            {
+                var presenrationZones = new StringBuilder();
+                if (Camera.Zones == null)
+                    Camera.Zones = new List<ulong>();
+                for (int i = 0; i < Camera.Zones.Count; i++)
+                {
+                    if (i > 0)
+                        presenrationZones.Append(", ");
+                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Camera.Zones[i]);
+                    if (zone != null)
+                        presenrationZones.Append(zone.PresentationName);
+                }
+
+                return presenrationZones.ToString();
+            }
+        }
+
         public void Update()
         {
             OnPropertyChanged("Camera");
+            OnPropertyChanged("PresenrationZones");
         }
     }
 }

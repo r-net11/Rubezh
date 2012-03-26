@@ -17,6 +17,7 @@ namespace GroupControllerModule.ViewModels
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+            ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
 
             Children = new ObservableCollection<DeviceViewModel>();
 
@@ -105,16 +106,24 @@ namespace GroupControllerModule.ViewModels
 
         bool CanShowProperties()
         {
-            return (Driver.HasLogic);
+            return false;
         }
 
         public RelayCommand ShowPropertiesCommand { get; private set; }
         void OnShowProperties()
         {
-            if (ServiceFactory.UserDialogs.ShowModalWindow(new DeviceDetailsViewModel(Device)))
-                ServiceFactory.SaveService.XDevicesChanged = true;
+        }
 
-            OnPropertyChanged("PresentationZone");
+        bool CanShowLogic()
+        {
+            return (Driver.HasLogic);
+        }
+
+        public RelayCommand ShowLogicCommand { get; private set; }
+        void OnShowLogic()
+        {
+            if (ServiceFactory.UserDialogs.ShowModalWindow(new DeviceLogicViewModel(Device)))
+                ServiceFactory.SaveService.XDevicesChanged = true;
         }
 
         public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }

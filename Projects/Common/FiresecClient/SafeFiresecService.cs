@@ -626,6 +626,19 @@ namespace FiresecClient
             }
         }
 
+        public string CheckHaspPresence()
+        {
+            try
+            {
+                return _iFiresecService.CheckHaspPresence();
+            }
+            catch
+            {
+                OnConnectionLost();
+                return "Обрыв связи";
+            }
+        }
+
         public List<string> GetFileNamesList(string directory)
         {
             try

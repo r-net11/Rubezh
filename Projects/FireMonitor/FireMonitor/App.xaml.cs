@@ -2,6 +2,7 @@
 using System.Windows;
 using FiresecClient;
 using Controls.MessageBox;
+using Infrastructure.Common;
 
 namespace FireMonitor
 {
@@ -28,6 +29,7 @@ namespace FireMonitor
         {
             base.OnExit(e);
             FiresecManager.Disconnect();
+            VideoService.Close();
         }
     }
 }

@@ -73,6 +73,11 @@ namespace FiresecService
             DispatcherFiresecClient.ExecuteCommand(devicePath, methodName);
         }
 
+        public static string CheckHaspPresence()
+        {
+            return DispatcherFiresecClient.CheckHaspPresence();
+        }
+
         public static void AddToIgnoreList(List<string> devicePaths)
         {
             DispatcherFiresecClient.AddToIgnoreList(devicePaths);

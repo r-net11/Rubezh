@@ -7,7 +7,7 @@
         <DataGrid.Columns>
             <DataGridTextColumn Header="Название" Width="200" Binding="{Binding Camera.Name}" />
             <DataGridTextColumn Header="Адрес" Width="200" Binding="{Binding Camera.Address}" />
-            <DataGridTextColumn Header="Зона" Width="200" Binding="{Binding Camera.ZoneNo}" />
+            <DataGridTextColumn Header="Зоны" Width="*" Binding="{Binding PresenrationZones}" />
         </DataGrid.Columns>
     </Controls:XDataGrid>
 </UserControl>

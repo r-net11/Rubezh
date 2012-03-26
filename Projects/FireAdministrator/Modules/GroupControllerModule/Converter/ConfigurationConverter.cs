@@ -114,10 +114,10 @@ namespace GroupControllerModule.Converter
             {
                 var xZone = new XZone()
                 {
-                    No = zone.No,
+                    No = (short)zone.No,
                     Name = zone.Name,
                     Description = zone.Description,
-                    DetectorCount = zone.DetectorCount,
+                    DetectorCount = (short)zone.DetectorCount,
                 };
                 XManager.DeviceConfiguration.Zones.Add(xZone);
             }
@@ -128,7 +128,7 @@ namespace GroupControllerModule.Converter
                 if ((device.Driver.IsZoneDevice) && (device.ZoneNo.HasValue))
                 {
                     var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo.Value);
-                    var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == zone.No);
+                    var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (short)zone.No);
                     if (zone != null)
                     {
                         xDevice.Zones.Add(xZone.No);

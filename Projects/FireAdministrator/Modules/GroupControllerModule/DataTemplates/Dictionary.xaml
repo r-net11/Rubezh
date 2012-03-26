@@ -7,8 +7,16 @@
         <Views:DevicesView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
-        <Views:DeviceDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:DeviceLogicViewModel}">
+        <Views:DeviceLogicView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DevicesSelectationViewModel}">
+        <Views:DevicesSelectationView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZonesSelectationViewModel}">
+        <Views:ZonesSelectationView />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type ViewModels:NewDeviceViewModel}">

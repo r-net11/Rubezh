@@ -48,7 +48,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -60,7 +59,6 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -81,7 +79,7 @@
     <Compile Include="ViewModels\CameraViewModel.cs" />
     <Compile Include="ViewModels\CamerasMenuViewModel.cs" />
     <Compile Include="ViewModels\CamerasViewModel.cs" />
-    <Compile Include="ViewModels\ZoneSelectationViewModel.cs" />
+    <Compile Include="ViewModels\ZonesSelectationViewModel.cs" />
     <Compile Include="Views\CameraDetailsView.xaml.cs">
       <DependentUpon>CameraDetailsView.xaml</DependentUpon>
     </Compile>
@@ -91,11 +89,8 @@
     <Compile Include="Views\CamerasView.xaml.cs">
       <DependentUpon>CamerasView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\VideoWindow.xaml.cs">
-      <DependentUpon>VideoWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ZoneSelectationView.xaml.cs">
-      <DependentUpon>ZoneSelectationView.xaml</DependentUpon>
+    <Compile Include="Views\ZonesSelectationView.xaml.cs">
+      <DependentUpon>ZonesSelectationView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -120,11 +115,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\VideoWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ZoneSelectationView.xaml">
+    <Page Include="Views\ZonesSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -155,14 +146,6 @@
     <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Video\Vlc.DotNet.Core\Vlc.DotNet.Core.csproj">
-      <Project>{0DC24B0B-6862-4615-B62D-81795D2CDD07}</Project>
-      <Name>Vlc.DotNet.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Video\Vlc.DotNet.Forms\Vlc.DotNet.Forms.csproj">
-      <Project>{A720906B-705B-4666-BBB9-AC54B9208BEB}</Project>
-      <Name>Vlc.DotNet.Forms</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>

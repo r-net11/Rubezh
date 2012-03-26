@@ -11,13 +11,7 @@
             <TabItem Header="Управление">
                 <StackPanel>
                     <Button Content="Перезагрузить" Command="{Binding ReloadCommand}" Margin="1" />
-                    <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Margin="1" />
-                </StackPanel>
-            </TabItem>
-            <TabItem Header="Конвертация">
-                <StackPanel>
-                    <Button Content="Конвертация конфигурации" Command="{Binding ConvertConfigurationCommand}" Margin="1" />
-                    <Button Content="Конвертация журнала событий" Command="{Binding ConvertJournalCommand}" Margin="1" />
+                    <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Margin="1" Visibility="Collapsed" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Соединения">

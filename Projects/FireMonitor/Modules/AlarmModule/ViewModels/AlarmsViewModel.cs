@@ -109,6 +109,7 @@ namespace AlarmModule.ViewModels
             if (_alarmType == null || alarm.AlarmType == _alarmType)
             {
                 Alarms.Remove(Alarms.FirstOrDefault(x => x.Alarm.DeviceUID == alarm.DeviceUID));
+                OnPropertyChanged("ResetAllCommand");
             }
         }
 

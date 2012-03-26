@@ -230,5 +230,10 @@ namespace FiresecService
                 FiresecInternalClient.ExecuteCommand(device.PlaceInTree, methodName);
             }
         }
+
+        public string CheckHaspPresence()
+        {
+            return FiresecInternalClient.CheckHaspPresence();
+        }
     }
 }

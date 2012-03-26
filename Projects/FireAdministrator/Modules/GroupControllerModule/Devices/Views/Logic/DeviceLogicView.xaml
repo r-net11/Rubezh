@@ -1,0 +1,24 @@
+﻿<UserControl x:Class="GroupControllerModule.Views.DeviceLogicView"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+		xmlns:Views="clr-namespace:GroupControllerModule.Views"
+		MinWidth="800" MinHeight="500">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Controls:ToolBarButton Grid.Row="0" Margin="2" HorizontalAlignment="Left" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+			<ItemsControl ItemsSource="{Binding StateLogics}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Views:StateLogicView />
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+	</Grid>
+</UserControl>

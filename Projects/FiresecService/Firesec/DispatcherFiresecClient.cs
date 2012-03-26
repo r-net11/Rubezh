@@ -88,6 +88,11 @@ namespace Firesec
             control.Dispatcher.Invoke(new Action<string, string>(NativeFiresecClient.ExecuteCommand), devicePath, methodName);
         }
 
+        public static string CheckHaspPresence()
+        {
+            return control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.CheckHaspPresence)) as string;
+        }
+
         public static void AddToIgnoreList(List<string> devicePaths)
         {
             control.Dispatcher.Invoke(new Action<List<string>>(NativeFiresecClient.AddToIgnoreList), devicePaths);

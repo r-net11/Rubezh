@@ -70,18 +70,34 @@
     <Compile Include="Converter\BytesToStringConverter.cs" />
     <Compile Include="Converter\ViewModels\BinObjectViewModel.cs" />
     <Compile Include="Converter\ViewModels\DeviceConverterViewModel.cs" />
-    <Compile Include="Devices\ViewModels\ClauseViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\ClauseViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\PropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\ShortPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\Converters\ClauseJounOperationConverter.cs" />
+    <Compile Include="Devices\ViewModels\Logic\Converters\ClauseOperandConverter.cs" />
+    <Compile Include="Devices\ViewModels\Logic\Converters\ClauseOperationConverter.cs" />
+    <Compile Include="Devices\ViewModels\Logic\Converters\DeviceStateConverter.cs" />
+    <Compile Include="Devices\ViewModels\Logic\DevicesSelectationViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\StateLogicViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\ZonesSelectationViewModel.cs" />
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converter\Views\DeviceConverterView.xaml.cs">
       <DependentUpon>DeviceConverterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\Logic\DevicesSelectationView.xaml.cs">
+      <DependentUpon>DevicesSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\Logic\StateLogicView.xaml.cs">
+      <DependentUpon>StateLogicView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\Logic\ZonesSelectationView.xaml.cs">
+      <DependentUpon>ZonesSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PropertiesView.xaml.cs">
       <DependentUpon>PropertiesView.xaml</DependentUpon>
@@ -93,7 +109,8 @@
     <Compile Include="Models\Device\DeviceCreationExtention.cs" />
     <Compile Include="Models\Device\XDevice.cs" />
     <Compile Include="Models\Configuration\XDeviceConfiguration.cs" />
-    <Compile Include="Models\Device\XDeviceLogic.cs" />
+    <Compile Include="Models\Logic\StateLogic.cs" />
+    <Compile Include="Models\Logic\XDeviceLogic.cs" />
     <Compile Include="Models\Device\XDeviceParameter.cs" />
     <Compile Include="Models\Driver\XDriverDeviceParameter.cs" />
     <Compile Include="Models\Driver\XDriverDeviceParameterType.cs" />
@@ -106,6 +123,10 @@
     <Compile Include="Models\Configuration\XManager.cs" />
     <Compile Include="Models\Device\XProperty.cs" />
     <Compile Include="Models\Formula\FormulaOperationType.cs" />
+    <Compile Include="Models\Logic\ClauseJounOperationType.cs" />
+    <Compile Include="Models\Logic\ClauseOperandType.cs" />
+    <Compile Include="Models\Logic\ClauseOperationType.cs" />
+    <Compile Include="Models\Logic\XClause.cs" />
     <Compile Include="Models\States\XDeviceState.cs" />
     <Compile Include="Models\States\XStateType.cs" />
     <Compile Include="Models\Zone\XZone.cs" />
@@ -124,7 +145,7 @@
     </Compile>
     <Compile Include="Converter\Drivers\KAUHelper.cs" />
     <Compile Include="Converter\ConfigurationConverter.cs" />
-    <Compile Include="Devices\ViewModels\DeviceDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\DeviceLogicViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Converter\Drivers\GCHelper.cs" />
@@ -136,8 +157,8 @@
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
-    <Compile Include="Devices\Views\DeviceDetailsView.xaml.cs">
-      <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\Logic\DeviceLogicView.xaml.cs">
+      <DependentUpon>DeviceLogicView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
       <DependentUpon>DevicesMenuView.xaml</DependentUpon>
@@ -184,7 +205,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\DeviceDetailsView.xaml">
+    <Page Include="Devices\Views\Logic\DeviceLogicView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -193,6 +214,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\DevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\Logic\DevicesSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\Logic\StateLogicView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\Logic\ZonesSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

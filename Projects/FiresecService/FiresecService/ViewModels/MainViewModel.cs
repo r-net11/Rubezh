@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.Windows;
+using System.Configuration;
 using FiresecService.Infrastructure;
 using Infrastructure.Common;
-using System.Configuration;
-using Controls.MessageBox;
 
 namespace FiresecService.ViewModels
 {
@@ -15,8 +13,6 @@ namespace FiresecService.ViewModels
         {
             Current = this;
 
-            ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
-            ConvertJournalCommand = new RelayCommand(OnConvertConfiguration);
             ShowImitatorCommand = new RelayCommand(OnShowImitator);
             ReloadCommand = new RelayCommand(OnReload);
 
@@ -43,36 +39,6 @@ namespace FiresecService.ViewModels
 
             Connections = new ObservableCollection<ConnectionViewModel>();
             Start();
-        }
-
-        public RelayCommand ConvertConfigurationCommand { get; private set; }
-        void OnConvertConfiguration()
-        {
-            if (Connections.Count > 0)
-            {
-                MessageBoxService.Show("Один или несколько клиентов соединены с сервером. Клиенты должны быть отсоединены");
-                return;
-            }
-            if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать конфигурацию?") == MessageBoxResult.Yes)
-            {
-                ConfigurationConverter.Convert();
-                Start();
-            }
-        }
-
-        public RelayCommand ConvertJournalCommand { get; private set; }
-        void OnConvertJournal()
-        {
-            if (Connections.Count > 0)
-            {
-                MessageBoxService.Show("Один или несколько клиентов соединены с сервером. Клиенты должны быть отсоединены");
-                return;
-            }
-            if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать журнал событий?") == MessageBoxResult.Yes)
-            {
-                JournalDataConverter.Convert();
-                Start();
-            }
         }
 
         public RelayCommand ShowImitatorCommand { get; private set; }

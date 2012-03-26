@@ -1,35 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common;
 using FiresecAPI.Models;
 using FiresecClient;
-using VideoModule.Views;
 using Infrastructure;
+using Infrastructure.Common;
+using VideoModule.Views;
 
 namespace VideoModule.ViewModels
 {
     public class CameraDetailsViewModel : SaveCancelDialogContent
     {
         public Camera Camera { get; private set; }
+        public List<ulong> Zones { get; set; }
 
         public CameraDetailsViewModel(Camera camera = null)
         {
-            SelectZoneCommand = new RelayCommand(OnSelectZone);
-            ClearZoneCommand = new RelayCommand(OnClearZone);
+            ShowZonesCommand = new RelayCommand(OnShowZones);
             TestCommand = new RelayCommand(OnTest);
 
             if (camera != null)
             {
                 Title = "Редактировать камеру";
                 Camera = camera;
-                if (camera.ZoneNo.HasValue)
-                {
-                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == camera.ZoneNo);
-                    if (zone != null)
-                        ZoneName = zone.PresentationName;
-                }
             }
             else
             {
@@ -48,6 +41,9 @@ namespace VideoModule.ViewModels
         {
             Name = Camera.Name;
             Address = Camera.Address;
+            if (Camera.Zones == null)
+                Camera.Zones = new List<ulong>();
+            Zones = Camera.Zones.ToList();
         }
 
         string _name;
@@ -72,49 +68,46 @@ namespace VideoModule.ViewModels
             }
         }
 
-        string _zoneName;
-        public string ZoneName
+        public string PresenrationZones
         {
-            get { return _zoneName; }
-            set
+            get
             {
-                _zoneName = value;
-                OnPropertyChanged("ZoneName");
+                var presenrationZones = new StringBuilder();
+                for (int i = 0; i < Zones.Count; i++)
+                {
+                    if (i > 0)
+                        presenrationZones.Append(", ");
+                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Zones[i]);
+                    if (zone != null)
+                        presenrationZones.Append(zone.PresentationName);
+                }
+
+                return presenrationZones.ToString();
             }
         }
 
-        public RelayCommand SelectZoneCommand { get; private set; }
-        void OnSelectZone()
+        public RelayCommand ShowZonesCommand { get; private set; }
+        void OnShowZones()
         {
-            var zoneSelectationViewModel = new ZoneSelectationViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneSelectationViewModel))
+            var zonesSelectationViewModel = new ZonesSelectationViewModel(Zones);
+            if (ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectationViewModel))
             {
-
+                Zones = zonesSelectationViewModel.Zones;
+                OnPropertyChanged("PresenrationZones");
             }
-        }
-
-        public RelayCommand ClearZoneCommand { get; private set; }
-        void OnClearZone()
-        {
-            Camera.ZoneNo = null;
-            ZoneName = null;
         }
 
         public RelayCommand TestCommand { get; private set; }
         void OnTest()
         {
-            var videoWindow = new VideoWindow()
-            {
-                Title = "Видео с камеры " + Address,
-                Address = Address //"172.16.7.202"
-            };
-            videoWindow.ShowDialog();
+            VideoService.ShowModal(Address); //"172.16.7.202"
         }
 
         protected override void Save(ref bool cancel)
         {
             Camera.Name = Name;
             Camera.Address = Address;
+            Camera.Zones = Zones.ToList();
         }
     }
 }

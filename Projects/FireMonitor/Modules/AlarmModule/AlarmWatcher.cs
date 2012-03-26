@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
+using Infrastructure.Common;
 
 namespace AlarmModule
 {
@@ -27,6 +28,7 @@ namespace AlarmModule
             UpdateDeviceAlarms();
             UpdateZoneAlarms();
             UpdateValveTimer();
+            UpdateVideoAlarms();
 
             foreach (var alarm in Alarms)
             {
@@ -133,6 +135,23 @@ namespace AlarmModule
 
                         if (delta > 0)
                             ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
+                    }
+                }
+            }
+        }
+
+        void UpdateVideoAlarms()
+        {
+            foreach (var zoneState in FiresecManager.DeviceStates.ZoneStates)
+            {
+                if (zoneState.StateType == StateType.Fire)
+                {
+                    foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+                    {
+                        if (camera.Zones.Contains(zoneState.No))
+                        {
+                            VideoService.Show(camera.Address);
+                        }
                     }
                 }
             }

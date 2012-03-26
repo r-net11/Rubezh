@@ -75,6 +75,15 @@ namespace Firesec
             Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null);
         }
 
+        public static string CheckHaspPresence()
+        {
+            string errorMessage = "";
+            var result = Connectoin.CheckHaspPresence(out errorMessage);
+            if (result)
+                return null;
+            return errorMessage;
+        }
+
         static string ConvertDeviceList(List<string> devicePaths)
         {
             var devicePatsString = new StringBuilder();

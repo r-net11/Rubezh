@@ -23,7 +23,7 @@ namespace GroupControllerModule.ViewModels
                     No = 1
                 };
                 if (XManager.DeviceConfiguration.Zones.Count != 0)
-                    XZone.No = XManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1;
+                    XZone.No = (short)(XManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1);
             }
             else
             {
@@ -53,8 +53,8 @@ namespace GroupControllerModule.ViewModels
             }
         }
 
-        ulong _no;
-        public ulong No
+        short _no;
+        public short No
         {
             get { return _no; }
             set
@@ -75,8 +75,8 @@ namespace GroupControllerModule.ViewModels
             }
         }
 
-        int _detectorCount;
-        public int DetectorCount
+        short _detectorCount;
+        public short DetectorCount
         {
             get { return _detectorCount; }
             set

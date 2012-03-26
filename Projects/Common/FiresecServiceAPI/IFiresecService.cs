@@ -142,6 +142,9 @@ namespace FiresecAPI
         void ExecuteCommand(Guid deviceUID, string methodName);
 
         [OperationContract]
+        string CheckHaspPresence();
+
+        [OperationContract]
         List<string> GetFileNamesList(string directory);
 
         [OperationContract]

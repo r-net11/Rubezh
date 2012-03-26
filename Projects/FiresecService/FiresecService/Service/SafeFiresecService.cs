@@ -528,6 +528,18 @@ namespace FiresecService
             };
         }
 
+        public string CheckHaspPresence()
+        {
+            try
+            {
+                return FiresecService.CheckHaspPresence();
+            }
+            catch
+            {
+                return "Ошибка при выполнении операции на сервере";
+            };
+        }
+
         public List<string> GetFileNamesList(string directory)
         {
             try

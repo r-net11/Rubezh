@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
@@ -11,6 +8,7 @@ namespace FiresecAPI.Models
     {
         public Camera()
         {
+            Zones = new List<ulong>();
         }
 
         [DataMember]
@@ -20,6 +18,6 @@ namespace FiresecAPI.Models
         public string Address { get; set; }
 
         [DataMember]
-        public ulong? ZoneNo { get; set; }
+        public List<ulong> Zones { get; set; }
     }
 }

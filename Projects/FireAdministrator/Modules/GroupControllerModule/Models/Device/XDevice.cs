@@ -14,7 +14,7 @@ namespace GroupControllerModule.Models
             Properties = new List<XProperty>();
             DeviceParameters = new List<XDeviceParameter>();
             OutDependenceUIDs = new List<Guid>();
-            Zones = new List<ulong>();
+            Zones = new List<short>();
             DeviceLogic = new XDeviceLogic();
         }
 
@@ -48,7 +48,7 @@ namespace GroupControllerModule.Models
         public List<XDeviceParameter> DeviceParameters { get; set; }
 
         [DataMember]
-        public List<ulong> Zones { get; set; }
+        public List<short> Zones { get; set; }
 
         [DataMember]
         public XDeviceLogic DeviceLogic { get; set; }
