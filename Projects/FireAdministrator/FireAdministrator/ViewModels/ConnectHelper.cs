@@ -7,6 +7,7 @@ using System.Net.NetworkInformation;
 using FiresecClient;
 using System.Net;
 using System.Net.Sockets;
+using Controls.MessageBox;
 
 namespace FireAdministrator.ViewModels
 {
@@ -25,6 +26,7 @@ namespace FireAdministrator.ViewModels
                 {
                     return true;
                 }
+                MessageBoxService.Show(message);
             }
             return false;
         }
@@ -53,6 +55,11 @@ namespace FireAdministrator.ViewModels
         public static string DefaultPassword
         {
             get { return ConfigurationManager.AppSettings["DefaultPassword"] as string; }
+        }
+
+        public static bool AutoConnect
+        {
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["AutoConnect"] as string); }
         }
 
         static int Port

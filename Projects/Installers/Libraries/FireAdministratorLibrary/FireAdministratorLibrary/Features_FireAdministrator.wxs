@@ -29,10 +29,10 @@
 			<ComponentRef Id="FASoundsModuleComponent" />
 			<ComponentRef Id="FAFiltersModuleComponent" />
 			<ComponentRef Id="FAGroupControllerModuleComponent" />
-      <ComponentRef Id="FAVideoModuleComponent"/>
-      <ComponentRef Id="FAVlcCoreComponent"/>
-      <ComponentRef Id="FAVlcFormsComponent"/>
-      <ComponentRef Id="FAVlcInteropsComponent"/>
+			<ComponentRef Id="FAVideoModuleComponent"/>
+			<ComponentRef Id="FAVlcCoreComponent"/>
+			<ComponentRef Id="FAVlcFormsComponent"/>
+			<ComponentRef Id="FAVlcInteropsComponent"/>
 			<ComponentRef Id="FAU2UConsult"/>
 			<ComponentRef Id="FAProgramsMenuShortcut" />
 			<ComponentRef Id="FADesktopShortcut" />

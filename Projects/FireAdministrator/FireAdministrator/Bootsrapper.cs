@@ -20,9 +20,9 @@ namespace FireAdministrator
 
             var preLoadWindow = new PreLoadWindow();
             var connectResult = false;
-            if (ConnectHelper.DefaultConnect())
-                connectResult = true;
-            else 
+            if (ConnectHelper.AutoConnect)
+                connectResult = ConnectHelper.DefaultConnect();
+            else
             {
                 var loginViewModel = new LoginViewModel();
                 connectResult = ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel);

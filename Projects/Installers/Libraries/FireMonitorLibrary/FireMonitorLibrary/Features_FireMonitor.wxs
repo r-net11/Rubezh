@@ -26,6 +26,9 @@
 			<ComponentRef Id="FMReportsModuleComponent" />
 			<ComponentRef Id="FMCallModuleComponent"/>
 			<ComponentRef Id="FMAlarmModuleComponent"/>
+			<ComponentRef Id="FMVlcCoreComponent"/>
+			<ComponentRef Id="FMVlcFormsComponent"/>
+			<ComponentRef Id="FMVlcInteropsComponent"/>
 			<ComponentRef Id="FMProgramsMenuShortcut" />
 			<ComponentRef Id="FMDesktopShortcut" />
 			<ComponentGroupRef Id="FireMonReportTemplatesFolder"/>

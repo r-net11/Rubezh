@@ -53,6 +53,15 @@
         </File>
       </Component>
 
+      <Component Id="FSVlcCoreComponent" Guid="12B7A395-377C-4E53-A4E2-4F8C489F167B">
+        <File Id="FSVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="FSVlcFormsComponent" Guid="5802377C-0409-4396-A23F-4F67D88E1431">
+        <File Id="FSVlcFormsDll" Name="Vlc.DotNet.Forms.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+
       <Component Id="Autorun" Guid="A35143F0-4713-4061-BA6F-E94C6FBE458C">
         <RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
           <RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)" />

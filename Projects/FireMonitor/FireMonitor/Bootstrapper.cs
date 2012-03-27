@@ -21,8 +21,8 @@ namespace FireMonitor
             var preLoadWindow = new PreLoadWindow();
             
             var connectResult = false;
-            if (ConnectHelper.DefaultConnect())
-                connectResult = true;
+            if (ConnectHelper.AutoConnect)
+                connectResult = ConnectHelper.DefaultConnect();
             else
             {
                 var loginViewModel = new LoginViewModel(LoginViewModel.PasswordViewType.Connect);

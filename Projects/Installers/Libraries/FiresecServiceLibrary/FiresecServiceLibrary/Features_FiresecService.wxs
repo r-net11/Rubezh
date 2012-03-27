@@ -11,6 +11,8 @@
 			<ComponentRef Id="FiresecComponent" />
 			<ComponentRef Id="FiresecAPIComponent" />
 			<ComponentRef Id="InfrastructureCommonComponent"/>
+			<ComponentRef Id="FSVlcCoreComponent"/>
+			<ComponentRef Id="FSVlcFormsComponent"/>
 			<ComponentRef Id="TrayComponent"/>
 			<ComponentRef Id="SecurityConfiguration"/>
 			<ComponentRef Id="DeviceLibrary"/>

@@ -6,6 +6,7 @@ using System.Configuration;
 using FiresecClient;
 using System.Net;
 using System.Net.Sockets;
+using Controls.MessageBox;
 
 namespace FireMonitor.ViewModels
 {
@@ -22,6 +23,7 @@ namespace FireMonitor.ViewModels
                 {
                     return true;
                 }
+                MessageBoxService.Show(message);
             }
             return false;
         }
@@ -50,6 +52,11 @@ namespace FireMonitor.ViewModels
         public static string DefaultPassword
         {
             get { return ConfigurationManager.AppSettings["DefaultPassword"] as string; }
+        }
+
+        public static bool AutoConnect
+        {
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["AutoConnect"] as string); }
         }
 
         static int Port

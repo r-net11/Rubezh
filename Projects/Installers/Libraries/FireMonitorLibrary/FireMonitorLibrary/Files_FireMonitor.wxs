@@ -111,6 +111,19 @@
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
+			<Component Id="FMVlcCoreComponent" Guid="C2278A62-8D93-4B95-A6A1-FBE0082B1132">
+				<File Id="FMVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+			<Component Id="FMVlcFormsComponent" Guid="50F7F722-D961-4510-AC64-795FCC950BE5">
+				<File Id="FMVlcFormsDll" Name="Vlc.DotNet.Forms.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+			<Component Id="FMVlcInteropsComponent" Guid="A7369446-6423-4A34-B443-9E439493C72A">
+				<File Id="FMVlcInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
 		</DirectoryRef>
 	</Fragment>
 </Wix>

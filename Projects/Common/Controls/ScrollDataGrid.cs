@@ -78,17 +78,13 @@ namespace Controls
             return (bool)datagrid.GetValue(DataGridRollbackOnUnfocusedProperty);
         }
 
-        public static void SetDataGridRollbackOnUnfocused(
-         DataGrid datagrid, bool value)
+        public static void SetDataGridRollbackOnUnfocused(DataGrid datagrid, bool value)
         {
             datagrid.SetValue(DataGridRollbackOnUnfocusedProperty, value);
         }
 
         public static readonly DependencyProperty DataGridRollbackOnUnfocusedProperty =
-            DependencyProperty.RegisterAttached(
-            "DataGridRollbackOnUnfocused",
-            typeof(bool),
-            typeof(DataGridRollbackOnUnfocusedBehaviour),
+            DependencyProperty.RegisterAttached("DataGridRollbackOnUnfocused",typeof(bool), typeof(DataGridRollbackOnUnfocusedBehaviour), 
             new UIPropertyMetadata(false, OnDataGridRollbackOnUnfocusedChanged));
 
         static void OnDataGridRollbackOnUnfocusedChanged(
@@ -175,8 +171,9 @@ namespace Controls
             
             IEditableCollectionView collection = senderDatagrid.Items as IEditableCollectionView;
 
-            if (collection.IsEditingItem && collection.CanCancelEdit)
+            if (collection.IsEditingItem)
             {
+                collection.CommitEdit();
                 collection.CancelEdit();
             }
             else if (collection.IsAddingNew)
