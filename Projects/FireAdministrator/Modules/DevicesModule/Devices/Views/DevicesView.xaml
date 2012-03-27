@@ -27,7 +27,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Name="_grid1">
             <Controls:ScrollDataGrid Name="_devicesDataGrid" Focusable="True" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="False"
-                      VirtualizingStackPanel.IsVirtualizing="True">
+                      VirtualizingStackPanel.IsVirtualizing="True" Controls:DataGridRollbackOnUnfocusedBehaviour.DataGridRollbackOnUnfocused="True">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>

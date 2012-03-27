@@ -19,9 +19,9 @@ namespace GroupControllerModule.ViewModels
                     Caption = device.Driver.ShortName + " - " + device.Address,
                     ImageSource = device.Driver.ImageSource,
                     Level = device.AllParents.Count,
-                    DeviceBinaryFormatter = new DeviceBinaryFormatter()
+                    //DeviceBinaryFormatter = new DeviceBinaryFormatter()
                 };
-                binObjectViewModel.DeviceBinaryFormatter.Initialize(device);
+                //binObjectViewModel.DeviceBinaryFormatter.Initialize(device);
 
                 BinObjects.Add(binObjectViewModel);
             }

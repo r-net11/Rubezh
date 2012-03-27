@@ -105,6 +105,22 @@
         <File Id="FAGroupControllerModuleDll" Name="GroupControllerModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
+      <Component Id="FAVideoModuleComponent" Guid="FBA8AC05-19F8-4FD6-826E-AD656C84B801">
+        <File Id="FAVideoModuleDll" Name="VideoModule.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="FAVlcCoreComponent" Guid="BBB6B974-2CDA-4026-9592-5371C606C258">
+        <File Id="FAVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="FAVlcFormsComponent" Guid="93AE30C7-93DB-49CD-9F11-F229F24549C9">
+        <File Id="FAVlcFormsDll" Name="Vlc.DotNet.Forms.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="FAVlcInteropsComponent" Guid="43518E85-7C68-4EBD-887E-3D53C1C381B1">
+        <File Id="FAVlcInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
 
     </DirectoryRef>
 

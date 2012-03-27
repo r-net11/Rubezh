@@ -104,8 +104,6 @@
     </Compile>
     <Compile Include="GroupControllerModule.cs" />
     <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
-    <Compile Include="Models\Bin\BinaryFormatterBase.cs" />
-    <Compile Include="Models\Bin\DeviceBinaryFormatter.cs" />
     <Compile Include="Models\Device\DeviceCreationExtention.cs" />
     <Compile Include="Models\Device\XDevice.cs" />
     <Compile Include="Models\Configuration\XDeviceConfiguration.cs" />
@@ -191,7 +189,9 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\Bin\" />
+  </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
