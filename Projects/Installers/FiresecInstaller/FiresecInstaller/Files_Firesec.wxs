@@ -12,8 +12,8 @@
 			</Component>
 			<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
 				<CreateFolder Directory="FIRESECSERVICELOCATION" />
-				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes" 
-												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="no" ContinueOnError="yes">
+				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
+												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="no"  ContinueOnError="yes">
 					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDBSql" ExecuteOnInstall="yes" ContinueOnError="yes"/>
 				</sql:SqlDatabase>
 			</Component>

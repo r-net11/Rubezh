@@ -1,9 +1,8 @@
 ﻿using System.Configuration;
-using System.Windows;
 using Common;
+using Controls.MessageBox;
 using FiresecClient;
 using Infrastructure.Common;
-using Controls.MessageBox;
 
 namespace FireMonitor.ViewModels
 {
@@ -78,9 +77,7 @@ namespace FireMonitor.ViewModels
             switch (_passwordViewType)
             {
                 case PasswordViewType.Connect:
-                    string clientCallbackAddress = ConfigurationManager.AppSettings["ClientCallbackAddress"] as string;
-                    string serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
-                    message = FiresecManager.Connect(clientCallbackAddress, serverAddress, UserName, Password);
+                    message = FiresecManager.Connect(ConnectHelper.ClientCallbackAddress, ConnectHelper.ServiceAddress, UserName, Password);
                     break;
 
                 case PasswordViewType.Reconnect:

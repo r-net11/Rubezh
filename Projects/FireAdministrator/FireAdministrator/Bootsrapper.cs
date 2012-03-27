@@ -19,8 +19,16 @@ namespace FireAdministrator
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
             var preLoadWindow = new PreLoadWindow();
-            var loginViewModel = new LoginViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel))
+            var connectResult = false;
+            if (ConnectHelper.DefaultConnect())
+                connectResult = true;
+            else 
+            {
+                var loginViewModel = new LoginViewModel();
+                connectResult = ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel);
+            }
+
+            if (connectResult)
             {
                 preLoadWindow.Show();
                 FiresecManager.SelectiveFetch();

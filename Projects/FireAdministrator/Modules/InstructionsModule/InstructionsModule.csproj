@@ -118,7 +118,6 @@
     <Compile Include="ViewModels\InstructionsViewModel.cs" />
     <Compile Include="ViewModels\InstructionViewModel.cs" />
     <Compile Include="ViewModels\InstructionZonesViewModel.cs" />
-    <Compile Include="ViewModels\Test.cs" />
     <Compile Include="Views\InstructionDetailsView.xaml.cs">
       <DependentUpon>InstructionDetailsView.xaml</DependentUpon>
     </Compile>

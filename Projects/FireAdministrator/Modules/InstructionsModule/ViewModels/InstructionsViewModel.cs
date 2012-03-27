@@ -19,7 +19,6 @@ namespace InstructionsModule.ViewModels
             DeleteAllCommand = new RelayCommand(OnDeleteAll, CanRemoveAll);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
             Instructions = new ObservableCollection<InstructionViewModel>();
-            var str = ButtonBase.ClickEvent.RoutingStrategy;
         }
 
         public void Initialize()
@@ -112,23 +111,13 @@ namespace InstructionsModule.ViewModels
 
         public override void OnShow()
         {
-            var instructionsMenuViewModel = new InstructionsMenuViewModel(AddCommand, EditCommand, DeleteCommand, DeleteAllCommand);
+            var instructionsMenuViewModel = new InstructionsMenuViewModel(this);
             ServiceFactory.Layout.ShowMenu(instructionsMenuViewModel);
         }
 
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
-        }
-
-        public Key KeyGesture
-        {
-            get { return Key.D2; }
-        }
-
-        public ModifierKeys Modifier
-        {
-            get { return ModifierKeys.Control; }
         }
     }
 }
