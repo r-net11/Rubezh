@@ -17,6 +17,7 @@ namespace AlarmModule
         public AlarmWatcher()
         {
             Alarms = new List<Alarm>();
+            FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChangedEvent);
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
             OnDeviceStateChangedEvent(Guid.Empty);
         }
@@ -28,7 +29,7 @@ namespace AlarmModule
             UpdateDeviceAlarms();
             UpdateZoneAlarms();
             UpdateValveTimer();
-            UpdateVideoAlarms();
+            //UpdateVideoAlarms();
 
             foreach (var alarm in Alarms)
             {
@@ -140,22 +141,22 @@ namespace AlarmModule
             }
         }
 
-        void UpdateVideoAlarms()
-        {
-            foreach (var zoneState in FiresecManager.DeviceStates.ZoneStates)
-            {
-                if (zoneState.StateType == StateType.Fire)
-                {
-                    foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
-                    {
-                        if (camera.Zones.Contains(zoneState.No))
-                        {
-                            VideoService.Show(camera.Address);
-                        }
-                    }
-                }
-            }
-        }
+        //void UpdateVideoAlarms()
+        //{
+        //    foreach (var zoneState in FiresecManager.DeviceStates.ZoneStates)
+        //    {
+        //        if (zoneState.StateType == StateType.Fire)
+        //        {
+        //            foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
+        //            {
+        //                if (camera.Zones.Contains(zoneState.No))
+        //                {
+        //                    VideoService.Show(camera.Address);
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
 
         AlarmType? StateToAlarmType(DeviceDriverState state, Driver driver)
         {

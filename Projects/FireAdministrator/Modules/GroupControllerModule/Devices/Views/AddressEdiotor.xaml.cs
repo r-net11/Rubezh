@@ -5,6 +5,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
 using GroupControllerModule.Models;
+using XFiresecAPI;
 
 namespace GroupControllerModule.Views
 {

@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using System.Configuration;
 
 namespace FireAdministrator
 {
@@ -75,6 +76,9 @@ namespace FireAdministrator
             var videoViewModel = new VideoModule.VideoModule();
 
             ServiceFactory.SaveService.Reset();
+
+            string libVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
+            VideoService.Initialize(libVlcDllsPath);
         }
     }
 }

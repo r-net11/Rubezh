@@ -2,6 +2,7 @@
 using System.Linq;
 using Infrastructure.Common;
 using GroupControllerModule.Models;
+using XFiresecAPI;
 
 namespace GroupControllerModule.ViewModels
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using GroupControllerModule.Models;
+using XFiresecAPI;
 
 namespace GroupControllerModule.Converter
 {

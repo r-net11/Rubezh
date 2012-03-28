@@ -38,6 +38,27 @@ namespace Infrastructure.Common
             videoWindow.ShowDialog();
         }
 
+        internal static string _dllPath;
+
+        public static void Initialize(string dllPath)
+        {
+            _dllPath = dllPath;
+        }
+
+        internal static void Open()
+        {
+            if (VlcContext.IsInitialized == false)
+            {
+                VlcContext.LibVlcDllsPath = _dllPath;
+                //VlcContext.LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
+                //VlcContext.LibVlcPluginsPath = @"C:\Program Files\VideoLAN\VLC\pugins";
+                VlcContext.StartupOptions.IgnoreConfig = false;
+                VlcContext.StartupOptions.LogOptions.LogInFile = false;
+                VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
+                VlcContext.Initialize();
+            }
+        }
+
         public static void Close()
         {
             if (VlcContext.IsInitialized)

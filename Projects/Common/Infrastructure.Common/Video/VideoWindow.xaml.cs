@@ -9,15 +9,7 @@ namespace Infrastructure.Common
     {
         static VideoWindow()
         {
-            if (VlcContext.IsInitialized == false)
-            {
-                VlcContext.LibVlcDllsPath = @"C:\Program Files\VideoLAN\VLC";
-                //VlcContext.LibVlcPluginsPath = @"C:\Program Files\VideoLAN\VLC\pugins";
-                VlcContext.StartupOptions.IgnoreConfig = false;
-                VlcContext.StartupOptions.LogOptions.LogInFile = false;
-                VlcContext.StartupOptions.LogOptions.ShowLoggerConsole = false;
-                VlcContext.Initialize();
-            }
+            VideoService.Open();
         }
 
         public VideoWindow()

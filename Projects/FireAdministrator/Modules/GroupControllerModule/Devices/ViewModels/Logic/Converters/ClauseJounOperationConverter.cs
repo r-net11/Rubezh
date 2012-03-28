@@ -2,6 +2,7 @@
 using System.Windows.Data;
 using GroupControllerModule.Models;
 using FiresecAPI.Models;
+using XFiresecAPI;
 
 namespace GroupControllerModule.ViewModels.Converters
 {

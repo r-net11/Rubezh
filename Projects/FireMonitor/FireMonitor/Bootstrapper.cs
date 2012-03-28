@@ -8,13 +8,31 @@ using Infrastructure;
 using Infrastructure.Common;
 using FireMonitor.Views;
 using Controls.MessageBox;
+using System.Configuration;
+using AlarmModule;
 
 namespace FireMonitor
 {
     public class Bootstrapper
     {
+        bool showOnlyVideo;
+
+        void InitializeVideoSettings()
+        {
+            string showOnlyVideoString = ConfigurationManager.AppSettings["ShowOnlyVideo"] as string;
+            if (showOnlyVideoString == "True")
+            {
+                showOnlyVideo = true;
+            }
+
+            string libVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
+            VideoService.Initialize(libVlcDllsPath);
+        }
+
         public void Initialize()
         {
+            InitializeVideoSettings();
+
             RegisterServices();
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
@@ -38,18 +56,24 @@ namespace FireMonitor
                 {
                     ClientSettings.LoadSettings();
 
-                    var ShellView = new ShellView();
-                    ServiceFactory.ShellView = ShellView;
+                    var shellView = new ShellView();
+                    ServiceFactory.ShellView = shellView;
 
-                    InitializeKnownModules();
+                    if (showOnlyVideo)
+                    {
+                        var alarmVideoWather = new AlarmVideoWather();
+                        preLoadWindow.Close();
+                        return;
+                    }
 
-                    App.Current.MainWindow = ShellView;
+                    InitializeModules();
+
+                    App.Current.MainWindow = shellView;
                     App.Current.MainWindow.Show();
 
                     ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
 
                     FiresecCallbackService.ConfigurationChangedEvent += new System.Action(OnConfigurationChanged);
-                    //FiresecEventSubscriber.ConfigurationChangedEvent += new System.Action(OnConfigurationChanged);
                 }
                 else
                 {
@@ -70,7 +94,7 @@ namespace FireMonitor
             ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new SecurityService());
         }
 
-        void InitializeKnownModules()
+        void InitializeModules()
         {
             DevicesModuleLoader = new DevicesModule.DevicesModuleLoader();
             JournalModuleLoader = new JournalModule.JournalModuleLoader();

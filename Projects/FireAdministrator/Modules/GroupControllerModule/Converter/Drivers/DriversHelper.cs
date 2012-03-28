@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using GroupControllerModule.Models;
+using XFiresecAPI;
 
 namespace GroupControllerModule.Converter
 {

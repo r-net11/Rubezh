@@ -66,7 +66,7 @@ namespace FiresecService.Converters
                 else
                     device.UID = Guid.NewGuid();
 
-                var AltInterfaceParam = innerDevice.param.FirstOrDefault(x => x.name == "sys$alt_interface");
+                var AltInterfaceParam = innerDevice.param.FirstOrDefault(x => x.name == "SYS$Alt_Interface");
                 if (AltInterfaceParam != null)
                     device.IsAltInterface = true;
                 else

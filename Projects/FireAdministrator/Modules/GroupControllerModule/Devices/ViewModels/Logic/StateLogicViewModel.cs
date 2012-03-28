@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using XFiresecAPI;
 
 namespace GroupControllerModule.ViewModels
 {
@@ -17,8 +18,8 @@ namespace GroupControllerModule.ViewModels
             RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
             ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 
-            DeviceStates = Enum.GetValues(typeof(XStateType)).Cast<XStateType>().ToList();
-            SelectedDeviceState = stateLogic.StateType;
+            StateTypes = Enum.GetValues(typeof(XStateType)).Cast<XStateType>().ToList();
+            SelectedStateType = stateLogic.StateType;
 
             _deviceDetailsViewModel = deviceDetailsViewModel;
             Clauses = new ObservableCollection<ClauseViewModel>();
@@ -29,16 +30,16 @@ namespace GroupControllerModule.ViewModels
             }
         }
 
-        public List<XStateType> DeviceStates { get; private set; }
+        public List<XStateType> StateTypes { get; private set; }
 
-        XStateType _selectedDeviceState;
-        public XStateType SelectedDeviceState
+        XStateType _selectedStateType;
+        public XStateType SelectedStateType
         {
-            get { return _selectedDeviceState; }
+            get { return _selectedStateType; }
             set
             {
-                _selectedDeviceState = value;
-                OnPropertyChanged("SelectedDeviceState");
+                _selectedStateType = value;
+                OnPropertyChanged("SelectedStateType");
             }
         }
 

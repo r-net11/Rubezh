@@ -80,7 +80,7 @@
     <Compile Include="Devices\ViewModels\Logic\Converters\ClauseJounOperationConverter.cs" />
     <Compile Include="Devices\ViewModels\Logic\Converters\ClauseOperandConverter.cs" />
     <Compile Include="Devices\ViewModels\Logic\Converters\ClauseOperationConverter.cs" />
-    <Compile Include="Devices\ViewModels\Logic\Converters\DeviceStateConverter.cs" />
+    <Compile Include="Devices\ViewModels\Logic\Converters\StateTypesConverter.cs" />
     <Compile Include="Devices\ViewModels\Logic\DevicesSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateLogicViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ZonesSelectationViewModel.cs" />
@@ -104,30 +104,6 @@
     </Compile>
     <Compile Include="GroupControllerModule.cs" />
     <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
-    <Compile Include="Models\Device\DeviceCreationExtention.cs" />
-    <Compile Include="Models\Device\XDevice.cs" />
-    <Compile Include="Models\Configuration\XDeviceConfiguration.cs" />
-    <Compile Include="Models\Logic\StateLogic.cs" />
-    <Compile Include="Models\Logic\XDeviceLogic.cs" />
-    <Compile Include="Models\Device\XDeviceParameter.cs" />
-    <Compile Include="Models\Driver\XDriverDeviceParameter.cs" />
-    <Compile Include="Models\Driver\XDriverDeviceParameterType.cs" />
-    <Compile Include="Models\Driver\XDriverProperty.cs" />
-    <Compile Include="Models\Driver\XDriver.cs" />
-    <Compile Include="Models\Configuration\XDriversConfiguration.cs" />
-    <Compile Include="Models\Driver\XDriverPropertyParameter.cs" />
-    <Compile Include="Models\Driver\XDriverPropertyTypeEnum.cs" />
-    <Compile Include="Models\Driver\XDriverType.cs" />
-    <Compile Include="Models\Configuration\XManager.cs" />
-    <Compile Include="Models\Device\XProperty.cs" />
-    <Compile Include="Models\Formula\FormulaOperationType.cs" />
-    <Compile Include="Models\Logic\ClauseJounOperationType.cs" />
-    <Compile Include="Models\Logic\ClauseOperandType.cs" />
-    <Compile Include="Models\Logic\ClauseOperationType.cs" />
-    <Compile Include="Models\Logic\XClause.cs" />
-    <Compile Include="Models\States\XDeviceState.cs" />
-    <Compile Include="Models\States\XStateType.cs" />
-    <Compile Include="Models\Zone\XZone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -274,6 +250,10 @@
     <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\XFiresecAPI\XFiresecAPI.csproj">
+      <Project>{D0413B36-F206-4B73-893C-CD159AC8B3E7}</Project>
+      <Name>XFiresecAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>

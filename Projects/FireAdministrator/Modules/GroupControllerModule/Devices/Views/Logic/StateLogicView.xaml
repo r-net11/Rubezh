@@ -8,7 +8,7 @@
 		<Converters:ClauseJounOperationConverter x:Key="ClauseJounOperationConverter" />
 		<Converters:ClauseOperandConverter x:Key="ClauseOperandConverter" />
 		<Converters:ClauseOperationConverter x:Key="ClauseOperationConverter" />
-		<Converters:DeviceStateConverter x:Key="DeviceStateConverter" />
+		<Converters:StateTypesConverter x:Key="StateTypesConverter" />
 	</UserControl.Resources>
 
 	<Border CornerRadius="5" Margin="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
@@ -24,11 +24,11 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<Controls:ToolBarButton Grid.Row="0" Margin="2" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-				<ComboBox Grid.Column="1" Width="200" Height="30" VerticalAlignment="Center" Margin="2"
-					ItemsSource="{Binding DeviceStates}" SelectedItem="{Binding SelectedDeviceState}">
+				<ComboBox Grid.Column="1" Width="150" Height="30" VerticalAlignment="Center" Margin="2"
+					ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
-							<TextBlock Text="{Binding ., Converter={StaticResource DeviceStateConverter}}" />
+							<TextBlock Text="{Binding ., Converter={StaticResource StateTypesConverter}}" />
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
@@ -51,7 +51,16 @@
 									</Grid.ColumnDefinitions>
 										<StackPanel Grid.Column="0" Margin="2" Orientation="Horizontal" DockPanel.Dock="Left">
 
-											<ComboBox ItemsSource="{Binding ClauseOperandTypes}" SelectedItem="{Binding SelectedClauseOperandType}" Width="150" Margin="2">
+										<ComboBox Grid.Column="1" Width="150" Height="30" VerticalAlignment="Center" Margin="2"
+											ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
+											<ComboBox.ItemTemplate>
+												<DataTemplate>
+													<TextBlock Text="{Binding ., Converter={StaticResource StateTypesConverter}}" />
+												</DataTemplate>
+											</ComboBox.ItemTemplate>
+										</ComboBox>
+											
+										<ComboBox ItemsSource="{Binding ClauseOperandTypes}" SelectedItem="{Binding SelectedClauseOperandType}" Width="100" Margin="2">
 												<ComboBox.ItemTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding ., Converter={StaticResource ClauseOperandConverter}}" />
@@ -59,7 +68,7 @@
 												</ComboBox.ItemTemplate>
 											</ComboBox>
 
-											<ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="150" Margin="2"
+											<ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="100" Margin="2"
 												Visibility="{Binding CanSelectOperation, Converter={StaticResource BoolToVisibilityConverter}}">
 												<ComboBox.ItemTemplate>
 													<DataTemplate>

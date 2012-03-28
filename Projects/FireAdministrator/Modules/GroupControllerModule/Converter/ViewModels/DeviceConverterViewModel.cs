@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using GroupControllerModule.Models;
 using System.Collections.Generic;
+using XFiresecAPI;
 
 namespace GroupControllerModule.ViewModels
 {

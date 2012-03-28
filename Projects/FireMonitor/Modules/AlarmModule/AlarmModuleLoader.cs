@@ -7,6 +7,7 @@ namespace AlarmModule
     public class AlarmModuleLoader
     {
         static AlarmWatcher AlarmWatcher;
+        static AlarmVideoWather AlarmVideoWather;
 
         public AlarmModuleLoader()
         {
@@ -24,6 +25,7 @@ namespace AlarmModule
         public static void CreateViewModels()
         {
             AlarmWatcher = new AlarmWatcher();
+            AlarmVideoWather = new AlarmVideoWather();
         }
     }
 }

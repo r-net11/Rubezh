@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
 using GroupControllerModule.Models;
+using XFiresecAPI;
 
 namespace GroupControllerModule.Converter
 {

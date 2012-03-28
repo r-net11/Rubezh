@@ -5,6 +5,7 @@ using System.Text;
 using GroupControllerModule.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using XFiresecAPI;
 
 namespace GroupControllerModule.ViewModels
 {
@@ -20,6 +21,7 @@ namespace GroupControllerModule.ViewModels
             SelectDevicesCommand = new RelayCommand(OnSelectDevices);
 
             _stateLogicViewModel = stateLogicViewModel;
+            SelectedStateType = clause.StateType;
             SelectedClauseJounOperationType = clause.ClauseJounOperationType;
             SelectedClauseOperandType = clause.ClauseOperandType;
             SelectedClauseOperationType = clause.ClauseOperationType;
@@ -29,6 +31,9 @@ namespace GroupControllerModule.ViewModels
             ClauseJounOperationTypes = Enum.GetValues(typeof(ClauseJounOperationType)).Cast<ClauseJounOperationType>().ToList();
             ClauseOperandTypes = Enum.GetValues(typeof(ClauseOperandType)).Cast<ClauseOperandType>().ToList();
             ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
+
+            StateTypes = Enum.GetValues(typeof(XStateType)).Cast<XStateType>().ToList();
+            SelectedStateType = clause.StateType;
         }
 
         public List<ClauseJounOperationType> ClauseJounOperationTypes { get; private set; }
@@ -80,6 +85,19 @@ namespace GroupControllerModule.ViewModels
             {
                 _selectedClauseOperationType = value;
                 OnPropertyChanged("SelectedClauseOperationType");
+            }
+        }
+
+        public List<XStateType> StateTypes { get; private set; }
+
+        XStateType _selectedStateType;
+        public XStateType SelectedStateType
+        {
+            get { return _selectedStateType; }
+            set
+            {
+                _selectedStateType = value;
+                OnPropertyChanged("SelectedStateType");
             }
         }
 

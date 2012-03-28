@@ -145,7 +145,8 @@ namespace Firesec
         {
             try
             {
-                return Connectoin.DeviceGetInformation(coreConfig, devicePath);
+                var result = Connectoin.DeviceGetInformation(coreConfig, devicePath);
+                return result;
             }
             catch (Exception e) { return null; }
         }

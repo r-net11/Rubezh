@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using GroupControllerModule.Models;
+using XFiresecAPI;
 
 namespace GroupControllerModule.ViewModels
 {

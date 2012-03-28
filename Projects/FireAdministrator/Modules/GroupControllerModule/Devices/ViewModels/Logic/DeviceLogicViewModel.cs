@@ -4,6 +4,7 @@ using FiresecAPI.Models;
 using GroupControllerModule.Models;
 using Infrastructure.Common;
 using Controls.MessageBox;
+using XFiresecAPI;
 
 namespace GroupControllerModule.ViewModels
 {
@@ -49,11 +50,12 @@ namespace GroupControllerModule.ViewModels
             foreach (var stateLogicViewModel in StateLogics)
             {
                 var stateLogic = new StateLogic();
-                stateLogic.StateType = stateLogicViewModel.SelectedDeviceState;
+                stateLogic.StateType = stateLogicViewModel.SelectedStateType;
                 foreach (var clauseViewModel in stateLogicViewModel.Clauses)
                 {
                     var clause = new XClause()
                     {
+                        StateType = clauseViewModel.SelectedStateType,
                         Devices = clauseViewModel.Devices.ToList(),
                         Zones = clauseViewModel.Zones.ToList(),
                         ClauseJounOperationType = clauseViewModel.SelectedClauseJounOperationType,
