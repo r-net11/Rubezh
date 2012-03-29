@@ -32,7 +32,13 @@ namespace GroupControllerModule.ViewModels
             ClauseOperandTypes = Enum.GetValues(typeof(ClauseOperandType)).Cast<ClauseOperandType>().ToList();
             ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
 
-            StateTypes = Enum.GetValues(typeof(XStateType)).Cast<XStateType>().ToList();
+            StateTypes = new List<XStateType>();
+            StateTypes.Add(XStateType.Attention);
+            StateTypes.Add(XStateType.Fire1);
+            StateTypes.Add(XStateType.Fire2);
+            StateTypes.Add(XStateType.Test);
+            StateTypes.Add(XStateType.Failure);
+
             SelectedStateType = clause.StateType;
         }
 

@@ -1,39 +1,14 @@
 ﻿<UserControl x:Class="LibraryModule.Views.AdditionalStateDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              MinWidth="400" MinHeight="500">
-    <UserControl.Resources>
-        <LinearGradientBrush x:Key="headerBrush" StartPoint="0, 0" EndPoint="0,1">
-            <GradientStop Offset="0" Color="Silver" />
-            <GradientStop Offset="1" Color="Gray" />
-        </LinearGradientBrush>
-        <SolidColorBrush x:Key="whiteBrush">White</SolidColorBrush>
-        <CollectionViewSource x:Key="ItemsGroups" Source="{Binding Path=Items}">
-            <CollectionViewSource.GroupDescriptions>
-                <PropertyGroupDescription PropertyName="ClassName" />
-            </CollectionViewSource.GroupDescriptions>
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription Direction="Ascending" PropertyName="Class" />
-                <scm:SortDescription Direction="Ascending" PropertyName="AdditionalName" />
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-    </UserControl.Resources>
 
-    <ListView ItemsSource="{Binding Source={StaticResource ItemsGroups}}" SelectedItem="{Binding SelectedItem}">
-        <ListView.GroupStyle>
-            <GroupStyle>
-                <GroupStyle.HeaderTemplate>
-                    <DataTemplate>
-                        <TextBlock Margin="1" Background="{StaticResource headerBrush}" FontWeight="Black" Foreground="{StaticResource whiteBrush}" Padding="4,2,0,2" Text="{Binding Path=Name}" />
-                    </DataTemplate>
-                </GroupStyle.HeaderTemplate>
-            </GroupStyle>
-        </ListView.GroupStyle>
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <TextBlock Text="{Binding AdditionalName}" />
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+    <Controls:ScrollDataGrid Focusable="True" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="Состояние" Binding="{Binding ClassName}" />
+            <DataGridTextColumn Header="Дополнительное состояние" Binding="{Binding AdditionalName}" Width="*" />
+        </DataGrid.Columns>
+    </Controls:ScrollDataGrid>
 </UserControl>

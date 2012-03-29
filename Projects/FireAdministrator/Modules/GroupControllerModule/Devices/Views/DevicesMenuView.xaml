@@ -22,6 +22,7 @@
                     <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" />
                 </MenuItem.Header>
 
+                <MenuItem Command="{Binding ConvertFromFiresecCommand}" Header="Конвертировать в из формата Рубеж-2АМ" />
                 <MenuItem Command="{Binding ConvertToBinCommand}" Header="Конвертировать в бинарный формат" />
                 
                 <MenuItem Command="{Binding CheckConnectionCommand}" Header="Проверка связи" />

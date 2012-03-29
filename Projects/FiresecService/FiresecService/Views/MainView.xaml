@@ -8,10 +8,10 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TabControl Grid.Row="0" Background="{DynamicResource AlternativeBackgroundBrush}">
-            <TabItem Header="Управление">
+            <TabItem Header="Управление" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel>
                     <Button Content="Перезагрузить" Command="{Binding ReloadCommand}" Margin="1" />
-                    <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Margin="1" Visibility="Collapsed" />
+                    <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Margin="1" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Соединения">

@@ -5,6 +5,7 @@ using FiresecService;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Controls.MessageBox;
+using System.Configuration;
 
 namespace FiresecServiceRunner
 {
@@ -16,13 +17,15 @@ namespace FiresecServiceRunner
 
             try
             {
+                string isDebug = ConfigurationManager.AppSettings["IsDebug"] as string;
+                IsDebug = isDebug == "True";
+
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
                 _mainView.DataContext = new MainViewModel();
 
                 DirectoryInfo directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
                 Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
-                AnalizeCommandLine();
 
                 this.WindowState = WindowState.Minimized;
             }
@@ -30,23 +33,6 @@ namespace FiresecServiceRunner
             {
                 MessageBoxService.ShowException(e);
                 Application.Current.Shutdown();
-            }
-        }
-
-        void AnalizeCommandLine()
-        {
-            var commandLineArgs = Environment.GetCommandLineArgs();
-            for (int i = 0; i != commandLineArgs.Length; ++i)
-            {
-                switch (commandLineArgs[i])
-                {
-                    case "/Convert":
-                        ConfigurationConverter.Convert();
-                        break;
-                    case "/ConvertJournal":
-                        JournalDataConverter.Convert();
-                        break;
-                }
             }
         }
 
@@ -100,5 +86,7 @@ namespace FiresecServiceRunner
                 this.ShowInTaskbar = true;
             }
         }
+
+        public bool IsDebug { get; private set; }
     }
 }

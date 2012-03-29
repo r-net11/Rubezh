@@ -621,5 +621,28 @@ namespace FiresecService
                 return null;
             }
         }
+
+        public void SetXDeviceConfiguration(XFiresecAPI.XDeviceConfiguration xDeviceConfiguration)
+        {
+            try
+            {
+                FiresecService.SetXDeviceConfiguration(xDeviceConfiguration);
+            }
+            catch
+            {
+            }
+        }
+
+        public XFiresecAPI.XDeviceConfiguration GetXDeviceConfiguration()
+        {
+            try
+            {
+                return FiresecService.GetXDeviceConfiguration();
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

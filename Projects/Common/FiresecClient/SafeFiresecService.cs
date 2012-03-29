@@ -635,7 +635,7 @@ namespace FiresecClient
             catch
             {
                 OnConnectionLost();
-                return "Обрыв связи";
+                return "Нет связи с сервером Firesec-2";
             }
         }
 
@@ -735,6 +735,31 @@ namespace FiresecClient
             try
             {
                 return _iFiresecService.Test();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return null;
+        }
+
+        public void SetXDeviceConfiguration(XFiresecAPI.XDeviceConfiguration xDeviceConfiguration)
+        {
+            try
+            {
+                _iFiresecService.SetXDeviceConfiguration(xDeviceConfiguration);
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+        }
+
+        public XFiresecAPI.XDeviceConfiguration GetXDeviceConfiguration()
+        {
+            try
+            {
+                return _iFiresecService.GetXDeviceConfiguration();
             }
             catch
             {

@@ -3,6 +3,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using GroupControllerModule.Converter;
+using XFiresecAPI;
+using System.Linq;
 
 namespace GroupControllerModule
 {
@@ -18,8 +20,15 @@ namespace GroupControllerModule
             ServiceFactory.Events.GetEvent<ShowXDevicesEvent>().Subscribe(OnShowXDevices);
             ServiceFactory.Events.GetEvent<ShowXZonesEvent>().Subscribe(OnShowXZones);
 
-            var configurationConverter = new ConfigurationConverter();
-            configurationConverter.Convert();
+            //var configurationConverter = new ConfigurationConverter();
+            //configurationConverter.Convert();
+
+            DriversConverter.Convert();
+            XManager.DeviceConfiguration.RootDevice = new XDevice()
+            {
+                DriverUID = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System).UID,
+                Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
+            };
 
             RegisterResources();
             CreateViewModels();

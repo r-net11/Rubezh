@@ -17,6 +17,7 @@ namespace FiresecService
         public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
         public static bool IsConnected { get; private set; }
+        public static string DriversError { get; private set; }
 
         public static void ConnectFiresecCOMServer(string login, string password)
         {
@@ -45,11 +46,20 @@ namespace FiresecService
         static void ConvertMetadataFromFiresec()
         {
             DriverConverter.Metadata = FiresecInternalClient.GetMetaData();
-            Drivers = new List<Driver>(
-                DriverConverter.Metadata.drv.
-                Select(firesecDriver => DriverConverter.Convert(firesecDriver)).
-                Where(driver => driver.IsIgnore == false)
-            );
+            Drivers = new List<Driver>();
+            foreach (var innerDriver in DriverConverter.Metadata.drv)
+            {
+                var driver = DriverConverter.Convert(innerDriver);
+                if (driver == null)
+                {
+                    DriversError = "Не удается найти данные для драйвера " + innerDriver.name;
+                }
+                else
+                {
+                    if (driver.IsIgnore == false)
+                        Drivers.Add(driver);
+                }
+            }
         }
 
         public static void SetValidChars()

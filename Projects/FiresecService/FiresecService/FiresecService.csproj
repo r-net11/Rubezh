@@ -181,6 +181,7 @@
     <Compile Include="Service\FiresecService.cs" />
     <Compile Include="Service\FiresecService.Devices.cs" />
     <Compile Include="Service\FiresecService.Journal.cs" />
+    <Compile Include="Service\FiresecService.XDevices.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="Imitator\ViewModels\DeviceViewModel.cs" />

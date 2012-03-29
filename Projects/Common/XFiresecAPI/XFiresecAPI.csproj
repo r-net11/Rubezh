@@ -74,33 +74,30 @@
     <Compile Include="..\Common\AssemblyInfoInc.cs">
       <Link>AssemblyInfoInc.cs</Link>
     </Compile>
-    <Compile Include="Models\Binary\BinaryFormatterBase.cs" />
-    <Compile Include="Models\Binary\DeviceBinaryFormatter.cs" />
-    <Compile Include="Models\Configuration\XDeviceConfiguration.cs" />
-    <Compile Include="Models\Configuration\XDriversConfiguration.cs" />
-    <Compile Include="Models\Configuration\XManager.cs" />
-    <Compile Include="Models\Device\DeviceCreationExtention.cs" />
-    <Compile Include="Models\Device\XDevice.cs" />
-    <Compile Include="Models\Device\XDeviceParameter.cs" />
-    <Compile Include="Models\Device\XProperty.cs" />
-    <Compile Include="Models\Driver\XDriver.cs" />
-    <Compile Include="Models\Driver\XDriverDeviceParameter.cs" />
-    <Compile Include="Models\Driver\XDriverDeviceParameterType.cs" />
-    <Compile Include="Models\Driver\XDriverProperty.cs" />
-    <Compile Include="Models\Driver\XDriverPropertyParameter.cs" />
-    <Compile Include="Models\Driver\XDriverPropertyTypeEnum.cs" />
-    <Compile Include="Models\Driver\XDriverType.cs" />
-    <Compile Include="Models\Formula\FormulaOperation.cs" />
-    <Compile Include="Models\Formula\FormulaOperationType.cs" />
-    <Compile Include="Models\Logic\ClauseJounOperationType.cs" />
-    <Compile Include="Models\Logic\ClauseOperandType.cs" />
-    <Compile Include="Models\Logic\ClauseOperationType.cs" />
-    <Compile Include="Models\Logic\StateLogic.cs" />
-    <Compile Include="Models\Logic\XClause.cs" />
-    <Compile Include="Models\Logic\XDeviceLogic.cs" />
-    <Compile Include="Models\States\XDeviceState.cs" />
-    <Compile Include="Models\States\XStateType.cs" />
-    <Compile Include="Models\Zone\XZone.cs" />
+    <Compile Include="XModels\Configuration\XDriversConfiguration.cs" />
+    <Compile Include="XModels\Configuration\XManager.cs" />
+    <Compile Include="XModels\Device\DeviceCreationExtention.cs" />
+    <Compile Include="XModels\Device\XDevice.cs" />
+    <Compile Include="XModels\Device\XDeviceParameter.cs" />
+    <Compile Include="XModels\Device\XProperty.cs" />
+    <Compile Include="XModels\Driver\XDriver.cs" />
+    <Compile Include="XModels\Driver\XDriverDeviceParameter.cs" />
+    <Compile Include="XModels\Driver\XDriverDeviceParameterType.cs" />
+    <Compile Include="XModels\Driver\XDriverProperty.cs" />
+    <Compile Include="XModels\Driver\XDriverPropertyParameter.cs" />
+    <Compile Include="XModels\Driver\XDriverPropertyTypeEnum.cs" />
+    <Compile Include="XModels\Driver\XDriverType.cs" />
+    <Compile Include="XModels\Formula\FormulaOperation.cs" />
+    <Compile Include="XModels\Formula\FormulaOperationType.cs" />
+    <Compile Include="XModels\Logic\ClauseJounOperationType.cs" />
+    <Compile Include="XModels\Logic\ClauseOperandType.cs" />
+    <Compile Include="XModels\Logic\ClauseOperationType.cs" />
+    <Compile Include="XModels\Logic\StateLogic.cs" />
+    <Compile Include="XModels\Logic\XClause.cs" />
+    <Compile Include="XModels\Logic\XDeviceLogic.cs" />
+    <Compile Include="XModels\States\XDeviceState.cs" />
+    <Compile Include="XModels\States\XStateType.cs" />
+    <Compile Include="XModels\Zone\XZone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

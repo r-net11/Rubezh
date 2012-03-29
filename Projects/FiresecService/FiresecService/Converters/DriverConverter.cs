@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Firesec.Metadata;
 using FiresecAPI.Models;
+using Controls.MessageBox;
 
 namespace FiresecService.Converters
 {
@@ -161,8 +162,16 @@ namespace FiresecService.Converters
             }
             driver.DeviceTypeName = driver.DeviceType.ToDescription();
 
-            driver.IsIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 1);
-            driver.IsAssadIgnore = (DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id)).IgnoreLevel > 0);
+            var driverdata = DriversHelper.DriverDataList.FirstOrDefault(x => (x.DriverId == innerDriver.id));
+            if (driverdata != null)
+            {
+                driver.IsIgnore = driverdata.IgnoreLevel > 1;
+                driver.IsAssadIgnore = driverdata.IgnoreLevel > 0;
+            }
+            else
+            {
+                return null;
+            }
 
             var allChildren = new List<drvType>();
             foreach (var childDriver in Metadata.drv)

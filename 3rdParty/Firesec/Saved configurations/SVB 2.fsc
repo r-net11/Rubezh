@@ -14,20 +14,20 @@
   <drv idx="10" name="Релейный исполнительный модуль РМ-1" id="75D4399D-EC01-42E0-B77E-31F5E1248905"/>
   <drv idx="11" name="АСПТ" id="&#123;C87E5BBD-2E0C-4213-84D0-2376DB27BDF2&#125;"/>
   <drv idx="12" name="COM порт (V2)" id="ABDE5AF2-2B77-4421-879C-2A14E7F056B2"/>
-  <drv idx="13" name="Страница" id="6298807D-850B-4C65-8792-A4EAB2A4A72A"/>
-  <drv idx="14" name="Индикатор" id="E486745F-6130-4027-9C01-465DE5415BBF"/>
-  <drv idx="15" name="Направление" id="7C4B1A3E-BC00-4542-9AB7-061D2AE92BA2"/>
-  <drv idx="16" name="Прибор Рубеж-2AM" id="B476541B-5298-4B3E-A9BA-605B839B1011"/>
-  <drv idx="17" name="БУНС" id="02CE2CC4-D71F-4EAA-ACCC-4F2E870F548C"/>
+  <drv idx="13" name="Прибор Рубеж-2AM" id="B476541B-5298-4B3E-A9BA-605B839B1011"/>
+  <drv idx="14" name="БУНС" id="02CE2CC4-D71F-4EAA-ACCC-4F2E870F548C"/>
+  <drv idx="15" name="Страница" id="6298807D-850B-4C65-8792-A4EAB2A4A72A"/>
+  <drv idx="16" name="Индикатор" id="E486745F-6130-4027-9C01-465DE5415BBF"/>
+  <drv idx="17" name="Направление" id="7C4B1A3E-BC00-4542-9AB7-061D2AE92BA2"/>
   <drv idx="18" name="БУНС-2" id="A7BB2FD0-0088-49AE-8C04-7D6FA22C79D6"/>
   <drv idx="19" name="Модуль сопряжения МС-3" id="F966D47B-468D-40A5-ACA7-9BE30D0A3847"/>
   <drv idx="20" name="Модуль сопряжения МС-4" id="&#123;868ED643-0ED6-48CD-A0E0-4AD46104C419&#125;"/>
   <drv idx="21" name="Устройство оконечное объектовое" id="&#123;584BC59A-28D5-430B-90BF-592E40E843A6&#125;"/>
   <drv idx="22" name="Блок индикации" id="28A7487A-BA32-486C-9955-E251AF2E9DD4"/>
-  <drv idx="23" name="Прибор Рубеж-10AM" id="E750EF8F-54C3-4B00-8C72-C7BEC9E59BFC"/>
-  <drv idx="24" name="Прибор Рубеж-4A" id="F3485243-2F60-493B-8A4E-338C61EF6581"/>
-  <drv idx="25" name="Прибор Рубеж-2ОП" id="96CDBD7E-29F6-45D4-9028-CF10332FAB1A"/>
-  <drv idx="26" name="Пульт дистанционного управления" id="B1DF571E-8786-4987-94B2-EC91F7578D20"/>
+  <drv idx="23" name="Прибор Рубеж-4A" id="F3485243-2F60-493B-8A4E-338C61EF6581"/>
+  <drv idx="24" name="Прибор Рубеж-2ОП" id="96CDBD7E-29F6-45D4-9028-CF10332FAB1A"/>
+  <drv idx="25" name="Пульт дистанционного управления" id="B1DF571E-8786-4987-94B2-EC91F7578D20"/>
+  <drv idx="26" name="Прибор Рубеж-10AM" id="E750EF8F-54C3-4B00-8C72-C7BEC9E59BFC"/>
   <drv idx="27" name="Релейный исполнительный модуль РМ-1" id="4A60242A-572E-41A8-8B87-2FE6B6DC4ACE"/>
   <drv idx="28" name="Модуль пожаротушения" id="33A85F87-E34C-45D6-B4CE-A4FB71A36C28"/>
   <drv idx="29" name="Пожарный дымовой извещатель ИП 212-64" id="1E045AD6-66F9-4F0B-901C-68C46C89E8DA"/>
@@ -42,39 +42,37 @@
   <drv idx="38" name="Кнопка разблокировки автоматики ШУЗ в направлении" id="935B0020-889B-4A94-9563-EC0E4127E8E3"/>
   <drv idx="39" name="Ручной извещатель ИПР513-11" id="641FA899-FAA0-455B-B626-646E5FBE785A"/>
   <drv idx="40" name="Охранная адресная метка АМ1-О" id="EFCA74B2-AD85-4C30-8DE8-8115CC6DFDD2"/>
-  <drv idx="41" name="Модуль Управления Клапанами Дымоудаления" id="44EEDF03-0F4C-4EBA-BD36-28F96BC6B16E"/>
-  <drv idx="42" name="Модуль Управления Клапанами Огнезащиты" id="B603CEBA-A3BF-48A0-BFC8-94BF652FB72A"/>
-  <drv idx="43" name="Насосная Станция" id="AF05094E-4556-4CEE-A3F3-981149264E89"/>
-  <drv idx="44" name="Насос" id="8BFF7596-AEF4-4BEE-9D67-1AE3DC63CA94"/>
-  <drv idx="45" name="Жокей-насос" id="68E8E353-8CFC-4C54-A1A8-D6B6BF4FD20F"/>
-  <drv idx="46" name="Компрессор" id="ED58E7EB-BA88-4729-97FF-427EBC822E81"/>
-  <drv idx="47" name="Дренажный насос" id="8AFC9569-9725-4C27-8815-18167642CA29"/>
-  <drv idx="48" name="Насос компенсации утечек" id="40DAB36C-2353-4BFD-A1FE-8F542EC15D49"/>
-  <drv idx="49" name="Пожарная адресная метка АМП" id="D8997F3B-64C4-4037-B176-DE15546CE568"/>
-  <drv idx="50" name="Модуль речевого оповещения" id="2D078D43-4D3B-497C-9956-990363D9B19B"/>
-  <drv idx="51" name="Задвижка" id="4935848F-0084-4151-A0C8-3A900E3CB5C5"/>
-  <drv idx="52" name="Технологическая адресная метка АМ1-Т" id="F5A34CE2-322E-4ED9-A75F-FC8660AE33D8"/>
-  <drv idx="53" name="АСПТ" id="FD200EDF-94A4-4560-81AA-78C449648D45"/>
-  <drv idx="54" name="Модуль дымоудаления-1" id="043FBBE0-8733-4C8D-BE0C-E5820DBF7039"/>
-  <drv idx="55" name="Выход" id="05323D14-9070-44B8-B91C-BE024F10E267"/>
-  <drv idx="56" name="Модуль радиоканала МРК-30" id="AB3EF7B1-68AD-4A1B-88A8-997357C3FC5B"/>
-  <drv idx="57" name="Ручной радиоканальный извещатель ИПР513-11" id="D57CDEF3-ACBC-4773-955E-22A1F016D025"/>
-  <drv idx="58" name="Пожарный дымовой радиоканальный извещатель ИП 212-64Р" id="CFD407D1-5D19-43EC-9650-A86EC4422EC6"/>
-  <drv idx="59" name="Адресная метка" id="E495C37A-A414-4B47-AF24-FEC1F9E43D86"/>
-  <drv idx="60" name="Пожарная адресная метка" id="A15D9258-D5B5-4A81-A60A-3C9A308FB528"/>
-  <drv idx="61" name="Релейный исполнительный модуль" id="EA5F5372-C76C-4E92-B879-0AFA0EE979C7"/>
-  <drv idx="62" name="Релейный исполнительный модуль" id="15E38FA6-DC41-454B-83E5-D7789064B2E1"/>
-  <drv idx="63" name="Релейный исполнительный модуль" id="3CB0E7FB-670F-4F32-8123-4B310AEE1DB8"/>
-  <drv idx="64" name="Релейный исполнительный модуль" id="A7C09BA8-DD00-484C-8BEA-245F2920DFBB"/>
-  <drv idx="65" name="USB преобразователь МС-2" id="CD0E9AA0-FD60-48B8-B8D7-F496448FADE6"/>
-  <drv idx="66" name="USB преобразователь МС-1" id="FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6"/>
-  <drv idx="67" name="USB Канал" id="F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E"/>
-  <drv idx="68" name="USB Канал" id="780DE2E6-8EDD-4CFA-8320-E832EB699544"/>
-  <drv idx="69" name="USB Рубеж-2AM" id="1EDE7282-0003-424E-B76C-BB7B413B4F3B"/>
-  <drv idx="70" name="USB Рубеж-4A" id="7CED3D07-C8AF-4141-8D3D-528050EEA72D"/>
+  <drv idx="41" name="Насосная Станция" id="AF05094E-4556-4CEE-A3F3-981149264E89"/>
+  <drv idx="42" name="Насос" id="8BFF7596-AEF4-4BEE-9D67-1AE3DC63CA94"/>
+  <drv idx="43" name="Жокей-насос" id="68E8E353-8CFC-4C54-A1A8-D6B6BF4FD20F"/>
+  <drv idx="44" name="Компрессор" id="ED58E7EB-BA88-4729-97FF-427EBC822E81"/>
+  <drv idx="45" name="Дренажный насос" id="8AFC9569-9725-4C27-8815-18167642CA29"/>
+  <drv idx="46" name="Насос компенсации утечек" id="40DAB36C-2353-4BFD-A1FE-8F542EC15D49"/>
+  <drv idx="47" name="Пожарная адресная метка АМП" id="D8997F3B-64C4-4037-B176-DE15546CE568"/>
+  <drv idx="48" name="Модуль речевого оповещения" id="2D078D43-4D3B-497C-9956-990363D9B19B"/>
+  <drv idx="49" name="Задвижка" id="4935848F-0084-4151-A0C8-3A900E3CB5C5"/>
+  <drv idx="50" name="Технологическая адресная метка АМ1-Т" id="F5A34CE2-322E-4ED9-A75F-FC8660AE33D8"/>
+  <drv idx="51" name="АСПТ" id="FD200EDF-94A4-4560-81AA-78C449648D45"/>
+  <drv idx="52" name="Модуль дымоудаления-1" id="043FBBE0-8733-4C8D-BE0C-E5820DBF7039"/>
+  <drv idx="53" name="Выход" id="05323D14-9070-44B8-B91C-BE024F10E267"/>
+  <drv idx="54" name="Модуль радиоканала МРК-30" id="AB3EF7B1-68AD-4A1B-88A8-997357C3FC5B"/>
+  <drv idx="55" name="Ручной радиоканальный извещатель ИПР513-11" id="D57CDEF3-ACBC-4773-955E-22A1F016D025"/>
+  <drv idx="56" name="Пожарный дымовой радиоканальный извещатель ИП 212-64Р" id="CFD407D1-5D19-43EC-9650-A86EC4422EC6"/>
+  <drv idx="57" name="Адресная метка" id="E495C37A-A414-4B47-AF24-FEC1F9E43D86"/>
+  <drv idx="58" name="Пожарная адресная метка" id="A15D9258-D5B5-4A81-A60A-3C9A308FB528"/>
+  <drv idx="59" name="Релейный исполнительный модуль" id="EA5F5372-C76C-4E92-B879-0AFA0EE979C7"/>
+  <drv idx="60" name="Релейный исполнительный модуль" id="15E38FA6-DC41-454B-83E5-D7789064B2E1"/>
+  <drv idx="61" name="Релейный исполнительный модуль" id="3CB0E7FB-670F-4F32-8123-4B310AEE1DB8"/>
+  <drv idx="62" name="Релейный исполнительный модуль" id="A7C09BA8-DD00-484C-8BEA-245F2920DFBB"/>
+  <drv idx="63" name="USB преобразователь МС-2" id="CD0E9AA0-FD60-48B8-B8D7-F496448FADE6"/>
+  <drv idx="64" name="USB преобразователь МС-1" id="FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6"/>
+  <drv idx="65" name="USB Канал" id="F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E"/>
+  <drv idx="66" name="USB Канал" id="780DE2E6-8EDD-4CFA-8320-E832EB699544"/>
+  <drv idx="67" name="USB Рубеж-2AM" id="1EDE7282-0003-424E-B76C-BB7B413B4F3B"/>
+  <drv idx="68" name="USB Рубеж-4A" id="7CED3D07-C8AF-4141-8D3D-528050EEA72D"/>
+  <drv idx="69" name="USB БУНС" id="4A3D1FA3-4F13-44D8-B9AD-825B53416A71"/>
+  <drv idx="70" name="USB БУНС-2" id="64CB0AB4-D9BE-4C71-94A1-CF24406DAF92"/>
   <drv idx="71" name="USB Рубеж-2ОП" id="39DBC715-C4B5-4AE6-A809-4F214BBBD6C1"/>
-  <drv idx="72" name="USB БУНС-2" id="64CB0AB4-D9BE-4C71-94A1-CF24406DAF92"/>
-  <drv idx="73" name="USB БУНС" id="4A3D1FA3-4F13-44D8-B9AD-825B53416A71"/>
   <zone idx="0" no="1" name="Зона 1" idZones="64251">
     <param name="GuardZoneType" type="Int" value="0"/>
     <param name="DB$IDParentZones" type="Int" value="0"/>
@@ -122,10 +120,10 @@
     <param name="Delay" type="SmallInt" value="0"/>
   </zone>
   <dev drv="0" addr="0">
-    <dev drv="65" addr="0">
+    <dev drv="63" addr="0">
       <prop name="INT$DEV_GUID" type="String" value="&#123;9D90D690-9CCA-44C2-9AD9-D46D1A73D0FB&#125;"/>
-      <dev drv="67" addr="1">
-        <dev drv="16" addr="30">
+      <dev drv="65" addr="1">
+        <dev drv="13" addr="30">
           <prop name="INT$DEV_GUID" type="String" value="&#123;8123BE16-B65D-45F6-A576-6B65C7020819&#125;"/>
           <dev drv="30" addr="257">
             <prop name="INT$ShapeIDList" value="-243660868"/>
@@ -145,8 +143,8 @@
           </dev>
         </dev>
       </dev>
-      <dev drv="67" addr="2">
-        <dev drv="16" addr="31">
+      <dev drv="65" addr="2">
+        <dev drv="13" addr="31">
           <prop name="INT$DEV_GUID" type="String" value="&#123;2475391F-7DD3-4363-82F4-62F4DD0A1D37&#125;"/>
           <dev drv="30" addr="357">
             <inZ idz="2"/>
@@ -167,26 +165,12 @@
             <inZ idz="3"/>
           </dev>
         </dev>
-        <dev drv="25" addr="1">
+        <dev drv="24" addr="1">
           <prop name="INT$DEV_GUID" type="String" value="&#123;831EA461-977A-435B-960A-4CB782745F29&#125;"/>
-          <dev drv="55" addr="1"/>
-          <dev drv="55" addr="2"/>
-          <dev drv="55" addr="3"/>
-          <dev drv="55" addr="4"/>
-        </dev>
-        <dev drv="21" addr="124">
-          <prop name="Phone1" value="123"/>
-          <prop name="Phone2" value="456"/>
-          <prop name="Phone3" value="789"/>
-          <prop name="Phone4" value="999"/>
-          <prop name="ObjectNumber" value="1"/>
-          <prop name="TestDialtone" value="5"/>
-          <prop name="TestVoltage" value="20"/>
-          <prop name="CountRecalls" value="3"/>
-          <prop name="Timeout" value="40"/>
-          <prop name="OutcomingTest" value="50"/>
-          <prop name="EventsFilter" value="1111100000000000000000000000000000000000000000"/>
-          <prop name="INT$DEV_GUID" type="String" value="&#123;BB8A799B-0DA9-4DF1-91B2-B7630E7D1ACA&#125;"/>
+          <dev drv="53" addr="1"/>
+          <dev drv="53" addr="2"/>
+          <dev drv="53" addr="3"/>
+          <dev drv="53" addr="4"/>
         </dev>
       </dev>
     </dev>

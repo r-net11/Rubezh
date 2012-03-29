@@ -18,7 +18,15 @@ namespace GroupControllerModule.ViewModels
             RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
             ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 
-            StateTypes = Enum.GetValues(typeof(XStateType)).Cast<XStateType>().ToList();
+            StateTypes = new List<XStateType>();
+            StateTypes.Add(XStateType.TurnOn);
+            StateTypes.Add(XStateType.CancelDelay);
+            StateTypes.Add(XStateType.TurnOff);
+            StateTypes.Add(XStateType.Stop);
+            StateTypes.Add(XStateType.ForbidStart);
+            StateTypes.Add(XStateType.TurnOnNow);
+            StateTypes.Add(XStateType.TurnOffNow);
+
             SelectedStateType = stateLogic.StateType;
 
             _deviceDetailsViewModel = deviceDetailsViewModel;

@@ -10,6 +10,7 @@ namespace GroupControllerModule.Models
 
         public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
         {
+            ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
             ConvertToBinCommand = new RelayCommand(OnConvertToBin);
             CheckConnectionCommand = new RelayCommand(OnCheckConnection);
             GetKAUVersionCommand = new RelayCommand(OnGetKAUVersion);
@@ -41,6 +42,15 @@ namespace GroupControllerModule.Models
             get { return _devicesViewModel.SelectedDevice; }
         }
 
+        public RelayCommand ConvertFromFiresecCommand { get; private set; }
+        void OnConvertFromFiresec()
+        {
+            var configurationConverter = new ConfigurationConverter();
+            configurationConverter.Convert();
+
+            DevicesViewModel.Current.Initialize();
+            ZonesViewModel.Current.Initialize();
+        }
 
         public RelayCommand ConvertToBinCommand { get; private set; }
         void OnConvertToBin()

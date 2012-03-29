@@ -24,14 +24,14 @@
                 <DockPanel>
                     <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
                         <Label Content="Слой: " VerticalAlignment="Center" />
-                        <ExtToolkit:IntegerUpDown IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="23" />
+                        <ExtToolkit:IntegerUpDown IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="20" />
                         <Label Content=" Длительность: " VerticalAlignment="Center" />
                         <ExtToolkit:IntegerUpDown Increment="100"
                                                   IsEditable="False"
                                                   Text="{Binding Duration, Mode=TwoWay}"
-                                                  Height="23" />
-                        <Button Command="{Binding ImportSvgCommand}" Content="Импорт из .svg" Margin="10,5,0,0" />
-                        <Button Command="{Binding ExportSvgCommand}" Content="Экспорт в .svg" Margin="10,5,0,0" />
+                                                  Height="20" />
+                        <Button Command="{Binding ImportSvgCommand}" Content="Импорт из .svg" Margin="10,5,0,0" Width="150" />
+                        <Button Command="{Binding ExportSvgCommand}" Content="Экспорт в .svg" Margin="10,5,0,0" Width="150" />
                     </StackPanel>
                     <ContentControl Content="{Binding XamlOfImage}" Width="500" Height="500" HorizontalAlignment="Center">
                         <ContentControl.LayoutTransform>

@@ -11,7 +11,6 @@ namespace GroupControllerModule.Converter
     {
         public void Convert()
         {
-            DriversConverter.Convert();
             XManager.DeviceConfiguration = new XDeviceConfiguration();
             ConvertDevices();
             ConvertZones();

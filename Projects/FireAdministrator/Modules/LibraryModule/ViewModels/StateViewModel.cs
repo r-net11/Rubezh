@@ -31,11 +31,6 @@ namespace LibraryModule.ViewModels
             RemoveFrameCommand = new RelayCommand(OnRemoveFrame, CanRemoveFrame);
         }
 
-        public string Test
-        {
-            get { return "StateViewModel"; }
-        }
-
         public LibraryState State { get; private set; }
         public Driver ParentDriver { get; private set; }
 
@@ -63,7 +58,12 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                return IsAdditional ? ParentDriver.States.FirstOrDefault(x => x.Code == State.Code).Name : null;
+                var driverState = ParentDriver.States.FirstOrDefault(x => x.Code != null && x.Code == State.Code);
+                if (driverState != null)
+                {
+                    return IsAdditional ? driverState.Name : null;
+                }
+                return null;
             }
         }
 

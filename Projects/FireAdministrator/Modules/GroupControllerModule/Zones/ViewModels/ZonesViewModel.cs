@@ -11,15 +11,22 @@ namespace GroupControllerModule.ViewModels
 {
     public class ZonesViewModel : RegionViewModel, IEditingViewModel
     {
+        public static ZonesViewModel Current { get; private set; }
         public ZoneDevicesViewModel ZoneDevices { get; set; }
 
         public ZonesViewModel()
         {
+            Current = this;
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             ZoneDevices = new ZoneDevicesViewModel();
 
+            Initialize();
+        }
+
+        public void Initialize()
+        {
             Zones = new ObservableCollection<ZoneViewModel>(
                 from zone in XManager.DeviceConfiguration.Zones
                 orderby zone.No
@@ -29,7 +36,16 @@ namespace GroupControllerModule.ViewModels
                 SelectedZone = Zones[0];
         }
 
-        public ObservableCollection<ZoneViewModel> Zones { get; private set; }
+        ObservableCollection<ZoneViewModel> _zones;
+        public ObservableCollection<ZoneViewModel> Zones
+        {
+            get { return _zones; }
+            set
+            {
+                _zones = value;
+                OnPropertyChanged("Zones");
+            }
+        }
 
         ZoneViewModel _selectedZone;
         public ZoneViewModel SelectedZone

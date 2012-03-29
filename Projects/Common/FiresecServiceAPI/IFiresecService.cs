@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.ServiceModel;
 using FiresecAPI.Models;
+using XFiresecAPI;
 
 namespace FiresecAPI
 {
@@ -165,6 +166,12 @@ namespace FiresecAPI
         [OperationContract]
         [FaultContract(typeof(FiresecException))]
         string Test();
+
+        [OperationContract]
+        void SetXDeviceConfiguration(XDeviceConfiguration xDeviceConfiguration);
+
+        [OperationContract]
+        XDeviceConfiguration GetXDeviceConfiguration();
     }
 
     public class FiresecException : Exception

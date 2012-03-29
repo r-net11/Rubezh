@@ -65,8 +65,11 @@ namespace FiresecService.Converters
                     device.UID = GuidHelper.ToGuid(UIDParam.value);
                 else
                     device.UID = Guid.NewGuid();
+            }
 
-                var AltInterfaceParam = innerDevice.param.FirstOrDefault(x => x.name == "SYS$Alt_Interface");
+            if (innerDevice.dev_param != null)
+            {
+                var AltInterfaceParam = innerDevice.dev_param.FirstOrDefault(x => x.name == "SYS$Alt_Interface");
                 if (AltInterfaceParam != null)
                     device.IsAltInterface = true;
                 else
@@ -206,6 +209,7 @@ namespace FiresecService.Converters
 
             innerDevice.prop = AddProperties(device).ToArray();
             innerDevice.param = AddParameters(device).ToArray();
+            innerDevice.dev_param = AddDevParameters(device).ToArray();
 
             return innerDevice;
         }
@@ -233,17 +237,22 @@ namespace FiresecService.Converters
                 });
             }
 
+            return parameters;
+        }
+
+        static List<dev_paramType> AddDevParameters(Device device)
+        {
+            var devParameters = new List<dev_paramType>();
             if (device.IsAltInterface)
             {
-                parameters.Add(new paramType()
+                devParameters.Add(new dev_paramType()
                 {
                     name = "SYS$Alt_Interface",
                     type = "String",
                     value = "USB"
                 });
             }
-
-            return parameters;
+            return devParameters;
         }
 
         static List<propType> AddProperties(Device device)
@@ -263,15 +272,6 @@ namespace FiresecService.Converters
                         });
                     }
                 }
-            }
-
-            if (device.IsAltInterface)
-            {
-                propertyList.Add(new propType()
-                {
-                    name = "SYS$Alt_Interface",
-                    value = "USB"
-                });
             }
 
             if (device.IsRmAlarmDevice)

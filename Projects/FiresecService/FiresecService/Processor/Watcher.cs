@@ -4,6 +4,7 @@ using System.Linq;
 using Firesec;
 using FiresecAPI.Models;
 using FiresecService.Converters;
+using System.Diagnostics;
 
 namespace FiresecService
 {
@@ -53,7 +54,12 @@ namespace FiresecService
 
         void SetLastEvent()
         {
-            Firesec.Journals.document journal = FiresecInternalClient.ReadEvents(0, 1);
+            //Firesec.Journals.document journal = FiresecInternalClient.ReadEvents(0, 1000);
+            //foreach (var journalItem in journal.Journal)
+            //{
+            //    Trace.WriteLine(journalItem.IDEvents);
+            //}
+            Firesec.Journals.document journal = FiresecInternalClient.ReadEvents(0, 1000);
             if (journal != null && journal.Journal.IsNotNullOrEmpty())
             {
                 LastEventId = int.Parse(journal.Journal[0].IDEvents);

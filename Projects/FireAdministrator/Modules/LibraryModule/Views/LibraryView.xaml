@@ -8,7 +8,7 @@
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         <Views:LibraryTree Grid.Column="0" />
-        <Grid Grid.Column="1" DataContext="{Binding SelectedDeviceViewModel}">
+        <Grid Grid.Column="1" DataContext="{Binding SelectedDeviceViewModel}" Margin="5 0 0 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />

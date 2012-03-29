@@ -95,7 +95,7 @@ namespace FiresecService
 
                 ConfigurationConverter.ConvertBack(deviceConfiguration, false);
                 var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-                fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_1.HXC";
+                //fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_1.HXC";
                 return FiresecInternalClient.DeviceUpdateFirmware(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);
             }
         }
@@ -114,7 +114,7 @@ namespace FiresecService
 
                 ConfigurationConverter.ConvertBack(deviceConfiguration, false);
                 var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-                fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_2.HXC";
+                //fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_2.HXC";
                 return FiresecInternalClient.DeviceVerifyFirmwareVersion(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);
             }
         }

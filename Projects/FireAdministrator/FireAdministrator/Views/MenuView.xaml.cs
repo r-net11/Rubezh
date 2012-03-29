@@ -11,6 +11,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
 using Microsoft.Win32;
+using XFiresecAPI;
 
 namespace FireAdministrator.Views
 {
@@ -79,6 +80,9 @@ namespace FireAdministrator.Views
                 (ServiceFactory.SaveService.CamerasChanged))
                 FiresecManager.FiresecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
 
+            if (ServiceFactory.SaveService.XDevicesChanged)
+                FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
+
             ServiceFactory.SaveService.Reset();
             _saveButton.IsEnabled = false;
         }
@@ -93,14 +97,20 @@ namespace FireAdministrator.Views
                 FiresecManager.PlansConfiguration = new PlansConfiguration();
                 FiresecManager.SystemConfiguration = new SystemConfiguration();
 
-                var device = new Device()
+                FiresecManager.DeviceConfiguration.RootDevice = new Device()
                 {
                     DriverUID = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer).UID,
-                    Driver =    FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer)
+                    Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer)
                 };
-                FiresecManager.DeviceConfiguration.RootDevice = device;
                 FiresecManager.DeviceConfiguration.Update();
                 FiresecManager.PlansConfiguration.Update();
+
+                XManager.DeviceConfiguration = new XDeviceConfiguration();
+                XManager.DeviceConfiguration.RootDevice = new XDevice()
+                {
+                    DriverUID = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System).UID,
+                    Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
+                };
 
                 ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 

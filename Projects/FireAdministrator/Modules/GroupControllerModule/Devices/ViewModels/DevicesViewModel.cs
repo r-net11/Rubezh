@@ -19,6 +19,11 @@ namespace GroupControllerModule.ViewModels
             PasteCommand = new RelayCommand(OnPaste, CanPaste);
             DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
 
+            Initialize();
+        }
+
+        public void Initialize()
+        {
             BuildTree();
             if (Devices.Count > 0)
             {
@@ -26,11 +31,6 @@ namespace GroupControllerModule.ViewModels
                 ExpandChild(Devices[0]);
                 SelectedDevice = Devices[0];
             }
-        }
-
-        public RelayCommand ConvertCommand { get; private set; }
-        void OnConvert()
-        {
         }
 
         ObservableCollection<DeviceViewModel> _devices;

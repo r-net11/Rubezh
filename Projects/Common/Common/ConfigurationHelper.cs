@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
+using FiresecClient;
 
 namespace Common
 {
@@ -52,7 +53,7 @@ namespace Common
         {
             get
             {
-                Random rnd = new Random();
+                var rnd = new Random();
                
                 string host = "localhost";
                 IPAddress addr = (IPAddress)Dns.GetHostAddresses(host)[0];

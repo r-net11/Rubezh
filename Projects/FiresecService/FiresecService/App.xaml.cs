@@ -17,7 +17,7 @@ namespace FiresecServiceRunner
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            MessageBoxService.Show(e.ExceptionObject.ToString());
+            //MessageBoxService.Show(e.ExceptionObject.ToString());
         }
     }
 }
