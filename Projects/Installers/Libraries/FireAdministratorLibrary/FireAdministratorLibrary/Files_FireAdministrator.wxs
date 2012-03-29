@@ -8,13 +8,13 @@
     <util:CloseApplication Id="FACloseAction" CloseMessage="yes" Target="$(var.FireAdministrator.TargetFileName)" RebootPrompt="no" />
     
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">
-      <Component Id="FireAdministratorExe" Guid="1225CC6B-DCB0-4AEE-B6DB-A67FAEADDF15">
-        <File Id="FireAdministratorExe" Name="$(var.FireAdministrator.TargetFileName)"
+      <Component Id="FAExeComponent" Guid="1225CC6B-DCB0-4AEE-B6DB-A67FAEADDF15">
+        <File Id="FAExe" Name="$(var.FireAdministrator.TargetFileName)"
               Source="$(var.FireAdministrator.TargetPath)" DiskId="1" KeyPath="yes">
         </File>
       </Component>
-      <Component Id="FireAdministratorConfig" Guid="9D204DAF-3C42-4D69-98E6-D190E29C9E7A">
-        <File Id="FireAdministratorConfig" Name="FireAdministrator.exe.config" Source="$(var.FireAdministrator.TargetDir)"
+      <Component Id="FAConfigComponent" Guid="9D204DAF-3C42-4D69-98E6-D190E29C9E7A">
+        <File Id="FAConfig" Name="FireAdministrator.exe.config" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
       <Component Id="FAPrismDllComponent" Guid="52F0C30C-9BB4-4013-A2B9-2835F2706B3E">

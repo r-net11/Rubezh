@@ -44,10 +44,10 @@ namespace DevicesModule.Views
             if (e.Key == Key.X && Keyboard.Modifiers == ModifierKeys.Control)
                 PressButton(cutButton);
 
-            if (e.Key == Key.Delete)
+            if (e.Key == Key.Delete && Keyboard.Modifiers == ModifierKeys.Control)
                 PressButton(removeButton);
 
-            if (e.Key == Key.Insert)
+            if (e.Key == Key.Insert && Keyboard.Modifiers == ModifierKeys.Control)
                 PressButton(addButton);
 
             if (e.Key == Key.P && Keyboard.Modifiers == ModifierKeys.Control)
@@ -63,43 +63,30 @@ namespace DevicesModule.Views
                 PressButton(usbReadDeviceButton, true);
 
             if (e.Key == Key.W && Keyboard.Modifiers == ModifierKeys.Control)
-            {
                 PressButton(writeDeviceButton, false);
-            }
 
             if (e.Key == Key.W && Keyboard.Modifiers == ModifierKeys.Alt)
-            {
                 PressButton(usbWriteDeviceButton, true);
-            }
 
             if (e.Key == Key.W && ((int)Keyboard.Modifiers == ((int)ModifierKeys.Control + (int)ModifierKeys.Shift)))
                 PressButton(writeAllDeviceButton);
 
             if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
-            {
                 PressButton(setPasswordButton, false);
-            }
 
             if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Alt)
-            {
                 PressButton(usbSetPasswordButton, true);
-            }
 
             if (e.Key == Key.U && Keyboard.Modifiers == ModifierKeys.Control)
-            {
                 PressButton(updateSoftButton, false);
-            }
 
             if (e.Key == Key.U && Keyboard.Modifiers == ModifierKeys.Alt)
-            {
                 PressButton(usbUpdateSoftButton, true);
-            }
             //
             if (e.Key == Key.Right)
             {
                 if (DevicesViewModel.Current == null || DevicesViewModel.Current.SelectedDevice == null)
                     return;
-
                 if (DevicesViewModel.Current.SelectedDevice.HasChildren && !DevicesViewModel.Current.SelectedDevice.IsExpanded) 
                     DevicesViewModel.Current.SelectedDevice.IsExpanded = true;
             }
@@ -108,10 +95,11 @@ namespace DevicesModule.Views
             {
                 if (DevicesViewModel.Current == null || DevicesViewModel.Current.SelectedDevice == null)
                     return;
-
                 if (DevicesViewModel.Current.SelectedDevice.HasChildren && DevicesViewModel.Current.SelectedDevice.IsExpanded)
                     DevicesViewModel.Current.SelectedDevice.IsExpanded = false;
             }
+
+            
         }
 
         void PressButton(Button button)

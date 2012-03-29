@@ -70,27 +70,27 @@
 										</StackPanel>
 
 										<TextBlock Visibility="{Binding CanSelectDevice, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-										<Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
-											<StackPanel Orientation="Horizontal">
-												<TextBlock Text="{Binding SelectedDevice.Driver.ShortName}" />
-												<TextBlock Text="{Binding SelectedDevice.DottedAddress}" Margin="10, 0, 0, 0" />
-											</StackPanel>
+											<Hyperlink Command="{Binding SelectDeviceCommand}" Style="{StaticResource HyperlinkStyle}">
+												<StackPanel Orientation="Horizontal">
+													<TextBlock Text="{Binding SelectedDevice.Driver.ShortName}" />
+													<TextBlock Text="{Binding SelectedDevice.DottedAddress}" Margin="10, 0, 0, 0" />
+												</StackPanel>
+												
+												<TextBlock Text="Нажмите для выбора устройства" Margin="2">
+													<TextBlock.Style>
+														<Style>
+															<Setter Property="TextBlock.Visibility" Value="Collapsed" />
+															<Style.Triggers>
+																<DataTrigger Binding="{Binding SelectedDevice}" Value="{x:Null}">
+																	<Setter Property="TextBlock.Visibility" Value="Visible" />
+																</DataTrigger>
+															</Style.Triggers>
+														</Style>
+													</TextBlock.Style>
+												</TextBlock>
+											</Hyperlink>
+										</TextBlock>
 										
-											<TextBlock Text="Нажмите для выбора устройства" Margin="2">
-												<TextBlock.Style>
-													<Style>
-														<Setter Property="TextBlock.Visibility" Value="Collapsed" />
-														<Style.Triggers>
-														<DataTrigger Binding="{Binding SelectedDevice}" Value="{x:Null}">
-															<Setter Property="TextBlock.Visibility" Value="Visible" />
-														</DataTrigger>
-														</Style.Triggers>
-													</Style>
-												</TextBlock.Style>
-											</TextBlock>
-										</Hyperlink>
-									</TextBlock>
-
 									</DockPanel>
 									<Controls:ToolBarButton Grid.Column="1" DockPanel.Dock="Right" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить"
 										Command="{Binding
@@ -107,7 +107,7 @@
 										Command="{Binding ChangeJoinOperatorCommand}"
 										Width="75" HorizontalAlignment="Left" Style="{StaticResource ToolarButtonStyle}" Foreground="White" />
 								</Grid>
-								
+
 							</StackPanel>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>

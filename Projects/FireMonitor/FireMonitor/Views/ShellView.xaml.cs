@@ -71,8 +71,7 @@ namespace FireMonitor.Views
 
         void OnShowHelp(object sender, RoutedEventArgs e)
         {
-            var helperPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), @"Firesec\FS_CL_OPER.HLP");
-            Process.Start(helperPath);
+            Process.Start("Manual.pdf");
         }
 
         void OnShowAbout(object sender, RoutedEventArgs e)

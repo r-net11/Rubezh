@@ -21,9 +21,9 @@ namespace SettingsModule.ViewModels
         public RelayCommand ShowDriversCommand { get; private set; }
         void OnShowDrivers()
         {
-            var message = FiresecManager.FiresecService.CheckHaspPresence();
-            MessageBoxService.Show(message);
-            return;
+            //var message = FiresecManager.FiresecService.CheckHaspPresence();
+            //MessageBoxService.Show(message);
+            //return;
             //int y = 0;
             //int x = 10 / y;
 

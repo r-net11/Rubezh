@@ -6,8 +6,8 @@
 	<Fragment>
 		<Feature Id="FireAdministratorFeature" Title="$(var.FireAdministratorName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
-			<ComponentRef Id="FireAdministratorExe" />
-			<ComponentRef Id="FireAdministratorConfig" />
+			<ComponentRef Id="FAExeComponent" />
+			<ComponentRef Id="FAConfigComponent" />
 			<ComponentRef Id="FACommonComponent" />
 			<ComponentRef Id="FAControlsComponent" />
 			<ComponentRef Id="FADeviceControlsComponent" />

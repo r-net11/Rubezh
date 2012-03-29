@@ -19,9 +19,9 @@
 				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="!(loc.WelcomeDlgBitmap)" />
 				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="10" Width="220" Height="60" Transparent="yes" NoPrefix="yes" 
-								 Text="{&amp;MSSansBold12}Вас приветствует мастер установки Firesec 2" />
+								 Text="{&amp;MSSansBold12}Вас приветствует мастер установки $(var.ProductName)" />
 				<Control Id="Description1" Type="Text" X="135" Y="50" Width="220" Height="60" Transparent="yes" NoPrefix="yes" 
-								 Text="{&amp;NormalText}Программа установит Firesec 2 на ваш компьютер." >
+								 Text="{&amp;NormalText}Программа установит $(var.ProductName) на ваш компьютер." >
 					<Condition Action="show">NOT Installed OR NOT PATCH</Condition>
 					<Condition Action="hide">Installed AND PATCH</Condition>
 				</Control>
@@ -192,7 +192,7 @@
 
 			<Dialog Id="SQLLogin" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор экземпляра компонентов SQL Server 2005" TabSkip="yes" Transparent="yes" />
-				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Text="Укажите экземпляр компонентов, в котором будет создана база данных Firesec 2." TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Text="Укажите экземпляр компонентов, в котором будет создана база данных $(var.ProductName)." TabSkip="yes" Transparent="yes" />
 				<Control Id="lblSQLLoginIntro" Type="Text" X="30" Y="50" Width="330" Height="40" 
 								 Text="Введите имя для экземпляра. Выберите режим проверки подлинности для использования при установке." TabSkip="no" Transparent="yes" />
 
@@ -229,6 +229,9 @@
 			</Dialog>
 
 			<Dialog Id="MaintenanceTypeDialog" X="50" Y="50" Width="374" Height="266" Title="!(loc.MaintenanceTypeDlg_Title)">
+				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}$(var.ProductName) уже был установлен на ваш компьютер." TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Text="Вы можете изменить, восстановить или удалить $(var.ProductName)." TabSkip="yes" Transparent="yes" />
+
 				<Control Id="ChangeButton" Type="PushButton" X="40" Y="65" Width="80" Height="17" ToolTip="!(loc.MaintenanceTypeDlgChangeButtonTooltip)" Default="yes" Text="!(loc.MaintenanceTypeDlgChangeButton)">
 					<Publish Property="WixUI_InstallMode" Value="Change">1</Publish>
 					<Condition Action="disable">ARPNOMODIFY</Condition>
@@ -287,6 +290,9 @@
 			</Dialog>
 
 			<Dialog Id="VerifyReadyDialog" X="10" Y="0" Width="374" Height="266" Title="!(loc.VerifyReadyDlg_Title)" TrackDiskSpace="yes">
+				<!--<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}$(var.ProductName) уже был установлен на ваш компьютер." TabSkip="yes" Transparent="yes" />
+				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Text="Вы можете изменить, восстановить или удалить $(var.ProductName)." TabSkip="yes" Transparent="yes" />-->
+
 				<Control Id="InstallNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
 					<Condition Action="show">NOT Installed AND NOT ALLUSERS</Condition>
 					<Condition Action="enable">NOT Installed</Condition>
@@ -450,47 +456,47 @@
 				
 				<!--<Control Id="Bitmap1" Type="Bitmap" X="0" Y="0" Width="374" Height="44" Text="FiresecBanner" TabSkip="no" Disabled="yes" FixedSize="yes" />-->
 				
-				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Установка  $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Установка  $(var.ProductName)" TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>
 				</Control>
 				<Control Id="DlgDesc" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Устанавливаются выбранные компоненты программы." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>
 				</Control>
-				<Control Id="DlgText" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа устанавливает $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgText" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа устанавливает $(var.ProductName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>
 				</Control>
 				
-				<Control Id="DlgTitle2" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Удаление программы $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgTitle2" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Удаление программы $(var.ProductName)" TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Remove"</Condition>
 				</Control>
 				<Control Id="DlgDesc2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Удаление выбранных компонентов программы. " TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Remove"</Condition>
 				</Control>
-				<Control Id="DlgText2" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа удаления удаляет $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgText2" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа удаления удаляет $(var.ProductName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Remove"</Condition>
 				</Control>
 				
-				<Control Id="DlgTitle3" Type="Text" X="10" Y="50" Width="292" Height="20" Text="{&amp;MSSansBold8}Изменение программы $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgTitle3" Type="Text" X="10" Y="50" Width="292" Height="20" Text="{&amp;MSSansBold8}Изменение программы $(var.ProductName)" TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Change"</Condition>
 				</Control>
 				<Control Id="DlgDesc3" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Изменение выбранных компонентов программы. " TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Change"</Condition>
 				</Control>
-				<Control Id="DlgText3" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа установки изменяет $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgText3" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа установки изменяет $(var.ProductName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Change"</Condition>
 				</Control>
 				
-				<Control Id="DlgTitle4" Type="Text" X="10" Y="50" Width="292" Height="20" Text="{&amp;MSSansBold8}Восстановление программы $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgTitle4" Type="Text" X="10" Y="50" Width="292" Height="20" Text="{&amp;MSSansBold8}Восстановление программы $(var.ProductName)" TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Repair"</Condition>
 				</Control>
-				<Control Id="DlgText4" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа установки восстанавливает $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgText4" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа установки восстанавливает $(var.ProductName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Repair"</Condition>
 				</Control>
 				
-				<Control Id="DlgTitle5" Type="Text" X="10" Y="50" Width="292" Height="20" Text="{&amp;MSSansBold8}Обновление программы $(var.BrandName)" TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgTitle5" Type="Text" X="10" Y="50" Width="292" Height="20" Text="{&amp;MSSansBold8}Обновление программы $(var.ProductName)" TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Update"</Condition>
 				</Control>
-				<Control Id="DlgText5" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа установки обновляет $(var.BrandName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
+				<Control Id="DlgText5" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа установки обновляет $(var.ProductName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Update"</Condition>
 				</Control>
 				

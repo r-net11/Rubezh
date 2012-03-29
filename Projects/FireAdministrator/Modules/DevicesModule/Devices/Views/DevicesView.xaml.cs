@@ -12,6 +12,7 @@ namespace DevicesModule.Views
             InitializeComponent();
             Loaded += new RoutedEventHandler(DevicesView_Loaded);
             _devicesDataGrid.SelectionChanged += new SelectionChangedEventHandler(DevicesView_SelectionChanged);
+            _devicesDataGrid.PreviewKeyDown += new KeyEventHandler(_devicesDataGrid_PreviewKeyDown);
         }
 
         void DevicesView_Loaded(object sender, RoutedEventArgs e)
@@ -29,7 +30,7 @@ namespace DevicesModule.Views
 
         private void _devicesDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Space)
             {
                 var dataGrid = sender as DataGrid;
                 if (dataGrid != null)

@@ -72,6 +72,7 @@
     
     <InstallExecuteSequence>
       <Custom Action="WixCloseApplications" Before="LaunchConditions" />
+      <!--<Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full"</Custom>-->
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

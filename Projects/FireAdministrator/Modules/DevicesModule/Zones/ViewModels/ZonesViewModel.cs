@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using DevicesModule.Views;
 
 namespace DevicesModule.ViewModels
 {
@@ -169,11 +170,18 @@ namespace DevicesModule.ViewModels
         {
             SelectedZone = SelectedZone;
             ServiceFactory.Layout.ShowMenu(new ZonesMenuViewModel(this));
+
+            if (ZonesMenuView.Current != null)
+                ZonesMenuView.Current.AcceptKeyboard = true;
+
         }
 
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
+
+            if (ZonesMenuView.Current != null)
+                ZonesMenuView.Current.AcceptKeyboard = true;
         }
     }
 }

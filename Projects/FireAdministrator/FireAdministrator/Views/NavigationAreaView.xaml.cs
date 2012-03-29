@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Events;
+using System.Configuration;
 
 namespace FireAdministrator.Views
 {
@@ -41,6 +42,19 @@ namespace FireAdministrator.Views
                 IsDevicesSelected = true;
             }
             catch { return; }
+
+            IsGKAllow = Convert.ToBoolean(ConfigurationManager.AppSettings["GKAllow"] as string);
+        }
+
+        bool _isGKAllow;
+        public bool IsGKAllow
+        {
+            get { return _isGKAllow; }
+            set
+            {
+                _isGKAllow = value;
+                OnPropertyChanged("IsGKAllow");
+            }
         }
 
         bool _isDevicesSelected;
