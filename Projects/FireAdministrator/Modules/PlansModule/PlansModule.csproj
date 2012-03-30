@@ -98,6 +98,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Common\Common\AssemblyInfoInc.cs">
+      <Link>AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\Designer\DesignerItem.cs" />
     <Compile Include="Designer\Designer\IResizeChromeBase.cs" />

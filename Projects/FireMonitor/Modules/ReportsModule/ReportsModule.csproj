@@ -113,6 +113,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Common\Common\AssemblyInfoInc.cs">
+      <Link>AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="CrystalReports\IndicationBlockCrystalReport.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -197,8 +200,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Properties\DataSources\ReportsModule.Models.ReportIndicationBlockModel.datasource" />
-    <None Include="Properties\DataSources\ReportsModule.Models.ReportJournalModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

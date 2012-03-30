@@ -37,6 +37,24 @@ namespace FireMonitor.ViewModels
             }
         }
 
+        public static bool DefaultConnect()
+        {
+            var userName = ConfigurationHelper.DefaultLogin;
+            var password = ConfigurationHelper.DefaultPassword;
+            if (userName != null && password != null)
+            {
+                string clientCallbackAddress = ConfigurationHelper.ClientCallbackAddress;
+                string serverAddress = ConfigurationHelper.ServiceAddress;
+                string message = FiresecManager.Connect(clientCallbackAddress, serverAddress, userName, password);
+                if (message == null)
+                {
+                    return true;
+                }
+                MessageBoxService.Show(message);
+            }
+            return false;
+        }
+
         string _userName;
         public string UserName
         {
@@ -77,7 +95,7 @@ namespace FireMonitor.ViewModels
             switch (_passwordViewType)
             {
                 case PasswordViewType.Connect:
-                    message = FiresecManager.Connect(ConnectHelper.ClientCallbackAddress, ConnectHelper.ServiceAddress, UserName, Password);
+                    message = FiresecManager.Connect(ConfigurationHelper.ClientCallbackAddress, ConfigurationHelper.ServiceAddress, UserName, Password);
                     break;
 
                 case PasswordViewType.Reconnect:

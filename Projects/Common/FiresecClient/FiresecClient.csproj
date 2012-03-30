@@ -114,6 +114,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\AssemblyInfoInc.cs">
+      <Link>AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="Extentions\DeviceCreationExtention.cs" />
     <Compile Include="Extentions\DevicePresentationZoneExtention.cs" />
     <Compile Include="Extentions\DeviceStateDisableExtention.cs" />

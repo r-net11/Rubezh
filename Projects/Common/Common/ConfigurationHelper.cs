@@ -1,36 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Configuration;
-using System.Net.NetworkInformation;
-using FiresecClient;
 using System.Net;
 using System.Net.Sockets;
-using Controls.MessageBox;
 
-namespace FireAdministrator.ViewModels
+namespace Common
 {
-    public class ConnectHelper
+    public static class ConfigurationHelper
     {
-        public static bool DefaultConnect()
-        {
-            var userName = ConnectHelper.DefaultLogin;
-            var password = ConnectHelper.DefaultPassword;
-            if (userName != null && password != null)
-            {
-                string clientCallbackAddress = ConnectHelper.ClientCallbackAddress;
-                string serverAddress = ConnectHelper.ServiceAddress;
-                string message = FiresecManager.Connect(clientCallbackAddress, serverAddress, userName, password);
-                if (message == null)
-                {
-                    return true;
-                }
-                MessageBoxService.Show(message);
-            }
-            return false;
-        }
-
         public static string ClientCallbackAddress
         {
             get
@@ -55,6 +31,16 @@ namespace FireAdministrator.ViewModels
         public static string DefaultPassword
         {
             get { return ConfigurationManager.AppSettings["DefaultPassword"] as string; }
+        }
+
+        public static string LibVlcDllsPath
+        {
+            get { return ConfigurationManager.AppSettings["LibVlcDllsPath"] as string; }
+        }
+
+        public static bool ShowOnlyVideo
+        {
+            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["ShowOnlyVideo"] as string); }
         }
 
         public static bool AutoConnect

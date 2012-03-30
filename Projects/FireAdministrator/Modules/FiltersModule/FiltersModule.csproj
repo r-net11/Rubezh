@@ -76,6 +76,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Common\Common\AssemblyInfoInc.cs">
+      <Link>AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="Converters\CategoriesToStringConverter.cs" />
     <Compile Include="Converters\CategoryTypeToCategoryNameConverter.cs" />
     <Compile Include="Converters\EventsToStringConverter.cs" />

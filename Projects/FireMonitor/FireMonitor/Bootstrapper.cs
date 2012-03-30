@@ -1,15 +1,16 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using System.Windows;
+using AlarmModule;
 using AlarmModule.Events;
+using Common;
+using Controls.MessageBox;
 using FireMonitor.ViewModels;
+using FireMonitor.Views;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using FireMonitor.Views;
-using Controls.MessageBox;
-using System.Configuration;
-using AlarmModule;
 
 namespace FireMonitor
 {
@@ -19,14 +20,8 @@ namespace FireMonitor
 
         void InitializeVideoSettings()
         {
-            string showOnlyVideoString = ConfigurationManager.AppSettings["ShowOnlyVideo"] as string;
-            if (showOnlyVideoString == "True")
-            {
-                showOnlyVideo = true;
-            }
-
-            string libVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
-            VideoService.Initialize(libVlcDllsPath);
+            showOnlyVideo = ConfigurationHelper.ShowOnlyVideo;
+            VideoService.Initialize(ConfigurationHelper.LibVlcDllsPath);
         }
 
         public void Initialize()
@@ -39,8 +34,8 @@ namespace FireMonitor
             var preLoadWindow = new PreLoadWindow();
             
             var connectResult = false;
-            if (ConnectHelper.AutoConnect)
-                connectResult = ConnectHelper.DefaultConnect();
+            if (ConfigurationHelper.AutoConnect)
+                connectResult = LoginViewModel.DefaultConnect();
             else
             {
                 var loginViewModel = new LoginViewModel(LoginViewModel.PasswordViewType.Connect);
@@ -49,6 +44,7 @@ namespace FireMonitor
 
             if (connectResult)
             {
+                preLoadWindow.PreLoadText = "Инициализация компонент...";
                 preLoadWindow.Show();
                 FiresecManager.SelectiveFetch();
 

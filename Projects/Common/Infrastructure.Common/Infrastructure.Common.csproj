@@ -101,6 +101,9 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\AssemblyInfoInc.cs">
+      <Link>AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="Dialogs\BaseViewModel.cs" />
     <Compile Include="Dialogs\DialogContent.cs" />
     <Compile Include="Dialogs\DialogWindow.xaml.cs">

@@ -137,6 +137,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\AssemblyInfoInc.cs">
+      <Link>AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="AddressConverter.cs" />
     <Compile Include="CallbackService\IFiresecCallbackService.cs" />
     <Compile Include="IFiresecCallback.cs" />

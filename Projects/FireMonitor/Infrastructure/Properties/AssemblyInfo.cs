@@ -7,16 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Infrastructure")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Infrastructure")]
-[assembly: AssemblyCopyright("Copyright ©  2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
-// Параметр ComVisible со значением FALSE делает типы в сборке невидимыми
-// для COM-компонентов.  Если требуется обратиться к типу в этой сборке через
-// COM, задайте атрибуту ComVisible значение TRUE для этого типа.
-[assembly: ComVisible(false)]
 
 // Следующий GUID служит для идентификации библиотеки типов, если этот проект будет видимым для COM
 [assembly: Guid("9669b43b-ba28-45f6-b2f0-46ee903b940d")]

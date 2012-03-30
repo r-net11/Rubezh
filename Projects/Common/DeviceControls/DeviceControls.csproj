@@ -67,6 +67,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\AssemblyInfoInc.cs">
+      <Link>AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="DeviceControl.xaml.cs">
       <DependentUpon>DeviceControl.xaml</DependentUpon>
     </Compile>

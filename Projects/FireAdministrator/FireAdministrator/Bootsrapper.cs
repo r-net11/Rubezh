@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Configuration;
+using System.Linq;
 using System.Windows;
+using Common;
 using Controls.MessageBox;
 using FireAdministrator.ViewModels;
 using FireAdministrator.Views;
@@ -8,7 +10,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using System.Configuration;
 
 namespace FireAdministrator
 {
@@ -20,9 +21,10 @@ namespace FireAdministrator
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
             var preLoadWindow = new PreLoadWindow();
+
             var connectResult = false;
-            if (ConnectHelper.AutoConnect)
-                connectResult = ConnectHelper.DefaultConnect();
+            if (ConfigurationHelper.AutoConnect)
+                connectResult = LoginViewModel.DefaultConnect();
             else
             {
                 var loginViewModel = new LoginViewModel();
@@ -31,7 +33,9 @@ namespace FireAdministrator
 
             if (connectResult)
             {
+                preLoadWindow.PreLoadText = "Инициализация компонент...";
                 preLoadWindow.Show();
+                
                 FiresecManager.SelectiveFetch();
 
                 if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)

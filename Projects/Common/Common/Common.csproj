@@ -128,6 +128,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlarmPlayerHelper.cs" />
+    <Compile Include="AssemblyInfoInc.cs" />
+    <Compile Include="ConfigurationHelper.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
     <Compile Include="MachineNameHelper.cs" />

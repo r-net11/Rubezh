@@ -96,6 +96,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Common\Common\AssemblyInfoInc.cs">
+      <Link>AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="Converters\DevicesToStringConverter.cs" />
     <Compile Include="Converters\ZonesToStringConverter.cs" />
     <Compile Include="InstructionsModule.cs" />

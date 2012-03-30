@@ -101,6 +101,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\Common\AssemblyInfoInc.cs">
+      <Link>AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="AlarmButton.cs" />
     <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
@@ -119,6 +122,9 @@
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DigitalPasswordHelper.cs" />
+    <Compile Include="MessageBox\View\PreLoadWindow.xaml.cs">
+      <DependentUpon>PreLoadWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MiddleButtonScrollHelper.cs" />
     <Compile Include="PasswordBoxControl.cs" />
     <Compile Include="BrightnessToColorConverter.cs" />
@@ -159,6 +165,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="MessageBox\View\PreLoadWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\ActiveXDataGridStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

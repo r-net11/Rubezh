@@ -125,6 +125,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Common\Common\AssemblyInfoInc.cs">
+      <Link>AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="Converters\CategoriesToStringConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
     <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />

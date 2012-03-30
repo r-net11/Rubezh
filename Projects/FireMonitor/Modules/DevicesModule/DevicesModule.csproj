@@ -96,6 +96,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\Common\Common\AssemblyInfoInc.cs">
+      <Link>AssemblyInfoInc.cs</Link>
+    </Compile>
     <Compile Include="Converters\StateToIconConverter.cs" />
     <Compile Include="DevicesModuleLoader.cs" />
     <Compile Include="Events\ZoneSelectedEvent.cs" />

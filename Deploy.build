@@ -59,6 +59,15 @@
 		<msbuild project="Projects\FireMonitor\FireMonitor.sln">
 			<property name="Configuration" value="Release" />
 		</msbuild>	
+		<msbuild project="Projects\Installers\Libraries\FireAdministratorLibrary\FireAdministratorLibrary.sln">
+			<property name="Configuration" value="Release" />
+		</msbuild>	
+		<msbuild project="Projects\Installers\Libraries\FireMonitorLibrary\FireMonitorLibrary.sln">
+			<property name="Configuration" value="Release" />
+		</msbuild>	
+		<msbuild project="Projects\Installers\FiresecServiceLibrary\FiresecServiceLibrary.sln">
+			<property name="Configuration" value="Release" />
+		</msbuild>	
 		<msbuild project="Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
 			<property name="Configuration" value="Release" />
 		</msbuild>	
