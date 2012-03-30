@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
 using FiresecClient;
+using Infrastructure;
 
 namespace Common
 {
@@ -16,22 +17,6 @@ namespace Common
             }
         }
 
-        public static string ServiceAddress
-        {
-            get
-            {
-                return ConfigurationManager.AppSettings["ServiceAddress"] as string;
-            }
-        }
-
-        public static string DefaultLogin
-        {
-            get { return ConfigurationManager.AppSettings["DefaultLogin"] as string; }
-        }
-
-        public static string DefaultPassword
-        {
-            get { return ConfigurationManager.AppSettings["DefaultPassword"] as string; }
         }
 
         public static string LibVlcDllsPath
@@ -42,19 +27,12 @@ namespace Common
         public static bool ShowOnlyVideo
         {
             get { return Convert.ToBoolean(ConfigurationManager.AppSettings["ShowOnlyVideo"] as string); }
-        }
-
-        public static bool AutoConnect
-        {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["AutoConnect"] as string); }
-        }
-
         static int Port
         {
             get
             {
                 var rnd = new Random();
-               
+
                 string host = "localhost";
                 IPAddress addr = (IPAddress)Dns.GetHostAddresses(host)[0];
                 int port = rnd.Next(9000, 9100);

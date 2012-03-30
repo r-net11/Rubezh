@@ -235,14 +235,19 @@ namespace FireAdministrator.Views
             }
         }
 
+        public bool IsGCVisible
+        {
+            get { return ServiceFactory.AppSettings.ShowGC; }
+        }
+
         bool _isGCSelected;
-        public bool IsGCrSelected
+        public bool IsGCSelected
         {
             get { return _isGCSelected; }
             set
             {
                 _isGCSelected = value;
-                OnPropertyChanged("IsGCrSelected");
+                OnPropertyChanged("IsGCSelected");
             }
         }
 
@@ -270,13 +275,6 @@ namespace FireAdministrator.Views
                     ServiceFactory.Events.GetEvent<ShowXZonesEvent>().Publish(0);
                 OnPropertyChanged("IsXZonesSelected");
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
 
         bool _isAccesRightsExpanded;
@@ -338,6 +336,13 @@ namespace FireAdministrator.Views
         void GKMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             IsGKExpanded = IsGKExpanded != true;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        void OnPropertyChanged(string name)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
     }
 }

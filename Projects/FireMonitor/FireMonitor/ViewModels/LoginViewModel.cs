@@ -3,6 +3,7 @@ using Common;
 using Controls.MessageBox;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure;
 
 namespace FireMonitor.ViewModels
 {
@@ -95,7 +96,7 @@ namespace FireMonitor.ViewModels
             switch (_passwordViewType)
             {
                 case PasswordViewType.Connect:
-                    message = FiresecManager.Connect(ConfigurationHelper.ClientCallbackAddress, ConfigurationHelper.ServiceAddress, UserName, Password);
+                    message = FiresecManager.Connect(ConnectHelper.ClientCallbackAddress, ServiceFactory.AppSettings.ServiceAddress, UserName, Password);
                     break;
 
                 case PasswordViewType.Reconnect:

@@ -152,6 +152,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppSettings.cs" />
     <Compile Include="Converters\DeviceCustomFunctionConverter.cs" />
     <Compile Include="Converters\DeviceStatesConverter.cs" />
     <Compile Include="Converters\GuardUserConverter.cs" />

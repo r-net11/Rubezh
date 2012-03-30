@@ -2,6 +2,8 @@
 using System.ServiceModel;
 using System.Threading;
 using Common;
+using System.Net;
+using System.Net.Sockets;
 
 namespace FiresecClient
 {
@@ -12,7 +14,8 @@ namespace FiresecClient
 
         public static void Open(string clientCallbackAddress)
         {
-            _clientCallbackAddress = clientCallbackAddress;
+            _clientCallbackAddress = FreeClientCallbackAddress
+                ;
             Thread thread = new Thread(OnOpen);
             thread.Start();
         }
@@ -51,6 +54,40 @@ namespace FiresecClient
         {
             if (_serviceHost != null && _serviceHost.State != CommunicationState.Closed && _serviceHost.State != CommunicationState.Closing)
                 _serviceHost.Close();
+        }
+
+        public static string FreeClientCallbackAddress
+        {
+            get
+            {
+                return "net.tcp://localhost:" + Port + "/FiresecCallbackService/";
+            }
+        }
+
+        static int Port
+        {
+            get
+            {
+                var rnd = new Random();
+
+                string host = "localhost";
+                IPAddress addr = (IPAddress)Dns.GetHostAddresses(host)[0];
+                int port = rnd.Next(9000, 9100);
+                while (true)
+                {
+                    try
+                    {
+                        TcpListener tcpList = new TcpListener(addr, port);
+                        tcpList.Start();
+                        tcpList.Stop();
+                        return port;
+                    }
+                    catch (SocketException e)
+                    {
+                        port = rnd.Next(9000, 9100);
+                    }
+                }
+            }
         }
     }
 }

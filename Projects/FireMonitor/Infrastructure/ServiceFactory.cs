@@ -15,6 +15,8 @@ namespace Infrastructure
             SecurityService = ISecurityService;
         }
 
+        public static AppSettings AppSettings { get; set; }
+
         public static IEventAggregator Events { get; private set; }
         public static ResourceService ResourceService { get; private set; }
         public static ILayoutService Layout { get; private set; }

@@ -126,7 +126,7 @@
                 </TabItem.Header>
             </TabItem>
             <TabItem IsSelected="{Binding IsGKSelected}" MouseLeftButtonUp="GKMouseLeftButtonUp"
-                     Visibility="{Binding IsGKAllow, Converter={StaticResource BoolToVisibilityConverter}}">
+                     Visibility="{Binding IsGCVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image />

@@ -10,6 +10,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using System;
 
 namespace FireAdministrator
 {
@@ -17,13 +18,15 @@ namespace FireAdministrator
     {
         public void Initialize()
         {
+            InitializeAppSettings();
+
             RegisterServices();
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
             var preLoadWindow = new PreLoadWindow();
 
             var connectResult = false;
-            if (ConfigurationHelper.AutoConnect)
+            if (ServiceFactory.AppSettings.AutoConnect)
                 connectResult = LoginViewModel.DefaultConnect();
             else
             {
@@ -81,8 +84,20 @@ namespace FireAdministrator
 
             ServiceFactory.SaveService.Reset();
 
-            string libVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
-            VideoService.Initialize(libVlcDllsPath);
+            VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
+        }
+
+        static void InitializeAppSettings()
+        {
+            var appSettings = new AppSettings();
+            appSettings.ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+            appSettings.DefaultLogin = ConfigurationManager.AppSettings["DefaultLogin"] as string;
+            appSettings.DefaultPassword = ConfigurationManager.AppSettings["DefaultPassword"] as string;
+            appSettings.AutoConnect = Convert.ToBoolean(ConfigurationManager.AppSettings["AutoConnect"] as string);
+            appSettings.LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
+            appSettings.ShowGC = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowGC"] as string);
+            appSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
+            ServiceFactory.AppSettings = appSettings;
         }
     }
 }

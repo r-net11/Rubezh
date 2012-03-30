@@ -13,20 +13,27 @@ namespace SettingsModule.ViewModels
         public SettingsViewModel()
         {
             ShowDriversCommand = new RelayCommand(OnShowDrivers);
+            TestCommand = new RelayCommand(OnTest);
 
             ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
             ConvertJournalCommand = new RelayCommand(OnConvertJournal);
         }
 
-        public RelayCommand ShowDriversCommand { get; private set; }
-        void OnShowDrivers()
+        public bool IsDebug
+        {
+            get { return ServiceFactory.AppSettings.IsDebug; }
+        }
+
+        public RelayCommand TestCommand { get; private set; }
+        void OnTest()
         {
             //var message = FiresecManager.FiresecService.CheckHaspPresence();
             //MessageBoxService.Show(message);
-            //return;
-            //int y = 0;
-            //int x = 10 / y;
+        }
 
+        public RelayCommand ShowDriversCommand { get; private set; }
+        void OnShowDrivers()
+        {
             var driversView = new DriversView();
             driversView.ShowDialog();
         }

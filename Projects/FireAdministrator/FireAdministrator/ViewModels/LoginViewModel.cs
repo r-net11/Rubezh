@@ -3,7 +3,7 @@ using Controls.MessageBox;
 using FiresecClient;
 using Infrastructure.Common;
 using System;
-using FireAdministrator.Views;
+using Infrastructure;
 using Common;
 
 namespace FireAdministrator.ViewModels
@@ -16,8 +16,8 @@ namespace FireAdministrator.ViewModels
             ConnectCommand = new RelayCommand(OnConnect);
             CancelCommand = new RelayCommand(OnCancel);
 
-            UserName = ConfigurationHelper.DefaultLogin;
-            Password = ConfigurationHelper.DefaultPassword;
+            UserName = ServiceFactory.AppSettings.DefaultLogin;
+            Password = ServiceFactory.AppSettings.DefaultPassword;
         }
 
         public static bool DefaultConnect()
@@ -63,7 +63,7 @@ namespace FireAdministrator.ViewModels
         public RelayCommand ConnectCommand { get; private set; }
         void OnConnect()
         {
-            string message = FiresecManager.Connect(ConfigurationHelper.ClientCallbackAddress, ConfigurationHelper.ServiceAddress, UserName, Password);
+            string message = FiresecManager.Connect(ConnectHelper.ClientCallbackAddress, ServiceFactory.AppSettings.ServiceAddress, UserName, Password);
             if (message == null)
             {
                 Close(true);

@@ -41,11 +41,6 @@
     <Folder Include="Xslt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="FiresecBin\fscTest.exe" />
-    <Content Include="FiresecBin\FS_Server.exe" />
-    <Content Include="FiresecBin\FS_Types.dll" />
-    <Content Include="FiresecBin\rubezh2010.xml" />
-    <Content Include="FiresecBin\SockProxy.dll" />
     <Content Include="Pre-Build commands.txt" />
     <Content Include="Variables_FiresecService.wxi" />
     <Content Include="Xslt\WixIcons.xslt" />

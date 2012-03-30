@@ -17,8 +17,7 @@ namespace FiresecServiceRunner
 
             try
             {
-                string isDebug = ConfigurationManager.AppSettings["IsDebug"] as string;
-                IsDebug = isDebug == "True";
+                InitializeAppSettings();
 
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
@@ -87,6 +86,12 @@ namespace FiresecServiceRunner
             }
         }
 
-        public bool IsDebug { get; private set; }
+        static void InitializeAppSettings()
+        {
+            AppSettings.OldFiresecLogin = ConfigurationManager.AppSettings["OldFiresecLogin"] as string;
+            AppSettings.OldFiresecPassword = ConfigurationManager.AppSettings["OldFiresecPassword"] as string;
+            AppSettings.ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+            AppSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
+        }
     }
 }

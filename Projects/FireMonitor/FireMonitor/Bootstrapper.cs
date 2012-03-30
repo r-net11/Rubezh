@@ -1,9 +1,10 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Linq;
 using System.Windows;
 using AlarmModule;
 using AlarmModule.Events;
-using Common;
+using Controls.MessageBox;
 using Controls.MessageBox;
 using FireMonitor.ViewModels;
 using FireMonitor.Views;
@@ -16,17 +17,10 @@ namespace FireMonitor
 {
     public class Bootstrapper
     {
-        bool showOnlyVideo;
-
-        void InitializeVideoSettings()
-        {
-            showOnlyVideo = ConfigurationHelper.ShowOnlyVideo;
-            VideoService.Initialize(ConfigurationHelper.LibVlcDllsPath);
-        }
-
         public void Initialize()
         {
-            InitializeVideoSettings();
+            InitializeAppSettings();
+            VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 
             RegisterServices();
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
@@ -34,7 +28,7 @@ namespace FireMonitor
             var preLoadWindow = new PreLoadWindow();
             
             var connectResult = false;
-            if (ConfigurationHelper.AutoConnect)
+            if (ServiceFactory.AppSettings.AutoConnect)
                 connectResult = LoginViewModel.DefaultConnect();
             else
             {
@@ -55,7 +49,7 @@ namespace FireMonitor
                     var shellView = new ShellView();
                     ServiceFactory.ShellView = shellView;
 
-                    if (showOnlyVideo)
+                    if (ServiceFactory.AppSettings.ShowOnlyVideo)
                     {
                         var alarmVideoWather = new AlarmVideoWather();
                         preLoadWindow.Close();
@@ -118,6 +112,19 @@ namespace FireMonitor
             ReportsModule.ReportsModuleLoader.CreateViewModels();
             CallModule.CallModuleLoader.CreateViewModels();
             PlansModule.PlansModuleLoader.CreateViewModels();
+        }
+
+        static void InitializeAppSettings()
+        {
+            var appSettings = new AppSettings();
+            appSettings.ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+            appSettings.DefaultLogin = ConfigurationManager.AppSettings["DefaultLogin"] as string;
+            appSettings.DefaultPassword = ConfigurationManager.AppSettings["DefaultPassword"] as string;
+            appSettings.AutoConnect = Convert.ToBoolean(ConfigurationManager.AppSettings["AutoConnect"] as string);
+            appSettings.LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
+            appSettings.ShowOnlyVideo = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowOnlyVideo"] as string);
+            appSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
+            ServiceFactory.AppSettings = appSettings;
         }
     }
 }

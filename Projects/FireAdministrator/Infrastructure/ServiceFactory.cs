@@ -16,6 +16,8 @@ namespace Infrastructure
             ProgressService = IProgressService;
         }
 
+        public static AppSettings AppSettings { get; set; }
+
         public static SaveService SaveService { get; private set; }
         public static IEventAggregator Events { get; private set; }
         public static ResourceService ResourceService { get; private set; }

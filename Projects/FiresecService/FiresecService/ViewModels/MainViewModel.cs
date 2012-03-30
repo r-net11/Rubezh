@@ -15,7 +15,6 @@ namespace FiresecService.ViewModels
 
             ShowImitatorCommand = new RelayCommand(OnShowImitator);
             ReloadCommand = new RelayCommand(OnReload);
-
             Connections = new ObservableCollection<ConnectionViewModel>();
 
             Start();
@@ -25,8 +24,8 @@ namespace FiresecService.ViewModels
         {
             FiresecInternalClient.Disconnect();
 
-            string oldFiresecLogin = ConfigurationManager.AppSettings["OldFiresecLogin"] as string;
-            string oldFiresecPassword = ConfigurationManager.AppSettings["OldFiresecPassword"] as string;
+            string oldFiresecLogin = AppSettings.OldFiresecLogin;
+            string oldFiresecPassword = AppSettings.OldFiresecPassword;
             FiresecManager.ConnectFiresecCOMServer(oldFiresecLogin, oldFiresecPassword);
             FiresecServiceManager.Open();
         }
@@ -45,6 +44,11 @@ namespace FiresecService.ViewModels
         void OnShowImitator()
         {
             UserDialogService.ShowModalWindow(new ImitatorViewModel());
+        }
+
+        public bool IsDebug
+        {
+            get { return AppSettings.IsDebug; }
         }
 
         public ObservableCollection<ConnectionViewModel> Connections { get; private set; }

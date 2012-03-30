@@ -2,7 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <StackPanel>
-        <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="300" Margin="2" Visibility="Visible" />
+        <StackPanel Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="300" Margin="2" Visibility="Visible" />
+            <Button Content="Тест" Command="{Binding TestCommand}" Width="300" Margin="2" Visibility="Visible" />
+        </StackPanel>
         <Button Content="Конвертировать конфигурацию из старого формата" Command="{Binding ConvertConfigurationCommand}" Width="400" Margin="2" />
         <Button Content="Конвертировать журнал событий из старого формата" Command="{Binding ConvertJournalCommand}" Width="400" Margin="2" />
     </StackPanel>

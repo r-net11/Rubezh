@@ -40,8 +40,8 @@ namespace FiresecService
             {
                 if (!FiresecManager.IsConnected)
                     return "Нет соединения с ядром Firesec";
-                if (!string.IsNullOrEmpty(FiresecManager.DriversError))
-                    return FiresecManager.DriversError;
+                //if (!string.IsNullOrEmpty(FiresecManager.DriversError))
+                //    return FiresecManager.DriversError;
 
                 if (CheckLogin(login, password))
                 {

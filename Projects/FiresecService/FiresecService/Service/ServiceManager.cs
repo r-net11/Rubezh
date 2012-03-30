@@ -32,7 +32,7 @@ namespace FiresecService
             binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
             binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
 
-            string serverName = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+            string serverName = AppSettings.ServiceAddress;
             string machineName = MachineNameHelper.GetMachineName();
             serverName = serverName.Replace("localhost", machineName);
             _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, new Uri(serverName));

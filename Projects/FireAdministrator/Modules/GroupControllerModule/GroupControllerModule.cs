@@ -15,13 +15,13 @@ namespace GroupControllerModule
 
         public GroupControllerModule()
         {
+            if (ServiceFactory.AppSettings.ShowGC == false)
+                return;
+
             ServiceFactory.Events.GetEvent<ShowXDevicesEvent>().Unsubscribe(OnShowXDevices);
             ServiceFactory.Events.GetEvent<ShowXZonesEvent>().Unsubscribe(OnShowXZones);
             ServiceFactory.Events.GetEvent<ShowXDevicesEvent>().Subscribe(OnShowXDevices);
             ServiceFactory.Events.GetEvent<ShowXZonesEvent>().Subscribe(OnShowXZones);
-
-            //var configurationConverter = new ConfigurationConverter();
-            //configurationConverter.Convert();
 
             DriversConverter.Convert();
             XManager.DeviceConfiguration.RootDevice = new XDevice()
@@ -41,6 +41,9 @@ namespace GroupControllerModule
 
         void CreateViewModels()
         {
+            if (ServiceFactory.AppSettings.ShowGC == false)
+                return;
+
             _devicesViewModel = new DevicesViewModel();
             _zonesViewModel = new ZonesViewModel();
         }
