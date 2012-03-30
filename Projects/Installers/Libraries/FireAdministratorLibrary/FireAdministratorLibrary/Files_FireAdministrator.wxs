@@ -121,6 +121,10 @@
         <File Id="FAVlcInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
+      <Component Id="FAXFiresecAPIComponent" Guid="FAF51EFD-AE3E-42EA-9B51-6D32F4D95F37">
+        <File Id="FAXFiresecAPIDll" Name="XFiresecAPI.dll" Source="$(var.FireAdministrator.TargetDir)" 
+              DiskId="1" KeyPath="yes" />
+      </Component>
 
     </DirectoryRef>
 
