@@ -22,12 +22,12 @@ namespace FireAdministrator.ViewModels
 
         public static bool DefaultConnect()
         {
-            var userName = ConfigurationHelper.DefaultLogin;
-            var password = ConfigurationHelper.DefaultPassword;
+            var userName = ServiceFactory.AppSettings.DefaultLogin;
+            var password = ServiceFactory.AppSettings.DefaultPassword;
             if (userName != null && password != null)
             {
                 string clientCallbackAddress = ConfigurationHelper.ClientCallbackAddress;
-                string serverAddress = ConfigurationHelper.ServiceAddress;
+                string serverAddress = ServiceFactory.AppSettings.ServiceAddress;
                 string message = FiresecManager.Connect(clientCallbackAddress, serverAddress, userName, password);
                 if (message == null)
                 {
@@ -63,7 +63,7 @@ namespace FireAdministrator.ViewModels
         public RelayCommand ConnectCommand { get; private set; }
         void OnConnect()
         {
-            string message = FiresecManager.Connect(ConnectHelper.ClientCallbackAddress, ServiceFactory.AppSettings.ServiceAddress, UserName, Password);
+            string message = FiresecManager.Connect(null, ServiceFactory.AppSettings.ServiceAddress, UserName, Password);
             if (message == null)
             {
                 Close(true);

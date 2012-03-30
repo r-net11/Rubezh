@@ -2,8 +2,6 @@
 using System.Configuration;
 using System.Net;
 using System.Net.Sockets;
-using FiresecClient;
-using Infrastructure;
 
 namespace Common
 {
@@ -17,16 +15,6 @@ namespace Common
             }
         }
 
-        }
-
-        public static string LibVlcDllsPath
-        {
-            get { return ConfigurationManager.AppSettings["LibVlcDllsPath"] as string; }
-        }
-
-        public static bool ShowOnlyVideo
-        {
-            get { return Convert.ToBoolean(ConfigurationManager.AppSettings["ShowOnlyVideo"] as string); }
         static int Port
         {
             get

@@ -93,6 +93,7 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoInc.cs">
       <Link>AssemblyInfoInc.cs</Link>
     </Compile>
+    <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
     <Compile Include="Events\ShowAlarmsEvent.cs" />
     <Compile Include="Events\ShowArchiveEvent.cs" />
