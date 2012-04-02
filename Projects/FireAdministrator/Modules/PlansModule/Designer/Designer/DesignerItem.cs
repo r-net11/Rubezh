@@ -311,7 +311,11 @@ namespace PlansModule.Designer
 
                 if (contentPresenter != null && moveThumb != null)
                 {
-                    UIElement contentVisual = VisualTreeHelper.GetChild(contentPresenter, 0) as UIElement;
+                    UIElement contentVisual = null;
+                    if (VisualTreeHelper.GetChildrenCount(contentPresenter) > 0)
+                    {
+                        contentVisual = VisualTreeHelper.GetChild(contentPresenter, 0) as UIElement;
+                    }
 
                     if (contentVisual != null)
                     {

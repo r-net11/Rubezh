@@ -155,7 +155,7 @@
             <TabItem IsSelected="{Binding IsVideoSelected}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Controls;component/Images/settings.png" />
+                        <Image Source="/Controls;component/Images/Video1.png" />
                         <TextBlock Text="Видео" />
                     </StackPanel>
                 </TabItem.Header>

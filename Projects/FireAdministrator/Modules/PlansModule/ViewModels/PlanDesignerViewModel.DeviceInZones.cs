@@ -90,6 +90,9 @@ namespace PlansModule.ViewModels
 
         bool IsPointInPolygon(Point point, Polygon polygon)
         {
+            if (polygon == null)
+                return false;
+
             var j = polygon.Points.Count - 1;
             var oddNodes = false;
 

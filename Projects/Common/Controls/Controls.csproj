@@ -443,7 +443,15 @@
   <ItemGroup>
     <Resource Include="Images\Refresh.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\Eye1.png" />
+    <Resource Include="Images\Eye2.png" />
+    <Resource Include="Images\Lock.png" />
+    <Resource Include="Images\Unlock.png" />
+    <Resource Include="Images\Video1.png" />
+    <Resource Include="Images\Video2.png" />
+    <Resource Include="Images\Video3.png" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="MessageBox\DialogBoxImages\information.png" />
   </ItemGroup>
@@ -455,6 +463,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Search.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Lamp1.png" />
+    <Resource Include="Images\Lamp2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Empty.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\CheckBlack.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

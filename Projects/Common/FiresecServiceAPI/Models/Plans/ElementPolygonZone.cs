@@ -15,6 +15,9 @@ namespace FiresecAPI.Models
 
         public override FrameworkElement Draw()
         {
+            if (PolygonPoints == null)
+                return null;
+
             var polygon = new Polygon()
             {
                 Points = new PointCollection(PolygonPoints),
