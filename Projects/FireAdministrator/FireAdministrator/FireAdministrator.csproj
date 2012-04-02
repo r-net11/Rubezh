@@ -103,13 +103,13 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="..\..\Common\Common\AssemblyInfoInc.cs">
-      <Link>AssemblyInfoInc.cs</Link>
+      <Link>Properties\AssemblyInfoInc.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bootsrapper.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Services\LayoutService.cs" />
     <Compile Include="Services\ProgressService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />

@@ -45,9 +45,16 @@ namespace DevicesModule.ViewModels
 
         static void OnVerifyCompleted()
         {
-            if (MessageBoxService.ShowQuestion(_question) == MessageBoxResult.Yes)
+            if (string.IsNullOrEmpty(_question))
             {
-                ServiceFactory.ProgressService.Run(OnUpdatePropgress, OnUpdateCompleted, _device.PresentationAddressDriver + ". Обновление прошивки");
+                MessageBoxService.ShowWarning("Ошибка при выполнении операции");
+            }
+            else
+            {
+                if (MessageBoxService.ShowQuestion(_question) == MessageBoxResult.Yes)
+                {
+                    ServiceFactory.ProgressService.Run(OnUpdatePropgress, OnUpdateCompleted, _device.PresentationAddressDriver + ". Обновление прошивки");
+                }
             }
         }
 
@@ -59,7 +66,9 @@ namespace DevicesModule.ViewModels
         static void OnUpdateCompleted()
         {
             if (string.IsNullOrEmpty(_result))
-            MessageBoxService.Show(_result);
+                MessageBoxService.Show("Операция закончилась успешно");
+            else
+                MessageBoxService.Show(_result);
         }
     }
 }

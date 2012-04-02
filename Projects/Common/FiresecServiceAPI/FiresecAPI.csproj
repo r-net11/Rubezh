@@ -207,12 +207,8 @@
     <Compile Include="Models\States\DriverDriverState.cs" />
     <Compile Include="Models\States\ParentDeviceState.cs" />
     <Compile Include="Models\Configuration\SystemConfiguration.cs" />
-    <Compile Include="XModels\Binary\BinaryFormatterBase.cs" />
-    <Compile Include="XModels\Binary\DeviceBinaryFormatter.cs" />
     <Compile Include="XModels\Configuration\XDeviceConfiguration.cs" />
     <Compile Include="XModels\Configuration\XDriversConfiguration.cs" />
-    <Compile Include="XModels\Configuration\XManager.cs" />
-    <Compile Include="XModels\Device\DeviceCreationExtention.cs" />
     <Compile Include="XModels\Device\XDevice.cs" />
     <Compile Include="XModels\Device\XDeviceParameter.cs" />
     <Compile Include="XModels\Device\XProperty.cs" />

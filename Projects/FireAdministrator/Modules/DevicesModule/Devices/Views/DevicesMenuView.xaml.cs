@@ -1,10 +1,7 @@
-﻿using System.Windows.Controls;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using Common;
 using DevicesModule.ViewModels;
-using FiresecAPI.Models;
-using System.Linq;
 
 namespace DevicesModule.Views
 {
@@ -82,7 +79,7 @@ namespace DevicesModule.Views
 
             if (e.Key == Key.U && Keyboard.Modifiers == ModifierKeys.Alt)
                 PressButton(usbUpdateSoftButton, true);
-            //
+
             if (e.Key == Key.Right)
             {
                 if (DevicesViewModel.Current == null || DevicesViewModel.Current.SelectedDevice == null)
@@ -97,9 +94,7 @@ namespace DevicesModule.Views
                     return;
                 if (DevicesViewModel.Current.SelectedDevice.HasChildren && DevicesViewModel.Current.SelectedDevice.IsExpanded)
                     DevicesViewModel.Current.SelectedDevice.IsExpanded = false;
-            }
-
-            
+            }   
         }
 
         void PressButton(Button button)

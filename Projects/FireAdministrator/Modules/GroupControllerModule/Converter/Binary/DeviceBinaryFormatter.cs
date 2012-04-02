@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using XFiresecAPI;
+using FiresecClient;
 
-namespace XFiresecAPI
+namespace GroupControllerModule.Converter
 {
     public class DeviceBinaryFormatter : BinaryFormatterBase
     {
@@ -57,101 +59,89 @@ namespace XFiresecAPI
                         if (clause.Devices.Count == 1)
                         {
                             var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.Devices[0]);
-                            var formulaOperation1 = new FormulaOperation()
-                            {
-                                FormulaOperationType = FormulaOperationType.GETBIT,
-                                FirstOperand = (byte)clause.StateType,
-                                SecondOperand = device.InternalKAUNo
-                            };
-                            FormulaOperations.Add(formulaOperation1);
 
-                            var formulaOperation2 = new FormulaOperation()
-                            {
-                                FormulaOperationType = FormulaOperationType.PUTBIT,
-                                FirstOperand = (byte)clause.StateType,
-                                SecondOperand = device.InternalKAUNo,
-                                Comment = "Проверка состояния одного объекта"
-                            };
-                            FormulaOperations.Add(formulaOperation2);
+                            AddFormulaOperation(FormulaOperationType.GETBIT,
+                                (byte)clause.StateType,
+                                device.InternalKAUNo);
+
+                            AddFormulaOperation(FormulaOperationType.PUTBIT,
+                                (byte)clause.StateType,
+                                device.InternalKAUNo,
+                                "Проверка состояния одного объекта");
                         }
                         else
                         {
-                            var forstDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.Devices[0]);
-                            var formulaOperation1 = new FormulaOperation()
-                            {
-                                FormulaOperationType = FormulaOperationType.GETBIT,
-                                FirstOperand = (byte)clause.StateType,
-                                SecondOperand = forstDevice.InternalKAUNo
-                            };
-                            FormulaOperations.Add(formulaOperation1);
+                            var firstDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.Devices[0]);
+                            AddFormulaOperation(FormulaOperationType.GETBIT,
+                                (byte)clause.StateType,
+                                firstDevice.InternalKAUNo);
 
                             for (int i = 1; i < clause.Devices.Count; i++)
                             {
                                 var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.Devices[i]);
-                                var formulaOperation = new FormulaOperation()
-                                {
-                                    FormulaOperationType = FormulaOperationType.GETBIT,
-                                    FirstOperand = (byte)clause.StateType,
-                                    SecondOperand = device.InternalKAUNo
-                                };
-                                FormulaOperations.Add(formulaOperation);
 
-                                var formulaOperation2 = new FormulaOperation()
-                                {
-                                    Comment = "Проверка состояния очередного объекта объекта"
-                                };
+                                AddFormulaOperation(FormulaOperationType.GETBIT,
+                                    (byte)clause.StateType,
+                                    device.InternalKAUNo);
+
+                                var formulaOperationType = FormulaOperationType.AND;
+
                                 switch (clause.ClauseOperationType)
                                 {
                                     case ClauseOperationType.All:
-                                        formulaOperation2.FormulaOperationType = FormulaOperationType.AND;
+                                        formulaOperationType = FormulaOperationType.AND;
                                         break;
 
                                     case ClauseOperationType.One:
-                                        formulaOperation2.FormulaOperationType = FormulaOperationType.OR;
+                                        formulaOperationType = FormulaOperationType.OR;
                                         break;
                                 }
 
-                                FormulaOperations.Add(formulaOperation2);
+                                AddFormulaOperation(formulaOperationType,
+                                    0,
+                                    0,
+                                    "Проверка состояния очередного объекта объекта");
                             }
                         }
 
                         if (clauseIndex + 1 < stateLogic.Clauses.Count)
                         {
-                            var formulaOperation3 = new FormulaOperation()
-                            {
-                                Comment = "Объединение нескольких условий"
-                            };
+                            var formulaOperationType = FormulaOperationType.AND;
                             switch (clause.ClauseJounOperationType)
                             {
                                 case ClauseJounOperationType.And:
-                                    formulaOperation3.FormulaOperationType = FormulaOperationType.AND;
+                                    formulaOperationType = FormulaOperationType.AND;
                                     break;
 
                                 case ClauseJounOperationType.Or:
-                                    formulaOperation3.FormulaOperationType = FormulaOperationType.OR;
+                                    formulaOperationType = FormulaOperationType.OR;
                                     break;
                             }
-                            FormulaOperations.Add(formulaOperation3);
+                            AddFormulaOperation(formulaOperationType,
+                                0,
+                                0,
+                                "Объединение нескольких условий");
                         }
                     }
 
-                    var formulaOperation4 = new FormulaOperation()
-                    {
-                        FormulaOperationType = FormulaOperationType.PUTBIT,
-                        FirstOperand = (byte)stateLogic.StateType,
-                        SecondOperand = Device.InternalKAUNo,
-                        Comment = "Запись бита глобального словосостояния"
-                    };
-                    FormulaOperations.Add(formulaOperation4);
+                    AddFormulaOperation(FormulaOperationType.PUTBIT,
+                        (byte)stateLogic.StateType,
+                        Device.InternalKAUNo,
+                        "Запись бита глобального словосостояния");
                 }
             }
-
-            var formulaOperation5 = new FormulaOperation()
+            else
             {
-                FormulaOperationType = FormulaOperationType.END,
-                Comment = "Завершающий оператор"
-            };
-            FormulaOperations.Add(formulaOperation5);
+                AddFormulaOperation(FormulaOperationType.PUTBIT,
+                    (byte)XStateType.Ignore,
+                    Device.InternalKAUNo,
+                    "Проверка бита обхода");
+            }
+
+            AddFormulaOperation(FormulaOperationType.END,
+                0,
+                0,
+                "Завершающий оператор");
 
             foreach (var formulaOperation in FormulaOperations)
             {
@@ -159,6 +149,18 @@ namespace XFiresecAPI
                 Formula.Add(formulaOperation.FirstOperand);
                 Formula.AddRange(BitConverter.GetBytes(formulaOperation.SecondOperand));
             }
+        }
+
+        void AddFormulaOperation(FormulaOperationType formulaOperationType, byte firstOperand = 0, short secondOperand = 0, string comment = null)
+        {
+            var formulaOperation = new FormulaOperation()
+            {
+                FormulaOperationType = formulaOperationType,
+                FirstOperand = firstOperand,
+                SecondOperand = secondOperand,
+                Comment = comment
+            };
+            FormulaOperations.Add(formulaOperation);
         }
 
         void SetPropertiesBytes()

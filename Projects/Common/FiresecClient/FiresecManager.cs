@@ -12,6 +12,7 @@ namespace FiresecClient
 
         public static string Connect(string clientCallbackAddress, string serverAddress, string login, string password)
         {
+            clientCallbackAddress = CallbackAddressHelper.GetFreeClientCallbackAddress();
             FiresecCallbackServiceManager.Open(clientCallbackAddress);
 
             FiresecService = new SafeFiresecService(FiresecServiceFactory.Create(serverAddress));
@@ -157,15 +158,15 @@ namespace FiresecClient
             return FiresecService.DeviceReadConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
         }
 
-        public static void DeviceWriteConfiguration(Guid deviceUID, bool isUsb)
+        public static string DeviceWriteConfiguration(Guid deviceUID, bool isUsb)
         {
             //FiresecService.DeviceWriteConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
-            FiresecService.DeviceWriteConfiguration(DeviceConfiguration, deviceUID);
+            return FiresecService.DeviceWriteConfiguration(DeviceConfiguration, deviceUID);
         }
 
-        public static void WriteAllDeviceConfiguration()
+        public static string WriteAllDeviceConfiguration()
         {
-            FiresecService.DeviceWriteAllConfiguration(DeviceConfiguration);
+            return FiresecService.DeviceWriteAllConfiguration(DeviceConfiguration);
         }
 
         public static string ReadDeviceJournal(Guid deviceUID, bool isUsb)

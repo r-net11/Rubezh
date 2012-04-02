@@ -23,5 +23,8 @@
                 </StackPanel>
             </TabItem>
         </TabControl>
+        <Grid Grid.Row="1">
+            <TextBlock Text="{Binding FiresecConnectionSatus}" Foreground="White" Margin="2" />
+        </Grid>
     </Grid>
 </UserControl>

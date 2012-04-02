@@ -26,28 +26,34 @@ namespace FiresecService
             NotifyConfigurationChanged();
         }
 
-        public void DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public string DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            FiresecInternalClient.DeviceWriteConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+            var result = FiresecInternalClient.DeviceWriteConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
 
             NotifyConfigurationChanged();
+
+            return result;
         }
 
-        public void DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration)
+        public string DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration)
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             foreach (var device in deviceConfiguration.Devices)
             {
                 if (device.Driver.CanWriteDatabase)
                 {
-                    FiresecInternalClient.DeviceWriteConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+                    var result = FiresecInternalClient.DeviceWriteConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+                    if (string.IsNullOrEmpty(result) != true)
+                        return result;
                     System.Threading.Thread.Sleep(1000);
                 }
             }
 
             NotifyConfigurationChanged();
+
+            return null;
         }
 
         public bool DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password)
@@ -114,7 +120,7 @@ namespace FiresecService
 
                 ConfigurationConverter.ConvertBack(deviceConfiguration, false);
                 var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-                //fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_2.HXC";
+                //`fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_2.HXC";
                 return FiresecInternalClient.DeviceVerifyFirmwareVersion(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fileName);
             }
         }

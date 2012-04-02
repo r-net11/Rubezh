@@ -170,27 +170,29 @@ namespace FiresecClient
             }
         }
 
-        public void DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public string DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
-                _iFiresecService.DeviceWriteConfiguration(deviceConfiguration, deviceUID);
+                return _iFiresecService.DeviceWriteConfiguration(deviceConfiguration, deviceUID);
             }
             catch
             {
                 OnConnectionLost();
+                return "Ошибка при вызове метода сервера";
             }
         }
 
-        public void DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration)
+        public string DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration)
         {
             try
             {
-                _iFiresecService.DeviceWriteAllConfiguration(deviceConfiguration);
+                return _iFiresecService.DeviceWriteAllConfiguration(deviceConfiguration);
             }
             catch
             {
                 OnConnectionLost();
+                return "Ошибка при вызове метода сервера";
             }
         }
 

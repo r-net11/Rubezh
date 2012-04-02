@@ -36,8 +36,8 @@
             </Grid.RowDefinitions>
             <Label Content="Начальный адрес" Grid.Row="0" Grid.Column="0" />
             <Label Content="Конечный адрес" Grid.Row="0" Grid.Column="1" />
-            <Views:AddressEditor Address="{Binding StartAddress}" Device="{Binding StartDevice}" Grid.Row="1" Grid.Column="0" />
-            <Views:AddressEditor Address="{Binding EndAddress}" Device="{Binding EndDevice}" Grid.Row="1" Grid.Column="1" />
+            <Views:AddressEditor Grid.Row="1" Grid.Column="0" Device="{Binding StartDevice}" Address="{Binding StartAddress}" />
+            <Views:AddressEditor Grid.Row="1" Grid.Column="1" Device="{Binding EndDevice}" Address="{Binding EndAddress}" />
         </Grid>
     </Grid>
 </UserControl>

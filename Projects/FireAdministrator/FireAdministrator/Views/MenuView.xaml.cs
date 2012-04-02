@@ -105,12 +105,7 @@ namespace FireAdministrator.Views
                 FiresecManager.DeviceConfiguration.Update();
                 FiresecManager.PlansConfiguration.Update();
 
-                XManager.DeviceConfiguration = new XDeviceConfiguration();
-                XManager.DeviceConfiguration.RootDevice = new XDevice()
-                {
-                    DriverUID = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System).UID,
-                    Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
-                };
+                XManager.SetEmptyConfiguration();
 
                 ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 

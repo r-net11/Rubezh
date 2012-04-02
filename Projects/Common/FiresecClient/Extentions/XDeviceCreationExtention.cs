@@ -1,6 +1,7 @@
 ﻿using System.Linq;
+using XFiresecAPI;
 
-namespace XFiresecAPI
+namespace FiresecClient
 {
     public static class XDeviceCreationExtention
     {

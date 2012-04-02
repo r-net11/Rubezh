@@ -3,6 +3,7 @@ using GroupControllerModule.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GroupControllerModule.ViewModels
 {

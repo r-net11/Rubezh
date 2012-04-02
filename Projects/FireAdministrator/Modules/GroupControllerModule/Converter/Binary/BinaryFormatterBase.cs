@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using XFiresecAPI;
 
-namespace XFiresecAPI
+namespace GroupControllerModule.Converter
 {
     public class BinaryFormatterBase
     {

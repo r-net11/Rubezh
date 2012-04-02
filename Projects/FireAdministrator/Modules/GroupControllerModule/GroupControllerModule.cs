@@ -5,6 +5,7 @@ using Infrastructure.Events;
 using GroupControllerModule.Converter;
 using XFiresecAPI;
 using System.Linq;
+using FiresecClient;
 
 namespace GroupControllerModule
 {
@@ -24,11 +25,10 @@ namespace GroupControllerModule
             ServiceFactory.Events.GetEvent<ShowXZonesEvent>().Subscribe(OnShowXZones);
 
             DriversConverter.Convert();
-            XManager.DeviceConfiguration.RootDevice = new XDevice()
-            {
-                DriverUID = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System).UID,
-                Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
-            };
+            XManager.DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
+            XManager.UpdateConfiguration();
+
+            XManager.SetEmptyConfiguration();
 
             RegisterResources();
             CreateViewModels();

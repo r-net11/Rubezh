@@ -32,6 +32,7 @@ namespace FiresecServiceRunner
             {
                 MessageBoxService.ShowException(e);
                 Application.Current.Shutdown();
+                System.Environment.Exit(1);
             }
         }
 
@@ -51,6 +52,7 @@ namespace FiresecServiceRunner
             {
                 Close();
                 Application.Current.Shutdown();
+                System.Environment.Exit(1);
             }
         }
 

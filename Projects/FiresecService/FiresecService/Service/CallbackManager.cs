@@ -46,7 +46,8 @@ namespace FiresecService
                 {
                     try
                     {
-                        return serviceInstance.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
+                        var result = serviceInstance.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
+                        return result;
 
                         //if (serviceInstance.ContinueProgress)
                         //{

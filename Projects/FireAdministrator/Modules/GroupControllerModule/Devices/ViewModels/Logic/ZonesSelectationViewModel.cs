@@ -4,6 +4,7 @@ using System.Linq;
 using GroupControllerModule.Models;
 using Infrastructure.Common;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GroupControllerModule.ViewModels
 {

@@ -14,7 +14,7 @@ using System;
 
 namespace FireAdministrator
 {
-	public class Bootsrapper
+	public class Bootstrapper
 	{
 		public void Initialize()
 		{
@@ -79,12 +79,16 @@ namespace FireAdministrator
 			var soundsModule = new SoundsModule.SoundsModule();
 			var instructionsModule = new InstructionsModule.InstructionsModule();
 			var settingsModule = new SettingsModule.SettingsModule();
-			var groupControllerViewModel = new GroupControllerModule.GroupControllerModule();
-			var videoViewModel = new VideoModule.VideoModule();
-
+			if (ServiceFactory.AppSettings.ShowGC)
+			{
+				var groupControllerViewModel = new GroupControllerModule.GroupControllerModule();
+			}
+			if (ServiceFactory.AppSettings.ShowVideo)
+			{
+				var videoViewModel = new VideoModule.VideoModule();
+				VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
+			}
 			ServiceFactory.SaveService.Reset();
-
-			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 		}
 
 		static void InitializeAppSettings()
@@ -94,6 +98,7 @@ namespace FireAdministrator
 			appSettings.DefaultLogin = ConfigurationManager.AppSettings["DefaultLogin"] as string;
 			appSettings.DefaultPassword = ConfigurationManager.AppSettings["DefaultPassword"] as string;
 			appSettings.AutoConnect = Convert.ToBoolean(ConfigurationManager.AppSettings["AutoConnect"] as string);
+			appSettings.ShowVideo = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowVideo"] as string);
 			appSettings.LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
 			appSettings.ShowGC = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowGC"] as string);
 			appSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);

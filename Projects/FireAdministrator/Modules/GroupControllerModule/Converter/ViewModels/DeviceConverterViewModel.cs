@@ -3,6 +3,8 @@ using System.Collections.ObjectModel;
 using GroupControllerModule.Models;
 using System.Collections.Generic;
 using XFiresecAPI;
+using GroupControllerModule.Converter;
+using FiresecClient;
 
 namespace GroupControllerModule.ViewModels
 {

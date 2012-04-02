@@ -232,7 +232,5 @@ namespace DevicesModule.ViewModels
             var hasSecurityDevice = FiresecManager.DeviceConfiguration.Devices.Any(x => x.Driver.DeviceType == DeviceType.Sequrity);
             ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Publish(hasSecurityDevice);
         }
-
-        
     }
 }
