@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace FiresecService.Views
 {

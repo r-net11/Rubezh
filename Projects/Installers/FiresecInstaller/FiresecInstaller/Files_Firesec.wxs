@@ -10,7 +10,7 @@
 											ElementPath="//configuration/connectionStrings/add[\[]@name='FiresecService.Properties.Settings.FiresecConnectionString'[\]]/@connectionString"
 											Value="Data Source=localhost\[SQLINSTANCE];Initial Catalog=Firesec;Integrated Security=True" />
 				<util:XmlFile Id="XmlFASettings" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="setValue"
-											ElementPath="//configuration/appSettings/add[\[]@key='GKAllow'[\]]/@value"
+											ElementPath="//configuration/appSettings/add[\[]@key='ShowGC'[\]]/@value"
 											Value="false" />
 			</Component>
 			<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+	<?include Variables_FireMonitor.wxi?>
+	<Fragment>
+		<Icon Id="FireMonitorIcon" SourceFile="Data\Firesec.ico"/>
+		<util:CloseApplication Id="FMCloseAction" CloseMessage="yes" Target="$(var.FireMonitor.TargetFileName)" RebootPrompt="no" />
+
+		<DirectoryRef Id="FIREMONITORLOCATION">
+
+			<Component Id="FireMonitorExe" Guid="9F7A8A3F-CAEB-4C63-AEC1-B51B4A8544F2">
+				<File Id="FireMonitorExe" Name="$(var.FireMonitor.TargetFileName)"
+							Source="$(var.FireMonitor.TargetPath)" DiskId="1" KeyPath="yes">
+				</File>
+			</Component>
+
+			<Component Id="FireMonitorConfig" Guid="87DE3A14-3B9B-4B3A-A7D6-7F3FAB5394F6">
+				<File Id="FireMonitorConfig" Name="FireMonitor.exe.config" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMPrismComponent" Guid="96941CB8-29AD-48EB-84C7-91961BD8A0DE">
+				<File Id="FMPrismDll" Name="Microsoft.Practices.Prism.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMPrismUnityExtensionsComponent" Guid="4F741C40-A087-4D15-8A08-2A6053FF3ADE">
+				<File Id="FMPrismUnityExtensionsDll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMUnityComponent" Guid="896A388E-834C-4210-BBD2-AE93CFC65A22">
+				<File Id="FMUnityDll" Name="Microsoft.Practices.Unity.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMServiceLocationComponent" Guid="05BC10F0-F448-4DF9-9E17-74167F9B6602">
+				<File Id="FMServiceLocationDll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+			
+			<Component Id="FMWPFToolkitExtendedComponent" Guid="C6CABA51-6169-46BD-93A9-7905325C328E">
+				<File Id="FMWPFToolkitExtendedDll" Name="WPFToolkit.Extended.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+			
+			<Component Id="FMCommonComponent" Guid="1898D56A-2113-4A02-9469-3BE83C3A147F">
+				<File Id="FMCommonDll" Name="Common.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMControlsComponent" Guid="108CA6EF-0489-4DA9-A700-4DD2BDF59FA9">
+				<File Id="FMControlsDll" Name="Controls.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMDeviceControlsComponent" Guid="45A92F15-F5B3-48F9-91D1-180FDB3493F6">
+				<File Id="FMDeviceControlsDll" Name="DeviceControls.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMFiresecAPIComponent" Guid="DF810502-686B-4BCF-9A54-61BCA7E502B6">
+				<File Id="FMFiresecAPIDll" Name="FiresecAPI.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMFiresecClientComponent" Guid="4A46CDB4-7268-405F-BAEB-1E38D278A1EB">
+				<File Id="FMFiresecClientDll" Name="FiresecClient.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMInfrastructure.CommonComponent" Guid="39E6D73E-8564-42CF-907D-E0C614DBBF2E">
+				<File Id="FMInfrastructure.CommonDll" Name="Infrastructure.Common.dll"
+							Source="$(var.FireMonitor.TargetDir)" DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMInfrastructureComponent" Guid="079519E5-376E-4E61-98D5-B91B50CE1328">
+				<File Id="FMInfrastructureDll" Name="Infrastructure.dll"
+							Source="$(var.FireMonitor.TargetDir)" DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMPlansModuleComponent" Guid="37BDCE71-82B0-43DD-998A-82AAE306FCC4">
+				<File Id="FMPlansModuleDll" Name="PlansModule.dll"
+							Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMDevicesModuleComponent" Guid="8F200952-94F4-4544-9C2E-3C11394B07D1">
+				<File Id="FMDevicesModuleDll" Name="DevicesModule.dll"
+							Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMReportsModuleComponent" Guid="DA154025-1535-4AFC-9B0B-D2B2F232D367">
+				<File Id="FMReportsModuleDll" Name="ReportsModule.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMJournalModuleComponent" Guid="B52D0B74-8059-44A4-8200-88C5C89FA9A4">
+				<File Id="FMJournalModuleDll" Name="JournalModule.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMCallModuleComponent" Guid="F84521AE-BCBF-4663-A199-7F36EFC91468">
+				<File Id="FMCallModuleDll" Name="CallModule.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMAlarmModuleComponent" Guid="0FA4B2B4-2C8A-416B-9CF4-AC6F9A5D62D0">
+				<File Id="FMAlarmModuleDll" Name="AlarmModule.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+			<Component Id="FMVlcCoreComponent" Guid="C2278A62-8D93-4B95-A6A1-FBE0082B1132">
+				<File Id="FMVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+			<Component Id="FMVlcFormsComponent" Guid="50F7F722-D961-4510-AC64-795FCC950BE5">
+				<File Id="FMVlcFormsDll" Name="Vlc.DotNet.Forms.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+			<Component Id="FMVlcInteropsComponent" Guid="A7369446-6423-4A34-B443-9E439493C72A">
+				<File Id="FMVlcInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+
+		</DirectoryRef>
+	</Fragment>
+</Wix>

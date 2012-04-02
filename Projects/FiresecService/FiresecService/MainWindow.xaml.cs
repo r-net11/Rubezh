@@ -6,6 +6,7 @@ using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Controls.MessageBox;
 using System.Configuration;
+using System.Diagnostics;
 
 namespace FiresecServiceRunner
 {
@@ -14,19 +15,18 @@ namespace FiresecServiceRunner
         public MainWindow()
         {
             InitializeComponent();
-
             try
             {
                 InitializeAppSettings();
-
+                DirectoryInfo directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
+                Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
+                
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
                 _mainView.DataContext = new MainViewModel();
 
-                DirectoryInfo directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
-                Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
-
                 this.WindowState = WindowState.Minimized;
+
             }
             catch (Exception e)
             {

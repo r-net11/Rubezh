@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Include>
+  <?define FireAdministratorName="FireAdministrator" ?>
+  <?define FireAdministratorInstallLocation="FireAdministrator" ?>
+  <?define FireAdministrator.TargetDir="..\..\..\..\..\FireAdministrator\FireAdministrator\bin\Release\"?>
+  <?define FireAdministrator.TargetFileName="FireAdministrator.exe"?>
+  <?define FireAdministrator.TargetPath="..\..\..\..\..\FireAdministrator\FireAdministrator\bin\Release\FireAdministrator.exe"?>
+</Include>

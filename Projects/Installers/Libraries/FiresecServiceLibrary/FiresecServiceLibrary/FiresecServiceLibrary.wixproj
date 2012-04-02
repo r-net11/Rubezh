@@ -37,7 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AutoGenOutputFiles" />
-    <Folder Include="FiresecBin" />
     <Folder Include="Xslt" />
   </ItemGroup>
   <ItemGroup>
