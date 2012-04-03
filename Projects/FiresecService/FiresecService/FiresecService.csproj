@@ -152,6 +152,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
+    </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="Converters\DeviceCustomFunctionConverter.cs" />
     <Compile Include="Converters\DeviceStatesConverter.cs" />

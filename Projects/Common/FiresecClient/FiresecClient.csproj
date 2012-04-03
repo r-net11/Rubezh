@@ -114,8 +114,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\Common\AssemblyInfoInc.cs">
-      <Link>AssemblyInfoInc.cs</Link>
+    <Compile Include="..\Common\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="CallbackAddressHelper.cs" />
     <Compile Include="Extentions\DeviceCreationExtention.cs" />

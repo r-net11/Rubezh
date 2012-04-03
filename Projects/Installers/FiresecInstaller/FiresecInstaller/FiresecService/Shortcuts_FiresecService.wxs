@@ -4,7 +4,7 @@
 	<Fragment>
 		<DirectoryRef Id="DesktopFolder">
 			<Component Id="FiresecServiceDesktopShortcut" Guid="FC07AB61-7665-4B86-BB72-00D839984FB9">
-				<Shortcut Id="desktopShortcut" Name="$(var.FiresecServiceName)" Target="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)"
+				<Shortcut Id="desktopShortcut" Name="Сервер приложений ОПС Firesec-2" Target="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)"
 									WorkingDirectory="FIRESECSERVICELOCATION" Description="Запускает $(var.FiresecServiceName)" Icon="FiresecIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.FiresecServiceName)" Name="Shortcut" Type="integer"
 											 Value="1" KeyPath="yes" />
@@ -15,7 +15,7 @@
 		<DirectoryRef Id="ProgramMenuDir">
 			<!--Ярлык для запуска программы-->
 			<Component Id="FiresecServiceProgramsMenuShortcut" Guid="6DC3A33B-2C67-47E1-9356-436B5CCC3D9C">
-				<Shortcut Id="RunProduct" Name="$(var.FiresecServiceName)" Target="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)"
+				<Shortcut Id="RunProduct" Name="Сервер приложений ОПС Firesec-2" Target="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)"
 									WorkingDirectory="FIRESECSERVICELOCATION" Description="Запускает $(var.FiresecServiceName)" Icon="FiresecIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.FiresecServiceName)" Name="installed" Type="integer"
 											 Value="1" KeyPath="yes" />

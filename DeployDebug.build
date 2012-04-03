@@ -45,27 +45,15 @@
   <target name="CompileAll">
     <msbuild project="Projects\FiresecService\FiresecService.sln">
       <property name="Configuration" value="Release" />
-    </msbuild>
-	<msbuild project="Projects\FiresecService\FiresecService.sln">
-      <property name="Configuration" value="Debug" />
-    </msbuild>
+    </msbuild>	
     <msbuild project="Projects\FireAdministrator\FireAdministrator.sln">
       <property name="Configuration" value="Release" />
-    </msbuild>
-	<msbuild project="Projects\FireAdministrator\FireAdministrator.sln">
-      <property name="Configuration" value="Debug" />
-    </msbuild>
+    </msbuild>	
     <msbuild project="Projects\FireMonitor\FireMonitor.sln">
       <property name="Configuration" value="Release" />
-    </msbuild>	
-	<msbuild project="Projects\FireMonitor\FireMonitor.sln">
-      <property name="Configuration" value="Debug" />
-    </msbuild>			
+    </msbuild>		
     <msbuild project="Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
       <property name="Configuration" value="Release" />
-    </msbuild>
-	<msbuild project="Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
-      <property name="Configuration" value="Debug" />
-    </msbuild>
+    </msbuild>	
   </target>
 </project>
