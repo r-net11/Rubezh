@@ -126,7 +126,9 @@ namespace FireAdministrator.Views
         void Window_Closed(object sender, System.EventArgs e)
         {
             FiresecManager.Disconnect();
+            Close();
             Application.Current.Shutdown();
+            System.Environment.Exit(1);
         }
     }
 }

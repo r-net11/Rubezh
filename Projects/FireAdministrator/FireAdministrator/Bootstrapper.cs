@@ -59,7 +59,9 @@ namespace FireAdministrator
 			}
 			else
 			{
-				Application.Current.Shutdown();
+                preLoadWindow.Close();
+                Application.Current.Shutdown();
+                System.Environment.Exit(1);
 			}
 		}
 

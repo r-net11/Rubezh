@@ -64,7 +64,7 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Gear.ico</ApplicationIcon>
+    <ApplicationIcon>Administrator.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.Prism">
@@ -285,7 +285,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Gear.ico" />
+    <Resource Include="Administrator.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Administrator.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -28,7 +28,7 @@ namespace GroupControllerModule
             XManager.DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
             XManager.UpdateConfiguration();
 
-            XManager.SetEmptyConfiguration();
+            //XManager.SetEmptyConfiguration();
 
             RegisterResources();
             CreateViewModels();

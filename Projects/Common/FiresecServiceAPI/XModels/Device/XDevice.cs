@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace XFiresecAPI
 {
@@ -64,6 +65,32 @@ namespace XFiresecAPI
                     return IntAddress.ToString();
 
                 return ShleifNo.ToString() + "." + IntAddress.ToString();
+            }
+        }
+
+        public string DottedAddress
+        {
+            get
+            {
+                var address = new StringBuilder();
+                foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
+                {
+                    if (parentDevice.Driver.IsChildAddressReservedRange)
+                        continue;
+
+                    address.Append(parentDevice.Address);
+                    address.Append(".");
+                }
+                if (Driver.HasAddress)
+                {
+                    address.Append(Address);
+                    address.Append(".");
+                }
+
+                if (address.Length > 0 && address[address.Length - 1] == '.')
+                    address.Remove(address.Length - 1, 1);
+
+                return address.ToString();
             }
         }
 

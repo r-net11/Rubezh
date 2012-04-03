@@ -60,6 +60,7 @@ namespace GroupControllerModule.ViewModels
                     }
                 }
                 OnPropertyChanged("Address");
+                ServiceFactory.SaveService.XDevicesChanged = true;
             }
         }
 
