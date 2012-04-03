@@ -63,7 +63,11 @@ namespace DevicesModule.ViewModels
             Devices.Insert(Devices.IndexOf(parentDeviceViewModel) + 1, deviceViewModel);
             foreach (var childDevice in device.Children)
             {
-                deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
+                var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == childDevice.UID);
+                if (deviceState == null)
+                {
+                    deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
+                }
             }
 
             return deviceViewModel;

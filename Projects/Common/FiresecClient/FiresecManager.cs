@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FiresecAPI.Models;
+using System.Windows;
 
 namespace FiresecClient
 {
@@ -45,7 +46,10 @@ namespace FiresecClient
             {
                 deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
                 if (deviceState.Device == null)
+                {
+                    MessageBox.Show("Ошибка при сопоставлении устройства с его состоянием");
                     continue;
+                }
 
                 foreach (var state in deviceState.States)
                 {
