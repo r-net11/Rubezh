@@ -62,8 +62,16 @@ namespace DevicesModule.ViewModels
                         continue;
                 }
 
-                if (child.IntAddress > maxAddress)
-                    maxAddress = child.IntAddress;
+                if (child.Driver.AutoChildCount > 0)
+                {
+                    if (child.IntAddress + child.Driver.AutoChildCount - 1 > maxAddress)
+                        maxAddress = child.IntAddress + child.Driver.AutoChildCount - 1;
+                }
+                else
+                {
+                    if (child.IntAddress > maxAddress)
+                        maxAddress = child.IntAddress;
+                }
             }
 
             if (parentDevice.Driver.DriverType == DriverType.MRK_30)

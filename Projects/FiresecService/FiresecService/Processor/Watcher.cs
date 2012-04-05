@@ -12,11 +12,11 @@ namespace FiresecService
     {
         public void Start()
         {
+            SetLastEvent();
             FiresecInternalClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
             FiresecInternalClient.Progress += new FiresecEventAggregator.ProgressDelegate(FiresecInternalClient_Progress);
             OnStateChanged();
             OnParametersChanged();
-            SetLastEvent();
         }
 
         bool FiresecInternalClient_Progress(int stage, string comment, int percentComplete, int bytesRW)
@@ -54,33 +54,37 @@ namespace FiresecService
 
         void SetLastEvent()
         {
-            //Firesec.Journals.document journal = FiresecInternalClient.ReadEvents(0, 1000);
-            //foreach (var journalItem in journal.Journal)
-            //{
-            //    Trace.WriteLine(journalItem.IDEvents);
-            //}
             Firesec.Journals.document journal = FiresecInternalClient.ReadEvents(0, 1000);
             if (journal != null && journal.Journal.IsNotNullOrEmpty())
             {
-                LastEventId = int.Parse(journal.Journal[0].IDEvents);
+                foreach(var journalItem in journal.Journal)
+                {
+                    var intValue = int.Parse(journalItem.IDEvents);
+                    if (intValue > LastEventId)
+                        LastEventId = intValue;
+                }
             }
         }
 
         void OnNewEvent()
         {
-            var document = FiresecInternalClient.ReadEvents(0, 100);
+            var document = FiresecInternalClient.ReadEvents(LastEventId, 100);
             if (document != null && document.Journal.IsNotNullOrEmpty())
             {
+                int newLastValue = LastEventId;
                 foreach (var innerJournalItem in document.Journal)
                 {
-                    if (int.Parse(innerJournalItem.IDEvents) > LastEventId)
+                    var intValue = int.Parse(innerJournalItem.IDEvents);
+                    if (intValue > LastEventId)
                     {
+                        newLastValue = intValue;
                         var journalRecord = JournalConverter.Convert(innerJournalItem);
                         CallbackManager.OnNewJournalRecord(journalRecord);
                         DatabaseHelper.AddJournalRecord(journalRecord);
                     }
                 }
-                LastEventId = int.Parse(document.Journal[0].IDEvents);
+                LastEventId = newLastValue;
+                //LastEventId = int.Parse(document.Journal[0].IDEvents);
             }
         }
 

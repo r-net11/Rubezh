@@ -11,14 +11,14 @@ namespace FiresecClient
     {
         static public SafeFiresecService FiresecService { get; private set; }
 
-        public static string Connect(string clientCallbackAddress, string serverAddress, string login, string password)
+        public static string Connect(string clientType, string serverAddress, string login, string password)
         {
-            clientCallbackAddress = CallbackAddressHelper.GetFreeClientCallbackAddress();
+            var clientCallbackAddress = CallbackAddressHelper.GetFreeClientCallbackAddress();
             FiresecCallbackServiceManager.Open(clientCallbackAddress);
 
             FiresecService = new SafeFiresecService(FiresecServiceFactory.Create(serverAddress));
 
-            string result = FiresecService.Connect(clientCallbackAddress, login, password);
+            string result = FiresecService.Connect(clientType, clientCallbackAddress, login, password);
             if (result != null)
             {
                 return result;
@@ -40,6 +40,13 @@ namespace FiresecClient
             return null;
         }
 
+        public static void GetStates()
+        {
+            UpdateStates();
+            FiresecService.Subscribe();
+            FiresecService.StartPing();
+        }
+
         public static void UpdateStates()
         {
             foreach (var deviceState in DeviceStates.DeviceStates)
@@ -47,7 +54,7 @@ namespace FiresecClient
                 deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
                 if (deviceState.Device == null)
                 {
-                    MessageBox.Show("Ошибка при сопоставлении устройства с его состоянием");
+                    //MessageBox.Show("Ошибка при сопоставлении устройства с его состоянием");
                     continue;
                 }
 

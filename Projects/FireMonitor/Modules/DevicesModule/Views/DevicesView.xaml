@@ -15,7 +15,7 @@
         <Grid Grid.Row="0" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
             <Controls:ScrollDataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Тип Устройства" MinWidth="250">
+                    <DataGridTemplateColumn Header="Тип Устройства" MinWidth="250" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <WrapPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
@@ -45,7 +45,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Зона" MinWidth="100" Binding="{Binding PresentationZone}" />
+                    <DataGridTextColumn Header="Зона" MinWidth="100" Width="100" Binding="{Binding PresentationZone}" />
                     <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Device.Description}" />
                     <DataGridTextColumn Header="Неисправность" MinWidth="200" Binding="{Binding FailureType}" />
                     <DataGridTextColumn Header="Причина тревоги" MinWidth="200" Binding="{Binding AlarmReason}" />

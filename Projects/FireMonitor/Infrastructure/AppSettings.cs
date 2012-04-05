@@ -9,5 +9,6 @@
         public string LibVlcDllsPath { get; set; }
         public bool ShowOnlyVideo { get; set; }
         public bool IsDebug { get; set; }
+        public bool CanControl { get; set; }
     }
 }

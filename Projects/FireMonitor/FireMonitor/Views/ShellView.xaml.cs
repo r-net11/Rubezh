@@ -57,6 +57,7 @@ namespace FireMonitor.Views
         {
             Close();
             Application.Current.Shutdown();
+            Environment.Exit(1);
         }
 
         void OnMinimize(object sender, RoutedEventArgs e)

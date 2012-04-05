@@ -11,6 +11,7 @@
             <TabItem Header="Соединения">
                 <DataGrid ItemsSource="{Binding Connections}" SelectedItem="{Binding SelectedConnection}">
                     <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding ClientType}" Header="Тип" />
                         <DataGridTextColumn Binding="{Binding IpAddress}" Header="IP адрес" />
                         <DataGridTextColumn Binding="{Binding UserName}" Header="Пользователь" Width="*" />
                     </DataGrid.Columns>

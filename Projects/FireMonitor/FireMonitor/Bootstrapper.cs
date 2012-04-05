@@ -28,11 +28,11 @@ namespace FireMonitor
             var preLoadWindow = new PreLoadWindow();
             
             var connectResult = false;
+            var loginViewModel = new LoginViewModel(LoginViewModel.PasswordViewType.Connect);
             if (ServiceFactory.AppSettings.AutoConnect)
-                connectResult = LoginViewModel.DefaultConnect();
-            else
+                connectResult = loginViewModel.AutoConnect();
+            if (connectResult == false)
             {
-                var loginViewModel = new LoginViewModel(LoginViewModel.PasswordViewType.Connect);
                 connectResult = ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel);
             }
 
@@ -40,7 +40,8 @@ namespace FireMonitor
             {
                 preLoadWindow.PreLoadText = "Инициализация компонент...";
                 preLoadWindow.Show();
-                FiresecManager.SelectiveFetch();
+                FiresecManager.GetConfiguration();
+                FiresecManager.GetStates();
 
                 if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Login))
                 {
@@ -104,7 +105,7 @@ namespace FireMonitor
         void OnConfigurationChanged()
         {
             ServiceFactory.Layout.Close();
-            FiresecManager.SelectiveFetch(false);
+            FiresecManager.GetConfiguration(false);
 
             DevicesModule.DevicesModuleLoader.CreateViewModels();
             JournalModule.JournalModuleLoader.CreateViewModels();

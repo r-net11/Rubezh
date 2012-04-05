@@ -16,7 +16,13 @@ namespace FiresecClient
         public static PlansConfiguration PlansConfiguration { get; set; }
         public static SecurityConfiguration SecurityConfiguration { get; set; }
 
+        [Obsolete("Use GetConfiguration")]
         public static void SelectiveFetch(bool updateFiles = true)
+        {
+            GetConfiguration(updateFiles);
+        }
+
+        public static void GetConfiguration(bool updateFiles = true)
         {
             if (updateFiles)
                 FileHelper.Synchronize();
@@ -33,10 +39,6 @@ namespace FiresecClient
             UpdateConfiguration();
             InvalidateConfiguration();
             UpdatePlansConfiguration();
-            UpdateStates();
-
-            FiresecService.Subscribe();
-            FiresecService.StartPing();
         }
 
         public static void UpdateDrivers()
@@ -225,6 +227,12 @@ namespace FiresecClient
 
             foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
+                if (device.Driver == null)
+                {
+                    System.Windows.MessageBox.Show("У устройства отсутствует драйвер");
+                    continue;
+                }
+
                 if ((device.Driver.IsZoneDevice) && (device.ZoneNo != null))
                 {
                     var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);

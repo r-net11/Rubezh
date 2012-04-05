@@ -57,7 +57,14 @@ namespace Firesec
 
         public static string ReadEvents(int fromId, int limit)
         {
-            return Connectoin.ReadEvents(fromId, limit);
+            try
+            {
+                return Connectoin.ReadEvents(fromId, limit);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static void SetNewConfig(string coreConfig)

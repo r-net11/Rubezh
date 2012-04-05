@@ -14,7 +14,7 @@ namespace AlarmModule.ViewModels
     {
         public AlarmsViewModel(List<Alarm> alarms, AlarmType? alarmType)
         {
-            ResetAllCommand = new RelayCommand(OnResetAll, CanResetAll);
+            ResetAllCommand = new RelayCommand(OnResetAll);
             RemoveAllFromIgnoreListCommand = new RelayCommand(OnRemoveAllFromIgnoreList, CanRemoveAllFromIgnoreList);
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Subscribe(OnResetAlarm);
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
@@ -28,7 +28,7 @@ namespace AlarmModule.ViewModels
 
         AlarmType? _alarmType;
 
-        public ObservableCollection<AlarmViewModel> Alarms { get; set; }
+        public ObservableCollection<AlarmViewModel> Alarms { get; private set; }
 
         AlarmViewModel _selectedAlarm;
         public AlarmViewModel SelectedAlarm
@@ -41,9 +41,12 @@ namespace AlarmModule.ViewModels
             }
         }
 
-        bool CanResetAll()
+        public bool HasAlarmsToReset
         {
-            return Alarms.Count > 0;
+            get
+            {
+                return Alarms.Any(x => x.AlarmType != AlarmType.Off);
+            }
         }
 
         public RelayCommand ResetAllCommand { get; private set; }
@@ -101,7 +104,10 @@ namespace AlarmModule.ViewModels
         void OnAlarmAdded(Alarm alarm)
         {
             if (_alarmType == null || alarm.AlarmType == _alarmType)
+            {
                 Alarms.Insert(0, new AlarmViewModel(alarm));
+                OnPropertyChanged("HasAlarmsToReset");
+            }
         }
 
         void OnResetAlarm(Alarm alarm)
@@ -109,7 +115,7 @@ namespace AlarmModule.ViewModels
             if (_alarmType == null || alarm.AlarmType == _alarmType)
             {
                 Alarms.Remove(Alarms.FirstOrDefault(x => x.Alarm.DeviceUID == alarm.DeviceUID));
-                OnPropertyChanged("ResetAllCommand");
+                OnPropertyChanged("HasAlarmsToReset");
             }
         }
 

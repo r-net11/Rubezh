@@ -128,7 +128,7 @@ namespace FireAdministrator.Views
             FiresecManager.Disconnect();
             Close();
             Application.Current.Shutdown();
-            System.Environment.Exit(1);
+            Environment.Exit(1);
         }
     }
 }

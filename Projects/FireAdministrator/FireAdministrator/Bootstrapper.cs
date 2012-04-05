@@ -25,12 +25,12 @@ namespace FireAdministrator
 
 			var preLoadWindow = new PreLoadWindow();
 
+			var loginViewModel = new LoginViewModel();
 			var connectResult = false;
 			if (ServiceFactory.AppSettings.AutoConnect)
-				connectResult = LoginViewModel.DefaultConnect();
-			else
+				connectResult = loginViewModel.AutoConnect();
+			if (connectResult == false)
 			{
-				var loginViewModel = new LoginViewModel();
 				connectResult = ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel);
 			}
 
@@ -39,7 +39,7 @@ namespace FireAdministrator
 				preLoadWindow.PreLoadText = "Инициализация компонент...";
 				preLoadWindow.Show();
 
-				FiresecManager.SelectiveFetch();
+				FiresecManager.GetConfiguration();
 
 				if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
 				{
@@ -59,9 +59,9 @@ namespace FireAdministrator
 			}
 			else
 			{
-                preLoadWindow.Close();
-                Application.Current.Shutdown();
-                System.Environment.Exit(1);
+				preLoadWindow.Close();
+				Application.Current.Shutdown();
+				System.Environment.Exit(1);
 			}
 		}
 

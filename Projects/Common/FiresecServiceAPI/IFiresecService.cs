@@ -11,7 +11,7 @@ namespace FiresecAPI
     public interface IFiresecService
     {
         [OperationContract(IsInitiating = true)]
-        string Connect(string clientCallbackAddress, string userName, string password);
+        string Connect(string clientType, string clientCallbackAddress, string userName, string password);
 
         [OperationContract]
         string Reconnect(string userName, string password);

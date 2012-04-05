@@ -1,6 +1,4 @@
-﻿using Infrastructure.Common;
-
-namespace InstructionsModule.ViewModels
+﻿namespace InstructionsModule.ViewModels
 {
     public class InstructionsMenuViewModel
     {

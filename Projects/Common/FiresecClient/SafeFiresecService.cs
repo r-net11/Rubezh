@@ -70,11 +70,11 @@ namespace FiresecClient
             Ping();
         }
 
-        public string Connect(string clientCallbackAddress, string userName, string password)
+        public string Connect(string clientType, string clientCallbackAddress, string userName, string password)
         {
             try
             {
-                return _iFiresecService.Connect(clientCallbackAddress, userName, password);
+                return _iFiresecService.Connect(clientType, clientCallbackAddress, userName, password);
             }
             catch
             {

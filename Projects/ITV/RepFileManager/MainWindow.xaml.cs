@@ -16,17 +16,15 @@ namespace RepFileManager
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            string clientCallbackAddress = ConfigurationManager.AppSettings["ClientCallbackAddress"] as string;
             string serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
             string defaultLogin = ConfigurationManager.AppSettings["DefaultLogin"] as string;
             string defaultPassword = ConfigurationManager.AppSettings["DefaultPassword"] as string;
-            string result = FiresecManager.Connect(clientCallbackAddress, serverAddress, defaultLogin, defaultPassword);
+            string result = ItvManager.Connect(serverAddress, defaultLogin, defaultPassword);
             if (result != null)
             {
                 MessageBox.Show(result);
                 return;
             }
-            FiresecManager.SelectiveFetch();
 
             Directory.CreateDirectory("BMP");
 

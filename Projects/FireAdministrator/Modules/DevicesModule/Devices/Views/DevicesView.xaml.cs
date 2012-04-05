@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using DevicesModule.ViewModels;
+using System.Windows.Media;
 
 namespace DevicesModule.Views
 {
@@ -26,5 +27,62 @@ namespace DevicesModule.Views
             if (_devicesDataGrid.SelectedItem != null)
                 _devicesDataGrid.ScrollIntoView(_devicesDataGrid.SelectedItem);
         }
+                {
+                    e.Handled = true;
+                }
+            }
+        }
+
+        #region DataGrid Helper
+        public static DataGridCell GetCurrentCell(DataGrid SourceDataGrid)
+        {
+            if (SourceDataGrid.CurrentCell == null)
+                return null;
+
+            var RowContainer = SourceDataGrid.ItemContainerGenerator.ContainerFromItem(SourceDataGrid.CurrentCell.Item);
+            if (RowContainer == null)
+                return null;
+
+            var RowPresenter = GetVisualChild<System.Windows.Controls.Primitives.DataGridCellsPresenter>(RowContainer);
+            if (RowPresenter == null)
+                return null;
+
+            var Container = RowPresenter.ItemContainerGenerator.ContainerFromItem(SourceDataGrid.CurrentCell.Item);
+            var Cell = Container as DataGridCell;
+
+            // Try to get the cell if null, because maybe the cell is virtualized
+            if (Cell == null)
+            {
+                SourceDataGrid.ScrollIntoView(RowContainer, SourceDataGrid.CurrentCell.Column);
+                Container = RowPresenter.ItemContainerGenerator.ContainerFromItem(SourceDataGrid.CurrentCell.Item);
+                Cell = Container as DataGridCell;
+            }
+
+            return Cell;
+        }
+
+        public static TRet GetVisualChild<TRet>(DependencyObject Target) where TRet : DependencyObject
+        {
+            if (Target == null)
+                return null;
+
+            for (int ChildIndex = 0; ChildIndex < VisualTreeHelper.GetChildrenCount(Target); ChildIndex++)
+            {
+                var Child = VisualTreeHelper.GetChild(Target, ChildIndex);
+
+                if (Child != null && Child is TRet)
+                    return (TRet)Child;
+                else
+                {
+                    TRet childOfChild = GetVisualChild<TRet>(Child);
+
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+
+            return null;
+        }
+        #endregion
     }
 }

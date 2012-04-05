@@ -44,7 +44,7 @@ namespace SettingsModule.ViewModels
             if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать конфигурацию?") == MessageBoxResult.Yes)
             {
                 FiresecManager.FiresecService.ConvertConfiguration();
-                FiresecManager.SelectiveFetch(false);
+                FiresecManager.GetConfiguration(false);
 
                 ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
             }

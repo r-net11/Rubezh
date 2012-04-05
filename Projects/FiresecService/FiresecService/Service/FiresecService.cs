@@ -27,6 +27,7 @@ namespace FiresecService
         string _userLogin;
         string _userName;
         string _userIpAddress;
+        string _clientType;
         public static readonly object Locker = new object();
 
         public FiresecService()
@@ -34,7 +35,7 @@ namespace FiresecService
             FiresecServiceUID = Guid.NewGuid();
         }
 
-        public string Connect(string clientCallbackAddress, string login, string password)
+        public string Connect(string clientType, string clientCallbackAddress, string login, string password)
         {
             lock (Locker)
             {
@@ -47,11 +48,14 @@ namespace FiresecService
                 {
                     if (CheckRemoteAccessPermissions(login))
                     {
+                        _clientType = clientType;
+
                         var connectionViewModel = new ConnectionViewModel()
                         {
                             FiresecServiceUID = FiresecServiceUID,
                             UserName = _userLogin,
-                            IpAddress = _userIpAddress
+                            IpAddress = _userIpAddress,
+                            ClientType = _clientType
                         };
                         MainViewModel.Current.Connections.Add(connectionViewModel);
 
@@ -96,7 +100,7 @@ namespace FiresecService
             CallbackManager.Remove(this);
         }
 
-        public bool IsSubscribed { get; set; }
+        public bool IsSubscribed { get; private set; }
         public void Subscribe()
         {
             IsSubscribed = true;

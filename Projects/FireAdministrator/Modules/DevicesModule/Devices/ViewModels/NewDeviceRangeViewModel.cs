@@ -176,7 +176,7 @@ namespace DevicesModule.ViewModels
                     int reservedCount = SelectedDriver.ChildAddressReserveRangeCount;
                     if (SelectedDriver.DriverType == DriverType.MRK_30)
                         reservedCount = 30;
-                    i += reservedCount;
+                    i += reservedCount - 1;
                 }
             }
         }

@@ -39,7 +39,7 @@ namespace RepFileManager
             var children = new List<repositoryModuleDeviceChild>();
             foreach (var childDriverUID in allChildren)
             {
-                var childDriver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == childDriverUID);
+                var childDriver = ItvManager.Drivers.FirstOrDefault(x => x.UID == childDriverUID);
                 var childDevice = new repositoryModuleDeviceChild()
                 {
                     id = childDriver.DriverType.ToString()
@@ -66,7 +66,7 @@ namespace RepFileManager
 
         void CreateImages()
         {
-            var driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM);
+            var driver = ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM);
             Helper.CreateImages(driver, "PanelDevice");
         }
 

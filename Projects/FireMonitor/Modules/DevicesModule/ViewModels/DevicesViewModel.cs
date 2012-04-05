@@ -64,7 +64,7 @@ namespace DevicesModule.ViewModels
             foreach (var childDevice in device.Children)
             {
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == childDevice.UID);
-                if (deviceState == null)
+                if (deviceState != null)
                 {
                     deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
                 }
@@ -114,26 +114,29 @@ namespace DevicesModule.ViewModels
         {
             var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 
-            if (deviceViewModel.Device.Driver.DriverType == DriverType.Valve)
+            if (ServiceFactory.AppSettings.CanControl)
             {
-                var deviceDriverState = deviceViewModel.DeviceState.States.FirstOrDefault(x => x.Code == "Bolt_On");
-                if (deviceDriverState != null)
+                if (deviceViewModel.Device.Driver.DriverType == DriverType.Valve)
                 {
-                    if (DateTime.Now > deviceDriverState.Time)
+                    var deviceDriverState = deviceViewModel.DeviceState.States.FirstOrDefault(x => x.Code == "Bolt_On");
+                    if (deviceDriverState != null)
                     {
-                        var timeSpan = deviceDriverState.Time - DateTime.Now;
-
-                        var timeoutProperty = deviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Timeout");
-                        if (timeoutProperty != null)
+                        if (DateTime.Now > deviceDriverState.Time)
                         {
-                            var timeout = int.Parse(timeoutProperty.Value);
+                            var timeSpan = deviceDriverState.Time - DateTime.Now;
 
-                            int secondsLeft = timeout - timeSpan.Value.Seconds;
-                            if (secondsLeft > 0)
+                            var timeoutProperty = deviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+                            if (timeoutProperty != null)
                             {
-                                var deviceDetailsViewModel = new DeviceDetailsViewModel(deviceUID);
-                                ServiceFactory.UserDialogs.ShowWindow(deviceDetailsViewModel);
-                                deviceDetailsViewModel.StartValveTimer(secondsLeft);
+                                var timeout = int.Parse(timeoutProperty.Value);
+
+                                int secondsLeft = timeout - timeSpan.Value.Seconds;
+                                if (secondsLeft > 0)
+                                {
+                                    var deviceDetailsViewModel = new DeviceDetailsViewModel(deviceUID);
+                                    ServiceFactory.UserDialogs.ShowWindow(deviceDetailsViewModel);
+                                    deviceDetailsViewModel.StartValveTimer(secondsLeft);
+                                }
                             }
                         }
                     }

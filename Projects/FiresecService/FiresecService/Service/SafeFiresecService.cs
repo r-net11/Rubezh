@@ -16,11 +16,11 @@ namespace FiresecService
             FiresecService = new FiresecService();
         }
 
-        public string Connect(string clientCallbackAddress, string userName, string password)
+        public string Connect(string clientType, string clientCallbackAddress, string userName, string password)
         {
             try
             {
-                return FiresecService.Connect(clientCallbackAddress, userName, password);
+                return FiresecService.Connect(clientType, clientCallbackAddress, userName, password);
             }
             catch
             {

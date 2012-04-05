@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -71,6 +72,14 @@ namespace DevicesModule.ViewModels
                     }
                 }
                 return parameters;
+            }
+        }
+
+        public bool CanControl
+        {
+            get
+            {
+                return (Device.Driver.CanControl && ServiceFactory.AppSettings.CanControl);
             }
         }
 

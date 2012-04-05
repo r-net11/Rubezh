@@ -58,7 +58,8 @@ namespace DevicesModule
 
         static void OnShowZone(ulong zoneNo)
         {
-            _zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.No == zoneNo);
+            if (zoneNo != 0)
+                _zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.No == zoneNo);
             ServiceFactory.Layout.Show(_zonesViewModel);
         }
 
