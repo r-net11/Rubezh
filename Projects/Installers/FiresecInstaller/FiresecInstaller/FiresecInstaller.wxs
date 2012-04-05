@@ -29,7 +29,7 @@
     <Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
     <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
     
-    <Icon Id="FiresecIcon" SourceFile="Data\Firesec.ico"/>
+    
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">

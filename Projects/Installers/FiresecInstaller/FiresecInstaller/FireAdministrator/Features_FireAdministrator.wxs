@@ -33,7 +33,6 @@
 			<ComponentRef Id="FAVlcCoreComponent"/>
 			<ComponentRef Id="FAVlcFormsComponent"/>
 			<ComponentRef Id="FAVlcInteropsComponent"/>
-      <!--<ComponentRef Id="FAXFiresecAPIComponent"/>-->
 			<ComponentRef Id="FAU2UConsult"/>
 			<ComponentRef Id="FAProgramsMenuShortcut" />
 			<ComponentRef Id="FADesktopShortcut" />

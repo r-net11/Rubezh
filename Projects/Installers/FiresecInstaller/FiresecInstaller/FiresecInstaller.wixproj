@@ -71,6 +71,9 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\Administrator.ico" />
+    <Content Include="Data\Monitor.ico" />
+    <Content Include="Data\Server.ico" />
     <Content Include="Data\SetupProgress.ico" />
     <Content Include="FireAdministrator\Variables_FireAdministrator.wxi" />
     <Content Include="FireMonitor\Variables_FireMonitor.wxi" />
@@ -83,7 +86,6 @@
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="Variables_Firesec.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
-    <Content Include="Data\Firesec.ico" />
     <Content Include="Data\FiresecBanner.bmp" />
     <Content Include="Data\FiresecDataBaseStructureSql.sql" />
     <Content Include="Data\InstallChoiceLogo.bmp" />

@@ -4,6 +4,7 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <?include Variables_FiresecService.wxi?>
   <Fragment>
+    <Icon Id="FiresecServiceIcon" SourceFile="Data\Server.ico"/>
     <util:CloseApplication Id="FSCloseAction" CloseMessage="yes" Target="$(var.FiresecService.TargetFileName)" RebootPrompt="no" />
 
     <DirectoryRef Id="FIRESECSERVICELOCATION">

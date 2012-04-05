@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
 		<Binary Id="FiresecDBSql" SourceFile="Data\FiresecDataBaseStructureSql.sql" />
-		<Binary Id="FiresecBanner" SourceFile="Data\FiresecBanner.bmp" />
+		<!--<Binary Id="FiresecBanner" SourceFile="Data\FiresecBanner.bmp" />-->
 		<Binary Id="InstChoiceLogo.bmp" SourceFile="Data\InstallChoiceLogo.bmp" />
 		<Binary Id="DestFolder.ico" SourceFile="Data\DestinationFolder.ico" />
 		<Binary Id="Up.ico" SourceFile="Data\Up.ico" />

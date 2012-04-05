@@ -111,8 +111,7 @@ namespace InstructionsModule.ViewModels
 
         public override void OnShow()
         {
-            var instructionsMenuViewModel = new InstructionsMenuViewModel(this);
-            ServiceFactory.Layout.ShowMenu(instructionsMenuViewModel);
+            ServiceFactory.Layout.ShowMenu(new InstructionsMenuViewModel(this));
         }
 
         public override void OnHide()

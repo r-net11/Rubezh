@@ -4,7 +4,7 @@
   <?include Variables_FireAdministrator.wxi?>
   <Fragment>
     
-    <Icon Id="FireAdministratorIcon" SourceFile="Data\Firesec.ico"/>
+    <Icon Id="FireAdministratorIcon" SourceFile="Data\Administrator.ico"/>
     <util:CloseApplication Id="FACloseAction" CloseMessage="yes" Target="$(var.FireAdministrator.TargetFileName)" RebootPrompt="no" />
     
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">

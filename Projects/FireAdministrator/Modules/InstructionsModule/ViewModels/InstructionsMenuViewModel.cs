@@ -6,9 +6,9 @@ namespace InstructionsModule.ViewModels
     {
         public InstructionsMenuViewModel(InstructionsViewModel instructionsViewModel)
         {
-            Contex = instructionsViewModel;
+            Context = instructionsViewModel;
         }
 
-        public InstructionsViewModel Contex { get; private set; }
+        public InstructionsViewModel Context { get; private set; }
     }
 }
