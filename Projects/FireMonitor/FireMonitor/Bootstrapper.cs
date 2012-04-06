@@ -64,7 +64,7 @@ namespace FireMonitor
 
                     ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
 
-                    FiresecCallbackService.ConfigurationChangedEvent += new System.Action(OnConfigurationChanged);
+                    FiresecCallbackService.ConfigurationChangedEvent += new Action(OnConfigurationChanged);
                 }
                 else
                 {
@@ -106,13 +106,21 @@ namespace FireMonitor
         {
             ServiceFactory.Layout.Close();
             FiresecManager.GetConfiguration(false);
+            FiresecManager.GetStates();
 
-            DevicesModule.DevicesModuleLoader.CreateViewModels();
-            JournalModule.JournalModuleLoader.CreateViewModels();
-            AlarmModule.AlarmModuleLoader.CreateViewModels();
-            ReportsModule.ReportsModuleLoader.CreateViewModels();
-            CallModule.CallModuleLoader.CreateViewModels();
-            PlansModule.PlansModuleLoader.CreateViewModels();
+            ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() => { OnInitializeViewModels(); }));
+        }
+
+        void OnInitializeViewModels()
+        {
+            DevicesModule.DevicesModuleLoader.Initialize();
+            JournalModule.JournalModuleLoader.Initialize();
+            AlarmModule.AlarmModuleLoader.Initialize();
+            ReportsModule.ReportsModuleLoader.Initialize();
+            CallModule.CallModuleLoader.Initialize();
+            PlansModule.PlansModuleLoader.Initialize();
+
+            ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
         }
 
         static void InitializeAppSettings()

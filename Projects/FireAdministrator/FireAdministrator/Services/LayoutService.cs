@@ -1,51 +1,94 @@
 ﻿using System;
+using System.Linq;
 using FireAdministrator.Views;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Collections.Generic;
+using System.Windows;
+using DevicesModule;
+using System.Windows.Controls;
 
 namespace FireAdministrator
 {
     public class LayoutService : ILayoutService
     {
+        List<ViewModelCash> ViewModelsCash = new List<ViewModelCash>();
+        IViewPart CurrentViewModel;
+
         ShellView Shell
         {
             get { return (ShellView)ServiceFactory.ShellView; }
         }
 
-        public void Show(IViewPart model)
+        public void Show(IViewPart viewModel)
         {
-            Replace(model);
-            model.OnShow();
+            ViewModelCash activeModelCash = GetActiveViewModelCash(viewModel);
+
+            foreach (var item in Shell._itemsControl.Items)
+            {
+                (item as ContentControl).Visibility = Visibility.Collapsed;
+            }
+            activeModelCash.ContentControl.Visibility = Visibility.Visible;
+
+            if (CurrentViewModel != null)
+            {
+                CurrentViewModel.OnHide();
+            }
+            CurrentViewModel = viewModel;
+            CurrentViewModel.OnShow();
         }
 
         public void Close()
         {
-            Replace(null);
+            foreach (var item in Shell._itemsControl.Items)
+            {
+                (item as ContentControl).Visibility = Visibility.Collapsed;
+            }
+
+            if (CurrentViewModel != null)
+            {
+                CurrentViewModel.OnHide();
+            }
+            CurrentViewModel = null;
         }
 
-        void Replace(IViewPart model)
+        ViewModelCash GetActiveViewModelCash(IViewPart viewModel)
         {
-            if (ActiveViewModel != null)
-            {
-                IViewPart temp = ActiveViewModel;
-                try
-                {
-                    temp.OnHide();
-                }
-                catch (Exception)
-                {
-                }
-            }
-            ActiveViewModel = model;
-        }
+            var modelName = viewModel.GetType().ToString();
+            bool isNew = ViewModelsCash.Any(x => x.ViewModel == viewModel) == false;
 
-        IViewPart ActiveViewModel
-        {
-            get { return Shell.MainContent; }
-            set
+            ViewModelCash activeModelCash = null;
+
+            if (isNew)
             {
-                Shell.MainContent = value;
+                var obsoleteViewModelsCash = ViewModelsCash.FirstOrDefault(x => x.ViewModeName == modelName);
+                if (obsoleteViewModelsCash != null)
+                {
+                    Shell._itemsControl.Items.Remove(obsoleteViewModelsCash.ContentControl);
+                    ViewModelsCash.Remove(obsoleteViewModelsCash);
+                }
+
+                var contentControl = new ContentControl()
+                {
+                    DataContext = viewModel,
+                    Content = viewModel
+                };
+                Shell._itemsControl.Items.Add(contentControl);
+
+                activeModelCash = new ViewModelCash()
+                {
+                    ViewModel = viewModel,
+                    ViewModeName = modelName,
+                    ContentControl = contentControl
+                };
+                ViewModelsCash.Add(activeModelCash);
             }
+            else
+            {
+                activeModelCash = ViewModelsCash.FirstOrDefault(x => x.ViewModeName == modelName);
+            }
+
+            return activeModelCash;
         }
 
         public void ShowMenu(object model)
@@ -57,5 +100,12 @@ namespace FireAdministrator
         {
             Shell.ValidatoinArea = model;
         }
+    }
+
+    public class ViewModelCash
+    {
+        public string ViewModeName;
+        public IViewPart ViewModel;
+        public ContentControl ContentControl;
     }
 }

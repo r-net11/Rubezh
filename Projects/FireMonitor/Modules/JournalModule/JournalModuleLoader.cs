@@ -24,7 +24,13 @@ namespace JournalModule
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        public static void CreateViewModels()
+        public static void Initialize()
+        {
+            //JournalsViewModel.Initialize();
+            //ArchiveViewModel.Initialize();
+        }
+
+        static void CreateViewModels()
         {
             JournalsViewModel = new JournalsViewModel();
             ArchiveViewModel = new ArchiveViewModel();

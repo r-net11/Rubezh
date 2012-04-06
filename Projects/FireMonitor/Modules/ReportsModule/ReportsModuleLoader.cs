@@ -22,7 +22,12 @@ namespace ReportsModule
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        public static void CreateViewModels()
+        public static void Initialize()
+        {
+            //ReportsViewModel.Initialize();
+        }
+
+        static void CreateViewModels()
         {
             ReportsViewModel = new ReportsViewModel();
         }

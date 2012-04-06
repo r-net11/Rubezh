@@ -67,9 +67,13 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Views:NavigationView Grid.Column="0" Margin="5 5 0 20" />
-                            <Grid Grid.Column="1" Margin="5 5 5 20">
-                                <ContentControl Name="_mainRegionHost" />
-                            </Grid>
+                            <ItemsControl Name="_itemsControl" Grid.Column="1" Margin="5 5 5 20">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Grid />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
                         </Grid>
                     </DockPanel>
                 </Grid>

@@ -47,12 +47,26 @@ namespace Firesec
 
         public static string GetCoreState()
         {
-            return ReadFromStream(Connectoin.GetCoreState());
+            try
+            {
+                return ReadFromStream(Connectoin.GetCoreState());
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static string GetCoreDeviceParams()
         {
-            return Connectoin.GetCoreDeviceParams();
+            try
+            {
+                return Connectoin.GetCoreDeviceParams();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static string ReadEvents(int fromId, int limit)

@@ -81,12 +81,6 @@ namespace FireMonitor.Views
             ServiceFactory.UserDialogs.ShowModalWindow(aboutViewModel);
         }
 
-        public IViewPart MainContent
-        {
-            get { return _mainRegionHost.Content as IViewPart; }
-            set { _mainRegionHost.DataContext = _mainRegionHost.Content = value; }
-        }
-
         public IViewPart AlarmGroups
         {
             get { return _alarmGroups.Content as IViewPart; }

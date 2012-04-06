@@ -13,8 +13,13 @@ namespace DevicesModule.ViewModels
     {
         public DevicesViewModel()
         {
+            FiresecEventSubscriber.DeviceStateChangedEvent -= OnDeviceStateChanged;
             FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
+            Initialize();
+        }
 
+        public void Initialize()
+        {
             BuildDeviceTree();
             if (Devices.Count > 0)
             {

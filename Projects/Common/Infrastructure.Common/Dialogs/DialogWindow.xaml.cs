@@ -94,6 +94,7 @@ namespace Infrastructure.Common
         {
             if (e.Key == Key.Escape)
             {
+                Close();
                 CloseContent();
             }
         }

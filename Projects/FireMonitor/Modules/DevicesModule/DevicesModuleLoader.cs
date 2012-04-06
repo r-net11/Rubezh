@@ -26,7 +26,13 @@ namespace DevicesModule
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        public static void CreateViewModels()
+        public static void Initialize()
+        {
+            DevicesViewModel.Initialize();
+            ZonesViewModel.Initialize();
+        }
+
+        static void CreateViewModels()
         {
             DevicesViewModel = new DevicesViewModel();
             ZonesViewModel = new ZonesViewModel();

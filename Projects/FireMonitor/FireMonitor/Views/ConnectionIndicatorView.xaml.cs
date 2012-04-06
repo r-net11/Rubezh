@@ -23,6 +23,7 @@ namespace FireMonitor.Views
             SafeFiresecService.ConnectionAppeared += new Action(OnConnectionAppeared);
 
             OnDeviceStateChangedEvent(Guid.Empty);
+            FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChangedEvent);
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
         }
 

@@ -16,6 +16,7 @@ namespace FireMonitor.Views
             InitializeComponent();
             DataContext = this;
 
+            FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChanged);
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChanged);
             PlaySoundCommand = new RelayCommand(OnPlaySound);
             CurrentStateType = StateType.No;
