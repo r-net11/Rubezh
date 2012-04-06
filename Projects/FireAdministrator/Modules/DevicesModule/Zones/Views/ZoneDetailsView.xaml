@@ -27,8 +27,8 @@
                 <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
 
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" IsEnabled="False" />
-                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description}" Margin="2" TextWrapping="Wrap" />
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" TextWrapping="Wrap" />
             </Grid>
         </TabItem>
 

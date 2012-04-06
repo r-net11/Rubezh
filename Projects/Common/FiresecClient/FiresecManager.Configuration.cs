@@ -249,40 +249,5 @@ namespace FiresecClient
                 }
             }
         }
-
-        public static void ActiveXFetch()
-        {
-            Drivers = FiresecService.GetDrivers();
-            LibraryConfiguration = FiresecService.GetLibraryConfiguration();
-            DeviceConfiguration = FiresecService.GetDeviceConfiguration();
-            DeviceStates = FiresecService.GetStates();
-
-            //UpdateDrivers();
-            UpdateActiveXConfiguration();
-            UpdateStates();
-
-            FiresecService.Subscribe();
-            FiresecService.StartPing();
-        }
-
-        public static void UpdateActiveXConfiguration()
-        {
-            DeviceConfiguration.Update();
-
-            foreach (var device in DeviceConfiguration.Devices)
-            {
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-                if (device.Driver.IsIndicatorDevice || device.IndicatorLogic != null)
-                    device.IndicatorLogic.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
-
-                if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
-                {
-                    foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.DeviceUID != Guid.Empty))
-                    {
-                        clause.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
-                    }
-                }
-            }
-        }
     }
 }
