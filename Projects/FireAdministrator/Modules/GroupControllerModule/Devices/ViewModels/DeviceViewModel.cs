@@ -5,6 +5,7 @@ using GroupControllerModule.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GroupControllerModule.ViewModels
 {
@@ -59,6 +60,7 @@ namespace GroupControllerModule.ViewModels
                     }
                 }
                 OnPropertyChanged("Address");
+                ServiceFactory.SaveService.XDevicesChanged = true;
             }
         }
 

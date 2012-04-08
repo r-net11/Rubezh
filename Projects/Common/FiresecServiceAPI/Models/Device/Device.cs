@@ -125,7 +125,7 @@ namespace FiresecAPI.Models
                     reservedCount = int.Parse(reservedCountProperty.Value);
                 }
             }
-            return reservedCount;
+            return reservedCount - 1;
         }
 
         public void SetAddress(string address)

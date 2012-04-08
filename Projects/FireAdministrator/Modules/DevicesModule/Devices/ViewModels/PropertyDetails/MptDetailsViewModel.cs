@@ -13,7 +13,7 @@ namespace DevicesModule.ViewModels
 
             int timeout = 0;
 
-            var timeoutProperty = _device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+            var timeoutProperty = _device.Properties.FirstOrDefault(x => x.Name == "RunDelay");
             if ((timeoutProperty == null) || (timeoutProperty.Value == null))
                 timeout = 0;
             else
@@ -66,10 +66,10 @@ namespace DevicesModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            var timeoutProperty = _device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+            var timeoutProperty = _device.Properties.FirstOrDefault(x => x.Name == "RunDelay");
             if (timeoutProperty == null)
             {
-                timeoutProperty = new Property() { Name = "Timeout" };
+                timeoutProperty = new Property() { Name = "RunDelay" };
                 _device.Properties.Add(timeoutProperty);
             }
             timeoutProperty.Value = (TimeoutMinutes * 60 + TimeoutSeconds).ToString();
@@ -79,12 +79,12 @@ namespace DevicesModule.ViewModels
             {
                 actionProperty = new Property()
                 {
-                    Name = "Action",
+                    Name = "Config",
                     Value = "1"
                 };
                 _device.Properties.Add(actionProperty);
             }
-            if (IsAutoBlock)
+            if (IsAutoBlock == false)
             {
                 _device.Properties.Remove(actionProperty);
             }

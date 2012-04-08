@@ -21,8 +21,8 @@ namespace RepFileManager
             get
             {
                 var drivers = new List<Driver>();
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_1));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_2));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_1));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_2));
                 return drivers;
             }
         }
@@ -32,11 +32,11 @@ namespace RepFileManager
             get
             {
                 var drivers = new List<Driver>();
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.BUNS));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_10AM));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2OP));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_4A));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.BUNS));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_10AM));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2AM));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_2OP));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Rubezh_4A));
                 return drivers;
             }
         }
@@ -46,8 +46,8 @@ namespace RepFileManager
             get
             {
                 var drivers = new List<Driver>();
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_1));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_2));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_1));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MS_2));
                 return drivers;
             }
         }
@@ -57,36 +57,36 @@ namespace RepFileManager
             get
             {
                 var drivers = new List<Driver>();
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.RM_1));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MPT));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.SmokeDetector));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.HeatDetector));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.CombinedDetector));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM_1));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.StopButton));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.StartButton));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AutomaticButton));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzOnButton));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzOffButton));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzUnblockButton));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.HandDetector));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.PumpStation));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Pump));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.JokeyPump));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Compressor));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.DrenazhPump));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.CompensationPump));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AMP_4));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MRO));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Valve));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_T));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ASPT));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MDU));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Exit));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MRK_30));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.RadioHandDetector));
-                drivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.RadioSmokeDetector));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.RM_1));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MPT));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.SmokeDetector));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.HeatDetector));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.CombinedDetector));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM_1));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.StopButton));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.StartButton));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AutomaticButton));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzOnButton));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzOffButton));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzUnblockButton));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.HandDetector));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.PumpStation));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Pump));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.JokeyPump));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Compressor));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.DrenazhPump));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.CompensationPump));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AMP_4));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MRO));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Valve));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_T));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ASPT));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MDU));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Exit));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.MRK_30));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.RadioHandDetector));
+                drivers.Add(ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.RadioSmokeDetector));
                 return drivers;
             }
         }
@@ -166,7 +166,7 @@ namespace RepFileManager
 
         public static void CreateImages(Driver driver, string driverName)
         {
-            var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == driver.UID);
+            var libraryDevice = ItvManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == driver.UID);
             if (libraryDevice != null)
             {
                 foreach (var stateType in Helper.AllStates)

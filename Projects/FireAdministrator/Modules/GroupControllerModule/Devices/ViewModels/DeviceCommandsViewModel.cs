@@ -1,6 +1,7 @@
 ﻿using GroupControllerModule.ViewModels;
 using Infrastructure.Common;
 using GroupControllerModule.Converter;
+using Infrastructure;
 
 namespace GroupControllerModule.Models
 {
@@ -50,6 +51,7 @@ namespace GroupControllerModule.Models
 
             DevicesViewModel.Current.Initialize();
             ZonesViewModel.Current.Initialize();
+            ServiceFactory.SaveService.XDevicesChanged = true;
         }
 
         public RelayCommand ConvertToBinCommand { get; private set; }

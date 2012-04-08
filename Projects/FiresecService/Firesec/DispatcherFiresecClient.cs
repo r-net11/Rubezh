@@ -73,9 +73,9 @@ namespace Firesec
             control.Dispatcher.Invoke(new Action<string>(NativeFiresecClient.SetNewConfig), coreConfig);
         }
 
-        public static void DeviceWriteConfig(string coreConfig, string devicePath)
+        public static string DeviceWriteConfig(string coreConfig, string devicePath)
         {
-            control.Dispatcher.Invoke(new Action<string, string>(NativeFiresecClient.DeviceWriteConfig), coreConfig, devicePath);
+            return control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceWriteConfig), coreConfig, devicePath) as string;
         }
 
         public static void ResetStates(string states)

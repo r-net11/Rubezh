@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -8,17 +9,26 @@ namespace DevicesModule.ViewModels
     {
         static Device _device;
         static bool _isUsb;
+        static string _result;
 
         public static void Run(Device device, bool isUsb)
         {
             _device = device;
             _isUsb = isUsb;
-            ServiceFactory.ProgressService.Run(OnPropgress, null, _device.PresentationAddressDriver + ". Запись конфигурации в устройство");
+            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, _device.PresentationAddressDriver + ". Запись конфигурации в устройство");
         }
 
         static void OnPropgress()
         {
-            FiresecManager.DeviceWriteConfiguration(_device.UID, _isUsb);
+            _result = FiresecManager.DeviceWriteConfiguration(_device.UID, _isUsb);
+        }
+
+        static void OnCompleted()
+        {
+            if (string.IsNullOrEmpty(_result))
+                MessageBoxService.Show("Операция закончилась успешно");
+            else
+                MessageBoxService.Show(_result);
         }
     }
 }

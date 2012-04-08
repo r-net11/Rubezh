@@ -32,7 +32,24 @@
     <Compile Include="CustomActions.wxs" />
     <Compile Include="Features_Firesec.wxs" />
     <Compile Include="Files_Firesec.wxs" />
+    <Compile Include="FireAdministrator\Features_FireAdministrator.wxs" />
+    <Compile Include="FireAdministrator\Files_FireAdministrator.wxs" />
+    <Compile Include="FireAdministrator\Shortcuts_FireAdministrator.wxs" />
+    <Compile Include="FireMonitor\Features_FireMonitor.wxs" />
+    <Compile Include="FireMonitor\Files_FireMonitor.wxs" />
+    <Compile Include="FireMonitor\OutputFilesReportTemplates.wxs" />
+    <Compile Include="FireMonitor\Shortcuts_FireMonitor.wxs" />
     <Compile Include="FiresecInstaller.wxs" />
+    <Compile Include="FiresecService\AutoGenOutputFiles\OutputFilesComDlls.wxs" />
+    <Compile Include="FiresecService\AutoGenOutputFiles\OutputFilesIcons.wxs" />
+    <Compile Include="FiresecService\AutoGenOutputFiles\OutputFilesSounds.wxs" />
+    <Compile Include="FiresecService\AutoGenOutputFiles\OutputFilesXmlConfig.wxs" />
+    <Compile Include="FiresecService\Binary_FiresecService.wxs" />
+    <Compile Include="FiresecService\Features_FiresecService.wxs" />
+    <Compile Include="FiresecService\Files_FiresecService.wxs" />
+    <Compile Include="FiresecService\Output.wxs" />
+    <Compile Include="FiresecService\Properties_FiresecService.wxs" />
+    <Compile Include="FiresecService\Shortcuts_FiresecService.wxs" />
     <Compile Include="RemoveUsersDirectory.wxs" />
     <Compile Include="UI\UI_Dialogs.wxs" />
     <Compile Include="UI\UI_Elements.wxs" />
@@ -54,11 +71,21 @@
     </WixExtension>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\Administrator.ico" />
+    <Content Include="Data\Monitor.ico" />
+    <Content Include="Data\Server.ico" />
     <Content Include="Data\SetupProgress.ico" />
+    <Content Include="FireAdministrator\Variables_FireAdministrator.wxi" />
+    <Content Include="FireMonitor\Variables_FireMonitor.wxi" />
+    <Content Include="FiresecService\Pre-Build commands.txt" />
+    <Content Include="FiresecService\Variables_FiresecService.wxi" />
+    <Content Include="FiresecService\Xslt\WixIcons.xslt" />
+    <Content Include="FiresecService\Xslt\WixReportTemplates.xslt" />
+    <Content Include="FiresecService\Xslt\WixSounds.xslt" />
+    <Content Include="FiresecService\Xslt\WixXmlConfig.xslt" />
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="Variables_Firesec.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
-    <Content Include="Data\Firesec.ico" />
     <Content Include="Data\FiresecBanner.bmp" />
     <Content Include="Data\FiresecDataBaseStructureSql.sql" />
     <Content Include="Data\InstallChoiceLogo.bmp" />
@@ -72,33 +99,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data" />
+    <Folder Include="FiresecService" />
+    <Folder Include="FiresecService\AutoGenOutputFiles\" />
+    <Folder Include="FiresecService\Xslt\" />
+    <Folder Include="FireAdministrator" />
+    <Folder Include="FireMonitor" />
     <Folder Include="UI" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\FireAdministratorLibrary\FireAdministratorLibrary\FireAdministratorLibrary.wixproj">
-      <Name>FireAdministratorLibrary</Name>
-      <Project>{65234654-0cc8-4b38-85ae-144fd6b7c97e}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Libraries\FireMonitorLibrary\FireMonitorLibrary\FireMonitorLibrary.wixproj">
-      <Name>FireMonitorLibrary</Name>
-      <Project>{1a5977a6-0580-4f90-83fb-daaae8c2c834}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Libraries\FiresecServiceLibrary\FiresecServiceLibrary\FiresecServiceLibrary.wixproj">
-      <Name>FiresecServiceLibrary</Name>
-      <Project>{63cd35c1-8fd0-4d04-9d03-89f4e2afba70}</Project>
-      <Private>True</Private>
-      <DoNotHarvest>True</DoNotHarvest>
-      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
-      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(WixTargetsPath)" />
   <PropertyGroup>

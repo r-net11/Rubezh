@@ -29,7 +29,7 @@
     <Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
     <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
     
-    <Icon Id="FiresecIcon" SourceFile="Data\Firesec.ico"/>
+    
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
@@ -72,7 +72,7 @@
     
     <InstallExecuteSequence>
       <Custom Action="WixCloseApplications" Before="LaunchConditions" />
-      <!--<Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full"</Custom>-->
+      <Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full"</Custom>
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

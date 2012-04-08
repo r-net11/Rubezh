@@ -63,6 +63,9 @@
   <PropertyGroup>
     <DelaySign>true</DelaySign>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Administrator.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
@@ -102,14 +105,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\..\Common\Common\AssemblyInfoInc.cs">
-      <Link>AssemblyInfoInc.cs</Link>
+    <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Bootsrapper.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Services\LayoutService.cs" />
     <Compile Include="Services\ProgressService.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
@@ -284,6 +287,12 @@
       <ProductName>Установщик Windows 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Administrator.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Views\Administrator.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

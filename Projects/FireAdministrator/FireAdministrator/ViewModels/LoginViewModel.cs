@@ -20,20 +20,16 @@ namespace FireAdministrator.ViewModels
             Password = ServiceFactory.AppSettings.DefaultPassword;
         }
 
-        public static bool DefaultConnect()
+        public bool AutoConnect()
         {
             var userName = ServiceFactory.AppSettings.DefaultLogin;
             var password = ServiceFactory.AppSettings.DefaultPassword;
             if (userName != null && password != null)
             {
-                string clientCallbackAddress = ConfigurationHelper.ClientCallbackAddress;
                 string serverAddress = ServiceFactory.AppSettings.ServiceAddress;
-                string message = FiresecManager.Connect(clientCallbackAddress, serverAddress, userName, password);
-                if (message == null)
-                {
-                    return true;
-                }
-                MessageBoxService.Show(message);
+
+                var result = DoConnect(serverAddress, userName, password);
+                return result;
             }
             return false;
         }
@@ -63,19 +59,33 @@ namespace FireAdministrator.ViewModels
         public RelayCommand ConnectCommand { get; private set; }
         void OnConnect()
         {
-            string message = FiresecManager.Connect(null, ServiceFactory.AppSettings.ServiceAddress, UserName, Password);
-            if (message == null)
-            {
+            var result = DoConnect(ServiceFactory.AppSettings.ServiceAddress, UserName, Password);
+            if (result)
                 Close(true);
-                return;
-            }
-            MessageBoxService.Show(message);
         }
 
         public RelayCommand CancelCommand { get; private set; }
         void OnCancel()
         {
             Close(false);
+        }
+
+        bool DoConnect(string serverAddress, string userName, string password)
+        {
+            var preLoadWindow = new PreLoadWindow()
+            {
+                PreLoadText = "Соединение с сервером..."
+            };
+            preLoadWindow.Show();
+            string message = FiresecManager.Connect("Администратор", serverAddress, userName, password);
+            preLoadWindow.Close();
+
+            if (message == null)
+            {
+                return true;
+            }
+            MessageBoxService.Show(message);
+            return false;
         }
     }
 }

@@ -68,7 +68,7 @@
                     </StackPanel>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Управление" Visibility="{Binding Device.Driver.CanControl, Converter={StaticResource BoolToVisibilityConverter}}"
+            <TabItem Header="Управление" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}"
                      IsSelected="{Binding IsValveControlSelected}">
                 <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
             </TabItem>

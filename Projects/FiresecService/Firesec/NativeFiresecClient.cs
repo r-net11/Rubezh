@@ -47,17 +47,38 @@ namespace Firesec
 
         public static string GetCoreState()
         {
-            return ReadFromStream(Connectoin.GetCoreState());
+            try
+            {
+                return ReadFromStream(Connectoin.GetCoreState());
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static string GetCoreDeviceParams()
         {
-            return Connectoin.GetCoreDeviceParams();
+            try
+            {
+                return Connectoin.GetCoreDeviceParams();
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static string ReadEvents(int fromId, int limit)
         {
-            return Connectoin.ReadEvents(fromId, limit);
+            try
+            {
+                return Connectoin.ReadEvents(fromId, limit);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public static void SetNewConfig(string coreConfig)
@@ -110,9 +131,17 @@ namespace Firesec
             Connectoin.StoreUserMessage(message);
         }
 
-        public static void DeviceWriteConfig(string coreConfig, string devicePath)
+        public static string DeviceWriteConfig(string coreConfig, string devicePath)
         {
-            Connectoin.DeviceWriteConfig(coreConfig, devicePath);
+            try
+            {
+                Connectoin.DeviceWriteConfig(coreConfig, devicePath);
+                return null;
+            }
+            catch (Exception e)
+            {
+                return e.Message;
+            }
         }
 
         public static bool DeviceSetPassword(string coreConfig, string devicePath, string password, int deviceUser)
@@ -163,7 +192,8 @@ namespace Firesec
 
         public static string DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string fileName)
         {
-            return Connectoin.DeviceVerifyFirmwareVersion(coreConfig, devicePath, fileName);
+            var result = Connectoin.DeviceVerifyFirmwareVersion(coreConfig, devicePath, fileName);
+            return result;
         }
 
         public static string DeviceReadConfig(string coreConfig, string devicePath)

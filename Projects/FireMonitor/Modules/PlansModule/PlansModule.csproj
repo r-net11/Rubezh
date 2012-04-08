@@ -96,8 +96,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\Common\Common\AssemblyInfoInc.cs">
-      <Link>AssemblyInfoInc.cs</Link>
+    <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\StateToIconConverter.cs" />
     <Compile Include="Events\ElementDeviceSelectedEvent.cs" />

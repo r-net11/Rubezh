@@ -38,15 +38,14 @@ namespace FireMonitor.ViewModels
             }
         }
 
-        public static bool DefaultConnect()
+        public bool AutoConnect()
         {
             var userName = ServiceFactory.AppSettings.DefaultLogin;
             var password = ServiceFactory.AppSettings.DefaultPassword;
             if (userName != null && password != null)
             {
-                string clientCallbackAddress = ConfigurationHelper.ClientCallbackAddress;
                 string serverAddress = ServiceFactory.AppSettings.ServiceAddress;
-                string message = FiresecManager.Connect(clientCallbackAddress, serverAddress, userName, password);
+                string message = DoConnect(serverAddress, userName, password);
                 if (message == null)
                 {
                     return true;
@@ -92,11 +91,11 @@ namespace FireMonitor.ViewModels
         public RelayCommand ConnectCommand { get; private set; }
         void OnConnect()
         {
-            string message = string.Empty;
+            string message = null;
             switch (_passwordViewType)
             {
                 case PasswordViewType.Connect:
-                    message = FiresecManager.Connect(null, ServiceFactory.AppSettings.ServiceAddress, UserName, Password);
+                    message = DoConnect(ServiceFactory.AppSettings.ServiceAddress, UserName, Password);
                     break;
 
                 case PasswordViewType.Reconnect:
@@ -122,6 +121,19 @@ namespace FireMonitor.ViewModels
         void OnCancel()
         {
             Close(false);
+        }
+
+        string DoConnect(string serverAddress, string userName, string password)
+        {
+            var preLoadWindow = new PreLoadWindow()
+            {
+                PreLoadText = "Соединение с сервером..."
+            };
+            preLoadWindow.Show();
+            string message = FiresecManager.Connect("Монитор", serverAddress, userName, password);
+            preLoadWindow.Close();
+
+            return message;
         }
 
         public enum PasswordViewType

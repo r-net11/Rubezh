@@ -16,11 +16,11 @@ namespace JournalModule.ViewModels
 
         public ArchiveViewModel()
         {
-            _archiveDefaultState = ClientSettings.ArchiveDefaultState;
-            IsFilterOn = false;
-
             ShowFilterCommand = new RelayCommand(OnShowFilter);
             ShowSettingsCommand = new RelayCommand(OnShowSettings);
+
+            _archiveDefaultState = ClientSettings.ArchiveDefaultState;
+            IsFilterOn = false;
         }
 
         ObservableCollection<JournalRecordViewModel> _journalRecords;

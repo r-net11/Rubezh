@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Views="clr-namespace:FireAdministrator.Views"
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+        Icon="Administrator.ico"
         WindowStartupLocation="CenterScreen"
         Title="Администратор"
         Height="750" Width="1100"
@@ -73,11 +74,13 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Views:NavigationAreaView Grid.Column="0" Margin="5 5 0 5" />
-                            <Grid Grid.Column="1" Margin="5 5 5 5">
-                                <Border>
-                                    <ContentControl Name="_mainRegionHost" />
-                                </Border>
-                            </Grid>
+                            <ItemsControl Name="_itemsControl" Grid.Column="1" Margin="5 5 5 5">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <Grid />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>
                         </Grid>
                     </DockPanel>
                 </Grid>

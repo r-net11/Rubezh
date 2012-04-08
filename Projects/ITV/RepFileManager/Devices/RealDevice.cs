@@ -32,7 +32,7 @@ namespace RepFileManager
             var children = new List<repositoryModuleDeviceChild>();
             foreach (var childDriverUID in _driver.Children)
             {
-                var childDriver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == childDriverUID);
+                var childDriver = ItvManager.Drivers.FirstOrDefault(x => x.UID == childDriverUID);
                 var childDevice = new repositoryModuleDeviceChild()
                 {
                     id = childDriver.DriverType.ToString()

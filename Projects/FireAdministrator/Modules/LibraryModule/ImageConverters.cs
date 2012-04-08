@@ -10,7 +10,7 @@ namespace LibraryModule
 {
     public static class ImageConverters
     {
-        static readonly string XslFilesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "XslFiles");
+        static readonly string XslFilesDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration\\XslFiles");
         static readonly string Svg2XamlXslFile = Path.Combine(XslFilesDirectory, "svg2xaml.xsl");
         static readonly string Xaml2SvgXslFile = Path.Combine(XslFilesDirectory, "xaml2svg.xsl");
 

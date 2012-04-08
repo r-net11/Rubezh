@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -26,12 +27,16 @@ namespace DevicesModule.ViewModels
             Device = device;
 
             DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
-            //if (DeviceState != null)
+            if (DeviceState != null)
             {
                 DeviceState.StateChanged += new System.Action(OnStateChanged);
                 DeviceState.ParametersChanged += new System.Action(OnParametersChanged);
                 OnStateChanged();
                 OnParametersChanged();
+            }
+            else
+            {
+                MessageBoxService.ShowWarning("Ошибка при сопоставлении устройства с его состоянием");
             }
         }
 

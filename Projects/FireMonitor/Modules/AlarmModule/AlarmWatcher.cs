@@ -27,7 +27,9 @@ namespace AlarmModule
 
             UpdateDeviceAlarms();
             UpdateZoneAlarms();
-            UpdateValveTimer();
+
+            if (ServiceFactory.AppSettings.CanControl)
+                UpdateValveTimer();
 
             foreach (var alarm in Alarms)
             {

@@ -23,12 +23,12 @@ namespace InstructionsModule.ViewModels
             InstructionZones = new ObservableCollection<ZoneViewModel>();
             AvailableZones = new ObservableCollection<ZoneViewModel>();
 
-            InicializeZones();
+            InitializeZones();
             if (InstructionZones.IsNotNullOrEmpty())
                 SelectedInstructionZone = InstructionZones[0];
         }
 
-        void InicializeZones()
+        void InitializeZones()
         {
             foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
             {
@@ -36,7 +36,7 @@ namespace InstructionsModule.ViewModels
                 if (InstructionZonesList.IsNotNullOrEmpty())
                 {
                     var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.No);
-                    if (instructionZone != null)
+                    if (instructionZone != 0)
                         InstructionZones.Add(zoneViewModel);
                     else
                         AvailableZones.Add(zoneViewModel);

@@ -22,7 +22,13 @@ namespace AlarmModule
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
-        public static void CreateViewModels()
+        public static void Initialize()
+        {
+            //AlarmWatcher.Initialize();
+            //AlarmVideoWather.Initialize();
+        }
+
+        static void CreateViewModels()
         {
             AlarmWatcher = new AlarmWatcher();
             AlarmVideoWather = new AlarmVideoWather();

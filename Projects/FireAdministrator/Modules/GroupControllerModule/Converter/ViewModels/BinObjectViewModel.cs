@@ -1,6 +1,7 @@
 ﻿using GroupControllerModule.Models;
 using Infrastructure.Common;
 using XFiresecAPI;
+using GroupControllerModule.Converter;
 
 namespace GroupControllerModule.ViewModels
 {

@@ -7,18 +7,12 @@ namespace FireAdministrator.Views
         public LoginView()
         {
             InitializeComponent();
-            KeyDown += new System.Windows.Input.KeyEventHandler(LoginView_KeyDown);
             Loaded += new System.Windows.RoutedEventHandler(LoginView_Loaded);
         }
 
         void LoginView_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
             _btnOK.Focus();
-        }
-
-        void LoginView_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            
         }
     }
 }

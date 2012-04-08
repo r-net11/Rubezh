@@ -15,6 +15,8 @@ namespace FiresecClient
             foreach (var newDeviceState in newDeviceStates)
             {
                 var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
+                if (deviceState == null)
+                    continue;
 
                 deviceState.States.Clear();
                 foreach (var newState in newDeviceState.States)

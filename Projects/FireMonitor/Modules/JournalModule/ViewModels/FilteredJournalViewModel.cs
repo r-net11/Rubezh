@@ -28,6 +28,7 @@ namespace JournalModule.ViewModels
                 var journalRecordsViewModel = journalRecords.Select(journalRecord => new JournalRecordViewModel(journalRecord));
                 JournalRecords = new ObservableCollection<JournalRecordViewModel>(journalRecordsViewModel);
 
+                FiresecEventSubscriber.NewJournalRecordEvent -= new Action<JournalRecord>(OnNewJournaRecordEvent);
                 FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournaRecordEvent);
             }
             catch(Exception)

@@ -46,6 +46,17 @@ namespace FiresecService.ViewModels
             UserDialogService.ShowModalWindow(new ImitatorViewModel());
         }
 
+        public string FiresecConnectionSatus
+        {
+            get
+            {
+                if (FiresecManager.IsConnected)
+                    return "Соединение с сервером Firesec установленно";
+                else
+                    return "Соединение с сервером Firesec НЕ установленно";
+            }
+        }
+
         public bool IsDebug
         {
             get { return AppSettings.IsDebug; }

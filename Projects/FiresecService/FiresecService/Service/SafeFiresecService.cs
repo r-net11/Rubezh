@@ -16,11 +16,11 @@ namespace FiresecService
             FiresecService = new FiresecService();
         }
 
-        public string Connect(string clientCallbackAddress, string userName, string password)
+        public string Connect(string clientType, string clientCallbackAddress, string userName, string password)
         {
             try
             {
-                return FiresecService.Connect(clientCallbackAddress, userName, password);
+                return FiresecService.Connect(clientType, clientCallbackAddress, userName, password);
             }
             catch
             {
@@ -108,25 +108,27 @@ namespace FiresecService
             }
         }
 
-        public void DeviceWriteConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public string DeviceWriteConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
-                FiresecService.DeviceWriteConfiguration(deviceConfiguration, deviceUID);
+                return FiresecService.DeviceWriteConfiguration(deviceConfiguration, deviceUID);
             }
             catch
             {
+                return "В результате работы на сервере возниклол исключение";
             }
         }
 
-        public void DeviceWriteAllConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
+        public string DeviceWriteAllConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
         {
             try
             {
-                FiresecService.DeviceWriteAllConfiguration(deviceConfiguration);
+                return FiresecService.DeviceWriteAllConfiguration(deviceConfiguration);
             }
             catch
             {
+                return "В результате работы на сервере возниклол исключение";
             }
         }
 

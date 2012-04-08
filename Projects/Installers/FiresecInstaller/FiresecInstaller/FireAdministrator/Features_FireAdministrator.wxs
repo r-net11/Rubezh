@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	
+	<?include Variables_FireAdministrator.wxi?>
+	
+	<Fragment>
+		<Feature Id="FireAdministratorFeature" Title="$(var.FireAdministratorName)" Description="Полная установка" Level="1" Display="expand"
+						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+			<ComponentRef Id="FAExeComponent" />
+			<ComponentRef Id="FAConfigComponent" />
+			<ComponentRef Id="FACommonComponent" />
+			<ComponentRef Id="FAControlsComponent" />
+			<ComponentRef Id="FADeviceControlsComponent" />
+			<ComponentRef Id="FAFiresecAPIComponent" />
+			<ComponentRef Id="FAFiresecClientComponent" />
+			<ComponentRef Id="FADevicesModuleComponent" />
+			<ComponentRef Id="FAInfrastructure.CommonComponent" />
+			<ComponentRef Id="FAInfrastructureComponent" />
+			<ComponentRef Id="FAUnityComponent" />
+			<ComponentRef Id="FAPrismDllComponent"/>
+			<ComponentRef Id="FAPrismUnityExtensionsComponent"/>
+			<ComponentRef Id="FAWPFToolkitExtendedComponent"/>
+			<ComponentRef Id="FAServiceLocationComponent"/>
+			<ComponentRef Id="FAInstructionsModuleComponent" />
+			<ComponentRef Id="FALibraryModuleComponent" />
+			<ComponentRef Id="FAPlansModuleComponent" />
+			<ComponentRef Id="FASecurityModuleComponent" />
+			<ComponentRef Id="FASettingsModuleComponent" />
+			<ComponentRef Id="FASoundsModuleComponent" />
+			<ComponentRef Id="FAFiltersModuleComponent" />
+			<ComponentRef Id="FAGroupControllerModuleComponent" />
+			<ComponentRef Id="FAVideoModuleComponent"/>
+			<ComponentRef Id="FAVlcCoreComponent"/>
+			<ComponentRef Id="FAVlcFormsComponent"/>
+			<ComponentRef Id="FAVlcInteropsComponent"/>
+			<ComponentRef Id="FAU2UConsult"/>
+			<ComponentRef Id="FAProgramsMenuShortcut" />
+			<ComponentRef Id="FADesktopShortcut" />
+			<ComponentRef Id="XslFiles1" />
+			<ComponentRef Id="XslFiles2" />
+			<ComponentRef Id="XslFiles3" />
+			<ComponentRef Id="XslFiles4" />
+			<ComponentRef Id="XslFiles5" />
+			<ComponentRef Id="XslFiles6" />
+			<ComponentRef Id="XslFiles7" />
+			<ComponentRef Id="XslFiles8" />
+			<ComponentRef Id="XslFiles9" />
+			<ComponentRef Id="XslFiles10" />
+		</Feature>
+	</Fragment>
+</Wix>

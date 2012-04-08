@@ -147,9 +147,24 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
+            var oldIndex = AvailableDevices.IndexOf(SelectedAvailableDevice);
+            var oldDeviceUID = SelectedAvailableDevice.Device.UID;
+            
             SelectedAvailableDevice.Device.ZoneNo = _zoneNo;
             Initialize(_zoneNo);
             UpdateAvailableDevices();
+
+            SelectedDevice = Devices.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
+            if (AvailableDevices.Count > 0)
+            {
+                var newIndex = System.Math.Min(oldIndex, AvailableDevices.Count - 1);
+                SelectedAvailableDevice = AvailableDevices[newIndex];
+            }
+            else
+            {
+                SelectedAvailableDevice = null;
+            }
+
             ServiceFactory.SaveService.DevicesChanged = true;
         }
 
@@ -161,9 +176,24 @@ namespace DevicesModule.ViewModels
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
+            var oldIndex = Devices.IndexOf(SelectedDevice);
+            var oldDeviceUID = SelectedDevice.Device.UID;
+
             SelectedDevice.Device.ZoneNo = null;
             Initialize(_zoneNo);
             UpdateAvailableDevices();
+
+            SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
+            if (Devices.Count > 0)
+            {
+                var newIndex = System.Math.Min(oldIndex, Devices.Count - 1);
+                SelectedDevice = Devices[newIndex];
+            }
+            else
+            {
+                SelectedDevice = null;
+            }
+            
             ServiceFactory.SaveService.DevicesChanged = true;
         }
 

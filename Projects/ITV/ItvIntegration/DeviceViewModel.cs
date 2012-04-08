@@ -57,11 +57,11 @@ namespace ItvIntegration
                 switch (commandName)
                 {
                     case "Dasable":
-                        FiresecManager.AddToIgnoreList(deviceUIDs);
+                        ItvManager.AddToIgnoreList(deviceUIDs);
                         break;
 
                     case "Enable":
-                        FiresecManager.RemoveFromIgnoreList(deviceUIDs);
+                        ItvManager.RemoveFromIgnoreList(deviceUIDs);
                         break;
                 }
             }
@@ -75,7 +75,7 @@ namespace ItvIntegration
                     case "BoltOpen":
                     case "BoltAutoOn":
                     case "BoltAutoOff":
-                        FiresecManager.ExecuteCommand(DeviceState.UID, commandName);
+                        ItvManager.ExecuteCommand(DeviceState.UID, commandName);
                         break;
                 }
             }

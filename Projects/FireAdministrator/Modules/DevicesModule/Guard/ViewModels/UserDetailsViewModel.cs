@@ -133,6 +133,13 @@ namespace DevicesModule.ViewModels
                     return;
                 }
 
+            if (string.IsNullOrEmpty(Name))
+                {
+                    MessageBoxService.Show("Имя не может быть пустым");
+                    cancel = true;
+                    return;
+                }
+
             SaveProperies();
         }
     }

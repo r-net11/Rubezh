@@ -19,6 +19,7 @@ namespace FireMonitor.Views
 
             ChangeAutoActivationCommand = new RelayCommand(OnChangeAutoActivation);
             ChangePlansAutoActivationCommand = new RelayCommand(OnChangePlansAutoActivation);
+            FiresecEventSubscriber.NewJournalRecordEvent -= new Action<JournalRecord>(OnNewJournalRecord);
             FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalRecord);
         }
 

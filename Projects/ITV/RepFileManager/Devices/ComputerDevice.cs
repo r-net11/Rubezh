@@ -60,7 +60,7 @@ namespace RepFileManager
 
         void CreateEvents()
         {
-            var driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer);
+            var driver = ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer);
 
             var deviceEvents = new List<repositoryModuleDeviceEvent>();
             foreach (var driverState in driver.States)
@@ -80,7 +80,7 @@ namespace RepFileManager
 
         void CreateProperties()
         {
-            var driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer);
+            var driver = ItvManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer);
 
             var allProperties = Helper.CreateProperties(driver.Properties);
             if (allProperties.Count > 0)

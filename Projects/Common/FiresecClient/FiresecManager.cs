@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using FiresecAPI.Models;
+using System.Windows;
 
 namespace FiresecClient
 {
@@ -10,13 +11,14 @@ namespace FiresecClient
     {
         static public SafeFiresecService FiresecService { get; private set; }
 
-        public static string Connect(string clientCallbackAddress, string serverAddress, string login, string password)
+        public static string Connect(string clientType, string serverAddress, string login, string password)
         {
+            var clientCallbackAddress = CallbackAddressHelper.GetFreeClientCallbackAddress();
             FiresecCallbackServiceManager.Open(clientCallbackAddress);
 
             FiresecService = new SafeFiresecService(FiresecServiceFactory.Create(serverAddress));
 
-            string result = FiresecService.Connect(clientCallbackAddress, login, password);
+            string result = FiresecService.Connect(clientType, clientCallbackAddress, login, password);
             if (result != null)
             {
                 return result;
@@ -38,13 +40,23 @@ namespace FiresecClient
             return null;
         }
 
+        public static void GetStates()
+        {
+            UpdateStates();
+            FiresecService.Subscribe();
+            FiresecService.StartPing();
+        }
+
         public static void UpdateStates()
         {
             foreach (var deviceState in DeviceStates.DeviceStates)
             {
                 deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
                 if (deviceState.Device == null)
+                {
+                    //MessageBox.Show("Ошибка при сопоставлении устройства с его состоянием");
                     continue;
+                }
 
                 foreach (var state in deviceState.States)
                 {
@@ -157,15 +169,15 @@ namespace FiresecClient
             return FiresecService.DeviceReadConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
         }
 
-        public static void DeviceWriteConfiguration(Guid deviceUID, bool isUsb)
+        public static string DeviceWriteConfiguration(Guid deviceUID, bool isUsb)
         {
             //FiresecService.DeviceWriteConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
-            FiresecService.DeviceWriteConfiguration(DeviceConfiguration, deviceUID);
+            return FiresecService.DeviceWriteConfiguration(DeviceConfiguration, deviceUID);
         }
 
-        public static void WriteAllDeviceConfiguration()
+        public static string WriteAllDeviceConfiguration()
         {
-            FiresecService.DeviceWriteAllConfiguration(DeviceConfiguration);
+            return FiresecService.DeviceWriteAllConfiguration(DeviceConfiguration);
         }
 
         public static string ReadDeviceJournal(Guid deviceUID, bool isUsb)

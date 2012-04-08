@@ -73,6 +73,7 @@
     <Compile Include="Medias\PathMedia.cs" />
     <Compile Include="Medias\VlcMediaMetadatas.cs" />
     <Compile Include="Medias\VlcMediaTrackInfos.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VlcAudioOutputDevice.cs" />
     <Compile Include="VlcDeinterlaceModes.cs" />
     <Compile Include="VlcErrorHandling.cs" />
@@ -110,9 +111,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Vlc.DotNet.Core.Interops\Vlc.DotNet.Core.Interops.csproj">
       <Project>{7506DDE6-1D45-4FE0-8239-985C5F6EB605}</Project>

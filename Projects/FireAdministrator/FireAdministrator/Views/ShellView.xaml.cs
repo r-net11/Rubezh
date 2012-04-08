@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -10,6 +11,8 @@ using FireAdministrator.ViewModels;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace FireAdministrator.Views
 {
@@ -75,12 +78,6 @@ namespace FireAdministrator.Views
             ServiceFactory.UserDialogs.ShowModalWindow(aboutViewModel);
         }
 
-        public IViewPart MainContent
-        {
-            get { return _mainRegionHost.Content as IViewPart; }
-            set { _mainRegionHost.DataContext = _mainRegionHost.Content = value; }
-        }
-
         public object Menu
         {
             get { return _menu.Content; }
@@ -126,7 +123,9 @@ namespace FireAdministrator.Views
         void Window_Closed(object sender, System.EventArgs e)
         {
             FiresecManager.Disconnect();
+            Close();
             Application.Current.Shutdown();
+            Environment.Exit(1);
         }
     }
 }

@@ -3,6 +3,44 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
+    <UserControl.Resources>
+        <Style x:Key="IsSelectableCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Image Name="_image" Source="/Controls;component/Images/Lock.png" />
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Unlock.png" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="false">
+                                <Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Lock.png" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="IsVisibleCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Image Name="_image" Source="/Controls;component/Images/Eye1.png" />
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Eye2.png" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="false">
+                                <Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Empty.png" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    
     <Controls:ScrollDataGrid  Name="_elementsDataGrid" ItemsSource="{Binding Elements}" SelectedItem="{Binding SelectedElement}" IsReadOnly="False">
         <DataGrid.Columns>
             <DataGridTemplateColumn MinWidth="25" MaxWidth="25">
@@ -26,8 +64,8 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="1" />
-                                <CheckBox IsChecked="{Binding IsSelectable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="1" />
+                                <CheckBox IsChecked="{Binding IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsVisibleCheckBoxStyle}" Margin="1" />
+                                <CheckBox IsChecked="{Binding IsSelectable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsSelectableCheckBoxStyle}" Margin="1" />
                                 <TextBlock Text="{Binding Name}" Margin="1">
                                 <TextBlock.Style>
                                     <Style>

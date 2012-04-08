@@ -51,11 +51,11 @@ namespace GroupControllerModule.Converter
 
         public static List<DriverItem>  Drivers { get; private set; }
 
-        public static Guid System_UID = Guid.NewGuid();         // Guid("938947C5-4624-4A1A-939C-60AEEBF7B65C")
-        public static Guid GK_UID = Guid.NewGuid();             // Guid("C052395D-043F-4590-A0B8-BC49867ADC6A")
-        public static Guid KAU_UID = Guid.NewGuid();            // Guid("4993E06C-85D1-4F20-9887-4C5F67C450E8")
-        public static Guid KAUIndicator_UID = Guid.NewGuid();   // Guid("17A2B7D1-CB62-4AF7-940E-BC30B004B0D0")
-        public static Guid KAUExit_UID = Guid.NewGuid();        // Guid("FD3E3C36-B036-470F-BAC8-6D49007FBFD3")
+        public static Guid System_UID = new Guid("938947C5-4624-4A1A-939C-60AEEBF7B65C");
+        public static Guid GK_UID = new Guid("C052395D-043F-4590-A0B8-BC49867ADC6A");
+        public static Guid KAU_UID = new Guid("4993E06C-85D1-4F20-9887-4C5F67C450E8");
+        public static Guid KAUIndicator_UID = new Guid("17A2B7D1-CB62-4AF7-940E-BC30B004B0D0");
+        public static Guid KAUExit_UID = new Guid("FD3E3C36-B036-470F-BAC8-6D49007FBFD3");
     }
 
     public class DriverItem

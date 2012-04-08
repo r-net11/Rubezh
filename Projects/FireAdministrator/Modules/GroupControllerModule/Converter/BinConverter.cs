@@ -6,6 +6,7 @@ using GroupControllerModule.ViewModels;
 using Infrastructure;
 using System.Text;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GroupControllerModule.Converter
 {

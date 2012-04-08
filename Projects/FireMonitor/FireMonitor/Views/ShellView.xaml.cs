@@ -57,6 +57,7 @@ namespace FireMonitor.Views
         {
             Close();
             Application.Current.Shutdown();
+            Environment.Exit(1);
         }
 
         void OnMinimize(object sender, RoutedEventArgs e)
@@ -78,12 +79,6 @@ namespace FireMonitor.Views
         {
             var aboutViewModel = new AboutViewModel();
             ServiceFactory.UserDialogs.ShowModalWindow(aboutViewModel);
-        }
-
-        public IViewPart MainContent
-        {
-            get { return _mainRegionHost.Content as IViewPart; }
-            set { _mainRegionHost.DataContext = _mainRegionHost.Content = value; }
         }
 
         public IViewPart AlarmGroups

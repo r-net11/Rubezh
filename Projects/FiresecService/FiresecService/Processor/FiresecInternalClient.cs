@@ -58,9 +58,9 @@ namespace FiresecService
             DispatcherFiresecClient.SetNewConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig));
         }
 
-        public static void DeviceWriteConfig(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static string DeviceWriteConfig(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            DispatcherFiresecClient.DeviceWriteConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            return DispatcherFiresecClient.DeviceWriteConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
         }
 
         public static void ResetStates(Firesec.CoreState.config coreState)

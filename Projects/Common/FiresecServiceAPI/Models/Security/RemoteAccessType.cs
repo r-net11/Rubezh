@@ -7,7 +7,7 @@ namespace FiresecAPI.Models
         [DescriptionAttribute("Запрещен")]
         RemoteAccessBanned,
 
-        [DescriptionAttribute("Резрешен с любых компьютеров")]
+        [DescriptionAttribute("Разрешен с любых компьютеров")]
         RemoteAccessAllowed,
 
         [DescriptionAttribute("Разрешен только с указанных компьютеров")]

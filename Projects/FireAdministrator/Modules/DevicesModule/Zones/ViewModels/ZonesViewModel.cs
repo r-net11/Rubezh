@@ -181,7 +181,7 @@ namespace DevicesModule.ViewModels
             ServiceFactory.Layout.ShowMenu(null);
 
             if (ZonesMenuView.Current != null)
-                ZonesMenuView.Current.AcceptKeyboard = true;
+                ZonesMenuView.Current.AcceptKeyboard = false;
         }
     }
 }

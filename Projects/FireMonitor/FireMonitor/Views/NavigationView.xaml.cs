@@ -35,6 +35,7 @@ namespace FireMonitor.Views
 
         void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            FiresecEventSubscriber.NewJournalRecordEvent -= new Action<JournalRecord>(OnNewJournalItemEvent);
             FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
         }
 

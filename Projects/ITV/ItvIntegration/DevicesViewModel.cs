@@ -10,20 +10,18 @@ namespace ItvIntegration
     {
         public void Initialize()
         {
-            string clientCallbackAddress = ConfigurationManager.AppSettings["ClientCallbackAddress"] as string;
             string serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
             string defaultLogin = ConfigurationManager.AppSettings["DefaultLogin"] as string;
             string defaultPassword = ConfigurationManager.AppSettings["DefaultPassword"] as string;
-            string result = FiresecManager.Connect(clientCallbackAddress, serverAddress, defaultLogin, defaultPassword);
+            string result = ItvManager.Connect(serverAddress, defaultLogin, defaultPassword);
             if (result != null)
             {
                 MessageBox.Show(result);
                 return;
             }
-            FiresecManager.SelectiveFetch();
 
             Devices = new ObservableCollection<DeviceViewModel>();
-            foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
+            foreach (var deviceState in ItvManager.DeviceStates.DeviceStates)
             {
                 var deviceViewModel = new DeviceViewModel(deviceState);
                 Devices.Add(deviceViewModel);

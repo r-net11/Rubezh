@@ -7,7 +7,7 @@ namespace FiresecService
 {
     public partial class FiresecService
     {
-        readonly static string XDeviceConfigurationFileName = "SystemConfiguration.xml";
+        readonly static string XDeviceConfigurationFileName = "XDeviceConfiguration.xml";
         public static string ConfigurationDirectory(string FileNameOrDirectory)
         {
             return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", FileNameOrDirectory);

@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include Variables_FireMonitor.wxi?>
+    <Fragment>
+        <DirectoryRef Id="FireMonReportTemplatesFolder">
+            <Component Id="cmp028F14C862340E9295401F5DA8F0FA8C" Guid="{FF93082A-FD2B-491F-971B-CE4478730F96}">
+                <File Id="fil7C96A2D9019129A688A92EB7E0C1941B" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\DeviceListCrystalReport.rpt" />
+            </Component>
+            <Component Id="cmp184646B4208A7EF081D2E715F0D1EC7D" Guid="{C47BD840-4EFB-47CC-9F41-2207BB3F921E}">
+                <File Id="fil00318FA41C92751A3B6CB618E2BB2813" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\DeviceParamsCrystalReport.rpt" />
+            </Component>
+            <Component Id="cmpBD737D5957826AE6E46C56BC31E0CE8C" Guid="{5EF5762D-9BE6-4850-9B91-4C66BADB20DC}">
+                <File Id="fil27D90654A9BF67C2B3B5C419311D6ACB" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\DriverCounterCrystalReport.rpt" />
+            </Component>
+            <Component Id="cmp6E5E0DB2BED643C76D13BFFFEB72A0DF" Guid="{AF2BE63B-EADC-48B9-94D9-A78017B43A06}">
+                <File Id="fil546B9C94BEAA0D614F307AA8CFFDF82B" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\IndicationBlockCrystalReport.rpt" />
+            </Component>
+            <Component Id="cmp56F243B1A7F81AEF57746A22AEF32E73" Guid="{E3D0F9AD-1FA8-4DB6-B396-C8D635572074}">
+                <File Id="fil56751F9FBD7862A5160EB89EBF094B48" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\JournalCrystalReport.rpt" />
+            </Component>
+        </DirectoryRef>
+    </Fragment>
+    <Fragment>
+        <ComponentGroup Id="FireMonReportTemplatesFolder">
+            <ComponentRef Id="cmp028F14C862340E9295401F5DA8F0FA8C" />
+            <ComponentRef Id="cmp184646B4208A7EF081D2E715F0D1EC7D" />
+            <ComponentRef Id="cmpBD737D5957826AE6E46C56BC31E0CE8C" />
+            <ComponentRef Id="cmp6E5E0DB2BED643C76D13BFFFEB72A0DF" />
+            <ComponentRef Id="cmp56F243B1A7F81AEF57746A22AEF32E73" />
+        </ComponentGroup>
+    </Fragment>
+</Wix>

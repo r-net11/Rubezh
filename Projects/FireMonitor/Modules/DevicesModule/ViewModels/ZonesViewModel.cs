@@ -14,7 +14,11 @@ namespace DevicesModule.ViewModels
         public ZonesViewModel()
         {
             ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Subscribe(Select);
+            Initialize();
+        }
 
+        public void Initialize()
+        {
             Zones = (from Zone zone in FiresecManager.DeviceConfiguration.Zones
                      orderby zone.No
                      select new ZoneViewModel(zone)).ToList();
@@ -23,7 +27,16 @@ namespace DevicesModule.ViewModels
                 SelectedZone = Zones[0];
         }
 
-        public List<ZoneViewModel> Zones { get; private set; }
+        List<ZoneViewModel> _zones;
+        public List<ZoneViewModel> Zones
+        {
+            get { return _zones; }
+            set
+            {
+                _zones = value;
+                OnPropertyChanged("Zones");
+            }
+        }
 
         ZoneViewModel _selectedZone;
         public ZoneViewModel SelectedZone

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
 using System;
+using System.Linq;
 using System.Diagnostics;
+using FiresecService.ViewModels;
 
 namespace FiresecService
 {
@@ -29,9 +31,12 @@ namespace FiresecService
         {
             try
             {
-                foreach (var failedCallback in _failedServiceInstances)
+                foreach (var failedServiceInstance in _failedServiceInstances)
                 {
-                    _failedServiceInstances.Remove(failedCallback);
+                    var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.FiresecServiceUID == failedServiceInstance.FiresecServiceUID);
+                    MainViewModel.Current.RemoveConnection(connectionViewModel);
+
+                    _serviceInstances.Remove(failedServiceInstance);
                 }
             }
             catch { ;}
@@ -46,7 +51,8 @@ namespace FiresecService
                 {
                     try
                     {
-                        return serviceInstance.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
+                        var result = serviceInstance.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
+                        return result;
 
                         //if (serviceInstance.ContinueProgress)
                         //{

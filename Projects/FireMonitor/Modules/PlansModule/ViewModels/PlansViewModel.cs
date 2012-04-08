@@ -22,6 +22,11 @@ namespace PlansModule.ViewModels
             MainCanvas = new Canvas();
             ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
 
+            Initialize();
+        }
+
+        public void Initialize()
+        {
             DrawAllPlans();
 
             Plans = new ObservableCollection<PlanViewModel>();
@@ -87,7 +92,16 @@ namespace PlansModule.ViewModels
             }
         }
 
-        public ObservableCollection<PlanViewModel> Plans { get; set; }
+        ObservableCollection<PlanViewModel> _plans;
+        public ObservableCollection<PlanViewModel> Plans
+        {
+            get { return _plans; }
+            set
+            {
+                _plans = value;
+                OnPropertyChanged("Plans");
+            }
+        }
 
         PlanViewModel _selectedPlan;
         public PlanViewModel SelectedPlan
