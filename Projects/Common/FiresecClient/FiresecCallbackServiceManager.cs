@@ -84,6 +84,7 @@ namespace FiresecClient
                     catch (SocketException e)
                     {
                         port = rnd.Next(9000, 9100);
+						Logger.Error(e);
                     }
                 }
             }

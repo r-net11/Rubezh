@@ -35,6 +35,7 @@ namespace Common
                     }
                     catch (SocketException e)
                     {
+						Logger.Error(e);
                         port = rnd.Next(9000, 9100);
                     }
                 }

@@ -160,6 +160,33 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>
+
+            <TabItem IsSelected="{Binding IsSkudSelected}" MouseLeftButtonUp="SkudMouseLeftButtonUp">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image />
+                        <TextBlock Text="СКУД" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+            <TabItem IsSelected="{Binding IsEmployeeCardIndexSelected}" Margin="15, 0, 0, 5"
+                     Visibility="{Binding IsSkudExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image/>
+                        <TextBlock Text="Картотека" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
+            <TabItem IsSelected="{Binding IsPassCardSelected}" Margin="15, 0, 0, 5"
+                     Visibility="{Binding IsSkudExpanded, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <Image/>
+                        <TextBlock Text="Пропуск" />
+                    </StackPanel>
+                </TabItem.Header>
+            </TabItem>
         </TabControl>
     </DockPanel>
 </UserControl>

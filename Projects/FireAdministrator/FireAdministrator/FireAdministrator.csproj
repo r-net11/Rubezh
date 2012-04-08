@@ -258,6 +258,10 @@
       <Project>{C33E3B0E-C6A8-477D-A836-8418FB1EEF46}</Project>
       <Name>VideoModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\SkudModule\SkudModule.csproj">
+      <Project>{BF76BEED-BCFB-488E-849E-D56F1F07D107}</Project>
+      <Name>SkudModule</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

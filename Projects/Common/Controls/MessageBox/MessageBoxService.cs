@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Infrastructure.Common;
+using Common;
 
 namespace Controls.MessageBox
 {
@@ -24,11 +25,13 @@ namespace Controls.MessageBox
 
         public static MessageBoxResult ShowWarning(string message)
         {
+			Logger.Warn(message);
             return ShowWindow(message, MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
         public static MessageBoxResult ShowException(Exception e)
         {
+			Logger.Error(e);
             string message = e.Message.ToString();
             var stackTraces = e.StackTrace.Split('\n');
             if (stackTraces.Length > 0)

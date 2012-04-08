@@ -81,6 +81,9 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
+    <Compile Include="Events\ShowPassCardEvent.cs" />
+    <Compile Include="Events\ShowEmployeeCardIndexEvent.cs" />
+    <Compile Include="Events\ShowSkudEvent.cs" />
     <Compile Include="Events\CreateZoneEvent.cs" />
     <Compile Include="Events\GuardVisibilityChangedEvent.cs" />
     <Compile Include="Events\ShowDeviceEvent.cs" />

@@ -80,7 +80,8 @@ namespace FireAdministrator
 			var instructionsModule = new InstructionsModule.InstructionsModule();
 			var settingsModule = new SettingsModule.SettingsModule();
 			var groupControllerViewModel = new GroupControllerModule.GroupControllerModule();
-			var videoViewModel = new VideoModule.VideoModule();
+			//var videoViewModel = new VideoModule.VideoModule();
+			var skudViewModel = new SkudModule.SkudModule();
 
 			ServiceFactory.SaveService.Reset();
 

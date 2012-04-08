@@ -4,6 +4,7 @@ using System.ServiceModel;
 using System.Timers;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Common;
 
 namespace FiresecClient
 {
@@ -18,8 +19,9 @@ namespace FiresecClient
         IFiresecService _iFiresecService;
 
         public static event Action ConnectionLost;
-        void OnConnectionLost()
+        void OnConnectionLost(Exception ex)
         {
+			Logger.Error(ex, "ConnectionLost");
             if (_isConnected == false)
                 return;
 
@@ -76,9 +78,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.Connect(clientCallbackAddress, userName, password);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+                OnConnectionLost(ex);
             }
             return "Не удается соединиться с сервером";
         }
@@ -89,9 +91,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.Reconnect(userName, password);
             }
-            catch
+            catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return "Не удается соединиться с сервером";
         }
@@ -102,9 +104,9 @@ namespace FiresecClient
             {
                 _iFiresecService.Disconnect();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -114,9 +116,9 @@ namespace FiresecClient
             {
                 _iFiresecService.Subscribe();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+                OnConnectionLost(ex);
             }
         }
 
@@ -126,9 +128,9 @@ namespace FiresecClient
             {
                 _iFiresecService.CancelProgress();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+                OnConnectionLost(ex);
             }
         }
 
@@ -138,9 +140,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetDrivers();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -151,9 +153,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetDeviceConfiguration();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -164,9 +166,9 @@ namespace FiresecClient
             {
                 _iFiresecService.SetDeviceConfiguration(deviceConfiguration);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -176,9 +178,9 @@ namespace FiresecClient
             {
                 _iFiresecService.DeviceWriteConfiguration(deviceConfiguration, deviceUID);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -188,9 +190,9 @@ namespace FiresecClient
             {
                 _iFiresecService.DeviceWriteAllConfiguration(deviceConfiguration);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -200,9 +202,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceReadConfiguration(deviceConfiguration, deviceUID);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -213,9 +215,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceSetPassword(deviceConfiguration, deviceUID, devicePasswordType, password);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return false;
             }
         }
@@ -226,9 +228,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceDatetimeSync(deviceConfiguration, deviceUID);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return false;
             }
         }
@@ -239,9 +241,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceGetInformation(deviceConfiguration, deviceUID);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -252,9 +254,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceGetSerialList(deviceConfiguration, deviceUID);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -265,9 +267,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceUpdateFirmware(deviceConfiguration, deviceUID, bytes, fileName);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -278,9 +280,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceVerifyFirmwareVersion(deviceConfiguration, deviceUID, bytes, fileName);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -291,9 +293,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceReadEventLog(deviceConfiguration, deviceUID);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -304,9 +306,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceAutoDetectChildren(deviceConfiguration, deviceUID, fastSearch);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -317,9 +319,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceCustomFunctionList(driverUID);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -330,9 +332,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceCustomFunctionExecute(deviceConfiguration, deviceUID, functionName);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -343,9 +345,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceGetGuardUsersList(deviceConfiguration, deviceUID);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -356,9 +358,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceSetGuardUsersList(deviceConfiguration, deviceUID, users);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -369,9 +371,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.DeviceGetMDS5Data(deviceConfiguration, deviceUID);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return null;
             }
         }
@@ -382,9 +384,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetPlansConfiguration();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -395,9 +397,9 @@ namespace FiresecClient
             {
                 _iFiresecService.SetPlansConfiguration(plansConfiguration);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -407,9 +409,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetSystemConfiguration();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -420,9 +422,9 @@ namespace FiresecClient
             {
                 _iFiresecService.SetSystemConfiguration(systemConfiguration);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -432,9 +434,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetLibraryConfiguration();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -445,9 +447,9 @@ namespace FiresecClient
             {
                 _iFiresecService.SetLibraryConfiguration(libraryConfiguration);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -457,9 +459,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetSecurityConfiguration();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -470,9 +472,9 @@ namespace FiresecClient
             {
                 _iFiresecService.SetSecurityConfiguration(securityConfiguration);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -482,9 +484,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetStates();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -495,9 +497,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.ReadJournal(startIndex, count);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -508,9 +510,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetFilteredJournal(journalFilter);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -521,9 +523,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetFilteredArchive(archiveFilter);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -534,9 +536,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetDistinctRecords();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -547,9 +549,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetArchiveStartDate();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return DateTime.Now;
         }
@@ -560,9 +562,9 @@ namespace FiresecClient
             {
                 _iFiresecService.AddToIgnoreList(deviceUIDs);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -572,9 +574,9 @@ namespace FiresecClient
             {
                 _iFiresecService.RemoveFromIgnoreList(deviceUIDs);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -584,9 +586,9 @@ namespace FiresecClient
             {
                 _iFiresecService.ResetStates(resetItems);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -596,9 +598,9 @@ namespace FiresecClient
             {
                 _iFiresecService.AddUserMessage(message);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -608,9 +610,9 @@ namespace FiresecClient
             {
                 _iFiresecService.AddJournalRecord(journalRecord);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -620,9 +622,9 @@ namespace FiresecClient
             {
                 _iFiresecService.ExecuteCommand(deviceUID, methodName);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -632,9 +634,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.CheckHaspPresence();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
                 return "Нет связи с сервером Firesec-2";
             }
         }
@@ -645,9 +647,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetFileNamesList(directory);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -658,9 +660,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetDirectoryHash(directory);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -671,9 +673,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetFile(dirAndFileName);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -684,9 +686,9 @@ namespace FiresecClient
             {
                 _iFiresecService.ConvertConfiguration();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -696,9 +698,9 @@ namespace FiresecClient
             {
                 _iFiresecService.ConvertJournal();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -711,21 +713,21 @@ namespace FiresecClient
 
                 return result;
             }
-            catch (CommunicationObjectFaultedException)
+			//catch (CommunicationObjectFaultedException)
+			//{
+			//    OnConnectionLost();
+			//}
+			//catch (InvalidOperationException)
+			//{
+			//    OnConnectionLost();
+			//}
+			//catch (CommunicationException)
+			//{
+			//    OnConnectionLost();
+			//}
+            catch (Exception ex)
             {
-                OnConnectionLost();
-            }
-            catch (InvalidOperationException)
-            {
-                OnConnectionLost();
-            }
-            catch (CommunicationException)
-            {
-                OnConnectionLost();
-            }
-            catch (Exception)
-            {
-                OnConnectionLost();
+                OnConnectionLost(ex);
             }
             return null;
         }
@@ -736,9 +738,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.Test();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }
@@ -749,9 +751,9 @@ namespace FiresecClient
             {
                 _iFiresecService.SetXDeviceConfiguration(xDeviceConfiguration);
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
         }
 
@@ -761,9 +763,9 @@ namespace FiresecClient
             {
                 return _iFiresecService.GetXDeviceConfiguration();
             }
-            catch
+			catch (Exception ex)
             {
-                OnConnectionLost();
+				OnConnectionLost(ex);
             }
             return null;
         }

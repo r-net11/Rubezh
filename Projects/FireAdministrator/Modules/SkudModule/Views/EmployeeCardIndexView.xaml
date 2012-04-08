@@ -1,0 +1,14 @@
+﻿<UserControl x:Class="SkudModule.Views.EmployeeCardIndexView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+    <Controls:XDataGrid ItemsSource="{Binding EmployeeCardIndex}" SelectedItem="{Binding SelectedEmployeeCard}">
+        <DataGrid.InputBindings>
+            <KeyBinding Command="{Binding AddCommand}" Modifiers="{Binding Modifier}" Key="{Binding KeyGesture}"/>
+        </DataGrid.InputBindings>
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="ФИО" Width="200"/>
+        </DataGrid.Columns>
+    </Controls:XDataGrid>
+</UserControl>
