@@ -90,6 +90,7 @@ namespace FireAdministrator
 				var videoViewModel = new VideoModule.VideoModule();
 				VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 			}
+			var skudModule = new SkudModule.SkudModule();
 			ServiceFactory.SaveService.Reset();
 		}
 
