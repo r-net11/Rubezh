@@ -4,7 +4,7 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:Views="clr-namespace:DevicesModule.Views">
 
-    <Grid Margin="2">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" MinWidth="200" Name="leftColumn" />
             <ColumnDefinition Width="Auto" />
