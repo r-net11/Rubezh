@@ -207,6 +207,7 @@
     <Compile Include="Models\States\DriverDriverState.cs" />
     <Compile Include="Models\States\ParentDeviceState.cs" />
     <Compile Include="Models\Configuration\SystemConfiguration.cs" />
+    <Compile Include="OperationResult.cs" />
     <Compile Include="XModels\Configuration\XDeviceConfiguration.cs" />
     <Compile Include="XModels\Configuration\XDriversConfiguration.cs" />
     <Compile Include="XModels\Device\XDevice.cs" />

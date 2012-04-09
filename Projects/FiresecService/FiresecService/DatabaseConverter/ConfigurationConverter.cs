@@ -12,7 +12,7 @@ namespace FiresecService
 
         public static void Convert()
         {
-            FiresecConfiguration = FiresecInternalClient.GetCoreConfig();
+            FiresecConfiguration = FiresecInternalClient.GetCoreConfig().Result;
             ConvertConfiguration();
             FiresecManager.DeviceConfiguration = DeviceConfiguration;
             FiresecManager.SetValidChars();
@@ -20,7 +20,7 @@ namespace FiresecService
 
             ConfigurationFileManager.SetDeviceConfiguration(DeviceConfiguration);
 
-            var plans = FiresecInternalClient.GetPlans();
+            var plans = FiresecInternalClient.GetPlans().Result;
             var plansConfiguration = PlansConverter.Convert(plans);
             ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
         }
@@ -45,7 +45,7 @@ namespace FiresecService
 
             if (includeSecurity)
             {
-                FiresecConfiguration = FiresecInternalClient.GetCoreConfig();
+                FiresecConfiguration = FiresecInternalClient.GetCoreConfig().Result;
                 FiresecConfiguration.part = null;
             }
             else

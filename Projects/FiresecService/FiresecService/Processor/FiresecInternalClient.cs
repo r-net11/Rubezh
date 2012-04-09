@@ -6,164 +6,261 @@ namespace FiresecService
 {
     public static class FiresecInternalClient
     {
-        public static bool Connect(string login, string password)
+        public static FiresecOperationResult<bool> Connect(string login, string password)
         {
-            if (DispatcherFiresecClient.Connect(login, password))
+            var result = DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.Connect(login, password);
+            });
+
+            if (result.Result)
             {
                 FiresecEventAggregator.NewEventAvaliable += new Action<int>(NewEventsAvailable);
                 DispatcherFiresecClient.Progress += new FiresecEventAggregator.ProgressDelegate(FiresecEventAggregator_Progress);
-
-                return true;
             }
-            return false;
+            return result;
         }
 
-        public static void Disconnect()
+        public static FiresecOperationResult<bool> Disconnect()
         {
-            DispatcherFiresecClient.Disconnect();
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.Disconnect();
+            });
         }
 
-        public static Firesec.CoreConfiguration.config GetCoreConfig()
+        public static FiresecOperationResult<Firesec.CoreConfiguration.config> GetCoreConfig()
         {
-            return SerializerHelper.Deserialize<Firesec.CoreConfiguration.config>(DispatcherFiresecClient.GetCoreConfig());
+            var result = DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() =>
+            {
+                return NativeFiresecClient.GetCoreConfig();
+            });
+
+            return DispatcherFiresecClient.ConvertResultData<Firesec.CoreConfiguration.config>(result);
         }
 
-        public static Firesec.Plans.surfaces GetPlans()
+        public static FiresecOperationResult<Firesec.Plans.surfaces> GetPlans()
         {
-            return SerializerHelper.Deserialize<Firesec.Plans.surfaces>(DispatcherFiresecClient.GetPlans());
+            var result = DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() =>
+            {
+                return NativeFiresecClient.GetPlans();
+            });
+
+            return DispatcherFiresecClient.ConvertResultData<Firesec.Plans.surfaces>(result);
         }
 
-        public static Firesec.CoreState.config GetCoreState()
+        public static FiresecOperationResult<Firesec.CoreState.config> GetCoreState()
         {
-            return SerializerHelper.Deserialize<Firesec.CoreState.config>(DispatcherFiresecClient.GetCoreState());
+            var result = DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() =>
+            {
+                return NativeFiresecClient.GetCoreState();
+            });
+
+            return DispatcherFiresecClient.ConvertResultData<Firesec.CoreState.config>(result);
         }
 
-        public static Firesec.Metadata.config GetMetaData()
+        public static FiresecOperationResult<Firesec.Metadata.config> GetMetaData()
         {
-            return SerializerHelper.Deserialize<Firesec.Metadata.config>(DispatcherFiresecClient.GetMetaData());
+            var result = DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() =>
+            {
+                return NativeFiresecClient.GetMetadata();
+            });
+
+            return DispatcherFiresecClient.ConvertResultData<Firesec.Metadata.config>(result);
         }
 
-        public static Firesec.DeviceParameters.config GetDeviceParams()
+        public static FiresecOperationResult<Firesec.DeviceParameters.config> GetDeviceParams()
         {
-            return SerializerHelper.Deserialize<Firesec.DeviceParameters.config>(DispatcherFiresecClient.GetCoreDeviceParams());
+            var result = DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() =>
+            {
+                return NativeFiresecClient.GetCoreDeviceParams();
+            });
+
+            return DispatcherFiresecClient.ConvertResultData<Firesec.DeviceParameters.config>(result);
         }
 
-        public static Firesec.Journals.document ReadEvents(int fromId, int limit)
+        public static FiresecOperationResult<Firesec.Journals.document> ReadEvents(int fromId, int limit)
         {
-            return SerializerHelper.Deserialize<Firesec.Journals.document>(DispatcherFiresecClient.ReadEvents(fromId, limit));
+            var result = DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() =>
+            {
+                return NativeFiresecClient.ReadEvents(fromId, limit);
+            });
+
+            return DispatcherFiresecClient.ConvertResultData<Firesec.Journals.document>(result);
         }
 
-        public static void SetNewConfig(Firesec.CoreConfiguration.config coreConfig)
+        public static FiresecOperationResult<bool> SetNewConfig(Firesec.CoreConfiguration.config coreConfig)
         {
-            DispatcherFiresecClient.SetNewConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig));
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.SetNewConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig));
+                });
         }
 
-        public static string DeviceWriteConfig(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static FiresecOperationResult<bool> DeviceWriteConfig(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            return DispatcherFiresecClient.DeviceWriteConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.DeviceWriteConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+                });
         }
 
-        public static void ResetStates(Firesec.CoreState.config coreState)
+        public static FiresecOperationResult<bool> ResetStates(Firesec.CoreState.config coreState)
         {
-            DispatcherFiresecClient.ResetStates(SerializerHelper.Serialize<Firesec.CoreState.config>(coreState));
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.ResetStates(SerializerHelper.Serialize<Firesec.CoreState.config>(coreState));
+                });
         }
 
-        public static void ExecuteCommand(string devicePath, string methodName)
+        public static FiresecOperationResult<bool> ExecuteCommand(string devicePath, string methodName)
         {
-            DispatcherFiresecClient.ExecuteCommand(devicePath, methodName);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.ExecuteCommand(devicePath, methodName);
+                });
         }
 
-        public static string CheckHaspPresence()
+        public static FiresecOperationResult<string> CheckHaspPresence()
         {
-            return DispatcherFiresecClient.CheckHaspPresence();
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() => {
+                return NativeFiresecClient.CheckHaspPresence();
+                });
         }
 
-        public static void AddToIgnoreList(List<string> devicePaths)
+        public static FiresecOperationResult<bool> AddToIgnoreList(List<string> devicePaths)
         {
-            DispatcherFiresecClient.AddToIgnoreList(devicePaths);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.AddToIgnoreList(devicePaths);
+                });
         }
 
-        public static void RemoveFromIgnoreList(List<string> devicePaths)
+        public static FiresecOperationResult<bool> RemoveFromIgnoreList(List<string> devicePaths)
         {
-            DispatcherFiresecClient.RemoveFromIgnoreList(devicePaths);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.RemoveFromIgnoreList(devicePaths);
+                });
         }
 
-        public static void AddUserMessage(string message)
+        public static FiresecOperationResult<bool> AddUserMessage(string message)
         {
-            DispatcherFiresecClient.AddUserMessage(message);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.AddUserMessage(message);
+                });
         }
 
-        public static bool DeviceSetPassword(Firesec.CoreConfiguration.config coreConfig, string devicePath, string password, int deviceUser)
+        public static FiresecOperationResult<bool> DeviceSetPassword(Firesec.CoreConfiguration.config coreConfig, string devicePath, string password, int deviceUser)
         {
-            return DispatcherFiresecClient.DeviceSetPassword(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, password, deviceUser);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.DeviceSetPassword(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, password, deviceUser);
+                });
         }
 
-        public static bool DeviceDatetimeSync(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static FiresecOperationResult<bool> DeviceDatetimeSync(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            return DispatcherFiresecClient.DeviceDatetimeSync(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.DeviceDatetimeSync(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+                });
         }
 
-        public static string DeviceGetInformation(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static FiresecOperationResult<string> DeviceGetInformation(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            return DispatcherFiresecClient.DeviceGetInformation(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() => {
+                return NativeFiresecClient.DeviceGetInformation(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            });
         }
 
-        public static string DeviceGetSerialList(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static FiresecOperationResult<string> DeviceGetSerialList(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            return DispatcherFiresecClient.DeviceGetSerialList(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() => {
+                return NativeFiresecClient.DeviceGetSerialList(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+                });
         }
 
-        public static string DeviceUpdateFirmware(Firesec.CoreConfiguration.config coreConfig, string devicePath, string fileName)
+        public static FiresecOperationResult<string> DeviceUpdateFirmware(Firesec.CoreConfiguration.config coreConfig, string devicePath, string fileName)
         {
-            return DispatcherFiresecClient.DeviceUpdateFirmware(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, fileName);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() => {
+                return NativeFiresecClient.DeviceUpdateFirmware(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, fileName);
+                });
         }
 
-        public static string DeviceVerifyFirmwareVersion(Firesec.CoreConfiguration.config coreConfig, string devicePath, string fileName)
+        public static FiresecOperationResult<string> DeviceVerifyFirmwareVersion(Firesec.CoreConfiguration.config coreConfig, string devicePath, string fileName)
         {
-            return DispatcherFiresecClient.DeviceVerifyFirmwareVersion(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, fileName);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() => {
+                return NativeFiresecClient.DeviceVerifyFirmwareVersion(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, fileName);
+                });
         }
 
-        public static string DeviceReadEventLog(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static FiresecOperationResult<string> DeviceReadEventLog(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            return DispatcherFiresecClient.DeviceReadEventLog(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() => {
+                return NativeFiresecClient.DeviceReadEventLog(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+                });
         }
 
-        public static Firesec.CoreConfiguration.config DeviceAutoDetectChildren(Firesec.CoreConfiguration.config coreConfig, string devicePath, bool fastSearch)
+        public static FiresecOperationResult<Firesec.CoreConfiguration.config> DeviceAutoDetectChildren(Firesec.CoreConfiguration.config coreConfig, string devicePath, bool fastSearch)
         {
-            var stringConfig = DispatcherFiresecClient.DeviceAutoDetectChildren(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, fastSearch);
-            return SerializerHelper.Deserialize<Firesec.CoreConfiguration.config>(stringConfig);
+            var result = DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() =>
+            {
+                return NativeFiresecClient.DeviceAutoDetectChildren(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, fastSearch);
+            });
+
+            return DispatcherFiresecClient.ConvertResultData<Firesec.CoreConfiguration.config>(result);
         }
 
-        public static Firesec.CoreConfiguration.config DeviceReadConfig(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static FiresecOperationResult<Firesec.CoreConfiguration.config> DeviceReadConfig(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            var stringConfig = DispatcherFiresecClient.DeviceReadConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
-            return SerializerHelper.Deserialize<Firesec.CoreConfiguration.config>(stringConfig);
+            var result = DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() =>
+            {
+                return NativeFiresecClient.DeviceReadConfig(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            });
+
+            return DispatcherFiresecClient.ConvertResultData<Firesec.CoreConfiguration.config>(result);
         }
 
-        public static Firesec.DeviceCustomFunctions.functions DeviceCustomFunctionList(string driverUID)
+        public static FiresecOperationResult<Firesec.DeviceCustomFunctions.functions> DeviceCustomFunctionList(string driverUID)
         {
-            var stringFunctions = DispatcherFiresecClient.DeviceCustomFunctionList(driverUID);
-            return SerializerHelper.Deserialize<Firesec.DeviceCustomFunctions.functions>(stringFunctions);
+            var result = DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() =>
+            {
+                return NativeFiresecClient.DeviceCustomFunctionList(driverUID);
+            });
+
+            return DispatcherFiresecClient.ConvertResultData<Firesec.DeviceCustomFunctions.functions>(result);
         }
 
-        public static string DeviceCustomFunctionExecute(Firesec.CoreConfiguration.config coreConfig, string devicePath, string functionName)
+        public static FiresecOperationResult<string> DeviceCustomFunctionExecute(Firesec.CoreConfiguration.config coreConfig, string devicePath, string functionName)
         {
-            return DispatcherFiresecClient.DeviceCustomFunctionExecute(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, functionName);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() => {
+                return NativeFiresecClient.DeviceCustomFunctionExecute(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, functionName);
+                });
         }
 
-        public static string DeviceGetGuardUsersList(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static FiresecOperationResult<string> DeviceGetGuardUsersList(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            return DispatcherFiresecClient.DeviceGetGuardUsersList(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() => {
+                return NativeFiresecClient.DeviceGetGuardUsersList(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+                });
         }
 
-        public static string DeviceSetGuardUsersList(Firesec.CoreConfiguration.config coreConfig, string devicePath, string users)
+        public static FiresecOperationResult<bool> DeviceSetGuardUsersList(Firesec.CoreConfiguration.config coreConfig, string devicePath, string users)
         {
-            return DispatcherFiresecClient.DeviceSetGuardUsersList(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, users);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<bool>>(() =>
+            {
+                return NativeFiresecClient.DeviceSetGuardUsersList(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath, users);
+            });
         }
 
-        public static string DeviceGetMDS5Data(Firesec.CoreConfiguration.config coreConfig, string devicePath)
+        public static FiresecOperationResult<string> DeviceGetMDS5Data(Firesec.CoreConfiguration.config coreConfig, string devicePath)
         {
-            return DispatcherFiresecClient.DeviceGetMDS5Data(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            return DispatcherFiresecClient.SafeExecute<FiresecOperationResult<string>>(() =>
+            {
+                return NativeFiresecClient.DeviceGetMDS5Data(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
+            });
         }
 
         public static void NewEventsAvailable(int eventMask)

@@ -769,5 +769,118 @@ namespace FiresecClient
             }
             return null;
         }
+
+        OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func)
+        {
+            try
+            {
+                return func();
+            }
+            catch
+            {
+                OnConnectionLost();
+            }
+            return null;
+        }
+
+        OperationResult<bool> IFiresecService.SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.SetDeviceConfiguration(deviceConfiguration); });
+        }
+
+        OperationResult<bool> IFiresecService.DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceWriteConfiguration(deviceConfiguration, deviceUID); });
+        }
+
+        OperationResult<bool> IFiresecService.DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceWriteAllConfiguration(deviceConfiguration); });
+        }
+
+        OperationResult<bool> IFiresecService.DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceSetPassword(deviceConfiguration, deviceUID, devicePasswordType, password); });
+        }
+
+        OperationResult<bool> IFiresecService.DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceDatetimeSync(deviceConfiguration, deviceUID); });
+        }
+
+        OperationResult<string> IFiresecService.DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceGetInformation(deviceConfiguration, deviceUID); });
+        }
+
+        OperationResult<List<string>> IFiresecService.DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceGetSerialList(deviceConfiguration, deviceUID); });
+        }
+
+        OperationResult<string> IFiresecService.DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceUpdateFirmware(deviceConfiguration, deviceUID, bytes, fileName); });
+        }
+
+        OperationResult<string> IFiresecService.DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceVerifyFirmwareVersion(deviceConfiguration, deviceUID, bytes, fileName); });
+        }
+
+        OperationResult<string> IFiresecService.DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceReadEventLog(deviceConfiguration, deviceUID); });
+        }
+
+        OperationResult<string> IFiresecService.DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceCustomFunctionExecute(deviceConfiguration, deviceUID, functionName); });
+        }
+
+        OperationResult<string> IFiresecService.DeviceGetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceGetGuardUsersList(deviceConfiguration, deviceUID); });
+        }
+
+        OperationResult<bool> IFiresecService.DeviceSetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID, string users)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceSetGuardUsersList(deviceConfiguration, deviceUID, users); });
+        }
+
+        OperationResult<string> IFiresecService.DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.DeviceGetMDS5Data(deviceConfiguration, deviceUID); });
+        }
+
+        OperationResult<bool> IFiresecService.AddToIgnoreList(List<Guid> deviceUIDs)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.AddToIgnoreList(deviceUIDs); });
+        }
+
+        OperationResult<bool> IFiresecService.RemoveFromIgnoreList(List<Guid> deviceUIDs)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.RemoveFromIgnoreList(deviceUIDs); });
+        }
+
+        OperationResult<bool> IFiresecService.ResetStates(List<ResetItem> resetItems)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.ResetStates(resetItems); });
+        }
+
+        OperationResult<bool> IFiresecService.AddUserMessage(string message)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.AddUserMessage(message); });
+        }
+
+        OperationResult<bool> IFiresecService.ExecuteCommand(Guid deviceUID, string methodName)
+        {
+            return SafeOperationCall(() => { return _iFiresecService.ExecuteCommand(deviceUID, methodName); });
+        }
+
+        OperationResult<string> IFiresecService.CheckHaspPresence()
+        {
+            return SafeOperationCall(() => { return _iFiresecService.CheckHaspPresence(); });
+        }
     }
 }

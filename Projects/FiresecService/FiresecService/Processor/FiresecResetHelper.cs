@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using Firesec;
+using FiresecAPI;
 
 namespace FiresecService
 {
     public static class FiresecResetHelper
     {
-        public static void ResetMany(List<ResetItem> resetItems)
+        public static FiresecOperationResult<bool> ResetMany(List<ResetItem> resetItems)
         {
             var innerDevices = new List<Firesec.CoreState.devType>();
 
@@ -33,7 +35,7 @@ namespace FiresecService
 
             var coreState = new Firesec.CoreState.config();
             coreState.dev = innerDevices.ToArray();
-            FiresecInternalClient.ResetStates(coreState);
+            return FiresecInternalClient.ResetStates(coreState);
         }
     }
 }

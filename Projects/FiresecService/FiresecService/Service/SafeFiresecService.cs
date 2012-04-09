@@ -16,6 +16,17 @@ namespace FiresecService
             FiresecService = new FiresecService();
         }
 
+        public OperationResult<T> CreateEmptyOperationResult<T>()
+        {
+            var operationResult = new OperationResult<T>
+            {
+                Result = default(T),
+                HasError = true,
+                Error = new Exception("Ошибка при выполнении операции на сервере")
+            };
+            return operationResult;
+        }
+
         public string Connect(string clientType, string clientCallbackAddress, string userName, string password)
         {
             try
@@ -97,18 +108,19 @@ namespace FiresecService
             }
         }
 
-        public void SetDeviceConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
+        public OperationResult<bool> SetDeviceConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
         {
             try
             {
-                FiresecService.SetDeviceConfiguration(deviceConfiguration);
+                return FiresecService.SetDeviceConfiguration(deviceConfiguration);
             }
             catch
             {
+                return CreateEmptyOperationResult<bool>();
             }
         }
 
-        public string DeviceWriteConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public OperationResult<bool> DeviceWriteConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
@@ -116,11 +128,11 @@ namespace FiresecService
             }
             catch
             {
-                return "В результате работы на сервере возниклол исключение";
+                return CreateEmptyOperationResult<bool>();
             }
         }
 
-        public string DeviceWriteAllConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
+        public OperationResult<bool> DeviceWriteAllConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration)
         {
             try
             {
@@ -128,11 +140,11 @@ namespace FiresecService
             }
             catch
             {
-                return "В результате работы на сервере возниклол исключение";
+                return CreateEmptyOperationResult<bool>();
             }
         }
 
-        public bool DeviceSetPassword(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, FiresecAPI.Models.DevicePasswordType devicePasswordType, string password)
+        public OperationResult<bool> DeviceSetPassword(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, FiresecAPI.Models.DevicePasswordType devicePasswordType, string password)
         {
             try
             {
@@ -140,11 +152,11 @@ namespace FiresecService
             }
             catch
             {
-                return false;
+                return CreateEmptyOperationResult<bool>();
             }
         }
 
-        public bool DeviceDatetimeSync(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public OperationResult<bool> DeviceDatetimeSync(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
@@ -152,11 +164,11 @@ namespace FiresecService
             }
             catch
             {
-                return false;
+                return CreateEmptyOperationResult<bool>();
             }
         }
 
-        public string DeviceGetInformation(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public OperationResult<string> DeviceGetInformation(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
@@ -164,11 +176,11 @@ namespace FiresecService
             }
             catch
             {
-                return null;
+                return CreateEmptyOperationResult<string>();
             }
         }
 
-        public List<string> DeviceGetSerialList(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public OperationResult<List<string>> DeviceGetSerialList(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
@@ -176,11 +188,11 @@ namespace FiresecService
             }
             catch
             {
-                return null;
+                return CreateEmptyOperationResult<List<string>>();
             }
         }
 
-        public string DeviceUpdateFirmware(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
+        public OperationResult<string> DeviceUpdateFirmware(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
         {
             try
             {
@@ -188,11 +200,11 @@ namespace FiresecService
             }
             catch
             {
-                return null;
+                return CreateEmptyOperationResult<string>();
             }
         }
 
-        public string DeviceVerifyFirmwareVersion(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
+        public OperationResult<string> DeviceVerifyFirmwareVersion(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
         {
             try
             {
@@ -200,11 +212,11 @@ namespace FiresecService
             }
             catch
             {
-                return null;
+                return CreateEmptyOperationResult<string>();
             }
         }
 
-        public string DeviceReadEventLog(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public OperationResult<string> DeviceReadEventLog(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
@@ -212,7 +224,7 @@ namespace FiresecService
             }
             catch
             {
-                return null;
+                return CreateEmptyOperationResult<string>();
             }
         }
 
@@ -252,7 +264,7 @@ namespace FiresecService
             }
         }
 
-        public string DeviceCustomFunctionExecute(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName)
+        public OperationResult<string> DeviceCustomFunctionExecute(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName)
         {
             try
             {
@@ -260,11 +272,11 @@ namespace FiresecService
             }
             catch
             {
-                return null;
+                return CreateEmptyOperationResult<string>();
             }
         }
 
-        public string DeviceGetGuardUsersList(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public OperationResult<string> DeviceGetGuardUsersList(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
@@ -272,11 +284,11 @@ namespace FiresecService
             }
             catch
             {
-                return null;
+                return CreateEmptyOperationResult<string>();
             }
         }
 
-        public string DeviceSetGuardUsersList(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, string users)
+        public OperationResult<bool> DeviceSetGuardUsersList(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, string users)
         {
             try
             {
@@ -284,11 +296,11 @@ namespace FiresecService
             }
             catch
             {
-                return null;
+                return CreateEmptyOperationResult<bool>();
             }
         }
 
-        public string DeviceGetMDS5Data(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public OperationResult<string> DeviceGetMDS5Data(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
@@ -296,7 +308,7 @@ namespace FiresecService
             }
             catch
             {
-                return null;
+                return CreateEmptyOperationResult<string>();
             }
         }
 
@@ -464,47 +476,51 @@ namespace FiresecService
             }
         }
 
-        public void AddToIgnoreList(List<Guid> deviceUIDs)
+        public OperationResult<bool> AddToIgnoreList(List<Guid> deviceUIDs)
         {
             try
             {
-                FiresecService.AddToIgnoreList(deviceUIDs);
+                return FiresecService.AddToIgnoreList(deviceUIDs);
             }
             catch
             {
+                return CreateEmptyOperationResult<bool>();
             }
         }
 
-        public void RemoveFromIgnoreList(List<Guid> deviceUIDs)
+        public OperationResult<bool> RemoveFromIgnoreList(List<Guid> deviceUIDs)
         {
             try
             {
-                FiresecService.RemoveFromIgnoreList(deviceUIDs);
+                return FiresecService.RemoveFromIgnoreList(deviceUIDs);
             }
             catch
             {
+                return CreateEmptyOperationResult<bool>();
             }
         }
 
-        public void ResetStates(List<FiresecAPI.Models.ResetItem> resetItems)
+        public OperationResult<bool> ResetStates(List<FiresecAPI.Models.ResetItem> resetItems)
         {
             try
             {
-                FiresecService.ResetStates(resetItems);
+                return FiresecService.ResetStates(resetItems);
             }
             catch
             {
+                return CreateEmptyOperationResult<bool>();
             }
         }
 
-        public void AddUserMessage(string message)
+        public OperationResult<bool> AddUserMessage(string message)
         {
             try
             {
-                FiresecService.AddUserMessage(message);
+                return FiresecService.AddUserMessage(message);
             }
             catch
             {
+                return CreateEmptyOperationResult<bool>();
             };
         }
 
@@ -519,18 +535,19 @@ namespace FiresecService
             };
         }
 
-        public void ExecuteCommand(Guid deviceUID, string methodName)
+        public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)
         {
             try
             {
-                FiresecService.ExecuteCommand(deviceUID, methodName);
+                return FiresecService.ExecuteCommand(deviceUID, methodName);
             }
             catch
             {
+                return CreateEmptyOperationResult<bool>();
             };
         }
 
-        public string CheckHaspPresence()
+        public OperationResult<string> CheckHaspPresence()
         {
             try
             {
@@ -538,7 +555,7 @@ namespace FiresecService
             }
             catch
             {
-                return "Ошибка при выполнении операции на сервере";
+                return CreateEmptyOperationResult<string>();
             };
         }
 

@@ -35,7 +35,7 @@ namespace FiresecDirect
 
         void OnGetCoreConfig(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.GetCoreConfig();
+            textBox1.Text = Firesec.NativeFiresecClient.GetCoreConfig().Result;
 
             using (var fileStream = new FileStream("D:/CoreConfig.xml", FileMode.Create))
             using (var streamWriter = new StreamWriter(fileStream))
@@ -46,7 +46,7 @@ namespace FiresecDirect
 
         void OnGetPlans(object sender, RoutedEventArgs e)
         {
-            string plans = Firesec.NativeFiresecClient.GetPlans();
+            string plans = Firesec.NativeFiresecClient.GetPlans().Result;
 
             using (var fileStream = new FileStream("D:/Plan.xml", FileMode.Create))
             using (var streamWriter = new StreamWriter(fileStream))
@@ -59,12 +59,12 @@ namespace FiresecDirect
 
         void OnGetCoreState(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.GetCoreState();
+            textBox1.Text = Firesec.NativeFiresecClient.GetCoreState().Result;
         }
 
         void OnGetMetaData(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.GetMetadata();
+            textBox1.Text = Firesec.NativeFiresecClient.GetMetadata().Result;
 
             using (var fileStream = new FileStream("D:/Metadata.xml", FileMode.Create))
             using (var streamWriter = new StreamWriter(fileStream))
@@ -75,12 +75,12 @@ namespace FiresecDirect
 
         void OnGetCoreDeviceParams(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.GetCoreDeviceParams();
+            textBox1.Text = Firesec.NativeFiresecClient.GetCoreDeviceParams().Result;
         }
 
         void OnReadEvents(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.ReadEvents(0, 100);
+            textBox1.Text = Firesec.NativeFiresecClient.ReadEvents(0, 100).Result;
         }
 
         void Button_Click_6(object sender, RoutedEventArgs e)

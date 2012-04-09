@@ -54,7 +54,7 @@ namespace FiresecService
 
         void SetLastEvent()
         {
-            Firesec.Journals.document journal = FiresecInternalClient.ReadEvents(0, 1000);
+            Firesec.Journals.document journal = FiresecInternalClient.ReadEvents(0, 1000).Result;
             if (journal != null && journal.Journal.IsNotNullOrEmpty())
             {
                 foreach(var journalItem in journal.Journal)
@@ -68,7 +68,7 @@ namespace FiresecService
 
         void OnNewEvent()
         {
-            var document = FiresecInternalClient.ReadEvents(LastEventId, 100);
+            var document = FiresecInternalClient.ReadEvents(LastEventId, 100).Result;
             if (document != null && document.Journal.IsNotNullOrEmpty())
             {
                 int newLastValue = LastEventId;
@@ -91,7 +91,7 @@ namespace FiresecService
         void OnParametersChanged()
         {
             ChangedDevices = new HashSet<DeviceState>();
-            var coreParameters = FiresecInternalClient.GetDeviceParams();
+            var coreParameters = FiresecInternalClient.GetDeviceParams().Result;
             try
             {
                 foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
@@ -124,7 +124,7 @@ namespace FiresecService
         public void OnStateChanged()
         {
             ChangedDevices = new HashSet<DeviceState>();
-            var coreState = FiresecInternalClient.GetCoreState();
+            var coreState = FiresecInternalClient.GetCoreState().Result;
             try
             {
                 SetStates(coreState);

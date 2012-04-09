@@ -32,34 +32,34 @@ namespace FiresecAPI
         DeviceConfiguration GetDeviceConfiguration();
 
         [OperationContract]
-        void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration);
+        OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration);
 
         [OperationContract]
-        string DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        OperationResult<bool> DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        string DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration);
+        OperationResult<bool> DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration);
 
         [OperationContract]
-        bool DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password);
+        OperationResult<bool> DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password);
 
         [OperationContract]
-        bool DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        OperationResult<bool> DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        string DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        OperationResult<string> DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        List<string> DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        OperationResult<List<string>> DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        string DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName);
+        OperationResult<string> DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName);
 
         [OperationContract]
-        string DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName);
+        OperationResult<string> DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName);
 
         [OperationContract]
-        string DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        OperationResult<string> DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
         DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch);
@@ -71,16 +71,16 @@ namespace FiresecAPI
         List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID);
 
         [OperationContract]
-        string DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName);
+        OperationResult<string> DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName);
 
         [OperationContract]
-        string DeviceGetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        OperationResult<string> DeviceGetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        string DeviceSetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID, string users);
+        OperationResult<bool> DeviceSetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID, string users);
 
         [OperationContract]
-        string DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        OperationResult<string> DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
         SystemConfiguration GetSystemConfiguration();
@@ -124,26 +124,26 @@ namespace FiresecAPI
         [OperationContract]
         DateTime GetArchiveStartDate();
 
-        [OperationContract(IsOneWay = true)]
-        void AddToIgnoreList(List<Guid> deviceUIDs);
+        [OperationContract()]
+        OperationResult<bool> AddToIgnoreList(List<Guid> deviceUIDs);
 
-        [OperationContract(IsOneWay = true)]
-        void RemoveFromIgnoreList(List<Guid> deviceUIDs);
+        [OperationContract()]
+        OperationResult<bool> RemoveFromIgnoreList(List<Guid> deviceUIDs);
 
-        [OperationContract(IsOneWay = true)]
-        void ResetStates(List<ResetItem> resetItems);
+        [OperationContract()]
+        OperationResult<bool> ResetStates(List<ResetItem> resetItems);
 
-        [OperationContract(IsOneWay = true)]
-        void AddUserMessage(string message);
+        [OperationContract()]
+        OperationResult<bool> AddUserMessage(string message);
 
-        [OperationContract(IsOneWay = true)]
+        [OperationContract()]
         void AddJournalRecord(JournalRecord journalRecord);
 
         [OperationContract]
-        void ExecuteCommand(Guid deviceUID, string methodName);
+        OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName);
 
         [OperationContract]
-        string CheckHaspPresence();
+        OperationResult<string> CheckHaspPresence();
 
         [OperationContract]
         List<string> GetFileNamesList(string directory);

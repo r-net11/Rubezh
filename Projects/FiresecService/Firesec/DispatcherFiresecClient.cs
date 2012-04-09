@@ -4,21 +4,15 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Threading;
 using System.Diagnostics;
+using System.IO;
+using System.Xml.Serialization;
+using System.Text;
 
 namespace Firesec
 {
     public static class DispatcherFiresecClient
     {
         static Control control;
-
-        delegate string StringDelegate();
-        delegate string StringDelegateString(string arg1);
-        delegate string StringDelegateIntInt(int arg1, int arg2);
-        delegate string StringDelegateStringString(string arg1, string arg2);
-        delegate string StringDelegateStringStringBool(string arg1, string arg2, bool arg3);
-        delegate string StringDelegateStringStringString(string arg1, string arg2, string arg3);
-        delegate bool BoolDelegateStringString(string arg1, string arg2);
-        delegate bool BoolDelegateStringStringStringInt(string arg1, string arg2, string arg3, int arg4);
 
         static DispatcherFiresecClient()
         {
@@ -28,154 +22,38 @@ namespace Firesec
             thread.Start();
         }
 
-        public static bool Connect(string login, string password)
+        public static T SafeExecute<T>(Func<T> func)
         {
-            return (bool)control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.Connect), login, password);
+            return (T)control.Dispatcher.Invoke(func);
         }
 
-        public static void Disconnect()
+        public static FiresecOperationResult<T> ConvertResultData<T>(FiresecOperationResult<string> result)
         {
-            control.Dispatcher.Invoke(new Action(NativeFiresecClient.Disconnect));
+            var resultData = new FiresecOperationResult<T>();
+            resultData.HasError = result.HasError;
+            resultData.Error = result.Error;
+            if (result.HasError == false)
+                resultData.Result = Deserialize<T>(result.Result);
+            return resultData;
         }
 
-        public static string GetCoreConfig()
+        static T Deserialize<T>(string input)
         {
-            return control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreConfig)) as string;
-        }
+            if (string.IsNullOrEmpty(input))
+                return default(T);
 
-        public static string GetPlans()
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetPlans));
-        }
-
-        public static string GetMetaData()
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetMetadata));
-        }
-
-        public static string GetCoreState()
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreState));
-        }
-
-        public static string GetCoreDeviceParams()
-        {
-            return control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.GetCoreDeviceParams)) as string;
-        }
-
-        public static string ReadEvents(int fromId, int limit)
-        {
-            return control.Dispatcher.Invoke(new StringDelegateIntInt(NativeFiresecClient.ReadEvents), fromId, limit) as string;
-        }
-
-        public static void SetNewConfig(string coreConfig)
-        {
-            control.Dispatcher.Invoke(new Action<string>(NativeFiresecClient.SetNewConfig), coreConfig);
-        }
-
-        public static string DeviceWriteConfig(string coreConfig, string devicePath)
-        {
-            return control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceWriteConfig), coreConfig, devicePath) as string;
-        }
-
-        public static void ResetStates(string states)
-        {
-            control.Dispatcher.Invoke(new Action<string>(NativeFiresecClient.ResetStates), states);
-        }
-
-        public static void ExecuteCommand(string devicePath, string methodName)
-        {
-            control.Dispatcher.Invoke(new Action<string, string>(NativeFiresecClient.ExecuteCommand), devicePath, methodName);
-        }
-
-        public static string CheckHaspPresence()
-        {
-            return control.Dispatcher.Invoke(new StringDelegate(NativeFiresecClient.CheckHaspPresence)) as string;
-        }
-
-        public static void AddToIgnoreList(List<string> devicePaths)
-        {
-            control.Dispatcher.Invoke(new Action<List<string>>(NativeFiresecClient.AddToIgnoreList), devicePaths);
-        }
-
-        public static void RemoveFromIgnoreList(List<string> devicePaths)
-        {
-            control.Dispatcher.Invoke(new Action<List<string>>(NativeFiresecClient.RemoveFromIgnoreList), devicePaths);
-        }
-
-        public static void AddUserMessage(string message)
-        {
-            control.Dispatcher.Invoke(new Action<string>(NativeFiresecClient.AddUserMessage), message);
-        }
-
-        public static bool DeviceSetPassword(string coreConfig, string devicePath, string password, int deviceUser)
-        {
-            return (bool)control.Dispatcher.Invoke(new BoolDelegateStringStringStringInt(NativeFiresecClient.DeviceSetPassword), coreConfig, devicePath, password, deviceUser);
-        }
-
-        public static bool DeviceDatetimeSync(string coreConfig, string devicePath)
-        {
-            return (bool)control.Dispatcher.Invoke(new BoolDelegateStringString(NativeFiresecClient.DeviceDatetimeSync), coreConfig, devicePath);
-        }
-
-        public static string DeviceGetInformation(string coreConfig, string devicePath)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetInformation), coreConfig, devicePath);
-        }
-
-        public static string DeviceGetSerialList(string coreConfig, string devicePath)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetSerialList), coreConfig, devicePath);
-        }
-
-        public static string DeviceUpdateFirmware(string coreConfig, string devicePath, string fileName)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceUpdateFirmware), coreConfig, devicePath, fileName);
-        }
-
-        public static string DeviceVerifyFirmwareVersion(string coreConfig, string devicePath, string fileName)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceVerifyFirmwareVersion), coreConfig, devicePath, fileName);
-        }
-
-        public static string DeviceReadEventLog(string coreConfig, string devicePath)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceReadEventLog), coreConfig, devicePath);
-        }
-
-        public static string DeviceAutoDetectChildren(string coreConfig, string devicePath, bool fastSearch)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringBool(NativeFiresecClient.DeviceAutoDetectChildren), coreConfig, devicePath, fastSearch);
-        }
-
-        public static string DeviceCustomFunctionList(string driverUID)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateString(NativeFiresecClient.DeviceCustomFunctionList), driverUID);
-        }
-
-        public static string DeviceCustomFunctionExecute(string coreConfig, string devicePath, string functionName)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceCustomFunctionExecute), coreConfig, devicePath, functionName);
-        }
-
-        public static string DeviceGetGuardUsersList(string coreConfig, string devicePath)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetGuardUsersList), coreConfig, devicePath);
-        }
-
-        public static string DeviceSetGuardUsersList(string coreConfig, string devicePath, string users)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringStringString(NativeFiresecClient.DeviceSetGuardUsersList), coreConfig, devicePath, users);
-        }
-
-        public static string DeviceGetMDS5Data(string coreConfig, string devicePath)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceGetMDS5Data), coreConfig, devicePath);
-        }
-
-        public static string DeviceReadConfig(string coreConfig, string devicePath)
-        {
-            return (string)control.Dispatcher.Invoke(new StringDelegateStringString(NativeFiresecClient.DeviceReadConfig), coreConfig, devicePath);
+            try
+            {
+                using (var memoryStream = new MemoryStream(Encoding.Default.GetBytes(input)))
+                {
+                    var serializer = new XmlSerializer(typeof(T));
+                    return (T)serializer.Deserialize(memoryStream);
+                }
+            }
+            catch (Exception e)
+            {
+                return default(T);
+            }
         }
 
         public static void ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
