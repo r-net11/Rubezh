@@ -166,7 +166,14 @@
     <Compile Include="Converters\PlansConverter.cs" />
     <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="DatabaseConverter\ConfigurationConverter.cs" />
+    <Compile Include="DatabaseConverter\ConnectionManager.cs" />
     <Compile Include="DatabaseConverter\DatabaseHelper.cs" />
+    <Compile Include="DatabaseConverter\FiresecCE.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiresecCE.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="DatabaseConverter\IFiresecDataContext.cs" />
     <Compile Include="DatabaseConverter\JournalDataConverter.cs" />
     <Compile Include="DatabaseConverter\FiresecDbConverter.designer.cs">
       <AutoGen>True</AutoGen>
@@ -282,8 +289,16 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="DatabaseConverter\FiresecCE.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>FiresecCE.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DatabaseConverter\FiresecDbConverter.dbml.layout">
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
+    </None>
+    <None Include="DatabaseConverter\FiresecCE.dbml.layout">
+      <DependentUpon>FiresecCE.dbml</DependentUpon>
     </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

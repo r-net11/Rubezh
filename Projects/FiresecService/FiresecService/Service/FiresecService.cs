@@ -20,7 +20,7 @@ namespace FiresecService
         InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public partial class FiresecService : IFiresecService, IDisposable
     {
-        public readonly static FiresecDbConverterDataContext DataBaseContext = new FiresecDbConverterDataContext();
+		public readonly static FiresecDbConverterDataContext DataBaseContext = ConnectionManager.CreateFiresecDataContext();
         public IFiresecCallback Callback { get; private set; }
         public IFiresecCallbackService FiresecCallbackService { get; private set; }
         public Guid FiresecServiceUID { get; private set; }

@@ -10,7 +10,7 @@ namespace FiresecService
     {
         public static void Convert()
         {
-            using (var dataContext = new FiresecDbConverterDataContext())
+			using (var dataContext = ConnectionManager.CreateFiresecDataContext())
             {
                 dataContext.JournalRecords.DeleteAllOnSubmit(from record in dataContext.JournalRecords select record);
                 dataContext.SubmitChanges();
