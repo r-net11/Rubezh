@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace Common
 {
-    public static class RunHelper
+    public static class SingleLaunchHelper
     {
         static Mutex Mutex { get; set; }
 
-        public static bool Run(string mutexName)
+        public static bool Check(string mutexName)
         {
             bool isNew;
             Mutex = new Mutex(true, mutexName, out isNew);
-            
             return isNew;
         }
 

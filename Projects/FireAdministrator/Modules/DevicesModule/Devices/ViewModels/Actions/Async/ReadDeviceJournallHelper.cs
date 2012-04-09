@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
@@ -9,7 +10,7 @@ namespace DevicesModule.ViewModels
     {
         static Device _device;
         static bool _isUsb;
-        static string _journal;
+        static OperationResult<string> _operationResult;
 
         public static void Run(Device device, bool isUsb)
         {
@@ -21,17 +22,17 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _journal = FiresecManager.ReadDeviceJournal(_device.UID, _isUsb);
+            _operationResult = FiresecManager.ReadDeviceJournal(_device.UID, _isUsb);
         }
 
         static void OnCompleted()
         {
-            if (_journal == null)
+            if (_operationResult.HasError)
             {
-                MessageBoxService.Show("Ошибка при выполнении операции");
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
                 return;
             }
-            ServiceFactory.UserDialogs.ShowModalWindow(new DeviceJournalViewModel(_journal));
+            ServiceFactory.UserDialogs.ShowModalWindow(new DeviceJournalViewModel(_operationResult.Result));
         }
     }
 }

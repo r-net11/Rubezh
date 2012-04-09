@@ -3,13 +3,14 @@ using Controls.MessageBox;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
     public static class DeviceGetSerialListHelper
     {
         static Device _device;
-        static List<string> _serials;
+        static OperationResult<List<string>> _operationResult;
 
         public static void Run(Device device)
         {
@@ -19,17 +20,17 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _serials = FiresecManager.DeviceGetSerialList(_device.UID);
+            _operationResult = FiresecManager.DeviceGetSerialList(_device.UID);
         }
 
         static void OnlCompleted()
         {
-            if (_serials == null)
+            if (_operationResult.HasError)
             {
-                MessageBoxService.Show("Ошибка при выполнении операции");
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
                 return;
             }
-            ServiceFactory.UserDialogs.ShowModalWindow(new BindMsViewModel(_device, _serials));
+            ServiceFactory.UserDialogs.ShowModalWindow(new BindMsViewModel(_device, _operationResult.Result));
         }
     }
 }

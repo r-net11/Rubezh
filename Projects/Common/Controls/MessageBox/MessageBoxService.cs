@@ -18,6 +18,11 @@ namespace Controls.MessageBox
             return ShowWindow(message, MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
+        public static MessageBoxResult ShowDeviceError(string header, Exception exception)
+        {
+            return ShowWindow(exception.ToString(), MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
         public static MessageBoxResult ShowQuestion(string message)
         {
             return ShowWindow(message, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);

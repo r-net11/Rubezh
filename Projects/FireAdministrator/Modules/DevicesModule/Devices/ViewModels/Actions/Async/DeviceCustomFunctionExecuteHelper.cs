@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
@@ -9,7 +10,7 @@ namespace DevicesModule.ViewModels
     {
         static Device _device;
         static string _functionCode;
-        static string _result;
+        static OperationResult<string> _operationResult;
 
         public static void Run(Device device, string functionCode)
         {
@@ -21,17 +22,17 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _result = FiresecManager.DeviceCustomFunctionExecute(_device.UID, _functionCode);
+            _operationResult = FiresecManager.DeviceCustomFunctionExecute(_device.UID, _functionCode);
         }
 
         static void OnlCompleted()
         {
-            if (_result == null)
+            if (_operationResult.HasError)
             {
-                MessageBoxService.Show("Ошибка при выполнении операции");
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
                 return;
             }
-            MessageBoxService.Show(_result);
+            MessageBoxService.Show(_operationResult.Result);
         }
     }
 }

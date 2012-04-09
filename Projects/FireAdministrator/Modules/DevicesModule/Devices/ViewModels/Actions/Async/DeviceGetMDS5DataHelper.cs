@@ -2,13 +2,14 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
     public static class DeviceGetMDS5DataHelper
     {
         static Device _device;
-        static string _mDS5Data;
+        static OperationResult<string> _operationResult;
 
         public static void Run(Device device)
         {
@@ -18,17 +19,17 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _mDS5Data = FiresecManager.DeviceGetMDS5Data(_device.UID);
+            _operationResult = FiresecManager.DeviceGetMDS5Data(_device.UID);
         }
 
         static void OnCompleted()
         {
-            if (_mDS5Data == null)
+            if (_operationResult.HasError)
             {
-                MessageBoxService.Show("Ошибка при выполнении операции");
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
                 return;
             }
-            MessageBoxService.Show(_mDS5Data);
+            MessageBoxService.Show(_operationResult.Result);
         }
     }
 }

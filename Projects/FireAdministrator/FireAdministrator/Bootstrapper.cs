@@ -19,7 +19,7 @@ namespace FireAdministrator
 		public void Initialize()
 		{
 			InitializeAppSettings();
-			if (!RunHelper.Run("FireAdministrator"))
+			if (!SingleLaunchHelper.Check("FireAdministrator"))
 			{
 				Application.Current.Shutdown();
 				System.Environment.Exit(1);
@@ -68,7 +68,7 @@ namespace FireAdministrator
 				Application.Current.Shutdown();
 				System.Environment.Exit(1);
 			}
-			RunHelper.KeepAlive();
+			SingleLaunchHelper.KeepAlive();
 		}
 
 		static void RegisterServices()

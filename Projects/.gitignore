@@ -30,3 +30,4 @@ _ReSharper*/
 *.orig
 *.gpState
 *-Results.xml
+*dotNetInstallerLog.txt

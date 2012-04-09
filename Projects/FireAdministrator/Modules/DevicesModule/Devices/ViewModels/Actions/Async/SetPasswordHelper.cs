@@ -4,6 +4,7 @@ using Controls.MessageBox;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
@@ -13,7 +14,7 @@ namespace DevicesModule.ViewModels
         static bool _isUsb;
         static DevicePasswordType _devicePasswordType;
         static string _password;
-        static bool _result;
+        static OperationResult<bool> _operationResult;
 
         public static void Run(Guid deviceUID, bool isUsb, DevicePasswordType devicePasswordType, string password)
         {
@@ -28,19 +29,17 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _result = FiresecManager.SetPassword(_deviceUID, _isUsb, _devicePasswordType, _password);
+            _operationResult = FiresecManager.SetPassword(_deviceUID, _isUsb, _devicePasswordType, _password);
         }
 
         static void OnCompleted()
         {
-            if (_result)
+            if (_operationResult.HasError)
             {
-                MessageBoxService.Show("Операция выполнена успешно");
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
+                return;
             }
-            else
-            {
-                MessageBoxService.Show("Ошибка при выполнении операции");
-            }
+            MessageBoxService.Show("Операция завершилась успешно");
         }
     }
 }

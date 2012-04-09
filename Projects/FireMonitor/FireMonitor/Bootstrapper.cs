@@ -21,7 +21,7 @@ namespace FireMonitor
         public void Initialize()
         {
             InitializeAppSettings();
-            if (!RunHelper.Run("FireMonitor"))
+            if (!SingleLaunchHelper.Check("FireMonitor"))
             {
                 Application.Current.Shutdown();
             }
@@ -79,7 +79,7 @@ namespace FireMonitor
                 }
 
                 preLoadWindow.Close();
-                RunHelper.KeepAlive();
+                SingleLaunchHelper.KeepAlive();
             }
             else
             {

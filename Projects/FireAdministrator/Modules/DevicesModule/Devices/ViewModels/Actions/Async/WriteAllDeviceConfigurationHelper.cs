@@ -1,12 +1,13 @@
 ﻿using FiresecClient;
 using Infrastructure;
 using Controls.MessageBox;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
     public static class WriteAllDeviceConfigurationHelper
     {
-        static string _result;
+        static OperationResult<bool> _operationResult;
 
         public static void Run()
         {
@@ -15,15 +16,17 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _result = FiresecManager.WriteAllDeviceConfiguration();
+            _operationResult = FiresecManager.WriteAllDeviceConfiguration();
         }
 
         static void OnCompleted()
         {
-            if (string.IsNullOrEmpty(_result))
-                MessageBoxService.Show("Операция закончилась успешно");
-            else
-                MessageBoxService.Show(_result);
+            if (_operationResult.HasError)
+            {
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
+                return;
+            }
+            MessageBoxService.Show("Операция завершилась успешно");
         }
     }
 }

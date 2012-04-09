@@ -2,6 +2,7 @@
 using FiresecClient;
 using Infrastructure;
 using Controls.MessageBox;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
@@ -9,7 +10,7 @@ namespace DevicesModule.ViewModels
     {
         static Device _device;
         static bool _isUsb;
-        static string _result;
+        static OperationResult<bool> _operationResult;
 
         public static void Run(Device device, bool isUsb)
         {
@@ -20,15 +21,17 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _result = FiresecManager.DeviceWriteConfiguration(_device.UID, _isUsb);
+            _operationResult = FiresecManager.DeviceWriteConfiguration(_device.UID, _isUsb);
         }
 
         static void OnCompleted()
         {
-            if (string.IsNullOrEmpty(_result))
-                MessageBoxService.Show("Операция закончилась успешно");
-            else
-                MessageBoxService.Show(_result);
+            if (_operationResult.HasError)
+            {
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
+                return;
+            }
+            MessageBoxService.Show("Операция завершилась успешно");
         }
     }
 }

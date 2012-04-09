@@ -10,40 +10,12 @@ namespace FiresecClient
 {
     public static class CallbackAddressHelper
     {
-
         public static string GetFreeClientCallbackAddress()
         {
             var freePort = FindNextAvailablePort(9000);
-            //freePort = 9245;
             return "net.tcp://localhost:" + freePort + "/FiresecCallbackService/";
         }
-
-        //static int Port
-        //{
-        //    get
-        //    {
-        //        var rnd = new Random();
-
-        //        string host = "localhost";
-        //        IPAddress addr = (IPAddress)Dns.GetHostAddresses(host)[0];
-        //        int port = rnd.Next(9000, 9100);
-        //        while (true)
-        //        {
-        //            try
-        //            {
-        //                TcpListener tcpList = new TcpListener(addr, port);
-        //                tcpList.Start();
-        //                tcpList.Stop();
-        //                return port;
-        //            }
-        //            catch (SocketException e)
-        //            {
-        //                port = rnd.Next(9000, 9100);
-        //            }
-        //        }
-        //    }
-        //}
-
+        
         private const string PortReleaseGuid = "8875BD8E-4D5B-11DE-B2F4-691756D89593";
 
         static int FindNextAvailablePort(int startPort)

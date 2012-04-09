@@ -2,13 +2,14 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using FiresecAPI;
 
 namespace DevicesModule.Guard
 {
     public class DeviceGetGuardUserListHelper
     {
         static Device _device;
-        static string _guardUserList;
+        static OperationResult<string> _operationResult;
 
         public static void Run(Device device)
         {
@@ -18,17 +19,17 @@ namespace DevicesModule.Guard
 
         static void OnPropgress()
         {
-            _guardUserList = FiresecManager.DeviceGetGuardUsersList(_device.UID);
+            _operationResult = FiresecManager.DeviceGetGuardUsersList(_device.UID);
         }
 
         static void OnCompleted()
         {
-            if (_guardUserList == null)
+            if (_operationResult.HasError)
             {
-                MessageBoxService.Show("Ошибка при выполнении операции");
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
                 return;
             }
-            MessageBoxService.Show(_guardUserList);
+            MessageBoxService.Show(_operationResult.Result);
         }
     }
 }

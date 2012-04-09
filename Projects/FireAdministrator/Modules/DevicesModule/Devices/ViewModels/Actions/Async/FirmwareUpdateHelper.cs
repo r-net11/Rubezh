@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Microsoft.Win32;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
@@ -13,8 +14,8 @@ namespace DevicesModule.ViewModels
         static Device _device;
         static bool _isUsb;
         static string _fileName;
-        static string _question;
-        static string _result;
+        static OperationResult<string> _operationResult_1;
+        static OperationResult<string> _operationResult_2;
         static byte[] bytes;
 
         public static void Run(Device device, bool isUsb)
@@ -40,18 +41,18 @@ namespace DevicesModule.ViewModels
 
         static void OnVarifyPropgress()
         {
-            _question = FiresecManager.DeviceVerifyFirmwareVersion(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
+            _operationResult_1 = FiresecManager.DeviceVerifyFirmwareVersion(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
         }
 
         static void OnVerifyCompleted()
         {
-            if (string.IsNullOrEmpty(_question))
+            if (_operationResult_1.HasError)
             {
-                MessageBoxService.ShowWarning("Ошибка при выполнении операции");
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult_1.Error);
             }
             else
             {
-                if (MessageBoxService.ShowQuestion(_question) == MessageBoxResult.Yes)
+                if (MessageBoxService.ShowQuestion(_operationResult_1.Result) == MessageBoxResult.Yes)
                 {
                     ServiceFactory.ProgressService.Run(OnUpdatePropgress, OnUpdateCompleted, _device.PresentationAddressDriver + ". Обновление прошивки");
                 }
@@ -60,15 +61,17 @@ namespace DevicesModule.ViewModels
 
         static void OnUpdatePropgress()
         {
-            _result = FiresecManager.DeviceUpdateFirmware(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
+            _operationResult_2 = FiresecManager.DeviceUpdateFirmware(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
         }
 
         static void OnUpdateCompleted()
         {
-            if (string.IsNullOrEmpty(_result))
-                MessageBoxService.Show("Операция закончилась успешно");
-            else
-                MessageBoxService.Show(_result);
+            if (_operationResult_2.HasError)
+            {
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult_2.Error);
+                return;
+            }
+            MessageBoxService.Show(_operationResult_2.Result);
         }
     }
 }
