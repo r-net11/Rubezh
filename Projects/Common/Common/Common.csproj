@@ -135,6 +135,7 @@
     <Compile Include="ConfigurationHelper.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
+    <Compile Include="RunHelper.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MachineNameHelper.cs" />
     <Compile Include="ObjectCopier.cs" />

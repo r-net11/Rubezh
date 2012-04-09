@@ -12,6 +12,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Common;
 
 namespace FireMonitor
 {
@@ -20,6 +21,11 @@ namespace FireMonitor
         public void Initialize()
         {
             InitializeAppSettings();
+            if (!RunHelper.Run("FireMonitor"))
+            {
+                Application.Current.Shutdown();
+            }
+
             VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 
             RegisterServices();
@@ -73,6 +79,7 @@ namespace FireMonitor
                 }
 
                 preLoadWindow.Close();
+                RunHelper.KeepAlive();
             }
             else
             {

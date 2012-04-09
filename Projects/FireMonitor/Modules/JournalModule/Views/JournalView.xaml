@@ -6,7 +6,6 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
     <UserControl.Resources>
-        <Converter:StateToColorConverter x:Key="StateToColorConverter" />
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         <Converter:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converter:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
