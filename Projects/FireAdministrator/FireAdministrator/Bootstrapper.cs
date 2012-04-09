@@ -19,6 +19,11 @@ namespace FireAdministrator
 		public void Initialize()
 		{
 			InitializeAppSettings();
+			if (!RunHelper.Run("FireAdministrator"))
+			{
+				Application.Current.Shutdown();
+				System.Environment.Exit(1);
+			}
 
 			RegisterServices();
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
@@ -63,6 +68,7 @@ namespace FireAdministrator
 				Application.Current.Shutdown();
 				System.Environment.Exit(1);
 			}
+			RunHelper.KeepAlive();
 		}
 
 		static void RegisterServices()

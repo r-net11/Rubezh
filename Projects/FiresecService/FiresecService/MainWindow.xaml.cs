@@ -15,6 +15,7 @@ namespace FiresecServiceRunner
         public MainWindow()
         {
             InitializeComponent();
+            Loaded += new RoutedEventHandler(MainWindow_Loaded);
             try
             {
                 InitializeAppSettings();
@@ -24,9 +25,6 @@ namespace FiresecServiceRunner
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
                 _mainView.DataContext = new MainViewModel();
-
-                this.WindowState = WindowState.Minimized;
-
             }
             catch (Exception e)
             {
@@ -34,6 +32,13 @@ namespace FiresecServiceRunner
                 Application.Current.Shutdown();
                 System.Environment.Exit(1);
             }
+        }
+
+        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+            this.WindowState = WindowState.Normal;
+            this.WindowState = WindowState.Minimized;
         }
 
         private void OnShow(object sender, RoutedEventArgs e)
