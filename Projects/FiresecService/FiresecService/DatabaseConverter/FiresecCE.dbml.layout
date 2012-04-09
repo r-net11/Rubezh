@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="FiresecCE">
+  <DataContextMoniker Name="/Firesec" />
+  <nestedChildShapes>
+    <classShape Id="7c9611fc-5676-4133-bee1-f58aa841ca7b" absoluteBounds="1.125, 0.875, 2, 3.3093082682291666">
+      <DataClassMoniker Name="/Firesec/JournalCE" />
+      <nestedChildShapes>
+        <elementListCompartment Id="9fb49d06-b66d-418c-b076-1611edf6d762" absoluteBounds="1.1400000000000001, 1.335, 1.9700000000000002, 2.7493082682291665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>
