@@ -100,7 +100,6 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Vlc.DotNet.Core.Interops\Vlc.DotNet.Core.Interops.csproj">
       <Project>{7506DDE6-1D45-4FE0-8239-985C5F6EB605}</Project>

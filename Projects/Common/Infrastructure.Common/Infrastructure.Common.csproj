@@ -97,6 +97,15 @@
     <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
+    <Reference Include="Vlc.DotNet.Core">
+      <HintPath>..\..\..\3rdParty\VLC\Vlc.DotNet\Vlc.DotNet.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Core.Interops">
+      <HintPath>..\..\..\3rdParty\VLC\Vlc.DotNet\Vlc.DotNet.Core.Interops.dll</HintPath>
+    </Reference>
+    <Reference Include="Vlc.DotNet.Forms">
+      <HintPath>..\..\..\3rdParty\VLC\Vlc.DotNet\Vlc.DotNet.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
@@ -137,16 +146,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Video\Vlc.DotNet.Core\Vlc.DotNet.Core.csproj">
-      <Project>{0DC24B0B-6862-4615-B62D-81795D2CDD07}</Project>
-      <Name>Vlc.DotNet.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Video\Vlc.DotNet.Forms\Vlc.DotNet.Forms.csproj">
-      <Project>{A720906B-705B-4666-BBB9-AC54B9208BEB}</Project>
-      <Name>Vlc.DotNet.Forms</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
