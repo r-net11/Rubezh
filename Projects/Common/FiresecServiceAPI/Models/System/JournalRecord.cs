@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
-    [Table(Name = "dbo.Journal")]
+    [Table(Name = "Journal")]
     [DataContract]
     public class JournalRecord : IEqualityComparer<JournalRecord>
     {

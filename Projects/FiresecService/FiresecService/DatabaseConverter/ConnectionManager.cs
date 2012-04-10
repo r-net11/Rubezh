@@ -9,18 +9,9 @@ namespace FiresecService.DatabaseConverter
 {
 	public static class ConnectionManager
 	{
-		public static ConnectionStringSettings ConnectionSettings
-		{
-			get { return ConfigurationManager.ConnectionStrings[Settings.Default.FiresecConnection]; }
-		}
-		public static string ConnectionString
-		{
-			get { return ConnectionSettings.ConnectionString; }
-		}
-
 		public static FiresecDbConverterDataContext CreateFiresecDataContext()
 		{
-			return new FiresecDbConverterDataContext(ConnectionString);
+			return new FiresecDbConverterDataContext(Settings.Default.FiresecConnectionString);
 		}
 	}
 }
