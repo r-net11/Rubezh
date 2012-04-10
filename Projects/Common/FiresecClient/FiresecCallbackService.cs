@@ -1,10 +1,17 @@
 ﻿using System;
 using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace FiresecClient
 {
     public class FiresecCallbackService : IFiresecCallbackService
     {
+        public void NewJournalRecord(JournalRecord journalRecord)
+        {
+            if (NewJournalRecordEvent != null)
+                NewJournalRecordEvent(journalRecord);
+        }
+
         public void ConfigurationChanged()
         {
             if (ConfigurationChangedEvent != null)
@@ -19,7 +26,7 @@ namespace FiresecClient
         }
 
         public static event Action ConfigurationChangedEvent;
-        public delegate bool ProgressDelegate(int stage, string comment, int percentComplete, int bytesRW);
-        public static event ProgressDelegate ProgressEvent;
+        public static event Func<int, string, int, int, bool> ProgressEvent;
+        public static event Action<JournalRecord> NewJournalRecordEvent;
     }
 }

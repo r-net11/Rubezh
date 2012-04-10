@@ -16,7 +16,7 @@ namespace FiresecClient
         public static void Open(string clientCallbackAddress)
         {
             _clientCallbackAddress = clientCallbackAddress;
-            Thread thread = new Thread(OnOpen);
+            var thread = new Thread(OnOpen);
             thread.Start();
         }
 

@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Controls.MessageBox;
 
 namespace DevicesModule.ViewModels
 {
@@ -13,7 +14,13 @@ namespace DevicesModule.ViewModels
             _device = device;
             Title = "Выбор функции";
 
-            Functions = FiresecManager.DeviceCustomFunctionList(device.Driver.UID);
+            var operationResult = FiresecManager.DeviceCustomFunctionList(device.Driver.UID);
+            if (operationResult.HasError)
+            {
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", operationResult.Error);
+                return;
+            }
+            Functions = operationResult.Result;
         }
 
         public List<DeviceCustomFunction> Functions { get; private set; }

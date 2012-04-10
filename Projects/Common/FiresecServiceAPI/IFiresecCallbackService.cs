@@ -1,4 +1,5 @@
 ﻿using System.ServiceModel;
+using FiresecAPI.Models;
 
 namespace FiresecAPI
 {
@@ -10,5 +11,8 @@ namespace FiresecAPI
 
         [OperationContract(IsOneWay = false)]
         bool Progress(int stage, string comment, int percentComplete, int bytesRW);
+
+        [OperationContract(IsOneWay = true)]
+        void NewJournalRecord(JournalRecord journalRecord);
     }
 }

@@ -228,7 +228,7 @@ namespace FiresecService
             }
         }
 
-        public FiresecAPI.Models.DeviceConfiguration DeviceAutoDetectChildren(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)
+        public OperationResult<FiresecAPI.Models.DeviceConfiguration> DeviceAutoDetectChildren(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)
         {
             try
             {
@@ -240,7 +240,7 @@ namespace FiresecService
             }
         }
 
-        public FiresecAPI.Models.DeviceConfiguration DeviceReadConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public OperationResult<FiresecAPI.Models.DeviceConfiguration> DeviceReadConfiguration(FiresecAPI.Models.DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             try
             {
@@ -252,7 +252,7 @@ namespace FiresecService
             }
         }
 
-        public List<FiresecAPI.Models.DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID)
+        public OperationResult<List<FiresecAPI.Models.DeviceCustomFunction>> DeviceCustomFunctionList(Guid driverUID)
         {
             try
             {

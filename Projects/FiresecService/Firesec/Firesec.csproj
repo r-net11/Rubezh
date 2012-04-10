@@ -144,8 +144,9 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="DispatcherFiresecClient.cs" />
+    <Compile Include="FiresecProgressClient.cs" />
     <Compile Include="FiresecEventAggregator.cs" />
+    <Compile Include="FiresecOperationResult.cs" />
     <Compile Include="NativeFiresecClient.cs" />
     <Compile Include="NotificationCallBack.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

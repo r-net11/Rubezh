@@ -1,6 +1,10 @@
 ﻿using System.Windows;
 using Infrastructure.Common;
 using Microsoft.Practices.Prism.Events;
+using FiresecClient;
+using System;
+using FiresecAPI.Models;
+using Infrastructure.Events;
 
 namespace Infrastructure
 {
@@ -13,6 +17,8 @@ namespace Infrastructure
             Layout = ILayoutService;
             UserDialogs = IUserDialogService;
             SecurityService = ISecurityService;
+
+            SubscribeEvents();
         }
 
         public static AppSettings AppSettings { get; set; }
@@ -24,5 +30,24 @@ namespace Infrastructure
         public static ISecurityService SecurityService { get; private set; }
 
         public static Window ShellView { get; set; }
+
+        static void SubscribeEvents()
+        {
+            FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournaRecord);
+            FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournaRecordDispatched);
+        }
+
+        static void OnNewJournaRecord(JournalRecord journalRecord)
+        {
+            ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
+        }
+
+        static void OnNewJournaRecordDispatched(JournalRecord journalRecord)
+        {
+            ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() =>
+            {
+                ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
+            }));
+        }
     }
 }

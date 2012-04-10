@@ -26,6 +26,7 @@ namespace FiresecClient
             }
 
             _userLogin = login;
+            OnUserChanged();
             return null;
         }
 
@@ -38,6 +39,7 @@ namespace FiresecClient
             }
 
             _userLogin = login;
+            OnUserChanged();
             return null;
         }
 
@@ -73,6 +75,12 @@ namespace FiresecClient
             }
         }
 
+        public static event Action UserChanged;
+        static void OnUserChanged()
+        {
+            if (UserChanged != null)
+                UserChanged();
+        }
         static string _userLogin;
         public static User CurrentUser
         {
@@ -160,12 +168,12 @@ namespace FiresecClient
             return FiresecService.GetFile(filepath);
         }
 
-        public static DeviceConfiguration AutoDetectDevice(Guid deviceUID, bool fastSearch)
+        public static OperationResult<DeviceConfiguration> AutoDetectDevice(Guid deviceUID, bool fastSearch)
         {
             return FiresecService.DeviceAutoDetectChildren(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID, fastSearch);
         }
 
-        public static DeviceConfiguration DeviceReadConfiguration(Guid deviceUID, bool isUsb)
+        public static OperationResult<DeviceConfiguration> DeviceReadConfiguration(Guid deviceUID, bool isUsb)
         {
             return FiresecService.DeviceReadConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
         }
@@ -216,7 +224,7 @@ namespace FiresecClient
             return FiresecService.DeviceSetPassword(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID, devicePasswordType, password);
         }
 
-        public static List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID)
+        public static OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(Guid driverUID)
         {
             return FiresecService.DeviceCustomFunctionList(driverUID);
         }

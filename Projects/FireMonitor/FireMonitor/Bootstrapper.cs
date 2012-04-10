@@ -5,7 +5,6 @@ using System.Windows;
 using AlarmModule;
 using AlarmModule.Events;
 using Controls.MessageBox;
-using Controls.MessageBox;
 using FireMonitor.ViewModels;
 using FireMonitor.Views;
 using FiresecAPI.Models;

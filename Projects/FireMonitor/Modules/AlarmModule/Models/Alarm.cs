@@ -46,12 +46,8 @@ namespace AlarmModule
 
         public bool CanRemoveFromIgnoreList()
         {
-            return StateType == StateType.Off;
-        }
-
-        public bool CanReset()
-        {
-            return StateType != StateType.Off;
+            return ((StateType == StateType.Off) &&
+            (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList)));
         }
 
         public void RemoveFromIgnoreList()
@@ -59,6 +55,11 @@ namespace AlarmModule
             var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
             if (deviceState.CanDisable() && deviceState.IsDisabled)
                 FiresecManager.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
+        }
+
+        public bool CanReset()
+        {
+            return StateType != StateType.Off;
         }
 
         public void Reset()

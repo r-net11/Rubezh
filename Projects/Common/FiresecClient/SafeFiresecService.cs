@@ -177,17 +177,17 @@ namespace FiresecClient
             return SafeOperationCall(() => { return _iFiresecService.GetDeviceConfiguration(); });
         }
 
-        public DeviceConfiguration DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public OperationResult<DeviceConfiguration> DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             return SafeOperationCall(() => { return _iFiresecService.DeviceReadConfiguration(deviceConfiguration, deviceUID); });
         }
 
-        public DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)
+        public OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)
         {
             return SafeOperationCall(() => { return _iFiresecService.DeviceAutoDetectChildren(deviceConfiguration, deviceUID, fastSearch); });
         }
 
-        public List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID)
+        public OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(Guid driverUID)
         {
             return SafeOperationCall(() => { return _iFiresecService.DeviceCustomFunctionList(driverUID); });
         }

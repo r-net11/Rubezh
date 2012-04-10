@@ -3,13 +3,14 @@ using Controls.MessageBox;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {
     public static class AutoDetectDeviceHelper
     {
         static DeviceViewModel _deviceViewModel;
-        static DeviceConfiguration _autodetectedDeviceConfiguration;
+        static OperationResult<DeviceConfiguration> _operationResult;
         static bool _fastSearch;
 
         public static void Run(DeviceViewModel deviceViewModel)
@@ -21,31 +22,32 @@ namespace DevicesModule.ViewModels
         static void RunAutodetection(bool fastSearch)
         {
             _fastSearch = fastSearch;
-            ServiceFactory.ProgressService.Run(OnPropgress, OnlCompleted, _deviceViewModel.Device.PresentationAddressDriver + ". Автопоиск устройств");
+            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, _deviceViewModel.Device.PresentationAddressDriver + ". Автопоиск устройств");
         }
 
         static void OnPropgress()
         {
-            _autodetectedDeviceConfiguration = FiresecManager.AutoDetectDevice(_deviceViewModel.Device.UID, _fastSearch);
+            _operationResult = FiresecManager.AutoDetectDevice(_deviceViewModel.Device.UID, _fastSearch);
         }
 
-        static void OnlCompleted()
+        static void OnCompleted()
         {
-            if (_autodetectedDeviceConfiguration == null)
+            if (_operationResult.HasError)
             {
-                MessageBoxService.Show("Операция прервана");
+                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
                 return;
             }
 
-            _autodetectedDeviceConfiguration.Update();
+            var deviceConfiguration = _operationResult.Result;
+            deviceConfiguration.Update();
 
-            foreach (var device in _autodetectedDeviceConfiguration.Devices)
+            foreach (var device in deviceConfiguration.Devices)
             {
                 var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID.ToString().ToUpper() == device.DriverUID.ToString().ToUpper());
                 device.Driver = driver;
             }
 
-            var autodetectionViewModel = new AutoSearchViewModel(_autodetectedDeviceConfiguration)
+            var autodetectionViewModel = new AutoSearchViewModel(deviceConfiguration)
             {
                 DeviceViewModels = _deviceViewModel.Source
             };

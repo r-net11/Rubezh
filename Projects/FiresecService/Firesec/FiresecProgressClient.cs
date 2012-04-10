@@ -10,50 +10,12 @@ using System.Text;
 
 namespace Firesec
 {
-    public static class DispatcherFiresecClient
+    public static class FiresecProgressClient
     {
-        static Control control;
-
-        static DispatcherFiresecClient()
+        static FiresecProgressClient()
         {
-            control = new Control();
-
             var thread = new Thread(new ThreadStart(WorkTask));
             thread.Start();
-        }
-
-        public static T SafeExecute<T>(Func<T> func)
-        {
-            return (T)control.Dispatcher.Invoke(func);
-        }
-
-        public static FiresecOperationResult<T> ConvertResultData<T>(FiresecOperationResult<string> result)
-        {
-            var resultData = new FiresecOperationResult<T>();
-            resultData.HasError = result.HasError;
-            resultData.Error = result.Error;
-            if (result.HasError == false)
-                resultData.Result = Deserialize<T>(result.Result);
-            return resultData;
-        }
-
-        static T Deserialize<T>(string input)
-        {
-            if (string.IsNullOrEmpty(input))
-                return default(T);
-
-            try
-            {
-                using (var memoryStream = new MemoryStream(Encoding.Default.GetBytes(input)))
-                {
-                    var serializer = new XmlSerializer(typeof(T));
-                    return (T)serializer.Deserialize(memoryStream);
-                }
-            }
-            catch (Exception e)
-            {
-                return default(T);
-            }
         }
 
         public static void ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)

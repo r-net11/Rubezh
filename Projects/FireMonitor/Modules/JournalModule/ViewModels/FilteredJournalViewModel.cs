@@ -4,6 +4,8 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace JournalModule.ViewModels
 {
@@ -13,8 +15,10 @@ namespace JournalModule.ViewModels
 
         public FilteredJournalViewModel(JournalFilter journalFilter)
         {
+            ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Subscribe(OnNewJournalRecord);
+
             if (journalFilter == null)
-                throw new ArgumentNullException();
+                return;
             JournalFilter = journalFilter;
 
             Initialize();
@@ -27,9 +31,6 @@ namespace JournalModule.ViewModels
                 var journalRecords = FiresecManager.GetFilteredJournal(JournalFilter);
                 var journalRecordsViewModel = journalRecords.Select(journalRecord => new JournalRecordViewModel(journalRecord));
                 JournalRecords = new ObservableCollection<JournalRecordViewModel>(journalRecordsViewModel);
-
-                FiresecEventSubscriber.NewJournalRecordEvent -= new Action<JournalRecord>(OnNewJournaRecordEvent);
-                FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournaRecordEvent);
             }
             catch(Exception)
             {
@@ -89,7 +90,7 @@ namespace JournalModule.ViewModels
             return result;
         }
 
-        void OnNewJournaRecordEvent(JournalRecord journalRecord)
+        void OnNewJournalRecord(JournalRecord journalRecord)
         {
             if (!FilterRecord(journalRecord))
                 return;

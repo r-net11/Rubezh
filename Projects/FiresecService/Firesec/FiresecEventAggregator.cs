@@ -13,7 +13,7 @@ namespace Firesec
 
         public static void OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
-            DispatcherFiresecClient.ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
+            FiresecProgressClient.ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
         }
 
         public delegate bool ProgressDelegate(int stage, string comment, int percentComplete, int bytesRW);

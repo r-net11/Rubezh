@@ -13,12 +13,12 @@ namespace FireAdministrator.ViewModels
             StopCommand = new RelayCommand(OnStop);
             Title = title;
             ContinueProgress = true;
-            FiresecCallbackService.ProgressEvent += new FiresecCallbackService.ProgressDelegate(Progress);
+            FiresecCallbackService.ProgressEvent += new Func<int, string, int, int, bool>(Progress);
         }
 
         public void CloseProgress()
         {
-            FiresecCallbackService.ProgressEvent -= new FiresecCallbackService.ProgressDelegate(Progress);
+            FiresecCallbackService.ProgressEvent -= new Func<int, string, int, int, bool>(Progress);
             Close(true);
         }
 

@@ -102,7 +102,10 @@ namespace AlarmModule.ViewModels
         public RelayCommand RemoveFromIgnoreListCommand { get; private set; }
         void OnRemoveFromIgnoreList()
         {
-            Alarm.RemoveFromIgnoreList();
+            if (ServiceFactory.SecurityService.Validate())
+            {
+                Alarm.RemoveFromIgnoreList();
+            }
         }
 
         public RelayCommand ShowOnPlanCommand { get; private set; }

@@ -157,38 +157,59 @@ namespace FiresecService
             return FiresecInternalClient.DeviceReadEventLog(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree).ToOperationResult();
         }
 
-        public DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)
+        public OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            var config = FiresecInternalClient.DeviceAutoDetectChildren(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fastSearch).Result;
-            if (config == null)
-                return null;
+            var result = FiresecInternalClient.DeviceAutoDetectChildren(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree, fastSearch);
+
+            var operationResult = new OperationResult<DeviceConfiguration>()
+            {
+                HasError = result.HasError,
+                Error = result.Error
+            };
 
             ConfigurationConverter.DeviceConfiguration = new DeviceConfiguration();
-            ConfigurationConverter.FiresecConfiguration = config;
+            ConfigurationConverter.FiresecConfiguration = result.Result;
             DeviceConverter.Convert();
-            return ConfigurationConverter.DeviceConfiguration;
+            operationResult.Result = ConfigurationConverter.DeviceConfiguration;
+
+            return operationResult;
         }
 
-        public DeviceConfiguration DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
+        public OperationResult<DeviceConfiguration> DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            var config = FiresecInternalClient.DeviceReadConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree).Result;
-            if (config == null)
-                return null;
+            var result = FiresecInternalClient.DeviceReadConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+            
+            var operationResult = new OperationResult<DeviceConfiguration>()
+            {
+                HasError = result.HasError,
+                Error = result.Error
+            };
 
             ConfigurationConverter.DeviceConfiguration = new DeviceConfiguration();
-            ConfigurationConverter.FiresecConfiguration = config;
+            ConfigurationConverter.FiresecConfiguration = result.Result;
             DeviceConverter.Convert();
-            return ConfigurationConverter.DeviceConfiguration;
+            operationResult.Result = ConfigurationConverter.DeviceConfiguration;
+
+            return operationResult;
         }
 
-        public List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID)
+        public OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(Guid driverUID)
         {
-            var functions = FiresecInternalClient.DeviceCustomFunctionList(driverUID.ToString().ToUpper()).Result;
-            return DeviceCustomFunctionConverter.Convert(functions);
+            var result = FiresecInternalClient.DeviceCustomFunctionList(driverUID.ToString().ToUpper());
+
+            var operationResult = new OperationResult<List<DeviceCustomFunction>>()
+            {
+                HasError = result.HasError,
+                Error = result.Error
+            };
+
+            operationResult.Result = DeviceCustomFunctionConverter.Convert(result.Result);
+
+            return operationResult;
         }
 
         public OperationResult<string> DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName)

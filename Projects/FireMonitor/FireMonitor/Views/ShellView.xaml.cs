@@ -21,6 +21,7 @@ namespace FireMonitor.Views
         {
             InitializeComponent();
             DataContext = this;
+            FiresecManager.UserChanged += new Action(OnUserChanged);
         }
 
         void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -55,9 +56,32 @@ namespace FireMonitor.Views
 
         void OnClose(object sender, RoutedEventArgs e)
         {
-            Close();
-            Application.Current.Shutdown();
-            Environment.Exit(1);
+            if (CanClose())
+            {
+                AlarmPlayerHelper.Dispose();
+                ClientSettings.SaveSettings();
+
+                FiresecManager.Disconnect();
+                Close();
+                Application.Current.Shutdown();
+                Environment.Exit(1);
+            }
+        }
+
+        bool CanClose()
+        {
+            if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_LogoutWithoutPassword))
+            {
+                return true;
+            }
+
+            if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Logout) == false)
+            {
+                MessageBoxService.Show("Нет прав для выхода из программы");
+                return false;
+            }
+
+            return ServiceFactory.SecurityService.Validate();
         }
 
         void OnMinimize(object sender, RoutedEventArgs e)
@@ -81,39 +105,20 @@ namespace FireMonitor.Views
             ServiceFactory.UserDialogs.ShowModalWindow(aboutViewModel);
         }
 
+        void OnUserChanged()
+        {
+            OnPropertyChanged("UserName");
+        }
+
+        public string UserName
+        {
+            get { return FiresecManager.CurrentUser.Name; }
+        }
+
         public IViewPart AlarmGroups
         {
             get { return _alarmGroups.Content as IViewPart; }
             set { _alarmGroups.DataContext = _alarmGroups.Content = value; }
-        }
-
-        void OnWindow_Closing(object sender, CancelEventArgs e)
-        {
-            AlarmPlayerHelper.Dispose();
-            ClientSettings.SaveSettings();
-
-            if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_LogoutWithoutPassword))
-            {
-                return;
-            }
-
-            if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Logout) == false)
-            {
-                MessageBoxService.Show("Нет прав для выхода из программы");
-                e.Cancel = true;
-                return;
-            }
-
-            if (ServiceFactory.SecurityService.Validate() == false)
-            {
-                e.Cancel = true;
-                return;
-            }
-        }
-
-        void OnlWindow_Closed(object sender, EventArgs e)
-        {
-            FiresecManager.Disconnect();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

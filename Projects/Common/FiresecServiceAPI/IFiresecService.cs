@@ -62,13 +62,13 @@ namespace FiresecAPI
         OperationResult<string> DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        DeviceConfiguration DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch);
+        OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch);
 
         [OperationContract]
-        DeviceConfiguration DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+        OperationResult<DeviceConfiguration> DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
         [OperationContract]
-        List<DeviceCustomFunction> DeviceCustomFunctionList(Guid driverUID);
+        OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(Guid driverUID);
 
         [OperationContract]
         OperationResult<string> DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName);

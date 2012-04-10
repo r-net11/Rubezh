@@ -4,7 +4,7 @@
         xmlns:Views="clr-namespace:FireMonitor.Views"
         Icon="Monitor.ico" WindowStartupLocation="CenterScreen" Title="Станция пожарного мониторинга"
         FontFamily="Tahoma" Height="750" Width="1100" MinWidth="800" MinHeight="600"
-        WindowStyle="None" AllowsTransparency="True" Background="Transparent" Closing="OnWindow_Closing" Closed="OnlWindow_Closed">
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent">
     <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="#151515">
         <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
             <DockPanel>
@@ -56,26 +56,26 @@
                         </StackPanel>
                     </Grid>
                 </Border>
-                <Thumb DockPanel.Dock="Bottom" DragDelta="Thumb_DragDelta" HorizontalAlignment="Right" Width="10" Height="10" Style="{DynamicResource ResizeThumbStyle}" />
+                <Grid DockPanel.Dock="Bottom" Height="20">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20, 0, 0, 0">
+                        <TextBlock Text="Пользователь: " Foreground="White" />
+                        <TextBlock Text="{Binding UserName}" Foreground="White" />
+                    </StackPanel>
+                    <Thumb DragDelta="Thumb_DragDelta" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="10" Height="10" Style="{DynamicResource ResizeThumbStyle}" />
+                </Grid>
                 <Grid>
-                    <DockPanel>
-                        <StackPanel DockPanel.Dock="Bottom">
-                        </StackPanel>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Views:NavigationView Grid.Column="0" Margin="5 5 0 20" />
-                            <ItemsControl Name="_itemsControl" Grid.Column="1" Margin="5 5 5 20">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <Grid />
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>
-                        </Grid>
-                    </DockPanel>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Views:NavigationView Grid.Column="0" Margin="5 5 0 0" />
+                    <ItemsControl Name="_itemsControl" Grid.Column="1" Margin="5 5 5 0">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Grid />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
                 </Grid>
             </DockPanel>
         </Border>

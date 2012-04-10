@@ -19,8 +19,7 @@ namespace FireMonitor.Views
 
             ChangeAutoActivationCommand = new RelayCommand(OnChangeAutoActivation);
             ChangePlansAutoActivationCommand = new RelayCommand(OnChangePlansAutoActivation);
-            FiresecEventSubscriber.NewJournalRecordEvent -= new Action<JournalRecord>(OnNewJournalRecord);
-            FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalRecord);
+            ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Subscribe(OnNewJournalRecord);
         }
 
         public bool IsAutoActivation
@@ -62,6 +61,7 @@ namespace FireMonitor.Views
             {
                 if ((App.Current.MainWindow != null) && (App.Current.MainWindow.IsActive == false))
                 {
+                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
                     App.Current.MainWindow.Activate();
                 }
             }

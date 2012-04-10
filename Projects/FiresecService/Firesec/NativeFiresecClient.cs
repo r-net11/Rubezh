@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using System.Runtime.Remoting;
 using System.Text;
 using System.Runtime.Serialization;
+using System.Windows.Controls;
+using System.Threading;
 
 namespace Firesec
 {
     public static class NativeFiresecClient
     {
+        static Control control;
+
+        static NativeFiresecClient()
+        {
+            control = new Control();
+        }
+
         static FS_Types.IFSC_Connection _connectoin;
         static FS_Types.IFSC_Connection Connectoin
         {
@@ -76,7 +85,8 @@ namespace Firesec
 
         public static FiresecOperationResult<string> CheckHaspPresence()
         {
-            return SafeCall<string>(() => {
+            return SafeCall<string>(() =>
+            {
                 string errorMessage = "";
                 var result = Connectoin.CheckHaspPresence(out errorMessage);
                 if (result)
@@ -228,7 +238,21 @@ namespace Firesec
             return stringBuilder.ToString();
         }
 
-        static FiresecOperationResult<T> SafeCall<T>(Func<T> f)
+        static FiresecOperationResult<T> SafeCall<T>(Func<T> func)
+        {
+            return (FiresecOperationResult<T>)control.Dispatcher.Invoke
+            (
+                new Func<FiresecOperationResult<T>>
+                (
+                    () =>
+                    {
+                        return SafeLoopCall(func);
+                    }
+                )
+            );
+        }
+
+        static FiresecOperationResult<T> SafeLoopCall<T>(Func<T> f)
         {
             var resultData = new FiresecOperationResult<T>();
             for (int i = 0; i < 10; i++)
@@ -239,7 +263,7 @@ namespace Firesec
                     resultData.Result = result;
                     return resultData;
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     resultData.Result = default(T);
                     resultData.HasError = true;
@@ -247,6 +271,33 @@ namespace Firesec
                 }
             }
             return resultData;
+        }
+
+        static FiresecOperationResult<T> Temp<T>(Func<T> f)
+        {
+            return (FiresecOperationResult<T>)control.Dispatcher.Invoke(new Func<FiresecOperationResult<T>>(
+                () =>
+                {
+                    var resultData = new FiresecOperationResult<T>();
+                    for (int i = 0; i < 10; i++)
+                    {
+                        try
+                        {
+                            var result = f();
+                            resultData.Result = result;
+                            return resultData;
+                        }
+                        catch (Exception e)
+                        {
+                            resultData.Result = default(T);
+                            resultData.HasError = true;
+                            resultData.Error = e;
+                        }
+                    }
+                    return resultData;
+                }
+                )
+            );
         }
 
         static string ConvertDeviceList(List<string> devicePaths)
@@ -258,12 +309,5 @@ namespace Firesec
             }
             return devicePatsString.ToString().TrimEnd();
         }
-    }
-
-    public class FiresecOperationResult<T>
-    {
-        public T Result;
-        public bool HasError;
-        public Exception Error;
     }
 }
