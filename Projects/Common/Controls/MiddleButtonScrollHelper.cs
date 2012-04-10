@@ -14,6 +14,39 @@ namespace Controls
         Down
     }
 
+    public static class VisualTreeFinder
+    {
+        public static childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is childItem)
+                    return (childItem)child;
+                else
+                {
+                    childItem childOfChild = FindVisualChild<childItem>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
+        }
+
+        public static T FindParentControl<T>(DependencyObject outerDepObj) where T : DependencyObject
+        {
+            DependencyObject dObj = VisualTreeHelper.GetParent(outerDepObj);
+            if (dObj == null)
+                return null;
+            if (dObj is T)
+                return dObj as T;
+            while ((dObj = VisualTreeHelper.GetParent(dObj)) != null)
+                if (dObj is T)
+                    return dObj as T;
+            return null;
+        }
+    }
+
     public static class MiddleButtonScrollHelper
     {
         static bool _isScrolling = false;
@@ -150,23 +183,6 @@ namespace Controls
                 _currentDirection = _previousDirection = DirectionType.None;
                 _scrollViewer = null;
             }
-        }
-
-        public static childItem FindVisualChild<childItem>(DependencyObject obj) where childItem : DependencyObject
-        {
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
-                if (child != null && child is childItem)
-                    return (childItem)child;
-                else
-                {
-                    childItem childOfChild = FindVisualChild<childItem>(child);
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
-            return null;
-        }
+        }        
     }
 }

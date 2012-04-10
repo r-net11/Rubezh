@@ -12,13 +12,13 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <Controls:ScrollDataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}">
+            <DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
                     <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
                     <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
                 </DataGrid.Columns>
-            </Controls:ScrollDataGrid>
+            </DataGrid>
         </Grid>
 
         <StackPanel Grid.Column="1" Margin="2">
@@ -29,13 +29,13 @@
         </StackPanel>
 
         <Grid Grid.Column="2">
-            <Controls:ScrollDataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
+            <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
                     <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
                     <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
                 </DataGrid.Columns>
-            </Controls:ScrollDataGrid>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

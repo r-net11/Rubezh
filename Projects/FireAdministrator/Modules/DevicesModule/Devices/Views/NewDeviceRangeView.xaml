@@ -9,7 +9,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Controls:ScrollDataGrid Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" CanUserSortColumns="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" CanUserSortColumns="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Название" MinWidth="100">
                     <DataGridTemplateColumn.CellTemplate>
@@ -24,7 +24,7 @@
                 <DataGridTextColumn Header="Полное название" Binding="{Binding Name}" MinWidth="200" />
                 <DataGridTextColumn Header="Класс" Binding="{Binding DeviceClassName}" Width="*" />
             </DataGrid.Columns>
-        </Controls:ScrollDataGrid>
+        </DataGrid>
         <Grid Grid.Row="1" Visibility="{Binding AddMany, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

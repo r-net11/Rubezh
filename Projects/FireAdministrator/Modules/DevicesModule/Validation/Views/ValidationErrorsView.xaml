@@ -14,7 +14,7 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
-            <Controls:ScrollDataGrid Grid.Column="0" ItemsSource="{Binding Errors}" SelectedItem="{Binding SelectedError}">
+            <DataGrid Grid.Column="0" ItemsSource="{Binding Errors}" SelectedItem="{Binding SelectedError}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Источник" Binding="{Binding Source}" />
                     <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
@@ -45,7 +45,7 @@
                         </Style.Triggers>
                     </Style>
                 </DataGrid.CellStyle>
-            </Controls:ScrollDataGrid>
+            </DataGrid>
         </Grid>
         <Controls:ToolBarButton Grid.Column="1" Click="Button_Click" VerticalAlignment="Top" Margin="2" ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
     </Grid>

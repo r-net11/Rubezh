@@ -21,17 +21,17 @@
             <Button Content="Считать" Command="{Binding ReadDeviceCommand}" Margin="2" />
             <Button Content="Записать" Command="{Binding WriteDeviceCommand}" Margin="2" />
         </StackPanel>
-        <Controls:ScrollDataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding SystemUsers}" SelectedItem="{Binding SelectedSystemUser}" Margin="2">
+        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding SystemUsers}" SelectedItem="{Binding SelectedSystemUser}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Пароль" Binding="{Binding Password}" Width="*" />
             </DataGrid.Columns>
-        </Controls:ScrollDataGrid>
-        <Controls:ScrollDataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" Margin="2">
+        </DataGrid>
+        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" Margin="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Имя" Binding="{Binding Name}" />
                 <DataGridTextColumn Header="Пароль" Binding="{Binding Password}" Width="*" />
             </DataGrid.Columns>
-        </Controls:ScrollDataGrid>
+        </DataGrid>
     </Grid>
 </UserControl>

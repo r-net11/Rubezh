@@ -4,7 +4,7 @@ using Infrastructure.Common;
 
 namespace Controls
 {
-    public class XDataGrid : ScrollDataGrid
+    public class XDataGrid : DataGrid
     {
         static XDataGrid()
         {

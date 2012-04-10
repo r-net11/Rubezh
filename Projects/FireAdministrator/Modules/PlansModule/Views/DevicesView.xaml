@@ -25,7 +25,7 @@
 
     </UserControl.Resources>
     
-    <Controls:ScrollDataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+    <DataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Тип Устройства" MinWidth="250">
                 <DataGridTemplateColumn.CellTemplate>
@@ -79,5 +79,5 @@
             <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
 
         </DataGrid.Columns>
-    </Controls:ScrollDataGrid >
+    </DataGrid >
 </UserControl>

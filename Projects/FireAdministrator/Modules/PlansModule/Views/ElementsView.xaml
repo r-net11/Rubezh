@@ -41,7 +41,7 @@
         </Style>
     </UserControl.Resources>
     
-    <Controls:ScrollDataGrid  Name="_elementsDataGrid" ItemsSource="{Binding Elements}" SelectedItem="{Binding SelectedElement}" IsReadOnly="False">
+    <DataGrid  Name="_elementsDataGrid" ItemsSource="{Binding Elements}" SelectedItem="{Binding SelectedElement}" IsReadOnly="False">
         <DataGrid.Columns>
             <DataGridTemplateColumn MinWidth="25" MaxWidth="25">
                 <DataGridTemplateColumn.CellTemplate>
@@ -89,5 +89,5 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
         </DataGrid.Columns>
-    </Controls:ScrollDataGrid >
+    </DataGrid >
 </UserControl>
