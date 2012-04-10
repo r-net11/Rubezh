@@ -5,10 +5,10 @@
              xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              MinWidth="400" MinHeight="500">
 
-    <Controls:ScrollDataGrid Focusable="True" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
+    <DataGrid Focusable="True" ItemsSource="{Binding Items}" SelectedItem="{Binding SelectedItem}">
         <DataGrid.Columns>
             <DataGridTextColumn Header="Состояние" Binding="{Binding ClassName}" />
             <DataGridTextColumn Header="Дополнительное состояние" Binding="{Binding AdditionalName}" Width="*" />
         </DataGrid.Columns>
-    </Controls:ScrollDataGrid>
+    </DataGrid>
 </UserControl>

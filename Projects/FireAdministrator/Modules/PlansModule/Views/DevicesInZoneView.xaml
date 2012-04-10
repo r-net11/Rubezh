@@ -4,7 +4,7 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinWidth="600" MinHeight="500">
 
-    <Controls:ScrollDataGrid ItemsSource="{Binding DeviceInZones}" IsReadOnly="False">
+    <DataGrid ItemsSource="{Binding DeviceInZones}" IsReadOnly="False">
         <DataGrid.Columns>
             <DataGridCheckBoxColumn Header="Изменить" Binding="{Binding IsActive}" Width="100" />
             <DataGridTemplateColumn Header="Устройство" Width="*">
@@ -32,5 +32,5 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
         </DataGrid.Columns>
-    </Controls:ScrollDataGrid>
+    </DataGrid>
 </UserControl>

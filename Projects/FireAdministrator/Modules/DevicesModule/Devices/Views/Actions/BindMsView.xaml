@@ -17,11 +17,11 @@
         </StackPanel>
 
         <Grid Grid.Row="1">
-            <Controls:ScrollDataGrid ItemsSource="{Binding Serials}" SelectedItem="{Binding SelectedSerial}">
+            <DataGrid ItemsSource="{Binding Serials}" SelectedItem="{Binding SelectedSerial}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Серийный номер" Width="*" Binding="{Binding .}" />
                 </DataGrid.Columns>
-            </Controls:ScrollDataGrid>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

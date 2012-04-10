@@ -21,10 +21,10 @@ namespace Controls.Converters
                     return Brushes.Pink;
 
                 case StateType.Service:
-                    return Brushes.Yellow;
+                    return Brushes.LightYellow;
 
                 case StateType.Off:
-                    return Brushes.Red;
+                    return Brushes.LightYellow;
 
                 case StateType.Unknown:
                     return Brushes.Gray;

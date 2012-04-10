@@ -4,7 +4,7 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinWidth="600" MinHeight="500">
 
-    <Controls:ScrollDataGrid ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" CanUserSortColumns="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
+    <DataGrid ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" CanUserSortColumns="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Название" Width="*">
                 <DataGridTemplateColumn.CellTemplate>
@@ -17,5 +17,5 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
         </DataGrid.Columns>
-    </Controls:ScrollDataGrid>
+    </DataGrid>
 </UserControl>

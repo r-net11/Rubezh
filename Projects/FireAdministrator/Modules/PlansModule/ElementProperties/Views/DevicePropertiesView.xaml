@@ -4,7 +4,7 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinHeight="400" MinWidth="400">
 
-    <Controls:ScrollDataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="DataGrid_SelectionChanged">
+    <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="DataGrid_SelectionChanged">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                 <DataGridTemplateColumn.CellTemplate>
@@ -50,5 +50,5 @@
             <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
 
         </DataGrid.Columns>
-    </Controls:ScrollDataGrid>
+    </DataGrid>
 </UserControl>

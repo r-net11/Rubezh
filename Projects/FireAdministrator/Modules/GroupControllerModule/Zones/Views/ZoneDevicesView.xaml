@@ -15,7 +15,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <Controls:ScrollDataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+            <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
@@ -45,7 +45,7 @@
                     <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
                     <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
                 </DataGrid.Columns>
-            </Controls:ScrollDataGrid>
+            </DataGrid>
 
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить в зону" ImageSource="/Controls;component/Images/ArrowUp.png" />
@@ -56,7 +56,7 @@
         <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
 
         <Grid Grid.Row="2" SizeChanged="OnSizeChanged">
-            <Controls:ScrollDataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
+            <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
@@ -86,7 +86,7 @@
                     <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Address}" />
                     <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
                 </DataGrid.Columns>
-            </Controls:ScrollDataGrid>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

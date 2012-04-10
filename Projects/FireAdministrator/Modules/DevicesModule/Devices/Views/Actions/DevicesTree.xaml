@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-    <Controls:ScrollDataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" VirtualizingStackPanel.IsVirtualizing="True">
+    <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" VirtualizingStackPanel.IsVirtualizing="True">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                 <DataGridTemplateColumn.CellTemplate>
@@ -21,6 +21,6 @@
             <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="100" />
             <DataGridTextColumn Header="Зона" Binding="{Binding PresentationZone}" Width="100" />
         </DataGrid.Columns>
-    </Controls:ScrollDataGrid>
+    </DataGrid>
     
 </UserControl>
