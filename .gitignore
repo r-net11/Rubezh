@@ -1,2 +1,8 @@
 
 /scktsrvr.lnk
+/3rdParty/VLC/Vlc.DotNet.Src/Vlc.DotNet.Core/bin
+/3rdParty/VLC/Vlc.DotNet.Src/Vlc.DotNet.Core/obj
+/3rdParty/VLC/Vlc.DotNet.Src/Vlc.DotNet.Core.Interops/bin
+/3rdParty/VLC/Vlc.DotNet.Src/Vlc.DotNet.Core.Interops/obj
+/3rdParty/VLC/Vlc.DotNet.Src/Vlc.DotNet.Forms/bin
+/3rdParty/VLC/Vlc.DotNet.Src/Vlc.DotNet.Forms/obj
