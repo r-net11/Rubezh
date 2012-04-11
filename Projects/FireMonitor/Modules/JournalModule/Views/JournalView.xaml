@@ -43,7 +43,7 @@
                 <Controls:XRichTextBox Grid.Row="6" Grid.Column="1" Text="{Binding Detalization, Mode=OneWay}" BorderThickness="0" Background="Transparent" Foreground="White" />
             </Grid>
         </Border>
-        <Controls:ScrollDataGrid DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}"
+        <DataGrid DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}"
                   ItemsSource="{Binding JournalRecords}" SelectedItem="{Binding SelectedRecord}"
                   EnableRowVirtualization="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
             <DataGrid.Columns>
@@ -93,6 +93,6 @@
                     </Style.Triggers>
                 </Style>
             </DataGrid.CellStyle>
-        </Controls:ScrollDataGrid>
+        </DataGrid>
     </DockPanel>
 </UserControl>

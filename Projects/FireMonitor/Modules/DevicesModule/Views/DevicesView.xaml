@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
-            <Controls:ScrollDataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+            <DataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" MinWidth="250" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
@@ -53,7 +53,7 @@
                     <DataGridTextColumn Header="Пыль, %" MinWidth="100" Binding="{Binding Dustiness}" />
                     <DataGridTextColumn Header="Температура, °С" MinWidth="100" Binding="{Binding Temperature}" />
                 </DataGrid.Columns>
-            </Controls:ScrollDataGrid>
+            </DataGrid>
         </Grid>
         <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="11" TextBlock.Foreground="White" >
             <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">

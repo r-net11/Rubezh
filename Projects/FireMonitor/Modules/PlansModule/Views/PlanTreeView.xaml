@@ -7,7 +7,7 @@
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
     </UserControl.Resources>
     
-    <Controls:ScrollDataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
+    <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Название">
                 <DataGridTemplateColumn.CellTemplate>
@@ -23,5 +23,5 @@
             </DataGridTemplateColumn>
             <DataGridTextColumn Header="Описание" Binding="{Binding Plan.Description}" Width="*" />
         </DataGrid.Columns>
-    </Controls:ScrollDataGrid>
+    </DataGrid>
 </UserControl>

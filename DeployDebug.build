@@ -2,58 +2,22 @@
 <project name="Simple" default="run">
   <property name="nant.settings.currentframework" value="net-4.0" />
   <target name="run">
-    <call target="Clear" />
-    <call target="CopyFiles" />
+    <call target="Clear" />    
     <call target="CompileAll" />
   </target>
   <target name="Clear">
-    <delete dir="Projects\FiresecService\FiresecService\bin\Release\Pictures" />
-    <delete dir="Projects\FiresecService\FiresecService\bin\Release\Temp" />
-  </target>
-  <target name="CopyFiles">
-    <copy todir="Projects\FiresecService\FiresecService\bin\Debug\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="Projects\Deploy\ConfigurationService">
-        <include name="**\*" />
-      </fileset>
-    </copy>
-    <copy todir="Projects\FiresecService\FiresecService\bin\Release\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="Projects\Deploy\ConfigurationService">
-        <include name="**\*" />
-      </fileset>
-    </copy>    
-    <copy todir="Projects\FireMonitor\FireMonitor\bin\Debug\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="Projects\Deploy\ConfigurationMonitor">
-        <include name="**\*" />
-      </fileset>
-    </copy>
-    <copy todir="Projects\FireMonitor\FireMonitor\bin\Release\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="Projects\Deploy\ConfigurationMonitor">
-        <include name="**\*" />
-      </fileset>
-    </copy>
-    <copy todir="Projects\FireAdministrator\FireAdministrator\bin\Debug\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="Projects\Deploy\ConfigurationAdministrator">
-        <include name="**\*" />
-      </fileset>
-    </copy>
-    <copy todir="Projects\FireAdministrator\FireAdministrator\bin\Release\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="Projects\Deploy\ConfigurationAdministrator">
-        <include name="**\*" />
-      </fileset>
-    </copy>    
-  </target>
+    <delete dir="Projects\FiresecService\FiresecService\bin\Debug\Pictures" />
+    <delete dir="Projects\FiresecService\FiresecService\bin\Debug\Temp" />
+  </target>  
   <target name="CompileAll">
     <msbuild project="Projects\FiresecService\FiresecService.sln">
-      <property name="Configuration" value="Release" />
-    </msbuild>	
+      <property name="Configuration" value="Debug" overwrite="True"/>
+    </msbuild>			
     <msbuild project="Projects\FireAdministrator\FireAdministrator.sln">
-      <property name="Configuration" value="Release" />
+      <property name="Configuration" value="Debug" overwrite="True"/>
     </msbuild>	
     <msbuild project="Projects\FireMonitor\FireMonitor.sln">
-      <property name="Configuration" value="Release" />
-    </msbuild>		
-    <msbuild project="Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
-      <property name="Configuration" value="Release" />
-    </msbuild>	
+      <property name="Configuration" value="Debug" overwrite="True"/>
+    </msbuild>		    
   </target>
 </project>

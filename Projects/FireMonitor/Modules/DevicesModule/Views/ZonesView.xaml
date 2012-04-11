@@ -89,7 +89,7 @@
         </Border>
 
         <Grid Grid.Row="1" Margin="0, 5, 0, 0">
-            <Controls:ScrollDataGrid ItemsSource="{Binding Devices}">
+            <DataGrid ItemsSource="{Binding Devices}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
@@ -121,7 +121,7 @@
                     <DataGridTextColumn Header="Зона" Width="100" Binding="{Binding PresentationZone}" />
                     <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
                 </DataGrid.Columns>
-            </Controls:ScrollDataGrid>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

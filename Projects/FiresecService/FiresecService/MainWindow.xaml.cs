@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using Controls.MessageBox;
 using System.Configuration;
 using System.Diagnostics;
+using Common;
 
 namespace FiresecServiceRunner
 {
@@ -15,6 +16,11 @@ namespace FiresecServiceRunner
         public MainWindow()
         {
             InitializeComponent();
+            if (!SingleLaunchHelper.Check("FiresecService"))
+            {
+                Application.Current.Shutdown();
+                System.Environment.Exit(1);
+            }
             Loaded += new RoutedEventHandler(MainWindow_Loaded);
             try
             {
@@ -25,6 +31,7 @@ namespace FiresecServiceRunner
                 var resourceService = new ResourceService();
                 resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
                 _mainView.DataContext = new MainViewModel();
+
             }
             catch (Exception e)
             {
@@ -32,18 +39,19 @@ namespace FiresecServiceRunner
                 Application.Current.Shutdown();
                 System.Environment.Exit(1);
             }
+            SingleLaunchHelper.KeepAlive();
         }
 
         void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
-            this.WindowState = WindowState.Normal;
-            this.WindowState = WindowState.Minimized;
+            this.ShowInTaskbar = true;
+            this.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void OnShow(object sender, RoutedEventArgs e)
         {
             this.WindowState = WindowState.Normal;
+            this.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void OnHide(object sender, RoutedEventArgs e)

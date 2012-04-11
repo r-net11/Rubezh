@@ -13,7 +13,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Controls:ScrollDataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
@@ -58,7 +58,7 @@
                     </Setter>
                 </Style>
             </DataGrid.RowStyle>
-        </Controls:ScrollDataGrid>
+        </DataGrid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" Margin="2">
                 <TextBlock Text="Включить все" FontSize="12" />

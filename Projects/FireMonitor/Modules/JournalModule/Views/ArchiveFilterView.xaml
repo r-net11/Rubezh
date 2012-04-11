@@ -121,7 +121,7 @@
                     <CheckBox Grid.Row="0" Content="Включить фильтр по следующим приборам" Margin="5"
                         IsChecked="{Binding IsDeviceFilterOn, UpdateSourceTrigger=PropertyChanged}" Foreground="White" />
 
-                    <Controls:ScrollDataGrid Grid.Row="1" ItemsSource="{Binding Devices}" IsEnabled="{Binding IsDeviceFilterOn}"
+                    <DataGrid Grid.Row="1" ItemsSource="{Binding Devices}" IsEnabled="{Binding IsDeviceFilterOn}"
                               IsReadOnly="False" Margin="5" DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}">
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Header="Тип" IsReadOnly="False" MinWidth="170">
@@ -137,7 +137,7 @@
                             </DataGridTemplateColumn>
                             <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" IsReadOnly="True" MinWidth="120" Width="*" />
                         </DataGrid.Columns>
-                    </Controls:ScrollDataGrid>
+                    </DataGrid>
                 </Grid>
             </TabItem>
         </TabControl>
