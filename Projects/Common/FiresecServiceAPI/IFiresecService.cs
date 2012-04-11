@@ -4,11 +4,12 @@ using System.IO;
 using System.ServiceModel;
 using FiresecAPI.Models;
 using XFiresecAPI;
+using FiresecAPI.Models.Skud;
 
 namespace FiresecAPI
 {
     [ServiceContract(CallbackContract = typeof(IFiresecCallback), SessionMode = SessionMode.Required)]
-    public interface IFiresecService
+    public interface IFiresecService : IFiresecServiceSKUD
     {
         [OperationContract(IsInitiating = true)]
         string Connect(string clientType, string clientCallbackAddress, string userName, string password);
@@ -172,7 +173,7 @@ namespace FiresecAPI
 
         [OperationContract]
         XDeviceConfiguration GetXDeviceConfiguration();
-    }
+	}
 
     public class FiresecException : Exception
     {

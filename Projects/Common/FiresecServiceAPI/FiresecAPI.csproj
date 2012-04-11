@@ -140,6 +140,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="IFiresecServiceSKUD.cs" />
     <Compile Include="Models\AddressConverter.cs" />
     <Compile Include="IFiresecCallbackService.cs" />
     <Compile Include="IFiresecCallback.cs" />

@@ -34,6 +34,7 @@ namespace SkudModule
 		{
 			_skudViewModel = new SkudViewModel();
 			_employeeCardIndexViewModel = new EmployeeCardIndexViewModel();
+			_employeeCardIndexViewModel.Initialize();
 		}
 
 		private static void OnShowSkud(object obj)

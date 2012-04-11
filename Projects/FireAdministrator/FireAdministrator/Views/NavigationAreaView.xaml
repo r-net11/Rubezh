@@ -161,7 +161,8 @@
                 </TabItem.Header>
             </TabItem>
 
-            <TabItem IsSelected="{Binding IsSkudSelected}" MouseLeftButtonUp="SkudMouseLeftButtonUp">
+            <TabItem IsSelected="{Binding IsSkudSelected}" MouseLeftButtonUp="SkudMouseLeftButtonUp"
+                     Visibility="{Binding HaveSkudPermissions, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TabItem.Header>
                     <StackPanel Orientation="Horizontal">
                         <Image />

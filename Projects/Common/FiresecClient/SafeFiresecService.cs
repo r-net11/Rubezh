@@ -4,6 +4,8 @@ using System.ServiceModel;
 using System.Timers;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Common;
+using FiresecAPI.Models.Skud;
 
 namespace FiresecClient
 {
@@ -406,5 +408,10 @@ namespace FiresecClient
         {
             return SafeOperationCall(() => { return _iFiresecService.CheckHaspPresence(); });
         }
-    }
+
+		public IEnumerable<SkudEmployee> GetEmployees()
+		{
+			return SafeContext.Execute<IEnumerable<SkudEmployee>>(() => _iFiresecService.GetEmployees());
+		}
+	}
 }

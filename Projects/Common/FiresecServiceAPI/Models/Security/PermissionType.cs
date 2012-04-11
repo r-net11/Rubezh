@@ -22,6 +22,9 @@ namespace FiresecAPI.Models
         [DescriptionAttribute("АДМ: Управление правами пользователей")]
         Adm_Security = 9,
 
+		[DescriptionAttribute("АДМ: СКУД")]
+		Adm_SKUD = 21,
+
         [DescriptionAttribute("ОЗ: Включение автоматики")]
         Oper_AutoOn = 20,
 

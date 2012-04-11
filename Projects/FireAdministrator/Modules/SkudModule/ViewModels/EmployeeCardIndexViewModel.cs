@@ -29,7 +29,13 @@ namespace SkudModule.ViewModels
 
 		public void Initialize()
 		{
-			// loading...
+			var list = FiresecManager.GetEmployees();
+			if (list != null)
+				foreach (var employee in list)
+					EmployeeCardIndex.Add(new EmployeeCardViewModel(employee));
+
+			if (EmployeeCardIndex.Count > 0)
+				SelectedEmployeeCard = EmployeeCardIndex[0];
 		}
 
 		public override void OnShow()

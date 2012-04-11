@@ -184,6 +184,7 @@
     <Compile Include="Processor\ConfigurationFileManager.cs" />
     <Compile Include="Processor\JournalFilterHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
+    <Compile Include="Service\FiresecService.SKUD.cs" />
     <Compile Include="Service\FiresecCallbackServiceCreator.cs" />
     <Compile Include="Service\FiresecService.Configuration.cs" />
     <Compile Include="Service\FiresecService.cs" />
@@ -362,6 +363,10 @@
     <ProjectReference Include="..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecService.SKUD\FiresecService.SKUD.csproj">
+      <Project>{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}</Project>
+      <Name>FiresecService.SKUD</Name>
     </ProjectReference>
     <ProjectReference Include="..\Firesec\Firesec.csproj">
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>

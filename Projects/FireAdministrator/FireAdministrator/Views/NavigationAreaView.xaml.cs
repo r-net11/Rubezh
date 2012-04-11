@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Events;
 using System.Configuration;
+using FiresecClient;
+using FiresecAPI.Models;
 
 namespace FireAdministrator.Views
 {
@@ -349,6 +352,11 @@ namespace FireAdministrator.Views
 					ServiceFactory.Events.GetEvent<ShowSkudEvent>().Publish(null);
 				OnPropertyChanged("IsSkudSelected");
 			}
+		}
+
+		public bool HaveSkudPermissions
+		{
+            get { return FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_SKUD); }
 		}
 
 		bool _isEmployeeCardIndexSelected;

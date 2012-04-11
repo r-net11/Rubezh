@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using FiresecAPI;
+using FiresecAPI.Models.Skud;
+using Common;
 
 namespace FiresecService
 {
@@ -663,5 +665,10 @@ namespace FiresecService
                 return null;
             }
         }
+
+		public IEnumerable<SkudEmployee> GetEmployees()
+		{
+			return SafeContext.Execute<IEnumerable<SkudEmployee>>(() => FiresecService.GetEmployees());
+		}
     }
 }

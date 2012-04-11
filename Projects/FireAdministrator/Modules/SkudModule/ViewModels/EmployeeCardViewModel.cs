@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using FiresecAPI.Models.Skud;
 
 namespace SkudModule.ViewModels
 {
     public class EmployeeCardViewModel : BaseViewModel
     {
-		//public EmployeeCard EmployeeCard { get; private set; }
+		public SkudEmployee EmployeeCard { get; private set; }
 
-		//public CardViewModel(EmployeeCard employeeCard)
-		//{
-		//    EmployeeCard = employeeCard;
-		//}
+		public EmployeeCardViewModel(SkudEmployee employeeCard)
+		{
+		    EmployeeCard = employeeCard;
+		}
 
         public void Update()
         {

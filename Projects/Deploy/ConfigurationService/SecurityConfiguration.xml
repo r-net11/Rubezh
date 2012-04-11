@@ -23,6 +23,7 @@
 				<PermissionType>Oper_ChangeLayout</PermissionType>
 				<PermissionType>Oper_SecurityZone</PermissionType>
 				<PermissionType>Oper_AutoOn</PermissionType>
+				<PermissionType>Adm_SKUD</PermissionType>
 			</Permissions>
 		</UserRole>
 		<UserRole>
@@ -99,6 +100,7 @@
 				<PermissionType>Oper_ChangeLayout</PermissionType>
 				<PermissionType>Oper_SecurityZone</PermissionType>
 				<PermissionType>Oper_AutoOn</PermissionType>
+				<PermissionType>Adm_SKUD</PermissionType>
 			</Permissions>
 			<RoleId>1</RoleId>
 		</User>
