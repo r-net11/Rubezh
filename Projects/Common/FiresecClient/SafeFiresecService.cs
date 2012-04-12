@@ -115,7 +115,7 @@ namespace FiresecClient
             var operationResult = new OperationResult<T>()
             {
                 HasError = true,
-                Error = new Exception("Ошибка при при вызове операции на клиенте")
+                Error = "Ошибка при при вызове операции на клиенте"
             };
             return operationResult;
         }
@@ -145,12 +145,12 @@ namespace FiresecClient
             }
         }
 
-        public string Connect(string clientType, string clientCallbackAddress, string userName, string password)
+        public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string userName, string password)
         {
             return SafeOperationCall(() => { return _iFiresecService.Connect(clientType, clientCallbackAddress, userName, password); });
         }
 
-        public string Reconnect(string userName, string password)
+        public OperationResult<bool> Reconnect(string userName, string password)
         {
             return SafeOperationCall(() => { return _iFiresecService.Reconnect(userName, password); });
         }
@@ -405,7 +405,7 @@ namespace FiresecClient
             return SafeOperationCall(() => { return _iFiresecService.ExecuteCommand(deviceUID, methodName); });
         }
 
-        public OperationResult<string> CheckHaspPresence()
+        public OperationResult<bool> CheckHaspPresence()
         {
             return SafeOperationCall(() => { return _iFiresecService.CheckHaspPresence(); });
         }

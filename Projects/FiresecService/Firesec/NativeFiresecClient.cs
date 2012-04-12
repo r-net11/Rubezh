@@ -83,15 +83,15 @@ namespace Firesec
             return SafeCall<bool>(() => { Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null); return true; });
         }
 
-        public static FiresecOperationResult<string> CheckHaspPresence()
+        public static FiresecOperationResult<bool> CheckHaspPresence()
         {
-            return SafeCall<string>(() =>
+            return SafeCall<bool>(() =>
             {
                 string errorMessage = "";
                 var result = Connectoin.CheckHaspPresence(out errorMessage);
-                if (result)
-                    return null;
-                return errorMessage;
+                if (result != true)
+                    throw new Exception(errorMessage);
+                return result;
             });
         }
 
@@ -203,7 +203,7 @@ namespace Firesec
             }
             catch
             {
-                throw new Exception();
+                throw new Exception("Не удается подключиться к COM серверу Firesec");
             }
             return connectoin;
         }
@@ -261,6 +261,8 @@ namespace Firesec
                 {
                     var result = f();
                     resultData.Result = result;
+                    resultData.HasError = false;
+                    resultData.Error = null;
                     return resultData;
                 }
                 catch (Exception e)

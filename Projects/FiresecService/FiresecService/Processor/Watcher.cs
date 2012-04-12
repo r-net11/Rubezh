@@ -14,7 +14,7 @@ namespace FiresecService
         {
             SetLastEvent();
             FiresecInternalClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
-            FiresecInternalClient.Progress += new FiresecEventAggregator.ProgressDelegate(FiresecInternalClient_Progress);
+            FiresecInternalClient.Progress += new Func<int, string, int, int, bool>(FiresecInternalClient_Progress);
             OnStateChanged();
             OnParametersChanged();
         }

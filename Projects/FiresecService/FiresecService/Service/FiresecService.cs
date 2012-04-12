@@ -35,47 +35,64 @@ namespace FiresecService
 			FiresecServiceUID = Guid.NewGuid();
 		}
 
-		public string Connect(string clientType, string clientCallbackAddress, string login, string password)
+        public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string login, string password)
+        {
+            lock (Locker)
+            {
+                var operationResult = new OperationResult<bool>();
+
+                if (!FiresecManager.IsConnected)
+                {
+                    operationResult.HasError = false;
+                    operationResult.Error = "Нет соединения с ядром Firesec";
+                    return operationResult;
+                }
+                //if (!string.IsNullOrEmpty(FiresecManager.DriversError))
+                //{
+                //    operationResult.HasError = false;
+                //    operationResult.Error = FiresecManager.DriversError;
+                //    return operationResult;
+                //}
+
+                if (CheckLogin(login, password))
+                {
+                    if (CheckRemoteAccessPermissions(login))
+                    {
+                        _clientType = clientType;
+
+                        var connectionViewModel = new ConnectionViewModel()
+                        {
+                            FiresecServiceUID = FiresecServiceUID,
+                            UserName = _userLogin,
+                            IpAddress = _userIpAddress,
+                            ClientType = _clientType
+                        };
+                        MainViewModel.Current.Connections.Add(connectionViewModel);
+
+                        DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
+
+                        Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+                        CallbackManager.Add(this);
+
+                        FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(clientCallbackAddress);
+
+                        operationResult.Result = true;
+                        return operationResult;
+                    }
+                    operationResult.HasError = true;
+                    operationResult.Error = "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + _userIpAddress;
+                    return operationResult;
+                }
+                operationResult.HasError = true;
+                operationResult.Error = "Неверный логин или пароль";
+                return operationResult;
+            }
+        }
+
+        public OperationResult<bool> Reconnect(string login, string password)
 		{
-			lock (Locker)
-			{
-				if (!FiresecManager.IsConnected)
-					return "Нет соединения с ядром Firesec";
-				//if (!string.IsNullOrEmpty(FiresecManager.DriversError))
-				//    return FiresecManager.DriversError;
+            var operationResult = new OperationResult<bool>();
 
-				if (CheckLogin(login, password))
-				{
-					if (CheckRemoteAccessPermissions(login))
-					{
-						_clientType = clientType;
-
-						var connectionViewModel = new ConnectionViewModel()
-						{
-							FiresecServiceUID = FiresecServiceUID,
-							UserName = _userLogin,
-							IpAddress = _userIpAddress,
-							ClientType = _clientType
-						};
-						MainViewModel.Current.Connections.Add(connectionViewModel);
-
-						DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
-
-						Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
-						CallbackManager.Add(this);
-
-						FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(clientCallbackAddress);
-
-						return null;
-					}
-					return "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + _userIpAddress;
-				}
-				return "Неверный логин или пароль";
-			}
-		}
-
-		public string Reconnect(string login, string password)
-		{
 			var oldUserName = _userName;
 			if (CheckLogin(login, password))
 			{
@@ -85,9 +102,12 @@ namespace FiresecService
 				DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал");
 				DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял");
 
-				return null;
+                operationResult.Result = true;
+                return operationResult;
 			}
-			return "Неверный логин или пароль";
+            operationResult.HasError = true;
+            operationResult.Error = "Неверный логин или пароль";
+            return operationResult;
 		}
 
 		[OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.AfterCall)]
@@ -110,7 +130,6 @@ namespace FiresecService
 		public void CancelProgress()
 		{
 			ContinueProgress = false;
-			//ProgressState.ContinueProgress = false;
 		}
 
 		public List<string> GetFileNamesList(string directory)

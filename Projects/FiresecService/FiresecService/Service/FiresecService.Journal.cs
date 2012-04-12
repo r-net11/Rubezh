@@ -20,15 +20,14 @@ namespace FiresecService
                     var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count).Result;
                     if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
                     {
-                        operationResult.Result = new List<JournalRecord>(internalJournal.Journal.Select(x => JournalConverter.Convert(x))
-                        );
+                        operationResult.Result = new List<JournalRecord>(internalJournal.Journal.Select(x => JournalConverter.Convert(x)));
                     }
                 }
             }
             catch (Exception e)
             {
                 operationResult.HasError = true;
-                operationResult.Error = e;
+                operationResult.Error = e.Message.ToString();
             }
             return operationResult;
         }
@@ -47,7 +46,7 @@ namespace FiresecService
             catch (Exception e)
             {
                 operationResult.HasError = true;
-                operationResult.Error = e;
+                operationResult.Error = e.Message.ToString();
             }
             return operationResult;
         }
@@ -70,7 +69,7 @@ namespace FiresecService
             catch (Exception e)
             {
                 operationResult.HasError = true;
-                operationResult.Error = e;
+                operationResult.Error = e.Message.ToString();
             }
             return operationResult;
         }
@@ -87,7 +86,7 @@ namespace FiresecService
             catch (Exception e)
             {
                 operationResult.HasError = true;
-                operationResult.Error = e;
+                operationResult.Error = e.Message.ToString();
             }
             return operationResult;
         }
@@ -102,7 +101,7 @@ namespace FiresecService
             catch (Exception e)
             {
                 operationResult.HasError = true;
-                operationResult.Error = e;
+                operationResult.Error = e.Message.ToString();
             }
             return operationResult;
         }
@@ -120,7 +119,7 @@ namespace FiresecService
             catch (Exception e)
             {
                 operationResult.HasError = true;
-                operationResult.Error = e;
+                operationResult.Error = e.Message.ToString();
             }
             return operationResult;
         }

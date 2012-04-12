@@ -10,12 +10,5 @@ namespace Firesec
             if (NewEventAvaliable != null)
                 NewEventAvaliable(eventMask);
         }
-
-        public static void OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
-        {
-            FiresecProgressClient.ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
-        }
-
-        public delegate bool ProgressDelegate(int stage, string comment, int percentComplete, int bytesRW);
     }
 }

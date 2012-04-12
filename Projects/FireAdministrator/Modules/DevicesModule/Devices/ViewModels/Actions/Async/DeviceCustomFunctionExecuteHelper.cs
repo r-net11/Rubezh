@@ -32,7 +32,9 @@ namespace DevicesModule.ViewModels
                 MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
                 return;
             }
-            MessageBoxService.Show(_operationResult.Result);
+            var result = _operationResult.Result;
+            result = result.Replace("[OK]", "");
+            MessageBoxService.Show(result);
         }
     }
 }

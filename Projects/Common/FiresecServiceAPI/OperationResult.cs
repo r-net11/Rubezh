@@ -18,6 +18,6 @@ namespace FiresecAPI
         public bool HasError { get; set; }
 
         [DataMember]
-        public Exception Error { get; set; }
+        public string Error { get; set; }
     }
 }

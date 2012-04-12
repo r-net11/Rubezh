@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using FiresecAPI.Models;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Diagnostics;
+using FiresecAPI.Models;
 using FiresecService.ViewModels;
-using FiresecAPI;
 
 namespace FiresecService
 {
@@ -67,113 +65,27 @@ namespace FiresecService
 
         public static void OnNewJournalRecord(JournalRecord journalRecord)
         {
-            //SafeCall((x) => { x.Callback.NewJournalRecord(journalRecord); });
             SafeCall((x) => { x.FiresecCallbackService.NewJournalRecord(journalRecord); });
-
-            //lock (FiresecService.Locker)
-            //{
-            //    _failedServiceInstances = new List<FiresecService>();
-            //    foreach (var serviceInstance in _serviceInstances)
-            //    {
-            //        if (serviceInstance.IsSubscribed)
-            //            try
-            //            {
-            //                serviceInstance.Callback.NewJournalRecord(journalRecord);
-            //            }
-            //            catch
-            //            {
-            //                _failedServiceInstances.Add(serviceInstance);
-            //            }
-            //    }
-
-            //    Clean();
-            //}
         }
 
         public static void OnDeviceStatesChanged(List<DeviceState> deviceStates)
         {
             SafeCall((x) => { x.Callback.DeviceStateChanged(deviceStates); });
-
-            //_failedServiceInstances = new List<FiresecService>();
-            //foreach (var serviceInstance in _serviceInstances)
-            //{
-            //    if (serviceInstance.IsSubscribed)
-            //        try
-            //        {
-            //            serviceInstance.Callback.DeviceStateChanged(deviceStates);
-            //        }
-            //        catch
-            //        {
-            //            _failedServiceInstances.Add(serviceInstance);
-            //        }
-            //}
-
-            //Clean();
         }
 
         public static void OnDeviceParametersChanged(List<DeviceState> deviceParameters)
         {
             SafeCall((x) => { x.Callback.DeviceParametersChanged(deviceParameters); });
-
-            //_failedServiceInstances = new List<FiresecService>();
-            //foreach (var serviceInstance in _serviceInstances)
-            //{
-            //    if (serviceInstance.IsSubscribed)
-            //        try
-            //        {
-            //            serviceInstance.Callback.DeviceParametersChanged(deviceParameters);
-            //        }
-            //        catch
-            //        {
-            //            _failedServiceInstances.Add(serviceInstance);
-            //        }
-            //}
-
-            //Clean();
         }
 
         public static void OnZoneStateChanged(ZoneState zoneState)
         {
             SafeCall((x) => { x.Callback.ZoneStateChanged(zoneState); });
-
-            //_failedServiceInstances = new List<FiresecService>();
-
-            //foreach (var serviceInstance in _serviceInstances)
-            //{
-            //    if (serviceInstance.IsSubscribed)
-            //        try
-            //        {
-            //            serviceInstance.Callback.ZoneStateChanged(zoneState);
-            //        }
-            //        catch
-            //        {
-            //            _failedServiceInstances.Add(serviceInstance);
-            //        }
-            //}
-
-            //Clean();
         }
 
         public static void OnConfigurationChanged()
         {
             SafeCall((x) => { x.FiresecCallbackService.ConfigurationChanged(); });
-
-            //_failedServiceInstances = new List<FiresecService>();
-
-            //foreach (var serviceInstance in _serviceInstances)
-            //{
-            //    if (serviceInstance.IsSubscribed)
-            //        try
-            //        {
-            //            serviceInstance.FiresecCallbackService.ConfigurationChanged();
-            //        }
-            //        catch
-            //        {
-            //            _failedServiceInstances.Add(serviceInstance);
-            //        }
-            //}
-
-            //Clean();
         }
 
         public static bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
@@ -187,11 +99,6 @@ namespace FiresecService
                     {
                         var result = serviceInstance.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
                         return result;
-
-                        //if (serviceInstance.ContinueProgress)
-                        //{
-                        //    serviceInstance.ContinueProgress = true;
-                        //}
                     }
                     catch
                     {

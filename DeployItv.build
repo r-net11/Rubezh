@@ -6,8 +6,14 @@
   <target name="run">
     <call target="Compile" />
     <call target="Clean" />
-    <call target="CopyFiles" />
+    <call target="Copy" />
     <call target="CompileItv" />
+  </target>
+
+  <target name="Compile">
+    <msbuild project="Projects\FiresecService\FiresecService.sln">
+      <property name="Configuration" value="Release"/>
+    </msbuild>
   </target>
 
   <target name="Clean">
@@ -17,19 +23,7 @@
     <delete dir="Projects\ITV\RepFileManager\bin" />
   </target>
 
-  <target name="Compile">
-    <msbuild project="Projects\FiresecService\FiresecService.sln">
-      <property name="Configuration" value="Release"/>
-    </msbuild>
-  </target>
-
-  <target name="CompileItv">
-    <msbuild project="Projects\ITV\ItvIntegration.sln">
-      <property name="Configuration" value="Debug"/>
-    </msbuild>
-  </target>
-
-  <target name="CopyFiles">
+  <target name="Copy">
     <copy todir="${intellectFolder}\Server">
       <fileset basedir="Projects\FiresecService\FiresecService\bin\Release">
         <include name="*" />
@@ -71,6 +65,12 @@
         <include name="**\*" />
       </fileset>
     </copy>
+  </target>
+
+  <target name="CompileItv">
+    <msbuild project="Projects\ITV\ItvIntegration.sln">
+      <property name="Configuration" value="Debug"/>
+    </msbuild>
   </target>
 
   <target name="CopyBack">

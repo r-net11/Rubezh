@@ -18,13 +18,13 @@
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
+                            <Image Source="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToIconPathConverter}}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Время" Binding="{Binding Time}" Width="100" />
                 <DataGridTextColumn Header="Источник" Binding="{Binding Source}" Width="100" />
-                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="300" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding Alarm.StateName}" Width="300" />
                 <DataGridTemplateColumn Header="Действия" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -36,7 +36,7 @@
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
-                    <Setter Property="Background" Value="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}" />
+                    <Setter Property="Background" Value="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}" />
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>

@@ -10,6 +10,8 @@ namespace AlarmModule.ViewModels
 {
     public class AlarmViewModel : RegionViewModel
     {
+        public Alarm Alarm { get; set; }
+
         public AlarmViewModel(Alarm alarm)
         {
             Alarm = alarm;
@@ -26,21 +28,9 @@ namespace AlarmModule.ViewModels
             LeaveCommand = new RelayCommand(OnLeave);
         }
 
-        public Alarm Alarm { get; set; }
-
-        public AlarmType AlarmType
-        {
-            get { return Alarm.AlarmType; }
-        }
-
         public string Time
         {
             get { return Alarm.Time.ToString(); }
-        }
-
-        public string Description
-        {
-            get { return Alarm.StateName; }
         }
 
         public string Source

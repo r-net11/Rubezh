@@ -2,6 +2,7 @@
 using Infrastructure.Common;
 using Infrastructure.Events;
 using ReportsModule.ViewModels;
+using FiresecAPI.Models;
 
 namespace ReportsModule
 {
@@ -30,6 +31,8 @@ namespace ReportsModule
         static void CreateViewModels()
         {
             ReportsViewModel = new ReportsViewModel();
+
+            //ReportsViewModel.SelectedReportName = ReportType.ReportDevicesList;
         }
 
         static void OnShowReports(object obj)

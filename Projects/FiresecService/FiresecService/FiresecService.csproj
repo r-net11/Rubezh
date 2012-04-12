@@ -184,6 +184,7 @@
     <Compile Include="Processor\ConfigurationFileManager.cs" />
     <Compile Include="Processor\JournalFilterHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
+    <Compile Include="Service\FiresecOperationExtentions.cs" />
     <Compile Include="Service\FiresecService.SKUD.cs" />
     <Compile Include="Service\FiresecCallbackServiceCreator.cs" />
     <Compile Include="Service\FiresecService.Configuration.cs" />
@@ -194,9 +195,6 @@
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="Imitator\ViewModels\DeviceViewModel.cs" />
-    <Compile Include="Service\WindowsService.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">

@@ -101,6 +101,12 @@
                                     <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
                                         Visibility="{Binding Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                     <TextBlock Text="{Binding Device.Driver.ShortName}">
+                                        <TextBlock.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
+                                                <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
+                                            </ContextMenu>
+                                        </TextBlock.ContextMenu>
                                         <TextBlock.Style>
                                             <Style>
                                                 <Style.Triggers>

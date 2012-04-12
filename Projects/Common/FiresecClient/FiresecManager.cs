@@ -19,10 +19,10 @@ namespace FiresecClient
 
             FiresecService = new SafeFiresecService(FiresecServiceFactory.Create(serverAddress));
 
-            string result = FiresecService.Connect(clientType, clientCallbackAddress, login, password);
-            if (result != null)
+            var operationResult = FiresecService.Connect(clientType, clientCallbackAddress, login, password);
+            if (operationResult.HasError)
             {
-                return result;
+                return operationResult.Error;
             }
 
             _userLogin = login;
@@ -32,10 +32,10 @@ namespace FiresecClient
 
         public static string Reconnect(string login, string password)
         {
-            string result = FiresecService.Reconnect(login, password);
-            if (result != null)
+            var operationResult = FiresecService.Reconnect(login, password);
+            if (operationResult.HasError)
             {
-                return result;
+                return operationResult.Error;
             }
 
             _userLogin = login;

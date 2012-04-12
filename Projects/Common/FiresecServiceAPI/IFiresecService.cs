@@ -8,186 +8,188 @@ using FiresecAPI.Models.Skud;
 
 namespace FiresecAPI
 {
-    [ServiceContract(CallbackContract = typeof(IFiresecCallback), SessionMode = SessionMode.Required)]
-    public interface IFiresecService : IFiresecServiceSKUD
-    {
-        #region Service
-        [OperationContract(IsInitiating = true)]
-        string Connect(string clientType, string clientCallbackAddress, string userName, string password);
+	[ServiceContract(CallbackContract = typeof(IFiresecCallback), SessionMode = SessionMode.Required)]
+	public interface IFiresecService : IFiresecServiceSKUD
+	{
+		#region Service
+		[OperationContract(IsInitiating = true)]
+		OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string userName, string password);
 
-        [OperationContract]
-        string Reconnect(string userName, string password);
+		[OperationContract]
+		OperationResult<bool> Reconnect(string userName, string password);
 
-        [OperationContract(IsTerminating = true, IsOneWay = true)]
-        void Disconnect();
+		[OperationContract(IsTerminating = true, IsOneWay = true)]
+		void Disconnect();
 
-        [OperationContract(IsOneWay = true)]
-        void Subscribe();
+		[OperationContract(IsOneWay = true)]
+		void Subscribe();
 
-        [OperationContract(IsOneWay = true)]
-        void CancelProgress();
-        #endregion
+		[OperationContract(IsOneWay = true)]
+		void CancelProgress();
 
-        [OperationContract]
-        List<Driver> GetDrivers();
+		[OperationContract]
+		string Ping();
 
-        [OperationContract]
-        DeviceConfiguration GetDeviceConfiguration();
+		[OperationContract]
+		[FaultContract(typeof(FiresecException))]
+		string Test();
+		#endregion
 
-        [OperationContract]
-        OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration);
+		#region Configuration
+		[OperationContract]
+		List<Driver> GetDrivers();
 
-        [OperationContract]
-        OperationResult<bool> DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+		[OperationContract]
+		DeviceConfiguration GetDeviceConfiguration();
 
-        [OperationContract]
-        OperationResult<bool> DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration);
+		[OperationContract]
+		SystemConfiguration GetSystemConfiguration();
 
-        [OperationContract]
-        OperationResult<bool> DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password);
+		[OperationContract]
+		void SetSystemConfiguration(SystemConfiguration systemConfiguration);
 
-        [OperationContract]
-        OperationResult<bool> DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+		[OperationContract]
+		LibraryConfiguration GetLibraryConfiguration();
 
-        [OperationContract]
-        OperationResult<string> DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+		[OperationContract]
+		void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration);
 
-        [OperationContract]
-        OperationResult<List<string>> DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+		[OperationContract]
+		PlansConfiguration GetPlansConfiguration();
 
-        [OperationContract]
-        OperationResult<string> DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName);
+		[OperationContract]
+		void SetPlansConfiguration(PlansConfiguration plansConfiguration);
 
-        [OperationContract]
-        OperationResult<string> DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName);
+		[OperationContract]
+		SecurityConfiguration GetSecurityConfiguration();
 
-        [OperationContract]
-        OperationResult<string> DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+		[OperationContract]
+		void SetSecurityConfiguration(SecurityConfiguration securityConfiguration);
 
-        [OperationContract]
-        OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch);
+		[OperationContract]
+		DeviceConfigurationStates GetStates();
+		#endregion
 
-        [OperationContract]
-        OperationResult<DeviceConfiguration> DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+		#region Devices
+		[OperationContract]
+		OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration);
 
-        [OperationContract]
-        OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(Guid driverUID);
+		[OperationContract]
+		OperationResult<bool> DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
-        [OperationContract]
-        OperationResult<string> DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName);
+		[OperationContract]
+		OperationResult<bool> DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration);
 
-        [OperationContract]
-        OperationResult<string> DeviceGetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+		[OperationContract]
+		OperationResult<bool> DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password);
 
-        [OperationContract]
-        OperationResult<bool> DeviceSetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID, string users);
+		[OperationContract]
+		OperationResult<bool> DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
-        [OperationContract]
-        OperationResult<string> DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID);
+		[OperationContract]
+		OperationResult<string> DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
-        [OperationContract]
-        SystemConfiguration GetSystemConfiguration();
+		[OperationContract]
+		OperationResult<List<string>> DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
-        [OperationContract]
-        void SetSystemConfiguration(SystemConfiguration systemConfiguration);
+		[OperationContract]
+		OperationResult<string> DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName);
 
-        [OperationContract]
-        LibraryConfiguration GetLibraryConfiguration();
+		[OperationContract]
+		OperationResult<string> DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName);
 
-        [OperationContract]
-        void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration);
+		[OperationContract]
+		OperationResult<string> DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
-        [OperationContract]
-        PlansConfiguration GetPlansConfiguration();
+		[OperationContract]
+		OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch);
 
-        [OperationContract]
-        void SetPlansConfiguration(PlansConfiguration plansConfiguration);
+		[OperationContract]
+		OperationResult<DeviceConfiguration> DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
-        [OperationContract]
-        SecurityConfiguration GetSecurityConfiguration();
+		[OperationContract]
+		OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(Guid driverUID);
 
-        [OperationContract]
-        void SetSecurityConfiguration(SecurityConfiguration securityConfiguration);
+		[OperationContract]
+		OperationResult<string> DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName);
 
-        [OperationContract]
-        DeviceConfigurationStates GetStates();
+		[OperationContract]
+		OperationResult<string> DeviceGetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
-        [OperationContract()]
-        OperationResult<bool> AddToIgnoreList(List<Guid> deviceUIDs);
+		[OperationContract]
+		OperationResult<bool> DeviceSetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID, string users);
 
-        [OperationContract()]
-        OperationResult<bool> RemoveFromIgnoreList(List<Guid> deviceUIDs);
+		[OperationContract]
+		OperationResult<string> DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
-        [OperationContract()]
-        OperationResult<bool> ResetStates(List<ResetItem> resetItems);
+		[OperationContract()]
+		OperationResult<bool> AddToIgnoreList(List<Guid> deviceUIDs);
 
-        [OperationContract]
-        OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName);
+		[OperationContract()]
+		OperationResult<bool> RemoveFromIgnoreList(List<Guid> deviceUIDs);
 
-        [OperationContract]
-        OperationResult<string> CheckHaspPresence();
+		[OperationContract()]
+		OperationResult<bool> ResetStates(List<ResetItem> resetItems);
 
-        #region Journal
-        [OperationContract]
-        OperationResult<List<JournalRecord>> ReadJournal(int startIndex, int count);
+		[OperationContract]
+		OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName);
 
-        [OperationContract]
-        OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter);
+		[OperationContract]
+		OperationResult<bool> CheckHaspPresence();
+		#endregion
 
-        [OperationContract]
-        OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter);
+		#region Journal
+		[OperationContract]
+		OperationResult<List<JournalRecord>> ReadJournal(int startIndex, int count);
 
-        [OperationContract]
-        OperationResult<List<JournalRecord>> GetDistinctRecords();
+		[OperationContract]
+		OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter);
 
-        [OperationContract]
-        OperationResult<DateTime> GetArchiveStartDate();
+		[OperationContract]
+		OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter);
 
-        [OperationContract()]
-        OperationResult<bool> AddUserMessage(string message);
+		[OperationContract]
+		OperationResult<List<JournalRecord>> GetDistinctRecords();
 
-        [OperationContract()]
-        OperationResult<bool> AddJournalRecord(JournalRecord journalRecord);
-        #endregion
+		[OperationContract]
+		OperationResult<DateTime> GetArchiveStartDate();
 
-        #region Files
-        [OperationContract]
-        List<string> GetFileNamesList(string directory);
+		[OperationContract()]
+		OperationResult<bool> AddUserMessage(string message);
 
-        [OperationContract]
-        Dictionary<string, string> GetDirectoryHash(string directory);
+		[OperationContract()]
+		OperationResult<bool> AddJournalRecord(JournalRecord journalRecord);
+		#endregion
 
-        [OperationContract]
-        Stream GetFile(string dirAndFileName);
-        #endregion
+		#region Files
+		[OperationContract]
+		List<string> GetFileNamesList(string directory);
 
-        #region Convertation
-        [OperationContract]
-        void ConvertConfiguration();
+		[OperationContract]
+		Dictionary<string, string> GetDirectoryHash(string directory);
 
-        [OperationContract]
-        void ConvertJournal();
-        #endregion
+		[OperationContract]
+		Stream GetFile(string dirAndFileName);
+		#endregion
 
-        #region misc
-        [OperationContract]
-        string Ping();
+		#region Convertation
+		[OperationContract]
+		void ConvertConfiguration();
 
-        [OperationContract]
-        [FaultContract(typeof(FiresecException))]
-        string Test();
-        #endregion
+		[OperationContract]
+		void ConvertJournal();
+		#endregion
 
-        #region XSystem
-        [OperationContract]
-        void SetXDeviceConfiguration(XDeviceConfiguration xDeviceConfiguration);
+		#region XSystem
+		[OperationContract]
+		void SetXDeviceConfiguration(XDeviceConfiguration xDeviceConfiguration);
 
-        [OperationContract]
-        XDeviceConfiguration GetXDeviceConfiguration();
-        #endregion
+		[OperationContract]
+		XDeviceConfiguration GetXDeviceConfiguration();
+		#endregion
 	}
 
-    public class FiresecException : Exception
-    {
-    }
+	public class FiresecException : Exception
+	{
+	}
 }

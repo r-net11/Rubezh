@@ -2,27 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Converters;
-using Firesec;
-using FiresecAPI;
 
 namespace FiresecService
 {
-    public static class ResultDataExtentions
-    {
-        public static OperationResult<T> ToOperationResult<T>(this FiresecOperationResult<T> resultData)
-        {
-            var operationResult = new OperationResult<T>()
-            {
-                Result = resultData.Result,
-                HasError = resultData.HasError,
-                Error = resultData.Error,
-            };
-            return operationResult;
-        }
-    }
-
     public partial class FiresecService
     {
         void NotifyConfigurationChanged()
@@ -65,13 +50,13 @@ namespace FiresecService
                 {
                     result = FiresecInternalClient.DeviceWriteConfig(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree).ToOperationResult();
                     if (result.HasError)
+                    {
                         return result;
-                    System.Threading.Thread.Sleep(1000);
+                    }
                 }
             }
 
             NotifyConfigurationChanged();
-
             return result;
         }
 
@@ -100,7 +85,7 @@ namespace FiresecService
         {
             ConfigurationConverter.ConvertBack(deviceConfiguration, false);
             var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-            var result = FiresecInternalClient.DeviceGetSerialList(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree);
+            var result = FiresecInternalClient.DeviceGetSerialList(ConfigurationConverter.FiresecConfiguration, device.PlaceInTree).ToOperationResult();
 
             var operationResult = new OperationResult<List<string>>()
             {
@@ -166,7 +151,7 @@ namespace FiresecService
             var operationResult = new OperationResult<DeviceConfiguration>()
             {
                 HasError = result.HasError,
-                Error = result.Error
+                Error = result.ErrorString
             };
 
             ConfigurationConverter.DeviceConfiguration = new DeviceConfiguration();
@@ -186,7 +171,7 @@ namespace FiresecService
             var operationResult = new OperationResult<DeviceConfiguration>()
             {
                 HasError = result.HasError,
-                Error = result.Error
+                Error = result.ErrorString
             };
 
             ConfigurationConverter.DeviceConfiguration = new DeviceConfiguration();
@@ -204,7 +189,7 @@ namespace FiresecService
             var operationResult = new OperationResult<List<DeviceCustomFunction>>()
             {
                 HasError = result.HasError,
-                Error = result.Error
+                Error = result.ErrorString
             };
 
             operationResult.Result = DeviceCustomFunctionConverter.Convert(result.Result);
@@ -285,12 +270,12 @@ namespace FiresecService
             {
                 Result = false,
                 HasError = true,
-                Error = new Exception("Не найдено устройство по идентификатору")
+                Error = "Не найдено устройство по идентификатору"
             };
             return operationResult;
         }
 
-        public OperationResult<string> CheckHaspPresence()
+        public OperationResult<bool> CheckHaspPresence()
         {
             return FiresecInternalClient.CheckHaspPresence().ToOperationResult();
         }

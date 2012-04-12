@@ -4,6 +4,7 @@ using System.Linq;
 using Firesec.Metadata;
 using FiresecAPI.Models;
 using Controls.MessageBox;
+using Common;
 
 namespace FiresecService.Converters
 {
@@ -195,7 +196,7 @@ namespace FiresecService.Converters
             }
             catch (Exception e)
             {
-                ;
+                Logger.Error(e);
             }
 
             driver.AvaliableChildren = new List<Guid>(

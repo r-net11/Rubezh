@@ -45,7 +45,7 @@ namespace AlarmModule.ViewModels
         {
             get
             {
-                return Alarms.Any(x => x.AlarmType != AlarmType.Off);
+                return Alarms.Any(x => x.Alarm.AlarmType != AlarmType.Off);
             }
         }
 
@@ -79,7 +79,7 @@ namespace AlarmModule.ViewModels
 
         public bool CanRemoveAllFromIgnoreList()
         {
-            return Alarms.Any(x => x.AlarmType == AlarmType.Off);
+            return Alarms.Any(x => x.Alarm.AlarmType == AlarmType.Off);
         }
 
         public RelayCommand RemoveAllFromIgnoreListCommand { get; private set; }
@@ -88,7 +88,7 @@ namespace AlarmModule.ViewModels
             var deviceUIDs = new List<Guid>();
             foreach (var alarmViewModel in Alarms)
             {
-                if (alarmViewModel.AlarmType == AlarmType.Off)
+                if (alarmViewModel.Alarm.AlarmType == AlarmType.Off)
                 {
                     var deviceUID = alarmViewModel.Alarm.DeviceUID;
                     var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
@@ -121,7 +121,7 @@ namespace AlarmModule.ViewModels
 
         void OnMoveAlarmToEnd(AlarmViewModel alarmViewModel)
         {
-            int oldIndex = Alarms.IndexOf(Alarms.FirstOrDefault(x => x.Description == alarmViewModel.Description));
+            int oldIndex = Alarms.IndexOf(Alarms.FirstOrDefault(x => x.Alarm.StateName == alarmViewModel.Alarm.StateName));
             Alarms.Move(oldIndex, Alarms.Count - 1);
         }
     }

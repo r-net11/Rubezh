@@ -9,28 +9,22 @@ namespace Firesec
             FiresecEventAggregator.OnNewEventAvaliable(EventMask);
         }
 
-        public static bool ContinueProgress = true;
+        public static int IntContinueProgress = 1;
 
         public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
         {
             try
             {
-                FiresecEventAggregator.OnProgress(Stage, Comment, PercentComplete, BytesRW);
-                var result = ContinueProgress;
-                ContinueProgress = true;
-                Trace.WriteLine("OnProgress: " + result.ToString());
-                return result;
+                var continueProgress = IntContinueProgress == 1;
+                IntContinueProgress = 1;
+                ProgressHelper.ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
+                return continueProgress;
             }
             catch (Exception e)
             {
+                Trace.WriteLine("OnProgress: Exception");
                 return false;
             }
-
         }
     }
-
-    //public static class ProgressState
-    //{
-    //    public static bool ContinueProgress;
-    //}
 }

@@ -144,11 +144,12 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="FiresecProgressClient.cs" />
+    <Compile Include="ProgressHelper.cs" />
     <Compile Include="FiresecEventAggregator.cs" />
     <Compile Include="FiresecOperationResult.cs" />
     <Compile Include="NativeFiresecClient.cs" />
     <Compile Include="NotificationCallBack.cs" />
+    <Compile Include="ProgressData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

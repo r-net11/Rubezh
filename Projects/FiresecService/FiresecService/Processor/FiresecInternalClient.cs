@@ -13,7 +13,7 @@ namespace FiresecService
             if (result.Result)
             {
                 FiresecEventAggregator.NewEventAvaliable += new Action<int>(NewEventsAvailable);
-                FiresecProgressClient.Progress += new FiresecEventAggregator.ProgressDelegate(FiresecEventAggregator_Progress);
+                ProgressHelper.Progress += new Func<int, string, int, int, bool>(FiresecEventAggregator_Progress);
             }
             return result;
         }
@@ -79,7 +79,7 @@ namespace FiresecService
             return NativeFiresecClient.ExecuteCommand(devicePath, methodName);
         }
 
-        public static FiresecOperationResult<string> CheckHaspPresence()
+        public static FiresecOperationResult<bool> CheckHaspPresence()
         {
             return NativeFiresecClient.CheckHaspPresence();
         }
@@ -196,6 +196,7 @@ namespace FiresecService
         }
 
         public static event Action<int> NewEvent;
-        public static event FiresecEventAggregator.ProgressDelegate Progress;
+        //public static event FiresecEventAggregator.ProgressDelegate Progress;
+        public static event Func<int, string, int, int, bool> Progress;
     }
 }

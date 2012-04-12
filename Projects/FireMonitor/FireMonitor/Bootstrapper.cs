@@ -19,7 +19,7 @@ namespace FireMonitor
     {
         public void Initialize()
         {
-            InitializeAppSettings();
+            AppConfigHelper.InitializeAppSettings();
             if (!SingleLaunchHelper.Check("FireMonitor"))
             {
                 Application.Current.Shutdown();
@@ -47,6 +47,12 @@ namespace FireMonitor
                 preLoadWindow.Show();
                 FiresecManager.GetConfiguration();
                 FiresecManager.GetStates();
+
+                var operationResult = FiresecManager.FiresecService.CheckHaspPresence();
+                if (operationResult.HasError)
+                {
+                    //MessageBoxService.ShowWarning(operationResult.Error);
+                }
 
                 if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Login))
                 {
@@ -127,19 +133,6 @@ namespace FireMonitor
             PlansModule.PlansModuleLoader.Initialize();
 
             ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
-        }
-
-        static void InitializeAppSettings()
-        {
-            var appSettings = new AppSettings();
-            appSettings.ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
-            appSettings.DefaultLogin = ConfigurationManager.AppSettings["DefaultLogin"] as string;
-            appSettings.DefaultPassword = ConfigurationManager.AppSettings["DefaultPassword"] as string;
-            appSettings.AutoConnect = Convert.ToBoolean(ConfigurationManager.AppSettings["AutoConnect"] as string);
-            appSettings.LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
-            appSettings.ShowOnlyVideo = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowOnlyVideo"] as string);
-            appSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
-            ServiceFactory.AppSettings = appSettings;
         }
     }
 }
