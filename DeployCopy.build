@@ -45,26 +45,16 @@
         <include name="**\*" />
       </fileset>
     </copy>  
-	<copy todir="Projects\FireMonitor\FireMonitor\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
+	<copy todir="Projects\FiresecService\FiresecService\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="Projects\Deploy\SqlCE">
         <include name="**\*" />
       </fileset>	  
     </copy>  
-	<copy todir="Projects\FireMonitor\FireMonitor\bin\Release" includeemptydirs="true" overwrite="true" verbose="true">
+	<copy todir="Projects\FiresecService\FiresecService\bin\Release" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="Projects\Deploy\SqlCE">
         <include name="**\*" />
       </fileset>	  
-    </copy> 
-	<copy todir="Projects\FireAdministrator\FireAdministrator\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="Projects\Deploy\SqlCE">
-        <include name="**\*" />
-      </fileset>	  
-    </copy>  
-	<copy todir="Projects\FireAdministrator\FireAdministrator\bin\Release" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="Projects\Deploy\SqlCE">
-        <include name="**\*" />
-      </fileset>	  
-    </copy> 
+    </copy> 	
 	<copy todir="Projects\FireMonitor\FireMonitor\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">      
 	  <fileset basedir="Projects\Deploy\Manual">
         <include name="**\*" />

@@ -102,9 +102,14 @@ Patch dialog sequence:
         SETUPCHOICE = "Client"
       </Publish>
       <Publish Dialog="ShortcutsDlg" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-      <Publish Dialog="ShortcutsDlg" Control="Next" Event="NewDialog" Value="SQLLogin">1</Publish>
+      <Publish Dialog="ShortcutsDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
 
-      <Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="SQLLogin">
+      <Publish Dialog="SQLLogin" Control="Back" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
+      <Publish Dialog="SQLLogin" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
+      <Publish Dialog="SQLLogin" Control="Next" Property="SQLINSTANCE" Value="[SQLINSTANCE]">1</Publish>
+      <Publish Dialog="SQLLogin" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+
+      <Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="ShortcutsDlg">
         NOT Installed
       </Publish>
       <Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="CustomizeDialog" Order="1">
@@ -113,12 +118,6 @@ Patch dialog sequence:
       <Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="MaintenanceTypeDialog" Order="2">
         WixUI_InstallMode = "Repair" OR WixUI_InstallMode = "Remove"
       </Publish>
-
-
-      <Publish Dialog="SQLLogin" Control="Back" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
-      <Publish Dialog="SQLLogin" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
-      <Publish Dialog="SQLLogin" Control="Next" Property="SQLINSTANCE" Value="[SQLINSTANCE]">1</Publish>
-      <Publish Dialog="SQLLogin" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
       <Publish Dialog="MaintenanceWelcomeDialog" Control="Next" Event="NewDialog" Value="MaintenanceTypeDialog">1</Publish>
 

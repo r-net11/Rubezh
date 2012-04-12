@@ -30,9 +30,12 @@
 			<ComponentRef Id="FAFiltersModuleComponent" />
 			<ComponentRef Id="FAGroupControllerModuleComponent" />
 			<ComponentRef Id="FAVideoModuleComponent"/>
+			<ComponentRef Id="FASkudModuleComponent"/>
+      <ComponentRef Id="FAManualComponent"/>
 			<ComponentRef Id="FAVlcCoreComponent"/>
 			<ComponentRef Id="FAVlcFormsComponent"/>
 			<ComponentRef Id="FAVlcInteropsComponent"/>
+			<ComponentRef Id="FANLogComponent"/>
 			<ComponentRef Id="FAU2UConsult"/>
 			<ComponentRef Id="FAProgramsMenuShortcut" />
 			<ComponentRef Id="FADesktopShortcut" />

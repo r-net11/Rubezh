@@ -13,6 +13,16 @@
 			<ComponentRef Id="InfrastructureCommonComponent"/>
 			<ComponentRef Id="FSVlcCoreComponent"/>
 			<ComponentRef Id="FSVlcFormsComponent"/>
+			<ComponentRef Id="FSVlcDotNetCoreInteropsComponent"/>
+      <ComponentRef Id="FSSqlceca35Component"/>
+      <ComponentRef Id="FSsqlcecompact35Component"/>
+      <ComponentRef Id="FSsqlceer35ENComponent"/>
+      <ComponentRef Id="FSsqlceme35Component"/>
+      <ComponentRef Id="FSsqlceoledb35Component"/>
+      <ComponentRef Id="FSsqlceqp35Component"/>
+      <ComponentRef Id="FSsqlcese35Component"/>
+      <ComponentRef Id="FSNLogComponent"/>
+      <ComponentRef Id="FSFiresecSDFComponent" />
 			<ComponentRef Id="TrayComponent"/>
 			<ComponentRef Id="SecurityConfiguration"/>
 			<ComponentRef Id="DeviceLibrary"/>

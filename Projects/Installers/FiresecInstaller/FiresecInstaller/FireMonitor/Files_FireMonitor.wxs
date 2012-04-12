@@ -123,6 +123,14 @@
 				<File Id="FMVlcInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
+			<Component Id="FMNLogComponent" Guid="3CA07C87-5915-4601-A02D-BFCAAD13EFB5">
+				<File Id="FMNLogDll" Name="NLog.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+			</Component>
+      <Component Id="FMManualComponent" Guid="09AA6FCD-042A-4F74-B7EF-4D4B5231A203">
+        <File Id="FMManualPDF" Name="Manual.pdf" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+      </Component>
 
 		</DirectoryRef>
 	</Fragment>

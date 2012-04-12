@@ -6,6 +6,7 @@ using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using System.Windows.Media.Animation;
 
 namespace FireMonitor.Views
 {
@@ -15,12 +16,14 @@ namespace FireMonitor.Views
         {
             InitializeComponent();
             DataContext = this;
-
+            
             FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChanged);
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChanged);
             PlaySoundCommand = new RelayCommand(OnPlaySound);
             CurrentStateType = StateType.No;
             IsSoundOn = true;
+            IsEnabled = false;
+            OnDeviceStateChanged(Guid.Empty);
         }
 
         public StateType CurrentStateType { get; private set; }
@@ -44,16 +47,19 @@ namespace FireMonitor.Views
         public void OnDeviceStateChanged(Guid deviceUID)
         {
             var minState = StateType.No;
+
             foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
-            {
                 if (deviceState.StateType < minState)
                     minState = deviceState.StateType;
-            }
 
             if (CurrentStateType != minState)
                 CurrentStateType = minState;
 
             IsSoundOn = true;
+            if (minState == StateType.Norm)
+                IsEnabled = false;
+            else
+                IsEnabled = true;
             StopPlayAlarm();
             PlayAlarm();
         }
@@ -79,7 +85,7 @@ namespace FireMonitor.Views
         {
             AlarmPlayerHelper.Stop();
         }
-
+        
         public RelayCommand PlaySoundCommand { get; private set; }
         void OnPlaySound()
         {

@@ -121,6 +121,21 @@
         <File Id="FAVlcInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
+
+      <Component Id="FANLogComponent" Guid="77C3A59F-464F-4052-9A62-7DDB917DBDD6">
+        <File Id="FANLogDll" Name="NLog.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+
+      <Component Id="FASkudModuleComponent" Guid="05A9A5F1-AB12-4685-A070-F165F1F0B82A">
+        <File Id="FASkudModuleDll" Name="SkudModule.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+
+      <Component Id="FAManualComponent" Guid="4A21BBFD-9D0D-4AC7-A89F-80759B5FFFC5">
+        <File Id="FAManualPDF" Name="Manual.pdf" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="FireAdmXslFilesFolder">

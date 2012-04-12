@@ -58,8 +58,59 @@
         <File Id="FSVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
+      
       <Component Id="FSVlcFormsComponent" Guid="5802377C-0409-4396-A23F-4F67D88E1431">
         <File Id="FSVlcFormsDll" Name="Vlc.DotNet.Forms.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+
+      <Component Id="FSVlcDotNetCoreInteropsComponent" Guid="A7042B94-3407-47A2-B557-9D1E9BDBA7A9">
+        <File Id="FSVlcDotNetCoreInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+
+      <Component Id="FSSqlceca35Component" Guid="F3B89EC9-C3D4-4EE9-A3F3-D3554AB3E58E">
+        <File Id="FSSqlceca35Dll" Name="sqlceca35.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="FSsqlcecompact35Component" Guid="DDCBFC7A-476E-482A-AF4C-BDCF8C8F608B">
+        <File Id="FSsqlcecompact35Dll" Name="sqlcecompact35.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="FSsqlceer35ENComponent" Guid="0FBE58F0-8452-4E81-B813-A23B59283BED">
+        <File Id="FSsqlceer35ENDll" Name="sqlceer35EN.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="FSsqlceme35Component" Guid="374DC288-9514-4716-AB06-305D82319902">
+        <File Id="FSsqlceme35Dll" Name="sqlceme35.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="FSsqlceoledb35Component" Guid="3BF9A184-C1FF-4C54-AA62-58733B9FF1A0">
+        <File Id="FSsqlceoledb35Dll" Name="sqlceoledb35.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="FSsqlceqp35Component" Guid="804D79C7-F3EA-4D2D-A6A3-E8201BBB16F0">
+        <File Id="FSsqlceqp35Dll" Name="sqlceqp35.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="FSsqlcese35Component" Guid="D0F9A8B6-9DD6-4886-ACBD-34DF2801301E">
+        <File Id="FSsqlcese35Dll" Name="sqlcese35.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+
+      <Component Id="FSNLogComponent" Guid="80F88C62-81BB-4635-A7B3-801A92048A0E">
+        <File Id="FSNLogDll" Name="NLog.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+
+      <Component Id="FSFiresecSDFComponent" Guid="496BE66A-EF29-4076-83BD-CEC3EA2C67A9">
+        <File Id="FSFiresecSDF" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\"
               DiskId="1" KeyPath="yes" />
       </Component>
 
@@ -76,7 +127,6 @@
               DiskId="1" KeyPath="yes">
         </File>
       </Component>
-      
       <Component Id="DeviceLibrary" Guid="DF7CB00D-27E6-49CA-9CCE-B7B822C14B4A">
         <File Id="DeviceLibrary" Name="DeviceLibrary.xml" Source="$(var.FiresecService.TargetDir)Configuration\"
               DiskId="1" KeyPath="yes">

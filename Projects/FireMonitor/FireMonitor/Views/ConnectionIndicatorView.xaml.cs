@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Windows.Media.Animation;
 
 namespace FireMonitor.Views
 {
@@ -25,6 +26,8 @@ namespace FireMonitor.Views
             OnDeviceStateChangedEvent(Guid.Empty);
             FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChangedEvent);
             FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
+
+            BeginAnimation();
         }
 
         void OnDeviceStateChangedEvent(Guid deviceUID)
@@ -69,6 +72,18 @@ namespace FireMonitor.Views
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void BeginAnimation()
+        {
+            var animation = new ObjectAnimationUsingKeyFrames();
+            animation.Duration = TimeSpan.FromSeconds(1.5);
+            animation.RepeatBehavior = RepeatBehavior.Forever;
+            animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Visible, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.0))));
+            animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Hidden, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0.5))));
+            animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Visible, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1.0))));
+            animation.KeyFrames.Add(new DiscreteObjectKeyFrame(System.Windows.Visibility.Hidden, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(1.5))));
+            _serviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, animation);
         }
     }
 }

@@ -29,6 +29,8 @@
 			<ComponentRef Id="FMVlcCoreComponent"/>
 			<ComponentRef Id="FMVlcFormsComponent"/>
 			<ComponentRef Id="FMVlcInteropsComponent"/>
+			<ComponentRef Id="FMNLogComponent"/>
+      <ComponentRef Id="FMManualComponent"/>
 			<ComponentRef Id="FMProgramsMenuShortcut" />
 			<ComponentRef Id="FMDesktopShortcut" />
 			<ComponentGroupRef Id="FireMonReportTemplatesFolder"/>

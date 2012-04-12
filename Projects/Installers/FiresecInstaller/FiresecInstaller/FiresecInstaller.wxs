@@ -44,10 +44,11 @@
             <Directory Id="FireAdmConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FireAdmIconsFolder" Name="$(var.IconsFolder)" />
               <Directory Id="FireAdmSoundsFolder" Name="$(var.SoundsFolder)" />
+              <Directory Id="FireAdmXslFilesFolder" Name="$(var.XslFilesFolder)">
+                <Directory Id="FireAdmXaml2svgFolder" Name="$(var.xaml2svgFolder)" />
+              </Directory>
             </Directory>
-            <Directory Id="FireAdmXslFilesFolder" Name="$(var.XslFilesFolder)">
-              <Directory Id="FireAdmXaml2svgFolder" Name="$(var.xaml2svgFolder)" />
-            </Directory>
+            
           </Directory>
           <Directory Id="FIREMONITORLOCATION" Name="$(var.FireMonitorName)">
             <Directory Id="ClientSettingsFolder" Name="ClientSettings" />
