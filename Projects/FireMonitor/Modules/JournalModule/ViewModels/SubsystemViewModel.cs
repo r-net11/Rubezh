@@ -5,12 +5,13 @@ namespace JournalModule.ViewModels
 {
     public class SubsystemViewModel : BaseViewModel
     {
+        public SubsystemType Subsystem { get; private set; }
+
         public SubsystemViewModel(SubsystemType subsystem)
         {
             Subsystem = subsystem;
+            IsEnable = true;
         }
-
-        public SubsystemType Subsystem { get; private set; }
 
         bool _isEnable;
         public bool IsEnable

@@ -72,7 +72,6 @@ namespace FiresecClient
             Ping();
         }
 
-
         public string Ping()
         {
             try
@@ -105,7 +104,9 @@ namespace FiresecClient
         {
             try
             {
-                return func();
+                var result = func();
+                if (result != null)
+                    return result;
             }
             catch
             {
@@ -114,7 +115,7 @@ namespace FiresecClient
             var operationResult = new OperationResult<T>()
             {
                 HasError = true,
-                Error = new Exception("Ошибка при при вызове операции сервера")
+                Error = new Exception("Ошибка при при вызове операции на клиенте")
             };
             return operationResult;
         }
@@ -125,7 +126,7 @@ namespace FiresecClient
             {
                 return func();
             }
-            catch
+            catch(Exception e)
             {
                 OnConnectionLost();
             }
@@ -138,7 +139,7 @@ namespace FiresecClient
             {
                 action();
             }
-            catch
+            catch (Exception e)
             {
                 OnConnectionLost();
             }
@@ -239,34 +240,34 @@ namespace FiresecClient
             return SafeOperationCall(() => { return _iFiresecService.GetStates(); });
         }
 
-        public List<JournalRecord> ReadJournal(int startIndex, int count)
+        public OperationResult<List<JournalRecord>> ReadJournal(int startIndex, int count)
         {
             return SafeOperationCall(() => { return _iFiresecService.ReadJournal(startIndex, count); });
         }
 
-        public IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
+        public OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter)
         {
             return SafeOperationCall(() => { return _iFiresecService.GetFilteredJournal(journalFilter); });
         }
 
-        public IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)
+        public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
         {
             return SafeOperationCall(() => { return _iFiresecService.GetFilteredArchive(archiveFilter); });
         }
 
-        public IEnumerable<JournalRecord> GetDistinctRecords()
+        public OperationResult<List<JournalRecord>> GetDistinctRecords()
         {
             return SafeOperationCall(() => { return _iFiresecService.GetDistinctRecords(); });
         }
 
-        public DateTime GetArchiveStartDate()
+        public OperationResult<DateTime> GetArchiveStartDate()
         {
             return SafeOperationCall(() => { return _iFiresecService.GetArchiveStartDate(); });
         }
 
-        public void AddJournalRecord(JournalRecord journalRecord)
+        public OperationResult<bool> AddJournalRecord(JournalRecord journalRecord)
         {
-            SafeOperationCall(() => { _iFiresecService.AddJournalRecord(journalRecord); });
+            return SafeOperationCall(() => { return _iFiresecService.AddJournalRecord(journalRecord); });
         }
 
         public List<string> GetFileNamesList(string directory)

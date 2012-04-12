@@ -11,6 +11,8 @@ namespace FiresecAPI.Models
         {
             LastRecordsCount = 100;
             LastDaysCount = 10;
+            Events = new List<StateType>();
+            Categories = new List<DeviceCategoryType>();
         }
 
         [DataMember]

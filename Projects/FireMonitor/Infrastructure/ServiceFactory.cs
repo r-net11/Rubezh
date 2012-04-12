@@ -44,10 +44,11 @@ namespace Infrastructure
 
         static void OnNewJournaRecordDispatched(JournalRecord journalRecord)
         {
-            ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() =>
-            {
-                ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
-            }));
+            if (ServiceFactory.ShellView != null)
+                ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() =>
+                {
+                    ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
+                }));
         }
     }
 }

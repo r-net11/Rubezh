@@ -85,7 +85,7 @@ namespace ReportsModule.Reports
             LoadArchive();
         }
 
-        public readonly DateTime ArchiveFirstDate = FiresecManager.GetArchiveStartDate();
+        public readonly DateTime ArchiveFirstDate = FiresecManager.FiresecService.GetArchiveStartDate().Result;
         public List<JournalRecord> JournalRecords { get; set; }
         ArchiveFilter ArchiveFilter { get; set; }
         public bool IsFilterOn { get; set; }
@@ -101,7 +101,7 @@ namespace ReportsModule.Reports
 
         public void LoadArchive()
         {
-            JournalRecords = new List<JournalRecord>(FiresecManager.GetFilteredArchive(ArchiveFilter));
+            JournalRecords = new List<JournalRecord>(FiresecManager.FiresecService.GetFilteredArchive(ArchiveFilter).Result);
         }
     }
 }

@@ -24,13 +24,13 @@ namespace FiresecClient
 
         static void SynchronizeDirectory(string directory)
         {
-            var remoteFileNamesList = FiresecManager.GetFileNamesList(directory);
+            var remoteFileNamesList = FiresecManager.FiresecService.GetFileNamesList(directory);
             var filesDirectory = Directory.CreateDirectory(CurrentDirectory(directory));
             foreach (var localFileName in GetFileNamesList(directory).Where(x => remoteFileNamesList.Contains(x) == false))
                 File.Delete(Path.Combine(filesDirectory.FullName, localFileName));
 
             var localDirectoryHash = HashHelper.GetDirectoryHash(directory);
-            foreach (var remoteFileHash in FiresecManager.GetDirectoryHash(directory).Where(x => localDirectoryHash.ContainsKey(x.Key) == false))
+            foreach (var remoteFileHash in FiresecManager.FiresecService.GetDirectoryHash(directory).Where(x => localDirectoryHash.ContainsKey(x.Key) == false))
             {
                 var fileName = Path.Combine(filesDirectory.FullName, remoteFileHash.Value);
                 if (File.Exists(fileName))
@@ -41,7 +41,7 @@ namespace FiresecClient
 
         static void DownloadFile(string sourcePath, string destinationPath)
         {
-            using (var stream = FiresecManager.GetFile(sourcePath))
+            using (var stream = FiresecManager.FiresecService.GetFile(sourcePath))
             using (var destinationStream = new FileStream(destinationPath, FileMode.Create, FileAccess.Write))
             {
                 stream.CopyTo(destinationStream);

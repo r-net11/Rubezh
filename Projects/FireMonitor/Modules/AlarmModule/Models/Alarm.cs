@@ -34,7 +34,7 @@ namespace AlarmModule
 
             var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
-            FiresecManager.AddJournalRecord(new JournalRecord()
+            FiresecManager.FiresecService.AddJournalRecord(new JournalRecord()
             {
                 SystemTime = DateTime.Now,
                 DeviceTime = DateTime.Now,
@@ -54,7 +54,7 @@ namespace AlarmModule
         {
             var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
             if (deviceState.CanDisable() && deviceState.IsDisabled)
-                FiresecManager.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
+                FiresecManager.FiresecService.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
         }
 
         public bool CanReset()
@@ -66,7 +66,7 @@ namespace AlarmModule
         {
             var resetItems = new List<ResetItem>();
             resetItems.Add(GetResetItem());
-            FiresecManager.ResetStates(resetItems);
+            FiresecManager.FiresecService.ResetStates(resetItems);
         }
 
         public ResetItem GetResetItem()

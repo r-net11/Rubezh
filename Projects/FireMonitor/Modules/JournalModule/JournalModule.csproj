@@ -136,6 +136,7 @@
     <Compile Include="Converters\StateTypeToEventNameConverter.cs" />
     <Compile Include="Converters\StringToVisibilityConverter.cs" />
     <Compile Include="Converters\SubsystemTypeToStringConverter.cs" />
+    <Compile Include="Converters\TimeToStringConverter.cs" />
     <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="JournalModuleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

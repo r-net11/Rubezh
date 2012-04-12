@@ -9,51 +9,28 @@
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         <Converter:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converter:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
+        <Converter:TimeToStringConverter x:Key="TimeToStringConverter" />
+        <Converter:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
     </UserControl.Resources>
     
-    <DockPanel>
-        <Border DockPanel.Dock="Bottom" CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Background="{DynamicResource BackgroundBrush}"
-                Visibility="{Binding SelectedRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
-            <Grid DataContext="{Binding SelectedRecord}" TextElement.Foreground="White">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Класс" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Пользователь" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Время" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Устройство - Датчик" Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Устройство" Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" />
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding User}" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" />
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SystemTime}" />
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Device}" Visibility="{Binding Device, Converter={StaticResource StringToVisibilityConverter}}" />
-                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Panel}" Visibility="{Binding Panel, Converter={StaticResource StringToVisibilityConverter}}" />
-                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Description}" />
-                <Controls:XRichTextBox Grid.Row="6" Grid.Column="1" Text="{Binding Detalization, Mode=OneWay}" BorderThickness="0" Background="Transparent" Foreground="White" />
-            </Grid>
-        </Border>
-        <DataGrid DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}"
+        <DataGrid Grid.Row="0" DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}"
                   ItemsSource="{Binding JournalRecords}" SelectedItem="{Binding SelectedRecord}"
                   EnableRowVirtualization="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Время устройства" Binding="{Binding DeviceTime}" />
-                <DataGridTextColumn Header="Системное время" Binding="{Binding SystemTime}" />
-                <DataGridTextColumn Header="Зона" Binding="{Binding ZoneName}" />
-                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
-                <DataGridTextColumn Header="Устройство - датчик" Binding="{Binding Device}" />
-                <DataGridTextColumn Header="Устройство" Binding="{Binding Panel}" />
-                <DataGridTextColumn Header="Пользователь" Binding="{Binding User}" />
+                <DataGridTextColumn Header="Время устройства" Binding="{Binding JournalRecord.DeviceTime, Converter={StaticResource TimeToStringConverter}}" />
+                <DataGridTextColumn Header="Системное время" Binding="{Binding JournalRecord.SystemTime, Converter={StaticResource TimeToStringConverter}}" />
+                <DataGridTextColumn Header="Зона" Binding="{Binding JournalRecord.ZoneName}" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding JournalRecord.Description}" Width="*" />
+                <DataGridTextColumn Header="Устройство - датчик" Binding="{Binding JournalRecord.DeviceName}" />
+                <DataGridTextColumn Header="Устройство" Binding="{Binding JournalRecord.PanelName}" />
+                <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalRecord.User}" />
+                <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalRecord.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
@@ -83,7 +60,7 @@
                             </Setter.Value>
                         </Setter>
                         <Setter Property="Background"
-                            Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}" />
+                            Value="{Binding JournalRecord.StateType, Converter={StaticResource StateToColorConverter}}" />
                     </Style.Setters>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
@@ -94,5 +71,37 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-    </DockPanel>
+        
+        <Border Grid.Row="1" CornerRadius="5" BorderThickness="0" Margin="0, 5, 5, 0" Background="{DynamicResource BackgroundBrush}"
+                Visibility="{Binding SelectedRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
+            <Grid DataContext="{Binding SelectedRecord}" TextElement.Foreground="White">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Класс" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Пользователь" Visibility="{Binding JournalRecord.User, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Время" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Устройство - Датчик" Visibility="{Binding JournalRecord.DeviceName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Устройство" Visibility="{Binding JournalRecord.PanelName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalRecord.StateType, Converter={StaticResource StateTypeToEventNameConverter}}" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalRecord.User}" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" />
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SystemTime, Converter={StaticResource TimeToStringConverter}}" />
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalRecord.DeviceName}" Visibility="{Binding JournalRecord.DeviceName, Converter={StaticResource StringToVisibilityConverter}}" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding JournalRecord.PanelName}" Visibility="{Binding JournalRecord.PanelName, Converter={StaticResource StringToVisibilityConverter}}" />
+                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding JournalRecord.Description}" />
+                <Controls:XRichTextBox Grid.Row="6" Grid.Column="1" Text="{Binding JournalRecord.Detalization, Mode=OneWay}" BorderThickness="0" Background="Transparent" Foreground="White" />
+            </Grid>
+        </Border>
+    </Grid>
 </UserControl>

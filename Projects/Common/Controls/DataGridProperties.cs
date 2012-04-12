@@ -1,8 +1,8 @@
-﻿using System.Windows;
-using System.Windows.Media;
+﻿using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
-using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Controls
 {
@@ -90,6 +90,7 @@ namespace Controls
 
             if (senderDatagrid == null)
                 return;
+
             IEditableCollectionView collection = senderDatagrid.Items as IEditableCollectionView;
 
             if (collection.IsEditingItem)
@@ -105,7 +106,6 @@ namespace Controls
 
         static void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
         {
-            
             if (e.MiddleButton == MouseButtonState.Pressed)
             {
                 var scrollViewer = sender as ScrollViewer;
@@ -138,9 +138,11 @@ namespace Controls
             var dg = sender as DataGrid;
             if (dg == null)
                 return;
+
             var scrollViewer = VisualTreeFinder.FindVisualChild<ScrollViewer>(dg);
             if (scrollViewer == null)
                 return;
+
             scrollViewer.PreviewMouseDown += new MouseButtonEventHandler(OnMouseMiddleDown);
             scrollViewer.PreviewMouseUp += new MouseButtonEventHandler(OnMouseMiddleUp);
             scrollViewer.PreviewMouseMove += new MouseEventHandler(OnMiddleMouseMove);

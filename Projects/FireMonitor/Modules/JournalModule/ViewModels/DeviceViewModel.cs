@@ -5,13 +5,13 @@ namespace JournalModule.ViewModels
 {
     public class DeviceViewModel : BaseViewModel
     {
+        public Device Device { get; private set; }
+
         public DeviceViewModel(Device device)
         {
             Device = device;
-            IsChecked = true;
+            IsChecked = false;
         }
-
-        public Device Device { get; private set; }
 
         bool _isChecked;
         public bool IsChecked

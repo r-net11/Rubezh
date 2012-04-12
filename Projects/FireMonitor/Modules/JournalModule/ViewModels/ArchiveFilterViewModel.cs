@@ -31,24 +31,35 @@ namespace JournalModule.ViewModels
 
             if (archiveFilter.DeviceDatabaseIds.IsNotNullOrEmpty())
             {
-                Devices.Where(x => archiveFilter.DeviceDatabaseIds.Any(id => id == x.DatabaseId) == false).
-                           AsParallel().ForAll(x => x.IsChecked = false);
+                foreach (var device in Devices)
+                {
+                    device.IsChecked = archiveFilter.DeviceDatabaseIds.Any(x => x == device.DatabaseId);
+                }
             }
             IsDeviceFilterOn = archiveFilter.IsDeviceFilterOn;
 
             if (archiveFilter.Subsystems.IsNotNullOrEmpty())
             {
-                Subsystems.Where(x => archiveFilter.Subsystems.Any(subsystem => subsystem == x.Subsystem)).
-                           AsParallel().ForAll(x => x.IsEnable = true);
+                foreach (var subsystem in Subsystems)
+                {
+                    subsystem.IsEnable = archiveFilter.Subsystems.Any(x => x == subsystem.Subsystem);
+                }
             }
         }
 
         void Initialize()
         {
-            JournalEvents = new List<EventViewModel>(
-                FiresecClient.FiresecManager.GetDistinctRecords().
-                Select(journalRecord => new EventViewModel(journalRecord.StateType, journalRecord.Description))
-            );
+            JournalEvents = new List<EventViewModel>();
+
+            var operationResult = FiresecClient.FiresecManager.FiresecService.GetDistinctRecords();
+            if (operationResult.HasError == false)
+            {
+                foreach(var journalRecord in operationResult.Result)
+                {
+                    var eventViewModel = new EventViewModel(journalRecord.StateType, journalRecord.Description);
+                    JournalEvents.Add(eventViewModel);
+                }
+            }
 
             JournalTypes = new List<ClassViewModel>(
                 JournalEvents.Select(x => x.ClassId).Distinct().

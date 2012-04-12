@@ -3,7 +3,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using JournalModule.Events;
 
-
 namespace JournalModule.ViewModels
 {
     public class ArchiveDefaultStateViewModel : BaseViewModel

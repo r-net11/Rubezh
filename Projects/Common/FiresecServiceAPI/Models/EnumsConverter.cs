@@ -161,13 +161,16 @@ namespace FiresecAPI.Models
             switch (subsystemId)
             {
                 case "0":
-                    return SubsystemType.Fire;
+                    return SubsystemType.Other;
 
                 case "1":
+                    return SubsystemType.Fire;
+
+                case "2":
                     return SubsystemType.Guard;
 
                 default:
-                    return SubsystemType.Other;
+                    return SubsystemType.Fire;
             }
         }
     }

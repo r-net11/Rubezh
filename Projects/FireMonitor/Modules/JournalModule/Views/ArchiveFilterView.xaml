@@ -6,6 +6,7 @@
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              MinWidth="700" MinHeight="500">
+
     <UserControl.Resources>
         <Converters:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />

@@ -231,7 +231,7 @@ namespace DevicesModule.ViewModels
             };
             resetItem.StateNames.Add(stateName);
             resetItems.Add(resetItem);
-            FiresecManager.ResetStates(resetItems);
+            FiresecManager.FiresecService.ResetStates(resetItems);
 
             OnPropertyChanged("DeviceState");
         }

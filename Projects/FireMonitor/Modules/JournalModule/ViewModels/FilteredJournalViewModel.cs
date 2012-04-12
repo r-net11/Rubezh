@@ -3,49 +3,40 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Events;
 
 namespace JournalModule.ViewModels
 {
-    public class FilteredJournalViewModel : RegionViewModel
+    public class FilteredJournalViewModel : BaseViewModel
     {
         public JournalFilter JournalFilter { get; private set; }
 
         public FilteredJournalViewModel(JournalFilter journalFilter)
         {
+            ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Unsubscribe(OnNewJournalRecord);
             ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Subscribe(OnNewJournalRecord);
 
-            if (journalFilter == null)
-                return;
-            JournalFilter = journalFilter;
-
-            Initialize();
+            if (journalFilter != null)
+            {
+                JournalFilter = journalFilter;
+                Initialize();
+            }
         }
 
         void Initialize()
         {
-            try
+            var operationResult = FiresecManager.FiresecService.GetFilteredJournal(JournalFilter);
+            JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+            if (operationResult.HasError == false)
             {
-                var journalRecords = FiresecManager.GetFilteredJournal(JournalFilter);
-                var journalRecordsViewModel = journalRecords.Select(journalRecord => new JournalRecordViewModel(journalRecord));
-                JournalRecords = new ObservableCollection<JournalRecordViewModel>(journalRecordsViewModel);
+                foreach (var journalRecord in operationResult.Result)
+                {
+                    var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+                    JournalRecords.Add(journalRecordViewModel);
+                }
             }
-            catch(Exception)
-            {
-                return;
-            }
-        }
-
-        public string Name
-        {
-            get { return JournalFilter.Name; }
-        }
-
-        public static int RecordsMaxCount
-        {
-            get { return new JournalFilter().LastRecordsCount; }
         }
 
         public ObservableCollection<JournalRecordViewModel> JournalRecords { get; private set; }
@@ -61,9 +52,22 @@ namespace JournalModule.ViewModels
             }
         }
 
-        public bool FilterRecord(JournalRecord journalRecord)
+        void OnNewJournalRecord(JournalRecord journalRecord)
         {
-            bool result = true;
+            if (FilterRecord(journalRecord) == false)
+                return;
+
+            if (JournalRecords.Count > 0)
+                JournalRecords.Insert(0, new JournalRecordViewModel(journalRecord));
+            else
+                JournalRecords.Add(new JournalRecordViewModel(journalRecord));
+
+            if (JournalRecords.Count > JournalFilter.LastRecordsCount)
+                JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
+        }
+
+        bool FilterRecord(JournalRecord journalRecord)
+        {
             if (JournalFilter.Categories.IsNotNullOrEmpty())
             {
                 Device device = null;
@@ -76,32 +80,20 @@ namespace JournalModule.ViewModels
                     device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.PanelDatabaseId);
                 }
 
-                if ((result = (device != null)))
+                if (device != null)
                 {
-                    result = JournalFilter.Categories.Any(daviceCategory => daviceCategory == device.Driver.Category);
+                    if (JournalFilter.Categories.Any(daviceCategory => daviceCategory == device.Driver.Category) == false)
+                        return false;
                 }
             }
 
-            if (result && JournalFilter.Events.IsNotNullOrEmpty())
+            if (JournalFilter.Events.IsNotNullOrEmpty())
             {
-                result = JournalFilter.Events.Any(_event => _event == journalRecord.StateType);
+                if (JournalFilter.Events.Any(x => x == journalRecord.StateType) == false)
+                    return false;
             }
 
-            return result;
-        }
-
-        void OnNewJournalRecord(JournalRecord journalRecord)
-        {
-            if (!FilterRecord(journalRecord))
-                return;
-
-            if (JournalRecords.Count > 0)
-                JournalRecords.Insert(0, new JournalRecordViewModel(journalRecord));
-            else
-                JournalRecords.Add(new JournalRecordViewModel(journalRecord));
-
-            if (JournalRecords.Count > JournalFilter.LastRecordsCount)
-                JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
+            return true;
         }
     }
 }

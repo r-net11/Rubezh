@@ -11,6 +11,7 @@ namespace FiresecAPI
     [ServiceContract(CallbackContract = typeof(IFiresecCallback), SessionMode = SessionMode.Required)]
     public interface IFiresecService : IFiresecServiceSKUD
     {
+        #region Service
         [OperationContract(IsInitiating = true)]
         string Connect(string clientType, string clientCallbackAddress, string userName, string password);
 
@@ -25,6 +26,7 @@ namespace FiresecAPI
 
         [OperationContract(IsOneWay = true)]
         void CancelProgress();
+        #endregion
 
         [OperationContract]
         List<Driver> GetDrivers();
@@ -110,21 +112,6 @@ namespace FiresecAPI
         [OperationContract]
         DeviceConfigurationStates GetStates();
 
-        [OperationContract]
-        List<JournalRecord> ReadJournal(int startIndex, int count);
-
-        [OperationContract]
-        IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter);
-
-        [OperationContract]
-        IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter);
-
-        [OperationContract]
-        IEnumerable<JournalRecord> GetDistinctRecords();
-
-        [OperationContract]
-        DateTime GetArchiveStartDate();
-
         [OperationContract()]
         OperationResult<bool> AddToIgnoreList(List<Guid> deviceUIDs);
 
@@ -134,18 +121,36 @@ namespace FiresecAPI
         [OperationContract()]
         OperationResult<bool> ResetStates(List<ResetItem> resetItems);
 
-        [OperationContract()]
-        OperationResult<bool> AddUserMessage(string message);
-
-        [OperationContract()]
-        void AddJournalRecord(JournalRecord journalRecord);
-
         [OperationContract]
         OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName);
 
         [OperationContract]
         OperationResult<string> CheckHaspPresence();
 
+        #region Journal
+        [OperationContract]
+        OperationResult<List<JournalRecord>> ReadJournal(int startIndex, int count);
+
+        [OperationContract]
+        OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter);
+
+        [OperationContract]
+        OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter);
+
+        [OperationContract]
+        OperationResult<List<JournalRecord>> GetDistinctRecords();
+
+        [OperationContract]
+        OperationResult<DateTime> GetArchiveStartDate();
+
+        [OperationContract()]
+        OperationResult<bool> AddUserMessage(string message);
+
+        [OperationContract()]
+        OperationResult<bool> AddJournalRecord(JournalRecord journalRecord);
+        #endregion
+
+        #region Files
         [OperationContract]
         List<string> GetFileNamesList(string directory);
 
@@ -154,25 +159,32 @@ namespace FiresecAPI
 
         [OperationContract]
         Stream GetFile(string dirAndFileName);
+        #endregion
 
+        #region Convertation
         [OperationContract]
         void ConvertConfiguration();
 
         [OperationContract]
         void ConvertJournal();
+        #endregion
 
+        #region misc
         [OperationContract]
         string Ping();
 
         [OperationContract]
         [FaultContract(typeof(FiresecException))]
         string Test();
+        #endregion
 
+        #region XSystem
         [OperationContract]
         void SetXDeviceConfiguration(XDeviceConfiguration xDeviceConfiguration);
 
         [OperationContract]
         XDeviceConfiguration GetXDeviceConfiguration();
+        #endregion
 	}
 
     public class FiresecException : Exception

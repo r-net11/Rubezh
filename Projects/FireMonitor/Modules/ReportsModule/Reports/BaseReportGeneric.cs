@@ -33,6 +33,5 @@ namespace ReportsModule.Reports
             //crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
             return reportDocument;
         }
-
     }
 }

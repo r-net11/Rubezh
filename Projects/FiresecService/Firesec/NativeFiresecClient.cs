@@ -273,33 +273,6 @@ namespace Firesec
             return resultData;
         }
 
-        static FiresecOperationResult<T> Temp<T>(Func<T> f)
-        {
-            return (FiresecOperationResult<T>)control.Dispatcher.Invoke(new Func<FiresecOperationResult<T>>(
-                () =>
-                {
-                    var resultData = new FiresecOperationResult<T>();
-                    for (int i = 0; i < 10; i++)
-                    {
-                        try
-                        {
-                            var result = f();
-                            resultData.Result = result;
-                            return resultData;
-                        }
-                        catch (Exception e)
-                        {
-                            resultData.Result = default(T);
-                            resultData.HasError = true;
-                            resultData.Error = e;
-                        }
-                    }
-                    return resultData;
-                }
-                )
-            );
-        }
-
         static string ConvertDeviceList(List<string> devicePaths)
         {
             var devicePatsString = new StringBuilder();

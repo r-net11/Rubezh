@@ -98,76 +98,6 @@ namespace FiresecClient
             FiresecCallbackServiceManager.Close();
         }
 
-        public static void AddToIgnoreList(List<Guid> deviceUIDs)
-        {
-            FiresecService.AddToIgnoreList(deviceUIDs);
-        }
-
-        public static void RemoveFromIgnoreList(List<Guid> deviceUIDs)
-        {
-            FiresecService.RemoveFromIgnoreList(deviceUIDs);
-        }
-
-        public static void ResetStates(List<ResetItem> resetItems)
-        {
-            FiresecService.ResetStates(resetItems);
-        }
-
-        public static void AddUserMessage(string message)
-        {
-            FiresecService.AddUserMessage(message);
-        }
-
-        public static void AddJournalRecord(JournalRecord journalRecord)
-        {
-            FiresecService.AddJournalRecord(journalRecord);
-        }
-
-        public static void ExecuteCommand(Guid deviceUID, string methodName)
-        {
-            FiresecService.ExecuteCommand(deviceUID, methodName);
-        }
-
-        public static List<JournalRecord> ReadJournal(int startIndex, int count)
-        {
-            return FiresecService.ReadJournal(startIndex, count);
-        }
-
-        public static IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
-        {
-            return FiresecService.GetFilteredJournal(journalFilter);
-        }
-
-        public static IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)
-        {
-            return FiresecService.GetFilteredArchive(archiveFilter);
-        }
-
-        public static IEnumerable<JournalRecord> GetDistinctRecords()
-        {
-            return FiresecService.GetDistinctRecords();
-        }
-
-        public static DateTime GetArchiveStartDate()
-        {
-            return FiresecService.GetArchiveStartDate();
-        }
-
-        public static List<string> GetFileNamesList(string directory)
-        {
-            return FiresecService.GetFileNamesList(directory);
-        }
-
-        public static Dictionary<string, string> GetDirectoryHash(string directory)
-        {
-            return FiresecService.GetDirectoryHash(directory);
-        }
-
-        public static Stream GetFile(string filepath)
-        {
-            return FiresecService.GetFile(filepath);
-        }
-
         public static OperationResult<DeviceConfiguration> AutoDetectDevice(Guid deviceUID, bool fastSearch)
         {
             return FiresecService.DeviceAutoDetectChildren(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID, fastSearch);
@@ -180,7 +110,6 @@ namespace FiresecClient
 
         public static OperationResult<bool> DeviceWriteConfiguration(Guid deviceUID, bool isUsb)
         {
-            //FiresecService.DeviceWriteConfiguration(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
             return FiresecService.DeviceWriteConfiguration(DeviceConfiguration, deviceUID);
         }
 
@@ -224,11 +153,6 @@ namespace FiresecClient
             return FiresecService.DeviceSetPassword(DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID, devicePasswordType, password);
         }
 
-        public static OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(Guid driverUID)
-        {
-            return FiresecService.DeviceCustomFunctionList(driverUID);
-        }
-
         public static OperationResult<string> DeviceCustomFunctionExecute(Guid deviceUID, string functionName)
         {
             return FiresecService.DeviceCustomFunctionExecute(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID, functionName);
@@ -247,11 +171,6 @@ namespace FiresecClient
         public static OperationResult<string> DeviceGetMDS5Data(Guid deviceUID)
         {
             return FiresecService.DeviceGetMDS5Data(DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID);
-        }
-
-        public static void Test()
-        {
-            FiresecService.Test();
         }
     }
 }

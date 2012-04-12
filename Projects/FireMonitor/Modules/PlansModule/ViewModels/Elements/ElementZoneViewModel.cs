@@ -81,14 +81,14 @@ namespace PlansModule.ViewModels
         void OnDisable()
         {
             if (ServiceFactory.SecurityService.Validate())
-                FiresecManager.AddToIgnoreList(DevicesToIgnore);
+                FiresecManager.FiresecService.AddToIgnoreList(DevicesToIgnore);
         }
 
         public RelayCommand EnableCommand { get; private set; }
         void OnEnable()
         {
             if (ServiceFactory.SecurityService.Validate())
-                FiresecManager.RemoveFromIgnoreList(DevicesToIgnore);
+                FiresecManager.FiresecService.RemoveFromIgnoreList(DevicesToIgnore);
         }
     }
 }

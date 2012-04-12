@@ -4,13 +4,13 @@ namespace FiresecAPI.Models
 {
     public enum SubsystemType
     {
+        [DescriptionAttribute("Прочие")]
+        Other = 0,
+
         [DescriptionAttribute("Пожарная")]
-        Fire,
+        Fire = 1,
 
         [DescriptionAttribute("Охранная")]
-        Guard,
-
-        [DescriptionAttribute("Прочие")]
-        Other
+        Guard = 2
     };
 }

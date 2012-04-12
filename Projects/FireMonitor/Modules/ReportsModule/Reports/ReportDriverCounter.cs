@@ -72,7 +72,6 @@ namespace ReportsModule.Reports
         {
             int count = 0;
             DataList.ForEach(x => count += x.Count);
-
             return count;
         }
     }

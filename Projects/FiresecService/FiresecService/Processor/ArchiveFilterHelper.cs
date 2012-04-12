@@ -22,7 +22,14 @@ namespace FiresecService.Processor
         public static IEnumerable<JournalRecord> FilterJournalBySubsystems(this IEnumerable<JournalRecord> journal, ArchiveFilter archiveFilter)
         {
             if (archiveFilter.Subsystems.IsNotNullOrEmpty())
-                return journal.Where(record => archiveFilter.Subsystems.Any(subsystem => subsystem == record.SubsystemType));
+            {
+                var result = journal.Where(x => archiveFilter.Subsystems.Any(s => s == x.SubsystemType));
+                if (result.Count() > 0)
+                {
+                    ;
+                }
+                return result;
+            }
             return journal;
         }
 

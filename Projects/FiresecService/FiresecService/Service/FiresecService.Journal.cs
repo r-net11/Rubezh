@@ -4,61 +4,125 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecService.Converters;
 using FiresecService.Processor;
+using FiresecAPI;
 
 namespace FiresecService
 {
     public partial class FiresecService
     {
-        public List<JournalRecord> ReadJournal(int startIndex, int count)
+        public OperationResult<List<JournalRecord>> ReadJournal(int startIndex, int count)
         {
-            lock (Locker)
+            var operationResult = new OperationResult<List<JournalRecord>>();
+            try
             {
-                var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count).Result;
-                if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
+                lock (Locker)
                 {
-                    return new List<JournalRecord>(
-                        internalJournal.Journal.Select(x => JournalConverter.Convert(x))
-                    );
+                    var internalJournal = FiresecInternalClient.ReadEvents(startIndex, count).Result;
+                    if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
+                    {
+                        operationResult.Result = new List<JournalRecord>(internalJournal.Journal.Select(x => JournalConverter.Convert(x))
+                        );
+                    }
                 }
-                return new List<JournalRecord>();
             }
+            catch (Exception e)
+            {
+                operationResult.HasError = true;
+                operationResult.Error = e;
+            }
+            return operationResult;
         }
 
-        public IEnumerable<JournalRecord> GetFilteredJournal(JournalFilter journalFilter)
+        public OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter)
         {
-            var filteredJournal = 
-                DataBaseContext.JournalRecords.AsEnumerable().Reverse().
-                Where(journal => journalFilter.CheckDaysConstraint(journal.SystemTime)).
-                Where(journal => JournalFilterHelper.FilterRecord(journalFilter, journal)).
-                Take(journalFilter.LastRecordsCount);
-            return filteredJournal;
+            var operationResult = new OperationResult<List<JournalRecord>>();
+            try
+            {
+                operationResult.Result =
+                    DataBaseContext.JournalRecords.AsEnumerable().Reverse().
+                    Where(journal => journalFilter.CheckDaysConstraint(journal.SystemTime)).
+                    Where(journal => JournalFilterHelper.FilterRecord(journalFilter, journal)).
+                    Take(journalFilter.LastRecordsCount).ToList();
+            }
+            catch (Exception e)
+            {
+                operationResult.HasError = true;
+                operationResult.Error = e;
+            }
+            return operationResult;
         }
 
-        public IEnumerable<JournalRecord> GetFilteredArchive(ArchiveFilter archiveFilter)
+        public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
         {
-            return DataBaseContext.JournalRecords.AsEnumerable().Reverse().
+            var operationResult = new OperationResult<List<JournalRecord>>();
+            try
+            {
+                var result =
+                    DataBaseContext.JournalRecords.AsEnumerable().Reverse().
                     RangeJournalByTime(archiveFilter).
-                    FilterJournalByEvents(archiveFilter).
-                    FilterJournalBySubsystems(archiveFilter).
-                    FilterJournalByDevices(archiveFilter);
+                    FilterJournalByEvents(archiveFilter);
+                    //FilterJournalBySubsystems(archiveFilter).
+                    //FilterJournalByDevices(archiveFilter).ToList();
+
+                operationResult.Result = result.FilterJournalByDevices(archiveFilter).
+                Where(x => archiveFilter.Subsystems.Contains(x.SubsystemType)).ToList();
+            }
+            catch (Exception e)
+            {
+                operationResult.HasError = true;
+                operationResult.Error = e;
+            }
+            return operationResult;
         }
 
-        public IEnumerable<JournalRecord> GetDistinctRecords()
+        public OperationResult<List<JournalRecord>> GetDistinctRecords()
         {
-            return DataBaseContext.JournalRecords.AsEnumerable().
-                Select(x => x).Distinct(new JournalRecord());
+            var operationResult = new OperationResult<List<JournalRecord>>();
+            try
+            {
+                operationResult.Result =
+                    DataBaseContext.JournalRecords.AsEnumerable().
+                    Select(x => x).Distinct(new JournalRecord()).ToList();
+            }
+            catch (Exception e)
+            {
+                operationResult.HasError = true;
+                operationResult.Error = e;
+            }
+            return operationResult;
         }
 
-        public DateTime GetArchiveStartDate()
+        public OperationResult<DateTime> GetArchiveStartDate()
         {
-            return DataBaseContext.JournalRecords.AsEnumerable().First().SystemTime;
+            var operationResult = new OperationResult<DateTime>();
+            try
+            {
+                operationResult.Result = DataBaseContext.JournalRecords.AsEnumerable().First().SystemTime;
+            }
+            catch (Exception e)
+            {
+                operationResult.HasError = true;
+                operationResult.Error = e;
+            }
+            return operationResult;
         }
 
-        public void AddJournalRecord(JournalRecord journalRecord)
+        public OperationResult<bool> AddJournalRecord(JournalRecord journalRecord)
         {
-            journalRecord.User = _userName;
-            DatabaseHelper.AddJournalRecord(journalRecord);
-            CallbackManager.OnNewJournalRecord(journalRecord);
+            var operationResult = new OperationResult<bool>();
+            try
+            {
+                journalRecord.User = _userName;
+                DatabaseHelper.AddJournalRecord(journalRecord);
+                CallbackManager.OnNewJournalRecord(journalRecord);
+                operationResult.Result = true;
+            }
+            catch (Exception e)
+            {
+                operationResult.HasError = true;
+                operationResult.Error = e;
+            }
+            return operationResult;
         }
     }
 }

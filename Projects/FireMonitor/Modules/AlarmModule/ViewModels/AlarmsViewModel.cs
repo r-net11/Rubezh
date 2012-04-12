@@ -74,7 +74,7 @@ namespace AlarmModule.ViewModels
                 }
             }
 
-            FiresecManager.ResetStates(resetItems);
+            FiresecManager.FiresecService.ResetStates(resetItems);
         }
 
         public bool CanRemoveAllFromIgnoreList()
@@ -98,7 +98,7 @@ namespace AlarmModule.ViewModels
                 }
             }
 
-            FiresecManager.RemoveFromIgnoreList(deviceUIDs);
+            FiresecManager.FiresecService.RemoveFromIgnoreList(deviceUIDs);
         }
 
         void OnAlarmAdded(Alarm alarm)

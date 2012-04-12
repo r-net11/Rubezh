@@ -57,9 +57,10 @@
                     </Grid>
                 </Border>
                 <Grid DockPanel.Dock="Bottom" Height="20">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20, 0, 0, 0">
-                        <TextBlock Text="Пользователь: " Foreground="White" />
-                        <TextBlock Text="{Binding UserName}" Foreground="White" />
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20, 0, 0, 0"
+                            TextBlock.FontSize="11" TextBlock.FontWeight="Bold" TextBlock.Foreground="{StaticResource HighlightedBackgoundBrush}">
+                        <TextBlock Text="Пользователь: " />
+                        <TextBlock Text="{Binding UserName}" />
                     </StackPanel>
                     <Thumb DragDelta="Thumb_DragDelta" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="10" Height="10" Style="{DynamicResource ResizeThumbStyle}" />
                 </Grid>
