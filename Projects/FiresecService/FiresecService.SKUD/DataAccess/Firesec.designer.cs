@@ -83,6 +83,13 @@ namespace FiresecService.SKUD.DataAccess
 				return this.GetTable<Person>();
 			}
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllEmployees")]
+		public ISingleResult<GetAllEmployeesResult> GetAllEmployees()
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())));
+			return ((ISingleResult<GetAllEmployeesResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Employee")]
@@ -491,6 +498,230 @@ namespace FiresecService.SKUD.DataAccess
 		{
 			this.SendPropertyChanging();
 			entity.Person = null;
+		}
+	}
+	
+	public partial class GetAllEmployeesResult
+	{
+		
+		private int _Id;
+		
+		private int _PersonId;
+		
+		private string _Staff;
+		
+		private string _Position;
+		
+		private string _Comment;
+		
+		private int _Id1;
+		
+		private string _LastNmae;
+		
+		private string _FirstName;
+		
+		private string _SecondName;
+		
+		private System.Nullable<System.DateTime> _Birthday;
+		
+		private System.Nullable<System.DateTime> _Sex;
+		
+		private string _Comment1;
+		
+		public GetAllEmployeesResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id", DbType="Int NOT NULL")]
+		public int Id
+		{
+			get
+			{
+				return this._Id;
+			}
+			set
+			{
+				if ((this._Id != value))
+				{
+					this._Id = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonId", DbType="Int NOT NULL")]
+		public int PersonId
+		{
+			get
+			{
+				return this._PersonId;
+			}
+			set
+			{
+				if ((this._PersonId != value))
+				{
+					this._PersonId = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Staff", DbType="NVarChar(MAX)")]
+		public string Staff
+		{
+			get
+			{
+				return this._Staff;
+			}
+			set
+			{
+				if ((this._Staff != value))
+				{
+					this._Staff = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Position", DbType="NVarChar(MAX)")]
+		public string Position
+		{
+			get
+			{
+				return this._Position;
+			}
+			set
+			{
+				if ((this._Position != value))
+				{
+					this._Position = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment", DbType="NVarChar(MAX)")]
+		public string Comment
+		{
+			get
+			{
+				return this._Comment;
+			}
+			set
+			{
+				if ((this._Comment != value))
+				{
+					this._Comment = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id1", DbType="Int NOT NULL")]
+		public int Id1
+		{
+			get
+			{
+				return this._Id1;
+			}
+			set
+			{
+				if ((this._Id1 != value))
+				{
+					this._Id1 = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastNmae", DbType="NVarChar(MAX)")]
+		public string LastNmae
+		{
+			get
+			{
+				return this._LastNmae;
+			}
+			set
+			{
+				if ((this._LastNmae != value))
+				{
+					this._LastNmae = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FirstName", DbType="NVarChar(MAX)")]
+		public string FirstName
+		{
+			get
+			{
+				return this._FirstName;
+			}
+			set
+			{
+				if ((this._FirstName != value))
+				{
+					this._FirstName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SecondName", DbType="NVarChar(MAX)")]
+		public string SecondName
+		{
+			get
+			{
+				return this._SecondName;
+			}
+			set
+			{
+				if ((this._SecondName != value))
+				{
+					this._SecondName = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Birthday", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Birthday
+		{
+			get
+			{
+				return this._Birthday;
+			}
+			set
+			{
+				if ((this._Birthday != value))
+				{
+					this._Birthday = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Sex", DbType="DateTime")]
+		public System.Nullable<System.DateTime> Sex
+		{
+			get
+			{
+				return this._Sex;
+			}
+			set
+			{
+				if ((this._Sex != value))
+				{
+					this._Sex = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment1", DbType="NVarChar(MAX)")]
+		public string Comment1
+		{
+			get
+			{
+				return this._Comment1;
+			}
+			set
+			{
+				if ((this._Comment1 != value))
+				{
+					this._Comment1 = value;
+				}
+			}
 		}
 	}
 }

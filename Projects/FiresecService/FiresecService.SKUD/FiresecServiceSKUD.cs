@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using FiresecAPI;
 using FiresecAPI.Models.Skud;
+using FiresecService.SKUD.Translator;
 
 namespace FiresecService.SKUD
 {
@@ -13,7 +14,8 @@ namespace FiresecService.SKUD
 
 		public IEnumerable<SkudEmployee> GetEmployees()
 		{
-			return null;
+			DataAccess.FiresecDataContext context = new DataAccess.FiresecDataContext();
+			return EmployeeResultTranslator.Translate(context.GetAllEmployees());
 		}
 
 		#endregion

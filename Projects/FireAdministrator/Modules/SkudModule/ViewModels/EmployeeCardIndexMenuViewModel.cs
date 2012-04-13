@@ -6,9 +6,9 @@ namespace SkudModule.ViewModels
     {
 		public EmployeeCardIndexMenuViewModel(EmployeeCardIndexViewModel employeeCardIndexViewModel)
         {
-			Contex = employeeCardIndexViewModel;
+			Context = employeeCardIndexViewModel;
         }
 
-		public EmployeeCardIndexViewModel Contex { get; private set; }
+		public EmployeeCardIndexViewModel Context { get; private set; }
     }
 }

@@ -2,13 +2,22 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls">
+    <UserControl.Resources>
+        <Converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" Format="dd.MM.yyyy"/>
+    </UserControl.Resources>
+
     <Controls:XDataGrid ItemsSource="{Binding EmployeeCardIndex}" SelectedItem="{Binding SelectedEmployeeCard}">
-        <DataGrid.InputBindings>
-            <KeyBinding Command="{Binding AddCommand}" Modifiers="{Binding Modifier}" Key="{Binding KeyGesture}"/>
-        </DataGrid.InputBindings>
         <DataGrid.Columns>
-            <DataGridTextColumn Header="ФИО" Width="200"/>
+            <DataGridTextColumn Header="Фамилия" Width="200" Binding="{Binding EmployeeCard.LastName}"/>
+            <DataGridTextColumn Header="Имя" Width="200" Binding="{Binding EmployeeCard.FirstName}"/>
+            <DataGridTextColumn Header="Отчество" Width="200" Binding="{Binding EmployeeCard.SecondName}"/>
+            <DataGridTextColumn Header="Дата рождения" Width="100" Binding="{Binding EmployeeCard.Birthday,  Converter={StaticResource DateTimeToStringConverter}}"/>
+            <DataGridTextColumn Header="Пол" Width="100" Binding="{Binding EmployeeCard.Sex}"/>
+            <DataGridTextColumn Header="Должность" Width="200" Binding="{Binding EmployeeCard.Position}"/>
+            <DataGridTextColumn Header="Подразделение" Width="200" Binding="{Binding EmployeeCard.Staff}"/>
+            <DataGridTextColumn Header="Описание" Width="*" Binding="{Binding EmployeeCard.Comment}" />
         </DataGrid.Columns>
     </Controls:XDataGrid>
 </UserControl>

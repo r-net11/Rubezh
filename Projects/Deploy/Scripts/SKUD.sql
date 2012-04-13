@@ -37,6 +37,7 @@ CREATE TABLE [dbo].[Employee](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[PersonId] [int] NOT NULL,
 	[Staff] [nvarchar](max) NULL,
+	[Position] [nvarchar](max) NULL,
 	[Comment] [nvarchar](max) NULL
  CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED 
 (

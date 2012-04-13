@@ -2,10 +2,10 @@
 <ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Firesec">
   <DataContextMoniker Name="/FiresecDataContext" />
   <nestedChildShapes>
-    <classShape Id="c00268f3-7d70-4b7f-b6ec-c67c1b9ba2b4" absoluteBounds="4.75, 1.25, 2, 1.5785953776041666">
+    <classShape Id="c00268f3-7d70-4b7f-b6ec-c67c1b9ba2b4" absoluteBounds="4.75, 1.125, 2, 1.5785953776041666">
       <DataClassMoniker Name="/FiresecDataContext/Employee" />
       <nestedChildShapes>
-        <elementListCompartment Id="2328f2df-503d-4f07-8ae8-21cfe6bf211c" absoluteBounds="4.7650000000000006, 1.71, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="2328f2df-503d-4f07-8ae8-21cfe6bf211c" absoluteBounds="4.7650000000000006, 1.585, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
     <classShape Id="91d5a05b-9fab-4701-8df5-30bcd789218e" absoluteBounds="2, 0.875, 2, 2.1554996744791666">
@@ -14,7 +14,7 @@
         <elementListCompartment Id="adcbb393-dc3c-4fc0-9f2e-ef6c3a3f4aa9" absoluteBounds="2.015, 1.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4 : 2.03929768880208); (4.75 : 2.03929768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4 : 1.91429768880208); (4.75 : 1.91429768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/FiresecDataContext/Person/Person_Employee" />
       <nodes>
         <classShapeMoniker Id="91d5a05b-9fab-4701-8df5-30bcd789218e" />
