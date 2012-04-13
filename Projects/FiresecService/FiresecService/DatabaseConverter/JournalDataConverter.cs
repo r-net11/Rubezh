@@ -21,7 +21,7 @@ namespace FiresecService
 
         public static IEnumerable<JournalRecord> ReadAllJournal()
         {
-            var internalJournal = FiresecInternalClient.ReadEvents(0, 100000).Result;
+            var internalJournal = FiresecSerializedClient.ReadEvents(0, 100000).Result;
             if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
             {
                 return internalJournal.Journal.

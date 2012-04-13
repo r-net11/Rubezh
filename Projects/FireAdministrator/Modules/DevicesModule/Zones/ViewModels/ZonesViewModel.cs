@@ -43,7 +43,7 @@ namespace DevicesModule.ViewModels
             {
                 _selectedZone = value;
                 if (value != null)
-                    ZoneDevices.Initialize(value.No);
+                    ZoneDevices.Initialize(value.Zone.No);
                 else
                     ZoneDevices.Clear();
 
@@ -94,7 +94,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-            var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.PresentationName);
+            var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName);
             if (dialogResult == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
@@ -113,9 +113,7 @@ namespace DevicesModule.ViewModels
             var zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
             if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
             {
-                SelectedZone.Zone = zoneDetailsViewModel.Zone;
-                SelectedZone.Update();
-
+                SelectedZone.Update(zoneDetailsViewModel.Zone);
                 ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
@@ -143,7 +141,7 @@ namespace DevicesModule.ViewModels
             if (dialogResult == MessageBoxResult.Yes)
             {
                 var emptyZones = new List<ZoneViewModel>(
-                    Zones.Where(zone => FiresecManager.DeviceConfiguration.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneNo == zone.No) == false)
+                    Zones.Where(zone => FiresecManager.DeviceConfiguration.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneNo == zone.Zone.No) == false)
                 );
                 foreach (var emptyZone in emptyZones)
                 {

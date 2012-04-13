@@ -6,12 +6,12 @@ using FiresecAPI.Models.Skud;
 
 namespace FiresecClient
 {
-	public partial class FiresecManager
-	{
-		public static IEnumerable<SkudEmployee> GetEmployees()
-		{
-			return FiresecService.GetEmployees();
-		}
+    public partial class FiresecManager
+    {
+        public static IEnumerable<SkudEmployee> GetEmployees()
+        {
+            return FiresecService.GetEmployees();
+        }
 
-	}
+    }
 }

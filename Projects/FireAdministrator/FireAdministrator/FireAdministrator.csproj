@@ -112,6 +112,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AppSettingsHelper.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Services\LayoutService.cs" />
     <Compile Include="Services\ProgressService.cs" />

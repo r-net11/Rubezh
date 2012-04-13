@@ -18,7 +18,7 @@ namespace AssadProcessor
 
         public void Start()
         {
-            FiresecManager.Connect("net.tcp://localhost:8000/FiresecService/", "adm", "");
+            FiresecManager.Connect("Assad", "net.tcp://localhost:8000/FiresecService/", "adm", "");
 
             Services.NetManager.Start();
             _watcher = new Watcher();
@@ -84,7 +84,7 @@ namespace AssadProcessor
                                     var resetItem = new ResetItem();
                                     resetItem.DeviceUID = resetDevice.UID;
                                     resetItem.StateNames = new List<string>() { commandName };
-                                    FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
+                                    FiresecManager.FiresecService.ResetStates(new List<ResetItem>() { resetItem });
                                 }
                             }
                         }
@@ -93,7 +93,7 @@ namespace AssadProcessor
                             var resetItem = new ResetItem();
                             resetItem.DeviceUID = device.UID;
                             resetItem.StateNames = new List<string>() { commandName };
-                            FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
+                            FiresecManager.FiresecService.ResetStates(new List<ResetItem>() { resetItem });
                         }
                     }
                 }
@@ -113,7 +113,7 @@ namespace AssadProcessor
                         var resetItem = new ResetItem();
                         resetItem.DeviceUID = device.UID;
                         resetItem.StateNames = new List<string>() { state.Name };
-                        FiresecManager.ResetStates(new List<ResetItem>() { resetItem });
+                        FiresecManager.FiresecService.ResetStates(new List<ResetItem>() { resetItem });
                     }
                 }
             }

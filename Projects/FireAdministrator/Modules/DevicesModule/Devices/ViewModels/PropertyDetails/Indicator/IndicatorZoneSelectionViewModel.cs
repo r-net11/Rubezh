@@ -128,7 +128,7 @@ namespace DevicesModule.ViewModels
             Zones = new List<ulong>();
             foreach (var zone in TargetZones)
             {
-                Zones.Add(zone.No);
+                Zones.Add(zone.Zone.No);
             }
         }
     }

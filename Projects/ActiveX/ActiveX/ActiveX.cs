@@ -40,7 +40,7 @@ namespace ActiveX
             _currentDeviceViewModel = new CurrentDeviceViewModel();
             _currentDeviceView = new CurrentDeviceView();
             _currentDeviceView.DataContext = _currentDeviceViewModel;
-            
+
 
             if (DeviceId != Guid.Empty)
             {
@@ -59,8 +59,8 @@ namespace ActiveX
 
         private void StartFiresecClient()
         {
-            FiresecManager.Connect("net.tcp://localhost:9000/FiresecCallbackService/","net.tcp://localhost:8000/FiresecService/", "adm", "");
-            FiresecManager.ActiveXFetch();
+            FiresecManager.Connect("ActiveX", "net.tcp://localhost:8000/FiresecService/", "adm", "");
+            FiresecManager.GetConfiguration();
         }
 
         public void GetPages(Microsoft.VisualStudio.OLE.Interop.CAUUID[] pPages)
@@ -131,8 +131,5 @@ namespace ActiveX
 
         #endregion
 
-
     }
-
-
 }

@@ -154,7 +154,7 @@ namespace DevicesModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            Zones = new List<ulong>(TargetZones.Select(x => x.No));
+            Zones = new List<ulong>(TargetZones.Select(x => x.Zone.No));
         }
     }
 }

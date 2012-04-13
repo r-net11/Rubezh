@@ -5,26 +5,11 @@ namespace DevicesModule.ViewModels
 {
     public class ZoneViewModel : BaseViewModel
     {
-        public Zone Zone { get; set; }
+        public Zone Zone { get; private set; }
 
         public ZoneViewModel(Zone zone)
         {
             Zone = zone;
-        }
-
-        public string Name
-        {
-            get { return Zone.Name; }
-        }
-
-        public ulong No
-        {
-            get { return Zone.No; }
-        }
-
-        public string Description
-        {
-            get { return Zone.Description; }
         }
 
         public string DetectorCount
@@ -37,24 +22,11 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public string EvacuationTime
+        public void Update(Zone zone)
         {
-            get { return Zone.EvacuationTime; }
-        }
-
-        public string PresentationName
-        {
-            get { return Zone.PresentationName; }
-        }
-
-        public void Update()
-        {
-            OnPropertyChanged("Name");
-            OnPropertyChanged("No");
-            OnPropertyChanged("Description");
+            Zone = zone;
+            OnPropertyChanged("Zone");
             OnPropertyChanged("DetectorCount");
-            OnPropertyChanged("EvacuationTime");
-            OnPropertyChanged("PresentationName");
         }
     }
 }

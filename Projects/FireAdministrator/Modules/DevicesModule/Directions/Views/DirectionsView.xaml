@@ -34,9 +34,9 @@
                 </Grid.RowDefinitions>
                 <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="№" Binding="{Binding No}" />
-                        <DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Name}" />
-                        <DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding Description}" />
+                        <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" />
+                        <DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Zone.Name}" />
+                        <DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding Zone.Description}" />
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
@@ -50,9 +50,9 @@
             <Grid Grid.Row="2" SizeChanged="OnHeightChanged">
                 <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="№" Binding="{Binding No}" />
-                        <DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Name}" />
-                        <DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding Description}" />
+                        <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" />
+                        <DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding Zone.Name}" />
+                        <DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding Zone.Description}" />
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>

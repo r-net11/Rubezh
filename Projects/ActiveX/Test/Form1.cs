@@ -56,8 +56,8 @@ namespace Test
 
         private void StartFiresecClient()
         {
-            FiresecManager.Connect("net.tcp://localhost:9000/FiresecCallbackService/", "net.tcp://localhost:8000/FiresecService/", "adm", "");
-            FiresecManager.ActiveXFetch();
+            FiresecManager.Connect("ActiveX", "net.tcp://localhost:8000/FiresecService/", "adm", "");
+            FiresecManager.GetConfiguration();
         }
 
         private void button1_Click(object sender, EventArgs e)

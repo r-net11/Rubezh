@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
@@ -14,7 +15,7 @@ namespace DevicesModule.ViewModels
             AutoDetectCommand = new RelayCommand(OnAutoDetect, CanAutoDetect);
             ReadDeviceCommand = new RelayCommand<bool>(OnReadDevice, CanReadDevice);
             WriteDeviceCommand = new RelayCommand<bool>(OnWriteDevice, CanWriteDevice);
-            WriteAllDeviceCommand = new RelayCommand(OnWriteAllDevice, CanWriteAllDevice);
+            WriteAllDeviceCommand = new RelayCommand(OnWriteAllDevice);
             SynchronizeDeviceCommand = new RelayCommand<bool>(OnSynchronizeDevice, CanSynchronizeDevice);
             UpdateSoftCommand = new RelayCommand<bool>(OnUpdateSoft, CanUpdateSoft);
             GetDescriptionCommand = new RelayCommand<bool>(OnGetDescription, CanGetDescription);
@@ -84,22 +85,10 @@ namespace DevicesModule.ViewModels
         public RelayCommand WriteAllDeviceCommand { get; private set; }
         void OnWriteAllDevice()
         {
-            //foreach (var device in FiresecManager.DeviceConfiguration.Devices)
-            //{
-            //    if (device.Driver.CanWriteDatabase)
-            //    {
-            //        DeviceWriteConfigurationHelper.Run(device, false);
-            //        Thread.Sleep(1000);
-            //    }
-            //}
-
             if (ValidateConfiguration())
+            {
                 WriteAllDeviceConfigurationHelper.Run();
-        }
-
-        bool CanWriteAllDevice()
-        {
-            return true;
+            }
         }
 
         public RelayCommand<bool> SynchronizeDeviceCommand { get; private set; }

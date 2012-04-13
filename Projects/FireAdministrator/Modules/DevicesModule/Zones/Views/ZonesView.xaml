@@ -14,9 +14,9 @@
         <Grid Grid.Column="0">
             <Controls:XDataGrid Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" CanUserSortColumns="True">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Width="1*" Binding="{Binding No}" />
-                    <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Name}" />
-                    <DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding Description}" />
+                    <DataGridTextColumn Header="№" Width="1*" Binding="{Binding Zone.No}" />
+                    <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Zone.Name}" />
+                    <DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding Zone.Description}" />
                     <DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding DetectorCount}" />
                 </DataGrid.Columns>
             </Controls:XDataGrid>

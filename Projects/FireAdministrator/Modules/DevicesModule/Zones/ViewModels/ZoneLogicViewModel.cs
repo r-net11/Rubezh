@@ -136,6 +136,8 @@ namespace DevicesModule.ViewModels
         protected override void Save(ref bool cancel)
         {
             var zoneLogic = new ZoneLogic();
+            zoneLogic.JoinOperator = JoinOperator;
+
             foreach (var clauseViewModel in Clauses)
             {
                 switch (clauseViewModel.SelectedState)

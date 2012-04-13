@@ -35,7 +35,7 @@ namespace InstructionsModule.ViewModels
                 var zoneViewModel = new ZoneViewModel(zone);
                 if (InstructionZonesList.IsNotNullOrEmpty())
                 {
-                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.No);
+                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.Zone.No);
                     if (instructionZone != 0)
                         InstructionZones.Add(zoneViewModel);
                     else
@@ -151,7 +151,7 @@ namespace InstructionsModule.ViewModels
 
         protected override void Save(ref bool cancel)
         {
-            InstructionZonesList = new List<ulong>(from zone in InstructionZones select zone.No);
+            InstructionZonesList = new List<ulong>(from zone in InstructionZones select zone.Zone.No);
         }
     }
 }

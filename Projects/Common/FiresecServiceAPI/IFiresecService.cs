@@ -27,6 +27,9 @@ namespace FiresecAPI
 		[OperationContract(IsOneWay = true)]
 		void CancelProgress();
 
+        [OperationContract]
+        string GetStatus();
+
 		[OperationContract]
 		string Ping();
 

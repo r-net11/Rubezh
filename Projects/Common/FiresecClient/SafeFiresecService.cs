@@ -78,7 +78,6 @@ namespace FiresecClient
             {
                 var result = _iFiresecService.Ping();
                 OnConnectionAppeared();
-
                 return result;
             }
             catch (CommunicationObjectFaultedException)
@@ -108,8 +107,9 @@ namespace FiresecClient
                 if (result != null)
                     return result;
             }
-            catch
+            catch(Exception e)
             {
+                Logger.Error(e);
                 OnConnectionLost();
             }
             var operationResult = new OperationResult<T>()
@@ -128,6 +128,7 @@ namespace FiresecClient
             }
             catch(Exception e)
             {
+                Logger.Error(e);
                 OnConnectionLost();
             }
             return default(T);
@@ -141,13 +142,27 @@ namespace FiresecClient
             }
             catch (Exception e)
             {
+                Logger.Error(e);
                 OnConnectionLost();
             }
         }
 
         public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string userName, string password)
         {
-            return SafeOperationCall(() => { return _iFiresecService.Connect(clientType, clientCallbackAddress, userName, password); });
+            return SafeOperationCall(() =>
+            {
+                try
+                {
+                    return _iFiresecService.Connect(clientType, clientCallbackAddress, userName, password);
+                }
+                catch { }
+                return new OperationResult<bool>()
+                {
+                    Result = false,
+                    HasError = true,
+                    Error = "Не удается соединиться с сервером"
+                };
+            });
         }
 
         public OperationResult<bool> Reconnect(string userName, string password)
@@ -163,6 +178,11 @@ namespace FiresecClient
         public void Subscribe()
         {
             SafeOperationCall(() => { _iFiresecService.Subscribe(); });
+        }
+
+        public string GetStatus()
+        {
+            return SafeOperationCall(() => { return _iFiresecService.GetStatus(); });
         }
 
         public void CancelProgress()

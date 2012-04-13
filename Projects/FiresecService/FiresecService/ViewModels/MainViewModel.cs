@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using FiresecService.Infrastructure;
@@ -22,7 +23,7 @@ namespace FiresecService.ViewModels
 
         void Start()
         {
-            FiresecInternalClient.Disconnect();
+            FiresecSerializedClient.Disconnect();
 
             string oldFiresecLogin = AppSettings.OldFiresecLogin;
             string oldFiresecPassword = AppSettings.OldFiresecPassword;
@@ -33,7 +34,7 @@ namespace FiresecService.ViewModels
         public RelayCommand ReloadCommand { get; private set; }
         void OnReload()
         {
-            FiresecInternalClient.Disconnect();
+            FiresecSerializedClient.Disconnect();
             FiresecServiceManager.Close();
 
             Connections = new ObservableCollection<ConnectionViewModel>();
@@ -75,12 +76,38 @@ namespace FiresecService.ViewModels
             }
         }
 
-        public void RemoveConnection(ConnectionViewModel connectionViewModel)
+        public void AddConnection(Guid uid, string userLogin, string userIpAddress, string clientType)
+        {
+            var connectionViewModel = new ConnectionViewModel()
+            {
+                UID = uid,
+                UserName = userLogin,
+                IpAddress = userIpAddress,
+                ClientType = clientType,
+                ConnectionDate = DateTime.Now
+            };
+            Connections.Add(connectionViewModel);
+        }
+
+        public void RemoveConnection(Guid uid)
         {
             Dispatcher.Invoke(new Action(
             delegate()
             {
+                var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == uid);
                 Connections.Remove(connectionViewModel);
+            }
+            ));
+        }
+
+        public void EditConnection(Guid uid, string userName)
+        {
+            Dispatcher.Invoke(new Action(
+            delegate()
+            {
+                var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == uid);
+                connectionViewModel.ConnectionDate = DateTime.Now;
+                connectionViewModel.UserName = userName;
             }
             ));
         }

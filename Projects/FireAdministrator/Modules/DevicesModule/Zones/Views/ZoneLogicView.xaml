@@ -101,8 +101,6 @@
 								</Grid>
 								<Grid Visibility="{Binding ShowJoinOperator, Converter={StaticResource BoolToVisibilityConverter}}">
 									<Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
-										Visibility="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ShowJoinOperator,
-										Converter={StaticResource BoolToVisibilityConverter}}"
 										Content="{Binding JoinOperator, Converter={StaticResource ZoneLogicJoinOperatorConverter}}"
 										Command="{Binding ChangeJoinOperatorCommand}"
 										Width="75" HorizontalAlignment="Left" Style="{StaticResource ToolarButtonStyle}" Foreground="White" />

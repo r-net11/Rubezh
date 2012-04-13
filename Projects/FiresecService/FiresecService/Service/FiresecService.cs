@@ -23,7 +23,7 @@ namespace FiresecService
 		public readonly static FiresecDbConverterDataContext DataBaseContext = ConnectionManager.CreateFiresecDataContext();
 		public IFiresecCallback Callback { get; private set; }
 		public IFiresecCallbackService FiresecCallbackService { get; private set; }
-		public Guid FiresecServiceUID { get; private set; }
+		public Guid UID { get; private set; }
 		string _userLogin;
 		string _userName;
 		string _userIpAddress;
@@ -32,7 +32,7 @@ namespace FiresecService
 
 		public FiresecService()
 		{
-			FiresecServiceUID = Guid.NewGuid();
+			UID = Guid.NewGuid();
 		}
 
         public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string login, string password)
@@ -47,75 +47,68 @@ namespace FiresecService
                     operationResult.Error = "Нет соединения с ядром Firesec";
                     return operationResult;
                 }
-                //if (!string.IsNullOrEmpty(FiresecManager.DriversError))
-                //{
-                //    operationResult.HasError = false;
-                //    operationResult.Error = FiresecManager.DriversError;
-                //    return operationResult;
-                //}
-
-                if (CheckLogin(login, password))
+                if (CheckLogin(login, password) == false)
                 {
-                    if (CheckRemoteAccessPermissions(login))
-                    {
-                        _clientType = clientType;
-
-                        var connectionViewModel = new ConnectionViewModel()
-                        {
-                            FiresecServiceUID = FiresecServiceUID,
-                            UserName = _userLogin,
-                            IpAddress = _userIpAddress,
-                            ClientType = _clientType
-                        };
-                        MainViewModel.Current.Connections.Add(connectionViewModel);
-
-                        DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
-
-                        Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
-                        CallbackManager.Add(this);
-
-                        FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(clientCallbackAddress);
-
-                        operationResult.Result = true;
-                        return operationResult;
-                    }
+                    operationResult.HasError = true;
+                    operationResult.Error = "Неверный логин или пароль";
+                    return operationResult;
+                }
+                if (CheckRemoteAccessPermissions(login) == false)
+                {
                     operationResult.HasError = true;
                     operationResult.Error = "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + _userIpAddress;
                     return operationResult;
                 }
-                operationResult.HasError = true;
-                operationResult.Error = "Неверный логин или пароль";
+
+                _clientType = clientType;
+
+                MainViewModel.Current.AddConnection(UID, _userLogin, _userIpAddress, _clientType);
+
+                DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
+
+                Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+                CallbackManager.Add(this);
+
+                FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(clientCallbackAddress);
+
+                operationResult.Result = true;
                 return operationResult;
             }
         }
 
         public OperationResult<bool> Reconnect(string login, string password)
-		{
+        {
             var operationResult = new OperationResult<bool>();
+            var oldUserName = _userName;
 
-			var oldUserName = _userName;
-			if (CheckLogin(login, password))
-			{
-				var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.FiresecServiceUID == FiresecServiceUID);
-				connectionViewModel.UserName = login;
-
-				DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал");
-				DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял");
-
-                operationResult.Result = true;
+            if (CheckLogin(login, password) == false)
+            {
+                operationResult.HasError = true;
+                operationResult.Error = "Неверный логин или пароль";
                 return operationResult;
-			}
-            operationResult.HasError = true;
-            operationResult.Error = "Неверный логин или пароль";
+            }
+            if (CheckRemoteAccessPermissions(login) == false)
+            {
+                operationResult.HasError = true;
+                operationResult.Error = "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + _userIpAddress;
+                return operationResult;
+            }
+
+            var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == UID);
+            connectionViewModel.UserName = login;
+            MainViewModel.Current.EditConnection(UID, login);
+
+            DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал");
+            DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял");
+
+            operationResult.Result = true;
             return operationResult;
-		}
+        }
 
 		[OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.AfterCall)]
 		public void Disconnect()
 		{
-			var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.FiresecServiceUID == FiresecServiceUID);
-			MainViewModel.Current.RemoveConnection(connectionViewModel);
-
+            MainViewModel.Current.RemoveConnection(UID);
 			DatabaseHelper.AddInfoMessage(_userName, "Выход пользователя из системы");
 			CallbackManager.Remove(this);
 		}
@@ -132,30 +125,14 @@ namespace FiresecService
 			ContinueProgress = false;
 		}
 
-		public List<string> GetFileNamesList(string directory)
-		{
-			lock (Locker)
-			{
-				return HashHelper.GetFileNamesList(directory);
-			}
-		}
-
-		public Dictionary<string, string> GetDirectoryHash(string directory)
-		{
-			lock (Locker)
-			{
-				return HashHelper.GetDirectoryHash(directory);
-			}
-		}
-
-		public Stream GetFile(string directoryNameAndFileName)
-		{
-			lock (Locker)
-			{
-				var filePath = ConfigurationFileManager.ConfigurationDirectory(directoryNameAndFileName);
-				return new FileStream(filePath, FileMode.Open, FileAccess.Read);
-			}
-		}
+        public string GetStatus()
+        {
+            if (!string.IsNullOrEmpty(FiresecManager.DriversError))
+            {
+                return FiresecManager.DriversError;
+            }
+            return null;
+        }
 
 		public void ConvertConfiguration()
 		{
@@ -166,11 +143,6 @@ namespace FiresecService
 		public void ConvertJournal()
 		{
 			JournalDataConverter.Convert();
-		}
-
-		public void Dispose()
-		{
-			Disconnect();
 		}
 
 		public string Ping()
@@ -185,7 +157,6 @@ namespace FiresecService
 		{
 			lock (Locker)
 			{
-				DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
 				return "Test";
 			}
 		}
@@ -258,5 +229,10 @@ namespace FiresecService
 			var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin);
 			_userName = user.Name + " (" + userIp + ")";
 		}
+
+        public void Dispose()
+        {
+            Disconnect();
+        }
 	}
 }

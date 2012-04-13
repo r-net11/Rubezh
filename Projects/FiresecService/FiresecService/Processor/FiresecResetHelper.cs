@@ -35,7 +35,7 @@ namespace FiresecService
 
             var coreState = new Firesec.CoreState.config();
             coreState.dev = innerDevices.ToArray();
-            return FiresecInternalClient.ResetStates(coreState);
+            return FiresecSerializedClient.ResetStates(coreState);
         }
     }
 }

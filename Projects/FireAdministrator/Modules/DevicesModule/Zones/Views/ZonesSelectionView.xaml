@@ -13,9 +13,9 @@
         <Grid Grid.Column="0">
             <DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-                    <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+                    <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" Width="auto" />
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.Name}" Width="*" />
+                    <DataGridTextColumn Header="Примечание" Binding="{Binding Zone.Description}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
@@ -28,9 +28,9 @@
         <Grid Grid.Column="2">
             <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-                    <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
+                    <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" Width="auto" />
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Zone.Name}" Width="*" />
+                    <DataGridTextColumn Header="Примечание" Binding="{Binding Zone.Description}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

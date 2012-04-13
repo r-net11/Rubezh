@@ -13,8 +13,8 @@ namespace FiresecService
         public void Start()
         {
             SetLastEvent();
-            FiresecInternalClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
-            FiresecInternalClient.Progress += new Func<int, string, int, int, bool>(FiresecInternalClient_Progress);
+            FiresecSerializedClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
+            FiresecSerializedClient.Progress += new Func<int, string, int, int, bool>(FiresecInternalClient_Progress);
             OnStateChanged();
             OnParametersChanged();
         }
@@ -54,7 +54,7 @@ namespace FiresecService
 
         void SetLastEvent()
         {
-            Firesec.Journals.document journal = FiresecInternalClient.ReadEvents(0, 1000).Result;
+            Firesec.Journals.document journal = FiresecSerializedClient.ReadEvents(0, 1000).Result;
             if (journal != null && journal.Journal.IsNotNullOrEmpty())
             {
                 foreach(var journalItem in journal.Journal)
@@ -68,7 +68,7 @@ namespace FiresecService
 
         void OnNewEvent()
         {
-            var document = FiresecInternalClient.ReadEvents(LastEventId, 100).Result;
+            var document = FiresecSerializedClient.ReadEvents(LastEventId, 100).Result;
             if (document != null && document.Journal.IsNotNullOrEmpty())
             {
                 int newLastValue = LastEventId;
@@ -91,7 +91,7 @@ namespace FiresecService
         void OnParametersChanged()
         {
             ChangedDevices = new HashSet<DeviceState>();
-            var coreParameters = FiresecInternalClient.GetDeviceParams().Result;
+            var coreParameters = FiresecSerializedClient.GetDeviceParams().Result;
             try
             {
                 foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
@@ -124,7 +124,7 @@ namespace FiresecService
         public void OnStateChanged()
         {
             ChangedDevices = new HashSet<DeviceState>();
-            var coreState = FiresecInternalClient.GetCoreState().Result;
+            var coreState = FiresecSerializedClient.GetCoreState().Result;
             try
             {
                 SetStates(coreState);

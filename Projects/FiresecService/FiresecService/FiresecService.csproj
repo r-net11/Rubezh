@@ -185,6 +185,7 @@
     <Compile Include="Processor\JournalFilterHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\FiresecOperationExtentions.cs" />
+    <Compile Include="Service\FiresecService.Files.cs" />
     <Compile Include="Service\FiresecService.SKUD.cs" />
     <Compile Include="Service\FiresecCallbackServiceCreator.cs" />
     <Compile Include="Service\FiresecService.Configuration.cs" />
@@ -193,7 +194,7 @@
     <Compile Include="Service\FiresecService.Journal.cs" />
     <Compile Include="Service\FiresecService.XDevices.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
-    <Compile Include="Service\ServiceManager.cs" />
+    <Compile Include="Service\FiresecServiceManager.cs" />
     <Compile Include="Imitator\ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
@@ -261,7 +262,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Processor\FiresecInternalClient.cs" />
+    <Compile Include="Processor\FiresecSerializedClient.cs" />
     <Compile Include="Processor\FiresecManager.cs" />
     <Compile Include="Processor\FiresecResetHelper.cs" />
     <Compile Include="Processor\SerializerHelper.cs" />

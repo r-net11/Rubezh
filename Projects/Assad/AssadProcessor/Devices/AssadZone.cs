@@ -26,10 +26,10 @@ namespace AssadProcessor.Devices
             deviceType.deviceId = DeviceId;
             var states = new List<Assad.DeviceTypeState>();
 
-            if (FiresecManager.DeviceStates.ZoneStates.Any(x => x.No.Value.ToString() == ZoneNo))
+            if (FiresecManager.DeviceStates.ZoneStates.Any(x => x.No.ToString() == ZoneNo))
             {
-                var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No.Value.ToString() == ZoneNo);
-                var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No.Value.ToString() == ZoneNo);
+                var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No.ToString() == ZoneNo);
+                var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No.ToString() == ZoneNo);
 
                 var mainState = new Assad.DeviceTypeState()
                 {
@@ -91,14 +91,16 @@ namespace AssadProcessor.Devices
             eventType.eventId = eventName;
             eventType.alertLevel = "0";
 
-            if (FiresecManager.DeviceStates.ZoneStates.Any(x => x.No.Value.ToString() == ZoneNo))
+            if (FiresecManager.DeviceStates.ZoneStates.Any(x => x.No.ToString() == ZoneNo))
             {
-                var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No.Value.ToString() == ZoneNo);
+                var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No.ToString() == ZoneNo);
 
                 eventType.state = new Assad.CPeventTypeState[1];
-                eventType.state[0] = new Assad.CPeventTypeState();
-                eventType.state[0].state = "Состояние";
-                eventType.state[0].value = EnumsConverter.StateTypeToClassName(zoneState.StateType);
+                eventType.state[0] = new Assad.CPeventTypeState()
+                {
+                    state = "Состояние",
+                    value = EnumsConverter.StateTypeToClassName(zoneState.StateType)
+                };
             }
 
             NetManager.Send(eventType, null);

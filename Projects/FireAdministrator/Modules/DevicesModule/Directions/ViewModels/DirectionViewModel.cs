@@ -76,7 +76,7 @@ namespace DevicesModule.ViewModels
         {
             int oldIndex = SourceZones.IndexOf(SelectedSourceZone);
 
-            Direction.Zones.Add(SelectedSourceZone.No);
+            Direction.Zones.Add(SelectedSourceZone.Zone.No);
             Zones.Add(SelectedSourceZone);
             SourceZones.Remove(SelectedSourceZone);
 
@@ -94,7 +94,7 @@ namespace DevicesModule.ViewModels
         {
             int oldIndex = Zones.IndexOf(SelectedZone);
 
-            Direction.Zones.Remove(SelectedZone.No);
+            Direction.Zones.Remove(SelectedZone.Zone.No);
             SourceZones.Add(SelectedZone);
             Zones.Remove(SelectedZone);
 

@@ -27,7 +27,7 @@ namespace FiresecService
             SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
             PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
 
-            if (FiresecInternalClient.Connect(login, password).Result)
+            if (FiresecSerializedClient.Connect(login, password).Result)
             {
                 ConvertMetadataFromFiresec();
                 SetValidChars();
@@ -45,7 +45,7 @@ namespace FiresecService
 
         static void ConvertMetadataFromFiresec()
         {
-            DriverConverter.Metadata = FiresecInternalClient.GetMetaData().Result;
+            DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
             Drivers = new List<Driver>();
             foreach (var innerDriver in DriverConverter.Metadata.drv)
             {
@@ -64,7 +64,7 @@ namespace FiresecService
 
         public static void SetValidChars()
         {
-            DriverConverter.Metadata = FiresecInternalClient.GetMetaData().Result;
+            DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
             var validCharsBuilder = new StringBuilder(DriverConverter.Metadata.drv.Last().validChars);
             validCharsBuilder.Append('№');
             DeviceConfiguration.ValidChars = validCharsBuilder.ToString();

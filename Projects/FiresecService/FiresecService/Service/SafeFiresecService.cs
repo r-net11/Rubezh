@@ -64,6 +64,7 @@ namespace FiresecService
 			}
 			catch (Exception e)
 			{
+                Logger.Error(e);
 			}
 		}
 
@@ -90,6 +91,11 @@ namespace FiresecService
 		public void CancelProgress()
 		{
 			SafeOperationCall(() => { FiresecService.CancelProgress(); });
+		}
+
+        public string GetStatus()
+		{
+            return SafeOperationCall(() => { return FiresecService.GetStatus(); });
 		}
 
 		public List<FiresecAPI.Models.Driver> GetDrivers()

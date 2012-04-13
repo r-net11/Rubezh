@@ -32,9 +32,7 @@ namespace FiresecService
             {
                 foreach (var failedServiceInstance in _failedServiceInstances)
                 {
-                    var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.FiresecServiceUID == failedServiceInstance.FiresecServiceUID);
-                    MainViewModel.Current.RemoveConnection(connectionViewModel);
-
+                    MainViewModel.Current.RemoveConnection(failedServiceInstance.UID);
                     _serviceInstances.Remove(failedServiceInstance);
                 }
             }

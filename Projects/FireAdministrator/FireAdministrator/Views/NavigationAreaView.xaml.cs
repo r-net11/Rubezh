@@ -356,7 +356,10 @@ namespace FireAdministrator.Views
 
 		public bool HaveSkudPermissions
 		{
-            get { return FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_SKUD); }
+            get
+            {
+                return (ServiceFactory.AppSettings.ShowSKUD && FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_SKUD));
+            }
 		}
 
 		bool _isEmployeeCardIndexSelected;

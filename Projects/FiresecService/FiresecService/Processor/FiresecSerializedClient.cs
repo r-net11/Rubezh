@@ -4,7 +4,7 @@ using Firesec;
 
 namespace FiresecService
 {
-    public static class FiresecInternalClient
+    public static class FiresecSerializedClient
     {
         public static FiresecOperationResult<bool> Connect(string login, string password)
         {

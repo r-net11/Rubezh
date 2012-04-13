@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Infrastructure.Common;
+using Common;
 
 namespace Controls.MessageBox
 {
@@ -31,8 +32,9 @@ namespace Controls.MessageBox
 
                 return (bool)result;
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Error(e);
                 throw;
             }
         }

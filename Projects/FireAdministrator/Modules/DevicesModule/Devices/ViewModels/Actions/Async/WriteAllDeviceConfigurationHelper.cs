@@ -1,7 +1,8 @@
-﻿using FiresecClient;
-using Infrastructure;
+﻿using System;
 using Controls.MessageBox;
 using FiresecAPI;
+using FiresecClient;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -11,20 +12,30 @@ namespace DevicesModule.ViewModels
 
         public static void Run()
         {
-            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Запись конфигурации во все устройства");
-        }
-
-        static void OnPropgress()
-        {
-            _operationResult = FiresecManager.WriteAllDeviceConfiguration();
-        }
-
-        static void OnCompleted()
-        {
-            if (_operationResult.HasError)
+            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
             {
-                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
-                return;
+                bool hasError = false;
+                if (device.Driver.CanWriteDatabase)
+                {
+                    var deviceName = device.PresentationAddressDriver + ". Запись конфигурации в устройство";
+                    ServiceFactory.ProgressService.Run(
+                        new Action
+                            (
+                            () =>
+                            {
+                                _operationResult = FiresecManager.DeviceWriteConfiguration(device.UID, false);
+                                if (_operationResult.HasError)
+                                {
+                                    MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
+                                    hasError = true;
+                                    return;
+                                }
+                            }
+                            ),
+                        null, deviceName);
+                }
+                if (hasError)
+                    return;
             }
             MessageBoxService.Show("Операция завершилась успешно");
         }
