@@ -8,16 +8,19 @@
         <Converters:DateTimeToStringConverter x:Key="DateTimeToStringConverter" Format="dd.MM.yyyy"/>
     </UserControl.Resources>
 
-    <Controls:XDataGrid ItemsSource="{Binding EmployeeCardIndex}" SelectedItem="{Binding SelectedEmployeeCard}">
+    <Controls:XDataGrid ItemsSource="{Binding EmployeeCardIndex}" SelectedItem="{Binding SelectedEmployeeCard}" 
+        ScrollViewer.CanContentScroll="True" 
+      ScrollViewer.VerticalScrollBarVisibility="Auto"
+      ScrollViewer.HorizontalScrollBarVisibility="Auto">
         <DataGrid.Columns>
-            <DataGridTextColumn Header="Фамилия" Width="200" Binding="{Binding EmployeeCard.LastName}"/>
-            <DataGridTextColumn Header="Имя" Width="200" Binding="{Binding EmployeeCard.FirstName}"/>
-            <DataGridTextColumn Header="Отчество" Width="200" Binding="{Binding EmployeeCard.SecondName}"/>
-            <DataGridTextColumn Header="Дата рождения" Width="100" Binding="{Binding EmployeeCard.Birthday,  Converter={StaticResource DateTimeToStringConverter}}"/>
-            <DataGridTextColumn Header="Пол" Width="100" Binding="{Binding EmployeeCard.Sex}"/>
-            <DataGridTextColumn Header="Должность" Width="200" Binding="{Binding EmployeeCard.Position}"/>
-            <DataGridTextColumn Header="Подразделение" Width="200" Binding="{Binding EmployeeCard.Staff}"/>
-            <DataGridTextColumn Header="Описание" Width="*" Binding="{Binding EmployeeCard.Comment}" />
+            <DataGridTextColumn Header="Фамилия" Width="200" MinWidth="50" Binding="{Binding EmployeeCard.LastName}"/>
+            <DataGridTextColumn Header="Имя" Width="200" MinWidth="50" Binding="{Binding EmployeeCard.FirstName}"/>
+            <DataGridTextColumn Header="Отчество" Width="200"  MinWidth="50" Binding="{Binding EmployeeCard.SecondName}"/>
+            <DataGridTextColumn Header="Дата рождения" Width="100"  MinWidth="50" Binding="{Binding EmployeeCard.Birthday,  Converter={StaticResource DateTimeToStringConverter}}"/>
+            <DataGridTextColumn Header="Пол" Width="100" MinWidth="50" Binding="{Binding EmployeeCard.Sex}"/>
+            <DataGridTextColumn Header="Должность" Width="200" MinWidth="50" Binding="{Binding EmployeeCard.Position}"/>
+            <DataGridTextColumn Header="Подразделение" Width="200" MinWidth="50" Binding="{Binding EmployeeCard.Staff}"/>
+            <DataGridTextColumn Header="Описание" Width="300" MinWidth="50" Binding="{Binding EmployeeCard.Comment}" />
         </DataGrid.Columns>
     </Controls:XDataGrid>
 </UserControl>
