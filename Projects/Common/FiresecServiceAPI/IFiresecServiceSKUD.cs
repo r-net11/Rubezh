@@ -11,6 +11,6 @@ namespace FiresecAPI
 	public interface IFiresecServiceSKUD
 	{
 		[OperationContract]
-		IEnumerable<SkudEmployee> GetEmployees();
+		IEnumerable<EmployeeCard> GetEmployees();
 	}
 }

@@ -9,9 +9,9 @@ namespace SkudModule.ViewModels
 {
     public class EmployeeCardViewModel : BaseViewModel
     {
-		public SkudEmployee EmployeeCard { get; private set; }
+		public EmployeeCard EmployeeCard { get; private set; }
 
-		public EmployeeCardViewModel(SkudEmployee employeeCard)
+		public EmployeeCardViewModel(EmployeeCard employeeCard)
 		{
 		    EmployeeCard = employeeCard;
 		}

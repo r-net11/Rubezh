@@ -1,3 +1,5 @@
+USE [Firesec]
+GO
 IF EXISTS (SELECT * FROM [dbo].[sysobjects] where id = object_id(N'[dbo].[GetAllEmployees]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
 drop procedure [dbo].[GetAllEmployees]
 GO
@@ -8,12 +10,23 @@ GO
 CREATE PROCEDURE [dbo].[GetAllEmployees]
 AS
 BEGIN
-	SELECT * 
+	SELECT 
+		e.Id,
+		e.PersonId,
+		e.Staff,
+		e.Position,
+		e.Comment,
+		p.LastName,
+		p.FirstName,
+		p.SecondName,
+		p.Birthday,
+		p.Sex,
+		p.Comment PersonComment
 	FROM 
 		[dbo].[Employee] e
 		INNER JOIN [dbo].[Person] p on e.PersonId = p.Id
 END
-
+GO
 
 -- FOR TEST ONLY - DEBUG
 DELETE FROM [dbo].[Employee];

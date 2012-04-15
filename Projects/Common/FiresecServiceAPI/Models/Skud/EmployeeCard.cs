@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models.Skud
 {
 	[DataContract]
-	public class SkudEmployee
+	public class EmployeeCard
 	{
 		[DataMember]
 		public int Id { get; set; }

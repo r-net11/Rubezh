@@ -13,7 +13,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Person](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[LastNmae] [nvarchar](max) NULL,
+	[LastName] [nvarchar](max) NULL,
 	[FirstName] [nvarchar](max) NULL,
 	[SecondName] [nvarchar](max) NULL,
 	[Birthday] [datetime] NULL,

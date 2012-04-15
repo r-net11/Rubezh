@@ -514,9 +514,7 @@ namespace FiresecService.SKUD.DataAccess
 		
 		private string _Comment;
 		
-		private int _Id1;
-		
-		private string _LastNmae;
+		private string _LastName;
 		
 		private string _FirstName;
 		
@@ -526,7 +524,7 @@ namespace FiresecService.SKUD.DataAccess
 		
 		private System.Nullable<System.DateTime> _Sex;
 		
-		private string _Comment1;
+		private string _PersonComment;
 		
 		public GetAllEmployeesResult()
 		{
@@ -612,34 +610,18 @@ namespace FiresecService.SKUD.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Id1", DbType="Int NOT NULL")]
-		public int Id1
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastName", DbType="NVarChar(MAX)")]
+		public string LastName
 		{
 			get
 			{
-				return this._Id1;
+				return this._LastName;
 			}
 			set
 			{
-				if ((this._Id1 != value))
+				if ((this._LastName != value))
 				{
-					this._Id1 = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastNmae", DbType="NVarChar(MAX)")]
-		public string LastNmae
-		{
-			get
-			{
-				return this._LastNmae;
-			}
-			set
-			{
-				if ((this._LastNmae != value))
-				{
-					this._LastNmae = value;
+					this._LastName = value;
 				}
 			}
 		}
@@ -708,18 +690,18 @@ namespace FiresecService.SKUD.DataAccess
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Comment1", DbType="NVarChar(MAX)")]
-		public string Comment1
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PersonComment", DbType="NVarChar(MAX)")]
+		public string PersonComment
 		{
 			get
 			{
-				return this._Comment1;
+				return this._PersonComment;
 			}
 			set
 			{
-				if ((this._Comment1 != value))
+				if ((this._PersonComment != value))
 				{
-					this._Comment1 = value;
+					this._PersonComment = value;
 				}
 			}
 		}

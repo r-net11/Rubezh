@@ -181,7 +181,7 @@
     <Compile Include="Models\Security\PermissionType.cs" />
     <Compile Include="Models\Security\RemoteAccessType.cs" />
     <Compile Include="Models\Security\UserRole.cs" />
-    <Compile Include="Models\Skud\SkudEmployee.cs" />
+    <Compile Include="Models\Skud\EmployeeCard.cs" />
     <Compile Include="Models\Skud\SkudPerson.cs" />
     <Compile Include="Models\System\ArchiveDefaultState.cs" />
     <Compile Include="Models\System\ArchiveDefaultStateType.cs" />

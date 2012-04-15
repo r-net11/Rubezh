@@ -343,9 +343,9 @@ namespace FiresecService
 			return SafeOperationCall(() => { return FiresecService.GetXDeviceConfiguration(); });
 		}
 
-		public IEnumerable<SkudEmployee> GetEmployees()
+		public IEnumerable<EmployeeCard> GetEmployees()
 		{
-			return SafeContext.Execute<IEnumerable<SkudEmployee>>(() => FiresecService.GetEmployees());
+			return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => FiresecService.GetEmployees());
 		}
 	}
 }

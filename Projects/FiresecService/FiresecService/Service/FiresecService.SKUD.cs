@@ -18,7 +18,7 @@ namespace FiresecService
 		#region IFiresecService Members
 
 
-		public IEnumerable<FiresecAPI.Models.Skud.SkudEmployee> GetEmployees()
+		public IEnumerable<FiresecAPI.Models.Skud.EmployeeCard> GetEmployees()
 		{
 			return _skud.GetEmployees();
 		}

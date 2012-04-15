@@ -28,13 +28,12 @@
       <Column Name="Staff" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Position" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Id1" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="LastNmae" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="SecondName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Birthday" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="Sex" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Comment1" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PersonComment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </ElementType>
   </Function>
 </Database>

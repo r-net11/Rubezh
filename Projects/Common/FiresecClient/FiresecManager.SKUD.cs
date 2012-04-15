@@ -8,7 +8,7 @@ namespace FiresecClient
 {
     public partial class FiresecManager
     {
-        public static IEnumerable<SkudEmployee> GetEmployees()
+		public static IEnumerable<EmployeeCard> GetEmployees()
         {
             return FiresecService.GetEmployees();
         }
