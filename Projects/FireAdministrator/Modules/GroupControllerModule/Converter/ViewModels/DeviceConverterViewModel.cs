@@ -19,7 +19,8 @@ namespace GroupControllerModule.ViewModels
             {
                 var binObjectViewModel = new BinObjectViewModel()
                 {
-                    Caption = device.Driver.ShortName + " - " + device.Address,
+                    DeviceName = device.Driver.ShortName,
+                    DeviceAddress = device.Address,
                     ImageSource = device.Driver.ImageSource,
                     Level = device.AllParents.Count,
                     DeviceBinaryFormatter = new DeviceBinaryFormatter()

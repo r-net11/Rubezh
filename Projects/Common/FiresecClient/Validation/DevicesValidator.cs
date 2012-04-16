@@ -35,7 +35,6 @@ namespace FiresecClient.Validation
             {
                 ValidateAddressEquality(device);
                 ValidateDeviceIndicatorOtherNetwor(device);
-                ValidateDeviceComment(device);
                 ValidateDeviceOnInvalidChars(device);
                 ValidateDeviceMaxDeviceOnLine(device);
                 ValidateDeviceOwnerZone(device);
@@ -132,13 +131,6 @@ namespace FiresecClient.Validation
                     }
                 }
             }
-        }
-
-        static void ValidateDeviceComment(Device device)
-        {
-            if (string.IsNullOrWhiteSpace(device.Description) == false)
-                if (device.Description.Length > 20)
-                    DeviceErrors.Add(new DeviceError(device, "Длинное описание - в прибор будет записано описание из первых 20 символов", ErrorLevel.Warning));
         }
 
         static void ValidateDeviceOnInvalidChars(Device device)

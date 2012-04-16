@@ -34,9 +34,11 @@ namespace ReportsModule.ViewModels
         void ShowCrystalReport(BaseReport baseReport)
         {
             baseReport.LoadData();
-            var viewerCore = new SAPBusinessObjects.WPF.Viewer.ViewerCore();
-            viewerCore.ToggleSidePanel = Constants.SidePanelKind.None;
-            viewerCore.ReportSource = baseReport.CreateCrystalReportDocument();
+            var viewerCore = new SAPBusinessObjects.WPF.Viewer.ViewerCore()
+            {
+                ToggleSidePanel = Constants.SidePanelKind.None,
+                ReportSource = baseReport.CreateCrystalReportDocument()
+            };
             ViewerCoreControl = viewerCore;
         }
 
@@ -256,6 +258,7 @@ namespace ReportsModule.ViewModels
             OnPropertyChanged("CurrentPageNumber");
             OnPropertyChanged("TotalPageNumber");
         }
+
         bool GetIsReportLoad()
         {
             return SelectedReportName != null;

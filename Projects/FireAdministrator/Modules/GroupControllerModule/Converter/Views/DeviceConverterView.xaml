@@ -19,16 +19,23 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <ListBox Grid.Row="0" ItemsSource="{Binding BinObjects}" SelectedItem="{Binding SelectedBinObject}" Margin="2">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                        <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                        <TextBlock Text="{Binding Caption}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding BinObjects}" SelectedItem="{Binding SelectedBinObject}" Margin="2">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Устройство" MinWidth="250">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                <TextBlock Text="{Binding DeviceName}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Адрес" Binding="{Binding DeviceAddress}" />
+                <DataGridTextColumn Header="Адрес ГК" Binding="{Binding AddressOnGc}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
         <Grid Grid.Row="1" DataContext="{Binding SelectedBinObject}" Margin="2">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <Border CornerRadius="5" Background="{DynamicResource BackgroundBrush}">

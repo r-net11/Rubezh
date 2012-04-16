@@ -19,6 +19,15 @@ namespace FireMonitor
             get { return (ShellView)ServiceFactory.ShellView; }
         }
 
+        public void PreLoad(IViewPart viewModel)
+        {
+            ViewModelCash activeModelCash = GetActiveViewModelCash(viewModel);
+
+            activeModelCash.ContentControl.Visibility = Visibility.Visible;
+            ViewModelCash activeModelCash2 = GetActiveViewModelCash(CurrentViewModel);
+            activeModelCash2.ContentControl.Visibility = Visibility.Visible;
+        }
+
         public void Show(IViewPart viewModel)
         {
             ViewModelCash activeModelCash = GetActiveViewModelCash(viewModel);
@@ -94,43 +103,6 @@ namespace FireMonitor
 
             return activeModelCash;
         }
-
-        //ShellView Shell
-        //{
-        //    get { return (ShellView)ServiceFactory.ShellView; }
-        //}
-
-        //public void Show(IViewPart model)
-        //{
-        //    Replace(model);
-        //}
-
-        //public void Close()
-        //{
-        //    Replace(null);
-        //}
-
-        //void Replace(IViewPart model)
-        //{
-        //    if (ActiveViewModel != null)
-        //    {
-        //        IViewPart temp = ActiveViewModel;
-        //        try
-        //        {
-        //            //temp.Dispose();
-        //        }
-        //        catch
-        //        {
-        //        }
-        //    }
-        //    ActiveViewModel = model;
-        //}
-
-        //IViewPart ActiveViewModel
-        //{
-        //    get { return Shell.MainContent; }
-        //    set { Shell.MainContent = value; }
-        //}
 
         public void AddAlarmGroups(IViewPart model)
         {

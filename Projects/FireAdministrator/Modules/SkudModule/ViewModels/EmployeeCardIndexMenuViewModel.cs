@@ -4,11 +4,11 @@ namespace SkudModule.ViewModels
 {
     public class EmployeeCardIndexMenuViewModel
     {
-		public EmployeeCardIndexMenuViewModel(EmployeeCardIndexViewModel employeeCardIndexViewModel)
+        public EmployeeCardIndexMenuViewModel(EmployeeCardIndexViewModel employeeCardIndexViewModel)
         {
-			Context = employeeCardIndexViewModel;
+            Context = employeeCardIndexViewModel;
         }
 
-		public EmployeeCardIndexViewModel Context { get; private set; }
+        public EmployeeCardIndexViewModel Context { get; private set; }
     }
 }

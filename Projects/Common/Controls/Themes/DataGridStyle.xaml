@@ -98,7 +98,9 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="RowHeight" Value="20" />
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected" />
-        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="local:DataGridProperties.HeaderBrush" Value="{DynamicResource BackgroundBrush}" />
         <Setter Property="local:DataGridProperties.DataGridRollbackOnUnfocused" Value="True" />
         <Setter Property="local:DataGridProperties.DataGridMiddleButtonScroll" Value="True" />

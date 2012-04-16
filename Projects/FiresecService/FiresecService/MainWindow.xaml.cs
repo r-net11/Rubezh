@@ -106,7 +106,9 @@ namespace FiresecServiceRunner
             AppSettings.OldFiresecLogin = ConfigurationManager.AppSettings["OldFiresecLogin"] as string;
             AppSettings.OldFiresecPassword = ConfigurationManager.AppSettings["OldFiresecPassword"] as string;
             AppSettings.ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+#if DEBUG
             AppSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
+#endif
         }
     }
 }

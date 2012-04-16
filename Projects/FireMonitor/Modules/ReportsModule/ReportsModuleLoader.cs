@@ -3,6 +3,8 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using ReportsModule.ViewModels;
 using FiresecAPI.Models;
+using System.ComponentModel;
+using System;
 
 namespace ReportsModule
 {
@@ -31,13 +33,27 @@ namespace ReportsModule
         static void CreateViewModels()
         {
             ReportsViewModel = new ReportsViewModel();
-
-            //ReportsViewModel.SelectedReportName = ReportType.ReportDevicesList;
         }
 
         static void OnShowReports(object obj)
         {
             ServiceFactory.Layout.Show(ReportsViewModel);
+        }
+
+        public static void PreLoad()
+        {
+            var backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
+            backgroundWorker.RunWorkerAsync();
+        }
+
+        static void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            ServiceFactory.ShellView.Dispatcher.BeginInvoke(new Action(() =>
+            {
+                ServiceFactory.Layout.PreLoad(ReportsViewModel);
+                ReportsViewModel.SelectedReportName = ReportType.ReportDevicesList;
+            }));
         }
     }
 }

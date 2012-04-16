@@ -31,6 +31,40 @@ namespace GroupControllerModule.Converter
             ParametersCount = ToBytes((short)(Parameters.Count() / 4));
 
             InitializeAllBytes();
+            InitializeIsGK();
+        }
+
+        void InitializeIsGK()
+        {
+            var kauDevice = Device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
+            var gkDevice = Device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
+
+            foreach (var stateLogic in Device.DeviceLogic.StateLogics)
+            {
+                foreach (var clause in stateLogic.Clauses)
+                {
+                    foreach (var deviceUID in clause.Devices)
+                    {
+                        var clauseDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+                        var cluseKauDevice = clauseDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
+                        var clauseGkDevice = clauseDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
+                        if (kauDevice.UID != cluseKauDevice.UID)
+                        {
+                            IsGKObject = true;
+                        }
+                        if (gkDevice.UID != clauseGkDevice.UID)
+                        {
+                            throw (new Exception("Устройства находятся в отношении логики разных ГК"));
+                        }
+                    }
+
+                    foreach (var zoneNo in clause.Zones)
+                    {
+                        var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+                        var kauDevices = zone.KAUDevices;
+                    }
+                }
+            }
         }
 
         void SetObjectOutDependencesBytes()

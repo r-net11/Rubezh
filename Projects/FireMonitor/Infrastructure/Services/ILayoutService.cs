@@ -4,8 +4,9 @@ namespace Infrastructure
 {
     public interface ILayoutService
     {
-        void Show(IViewPart model);
+        void Show(IViewPart viewModel);
+        void PreLoad(IViewPart viewModel);
         void Close();
-        void AddAlarmGroups(IViewPart model);
+        void AddAlarmGroups(IViewPart viewModel);
     }
 }

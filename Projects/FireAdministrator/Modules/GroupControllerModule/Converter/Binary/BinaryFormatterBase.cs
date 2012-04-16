@@ -19,6 +19,9 @@ namespace GroupControllerModule.Converter
         public List<byte> AllBytes { get; protected set; }
         public List<FormulaOperation> FormulaOperations { get; protected set; }
 
+        public bool IsGKObject { get; protected set; }
+        public short GKObjectNo { get; protected set; }
+
         public void InitializeAllBytes()
         {
             AllBytes = new List<byte>();

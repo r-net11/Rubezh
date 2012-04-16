@@ -15,12 +15,11 @@ namespace FireAdministrator
             appSettings.AutoConnect = Convert.ToBoolean(ConfigurationManager.AppSettings["AutoConnect"] as string);
             appSettings.ShowVideo = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowVideo"] as string);
             appSettings.LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
-			appSettings.ShowSKUD = true;
-            #if RELEASE
+#if DEBUG
             appSettings.ShowGC = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowGC"] as string);
             appSettings.ShowSKUD = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowSKUD"] as string);
             appSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
-            #endif
+#endif
             ServiceFactory.AppSettings = appSettings;
         }
     }

@@ -53,6 +53,11 @@ namespace FireMonitor
                 {
                     //MessageBoxService.ShowWarning(operationResult.Error);
                 }
+                var serverStatus = FiresecManager.FiresecService.GetStatus();
+                if (serverStatus != null)
+                {
+                    MessageBoxService.ShowWarning(serverStatus);
+                }
 
                 if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Login))
                 {
@@ -76,6 +81,8 @@ namespace FireMonitor
                     ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
 
                     FiresecCallbackService.ConfigurationChangedEvent += new Action(OnConfigurationChanged);
+
+                    ReportsModule.ReportsModuleLoader.PreLoad();
                 }
                 else
                 {
