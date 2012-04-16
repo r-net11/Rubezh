@@ -41,10 +41,13 @@ namespace AlarmModule.ViewModels
             }
         }
 
+        bool alrmWasReset;
         public bool HasAlarmsToReset
         {
             get
             {
+                if (alrmWasReset)
+                    return false;
                 return Alarms.Any(x => x.Alarm.AlarmType != AlarmType.Off);
             }
         }
@@ -74,6 +77,8 @@ namespace AlarmModule.ViewModels
                 }
             }
 
+            alrmWasReset = true;
+            OnPropertyChanged("HasAlarmsToReset");
             FiresecManager.FiresecService.ResetStates(resetItems);
         }
 
@@ -106,6 +111,7 @@ namespace AlarmModule.ViewModels
             if (_alarmType == null || alarm.AlarmType == _alarmType)
             {
                 Alarms.Insert(0, new AlarmViewModel(alarm));
+                alrmWasReset = false;
                 OnPropertyChanged("HasAlarmsToReset");
             }
         }

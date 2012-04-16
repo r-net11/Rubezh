@@ -25,7 +25,7 @@ namespace JournalModule.ViewModels
             {
                 JournalEvents.Where(x => archiveFilter.Descriptions.Any(description => description == x.Name)).
                               AsParallel().ForAll(x => x.IsEnable = true);
-                JournalTypes.Where(x => JournalEvents.Any(journalEvent => journalEvent.ClassId == x.Id && journalEvent.IsEnable)).
+                JournalTypes.Where(x => JournalEvents.Any(journalEvent => journalEvent.ClassId == x.StateType && journalEvent.IsEnable)).
                              AsParallel().ForAll(x => x.IsEnable = true);
             }
 

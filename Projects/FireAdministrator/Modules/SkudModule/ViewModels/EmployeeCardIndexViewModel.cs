@@ -78,10 +78,11 @@ namespace SkudModule.ViewModels
 		}
 		void OnDelete()
 		{
-			FiresecManager.sk.Cards.Remove(SelectedEmployeeCard.EmployeeCard);
+			//FiresecManager.SystemConfiguration.Cards.Remove(SelectedEmployeeCard.EmployeeCard);
+			int index = EmployeeCardIndex.IndexOf(SelectedEmployeeCard);
 			EmployeeCardIndex.Remove(SelectedEmployeeCard);
 			if (EmployeeCardIndex.IsNotNullOrEmpty())
-				SelectedEmployeeCard = EmployeeCardIndex[0];
+				SelectedEmployeeCard = index < EmployeeCardIndex.Count ? EmployeeCardIndex[index] : EmployeeCardIndex[EmployeeCardIndex.Count - 1];
 		}
 
 		bool CanEditRemove()

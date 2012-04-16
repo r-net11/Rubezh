@@ -249,9 +249,9 @@ namespace FiresecService
             return FiresecSerializedClient.RemoveFromIgnoreList(devicePaths).ToOperationResult();
         }
 
-        public OperationResult<bool> ResetStates(List<ResetItem> resetItems)
+        public void ResetStates(List<ResetItem> resetItems)
         {
-            return FiresecResetHelper.ResetMany(resetItems).ToOperationResult();
+            FiresecResetHelper.ResetStates(resetItems);
         }
 
         public OperationResult<bool> AddUserMessage(string message)

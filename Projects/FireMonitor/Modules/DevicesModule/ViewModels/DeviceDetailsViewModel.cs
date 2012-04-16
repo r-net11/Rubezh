@@ -49,7 +49,10 @@ namespace DevicesModule.ViewModels
                         DriverId = Device.Driver.UID,
                         Width = 50,
                         Height = 50,
-                        StateType = DeviceState.StateType
+                        StateType = DeviceState.StateType,
+                        AdditionalStateCodes = new List<string>(
+                            from state in DeviceState.States
+                            select state.DriverState.Code)
                     };
                 }
 

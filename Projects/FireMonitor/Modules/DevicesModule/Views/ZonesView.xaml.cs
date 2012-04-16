@@ -9,7 +9,7 @@ namespace DevicesModule.Views
         public ZonesView()
         {
             InitializeComponent();
-            this.Loaded += new System.Windows.RoutedEventHandler(OnLoaded);
+            _zonesListBox.SelectionChanged += new SelectionChangedEventHandler(_zonesListBox_SelectionChanged);
 
             _scrollViewer.PreviewMouseDown += OnMouseMiddleDown;
             _scrollViewer.PreviewMouseUp += OnMouseMiddleUp;
@@ -17,7 +17,7 @@ namespace DevicesModule.Views
             _scrollViewer.MouseLeave += OnMiddleMouseLeave;
         }
 
-        void OnLoaded(object sender, System.Windows.RoutedEventArgs e)
+        void _zonesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_zonesListBox.SelectedItem != null)
                 _zonesListBox.ScrollIntoView(_zonesListBox.SelectedItem);

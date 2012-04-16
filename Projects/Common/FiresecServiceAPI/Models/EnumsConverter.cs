@@ -98,10 +98,10 @@ namespace FiresecAPI.Models
                     return "Информация";
 
                 case StateType.Norm:
-                    return "Прочие";
+                    return "Норма";
 
                 default:
-                    return "";
+                    return "Прочие";
             }
         }
 
