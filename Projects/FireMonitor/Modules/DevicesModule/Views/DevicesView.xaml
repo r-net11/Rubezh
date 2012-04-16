@@ -58,7 +58,7 @@
         <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="11" TextBlock.Foreground="White" >
             <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="{StaticResource HighlightedBackgoundBrush}">
+                    <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">
                         <WrapPanel Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
                             <TextBlock Text="{Binding Device.PresentationAddress}" />
                             <TextBlock Text=" - " />

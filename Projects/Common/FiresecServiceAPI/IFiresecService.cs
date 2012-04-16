@@ -131,8 +131,8 @@ namespace FiresecAPI
 		[OperationContract()]
 		OperationResult<bool> RemoveFromIgnoreList(List<Guid> deviceUIDs);
 
-		[OperationContract()]
-		OperationResult<bool> ResetStates(List<ResetItem> resetItems);
+		[OperationContract(IsOneWay=true)]
+		void ResetStates(List<ResetItem> resetItems);
 
 		[OperationContract]
 		OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName);

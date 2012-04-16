@@ -410,9 +410,9 @@ namespace FiresecClient
             return SafeOperationCall(() => { return _iFiresecService.RemoveFromIgnoreList(deviceUIDs); });
         }
 
-        public OperationResult<bool> ResetStates(List<ResetItem> resetItems)
+        public void ResetStates(List<ResetItem> resetItems)
         {
-            return SafeOperationCall(() => { return _iFiresecService.ResetStates(resetItems); });
+            SafeOperationCall(() => { _iFiresecService.ResetStates(resetItems); });
         }
 
         public OperationResult<bool> AddUserMessage(string message)

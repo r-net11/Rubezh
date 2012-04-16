@@ -15,7 +15,7 @@
 
     <Storyboard x:Key="GlowOff">
         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Glow" Storyboard.TargetProperty="(UIElement.Opacity)">
-            <SplineDoubleKeyFrame KeyTime="00:00:00.1" Value="0" />
+            <SplineDoubleKeyFrame KeyTime="00:00:00.01" Value="0" />
         </DoubleAnimationUsingKeyFrames>
     </Storyboard>
 

@@ -273,9 +273,9 @@ namespace FiresecService
 			return SafeOperationCall(() => { return FiresecService.RemoveFromIgnoreList(deviceUIDs); });
 		}
 
-		public OperationResult<bool> ResetStates(List<FiresecAPI.Models.ResetItem> resetItems)
+		public void ResetStates(List<FiresecAPI.Models.ResetItem> resetItems)
 		{
-			return SafeOperationCall(() => { return FiresecService.ResetStates(resetItems); });
+			SafeOperationCall(() => {FiresecService.ResetStates(resetItems);});
 		}
 
 		public OperationResult<bool> AddUserMessage(string message)

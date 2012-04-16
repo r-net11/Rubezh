@@ -8,10 +8,10 @@ namespace DevicesModule.Views
         public DevicesView()
         {
             InitializeComponent();
-            this.Loaded += new RoutedEventHandler(OnLoaded);
+            _devicesDataGrid.SelectionChanged += new SelectionChangedEventHandler(_devicesDataGrid_SelectionChanged);
         }
 
-        void OnLoaded(object sender, RoutedEventArgs e)
+        void _devicesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (_devicesDataGrid.SelectedItem != null)
                 _devicesDataGrid.ScrollIntoView(_devicesDataGrid.SelectedItem);
