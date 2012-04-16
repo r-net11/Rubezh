@@ -15,14 +15,12 @@ namespace SkudModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		public RelayCommand EditCommand { get; private set; }
 		public RelayCommand DeleteCommand { get; private set; }
-		public RelayCommand DeleteAllCommand { get; private set; }
 		private EmployeeCardViewModel _selectedCard;
 
 		public EmployeeCardIndexViewModel()
 		{
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
-			DeleteAllCommand = new RelayCommand(OnDeleteAll, CanRemoveAll);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 			EmployeeCardIndex = new ObservableCollection<EmployeeCardViewModel>();
 		}
@@ -80,18 +78,10 @@ namespace SkudModule.ViewModels
 		}
 		void OnDelete()
 		{
-			//FiresecManager.SystemConfiguration.Cards.Remove(SelectedCard.Instruction);
+			FiresecManager.sk.Cards.Remove(SelectedEmployeeCard.EmployeeCard);
 			EmployeeCardIndex.Remove(SelectedEmployeeCard);
 			if (EmployeeCardIndex.IsNotNullOrEmpty())
 				SelectedEmployeeCard = EmployeeCardIndex[0];
-			//ServiceFactory.SaveService.InstructionsChanged = true;
-		}
-		void OnDeleteAll()
-		{
-			SelectedEmployeeCard = null;
-			EmployeeCardIndex.Clear();
-			//FiresecManager.SystemConfiguration.Cards.Clear();
-			//ServiceFactory.SaveService.InstructionsChanged = true;
 		}
 
 		bool CanEditRemove()

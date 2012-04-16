@@ -12,7 +12,7 @@ namespace FiresecService.SKUD
 	{
 		#region IFiresecServiceSKUD Members
 
-		public IEnumerable<EmployeeCard> GetEmployees()
+		public IEnumerable<EmployeeCardIndex> GetEmployees()
 		{
 			DataAccess.FiresecDataContext context = new DataAccess.FiresecDataContext();
 			return EmployeeResultTranslator.Translate(context.GetAllEmployees());

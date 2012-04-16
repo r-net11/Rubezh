@@ -7,6 +7,7 @@ using FiresecService.Converters;
 using Firesec;
 using FiresecAPI;
 using FiresecService.SKUD;
+using FiresecAPI.Models.Skud;
 
 namespace FiresecService
 {
@@ -18,7 +19,7 @@ namespace FiresecService
 		#region IFiresecService Members
 
 
-		public IEnumerable<FiresecAPI.Models.Skud.EmployeeCard> GetEmployees()
+		public IEnumerable<EmployeeCardIndex> GetEmployees()
 		{
 			return _skud.GetEmployees();
 		}

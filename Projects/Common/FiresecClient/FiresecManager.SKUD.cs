@@ -8,10 +8,15 @@ namespace FiresecClient
 {
     public partial class FiresecManager
     {
-		public static IEnumerable<EmployeeCard> GetEmployees()
+		public static IEnumerable<EmployeeCardIndex> GetEmployees()
         {
             return FiresecService.GetEmployees();
         }
+		public static bool EmployeeCardDelete(EmployeeCardIndex card)
+		{
+			//return FiresecService.EmployeeCardDelete(card.Id);
+			return false;
+		}
 
     }
 }

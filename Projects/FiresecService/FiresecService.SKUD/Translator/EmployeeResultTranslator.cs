@@ -9,22 +9,22 @@ namespace FiresecService.SKUD.Translator
 {
 	static class EmployeeResultTranslator
 	{
-		public static EmployeeCard Translate(GetAllEmployeesResult record)
+		public static EmployeeCardIndex Translate(GetAllEmployeesResult record)
 		{
-			return new EmployeeCard()
+			return new EmployeeCardIndex()
 			{
-				Birthday = record.Birthday,
-				Comment = record.Comment,
-				FirstName = record.FirstName,
 				Id = record.Id,
+				PersonId = record.PersonId,
 				LastName = record.LastName,
-				Position = record.Position,
+				FirstName = record.FirstName,
 				SecondName = record.SecondName,
-				Sex = record.Sex,
-				Staff = record.Staff
+				Age = record.Age,
+				Department = record.Department,
+				Position = record.Position,
+				Comment = record.Comment,
 			};
 		}
-		public static IEnumerable<EmployeeCard> Translate(IEnumerable<GetAllEmployeesResult> table)
+		public static IEnumerable<EmployeeCardIndex> Translate(IEnumerable<GetAllEmployeesResult> table)
 		{
 			foreach(GetAllEmployeesResult record in table)
 				yield return Translate(record);
