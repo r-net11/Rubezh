@@ -8,13 +8,13 @@
             <Image.Style>
                 <Style>
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsServiceConnected}" Value="True">
+                        <DataTrigger Binding="{Binding IsServiceConnected, UpdateSourceTrigger=PropertyChanged}" Value="True">
                             <DataTrigger.Setters>
                                 <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_C-C.png" />
                                 <Setter Property="Image.ToolTip" Value="Связь с сервером в норме" />
                             </DataTrigger.Setters>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding IsServiceConnected}" Value="False">
+                        <DataTrigger Binding="{Binding IsServiceConnected, UpdateSourceTrigger=PropertyChanged}" Value="False">
                             <DataTrigger.Setters>
                                 <Setter Property="Image.Source" Value="/Controls;component/Images/Ind_CxC.png" />
                                 <Setter Property="Image.ToolTip" Value="Связь с сервером в потеряна" />

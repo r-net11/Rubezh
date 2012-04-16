@@ -59,7 +59,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="hasp_net_windows, Version=5.10.1.16274, Culture=neutral, PublicKeyToken=56120be447701319">
-      <HintPath>C:\Documents and Settings\matazovay\Мои документы\Aladdin\Sentinel HASP 5.10\API\Runtime\DotNet\hasp_net_windows.dll</HintPath>
+      <HintPath>..\..\..\..\3rdParty\HASP\hasp_net_windows.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
