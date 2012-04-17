@@ -24,6 +24,11 @@ namespace FiresecService
 			return _skud.GetEmployees();
 		}
 
+		public ActionResult DeleteEmployee(int id)
+		{
+			return _skud.DeleteEmployee(id);
+		}
+
 		#endregion
 	}
 }

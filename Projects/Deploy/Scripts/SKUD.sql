@@ -38,14 +38,21 @@ CREATE TABLE [dbo].[Employee](
 	[PersonId] [int] NOT NULL,
 	[Department] [nvarchar](max) NULL,
 	[Position] [nvarchar](max) NULL,
-	[Comment] [nvarchar](max) NULL
- CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED 
+	[Comment] [nvarchar](max) NULL,
+ 	[Deleted] [bit] NOT NULL,
+CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+
 ALTER TABLE [dbo].[Employee]  WITH CHECK ADD  CONSTRAINT [FK_Employee_Person] FOREIGN KEY([PersonId])
 REFERENCES [dbo].[Person] ([Id])
 GO
+
 ALTER TABLE [dbo].[Employee] CHECK CONSTRAINT [FK_Employee_Person]
+GO
+
+ALTER TABLE [dbo].[Employee] ADD  CONSTRAINT [DF_Employee_Deleted]  DEFAULT ((0)) FOR [Deleted]
+GO

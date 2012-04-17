@@ -34,4 +34,10 @@
       <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
     </ElementType>
   </Function>
+  <Function Name="dbo.DeleteEmployee" Method="DeleteEmployee">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Parameter Name="NumRowsChanged" Parameter="numRowsChanged" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="ErrorCode" Parameter="errorCode" Type="System.String" DbType="NVarChar(MAX)" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
 </Database>

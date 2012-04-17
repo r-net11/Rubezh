@@ -14,7 +14,7 @@
         <elementListCompartment Id="adcbb393-dc3c-4fc0-9f2e-ef6c3a3f4aa9" absoluteBounds="2.015, 1.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4 : 1.91429768880208); (5 : 1.91429768880208)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(4 : 1.91429768880208); (5 : 1.91429768880208)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/FiresecDataContext/Person/Person_Employee" />
       <nodes>
         <classShapeMoniker Id="91d5a05b-9fab-4701-8df5-30bcd789218e" />

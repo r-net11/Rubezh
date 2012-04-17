@@ -12,10 +12,9 @@ namespace FiresecClient
         {
             return FiresecService.GetEmployees();
         }
-		public static bool EmployeeCardDelete(EmployeeCardIndex card)
+		public static ActionResult EmployeeCardDelete(EmployeeCardIndex card)
 		{
-			//return FiresecService.EmployeeCardDelete(card.Id);
-			return false;
+			return FiresecService.DeleteEmployee(card.Id);
 		}
 
     }

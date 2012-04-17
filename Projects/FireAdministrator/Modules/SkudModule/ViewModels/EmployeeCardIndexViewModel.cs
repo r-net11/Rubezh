@@ -6,15 +6,13 @@ using Infrastructure.Common;
 using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure;
+using FiresecAPI.Models.Skud;
 
 namespace SkudModule.ViewModels
 {
 	public class EmployeeCardIndexViewModel : RegionViewModel, IEditingViewModel
 	{
 		public ObservableCollection<EmployeeCardViewModel> EmployeeCardIndex { get; set; }
-		public RelayCommand AddCommand { get; private set; }
-		public RelayCommand EditCommand { get; private set; }
-		public RelayCommand DeleteCommand { get; private set; }
 		private EmployeeCardViewModel _selectedCard;
 
 		public EmployeeCardIndexViewModel()
@@ -57,6 +55,7 @@ namespace SkudModule.ViewModels
 			}
 		}
 
+		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
 			//var instructionDetailsViewModel = new InstructionDetailsViewModel();
@@ -67,6 +66,7 @@ namespace SkudModule.ViewModels
 			//    ServiceFactory.SaveService.InstructionsChanged = true;
 			//}
 		}
+		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
 			//var instructionDetailsViewModel = new InstructionDetailsViewModel(SelectedInstruction.Instruction);
@@ -76,13 +76,21 @@ namespace SkudModule.ViewModels
 			//    ServiceFactory.SaveService.InstructionsChanged = true;
 			//}
 		}
+		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			//FiresecManager.SystemConfiguration.Cards.Remove(SelectedEmployeeCard.EmployeeCard);
-			int index = EmployeeCardIndex.IndexOf(SelectedEmployeeCard);
-			EmployeeCardIndex.Remove(SelectedEmployeeCard);
-			if (EmployeeCardIndex.IsNotNullOrEmpty())
-				SelectedEmployeeCard = index < EmployeeCardIndex.Count ? EmployeeCardIndex[index] : EmployeeCardIndex[EmployeeCardIndex.Count - 1];
+			if (true) //add confirmation
+			{
+				ActionResult result = FiresecManager.EmployeeCardDelete(SelectedEmployeeCard.EmployeeCard);
+				if (result.RowCount == 1)
+				{
+					int index = EmployeeCardIndex.IndexOf(SelectedEmployeeCard);
+					EmployeeCardIndex.Remove(SelectedEmployeeCard);
+					if (EmployeeCardIndex.IsNotNullOrEmpty())
+						SelectedEmployeeCard = index < EmployeeCardIndex.Count ? EmployeeCardIndex[index] : EmployeeCardIndex[EmployeeCardIndex.Count - 1];
+				}
+				//else remove failed messageBox
+			}
 		}
 
 		bool CanEditRemove()

@@ -1,7 +1,10 @@
 USE [Firesec]
 GO
-IF EXISTS (SELECT * FROM [dbo].[sysobjects] where id = object_id(N'[dbo].[GetAllEmployees]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [dbo].[GetAllEmployees]
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[GetAllEmployees]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[GetAllEmployees]
+GO
+IF EXISTS (SELECT * FROM [dbo].[sysobjects] WHERE id = object_id(N'[dbo].[DeleteEmployee]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[GetAllEmployees]
 GO
 SET ANSI_NULLS ON
 GO
@@ -16,23 +19,23 @@ BEGIN
 		p.LastName,
 		p.FirstName,
 		p.SecondName,
-		DateDiff (Year, p.Birthday, getdate()) as Age,
+		DateDiff (Year, p.Birthday, getdate()) AS Age,
 		e.Department,
 		e.Position,
 		e.Comment
 	FROM 
 		[dbo].[Employee] e
-		INNER JOIN [dbo].[Person] p on e.PersonId = p.Id
+		INNER JOIN [dbo].[Person] p ON e.PersonId = p.Id
+	WHERE
+		e.Deleted = 0
 END
 GO
 
--- FOR TEST ONLY - DEBUG
-DELETE FROM [dbo].[Employee];
-DELETE FROM [dbo].[Person];
+CREATE PROCEDURE [dbo].[DeleteEmployee]
+	@Id int
+AS
+BEGIN
+	UPDATE dbo.Employee SET Deleted = 1 WHERE Id = @Id
+END
 GO
-INSERT INTO [dbo].[Person] values ('Иванов','Иван','Иваныч','12-21-75','12-21-05','Вано');
-INSERT INTO [dbo].[Employee] values (SCOPE_IDENTITY(), 'ОТК','Бугор','Comment1');
-INSERT INTO [dbo].[Person] values ('Петров','Петр','Петрович','03-18-86','12-21-05','Петька');
-INSERT INTO [dbo].[Employee] values (SCOPE_IDENTITY(), 'Охрана','Сесурити','Comment2');
-INSERT INTO [dbo].[Person] values ('Сидоров','Сидор','Сидорович',NULL,'12-21-05','Сид');
-INSERT INTO [dbo].[Employee] values (SCOPE_IDENTITY(), 'Директорат','Генеральный','Comment3');
+

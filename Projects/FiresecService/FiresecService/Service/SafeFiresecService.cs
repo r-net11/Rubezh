@@ -33,12 +33,12 @@ namespace FiresecService
 		{
 			try
 			{
-                var result = func();
-                return result;
+				var result = func();
+				return result;
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
-                Logger.Error(e);
+				Logger.Error(e);
 			}
 			return CreateEmptyOperationResult<T>();
 		}
@@ -49,10 +49,10 @@ namespace FiresecService
 			{
 				return func();
 			}
-            catch (Exception e)
-            {
-                Logger.Error(e);
-            }
+			catch (Exception e)
+			{
+				Logger.Error(e);
+			}
 			return default(T);
 		}
 
@@ -64,16 +64,16 @@ namespace FiresecService
 			}
 			catch (Exception e)
 			{
-                Logger.Error(e);
+				Logger.Error(e);
 			}
 		}
 
-        public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string userName, string password)
+		public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string userName, string password)
 		{
 			return SafeOperationCall(() => { return FiresecService.Connect(clientType, clientCallbackAddress, userName, password); });
 		}
 
-        public OperationResult<bool> Reconnect(string userName, string password)
+		public OperationResult<bool> Reconnect(string userName, string password)
 		{
 			return SafeOperationCall(() => { return FiresecService.Reconnect(userName, password); });
 		}
@@ -93,9 +93,9 @@ namespace FiresecService
 			SafeOperationCall(() => { FiresecService.CancelProgress(); });
 		}
 
-        public string GetStatus()
+		public string GetStatus()
 		{
-            return SafeOperationCall(() => { return FiresecService.GetStatus(); });
+			return SafeOperationCall(() => { return FiresecService.GetStatus(); });
 		}
 
 		public List<FiresecAPI.Models.Driver> GetDrivers()
@@ -275,7 +275,7 @@ namespace FiresecService
 
 		public void ResetStates(List<FiresecAPI.Models.ResetItem> resetItems)
 		{
-			SafeOperationCall(() => {FiresecService.ResetStates(resetItems);});
+			SafeOperationCall(() => { FiresecService.ResetStates(resetItems); });
 		}
 
 		public OperationResult<bool> AddUserMessage(string message)
@@ -346,6 +346,10 @@ namespace FiresecService
 		public IEnumerable<EmployeeCardIndex> GetEmployees()
 		{
 			return SafeContext.Execute<IEnumerable<EmployeeCardIndex>>(() => FiresecService.GetEmployees());
+		}
+		public ActionResult DeleteEmployee(int id)
+		{
+			return SafeContext.Execute<ActionResult>(() => FiresecService.DeleteEmployee(id));
 		}
 	}
 }
