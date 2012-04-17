@@ -16,6 +16,7 @@ namespace XFiresecAPI
 
         public List<XDevice> KAUDevices { get; set; }
         public short InternalKAUNo { get; set; }
+        public short InternalGKUNo { get; set; }
 
         [DataMember]
         public short No { get; set; }

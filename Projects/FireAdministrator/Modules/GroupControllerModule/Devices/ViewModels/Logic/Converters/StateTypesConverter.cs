@@ -3,7 +3,7 @@ using System.Windows.Data;
 using FiresecAPI.Models;
 using XFiresecAPI;
 
-namespace GroupControllerModule.ViewModels.Converters
+namespace GKModule.ViewModels.Converters
 {
     public class StateTypesConverter : IValueConverter
     {

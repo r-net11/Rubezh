@@ -198,6 +198,26 @@ namespace FireMonitor.Views
             }
         }
 
+        public bool IsGKVisible
+        {
+            get { return ServiceFactory.AppSettings.ShowGK; }
+        }
+
+        bool _isGKSelected;
+        public bool IsGKSelected
+        {
+            get { return _isGKSelected; }
+            set
+            {
+                _isGKSelected = value;
+                if (value)
+                {
+                    ServiceFactory.Events.GetEvent<ShowGKEvent>().Publish(null);
+                }
+                OnPropertyChanged("IsGKSelected");
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         void OnPropertyChanged(string name)
         {

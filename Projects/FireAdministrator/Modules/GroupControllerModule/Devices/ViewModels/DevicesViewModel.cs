@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using XFiresecAPI;
 using FiresecClient;
 
-namespace GroupControllerModule.ViewModels
+namespace GKModule.ViewModels
 {
     public class DevicesViewModel : RegionViewModel
     {
@@ -93,7 +93,7 @@ namespace GroupControllerModule.ViewModels
 
         public void ExpandChild(DeviceViewModel parentDeviceViewModel)
         {
-            if ((parentDeviceViewModel.Device.Driver.DriverType == XDriverType.System) || (parentDeviceViewModel.Device.Driver.DriverType == XDriverType.GC))
+            if ((parentDeviceViewModel.Device.Driver.DriverType == XDriverType.System) || (parentDeviceViewModel.Device.Driver.DriverType == XDriverType.GK))
             {
                 parentDeviceViewModel.IsExpanded = true;
                 foreach (var deviceViewModel in parentDeviceViewModel.Children)

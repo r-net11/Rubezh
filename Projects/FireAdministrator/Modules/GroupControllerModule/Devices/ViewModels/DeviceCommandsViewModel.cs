@@ -1,9 +1,9 @@
-﻿using GroupControllerModule.ViewModels;
+﻿using GKModule.ViewModels;
 using Infrastructure.Common;
-using GroupControllerModule.Converter;
+using GKModule.Converter;
 using Infrastructure;
 
-namespace GroupControllerModule.Models
+namespace GKModule.Models
 {
     public class DeviceCommandsViewModel : BaseViewModel
     {

@@ -1,8 +1,8 @@
-﻿<UserControl x:Class="GroupControllerModule.Views.ZonesView"
+﻿<UserControl x:Class="GKModule.Views.ZonesView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-    xmlns:Views="clr-namespace:GroupControllerModule.Views">
+    xmlns:Views="clr-namespace:GKModule.Views">
 
     <Grid Margin="2">
         <Grid.ColumnDefinitions>

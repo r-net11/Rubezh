@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using Infrastructure.Common;
 using XFiresecAPI;
 using FiresecClient;
 
-namespace GroupControllerModule.ViewModels
+namespace GKModule.ViewModels
 {
     public class NewDeviceViewModel : SaveCancelDialogContent
     {

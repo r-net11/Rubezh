@@ -1,12 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using Infrastructure.Common;
 using Controls.MessageBox;
 using XFiresecAPI;
 
-namespace GroupControllerModule.ViewModels
+namespace GKModule.ViewModels
 {
     public class DeviceLogicViewModel : SaveCancelDialogContent
     {
@@ -14,7 +14,7 @@ namespace GroupControllerModule.ViewModels
 
         public DeviceLogicViewModel(XDevice device)
         {
-            Title = "Свойства устройства";
+            Title = "Настройка логики устройства";
             AddCommand = new RelayCommand(OnAdd);
             RemoveCommand = new RelayCommand<StateLogicViewModel>(OnRemove);
 

@@ -37,7 +37,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecClient", "..\Common\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecAPI", "..\Common\FiresecServiceAPI\FiresecAPI.csproj", "{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GroupControllerModule", "Modules\GroupControllerModule\GroupControllerModule.csproj", "{75276EBA-15D7-4F08-8239-3C40E6835CB6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKModule", "Modules\GroupControllerModule\GKModule.csproj", "{75276EBA-15D7-4F08-8239-3C40E6835CB6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VideoModule", "Modules\VideoModule\VideoModule.csproj", "{C33E3B0E-C6A8-477D-A836-8418FB1EEF46}"
 EndProject

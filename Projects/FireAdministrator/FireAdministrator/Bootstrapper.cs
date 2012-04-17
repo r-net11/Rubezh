@@ -87,9 +87,9 @@ namespace FireAdministrator
 			var soundsModule = new SoundsModule.SoundsModule();
 			var instructionsModule = new InstructionsModule.InstructionsModule();
 			var settingsModule = new SettingsModule.SettingsModule();
-			if (ServiceFactory.AppSettings.ShowGC)
+			if (ServiceFactory.AppSettings.ShowGK)
 			{
-				var groupControllerViewModel = new GroupControllerModule.GroupControllerModule();
+				var groupControllerViewModel = new GKModule.GroupControllerModule();
 			}
 			if (ServiceFactory.AppSettings.ShowVideo)
 			{

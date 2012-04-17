@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using GroupControllerModule.Models;
-using GroupControllerModule.ViewModels;
+using GKModule.Models;
+using GKModule.ViewModels;
 using Infrastructure;
 using System.Text;
 using XFiresecAPI;
 using FiresecClient;
 
-namespace GroupControllerModule.Converter
+namespace GKModule.Converter
 {
     public static class BinConverter
     {

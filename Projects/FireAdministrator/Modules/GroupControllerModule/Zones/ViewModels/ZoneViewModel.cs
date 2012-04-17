@@ -1,8 +1,8 @@
-﻿using GroupControllerModule.Models;
+﻿using GKModule.Models;
 using Infrastructure.Common;
 using XFiresecAPI;
 
-namespace GroupControllerModule.ViewModels
+namespace GKModule.ViewModels
 {
     public class ZoneViewModel : BaseViewModel
     {

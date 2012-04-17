@@ -2,13 +2,13 @@
 using System.Linq;
 using System.Windows;
 using Controls.MessageBox;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using XFiresecAPI;
 using FiresecClient;
 
-namespace GroupControllerModule.ViewModels
+namespace GKModule.ViewModels
 {
     public class ZonesViewModel : RegionViewModel, IEditingViewModel
     {

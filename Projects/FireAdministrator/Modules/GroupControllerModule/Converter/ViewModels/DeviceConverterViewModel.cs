@@ -1,49 +1,91 @@
 ﻿using Infrastructure.Common;
 using System.Collections.ObjectModel;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using System.Collections.Generic;
 using XFiresecAPI;
-using GroupControllerModule.Converter;
+using GKModule.Converter;
 using FiresecClient;
+using GKModule.Converter.Binary;
 
-namespace GroupControllerModule.ViewModels
+namespace GKModule.ViewModels
 {
-    public class DeviceConverterViewModel : DialogContent
-    {
-        public DeviceConverterViewModel()
-        {
-            Title = "Бинарный формат конфигурации";
+	public class DeviceConverterViewModel : DialogContent
+	{
+		public DeviceConverterViewModel()
+		{
+			Title = "Бинарный формат конфигурации";
 
-            BinObjects = new List<BinObjectViewModel>();
-            foreach (var device in XManager.DeviceConfiguration.Devices)
-            {
-                var binObjectViewModel = new BinObjectViewModel()
-                {
-                    DeviceName = device.Driver.ShortName,
-                    DeviceAddress = device.Address,
-                    ImageSource = device.Driver.ImageSource,
-                    Level = device.AllParents.Count,
-                    DeviceBinaryFormatter = new DeviceBinaryFormatter()
-                };
-                binObjectViewModel.DeviceBinaryFormatter.Initialize(device);
+			AllDB allDB = new AllDB();
+			allDB.Build();
+			DBViewModels = new List<DBViewModel>();
+			foreach (var gkDB in allDB.GKDBs)
+			{
+				var dBViewModel = new DBViewModel(gkDB);
+				DBViewModels.Add(dBViewModel);
+			}
+			foreach (var kauDB in allDB.KauDBs)
+			{
+				var dBViewModel = new DBViewModel(kauDB);
+				DBViewModels.Add(dBViewModel);
+			}
 
-                BinObjects.Add(binObjectViewModel);
-            }
-            if (BinObjects.Count > 0)
-                SelectedBinObject = BinObjects[0];
-        }
+			if (DBViewModels.Count > 0)
+				SelectedDBViewModel = DBViewModels[0];
+		}
 
-        public List<BinObjectViewModel> BinObjects { get; private set; }
+		public List<DBViewModel> DBViewModels { get; private set; }
 
-        BinObjectViewModel _selectedBinObject;
-        public BinObjectViewModel SelectedBinObject
-        {
-            get { return _selectedBinObject; }
-            set
-            {
-                _selectedBinObject = value;
-                OnPropertyChanged("SelectedBinObject");
-            }
-        }
-    }
+		DBViewModel _selectedDBViewModel;
+		public DBViewModel SelectedDBViewModel
+		{
+			get { return _selectedDBViewModel; }
+			set
+			{
+				_selectedDBViewModel = value;
+				OnPropertyChanged("SelectedDBViewModel");
+				InitializeSelectedDB();
+			}
+		}
+
+		void InitializeSelectedDB()
+		{
+			List<XDevice> devices = null;
+
+			if (SelectedDBViewModel.KauDB != null)
+				devices = SelectedDBViewModel.KauDB.Devices;
+			if (SelectedDBViewModel.GkDB != null)
+				devices = SelectedDBViewModel.GkDB.Devices;
+
+			BinObjects = new List<BinObjectViewModel>();
+			foreach (var device in devices)
+			{
+				var binObjectViewModel = new BinObjectViewModel(device);
+				BinObjects.Add(binObjectViewModel);
+			}
+			if (BinObjects.Count > 0)
+				SelectedBinObject = BinObjects[0];
+		}
+
+		List<BinObjectViewModel> _binObjects;
+		public List<BinObjectViewModel> BinObjects
+		{
+			get { return _binObjects; }
+			set
+			{
+				_binObjects = value;
+				OnPropertyChanged("BinObjects");
+			}
+		}
+
+		BinObjectViewModel _selectedBinObject;
+		public BinObjectViewModel SelectedBinObject
+		{
+			get { return _selectedBinObject; }
+			set
+			{
+				_selectedBinObject = value;
+				OnPropertyChanged("SelectedBinObject");
+			}
+		}
+	}
 }

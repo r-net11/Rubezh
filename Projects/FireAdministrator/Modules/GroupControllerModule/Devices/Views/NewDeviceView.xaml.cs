@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using Infrastructure.Common;
 
-namespace GroupControllerModule.Views
+namespace GKModule.Views
 {
     public partial class NewDeviceView : UserControl
     {

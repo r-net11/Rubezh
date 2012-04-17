@@ -27,8 +27,8 @@ namespace SettingsModule.ViewModels
         public RelayCommand TestCommand { get; private set; }
         void OnTest()
         {
-            //var message = FiresecManager.FiresecService.CheckHaspPresence();
-            //MessageBoxService.Show(message);
+            var message = FiresecManager.FiresecService.CheckHaspPresence();
+            MessageBoxService.Show(message.Result.ToString());
         }
 
         public RelayCommand ShowDriversCommand { get; private set; }

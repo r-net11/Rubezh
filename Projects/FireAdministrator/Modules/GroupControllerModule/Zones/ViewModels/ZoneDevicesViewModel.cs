@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using XFiresecAPI;
 using FiresecClient;
 
-namespace GroupControllerModule.ViewModels
+namespace GKModule.ViewModels
 {
     public class ZoneDevicesViewModel : BaseViewModel
     {

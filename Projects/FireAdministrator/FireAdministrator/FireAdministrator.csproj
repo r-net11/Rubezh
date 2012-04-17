@@ -230,9 +230,9 @@
       <Project>{7867A1CC-8039-4D7C-B493-7C06E5CDA327}</Project>
       <Name>FiltersModule</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Modules\GroupControllerModule\GroupControllerModule.csproj">
+    <ProjectReference Include="..\Modules\GroupControllerModule\GKModule.csproj">
       <Project>{75276EBA-15D7-4F08-8239-3C40E6835CB6}</Project>
-      <Name>GroupControllerModule</Name>
+      <Name>GKModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\Modules\InstructionsModule\InstructionsModule.csproj">
       <Project>{0F163243-0BCB-44D6-B849-4ED207B27027}</Project>

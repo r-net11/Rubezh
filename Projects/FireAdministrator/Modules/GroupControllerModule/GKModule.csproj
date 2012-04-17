@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{75276EBA-15D7-4F08-8239-3C40E6835CB6}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>GKModule</RootNamespace>
+    <AssemblyName>GKModule</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity">
+      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended">
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
+      <Link>Properties\AssemblyInfoCommon.cs</Link>
+    </Compile>
+    <Compile Include="Converter\Binary\AllDB.cs" />
+    <Compile Include="Converter\Binary\BinaryObjectBase.cs" />
+    <Compile Include="Converter\Binary\GKBinaryObject.cs" />
+    <Compile Include="Converter\Binary\KauBinaryObject.cs" />
+    <Compile Include="Converter\Binary\GkDB.cs" />
+    <Compile Include="Converter\Binary\KauDB.cs" />
+    <Compile Include="Converter\BinConverter.cs" />
+    <Compile Include="Converter\Drivers\DriversConverter.cs" />
+    <Compile Include="Converter\Drivers\GKIndicatorHelper.cs" />
+    <Compile Include="Converter\Drivers\GKSystem.cs" />
+    <Compile Include="Converter\Drivers\KAUIndicatorHelper.cs" />
+    <Compile Include="Converter\Drivers\DriversHelper.cs" />
+    <Compile Include="Converter\BytesToStringConverter.cs" />
+    <Compile Include="Converter\ViewModels\BinObjectViewModel.cs" />
+    <Compile Include="Converter\ViewModels\DBViewModel.cs" />
+    <Compile Include="Converter\ViewModels\DeviceConverterViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\ClauseViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\PropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\ShortPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\Converters\ClauseJounOperationConverter.cs" />
+    <Compile Include="Devices\ViewModels\Logic\Converters\ClauseOperandConverter.cs" />
+    <Compile Include="Devices\ViewModels\Logic\Converters\ClauseOperationConverter.cs" />
+    <Compile Include="Devices\ViewModels\Logic\Converters\StateTypesConverter.cs" />
+    <Compile Include="Devices\ViewModels\Logic\DevicesSelectationViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\StateLogicViewModel.cs" />
+    <Compile Include="Devices\ViewModels\Logic\ZonesSelectationViewModel.cs" />
+    <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
+      <DependentUpon>AddressEdiotor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converter\Views\DeviceConverterView.xaml.cs">
+      <DependentUpon>DeviceConverterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\Logic\DevicesSelectationView.xaml.cs">
+      <DependentUpon>DevicesSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\Logic\StateLogicView.xaml.cs">
+      <DependentUpon>StateLogicView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\Logic\ZonesSelectationView.xaml.cs">
+      <DependentUpon>ZonesSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\PropertiesView.xaml.cs">
+      <DependentUpon>PropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GroupControllerModule.cs" />
+    <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Converter\Drivers\KAUHelper.cs" />
+    <Compile Include="Converter\ConfigurationConverter.cs" />
+    <Compile Include="Devices\ViewModels\Logic\DeviceLogicViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
+    <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Converter\Drivers\GKHelper.cs" />
+    <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZonesViewModel.cs" />
+    <Compile Include="Zones\ViewModels\ZoneViewModel.cs" />
+    <Compile Include="Devices\Views\Logic\DeviceLogicView.xaml.cs">
+      <DependentUpon>DeviceLogicView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
+      <DependentUpon>DevicesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\DevicesView.xaml.cs">
+      <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
+      <DependentUpon>NewDeviceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
+      <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZoneDevicesView.xaml.cs">
+      <DependentUpon>ZoneDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZonesMenuView.xaml.cs">
+      <DependentUpon>ZonesMenuView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Zones\Views\ZonesView.xaml.cs">
+      <DependentUpon>ZonesView.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\AddressEdiotor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Converter\Views\DeviceConverterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\Logic\DeviceLogicView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\DevicesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\DevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\Logic\DevicesSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\Logic\StateLogicView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\Logic\ZonesSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\NewDeviceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Devices\Views\PropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Zones\Views\ZoneDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Zones\Views\ZoneDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Zones\Views\ZonesMenuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Zones\Views\ZonesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj">
+      <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
+      <Name>Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
+      <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
+      <Name>Infrastructure</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

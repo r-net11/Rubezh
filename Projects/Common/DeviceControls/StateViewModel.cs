@@ -12,8 +12,8 @@ namespace DeviceControls
     {
         readonly List<LibraryFrame> _frames;
         readonly List<Canvas> _canvases;
-        int _tick;
-        int _startTick;
+        int _currentFrameNo;
+        int _currentFrameShownTime;
         public static DispatcherTimer Timer { get; set; }
 
         public StateViewModel(LibraryState state, ICollection<Canvas> stateCanvases)
@@ -49,16 +49,18 @@ namespace DeviceControls
         {
             try
             {
-                _startTick++;
-                if (_startTick * 100 < _frames[_tick].Duration) return;
-                _startTick = 0;
-                _tick = (_tick + 1) % _frames.Count;
+                _currentFrameShownTime += 100;
+                if (_currentFrameShownTime < _frames[_currentFrameNo].Duration)
+                    return;
+                _currentFrameShownTime = 0;
+
+                _currentFrameNo = (_currentFrameNo + 1) % _frames.Count;
                 foreach (var canvas in _canvases)
                 {
                     canvas.Visibility = Visibility.Collapsed;
                 }
-                if (_canvases.Count > _tick)
-                    _canvases[_tick].Visibility = Visibility.Visible;
+                if (_canvases.Count > _currentFrameNo)
+                    _canvases[_currentFrameNo].Visibility = Visibility.Visible;
 
             }
             catch { return; }

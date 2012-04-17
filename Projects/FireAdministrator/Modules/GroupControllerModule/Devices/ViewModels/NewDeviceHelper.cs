@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using XFiresecAPI;
 using FiresecClient;
 
-namespace GroupControllerModule.ViewModels
+namespace GKModule.ViewModels
 {
     public static class NewDeviceHelper
     {

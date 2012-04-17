@@ -138,7 +138,6 @@
     <Compile Include="SingleLaunchHelper.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MachineNameHelper.cs" />
-    <Compile Include="ObjectCopier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

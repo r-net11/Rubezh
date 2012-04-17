@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Infrastructure.Common;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using XFiresecAPI;
 
-namespace GroupControllerModule.ViewModels
+namespace GKModule.ViewModels
 {
     public class PropertiesViewModel : BaseViewModel
     {

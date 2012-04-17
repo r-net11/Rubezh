@@ -1,8 +1,8 @@
 ﻿using System.Linq;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using XFiresecAPI;
 
-namespace GroupControllerModule.ViewModels
+namespace GKModule.ViewModels
 {
     public class BoolPropertyViewModel : BasePropertyViewModel
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using Infrastructure.Common;
 using XFiresecAPI;
 using FiresecClient;
 
-namespace GroupControllerModule.ViewModels
+namespace GKModule.ViewModels
 {
     public class DevicesSelectationViewModel : SaveCancelDialogContent
     {

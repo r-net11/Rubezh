@@ -1,4 +1,4 @@
-﻿namespace GroupControllerModule.ViewModels
+﻿namespace GKModule.ViewModels
 {
     public class ZonesMenuViewModel
     {

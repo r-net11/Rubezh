@@ -82,7 +82,7 @@ namespace FireMonitor
 
                     FiresecCallbackService.ConfigurationChangedEvent += new Action(OnConfigurationChanged);
 
-                    ReportsModule.ReportsModuleLoader.PreLoad();
+                    //ReportsModule.ReportsModuleLoader.PreLoad();
                 }
                 else
                 {
@@ -112,6 +112,10 @@ namespace FireMonitor
             ReportsModuleLoader = new ReportsModule.ReportsModuleLoader();
             CallModuleLoader = new CallModule.CallModuleLoader();
             PlansModuleLoader = new PlansModule.PlansModuleLoader();
+            if (ServiceFactory.AppSettings.ShowGK)
+            {
+                GKModuleLoader = new GKModule.GKModuleLoader();
+            }
         }
 
         DevicesModule.DevicesModuleLoader DevicesModuleLoader;
@@ -120,6 +124,7 @@ namespace FireMonitor
         ReportsModule.ReportsModuleLoader ReportsModuleLoader;
         CallModule.CallModuleLoader CallModuleLoader;
         PlansModule.PlansModuleLoader PlansModuleLoader;
+        GKModule.GKModuleLoader GKModuleLoader;
 
         void OnConfigurationChanged()
         {
@@ -138,6 +143,10 @@ namespace FireMonitor
             ReportsModule.ReportsModuleLoader.Initialize();
             CallModule.CallModuleLoader.Initialize();
             PlansModule.PlansModuleLoader.Initialize();
+            if (ServiceFactory.AppSettings.ShowGK)
+            {
+                GKModuleLoader = new GKModule.GKModuleLoader();
+            }
 
             ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
         }

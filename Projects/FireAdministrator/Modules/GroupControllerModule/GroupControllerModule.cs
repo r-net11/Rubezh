@@ -1,13 +1,13 @@
-﻿using GroupControllerModule.ViewModels;
+﻿using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using GroupControllerModule.Converter;
+using GKModule.Converter;
 using XFiresecAPI;
 using System.Linq;
 using FiresecClient;
 
-namespace GroupControllerModule
+namespace GKModule
 {
     public class GroupControllerModule
     {
@@ -16,7 +16,7 @@ namespace GroupControllerModule
 
         public GroupControllerModule()
         {
-            if (ServiceFactory.AppSettings.ShowGC == false)
+            if (ServiceFactory.AppSettings.ShowGK == false)
                 return;
 
             ServiceFactory.Events.GetEvent<ShowXDevicesEvent>().Unsubscribe(OnShowXDevices);
@@ -41,7 +41,7 @@ namespace GroupControllerModule
 
         void CreateViewModels()
         {
-            if (ServiceFactory.AppSettings.ShowGC == false)
+            if (ServiceFactory.AppSettings.ShowGK == false)
                 return;
 
             _devicesViewModel = new DevicesViewModel();

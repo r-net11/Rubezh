@@ -10,5 +10,6 @@
         public bool ShowOnlyVideo { get; set; }
         public bool IsDebug { get; set; }
         public bool CanControl { get; set; }
+        public bool ShowGK { get; set; }
     }
 }

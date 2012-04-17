@@ -243,6 +243,10 @@
       <Project>{408CBBFB-3989-443C-A5A2-3D78310210CD}</Project>
       <Name>DevicesModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Modules\GKModule\GKModule.csproj">
+      <Project>{8122CF0A-AC1D-4D4D-B20B-49BB565114A8}</Project>
+      <Name>GKModule</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Modules\JournalModule\JournalModule.csproj">
       <Project>{73FD68C0-A071-4BC1-8299-0EDB03B9C119}</Project>
       <Name>JournalModule</Name>

@@ -16,7 +16,7 @@ namespace FireAdministrator
             appSettings.ShowVideo = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowVideo"] as string);
             appSettings.LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
 #if DEBUG
-            appSettings.ShowGC = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowGC"] as string);
+            appSettings.ShowGK = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowGK"] as string);
             appSettings.ShowSKUD = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowSKUD"] as string);
             appSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
 #endif

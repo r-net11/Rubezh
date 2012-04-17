@@ -12,6 +12,7 @@ namespace XFiresecAPI
             Properties = new List<XDriverProperty>();
             Children = new List<Guid>();
             AutoCreateChildren = new List<Guid>();
+            UseOffBitInLogic = true;
         }
 
         [DataMember]
@@ -91,5 +92,8 @@ namespace XFiresecAPI
 
         [DataMember]
         public bool HasLogic { get; set; }
+
+        [DataMember]
+        public bool UseOffBitInLogic { get; set; }
     }
 }

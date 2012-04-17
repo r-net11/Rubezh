@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using XFiresecAPI;
 using FiresecClient;
 
-namespace GroupControllerModule.Converter
+namespace GKModule.Converter
 {
     public static class KAUHelper
     {
@@ -28,7 +28,6 @@ namespace GroupControllerModule.Converter
                 MaxAddress = 127
             };
             xDriver.AutoCreateChildren.Add(DriversHelper.KAUIndicator_UID);
-            //xDriver.AutoCreateChildren.Add(DriversHelper.KAUExit_UID);
             foreach (var driver in XManager.DriversConfiguration.Drivers)
             {
                 var driverHelperItem = DriversHelper.Drivers.FirstOrDefault(x => x.XDriverType == driver.DriverType);

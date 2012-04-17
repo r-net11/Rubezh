@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Data;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using FiresecAPI.Models;
 using XFiresecAPI;
 
-namespace GroupControllerModule.ViewModels.Converters
+namespace GKModule.ViewModels.Converters
 {
     public class ClauseOperandConverter : IValueConverter
     {

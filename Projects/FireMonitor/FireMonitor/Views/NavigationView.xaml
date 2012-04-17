@@ -80,5 +80,14 @@
                 </StackPanel>
             </TabItem.Header>
         </TabItem>
+        <TabItem IsSelected="{Binding IsGKSelected}"
+                 Visibility="{Binding IsGKVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Controls;component/Images/Settings.png" />
+                    <TextBlock Text="ГК" />
+                </StackPanel>
+            </TabItem.Header>
+        </TabItem>
     </TabControl>
 </UserControl>

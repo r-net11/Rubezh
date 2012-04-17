@@ -49,19 +49,6 @@ namespace FireAdministrator.Views
 				IsDevicesSelected = true;
 			}
 			catch { return; }
-
-			IsGKAllow = Convert.ToBoolean(ConfigurationManager.AppSettings["GKAllow"] as string);
-		}
-
-		bool _isGKAllow;
-		public bool IsGKAllow
-		{
-			get { return _isGKAllow; }
-			set
-			{
-				_isGKAllow = value;
-				OnPropertyChanged("IsGKAllow");
-			}
 		}
 
 		bool _isDevicesSelected;
@@ -242,18 +229,18 @@ namespace FireAdministrator.Views
 			}
 		}
 
-		public bool IsGCVisible
+		public bool IsGKVisible
 		{
-			get { return ServiceFactory.AppSettings.ShowGC; }
+			get { return ServiceFactory.AppSettings.ShowGK; }
 		}
 
-		bool _isGCSelected;
-		public bool IsGCSelected
+		bool _isGKSelected;
+		public bool IsGKSelected
 		{
-			get { return _isGCSelected; }
+			get { return _isGKSelected; }
 			set
 			{
-				_isGCSelected = value;
+				_isGKSelected = value;
 				OnPropertyChanged("IsGCSelected");
 			}
 		}
@@ -356,10 +343,10 @@ namespace FireAdministrator.Views
 
 		public bool HaveSkudPermissions
 		{
-            get
-            {
-                return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_SKUD));
-            }
+			get
+			{
+				return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_SKUD));
+			}
 		}
 
 		bool _isEmployeeCardIndexSelected;

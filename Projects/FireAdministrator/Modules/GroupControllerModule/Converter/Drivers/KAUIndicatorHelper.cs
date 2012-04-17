@@ -1,8 +1,8 @@
 ﻿using System;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using XFiresecAPI;
 
-namespace GroupControllerModule.Converter
+namespace GKModule.Converter
 {
     public class KAUIndicatorHelper
     {
@@ -22,8 +22,8 @@ namespace GroupControllerModule.Converter
                 ImageSource = FiresecClient.FileHelper.GetIconFilePath("Device_Device.ico"),
                 HasImage = true,
                 IsChildAddressReservedRange = false,
-                Name = "Индикатор",
-                ShortName = "Индикатор"
+                Name = "Индикатор КАУ",
+				ShortName = "Индикатор КАУ"
             };
 
             var modeProperty = new XDriverProperty()

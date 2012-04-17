@@ -8,13 +8,10 @@ namespace Common
         {
             string domainName = System.Net.NetworkInformation.IPGlobalProperties.GetIPGlobalProperties().DomainName;
             string hostName = Dns.GetHostName();
-            string machineName = "";
             if (!hostName.Contains(domainName))
-                machineName = hostName + "." + domainName;
+                return hostName + "." + domainName;
             else
-                machineName = hostName;
-
-            return machineName;
+                return hostName;
         }
     }
 }

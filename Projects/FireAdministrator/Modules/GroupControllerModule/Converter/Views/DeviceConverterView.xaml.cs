@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace GroupControllerModule.Views
+namespace GKModule.Views
 {
     public partial class DeviceConverterView : UserControl
     {

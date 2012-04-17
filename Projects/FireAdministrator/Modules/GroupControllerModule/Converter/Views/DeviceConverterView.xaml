@@ -1,7 +1,7 @@
-﻿<UserControl x:Class="GroupControllerModule.Views.DeviceConverterView"
+﻿<UserControl x:Class="GKModule.Views.DeviceConverterView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:GroupControllerModule.Converters"
+             xmlns:Converters="clr-namespace:GKModule.Converters"
              MinWidth="800" MinHeight="600">
     
     <UserControl.Resources>
@@ -19,26 +19,51 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding BinObjects}" SelectedItem="{Binding SelectedBinObject}" Margin="2">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Устройство" MinWidth="250">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                <TextBlock Text="{Binding DeviceName}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Адрес" Binding="{Binding DeviceAddress}" />
-                <DataGridTextColumn Header="Адрес ГК" Binding="{Binding AddressOnGc}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
 
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <DataGrid Grid.Column="0" ItemsSource="{Binding BinObjects}" SelectedItem="{Binding SelectedBinObject}" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Устройство" MinWidth="250">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                    <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                    <TextBlock Text="{Binding DeviceName}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding DeviceAddress}" />
+                    <DataGridCheckBoxColumn Header="Объект ГК" Binding="{Binding DeviceBinaryFormatter.IsGKObject, Mode=OneWay}" Width="*" />
+                    <DataGridTextColumn Header="Адрес ГК" Binding="{Binding AddressOnGc}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <DataGrid Grid.Column="1" ItemsSource="{Binding DBViewModels}" SelectedItem="{Binding SelectedDBViewModel}" Margin="2">
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="Устройство" MinWidth="250">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel DataContext="{Binding Device}" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                    <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                    <TextBlock Text="{Binding DeviceName}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DeviceAddress}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+        
         <Grid Grid.Row="1" DataContext="{Binding SelectedBinObject}" Margin="2">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <Border CornerRadius="5" Background="{DynamicResource BackgroundBrush}">
+                <Border CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
                     <Grid DataContext="{Binding DeviceBinaryFormatter}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -69,8 +94,8 @@
                         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding DeviceType, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Offset, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
-                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding OutDependensesCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
-                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding OutDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding InputDependensesCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding InputDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Formula, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <ItemsControl Grid.Row="6" Grid.Column="1" ItemsSource="{Binding FormulaOperations}" Margin="1">
                             <ItemsControl.ItemTemplate>

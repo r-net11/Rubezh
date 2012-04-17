@@ -4,10 +4,10 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
-using GroupControllerModule.Models;
+using GKModule.Models;
 using XFiresecAPI;
 
-namespace GroupControllerModule.Views
+namespace GKModule.Views
 {
     public partial class AddressEditor : UserControl
     {

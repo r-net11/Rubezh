@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Data;
 
-namespace GroupControllerModule.Converters
+namespace GKModule.Converters
 {
     public class BytesToStringConverter : IValueConverter
     {

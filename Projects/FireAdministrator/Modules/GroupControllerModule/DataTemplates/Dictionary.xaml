@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Views="clr-namespace:GroupControllerModule.Views"
-                    xmlns:ViewModels="clr-namespace:GroupControllerModule.ViewModels">
+                    xmlns:Views="clr-namespace:GKModule.Views"
+                    xmlns:ViewModels="clr-namespace:GKModule.ViewModels">
 
     <DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
         <Views:DevicesView />
