@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Aladdin.HASP;
 
 namespace HASPTest
 {
@@ -16,21 +17,21 @@ namespace HASPTest
 
         void Login()
         {
-            HaspFeature feature = HaspFeature.Default;
+            HaspFeature feature = HaspFeature.FromFeature(10);
 
             string vendorCode =
-            "ybt42jIEO4LwdtdUUAkMt/7iD7LskXpOvt4G7u7blOTyuNEoyT5r68eAUCt0CDD3sL+ZqddeZhGu2SrQ" +
-            "JNUbjjy9XJhD8b8SC+W7QMvGA1xtLWUxFmdBnyDqAoVgO8aqaUYSJ+YTDdm41jfu2NQdqFR0HGWrUzVD" +
-            "5EJRFTxiPqiYs0wXSrK1k7DH7OewLE7OQPYDqjyTHoqkgi3anJ+QwEz1xBq8lm8usIB1QmSQYU34xgWT" +
-            "GceP/VI1du4J/WznW07OlnYh7CygYJ6VsVQRrnvr8AF5ALC+rlCEjQW9+DIcMTK95alliQrDI5HCLUeZ" +
-            "dptYoMiP6QzqhCfxpCT1ye/bv2SXb1w92ewBO1tQhJBiIEymfgBUdY0++SZMG87IH2iAtJ+6RaoHNJjV" +
-            "RJcfVbHqV0r3HlsCVbXtp5R+JjTnZXU02Rlo8saPYUvS/zqOetEJFqHNLyEe4pneFYRWaLe0xrSF0cFA" +
-            "QJTGpPCr/AfS3wofk/o1m/yGs5Z/wAvSy2ONq+0l2HaFD6qGBTURPF9l4XVjhfmjXalzoMC1FKVIDnBV" +
-            "HGBvz7zGrBsxvBDJ1vBFqngWAWj9/XKBg1J3uH9xqygE0u+ygaC99Jzy5H/FWmo19w5tsx58Q7UpwBdq" +
-            "S7IA9q/FDAiXTE1NUe80ExMLRoIKteA1JCR3fef/mkR03puZuEao3yZMKGm52QAF5PfEbykfPj8jJWD8" +
-            "+iG/dzUOkmCzGdNqSZQpQjqYCngYu13tq8X1AzIj4sdntz4/5uMxlyfH+str4/18XLyXGrHq8YpNRXZ7" +
-            "P9FBR8xERLyX5K91/7uTkVGmlhR8MCgsk8p79niDjgci9wKOaTwknYX2nQ6qi02fBEcb/YFr+CIdwm0X" +
-            "Lm5VmgI7JKDIgCopLUNNk7aDHvjoMQtJA1BK9PctYX8WAtDvv679dBJbndw=";
+            "hSxuvX+4Ik4ehlUbRjIi8NVx128oM0LHXfM8gyi5P+uUYY6yXKu798W1a7gFrjiAbLSg1taawgkszHhG" + 
+            "zW0nlUzPN19fkiyseshhe7ag1ZChQihaMgBXyJfDOlC24bz8F01H7didmW/kZIbXC38CA2CQ4VPosoC4" +
+            "3Lxq06xEBckzM9EQnTBF5tWimUhu4Cdvh4xkB57jqjmvthXkia7RYTwaVv7ZmP5kzadxz//lLLOhgBuD" +
+            "j+/h6SgUy9z5vcqb8MJFXtJOf0F/u+C5NKN1wHb9l7EPuFagb+u1/tZrWdDGBDpp6VqRC2F6/u9OElFQ" + 
+            "iDj3aPhDxtumE+LPt7Rt6ErpYXGzmWOnVzHGPljGfLVbacNLMDM2uHyKZTduTPvVOKjG+XbtnnJXqmIG" +
+            "Y/tdzthAl89D4NyMwK5buGgEKibuzI1fK6xjnMNn/s/oZCsQxP4GPZGasWIqBHy44RtkXvIi/1E7m//w" +
+            "zpXwgAimx8ZeFAGelD6Af4eaHVg0Bo0A+JBDlrRhQszUNGuJDiZY8NAHq34JITGQNALrMsdrc7KWibQg" +
+            "jTfBAjsfsHRJPzJKvD0I0vrlnTs/HvQIUuX9mJh3D+/NlIGpVx7KmfssRBvoTUipicyYc0M4DS2mffLw" +
+            "IqXgLzS+PFZbi0abwaikNk4Gfx4VlbsLPeH+Jm/3RCrmo29f5thYxbsAg9fvTLC2gfSxfAafzvrRlr5Q" +
+            "nIF+jhEsDXgGoMWTeT/ogFLMlQlSp9WPzbZFWRFrg5FyUr805pgrCbD4n/mOMbOqlJ8E7LFr/MWjaUQQ" +
+            "F4cgpYyaSSojCNmY1dC9aFUd9jbpEm1ucKTZvaL0IDrz1cZ92OxkV8AmPkW2KeIdq8MkPyTDK9DyYAz2" +
+            "Nqwe4FFLz8dvlUjtoQrSW5xMYYT+MoEHFJfZ1yE8nd2QUmni7/OTTYyhaF4=";
 
             Hasp hasp = new Hasp(feature);
             HaspStatus status = hasp.Login(vendorCode);

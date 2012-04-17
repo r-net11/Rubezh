@@ -23,6 +23,7 @@
       <ComponentRef Id="FSsqlcese35Component"/>
       <ComponentRef Id="FSNLogComponent"/>
       <ComponentRef Id="FSFiresecSDFComponent" />
+      <ComponentRef Id="FSSKUDComponent"/>
 			<ComponentRef Id="TrayComponent"/>
 			<ComponentRef Id="SecurityConfiguration"/>
 			<ComponentRef Id="DeviceLibrary"/>

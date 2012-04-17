@@ -132,6 +132,18 @@
 							DiskId="1" KeyPath="yes" />
       </Component>
 
+      <Component Id="FMHASPComponent" Guid="69260D52-5A8F-4742-B949-982B31B4C330">
+        <File Id="FMHASPDLL" Name="hasp_net_windows.dll" Source="$(var.FireMonitor.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>     
+
 		</DirectoryRef>
+
+    <DirectoryRef Id="SystemFolder">
+      <Component Id="SystemHASPComponent" Guid="235FFA7E-E461-41EE-A7B5-B78FC93E7F1D">
+        <File Id="SystemHASPDLL" Name="hasp_windows_83702.dll" Source="..\..\..\..\..\..\3rdParty\HASP\"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
 	</Fragment>
 </Wix>

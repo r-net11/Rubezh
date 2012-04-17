@@ -67,6 +67,9 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="hasp_net_windows">
+      <HintPath>..\..\..\3rdParty\HASP\hasp_net_windows.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -108,6 +111,7 @@
     <Compile Include="Events\ShowPlanEvent.cs" />
     <Compile Include="Events\ShowZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowZonesEvent.cs" />
+    <Compile Include="LicenseHelper.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Services\ISecurityService.cs" />
     <Compile Include="Models\AutoActivationSettings.cs" />

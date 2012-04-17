@@ -7,6 +7,7 @@ using ReportsModule.Models;
 using SAPBusinessObjects.WPF.Viewer;
 using CrystalDecisions.CrystalReports.Engine;
 using System.Collections.Generic;
+using FiresecAPI;
 
 namespace ReportsModule.Reports
 {
@@ -49,11 +50,6 @@ namespace ReportsModule.Reports
 
         public override ReportDocument CreateCrystalReportDocument()
         {
-            if (DataList.IsNotNullOrEmpty() == false)
-            {
-                reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
-                return reportDocument;
-            }
             reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
             reportDocument.SetDataSource(DataList);
             reportDocument.SetParameterValue("StartDate", StartDate.ToString());
@@ -67,15 +63,13 @@ namespace ReportsModule.Reports
     {
         public ReportArchiveFilter()
         {
-            SetDefaultFilter();
+            SetFilter();
             Initialize();
         }
 
         public ReportArchiveFilter(ArchiveFilterViewModel archiveFilterViewModel)
         {
-            ArchiveFilter = archiveFilterViewModel.GetModel();
-            StartDate = archiveFilterViewModel.StartDate;
-            EndDate = archiveFilterViewModel.EndDate;
+            SetFilter(archiveFilterViewModel);
             Initialize();
         }
 
@@ -87,21 +81,39 @@ namespace ReportsModule.Reports
 
         public readonly DateTime ArchiveFirstDate = FiresecManager.FiresecService.GetArchiveStartDate().Result;
         public List<JournalRecord> JournalRecords { get; set; }
-        ArchiveFilter ArchiveFilter { get; set; }
+        public ArchiveFilter ArchiveFilter { get; set; }
         public bool IsFilterOn { get; set; }
         public DateTime StartDate { get; private set; }
         public DateTime EndDate { get; private set; }
 
-        public void SetDefaultFilter()
+        void SetFilter(ArchiveFilterViewModel archiveFilterViewModel)
         {
-            ArchiveFilter = new ArchiveFilter() { StartDate = ArchiveFirstDate, EndDate = DateTime.Now };
-            StartDate = ArchiveFirstDate;
-            EndDate = DateTime.Now;
+            ArchiveFilter = archiveFilterViewModel.GetModel();
+            StartDate = archiveFilterViewModel.StartDate;
+            EndDate = archiveFilterViewModel.EndDate;
+        }
+
+        void SetFilter()
+        {
+            var archiveFilter = new ArchiveFilter() { StartDate = ArchiveFirstDate, EndDate = DateTime.Now, UseSystemDate = false };
+            var archiveFilterViewModel = new ArchiveFilterViewModel(archiveFilter);
+            ArchiveFilter = archiveFilterViewModel.GetModel();
+            StartDate = archiveFilterViewModel.StartDate;
+            EndDate = archiveFilterViewModel.EndDate;
         }
 
         public void LoadArchive()
         {
-            JournalRecords = new List<JournalRecord>(FiresecManager.FiresecService.GetFilteredArchive(ArchiveFilter).Result);
+            JournalRecords = new List<JournalRecord>();
+            OperationResult<List<JournalRecord>> operationResult;
+            operationResult = FiresecManager.FiresecService.GetFilteredArchive(ArchiveFilter);
+            if (operationResult.HasError == false)
+            {
+                foreach (var journalRecord in operationResult.Result)
+                {
+                    JournalRecords.Add(journalRecord);
+                }
+            }
         }
     }
 }

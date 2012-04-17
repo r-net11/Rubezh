@@ -22,15 +22,8 @@ namespace ReportsModule.Reports
 
         public override ReportDocument CreateCrystalReportDocument()
         {
-            if (DataList.IsNotNullOrEmpty() == false)
-                return new ReportDocument();
-
-            reportDocument = new ReportDocument();
             reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
             reportDocument.SetDataSource(DataList);
-
-            //var crystalReportsViewer = new CrystalReportsViewer();
-            //crystalReportsViewer.ViewerCore.ReportSource = reportDocument;
             return reportDocument;
         }
     }

@@ -60,7 +60,7 @@ namespace FireMonitor.Views
         ObjectAnimationUsingKeyFrames GetAnimation(bool start)
         {
             var animation = new ObjectAnimationUsingKeyFrames();
-            if (start)
+            if (!start)
             {
 
                 animation.Duration = TimeSpan.FromSeconds(1.5);
