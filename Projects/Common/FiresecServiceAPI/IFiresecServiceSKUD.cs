@@ -11,7 +11,7 @@ namespace FiresecAPI
 	public interface IFiresecServiceSKUD
 	{
 		[OperationContract]
-		IEnumerable<EmployeeCardIndex> GetEmployees();
+		IEnumerable<EmployeeCardIndex> GetEmployees(EmployeeCardIndexFilter filter);
 
 		[OperationContract]
 		bool DeleteEmployee(int id);

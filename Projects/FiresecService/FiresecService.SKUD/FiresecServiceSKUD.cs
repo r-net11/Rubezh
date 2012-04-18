@@ -27,7 +27,7 @@ namespace FiresecService.SKUD
 
 		#region IFiresecServiceSKUD Members
 
-		public IEnumerable<EmployeeCardIndex> GetEmployees()
+		public IEnumerable<EmployeeCardIndex> GetEmployees(EmployeeCardIndexFilter filter)
 		{
 			return EmployeeResultTranslator.Translate(Context.GetAllEmployees());
 		}

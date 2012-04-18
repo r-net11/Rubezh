@@ -90,7 +90,6 @@ namespace FireAdministrator
             try
             {
                 var dialogWindow = new DialogWindow();
-
                 try
                 {
                     dialogWindow.Owner = App.Current.MainWindow;

@@ -184,6 +184,7 @@
     <Compile Include="Models\Skud\ActionResult.cs" />
     <Compile Include="Models\Skud\EmployeeCard.cs" />
     <Compile Include="Models\Skud\EmployeeCardIndex.cs" />
+    <Compile Include="Models\Skud\EmployeeCardIndexFilter.cs" />
     <Compile Include="Models\Skud\SkudPerson.cs" />
     <Compile Include="Models\System\ArchiveDefaultState.cs" />
     <Compile Include="Models\System\ArchiveDefaultStateType.cs" />

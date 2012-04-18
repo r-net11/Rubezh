@@ -18,6 +18,7 @@ namespace SkudModule.ViewModels
 		public ObservableCollection<EmployeeCardViewModel> EmployeeCardIndex { get; set; }
 		private EmployeeCardViewModel _selectedCard;
 		private EmployeeCardIndexMenuViewModel _сardIndexMenuViewModel;
+		private EmployeeCardIndexFilter _filter;
 
 		public EmployeeCardViewModel SelectedEmployeeCard
 		{
@@ -36,14 +37,15 @@ namespace SkudModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			FilterCommand = new RelayCommand(OnFilter);
-			ClearFilterCommand = new RelayCommand(OnClearFilter);
+			ClearFilterCommand = new RelayCommand(OnClearFilter, CanClearFilter);
 			EmployeeCardIndex = new ObservableCollection<EmployeeCardViewModel>();
 			_сardIndexMenuViewModel = new EmployeeCardIndexMenuViewModel(this);
+			_filter = new EmployeeCardIndexFilter();
 		}
 
 		public void Initialize()
 		{
-			var list = FiresecManager.GetEmployees();
+			var list = FiresecManager.GetEmployees(_filter);
 			EmployeeCardIndex.Clear();
 			if (list != null)
 				foreach (var employee in list)
@@ -96,12 +98,15 @@ namespace SkudModule.ViewModels
 		public RelayCommand FilterCommand { get; private set; }
 		void OnFilter()
 		{
-			//
+			EmployeeCardIndexFilterViewModel viewModel = new EmployeeCardIndexFilterViewModel(_filter);
+			if (ServiceFactory.UserDialogs.ShowModalWindow(viewModel))
+				Initialize();
 		}
 		public RelayCommand ClearFilterCommand { get; private set; }
 		void OnClearFilter()
 		{
-			//
+			_filter = new EmployeeCardIndexFilter();
+			Initialize();
 		}
 
 		bool CanEditRemove()
@@ -110,7 +115,12 @@ namespace SkudModule.ViewModels
 		}
 		bool CanRemoveAll()
 		{
-			return (EmployeeCardIndex.IsNotNullOrEmpty());
+			return EmployeeCardIndex.IsNotNullOrEmpty();
+		}
+		bool CanClearFilter()
+		{
+			// check filter is empty
+			return false;
 		}
 
 		private void BeginEdit(EmployeeCardViewModel card = null)

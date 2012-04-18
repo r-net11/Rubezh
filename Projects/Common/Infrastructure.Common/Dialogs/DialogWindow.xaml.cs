@@ -74,10 +74,17 @@ namespace Infrastructure.Common
                 _captionTextBlock.Text = content.Title;
             }
 
-            if (content is SaveCancelDialogContent)
-                _okCancelStackPanel.Visibility = System.Windows.Visibility.Visible;
-            else
-                _okCancelStackPanel.Visibility = System.Windows.Visibility.Collapsed;
+			SaveCancelDialogContent saveCancelDialogContent = content as SaveCancelDialogContent;
+			if (saveCancelDialogContent != null)
+			{
+				_okCancelStackPanel.Visibility = System.Windows.Visibility.Visible;
+				if (!string.IsNullOrEmpty(saveCancelDialogContent.SaveText))
+					bOk.Content = saveCancelDialogContent.SaveText;
+				if (!string.IsNullOrEmpty(saveCancelDialogContent.CancelText))
+					bCancel.Content = saveCancelDialogContent.CancelText;
+			}
+			else
+				_okCancelStackPanel.Visibility = System.Windows.Visibility.Collapsed;
             _okCancelStackPanel.DataContext = content;
 
             _content.Content = content.InternalViewModel;

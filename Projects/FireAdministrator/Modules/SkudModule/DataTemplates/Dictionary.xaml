@@ -11,11 +11,15 @@
         <Views:EmployeeCardIndexMenuView />
     </DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:EmployeeCardIndexViewModel}">
-		<Views:EmployeeCardIndexView />
-	</DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:EmployeeCardIndexViewModel}">
+        <Views:EmployeeCardIndexView />
+    </DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:EmployeeCardViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:EmployeeCardIndexFilterViewModel}">
+        <Views:EmployeeCardIndexFilterView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:EmployeeCardViewModel}">
 		<Views:EmployeeCardView />
 	</DataTemplate>
 

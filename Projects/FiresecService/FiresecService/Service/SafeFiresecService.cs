@@ -343,9 +343,9 @@ namespace FiresecService
 			return SafeOperationCall(() => { return FiresecService.GetXDeviceConfiguration(); });
 		}
 
-		public IEnumerable<EmployeeCardIndex> GetEmployees()
+		public IEnumerable<EmployeeCardIndex> GetEmployees(EmployeeCardIndexFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<EmployeeCardIndex>>(() => FiresecService.GetEmployees());
+			return SafeContext.Execute<IEnumerable<EmployeeCardIndex>>(() => FiresecService.GetEmployees(filter));
 		}
 		public bool DeleteEmployee(int id)
 		{

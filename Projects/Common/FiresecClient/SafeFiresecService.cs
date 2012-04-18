@@ -430,9 +430,9 @@ namespace FiresecClient
             return SafeOperationCall(() => { return _iFiresecService.CheckHaspPresence(); });
         }
 
-		public IEnumerable<EmployeeCardIndex> GetEmployees()
+		public IEnumerable<EmployeeCardIndex> GetEmployees(EmployeeCardIndexFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<EmployeeCardIndex>>(() => _iFiresecService.GetEmployees());
+			return SafeContext.Execute<IEnumerable<EmployeeCardIndex>>(() => _iFiresecService.GetEmployees(filter));
 		}
 
 		public bool DeleteEmployee(int id)

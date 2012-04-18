@@ -19,9 +19,9 @@ namespace FiresecService
 		#region IFiresecService Members
 
 
-		public IEnumerable<EmployeeCardIndex> GetEmployees()
+		public IEnumerable<EmployeeCardIndex> GetEmployees(EmployeeCardIndexFilter filter)
 		{
-			return _skud.GetEmployees();
+			return _skud.GetEmployees(filter);
 		}
 
 		public bool DeleteEmployee(int id)

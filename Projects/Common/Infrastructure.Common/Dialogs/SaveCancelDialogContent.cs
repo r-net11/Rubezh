@@ -3,7 +3,10 @@ namespace Infrastructure.Common
 {
     public class SaveCancelDialogContent : DialogContent
     {
-        public SaveCancelDialogContent()
+		public string SaveText { get; set; }
+		public string CancelText { get; set; }
+		
+		public SaveCancelDialogContent()
         {
             SaveCommand = new RelayCommand(OnSave, CanSave);
             CancelCommand = new RelayCommand(OnCancel);

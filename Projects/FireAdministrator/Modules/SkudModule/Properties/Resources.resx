@@ -123,4 +123,13 @@
   <data name="DeleteEmployeeFailed" xml:space="preserve">
     <value>Произошла ошибка - удалить запись о сотруднике не удалось!</value>
   </data>
+  <data name="EmployeeCardIndexFilterTitle" xml:space="preserve">
+    <value>Фильтр</value>
+  </data>
+  <data name="EmployeeCardTitle" xml:space="preserve">
+    <value>Карточка сотрудника</value>
+  </data>
+  <data name="SaveText" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
 </root>

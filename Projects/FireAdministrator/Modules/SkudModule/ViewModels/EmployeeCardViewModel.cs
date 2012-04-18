@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using FiresecAPI.Models.Skud;
 using FiresecClient;
+using SkudModule.Properties;
 
 namespace SkudModule.ViewModels
 {
@@ -16,6 +17,8 @@ namespace SkudModule.ViewModels
 		public EmployeeCardViewModel(EmployeeCardIndex employeeCardIndex = null)
 		{
 			EmployeeCardIndex = employeeCardIndex;
+			Title = Resources.EmployeeCardTitle;
+			SaveText = Resources.SaveText;
 		}
 
 		public void Update()
@@ -30,6 +33,9 @@ namespace SkudModule.ViewModels
 
 		protected override void Save(ref bool cancel)
 		{
+			base.Save(ref cancel);
+			if (cancel)
+				return;
 			cancel = !FiresecManager.SaveEmployeeCard(EmployeeCard);
 			if (!cancel)
 			{
@@ -46,7 +52,6 @@ namespace SkudModule.ViewModels
 				EmployeeCardIndex.SecondName = EmployeeCard.SecondName;
 				Update();
 			}
-			base.Save(ref cancel);
 		}
 		protected override bool CanSave()
 		{
