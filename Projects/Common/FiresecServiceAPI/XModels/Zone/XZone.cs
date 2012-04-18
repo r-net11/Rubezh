@@ -14,6 +14,8 @@ namespace XFiresecAPI
             KAUDevices = new List<XDevice>();
         }
 
+		public XDevice DBDevice { get; set; }
+		public List<XDevice> Devices { get; set; }
         public List<XDevice> KAUDevices { get; set; }
         public short InternalKAUNo { get; set; }
         public short InternalGKUNo { get; set; }

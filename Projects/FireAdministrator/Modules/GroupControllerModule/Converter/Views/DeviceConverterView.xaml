@@ -33,14 +33,12 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                     <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Text="{Binding DeviceName}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
+                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Адрес" Binding="{Binding DeviceAddress}" />
-                    <DataGridCheckBoxColumn Header="Объект ГК" Binding="{Binding DeviceBinaryFormatter.IsGKObject, Mode=OneWay}" Width="*" />
-                    <DataGridTextColumn Header="Адрес ГК" Binding="{Binding AddressOnGc}" Width="*" />
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -64,7 +62,7 @@
         <Grid Grid.Row="1" DataContext="{Binding SelectedBinObject}" Margin="2">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <Border CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
-                    <Grid DataContext="{Binding DeviceBinaryFormatter}">
+                    <Grid DataContext="{Binding BinaryObject}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -84,20 +82,24 @@
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип"  />
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" />
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Смещение" />
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Количество зависимостей" />
-                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Выходные зависимости" />
-                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Логика" />
-                        <TextBlock Grid.Row="6" Grid.Column="0" Text="" />
-                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Количества параметров" />
-                        <TextBlock Grid.Row="8" Grid.Column="0" Text="Знаяения параметра" />
-                        <TextBlock Grid.Row="9" Grid.Column="0" Text="Все" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Количество входных зависимостей" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Входные зависимости" />
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Количество выходных зависимостей" />
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Выходные зависимости" />
+                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Логика" />
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="" />
+                        <TextBlock Grid.Row="9" Grid.Column="0" Text="Количества параметров" />
+                        <TextBlock Grid.Row="10" Grid.Column="0" Text="Знаяения параметра" />
+                        <TextBlock Grid.Row="11" Grid.Column="0" Text="Все" />
                         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding DeviceType, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Offset, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding InputDependensesCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding InputDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
-                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Formula, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
-                        <ItemsControl Grid.Row="6" Grid.Column="1" ItemsSource="{Binding FormulaOperations}" Margin="1">
+                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding OutDependensesCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding OutDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Formula, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <ItemsControl Grid.Row="7" Grid.Column="1" ItemsSource="{Binding FormulaOperations}" Margin="1">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -109,9 +111,9 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding ParametersCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
-                        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Parameters, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
-                        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding AllBytes, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding ParametersCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Parameters, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding AllBytes, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                     </Grid>
                 </Border>
             </ScrollViewer>

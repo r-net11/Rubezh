@@ -7,12 +7,13 @@ using FiresecClient;
 
 namespace GKModule.Converter
 {
-    public class KauBinaryObject : BinaryFormatterBase
+    public class KauBinaryObject : BinaryObjectBase
     {
         XDevice Device;
 
-        public void Initialize(XDevice device)
+		public KauBinaryObject(XDevice device)
         {
+			IsGk = false;
             Device = device;
 
             DeviceType = ToBytes(device.Driver.DriverTypeNo);
@@ -25,10 +26,6 @@ namespace GKModule.Converter
             SetObjectOutDependencesBytes();
             SetFormulaBytes();            
             SetPropertiesBytes();
-
-            InputDependensesCount = ToBytes((short)(InputDependenses.Count() / 2));
-            Offset = ToBytes((short)(8 + InputDependenses.Count() + Formula.Count()));
-            ParametersCount = ToBytes((short)(Parameters.Count() / 4));
 
             InitializeAllBytes();
             InitializeIsGK();

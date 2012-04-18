@@ -2,6 +2,7 @@
 using Infrastructure.Common;
 using XFiresecAPI;
 using GKModule.Converter;
+using GKModule.Converter.Binary;
 
 namespace GKModule.ViewModels
 {
@@ -9,18 +10,26 @@ namespace GKModule.ViewModels
 	{
 		public BinObjectViewModel(XDevice device)
 		{
-			DeviceName = device.Driver.ShortName;
-			DeviceAddress = device.Address;
+			Name = device.Driver.ShortName;
+			Address = device.Address;
 			ImageSource = device.Driver.ImageSource;
 			Level = device.AllParents.Count;
-			DeviceBinaryFormatter = new KauBinaryObject();
-			DeviceBinaryFormatter.Initialize(device);
+			BinaryObject = new KauBinaryObject(device);
 		}
 
-		public string DeviceName { get; set; }
-		public string DeviceAddress { get; set; }
+		public BinObjectViewModel(XZone zone)
+		{
+			Name = zone.Name;
+			Address = zone.No.ToString();
+			ImageSource = null;
+			Level = 3;
+			BinaryObject = new ZoneBinaryObject(zone);
+		}
+
+		public string Name { get; set; }
+		public string Address { get; set; }
 		public string ImageSource { get; set; }
 		public int Level { get; set; }
-		public KauBinaryObject DeviceBinaryFormatter { get; set; }
+		public BinaryObjectBase BinaryObject { get; set; }
 	}
 }

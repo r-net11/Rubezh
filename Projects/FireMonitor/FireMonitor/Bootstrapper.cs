@@ -51,7 +51,7 @@ namespace FireMonitor
                 var operationResult = FiresecManager.FiresecService.CheckHaspPresence();
                 if (operationResult.HasError)
                 {
-                    //MessageBoxService.ShowWarning(operationResult.Error);
+                    MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
                 }
                 var serverStatus = FiresecManager.FiresecService.GetStatus();
                 if (serverStatus != null)
@@ -82,7 +82,7 @@ namespace FireMonitor
 
                     FiresecCallbackService.ConfigurationChangedEvent += new Action(OnConfigurationChanged);
 
-                    //ReportsModule.ReportsModuleLoader.PreLoad();
+                    ReportsModule.ReportsModuleLoader.PreLoad();
                 }
                 else
                 {

@@ -20,6 +20,8 @@ namespace FireMonitor
             appSettings.CanControl = Convert.ToBoolean(ConfigurationManager.AppSettings["CanControl"] as string);
             appSettings.ShowGK = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowGK"] as string);
 #endif
+			var licenseHelper = new LicenseHelper(10);
+			appSettings.HasLicenseToControl = licenseHelper.CheckLicense();
             ServiceFactory.AppSettings = appSettings;
         }
     }

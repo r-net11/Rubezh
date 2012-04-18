@@ -11,5 +11,6 @@
         public bool IsDebug { get; set; }
         public bool CanControl { get; set; }
         public bool ShowGK { get; set; }
+		public bool HasLicenseToControl { get; set; }
     }
 }

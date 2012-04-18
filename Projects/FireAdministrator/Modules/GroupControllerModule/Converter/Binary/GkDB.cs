@@ -6,24 +6,11 @@ using XFiresecAPI;
 
 namespace GKModule.Converter.Binary
 {
-	public class GkDB
+	public class GkDB : BaseBD
 	{
-		short currentChildNo = 1;
-		short NextChildNo
-		{
-			get { return currentChildNo++; }
-		}
-
-		public XDevice GkDevice { get; set; }
-		public List<XDevice> Devices { get; set; }
-		public List<XZone> Zones { get; set; }
-
 		public GkDB(XDevice gkDevice)
 		{
-			GkDevice = gkDevice;
-
-			Devices = new List<XDevice>();
-			Zones = new List<XZone>();
+			RootDevice = gkDevice;
 
 			AddDevice(gkDevice);
 
@@ -31,25 +18,32 @@ namespace GKModule.Converter.Binary
 			{
 				if (device.Driver.DriverType == XDriverType.GKIndicator)
 				{
-					device.InternalKAUNo = NextChildNo;
-					Devices.Add(device);
+					AddDevice(device);
+				}
+			}
+
+			foreach (var device in gkDevice.Children)
+			{
+				if (device.Driver.DriverType == XDriverType.KAU)
+				{
+					AddDevice(device);
 				}
 			}
 		}
 
-		public void AddDevice(XDevice device)
-		{
-			if (device.Driver.DriverType == XDriverType.GKIndicator)
-				return;
+		//public void AddDevice(XDevice device)
+		//{
+		//    if (Devices.Contains(device))
+		//        return;
 
-			device.InternalGKUNo = NextChildNo;
-			Devices.Add(device);
-		}
+		//    device.InternalGKUNo = NextChildNo;
+		//    Devices.Add(device);
+		//}
 
-		public void AddZone(XZone zone)
-		{
-			zone.InternalGKUNo = NextChildNo;
-			Zones.Add(zone);
-		}
+		//public void AddZone(XZone zone)
+		//{
+		//    zone.InternalGKUNo = NextChildNo;
+		//    Zones.Add(zone);
+		//}
 	}
 }

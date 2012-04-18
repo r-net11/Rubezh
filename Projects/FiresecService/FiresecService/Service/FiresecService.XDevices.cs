@@ -35,6 +35,11 @@ namespace FiresecService
             catch
             {
                 var xDeviceConfiguration = new XDeviceConfiguration();
+				var device = new XDevice();
+				device.DriverUID = new Guid("938947C5-4624-4A1A-939C-60AEEBF7B65C");
+				xDeviceConfiguration.Devices.Add(device);
+				xDeviceConfiguration.RootDevice = device;
+
                 SetXDeviceConfiguration(xDeviceConfiguration);
                 return xDeviceConfiguration;
             }

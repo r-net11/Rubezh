@@ -6,12 +6,13 @@ using XFiresecAPI;
 
 namespace GKModule.Converter
 {
-	public class GKBinaryObject : BinaryFormatterBase
+	public class GKBinaryObject : BinaryObjectBase
 	{
 		XDevice Device;
 
-		public void Initialize(XDevice device)
+		public GKBinaryObject(XDevice device)
 		{
+			IsGk = true;
 			Device = device;
 
 			DeviceType = ToBytes(device.Driver.DriverTypeNo);

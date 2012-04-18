@@ -5,55 +5,74 @@ using ReportsModule.ViewModels;
 using FiresecAPI.Models;
 using System.ComponentModel;
 using System;
+using System.Windows;
+using ReportsModule.Views;
 
 namespace ReportsModule
 {
-    public class ReportsModuleLoader
-    {
-        static ReportsViewModel ReportsViewModel;
+	public class ReportsModuleLoader
+	{
+		static ReportsViewModel ReportsViewModel;
 
-        public ReportsModuleLoader()
-        {
-            ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(OnShowReports);
+		public ReportsModuleLoader()
+		{
+			ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(OnShowReports);
 
-            RegisterResources();
-            CreateViewModels();
-        }
+			RegisterResources();
+			CreateViewModels();
+		}
 
-        void RegisterResources()
-        {
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-        }
+		void RegisterResources()
+		{
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+		}
 
-        public static void Initialize()
-        {
-            //ReportsViewModel.Initialize();
-        }
+		public static void Initialize()
+		{
+			//ReportsViewModel.Initialize();
+		}
 
-        static void CreateViewModels()
-        {
-            ReportsViewModel = new ReportsViewModel();
-        }
+		static void CreateViewModels()
+		{
+			ReportsViewModel = new ReportsViewModel();
+		}
 
-        static void OnShowReports(object obj)
-        {
-            ServiceFactory.Layout.Show(ReportsViewModel);
-        }
+		static void OnShowReports(object obj)
+		{
+			reportsWindow.WindowStyle = WindowStyle.ThreeDBorderWindow;
+			reportsWindow.Width = 500;
+			reportsWindow.Height = 500;
+			reportsWindow.Show();
 
-        public static void PreLoad()
-        {
-            var backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
-            backgroundWorker.RunWorkerAsync();
-        }
+			return;
+			ServiceFactory.Layout.Show(ReportsViewModel);
+		}
 
-        static void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            ServiceFactory.ShellView.Dispatcher.BeginInvoke(new Action(() =>
-            {
-                ServiceFactory.Layout.PreLoad(ReportsViewModel);
-                ReportsViewModel.SelectedReportName = ReportType.ReportDevicesList;
-            }));
-        }
-    }
+		static ReportsWindow reportsWindow;
+
+		public static void PreLoad()
+		{
+			var backgroundWorker = new BackgroundWorker();
+			backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
+			backgroundWorker.RunWorkerAsync();
+		}
+
+		static void InitializeReportsWindow()
+		{
+			reportsWindow = new ReportsWindow();
+			reportsWindow.Width = 0;
+			reportsWindow.Height = 0;
+			reportsWindow.Show();
+			reportsWindow.Initialize();
+			reportsWindow.Hide();
+		}
+
+		static void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+		{
+			ServiceFactory.ShellView.Dispatcher.BeginInvoke(new Action(() =>
+			{
+				InitializeReportsWindow();
+			}));
+		}
+	}
 }

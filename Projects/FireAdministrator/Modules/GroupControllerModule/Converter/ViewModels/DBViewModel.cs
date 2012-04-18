@@ -10,13 +10,13 @@ namespace GKModule.Converter
 		public DBViewModel(GkDB gkDB)
 		{
 			GkDB = gkDB;
-			Device = new BinObjectViewModel(gkDB.GkDevice);
+			Device = new BinObjectViewModel(gkDB.RootDevice);
 		}
 
 		public DBViewModel(KauDB kauDB)
 		{
 			KauDB = kauDB;
-			Device = new BinObjectViewModel(kauDB.KauDevice);
+			Device = new BinObjectViewModel(kauDB.RootDevice);
 		}
 
 		public GkDB GkDB { get; private set; }
