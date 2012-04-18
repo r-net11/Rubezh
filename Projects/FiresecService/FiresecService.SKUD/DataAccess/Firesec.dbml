@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Firesec" EntityNamespace="FiresecService.SKUD.DataAccess" ContextNamespace="FiresecService.SKUD.DataAccess" Class="FiresecDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=Firesec;Integrated Security=True" SettingsObjectName="FiresecService.SKUD.Properties.Settings" SettingsPropertyName="FiresecConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=vsorokonenko\sqlexpress;Initial Catalog=Firesec;Integrated Security=True" SettingsObjectName="FiresecService.SKUD.Properties.Settings" SettingsPropertyName="FiresecConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Employee" Member="Employees">
     <Type Name="Employee">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -36,8 +36,33 @@
   </Function>
   <Function Name="dbo.DeleteEmployee" Method="DeleteEmployee">
     <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="NumRowsChanged" Parameter="numRowsChanged" Type="System.Int32" DbType="Int" Direction="InOut" />
-    <Parameter Name="ErrorCode" Parameter="errorCode" Type="System.String" DbType="NVarChar(MAX)" Direction="InOut" />
+    <Parameter Name="Count" Parameter="count" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetEmployeeCard" Method="GetEmployeeCard">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <ElementType Name="GetEmployeeCardResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="PersonId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SecondName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Department" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Position" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SaveEmployeeCard" Method="SaveEmployeeCard">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="LastName" Parameter="lastName" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="FirstName" Parameter="firstName" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="SecondName" Parameter="secondName" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="Birthday" Parameter="birthday" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Sex" Parameter="sex" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Department" Parameter="department" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="Position" Parameter="position" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="Comment" Parameter="comment" Type="System.String" DbType="NVarChar(MAX)" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

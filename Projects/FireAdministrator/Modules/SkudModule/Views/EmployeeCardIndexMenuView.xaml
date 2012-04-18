@@ -6,5 +6,8 @@
         <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
         <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
         <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
+		<Controls:ToolBarButton Command="{Binding RefreshCommand}" ToolTip="Обновить" ImageSource="/Controls;component/Images/Refresh.png" />
+		<Controls:ToolBarButton Command="{Binding FilterCommand}" ToolTip="Фильтр" ImageSource="/Controls;component/Images/Filter.png" />
+		<Controls:ToolBarButton Command="{Binding ClearFilterCommand}" ToolTip="Очистить фильтр" ImageSource="/Controls;component/Images/Filter.png" />
     </StackPanel>
 </UserControl>

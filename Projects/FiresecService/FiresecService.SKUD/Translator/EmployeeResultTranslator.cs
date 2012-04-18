@@ -29,5 +29,21 @@ namespace FiresecService.SKUD.Translator
 			foreach(GetAllEmployeesResult record in table)
 				yield return Translate(record);
 		}
+
+		public static EmployeeCard Translate(GetEmployeeCardResult record)
+		{
+			return new EmployeeCard()
+			{
+				Id = record.Id,
+				PersonId = record.PersonId,
+				LastName = record.LastName,
+				FirstName = record.FirstName,
+				SecondName = record.SecondName,
+				Age = record.Age,
+				Department = record.Department,
+				Position = record.Position,
+				Comment = record.Comment,
+			};
+		}
 	}
 }

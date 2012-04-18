@@ -435,9 +435,19 @@ namespace FiresecClient
 			return SafeContext.Execute<IEnumerable<EmployeeCardIndex>>(() => _iFiresecService.GetEmployees());
 		}
 
-		public ActionResult DeleteEmployee(int id)
+		public bool DeleteEmployee(int id)
 		{
-			return SafeContext.Execute<ActionResult>(() => _iFiresecService.DeleteEmployee(id));
+			return SafeContext.Execute<bool>(() => _iFiresecService.DeleteEmployee(id));
+		}
+
+		public EmployeeCard GetEmployeeCard(int id)
+		{
+			return SafeContext.Execute<EmployeeCard>(() => _iFiresecService.GetEmployeeCard(id));
+		}
+
+		public int SaveEmployeeCard(EmployeeCard employeeCard)
+		{
+			return SafeContext.Execute<int>(() => _iFiresecService.SaveEmployeeCard(employeeCard));
 		}
 	}
 }

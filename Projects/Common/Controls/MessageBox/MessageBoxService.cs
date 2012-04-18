@@ -28,6 +28,16 @@ namespace Controls.MessageBox
 			return ShowWindow(message, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 		}
 
+		public static MessageBoxResult ShowConfirmation(string message)
+		{
+			return ShowWindow(message, MessageBoxButton.YesNo, MessageBoxImage.Question);
+		}
+
+		public static MessageBoxResult ShowError(string message)
+		{
+			return ShowWindow(message, MessageBoxButton.OK, MessageBoxImage.Error);
+		}
+
 		public static MessageBoxResult ShowWarning(string message)
 		{
 			Logger.Warn(message);

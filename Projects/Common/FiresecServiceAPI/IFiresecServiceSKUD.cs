@@ -14,6 +14,12 @@ namespace FiresecAPI
 		IEnumerable<EmployeeCardIndex> GetEmployees();
 
 		[OperationContract]
-		ActionResult DeleteEmployee(int id);
+		bool DeleteEmployee(int id);
+
+		[OperationContract]
+		EmployeeCard GetEmployeeCard(int id);
+
+		[OperationContract]
+		int SaveEmployeeCard(EmployeeCard employeeCard);
 	}
 }

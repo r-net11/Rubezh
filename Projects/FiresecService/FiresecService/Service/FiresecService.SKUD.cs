@@ -24,9 +24,19 @@ namespace FiresecService
 			return _skud.GetEmployees();
 		}
 
-		public ActionResult DeleteEmployee(int id)
+		public bool DeleteEmployee(int id)
 		{
 			return _skud.DeleteEmployee(id);
+		}
+
+		public EmployeeCard GetEmployeeCard(int id)
+		{
+			return _skud.GetEmployeeCard(id);
+		}
+
+		public int SaveEmployeeCard(EmployeeCard employeeCard)
+		{
+			return _skud.SaveEmployeeCard(employeeCard);
 		}
 
 		#endregion
