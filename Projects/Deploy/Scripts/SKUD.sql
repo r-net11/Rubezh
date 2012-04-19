@@ -18,7 +18,6 @@ GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Position]') AND type in (N'U'))
 DROP TABLE [dbo].[Position]
 GO
-/****** Объект:  Table [dbo].[Person]    Дата сценария: 11/11/2011 18:46:48 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
