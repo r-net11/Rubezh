@@ -1,23 +1,23 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Views="clr-namespace:SkudModule.Views"
-                    xmlns:ViewModels="clr-namespace:SkudModule.ViewModels">
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:Views="clr-namespace:SkudModule.Views"
+					xmlns:ViewModels="clr-namespace:SkudModule.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:SkudViewModel}">
-        <Views:SkudView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:SkudViewModel}">
+		<Views:SkudView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:EmployeeCardIndexMenuViewModel}">
-        <Views:EmployeeCardIndexMenuView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:EmployeeCardIndexMenuViewModel}">
+		<Views:EmployeeCardIndexMenuView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:EmployeeCardIndexViewModel}">
-        <Views:EmployeeCardIndexView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:EmployeeCardIndexViewModel}">
+		<Views:EmployeeCardIndexView />
+	</DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:EmployeeCardIndexFilterViewModel}">
-        <Views:EmployeeCardIndexFilterView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:EmployeeCardIndexFilterViewModel}">
+		<Views:EmployeeCardIndexFilterView />
+	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:EmployeeCardDetailsViewModel}">
 		<Views:EmployeeCardDetailsView />
