@@ -19,7 +19,7 @@ namespace FiresecService
 		#region IFiresecService Members
 
 
-		public IEnumerable<EmployeeCardIndex> GetEmployees(EmployeeCardIndexFilter filter)
+		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
 		{
 			return _skud.GetEmployees(filter);
 		}
@@ -29,12 +29,12 @@ namespace FiresecService
 			return _skud.DeleteEmployee(id);
 		}
 
-		public EmployeeCard GetEmployeeCard(int id)
+		public EmployeeCardDetails GetEmployeeCard(int id)
 		{
 			return _skud.GetEmployeeCard(id);
 		}
 
-		public int SaveEmployeeCard(EmployeeCard employeeCard)
+		public int SaveEmployeeCard(EmployeeCardDetails employeeCard)
 		{
 			return _skud.SaveEmployeeCard(employeeCard);
 		}

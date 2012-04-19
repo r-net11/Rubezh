@@ -17,9 +17,9 @@ namespace SkudModule.Views
 	/// <summary>
 	/// Interaction logic for EmployeeCardView.xaml
 	/// </summary>
-	public partial class EmployeeCardView : UserControl
+	public partial class EmployeeCardDetailsView : UserControl
 	{
-		public EmployeeCardView()
+		public EmployeeCardDetailsView()
 		{
 			InitializeComponent();
 		}

@@ -27,7 +27,7 @@ namespace FiresecService.SKUD
 
 		#region IFiresecServiceSKUD Members
 
-		public IEnumerable<EmployeeCardIndex> GetEmployees(EmployeeCardIndexFilter filter)
+		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
 		{
 			return EmployeeResultTranslator.Translate(Context.GetAllEmployees());
 		}
@@ -39,12 +39,12 @@ namespace FiresecService.SKUD
 			return rowCount.HasValue && rowCount == 1;
 		}
 
-		public EmployeeCard GetEmployeeCard(int id)
+		public EmployeeCardDetails GetEmployeeCard(int id)
 		{
 			return EmployeeResultTranslator.Translate(Context.GetEmployeeCard(id).FirstOrDefault());
 		}
 
-		public int SaveEmployeeCard(EmployeeCard employeeCard)
+		public int SaveEmployeeCard(EmployeeCardDetails employeeCard)
 		{
 			int? id = employeeCard.Id;
 			Context.SaveEmployeeCard(

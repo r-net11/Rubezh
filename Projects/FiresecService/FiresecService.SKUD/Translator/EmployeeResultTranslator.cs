@@ -9,9 +9,9 @@ namespace FiresecService.SKUD.Translator
 {
 	static class EmployeeResultTranslator
 	{
-		public static EmployeeCardIndex Translate(GetAllEmployeesResult record)
+		public static EmployeeCard Translate(GetAllEmployeesResult record)
 		{
-			return new EmployeeCardIndex()
+			return new EmployeeCard()
 			{
 				Id = record.Id,
 				PersonId = record.PersonId,
@@ -24,15 +24,15 @@ namespace FiresecService.SKUD.Translator
 				Comment = record.Comment,
 			};
 		}
-		public static IEnumerable<EmployeeCardIndex> Translate(IEnumerable<GetAllEmployeesResult> table)
+		public static IEnumerable<EmployeeCard> Translate(IEnumerable<GetAllEmployeesResult> table)
 		{
 			foreach(GetAllEmployeesResult record in table)
 				yield return Translate(record);
 		}
 
-		public static EmployeeCard Translate(GetEmployeeCardResult record)
+		public static EmployeeCardDetails Translate(GetEmployeeCardResult record)
 		{
-			return new EmployeeCard()
+			return new EmployeeCardDetails()
 			{
 				Id = record.Id,
 				PersonId = record.PersonId,

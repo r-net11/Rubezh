@@ -19,8 +19,8 @@
         <Views:EmployeeCardIndexFilterView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:EmployeeCardViewModel}">
-		<Views:EmployeeCardView />
+	<DataTemplate DataType="{x:Type ViewModels:EmployeeCardDetailsViewModel}">
+		<Views:EmployeeCardDetailsView />
 	</DataTemplate>
 
 </ResourceDictionary>

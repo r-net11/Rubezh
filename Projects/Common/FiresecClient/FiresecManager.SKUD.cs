@@ -8,19 +8,19 @@ namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
-		public static IEnumerable<EmployeeCardIndex> GetEmployees(EmployeeCardIndexFilter filter)
+		public static IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
 		{
 			return FiresecService.GetEmployees(filter);
 		}
-		public static bool DeleteEmployeeCard(EmployeeCardIndex card)
+		public static bool DeleteEmployeeCard(EmployeeCard card)
 		{
 			return FiresecService.DeleteEmployee(card.Id);
 		}
-		public static EmployeeCard GetEmployeeCard(EmployeeCardIndex card)
+		public static EmployeeCardDetails GetEmployeeCard(EmployeeCard card)
 		{
 			return FiresecService.GetEmployeeCard(card.Id);
 		}
-		public static bool SaveEmployeeCard(EmployeeCard card)
+		public static bool SaveEmployeeCard(EmployeeCardDetails card)
 		{
 			int id = FiresecService.SaveEmployeeCard(card);
 			if (id != -1)

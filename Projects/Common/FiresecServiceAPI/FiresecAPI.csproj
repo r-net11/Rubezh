@@ -181,11 +181,9 @@
     <Compile Include="Models\Security\PermissionType.cs" />
     <Compile Include="Models\Security\RemoteAccessType.cs" />
     <Compile Include="Models\Security\UserRole.cs" />
-    <Compile Include="Models\Skud\ActionResult.cs" />
+    <Compile Include="Models\Skud\EmployeeCardDetails.cs" />
     <Compile Include="Models\Skud\EmployeeCard.cs" />
-    <Compile Include="Models\Skud\EmployeeCardIndex.cs" />
     <Compile Include="Models\Skud\EmployeeCardIndexFilter.cs" />
-    <Compile Include="Models\Skud\SkudPerson.cs" />
     <Compile Include="Models\System\ArchiveDefaultState.cs" />
     <Compile Include="Models\System\ArchiveDefaultStateType.cs" />
     <Compile Include="Models\System\ArchiveFilter.cs" />

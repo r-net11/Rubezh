@@ -34,6 +34,10 @@ BEGIN
 		INNER JOIN [dbo].[Person] p ON e.PersonId = p.Id
 	WHERE
 		e.Deleted = 0
+	ORDER BY
+		p.LastName,
+		p.FirstName,
+		p.SecondName
 END
 GO
 

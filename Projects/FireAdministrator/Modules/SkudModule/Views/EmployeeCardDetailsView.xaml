@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SkudModule.Views.EmployeeCardView"
+﻿<UserControl x:Class="SkudModule.Views.EmployeeCardDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -29,8 +29,8 @@
 					<Label Grid.Column="0" Grid.Row="3" Content="Состояние" HorizontalAlignment="Right" />
 					<Label Grid.Column="0" Grid.Row="4" Content="Тип инструкции" HorizontalAlignment="Right" />
 					<TextBox Grid.Column="1" Grid.Row="0" Text="{Binding InstructionNo}" IsEnabled="False" Margin="2" />
-					<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding EmployeeCard.LastName}" Margin="2" />
-					<TextBox Grid.Column="1" Grid.Row="2" Text="{Binding EmployeeCard.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" TextWrapping="Wrap" />
+					<TextBox Grid.Column="1" Grid.Row="1" Text="{Binding EmployeeCardDetails.LastName}" Margin="2" />
+					<TextBox Grid.Column="1" Grid.Row="2" Text="{Binding EmployeeCardDetails.FirstName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" TextWrapping="Wrap" />
 					<ComboBox Grid.Column="1" Grid.Row="3" Margin="2" ItemsSource="{Binding AvailableStates}"
                       SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}" Text="{Binding StateType}">
 						<ComboBox.ItemTemplate>

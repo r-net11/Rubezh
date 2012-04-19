@@ -7,20 +7,24 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models.Skud
 {
 	[DataContract]
-	public class SkudPerson
+	public class EmployeeCardDetails
 	{
 		[DataMember]
 		public int Id { get; set; }
 		[DataMember]
-		public string LastNmae { get; set; }
+		public int PersonId { get; set; }
+		[DataMember]
+		public string LastName { get; set; }
 		[DataMember]
 		public string FirstName { get; set; }
 		[DataMember]
 		public string SecondName { get; set; }
 		[DataMember]
-		public DateTime? Birthday { get; set; }
+		public int? Age { get; set; }
 		[DataMember]
-		public DateTime? Sex { get; set; }
+		public string Department { get; set; }
+		[DataMember]
+		public string Position { get; set; }
 		[DataMember]
 		public string Comment { get; set; }
 	}

@@ -343,19 +343,19 @@ namespace FiresecService
 			return SafeOperationCall(() => { return FiresecService.GetXDeviceConfiguration(); });
 		}
 
-		public IEnumerable<EmployeeCardIndex> GetEmployees(EmployeeCardIndexFilter filter)
+		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<EmployeeCardIndex>>(() => FiresecService.GetEmployees(filter));
+			return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => FiresecService.GetEmployees(filter));
 		}
 		public bool DeleteEmployee(int id)
 		{
 			return SafeContext.Execute<bool>(() => FiresecService.DeleteEmployee(id));
 		}
-		public EmployeeCard GetEmployeeCard(int id)
+		public EmployeeCardDetails GetEmployeeCard(int id)
 		{
-			return SafeContext.Execute<EmployeeCard>(() => FiresecService.GetEmployeeCard(id));
+			return SafeContext.Execute<EmployeeCardDetails>(() => FiresecService.GetEmployeeCard(id));
 		}
-		public int SaveEmployeeCard(EmployeeCard employeeCard)
+		public int SaveEmployeeCard(EmployeeCardDetails employeeCard)
 		{
 			return SafeContext.Execute<int>(() => FiresecService.SaveEmployeeCard(employeeCard));
 		}

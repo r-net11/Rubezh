@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="SkudModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\EmployeeCardDetailsViewModel.cs" />
     <Compile Include="ViewModels\EmployeeCardIndexFilterViewModel.cs" />
     <Compile Include="ViewModels\EmployeeCardIndexViewModel.cs" />
     <Compile Include="ViewModels\EmployeeCardViewModel.cs" />
@@ -71,8 +72,8 @@
     <Compile Include="Views\EmployeeCardIndexView.xaml.cs">
       <DependentUpon>EmployeeCardIndexView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EmployeeCardView.xaml.cs">
-      <DependentUpon>EmployeeCardView.xaml</DependentUpon>
+    <Compile Include="Views\EmployeeCardDetailsView.xaml.cs">
+      <DependentUpon>EmployeeCardDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SkudView.xaml.cs">
       <DependentUpon>SkudView.xaml</DependentUpon>
@@ -117,7 +118,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EmployeeCardView.xaml">
+    <Page Include="Views\EmployeeCardDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

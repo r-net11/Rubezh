@@ -39,7 +39,7 @@ namespace SkudModule
 
 		private static void OnShowSkud(object obj)
 		{
-			ServiceFactory.Layout.Show(_skudViewModel);
+			//ServiceFactory.Layout.Show(_skudViewModel);
 		}
 		private static void OnShowEmployeeCardIndexEvent(object obj)
 		{

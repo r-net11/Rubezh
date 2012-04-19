@@ -74,12 +74,16 @@ namespace SkudModule.ViewModels
 		{
 			BeginEdit(SelectedEmployeeCard);
 		}
+		bool CanEditRemove()
+		{
+			return SelectedEmployeeCard != null;
+		}
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
 			if (MessageBoxService.ShowConfirmation(Resources.DeleteEmployeeConfirmation) == MessageBoxResult.Yes)
 			{
-				if (FiresecManager.DeleteEmployeeCard(SelectedEmployeeCard.EmployeeCardIndex))
+				if (FiresecManager.DeleteEmployeeCard(SelectedEmployeeCard.EmployeeCard))
 				{
 					int index = EmployeeCardIndex.IndexOf(SelectedEmployeeCard);
 					EmployeeCardIndex.Remove(SelectedEmployeeCard);
@@ -108,15 +112,6 @@ namespace SkudModule.ViewModels
 			_filter = new EmployeeCardIndexFilter();
 			Initialize();
 		}
-
-		bool CanEditRemove()
-		{
-			return SelectedEmployeeCard != null;
-		}
-		bool CanRemoveAll()
-		{
-			return EmployeeCardIndex.IsNotNullOrEmpty();
-		}
 		bool CanClearFilter()
 		{
 			// check filter is empty
@@ -125,14 +120,16 @@ namespace SkudModule.ViewModels
 
 		private void BeginEdit(EmployeeCardViewModel card = null)
 		{
-			bool isNew = card == null;
-			if (isNew)
-				card = new EmployeeCardViewModel(null);
-			card.Initialize();
-			if (ServiceFactory.UserDialogs.ShowModalWindow(card))
+			EmployeeCardDetailsViewModel viewModel = new EmployeeCardDetailsViewModel(card);
+			if (ServiceFactory.UserDialogs.ShowModalWindow(viewModel))
 			{
-				if (isNew)
+				if (card == null)
+				{
+					card = viewModel.EmployeeCardViewModel;
 					EmployeeCardIndex.Add(card);
+				}
+				else
+					card.Update();
 				SelectedEmployeeCard = card;
 			}
 		}

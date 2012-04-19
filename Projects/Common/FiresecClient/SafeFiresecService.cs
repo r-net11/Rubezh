@@ -430,9 +430,9 @@ namespace FiresecClient
             return SafeOperationCall(() => { return _iFiresecService.CheckHaspPresence(); });
         }
 
-		public IEnumerable<EmployeeCardIndex> GetEmployees(EmployeeCardIndexFilter filter)
+		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
 		{
-			return SafeContext.Execute<IEnumerable<EmployeeCardIndex>>(() => _iFiresecService.GetEmployees(filter));
+			return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => _iFiresecService.GetEmployees(filter));
 		}
 
 		public bool DeleteEmployee(int id)
@@ -440,12 +440,12 @@ namespace FiresecClient
 			return SafeContext.Execute<bool>(() => _iFiresecService.DeleteEmployee(id));
 		}
 
-		public EmployeeCard GetEmployeeCard(int id)
+		public EmployeeCardDetails GetEmployeeCard(int id)
 		{
-			return SafeContext.Execute<EmployeeCard>(() => _iFiresecService.GetEmployeeCard(id));
+			return SafeContext.Execute<EmployeeCardDetails>(() => _iFiresecService.GetEmployeeCard(id));
 		}
 
-		public int SaveEmployeeCard(EmployeeCard employeeCard)
+		public int SaveEmployeeCard(EmployeeCardDetails employeeCard)
 		{
 			return SafeContext.Execute<int>(() => _iFiresecService.SaveEmployeeCard(employeeCard));
 		}
