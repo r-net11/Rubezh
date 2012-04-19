@@ -18,7 +18,6 @@ namespace AlarmModule.ViewModels
             RemoveAllFromIgnoreListCommand = new RelayCommand(OnRemoveAllFromIgnoreList, CanRemoveAllFromIgnoreList);
             ServiceFactory.Events.GetEvent<ResetAlarmEvent>().Subscribe(OnResetAlarm);
             ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
-            ServiceFactory.Events.GetEvent<MoveAlarmToEndEvent>().Subscribe(OnMoveAlarmToEnd);
 
             _alarmType = alarmType;
             Alarms = new ObservableCollection<AlarmViewModel>(
@@ -123,12 +122,6 @@ namespace AlarmModule.ViewModels
                 Alarms.Remove(Alarms.FirstOrDefault(x => x.Alarm.DeviceUID == alarm.DeviceUID));
                 OnPropertyChanged("HasAlarmsToReset");
             }
-        }
-
-        void OnMoveAlarmToEnd(AlarmViewModel alarmViewModel)
-        {
-            int oldIndex = Alarms.IndexOf(Alarms.FirstOrDefault(x => x.Alarm.StateName == alarmViewModel.Alarm.StateName));
-            Alarms.Move(oldIndex, Alarms.Count - 1);
         }
     }
 }

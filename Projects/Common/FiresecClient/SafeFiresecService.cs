@@ -285,9 +285,9 @@ namespace FiresecClient
             return SafeOperationCall(() => { return _iFiresecService.GetArchiveStartDate(); });
         }
 
-        public OperationResult<bool> AddJournalRecord(JournalRecord journalRecord)
+        public void AddJournalRecord(JournalRecord journalRecord)
         {
-            return SafeOperationCall(() => { return _iFiresecService.AddJournalRecord(journalRecord); });
+            SafeOperationCall(() => { _iFiresecService.AddJournalRecord(journalRecord); });
         }
 
         public List<string> GetFileNamesList(string directory)
@@ -415,9 +415,9 @@ namespace FiresecClient
             SafeOperationCall(() => { _iFiresecService.ResetStates(resetItems); });
         }
 
-        public OperationResult<bool> AddUserMessage(string message)
+        public void AddUserMessage(string message)
         {
-            return SafeOperationCall(() => { return _iFiresecService.AddUserMessage(message); });
+            SafeOperationCall(() => { _iFiresecService.AddUserMessage(message); });
         }
 
         public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)

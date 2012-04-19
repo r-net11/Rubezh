@@ -104,7 +104,6 @@
     <Compile Include="Converters\AlarmTypeToIconPathConverter.cs" />
     <Compile Include="Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Events\AlarmAddedEvent.cs" />
-    <Compile Include="Events\MoveAlarmToEndEvent.cs" />
     <Compile Include="Events\ResetAlarmEvent.cs" />
     <Compile Include="Models\Alarm.cs" />
     <Compile Include="AlarmWatcher.cs" />

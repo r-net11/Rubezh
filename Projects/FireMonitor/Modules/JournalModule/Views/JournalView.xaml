@@ -75,7 +75,7 @@
         
         <Border Grid.Row="1" CornerRadius="5" BorderThickness="0" Margin="0, 5, 5, 0" Background="{DynamicResource BackgroundBrush}"
                 Visibility="{Binding SelectedRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
-            <Grid DataContext="{Binding SelectedRecord}" TextElement.Foreground="White">
+            <Grid DataContext="{Binding SelectedRecord.JournalRecord}" TextElement.Foreground="White">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="*" />
@@ -90,18 +90,18 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Класс" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Пользователь" Visibility="{Binding JournalRecord.User, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="Пользователь" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Время" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Устройство - Датчик" Visibility="{Binding JournalRecord.DeviceName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Устройство" Visibility="{Binding JournalRecord.PanelName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="3" Grid.Column="0" Text="Устройство - Датчик" Visibility="{Binding DeviceName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="4" Grid.Column="0" Text="Устройство" Visibility="{Binding PanelName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
 
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalRecord.StateType, Converter={StaticResource StateTypeToEventNameConverter}}" />
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalRecord.User}" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" />
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding User}" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" />
                 <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SystemTime, Converter={StaticResource TimeToStringConverter}}" />
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding JournalRecord.DeviceName}" Visibility="{Binding JournalRecord.DeviceName, Converter={StaticResource StringToVisibilityConverter}}" />
-                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding JournalRecord.PanelName}" Visibility="{Binding JournalRecord.PanelName, Converter={StaticResource StringToVisibilityConverter}}" />
-                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding JournalRecord.Description}" />
-                <Controls:XRichTextBox Grid.Row="6" Grid.Column="1" Text="{Binding JournalRecord.Detalization, Mode=OneWay}" BorderThickness="0" Background="Transparent" Foreground="White" />
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding DeviceName}" Visibility="{Binding DeviceName, Converter={StaticResource StringToVisibilityConverter}}" />
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding PanelName}" Visibility="{Binding PanelName, Converter={StaticResource StringToVisibilityConverter}}" />
+                <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Description}" />
+                <Controls:XRichTextBox Grid.Row="6" Grid.Column="1" Text="{Binding Detalization, Mode=OneWay}" BorderThickness="0" Background="Transparent" Foreground="White" />
             </Grid>
         </Border>
     </Grid>

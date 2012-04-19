@@ -254,9 +254,9 @@ namespace FiresecService
             FiresecResetHelper.ResetStates(resetItems);
         }
 
-        public OperationResult<bool> AddUserMessage(string message)
+        public void AddUserMessage(string message)
         {
-            return FiresecSerializedClient.AddUserMessage(message).ToOperationResult();
+            FiresecSerializedClient.AddUserMessage(message);
         }
 
         public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)

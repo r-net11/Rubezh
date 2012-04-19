@@ -106,7 +106,7 @@ namespace FiresecService
             return operationResult;
         }
 
-        public OperationResult<bool> AddJournalRecord(JournalRecord journalRecord)
+        public void AddJournalRecord(JournalRecord journalRecord)
         {
             var operationResult = new OperationResult<bool>();
             try
@@ -121,7 +121,6 @@ namespace FiresecService
                 operationResult.HasError = true;
                 operationResult.Error = e.Message.ToString();
             }
-            return operationResult;
         }
     }
 }

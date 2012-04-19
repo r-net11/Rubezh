@@ -39,12 +39,14 @@ namespace ReportsModule
 
 		static void OnShowReports(object obj)
 		{
-			reportsWindow.WindowStyle = WindowStyle.ThreeDBorderWindow;
-			reportsWindow.Width = 500;
-			reportsWindow.Height = 500;
-			reportsWindow.Show();
-
-			return;
+            if (false)
+            {
+                reportsWindow.WindowStyle = WindowStyle.ThreeDBorderWindow;
+                reportsWindow.Width = 500;
+                reportsWindow.Height = 500;
+                reportsWindow.Show();
+            }
+			
 			ServiceFactory.Layout.Show(ReportsViewModel);
 		}
 
@@ -52,6 +54,7 @@ namespace ReportsModule
 
 		public static void PreLoad()
 		{
+            return;
 			var backgroundWorker = new BackgroundWorker();
 			backgroundWorker.DoWork += new DoWorkEventHandler(backgroundWorker_DoWork);
 			backgroundWorker.RunWorkerAsync();

@@ -158,10 +158,10 @@ namespace FiresecAPI
 		OperationResult<DateTime> GetArchiveStartDate();
 
 		[OperationContract()]
-		OperationResult<bool> AddUserMessage(string message);
+		void AddUserMessage(string message);
 
 		[OperationContract()]
-		OperationResult<bool> AddJournalRecord(JournalRecord journalRecord);
+		void AddJournalRecord(JournalRecord journalRecord);
 		#endregion
 
 		#region Files

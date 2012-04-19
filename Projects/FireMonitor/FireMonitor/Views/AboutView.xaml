@@ -5,7 +5,7 @@
 
     <Border Grid.Column="1" CornerRadius="5" Margin="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
         <StackPanel>
-            <TextBlock Text="Оперативная задача ОПС Firesec-2" FontWeight="Bold" Foreground="White" Margin="2" />
+            <TextBlock Text="Оперативная задача ОПС FireSec-2" FontWeight="Bold" Foreground="White" Margin="2" />
             <TextBlock Text="Версия 1.0" Foreground="White" Margin="2" />
             <TextBlock Text='Copyright (c) ООО "КБ Пожарной Автоматики, 2012г.' Foreground="White" Margin="2"/>
             <TextBlock Text='Все права защищены.' Foreground="White" Margin="2"/>

@@ -24,8 +24,6 @@ namespace AlarmModule.ViewModels
             ShowDeviceCommand = new RelayCommand(OnShowDevice);
             ShowZoneCommand = new RelayCommand(OnShowZone);
             ShowInstructionCommand = new RelayCommand(OnShowInstruction);
-
-            LeaveCommand = new RelayCommand(OnLeave);
         }
 
         public string Time
@@ -110,12 +108,6 @@ namespace AlarmModule.ViewModels
             ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Alarm.DeviceUID);
         }
 
-        public RelayCommand LeaveCommand { get; private set; }
-        void OnLeave()
-        {
-            ServiceFactory.Events.GetEvent<MoveAlarmToEndEvent>().Publish(this);
-        }
-
         public RelayCommand ShowInstructionCommand { get; private set; }
         void OnShowInstruction()
         {
@@ -125,6 +117,8 @@ namespace AlarmModule.ViewModels
         public RelayCommand ShowZoneCommand { get; private set; }
         void OnShowZone()
         {
+            if (Alarm.ZoneNo.HasValue)
+                ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Alarm.ZoneNo.Value);
         }
     }
 }

@@ -49,10 +49,6 @@
                                 <MenuItem Header="Зона в списке" Command="{Binding ShowZoneCommand}" Margin="2" />
                                 <Separator />
                                 <MenuItem Header="Инструкции" Command="{Binding ShowInstructionCommand}" Margin="2" />
-                                <MenuItem Header="Оповещение по телефону" Command="{Binding NotifyPhoneCommand}" Margin="2" />
-                                <MenuItem Header="СМС сообщение" Command="{Binding NotifySmsCommand}" Margin="2" />
-                                <Separator />
-                                <MenuItem Header="Отложить" Command="{Binding LeaveCommand}" Margin="2" />
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

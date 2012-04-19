@@ -278,14 +278,14 @@ namespace FiresecService
 			SafeOperationCall(() => { FiresecService.ResetStates(resetItems); });
 		}
 
-		public OperationResult<bool> AddUserMessage(string message)
+		public void AddUserMessage(string message)
 		{
-			return SafeOperationCall(() => { return FiresecService.AddUserMessage(message); });
+			SafeOperationCall(() => { FiresecService.AddUserMessage(message); });
 		}
 
-		public OperationResult<bool> AddJournalRecord(FiresecAPI.Models.JournalRecord journalRecord)
+		public void AddJournalRecord(FiresecAPI.Models.JournalRecord journalRecord)
 		{
-			return SafeOperationCall(() => { return FiresecService.AddJournalRecord(journalRecord); });
+			SafeOperationCall(() => { FiresecService.AddJournalRecord(journalRecord); });
 		}
 
 		public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)
