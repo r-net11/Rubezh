@@ -87,17 +87,22 @@ namespace FireAdministrator
 			var soundsModule = new SoundsModule.SoundsModule();
 			var instructionsModule = new InstructionsModule.InstructionsModule();
 			var settingsModule = new SettingsModule.SettingsModule();
-			if (ServiceFactory.AppSettings.ShowGK)
-			{
-				var groupControllerViewModel = new GKModule.GroupControllerModule();
-			}
 			if (ServiceFactory.AppSettings.ShowVideo)
 			{
 				var videoViewModel = new VideoModule.VideoModule();
 				VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 			}
+
+#if DEBUG
+			if (ServiceFactory.AppSettings.ShowGK)
+			{
+				var groupControllerViewModel = new GKModule.GroupControllerModule();
+			}
 			if (ServiceFactory.AppSettings.ShowSKUD)
+			{
 				new SkudModule.SkudModule();
+			}
+#endif
 			ServiceFactory.SaveService.Reset();
 		}
 	}
