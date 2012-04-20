@@ -79,23 +79,23 @@ namespace FireAdministrator
 
 		static void InitializeKnownModules()
 		{
-			//var devicesModule = new DevicesModule.DevicesModule();
-			//var libraryModule = new LibraryModule.LibraryModule();
-			//var plansModule = new PlansModule.PlansModule();
-			//var securityModule = new SecurityModule.SecurityModule();
-			//var filtersModule = new FiltersModule.FilterModule();
-			//var soundsModule = new SoundsModule.SoundsModule();
-			//var instructionsModule = new InstructionsModule.InstructionsModule();
-			//var settingsModule = new SettingsModule.SettingsModule();
-			//if (ServiceFactory.AppSettings.ShowGK)
-			//{
-			//    var groupControllerViewModel = new GKModule.GroupControllerModule();
-			//}
-			//if (ServiceFactory.AppSettings.ShowVideo)
-			//{
-			//    var videoViewModel = new VideoModule.VideoModule();
-			//    VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
-			//}
+			var devicesModule = new DevicesModule.DevicesModule();
+			var libraryModule = new LibraryModule.LibraryModule();
+			var plansModule = new PlansModule.PlansModule();
+			var securityModule = new SecurityModule.SecurityModule();
+			var filtersModule = new FiltersModule.FilterModule();
+			var soundsModule = new SoundsModule.SoundsModule();
+			var instructionsModule = new InstructionsModule.InstructionsModule();
+			var settingsModule = new SettingsModule.SettingsModule();
+			if (ServiceFactory.AppSettings.ShowGK)
+			{
+				var groupControllerViewModel = new GKModule.GroupControllerModule();
+			}
+			if (ServiceFactory.AppSettings.ShowVideo)
+			{
+				var videoViewModel = new VideoModule.VideoModule();
+				VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
+			}
 			if (ServiceFactory.AppSettings.ShowSKUD)
 				new SkudModule.SkudModule();
 			ServiceFactory.SaveService.Reset();

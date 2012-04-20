@@ -5,7 +5,7 @@
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
         Icon="Administrator.ico"
         WindowStartupLocation="CenterScreen"
-        Title="Администратор"
+        Title="Администратор ОПС Firesec-2"
         Height="750" Width="1100"
         MinWidth="800" MinHeight="600"
         WindowStyle="None"
@@ -24,7 +24,7 @@
                             <ColumnDefinition />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" Text="Администратор" Foreground="White" FontFamily="Arial" FontSize="15" Margin="0 5" Opacity="0.5" />
+                        <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" Text="Администратор ОПС Firesec-2" Foreground="White" FontFamily="Arial" FontSize="15" Margin="0 5" Opacity="0.5" />
                         <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Top" Margin="0, 2, 2, 0">
                             <Menu Background="Transparent" VerticalAlignment="Center">
                                 <MenuItem>

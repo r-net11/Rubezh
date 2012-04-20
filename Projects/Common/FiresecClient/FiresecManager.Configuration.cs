@@ -33,7 +33,6 @@ namespace FiresecClient
             SecurityConfiguration = FiresecService.GetSecurityConfiguration();
             Drivers = FiresecService.GetDrivers();
             DeviceConfiguration = FiresecService.GetDeviceConfiguration();
-            DeviceStates = FiresecService.GetStates();
 
             UpdateDrivers();
             UpdateConfiguration();
