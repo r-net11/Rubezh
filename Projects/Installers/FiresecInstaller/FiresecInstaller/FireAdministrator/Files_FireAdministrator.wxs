@@ -5,7 +5,7 @@
   <Fragment>
     
     <Icon Id="FireAdministratorIcon" SourceFile="Data\Administrator.ico"/>
-    <util:CloseApplication Id="FACloseAction" CloseMessage="yes" Target="$(var.FireAdministrator.TargetFileName)" RebootPrompt="no" />
+    <util:CloseApplication Id="FACloseAction" CloseMessage="no" Target="$(var.FireAdministrator.TargetFileName)" RebootPrompt="no" />
     
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">
       <Component Id="FAExeComponent" Guid="1225CC6B-DCB0-4AEE-B6DB-A67FAEADDF15">
@@ -102,7 +102,7 @@
               DiskId="1" KeyPath="yes" />
       </Component>
       <Component Id="FAGroupControllerModuleComponent" Guid="68DE1B95-D3B3-47AD-855B-E11A2BB1D349">
-        <File Id="FAGroupControllerModuleDll" Name="GroupControllerModule.dll" Source="$(var.FireAdministrator.TargetDir)"
+        <File Id="FAGroupControllerModuleDll" Name="GKModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
       <Component Id="FAVideoModuleComponent" Guid="FBA8AC05-19F8-4FD6-826E-AD656C84B801">

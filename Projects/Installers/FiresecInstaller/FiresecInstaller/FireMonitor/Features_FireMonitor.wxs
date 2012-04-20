@@ -30,9 +30,10 @@
 			<ComponentRef Id="FMVlcFormsComponent"/>
 			<ComponentRef Id="FMVlcInteropsComponent"/>
 			<ComponentRef Id="FMNLogComponent"/>
-      <ComponentRef Id="FMManualComponent"/>
-      <ComponentRef Id="FMHASPComponent"/>
-      <ComponentRef Id="SystemHASPComponent"/>
+			<ComponentRef Id="FMManualComponent"/>
+			<ComponentRef Id="FMHASPComponent"/>
+			<ComponentRef Id="FMGKModuleComponent"/>
+			<ComponentRef Id="SystemHASPComponent"/>
 			<ComponentRef Id="FMProgramsMenuShortcut" />
 			<ComponentRef Id="FMDesktopShortcut" />
 			<ComponentGroupRef Id="FireMonReportTemplatesFolder"/>
