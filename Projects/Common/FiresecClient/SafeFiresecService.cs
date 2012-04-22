@@ -148,25 +148,25 @@ namespace FiresecClient
 		}
 
 		public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string userName, string password)
-        {
-            return SafeOperationCall(() =>
-            {
-                try
-                {
-                    return _iFiresecService.Connect(clientType, clientCallbackAddress, userName, password);
-                }
-                catch (Exception e)
+		{
+			return SafeOperationCall(() =>
+			{
+				try
+				{
+					return _iFiresecService.Connect(clientType, clientCallbackAddress, userName, password);
+				}
+				catch (Exception e)
 				{
 					Logger.Error(e);
 				}
-                return new OperationResult<bool>()
-                {
-                    Result = false,
-                    HasError = true,
-                    Error = "Не удается соединиться с сервером"
-                };
-            });
-        }
+				return new OperationResult<bool>()
+				{
+					Result = false,
+					HasError = true,
+					Error = "Не удается соединиться с сервером"
+				};
+			});
+		}
 
 		public OperationResult<bool> Reconnect(string userName, string password)
 		{

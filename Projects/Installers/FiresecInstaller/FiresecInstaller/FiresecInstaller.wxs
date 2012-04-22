@@ -33,12 +33,14 @@
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
           <Directory Id="FIRESECSERVICELOCATION" Name="$(var.FiresecServiceName)">
+            <Directory Id="FiresecServiceLogsFolder" Name="Logs" />
             <Directory Id="FiresecServiceConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FiresecServiceIconsFolder" Name="$(var.IconsFolder)" />
               <Directory Id="FiresecServiceSoundsFolder" Name="$(var.SoundsFolder)" />
             </Directory>
           </Directory>
           <Directory Id="FIREADMINISTRATORLOCATION" Name="$(var.FireAdministratorName)">
+            <Directory Id="FireAdmLogsFolder" Name="Logs" />
             <Directory Id="FireAdmConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FireAdmIconsFolder" Name="$(var.IconsFolder)" />
               <Directory Id="FireAdmSoundsFolder" Name="$(var.SoundsFolder)" />
@@ -49,6 +51,7 @@
             
           </Directory>
           <Directory Id="FIREMONITORLOCATION" Name="$(var.FireMonitorName)">
+            <Directory Id="FireMonLogsFolder" Name="Logs" />
             <Directory Id="ClientSettingsFolder" Name="ClientSettings" />
             <Directory Id="FireMonConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FireMonIconsFolder" Name="$(var.IconsFolder)" />
@@ -70,7 +73,8 @@
     <FeatureRef Id="FiresecFeature" />
     
     <InstallExecuteSequence>
-      <Custom Action="WixCloseApplications" Before="LaunchConditions" />
+      <!--<Custom Action="WixCloseApplications" Before="LaunchConditions" />-->
+      <Custom Action="CloseApplications" After="WixCloseApplications" />
       <Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full"</Custom>
     </InstallExecuteSequence>
 

@@ -5,7 +5,8 @@
   <?include Variables_FiresecService.wxi?>
   <Fragment>
     <Icon Id="FiresecServiceIcon" SourceFile="Data\Server.ico"/>
-    <util:CloseApplication Id="FSCloseAction" CloseMessage="yes" Target="$(var.FiresecService.TargetFileName)" RebootPrompt="no" />
+    <util:CloseApplication Id="FSCloseAction" CloseMessage="no" Target="$(var.FiresecService.TargetFileName)" RebootPrompt="no"  Description="Stop!" ElevatedCloseMessage="no" 
+                           Property="IsFiresecServiceRunning"/>
 
     <DirectoryRef Id="FIRESECSERVICELOCATION">
       <Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
