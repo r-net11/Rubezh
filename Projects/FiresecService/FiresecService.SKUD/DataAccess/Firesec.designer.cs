@@ -165,9 +165,9 @@ namespace FiresecService.SKUD.DataAccess
 		}
 		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllEmployees")]
-		public ISingleResult<GetAllEmployeesResult> GetAllEmployees([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ClockNumber", DbType="NVarChar(MAX)")] string clockNumber, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LastName", DbType="NVarChar(MAX)")] string lastName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FirstName", DbType="NVarChar(MAX)")] string firstName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="SecondName", DbType="NVarChar(MAX)")] string secondName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Group", DbType="NVarChar(MAX)")] string group, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Department", DbType="NVarChar(MAX)")] string department, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="Position", DbType="NVarChar(MAX)")] string position)
+		public ISingleResult<GetAllEmployeesResult> GetAllEmployees([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ClockNumber", DbType="NVarChar(MAX)")] string clockNumber, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LastName", DbType="NVarChar(MAX)")] string lastName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FirstName", DbType="NVarChar(MAX)")] string firstName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="SecondName", DbType="NVarChar(MAX)")] string secondName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="GroupId", DbType="Int")] System.Nullable<int> groupId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="DepartmentId", DbType="Int")] System.Nullable<int> departmentId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PositionId", DbType="Int")] System.Nullable<int> positionId)
 		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), clockNumber, lastName, firstName, secondName, group, department, position);
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), clockNumber, lastName, firstName, secondName, groupId, departmentId, positionId);
 			return ((ISingleResult<GetAllEmployeesResult>)(result.ReturnValue));
 		}
 		

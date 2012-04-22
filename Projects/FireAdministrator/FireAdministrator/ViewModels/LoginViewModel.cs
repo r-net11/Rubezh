@@ -64,7 +64,6 @@ namespace FireAdministrator.ViewModels
                 Close(true);
         }
 
-        public RelayCommand CancelCommand { get; private set; }
         void OnCancel()
         {
             Close(false);

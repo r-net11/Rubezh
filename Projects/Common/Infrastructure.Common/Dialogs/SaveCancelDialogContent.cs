@@ -21,7 +21,6 @@ namespace Infrastructure.Common
             return true;
         }
 
-        public RelayCommand SaveCommand { get; private set; }
         void OnSave()
         {
             bool cancel = false;
@@ -32,7 +31,6 @@ namespace Infrastructure.Common
             }
         }
 
-        public RelayCommand CancelCommand { get; private set; }
         void OnCancel()
         {
             Close(false);

@@ -59,6 +59,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Translator\EmployeeGroupResultTranslator.cs" />
+    <Compile Include="Translator\EmployeePositionResultTranslator.cs" />
+    <Compile Include="Translator\EmployeeDepartmentResultTranslator.cs" />
     <Compile Include="Translator\EmployeeResultTranslator.cs" />
   </ItemGroup>
   <ItemGroup>

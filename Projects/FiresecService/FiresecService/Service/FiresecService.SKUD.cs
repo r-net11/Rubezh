@@ -39,6 +39,21 @@ namespace FiresecService
 			return _skud.SaveEmployeeCard(employeeCard);
 		}
 
+		public IEnumerable<EmployeeDepartment> GetEmployeeDepartments()
+		{
+			return _skud.GetEmployeeDepartments();
+		}
+
+		public IEnumerable<EmployeeGroup> GetEmployeeGroups()
+		{
+			return _skud.GetEmployeeGroups();
+		}
+
+		public IEnumerable<EmployeePosition> GetEmployeePositions()
+		{
+			return _skud.GetEmployeePositions();
+		}
+
 		#endregion
 	}
 }

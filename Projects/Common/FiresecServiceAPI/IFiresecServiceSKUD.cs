@@ -21,5 +21,12 @@ namespace FiresecAPI
 
 		[OperationContract]
 		int SaveEmployeeCard(EmployeeCardDetails employeeCard);
+
+		[OperationContract]
+		IEnumerable<EmployeeDepartment> GetEmployeeDepartments();
+		[OperationContract]
+		IEnumerable<EmployeeGroup> GetEmployeeGroups();
+		[OperationContract]
+		IEnumerable<EmployeePosition> GetEmployeePositions();
 	}
 }

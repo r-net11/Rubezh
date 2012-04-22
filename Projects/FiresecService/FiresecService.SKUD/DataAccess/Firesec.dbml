@@ -99,9 +99,9 @@
     <Parameter Name="LastName" Parameter="lastName" Type="System.String" DbType="NVarChar(MAX)" />
     <Parameter Name="FirstName" Parameter="firstName" Type="System.String" DbType="NVarChar(MAX)" />
     <Parameter Name="SecondName" Parameter="secondName" Type="System.String" DbType="NVarChar(MAX)" />
-    <Parameter Name="Group" Parameter="group" Type="System.String" DbType="NVarChar(MAX)" />
-    <Parameter Name="Department" Parameter="department" Type="System.String" DbType="NVarChar(MAX)" />
-    <Parameter Name="Position" Parameter="position" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="GroupId" Parameter="groupId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DepartmentId" Parameter="departmentId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="PositionId" Parameter="positionId" Type="System.Int32" DbType="Int" />
     <ElementType Name="GetAllEmployeesResult">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ClockNumber" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />

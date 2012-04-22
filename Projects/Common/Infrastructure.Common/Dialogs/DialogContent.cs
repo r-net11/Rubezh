@@ -21,5 +21,8 @@ namespace Infrastructure.Common
                 Surface.Close();
             }
         }
-    }
+
+		public RelayCommand SaveCommand { get; protected set; }
+		public RelayCommand CancelCommand { get; protected set; }
+	}
 }

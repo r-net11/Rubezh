@@ -95,7 +95,6 @@ namespace Controls.MessageBox
 			Close(true);
 		}
 
-		public RelayCommand CancelCommand { get; private set; }
 		void OnCancel()
 		{
 			Result = MessageBoxResult.Cancel;
@@ -129,5 +128,6 @@ namespace Controls.MessageBox
 				return;
 			}
 		}
-	}
+
+}
 }

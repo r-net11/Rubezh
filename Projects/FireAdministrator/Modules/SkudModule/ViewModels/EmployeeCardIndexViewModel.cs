@@ -114,8 +114,14 @@ namespace SkudModule.ViewModels
 		}
 		bool CanClearFilter()
 		{
-			// check filter is empty
-			return false;
+			return
+				!string.IsNullOrEmpty(_filter.ClockNumber) ||
+				!string.IsNullOrEmpty(_filter.FirstName) ||
+				!string.IsNullOrEmpty(_filter.LastName) ||
+				!string.IsNullOrEmpty(_filter.SecondName) ||
+				_filter.DepartmentId.HasValue ||
+				_filter.GroupId.HasValue ||
+				_filter.PositionId.HasValue;
 		}
 
 		private void BeginEdit(EmployeeCardViewModel card = null)

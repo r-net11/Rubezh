@@ -27,5 +27,18 @@ namespace FiresecClient
 				card.Id = id;
 			return id != -1;
 		}
+
+		public static IEnumerable<EmployeeDepartment> GetEmployeeDepartments()
+		{
+			return FiresecService.GetEmployeeDepartments();
+		}
+		public static IEnumerable<EmployeeGroup> GetEmployeeGroups()
+		{
+			return FiresecService.GetEmployeeGroups();
+		}
+		public static IEnumerable<EmployeePosition> GetEmployeePositions()
+		{
+			return FiresecService.GetEmployeePositions();
+		}
 	}
 }

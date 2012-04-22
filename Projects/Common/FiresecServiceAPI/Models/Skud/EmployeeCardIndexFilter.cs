@@ -18,10 +18,10 @@ namespace FiresecAPI.Models.Skud
 		[DataMember]
 		public string SecondName { get; set; }
 		[DataMember]
-		public string Department { get; set; }
+		public int? DepartmentId { get; set; }
 		[DataMember]
-		public string Position { get; set; }
+		public int? PositionId { get; set; }
 		[DataMember]
-		public string Group { get; set; }
+		public int? GroupId { get; set; }
 	}
 }

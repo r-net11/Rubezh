@@ -29,7 +29,7 @@ namespace FiresecService.SKUD
 
 		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
 		{
-			return EmployeeResultTranslator.Translate(Context.GetAllEmployees(filter.ClockNumber, filter.LastName, filter.FirstName, filter.SecondName, filter.Group, filter.Department, filter.Position));
+			return EmployeeResultTranslator.Translate(Context.GetAllEmployees(filter.ClockNumber, filter.LastName, filter.FirstName, filter.SecondName, filter.GroupId, filter.DepartmentId, filter.PositionId));
 		}
 
 		public bool DeleteEmployee(int id)
@@ -74,6 +74,21 @@ namespace FiresecService.SKUD
 				employeeCard.SexId);
 
 			return id.HasValue ? id.Value : -1;
+		}
+
+		public IEnumerable<EmployeeDepartment> GetEmployeeDepartments()
+		{
+			return EmployeeDepartmentResultTranslator.Translate(Context.GetDepartments());
+		}
+
+		public IEnumerable<EmployeeGroup> GetEmployeeGroups()
+		{
+			return EmployeeGroupResultTranslator.Translate(Context.GetGroups());
+		}
+
+		public IEnumerable<EmployeePosition> GetEmployeePositions()
+		{
+			return EmployeePositionResultTranslator.Translate(Context.GetPositions());
 		}
 
 		#endregion

@@ -3,7 +3,29 @@ GO
 
 DELETE FROM [dbo].[Employee];
 DELETE FROM [dbo].[Person];
+DELETE FROM [dbo].[Position];
+DELETE FROM [dbo].[Group];
+DELETE FROM [dbo].[Department];
 GO
+
+INSERT INTO [dbo].[Position] (Value) VALUES ('Сесурити')
+INSERT INTO [dbo].[Position] (Value) VALUES ('Директор')
+INSERT INTO [dbo].[Position] (Value) VALUES ('Бугор')
+INSERT INTO [dbo].[Position] (Value) VALUES ('КлинМенеджер')
+INSERT INTO [dbo].[Position] (Value) VALUES ('Администратор')
+INSERT INTO [dbo].[Position] (Value) VALUES ('Дворник')
+
+INSERT INTO [dbo].[Group] (Value) VALUES ('Сотрудник')
+INSERT INTO [dbo].[Group] (Value) VALUES ('Непонятно кто')
+INSERT INTO [dbo].[Group] (Value) VALUES ('Совместитель')
+INSERT INTO [dbo].[Group] (Value) VALUES ('Руководство')
+
+INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Руководство', NULL) 
+INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Служба маркетинга', NULL) 
+INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Основное производство', NULL) 
+INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Вспомогательное производство', NULL) 
+INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Служба безопасности', NULL) 
+INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Транспортный цех', NULL) 
 
 INSERT INTO [dbo].[Person] 
 	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
@@ -12,7 +34,7 @@ VALUES
 INSERT INTO [dbo].[Employee] 
 	(PersonId, ClockNumber, Comment, DepartmentId, Email, GroupId, Phone, PositionId, Deleted)
 VALUES 
-	(SCOPE_IDENTITY(),'1',NULL,NULL,NULL,NULL,NULL,NULL,0);
+	(SCOPE_IDENTITY(),'1',NULL,(SELECT MIN(Id) FROM [dbo].[Department]),NULL,NULL,NULL,NULL,0);
 
 INSERT INTO [dbo].[Person] 
 	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
@@ -21,7 +43,16 @@ VALUES
 INSERT INTO [dbo].[Employee] 
 	(PersonId, ClockNumber, Comment, DepartmentId, Email, GroupId, Phone, PositionId, Deleted)
 VALUES 
-	(SCOPE_IDENTITY(),'2',NULL,NULL,NULL,NULL,NULL,NULL,0);
+	(SCOPE_IDENTITY(),'2',NULL,(SELECT MIN(Id) FROM [dbo].[Department]),NULL,NULL,NULL,NULL,0);
+
+INSERT INTO [dbo].[Person] 
+	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
+VALUES 
+	('Сидоров','Иван','Петрович',NULL,NULL,NULL,NULL,'12-21-05',NULL,'999',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO [dbo].[Employee] 
+	(PersonId, ClockNumber, Comment, DepartmentId, Email, GroupId, Phone, PositionId, Deleted)
+VALUES 
+	(SCOPE_IDENTITY(),'3',NULL,(SELECT MAX(Id) FROM [dbo].[Department]),NULL,NULL,NULL,NULL,0);
 
 INSERT INTO [dbo].[Person] 
 	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)

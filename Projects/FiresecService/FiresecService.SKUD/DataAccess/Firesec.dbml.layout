@@ -45,35 +45,35 @@
         <classShapeMoniker Id="cde90f8c-637f-43d0-a883-c1d4d8fe1e6f" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(3.5 : 6.09375); (6.54166666666667 : 6.09375 : JumpStart); (6.70833333333333 : 6.09375 : JumpEnd); (7.21354141666667 : 6.09375 : JumpStart); (7.38020808333333 : 6.09375 : JumpEnd); (7.804689875 : 6.09375); (7.804689875 : 4.48240397135417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(3.5 : 6.09375); (7.21354141666667 : 6.09375 : JumpStart); (7.38020808333333 : 6.09375 : JumpEnd); (7.804689875 : 6.09375); (7.804689875 : 4.48240397135417)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/FiresecDataContext/Department/Department_Employee" />
       <nodes>
         <classShapeMoniker Id="cde90f8c-637f-43d0-a883-c1d4d8fe1e6f" />
         <classShapeMoniker Id="6f5fef31-99fa-439b-a49d-3a35470f5aec" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(6.625 : 6.25); (6.625 : 4.48240397135417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(6.625 : 6.25); (6.625 : 4.48240397135417)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/FiresecDataContext/Group/Group_Employee" />
       <nodes>
         <classShapeMoniker Id="2f26026e-2dba-4afc-841b-b6ba45d20cab" />
         <classShapeMoniker Id="6f5fef31-99fa-439b-a49d-3a35470f5aec" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.5 : 3.11620198567708); (6.25 : 3.11620198567708)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.5 : 3.11620198567708); (6.25 : 3.11620198567708)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/FiresecDataContext/Person/Person_Employee" />
       <nodes>
         <classShapeMoniker Id="fa49d1f4-1362-451c-a336-0920a00e768d" />
         <classShapeMoniker Id="6f5fef31-99fa-439b-a49d-3a35470f5aec" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(2.75 : 3.22199625651042); (3.5 : 3.22199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(2.75 : 3.22199625651042); (3.5 : 3.22199625651042)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/FiresecDataContext/Sex/Sex_Person" />
       <nodes>
         <classShapeMoniker Id="049458f8-7f2e-467c-99a5-301b0b82a67a" />
         <classShapeMoniker Id="fa49d1f4-1362-451c-a336-0920a00e768d" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(7.29687475 : 8.375); (7.29687475 : 4.48240397135417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(7.29687475 : 8.375); (7.29687475 : 4.48240397135417)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/FiresecDataContext/Position/Position_Employee" />
       <nodes>
         <classShapeMoniker Id="cead022f-e5ce-4598-a8e3-02a8c3a64a6f" />

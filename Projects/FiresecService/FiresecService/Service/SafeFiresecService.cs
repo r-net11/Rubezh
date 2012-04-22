@@ -359,5 +359,17 @@ namespace FiresecService
 		{
 			return SafeContext.Execute<int>(() => FiresecService.SaveEmployeeCard(employeeCard));
 		}
+		public IEnumerable<EmployeeDepartment> GetEmployeeDepartments()
+		{
+			return SafeContext.Execute<IEnumerable<EmployeeDepartment>>(() => FiresecService.GetEmployeeDepartments());
+		}
+		public IEnumerable<EmployeeGroup> GetEmployeeGroups()
+		{
+			return SafeContext.Execute<IEnumerable<EmployeeGroup>>(() => FiresecService.GetEmployeeGroups());
+		}
+		public IEnumerable<EmployeePosition> GetEmployeePositions()
+		{
+			return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
+		}
 	}
 }

@@ -53,9 +53,9 @@ CREATE PROCEDURE [dbo].[GetAllEmployees]
 	@LastName nvarchar(max)= NULL,
 	@FirstName nvarchar(max)= NULL,
 	@SecondName nvarchar(max)= NULL,
-	@Group nvarchar(max)= NULL,
-	@Department nvarchar(max)= NULL,
-	@Position nvarchar(max)= NULL
+	@GroupId int = NULL,
+	@DepartmentId int = NULL,
+	@PositionId int = NULL
 AS
 BEGIN
 	SELECT 
@@ -79,9 +79,9 @@ BEGIN
 		(@LastName IS NULL		OR p.LastName LIKE @LastName + '%') AND
 		(@FirstName IS NULL		OR p.FirstName LIKE @FirstName + '%') AND
 		(@SecondName IS NULL	OR p.SecondName LIKE @SecondName + '%') AND
-		(@Group IS NULL			OR g.Value LIKE @Group + '%') AND
-		(@Department IS NULL	OR d.Value LIKE @Department + '%') AND
-		(@Position IS NULL		OR pos.Value LIKE @Position + '%') 
+		(@GroupId IS NULL		OR g.Id = @GroupId) AND
+		(@DepartmentId IS NULL	OR d.Id = @DepartmentId) AND
+		(@PositionId IS NULL	OR pos.Id = @PositionId) 
 	ORDER BY
 		p.LastName,
 		p.FirstName,
