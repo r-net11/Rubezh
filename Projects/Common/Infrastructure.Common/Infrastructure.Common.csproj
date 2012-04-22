@@ -113,6 +113,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="BindingErrorListener.cs" />
     <Compile Include="Dialogs\BaseViewModel.cs" />
     <Compile Include="Dialogs\DialogContent.cs" />
     <Compile Include="Dialogs\DialogWindow.xaml.cs">

@@ -5,9 +5,15 @@ using Common;
 
 namespace Controls.MessageBox
 {
-    internal static class UserDialogService
+    public static class UserDialogService
     {
-        public static bool ShowModalWindow(IDialogContent model)
+		private static Window _activeModalWindow = null;
+
+		public static bool ShowModalWindow(IDialogContent model)
+		{
+			return ShowModalWindow(model, null);
+		}
+ 		public static bool ShowModalWindow(IDialogContent model, Action<DialogWindow> preshow)
         {
             try
             {
@@ -15,7 +21,7 @@ namespace Controls.MessageBox
 
                 try
                 {
-                    dialogWindow.Owner = Application.Current.MainWindow;
+					dialogWindow.Owner = _activeModalWindow ?? Application.Current.MainWindow;
                 }
                 catch
                 {
@@ -23,9 +29,15 @@ namespace Controls.MessageBox
                 }
 
                 dialogWindow.SetContent(model);
+				dialogWindow.WindowStartupLocation = dialogWindow.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
 
-                bool? result = dialogWindow.ShowDialog();
-                if (result == null)
+				if (preshow != null)
+					preshow(dialogWindow);
+
+				_activeModalWindow = dialogWindow;
+				bool? result = dialogWindow.ShowDialog();
+				_activeModalWindow = dialogWindow.Owner;
+				if (result == null)
                 {
                     return false;
                 }

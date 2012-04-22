@@ -9,14 +9,13 @@
 
 	<Controls:XDataGrid ItemsSource="{Binding EmployeeCardIndex}" SelectedItem="{Binding SelectedEmployeeCard}" CanUserSortColumns="True">
         <DataGrid.Columns>
-			<DataGridTextColumn Header="Фамилия" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.LastName}"/>
+            <DataGridTextColumn Header="Номер" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.ClockNumber}"/>
+            <DataGridTextColumn Header="Фамилия" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.LastName}"/>
 			<DataGridTextColumn Header="Имя" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.FirstName}"/>
 			<DataGridTextColumn Header="Отчество" Width="Auto"  MinWidth="100" Binding="{Binding EmployeeCard.SecondName}"/>
-			<!--<DataGridTextColumn Header="Дата рождения" Width="100"  MinWidth="50" Binding="{Binding EmployeeCard.Birthday,  Converter={StaticResource DateTimeToStringConverter}}"/>-->
-			<DataGridTextColumn Header="Возраст" Width="Auto"  MinWidth="100" Binding="{Binding EmployeeCard.Age}"/>
 			<DataGridTextColumn Header="Подразделение" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.Department}"/>
 			<DataGridTextColumn Header="Должность" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.Position}"/>
-			<DataGridTextColumn Header="Описание" Width="*" MinWidth="100" Binding="{Binding EmployeeCard.Comment}" />
+            <DataGridTextColumn Header="Группа" Width="*" MinWidth="100" Binding="{Binding EmployeeCard.Group}" />
         </DataGrid.Columns>
     </Controls:XDataGrid>
 </UserControl>

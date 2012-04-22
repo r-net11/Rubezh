@@ -38,14 +38,13 @@ namespace SkudModule.ViewModels
 				if (EmployeeCardViewModel == null)
 					EmployeeCardViewModel = new ViewModels.EmployeeCardViewModel(new EmployeeCard());
 				EmployeeCardViewModel.EmployeeCard.Id = EmployeeCardDetails.Id;
-				EmployeeCardViewModel.EmployeeCard.Age = EmployeeCardDetails.Age;
-				EmployeeCardViewModel.EmployeeCard.Comment = EmployeeCardDetails.Comment;
-				EmployeeCardViewModel.EmployeeCard.Department = EmployeeCardDetails.Department;
 				EmployeeCardViewModel.EmployeeCard.FirstName = EmployeeCardDetails.FirstName;
 				EmployeeCardViewModel.EmployeeCard.LastName = EmployeeCardDetails.LastName;
-				EmployeeCardViewModel.EmployeeCard.PersonId = EmployeeCardDetails.PersonId;
-				EmployeeCardViewModel.EmployeeCard.Position = EmployeeCardDetails.Position;
 				EmployeeCardViewModel.EmployeeCard.SecondName = EmployeeCardDetails.SecondName;
+				//EmployeeCardViewModel.EmployeeCard.PersonId = EmployeeCardDetails.PersonId;
+				//EmployeeCardViewModel.EmployeeCard.Department = EmployeeCardDetails.Department;
+				//EmployeeCardViewModel.EmployeeCard.Group = EmployeeCardDetails.Group;
+				//EmployeeCardViewModel.EmployeeCard.Position = EmployeeCardDetails.Position;
 			}
 		}
 		protected override bool CanSave()

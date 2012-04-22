@@ -64,6 +64,7 @@ CREATE TABLE [dbo].[Person](
 	[LastName] [nvarchar](max) NULL,
 	[FirstName] [nvarchar](max) NULL,
 	[SecondName] [nvarchar](max) NULL,
+	[Photo] [varbinary] (max) NULL,
 	[SexId] [int] NULL,
 	[Birthday] [datetime] NULL,
 	[BirthPlace] [nvarchar] (max) NULL,

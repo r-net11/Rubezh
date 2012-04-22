@@ -49,7 +49,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE PROCEDURE [dbo].[GetAllEmployees]
-	@ClockNumber int = NULL,
+	@ClockNumber nvarchar(max) = NULL,
 	@LastName nvarchar(max)= NULL,
 	@FirstName nvarchar(max)= NULL,
 	@SecondName nvarchar(max)= NULL,
@@ -64,9 +64,9 @@ BEGIN
 		p.LastName,
 		p.FirstName,
 		p.SecondName,
-		g.Value,
-		d.Value,
-		pos.Value
+		g.Value AS [Group],
+		d.Value AS Department,
+		pos.Value AS Position
 	FROM 
 		[dbo].[Employee] e
 		INNER JOIN [dbo].[Person] p ON e.PersonId = p.Id
@@ -75,7 +75,7 @@ BEGIN
 		LEFT OUTER JOIN [dbo].[Position] pos ON e.PositionId = pos.Id
 	WHERE
 		e.Deleted = 0 AND
-		(@ClockNumber IS NULL	OR e.ClockNumber = @ClockNumber) AND
+		(@ClockNumber IS NULL	OR e.ClockNumber LIKE '%' + @ClockNumber + '%') AND
 		(@LastName IS NULL		OR p.LastName LIKE @LastName + '%') AND
 		(@FirstName IS NULL		OR p.FirstName LIKE @FirstName + '%') AND
 		(@SecondName IS NULL	OR p.SecondName LIKE @SecondName + '%') AND
@@ -102,7 +102,6 @@ AS
 BEGIN
 	SELECT 
 		e.Id,
-		e.PersonId,
 		e.ClockNumber,
 		e.Comment,
 		e.DepartmentId,
@@ -123,6 +122,7 @@ BEGIN
 		p.PassportEmitter,
 		p.PassportNumber,
 		p.PassportSerial,
+		p.Photo,
 		p.SNILS,
 		p.SecondName,
 		p.SexId
@@ -143,7 +143,7 @@ CREATE PROCEDURE [dbo].[SaveEmployeeCard]
 	@LastName nvarchar(max)= NULL,
 	@FirstName nvarchar(max) = NULL,
 	@SecondName nvarchar(max) = NULL,
-	@ClockNumber int = NULL,
+	@ClockNumber nvarchar(max) = NULL,
 	@Comment nvarchar(max) = NULL,
 	@DepartmentId int = NULL,
 	@Email nvarchar(max) = NULL,
@@ -161,6 +161,7 @@ CREATE PROCEDURE [dbo].[SaveEmployeeCard]
 	@PassportEmitter nvarchar(max) = NULL,
 	@PassportNumber nvarchar(max) = NULL,
 	@PassportSerial nvarchar(max) = NULL,
+	@Photo varbinary(max) = NULL,
 	@SNILS nvarchar(max) = NULL,
 	@SexId int = NULL
 AS
@@ -185,6 +186,7 @@ BEGIN
 				PassportEmitter = @PassportEmitter,
 				PassportNumber = @PassportNumber,
 				PassportSerial = @PassportSerial,
+				Photo = @Photo,
 				SNILS = @SNILS,
 				SexId = @SexId	
 			WHERE Id = @PersonId
@@ -201,9 +203,9 @@ BEGIN
 	ELSE
 		BEGIN
 			INSERT INTO [dbo].[Person] 
-				(LastName, FirstName, SecondName, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
+				(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
 			VALUES 
-				(@LastName,@FirstName,@SecondName,@Address,@AddressFact,@BirthPlace,@Birthday,@Cell,@ITN,@PassportCode,@PassportDate,@PassportEmitter,@PassportNumber,@PassportSerial,@SNILS,@SexId);
+				(@LastName,@FirstName,@SecondName,@Photo,@Address,@AddressFact,@BirthPlace,@Birthday,@Cell,@ITN,@PassportCode,@PassportDate,@PassportEmitter,@PassportNumber,@PassportSerial,@SNILS,@SexId);
 			INSERT INTO [dbo].[Employee] 
 				(PersonId, ClockNumber, Comment, DepartmentId, Email, GroupId, Phone, PositionId, Deleted)
 			VALUES 
@@ -301,7 +303,7 @@ CREATE PROCEDURE [dbo].[DeleteDepartment]
 	@Id int
 AS
 BEGIN
-	--UPDATE dbo.Department SET DepartmentId = NULL WHERE DepartmentId = @Id
+	UPDATE dbo.Department SET DepartmentId = NULL WHERE DepartmentId = @Id
 	DELETE FROM dbo.Department WHERE Id = @Id
 	RETURN @@ROWCOUNT
 END

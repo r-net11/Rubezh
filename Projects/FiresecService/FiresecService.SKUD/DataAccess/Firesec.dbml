@@ -1,68 +1,204 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Firesec" EntityNamespace="FiresecService.SKUD.DataAccess" ContextNamespace="FiresecService.SKUD.DataAccess" Class="FiresecDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=vsorokonenko\sqlexpress;Initial Catalog=Firesec;Integrated Security=True" SettingsObjectName="FiresecService.SKUD.Properties.Settings" SettingsPropertyName="FiresecConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.\sqlexpress;Initial Catalog=Firesec;Integrated Security=True" SettingsObjectName="FiresecService.SKUD.Properties.Settings" SettingsPropertyName="FiresecConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Department" Member="Departments">
+    <Type Name="Department">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="DepartmentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Department_Department" Member="Departments" ThisKey="Id" OtherKey="DepartmentId" Type="Department" />
+      <Association Name="Department_Employee" Member="Employees" ThisKey="Id" OtherKey="DepartmentId" Type="Employee" />
+      <Association Name="Department_Department" Member="Department1" ThisKey="DepartmentId" OtherKey="Id" Type="Department" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Sex" Member="Sexes">
+    <Type Name="Sex">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Sex_Person" Member="Persons" ThisKey="Id" OtherKey="SexId" Type="Person" />
+    </Type>
+  </Table>
   <Table Name="dbo.Employee" Member="Employees">
     <Type Name="Employee">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="PersonId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="Staff" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ClockNumber" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="DepartmentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="PositionId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Deleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="Department_Employee" Member="Department" ThisKey="DepartmentId" OtherKey="Id" Type="Department" IsForeignKey="true" />
+      <Association Name="Group_Employee" Member="Group" ThisKey="GroupId" OtherKey="Id" Type="Group" IsForeignKey="true" />
       <Association Name="Person_Employee" Member="Person" ThisKey="PersonId" OtherKey="Id" Type="Person" IsForeignKey="true" />
+      <Association Name="Position_Employee" Member="Position" ThisKey="PositionId" OtherKey="Id" Type="Position" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[Group]" Member="Groups">
+    <Type Name="Group">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Group_Employee" Member="Employees" ThisKey="Id" OtherKey="GroupId" Type="Employee" />
     </Type>
   </Table>
   <Table Name="dbo.Person" Member="Persons">
     <Type Name="Person">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="LastNmae" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="SecondName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Birthday" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Sex" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="Person_Employee" Member="Employees" ThisKey="Id" OtherKey="PersonId" Type="Employee" />
-    </Type>
-  </Table>
-  <Function Name="dbo.GetAllEmployees" Method="GetAllEmployees">
-    <ElementType Name="GetAllEmployeesResult">
-      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PersonId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="LastName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="SecondName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Department" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Position" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SexId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Birthday" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="BirthPlace" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PassportSerial" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="PassportNumber" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="PassportDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PassportEmitter" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PassportCode" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="ITN" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="SNILS" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Cell" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="AddressFact" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-    </ElementType>
+      <Association Name="Person_Employee" Member="Employees" ThisKey="Id" OtherKey="PersonId" Type="Employee" />
+      <Association Name="Sex_Person" Member="Sex" ThisKey="SexId" OtherKey="Id" Type="Sex" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Position" Member="Positions">
+    <Type Name="Position">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Association Name="Position_Employee" Member="Employees" ThisKey="Id" OtherKey="PositionId" Type="Employee" />
+    </Type>
+  </Table>
+  <Function Name="dbo.DeleteDepartment" Method="DeleteDepartment">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SavePosition" Method="SavePosition">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="Value" Parameter="value" Type="System.String" DbType="NVarChar(MAX)" />
+    <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.DeleteEmployee" Method="DeleteEmployee">
     <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
-    <Parameter Name="Count" Parameter="count" Type="System.Int32" DbType="Int" Direction="InOut" />
     <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeleteGroup" Method="DeleteGroup">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeletePosition" Method="DeletePosition">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.GetAllEmployees" Method="GetAllEmployees">
+    <Parameter Name="ClockNumber" Parameter="clockNumber" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="LastName" Parameter="lastName" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="FirstName" Parameter="firstName" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="SecondName" Parameter="secondName" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="Group" Parameter="group" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="Department" Parameter="department" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="Position" Parameter="position" Type="System.String" DbType="NVarChar(MAX)" />
+    <ElementType Name="GetAllEmployeesResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ClockNumber" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SecondName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="[Group]" Member="Group" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Department" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Position" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetDepartments" Method="GetDepartments">
+    <ElementType Name="GetDepartmentsResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DepartmentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+    </ElementType>
   </Function>
   <Function Name="dbo.GetEmployeeCard" Method="GetEmployeeCard">
     <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" />
     <ElementType Name="GetEmployeeCardResult">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="PersonId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="LastName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="SecondName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Age" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Department" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Name="Position" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ClockNumber" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="Comment" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="DepartmentId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="GroupId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Phone" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="PositionId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Address" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="AddressFact" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="BirthPlace" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Birthday" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Cell" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="ITN" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PassportCode" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="PassportDate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="PassportEmitter" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PassportNumber" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="PassportSerial" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Photo" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" CanBeNull="true" />
+      <Column Name="SNILS" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="SecondName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="SexId" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </ElementType>
+  </Function>
+  <Function Name="dbo.GetGroups" Method="GetGroups">
+    <ElementType Name="GetGroupsResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.GetPositions" Method="GetPositions">
+    <ElementType Name="GetPositionsResult">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.SaveDepartment" Method="SaveDepartment">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="DepartmentId" Parameter="departmentId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Value" Parameter="value" Type="System.String" DbType="NVarChar(MAX)" />
+    <Return Type="System.Int32" />
   </Function>
   <Function Name="dbo.SaveEmployeeCard" Method="SaveEmployeeCard">
     <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" Direction="InOut" />
     <Parameter Name="LastName" Parameter="lastName" Type="System.String" DbType="NVarChar(MAX)" />
     <Parameter Name="FirstName" Parameter="firstName" Type="System.String" DbType="NVarChar(MAX)" />
     <Parameter Name="SecondName" Parameter="secondName" Type="System.String" DbType="NVarChar(MAX)" />
-    <Parameter Name="Birthday" Parameter="birthday" Type="System.DateTime" DbType="DateTime" />
-    <Parameter Name="Sex" Parameter="sex" Type="System.DateTime" DbType="DateTime" />
-    <Parameter Name="Department" Parameter="department" Type="System.String" DbType="NVarChar(MAX)" />
-    <Parameter Name="Position" Parameter="position" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="ClockNumber" Parameter="clockNumber" Type="System.String" DbType="NVarChar(MAX)" />
     <Parameter Name="Comment" Parameter="comment" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="DepartmentId" Parameter="departmentId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Email" Parameter="email" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="GroupId" Parameter="groupId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Phone" Parameter="phone" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="PositionId" Parameter="positionId" Type="System.Int32" DbType="Int" />
+    <Parameter Name="Address" Parameter="address" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="AddressFact" Parameter="addressFact" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="BirthPlace" Parameter="birthPlace" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="Birthday" Parameter="birthday" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="Cell" Parameter="cell" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="ITN" Parameter="iTN" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="PassportCode" Parameter="passportCode" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="PassportDate" Parameter="passportDate" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="PassportEmitter" Parameter="passportEmitter" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="PassportNumber" Parameter="passportNumber" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="PassportSerial" Parameter="passportSerial" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="Photo" Parameter="photo" Type="System.Data.Linq.Binary" DbType="VarBinary(MAX)" />
+    <Parameter Name="SNILS" Parameter="sNILS" Type="System.String" DbType="NVarChar(MAX)" />
+    <Parameter Name="SexId" Parameter="sexId" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.SaveGroup" Method="SaveGroup">
+    <Parameter Name="Id" Parameter="id" Type="System.Int32" DbType="Int" Direction="InOut" />
+    <Parameter Name="Value" Parameter="value" Type="System.String" DbType="NVarChar(MAX)" />
     <Return Type="System.Int32" />
   </Function>
 </Database>

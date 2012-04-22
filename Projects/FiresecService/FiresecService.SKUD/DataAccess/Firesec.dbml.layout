@@ -1,24 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="Firesec">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 9.875" name="Firesec">
   <DataContextMoniker Name="/FiresecDataContext" />
   <nestedChildShapes>
-    <classShape Id="c00268f3-7d70-4b7f-b6ec-c67c1b9ba2b4" absoluteBounds="5, 1.125, 2, 1.5785953776041666">
+    <classShape Id="cde90f8c-637f-43d0-a883-c1d4d8fe1e6f" absoluteBounds="1.5, 6, 2, 1.3862939453124987">
+      <DataClassMoniker Name="/FiresecDataContext/Department" />
+      <nestedChildShapes>
+        <elementListCompartment Id="bf97ebcb-78f6-45d8-9690-23a7896d9e67" absoluteBounds="1.5150000000000001, 6.4600000000000009, 1.9700000000000002, 0.8262939453125" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="049458f8-7f2e-467c-99a5-301b0b82a67a" absoluteBounds="0.75, 2.625, 2, 1.1939925130208335">
+      <DataClassMoniker Name="/FiresecDataContext/Sex" />
+      <nestedChildShapes>
+        <elementListCompartment Id="07c51fe0-8001-43d6-8bee-4685a4ec2b91" absoluteBounds="0.765, 3.085, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="6f5fef31-99fa-439b-a49d-3a35470f5aec" absoluteBounds="6.25, 1.75, 2, 2.732403971354167">
       <DataClassMoniker Name="/FiresecDataContext/Employee" />
       <nestedChildShapes>
-        <elementListCompartment Id="2328f2df-503d-4f07-8ae8-21cfe6bf211c" absoluteBounds="5.0150000000000006, 1.585, 1.9700000000000002, 1.0185953776041665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="93c7113f-3383-4839-b86d-523a6ab51d8a" absoluteBounds="6.265, 2.21, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <classShape Id="91d5a05b-9fab-4701-8df5-30bcd789218e" absoluteBounds="2, 0.875, 2, 2.1554996744791666">
+    <classShape Id="2f26026e-2dba-4afc-841b-b6ba45d20cab" absoluteBounds="5, 6.25, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/FiresecDataContext/Group" />
+      <nestedChildShapes>
+        <elementListCompartment Id="8b08251d-3006-4a51-af41-2ac596b5e4c1" absoluteBounds="5.0150000000000006, 6.71, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="fa49d1f4-1362-451c-a336-0920a00e768d" absoluteBounds="3.5, 1, 2, 4.2708154296875">
       <DataClassMoniker Name="/FiresecDataContext/Person" />
       <nestedChildShapes>
-        <elementListCompartment Id="adcbb393-dc3c-4fc0-9f2e-ef6c3a3f4aa9" absoluteBounds="2.015, 1.335, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+        <elementListCompartment Id="578a2827-177d-4ce7-9a76-5c73808b996c" absoluteBounds="3.515, 1.46, 1.9700000000000002, 3.7108154296875" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(4 : 1.91429768880208); (5 : 1.91429768880208)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <classShape Id="cead022f-e5ce-4598-a8e3-02a8c3a64a6f" absoluteBounds="6.5, 8.375, 2, 1.1939925130208344">
+      <DataClassMoniker Name="/FiresecDataContext/Position" />
+      <nestedChildShapes>
+        <elementListCompartment Id="842ad251-d8e7-4fb8-b755-eddc920a15d6" absoluteBounds="6.5150000000000006, 8.835, 1.9700000000000002, 0.63399251302083326" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(2.19931705603966 : 7.3862939453125); (2.19931705603966 : 7.6362939453125); (2.81500117938702 : 7.6362939453125); (2.81500117938702 : 7.3862939453125)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+      <AssociationMoniker Name="/FiresecDataContext/Department/Department_Department" />
+      <nodes>
+        <classShapeMoniker Id="cde90f8c-637f-43d0-a883-c1d4d8fe1e6f" />
+        <classShapeMoniker Id="cde90f8c-637f-43d0-a883-c1d4d8fe1e6f" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(3.5 : 6.09375); (6.54166666666667 : 6.09375 : JumpStart); (6.70833333333333 : 6.09375 : JumpEnd); (7.21354141666667 : 6.09375 : JumpStart); (7.38020808333333 : 6.09375 : JumpEnd); (7.804689875 : 6.09375); (7.804689875 : 4.48240397135417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FiresecDataContext/Department/Department_Employee" />
+      <nodes>
+        <classShapeMoniker Id="cde90f8c-637f-43d0-a883-c1d4d8fe1e6f" />
+        <classShapeMoniker Id="6f5fef31-99fa-439b-a49d-3a35470f5aec" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(6.625 : 6.25); (6.625 : 4.48240397135417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FiresecDataContext/Group/Group_Employee" />
+      <nodes>
+        <classShapeMoniker Id="2f26026e-2dba-4afc-841b-b6ba45d20cab" />
+        <classShapeMoniker Id="6f5fef31-99fa-439b-a49d-3a35470f5aec" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(5.5 : 3.11620198567708); (6.25 : 3.11620198567708)]" fixedFrom="Algorithm" fixedTo="Algorithm">
       <AssociationMoniker Name="/FiresecDataContext/Person/Person_Employee" />
       <nodes>
-        <classShapeMoniker Id="91d5a05b-9fab-4701-8df5-30bcd789218e" />
-        <classShapeMoniker Id="c00268f3-7d70-4b7f-b6ec-c67c1b9ba2b4" />
+        <classShapeMoniker Id="fa49d1f4-1362-451c-a336-0920a00e768d" />
+        <classShapeMoniker Id="6f5fef31-99fa-439b-a49d-3a35470f5aec" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(2.75 : 3.22199625651042); (3.5 : 3.22199625651042)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FiresecDataContext/Sex/Sex_Person" />
+      <nodes>
+        <classShapeMoniker Id="049458f8-7f2e-467c-99a5-301b0b82a67a" />
+        <classShapeMoniker Id="fa49d1f4-1362-451c-a336-0920a00e768d" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(7.29687475 : 8.375); (7.29687475 : 4.48240397135417)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/FiresecDataContext/Position/Position_Employee" />
+      <nodes>
+        <classShapeMoniker Id="cead022f-e5ce-4598-a8e3-02a8c3a64a6f" />
+        <classShapeMoniker Id="6f5fef31-99fa-439b-a49d-3a35470f5aec" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

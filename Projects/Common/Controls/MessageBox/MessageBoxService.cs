@@ -13,38 +13,39 @@ namespace Controls.MessageBox
 			resourceService.AddResource(new ResourceDescription(typeof(MessageBoxViewModel).Assembly, "MessageBox/DataTemplates/Dictionary.xaml"));
 		}
 
-		public static MessageBoxResult Show(string message)
+		public static MessageBoxResult Show(string message, string title = null)
 		{
-			return ShowWindow(message, MessageBoxButton.OK, MessageBoxImage.Information);
+			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Information);
 		}
 
 		public static MessageBoxResult ShowDeviceError(string header, string error)
 		{
-			return ShowWindow(error, MessageBoxButton.OK, MessageBoxImage.Error);
+			return ShowWindow(header, error, MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 
-		public static MessageBoxResult ShowQuestion(string message)
+		public static MessageBoxResult ShowQuestion(string message, string title = null)
 		{
-			return ShowWindow(message, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+			return ShowWindow(title, message, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
 		}
 
-		public static MessageBoxResult ShowConfirmation(string message)
+		public static MessageBoxResult ShowConfirmation(string message, string title = null)
 		{
-			return ShowWindow(message, MessageBoxButton.YesNo, MessageBoxImage.Question);
+			return ShowWindow(title, message, MessageBoxButton.YesNo, MessageBoxImage.Question);
 		}
 
-		public static MessageBoxResult ShowError(string message)
+		public static MessageBoxResult ShowError(string message, string title = null)
 		{
-			return ShowWindow(message, MessageBoxButton.OK, MessageBoxImage.Error);
+			Logger.Error(message);
+			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Error);
 		}
 
-		public static MessageBoxResult ShowWarning(string message)
+		public static MessageBoxResult ShowWarning(string message, string title = null)
 		{
 			Logger.Warn(message);
-			return ShowWindow(message, MessageBoxButton.OK, MessageBoxImage.Warning);
+			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Warning);
 		}
 
-		public static MessageBoxResult ShowException(Exception e)
+		public static MessageBoxResult ShowException(Exception e, string title = null)
 		{
 			Logger.Error(e);
 			string message = e.Message.ToString();
@@ -53,12 +54,12 @@ namespace Controls.MessageBox
 				message += "\n" + stackTraces[0];
 			if (stackTraces.Length > 1)
 				message += "\n" + stackTraces[1];
-			return ShowWindow(message, MessageBoxButton.OK, MessageBoxImage.Error, true);
+			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Error, true);
 		}
 
-		static MessageBoxResult ShowWindow(string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false)
+		static MessageBoxResult ShowWindow(string title, string message, MessageBoxButton messageBoxButton, MessageBoxImage messageBoxImage, bool isException = false)
 		{
-			var messageBoxViewModel = new MessageBoxViewModel(message, messageBoxButton, messageBoxImage, isException);
+			var messageBoxViewModel = new MessageBoxViewModel(title, message, messageBoxButton, messageBoxImage, isException);
 			UserDialogService.ShowModalWindow(messageBoxViewModel);
 			return messageBoxViewModel.Result;
 		}

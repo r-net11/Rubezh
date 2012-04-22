@@ -113,7 +113,7 @@
                         <Border Name="mask" Background="DarkGray" CornerRadius="5" BorderThickness="0" Margin="1" />
                         <Grid>
                             <Grid.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=mask}"/>
+                                <VisualBrush Visual="{Binding Source={x:Reference mask}}"/>
                             </Grid.OpacityMask>
                             <Border
                                 Background="{TemplateBinding Background}"

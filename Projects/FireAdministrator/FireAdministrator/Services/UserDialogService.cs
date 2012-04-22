@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using Infrastructure;
 using Infrastructure.Common;
+using Common;
 
 namespace FireAdministrator
 {
@@ -44,25 +45,7 @@ namespace FireAdministrator
             ActiveWindows.Remove((DialogWindow) sender);
         }
 
-        void OnSaveSizeViewClosed(object sender, System.EventArgs e)
-        {
-            DialogWindow dialogWindow = sender as DialogWindow;
-            var viewModel = dialogWindow.ViewModel;
-            var typeName = viewModel.GetType().Name;
-
-            var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            configuration.AppSettings.Settings.Remove(typeName + "_Width");
-            configuration.AppSettings.Settings.Remove(typeName + "_Height");
-            configuration.AppSettings.Settings.Remove(typeName + "_Left");
-            configuration.AppSettings.Settings.Remove(typeName + "_Top");
-            configuration.AppSettings.Settings.Add(typeName + "_Width", dialogWindow.Width.ToString());
-            configuration.AppSettings.Settings.Add(typeName + "_Height", dialogWindow.Height.ToString());
-            configuration.AppSettings.Settings.Add(typeName + "_Left", dialogWindow.Left.ToString());
-            configuration.AppSettings.Settings.Add(typeName + "_Top", dialogWindow.Top.ToString());
-            configuration.Save();
-        }
-
-        public void HideWindow(string name)
+         public void HideWindow(string name)
         {
             var dialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
             if (dialogWindow != null)
@@ -82,61 +65,51 @@ namespace FireAdministrator
 
         public bool ShowModalWindow(IDialogContent model)
         {
-            return ShowModalWindow(model, Application.Current.MainWindow);
+			return Controls.MessageBox.UserDialogService.ShowModalWindow(model, LoadSizeView);
         }
 
-        public bool ShowModalWindow(IDialogContent model, Window parentWindow)
-        {
-            try
-            {
-                var dialogWindow = new DialogWindow();
-                try
-                {
-                    dialogWindow.Owner = App.Current.MainWindow;
-                }
-                catch
-                {
-                    dialogWindow.ShowInTaskbar = true;
-                }
+		private void LoadSizeView(DialogWindow dialogWindow)
+		{
+			var viewModel = dialogWindow.ViewModel;
+			var isSaveSize = viewModel.GetType().GetCustomAttributes(true).Any(x => x is SaveSizeAttribute);
+			if (isSaveSize)
+			{
+				var typeName = viewModel.GetType().Name;
 
-                dialogWindow.SetContent(model);
+				try
+				{
+					var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+					string stringWidth = configuration.AppSettings.Settings[typeName + "_Width"].Value;
+					string stringHeight = ConfigurationManager.AppSettings[typeName + "_Height"];
+					string stringLeft = ConfigurationManager.AppSettings[typeName + "_Left"];
+					string stringTop = ConfigurationManager.AppSettings[typeName + "_Top"];
 
-                var viewModel = dialogWindow.ViewModel;
-                var isSaveSize = viewModel.GetType().GetCustomAttributes(true).Any(x => x is SaveSizeAttribute);
-                if (isSaveSize)
-                {
-                    var typeName = viewModel.GetType().Name;
+					dialogWindow.Width = double.Parse(stringWidth);
+					dialogWindow.Height = double.Parse(stringHeight);
+					dialogWindow.Left = double.Parse(stringLeft);
+					dialogWindow.Top = double.Parse(stringTop);
+				}
+				catch (Exception) { ;}
 
-                    try
-                    {
-                        var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-                        string stringWidth = configuration.AppSettings.Settings[typeName + "_Width"].Value;
-                        string stringHeight = ConfigurationManager.AppSettings[typeName + "_Height"];
-                        string stringLeft = ConfigurationManager.AppSettings[typeName + "_Left"];
-                        string stringTop = ConfigurationManager.AppSettings[typeName + "_Top"];
+				dialogWindow.Closed += new EventHandler(OnSaveSizeViewClosed);
+			}
+		}
+		private void OnSaveSizeViewClosed(object sender, System.EventArgs e)
+		{
+			DialogWindow dialogWindow = sender as DialogWindow;
+			var viewModel = dialogWindow.ViewModel;
+			var typeName = viewModel.GetType().Name;
 
-                        dialogWindow.Width = double.Parse(stringWidth);
-                        dialogWindow.Height = double.Parse(stringHeight);
-                        dialogWindow.Left = double.Parse(stringLeft);
-                        dialogWindow.Top = double.Parse(stringTop);
-                    }
-                    catch (Exception) { ;}
-
-                    dialogWindow.Closed += new EventHandler(OnSaveSizeViewClosed);
-                }
-
-                bool? result = dialogWindow.ShowDialog();
-                if (result == null)
-                {
-                    return false;
-                }
-
-                return (bool) result;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-    }
+			var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+			configuration.AppSettings.Settings.Remove(typeName + "_Width");
+			configuration.AppSettings.Settings.Remove(typeName + "_Height");
+			configuration.AppSettings.Settings.Remove(typeName + "_Left");
+			configuration.AppSettings.Settings.Remove(typeName + "_Top");
+			configuration.AppSettings.Settings.Add(typeName + "_Width", dialogWindow.Width.ToString());
+			configuration.AppSettings.Settings.Add(typeName + "_Height", dialogWindow.Height.ToString());
+			configuration.AppSettings.Settings.Add(typeName + "_Left", dialogWindow.Left.ToString());
+			configuration.AppSettings.Settings.Add(typeName + "_Top", dialogWindow.Top.ToString());
+			configuration.Save();
+		}
+	}
 }

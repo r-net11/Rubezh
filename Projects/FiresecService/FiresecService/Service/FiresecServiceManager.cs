@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.ServiceModel;
 using Common;
+using System.ServiceModel.Description;
 
 namespace FiresecService
 {
@@ -11,7 +12,7 @@ namespace FiresecService
 
         public static void Open()
         {
-            Close();
+			Close();
 
             _serviceHost = new ServiceHost(typeof(SafeFiresecService));
 
@@ -35,6 +36,11 @@ namespace FiresecService
             string serverName = AppSettings.ServiceAddress;
             string machineName = MachineNameHelper.GetMachineName();
             serverName = serverName.Replace("localhost", machineName);
+
+#if DEBUG
+			var behavior = _serviceHost.Description.Behaviors.Find<ServiceDebugBehavior>();
+			behavior.IncludeExceptionDetailInFaults = true;
+#endif
             _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, new Uri(serverName));
 
             _serviceHost.Open();
