@@ -13,8 +13,8 @@
             <DataGridTextColumn Header="Фамилия" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.LastName}"/>
 			<DataGridTextColumn Header="Имя" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.FirstName}"/>
 			<DataGridTextColumn Header="Отчество" Width="Auto"  MinWidth="100" Binding="{Binding EmployeeCard.SecondName}"/>
-			<DataGridTextColumn Header="Подразделение" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.Department}"/>
-			<DataGridTextColumn Header="Должность" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.Position}"/>
+            <DataGridTextColumn Header="Должность" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.Position}"/>
+            <DataGridTextColumn Header="Подразделение" Width="Auto" MinWidth="100" Binding="{Binding EmployeeCard.Department}"/>
             <DataGridTextColumn Header="Группа" Width="*" MinWidth="100" Binding="{Binding EmployeeCard.Group}" />
         </DataGrid.Columns>
     </Controls:XDataGrid>

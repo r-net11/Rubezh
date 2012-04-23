@@ -83,6 +83,7 @@ BEGIN
 		(@DepartmentId IS NULL	OR d.Id = @DepartmentId) AND
 		(@PositionId IS NULL	OR pos.Id = @PositionId) 
 	ORDER BY
+		e.ClockNumber,
 		p.LastName,
 		p.FirstName,
 		p.SecondName
