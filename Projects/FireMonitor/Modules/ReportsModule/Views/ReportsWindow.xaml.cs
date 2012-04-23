@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using SAPBusinessObjects.WPF.Viewer;
 using ReportsModule.Reports;
+using CrystalDecisions.CrystalReports.Engine;
 
 namespace ReportsModule.Views
 {
@@ -22,8 +23,10 @@ namespace ReportsModule.Views
 		void ShowCrystalReport(BaseReport baseReport)
 		{
 			baseReport.LoadData();
+			ReportDocument reportDocument = new ReportDocument();
+			baseReport.LoadCrystalReportDocument(reportDocument);
 			_viewCore.ToggleSidePanel = Constants.SidePanelKind.None;
-			_viewCore.ReportSource = baseReport.CreateCrystalReportDocument();
+			_viewCore.ReportSource = reportDocument;
 		}
 
 		public void Initialize()

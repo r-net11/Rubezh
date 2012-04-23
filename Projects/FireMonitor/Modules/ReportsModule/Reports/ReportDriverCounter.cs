@@ -10,7 +10,7 @@ namespace ReportsModule.Reports
     {
         public ReportDriverCounter()
         {
-            base.ReportFileName = "DriverCounterCrystalReport.rpt";
+            ReportFileName = "DriverCounterCrystalReport.rpt";
         }
 
         public override void LoadData()

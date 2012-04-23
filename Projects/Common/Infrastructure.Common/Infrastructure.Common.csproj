@@ -137,6 +137,7 @@
     <Compile Include="Video\VideoWindow.xaml.cs">
       <DependentUpon>VideoWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WaitWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Dialogs\DialogWindow.xaml">

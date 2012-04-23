@@ -3,15 +3,16 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using ReportsModule.Models;
+using CrystalDecisions.CrystalReports.Engine;
 
 namespace ReportsModule.Reports
 {
     public class ReportDevicesList : BaseReportGeneric<ReportDeviceListModel>
     {
         public ReportDevicesList()
-            : base()
+			: base()
         {
-            base.ReportFileName = "DeviceListCrystalReport.rpt";
+            ReportFileName = "DeviceListCrystalReport.rpt";
         }
 
         public override void LoadData()

@@ -48,14 +48,11 @@ namespace ReportsModule.Reports
         public DateTime StartDate { get; set; }
         public ReportArchiveFilter ReportArchiveFilter { get; set; }
 
-        public override ReportDocument CreateCrystalReportDocument()
+		public override void LoadCrystalReportDocument(ReportDocument reportDocument)
         {
-            reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
-            reportDocument.SetDataSource(DataList);
+			base.LoadCrystalReportDocument(reportDocument);
             reportDocument.SetParameterValue("StartDate", StartDate.ToString());
             reportDocument.SetParameterValue("EndDate", EndDate.ToString());
-
-            return reportDocument;
         }
     }
 
