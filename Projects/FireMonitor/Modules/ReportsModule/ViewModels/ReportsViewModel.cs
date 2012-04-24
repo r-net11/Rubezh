@@ -10,6 +10,7 @@ using SAPBusinessObjects.WPF.Viewer;
 using CrystalDecisions.CrystalReports.Engine;
 using FiresecClient;
 using System.Threading;
+using System.Diagnostics;
 
 namespace ReportsModule.ViewModels
 {
@@ -40,7 +41,6 @@ namespace ReportsModule.ViewModels
 
 		private void PrepareReports()
 		{
-			_document = new ReportDocument();
 			_reportMap = new Dictionary<ReportType, BaseReport>()
 			{
 				{ReportType.ReportIndicationBlock, new ReportIndicationBlock()},
@@ -49,14 +49,21 @@ namespace ReportsModule.ViewModels
 				{ReportType.ReportDeviceParams, new ReportDeviceParams()},
 				{ReportType.ReportDevicesList, new ReportDevicesList()}
 			};
+			_document = new ReportDocument();
 			//_document.Load(FileHelper.GetReportFilePath(_reportMap[ReportType.ReportIndicationBlock].ReportFileName));
-			new Thread(() => _document.Load(FileHelper.GetReportFilePath(_reportMap[ReportType.ReportIndicationBlock].ReportFileName))).Start();
+			new Thread(() => 
+				{
+					DateTime dt = DateTime.Now;
+					_document.Load(FileHelper.GetReportFilePath(_reportMap[ReportType.ReportIndicationBlock].ReportFileName));
+					Debug.WriteLine("--- Initial report loaded in: {0}", DateTime.Now - dt);
+				}).Start();
 		}
 
 		void ShowCrystalReport(BaseReport baseReport)
 		{
 			using (new WaitWrapper())
 			{
+				DateTime dt = DateTime.Now;
 				baseReport.LoadCrystalReportDocument(_document);
 				baseReport.LoadData();
 				var viewerCore = new SAPBusinessObjects.WPF.Viewer.ViewerCore()
@@ -65,6 +72,7 @@ namespace ReportsModule.ViewModels
 					ReportSource = _document
 				};
 				ViewerCoreControl = viewerCore;
+				Debug.WriteLine("--- Report '{1}' loaded in: {0}", DateTime.Now - dt, baseReport.ReportFileName);
 			}
 		}
 
