@@ -11,6 +11,7 @@ using CrystalDecisions.CrystalReports.Engine;
 using FiresecClient;
 using System.Threading;
 using System.Diagnostics;
+using Common;
 
 namespace ReportsModule.ViewModels
 {
@@ -51,10 +52,10 @@ namespace ReportsModule.ViewModels
 			};
 			_document = new ReportDocument();
 			//_document.Load(FileHelper.GetReportFilePath(_reportMap[ReportType.ReportIndicationBlock].ReportFileName));
-			new Thread(() => 
+			new Thread(() =>
 				{
 					DateTime dt = DateTime.Now;
-					_document.Load(FileHelper.GetReportFilePath(_reportMap[ReportType.ReportIndicationBlock].ReportFileName));
+					SafeContext.Execute(() => _document.Load(FileHelper.GetReportFilePath(_reportMap[ReportType.ReportIndicationBlock].ReportFileName)));
 					Debug.WriteLine("--- Initial report loaded in: {0}", DateTime.Now - dt);
 				}).Start();
 		}

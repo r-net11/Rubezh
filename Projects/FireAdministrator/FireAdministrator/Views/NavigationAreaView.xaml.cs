@@ -325,6 +325,8 @@ namespace FireAdministrator.Views
 			{
 				_isSkudExpanded = value;
 				OnPropertyChanged("IsSkudExpanded");
+				if (!IsSkudExpanded)
+					IsSkudDictionariesExpanded = false;
 			}
 		}
 
@@ -375,6 +377,67 @@ namespace FireAdministrator.Views
 			}
 		}
 
+		bool _isSkudDictionariesExpanded;
+		public bool IsSkudDictionariesExpanded
+		{
+			get { return _isSkudDictionariesExpanded; }
+			set
+			{
+				_isSkudDictionariesExpanded = value;
+				OnPropertyChanged("IsSkudDictionariesExpanded");
+			}
+		}
+
+		bool _isSkudDictionariesSelected;
+		public bool IsSkudDictionariesSelected
+		{
+			get { return _isSkudDictionariesSelected; }
+			set
+			{
+				_isSkudDictionariesSelected = value;
+				OnPropertyChanged("IsSkudDictionariesSelected");
+			}
+		}
+
+		bool _isSkudPositionsSelected;
+		public bool IsSkudPositionsSelected
+		{
+			get { return _isSkudPositionsSelected; }
+			set
+			{
+				_isSkudPositionsSelected = value;
+				if (value)
+					ServiceFactory.Events.GetEvent<ShowEmployeePositionsEvent>().Publish(null);
+				OnPropertyChanged("IsSkudPositionsSelected");
+			}
+		}
+
+		bool _isSkudDepartmentsSelected;
+		public bool IsSkudDepartmentsSelected
+		{
+			get { return _isSkudDepartmentsSelected; }
+			set
+			{
+				_isSkudDepartmentsSelected = value;
+				if (value)
+					ServiceFactory.Events.GetEvent<ShowEmployeeDepartmentsEvent>().Publish(null);
+				OnPropertyChanged("IsSkudDepartmentsSelected");
+			}
+		}
+
+		bool _isSkudGroupsSelected;
+		public bool IsSkudGroupsSelected
+		{
+			get { return _isSkudGroupsSelected; }
+			set
+			{
+				_isSkudGroupsSelected = value;
+				if (value)
+					ServiceFactory.Events.GetEvent<ShowEmployeeGroupsEvent>().Publish(null);
+				OnPropertyChanged("IsSkudGroupsSelected");
+			}
+		}
+
 		void AccesRightsMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			IsAccesRightsExpanded = IsAccesRightsExpanded != true;
@@ -393,6 +456,11 @@ namespace FireAdministrator.Views
 		void SkudMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			IsSkudExpanded = !IsSkudExpanded;
+		}
+
+		void SkudDictionariesMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			IsSkudDictionariesExpanded = !IsSkudDictionariesExpanded;
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

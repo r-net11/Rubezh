@@ -58,12 +58,30 @@
     </Compile>
     <Compile Include="SkudModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\EmployeeDictionaryMenuViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeDictionaryItemViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeDictionaryViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeGroupsViewModel.cs" />
+    <Compile Include="ViewModels\EmployeePositionsViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeDepartmentsViewModel.cs" />
     <Compile Include="ViewModels\EmployeeCardDetailsViewModel.cs" />
     <Compile Include="ViewModels\EmployeeCardIndexFilterViewModel.cs" />
     <Compile Include="ViewModels\EmployeeCardIndexViewModel.cs" />
     <Compile Include="ViewModels\EmployeeCardViewModel.cs" />
     <Compile Include="ViewModels\EmployeeCardIndexMenuViewModel.cs" />
     <Compile Include="ViewModels\SkudViewModel.cs" />
+    <Compile Include="Views\EmployeeDepartmentsView.xaml.cs">
+      <DependentUpon>EmployeeDepartmentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmployeeGroupsView.xaml.cs">
+      <DependentUpon>EmployeeGroupsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmployeePositionsView.xaml.cs">
+      <DependentUpon>EmployeePositionsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EmployeeDictionaryMenuView.xaml.cs">
+      <DependentUpon>EmployeeDictionaryMenuView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\EmployeeCardIndexFilterView.xaml.cs">
       <DependentUpon>EmployeeCardIndexFilterView.xaml</DependentUpon>
     </Compile>
@@ -107,6 +125,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\EmployeeDepartmentsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EmployeeGroupsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EmployeePositionsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EmployeeDictionaryMenuView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\EmployeeCardIndexFilterView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

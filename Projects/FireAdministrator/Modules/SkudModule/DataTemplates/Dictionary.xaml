@@ -23,4 +23,18 @@
 		<Views:EmployeeCardDetailsView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:EmployeeDepartmentsViewModel}">
+        <Views:EmployeeDepartmentsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:EmployeePositionsViewModel}">
+        <Views:EmployeePositionsView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type ViewModels:EmployeeGroupsViewModel}">
+        <Views:EmployeeGroupsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:EmployeeDictionaryMenuViewModel}">
+        <Views:EmployeeDictionaryMenuView />
+    </DataTemplate>
+
 </ResourceDictionary>
