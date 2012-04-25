@@ -14,11 +14,13 @@ INSERT INTO [dbo].[Position] (Value) VALUES ('Бугор')
 INSERT INTO [dbo].[Position] (Value) VALUES ('КлинМенеджер')
 INSERT INTO [dbo].[Position] (Value) VALUES ('Администратор')
 INSERT INTO [dbo].[Position] (Value) VALUES ('Дворник')
+GO
 
 INSERT INTO [dbo].[Group] (Value) VALUES ('Сотрудник')
 INSERT INTO [dbo].[Group] (Value) VALUES ('Непонятно кто')
 INSERT INTO [dbo].[Group] (Value) VALUES ('Совместитель')
 INSERT INTO [dbo].[Group] (Value) VALUES ('Руководство')
+GO
 
 INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Руководство', NULL) 
 INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Служба маркетинга', NULL) 
@@ -26,7 +28,11 @@ INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Основное производс
 INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Вспомогательное производство', NULL) 
 INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Служба безопасности', NULL) 
 INSERT INTO [dbo].[Department] (Value, DepartmentId) VALUES ('Транспортный цех', NULL) 
+GO
 
+DECLARE @DepId int
+
+SELECT @DepId = MIN(Id) FROM [dbo].[Department]
 INSERT INTO [dbo].[Person] 
 	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
 VALUES 
@@ -34,7 +40,7 @@ VALUES
 INSERT INTO [dbo].[Employee] 
 	(PersonId, ClockNumber, Comment, DepartmentId, Email, GroupId, Phone, PositionId, Deleted)
 VALUES 
-	(SCOPE_IDENTITY(),'1',NULL,(SELECT MIN(Id) FROM [dbo].[Department]),NULL,NULL,NULL,NULL,0);
+	(SCOPE_IDENTITY(),'1',NULL,@DepId,NULL,NULL,NULL,NULL,0);
 
 INSERT INTO [dbo].[Person] 
 	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
@@ -43,8 +49,9 @@ VALUES
 INSERT INTO [dbo].[Employee] 
 	(PersonId, ClockNumber, Comment, DepartmentId, Email, GroupId, Phone, PositionId, Deleted)
 VALUES 
-	(SCOPE_IDENTITY(),'2',NULL,(SELECT MIN(Id) FROM [dbo].[Department]),NULL,NULL,NULL,NULL,0);
+	(SCOPE_IDENTITY(),'2',NULL,@DepId,NULL,NULL,NULL,NULL,0);
 
+SELECT @DepId = MAX(Id) FROM [dbo].[Department]
 INSERT INTO [dbo].[Person] 
 	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
 VALUES 
@@ -52,7 +59,7 @@ VALUES
 INSERT INTO [dbo].[Employee] 
 	(PersonId, ClockNumber, Comment, DepartmentId, Email, GroupId, Phone, PositionId, Deleted)
 VALUES 
-	(SCOPE_IDENTITY(),'3',NULL,(SELECT MAX(Id) FROM [dbo].[Department]),NULL,NULL,NULL,NULL,0);
+	(SCOPE_IDENTITY(),'3',NULL,@DepId,NULL,NULL,NULL,NULL,0);
 
 INSERT INTO [dbo].[Person] 
 	(LastName, FirstName, SecondName, Photo, Address, AddressFact, BirthPlace, Birthday, Cell, ITN, PassportCode, PassportDate, PassportEmitter, PassportNumber, PassportSerial, SNILS, SexId)
