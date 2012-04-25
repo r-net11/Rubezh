@@ -19,14 +19,26 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Название" HorizontalAlignment="Right" />
                 <Label Grid.Row="1" Grid.Column="0" Content="Адрес" HorizontalAlignment="Right" />
-                <Label Grid.Row="2" Grid.Column="0" Content="Зоны" HorizontalAlignment="Right" />
+                <Label Grid.Row="2" Grid.Column="0" Content="Состояние" HorizontalAlignment="Right" />
+                <Label Grid.Row="3" Grid.Column="0" Content="Зоны" HorizontalAlignment="Right" />
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="2" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" Margin="2" />
 
-                <TextBlock Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" Margin="2">
+                <ComboBox Grid.Row="2" Grid.Column="1" Margin="2" ItemsSource="{Binding StateTypes}"
+                      SelectedItem="{Binding SelectedStateType, UpdateSourceTrigger=PropertyChanged}"
+                      Text="{Binding SelectedStateType}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource StateTypeToStringConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="2">
                     <Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
                         <TextBlock Margin="2">
                             <TextBlock.Style>

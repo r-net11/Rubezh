@@ -36,7 +36,8 @@
                     <TextBox Grid.Column="1" Grid.Row="1" Text="{Binding Name}" Margin="2" />
                     <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="2" TextWrapping="Wrap" />
                     <ComboBox Grid.Column="1" Grid.Row="3" Margin="2" ItemsSource="{Binding AvailableStates}"
-                      SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}" Text="{Binding StateType}">
+                        SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{Binding StateType}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding ., Converter={StaticResource StateTypeToStringConverter}}" />

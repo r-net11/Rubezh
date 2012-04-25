@@ -18,6 +18,9 @@ namespace FiresecAPI.Models
         public string Address { get; set; }
 
         [DataMember]
+		public StateType StateType { get; set; }
+
+        [DataMember]
         public List<ulong> Zones { get; set; }
     }
 }
