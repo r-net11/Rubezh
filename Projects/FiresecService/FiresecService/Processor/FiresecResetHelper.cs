@@ -6,9 +6,16 @@ using FiresecAPI;
 
 namespace FiresecService
 {
-    public static class FiresecResetHelper
+    public class FiresecResetHelper
     {
-        public static FiresecOperationResult<bool> ResetStates(List<ResetItem> resetItems)
+		FiresecManager FiresecManager;
+
+		public FiresecResetHelper(FiresecManager firesecManager)
+		{
+			FiresecManager = firesecManager;
+		}
+
+        public FiresecOperationResult<bool> ResetStates(List<ResetItem> resetItems)
         {
             var innerDevices = new List<Firesec.CoreState.devType>();
 
@@ -38,7 +45,7 @@ namespace FiresecService
             {
                 dev = innerDevices.ToArray()
             };
-            return FiresecSerializedClient.ResetStates(coreState);
+			return FiresecManager.FiresecSerializedClient.ResetStates(coreState);
         }
     }
 }

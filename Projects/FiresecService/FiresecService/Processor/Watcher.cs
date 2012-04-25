@@ -10,8 +10,18 @@ namespace FiresecService
 {
     public class Watcher
     {
-        public void Start()
+		FiresecSerializedClient FiresecSerializedClient;
+		FiresecManager FiresecManager;
+
+		public Watcher(FiresecManager firesecManager)
+		{
+			FiresecManager = firesecManager;
+			FiresecSerializedClient = firesecManager.FiresecSerializedClient;
+		}
+
+		public void Start(FiresecSerializedClient firesecSerializedClient)
         {
+			FiresecSerializedClient = firesecSerializedClient;
             SetLastEvent();
             FiresecSerializedClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
             FiresecSerializedClient.Progress += new Func<int, string, int, int, bool>(FiresecInternalClient_Progress);

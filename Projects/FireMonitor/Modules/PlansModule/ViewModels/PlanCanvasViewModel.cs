@@ -76,6 +76,8 @@ namespace PlansModule.ViewModels
             {
                 DrawElement(elementPolygon);
             }
+			if (Plan.ElementPolylines == null)
+				Plan.ElementPolylines = new List<ElementPolyline>();
             foreach (var elementPolyline in Plan.ElementPolylines)
             {
                 DrawElement(elementPolyline);

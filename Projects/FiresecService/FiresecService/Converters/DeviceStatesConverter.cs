@@ -2,9 +2,16 @@
 
 namespace FiresecService.Converters
 {
-    public static class DeviceStatesConverter
+    public class DeviceStatesConverter
     {
-        public static void Convert()
+		FiresecManager FiresecManager;
+
+		public DeviceStatesConverter(FiresecManager firesecManager)
+		{
+			FiresecManager = firesecManager;
+		}
+
+        public void Convert()
         {
             FiresecManager.DeviceConfigurationStates = new DeviceConfigurationStates();
             if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())

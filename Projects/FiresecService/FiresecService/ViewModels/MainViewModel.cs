@@ -23,18 +23,18 @@ namespace FiresecService.ViewModels
 
         void Start()
         {
-            FiresecSerializedClient.Disconnect();
+            //FiresecSerializedClient.Disconnect();
 
-            string oldFiresecLogin = AppSettings.OldFiresecLogin;
-            string oldFiresecPassword = AppSettings.OldFiresecPassword;
-            FiresecManager.ConnectFiresecCOMServer(oldFiresecLogin, oldFiresecPassword);
+            //string oldFiresecLogin = AppSettings.OldFiresecLogin;
+            //string oldFiresecPassword = AppSettings.OldFiresecPassword;
+            //FiresecManager.ConnectFiresecCOMServer(oldFiresecLogin, oldFiresecPassword);
             FiresecServiceManager.Open();
         }
 
         public RelayCommand ReloadCommand { get; private set; }
         void OnReload()
         {
-            FiresecSerializedClient.Disconnect();
+            //FiresecSerializedClient.Disconnect();
             FiresecServiceManager.Close();
 
             Connections = new ObservableCollection<ConnectionViewModel>();
@@ -44,14 +44,15 @@ namespace FiresecService.ViewModels
         public RelayCommand ShowImitatorCommand { get; private set; }
         void OnShowImitator()
         {
-            UserDialogService.ShowModalWindow(new ImitatorViewModel());
+            UserDialogService.ShowModalWindow(new ImitatorViewModel(null));
         }
 
         public string FiresecConnectionSatus
         {
             get
             {
-                if (FiresecManager.IsConnected)
+                //if (FiresecManager.IsConnected)
+				if (true)
                     return "Соединение с сервером Firesec установленно";
                 else
                     return "Соединение с сервером Firesec НЕ установленно";

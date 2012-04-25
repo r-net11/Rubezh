@@ -9,33 +9,41 @@ namespace FiresecService
 {
     public class FiresecManager
     {
-        public static List<Driver> Drivers { get; set; }
-        public static DeviceConfiguration DeviceConfiguration { get; set; }
-        public static DeviceConfigurationStates DeviceConfigurationStates { get; set; }
-        public static LibraryConfiguration LibraryConfiguration { get; set; }
-        public static SystemConfiguration SystemConfiguration { get; set; }
-        public static PlansConfiguration PlansConfiguration { get; set; }
-        public static SecurityConfiguration SecurityConfiguration { get; set; }
-        public static bool IsConnected { get; private set; }
-        public static string DriversError { get; private set; }
+        public List<Driver> Drivers { get; set; }
+        public DeviceConfiguration DeviceConfiguration { get; set; }
+        public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
+        public LibraryConfiguration LibraryConfiguration { get; set; }
+        public SystemConfiguration SystemConfiguration { get; set; }
+        public PlansConfiguration PlansConfiguration { get; set; }
+        public SecurityConfiguration SecurityConfiguration { get; set; }
+        public bool IsConnected { get; private set; }
+        public string DriversError { get; private set; }
 
-        public static void ConnectFiresecCOMServer(string login, string password)
+		public FiresecSerializedClient FiresecSerializedClient;
+
+		public void LoadConfiguration()
+		{
+			DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
+			SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
+			LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
+			SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
+			PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
+		}
+
+        public void ConnectFiresecCOMServer(string login, string password)
         {
-            DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
-            SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
-            LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
-            SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
-            PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
+			FiresecSerializedClient = new FiresecSerializedClient();
 
             if (FiresecSerializedClient.Connect(login, password).Result)
             {
                 ConvertMetadataFromFiresec();
                 SetValidChars();
                 Update();
-                DeviceStatesConverter.Convert();
+				var deviceStatesConverter = new DeviceStatesConverter(this);
+                deviceStatesConverter.Convert();
 
-                var watcher = new Watcher();
-                watcher.Start();
+                var watcher = new Watcher(this);
+				watcher.Start(FiresecSerializedClient);
 
                 IsConnected = true;
                 return;
@@ -43,7 +51,7 @@ namespace FiresecService
             IsConnected = false;
         }
 
-        static void ConvertMetadataFromFiresec()
+        void ConvertMetadataFromFiresec()
         {
             DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
             Drivers = new List<Driver>();
@@ -62,7 +70,7 @@ namespace FiresecService
             }
         }
 
-        public static void SetValidChars()
+        public void SetValidChars()
         {
             DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
             var validCharsBuilder = new StringBuilder(DriverConverter.Metadata.drv.Last().validChars);
@@ -70,13 +78,13 @@ namespace FiresecService
             DeviceConfiguration.ValidChars = validCharsBuilder.ToString();
         }
 
-        public static void Update()
+        public void Update()
         {
             var hasInvalidDriver = false;
             DeviceConfiguration.Update();
             foreach (var device in DeviceConfiguration.Devices)
             {
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+                device.Driver = Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
                 if (device.Driver == null)
                 {
                     hasInvalidDriver = true;

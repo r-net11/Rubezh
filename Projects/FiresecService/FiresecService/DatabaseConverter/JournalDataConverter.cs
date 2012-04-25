@@ -6,9 +6,16 @@ using FiresecService.DatabaseConverter;
 
 namespace FiresecService
 {
-    public static class JournalDataConverter
+    public class JournalDataConverter
     {
-        public static void Convert()
+		FiresecSerializedClient FiresecSerializedClient;
+
+		public JournalDataConverter(FiresecSerializedClient firesecSerializedClient)
+		{
+			FiresecSerializedClient = firesecSerializedClient;
+		}
+
+        public void Convert()
         {
 			using (var dataContext = ConnectionManager.CreateFiresecDataContext())
             {
@@ -19,7 +26,7 @@ namespace FiresecService
             }
         }
 
-        public static IEnumerable<JournalRecord> ReadAllJournal()
+        public IEnumerable<JournalRecord> ReadAllJournal()
         {
             var internalJournal = FiresecSerializedClient.ReadEvents(0, 100000).Result;
             if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())

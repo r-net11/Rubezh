@@ -17,7 +17,7 @@ using Firesec;
 namespace FiresecService
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true,
-		InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
+	InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public partial class FiresecService : IFiresecService, IDisposable
 	{
 		public readonly static FiresecDbConverterDataContext DataBaseContext = ConnectionManager.CreateFiresecDataContext();
@@ -29,6 +29,8 @@ namespace FiresecService
 		string _userIpAddress;
 		string _clientType;
 		public static readonly object Locker = new object();
+		FiresecSerializedClient FiresecSerializedClient;
+		FiresecManager FiresecManager = new FiresecManager();
 
 		public FiresecService()
 		{
@@ -39,8 +41,11 @@ namespace FiresecService
 		{
 			lock (Locker)
 			{
+				FiresecManager.LoadConfiguration();
+
 				var operationResult = new OperationResult<bool>();
 
+				if (false)
 				if (!FiresecManager.IsConnected)
 				{
 					operationResult.HasError = false;
@@ -59,6 +64,12 @@ namespace FiresecService
 					operationResult.Error = "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + _userIpAddress;
 					return operationResult;
 				}
+
+				//FiresecManager = new FiresecManager();
+				string oldFiresecLogin = AppSettings.OldFiresecLogin;
+				string oldFiresecPassword = AppSettings.OldFiresecPassword;
+				FiresecManager.ConnectFiresecCOMServer(oldFiresecLogin, oldFiresecPassword);
+				FiresecSerializedClient = FiresecManager.FiresecSerializedClient;
 
 				_clientType = clientType;
 
@@ -142,7 +153,8 @@ namespace FiresecService
 
 		public void ConvertJournal()
 		{
-			JournalDataConverter.Convert();
+			var journalDataConverter = new JournalDataConverter(FiresecSerializedClient);
+			journalDataConverter.Convert();
 		}
 
 		public string Ping()

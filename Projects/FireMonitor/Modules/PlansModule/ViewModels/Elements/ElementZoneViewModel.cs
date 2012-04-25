@@ -28,6 +28,8 @@ namespace PlansModule.ViewModels
             ZoneState.StateChanged += new Action(ZoneState_StateChanged);
 
             ElementZoneView = new ElementZoneView();
+			if (elementPolygonZone.PolygonPoints == null)
+				elementPolygonZone.PolygonPoints = new System.Windows.Media.PointCollection();
             foreach (var polygonPoint in elementPolygonZone.PolygonPoints)
             {
                 ElementZoneView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });

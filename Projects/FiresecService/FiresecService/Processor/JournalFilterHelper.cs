@@ -5,7 +5,14 @@ namespace FiresecService.Processor
 {
     public class JournalFilterHelper
     {
-        public static bool FilterRecord(JournalFilter journalFilter, JournalRecord journalRecord)
+		FiresecManager FiresecManager;
+
+		public JournalFilterHelper(FiresecManager firesecManager)
+		{
+			FiresecManager = firesecManager;
+		}
+
+        public bool FilterRecord(JournalFilter journalFilter, JournalRecord journalRecord)
         {
             bool result = true;
             if (journalFilter.Categories.IsNotNullOrEmpty())

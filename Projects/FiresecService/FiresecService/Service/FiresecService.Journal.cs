@@ -37,10 +37,12 @@ namespace FiresecService
             var operationResult = new OperationResult<List<JournalRecord>>();
             try
             {
+				JournalFilterHelper journalFilterHelper = new JournalFilterHelper(FiresecManager);
+
                 operationResult.Result =
                     DataBaseContext.JournalRecords.AsEnumerable().Reverse().
                     Where(journal => journalFilter.CheckDaysConstraint(journal.SystemTime)).
-                    Where(journal => JournalFilterHelper.FilterRecord(journalFilter, journal)).
+                    Where(journal => journalFilterHelper.FilterRecord(journalFilter, journal)).
                     Take(journalFilter.LastRecordsCount).ToList();
             }
             catch (Exception e)

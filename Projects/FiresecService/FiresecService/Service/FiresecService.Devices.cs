@@ -13,7 +13,8 @@ namespace FiresecService
 	{
 		void NotifyConfigurationChanged()
 		{
-			DeviceStatesConverter.Convert();
+			var deviceStatesConverter = new DeviceStatesConverter(FiresecManager);
+            deviceStatesConverter.Convert();
 			CallbackManager.OnConfigurationChanged();
 		}
 
@@ -162,7 +163,8 @@ namespace FiresecService
 
 			ConfigurationConverter.DeviceConfiguration = new DeviceConfiguration();
 			ConfigurationConverter.FiresecConfiguration = result.Result;
-			DeviceConverter.Convert();
+			var deviceConverter = new DeviceConverter(FiresecManager);
+            deviceConverter.Convert();
 			operationResult.Result = ConfigurationConverter.DeviceConfiguration;
 
 			return operationResult;
@@ -182,7 +184,8 @@ namespace FiresecService
 
 			ConfigurationConverter.DeviceConfiguration = new DeviceConfiguration();
 			ConfigurationConverter.FiresecConfiguration = result.Result;
-			DeviceConverter.Convert();
+			var deviceConverter = new DeviceConverter(FiresecManager);
+            deviceConverter.Convert();
 			operationResult.Result = ConfigurationConverter.DeviceConfiguration;
 
 			return operationResult;
@@ -257,7 +260,8 @@ namespace FiresecService
 
 		public void ResetStates(List<ResetItem> resetItems)
 		{
-			FiresecResetHelper.ResetStates(resetItems);
+			var firesecResetHelper = new FiresecResetHelper(FiresecManager);
+            firesecResetHelper.ResetStates(resetItems);
 		}
 
 		public void AddUserMessage(string message)

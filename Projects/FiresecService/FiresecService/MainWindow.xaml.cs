@@ -11,105 +11,105 @@ using Common;
 
 namespace FiresecServiceRunner
 {
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-            if (!SingleLaunchHelper.Check("FiresecService"))
-            {
-                Application.Current.Shutdown();
-                System.Environment.Exit(1);
-            }
-            Loaded += new RoutedEventHandler(MainWindow_Loaded);
-            try
-            {
-                InitializeAppSettings();
-                DirectoryInfo directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
-                Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
-                
-                var resourceService = new ResourceService();
-                resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-                _mainView.DataContext = new MainViewModel();
+	public partial class MainWindow : Window
+	{
+		public MainWindow()
+		{
+			InitializeComponent();
+			if (!SingleLaunchHelper.Check("FiresecService"))
+			{
+				Application.Current.Shutdown();
+				System.Environment.Exit(1);
+			}
+			Loaded += new RoutedEventHandler(MainWindow_Loaded);
+			try
+			{
+				InitializeAppSettings();
+				var directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
+				Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
 
-            }
-            catch (Exception e)
-            {
-                MessageBoxService.ShowException(e);
-                Application.Current.Shutdown();
-                System.Environment.Exit(1);
-            }
-            SingleLaunchHelper.KeepAlive();
-        }
+				var resourceService = new ResourceService();
+				resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+				_mainView.DataContext = new MainViewModel();
 
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.ShowInTaskbar = true;
-            this.Visibility = System.Windows.Visibility.Collapsed;
-        }
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.ShowException(e);
+				Application.Current.Shutdown();
+				System.Environment.Exit(1);
+			}
+			SingleLaunchHelper.KeepAlive();
+		}
 
-        private void OnShow(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Normal;
-            this.Visibility = System.Windows.Visibility.Visible;
-        }
+		void MainWindow_Loaded(object sender, RoutedEventArgs e)
+		{
+			this.ShowInTaskbar = true;
+			this.Visibility = System.Windows.Visibility.Collapsed;
+		}
 
-        private void OnHide(object sender, RoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-        }
+		private void OnShow(object sender, RoutedEventArgs e)
+		{
+			this.WindowState = WindowState.Normal;
+			this.Visibility = System.Windows.Visibility.Visible;
+		}
 
-        void OnClose(object sender, RoutedEventArgs e)
-        {
-            if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить сервер?") == MessageBoxResult.Yes)
-            {
-                Close();
-                Application.Current.Shutdown();
-                System.Environment.Exit(1);
-            }
-        }
+		private void OnHide(object sender, RoutedEventArgs e)
+		{
+			this.WindowState = WindowState.Minimized;
+		}
 
-        void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
-                this.DragMove();
-        }
+		void OnClose(object sender, RoutedEventArgs e)
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить сервер?") == MessageBoxResult.Yes)
+			{
+				Close();
+				Application.Current.Shutdown();
+				System.Environment.Exit(1);
+			}
+		}
 
-        void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
-            if (this.Width + e.HorizontalChange > 10)
-                this.Width += e.HorizontalChange;
-            if (this.Height + e.VerticalChange > 10)
-                this.Height += e.VerticalChange;
-        }
+		void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+				this.DragMove();
+		}
 
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
-        {
-            _notificationIcon.Dispose();
-            base.OnClosing(e);
-        }
+		void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+		{
+			if (this.Width + e.HorizontalChange > 10)
+				this.Width += e.HorizontalChange;
+			if (this.Height + e.VerticalChange > 10)
+				this.Height += e.VerticalChange;
+		}
 
-        private void Window_StateChanged(object sender, EventArgs e)
-        {
-            if (this.WindowState == WindowState.Minimized)
-            {
-                this.ShowInTaskbar = false;
-            }
-            if (this.WindowState == WindowState.Normal)
-            {
-                this.ShowInTaskbar = true;
-            }
-        }
+		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+		{
+			_notificationIcon.Dispose();
+			base.OnClosing(e);
+		}
 
-        static void InitializeAppSettings()
-        {
-            AppSettings.OldFiresecLogin = ConfigurationManager.AppSettings["OldFiresecLogin"] as string;
-            AppSettings.OldFiresecPassword = ConfigurationManager.AppSettings["OldFiresecPassword"] as string;
-            AppSettings.ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+		private void Window_StateChanged(object sender, EventArgs e)
+		{
+			if (this.WindowState == WindowState.Minimized)
+			{
+				this.ShowInTaskbar = false;
+			}
+			if (this.WindowState == WindowState.Normal)
+			{
+				this.ShowInTaskbar = true;
+			}
+		}
+
+		static void InitializeAppSettings()
+		{
+			AppSettings.OldFiresecLogin = ConfigurationManager.AppSettings["OldFiresecLogin"] as string;
+			AppSettings.OldFiresecPassword = ConfigurationManager.AppSettings["OldFiresecPassword"] as string;
+			AppSettings.ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
 			AppSettings.OverrideFiresec1Config = Convert.ToBoolean(ConfigurationManager.AppSettings["OverrideFiresec1Config"] as string);
 #if DEBUG
-            AppSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
+			AppSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
 #endif
-        }
-    }
+		}
+	}
 }

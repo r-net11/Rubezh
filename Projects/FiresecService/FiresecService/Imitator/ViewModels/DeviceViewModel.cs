@@ -8,8 +8,12 @@ namespace FiresecService.ViewModels
 {
     public class DeviceViewModel : INotifyPropertyChanged
     {
-        public DeviceViewModel(DeviceState deviceState)
+		FiresecManager FiresecManager;
+
+		public DeviceViewModel(DeviceState deviceState, FiresecManager firesecManager)
         {
+			FiresecManager = firesecManager;
+
             DeviceState = deviceState;
 
             DriverStates = new List<DeviceStateViewModel>(

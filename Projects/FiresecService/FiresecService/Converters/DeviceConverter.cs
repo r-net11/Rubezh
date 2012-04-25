@@ -7,9 +7,16 @@ using FiresecAPI.Models;
 
 namespace FiresecService.Converters
 {
-    public static class DeviceConverter
+    public class DeviceConverter
     {
-        public static void Convert()
+		FiresecManager FiresecManager;
+
+		public DeviceConverter(FiresecManager firesecManager)
+		{
+			FiresecManager = firesecManager;
+		}
+
+        public void Convert()
         {
             ConfigurationConverter.DeviceConfiguration.Devices = new List<Device>();
 
@@ -25,7 +32,7 @@ namespace FiresecService.Converters
             ConfigurationConverter.DeviceConfiguration.RootDevice = rootDevice;
         }
 
-        static void AddDevice(devType parentInnerDevice, Device parentDevice)
+        void AddDevice(devType parentInnerDevice, Device parentDevice)
         {
             if (parentInnerDevice.dev == null)
                 return;
@@ -42,7 +49,7 @@ namespace FiresecService.Converters
             }
         }
 
-        static void SetInnerDevice(Device device, devType innerDevice)
+        void SetInnerDevice(Device device, devType innerDevice)
         {
             var driverId = ConfigurationConverter.FiresecConfiguration.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
             var driverUID = new Guid(driverId);
@@ -146,7 +153,7 @@ namespace FiresecService.Converters
             }
         }
 
-        public static void ConvertBack(DeviceConfiguration deviceConfiguration)
+        public void ConvertBack(DeviceConfiguration deviceConfiguration)
         {
             ConvertDriversBack();
             var rootDevice = deviceConfiguration.RootDevice;
@@ -157,7 +164,7 @@ namespace FiresecService.Converters
             ConfigurationConverter.FiresecConfiguration.dev[0] = rootInnerDevice;
         }
 
-        static void ConvertDriversBack()
+        void ConvertDriversBack()
         {
             var drivers = new List<drvType>();
             foreach (var driver in FiresecManager.Drivers)
@@ -172,7 +179,7 @@ namespace FiresecService.Converters
             ConfigurationConverter.FiresecConfiguration.drv = drivers.ToArray();
         }
 
-        static void AddInnerDevice(Device parentDevice, devType parentInnerDevice)
+        void AddInnerDevice(Device parentDevice, devType parentInnerDevice)
         {
             var childInnerDevices = new List<devType>();
             foreach (var device in parentDevice.Children)
@@ -184,7 +191,7 @@ namespace FiresecService.Converters
             parentInnerDevice.dev = childInnerDevices.ToArray();
         }
 
-        static devType DeviceToInnerDevice(Device device)
+        devType DeviceToInnerDevice(Device device)
         {
             var innerDevice = new devType();
 
@@ -214,7 +221,7 @@ namespace FiresecService.Converters
             return innerDevice;
         }
 
-        static List<paramType> AddParameters(Device device)
+        List<paramType> AddParameters(Device device)
         {
             var parameters = new List<paramType>();
             if (device.UID != Guid.Empty)
@@ -240,7 +247,7 @@ namespace FiresecService.Converters
             return parameters;
         }
 
-        static List<dev_paramType> AddDevParameters(Device device)
+        List<dev_paramType> AddDevParameters(Device device)
         {
             var devParameters = new List<dev_paramType>();
             if (device.IsAltInterface)
@@ -255,7 +262,7 @@ namespace FiresecService.Converters
             return devParameters;
         }
 
-        static List<propType> AddProperties(Device device)
+        List<propType> AddProperties(Device device)
         {
             var propertyList = new List<propType>();
             if (device.Driver.DriverType != DriverType.Computer && device.Properties.IsNotNullOrEmpty())

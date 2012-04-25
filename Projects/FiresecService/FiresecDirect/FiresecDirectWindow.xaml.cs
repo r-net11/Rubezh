@@ -9,11 +9,14 @@ namespace FiresecDirect
         public FiresecDirectWindow()
         {
             InitializeComponent();
+			NativeFiresecClient = new Firesec.NativeFiresecClient();
         }
+
+		Firesec.NativeFiresecClient NativeFiresecClient;
 
         void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Firesec.NativeFiresecClient.Connect("adm", "");
+            NativeFiresecClient.Connect("adm", "");
         }
 
         void OnSetNewConfig(object sender, RoutedEventArgs e)
@@ -29,13 +32,13 @@ namespace FiresecDirect
             //Firesec.CoreConfig.config config = (Firesec.CoreConfig.config)serializer.Deserialize(memoryStream);
             //memoryStream.Close();
 
-            //Firesec.FiresecClient.SetNewConfig(config);
-            //Firesec.FiresecClient.DeviceWriteConfig(config, "0");
+            //FiresecClient.SetNewConfig(config);
+            //FiresecClient.DeviceWriteConfig(config, "0");
         }
 
         void OnGetCoreConfig(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.GetCoreConfig().Result;
+            textBox1.Text = NativeFiresecClient.GetCoreConfig().Result;
 
             using (var fileStream = new FileStream("D:/CoreConfig.xml", FileMode.Create))
             using (var streamWriter = new StreamWriter(fileStream))
@@ -46,7 +49,7 @@ namespace FiresecDirect
 
         void OnGetPlans(object sender, RoutedEventArgs e)
         {
-            string plans = Firesec.NativeFiresecClient.GetPlans().Result;
+            string plans = NativeFiresecClient.GetPlans().Result;
 
             using (var fileStream = new FileStream("D:/Plan.xml", FileMode.Create))
             using (var streamWriter = new StreamWriter(fileStream))
@@ -59,12 +62,12 @@ namespace FiresecDirect
 
         void OnGetCoreState(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.GetCoreState().Result;
+            textBox1.Text = NativeFiresecClient.GetCoreState().Result;
         }
 
         void OnGetMetaData(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.GetMetadata().Result;
+            textBox1.Text = NativeFiresecClient.GetMetadata().Result;
 
             using (var fileStream = new FileStream("D:/Metadata.xml", FileMode.Create))
             using (var streamWriter = new StreamWriter(fileStream))
@@ -75,12 +78,12 @@ namespace FiresecDirect
 
         void OnGetCoreDeviceParams(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.GetCoreDeviceParams().Result;
+            textBox1.Text = NativeFiresecClient.GetCoreDeviceParams().Result;
         }
 
         void OnReadEvents(object sender, RoutedEventArgs e)
         {
-            textBox1.Text = Firesec.NativeFiresecClient.ReadEvents(0, 100).Result;
+            textBox1.Text = NativeFiresecClient.ReadEvents(0, 100).Result;
         }
 
         void Button_Click_6(object sender, RoutedEventArgs e)
@@ -89,7 +92,7 @@ namespace FiresecDirect
 
         void OnBoltOpen(object sender, RoutedEventArgs e)
         {
-            Firesec.NativeFiresecClient.ExecuteCommand("0\\0\\6\\13", "BoltOpen");
+            NativeFiresecClient.ExecuteCommand("0\\0\\6\\13", "BoltOpen");
         }
 
         void OnBoltClose(object sender, RoutedEventArgs e)
@@ -110,7 +113,7 @@ namespace FiresecDirect
 
         void OnAddToIgnoreList(object sender, RoutedEventArgs e)
         {
-            Firesec.NativeFiresecClient.AddToIgnoreList(new List<string>() { "0\\0\\0\\0" });
+            NativeFiresecClient.AddToIgnoreList(new List<string>() { "0\\0\\0\\0" });
         }
 
         void OnRemoveFromIgnoreList(object sender, RoutedEventArgs e)
@@ -119,7 +122,7 @@ namespace FiresecDirect
 
         void OnAddCustomMessage(object sender, RoutedEventArgs e)
         {
-            Firesec.NativeFiresecClient.AddUserMessage("message");
+            NativeFiresecClient.AddUserMessage("message");
         }
     }
 }
