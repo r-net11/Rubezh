@@ -34,7 +34,4 @@ namespace FireAdministrator
 			VideoService.Close();
 		}
 	}
-
-
-
 }
