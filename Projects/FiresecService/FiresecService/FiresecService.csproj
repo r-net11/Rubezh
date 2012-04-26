@@ -167,7 +167,6 @@
     <Compile Include="Converters\ConfigurationManager.GuardUsersConverter.cs" />
     <Compile Include="Converters\PDUGroupLogicConverter.cs" />
     <Compile Include="Converters\ConfigurationManager.PlansConverter.cs" />
-    <Compile Include="DatabaseConverter\ConfigurationConverter.cs" />
     <Compile Include="DatabaseConverter\ConnectionManager.cs" />
     <Compile Include="DatabaseConverter\DatabaseHelper.cs" />
     <Compile Include="DatabaseConverter\JournalDataConverter.cs" />
