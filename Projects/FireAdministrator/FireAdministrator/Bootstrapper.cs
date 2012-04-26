@@ -11,10 +11,16 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using System;
+using Infrastructure.Common.Configuration;
+using System.Reflection;
+using System.IO;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace FireAdministrator
 {
-	public class Bootstrapper
+	public class Bootstrapper : BaseBootstrapper
 	{
 		public void Initialize()
 		{
@@ -48,14 +54,16 @@ namespace FireAdministrator
 
 				if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
 				{
-					MessageBoxService.Show("Нет прав на работу с программой");
-					FiresecManager.Disconnect();
+				    MessageBoxService.Show("Нет прав на работу с программой");
+				    FiresecManager.Disconnect();
 				}
 				else
 				{
 					InitializeKnownModules();
+					//var navigation = InitializeModules();
 
 					var ShellView = new ShellView();
+					//ShellView.Navigation = navigation;
 					ServiceFactory.ShellView = ShellView;
 					Application.Current.MainWindow = ShellView;
 					Application.Current.MainWindow.Show();
@@ -64,20 +72,21 @@ namespace FireAdministrator
 			}
 			else
 			{
-				preLoadWindow.Close();
-				Application.Current.Shutdown();
-				System.Environment.Exit(1);
+			    preLoadWindow.Close();
+			    Application.Current.Shutdown();
+			    System.Environment.Exit(1);
 			}
 			SingleLaunchHelper.KeepAlive();
 		}
 
-		static void RegisterServices()
+		void RegisterServices()
 		{
 			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService());
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(x => { InitializeKnownModules(); });
+			//ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(x => { InitializeModules(); });
 		}
 
-		static void InitializeKnownModules()
+		void InitializeKnownModules()
 		{
 			var devicesModule = new DevicesModule.DevicesModule();
 			var libraryModule = new LibraryModule.LibraryModule();
@@ -100,7 +109,7 @@ namespace FireAdministrator
 			}
 			if (ServiceFactory.AppSettings.ShowSKUD)
 			{
-				new SkudModule.SkudModule();
+				new SkudModule.SkudModule().Initialize();
 			}
 #endif
 			ServiceFactory.SaveService.Reset();

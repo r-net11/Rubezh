@@ -4,10 +4,12 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using SkudModule.ViewModels;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace SkudModule
 {
-	public class SkudModule
+	public class SkudModule : ModuleBase
 	{
 		private static SkudViewModel _skudViewModel;
 		private static EmployeeCardIndexViewModel _employeeCardIndexViewModel;
@@ -30,25 +32,6 @@ namespace SkudModule
 			ServiceFactory.Events.GetEvent<ShowEmployeeGroupsEvent>().Subscribe(OnShowSkudGroupsEvent);
 			ServiceFactory.Events.GetEvent<ShowEmployeePositionsEvent>().Unsubscribe(OnShowSkudPositionsEvent);
 			ServiceFactory.Events.GetEvent<ShowEmployeePositionsEvent>().Subscribe(OnShowSkudPositionsEvent);
-
-			RegisterResources();
-			CreateViewModels();
-		}
-
-		void RegisterResources()
-		{
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-		}
-
-		static void CreateViewModels()
-		{
-			_skudViewModel = new SkudViewModel();
-			_employeeCardIndexViewModel = new EmployeeCardIndexViewModel();
-			_employeeCardIndexViewModel.Initialize();
-
-			_employeeDepartmentsViewModel = new EmployeeDepartmentsViewModel();
-			_employeeGroupsViewModel = new EmployeeGroupsViewModel();
-			_employeePositionsViewModel = new EmployeePositionsViewModel();
 		}
 
 		private static void OnShowSkud(object obj)
@@ -77,5 +60,39 @@ namespace SkudModule
 			ServiceFactory.Layout.Show(_employeePositionsViewModel);
 		}
 
+		public override void Initialize()
+		{
+			_skudViewModel = new SkudViewModel();
+			_employeeCardIndexViewModel = new EmployeeCardIndexViewModel();
+			_employeeCardIndexViewModel.Initialize();
+
+			_employeeDepartmentsViewModel = new EmployeeDepartmentsViewModel();
+			_employeeGroupsViewModel = new EmployeeGroupsViewModel();
+			_employeePositionsViewModel = new EmployeePositionsViewModel();
+		}
+
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
+			{
+				new NavigationItem("СКУД", null, null, new List<NavigationItem>()
+				{
+					new NavigationItem("Картотека",null, typeof(ShowEmployeeCardIndexEvent)),
+					new NavigationItem("Пропуск",null, typeof(ShowPassCardEvent)),
+					new NavigationItem("Справочники",null, null, new List<NavigationItem>()
+					{
+						new NavigationItem("Должности",null, typeof(ShowEmployeePositionsEvent)),
+						new NavigationItem("Подразделения",null, typeof(ShowEmployeeDepartmentsEvent)),
+						new NavigationItem("Группы",null, typeof(ShowEmployeeGroupsEvent)),
+					})
+				}),
+				//new NavigationItem("СКУД1", null, null, new List<NavigationItem>()),
+				//new NavigationItem("СКУД2", null, null, new List<NavigationItem>()),
+				//new NavigationItem("СКУД3", null, null, new List<NavigationItem>()),
+				//new NavigationItem("СКУД4", null, null, new List<NavigationItem>()),
+				//new NavigationItem("СКУД5", null, null, new List<NavigationItem>()),
+				//new NavigationItem("СКУД6", null, null, new List<NavigationItem>())
+			};
+		}
 	}
 }

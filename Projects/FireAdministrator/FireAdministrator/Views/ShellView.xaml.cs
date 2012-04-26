@@ -13,6 +13,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace FireAdministrator.Views
 {
@@ -84,7 +85,14 @@ namespace FireAdministrator.Views
             set { _menu.DataContext = _menu.Content = value; }
         }
 
-        public object ValidatoinArea
+
+		//public List<NavigationItem> Navigation
+		//{
+		//    get { return _navigation.Navigation; }
+		//    set { _navigation.Navigation = value; }
+		//}
+		
+		public object ValidatoinArea
         {
             get { return _validationArea.Content; }
             set { _validationArea.DataContext = _validationArea.Content = value; }

@@ -62,6 +62,7 @@
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -80,6 +81,8 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="BaseBootstrapper.cs" />
+    <Compile Include="BaseModul.cs" />
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ShowEmployeeGroupsEvent.cs" />
     <Compile Include="Events\ShowEmployeeDepartmentsEvent.cs" />
