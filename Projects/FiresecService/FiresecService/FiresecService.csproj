@@ -412,6 +412,9 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 3.3</PostBuildEvent>
+    <PostBuildEvent>if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 3.3
+xcopy $(SolutionDir)..\Deploy\ConfigurationService $(TargetDir)Configuration\ /e /y
+xcopy $(SolutionDir)..\..\3rdParty\MSSQLCEv35\x86 $(TargetDir) /e /y
+xcopy $(SolutionDir)..\Deploy\SqlCE $(TargetDir) /e /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

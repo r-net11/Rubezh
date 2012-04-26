@@ -4,60 +4,64 @@ using FiresecService.Converters;
 
 namespace FiresecService
 {
-    public static class ConfigurationConverter
-    {
-        public static Firesec.CoreConfiguration.config FiresecConfiguration { get; set; }
-        public static DeviceConfiguration DeviceConfiguration { get; set; }
-        public static int Gid { get; set; }
+	public static class ConfigurationConverter
+	{
+		public static Firesec.CoreConfiguration.config FiresecConfiguration { get; set; }
+		public static DeviceConfiguration DeviceConfiguration { get; set; }
+		public static int Gid { get; set; }
 
-        public static void Convert()
-        {
-            FiresecConfiguration = FiresecSerializedClient.GetCoreConfig().Result;
-            ConvertConfiguration();
-            FiresecManager.DeviceConfiguration = DeviceConfiguration;
-            FiresecManager.SetValidChars();
-            FiresecManager.Update();
+		public static void Convert()
+		{
+			FiresecConfiguration = FiresecSerializedClient.GetCoreConfig().Result;
+			ConvertConfiguration();
+			FiresecManager.DeviceConfiguration = DeviceConfiguration;
+			FiresecManager.SetValidChars();
+			FiresecManager.Update();
 
-            ConfigurationFileManager.SetDeviceConfiguration(DeviceConfiguration);
+			ConfigurationFileManager.SetDeviceConfiguration(DeviceConfiguration);
 
-            var plans = FiresecSerializedClient.GetPlans().Result;
-            var plansConfiguration = PlansConverter.Convert(plans);
-            ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
-        }
+			var plans = FiresecSerializedClient.GetPlans().Result;
+			var plansConfiguration = PlansConverter.Convert(plans);
+			ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
+			//FiresecManager.PlansConfiguration = plansConfiguration;
 
-        static void ConvertConfiguration()
-        {
-            DeviceConfiguration = new DeviceConfiguration();
-            ZoneConverter.Convert();
-            DirectionConverter.Convert();
-            GuardUserConverter.Convert();
-            DeviceConverter.Convert();
-        }
+			
+			//DeviceStatesConverter.Convert();
+		}
 
-        public static void ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
-        {
-            deviceConfiguration.Update();
+		static void ConvertConfiguration()
+		{
+			DeviceConfiguration = new DeviceConfiguration();
+			ZoneConverter.Convert();
+			DirectionConverter.Convert();
+			GuardUserConverter.Convert();
+			DeviceConverter.Convert();
+		}
 
-            foreach (var device in deviceConfiguration.Devices)
-            {
-                device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-            }
+		public static void ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
+		{
+			deviceConfiguration.Update();
 
-            if (includeSecurity)
-            {
-                FiresecConfiguration = FiresecSerializedClient.GetCoreConfig().Result;
-                FiresecConfiguration.part = null;
-            }
-            else
-            {
-                FiresecConfiguration = new Firesec.CoreConfiguration.config();
-            }
+			foreach (var device in deviceConfiguration.Devices)
+			{
+				device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+			}
 
-            Gid = 0;
-            ZoneConverter.ConvertBack(deviceConfiguration);
-            DeviceConverter.ConvertBack(deviceConfiguration);
-            DirectionConverter.ConvertBack(deviceConfiguration);
-            GuardUserConverter.ConvertBack(deviceConfiguration);
-        }
-    }
+			if (includeSecurity)
+			{
+				FiresecConfiguration = FiresecSerializedClient.GetCoreConfig().Result;
+				FiresecConfiguration.part = null;
+			}
+			else
+			{
+				FiresecConfiguration = new Firesec.CoreConfiguration.config();
+			}
+
+			Gid = 0;
+			ZoneConverter.ConvertBack(deviceConfiguration);
+			DeviceConverter.ConvertBack(deviceConfiguration);
+			DirectionConverter.ConvertBack(deviceConfiguration);
+			GuardUserConverter.ConvertBack(deviceConfiguration);
+		}
+	}
 }
