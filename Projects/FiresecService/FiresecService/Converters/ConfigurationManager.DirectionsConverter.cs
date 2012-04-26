@@ -5,17 +5,17 @@ using Common;
 using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
 
-namespace FiresecService.Converters
+namespace FiresecService
 {
-    public class DirectionConverter
+	public partial class ConfigurationManager
     {
-        public static void Convert()
+		void ConvertDirections()
         {
-            ConfigurationConverter.DeviceConfiguration.Directions = new List<Direction>();
+			DeviceConfiguration.Directions = new List<Direction>();
 
-            if (ConfigurationConverter.FiresecConfiguration.part != null)
+			if (FiresecConfiguration.part != null)
             {
-                foreach (var innerDirection in ConfigurationConverter.FiresecConfiguration.part)
+				foreach (var innerDirection in FiresecConfiguration.part)
                 {
                     if (innerDirection.type == "direction")
                     {
@@ -43,25 +43,25 @@ namespace FiresecService.Converters
                             direction.DeviceButton = GuidHelper.ToGuid(buttonParameter.value);
                         }
 
-                        ConfigurationConverter.DeviceConfiguration.Directions.Add(direction);
+						DeviceConfiguration.Directions.Add(direction);
                     }
                 }
             }
         }
 
-        public static void ConvertBack(DeviceConfiguration deviceConfiguration)
+		void ConvertDirectionsBack()
         {
             var innerDirections = new List<partType>();
             int no = 0;
 
-            foreach (var direction in deviceConfiguration.Directions)
+			foreach (var direction in DeviceConfiguration.Directions)
             {
                 var innerDirection = new partType()
                 {
                     type = "direction",
                     no = no.ToString(),
                     id = direction.Id.ToString(),
-                    gid = ConfigurationConverter.Gid++.ToString(),
+					gid = Gid++.ToString(),
                     name = direction.Name
                 };
                 ++no;
@@ -104,7 +104,7 @@ namespace FiresecService.Converters
                 innerDirections.Add(innerDirection);
             }
 
-            ConfigurationConverter.FiresecConfiguration.part = innerDirections.ToArray();
+			FiresecConfiguration.part = innerDirections.ToArray();
         }
     }
 }

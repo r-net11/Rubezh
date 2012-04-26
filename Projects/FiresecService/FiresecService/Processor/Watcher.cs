@@ -17,11 +17,7 @@ namespace FiresecService
 		{
 			FiresecManager = firesecManager;
 			FiresecSerializedClient = firesecManager.FiresecSerializedClient;
-		}
 
-		public void Start(FiresecSerializedClient firesecSerializedClient)
-        {
-			FiresecSerializedClient = firesecSerializedClient;
             SetLastEvent();
             FiresecSerializedClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
             FiresecSerializedClient.Progress += new Func<int, string, int, int, bool>(FiresecInternalClient_Progress);
@@ -104,7 +100,7 @@ namespace FiresecService
             var coreParameters = FiresecSerializedClient.GetDeviceParams().Result;
             try
             {
-                foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+				foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
                 {
                     var innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == deviceState.PlaceInTree);
                     if (innerDevice != null)
@@ -149,7 +145,7 @@ namespace FiresecService
 
         void SetStates(Firesec.CoreState.config coreState)
         {
-            foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
             {
                 bool hasOneChangedState = false;
 
@@ -259,7 +255,7 @@ namespace FiresecService
             if (FiresecManager.DeviceConfigurationStates.ZoneStates == null)
                 return;
 
-            foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
+			foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
             {
                 StateType minZoneStateType = StateType.Norm;
                 foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates.

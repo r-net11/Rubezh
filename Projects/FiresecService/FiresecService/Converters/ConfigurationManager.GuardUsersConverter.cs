@@ -4,17 +4,17 @@ using System.Linq;
 using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
 
-namespace FiresecService.Converters
+namespace FiresecService
 {
-    public static class GuardUserConverter
+	public partial class ConfigurationManager
     {
-        public static void Convert()
+		void ConvertGuardUsers()
         {
-            ConfigurationConverter.DeviceConfiguration.GuardUsers = new List<GuardUser>();
+			DeviceConfiguration.GuardUsers = new List<GuardUser>();
 
-            if (ConfigurationConverter.FiresecConfiguration.part != null)
+			if (FiresecConfiguration.part != null)
             {
-                foreach (var innerGuardUser in ConfigurationConverter.FiresecConfiguration.part)
+				foreach (var innerGuardUser in FiresecConfiguration.part)
                 {
                     if (innerGuardUser.type == "guarduser")
                     {
@@ -77,25 +77,25 @@ namespace FiresecService.Converters
                             }
                         }
 
-                        ConfigurationConverter.DeviceConfiguration.GuardUsers.Add(guardUser);
+						DeviceConfiguration.GuardUsers.Add(guardUser);
                     }
                 }
             }
         }
 
-        public static void ConvertBack(DeviceConfiguration deviceConfiguration)
+		void ConvertGuardUsersBack()
         {
             var innerGuardUsers = new List<partType>();
             int no = 0;
 
-            foreach (var guardUser in deviceConfiguration.GuardUsers)
+			foreach (var guardUser in DeviceConfiguration.GuardUsers)
             {
                 var innerGuardUser = new partType()
                 {
                     type = "guarduser",
                     no = no.ToString(),
                     id = guardUser.Id.ToString(),
-                    gid = ConfigurationConverter.Gid++.ToString(),
+					gid = Gid++.ToString(),
                     name = guardUser.Name
                 };
                 ++no;
@@ -182,13 +182,13 @@ namespace FiresecService.Converters
                 innerGuardUsers.Add(innerGuardUser);
             }
 
-            var innerDirections = ConfigurationConverter.FiresecConfiguration.part.ToList();
+			var innerDirections = FiresecConfiguration.part.ToList();
             if (innerDirections != null)
             {
                 innerGuardUsers.AddRange(innerDirections);
             }
 
-            ConfigurationConverter.FiresecConfiguration.part = innerGuardUsers.ToArray();
+			FiresecConfiguration.part = innerGuardUsers.ToArray();
         }
     }
 }

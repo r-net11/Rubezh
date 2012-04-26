@@ -159,12 +159,14 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="Bootstrapper.cs" />
+    <Compile Include="Converters\ConfigurationManager.Converter.cs" />
+    <Compile Include="Converters\ConfigurationManager.cs" />
+    <Compile Include="Converters\ConfigurationManager.DevicesConverter.cs" />
     <Compile Include="Converters\DeviceCustomFunctionConverter.cs" />
-    <Compile Include="Converters\DeviceStatesConverter.cs" />
-    <Compile Include="Converters\GuardUserConverter.cs" />
+    <Compile Include="Converters\ConfigurationManager.GuardUsersConverter.cs" />
     <Compile Include="Converters\PDUGroupLogicConverter.cs" />
-    <Compile Include="Converters\PlansConverter.cs" />
-    <Compile Include="Converters\StateTypeToStringConverter.cs" />
+    <Compile Include="Converters\ConfigurationManager.PlansConverter.cs" />
     <Compile Include="DatabaseConverter\ConfigurationConverter.cs" />
     <Compile Include="DatabaseConverter\ConnectionManager.cs" />
     <Compile Include="DatabaseConverter\DatabaseHelper.cs" />
@@ -182,6 +184,7 @@
     <Compile Include="Infrastructure\UserDialogService.cs" />
     <Compile Include="Processor\ArchiveFilterHelper.cs" />
     <Compile Include="Processor\ConfigurationFileManager.cs" />
+    <Compile Include="Processor\FiresecManager.StatesConverter.cs" />
     <Compile Include="Processor\JournalFilterHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\FiresecOperationExtentions.cs" />
@@ -246,11 +249,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\DeviceConverter.cs" />
-    <Compile Include="Converters\DirectionConverter.cs" />
+    <Compile Include="Converters\ConfigurationManager.DirectionsConverter.cs" />
     <Compile Include="Converters\DriverConverter.cs" />
-    <Compile Include="Converters\JournalConverter.cs" />
-    <Compile Include="Converters\ZoneConverter.cs" />
+    <Compile Include="DatabaseConverter\JournalConverter.cs" />
+    <Compile Include="Converters\ConfigurationManager.ZonesConverter.cs" />
     <Compile Include="Converters\ZoneLogicConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

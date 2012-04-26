@@ -7,92 +7,52 @@ using System;
 
 namespace FiresecService
 {
-    public class FiresecManager
+	public partial class FiresecManager
     {
-        public List<Driver> Drivers { get; set; }
-        public DeviceConfiguration DeviceConfiguration { get; set; }
-        public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
-        public LibraryConfiguration LibraryConfiguration { get; set; }
-        public SystemConfiguration SystemConfiguration { get; set; }
-        public PlansConfiguration PlansConfiguration { get; set; }
-        public SecurityConfiguration SecurityConfiguration { get; set; }
-        public bool IsConnected { get; private set; }
-        public string DriversError { get; private set; }
+		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
+		public ConfigurationManager ConfigurationManager { get; private set; }
+		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
 
-		public FiresecSerializedClient FiresecSerializedClient;
+		public FiresecManager()
+		{
+			FiresecSerializedClient = new FiresecSerializedClient();
+			ConfigurationManager = new ConfigurationManager();
+			ConfigurationManager.FiresecSerializedClient = FiresecSerializedClient;
+		}
 
 		public void LoadConfiguration()
 		{
-			DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
-			SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
-			LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
-			SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
-			PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
+			ConfigurationManager.DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
+			ConfigurationManager.SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
+			ConfigurationManager.LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
+			ConfigurationManager.SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
+			ConfigurationManager.PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
 		}
 
-        public void ConnectFiresecCOMServer(string login, string password)
+        public bool ConnectFiresecCOMServer(string login, string password)
         {
-			FiresecSerializedClient = new FiresecSerializedClient();
-
             if (FiresecSerializedClient.Connect(login, password).Result)
             {
-                ConvertMetadataFromFiresec();
-                SetValidChars();
-                Update();
-				var deviceStatesConverter = new DeviceStatesConverter(this);
-                deviceStatesConverter.Convert();
+				ConfigurationManager.ConvertMetadataFromFiresec();
+				ConfigurationManager.SetValidChars();
+				ConfigurationManager.Update();
+				ConvertStates();
 
                 var watcher = new Watcher(this);
-				watcher.Start(FiresecSerializedClient);
-
-                IsConnected = true;
-                return;
+                return true;
             }
-            IsConnected = false;
+			return false;
         }
 
-        void ConvertMetadataFromFiresec()
-        {
-            DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
-            Drivers = new List<Driver>();
-            foreach (var innerDriver in DriverConverter.Metadata.drv)
-            {
-                var driver = DriverConverter.Convert(innerDriver);
-                if (driver == null)
-                {
-                    DriversError = "Не удается найти данные для драйвера " + innerDriver.name;
-                }
-                else
-                {
-                    if (driver.IsIgnore == false)
-                        Drivers.Add(driver);
-                }
-            }
-        }
+		public void Convert()
+		{
+			ConfigurationManager.Convert();
+		}
 
-        public void SetValidChars()
-        {
-            DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
-            var validCharsBuilder = new StringBuilder(DriverConverter.Metadata.drv.Last().validChars);
-            validCharsBuilder.Append('№');
-            DeviceConfiguration.ValidChars = validCharsBuilder.ToString();
-        }
-
-        public void Update()
-        {
-            var hasInvalidDriver = false;
-            DeviceConfiguration.Update();
-            foreach (var device in DeviceConfiguration.Devices)
-            {
-                device.Driver = Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-                if (device.Driver == null)
-                {
-                    hasInvalidDriver = true;
-                    device.Parent.Children.Remove(device);
-                }
-            }
-            if (hasInvalidDriver)
-                DeviceConfiguration.Update();
-        }
+		public Firesec.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
+		{
+			ConfigurationManager.ConvertBack(deviceConfiguration, includeSecurity);
+			return ConfigurationManager.FiresecConfiguration;
+		}
     }
 }

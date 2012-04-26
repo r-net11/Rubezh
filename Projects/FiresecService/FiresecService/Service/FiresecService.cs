@@ -31,6 +31,7 @@ namespace FiresecService
 		public static readonly object Locker = new object();
 		FiresecSerializedClient FiresecSerializedClient;
 		FiresecManager FiresecManager = new FiresecManager();
+		bool IsConnectedToComServer;
 
 		public FiresecService()
 		{
@@ -45,13 +46,6 @@ namespace FiresecService
 
 				var operationResult = new OperationResult<bool>();
 
-				if (false)
-				if (!FiresecManager.IsConnected)
-				{
-					operationResult.HasError = false;
-					operationResult.Error = "Нет соединения с ядром Firesec";
-					return operationResult;
-				}
 				if (CheckLogin(login, password) == false)
 				{
 					operationResult.HasError = true;
@@ -65,10 +59,9 @@ namespace FiresecService
 					return operationResult;
 				}
 
-				//FiresecManager = new FiresecManager();
 				string oldFiresecLogin = AppSettings.OldFiresecLogin;
 				string oldFiresecPassword = AppSettings.OldFiresecPassword;
-				FiresecManager.ConnectFiresecCOMServer(oldFiresecLogin, oldFiresecPassword);
+				IsConnectedToComServer = FiresecManager.ConnectFiresecCOMServer(oldFiresecLogin, oldFiresecPassword);
 				FiresecSerializedClient = FiresecManager.FiresecSerializedClient;
 
 				_clientType = clientType;
@@ -82,7 +75,16 @@ namespace FiresecService
 
 				FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(clientCallbackAddress);
 
-				operationResult.Result = true;
+				if (IsConnectedToComServer)
+				{
+					operationResult.Result = true;
+				}
+				else
+				{
+					operationResult.HasError = false;
+					operationResult.Error = "Нет соединения с ядром Firesec";
+					return operationResult;
+				}
 				return operationResult;
 			}
 		}
@@ -138,16 +140,16 @@ namespace FiresecService
 
 		public string GetStatus()
 		{
-			if (!string.IsNullOrEmpty(FiresecManager.DriversError))
+			if (!string.IsNullOrEmpty(FiresecManager.ConfigurationManager.DriversError))
 			{
-				return FiresecManager.DriversError;
+				return FiresecManager.ConfigurationManager.DriversError;
 			}
 			return null;
 		}
 
 		public void ConvertConfiguration()
 		{
-			ConfigurationConverter.Convert();
+			FiresecManager.Convert();
 			CallbackManager.OnConfigurationChanged();
 		}
 
@@ -181,7 +183,7 @@ namespace FiresecService
 			if (CheckHostIps("localhost"))
 				return true;
 
-			var remoteAccessPermissions = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login).RemoreAccess;
+			var remoteAccessPermissions = FiresecManager.ConfigurationManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login).RemoreAccess;
 			if (remoteAccessPermissions == null)
 				return false;
 
@@ -219,7 +221,7 @@ namespace FiresecService
 
 		bool CheckLogin(string login, string password)
 		{
-			var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login);
+			var user = FiresecManager.ConfigurationManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login);
 			if (user == null || !HashHelper.CheckPass(password, user.PasswordHash))
 				return false;
 
@@ -238,7 +240,7 @@ namespace FiresecService
 			if (addressList.Any(ip => ip.ToString() == userIp))
 				userIp = "localhost";
 
-			var user = FiresecManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin);
+			var user = FiresecManager.ConfigurationManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin);
 			_userName = user.Name + " (" + userIp + ")";
 		}
 

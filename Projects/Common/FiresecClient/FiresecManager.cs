@@ -45,6 +45,7 @@ namespace FiresecClient
 
 		public static void GetStates()
 		{
+			DeviceStates = FiresecService.GetStates();
 			UpdateStates();
 			FiresecService.Subscribe();
 			FiresecService.StartPing();

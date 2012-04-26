@@ -16,30 +16,8 @@ namespace FiresecServiceRunner
 		public MainWindow()
 		{
 			InitializeComponent();
-			if (!SingleLaunchHelper.Check("FiresecService"))
-			{
-				Application.Current.Shutdown();
-				System.Environment.Exit(1);
-			}
 			Loaded += new RoutedEventHandler(MainWindow_Loaded);
-			try
-			{
-				InitializeAppSettings();
-				var directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
-				Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
-
-				var resourceService = new ResourceService();
-				resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-				_mainView.DataContext = new MainViewModel();
-
-			}
-			catch (Exception e)
-			{
-				MessageBoxService.ShowException(e);
-				Application.Current.Shutdown();
-				System.Environment.Exit(1);
-			}
-			SingleLaunchHelper.KeepAlive();
+			_mainView.DataContext = new MainViewModel();
 		}
 
 		void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -99,17 +77,6 @@ namespace FiresecServiceRunner
 			{
 				this.ShowInTaskbar = true;
 			}
-		}
-
-		static void InitializeAppSettings()
-		{
-			AppSettings.OldFiresecLogin = ConfigurationManager.AppSettings["OldFiresecLogin"] as string;
-			AppSettings.OldFiresecPassword = ConfigurationManager.AppSettings["OldFiresecPassword"] as string;
-			AppSettings.ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
-			AppSettings.OverrideFiresec1Config = Convert.ToBoolean(ConfigurationManager.AppSettings["OverrideFiresec1Config"] as string);
-#if DEBUG
-			AppSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
-#endif
 		}
 	}
 }

@@ -6,11 +6,11 @@ using Firesec.Plans;
 using FiresecAPI.Models;
 using FiresecService.Views;
 
-namespace FiresecService.Converters
+namespace FiresecService
 {
-    public static class PlansConverter
+	public partial class ConfigurationManager
     {
-        public static PlansConfiguration Convert(surfaces innerPlans)
+		PlansConfiguration ConvertPlans(surfaces innerPlans)
         {
             var plansConfiguration = new PlansConfiguration();
 
@@ -92,7 +92,7 @@ namespace FiresecService.Converters
 
                                     long longId = long.Parse(innerElementLayer.id);
                                     int intId = (int)longId;
-                                    foreach (var zone in ConfigurationConverter.DeviceConfiguration.Zones)
+									foreach (var zone in DeviceConfiguration.Zones)
                                     {
                                         foreach (var zoneShapeId in zone.ShapeIds)
                                         {
@@ -214,7 +214,7 @@ namespace FiresecService.Converters
                                         };
                                         plan.ElementDevices.Add(elementDevice);
 
-                                        foreach (var device in ConfigurationConverter.DeviceConfiguration.Devices)
+										foreach (var device in DeviceConfiguration.Devices)
                                         {
                                             foreach (var deviceShapeId in device.ShapeIds)
                                             {

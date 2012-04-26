@@ -15,10 +15,7 @@ namespace FiresecService
 	{
 		private FiresecServiceSKUD _skud = new FiresecServiceSKUD();
 
-
 		#region IFiresecService Members
-
-
 		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
 		{
 			return _skud.GetEmployees(filter);
@@ -53,7 +50,6 @@ namespace FiresecService
 		{
 			return _skud.GetEmployeePositions();
 		}
-
 		#endregion
 	}
 }

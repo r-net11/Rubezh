@@ -27,7 +27,6 @@ namespace FiresecClient
 			SecurityConfiguration = FiresecService.GetSecurityConfiguration();
 			Drivers = FiresecService.GetDrivers();
 			DeviceConfiguration = FiresecService.GetDeviceConfiguration();
-            DeviceStates = FiresecService.GetStates();
 
 			UpdateDrivers();
 			UpdateConfiguration();
@@ -85,11 +84,6 @@ namespace FiresecClient
 					else
 					{
 						plan.ElementDevices.RemoveAt(i - 1);
-					}
-					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-					if (deviceState != null)
-					{
-						elementDevice.DeviceState = deviceState;
 					}
 				}
 
@@ -260,7 +254,7 @@ namespace FiresecClient
 			{
 				if (device.Children.Count > 0)
 				{
-				device.Children = new List<Device>(device.Children.OrderBy(x => { return x.IntAddress; }));
+					device.Children = new List<Device>(device.Children.OrderBy(x => { return x.IntAddress; }));
 				}
 			}
 		}

@@ -10,6 +10,7 @@ namespace FiresecService.ViewModels
     public class MainViewModel : BaseViewModel
     {
         public static MainViewModel Current { get; private set; }
+
         public MainViewModel()
         {
             Current = this;
@@ -23,22 +24,16 @@ namespace FiresecService.ViewModels
 
         void Start()
         {
-            //FiresecSerializedClient.Disconnect();
-
-            //string oldFiresecLogin = AppSettings.OldFiresecLogin;
-            //string oldFiresecPassword = AppSettings.OldFiresecPassword;
-            //FiresecManager.ConnectFiresecCOMServer(oldFiresecLogin, oldFiresecPassword);
-            FiresecServiceManager.Open();
+            //FiresecServiceManager.Open();
         }
 
         public RelayCommand ReloadCommand { get; private set; }
         void OnReload()
         {
-            //FiresecSerializedClient.Disconnect();
-            FiresecServiceManager.Close();
+            //FiresecServiceManager.Close();
 
             Connections = new ObservableCollection<ConnectionViewModel>();
-            Start();
+            //Start();
         }
 
         public RelayCommand ShowImitatorCommand { get; private set; }

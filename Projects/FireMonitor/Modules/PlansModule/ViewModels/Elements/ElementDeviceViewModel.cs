@@ -25,6 +25,11 @@ namespace PlansModule.ViewModels
             DisableCommand = new RelayCommand(OnDisable);
             ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
+			var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+			if (deviceState != null)
+			{
+				elementDevice.DeviceState = deviceState;
+			}
             ElementDevice = elementDevice;
             DeviceUID = elementDevice.DeviceUID;
             Device = elementDevice.Device;

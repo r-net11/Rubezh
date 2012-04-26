@@ -9,7 +9,7 @@ namespace FiresecService
         {
             lock (Locker)
             {
-                return FiresecManager.Drivers;
+				return FiresecManager.ConfigurationManager.Drivers;
             }
         }
 
@@ -17,7 +17,7 @@ namespace FiresecService
         {
             lock (Locker)
             {
-                return FiresecManager.DeviceConfigurationStates;
+				return FiresecManager.DeviceConfigurationStates;
             }
         }
 
@@ -25,7 +25,7 @@ namespace FiresecService
         {
             lock (Locker)
             {
-                return FiresecManager.DeviceConfiguration;
+				return FiresecManager.ConfigurationManager.DeviceConfiguration;
             }
         }
 
@@ -33,56 +33,56 @@ namespace FiresecService
         {
             lock (Locker)
             {
-                return FiresecManager.SecurityConfiguration;
+				return FiresecManager.ConfigurationManager.SecurityConfiguration;
             }
         }
 
         public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
         {
             ConfigurationFileManager.SetSecurityConfiguration(securityConfiguration);
-            FiresecManager.SecurityConfiguration = securityConfiguration;
+			FiresecManager.ConfigurationManager.SecurityConfiguration = securityConfiguration;
         }
 
         public SystemConfiguration GetSystemConfiguration()
         {
             lock (Locker)
             {
-                return FiresecManager.SystemConfiguration;
+				return FiresecManager.ConfigurationManager.SystemConfiguration;
             }
         }
 
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
         {
             ConfigurationFileManager.SetSystemConfiguration(systemConfiguration);
-            FiresecManager.SystemConfiguration = systemConfiguration;
+			FiresecManager.ConfigurationManager.SystemConfiguration = systemConfiguration;
         }
 
         public LibraryConfiguration GetLibraryConfiguration()
         {
             lock (Locker)
             {
-                return FiresecManager.LibraryConfiguration;
+				return FiresecManager.ConfigurationManager.LibraryConfiguration;
             }
         }
 
         public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
         {
             ConfigurationFileManager.SetLibraryConfiguration(libraryConfiguration);
-            FiresecManager.LibraryConfiguration = libraryConfiguration;
+			FiresecManager.ConfigurationManager.LibraryConfiguration = libraryConfiguration;
         }
 
         public PlansConfiguration GetPlansConfiguration()
         {
             lock (Locker)
             {
-                return FiresecManager.PlansConfiguration;
+				return FiresecManager.ConfigurationManager.PlansConfiguration;
             }
         }
 
         public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
         {
             ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
-            FiresecManager.PlansConfiguration = plansConfiguration;
+			FiresecManager.ConfigurationManager.PlansConfiguration = plansConfiguration;
         }
     }
 }

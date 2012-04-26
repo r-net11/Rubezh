@@ -20,12 +20,12 @@ namespace FiresecService.Processor
                 Device device = null;
                 if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
                 {
-                    device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
+                    device = FiresecManager.ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(
                          x => x.DatabaseId == journalRecord.DeviceDatabaseId);
                 }
                 else
                 {
-                    device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(
+                    device = FiresecManager.ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(
                            x => x.DatabaseId == journalRecord.PanelDatabaseId);
                 }
 
