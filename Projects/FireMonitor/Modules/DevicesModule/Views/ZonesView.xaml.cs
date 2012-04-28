@@ -15,7 +15,39 @@ namespace DevicesModule.Views
             _scrollViewer.PreviewMouseUp += OnMouseMiddleUp;
             _scrollViewer.PreviewMouseMove += OnMiddleMouseMove;
             _scrollViewer.MouseLeave += OnMiddleMouseLeave;
+
+			_scrollViewer.PreviewMouseWheel += new MouseWheelEventHandler(_scrollViewer_PreviewMouseWheel);
         }
+
+		void _scrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if (e.Delta > 0)
+			{
+				_scroll(e.Delta, 7);
+			}
+			if (e.Delta < 0)
+			{
+				_scroll(e.Delta, 7);
+			}
+
+		}
+
+		void _scroll(int delta, int count)
+		{
+			if (delta > 0)
+			{
+				for (int i = 0; i < count; i++)
+					_scrollViewer.LineUp();
+				return;
+			}
+
+			if (delta < 0)
+			{
+				for (int i = 0; i < count; i++)
+					_scrollViewer.LineDown();
+				return;
+			}
+		}
 
         void _zonesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

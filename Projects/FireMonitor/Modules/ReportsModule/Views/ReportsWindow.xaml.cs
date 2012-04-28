@@ -11,8 +11,10 @@ namespace ReportsModule.Views
 		{
 			InitializeComponent();
 			DataContext = this;
-			Closing += new System.ComponentModel.CancelEventHandler(ReportsWindow_Closing);
+			Closing += new System.ComponentModel.CancelEventHandler(ReportsWindow_Closing);			
 		}
+
+		
 
 		void ReportsWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{

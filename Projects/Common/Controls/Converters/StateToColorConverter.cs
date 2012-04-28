@@ -30,7 +30,7 @@ namespace Controls.Converters
                     return Brushes.Gray;
 
                 case StateType.Info:
-                    return Brushes.Blue;
+                    return Brushes.LightBlue;
 
                 case StateType.Norm:
                     return Brushes.Green;
