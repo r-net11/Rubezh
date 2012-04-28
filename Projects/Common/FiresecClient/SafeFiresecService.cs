@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.Timers;
+using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Common;
 using FiresecAPI.Models.Skud;
 
 namespace FiresecClient

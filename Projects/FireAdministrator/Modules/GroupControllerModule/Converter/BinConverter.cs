@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using GKModule.Models;
+using FiresecClient;
 using GKModule.ViewModels;
 using Infrastructure;
-using System.Text;
 using XFiresecAPI;
-using FiresecClient;
 
 namespace GKModule.Converter
 {

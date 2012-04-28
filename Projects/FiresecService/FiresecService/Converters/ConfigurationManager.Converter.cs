@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using FiresecService.Converters;
-using Firesec.CoreConfiguration;
-using Common;
 
 namespace FiresecService
 {
@@ -28,10 +25,10 @@ namespace FiresecService
 			Update();
 
 			var plans = FiresecSerializedClient.GetPlans().Result;
-			var plansConfiguration = ConvertPlans(plans);
+			PlansConfiguration = ConvertPlans(plans);
 
 			ConfigurationFileManager.SetDeviceConfiguration(DeviceConfiguration);
-			ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
+			ConfigurationFileManager.SetPlansConfiguration(PlansConfiguration);
 		}
 
 		public void ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
@@ -60,11 +57,11 @@ namespace FiresecService
 			ConvertGuardUsersBack();
 		}
 
-		public DeviceConfiguration ConvertOnlyDevices(Firesec.CoreConfiguration.config FiresecConfiguration)
+		public DeviceConfiguration ConvertOnlyDevices(Firesec.CoreConfiguration.config firesecConfiguration)
 		{
-			var deviceConfiguration = new DeviceConfiguration();
+			FiresecConfiguration = firesecConfiguration;
 			ConvertDevices();
-			return deviceConfiguration;
+			return DeviceConfiguration;
 		}
 
 		public void ConvertMetadataFromFiresec()

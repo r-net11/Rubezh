@@ -2,7 +2,7 @@
 
 namespace AlarmModule.Events
 {
-    public class ResetAlarmEvent : CompositePresentationEvent<Alarm>
+    public class AlarmRemovedEvent : CompositePresentationEvent<Alarm>
     {
     }
 }

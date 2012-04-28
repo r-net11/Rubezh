@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using Infrastructure;
 using Infrastructure.Common;
-using Common;
 
 namespace FireAdministrator
 {

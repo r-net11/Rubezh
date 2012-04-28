@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using GKModule.Models;
+﻿using System.Linq;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels

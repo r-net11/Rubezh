@@ -3,7 +3,6 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using ReportsModule.Models;
-using CrystalDecisions.CrystalReports.Engine;
 
 namespace ReportsModule.Reports
 {

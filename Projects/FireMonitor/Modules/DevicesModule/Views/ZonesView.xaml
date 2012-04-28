@@ -44,7 +44,7 @@
                                 <DataTemplate>
                                     <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
                                             Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
-                                            ToolTip="{Binding Zone.Name}"
+                                            ToolTip="{Binding Tooltip}"
                                             Command="{Binding SelectCommand}">
                                         <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                         <Button.ContextMenu>

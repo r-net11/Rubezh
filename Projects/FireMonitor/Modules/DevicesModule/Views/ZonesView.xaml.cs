@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
-using Controls;
 using System.Windows.Input;
+using Controls;
 
 namespace DevicesModule.Views
 {

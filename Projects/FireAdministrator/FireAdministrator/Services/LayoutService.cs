@@ -1,12 +1,10 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using FireAdministrator.Views;
 using Infrastructure;
 using Infrastructure.Common;
-using System.Collections.Generic;
-using System.Windows;
-using DevicesModule;
-using System.Windows.Controls;
 
 namespace FireAdministrator
 {

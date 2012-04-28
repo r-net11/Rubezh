@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;

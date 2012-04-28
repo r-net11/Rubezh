@@ -1,10 +1,10 @@
-﻿using System.Windows;
-using Infrastructure.Common;
-using Microsoft.Practices.Prism.Events;
-using FiresecClient;
-using System;
+﻿using System;
+using System.Windows;
 using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure.Common;
 using Infrastructure.Events;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure
 {

@@ -5,7 +5,6 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Converters;
-using Firesec;
 
 namespace FiresecService
 {

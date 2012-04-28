@@ -1,9 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI.Models;
-using FiresecService.Converters;
-using System;
 
 namespace FiresecService
 {
@@ -15,6 +12,16 @@ namespace FiresecService
 		public SystemConfiguration SystemConfiguration { get; set; }
 		public PlansConfiguration PlansConfiguration { get; set; }
 		public SecurityConfiguration SecurityConfiguration { get; set; }
+
+		public ConfigurationManager()
+		{
+			Drivers = new List<Driver>();
+			DeviceConfiguration = new DeviceConfiguration();
+			LibraryConfiguration = new LibraryConfiguration();
+			SystemConfiguration = new SystemConfiguration();
+			PlansConfiguration = new PlansConfiguration();
+			SecurityConfiguration = new SecurityConfiguration();
+		}
 
 		public void Update()
 		{

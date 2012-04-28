@@ -1,8 +1,7 @@
-﻿using GKModule.Models;
+﻿using GKModule.Converter;
+using GKModule.Converter.Binary;
 using Infrastructure.Common;
 using XFiresecAPI;
-using GKModule.Converter;
-using GKModule.Converter.Binary;
 
 namespace GKModule.ViewModels
 {

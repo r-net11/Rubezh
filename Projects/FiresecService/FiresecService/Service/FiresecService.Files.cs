@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Common;
 using System.IO;
+using Common;
 
 namespace FiresecService
 {

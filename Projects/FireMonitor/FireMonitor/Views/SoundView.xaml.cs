@@ -6,7 +6,6 @@ using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using System.Windows.Media.Animation;
 
 namespace FireMonitor.Views
 {

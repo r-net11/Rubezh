@@ -11,7 +11,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
 using Microsoft.Win32;
-using XFiresecAPI;
 
 namespace FireAdministrator.Views
 {
@@ -109,11 +108,9 @@ namespace FireAdministrator.Views
 
                 ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
-                //ServiceFactory.SaveService.Reset();
-                //DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
+                ServiceFactory.SaveService.Reset();
+                DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
 
-                //DevicesModule.DevicesModule.CreateViewModels();
-                //PlansModule.PlansModule.CreateViewModels();
 
                 ServiceFactory.Layout.Close();
                 ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);

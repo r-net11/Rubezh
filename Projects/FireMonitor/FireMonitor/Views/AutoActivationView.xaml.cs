@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 using FiresecAPI.Models;
@@ -61,7 +60,7 @@ namespace FireMonitor.Views
             {
                 if ((App.Current.MainWindow != null) && (App.Current.MainWindow.IsActive == false))
                 {
-                    App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
+                    //App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
                     App.Current.MainWindow.Activate();
                 }
             }

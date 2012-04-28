@@ -29,14 +29,14 @@
                 </Border>
                 <Thumb DockPanel.Dock="Bottom" DragDelta="Thumb_DragDelta" HorizontalAlignment="Right" Width="10" Height="10" Style="{DynamicResource ResizeThumbStyle}" />
 
-                <tb:TaskbarIcon x:Name="_notificationIcon" IconSource="Firesec.ico" ToolTipText='Сервер приложений ОПС "Firesec 2"'>
+                <!--<tb:TaskbarIcon x:Name="_notificationIcon" IconSource="Firesec.ico" ToolTipText='Сервер приложений ОПС "Firesec 2"'>
                     <tb:TaskbarIcon.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="Показать консоль" Click="OnShow" />
                             <MenuItem Header="Выход" Click="OnClose" />
                         </ContextMenu>
                     </tb:TaskbarIcon.ContextMenu>
-                </tb:TaskbarIcon>
+                </tb:TaskbarIcon>-->
 
                 <Views:MainView x:Name="_mainView" />
 

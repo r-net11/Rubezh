@@ -4,7 +4,6 @@ using System.IO;
 using System.ServiceModel;
 using FiresecAPI.Models;
 using XFiresecAPI;
-using FiresecAPI.Models.Skud;
 
 namespace FiresecAPI
 {

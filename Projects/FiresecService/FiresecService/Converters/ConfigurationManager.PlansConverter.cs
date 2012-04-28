@@ -4,7 +4,6 @@ using System.IO;
 using System.Windows.Media;
 using Firesec.Plans;
 using FiresecAPI.Models;
-using FiresecService.Views;
 
 namespace FiresecService
 {

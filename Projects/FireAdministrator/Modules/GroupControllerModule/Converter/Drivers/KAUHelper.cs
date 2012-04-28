@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using GKModule.Models;
-using XFiresecAPI;
 using FiresecClient;
+using XFiresecAPI;
 
 namespace GKModule.Converter
 {

@@ -3,11 +3,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Controls.MessageBox;
+using DevicesModule.Views;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using DevicesModule.Views;
 
 namespace DevicesModule.ViewModels
 {

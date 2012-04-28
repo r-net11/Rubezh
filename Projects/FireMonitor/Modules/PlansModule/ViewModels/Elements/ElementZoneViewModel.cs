@@ -9,88 +9,105 @@ using Infrastructure.Events;
 
 namespace PlansModule.ViewModels
 {
-    public class ElementZoneViewModel : BaseViewModel
-    {
-        public ElementZoneView ElementZoneView { get; private set; }
-        public ulong? ZoneNo { get; private set; }
-        public Zone Zone { get; private set; }
-        public ZoneState ZoneState { get; private set; }
+	public class ElementZoneViewModel : BaseViewModel
+	{
+		public ElementZoneView ElementZoneView { get; private set; }
+		public ulong? ZoneNo { get; private set; }
+		public Zone Zone { get; private set; }
+		public ZoneState ZoneState { get; private set; }
 
-        public ElementZoneViewModel(ElementPolygonZone elementPolygonZone)
-        {
-            ShowInTreeCommand = new RelayCommand(OnShowInTree);
-            DisableCommand = new RelayCommand(OnDisable);
-            EnableCommand = new RelayCommand(OnEnable);
+		public ElementZoneViewModel(ElementPolygonZone elementPolygonZone)
+		{
+			ShowInTreeCommand = new RelayCommand(OnShowInTree);
+			DisableAllCommand = new RelayCommand(OnDisableAll, CanDisableAll);
+			EnableAllCommand = new RelayCommand(OnEnableAll, CanEnableAll);
 
-            ZoneNo = elementPolygonZone.ZoneNo;
-            Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
-            ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
-            ZoneState.StateChanged += new Action(ZoneState_StateChanged);
+			ZoneNo = elementPolygonZone.ZoneNo;
+			Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
+			ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
+			ZoneState.StateChanged += new Action(ZoneState_StateChanged);
 
-            ElementZoneView = new ElementZoneView();
+			ElementZoneView = new ElementZoneView();
 			if (elementPolygonZone.PolygonPoints == null)
 				elementPolygonZone.PolygonPoints = new System.Windows.Media.PointCollection();
-            foreach (var polygonPoint in elementPolygonZone.PolygonPoints)
-            {
-                ElementZoneView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
-            }
-        }
+			foreach (var polygonPoint in elementPolygonZone.PolygonPoints)
+			{
+				ElementZoneView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
+			}
 
-        void ZoneState_StateChanged()
-        {
-            OnPropertyChanged("ZoneState");
-        }
+			InitializeDevices();
+		}
 
-        public string PresentationName
-        {
-            get { return "Зона " + Zone.No + "." + Zone.Name; }
-        }
+		void ZoneState_StateChanged()
+		{
+			OnPropertyChanged("ZoneState");
+		}
 
-        bool _isSelected;
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set
-            {
-                _isSelected = value;
-                ElementZoneView._polygon.StrokeThickness = value ? 1 : 0;
-                OnPropertyChanged("IsSelected");
+		public string PresentationName
+		{
+			get { return "Зона " + Zone.No + "." + Zone.Name; }
+		}
 
-                if (value)
-                    ElementZoneView.Flush();
-            }
-        }
+		bool _isSelected;
+		public bool IsSelected
+		{
+			get { return _isSelected; }
+			set
+			{
+				_isSelected = value;
+				ElementZoneView._polygon.StrokeThickness = value ? 1 : 0;
+				OnPropertyChanged("IsSelected");
 
-        List<Guid> DevicesToIgnore
-        {
-            get
-            {
-                return new List<Guid>(
-                       from device in FiresecManager.DeviceConfiguration.Devices
-                       where device.ZoneNo == ZoneNo
-                       where device.Driver.CanDisable
-                       select device.UID);
-            }
-        }
+				if (value)
+					ElementZoneView.Flush();
+			}
+		}
 
-        public RelayCommand ShowInTreeCommand { get; private set; }
-        void OnShowInTree()
-        {
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(ZoneNo);
-        }
+		void InitializeDevices()
+		{
+			deviceUIDs = new List<Guid>();
+			deviceStates = new List<DeviceState>();
+			foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
+			{
+				if ((deviceState.Device.ZoneNo == ZoneNo) && (deviceState.Device.Driver.CanDisable))
+				{
+					deviceUIDs.Add(deviceState.UID);
+					deviceStates.Add(deviceState);
+				}
+			}
+		}
 
-        public RelayCommand DisableCommand { get; private set; }
-        void OnDisable()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-                FiresecManager.FiresecService.AddToIgnoreList(DevicesToIgnore);
-        }
+		List<Guid> deviceUIDs;
+		List<DeviceState> deviceStates;
 
-        public RelayCommand EnableCommand { get; private set; }
-        void OnEnable()
-        {
-            if (ServiceFactory.SecurityService.Validate())
-                FiresecManager.FiresecService.RemoveFromIgnoreList(DevicesToIgnore);
-        }
-    }
+		public RelayCommand ShowInTreeCommand { get; private set; }
+		void OnShowInTree()
+		{
+			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(ZoneNo);
+		}
+
+		bool CanDisableAll()
+		{
+			return deviceStates.Any(x => !x.IsDisabled);
+		}
+
+		public RelayCommand DisableAllCommand { get; private set; }
+		void OnDisableAll()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+				FiresecManager.FiresecService.AddToIgnoreList(deviceUIDs);
+		}
+
+		bool CanEnableAll()
+		{
+			return deviceStates.Any(x => x.IsDisabled);
+		}
+
+		public RelayCommand EnableAllCommand { get; private set; }
+		void OnEnableAll()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+				FiresecManager.FiresecService.RemoveFromIgnoreList(deviceUIDs);
+		}
+	}
 }

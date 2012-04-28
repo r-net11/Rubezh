@@ -1,5 +1,4 @@
-﻿using System.Configuration;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using Common;
 using Controls.MessageBox;
@@ -10,13 +9,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using System;
-using Infrastructure.Common.Configuration;
-using System.Reflection;
-using System.IO;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using Infrastructure.Common.Navigation;
 
 namespace FireAdministrator
 {
@@ -83,7 +75,6 @@ namespace FireAdministrator
 		{
 			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService());
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(x => { InitializeKnownModules(); });
-			//ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(x => { InitializeModules(); });
 		}
 
 		void InitializeKnownModules()

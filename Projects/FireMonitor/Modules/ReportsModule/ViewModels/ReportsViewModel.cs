@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using Common;
+using CrystalDecisions.CrystalReports.Engine;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using JournalModule.ViewModels;
 using ReportsModule.Reports;
 using SAPBusinessObjects.WPF.Viewer;
-using CrystalDecisions.CrystalReports.Engine;
-using FiresecClient;
-using System.Threading;
-using System.Diagnostics;
-using Common;
 
 namespace ReportsModule.ViewModels
 {

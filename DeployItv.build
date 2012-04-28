@@ -4,13 +4,13 @@
   <property name="intellectFolder" value="..\ItvIntegration"/>
 
   <target name="run">
-    <call target="Compile" />
+    <call target="BuildServer" />
     <call target="Clean" />
     <call target="Copy" />
     <call target="CompileItv" />
   </target>
 
-  <target name="Compile">
+  <target name="BuildServer">
     <msbuild project="Projects\FiresecService\FiresecService.sln">
       <property name="Configuration" value="Release"/>
     </msbuild>
@@ -26,12 +26,6 @@
   <target name="Copy">
     <copy todir="${intellectFolder}\Server">
       <fileset basedir="Projects\FiresecService\FiresecService\bin\Release">
-        <include name="*" />
-      </fileset>
-    </copy>
-
-    <copy todir="${intellectFolder}\Server\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="Projects\Deploy\Configuration">
         <include name="**\*" />
       </fileset>
     </copy>
@@ -71,14 +65,6 @@
     <msbuild project="Projects\ITV\ItvIntegration.sln">
       <property name="Configuration" value="Debug"/>
     </msbuild>
-  </target>
-
-  <target name="CopyBack">
-    <copy todir="Projects\ITV" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="${intellectFolder}\Projects\ITV">
-        <include name="**\*" />
-      </fileset>
-    </copy>
   </target>
 
 </project>

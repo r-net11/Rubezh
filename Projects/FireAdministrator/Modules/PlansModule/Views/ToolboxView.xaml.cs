@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using FiresecAPI.Models;
 using PlansModule.ViewModels;
-using Common;
 
 namespace PlansModule.Views
 {

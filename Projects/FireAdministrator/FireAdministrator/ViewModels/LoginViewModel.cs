@@ -1,10 +1,7 @@
-﻿using System.Configuration;
-using Controls.MessageBox;
+﻿using Controls.MessageBox;
 using FiresecClient;
-using Infrastructure.Common;
-using System;
 using Infrastructure;
-using Common;
+using Infrastructure.Common;
 
 namespace FireAdministrator.ViewModels
 {

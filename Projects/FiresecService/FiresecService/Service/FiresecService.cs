@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.ServiceModel;
@@ -10,9 +8,6 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.DatabaseConverter;
 using FiresecService.ViewModels;
-using FiresecService.Views;
-using System.ServiceModel.Description;
-using Firesec;
 
 namespace FiresecService
 {
@@ -30,12 +25,23 @@ namespace FiresecService
 		string _clientType;
 		public static readonly object Locker = new object();
 		FiresecSerializedClient FiresecSerializedClient;
-		FiresecManager FiresecManager = new FiresecManager();
+		public FiresecManager FiresecManager { get; private set; }
 		bool IsConnectedToComServer;
 
 		public FiresecService()
 		{
 			UID = Guid.NewGuid();
+			FiresecManager = new FiresecManager();
+		}
+
+		public void BeginOperation(string operationName)
+		{
+			MainViewModel.Current.UpdateCurrentOperationName(UID, operationName);
+		}
+
+		public void EndOperation()
+		{
+			MainViewModel.Current.UpdateCurrentOperationName(UID, "");
 		}
 
 		public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string login, string password)
@@ -66,7 +72,7 @@ namespace FiresecService
 
 				_clientType = clientType;
 
-				MainViewModel.Current.AddConnection(UID, _userLogin, _userIpAddress, _clientType);
+				MainViewModel.Current.AddConnection(this, UID, _userLogin, _userIpAddress, _clientType);
 
 				DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
 
@@ -107,8 +113,6 @@ namespace FiresecService
 				return operationResult;
 			}
 
-			var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == UID);
-			connectionViewModel.UserName = login;
 			MainViewModel.Current.EditConnection(UID, login);
 
 			DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал");

@@ -1,11 +1,11 @@
 ﻿using System.IO;
 using System.Windows;
 using Controls.MessageBox;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Microsoft.Win32;
-using FiresecAPI;
 
 namespace DevicesModule.ViewModels
 {

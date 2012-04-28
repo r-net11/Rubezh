@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using CrystalDecisions.CrystalReports.Engine;
-using FiresecAPI.Models;
 using FiresecClient;
-using SAPBusinessObjects.WPF.Viewer;
 
 namespace ReportsModule.Reports
 {

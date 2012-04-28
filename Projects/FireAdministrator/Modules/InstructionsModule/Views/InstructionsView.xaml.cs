@@ -1,7 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using InstructionsModule.ViewModels;
+﻿using System.Windows.Controls;
 
 namespace InstructionsModule.Views
 {

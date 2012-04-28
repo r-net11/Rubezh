@@ -9,8 +9,8 @@
             <Polygon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Показать в дереве" Command="{Binding ShowInTreeCommand}" />
-                    <MenuItem Header="Отключить все устройства в зоне" Command="{Binding DisableCommand}" />
-                    <MenuItem Header="Включить все устройства в зоне" Command="{Binding EnableCommand}" />
+                    <MenuItem Header="Отключить все устройства в зоне" Command="{Binding DisableAllCommand}" />
+                    <MenuItem Header="Включить все устройства в зоне" Command="{Binding EnableAllCommand}" />
                 </ContextMenu>
             </Polygon.ContextMenu>
         </Polygon>

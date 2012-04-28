@@ -24,8 +24,8 @@
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Время" Binding="{Binding Time}" Width="100" />
                 <DataGridTextColumn Header="Источник" Binding="{Binding Source}" Width="100" />
-                <DataGridTextColumn Header="Описание" Binding="{Binding Alarm.StateName}" Width="300" />
-                <DataGridTemplateColumn Header="Действия" Width="*">
+                <DataGridTextColumn Header="Описание" Binding="{Binding Alarm.StateName}" Width="*" />
+                <DataGridTemplateColumn Header="Действия">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -42,7 +42,7 @@
                             <ContextMenu>
                                 <MenuItem Header="Подтвердить" Command="{Binding ConfirmCommand}" Visibility="{Binding MustConfirm, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
                                 <MenuItem Header="Сбросить" Command="{Binding ResetCommand}"  Visibility="{Binding CanReset, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-                                <MenuItem Header="Убрать из обхода" Command="{Binding RemoveFromIgnoreListCommand}" Visibility="{Binding CanRemoveFromIgnoreList, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <MenuItem Header="Включить" Command="{Binding RemoveFromIgnoreListCommand}" Visibility="{Binding CanRemoveFromIgnoreList, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
                                 <Separator />
                                 <MenuItem Header="Просмотр на плане" Command="{Binding ShowOnPlanCommand}" Margin="2" />
                                 <MenuItem Header="Устройство в дереве" Command="{Binding ShowDeviceCommand}" Margin="2" />

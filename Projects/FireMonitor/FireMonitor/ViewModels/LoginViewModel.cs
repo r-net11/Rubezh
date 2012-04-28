@@ -2,8 +2,8 @@
 using Common;
 using Controls.MessageBox;
 using FiresecClient;
-using Infrastructure.Common;
 using Infrastructure;
+using Infrastructure.Common;
 
 namespace FireMonitor.ViewModels
 {

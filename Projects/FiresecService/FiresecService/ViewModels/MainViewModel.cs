@@ -1,111 +1,118 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.ObjectModel;
-using System.Configuration;
+using System.Linq;
 using FiresecService.Infrastructure;
 using Infrastructure.Common;
 
 namespace FiresecService.ViewModels
 {
-    public class MainViewModel : BaseViewModel
-    {
-        public static MainViewModel Current { get; private set; }
+	public class MainViewModel : BaseViewModel
+	{
+		public static MainViewModel Current { get; private set; }
 
-        public MainViewModel()
-        {
-            Current = this;
+		public MainViewModel()
+		{
+			Current = this;
 
-            ShowImitatorCommand = new RelayCommand(OnShowImitator);
-            ReloadCommand = new RelayCommand(OnReload);
-            Connections = new ObservableCollection<ConnectionViewModel>();
+			ShowImitatorCommand = new RelayCommand(OnShowImitator);
+			ReloadCommand = new RelayCommand(OnReload);
+			Connections = new ObservableCollection<ConnectionViewModel>();
+		}
 
-            Start();
-        }
+		public RelayCommand ReloadCommand { get; private set; }
+		void OnReload()
+		{
+			Connections = new ObservableCollection<ConnectionViewModel>();
+		}
 
-        void Start()
-        {
-            //FiresecServiceManager.Open();
-        }
+		public RelayCommand ShowImitatorCommand { get; private set; }
+		void OnShowImitator()
+		{
+			foreach (var connection in Connections)
+			{
+				if (connection.ClientType == "ITV")
+				{
+					var imitatorViewModel = new ImitatorViewModel(connection.FiresecService.FiresecManager);
+					UserDialogService.ShowModalWindow(imitatorViewModel);
+					break;
+				}
+			}
+		}
 
-        public RelayCommand ReloadCommand { get; private set; }
-        void OnReload()
-        {
-            //FiresecServiceManager.Close();
+		public string Satus { get; set; }
 
-            Connections = new ObservableCollection<ConnectionViewModel>();
-            //Start();
-        }
+		public bool IsDebug
+		{
+			get { return AppSettings.IsDebug; }
+		}
 
-        public RelayCommand ShowImitatorCommand { get; private set; }
-        void OnShowImitator()
-        {
-            UserDialogService.ShowModalWindow(new ImitatorViewModel(null));
-        }
+		public ObservableCollection<ConnectionViewModel> Connections { get; private set; }
 
-        public string FiresecConnectionSatus
-        {
-            get
-            {
-                //if (FiresecManager.IsConnected)
-				if (true)
-                    return "Соединение с сервером Firesec установленно";
-                else
-                    return "Соединение с сервером Firesec НЕ установленно";
-            }
-        }
+		ConnectionViewModel _selectedConnection;
+		public ConnectionViewModel SelectedConnection
+		{
+			get { return _selectedConnection; }
+			set
+			{
+				_selectedConnection = value;
+				OnPropertyChanged("SelectedConnection");
+			}
+		}
 
-        public bool IsDebug
-        {
-            get { return AppSettings.IsDebug; }
-        }
+		public void AddConnection(FiresecService firesecService, Guid uid, string userLogin, string userIpAddress, string clientType)
+		{
+			Dispatcher.Invoke(new Action(
+			delegate()
+			{
+				var connectionViewModel = new ConnectionViewModel()
+				{
+					FiresecService = firesecService,
+					UID = uid,
+					UserName = userLogin,
+					IpAddress = userIpAddress,
+					ClientType = clientType,
+					ConnectionDate = DateTime.Now
+				};
+				Connections.Add(connectionViewModel);
+			}
+			));
+		}
 
-        public ObservableCollection<ConnectionViewModel> Connections { get; private set; }
+		public void RemoveConnection(Guid uid)
+		{
+			Dispatcher.Invoke(new Action(
+			delegate()
+			{
+				var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == uid);
+				Connections.Remove(connectionViewModel);
+			}
+			));
+		}
 
-        ConnectionViewModel _selectedConnection;
-        public ConnectionViewModel SelectedConnection
-        {
-            get { return _selectedConnection; }
-            set
-            {
-                _selectedConnection = value;
-                OnPropertyChanged("SelectedConnection");
-            }
-        }
+		public void EditConnection(Guid uid, string userName)
+		{
+			Dispatcher.Invoke(new Action(
+			delegate()
+			{
+				var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == uid);
+				connectionViewModel.ConnectionDate = DateTime.Now;
+				connectionViewModel.UserName = userName;
+			}
+			));
+		}
 
-        public void AddConnection(Guid uid, string userLogin, string userIpAddress, string clientType)
-        {
-            var connectionViewModel = new ConnectionViewModel()
-            {
-                UID = uid,
-                UserName = userLogin,
-                IpAddress = userIpAddress,
-                ClientType = clientType,
-                ConnectionDate = DateTime.Now
-            };
-            Connections.Add(connectionViewModel);
-        }
-
-        public void RemoveConnection(Guid uid)
-        {
-            Dispatcher.Invoke(new Action(
-            delegate()
-            {
-                var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == uid);
-                Connections.Remove(connectionViewModel);
-            }
-            ));
-        }
-
-        public void EditConnection(Guid uid, string userName)
-        {
-            Dispatcher.Invoke(new Action(
-            delegate()
-            {
-                var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == uid);
-                connectionViewModel.ConnectionDate = DateTime.Now;
-                connectionViewModel.UserName = userName;
-            }
-            ));
-        }
-    }
+		public void UpdateCurrentOperationName(Guid uid, string operationName)
+		{
+			Dispatcher.Invoke(new Action(
+			delegate()
+			{
+				var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == uid);
+				if (connectionViewModel != null)
+				{
+					connectionViewModel.CurrentOperationName = operationName;
+				}
+			}
+			));
+		}
+	}
 }

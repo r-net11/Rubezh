@@ -7,27 +7,17 @@ using Infrastructure.Common;
 
 namespace AlarmModule.ViewModels
 {
-    public class AlarmGroupListViewModel : RegionViewModel
-    {
-        public AlarmGroupListViewModel()
-        {
-            AlarmGroups = new List<AlarmGroupViewModel>();
-            foreach (AlarmType alarmType in Enum.GetValues(typeof(AlarmType)))
-            {
-                AlarmGroups.Add(new AlarmGroupViewModel() { AlarmType = alarmType });
-            }
+	public class AlarmGroupListViewModel : RegionViewModel
+	{
+		public AlarmGroupListViewModel()
+		{
+			AlarmGroups = new List<AlarmGroupViewModel>();
+			foreach (AlarmType alarmType in Enum.GetValues(typeof(AlarmType)))
+			{
+				AlarmGroups.Add(new AlarmGroupViewModel() { AlarmType = alarmType });
+			}
+		}
 
-            ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Subscribe(OnShowAllAlarms);
-        }
-
-        public List<AlarmGroupViewModel> AlarmGroups { get; set; }
-
-        void OnShowAllAlarms(object obj)
-        {
-            var alarms = new List<Alarm>();
-            AlarmGroups.ForEach(x => alarms.AddRange(x.Alarms));
-
-            ServiceFactory.Layout.Show(new AlarmsViewModel(alarms, null));
-        }
-    }
+		public List<AlarmGroupViewModel> AlarmGroups { get; private set; }
+	}
 }

@@ -1,7 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using Common;
-using System.Windows;
 
 namespace SoundsModule.Views
 {

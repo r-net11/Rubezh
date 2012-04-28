@@ -1,7 +1,7 @@
-﻿using GKModule.ViewModels;
-using Infrastructure.Common;
-using GKModule.Converter;
+﻿using GKModule.Converter;
+using GKModule.ViewModels;
 using Infrastructure;
+using Infrastructure.Common;
 
 namespace GKModule.Models
 {

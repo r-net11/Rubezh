@@ -1,10 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using Firesec.Groups;
 using Firesec.IndicatorsLogic;
 using Firesec.ZonesLogic;
-using System;
 
 namespace FiresecService
 {

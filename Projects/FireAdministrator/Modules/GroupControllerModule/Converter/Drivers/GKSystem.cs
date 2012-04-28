@@ -1,5 +1,4 @@
 ﻿using System;
-using GKModule.Models;
 using XFiresecAPI;
 
 namespace GKModule.Converter

@@ -1,5 +1,4 @@
-﻿using GKModule.Models;
-using Infrastructure.Common;
+﻿using Infrastructure.Common;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.ServiceModel;
-using System.Threading;
-using Common;
 using System.Net;
-using System.Net.Sockets;
 using System.Net.NetworkInformation;
+using System.Threading;
 
 namespace FiresecClient
 {

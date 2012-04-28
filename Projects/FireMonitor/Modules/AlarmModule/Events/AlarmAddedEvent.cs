@@ -2,7 +2,7 @@
 
 namespace AlarmModule.Events
 {
-    public class AlarmAddedEvent : CompositePresentationEvent<Alarm>
-    {
-    }
+	public class AlarmAddedEvent : CompositePresentationEvent<Alarm>
+	{
+	}
 }

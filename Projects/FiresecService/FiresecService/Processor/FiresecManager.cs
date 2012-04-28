@@ -1,14 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
-using FiresecService.Converters;
-using System;
+﻿using FiresecAPI.Models;
 
 namespace FiresecService
 {
 	public partial class FiresecManager
-    {
+	{
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationManager ConfigurationManager { get; private set; }
 		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
@@ -29,20 +24,20 @@ namespace FiresecService
 			ConfigurationManager.PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
 		}
 
-        public bool ConnectFiresecCOMServer(string login, string password)
-        {
-            if (FiresecSerializedClient.Connect(login, password).Result)
-            {
+		public bool ConnectFiresecCOMServer(string login, string password)
+		{
+			if (FiresecSerializedClient.Connect(login, password).Result)
+			{
 				ConfigurationManager.ConvertMetadataFromFiresec();
 				ConfigurationManager.SetValidChars();
 				ConfigurationManager.Update();
 				ConvertStates();
 
-                var watcher = new Watcher(this);
-                return true;
-            }
+				var watcher = new Watcher(this);
+				return true;
+			}
 			return false;
-        }
+		}
 
 		public void Convert()
 		{
@@ -54,5 +49,5 @@ namespace FiresecService
 			ConfigurationManager.ConvertBack(deviceConfiguration, includeSecurity);
 			return ConfigurationManager.FiresecConfiguration;
 		}
-    }
+	}
 }

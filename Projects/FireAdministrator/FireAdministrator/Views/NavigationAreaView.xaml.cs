@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Controls;
+using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
-using System.Configuration;
-using FiresecClient;
-using FiresecAPI.Models;
 
 namespace FireAdministrator.Views
 {

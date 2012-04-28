@@ -1,13 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using FiresecService;
-using FiresecService.ViewModels;
-using Infrastructure.Common;
 using Controls.MessageBox;
-using System.Configuration;
-using System.Diagnostics;
-using Common;
+using FiresecService;
 
 namespace FiresecServiceRunner
 {
@@ -17,7 +12,26 @@ namespace FiresecServiceRunner
 		{
 			InitializeComponent();
 			Loaded += new RoutedEventHandler(MainWindow_Loaded);
-			_mainView.DataContext = new MainViewModel();
+			CreateNotificationIcon();
+		}
+
+		void CreateNotificationIcon()
+		{
+			var notifyIcon = new System.Windows.Forms.NotifyIcon();
+			Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/FiresecService;component/Firesec.ico")).Stream;
+			notifyIcon.Icon = new System.Drawing.Icon(iconStream);
+			notifyIcon.Visible = true;
+
+			notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
+			var menuItem1 = new System.Windows.Forms.MenuItem();
+			menuItem1.Text = "Показать консоль";
+			menuItem1.Click += new EventHandler(OnShow);
+			notifyIcon.ContextMenu.MenuItems.Add(menuItem1);
+
+			var menuItem2 = new System.Windows.Forms.MenuItem();
+			menuItem2.Text = "Выход";
+			menuItem2.Click += new EventHandler(OnClose);
+			notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
 		}
 
 		void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -26,7 +40,7 @@ namespace FiresecServiceRunner
 			this.Visibility = System.Windows.Visibility.Collapsed;
 		}
 
-		private void OnShow(object sender, RoutedEventArgs e)
+		private void OnShow(object sender, EventArgs e)
 		{
 			this.WindowState = WindowState.Normal;
 			this.Visibility = System.Windows.Visibility.Visible;
@@ -37,13 +51,12 @@ namespace FiresecServiceRunner
 			this.WindowState = WindowState.Minimized;
 		}
 
-		void OnClose(object sender, RoutedEventArgs e)
+		void OnClose(object sender, EventArgs e)
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить сервер?") == MessageBoxResult.Yes)
 			{
 				Close();
-				Application.Current.Shutdown();
-				System.Environment.Exit(1);
+				Bootstrapper.Close();
 			}
 		}
 
@@ -63,7 +76,7 @@ namespace FiresecServiceRunner
 
 		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
 		{
-			_notificationIcon.Dispose();
+			//_notificationIcon.Dispose();
 			base.OnClosing(e);
 		}
 

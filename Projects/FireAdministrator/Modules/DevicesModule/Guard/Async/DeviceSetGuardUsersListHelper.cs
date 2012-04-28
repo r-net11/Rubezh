@@ -1,8 +1,8 @@
 ﻿using Controls.MessageBox;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using FiresecAPI;
 
 namespace DevicesModule.Guard
 {

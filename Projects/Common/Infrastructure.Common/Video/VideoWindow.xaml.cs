@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Vlc.DotNet.Core;
 using Vlc.DotNet.Core.Medias;
 using Vlc.DotNet.Forms;
 

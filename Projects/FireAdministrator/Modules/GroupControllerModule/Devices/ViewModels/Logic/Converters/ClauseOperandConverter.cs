@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Data;
-using GKModule.Models;
 using FiresecAPI.Models;
 using XFiresecAPI;
 

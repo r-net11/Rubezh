@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using FiresecAPI.Models;
+﻿using Infrastructure;
 using Infrastructure.Common;
-using System.Collections.ObjectModel;
-using FiresecClient;
-using Infrastructure;
 
 namespace SkudModule.ViewModels
 {

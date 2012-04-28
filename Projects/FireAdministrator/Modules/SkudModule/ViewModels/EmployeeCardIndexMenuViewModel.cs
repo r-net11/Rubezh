@@ -1,5 +1,4 @@
-﻿using Infrastructure.Common;
-
+﻿
 namespace SkudModule.ViewModels
 {
     public class EmployeeCardIndexMenuViewModel

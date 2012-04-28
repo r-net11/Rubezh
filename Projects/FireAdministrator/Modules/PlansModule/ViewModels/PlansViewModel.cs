@@ -7,7 +7,6 @@ using Infrastructure.Common;
 using PlansModule.Designer;
 using PlansModule.Events;
 using PlansModule.Views;
-using Common;
 
 namespace PlansModule.ViewModels
 {

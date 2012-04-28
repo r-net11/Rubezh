@@ -49,7 +49,7 @@ namespace DevicesModule.ViewModels
                 _selectedDevice = value;
                 if (value != null)
                     value.ExpantToThis();
-                OnPropertyChanged("SelectedDevice");
+				OnPropertyChanged("SelectedDevice");
             }
         }
 

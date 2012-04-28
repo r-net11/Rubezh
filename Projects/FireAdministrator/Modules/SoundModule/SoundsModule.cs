@@ -2,7 +2,6 @@
 using Infrastructure.Common;
 using Infrastructure.Events;
 using SoundsModule.ViewModels;
-using SoundsModule.Views;
 
 namespace SoundsModule
 {

@@ -7,7 +7,6 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
-using ReportsModule;
 
 namespace FireMonitor.Views
 {

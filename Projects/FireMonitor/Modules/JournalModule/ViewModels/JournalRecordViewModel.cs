@@ -4,8 +4,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using System.IO;
-using System.Text;
 
 namespace JournalModule.ViewModels
 {

@@ -6,7 +6,7 @@
     <Grid.ContextMenu>
         <ContextMenu>
             <MenuItem Header="Показать в дереве" Command="{Binding ShowInTreeCommand}" />
-            <MenuItem Header="{Binding IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
+            <MenuItem Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
             <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
         </ContextMenu>
     </Grid.ContextMenu>

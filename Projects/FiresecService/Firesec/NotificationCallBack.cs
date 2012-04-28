@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-using System;
+﻿using System;
+using System.Diagnostics;
 namespace Firesec
 {
     public class NotificationCallBack : FS_Types.IFS_CallBack

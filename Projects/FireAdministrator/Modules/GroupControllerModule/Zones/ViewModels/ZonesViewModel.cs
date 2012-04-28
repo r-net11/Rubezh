@@ -2,11 +2,9 @@
 using System.Linq;
 using System.Windows;
 using Controls.MessageBox;
-using GKModule.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using XFiresecAPI;
-using FiresecClient;
 
 namespace GKModule.ViewModels
 {

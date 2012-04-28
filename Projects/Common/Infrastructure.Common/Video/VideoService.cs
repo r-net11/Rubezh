@@ -1,5 +1,5 @@
-﻿using Vlc.DotNet.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Vlc.DotNet.Core;
 
 namespace Infrastructure.Common
 {

@@ -1,7 +1,6 @@
 ﻿using GKModule.Converter.Binary;
-using Infrastructure.Common;
-using XFiresecAPI;
 using GKModule.ViewModels;
+using Infrastructure.Common;
 
 namespace GKModule.Converter
 {

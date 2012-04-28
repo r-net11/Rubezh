@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Firesec;
 using FiresecAPI.Models;
 using FiresecService.Converters;
-using System.Diagnostics;
 
 namespace FiresecService
 {

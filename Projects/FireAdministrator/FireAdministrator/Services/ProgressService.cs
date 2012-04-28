@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Threading;
+using Common;
 using FireAdministrator.ViewModels;
 using Infrastructure;
-using Common;
 
 namespace FireAdministrator
 {

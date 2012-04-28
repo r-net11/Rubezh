@@ -3,22 +3,34 @@ using Infrastructure.Common;
 
 namespace FiresecService.ViewModels
 {
-    public class ConnectionViewModel : BaseViewModel
-    {
-        public Guid UID { get; set; }
-        public string IpAddress { get; set; }
-        public string ClientType { get; set; }
-        public DateTime ConnectionDate { get; set; }
+	public class ConnectionViewModel : BaseViewModel
+	{
+		public FiresecService FiresecService { get; set; }
+		public Guid UID { get; set; }
+		public string IpAddress { get; set; }
+		public string ClientType { get; set; }
+		public DateTime ConnectionDate { get; set; }
 
-        string _userName;
-        public string UserName
-        {
-            get { return _userName; }
-            set
-            {
-                _userName = value;
-                OnPropertyChanged("UserName");
-            }
-        }
-    }
+		string _userName;
+		public string UserName
+		{
+			get { return _userName; }
+			set
+			{
+				_userName = value;
+				OnPropertyChanged("UserName");
+			}
+		}
+
+		string _currentOperationName;
+		public string CurrentOperationName
+		{
+			get { return _currentOperationName; }
+			set
+			{
+				_currentOperationName = value;
+				OnPropertyChanged("CurrentOperationName");
+			}
+		}
+	}
 }

@@ -1,11 +1,10 @@
-﻿using Infrastructure;
+﻿using System;
+using System.ComponentModel;
+using System.Windows;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using ReportsModule.ViewModels;
-using FiresecAPI.Models;
-using System.ComponentModel;
-using System;
-using System.Windows;
 using ReportsModule.Views;
 
 namespace ReportsModule

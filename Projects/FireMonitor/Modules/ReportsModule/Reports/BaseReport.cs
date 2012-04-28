@@ -1,5 +1,4 @@
-﻿using SAPBusinessObjects.WPF.Viewer;
-using CrystalDecisions.CrystalReports.Engine;
+﻿using CrystalDecisions.CrystalReports.Engine;
 
 namespace ReportsModule.Reports
 {
