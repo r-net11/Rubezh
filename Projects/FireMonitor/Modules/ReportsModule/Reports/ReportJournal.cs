@@ -25,6 +25,7 @@ namespace ReportsModule.Reports
 
         public override void LoadData()
         {
+			DataList = new List<ReportJournalModel>();
             foreach (var journalRecord in ReportArchiveFilter.JournalRecords)
             {
                 DataList.Add(new ReportJournalModel()

@@ -21,7 +21,7 @@ namespace JournalModule.Converters
                     return Brushes.Pink;
 
                 case StateType.Service:
-                    return Brushes.LightYellow;
+                    return Brushes.LightGreen;
 
                 case StateType.Off:
                     return Brushes.LightYellow;
