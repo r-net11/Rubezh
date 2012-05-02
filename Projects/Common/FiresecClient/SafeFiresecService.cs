@@ -278,9 +278,14 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return _iFiresecService.GetFilteredArchive(archiveFilter); });
 		}
 
-		public OperationResult<List<JournalRecord>> GetDistinctRecords()
+		public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()
 		{
-			return SafeOperationCall(() => { return _iFiresecService.GetDistinctRecords(); });
+			return SafeOperationCall(() => { return _iFiresecService.GetDistinctDescriptions(); });
+		}
+
+		public OperationResult<List<JournalDeviceItem>> GetDistinctDevices()
+		{
+			return SafeOperationCall(() => { return _iFiresecService.GetDistinctDevices(); });
 		}
 
 		public OperationResult<DateTime> GetArchiveStartDate()

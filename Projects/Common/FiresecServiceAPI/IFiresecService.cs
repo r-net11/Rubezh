@@ -26,8 +26,8 @@ namespace FiresecAPI
 		[OperationContract(IsOneWay = true)]
 		void CancelProgress();
 
-        [OperationContract]
-        string GetStatus();
+		[OperationContract]
+		string GetStatus();
 
 		[OperationContract]
 		string Ping();
@@ -151,7 +151,10 @@ namespace FiresecAPI
 		OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter);
 
 		[OperationContract]
-		OperationResult<List<JournalRecord>> GetDistinctRecords();
+		OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions();
+
+		[OperationContract]
+		OperationResult<List<JournalDeviceItem>> GetDistinctDevices();
 
 		[OperationContract]
 		OperationResult<DateTime> GetArchiveStartDate();

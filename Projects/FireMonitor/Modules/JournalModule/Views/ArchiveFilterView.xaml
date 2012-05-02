@@ -35,17 +35,19 @@
                         </Grid.ColumnDefinitions>
                         <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,23,0">
                             <Label Content="С" />
-                            <Calendar Name="_startDate" SelectionMode="SingleDate" IsTodayHighlighted="False" BorderThickness="0" Margin="2"
+                            <Calendar SelectionMode="SingleDate" IsTodayHighlighted="False" BorderThickness="0" Margin="2"
                                   DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneTime}"
-                                  DisplayDateEnd="{Binding SelectedDate, ElementName=_endDate, UpdateSourceTrigger=PropertyChanged}"
+                                  DisplayDateEnd="{Binding NowDate, Mode=OneTime}"
+                                  DisplayDate="{Binding StartDate}"
                                   SelectedDate="{Binding StartDate}" />
                             <extToolkit:TimePicker Width="100" Value="{Binding StartTime}" Margin="4" VerticalAlignment="Top" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <Label Content="По" />
-                            <Calendar Name="_endDate" SelectionMode="SingleDate" IsTodayHighlighted="False" BorderThickness="0" Margin="2"
-                                  DisplayDateStart="{Binding SelectedDate, ElementName=_startDate, UpdateSourceTrigger=PropertyChanged}"
+                            <Calendar SelectionMode="SingleDate" IsTodayHighlighted="False" BorderThickness="0" Margin="2"
+                                  DisplayDateStart="{Binding ArchiveFirstDate, Mode=OneTime}"
                                   DisplayDateEnd="{Binding NowDate, Mode=OneTime}"
+                                  DisplayDate="{Binding EndDate}"
                                   SelectedDate="{Binding EndDate}" />
                             <extToolkit:TimePicker Value="{Binding EndTime}" Width="100" Margin="4" VerticalAlignment="Top" />
                         </StackPanel>

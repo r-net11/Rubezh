@@ -6,97 +6,69 @@ using Infrastructure.Common;
 
 namespace FireMonitor
 {
-    public class UserDialogService : IUserDialogService
-    {
-        List<DialogWindow> ActiveWindows = new List<DialogWindow>();
+	public class UserDialogService : IUserDialogService
+	{
+		List<DialogWindow> ActiveWindows = new List<DialogWindow>();
 
-        public void ShowWindow(IDialogContent model, bool isTopMost = false, string name = "none")
-        {
-            if (name != "none")
-            {
-                var existingDialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
-                if (existingDialogWindow != null)
-                {
-                    return;
-                }
-            }
+		public void ShowWindow(IDialogContent viewModel, bool isTopMost = false)
+		{
+			var dialog = new DialogWindow()
+			{
+				Topmost = isTopMost
+			};
+			dialog.SetContent(viewModel);
 
-            var dialog = new DialogWindow()
-            {
-                Topmost = isTopMost,
-                Name = name
-            };
-            dialog.SetContent(model);
+			if (viewModel is DeviceDetailsViewModel)
+			{
+				DeviceDetailsViewModel deviceDetailsViewModel = viewModel as DeviceDetailsViewModel;
+				var deviceUID = deviceDetailsViewModel.DeviceState.UID;
 
-            if (model is DeviceDetailsViewModel)
-            {
-                DeviceDetailsViewModel deviceDetailsViewModel = model as DeviceDetailsViewModel;
-                var deviceUID = deviceDetailsViewModel.DeviceState.UID;
+				DialogWindow existingWindow = ActiveWindows.FirstOrDefault(x => (x.ViewModel as DeviceDetailsViewModel).Device.UID == deviceUID);
+				if (existingWindow != null)
+				{
+					existingWindow.Activate();
+					return;
+				}
 
-                DialogWindow existingWindow = ActiveWindows.FirstOrDefault(x => (x.ViewModel as DeviceDetailsViewModel).Device.UID == deviceUID);
-                if (existingWindow != null)
-                {
-                    existingWindow.Activate();
-                    return;
-                }
+				dialog.Closed += new System.EventHandler(dialog_Closed);
+				ActiveWindows.Add(dialog);
+			}
 
-                dialog.Closed += new System.EventHandler(dialog_Closed);
-                ActiveWindows.Add(dialog);
-            }
+			dialog.Show();
+		}
 
-            dialog.Show();
-        }
+		void dialog_Closed(object sender, System.EventArgs e)
+		{
+			ActiveWindows.Remove((DialogWindow)sender);
+		}
 
-        void dialog_Closed(object sender, System.EventArgs e)
-        {
-            ActiveWindows.Remove((DialogWindow) sender);
-        }
+		public bool ShowModalWindow(IDialogContent model)
+		{
+			try
+			{
+				var dialogWindow = new DialogWindow();
 
-        public void HideWindow(string name)
-        {
-            var dialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
-            if (dialogWindow != null)
-            {
-                dialogWindow.Visibility = Visibility.Collapsed;
-            }
-        }
+				try
+				{
+					dialogWindow.Owner = App.Current.MainWindow;
+				}
+				catch
+				{
+					dialogWindow.ShowInTaskbar = true;
+				}
 
-        public void ResetWindow(string name)
-        {
-            var dialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
-            if (dialogWindow != null)
-            {
-                dialogWindow.Visibility = Visibility.Visible;
-            }
-        }
+				dialogWindow.SetContent(model);
 
-        public bool ShowModalWindow(IDialogContent model)
-        {
-            try
-            {
-                var dialogWindow = new DialogWindow();
+				bool? result = dialogWindow.ShowDialog();
+				if (result == null)
+					return false;
 
-                try
-                {
-                    dialogWindow.Owner = App.Current.MainWindow;
-                }
-                catch
-                {
-                    dialogWindow.ShowInTaskbar = true;
-                }
-
-                dialogWindow.SetContent(model);
-
-                bool? result = dialogWindow.ShowDialog();
-                if (result == null)
-                    return false;
-
-                return (bool) result;
-            }
-            catch
-            {
-                throw;
-            }
-        }
-    }
+				return (bool)result;
+			}
+			catch
+			{
+				throw;
+			}
+		}
+	}
 }

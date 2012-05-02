@@ -52,7 +52,7 @@ namespace DevicesModule
 
         static void OnShowDeviceDetails(Guid deviceUID)
         {
-            ServiceFactory.UserDialogs.ShowWindow(new DeviceDetailsViewModel(deviceUID));
+            ServiceFactory.UserDialogs.ShowWindow(new DeviceDetailsViewModel(deviceUID), true);
         }
     }
 }

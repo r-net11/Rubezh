@@ -8,64 +8,23 @@ using Infrastructure.Common;
 
 namespace FireAdministrator
 {
-    public class UserDialogService : IUserDialogService
-    {
-        List<DialogWindow> ActiveWindows = new List<DialogWindow>();
+	public class UserDialogService : IUserDialogService
+	{
+		public void ShowWindow(IDialogContent model, bool isTopMost = false)
+		{
+			var dialogWindow = new DialogWindow()
+			{
+				Topmost = isTopMost,
+			};
+			dialogWindow.SetContent(model);
 
-        public void ShowWindow(IDialogContent model, bool isTopMost = false, string name = "none")
-        {
-            if (name != "none")
-            {
-                var existingDialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
-                if (existingDialogWindow != null)
-                {
-                    return;
-                }
-            }
+			dialogWindow.Show();
+		}
 
-            var dialogWindow = new DialogWindow()
-            {
-                Topmost = isTopMost,
-                Name = name
-            };
-            dialogWindow.SetContent(model);
-
-            if (name != "none")
-            {
-                dialogWindow.Closed += new System.EventHandler(dialog_Closed);
-                ActiveWindows.Add(dialogWindow);
-            }
-
-            dialogWindow.Show();
-        }
-
-        void dialog_Closed(object sender, System.EventArgs e)
-        {
-            ActiveWindows.Remove((DialogWindow) sender);
-        }
-
-         public void HideWindow(string name)
-        {
-            var dialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
-            if (dialogWindow != null)
-            {
-                dialogWindow.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        public void ResetWindow(string name)
-        {
-            var dialogWindow = ActiveWindows.FirstOrDefault(x => x.Name == name);
-            if (dialogWindow != null)
-            {
-                dialogWindow.Visibility = Visibility.Visible;
-            }
-        }
-
-        public bool ShowModalWindow(IDialogContent model)
-        {
+		public bool ShowModalWindow(IDialogContent model)
+		{
 			return Controls.MessageBox.UserDialogService.ShowModalWindow(model, LoadSizeView);
-        }
+		}
 
 		private void LoadSizeView(DialogWindow dialogWindow)
 		{

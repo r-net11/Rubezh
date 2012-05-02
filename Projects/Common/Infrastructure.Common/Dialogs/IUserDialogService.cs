@@ -1,11 +1,8 @@
-﻿
-namespace Infrastructure.Common
+﻿namespace Infrastructure.Common
 {
-    public interface IUserDialogService
-    {
-        void ShowWindow(IDialogContent model, bool isTopMost = false, string name = "none");
-        void HideWindow(string name);
-        void ResetWindow(string name);
-        bool ShowModalWindow(IDialogContent model);
-    }
+	public interface IUserDialogService
+	{
+		void ShowWindow(IDialogContent model, bool isTopMost = false);
+		bool ShowModalWindow(IDialogContent model);
+	}
 }

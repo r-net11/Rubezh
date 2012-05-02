@@ -5,30 +5,30 @@ using Infrastructure.Common;
 
 namespace Controls.MessageBox
 {
-    public static class UserDialogService
-    {
+	public static class UserDialogService
+	{
 		private static Window _activeModalWindow = null;
 
 		public static bool ShowModalWindow(IDialogContent model)
 		{
 			return ShowModalWindow(model, null);
 		}
- 		public static bool ShowModalWindow(IDialogContent model, Action<DialogWindow> preshow)
-        {
-            try
-            {
-                var dialogWindow = new DialogWindow();
+		public static bool ShowModalWindow(IDialogContent model, Action<DialogWindow> preshow)
+		{
+			try
+			{
+				var dialogWindow = new DialogWindow();
 
-                try
-                {
+				try
+				{
 					dialogWindow.Owner = _activeModalWindow ?? Application.Current.MainWindow;
-                }
-                catch
-                {
-                    dialogWindow.ShowInTaskbar = true;
-                }
+				}
+				catch
+				{
+					dialogWindow.ShowInTaskbar = true;
+				}
 
-                dialogWindow.SetContent(model);
+				dialogWindow.SetContent(model);
 				dialogWindow.WindowStartupLocation = dialogWindow.Owner == null ? WindowStartupLocation.CenterScreen : WindowStartupLocation.CenterOwner;
 
 				if (preshow != null)
@@ -38,17 +38,17 @@ namespace Controls.MessageBox
 				bool? result = dialogWindow.ShowDialog();
 				_activeModalWindow = dialogWindow.Owner;
 				if (result == null)
-                {
-                    return false;
-                }
+				{
+					return false;
+				}
 
-                return (bool)result;
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e);
-                throw;
-            }
-        }
-    }
+				return (bool)result;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
+				throw;
+			}
+		}
+	}
 }

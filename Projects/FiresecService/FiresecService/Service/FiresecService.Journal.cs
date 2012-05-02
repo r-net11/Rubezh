@@ -8,121 +8,184 @@ using FiresecService.Processor;
 
 namespace FiresecService
 {
-    public partial class FiresecService
-    {
-        public OperationResult<List<JournalRecord>> ReadJournal(int startIndex, int count)
-        {
-            var operationResult = new OperationResult<List<JournalRecord>>();
-            try
-            {
-                lock (Locker)
-                {
-                    var internalJournal = FiresecSerializedClient.ReadEvents(startIndex, count).Result;
-                    if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
-                    {
-                        operationResult.Result = new List<JournalRecord>(internalJournal.Journal.Select(x => JournalConverter.Convert(x)));
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                operationResult.HasError = true;
-                operationResult.Error = e.Message.ToString();
-            }
-            return operationResult;
-        }
+	public partial class FiresecService
+	{
+		public OperationResult<List<JournalRecord>> ReadJournal(int startIndex, int count)
+		{
+			var operationResult = new OperationResult<List<JournalRecord>>();
+			try
+			{
+				lock (Locker)
+				{
+					var internalJournal = FiresecSerializedClient.ReadEvents(startIndex, count).Result;
+					if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
+					{
+						operationResult.Result = new List<JournalRecord>(internalJournal.Journal.Select(x => JournalConverter.Convert(x)));
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				operationResult.HasError = true;
+				operationResult.Error = e.Message.ToString();
+			}
+			return operationResult;
+		}
 
-        public OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter)
-        {
-            var operationResult = new OperationResult<List<JournalRecord>>();
-            try
-            {
+		public OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter)
+		{
+			var operationResult = new OperationResult<List<JournalRecord>>();
+			try
+			{
 				JournalFilterHelper journalFilterHelper = new JournalFilterHelper(FiresecManager);
 
-                operationResult.Result =
-                    DataBaseContext.JournalRecords.AsEnumerable().Reverse().
-                    Where(journal => journalFilter.CheckDaysConstraint(journal.SystemTime)).
-                    Where(journal => journalFilterHelper.FilterRecord(journalFilter, journal)).
-                    Take(journalFilter.LastRecordsCount).ToList();
-            }
-            catch (Exception e)
-            {
-                operationResult.HasError = true;
-                operationResult.Error = e.Message.ToString();
-            }
-            return operationResult;
-        }
+				operationResult.Result =
+					DataBaseContext.JournalRecords.AsEnumerable().Reverse().
+					Where(journal => journalFilter.CheckDaysConstraint(journal.SystemTime)).
+					Where(journal => journalFilterHelper.FilterRecord(journalFilter, journal)).
+					Take(journalFilter.LastRecordsCount).ToList();
+			}
+			catch (Exception e)
+			{
+				operationResult.HasError = true;
+				operationResult.Error = e.Message.ToString();
+			}
+			return operationResult;
+		}
 
-        public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
-        {
-            var operationResult = new OperationResult<List<JournalRecord>>();
-            try
-            {
-                var result =
-                    DataBaseContext.JournalRecords.AsEnumerable().Reverse().
-                    RangeJournalByTime(archiveFilter).
-                    FilterJournalByEvents(archiveFilter);
-                    //FilterJournalBySubsystems(archiveFilter).
-                    //FilterJournalByDevices(archiveFilter).ToList();
+		public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
+		{
+			var operationResult = new OperationResult<List<JournalRecord>>();
+			try
+			{
+				string dateInQuery = "DeviceTime";
+				if (archiveFilter.UseSystemDate)
+					dateInQuery = "SystemTime";
 
-                operationResult.Result = result.FilterJournalByDevices(archiveFilter).
-                Where(x => archiveFilter.Subsystems.Contains(x.SubsystemType)).ToList();
-            }
-            catch (Exception e)
-            {
-                operationResult.HasError = true;
-                operationResult.Error = e.Message.ToString();
-            }
-            return operationResult;
-        }
+				var query =
+				"SELECT * FROM Journal WHERE " +
+				"\n " + dateInQuery + " > '" + archiveFilter.StartDate.ToString("d/M/yyyy HH:mm:ss") + "'" +
+				"\n AND " + dateInQuery + " < '" + archiveFilter.EndDate.ToString("d/M/yyyy HH:mm:ss") + "'";
 
-        public OperationResult<List<JournalRecord>> GetDistinctRecords()
-        {
-            var operationResult = new OperationResult<List<JournalRecord>>();
-            try
-            {
-                operationResult.Result =
-                    DataBaseContext.JournalRecords.AsEnumerable().
-                    Select(x => x).Distinct(new JournalRecord()).ToList();
-            }
-            catch (Exception e)
-            {
-                operationResult.HasError = true;
-                operationResult.Error = e.Message.ToString();
-            }
-            return operationResult;
-        }
+				if (archiveFilter.Descriptions.Count > 0)
+				{
+					query += "\n AND (";
+					for (int i = 0; i < archiveFilter.Descriptions.Count; i++)
+					{
+						if (i > 0)
+							query += "\n OR ";
+						var description = archiveFilter.Descriptions[i];
+						query += " Description = '" + description + "'";
+					}
+					query += ")";
+				}
 
-        public OperationResult<DateTime> GetArchiveStartDate()
-        {
-            var operationResult = new OperationResult<DateTime>();
-            try
-            {
-                operationResult.Result = DataBaseContext.JournalRecords.AsEnumerable().First().SystemTime;
-            }
-            catch (Exception e)
-            {
-                operationResult.HasError = true;
-                operationResult.Error = e.Message.ToString();
-            }
-            return operationResult;
-        }
+				if (archiveFilter.Subsystems.Count > 0)
+				{
+					query += "\n AND (";
+					for (int i = 0; i < archiveFilter.Subsystems.Count; i++)
+					{
+						if (i > 0)
+							query += "\n OR ";
+						var subsystem = archiveFilter.Subsystems[i];
+						query += " SubSystemType = '" + ((int)subsystem).ToString() + "'";
+					}
+					query += ")";
+				}
 
-        public void AddJournalRecord(JournalRecord journalRecord)
-        {
-            var operationResult = new OperationResult<bool>();
-            try
-            {
-                journalRecord.User = _userName;
-                DatabaseHelper.AddJournalRecord(journalRecord);
-                CallbackManager.OnNewJournalRecord(journalRecord);
-                operationResult.Result = true;
-            }
-            catch (Exception e)
-            {
-                operationResult.HasError = true;
-                operationResult.Error = e.Message.ToString();
-            }
-        }
-    }
+				if (archiveFilter.DeviceDatabaseIds.Count > 0)
+				{
+					query += "\n AND (";
+					for (int i = 0; i < archiveFilter.DeviceDatabaseIds.Count; i++)
+					{
+						var deviceDatabaseId = archiveFilter.DeviceDatabaseIds[i];
+						if (deviceDatabaseId != null)
+						{
+							if (i > 0)
+								query += "\n OR ";
+							query += " PanelDatabaseId = '" + deviceDatabaseId.ToString() + "'";
+						}
+					}
+					query += ")";
+				}
+
+				var result = DataBaseContext.ExecuteQuery<JournalRecord>(query);
+				operationResult.Result = result.ToList();
+			}
+			catch (Exception e)
+			{
+				operationResult.HasError = true;
+				operationResult.Error = e.Message.ToString();
+			}
+			return operationResult;
+		}
+
+		public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()
+		{
+			var operationResult = new OperationResult<List<JournalDescriptionItem>>();
+			try
+			{
+				string query = "SELECT DISTINCT StateType, Description FROM Journal";
+				var result = DataBaseContext.ExecuteQuery<JournalDescriptionItem>(query);
+				operationResult.Result = result.ToList();
+			}
+			catch (Exception e)
+			{
+				operationResult.HasError = true;
+				operationResult.Error = e.Message.ToString();
+			}
+			return operationResult;
+		}
+
+		public OperationResult<List<JournalDeviceItem>> GetDistinctDevices()
+		{
+			var operationResult = new OperationResult<List<JournalDeviceItem>>();
+			try
+			{
+				string query = "SELECT DISTINCT PanelName, PanelDatabaseId FROM Journal";
+				var result = DataBaseContext.ExecuteQuery<JournalDeviceItem>(query);
+				operationResult.Result = result.ToList();
+			}
+			catch (Exception e)
+			{
+				operationResult.HasError = true;
+				operationResult.Error = e.Message.ToString();
+			}
+			return operationResult;
+		}
+
+		public OperationResult<DateTime> GetArchiveStartDate()
+		{
+			var operationResult = new OperationResult<DateTime>();
+			try
+			{
+				string query = "SELECT MIN(SystemTime) AS SystemTime FROM Journal";
+				var result = DataBaseContext.ExecuteQuery<DateTime>(query);
+				operationResult.Result = result.First();
+			}
+			catch (Exception e)
+			{
+				operationResult.HasError = true;
+				operationResult.Error = e.Message.ToString();
+			}
+			return operationResult;
+		}
+
+		public void AddJournalRecord(JournalRecord journalRecord)
+		{
+			var operationResult = new OperationResult<bool>();
+			try
+			{
+				journalRecord.User = _userName;
+				DatabaseHelper.AddJournalRecord(journalRecord);
+				CallbackManager.OnNewJournalRecord(journalRecord);
+				operationResult.Result = true;
+			}
+			catch (Exception e)
+			{
+				operationResult.HasError = true;
+				operationResult.Error = e.Message.ToString();
+			}
+		}
+	}
 }

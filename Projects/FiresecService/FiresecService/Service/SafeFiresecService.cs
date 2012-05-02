@@ -274,9 +274,14 @@ namespace FiresecService
 			return SafeOperationCall(() => { return FiresecService.GetFilteredArchive(archiveFilter); }, "GetFilteredArchive");
 		}
 
-		public OperationResult<List<FiresecAPI.Models.JournalRecord>> GetDistinctRecords()
+		public OperationResult<List<FiresecAPI.Models.JournalDescriptionItem>> GetDistinctDescriptions()
 		{
-			return SafeOperationCall(() => { return FiresecService.GetDistinctRecords(); }, "GetDistinctRecords");
+			return SafeOperationCall(() => { return FiresecService.GetDistinctDescriptions(); }, "GetDistinctDescriptions");
+		}
+
+		public OperationResult<List<FiresecAPI.Models.JournalDeviceItem>> GetDistinctDevices()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDistinctDevices(); }, "GetDistinctDevices");
 		}
 
 		public OperationResult<DateTime> GetArchiveStartDate()

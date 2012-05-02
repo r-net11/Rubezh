@@ -70,7 +70,7 @@
             </TabItem>
             <TabItem Header="Управление" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}"
                      IsSelected="{Binding IsValveControlSelected}">
-                <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
+                <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" Visibility="Collapsed" />
             </TabItem>
         </TabControl>
     </Grid>

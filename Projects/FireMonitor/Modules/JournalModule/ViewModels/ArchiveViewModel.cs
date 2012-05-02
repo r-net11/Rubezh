@@ -9,147 +9,157 @@ using Infrastructure.Common;
 
 namespace JournalModule.ViewModels
 {
-    public class ArchiveViewModel : RegionViewModel
-    {
-        public static DateTime ArchiveFirstDate { get; private set; }
-        ArchiveDefaultState _archiveDefaultState;
-        ArchiveFilter _archiveFilter;
+	public class ArchiveViewModel : RegionViewModel
+	{
+		public static DateTime ArchiveFirstDate { get; private set; }
+		ArchiveDefaultState _archiveDefaultState;
+		ArchiveFilter _archiveFilter;
 
-        public ArchiveViewModel()
-        {
-            ShowFilterCommand = new RelayCommand(OnShowFilter);
-            ShowSettingsCommand = new RelayCommand(OnShowSettings);
+		public ArchiveViewModel()
+		{
+			ShowFilterCommand = new RelayCommand(OnShowFilter);
+			ShowSettingsCommand = new RelayCommand(OnShowSettings);
 
-            var operationResult = FiresecManager.FiresecService.GetArchiveStartDate();
-            if (operationResult.HasError == false)
-            {
-                ArchiveFirstDate = operationResult.Result;
-                _archiveDefaultState = ClientSettings.ArchiveDefaultState;
-                IsFilterOn = false;
-            }
-        }
+			_archiveDefaultState = ClientSettings.ArchiveDefaultState;
+			if (_archiveDefaultState == null)
+				_archiveDefaultState = new ArchiveDefaultState();
 
-        ObservableCollection<JournalRecordViewModel> _journalRecords;
-        public ObservableCollection<JournalRecordViewModel> JournalRecords
-        {
-            get { return _journalRecords; }
-            private set
-            {
-                _journalRecords = value;
-                OnPropertyChanged("JournalRecords");
-            }
-        }
+			Initialize();
+		}
 
-        JournalRecordViewModel _selectedRecord;
-        public JournalRecordViewModel SelectedRecord
-        {
-            get { return _selectedRecord; }
-            set
-            {
-                _selectedRecord = value;
-                OnPropertyChanged("SelectedRecord");
-            }
-        }
+		public void Initialize()
+		{
+			var operationResult = FiresecManager.FiresecService.GetArchiveStartDate();
+			if (operationResult.HasError == false)
+			{
+				ArchiveFirstDate = operationResult.Result;
+				IsFilterOn = false;
+			}
+		}
 
-        bool _isFilterOn;
-        public bool IsFilterOn
-        {
-            get { return _isFilterOn; }
-            set
-            {
-                OperationResult<List<JournalRecord>> operationResult;
-                if (value)
-                    operationResult = FiresecManager.FiresecService.GetFilteredArchive(_archiveFilter);
-                else
-                    operationResult = FiresecManager.FiresecService.GetFilteredArchive(GerFilterFromDefaultState(_archiveDefaultState));
-                UpdateJournals(operationResult);
+		ObservableCollection<JournalRecordViewModel> _journalRecords;
+		public ObservableCollection<JournalRecordViewModel> JournalRecords
+		{
+			get { return _journalRecords; }
+			private set
+			{
+				_journalRecords = value;
+				OnPropertyChanged("JournalRecords");
+			}
+		}
 
-                _isFilterOn = value;
-                OnPropertyChanged("IsFilterOn");
-            }
-        }
+		JournalRecordViewModel _selectedRecord;
+		public JournalRecordViewModel SelectedRecord
+		{
+			get { return _selectedRecord; }
+			set
+			{
+				_selectedRecord = value;
+				OnPropertyChanged("SelectedRecord");
+			}
+		}
 
-        void UpdateJournals(OperationResult<List<JournalRecord>> operationResult)
-        {
-            JournalRecords = new ObservableCollection<JournalRecordViewModel>();
-            if (operationResult.HasError == false)
-            {
-                foreach (var journalRecord in operationResult.Result)
-                {
-                    var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-                    JournalRecords.Add(journalRecordViewModel);
-                }
-            }
-        }
+		bool _isFilterOn;
+		public bool IsFilterOn
+		{
+			get { return _isFilterOn; }
+			set
+			{
+				ArchiveFilter archiveFilter = null;
+				if (value)
+					archiveFilter = _archiveFilter;
+				else
+					archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
 
-        public bool IsFilterExists
-        {
-            get { return _archiveFilter != null; }
-        }
+				var operationResult = FiresecManager.FiresecService.GetFilteredArchive(archiveFilter);
+				UpdateJournals(operationResult);
 
-        public RelayCommand ShowFilterCommand { get; private set; }
-        void OnShowFilter()
-        {
-            if (_archiveFilter == null)
-                _archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
+				_isFilterOn = value;
+				OnPropertyChanged("IsFilterOn");
+			}
+		}
 
-           var archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
+		void UpdateJournals(OperationResult<List<JournalRecord>> operationResult)
+		{
+			JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+			if (operationResult.HasError == false)
+			{
+				foreach (var journalRecord in operationResult.Result)
+				{
+					var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+					JournalRecords.Add(journalRecordViewModel);
+				}
+			}
+		}
 
-            if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
-            {
-                _archiveFilter = archiveFilterViewModel.GetModel();
-                OnPropertyChanged("IsFilterExists");
-                IsFilterOn = true;
-            }
-        }
+		public bool IsFilterExists
+		{
+			get { return _archiveFilter != null; }
+		}
 
-        public RelayCommand ShowSettingsCommand { get; private set; }
-        void OnShowSettings()
-        {
-            var archiveSettingsViewModel = new ArchiveSettingsViewModel(_archiveDefaultState);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(archiveSettingsViewModel))
-            {
-                _archiveDefaultState = archiveSettingsViewModel.GetModel();
-                ClientSettings.ArchiveDefaultState = _archiveDefaultState;
-                if (IsFilterOn == false)
-                    IsFilterOn = IsFilterOn;
-            }
-        }
+		public RelayCommand ShowFilterCommand { get; private set; }
+		void OnShowFilter()
+		{
+			if (_archiveFilter == null)
+				_archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
 
-        ArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
-        {
-            var archiveFilter = new ArchiveFilter()
-            {
-                StartDate = ArchiveFirstDate,
-                EndDate = DateTime.Now
-            };
+		   var archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
 
-            switch (archiveDefaultState.ArchiveDefaultStateType)
-            {
-                case ArchiveDefaultStateType.LastHours:
-                    if (archiveDefaultState.Count.HasValue)
-                        archiveFilter.StartDate = archiveFilter.EndDate.AddHours(-archiveDefaultState.Count.Value);
-                    break;
+			if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
+			{
+				_archiveFilter = archiveFilterViewModel.GetModel();
+				OnPropertyChanged("IsFilterExists");
+				IsFilterOn = true;
+			}
+		}
 
-                case ArchiveDefaultStateType.LastDays:
-                    if (archiveDefaultState.Count.HasValue)
-                        archiveFilter.StartDate = archiveFilter.EndDate.AddDays(-archiveDefaultState.Count.Value);
-                    break;
+		public RelayCommand ShowSettingsCommand { get; private set; }
+		void OnShowSettings()
+		{
+			var archiveSettingsViewModel = new ArchiveSettingsViewModel(_archiveDefaultState);
+			if (ServiceFactory.UserDialogs.ShowModalWindow(archiveSettingsViewModel))
+			{
+				_archiveDefaultState = archiveSettingsViewModel.GetModel();
+				ClientSettings.ArchiveDefaultState = _archiveDefaultState;
+				if (IsFilterOn == false)
+					IsFilterOn = IsFilterOn;
+			}
+		}
 
-                case ArchiveDefaultStateType.FromDate:
-                    if (archiveDefaultState.StartDate.HasValue)
-                        archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
-                    break;
+		ArchiveFilter GerFilterFromDefaultState(ArchiveDefaultState archiveDefaultState)
+		{
+			var archiveFilter = new ArchiveFilter()
+			{
+				StartDate = ArchiveFirstDate,
+				EndDate = DateTime.Now
+			};
 
-                case ArchiveDefaultStateType.RangeDate:
-                    if (archiveDefaultState.StartDate.HasValue)
-                        archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
-                    if (archiveDefaultState.EndDate.HasValue)
-                        archiveFilter.EndDate = archiveDefaultState.EndDate.Value;
-                    break;
-            }
+			switch (archiveDefaultState.ArchiveDefaultStateType)
+			{
+				case ArchiveDefaultStateType.LastHours:
+					if (archiveDefaultState.Count.HasValue)
+						archiveFilter.StartDate = archiveFilter.EndDate.AddHours(-archiveDefaultState.Count.Value);
+					break;
 
-            return archiveFilter;
-        }
-    }
+				case ArchiveDefaultStateType.LastDays:
+					if (archiveDefaultState.Count.HasValue)
+						archiveFilter.StartDate = archiveFilter.EndDate.AddDays(-archiveDefaultState.Count.Value);
+					break;
+
+				case ArchiveDefaultStateType.FromDate:
+					if (archiveDefaultState.StartDate.HasValue)
+						archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
+					break;
+
+				case ArchiveDefaultStateType.RangeDate:
+					if (archiveDefaultState.StartDate.HasValue)
+						archiveFilter.StartDate = archiveDefaultState.StartDate.Value;
+					if (archiveDefaultState.EndDate.HasValue)
+						archiveFilter.EndDate = archiveDefaultState.EndDate.Value;
+					break;
+			}
+
+			return archiveFilter;
+		}
+	}
 }
