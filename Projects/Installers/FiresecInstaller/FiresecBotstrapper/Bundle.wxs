@@ -2,17 +2,17 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Bundle Name="Firesec 2" Version="1.0.0.0" Manufacturer='ООО Группа компаний "Рубеж"' UpgradeCode="A6E1029E-EECC-4870-85BC-DF14E97305DC"
 					Compressed="no">
-    <BootstrapperApplicationRef Id="ManagedBootstrapperApplicationHost">
-      <Payload Name='BootstrapperCore.config' SourceFile='FiresecUX.BootstrapperCore.config' />
+		<BootstrapperApplicationRef Id="ManagedBootstrapperApplicationHost">
+			<Payload Name='BootstrapperCore.config' SourceFile='FiresecUX.BootstrapperCore.config' />
 
-      <Payload SourceFile='FiresecUX.dll' />
-      <Payload SourceFile='License.htm' />
-      <Payload SourceFile='NetfxLicense.rtf' />
-    </BootstrapperApplicationRef>
+			<Payload SourceFile='FiresecUX.dll' />
+			<Payload SourceFile='License.htm' />
+			<Payload SourceFile='NetfxLicense.rtf' />
+		</BootstrapperApplicationRef>
 
 		<Chain>
-      <PackageGroupRef Id='Netfx4Full'/>
-      <MsiPackage Id='Firesec' Vital='yes' Name='data\core.msi' SourceFile='$(var.FiresecInstaller' />
+			<PackageGroupRef Id='Netfx4Full'/>
+			<!--<MsiPackage Id='Firesec' Vital='yes' Name='data\core.msi' SourceFile='$(var.FiresecInstaller)' />-->
 		</Chain>
 	</Bundle>
 </Wix>
