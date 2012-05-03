@@ -116,32 +116,23 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Устройства" Padding="3">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <CheckBox Grid.Row="0" Content="Включить фильтр по следующим приборам" Margin="5"
-                        IsChecked="{Binding IsDeviceFilterOn, UpdateSourceTrigger=PropertyChanged}" Foreground="White" />
-
-                    <DataGrid Grid.Row="1" ItemsSource="{Binding Devices}" IsEnabled="{Binding IsDeviceFilterOn}"
-                              IsReadOnly="False" Margin="5" DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}">
-                        <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="Тип" IsReadOnly="False" MinWidth="170">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <WrapPanel>
-                                            <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
-                                            <Image Source="{Binding Device.Driver.ImageSource}" Margin="0, 0, 5, 0" />
-                                            <TextBlock Text="{Binding Device.Driver.ShortName}" VerticalAlignment="Center" />
-                                        </WrapPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" IsReadOnly="True" MinWidth="120" Width="*" />
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </Grid>
+                <DataGrid ItemsSource="{Binding Devices}" IsReadOnly="False" Margin="5"
+                        DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Тип" IsReadOnly="False" MinWidth="170">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <WrapPanel>
+                                        <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
+                                        <Image Source="{Binding Device.Driver.ImageSource}" Margin="0, 0, 5, 0" />
+                                        <TextBlock Text="{Binding Device.Driver.ShortName}" VerticalAlignment="Center" />
+                                    </WrapPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" IsReadOnly="True" MinWidth="120" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
         </TabControl>
     </DockPanel>

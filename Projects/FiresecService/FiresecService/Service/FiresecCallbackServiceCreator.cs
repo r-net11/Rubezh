@@ -3,7 +3,7 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using FiresecAPI;
 
-namespace FiresecService
+namespace FiresecService.Service
 {
     public static class FiresecCallbackServiceCreator
     {

@@ -32,7 +32,7 @@ namespace FiresecService.ViewModels
 			{
 				if (connection.ClientType == "ITV")
 				{
-					var imitatorViewModel = new ImitatorViewModel(connection.FiresecService.FiresecManager);
+					var imitatorViewModel = new ImitatorViewModel(connection.FiresecService);
 					UserDialogService.ShowModalWindow(imitatorViewModel);
 					break;
 				}
@@ -59,7 +59,7 @@ namespace FiresecService.ViewModels
 			}
 		}
 
-		public void AddConnection(FiresecService firesecService, Guid uid, string userLogin, string userIpAddress, string clientType)
+		public void AddConnection(FiresecService.Service.FiresecService firesecService, Guid uid, string userLogin, string userIpAddress, string clientType)
 		{
 			Dispatcher.Invoke(new Action(
 			delegate()

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecService.Converters;
 using FiresecService.Processor;
+using System.Diagnostics;
+using FiresecService.Database;
 
-namespace FiresecService
+namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
@@ -64,8 +65,8 @@ namespace FiresecService
 
 				var query =
 				"SELECT * FROM Journal WHERE " +
-				"\n " + dateInQuery + " > '" + archiveFilter.StartDate.ToString("d/M/yyyy HH:mm:ss") + "'" +
-				"\n AND " + dateInQuery + " < '" + archiveFilter.EndDate.ToString("d/M/yyyy HH:mm:ss") + "'";
+				"\n " + dateInQuery + " > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+				"\n AND " + dateInQuery + " < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
 
 				if (archiveFilter.Descriptions.Count > 0)
 				{
@@ -109,6 +110,7 @@ namespace FiresecService
 					query += ")";
 				}
 
+				//var result = DataBaseContext.ExecuteQuery<JournalRecord>("SELECT * FROM Journal");
 				var result = DataBaseContext.ExecuteQuery<JournalRecord>(query);
 				operationResult.Result = result.ToList();
 			}
@@ -127,23 +129,6 @@ namespace FiresecService
 			{
 				string query = "SELECT DISTINCT StateType, Description FROM Journal";
 				var result = DataBaseContext.ExecuteQuery<JournalDescriptionItem>(query);
-				operationResult.Result = result.ToList();
-			}
-			catch (Exception e)
-			{
-				operationResult.HasError = true;
-				operationResult.Error = e.Message.ToString();
-			}
-			return operationResult;
-		}
-
-		public OperationResult<List<JournalDeviceItem>> GetDistinctDevices()
-		{
-			var operationResult = new OperationResult<List<JournalDeviceItem>>();
-			try
-			{
-				string query = "SELECT DISTINCT PanelName, PanelDatabaseId FROM Journal";
-				var result = DataBaseContext.ExecuteQuery<JournalDeviceItem>(query);
 				operationResult.Result = result.ToList();
 			}
 			catch (Exception e)
@@ -185,6 +170,42 @@ namespace FiresecService
 			{
 				operationResult.HasError = true;
 				operationResult.Error = e.Message.ToString();
+			}
+		}
+
+		public void ConvertJournal()
+		{
+			using (var dataContext = ConnectionManager.CreateFiresecDataContext())
+			{
+				dataContext.ExecuteCommand("DELETE FROM Journal");
+
+				int LastEventId = 0;
+				while (true)
+				{
+					var document = FiresecSerializedClient.ReadEvents(LastEventId, 1000).Result;
+
+					if (document == null || document.Journal == null || document.Journal.Count() == 0)
+						break;
+
+					int newLastValue = LastEventId;
+					foreach (var innerJournalItem in document.Journal)
+					{
+						var intValue = int.Parse(innerJournalItem.IDEvents);
+						if (intValue > LastEventId)
+						{
+							newLastValue = intValue;
+							var journalRecord = JournalConverter.Convert(innerJournalItem);
+							dataContext.JournalRecords.InsertOnSubmit(journalRecord);
+							Trace.WriteLine(journalRecord.DeviceTime.ToString());
+						}
+					}
+					if (LastEventId == newLastValue)
+						break;
+
+					LastEventId = newLastValue;
+				}
+
+				dataContext.SubmitChanges();
 			}
 		}
 	}

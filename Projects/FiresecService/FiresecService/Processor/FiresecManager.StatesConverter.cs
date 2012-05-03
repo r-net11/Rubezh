@@ -1,6 +1,6 @@
 ﻿using FiresecAPI.Models;
 
-namespace FiresecService
+namespace FiresecService.Processor
 {
 	public partial class FiresecManager
 	{

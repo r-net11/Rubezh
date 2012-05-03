@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace FiresecAPI.Models
+namespace Infrastructure.Models
 {
     public enum ArchiveDefaultStateType
     {

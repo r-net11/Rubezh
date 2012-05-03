@@ -3,7 +3,7 @@ using FiresecAPI;
 using FiresecAPI.Models.Skud;
 using FiresecService.SKUD;
 
-namespace FiresecService
+namespace FiresecService.Service
 {
 	public partial class FiresecService : IFiresecService
 	{

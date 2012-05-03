@@ -4,9 +4,9 @@ using System.Linq;
 using Common;
 using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
-using FiresecService.Converters;
+using FiresecService.Processor;
 
-namespace FiresecService
+namespace FiresecService.Configuration
 {
 	public partial class ConfigurationManager
 	{

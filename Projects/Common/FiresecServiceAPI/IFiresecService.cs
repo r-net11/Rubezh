@@ -154,9 +154,6 @@ namespace FiresecAPI
 		OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions();
 
 		[OperationContract]
-		OperationResult<List<JournalDeviceItem>> GetDistinctDevices();
-
-		[OperationContract]
 		OperationResult<DateTime> GetArchiveStartDate();
 
 		[OperationContract()]

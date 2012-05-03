@@ -5,52 +5,52 @@ using Common;
 
 namespace FiresecClient
 {
-    public static class FiresecCallbackServiceManager
-    {
-        static ServiceHost _serviceHost;
-        static string _clientCallbackAddress;
+	public static class FiresecCallbackServiceManager
+	{
+		static ServiceHost _serviceHost;
+		static string _clientCallbackAddress;
 
-        public static void Open(string clientCallbackAddress)
-        {
-            _clientCallbackAddress = clientCallbackAddress;
-            var thread = new Thread(OnOpen);
-            thread.Start();
-        }
+		public static void Open(string clientCallbackAddress)
+		{
+			_clientCallbackAddress = clientCallbackAddress;
+			var thread = new Thread(OnOpen);
+			thread.Start();
+		}
 
-        static void OnOpen()
-        {
-            Close();
+		static void OnOpen()
+		{
+			Close();
 
-            _serviceHost = new ServiceHost(typeof(FiresecCallbackService));
+			_serviceHost = new ServiceHost(typeof(FiresecCallbackService));
 
-            var binding = new NetTcpBinding()
-            {
-                MaxReceivedMessageSize = Int32.MaxValue,
-                MaxBufferPoolSize = Int32.MaxValue,
-                MaxBufferSize = Int32.MaxValue,
-                MaxConnections = 1000,
-                OpenTimeout = TimeSpan.FromMinutes(10),
-                ReceiveTimeout = TimeSpan.FromMinutes(10),
-                ListenBacklog = 10,
-            };
-            binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
-            binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
-            binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
-            binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
-            binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
-            binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
+			var binding = new NetTcpBinding()
+			{
+				MaxReceivedMessageSize = Int32.MaxValue,
+				MaxBufferPoolSize = Int32.MaxValue,
+				MaxBufferSize = Int32.MaxValue,
+				MaxConnections = 1000,
+				OpenTimeout = TimeSpan.FromMinutes(10),
+				ReceiveTimeout = TimeSpan.FromMinutes(10),
+				ListenBacklog = 10,
+			};
+			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
+			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
+			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
+			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
+			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
+			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
 
-            string machineName = MachineNameHelper.GetMachineName();
-            _clientCallbackAddress = _clientCallbackAddress.Replace("localhost", machineName);
-            _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecCallbackService", binding, new Uri(_clientCallbackAddress));
+			string machineName = MachineNameHelper.GetMachineName();
+			_clientCallbackAddress = _clientCallbackAddress.Replace("localhost", machineName);
+			_serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecCallbackService", binding, new Uri(_clientCallbackAddress));
 
-            _serviceHost.Open();
-        }
+			_serviceHost.Open();
+		}
 
-        public static void Close()
-        {
-            if (_serviceHost != null && _serviceHost.State != CommunicationState.Closed && _serviceHost.State != CommunicationState.Closing)
-                _serviceHost.Close();
-        }
-    }
+		public static void Close()
+		{
+			if (_serviceHost != null && _serviceHost.State != CommunicationState.Closed && _serviceHost.State != CommunicationState.Closing)
+				_serviceHost.Close();
+		}
+	}
 }

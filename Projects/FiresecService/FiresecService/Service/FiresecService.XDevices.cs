@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using XFiresecAPI;
 
-namespace FiresecService
+namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{

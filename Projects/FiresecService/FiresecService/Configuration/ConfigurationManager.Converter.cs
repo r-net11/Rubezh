@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
-using FiresecService.Converters;
+using FiresecService.Processor;
 
-namespace FiresecService
+namespace FiresecService.Configuration
 {
 	public partial class ConfigurationManager
 	{

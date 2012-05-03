@@ -283,11 +283,6 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return _iFiresecService.GetDistinctDescriptions(); });
 		}
 
-		public OperationResult<List<JournalDeviceItem>> GetDistinctDevices()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetDistinctDevices(); });
-		}
-
 		public OperationResult<DateTime> GetArchiveStartDate()
 		{
 			return SafeOperationCall(() => { return _iFiresecService.GetArchiveStartDate(); });

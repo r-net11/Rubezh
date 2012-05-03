@@ -1,15 +1,19 @@
 ﻿using FiresecAPI.Models;
+using FiresecService.Configuration;
+using FiresecService.Service;
 
-namespace FiresecService
+namespace FiresecService.Processor
 {
 	public partial class FiresecManager
 	{
+		public FiresecService.Service.FiresecService FiresecService { get; private set; }
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationManager ConfigurationManager { get; private set; }
 		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
 
-		public FiresecManager()
+		public FiresecManager(FiresecService.Service.FiresecService firesecService)
 		{
+			FiresecService = firesecService;
 			FiresecSerializedClient = new FiresecSerializedClient();
 			ConfigurationManager = new ConfigurationManager();
 			ConfigurationManager.FiresecSerializedClient = FiresecSerializedClient;
@@ -33,7 +37,7 @@ namespace FiresecService
 				ConfigurationManager.Update();
 				ConvertStates();
 
-				var watcher = new Watcher(this);
+				var watcher = new Watcher(this, FiresecService);
 				return true;
 			}
 			return false;

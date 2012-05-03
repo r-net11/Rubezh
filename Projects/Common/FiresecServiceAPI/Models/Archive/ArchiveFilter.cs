@@ -30,9 +30,6 @@ namespace FiresecAPI.Models
         public List<string> DeviceDatabaseIds { get; set; }
 
         [DataMember]
-        public bool IsDeviceFilterOn { get; set; }
-
-        [DataMember]
         public List<SubsystemType> Subsystems { get; set; }
     }
 }

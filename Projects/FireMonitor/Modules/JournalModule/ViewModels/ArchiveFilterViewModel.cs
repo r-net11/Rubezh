@@ -37,7 +37,6 @@ namespace JournalModule.ViewModels
 					device.IsChecked = archiveFilter.DeviceDatabaseIds.Any(x => x == device.DatabaseId);
 				}
 			}
-			IsDeviceFilterOn = archiveFilter.IsDeviceFilterOn;
 
 			if (archiveFilter.Subsystems.IsNotNullOrEmpty())
 			{
@@ -55,7 +54,7 @@ namespace JournalModule.ViewModels
 			var operationResult = FiresecClient.FiresecManager.FiresecService.GetDistinctDescriptions();
 			if (operationResult.HasError == false)
 			{
-				foreach(var journalRecord in operationResult.Result)
+				foreach (var journalRecord in operationResult.Result)
 				{
 					var eventViewModel = new EventViewModel(journalRecord.StateType, journalRecord.Description);
 					JournalEvents.Add(eventViewModel);
@@ -64,7 +63,7 @@ namespace JournalModule.ViewModels
 
 			JournalTypes = new List<ClassViewModel>(
 				JournalEvents.Select(x => x.ClassId).Distinct().
-				Select(x => new ClassViewModel((StateType) x))
+				Select(x => new ClassViewModel((StateType)x))
 			);
 
 			Devices = new List<DeviceViewModel>(
@@ -146,17 +145,6 @@ namespace JournalModule.ViewModels
 
 		public List<DeviceViewModel> Devices { get; private set; }
 
-		bool _isDeviceFilterOn;
-		public bool IsDeviceFilterOn
-		{
-			get { return _isDeviceFilterOn; }
-			set
-			{
-				_isDeviceFilterOn = value;
-				OnPropertyChanged("IsDeviceFilterOn");
-			}
-		}
-
 		public ArchiveFilter GetModel()
 		{
 			return new ArchiveFilter()
@@ -166,7 +154,6 @@ namespace JournalModule.ViewModels
 				UseSystemDate = UseSystemDate,
 				Descriptions = new List<string>(JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)),
 				DeviceDatabaseIds = new List<string>(Devices.Where(x => x.IsChecked).Select(x => x.DatabaseId)),
-				IsDeviceFilterOn = IsDeviceFilterOn,
 				Subsystems = new List<SubsystemType>(Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)),
 			};
 		}
@@ -179,7 +166,6 @@ namespace JournalModule.ViewModels
 
 			JournalTypes.ForEach(x => x.IsEnable = false);
 			JournalEvents.ForEach(x => x.IsEnable = false);
-			IsDeviceFilterOn = false;
 			Devices.ForEach(x => x.IsChecked = true);
 			Subsystems.ForEach(x => x.IsEnable = false);
 		}

@@ -160,32 +160,27 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Converters\ConfigurationManager.Converter.cs" />
-    <Compile Include="Converters\ConfigurationManager.cs" />
-    <Compile Include="Converters\ConfigurationManager.DevicesConverter.cs" />
-    <Compile Include="Converters\DeviceCustomFunctionConverter.cs" />
-    <Compile Include="Converters\ConfigurationManager.GuardUsersConverter.cs" />
-    <Compile Include="Converters\PDUGroupLogicConverter.cs" />
-    <Compile Include="Converters\ConfigurationManager.PlansConverter.cs" />
-    <Compile Include="DatabaseConverter\ConnectionManager.cs" />
-    <Compile Include="DatabaseConverter\DatabaseHelper.cs" />
-    <Compile Include="DatabaseConverter\JournalDataConverter.cs" />
-    <Compile Include="DatabaseConverter\FiresecDbConverter.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
-    </Compile>
+    <Compile Include="Configuration\ConfigurationManager.Converter.cs" />
+    <Compile Include="Configuration\ConfigurationManager.cs" />
+    <Compile Include="Configuration\ConfigurationManager.DevicesConverter.cs" />
+    <Compile Include="Configuration\DeviceCustomFunctionConverter.cs" />
+    <Compile Include="Configuration\ConfigurationManager.GuardUsersConverter.cs" />
+    <Compile Include="Configuration\PDUGroupLogicConverter.cs" />
+    <Compile Include="Configuration\ConfigurationManager.PlansConverter.cs" />
+    <Compile Include="DatabaseConverter\FiresecDbConverter.designer.cs" />
+    <Compile Include="Database\ConnectionManager.cs" />
+    <Compile Include="Database\DatabaseHelper.cs" />
     <Compile Include="Imitator\ViewModels\DeviceStateViewModel.cs" />
     <Compile Include="Imitator\ViewModels\ImitatorViewModel.cs" />
     <Compile Include="Imitator\Views\ImitatorView.xaml.cs">
       <DependentUpon>ImitatorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\UserDialogService.cs" />
-    <Compile Include="Processor\ArchiveFilterHelper.cs" />
-    <Compile Include="Processor\ConfigurationFileManager.cs" />
+    <Compile Include="Configuration\ConfigurationFileManager.cs" />
     <Compile Include="Processor\FiresecManager.StatesConverter.cs" />
     <Compile Include="Processor\JournalFilterHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
+    <Compile Include="Service\CallbackWrapper.cs" />
     <Compile Include="Service\FiresecOperationExtentions.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
     <Compile Include="Service\FiresecService.SKUD.cs" />
@@ -222,7 +217,7 @@
     <Compile Include="XSD\IndicatorLogic.cs">
       <DependentUpon>IndicatorLogic.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Converters\IndicatorLogicConverter.cs" />
+    <Compile Include="Configuration\IndicatorLogicConverter.cs" />
     <Compile Include="XSD\Plan.cs">
       <DependentUpon>Plan.xsd</DependentUpon>
     </Compile>
@@ -248,11 +243,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Converters\ConfigurationManager.DirectionsConverter.cs" />
-    <Compile Include="Converters\DriverConverter.cs" />
-    <Compile Include="DatabaseConverter\JournalConverter.cs" />
-    <Compile Include="Converters\ConfigurationManager.ZonesConverter.cs" />
-    <Compile Include="Converters\ZoneLogicConverter.cs" />
+    <Compile Include="Configuration\ConfigurationManager.DirectionsConverter.cs" />
+    <Compile Include="Configuration\DriverConverter.cs" />
+    <Compile Include="Database\JournalConverter.cs" />
+    <Compile Include="Configuration\ConfigurationManager.ZonesConverter.cs" />
+    <Compile Include="Configuration\ZoneLogicConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -284,6 +279,11 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="DatabaseConverter\FiresecDbConverter.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>FiresecDbConverter1.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
     <None Include="DatabaseConverter\FiresecDbConverter.dbml.layout">
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </None>
@@ -292,11 +292,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <None Include="DatabaseConverter\FiresecDbConverter.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>FiresecDbConverter.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

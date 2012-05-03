@@ -3,7 +3,7 @@ using System.Linq;
 using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
 
-namespace FiresecService
+namespace FiresecService.Configuration
 {
 	public partial class ConfigurationManager
 	{

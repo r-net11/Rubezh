@@ -4,9 +4,10 @@ using System.IO;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecService.Converters;
+using FiresecService.Processor;
+using FiresecService.Configuration;
 
-namespace FiresecService
+namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
@@ -165,7 +166,7 @@ namespace FiresecService
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			var result = FiresecSerializedClient.DeviceReadConfig(firesecConfiguration, device.PlaceInTree);
-			
+
 			var operationResult = new OperationResult<DeviceConfiguration>()
 			{
 				HasError = result.HasError,
@@ -247,7 +248,7 @@ namespace FiresecService
 		public void ResetStates(List<ResetItem> resetItems)
 		{
 			var firesecResetHelper = new FiresecResetHelper(FiresecManager);
-            firesecResetHelper.ResetStates(resetItems);
+			firesecResetHelper.ResetStates(resetItems);
 		}
 
 		public void AddUserMessage(string message)

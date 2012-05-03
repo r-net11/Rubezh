@@ -6,10 +6,12 @@ using System.ServiceModel.Channels;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecService.DatabaseConverter;
 using FiresecService.ViewModels;
+using FiresecService.Database;
+using FiresecService.Processor;
+using FiresecService.DatabaseConverter;
 
-namespace FiresecService
+namespace FiresecService.Service
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true,
 	InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
@@ -17,6 +19,7 @@ namespace FiresecService
 	{
 		public readonly static FiresecDbConverterDataContext DataBaseContext = ConnectionManager.CreateFiresecDataContext();
 		public IFiresecCallback Callback { get; private set; }
+		public CallbackWrapper CallbackWrapper { get; private set; }
 		public IFiresecCallbackService FiresecCallbackService { get; private set; }
 		public Guid UID { get; private set; }
 		string _userLogin;
@@ -31,7 +34,7 @@ namespace FiresecService
 		public FiresecService()
 		{
 			UID = Guid.NewGuid();
-			FiresecManager = new FiresecManager();
+			FiresecManager = new FiresecManager(this);
 		}
 
 		public void BeginOperation(string operationName)
@@ -74,10 +77,11 @@ namespace FiresecService
 
 				MainViewModel.Current.AddConnection(this, UID, _userLogin, _userIpAddress, _clientType);
 
-				DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
-
 				Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+				CallbackWrapper = new CallbackWrapper(this);
 				CallbackManager.Add(this);
+
+				DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
 
 				FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(clientCallbackAddress);
 
@@ -155,12 +159,6 @@ namespace FiresecService
 		{
 			FiresecManager.Convert();
 			CallbackManager.OnConfigurationChanged();
-		}
-
-		public void ConvertJournal()
-		{
-			var journalDataConverter = new JournalDataConverter(FiresecSerializedClient);
-			journalDataConverter.Convert();
 		}
 
 		public string Ping()

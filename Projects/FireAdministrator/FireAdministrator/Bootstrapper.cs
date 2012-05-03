@@ -9,6 +9,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using System;
 
 namespace FireAdministrator
 {
@@ -52,6 +53,7 @@ namespace FireAdministrator
 				else
 				{
 					InitializeKnownModules();
+
 					//var navigation = InitializeModules();
 
 					var ShellView = new ShellView();
@@ -69,12 +71,19 @@ namespace FireAdministrator
 			    System.Environment.Exit(1);
 			}
 			SingleLaunchHelper.KeepAlive();
+
+			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent2>().Subscribe(OnConfigurationChanged);
+			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent2>().Subscribe(x => { InitializeKnownModules(); });
 		}
 
 		void RegisterServices()
 		{
 			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService());
-			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(x => { InitializeKnownModules(); });
+		}
+
+		void OnConfigurationChanged(object obj)
+		{
+			InitializeKnownModules();
 		}
 
 		void InitializeKnownModules()

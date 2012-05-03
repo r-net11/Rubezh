@@ -3,14 +3,14 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using Common;
 
-namespace FiresecService
+namespace FiresecService.Service
 {
-    public static class FiresecServiceManager
-    {
-        static ServiceHost _serviceHost;
+	public static class FiresecServiceManager
+	{
+		static ServiceHost _serviceHost;
 
-        public static bool Open()
-        {
+		public static bool Open()
+		{
 			try
 			{
 				Close();
@@ -49,12 +49,12 @@ namespace FiresecService
 				return true;
 			}
 			catch { return false; }
-        }
+		}
 
-        public static void Close()
-        {
-            if (_serviceHost != null && _serviceHost.State != CommunicationState.Closed && _serviceHost.State != CommunicationState.Closing)
-                _serviceHost.Close();
-        }
-    }
+		public static void Close()
+		{
+			if (_serviceHost != null && _serviceHost.State != CommunicationState.Closed && _serviceHost.State != CommunicationState.Closing)
+				_serviceHost.Close();
+		}
+	}
 }

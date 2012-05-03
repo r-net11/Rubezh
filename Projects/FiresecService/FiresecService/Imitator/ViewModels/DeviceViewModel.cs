@@ -8,11 +8,11 @@ namespace FiresecService.ViewModels
 {
 	public class DeviceViewModel : INotifyPropertyChanged
 	{
-		FiresecManager FiresecManager;
+		FiresecService.Service.FiresecService FiresecService;
 
-		public DeviceViewModel(DeviceState deviceState, FiresecManager firesecManager)
+		public DeviceViewModel(DeviceState deviceState, FiresecService.Service.FiresecService firesecService)
 		{
-			FiresecManager = firesecManager;
+			FiresecService = firesecService;
 
 			DeviceState = deviceState;
 
@@ -55,7 +55,7 @@ namespace FiresecService.ViewModels
 			);
 			deviceStates.Add(DeviceState);
 
-			CallbackManager.OnDeviceStatesChanged(deviceStates);
+			FiresecService.CallbackWrapper.OnDeviceStatesChanged(deviceStates);
 			CalculateZones();
 
 			OnPropertyChanged("State");
@@ -63,27 +63,27 @@ namespace FiresecService.ViewModels
 
 		void CalculateZones()
 		{
-			if (FiresecManager.DeviceConfigurationStates.ZoneStates == null)
+			if (FiresecService.FiresecManager.DeviceConfigurationStates.ZoneStates == null)
 				return;
 
-			foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
+			foreach (var zoneState in FiresecService.FiresecManager.DeviceConfigurationStates.ZoneStates)
 			{
 				StateType minZoneStateType = StateType.Norm;
-				foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates.
+				foreach (var deviceState in FiresecService.FiresecManager.DeviceConfigurationStates.DeviceStates.
 					Where(x => x.Device.ZoneNo == zoneState.No && !x.Device.Driver.IgnoreInZoneState))
 				{
 					if (deviceState.StateType < minZoneStateType)
 						minZoneStateType = deviceState.StateType;
 				}
 
-				if (FiresecManager.DeviceConfigurationStates.DeviceStates.
+				if (FiresecService.FiresecManager.DeviceConfigurationStates.DeviceStates.
 					Any(x => x.Device.ZoneNo == zoneState.No) == false)
 					minZoneStateType = StateType.Unknown;
 
 				if (zoneState.StateType != minZoneStateType)
 				{
 					zoneState.StateType = minZoneStateType;
-					CallbackManager.OnZoneStateChanged(zoneState);
+					FiresecService.CallbackWrapper.OnZoneStateChanged(zoneState);
 				}
 			}
 		}

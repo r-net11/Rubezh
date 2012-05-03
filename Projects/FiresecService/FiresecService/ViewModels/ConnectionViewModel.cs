@@ -5,7 +5,7 @@ namespace FiresecService.ViewModels
 {
 	public class ConnectionViewModel : BaseViewModel
 	{
-		public FiresecService FiresecService { get; set; }
+		public FiresecService.Service.FiresecService FiresecService { get; set; }
 		public Guid UID { get; set; }
 		public string IpAddress { get; set; }
 		public string ClientType { get; set; }

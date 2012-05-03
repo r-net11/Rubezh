@@ -5,7 +5,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models.Skud;
 
-namespace FiresecService
+namespace FiresecService.Service
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true,
 	InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
@@ -277,11 +277,6 @@ namespace FiresecService
 		public OperationResult<List<FiresecAPI.Models.JournalDescriptionItem>> GetDistinctDescriptions()
 		{
 			return SafeOperationCall(() => { return FiresecService.GetDistinctDescriptions(); }, "GetDistinctDescriptions");
-		}
-
-		public OperationResult<List<FiresecAPI.Models.JournalDeviceItem>> GetDistinctDevices()
-		{
-			return SafeOperationCall(() => { return FiresecService.GetDistinctDevices(); }, "GetDistinctDevices");
 		}
 
 		public OperationResult<DateTime> GetArchiveStartDate()

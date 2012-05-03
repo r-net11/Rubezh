@@ -7,6 +7,7 @@ using Controls.MessageBox;
 using FiresecService.ViewModels;
 using FiresecServiceRunner;
 using Infrastructure.Common;
+using FiresecService.Service;
 
 namespace FiresecService
 {

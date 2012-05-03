@@ -5,18 +5,18 @@ namespace FiresecService.ViewModels
 {
 	public class ImitatorViewModel : DialogContent
 	{
-		FiresecManager FiresecManager;
+		FiresecService.Service.FiresecService FiresecService;
 
-		public ImitatorViewModel(FiresecManager firesecManager)
+		public ImitatorViewModel(FiresecService.Service.FiresecService firesecService)
 		{
-			FiresecManager = firesecManager;
+			FiresecService = firesecService;
 
 			Title = "Имитатор устройств";
 			Devices = new ObservableCollection<DeviceViewModel>();
 
-			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			foreach (var deviceState in FiresecService.FiresecManager.DeviceConfigurationStates.DeviceStates)
 			{
-				var deviceViewModel = new DeviceViewModel(deviceState, FiresecManager);
+				var deviceViewModel = new DeviceViewModel(deviceState, FiresecService);
 				Devices.Add(deviceViewModel);
 			}
 		}
