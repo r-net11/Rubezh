@@ -81,13 +81,16 @@
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding DeviceState.States}">
+                    <ItemsControl ItemsSource="{Binding States}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Button Content="Сбросить" Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
-                                            Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}" CommandParameter="{Binding DriverState.Name}" />
-                                    <TextBlock Text="{Binding DriverState.Name}" />
+                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
+                                    <Controls:ToolBarButton ToolTip="Сбросить" ImageSource="/Controls;component/Images/Close.png"
+                                        Width="32" Height="32" VerticalAlignment="Center"
+                                        Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
+                                        Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}"
+                                        CommandParameter="{Binding DriverState.Name}" />
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

@@ -46,7 +46,7 @@ namespace SettingsModule.ViewModels
                 FiresecManager.FiresecService.ConvertConfiguration();
                 FiresecManager.GetConfiguration(false);
 
-                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent2>().Publish(null);
+                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Models;
 using FiresecService.Configuration;
 using FiresecService.Service;
+using System;
 
 namespace FiresecService.Processor
 {
@@ -10,11 +11,12 @@ namespace FiresecService.Processor
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationManager ConfigurationManager { get; private set; }
 		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
+		public AppDomain Domain { get; set; }
 
 		public FiresecManager(FiresecService.Service.FiresecService firesecService)
 		{
-			FiresecService = firesecService;
 			FiresecSerializedClient = new FiresecSerializedClient();
+			FiresecService = firesecService;
 			ConfigurationManager = new ConfigurationManager();
 			ConfigurationManager.FiresecSerializedClient = FiresecSerializedClient;
 		}

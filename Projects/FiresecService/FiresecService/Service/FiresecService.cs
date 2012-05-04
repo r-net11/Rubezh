@@ -47,9 +47,15 @@ namespace FiresecService.Service
 			MainViewModel.Current.UpdateCurrentOperationName(UID, "");
 		}
 
+		public void DisposeComServer()
+		{
+			Logger.Info("DisposeComServer");
+			FiresecSerializedClient.Disconnect();
+		}
+
 		public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string login, string password)
 		{
-			lock (Locker)
+			//lock (this)
 			{
 				FiresecManager.LoadConfiguration();
 
@@ -68,11 +74,6 @@ namespace FiresecService.Service
 					return operationResult;
 				}
 
-				string oldFiresecLogin = AppSettings.OldFiresecLogin;
-				string oldFiresecPassword = AppSettings.OldFiresecPassword;
-				IsConnectedToComServer = FiresecManager.ConnectFiresecCOMServer(oldFiresecLogin, oldFiresecPassword);
-				FiresecSerializedClient = FiresecManager.FiresecSerializedClient;
-
 				_clientType = clientType;
 
 				MainViewModel.Current.AddConnection(this, UID, _userLogin, _userIpAddress, _clientType);
@@ -80,6 +81,8 @@ namespace FiresecService.Service
 				Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
 				CallbackWrapper = new CallbackWrapper(this);
 				CallbackManager.Add(this);
+
+				ConnectComServer();
 
 				DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
 
@@ -97,6 +100,14 @@ namespace FiresecService.Service
 				}
 				return operationResult;
 			}
+		}
+
+		void ConnectComServer()
+		{
+			string oldFiresecLogin = AppSettings.OldFiresecLogin;
+			string oldFiresecPassword = AppSettings.OldFiresecPassword;
+			IsConnectedToComServer = FiresecManager.ConnectFiresecCOMServer(oldFiresecLogin, oldFiresecPassword);
+			FiresecSerializedClient = FiresecManager.FiresecSerializedClient;
 		}
 
 		public OperationResult<bool> Reconnect(string login, string password)
@@ -129,6 +140,7 @@ namespace FiresecService.Service
 		[OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.AfterCall)]
 		public void Disconnect()
 		{
+			FiresecSerializedClient.Disconnect();
 			MainViewModel.Current.RemoveConnection(UID);
 			DatabaseHelper.AddInfoMessage(_userName, "Выход пользователя из системы");
 			CallbackManager.Remove(this);
@@ -163,18 +175,12 @@ namespace FiresecService.Service
 
 		public string Ping()
 		{
-			lock (Locker)
-			{
-				return "Pong";
-			}
+			return "Pong";
 		}
 
 		public string Test()
 		{
-			lock (Locker)
-			{
-				return "Test";
-			}
+			return "Test";
 		}
 
 		bool CheckRemoteAccessPermissions(string login)

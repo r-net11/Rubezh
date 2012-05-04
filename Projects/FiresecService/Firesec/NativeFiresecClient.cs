@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using System.Runtime.Remoting;
 using System.Text;
 using System.Windows.Controls;
+using System.Threading;
 
 namespace Firesec
 {
-	public class NativeFiresecClient
+	public class NativeFiresecClient : FS_Types.IFS_CallBack
 	{
 		Control control;
+		AppDomain Domain;
+		bool IsUnloaded = false;
 
 		public NativeFiresecClient()
 		{
 			control = new Control();
+			var thread = new Thread(new ThreadStart(WorkTask));
+			thread.Start();
 		}
 
 		FS_Types.IFSC_Connection _connectoin;
@@ -33,7 +38,16 @@ namespace Firesec
 
 		public FiresecOperationResult<bool> Disconnect()
 		{
-			return SafeCall<bool>(() => { _connectoin = null; return true; });
+			return SafeCall<bool>(() =>
+			{
+				if (IsUnloaded == false)
+				{
+					_connectoin = null;
+					//AppDomain.Unload(Domain);
+					IsUnloaded = true;
+				}
+				return true;
+			});
 		}
 
 		public FiresecOperationResult<string> GetCoreConfig()
@@ -183,9 +197,23 @@ namespace Firesec
 			return SafeCall<string>(() => { return Connectoin.DeviceGetMDS5Data(coreConfig, devicePath); });
 		}
 
+		string ConvertDeviceList(List<string> devicePaths)
+		{
+			var devicePatsString = new StringBuilder();
+			foreach (string device in devicePaths)
+			{
+				devicePatsString.AppendLine(device);
+			}
+			return devicePatsString.ToString().TrimEnd();
+		}
+
+		#region Connection
 		FS_Types.IFSC_Connection GetConnection(string login, string password)
 		{
+			//Domain = AppDomain.CreateDomain("Controller Domain");
+
 			ObjectHandle objectHandle = Activator.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
+			//ObjectHandle objectHandle = Domain.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
 			//FS_Types.FSC_LIBRARY_CLASSClass library = (FS_Types.FSC_LIBRARY_CLASSClass)objectHandle.Unwrap();
 			FS_Types.FSC_LIBRARY_CLASS library = (FS_Types.FSC_LIBRARY_CLASS)objectHandle.Unwrap();
 			FS_Types.TFSC_ServerInfo serverInfo = new FS_Types.TFSC_ServerInfo()
@@ -197,7 +225,7 @@ namespace Firesec
 			FS_Types.IFSC_Connection connectoin;
 			try
 			{
-				connectoin = library.Connect2(login, password, serverInfo, new NotificationCallBack());
+				connectoin = library.Connect2(login, password, serverInfo, this);
 			}
 			catch
 			{
@@ -235,7 +263,9 @@ namespace Firesec
 
 			return stringBuilder.ToString();
 		}
+		#endregion
 
+		#region SafeCall
 		FiresecOperationResult<T> SafeCall<T>(Func<T> func)
 		{
 			var safeCallResult = (FiresecOperationResult<T>)control.Dispatcher.Invoke
@@ -273,15 +303,85 @@ namespace Firesec
 			}
 			return resultData;
 		}
+		#endregion
 
-		string ConvertDeviceList(List<string> devicePaths)
+		#region Callback
+		public void NewEventsAvailable(int eventMask)
 		{
-			var devicePatsString = new StringBuilder();
-			foreach (string device in devicePaths)
-			{
-				devicePatsString.AppendLine(device);
-			}
-			return devicePatsString.ToString().TrimEnd();
+			if (IsUnloaded)
+				return;
+
+			if (NewEventAvaliable != null)
+				NewEventAvaliable(eventMask);
 		}
+
+		public event Action<int> NewEventAvaliable;
+		public int IntContinueProgress = 1;
+
+		public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
+		{
+			if (IsUnloaded)
+				return true;
+
+			try
+			{
+				var continueProgress = IntContinueProgress == 1;
+				IntContinueProgress = 1;
+				ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
+				return continueProgress;
+			}
+			catch (Exception e)
+			{
+				return false;
+			}
+		}
+		#endregion
+
+		#region Progress
+		object locker = new object();
+		Queue<ProgressData> taskQeue = new Queue<ProgressData>();
+		public event Func<int, string, int, int, bool> ProgressEvent;
+
+		public void ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
+		{
+			lock (locker)
+			{
+				var progressData = new ProgressData()
+				{
+					Stage = Stage,
+					Comment = Comment,
+					PercentComplete = PercentComplete,
+					BytesRW = BytesRW
+				};
+
+				taskQeue.Enqueue(progressData);
+				Monitor.PulseAll(locker);
+			}
+		}
+
+		void WorkTask()
+		{
+			while (true)
+			{
+				lock (locker)
+				{
+					while (taskQeue.Count == 0)
+						Monitor.Wait(locker);
+
+					ProgressData progressData = taskQeue.Dequeue();
+					var result = OnProgress(progressData.Stage, progressData.Comment, progressData.PercentComplete, progressData.BytesRW);
+
+					Interlocked.Exchange(ref IntContinueProgress, result ? 1 : 0);
+				}
+			}
+		}
+
+		bool OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
+		{
+			if (ProgressEvent != null)
+				return ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
+			return true;
+		}
+		#endregion
 	}
 }

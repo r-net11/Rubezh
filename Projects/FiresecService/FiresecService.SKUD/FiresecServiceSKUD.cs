@@ -15,7 +15,7 @@ namespace FiresecService.SKUD
 			get
 			{
 				if (_context == null)
-					lock (this)
+					//lock (this)
 						if (_context == null)
 							_context = new DataAccess.FiresecDataContext();
 				return _context;

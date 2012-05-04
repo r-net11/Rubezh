@@ -9,7 +9,7 @@ namespace FiresecService.Service
 	{
 		public List<string> GetFileNamesList(string directory)
 		{
-			lock (Locker)
+			//lock (this)
 			{
 				return HashHelper.GetFileNamesList(directory);
 			}
@@ -17,7 +17,7 @@ namespace FiresecService.Service
 
 		public Dictionary<string, string> GetDirectoryHash(string directory)
 		{
-			lock (Locker)
+			//lock (this)
 			{
 				return HashHelper.GetDirectoryHash(directory);
 			}
@@ -25,7 +25,7 @@ namespace FiresecService.Service
 
 		public Stream GetFile(string directoryNameAndFileName)
 		{
-			lock (Locker)
+			//lock (this)
 			{
 				var filePath = ConfigurationFileManager.ConfigurationDirectory(directoryNameAndFileName);
 				return new FileStream(filePath, FileMode.Open, FileAccess.Read);

@@ -19,8 +19,8 @@ namespace FiresecService.Processor
 
 			if (result.Result)
 			{
-				FiresecEventAggregator.NewEventAvaliable += new Action<int>(NewEventsAvailable);
-				ProgressHelper.Progress += new Func<int, string, int, int, bool>(FiresecEventAggregator_Progress);
+				NativeFiresecClient.NewEventAvaliable += new Action<int>(NewEventsAvailable);
+				NativeFiresecClient.ProgressEvent += new Func<int, string, int, int, bool>(FiresecEventAggregator_Progress);
 			}
 			return result;
 		}

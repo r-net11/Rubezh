@@ -9,7 +9,6 @@ namespace FiresecService.Service
 	public class CallbackWrapper
 	{
 		FiresecService FiresecService;
-		object locker = new object();
 
 		public CallbackWrapper(FiresecService firesecService)
 		{
@@ -38,33 +37,37 @@ namespace FiresecService.Service
 
 		public bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
-			lock (locker)
+			try
 			{
-				try
-				{
-					var result = FiresecService.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
-					return result;
-				}
-				catch
-				{
-				}
-				return true;
+				var result = FiresecService.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
+				return result;
 			}
+			catch (ObjectDisposedException)
+			{
+				FiresecService.DisposeComServer();
+			}
+			catch (Exception)
+			{
+				FiresecService.DisposeComServer();
+			}
+			return true;
 		}
 
 		void SafeCall(Action<FiresecService> action)
 		{
-			lock (locker)
-			{
-				if (FiresecService.IsSubscribed)
-					try
-					{
-						action(FiresecService);
-					}
-					catch
-					{
-					}
-			}
+			if (FiresecService.IsSubscribed)
+				try
+				{
+					action(FiresecService);
+				}
+				catch (ObjectDisposedException)
+				{
+					FiresecService.DisposeComServer();
+				}
+				catch (Exception)
+				{
+					FiresecService.DisposeComServer();
+				}
 		}
 	}
 }

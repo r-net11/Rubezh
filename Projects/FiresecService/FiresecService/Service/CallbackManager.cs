@@ -14,6 +14,7 @@ namespace FiresecService.Service
 
 		static List<FiresecService> _serviceInstances;
 		static List<FiresecService> _failedServiceInstances;
+		static object locker = new object();
 
 		public static void Add(FiresecService firesecService)
 		{
@@ -40,7 +41,7 @@ namespace FiresecService.Service
 
 		static void SafeCall(Action<FiresecService> action)
 		{
-			lock (FiresecService.Locker)
+			//lock (locker)
 			{
 				_failedServiceInstances = new List<FiresecService>();
 				foreach (var serviceInstance in _serviceInstances)

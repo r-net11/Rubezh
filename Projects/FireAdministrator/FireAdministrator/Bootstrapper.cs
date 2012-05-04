@@ -72,8 +72,7 @@ namespace FireAdministrator
 			}
 			SingleLaunchHelper.KeepAlive();
 
-			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent2>().Subscribe(OnConfigurationChanged);
-			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent2>().Subscribe(x => { InitializeKnownModules(); });
+			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 		}
 
 		void RegisterServices()

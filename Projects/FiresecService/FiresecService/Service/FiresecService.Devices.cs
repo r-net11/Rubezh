@@ -101,40 +101,34 @@ namespace FiresecService.Service
 
 		public OperationResult<string> DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
 		{
-			lock (Locker)
+			fileName = Guid.NewGuid().ToString();
+			Directory.CreateDirectory("Temp");
+			fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
+			using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
 			{
-				fileName = Guid.NewGuid().ToString();
-				Directory.CreateDirectory("Temp");
-				fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
-				using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-				{
-					stream.Write(bytes, 0, bytes.Length);
-				}
-
-				var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
-				var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-				//fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_1.HXC";
-				return FiresecSerializedClient.DeviceUpdateFirmware(firesecConfiguration, device.PlaceInTree, fileName).ToOperationResult();
+				stream.Write(bytes, 0, bytes.Length);
 			}
+
+			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
+			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			//fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_1.HXC";
+			return FiresecSerializedClient.DeviceUpdateFirmware(firesecConfiguration, device.PlaceInTree, fileName).ToOperationResult();
 		}
 
 		public OperationResult<string> DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
 		{
-			lock (Locker)
+			fileName = Guid.NewGuid().ToString();
+			Directory.CreateDirectory("Temp");
+			fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
+			using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
 			{
-				fileName = Guid.NewGuid().ToString();
-				Directory.CreateDirectory("Temp");
-				fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
-				using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-				{
-					stream.Write(bytes, 0, bytes.Length);
-				}
-
-				var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
-				var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-				//`fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_2.HXC";
-				return FiresecSerializedClient.DeviceVerifyFirmwareVersion(firesecConfiguration, device.PlaceInTree, fileName).ToOperationResult();
+				stream.Write(bytes, 0, bytes.Length);
 			}
+
+			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
+			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			//`fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_2.HXC";
+			return FiresecSerializedClient.DeviceVerifyFirmwareVersion(firesecConfiguration, device.PlaceInTree, fileName).ToOperationResult();
 		}
 
 		public OperationResult<string> DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID)

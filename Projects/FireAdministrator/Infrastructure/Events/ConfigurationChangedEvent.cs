@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Events
 {
-    public class ConfigurationChangedEvent2 : CompositePresentationEvent<object>
+    public class ConfigurationChangedEvent : CompositePresentationEvent<object>
     {
     }
 }

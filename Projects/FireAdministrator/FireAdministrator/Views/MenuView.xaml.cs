@@ -106,7 +106,7 @@ namespace FireAdministrator.Views
 
                 XManager.SetEmptyConfiguration();
 
-                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent2>().Publish(null);
+                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
                 ServiceFactory.SaveService.Reset();
                 DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
@@ -149,7 +149,7 @@ namespace FireAdministrator.Views
                 CopyTo(LoadFromFile(openDialog.FileName));
 
                 FiresecManager.UpdateConfiguration();
-                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent2>().Publish(null);
+                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
                 //DevicesModule.DevicesModule.CreateViewModels();
                 ServiceFactory.Layout.Close();

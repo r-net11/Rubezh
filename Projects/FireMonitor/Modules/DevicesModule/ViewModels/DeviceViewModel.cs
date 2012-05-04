@@ -38,6 +38,8 @@ namespace DevicesModule.ViewModels
 			{
 				MessageBoxService.ShowWarning("Ошибка при сопоставлении устройства с его состоянием");
 			}
+
+			OnStateChanged();
 		}
 
 		public string PresentationZone
@@ -47,12 +49,25 @@ namespace DevicesModule.ViewModels
 
 		void OnStateChanged()
 		{
+			States = new List<StateViewModel>();
+			foreach (var state in DeviceState.States)
+			{
+				var stateViewModel = new StateViewModel()
+				{
+					DriverState = state.DriverState
+				};
+				States.Add(stateViewModel);
+			}
+
 			OnPropertyChanged("StateType");
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("DeviceState.States");
 			OnPropertyChanged("DeviceState.StringStates");
 			OnPropertyChanged("DeviceState.ParentStringStates");
+			OnPropertyChanged("States");
 		}
+
+		public List<StateViewModel> States { get; private set; }
 
 		void OnParametersChanged()
 		{

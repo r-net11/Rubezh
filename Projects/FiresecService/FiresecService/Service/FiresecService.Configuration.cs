@@ -8,7 +8,7 @@ namespace FiresecService.Service
 	{
 		public List<Driver> GetDrivers()
 		{
-			lock (Locker)
+			//lock (this)
 			{
 				return FiresecManager.ConfigurationManager.Drivers;
 			}
@@ -16,7 +16,7 @@ namespace FiresecService.Service
 
 		public DeviceConfigurationStates GetStates()
 		{
-			lock (Locker)
+			//lock (this)
 			{
 				return FiresecManager.DeviceConfigurationStates;
 			}
@@ -24,7 +24,7 @@ namespace FiresecService.Service
 
 		public DeviceConfiguration GetDeviceConfiguration()
 		{
-			lock (Locker)
+			//lock (this)
 			{
 				return FiresecManager.ConfigurationManager.DeviceConfiguration;
 			}
@@ -32,7 +32,7 @@ namespace FiresecService.Service
 
 		public SecurityConfiguration GetSecurityConfiguration()
 		{
-			lock (Locker)
+			//lock (this)
 			{
 				return FiresecManager.ConfigurationManager.SecurityConfiguration;
 			}
@@ -46,7 +46,7 @@ namespace FiresecService.Service
 
 		public SystemConfiguration GetSystemConfiguration()
 		{
-			lock (Locker)
+			//lock (this)
 			{
 				return FiresecManager.ConfigurationManager.SystemConfiguration;
 			}
@@ -60,7 +60,7 @@ namespace FiresecService.Service
 
 		public LibraryConfiguration GetLibraryConfiguration()
 		{
-			lock (Locker)
+			//lock (this)
 			{
 				return FiresecManager.ConfigurationManager.LibraryConfiguration;
 			}
@@ -74,7 +74,7 @@ namespace FiresecService.Service
 
 		public PlansConfiguration GetPlansConfiguration()
 		{
-			lock (Locker)
+			//lock (this)
 			{
 				return FiresecManager.ConfigurationManager.PlansConfiguration;
 			}

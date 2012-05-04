@@ -16,7 +16,7 @@ namespace FiresecService.Service
 			var operationResult = new OperationResult<List<JournalRecord>>();
 			try
 			{
-				lock (Locker)
+				//lock (this)
 				{
 					var internalJournal = FiresecSerializedClient.ReadEvents(startIndex, count).Result;
 					if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
