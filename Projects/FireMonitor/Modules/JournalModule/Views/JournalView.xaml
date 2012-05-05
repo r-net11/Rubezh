@@ -24,14 +24,14 @@
                   ItemsSource="{Binding JournalRecords}" SelectedItem="{Binding SelectedRecord}"
                   EnableRowVirtualization="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Время устройства" Binding="{Binding JournalRecord.DeviceTime, Converter={StaticResource TimeToStringConverter}}" />
-                <DataGridTextColumn Header="Системное время" Binding="{Binding JournalRecord.SystemTime, Converter={StaticResource TimeToStringConverter}}" />
-                <DataGridTextColumn Header="Зона" Binding="{Binding JournalRecord.ZoneName}" />
-                <DataGridTextColumn Header="Описание" Binding="{Binding JournalRecord.Description}" Width="*" />
-                <DataGridTextColumn Header="Устройство - датчик" Binding="{Binding JournalRecord.DeviceName}" />
-                <DataGridTextColumn Header="Устройство" Binding="{Binding JournalRecord.PanelName}" />
-                <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalRecord.User}" />
-                <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalRecord.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" />
+                <DataGridTextColumn Header="Время устройства" Binding="{Binding JournalRecord.DeviceTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />
+                <DataGridTextColumn Header="Системное время" Binding="{Binding JournalRecord.SystemTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />
+                <DataGridTextColumn Header="Зона" Binding="{Binding JournalRecord.ZoneName}" MinWidth="100" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding JournalRecord.Description}" MinWidth="200" Width="*" />
+                <DataGridTextColumn Header="Устройство - датчик" Binding="{Binding JournalRecord.DeviceName}" MinWidth="100" />
+                <DataGridTextColumn Header="Устройство" Binding="{Binding JournalRecord.PanelName}" MinWidth="100" />
+                <DataGridTextColumn Header="Пользователь" Binding="{Binding JournalRecord.User}" MinWidth="100" />
+                <DataGridTextColumn Header="Подсистема" Binding="{Binding JournalRecord.SubsystemType, Converter={StaticResource SubsystemTypeToStringConverter}}" MinWidth="100" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">

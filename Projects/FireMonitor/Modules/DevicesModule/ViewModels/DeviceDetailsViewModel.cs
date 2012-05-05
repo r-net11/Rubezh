@@ -69,7 +69,7 @@ namespace DevicesModule.ViewModels
                 {
                     foreach (var parameter in DeviceState.Parameters)
                     {
-                        if (!parameter.Visible || string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
+                        if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
                             continue;
                         parameters.Add(parameter.Caption + " - " + parameter.Value);
                     }
