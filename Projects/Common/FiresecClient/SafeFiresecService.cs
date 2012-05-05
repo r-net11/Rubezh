@@ -258,9 +258,9 @@ namespace FiresecClient
 			SafeOperationCall(() => { _iFiresecService.SetSecurityConfiguration(securityConfiguration); });
 		}
 
-		public DeviceConfigurationStates GetStates()
+		public DeviceConfigurationStates GetStates(bool forceConvert = false)
 		{
-			return SafeOperationCall(() => { return _iFiresecService.GetStates(); });
+			return SafeOperationCall(() => { return _iFiresecService.GetStates(forceConvert); });
 		}
 
 		public OperationResult<List<JournalRecord>> ReadJournal(int startIndex, int count)

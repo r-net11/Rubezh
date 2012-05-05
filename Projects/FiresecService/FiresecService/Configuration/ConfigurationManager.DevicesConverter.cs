@@ -291,7 +291,8 @@ namespace FiresecService.Configuration
 					var zoneLogicProperty = propertyList.FirstOrDefault(x => x.name == "ExtendedZoneLogic");
 					if (zoneLogicProperty == null)
 					{
-						propertyList.Add(new propType());
+						zoneLogicProperty = new propType();
+						propertyList.Add(zoneLogicProperty);
 					}
 
 					zoneLogicProperty.name = "ExtendedZoneLogic";

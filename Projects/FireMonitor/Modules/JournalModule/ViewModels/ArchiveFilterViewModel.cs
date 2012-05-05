@@ -20,6 +20,8 @@ namespace JournalModule.ViewModels
 
 			StartDate = archiveFilter.StartDate;
 			EndDate = archiveFilter.EndDate;
+			StartTime = archiveFilter.StartDate;
+			EndTime = archiveFilter.EndDate;
 			UseSystemDate = archiveFilter.UseSystemDate;
 
 			if (archiveFilter.Descriptions.IsNotNullOrEmpty())
@@ -149,8 +151,8 @@ namespace JournalModule.ViewModels
 		{
 			return new ArchiveFilter()
 			{
-				StartDate = StartDate,
-				EndDate = EndDate,
+				StartDate = new DateTime(StartDate.Year, StartDate.Month, StartDate.Day, StartTime.Hour, StartTime.Minute, StartTime.Second),
+				EndDate = new DateTime(EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, EndTime.Second),
 				UseSystemDate = UseSystemDate,
 				Descriptions = new List<string>(JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)),
 				DeviceDatabaseIds = new List<string>(Devices.Where(x => x.IsChecked).Select(x => x.DatabaseId)),

@@ -22,7 +22,7 @@ namespace FiresecClient
                 MaxBufferSize = Int32.MaxValue,
                 MaxReceivedMessageSize = Int32.MaxValue
             };
-            binding.ReliableSession.InactivityTimeout = TimeSpan.FromMinutes(10);
+            binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
             binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
             binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
             binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;

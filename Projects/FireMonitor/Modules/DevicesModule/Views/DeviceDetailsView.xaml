@@ -21,24 +21,24 @@
                         </StackPanel>
                         <TextBlock Text="{Binding Device.Driver.Name}" VerticalAlignment="Center" Foreground="White" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="1">
+                    <WrapPanel Margin="1">
                         <TextBlock Text="Тип устройства: " FontWeight="Bold" Foreground="Orange" />
                         <TextBlock Text="{Binding Device.Driver.CategoryName}" Foreground="White" />
                         <TextBlock Text=", " Foreground="White" />
                         <TextBlock Text="{Binding Device.Driver.DeviceTypeName}" Foreground="White" />
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="1">
+                    </WrapPanel>
+                    <WrapPanel Margin="1">
                         <TextBlock Text="Подключено: " FontWeight="Bold" Foreground="Orange" />
                         <TextBlock Text="{Binding Device.ConnectedTo}" Foreground="White" />
-                    </StackPanel>
-                    <StackPanel Visibility="{Binding Device.Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal" Margin="1">
+                    </WrapPanel>
+                    <WrapPanel Visibility="{Binding Device.Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
                         <TextBlock Text="Зона: " FontWeight="Bold" Foreground="Orange" />
                         <TextBlock Text="{Binding PresentationZone}" Foreground="White" />
-                    </StackPanel>
-                    <StackPanel Visibility="{Binding Device.Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
+                    </WrapPanel>
+                    <WrapPanel Visibility="{Binding Device.Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
                         <TextBlock Text="Логика срабатывания по состоянию зон:" FontWeight="Bold" Foreground="Orange" />
                         <TextBlock Text="{Binding PresentationZone}" Foreground="White" />
-                    </StackPanel>
+                    </WrapPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Состояние" TextElement.Foreground="White">

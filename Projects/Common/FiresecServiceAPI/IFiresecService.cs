@@ -69,7 +69,7 @@ namespace FiresecAPI
 		void SetSecurityConfiguration(SecurityConfiguration securityConfiguration);
 
 		[OperationContract]
-		DeviceConfigurationStates GetStates();
+		DeviceConfigurationStates GetStates(bool forceConvert = false);
 		#endregion
 
 		#region Devices

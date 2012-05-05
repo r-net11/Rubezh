@@ -254,9 +254,9 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.SetSecurityConfiguration(securityConfiguration); }, "SetSecurityConfiguration");
 		}
 
-		public FiresecAPI.Models.DeviceConfigurationStates GetStates()
+		public FiresecAPI.Models.DeviceConfigurationStates GetStates(bool forceConvert = false)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetStates(); }, "GetStates");
+			return SafeOperationCall(() => { return FiresecService.GetStates(forceConvert); }, "GetStates");
 		}
 
 		public OperationResult<List<FiresecAPI.Models.JournalRecord>> ReadJournal(int startIndex, int count)

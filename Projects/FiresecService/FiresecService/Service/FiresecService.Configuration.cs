@@ -14,10 +14,12 @@ namespace FiresecService.Service
 			}
 		}
 
-		public DeviceConfigurationStates GetStates()
+		public DeviceConfigurationStates GetStates(bool forceConvert = false)
 		{
 			//lock (this)
 			{
+				if (forceConvert)
+					FiresecManager.ConvertStates();
 				return FiresecManager.DeviceConfigurationStates;
 			}
 		}
