@@ -51,7 +51,6 @@ namespace ReportsModule.ViewModels
 				{ReportType.ReportDevicesList, new ReportDevicesList()}
 			};
 			_document = new ReportDocument();
-			//_document.Load(FileHelper.GetReportFilePath(_reportMap[ReportType.ReportIndicationBlock].ReportFileName));
 			new Thread(() =>
 				{
 					DateTime dt = DateTime.Now;
@@ -65,8 +64,8 @@ namespace ReportsModule.ViewModels
 			using (new WaitWrapper())
 			{
 				DateTime dt = DateTime.Now;
-				baseReport.LoadCrystalReportDocument(_document);
 				baseReport.LoadData();
+				baseReport.LoadCrystalReportDocument(_document);
 				var viewerCore = new SAPBusinessObjects.WPF.Viewer.ViewerCore()
 				{
 					ToggleSidePanel = Constants.SidePanelKind.None,
@@ -105,11 +104,11 @@ namespace ReportsModule.ViewModels
 			set
 			{
 				_selectedReportName = value;
-				OnPropertyChanged("SelectedReportName");
 				if (value.HasValue)
 					ShowCrystalReport(_reportMap[value.Value]);
 				OnPropertyChanged("IsReportLoad");
 				OnPropertyChanged("IsJournalReport");
+				OnPropertyChanged("SelectedReportName");
 			}
 		}
 
