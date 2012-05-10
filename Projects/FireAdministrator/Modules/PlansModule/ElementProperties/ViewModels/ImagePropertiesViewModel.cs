@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Common;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using Infrastructure.Common;
 using Microsoft.Win32;
 

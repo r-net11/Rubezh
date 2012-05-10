@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FiresecAPI;
 using FiresecClient;
 using Infrastructure;

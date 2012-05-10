@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FiresecClient;
 using Infrastructure.Common;
 using XFiresecAPI;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FiresecService;
 
 namespace FiresecServiceRunner

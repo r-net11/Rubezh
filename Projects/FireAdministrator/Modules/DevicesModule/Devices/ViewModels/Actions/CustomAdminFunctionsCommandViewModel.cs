@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;

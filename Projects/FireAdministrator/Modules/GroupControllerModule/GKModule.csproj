@@ -64,14 +64,14 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Converter\Binary\AllDB.cs" />
-    <Compile Include="Converter\Binary\BaseBD.cs" />
+    <Compile Include="Converter\Binary\DatabaseCollection.cs" />
+    <Compile Include="Converter\Binary\CommonDatabase.cs" />
     <Compile Include="Converter\Binary\BinaryObjects\BinaryObjectBase.cs" />
     <Compile Include="Converter\Binary\BinaryObjects\GKBinaryObject.cs" />
     <Compile Include="Converter\Binary\BinaryObjects\KauBinaryObject.cs" />
     <Compile Include="Converter\Binary\BinaryObjects\ZoneBinaryObject.cs" />
-    <Compile Include="Converter\Binary\GkDB.cs" />
-    <Compile Include="Converter\Binary\KauDB.cs" />
+    <Compile Include="Converter\Binary\GkDatabase.cs" />
+    <Compile Include="Converter\Binary\KauDatabase.cs" />
     <Compile Include="Converter\BinConverter.cs" />
     <Compile Include="Converter\Drivers\DriversConverter.cs" />
     <Compile Include="Converter\Drivers\GKIndicatorHelper.cs" />

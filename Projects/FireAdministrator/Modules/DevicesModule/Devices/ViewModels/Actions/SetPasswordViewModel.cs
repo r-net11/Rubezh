@@ -1,6 +1,6 @@
 ﻿using System;
 using Controls;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 

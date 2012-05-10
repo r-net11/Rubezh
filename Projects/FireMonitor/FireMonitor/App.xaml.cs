@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FiresecClient;
 using Infrastructure.Common;
 
@@ -16,11 +16,13 @@ namespace FireMonitor
 			if (e.Args.Contains("Integrate"))
 			{
 				RegistryHelper.Integrate();
+				return;
 			}
 
 			if (e.Args.Contains("Desintegrate"))
 			{
 				RegistryHelper.Desintegrate();
+				return;
 			}
 
 #if ! DEBUG

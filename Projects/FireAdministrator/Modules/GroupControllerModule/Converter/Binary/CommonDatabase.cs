@@ -3,7 +3,7 @@ using XFiresecAPI;
 
 namespace GKModule.Converter.Binary
 {
-	public class BaseBD
+	public class CommonDatabase
 	{
 		short currentChildNo = 1;
 		protected short NextChildNo
@@ -14,13 +14,13 @@ namespace GKModule.Converter.Binary
 		public XDevice RootDevice { get; protected set; }
 		public List<XDevice> Devices { get; set; }
 		public List<XZone> Zones { get; set; }
-		public List<KauBinaryObject> BinaryObjects { get; set; }
+		public List<BinaryObjectBase> BinaryObjects { get; set; }
 
-		public BaseBD()
+		public CommonDatabase()
 		{
 			Devices = new List<XDevice>();
 			Zones = new List<XZone>();
-			BinaryObjects = new List<KauBinaryObject>();
+			BinaryObjects = new List<BinaryObjectBase>();
 		}
 
 		public virtual void AddDevice(XDevice device)

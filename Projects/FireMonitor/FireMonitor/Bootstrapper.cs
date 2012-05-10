@@ -4,7 +4,7 @@ using System.Windows;
 using AlarmModule;
 using AlarmModule.Events;
 using Common;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FireMonitor.ViewModels;
 using FireMonitor.Views;
 using FiresecAPI.Models;
@@ -19,7 +19,7 @@ namespace FireMonitor
 		public void Initialize()
 		{
 			AppConfigHelper.InitializeAppSettings();
-			if (!SingleLaunchHelper.Check("FireMonitor"))
+			if (!SingleLaunchHelper.KillRunningProcess("FireMonitor"))
 			{
 				Application.Current.Shutdown();
 			}

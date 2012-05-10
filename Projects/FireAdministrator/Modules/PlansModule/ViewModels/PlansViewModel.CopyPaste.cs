@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;

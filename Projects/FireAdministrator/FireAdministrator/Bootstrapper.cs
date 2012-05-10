@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
-using Common;
-using Controls.MessageBox;
+//using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FireAdministrator.ViewModels;
 using FireAdministrator.Views;
 using FiresecAPI.Models;
@@ -10,6 +10,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using System;
+using System.Diagnostics;
 
 namespace FireAdministrator
 {
@@ -18,8 +19,10 @@ namespace FireAdministrator
 		public void Initialize()
 		{
 			AppSettingsHelper.InitializeAppSettings();
-			if (!SingleLaunchHelper.Check("FireAdministrator"))
+
+			if (SingleLaunchHelper.KillRunningProcess("FireAdministrator") == false)
 			{
+				MessageBox.Show("App is closing");
 				Application.Current.Shutdown();
 				System.Environment.Exit(1);
 			}

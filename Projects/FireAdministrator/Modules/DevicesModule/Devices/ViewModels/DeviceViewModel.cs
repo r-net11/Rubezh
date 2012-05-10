@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using DevicesModule.DeviceProperties;
 using FiresecAPI.Models;
 using FiresecClient;

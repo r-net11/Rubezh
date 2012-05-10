@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 
 namespace JournalModule.ViewModels
 {

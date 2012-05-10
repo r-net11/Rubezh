@@ -42,6 +42,10 @@ namespace VideoModule.ViewModels
 		{
 			Name = Camera.Name;
 			Address = Camera.Address;
+			Left = Camera.Left;
+			Top = Camera.Top;
+			Width = Camera.Width;
+			Height = Camera.Height;
 			SelectedStateType = Camera.StateType;
 			if (Camera.Zones == null)
 				Camera.Zones = new List<ulong>();
@@ -67,6 +71,50 @@ namespace VideoModule.ViewModels
 			{
 				_address = value;
 				OnPropertyChanged("Address");
+			}
+		}
+
+		int _left;
+		public int Left
+		{
+			get { return _left; }
+			set
+			{
+				_left = value;
+				OnPropertyChanged("Left");
+			}
+		}
+
+		int _top;
+		public int Top
+		{
+			get { return _top; }
+			set
+			{
+				_top = value;
+				OnPropertyChanged("Top");
+			}
+		}
+
+		int _width;
+		public int Width
+		{
+			get { return _width; }
+			set
+			{
+				_width = value;
+				OnPropertyChanged("Width");
+			}
+		}
+
+		int _height;
+		public int Height
+		{
+			get { return _height; }
+			set
+			{
+				_height = value;
+				OnPropertyChanged("Height");
 			}
 		}
 
@@ -115,13 +163,29 @@ namespace VideoModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			VideoService.ShowModal(Address); //"172.16.7.202"
+			var camera = new FiresecAPI.Models.Camera()
+			{
+				Address = Address,
+				Left = Left,
+				Top = Top,
+				Width = Width,
+				Height = Height
+			};
+			VideoService.ShowModal(camera); //"172.16.7.202"
+			Left = camera.Left;
+			Top = camera.Top;
+			Width = camera.Width;
+			Height = camera.Height;
 		}
 
 		protected override void Save(ref bool cancel)
 		{
 			Camera.Name = Name;
 			Camera.Address = Address;
+			Camera.Left = Left;
+			Camera.Top = Top;
+			Camera.Width = Width;
+			Camera.Height = Height;
 			Camera.StateType = SelectedStateType;
 			Camera.Zones = Zones.ToList();
 		}

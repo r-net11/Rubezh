@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace Controls.MessageBox
+namespace Infrastructure.Common.MessageBox
 {
     public partial class MessageBoxView : UserControl
     {

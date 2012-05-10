@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;

@@ -23,7 +23,7 @@ namespace FireAdministrator
 
 		public bool ShowModalWindow(IDialogContent model)
 		{
-			return Controls.MessageBox.UserDialogService.ShowModalWindow(model, LoadSizeView);
+			return Infrastructure.Common.MessageBox.UserDialogService.ShowModalWindow(model, LoadSizeView);
 		}
 
 		private void LoadSizeView(DialogWindow dialogWindow)

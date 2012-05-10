@@ -135,7 +135,6 @@
     <Compile Include="ConfigurationHelper.cs" />
     <Compile Include="GuidHelper.cs" />
     <Compile Include="HashHelper.cs" />
-    <Compile Include="SingleLaunchHelper.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MachineNameHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

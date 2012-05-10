@@ -21,22 +21,36 @@ namespace GKModule.Converter
 		public List<FormulaOperation> FormulaOperations { get; protected set; }
 
 		public bool IsGk { get; protected set; }
-
 		public bool IsGKObject { get; protected set; }
 		public Guid GKObjectNo { get; protected set; }
 
 		public void InitializeAllBytes()
 		{
-			InputDependensesCount = ToBytes((short)(InputDependenses.Count() / 2));
-			ParametersCount = ToBytes((short)(Parameters.Count() / 4));
-			if (IsGk)
+			if (InputDependenses != null)
+				InputDependensesCount = ToBytes((short)(InputDependenses.Count() / 2));
+			else
+				InputDependensesCount = new List<byte>();
+
+			if (OutputDependenses != null)
+				OutputDependensesCount = ToBytes((short)(OutputDependenses.Count() / 2));
+			else
+				OutputDependenses = new List<byte>();
+
+			if (Parameters != null)
 			{
-				//OutputDependensesCount = ToBytes((short)(OutputDependenses.Count() / 2));
-				//Offset = null;
+				ParametersCount = ToBytes((short)(Parameters.Count() / 4));
+				if (IsGk)
+				{
+					//Offset = null;
+				}
+				else
+				{
+					Offset = ToBytes((short)(8 + InputDependenses.Count() + Formula.Count()));
+				}
 			}
 			else
 			{
-				Offset = ToBytes((short)(8 + InputDependenses.Count() + Formula.Count()));
+				ParametersCount = new List<byte>();
 			}
 
 			AllBytes = new List<byte>();

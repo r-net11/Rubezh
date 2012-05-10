@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using XFiresecAPI;

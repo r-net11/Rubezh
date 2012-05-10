@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
-using Common;
 using Infrastructure.Common;
+using Common;
 
-namespace Controls.MessageBox
+namespace Infrastructure.Common.MessageBox
 {
 	public static class MessageBoxService
 	{

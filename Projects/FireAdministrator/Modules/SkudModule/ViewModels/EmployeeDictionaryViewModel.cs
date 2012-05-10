@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using Infrastructure;
 using Infrastructure.Common;
 

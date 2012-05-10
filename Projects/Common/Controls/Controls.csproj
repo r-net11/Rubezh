@@ -116,16 +116,7 @@
     <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
     <Compile Include="DataGridProperties.cs" />
-    <Compile Include="MessageBox\MessageBoxService.cs" />
-    <Compile Include="MessageBox\UserDialogService.cs" />
-    <Compile Include="MessageBox\ViewModel\MessageBoxViewModel.cs" />
-    <Compile Include="MessageBox\View\MessageBoxView.xaml.cs">
-      <DependentUpon>MessageBoxView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="DigitalPasswordHelper.cs" />
-    <Compile Include="MessageBox\View\PreLoadWindow.xaml.cs">
-      <DependentUpon>PreLoadWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MiddleButtonScrollHelper.cs" />
     <Compile Include="PasswordBoxControl.cs" />
     <Compile Include="BrightnessToColorConverter.cs" />
@@ -165,19 +156,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="MessageBox\View\PreLoadWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Themes\ActiveXDataGridStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MessageBox\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MessageBox\View\MessageBoxView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -451,15 +430,6 @@
     <Resource Include="Images\Video1.png" />
     <Resource Include="Images\Video2.png" />
     <Resource Include="Images\Video3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="MessageBox\DialogBoxImages\information.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="MessageBox\DialogBoxImages\question.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="MessageBox\DialogBoxImages\warning.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Search.png" />

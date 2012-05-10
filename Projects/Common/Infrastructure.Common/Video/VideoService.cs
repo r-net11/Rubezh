@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Vlc.DotNet.Core;
+using FiresecAPI.Models;
 
 namespace Infrastructure.Common
 {
@@ -7,16 +8,20 @@ namespace Infrastructure.Common
 	{
 		static List<string> ActiveAddresses = new List<string>();
 
-		public static void Show(string address)
+		public static void Show(Camera camera)
 		{
 			var videoWindow = new VideoWindow()
 			{
-				Title = "Видео с камеры " + address,
-				Address = address
+				Title = "Видео с камеры " + camera.Address,
+				Address = camera.Address,
+				Left = camera.Left,
+				Top = camera.Top,
+				Width = camera.Width,
+				Height = camera.Height
 			};
-			if (ActiveAddresses.Contains(address) == false)
+			if (ActiveAddresses.Contains(camera.Address) == false)
 			{
-				ActiveAddresses.Add(address);
+				ActiveAddresses.Add(camera.Address);
 				videoWindow.Closed += new System.EventHandler(videoWindow_Closed);
 				videoWindow.Show();
 			}
@@ -28,14 +33,23 @@ namespace Infrastructure.Common
 			ActiveAddresses.Remove(address);
 		}
 
-		public static void ShowModal(string address)
+		public static void ShowModal(Camera camera)
 		{
 			var videoWindow = new VideoWindow()
 			{
-				Title = "Видео с камеры " + address,
-				Address = address
+				Title = "Видео с камеры " + camera.Address,
+				Address = camera.Address,
+				Left = camera.Left,
+				Top = camera.Top,
+				Width = camera.Width,
+				Height = camera.Height
 			};
 			videoWindow.ShowDialog();
+
+			camera.Left = (int)videoWindow.Left;
+			camera.Top = (int)videoWindow.Top;
+			camera.Width = (int)videoWindow.Width;
+			camera.Height = (int)videoWindow.Height;
 		}
 
 		internal static string _dllPath;

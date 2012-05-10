@@ -2,11 +2,11 @@
 
 namespace GKModule.Views
 {
-    public partial class DeviceConverterView : UserControl
-    {
-        public DeviceConverterView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class DeviceConverterView : UserControl
+	{
+		public DeviceConverterView()
+		{
+			InitializeComponent();
+		}
+	}
 }

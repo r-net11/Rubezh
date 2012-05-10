@@ -20,7 +20,7 @@ namespace GKModule.ViewModels
 		{
 			Name = zone.Name;
 			Address = zone.No.ToString();
-			ImageSource = null;
+			ImageSource = "Device_Device.ico";
 			Level = 3;
 			BinaryObject = new ZoneBinaryObject(zone);
 		}

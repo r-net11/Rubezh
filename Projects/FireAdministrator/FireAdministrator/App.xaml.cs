@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FiresecClient;
 using Infrastructure.Common;
 
@@ -13,7 +13,7 @@ namespace FireAdministrator
 			base.OnStartup(e);
 
 #if DEBUG
-			BindingErrorListener.Listen(m => MessageBox.Show(m));
+			//BindingErrorListener.Listen(m => MessageBox.Show(m));
 #endif
 
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);

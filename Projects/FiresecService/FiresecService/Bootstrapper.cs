@@ -3,7 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using Common;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FiresecService.ViewModels;
 using FiresecServiceRunner;
 using Infrastructure.Common;
@@ -18,7 +18,7 @@ namespace FiresecService
 
 		public static void Run()
 		{
-			if (!SingleLaunchHelper.Check("FiresecService"))
+			if (SingleLaunchHelper.Check("FiresecService") == false)
 			{
 				Close();
 			}

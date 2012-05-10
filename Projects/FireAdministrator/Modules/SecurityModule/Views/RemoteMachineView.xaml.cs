@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 
 namespace SecurityModule.Views
 {

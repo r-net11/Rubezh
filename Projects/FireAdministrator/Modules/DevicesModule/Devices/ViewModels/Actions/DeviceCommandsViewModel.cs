@@ -1,4 +1,4 @@
-﻿using Controls.MessageBox;
+﻿using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;

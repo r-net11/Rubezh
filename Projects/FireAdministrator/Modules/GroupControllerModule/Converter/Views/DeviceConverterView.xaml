@@ -38,7 +38,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" />
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -49,12 +49,12 @@
                             <DataTemplate>
                                 <StackPanel DataContext="{Binding Device}" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                     <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Text="{Binding DeviceName}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
+                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DeviceAddress}" Width="*" />
+                    <DataGridTextColumn Header="Адрес" Binding="{Binding Device.Address}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
@@ -78,26 +78,28 @@
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип"  />
-                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" />
-                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Смещение" />
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Количество входных зависимостей" />
-                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Входные зависимости" />
-                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Количество выходных зависимостей" />
-                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Выходные зависимости" />
-                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Логика" />
-                        <TextBlock Grid.Row="8" Grid.Column="0" Text="" />
-                        <TextBlock Grid.Row="9" Grid.Column="0" Text="Количества параметров" />
-                        <TextBlock Grid.Row="10" Grid.Column="0" Text="Знаяения параметра" />
-                        <TextBlock Grid.Row="11" Grid.Column="0" Text="Все" />
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Тип" Margin="0, 0, 5, 0" />
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Адрес" Margin="0, 0, 5, 0" />
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Смещение" Margin="0, 0, 5, 0" />
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Количество входных зависимостей" Margin="0, 0, 5, 0" />
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Входные зависимости" Margin="0, 0, 5, 0" />
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="Количество выходных зависимостей" Margin="0, 0, 5, 0" />
+                        <TextBlock Grid.Row="6" Grid.Column="0" Text="Выходные зависимости" Margin="0, 0, 5, 0" />
+                        <TextBlock Grid.Row="7" Grid.Column="0" Text="Логика" Margin="0, 0, 5, 0" />
+                        <TextBlock Grid.Row="8" Grid.Column="0" Text="" Margin="0, 0, 5, 0" />
+                        <TextBlock Grid.Row="9" Grid.Column="0" Text="Количества параметров" Margin="0, 0, 5, 0" />
+                        <TextBlock Grid.Row="10" Grid.Column="0" Text="Значения параметра" Margin="0, 0, 5, 0" />
+                        <TextBlock Grid.Row="11" Grid.Column="0" Text="Все" Margin="0, 0, 5, 0" />
                         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding DeviceType, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Address, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Offset, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding InputDependensesCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding InputDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
-                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding OutDependensesCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
-                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding OutDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding OutputDependensesCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding OutputDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding Formula, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                         <ItemsControl Grid.Row="7" Grid.Column="1" ItemsSource="{Binding FormulaOperations}" Margin="1">
                             <ItemsControl.ItemTemplate>
@@ -111,9 +113,9 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding ParametersCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
-                        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding Parameters, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
-                        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding AllBytes, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding ParametersCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="10" Grid.Column="1" Text="{Binding Parameters, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                        <TextBox Grid.Row="11" Grid.Column="1" Text="{Binding AllBytes, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                     </Grid>
                 </Border>
             </ScrollViewer>

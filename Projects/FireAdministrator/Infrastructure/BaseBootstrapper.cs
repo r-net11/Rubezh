@@ -22,13 +22,13 @@ namespace Infrastructure
 		public List<NavigationItem> InitializeModules()
 		{
 			ReadConfiguration();
-			List<NavigationItem> result = new List<NavigationItem>();
+			var navigationItems = new List<NavigationItem>();
 			foreach (IModule module in Modules)
 			{
 				module.Initialize();
-				result.AddRange(module.CreateNavigation());
+				navigationItems.AddRange(module.CreateNavigation());
 			}
-			return result;
+			return navigationItems;
 		}
 		protected void ReadConfiguration()
 		{

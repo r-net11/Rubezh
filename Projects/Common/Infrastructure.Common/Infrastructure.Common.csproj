@@ -130,6 +130,15 @@
     <Compile Include="Dialogs\IUserDialogService.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="IViewPart.cs" />
+    <Compile Include="MessageBox\MessageBoxService.cs" />
+    <Compile Include="MessageBox\UserDialogService.cs" />
+    <Compile Include="MessageBox\ViewModel\MessageBoxViewModel.cs" />
+    <Compile Include="MessageBox\View\MessageBoxView.xaml.cs">
+      <DependentUpon>MessageBoxView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageBox\View\PreLoadWindow.xaml.cs">
+      <DependentUpon>PreLoadWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Navigation\NavigationItem.cs" />
     <Compile Include="NotifyPropertyChangedHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -138,6 +147,7 @@
     <Compile Include="Resources\ResourceDescription.cs" />
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="Resources\ResourceService.cs" />
+    <Compile Include="SingleLaunchHelper.cs" />
     <Compile Include="TreeBaseViewModel.cs" />
     <Compile Include="Video\VideoService.cs" />
     <Compile Include="Video\VideoWindow.xaml.cs">
@@ -150,12 +160,42 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="MessageBox\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MessageBox\View\MessageBoxView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MessageBox\View\PreLoadWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Video\VideoWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="MessageBox\DialogBoxImages\information.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="MessageBox\DialogBoxImages\question.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="MessageBox\DialogBoxImages\warning.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

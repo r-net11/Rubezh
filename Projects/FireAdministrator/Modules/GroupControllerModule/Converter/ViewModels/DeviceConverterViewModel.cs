@@ -12,15 +12,16 @@ namespace GKModule.ViewModels
 		{
 			Title = "Бинарный формат конфигурации";
 
-			AllDB allDB = new AllDB();
+			DatabaseCollection allDB = new DatabaseCollection();
 			allDB.Build();
+
 			DBViewModels = new List<DBViewModel>();
-			foreach (var gkDB in allDB.GkDBList)
+			foreach (var gkDB in allDB.GkDatabases)
 			{
 				var dBViewModel = new DBViewModel(gkDB);
 				DBViewModels.Add(dBViewModel);
 			}
-			foreach (var kauDB in allDB.KauDBList)
+			foreach (var kauDB in allDB.KauDatabases)
 			{
 				var dBViewModel = new DBViewModel(kauDB);
 				DBViewModels.Add(dBViewModel);

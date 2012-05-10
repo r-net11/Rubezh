@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using DevicesModule.Views;
 using FiresecClient;
 using Infrastructure;

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 
-namespace Controls.MessageBox
+namespace Infrastructure.Common.MessageBox
 {
     public partial class PreLoadWindow : Window, INotifyPropertyChanged
     {

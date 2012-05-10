@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;

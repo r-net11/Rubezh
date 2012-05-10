@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Common;
-using Controls.MessageBox;
+using Infrastructure.Common.MessageBox;
 using FireMonitor.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;

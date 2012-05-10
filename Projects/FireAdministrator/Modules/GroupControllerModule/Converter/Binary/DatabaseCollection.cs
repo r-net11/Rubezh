@@ -5,10 +5,10 @@ using XFiresecAPI;
 
 namespace GKModule.Converter.Binary
 {
-	public class AllDB
+	public class DatabaseCollection
 	{
-		public List<KauDB> KauDBList { get; set; }
-		public List<GkDB> GkDBList { get; set; }
+		public List<KauDatabase> KauDatabases { get; set; }
+		public List<GkDatabase> GkDatabases { get; set; }
 
 		public void Build()
 		{
@@ -23,21 +23,21 @@ namespace GKModule.Converter.Binary
 
 		void CreateDBs()
 		{
-			KauDBList = new List<KauDB>();
-			GkDBList = new List<GkDB>();
+			KauDatabases = new List<KauDatabase>();
+			GkDatabases = new List<GkDatabase>();
 
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
 				if (device.Driver.DriverType == XDriverType.KAU)
 				{
-					var kauDB = new KauDB(device);
-					KauDBList.Add(kauDB);
+					var kauDB = new KauDatabase(device);
+					KauDatabases.Add(kauDB);
 				}
 
 				if (device.Driver.DriverType == XDriverType.GK)
 				{
-					var gkDBs = new GkDB(device);
-					GkDBList.Add(gkDBs);
+					var gkDBs = new GkDatabase(device);
+					GkDatabases.Add(gkDBs);
 				}
 			}
 		}
@@ -49,7 +49,7 @@ namespace GKModule.Converter.Binary
 				if (device.Driver.IsDeviceOnShleif)
 				{
 					var kauParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
-					var kauDB = KauDBList.FirstOrDefault(x => x.RootDevice.UID == kauParent.UID);
+					var kauDB = KauDatabases.FirstOrDefault(x => x.RootDevice.UID == kauParent.UID);
 					if (kauParent.UID == kauDB.RootDevice.UID)
 						kauDB.AddDevice(device);
 				}
@@ -92,7 +92,7 @@ namespace GKModule.Converter.Binary
 			{
 				if ((zone.DBDevice != null) && (zone.DBDevice.Driver.DriverType == XDriverType.GK))
 				{
-					var baseDB = GetDB(zone.DBDevice);
+					var baseDB = GetDatabase(zone.DBDevice);
 					foreach (var device in zone.Devices)
 					{
 						baseDB.AddDevice(device);
@@ -130,24 +130,24 @@ namespace GKModule.Converter.Binary
 			{
 				if (zone.DBDevice != null)
 				{
-					var baseDB = GetDB(zone.DBDevice);
-					baseDB.AddZone(zone);
+					var commonDatabase = GetDatabase(zone.DBDevice);
+					commonDatabase.AddZone(zone);
 				}
 			}
 		}
 
-		BaseBD GetDB(XDevice device)
+		CommonDatabase GetDatabase(XDevice device)
 		{
 			if (device.Driver.DriverType == XDriverType.KAU)
 			{
-				var kauDB = KauDBList.FirstOrDefault(x => x.RootDevice == device);
-				return kauDB;
+				var kauDatabase = KauDatabases.FirstOrDefault(x => x.RootDevice == device);
+				return kauDatabase;
 			}
 
 			if (device.Driver.DriverType == XDriverType.GK)
 			{
-				var gkDB = GkDBList.FirstOrDefault(x => x.RootDevice == device);
-				return gkDB;
+				var gkDatabase = GkDatabases.FirstOrDefault(x => x.RootDevice == device);
+				return gkDatabase;
 			}
 
 			return null;
