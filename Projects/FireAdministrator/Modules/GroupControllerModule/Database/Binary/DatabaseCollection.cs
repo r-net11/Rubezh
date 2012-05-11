@@ -3,12 +3,12 @@ using System.Linq;
 using FiresecClient;
 using XFiresecAPI;
 
-namespace GKModule.Converter.Binary
+namespace GKModule.Database
 {
 	public class DatabaseCollection
 	{
-		public List<KauDatabase> KauDatabases { get; set; }
-		public List<GkDatabase> GkDatabases { get; set; }
+		public List<KauDatabase> KauDatabases { get; private set; }
+		public List<GkDatabase> GkDatabases { get; private set; }
 
 		public void Build()
 		{
@@ -19,6 +19,15 @@ namespace GKModule.Converter.Binary
 			InitializeDeviceLogicDependences();
 			CreateDevicesInGkForLogic();
 			CreateZones();
+
+			foreach (var kauDatabase in KauDatabases)
+			{
+				kauDatabase.BuildObjects();
+			}
+			foreach (var gkDatabase in GkDatabases)
+			{
+				gkDatabase.BuildObjects();
+			}
 		}
 
 		void CreateDBs()
@@ -30,14 +39,14 @@ namespace GKModule.Converter.Binary
 			{
 				if (device.Driver.DriverType == XDriverType.KAU)
 				{
-					var kauDB = new KauDatabase(device);
-					KauDatabases.Add(kauDB);
+					var kauDatabase = new KauDatabase(device);
+					KauDatabases.Add(kauDatabase);
 				}
 
 				if (device.Driver.DriverType == XDriverType.GK)
 				{
-					var gkDBs = new GkDatabase(device);
-					GkDatabases.Add(gkDBs);
+					var gkDatabase = new GkDatabase(device);
+					GkDatabases.Add(gkDatabase);
 				}
 			}
 		}
@@ -49,9 +58,8 @@ namespace GKModule.Converter.Binary
 				if (device.Driver.IsDeviceOnShleif)
 				{
 					var kauParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
-					var kauDB = KauDatabases.FirstOrDefault(x => x.RootDevice.UID == kauParent.UID);
-					if (kauParent.UID == kauDB.RootDevice.UID)
-						kauDB.AddDevice(device);
+					var kauDatabase = KauDatabases.FirstOrDefault(x => x.RootDevice.UID == kauParent.UID);
+					kauDatabase.AddDevice(device);
 				}
 			}
 		}
@@ -61,9 +69,8 @@ namespace GKModule.Converter.Binary
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
 				zone.Devices = new List<XDevice>();
-				zone.DBDevice = null;
 
-				HashSet<XDevice> kauParents = new HashSet<XDevice>();
+				var kauParents = new HashSet<XDevice>();
 				foreach (var deviceUID in zone.DeviceUIDs)
 				{
 					var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -76,12 +83,12 @@ namespace GKModule.Converter.Binary
 				if (kauParents.Count == 1)
 				{
 					var kauDevice = kauParents.ToList()[0];
-					zone.DBDevice = kauDevice;
+					zone.KauDatabaseParent = kauDevice;
 				}
 				if (kauParents.Count > 1)
 				{
 					var kauDevice = kauParents.ToList()[0];
-					zone.DBDevice = kauDevice.Parent;
+					zone.GkDatabaseParent = kauDevice.Parent;
 				}
 			}
 		}
@@ -90,12 +97,12 @@ namespace GKModule.Converter.Binary
 		{
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
-				if ((zone.DBDevice != null) && (zone.DBDevice.Driver.DriverType == XDriverType.GK))
+				if (zone.GkDatabaseParent != null)
 				{
-					var baseDB = GetDatabase(zone.DBDevice);
+					var commonDatabase = GetDatabase(zone.GkDatabaseParent);
 					foreach (var device in zone.Devices)
 					{
-						baseDB.AddDevice(device);
+						commonDatabase.AddDevice(device);
 					}
 				}
 			}
@@ -107,6 +114,23 @@ namespace GKModule.Converter.Binary
 			{
 				device.DeviceLogic.DependentDevices = new List<XDevice>();
 				device.DeviceLogic.DependentZones = new List<XZone>();
+
+				foreach (var stateLogic in device.DeviceLogic.StateLogics)
+				{
+					foreach (var clause in stateLogic.Clauses)
+					{
+						foreach (var deviceUID in clause.Devices)
+						{
+							var dependentDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+							device.DeviceLogic.DependentDevices.Add(dependentDevice);
+						}
+						foreach (var zoneNo in clause.Zones)
+						{
+							var dependentZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+							device.DeviceLogic.DependentZones.Add(dependentZone);
+						}
+					}
+				}
 			}
 		}
 
@@ -114,12 +138,41 @@ namespace GKModule.Converter.Binary
 		{
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
+				var kauParents = new HashSet<XDevice>();
+				bool hasZoneOnGk = false;
+
 				foreach (var dependentDevice in device.DeviceLogic.DependentDevices)
 				{
+					var kauParent = dependentDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
+					kauParents.Add(kauParent);
 				}
 
 				foreach (var dependentZone in device.DeviceLogic.DependentZones)
 				{
+					if (dependentZone.KauDatabaseParent != null)
+					{
+						kauParents.Add(dependentZone.KauDatabaseParent);
+					}
+					if (dependentZone.GkDatabaseParent != null)
+					{
+						hasZoneOnGk = true;
+					}
+				}
+
+				if ((kauParents.Count > 1) || (hasZoneOnGk))
+				{
+					var kauDevice = kauParents.ToList()[0];
+					var commonDatabase = GetDatabase(kauDevice);
+					commonDatabase.AddDevice(device);
+					
+					foreach (var dependentDevice in device.DeviceLogic.DependentDevices)
+					{
+						commonDatabase.AddDevice(dependentDevice);
+					}
+					foreach (var dependentZone in device.DeviceLogic.DependentZones)
+					{
+						commonDatabase.AddZone(dependentZone);
+					}
 				}
 			}
 		}
@@ -128,10 +181,15 @@ namespace GKModule.Converter.Binary
 		{
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
-				if (zone.DBDevice != null)
+				if (zone.KauDatabaseParent != null)
 				{
-					var commonDatabase = GetDatabase(zone.DBDevice);
-					commonDatabase.AddZone(zone);
+					var kauDatabase = GetDatabase(zone.KauDatabaseParent);
+					kauDatabase.AddZone(zone);
+				}
+				if (zone.GkDatabaseParent != null)
+				{
+					var gkDatabase = GetDatabase(zone.GkDatabaseParent);
+					gkDatabase.AddZone(zone);
 				}
 			}
 		}

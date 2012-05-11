@@ -7,7 +7,7 @@ using System.Text;
 namespace XFiresecAPI
 {
     [DataContract]
-    public class XDevice
+	public class XDevice : XBinaryBase
     {
         public XDevice()
         {
@@ -22,8 +22,6 @@ namespace XFiresecAPI
         public XDriver Driver { get; set; }
         public XDevice Parent { get; set; }
         public List<Guid> OutDependenceUIDs { get; set; }
-        public short InternalKAUNo { get; set; }
-        public short InternalGKUNo { get; set; }
 
         [DataMember]
         public Guid UID { get; set; }

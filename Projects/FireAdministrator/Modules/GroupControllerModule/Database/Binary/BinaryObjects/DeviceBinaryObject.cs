@@ -4,15 +4,13 @@ using System.Linq;
 using FiresecClient;
 using XFiresecAPI;
 
-namespace GKModule.Converter
+namespace GKModule.Database
 {
-	public class KauBinaryObject : BinaryObjectBase
+	public class DeviceBinaryObject : BinaryObjectBase
 	{
-		XDevice Device;
-
-		public KauBinaryObject(XDevice device)
+		public DeviceBinaryObject(XDevice device, DatabaseType databaseType)
 		{
-			IsGk = false;
+			DatabaseType = databaseType;
 			Device = device;
 
 			DeviceType = ToBytes(device.Driver.DriverTypeNo);
@@ -46,8 +44,7 @@ namespace GKModule.Converter
 						var clauseGkDevice = clauseDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
 						if (kauDevice.UID != cluseKauDevice.UID)
 						{
-							IsGKObject = true;
-							GKObjectNo = gkDevice.UID;
+							Device.GkDatabaseParent = gkDevice;
 						}
 						if (gkDevice.UID != clauseGkDevice.UID)
 						{
@@ -58,7 +55,6 @@ namespace GKModule.Converter
 					foreach (var zoneNo in clause.Zones)
 					{
 						var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-						var kauDevices = zone.KAUDevices;
 					}
 				}
 			}
@@ -75,12 +71,12 @@ namespace GKModule.Converter
 					foreach (var deviceUID in clause.Devices)
 					{
 						var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-						inputObjects.Add(device.InternalKAUNo);
+						inputObjects.Add(device.GetDatabaseNo(DatabaseType));
 					}
 					foreach (var zoneNo in clause.Zones)
 					{
 						var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-						inputObjects.Add(zone.InternalKAUNo);
+						inputObjects.Add(zone.GetDatabaseNo(DatabaseType));
 					}
 				}
 			}
@@ -110,9 +106,9 @@ namespace GKModule.Converter
 							var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.Devices[0]);
 							GetBit(device, (byte)clause.StateType);
 
-							AddFormulaOperation(FormulaOperationType.PUTBIT,
+							AddFormulaOperation(FormulaOperationType.GETBIT,
 								(byte)clause.StateType,
-								device.InternalKAUNo,
+								device.GetDatabaseNo(DatabaseType),
 								"Проверка состояния одного объекта");
 						}
 						else
@@ -126,7 +122,7 @@ namespace GKModule.Converter
 
 								AddFormulaOperation(FormulaOperationType.GETBIT,
 									(byte)clause.StateType,
-									device.InternalKAUNo);
+									device.GetDatabaseNo(DatabaseType));
 
 								var formulaOperationType = FormulaOperationType.AND;
 								switch (clause.ClauseOperationType)
@@ -165,7 +161,7 @@ namespace GKModule.Converter
 
 					AddFormulaOperation(FormulaOperationType.PUTBIT,
 						(byte)stateLogic.StateType,
-						Device.InternalKAUNo,
+						Device.GetDatabaseNo(DatabaseType),
 						"Запись бита глобального словосостояния");
 				}
 			}
@@ -220,7 +216,7 @@ namespace GKModule.Converter
 				{
 					AddFormulaOperation(FormulaOperationType.GETBIT,
 						(byte)6,
-						device.InternalKAUNo,
+						device.GetDatabaseNo(DatabaseType),
 						"Проверка бита обхода");
 
 					AddFormulaOperation(FormulaOperationType.COM);
@@ -229,7 +225,7 @@ namespace GKModule.Converter
 
 			AddFormulaOperation(FormulaOperationType.GETBIT,
 				bitNo,
-				device.InternalKAUNo);
+				device.GetDatabaseNo(DatabaseType));
 		}
 	}
 }

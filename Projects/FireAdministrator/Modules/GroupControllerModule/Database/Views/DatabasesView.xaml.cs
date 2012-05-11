@@ -2,9 +2,9 @@
 
 namespace GKModule.Views
 {
-	public partial class DeviceConverterView : UserControl
+	public partial class DatabasesView : UserControl
 	{
-		public DeviceConverterView()
+		public DatabasesView()
 		{
 			InitializeComponent();
 		}

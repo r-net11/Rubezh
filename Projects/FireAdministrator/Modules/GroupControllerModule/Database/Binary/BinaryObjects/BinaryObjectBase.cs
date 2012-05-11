@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using XFiresecAPI;
 
-namespace GKModule.Converter
+namespace GKModule.Database
 {
 	public class BinaryObjectBase
 	{
@@ -20,9 +20,12 @@ namespace GKModule.Converter
 		public List<byte> AllBytes { get; private set; }
 		public List<FormulaOperation> FormulaOperations { get; protected set; }
 
-		public bool IsGk { get; protected set; }
-		public bool IsGKObject { get; protected set; }
-		public Guid GKObjectNo { get; protected set; }
+		public DatabaseType DatabaseType { get; protected set; }
+		public XZone Zone { get; protected set; }
+		public XDevice Device { get; protected set; }
+		//public bool IsGk { get; protected set; }
+		//public bool IsGKObject { get; protected set; }
+		//public Guid GKObjectNo { get; protected set; }
 
 		public void InitializeAllBytes()
 		{
@@ -39,19 +42,13 @@ namespace GKModule.Converter
 			if (Parameters != null)
 			{
 				ParametersCount = ToBytes((short)(Parameters.Count() / 4));
-				if (IsGk)
-				{
-					//Offset = null;
-				}
-				else
-				{
-					Offset = ToBytes((short)(8 + InputDependenses.Count() + Formula.Count()));
-				}
 			}
 			else
 			{
 				ParametersCount = new List<byte>();
 			}
+
+			Offset = ToBytes((short)(8 + InputDependenses.Count() + Formula.Count()));
 
 			AllBytes = new List<byte>();
 			AllBytes.AddRange(DeviceType);
@@ -59,8 +56,13 @@ namespace GKModule.Converter
 			AllBytes.AddRange(Offset);
 			AllBytes.AddRange(InputDependensesCount);
 			AllBytes.AddRange(InputDependenses);
-			if (IsGk)
+			if (DatabaseType == DatabaseType.Gk)
 			{
+				if (OutputDependenses == null)
+					OutputDependenses = new List<byte>();
+
+				OutputDependensesCount = ToBytes((short)(OutputDependenses.Count() / 2));
+
 				AllBytes.AddRange(OutputDependensesCount);
 				AllBytes.AddRange(OutputDependenses);
 			}

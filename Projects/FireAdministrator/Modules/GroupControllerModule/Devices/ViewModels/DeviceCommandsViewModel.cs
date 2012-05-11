@@ -2,168 +2,172 @@
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
+using GKModule.Database;
 
 namespace GKModule.Models
 {
-    public class DeviceCommandsViewModel : BaseViewModel
-    {
-        DevicesViewModel _devicesViewModel;
+	public class DeviceCommandsViewModel : BaseViewModel
+	{
+		DevicesViewModel _devicesViewModel;
 
-        public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
-        {
-            ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
-            ConvertToBinCommand = new RelayCommand(OnConvertToBin);
-            CheckConnectionCommand = new RelayCommand(OnCheckConnection);
-            GetKAUVersionCommand = new RelayCommand(OnGetKAUVersion);
-            GetBlocklVersionCommand = new RelayCommand(OnGetBlocklVersion);
-            WriteBlockInfoCommand = new RelayCommand(OnWriteBlockInfo);
-            SetTimeCommand = new RelayCommand(OnSetTime);
-            GetTimeCommand = new RelayCommand(OnGetTime);
-            GetLastJournalIndexCommand = new RelayCommand(OnGetLastJournalIndex);
-            GetJournalItemByIndexCommand = new RelayCommand(OnGetJournalItemByIndex);
-            EraseJournalCommand = new RelayCommand(OnEraseJournal);
-            GetParametersCommand = new RelayCommand(OnGetParameters);
-            WriteParametersCommand = new RelayCommand(OnWriteParameters);
-            StartWorkingProgramCommand = new RelayCommand(OnStartWorkingProgram);
-            GetObjectInfoCommand = new RelayCommand(OnGetObjectInfo);
-            ExecuteObjectCommand = new RelayCommand(OnExecuteObject);
-            GoToTechnologicalProgrammCommand = new RelayCommand(OnGoToTechnologicalProgramm);
-            EraseDatabaseCommand = new RelayCommand(OnEraseDatabase);
-            EraseWorkingProgramCommand = new RelayCommand(OnEraseWorkingProgram);
-            WriteDatabaseCommand = new RelayCommand(OnWriteDatabase);
-            WriteProgramCommand = new RelayCommand(OnWriteProgram);
-            GetDeviceParameterCommand = new RelayCommand(OnGetDeviceParameter);
-            WriteDeviceParameterCommand = new RelayCommand(OnWriteDeviceParameter);
+		public DeviceCommandsViewModel(DevicesViewModel devicesViewModel)
+		{
+			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
+			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
+			CheckConnectionCommand = new RelayCommand(OnCheckConnection);
+			GetKAUVersionCommand = new RelayCommand(OnGetKAUVersion);
+			GetBlocklVersionCommand = new RelayCommand(OnGetBlocklVersion);
+			WriteBlockInfoCommand = new RelayCommand(OnWriteBlockInfo);
+			SetTimeCommand = new RelayCommand(OnSetTime);
+			GetTimeCommand = new RelayCommand(OnGetTime);
+			GetLastJournalIndexCommand = new RelayCommand(OnGetLastJournalIndex);
+			GetJournalItemByIndexCommand = new RelayCommand(OnGetJournalItemByIndex);
+			EraseJournalCommand = new RelayCommand(OnEraseJournal);
+			GetParametersCommand = new RelayCommand(OnGetParameters);
+			WriteParametersCommand = new RelayCommand(OnWriteParameters);
+			StartWorkingProgramCommand = new RelayCommand(OnStartWorkingProgram);
+			GetObjectInfoCommand = new RelayCommand(OnGetObjectInfo);
+			ExecuteObjectCommand = new RelayCommand(OnExecuteObject);
+			GoToTechnologicalProgrammCommand = new RelayCommand(OnGoToTechnologicalProgramm);
+			EraseDatabaseCommand = new RelayCommand(OnEraseDatabase);
+			EraseWorkingProgramCommand = new RelayCommand(OnEraseWorkingProgram);
+			WriteDatabaseCommand = new RelayCommand(OnWriteDatabase);
+			WriteProgramCommand = new RelayCommand(OnWriteProgram);
+			GetDeviceParameterCommand = new RelayCommand(OnGetDeviceParameter);
+			WriteDeviceParameterCommand = new RelayCommand(OnWriteDeviceParameter);
 
-            _devicesViewModel = devicesViewModel;
-        }
+			_devicesViewModel = devicesViewModel;
+		}
 
-        public DeviceViewModel SelectedDevice
-        {
-            get { return _devicesViewModel.SelectedDevice; }
-        }
+		public DeviceViewModel SelectedDevice
+		{
+			get { return _devicesViewModel.SelectedDevice; }
+		}
 
-        public RelayCommand ConvertFromFiresecCommand { get; private set; }
-        void OnConvertFromFiresec()
-        {
-            var configurationConverter = new ConfigurationConverter();
-            configurationConverter.Convert();
+		public RelayCommand ConvertFromFiresecCommand { get; private set; }
+		void OnConvertFromFiresec()
+		{
+			var configurationConverter = new ConfigurationConverter();
+			configurationConverter.Convert();
 
-            DevicesViewModel.Current.Initialize();
-            ZonesViewModel.Current.Initialize();
-            ServiceFactory.SaveService.XDevicesChanged = true;
-        }
+			DevicesViewModel.Current.Initialize();
+			ZonesViewModel.Current.Initialize();
+			ServiceFactory.SaveService.XDevicesChanged = true;
+		}
 
-        public RelayCommand ConvertToBinCommand { get; private set; }
-        void OnConvertToBin()
-        {
-            BinConverter.Convert();
-        }
+		public RelayCommand ConvertToBinCommand { get; private set; }
+		void OnConvertToBin()
+		{
+			DatabaseProcessor.Convert();
 
-        public RelayCommand CheckConnectionCommand { get; private set; }
-        void OnCheckConnection()
-        {
+			var deviceConverterViewModel = new DatabasesViewModel();
+			ServiceFactory.UserDialogs.ShowModalWindow(deviceConverterViewModel);
+		}
 
-        }
+		public RelayCommand CheckConnectionCommand { get; private set; }
+		void OnCheckConnection()
+		{
 
-        public RelayCommand GetKAUVersionCommand { get; private set; }
-        void OnGetKAUVersion()
-        {
-        }
+		}
 
-        public RelayCommand GetBlocklVersionCommand { get; private set; }
-        void OnGetBlocklVersion()
-        {
-        }
+		public RelayCommand GetKAUVersionCommand { get; private set; }
+		void OnGetKAUVersion()
+		{
+		}
 
-        public RelayCommand WriteBlockInfoCommand { get; private set; }
-        void OnWriteBlockInfo()
-        {
-        }
+		public RelayCommand GetBlocklVersionCommand { get; private set; }
+		void OnGetBlocklVersion()
+		{
+		}
 
-        public RelayCommand SetTimeCommand { get; private set; }
-        void OnSetTime()
-        {
-        }
+		public RelayCommand WriteBlockInfoCommand { get; private set; }
+		void OnWriteBlockInfo()
+		{
+		}
 
-        public RelayCommand GetTimeCommand { get; private set; }
-        void OnGetTime()
-        {
-        }
+		public RelayCommand SetTimeCommand { get; private set; }
+		void OnSetTime()
+		{
+		}
 
-        public RelayCommand GetLastJournalIndexCommand { get; private set; }
-        void OnGetLastJournalIndex()
-        {
-        }
+		public RelayCommand GetTimeCommand { get; private set; }
+		void OnGetTime()
+		{
+		}
 
-        public RelayCommand GetJournalItemByIndexCommand { get; private set; }
-        void OnGetJournalItemByIndex()
-        {
-        }
+		public RelayCommand GetLastJournalIndexCommand { get; private set; }
+		void OnGetLastJournalIndex()
+		{
+		}
 
-        public RelayCommand EraseJournalCommand { get; private set; }
-        void OnEraseJournal()
-        {
-        }
+		public RelayCommand GetJournalItemByIndexCommand { get; private set; }
+		void OnGetJournalItemByIndex()
+		{
+		}
 
-        public RelayCommand GetParametersCommand { get; private set; }
-        void OnGetParameters()
-        {
-        }
+		public RelayCommand EraseJournalCommand { get; private set; }
+		void OnEraseJournal()
+		{
+		}
 
-        public RelayCommand WriteParametersCommand { get; private set; }
-        void OnWriteParameters()
-        {
-        }
+		public RelayCommand GetParametersCommand { get; private set; }
+		void OnGetParameters()
+		{
+		}
 
-        public RelayCommand StartWorkingProgramCommand { get; private set; }
-        void OnStartWorkingProgram()
-        {
-        }
+		public RelayCommand WriteParametersCommand { get; private set; }
+		void OnWriteParameters()
+		{
+		}
 
-        public RelayCommand GetObjectInfoCommand { get; private set; }
-        void OnGetObjectInfo()
-        {
-        }
+		public RelayCommand StartWorkingProgramCommand { get; private set; }
+		void OnStartWorkingProgram()
+		{
+		}
 
-        public RelayCommand ExecuteObjectCommand { get; private set; }
-        void OnExecuteObject()
-        {
-        }
+		public RelayCommand GetObjectInfoCommand { get; private set; }
+		void OnGetObjectInfo()
+		{
+		}
 
-        public RelayCommand GoToTechnologicalProgrammCommand { get; private set; }
-        void OnGoToTechnologicalProgramm()
-        {
-        }
+		public RelayCommand ExecuteObjectCommand { get; private set; }
+		void OnExecuteObject()
+		{
+		}
 
-        public RelayCommand EraseDatabaseCommand { get; private set; }
-        void OnEraseDatabase()
-        {
-        }
+		public RelayCommand GoToTechnologicalProgrammCommand { get; private set; }
+		void OnGoToTechnologicalProgramm()
+		{
+		}
 
-        public RelayCommand EraseWorkingProgramCommand { get; private set; }
-        void OnEraseWorkingProgram()
-        {
-        }
+		public RelayCommand EraseDatabaseCommand { get; private set; }
+		void OnEraseDatabase()
+		{
+		}
 
-        public RelayCommand WriteDatabaseCommand { get; private set; }
-        void OnWriteDatabase()
-        {
-        }
+		public RelayCommand EraseWorkingProgramCommand { get; private set; }
+		void OnEraseWorkingProgram()
+		{
+		}
 
-        public RelayCommand WriteProgramCommand { get; private set; }
-        void OnWriteProgram()
-        {
-        }
+		public RelayCommand WriteDatabaseCommand { get; private set; }
+		void OnWriteDatabase()
+		{
+		}
 
-        public RelayCommand GetDeviceParameterCommand { get; private set; }
-        void OnGetDeviceParameter()
-        {
-        }
+		public RelayCommand WriteProgramCommand { get; private set; }
+		void OnWriteProgram()
+		{
+		}
 
-        public RelayCommand WriteDeviceParameterCommand { get; private set; }
-        void OnWriteDeviceParameter()
-        {
-        }
-    }
+		public RelayCommand GetDeviceParameterCommand { get; private set; }
+		void OnGetDeviceParameter()
+		{
+		}
+
+		public RelayCommand WriteDeviceParameterCommand { get; private set; }
+		void OnWriteDeviceParameter()
+		{
+		}
+	}
 }

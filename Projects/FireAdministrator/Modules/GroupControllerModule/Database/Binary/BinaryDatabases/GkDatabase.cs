@@ -1,11 +1,13 @@
 ﻿using XFiresecAPI;
+using System.Collections.Generic;
 
-namespace GKModule.Converter.Binary
+namespace GKModule.Database
 {
 	public class GkDatabase : CommonDatabase
 	{
 		public GkDatabase(XDevice gkDevice)
 		{
+			DatabaseType = DatabaseType.Gk;
 			RootDevice = gkDevice;
 
 			AddDevice(gkDevice);

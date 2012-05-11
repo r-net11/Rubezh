@@ -64,24 +64,22 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Converter\Binary\DatabaseCollection.cs" />
-    <Compile Include="Converter\Binary\CommonDatabase.cs" />
-    <Compile Include="Converter\Binary\BinaryObjects\BinaryObjectBase.cs" />
-    <Compile Include="Converter\Binary\BinaryObjects\GKBinaryObject.cs" />
-    <Compile Include="Converter\Binary\BinaryObjects\KauBinaryObject.cs" />
-    <Compile Include="Converter\Binary\BinaryObjects\ZoneBinaryObject.cs" />
-    <Compile Include="Converter\Binary\GkDatabase.cs" />
-    <Compile Include="Converter\Binary\KauDatabase.cs" />
-    <Compile Include="Converter\BinConverter.cs" />
+    <Compile Include="Database\Binary\DatabaseCollection.cs" />
+    <Compile Include="Database\Binary\BinaryDatabases\CommonDatabase.cs" />
+    <Compile Include="Database\Binary\BinaryObjects\BinaryObjectBase.cs" />
+    <Compile Include="Database\Binary\BinaryObjects\DeviceBinaryObject.cs" />
+    <Compile Include="Database\Binary\BinaryObjects\ZoneBinaryObject.cs" />
+    <Compile Include="Database\Binary\BinaryDatabases\GkDatabase.cs" />
+    <Compile Include="Database\Binary\BinaryDatabases\KauDatabase.cs" />
     <Compile Include="Converter\Drivers\DriversConverter.cs" />
     <Compile Include="Converter\Drivers\GKIndicatorHelper.cs" />
     <Compile Include="Converter\Drivers\GKSystem.cs" />
     <Compile Include="Converter\Drivers\KAUIndicatorHelper.cs" />
     <Compile Include="Converter\Drivers\DriversHelper.cs" />
-    <Compile Include="Converter\BytesToStringConverter.cs" />
-    <Compile Include="Converter\ViewModels\BinObjectViewModel.cs" />
-    <Compile Include="Converter\ViewModels\DBViewModel.cs" />
-    <Compile Include="Converter\ViewModels\DeviceConverterViewModel.cs" />
+    <Compile Include="Database\Converters\BytesToStringConverter.cs" />
+    <Compile Include="Database\DatabaseProcessor.cs" />
+    <Compile Include="Database\ViewModels\BinaryObjectViewModel.cs" />
+    <Compile Include="Database\ViewModels\DatabasesViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
@@ -99,8 +97,8 @@
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converter\Views\DeviceConverterView.xaml.cs">
-      <DependentUpon>DeviceConverterView.xaml</DependentUpon>
+    <Compile Include="Database\Views\DatabasesView.xaml.cs">
+      <DependentUpon>DatabasesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Logic\DevicesSelectationView.xaml.cs">
       <DependentUpon>DevicesSelectationView.xaml</DependentUpon>
@@ -187,7 +185,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Converter\Views\DeviceConverterView.xaml">
+    <Page Include="Database\Views\DatabasesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

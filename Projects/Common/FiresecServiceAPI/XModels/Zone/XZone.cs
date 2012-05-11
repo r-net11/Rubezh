@@ -4,40 +4,35 @@ using System.Runtime.Serialization;
 
 namespace XFiresecAPI
 {
-    [DataContract]
-    public class XZone
-    {
-        public XZone()
-        {
-            DetectorCount = 2;
-            DeviceUIDs = new List<Guid>();
-            KAUDevices = new List<XDevice>();
-        }
+	[DataContract]
+	public class XZone : XBinaryBase
+	{
+		public XZone()
+		{
+			DetectorCount = 2;
+			DeviceUIDs = new List<Guid>();
+		}
 
-		public XDevice DBDevice { get; set; }
 		public List<XDevice> Devices { get; set; }
-        public List<XDevice> KAUDevices { get; set; }
-        public short InternalKAUNo { get; set; }
-        public short InternalGKUNo { get; set; }
 
-        [DataMember]
-        public short No { get; set; }
+		[DataMember]
+		public short No { get; set; }
 
-        [DataMember]
-        public string Name { get; set; }
+		[DataMember]
+		public string Name { get; set; }
 
-        [DataMember]
-        public string Description { get; set; }
+		[DataMember]
+		public string Description { get; set; }
 
-        [DataMember]
-        public short DetectorCount { get; set; }
+		[DataMember]
+		public short DetectorCount { get; set; }
 
-        [DataMember]
-        public List<Guid> DeviceUIDs { get; set; }
+		[DataMember]
+		public List<Guid> DeviceUIDs { get; set; }
 
-        public string PresentationName
-        {
-            get { return No + "." + Name; }
-        }
-    }
+		public string PresentationName
+		{
+			get { return No + "." + Name; }
+		}
+	}
 }

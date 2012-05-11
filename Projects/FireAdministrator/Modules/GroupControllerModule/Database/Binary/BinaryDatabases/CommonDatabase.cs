@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using XFiresecAPI;
 
-namespace GKModule.Converter.Binary
+namespace GKModule.Database
 {
 	public class CommonDatabase
 	{
@@ -11,6 +11,7 @@ namespace GKModule.Converter.Binary
 			get { return currentChildNo++; }
 		}
 
+		public DatabaseType DatabaseType { get; protected set; }
 		public XDevice RootDevice { get; protected set; }
 		public List<XDevice> Devices { get; set; }
 		public List<XZone> Zones { get; set; }
@@ -28,7 +29,8 @@ namespace GKModule.Converter.Binary
 			if (Devices.Contains(device))
 				return;
 
-			device.InternalKAUNo = NextChildNo;
+			device.SetDatabaseNo(DatabaseType, NextChildNo);
+
 			Devices.Add(device);
 		}
 
@@ -37,8 +39,25 @@ namespace GKModule.Converter.Binary
 			if (Zones.Contains(zone))
 				return;
 
-			zone.InternalKAUNo = NextChildNo;
+			zone.SetDatabaseNo(DatabaseType, NextChildNo);
+
 			Zones.Add(zone);
+		}
+
+		public void BuildObjects()
+		{
+			BinaryObjects = new List<BinaryObjectBase>();
+
+			foreach (var device in Devices)
+			{
+				var deviceBinaryObject = new DeviceBinaryObject(device, DatabaseType);
+				BinaryObjects.Add(deviceBinaryObject);
+			}
+			foreach (var zone in Zones)
+			{
+				var zoneBinaryObject = new ZoneBinaryObject(zone, DatabaseType);
+				BinaryObjects.Add(zoneBinaryObject);
+			}
 		}
 	}
 }
