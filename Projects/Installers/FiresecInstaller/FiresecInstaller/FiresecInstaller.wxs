@@ -29,6 +29,7 @@
     <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
+      
       <Directory Id="SystemFolder"/>
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
@@ -48,9 +49,9 @@
                 <Directory Id="FireAdmXaml2svgFolder" Name="$(var.xaml2svgFolder)" />
               </Directory>
             </Directory>
-            
           </Directory>
           <Directory Id="FIREMONITORLOCATION" Name="$(var.FireMonitorName)">
+            <Directory Id="ShellFolder" Name="Shell" />
             <Directory Id="FireMonLogsFolder" Name="Logs" />
             <Directory Id="ClientSettingsFolder" Name="ClientSettings" />
             <Directory Id="FireMonConfigFolder" Name="$(var.ConfigurationFolder)">

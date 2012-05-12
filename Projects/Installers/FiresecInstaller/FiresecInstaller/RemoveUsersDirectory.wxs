@@ -29,6 +29,8 @@
 				<RemoveFolder Id="RemoveFireMonitorClSettingsLocation" On="uninstall" Directory="ClientSettingsFolder"/>
 				<RemoveFile Id="RemoveFireMonLogs" On="uninstall" Name="*.*" Directory="FireMonLogsFolder"/>
 				<RemoveFolder Id="RemoveFireMonLogsFolderLocation" On="uninstall" Directory="FireMonLogsFolder"/>
+        <RemoveFile Id="RemoveFireMonShell" On="uninstall" Name="*.*" Directory="ShellFolder"/>
+        <RemoveFolder Id="RemoveFireMonShellFolderLocation" On="uninstall" Directory="ShellFolder"/>
 				<RemoveFolder Id="RemoveFireMonitorLocation" On="uninstall" Directory="FIREMONITORLOCATION"/>
 			</Component>
 

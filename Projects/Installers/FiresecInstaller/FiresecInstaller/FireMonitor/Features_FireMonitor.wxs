@@ -36,6 +36,12 @@
 			<ComponentRef Id="SystemHASPComponent"/>
 			<ComponentRef Id="FMProgramsMenuShortcut" />
 			<ComponentRef Id="FMDesktopShortcut" />
+      <ComponentRef Id="FMIntegrateCmd"/>
+      <ComponentRef Id="FMDeintegrateCmd"/>
+      <ComponentRef Id="FMIntegrateReg"/>
+      <ComponentRef Id="FMDeintegrateReg"/>
+      <ComponentRef Id="FMIntegrateRegx64"/>
+      <ComponentRef Id="FMIntegrateRegx32"/>
 			<ComponentGroupRef Id="FireMonReportTemplatesFolder"/>
 		</Feature>
 	</Fragment>

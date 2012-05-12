@@ -144,6 +144,29 @@
 
 		</DirectoryRef>
 
+    <DirectoryRef Id="ShellFolder">
+      <Component Id="FMIntegrateCmd" Guid="D8952A0D-59F7-42EC-A47F-105BD121D123">
+        <File Id="FMIntegrateCmd" Name="Интегрировать.cmd" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="FMDeintegrateCmd" Guid="94A45B32-028A-4F65-B43D-34DD44760D97">
+        <File Id="FMDeintegrateCmd" Name="Деинтегрировать.cmd" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+      </Component>
+      
+      <Component Id="FMIntegrateReg" Guid="D388A4B4-BA52-4630-952D-C890BDBF7B93">
+        <File Id="FMIntegrateReg" Name="интегрировать.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="FMDeintegrateReg" Guid="1309E56A-1DB8-474F-95DE-47D1198CF3D7">
+        <File Id="FMDeintegrateReg" Name="дизинтегрировать.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="FMIntegrateRegx64" Guid="5C72CDF8-06AA-4C7E-87F6-91199E7FBF0B">
+        <File Id="FMIntegrateRegx64" Name="интегрировать x64.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="FMIntegrateRegx32" Guid="15B9D20F-35FA-49B5-ABD3-6D1CD47964E9">
+        <File Id="FMIntegrateRegx32" Name="интегрировать x32.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+      </Component>
+
+    </DirectoryRef>
+    
 		<DirectoryRef Id="SystemFolder">
 			<Component Id="SystemHASPComponent" Guid="235FFA7E-E461-41EE-A7B5-B78FC93E7F1D">
 				<File Id="SystemHASPDLL" Name="hasp_windows_83702.dll" Source="..\..\..\..\..\..\3rdParty\HASP\"

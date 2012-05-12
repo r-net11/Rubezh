@@ -33,5 +33,7 @@
 											 Value="1" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
+
+    
 	</Fragment>
 </Wix>
