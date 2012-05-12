@@ -14,9 +14,7 @@ namespace GKModule.Database
 		{
 			CreateDBs();
 			CreateDevicesInKau();
-			InitializeZones();
 			CreateDevicesInGkForZones();
-			InitializeDeviceLogicDependences();
 			CreateDevicesInGkForLogic();
 			CreateZones();
 
@@ -64,35 +62,6 @@ namespace GKModule.Database
 			}
 		}
 
-		void InitializeZones()
-		{
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
-			{
-				zone.Devices = new List<XDevice>();
-
-				var kauParents = new HashSet<XDevice>();
-				foreach (var deviceUID in zone.DeviceUIDs)
-				{
-					var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					zone.Devices.Add(device);
-
-					var kauParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
-					kauParents.Add(kauParent);
-				}
-
-				if (kauParents.Count == 1)
-				{
-					var kauDevice = kauParents.ToList()[0];
-					zone.KauDatabaseParent = kauDevice;
-				}
-				if (kauParents.Count > 1)
-				{
-					var kauDevice = kauParents.ToList()[0];
-					zone.GkDatabaseParent = kauDevice.Parent;
-				}
-			}
-		}
-
 		void CreateDevicesInGkForZones()
 		{
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
@@ -103,32 +72,6 @@ namespace GKModule.Database
 					foreach (var device in zone.Devices)
 					{
 						commonDatabase.AddDevice(device);
-					}
-				}
-			}
-		}
-
-		void InitializeDeviceLogicDependences()
-		{
-			foreach (var device in XManager.DeviceConfiguration.Devices)
-			{
-				device.DeviceLogic.DependentDevices = new List<XDevice>();
-				device.DeviceLogic.DependentZones = new List<XZone>();
-
-				foreach (var stateLogic in device.DeviceLogic.StateLogics)
-				{
-					foreach (var clause in stateLogic.Clauses)
-					{
-						foreach (var deviceUID in clause.Devices)
-						{
-							var dependentDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-							device.DeviceLogic.DependentDevices.Add(dependentDevice);
-						}
-						foreach (var zoneNo in clause.Zones)
-						{
-							var dependentZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-							device.DeviceLogic.DependentZones.Add(dependentZone);
-						}
 					}
 				}
 			}
@@ -164,7 +107,7 @@ namespace GKModule.Database
 					var kauDevice = kauParents.ToList()[0];
 					var commonDatabase = GetDatabase(kauDevice);
 					commonDatabase.AddDevice(device);
-					
+
 					foreach (var dependentDevice in device.DeviceLogic.DependentDevices)
 					{
 						commonDatabase.AddDevice(dependentDevice);

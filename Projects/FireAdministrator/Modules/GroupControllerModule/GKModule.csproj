@@ -64,6 +64,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Converter\Drivers\Helpers\RMHelper.cs" />
     <Compile Include="Database\Binary\DatabaseCollection.cs" />
     <Compile Include="Database\Binary\BinaryDatabases\CommonDatabase.cs" />
     <Compile Include="Database\Binary\BinaryObjects\BinaryObjectBase.cs" />

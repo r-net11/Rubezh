@@ -1,25 +1,39 @@
 ﻿using System.Runtime.Serialization;
+using System.Collections.Generic;
 
 namespace XFiresecAPI
 {
 	[DataContract]
 	public class XBinaryBase
 	{
+		public List<XDevice> InputDevices { get; set; }
+		public List<XDevice> OutputDevices { get; set; }
+		public List<XZone> InputZones { get; set; }
+		//public List<XZone> OutputZones { get; set; }
+
 		public XDevice KauDatabaseParent { get; set; }
 		public XDevice GkDatabaseParent { get; set; }
 
-		short InternalGKNo { get; set; }
-		short InternalKAUNo { get; set; }
+		short databaseGKNo;
+		short databaseKAUNo;
+
+		public void ClearBinaryData()
+		{
+			InputDevices = new List<XDevice>();
+			OutputDevices = new List<XDevice>();
+			InputZones = new List<XZone>();
+			//OutputZones = new List<XZone>();
+		}
 
 		public short GetDatabaseNo(DatabaseType databaseType)
 		{
 			switch (databaseType)
 			{
 				case DatabaseType.Gk:
-					return InternalGKNo;
+					return databaseGKNo;
 
 				case DatabaseType.Kau:
-					return InternalKAUNo;
+					return databaseKAUNo;
 			}
 			return 0;
 		}
@@ -29,11 +43,11 @@ namespace XFiresecAPI
 			switch (databaseType)
 			{
 				case DatabaseType.Gk:
-					InternalGKNo = no;
+					databaseGKNo = no;
 					break;
 
 				case DatabaseType.Kau:
-					InternalKAUNo = no;
+					databaseKAUNo = no;
 					break;
 			}
 		}

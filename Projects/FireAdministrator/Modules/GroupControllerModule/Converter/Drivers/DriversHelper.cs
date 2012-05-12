@@ -48,7 +48,7 @@ namespace GKModule.Converter
 			Drivers.Add(new DriverItem(XDriverType.RadioSmokeDetector, DriverType.RadioSmokeDetector, false));
 		}
 
-		public static List<DriverItem>  Drivers { get; private set; }
+		public static List<DriverItem> Drivers { get; private set; }
 
 		public static Guid System_UID = new Guid("938947C5-4624-4A1A-939C-60AEEBF7B65C");
 		public static Guid GK_UID = new Guid("C052395D-043F-4590-A0B8-BC49867ADC6A");

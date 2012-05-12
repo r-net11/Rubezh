@@ -23,30 +23,81 @@ namespace GKModule.Database
 		public DatabaseType DatabaseType { get; protected set; }
 		public XZone Zone { get; protected set; }
 		public XDevice Device { get; protected set; }
-		//public bool IsGk { get; protected set; }
-		//public bool IsGKObject { get; protected set; }
-		//public Guid GKObjectNo { get; protected set; }
+		XBinaryBase GetBinaryBase()
+		{
+			XBinaryBase binaryBase = null;
+			if (Zone != null)
+				binaryBase = Zone;
+			if (Device != null)
+				binaryBase = Device;
+			return binaryBase;
+		}
+
+		protected void SetAddress(short address)
+		{
+			Address = new List<byte>();
+
+			if (DatabaseType == DatabaseType.Gk)
+			{
+				var binaryBase = GetBinaryBase();
+
+				short controllerAddress = 0;
+				if (binaryBase.KauDatabaseParent != null)
+				{
+					int lineNo = 0;
+					var modeProperty = binaryBase.KauDatabaseParent.Properties.FirstOrDefault(x=>x.Name == "Mode");
+					if (modeProperty != null)
+					{
+						var propertyParameter = binaryBase.KauDatabaseParent.Driver.Properties.FirstOrDefault(x => x.Name == "Mode");
+						lineNo = (int)propertyParameter.Parameters.FirstOrDefault(x => x.Name == modeProperty.Value).Value;
+					}
+
+					byte intAddress = binaryBase.KauDatabaseParent.IntAddress;
+					controllerAddress = (short)(lineNo * 256 + intAddress);
+				}
+				else
+				{
+					controllerAddress = 0x200;
+				}
+				Address.AddRange(ToBytes(controllerAddress));
+
+				var no = binaryBase.GetDatabaseNo(DatabaseType);
+				Address.AddRange(ToBytes(no));
+			}
+			Address.AddRange(ToBytes(address));
+		}
+
+		void InitializeInputOutputDependences()
+		{
+			var binaryBase = GetBinaryBase();
+
+			InputDependenses = new List<byte>();
+			OutputDependenses = new List<byte>();
+
+			foreach (var device in binaryBase.InputDevices)
+			{
+				var no = device.GetDatabaseNo(DatabaseType);
+				InputDependenses.AddRange(BitConverter.GetBytes(no));
+			}
+			foreach (var device in binaryBase.OutputDevices)
+			{
+				var no = device.GetDatabaseNo(DatabaseType);
+				OutputDependenses.AddRange(BitConverter.GetBytes(no));
+			}
+			foreach (var zone in binaryBase.InputZones)
+			{
+				var no = zone.GetDatabaseNo(DatabaseType);
+				InputDependenses.AddRange(BitConverter.GetBytes(no));
+			}
+		}
 
 		public void InitializeAllBytes()
 		{
-			if (InputDependenses != null)
-				InputDependensesCount = ToBytes((short)(InputDependenses.Count() / 2));
-			else
-				InputDependensesCount = new List<byte>();
+			InitializeInputOutputDependences();
 
-			if (OutputDependenses != null)
-				OutputDependensesCount = ToBytes((short)(OutputDependenses.Count() / 2));
-			else
-				OutputDependenses = new List<byte>();
-
-			if (Parameters != null)
-			{
-				ParametersCount = ToBytes((short)(Parameters.Count() / 4));
-			}
-			else
-			{
-				ParametersCount = new List<byte>();
-			}
+			InputDependensesCount = ToBytes((short)(InputDependenses.Count() / 2));
+			OutputDependensesCount = ToBytes((short)(OutputDependenses.Count() / 2));
+			ParametersCount = ToBytes((short)(Parameters.Count() / 4));
 
 			Offset = ToBytes((short)(8 + InputDependenses.Count() + Formula.Count()));
 
@@ -54,17 +105,12 @@ namespace GKModule.Database
 			AllBytes.AddRange(DeviceType);
 			AllBytes.AddRange(Address);
 			AllBytes.AddRange(Offset);
-			AllBytes.AddRange(InputDependensesCount);
-			AllBytes.AddRange(InputDependenses);
+			AllBytes.AddRange(OutputDependensesCount);
+			AllBytes.AddRange(OutputDependenses);
 			if (DatabaseType == DatabaseType.Gk)
 			{
-				if (OutputDependenses == null)
-					OutputDependenses = new List<byte>();
-
-				OutputDependensesCount = ToBytes((short)(OutputDependenses.Count() / 2));
-
-				AllBytes.AddRange(OutputDependensesCount);
-				AllBytes.AddRange(OutputDependenses);
+				AllBytes.AddRange(InputDependensesCount);
+				AllBytes.AddRange(InputDependenses);
 			}
 			AllBytes.AddRange(Formula);
 			AllBytes.AddRange(ParametersCount);

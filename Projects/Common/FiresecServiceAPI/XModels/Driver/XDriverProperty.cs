@@ -9,6 +9,7 @@ namespace XFiresecAPI
         public XDriverProperty()
         {
             Parameters = new List<XDriverPropertyParameter>();
+			AlternativePareterNames = new List<string>();
         }
 
         [DataMember]
@@ -31,6 +32,9 @@ namespace XFiresecAPI
 
         [DataMember]
         public List<XDriverPropertyParameter> Parameters { get; set; }
+
+		[DataMember]
+		public List<string> AlternativePareterNames { get; set; }
 
         [DataMember]
         public XDriverPropertyTypeEnum DriverPropertyType { get; set; }

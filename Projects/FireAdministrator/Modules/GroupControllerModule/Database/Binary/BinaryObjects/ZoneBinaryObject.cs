@@ -11,12 +11,11 @@ namespace GKModule.Database
 			Zone = zone;
 
 			DeviceType = ToBytes((short)0x100);
-			Address = ToBytes((short)0);
+			SetAddress((short)0);
 
 			InputDependenses = new List<byte>();
 			OutputDependenses = new List<byte>();
 			Parameters = new List<byte>();
-			Offset = new List<byte>();
 
 			SetFormulaBytes();
 

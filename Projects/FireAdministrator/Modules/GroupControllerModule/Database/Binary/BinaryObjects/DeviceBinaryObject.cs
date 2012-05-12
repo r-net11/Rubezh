@@ -18,7 +18,7 @@ namespace GKModule.Database
 			short address = 0;
 			if (device.Driver.IsDeviceOnShleif)
 				address = (short)(device.ShleifNo * 256 + device.IntAddress);
-			Address = ToBytes(address);
+			SetAddress(address);
 
 			SetObjectOutDependencesBytes();
 			SetFormulaBytes();
@@ -62,30 +62,30 @@ namespace GKModule.Database
 
 		void SetObjectOutDependencesBytes()
 		{
-			var inputObjects = new List<short>();
+			//var inputObjects = new List<short>();
 
-			foreach (var stateLogic in Device.DeviceLogic.StateLogics)
-			{
-				foreach (var clause in stateLogic.Clauses)
-				{
-					foreach (var deviceUID in clause.Devices)
-					{
-						var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-						inputObjects.Add(device.GetDatabaseNo(DatabaseType));
-					}
-					foreach (var zoneNo in clause.Zones)
-					{
-						var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-						inputObjects.Add(zone.GetDatabaseNo(DatabaseType));
-					}
-				}
-			}
+			//foreach (var stateLogic in Device.DeviceLogic.StateLogics)
+			//{
+			//    foreach (var clause in stateLogic.Clauses)
+			//    {
+			//        foreach (var deviceUID in clause.Devices)
+			//        {
+			//            var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			//            inputObjects.Add(device.GetDatabaseNo(DatabaseType));
+			//        }
+			//        foreach (var zoneNo in clause.Zones)
+			//        {
+			//            var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+			//            inputObjects.Add(zone.GetDatabaseNo(DatabaseType));
+			//        }
+			//    }
+			//}
 
-			InputDependenses = new List<byte>();
-			foreach (var inputObject in inputObjects)
-			{
-				InputDependenses.AddRange(BitConverter.GetBytes(inputObject));
-			}
+			//InputDependenses = new List<byte>();
+			//foreach (var inputObject in inputObjects)
+			//{
+			//    InputDependenses.AddRange(BitConverter.GetBytes(inputObject));
+			//}
 		}
 
 		void SetFormulaBytes()

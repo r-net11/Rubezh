@@ -15,7 +15,7 @@ namespace GKModule.ViewModels
 			if (binaryObject.Device != null)
 			{
 				Name = binaryObject.Device.Driver.ShortName;
-				Address = binaryObject.Device.Address;
+				Address = binaryObject.Device.DottedAddress;
 				ImageSource = binaryObject.Device.Driver.ImageSource;
 			}
 			if (binaryObject.Zone != null)
