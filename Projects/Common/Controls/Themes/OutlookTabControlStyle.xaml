@@ -76,7 +76,7 @@
                 <Line Stroke="{StaticResource BorderBrush}" VerticalAlignment="Bottom" X2="1" Stretch="Fill"/>
             </Grid>
             <!-- This is the selected content pane that appears in the Outlook Bar -->
-            <ContentPresenter Content="{TemplateBinding SelectedContent}" />
+            <!--<ContentPresenter Content="{TemplateBinding SelectedContent}" />-->
         </DockPanel>
     </ControlTemplate>
     

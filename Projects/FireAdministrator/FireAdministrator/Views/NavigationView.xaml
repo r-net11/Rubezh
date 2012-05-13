@@ -5,7 +5,7 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,0,3,0">
             <TabControl DockPanel.Dock="Top" Template="{StaticResource OutlookTab}" VerticalAlignment="Top" ItemsSource="{Binding Navigation}">
                 <TabControl.ItemTemplate>
-                    <DataTemplate>
+                    <!--<DataTemplate>
                         <DataTemplate.Resources>
                             <Style TargetType="{x:Type TextBlock}">
                                 <Setter Property="FontWeight" Value="Bold" />
@@ -20,13 +20,19 @@
                             </Style>
                         </DataTemplate.Resources>
                         <StackPanel Orientation="Horizontal">
+                            <Image/>-->
+                    <!--<Image Source="{Binding Icon}"  />-->
+                    <!--<TextBlock Text="{Binding Title}" />
+                        </StackPanel>
+                    </DataTemplate>-->
+                    <HierarchicalDataTemplate ItemsSource="{Binding Childs}">
+                        <StackPanel Orientation="Horizontal">
                             <Image/>
-                            <!--<Image Source="{Binding Icon}"  />-->
                             <TextBlock Text="{Binding Title}" />
                         </StackPanel>
-                    </DataTemplate>
+                    </HierarchicalDataTemplate>
                 </TabControl.ItemTemplate>
-             </TabControl>
+            </TabControl>
         </ScrollViewer>
     </DockPanel>
 </UserControl>

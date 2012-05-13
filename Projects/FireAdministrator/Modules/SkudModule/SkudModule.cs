@@ -83,10 +83,10 @@ namespace SkudModule
 						new NavigationItem("Группы",null, typeof(ShowEmployeeGroupsEvent)),
 					})
 				}),
-				//new NavigationItem("СКУД1", null, null, new List<NavigationItem>()),
-				//new NavigationItem("СКУД2", null, null, new List<NavigationItem>()),
-				//new NavigationItem("СКУД3", null, null, new List<NavigationItem>()),
-				//new NavigationItem("СКУД4", null, null, new List<NavigationItem>()),
+				new NavigationItem("СКУД1", null, typeof(ShowEmployeePositionsEvent), new List<NavigationItem>()),
+				new NavigationItem("СКУД2", null, typeof(ShowEmployeeDepartmentsEvent), new List<NavigationItem>()),
+				new NavigationItem("СКУД3", null,  typeof(ShowEmployeeGroupsEvent), new List<NavigationItem>()),
+				new NavigationItem("СКУД4", null, typeof(ShowEmployeeCardIndexEvent), new List<NavigationItem>()),
 				//new NavigationItem("СКУД5", null, null, new List<NavigationItem>()),
 				//new NavigationItem("СКУД6", null, null, new List<NavigationItem>())
 			};

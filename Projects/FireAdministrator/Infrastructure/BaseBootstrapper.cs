@@ -57,12 +57,8 @@ namespace Infrastructure
 		{
 			Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 			foreach (Assembly assembly in assemblies)
-			{
 				if (assembly.Location == path)
-				{
 					return assembly;
-				}
-			}
 			return null;
 		}
 	}

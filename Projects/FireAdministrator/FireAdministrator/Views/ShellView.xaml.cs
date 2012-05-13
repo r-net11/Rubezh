@@ -8,6 +8,8 @@ using Infrastructure.Common.MessageBox;
 using FireAdministrator.ViewModels;
 using FiresecClient;
 using Infrastructure;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace FireAdministrator.Views
 {
