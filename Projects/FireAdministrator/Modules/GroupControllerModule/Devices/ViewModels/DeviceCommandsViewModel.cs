@@ -1,8 +1,8 @@
 ﻿using GKModule.Converter;
+using GKModule.Database;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
-using GKModule.Database;
 
 namespace GKModule.Models
 {

@@ -12,7 +12,7 @@ namespace GKModule.ViewModels
 			var property = xDevice.Properties.FirstOrDefault(x => x.Name == xDriverProperty.Name);
 			if (property != null)
 			{
-				_selectedValue = xDriverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value).Name;
+				//_selectedValue = xDriverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value).Name;
 			}
 			else
 			{
