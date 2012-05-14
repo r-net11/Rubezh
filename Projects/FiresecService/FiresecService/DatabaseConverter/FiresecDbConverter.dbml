@@ -13,6 +13,7 @@
       <Column Name="PanelDatabaseId" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="UserName" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="StateType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OldId" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

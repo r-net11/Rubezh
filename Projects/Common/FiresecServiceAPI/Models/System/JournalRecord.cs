@@ -61,6 +61,10 @@ namespace FiresecAPI.Models
         [DataMember]
         public string Detalization { get; set; }
 
+		[Column(DbType = "Int")]
+		[DataMember]
+		public int OldId { get; set; }
+
         public bool Equals(JournalRecord x, JournalRecord y)
         {
             if (object.ReferenceEquals(x, y)) return true;

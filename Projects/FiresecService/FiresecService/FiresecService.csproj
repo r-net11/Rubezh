@@ -167,7 +167,9 @@
     <Compile Include="Configuration\ConfigurationManager.GuardUsersConverter.cs" />
     <Compile Include="Configuration\PDUGroupLogicConverter.cs" />
     <Compile Include="Configuration\ConfigurationManager.PlansConverter.cs" />
-    <Compile Include="DatabaseConverter\FiresecDbConverter.designer.cs" />
+    <Compile Include="DatabaseConverter\FiresecDbConverter.designer.cs" >
+      <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Database\ConnectionManager.cs" />
     <Compile Include="Database\DatabaseHelper.cs" />
     <Compile Include="Imitator\ViewModels\DeviceStateViewModel.cs" />

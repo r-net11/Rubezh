@@ -1,6 +1,7 @@
 ﻿using System;
 using FiresecAPI.Models;
 using FiresecService.Service;
+using Common;
 
 namespace FiresecService.Database
 {
@@ -16,7 +17,10 @@ namespace FiresecService.Database
 					dataContext.SubmitChanges();
 				}
 			}
-			catch { };
+			catch (Exception e)
+			{
+				Logger.Error(e);
+			}
 		}
 
 		public static void AddInfoMessage(string userName, string mesage)
