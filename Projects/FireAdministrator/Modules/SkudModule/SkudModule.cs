@@ -72,23 +72,23 @@ namespace SkudModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("СКУД", null, null, new List<NavigationItem>()
+				new NavigationItem("Устройства", "/Controls;component/Images/tree.png", new List<NavigationItem>()),
+				new NavigationItem("СКУД", null, new List<NavigationItem>()
 				{
-					new NavigationItem("Картотека",null, typeof(ShowEmployeeCardIndexEvent)),
-					new NavigationItem("Пропуск",null, typeof(ShowPassCardEvent)),
-					new NavigationItem("Справочники",null, null, new List<NavigationItem>()
+					new NavigationItem<ShowSkudEvent>("Картотека",null),
+					new NavigationItem("Пропуск",null),
+					new NavigationItem<ShowSkudEvent>("Справочники",null, new List<NavigationItem>()
 					{
-						new NavigationItem("Должности",null, typeof(ShowEmployeePositionsEvent)),
-						new NavigationItem("Подразделения",null, typeof(ShowEmployeeDepartmentsEvent)),
-						new NavigationItem("Группы",null, typeof(ShowEmployeeGroupsEvent)),
+						new NavigationItem("Должности",null),
+						new NavigationItem<ShowSkudEvent>("Подразделения",null),
+						new NavigationItem("Группы",null),
 					})
 				}),
-				new NavigationItem("СКУД1", null, typeof(ShowEmployeePositionsEvent), new List<NavigationItem>()),
-				new NavigationItem("СКУД2", null, typeof(ShowEmployeeDepartmentsEvent), new List<NavigationItem>()),
-				new NavigationItem("СКУД3", null,  typeof(ShowEmployeeGroupsEvent), new List<NavigationItem>()),
-				new NavigationItem("СКУД4", null, typeof(ShowEmployeeCardIndexEvent), new List<NavigationItem>()),
-				//new NavigationItem("СКУД5", null, null, new List<NavigationItem>()),
-				//new NavigationItem("СКУД6", null, null, new List<NavigationItem>())
+				new NavigationItem("СКУД1", null, new List<NavigationItem>()),
+				new NavigationItem("СКУД2", null, new List<NavigationItem>()),
+				new NavigationItem<ShowSkudEvent>("СКУД3", null,  new List<NavigationItem>()),
+				new NavigationItem("СКУД5", null, new List<NavigationItem>()),
+				new NavigationItem("СКУД6", null, new List<NavigationItem>())
 			};
 		}
 	}

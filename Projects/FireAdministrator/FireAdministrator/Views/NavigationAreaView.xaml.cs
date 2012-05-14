@@ -348,6 +348,7 @@ namespace FireAdministrator.Views
 			{
 				return ((FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_SKUD)) &&
 					(ServiceFactory.AppSettings.ShowSKUD));
+				//return true;
 			}
 		}
 

@@ -15,4 +15,5 @@
     <Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
     <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
     <Converters:ReportTypeToStringConverter x:Key="ReportTypeToStringConverter" />
+	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 </ResourceDictionary>

@@ -110,6 +110,7 @@
     <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="ILayoutService.cs" />
     <Compile Include="IProgressService.cs" />
+    <Compile Include="NavigationItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

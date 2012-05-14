@@ -18,6 +18,18 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
+			//AppSettingsHelper.InitializeAppSettings();
+			//RegisterServices();
+			//ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+			//var navigation1 = InitializeModules();
+
+			//var ShellView1 = new ShellView();
+			//ShellView1.Navigation = navigation1;
+			//ServiceFactory.ShellView = ShellView1;
+			//Application.Current.MainWindow = ShellView1;
+			//Application.Current.MainWindow.Show();
+			//return;
+
 			AppSettingsHelper.InitializeAppSettings();
 
 			if (SingleLaunchHelper.KillRunningProcess("FireAdministrator") == false)
@@ -57,10 +69,10 @@ namespace FireAdministrator
 				{
 					InitializeKnownModules();
 
-					//var navigation = InitializeModules();
+					var navigation = InitializeModules();
 
 					var ShellView = new ShellView();
-					//ShellView.Navigation = navigation;
+					ShellView.Navigation = navigation;
 					ServiceFactory.ShellView = ShellView;
 					Application.Current.MainWindow = ShellView;
 					Application.Current.MainWindow.Show();

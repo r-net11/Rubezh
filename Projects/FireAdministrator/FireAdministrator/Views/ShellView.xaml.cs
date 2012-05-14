@@ -82,11 +82,11 @@ namespace FireAdministrator.Views
 		}
 
 
-		//public List<NavigationItem> Navigation
-		//{
-		//    get { return _navigation.Navigation; }
-		//    set { _navigation.Navigation = value; }
-		//}
+		public List<NavigationItem> Navigation
+		{
+			get { return _navigation.Navigation; }
+			set { _navigation.Navigation = value; }
+		}
 
 		public object ValidatoinArea
 		{

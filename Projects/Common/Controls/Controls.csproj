@@ -111,6 +111,7 @@
     <Compile Include="Converters\DateTimeToStringConverter.cs" />
     <Compile Include="Converters\IsOffToStringConverter.cs" />
     <Compile Include="Converters\LeftMarginMultiplierConverter.cs" />
+    <Compile Include="Converters\NullToImageConverter.cs" />
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\ReportTypeToStringConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
@@ -187,6 +188,10 @@
     <Page Include="Themes\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\OutlookTreeViewStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\ListBoxStyle.xaml">
       <SubType>Designer</SubType>
