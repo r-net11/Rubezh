@@ -1,10 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Infrastructure.Common.MessageBox;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 
 namespace GKModule.ViewModels
 {

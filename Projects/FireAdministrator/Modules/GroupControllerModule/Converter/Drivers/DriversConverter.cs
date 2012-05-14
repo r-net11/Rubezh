@@ -66,6 +66,13 @@ namespace GKModule.Converter
 			XManager.DriversConfiguration.Drivers.Add(GKIndicatorHelper.Create());
 
 			RMHelper.Create();
+			MROHelper.Create();
+			AMP4Helper.Create();
+			MDUHelper.Create();
+			BUZHelper.Create();
+			BUNHelper.Create();
+			MPTHelper.Create();
+			CombinedDetectorHelper.Create();
 		}
 	}
 }

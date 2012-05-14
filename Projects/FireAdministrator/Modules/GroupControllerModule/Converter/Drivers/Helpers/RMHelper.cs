@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using XFiresecAPI;
 using FiresecClient;
+using XFiresecAPI;
 
 namespace GKModule.Converter
 {
@@ -11,7 +9,7 @@ namespace GKModule.Converter
 	{
 		public static void Create()
 		{
-			var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x=>x.DriverType == XDriverType.RM_1);
+			var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.RM_1);
 
 			var property1 = new XDriverProperty()
 			{
@@ -68,11 +66,57 @@ namespace GKModule.Converter
 			var property2 = new XDriverProperty()
 			{
 				No = 0x83,
-				Name = "Конфигурация релейного модуля",
-				Caption = "Конфигурация релейного модуля"
+				Name = "Время удержания",
+				Caption = "Время удержания",
+				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
+				Default = 0,
+				IsHighByte = true
 			};
-
 			xDriver.Properties.Add(property2);
+
+			var property3 = new XDriverProperty()
+			{
+				No = 0x83,
+				Name = "Задержка на пуск",
+				Caption = "Задержка на пуск",
+				Default = 0,
+				DriverPropertyType = XDriverPropertyTypeEnum.IntType
+			};
+			xDriver.Properties.Add(property3);
+
+			var property4 = new XDriverProperty()
+			{
+				No = 0x85,
+				Name = "Тип контроля выхода",
+				Caption = "Тип контроля выхода",
+				Default = 1
+			};
+			var outControlParameter1 = new XDriverPropertyParameter()
+			{
+				Name = "Состояние цепи не контролируется",
+				Value = 1
+			};
+			var outControlParameter2 = new XDriverPropertyParameter()
+			{
+				Name = "Цепь контролируется только на обрыв",
+				Value = 2
+			};
+			var outControlParameter3 = new XDriverPropertyParameter()
+			{
+				Name = "Цепь контролируется только на короткое замыкание",
+				Value = 3
+			};
+			var outControlParameter4 = new XDriverPropertyParameter()
+			{
+				Name = "Цепь контролируется на короткое замыкание и на обрыв",
+				Value = 4
+			};
+			property4.Parameters.Add(outControlParameter1);
+			property4.Parameters.Add(outControlParameter2);
+			property4.Parameters.Add(outControlParameter3);
+			property4.Parameters.Add(outControlParameter4);
+
+			xDriver.Properties.Add(property4);
 		}
 	}
 }

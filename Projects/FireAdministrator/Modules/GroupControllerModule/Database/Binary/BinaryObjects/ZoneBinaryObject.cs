@@ -1,5 +1,5 @@
-﻿using XFiresecAPI;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using XFiresecAPI;
 
 namespace GKModule.Database
 {

@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using XFiresecAPI;
-using System.Collections.Generic;
 
 namespace GKModule.Database
 {

@@ -1,9 +1,8 @@
-﻿using GKModule.Converter;
+﻿using System.Linq;
+using FiresecClient;
+using GKModule.Database;
 using Infrastructure.Common;
 using XFiresecAPI;
-using GKModule.Database;
-using FiresecClient;
-using System.Linq;
 
 namespace GKModule.ViewModels
 {
