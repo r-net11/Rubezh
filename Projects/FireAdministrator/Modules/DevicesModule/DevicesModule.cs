@@ -4,80 +4,97 @@ using DevicesModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace DevicesModule
 {
-    public class DevicesModule
-    {
-        static DevicesViewModel _devicesViewModel;
-        static ZonesViewModel _zonesViewModel;
-        static DirectionsViewModel _directionsViewModel;
-        static GuardViewModel _guardViewModel;
+	public class DevicesModule : ModuleBase
+	{
+		private NavigationItem _guardNavigationItem;
+		static DevicesViewModel _devicesViewModel;
+		static ZonesViewModel _zonesViewModel;
+		static DirectionsViewModel _directionsViewModel;
+		static GuardViewModel _guardViewModel;
 
-        public DevicesModule()
-        {
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Unsubscribe(OnShowDevice);
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Unsubscribe(OnShowZone);
-            ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Unsubscribe(OnShowDirections);
-            ServiceFactory.Events.GetEvent<ShowGuardEvent>().Unsubscribe(OnShowGuardDevices);
-            ServiceFactory.Events.GetEvent<CreateZoneEvent>().Unsubscribe(OnCreateZone);
+		public DevicesModule()
+		{
+			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Unsubscribe(OnShowDevice);
+			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Unsubscribe(OnShowZone);
+			ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Unsubscribe(OnShowDirections);
+			ServiceFactory.Events.GetEvent<ShowGuardEvent>().Unsubscribe(OnShowGuardDevices);
+			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Unsubscribe(OnCreateZone);
 
-            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
-            ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
-            ServiceFactory.Events.GetEvent<ShowGuardEvent>().Subscribe(OnShowGuardDevices);
-            ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
+			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
+			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
+			ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
+			ServiceFactory.Events.GetEvent<ShowGuardEvent>().Subscribe(OnShowGuardDevices);
+			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
+		}
 
-            RegisterResources();
-            CreateViewModels();
-        }
+		public static void CreateViewModels()
+		{
+			_devicesViewModel = new DevicesViewModel();
+			_zonesViewModel = new ZonesViewModel();
+			_directionsViewModel = new DirectionsViewModel();
+			_guardViewModel = new GuardViewModel();
+		}
 
-        void RegisterResources()
-        {
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml"));
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml"));
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Validation/DataTemplates/Dictionary.xaml"));
-        }
+		static void OnShowDevice(Guid deviceUID)
+		{
+			if (deviceUID != Guid.Empty)
+				_devicesViewModel.Select(deviceUID);
+			ServiceFactory.Layout.Show(_devicesViewModel);
+		}
 
-        public static void CreateViewModels()
-        {
-            _devicesViewModel = new DevicesViewModel();
-            _zonesViewModel = new ZonesViewModel();
-            _directionsViewModel = new DirectionsViewModel();
-            _guardViewModel = new GuardViewModel();
-        }
+		static void OnShowZone(ulong zoneNo)
+		{
+			if (zoneNo != 0)
+				_zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+			ServiceFactory.Layout.Show(_zonesViewModel);
+		}
 
-        static void OnShowDevice(Guid deviceUID)
-        {
-            if (deviceUID != Guid.Empty)
-                _devicesViewModel.Select(deviceUID);
-            ServiceFactory.Layout.Show(_devicesViewModel);
-        }
+		static void OnShowDirections(int? directionId)
+		{
+			if (directionId.HasValue)
+				_directionsViewModel.SelectedDirection = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.Id == directionId);
+			ServiceFactory.Layout.Show(_directionsViewModel);
+		}
 
-        static void OnShowZone(ulong zoneNo)
-        {
-            if (zoneNo != 0)
-                _zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
-            ServiceFactory.Layout.Show(_zonesViewModel);
-        }
+		static void OnShowGuardDevices(object obj)
+		{
+			ServiceFactory.Layout.Show(_guardViewModel);
+		}
 
-        static void OnShowDirections(int? directionId)
-        {
-            if (directionId.HasValue)
-                _directionsViewModel.SelectedDirection = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.Id == directionId);
-            ServiceFactory.Layout.Show(_directionsViewModel);
-        }
+		static void OnCreateZone(CreateZoneEventArg createZoneEventArg)
+		{
+			_zonesViewModel.CreateZone(createZoneEventArg);
+		}
 
-        static void OnShowGuardDevices(object obj)
-        {
-            ServiceFactory.Layout.Show(_guardViewModel);
-        }
+		public override void RegisterResource()
+		{
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Devices/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Validation/DataTemplates/Dictionary.xaml"));
+		}
+		public override void Initialize()
+		{
+			CreateViewModels();
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			_guardNavigationItem = new NavigationItem<ShowGuardEvent>("Охрана", "/Controls;component/Images/user.png") { IsVisible = false };
+			ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Subscribe(x => { _guardNavigationItem.IsVisible = x; });
 
-        static void OnCreateZone(CreateZoneEventArg createZoneEventArg)
-        {
-            _zonesViewModel.CreateZone(createZoneEventArg);
-        }
-    }
+			return new List<NavigationItem>()
+			{
+				new NavigationItem<ShowDeviceEvent, Guid>("Устройства","/Controls;component/Images/tree.png", null, null, Guid.Empty),
+				new NavigationItem<ShowZoneEvent, ulong>("Зоны","/Controls;component/Images/zones.png", null, null, 0),
+				new NavigationItem<ShowDirectionsEvent, int?>("Направления","/Controls;component/Images/direction.png"),
+				_guardNavigationItem
+			};
+		}
+	}
 }

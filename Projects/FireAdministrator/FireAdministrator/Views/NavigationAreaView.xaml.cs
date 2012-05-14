@@ -38,7 +38,7 @@ namespace FireAdministrator.Views
 			ServiceFactory.Events.GetEvent<ShowEmployeeCardIndexEvent>().Subscribe(x => { _isEmployeeCardIndexSelected = true; OnPropertyChanged("IsEmployeeCardIndexSelected"); });
 			ServiceFactory.Events.GetEvent<ShowPassCardEvent>().Subscribe(x => { _isPassCardSelected = true; OnPropertyChanged("IsPassCardSelected"); });
 
-			DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
+			//DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
 		}
 
 		private void On_Loaded(object sender, System.Windows.RoutedEventArgs e)
@@ -346,9 +346,9 @@ namespace FireAdministrator.Views
 		{
 			get
 			{
-				return ((FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_SKUD)) &&
-					(ServiceFactory.AppSettings.ShowSKUD));
-				//return true;
+				//return ((FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_SKUD)) &&
+				//    (ServiceFactory.AppSettings.ShowSKUD));
+				return true;
 			}
 		}
 

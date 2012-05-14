@@ -5,6 +5,10 @@ using Infrastructure.Common.Navigation;
 using System.Windows;
 using System.Windows.Media;
 using Infrastructure;
+using FiresecAPI.Models;
+using FiresecClient;
+using System.Linq;
+using System.Windows.Input;
 
 namespace FireAdministrator.Views
 {
@@ -23,6 +27,7 @@ namespace FireAdministrator.Views
 			set
 			{
 				_navigation = value;
+				CheckPermissions(_navigation);
 				OnPropertyChanged("Navigation");
 			}
 		}
@@ -32,6 +37,12 @@ namespace FireAdministrator.Views
 		{
 			if (PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs(name));
+		}
+
+		private void On_Loaded(object sender, System.Windows.RoutedEventArgs e)
+		{
+			if (Navigation != null && Navigation.Count > -1)
+				Navigation[0].IsSelected = true;
 		}
 
 		//private List<NavigationItem> TransformToList(NavigationItem parent)
@@ -58,6 +69,10 @@ namespace FireAdministrator.Views
 					item.Execute();
 			}
 		}
+		private void TreeViewItem_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
+		{
+			e.Handled = true;
+		}
 		private void TreeView_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{
 			TreeViewItem item = GetTreeViewItemClicked(e);
@@ -73,7 +88,7 @@ namespace FireAdministrator.Views
 			TreeView tv = e.Source as TreeView;
 			FrameworkElement item = (FrameworkElement)e.OriginalSource;
 			FrameworkElement parent = item.Parent as FrameworkElement;
-			TreeViewItem result = parent.TemplatedParent as TreeViewItem;
+			TreeViewItem result = parent == null ? null : parent.TemplatedParent as TreeViewItem;
 			if (result == null)
 			{
 				Point p = item.TranslatePoint(new Point(0, 0), tv);
@@ -83,6 +98,19 @@ namespace FireAdministrator.Views
 				result = obj as TreeViewItem;
 			}
 			return result;
+		}
+
+		private void CheckPermissions(IList<NavigationItem> items)
+		{
+			for (int i = items.Count - 1; i >= 0; i--)
+				if (!items[0].CheckPermission() || !HavePermission(items[i]))
+					items.Remove(items[i]);
+				else
+					CheckPermissions(items[i].Childs);
+		}
+		private bool HavePermission(NavigationItem item)
+		{
+			return item.Permission == null || FiresecManager.CurrentUser.Permissions.Any(x => x == item.Permission.Value);
 		}
 	}
 }

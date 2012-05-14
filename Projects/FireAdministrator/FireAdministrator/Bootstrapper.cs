@@ -18,18 +18,6 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
-			//AppSettingsHelper.InitializeAppSettings();
-			//RegisterServices();
-			//ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-			//var navigation1 = InitializeModules();
-
-			//var ShellView1 = new ShellView();
-			//ShellView1.Navigation = navigation1;
-			//ServiceFactory.ShellView = ShellView1;
-			//Application.Current.MainWindow = ShellView1;
-			//Application.Current.MainWindow.Show();
-			//return;
-
 			AppSettingsHelper.InitializeAppSettings();
 
 			if (SingleLaunchHelper.KillRunningProcess("FireAdministrator") == false)
@@ -67,13 +55,9 @@ namespace FireAdministrator
 				}
 				else
 				{
-					InitializeKnownModules();
-
-					var navigation = InitializeModules();
-
 					var ShellView = new ShellView();
-					ShellView.Navigation = navigation;
 					ServiceFactory.ShellView = ShellView;
+					InitializeKnownModules();
 					Application.Current.MainWindow = ShellView;
 					Application.Current.MainWindow.Show();
 				}
@@ -102,30 +86,32 @@ namespace FireAdministrator
 
 		void InitializeKnownModules()
 		{
-			var devicesModule = new DevicesModule.DevicesModule();
-			var libraryModule = new LibraryModule.LibraryModule();
-			var plansModule = new PlansModule.PlansModule();
-			var securityModule = new SecurityModule.SecurityModule();
-			var filtersModule = new FiltersModule.FilterModule();
-			var soundsModule = new SoundsModule.SoundsModule();
-			var instructionsModule = new InstructionsModule.InstructionsModule();
-			var settingsModule = new SettingsModule.SettingsModule();
-			if (ServiceFactory.AppSettings.ShowVideo)
-			{
-				var videoViewModel = new VideoModule.VideoModule();
-				VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
-			}
+			//var devicesModule = new DevicesModule.DevicesModule();
+			//var libraryModule = new LibraryModule.LibraryModule();
+			//var plansModule = new PlansModule.PlansModule();
+			//var securityModule = new SecurityModule.SecurityModule();
+			//var filtersModule = new FiltersModule.FilterModule();
+			//var soundsModule = new SoundsModule.SoundsModule();
+			//var instructionsModule = new InstructionsModule.InstructionsModule();
+			//var settingsModule = new SettingsModule.SettingsModule();
+			//if (ServiceFactory.AppSettings.ShowVideo)
+			//{
+			//    var videoViewModel = new VideoModule.VideoModule();
+			//    VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
+			//}
 
 #if DEBUG
-			if (ServiceFactory.AppSettings.ShowGK)
-			{
-				var groupControllerViewModel = new GKModule.GroupControllerModule();
-			}
-			if (ServiceFactory.AppSettings.ShowSKUD)
-			{
-				new SkudModule.SkudModule().Initialize();
-			}
+			//if (ServiceFactory.AppSettings.ShowGK)
+			//{
+			//    var groupControllerViewModel = new GKModule.GroupControllerModule();
+			//}
+			//if (ServiceFactory.AppSettings.ShowSKUD)
+			//{
+			//    new SkudModule.SkudModule().Initialize();
+			//}
 #endif
+
+			((ShellView)ServiceFactory.ShellView).Navigation =  InitializeModules();
 			ServiceFactory.SaveService.Reset();
 		}
 	}

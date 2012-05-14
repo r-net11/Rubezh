@@ -3,16 +3,17 @@ using Infrastructure;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SkudModule.ViewModels;
+using FiresecAPI.Models;
 
 namespace SkudModule
 {
 	public class SkudModule : ModuleBase
 	{
-		private static SkudViewModel _skudViewModel;
-		private static EmployeeCardIndexViewModel _employeeCardIndexViewModel;
-		private static EmployeeDepartmentsViewModel _employeeDepartmentsViewModel;
-		private static EmployeePositionsViewModel _employeePositionsViewModel;
-		private static EmployeeGroupsViewModel _employeeGroupsViewModel;
+		private SkudViewModel _skudViewModel;
+		private EmployeeCardIndexViewModel _employeeCardIndexViewModel;
+		private EmployeeDepartmentsViewModel _employeeDepartmentsViewModel;
+		private EmployeePositionsViewModel _employeePositionsViewModel;
+		private EmployeeGroupsViewModel _employeeGroupsViewModel;
 
 		public SkudModule()
 		{
@@ -31,28 +32,28 @@ namespace SkudModule
 			ServiceFactory.Events.GetEvent<ShowEmployeePositionsEvent>().Subscribe(OnShowSkudPositionsEvent);
 		}
 
-		private static void OnShowSkud(object obj)
+		private void OnShowSkud(object obj)
 		{
 			//ServiceFactory.Layout.Show(_skudViewModel);
 		}
-		private static void OnShowEmployeeCardIndexEvent(object obj)
+		private void OnShowEmployeeCardIndexEvent(object obj)
 		{
 			ServiceFactory.Layout.Show(_employeeCardIndexViewModel);
 		}
-		private static void OnShowPassCardEvent(object obj)
+		private void OnShowPassCardEvent(object obj)
 		{
 			ServiceFactory.Layout.Show(_skudViewModel);
 		}
 
-		private static void OnShowSkudDepartmentsEvent(object obj)
+		private void OnShowSkudDepartmentsEvent(object obj)
 		{
 			ServiceFactory.Layout.Show(_employeeDepartmentsViewModel);
 		}
-		private static void OnShowSkudGroupsEvent(object obj)
+		private void OnShowSkudGroupsEvent(object obj)
 		{
 			ServiceFactory.Layout.Show(_employeeGroupsViewModel);
 		}
-		private static void OnShowSkudPositionsEvent(object obj)
+		private void OnShowSkudPositionsEvent(object obj)
 		{
 			ServiceFactory.Layout.Show(_employeePositionsViewModel);
 		}
@@ -67,28 +68,21 @@ namespace SkudModule
 			_employeeGroupsViewModel = new EmployeeGroupsViewModel();
 			_employeePositionsViewModel = new EmployeePositionsViewModel();
 		}
-
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("Устройства", "/Controls;component/Images/tree.png", new List<NavigationItem>()),
-				new NavigationItem("СКУД", null, new List<NavigationItem>()
+				new NavigationItem<ShowSkudEvent>("СКУД", null, new List<NavigationItem>()
 				{
-					new NavigationItem<ShowSkudEvent>("Картотека",null),
-					new NavigationItem("Пропуск",null),
-					new NavigationItem<ShowSkudEvent>("Справочники",null, new List<NavigationItem>()
+					new NavigationItem<ShowEmployeeCardIndexEvent>("Картотека",null),
+					new NavigationItem<ShowPassCardEvent>("Пропуск",null),
+					new NavigationItem("Справочники",null, new List<NavigationItem>()
 					{
-						new NavigationItem("Должности",null),
-						new NavigationItem<ShowSkudEvent>("Подразделения",null),
-						new NavigationItem("Группы",null),
+						new NavigationItem<ShowEmployeePositionsEvent>("Должности",null),
+						new NavigationItem<ShowEmployeeDepartmentsEvent>("Подразделения",null),
+						new NavigationItem<ShowEmployeeGroupsEvent>("Группы",null),
 					})
-				}),
-				new NavigationItem("СКУД1", null, new List<NavigationItem>()),
-				new NavigationItem("СКУД2", null, new List<NavigationItem>()),
-				new NavigationItem<ShowSkudEvent>("СКУД3", null,  new List<NavigationItem>()),
-				new NavigationItem("СКУД5", null, new List<NavigationItem>()),
-				new NavigationItem("СКУД6", null, new List<NavigationItem>())
+				}, PermissionType.Adm_SKUD),
 			};
 		}
 	}

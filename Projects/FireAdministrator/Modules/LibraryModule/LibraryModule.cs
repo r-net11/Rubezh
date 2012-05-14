@@ -2,10 +2,12 @@
 using Infrastructure.Common;
 using Infrastructure.Events;
 using LibraryModule.ViewModels;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace LibraryModule
 {
-    public class LibraryModule
+    public class LibraryModule : ModuleBase
     {
         static LibraryViewModel _libraryViewModel;
 
@@ -13,14 +15,6 @@ namespace LibraryModule
         {
             ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Unsubscribe(OnShowLibrary);
             ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(OnShowLibrary);
-
-            RegisterResources();
-            CreateViewModels();
-        }
-
-        void RegisterResources()
-        {
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
         static void CreateViewModels()
@@ -32,5 +26,17 @@ namespace LibraryModule
         {
             ServiceFactory.Layout.Show(_libraryViewModel);
         }
-    }
+
+		public override void Initialize()
+		{
+			CreateViewModels();
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
+			{
+				new NavigationItem<ShowLibraryEvent>("Библиотека","/Controls;component/Images/book.png"),
+			};
+		}
+	}
 }

@@ -2,10 +2,12 @@
 using Infrastructure.Common;
 using Infrastructure.Events;
 using SoundsModule.ViewModels;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace SoundsModule
 {
-    public class SoundsModule
+    public class SoundsModule : ModuleBase
     {
         static SoundsViewModel _soundsViewModel;
 
@@ -13,14 +15,6 @@ namespace SoundsModule
         {
             ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Unsubscribe(OnShowSounds);
             ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(OnShowSounds);
-
-            RegisterResources();
-            CreateViewModels();
-        }
-
-        void RegisterResources()
-        {
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
         static void CreateViewModels()
@@ -33,5 +27,17 @@ namespace SoundsModule
         {
             ServiceFactory.Layout.Show(_soundsViewModel);
         }
-    }
+
+		public override void Initialize()
+		{
+			CreateViewModels();
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
+			{
+				new NavigationItem<ShowSoundsEvent>("Звуки", "/Controls;component/Images/music.png"),
+			};
+		}
+	}
 }

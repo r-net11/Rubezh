@@ -71,12 +71,11 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
 								<ColumnDefinition Width="200" />
-								<ColumnDefinition Width="200" />
 								<ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Views:NavigationAreaView Grid.Column="0" Margin="5 5 0 5" />
-                            <Views:NavigationView Grid.Column="1" Margin="5 5 0 5" x:Name="_navigation" />
-                            <ItemsControl Name="_itemsControl" Grid.Column="2" Margin="5 5 5 5">
+                            <!--<Views:NavigationAreaView Grid.Column="0" Margin="5 5 0 5" />-->
+                            <Views:NavigationView Grid.Column="0" Margin="5 5 0 5" x:Name="_navigation" />
+                            <ItemsControl Name="_itemsControl" Grid.Column="1" Margin="5 5 5 5">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <Grid />

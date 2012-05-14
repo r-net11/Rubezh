@@ -2,10 +2,12 @@
 using Infrastructure.Common;
 using Infrastructure.Events;
 using SecurityModule.ViewModels;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace SecurityModule
 {
-    public class SecurityModule
+    public class SecurityModule : ModuleBase
     {
         static UsersViewModel _usersViewModel;
         static RolesViewModel _groupsViewModel;
@@ -17,14 +19,6 @@ namespace SecurityModule
 
             ServiceFactory.Events.GetEvent<ShowUsersEvent>().Subscribe(OnShowUsers);
             ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Subscribe(OnShowUserGroups);
-
-            RegisterResources();
-            CreateViewModels();
-        }
-
-        void RegisterResources()
-        {
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
         }
 
         static void CreateViewModels()
@@ -42,5 +36,20 @@ namespace SecurityModule
             _groupsViewModel = new RolesViewModel();
             ServiceFactory.Layout.Show(_groupsViewModel);
         }
-    }
+
+		public override void Initialize()
+		{
+			CreateViewModels();
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
+			{
+				new NavigationItem("Права доступа", null, new List<NavigationItem>(){
+					new NavigationItem<ShowUsersEvent>("Пользователи", "/Controls;component/Images/user.png"),
+					new NavigationItem<ShowUserGroupsEvent>("Роли", "/Controls;component/Images/users.png"),
+				}),
+			};
+		}
+	}
 }

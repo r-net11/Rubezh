@@ -4,10 +4,12 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using PlansModule.ViewModels;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace PlansModule
 {
-    public class PlansModule
+    public class PlansModule : ModuleBase
     {
         static PlansViewModel _plansViewModel;
 
@@ -15,24 +17,11 @@ namespace PlansModule
         {
             ServiceFactory.Events.GetEvent<ShowPlansEvent>().Unsubscribe(OnShowPlans);
             ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlans);
-
-            RegisterResources();
-            CreateViewModels();
-        }
-
-        void RegisterResources()
-        {
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Designer/DesignerCanvas.xaml"));
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Designer/DesignerItem.xaml"));
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Rectangle/ResizeChromeRectangle.xaml"));
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Polygon/ResizeChromePolygon.xaml"));
         }
 
         public static void CreateViewModels()
         {
             _plansViewModel = new PlansViewModel();
-            
         }
 
         static void OnShowPlans(object obj)
@@ -85,5 +74,25 @@ namespace PlansModule
 
             FiresecManager.PlansConfiguration.Update();
         }
-    }
+
+		public override void RegisterResource()
+		{
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Designer/DesignerCanvas.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Designer/DesignerItem.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Rectangle/ResizeChromeRectangle.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Designer/Polygon/ResizeChromePolygon.xaml"));
+		}
+		public override void Initialize()
+		{
+			CreateViewModels();
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
+			{
+				new NavigationItem<ShowPlansEvent>("Планы","/Controls;component/Images/map.png"),
+			};
+		}
+	}
 }
