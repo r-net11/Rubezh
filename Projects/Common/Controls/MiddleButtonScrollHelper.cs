@@ -50,10 +50,8 @@ namespace Controls
     public static class MiddleButtonScrollHelper
     {
         static bool _isScrolling = false;
-        static double _previousMouseXPos = 0;
-        static double _previousMouseYPos = 0;
-        static double _currentMouseXPos = 0;
-        static double _currentMouseYPos = 0;
+		static Point _previousMousePos;
+		static Point _currentMousePos;
         static DirectionType _currentDirection;
         static DirectionType _previousDirection;
         static ScrollViewer _scrollViewer;
@@ -62,9 +60,9 @@ namespace Controls
         {
             get
             {
-                if ((_currentMouseXPos - _previousMouseXPos) > 0)
+                if ((_currentMousePos.X - _previousMousePos.X) > 0)
                     return DirectionType.Right;
-                if ((_currentMouseXPos - _previousMouseXPos) < 0)
+                if ((_currentMousePos.X - _previousMousePos.X) < 0)
                     return DirectionType.Left;
                 return DirectionType.None;
             }
@@ -74,9 +72,9 @@ namespace Controls
         {
             get
             {
-                if ((_currentMouseYPos - _previousMouseYPos) > 0)
+                if ((_currentMousePos.Y - _previousMousePos.Y) > 0)
                     return DirectionType.Down;
-                if ((_currentMouseYPos - _previousMouseYPos) < 0)
+                if ((_currentMousePos.Y - _previousMousePos.Y) < 0)
                     return DirectionType.Up;
                 return DirectionType.None;
             }
@@ -150,8 +148,7 @@ namespace Controls
                 return;
             _isScrolling = true;
             _scrollViewer = scrollViewer;
-            _previousMouseXPos = _currentMouseXPos = scrollViewer.PointToScreen(e.GetPosition(scrollViewer)).X;
-            _previousMouseYPos = _currentMouseYPos = scrollViewer.PointToScreen(e.GetPosition(scrollViewer)).Y;
+            _previousMousePos = _currentMousePos = scrollViewer.PointToScreen(e.GetPosition(scrollViewer));
             _currentDirection = _previousDirection = DirectionType.None;
             _scrollViewer.Cursor = Cursors.ScrollAll;
         }
@@ -160,13 +157,11 @@ namespace Controls
         {
             if (_scrollViewer == null || !_isScrolling)
                 return;
-            _currentMouseXPos = _scrollViewer.PointToScreen(e.GetPosition(_scrollViewer)).X;
-            _currentMouseYPos = _scrollViewer.PointToScreen(e.GetPosition(_scrollViewer)).Y;
+            _currentMousePos = _scrollViewer.PointToScreen(e.GetPosition(_scrollViewer));
             SetDirection();
             SetCursorDirection();
             Scroll();
-            _previousMouseXPos = _currentMouseXPos;
-            _previousMouseYPos = _currentMouseYPos;
+            _previousMousePos = _currentMousePos;
             _previousDirection = _currentDirection;
         }
 
@@ -176,10 +171,6 @@ namespace Controls
             {
                 _scrollViewer.Cursor = Cursors.Arrow;
                 _isScrolling = false;
-                _previousMouseXPos = 0;
-                _previousMouseYPos = 0;
-                _currentMouseXPos = 0;
-                _currentMouseYPos = 0;
                 _currentDirection = _previousDirection = DirectionType.None;
                 _scrollViewer = null;
             }

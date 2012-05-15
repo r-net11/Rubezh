@@ -105,10 +105,10 @@
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <!--<Component Id="FSSystemDataSqlServerCeComponent" Guid="1C4D7807-7129-4BAD-B701-86851A12BD0F">
+      <Component Id="FSSystemDataSqlServerCeComponent" Guid="1C4D7807-7129-4BAD-B701-86851A12BD0F">
         <File Id="FSSystemDataSqlServerCeDLL" Name="System.Data.SqlServerCe.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
-      </Component>-->
+      </Component>
 
       <Component Id="FSNLogComponent" Guid="80F88C62-81BB-4635-A7B3-801A92048A0E">
         <File Id="FSNLogDll" Name="NLog.dll" Source="$(var.FiresecService.TargetDir)"

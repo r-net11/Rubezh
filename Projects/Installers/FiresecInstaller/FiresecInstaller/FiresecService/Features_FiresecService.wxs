@@ -21,7 +21,7 @@
       <ComponentRef Id="FSsqlceoledb35Component"/>
       <ComponentRef Id="FSsqlceqp35Component"/>
       <ComponentRef Id="FSsqlcese35Component"/>
-      <!--<ComponentRef Id="FSSystemDataSqlServerCeComponent"/>-->
+      <ComponentRef Id="FSSystemDataSqlServerCeComponent"/>
       <ComponentRef Id="FSNLogComponent"/>
       <ComponentRef Id="FSFiresecSDFComponent" />
       <ComponentRef Id="FSSKUDComponent"/>
