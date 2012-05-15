@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 
 namespace Controls
-{
+{	
     public class PasswordBoxControl : Decorator
     {
         public static readonly DependencyProperty PasswordProperty =

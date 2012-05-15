@@ -4,6 +4,7 @@ using Infrastructure.Common.MessageBox;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Reflection;
 
 namespace FireMonitor.ViewModels
 {
@@ -67,6 +68,7 @@ namespace FireMonitor.ViewModels
         }
 
         string _password;
+		[ObfuscationAttribute(Exclude = true)]
         public string Password
         {
             get { return _password; }

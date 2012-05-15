@@ -2,6 +2,7 @@
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using System.Reflection;
 
 namespace FireAdministrator.ViewModels
 {
@@ -43,6 +44,7 @@ namespace FireAdministrator.ViewModels
         }
 
         string _password;
+		[ObfuscationAttribute(Exclude = true)]
         public string Password
         {
             get { return _password; }
