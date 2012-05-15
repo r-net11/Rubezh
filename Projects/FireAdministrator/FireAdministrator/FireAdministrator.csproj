@@ -38,7 +38,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -48,7 +48,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -229,50 +229,6 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
       <Name>Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\DevicesModule\DevicesModule.csproj">
-      <Project>{948B3C2D-715A-4B65-9847-36B71E90B40A}</Project>
-      <Name>DevicesModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\FiltersModule\FiltersModule.csproj">
-      <Project>{7867A1CC-8039-4D7C-B493-7C06E5CDA327}</Project>
-      <Name>FiltersModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\GroupControllerModule\GKModule.csproj">
-      <Project>{75276EBA-15D7-4F08-8239-3C40E6835CB6}</Project>
-      <Name>GKModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\InstructionsModule\InstructionsModule.csproj">
-      <Project>{0F163243-0BCB-44D6-B849-4ED207B27027}</Project>
-      <Name>InstructionsModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\LibraryModule\LibraryModule.csproj">
-      <Project>{16D926CB-C605-48A0-91FC-105C80AA685B}</Project>
-      <Name>LibraryModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\PlansModule\PlansModule.csproj">
-      <Project>{200E288D-729A-4619-BAAC-50DE346700BD}</Project>
-      <Name>PlansModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\SecurityModule\SecurityModule.csproj">
-      <Project>{773BFF09-076C-4FE5-A602-71FA8F87B1D0}</Project>
-      <Name>SecurityModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\SettingsModule\SettingsModule.csproj">
-      <Project>{2EC527E0-8748-4B08-8884-14785E65AB7D}</Project>
-      <Name>SettingsModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\SoundModule\SoundsModule.csproj">
-      <Project>{1D308F1E-F990-4CB8-8613-609C3637130D}</Project>
-      <Name>SoundsModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\VideoModule\VideoModule.csproj">
-      <Project>{C33E3B0E-C6A8-477D-A836-8418FB1EEF46}</Project>
-      <Name>VideoModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\SkudModule\SkudModule.csproj">
-      <Project>{BF76BEED-BCFB-488E-849E-D56F1F07D107}</Project>
-      <Name>SkudModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls;
-using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -44,22 +43,22 @@ namespace FireAdministrator.Views
                 return;
             }
 
-            PlansModule.PlansModule.Save();
+			//PlansModule.PlansModule.Save();
 
-            var validationErrorsViewModel = new ValidationErrorsViewModel();
-            if (validationErrorsViewModel.HasErrors)
-            {
-                ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
+			//var validationErrorsViewModel = new ValidationErrorsViewModel();
+			//if (validationErrorsViewModel.HasErrors)
+			//{
+			//    ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
 
-                if (validationErrorsViewModel.CannotSave)
-                {
-                    MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
-                    return;
-                }
+			//    if (validationErrorsViewModel.CannotSave)
+			//    {
+			//        MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+			//        return;
+			//    }
 
-                if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") != MessageBoxResult.Yes)
-                    return;
-            }
+			//    if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") != MessageBoxResult.Yes)
+			//        return;
+			//}
 
             if (ServiceFactory.SaveService.DevicesChanged)
                 FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
@@ -108,7 +107,7 @@ namespace FireAdministrator.Views
                 ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
                 ServiceFactory.SaveService.Reset();
-                DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
+				//DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
 
 
                 ServiceFactory.Layout.Close();
@@ -124,11 +123,11 @@ namespace FireAdministrator.Views
         void OnValidate(object sender, RoutedEventArgs e)
         {
             ServiceFactory.Layout.ShowValidationArea(null);
-            var validationErrorsViewModel = new ValidationErrorsViewModel();
-            if (validationErrorsViewModel.HasErrors)
-            {
-                ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
-            }
+			//var validationErrorsViewModel = new ValidationErrorsViewModel();
+			//if (validationErrorsViewModel.HasErrors)
+			//{
+			//    ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
+			//}
         }
 
         void OnSaveToFile(object sender, RoutedEventArgs e)
