@@ -1,17 +1,11 @@
-﻿using System.Windows;
-using Infrastructure.Common.MessageBox;
+﻿using System.Diagnostics;
+using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
 using SettingsModule.Views;
-using Microsoft.Win32;
-using System.Diagnostics;
-using System;
-using System.Reflection;
-using System.IO;
-using System.Security.AccessControl;
-using System.Security;
 
 namespace SettingsModule.ViewModels
 {

@@ -1,16 +1,13 @@
 ﻿using System.Linq;
 using System.Windows;
-//using Infrastructure.Common.MessageBox;
-using Infrastructure.Common.MessageBox;
 using FireAdministrator.ViewModels;
 using FireAdministrator.Views;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
-using System;
-using System.Diagnostics;
 
 namespace FireAdministrator
 {
@@ -81,38 +78,12 @@ namespace FireAdministrator
 
 		void OnConfigurationChanged(object obj)
 		{
-			InitializeKnownModules();
+			ReInitializeModules();
 		}
 
 		void InitializeKnownModules()
 		{
-			//var devicesModule = new DevicesModule.DevicesModule();
-			//var libraryModule = new LibraryModule.LibraryModule();
-			//var plansModule = new PlansModule.PlansModule();
-			//var securityModule = new SecurityModule.SecurityModule();
-			//var filtersModule = new FiltersModule.FilterModule();
-			//var soundsModule = new SoundsModule.SoundsModule();
-			//var instructionsModule = new InstructionsModule.InstructionsModule();
-			//var settingsModule = new SettingsModule.SettingsModule();
-			//if (ServiceFactory.AppSettings.ShowVideo)
-			//{
-			//    var videoViewModel = new VideoModule.VideoModule();
-			//    VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
-			//}
-
-#if DEBUG
-			//if (ServiceFactory.AppSettings.ShowGK)
-			//{
-			//    var groupControllerViewModel = new GKModule.GroupControllerModule();
-			//}
-			//if (ServiceFactory.AppSettings.ShowSKUD)
-			//{
-			//    new SkudModule.SkudModule().Initialize();
-			//}
-#endif
-
 			((ShellView)ServiceFactory.ShellView).Navigation =  InitializeModules();
-			ServiceFactory.SaveService.Reset();
 		}
 	}
 }

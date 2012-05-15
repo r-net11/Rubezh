@@ -1,14 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
 using Common;
-using Infrastructure.Common.MessageBox;
 using FireAdministrator.ViewModels;
 using FiresecClient;
 using Infrastructure;
-using System.Collections.Generic;
+using Infrastructure.Common.MessageBox;
 using Infrastructure.Common.Navigation;
 
 namespace FireAdministrator.Views

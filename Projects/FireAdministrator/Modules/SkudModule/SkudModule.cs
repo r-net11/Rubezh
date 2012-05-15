@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SkudModule.ViewModels;
-using FiresecAPI.Models;
 
 namespace SkudModule
 {

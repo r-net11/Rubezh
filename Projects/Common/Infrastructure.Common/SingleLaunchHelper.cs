@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Diagnostics;
-using Infrastructure.Common.MessageBox;
 using System.Windows;
+using Infrastructure.Common.MessageBox;
 
 namespace Infrastructure.Common
 {

@@ -2,11 +2,11 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Infrastructure.Common.MessageBox;
 using DevicesModule.Views;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
@@ -23,7 +23,10 @@ namespace DevicesModule.ViewModels
             DeleteAllCommand = new RelayCommand(OnDeleteAll, CanDeleteAll);
             DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAll);
             ZoneDevices = new ZoneDevicesViewModel();
+		}
 
+		public void Initialize()
+		{
             Zones = new ObservableCollection<ZoneViewModel>(
                 from zone in FiresecManager.DeviceConfiguration.Zones
                 orderby zone.No
@@ -33,7 +36,16 @@ namespace DevicesModule.ViewModels
                 SelectedZone = Zones[0];
         }
 
-        public ObservableCollection<ZoneViewModel> Zones { get; private set; }
+		ObservableCollection<ZoneViewModel> _zones;
+        public ObservableCollection<ZoneViewModel> Zones
+		{
+			get { return _zones; }
+			set
+			{
+				_zones = value;
+				OnPropertyChanged("Zones");
+			}
+		}
 
         ZoneViewModel _selectedZone;
         public ZoneViewModel SelectedZone

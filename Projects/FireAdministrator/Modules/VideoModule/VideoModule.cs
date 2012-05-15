@@ -1,36 +1,31 @@
-﻿using Infrastructure;
+﻿using System.Collections.Generic;
+using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using VideoModule.ViewModels;
-using System.Collections.Generic;
-using Infrastructure.Common.Navigation;
 
 namespace VideoModule
 {
 	public class VideoModule : ModuleBase
 	{
-		static CamerasViewModel _camerasViewModel;
+		CamerasViewModel _camerasViewModel;
 
 		public VideoModule()
 		{
-			ServiceFactory.Events.GetEvent<ShowVideoEvent>().Unsubscribe(OnShowVideos);
 			ServiceFactory.Events.GetEvent<ShowVideoEvent>().Subscribe(OnShowVideos);
-		}
-
-		void CreateViewModels()
-		{
 			_camerasViewModel = new CamerasViewModel();
+			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 		}
 
-		static void OnShowVideos(object obj)
+		void OnShowVideos(object obj)
 		{
 			ServiceFactory.Layout.Show(_camerasViewModel);
 		}
 
 		public override void Initialize()
 		{
-			CreateViewModels();
-			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
+			_camerasViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

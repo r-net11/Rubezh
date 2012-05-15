@@ -1,45 +1,36 @@
-﻿using FiresecClient;
+﻿using System.Collections.Generic;
+using FiresecClient;
 using GKModule.Converter;
 using GKModule.ViewModels;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Events;
-using System.Collections.Generic;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Events;
 
 namespace GKModule
 {
 	public class GroupControllerModule : ModuleBase
 	{
-		static DevicesViewModel _devicesViewModel;
-		static ZonesViewModel _zonesViewModel;
+		DevicesViewModel _devicesViewModel;
+		ZonesViewModel _zonesViewModel;
 
 		public GroupControllerModule()
 		{
 			if (ServiceFactory.AppSettings.ShowGK == false)
 				return;
 
-			ServiceFactory.Events.GetEvent<ShowXDevicesEvent>().Unsubscribe(OnShowXDevices);
-			ServiceFactory.Events.GetEvent<ShowXZonesEvent>().Unsubscribe(OnShowXZones);
 			ServiceFactory.Events.GetEvent<ShowXDevicesEvent>().Subscribe(OnShowXDevices);
 			ServiceFactory.Events.GetEvent<ShowXZonesEvent>().Subscribe(OnShowXZones);
-		}
-
-		void CreateViewModels()
-		{
-			if (ServiceFactory.AppSettings.ShowGK == false)
-				return;
 
 			_devicesViewModel = new DevicesViewModel();
 			_zonesViewModel = new ZonesViewModel();
 		}
 
-		static void OnShowXDevices(object obj)
+		void OnShowXDevices(object obj)
 		{
 			ServiceFactory.Layout.Show(_devicesViewModel);
 		}
 
-		static void OnShowXZones(object obj)
+		void OnShowXZones(object obj)
 		{
 			ServiceFactory.Layout.Show(_zonesViewModel);
 		}
@@ -50,9 +41,8 @@ namespace GKModule
 			XManager.DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
 			XManager.UpdateConfiguration();
 
-			//XManager.SetEmptyConfiguration();
-
-			CreateViewModels();
+			_devicesViewModel.Initialize();
+			_zonesViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

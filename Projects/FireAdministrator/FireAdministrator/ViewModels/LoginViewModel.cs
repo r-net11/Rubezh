@@ -1,5 +1,4 @@
-﻿using Infrastructure.Common.MessageBox;
-using FiresecClient;
+﻿using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using System.Reflection;

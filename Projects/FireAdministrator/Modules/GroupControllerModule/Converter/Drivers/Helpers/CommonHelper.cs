@@ -67,5 +67,16 @@ namespace GKModule.Converter
 			};
 			property.Parameters.Add(parameter);
 		}
+
+		public static void AddAlternativePropertyParameter(XDriverProperty property, string name, string alternativeName, int value)
+		{
+			var parameter = new XDriverPropertyParameter()
+			{
+				Name = name,
+				AlternativeName = alternativeName,
+				Value = value
+			};
+			property.Parameters.Add(parameter);
+		}
 	}
 }

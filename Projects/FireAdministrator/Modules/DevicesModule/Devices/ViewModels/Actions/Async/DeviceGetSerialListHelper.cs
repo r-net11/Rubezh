@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using Infrastructure.Common.MessageBox;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common.MessageBox;
 
 namespace DevicesModule.ViewModels
 {

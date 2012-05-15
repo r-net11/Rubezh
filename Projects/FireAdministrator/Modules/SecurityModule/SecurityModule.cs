@@ -1,45 +1,39 @@
-﻿using Infrastructure;
-using Infrastructure.Common;
+﻿using System.Collections.Generic;
+using Infrastructure;
+using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SecurityModule.ViewModels;
-using System.Collections.Generic;
-using Infrastructure.Common.Navigation;
 
 namespace SecurityModule
 {
-    public class SecurityModule : ModuleBase
-    {
-        static UsersViewModel _usersViewModel;
-        static RolesViewModel _groupsViewModel;
+	public class SecurityModule : ModuleBase
+	{
+		UsersViewModel _usersViewModel;
+		RolesViewModel _groupsViewModel;
 
-        public SecurityModule()
-        {
-            ServiceFactory.Events.GetEvent<ShowUsersEvent>().Unsubscribe(OnShowUsers);
-            ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Unsubscribe(OnShowUserGroups);
+		public SecurityModule()
+		{
+			ServiceFactory.Events.GetEvent<ShowUsersEvent>().Subscribe(OnShowUsers);
+			ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Subscribe(OnShowUserGroups);
 
-            ServiceFactory.Events.GetEvent<ShowUsersEvent>().Subscribe(OnShowUsers);
-            ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Subscribe(OnShowUserGroups);
-        }
+			_usersViewModel = new UsersViewModel();
+			_groupsViewModel = new RolesViewModel();
+		}
 
-        static void CreateViewModels()
-        {
-        }
+		void OnShowUsers(object obj)
+		{	
+			ServiceFactory.Layout.Show(_usersViewModel);
+		}
 
-        static void OnShowUsers(object obj)
-        {
-            _usersViewModel = new UsersViewModel();
-            ServiceFactory.Layout.Show(_usersViewModel);
-        }
-
-        static void OnShowUserGroups(object obj)
-        {
-            _groupsViewModel = new RolesViewModel();
-            ServiceFactory.Layout.Show(_groupsViewModel);
-        }
+		void OnShowUserGroups(object obj)
+		{
+			ServiceFactory.Layout.Show(_groupsViewModel);
+		}
 
 		public override void Initialize()
 		{
-			CreateViewModels();
+			_usersViewModel.Initialize();
+			_groupsViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

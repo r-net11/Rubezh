@@ -1,7 +1,7 @@
-﻿using Infrastructure.Common.MessageBox;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 
 namespace DevicesModule.ViewModels
 {

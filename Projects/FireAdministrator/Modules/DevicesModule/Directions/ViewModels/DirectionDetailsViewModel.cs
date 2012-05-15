@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 
 namespace DevicesModule.ViewModels
 {

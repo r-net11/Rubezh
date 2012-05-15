@@ -16,11 +16,12 @@ namespace InstructionsModule.ViewModels
             DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
             DeleteAllCommand = new RelayCommand(OnDeleteAll, CanRemoveAll);
             EditCommand = new RelayCommand(OnEdit, CanEditRemove);
-            Instructions = new ObservableCollection<InstructionViewModel>();
         }
 
         public void Initialize()
         {
+			Instructions = new ObservableCollection<InstructionViewModel>();
+
             if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
             {
                 foreach (var instruction in FiresecManager.SystemConfiguration.Instructions)
@@ -42,7 +43,16 @@ namespace InstructionsModule.ViewModels
                 SelectedInstruction = Instructions[0];
         }
 
-        public ObservableCollection<InstructionViewModel> Instructions { get; set; }
+		ObservableCollection<InstructionViewModel> _instructions;
+		public ObservableCollection<InstructionViewModel> Instructions
+		{
+			get { return _instructions; }
+			set
+			{
+				_instructions = value;
+				OnPropertyChanged("Instructions");
+			}
+		}
 
         InstructionViewModel _selectedInstruction;
         public InstructionViewModel SelectedInstruction

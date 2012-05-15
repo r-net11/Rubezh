@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows;
-using Infrastructure.Common.MessageBox;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 
 namespace FireAdministrator
 {

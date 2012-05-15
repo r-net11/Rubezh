@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 
 namespace SecurityModule.ViewModels
 {
@@ -18,7 +18,10 @@ namespace SecurityModule.ViewModels
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             AddCommand = new RelayCommand(OnAdd);
+		}
 
+		public void Initialize()
+		{
             Roles = new ObservableCollection<RoleViewModel>();
             foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)
                 Roles.Add(new RoleViewModel(role));
@@ -27,7 +30,16 @@ namespace SecurityModule.ViewModels
                 SelectedRole = Roles[0];
         }
 
-        public ObservableCollection<RoleViewModel> Roles { get; private set; }
+		ObservableCollection<RoleViewModel> _roles;
+		public ObservableCollection<RoleViewModel> Roles
+		{
+			get { return _roles; }
+			set
+			{
+				_roles = value;
+				OnPropertyChanged("Roles");
+			}
+		}
 
         RoleViewModel _selectedRole;
         public RoleViewModel SelectedRole

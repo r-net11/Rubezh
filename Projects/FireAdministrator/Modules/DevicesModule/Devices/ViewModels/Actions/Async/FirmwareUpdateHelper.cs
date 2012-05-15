@@ -1,10 +1,10 @@
 ﻿using System.IO;
 using System.Windows;
-using Infrastructure.Common.MessageBox;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common.MessageBox;
 using Microsoft.Win32;
 
 namespace DevicesModule.ViewModels

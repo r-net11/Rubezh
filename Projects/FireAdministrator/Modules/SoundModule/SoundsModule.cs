@@ -1,36 +1,29 @@
-﻿using Infrastructure;
-using Infrastructure.Common;
+﻿using System.Collections.Generic;
+using Infrastructure;
+using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SoundsModule.ViewModels;
-using System.Collections.Generic;
-using Infrastructure.Common.Navigation;
 
 namespace SoundsModule
 {
-    public class SoundsModule : ModuleBase
-    {
-        static SoundsViewModel _soundsViewModel;
+	public class SoundsModule : ModuleBase
+	{
+		SoundsViewModel _soundsViewModel;
 
-        public SoundsModule()
-        {
-            ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Unsubscribe(OnShowSounds);
-            ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(OnShowSounds);
-        }
+		public SoundsModule()
+		{
+			ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(OnShowSounds);
+			_soundsViewModel = new SoundsViewModel();
+		}
 
-        static void CreateViewModels()
-        {
-            _soundsViewModel = new SoundsViewModel();
-            _soundsViewModel.Initialize();
-        }
-
-        static void OnShowSounds(object obj)
-        {
-            ServiceFactory.Layout.Show(_soundsViewModel);
-        }
+		void OnShowSounds(object obj)
+		{
+			ServiceFactory.Layout.Show(_soundsViewModel);
+		}
 
 		public override void Initialize()
 		{
-			CreateViewModels();
+			_soundsViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

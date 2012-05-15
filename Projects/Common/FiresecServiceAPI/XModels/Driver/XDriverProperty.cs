@@ -10,6 +10,7 @@ namespace XFiresecAPI
 		{
 			Parameters = new List<XDriverPropertyParameter>();
 			AlternativePareterNames = new List<string>();
+			IsInternalDeviceParameter = true;
 		}
 
 		[DataMember]
@@ -29,9 +30,6 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public object Default { get; set; }
-
-		[DataMember]
-		public bool IsHighByte { get; set; }
 
 		[DataMember]
 		public byte Offset { get; set; }

@@ -22,7 +22,10 @@ namespace DevicesModule.ViewModels
             AddZoneCommand = new RelayCommand(OnAddZone, CanAddZone);
             RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemoveZone);
             ShowSynchronizationCommand = new RelayCommand(OnShowSynchronization, CanShowSynchronization);
+		}
 
+		public void Initialize()
+		{
             Devices = new ObservableCollection<Device>();
             DeviceUsers = new ObservableCollection<UserViewModel>();
             AvailableUsers = new ObservableCollection<UserViewModel>();
@@ -124,7 +127,16 @@ namespace DevicesModule.ViewModels
                 SelectedDeviceZone = DeviceZones[0];
         }
 
-        public ObservableCollection<Device> Devices { get; private set; }
+		ObservableCollection<Device> _devices;
+		public ObservableCollection<Device> Devices
+		{
+			get { return _devices; }
+			set
+			{
+				_devices = value;
+				OnPropertyChanged("Devices");
+			}
+		}
 
         Device _selectedDevice;
         public Device SelectedDevice
@@ -138,7 +150,16 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public ObservableCollection<UserViewModel> DeviceUsers { get; private set; }
+		ObservableCollection<UserViewModel> _deviceUsers;
+		public ObservableCollection<UserViewModel> DeviceUsers
+		{
+			get { return _deviceUsers; }
+			set
+			{
+				_deviceUsers = value;
+				OnPropertyChanged("DeviceUsers");
+			}
+		}
 
         UserViewModel _selectedDeviceUser;
         public UserViewModel SelectedDeviceUser
@@ -152,7 +173,16 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public ObservableCollection<UserViewModel> AvailableUsers { get; private set; }
+		ObservableCollection<UserViewModel> _availableUsers;
+		public ObservableCollection<UserViewModel> AvailableUsers
+		{
+			get { return _availableUsers; }
+			set
+			{
+				_availableUsers = value;
+				OnPropertyChanged("AvailableUsers");
+			}
+		}
 
         UserViewModel _selectedAvailableUser;
         public UserViewModel SelectedAvailableUser
@@ -165,7 +195,16 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public ObservableCollection<Zone> UserZones { get; private set; }
+		ObservableCollection<Zone> _userZones;
+		public ObservableCollection<Zone> UserZones
+		{
+			get { return _userZones; }
+			set
+			{
+				_userZones = value;
+				OnPropertyChanged("UserZones");
+			}
+		}
 
         Zone _selectedUserZone;
         public Zone SelectedUserZone
@@ -178,7 +217,16 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public ObservableCollection<Zone> DeviceZones { get; private set; }
+		ObservableCollection<Zone> _deviceZones;
+		public ObservableCollection<Zone> DeviceZones
+		{
+			get { return _deviceZones; }
+			set
+			{
+				_deviceZones = value;
+				OnPropertyChanged("DeviceZones");
+			}
+		}
 
         Zone _selectedDeviceZone;
         public Zone SelectedDeviceZone
@@ -205,7 +253,6 @@ namespace DevicesModule.ViewModels
                 ServiceFactory.SaveService.DevicesChanged = true;
             }
         }
-
 
         bool CanEditDelete()
         {

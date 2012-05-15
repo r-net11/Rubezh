@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 using PlansModule.Designer;
 using PlansModule.Events;
 using PlansModule.Views;

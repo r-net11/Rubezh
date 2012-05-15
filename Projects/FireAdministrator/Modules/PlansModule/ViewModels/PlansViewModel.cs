@@ -10,260 +10,265 @@ using PlansModule.Views;
 
 namespace PlansModule.ViewModels
 {
-    public partial class PlansViewModel : RegionViewModel
-    {
-        public DevicesViewModel DevicesViewModel { get; private set; }
-        public ElementsViewModel ElementsViewModel { get; private set; }
+	public partial class PlansViewModel : RegionViewModel
+	{
+		public DevicesViewModel DevicesViewModel { get; private set; }
+		public ElementsViewModel ElementsViewModel { get; private set; }
 
-        public PlansViewModel()
-        {
-            ServiceFactory.Events.GetEvent<ShowElementEvent>().Unsubscribe(OnShowElement);
-            ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Unsubscribe(OnShowElementDevice);
+		public PlansViewModel()
+		{
+			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
+			ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Subscribe(OnShowElementDevice);
 
-            ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
-            ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Subscribe(OnShowElementDevice);
+			AddCommand = new RelayCommand(OnAdd);
+			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
+			RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
+			EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
+			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 
-            AddCommand = new RelayCommand(OnAdd);
-            AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
-            RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
-            EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
-            AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
+			DesignerCanvas = new DesignerCanvas();
+			PlanDesignerViewModel = new PlanDesignerViewModel();
+			PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
 
-            DesignerCanvas = new DesignerCanvas();
-            PlanDesignerViewModel = new PlanDesignerViewModel();
-            PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
+			InitializeCopyPaste();
+			InitializeHistory();
+			ElementsViewModel = new ElementsViewModel(DesignerCanvas);
+			DevicesViewModel = new DevicesViewModel();
+		}
 
-            InitializeCopyPaste();
-            InitializeHistory();
-            ElementsViewModel = new ElementsViewModel(DesignerCanvas);
-            DevicesViewModel = new DevicesViewModel();
+		public void Initialize()
+		{
+			Plans = new ObservableCollection<PlanViewModel>();
+			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
+			{
+				AddPlan(plan, null);
+			}
 
-            Initialize();
-        }
+			for (int i = 0; i < Plans.Count; i++)
+			{
+				CollapseChild(Plans[i]);
+				ExpandChild(Plans[i]);
+			}
 
-        void Initialize()
-        {
-            Plans = new ObservableCollection<PlanViewModel>();
-            foreach (var plan in FiresecManager.PlansConfiguration.Plans)
-            {
-                AddPlan(plan, null);
-            }
+			SelectedPlan = null;
+			if (Plans.Count > 0)
+			{
+				SelectedPlan = Plans[0];
+			}
+		}
 
-            for (int i = 0; i < Plans.Count; i++)
-            {
-                CollapseChild(Plans[i]);
-                ExpandChild(Plans[i]);
-            }
+		PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
+		{
+			var planViewModel = new PlanViewModel(plan, Plans);
+			planViewModel.Parent = parentPlanViewModel;
 
-            if (Plans.Count > 0)
-            {
-                SelectedPlan = Plans[0];
-            }
-        }
+			var indexOf = Plans.IndexOf(parentPlanViewModel);
+			Plans.Insert(indexOf + 1, planViewModel);
 
-        PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
-        {
-            var planViewModel = new PlanViewModel(plan, Plans);
-            planViewModel.Parent = parentPlanViewModel;
+			foreach (var childPlan in plan.Children)
+			{
+				var childPlanViewModel = AddPlan(childPlan, planViewModel);
+				planViewModel.Children.Add(childPlanViewModel);
+			}
 
-            var indexOf = Plans.IndexOf(parentPlanViewModel);
-            Plans.Insert(indexOf + 1, planViewModel);
+			return planViewModel;
+		}
 
-            foreach (var childPlan in plan.Children)
-            {
-                var childPlanViewModel = AddPlan(childPlan, planViewModel);
-                planViewModel.Children.Add(childPlanViewModel);
-            }
+		void CollapseChild(PlanViewModel parentPlanViewModel)
+		{
+			parentPlanViewModel.IsExpanded = false;
+			foreach (var planViewModel in parentPlanViewModel.Children)
+			{
+				CollapseChild(planViewModel);
+			}
+		}
 
-            return planViewModel;
-        }
+		void ExpandChild(PlanViewModel parentPlanViewModel)
+		{
+			parentPlanViewModel.IsExpanded = true;
+			foreach (var planViewModel in parentPlanViewModel.Children)
+			{
+				ExpandChild(planViewModel);
+			}
+		}
 
-        void CollapseChild(PlanViewModel parentPlanViewModel)
-        {
-            parentPlanViewModel.IsExpanded = false;
-            foreach (var planViewModel in parentPlanViewModel.Children)
-            {
-                CollapseChild(planViewModel);
-            }
-        }
+		ObservableCollection<PlanViewModel> _plans;
+		public ObservableCollection<PlanViewModel> Plans
+		{
+			get { return _plans; }
+			set
+			{
+				_plans = value;
+				OnPropertyChanged("Plans");
+			}
+		}
 
-        void ExpandChild(PlanViewModel parentPlanViewModel)
-        {
-            parentPlanViewModel.IsExpanded = true;
-            foreach (var planViewModel in parentPlanViewModel.Children)
-            {
-                ExpandChild(planViewModel);
-            }
-        }
+		PlanViewModel _selectedPlan;
+		public PlanViewModel SelectedPlan
+		{
+			get { return _selectedPlan; }
+			set
+			{
+				if (_selectedPlan == value)
+					return;
+				_selectedPlan = value;
+				OnPropertyChanged("SelectedPlan");
 
-        public ObservableCollection<PlanViewModel> Plans { get; set; }
+				PlanDesignerViewModel.Save();
 
-        PlanViewModel _selectedPlan;
-        public PlanViewModel SelectedPlan
-        {
-            get { return _selectedPlan; }
-            set
-            {
-                if (_selectedPlan == value)
-                    return;
-                _selectedPlan = value;
-                OnPropertyChanged("SelectedPlan");
+				if (value != null)
+				{
+					PlanDesignerViewModel.ChangeZoom(1);
+					PlanDesignerViewModel.Initialize(value.Plan);
+					//PlanDesignerViewModel.UpdateDeviceInZones();
+					ElementsViewModel.Update();
+				}
+				ResetHistory();
+			}
+		}
 
-                PlanDesignerViewModel.Save();
+		public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
 
-                if (value != null)
-                {
-                    PlanDesignerViewModel.ChangeZoom(1);
-                    PlanDesignerViewModel.Initialize(value.Plan);
-                    //PlanDesignerViewModel.UpdateDeviceInZones();
-                    ElementsViewModel.Update();
-                }
-                ResetHistory();
-            }
-        }
+		DesignerCanvas _designerCanvas;
+		public DesignerCanvas DesignerCanvas
+		{
+			get { return _designerCanvas; }
+			set
+			{
+				_designerCanvas = value;
+				OnPropertyChanged("DesignerCanvas");
+			}
+		}
 
-        public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
+		bool CanAddEditRemove()
+		{
+			return SelectedPlan != null;
+		}
 
-        DesignerCanvas _designerCanvas;
-        public DesignerCanvas DesignerCanvas
-        {
-            get { return _designerCanvas; }
-            set
-            {
-                _designerCanvas = value;
-                OnPropertyChanged("DesignerCanvas");
-            }
-        }
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			var planDetailsViewModel = new PlanDetailsViewModel();
+			if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
+			{
+				var plan = planDetailsViewModel.Plan;
+				var planViewModel = new PlanViewModel(plan, Plans);
+				Plans.Add(planViewModel);
+				SelectedPlan = planViewModel;
 
-        bool CanAddEditRemove()
-        {
-            return SelectedPlan != null;
-        }
+				FiresecManager.PlansConfiguration.Plans.Add(plan);
+				FiresecManager.PlansConfiguration.Update();
+				ServiceFactory.SaveService.PlansChanged = true;
+			}
+		}
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
-            var planDetailsViewModel = new PlanDetailsViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
-            {
-                var plan = planDetailsViewModel.Plan;
-                var planViewModel = new PlanViewModel(plan, Plans);
-                Plans.Add(planViewModel);
-                SelectedPlan = planViewModel;
+		public RelayCommand AddSubPlanCommand { get; private set; }
+		void OnAddSubPlan()
+		{
+			var planDetailsViewModel = new PlanDetailsViewModel();
+			if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
+			{
+				var plan = planDetailsViewModel.Plan;
+				var planViewModel = new PlanViewModel(plan, Plans);
 
-                FiresecManager.PlansConfiguration.Plans.Add(plan);
-                FiresecManager.PlansConfiguration.Update();
-                ServiceFactory.SaveService.PlansChanged = true;
-            }
-        }
+				SelectedPlan.Children.Add(planViewModel);
+				SelectedPlan.Plan.Children.Add(plan);
+				planViewModel.Parent = SelectedPlan;
+				plan.Parent = SelectedPlan.Plan;
 
-        public RelayCommand AddSubPlanCommand { get; private set; }
-        void OnAddSubPlan()
-        {
-            var planDetailsViewModel = new PlanDetailsViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
-            {
-                var plan = planDetailsViewModel.Plan;
-                var planViewModel = new PlanViewModel(plan, Plans);
+				SelectedPlan.Update();
+				SelectedPlan = planViewModel;
+				FiresecManager.PlansConfiguration.Update();
+				ServiceFactory.SaveService.PlansChanged = true;
+			}
+		}
 
-                SelectedPlan.Children.Add(planViewModel);
-                SelectedPlan.Plan.Children.Add(plan);
-                planViewModel.Parent = SelectedPlan;
-                plan.Parent = SelectedPlan.Plan;
+		public RelayCommand RemoveCommand { get; private set; }
+		void OnRemove()
+		{
+			var parent = SelectedPlan.Parent;
+			var plan = SelectedPlan.Plan;
 
-                SelectedPlan.Update();
-                SelectedPlan = planViewModel;
-                FiresecManager.PlansConfiguration.Update();
-                ServiceFactory.SaveService.PlansChanged = true;
-            }
-        }
+			if (parent == null)
+			{
+				SelectedPlan.IsExpanded = false;
+				Plans.Remove(SelectedPlan);
+				FiresecManager.PlansConfiguration.Plans.Remove(plan);
+			}
+			else
+			{
+				parent.IsExpanded = false;
+				parent.Plan.Children.Remove(plan);
+				parent.Children.Remove(SelectedPlan);
+				parent.Update();
+				parent.IsExpanded = true;
+			}
 
-        public RelayCommand RemoveCommand { get; private set; }
-        void OnRemove()
-        {
-            var parent = SelectedPlan.Parent;
-            var plan = SelectedPlan.Plan;
+			FiresecManager.PlansConfiguration.Update();
+			ServiceFactory.SaveService.PlansChanged = true;
 
-            if (parent == null)
-            {
-                SelectedPlan.IsExpanded = false;
-                Plans.Remove(SelectedPlan);
-                FiresecManager.PlansConfiguration.Plans.Remove(plan);
-            }
-            else
-            {
-                parent.IsExpanded = false;
-                parent.Plan.Children.Remove(plan);
-                parent.Children.Remove(SelectedPlan);
-                parent.Update();
-                parent.IsExpanded = true;
-            }
+			if (Plans.Count > 0)
+				SelectedPlan = Plans[0];
+		}
 
-            FiresecManager.PlansConfiguration.Update();
-            ServiceFactory.SaveService.PlansChanged = true;
+		public RelayCommand EditCommand { get; private set; }
+		void OnEdit()
+		{
+			var planDetailsViewModel = new PlanDetailsViewModel(SelectedPlan.Plan);
+			if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
+			{
+				SelectedPlan.Update();
+				DesignerCanvas.Update();
+				ServiceFactory.SaveService.PlansChanged = true;
+			}
+		}
 
-            if (Plans.Count > 0)
-                SelectedPlan = Plans[0];
-        }
+		void OnShowElement(Guid elementUID)
+		{
+			DesignerCanvas.DeselectAll();
 
-        public RelayCommand EditCommand { get; private set; }
-        void OnEdit()
-        {
-            var planDetailsViewModel = new PlanDetailsViewModel(SelectedPlan.Plan);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
-            {
-                SelectedPlan.Update();
-                DesignerCanvas.Update();
-                ServiceFactory.SaveService.PlansChanged = true;
-            }
-        }
+			foreach (var designerItem in DesignerCanvas.Items)
+			{
+				if (designerItem.ElementBase.UID == elementUID)
+				{
+					designerItem.IsSelected = true;
+				}
+			}
+		}
 
-        void OnShowElement(Guid elementUID)
-        {
-            DesignerCanvas.DeselectAll();
+		void OnShowElementDevice(Guid deviceUID)
+		{
+			foreach (var plan in Plans)
+			{
+				foreach (var elementDevice in plan.Plan.ElementDevices)
+				{
+					if (elementDevice.UID == deviceUID)
+					{
+						SelectedPlan = plan;
+						OnShowElement(deviceUID);
+						return;
+					}
+				}
+			}
+		}
 
-            foreach (var designerItem in DesignerCanvas.Items)
-            {
-                if (designerItem.ElementBase.UID == elementUID)
-                {
-                    designerItem.IsSelected = true;
-                }
-            }
-        }
+		public override void OnShow()
+		{
+			ServiceFactory.Layout.ShowMenu(new PlansMenuViewModel(this));
+			FiresecManager.UpdatePlansConfiguration();
+			DevicesViewModel.Update();
+			DesignerCanvas.DeselectAll();
 
-        void OnShowElementDevice(Guid deviceUID)
-        {
-            foreach (var plan in Plans)
-            {
-                foreach (var elementDevice in plan.Plan.ElementDevices)
-                {
-                    if (elementDevice.UID == deviceUID)
-                    {
-                        SelectedPlan = plan;
-                        OnShowElement(deviceUID);
-                        return;
-                    }
-                }
-            }
-        }
+			if (ToolboxView.Current != null)
+				ToolboxView.Current.AcceptKeyboard = true;
+		}
 
-        public override void OnShow()
-        {
-            ServiceFactory.Layout.ShowMenu(new PlansMenuViewModel(this));
-            FiresecManager.UpdatePlansConfiguration();
-            DevicesViewModel.Update();
-            DesignerCanvas.DeselectAll();
+		public override void OnHide()
+		{
+			ServiceFactory.Layout.ShowMenu(null);
 
-            if (ToolboxView.Current != null)
-                ToolboxView.Current.AcceptKeyboard = true;
-        }
-
-        public override void OnHide()
-        {
-            ServiceFactory.Layout.ShowMenu(null);
-
-            if (ToolboxView.Current != null)
-                ToolboxView.Current.AcceptKeyboard = false;
-        }
-    }
+			if (ToolboxView.Current != null)
+				ToolboxView.Current.AcceptKeyboard = false;
+		}
+	}
 }

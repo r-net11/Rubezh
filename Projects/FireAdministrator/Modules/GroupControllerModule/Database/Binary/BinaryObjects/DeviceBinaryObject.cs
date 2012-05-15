@@ -191,20 +191,34 @@ namespace GKModule.Database
 
 		void SetPropertiesBytes()
 		{
-			Parameters = new List<byte>();
+			var binProperties = new List<BinProperty>();
 
 			foreach (var property in Device.Properties)
 			{
 				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty.IsInternalDeviceParameter)
 				{
-					byte parameterNo = driverProperty.No;
-					short parameterValue = (short)property.Value;
+					byte no = driverProperty.No;
+					short value = (short)property.Value;
 
-					Parameters.Add(parameterNo);
-					Parameters.AddRange(BitConverter.GetBytes(parameterValue));
-					Parameters.Add(0);
+					var binProperty = binProperties.FirstOrDefault(x => x.No == no);
+					if (binProperty == null)
+						binProperty = new BinProperty()
+						{
+							No = no
+						};
+					binProperty.Value += (short)(value << driverProperty.Offset);
+					binProperties.Add(binProperty);
 				}
+			}
+
+			Parameters = new List<byte>();
+
+			foreach (var binProperty in binProperties)
+			{
+				Parameters.Add(binProperty.No);
+				Parameters.AddRange(BitConverter.GetBytes(binProperty.Value));
+				Parameters.Add(0);
 			}
 		}
 
@@ -227,5 +241,11 @@ namespace GKModule.Database
 				bitNo,
 				device.GetDatabaseNo(DatabaseType));
 		}
+	}
+
+	class BinProperty
+	{
+		public byte No { get; set; }
+		public short Value { get; set; }
 	}
 }

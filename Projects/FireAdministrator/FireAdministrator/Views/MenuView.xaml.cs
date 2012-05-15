@@ -4,11 +4,11 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls;
-using Infrastructure.Common.MessageBox;
 using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
 using Microsoft.Win32;
 
@@ -92,7 +92,6 @@ namespace FireAdministrator.Views
             if (result == MessageBoxResult.Yes)
             {
                 FiresecManager.DeviceConfiguration = new DeviceConfiguration();
-                FiresecManager.LibraryConfiguration = new LibraryConfiguration();
                 FiresecManager.PlansConfiguration = new PlansConfiguration();
                 FiresecManager.SystemConfiguration = new SystemConfiguration();
 

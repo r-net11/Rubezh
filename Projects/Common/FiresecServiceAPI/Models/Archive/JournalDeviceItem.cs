@@ -1,5 +1,5 @@
-﻿using System.Runtime.Serialization;
-using System.Data.Linq.Mapping;
+﻿using System.Data.Linq.Mapping;
+using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {

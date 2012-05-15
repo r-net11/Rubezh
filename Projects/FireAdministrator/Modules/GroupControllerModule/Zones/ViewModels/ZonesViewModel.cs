@@ -20,8 +20,6 @@ namespace GKModule.ViewModels
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             ZoneDevices = new ZoneDevicesViewModel();
-
-            Initialize();
         }
 
         public void Initialize()

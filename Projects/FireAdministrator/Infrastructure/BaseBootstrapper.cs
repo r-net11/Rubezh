@@ -49,6 +49,14 @@ namespace Infrastructure
 			}
 		}
 
+		protected void ReInitializeModules()
+		{
+			foreach (var module in Modules)
+			{
+				module.Initialize();
+			}
+		}
+
 		private Assembly GetAssemblyByFileName(string path)
 		{
 			return GetLoadedAssemblyByFileName(path) ?? Assembly.LoadFile(path);

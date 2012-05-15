@@ -14,7 +14,10 @@ namespace VideoModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+		}
 
+		public void Initialize()
+		{
 			Cameras = new ObservableCollection<CameraViewModel>();
 
 			if (FiresecManager.SystemConfiguration.Cameras == null)
@@ -30,7 +33,16 @@ namespace VideoModule.ViewModels
 				SelectedCamera = Cameras[0];
 		}
 
-		public ObservableCollection<CameraViewModel> Cameras { get; private set; }
+		ObservableCollection<CameraViewModel> _cameras;
+		public ObservableCollection<CameraViewModel> Cameras
+		{
+			get { return _cameras; }
+			set
+			{
+				_cameras = value;
+				OnPropertyChanged("Cameras");
+			}
+		}
 
 		CameraViewModel _selectedCamera;
 		public CameraViewModel SelectedCamera

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using Infrastructure.Common;
 using Common;
 
 namespace Infrastructure.Common.MessageBox

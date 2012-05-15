@@ -1,72 +1,63 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DevicesModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Events;
-using System.Collections.Generic;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Events;
 
 namespace DevicesModule
 {
 	public class DevicesModule : ModuleBase
 	{
 		private NavigationItem _guardNavigationItem;
-		static DevicesViewModel _devicesViewModel;
-		static ZonesViewModel _zonesViewModel;
-		static DirectionsViewModel _directionsViewModel;
-		static GuardViewModel _guardViewModel;
+		DevicesViewModel _devicesViewModel;
+		ZonesViewModel _zonesViewModel;
+		DirectionsViewModel _directionsViewModel;
+		GuardViewModel _guardViewModel;
 
 		public DevicesModule()
 		{
-			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Unsubscribe(OnShowDevice);
-			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Unsubscribe(OnShowZone);
-			ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Unsubscribe(OnShowDirections);
-			ServiceFactory.Events.GetEvent<ShowGuardEvent>().Unsubscribe(OnShowGuardDevices);
-			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Unsubscribe(OnCreateZone);
-
 			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
 			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
 			ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
 			ServiceFactory.Events.GetEvent<ShowGuardEvent>().Subscribe(OnShowGuardDevices);
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
-		}
 
-		public static void CreateViewModels()
-		{
 			_devicesViewModel = new DevicesViewModel();
 			_zonesViewModel = new ZonesViewModel();
 			_directionsViewModel = new DirectionsViewModel();
 			_guardViewModel = new GuardViewModel();
 		}
 
-		static void OnShowDevice(Guid deviceUID)
+		void OnShowDevice(Guid deviceUID)
 		{
 			if (deviceUID != Guid.Empty)
 				_devicesViewModel.Select(deviceUID);
 			ServiceFactory.Layout.Show(_devicesViewModel);
 		}
 
-		static void OnShowZone(ulong zoneNo)
+		void OnShowZone(ulong zoneNo)
 		{
 			if (zoneNo != 0)
 				_zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
 			ServiceFactory.Layout.Show(_zonesViewModel);
 		}
 
-		static void OnShowDirections(int? directionId)
+		void OnShowDirections(int? directionId)
 		{
 			if (directionId.HasValue)
 				_directionsViewModel.SelectedDirection = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.Id == directionId);
 			ServiceFactory.Layout.Show(_directionsViewModel);
 		}
 
-		static void OnShowGuardDevices(object obj)
+		void OnShowGuardDevices(object obj)
 		{
 			ServiceFactory.Layout.Show(_guardViewModel);
 		}
 
-		static void OnCreateZone(CreateZoneEventArg createZoneEventArg)
+		void OnCreateZone(CreateZoneEventArg createZoneEventArg)
 		{
 			_zonesViewModel.CreateZone(createZoneEventArg);
 		}
@@ -81,7 +72,10 @@ namespace DevicesModule
 		}
 		public override void Initialize()
 		{
-			CreateViewModels();
+			_devicesViewModel.Initialize();
+			_zonesViewModel.Initialize();
+			_directionsViewModel.Initialize();
+			_guardViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

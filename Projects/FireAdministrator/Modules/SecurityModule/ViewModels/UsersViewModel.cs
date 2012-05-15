@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using Infrastructure.Common.MessageBox;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 
 namespace SecurityModule.ViewModels
 {
@@ -14,19 +14,31 @@ namespace SecurityModule.ViewModels
             DeleteCommand = new RelayCommand(OnDelete, CanDelete);
             EditCommand = new RelayCommand(OnEdit, CanEdit);
             AddCommand = new RelayCommand(OnAdd);
+		}
 
-            Users = new ObservableCollection<UserViewModel>();
-            if (FiresecManager.SecurityConfiguration.Users != null)
-            {
-                foreach (var user in FiresecManager.SecurityConfiguration.Users)
-                    Users.Add(new UserViewModel(user));
-            }
+		public void Initialize()
+		{
+			Users = new ObservableCollection<UserViewModel>();
+			if (FiresecManager.SecurityConfiguration.Users != null)
+			{
+				foreach (var user in FiresecManager.SecurityConfiguration.Users)
+					Users.Add(new UserViewModel(user));
+			}
 
-            if (Users.Count > 0)
-                SelectedUser = Users[0];
-        }
+			if (Users.Count > 0)
+				SelectedUser = Users[0];
+		}
 
-        public ObservableCollection<UserViewModel> Users { get; private set; }
+		ObservableCollection<UserViewModel> _users;
+		public ObservableCollection<UserViewModel> Users
+		{
+			get { return _users; }
+			set
+			{
+				_users = value;
+				OnPropertyChanged("Users");
+			}
+		}
 
         UserViewModel _selectedUser;
         public UserViewModel SelectedUser

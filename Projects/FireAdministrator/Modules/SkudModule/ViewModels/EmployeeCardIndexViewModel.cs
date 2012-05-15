@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 using SkudModule.Properties;
 
 namespace SkudModule.ViewModels

@@ -19,8 +19,6 @@ namespace GKModule.ViewModels
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
-
-			Initialize();
 		}
 
 		public void Initialize()

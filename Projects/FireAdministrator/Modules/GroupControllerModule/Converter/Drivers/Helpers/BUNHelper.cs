@@ -1,15 +1,11 @@
-﻿using System.Linq;
-using FiresecClient;
-using XFiresecAPI;
+﻿using XFiresecAPI;
 
 namespace GKModule.Converter
 {
 	public static class BUNHelper
 	{
-		public static void Create()
+		public static void Create(XDriver xDriver)
 		{
-			var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.Pump);
-
 			CommonHelper.AddIntProprety(xDriver, 0x8b, "Максимальное время перезапуска, 0.1 с", 0, 1, 1, 255);
 			CommonHelper.AddIntProprety(xDriver, 0x8b, "Время разновременного пуска, с", 0, 1, 1, 255);
 

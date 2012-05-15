@@ -70,5 +70,4 @@ namespace Infrastructure.Common.Navigation
 			}
 		}
 	}
-
 }

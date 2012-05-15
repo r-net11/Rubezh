@@ -2,10 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
-using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 
 namespace SecurityModule.ViewModels
 {

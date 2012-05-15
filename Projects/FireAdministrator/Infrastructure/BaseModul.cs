@@ -20,8 +20,8 @@ namespace Infrastructure
 
 		public virtual void RegisterResource()
 		{
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-        }
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+		}
 
 		public abstract void Initialize();
 		public abstract IEnumerable<NavigationItem> CreateNavigation();

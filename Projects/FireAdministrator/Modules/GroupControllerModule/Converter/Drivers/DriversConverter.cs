@@ -21,6 +21,7 @@ namespace GKModule.Converter
 				var xDriver = new XDriver()
 				{
 					DriverType = driverItem.XDriverType,
+					DriverTypeNo = driverItem.DriverTypeNo,
 					UID = driver.UID,
 					OldDriverUID = driver.UID,
 					Name = driver.Name,
@@ -65,12 +66,25 @@ namespace GKModule.Converter
 			XManager.DriversConfiguration.Drivers.Add(KAUIndicatorHelper.Create());
 			XManager.DriversConfiguration.Drivers.Add(GKIndicatorHelper.Create());
 
-			RMHelper.Create();
+			CreateKnownProperties();
+		}
+
+		static void CreateKnownProperties()
+		{
+			foreach (var driverType in new List<XDriverType>() { XDriverType.RM_1, XDriverType.RM_2, XDriverType.RM_3, XDriverType.RM_4, XDriverType.RM_5 })
+			{
+				var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == driverType);
+				RMHelper.Create(xDriver);
+			}
 			MROHelper.Create();
 			AMP4Helper.Create();
 			MDUHelper.Create();
 			BUZHelper.Create();
-			BUNHelper.Create();
+			foreach (var driverType in new List<XDriverType>() { XDriverType.Pump, XDriverType.JokeyPump, XDriverType.Compressor, XDriverType.DrenazhPump, XDriverType.CompensationPump })
+			{
+				var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == driverType);
+				BUNHelper.Create(xDriver);
+			}
 			MPTHelper.Create();
 			CombinedDetectorHelper.Create();
 		}

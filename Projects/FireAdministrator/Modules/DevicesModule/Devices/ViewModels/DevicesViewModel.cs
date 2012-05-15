@@ -24,15 +24,19 @@ namespace DevicesModule.ViewModels
             PasteCommand = new RelayCommand(OnPaste, CanPaste);
             PasteAsCommand = new RelayCommand(OnPasteAs, CanPasteAs);
             DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
+		}
 
-            BuildTree();
-            if (Devices.Count > 0)
-            {
-                CollapseChild(Devices[0]);
-                ExpandChild(Devices[0]);
-                SelectedDevice = Devices[0];
-            }
-        }
+		public void Initialize()
+		{
+			BuildTree();
+			if (Devices.Count > 0)
+			{
+				CollapseChild(Devices[0]);
+				ExpandChild(Devices[0]);
+				SelectedDevice = Devices[0];
+			}
+		}
+
 
         #region DeviceSelection
 

@@ -15,6 +15,7 @@ namespace SoundsModule.ViewModels
         {
             PlaySoundCommand = new RelayCommand(OnPlaySound, CanPlaySound);
         }
+
         public void Initialize()
         {
             IsNowPlaying = false;
@@ -46,7 +47,16 @@ namespace SoundsModule.ViewModels
                 SelectedSound = Sounds[0];
         }
 
-        public ObservableCollection<SoundViewModel> Sounds { get; private set; }
+		ObservableCollection<SoundViewModel> _sounds;
+		public ObservableCollection<SoundViewModel> Sounds
+		{
+			get { return _sounds; }
+			set
+			{
+				_sounds = value;
+				OnPropertyChanged("Sounds");
+			}
+		}
 
         SoundViewModel _selectedSound;
         public SoundViewModel SelectedSound

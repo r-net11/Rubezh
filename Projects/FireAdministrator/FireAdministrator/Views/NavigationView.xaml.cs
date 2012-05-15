@@ -1,14 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Controls;
-using Infrastructure.Common.Navigation;
-using System.Windows;
-using System.Windows.Media;
-using Infrastructure;
-using FiresecAPI.Models;
-using FiresecClient;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using FiresecClient;
+using Infrastructure.Common.Navigation;
 
 namespace FireAdministrator.Views
 {
