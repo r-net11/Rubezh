@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
 using Vlc.DotNet.Core;
+using System.Windows;
 
 namespace Infrastructure.Common
 {
@@ -19,6 +20,15 @@ namespace Infrastructure.Common
 				Width = camera.Width,
 				Height = camera.Height
 			};
+			if (camera.IgnoreMoveResize)
+			{
+				videoWindow.WindowStyle = System.Windows.WindowStyle.None;
+				videoWindow.MinHeight = videoWindow.MaxHeight = videoWindow.Height;
+				videoWindow.MinWidth = videoWindow.MaxWidth = videoWindow.Width;
+				videoWindow._title.Text = videoWindow.Title;
+				videoWindow._headerGrid.Visibility = Visibility.Visible;
+			}
+
 			if (ActiveAddresses.Contains(camera.Address) == false)
 			{
 				ActiveAddresses.Add(camera.Address);

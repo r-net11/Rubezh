@@ -279,6 +279,11 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetDistinctDescriptions(); }, "GetDistinctDescriptions");
 		}
 
+		public OperationResult<List<FiresecAPI.Models.JournalDeviceItem>> GetDistinctDevices()
+		{
+			return SafeOperationCall(() => { return FiresecService.GetDistinctDevices(); }, "GetDistinctDevices");
+		}
+
 		public OperationResult<DateTime> GetArchiveStartDate()
 		{
 			return SafeOperationCall(() => { return FiresecService.GetArchiveStartDate(); }, "GetArchiveStartDate");

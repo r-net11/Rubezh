@@ -3,43 +3,46 @@ using XFiresecAPI;
 
 namespace FiresecClient
 {
-    public static class XManager
-    {
-        static XManager()
-        {
-            DeviceConfiguration = new XDeviceConfiguration();
-            DriversConfiguration = new XDriversConfiguration();
-        }
+	public static class XManager
+	{
+		static XManager()
+		{
+			DeviceConfiguration = new XDeviceConfiguration();
+			DriversConfiguration = new XDriversConfiguration();
+		}
 
-        public static void SetEmptyConfiguration()
-        {
-            DeviceConfiguration = new XDeviceConfiguration();
-            DeviceConfiguration.RootDevice = new XDevice()
-            {
-                DriverUID = DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System).UID,
-                Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
-            };
-        }
+		public static void SetEmptyConfiguration()
+		{
+			DeviceConfiguration = new XDeviceConfiguration();
 
-        public static void UpdateConfiguration()
-        {
-            DeviceConfiguration.Update();
+			var systemDriver = DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+			if (systemDriver != null)
+				DeviceConfiguration.RootDevice = new XDevice()
+				{
+					DriverUID = systemDriver.UID,
+					Driver = systemDriver
+				};
+		}
 
-            foreach (var device in DeviceConfiguration.Devices)
-            {
-                device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-                if (device.Driver == null)
-                {
-                    System.Windows.MessageBox.Show("Ошибка при сопоставлении драйвера устройств");
-                }
-            }
-        }
+		public static void UpdateConfiguration()
+		{
+			DeviceConfiguration.Update();
 
-        public static void Invalidate()
-        {
-        }
+			foreach (var device in DeviceConfiguration.Devices)
+			{
+				device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				if (device.Driver == null)
+				{
+					System.Windows.MessageBox.Show("Ошибка при сопоставлении драйвера устройств");
+				}
+			}
+		}
 
-        public static XDeviceConfiguration DeviceConfiguration;
-        public static XDriversConfiguration DriversConfiguration;
-    }
+		public static void Invalidate()
+		{
+		}
+
+		public static XDeviceConfiguration DeviceConfiguration;
+		public static XDriversConfiguration DriversConfiguration;
+	}
 }

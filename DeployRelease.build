@@ -2,25 +2,20 @@
 <project name="Simple" default="run">
   <property name="nant.settings.currentframework" value="net-4.0" />
   <target name="run">
-    <call target="Clear" />    
-    <call target="CompileAll" />
+    <call target="BuildAll" />
   </target>
-  <target name="Clear">
-    <delete dir="Projects\FiresecService\FiresecService\bin\Release\Pictures" />
-    <delete dir="Projects\FiresecService\FiresecService\bin\Release\Temp" />
-  </target>  
-  <target name="CompileAll">
+  <target name="BuildAll">
     <msbuild project="Projects\FiresecService\FiresecService.sln">
-      <property name="Configuration" value="Release" overwrite="True"/>
+      <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>			
     <msbuild project="Projects\FireAdministrator\FireAdministrator.sln">
-      <property name="Configuration" value="Release" />
+      <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>	
     <msbuild project="Projects\FireMonitor\FireMonitor.sln">
-      <property name="Configuration" value="Release" />
+      <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>		
     <msbuild project="Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
-      <property name="Configuration" value="Release" />
+      <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>	
   </target>
 </project>

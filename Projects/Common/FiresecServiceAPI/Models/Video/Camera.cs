@@ -32,6 +32,9 @@ namespace FiresecAPI.Models
 		public int Height { get; set; }
 
 		[DataMember]
+		public bool IgnoreMoveResize { get; set; }
+
+		[DataMember]
 		public StateType StateType { get; set; }
 
 		[DataMember]

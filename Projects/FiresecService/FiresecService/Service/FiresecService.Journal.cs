@@ -135,6 +135,23 @@ namespace FiresecService.Service
 			return operationResult;
 		}
 
+		public OperationResult<List<JournalDeviceItem>> GetDistinctDevices()
+		{
+			var operationResult = new OperationResult<List<JournalDeviceItem>>();
+			try
+			{
+				string query = "SELECT DISTINCT PanelName, PanelDatabaseId FROM Journal";
+				var result = DataBaseContext.ExecuteQuery<JournalDeviceItem>(query);
+				operationResult.Result = result.ToList();
+			}
+			catch (Exception e)
+			{
+				operationResult.HasError = true;
+				operationResult.Error = e.Message.ToString();
+			}
+			return operationResult;
+		}
+		
 		public OperationResult<DateTime> GetArchiveStartDate()
 		{
 			var operationResult = new OperationResult<DateTime>();
@@ -176,44 +193,17 @@ namespace FiresecService.Service
 			{
 				dataContext.ExecuteCommand("DELETE FROM Journal");
 
-				int count = 0;
-				int LastEventId = 0;
-				//while (true)
+				var document = FiresecSerializedClient.ReadEvents(0, 100000).Result;
+
+				if (document == null || document.Journal == null || document.Journal.Count() == 0)
+					return;
+
+				foreach (var innerJournalItem in document.Journal)
 				{
-					bool hasNewRecords = false;
-					//while (true)
-					{
-						var document = FiresecSerializedClient.ReadEvents(LastEventId, 100000).Result;
-
-						if (document == null || document.Journal == null || document.Journal.Count() == 0)
-							return;//break;
-
-						int newLastValue = LastEventId;
-						foreach (var innerJournalItem in document.Journal)
-						{
-							var id = int.Parse(innerJournalItem.IDEvents);
-							if (id > LastEventId)
-							{
-								count++;
-								hasNewRecords = true;
-								newLastValue = id;
-								var journalRecord = JournalConverter.Convert(innerJournalItem);
-								dataContext.JournalRecords.InsertOnSubmit(journalRecord);
-
-								Trace.WriteLine(innerJournalItem.IDEvents + " - " + innerJournalItem.SysDt);
-							}
-						}
-						//if (LastEventId == newLastValue)
-						//    break;
-
-						LastEventId = newLastValue;
-					}
-					//if (hasNewRecords == false)
-					//    break;
+					var journalRecord = JournalConverter.Convert(innerJournalItem);
+					dataContext.JournalRecords.InsertOnSubmit(journalRecord);
 				}
-
 				dataContext.SubmitChanges();
-				Trace.WriteLine("Count = " + count.ToString());
 			}
 		}
 	}

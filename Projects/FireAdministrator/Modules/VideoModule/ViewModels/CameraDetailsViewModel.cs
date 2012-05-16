@@ -46,6 +46,7 @@ namespace VideoModule.ViewModels
 			Top = Camera.Top;
 			Width = Camera.Width;
 			Height = Camera.Height;
+			IgnoreMoveResize = Camera.IgnoreMoveResize;
 			SelectedStateType = Camera.StateType;
 			if (Camera.Zones == null)
 				Camera.Zones = new List<ulong>();
@@ -118,6 +119,17 @@ namespace VideoModule.ViewModels
 			}
 		}
 
+		bool _ignoreMoveResize;
+		public bool IgnoreMoveResize
+		{
+			get { return _ignoreMoveResize; }
+			set
+			{
+				_ignoreMoveResize = value;
+				OnPropertyChanged("IgnoreMoveResize");
+			}
+		}
+
 		public string PresenrationZones
 		{
 			get
@@ -169,7 +181,8 @@ namespace VideoModule.ViewModels
 				Left = Left,
 				Top = Top,
 				Width = Width,
-				Height = Height
+				Height = Height,
+				IgnoreMoveResize = IgnoreMoveResize
 			};
 			VideoService.ShowModal(camera); //"172.16.7.202"
 			Left = camera.Left;
