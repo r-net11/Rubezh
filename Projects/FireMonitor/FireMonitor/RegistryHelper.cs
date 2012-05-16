@@ -8,24 +8,24 @@ namespace FireMonitor
 		{
 			var executablePath = System.Reflection.Assembly.GetEntryAssembly().Location;
 
-			RegistryKey shellRegistryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
+			RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
 			shellRegistryKey.SetValue("Shell", executablePath);
 
-			RegistryKey taskManagerRegistryKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System", true);
+			RegistryKey taskManagerRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System", true);
 			taskManagerRegistryKey.SetValue("DisableTaskMgr", "dword:00000001");
 
-			Registry.LocalMachine.Flush();
+			RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).Flush();
 		}
 
 		public static void Desintegrate()
 		{
-			RegistryKey shellRegistryKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
+			RegistryKey shellRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon", true);
 			shellRegistryKey.SetValue("Shell", "explorer.exe");
 
-			RegistryKey taskManagerRegistryKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System", true);
+			RegistryKey taskManagerRegistryKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64).OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Policies\System", true);
 			taskManagerRegistryKey.SetValue("DisableTaskMgr", "dword:00000000");
 
-			Registry.LocalMachine.Flush();
+			RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).Flush();
 		}
 	}
 }

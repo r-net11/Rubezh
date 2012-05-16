@@ -25,7 +25,7 @@ namespace FireMonitor
 				return;
 			}
 
-#if ! DEBUG
+#if !DEBUG
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 #endif
 
