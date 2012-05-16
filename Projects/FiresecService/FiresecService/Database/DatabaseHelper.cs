@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using FiresecAPI.Models;
 using FiresecService.Service;
 using Common;
@@ -13,8 +14,18 @@ namespace FiresecService.Database
 			{
 				using (var dataContext = ConnectionManager.CreateFiresecDataContext())
 				{
-					dataContext.JournalRecords.InsertOnSubmit(journalRecord);
-					dataContext.SubmitChanges();
+					var query =
+					"SELECT * FROM Journal WHERE " +
+					"\n SystemTime = '" + journalRecord.SystemTime.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+					"\n AND OldId = " + journalRecord.OldId.ToString();
+
+					var result = dataContext.ExecuteQuery<JournalRecord>(query);
+
+					if (result.Count() == 0)
+					{
+						dataContext.JournalRecords.InsertOnSubmit(journalRecord);
+						dataContext.SubmitChanges();
+					}
 				}
 			}
 			catch (Exception e)

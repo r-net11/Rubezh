@@ -10,6 +10,7 @@ namespace FiresecService.Database
 		{
 			return new JournalRecord()
 			{
+				OldId = int.Parse(innerJournalRecord.IDEvents),
 				DeviceTime = ConvertTime(innerJournalRecord.Dt),
 				SystemTime = ConvertTime(innerJournalRecord.SysDt),
 				ZoneName = innerJournalRecord.ZoneName,

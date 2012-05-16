@@ -16,13 +16,10 @@ namespace FiresecService.Service
 			var operationResult = new OperationResult<List<JournalRecord>>();
 			try
 			{
-				//lock (this)
+				var internalJournal = FiresecSerializedClient.ReadEvents(startIndex, count).Result;
+				if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
 				{
-					var internalJournal = FiresecSerializedClient.ReadEvents(startIndex, count).Result;
-					if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
-					{
-						operationResult.Result = new List<JournalRecord>(internalJournal.Journal.Select(x => JournalConverter.Convert(x)));
-					}
+					operationResult.Result = new List<JournalRecord>(internalJournal.Journal.Select(x => JournalConverter.Convert(x)));
 				}
 			}
 			catch (Exception e)
@@ -94,23 +91,22 @@ namespace FiresecService.Service
 					query += ")";
 				}
 
-				if (archiveFilter.DeviceDatabaseIds.Count > 0)
+				if (archiveFilter.DeviceNames.Count > 0)
 				{
 					query += "\n AND (";
-					for (int i = 0; i < archiveFilter.DeviceDatabaseIds.Count; i++)
+					for (int i = 0; i < archiveFilter.DeviceNames.Count; i++)
 					{
-						var deviceDatabaseId = archiveFilter.DeviceDatabaseIds[i];
-						if (deviceDatabaseId != null)
+						var deviceName = archiveFilter.DeviceNames[i];
+						if (deviceName != null)
 						{
 							if (i > 0)
 								query += "\n OR ";
-							query += " PanelDatabaseId = '" + deviceDatabaseId.ToString() + "'";
+							query += " PanelName = '" + deviceName + "'";
 						}
 					}
 					query += ")";
 				}
 
-				//var result = DataBaseContext.ExecuteQuery<JournalRecord>("SELECT * FROM Journal");
 				var result = DataBaseContext.ExecuteQuery<JournalRecord>(query);
 				operationResult.Result = result.ToList();
 			}
@@ -150,6 +146,7 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
+				operationResult.Result = DateTime.Now;
 				operationResult.HasError = true;
 				operationResult.Error = e.Message.ToString();
 			}
@@ -179,33 +176,44 @@ namespace FiresecService.Service
 			{
 				dataContext.ExecuteCommand("DELETE FROM Journal");
 
+				int count = 0;
 				int LastEventId = 0;
-				while (true)
+				//while (true)
 				{
-					var document = FiresecSerializedClient.ReadEvents(LastEventId, 1000).Result;
-
-					if (document == null || document.Journal == null || document.Journal.Count() == 0)
-						break;
-
-					int newLastValue = LastEventId;
-					foreach (var innerJournalItem in document.Journal)
+					bool hasNewRecords = false;
+					//while (true)
 					{
-						var intValue = int.Parse(innerJournalItem.IDEvents);
-						if (intValue > LastEventId)
-						{
-							newLastValue = intValue;
-							var journalRecord = JournalConverter.Convert(innerJournalItem);
-							dataContext.JournalRecords.InsertOnSubmit(journalRecord);
-							Trace.WriteLine(journalRecord.DeviceTime.ToString());
-						}
-					}
-					if (LastEventId == newLastValue)
-						break;
+						var document = FiresecSerializedClient.ReadEvents(LastEventId, 100000).Result;
 
-					LastEventId = newLastValue;
+						if (document == null || document.Journal == null || document.Journal.Count() == 0)
+							return;//break;
+
+						int newLastValue = LastEventId;
+						foreach (var innerJournalItem in document.Journal)
+						{
+							var id = int.Parse(innerJournalItem.IDEvents);
+							if (id > LastEventId)
+							{
+								count++;
+								hasNewRecords = true;
+								newLastValue = id;
+								var journalRecord = JournalConverter.Convert(innerJournalItem);
+								dataContext.JournalRecords.InsertOnSubmit(journalRecord);
+
+								Trace.WriteLine(innerJournalItem.IDEvents + " - " + innerJournalItem.SysDt);
+							}
+						}
+						//if (LastEventId == newLastValue)
+						//    break;
+
+						LastEventId = newLastValue;
+					}
+					//if (hasNewRecords == false)
+					//    break;
 				}
 
 				dataContext.SubmitChanges();
+				Trace.WriteLine("Count = " + count.ToString());
 			}
 		}
 	}

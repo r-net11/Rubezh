@@ -32,11 +32,11 @@ namespace JournalModule.ViewModels
 							 AsParallel().ForAll(x => x.IsEnable = true);
 			}
 
-			if (archiveFilter.DeviceDatabaseIds.IsNotNullOrEmpty())
+			if (archiveFilter.DeviceNames.IsNotNullOrEmpty())
 			{
 				foreach (var device in Devices)
 				{
-					device.IsChecked = archiveFilter.DeviceDatabaseIds.Any(x => x == device.DatabaseId);
+					device.IsChecked = archiveFilter.DeviceNames.Any(x => x == device.DatabaseName);
 				}
 			}
 
@@ -155,7 +155,7 @@ namespace JournalModule.ViewModels
 				EndDate = new DateTime(EndDate.Year, EndDate.Month, EndDate.Day, EndTime.Hour, EndTime.Minute, EndTime.Second),
 				UseSystemDate = UseSystemDate,
 				Descriptions = new List<string>(JournalEvents.Where(x => x.IsEnable).Select(x => x.Name)),
-				DeviceDatabaseIds = new List<string>(Devices.Where(x => x.IsChecked).Select(x => x.DatabaseId)),
+				DeviceNames = new List<string>(Devices.Where(x => x.IsChecked).Select(x => x.DatabaseName)),
 				Subsystems = new List<SubsystemType>(Subsystems.Where(x => x.IsEnable).Select(x => x.Subsystem)),
 			};
 		}

@@ -106,6 +106,7 @@ namespace DevicesModule.ViewModels
 					}
 				}
 			}
+			OnPropertyChanged("Parameters");
 		}
 
 		public List<string> Parameters
@@ -116,14 +117,11 @@ namespace DevicesModule.ViewModels
 				if (DeviceState != null && DeviceState.Parameters.IsNotNullOrEmpty())
 					foreach (var parameter in DeviceState.Parameters)
 					{
-						if (parameter.Visible)
-						{
-							if (string.IsNullOrEmpty(parameter.Value))
-								continue;
-							if (parameter.Value == "<NULL>")
-								continue;
-							parameters.Add(parameter.Caption + " - " + parameter.Value);
-						}
+						if (string.IsNullOrEmpty(parameter.Value))
+							continue;
+						if (parameter.Value == "<NULL>")
+							continue;
+						parameters.Add(parameter.Caption + " - " + parameter.Value);
 					}
 				return parameters;
 			}

@@ -88,7 +88,7 @@ namespace PlansModule.ViewModels
 
 		bool CanDisableAll()
 		{
-			return deviceStates.Any(x => !x.IsDisabled);
+			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList) && deviceStates.Any(x => !x.IsDisabled)) ;
 		}
 
 		public RelayCommand DisableAllCommand { get; private set; }
@@ -100,7 +100,7 @@ namespace PlansModule.ViewModels
 
 		bool CanEnableAll()
 		{
-			return deviceStates.Any(x => x.IsDisabled);
+			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_AddToIgnoreList) && deviceStates.Any(x => x.IsDisabled));
 		}
 
 		public RelayCommand EnableAllCommand { get; private set; }

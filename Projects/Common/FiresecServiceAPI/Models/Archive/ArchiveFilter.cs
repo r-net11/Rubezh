@@ -11,7 +11,7 @@ namespace FiresecAPI.Models
         {
             Descriptions = new List<string>();
             Subsystems = new List<SubsystemType>();
-            DeviceDatabaseIds = new List<string>();
+            DeviceNames = new List<string>();
         }
 
         [DataMember]
@@ -27,7 +27,7 @@ namespace FiresecAPI.Models
         public List<string> Descriptions { get; set; }
 
         [DataMember]
-        public List<string> DeviceDatabaseIds { get; set; }
+        public List<string> DeviceNames { get; set; }
 
         [DataMember]
         public List<SubsystemType> Subsystems { get; set; }

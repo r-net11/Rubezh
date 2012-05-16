@@ -111,7 +111,7 @@ namespace FiresecService.Processor
 								innerDevice.dev_param.Any(x => x.name == parameter.Name))
 							{
 								var innerParameter = innerDevice.dev_param.FirstOrDefault(x => x.name == parameter.Name);
-								if (parameter.Value != innerParameter.value && parameter.Visible)
+								if (parameter.Value != innerParameter.value)
 								{
 									ChangedDevices.Add(deviceState);
 								}

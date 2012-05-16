@@ -24,6 +24,17 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public string DatabaseId { get { return Device.DatabaseId; } }
+		public string DatabaseName
+		{
+			get
+			{
+				var name = Device.Driver.Name + " " + Device.DottedAddress + " ";
+				if (string.IsNullOrEmpty(Device.Description) == false)
+				{
+					name += " (" + Device.Description + ")";
+				}
+				return name;
+			}
+		}
 	}
 }

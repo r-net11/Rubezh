@@ -125,7 +125,7 @@
                                     <WrapPanel>
                                         <CheckBox IsChecked="{Binding IsChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="4, 0, 4, 0" VerticalAlignment="Center" />
                                         <Image Source="{Binding Device.Driver.ImageSource}" Margin="0, 0, 5, 0" />
-                                        <TextBlock Text="{Binding Device.Driver.ShortName}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding DatabaseName}" VerticalAlignment="Center" />
                                     </WrapPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>

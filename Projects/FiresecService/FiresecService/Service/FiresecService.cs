@@ -50,56 +50,54 @@ namespace FiresecService.Service
 		public void DisposeComServer()
 		{
 			Logger.Info("DisposeComServer");
-			FiresecSerializedClient.Disconnect();
+			if (FiresecSerializedClient != null)
+				FiresecSerializedClient.Disconnect();
 		}
 
 		public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string login, string password)
 		{
-			//lock (this)
+			FiresecManager.LoadConfiguration();
+
+			var operationResult = new OperationResult<bool>();
+
+			if (CheckLogin(login, password) == false)
 			{
-				FiresecManager.LoadConfiguration();
-
-				var operationResult = new OperationResult<bool>();
-
-				if (CheckLogin(login, password) == false)
-				{
-					operationResult.HasError = true;
-					operationResult.Error = "Неверный логин или пароль";
-					return operationResult;
-				}
-				if (CheckRemoteAccessPermissions(login) == false)
-				{
-					operationResult.HasError = true;
-					operationResult.Error = "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + _userIpAddress;
-					return operationResult;
-				}
-
-				_clientType = clientType;
-
-				MainViewModel.Current.AddConnection(this, UID, _userLogin, _userIpAddress, _clientType);
-
-				Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
-				CallbackWrapper = new CallbackWrapper(this);
-				CallbackManager.Add(this);
-
-				ConnectComServer();
-
-				DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему");
-
-				FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(clientCallbackAddress);
-
-				if (IsConnectedToComServer)
-				{
-					operationResult.Result = true;
-				}
-				else
-				{
-					operationResult.HasError = false;
-					operationResult.Error = "Нет соединения с ядром Firesec";
-					return operationResult;
-				}
+				operationResult.HasError = true;
+				operationResult.Error = "Неверный логин или пароль";
 				return operationResult;
 			}
+			if (CheckRemoteAccessPermissions(login) == false)
+			{
+				operationResult.HasError = true;
+				operationResult.Error = "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + _userIpAddress;
+				return operationResult;
+			}
+
+			_clientType = clientType;
+
+			MainViewModel.Current.AddConnection(this, UID, _userLogin, _userIpAddress, _clientType);
+
+			Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+			CallbackWrapper = new CallbackWrapper(this);
+			CallbackManager.Add(this);
+
+			ConnectComServer();
+
+			DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему(Firesec-2)");
+
+			FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(clientCallbackAddress);
+
+			if (IsConnectedToComServer)
+			{
+				operationResult.Result = true;
+			}
+			else
+			{
+				operationResult.HasError = false;
+				operationResult.Error = "Нет соединения с ядром Firesec";
+				return operationResult;
+			}
+			return operationResult;
 		}
 
 		void ConnectComServer()
@@ -130,8 +128,8 @@ namespace FiresecService.Service
 
 			MainViewModel.Current.EditConnection(UID, login);
 
-			DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал");
-			DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял");
+			DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал(Firesec-2)");
+			DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял(Firesec-2)");
 
 			operationResult.Result = true;
 			return operationResult;
@@ -142,7 +140,7 @@ namespace FiresecService.Service
 		{
 			FiresecSerializedClient.Disconnect();
 			MainViewModel.Current.RemoveConnection(UID);
-			DatabaseHelper.AddInfoMessage(_userName, "Выход пользователя из системы");
+			DatabaseHelper.AddInfoMessage(_userName, "Выход пользователя из системы(Firesec-2)");
 			CallbackManager.Remove(this);
 		}
 
