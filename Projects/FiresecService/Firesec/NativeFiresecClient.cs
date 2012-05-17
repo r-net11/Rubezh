@@ -43,7 +43,7 @@ namespace Firesec
 				if (IsUnloaded == false)
 				{
 					_connectoin = null;
-					//AppDomain.Unload(Domain);
+					AppDomain.Unload(Domain);
 					IsUnloaded = true;
 				}
 				return true;
@@ -210,13 +210,13 @@ namespace Firesec
 		#region Connection
 		FS_Types.IFSC_Connection GetConnection(string login, string password)
 		{
-			//Domain = AppDomain.CreateDomain("Controller Domain");
-
-			ObjectHandle objectHandle = Activator.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
-			//ObjectHandle objectHandle = Domain.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
-			//FS_Types.FSC_LIBRARY_CLASSClass library = (FS_Types.FSC_LIBRARY_CLASSClass)objectHandle.Unwrap();
+			//ObjectHandle objectHandle = Activator.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
+			Domain = AppDomain.CreateDomain("Domain");
+			ObjectHandle objectHandle = Domain.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
 			FS_Types.FSC_LIBRARY_CLASS library = (FS_Types.FSC_LIBRARY_CLASS)objectHandle.Unwrap();
-			FS_Types.TFSC_ServerInfo serverInfo = new FS_Types.TFSC_ServerInfo()
+			//FS_Types.FSC_LIBRARY_CLASSClass library = new FS_Types.FSC_LIBRARY_CLASSClass();
+
+			var serverInfo = new FS_Types.TFSC_ServerInfo()
 			{
 				Port = 211,
 				ServerName = "localhost"

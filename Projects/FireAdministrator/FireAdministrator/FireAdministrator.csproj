@@ -117,6 +117,14 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Services\LayoutService.cs" />
     <Compile Include="Services\ProgressService.cs" />
+    <Compile Include="Services\ValidationService.cs" />
+    <Compile Include="Validation\Converters\ErrorLevelToColorConverter.cs" />
+    <Compile Include="Validation\ViewModels\ErrorEntityType.cs" />
+    <Compile Include="Validation\ViewModels\ValidationErrorsViewModel.cs" />
+    <Compile Include="Validation\ViewModels\ValidationErrorViewModel.cs" />
+    <Compile Include="Validation\Views\ValidationErrorsView.xaml.cs">
+      <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ManualViewModel.cs" />
@@ -175,6 +183,10 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Validation\Views\ValidationErrorsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AboutView.xaml">
       <SubType>Designer</SubType>

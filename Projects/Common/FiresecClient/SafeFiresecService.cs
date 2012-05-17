@@ -263,11 +263,6 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return _iFiresecService.GetStates(forceConvert); });
 		}
 
-		public OperationResult<List<JournalRecord>> ReadJournal(int startIndex, int count)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.ReadJournal(startIndex, count); });
-		}
-
 		public OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter)
 		{
 			return SafeOperationCall(() => { return _iFiresecService.GetFilteredJournal(journalFilter); });
@@ -281,11 +276,6 @@ namespace FiresecClient
 		public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()
 		{
 			return SafeOperationCall(() => { return _iFiresecService.GetDistinctDescriptions(); });
-		}
-
-		public OperationResult<List<JournalDeviceItem>> GetDistinctDevices()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetDistinctDevices(); });
 		}
 
 		public OperationResult<DateTime> GetArchiveStartDate()

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecService.ViewModels;
+using System.Runtime.Serialization;
+using System.IO;
 
 namespace FiresecService.Service
 {
@@ -41,24 +43,21 @@ namespace FiresecService.Service
 
 		static void SafeCall(Action<FiresecService> action)
 		{
-			//lock (locker)
+			_failedServiceInstances = new List<FiresecService>();
+			foreach (var serviceInstance in _serviceInstances)
 			{
-				_failedServiceInstances = new List<FiresecService>();
-				foreach (var serviceInstance in _serviceInstances)
-				{
-					if (serviceInstance.IsSubscribed)
-						try
-						{
-							action(serviceInstance);
-						}
-						catch
-						{
-							_failedServiceInstances.Add(serviceInstance);
-						}
-				}
-
-				Clean();
+				if (serviceInstance.IsSubscribed)
+					try
+					{
+						action(serviceInstance);
+					}
+					catch
+					{
+						_failedServiceInstances.Add(serviceInstance);
+					}
 			}
+
+			Clean();
 		}
 
 		public static void OnNewJournalRecord(JournalRecord journalRecord)
@@ -74,6 +73,28 @@ namespace FiresecService.Service
 		public static void Ping()
 		{
 			SafeCall((x) => { x.FiresecCallbackService.Ping(); });
+		}
+
+		public static void CopyConfigurationForAllClients(FiresecService firesecService)
+		{
+			foreach (var serviceInstance in _serviceInstances)
+			{
+				if (serviceInstance.UID != firesecService.UID)
+				{
+					DeviceConfiguration clonedDeviceConfiguration = null;
+
+					var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+					using (var memoryStream = new MemoryStream())
+					{
+						dataContractSerializer.WriteObject(memoryStream, firesecService.FiresecManager.ConfigurationManager.DeviceConfiguration);
+						memoryStream.Position = 0;
+						clonedDeviceConfiguration = (DeviceConfiguration)dataContractSerializer.ReadObject(memoryStream);
+					}
+
+					clonedDeviceConfiguration.Update();
+					serviceInstance.FiresecManager.ConfigurationManager.DeviceConfiguration = clonedDeviceConfiguration;
+				}
+			}
 		}
 	}
 }

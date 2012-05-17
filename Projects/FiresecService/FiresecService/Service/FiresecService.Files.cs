@@ -9,27 +9,18 @@ namespace FiresecService.Service
 	{
 		public List<string> GetFileNamesList(string directory)
 		{
-			//lock (this)
-			{
-				return HashHelper.GetFileNamesList(directory);
-			}
+			return HashHelper.GetFileNamesList(directory);
 		}
 
 		public Dictionary<string, string> GetDirectoryHash(string directory)
 		{
-			//lock (this)
-			{
-				return HashHelper.GetDirectoryHash(directory);
-			}
+			return HashHelper.GetDirectoryHash(directory);
 		}
 
 		public Stream GetFile(string directoryNameAndFileName)
 		{
-			//lock (this)
-			{
-				var filePath = ConfigurationFileManager.ConfigurationDirectory(directoryNameAndFileName);
-				return new FileStream(filePath, FileMode.Open, FileAccess.Read);
-			}
+			var filePath = ConfigurationFileManager.ConfigurationDirectory(directoryNameAndFileName);
+			return new FileStream(filePath, FileMode.Open, FileAccess.Read);
 		}
 	}
 }

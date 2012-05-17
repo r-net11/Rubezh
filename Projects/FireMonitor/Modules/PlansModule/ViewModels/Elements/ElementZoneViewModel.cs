@@ -24,8 +24,11 @@ namespace PlansModule.ViewModels
 
 			ZoneNo = elementPolygonZone.ZoneNo;
 			Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
-			ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
-			ZoneState.StateChanged += new Action(ZoneState_StateChanged);
+			if (Zone != null)
+			{
+				ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
+				ZoneState.StateChanged += new Action(ZoneState_StateChanged);
+			}
 
 			ElementZoneView = new ElementZoneView();
 			if (elementPolygonZone.PolygonPoints == null)

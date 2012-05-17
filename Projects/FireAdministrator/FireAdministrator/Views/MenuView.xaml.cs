@@ -10,195 +10,193 @@ using Infrastructure;
 using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
 using Microsoft.Win32;
+using FireAdministrator.ViewModels;
 
 namespace FireAdministrator.Views
 {
-    public partial class MenuView : UserControl
-    {
-        public MenuView()
-        {
-            InitializeComponent();
-            DataContext = this;
-            ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
-        }
+	public partial class MenuView : UserControl
+	{
+		public MenuView()
+		{
+			InitializeComponent();
+			DataContext = this;
+			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
+		}
 
-        void SaveService_Changed()
-        {
-            _saveButton.IsEnabled = true;
-        }
+		void SaveService_Changed()
+		{
+			_saveButton.IsEnabled = true;
+		}
 
-        void OnSetNewConfig(object sender, RoutedEventArgs e)
-        {
-            if (MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?") == MessageBoxResult.Yes)
-            {
-                SetNewConfig();
-            }
-        }
+		void OnSetNewConfig(object sender, RoutedEventArgs e)
+		{
+			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?") == MessageBoxResult.Yes)
+			{
+				SetNewConfig();
+			}
+		}
 
-        public void SetNewConfig()
-        {
-            if (CanChangeConfig == false)
-            {
-                MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
-                return;
-            }
+		public void SetNewConfig()
+		{
+			if (CanChangeConfig == false)
+			{
+				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
+				return;
+			}
 
-			//PlansModule.PlansModule.Save();
+			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
 
-			//var validationErrorsViewModel = new ValidationErrorsViewModel();
-			//if (validationErrorsViewModel.HasErrors)
-			//{
-			//    ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
+			var validationResult = ServiceFactory.ValidationService.Validate();
+			if (validationResult.HasErrors)
+			{
+				if (validationResult.CannotSave)
+				{
+					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+					return;
+				}
 
-			//    if (validationErrorsViewModel.CannotSave)
-			//    {
-			//        MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
-			//        return;
-			//    }
+				if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") != MessageBoxResult.Yes)
+					return;
+			}
 
-			//    if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") != MessageBoxResult.Yes)
-			//        return;
-			//}
+			if (ServiceFactory.SaveService.DevicesChanged)
+				FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
 
-            if (ServiceFactory.SaveService.DevicesChanged)
-                FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
+			if (ServiceFactory.SaveService.PlansChanged)
+				FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
 
-            if (ServiceFactory.SaveService.PlansChanged)
-                FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+			if (ServiceFactory.SaveService.SecurityChanged)
+				FiresecManager.FiresecService.SetSecurityConfiguration(FiresecManager.SecurityConfiguration);
 
-            if (ServiceFactory.SaveService.SecurityChanged)
-                FiresecManager.FiresecService.SetSecurityConfiguration(FiresecManager.SecurityConfiguration);
+			if (ServiceFactory.SaveService.LibraryChanged)
+				FiresecManager.FiresecService.SetLibraryConfiguration(FiresecManager.LibraryConfiguration);
 
-            if (ServiceFactory.SaveService.LibraryChanged)
-                FiresecManager.FiresecService.SetLibraryConfiguration(FiresecManager.LibraryConfiguration);
+			if ((ServiceFactory.SaveService.InstructionsChanged) ||
+				(ServiceFactory.SaveService.SoundsChanged) ||
+				(ServiceFactory.SaveService.FilterChanged) ||
+				(ServiceFactory.SaveService.CamerasChanged))
+				FiresecManager.FiresecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
 
-            if ((ServiceFactory.SaveService.InstructionsChanged) ||
-                (ServiceFactory.SaveService.SoundsChanged) ||
-                (ServiceFactory.SaveService.FilterChanged) ||
-                (ServiceFactory.SaveService.CamerasChanged))
-                FiresecManager.FiresecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
+			if (ServiceFactory.SaveService.XDevicesChanged)
+				FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
 
-            if (ServiceFactory.SaveService.XDevicesChanged)
-                FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
+			ServiceFactory.SaveService.Reset();
+			_saveButton.IsEnabled = false;
+		}
 
-            ServiceFactory.SaveService.Reset();
-            _saveButton.IsEnabled = false;
-        }
+		void OnCreateNew(object sender, RoutedEventArgs e)
+		{
+			var result = MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
+			if (result == MessageBoxResult.Yes)
+			{
+				FiresecManager.DeviceConfiguration = new DeviceConfiguration();
+				FiresecManager.PlansConfiguration = new PlansConfiguration();
+				FiresecManager.SystemConfiguration = new SystemConfiguration();
 
-        void OnCreateNew(object sender, RoutedEventArgs e)
-        {
-            var result = MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
-            if (result == MessageBoxResult.Yes)
-            {
-                FiresecManager.DeviceConfiguration = new DeviceConfiguration();
-                FiresecManager.PlansConfiguration = new PlansConfiguration();
-                FiresecManager.SystemConfiguration = new SystemConfiguration();
+				FiresecManager.DeviceConfiguration.RootDevice = new Device()
+				{
+					DriverUID = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer).UID,
+					Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer)
+				};
+				FiresecManager.DeviceConfiguration.Update();
+				FiresecManager.PlansConfiguration.Update();
 
-                FiresecManager.DeviceConfiguration.RootDevice = new Device()
-                {
-                    DriverUID = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer).UID,
-                    Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer)
-                };
-                FiresecManager.DeviceConfiguration.Update();
-                FiresecManager.PlansConfiguration.Update();
+				XManager.SetEmptyConfiguration();
 
-                XManager.SetEmptyConfiguration();
+				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
-                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.PlansChanged = true;
+				ServiceFactory.SaveService.InstructionsChanged = true;
+				ServiceFactory.SaveService.SoundsChanged = true;
+				ServiceFactory.SaveService.FilterChanged = true;
+				ServiceFactory.SaveService.CamerasChanged = true;
+				ServiceFactory.SaveService.XDevicesChanged = true;
 
-                ServiceFactory.SaveService.Reset();
-				//DevicesModule.ViewModels.DevicesViewModel.UpdateGuardVisibility();
+				ServiceFactory.Layout.Close();
+				ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+			}
+		}
 
+		public bool CanChangeConfig
+		{
+			get { return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ChangeConfigDevices)); }
+		}
 
-                ServiceFactory.Layout.Close();
-                ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-            }
-        }
+		void OnValidate(object sender, RoutedEventArgs e)
+		{
+			ServiceFactory.ValidationService.Validate();
+		}
 
-        public bool CanChangeConfig
-        {
-            get { return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ChangeConfigDevices)); }
-        }
+		void OnSaveToFile(object sender, RoutedEventArgs e)
+		{
+			var saveDialog = new SaveFileDialog();
+			saveDialog.Filter = "firesec2 files|*.fsc2";
+			if (saveDialog.ShowDialog().Value)
+				SaveToFile(CopyFrom(), saveDialog.FileName);
+		}
 
-        void OnValidate(object sender, RoutedEventArgs e)
-        {
-            ServiceFactory.Layout.ShowValidationArea(null);
-			//var validationErrorsViewModel = new ValidationErrorsViewModel();
-			//if (validationErrorsViewModel.HasErrors)
-			//{
-			//    ServiceFactory.Layout.ShowValidationArea(new ValidationErrorsViewModel());
-			//}
-        }
+		void OnLoadFromFile(object sender, RoutedEventArgs e)
+		{
+			var openDialog = new OpenFileDialog();
+			openDialog.Filter = "firesec2 files|*.fsc2";
+			if (openDialog.ShowDialog().Value)
+			{
+				CopyTo(LoadFromFile(openDialog.FileName));
 
-        void OnSaveToFile(object sender, RoutedEventArgs e)
-        {
-            var saveDialog = new SaveFileDialog();
-            saveDialog.Filter = "firesec2 files|*.fsc2";
-            if (saveDialog.ShowDialog().Value)
-                SaveToFile(CopyFrom(), saveDialog.FileName);
-        }
+				FiresecManager.UpdateConfiguration();
+				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
-        void OnLoadFromFile(object sender, RoutedEventArgs e)
-        {
-            var openDialog = new OpenFileDialog();
-            openDialog.Filter = "firesec2 files|*.fsc2";
-            if (openDialog.ShowDialog().Value)
-            {
-                CopyTo(LoadFromFile(openDialog.FileName));
+				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+				ServiceFactory.Layout.Close();
+				ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+			}
+		}
 
-                FiresecManager.UpdateConfiguration();
-                ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+		FullConfiguration CopyFrom()
+		{
+			return new FullConfiguration()
+			{
+				DeviceConfiguration = FiresecManager.DeviceConfiguration,
+				LibraryConfiguration = FiresecManager.LibraryConfiguration,
+				PlansConfiguration = FiresecManager.PlansConfiguration,
+				SecurityConfiguration = FiresecManager.SecurityConfiguration,
+				SystemConfiguration = FiresecManager.SystemConfiguration
+			};
+		}
 
-                //DevicesModule.DevicesModule.CreateViewModels();
-                ServiceFactory.Layout.Close();
-                ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-            }
-        }
+		void CopyTo(FullConfiguration fullConfiguration)
+		{
+			FiresecManager.DeviceConfiguration = fullConfiguration.DeviceConfiguration;
+			FiresecManager.LibraryConfiguration = fullConfiguration.LibraryConfiguration;
+			FiresecManager.PlansConfiguration = fullConfiguration.PlansConfiguration;
+			FiresecManager.SecurityConfiguration = fullConfiguration.SecurityConfiguration;
+			FiresecManager.SystemConfiguration = fullConfiguration.SystemConfiguration;
+		}
 
-        FullConfiguration CopyFrom()
-        {
-            return new FullConfiguration()
-            {
-                DeviceConfiguration = FiresecManager.DeviceConfiguration,
-                LibraryConfiguration = FiresecManager.LibraryConfiguration,
-                PlansConfiguration = FiresecManager.PlansConfiguration,
-                SecurityConfiguration = FiresecManager.SecurityConfiguration,
-                SystemConfiguration = FiresecManager.SystemConfiguration
-            };
-        }
+		FullConfiguration LoadFromFile(string fileName)
+		{
+			try
+			{
+				var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
+				using (var fileStream = new FileStream(fileName, FileMode.Open))
+				{
+					return (FullConfiguration)dataContractSerializer.ReadObject(fileStream);
+				}
+			}
+			catch
+			{
+				return new FullConfiguration();
+			}
+		}
 
-        void CopyTo(FullConfiguration fullConfiguration)
-        {
-            FiresecManager.DeviceConfiguration = fullConfiguration.DeviceConfiguration;
-            FiresecManager.LibraryConfiguration = fullConfiguration.LibraryConfiguration;
-            FiresecManager.PlansConfiguration = fullConfiguration.PlansConfiguration;
-            FiresecManager.SecurityConfiguration = fullConfiguration.SecurityConfiguration;
-            FiresecManager.SystemConfiguration = fullConfiguration.SystemConfiguration;
-        }
-
-        FullConfiguration LoadFromFile(string fileName)
-        {
-            try
-            {
-                var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
-                using (var fileStream = new FileStream(fileName, FileMode.Open))
-                {
-                    return (FullConfiguration)dataContractSerializer.ReadObject(fileStream);
-                }
-            }
-            catch
-            {
-                return new FullConfiguration();
-            }
-        }
-
-        void SaveToFile(FullConfiguration fullConfiguration, string fileName)
-        {
-            var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
-            using (var fileStream = new FileStream(fileName, FileMode.Create))
-            {
-                dataContractSerializer.WriteObject(fileStream, fullConfiguration);
-            }
-        }
-    }
+		void SaveToFile(FullConfiguration fullConfiguration, string fileName)
+		{
+			var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
+			using (var fileStream = new FileStream(fileName, FileMode.Create))
+			{
+				dataContractSerializer.WriteObject(fileStream, fullConfiguration);
+			}
+		}
+	}
 }

@@ -19,6 +19,7 @@ namespace FiresecService.Processor
 			FiresecManager = firesecManager;
 			FiresecSerializedClient = firesecManager.FiresecSerializedClient;
 
+			SynchrinizeJournal();
 			SetLastEvent();
 			FiresecSerializedClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
 			FiresecSerializedClient.Progress += new Func<int, string, int, int, bool>(FiresecInternalClient_Progress);
@@ -61,7 +62,7 @@ namespace FiresecService.Processor
 
 		void SetLastEvent()
 		{
-			Firesec.Journals.document journal = FiresecSerializedClient.ReadEvents(0, 1000).Result;
+			Firesec.Journals.document journal = FiresecSerializedClient.ReadEvents(0, 100).Result;
 			if (journal != null && journal.Journal.IsNotNullOrEmpty())
 			{
 				foreach (var journalItem in journal.Journal)
@@ -73,24 +74,75 @@ namespace FiresecService.Processor
 			}
 		}
 
+		void SynchrinizeJournal()
+		{
+			var lastId = DatabaseHelper.GetLastOldId();
+			if (lastId >= 0)
+			{
+				var journalRecords = GetEventsFromLastId(LastEventId);
+				foreach (var journalRecord in journalRecords)
+				{
+					DatabaseHelper.AddJournalRecord(journalRecord);
+				}
+			}
+		}
+
+		List<JournalRecord> GetEventsFromLastId(int lastId)
+		{
+			var result = new List<JournalRecord>();
+
+			var hasNewRecords = true;
+			while (hasNewRecords)
+			{
+				hasNewRecords = false;
+				var document = FiresecSerializedClient.ReadEvents(LastEventId, 100).Result;
+				if (document != null && document.Journal.IsNotNullOrEmpty())
+				{
+					int newLastEventId = LastEventId;
+					foreach (var innerJournalItem in document.Journal)
+					{
+						var eventId = int.Parse(innerJournalItem.IDEvents);
+						if (eventId > LastEventId)
+						{
+							newLastEventId = eventId;
+							var journalRecord = JournalConverter.Convert(innerJournalItem);
+							result.Add(journalRecord);
+							hasNewRecords = true;
+						}
+					}
+					LastEventId = newLastEventId;
+				}
+			}
+
+			return result;
+		}
+
 		void OnNewEvent()
 		{
+			var journalRecords = GetEventsFromLastId(LastEventId);
+			foreach (var journalRecord in journalRecords)
+			{
+				DatabaseHelper.AddJournalRecord(journalRecord);
+				FiresecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
+			}
+
+			return;
 			var document = FiresecSerializedClient.ReadEvents(LastEventId, 100).Result;
 			if (document != null && document.Journal.IsNotNullOrEmpty())
 			{
-				int newLastValue = LastEventId;
+				int newLastEventId = LastEventId;
 				foreach (var innerJournalItem in document.Journal)
 				{
-					var intValue = int.Parse(innerJournalItem.IDEvents);
-					if (intValue > LastEventId)
+					var eventId = int.Parse(innerJournalItem.IDEvents);
+					if (eventId > LastEventId)
 					{
-						newLastValue = intValue;
+						newLastEventId = eventId;
 						var journalRecord = JournalConverter.Convert(innerJournalItem);
 						DatabaseHelper.AddJournalRecord(journalRecord);
 						FiresecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
 					}
 				}
-				LastEventId = newLastValue;
+				LastEventId = newLastEventId;
 			}
 		}
 

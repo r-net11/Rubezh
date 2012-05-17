@@ -11,25 +11,6 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		public OperationResult<List<JournalRecord>> ReadJournal(int startIndex, int count)
-		{
-			var operationResult = new OperationResult<List<JournalRecord>>();
-			try
-			{
-				var internalJournal = FiresecSerializedClient.ReadEvents(startIndex, count).Result;
-				if (internalJournal != null && internalJournal.Journal.IsNotNullOrEmpty())
-				{
-					operationResult.Result = new List<JournalRecord>(internalJournal.Journal.Select(x => JournalConverter.Convert(x)));
-				}
-			}
-			catch (Exception e)
-			{
-				operationResult.HasError = true;
-				operationResult.Error = e.Message.ToString();
-			}
-			return operationResult;
-		}
-
 		public OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter)
 		{
 			var operationResult = new OperationResult<List<JournalRecord>>();
@@ -135,23 +116,6 @@ namespace FiresecService.Service
 			return operationResult;
 		}
 
-		public OperationResult<List<JournalDeviceItem>> GetDistinctDevices()
-		{
-			var operationResult = new OperationResult<List<JournalDeviceItem>>();
-			try
-			{
-				string query = "SELECT DISTINCT PanelName, PanelDatabaseId FROM Journal";
-				var result = DataBaseContext.ExecuteQuery<JournalDeviceItem>(query);
-				operationResult.Result = result.ToList();
-			}
-			catch (Exception e)
-			{
-				operationResult.HasError = true;
-				operationResult.Error = e.Message.ToString();
-			}
-			return operationResult;
-		}
-		
 		public OperationResult<DateTime> GetArchiveStartDate()
 		{
 			var operationResult = new OperationResult<DateTime>();

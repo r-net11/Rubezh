@@ -15,9 +15,6 @@ namespace GKModule
 
 		public GroupControllerModule()
 		{
-			if (ServiceFactory.AppSettings.ShowGK == false)
-				return;
-
 			ServiceFactory.Events.GetEvent<ShowXDevicesEvent>().Subscribe(OnShowXDevices);
 			ServiceFactory.Events.GetEvent<ShowXZonesEvent>().Subscribe(OnShowXZones);
 

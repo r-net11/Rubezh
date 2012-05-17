@@ -13,6 +13,7 @@ namespace PlansModule
 
 		public PlansModule()
 		{
+			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnSave);
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlans);
 			_plansViewModel = new PlansViewModel();
 		}
@@ -22,9 +23,9 @@ namespace PlansModule
 			ServiceFactory.Layout.Show(_plansViewModel);
 		}
 
-		public static void Save()
+		void OnSave(object obj)
 		{
-			//_plansViewModel.PlanDesignerViewModel.Save();
+			_plansViewModel.PlanDesignerViewModel.Save();
 		}
 
 		public override void RegisterResource()

@@ -14,6 +14,7 @@ namespace FiresecService.Service
 		void NotifyConfigurationChanged()
 		{
 			FiresecManager.ConvertStates();
+			CallbackManager.CopyConfigurationForAllClients(this);
 			CallbackManager.OnConfigurationChanged();
 		}
 

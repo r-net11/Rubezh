@@ -2,8 +2,7 @@
 
 namespace Infrastructure
 {
-    public class SaveSizeAttribute : Attribute
-    {
-
-    }
+	public class SaveSizeAttribute : Attribute
+	{
+	}
 }

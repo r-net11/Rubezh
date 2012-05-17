@@ -8,36 +8,24 @@ namespace FiresecService.Service
 	{
 		public List<Driver> GetDrivers()
 		{
-			//lock (this)
-			{
-				return FiresecManager.ConfigurationManager.Drivers;
-			}
+			return FiresecManager.ConfigurationManager.Drivers;
 		}
 
 		public DeviceConfigurationStates GetStates(bool forceConvert = false)
 		{
-			//lock (this)
-			{
-				if (forceConvert)
-					FiresecManager.ConvertStates();
-				return FiresecManager.DeviceConfigurationStates;
-			}
+			if (forceConvert)
+				FiresecManager.ConvertStates();
+			return FiresecManager.DeviceConfigurationStates;
 		}
 
 		public DeviceConfiguration GetDeviceConfiguration()
 		{
-			//lock (this)
-			{
-				return FiresecManager.ConfigurationManager.DeviceConfiguration;
-			}
+			return FiresecManager.ConfigurationManager.DeviceConfiguration;
 		}
 
 		public SecurityConfiguration GetSecurityConfiguration()
 		{
-			//lock (this)
-			{
-				return FiresecManager.ConfigurationManager.SecurityConfiguration;
-			}
+			return FiresecManager.ConfigurationManager.SecurityConfiguration;
 		}
 
 		public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
@@ -48,10 +36,7 @@ namespace FiresecService.Service
 
 		public SystemConfiguration GetSystemConfiguration()
 		{
-			//lock (this)
-			{
-				return FiresecManager.ConfigurationManager.SystemConfiguration;
-			}
+			return FiresecManager.ConfigurationManager.SystemConfiguration;
 		}
 
 		public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
@@ -62,10 +47,7 @@ namespace FiresecService.Service
 
 		public LibraryConfiguration GetLibraryConfiguration()
 		{
-			//lock (this)
-			{
-				return FiresecManager.ConfigurationManager.LibraryConfiguration;
-			}
+			return FiresecManager.ConfigurationManager.LibraryConfiguration;
 		}
 
 		public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
@@ -76,10 +58,7 @@ namespace FiresecService.Service
 
 		public PlansConfiguration GetPlansConfiguration()
 		{
-			//lock (this)
-			{
-				return FiresecManager.ConfigurationManager.PlansConfiguration;
-			}
+			return FiresecManager.ConfigurationManager.PlansConfiguration;
 		}
 
 		public void SetPlansConfiguration(PlansConfiguration plansConfiguration)

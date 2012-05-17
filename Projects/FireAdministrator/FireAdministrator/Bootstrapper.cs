@@ -47,8 +47,8 @@ namespace FireAdministrator
 
 				if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
 				{
-				    MessageBoxService.Show("Нет прав на работу с программой");
-				    FiresecManager.Disconnect();
+					MessageBoxService.Show("Нет прав на работу с программой");
+					FiresecManager.Disconnect();
 				}
 				else
 				{
@@ -62,9 +62,9 @@ namespace FireAdministrator
 			}
 			else
 			{
-			    preLoadWindow.Close();
-			    Application.Current.Shutdown();
-			    System.Environment.Exit(1);
+				preLoadWindow.Close();
+				Application.Current.Shutdown();
+				System.Environment.Exit(1);
 			}
 			SingleLaunchHelper.KeepAlive();
 
@@ -73,7 +73,7 @@ namespace FireAdministrator
 
 		void RegisterServices()
 		{
-			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService());
+			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService(), new ValidationService());
 		}
 
 		void OnConfigurationChanged(object obj)
@@ -83,7 +83,7 @@ namespace FireAdministrator
 
 		void InitializeKnownModules()
 		{
-			((ShellView)ServiceFactory.ShellView).Navigation =  InitializeModules();
+			((ShellView)ServiceFactory.ShellView).Navigation = InitializeModules();
 		}
 	}
 }

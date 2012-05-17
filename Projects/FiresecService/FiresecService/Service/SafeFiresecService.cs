@@ -259,11 +259,6 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetStates(forceConvert); }, "GetStates");
 		}
 
-		public OperationResult<List<FiresecAPI.Models.JournalRecord>> ReadJournal(int startIndex, int count)
-		{
-			return SafeOperationCall(() => { return FiresecService.ReadJournal(startIndex, count); }, "ReadJournal");
-		}
-
 		public OperationResult<List<FiresecAPI.Models.JournalRecord>> GetFilteredJournal(FiresecAPI.Models.JournalFilter journalFilter)
 		{
 			return SafeOperationCall(() => { return FiresecService.GetFilteredJournal(journalFilter); }, "GetFilteredJournal");
@@ -277,11 +272,6 @@ namespace FiresecService.Service
 		public OperationResult<List<FiresecAPI.Models.JournalDescriptionItem>> GetDistinctDescriptions()
 		{
 			return SafeOperationCall(() => { return FiresecService.GetDistinctDescriptions(); }, "GetDistinctDescriptions");
-		}
-
-		public OperationResult<List<FiresecAPI.Models.JournalDeviceItem>> GetDistinctDevices()
-		{
-			return SafeOperationCall(() => { return FiresecService.GetDistinctDevices(); }, "GetDistinctDevices");
 		}
 
 		public OperationResult<DateTime> GetArchiveStartDate()

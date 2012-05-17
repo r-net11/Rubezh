@@ -192,7 +192,6 @@
     <Compile Include="Guard\Views\GuardSynchronizationView.xaml.cs">
       <DependentUpon>GuardSynchronizationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Validation\Converters\ErrorLevelToColorConverter.cs" />
     <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Zones\Converters\ClauseStateToStringConverter.cs" />
     <Compile Include="Devices\Converters\ColorIdToStringConverter.cs" />
@@ -205,9 +204,6 @@
     <Compile Include="Directions\ViewModels\DirectionDeviceSelectorViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserViewModel.cs" />
-    <Compile Include="Validation\ViewModels\ErrorEntityType.cs" />
-    <Compile Include="Validation\ViewModels\ValidationErrorsViewModel.cs" />
-    <Compile Include="Validation\ViewModels\ValidationErrorViewModel.cs" />
     <Compile Include="Devices\Views\PropertyDetails\GroupDetailsView.xaml.cs">
       <DependentUpon>GroupDetailsView.xaml</DependentUpon>
     </Compile>
@@ -293,9 +289,6 @@
     </Compile>
     <Compile Include="Guard\Views\GuardZoneSelectationView.xaml.cs">
       <DependentUpon>GuardZoneSelectationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Validation\Views\ValidationErrorsView.xaml.cs">
-      <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
@@ -495,14 +488,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Guard\Views\GuardZoneSelectationView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Validation\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Validation\Views\ValidationErrorsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

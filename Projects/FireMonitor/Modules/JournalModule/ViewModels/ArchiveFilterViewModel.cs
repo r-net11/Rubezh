@@ -172,7 +172,6 @@ namespace JournalModule.ViewModels
 			Subsystems.ForEach(x => x.IsEnable = false);
 		}
 
-		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
 			if (StartDate > EndDate)
@@ -183,7 +182,6 @@ namespace JournalModule.ViewModels
 			Close(true);
 		}
 
-		public RelayCommand CancelCommand { get; private set; }
 		void OnCancel()
 		{
 			Close(false);

@@ -142,9 +142,6 @@ namespace FiresecAPI
 
 		#region Journal
 		[OperationContract]
-		OperationResult<List<JournalRecord>> ReadJournal(int startIndex, int count);
-
-		[OperationContract]
 		OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter);
 
 		[OperationContract]
@@ -152,9 +149,6 @@ namespace FiresecAPI
 
 		[OperationContract]
 		OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions();
-
-		[OperationContract]
-		OperationResult<List<JournalDeviceItem>> GetDistinctDevices();
 
 		[OperationContract]
 		OperationResult<DateTime> GetArchiveStartDate();

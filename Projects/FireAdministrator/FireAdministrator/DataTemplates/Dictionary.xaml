@@ -15,4 +15,8 @@
         <Views:ProgressView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:ValidationErrorsViewModel}">
+        <Views:ValidationErrorsView />
+    </DataTemplate>
+
 </ResourceDictionary>
