@@ -6,15 +6,14 @@
 		<DirectoryRef Id="FIRESECSERVICELOCATION">
 			<Component Id="ChangeConnectionsSettings" Guid="218643AE-C10B-46B7-B363-22DD8DDC89BF">
 				<CreateFolder Directory="FIRESECSERVICELOCATION" />
-				<!--<util:XmlFile Id="XmlConnectionSettings" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="setValue" 
-											ElementPath="//configuration/connectionStrings/add[\[]@name='FiresecService.Properties.Settings.FiresecConnectionString'[\]]/@connectionString"
-											Value="Data Source=localhost\[SQLINSTANCE];Initial Catalog=Firesec;Integrated Security=True" />-->
-				<util:XmlFile Id="XmlFASettings" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="setValue"
-											ElementPath="//configuration/appSettings/add[\[]@key='ShowGK'[\]]/@value"
-											Value="false" />
-				<util:XmlFile Id="XmlFASettings2" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="setValue"
-											ElementPath="//configuration/appSettings/add[\[]@key='ShowSKUD'[\]]/@value"
-											Value="false" />
+        <util:XmlConfig Id="XmlFASettings" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+                        ElementPath="//configuration/modules" On="install" 
+                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]"
+											/>
+        <util:XmlConfig Id="XmlFASettings2" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+                        ElementPath="//configuration/modules" On="install"
+                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='SkudModule.dll'[\]]"
+											/>
 			</Component>
 			<!--<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
 				<CreateFolder Directory="FIRESECSERVICELOCATION" />
@@ -27,7 +26,7 @@
 		
 		<DirectoryRef Id="ProgramMenuDir">
 			<Component Id="FiresecProgramsMenuShortcutUninstall" Guid="CC6AE248-D8F1-4801-8720-0D7AF2177780">
-				<Shortcut Id="FAUninstallProduct" Name="Удалить Firesec" Target="[System64Folder]msiexec.exe"
+				<Shortcut Id="FAUninstallProduct" Name="Удалить Firesec 2" Target="[System64Folder]msiexec.exe"
 									Arguments="/x [ProductCode]" Description="Удаляет Firesec 2 с данного компьютера" />
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
 											 Value="1" KeyPath="yes" />

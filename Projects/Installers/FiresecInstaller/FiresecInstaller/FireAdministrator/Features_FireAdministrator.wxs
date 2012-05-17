@@ -28,9 +28,9 @@
 			<ComponentRef Id="FASettingsModuleComponent" />
 			<ComponentRef Id="FASoundsModuleComponent" />
 			<ComponentRef Id="FAFiltersModuleComponent" />
-			<ComponentRef Id="FAGroupControllerModuleComponent" />
+			<!--<ComponentRef Id="FAGroupControllerModuleComponent" />-->
 			<ComponentRef Id="FAVideoModuleComponent"/>
-			<ComponentRef Id="FASkudModuleComponent"/>
+			<!--<ComponentRef Id="FASkudModuleComponent"/>-->
       <ComponentRef Id="FAManualComponent"/>
 			<ComponentRef Id="FAVlcCoreComponent"/>
 			<ComponentRef Id="FAVlcFormsComponent"/>

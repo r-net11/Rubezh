@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension" >
+		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension" 
+     xmlns:loc="http://schemas.microsoft.com/wix/2006/localization">
 	<?include ../Variables_Firesec.wxi?>
 	<?include UI_Variables.wxi?>
 	<Fragment>

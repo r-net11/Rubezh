@@ -101,10 +101,10 @@
         <File Id="FAFiltersModuleDll" Name="FiltersModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAGroupControllerModuleComponent" Guid="68DE1B95-D3B3-47AD-855B-E11A2BB1D349">
+      <!--<Component Id="FAGroupControllerModuleComponent" Guid="68DE1B95-D3B3-47AD-855B-E11A2BB1D349">
         <File Id="FAGroupControllerModuleDll" Name="GKModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
-      </Component>
+      </Component>-->
       <Component Id="FAVideoModuleComponent" Guid="FBA8AC05-19F8-4FD6-826E-AD656C84B801">
         <File Id="FAVideoModuleDll" Name="VideoModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
@@ -127,10 +127,10 @@
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="FASkudModuleComponent" Guid="05A9A5F1-AB12-4685-A070-F165F1F0B82A">
+      <!--<Component Id="FASkudModuleComponent" Guid="05A9A5F1-AB12-4685-A070-F165F1F0B82A">
         <File Id="FASkudModuleDll" Name="SkudModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
-      </Component>
+      </Component>-->
 
       <Component Id="FAManualComponent" Guid="4A21BBFD-9D0D-4AC7-A89F-80759B5FFFC5">
         <File Id="FAManualPDF" Name="Manual.pdf" Source="$(var.FireAdministrator.TargetDir)"
