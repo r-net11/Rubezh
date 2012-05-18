@@ -3,6 +3,7 @@ using System.Windows;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.MessageBox;
+using Common;
 
 namespace FireAdministrator
 {

@@ -78,12 +78,13 @@ namespace FireAdministrator
 
 		void OnConfigurationChanged(object obj)
 		{
-			ReInitializeModules();
+			InitializeModules();
 		}
 
 		void InitializeKnownModules()
 		{
-			((ShellView)ServiceFactory.ShellView).Navigation = InitializeModules();
+			InitializeModules();
+			((ShellView)ServiceFactory.ShellView).Navigation = GetNavigationItems();
 		}
 	}
 }

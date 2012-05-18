@@ -65,6 +65,10 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public int OldId { get; set; }
 
+		[Column(DbType = "Int")]
+		[DataMember]
+		public int DeviceCategory { get; set; }
+
         public bool Equals(JournalRecord x, JournalRecord y)
         {
             if (object.ReferenceEquals(x, y)) return true;

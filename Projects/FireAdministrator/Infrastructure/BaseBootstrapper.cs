@@ -7,6 +7,9 @@ using System.Reflection;
 using Infrastructure.Common;
 using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Navigation;
+using Common;
+using Infrastructure.Common.MessageBox;
+using Infrastructure.Properties;
 
 namespace Infrastructure
 {
@@ -19,18 +22,22 @@ namespace Infrastructure
 			Modules = null;
 		}
 
-		public List<NavigationItem> InitializeModules()
+		protected void InitializeModules()
+		{
+			ReadConfiguration();
+			foreach (IModule module in Modules)
+				module.Initialize();
+		}
+		protected List<NavigationItem> GetNavigationItems()
 		{
 			ReadConfiguration();
 			var navigationItems = new List<NavigationItem>();
 			foreach (IModule module in Modules)
-			{
-				module.Initialize();
 				navigationItems.AddRange(module.CreateNavigation());
-			}
 			return navigationItems;
 		}
-		protected void ReadConfiguration()
+
+		private void ReadConfiguration()
 		{
 			if (Modules == null)
 			{
@@ -41,25 +48,26 @@ namespace Infrastructure
 				{
 					string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, module.AssemblyFile);
 					Assembly asm = GetAssemblyByFileName(path);
-					foreach (Type t in asm.GetExportedTypes())
-						if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
-							modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
+					if (asm != null)
+						foreach (Type t in asm.GetExportedTypes())
+							if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
+								modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
 				}
 				Modules = new ReadOnlyCollection<IModule>(modules);
 			}
 		}
-
-		protected void ReInitializeModules()
-		{
-			foreach (var module in Modules)
-			{
-				module.Initialize();
-			}
-		}
-
 		private Assembly GetAssemblyByFileName(string path)
 		{
-			return GetLoadedAssemblyByFileName(path) ?? Assembly.LoadFile(path);
+			try
+			{
+				return GetLoadedAssemblyByFileName(path) ?? Assembly.LoadFile(path);
+			}
+			catch (Exception ex)
+			{
+				Logger.Error(ex);
+				MessageBoxService.ShowError(string.Format(Resources.UnableLoadModule, Path.GetFileName(path)));
+				return null;
+			}
 		}
 		private Assembly GetLoadedAssemblyByFileName(string path)
 		{
