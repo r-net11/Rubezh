@@ -28,20 +28,20 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
                     <Label FontWeight="Heavy" Content="Классы событий" />
-                    <ItemsControl ItemsSource="{Binding EventViewModels}">
+                    <ItemsControl ItemsSource="{Binding StateTypes}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox Content="{Binding Id, Converter={StaticResource StateTypeToEventNameConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="1" />
+                                <CheckBox Content="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="1" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <Label FontWeight="Heavy" Content="Категории устройств" />
-                    <ItemsControl ItemsSource="{Binding CategoryViewModels}">
+                    <ItemsControl ItemsSource="{Binding Categories}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox Content="{Binding Id, Converter={StaticResource CategoryTypeToCategoryNameConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="1" />
+                                <CheckBox Content="{Binding DeviceCategoryType, Converter={StaticResource CategoryTypeToCategoryNameConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="1" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

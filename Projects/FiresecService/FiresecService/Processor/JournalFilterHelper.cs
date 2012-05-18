@@ -35,9 +35,9 @@ namespace FiresecService.Processor
 				}
 			}
 
-			if (result && journalFilter.Events.IsNotNullOrEmpty())
+			if (result && journalFilter.StateTypes.IsNotNullOrEmpty())
 			{
-				result = journalFilter.Events.Any(_event => _event == journalRecord.StateType);
+				result = journalFilter.StateTypes.Any(_event => _event == journalRecord.StateType);
 			}
 
 			return result;

@@ -27,14 +27,18 @@ namespace FiresecService.Service
 		string _userIpAddress;
 		string _clientType;
 		public static readonly object Locker = new object();
-		FiresecSerializedClient FiresecSerializedClient;
+
 		public FiresecManager FiresecManager { get; private set; }
+		FiresecSerializedClient FiresecSerializedClient
+		{
+			get { return FiresecManager.FiresecSerializedClient; }
+		}
 		bool IsConnectedToComServer;
 
 		public FiresecService()
 		{
 			UID = Guid.NewGuid();
-			FiresecManager = new FiresecManager(this);
+			FiresecManager = ServiceCash.Get(this);
 		}
 
 		public void BeginOperation(string operationName)
@@ -50,8 +54,7 @@ namespace FiresecService.Service
 		public void DisposeComServer()
 		{
 			Logger.Info("DisposeComServer");
-			if (FiresecSerializedClient != null)
-				FiresecSerializedClient.Disconnect();
+			ServiceCash.Free(FiresecManager);
 		}
 
 		public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string login, string password)
@@ -81,7 +84,7 @@ namespace FiresecService.Service
 			CallbackWrapper = new CallbackWrapper(this);
 			CallbackManager.Add(this);
 
-			ConnectComServer();
+			FiresecManager.ConnectFiresecCOMServer();
 
 			DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему(Firesec-2)");
 
@@ -98,14 +101,6 @@ namespace FiresecService.Service
 				return operationResult;
 			}
 			return operationResult;
-		}
-
-		void ConnectComServer()
-		{
-			string oldFiresecLogin = AppSettings.OldFiresecLogin;
-			string oldFiresecPassword = AppSettings.OldFiresecPassword;
-			IsConnectedToComServer = FiresecManager.ConnectFiresecCOMServer(oldFiresecLogin, oldFiresecPassword);
-			FiresecSerializedClient = FiresecManager.FiresecSerializedClient;
 		}
 
 		public OperationResult<bool> Reconnect(string login, string password)
@@ -138,7 +133,7 @@ namespace FiresecService.Service
 		[OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.AfterCall)]
 		public void Disconnect()
 		{
-			FiresecSerializedClient.Disconnect();
+			ServiceCash.Free(FiresecManager);
 			MainViewModel.Current.RemoveConnection(UID);
 			DatabaseHelper.AddInfoMessage(_userName, "Выход пользователя из системы(Firesec-2)");
 			CallbackManager.Remove(this);

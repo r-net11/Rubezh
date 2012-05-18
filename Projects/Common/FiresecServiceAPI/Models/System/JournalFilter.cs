@@ -11,7 +11,7 @@ namespace FiresecAPI.Models
 		{
 			LastRecordsCount = 100;
 			LastDaysCount = 10;
-			Events = new List<StateType>();
+			StateTypes = new List<StateType>();
 			Categories = new List<DeviceCategoryType>();
 		}
 
@@ -28,7 +28,7 @@ namespace FiresecAPI.Models
 		public bool IsLastDaysCountActive { get; set; }
 
 		[DataMember]
-		public List<StateType> Events { get; set; }
+		public List<StateType> StateTypes { get; set; }
 
 		[DataMember]
 		public List<DeviceCategoryType> Categories { get; set; }

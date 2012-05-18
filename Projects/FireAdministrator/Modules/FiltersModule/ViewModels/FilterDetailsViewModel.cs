@@ -7,119 +7,119 @@ using Infrastructure.Common;
 
 namespace FiltersModule.ViewModels
 {
-    public class FilterDetailsViewModel : SaveCancelDialogContent//, IDataErrorInfo
-    {
-        public static readonly int DefaultDaysCount = 10;
+	public class FilterDetailsViewModel : SaveCancelDialogContent//, IDataErrorInfo
+	{
+		public static readonly int DefaultDaysCount = 10;
 
-        public FilterDetailsViewModel()
-        {
-            Title = "Добавить фильтр";
+		public FilterDetailsViewModel()
+		{
+			Title = "Добавить фильтр";
 
-            JournalFilter = new JournalFilter();
+			JournalFilter = new JournalFilter();
 
-            Initialize();
-        }
+			Initialize();
+		}
 
-        public FilterDetailsViewModel(JournalFilter journalFilter)
-        {
-            Title = "Редактировать фильтр";
+		public FilterDetailsViewModel(JournalFilter journalFilter)
+		{
+			Title = "Редактировать фильтр";
 
-            JournalFilter = new JournalFilter()
-            {
-                Name = journalFilter.Name,
-                LastRecordsCount = journalFilter.LastRecordsCount,
-                LastDaysCount = journalFilter.LastDaysCount,
-                IsLastDaysCountActive = journalFilter.IsLastDaysCountActive
-            };
+			JournalFilter = new JournalFilter()
+			{
+				Name = journalFilter.Name,
+				LastRecordsCount = journalFilter.LastRecordsCount,
+				LastDaysCount = journalFilter.LastDaysCount,
+				IsLastDaysCountActive = journalFilter.IsLastDaysCountActive
+			};
 
-            Initialize();
+			Initialize();
 
-            EventViewModels.Where(
-                eventViewModel => journalFilter.Events.Any(
-                    x => x == eventViewModel.Id)).All(x => x.IsChecked = true);
+			StateTypes.Where(
+				eventViewModel => journalFilter.StateTypes.Any(
+					x => x == eventViewModel.StateType)).All(x => x.IsChecked = true);
 
-            CategoryViewModels.Where(
-                categoryViewModel => journalFilter.Categories.Any(
-                    x => x == categoryViewModel.Id)).All(x => x.IsChecked = true);
-        }
+			Categories.Where(
+				categoryViewModel => journalFilter.Categories.Any(
+					x => x == categoryViewModel.DeviceCategoryType)).All(x => x.IsChecked = true);
+		}
 
-        void Initialize()
-        {
-            _existingNames = FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.
-                Where(journalFilter => journalFilter.Name != JournalFilter.Name).Select(journalFilter => journalFilter.Name).ToList();
+		void Initialize()
+		{
+			_existingNames = FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.
+				Where(journalFilter => journalFilter.Name != JournalFilter.Name).Select(journalFilter => journalFilter.Name).ToList();
 
-            if (_existingNames == null)
-                _existingNames = new List<string>();
+			if (_existingNames == null)
+				_existingNames = new List<string>();
 
-            EventViewModels = new ObservableCollection<EventViewModel>();
-            foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
-            {
-                if (string.IsNullOrEmpty(EnumsConverter.StateTypeToEventName(stateType)) == false)
-                    EventViewModels.Add(new EventViewModel(stateType));
-            }
+			StateTypes = new ObservableCollection<StateTypeViewModel>();
+			foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
+			{
+				if (string.IsNullOrEmpty(EnumsConverter.StateTypeToEventName(stateType)) == false)
+					StateTypes.Add(new StateTypeViewModel(stateType));
+			}
 
-            CategoryViewModels = new ObservableCollection<CategoryViewModel>();
-            foreach (DeviceCategoryType deviceCategoryType in Enum.GetValues(typeof(DeviceCategoryType)))
-            {
-                CategoryViewModels.Add(new CategoryViewModel(deviceCategoryType));
-            }
-        }
+			Categories = new ObservableCollection<CategoryViewModel>();
+			foreach (DeviceCategoryType deviceCategoryType in Enum.GetValues(typeof(DeviceCategoryType)))
+			{
+				Categories.Add(new CategoryViewModel(deviceCategoryType));
+			}
+		}
 
-        public JournalFilter JournalFilter { get; private set; }
-        List<string> _existingNames;
+		public JournalFilter JournalFilter { get; private set; }
+		List<string> _existingNames;
 
-        public string FilterName
-        {
-            get { return JournalFilter.Name; }
-            set
-            {
-                JournalFilter.Name = value;
-                OnPropertyChanged("FilterName");
-            }
-        }
+		public string FilterName
+		{
+			get { return JournalFilter.Name; }
+			set
+			{
+				JournalFilter.Name = value;
+				OnPropertyChanged("FilterName");
+			}
+		}
 
-        public int RecordsMaxCount
-        {
-            get { return new JournalFilter().LastRecordsCount; }
-        }
+		public int RecordsMaxCount
+		{
+			get { return new JournalFilter().LastRecordsCount; }
+		}
 
-        public ObservableCollection<EventViewModel> EventViewModels { get; private set; }
-        public ObservableCollection<CategoryViewModel> CategoryViewModels { get; private set; }
+		public ObservableCollection<StateTypeViewModel> StateTypes { get; private set; }
+		public ObservableCollection<CategoryViewModel> Categories { get; private set; }
 
-        public JournalFilter GetModel()
-        {
-            JournalFilter.Events = EventViewModels.Where(x => x.IsChecked).Select(x => x.Id).Cast<StateType>().ToList();
-            JournalFilter.Categories = CategoryViewModels.Where(x => x.IsChecked).Select(x => x.Id).Cast<DeviceCategoryType>().ToList();
-            return JournalFilter;
-        }
+		public JournalFilter GetModel()
+		{
+			JournalFilter.StateTypes = StateTypes.Where(x => x.IsChecked).Select(x => x.StateType).Cast<StateType>().ToList();
+			JournalFilter.Categories = Categories.Where(x => x.IsChecked).Select(x => x.DeviceCategoryType).Cast<DeviceCategoryType>().ToList();
+			return JournalFilter;
+		}
 
-        protected override void Save(ref bool cancel)
-        {
-            JournalFilter.Name = JournalFilter.Name.Trim();
-        }
+		protected override void Save(ref bool cancel)
+		{
+			JournalFilter.Name = JournalFilter.Name.Trim();
+		}
 
-        protected override bool CanSave()
-        {
-            return this["FilterName"] == null;
-        }
+		protected override bool CanSave()
+		{
+			return this["FilterName"] == null;
+		}
 
-        public string Error { get { return null; } }
+		public string Error { get { return null; } }
 
-        public string this[string propertyName]
-        {
-            get
-            {
-                if (propertyName != "FilterName")
-                    throw new ArgumentException();
+		public string this[string propertyName]
+		{
+			get
+			{
+				if (propertyName != "FilterName")
+					throw new ArgumentException();
 
-                if (string.IsNullOrWhiteSpace(FilterName))
-                    return "Нужно задать имя";
+				if (string.IsNullOrWhiteSpace(FilterName))
+					return "Нужно задать имя";
 
-                var name = FilterName.Trim();
-                if (_existingNames.IsNotNullOrEmpty() && _existingNames.Any(x => x == name))
-                    return "Фильтр с таким именем уже существует";
-                return null;
-            }
-        }
-    }
+				var name = FilterName.Trim();
+				if (_existingNames.IsNotNullOrEmpty() && _existingNames.Any(x => x == name))
+					return "Фильтр с таким именем уже существует";
+				return null;
+			}
+		}
+	}
 }

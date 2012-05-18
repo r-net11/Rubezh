@@ -195,6 +195,7 @@
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\FiresecServiceManager.cs" />
     <Compile Include="Imitator\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Service\ServiceCash.cs" />
     <Compile Include="ViewModels\ConnectionViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">

@@ -42,7 +42,7 @@ namespace FiresecService.Database
 				using (var dataContext = ConnectionManager.CreateFiresecDataContext())
 				{
 					var query =
-					"SELECT MIN(OldId) FROM Journal";
+					"SELECT MAX(OldId) FROM Journal";
 
 					var result = dataContext.ExecuteQuery<JournalRecord>(query);
 					if (result.Count() > 0)

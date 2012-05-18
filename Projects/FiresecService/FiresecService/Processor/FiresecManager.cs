@@ -7,18 +7,19 @@ namespace FiresecService.Processor
 {
 	public partial class FiresecManager
 	{
-		public FiresecService.Service.FiresecService FiresecService { get; private set; }
+		public FiresecService.Service.FiresecService FiresecService { get; set; }
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationManager ConfigurationManager { get; private set; }
 		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
-		public AppDomain Domain { get; set; }
 
 		public FiresecManager(FiresecService.Service.FiresecService firesecService)
 		{
 			FiresecSerializedClient = new FiresecSerializedClient();
 			FiresecService = firesecService;
-			ConfigurationManager = new ConfigurationManager();
-			ConfigurationManager.FiresecSerializedClient = FiresecSerializedClient;
+			ConfigurationManager = new ConfigurationManager()
+			{
+				FiresecSerializedClient = FiresecSerializedClient
+			};
 		}
 
 		public void LoadConfiguration()
@@ -30,8 +31,11 @@ namespace FiresecService.Processor
 			ConfigurationManager.PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
 		}
 
-		public bool ConnectFiresecCOMServer(string login, string password)
+		public bool ConnectFiresecCOMServer()
 		{
+			string login = AppSettings.OldFiresecLogin;
+			string password = AppSettings.OldFiresecPassword;
+
 			if (FiresecSerializedClient.Connect(login, password).Result)
 			{
 				ConfigurationManager.ConvertMetadataFromFiresec();
@@ -39,7 +43,7 @@ namespace FiresecService.Processor
 				ConfigurationManager.Update();
 				ConvertStates();
 
-				var watcher = new Watcher(this, FiresecService);
+				var watcher = new Watcher(this);
 				return true;
 			}
 			return false;

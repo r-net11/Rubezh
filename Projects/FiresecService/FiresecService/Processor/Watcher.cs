@@ -9,15 +9,19 @@ namespace FiresecService.Processor
 {
 	public class Watcher
 	{
-		FiresecService.Service.FiresecService FiresecService;
-		FiresecSerializedClient FiresecSerializedClient;
 		FiresecManager FiresecManager;
-
-		public Watcher(FiresecManager firesecManager, FiresecService.Service.FiresecService firesecService)
+		FiresecService.Service.FiresecService FiresecService
 		{
-			FiresecService = firesecService;
+			get { return FiresecManager.FiresecService; }
+		}
+		FiresecSerializedClient FiresecSerializedClient
+		{
+			get { return FiresecManager.FiresecSerializedClient; }
+		}
+
+		public Watcher(FiresecManager firesecManager)
+		{
 			FiresecManager = firesecManager;
-			FiresecSerializedClient = firesecManager.FiresecSerializedClient;
 
 			SynchrinizeJournal();
 			SetLastEvent();
@@ -98,19 +102,17 @@ namespace FiresecService.Processor
 				var document = FiresecSerializedClient.ReadEvents(LastEventId, 100).Result;
 				if (document != null && document.Journal.IsNotNullOrEmpty())
 				{
-					int newLastEventId = LastEventId;
 					foreach (var innerJournalItem in document.Journal)
 					{
 						var eventId = int.Parse(innerJournalItem.IDEvents);
 						if (eventId > LastEventId)
 						{
-							newLastEventId = eventId;
+							LastEventId = eventId;
 							var journalRecord = JournalConverter.Convert(innerJournalItem);
 							result.Add(journalRecord);
 							hasNewRecords = true;
 						}
 					}
-					LastEventId = newLastEventId;
 				}
 			}
 

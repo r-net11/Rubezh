@@ -2,11 +2,11 @@
 
 namespace FiltersModule.Views
 {
-    public partial class FiltersView : UserControl
-    {
-        public FiltersView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class FiltersView : UserControl
+	{
+		public FiltersView()
+		{
+			InitializeComponent();
+		}
+	}
 }

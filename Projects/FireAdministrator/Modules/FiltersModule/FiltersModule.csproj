@@ -98,7 +98,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ViewModels\CategoryViewModel.cs" />
-    <Compile Include="ViewModels\EventViewModel.cs" />
+    <Compile Include="ViewModels\StateTypeViewModel.cs" />
     <Compile Include="ViewModels\FiltersMenuViewModel.cs" />
     <Compile Include="ViewModels\FiltersViewModel.cs" />
     <Compile Include="ViewModels\FilterDetailsViewModel.cs" />

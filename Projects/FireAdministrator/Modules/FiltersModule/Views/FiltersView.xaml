@@ -11,7 +11,7 @@
     <Controls:XDataGrid ItemsSource="{Binding Filters}" SelectedItem="{Binding SelectedFilter}">
         <DataGrid.Columns>
             <DataGridTextColumn Header="Название" Width="200" Binding="{Binding JournalFilter.Name}" />
-            <DataGridTextColumn Header="События" Width="*" Binding="{Binding JournalFilter.Events, Converter={StaticResource EventsToStringConverter}}" />
+            <DataGridTextColumn Header="События" Width="*" Binding="{Binding JournalFilter.StateTypes, Converter={StaticResource EventsToStringConverter}}" />
             <DataGridTextColumn Header="Устройства" Width="200" Binding="{Binding JournalFilter.Categories, Converter={StaticResource CategoriesToStringConverter}}" />
             <DataGridTextColumn Header="Количество" Binding="{Binding CountDescription}" />
         </DataGrid.Columns>

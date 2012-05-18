@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Processor;
 using FiresecService.Configuration;
+using System.Threading;
 
 namespace FiresecService.Service
 {
@@ -31,7 +32,9 @@ namespace FiresecService.Service
 				result = FiresecSerializedClient.SetNewConfig(FiresecManager.ConfigurationManager.FiresecConfiguration).ToOperationResult();
 			}
 
-			NotifyConfigurationChanged();
+			var thread = new Thread(new ThreadStart(NotifyConfigurationChanged));
+			thread.Start();
+			//NotifyConfigurationChanged();
 
 			return result;
 		}

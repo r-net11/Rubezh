@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecService.ViewModels;
@@ -81,18 +82,9 @@ namespace FiresecService.Service
 			{
 				if (serviceInstance.UID != firesecService.UID)
 				{
-					DeviceConfiguration clonedDeviceConfiguration = null;
-
-					var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
-					using (var memoryStream = new MemoryStream())
-					{
-						dataContractSerializer.WriteObject(memoryStream, firesecService.FiresecManager.ConfigurationManager.DeviceConfiguration);
-						memoryStream.Position = 0;
-						clonedDeviceConfiguration = (DeviceConfiguration)dataContractSerializer.ReadObject(memoryStream);
-					}
-
-					clonedDeviceConfiguration.Update();
-					serviceInstance.FiresecManager.ConfigurationManager.DeviceConfiguration = clonedDeviceConfiguration;
+					serviceInstance.FiresecManager.ConfigurationManager.DeviceConfiguration = firesecService.FiresecManager.ConfigurationManager.DeviceConfiguration;
+					serviceInstance.FiresecManager.ConfigurationManager.PlansConfiguration = firesecService.FiresecManager.ConfigurationManager.PlansConfiguration;
+					serviceInstance.FiresecManager.ConvertStates();
 				}
 			}
 		}

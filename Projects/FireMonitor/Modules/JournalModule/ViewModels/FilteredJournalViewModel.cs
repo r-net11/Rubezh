@@ -86,9 +86,9 @@ namespace JournalModule.ViewModels
 				}
 			}
 
-			if (JournalFilter.Events.IsNotNullOrEmpty())
+			if (JournalFilter.StateTypes.IsNotNullOrEmpty())
 			{
-				if (JournalFilter.Events.Any(x => x == journalRecord.StateType) == false)
+				if (JournalFilter.StateTypes.Any(x => x == journalRecord.StateType) == false)
 					return false;
 			}
 
