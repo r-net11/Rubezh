@@ -2,39 +2,40 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace CallModule
 {
-    public class CallModuleLoader
+    public class CallModuleLoader : ModuleBase
     {
-        static CallViewModel CallViewModel;
+        CallViewModel CallViewModel;
 
         public CallModuleLoader()
         {
             ServiceFactory.Events.GetEvent<ShowCallEvent>().Subscribe(OnShowCall);
-
-            RegisterResources();
-            CreateViewModels();
         }
 
-        void RegisterResources()
-        {
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-        }
-
-        public static void Initialize()
-        {
-            //CallViewModel.Initialize();
-        }
-
-        static void CreateViewModels()
+        void CreateViewModels()
         {
             CallViewModel = new CallViewModel();
         }
 
-        static void OnShowCall(object obj)
+        void OnShowCall(object obj)
         {
             ServiceFactory.Layout.Show(CallViewModel);
         }
-    }
+
+		public override void Initialize()
+		{
+			CreateViewModels();
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
+			{
+				//new NavigationItem<ShowCallEvent>("Дозвон", "/Controls;component/Images/phone.png"),
+			};
+		}
+	}
 }

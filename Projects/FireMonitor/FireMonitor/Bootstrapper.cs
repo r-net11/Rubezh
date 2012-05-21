@@ -14,7 +14,7 @@ using Infrastructure.Common;
 
 namespace FireMonitor
 {
-	public class Bootstrapper
+	public class Bootstrapper : BaseBootstrapper
 	{
 		public void Initialize()
 		{
@@ -65,23 +65,18 @@ namespace FireMonitor
 					var shellView = new ShellView();
 					ServiceFactory.ShellView = shellView;
 
-					if (ServiceFactory.AppSettings.ShowOnlyVideo)
-					{
-						var alarmVideoWather = new AlarmVideoWather();
-						preLoadWindow.Close();
-						return;
-					}
+					//if (ServiceFactory.AppSettings.ShowOnlyVideo)
+					//{
+					//    var alarmVideoWather = new AlarmVideoWather();
+					//    preLoadWindow.Close();
+					//    return;
+					//}
 
-					InitializeModules();
+					InitializeKnownModules();
 
 					App.Current.MainWindow = shellView;
 					App.Current.MainWindow.Show();
-
-					ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
-
 					FiresecCallbackService.ConfigurationChangedEvent += new Action(OnConfigurationChanged);
-
-					ReportsModule.ReportsModuleLoader.PreLoad();
 				}
 				else
 				{
@@ -103,27 +98,11 @@ namespace FireMonitor
 			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new SecurityService());
 		}
 
-		void InitializeModules()
+		void InitializeKnownModules()
 		{
-			DevicesModuleLoader = new DevicesModule.DevicesModuleLoader();
-			JournalModuleLoader = new JournalModule.JournalModuleLoader();
-			AlarmModuleLoader = new AlarmModule.AlarmModuleLoader();
-			ReportsModuleLoader = new ReportsModule.ReportsModuleLoader();
-			CallModuleLoader = new CallModule.CallModuleLoader();
-			PlansModuleLoader = new PlansModule.PlansModuleLoader();
-			if (ServiceFactory.AppSettings.ShowGK)
-			{
-				GKModuleLoader = new GKModule.GKModuleLoader();
-			}
+			InitializeModules();
+			((ShellView)ServiceFactory.ShellView).Navigation = GetNavigationItems();
 		}
-
-		DevicesModule.DevicesModuleLoader DevicesModuleLoader;
-		JournalModule.JournalModuleLoader JournalModuleLoader;
-		AlarmModule.AlarmModuleLoader AlarmModuleLoader;
-		ReportsModule.ReportsModuleLoader ReportsModuleLoader;
-		CallModule.CallModuleLoader CallModuleLoader;
-		PlansModule.PlansModuleLoader PlansModuleLoader;
-		GKModule.GKModuleLoader GKModuleLoader;
 
 		void OnConfigurationChanged()
 		{
@@ -137,23 +116,7 @@ namespace FireMonitor
 
 			FiresecManager.FiresecService.StartPing();
 
-			ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() => { OnInitializeViewModels(); }));
-		}
-
-		void OnInitializeViewModels()
-		{
-			DevicesModule.DevicesModuleLoader.Initialize();
-			JournalModule.JournalModuleLoader.Initialize();
-			AlarmModule.AlarmModuleLoader.Initialize();
-			ReportsModule.ReportsModuleLoader.Initialize();
-			CallModule.CallModuleLoader.Initialize();
-			PlansModule.PlansModuleLoader.Initialize();
-			if (ServiceFactory.AppSettings.ShowGK)
-			{
-				GKModuleLoader = new GKModule.GKModuleLoader();
-			}
-
-			ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
+			ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() => { InitializeModules(); }));
 		}
 	}
 }

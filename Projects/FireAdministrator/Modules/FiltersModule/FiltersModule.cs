@@ -3,6 +3,7 @@ using FiltersModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
+using Infrastructure.Common;
 
 namespace FiltersModule
 {

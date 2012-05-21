@@ -6,37 +6,27 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using ReportsModule.ViewModels;
 using ReportsModule.Views;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace ReportsModule
 {
-	public class ReportsModuleLoader
+	public class ReportsModuleLoader : ModuleBase
 	{
-		static ReportsViewModel ReportsViewModel;
+		ReportsViewModel ReportsViewModel;
+		ReportsWindow reportsWindow;
 
 		public ReportsModuleLoader()
 		{
 			ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(OnShowReports);
-
-			RegisterResources();
-			CreateViewModels();
 		}
 
-		void RegisterResources()
-		{
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-		}
-
-		public static void Initialize()
-		{
-			//ReportsViewModel.Initialize();
-		}
-
-		static void CreateViewModels()
+		void CreateViewModels()
 		{
 			ReportsViewModel = new ReportsViewModel();
 		}
 
-		static void OnShowReports(object obj)
+		void OnShowReports(object obj)
 		{
 			if (false)
 			{
@@ -45,13 +35,11 @@ namespace ReportsModule
 				reportsWindow.Height = 500;
 				reportsWindow.Show();
 			}
-			
+
 			ServiceFactory.Layout.Show(ReportsViewModel);
 		}
 
-		static ReportsWindow reportsWindow;
-
-		public static void PreLoad()
+		public void PreLoad()
 		{
 			return;
 			var backgroundWorker = new BackgroundWorker();
@@ -59,7 +47,7 @@ namespace ReportsModule
 			backgroundWorker.RunWorkerAsync();
 		}
 
-		static void InitializeReportsWindow()
+		void InitializeReportsWindow()
 		{
 			reportsWindow = new ReportsWindow();
 			reportsWindow.Width = 0;
@@ -68,13 +56,25 @@ namespace ReportsModule
 			reportsWindow.Initialize();
 			reportsWindow.Hide();
 		}
-
-		static void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
+		void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)
 		{
 			ServiceFactory.ShellView.Dispatcher.BeginInvoke(new Action(() =>
 			{
 				InitializeReportsWindow();
 			}));
+		}
+
+		public override void Initialize()
+		{
+			CreateViewModels();
+			PreLoad();
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
+			{
+				new NavigationItem<ShowReportsEvent>("Отчеты", "/Controls;component/Images/levels.png"),
+			};
 		}
 	}
 }

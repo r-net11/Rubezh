@@ -11,6 +11,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
+using System.Collections.Generic;
 
 namespace FireMonitor.Views
 {
@@ -21,7 +23,8 @@ namespace FireMonitor.Views
             InitializeComponent();
             DataContext = this;
             FiresecManager.UserChanged += new Action(OnUserChanged);
-        }
+			_navigation.User = FiresecManager.CurrentUser;
+		}
 
         void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
@@ -126,5 +129,11 @@ namespace FireMonitor.Views
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(name));
         }
-    }
+
+		public List<NavigationItem> Navigation
+		{
+			get { return _navigation.Navigation; }
+			set { _navigation.Navigation = value; }
+		}
+	}
 }

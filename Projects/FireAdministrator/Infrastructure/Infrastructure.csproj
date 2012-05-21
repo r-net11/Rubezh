@@ -82,8 +82,6 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="AppSettings.cs" />
-    <Compile Include="BaseBootstrapper.cs" />
-    <Compile Include="BaseModul.cs" />
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
     <Compile Include="Events\ShowEmployeeGroupsEvent.cs" />

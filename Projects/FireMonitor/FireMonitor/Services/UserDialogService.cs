@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using DevicesModule.ViewModels;
 using Infrastructure.Common;
 
 namespace FireMonitor
@@ -18,22 +17,18 @@ namespace FireMonitor
 			};
 			dialog.SetContent(viewModel);
 
-			if (viewModel is DeviceDetailsViewModel)
+			var guidContent = viewModel as IDialogContentGuid;
+			if (guidContent != null)
 			{
-				DeviceDetailsViewModel deviceDetailsViewModel = viewModel as DeviceDetailsViewModel;
-				var deviceUID = deviceDetailsViewModel.DeviceState.UID;
-
-				DialogWindow existingWindow = ActiveWindows.FirstOrDefault(x => (x.ViewModel as DeviceDetailsViewModel).Device.UID == deviceUID);
+				DialogWindow existingWindow = ActiveWindows.FirstOrDefault(x => x.ViewModel is IDialogContentGuid && ((IDialogContentGuid)x.ViewModel).Guid == guidContent.Guid);
 				if (existingWindow != null)
 				{
 					existingWindow.Activate();
 					return;
 				}
-
 				dialog.Closed += new System.EventHandler(dialog_Closed);
 				ActiveWindows.Add(dialog);
 			}
-
 			dialog.Show();
 		}
 

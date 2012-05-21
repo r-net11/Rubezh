@@ -38,7 +38,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -49,7 +49,7 @@
     <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -231,34 +231,6 @@
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj">
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\AlarmModule\AlarmModule.csproj">
-      <Project>{5994549E-4D3E-40BB-8630-CF696158E4E4}</Project>
-      <Name>AlarmModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\CallModule\CallModule.csproj">
-      <Project>{271A7D2E-A74D-4F66-A3E6-5E546209E3F9}</Project>
-      <Name>CallModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\DevicesModule\DevicesModule.csproj">
-      <Project>{408CBBFB-3989-443C-A5A2-3D78310210CD}</Project>
-      <Name>DevicesModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\GKModule\GKModule.csproj">
-      <Project>{8122CF0A-AC1D-4D4D-B20B-49BB565114A8}</Project>
-      <Name>GKModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\JournalModule\JournalModule.csproj">
-      <Project>{73FD68C0-A071-4BC1-8299-0EDB03B9C119}</Project>
-      <Name>JournalModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\PlansModule\PlansModule.csproj">
-      <Project>{299872B9-B3DB-45C0-867B-53F6D49A7E87}</Project>
-      <Name>PlansModule</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Modules\ReportsModule\ReportsModule.csproj">
-      <Project>{9BBD57D5-52DF-4410-B50C-2428A426A805}</Project>
-      <Name>ReportsModule</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

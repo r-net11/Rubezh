@@ -19,6 +19,7 @@ namespace FireAdministrator.Views
 		{
 			InitializeComponent();
 			DataContext = this;
+			_navigation.User = FiresecManager.CurrentUser;
 		}
 
 		void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -81,7 +82,6 @@ namespace FireAdministrator.Views
 			set { _menu.DataContext = _menu.Content = value; }
 		}
 
-
 		public List<NavigationItem> Navigation
 		{
 			get { return _navigation.Navigation; }
@@ -104,7 +104,6 @@ namespace FireAdministrator.Views
 		void Window_Closing(object sender, CancelEventArgs e)
 		{
 			AlarmPlayerHelper.Dispose();
-
 			if (ServiceFactory.SaveService.HasChanges)
 			{
 				var result = MessageBoxService.ShowQuestion("Сохранить изменения в настройках?");

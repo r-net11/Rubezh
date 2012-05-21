@@ -3,6 +3,7 @@ using Infrastructure;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SettingsModule.ViewModels;
+using Infrastructure.Common;
 
 namespace SettingsModule
 {

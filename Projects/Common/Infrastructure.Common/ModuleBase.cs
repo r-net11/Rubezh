@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using Infrastructure.Common;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Infrastructure.Common.Navigation;
 
-namespace Infrastructure
+namespace Infrastructure.Common
 {
 	public abstract class ModuleBase : IModule
 	{
@@ -20,7 +22,8 @@ namespace Infrastructure
 
 		public virtual void RegisterResource()
 		{
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
+			ResourceService resourceService = new ResourceService();
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 		}
 
 		public abstract void Initialize();

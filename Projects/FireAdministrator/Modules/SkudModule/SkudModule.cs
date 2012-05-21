@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SkudModule.ViewModels;
+using Infrastructure.Common;
 
 namespace SkudModule
 {

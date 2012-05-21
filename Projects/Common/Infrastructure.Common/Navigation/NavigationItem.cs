@@ -7,8 +7,6 @@ namespace Infrastructure.Common.Navigation
 {
 	public class NavigationItem : BaseViewModel
 	{
-		public string Title { get; private set; }
-		public string Icon { get; private set; }
 		public ReadOnlyCollection<NavigationItem> Childs { get; private set; }
 
 		public NavigationItem(string title, string icon = null, IList<NavigationItem> childs = null, PermissionType? permission = null)
@@ -25,11 +23,31 @@ namespace Infrastructure.Common.Navigation
 		}
 
 		public Predicate<NavigationItem> PermissionPredicate { get; set; }
-		public bool CheckPermission()
+		public virtual bool CheckPermission()
 		{
 			return PermissionPredicate == null || PermissionPredicate(this);
 		}
 
+		private string _title;
+		public string Title
+		{
+			get { return _title; }
+			set
+			{
+				_title = value;
+				OnPropertyChanged("Title");
+			}
+		}
+		private string _icon;
+		public string Icon
+		{
+			get { return _icon; }
+			set
+			{
+				_icon = value;
+				OnPropertyChanged("Icon");
+			}
+		}
 		private bool _isVisible;
 		public bool IsVisible
 		{

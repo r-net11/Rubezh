@@ -3,6 +3,7 @@ using Infrastructure;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SoundsModule.ViewModels;
+using Infrastructure.Common;
 
 namespace SoundsModule
 {

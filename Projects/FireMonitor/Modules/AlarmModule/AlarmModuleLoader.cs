@@ -3,40 +3,29 @@ using Infrastructure;
 using Infrastructure.Common;
 using AlarmModule.Events;
 using FiresecAPI.Models;
+using Infrastructure.Common.Navigation;
+using System.Collections.Generic;
 
 namespace AlarmModule
 {
-	public class AlarmModuleLoader
+	public class AlarmModuleLoader : ModuleBase
 	{
-		static AlarmWatcher AlarmWatcher;
-		static AlarmVideoWather AlarmVideoWather;
-		static AlarmsViewModel AlarmsViewModel;
+		AlarmWatcher AlarmWatcher;
+		AlarmVideoWather AlarmVideoWather;
+		AlarmsViewModel AlarmsViewModel;
 
 		public AlarmModuleLoader()
 		{
 			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupListViewModel());
 			ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Subscribe(OnShowAlarms);
-
-			RegisterResources();
-			CreateViewModels();
-			CreateWatchers();
 		}
 
-		void RegisterResources()
-		{
-			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-		}
-
-		public static void Initialize()
-		{
-		}
-
-		static void CreateViewModels()
+		void CreateViewModels()
 		{
 			AlarmsViewModel = new AlarmsViewModel();
 		}
 
-		static void CreateWatchers()
+		void CreateWatchers()
 		{
 			AlarmWatcher = new AlarmWatcher();
 			AlarmVideoWather = new AlarmVideoWather();
@@ -46,6 +35,19 @@ namespace AlarmModule
 		{
 			AlarmsViewModel.Sort(alarmType);
 			ServiceFactory.Layout.Show(AlarmsViewModel);
+		}
+		
+		public override void Initialize()
+		{
+			CreateViewModels();
+			CreateWatchers();
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
+			{
+				new NavigationItem<ShowAlarmsEvent, AlarmType?>("Тревоги", "/Controls;component/Images/Alarm.png")
+			};
 		}
 	}
 }

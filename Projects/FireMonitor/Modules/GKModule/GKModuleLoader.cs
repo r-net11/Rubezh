@@ -2,39 +2,39 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace GKModule
 {
-    public class GKModuleLoader
-    {
-        static GKViewModel GKViewModel;
+	public class GKModuleLoader : ModuleBase
+	{
+		GKViewModel GKViewModel;
 
-        public GKModuleLoader()
-        {
-            ServiceFactory.Events.GetEvent<ShowGKEvent>().Subscribe(OnShowCall);
+		public GKModuleLoader()
+		{
+			ServiceFactory.Events.GetEvent<ShowGKEvent>().Subscribe(OnShowCall);
+		}
 
-            RegisterResources();
-            CreateViewModels();
-        }
+		void CreateViewModels()
+		{
+			GKViewModel = new GKViewModel();
+		}
+		void OnShowCall(object obj)
+		{
+			ServiceFactory.Layout.Show(GKViewModel);
+		}
 
-        void RegisterResources()
-        {
-            ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
-        }
-
-        public static void Initialize()
-        {
-            //GKViewModel.Initialize();
-        }
-
-        static void CreateViewModels()
-        {
-            GKViewModel = new GKViewModel();
-        }
-
-        static void OnShowCall(object obj)
-        {
-            ServiceFactory.Layout.Show(GKViewModel);
-        }
-    }
+		public override void Initialize()
+		{
+			CreateViewModels();
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
+			{
+				new NavigationItem<ShowGKEvent>("ГК", "/Controls;component/Images/Settings.png"),
+			};
+		}
+	}
 }

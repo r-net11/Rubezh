@@ -5,10 +5,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using FiresecClient;
 using Infrastructure.Common.Navigation;
+using FiresecAPI.Models;
 
-namespace FireAdministrator.Views
+namespace Controls
 {
 	public partial class NavigationView : UserControl, INotifyPropertyChanged
 	{
@@ -17,6 +17,8 @@ namespace FireAdministrator.Views
 			InitializeComponent();
 			DataContext = this;
 		}
+
+		public User User { get; set; }
 
 		private List<NavigationItem> _navigation;
 		public List<NavigationItem> Navigation
@@ -43,19 +45,6 @@ namespace FireAdministrator.Views
 			if (Navigation != null && Navigation.Count > -1)
 				Navigation[0].IsSelected = true;
 		}
-
-		//private List<NavigationItem> TransformToList(NavigationItem parent)
-		//{
-		//    List<NavigationItem> result = new List<NavigationItem>();
-		//    foreach (NavigationItem item in parent.Childs)
-		//    {
-		//        item.Parent = parent;
-		//        item.Level = parent.Level + 1;
-		//        result.Add(item);
-		//        result.AddRange(TransformToList(item));
-		//    }
-		//    return result;
-		//}
 
 		private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
 		{
@@ -118,7 +107,7 @@ namespace FireAdministrator.Views
 		}
 		private bool HavePermission(NavigationItem item)
 		{
-			return item.Permission == null || FiresecManager.CurrentUser.Permissions.Any(x => x == item.Permission.Value);
+			return item.Permission == null || User == null || User.Permissions.Any(x => x == item.Permission.Value);
 		}
 	}
 }

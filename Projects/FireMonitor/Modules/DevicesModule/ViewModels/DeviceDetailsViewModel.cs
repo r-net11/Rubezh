@@ -8,15 +8,17 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class DeviceDetailsViewModel : DialogContent
+    public class DeviceDetailsViewModel : DialogContent, IDialogContentGuid
     {
         public Device Device { get; private set; }
         public DeviceState DeviceState { get; private set; }
         public DeviceControlViewModel DeviceControlViewModel { get; private set; }
         DeviceControls.DeviceControl _deviceControl;
+		private Guid _guid;
 
         public DeviceDetailsViewModel(Guid deviceUID)
         {
+			_guid = deviceUID;
             Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
             DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
             if (DeviceState != null)
@@ -102,5 +104,14 @@ namespace DevicesModule.ViewModels
             IsValveControlSelected = true;
             DeviceControlViewModel.StartTimer(timeLeft);
         }
-    }
+
+		#region IDialogContentGuid Members
+
+		public Guid Guid
+		{
+			get { return _guid; }
+		}
+
+		#endregion
+	}
 }

@@ -4,14 +4,13 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
-using Infrastructure.Common;
-using Infrastructure.Common.Configuration;
-using Infrastructure.Common.Navigation;
 using Common;
+using Infrastructure.Common.Configuration;
 using Infrastructure.Common.MessageBox;
-using Infrastructure.Properties;
+using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Properties;
 
-namespace Infrastructure
+namespace Infrastructure.Common
 {
 	public class BaseBootstrapper
 	{
@@ -41,7 +40,7 @@ namespace Infrastructure
 		{
 			if (Modules == null)
 			{
-				Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+				System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 				ModuleSection section = config.GetSection("modules") as ModuleSection;
 				List<IModule> modules = new List<IModule>();
 				foreach (ModuleElement module in section.Modules)

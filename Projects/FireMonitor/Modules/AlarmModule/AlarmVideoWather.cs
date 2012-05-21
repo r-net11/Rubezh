@@ -2,16 +2,17 @@
 using System.Linq;
 using FiresecClient;
 using Infrastructure.Common;
+using System.Collections.Generic;
+using Infrastructure.Common.Navigation;
 
 namespace AlarmModule
 {
-	public class AlarmVideoWather
+	public class AlarmVideoWather : ModuleBase
 	{
 		public AlarmVideoWather()
 		{
 			FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChangedEvent);
 			FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
-			OnDeviceStateChangedEvent(Guid.Empty);
 		}
 
 		void OnDeviceStateChangedEvent(Guid obj)
@@ -35,6 +36,17 @@ namespace AlarmModule
 					}
 				}
 			}
+		}
+
+		public override void Initialize()
+		{
+			OnDeviceStateChangedEvent(Guid.Empty);
+		}
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
+			{
+			};
 		}
 	}
 }
