@@ -1,4 +1,5 @@
-﻿using XFiresecAPI;
+﻿using System.Linq;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -7,11 +8,11 @@ namespace GKModule.ViewModels
 		public ShortPropertyViewModel(XDriverProperty xDriverProperty, XDevice xDevice)
 			: base(xDriverProperty, xDevice)
 		{
-			//var property = xDevice.Properties.FirstOrDefault(x => x.Name == xDriverProperty.Name);
-			//if (property != null)
-			//    _text = (short)(int)property.Value;
-			//else
-			//    _text = (short)(int)xDriverProperty.Default;
+			var property = xDevice.Properties.FirstOrDefault(x => x.Name == xDriverProperty.Name);
+			if (property != null)
+				_text = property.Value;
+			else
+				_text = xDriverProperty.Default;
 		}
 
 		short _text;

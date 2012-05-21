@@ -6,11 +6,13 @@ namespace FiresecService.Service
 {
 	public static class ServiceCash
 	{
-		static List<FiresecManager> FreeManagers { get; set; }
+		public static List<FiresecManager> FreeManagers { get; private set; }
+		public static List<FiresecManager> RunningManagers { get; private set; }
 
 		static ServiceCash()
 		{
 			FreeManagers = new List<FiresecManager>();
+			RunningManagers = new List<FiresecManager>();
 		}
 
 		public static FiresecManager Get(FiresecService firesecService)
@@ -19,11 +21,15 @@ namespace FiresecService.Service
 			{
 				var freeManager = FreeManagers.First();
 				freeManager.FiresecService = firesecService;
+				RunningManagers.Add(freeManager);
+				FreeManagers.Remove(freeManager);
 				return freeManager;
 			}
 			else
 			{
-				return new FiresecManager(firesecService);
+				var firesecManager = new FiresecManager(firesecService);
+				RunningManagers.Add(firesecManager);
+				return firesecManager;
 			}
 		}
 
@@ -33,6 +39,7 @@ namespace FiresecService.Service
 			//    firesecManager.FiresecSerializedClient.Disconnect();
 
 			FreeManagers.Add(firesecManager);
+			RunningManagers.Remove(firesecManager);
 		}
 	}
 }

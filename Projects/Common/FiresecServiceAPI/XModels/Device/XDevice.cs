@@ -113,7 +113,7 @@ namespace XFiresecAPI
 				var reservedCountProperty = Properties.FirstOrDefault(x => x.Name == "MRK30ChildCount");
 				if (reservedCountProperty != null)
 				{
-					reservedCount = byte.Parse((string)reservedCountProperty.Value);
+					reservedCount = (byte)reservedCountProperty.Value;
 				}
 			}
 			return reservedCount;

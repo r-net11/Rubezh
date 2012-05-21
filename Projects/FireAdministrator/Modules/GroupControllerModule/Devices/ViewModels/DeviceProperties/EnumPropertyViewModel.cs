@@ -12,13 +12,13 @@ namespace GKModule.ViewModels
 			var property = xDevice.Properties.FirstOrDefault(x => x.Name == xDriverProperty.Name);
 			if (property != null)
 			{
-				//_selectedValue = xDriverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value).Name;
+				_selectedValue = xDriverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value).Name;
 			}
 			else
 			{
-				var enumdriverProperty = xDriverProperty.Parameters.FirstOrDefault(x => x.Value.ToString() == xDriverProperty.Default.ToString());
-				if (enumdriverProperty != null)
-					_selectedValue = enumdriverProperty.Name;
+				var enumDriverProperty = xDriverProperty.Parameters.FirstOrDefault(x => x.Value == xDriverProperty.Default);
+				if (enumDriverProperty != null)
+					_selectedValue = enumDriverProperty.Name;
 			}
 		}
 
@@ -43,7 +43,9 @@ namespace GKModule.ViewModels
 			{
 				_selectedValue = value;
 				OnPropertyChanged("SelectedValue");
-				Save(value);
+
+				var shortValue = _xDriverProperty.Parameters.FirstOrDefault(x => x.Name == value).Value;
+				Save(shortValue);
 			}
 		}
 	}

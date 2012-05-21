@@ -44,12 +44,12 @@ namespace GKModule.Database
 				short controllerAddress = 0;
 				if (binaryBase.KauDatabaseParent != null)
 				{
-					int lineNo = 0;
+					short lineNo = 0;
 					var modeProperty = binaryBase.KauDatabaseParent.Properties.FirstOrDefault(x=>x.Name == "Mode");
 					if (modeProperty != null)
 					{
 						var propertyParameter = binaryBase.KauDatabaseParent.Driver.Properties.FirstOrDefault(x => x.Name == "Mode");
-						lineNo = (int)propertyParameter.Parameters.FirstOrDefault(x => x.Name == modeProperty.Value).Value;
+						lineNo = propertyParameter.Parameters.FirstOrDefault(x => x.Name == modeProperty.Name).Value;
 					}
 
 					byte intAddress = binaryBase.KauDatabaseParent.IntAddress;

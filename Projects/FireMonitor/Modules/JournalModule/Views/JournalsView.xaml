@@ -8,7 +8,7 @@
     </UserControl.Resources>
     
     <TabControl Name="tabControl" BorderThickness="0"
-                ItemsSource="{Binding Journals, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=Name}"
+                ItemsSource="{Binding Journals, Converter={StaticResource CollectionViewFactoryConverter}, ConverterParameter=JournalFilter.Name}"
                 SelectedItem="{Binding SelectedJournal}">
         <TabControl.ItemTemplate>
             <DataTemplate>
