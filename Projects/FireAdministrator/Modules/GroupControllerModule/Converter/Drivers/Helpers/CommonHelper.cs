@@ -17,12 +17,12 @@ namespace GKModule.Converter
 			var parameter1 = new XDriverPropertyParameter()
 			{
 				Name = parameter1Name,
-				Value = startValue
+				Value = (short)startValue
 			};
 			var parameter2 = new XDriverPropertyParameter()
 			{
 				Name = parameter2Name,
-				Value = startValue + 1
+				Value = (short)(startValue + 1)
 			};
 			property.Parameters.Add(parameter1);
 			property.Parameters.Add(parameter2);
@@ -51,7 +51,7 @@ namespace GKModule.Converter
 				Caption = propertyName,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Offset = offset,
-				Default = defaultValue,
+				Default = (short)defaultValue,
 				Min = (short)min,
 				Max = (short)max
 			};
@@ -63,7 +63,7 @@ namespace GKModule.Converter
 			var parameter = new XDriverPropertyParameter()
 			{
 				Name = name,
-				Value = value
+				Value = (short)value
 			};
 			property.Parameters.Add(parameter);
 		}
@@ -74,7 +74,7 @@ namespace GKModule.Converter
 			{
 				Name = name,
 				AlternativeName = alternativeName,
-				Value = value
+				Value = (short)value
 			};
 			property.Parameters.Add(parameter);
 		}

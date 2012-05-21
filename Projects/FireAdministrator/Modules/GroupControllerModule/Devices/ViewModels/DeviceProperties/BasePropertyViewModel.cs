@@ -2,59 +2,61 @@
 using System.Linq;
 using Infrastructure.Common;
 using XFiresecAPI;
+using Infrastructure;
 
 namespace GKModule.ViewModels
 {
-    public class BasePropertyViewModel : BaseViewModel
-    {
-        protected XDevice _xDevice;
-        protected XDriverProperty _xDriverProperty;
+	public class BasePropertyViewModel : BaseViewModel
+	{
+		protected XDevice _xDevice;
+		protected XDriverProperty _xDriverProperty;
 
-        public BasePropertyViewModel(XDriverProperty xDriverProperty, XDevice xDevice)
-        {
-            _xDriverProperty = xDriverProperty;
-            _xDevice = xDevice;
-        }
+		public BasePropertyViewModel(XDriverProperty xDriverProperty, XDevice xDevice)
+		{
+			_xDriverProperty = xDriverProperty;
+			_xDevice = xDevice;
+		}
 
-        public string Caption
-        {
-            get { return _xDriverProperty.Caption; }
-        }
+		public string Caption
+		{
+			get { return _xDriverProperty.Caption; }
+		}
 
-        public string ToolTip
-        {
-            get { return _xDriverProperty.ToolTip; }
-        }
+		public string ToolTip
+		{
+			get { return _xDriverProperty.ToolTip; }
+		}
 
-        protected void Save(object value)
-        {
-            if (_xDevice.Properties == null)
-                _xDevice.Properties = new List<XProperty>();
-            var property = _xDevice.Properties.FirstOrDefault(x => x.Name == _xDriverProperty.Name);
+		protected void Save(short value)
+		{
+			var property = _xDevice.Properties.FirstOrDefault(x => x.Name == _xDriverProperty.Name);
+			if (property == null)
+			{
+				property = new XProperty()
+				{
+					Name = _xDriverProperty.Name
+				};
+				_xDevice.Properties.Add(property);
+			}
+			property.Value = value;
 
-            if (value == _xDriverProperty.Default)
-            {
-                if (property != null)
-                {
-                    _xDevice.Properties.Remove(property);
-                    return;
-                }
-            }
+			ServiceFactory.SaveService.XDevicesChanged = true;
+		}
 
-            if (property != null)
-            {
-                property.Name = _xDriverProperty.Name;
-                property.Value = value;
-            }
-            else
-            {
-                var newProperty = new XProperty()
-                {
-                    Name = _xDriverProperty.Name,
-                    Value = value
-                };
-                _xDevice.Properties.Add(newProperty);
-            }
-        }
-    }
+		protected void SaveStringValue(string value)
+		{
+			var property = _xDevice.Properties.FirstOrDefault(x => x.Name == _xDriverProperty.Name);
+			if (property == null)
+			{
+				property = new XProperty()
+				{
+					Name = _xDriverProperty.Name
+				};
+				_xDevice.Properties.Add(property);
+			}
+			property.StringValue = value;
+
+			ServiceFactory.SaveService.XDevicesChanged = true;
+		}
+	}
 }

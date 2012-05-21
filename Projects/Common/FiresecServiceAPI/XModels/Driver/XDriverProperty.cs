@@ -29,7 +29,10 @@ namespace XFiresecAPI
 		public string ToolTip { get; set; }
 
 		[DataMember]
-		public object Default { get; set; }
+		public short Default { get; set; }
+
+		[DataMember]
+		public string StringDefault { get; set; }
 
 		[DataMember]
 		public byte Offset { get; set; }

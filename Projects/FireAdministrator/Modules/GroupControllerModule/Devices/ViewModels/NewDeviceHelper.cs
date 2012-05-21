@@ -85,7 +85,7 @@ namespace GKModule.ViewModels
                         var reservedCountProperty = parentXDevice.Properties.FirstOrDefault(x => x.Name == "MRK30ChildCount");
                         if (reservedCountProperty != null)
                         {
-                            reservedCount = int.Parse((string)reservedCountProperty.Value);
+                            reservedCount = reservedCountProperty.Value;
                         }
                     }
 

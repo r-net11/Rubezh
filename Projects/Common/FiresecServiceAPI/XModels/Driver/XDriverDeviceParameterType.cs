@@ -1,9 +1,9 @@
 ﻿namespace XFiresecAPI
 {
-    public enum XDriverDevicePropertyTypeEnum
-    {
-        EnumType,
-        ShortType,
-        BoolType
-    }
+	public enum XDriverDevicePropertyTypeEnum
+	{
+		EnumType,
+		ShortType,
+		BoolType
+	}
 }

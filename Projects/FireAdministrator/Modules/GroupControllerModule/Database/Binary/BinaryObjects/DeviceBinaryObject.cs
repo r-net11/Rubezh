@@ -199,7 +199,7 @@ namespace GKModule.Database
 				if (driverProperty.IsInternalDeviceParameter)
 				{
 					byte no = driverProperty.No;
-					short value = (short)property.Value;
+					short value = property.Value;
 
 					var binProperty = binProperties.FirstOrDefault(x => x.No == no);
 					if (binProperty == null)

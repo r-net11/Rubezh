@@ -29,7 +29,7 @@ namespace GKModule.Converter
 					Name = "MacAddress1",
 					Caption = "Мак адрес 1",
 					ToolTip = "Мак адрес 1",
-					Default = "1, 2, 3, 4, 5, 6",
+					StringDefault = "1, 2, 3, 4, 5, 6",
 					DriverPropertyType = XDriverPropertyTypeEnum.StringType,
 					IsInternalDeviceParameter = false
 				}
@@ -41,7 +41,7 @@ namespace GKModule.Converter
 					Name = "MacAddress2",
 					Caption = "Мак адрес 2",
 					ToolTip = "Мак адрес 2",
-					Default = "2, 2, 2, 2, 2, 2",
+					StringDefault = "2, 2, 2, 2, 2, 2",
 					DriverPropertyType = XDriverPropertyTypeEnum.StringType,
 					IsInternalDeviceParameter = false
 				}
@@ -53,7 +53,7 @@ namespace GKModule.Converter
 					Name = "IPAddress1",
 					Caption = "IP адрес 1",
 					ToolTip = "IP адрес 1",
-					Default = "126.1.1.2",
+					StringDefault = "126.1.1.2",
 					DriverPropertyType = XDriverPropertyTypeEnum.StringType,
 					IsInternalDeviceParameter = false
 				}
@@ -65,7 +65,7 @@ namespace GKModule.Converter
 					Name = "IPAddress2",
 					Caption = "IP адрес 2",
 					ToolTip = "IP адрес 2",
-					Default = "126.1.1.1",
+					StringDefault = "126.1.1.1",
 					DriverPropertyType = XDriverPropertyTypeEnum.StringType,
 					IsInternalDeviceParameter = false
 				}
