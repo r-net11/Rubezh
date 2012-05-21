@@ -4,6 +4,8 @@ using System.Windows;
 using Infrastructure.Common.MessageBox;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure;
+using Common;
 
 namespace FireMonitor
 {
@@ -13,22 +15,21 @@ namespace FireMonitor
 		{
 			base.OnStartup(e);
 
-			if (e.Args.Contains("Integrate"))
+			if (e.Args.Any(item => string.Equals(item, "Integrate", StringComparison.InvariantCultureIgnoreCase)))
 			{
 				RegistryHelper.Integrate();
-				return;
+				Environment.Exit(1);
 			}
-
-			if (e.Args.Contains("Desintegrate"))
+			if (e.Args.Any(item => string.Equals(item, "Desintegrate", StringComparison.InvariantCultureIgnoreCase)))
 			{
 				RegistryHelper.Desintegrate();
-				return;
+				Environment.Exit(1);
 			}
 
-#if !DEBUG
-			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+#if DEBUG
+			BindingErrorListener.Listen(m => MessageBox.Show(m));
 #endif
-
+			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			bootstrapper = new Bootstrapper();
 			bootstrapper.Initialize();
 		}
@@ -39,12 +40,15 @@ namespace FireMonitor
 		{
 			MessageBoxService.ShowException(e.ExceptionObject as Exception);
 		}
-
 		protected override void OnExit(ExitEventArgs e)
 		{
-			base.OnExit(e);
+			AlarmPlayerHelper.Dispose();
+			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();
 			VideoService.Close();
+			if (RegistryHelper.IsIntegrated)
+				RegistryHelper.ShutDown();
+			base.OnExit(e);
 		}
 	}
 }

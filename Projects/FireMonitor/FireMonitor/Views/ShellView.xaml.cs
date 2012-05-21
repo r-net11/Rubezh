@@ -60,13 +60,9 @@ namespace FireMonitor.Views
         {
             if (CanClose())
             {
-                AlarmPlayerHelper.Dispose();
-                ClientSettings.SaveSettings();
-
-                FiresecManager.Disconnect();
-                Close();
+                //Close();
                 Application.Current.Shutdown();
-                Environment.Exit(1);
+				//Environment.Exit(1);
             }
         }
 
