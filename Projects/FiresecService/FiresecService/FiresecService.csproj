@@ -160,13 +160,12 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Configuration\ConfigurationManager.Converter.cs" />
-    <Compile Include="Configuration\ConfigurationManager.cs" />
-    <Compile Include="Configuration\ConfigurationManager.DevicesConverter.cs" />
-    <Compile Include="Configuration\DeviceCustomFunctionConverter.cs" />
-    <Compile Include="Configuration\ConfigurationManager.GuardUsersConverter.cs" />
-    <Compile Include="Configuration\PDUGroupLogicConverter.cs" />
-    <Compile Include="Configuration\ConfigurationManager.PlansConverter.cs" />
+    <Compile Include="ConfigurationConverter\ConfigurationConverter.cs" />
+    <Compile Include="ConfigurationConverter\ConfigurationConverter.DevicesConverter.cs" />
+    <Compile Include="ConfigurationConverter\DeviceCustomFunctionConverter.cs" />
+    <Compile Include="ConfigurationConverter\ConfigurationConverter.GuardUsersConverter.cs" />
+    <Compile Include="ConfigurationConverter\PDUGroupLogicConverter.cs" />
+    <Compile Include="ConfigurationConverter\ConfigurationConverter.PlansConverter.cs" />
     <Compile Include="DatabaseConverter\FiresecDbConverter.designer.cs">
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
@@ -178,11 +177,11 @@
       <DependentUpon>ImitatorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Infrastructure\UserDialogService.cs" />
-    <Compile Include="Configuration\ConfigurationFileManager.cs" />
+    <Compile Include="ConfigurationConverter\ConfigurationFileManager.cs" />
     <Compile Include="Processor\FiresecManager.StatesConverter.cs" />
-    <Compile Include="Processor\JournalFilterHelper.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\CallbackWrapper.cs" />
+    <Compile Include="Service\ConfigurationCash.cs" />
     <Compile Include="Service\FiresecOperationExtentions.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
     <Compile Include="Service\FiresecService.SKUD.cs" />
@@ -220,7 +219,7 @@
     <Compile Include="XSD\IndicatorLogic.cs">
       <DependentUpon>IndicatorLogic.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\IndicatorLogicConverter.cs" />
+    <Compile Include="ConfigurationConverter\IndicatorLogicConverter.cs" />
     <Compile Include="XSD\Plan.cs">
       <DependentUpon>Plan.xsd</DependentUpon>
     </Compile>
@@ -246,11 +245,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Configuration\ConfigurationManager.DirectionsConverter.cs" />
-    <Compile Include="Configuration\DriverConverter.cs" />
+    <Compile Include="ConfigurationConverter\ConfigurationConverter.DirectionsConverter.cs" />
+    <Compile Include="ConfigurationConverter\DriverConverter.cs" />
     <Compile Include="Database\JournalConverter.cs" />
-    <Compile Include="Configuration\ConfigurationManager.ZonesConverter.cs" />
-    <Compile Include="Configuration\ZoneLogicConverter.cs" />
+    <Compile Include="ConfigurationConverter\ConfigurationConverter.ZonesConverter.cs" />
+    <Compile Include="ConfigurationConverter\ZoneLogicConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

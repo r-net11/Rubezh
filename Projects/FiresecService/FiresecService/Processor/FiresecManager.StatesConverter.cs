@@ -1,4 +1,5 @@
 ﻿using FiresecAPI.Models;
+using FiresecService.Service;
 
 namespace FiresecService.Processor
 {
@@ -7,9 +8,9 @@ namespace FiresecService.Processor
 		public void ConvertStates()
 		{
 			DeviceConfigurationStates = new DeviceConfigurationStates();
-			if (ConfigurationManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
+			if (ConfigurationCash.DeviceConfiguration.Devices.IsNotNullOrEmpty())
 			{
-				foreach (var device in ConfigurationManager.DeviceConfiguration.Devices)
+				foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 				{
 					var deviceState = new DeviceState()
 					{
@@ -25,7 +26,7 @@ namespace FiresecService.Processor
 				}
 			}
 
-			foreach (var zone in ConfigurationManager.DeviceConfiguration.Zones)
+			foreach (var zone in ConfigurationCash.DeviceConfiguration.Zones)
 			{
 				DeviceConfigurationStates.ZoneStates.Add(new ZoneState() { No = zone.No });
 			}

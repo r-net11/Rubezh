@@ -8,7 +8,7 @@ namespace FiresecService.Service
 	{
 		public List<Driver> GetDrivers()
 		{
-			return FiresecManager.ConfigurationManager.Drivers;
+			return ConfigurationCash.Drivers;
 		}
 
 		public DeviceConfigurationStates GetStates(bool forceConvert = false)
@@ -20,51 +20,51 @@ namespace FiresecService.Service
 
 		public DeviceConfiguration GetDeviceConfiguration()
 		{
-			return FiresecManager.ConfigurationManager.DeviceConfiguration;
+			return ConfigurationCash.DeviceConfiguration;
 		}
 
 		public SecurityConfiguration GetSecurityConfiguration()
 		{
-			return FiresecManager.ConfigurationManager.SecurityConfiguration;
+			return ConfigurationCash.SecurityConfiguration;
 		}
 
 		public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
 		{
 			ConfigurationFileManager.SetSecurityConfiguration(securityConfiguration);
-			FiresecManager.ConfigurationManager.SecurityConfiguration = securityConfiguration;
+			ConfigurationCash.SecurityConfiguration = securityConfiguration;
 		}
 
 		public SystemConfiguration GetSystemConfiguration()
 		{
-			return FiresecManager.ConfigurationManager.SystemConfiguration;
+			return ConfigurationCash.SystemConfiguration;
 		}
 
 		public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
 		{
 			ConfigurationFileManager.SetSystemConfiguration(systemConfiguration);
-			FiresecManager.ConfigurationManager.SystemConfiguration = systemConfiguration;
+			ConfigurationCash.SystemConfiguration = systemConfiguration;
 		}
 
 		public LibraryConfiguration GetLibraryConfiguration()
 		{
-			return FiresecManager.ConfigurationManager.LibraryConfiguration;
+			return ConfigurationCash.LibraryConfiguration;
 		}
 
 		public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
 		{
 			ConfigurationFileManager.SetLibraryConfiguration(libraryConfiguration);
-			FiresecManager.ConfigurationManager.LibraryConfiguration = libraryConfiguration;
+			ConfigurationCash.LibraryConfiguration = libraryConfiguration;
 		}
 
 		public PlansConfiguration GetPlansConfiguration()
 		{
-			return FiresecManager.ConfigurationManager.PlansConfiguration;
+			return ConfigurationCash.PlansConfiguration;
 		}
 
 		public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
 		{
 			ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
-			FiresecManager.ConfigurationManager.PlansConfiguration = plansConfiguration;
+			ConfigurationCash.PlansConfiguration = plansConfiguration;
 		}
 	}
 }

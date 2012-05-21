@@ -55,6 +55,8 @@ namespace GKModule.Converter
 		public static Guid KAU_UID = new Guid("4993E06C-85D1-4F20-9887-4C5F67C450E8");
 		public static Guid KAUIndicator_UID = new Guid("17A2B7D1-CB62-4AF7-940E-BC30B004B0D0");
 		public static Guid GKIndicator_UID = new Guid("200EED4B-3402-45B4-8122-AE51A4841E18");
+		public static Guid GKLine_UID = new Guid("DEAA33C2-0EAA-4D4D-BA31-FCDBE0AD149A");
+		public static Guid GKRele_UID = new Guid("1AC85436-61BC-441B-B6BF-C6A0FA62748B");
 		public static Guid KAUExit_UID = new Guid("FD3E3C36-B036-470F-BAC8-6D49007FBFD3");
 	}
 

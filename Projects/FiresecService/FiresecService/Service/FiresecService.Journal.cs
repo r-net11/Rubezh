@@ -16,13 +16,67 @@ namespace FiresecService.Service
 			var operationResult = new OperationResult<List<JournalRecord>>();
 			try
 			{
-				JournalFilterHelper journalFilterHelper = new JournalFilterHelper(FiresecManager);
+				bool hasWhere = false;
+				string query = "";
+				if (journalFilter.IsLastDaysCountActive)
+				{
+					query = "SELECT * FROM Journal WHERE " +
+					"\n SystemTime > '" + DateTime.Now.AddDays(-journalFilter.LastDaysCount).ToString("yyyy-MM-dd HH:mm:ss") + "'";
+					hasWhere = true;
+				}
+				else
+				{
+					query = "SELECT TOP (" + journalFilter.LastRecordsCount + ") * FROM Journal ";
+				}
 
-				operationResult.Result =
-					DataBaseContext.JournalRecords.AsEnumerable().Reverse().
-					Where(journal => journalFilter.CheckDaysConstraint(journal.SystemTime)).
-					Where(journal => journalFilterHelper.FilterRecord(journalFilter, journal)).
-					Take(journalFilter.LastRecordsCount).ToList();
+				if (journalFilter.StateTypes.Count > 0)
+				{
+					if (hasWhere == false)
+					{
+						query += " WHERE ";
+						hasWhere = true;
+					}
+					else
+					{
+						query += "\n AND ";
+					}
+					query += " (";
+					for (int i = 0; i < journalFilter.StateTypes.Count; i++)
+					{
+						if (i > 0)
+							query += "\n OR ";
+						var stateType = journalFilter.StateTypes[i];
+						query += " StateType = " + ((int)stateType).ToString();
+					}
+					query += ")";
+				}
+
+				if (journalFilter.Categories.Count > 0)
+				{
+					if (hasWhere == false)
+					{
+						query += " WHERE ";
+						hasWhere = true;
+					}
+					else
+					{
+						query += "\n AND ";
+					}
+					query += " (";
+					for (int i = 0; i < journalFilter.Categories.Count; i++)
+					{
+						if (i > 0)
+							query += "\n OR ";
+						var category = journalFilter.Categories[i];
+						query += " DeviceCategory = " + ((int)category).ToString();
+					}
+					query += ")";
+				}
+
+				query += "\n ORDER BY SystemTime DESC";
+
+				var result = DataBaseContext.ExecuteQuery<JournalRecord>(query);
+				operationResult.Result = result.ToList();
 			}
 			catch (Exception e)
 			{

@@ -7,6 +7,8 @@
 		KAU,
 		KAUIndicator,
 		GKIndicator,
+		GKLine,
+		GKRele,
 		RM_1,
 		RM_2,
 		RM_3,

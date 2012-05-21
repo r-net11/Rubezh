@@ -26,17 +26,26 @@ namespace FiresecService.Database
 				SubsystemType = EnumsConverter.StringToSubsystemType(innerJournalRecord.IDSubSystem),
 				StateType = (StateType)int.Parse(innerJournalRecord.IDTypeEvents),
 			};
+			SetDeviceCatogory(journalRecord);
 
+			return journalRecord;
+		}
+
+		static void SetDeviceCatogory(JournalRecord journalRecord)
+		{
 			Device device = null;
-			if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
+			if (ConfigurationCash.DeviceConfiguration.Devices != null)
 			{
-				device = ServiceCash.RunningManagers.FirstOrDefault().ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(
-					 x => x.DatabaseId == journalRecord.DeviceDatabaseId);
-			}
-			else
-			{
-				device = ServiceCash.RunningManagers.FirstOrDefault().ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(
-					   x => x.DatabaseId == journalRecord.PanelDatabaseId);
+				if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
+				{
+					device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(
+						 x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+				}
+				else
+				{
+					device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(
+						   x => x.DatabaseId == journalRecord.PanelDatabaseId);
+				}
 			}
 			if (device != null)
 			{
@@ -46,8 +55,6 @@ namespace FiresecService.Database
 			{
 				journalRecord.DeviceCategory = (int)DeviceCategoryType.None;
 			}
-
-			return journalRecord;
 		}
 
 		public static DateTime ConvertTime(string firesecTime)

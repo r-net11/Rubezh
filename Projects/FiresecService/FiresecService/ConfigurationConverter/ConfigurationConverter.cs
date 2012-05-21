@@ -3,11 +3,13 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using FiresecService.Processor;
+using FiresecService.Service;
 
 namespace FiresecService.Configuration
 {
-	public partial class ConfigurationManager
+	public partial class ConfigurationConverter
 	{
+		DeviceConfiguration DeviceConfiguration { get; set; }
 		public FiresecSerializedClient FiresecSerializedClient;
 		public Firesec.CoreConfiguration.config FiresecConfiguration { get; set; }
 		int Gid { get; set; }
@@ -24,11 +26,12 @@ namespace FiresecService.Configuration
 			SetValidChars();
 			Update();
 
-			var plans = FiresecSerializedClient.GetPlans().Result;
-			PlansConfiguration = ConvertPlans(plans);
-
+			ConfigurationCash.DeviceConfiguration = DeviceConfiguration;
 			ConfigurationFileManager.SetDeviceConfiguration(DeviceConfiguration);
-			ConfigurationFileManager.SetPlansConfiguration(PlansConfiguration);
+
+			var plans = FiresecSerializedClient.GetPlans().Result;
+			ConfigurationCash.PlansConfiguration = ConvertPlans(plans);
+			ConfigurationFileManager.SetPlansConfiguration(ConfigurationCash.PlansConfiguration);
 		}
 
 		public void ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
@@ -37,7 +40,7 @@ namespace FiresecService.Configuration
 
 			foreach (var device in deviceConfiguration.Devices)
 			{
-				device.Driver = Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				device.Driver = ConfigurationCash.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 			}
 
 			if (includeSecurity)
@@ -59,6 +62,7 @@ namespace FiresecService.Configuration
 
 		public DeviceConfiguration ConvertOnlyDevices(Firesec.CoreConfiguration.config firesecConfiguration)
 		{
+			DeviceConfiguration = new DeviceConfiguration();
 			FiresecConfiguration = firesecConfiguration;
 			ConvertDevices();
 			return DeviceConfiguration;
@@ -67,7 +71,7 @@ namespace FiresecService.Configuration
 		public void ConvertMetadataFromFiresec()
 		{
 			DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
-			Drivers = new List<Driver>();
+			ConfigurationCash.Drivers = new List<Driver>();
 			foreach (var innerDriver in DriverConverter.Metadata.drv)
 			{
 				var driver = DriverConverter.Convert(innerDriver);
@@ -78,7 +82,7 @@ namespace FiresecService.Configuration
 				else
 				{
 					if (driver.IsIgnore == false)
-						Drivers.Add(driver);
+						ConfigurationCash.Drivers.Add(driver);
 				}
 			}
 		}
@@ -88,7 +92,24 @@ namespace FiresecService.Configuration
 			DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
 			var validCharsBuilder = new StringBuilder(DriverConverter.Metadata.drv.Last().validChars);
 			validCharsBuilder.Append('№');
-			DeviceConfiguration.ValidChars = validCharsBuilder.ToString();
+			ConfigurationCash.DeviceConfiguration.ValidChars = validCharsBuilder.ToString();
+		}
+
+		public void Update()
+		{
+			var hasInvalidDriver = false;
+			ConfigurationCash.DeviceConfiguration.Update();
+			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+			{
+				device.Driver = ConfigurationCash.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				if (device.Driver == null)
+				{
+					hasInvalidDriver = true;
+					device.Parent.Children.Remove(device);
+				}
+			}
+			if (hasInvalidDriver)
+				ConfigurationCash.DeviceConfiguration.Update();
 		}
 	}
 }

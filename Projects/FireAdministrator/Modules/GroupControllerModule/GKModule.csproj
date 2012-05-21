@@ -74,6 +74,8 @@
     <Compile Include="Converter\Drivers\Helpers\MPTHelper.cs" />
     <Compile Include="Converter\Drivers\Helpers\MROHelper.cs" />
     <Compile Include="Converter\Drivers\Helpers\RMHelper.cs" />
+    <Compile Include="Converter\Drivers\NewDevicesHelper\GKLineHelper.cs" />
+    <Compile Include="Converter\Drivers\NewDevicesHelper\GKReleHelper.cs" />
     <Compile Include="Database\Binary\DatabaseCollection.cs" />
     <Compile Include="Database\Binary\BinaryDatabases\CommonDatabase.cs" />
     <Compile Include="Database\Binary\BinaryObjects\BinaryObjectBase.cs" />
@@ -82,9 +84,9 @@
     <Compile Include="Database\Binary\BinaryDatabases\GkDatabase.cs" />
     <Compile Include="Database\Binary\BinaryDatabases\KauDatabase.cs" />
     <Compile Include="Converter\Drivers\DriversConverter.cs" />
-    <Compile Include="Converter\Drivers\GKIndicatorHelper.cs" />
-    <Compile Include="Converter\Drivers\GKSystem.cs" />
-    <Compile Include="Converter\Drivers\KAUIndicatorHelper.cs" />
+    <Compile Include="Converter\Drivers\NewDevicesHelper\GKIndicatorHelper.cs" />
+    <Compile Include="Converter\Drivers\NewDevicesHelper\GKSystem.cs" />
+    <Compile Include="Converter\Drivers\NewDevicesHelper\KAUIndicatorHelper.cs" />
     <Compile Include="Converter\Drivers\DriversHelper.cs" />
     <Compile Include="Database\Converters\BytesToStringConverter.cs" />
     <Compile Include="Database\DatabaseProcessor.cs" />
@@ -137,12 +139,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Converter\Drivers\KAUHelper.cs" />
+    <Compile Include="Converter\Drivers\NewDevicesHelper\KAUHelper.cs" />
     <Compile Include="Converter\ConfigurationConverter.cs" />
     <Compile Include="Devices\ViewModels\Logic\DeviceLogicViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
-    <Compile Include="Converter\Drivers\GKHelper.cs" />
+    <Compile Include="Converter\Drivers\NewDevicesHelper\GKHelper.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />

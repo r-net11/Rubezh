@@ -12,31 +12,32 @@ namespace FiresecService.Service
 	{
 		static CallbackManager()
 		{
-			_serviceInstances = new List<FiresecService>();
+			FiresecServices = new List<FiresecService>();
 		}
 
-		static List<FiresecService> _serviceInstances;
-		static List<FiresecService> _failedServiceInstances;
+		static List<FiresecService> FiresecServices;
+		static List<FiresecService> FailedFiresecServices;
 		static object locker = new object();
 
 		public static void Add(FiresecService firesecService)
 		{
-			_serviceInstances.Add(firesecService);
+			FiresecServices.Add(firesecService);
 		}
 
 		public static void Remove(FiresecService firesecService)
 		{
-			_serviceInstances.Remove(firesecService);
+			FiresecServices.Remove(firesecService);
 		}
 
 		static void Clean()
 		{
 			try
 			{
-				foreach (var failedServiceInstance in _failedServiceInstances)
+				foreach (var firesecServices in FailedFiresecServices)
 				{
-					MainViewModel.Current.RemoveConnection(failedServiceInstance.UID);
-					_serviceInstances.Remove(failedServiceInstance);
+					MainViewModel.Current.RemoveConnection(firesecServices.UID);
+					FiresecServices.Remove(firesecServices);
+					ServiceCash.Free(firesecServices.FiresecManager);
 				}
 			}
 			catch { ;}
@@ -44,17 +45,17 @@ namespace FiresecService.Service
 
 		static void SafeCall(Action<FiresecService> action)
 		{
-			_failedServiceInstances = new List<FiresecService>();
-			foreach (var serviceInstance in _serviceInstances)
+			FailedFiresecServices = new List<FiresecService>();
+			foreach (var firesecServices in FiresecServices)
 			{
-				if (serviceInstance.IsSubscribed)
+				if (firesecServices.IsSubscribed)
 					try
 					{
-						action(serviceInstance);
+						action(firesecServices);
 					}
 					catch
 					{
-						_failedServiceInstances.Add(serviceInstance);
+						FailedFiresecServices.Add(firesecServices);
 					}
 			}
 
@@ -78,13 +79,11 @@ namespace FiresecService.Service
 
 		public static void CopyConfigurationForAllClients(FiresecService firesecService)
 		{
-			foreach (var serviceInstance in _serviceInstances)
+			foreach (var firesecServices in FiresecServices)
 			{
-				if (serviceInstance.UID != firesecService.UID)
+				if (firesecServices.UID != firesecService.UID)
 				{
-					serviceInstance.FiresecManager.ConfigurationManager.DeviceConfiguration = firesecService.FiresecManager.ConfigurationManager.DeviceConfiguration;
-					serviceInstance.FiresecManager.ConfigurationManager.PlansConfiguration = firesecService.FiresecManager.ConfigurationManager.PlansConfiguration;
-					serviceInstance.FiresecManager.ConvertStates();
+					firesecServices.FiresecManager.ConvertStates();
 				}
 			}
 		}
