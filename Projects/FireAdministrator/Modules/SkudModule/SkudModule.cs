@@ -72,7 +72,7 @@ namespace SkudModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowSkudEvent>("СКУД", null, new List<NavigationItem>()
+				new NavigationItem("СКУД", null, new List<NavigationItem>()
 				{
 					new NavigationItem<ShowEmployeeCardIndexEvent>("Картотека",null),
 					new NavigationItem<ShowPassCardEvent>("Пропуск",null),

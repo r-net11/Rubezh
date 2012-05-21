@@ -18,6 +18,7 @@ namespace Infrastructure.Common.Navigation
 			Childs = new ReadOnlyCollection<NavigationItem>(childs ?? new List<NavigationItem>());
 			PermissionPredicate = null;
 			IsVisible = true;
+			IsSelectionAllowed = false;
 		}
 		public virtual void Execute()
 		{
@@ -46,6 +47,8 @@ namespace Infrastructure.Common.Navigation
 			set
 			{
 				_isExpanded = value;
+				if (IsExpanded && Parent != null)
+					Parent.IsExpanded = true;
 				OnPropertyChanged("IsExpanded");
 			}
 		}
@@ -56,7 +59,19 @@ namespace Infrastructure.Common.Navigation
 			set
 			{
 				_isSelected = value;
+				if (IsSelected && Parent != null)
+					Parent.IsExpanded = true;
 				OnPropertyChanged("IsSelected");
+			}
+		}
+		private NavigationItem _parent;
+		public NavigationItem Parent
+		{
+			get { return _parent; }
+			set
+			{
+				_parent = value;
+				OnPropertyChanged("Parent");
 			}
 		}
 		private PermissionType? _permission = null;
@@ -67,6 +82,16 @@ namespace Infrastructure.Common.Navigation
 			{
 				_permission = value;
 				OnPropertyChanged("Permission");
+			}
+		}
+		private bool _isSelectionAllowed;
+		public bool IsSelectionAllowed
+		{
+			get { return _isSelectionAllowed; }
+			set
+			{
+				_isSelectionAllowed = value;
+				OnPropertyChanged("IsSelectionAllowed");
 			}
 		}
 	}

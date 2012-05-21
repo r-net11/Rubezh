@@ -26,6 +26,7 @@ namespace FireAdministrator.Views
 			{
 				_navigation = value;
 				CheckPermissions(_navigation);
+				UpdateParent(null, _navigation);
 				OnPropertyChanged("Navigation");
 			}
 		}
@@ -61,6 +62,7 @@ namespace FireAdministrator.Views
 			TreeViewItem tvi = e.OriginalSource as TreeViewItem;
 			if (tvi != null)
 			{
+				tvi.BringIntoView();
 				//tvi.IsExpanded = !tvi.IsExpanded;
 				NavigationItem item = tvi.Header as NavigationItem;
 				if (item != null)
@@ -105,6 +107,14 @@ namespace FireAdministrator.Views
 					items.Remove(items[i]);
 				else
 					CheckPermissions(items[i].Childs);
+		}
+		private void UpdateParent(NavigationItem parent, IList<NavigationItem> items)
+		{
+			foreach (NavigationItem item in items)
+			{
+				item.Parent = parent;
+				UpdateParent(item, item.Childs);
+			}
 		}
 		private bool HavePermission(NavigationItem item)
 		{

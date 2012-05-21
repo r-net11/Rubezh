@@ -23,6 +23,7 @@ namespace Infrastructure
 		{
 			Arg = arg;
 			ServiceFactory.Events.GetEvent<T>().Subscribe(x => { IsSelected = true; });
+			IsSelectionAllowed = true;
 		}
 		public override void Execute()
 		{
