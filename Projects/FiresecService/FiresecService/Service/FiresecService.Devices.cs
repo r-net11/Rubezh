@@ -22,7 +22,7 @@ namespace FiresecService.Service
 		public OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
 		{
 			ConfigurationFileManager.SetDeviceConfiguration(deviceConfiguration);
-			FiresecManager.ConfigurationManager.DeviceConfiguration = deviceConfiguration;
+			ConfigurationCash.DeviceConfiguration = deviceConfiguration;
 
 			FiresecManager.ConvertBack(deviceConfiguration, true);
 
@@ -34,7 +34,6 @@ namespace FiresecService.Service
 
 			var thread = new Thread(new ThreadStart(NotifyConfigurationChanged));
 			thread.Start();
-			//NotifyConfigurationChanged();
 
 			return result;
 		}
@@ -154,7 +153,7 @@ namespace FiresecService.Service
 				Error = result.ErrorString
 			};
 
-			var configurationManager = new ConfigurationManager();
+			var configurationManager = new ConfigurationConverter();
 			operationResult.Result = configurationManager.ConvertOnlyDevices(result.Result);
 			return operationResult;
 		}
@@ -171,7 +170,7 @@ namespace FiresecService.Service
 				Error = result.ErrorString
 			};
 
-			var configurationManager = new ConfigurationManager();
+			var configurationManager = new ConfigurationConverter();
 			operationResult.Result = configurationManager.ConvertOnlyDevices(result.Result);
 			return operationResult;
 		}
@@ -224,7 +223,7 @@ namespace FiresecService.Service
 			var devicePaths = new List<string>();
 			foreach (var guid in deviceGuids)
 			{
-				var device = FiresecManager.ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == guid);
+				var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == guid);
 				devicePaths.Add(device.PlaceInTree);
 			}
 
@@ -236,7 +235,7 @@ namespace FiresecService.Service
 			var devicePaths = new List<string>();
 			foreach (var guid in deviceGuids)
 			{
-				var device = FiresecManager.ConfigurationManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == guid);
+				var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == guid);
 				devicePaths.Add(device.PlaceInTree);
 			}
 

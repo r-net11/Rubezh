@@ -32,12 +32,5 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<DeviceCategoryType> Categories { get; set; }
-
-		public bool CheckDaysConstraint(DateTime dateTime)
-		{
-			if (IsLastDaysCountActive)
-				return (DateTime.Now.Date - dateTime.Date).Days < LastDaysCount;
-			return true;
-		}
 	}
 }

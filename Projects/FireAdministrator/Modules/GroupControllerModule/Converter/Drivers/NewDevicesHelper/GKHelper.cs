@@ -21,6 +21,8 @@ namespace GKModule.Converter
 				ShortName = "ГК"
 			};
 			xDriver.AutoCreateChildren.Add(DriversHelper.GKIndicator_UID);
+			xDriver.AutoCreateChildren.Add(DriversHelper.GKLine_UID);
+			xDriver.AutoCreateChildren.Add(DriversHelper.GKRele_UID);
 			xDriver.Children.Add(DriversHelper.KAU_UID);
 
 			xDriver.Properties.Add(

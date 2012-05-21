@@ -7,7 +7,7 @@ using FiresecAPI.Models;
 
 namespace FiresecService.Configuration
 {
-	public partial class ConfigurationManager
+	public partial class ConfigurationConverter
 	{
 		PlansConfiguration ConvertPlans(surfaces innerPlans)
 		{

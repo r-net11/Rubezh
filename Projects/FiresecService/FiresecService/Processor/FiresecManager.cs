@@ -9,14 +9,14 @@ namespace FiresecService.Processor
 	{
 		public FiresecService.Service.FiresecService FiresecService { get; set; }
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
-		public ConfigurationManager ConfigurationManager { get; private set; }
+		public ConfigurationConverter ConfigurationManager { get; private set; }
 		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
 
 		public FiresecManager(FiresecService.Service.FiresecService firesecService)
 		{
 			FiresecSerializedClient = new FiresecSerializedClient();
 			FiresecService = firesecService;
-			ConfigurationManager = new ConfigurationManager()
+			ConfigurationManager = new ConfigurationConverter()
 			{
 				FiresecSerializedClient = FiresecSerializedClient
 			};
@@ -24,11 +24,11 @@ namespace FiresecService.Processor
 
 		public void LoadConfiguration()
 		{
-			ConfigurationManager.DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
-			ConfigurationManager.SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
-			ConfigurationManager.LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
-			ConfigurationManager.SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
-			ConfigurationManager.PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
+			ConfigurationCash.DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
+			ConfigurationCash.SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
+			ConfigurationCash.LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
+			ConfigurationCash.SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
+			ConfigurationCash.PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
 		}
 
 		public bool ConnectFiresecCOMServer()

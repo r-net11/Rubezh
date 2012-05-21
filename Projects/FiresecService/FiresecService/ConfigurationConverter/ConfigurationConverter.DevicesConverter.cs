@@ -5,10 +5,11 @@ using Common;
 using Firesec.CoreConfiguration;
 using FiresecAPI.Models;
 using FiresecService.Processor;
+using FiresecService.Service;
 
 namespace FiresecService.Configuration
 {
-	public partial class ConfigurationManager
+	public partial class ConfigurationConverter
 	{
 		void ConvertDevices()
 		{
@@ -48,7 +49,7 @@ namespace FiresecService.Configuration
 			var driverId = FiresecConfiguration.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
 			var driverUID = new Guid(driverId);
 			device.DriverUID = driverUID;
-			device.Driver = Drivers.FirstOrDefault(x => x.UID == driverUID);
+			device.Driver = ConfigurationCash.Drivers.FirstOrDefault(x => x.UID == driverUID);
 
 			device.IntAddress = int.Parse(innerDevice.addr);
 
@@ -161,11 +162,11 @@ namespace FiresecService.Configuration
 		void ConvertDriversBack()
 		{
 			var drivers = new List<drvType>();
-			foreach (var driver in Drivers)
+			foreach (var driver in ConfigurationCash.Drivers)
 			{
 				drivers.Add(new drvType()
 				{
-					idx = Drivers.IndexOf(driver).ToString(),
+					idx = ConfigurationCash.Drivers.IndexOf(driver).ToString(),
 					id = driver.UID.ToString().ToUpper(),
 					name = driver.Name
 				});

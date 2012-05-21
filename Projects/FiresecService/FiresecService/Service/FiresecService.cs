@@ -33,7 +33,7 @@ namespace FiresecService.Service
 		{
 			get { return FiresecManager.FiresecSerializedClient; }
 		}
-		bool IsConnectedToComServer;
+		bool IsConnectedToComServer = true;
 
 		public FiresecService()
 		{
@@ -184,7 +184,7 @@ namespace FiresecService.Service
 			if (CheckHostIps("localhost"))
 				return true;
 
-			var remoteAccessPermissions = FiresecManager.ConfigurationManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login).RemoreAccess;
+			var remoteAccessPermissions = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login).RemoreAccess;
 			if (remoteAccessPermissions == null)
 				return false;
 
@@ -222,7 +222,7 @@ namespace FiresecService.Service
 
 		bool CheckLogin(string login, string password)
 		{
-			var user = FiresecManager.ConfigurationManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login);
+			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login);
 			if (user == null || !HashHelper.CheckPass(password, user.PasswordHash))
 				return false;
 
@@ -241,7 +241,7 @@ namespace FiresecService.Service
 			if (addressList.Any(ip => ip.ToString() == userIp))
 				userIp = "localhost";
 
-			var user = FiresecManager.ConfigurationManager.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin);
+			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin);
 			_userName = user.Name + " (" + userIp + ")";
 		}
 

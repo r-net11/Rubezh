@@ -65,6 +65,8 @@ namespace GKModule.Converter
 			XManager.DriversConfiguration.Drivers.Add(KAUHelper.Create());
 			XManager.DriversConfiguration.Drivers.Add(KAUIndicatorHelper.Create());
 			XManager.DriversConfiguration.Drivers.Add(GKIndicatorHelper.Create());
+			XManager.DriversConfiguration.Drivers.Add(GKLineHelper.Create());
+			XManager.DriversConfiguration.Drivers.Add(GKReleHelper.Create());
 
 			CreateKnownProperties();
 		}
