@@ -29,7 +29,25 @@ namespace SettingsModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			Process.Start("shutdown", "/s /t 0");
+			foreach (var driver in FiresecManager.Drivers)
+			{
+				if (driver.CanControl)
+				{
+					Trace.WriteLine(driver.ShortName);
+				}
+				continue;
+
+				if (driver.HasControlProperties)
+				{
+					foreach (var property in driver.Properties)
+					{
+						if (property.IsControl)
+						{
+							Trace.WriteLine(driver.ShortName + " - " + property.Name + " - " + property.BlockName);
+						}
+					}
+				}
+			}
 		}
 
 		public RelayCommand Test2Command { get; private set; }

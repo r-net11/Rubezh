@@ -175,8 +175,10 @@ namespace AssadProcessor
 
         void SendBroadcastUdp()
         {
-            var udpClient = new UdpClient();
-            udpClient.EnableBroadcast = true;
+			var udpClient = new UdpClient()
+			{
+				EnableBroadcast = true
+			};
             var endPoint = new IPEndPoint(IPAddress.Parse("255.255.255.255"), remotePort);
             byte[] sendBytes = Encoding.UTF8.GetBytes(udpBroadcastMessage);
             udpClient.Send(sendBytes, sendBytes.Length, endPoint);

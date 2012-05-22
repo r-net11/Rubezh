@@ -36,9 +36,10 @@ namespace FiresecService.Configuration
 
 		public void ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
 		{
-			deviceConfiguration.Update();
+			DeviceConfiguration = deviceConfiguration;
+			DeviceConfiguration.Update();
 
-			foreach (var device in deviceConfiguration.Devices)
+			foreach (var device in DeviceConfiguration.Devices)
 			{
 				device.Driver = ConfigurationCash.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 			}

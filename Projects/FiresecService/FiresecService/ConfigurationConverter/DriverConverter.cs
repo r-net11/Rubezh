@@ -241,8 +241,16 @@ namespace FiresecService.Configuration
 						ToolTip = internalProperty.hint,
 						Default = internalProperty.@default,
 						Visible = internalProperty.hidden == "0" && internalProperty.showOnlyInState == "0",
-						IsHidden = internalProperty.hidden == "1"
+						IsHidden = internalProperty.hidden == "1",
+						BlockName = internalProperty.blockName
 					};
+
+					if (internalProperty.name.StartsWith("Control$"))
+					{
+						driverProperty.Name = internalProperty.name.Replace("Control$", "");
+						driverProperty.IsControl = true;
+						driver.HasControlProperties = true;
+					}
 
 					driverProperty.Parameters = new List<DriverPropertyParameter>();
 					if (internalProperty.param != null)
@@ -280,6 +288,10 @@ namespace FiresecService.Configuration
 
 							case "Bool":
 								driverProperty.DriverPropertyType = DriverPropertyTypeEnum.BoolType;
+								break;
+
+							case "Empty":
+								driverProperty.DriverPropertyType = DriverPropertyTypeEnum.Empty;
 								break;
 
 							default:

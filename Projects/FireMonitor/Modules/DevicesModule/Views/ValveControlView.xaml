@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="DevicesModule.Views.ValveControlView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel>
+        <StackPanel Visibility="{Binding IsTimerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
+            <Label Content="{Binding TimeLeft}" />
+            <Label Content=" сек. " />
+            <Button Content="Отмена пуска" Command="{Binding StopTimerCommand}" Width="100" Margin="2" />
+        </StackPanel>
+
+        <TabControl>
+            <TabItem Header="Положение">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Закрыть" Command="{Binding CloseCommand}" />
+                    <Button Content="Стоп" Command="{Binding StopCommand}" />
+                    <Button Content="Открыть" Command="{Binding OpenCommand}" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Автоматика">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Включение автоматики" Command="{Binding AutomaticOnCommand}" />
+                    <Button Content="Отключение автоматики" Command="{Binding AutomaticOffCommand}" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Задержка пуска">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Пуск" Command="{Binding StartCommand}" />
+                    <Button Content="Стоп" Command="{Binding CancelStartCommand}" />
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+        <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" Width="100" Margin="3" />
+    </StackPanel>
+</UserControl>

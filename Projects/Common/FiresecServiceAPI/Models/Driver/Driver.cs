@@ -208,5 +208,8 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public bool CanMonitoringDisable { get; set; }
+
+		[DataMember]
+		public bool HasControlProperties { get; set; }
     }
 }

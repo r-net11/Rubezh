@@ -120,6 +120,7 @@
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\StateViewModel.cs" />
+    <Compile Include="ViewModels\ValveControlViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
     <Compile Include="ViewModels\ZoneViewModel.cs" />
     <Compile Include="Views\DeviceControlView.xaml.cs">
@@ -130,6 +131,9 @@
     </Compile>
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ValveControlView.xaml.cs">
+      <DependentUpon>ValveControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZonesView.xaml.cs">
       <DependentUpon>ZonesView.xaml</DependentUpon>
@@ -158,6 +162,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ValveControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

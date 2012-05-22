@@ -29,6 +29,12 @@ namespace FiresecAPI.Models
         [DataMember]
         public bool IsHidden { get; set; }
 
+		[DataMember]
+		public string BlockName { get; set; }
+
+		[DataMember]
+		public bool IsControl { get; set; }
+
         [DataMember]
         public List<DriverPropertyParameter> Parameters { get; set; }
 

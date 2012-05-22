@@ -2,13 +2,20 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Views="clr-namespace:DevicesModule.Views"
                     xmlns:ViewModels="clr-namespace:DevicesModule.ViewModels">
+    
     <DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
         <Views:DevicesView />
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:ZonesViewModel}">
         <Views:ZonesView />
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
         <Views:DeviceDetailsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ValveControlViewModel}">
+        <Views:ValveControlView />
     </DataTemplate>
 </ResourceDictionary>

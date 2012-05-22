@@ -65,6 +65,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="CommandManager.cs" />
     <Compile Include="Converter\Drivers\Helpers\AMP4Helper.cs" />
     <Compile Include="Converter\Drivers\Helpers\BUNHelper.cs" />
     <Compile Include="Converter\Drivers\Helpers\BUZHelper.cs" />

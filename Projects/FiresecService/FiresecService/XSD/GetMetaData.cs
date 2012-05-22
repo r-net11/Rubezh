@@ -243,6 +243,10 @@ namespace Firesec.Metadata
         /// <remarks/>
         [System.Xml.Serialization.XmlAttributeAttribute()]
         public string showOnlyInState;
+        
+        /// <remarks/>
+        [System.Xml.Serialization.XmlAttributeAttribute()]
+		public string blockName;
     }
     
     /// <remarks/>

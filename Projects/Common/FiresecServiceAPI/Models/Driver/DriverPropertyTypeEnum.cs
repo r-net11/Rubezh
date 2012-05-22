@@ -6,6 +6,7 @@
         StringType,
         IntType,
         ByteType,
-        BoolType
+        BoolType,
+		Empty
     }
 }
