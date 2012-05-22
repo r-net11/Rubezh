@@ -42,7 +42,7 @@ namespace Controls
 
 		private void On_Loaded(object sender, System.Windows.RoutedEventArgs e)
 		{
-			if (Navigation != null && Navigation.Count > -1)
+			if (Navigation != null && Navigation.Count > 0)
 				Navigation[0].IsSelected = true;
 		}
 

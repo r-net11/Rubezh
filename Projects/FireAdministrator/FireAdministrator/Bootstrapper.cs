@@ -30,15 +30,11 @@ namespace FireAdministrator
 			var preLoadWindow = new PreLoadWindow();
 
 			var loginViewModel = new LoginViewModel();
-			var connectResult = false;
-			if (ServiceFactory.AppSettings.AutoConnect)
-				connectResult = loginViewModel.AutoConnect();
-			if (connectResult == false)
+			while (ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel) && !loginViewModel.IsConnected)
 			{
-				connectResult = ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel);
 			}
 
-			if (connectResult)
+			if (loginViewModel.IsConnected)
 			{
 				preLoadWindow.PreLoadText = "Инициализация компонент...";
 				preLoadWindow.Show();

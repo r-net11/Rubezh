@@ -1,6 +1,11 @@
 ﻿using System;
 using System.Windows;
 using Common;
+using System.Drawing;
+using System.Windows.Media;
+using System.Reflection;
+using System.Windows.Interop;
+using System.Windows.Media.Imaging;
 
 namespace Infrastructure.Common.MessageBox
 {
@@ -20,7 +25,9 @@ namespace Infrastructure.Common.MessageBox
 
 				try
 				{
-					dialogWindow.Owner = _activeModalWindow ?? Application.Current.MainWindow;
+					var window = _activeModalWindow ?? Application.Current.MainWindow;
+					dialogWindow.Owner = window != null && window.Visibility == Visibility.Visible ? window : null;
+					dialogWindow.ShowInTaskbar = dialogWindow.Owner == null;
 				}
 				catch
 				{

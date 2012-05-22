@@ -6,84 +6,92 @@ using Infrastructure.Common.MessageBox;
 
 namespace FireAdministrator.ViewModels
 {
-    public class LoginViewModel : DialogContent
-    {
-        public LoginViewModel()
-        {
-            Title = "Администратор. Авторизация";
-            ConnectCommand = new RelayCommand(OnConnect);
-            CancelCommand = new RelayCommand(OnCancel);
+	public class LoginViewModel : DialogContent
+	{
+		public LoginViewModel()
+		{
+			Title = "Администратор. Авторизация";
+			ConnectCommand = new RelayCommand(OnConnect);
+			CancelCommand = new RelayCommand(OnCancel);
 
-            UserName = ServiceFactory.AppSettings.DefaultLogin;
-            Password = ServiceFactory.AppSettings.DefaultPassword;
-        }
+			UserName = ServiceFactory.AppSettings.UserName;
+			Password = ServiceFactory.AppSettings.SavePassword ? ServiceFactory.AppSettings.Password : string.Empty;
+			SavePassword = ServiceFactory.AppSettings.SavePassword;
+			IsConnected = false;
+		}
 
-        public bool AutoConnect()
-        {
-            var userName = ServiceFactory.AppSettings.DefaultLogin;
-            var password = ServiceFactory.AppSettings.DefaultPassword;
-            if (userName != null && password != null)
-            {
-                string serverAddress = ServiceFactory.AppSettings.ServiceAddress;
+		string _userName;
+		public string UserName
+		{
+			get { return _userName; }
+			set
+			{
+				_userName = value;
+				OnPropertyChanged("UserName");
+			}
+		}
 
-                var result = DoConnect(serverAddress, userName, password);
-                return result;
-            }
-            return false;
-        }
-
-        string _userName;
-        public string UserName
-        {
-            get { return _userName; }
-            set
-            {
-                _userName = value;
-                OnPropertyChanged("UserName");
-            }
-        }
-
-        string _password;
+		string _password;
 		[ObfuscationAttribute(Exclude = true)]
-        public string Password
-        {
-            get { return _password; }
-            set
-            {
-                _password = value;
-                OnPropertyChanged("Password");
-            }
-        }
+		public string Password
+		{
+			get { return _password; }
+			set
+			{
+				_password = value;
+				OnPropertyChanged("Password");
+			}
+		}
 
-        public RelayCommand ConnectCommand { get; private set; }
-        void OnConnect()
-        {
-            var result = DoConnect(ServiceFactory.AppSettings.ServiceAddress, UserName, Password);
-            if (result)
-                Close(true);
-        }
+		private bool _savePassword;
+		public bool SavePassword
+		{
+			get { return _savePassword; }
+			set
+			{
+				_savePassword = value;
+				OnPropertyChanged("SavePassword");
+			}
+		}
 
-        void OnCancel()
-        {
-            Close(false);
-        }
+		public bool IsConnected { get; private set; }
 
-        bool DoConnect(string serverAddress, string userName, string password)
-        {
-            var preLoadWindow = new PreLoadWindow()
-            {
-                PreLoadText = "Соединение с сервером..."
-            };
-            preLoadWindow.Show();
-            string message = FiresecManager.Connect("Администратор", serverAddress, userName, password);
-            preLoadWindow.Close();
+		public RelayCommand ConnectCommand { get; private set; }
+		void OnConnect()
+		{
+			Close(true);
+			DoConnect(ServiceFactory.AppSettings.ServiceAddress, UserName, Password);
+		}
 
-            if (message == null)
-            {
-                return true;
-            }
-            MessageBoxService.Show(message);
-            return false;
-        }
-    }
+		void OnCancel()
+		{
+			Close(false);
+		}
+
+		void DoConnect(string serverAddress, string userName, string password)
+		{
+			Surface.Hide();
+			string message = null;
+			using (new WaitWrapper())
+			{
+				var preLoadWindow = new PreLoadWindow()
+				{
+					PreLoadText = "Соединение с сервером..."
+				};
+				preLoadWindow.Show();
+				message = FiresecManager.Connect("Администратор", serverAddress, userName, password);
+				preLoadWindow.Close();
+			}
+			IsConnected = string.IsNullOrEmpty(message);
+			if (IsConnected)
+			{
+				ServiceFactory.AppSettings.UserName = UserName;
+				ServiceFactory.AppSettings.Password = SavePassword ? password : string.Empty;
+				ServiceFactory.AppSettings.SavePassword = SavePassword;
+				AppSettingsHelper.SaveAppSettings();
+			}
+			else
+				MessageBoxService.Show(message);
+		}
+	}
 }

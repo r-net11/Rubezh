@@ -36,6 +36,11 @@ namespace Infrastructure.Common
 			return navigationItems;
 		}
 
+		protected bool PerformLogin()
+		{
+			return false;
+		}
+
 		private void ReadConfiguration()
 		{
 			if (Modules == null)
