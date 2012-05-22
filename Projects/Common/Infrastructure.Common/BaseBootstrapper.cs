@@ -9,6 +9,7 @@ using Infrastructure.Common.Configuration;
 using Infrastructure.Common.MessageBox;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Properties;
+using Infrastructure.Common.Login.ViewModels;
 
 namespace Infrastructure.Common
 {
@@ -36,9 +37,19 @@ namespace Infrastructure.Common
 			return navigationItems;
 		}
 
-		protected bool PerformLogin()
+		protected bool PerformLogin(IUserDialogService userDialogs, string title)
 		{
-			return false;
+			var loginViewModel = new LoginViewModel()
+			{
+				Title = title
+			};
+			while (!loginViewModel.IsConnected && !loginViewModel.IsCanceled)
+			{
+				userDialogs.ShowModalWindow(loginViewModel);
+				if (!string.IsNullOrEmpty(loginViewModel.Message))
+					MessageBoxService.Show(loginViewModel.Message);
+			}
+			return loginViewModel.IsConnected;
 		}
 
 		private void ReadConfiguration()

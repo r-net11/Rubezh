@@ -20,8 +20,6 @@ namespace FireAdministrator
 #if DEBUG
 			appSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
 #endif
-
-
 			ServiceFactory.AppSettings = appSettings;
 		}
 		public static void SaveAppSettings()

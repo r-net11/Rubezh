@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -132,6 +133,7 @@
     <Compile Include="Dialogs\IUserDialogService.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="IViewPart.cs" />
+    <Compile Include="Login\ViewModels\LoginViewModel.cs" />
     <Compile Include="MessageBox\MessageBoxService.cs" />
     <Compile Include="MessageBox\UserDialogService.cs" />
     <Compile Include="MessageBox\ViewModel\MessageBoxViewModel.cs" />
@@ -209,6 +211,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Login\DataTemplates\" />
+    <Folder Include="Login\Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

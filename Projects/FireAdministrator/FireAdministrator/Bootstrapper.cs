@@ -28,13 +28,7 @@ namespace FireAdministrator
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
 			var preLoadWindow = new PreLoadWindow();
-
-			var loginViewModel = new LoginViewModel();
-			while (ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel) && !loginViewModel.IsConnected)
-			{
-			}
-
-			if (loginViewModel.IsConnected)
+			if (PerformLogin(ServiceFactory.UserDialogs, "Администратор. Авторизация"))
 			{
 				preLoadWindow.PreLoadText = "Инициализация компонент...";
 				preLoadWindow.Show();
