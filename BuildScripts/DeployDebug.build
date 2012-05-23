@@ -5,13 +5,13 @@
     <call target="CopyFiles" />
   </target>
   <target name="CopyFiles">
-    <copy todir="Projects\FiresecService\bin\Debug\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="Projects\Deploy\ConfigurationService">
+    <copy todir="..\Projects\FiresecService\bin\Debug\Configuration" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\Projects\Deploy\ConfigurationService">
         <include name="**\*" />
       </fileset>
     </copy>
-    <copy todir="Projects\FiresecService\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="Projects\Deploy\SqlCE">
+    <copy todir="..\Projects\FiresecService\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\Projects\Deploy\SqlCE">
         <include name="**\*" />
       </fileset>
     </copy>
