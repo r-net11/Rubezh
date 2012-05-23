@@ -17,8 +17,7 @@ namespace FireMonitor.Views
         public RelayCommand ChangeUserCommand { get; private set; }
         void OnChangeUser()
         {
-            var loginViewModel = new LoginViewModel(LoginViewModel.PasswordViewType.Reconnect);
-            ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel);
+			ServiceFactory.LoginService.ExecuteReconnect();
         }
     }
 }

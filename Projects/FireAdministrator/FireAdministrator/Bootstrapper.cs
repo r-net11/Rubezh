@@ -29,7 +29,7 @@ namespace FireAdministrator
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
 			var preLoadWindow = new PreLoadWindow();
-			if (PerformLogin(ServiceFactory.UserDialogs,"Администратор", "Администратор. Авторизация"))
+			if (ServiceFactory.LoginService.ExecuteConnect())
 			{
 				preLoadWindow.PreLoadText = "Инициализация компонент...";
 				preLoadWindow.Show();

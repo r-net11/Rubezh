@@ -6,73 +6,73 @@ using System.Windows.Media;
 
 namespace Infrastructure.Common
 {
-    public partial class DialogWindow : Window
-    {
-        public object ViewModel { get; private set; }
+	public partial class DialogWindow : Window
+	{
+		public object ViewModel { get; private set; }
 
-        void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
-                this.DragMove();
-        }
+		void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+				this.DragMove();
+		}
 
-        public DialogWindow()
-        {
-            InitializeComponent();
-            SourceInitialized += OnSourceInitialized;
-        }
+		public DialogWindow()
+		{
+			InitializeComponent();
+			SourceInitialized += OnSourceInitialized;
+		}
 
-        void OnSourceInitialized(object sender, EventArgs e)
-        {
-            UserControl userControl = FindUserControl(this);
-            if (userControl != null)
-            {
-                var oldHeight = ActualHeight;
-                var oldWidth = ActualWidth;
+		void OnSourceInitialized(object sender, EventArgs e)
+		{
+			UserControl userControl = FindUserControl(this);
+			if (userControl != null)
+			{
+				var oldHeight = ActualHeight;
+				var oldWidth = ActualWidth;
+				var borderHeight = oldHeight - _content.ActualHeight;
+				var borderWidth = oldWidth - _content.ActualWidth;
 
-                var newHeight = userControl.MinHeight + 30; // + dialog window title heigh
-                var newWidth = userControl.MinWidth;
-                MinHeight = newHeight + 30 + 30;
-                MinWidth = newWidth + 30;
+				MinHeight = userControl.MinHeight + borderHeight;
+				MinWidth = userControl.MinWidth + borderWidth;
+				MaxHeight = userControl.MaxHeight + borderHeight;
+				MaxWidth = userControl.MaxWidth + borderWidth;
 
-                if (double.IsNaN(Height))
-                {
-                    Height = MinHeight;
-                    Width = MinWidth;
+				Height = double.IsNaN(userControl.Height) ? MinHeight : userControl.Height + borderHeight;
+				Width = double.IsNaN(userControl.Width) ? MinWidth : userControl.Width + borderWidth;
 
-                    Left += ((oldWidth - ActualWidth) / 2);
-                    Top += ((oldHeight - ActualHeight) / 2);
-                }
-            }
-        }
+				Left += (oldWidth - ActualWidth) / 2;
+				Top += (oldHeight - ActualHeight) / 2;
+			}
+			_thumb.Visibility = MaxHeight == MinHeight && MaxWidth == MinWidth ? System.Windows.Visibility.Hidden : System.Windows.Visibility.Visible;
+		}
 
-        static UserControl FindUserControl(DependencyObject obj)
-        {
-            UserControl result = null;
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
-            {
-                DependencyObject childObj = VisualTreeHelper.GetChild(obj, i);
-                if (childObj != null)
-                {
-                    result = childObj as UserControl;
-                    if (result != null)
-                        break;
+		static UserControl FindUserControl(DependencyObject obj)
+		{
+			UserControl result = null;
+			for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+			{
+				DependencyObject childObj = VisualTreeHelper.GetChild(obj, i);
+				if (childObj != null)
+				{
+					result = childObj as UserControl;
+					if (result != null)
+						break;
 
-                    result = FindUserControl(childObj);
-                    if (result != null)
-                        break;
-                }
-            }
-            return result;
-        }
+					result = FindUserControl(childObj);
+					if (result != null)
+						break;
+				}
+			}
+			return result;
+		}
 
-        public void SetContent(IDialogContent content)
-        {
-            if (!string.IsNullOrEmpty(content.Title))
-            {
-                Title = content.Title;
-                _captionTextBlock.Text = content.Title;
-            }
+		public void SetContent(IDialogContent content)
+		{
+			if (!string.IsNullOrEmpty(content.Title))
+			{
+				Title = content.Title;
+				_captionTextBlock.Text = content.Title;
+			}
 
 			SaveCancelDialogContent saveCancelDialogContent = content as SaveCancelDialogContent;
 			if (saveCancelDialogContent != null)
@@ -85,46 +85,46 @@ namespace Infrastructure.Common
 			}
 			else
 				_okCancelStackPanel.Visibility = System.Windows.Visibility.Collapsed;
-            _okCancelStackPanel.DataContext = content;
+			_okCancelStackPanel.DataContext = content;
 
-            _content.Content = content.InternalViewModel;
-            content.Surface = this;
+			_content.Content = content.InternalViewModel;
+			content.Surface = this;
 
-            ViewModel = content.InternalViewModel;
-        }
+			ViewModel = content.InternalViewModel;
+		}
 
-        void OnLoaded(object sender, RoutedEventArgs e)
-        {
-        }
+		void OnLoaded(object sender, RoutedEventArgs e)
+		{
+		}
 
-        void OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Escape)
-            {
-                Close();
-                CloseContent();
-            }
-        }
+		void OnKeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Escape)
+			{
+				CloseContent();
+				Close();
+			}
+		}
 
-        void OnCloseButton(object sender, RoutedEventArgs e)
-        {
-            Close();
-            CloseContent();
-        }
+		void OnCloseButton(object sender, RoutedEventArgs e)
+		{
+			CloseContent();
+			Close();
+		}
 
-        void CloseContent()
-        {
-            var content = Content as IDialogContent;
-            if (content != null)
-                content.Close(false);
-        }
+		void CloseContent()
+		{
+			var content = _content.Content as IDialogContent;
+			if (content != null)
+				content.Close(false);
+		}
 
-        void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
-        {
-            if (this.Width + e.HorizontalChange > 10)
-                this.Width += e.HorizontalChange;
-            if (this.Height + e.VerticalChange > 10)
-                this.Height += e.VerticalChange;
-        }
-    }
+		void Thumb_DragDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
+		{
+			if (this.Width + e.HorizontalChange > 10)
+				this.Width += e.HorizontalChange;
+			if (this.Height + e.VerticalChange > 10)
+				this.Height += e.VerticalChange;
+		}
+	}
 }

@@ -8,8 +8,5 @@
         public bool ShowGK { get; set; }
         public bool ShowSKUD { get; set; }
         public bool IsDebug { get; set; }
-		public string UserName { get; set; }
-		public string Password { get; set; }
-		public bool SavePassword { get; set; }
     }
 }

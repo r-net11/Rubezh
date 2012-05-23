@@ -13,7 +13,7 @@ namespace Infrastructure.Common
 
 		public Window Surface { get; set; }
 
-		public void Close(bool result)
+		public virtual void Close(bool result)
 		{
 			if (Surface != null)
 			{

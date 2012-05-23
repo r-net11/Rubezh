@@ -31,17 +31,7 @@ namespace FireMonitor
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
 			var preLoadWindow = new PreLoadWindow();
-
-			var connectResult = false;
-			var loginViewModel = new LoginViewModel(LoginViewModel.PasswordViewType.Connect);
-			if (ServiceFactory.AppSettings.AutoConnect)
-				connectResult = loginViewModel.AutoConnect();
-			if (connectResult == false)
-			{
-				connectResult = ServiceFactory.UserDialogs.ShowModalWindow(loginViewModel);
-			}
-
-			if (connectResult)
+			if (ServiceFactory.LoginService.ExecuteConnect())
 			{
 				preLoadWindow.PreLoadText = "Инициализация компонент...";
 				preLoadWindow.Show();

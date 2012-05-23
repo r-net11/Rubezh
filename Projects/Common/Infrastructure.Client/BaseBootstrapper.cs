@@ -45,21 +45,6 @@ namespace Infrastructure.Client
 			return navigationItems;
 		}
 
-		protected bool PerformLogin(IUserDialogService userDialogs, string clientType, string title = null)
-		{
-			var loginViewModel = new LoginViewModel(clientType)
-			{
-				Title = title ?? "Авторизация"
-			};
-			while (!loginViewModel.IsConnected && !loginViewModel.IsCanceled)
-			{
-				userDialogs.ShowModalWindow(loginViewModel);
-				if (!string.IsNullOrEmpty(loginViewModel.Message))
-					MessageBoxService.Show(loginViewModel.Message);
-			}
-			return loginViewModel.IsConnected;
-		}
-
 		private void ReadConfiguration()
 		{
 			if (Modules == null)

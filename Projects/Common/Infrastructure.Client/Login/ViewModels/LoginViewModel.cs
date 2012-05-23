@@ -12,7 +12,7 @@ using Common;
 
 namespace Infrastructure.Client.Login.ViewModels
 {
-	public class LoginViewModel : DialogContent
+	internal class LoginViewModel : DialogContent
 	{
 		private PasswordViewType _passwordViewType;
 
@@ -45,7 +45,7 @@ namespace Infrastructure.Client.Login.ViewModels
 					CanEditUserName = false;
 					break;
 			}
-
+			CanSavePassword = _passwordViewType != PasswordViewType.Validate;
 			Password = Settings.Default.SavePassword ? Settings.Default.Password : string.Empty;
 			SavePassword = Settings.Default.SavePassword;
 
@@ -95,6 +95,16 @@ namespace Infrastructure.Client.Login.ViewModels
 				OnPropertyChanged("CanEditUserName");
 			}
 		}
+		bool _canSavePassword;
+		public bool CanSavePassword
+		{
+			get { return _canSavePassword; }
+			set
+			{
+				_canSavePassword = value;
+				OnPropertyChanged("CanSavePassword");
+			}
+		}
 
 		public bool IsConnected { get; private set; }
 		public bool IsCanceled { get; private set; }
@@ -104,12 +114,12 @@ namespace Infrastructure.Client.Login.ViewModels
 		public RelayCommand ConnectCommand { get; private set; }
 		void OnConnect()
 		{
-			IsCanceled = false;
 			Close(true);
+			IsCanceled = false;
 			switch (_passwordViewType)
 			{
 				case PasswordViewType.Connect:
-					DoConnect(UserName, Password);
+					DoConnect();
 					break;
 				case PasswordViewType.Reconnect:
 					Message = FiresecManager.Reconnect(UserName, Password);
@@ -119,34 +129,34 @@ namespace Infrastructure.Client.Login.ViewModels
 					break;
 			}
 			IsConnected = string.IsNullOrEmpty(Message);
+			if (CanSavePassword && IsConnected)
+			{
+				Settings.Default.UserName = UserName;
+				Settings.Default.Password = SavePassword ? Password : string.Empty;
+				Settings.Default.SavePassword = SavePassword;
+				Settings.Default.Save();
+			}
 		}
 		void OnCancel()
 		{
 			Message = null;
-			IsCanceled = true;
 			Close(false);
 		}
 
-		private void DoConnect(string userName, string password)
+		public override void Close(bool result)
 		{
-			Surface.Hide();
-			//using (new WaitWrapper())
-			{
-				var preLoadWindow = new PreLoadWindow()
-				{
-					PreLoadText = "Соединение с сервером..."
-				};
-				preLoadWindow.Show();
-				Message = FiresecManager.Connect(ClientType, GetServerAddress(), userName, password);
-				preLoadWindow.Close();
-			}
-			if (IsConnected)
-			{
-				Settings.Default.UserName = UserName;
-				Settings.Default.Password = SavePassword ? password : string.Empty;
-				Settings.Default.SavePassword = SavePassword;
-				Settings.Default.Save();
-			}
+			IsCanceled = true;
+			base.Close(result);
+		}
+
+		private void DoConnect()
+		{
+			if (Surface != null)
+				Surface.Hide();
+			var preLoadWindow = new PreLoadWindow() { PreLoadText = "Соединение с сервером..." };
+			preLoadWindow.Show();
+			Message = FiresecManager.Connect(ClientType, GetServerAddress(), UserName, Password);
+			preLoadWindow.Close();
 		}
 
 		private string GetServerAddress()
