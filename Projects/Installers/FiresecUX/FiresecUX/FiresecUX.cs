@@ -23,13 +23,13 @@ namespace FiresecUX
 			FiresecUX.Model = new FiresecUXModel(this);
 			FiresecUX.Dispatcher = Dispatcher.CurrentDispatcher;
 			var firesecUXViewModel = new FiresecUXViewModel();
-
 			// Create a Window to show UI.
 
 			if (FiresecUX.Model.Command.Display == Display.Passive || FiresecUX.Model.Command.Display == Display.Full)
 			{
 				Engine.Log(LogLevel.Verbose, "Creating UI");
 				FiresecUX.View = new MainView();
+				FiresecUX.View.DataContext = firesecUXViewModel;
 				FiresecUX.View.Show();
 			}
 

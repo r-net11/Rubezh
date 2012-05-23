@@ -8,5 +8,4 @@
   - Жесткий диск: 100 Mb дискового пространства
 
   - Microsoft Windows Installer 3.1
-  - Microsoft .NET Framework 3.5 SP1
   - Microsoft .NET Framework 4.0
