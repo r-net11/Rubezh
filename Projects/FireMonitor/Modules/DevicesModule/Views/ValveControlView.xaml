@@ -11,22 +11,22 @@
 
         <TabControl>
             <TabItem Header="Положение">
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Закрыть" Command="{Binding CloseCommand}" />
-                    <Button Content="Стоп" Command="{Binding StopCommand}" />
-                    <Button Content="Открыть" Command="{Binding OpenCommand}" />
+                <StackPanel Orientation="Horizontal" Background="White">
+                    <Button Content="Закрыть" Command="{Binding CloseCommand}" Width="100" Margin="2" />
+                    <Button Content="Стоп" Command="{Binding StopCommand}" Width="100" Margin="2" />
+                    <Button Content="Открыть" Command="{Binding OpenCommand}" Width="100" Margin="2" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Автоматика">
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Включение автоматики" Command="{Binding AutomaticOnCommand}" />
-                    <Button Content="Отключение автоматики" Command="{Binding AutomaticOffCommand}" />
+                <StackPanel Orientation="Horizontal" Background="White">
+                    <Button Content="Включение автоматики" Command="{Binding AutomaticOnCommand}" Width="150" Margin="2" />
+                    <Button Content="Отключение автоматики" Command="{Binding AutomaticOffCommand}" Width="150" Margin="2" />
                 </StackPanel>
             </TabItem>
             <TabItem Header="Задержка пуска">
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Пуск" Command="{Binding StartCommand}" />
-                    <Button Content="Стоп" Command="{Binding CancelStartCommand}" />
+                <StackPanel Orientation="Horizontal" Background="White">
+                    <Button Content="Пуск" Command="{Binding StartCommand}" Width="100" Margin="2" />
+                    <Button Content="Стоп" Command="{Binding CancelStartCommand}" Width="100" Margin="2" />
                 </StackPanel>
             </TabItem>
         </TabControl>

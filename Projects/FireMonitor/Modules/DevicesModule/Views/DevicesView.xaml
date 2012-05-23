@@ -9,8 +9,9 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="*" MinHeight="200" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="100" MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
             <DataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedDevice, UpdateSourceTrigger=PropertyChanged}">
@@ -55,7 +56,8 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="11" TextBlock.Foreground="White" >
+        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+        <Grid Grid.Row="2" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="11" TextBlock.Foreground="White" >
             <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">

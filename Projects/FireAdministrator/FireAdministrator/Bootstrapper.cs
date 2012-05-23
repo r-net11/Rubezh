@@ -25,7 +25,7 @@ namespace FireAdministrator
 				System.Environment.Exit(1);
 			}
 
-			RegisterServices();
+			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
 			var preLoadWindow = new PreLoadWindow();
@@ -45,7 +45,8 @@ namespace FireAdministrator
 				{
 					var ShellView = new ShellView();
 					ServiceFactory.ShellView = ShellView;
-					InitializeKnownModules();
+					InitializeModules();
+					ShellView.Navigation = GetNavigationItems();
 					Application.Current.MainWindow = ShellView;
 					Application.Current.MainWindow.Show();
 				}
@@ -62,20 +63,20 @@ namespace FireAdministrator
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 		}
 
-		void RegisterServices()
-		{
-			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService(), new ValidationService());
-		}
+		//void RegisterServices()
+		//{
+		//    ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService(), new ValidationService());
+		//}
 
 		void OnConfigurationChanged(object obj)
 		{
 			InitializeModules();
 		}
 
-		void InitializeKnownModules()
-		{
-			InitializeModules();
-			((ShellView)ServiceFactory.ShellView).Navigation = GetNavigationItems();
-		}
+		//void InitializeKnownModules()
+		//{
+		//    InitializeModules();
+		//    ((ShellView)ServiceFactory.ShellView).Navigation = GetNavigationItems();
+		//}
 	}
 }

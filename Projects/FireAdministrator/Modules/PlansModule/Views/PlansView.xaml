@@ -11,14 +11,14 @@
         <Views:ToolboxView Grid.Row="0" />
         <Grid Grid.Row="1" Margin="5">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*" MinWidth="200" Name="leftColumn" />
+                <ColumnDefinition Width="1*" MinWidth="200" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="3*" MinWidth="200" />
             </Grid.ColumnDefinitions>
 
             <TabControl Grid.Column="0">
                 <TabItem Header="Дерево">
-                    <Views:PlansTreeView SizeChanged="OnSizeChanged" />
+                    <Views:PlansTreeView />
                 </TabItem>
                 <TabItem Header="Устройства">
                     <Views:DevicesView DataContext="{Binding DevicesViewModel}" />

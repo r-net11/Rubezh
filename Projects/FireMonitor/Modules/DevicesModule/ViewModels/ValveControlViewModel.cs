@@ -9,7 +9,6 @@ namespace DevicesModule.ViewModels
 {
 	public class ValveControlViewModel : BaseViewModel
 	{
-
 		Device _device;
 
 		public ValveControlViewModel(Device device)

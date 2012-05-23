@@ -18,10 +18,6 @@ namespace AlarmModule
 		{
 			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupListViewModel());
 			ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Subscribe(OnShowAlarms);
-		}
-
-		void CreateViewModels()
-		{
 			AlarmsViewModel = new AlarmsViewModel();
 		}
 
@@ -36,10 +32,10 @@ namespace AlarmModule
 			AlarmsViewModel.Sort(alarmType);
 			ServiceFactory.Layout.Show(AlarmsViewModel);
 		}
-		
+
 		public override void Initialize()
 		{
-			CreateViewModels();
+			AlarmsViewModel.Initialize();
 			CreateWatchers();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()

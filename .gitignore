@@ -6,3 +6,4 @@ buildlog.xml
 /3rdParty/VLC/Vlc.DotNet.Src/Vlc.DotNet.Core.Interops/obj
 /3rdParty/VLC/Vlc.DotNet.Src/Vlc.DotNet.Forms/bin
 /3rdParty/VLC/Vlc.DotNet.Src/Vlc.DotNet.Forms/obj
+/build.bat

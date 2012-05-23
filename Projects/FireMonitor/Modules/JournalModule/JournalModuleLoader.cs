@@ -20,6 +20,8 @@ namespace JournalModule
 			ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
 			ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Subscribe(OnShowArchive);
 			ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Subscribe(OnNewJournalRecord);
+			JournalsViewModel = new JournalsViewModel();
+			ArchiveViewModel = new ArchiveViewModel();
 		}
 
 		private int UnreadJournalCount
@@ -33,12 +35,6 @@ namespace JournalModule
 			}
 		}
 
-		void CreateViewModels()
-		{
-			JournalsViewModel = new JournalsViewModel();
-			ArchiveViewModel = new ArchiveViewModel();
-		}
-
 		void OnShowJournal(object obj)
 		{
 			UnreadJournalCount = 0;
@@ -47,7 +43,6 @@ namespace JournalModule
 		}
 		void OnShowArchive(object obj)
 		{
-			//ArchiveViewModel.Initialize();
 			ServiceFactory.Layout.Show(ArchiveViewModel);
 		}
 		void OnNewJournalRecord(JournalRecord journalItem)
@@ -58,7 +53,8 @@ namespace JournalModule
 
 		public override void Initialize()
 		{
-			CreateViewModels();
+			JournalsViewModel.Initialize();
+			ArchiveViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

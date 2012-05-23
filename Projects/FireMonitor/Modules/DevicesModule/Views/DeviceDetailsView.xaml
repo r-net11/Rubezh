@@ -68,13 +68,16 @@
                     </StackPanel>
                 </StackPanel>
             </TabItem>
-            <TabItem Header="Управление" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}"
-                     IsSelected="{Binding IsValveControlSelected}">
+            <TabItem Header="Управление" Visibility="{Binding CanValveControl, Converter={StaticResource BoolToVisibilityConverter}}"
+                     IsSelected="{Binding IsControlTabSelected}">
                 <Grid>
-                    <Views:ValveControlView DataContext="{Binding DeviceControlViewModel}"
-                        Visibility="{Binding IsValve, Converter={StaticResource BoolToVisibilityConverter}}" />
-                    <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}"
-                        Visibility="{Binding HasControlProperties, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    <Views:ValveControlView DataContext="{Binding ValveControlViewModel}" />
+                </Grid>
+            </TabItem>
+            <TabItem Header="Управление" Visibility="{Binding CanDeviceControl, Converter={StaticResource BoolToVisibilityConverter}}"
+                     IsSelected="{Binding IsControlTabSelected}">
+                <Grid>
+                    <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
                 </Grid>
             </TabItem>
         </TabControl>

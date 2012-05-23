@@ -31,12 +31,6 @@ namespace SettingsModule.ViewModels
 		{
 			foreach (var driver in FiresecManager.Drivers)
 			{
-				if (driver.CanControl)
-				{
-					Trace.WriteLine(driver.ShortName);
-				}
-				continue;
-
 				if (driver.HasControlProperties)
 				{
 					foreach (var property in driver.Properties)

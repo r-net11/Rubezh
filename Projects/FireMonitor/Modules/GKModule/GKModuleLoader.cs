@@ -14,12 +14,9 @@ namespace GKModule
 		public GKModuleLoader()
 		{
 			ServiceFactory.Events.GetEvent<ShowGKEvent>().Subscribe(OnShowCall);
-		}
-
-		void CreateViewModels()
-		{
 			GKViewModel = new GKViewModel();
 		}
+
 		void OnShowCall(object obj)
 		{
 			ServiceFactory.Layout.Show(GKViewModel);
@@ -27,7 +24,7 @@ namespace GKModule
 
 		public override void Initialize()
 		{
-			CreateViewModels();
+			GKViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

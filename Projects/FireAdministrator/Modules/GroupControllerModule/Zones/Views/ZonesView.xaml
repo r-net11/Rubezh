@@ -6,7 +6,7 @@
 
     <Grid Margin="2">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*" MinWidth="200" Name="leftColumn" />
+            <ColumnDefinition Width="2*" MinWidth="200" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="3*" MinWidth="200" />
         </Grid.ColumnDefinitions>
@@ -23,6 +23,6 @@
         </Grid>
 
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
-        <Views:ZoneDevicesView Grid.Column="2" DataContext="{Binding ZoneDevices}" SizeChanged="OnSizeChanged" />
+        <Views:ZoneDevicesView Grid.Column="2" DataContext="{Binding ZoneDevices}" />
     </Grid>
 </UserControl>

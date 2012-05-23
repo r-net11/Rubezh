@@ -130,7 +130,6 @@ namespace FiresecService.Configuration
 
 			driver.ImageSource = imageSource;
 			driver.HasImage = driver.ImageSource != @"Device_Device";
-			driver.CanControl = driver.DriverType == DriverType.Valve;
 
 			driver.IsBUtton = false;
 			switch (driver.DriverType)

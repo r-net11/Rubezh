@@ -26,6 +26,10 @@ namespace AlarmModule.ViewModels
 			Alarms = new ObservableCollection<AlarmViewModel>();
 		}
 
+		public void Initialize()
+		{
+		}
+
 		public void Sort(AlarmType? alarmType)
 		{
 			_alarmType = alarmType;

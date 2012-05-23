@@ -41,12 +41,14 @@ namespace FireMonitor
 		}
 		public static void ShutDown()
 		{
-			ProcessStartInfo info = new ProcessStartInfo();
-			info.FileName = "shutdown.exe";
-			info.Arguments = "/s /t 00 /f";
-			info.CreateNoWindow = true;
-			info.WindowStyle = ProcessWindowStyle.Hidden;
-			Process.Start(info);
+			var processStartInfo = new ProcessStartInfo()
+			{
+				FileName = "shutdown.exe",
+				Arguments = "/s /t 00 /f",
+				CreateNoWindow = true,
+				WindowStyle = ProcessWindowStyle.Hidden
+			};
+			Process.Start(processStartInfo);
 		}
 	}
 }

@@ -7,5 +7,9 @@ namespace CallModule.ViewModels
         public CallViewModel()
         {
         }
+
+		public void Initialize()
+		{
+		}
     }
 }
