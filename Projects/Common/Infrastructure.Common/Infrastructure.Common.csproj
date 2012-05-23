@@ -115,7 +115,6 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="BaseBootstrapper.cs" />
     <Compile Include="BindingErrorListener.cs" />
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
@@ -133,7 +132,6 @@
     <Compile Include="Dialogs\IUserDialogService.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="IViewPart.cs" />
-    <Compile Include="Login\ViewModels\LoginViewModel.cs" />
     <Compile Include="MessageBox\MessageBoxService.cs" />
     <Compile Include="MessageBox\UserDialogService.cs" />
     <Compile Include="MessageBox\ViewModel\MessageBoxViewModel.cs" />
@@ -212,10 +210,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Login\DataTemplates\" />
-    <Folder Include="Login\Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

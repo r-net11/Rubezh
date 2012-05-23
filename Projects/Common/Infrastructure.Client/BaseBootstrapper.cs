@@ -5,13 +5,14 @@ using System.Configuration;
 using System.IO;
 using System.Reflection;
 using Common;
+using Infrastructure.Client.Login.ViewModels;
+using Infrastructure.Common;
 using Infrastructure.Common.Configuration;
 using Infrastructure.Common.MessageBox;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Common.Properties;
-using Infrastructure.Common.Login.ViewModels;
+using Infrastructure.Client.Properties;
 
-namespace Infrastructure.Common
+namespace Infrastructure.Client
 {
 	public class BaseBootstrapper
 	{
@@ -20,6 +21,13 @@ namespace Infrastructure.Common
 		public BaseBootstrapper()
 		{
 			Modules = null;
+			RegisterResource();
+		}
+
+		protected virtual void RegisterResource()
+		{
+			ResourceService resourceService = new ResourceService();
+			resourceService.AddResource(new ResourceDescription(typeof(LoginViewModel).Assembly, "Login/DataTemplates/Dictionary.xaml"));
 		}
 
 		protected void InitializeModules()
@@ -37,11 +45,11 @@ namespace Infrastructure.Common
 			return navigationItems;
 		}
 
-		protected bool PerformLogin(IUserDialogService userDialogs, string title)
+		protected bool PerformLogin(IUserDialogService userDialogs, string clientType, string title = null)
 		{
-			var loginViewModel = new LoginViewModel()
+			var loginViewModel = new LoginViewModel(clientType)
 			{
-				Title = title
+				Title = title ?? "Авторизация"
 			};
 			while (!loginViewModel.IsConnected && !loginViewModel.IsCanceled)
 			{

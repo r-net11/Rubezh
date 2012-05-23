@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecAPI", "..\Common\Fir
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GKModule", "Modules\GKModule\GKModule.csproj", "{8122CF0A-AC1D-4D4D-B20B-49BB565114A8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Client", "..\Common\Infrastructure.Client\Infrastructure.Client.csproj", "{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -221,6 +223,16 @@ Global
 		{8122CF0A-AC1D-4D4D-B20B-49BB565114A8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8122CF0A-AC1D-4D4D-B20B-49BB565114A8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8122CF0A-AC1D-4D4D-B20B-49BB565114A8}.Release|x86.ActiveCfg = Release|Any CPU
+		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -239,5 +251,6 @@ Global
 		{D78CEFEE-52B2-42BC-9E50-94D990E9DFE2} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 		{F46953E0-CA12-4659-AE8C-88241B541F6C} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 		{75DDFD5C-6572-4D90-961A-4E08D65B8FE7} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
+		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB} = {785CAF4E-9859-4BC8-BBD8-7410571BE9E1}
 	EndGlobalSection
 EndGlobal

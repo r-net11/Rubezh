@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Infrastructure.Common.Properties {
+namespace Infrastructure.Client.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Infrastructure.Common.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Common.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Infrastructure.Client.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,16 @@ namespace Infrastructure.Common.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Произошла ошибка во время загрузки модуля &apos;{0}&apos;. 
+        ///Файл не найден или поврежден!.
+        /// </summary>
+        internal static string UnableLoadModule {
+            get {
+                return ResourceManager.GetString("UnableLoadModule", resourceCulture);
             }
         }
     }

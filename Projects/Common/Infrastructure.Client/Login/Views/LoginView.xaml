@@ -1,7 +1,8 @@
-﻿<UserControl x:Class="FireAdministrator.Views.LoginView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+﻿<UserControl x:Class="Infrastructure.Client.Login.Views.LoginView"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+			 Loaded="LoginView_Loaded"
              MinHeight="90" MinWidth="300">
 	<Grid>
 		<Grid.RowDefinitions>

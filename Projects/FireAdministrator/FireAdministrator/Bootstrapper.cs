@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
+using Infrastructure.Client;
 
 namespace FireAdministrator
 {
@@ -28,7 +29,7 @@ namespace FireAdministrator
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
 			var preLoadWindow = new PreLoadWindow();
-			if (PerformLogin(ServiceFactory.UserDialogs, "Администратор. Авторизация"))
+			if (PerformLogin(ServiceFactory.UserDialogs,"Администратор", "Администратор. Авторизация"))
 			{
 				preLoadWindow.PreLoadText = "Инициализация компонент...";
 				preLoadWindow.Show();
