@@ -5,7 +5,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="200" Name="leftColumn" />
+            <ColumnDefinition Width="*" MinWidth="200" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" MinWidth="200" />
         </Grid.ColumnDefinitions>
@@ -21,7 +21,7 @@
 
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
 
-        <Grid Grid.Column="2" DataContext="{Binding SelectedDirection}" SizeChanged="OnWidthChanged">
+        <Grid Grid.Column="2" DataContext="{Binding SelectedDirection}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="200" />
                 <RowDefinition Height="Auto" />
@@ -47,7 +47,7 @@
 
             <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
 
-            <Grid Grid.Row="2" SizeChanged="OnHeightChanged">
+            <Grid Grid.Row="2">
                 <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" />

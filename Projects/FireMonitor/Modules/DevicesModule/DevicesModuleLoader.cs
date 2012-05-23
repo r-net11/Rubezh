@@ -18,10 +18,6 @@ namespace DevicesModule
 			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
 			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
 			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
-		}
-
-		void CreateViewModels()
-		{
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 		}
@@ -43,7 +39,6 @@ namespace DevicesModule
 
 		public override void Initialize()
 		{
-			CreateViewModels();
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 		}

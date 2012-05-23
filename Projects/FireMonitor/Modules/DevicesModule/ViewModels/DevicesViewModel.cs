@@ -15,7 +15,6 @@ namespace DevicesModule.ViewModels
 		{
 			FiresecEventSubscriber.DeviceStateChangedEvent -= OnDeviceStateChanged;
 			FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
-			Initialize();
 		}
 
 		public void Initialize()

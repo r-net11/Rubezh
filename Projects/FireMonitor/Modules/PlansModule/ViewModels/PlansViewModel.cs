@@ -21,8 +21,6 @@ namespace PlansModule.ViewModels
             Current = this;
             MainCanvas = new Canvas();
             ServiceFactory.Events.GetEvent<SelectPlanEvent>().Subscribe(OnSelectPlan);
-
-            Initialize();
         }
 
         public void Initialize()

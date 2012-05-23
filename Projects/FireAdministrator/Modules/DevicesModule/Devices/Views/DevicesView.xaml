@@ -22,8 +22,9 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" Name="topRow" MinHeight="200" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="100" MinHeight="100" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Name="_grid1">
             <DataGrid Name="_devicesDataGrid" Focusable="True" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="False"
@@ -129,7 +130,8 @@
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
-        <Grid Grid.Row="1" DataContext="{Binding SelectedDevice}" Margin="0, 10, 0, 0">
+        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+        <Grid Grid.Row="2" DataContext="{Binding SelectedDevice}" Margin="0, 5, 0, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

@@ -14,7 +14,6 @@ namespace DevicesModule.ViewModels
         public ZonesViewModel()
         {
             ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Subscribe(Select);
-            Initialize();
         }
 
         public void Initialize()

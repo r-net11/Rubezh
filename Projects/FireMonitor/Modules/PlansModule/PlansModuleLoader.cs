@@ -18,11 +18,6 @@ namespace PlansModule
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlan);
 			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(OnShowDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Subscribe(OnShowZoneOnPlan);
-
-		}
-
-		public void CreateViewModels()
-		{
 			PlansViewModel = new PlansViewModel();
 		}
 
@@ -43,7 +38,6 @@ namespace PlansModule
 
 		public override void Initialize()
 		{
-			CreateViewModels();
 			PlansViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()

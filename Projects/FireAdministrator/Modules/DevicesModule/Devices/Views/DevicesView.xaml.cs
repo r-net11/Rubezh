@@ -4,89 +4,101 @@ using System.Windows.Media;
 
 namespace DevicesModule.Views
 {
-    public partial class DevicesView : UserControl
-    {
-        public DevicesView()
-        {
-            InitializeComponent();
-            Loaded += new RoutedEventHandler(DevicesView_Loaded);
-            _devicesDataGrid.SelectionChanged += new SelectionChangedEventHandler(DevicesView_SelectionChanged);
-            //_devicesDataGrid.PreviewKeyDown += new KeyEventHandler(_devicesDataGrid_PreviewKeyDown);
-        }
+	public partial class DevicesView : UserControl
+	{
+		public DevicesView()
+		{
+			InitializeComponent();
+			Loaded += new RoutedEventHandler(DevicesView_Loaded);
+			_devicesDataGrid.SelectionChanged += new SelectionChangedEventHandler(DevicesView_SelectionChanged);
+			//_devicesDataGrid.PreviewKeyDown += new KeyEventHandler(_devicesDataGrid_PreviewKeyDown);
 
-        void DevicesView_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (_devicesDataGrid.SelectedItem != null)
-                _devicesDataGrid.ScrollIntoView(_devicesDataGrid.SelectedItem);
-            Focus();
-        }
+			if (height != 0)
+				topRow.Height = new System.Windows.GridLength(height);
+		}
 
-        void DevicesView_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            if (_devicesDataGrid.SelectedItem != null)
-                _devicesDataGrid.ScrollIntoView(_devicesDataGrid.SelectedItem);
-        }
+		void DevicesView_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (_devicesDataGrid.SelectedItem != null)
+				_devicesDataGrid.ScrollIntoView(_devicesDataGrid.SelectedItem);
+			Focus();
 
-        //private void _devicesDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
-        //{
-        //    if (e.Key == Key.Space)
-        //    {
-        //        var dataGrid = sender as DataGrid;
-        //        if (dataGrid != null)
-        //            dataGrid.BeginEdit();
-        //    }
-        //}
+			_grid1.Focus();
+		}
 
-        #region DataGrid Helper
-        public static DataGridCell GetCurrentCell(DataGrid SourceDataGrid)
-        {
-            if (SourceDataGrid.CurrentCell == null)
-                return null;
+		void DevicesView_SelectionChanged(object sender, RoutedEventArgs e)
+		{
+			if (_devicesDataGrid.SelectedItem != null)
+				_devicesDataGrid.ScrollIntoView(_devicesDataGrid.SelectedItem);
+		}
 
-            var RowContainer = SourceDataGrid.ItemContainerGenerator.ContainerFromItem(SourceDataGrid.CurrentCell.Item);
-            if (RowContainer == null)
-                return null;
+		//private void _devicesDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+		//{
+		//    if (e.Key == Key.Space)
+		//    {
+		//        var dataGrid = sender as DataGrid;
+		//        if (dataGrid != null)
+		//            dataGrid.BeginEdit();
+		//    }
+		//}
 
-            var RowPresenter = GetVisualChild<System.Windows.Controls.Primitives.DataGridCellsPresenter>(RowContainer);
-            if (RowPresenter == null)
-                return null;
+		#region DataGrid Helper
+		public static DataGridCell GetCurrentCell(DataGrid SourceDataGrid)
+		{
+			if (SourceDataGrid.CurrentCell == null)
+				return null;
 
-            var Container = RowPresenter.ItemContainerGenerator.ContainerFromItem(SourceDataGrid.CurrentCell.Item);
-            var Cell = Container as DataGridCell;
+			var RowContainer = SourceDataGrid.ItemContainerGenerator.ContainerFromItem(SourceDataGrid.CurrentCell.Item);
+			if (RowContainer == null)
+				return null;
 
-            // Try to get the cell if null, because maybe the cell is virtualized
-            if (Cell == null)
-            {
-                SourceDataGrid.ScrollIntoView(RowContainer, SourceDataGrid.CurrentCell.Column);
-                Container = RowPresenter.ItemContainerGenerator.ContainerFromItem(SourceDataGrid.CurrentCell.Item);
-                Cell = Container as DataGridCell;
-            }
+			var RowPresenter = GetVisualChild<System.Windows.Controls.Primitives.DataGridCellsPresenter>(RowContainer);
+			if (RowPresenter == null)
+				return null;
 
-            return Cell;
-        }
+			var Container = RowPresenter.ItemContainerGenerator.ContainerFromItem(SourceDataGrid.CurrentCell.Item);
+			var Cell = Container as DataGridCell;
 
-        public static TRet GetVisualChild<TRet>(DependencyObject Target) where TRet : DependencyObject
-        {
-            if (Target == null)
-                return null;
+			// Try to get the cell if null, because maybe the cell is virtualized
+			if (Cell == null)
+			{
+				SourceDataGrid.ScrollIntoView(RowContainer, SourceDataGrid.CurrentCell.Column);
+				Container = RowPresenter.ItemContainerGenerator.ContainerFromItem(SourceDataGrid.CurrentCell.Item);
+				Cell = Container as DataGridCell;
+			}
 
-            for (int ChildIndex = 0; ChildIndex < VisualTreeHelper.GetChildrenCount(Target); ChildIndex++)
-            {
-                var Child = VisualTreeHelper.GetChild(Target, ChildIndex);
+			return Cell;
+		}
 
-                if (Child != null && Child is TRet)
-                    return (TRet)Child;
-                else
-                {
-                    TRet childOfChild = GetVisualChild<TRet>(Child);
+		public static TRet GetVisualChild<TRet>(DependencyObject Target) where TRet : DependencyObject
+		{
+			if (Target == null)
+				return null;
 
-                    if (childOfChild != null)
-                        return childOfChild;
-                }
-            }
+			for (int ChildIndex = 0; ChildIndex < VisualTreeHelper.GetChildrenCount(Target); ChildIndex++)
+			{
+				var Child = VisualTreeHelper.GetChild(Target, ChildIndex);
 
-            return null;
-        }
-        #endregion
-    }
+				if (Child != null && Child is TRet)
+					return (TRet)Child;
+				else
+				{
+					TRet childOfChild = GetVisualChild<TRet>(Child);
+
+					if (childOfChild != null)
+						return childOfChild;
+				}
+			}
+
+			return null;
+		}
+		#endregion
+
+		static double height = 0;
+
+		private void OnSizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+		{
+			height = topRow.Height.Value;
+		}
+	}
 }

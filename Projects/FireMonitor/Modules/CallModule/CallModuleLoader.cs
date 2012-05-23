@@ -14,11 +14,7 @@ namespace CallModule
         public CallModuleLoader()
         {
             ServiceFactory.Events.GetEvent<ShowCallEvent>().Subscribe(OnShowCall);
-        }
-
-        void CreateViewModels()
-        {
-            CallViewModel = new CallViewModel();
+			CallViewModel = new CallViewModel();
         }
 
         void OnShowCall(object obj)
@@ -28,7 +24,7 @@ namespace CallModule
 
 		public override void Initialize()
 		{
-			CreateViewModels();
+			CallViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

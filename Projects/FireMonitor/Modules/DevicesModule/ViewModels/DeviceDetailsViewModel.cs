@@ -8,7 +8,7 @@ using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    public class DeviceDetailsViewModel : DialogContent, IDialogContentGuid
+	public class DeviceDetailsViewModel : DialogContent, IDialogContentGuid
 	{
 		public Device Device { get; private set; }
 		public DeviceState DeviceState { get; private set; }
@@ -82,44 +82,36 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public bool CanControl
+		public bool CanValveControl
 		{
 			get
 			{
-				return ServiceFactory.AppSettings.CanControl;
+				return Device.Driver.DriverType == DriverType.Valve && ServiceFactory.AppSettings.CanControl;
 			}
 		}
 
-		public bool IsValve
+		public bool CanDeviceControl
 		{
 			get
 			{
-				return Device.Driver.DriverType == DriverType.Valve;
+				return Device.Driver.HasControlProperties && ServiceFactory.AppSettings.CanControl;
 			}
 		}
 
-		public bool HasControlProperties
+		bool _isControlTabSelected;
+		public bool IsControlTabSelected
 		{
-			get
-			{
-				return Device.Driver.HasControlProperties;
-			}
-		}
-
-		bool _isValveControlSelected;
-		public bool IsValveControlSelected
-		{
-			get { return _isValveControlSelected; }
+			get { return _isControlTabSelected; }
 			set
 			{
-				_isValveControlSelected = value;
-				OnPropertyChanged("IsValveControlSelected");
+				_isControlTabSelected = value;
+				OnPropertyChanged("IsControlTabSelected");
 			}
 		}
 
 		public void StartValveTimer(int timeLeft)
 		{
-			IsValveControlSelected = true;
+			IsControlTabSelected = true;
 			ValveControlViewModel.StartTimer(timeLeft);
 		}
 

@@ -9,7 +9,6 @@ namespace JournalModule.ViewModels
 	{
 		public JournalsViewModel()
 		{
-			Initialize();
 		}
 
 		public void Initialize()

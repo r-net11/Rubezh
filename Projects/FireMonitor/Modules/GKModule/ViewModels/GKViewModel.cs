@@ -7,5 +7,9 @@ namespace GKModule.ViewModels
         public GKViewModel()
         {
         }
+
+		public void Initialize()
+		{
+		}
     }
 }

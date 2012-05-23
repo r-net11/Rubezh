@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Threading;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace DevicesModule.ViewModels
 {
@@ -15,24 +17,29 @@ namespace DevicesModule.ViewModels
 		{
 			_device = device;
 			ConfirmCommand = new RelayCommand(OnConfirm, CanConfirm);
-			Commands = new List<string>();
-			//Commands.Add("Включение");
-			//Commands.Add("Включение без задержки");
-			//Commands.Add("Выключение");
+			Commands = new List<DriverProperty>();
+
+			var blockNames = new HashSet<string>();
 
 			foreach (var property in device.Driver.Properties)
 			{
 				if (property.IsControl)
 				{
-					Commands.Add(property.Name);
+					Commands.Add(property);
+					blockNames.Add(property.BlockName);
 				}
 			}
+
+			if (blockNames.Count > 0)
+				BlockName = blockNames.First();
 		}
 
-		public List<string> Commands { get; private set; }
+		public string BlockName { get; private set; }
 
-		string _selectedCommand;
-		public string SelectedCommand
+		public List<DriverProperty> Commands { get; private set; }
+
+		DriverProperty _selectedCommand;
+		public DriverProperty SelectedCommand
 		{
 			get { return _selectedCommand; }
 			set
@@ -44,13 +51,24 @@ namespace DevicesModule.ViewModels
 
 		bool CanConfirm()
 		{
-			return SelectedCommand != null;
+			return SelectedCommand != null && IsBuisy == false;
 		}
 
 		public RelayCommand ConfirmCommand { get; private set; }
 		void OnConfirm()
 		{
-			FiresecManager.DeviceCustomFunctionExecute(_device.UID, SelectedCommand);
+			var thread = new Thread(DoConfirm);
+			thread.Start();
+		}
+
+		bool IsBuisy = false;
+
+		void DoConfirm()
+		{
+			IsBuisy = true;
+			var result = FiresecManager.FiresecService.ExecuteCommand(_device.UID, SelectedCommand.Name);
+			IsBuisy = false;
+			OnPropertyChanged("ConfirmCommand");
 		}
 	}
 }

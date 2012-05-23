@@ -24,8 +24,6 @@ namespace JournalModule.ViewModels
 			_archiveDefaultState = ClientSettings.ArchiveDefaultState;
 			if (_archiveDefaultState == null)
 				_archiveDefaultState = new ArchiveDefaultState();
-
-			Initialize();
 		}
 
 		public void Initialize()
