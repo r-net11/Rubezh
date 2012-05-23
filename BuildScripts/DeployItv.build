@@ -1,0 +1,70 @@
+<project name="Simple" default="run">
+  <property name="nant.settings.currentframework" value="net-4.0" />
+  <property name="debug" value="true"/>
+  <property name="intellectFolder" value="..\..\ItvIntegration"/>
+
+  <target name="run">
+    <call target="BuildServer" />
+    <call target="Clean" />
+    <call target="Copy" />
+    <call target="CompileItv" />
+  </target>
+
+  <target name="BuildServer">
+    <msbuild project="..\Projects\FiresecService\FiresecService.sln">
+      <property name="Configuration" value="Release"/>
+    </msbuild>
+  </target>
+
+  <target name="Clean">
+    <delete dir="${intellectFolder}\Server" />
+    <delete dir="${intellectFolder}\Projects\ITV" />
+    <delete dir="${intellectFolder}\Projects\Common" />
+    <delete dir="..\Projects\ITV\RepFileManager\bin" />
+  </target>
+
+  <target name="Copy">
+    <copy todir="${intellectFolder}\Server">
+      <fileset basedir="..\Projects\FiresecService\FiresecService\bin\Release">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+
+    <copy todir="${intellectFolder}\Firesec" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\3rdParty\Firesec">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+
+    <copy todir="${intellectFolder}\Projects\Common\FiresecClient" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\Projects\Common\FiresecClient">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+
+    <copy todir="${intellectFolder}\Projects\Common\FiresecServiceApi" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\Projects\Common\FiresecServiceApi">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+
+    <copy todir="${intellectFolder}\Projects\Common\Common" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\Projects\Common\Common">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+
+    <copy todir="${intellectFolder}\Projects\ITV" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\Projects\ITV">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="CompileItv">
+    <msbuild project="..\Projects\ITV\ItvIntegration.sln">
+      <property name="Configuration" value="Debug"/>
+    </msbuild>
+  </target>
+
+</project>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0"?>
+<project name="Simple" default="run">
+  <property name="nant.settings.currentframework" value="net-4.0" />
+  <target name="run">
+    <call target="BuildAll" />
+  </target>
+  <target name="BuildAll">
+    <msbuild project="..\Projects\FiresecService\FiresecService.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>			
+    <msbuild project="..\Projects\FireMonitor\FireMonitor.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>
+	<msbuild project="..\Projects\FireAdministrator\FireAdministrator.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>	
+    <msbuild project="..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>	
+  </target>
+</project>
