@@ -54,7 +54,6 @@ namespace FireAdministrator
 			}
 			else
 			{
-				preLoadWindow.Close();
 				Application.Current.Shutdown();
 				System.Environment.Exit(1);
 			}
@@ -63,20 +62,9 @@ namespace FireAdministrator
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 		}
 
-		//void RegisterServices()
-		//{
-		//    ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService(), new ValidationService());
-		//}
-
 		void OnConfigurationChanged(object obj)
 		{
 			InitializeModules();
 		}
-
-		//void InitializeKnownModules()
-		//{
-		//    InitializeModules();
-		//    ((ShellView)ServiceFactory.ShellView).Navigation = GetNavigationItems();
-		//}
 	}
 }

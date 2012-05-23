@@ -5,10 +5,10 @@
 		AllowsTransparency="True"
         Background="Transparent"
         Height="100" Width="300" Foreground="White">
-	<Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
-		<Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
-			<TextBlock Text="{Binding PreLoadText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
+        <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
+                <TextBlock Text="{Binding PreLoadText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                    HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Black" Foreground="White"/>
-		</Border>
-	</Border>
+        </Border>
+    </Border>
 </Window>
