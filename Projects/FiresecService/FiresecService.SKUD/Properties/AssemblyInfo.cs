@@ -8,8 +8,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("FiresecService.SKUD")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("f15dab4c-557f-456c-9769-76d8e62d2dac")]

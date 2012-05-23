@@ -8,8 +8,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("SkudModule")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("74d702ea-b486-46cd-9330-11c4c074bc62")]

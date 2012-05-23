@@ -7,8 +7,6 @@
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("FiresecService")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 
 

@@ -1,5 +1,4 @@
-﻿using FireMonitor.ViewModels;
-using Infrastructure;
+﻿using Infrastructure;
 
 namespace FireMonitor
 {

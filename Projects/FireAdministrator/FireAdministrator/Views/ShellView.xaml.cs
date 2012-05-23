@@ -10,6 +10,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.MessageBox;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Client.About.ViewModels;
 
 namespace FireAdministrator.Views
 {

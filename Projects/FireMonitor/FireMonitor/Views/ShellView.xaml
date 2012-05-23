@@ -1,7 +1,7 @@
 ﻿<Window x:Class="FireMonitor.Views.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Views="clr-namespace:FireMonitor.Views"
+		xmlns:Views="clr-namespace:FireMonitor.Views"
 		xmlns:Controls="clr-namespace:Controls;assembly=Controls"
 		Icon="Monitor.ico" WindowStartupLocation="CenterScreen" Title="Оперативная задача ОПС FireSec-2"
         FontFamily="Tahoma" Height="750" Width="1100" MinWidth="800" MinHeight="600"

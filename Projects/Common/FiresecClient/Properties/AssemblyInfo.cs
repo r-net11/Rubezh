@@ -8,8 +8,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("ClientApi")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("074fb0f3-56ba-48d9-8de7-f914c2d6d0a5")]

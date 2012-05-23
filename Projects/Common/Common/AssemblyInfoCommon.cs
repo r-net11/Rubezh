@@ -7,9 +7,10 @@ using System.Windows;
 // связанные со сборкой.
 [assembly: AssemblyCompany("Группа компаний 'Рубеж'")]
 [assembly: AssemblyCopyright("Copyright © ООО 'КБ Пожарной Автоматики' 2012")]
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.*")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
-
+[assembly: AssemblyTrademark("http://www.rubezh.ru/")]
+[assembly: AssemblyCulture("")]
 
 // Параметр ComVisible со значением FALSE делает типы в сборке невидимыми
 // для COM-компонентов.  Если требуется обратиться к типу в этой сборке через

@@ -8,8 +8,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Firesec")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 
 //In order to begin building localizable applications, set

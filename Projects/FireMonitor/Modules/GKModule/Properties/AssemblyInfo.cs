@@ -9,8 +9,6 @@ using System.Windows;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("GKModule")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 //Чтобы начать построение локализованных приложений, задайте 
 //<UICulture>CultureYouAreCodingWith</UICulture> в файле .csproj

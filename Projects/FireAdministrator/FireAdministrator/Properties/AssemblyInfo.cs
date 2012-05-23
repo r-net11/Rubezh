@@ -7,8 +7,6 @@
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Администратор ОПС Firesec-2")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 
 //Чтобы начать построение локализованных приложений, задайте

@@ -1,18 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using Common;
-using Infrastructure.Common.MessageBox;
-using FireMonitor.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Client.About.ViewModels;
 using Infrastructure.Common;
+using Infrastructure.Common.MessageBox;
 using Infrastructure.Common.Navigation;
-using System.Collections.Generic;
 
 namespace FireMonitor.Views
 {

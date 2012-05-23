@@ -3,10 +3,6 @@
                     xmlns:Views="clr-namespace:FireAdministrator.Views"
                     xmlns:ViewModels="clr-namespace:FireAdministrator.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:AboutViewModel}">
-        <Views:AboutView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
         <Views:ProgressView />
     </DataTemplate>

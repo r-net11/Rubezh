@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using FireMonitor.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 

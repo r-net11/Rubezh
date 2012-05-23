@@ -6,8 +6,6 @@
 [assembly: AssemblyTitle("Common")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 [assembly: AssemblyProduct("Common")]
 
 //Чтобы начать построение локализованных приложений, задайте

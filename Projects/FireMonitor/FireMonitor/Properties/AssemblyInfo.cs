@@ -7,8 +7,6 @@
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Оперативная задача ОПС 'Firesec-2'")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 //Чтобы начать построение локализованных приложений, задайте
 //<UICulture>CultureYouAreCodingWith</UICulture> в файле .csproj

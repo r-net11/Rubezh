@@ -7,8 +7,6 @@
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("CallModule")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 //Чтобы начать построение локализованных приложений, задайте
 //<UICulture>CultureYouAreCodingWith</UICulture> в файле .csproj

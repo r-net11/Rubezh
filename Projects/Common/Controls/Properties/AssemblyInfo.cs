@@ -6,8 +6,6 @@
 [assembly: AssemblyTitle("Controls")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 [assembly: AssemblyProduct("Controls")]
 
 //Чтобы начать построение локализованных приложений, задайте

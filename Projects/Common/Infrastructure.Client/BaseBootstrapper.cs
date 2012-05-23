@@ -27,7 +27,9 @@ namespace Infrastructure.Client
 		protected virtual void RegisterResource()
 		{
 			ResourceService resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(typeof(LoginViewModel).Assembly, "Login/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(typeof(BaseBootstrapper).Assembly, "Login/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(typeof(LoginViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(typeof(LoginViewModel).Assembly, "DataTemplates/Dictionary.xaml"));
 		}
 
 		protected void InitializeModules()

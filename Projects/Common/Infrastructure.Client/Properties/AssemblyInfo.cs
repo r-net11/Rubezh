@@ -9,8 +9,6 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyProduct("Infrastructure.Client")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("23dc040f-0307-4956-8ad2-10ef517d1903")]

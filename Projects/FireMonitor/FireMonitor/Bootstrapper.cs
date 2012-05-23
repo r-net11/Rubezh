@@ -5,13 +5,12 @@ using AlarmModule;
 using AlarmModule.Events;
 using Common;
 using Infrastructure.Common.MessageBox;
-using FireMonitor.ViewModels;
-using FireMonitor.Views;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Client;
+using FireMonitor.Views;
 
 namespace FireMonitor
 {
