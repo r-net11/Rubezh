@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Interop;
 
 namespace Infrastructure.Common
 {
@@ -17,7 +18,8 @@ namespace Infrastructure.Common
 		{
 			if (Surface != null)
 			{
-				Surface.DialogResult = result;
+				if (ComponentDispatcher.IsThreadModal)
+					Surface.DialogResult = result;
 				Surface.Close();
 			}
 		}

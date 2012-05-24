@@ -162,6 +162,10 @@
       <DependentUpon>VideoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WaitWrapper.cs" />
+    <Compile Include="Windows\ViewModels\WindowBaseViewModel.cs" />
+    <Compile Include="Windows\Views\WindowBaseView.xaml.cs">
+      <DependentUpon>WindowBaseView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Dialogs\DialogWindow.xaml">
@@ -183,6 +187,14 @@
     <Page Include="Video\VideoWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\Views\WindowBaseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
