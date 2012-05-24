@@ -9,6 +9,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
 using Infrastructure.Client;
+using Infrastructure.Common.Windows.Views;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireAdministrator
 {
@@ -16,6 +18,14 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
+			//ResourceService srv = new ResourceService();
+			//srv.AddResource(new ResourceDescription(typeof(WindowBaseView).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+			//CaptionedViewModel model = new CaptionedViewModel();
+			//model.Title = "Test";
+			//WindowBaseView win = new WindowBaseView(model);
+			//win.ShowDialog();
+			//return;
+
 			AppSettingsHelper.InitializeAppSettings();
 
 			if (SingleLaunchHelper.KillRunningProcess("FireAdministrator") == false)

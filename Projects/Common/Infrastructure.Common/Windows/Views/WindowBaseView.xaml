@@ -4,22 +4,21 @@
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
-		
-		Icon="{Binding Icon}"
-        WindowStartupLocation="{Binding StartupLocation}"
+		WindowStartupLocation="CenterScreen"
+		Icon="{Binding Icon, Converter={StaticResource NullToImageConverter}}"
         Title="{Binding Title}"
-        Height="{Binding Height}"
-		Width="{Binding Width}"
         MinWidth="{Binding MinWidth}" 
 		MinHeight="{Binding MinHeight}"
 		MaxHeight="{Binding MaxHeight}"
 		MaxWidth="{Binding MaxWidth}"
+		Height="{Binding Height}"
+		Width="{Binding Width}"
         Closing="Window_Closing"
         Closed="Window_Closed">
 
 	<Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
 		<Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
-			<ContentPresenter x:Name="_content"/>
+			<ContentPresenter Content="{Binding}"/>
 		</Border>
 	</Border>
 </Window>

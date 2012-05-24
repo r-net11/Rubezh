@@ -6,11 +6,17 @@ using System.Windows;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	public class WindowBaseViewModel : BaseViewModel
+	public abstract class WindowBaseViewModel : BaseViewModel
 	{
 		public WindowBaseViewModel()
 		{
+			MinHeight = 0;
+			MinWidth = 0;
+			MaxHeight = double.PositiveInfinity;
+			MaxWidth = double.PositiveInfinity;
 		}
+
+		public Window Surface { get; internal set; }
 
 		private string _icon;
 		public string Icon
@@ -30,36 +36,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_title = value;
 				OnPropertyChanged("Title");
-			}
-		}
-		private WindowStartupLocation _startupLocation;
-		public WindowStartupLocation StartupLocation
-		{
-			get { return _startupLocation; }
-			set
-			{
-				_startupLocation = value;
-				OnPropertyChanged("StartupLocation");
-			}
-		}
-		private double _height;
-		public double Height
-		{
-			get { return _height; }
-			set
-			{
-				_height = value;
-				OnPropertyChanged("Height");
-			}
-		}
-		private double _width;
-		public double Width
-		{
-			get { return _width; }
-			set
-			{
-				_width = value;
-				OnPropertyChanged("Width");
 			}
 		}
 		private double _minWidth;
@@ -100,6 +76,26 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_maxWidth = value;
 				OnPropertyChanged("MaxWidth");
+			}
+		}
+		private double _height;
+		public double Height
+		{
+			get { return _height; }
+			set
+			{
+				_height = value;
+				OnPropertyChanged("Height");
+			}
+		}
+		private double _width;
+		public double Width
+		{
+			get { return _width; }
+			set
+			{
+				_width = value;
+				OnPropertyChanged("Width");
 			}
 		}
 	}

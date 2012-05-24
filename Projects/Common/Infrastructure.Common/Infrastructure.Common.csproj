@@ -162,7 +162,27 @@
       <DependentUpon>VideoWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="WaitWrapper.cs" />
+    <Compile Include="Windows\ViewModels\ConnectionViewModel.cs" />
+    <Compile Include="Windows\ViewModels\CaptionedViewModel.cs" />
+    <Compile Include="Windows\ViewModels\DialogHeaderViewModel.cs" />
+    <Compile Include="Windows\ViewModels\DialogViewModel.cs" />
+    <Compile Include="Windows\ViewModels\ICaptionedHeaderViewModel.cs" />
     <Compile Include="Windows\ViewModels\WindowBaseViewModel.cs" />
+    <Compile Include="Windows\Views\CaptionedView.xaml.cs">
+      <DependentUpon>CaptionedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Views\ConnectionView.xaml.cs">
+      <DependentUpon>ConnectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Views\DialogHeaderView.xaml.cs">
+      <DependentUpon>DialogHeaderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Views\DialogView.xaml.cs">
+      <DependentUpon>DialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Views\UserControl1.xaml.cs">
+      <DependentUpon>UserControl1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Views\WindowBaseView.xaml.cs">
       <DependentUpon>WindowBaseView.xaml</DependentUpon>
     </Compile>
@@ -191,6 +211,26 @@
     <Page Include="Windows\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Windows\Views\CaptionedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Views\ConnectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Views\DialogHeaderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Views\DialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Views\UserControl1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Views\WindowBaseView.xaml">
       <SubType>Designer</SubType>
