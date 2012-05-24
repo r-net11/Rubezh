@@ -36,6 +36,7 @@ namespace Firesec
 			return SafeCall<bool>(() => { _connectoin = GetConnection(login, password); return true; });
 		}
 
+		[Obsolete]
 		public FiresecOperationResult<bool> Disconnect()
 		{
 			return SafeCall<bool>(() =>

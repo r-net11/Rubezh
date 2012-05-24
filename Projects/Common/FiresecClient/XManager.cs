@@ -5,6 +5,9 @@ namespace FiresecClient
 {
 	public static class XManager
 	{
+		public static XDeviceConfiguration DeviceConfiguration;
+		public static XDriversConfiguration DriversConfiguration;
+
 		static XManager()
 		{
 			DeviceConfiguration = new XDeviceConfiguration();
@@ -41,8 +44,5 @@ namespace FiresecClient
 		public static void Invalidate()
 		{
 		}
-
-		public static XDeviceConfiguration DeviceConfiguration;
-		public static XDriversConfiguration DriversConfiguration;
 	}
 }

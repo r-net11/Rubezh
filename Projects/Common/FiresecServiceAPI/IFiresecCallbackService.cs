@@ -15,7 +15,7 @@ namespace FiresecAPI
 		[OperationContract(IsOneWay = true)]
 		void NewJournalRecord(JournalRecord journalRecord);
 
-		[OperationContract(IsOneWay = true)]
-		void Ping();
+		[OperationContract(IsOneWay = false)]
+		string Ping();
 	}
 }

@@ -25,8 +25,9 @@ namespace FiresecClient
 			return true;
 		}
 
-		public void Ping()
+		public string Ping()
 		{
+			return "Pong";
 		}
 
 		public static event Action ConfigurationChangedEvent;

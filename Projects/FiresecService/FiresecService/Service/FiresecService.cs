@@ -84,7 +84,7 @@ namespace FiresecService.Service
 			CallbackWrapper = new CallbackWrapper(this);
 			CallbackManager.Add(this);
 
-			FiresecManager.ConnectFiresecCOMServer();
+			//FiresecManager.ConnectFiresecCOMServer();
 
 			DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему(Firesec-2)");
 
@@ -153,9 +153,9 @@ namespace FiresecService.Service
 
 		public string GetStatus()
 		{
-			if (!string.IsNullOrEmpty(FiresecManager.ConfigurationManager.DriversError))
+			if (!string.IsNullOrEmpty(FiresecManager.ConfigurationConverter.DriversError))
 			{
-				return FiresecManager.ConfigurationManager.DriversError;
+				return FiresecManager.ConfigurationConverter.DriversError;
 			}
 			return null;
 		}

@@ -9,17 +9,19 @@ namespace FiresecService.Processor
 	{
 		public FiresecService.Service.FiresecService FiresecService { get; set; }
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
-		public ConfigurationConverter ConfigurationManager { get; private set; }
+		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
 
 		public FiresecManager(FiresecService.Service.FiresecService firesecService)
 		{
 			FiresecSerializedClient = new FiresecSerializedClient();
 			FiresecService = firesecService;
-			ConfigurationManager = new ConfigurationConverter()
+			ConfigurationConverter = new ConfigurationConverter()
 			{
 				FiresecSerializedClient = FiresecSerializedClient
 			};
+
+			ConnectFiresecCOMServer();
 		}
 
 		public void LoadConfiguration()
@@ -31,16 +33,16 @@ namespace FiresecService.Processor
 			ConfigurationCash.PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
 		}
 
-		public bool ConnectFiresecCOMServer()
+		bool ConnectFiresecCOMServer()
 		{
 			string login = AppSettings.OldFiresecLogin;
 			string password = AppSettings.OldFiresecPassword;
 
 			if (FiresecSerializedClient.Connect(login, password).Result)
 			{
-				ConfigurationManager.ConvertMetadataFromFiresec();
-				ConfigurationManager.SetValidChars();
-				ConfigurationManager.Update();
+				ConfigurationConverter.ConvertMetadataFromFiresec();
+				ConfigurationConverter.SetValidChars();
+				ConfigurationConverter.Update();
 				ConvertStates();
 
 				var watcher = new Watcher(this);
@@ -51,13 +53,40 @@ namespace FiresecService.Processor
 
 		public void Convert()
 		{
-			ConfigurationManager.Convert();
+			ConfigurationConverter.Convert();
 		}
 
 		public Firesec.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
 		{
-			ConfigurationManager.ConvertBack(deviceConfiguration, includeSecurity);
-			return ConfigurationManager.FiresecConfiguration;
+			ConfigurationConverter.ConvertBack(deviceConfiguration, includeSecurity);
+			return ConfigurationConverter.FiresecConfiguration;
+		}
+
+		public void ConvertStates()
+		{
+			DeviceConfigurationStates = new DeviceConfigurationStates();
+			if (ConfigurationCash.DeviceConfiguration.Devices.IsNotNullOrEmpty())
+			{
+				foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+				{
+					var deviceState = new DeviceState()
+					{
+						UID = device.UID,
+						PlaceInTree = device.PlaceInTree,
+						Device = device
+					};
+
+					foreach (var parameter in device.Driver.Parameters)
+						deviceState.Parameters.Add(parameter.Copy());
+
+					DeviceConfigurationStates.DeviceStates.Add(deviceState);
+				}
+			}
+
+			foreach (var zone in ConfigurationCash.DeviceConfiguration.Zones)
+			{
+				DeviceConfigurationStates.ZoneStates.Add(new ZoneState() { No = zone.No });
+			}
 		}
 	}
 }

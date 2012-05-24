@@ -111,7 +111,6 @@
     </Compile>
     <Compile Include="Infrastructure\UserDialogService.cs" />
     <Compile Include="ConfigurationConverter\ConfigurationFileManager.cs" />
-    <Compile Include="Processor\FiresecManager.StatesConverter.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\CallbackWrapper.cs" />
     <Compile Include="Service\ConfigurationCash.cs" />

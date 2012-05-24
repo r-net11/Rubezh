@@ -17,6 +17,8 @@ namespace FiresecService.Service
 
 		public static FiresecManager Get(FiresecService firesecService)
 		{
+			CallbackManager.Ping();
+
 			if (FreeManagers.Count > 0)
 			{
 				var freeManager = FreeManagers.First();

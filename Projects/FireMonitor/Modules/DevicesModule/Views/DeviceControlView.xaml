@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <StackPanel>
-        <TabControl>
-            <TabItem Header="{Binding BlockName}">
-                <StackPanel>
+        <TabControl ItemsSource="{Binding Blocks}" SelectedItem="{Binding SelectedBlock}">
+            <TabControl.ContentTemplate>
+                <DataTemplate>
                     <ListBox ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -13,8 +13,8 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                </StackPanel>
-            </TabItem>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </TabControl>
         <Button Content="Подтвердить" Command="{Binding ConfirmCommand}" Width="100" Margin="3" />
     </StackPanel>

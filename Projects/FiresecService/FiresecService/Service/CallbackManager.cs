@@ -43,12 +43,12 @@ namespace FiresecService.Service
 			catch { ;}
 		}
 
-		static void SafeCall(Action<FiresecService> action)
+		static void SafeCall(Action<FiresecService> action, bool subscribeRequired = true)
 		{
 			FailedFiresecServices = new List<FiresecService>();
 			foreach (var firesecServices in FiresecServices)
 			{
-				if (firesecServices.IsSubscribed)
+				if (!subscribeRequired || firesecServices.IsSubscribed)
 					try
 					{
 						action(firesecServices);
@@ -74,7 +74,20 @@ namespace FiresecService.Service
 
 		public static void Ping()
 		{
-			SafeCall((x) => { x.FiresecCallbackService.Ping(); });
+			FailedFiresecServices = new List<FiresecService>();
+			foreach (var firesecServices in FiresecServices)
+			{
+					try
+					{
+						var result = firesecServices.FiresecCallbackService.Ping();
+					}
+					catch
+					{
+						FailedFiresecServices.Add(firesecServices);
+					}
+			}
+
+			Clean();
 		}
 
 		public static void CopyConfigurationForAllClients(FiresecService firesecService)
