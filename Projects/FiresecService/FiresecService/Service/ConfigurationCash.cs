@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using FiresecAPI.Models;
+using FiresecService.Configuration;
 
 namespace FiresecService.Service
 {
@@ -16,11 +16,11 @@ namespace FiresecService.Service
 		static ConfigurationCash()
 		{
 			Drivers = new List<Driver>();
-			DeviceConfiguration = new DeviceConfiguration();
-			LibraryConfiguration = new LibraryConfiguration();
-			SystemConfiguration = new SystemConfiguration();
-			PlansConfiguration = new PlansConfiguration();
-			SecurityConfiguration = new SecurityConfiguration();
+			DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
+			SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
+			LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
+			SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
+			PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
 		}
 	}
 }

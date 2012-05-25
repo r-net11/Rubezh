@@ -17,7 +17,6 @@ namespace FiresecService.Service
 
 		static List<FiresecService> FiresecServices;
 		static List<FiresecService> FailedFiresecServices;
-		static object locker = new object();
 
 		public static void Add(FiresecService firesecService)
 		{
@@ -43,12 +42,12 @@ namespace FiresecService.Service
 			catch { ;}
 		}
 
-		static void SafeCall(Action<FiresecService> action)
+		static void SafeCall(Action<FiresecService> action, bool subscribeRequired = true)
 		{
 			FailedFiresecServices = new List<FiresecService>();
 			foreach (var firesecServices in FiresecServices)
 			{
-				if (firesecServices.IsSubscribed)
+				if (!subscribeRequired || firesecServices.IsSubscribed)
 					try
 					{
 						action(firesecServices);
@@ -74,18 +73,35 @@ namespace FiresecService.Service
 
 		public static void Ping()
 		{
-			SafeCall((x) => { x.FiresecCallbackService.Ping(); });
-		}
-
-		public static void CopyConfigurationForAllClients(FiresecService firesecService)
-		{
+			FailedFiresecServices = new List<FiresecService>();
 			foreach (var firesecServices in FiresecServices)
 			{
-				if (firesecServices.UID != firesecService.UID)
-				{
-					firesecServices.FiresecManager.ConvertStates();
-				}
+					try
+					{
+						var clientUID = firesecServices.FiresecCallbackService.Ping();
+						if (firesecServices.ClientUID != clientUID)
+						{
+							FailedFiresecServices.Add(firesecServices);
+						}
+					}
+					catch
+					{
+						FailedFiresecServices.Add(firesecServices);
+					}
 			}
+
+			Clean();
 		}
+
+		//public static void CopyConfigurationForAllClients(FiresecService firesecService)
+		//{
+		//    foreach (var firesecServices in FiresecServices)
+		//    {
+		//        if (firesecServices.UID != firesecService.UID)
+		//        {
+		//            firesecServices.FiresecManager.ConvertStates();
+		//        }
+		//    }
+		//}
 	}
 }

@@ -14,8 +14,9 @@ namespace FiresecService.Service
 	{
 		void NotifyConfigurationChanged()
 		{
-			FiresecManager.ConvertStates();
-			CallbackManager.CopyConfigurationForAllClients(this);
+			ServiceCash.RunningManagers.ForEach(x => x.FiresecService.FiresecManager.ConvertStates());
+			//FiresecManager.ConvertStates();
+			//CallbackManager.CopyConfigurationForAllClients(this);
 			CallbackManager.OnConfigurationChanged();
 		}
 
@@ -29,7 +30,7 @@ namespace FiresecService.Service
 			OperationResult<bool> result = null;
 			if (AppSettings.OverrideFiresec1Config)
 			{
-				result = FiresecSerializedClient.SetNewConfig(FiresecManager.ConfigurationManager.FiresecConfiguration).ToOperationResult();
+				result = FiresecSerializedClient.SetNewConfig(FiresecManager.ConfigurationConverter.FiresecConfiguration).ToOperationResult();
 			}
 
 			var thread = new Thread(new ThreadStart(NotifyConfigurationChanged));

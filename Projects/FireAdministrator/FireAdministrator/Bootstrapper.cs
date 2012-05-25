@@ -56,8 +56,8 @@ namespace FireAdministrator
 				{
 					var ShellView = new ShellView();
 					ServiceFactory.ShellView = ShellView;
-					InitializeModules();
 					ShellView.Navigation = GetNavigationItems();
+					InitializeModules();
 					Application.Current.MainWindow = ShellView;
 					Application.Current.MainWindow.Show();
 				}

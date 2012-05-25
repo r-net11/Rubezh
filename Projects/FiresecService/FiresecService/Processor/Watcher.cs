@@ -33,7 +33,11 @@ namespace FiresecService.Processor
 
 		bool FiresecInternalClient_Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
-			return FiresecService.CallbackWrapper.OnProgress(stage, comment, percentComplete, bytesRW);
+			if (FiresecService != null)
+			{
+				return FiresecService.CallbackWrapper.OnProgress(stage, comment, percentComplete, bytesRW);
+			}
+			return false;
 		}
 
 		void FiresecClient_NewEvent(int EventMask)
@@ -125,26 +129,10 @@ namespace FiresecService.Processor
 			foreach (var journalRecord in journalRecords)
 			{
 				DatabaseHelper.AddJournalRecord(journalRecord);
-				FiresecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
-			}
-
-			return;
-			var document = FiresecSerializedClient.ReadEvents(LastEventId, 100).Result;
-			if (document != null && document.Journal.IsNotNullOrEmpty())
-			{
-				int newLastEventId = LastEventId;
-				foreach (var innerJournalItem in document.Journal)
+				if (FiresecService != null)
 				{
-					var eventId = int.Parse(innerJournalItem.IDEvents);
-					if (eventId > LastEventId)
-					{
-						newLastEventId = eventId;
-						var journalRecord = JournalConverter.Convert(innerJournalItem);
-						DatabaseHelper.AddJournalRecord(journalRecord);
-						FiresecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
-					}
+					FiresecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
 				}
-				LastEventId = newLastEventId;
 			}
 		}
 
@@ -176,7 +164,10 @@ namespace FiresecService.Processor
 				}
 
 				if (ChangedDevices.Count > 0)
-					FiresecService.CallbackWrapper.OnDeviceParametersChanged(ChangedDevices.ToList());
+					if (FiresecService != null)
+					{
+						FiresecService.CallbackWrapper.OnDeviceParametersChanged(ChangedDevices.ToList());
+					}
 			}
 			catch (Exception) { }
 		}
@@ -192,7 +183,10 @@ namespace FiresecService.Processor
 				CalculateZones();
 
 				if (ChangedDevices.Count > 0)
-					FiresecService.CallbackWrapper.OnDeviceStatesChanged(ChangedDevices.ToList());
+					if (FiresecService != null)
+					{
+						FiresecService.CallbackWrapper.OnDeviceStatesChanged(ChangedDevices.ToList());
+					}
 			}
 			catch (Exception) { }
 		}
@@ -326,7 +320,10 @@ namespace FiresecService.Processor
 				if (zoneState.StateType != minZoneStateType)
 				{
 					zoneState.StateType = minZoneStateType;
-					FiresecService.CallbackWrapper.OnZoneStateChanged(zoneState);
+					if (FiresecService != null)
+					{
+						FiresecService.CallbackWrapper.OnZoneStateChanged(zoneState);
+					}
 				}
 			}
 		}

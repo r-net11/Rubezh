@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecService.Infrastructure;
 using Infrastructure.Common;
+using FiresecService.Service;
 
 namespace FiresecService.ViewModels
 {
@@ -40,6 +41,13 @@ namespace FiresecService.ViewModels
 		}
 
 		public string Satus { get; set; }
+		public string ComServersSatus { get; set; }
+		public void UpdateComServersCount()
+		{
+			ComServersSatus = "Свободных: " + ServiceCash.FreeManagers.Count.ToString() + "\n";
+			ComServersSatus += "Работающих: " + ServiceCash.RunningManagers.Count.ToString();
+			OnPropertyChanged("ComServersSatus");
+		}
 
 		public bool IsDebug
 		{

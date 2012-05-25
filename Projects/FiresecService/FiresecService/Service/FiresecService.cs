@@ -22,11 +22,11 @@ namespace FiresecService.Service
 		public CallbackWrapper CallbackWrapper { get; private set; }
 		public IFiresecCallbackService FiresecCallbackService { get; private set; }
 		public Guid UID { get; private set; }
+		public Guid ClientUID { get; private set; }
 		string _userLogin;
 		string _userName;
 		string _userIpAddress;
 		string _clientType;
-		public static readonly object Locker = new object();
 
 		public FiresecManager FiresecManager { get; private set; }
 		FiresecSerializedClient FiresecSerializedClient
@@ -41,50 +41,26 @@ namespace FiresecService.Service
 			FiresecManager = ServiceCash.Get(this);
 		}
 
-		public void BeginOperation(string operationName)
+		public void Free()
 		{
-			MainViewModel.Current.UpdateCurrentOperationName(UID, operationName);
-		}
-
-		public void EndOperation()
-		{
-			MainViewModel.Current.UpdateCurrentOperationName(UID, "");
-		}
-
-		public void DisposeComServer()
-		{
-			Logger.Info("DisposeComServer");
+			Logger.Info("Free FiresecService");
 			ServiceCash.Free(FiresecManager);
 		}
 
-		public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string login, string password)
+		public OperationResult<bool> Connect(Guid clientUID, string clientType, string clientCallbackAddress, string login, string password)
 		{
-			FiresecManager.LoadConfiguration();
-
-			var operationResult = new OperationResult<bool>();
-
-			if (CheckLogin(login, password) == false)
-			{
-				operationResult.HasError = true;
-				operationResult.Error = "Неверный логин или пароль";
+			var operationResult = Authenticate(login, password);
+			if (operationResult.HasError)
 				return operationResult;
-			}
-			if (CheckRemoteAccessPermissions(login) == false)
-			{
-				operationResult.HasError = true;
-				operationResult.Error = "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + _userIpAddress;
-				return operationResult;
-			}
 
 			_clientType = clientType;
+			ClientUID = clientUID;
 
 			MainViewModel.Current.AddConnection(this, UID, _userLogin, _userIpAddress, _clientType);
 
 			Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
 			CallbackWrapper = new CallbackWrapper(this);
 			CallbackManager.Add(this);
-
-			FiresecManager.ConnectFiresecCOMServer();
 
 			DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему(Firesec-2)");
 
@@ -105,21 +81,11 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> Reconnect(string login, string password)
 		{
-			var operationResult = new OperationResult<bool>();
 			var oldUserName = _userName;
 
-			if (CheckLogin(login, password) == false)
-			{
-				operationResult.HasError = true;
-				operationResult.Error = "Неверный логин или пароль";
+			var operationResult = Authenticate(login, password);
+			if (operationResult.HasError)
 				return operationResult;
-			}
-			if (CheckRemoteAccessPermissions(login) == false)
-			{
-				operationResult.HasError = true;
-				operationResult.Error = "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + _userIpAddress;
-				return operationResult;
-			}
 
 			MainViewModel.Current.EditConnection(UID, login);
 
@@ -153,9 +119,9 @@ namespace FiresecService.Service
 
 		public string GetStatus()
 		{
-			if (!string.IsNullOrEmpty(FiresecManager.ConfigurationManager.DriversError))
+			if (!string.IsNullOrEmpty(FiresecManager.ConfigurationConverter.DriversError))
 			{
-				return FiresecManager.ConfigurationManager.DriversError;
+				return FiresecManager.ConfigurationConverter.DriversError;
 			}
 			return null;
 		}
@@ -176,78 +142,19 @@ namespace FiresecService.Service
 			return "Test";
 		}
 
-		bool CheckRemoteAccessPermissions(string login)
+		public void BeginOperation(string operationName)
 		{
-			var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
-			_userIpAddress = endpoint.Address;
-
-			if (CheckHostIps("localhost"))
-				return true;
-
-			var remoteAccessPermissions = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login).RemoreAccess;
-			if (remoteAccessPermissions == null)
-				return false;
-
-			switch (remoteAccessPermissions.RemoteAccessType)
-			{
-				case RemoteAccessType.RemoteAccessBanned:
-					return false;
-
-				case RemoteAccessType.RemoteAccessAllowed:
-					return true;
-
-				case RemoteAccessType.SelectivelyAllowed:
-					foreach (var hostNameOrIpAddress in remoteAccessPermissions.HostNameOrAddressList)
-					{
-						if (CheckHostIps(hostNameOrIpAddress))
-							return true;
-					}
-					break;
-			}
-			return false;
+			MainViewModel.Current.UpdateCurrentOperationName(UID, operationName);
 		}
 
-		bool CheckHostIps(string hostNameOrIpAddress)
+		public void EndOperation()
 		{
-			try
-			{
-				var addressList = Dns.GetHostEntry(hostNameOrIpAddress).AddressList;
-				return addressList.Any(ip => ip.ToString() == _userIpAddress);
-			}
-			catch
-			{
-				return false;
-			}
-		}
-
-		bool CheckLogin(string login, string password)
-		{
-			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login);
-			if (user == null || !HashHelper.CheckPass(password, user.PasswordHash))
-				return false;
-
-			_userLogin = login;
-			SetUserFullName();
-
-			return true;
-		}
-
-		void SetUserFullName()
-		{
-			var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
-			string userIp = endpoint.Address;
-
-			var addressList = Dns.GetHostEntry("localhost").AddressList;
-			if (addressList.Any(ip => ip.ToString() == userIp))
-				userIp = "localhost";
-
-			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin);
-			_userName = user.Name + " (" + userIp + ")";
+			MainViewModel.Current.UpdateCurrentOperationName(UID, "");
 		}
 
 		public void Dispose()
 		{
-			Disconnect();
+			//Disconnect();
 		}
 	}
 }

@@ -19,10 +19,15 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            <TabItem Header="Управление" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="Управление(DEBUG)" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel>
                     <Button Content="Перезагрузить" Command="{Binding ReloadCommand}" Margin="1" />
                     <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Margin="1" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="COM Сервера(DEBUG)" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel>
+                    <TextBlock Text="{Binding ComServersSatus}" Foreground="White" />
                 </StackPanel>
             </TabItem>
         </TabControl>

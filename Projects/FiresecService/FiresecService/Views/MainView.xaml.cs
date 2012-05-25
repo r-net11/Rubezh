@@ -2,11 +2,11 @@
 
 namespace FiresecService.Views
 {
-    public partial class MainView : UserControl
-    {
-        public MainView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class MainView : UserControl
+	{
+		public MainView()
+		{
+			InitializeComponent();
+		}
+	}
 }

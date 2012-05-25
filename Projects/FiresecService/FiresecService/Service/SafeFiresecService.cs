@@ -89,9 +89,9 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string userName, string password)
+		public OperationResult<bool> Connect(Guid clientUID, string clientType, string clientCallbackAddress, string userName, string password)
 		{
-			return SafeOperationCall(() => { return FiresecService.Connect(clientType, clientCallbackAddress, userName, password); }, "Connect");
+			return SafeOperationCall(() => { return FiresecService.Connect(clientUID, clientType, clientCallbackAddress, userName, password); }, "Connect");
 		}
 
 		public OperationResult<bool> Reconnect(string userName, string password)

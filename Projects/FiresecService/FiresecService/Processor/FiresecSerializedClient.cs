@@ -25,11 +25,6 @@ namespace FiresecService.Processor
 			return result;
 		}
 
-		public FiresecOperationResult<bool> Disconnect()
-		{
-			return NativeFiresecClient.Disconnect();
-		}
-
 		public FiresecOperationResult<Firesec.CoreConfiguration.config> GetCoreConfig()
 		{
 			var result = NativeFiresecClient.GetCoreConfig();

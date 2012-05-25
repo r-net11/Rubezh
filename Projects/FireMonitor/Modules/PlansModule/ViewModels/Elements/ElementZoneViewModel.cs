@@ -27,7 +27,10 @@ namespace PlansModule.ViewModels
 			if (Zone != null)
 			{
 				ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
-				ZoneState.StateChanged += new Action(ZoneState_StateChanged);
+				if (ZoneState != null)
+				{
+					ZoneState.StateChanged += new Action(ZoneState_StateChanged);
+				}
 			}
 
 			ElementZoneView = new ElementZoneView();

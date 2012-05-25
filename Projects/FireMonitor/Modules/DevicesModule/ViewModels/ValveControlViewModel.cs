@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Threading;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using System.Collections.Generic;
+using Infrastructure;
+using System.Threading;
 
 namespace DevicesModule.ViewModels
 {
 	public class ValveControlViewModel : BaseViewModel
 	{
-		Device _device;
+		Device Device;
+		bool IsBuisy = false;
 
 		public ValveControlViewModel(Device device)
 		{
@@ -20,55 +24,112 @@ namespace DevicesModule.ViewModels
 			AutomaticOffCommand = new RelayCommand(OnAutomaticOff);
 			StartCommand = new RelayCommand(OnStart);
 			CancelStartCommand = new RelayCommand(OnCancelStart);
-			ConfirmCommand = new RelayCommand(OnConfirm);
+			ConfirmCommand = new RelayCommand(OnConfirm, CanConfirm);
 			StopTimerCommand = new RelayCommand(OnStopTimer);
 
-			_device = device;
+			Device = device;
 		}
 
 		public RelayCommand CloseCommand { get; private set; }
 		void OnClose()
 		{
-			FiresecManager.FiresecService.ExecuteCommand(_device.UID, "BoltClose");
+			SelectedCommand = "BoltClose";
 		}
 
 		public RelayCommand StopCommand { get; private set; }
 		void OnStop()
 		{
-			FiresecManager.FiresecService.ExecuteCommand(_device.UID, "BoltStop");
+			SelectedCommand = "BoltStop";
 		}
 
 		public RelayCommand OpenCommand { get; private set; }
 		void OnOpen()
 		{
-			FiresecManager.FiresecService.ExecuteCommand(_device.UID, "BoltOpen");
+			SelectedCommand = "BoltOpen";
 		}
 
 		public RelayCommand AutomaticOnCommand { get; private set; }
 		void OnAutomaticOn()
 		{
-			FiresecManager.FiresecService.ExecuteCommand(_device.UID, "BoltAutoOn");
+			SelectedCommand = "BoltAutoOn";
 		}
 
 		public RelayCommand AutomaticOffCommand { get; private set; }
 		void OnAutomaticOff()
 		{
-			FiresecManager.FiresecService.ExecuteCommand(_device.UID, "BoltAutoOff");
+			SelectedCommand = "BoltAutoOff";
 		}
 
 		public RelayCommand StartCommand { get; private set; }
 		void OnStart()
 		{
+			if (HasActionProprty)
+			{
+				SelectedCommand = "BoltOpen";
+			}
+			else
+			{
+				SelectedCommand = "BoltClose";
+			}
 		}
 
 		public RelayCommand CancelStartCommand { get; private set; }
 		void OnCancelStart()
 		{
+			if (HasActionProprty)
+			{
+				SelectedCommand = "BoltClose";
+			}
+			else
+			{
+				SelectedCommand = "BoltOpen";
+			}
+		}
+
+		bool HasActionProprty
+		{
+			get
+			{
+				var actionProperty = Device.Properties.FirstOrDefault(x => x.Name == "Action");
+				if (actionProperty != null)
+				{
+					return actionProperty.Value == "1";
+				}
+				return false;
+			}
+		}
+
+		string _selectedCommand;
+		public string SelectedCommand
+		{
+			get { return _selectedCommand; }
+			set
+			{
+				_selectedCommand = value;
+				OnPropertyChanged("SelectedCommand");
+			}
+		}
+
+		bool CanConfirm()
+		{
+			return !string.IsNullOrEmpty(SelectedCommand) && IsBuisy == false;
 		}
 
 		public RelayCommand ConfirmCommand { get; private set; }
 		void OnConfirm()
 		{
+			IsBuisy = true;
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var thread = new Thread(DoConfirm);
+				thread.Start();
+			}
+		}
+
+		void DoConfirm()
+		{
+			var result = FiresecManager.FiresecService.ExecuteCommand(Device.UID, SelectedCommand);
+			Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged("ConfirmCommand"); }));
 		}
 
 		bool _isTimerEnabled;
