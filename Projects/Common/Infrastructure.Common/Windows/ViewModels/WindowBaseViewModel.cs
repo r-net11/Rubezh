@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Interop;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -39,6 +40,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged("Title");
 			}
 		}
+
 		private double _minWidth;
 		public double MinWidth
 		{
@@ -111,7 +113,16 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 		public void Close()
 		{
-			Surface.Close();
+			Close(true);
+		}
+		public void Close(bool result)
+		{
+			if (Surface != null)
+			{
+				if (ComponentDispatcher.IsThreadModal)
+					Surface.DialogResult = result;
+				Surface.Close();
+			}
 		}
 	}
 }

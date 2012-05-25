@@ -22,11 +22,15 @@ namespace Infrastructure.Common.Windows.DataTemplates
 			{
 				if (item is SaveCancelDialogViewModel)
 					type = typeof(SaveCancelDialogViewModel);
+				else if (item is MessageBoxViewModel)
+					type = typeof(MessageBoxViewModel);
 			}
 			else if (root is HeaderedWindowView)
 			{
 				if (item is DialogViewModel)
 					type = typeof(DialogViewModel);
+				else if (item is ApplicationViewModel)
+					type = typeof(ApplicationViewModel);
 			}
 			else if (root is WindowBaseView)
 			{

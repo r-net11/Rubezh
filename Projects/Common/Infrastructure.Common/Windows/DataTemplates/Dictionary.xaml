@@ -30,11 +30,23 @@
         <Views:SaveCancelDialogView />
     </DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:MessageBoxViewModel}">
+		<Views:MessageBoxView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ApplicationHeaderViewModel}">
+		<Views:ApplicationHeaderView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ApplicationViewModel}">
+		<Views:ApplicationView />
+	</DataTemplate>
 
 
 
 
-    <DataTemplate DataType="{x:Type ViewModels:_debugSaveCancelViewModel}">
+
+	<DataTemplate DataType="{x:Type ViewModels:_debugSaveCancelViewModel}">
         <Views:_debugSaveCancelView />
     </DataTemplate>
 

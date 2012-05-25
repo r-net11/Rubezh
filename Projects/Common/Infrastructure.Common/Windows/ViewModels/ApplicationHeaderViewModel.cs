@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	class DialogHeaderViewModel : BaseViewModel, IHeaderViewModel
+	class ApplicationHeaderViewModel : BaseViewModel, IHeaderViewModel
 	{
-		public DialogHeaderViewModel(DialogViewModel content)
+		public ApplicationHeaderViewModel(ApplicationViewModel content)
 		{
 			Content = content;
 		}

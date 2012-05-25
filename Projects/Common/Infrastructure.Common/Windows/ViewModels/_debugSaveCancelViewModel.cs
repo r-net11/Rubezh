@@ -5,7 +5,10 @@ using System.Text;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	public class _debugSaveCancelViewModel : SaveCancelDialogViewModel
+	public class _debugSaveCancelViewModel : ApplicationViewModel
 	{
+		public _debugSaveCancelViewModel()
+		{
+		}
 	}
 }

@@ -28,11 +28,12 @@
       <FileName>Windows\ViewModels\ConnectionViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Infrastructure.Common.Windows.ViewModels.DialogHeaderViewModel" Collapsed="true">
+  <Class Name="Infrastructure.Common.Windows.ViewModels.ApplicationHeaderViewModel" Collapsed="true">
     <Position X="19" Y="2.25" Width="2" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABgAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Windows\ViewModels\DialogHeaderViewModel.cs</FileName>
+      <FileName>Windows\ViewModels\ApplicationHeaderViewModel.cs</FileName>
+      <NewMemberFileName>Windows\ViewModels\DialogHeaderViewModel.cs</NewMemberFileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
@@ -53,7 +54,7 @@
   <Class Name="Infrastructure.Common.Windows.ViewModels.MessageBoxViewModel" Collapsed="true">
     <Position X="8.5" Y="6" Width="2" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QEAAAHAQAAAAAAAAAEEIAAQAAAAQAQAYAABIIRABAAI=</HashCode>
       <FileName>Windows\ViewModels\MessageBoxViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -67,7 +68,7 @@
   <Class Name="Infrastructure.Common.Windows.ViewModels.SaveCancelDialogViewModel" Collapsed="true">
     <Position X="10.75" Y="6" Width="2.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>UAAAAKAAAAABAAAAAACAAAACAAAAAAAgAAAEAAAECAA=</HashCode>
       <FileName>Windows\ViewModels\SaveCancelDialogViewModel.cs</FileName>
     </TypeIdentifier>
   </Class>
