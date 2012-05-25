@@ -13,8 +13,8 @@
         Background="Transparent"
         Closing="Window_Closing"
         Closed="Window_Closed">
-    
-    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
+
+        <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
         <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
             <DockPanel>
                 <Border Height="75" MouseMove="Header_MouseMove" MouseDown="Header_MouseDown" CornerRadius="11 11 0 0" DockPanel.Dock="Top" Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}">

@@ -11,6 +11,11 @@
         <GradientStop Color="#DF8E2A" Offset="1" />
     </LinearGradientBrush>
 
+    <LinearGradientBrush x:Key="HighlightedBackgoundBrush2" StartPoint="0, 0" EndPoint="0,1">
+        <GradientStop Color="#F2B352" Offset="0" />
+        <GradientStop Color="#DF8E2A" Offset="1" />
+    </LinearGradientBrush>
+
     <LinearGradientBrush x:Key="PressedBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
         <GradientStop Color="#DEA34B" Offset="0" />
         <GradientStop Color="#C98226" Offset="1" />

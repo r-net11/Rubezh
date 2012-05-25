@@ -221,6 +221,11 @@ namespace DevicesModule.ViewModels
 
 			if (DevicesMenuView.Current != null)
 				DevicesMenuView.Current.AcceptKeyboard = true;
+
+			foreach (var device in Devices)
+			{
+				device.OnPropertyChanged("PresentationZone");
+			}
 		}
 
 		public override void OnHide()
