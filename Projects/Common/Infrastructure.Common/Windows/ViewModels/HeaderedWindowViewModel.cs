@@ -13,7 +13,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Height = 600;
 			Width = 800;
 			Sizable = true;
-			PropertyChanged += new PropertyChangedEventHandler(CaptionedViewModel_PropertyChanged);
 		}
 
 		private bool _sizable;
@@ -34,16 +33,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_header = value;
-				if (_header != null)
-					_header.Title = Title;
 				OnPropertyChanged("Header");
 			}
-		}
-
-		private void CaptionedViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
-		{
-			if (e.PropertyName == "Title" && _header != null)
-				_header.Title = Title;
 		}
 	}
 }

@@ -101,5 +101,17 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		public bool CloseOnEscape { get; set; }
+
+		public virtual bool OnClosing(bool isCanceled)
+		{
+			return isCanceled;
+		}
+		public virtual void OnClosed()
+		{
+		}
+		public void Close()
+		{
+			Surface.Close();
+		}
 	}
 }

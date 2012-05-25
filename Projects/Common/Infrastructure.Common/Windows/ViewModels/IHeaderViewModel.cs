@@ -7,7 +7,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	public interface IHeaderViewModel
 	{
-		string Title { get; set; }
+		HeaderedWindowViewModel Content { get; set; }
 		double Height { get; }
 	}
 }

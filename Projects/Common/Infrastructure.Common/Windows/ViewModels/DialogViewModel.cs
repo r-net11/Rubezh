@@ -9,7 +9,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 	{
 		public DialogViewModel()
 		{
-			Header = new DialogHeaderViewModel();
+			Header = new DialogHeaderViewModel(this);
 			CloseOnEscape = true;
 		}
 	}

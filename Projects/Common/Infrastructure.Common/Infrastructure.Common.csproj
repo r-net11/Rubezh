@@ -163,12 +163,16 @@
     </Compile>
     <Compile Include="WaitWrapper.cs" />
     <Compile Include="Windows\DataTemplates\HierarhicalDataTemplateSelector.cs" />
+    <Compile Include="Windows\ViewModels\ApplicationViewModel.cs" />
     <Compile Include="Windows\ViewModels\ConnectionViewModel.cs" />
+    <Compile Include="Windows\ViewModels\MessageBoxViewModel.cs" />
     <Compile Include="Windows\ViewModels\HeaderedWindowViewModel.cs" />
     <Compile Include="Windows\ViewModels\DialogHeaderViewModel.cs" />
     <Compile Include="Windows\ViewModels\DialogViewModel.cs" />
     <Compile Include="Windows\ViewModels\IHeaderViewModel.cs" />
+    <Compile Include="Windows\ViewModels\ProgressViewModel.cs" />
     <Compile Include="Windows\ViewModels\SaveCancelDialogViewModel.cs" />
+    <Compile Include="Windows\ViewModels\ShellViewModel.cs" />
     <Compile Include="Windows\ViewModels\WindowBaseViewModel.cs" />
     <Compile Include="Windows\ViewModels\_debugSaveCancelViewModel.cs" />
     <Compile Include="Windows\Views\DialogView.xaml.cs">

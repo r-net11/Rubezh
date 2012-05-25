@@ -5,8 +5,7 @@ using System.Text;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	public class SaveCancelDialogViewModel : DialogViewModel
+	public class ShellViewModel : HeaderedWindowViewModel
 	{
-		// Add commands
 	}
 }

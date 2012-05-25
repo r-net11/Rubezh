@@ -7,7 +7,11 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	class DialogHeaderViewModel : BaseViewModel, IHeaderViewModel
 	{
-		private string _title;
+		public DialogHeaderViewModel(DialogViewModel content)
+		{
+			Content = content;
+		}
+
 		#region ICaptionedHeaderViewModel Members
 
 		public double Height
@@ -15,13 +19,14 @@ namespace Infrastructure.Common.Windows.ViewModels
 			get { return 30; }
 		}
 
-		public string Title
+		private HeaderedWindowViewModel _content;
+		public HeaderedWindowViewModel Content
 		{
-			get { return _title; }
+			get { return _content; }
 			set
 			{
-				_title = value;
-				OnPropertyChanged("Title");
+				_content = value;
+				OnPropertyChanged("Content");
 			}
 		}
 

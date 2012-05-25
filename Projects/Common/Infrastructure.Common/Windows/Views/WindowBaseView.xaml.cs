@@ -34,9 +34,11 @@ namespace Infrastructure.Common.Windows.Views
 
 		private void Window_Closing(object sender, CancelEventArgs e)
 		{
+			e.Cancel = _model.OnClosing(e.Cancel);
 		}
 		private void Window_Closed(object sender, System.EventArgs e)
 		{
+			_model.OnClosed();
 		}
 		private void Window_KeyDown(object sender, KeyEventArgs e)
 		{
