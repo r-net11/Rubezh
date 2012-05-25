@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	public interface ICaptionedHeaderViewModel
+	public interface IHeaderViewModel
 	{
+		string Title { get; set; }
 		double Height { get; }
 	}
 }

@@ -15,11 +15,11 @@ using System.Windows.Controls.Primitives;
 
 namespace Infrastructure.Common.Windows.Views
 {
-	public partial class CaptionedView : UserControl
+	public partial class HeaderedWindowView : UserControl
 	{
 		public Window Window { get; private set; }
 
-		public CaptionedView()
+		public HeaderedWindowView()
 		{
 			InitializeComponent();
 		}
@@ -42,9 +42,9 @@ namespace Infrastructure.Common.Windows.Views
 
 		private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
 		{
-			if (Window.ActualWidth + e.HorizontalChange > 10)
+			if (Window.ActualWidth + e.HorizontalChange > 50)
 				Window.Width = Window.ActualWidth + e.HorizontalChange;
-			if (Window.ActualHeight + e.VerticalChange > 10)
+			if (Window.ActualHeight + e.VerticalChange > 50)
 				Window.Height = Window.ActualHeight + e.VerticalChange;
 		}
 	}

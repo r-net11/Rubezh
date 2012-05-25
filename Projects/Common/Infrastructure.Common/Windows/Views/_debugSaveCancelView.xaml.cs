@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace Infrastructure.Common.Windows.Views
 {
 	/// <summary>
-	/// Interaction logic for UserControl1.xaml
+	/// Interaction logic for _debugSaveCancelView.xaml
 	/// </summary>
-	public partial class UserControl1 : UserControl
+	public partial class _debugSaveCancelView : UserControl
 	{
-		public UserControl1()
+		public _debugSaveCancelView()
 		{
 			InitializeComponent();
 		}

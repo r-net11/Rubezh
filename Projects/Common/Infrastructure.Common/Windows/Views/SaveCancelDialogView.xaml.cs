@@ -14,16 +14,14 @@ using System.Windows.Shapes;
 
 namespace Infrastructure.Common.Windows.Views
 {
-	public partial class DialogHeaderView : UserControl
+	/// <summary>
+	/// Interaction logic for SaveCancelDialogContentView.xaml
+	/// </summary>
+	public partial class SaveCancelDialogView : UserControl
 	{
-		public DialogHeaderView()
+		public SaveCancelDialogView()
 		{
 			InitializeComponent();
-		}
-
-		private void OnCloseButton(object sender, RoutedEventArgs e)
-		{
-			Window.GetWindow(this).Close();
 		}
 	}
 }

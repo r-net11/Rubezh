@@ -5,10 +5,12 @@ using System.Text;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	public class DialogViewModel : CaptionedViewModel
+	public class DialogViewModel : HeaderedWindowViewModel
 	{
 		public DialogViewModel()
 		{
+			Header = new DialogHeaderViewModel();
+			CloseOnEscape = true;
 		}
 	}
 }

@@ -18,10 +18,17 @@ namespace Infrastructure.Common.Windows.Views
 {
 	public partial class WindowBaseView : Window
 	{
+		private WindowBaseViewModel _model;
+
+		public WindowBaseView()
+		{
+			InitializeComponent();
+		}
 		public WindowBaseView(WindowBaseViewModel model)
 		{
-			model.Surface = this;
-			DataContext = model;
+			_model = model;
+			_model .Surface = this;
+			DataContext = _model ;
 			InitializeComponent();
 		}
 
@@ -30,6 +37,11 @@ namespace Infrastructure.Common.Windows.Views
 		}
 		private void Window_Closed(object sender, System.EventArgs e)
 		{
+		}
+		private void Window_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (_model.CloseOnEscape && e.Key == Key.Escape)
+				Close();
 		}
 	}
 }

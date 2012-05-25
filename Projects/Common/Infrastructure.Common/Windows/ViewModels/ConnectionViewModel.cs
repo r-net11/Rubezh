@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	public class ConnectionViewModel : WindowBaseViewModel
+	public sealed class ConnectionViewModel : WindowBaseViewModel
 	{
 		public ConnectionViewModel()
 		{

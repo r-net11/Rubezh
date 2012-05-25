@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Infrastructure.Common.Windows.ViewModels._debugSaveCancelViewModel" Collapsed="true">
+    <Position X="8.25" Y="9.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Windows\ViewModels\_debugSaveCancelViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Common.Windows.ViewModels.WindowBaseViewModel" Collapsed="true">
+    <Position X="7.25" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAFICAEEAIBAAAAEAEABAAAACACAAQAAEAEBI=</HashCode>
+      <FileName>Windows\ViewModels\WindowBaseViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Common.Windows.ViewModels.ConnectionViewModel" Collapsed="true">
+    <Position X="6" Y="5.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Windows\ViewModels\ConnectionViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Common.Windows.ViewModels.DialogHeaderViewModel" Collapsed="true">
+    <Position X="13" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABIAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Windows\ViewModels\DialogHeaderViewModel.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Infrastructure.Common.Windows.ViewModels.DialogViewModel" Collapsed="true">
+    <Position X="8.25" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Windows\ViewModels\DialogViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Common.Windows.ViewModels.HeaderedWindowViewModel" Collapsed="true">
+    <Position X="8.25" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>BAEAAAAAAAAAAEAAQBAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Windows\ViewModels\HeaderedWindowViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Infrastructure.Common.Windows.ViewModels.SaveCancelDialogViewModel" Collapsed="true">
+    <Position X="8.25" Y="8.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Windows\ViewModels\SaveCancelDialogViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Infrastructure.Common.Windows.ViewModels.IHeaderViewModel" Collapsed="true">
+    <Position X="13.25" Y="4.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Windows\ViewModels\IHeaderViewModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

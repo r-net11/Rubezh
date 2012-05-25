@@ -13,12 +13,13 @@
 		MaxWidth="{Binding MaxWidth}"
 		Height="{Binding Height}"
 		Width="{Binding Width}"
+       	KeyDown="Window_KeyDown"
         Closing="Window_Closing"
         Closed="Window_Closed">
 
-	<Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
-		<Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
-			<ContentPresenter Content="{Binding}"/>
-		</Border>
-	</Border>
+    <Border BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
+        <Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
+            <ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource HierarhicalDataTemplateSelector}"/>
+        </Border>
+    </Border>
 </Window>
