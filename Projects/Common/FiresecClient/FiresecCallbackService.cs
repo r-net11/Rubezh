@@ -25,9 +25,9 @@ namespace FiresecClient
 			return true;
 		}
 
-		public string Ping()
+		public Guid Ping()
 		{
-			return "Pong";
+			return FiresecManager.ClientUID;
 		}
 
 		public static event Action ConfigurationChangedEvent;

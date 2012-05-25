@@ -44,11 +44,11 @@ namespace FiresecService.Service
 			}
 			catch (ObjectDisposedException)
 			{
-				FiresecService.DisposeComServer();
+				FiresecService.Free();
 			}
 			catch (Exception)
 			{
-				FiresecService.DisposeComServer();
+				FiresecService.Free();
 			}
 			return true;
 		}
@@ -62,11 +62,11 @@ namespace FiresecService.Service
 				}
 				catch (ObjectDisposedException)
 				{
-					FiresecService.DisposeComServer();
+					FiresecService.Free();
 				}
 				catch (Exception)
 				{
-					FiresecService.DisposeComServer();
+					FiresecService.Free();
 				}
 		}
 	}

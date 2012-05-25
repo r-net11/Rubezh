@@ -4,6 +4,11 @@
 
     <StackPanel>
         <TabControl ItemsSource="{Binding Blocks}" SelectedItem="{Binding SelectedBlock}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <ListBox ItemsSource="{Binding Commands}" SelectedItem="{Binding SelectedCommand}">

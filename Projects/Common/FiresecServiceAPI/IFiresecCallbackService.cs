@@ -1,5 +1,6 @@
 ﻿using System.ServiceModel;
 using FiresecAPI.Models;
+using System;
 
 namespace FiresecAPI
 {
@@ -16,6 +17,6 @@ namespace FiresecAPI
 		void NewJournalRecord(JournalRecord journalRecord);
 
 		[OperationContract(IsOneWay = false)]
-		string Ping();
+		Guid Ping();
 	}
 }

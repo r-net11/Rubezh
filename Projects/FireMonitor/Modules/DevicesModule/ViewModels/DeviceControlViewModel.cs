@@ -13,6 +13,7 @@ namespace DevicesModule.ViewModels
 	public class DeviceControlViewModel : BaseViewModel
 	{
 		Device Device;
+		bool IsBuisy = false;
 
 		public DeviceControlViewModel(Device device)
 		{
@@ -60,21 +61,18 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ConfirmCommand { get; private set; }
 		void OnConfirm()
 		{
-			var thread = new Thread(DoConfirm);
-			thread.Start();
+			IsBuisy = true;
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var thread = new Thread(DoConfirm);
+				thread.Start();
+			}
 		}
-
-		bool IsBuisy = false;
 
 		void DoConfirm()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				IsBuisy = true;
-				var result = FiresecManager.FiresecService.ExecuteCommand(Device.UID, SelectedBlock.SelectedCommand.Name);
-				IsBuisy = false;
-				OnPropertyChanged("ConfirmCommand");
-			}
+			var result = FiresecManager.FiresecService.ExecuteCommand(Device.UID, SelectedBlock.SelectedCommand.Name);
+			Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged("ConfirmCommand"); }));
 		}
 	}
 

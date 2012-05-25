@@ -12,7 +12,7 @@ namespace FiresecAPI
 	{
 		#region Service
 		[OperationContract(IsInitiating = true)]
-		OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string userName, string password);
+		OperationResult<bool> Connect(Guid clientUID, string clientType, string clientCallbackAddress, string userName, string password);
 
 		[OperationContract]
 		OperationResult<bool> Reconnect(string userName, string password);

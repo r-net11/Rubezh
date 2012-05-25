@@ -42,7 +42,8 @@ namespace Controls
         {
             PreviousDataGridCell = CurrentDataGridCell;
             IInputElement element = e.MouseDevice.DirectlyOver;
-            if ((element != null && element is FrameworkElement) && (((FrameworkElement)element).Parent is DataGridCell))
+            if (element != null && element is FrameworkElement &&
+				(((FrameworkElement)element).Parent is DataGridCell || ((FrameworkElement)element).Parent == null))
             {
                 CurrentDataGridCell = ((FrameworkElement)element).Parent as DataGridCell;
             }

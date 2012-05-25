@@ -13,7 +13,7 @@ namespace DevicesModule.ViewModels
 	public class ValveControlViewModel : BaseViewModel
 	{
 		Device Device;
-		string CommandName;
+		bool IsBuisy = false;
 
 		public ValveControlViewModel(Device device)
 		{
@@ -24,7 +24,7 @@ namespace DevicesModule.ViewModels
 			AutomaticOffCommand = new RelayCommand(OnAutomaticOff);
 			StartCommand = new RelayCommand(OnStart);
 			CancelStartCommand = new RelayCommand(OnCancelStart);
-			ConfirmCommand = new RelayCommand(OnConfirm);
+			ConfirmCommand = new RelayCommand(OnConfirm, CanConfirm);
 			StopTimerCommand = new RelayCommand(OnStopTimer);
 
 			Device = device;
@@ -33,31 +33,31 @@ namespace DevicesModule.ViewModels
 		public RelayCommand CloseCommand { get; private set; }
 		void OnClose()
 		{
-			CommandName = "BoltClose";
+			SelectedCommand = "BoltClose";
 		}
 
 		public RelayCommand StopCommand { get; private set; }
 		void OnStop()
 		{
-			CommandName = "BoltStop";
+			SelectedCommand = "BoltStop";
 		}
 
 		public RelayCommand OpenCommand { get; private set; }
 		void OnOpen()
 		{
-			CommandName = "BoltOpen";
+			SelectedCommand = "BoltOpen";
 		}
 
 		public RelayCommand AutomaticOnCommand { get; private set; }
 		void OnAutomaticOn()
 		{
-			CommandName = "BoltAutoOn";
+			SelectedCommand = "BoltAutoOn";
 		}
 
 		public RelayCommand AutomaticOffCommand { get; private set; }
 		void OnAutomaticOff()
 		{
-			CommandName = "BoltAutoOff";
+			SelectedCommand = "BoltAutoOff";
 		}
 
 		public RelayCommand StartCommand { get; private set; }
@@ -65,11 +65,11 @@ namespace DevicesModule.ViewModels
 		{
 			if (HasActionProprty)
 			{
-				CommandName = "BoltOpen";
+				SelectedCommand = "BoltOpen";
 			}
 			else
 			{
-				CommandName = "BoltClose";
+				SelectedCommand = "BoltClose";
 			}
 		}
 
@@ -78,11 +78,11 @@ namespace DevicesModule.ViewModels
 		{
 			if (HasActionProprty)
 			{
-				CommandName = "BoltClose";
+				SelectedCommand = "BoltClose";
 			}
 			else
 			{
-				CommandName = "BoltOpen";
+				SelectedCommand = "BoltOpen";
 			}
 		}
 
@@ -99,29 +99,37 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		bool CanConfirmCommand()
+		string _selectedCommand;
+		public string SelectedCommand
 		{
-			return !string.IsNullOrEmpty(CommandName);
+			get { return _selectedCommand; }
+			set
+			{
+				_selectedCommand = value;
+				OnPropertyChanged("SelectedCommand");
+			}
+		}
+
+		bool CanConfirm()
+		{
+			return !string.IsNullOrEmpty(SelectedCommand) && IsBuisy == false;
 		}
 
 		public RelayCommand ConfirmCommand { get; private set; }
 		void OnConfirm()
 		{
-			var thread = new Thread(DoConfirm);
-			thread.Start();
+			IsBuisy = true;
+			if (ServiceFactory.SecurityService.Validate())
+			{
+				var thread = new Thread(DoConfirm);
+				thread.Start();
+			}
 		}
-
-		bool IsBuisy = false;
 
 		void DoConfirm()
 		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				IsBuisy = true;
-				var result = FiresecManager.FiresecService.ExecuteCommand(Device.UID, CommandName);
-				IsBuisy = false;
-				OnPropertyChanged("ConfirmCommand");
-			}
+			var result = FiresecManager.FiresecService.ExecuteCommand(Device.UID, SelectedCommand);
+			Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged("ConfirmCommand"); }));
 		}
 
 		bool _isTimerEnabled;

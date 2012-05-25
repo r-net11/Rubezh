@@ -17,7 +17,6 @@ namespace FiresecService.Service
 
 		static List<FiresecService> FiresecServices;
 		static List<FiresecService> FailedFiresecServices;
-		static object locker = new object();
 
 		public static void Add(FiresecService firesecService)
 		{
@@ -79,7 +78,11 @@ namespace FiresecService.Service
 			{
 					try
 					{
-						var result = firesecServices.FiresecCallbackService.Ping();
+						var clientUID = firesecServices.FiresecCallbackService.Ping();
+						if (firesecServices.ClientUID != clientUID)
+						{
+							FailedFiresecServices.Add(firesecServices);
+						}
 					}
 					catch
 					{
@@ -90,15 +93,15 @@ namespace FiresecService.Service
 			Clean();
 		}
 
-		public static void CopyConfigurationForAllClients(FiresecService firesecService)
-		{
-			foreach (var firesecServices in FiresecServices)
-			{
-				if (firesecServices.UID != firesecService.UID)
-				{
-					firesecServices.FiresecManager.ConvertStates();
-				}
-			}
-		}
+		//public static void CopyConfigurationForAllClients(FiresecService firesecService)
+		//{
+		//    foreach (var firesecServices in FiresecServices)
+		//    {
+		//        if (firesecServices.UID != firesecService.UID)
+		//        {
+		//            firesecServices.FiresecManager.ConvertStates();
+		//        }
+		//    }
+		//}
 	}
 }

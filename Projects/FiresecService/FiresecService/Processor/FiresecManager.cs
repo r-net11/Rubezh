@@ -14,23 +14,14 @@ namespace FiresecService.Processor
 
 		public FiresecManager(FiresecService.Service.FiresecService firesecService)
 		{
-			FiresecSerializedClient = new FiresecSerializedClient();
 			FiresecService = firesecService;
+			FiresecSerializedClient = new FiresecSerializedClient();
 			ConfigurationConverter = new ConfigurationConverter()
 			{
 				FiresecSerializedClient = FiresecSerializedClient
 			};
 
 			ConnectFiresecCOMServer();
-		}
-
-		public void LoadConfiguration()
-		{
-			ConfigurationCash.DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
-			ConfigurationCash.SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
-			ConfigurationCash.LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
-			ConfigurationCash.SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
-			ConfigurationCash.PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
 		}
 
 		bool ConnectFiresecCOMServer()

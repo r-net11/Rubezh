@@ -10,6 +10,7 @@ namespace FiresecClient
 	public partial class FiresecManager
 	{
 		static public SafeFiresecService FiresecService { get; private set; }
+		public static Guid ClientUID { get; private set; }
 
 		public static string Connect(string clientType, string serverAddress, string login, string password)
 		{
@@ -18,7 +19,8 @@ namespace FiresecClient
 
 			FiresecService = new SafeFiresecService(FiresecServiceFactory.Create(serverAddress));
 
-			var operationResult = FiresecService.Connect(clientType, clientCallbackAddress, login, password);
+			ClientUID = Guid.NewGuid();
+			var operationResult = FiresecService.Connect(ClientUID, clientType, clientCallbackAddress, login, password);
 			if (operationResult.HasError)
 			{
 				return operationResult.Error;

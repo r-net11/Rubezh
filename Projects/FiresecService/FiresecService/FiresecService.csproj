@@ -115,6 +115,7 @@
     <Compile Include="Service\CallbackWrapper.cs" />
     <Compile Include="Service\ConfigurationCash.cs" />
     <Compile Include="Service\FiresecOperationExtentions.cs" />
+    <Compile Include="Service\FiresecService.Authentication.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
     <Compile Include="Service\FiresecService.SKUD.cs" />
     <Compile Include="Service\FiresecCallbackServiceCreator.cs" />

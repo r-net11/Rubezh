@@ -147,13 +147,13 @@ namespace FiresecClient
 			}
 		}
 
-		public OperationResult<bool> Connect(string clientType, string clientCallbackAddress, string userName, string password)
+		public OperationResult<bool> Connect(Guid clientUID, string clientType, string clientCallbackAddress, string userName, string password)
 		{
 			return SafeOperationCall(() =>
 			{
 				try
 				{
-					return _iFiresecService.Connect(clientType, clientCallbackAddress, userName, password);
+					return _iFiresecService.Connect(clientUID, clientType, clientCallbackAddress, userName, password);
 				}
 				catch (Exception e)
 				{

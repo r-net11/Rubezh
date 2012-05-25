@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecService.Processor;
+using FiresecService.ViewModels;
 
 namespace FiresecService.Service
 {
@@ -19,29 +20,31 @@ namespace FiresecService.Service
 		{
 			CallbackManager.Ping();
 
+			FiresecManager firesecManager = null;
+
 			if (FreeManagers.Count > 0)
 			{
-				var freeManager = FreeManagers.First();
-				freeManager.FiresecService = firesecService;
-				RunningManagers.Add(freeManager);
-				FreeManagers.Remove(freeManager);
-				return freeManager;
+				firesecManager = FreeManagers.First();
+				firesecManager.FiresecService = firesecService;
+				RunningManagers.Add(firesecManager);
+				FreeManagers.Remove(firesecManager);
 			}
 			else
 			{
-				var firesecManager = new FiresecManager(firesecService);
+				firesecManager = new FiresecManager(firesecService);
 				RunningManagers.Add(firesecManager);
-				return firesecManager;
 			}
+
+			MainViewModel.Current.UpdateComServersCount();
+			return firesecManager;
 		}
 
 		public static void Free(FiresecManager firesecManager)
 		{
-			//if (firesecManager.FiresecSerializedClient != null)
-			//    firesecManager.FiresecSerializedClient.Disconnect();
-
+			firesecManager.FiresecService = null;
 			FreeManagers.Add(firesecManager);
 			RunningManagers.Remove(firesecManager);
+			MainViewModel.Current.UpdateComServersCount();
 		}
 	}
 }
