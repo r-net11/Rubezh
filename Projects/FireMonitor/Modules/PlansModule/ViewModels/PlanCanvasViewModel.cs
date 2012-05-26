@@ -76,8 +76,8 @@ namespace PlansModule.ViewModels
             {
                 DrawElement(elementPolygon);
             }
-			if (Plan.ElementPolylines == null)
-				Plan.ElementPolylines = new List<ElementPolyline>();
+            if (Plan.ElementPolylines == null)
+                Plan.ElementPolylines = new List<ElementPolyline>();
             foreach (var elementPolyline in Plan.ElementPolylines)
             {
                 DrawElement(elementPolyline);
@@ -106,12 +106,15 @@ namespace PlansModule.ViewModels
             foreach (var elementDevice in Plan.ElementDevices)
             {
                 var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice);
-                Devices.Add(elementDeviceViewModel);
+                if (elementDeviceViewModel.DeviceState != null)
+                {
+                    Devices.Add(elementDeviceViewModel);
 
-                elementDeviceViewModel.DrawElementDevice();
-                if (elementDeviceViewModel.ElementDeviceView.Parent != null)
-                    return;
-                Canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
+                    elementDeviceViewModel.DrawElementDevice();
+                    if (elementDeviceViewModel.ElementDeviceView.Parent != null)
+                        return;
+                    Canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
+                }
             }
         }
 
