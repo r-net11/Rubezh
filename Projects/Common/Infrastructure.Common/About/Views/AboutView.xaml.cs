@@ -11,20 +11,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Infrastructure.Common.Windows.ViewModels;
 
-namespace Infrastructure.Common.Windows.Views
+namespace Infrastructure.Common.About.Views
 {
-	public partial class DialogHeaderView : UserControl
+	/// <summary>
+	/// Interaction logic for AboutView.xaml
+	/// </summary>
+	public partial class AboutView : UserControl
 	{
-		public DialogHeaderView()
+		public AboutView()
 		{
 			InitializeComponent();
-		}
-
-		private void OnCloseButton(object sender, RoutedEventArgs e)
-		{
-			(((DialogHeaderViewModel)DataContext).Content).Close();
 		}
 	}
 }

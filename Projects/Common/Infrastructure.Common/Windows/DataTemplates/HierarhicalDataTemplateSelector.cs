@@ -18,7 +18,12 @@ namespace Infrastructure.Common.Windows.DataTemplates
 			DataTemplate template = null;
 			DependencyObject root = GetLogicalRoot(container);
 
-			if (root is DialogView)
+			if (root is ApplicationView)
+			{
+				if (item is ShellViewModel)
+					type = typeof(ShellViewModel);
+			}
+			else if (root is DialogView)
 			{
 				if (item is SaveCancelDialogViewModel)
 					type = typeof(SaveCancelDialogViewModel);

@@ -20,7 +20,7 @@
                 <Border Height="75" MouseMove="Header_MouseMove" MouseDown="Header_MouseDown" CornerRadius="11 11 0 0" DockPanel.Dock="Top" Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
+                              <ColumnDefinition Width="auto" />
                             <ColumnDefinition />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
