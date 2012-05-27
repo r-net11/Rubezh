@@ -34,7 +34,10 @@ namespace PlansModule.ViewModels
 			DeviceUID = elementDevice.DeviceUID;
 			Device = elementDevice.Device;
 			DeviceState = elementDevice.DeviceState;
-			DeviceState.StateChanged += new Action(OnDeviceStateChanged);
+            if (DeviceState != null)
+            {
+                DeviceState.StateChanged += new Action(OnDeviceStateChanged);
+            }
 		}
 
 		public void DrawElementDevice()

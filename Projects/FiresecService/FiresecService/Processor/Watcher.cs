@@ -129,7 +129,7 @@ namespace FiresecService.Processor
 			foreach (var journalRecord in journalRecords)
 			{
 				DatabaseHelper.AddJournalRecord(journalRecord);
-				if (FiresecService != null)
+                if (FiresecService != null && FiresecService.CallbackWrapper != null)
 				{
 					FiresecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
 				}

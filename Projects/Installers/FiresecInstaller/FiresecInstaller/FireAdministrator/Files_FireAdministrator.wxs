@@ -69,6 +69,10 @@
         <File Id="FAInfrastructure.CommonDll" Name="Infrastructure.Common.dll"
               Source="$(var.FireAdministrator.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
+      <Component Id="FAInfrastructure.ClientComponent" Guid="CA2962A5-1C84-45BC-A55A-2133F9B27B98">
+        <File Id="FAInfrastructure.CommonClientDll" Name="Infrastructure.Client.dll"
+              Source="$(var.FireAdministrator.TargetDir)" DiskId="1" KeyPath="yes" />
+      </Component>
       <Component Id="FAInfrastructureComponent" Guid="23E7ED53-249B-4FDA-B721-5AA4C81B6DAA">
         <File Id="FAInfrastructureDll" Name="Infrastructure.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />

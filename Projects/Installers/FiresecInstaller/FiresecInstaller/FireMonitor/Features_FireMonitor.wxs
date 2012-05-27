@@ -19,6 +19,7 @@
 			<ComponentRef Id="FMWPFToolkitExtendedComponent" />
 			<ComponentRef Id="FMServiceLocationComponent" />
 			<ComponentRef Id="FMInfrastructure.CommonComponent" />
+      <ComponentRef Id="FMInfrastructure.ClientComponent" />
 			<ComponentRef Id="FMInfrastructureComponent" />
 			<ComponentRef Id="FMDevicesModuleComponent" />
 			<ComponentRef Id="FMPlansModuleComponent" />

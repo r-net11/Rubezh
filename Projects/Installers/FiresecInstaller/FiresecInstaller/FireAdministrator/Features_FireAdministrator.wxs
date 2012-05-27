@@ -15,6 +15,7 @@
 			<ComponentRef Id="FAFiresecClientComponent" />
 			<ComponentRef Id="FADevicesModuleComponent" />
 			<ComponentRef Id="FAInfrastructure.CommonComponent" />
+      <ComponentRef Id="FAInfrastructure.ClientComponent" />
 			<ComponentRef Id="FAInfrastructureComponent" />
 			<ComponentRef Id="FAUnityComponent" />
 			<ComponentRef Id="FAPrismDllComponent"/>
