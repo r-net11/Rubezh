@@ -19,13 +19,13 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
-			ResourceService srv = new ResourceService();
-			srv.AddResource(new ResourceDescription(typeof(WindowBaseView).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-			_debugSaveCancelViewModel model = new _debugSaveCancelViewModel();
-			model.Title = "Test";
-			WindowBaseView win = new WindowBaseView(model);
-			win.ShowDialog();
-			return;
+			//ResourceService srv = new ResourceService();
+			//srv.AddResource(new ResourceDescription(typeof(WindowBaseView).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+			//_debugSaveCancelViewModel model = new _debugSaveCancelViewModel();
+			//model.Title = "Test";
+			//WindowBaseView win = new WindowBaseView(model);
+			//win.ShowDialog();
+			//return;
 
 			AppSettingsHelper.InitializeAppSettings();
 

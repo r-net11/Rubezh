@@ -398,14 +398,14 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return _iFiresecService.DeviceGetMDS5Data(deviceConfiguration, deviceUID); });
 		}
 
-		public OperationResult<bool> AddToIgnoreList(List<Guid> deviceUIDs)
+		public void AddToIgnoreList(List<Guid> deviceUIDs)
 		{
-			return SafeOperationCall(() => { return _iFiresecService.AddToIgnoreList(deviceUIDs); });
+			SafeOperationCall(() => { _iFiresecService.AddToIgnoreList(deviceUIDs); });
 		}
 
-		public OperationResult<bool> RemoveFromIgnoreList(List<Guid> deviceUIDs)
+		public void RemoveFromIgnoreList(List<Guid> deviceUIDs)
 		{
-			return SafeOperationCall(() => { return _iFiresecService.RemoveFromIgnoreList(deviceUIDs); });
+			SafeOperationCall(() => { _iFiresecService.RemoveFromIgnoreList(deviceUIDs); });
 		}
 
 		public void ResetStates(List<ResetItem> resetItems)

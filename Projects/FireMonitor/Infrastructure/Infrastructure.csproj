@@ -98,6 +98,8 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Events\DeviceParametersChangedEvent.cs" />
+    <Compile Include="Events\DeviceStateChangedEvent.cs" />
     <Compile Include="Events\NewJournalRecordEvent.cs" />
     <Compile Include="Events\ShowAlarmsEvent.cs" />
     <Compile Include="Events\ShowArchiveEvent.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Events\ShowPlanEvent.cs" />
     <Compile Include="Events\ShowZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowZonesEvent.cs" />
+    <Compile Include="Events\ZoneStateChangedEvent.cs" />
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
@@ -121,6 +124,7 @@
     <Compile Include="Models\AutoActivationSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceFactory.cs" />
+    <Compile Include="Services\IWaitService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\FiresecClient\FiresecClient.csproj">

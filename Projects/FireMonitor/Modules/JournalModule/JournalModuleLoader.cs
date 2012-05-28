@@ -44,6 +44,7 @@ namespace JournalModule
 		void OnShowArchive(object obj)
 		{
 			ServiceFactory.Layout.Show(ArchiveViewModel);
+			//ArchiveViewModel.Update();
 		}
 		void OnNewJournalRecord(JournalRecord journalItem)
 		{

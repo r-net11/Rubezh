@@ -142,6 +142,8 @@ namespace FiresecService.Service
 					query += ")";
 				}
 
+				query += "\n ORDER BY SystemTime DESC";
+
 				var result = DataBaseContext.ExecuteQuery<JournalRecord>(query);
 				operationResult.Result = result.ToList();
 			}

@@ -15,8 +15,6 @@ namespace FiresecService.Service
 		void NotifyConfigurationChanged()
 		{
 			ServiceCash.RunningManagers.ForEach(x => x.FiresecService.FiresecManager.ConvertStates());
-			//FiresecManager.ConvertStates();
-			//CallbackManager.CopyConfigurationForAllClients(this);
 			CallbackManager.OnConfigurationChanged();
 		}
 
@@ -219,7 +217,7 @@ namespace FiresecService.Service
 			return FiresecSerializedClient.DeviceGetMDS5Data(firesecConfiguration, device.PlaceInTree).ToOperationResult();
 		}
 
-		public OperationResult<bool> AddToIgnoreList(List<Guid> deviceGuids)
+		public void AddToIgnoreList(List<Guid> deviceGuids)
 		{
 			var devicePaths = new List<string>();
 			foreach (var guid in deviceGuids)
@@ -228,10 +226,10 @@ namespace FiresecService.Service
 				devicePaths.Add(device.PlaceInTree);
 			}
 
-			return FiresecSerializedClient.AddToIgnoreList(devicePaths).ToOperationResult();
+			FiresecSerializedClient.AddToIgnoreList(devicePaths);
 		}
 
-		public OperationResult<bool> RemoveFromIgnoreList(List<Guid> deviceGuids)
+		public void RemoveFromIgnoreList(List<Guid> deviceGuids)
 		{
 			var devicePaths = new List<string>();
 			foreach (var guid in deviceGuids)
@@ -240,7 +238,7 @@ namespace FiresecService.Service
 				devicePaths.Add(device.PlaceInTree);
 			}
 
-			return FiresecSerializedClient.RemoveFromIgnoreList(devicePaths).ToOperationResult();
+			FiresecSerializedClient.RemoveFromIgnoreList(devicePaths);
 		}
 
 		public void ResetStates(List<ResetItem> resetItems)

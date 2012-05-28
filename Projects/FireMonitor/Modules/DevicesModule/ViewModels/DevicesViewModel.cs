@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
@@ -13,8 +14,9 @@ namespace DevicesModule.ViewModels
 	{
 		public DevicesViewModel()
 		{
-			FiresecEventSubscriber.DeviceStateChangedEvent -= OnDeviceStateChanged;
-			FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
+			//FiresecEventSubscriber.DeviceStateChangedEvent -= OnDeviceStateChanged;
+			//FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
+			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
 		}
 
 		public void Initialize()

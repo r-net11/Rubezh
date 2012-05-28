@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using XFiresecAPI;
 
 namespace FiresecAPI.Models
 {
@@ -12,6 +13,8 @@ namespace FiresecAPI.Models
             PlansConfiguration = new PlansConfiguration();
             SecurityConfiguration = new SecurityConfiguration();
             SystemConfiguration = new SystemConfiguration();
+			XDeviceConfiguration = new XDeviceConfiguration();
+			XDriversConfiguration = new XDriversConfiguration();
         }
 
         [DataMember]
@@ -28,5 +31,11 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public SystemConfiguration SystemConfiguration { get; set; }
+
+		[DataMember]
+		public XDeviceConfiguration XDeviceConfiguration { get; set; }
+
+		[DataMember]
+		public XDriversConfiguration XDriversConfiguration { get; set; }
     }
 }

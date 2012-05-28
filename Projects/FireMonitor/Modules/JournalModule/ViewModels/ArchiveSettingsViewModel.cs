@@ -27,7 +27,6 @@ namespace JournalModule.ViewModels
 
 			ServiceFactory.Events.GetEvent<ArchiveDefaultStateCheckedEvent>().Subscribe(OnArchiveDefaultStateCheckedEvent);
 
-
 			ArchiveDefaultStates.First(x => x.ArchiveDefaultStateType == archiveDefaultState.ArchiveDefaultStateType).IsActive = true;
 			switch (archiveDefaultState.ArchiveDefaultStateType)
 			{

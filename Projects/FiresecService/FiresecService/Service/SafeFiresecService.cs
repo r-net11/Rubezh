@@ -279,14 +279,14 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetArchiveStartDate(); }, "GetArchiveStartDate");
 		}
 
-		public OperationResult<bool> AddToIgnoreList(List<Guid> deviceUIDs)
+		public void AddToIgnoreList(List<Guid> deviceUIDs)
 		{
-			return SafeOperationCall(() => { return FiresecService.AddToIgnoreList(deviceUIDs); }, "AddToIgnoreList");
+			SafeOperationCall(() => { FiresecService.AddToIgnoreList(deviceUIDs); }, "AddToIgnoreList");
 		}
 
-		public OperationResult<bool> RemoveFromIgnoreList(List<Guid> deviceUIDs)
+		public void RemoveFromIgnoreList(List<Guid> deviceUIDs)
 		{
-			return SafeOperationCall(() => { return FiresecService.RemoveFromIgnoreList(deviceUIDs); }, "RemoveFromIgnoreList");
+			SafeOperationCall(() => { FiresecService.RemoveFromIgnoreList(deviceUIDs); }, "RemoveFromIgnoreList");
 		}
 
 		public void ResetStates(List<FiresecAPI.Models.ResetItem> resetItems)

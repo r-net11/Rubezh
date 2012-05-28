@@ -124,11 +124,11 @@ namespace FiresecAPI
 		[OperationContract]
 		OperationResult<string> DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID);
 
-		[OperationContract()]
-		OperationResult<bool> AddToIgnoreList(List<Guid> deviceUIDs);
+		[OperationContract(IsOneWay = true)]
+		void AddToIgnoreList(List<Guid> deviceUIDs);
 
-		[OperationContract()]
-		OperationResult<bool> RemoveFromIgnoreList(List<Guid> deviceUIDs);
+		[OperationContract(IsOneWay = true)]
+		void RemoveFromIgnoreList(List<Guid> deviceUIDs);
 
 		[OperationContract(IsOneWay=true)]
 		void ResetStates(List<ResetItem> resetItems);

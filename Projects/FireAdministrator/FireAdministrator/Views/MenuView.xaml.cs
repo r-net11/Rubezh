@@ -11,6 +11,7 @@ using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
 using Microsoft.Win32;
 using FireAdministrator.ViewModels;
+using System.Windows.Input;
 
 namespace FireAdministrator.Views
 {
@@ -130,10 +131,14 @@ namespace FireAdministrator.Views
 
 		void OnSaveToFile(object sender, RoutedEventArgs e)
 		{
+			Mouse.SetCursor(Cursors.Wait);
+
 			var saveDialog = new SaveFileDialog();
 			saveDialog.Filter = "firesec2 files|*.fsc2";
 			if (saveDialog.ShowDialog().Value)
 				SaveToFile(CopyFrom(), saveDialog.FileName);
+
+			Mouse.SetCursor(Cursors.Arrow);
 		}
 
 		void OnLoadFromFile(object sender, RoutedEventArgs e)
@@ -161,7 +166,9 @@ namespace FireAdministrator.Views
 				LibraryConfiguration = FiresecManager.LibraryConfiguration,
 				PlansConfiguration = FiresecManager.PlansConfiguration,
 				SecurityConfiguration = FiresecManager.SecurityConfiguration,
-				SystemConfiguration = FiresecManager.SystemConfiguration
+				SystemConfiguration = FiresecManager.SystemConfiguration,
+				XDeviceConfiguration = XManager.DeviceConfiguration,
+				XDriversConfiguration = XManager.DriversConfiguration
 			};
 		}
 
@@ -172,6 +179,8 @@ namespace FireAdministrator.Views
 			FiresecManager.PlansConfiguration = fullConfiguration.PlansConfiguration;
 			FiresecManager.SecurityConfiguration = fullConfiguration.SecurityConfiguration;
 			FiresecManager.SystemConfiguration = fullConfiguration.SystemConfiguration;
+			XManager.DeviceConfiguration = fullConfiguration.XDeviceConfiguration;
+			XManager.DriversConfiguration = fullConfiguration.XDriversConfiguration;
 		}
 
 		FullConfiguration LoadFromFile(string fileName)

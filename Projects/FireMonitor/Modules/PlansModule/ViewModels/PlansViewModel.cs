@@ -123,7 +123,7 @@ namespace PlansModule.ViewModels
             SelectedPlan = Plans.FirstOrDefault(x => x.Plan.UID == planUID);
         }
 
-        public void ShowDevice(Guid deviceUID)
+        public bool ShowDevice(Guid deviceUID)
         {
             foreach (var planViewModel in Plans)
             {
@@ -131,9 +131,10 @@ namespace PlansModule.ViewModels
                 {
                     SelectedPlan = planViewModel;
                     SelectedPlanCanvasViewModel.SelectDevice(deviceUID);
-                    return;
+                    return true;
                 }
             }
+			return false;
         }
 
         public void ShowZone(ulong zoneNo)

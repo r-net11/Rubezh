@@ -27,8 +27,11 @@ namespace PlansModule
 		}
 		void OnShowDeviceOnPlan(Guid deviceUID)
 		{
-			ServiceFactory.Layout.Show(PlansViewModel);
-			PlansViewModel.ShowDevice(deviceUID);
+			var hasDeviceOnPlan = PlansViewModel.ShowDevice(deviceUID);
+			if (hasDeviceOnPlan)
+			{
+				ServiceFactory.Layout.Show(PlansViewModel);
+			}
 		}
 		void OnShowZoneOnPlan(ulong zoneNo)
 		{

@@ -7,6 +7,8 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Models;
+using System.Windows.Input;
+using Infrastructure.Common.MessageBox;
 
 namespace JournalModule.ViewModels
 {
@@ -32,7 +34,7 @@ namespace JournalModule.ViewModels
 			if (operationResult.HasError == false)
 			{
 				ArchiveFirstDate = operationResult.Result;
-				IsFilterOn = false;
+				_isFilterOn = false;
 			}
 		}
 
@@ -64,30 +66,9 @@ namespace JournalModule.ViewModels
 			get { return _isFilterOn; }
 			set
 			{
-				ArchiveFilter archiveFilter = null;
-				if (value)
-					archiveFilter = _archiveFilter;
-				else
-					archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
-
-				var operationResult = FiresecManager.FiresecService.GetFilteredArchive(archiveFilter);
-				UpdateJournals(operationResult);
-
 				_isFilterOn = value;
 				OnPropertyChanged("IsFilterOn");
-			}
-		}
-
-		void UpdateJournals(OperationResult<List<JournalRecord>> operationResult)
-		{
-			JournalRecords = new ObservableCollection<JournalRecordViewModel>();
-			if (operationResult.HasError == false)
-			{
-				foreach (var journalRecord in operationResult.Result)
-				{
-					var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-					JournalRecords.Add(journalRecordViewModel);
-				}
+				Update();
 			}
 		}
 
@@ -102,26 +83,41 @@ namespace JournalModule.ViewModels
 			if (_archiveFilter == null)
 				_archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
 
-		   var archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
+			ArchiveFilterViewModel archiveFilterViewModel = null;
 
-			if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
+			var result = ServiceFactory.WaitService.Execute(() =>
 			{
-				_archiveFilter = archiveFilterViewModel.GetModel();
-				OnPropertyChanged("IsFilterExists");
-				IsFilterOn = true;
+				archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
+			});
+
+			if (result)
+			{
+				if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
+				{
+					_archiveFilter = archiveFilterViewModel.GetModel();
+					OnPropertyChanged("IsFilterExists");
+					IsFilterOn = true;
+				}
 			}
 		}
 
 		public RelayCommand ShowSettingsCommand { get; private set; }
 		void OnShowSettings()
 		{
-			var archiveSettingsViewModel = new ArchiveSettingsViewModel(_archiveDefaultState);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(archiveSettingsViewModel))
+			try
 			{
-				_archiveDefaultState = archiveSettingsViewModel.GetModel();
-				ClientSettings.ArchiveDefaultState = _archiveDefaultState;
-				if (IsFilterOn == false)
-					IsFilterOn = IsFilterOn;
+				var archiveSettingsViewModel = new ArchiveSettingsViewModel(_archiveDefaultState);
+				if (ServiceFactory.UserDialogs.ShowModalWindow(archiveSettingsViewModel))
+				{
+					_archiveDefaultState = archiveSettingsViewModel.GetModel();
+					ClientSettings.ArchiveDefaultState = _archiveDefaultState;
+					if (IsFilterOn == false)
+						Update();
+				}
+			}
+			catch (Exception e)
+			{
+				MessageBoxService.ShowException(e);
 			}
 		}
 
@@ -159,6 +155,36 @@ namespace JournalModule.ViewModels
 			}
 
 			return archiveFilter;
+		}
+
+		public void Update()
+		{
+			ServiceFactory.WaitService.Execute(() =>
+			{
+				ArchiveFilter archiveFilter = null;
+				if (IsFilterOn)
+					archiveFilter = _archiveFilter;
+				else
+					archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
+
+				var operationResult = FiresecManager.FiresecService.GetFilteredArchive(archiveFilter);
+
+				JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+				if (operationResult.HasError == false)
+				{
+					foreach (var journalRecord in operationResult.Result)
+					{
+						var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+						JournalRecords.Add(journalRecordViewModel);
+					}
+				}
+			}
+			);
+		}
+
+		public override void OnShow()
+		{
+			Update();
 		}
 	}
 }

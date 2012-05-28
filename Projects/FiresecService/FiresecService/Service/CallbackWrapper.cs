@@ -23,16 +23,19 @@ namespace FiresecService.Service
 		public void OnDeviceStatesChanged(List<DeviceState> deviceStates)
 		{
 			SafeCall((x) => { x.Callback.DeviceStateChanged(deviceStates); });
+			SafeCall((x) => { x.FiresecCallbackService.DeviceStateChanged(deviceStates); });
 		}
 
 		public void OnDeviceParametersChanged(List<DeviceState> deviceParameters)
 		{
 			SafeCall((x) => { x.Callback.DeviceParametersChanged(deviceParameters); });
+			SafeCall((x) => { x.FiresecCallbackService.DeviceParametersChanged(deviceParameters); });
 		}
 
 		public void OnZoneStateChanged(ZoneState zoneState)
 		{
 			SafeCall((x) => { x.Callback.ZoneStateChanged(zoneState); });
+			SafeCall((x) => { x.FiresecCallbackService.ZoneStateChanged(zoneState); });
 		}
 
 		public bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
