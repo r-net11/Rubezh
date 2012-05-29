@@ -20,23 +20,23 @@
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="CommonComponent" Guid="5B64430A-2E29-4C73-9C40-4823A9DB5709">
+      <Component Id="CommonComponent" Guid="5B64430A-2E29-4C73-9C40-4823A9DB5709" >
         <File Id="CommonDll" Name="Common.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
       <Component Id="ControlsComponent" Guid="0BF89DF2-D693-44C1-9496-F23DC2F40E24">
-        <File Id="ControlsDll" Name="Controls.Dll" Source="$(var.FiresecService.TargetDir)"
+        <File Id="ControlsDll" Name="Controls.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
       <Component Id="InfrastructureCommonComponent" Guid="6613AC03-F043-4D1B-8CC8-97EF2954B820">
-        <File Id="InfrastructureCommonDll" Name="Infrastructure.Common.Dll" Source="$(var.FiresecService.TargetDir)"
+        <File Id="InfrastructureCommonDll" Name="Infrastructure.Common.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
       <Component Id="FiresecComponent" Guid="41974E04-F90D-4B43-9334-527425544AE8">
-        <File Id="FiresecDll" Name="Firesec.Dll" Source="$(var.FiresecService.TargetDir)"
+        <File Id="FiresecDll" Name="Firesec.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
         <File Id="InteropFSTypes" Name="Interop.FS_Types.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1"/>
@@ -45,7 +45,7 @@
       </Component>
 
       <Component Id="FiresecAPIComponent" Guid="248BD6FE-8F57-42DF-BAE3-9EFCD5A1CC5A">
-        <File Id="FiresecAPIDll" Name="FiresecAPI.Dll" Source="$(var.FiresecService.TargetDir)"
+        <File Id="FiresecAPIDll" Name="FiresecAPI.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
