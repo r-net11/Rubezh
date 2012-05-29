@@ -169,7 +169,10 @@
     </Compile>
     <Compile Include="WaitHelper.cs" />
     <Compile Include="WaitWrapper.cs" />
+    <Compile Include="Windows\WindowService.cs" />
     <Compile Include="Windows\DataTemplates\HierarhicalDataTemplateSelector.cs" />
+    <Compile Include="Windows\DialogService.cs" />
+    <Compile Include="Windows\MessageBoxService.cs" />
     <Compile Include="Windows\ViewModels\ApplicationViewModel.cs" />
     <Compile Include="Windows\ViewModels\ConnectionViewModel.cs" />
     <Compile Include="Windows\ViewModels\ApplicationHeaderViewModel.cs" />

@@ -17,7 +17,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Navigation:NavigationView Grid.Column="0" Margin="5 5 0 5" x:Name="_navigation" />
-                <ContentPresenter Content="{Binding MainContent}"/>
+                <ContentPresenter Grid.Column="1" Content="{Binding MainContent}"/>
             </Grid>
         </DockPanel>
 
