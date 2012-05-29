@@ -363,8 +363,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>if /I "$(ConfigurationName)" == "Release" Eazfuscator.NET.exe "$(TargetPath)" --msbuild-project-path "$(ProjectPath)" --msbuild-project-configuration "$(ConfigurationName)" --msbuild-project-platform "$(PlatformName)" --msbuild-solution-path "$(SolutionPath)" -n --newline-flush -v 3.3
-del $(TargetDir)Pictures
+    <PostBuildEvent>del $(TargetDir)Pictures
 del $(TargetDir)Temp
 if "$(ConfigurationName)" == "Release" xcopy $(SolutionDir)..\Deploy\ConfigurationService $(TargetDir)Configuration\ /e /y
 if "$(ConfigurationName)" == "Release" xcopy $(SolutionDir)..\Deploy\SqlCE $(TargetDir) /e /y

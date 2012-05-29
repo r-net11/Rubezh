@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<configurations lcid_type="UserExe" show_language_selector="False" language_selector_title="" language_selector_ok="OK" language_selector_cancel="Отмена" configuration_no_match_message="" ui_level="full" fileversion="1.0" productversion="1.0" log_enabled="True" log_file="#APPPATH\dotNetInstallerLog.txt">
+<configurations lcid_type="UserExe" show_language_selector="False" language_selector_title="" language_selector_ok="OK" language_selector_cancel="Отмена" configuration_no_match_message="" ui_level="full" fileversion="1.0" productversion="1.0" log_enabled="False" log_file="#APPPATH\dotNetInstallerLog.txt">
   <schema version="2.0.81.0" generator="dotNetInstaller InstallerEditor" />
   <fileattributes>
     <fileattribute name="Группа компаний &quot;Рубеж&quot;" />
