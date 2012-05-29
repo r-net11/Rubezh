@@ -9,7 +9,7 @@ namespace FiresecService.Database
 {
 	public static class DatabaseHelper
 	{
-		public static void AddJournalRecord(JournalRecord journalRecord)
+		public static bool AddJournalRecord(JournalRecord journalRecord)
 		{
 			try
 			{
@@ -26,6 +26,7 @@ namespace FiresecService.Database
 					{
 						dataContext.JournalRecords.InsertOnSubmit(journalRecord);
 						dataContext.SubmitChanges();
+						return true;
 					}
 				}
 			}
@@ -33,6 +34,7 @@ namespace FiresecService.Database
 			{
 				Logger.Error(e);
 			}
+			return false;
 		}
 
 		public static int GetLastOldId()

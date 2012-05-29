@@ -128,8 +128,8 @@ namespace FiresecService.Processor
 			var journalRecords = GetEventsFromLastId(LastEventId);
 			foreach (var journalRecord in journalRecords)
 			{
-				DatabaseHelper.AddJournalRecord(journalRecord);
-                if (FiresecService != null && FiresecService.CallbackWrapper != null)
+				var idNewEvent = DatabaseHelper.AddJournalRecord(journalRecord);
+				if (idNewEvent)
 				{
 					FiresecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
 				}
