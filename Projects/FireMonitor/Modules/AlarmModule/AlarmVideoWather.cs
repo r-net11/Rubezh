@@ -4,6 +4,8 @@ using FiresecClient;
 using Infrastructure.Common;
 using System.Collections.Generic;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Events;
+using Infrastructure;
 
 namespace AlarmModule
 {
@@ -11,11 +13,13 @@ namespace AlarmModule
 	{
 		public AlarmVideoWather()
 		{
-			FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChangedEvent);
-			FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
+			//FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChanged);
+			//FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChanged);
+			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
+			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
 		}
 
-		void OnDeviceStateChangedEvent(Guid obj)
+		void OnDeviceStateChanged(Guid obj)
 		{
 			UpdateVideoAlarms();
 		}
@@ -40,7 +44,7 @@ namespace AlarmModule
 
 		public override void Initialize()
 		{
-			OnDeviceStateChangedEvent(Guid.Empty);
+			OnDeviceStateChanged(Guid.Empty);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

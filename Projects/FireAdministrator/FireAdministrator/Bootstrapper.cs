@@ -19,14 +19,6 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
-			//ResourceService srv = new ResourceService();
-			//srv.AddResource(new ResourceDescription(typeof(WindowBaseView).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-			//_debugSaveCancelViewModel model = new _debugSaveCancelViewModel();
-			//model.Title = "Test";
-			//WindowBaseView win = new WindowBaseView(model);
-			//win.ShowDialog();
-			//return;
-
 			AppSettingsHelper.InitializeAppSettings();
 
 			if (SingleLaunchHelper.KillRunningProcess("FireAdministrator") == false)
@@ -46,6 +38,10 @@ namespace FireAdministrator
 				preLoadWindow.Show();
 
 				FiresecManager.GetConfiguration();
+				if (FiresecManager.Drivers.Count == 0)
+				{
+					MessageBoxService.Show("Ошибка при получении списка драйверов с сервера");
+				}
 
 				if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
 				{

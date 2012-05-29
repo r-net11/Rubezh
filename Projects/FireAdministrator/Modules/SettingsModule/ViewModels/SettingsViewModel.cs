@@ -6,6 +6,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
 using SettingsModule.Views;
+using System.Linq;
+using FiresecAPI.Models;
+using System.Collections.Generic;
 
 namespace SettingsModule.ViewModels
 {
@@ -31,17 +34,20 @@ namespace SettingsModule.ViewModels
 		{
 			foreach (var driver in FiresecManager.Drivers)
 			{
-				if (driver.HasControlProperties)
+				var states = new HashSet<string>();
+				foreach (var state in driver.States)
 				{
-					foreach (var property in driver.Properties)
+					if (states.Add(state.Code) == false)
 					{
-						if (property.IsControl)
-						{
-							Trace.WriteLine(driver.ShortName + " - " + property.Name + " - " + property.BlockName);
-						}
+						Trace.WriteLine(driver.ShortName + " - " + state.Id + " - " + state.Code);
 					}
 				}
 			}
+			//var driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.IndicationBlock);
+			//foreach (var state in driver.States)
+			//{
+			//    Trace.WriteLine(state.Id + " - " + state.Code);
+			//}
 		}
 
 		public RelayCommand Test2Command { get; private set; }
@@ -61,9 +67,11 @@ namespace SettingsModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать конфигурацию?") == MessageBoxResult.Yes)
 			{
-				FiresecManager.FiresecService.ConvertConfiguration();
-				FiresecManager.GetConfiguration(false);
-
+				WaitHelper.Execute(() =>
+				{
+					FiresecManager.FiresecService.ConvertConfiguration();
+					FiresecManager.GetConfiguration(false);
+				});
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
 		}
@@ -73,7 +81,10 @@ namespace SettingsModule.ViewModels
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать журнал событий?") == MessageBoxResult.Yes)
 			{
-				FiresecManager.FiresecService.ConvertJournal();
+				WaitHelper.Execute(() =>
+				{
+					FiresecManager.FiresecService.ConvertJournal();
+				});
 			}
 		}
 	}

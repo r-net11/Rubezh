@@ -25,7 +25,8 @@ namespace FiresecService.Service
 					MaxConnections = 1000,
 					OpenTimeout = TimeSpan.FromMinutes(10),
 					ReceiveTimeout = TimeSpan.FromMinutes(10),
-					ListenBacklog = 10,
+					SendTimeout = TimeSpan.FromMinutes(10),
+					ListenBacklog = 10
 				};
 				binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
 				binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
@@ -48,7 +49,11 @@ namespace FiresecService.Service
 
 				return true;
 			}
-			catch { return false; }
+			catch (Exception e)
+			{
+				Logger.Error(e);
+				return false;
+			}
 		}
 
 		public static void Close()

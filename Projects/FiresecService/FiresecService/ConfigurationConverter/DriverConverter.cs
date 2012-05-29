@@ -318,8 +318,13 @@ namespace FiresecService.Configuration
 			driver.States = new List<DriverState>();
 			if (innerDriver.state != null)
 			{
+				var codes = new HashSet<string>();
 				foreach (var innerState in innerDriver.state)
 				{
+					if (codes.Add(innerState.code) == false)
+					{
+						innerState.code += "_" + Guid.NewGuid().ToString();
+					}
 					driver.States.Add(new DriverState()
 					{
 						Id = innerState.id,

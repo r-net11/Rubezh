@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -7,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
 using Infrastructure;
+using System.Collections.Generic;
 
 namespace Infrastructure
 {
@@ -39,24 +41,59 @@ namespace Infrastructure
 			//FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournaRecord);
 			//FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournaRecordDispatched);
 
-			FiresecCallbackService.DeviceStateChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Publish(deviceUID); }); });
-			FiresecCallbackService.DeviceParametersChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(deviceUID); }); });
-			FiresecCallbackService.ZoneStateChangedEvent += new Action<ulong>((zoneNo) => { SafeCall(() => { ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneNo); }); });
-			FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>((journalRecord) => { SafeCall(() => { ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord); }); });
+			FiresecCallbackService.DeviceStateChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceStateChangedEvent(deviceUID); }); });
+			FiresecCallbackService.DeviceParametersChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceParametersChangedEvent(deviceUID); }); });
+			FiresecCallbackService.ZoneStateChangedEvent += new Action<ulong>((zoneNo) => { SafeCall(() => { OnZoneStateChangedEvent(zoneNo); }); });
+			FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>((journalRecord) => { SafeCall(() => { OnNewJournalRecordEvent(journalRecord); }); });
 		}
 
-		static void OnNewJournaRecord(JournalRecord journalRecord)
+		static void OnDeviceStateChangedEvent(Guid deviceUID)
+		{
+			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Publish(deviceUID);
+			var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
+			if (deviceState != null)
+			{
+				deviceState.OnStateChanged();
+			}
+		}
+
+		static void OnDeviceParametersChangedEvent(Guid deviceUID)
+		{
+			ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(deviceUID);
+			var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
+			if (deviceState != null)
+			{
+				deviceState.OnParametersChanged();
+			}
+		}
+
+		static void OnZoneStateChangedEvent(ulong zoneNo)
+		{
+			ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneNo);
+			var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+			if (zoneState != null)
+			{
+				zoneState.OnStateChanged();
+			}
+		}
+
+		static void OnNewJournalRecordEvent(JournalRecord journalRecord)
 		{
 			ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
 		}
-		static void OnNewJournaRecordDispatched(JournalRecord journalRecord)
-		{
-			if (ServiceFactory.ShellView != null)
-				ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() =>
-				{
-					ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
-				}));
-		}
+
+		//static void OnNewJournaRecord(JournalRecord journalRecord)
+		//{
+		//    ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
+		//}
+		//static void OnNewJournaRecordDispatched(JournalRecord journalRecord)
+		//{
+		//    if (ServiceFactory.ShellView != null)
+		//        ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() =>
+		//        {
+		//            ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
+		//        }));
+		//}
 
 		static void SafeCall(Action action)
 		{

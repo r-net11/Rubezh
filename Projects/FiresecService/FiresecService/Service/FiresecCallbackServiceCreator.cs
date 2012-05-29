@@ -11,20 +11,21 @@ namespace FiresecService.Service
 		{
 			var binding = new NetTcpBinding()
 			{
+				MaxReceivedMessageSize = Int32.MaxValue,
 				MaxBufferPoolSize = Int32.MaxValue,
-				MaxConnections = 10,
-				OpenTimeout = TimeSpan.FromMinutes(10),
-				ListenBacklog = 10,
-				ReceiveTimeout = TimeSpan.FromMinutes(10),
 				MaxBufferSize = Int32.MaxValue,
-				MaxReceivedMessageSize = Int32.MaxValue
+				MaxConnections = 1000,
+				OpenTimeout = TimeSpan.FromMinutes(10),
+				ReceiveTimeout = TimeSpan.FromMinutes(10),
+				SendTimeout = TimeSpan.FromMinutes(10),
+				ListenBacklog = 10
 			};
-			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
 			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
 			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
 			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
+			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
 
 			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
 

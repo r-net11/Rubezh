@@ -31,7 +31,8 @@ namespace FiresecClient
 				MaxConnections = 1000,
 				OpenTimeout = TimeSpan.FromMinutes(10),
 				ReceiveTimeout = TimeSpan.FromMinutes(10),
-				ListenBacklog = 10,
+				SendTimeout = TimeSpan.FromMinutes(10),
+				ListenBacklog = 10
 			};
 			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
 			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;

@@ -116,23 +116,7 @@ namespace DevicesModule.ViewModels
 
         public string PresentationZone
         {
-            get
-            {
-                if (Device.Driver.IsZoneDevice)
-                {
-                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
-                    if (zone != null)
-                        return zone.PresentationName;
-                }
-
-                if (Device.Driver.IsZoneLogicDevice && Device.ZoneLogic != null)
-                    return Device.ZoneLogic.ToString();
-                if (Device.Driver.IsIndicatorDevice && Device.IndicatorLogic != null)
-                    return Device.IndicatorLogic.ToString();
-                if ((Device.Driver.DriverType == DriverType.Direction) && (Device.PDUGroupLogic != null))
-                    return Device.PDUGroupLogic.ToString();
-                return "";
-            }
+			get { return Device.GetPersentationZone(); }
         }
 
         public string ConnectedTo

@@ -35,6 +35,10 @@ namespace FireMonitor
 				preLoadWindow.PreLoadText = "Инициализация компонент...";
 				preLoadWindow.Show();
 				FiresecManager.GetConfiguration();
+				if (FiresecManager.Drivers.Count == 0)
+				{
+					MessageBoxService.Show("Ошибка при получении списка драйверов с сервера");
+				}
 				FiresecManager.GetStates();
 
 				var operationResult = FiresecManager.FiresecService.CheckHaspPresence();

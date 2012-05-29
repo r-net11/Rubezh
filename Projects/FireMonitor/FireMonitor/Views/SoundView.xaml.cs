@@ -6,6 +6,8 @@ using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Events;
+using Infrastructure;
 
 namespace FireMonitor.Views
 {
@@ -16,8 +18,11 @@ namespace FireMonitor.Views
             InitializeComponent();
             DataContext = this;
             
-            FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChanged);
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChanged);
+            //FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChanged);
+            //FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChanged);
+			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
+			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
+
             PlaySoundCommand = new RelayCommand(OnPlaySound);
             CurrentStateType = StateType.No;
             IsSoundOn = true;

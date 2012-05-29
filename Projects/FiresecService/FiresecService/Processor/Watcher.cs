@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecService.Database;
 using FiresecService.Service;
+using Common;
 
 namespace FiresecService.Processor
 {
@@ -33,7 +34,7 @@ namespace FiresecService.Processor
 
 		bool FiresecInternalClient_Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
-			if (FiresecService != null)
+			if (FiresecService != null && FiresecService.CallbackWrapper != null)
 			{
 				return FiresecService.CallbackWrapper.OnProgress(stage, comment, percentComplete, bytesRW);
 			}
@@ -131,7 +132,10 @@ namespace FiresecService.Processor
 				var idNewEvent = DatabaseHelper.AddJournalRecord(journalRecord);
 				if (idNewEvent)
 				{
-					FiresecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
+					if (FiresecService != null && FiresecService.CallbackWrapper != null)
+					{
+						FiresecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
+					}
 				}
 			}
 		}
@@ -164,12 +168,15 @@ namespace FiresecService.Processor
 				}
 
 				if (ChangedDevices.Count > 0)
-					if (FiresecService != null)
+					if (FiresecService != null && FiresecService.CallbackWrapper != null)
 					{
 						FiresecService.CallbackWrapper.OnDeviceParametersChanged(ChangedDevices.ToList());
 					}
 			}
-			catch (Exception) { }
+			catch (Exception e)
+			{
+				Logger.Error(e);
+			}
 		}
 
 		public void OnStateChanged()
@@ -183,12 +190,15 @@ namespace FiresecService.Processor
 				CalculateZones();
 
 				if (ChangedDevices.Count > 0)
-					if (FiresecService != null)
+					if (FiresecService != null && FiresecService.CallbackWrapper != null)
 					{
 						FiresecService.CallbackWrapper.OnDeviceStatesChanged(ChangedDevices.ToList());
 					}
 			}
-			catch (Exception) { }
+			catch (Exception e)
+			{
+				Logger.Error(e);
+			}
 		}
 
 		void SetStates(Firesec.CoreState.config coreState)
@@ -200,6 +210,10 @@ namespace FiresecService.Processor
 				Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
 				if (innerDevice != null)
 				{
+					if (deviceState.Device.Driver.DriverType == DriverType.IndicationBlock)
+					{
+						;
+					}
 					foreach (var driverState in deviceState.Device.Driver.States)
 					{
 						var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);

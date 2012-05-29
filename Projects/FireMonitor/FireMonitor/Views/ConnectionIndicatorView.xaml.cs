@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace FireMonitor.Views
 {
@@ -24,12 +26,15 @@ namespace FireMonitor.Views
             SafeFiresecService.ConnectionLost += new Action(OnConnectionLost);
             SafeFiresecService.ConnectionAppeared += new Action(OnConnectionAppeared);
 
-            OnDeviceStateChangedEvent(Guid.Empty);
-            FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChangedEvent);
-            FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
+            OnDeviceStateChanged(Guid.Empty);
+            //FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChangedEvent);
+            //FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
+
+			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
+			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
-        void OnDeviceStateChangedEvent(Guid deviceUID)
+        void OnDeviceStateChanged(Guid deviceUID)
         {
             IsDeviceConnected = FiresecManager.DeviceStates.DeviceStates.Any(x => x.StateType == StateType.Unknown) == false;
             _deviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));

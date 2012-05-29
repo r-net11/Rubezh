@@ -167,6 +167,7 @@
     <Compile Include="Video\VideoWindow.xaml.cs">
       <DependentUpon>VideoWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WaitHelper.cs" />
     <Compile Include="WaitWrapper.cs" />
     <Compile Include="Windows\DataTemplates\HierarhicalDataTemplateSelector.cs" />
     <Compile Include="Windows\ViewModels\ApplicationViewModel.cs" />
