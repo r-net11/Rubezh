@@ -43,6 +43,8 @@ namespace FiresecClient
 
 			string machineName = MachineNameHelper.GetMachineName();
 			_clientCallbackAddress = _clientCallbackAddress.Replace("localhost", machineName);
+			_clientCallbackAddress = _clientCallbackAddress.Replace("localhost", "127.0.0.1");
+			Logger.Info("Адркс обратного сервера: " + _clientCallbackAddress);
 			_serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecCallbackService", binding, new Uri(_clientCallbackAddress));
 
 			_serviceHost.Open();

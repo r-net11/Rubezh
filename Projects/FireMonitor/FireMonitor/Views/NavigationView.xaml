@@ -81,7 +81,7 @@
             </TabItem.Header>
         </TabItem>
         <TabItem IsSelected="{Binding IsGKSelected}"
-                 Visibility="{Binding IsGKVisible, Converter={StaticResource BoolToVisibilityConverter}}">
+                 Visibility="Collapsed">
             <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
                     <Image Source="/Controls;component/Images/Settings.png" />

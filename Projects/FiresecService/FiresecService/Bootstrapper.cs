@@ -64,7 +64,14 @@ namespace FiresecService
 			var mainViewModel = new MainViewModel();
 			mainViewModel.Satus = IsHostOpened ? "Сервис запущен нормально" : "Не удалось открыть хост сервиса";
 			mainWindow.DataContext = mainViewModel;
-			mainWindow.Show();
+			try
+			{
+				mainWindow.Show();
+			}
+			catch(Exception e)
+			{
+				Logger.Error(e);
+			}
 			System.Windows.Threading.Dispatcher.Run();
 		}
 

@@ -50,6 +50,7 @@ namespace FiresecService.Database
 			}
 			catch (Exception e)
 			{
+				Logger.Info("Обработано исключение при вызове метода DatabaseHelper.GetLastOldId");
 				Logger.Error(e);
 				return -1;
 			}

@@ -128,8 +128,16 @@ namespace FiresecService.Service
 
 		public void ConvertConfiguration()
 		{
-			FiresecManager.Convert();
-			CallbackManager.OnConfigurationChanged();
+			try
+			{
+				FiresecManager.Convert();
+				CallbackManager.OnConfigurationChanged();
+			}
+			catch(Exception e)
+			{
+				Logger.Info("Возникло исключение при конвертации конфигурации");
+				Logger.Error(e);
+			}
 		}
 
 		public string Ping()

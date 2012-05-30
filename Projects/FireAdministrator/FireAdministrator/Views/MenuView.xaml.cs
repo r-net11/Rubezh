@@ -12,6 +12,7 @@ using Infrastructure.Events;
 using Microsoft.Win32;
 using FireAdministrator.ViewModels;
 using System.Windows.Input;
+using Infrastructure.Common;
 
 namespace FireAdministrator.Views
 {
@@ -33,7 +34,10 @@ namespace FireAdministrator.Views
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?") == MessageBoxResult.Yes)
 			{
-				SetNewConfig();
+				WaitHelper.Execute(() =>
+				{
+					SetNewConfig();
+				});
 			}
 		}
 
@@ -131,14 +135,10 @@ namespace FireAdministrator.Views
 
 		void OnSaveToFile(object sender, RoutedEventArgs e)
 		{
-			Mouse.SetCursor(Cursors.Wait);
-
 			var saveDialog = new SaveFileDialog();
 			saveDialog.Filter = "firesec2 files|*.fsc2";
 			if (saveDialog.ShowDialog().Value)
 				SaveToFile(CopyFrom(), saveDialog.FileName);
-
-			Mouse.SetCursor(Cursors.Arrow);
 		}
 
 		void OnLoadFromFile(object sender, RoutedEventArgs e)

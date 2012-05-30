@@ -29,6 +29,13 @@ namespace SettingsModule.ViewModels
 			get { return ServiceFactory.AppSettings.IsDebug; }
 		}
 
+		public RelayCommand ShowDriversCommand { get; private set; }
+		void OnShowDrivers()
+		{
+			var driversView = new DriversView();
+			driversView.ShowDialog();
+		}
+
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
@@ -43,23 +50,11 @@ namespace SettingsModule.ViewModels
 					}
 				}
 			}
-			//var driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.IndicationBlock);
-			//foreach (var state in driver.States)
-			//{
-			//    Trace.WriteLine(state.Id + " - " + state.Code);
-			//}
 		}
 
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
 		{
-		}
-
-		public RelayCommand ShowDriversCommand { get; private set; }
-		void OnShowDrivers()
-		{
-			var driversView = new DriversView();
-			driversView.ShowDialog();
 		}
 
 		public RelayCommand ConvertConfigurationCommand { get; private set; }
