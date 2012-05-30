@@ -4,12 +4,17 @@
      >
   <?include Variables_Firesec.wxi?>
   
-  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
+  <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
            Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
-
-    <Package InstallerVersion="200" Compressed="yes" />
+    
+    <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" />
 
     <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
+    
+    <Upgrade Id="$(var.UpgradeCode)">
+      <UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="no" OnlyDetect="yes" Language="1049" Property="NEWPRODUCTFOUND" />
+      <UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="yes" Language="1049" Property="UPGRADEFOUND" />
+    </Upgrade>
     
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
     <Property Id="SHORTCUT_PROGRAMMENU" Value="1"/>
@@ -74,10 +79,15 @@
     <FeatureRef Id="FiresecFeature" />
     
     <InstallExecuteSequence>
-      <!--<Custom Action="WixCloseApplications" Before="LaunchConditions" />-->
+      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+      <RemoveExistingProducts After="InstallFinalize" />
       <Custom Action="CloseApplications" After="WixCloseApplications" />
-      <Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full"</Custom>
+      <Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full" AND NOT UPGRADEFOUND</Custom>
     </InstallExecuteSequence>
+
+    <InstallUISequence>
+      <Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+    </InstallUISequence>
 
     <UI Id="MyWixUI_Wizard">
       <UIRef Id="WixUI_Wizard" />

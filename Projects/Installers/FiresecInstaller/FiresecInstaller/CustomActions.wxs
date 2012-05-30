@@ -2,6 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
 		<CustomAction Id="StartAppOnExit" FileKey="FiresecServiceExe" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
+    <CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
 		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="KillFiresecProcess"/>
 	</Fragment>
 </Wix>
