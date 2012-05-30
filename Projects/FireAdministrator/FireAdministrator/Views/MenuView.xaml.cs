@@ -138,7 +138,12 @@ namespace FireAdministrator.Views
 			var saveDialog = new SaveFileDialog();
 			saveDialog.Filter = "firesec2 files|*.fsc2";
 			if (saveDialog.ShowDialog().Value)
-				SaveToFile(CopyFrom(), saveDialog.FileName);
+			{
+				WaitHelper.Execute(() =>
+				{
+					SaveToFile(CopyFrom(), saveDialog.FileName);
+				});
+			}
 		}
 
 		void OnLoadFromFile(object sender, RoutedEventArgs e)

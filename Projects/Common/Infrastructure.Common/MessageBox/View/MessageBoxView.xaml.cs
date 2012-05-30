@@ -2,11 +2,11 @@
 
 namespace Infrastructure.Common.MessageBox
 {
-    public partial class MessageBoxView : UserControl
-    {
-        public MessageBoxView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class MessageBoxView : UserControl
+	{
+		public MessageBoxView()
+		{
+			InitializeComponent();
+		}
+	}
 }

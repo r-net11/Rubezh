@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using Common;
 
 namespace FiresecClient.Validation
 {
@@ -532,6 +533,11 @@ namespace FiresecClient.Validation
 
 		static bool ValidateString(string str)
 		{
+			if ((FiresecManager.DeviceConfiguration == null) || (FiresecManager.DeviceConfiguration.ValidChars == null))
+			{
+				Logger.Info("Не задан список невалидных символов");
+				return true;
+			}
 			return str.All(x => FiresecManager.DeviceConfiguration.ValidChars.Contains(x));
 		}
 

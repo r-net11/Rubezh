@@ -92,6 +92,8 @@ namespace FiresecService.Configuration
 			}
 			if (driver.DriverType == DriverType.BUNS)
 				driver.ShleifCount = 2;
+			if (driver.DriverType == DriverType.USB_BUNS)
+				driver.ShleifCount = 2;
 
 			driver.HasShleif = driver.ShleifCount == 0 ? false : true;
 

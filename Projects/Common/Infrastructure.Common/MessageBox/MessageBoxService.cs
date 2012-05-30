@@ -47,12 +47,12 @@ namespace Infrastructure.Common.MessageBox
 		public static MessageBoxResult ShowException(Exception e, string title = null)
 		{
 			Logger.Error(e);
-			string message = e.Message.ToString();
-			var stackTraces = e.StackTrace.Split('\n');
-			if (stackTraces.Length > 0)
-				message += "\n" + stackTraces[0];
-			if (stackTraces.Length > 1)
-				message += "\n" + stackTraces[1];
+			string message = e.Message.ToString() + "\n" + e.StackTrace;
+			//var stackTraces = e.StackTrace.Split('\n');
+			//if (stackTraces.Length > 0)
+			//    message += "\n" + stackTraces[0];
+			//if (stackTraces.Length > 1)
+			//    message += "\n" + stackTraces[1];
 			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Error, true);
 		}
 
