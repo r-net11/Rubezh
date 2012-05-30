@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 
@@ -12,7 +12,7 @@ namespace DevicesModule.DeviceProperties
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
 			{
-				_selectedValue = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value).Name;
+				_selectedValue = property.Value;// driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value).Name;
 			}
 			else
 			{

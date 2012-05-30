@@ -188,7 +188,10 @@ namespace PlansModule.ViewModels
 				var element = AllElements.FirstOrDefault(x => x.ElementUID == elementBase.UID);
 				if (element != null && element.Parent != null)
 				{
-					element.Parent.Children.Remove(element);
+					if ((element.Parent != null) && (element.Parent.Children != null))
+					{
+						element.Parent.Children.Remove(element);
+					}
 					element.Parent = null;
 					Elements.Remove(element);
 				}

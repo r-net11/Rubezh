@@ -49,7 +49,7 @@ namespace FiresecService.Service
 
 				return true;
 			}
-			catch (Exception e)
+			catch(Exception e)
 			{
 				Logger.Error(e);
 				return false;
