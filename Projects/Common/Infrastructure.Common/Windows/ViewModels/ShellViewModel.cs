@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Infrastructure.Common.Navigation;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -55,6 +56,16 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_mainContent = value;
 				OnPropertyChanged("MainContent");
+			}
+		}
+		private List<NavigationItem> _navigationItems;
+		public List<NavigationItem> NavigationItems
+		{
+			get { return _navigationItems; }
+			set
+			{
+				_navigationItems = value;
+				OnPropertyChanged("NavigationItems1");
 			}
 		}
 	}

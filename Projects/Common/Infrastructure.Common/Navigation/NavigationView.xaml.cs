@@ -15,23 +15,10 @@ namespace Infrastructure.Common.Navigation
 		public NavigationView()
 		{
 			InitializeComponent();
-			DataContext = this;
+			//DataContext = this;
 		}
 
 		public User User { get; set; }
-
-		private List<NavigationItem> _navigation;
-		public List<NavigationItem> Navigation
-		{
-			get { return _navigation; }
-			set
-			{
-				_navigation = value;
-				CheckPermissions(_navigation);
-				UpdateParent(null, _navigation);
-				OnPropertyChanged("Navigation");
-			}
-		}
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		private void OnPropertyChanged(string name)
@@ -40,10 +27,20 @@ namespace Infrastructure.Common.Navigation
 				PropertyChanged(this, new PropertyChangedEventArgs(name));
 		}
 
-		private void On_Loaded(object sender, System.Windows.RoutedEventArgs e)
+		private void TreeView_TargetUpdated(object sender, System.Windows.Data.DataTransferEventArgs e)
 		{
-			if (Navigation != null && Navigation.Count > 0)
-				Navigation[0].IsSelected = true;
+			TreeView tv = e.TargetObject as TreeView;
+			if (e.Property == TreeView.ItemsSourceProperty && tv != null)
+			{
+				var items = tv.ItemsSource as IList<NavigationItem>;
+				if (items != null)
+				{
+					CheckPermissions(items);
+					UpdateParent(null, items);
+					if (items.Count > 0)
+						items[0].IsSelected = true;
+				}
+			}
 		}
 
 		private void TreeViewItem_Selected(object sender, RoutedEventArgs e)

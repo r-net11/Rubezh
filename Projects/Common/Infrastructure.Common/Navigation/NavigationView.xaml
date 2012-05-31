@@ -1,10 +1,9 @@
 ﻿<UserControl x:Class="Infrastructure.Common.Navigation.NavigationView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-            Loaded="On_Loaded">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<DockPanel>
-		<TreeView DockPanel.Dock="Top" Style="{StaticResource OutlookTreeView}" VerticalAlignment="Top" ItemsSource="{Binding Navigation}" TreeViewItem.Selected="TreeViewItem_Selected" MouseLeftButtonUp="TreeView_MouseLeftButtonUp" TreeViewItem.PreviewMouseDoubleClick="TreeViewItem_PreviewMouseDoubleClick">
+        <TreeView DockPanel.Dock="Top" Style="{StaticResource OutlookTreeView}" VerticalAlignment="Top" ItemsSource="{Binding NavigationItems, NotifyOnTargetUpdated=True}" TargetUpdated="TreeView_TargetUpdated" TreeViewItem.Selected="TreeViewItem_Selected" MouseLeftButtonUp="TreeView_MouseLeftButtonUp" TreeViewItem.PreviewMouseDoubleClick="TreeViewItem_PreviewMouseDoubleClick">
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource="{Binding Childs}">
 					<HierarchicalDataTemplate.Resources>
