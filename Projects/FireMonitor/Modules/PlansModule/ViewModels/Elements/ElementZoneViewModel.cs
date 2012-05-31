@@ -75,10 +75,13 @@ namespace PlansModule.ViewModels
 			deviceStates = new List<DeviceState>();
 			foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
 			{
-				if ((deviceState.Device.ZoneNo == ZoneNo) && (deviceState.Device.Driver.CanDisable))
+				if ((deviceState.Device != null) && (deviceState.Device.Driver != null))
 				{
-					deviceUIDs.Add(deviceState.UID);
-					deviceStates.Add(deviceState);
+					if ((deviceState.Device.ZoneNo == ZoneNo) && (deviceState.Device.Driver.CanDisable))
+					{
+						deviceUIDs.Add(deviceState.UID);
+						deviceStates.Add(deviceState);
+					}
 				}
 			}
 		}

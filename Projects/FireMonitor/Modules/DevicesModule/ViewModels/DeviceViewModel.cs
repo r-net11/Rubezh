@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -36,7 +37,10 @@ namespace DevicesModule.ViewModels
 			}
 			else
 			{
-				MessageBoxService.ShowWarning("Ошибка при сопоставлении устройства с его состоянием");
+				string deviceName = Device.AddressFullPath + " - " + device.Driver.Name + "." + device.PresentationAddress;
+				string errorText = "Ошибка при сопоставлении устройства с его состоянием:\n" + deviceName;
+				Logger.Warn(errorText);
+				MessageBoxService.ShowWarning(errorText);
 			}
 
 			OnStateChanged();

@@ -50,7 +50,7 @@ namespace DevicesModule.ViewModels
 
                 if (driver.IsRangeEnabled)
                 {
-                    if ((child.IntAddress < driver.MinAddress) && (child.IntAddress > driver.MaxAddress))
+                    if ((child.IntAddress < driver.MinAddress) || (child.IntAddress > driver.MaxAddress))
                         continue;
                 }
 

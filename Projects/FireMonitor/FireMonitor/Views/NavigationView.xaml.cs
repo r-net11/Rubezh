@@ -197,11 +197,6 @@ namespace FireMonitor.Views
 			}
 		}
 
-		public bool IsGKVisible
-		{
-			get { return ServiceFactory.AppSettings.ShowGK; }
-		}
-
 		bool _isGKSelected;
 		public bool IsGKSelected
 		{

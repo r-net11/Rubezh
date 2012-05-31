@@ -15,7 +15,6 @@ namespace FireMonitor
 #if DEBUG
 			appSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
 			appSettings.CanControl = Convert.ToBoolean(ConfigurationManager.AppSettings["CanControl"] as string);
-			appSettings.ShowGK = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowGK"] as string);
 #endif
 			var licenseHelper = new LicenseHelper(10);
 			appSettings.HasLicenseToControl = licenseHelper.CheckLicense();

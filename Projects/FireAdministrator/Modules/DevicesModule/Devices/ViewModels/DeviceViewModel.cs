@@ -179,6 +179,8 @@ namespace DevicesModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			var index = DevicesViewModel.Current.Devices.IndexOf(DevicesViewModel.Current.SelectedDevice);
+
 			Parent.IsExpanded = false;
 			Parent.Device.Children.Remove(Device);
 			Parent.Children.Remove(this);
@@ -190,6 +192,9 @@ namespace DevicesModule.ViewModels
 			ServiceFactory.SaveService.DevicesChanged = true;
 			DevicesViewModel.UpdateGuardVisibility();
 			FiresecManager.InvalidateConfiguration();
+
+			index = Math.Min(index, DevicesViewModel.Current.Devices.Count - 1);
+			DevicesViewModel.Current.SelectedDevice = DevicesViewModel.Current.Devices[index];
 		}
 
 		bool CanShowProperties()

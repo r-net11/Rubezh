@@ -36,7 +36,7 @@ namespace FiresecClient
 				device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				if (device.Driver == null)
 				{
-					System.Windows.MessageBox.Show("Ошибка при сопоставлении драйвера устройств");
+					System.Windows.MessageBox.Show("Ошибка при сопоставлении драйвера устройств ГК");
 				}
 			}
 		}

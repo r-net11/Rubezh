@@ -24,6 +24,12 @@ namespace FiresecService.Configuration
 			DeviceConfiguration.Devices.Add(rootDevice);
 			AddDevice(rootInnerDevice, rootDevice);
 
+			foreach (var device in DeviceConfiguration.Devices)
+			{
+				if ((device.Parent != null) && (device.Parent.Driver.IsChildAddressReservedRange))
+					device.IntAddress += device.Parent.IntAddress;
+			}
+
 			DeviceConfiguration.RootDevice = rootDevice;
 		}
 

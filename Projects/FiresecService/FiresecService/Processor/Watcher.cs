@@ -314,31 +314,39 @@ namespace FiresecService.Processor
 
 		void CalculateZones()
 		{
-			if (FiresecManager.DeviceConfigurationStates.ZoneStates == null)
-				return;
-
-			foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
+			try
 			{
-				StateType minZoneStateType = StateType.Norm;
-				foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates.
-					Where(x => x.Device.ZoneNo == zoneState.No && !x.Device.Driver.IgnoreInZoneState))
-				{
-					if (deviceState.StateType < minZoneStateType)
-						minZoneStateType = deviceState.StateType;
-				}
+				if (FiresecManager.DeviceConfigurationStates.ZoneStates == null)
+					return;
 
-				if (FiresecManager.DeviceConfigurationStates.DeviceStates.
-					Any(x => x.Device.ZoneNo == zoneState.No) == false)
-					minZoneStateType = StateType.Unknown;
-
-				if (zoneState.StateType != minZoneStateType)
+				foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
 				{
-					zoneState.StateType = minZoneStateType;
-					if (FiresecService != null)
+					StateType minZoneStateType = StateType.Norm;
+					var deviceStates = FiresecManager.DeviceConfigurationStates.DeviceStates.
+						Where(x => x.Device.ZoneNo == zoneState.No && !x.Device.Driver.IgnoreInZoneState);
+
+					foreach (var deviceState in deviceStates)
 					{
-						FiresecService.CallbackWrapper.OnZoneStateChanged(zoneState);
+						if (deviceState.StateType < minZoneStateType)
+							minZoneStateType = deviceState.StateType;
+					}
+
+					if (FiresecManager.DeviceConfigurationStates.DeviceStates.Any(x => x.Device.ZoneNo == zoneState.No) == false)
+						minZoneStateType = StateType.Unknown;
+
+					if (zoneState.StateType != minZoneStateType)
+					{
+						zoneState.StateType = minZoneStateType;
+						if ((FiresecService != null) && (FiresecService.CallbackWrapper != null))
+						{
+							FiresecService.CallbackWrapper.OnZoneStateChanged(zoneState);
+						}
 					}
 				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e);
 			}
 		}
 
