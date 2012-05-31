@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Views="clr-namespace:FireAdministrator.Views"
         xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-        Icon="Administrator.ico"
         WindowStartupLocation="CenterScreen"
         Title="Администратор ОПС Firesec-2"
         Height="750" Width="1100"

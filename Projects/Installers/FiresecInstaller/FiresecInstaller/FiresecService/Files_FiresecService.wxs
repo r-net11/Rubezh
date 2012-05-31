@@ -9,7 +9,7 @@
                            Property="IsFiresecServiceRunning"/>
 
     <DirectoryRef Id="FIRESECSERVICELOCATION">
-      <Component Id="MainExe" Guid="6A4260FA-49C4-499A-A6B9-508006C2BB3F">
+      <Component Id="MainExe" Guid="8B1C8B55-AF30-4C42-BCB5-5B33DFA3056D" >
         <File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
               Source="$(var.FiresecService.TargetPath)" DiskId="1" KeyPath="yes">
         </File>
@@ -25,7 +25,7 @@
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="ControlsComponent" Guid="0BF89DF2-D693-44C1-9496-F23DC2F40E24">
+      <Component Id="ControlsComponent" Guid="671126E3-B211-4386-823D-B074B455FC9B">
         <File Id="ControlsDll" Name="Controls.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>

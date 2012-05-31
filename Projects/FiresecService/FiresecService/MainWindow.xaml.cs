@@ -76,6 +76,7 @@ namespace FiresecServiceRunner
 
 		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
 		{
+
 			//_notificationIcon.Dispose();
 			base.OnClosing(e);
 		}
