@@ -83,6 +83,9 @@ namespace FiresecAPI.Models
 		{
 			get
 			{
+				if (Driver == null)
+					return "";
+
 				if (Driver.HasAddress == false)
 					return "";
 
