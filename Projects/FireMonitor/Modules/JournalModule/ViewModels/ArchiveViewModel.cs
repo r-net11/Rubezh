@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Models;
 using System.Windows.Input;
 using Infrastructure.Common.MessageBox;
+using Common;
 
 namespace JournalModule.ViewModels
 {
@@ -85,7 +86,7 @@ namespace JournalModule.ViewModels
 
 			ArchiveFilterViewModel archiveFilterViewModel = null;
 
-			var result = ServiceFactory.WaitService.Execute(() =>
+			var result = WaitHelper.Execute(() =>
 			{
 				archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
 			});
@@ -117,6 +118,7 @@ namespace JournalModule.ViewModels
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове ArchiveViewModel.ShowSettingsCommand");
 				MessageBoxService.ShowException(e);
 			}
 		}
@@ -159,7 +161,7 @@ namespace JournalModule.ViewModels
 
 		public void Update()
 		{
-			ServiceFactory.WaitService.Execute(() =>
+			WaitHelper.Execute(() =>
 			{
 				ArchiveFilter archiveFilter = null;
 				if (IsFilterOn)
@@ -178,8 +180,7 @@ namespace JournalModule.ViewModels
 						JournalRecords.Add(journalRecordViewModel);
 					}
 				}
-			}
-			);
+			});
 		}
 
 		public override void OnShow()

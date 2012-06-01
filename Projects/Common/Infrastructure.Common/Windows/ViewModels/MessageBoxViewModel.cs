@@ -121,7 +121,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове MessageBoxViewModel.CopyCommand");
 				return;
 			}
 		}

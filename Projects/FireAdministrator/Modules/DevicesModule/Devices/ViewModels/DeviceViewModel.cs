@@ -124,6 +124,11 @@ namespace DevicesModule.ViewModels
 			get { return Device.GetPersentationZone(); }
 		}
 
+		public bool HasExternalDevices
+		{
+			get { return FiresecManager.HasExternalDevices(Device); }
+		}
+
 		public string ConnectedTo
 		{
 			get { return Device.ConnectedTo; }
@@ -222,11 +227,15 @@ namespace DevicesModule.ViewModels
 			{
 				case DriverType.Indicator:
 					OnShowIndicatorLogic();
+					FiresecManager.InvalidateConfiguration();
 					break;
 
 				case DriverType.Valve:
 					if (ServiceFactory.UserDialogs.ShowModalWindow(new ValveDetailsViewModel(Device)))
+					{
 						ServiceFactory.SaveService.DevicesChanged = true;
+						OnPropertyChanged("HasExternalDevices");
+					}
 					break;
 
 				case DriverType.Pump:

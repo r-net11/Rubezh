@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows.Media;
 using Firesec.Plans;
 using FiresecAPI.Models;
+using Common;
 
 namespace FiresecService.Configuration
 {
@@ -165,14 +166,20 @@ namespace FiresecService.Configuration
 												{
 													elementTextBlock.BorderColor = (Color)ColorConverter.ConvertFromString(innerElementLayer.brush[0].color);
 												}
-												catch { ;}
+												catch (Exception e)
+												{
+													Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans elementTextBlock.BorderColor");
+												}
 
 											if (innerElementLayer.pen != null)
 												try
 												{
 													elementTextBlock.ForegroundColor = (Color)ColorConverter.ConvertFromString(innerElementLayer.pen[0].color);
 												}
-												catch { ;}
+												catch (Exception e)
+												{
+													Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans innerElementLayer.pen");
+												}
 
 											plan.ElementTextBlocks.Add(elementTextBlock);
 											break;
@@ -251,7 +258,10 @@ namespace FiresecService.Configuration
 					Directory.Delete(directoryName, true);
 				}
 			}
-			catch { return; }
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове ConfigurationConverter.DeleteDirectory");
+			}
 		}
 
 		static PointCollection GetPointCollection(surfacesSurfaceLayerElementsElement innerElementLayer)

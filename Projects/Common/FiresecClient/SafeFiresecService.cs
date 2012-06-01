@@ -109,7 +109,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове FiresecClient.SafeOperationCall<T>(Func<OperationResult<T>> func)");
 				OnConnectionLost();
 			}
 			var operationResult = new OperationResult<T>()
@@ -128,7 +128,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове FiresecClient.SafeOperationCall<T>(Func<T> func)");
 				OnConnectionLost();
 			}
 			return default(T);
@@ -142,7 +142,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове FiresecClient.SafeOperationCall(Action action)");
 				OnConnectionLost();
 			}
 		}
@@ -157,7 +157,7 @@ namespace FiresecClient
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e);
+					Logger.Error(e, "Исключение при вызове FiresecClient.Connect");
 				}
 				return new OperationResult<bool>()
 				{

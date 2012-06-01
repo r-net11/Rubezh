@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
+using Common;
 
 namespace AlarmModule
 {
@@ -135,7 +136,11 @@ namespace AlarmModule
 							var timeSpan = DateTime.Now - state.Time.Value;
 							delta = int.Parse(timeoutProperty.Value) - timeSpan.Seconds;
 						}
-						catch { continue; }
+						catch (Exception e)
+						{
+							Logger.Error(e, "Исключение при вызове AlarmWatcher.UpdateValveTimer");
+							continue;
+						}
 
 						if (delta > 0)
 							ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
@@ -171,19 +176,19 @@ namespace AlarmModule
 					break;
 
 				case StateType.Failure:
-					if (state.DriverState.IsManualReset == false)
-						return null;
+					//if (state.DriverState.IsManualReset == false)
+					//    return null;
 					alarmType = AlarmType.Failure;
 					break;
 
 				case StateType.Service:
-					if ((state.DriverState.IsManualReset && state.DriverState.IsAutomatic == false) == false)
+					if (state.DriverState.IsAutomatic) //state.DriverState.IsManualReset
 						return null;
 					alarmType = AlarmType.Service;
 					break;
 			}
 
-			if (state.DriverState.IsManualReset && state.DriverState.IsAutomatic)
+			if (state.DriverState.IsAutomatic && state.DriverState.Name.Contains("AutoOff")) // state.DriverState.IsManualReset
 				alarmType = AlarmType.Auto;
 
 			return alarmType;

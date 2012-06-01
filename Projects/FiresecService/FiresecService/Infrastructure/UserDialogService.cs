@@ -1,4 +1,6 @@
 ﻿using Infrastructure.Common;
+using Common;
+using System;
 
 namespace FiresecService.Infrastructure
 {
@@ -17,8 +19,9 @@ namespace FiresecService.Infrastructure
 
 				return (bool)result;
 			}
-			catch
+			catch(Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове UserDialogService.ShowModalWindow");
 				return false;
 			}
 		}

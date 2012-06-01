@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecService.Processor;
 using System.Diagnostics;
 using FiresecService.Database;
+using Common;
 
 namespace FiresecService.Service
 {
@@ -80,6 +81,7 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове FiresecService.GetFilteredJournal");
 				operationResult.HasError = true;
 				operationResult.Error = e.Message.ToString();
 			}
@@ -149,6 +151,7 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове FiresecService.GetFilteredArchive");
 				operationResult.HasError = true;
 				operationResult.Error = e.Message.ToString();
 			}
@@ -166,6 +169,7 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове FiresecService.GetDistinctDescriptions");
 				operationResult.HasError = true;
 				operationResult.Error = e.Message.ToString();
 			}
@@ -183,6 +187,7 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове FiresecService.GetArchiveStartDate");
 				operationResult.Result = DateTime.Now;
 				operationResult.HasError = true;
 				operationResult.Error = e.Message.ToString();
@@ -202,6 +207,7 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове FiresecService.AddJournalRecord");
 				operationResult.HasError = true;
 				operationResult.Error = e.Message.ToString();
 			}

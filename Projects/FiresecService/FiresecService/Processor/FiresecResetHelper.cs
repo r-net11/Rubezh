@@ -2,6 +2,7 @@
 using System.Linq;
 using Firesec;
 using FiresecAPI.Models;
+using Common;
 
 namespace FiresecService.Processor
 {
@@ -24,6 +25,14 @@ namespace FiresecService.Processor
 					continue;
 
 				var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == resetItem.DeviceUID);
+				if (deviceState == null)
+				{
+					Logger.Error("AlarmWatcher.UpdateValveTimer: deviceState = null");
+					return new FiresecOperationResult<bool>()
+					{
+						Result = false
+					};
+				}
 
 				var innerStates = new List<Firesec.CoreState.stateType>();
 

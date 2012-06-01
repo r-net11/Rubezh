@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Markup;
 using System.Xml;
 using System.Xml.Xsl;
+using Common;
 
 namespace LibraryModule
 {
@@ -63,8 +64,9 @@ namespace LibraryModule
                     return canvas;
                 }
             }
-            catch
+            catch(Exception e)
             {
+				Logger.Error(e, "Исключение при вызове ImageConverters.Xml2Canvas");
                 return null;
             }
         }

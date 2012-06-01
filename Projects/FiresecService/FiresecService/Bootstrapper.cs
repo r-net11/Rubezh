@@ -51,6 +51,7 @@ namespace FiresecService
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
 				MessageBoxService.ShowException(e);
 				Close();
 			}
@@ -62,7 +63,7 @@ namespace FiresecService
 		{
 			var mainWindow = new MainWindow();
 			var mainViewModel = new MainViewModel();
-			mainViewModel.Satus = IsHostOpened ? "Сервис запущен нормально" : "Не удалось открыть хост сервиса";
+			mainViewModel.Satus = IsHostOpened ? "Хост сервиса открыт" : "Хост сервиса НЕ открыт";
 			mainWindow.DataContext = mainViewModel;
 			try
 			{
@@ -70,7 +71,7 @@ namespace FiresecService
 			}
 			catch(Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
 			}
 			System.Windows.Threading.Dispatcher.Run();
 		}

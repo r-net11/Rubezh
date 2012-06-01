@@ -33,7 +33,7 @@ namespace FireAdministrator
 		protected override void OnExit(ExitEventArgs e)
 		{
 			base.OnExit(e);
-			FiresecManager.Disconnect();
+			//FiresecManager.Disconnect();
 			VideoService.Close();
 		}
 	}

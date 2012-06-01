@@ -14,14 +14,13 @@ namespace Infrastructure
 {
 	public class ServiceFactory
 	{
-		public static void Initialize(ILayoutService ILayoutService, IUserDialogService IUserDialogService, ISecurityService ISecurityService, IWaitService IWaitService)
+		public static void Initialize(ILayoutService ILayoutService, IUserDialogService IUserDialogService, ISecurityService ISecurityService)
 		{
 			Events = new EventAggregator();
 			ResourceService = new ResourceService();
 			Layout = ILayoutService;
 			UserDialogs = IUserDialogService;
 			SecurityService = ISecurityService;
-			WaitService = IWaitService;
 			LoginService = new LoginService(UserDialogs, "Монитор", "Оперативная задача. Авторизация.");
 			SubscribeEvents();
 		}
@@ -32,7 +31,6 @@ namespace Infrastructure
 		public static ILayoutService Layout { get; private set; }
 		public static IUserDialogService UserDialogs { get; private set; }
 		public static ISecurityService SecurityService { get; private set; }
-		public static IWaitService WaitService { get; private set; }
 		public static LoginService LoginService { get; private set; }
 		public static Window ShellView { get; set; }
 

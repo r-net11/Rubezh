@@ -100,7 +100,6 @@
     <Compile Include="AppConfigHelper.cs" />
     <Compile Include="RegistryHelper.cs" />
     <Compile Include="Services\UserDialogService.cs" />
-    <Compile Include="Services\WaitService.cs" />
     <Compile Include="Views\AutoActivationView.xaml.cs">
       <DependentUpon>AutoActivationView.xaml</DependentUpon>
     </Compile>

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization;
 using XFiresecAPI;
+using Common;
 
 namespace FiresecService.Service
 {
@@ -32,8 +33,9 @@ namespace FiresecService.Service
 					return (XDeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
 				}
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове FiresecService.GetXDeviceConfiguration");
 				var xDeviceConfiguration = new XDeviceConfiguration();
 				var device = new XDevice();
 				device.DriverUID = new Guid("938947C5-4624-4A1A-939C-60AEEBF7B65C");

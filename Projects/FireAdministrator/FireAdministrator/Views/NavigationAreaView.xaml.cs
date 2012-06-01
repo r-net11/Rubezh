@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Events;
+using Common;
 
 namespace FireAdministrator.Views
 {
@@ -44,7 +45,10 @@ namespace FireAdministrator.Views
 			{
 				IsDevicesSelected = true;
 			}
-			catch { return; }
+			catch (Exception ex)
+			{
+				Logger.Error(ex, "Исключение при вызове NavigationAreaView.On_Loaded");
+			}
 		}
 
 		bool _isDevicesSelected;

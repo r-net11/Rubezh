@@ -45,7 +45,7 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
 				return CreateEmptyOperationResult<T>(e.Message);
 			}
 		}
@@ -66,7 +66,7 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
 			}
 			return default(T);
 		}
@@ -85,7 +85,7 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
 			}
 		}
 

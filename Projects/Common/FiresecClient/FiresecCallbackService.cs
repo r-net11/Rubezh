@@ -142,7 +142,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове FiresecCallbackService.SafeOperationCall");
 			}
 		}
 	}

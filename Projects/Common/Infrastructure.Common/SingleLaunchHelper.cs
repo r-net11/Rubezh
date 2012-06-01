@@ -13,7 +13,7 @@ namespace Infrastructure.Common
 
 		public static bool Check(string mutexName)
 		{
-			return true;
+			//return true;
 
 			bool isNew;
 			Mutex = new Mutex(true, mutexName, out isNew);

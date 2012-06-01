@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FiresecService.ViewModels;
 using System.Runtime.Serialization;
 using System.IO;
+using Common;
 
 namespace FiresecService.Service
 {
@@ -39,7 +40,10 @@ namespace FiresecService.Service
 					ServiceCash.Free(firesecServices.FiresecManager);
 				}
 			}
-			catch { ;}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове CallbackManager.Clean");
+			}
 		}
 
 		static void SafeCall(Action<FiresecService> action, bool subscribeRequired = true)
@@ -52,8 +56,9 @@ namespace FiresecService.Service
 					{
 						action(firesecServices);
 					}
-					catch
+					catch (Exception e)
 					{
+						Logger.Error(e, "Исключение при вызове CallbackManager.SafeCall");
 						FailedFiresecServices.Add(firesecServices);
 					}
 			}
@@ -76,32 +81,22 @@ namespace FiresecService.Service
 			FailedFiresecServices = new List<FiresecService>();
 			foreach (var firesecServices in FiresecServices)
 			{
-					try
-					{
-						var clientUID = firesecServices.FiresecCallbackService.Ping();
-						if (firesecServices.ClientUID != clientUID)
-						{
-							FailedFiresecServices.Add(firesecServices);
-						}
-					}
-					catch
+				try
+				{
+					var clientUID = firesecServices.FiresecCallbackService.Ping();
+					if (firesecServices.ClientUID != clientUID)
 					{
 						FailedFiresecServices.Add(firesecServices);
 					}
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Исключение при вызове CallbackManager.Ping");
+					FailedFiresecServices.Add(firesecServices);
+				}
 			}
 
 			Clean();
 		}
-
-		//public static void CopyConfigurationForAllClients(FiresecService firesecService)
-		//{
-		//    foreach (var firesecServices in FiresecServices)
-		//    {
-		//        if (firesecServices.UID != firesecService.UID)
-		//        {
-		//            firesecServices.FiresecManager.ConvertStates();
-		//        }
-		//    }
-		//}
 	}
 }

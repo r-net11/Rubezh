@@ -5,6 +5,7 @@ using System.Xml.Serialization;
 using Firesec.Groups;
 using Firesec.IndicatorsLogic;
 using Firesec.ZonesLogic;
+using Common;
 
 namespace FiresecService.Processor
 {
@@ -16,8 +17,9 @@ namespace FiresecService.Processor
 			{
 				return Deserialize<expr>(zoneLogicString);
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове SerializerHelper.GetZoneLogic");
 				return null;
 			}
 		}
@@ -33,8 +35,9 @@ namespace FiresecService.Processor
 			{
 				return Deserialize<LEDProperties>(indicatorLogicString);
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове SerializerHelper.GetIndicatorLogic");
 				return null;
 			}
 		}
@@ -50,8 +53,9 @@ namespace FiresecService.Processor
 			{
 				return Deserialize<RCGroupProperties>(groupPropertyString);
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове SerializerHelper.GetGroupProperties");
 				return null;
 			}
 		}
@@ -76,6 +80,7 @@ namespace FiresecService.Processor
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове SerializerHelper.Deserialize<T>");
 				return default(T);
 			}
 		}

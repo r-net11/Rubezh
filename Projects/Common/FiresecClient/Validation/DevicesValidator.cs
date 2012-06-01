@@ -535,7 +535,7 @@ namespace FiresecClient.Validation
 		{
 			if ((FiresecManager.DeviceConfiguration == null) || (FiresecManager.DeviceConfiguration.ValidChars == null))
 			{
-				Logger.Info("Не задан список невалидных символов");
+				Logger.Error("DevicesValidator.ValidateString: Не задан список невалидных символов");
 				return true;
 			}
 			return str.All(x => FiresecManager.DeviceConfiguration.ValidChars.Contains(x));

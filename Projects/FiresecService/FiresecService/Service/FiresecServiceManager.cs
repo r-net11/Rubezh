@@ -51,7 +51,7 @@ namespace FiresecService.Service
 			}
 			catch(Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
 				return false;
 			}
 		}

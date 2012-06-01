@@ -11,6 +11,7 @@ namespace FiresecService.Processor
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
+		public Watcher Watcher { get; set; }
 
 		public FiresecManager(FiresecService.Service.FiresecService firesecService)
 		{
@@ -36,7 +37,7 @@ namespace FiresecService.Processor
 				ConfigurationConverter.Update();
 				ConvertStates();
 
-				var watcher = new Watcher(this);
+				Watcher = new Watcher(this);
 				return true;
 			}
 			return false;
@@ -45,6 +46,8 @@ namespace FiresecService.Processor
 		public void Convert()
 		{
 			ConfigurationConverter.Convert();
+			ConvertStates();
+			Watcher.OnStateChanged();
 		}
 
 		public Firesec.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)

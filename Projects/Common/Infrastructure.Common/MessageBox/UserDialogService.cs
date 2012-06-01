@@ -29,8 +29,9 @@ namespace Infrastructure.Common.MessageBox
 					dialogWindow.Owner = window != null && window.Visibility == Visibility.Visible ? window : null;
 					dialogWindow.ShowInTaskbar = dialogWindow.Owner == null;
 				}
-				catch
+				catch(Exception e)
 				{
+					Logger.Error(e, "Исключение при вызове UserDialogService.ShowModalWindow");
 					dialogWindow.ShowInTaskbar = true;
 				}
 
@@ -52,7 +53,7 @@ namespace Infrastructure.Common.MessageBox
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове UserDialogService.ShowModalWindow");
 				throw;
 			}
 		}

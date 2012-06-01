@@ -11,10 +11,9 @@ namespace Common
 			{
 				action();
 			}
-			catch (Exception ex)
+			catch (Exception e)
 			{
-				Logger.Error(ex);
-				Debug.WriteLine(ex.ToString());
+				Logger.Error(e, "Исключение при вызове SafeContext.Execute(Action action)");
 			}
 		}
 		public static T Execute<T>(Func<T> action)
@@ -23,10 +22,9 @@ namespace Common
 			{
 				return action();
 			}
-			catch (Exception ex)
+			catch (Exception e)
 			{
-				Logger.Error(ex);
-				Debug.WriteLine(ex.ToString());
+				Logger.Error(e, "Исключение при вызове SafeContext.Execute<T>(Func<T> action)");
 				return default(T);
 			}
 		}

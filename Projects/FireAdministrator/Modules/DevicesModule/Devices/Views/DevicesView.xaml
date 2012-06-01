@@ -86,7 +86,11 @@
                     <DataGridTemplateColumn Header="Зона" Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PresentationZone}" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Source="/Controls;component/Images/Link.png" Width="10" Height="10" Margin="0, 0 ,5, 0"
+                                        Visibility="{Binding HasExternalDevices, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <TextBlock Text="{Binding PresentationZone}" />
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
