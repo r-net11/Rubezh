@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Interop;
+using System.ComponentModel;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
 	public abstract class WindowBaseViewModel : BaseViewModel
 	{
+		public event EventHandler Closed;
+		public event CancelEventHandler Closing;
+
 		public WindowBaseViewModel()
 		{
 			MinHeight = 0;
@@ -17,6 +21,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			MaxWidth = double.PositiveInfinity;
 			CloseOnEscape = false;
 			Sizable = false;
+			TopMost = false;
 		}
 
 		public Window Surface { get; internal set; }
@@ -39,6 +44,16 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_title = value;
 				OnPropertyChanged("Title");
+			}
+		}
+		private bool _topMost;
+		public bool TopMost
+		{
+			get { return _topMost; }
+			set
+			{
+				_topMost = value;
+				OnPropertyChanged("TopMost");
 			}
 		}
 
@@ -134,6 +149,19 @@ namespace Infrastructure.Common.Windows.ViewModels
 					Surface.DialogResult = result;
 				Surface.Close();
 			}
+		}
+
+		internal void InternalClosing(CancelEventArgs e)
+		{
+			if (Closing != null)
+				Closing(this, e);
+			e.Cancel = OnClosing(e.Cancel);
+		}
+		internal void InternalClosed()
+		{
+			if (Closed != null)
+				Closed(this, EventArgs.Empty);
+			OnClosed();
 		}
 	}
 }

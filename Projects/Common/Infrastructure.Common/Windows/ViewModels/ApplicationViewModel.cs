@@ -56,7 +56,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 		public void Maximize()
 		{
-			Application.Current.MainWindow.WindowState = Application.Current.MainWindow.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+			Surface.WindowState = Surface.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
 		}
 		public virtual void ShowHelp()
 		{
@@ -65,9 +65,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public virtual void ShowAbout()
 		{
 			var aboutViewModel = new AboutViewModel();
-			throw new ApplicationException();
-			// use updated version of dialog service
-			//ServiceFactory.UserDialogs.ShowModalWindow(aboutViewModel);
+			DialogService.ShowModalWindow(aboutViewModel);
 		}
 	}
 }

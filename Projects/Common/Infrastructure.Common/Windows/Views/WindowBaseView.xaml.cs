@@ -17,10 +17,10 @@ using System.Windows.Controls.Primitives;
 
 namespace Infrastructure.Common.Windows.Views
 {
-	public partial class WindowBaseView : Window
+	internal partial class WindowBaseView : Window
 	{
 		[Flags]
-		public enum ResizeDirection
+		internal enum ResizeDirection
 		{
 			Left = 1,
 			Bottom = 2,
@@ -47,11 +47,11 @@ namespace Infrastructure.Common.Windows.Views
 
 		private void Window_Closing(object sender, CancelEventArgs e)
 		{
-			e.Cancel = _model.OnClosing(e.Cancel);
+			_model.InternalClosing(e);
 		}
 		private void Window_Closed(object sender, System.EventArgs e)
 		{
-			_model.OnClosed();
+			_model.InternalClosed();
 		}
 		private void Window_KeyDown(object sender, KeyEventArgs e)
 		{

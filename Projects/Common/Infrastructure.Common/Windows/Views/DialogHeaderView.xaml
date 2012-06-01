@@ -1,15 +1,25 @@
 ﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.DialogHeaderView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="30">
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="Auto" />
-		</Grid.ColumnDefinitions>
-		<TextBlock Grid.Column="0" Text="{Binding Content.Title}" VerticalAlignment="Center" Margin="10, 0, 0, 0" HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" />
-        <Button Grid.Column="1" Margin="0, 0, 10, 0" Style="{StaticResource ToolarButtonStyle}" Click="OnCloseButton">
-			<Image Source="/Controls;component/Images/Close.png" Height="16" />
-		</Button>
-	</Grid>
+    <Border CornerRadius="11 11 0 0" >
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#ADADAD" Offset="0" />
+                <GradientStop Color="#676767" Offset="0.5" />
+                <GradientStop Color="#303030"  Offset="0.99" />
+            </LinearGradientBrush>
+        </Border.Background>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="{Binding Content.Title}" VerticalAlignment="Center" Margin="10, 0, 0, 0" HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" />
+            <Button Grid.Column="1" Margin="0, 0, 10, 0" Style="{StaticResource ToolarButtonStyle}" Click="OnCloseButton">
+                <Image Source="/Controls;component/Images/Close.png" Height="16" />
+            </Button>
+        </Grid>
+    </Border>
 
 </UserControl>

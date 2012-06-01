@@ -7,13 +7,26 @@ using System.Windows.Data;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	//ResourceService srv = new ResourceService();
-	//srv.AddResource(new ResourceDescription(typeof(WindowBaseView).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-	//_debugSaveCancelViewModel model = new _debugSaveCancelViewModel();
-	//model.Title = "Test";
-	//WindowBaseView win = new WindowBaseView(model);
-	//win.ShowDialog();
+	//    ResourceService srv = new ResourceService();
+	//srv.AddResource(new ResourceDescription(typeof(WindowBaseViewModel).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+	//srv.AddResource(new ResourceDescription(typeof(WindowBaseViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
+
+	//Infrastructure.Common.About.ViewModels.AboutViewModel about = new Infrastructure.Common.About.ViewModels.AboutViewModel();
+	//Infrastructure.Common.Windows.DialogService.ShowModalWindow(about);
+
+	////Application.Current.MainWindow = new Window();
+	////MessageBoxService.ShowError("exception occured", "error....");
+	////var messageBoxViewModel = new Infrastructure.Common.MessageBox.MessageBoxViewModel("error....", "exception occured", MessageBoxButton.OK, MessageBoxImage.Error, false);
+	////var dialogWindow = new DialogWindow();
+	////dialogWindow.SetContent(messageBoxViewModel);
+	////dialogWindow.Show();
+	////Infrastructure.Common.Windows.MessageBoxService.ShowError("exception occured", "error....");
+
+	////_debugSaveCancelViewModel model = new _debugSaveCancelViewModel();
+	////model.Title = "Test";
+	////Infrastructure.Common.Windows.DialogService.ShowModalWindow(model);
 	//return;
+
 
 	public class _debugSaveCancelViewModel : ShellViewModel
 	{

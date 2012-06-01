@@ -14,6 +14,9 @@ namespace Infrastructure.Common.About.ViewModels
 		public AboutViewModel()
 		{
 			Title = "О программе";
+			Sizable = false;
+			AllowSave = false;
+			CancelCaption = "Закрыть";
 		}
 
 		public string Product
