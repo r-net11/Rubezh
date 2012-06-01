@@ -222,6 +222,8 @@ namespace DevicesModule.ViewModels
 			if (DevicesMenuView.Current != null)
 				DevicesMenuView.Current.AcceptKeyboard = true;
 
+			FiresecManager.InvalidateConfiguration();
+
 			foreach (var device in Devices)
 			{
 				device.OnPropertyChanged("PresentationZone");

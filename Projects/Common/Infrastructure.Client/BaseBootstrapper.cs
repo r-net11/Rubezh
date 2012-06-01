@@ -72,9 +72,9 @@ namespace Infrastructure.Client
 			{
 				return GetLoadedAssemblyByFileName(path) ?? Assembly.LoadFile(path);
 			}
-			catch (Exception ex)
+			catch (Exception e)
 			{
-				Logger.Error(ex);
+				Logger.Error(e, "Исключение при вызове BaseBootstrapper.GetAssemblyByFileName");
 				MessageBoxService.ShowError(string.Format(Resources.UnableLoadModule, Path.GetFileName(path)));
 				return null;
 			}

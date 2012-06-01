@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
+using Common;
 
 namespace FiresecService.Configuration
 {
@@ -29,8 +30,9 @@ namespace FiresecService.Configuration
 					return (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
 				}
 			}
-			catch
+			catch(Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetDeviceConfiguration");
 				var deviceConfiguration = new DeviceConfiguration();
 				var device = new Device();
 				device.DriverUID = new Guid(DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverType == DriverType.Computer).DriverId);
@@ -62,8 +64,9 @@ namespace FiresecService.Configuration
 					return (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
 				}
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetSystemConfiguration");
 				var systemConfiguration = new SystemConfiguration();
 				SetSystemConfiguration(systemConfiguration);
 				return systemConfiguration;
@@ -89,8 +92,9 @@ namespace FiresecService.Configuration
 					return (LibraryConfiguration)dataContractSerializer.ReadObject(fileStream);
 				}
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetLibraryConfiguration");
 				var libraryConfiguration = new LibraryConfiguration();
 				SetLibraryConfiguration(libraryConfiguration);
 				return libraryConfiguration;
@@ -116,8 +120,9 @@ namespace FiresecService.Configuration
 					return (PlansConfiguration)dataContractSerializer.ReadObject(fileStream);
 				}
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetPlansConfiguration");
 				var plansConfiguration = new PlansConfiguration();
 				SetPlansConfiguration(plansConfiguration);
 				return plansConfiguration;
@@ -143,8 +148,9 @@ namespace FiresecService.Configuration
 					return (SecurityConfiguration)dataContractSerializer.ReadObject(fileStream);
 				}
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetSecurityConfiguration");
 				var securityConfiguration = new SecurityConfiguration();
 				SetSecurityConfiguration(securityConfiguration);
 				return securityConfiguration;

@@ -34,7 +34,7 @@ namespace Common
                     }
                     catch (SocketException e)
                     {
-						Logger.Warn(e.ToString());
+						Logger.Error(e, "Обработано исключение при вызове ClientCallbackAddress.Port");
                         port = rnd.Next(9000, 9100);
                     }
                 }

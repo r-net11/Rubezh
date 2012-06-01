@@ -54,6 +54,12 @@ namespace DevicesModule.ViewModels
 		void OnStateChanged()
 		{
 			States = new List<StateViewModel>();
+			if (DeviceState.States == null)
+			{
+				Logger.Error("DeviceViewModel.OnStateChanged: DeviceState.States = null");
+				return;
+			}
+
 			foreach (var state in DeviceState.States)
 			{
 				var stateViewModel = new StateViewModel()

@@ -89,7 +89,7 @@ namespace FireMonitor
 
 		static void RegisterServices()
 		{
-			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new SecurityService(), new WaitService());
+			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new SecurityService());
 		}
 
 		void InitializeKnownModules()

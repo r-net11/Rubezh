@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Linq;
 using Infrastructure;
 using Infrastructure.Common;
+using Common;
 
 namespace FireAdministrator
 {
@@ -45,7 +46,10 @@ namespace FireAdministrator
 					dialogWindow.Left = double.Parse(stringLeft);
 					dialogWindow.Top = double.Parse(stringTop);
 				}
-				catch (Exception) { ;}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Исключение при вызове UserDialogService.LoadSizeView");
+				}
 
 				dialogWindow.Closed += new EventHandler(OnSaveSizeViewClosed);
 			}

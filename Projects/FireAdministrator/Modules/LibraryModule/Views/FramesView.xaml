@@ -29,7 +29,7 @@
                         <ExtToolkit:IntegerUpDown Increment="100"
                                                   IsEditable="False"
                                                   Text="{Binding Duration, Mode=TwoWay}"
-                                                  Height="20" />
+                                                  Height="20" Width="50" />
                         <Button Command="{Binding ImportSvgCommand}" Content="Импорт из .svg" Margin="10,5,0,0" Width="150" />
                         <Button Command="{Binding ExportSvgCommand}" Content="Экспорт в .svg" Margin="10,5,0,0" Width="150" />
                     </StackPanel>

@@ -123,7 +123,7 @@ namespace Infrastructure.Common.MessageBox
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове MessageBoxViewModel.CopyCommand");
 				return;
 			}
 		}

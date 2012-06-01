@@ -17,6 +17,7 @@ namespace AlarmModule.ViewModels
 
 		public AlarmsViewModel()
 		{
+			ShowAllCommand = new RelayCommand(OnShowAll);
 			ResetAllCommand = new RelayCommand(OnResetAll);
 			RemoveAllFromIgnoreListCommand = new RelayCommand(OnRemoveAllFromIgnoreList, CanRemoveAllFromIgnoreList);
 			ServiceFactory.Events.GetEvent<AlarmRemovedEvent>().Subscribe(OnAlarmRemoved);
@@ -68,6 +69,12 @@ namespace AlarmModule.ViewModels
 					return false;
 				return Alarms.Any(x => x.Alarm.AlarmType != AlarmType.Off);
 			}
+		}
+
+		public RelayCommand ShowAllCommand { get; private set; }
+		void OnShowAll()
+		{
+			Sort(null);
 		}
 
 		public RelayCommand ResetAllCommand { get; private set; }

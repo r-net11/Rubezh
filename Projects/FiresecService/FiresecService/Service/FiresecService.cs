@@ -135,8 +135,7 @@ namespace FiresecService.Service
 			}
 			catch(Exception e)
 			{
-				Logger.Info("Возникло исключение при конвертации конфигурации");
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове FiresecService.ConvertConfiguration");
 			}
 		}
 

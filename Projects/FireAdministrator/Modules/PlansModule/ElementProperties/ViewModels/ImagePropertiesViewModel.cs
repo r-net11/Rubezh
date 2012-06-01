@@ -58,7 +58,7 @@ namespace PlansModule.ViewModels
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Возникла ошибка при загрузке изображения");
+				Logger.Error(e, "Исключение при вызове ImagePropertiesViewModel.UpdateImage");
 				MessageBoxService.ShowWarning("Возникла ошибка при загрузке изображения");
 			}
 		}

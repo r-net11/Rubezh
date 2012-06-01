@@ -13,6 +13,7 @@ using Microsoft.Win32;
 using FireAdministrator.ViewModels;
 using System.Windows.Input;
 using Infrastructure.Common;
+using Common;
 
 namespace FireAdministrator.Views
 {
@@ -34,10 +35,7 @@ namespace FireAdministrator.Views
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите перезаписать текущую конфигурацию?") == MessageBoxResult.Yes)
 			{
-				WaitHelper.Execute(() =>
-				{
-					SetNewConfig();
-				});
+				SetNewConfig();
 			}
 		}
 
@@ -64,27 +62,29 @@ namespace FireAdministrator.Views
 					return;
 			}
 
-			if (ServiceFactory.SaveService.DevicesChanged)
-				FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
+			WaitHelper.Execute(() =>
+			{
+				if (ServiceFactory.SaveService.DevicesChanged)
+					FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
 
-			if (ServiceFactory.SaveService.PlansChanged)
-				FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+				if (ServiceFactory.SaveService.PlansChanged)
+					FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
 
-			if (ServiceFactory.SaveService.SecurityChanged)
-				FiresecManager.FiresecService.SetSecurityConfiguration(FiresecManager.SecurityConfiguration);
+				if (ServiceFactory.SaveService.SecurityChanged)
+					FiresecManager.FiresecService.SetSecurityConfiguration(FiresecManager.SecurityConfiguration);
 
-			if (ServiceFactory.SaveService.LibraryChanged)
-				FiresecManager.FiresecService.SetLibraryConfiguration(FiresecManager.LibraryConfiguration);
+				if (ServiceFactory.SaveService.LibraryChanged)
+					FiresecManager.FiresecService.SetLibraryConfiguration(FiresecManager.LibraryConfiguration);
 
-			if ((ServiceFactory.SaveService.InstructionsChanged) ||
-				(ServiceFactory.SaveService.SoundsChanged) ||
-				(ServiceFactory.SaveService.FilterChanged) ||
-				(ServiceFactory.SaveService.CamerasChanged))
-				FiresecManager.FiresecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
+				if ((ServiceFactory.SaveService.InstructionsChanged) ||
+					(ServiceFactory.SaveService.SoundsChanged) ||
+					(ServiceFactory.SaveService.FilterChanged) ||
+					(ServiceFactory.SaveService.CamerasChanged))
+					FiresecManager.FiresecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
 
-			if (ServiceFactory.SaveService.XDevicesChanged)
-				FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
-
+				if (ServiceFactory.SaveService.XDevicesChanged)
+					FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
+			});
 			ServiceFactory.SaveService.Reset();
 			_saveButton.IsEnabled = false;
 		}
@@ -198,8 +198,9 @@ namespace FireAdministrator.Views
 					return (FullConfiguration)dataContractSerializer.ReadObject(fileStream);
 				}
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове MenuView.LoadFromFile");
 				return new FullConfiguration();
 			}
 		}

@@ -24,12 +24,6 @@ namespace FiresecService.Configuration
 			DeviceConfiguration.Devices.Add(rootDevice);
 			AddDevice(rootInnerDevice, rootDevice);
 
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				if ((device.Parent != null) && (device.Parent.Driver.IsChildAddressReservedRange))
-					device.IntAddress += device.Parent.IntAddress;
-			}
-
 			DeviceConfiguration.RootDevice = rootDevice;
 		}
 
@@ -41,7 +35,10 @@ namespace FiresecService.Configuration
 			parentDevice.Children = new List<Device>();
 			foreach (var innerDevice in parentInnerDevice.dev)
 			{
-				var device = new Device() { Parent = parentDevice };
+				var device = new Device()
+				{
+					Parent = parentDevice
+				};
 
 				parentDevice.Children.Add(device);
 				SetInnerDevice(device, innerDevice);
@@ -58,6 +55,8 @@ namespace FiresecService.Configuration
 			device.Driver = ConfigurationCash.Drivers.FirstOrDefault(x => x.UID == driverUID);
 
 			device.IntAddress = int.Parse(innerDevice.addr);
+			if ((device.Parent != null) && (device.Parent.Driver.IsChildAddressReservedRange))
+				device.IntAddress += device.Parent.IntAddress;
 
 			if ((innerDevice.disabled != null) && (innerDevice.disabled == "1"))
 				device.IsMonitoringDisabled = true;
@@ -198,8 +197,12 @@ namespace FiresecService.Configuration
 
 			innerDevice.drv = FiresecConfiguration.drv.FirstOrDefault(x => x.id.ToUpper() == device.DriverUID.ToString().ToUpper()).idx;
 
+			var intAddress = device.IntAddress;
+			if ((device.Parent != null) && (device.Parent.Driver.IsChildAddressReservedRange))
+				intAddress -= device.Parent.IntAddress;
+
 			if (device.Driver.HasAddress)
-				innerDevice.addr = device.IntAddress.ToString();
+				innerDevice.addr = intAddress.ToString();
 			else
 				innerDevice.addr = "0";
 

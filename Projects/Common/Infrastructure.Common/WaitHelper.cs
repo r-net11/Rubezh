@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using Infrastructure.Common.MessageBox;
+using Common;
 
 namespace Infrastructure.Common
 {
@@ -16,6 +17,7 @@ namespace Infrastructure.Common
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове WaitHelper.Execute");
 				MessageBoxService.ShowException(e);
 			}
 			finally

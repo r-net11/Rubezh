@@ -45,7 +45,6 @@ namespace FiresecClient
 		{
 			PlansConfiguration.Update();
 			DeviceConfiguration.Update();
-
 			ReorderConfiguration();
 
 			foreach (var device in DeviceConfiguration.Devices)
@@ -179,6 +178,8 @@ namespace FiresecClient
 				if (!device.Driver.IsZoneLogicDevice)
 					device.ZoneLogic = null;
 			}
+
+			UpdateZoneDevices();
 		}
 
 		public static List<Zone> GetChannelZones(Device device)
@@ -245,6 +246,27 @@ namespace FiresecClient
 					}
 				}
 			}
+		}
+
+		public static bool HasExternalDevices(Device device)
+		{
+			FiresecManager.UpdateZoneDevices();
+			if (device.ZoneLogic != null)
+			{
+				foreach (var clause in device.ZoneLogic.Clauses)
+				{
+					foreach (var zoneNo in clause.Zones)
+					{
+						var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+						foreach (var deviceInLogic in zone.DeviceInZoneLogic)
+						{
+							if (device.Parent.UID != deviceInLogic.Parent.UID)
+								return true;
+						}
+					}
+				}
+			}
+			return false;
 		}
 
 		public static void ReorderConfiguration()

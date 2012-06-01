@@ -175,7 +175,7 @@ namespace FiresecService.Processor
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове Watcher.OnParametersChanged");
 			}
 		}
 
@@ -197,7 +197,7 @@ namespace FiresecService.Processor
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове Watcher.OnStateChanged");
 			}
 		}
 
@@ -346,7 +346,7 @@ namespace FiresecService.Processor
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове Watcher.CalculateZones");
 			}
 		}
 

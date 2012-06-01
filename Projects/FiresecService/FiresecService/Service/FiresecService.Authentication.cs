@@ -72,8 +72,9 @@ namespace FiresecService.Service
 				var addressList = Dns.GetHostEntry(hostNameOrIpAddress).AddressList;
 				return addressList.Any(ip => ip.ToString() == _userIpAddress);
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове FiresecService.CheckHostIps");
 				return false;
 			}
 		}
