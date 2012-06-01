@@ -249,7 +249,14 @@ namespace PlansModule.Designer
 				var elementDevice = ElementBase as ElementDevice;
 				if (elementDevice.Device == null)
 					elementDevice.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-				frameworkElement = DeviceControl.GetDefaultPicture(elementDevice.Device.Driver.UID);
+				if (elementDevice.Device != null)
+				{
+					frameworkElement = DeviceControl.GetDefaultPicture(elementDevice.Device.Driver.UID);
+				}
+				else
+				{
+					frameworkElement = ElementBase.Draw();
+				}
 			}
 			else
 			{

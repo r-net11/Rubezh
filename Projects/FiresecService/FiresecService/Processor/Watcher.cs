@@ -140,7 +140,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		void OnParametersChanged()
+		public void OnParametersChanged()
 		{
 			ChangedDevices = new HashSet<DeviceState>();
 			var coreParameters = FiresecSerializedClient.GetDeviceParams().Result;
