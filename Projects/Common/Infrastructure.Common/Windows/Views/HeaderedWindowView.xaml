@@ -6,8 +6,7 @@
 		<Border MouseMove="Header_MouseMove" MouseDown="Header_MouseDown" CornerRadius="11 11 0 0" DockPanel.Dock="Top" Background="{DynamicResource WindowBlacHeaderkBackgroundBrush}">
             <ContentPresenter Content="{Binding Header}" />
 		</Border>
-		<Thumb DockPanel.Dock="Bottom" DragDelta="Thumb_DragDelta" HorizontalAlignment="Right" Width="10" Height="10" Style="{DynamicResource ResizeThumbStyle}" Visibility="{Binding Sizable, Converter={StaticResource BoolToVisibilityConverter}}" />
-        <ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource HierarhicalDataTemplateSelector}"/>
+		<ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource HierarhicalDataTemplateSelector}"/>
 	</DockPanel>
 
 </UserControl>

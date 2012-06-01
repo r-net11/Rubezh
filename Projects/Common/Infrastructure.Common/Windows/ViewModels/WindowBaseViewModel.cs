@@ -16,6 +16,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			MaxHeight = double.PositiveInfinity;
 			MaxWidth = double.PositiveInfinity;
 			CloseOnEscape = false;
+			Sizable = false;
 		}
 
 		public Window Surface { get; internal set; }
@@ -99,6 +100,16 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_width = value;
 				OnPropertyChanged("Width");
+			}
+		}
+		private bool _sizable;
+		public bool Sizable
+		{
+			get { return _sizable; }
+			set
+			{
+				_sizable = value;
+				OnPropertyChanged("Sizable");
 			}
 		}
 

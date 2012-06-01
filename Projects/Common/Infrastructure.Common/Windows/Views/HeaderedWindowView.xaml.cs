@@ -39,13 +39,5 @@ namespace Infrastructure.Common.Windows.Views
 			if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
 				Window.DragMove();
 		}
-
-		private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
-		{
-			if (Window.ActualWidth + e.HorizontalChange > 50)
-				Window.Width = Window.ActualWidth + e.HorizontalChange;
-			if (Window.ActualHeight + e.VerticalChange > 50)
-				Window.Height = Window.ActualHeight + e.VerticalChange;
-		}
 	}
 }

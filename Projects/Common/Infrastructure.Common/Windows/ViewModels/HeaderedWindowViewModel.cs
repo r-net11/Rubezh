@@ -15,17 +15,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Sizable = true;
 		}
 
-		private bool _sizable;
-		public bool Sizable
-		{
-			get { return _sizable; }
-			set
-			{
-				_sizable = value;
-				OnPropertyChanged("Sizable");
-			}
-		}
-
 		private IHeaderViewModel _header;
 		public IHeaderViewModel Header
 		{

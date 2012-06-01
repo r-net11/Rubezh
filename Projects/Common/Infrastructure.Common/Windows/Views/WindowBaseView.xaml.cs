@@ -13,11 +13,24 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.ComponentModel;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows.Controls.Primitives;
 
 namespace Infrastructure.Common.Windows.Views
 {
 	public partial class WindowBaseView : Window
 	{
+		[Flags]
+		public enum ResizeDirection
+		{
+			Left = 1,
+			Bottom = 2,
+			Top = 4,
+			Right = 8,
+			TopRight = Top | Right,
+			TopLeft = Top | Left,
+			BottomRight = Bottom | Right,
+			BottomLeft = Bottom | Left,
+		}
 		private WindowBaseViewModel _model;
 
 		public WindowBaseView()
@@ -27,8 +40,8 @@ namespace Infrastructure.Common.Windows.Views
 		public WindowBaseView(WindowBaseViewModel model)
 		{
 			_model = model;
-			_model .Surface = this;
-			DataContext = _model ;
+			_model.Surface = this;
+			DataContext = _model;
 			InitializeComponent();
 		}
 
@@ -44,6 +57,46 @@ namespace Infrastructure.Common.Windows.Views
 		{
 			if (_model.CloseOnEscape && e.Key == Key.Escape)
 				Close();
+		}
+
+		private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+		{
+			Thumb thumb = (Thumb)sender;
+			ResizeDirection direction = (ResizeDirection)thumb.Tag;
+			if ((direction & ResizeDirection.Bottom) == ResizeDirection.Bottom)
+			{
+				if (ActualHeight + e.VerticalChange >= MinHeight && ActualHeight + e.VerticalChange <= MaxHeight)
+					Height += e.VerticalChange;
+				else
+					thumb.ReleaseMouseCapture();
+			}
+			if ((direction & ResizeDirection.Top) == ResizeDirection.Top)
+			{
+				if (ActualHeight - e.VerticalChange >= MinHeight && ActualHeight - e.VerticalChange <= MaxHeight)
+				{
+					Height -= e.VerticalChange;
+					Top += e.VerticalChange;
+				}
+				else
+					thumb.ReleaseMouseCapture();
+			}
+			if ((direction & ResizeDirection.Left) == ResizeDirection.Left)
+			{
+				if (ActualWidth - e.HorizontalChange >= MinWidth && ActualWidth - e.HorizontalChange <= MaxWidth)
+				{
+					Width -= e.HorizontalChange;
+					Left += e.HorizontalChange;
+				}
+				else
+					thumb.ReleaseMouseCapture();
+			}
+			if ((direction & ResizeDirection.Right) == ResizeDirection.Right)
+			{
+				if (ActualWidth + e.HorizontalChange >= MinWidth && ActualWidth + e.HorizontalChange <= MaxWidth)
+					Width += e.HorizontalChange;
+				else
+					thumb.ReleaseMouseCapture();
+			}
 		}
 	}
 }
