@@ -18,15 +18,18 @@ namespace FireMonitor
 	{
 		public void Initialize()
 		{
-			AppConfigHelper.InitializeAppSettings();
-			if (!SingleLaunchHelper.KillRunningProcess("FireMonitor"))
+			if (!MutexHelper.IsNew("FireAdministrator"))
 			{
+				MessageBoxService.ShowWarning("Другой экзэмпляр приложения уже запущен. Приложение будет закрыто");
 				Application.Current.Shutdown();
+				System.Environment.Exit(1);
+				return;
 			}
 
+			AppConfigHelper.InitializeAppSettings();
 			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 
-			RegisterServices();
+			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
 			var preLoadWindow = new PreLoadWindow();
@@ -66,7 +69,8 @@ namespace FireMonitor
 					//    return;
 					//}
 
-					InitializeKnownModules();
+					InitializeModules();
+					shellView.Navigation = GetNavigationItems();
 
 					App.Current.MainWindow = shellView;
 					App.Current.MainWindow.Show();
@@ -79,36 +83,26 @@ namespace FireMonitor
 				}
 
 				preLoadWindow.Close();
-				SingleLaunchHelper.KeepAlive();
 			}
 			else
 			{
 				Application.Current.Shutdown();
 			}
-		}
 
-		static void RegisterServices()
-		{
-			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new SecurityService());
-		}
-
-		void InitializeKnownModules()
-		{
-			InitializeModules();
-			((ShellView)ServiceFactory.ShellView).Navigation = GetNavigationItems();
+			MutexHelper.KeepAlive();
 		}
 
 		void OnConfigurationChanged()
 		{
 			ServiceFactory.Layout.Close();
 
-			FiresecManager.FiresecService.StopPing();
+			//FiresecManager.FiresecService.StopPing();
 
 			FiresecManager.GetConfiguration(false);
 			FiresecManager.DeviceStates = FiresecManager.FiresecService.GetStates(true);
 			FiresecManager.UpdateStates();
 
-			FiresecManager.FiresecService.StartPing();
+			//FiresecManager.FiresecService.StartPing();
 
 			ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() => { InitializeModules(); }));
 		}

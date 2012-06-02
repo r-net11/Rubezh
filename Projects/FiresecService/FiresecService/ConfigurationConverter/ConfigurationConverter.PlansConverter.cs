@@ -33,50 +33,41 @@ namespace FiresecService.Configuration
 						switch (innerLayer.name)
 						{
 							case "План":
-								foreach (var innerElementLayer in innerLayer.elements)
+								foreach (var innerElement in innerLayer.elements)
 								{
-									switch (innerElementLayer.@class)
+									switch (innerElement.@class)
 									{
 										case "TSCDePicture":
 											int pictureIndex = 0;
-											foreach (var innerPicture in innerElementLayer.picture)
-											{
-												if (string.IsNullOrEmpty(innerPicture.idx))
-													innerPicture.idx = pictureIndex++.ToString();
+											AddPictire(plan, innerElement, ref pictureIndex);
+											break;
 
-												var directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
-												if (File.Exists(directoryInfo.FullName) == false)
-													continue;
+										case "TSCDeRectangle":
+											AddRectangle(plan, innerElement);
+											break;
 
-												if (innerPicture.ext == "emf")
-												{
-													var metafile = new Metafile(directoryInfo.FullName);
-													innerPicture.ext = "bmp";
-													directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
-													metafile.Save(directoryInfo.FullName, ImageFormat.Bmp);
-													metafile.Dispose();
-												}
+										case "TSCDeEllipse":
+											AddEllipse(plan, innerElement);
+											break;
 
-												byte[] backgroundPixels = File.ReadAllBytes(directoryInfo.FullName);
+										case "TSCDeLabel":
+											AddLabel(plan, innerElement);
+											break;
 
-												var elementRectanglePicture = new ElementRectangle()
-												{
-													Left = Parse(innerElementLayer.rect[0].left),
-													Top = Parse(innerElementLayer.rect[0].top),
-													Height = Parse(innerElementLayer.rect[0].bottom) - Parse(innerElementLayer.rect[0].top),
-													Width = Parse(innerElementLayer.rect[0].right) - Parse(innerElementLayer.rect[0].left),
-													BackgroundPixels = backgroundPixels
-												};
+										case "TSCDeText":
+											AddLabel(plan, innerElement, true);
+											break;
 
-												if ((elementRectanglePicture.Left == 0) && (elementRectanglePicture.Top == 0) && (elementRectanglePicture.Width == plan.Width) && (elementRectanglePicture.Height == plan.Height))
-												{
-													plan.BackgroundPixels = elementRectanglePicture.BackgroundPixels;
-												}
-												else
-												{
-													plan.ElementRectangles.Add(elementRectanglePicture);
-												}
-											}
+										case "TSCDePolyLine":
+											AddPolyLine(plan, innerElement);
+											break;
+
+										case "TSCDePolygon":
+											AddPolygon(plan, innerElement);
+											break;
+
+										default:
+											Logger.Error("ConfigurationConverter.ConvertPlans: Неизвестный элемент " + innerElement.@class);
 											break;
 									}
 								}
@@ -85,12 +76,11 @@ namespace FiresecService.Configuration
 							case "Пожарные зоны":
 							case "Охранные зоны":
 							case "Зоны":
-
-								foreach (var innerElementLayer in innerLayer.elements)
+								foreach (var innerElement in innerLayer.elements)
 								{
 									ulong? zoneNo = null;
 
-									long longId = long.Parse(innerElementLayer.id);
+									long longId = long.Parse(innerElement.id);
 									int intId = (int)longId;
 									foreach (var zone in DeviceConfiguration.Zones)
 									{
@@ -103,135 +93,51 @@ namespace FiresecService.Configuration
 										}
 									}
 
-									switch (innerElementLayer.@class)
+									switch (innerElement.@class)
 									{
 										case "TFS_PolyZoneShape":
-											if (innerElementLayer.points != null)
-											{
-												var elementPolygonZone = new ElementPolygonZone()
-												{
-													ZoneNo = zoneNo,
-												};
-												elementPolygonZone.PolygonPoints = GetPointCollection(innerElementLayer);
-												elementPolygonZone.Normalize();
-												plan.ElementPolygonZones.Add(elementPolygonZone);
-											};
+											AddPolygonZone(plan, innerElement, zoneNo);
 											break;
 
 										case "TFS_ZoneShape":
-											var elementRectangleZone = new ElementRectangleZone()
-											{
-												ZoneNo = zoneNo,
-												Left = Math.Min(Parse(innerElementLayer.rect[0].left), Parse(innerElementLayer.rect[0].right)),
-												Top = Math.Min(Parse(innerElementLayer.rect[0].top), Parse(innerElementLayer.rect[0].bottom)),
-												Width = Math.Abs(Parse(innerElementLayer.rect[0].right) - Parse(innerElementLayer.rect[0].left)),
-												Height = Math.Abs(Parse(innerElementLayer.rect[0].bottom) - Parse(innerElementLayer.rect[0].top))
-											};
-
-											plan.ElementRectangleZones.Add(elementRectangleZone);
+											AddRectangleZone(plan, innerElement, zoneNo);
 											break;
 
 										case "TSCDeRectangle":
-											var elementRectangle = new ElementRectangle()
-											{
-												Left = Parse(innerElementLayer.rect[0].left),
-												Top = Parse(innerElementLayer.rect[0].top),
-												Height = Parse(innerElementLayer.rect[0].bottom) - Parse(innerElementLayer.rect[0].top),
-												Width = Parse(innerElementLayer.rect[0].right) - Parse(innerElementLayer.rect[0].left),
-											};
-											plan.ElementRectangles.Add(elementRectangle);
+											AddRectangle(plan, innerElement);
 											break;
 
 										case "TSCDeEllipse":
-											var elementEllipse = new ElementEllipse()
-											{
-												Left = Parse(innerElementLayer.rect[0].left),
-												Top = Parse(innerElementLayer.rect[0].top),
-												Height = Parse(innerElementLayer.rect[0].bottom) - Parse(innerElementLayer.rect[0].top),
-												Width = Parse(innerElementLayer.rect[0].right) - Parse(innerElementLayer.rect[0].left),
-											};
-											plan.ElementEllipses.Add(elementEllipse);
+											AddEllipse(plan, innerElement);
 											break;
 
 										case "TSCDeLabel":
-											var elementTextBlock = new ElementTextBlock()
-											{
-												Text = innerElementLayer.caption,
-												Left = Parse(innerElementLayer.rect[0].left),
-												Top = Parse(innerElementLayer.rect[0].top),
-											};
+											AddLabel(plan, innerElement);
+											break;
 
-											if (innerElementLayer.brush != null)
-												try
-												{
-													elementTextBlock.BorderColor = (Color)ColorConverter.ConvertFromString(innerElementLayer.brush[0].color);
-												}
-												catch (Exception e)
-												{
-													Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans elementTextBlock.BorderColor");
-												}
-
-											if (innerElementLayer.pen != null)
-												try
-												{
-													elementTextBlock.ForegroundColor = (Color)ColorConverter.ConvertFromString(innerElementLayer.pen[0].color);
-												}
-												catch (Exception e)
-												{
-													Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans innerElementLayer.pen");
-												}
-
-											plan.ElementTextBlocks.Add(elementTextBlock);
+										case "TSCDeText":
+											AddLabel(plan, innerElement, true);
 											break;
 
 										case "TSCDePolyLine":
-											var elementPolyline = new ElementPolyline();
-											elementPolyline.PolygonPoints = GetPointCollection(innerElementLayer);
-											elementPolyline.Normalize();
-											plan.ElementPolylines.Add(elementPolyline);
+											AddPolyLine(plan, innerElement);
 											break;
 
 										case "TSCDePolygon":
-											var elementPolygon = new ElementPolygon();
-											elementPolygon.PolygonPoints = GetPointCollection(innerElementLayer);
-											elementPolygon.Normalize();
-											plan.ElementPolygons.Add(elementPolygon);
+											AddPolygon(plan, innerElement);
+											break;
+
+										default:
+											Logger.Error("ConfigurationConverter.ConvertPlans: Неизвестный элемент " + innerElement.@class);
 											break;
 									}
 								}
 								break;
 
 							case "Устройства":
-								foreach (var innerDevice in innerLayer.elements)
+								foreach (var innerElement in innerLayer.elements)
 								{
-									if (innerDevice.rect != null)
-									{
-										var innerRect = innerDevice.rect[0];
-
-										long longId = long.Parse(innerDevice.id);
-										int intId = (int)longId;
-
-										var height = Parse(innerRect.bottom) - Parse(innerRect.top);
-										var width = Parse(innerRect.right) - Parse(innerRect.left);
-										var elementDevice = new ElementDevice()
-										{
-											Left = Parse(innerRect.left) + height / 2,
-											Top = Parse(innerRect.top) + width / 2
-										};
-										plan.ElementDevices.Add(elementDevice);
-
-										foreach (var device in DeviceConfiguration.Devices)
-										{
-											foreach (var deviceShapeId in device.ShapeIds)
-											{
-												if ((deviceShapeId == longId.ToString()) || (deviceShapeId == intId.ToString()))
-												{
-													elementDevice.DeviceUID = device.UID;
-													device.PlanElementUIDs.Add(elementDevice.UID);
-												}
-											}
-										}
-									}
+									AddDevice(plan, innerElement);
 								}
 								break;
 						}
@@ -242,6 +148,189 @@ namespace FiresecService.Configuration
 
 			DeleteDirectory(Environment.CurrentDirectory + "\\Pictures");
 			return plansConfiguration;
+		}
+
+		void AddRectangle(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
+		{
+			var elementRectangle = new ElementRectangle()
+			{
+				Left = Parse(innerElement.rect[0].left),
+				Top = Parse(innerElement.rect[0].top),
+				Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
+				Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)
+			};
+			plan.ElementRectangles.Add(elementRectangle);
+		}
+
+		void AddEllipse(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
+		{
+			var elementEllipse = new ElementEllipse()
+			{
+				Left = Parse(innerElement.rect[0].left),
+				Top = Parse(innerElement.rect[0].top),
+				Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
+				Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)
+			};
+			plan.ElementEllipses.Add(elementEllipse);
+		}
+
+		void AddLabel(Plan plan, surfacesSurfaceLayerElementsElement innerElement, bool stretch = false)
+		{
+			var elementTextBlock = new ElementTextBlock()
+			{
+				Text = innerElement.caption,
+				Left = Parse(innerElement.rect[0].left),
+				Top = Parse(innerElement.rect[0].top),
+				Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
+				Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left),
+				Stretch = true
+			};
+
+			FontFamily fontFamily = new FontFamily("Arial");
+			double fontDpiSize = elementTextBlock.Height / 2;
+			double fontHeight = Math.Ceiling(fontDpiSize * fontFamily.LineSpacing);
+			elementTextBlock.FontSize = fontHeight;
+
+
+			if (innerElement.brush != null)
+				try
+				{
+					elementTextBlock.BorderColor = (Color)ColorConverter.ConvertFromString(innerElement.brush[0].color);
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans elementTextBlock.BorderColor");
+				}
+
+			if (innerElement.pen != null)
+				try
+				{
+					elementTextBlock.ForegroundColor = (Color)ColorConverter.ConvertFromString(innerElement.pen[0].color);
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans innerElementLayer.pen");
+				}
+
+			plan.ElementTextBlocks.Add(elementTextBlock);
+		}
+
+		void AddPolyLine(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
+		{
+			var elementPolyline = new ElementPolyline();
+			elementPolyline.PolygonPoints = GetPointCollection(innerElement);
+			elementPolyline.Normalize();
+			plan.ElementPolylines.Add(elementPolyline);
+		}
+
+		void AddPolygon(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
+		{
+			var elementPolygon = new ElementPolygon();
+			elementPolygon.PolygonPoints = GetPointCollection(innerElement);
+			elementPolygon.Normalize();
+			plan.ElementPolygons.Add(elementPolygon);
+		}
+
+		void AddDevice(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
+		{
+			if (innerElement.rect != null)
+			{
+				var innerRect = innerElement.rect[0];
+
+				long longId = long.Parse(innerElement.id);
+				int intId = (int)longId;
+
+				var height = Parse(innerRect.bottom) - Parse(innerRect.top);
+				var width = Parse(innerRect.right) - Parse(innerRect.left);
+				var elementDevice = new ElementDevice()
+				{
+					Left = Parse(innerRect.left) + height / 2,
+					Top = Parse(innerRect.top) + width / 2
+				};
+				plan.ElementDevices.Add(elementDevice);
+
+				foreach (var device in DeviceConfiguration.Devices)
+				{
+					foreach (var deviceShapeId in device.ShapeIds)
+					{
+						if ((deviceShapeId == longId.ToString()) || (deviceShapeId == intId.ToString()))
+						{
+							elementDevice.DeviceUID = device.UID;
+							device.PlanElementUIDs.Add(elementDevice.UID);
+						}
+					}
+				}
+			}
+		}
+
+		void AddPolygonZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, ulong? zoneNo)
+		{
+			if (innerElement.points != null)
+			{
+				var elementPolygonZone = new ElementPolygonZone()
+				{
+					ZoneNo = zoneNo
+				};
+				elementPolygonZone.PolygonPoints = GetPointCollection(innerElement);
+				elementPolygonZone.Normalize();
+				plan.ElementPolygonZones.Add(elementPolygonZone);
+			};
+		}
+
+		void AddRectangleZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, ulong? zoneNo)
+		{
+			var elementRectangleZone = new ElementRectangleZone()
+			{
+				ZoneNo = zoneNo,
+				Left = Math.Min(Parse(innerElement.rect[0].left), Parse(innerElement.rect[0].right)),
+				Top = Math.Min(Parse(innerElement.rect[0].top), Parse(innerElement.rect[0].bottom)),
+				Width = Math.Abs(Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)),
+				Height = Math.Abs(Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top))
+			};
+
+			plan.ElementRectangleZones.Add(elementRectangleZone);
+		}
+
+		void AddPictire(Plan plan, surfacesSurfaceLayerElementsElement innerElement, ref int pictureIndex)
+		{
+			foreach (var innerPicture in innerElement.picture)
+			{
+				if (string.IsNullOrEmpty(innerPicture.idx))
+					innerPicture.idx = pictureIndex++.ToString();
+
+				var directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
+				if (File.Exists(directoryInfo.FullName) == false)
+					continue;
+
+				if (innerPicture.ext == "emf")
+				{
+					var metafile = new Metafile(directoryInfo.FullName);
+					innerPicture.ext = "bmp";
+					directoryInfo = new DirectoryInfo(Environment.CurrentDirectory + "\\Pictures\\Sample" + innerPicture.idx + "." + innerPicture.ext);
+					metafile.Save(directoryInfo.FullName, ImageFormat.Bmp);
+					metafile.Dispose();
+				}
+
+				byte[] backgroundPixels = File.ReadAllBytes(directoryInfo.FullName);
+
+				var elementRectanglePicture = new ElementRectangle()
+				{
+					Left = Parse(innerElement.rect[0].left),
+					Top = Parse(innerElement.rect[0].top),
+					Height = Parse(innerElement.rect[0].bottom) - Parse(innerElement.rect[0].top),
+					Width = Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left),
+					BackgroundPixels = backgroundPixels
+				};
+
+				if ((elementRectanglePicture.Left == 0) && (elementRectanglePicture.Top == 0) && (elementRectanglePicture.Width == plan.Width) && (elementRectanglePicture.Height == plan.Height))
+				{
+					plan.BackgroundPixels = elementRectanglePicture.BackgroundPixels;
+				}
+				else
+				{
+					plan.ElementRectangles.Add(elementRectanglePicture);
+				}
+			}
 		}
 
 		static void DeleteDirectory(string directoryName)

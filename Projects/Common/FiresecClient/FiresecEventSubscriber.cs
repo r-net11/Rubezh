@@ -36,7 +36,7 @@ namespace FiresecClient
 					}
 				}
 
-				deviceState.OnStateChanged();
+				//deviceState.OnStateChanged();
 				if (DeviceStateChangedEvent != null)
 					DeviceStateChangedEvent(deviceState.UID);
 			}
@@ -51,7 +51,7 @@ namespace FiresecClient
 				{
 					deviceState.Parameters = newDeviceState.Parameters;
 
-					deviceState.OnParametersChanged();
+					//deviceState.OnParametersChanged();
 					if (DeviceParametersChangedEvent != null)
 						DeviceParametersChangedEvent(deviceState.UID);
 				}

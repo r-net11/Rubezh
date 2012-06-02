@@ -8,6 +8,8 @@ namespace FiresecServiceRunner
 {
 	public partial class MainWindow : Window
 	{
+		System.Windows.Forms.NotifyIcon notifyIcon;
+
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -17,7 +19,7 @@ namespace FiresecServiceRunner
 
 		void CreateNotificationIcon()
 		{
-			var notifyIcon = new System.Windows.Forms.NotifyIcon();
+			notifyIcon = new System.Windows.Forms.NotifyIcon();
 			Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/FiresecService;component/Firesec.ico")).Stream;
 			notifyIcon.Icon = new System.Drawing.Icon(iconStream);
 			notifyIcon.Visible = true;
@@ -76,8 +78,7 @@ namespace FiresecServiceRunner
 
 		protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
 		{
-
-			//_notificationIcon.Dispose();
+			notifyIcon.Dispose();
 			base.OnClosing(e);
 		}
 

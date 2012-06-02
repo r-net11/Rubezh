@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Remoting;
 using System.Text;
-using System.Windows.Controls;
 using System.Threading;
+using System.Windows.Controls;
+using Common;
 
 namespace Firesec
 {
 	public class NativeFiresecClient : FS_Types.IFS_CallBack
 	{
 		Control control;
-		AppDomain Domain;
-		bool IsUnloaded = false;
 
 		public NativeFiresecClient()
 		{
@@ -34,21 +32,6 @@ namespace Firesec
 		public FiresecOperationResult<bool> Connect(string login, string password)
 		{
 			return SafeCall<bool>(() => { _connectoin = GetConnection(login, password); return true; });
-		}
-
-		[Obsolete]
-		public FiresecOperationResult<bool> Disconnect()
-		{
-			return SafeCall<bool>(() =>
-			{
-				if (IsUnloaded == false)
-				{
-					_connectoin = null;
-					//AppDomain.Unload(Domain);
-					IsUnloaded = true;
-				}
-				return true;
-			});
 		}
 
 		public FiresecOperationResult<string> GetCoreConfig()
@@ -228,8 +211,9 @@ namespace Firesec
 			{
 				connectoin = library.Connect2(login, password, serverInfo, this);
 			}
-			catch
+			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове NativeFiresecClient.GetConnection");
 				throw new Exception("Не удается подключиться к COM серверу Firesec");
 			}
 			return connectoin;
@@ -260,7 +244,10 @@ namespace Firesec
 					}
 				}
 			}
-			catch { }
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове NativeFiresecClient.ReadFromStream");
+			}
 
 			return stringBuilder.ToString();
 		}
@@ -297,6 +284,7 @@ namespace Firesec
 				}
 				catch (Exception e)
 				{
+					Logger.Error(e, "Исключение при вызове NativeFiresecClient.SafeLoopCall попытка " + i.ToString());
 					resultData.Result = default(T);
 					resultData.HasError = true;
 					resultData.Error = e;
@@ -309,9 +297,6 @@ namespace Firesec
 		#region Callback
 		public void NewEventsAvailable(int eventMask)
 		{
-			if (IsUnloaded)
-				return;
-
 			if (NewEventAvaliable != null)
 				NewEventAvaliable(eventMask);
 		}
@@ -321,9 +306,6 @@ namespace Firesec
 
 		public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
 		{
-			if (IsUnloaded)
-				return true;
-
 			try
 			{
 				var continueProgress = IntContinueProgress == 1;
@@ -333,6 +315,7 @@ namespace Firesec
 			}
 			catch (Exception e)
 			{
+				Logger.Error(e, "Исключение при вызове NativeFiresecClient.Progress");
 				return false;
 			}
 		}

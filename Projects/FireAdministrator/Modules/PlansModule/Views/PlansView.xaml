@@ -17,7 +17,7 @@
             </Grid.ColumnDefinitions>
 
             <TabControl Grid.Column="0">
-                <TabItem Header="Дерево">
+                <TabItem Header="Планы">
                     <Views:PlansTreeView />
                 </TabItem>
                 <TabItem Header="Устройства">

@@ -26,7 +26,7 @@ namespace FiresecServiceRunner
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-			Logger.Error((Exception)e.ExceptionObject);
+			Logger.Error((Exception)e.ExceptionObject, "Исключение при вызове App.CurrentDomain_UnhandledException");
 		}
 	}
 }

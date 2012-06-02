@@ -188,13 +188,13 @@ namespace FiresecClient
 
 			var zones = new List<Zone>();
 
-			var channelDevice = device.Channel;
+			var channelDevice = device.ParentChannel;
 
 			foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
 			{
 				if (channelDevice != null)
 				{
-					if (zone.DevicesInZone.All(x => ((x.Channel != null) && (x.Channel.UID == channelDevice.UID))))
+					if (zone.DevicesInZone.All(x => ((x.ParentChannel != null) && (x.ParentChannel.UID == channelDevice.UID))))
 						zones.Add(zone);
 				}
 				else
@@ -250,6 +250,10 @@ namespace FiresecClient
 
 		public static bool HasExternalDevices(Device device)
 		{
+			if (device.DottedAddress == "1.1.1.21")
+			{
+				;
+			}
 			FiresecManager.UpdateZoneDevices();
 			if (device.ZoneLogic != null)
 			{
@@ -258,9 +262,9 @@ namespace FiresecClient
 					foreach (var zoneNo in clause.Zones)
 					{
 						var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-						foreach (var deviceInLogic in zone.DeviceInZoneLogic)
+						foreach (var deviceInZone in zone.DevicesInZone)
 						{
-							if (device.Parent.UID != deviceInLogic.Parent.UID)
+							if (device.ParentPanel.UID != deviceInZone.ParentPanel.UID)
 								return true;
 						}
 					}

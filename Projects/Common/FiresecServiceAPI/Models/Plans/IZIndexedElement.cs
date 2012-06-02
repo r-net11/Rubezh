@@ -2,9 +2,9 @@
 
 namespace FiresecAPI.Models
 {
-    public interface IZIndexedElement
-    {
-        [DataMember]
-        int ZIndex { get; set; }
-    }
+	public interface IZIndexedElement
+	{
+		[DataMember]
+		int ZIndex { get; set; }
+	}
 }

@@ -19,15 +19,15 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
-			AppSettingsHelper.InitializeAppSettings();
-
-			if (SingleLaunchHelper.KillRunningProcess("FireAdministrator") == false)
+			if (!MutexHelper.IsNew("FireAdministrator"))
 			{
-				MessageBox.Show("App is closing");
+				MessageBoxService.ShowWarning("Другой экзэмпляр приложения уже запущен. Приложение будет закрыто");
 				Application.Current.Shutdown();
 				System.Environment.Exit(1);
+				return;
 			}
 
+			AppSettingsHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
@@ -64,9 +64,10 @@ namespace FireAdministrator
 				Application.Current.Shutdown();
 				System.Environment.Exit(1);
 			}
-			SingleLaunchHelper.KeepAlive();
 
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
+
+			MutexHelper.KeepAlive();
 		}
 
 		void OnConfigurationChanged(object obj)

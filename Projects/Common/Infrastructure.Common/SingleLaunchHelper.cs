@@ -4,33 +4,15 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using Infrastructure.Common.MessageBox;
+using Common;
 
 namespace Infrastructure.Common
 {
 	public static class SingleLaunchHelper
 	{
-		static Mutex Mutex { get; set; }
-
-		public static bool Check(string mutexName)
+		public static bool KillRunningProcess(bool force = false)
 		{
-			//return true;
-
-			bool isNew;
-			Mutex = new Mutex(true, mutexName, out isNew);
-			return isNew;
-		}
-
-		public static void KeepAlive()
-		{
-			return;
-
-			if (Mutex != null)
-				GC.KeepAlive(Mutex);
-		}
-
-		public static bool KillRunningProcess(string processName, bool force = false)
-		{
-			processName = Process.GetCurrentProcess().ProcessName;
+			string processName = Process.GetCurrentProcess().ProcessName;
 			bool result = true;
 			Process[] processes = null;
 
@@ -38,36 +20,52 @@ namespace Infrastructure.Common
 			{
 				processes = Process.GetProcessesByName(processName);
 
-				if (processes.Count() > 0)
+				if (processes.Count() > 1)
 				{
-					Process runningProc = processes.FirstOrDefault(x => x.Id != Process.GetCurrentProcess().Id);
+					if (!force)
+						result = MessageBoxService.ShowQuestion("Другой экзэмпляр программы уже запущен. Завершить?") == MessageBoxResult.Yes;
 
-					if ((runningProc != null) && (runningProc.HasExited == false))
+					if (result)
 					{
-						if (force == false)
-							result = MessageBoxService.ShowQuestion("Другой экзэмпляр программы уже запущен. Завершить?") == MessageBoxResult.Yes;
-
-						if (result)
+						foreach (var process in processes)
 						{
-							runningProc.CloseMainWindow();
-							//runningProc.Kill();
+							if (process.Id == Process.GetCurrentProcess().Id)
+								continue;
+
+							if ((process != null) && (process.HasExited == false))
+							{
+								process.CloseMainWindow();
+								//process.WaitForExit();
+								process.Kill();
+							}
 						}
 					}
 				}
 			}
-			finally
+			catch (Exception e)
 			{
-				//if (processes != null)
-				//{
-				//    foreach (var process in processes)
-				//    {
-				//        if (process.Id != Process.GetCurrentProcess().Id)
-				//            process.Dispose();
-				//    }
-				//}
+				Logger.Error(e, "Исключение при вызове SingleLaunchHelper.KillRunningProcess");
 			}
 
 			return result;
+		}
+	}
+
+	public static class MutexHelper
+	{
+		static Mutex Mutex { get; set; }
+
+		public static bool IsNew(string mutexName)
+		{
+			bool isNew;
+			Mutex = new Mutex(true, mutexName, out isNew);
+			return isNew;
+		}
+
+		public static void KeepAlive()
+		{
+			if (Mutex != null)
+				GC.KeepAlive(Mutex);
 		}
 	}
 }

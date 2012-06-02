@@ -100,7 +100,7 @@ namespace FiresecClient.Validation
 		{
 			if ((device.Driver.IsIndicatorDevice) && (device.IndicatorLogic.Device != null))
 			{
-				if ((device.IndicatorLogic.Device.Channel == null) && (device.IndicatorLogic.Device.Channel.UID != device.Channel.UID))
+				if ((device.IndicatorLogic.Device.ParentChannel == null) && (device.IndicatorLogic.Device.ParentChannel.UID != device.ParentChannel.UID))
 					DeviceErrors.Add(new DeviceError(device, "Для индикатора указано устройство находящееся в другой сети RS-485", ErrorLevel.CannotWrite));
 			}
 		}
@@ -112,7 +112,7 @@ namespace FiresecClient.Validation
 				foreach (var zoneNo in device.IndicatorLogic.Zones)
 				{
 					var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-					if (zone.DevicesInZone.All(x => ((x.Channel != null) && (x.Channel.UID == device.Channel.UID)) == false))
+					if (zone.DevicesInZone.All(x => ((x.ParentChannel != null) && (x.ParentChannel.UID == device.ParentChannel.UID)) == false))
 						DeviceErrors.Add(new DeviceError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone), ErrorLevel.CannotWrite));
 				}
 			}

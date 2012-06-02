@@ -6,6 +6,12 @@ namespace Infrastructure.Models
 	[DataContract]
 	public class ArchiveDefaultState
 	{
+		public ArchiveDefaultState()
+		{
+			ArchiveDefaultStateType = ArchiveDefaultStateType.LastDays;
+			Count = 1;
+		}
+
 		[DataMember]
 		public ArchiveDefaultStateType ArchiveDefaultStateType { get; set; }
 

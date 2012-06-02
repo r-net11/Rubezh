@@ -25,12 +25,13 @@ namespace FiresecService.Configuration
 			try
 			{
 				var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+
 				using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Open))
 				{
 					return (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
 				}
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetDeviceConfiguration");
 				var deviceConfiguration = new DeviceConfiguration();
@@ -48,9 +49,15 @@ namespace FiresecService.Configuration
 		{
 			var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
 			Directory.CreateDirectory("Configuration");
-			using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Create))
+
+			using (var memoryStream = new MemoryStream())
 			{
-				dataContractSerializer.WriteObject(fileStream, deviceConfiguration);
+				dataContractSerializer.WriteObject(memoryStream, deviceConfiguration);
+
+				using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Create))
+				{
+					fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+				}
 			}
 		}
 
@@ -59,6 +66,7 @@ namespace FiresecService.Configuration
 			try
 			{
 				var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
+
 				using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Open))
 				{
 					return (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
@@ -76,9 +84,14 @@ namespace FiresecService.Configuration
 		public static void SetSystemConfiguration(SystemConfiguration systemConfiguration)
 		{
 			var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-			using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Create))
+			using (var memoryStream = new MemoryStream())
 			{
-				dataContractSerializer.WriteObject(fileStream, systemConfiguration);
+				dataContractSerializer.WriteObject(memoryStream, systemConfiguration);
+
+				using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Create))
+				{
+					fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+				}
 			}
 		}
 
@@ -104,9 +117,14 @@ namespace FiresecService.Configuration
 		public static void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
 		{
 			var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
-			using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Create))
+			using (var memoryStream = new MemoryStream())
 			{
-				dataContractSerializer.WriteObject(fileStream, libraryConfiguration);
+				dataContractSerializer.WriteObject(memoryStream, libraryConfiguration);
+
+				using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Create))
+				{
+					fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+				}
 			}
 		}
 
@@ -132,9 +150,14 @@ namespace FiresecService.Configuration
 		public static void SetPlansConfiguration(PlansConfiguration plansConfiguration)
 		{
 			var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
-			using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Create))
+			using (var memoryStream = new MemoryStream())
 			{
-				dataContractSerializer.WriteObject(fileStream, plansConfiguration);
+				dataContractSerializer.WriteObject(memoryStream, plansConfiguration);
+
+				using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Create))
+				{
+					fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+				}
 			}
 		}
 
@@ -160,9 +183,14 @@ namespace FiresecService.Configuration
 		public static void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
 		{
 			var dataContractSerializer = new DataContractSerializer(typeof(SecurityConfiguration));
-			using (var fileStream = new FileStream(ConfigurationDirectory(SecurityConfigurationFileName), FileMode.Create))
+			using (var memoryStream = new MemoryStream())
 			{
-				dataContractSerializer.WriteObject(fileStream, securityConfiguration);
+				dataContractSerializer.WriteObject(memoryStream, securityConfiguration);
+
+				using (var fileStream = new FileStream(ConfigurationDirectory(SecurityConfigurationFileName), FileMode.Create))
+				{
+					fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+				}
 			}
 		}
 	}
