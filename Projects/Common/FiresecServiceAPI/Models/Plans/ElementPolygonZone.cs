@@ -5,37 +5,37 @@ using System.Windows.Shapes;
 
 namespace FiresecAPI.Models
 {
-    [DataContract]
-    public class ElementPolygonZone : ElementBasePolygon, IElementZone
-    {
-        public Zone Zone { get; set; }
+	[DataContract]
+	public class ElementPolygonZone : ElementBasePolygon, IElementZone
+	{
+		public Zone Zone { get; set; }
 
-        [DataMember]
-        public ulong? ZoneNo { get; set; }
+		[DataMember]
+		public ulong? ZoneNo { get; set; }
 
-        public override FrameworkElement Draw()
-        {
-            if (PolygonPoints == null)
-                return null;
+		public override FrameworkElement Draw()
+		{
+			if (PolygonPoints == null)
+				return null;
 
-            var polygon = new Polygon()
-            {
-                Points = new PointCollection(PolygonPoints),
-                Fill = new SolidColorBrush(ElementZoneHelper.GetZoneColor(Zone)),
-                Stroke = new SolidColorBrush(Colors.Blue),
-                StrokeThickness = 1
-            };
-            return polygon;
-        }
+			var polygon = new Polygon()
+			{
+				Points = new PointCollection(PolygonPoints),
+				Fill = new SolidColorBrush(ElementZoneHelper.GetZoneColor(Zone)),
+				Stroke = new SolidColorBrush(Colors.Blue),
+				StrokeThickness = 1
+			};
+			return polygon;
+		}
 
-        public override ElementBase Clone()
-        {
-            ElementBase elementBase = new ElementPolygonZone()
-            {
-                ZoneNo = ZoneNo
-            };
-            Copy(elementBase);
-            return elementBase;
-        }
-    }
+		public override ElementBase Clone()
+		{
+			ElementBase elementBase = new ElementPolygonZone()
+			{
+				ZoneNo = ZoneNo
+			};
+			Copy(elementBase);
+			return elementBase;
+		}
+	}
 }

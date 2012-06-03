@@ -56,6 +56,7 @@ namespace DevicesModule.ViewModels
 					OnPropertyChanged("Device.Driver");
 					OnPropertyChanged("PresentationZone");
 					ServiceFactory.SaveService.DevicesChanged = true;
+					DevicesViewModel.Current.UpdateExternalDevices();
 				}
 			}
 		}
@@ -112,10 +113,14 @@ namespace DevicesModule.ViewModels
 			get { return FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo); }
 			set
 			{
-				Device.ZoneNo = value.No;
-				OnPropertyChanged("Zone");
+				if (Device.ZoneNo != value.No)
+				{
+					Device.ZoneNo = value.No;
+					OnPropertyChanged("Zone");
 
-				ServiceFactory.SaveService.DevicesChanged = true;
+					ServiceFactory.SaveService.DevicesChanged = true;
+					DevicesViewModel.Current.UpdateExternalDevices();
+				}
 			}
 		}
 
@@ -139,7 +144,10 @@ namespace DevicesModule.ViewModels
 		{
 			var zoneLogicViewModel = new ZoneLogicViewModel(Device);
 			if (ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel))
+			{
 				ServiceFactory.SaveService.DevicesChanged = true;
+				DevicesViewModel.Current.UpdateExternalDevices();
+			}
 			OnPropertyChanged("PresentationZone");
 		}
 
@@ -200,6 +208,8 @@ namespace DevicesModule.ViewModels
 
 			index = Math.Min(index, DevicesViewModel.Current.Devices.Count - 1);
 			DevicesViewModel.Current.SelectedDevice = DevicesViewModel.Current.Devices[index];
+
+			DevicesViewModel.Current.UpdateExternalDevices();
 		}
 
 		bool CanShowProperties()

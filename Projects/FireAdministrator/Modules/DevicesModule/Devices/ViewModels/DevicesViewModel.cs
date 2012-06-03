@@ -230,6 +230,12 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+		public void UpdateExternalDevices()
+		{
+			foreach (var device in Devices)
+				device.OnPropertyChanged("HasExternalDevices");
+		}
+
 		public override void OnHide()
 		{
 			ServiceFactory.Layout.ShowMenu(null);

@@ -2,21 +2,21 @@
 
 namespace Infrastructure.Models
 {
-    public enum ArchiveDefaultStateType
-    {
-        [DescriptionAttribute("за указанное число последних часов")]
-        LastHours,
+	public enum ArchiveDefaultStateType
+	{
+		[DescriptionAttribute("за указанное число последних часов")]
+		LastHours,
 
-        [DescriptionAttribute("за указанное число последних дней")]
-        LastDays,
+		[DescriptionAttribute("за указанное число последних дней")]
+		LastDays,
 
-        [DescriptionAttribute("из всего архива")]
-        All,
+		[DescriptionAttribute("из всего архива")]
+		All,
 
-        [DescriptionAttribute("начиная с указанной даты")]
-        FromDate,
+		[DescriptionAttribute("начиная с указанной даты")]
+		FromDate,
 
-        [DescriptionAttribute("согласно указанному дипазону дат")]
-        RangeDate
-    }
+		[DescriptionAttribute("согласно указанному дипазону дат")]
+		RangeDate
+	}
 }

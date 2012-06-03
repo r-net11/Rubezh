@@ -18,11 +18,8 @@ namespace FiresecService
 
 		public static void Run()
 		{
-			if (SingleLaunchHelper.Check("FiresecService") == false)
-			{
-				Close();
-			}
-			
+			SingleLaunchHelper.KillRunningProcess(true);
+
 			try
 			{
 				InitializeAppSettings();
@@ -55,8 +52,6 @@ namespace FiresecService
 				MessageBoxService.ShowException(e);
 				Close();
 			}
-
-			SingleLaunchHelper.KeepAlive();
 		}
 
 		static void OnWorkThread()
@@ -69,7 +64,7 @@ namespace FiresecService
 			{
 				mainWindow.Show();
 			}
-			catch(Exception e)
+			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
 			}

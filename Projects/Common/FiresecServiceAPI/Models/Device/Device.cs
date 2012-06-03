@@ -237,7 +237,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
-		public Device Channel
+		public Device ParentChannel
 		{
 			get
 			{
@@ -255,6 +255,15 @@ namespace FiresecAPI.Models
 					x.Driver.DriverType == DriverType.USB_Channel_2));
 
 				return channelDevice;
+			}
+		}
+
+		public Device ParentPanel
+		{
+			get
+			{
+				var panelDevice = AllParents.FirstOrDefault(x => (x.Driver.DeviceClassName == "ППКП"));
+				return panelDevice;
 			}
 		}
 
