@@ -11,16 +11,12 @@
 		WindowStartupLocation="CenterScreen"
 		Icon="{Binding Icon, Converter={StaticResource NullToImageConverter}}"
         Title="{Binding Title}"
-        MinWidth="{Binding MinWidth}" 
-		MinHeight="{Binding MinHeight}"
-		MaxHeight="{Binding MaxHeight}"
-		MaxWidth="{Binding MaxWidth}"
-		Height="{Binding Height}"
-		Width="{Binding Width}"
         Topmost="{Binding TopMost}"
        	KeyDown="Window_KeyDown"
         Closing="Window_Closing"
-        Closed="Window_Closed">
+        Closed="Window_Closed"
+        Height="100"
+        Width="100">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="5"/>

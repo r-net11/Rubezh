@@ -26,10 +26,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			SetImageVisibility(messageBoxImage);
 
 			Result = MessageBoxResult.None;
-			MinWidth = 350;
-			MinHeight = 150;
-			Height = MinHeight;
-			Width = MinWidth;
 			Sizable = false;
 		}
 

@@ -7,26 +7,25 @@ using System.Windows.Data;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	//    ResourceService srv = new ResourceService();
-	//srv.AddResource(new ResourceDescription(typeof(WindowBaseViewModel).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-	//srv.AddResource(new ResourceDescription(typeof(WindowBaseViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
+			//ResourceService srv = new ResourceService();
+			//srv.AddResource(new ResourceDescription(typeof(WindowBaseViewModel).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+			//srv.AddResource(new ResourceDescription(typeof(WindowBaseViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
 
-	//Infrastructure.Common.About.ViewModels.AboutViewModel about = new Infrastructure.Common.About.ViewModels.AboutViewModel();
-	//Infrastructure.Common.Windows.DialogService.ShowModalWindow(about);
+			////var aboutViewModel = new Infrastructure.Common.About.ViewModels.AboutViewModel();
+			////Infrastructure.Common.Windows.DialogService.ShowModalWindow(aboutViewModel);
 
-	////Application.Current.MainWindow = new Window();
-	////MessageBoxService.ShowError("exception occured", "error....");
-	////var messageBoxViewModel = new Infrastructure.Common.MessageBox.MessageBoxViewModel("error....", "exception occured", MessageBoxButton.OK, MessageBoxImage.Error, false);
-	////var dialogWindow = new DialogWindow();
-	////dialogWindow.SetContent(messageBoxViewModel);
-	////dialogWindow.Show();
-	////Infrastructure.Common.Windows.MessageBoxService.ShowError("exception occured", "error....");
+			////var connection = new Infrastructure.Common.Windows.ViewModels.ConnectionViewModel() { Title = "Connecting..." };
+			////Infrastructure.Common.Windows.DialogService.ShowModalWindow(connection);
 
-	////_debugSaveCancelViewModel model = new _debugSaveCancelViewModel();
-	////model.Title = "Test";
-	////Infrastructure.Common.Windows.DialogService.ShowModalWindow(model);
-	//return;
+			////var messageBoxViewModel = new Infrastructure.Common.MessageBox.MessageBoxViewModel("error....", "exception occured", MessageBoxButton.OK, MessageBoxImage.Error, false);
+			////var dialogWindow = new DialogWindow();
+			////dialogWindow.SetContent(messageBoxViewModel);
+			////dialogWindow.Show();
+			////Infrastructure.Common.Windows.MessageBoxService.ShowError("exception occured", "error....");
 
+			//_debugSaveCancelViewModel model = new _debugSaveCancelViewModel() { Title = "Test" };
+			//Infrastructure.Common.Windows.DialogService.ShowModalWindow(model);
+			//return;
 
 	public class _debugSaveCancelViewModel : ShellViewModel
 	{
@@ -74,8 +73,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			ContentHeader = new _debugReplacer("header...");
 			MainContent = new _debugReplacer("MAIN CONTENT");
 			Toolbar = new _debugReplacer("main toolbar");
-			MinHeight = 200;
-			MinWidth = 100;
 		}
 	}
 

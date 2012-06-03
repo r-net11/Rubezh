@@ -10,8 +10,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 	{
 		public HeaderedWindowViewModel()
 		{
-			Height = 600;
-			Width = 800;
 			Sizable = true;
 		}
 

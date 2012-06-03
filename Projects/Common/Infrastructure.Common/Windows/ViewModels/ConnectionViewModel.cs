@@ -9,10 +9,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 	{
 		public ConnectionViewModel()
 		{
-			MinHeight = 100;
-			MinWidth = 300;
-			MaxHeight = MinHeight;
-			MaxWidth = MinWidth;
+			Sizable = false;
 		}
 	}
 }
