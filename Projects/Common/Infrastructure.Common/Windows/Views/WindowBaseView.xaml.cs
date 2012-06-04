@@ -131,6 +131,11 @@ namespace Infrastructure.Common.Windows.Views
 					Height = double.IsNaN(control.Height) ? MinHeight : control.Height + borderHeight;
 					Width = double.IsNaN(control.Width) ? MinWidth : control.Width + borderWidth;
 
+					if (!double.IsNaN(control.Height))
+						control.Height = double.NaN;
+					if (!double.IsNaN(control.Width))
+						control.Width = double.NaN;
+
 					Left += (oldWidth - ActualWidth) / 2;
 					Top += (oldHeight - ActualHeight) / 2;
 				}

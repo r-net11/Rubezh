@@ -42,15 +42,19 @@
         <Views:ApplicationView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ShellViewModel}">
-        <Views:ShellView />
-    </DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:ShellViewModel}">
+		<Views:ShellView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
+		<Views:ProgressView />
+	</DataTemplate>
 
 
 
 
 
-    <DataTemplate DataType="{x:Type ViewModels:_debugSaveCancelViewModel}">
+	<DataTemplate DataType="{x:Type ViewModels:_debugSaveCancelViewModel}">
         <Views:_debugSaveCancelView />
     </DataTemplate>
 

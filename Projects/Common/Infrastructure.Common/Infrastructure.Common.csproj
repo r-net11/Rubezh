@@ -176,7 +176,7 @@
     <Compile Include="WaitWrapper.cs" />
     <Compile Include="Windows\SaveSizeAttribute.cs" />
     <Compile Include="Windows\ViewModels\IWindowIdentity.cs" />
-    <Compile Include="Windows\WindowService.cs" />
+    <Compile Include="Windows\ApplicationService.cs" />
     <Compile Include="Windows\DataTemplates\HierarhicalDataTemplateSelector.cs" />
     <Compile Include="Windows\DialogService.cs" />
     <Compile Include="Windows\MessageBoxService.cs" />
@@ -213,6 +213,9 @@
     </Compile>
     <Compile Include="Windows\Views\MessageBoxView.xaml.cs">
       <DependentUpon>MessageBoxView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\Views\ProgressView.xaml.cs">
+      <DependentUpon>ProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\Views\SaveCancelDialogView.xaml.cs">
       <DependentUpon>SaveCancelDialogView.xaml</DependentUpon>
@@ -289,6 +292,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Views\MessageBoxView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Views\ProgressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -16,6 +16,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 			ContentFotter = null;
 			ContentHeader = null;
 			MainContent = null;
+			MinWidth = 800;
+			MinHeight = 600;
 		}
 
 		private BaseViewModel _toolbar;
@@ -66,6 +68,47 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_navigationItems = value;
 				OnPropertyChanged("NavigationItems1");
+			}
+		}
+
+		private double _minWidth;
+		public double MinWidth
+		{
+			get { return _minWidth; }
+			set
+			{
+				_minWidth = value;
+				OnPropertyChanged("MinWidth");
+			}
+		}
+		private double _minHeight;
+		public double MinHeight
+		{
+			get { return _minHeight; }
+			set
+			{
+				_minHeight = value;
+				OnPropertyChanged("MinHeight");
+			}
+		}
+		private double _height;
+		public double Height
+		{
+			get { return _height; }
+			set
+			{
+				_height = value;
+				OnPropertyChanged("Height");
+			}
+		}
+		private double _width;
+		public double Width
+		{
+			get { return _width; }
+			set
+			{
+				_width = value;
+				OnPropertyChanged("Width");
 			}
 		}
 	}

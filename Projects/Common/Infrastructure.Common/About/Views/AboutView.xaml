@@ -16,6 +16,7 @@
 				<TextBlock Text="Версия" Margin="2" />
 				<TextBlock Text="{Binding Version, Mode=OneWay}" />
 			</StackPanel>
+			<TextBlock Text="{Binding Company, Mode=OneWay}" />
 			<TextBlock Text="{Binding Copyright, Mode=OneWay}" />
 			<TextBlock Text="Все права защищены." />
 			<TextBlock Text="{Binding Trademark, Mode=OneWay}" />

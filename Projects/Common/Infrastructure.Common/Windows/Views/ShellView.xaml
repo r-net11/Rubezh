@@ -1,7 +1,11 @@
 ﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.ShellView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Navigation="clr-namespace:Infrastructure.Common.Navigation">
+             xmlns:Navigation="clr-namespace:Infrastructure.Common.Navigation"
+			 MinWidth="{Binding MinWidth}" 
+			 MinHeight="{Binding MinHeight}"
+			 Height="{Binding Height}"
+			 Width="{Binding Width}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

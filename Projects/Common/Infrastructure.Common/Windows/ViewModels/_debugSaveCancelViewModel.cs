@@ -7,25 +7,27 @@ using System.Windows.Data;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-			//ResourceService srv = new ResourceService();
-			//srv.AddResource(new ResourceDescription(typeof(WindowBaseViewModel).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
-			//srv.AddResource(new ResourceDescription(typeof(WindowBaseViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
+	//ResourceService srv = new ResourceService();
+	//srv.AddResource(new ResourceDescription(typeof(WindowBaseViewModel).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+	//srv.AddResource(new ResourceDescription(typeof(WindowBaseViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
 
-			////var aboutViewModel = new Infrastructure.Common.About.ViewModels.AboutViewModel();
-			////Infrastructure.Common.Windows.DialogService.ShowModalWindow(aboutViewModel);
+	////var aboutViewModel = new Infrastructure.Common.About.ViewModels.AboutViewModel();
+	////Infrastructure.Common.Windows.DialogService.ShowModalWindow(aboutViewModel);
 
-			////var connection = new Infrastructure.Common.Windows.ViewModels.ConnectionViewModel() { Title = "Connecting..." };
-			////Infrastructure.Common.Windows.DialogService.ShowModalWindow(connection);
+	////var connection = new Infrastructure.Common.Windows.ViewModels.ConnectionViewModel() { Title = "Connecting..." };
+	////Infrastructure.Common.Windows.DialogService.ShowWindow(connection);
+	////System.Threading.Thread.Sleep(1000);
+	//////Infrastructure.Common.Windows.MessageBoxService.ShowError("exception occured", "error....");
+	//////Application.Current.Shutdown();
+	////_debugSaveCancelViewModel model = new _debugSaveCancelViewModel() { Title = "Test" };
+	////Infrastructure.Common.Windows.ApplicationService.Run(model);
+	////connection.Close();
+	////System.Threading.Thread.Sleep(1000);
+	////Infrastructure.Common.Windows.ApplicationService.ShutDown();
 
-			////var messageBoxViewModel = new Infrastructure.Common.MessageBox.MessageBoxViewModel("error....", "exception occured", MessageBoxButton.OK, MessageBoxImage.Error, false);
-			////var dialogWindow = new DialogWindow();
-			////dialogWindow.SetContent(messageBoxViewModel);
-			////dialogWindow.Show();
-			////Infrastructure.Common.Windows.MessageBoxService.ShowError("exception occured", "error....");
-
-			//_debugSaveCancelViewModel model = new _debugSaveCancelViewModel() { Title = "Test" };
-			//Infrastructure.Common.Windows.DialogService.ShowModalWindow(model);
-			//return;
+	//Infrastructure.Common.Windows.ViewModels.ProgressViewModel model = new Infrastructure.Common.Windows.ViewModels.ProgressViewModel() { Title = "Progress..." };
+	//Infrastructure.Common.Windows.DialogService.ShowWindow(model);
+	//return;
 
 	public class _debugSaveCancelViewModel : ShellViewModel
 	{
