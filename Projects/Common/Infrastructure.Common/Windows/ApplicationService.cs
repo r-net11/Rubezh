@@ -10,15 +10,20 @@ namespace Infrastructure.Common.Windows
 {
 	public static class ApplicationService
 	{
-		public static void Run(ShellViewModel model)
+		public static void Run(ApplicationViewModel model)
 		{
 			WindowBaseView win = new WindowBaseView(model);
 			model.Surface.Owner = null;
 			model.Surface.ShowInTaskbar = true;
 			model.Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-			Application.Current.MainWindow = win;
-			Application.Current.MainWindow.Show();
-			Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+			if (Application.Current.Dispatcher.CheckAccess())
+			{
+				Application.Current.MainWindow = win;
+				Application.Current.MainWindow.Show();
+				Application.Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
+			}
+			else
+				win.Show();
 		}
 		public static void ShutDown()
 		{

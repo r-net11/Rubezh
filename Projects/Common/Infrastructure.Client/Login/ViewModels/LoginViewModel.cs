@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using Infrastructure.Common.MessageBox;
 using FiresecClient;
 using Infrastructure.Common;
 using System.Configuration;
 using Infrastructure.Client.Properties;
 using Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Client.Login.ViewModels
 {
-	internal class LoginViewModel : DialogContent
+	internal class LoginViewModel : SaveCancelDialogViewModel
 	{
 		private PasswordViewType _passwordViewType;
 
@@ -22,9 +23,6 @@ namespace Infrastructure.Client.Login.ViewModels
 		}
 		public LoginViewModel(string clientType, PasswordViewType passwordViewType)
 		{
-			ConnectCommand = new RelayCommand(OnConnect);
-			CancelCommand = new RelayCommand(OnCancel);
-
 			ClientType = clientType;
 			_passwordViewType = passwordViewType;
 
@@ -52,6 +50,7 @@ namespace Infrastructure.Client.Login.ViewModels
 			IsConnected = false;
 			IsCanceled = false;
 			Message = null;
+			Sizable = false;
 		}
 
 		string _userName;
@@ -111,8 +110,7 @@ namespace Infrastructure.Client.Login.ViewModels
 		public string Message { get; private set; }
 		public string ClientType { get; private set; }
 
-		public RelayCommand ConnectCommand { get; private set; }
-		void OnConnect()
+		protected override bool Save()
 		{
 			Close(true);
 			IsCanceled = false;
@@ -136,27 +134,26 @@ namespace Infrastructure.Client.Login.ViewModels
 				Settings.Default.SavePassword = SavePassword;
 				Settings.Default.Save();
 			}
+			return true;
 		}
-		void OnCancel()
+		protected override bool Cancel()
 		{
 			Message = null;
-			Close(false);
+			return base.Cancel();
 		}
 
-		public override void Close(bool result)
+		public override void OnClosed()
 		{
 			IsCanceled = true;
-			base.Close(result);
+			base.OnClosed();
 		}
 
 		private void DoConnect()
 		{
-			if (Surface != null)
-				Surface.Hide();
-			var preLoadWindow = new PreLoadWindow() { PreLoadText = "Соединение с сервером..." };
-			preLoadWindow.Show();
+			ConnectionViewModel preLoadWindow = new ConnectionViewModel() { Title = "Соединение с сервером..." };
+			DialogService.ShowWindow(preLoadWindow);
 			Message = FiresecManager.Connect(ClientType, GetServerAddress(), UserName, Password);
-			preLoadWindow.Close();
+			preLoadWindow.ForceClose();
 		}
 
 		private string GetServerAddress()

@@ -8,9 +8,11 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ProgressViewModel : WindowBaseViewModel
 	{
-		public ProgressViewModel()
+		public ProgressViewModel(bool restrictClose = true)
 		{
 			Sizable = false;
+			TopMost = true;
+			RestrictClose = restrictClose;
 		}
 
 		public string Product
@@ -32,6 +34,18 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public string Version
 		{
 			get { return Assembly.GetEntryAssembly().GetName().Version.ToString(); }
+		}
+
+		public bool RestrictClose { get; private set; }
+
+		public override bool OnClosing(bool isCanceled)
+		{
+			return RestrictClose;
+		}
+		public void ForceClose()
+		{
+			RestrictClose = false;
+			Close();
 		}
 	}
 }

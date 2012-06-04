@@ -8,9 +8,9 @@ using Common;
 using FireAdministrator.ViewModels;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common.MessageBox;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Client.About.ViewModels;
+using Infrastructure.Common.About.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace FireAdministrator.Views
 {
@@ -20,7 +20,7 @@ namespace FireAdministrator.Views
 		{
 			InitializeComponent();
 			DataContext = this;
-			_navigation.User = FiresecManager.CurrentUser;
+			//navigation.User = FiresecManager.CurrentUser;
 		}
 
 		void Header_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
@@ -74,19 +74,13 @@ namespace FireAdministrator.Views
 		void OnShowAbout(object sender, RoutedEventArgs e)
 		{
 			var aboutViewModel = new AboutViewModel();
-			ServiceFactory.UserDialogs.ShowModalWindow(aboutViewModel);
+			DialogService.ShowModalWindow(aboutViewModel);
 		}
 
 		public object Menu
 		{
 			get { return _menu.Content; }
 			set { _menu.DataContext = _menu.Content = value; }
-		}
-
-		public List<NavigationItem> Navigation
-		{
-			get { return _navigation.Navigation; }
-			set { _navigation.Navigation = value; }
 		}
 
 		public object ValidatoinArea

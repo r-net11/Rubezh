@@ -3,17 +3,17 @@ using System.IO;
 using System.Threading;
 using System.Windows;
 using Common;
-using Infrastructure.Common.MessageBox;
+using FiresecService.Service;
 using FiresecService.ViewModels;
 using FiresecServiceRunner;
 using Infrastructure.Common;
-using FiresecService.Service;
+using Infrastructure.Common.Windows;
 
 namespace FiresecService
 {
 	public static class Bootstrapper
 	{
-		static Thread WindowThread;
+		static Thread WindowThread = null;
 		static bool IsHostOpened = false;
 
 		public static void Run()
@@ -28,6 +28,7 @@ namespace FiresecService
 
 				var resourceService = new ResourceService();
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
+				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
 				var synchronisationHostWindow = new Window()
 				{
@@ -56,13 +57,11 @@ namespace FiresecService
 
 		static void OnWorkThread()
 		{
-			var mainWindow = new MainWindow();
-			var mainViewModel = new MainViewModel();
-			mainViewModel.Satus = IsHostOpened ? "Хост сервиса открыт" : "Хост сервиса НЕ открыт";
-			mainWindow.DataContext = mainViewModel;
 			try
 			{
-				mainWindow.Show();
+				var mainViewModel = new MainViewModel();
+				mainViewModel.Satus = IsHostOpened ? "Хост сервиса открыт" : "Хост сервиса НЕ открыт";
+				ApplicationService.Run(mainViewModel);
 			}
 			catch (Exception e)
 			{
@@ -73,9 +72,6 @@ namespace FiresecService
 
 		public static void Close()
 		{
-			//if (Application.Current != null)
-			//    Application.Current.Shutdown();
-
 			if (WindowThread != null)
 			{
 				WindowThread.Interrupt();

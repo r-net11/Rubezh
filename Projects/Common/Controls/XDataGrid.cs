@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Controls
 {

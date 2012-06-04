@@ -48,10 +48,6 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="About\ViewModels\AboutViewModel.cs" />
-    <Compile Include="About\Views\AboutView.xaml.cs">
-      <DependentUpon>AboutView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="BaseBootstrapper.cs" />
     <Compile Include="Login\LoginService.cs" />
     <Compile Include="Login\ViewModels\LoginViewModel.cs" />
@@ -101,14 +97,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Page Include="About\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="About\Views\AboutView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

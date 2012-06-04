@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecClient.Validation;
 using Infrastructure.Common;
 using Infrastructure;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireAdministrator.ViewModels
 {

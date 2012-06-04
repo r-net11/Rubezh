@@ -4,16 +4,14 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Microsoft.Win32;
-using FireAdministrator.ViewModels;
-using System.Windows.Input;
-using Infrastructure.Common;
-using Common;
 
 namespace FireAdministrator.Views
 {

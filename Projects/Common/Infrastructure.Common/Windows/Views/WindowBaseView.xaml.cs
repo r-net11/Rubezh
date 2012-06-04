@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 using System.ComponentModel;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Windows.Controls.Primitives;
+using System.Reflection;
 
 namespace Infrastructure.Common.Windows.Views
 {
@@ -68,6 +69,14 @@ namespace Infrastructure.Common.Windows.Views
 		{
 			if (_model.CloseOnEscape && e.Key == Key.Escape)
 				Close();
+		}
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			_model.Loaded();
+		}
+		private void Window_Unloaded(object sender, RoutedEventArgs e)
+		{
+			_model.Unloaded();
 		}
 
 		private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecAPI.Models;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Navigation
 {

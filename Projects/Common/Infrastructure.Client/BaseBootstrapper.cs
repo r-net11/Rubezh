@@ -8,9 +8,10 @@ using Common;
 using Infrastructure.Client.Login.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Configuration;
-using Infrastructure.Common.MessageBox;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Client.Properties;
+using Infrastructure.Common.About.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Client
 {
@@ -27,8 +28,9 @@ namespace Infrastructure.Client
 		protected virtual void RegisterResource()
 		{
 			ResourceService resourceService = new ResourceService();
+			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(BaseBootstrapper).Assembly, "Login/DataTemplates/Dictionary.xaml"));
-			resourceService.AddResource(new ResourceDescription(typeof(LoginViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(typeof(AboutViewModel).Assembly, "About/DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(LoginViewModel).Assembly, "DataTemplates/Dictionary.xaml"));
 		}
 

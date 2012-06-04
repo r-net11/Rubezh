@@ -29,6 +29,11 @@ namespace Infrastructure.Common.Windows.ViewModels
 	//Infrastructure.Common.Windows.DialogService.ShowWindow(model);
 	//return;
 
+	public class _debugApplication : ApplicationViewModel
+	{
+
+	}
+
 	public class _debugSaveCancelViewModel : ShellViewModel
 	{
 		public _debugSaveCancelViewModel()

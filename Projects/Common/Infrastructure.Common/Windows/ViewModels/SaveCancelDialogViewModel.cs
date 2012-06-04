@@ -58,6 +58,10 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			return true;
 		}
+		protected virtual bool Cancel()
+		{
+			return false;
+		}
 
 		private void OnSave()
 		{
@@ -67,7 +71,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 		private void OnCancel()
 		{
-			Close(false);
+			bool result = Cancel();
+			Close(result);
 		}
 	}
 }

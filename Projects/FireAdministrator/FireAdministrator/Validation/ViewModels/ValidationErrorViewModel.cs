@@ -2,6 +2,7 @@
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireAdministrator.ViewModels
 {

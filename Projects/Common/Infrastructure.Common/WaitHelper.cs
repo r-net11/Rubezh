@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
-using Infrastructure.Common.MessageBox;
 using Common;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common
 {

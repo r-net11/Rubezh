@@ -3,8 +3,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Windows;
-using Infrastructure.Common.MessageBox;
 using Common;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common
 {

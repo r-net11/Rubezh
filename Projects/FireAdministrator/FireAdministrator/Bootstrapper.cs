@@ -6,12 +6,12 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
 using Infrastructure.Client;
 using Infrastructure.Common.Windows.Views;
 using Infrastructure.Common.Windows.ViewModels;
 using System;
+using Infrastructure.Common.Windows;
 
 namespace FireAdministrator
 {
@@ -19,23 +19,22 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
-			if (!MutexHelper.IsNew("FireAdministrator"))
-			{
-				MessageBoxService.ShowWarning("Другой экзэмпляр приложения уже запущен. Приложение будет закрыто");
-				Application.Current.Shutdown();
-				System.Environment.Exit(1);
-				return;
-			}
+			//if (!MutexHelper.IsNew("FireAdministrator"))
+			//{
+			//    MessageBoxService.ShowWarning("Другой экзэмпляр приложения уже запущен. Приложение будет закрыто");
+			//    Application.Current.Shutdown();
+			//    System.Environment.Exit(1);
+			//    return;
+			//}
 
 			AppSettingsHelper.InitializeAppSettings();
-			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new ProgressService(), new ValidationService());
+			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
-			var preLoadWindow = new PreLoadWindow();
 			if (ServiceFactory.LoginService.ExecuteConnect())
 			{
-				preLoadWindow.PreLoadText = "Инициализация компонент...";
-				preLoadWindow.Show();
+				var preLoadWindow = new Infrastructure.Common.Windows.ViewModels.ProgressViewModel() { Title = "Инициализация компонент..." };
+				DialogService.ShowWindow(preLoadWindow);
 
 				FiresecManager.GetConfiguration();
 				if (FiresecManager.Drivers.Count == 0)
@@ -50,20 +49,18 @@ namespace FireAdministrator
 				}
 				else
 				{
-					var ShellView = new FireAdministrator.Views.ShellView();
-					ServiceFactory.ShellView = ShellView;
-					ShellView.Navigation = GetNavigationItems();
+					var shell = new AdministratorShellViewModel();
+					shell.NavigationItems = GetNavigationItems();
+					//ServiceFactory.ShellView = shell.Surface;
 					InitializeModules();
-					Application.Current.MainWindow = ShellView;
-					Application.Current.MainWindow.Show();
+					FireAdministrator.Views.ShellView view = new Views.ShellView();
+					view.Show();
+					ApplicationService.Run(shell);
 				}
-				preLoadWindow.Close();
+				preLoadWindow.ForceClose();
 			}
 			else
-			{
 				Application.Current.Shutdown();
-				System.Environment.Exit(1);
-			}
 
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 

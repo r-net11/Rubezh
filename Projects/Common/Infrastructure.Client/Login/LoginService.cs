@@ -4,20 +4,19 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common;
 using Infrastructure.Client.Login.ViewModels;
-using Infrastructure.Common.MessageBox;
 using System.Configuration;
+using Infrastructure.Common.Windows;
+using System.Windows;
 
 namespace Infrastructure.Client.Login
 {
 	public class LoginService
 	{
-		private IUserDialogService _userDialogService;
 		private string _clientType;
 		private string _title;
 
-		public LoginService(IUserDialogService userDialogService, string clientType, string title = null)
+		public LoginService(string clientType, string title = null)
 		{
-			_userDialogService = userDialogService;
 			_clientType = clientType;
 			_title = title ?? "Авторизация";
 		}
@@ -37,18 +36,20 @@ namespace Infrastructure.Client.Login
 
 		private bool Execute(LoginViewModel.PasswordViewType passwordViewType)
 		{
+			Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 			var loginViewModel = new LoginViewModel(_clientType, passwordViewType) { Title = _title };
 			bool isAutoconnect = GetIsAutoConnect() && passwordViewType == LoginViewModel.PasswordViewType.Connect;
 			while (!loginViewModel.IsConnected && !loginViewModel.IsCanceled)
 			{
 				if (isAutoconnect)
-					loginViewModel.ConnectCommand.Execute();
+					loginViewModel.SaveCommand.Execute();
 				else
-					_userDialogService.ShowModalWindow(loginViewModel);
+					DialogService.ShowModalWindow(loginViewModel);
 				if (!string.IsNullOrEmpty(loginViewModel.Message))
 					MessageBoxService.Show(loginViewModel.Message);
 				isAutoconnect = false;
 			}
+			Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
 			return loginViewModel.IsConnected;
 		}
 		private bool GetIsAutoConnect()

@@ -15,6 +15,8 @@
        	KeyDown="Window_KeyDown"
         Closing="Window_Closing"
         Closed="Window_Closed"
+		Loaded="Window_Loaded"
+		Unloaded="Window_Unloaded"
         Height="100"
         Width="100">
 	<Grid>

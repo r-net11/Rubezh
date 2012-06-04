@@ -55,7 +55,10 @@
 
 
 	<DataTemplate DataType="{x:Type ViewModels:_debugSaveCancelViewModel}">
-        <Views:_debugSaveCancelView />
-    </DataTemplate>
+		<Views:_debugSaveCancelView />
+	</DataTemplate>
+	<DataTemplate DataType="{x:Type ViewModels:_debugApplication}">
+		<Views:_debugSaveCancelView />
+	</DataTemplate>
 
 </ResourceDictionary>

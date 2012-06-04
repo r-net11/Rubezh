@@ -6,24 +6,16 @@
 			 MinHeight="{Binding MinHeight}"
 			 Height="{Binding Height}"
 			 Width="{Binding Width}">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <ContentPresenter Grid.Row="0" Content="{Binding Toolbar}"/>
-        <DockPanel Grid.Row="1">
-            <ContentPresenter Content="{Binding ContentHeader}" DockPanel.Dock="Top"/>
-            <ContentPresenter Content="{Binding ContentFotter}" DockPanel.Dock="Bottom"/>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="200" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Navigation:NavigationView Grid.Column="0" Margin="5 5 0 5"/>
-                <ContentPresenter Grid.Column="1" Content="{Binding MainContent}"/>
-            </Grid>
-        </DockPanel>
-
-    </Grid>
+	<DockPanel>
+		<ContentPresenter Content="{Binding ContentHeader}" DockPanel.Dock="Top"/>
+		<ContentPresenter Content="{Binding ContentFotter}" DockPanel.Dock="Bottom"/>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="200" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Navigation:NavigationView Grid.Column="0" Margin="5 5 0 5"/>
+			<ContentPresenter Grid.Column="1" Content="{Binding MainContent}"/>
+		</Grid>
+	</DockPanel>
 </UserControl>

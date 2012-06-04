@@ -122,28 +122,10 @@
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
-    <Compile Include="Dialogs\BaseViewModel.cs" />
-    <Compile Include="Dialogs\DialogContent.cs" />
-    <Compile Include="Dialogs\DialogWindow.xaml.cs">
-      <DependentUpon>DialogWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\IDialogContent.cs" />
-    <Compile Include="Dialogs\IEditingViewModel.cs" />
-    <Compile Include="Dialogs\IDialogContentGuid.cs" />
-    <Compile Include="Dialogs\SaveCancelDialogContent.cs" />
-    <Compile Include="Dialogs\IStandartDialogService.cs" />
-    <Compile Include="Dialogs\IUserDialogService.cs" />
+    <Compile Include="Windows\ViewModels\BaseViewModel.cs" />
+    <Compile Include="Windows\ViewModels\IEditingViewModel.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="IViewPart.cs" />
-    <Compile Include="MessageBox\MessageBoxService.cs" />
-    <Compile Include="MessageBox\UserDialogService.cs" />
-    <Compile Include="MessageBox\ViewModel\MessageBoxViewModel.cs" />
-    <Compile Include="MessageBox\View\MessageBoxView.xaml.cs">
-      <DependentUpon>MessageBoxView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MessageBox\View\PreLoadWindow.xaml.cs">
-      <DependentUpon>PreLoadWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ModuleBase.cs" />
     <Compile Include="Navigation\NavigationItem.cs" />
     <Compile Include="Navigation\NavigationView.xaml.cs">
@@ -151,7 +133,6 @@
     </Compile>
     <Compile Include="NotifyPropertyChangedHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Dialogs\RegionViewModel.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -239,22 +220,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\DialogWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MessageBox\DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MessageBox\View\MessageBoxView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MessageBox\View\PreLoadWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Navigation\NavigationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -325,15 +290,6 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="MessageBox\DialogBoxImages\information.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="MessageBox\DialogBoxImages\question.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="MessageBox\DialogBoxImages\warning.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecService.Infrastructure;
 using Infrastructure.Common;
 using FiresecService.Service;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace FiresecService.ViewModels
 {
-	public class MainViewModel : BaseViewModel
+	public class MainViewModel : ApplicationViewModel
 	{
 		public static MainViewModel Current { get; private set; }
 
@@ -18,6 +19,7 @@ namespace FiresecService.ViewModels
 			ShowImitatorCommand = new RelayCommand(OnShowImitator);
 			ReloadCommand = new RelayCommand(OnReload);
 			Connections = new ObservableCollection<ConnectionViewModel>();
+			Title = "Сервер ОПС Firesec-2";
 		}
 
 		public RelayCommand ReloadCommand { get; private set; }
@@ -25,7 +27,6 @@ namespace FiresecService.ViewModels
 		{
 			Connections = new ObservableCollection<ConnectionViewModel>();
 		}
-
 		public RelayCommand ShowImitatorCommand { get; private set; }
 		void OnShowImitator()
 		{
@@ -34,13 +35,22 @@ namespace FiresecService.ViewModels
 				if (connection.ClientType == "ITV")
 				{
 					var imitatorViewModel = new ImitatorViewModel(connection.FiresecService);
-					UserDialogService.ShowModalWindow(imitatorViewModel);
+					DialogService.ShowModalWindow(imitatorViewModel);
 					break;
 				}
 			}
 		}
 
-		public string Satus { get; set; }
+		private string _status;
+		public string Satus
+		{
+			get { return _status; }
+			set
+			{
+				_status = value;
+				OnPropertyChanged("Status");
+			}
+		}
 		public string ComServersSatus { get; set; }
 		public void UpdateComServersCount()
 		{
@@ -85,7 +95,6 @@ namespace FiresecService.ViewModels
 			}
 			));
 		}
-
 		public void RemoveConnection(Guid uid)
 		{
 			Dispatcher.Invoke(new Action(
@@ -96,7 +105,6 @@ namespace FiresecService.ViewModels
 			}
 			));
 		}
-
 		public void EditConnection(Guid uid, string userName)
 		{
 			Dispatcher.Invoke(new Action(
@@ -108,7 +116,6 @@ namespace FiresecService.ViewModels
 			}
 			));
 		}
-
 		public void UpdateCurrentOperationName(Guid uid, string operationName)
 		{
 			Dispatcher.Invoke(new Action(
@@ -121,6 +128,12 @@ namespace FiresecService.ViewModels
 				}
 			}
 			));
+		}
+
+		public override bool OnClosing(bool isCanceled)
+		{
+			Minimize();
+			return true;
 		}
 	}
 }

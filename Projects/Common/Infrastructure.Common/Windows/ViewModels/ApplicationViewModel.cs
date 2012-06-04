@@ -58,6 +58,10 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			Surface.WindowState = Surface.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
 		}
+		public void Normalize()
+		{
+			Surface.WindowState = WindowState.Normal;
+		}
 		public virtual void ShowHelp()
 		{
 			Process.Start("Manual.pdf");
@@ -66,6 +70,17 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			var aboutViewModel = new AboutViewModel();
 			DialogService.ShowModalWindow(aboutViewModel);
+		}
+
+		private BaseViewModel _toolbar;
+		public BaseViewModel Toolbar
+		{
+			get { return _toolbar; }
+			set
+			{
+				_toolbar = value;
+				OnPropertyChanged("Toolbar");
+			}
 		}
 	}
 }

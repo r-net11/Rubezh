@@ -4,6 +4,7 @@ using System.Windows.Threading;
 using Common;
 using FireAdministrator.ViewModels;
 using Infrastructure;
+using Infrastructure.Common.Windows;
 
 namespace FireAdministrator
 {
@@ -24,7 +25,7 @@ namespace FireAdministrator
             backgroundWorker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(backgroundWorker_RunWorkerCompleted);
             backgroundWorker.RunWorkerAsync();
 
-            ServiceFactory.UserDialogs.ShowModalWindow(_progressViewModel);
+            DialogService.ShowModalWindow(_progressViewModel);
         }
 
         void backgroundWorker_DoWork(object sender, DoWorkEventArgs e)

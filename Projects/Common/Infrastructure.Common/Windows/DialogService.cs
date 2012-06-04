@@ -6,13 +6,16 @@ using Infrastructure.Common.Windows.Views;
 using Infrastructure.Common.Windows.ViewModels;
 using Common;
 using System.Windows;
+using System.Reflection;
 
 namespace Infrastructure.Common.Windows
 {
-	public class DialogService
+	public static class DialogService
 	{
 		public static Window GetActiveWindow()
 		{
+			if (!Application.Current.Dispatcher.CheckAccess())
+				return (Window)Application.Current.Dispatcher.Invoke((Func<Window>)GetActiveWindow);
 			return Application.Current.Windows.Cast<Window>().SingleOrDefault(x => x.IsActive);
 		}
 
@@ -95,6 +98,11 @@ namespace Infrastructure.Common.Windows
 			else
 				Properties.Settings.Default.WindowSizeState.Add(key, rect.ToString());
 			Properties.Settings.Default.Save();
+		}
+
+		public static bool IsModal(this Window window)
+		{
+			return (bool)typeof(Window).GetField("_showingAsDialog", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(window);
 		}
 	}
 }

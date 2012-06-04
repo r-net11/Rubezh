@@ -1,9 +1,10 @@
 ﻿using System.Collections.ObjectModel;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiresecService.ViewModels
 {
-	public class ImitatorViewModel : DialogContent
+	public class ImitatorViewModel : DialogViewModel
 	{
 		FiresecService.Service.FiresecService FiresecService;
 

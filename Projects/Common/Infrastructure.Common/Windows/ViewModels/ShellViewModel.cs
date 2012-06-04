@@ -20,16 +20,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			MinHeight = 600;
 		}
 
-		private BaseViewModel _toolbar;
-		public BaseViewModel Toolbar
-		{
-			get { return _toolbar; }
-			set
-			{
-				_toolbar = value;
-				OnPropertyChanged("Toolbar");
-			}
-		}
 		private BaseViewModel _contentHeader;
 		public BaseViewModel ContentHeader
 		{

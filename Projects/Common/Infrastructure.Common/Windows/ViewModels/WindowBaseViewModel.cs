@@ -81,7 +81,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			if (Surface != null)
 			{
-				if (ComponentDispatcher.IsThreadModal)
+				if (ComponentDispatcher.IsThreadModal && Surface.IsModal())
 					Surface.DialogResult = result;
 				Surface.Close();
 			}
@@ -98,6 +98,13 @@ namespace Infrastructure.Common.Windows.ViewModels
 			if (Closed != null)
 				Closed(this, EventArgs.Empty);
 			OnClosed();
+		}
+
+		public virtual void Loaded()
+		{
+		}
+		public virtual void Unloaded()
+		{
 		}
 	}
 }

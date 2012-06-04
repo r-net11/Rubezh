@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="ResizeThumbStyle" TargetType="Thumb">
-        <Setter Property="Cursor" Value="SizeNWSE" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
