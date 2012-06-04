@@ -3,10 +3,11 @@ using FiresecAPI.Models.Skud;
 using FiresecClient;
 using Infrastructure.Common;
 using SkudModule.Properties;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SkudModule.ViewModels
 {
-	public class EmployeeCardDetailsViewModel : SaveCancelDialogContent
+	public class EmployeeCardDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public EmployeeCardViewModel EmployeeCardViewModel { get; private set; }
 		public EmployeeCardDetails Card { get; private set; }
@@ -18,7 +19,7 @@ namespace SkudModule.ViewModels
 		{
 			EmployeeCardViewModel = employeeCardViewModel;
 			Title = Resources.EmployeeCardTitle;
-			SaveText = Resources.SaveText;
+			SaveCaption = Resources.SaveText;
 			Initialize();
 		}
 
@@ -38,25 +39,27 @@ namespace SkudModule.ViewModels
 		public string Department { get; set; }
 		public string Position { get; set; }
 
-		protected override void Save(ref bool cancel)
+		protected override bool Save()
 		{
-			base.Save(ref cancel);
-			if (cancel)
-				return;
-			cancel = !FiresecManager.SaveEmployeeCard(Card);
-			if (!cancel)
+			bool result = base.Save();
+			if (result)
 			{
-				if (EmployeeCardViewModel == null)
-					EmployeeCardViewModel = new ViewModels.EmployeeCardViewModel(new EmployeeCard());
-				EmployeeCardViewModel.EmployeeCard.Id = Card.Id;
-				EmployeeCardViewModel.EmployeeCard.ClockNumber = Card.ClockNumber;
-				EmployeeCardViewModel.EmployeeCard.FirstName = Card.FirstName;
-				EmployeeCardViewModel.EmployeeCard.LastName = Card.LastName;
-				EmployeeCardViewModel.EmployeeCard.SecondName = Card.SecondName;
-				EmployeeCardViewModel.EmployeeCard.Department = Department;
-				EmployeeCardViewModel.EmployeeCard.Group = Group;
-				EmployeeCardViewModel.EmployeeCard.Position = Position;
+				result = FiresecManager.SaveEmployeeCard(Card);
+				if (result)
+				{
+					if (EmployeeCardViewModel == null)
+						EmployeeCardViewModel = new ViewModels.EmployeeCardViewModel(new EmployeeCard());
+					EmployeeCardViewModel.EmployeeCard.Id = Card.Id;
+					EmployeeCardViewModel.EmployeeCard.ClockNumber = Card.ClockNumber;
+					EmployeeCardViewModel.EmployeeCard.FirstName = Card.FirstName;
+					EmployeeCardViewModel.EmployeeCard.LastName = Card.LastName;
+					EmployeeCardViewModel.EmployeeCard.SecondName = Card.SecondName;
+					EmployeeCardViewModel.EmployeeCard.Department = Department;
+					EmployeeCardViewModel.EmployeeCard.Group = Group;
+					EmployeeCardViewModel.EmployeeCard.Position = Position;
+				}
 			}
+			return result;
 		}
 		protected override bool CanSave()
 		{

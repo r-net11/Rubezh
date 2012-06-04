@@ -6,10 +6,12 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
-	public class GuardViewModel : RegionViewModel
+	public class GuardViewModel : ViewPartViewModel
 	{
 		public GuardViewModel()
 		{
@@ -248,7 +250,7 @@ namespace DevicesModule.ViewModels
 		void OnShowSynchronization()
 		{
 			var guardSynchronizationViewModel = new GuardSynchronizationViewModel(SelectedDevice);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(guardSynchronizationViewModel))
+			if (DialogService.ShowModalWindow(guardSynchronizationViewModel))
 			{
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}
@@ -271,7 +273,7 @@ namespace DevicesModule.ViewModels
 		void OnEdit()
 		{
 			var userDetailsViewModel = new UserDetailsViewModel(SelectedAvailableUser.GuardUser);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
+			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
 				SelectedAvailableUser.GuardUser = userDetailsViewModel.GuardUser;
 				ServiceFactory.SaveService.DevicesChanged = true;
@@ -283,7 +285,7 @@ namespace DevicesModule.ViewModels
 			if (SelectedDeviceUser != null)
 			{
 				var userDetailsViewModel = new UserDetailsViewModel(SelectedDeviceUser.GuardUser);
-				if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
+				if (DialogService.ShowModalWindow(userDetailsViewModel))
 				{
 					SelectedDeviceUser.GuardUser = userDetailsViewModel.GuardUser;
 					ServiceFactory.SaveService.DevicesChanged = true;
@@ -303,7 +305,7 @@ namespace DevicesModule.ViewModels
 		void OnAdd()
 		{
 			var userDetailsViewModel = new UserDetailsViewModel();
-			if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
+			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
 				FiresecManager.DeviceConfiguration.GuardUsers.Add(userDetailsViewModel.GuardUser);
 				var userViewModel = new UserViewModel(userDetailsViewModel.GuardUser);

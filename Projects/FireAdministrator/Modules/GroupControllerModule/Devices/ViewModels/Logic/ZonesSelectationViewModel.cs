@@ -4,10 +4,11 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure.Common;
 using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-    public class ZonesSelectationViewModel : SaveCancelDialogContent
+    public class ZonesSelectationViewModel : SaveCancelDialogViewModel
     {
         public List<short> Zones { get; private set; }
 
@@ -122,9 +123,10 @@ namespace GKModule.ViewModels
             return SelectedTargetZone != null;
         }
 
-        protected override void Save(ref bool cancel)
-        {
-            Zones = new List<short>(TargetZones.Select(x => x.No));
-        }
+		protected override bool Save()
+		{
+			Zones = new List<short>(TargetZones.Select(x => x.No));
+			return base.Save();
+		}
     }
 }

@@ -1,14 +1,15 @@
 ﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SkudModule.ViewModels
 {
-    public class EmployeeDictionaryMenuViewModel
+    public class EmployeeDictionaryMenuViewModel : BaseViewModel
     {
-		public EmployeeDictionaryMenuViewModel(RegionViewModel dictionaryViewModel)
+		public EmployeeDictionaryMenuViewModel(BaseViewModel dictionaryViewModel)
         {
 			Context = dictionaryViewModel;
         }
 
-		public RegionViewModel Context { get; private set; }
+		public BaseViewModel Context { get; private set; }
     }
 }

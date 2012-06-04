@@ -4,13 +4,14 @@ using System.Windows;
 using AlarmModule;
 using AlarmModule.Events;
 using Common;
-using Infrastructure.Common.MessageBox;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Client;
 using FireMonitor.Views;
+using Infrastructure.Common.Windows;
+using FireMonitor.ViewModels;
 
 namespace FireMonitor
 {
@@ -28,39 +29,29 @@ namespace FireMonitor
 
 			AppConfigHelper.InitializeAppSettings();
 			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
-
-			ServiceFactory.Initialize(new LayoutService(), new UserDialogService(), new SecurityService());
+			ServiceFactory.Initialize(new LayoutService(), new SecurityService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
-			var preLoadWindow = new PreLoadWindow();
 			if (ServiceFactory.LoginService.ExecuteConnect())
 			{
-				preLoadWindow.PreLoadText = "Инициализация компонент...";
-				preLoadWindow.Show();
+				var preLoadWindow = new Infrastructure.Common.Windows.ViewModels.ProgressViewModel() { Title = "Инициализация компонент..." };
+				DialogService.ShowWindow(preLoadWindow);
+
 				FiresecManager.GetConfiguration();
 				if (FiresecManager.Drivers.Count == 0)
-				{
 					MessageBoxService.Show("Ошибка при получении списка драйверов с сервера");
-				}
 				FiresecManager.GetStates();
 
 				var operationResult = FiresecManager.FiresecService.CheckHaspPresence();
 				if (operationResult.HasError)
-				{
 					MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
-				}
 				var serverStatus = FiresecManager.FiresecService.GetStatus();
 				if (serverStatus != null)
-				{
 					MessageBoxService.ShowWarning(serverStatus);
-				}
 
 				if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Login))
 				{
 					ClientSettings.LoadSettings();
-
-					var shellView = new ShellView();
-					ServiceFactory.ShellView = shellView;
 
 					//if (ServiceFactory.AppSettings.ShowOnlyVideo)
 					//{
@@ -69,11 +60,10 @@ namespace FireMonitor
 					//    return;
 					//}
 
-					InitializeModules();
-					shellView.Navigation = GetNavigationItems();
+					var shell = new MonitorShellViewModel();
+					((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
+					RunShell(shell);
 
-					App.Current.MainWindow = shellView;
-					App.Current.MainWindow.Show();
 					FiresecCallbackService.ConfigurationChangedEvent += new Action(OnConfigurationChanged);
 				}
 				else
@@ -82,17 +72,14 @@ namespace FireMonitor
 					FiresecManager.Disconnect();
 				}
 
-				preLoadWindow.Close();
+				preLoadWindow.ForceClose();
 			}
 			else
-			{
 				Application.Current.Shutdown();
-			}
-
 			MutexHelper.KeepAlive();
 		}
 
-		void OnConfigurationChanged()
+		private void OnConfigurationChanged()
 		{
 			ServiceFactory.Layout.Close();
 
@@ -103,8 +90,7 @@ namespace FireMonitor
 			FiresecManager.UpdateStates();
 
 			//FiresecManager.FiresecService.StartPing();
-
-			ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() => { InitializeModules(); }));
+			ServiceFactory.SafeCall(InitializeModules);
 		}
 	}
 }

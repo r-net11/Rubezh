@@ -122,10 +122,12 @@
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
+    <Compile Include="Windows\ILayoutService.cs" />
+    <Compile Include="Windows\LayoutService.cs" />
     <Compile Include="Windows\ViewModels\BaseViewModel.cs" />
     <Compile Include="Windows\ViewModels\IEditingViewModel.cs" />
     <Compile Include="IModule.cs" />
-    <Compile Include="IViewPart.cs" />
+    <Compile Include="Windows\ViewModels\IViewPartViewModel.cs" />
     <Compile Include="ModuleBase.cs" />
     <Compile Include="Navigation\NavigationItem.cs" />
     <Compile Include="Navigation\NavigationView.xaml.cs">
@@ -172,8 +174,8 @@
     <Compile Include="Windows\ViewModels\ProgressViewModel.cs" />
     <Compile Include="Windows\ViewModels\SaveCancelDialogViewModel.cs" />
     <Compile Include="Windows\ViewModels\ShellViewModel.cs" />
+    <Compile Include="Windows\ViewModels\ViewPartViewModel.cs" />
     <Compile Include="Windows\ViewModels\WindowBaseViewModel.cs" />
-    <Compile Include="Windows\ViewModels\_debugSaveCancelViewModel.cs" />
     <Compile Include="Windows\Views\ApplicationHeaderView.xaml.cs">
       <DependentUpon>ApplicationHeaderView.xaml</DependentUpon>
     </Compile>
@@ -206,9 +208,6 @@
     </Compile>
     <Compile Include="Windows\Views\WindowBaseView.xaml.cs">
       <DependentUpon>WindowBaseView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Windows\Views\_debugSaveCancelView.xaml.cs">
-      <DependentUpon>_debugSaveCancelView.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -273,10 +272,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Windows\Views\WindowBaseView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Windows\Views\_debugSaveCancelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

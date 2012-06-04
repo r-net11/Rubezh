@@ -1,7 +1,8 @@
 ﻿
+using Infrastructure.Common.Windows.ViewModels;
 namespace InstructionsModule.ViewModels
 {
-    public class InstructionsMenuViewModel
+    public class InstructionsMenuViewModel : BaseViewModel
     {
         public InstructionsMenuViewModel(InstructionsViewModel instructionsViewModel)
         {

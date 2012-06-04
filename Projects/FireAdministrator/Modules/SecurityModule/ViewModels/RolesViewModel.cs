@@ -7,11 +7,12 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SecurityModule.ViewModels
 {
-    public class RolesViewModel : RegionViewModel, IEditingViewModel
+    public class RolesViewModel : ViewPartViewModel, IEditingViewModel
     {
         public RolesViewModel()
         {
@@ -56,7 +57,7 @@ namespace SecurityModule.ViewModels
         void OnAdd()
         {
             var roleDetailsViewModel = new RoleDetailsViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(roleDetailsViewModel))
+            if (DialogService.ShowModalWindow(roleDetailsViewModel))
             {
                 FiresecManager.SecurityConfiguration.UserRoles.Add(roleDetailsViewModel.Role);
                 Roles.Add(new RoleViewModel(roleDetailsViewModel.Role));
@@ -83,7 +84,7 @@ namespace SecurityModule.ViewModels
         void OnEdit()
         {
             var roleDetailsViewModel = new RoleDetailsViewModel(SelectedRole.Role);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(roleDetailsViewModel))
+			if (DialogService.ShowModalWindow(roleDetailsViewModel))
             {
                 RemovePermissionsFromUsersWithRole(SelectedRole.Role.Id, SelectedRole.Role.Permissions, roleDetailsViewModel.Role.Permissions);
                 AddPermissionsToUsersWithRole(SelectedRole.Role.Id, SelectedRole.Role.Permissions, roleDetailsViewModel.Role.Permissions);

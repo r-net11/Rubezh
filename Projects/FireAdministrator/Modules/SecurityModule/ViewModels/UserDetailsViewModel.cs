@@ -5,11 +5,12 @@ using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SecurityModule.ViewModels
 {
-    public class UserDetailsViewModel : SaveCancelDialogContent
+	public class UserDetailsViewModel : SaveCancelDialogViewModel
     {
         public RemoteAccessViewModel RemoteAccess { get; set; }
         public User User { get; private set; }
@@ -195,13 +196,14 @@ namespace SecurityModule.ViewModels
             User.RemoreAccess = RemoteAccess.GetModel();
         }
 
-        protected override void Save(ref bool cancel)
-        {
-            if (CheckLogin() && CheckPassword() && CheckRole())
-                SaveProperties();
-            else
-                cancel = true;
-        }
+		protected override bool Save()
+		{
+			if (CheckLogin() && CheckPassword() && CheckRole())
+				SaveProperties();
+			else
+				return false;
+			return base.Save();
+		}
 
         void ShowMessage(string message)
         {

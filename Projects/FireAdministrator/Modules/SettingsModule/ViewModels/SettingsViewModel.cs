@@ -3,16 +3,17 @@ using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
 using SettingsModule.Views;
 using System.Linq;
 using FiresecAPI.Models;
 using System.Collections.Generic;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SettingsModule.ViewModels
 {
-	public class SettingsViewModel : RegionViewModel
+	public class SettingsViewModel : ViewPartViewModel
 	{
 		public SettingsViewModel()
 		{

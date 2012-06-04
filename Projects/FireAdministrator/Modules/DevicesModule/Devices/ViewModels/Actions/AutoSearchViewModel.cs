@@ -4,10 +4,11 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class AutoSearchViewModel : SaveCancelDialogContent
+    public class AutoSearchViewModel : SaveCancelDialogViewModel
     {
         public ObservableCollection<DeviceViewModel> DeviceViewModels { get; set; }
         List<AutoSearchDeviceViewModel> allDevices;
@@ -77,11 +78,11 @@ namespace DevicesModule.ViewModels
             FiresecManager.DeviceConfiguration.Update();
         }
 
-        protected override void Save(ref bool cancel)
-        {
-            AddFromTree(Devices[0]);
-            cancel = true;
-            Close(false);
-        }
+		protected override bool Save()
+		{
+			AddFromTree(Devices[0]);
+			Close(false);
+			return false;
+		}
     }
 }

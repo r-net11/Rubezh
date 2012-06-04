@@ -6,12 +6,13 @@ using DevicesModule.Views;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class ZonesViewModel : RegionViewModel, IEditingViewModel
+	public class ZonesViewModel : ViewPartViewModel, IEditingViewModel
 	{
 		public ZoneDevicesViewModel ZoneDevices { get; set; }
 
@@ -76,7 +77,7 @@ namespace DevicesModule.ViewModels
 		public void CreateZone(CreateZoneEventArg createZoneEventArg)
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
-			if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.Zone);
 				createZoneEventArg.ZoneNo = zoneDetailsViewModel.Zone.No;
@@ -94,7 +95,7 @@ namespace DevicesModule.ViewModels
 		void OnAdd()
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
-			if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.Zone);
 				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
@@ -123,7 +124,7 @@ namespace DevicesModule.ViewModels
 		void OnEdit()
 		{
 			var zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				SelectedZone.Update(zoneDetailsViewModel.Zone);
 				ServiceFactory.SaveService.DevicesChanged = true;

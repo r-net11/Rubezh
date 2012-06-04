@@ -4,11 +4,12 @@ using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
-    public class ZonesViewModel : RegionViewModel, IEditingViewModel
+    public class ZonesViewModel : ViewPartViewModel, IEditingViewModel
     {
         public static ZonesViewModel Current { get; private set; }
         public ZoneDevicesViewModel ZoneDevices { get; set; }
@@ -74,7 +75,7 @@ namespace GKModule.ViewModels
         void OnAdd()
         {
             var zoneDetailsViewModel = new ZoneDetailsViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
             {
                 XManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.XZone);
                 Zones.Add(new ZoneViewModel(zoneDetailsViewModel.XZone));
@@ -101,7 +102,7 @@ namespace GKModule.ViewModels
         void OnEdit()
         {
             var zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.XZone);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneDetailsViewModel))
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
             {
                 SelectedZone.XZone = zoneDetailsViewModel.XZone;
                 SelectedZone.Update();

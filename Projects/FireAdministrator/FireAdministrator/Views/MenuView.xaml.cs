@@ -12,6 +12,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Microsoft.Win32;
+using FireAdministrator.ViewModels;
 
 namespace FireAdministrator.Views
 {
@@ -20,8 +21,15 @@ namespace FireAdministrator.Views
 		public MenuView()
 		{
 			InitializeComponent();
-			DataContext = this;
+			//DataContext = this;
+			DataContextChanged += new DependencyPropertyChangedEventHandler(MenuView_DataContextChanged);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
+		}
+
+		void MenuView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+		{
+			if (e.NewValue is MenuViewModel)
+				((MenuViewModel)e.NewValue).SetNewConfigEvent += (s, ee) => { ee.Cancel = !SetNewConfig(); };
 		}
 
 		void SaveService_Changed()
@@ -37,12 +45,12 @@ namespace FireAdministrator.Views
 			}
 		}
 
-		public void SetNewConfig()
+		public bool SetNewConfig()
 		{
 			if (CanChangeConfig == false)
 			{
 				MessageBoxService.Show("У вас нет прав на сохранение конфигурации");
-				return;
+				return false;
 			}
 
 			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
@@ -53,11 +61,11 @@ namespace FireAdministrator.Views
 				if (validationResult.CannotSave)
 				{
 					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
-					return;
+					return false;
 				}
 
 				if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") != MessageBoxResult.Yes)
-					return;
+					return false;
 			}
 
 			WaitHelper.Execute(() =>
@@ -85,6 +93,7 @@ namespace FireAdministrator.Views
 			});
 			ServiceFactory.SaveService.Reset();
 			_saveButton.IsEnabled = false;
+			return true;
 		}
 
 		void OnCreateNew(object sender, RoutedEventArgs e)

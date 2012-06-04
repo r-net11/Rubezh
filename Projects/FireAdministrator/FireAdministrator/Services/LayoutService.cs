@@ -5,105 +5,60 @@ using System.Windows.Controls;
 using FireAdministrator.Views;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using FireAdministrator.ViewModels;
 
 namespace FireAdministrator
 {
-    public class LayoutService : ILayoutService
-    {
-        List<ViewModelCash> ViewModelsCash = new List<ViewModelCash>();
-        IViewPart CurrentViewModel;
+	public class LayoutService : ILayoutService
+	{
+		private Infrastructure.Common.Windows.ILayoutService ApplicationLayoutService
+		{
+			get { return Infrastructure.Common.Windows.ApplicationService.Layout; }
+		}
+		private MenuViewModel _menuViewModel;
 
-        ShellView Shell
-        {
-            get { return (ShellView)ServiceFactory.ShellView; }
-        }
+		internal void SetMenuViewModel(MenuViewModel menuViewModel)
+		{
+			_menuViewModel = menuViewModel;
+		}
 
-        public void Show(IViewPart viewModel)
-        {
-            ViewModelCash activeModelCash = GetActiveViewModelCash(viewModel);
+		#region ILayoutService Members
 
-            foreach (var item in Shell._itemsControl.Items)
-            {
-                (item as ContentControl).Visibility = Visibility.Collapsed;
-            }
-            activeModelCash.ContentControl.Visibility = Visibility.Visible;
+		public void ShowMenu(BaseViewModel viewModel)
+		{
+			_menuViewModel.ExtendedMenu = viewModel;
+		}
 
-            if (CurrentViewModel != null)
-            {
-                CurrentViewModel.OnHide();
-            }
-            CurrentViewModel = viewModel;
-            CurrentViewModel.OnShow();
-        }
+		#endregion
 
-        public void Close()
-        {
-            foreach (var item in Shell._itemsControl.Items)
-            {
-                (item as ContentControl).Visibility = Visibility.Collapsed;
-            }
+		#region ILayoutService Members
 
-            if (CurrentViewModel != null)
-            {
-                CurrentViewModel.OnHide();
-            }
-            CurrentViewModel = null;
-        }
+		public void Show(ViewPartViewModel model)
+		{
+			ApplicationLayoutService.Show(model);
+		}
 
-        ViewModelCash GetActiveViewModelCash(IViewPart viewModel)
-        {
-            var modelName = viewModel.GetType().ToString();
-            bool isNew = ViewModelsCash.Any(x => x.ViewModel == viewModel) == false;
+		public void Close()
+		{
+			ApplicationLayoutService.Close();
+		}
 
-            ViewModelCash activeModelCash = null;
+		public void ShowToolbar(BaseViewModel model)
+		{
+			ApplicationLayoutService.ShowToolbar(model);
+		}
 
-            if (isNew)
-            {
-                var obsoleteViewModelsCash = ViewModelsCash.FirstOrDefault(x => x.ViewModeName == modelName);
-                if (obsoleteViewModelsCash != null)
-                {
-                    Shell._itemsControl.Items.Remove(obsoleteViewModelsCash.ContentControl);
-                    ViewModelsCash.Remove(obsoleteViewModelsCash);
-                }
+		public void ShowHeader(BaseViewModel model)
+		{
+			ApplicationLayoutService.ShowHeader(model);
+		}
 
-                var contentControl = new ContentControl()
-                {
-                    DataContext = viewModel,
-                    Content = viewModel
-                };
-                Shell._itemsControl.Items.Add(contentControl);
+		public void ShowFooter(BaseViewModel model)
+		{
+			ApplicationLayoutService.ShowFooter(model);
+		}
 
-                activeModelCash = new ViewModelCash()
-                {
-                    ViewModel = viewModel,
-                    ViewModeName = modelName,
-                    ContentControl = contentControl
-                };
-                ViewModelsCash.Add(activeModelCash);
-            }
-            else
-            {
-                activeModelCash = ViewModelsCash.FirstOrDefault(x => x.ViewModeName == modelName);
-            }
-
-            return activeModelCash;
-        }
-
-        public void ShowMenu(object model)
-        {
-            Shell.Menu = model;
-        }
-
-        public void ShowValidationArea(object model)
-        {
-            Shell.ValidatoinArea = model;
-        }
-    }
-
-    public class ViewModelCash
-    {
-        public string ViewModeName;
-        public IViewPart ViewModel;
-        public ContentControl ContentControl;
-    }
+		#endregion
+	}
 }

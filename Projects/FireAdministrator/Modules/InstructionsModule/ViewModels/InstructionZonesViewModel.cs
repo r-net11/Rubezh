@@ -5,10 +5,11 @@ using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace InstructionsModule.ViewModels
 {
-    public class InstructionZonesViewModel : SaveCancelDialogContent
+    public class InstructionZonesViewModel : SaveCancelDialogViewModel
     {
         public InstructionZonesViewModel(List<ulong> instructionZonesList)
         {
@@ -149,9 +150,10 @@ namespace InstructionsModule.ViewModels
                 SelectedInstructionZone = InstructionZones[0];
         }
 
-        protected override void Save(ref bool cancel)
-        {
-            InstructionZonesList = new List<ulong>(from zone in InstructionZones select zone.Zone.No);
-        }
+		protected override bool Save()
+		{
+			InstructionZonesList = new List<ulong>(from zone in InstructionZones select zone.Zone.No);
+			return base.Save();
+		}
     }
 }

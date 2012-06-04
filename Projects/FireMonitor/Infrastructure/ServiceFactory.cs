@@ -14,14 +14,13 @@ namespace Infrastructure
 {
 	public class ServiceFactory
 	{
-		public static void Initialize(ILayoutService ILayoutService, IUserDialogService IUserDialogService, ISecurityService ISecurityService)
+		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService)
 		{
 			Events = new EventAggregator();
 			ResourceService = new ResourceService();
 			Layout = ILayoutService;
-			UserDialogs = IUserDialogService;
 			SecurityService = ISecurityService;
-			LoginService = new LoginService(UserDialogs, "Монитор", "Оперативная задача. Авторизация.");
+			LoginService = new LoginService("Монитор", "Оперативная задача. Авторизация.");
 			SubscribeEvents();
 		}
 
@@ -29,10 +28,8 @@ namespace Infrastructure
 		public static IEventAggregator Events { get; private set; }
 		public static ResourceService ResourceService { get; private set; }
 		public static ILayoutService Layout { get; private set; }
-		public static IUserDialogService UserDialogs { get; private set; }
 		public static ISecurityService SecurityService { get; private set; }
 		public static LoginService LoginService { get; private set; }
-		public static Window ShellView { get; set; }
 
 		static void SubscribeEvents()
 		{
@@ -93,13 +90,10 @@ namespace Infrastructure
 		//        }));
 		//}
 
-		static void SafeCall(Action action)
+		public static void SafeCall(Action action)
 		{
-			if (ServiceFactory.ShellView != null)
-				ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() =>
-				{
-					action();
-				}));
+			if (Application.Current != null && Application.Current.Dispatcher != null)
+				Application.Current.Dispatcher.Invoke(action);
 		}
 	}
 }

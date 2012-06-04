@@ -6,6 +6,8 @@ using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using SecurityModule.Events;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SecurityModule.ViewModels
 {
@@ -51,7 +53,7 @@ namespace SecurityModule.ViewModels
         void OnAdd()
         {
             var remoteMachineViewModel = new RemoteMachineViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(remoteMachineViewModel))
+            if (DialogService.ShowModalWindow(remoteMachineViewModel))
             {
                 if (string.IsNullOrEmpty(remoteMachineViewModel.HostNameOrAddress) == false &&
                     HostNameOrAddressList.Any(x => x == remoteMachineViewModel.HostNameOrAddress) == false)

@@ -4,10 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiltersModule.ViewModels
 {
-	public class FilterDetailsViewModel : SaveCancelDialogContent//, IDataErrorInfo
+	public class FilterDetailsViewModel : SaveCancelDialogViewModel//, IDataErrorInfo
 	{
 		public static readonly int DefaultDaysCount = 10;
 
@@ -93,9 +94,10 @@ namespace FiltersModule.ViewModels
 			return JournalFilter;
 		}
 
-		protected override void Save(ref bool cancel)
+		protected override bool Save()
 		{
 			JournalFilter.Name = JournalFilter.Name.Trim();
+			return base.Save();
 		}
 
 		protected override bool CanSave()

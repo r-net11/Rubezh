@@ -8,10 +8,12 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
-	public class DevicesViewModel : RegionViewModel
+	public class DevicesViewModel : ViewPartViewModel
 	{
 		public static DevicesViewModel Current { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
@@ -187,7 +189,7 @@ namespace DevicesModule.ViewModels
 		void OnPasteAs()
 		{
 			var pasteAsViewModel = new PasteAsViewModel(SelectedDevice.Driver.DriverType);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(pasteAsViewModel))
+			if (DialogService.ShowModalWindow(pasteAsViewModel))
 			{
 				var pasteDevice = _deviceToCopy.Copy(_isFullCopy);
 

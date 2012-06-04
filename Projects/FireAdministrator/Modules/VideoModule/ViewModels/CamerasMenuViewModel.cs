@@ -1,12 +1,13 @@
-﻿namespace VideoModule.ViewModels
+﻿using Infrastructure.Common.Windows.ViewModels;
+namespace VideoModule.ViewModels
 {
-    public class CamerasMenuViewModel
-    {
-        public CamerasMenuViewModel(CamerasViewModel context)
-        {
-            Context = context;
-        }
+	public class CamerasMenuViewModel : BaseViewModel
+	{
+		public CamerasMenuViewModel(CamerasViewModel context)
+		{
+			Context = context;
+		}
 
-        public CamerasViewModel Context { get; private set; }
-    }
+		public CamerasViewModel Context { get; private set; }
+	}
 }

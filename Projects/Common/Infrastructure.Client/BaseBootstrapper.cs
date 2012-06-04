@@ -5,13 +5,15 @@ using System.Configuration;
 using System.IO;
 using System.Reflection;
 using Common;
+using FiresecClient;
 using Infrastructure.Client.Login.ViewModels;
+using Infrastructure.Client.Properties;
 using Infrastructure.Common;
+using Infrastructure.Common.About.ViewModels;
 using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Client.Properties;
-using Infrastructure.Common.About.ViewModels;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Client
 {
@@ -34,6 +36,13 @@ namespace Infrastructure.Client
 			resourceService.AddResource(new ResourceDescription(typeof(LoginViewModel).Assembly, "DataTemplates/Dictionary.xaml"));
 		}
 
+		protected void RunShell(ShellViewModel shellViewModel)
+		{
+			shellViewModel.NavigationItems = GetNavigationItems();
+			InitializeModules();
+			ApplicationService.User = FiresecManager.CurrentUser;
+			ApplicationService.Run(shellViewModel);
+		}
 		protected void InitializeModules()
 		{
 			ReadConfiguration();

@@ -1,9 +1,10 @@
 ﻿using System;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class DeviceDescriptionViewModel : DialogContent
+    public class DeviceDescriptionViewModel : DialogViewModel
     {
         public DeviceDescriptionViewModel(Guid deviceUID, string description)
         {

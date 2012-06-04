@@ -3,10 +3,12 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
-    public class DirectionsViewModel : RegionViewModel, IEditingViewModel
+    public class DirectionsViewModel : ViewPartViewModel, IEditingViewModel
     {
         public DirectionsViewModel()
         {
@@ -60,7 +62,7 @@ namespace DevicesModule.ViewModels
         void OnEdit()
         {
             var directionDetailsViewModel = new DirectionDetailsViewModel(SelectedDirection.Direction);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel))
+			if (DialogService.ShowModalWindow(directionDetailsViewModel))
             {
                 SelectedDirection.Update();
 
@@ -77,7 +79,7 @@ namespace DevicesModule.ViewModels
         void OnAdd()
         {
             var directionDetailsViewModel = new DirectionDetailsViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(directionDetailsViewModel))
+            if (DialogService.ShowModalWindow(directionDetailsViewModel))
             {
                 FiresecManager.DeviceConfiguration.Directions.Add(directionDetailsViewModel.Direction);
                 Directions.Add(new DirectionViewModel(directionDetailsViewModel.Direction));

@@ -5,12 +5,13 @@ using FiresecAPI.Models.Skud;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
 using SkudModule.Properties;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SkudModule.ViewModels
 {
-	public class EmployeeCardIndexViewModel : RegionViewModel, IEditingViewModel
+	public class EmployeeCardIndexViewModel : ViewPartViewModel, IEditingViewModel
 	{
 		public ObservableCollection<EmployeeCardViewModel> EmployeeCardIndex { get; set; }
 		private EmployeeCardViewModel _selectedCard;
@@ -100,7 +101,7 @@ namespace SkudModule.ViewModels
 		void OnFilter()
 		{
 			EmployeeCardIndexFilterViewModel viewModel = new EmployeeCardIndexFilterViewModel(_filter);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(viewModel))
+			if (DialogService.ShowModalWindow(viewModel))
 				Initialize();
 		}
 		public RelayCommand ClearFilterCommand { get; private set; }
@@ -124,7 +125,7 @@ namespace SkudModule.ViewModels
 		private void BeginEdit(EmployeeCardViewModel card = null)
 		{
 			EmployeeCardDetailsViewModel viewModel = new EmployeeCardDetailsViewModel(card);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(viewModel))
+			if (DialogService.ShowModalWindow(viewModel))
 			{
 				if (card == null)
 				{

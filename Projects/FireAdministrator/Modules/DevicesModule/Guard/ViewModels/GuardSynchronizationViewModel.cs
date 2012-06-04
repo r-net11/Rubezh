@@ -3,10 +3,11 @@ using DevicesModule.Guard;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class GuardSynchronizationViewModel : SaveCancelDialogContent
+	public class GuardSynchronizationViewModel : SaveCancelDialogViewModel
     {
         public GuardSynchronizationViewModel(Device device)
         {
@@ -86,8 +87,9 @@ namespace DevicesModule.ViewModels
             DeviceSetGuardUsersListHelper.Run(Device, "");
         }
 
-        protected override void Save(ref bool cancel)
-        {
-        }
+		protected override bool Save()
+		{
+			return base.Save();
+		}
     }
 }

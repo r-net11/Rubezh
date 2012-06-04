@@ -2,10 +2,11 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace JournalModule.ViewModels
 {
-	public class JournalsViewModel : RegionViewModel
+	public class JournalsViewModel : ViewPartViewModel
 	{
 		public JournalsViewModel()
 		{

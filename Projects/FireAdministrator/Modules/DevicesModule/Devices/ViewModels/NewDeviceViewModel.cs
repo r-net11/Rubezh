@@ -4,11 +4,12 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
     [SaveSizeAttribute]
-    public class NewDeviceViewModel : SaveCancelDialogContent
+	public class NewDeviceViewModel : SaveCancelDialogViewModel
     {
         DeviceViewModel _parentDeviceViewModel;
         Device _parent;
@@ -46,14 +47,15 @@ namespace DevicesModule.ViewModels
             return (SelectedDriver != null);
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             int address = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
             Device device = _parent.AddChild(SelectedDriver, address);
             NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
 
             _parentDeviceViewModel.Update();
             FiresecManager.DeviceConfiguration.Update();
-        }
+			return base.Save();
+		}
     }
 }

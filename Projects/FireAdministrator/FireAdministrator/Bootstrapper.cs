@@ -19,13 +19,13 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
-			//if (!MutexHelper.IsNew("FireAdministrator"))
-			//{
-			//    MessageBoxService.ShowWarning("Другой экзэмпляр приложения уже запущен. Приложение будет закрыто");
-			//    Application.Current.Shutdown();
-			//    System.Environment.Exit(1);
-			//    return;
-			//}
+			if (!MutexHelper.IsNew("FireAdministrator"))
+			{
+				MessageBoxService.ShowWarning("Другой экзэмпляр приложения уже запущен. Приложение будет закрыто");
+				Application.Current.Shutdown();
+				System.Environment.Exit(1);
+				return;
+			}
 
 			AppSettingsHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
@@ -50,12 +50,8 @@ namespace FireAdministrator
 				else
 				{
 					var shell = new AdministratorShellViewModel();
-					shell.NavigationItems = GetNavigationItems();
-					//ServiceFactory.ShellView = shell.Surface;
-					InitializeModules();
-					FireAdministrator.Views.ShellView view = new Views.ShellView();
-					view.Show();
-					ApplicationService.Run(shell);
+					((LayoutService)ServiceFactory.Layout).SetMenuViewModel((MenuViewModel)shell.Toolbar);
+					RunShell(shell);
 				}
 				preLoadWindow.ForceClose();
 			}
@@ -67,7 +63,7 @@ namespace FireAdministrator
 			MutexHelper.KeepAlive();
 		}
 
-		void OnConfigurationChanged(object obj)
+		private void OnConfigurationChanged(object obj)
 		{
 			InitializeModules();
 		}

@@ -6,10 +6,11 @@ using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using SoundsModule.Views;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SoundsModule.ViewModels
 {
-    public class SoundsViewModel : RegionViewModel
+    public class SoundsViewModel : ViewPartViewModel
     {
         public SoundsViewModel()
         {

@@ -10,10 +10,11 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
 using PlansModule.Views;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {
-    public class PlanCanvasViewModel : RegionViewModel
+    public class PlanCanvasViewModel : ViewPartViewModel
     {
         public Plan Plan { get; private set; }
         public Canvas Canvas { get; private set; }

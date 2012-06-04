@@ -1,7 +1,8 @@
 ﻿
+using Infrastructure.Common.Windows.ViewModels;
 namespace GKModule.ViewModels
 {
-    public class DevicesMenuViewModel
+    public class DevicesMenuViewModel : BaseViewModel
     {
         public DevicesMenuViewModel(DevicesViewModel devicesViewModel)
         {

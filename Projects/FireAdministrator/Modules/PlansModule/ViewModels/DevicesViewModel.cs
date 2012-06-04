@@ -7,6 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {

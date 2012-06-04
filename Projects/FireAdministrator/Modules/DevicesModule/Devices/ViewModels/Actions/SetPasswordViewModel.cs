@@ -2,11 +2,12 @@
 using Controls;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
-	public class SetPasswordViewModel : SaveCancelDialogContent
+	public class SetPasswordViewModel : SaveCancelDialogViewModel
 	{
 		Guid _deviceUID;
 		static bool _isUsb;
@@ -52,7 +53,7 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		protected override void Save(ref bool cancel)
+		protected override bool Save()
 		{
 			if (Password == null)
 				Password = "";
@@ -63,18 +64,17 @@ namespace DevicesModule.ViewModels
 				if (!DigitalPasswordHelper.Check(Password) || !DigitalPasswordHelper.Check(PasswordConfirm))
 				{
 					MessageBoxService.Show("Пароль может содержать только цифры");
-					cancel = true;
-					return;
+					return false;
 				}
 
 			if (Password != PasswordConfirm)
 			{
 				MessageBoxService.Show("Пароль и подтверждение пароля должны совпадать");
-				cancel = true;
-				return;
+				return false;
 			}
 
 			SetPasswordHelper.Run(_deviceUID, _isUsb, _devicePasswordType, _password);
+			return base.Save();
 		}
 	}
 }

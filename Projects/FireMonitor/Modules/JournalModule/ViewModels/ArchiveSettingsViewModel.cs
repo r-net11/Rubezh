@@ -5,10 +5,11 @@ using Infrastructure;
 using Infrastructure.Common;
 using JournalModule.Events;
 using Infrastructure.Models;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace JournalModule.ViewModels
 {
-	public class ArchiveSettingsViewModel : SaveCancelDialogContent
+	public class ArchiveSettingsViewModel : SaveCancelDialogViewModel
 	{
 		public ArchiveSettingsViewModel(ArchiveDefaultState archiveDefaultState)
 		{
@@ -117,9 +118,9 @@ namespace JournalModule.ViewModels
 			return archiveDefaultState;
 		}
 
-		protected override void Save(ref bool cancel)
+		protected override bool Save()
 		{
-			base.Save(ref cancel);
+			return base.Save();
 		}
 
 		void OnArchiveDefaultStateCheckedEvent(ArchiveDefaultStateViewModel archiveDefaultState)

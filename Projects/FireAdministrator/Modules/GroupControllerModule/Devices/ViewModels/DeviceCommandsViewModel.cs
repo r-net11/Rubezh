@@ -3,6 +3,8 @@ using GKModule.Database;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.Models
 {
@@ -61,7 +63,7 @@ namespace GKModule.Models
 			DatabaseProcessor.Convert();
 
 			var deviceConverterViewModel = new DatabasesViewModel();
-			ServiceFactory.UserDialogs.ShowModalWindow(deviceConverterViewModel);
+			DialogService.ShowModalWindow(deviceConverterViewModel);
 		}
 
 		public RelayCommand CheckConnectionCommand { get; private set; }

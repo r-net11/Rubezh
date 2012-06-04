@@ -12,7 +12,7 @@ namespace FireAdministrator.Views
 
         void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            ServiceFactory.Layout.ShowValidationArea(null);
+            ServiceFactory.Layout.ShowFooter(null);
         }
     }
 }

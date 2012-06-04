@@ -2,7 +2,7 @@
 using FiresecAPI;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {

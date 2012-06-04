@@ -12,14 +12,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Infrastructure.Common.Windows.Views
+namespace FireMonitor.Views
 {
 	/// <summary>
-	/// Interaction logic for _debugSaveCancelView.xaml
+	/// Interaction logic for UserFotter.xaml
 	/// </summary>
-	public partial class _debugSaveCancelView : UserControl
+	public partial class UserFotterView : UserControl
 	{
-		public _debugSaveCancelView()
+		public UserFotterView()
 		{
 			InitializeComponent();
 		}

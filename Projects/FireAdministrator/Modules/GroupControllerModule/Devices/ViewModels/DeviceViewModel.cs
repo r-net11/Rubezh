@@ -3,8 +3,8 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            if (ServiceFactory.UserDialogs.ShowModalWindow(new NewDeviceViewModel(this)))
+			if (DialogService.ShowModalWindow(new NewDeviceViewModel(this)))
             {
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }
@@ -124,7 +124,7 @@ namespace GKModule.ViewModels
         public RelayCommand ShowLogicCommand { get; private set; }
         void OnShowLogic()
         {
-            if (ServiceFactory.UserDialogs.ShowModalWindow(new DeviceLogicViewModel(Device)))
+			if (DialogService.ShowModalWindow(new DeviceLogicViewModel(Device)))
                 ServiceFactory.SaveService.XDevicesChanged = true;
         }
 

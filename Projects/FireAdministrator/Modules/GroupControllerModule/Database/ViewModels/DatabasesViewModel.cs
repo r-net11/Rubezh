@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using GKModule.Database;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class DatabasesViewModel : DialogContent
+	public class DatabasesViewModel : DialogViewModel
 	{
 		public DatabasesViewModel()
 		{

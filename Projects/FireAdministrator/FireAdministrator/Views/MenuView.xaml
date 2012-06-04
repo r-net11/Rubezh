@@ -8,6 +8,6 @@
         <Controls:ToolBarButton Click="OnSaveToFile" ToolTip="Сохранить в файл" ImageSource="/Controls;component/Images/save.png" />
         <Controls:ToolBarButton Click="OnValidate"  ToolTip="Проверить" ImageSource="/Controls;component/Images/check.png" />
         <Controls:ToolBarButton Click="OnSetNewConfig" ToolTip="Ok" Name="_saveButton" IsEnabled="False" ImageSource="/Controls;component/Images/download.png" />
-		<ContentControl Grid.Column="1" Name="_menu" MinWidth="400" />
+        <ContentControl Grid.Column="1" Content="{Binding ExtendedMenu}" MinWidth="400" />
 	</StackPanel>
 </UserControl>

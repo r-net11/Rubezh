@@ -5,6 +5,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -207,7 +209,7 @@ namespace DevicesModule.ViewModels
         {
             var zoneLogicViewModel = new ZoneLogicViewModel(SelectedDevice.Device);
 
-            if (ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel))
+            if (DialogService.ShowModalWindow(zoneLogicViewModel))
             {
                 ServiceFactory.SaveService.DevicesChanged = true;
                 Initialize(_zoneNo);

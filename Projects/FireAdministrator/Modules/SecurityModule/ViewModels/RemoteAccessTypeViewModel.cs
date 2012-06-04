@@ -2,6 +2,7 @@
 using Infrastructure;
 using Infrastructure.Common;
 using SecurityModule.Events;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SecurityModule.ViewModels
 {

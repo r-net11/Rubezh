@@ -12,10 +12,12 @@ using Infrastructure.Common;
 using JournalModule.ViewModels;
 using ReportsModule.Reports;
 using SAPBusinessObjects.WPF.Viewer;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace ReportsModule.ViewModels
 {
-	public class ReportsViewModel : RegionViewModel
+	public class ReportsViewModel : ViewPartViewModel
 	{
 		public ReportsViewModel()
 		{
@@ -250,7 +252,7 @@ namespace ReportsModule.ViewModels
 				UseSystemDate = false
 			};
 			var archiveFilterViewModel = new ArchiveFilterViewModel(archiveFilter);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
+			if (DialogService.ShowModalWindow(archiveFilterViewModel))
 			{
 				ShowCrystalReport(new ReportJournal(archiveFilterViewModel));
 			}

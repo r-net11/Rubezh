@@ -4,10 +4,11 @@ using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure.Common;
 using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-    public class DevicesSelectationViewModel : SaveCancelDialogContent
+    public class DevicesSelectationViewModel : SaveCancelDialogViewModel
     {
         public DevicesSelectationViewModel(List<Guid> devicesList)
         {
@@ -127,13 +128,14 @@ namespace GKModule.ViewModels
             UpdateDevices();
         }
 
-        protected override void Save(ref bool cancel)
-        {
-            DevicesList = new List<Guid>();
-            foreach (var device in Devices)
-            {
-                DevicesList.Add(device.UID);
-            }
-        }
+		protected override bool Save()
+		{
+			DevicesList = new List<Guid>();
+			foreach (var device in Devices)
+			{
+				DevicesList.Add(device.UID);
+			}
+			return base.Save();
+		}
     }
 }

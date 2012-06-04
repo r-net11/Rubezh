@@ -1,12 +1,10 @@
 ﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure
 {
-    public interface ILayoutService
-    {
-        void Show(IViewPart viewModel);
-        void PreLoad(IViewPart viewModel);
-        void Close();
-        void AddAlarmGroups(IViewPart viewModel);
-    }
+	public interface ILayoutService : Infrastructure.Common.Windows.ILayoutService
+	{
+		void AddAlarmGroups(BaseViewModel viewModel);
+	}
 }

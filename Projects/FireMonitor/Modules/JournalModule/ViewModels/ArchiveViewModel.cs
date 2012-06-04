@@ -8,12 +8,13 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Models;
 using System.Windows.Input;
-using Infrastructure.Common.MessageBox;
 using Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace JournalModule.ViewModels
 {
-	public class ArchiveViewModel : RegionViewModel
+	public class ArchiveViewModel : ViewPartViewModel
 	{
 		public static DateTime ArchiveFirstDate { get; private set; }
 		ArchiveDefaultState _archiveDefaultState;
@@ -93,7 +94,7 @@ namespace JournalModule.ViewModels
 
 			if (result)
 			{
-				if (ServiceFactory.UserDialogs.ShowModalWindow(archiveFilterViewModel))
+				if (DialogService.ShowModalWindow(archiveFilterViewModel))
 				{
 					_archiveFilter = archiveFilterViewModel.GetModel();
 					OnPropertyChanged("IsFilterExists");
@@ -108,7 +109,7 @@ namespace JournalModule.ViewModels
 			try
 			{
 				var archiveSettingsViewModel = new ArchiveSettingsViewModel(_archiveDefaultState);
-				if (ServiceFactory.UserDialogs.ShowModalWindow(archiveSettingsViewModel))
+				if (DialogService.ShowModalWindow(archiveSettingsViewModel))
 				{
 					_archiveDefaultState = archiveSettingsViewModel.GetModel();
 					ClientSettings.ArchiveDefaultState = _archiveDefaultState;

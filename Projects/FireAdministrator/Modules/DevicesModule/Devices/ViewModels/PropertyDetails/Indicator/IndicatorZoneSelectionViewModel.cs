@@ -2,10 +2,11 @@
 using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class IndicatorZoneSelectionViewModel : SaveCancelDialogContent
+	public class IndicatorZoneSelectionViewModel : SaveCancelDialogViewModel
     {
         public List<ulong> Zones { get; private set; }
 
@@ -123,13 +124,14 @@ namespace DevicesModule.ViewModels
             return SelectedTargetZone != null;
         }
 
-        protected override void Save(ref bool cancel)
-        {
-            Zones = new List<ulong>();
-            foreach (var zone in TargetZones)
-            {
-                Zones.Add(zone.Zone.No);
-            }
-        }
+		protected override bool Save()
+		{
+			Zones = new List<ulong>();
+			foreach (var zone in TargetZones)
+			{
+				Zones.Add(zone.Zone.No);
+			}
+			return base.Save();
+		}
     }
 }

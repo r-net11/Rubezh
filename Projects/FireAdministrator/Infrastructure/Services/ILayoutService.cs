@@ -1,12 +1,10 @@
 ﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure
 {
-    public interface ILayoutService
+    public interface ILayoutService : Infrastructure.Common.Windows.ILayoutService
     {
-        void Show(IViewPart model);
-        void Close();
-        void ShowMenu(object model);
-        void ShowValidationArea(object model);
+		void ShowMenu(BaseViewModel model);
     }
 }

@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using Infrastructure.Common.Navigation;
 using FiresecAPI.Models;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common.Navigation
 {
@@ -17,8 +18,6 @@ namespace Infrastructure.Common.Navigation
 			InitializeComponent();
 			//DataContext = this;
 		}
-
-		public User User { get; set; }
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		private void OnPropertyChanged(string name)
@@ -104,7 +103,7 @@ namespace Infrastructure.Common.Navigation
 		}
 		private bool HavePermission(NavigationItem item)
 		{
-			return item.Permission == null || User == null || User.Permissions.Any(x => x == item.Permission.Value);
+			return item.Permission == null || ApplicationService.User == null || ApplicationService.User.Permissions.Any(x => x == item.Permission.Value);
 		}
 	}
 }

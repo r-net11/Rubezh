@@ -1,7 +1,8 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -140,7 +141,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand<bool> SetPasswordCommand { get; private set; }
 		void OnSetPassword(bool isUsb)
 		{
-			ServiceFactory.UserDialogs.ShowModalWindow(new SetPasswordViewModel(SelectedDevice.Device.UID, isUsb));
+			DialogService.ShowModalWindow(new SetPasswordViewModel(SelectedDevice.Device.UID, isUsb));
 		}
 
 		bool CanSetPassword(bool isUsb)
@@ -162,7 +163,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand<bool> ExecuteCustomAdminFunctionsCommand { get; private set; }
 		void OnExecuteCustomAdminFunctions(bool isUsb)
 		{
-			ServiceFactory.UserDialogs.ShowModalWindow(new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device));
+			DialogService.ShowModalWindow(new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device));
 		}
 
 		bool CanExecuteCustomAdminFunctions(bool isUsb)

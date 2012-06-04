@@ -3,11 +3,12 @@ using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SecurityModule.ViewModels
 {
-    public class UsersViewModel : RegionViewModel, IEditingViewModel
+    public class UsersViewModel : ViewPartViewModel, IEditingViewModel
     {
         public UsersViewModel()
         {
@@ -55,7 +56,7 @@ namespace SecurityModule.ViewModels
         void OnAdd()
         {
             var userDetailsViewModel = new UserDetailsViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
+			if (DialogService.ShowModalWindow(userDetailsViewModel))
             {
                 FiresecManager.SecurityConfiguration.Users.Add(userDetailsViewModel.User);
                 Users.Add(new UserViewModel(userDetailsViewModel.User));
@@ -86,7 +87,7 @@ namespace SecurityModule.ViewModels
         void OnEdit()
         {
             var userDetailsViewModel = new UserDetailsViewModel(SelectedUser.User);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(userDetailsViewModel))
+			if (DialogService.ShowModalWindow(userDetailsViewModel))
             {
                 FiresecManager.SecurityConfiguration.Users.Remove(SelectedUser.User);
                 SelectedUser.User = userDetailsViewModel.User;

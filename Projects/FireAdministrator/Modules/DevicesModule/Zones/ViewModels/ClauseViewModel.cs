@@ -6,6 +6,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -246,7 +248,7 @@ namespace DevicesModule.ViewModels
 		void OnShowZones()
 		{
 			var zonesSelectionViewModel = new ZonesSelectionViewModel(_device, Zones, SelectedState);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectionViewModel))
+			if (DialogService.ShowModalWindow(zonesSelectionViewModel))
 			{
 				Zones = zonesSelectionViewModel.Zones;
 				OnPropertyChanged("PresenrationZones");
@@ -257,7 +259,7 @@ namespace DevicesModule.ViewModels
 		void OnSelectDevice()
 		{
 			var zoneLogicDeviceSelectionViewModel = new ZoneLogicDeviceSelectionViewModel(_device.Parent);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicDeviceSelectionViewModel))
+			if (DialogService.ShowModalWindow(zoneLogicDeviceSelectionViewModel))
 				SelectedDevice = zoneLogicDeviceSelectionViewModel.SelectedDevice;
 		}
 	}

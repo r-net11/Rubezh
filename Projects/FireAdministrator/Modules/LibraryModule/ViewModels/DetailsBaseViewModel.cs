@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace LibraryModule.ViewModels
 {
-    public abstract class DetailsBaseViewModel<T> : SaveCancelDialogContent
+	public abstract class DetailsBaseViewModel<T> : SaveCancelDialogViewModel
     {
         public DetailsBaseViewModel()
         {

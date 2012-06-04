@@ -5,10 +5,12 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace InstructionsModule.ViewModels
 {
-    public class InstructionsViewModel : RegionViewModel, IEditingViewModel
+    public class InstructionsViewModel : ViewPartViewModel, IEditingViewModel
     {
         public InstructionsViewModel()
         {
@@ -69,7 +71,7 @@ namespace InstructionsModule.ViewModels
         void OnAdd()
         {
             var instructionDetailsViewModel = new InstructionDetailsViewModel();
-            if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel))
+            if (DialogService.ShowModalWindow(instructionDetailsViewModel))
             {
                 Instructions.Add(new InstructionViewModel(instructionDetailsViewModel.Instruction));
                 FiresecManager.SystemConfiguration.Instructions.Add(instructionDetailsViewModel.Instruction);
@@ -81,7 +83,7 @@ namespace InstructionsModule.ViewModels
         void OnEdit()
         {
             var instructionDetailsViewModel = new InstructionDetailsViewModel(SelectedInstruction.Instruction);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDetailsViewModel))
+			if (DialogService.ShowModalWindow(instructionDetailsViewModel))
             {
                 SelectedInstruction.Update();
                 ServiceFactory.SaveService.InstructionsChanged = true;

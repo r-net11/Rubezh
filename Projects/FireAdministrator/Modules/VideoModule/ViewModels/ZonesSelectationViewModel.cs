@@ -4,10 +4,11 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.ViewModels
 {
-    public class ZonesSelectationViewModel : SaveCancelDialogContent
+	public class ZonesSelectationViewModel : SaveCancelDialogViewModel
     {
         public List<ulong> Zones { get; private set; }
 
@@ -123,9 +124,10 @@ namespace VideoModule.ViewModels
             return SelectedTargetZone != null;
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             Zones = new List<ulong>(TargetZones.Select(x => x.No));
-        }
+			return base.Save();
+		}
     }
 }

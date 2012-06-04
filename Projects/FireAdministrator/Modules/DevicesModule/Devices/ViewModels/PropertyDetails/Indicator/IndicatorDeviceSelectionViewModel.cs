@@ -4,10 +4,11 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class IndicatorDeviceSelectionViewModel : SaveCancelDialogContent
+	public class IndicatorDeviceSelectionViewModel : SaveCancelDialogViewModel
     {
         public IndicatorDeviceSelectionViewModel()
         {

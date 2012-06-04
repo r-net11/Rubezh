@@ -1,7 +1,8 @@
 ﻿
+using Infrastructure.Common.Windows.ViewModels;
 namespace DevicesModule.ViewModels
 {
-    public class DirectionsMenuViewModel
+    public class DirectionsMenuViewModel : BaseViewModel
     {
         public DirectionsMenuViewModel(DirectionsViewModel context)
         {

@@ -4,10 +4,11 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class DeviceConfigurationViewModel : DialogContent
+    public class DeviceConfigurationViewModel : DialogViewModel
     {
         Guid _deviceUID;
         DeviceConfiguration _deviceConfiguration;

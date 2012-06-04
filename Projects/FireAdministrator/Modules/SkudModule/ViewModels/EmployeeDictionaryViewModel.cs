@@ -2,11 +2,12 @@
 using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace SkudModule.ViewModels
 {
-	public class EmployeeDictionaryViewModel<T> : RegionViewModel, IEditingViewModel
+	public class EmployeeDictionaryViewModel<T> : ViewPartViewModel, IEditingViewModel
 	{
 		public ObservableCollection<EmployeeDictionaryItemViewModel<T>> Dictionary { get; private set; }
 		private EmployeeDictionaryItemViewModel<T> _selectedItem;

@@ -2,10 +2,12 @@
 using System.Linq;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace FiltersModule.ViewModels
 {
-	public class FiltersViewModel : RegionViewModel, IEditingViewModel
+	public class FiltersViewModel : ViewPartViewModel, IEditingViewModel
 	{
 		public FiltersViewModel()
 		{
@@ -47,7 +49,7 @@ namespace FiltersModule.ViewModels
 		void OnAdd()
 		{
 			var filterDetailsViewModel = new FilterDetailsViewModel();
-			if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
+			if (DialogService.ShowModalWindow(filterDetailsViewModel))
 			{
 				var filter = filterDetailsViewModel.GetModel();
 				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filter);
@@ -61,7 +63,7 @@ namespace FiltersModule.ViewModels
 		void OnEdit()
 		{
 			var filterDetailsViewModel = new FilterDetailsViewModel(SelectedFilter.JournalFilter);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(filterDetailsViewModel))
+			if (DialogService.ShowModalWindow(filterDetailsViewModel))
 			{
 				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Remove(SelectedFilter.JournalFilter);
 				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filterDetailsViewModel.GetModel());

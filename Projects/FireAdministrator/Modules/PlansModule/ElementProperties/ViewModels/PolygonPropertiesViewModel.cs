@@ -1,10 +1,11 @@
 ﻿using System.Windows.Media;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {
-    public class PolygonPropertiesViewModel : SaveCancelDialogContent
+	public class PolygonPropertiesViewModel : SaveCancelDialogViewModel
     {
         ElementPolygon _elementPolygon;
         public ImagePropertiesViewModel ImagePropertiesViewModel { get; private set; }
@@ -59,12 +60,13 @@ namespace PlansModule.ViewModels
             }
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             _elementPolygon.BackgroundColor = BackgroundColor;
             _elementPolygon.BorderColor = BorderColor;
             _elementPolygon.BorderThickness = StrokeThickness;
             _elementPolygon.BackgroundPixels = ImagePropertiesViewModel.BackgroundPixels;
-        }
+			return base.Save();
+		}
     }
 }

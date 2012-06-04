@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Infrastructure.Common;
 using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {

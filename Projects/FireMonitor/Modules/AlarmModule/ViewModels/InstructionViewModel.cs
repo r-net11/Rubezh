@@ -4,10 +4,11 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace AlarmModule.ViewModels
 {
-	public class InstructionViewModel : DialogContent
+	public class InstructionViewModel : DialogViewModel
 	{
 		public bool HasContent { get; private set; }
 

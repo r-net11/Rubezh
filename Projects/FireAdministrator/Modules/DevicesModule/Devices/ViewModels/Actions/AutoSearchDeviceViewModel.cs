@@ -3,10 +3,11 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class AutoSearchDeviceViewModel : SaveCancelDialogContent
+    public class AutoSearchDeviceViewModel : SaveCancelDialogViewModel
     {
         public Device Device { get; private set; }
 

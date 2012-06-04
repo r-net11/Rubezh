@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Navigation;
+using System.Collections.ObjectModel;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -15,9 +16,9 @@ namespace Infrastructure.Common.Windows.ViewModels
 			AllowMinimize = true;
 			ContentFotter = null;
 			ContentHeader = null;
-			MainContent = null;
 			MinWidth = 800;
 			MinHeight = 600;
+			ContentItems = new ObservableCollection<IViewPartViewModel>();
 		}
 
 		private BaseViewModel _contentHeader;
@@ -38,16 +39,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_contentFotter = value;
 				OnPropertyChanged("ContentFotter");
-			}
-		}
-		private BaseViewModel _mainContent;
-		public BaseViewModel MainContent
-		{
-			get { return _mainContent; }
-			set
-			{
-				_mainContent = value;
-				OnPropertyChanged("MainContent");
 			}
 		}
 		private List<NavigationItem> _navigationItems;
@@ -99,6 +90,17 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_width = value;
 				OnPropertyChanged("Width");
+			}
+		}
+
+		private ObservableCollection<IViewPartViewModel> _contentItems;
+		public ObservableCollection<IViewPartViewModel> ContentItems
+		{
+			get { return _contentItems; }
+			set
+			{
+				_contentItems = value;
+				OnPropertyChanged("ContentItems");
 			}
 		}
 	}

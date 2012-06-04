@@ -4,6 +4,8 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace AlarmModule.ViewModels
 {
@@ -117,7 +119,7 @@ namespace AlarmModule.ViewModels
 		void OnShowInstruction()
 		{
 			var instructionViewModel = new InstructionViewModel(Alarm.DeviceUID, Alarm.AlarmType);
-			ServiceFactory.UserDialogs.ShowModalWindow(instructionViewModel);
+			DialogService.ShowModalWindow(instructionViewModel);
 		}
 
 		bool CanShowZone()

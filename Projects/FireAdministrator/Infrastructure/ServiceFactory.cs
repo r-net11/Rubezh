@@ -26,7 +26,5 @@ namespace Infrastructure
 		public static IProgressService ProgressService { get; private set; }
 		public static IValidationService ValidationService { get; private set; }
 		public static LoginService LoginService { get; private set; }
-
-		public static Window ShellView { get; set; }
 	}
 }

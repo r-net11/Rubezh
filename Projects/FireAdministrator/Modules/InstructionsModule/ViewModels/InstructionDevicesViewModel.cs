@@ -4,10 +4,11 @@ using System.Collections.ObjectModel;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace InstructionsModule.ViewModels
 {
-    public class InstructionDevicesViewModel : SaveCancelDialogContent
+    public class InstructionDevicesViewModel : SaveCancelDialogViewModel
     {
         public InstructionDevicesViewModel(List<Guid> instructionDevicesList)
         {

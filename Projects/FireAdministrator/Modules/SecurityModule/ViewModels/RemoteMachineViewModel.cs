@@ -1,8 +1,9 @@
 ﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SecurityModule.ViewModels
 {
-    public class RemoteMachineViewModel : SaveCancelDialogContent
+    public class RemoteMachineViewModel : SaveCancelDialogViewModel
     {
         public RemoteMachineViewModel()
         {

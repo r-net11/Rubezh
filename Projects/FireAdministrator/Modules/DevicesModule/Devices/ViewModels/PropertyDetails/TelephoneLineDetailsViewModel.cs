@@ -3,10 +3,11 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class TelephoneLineDetailsViewModel : SaveCancelDialogContent
+	public class TelephoneLineDetailsViewModel : SaveCancelDialogViewModel
 	{
 		Device Device;
 
@@ -302,9 +303,10 @@ namespace DevicesModule.ViewModels
 			TestDialtone = null;
 		}
 
-		protected override void Save(ref bool cancel)
+		protected override bool Save()
 		{
 			SaveProperties();
+			return base.Save();
 		}
 	}
 

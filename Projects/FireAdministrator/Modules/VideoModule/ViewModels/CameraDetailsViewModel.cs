@@ -6,10 +6,12 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace VideoModule.ViewModels
 {
-	public class CameraDetailsViewModel : SaveCancelDialogContent
+	public class CameraDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Camera Camera { get; private set; }
 		public List<ulong> Zones { get; set; }
@@ -165,7 +167,7 @@ namespace VideoModule.ViewModels
 		void OnShowZones()
 		{
 			var zonesSelectationViewModel = new ZonesSelectationViewModel(Zones);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectationViewModel))
+			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				Zones = zonesSelectationViewModel.Zones;
 				OnPropertyChanged("PresenrationZones");
@@ -191,7 +193,7 @@ namespace VideoModule.ViewModels
 			Height = camera.Height;
 		}
 
-		protected override void Save(ref bool cancel)
+		protected override bool Save()
 		{
 			Camera.Name = Name;
 			Camera.Address = Address;
@@ -201,6 +203,7 @@ namespace VideoModule.ViewModels
 			Camera.Height = Height;
 			Camera.StateType = SelectedStateType;
 			Camera.Zones = Zones.ToList();
+			return base.Save();
 		}
 	}
 }

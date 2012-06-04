@@ -7,6 +7,8 @@ using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -84,7 +86,7 @@ namespace PlansModule.ViewModels
             if (deviceInZones.Count > 0)
             {
                 var deviceInZoneViewModel = new DevicesInZoneViewModel(deviceInZones);
-                var result = ServiceFactory.UserDialogs.ShowModalWindow(deviceInZoneViewModel);
+                var result = DialogService.ShowModalWindow(deviceInZoneViewModel);
             }
         }
 

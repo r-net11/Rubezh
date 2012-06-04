@@ -3,10 +3,11 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure.Common;
 using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-    public class NewDeviceViewModel : SaveCancelDialogContent
+    public class NewDeviceViewModel : SaveCancelDialogViewModel
     {
         DeviceViewModel _parentDeviceViewModel;
         XDevice _parent;
@@ -44,14 +45,15 @@ namespace GKModule.ViewModels
             return (SelectedDriver != null);
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             byte address = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
             XDevice xDevice = _parent.AddChild(SelectedDriver, 1, address);
             NewDeviceHelper.AddDevice(xDevice, _parentDeviceViewModel);
 
             _parentDeviceViewModel.Update();
             XManager.DeviceConfiguration.Update();
-        }
+			return base.Save();
+		}
     }
 }

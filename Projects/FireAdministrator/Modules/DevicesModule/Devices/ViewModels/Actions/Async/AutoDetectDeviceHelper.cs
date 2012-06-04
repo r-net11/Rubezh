@@ -3,7 +3,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -52,7 +52,7 @@ namespace DevicesModule.ViewModels
                 DeviceViewModels = _deviceViewModel.Source
             };
 
-            if (ServiceFactory.UserDialogs.ShowModalWindow(autodetectionViewModel))
+			if (DialogService.ShowModalWindow(autodetectionViewModel))
                 RunAutodetection(false);
         }
     }

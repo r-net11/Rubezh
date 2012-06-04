@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using Infrastructure.Common.MessageBox;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure;
 using Common;
+using Infrastructure.Common.Windows;
 
 namespace FireMonitor
 {
@@ -27,7 +27,7 @@ namespace FireMonitor
 			}
 
 #if DEBUG
-			//BindingErrorListener.Listen(m => MessageBox.Show(m));
+			BindingErrorListener.Listen(m => MessageBox.Show(m));
 #endif
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			bootstrapper = new Bootstrapper();

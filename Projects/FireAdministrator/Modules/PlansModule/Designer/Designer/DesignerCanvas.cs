@@ -14,6 +14,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
 using PlansModule.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace PlansModule.Designer
 {
@@ -157,7 +158,7 @@ namespace PlansModule.Designer
 			if (elementBase is IElementZone)
 			{
 				var zonePropertiesViewModel = new ZonePropertiesViewModel(elementBase as IElementZone);
-				if (ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel) == false)
+				if (DialogService.ShowModalWindow(zonePropertiesViewModel) == false)
 				{
 					e.Handled = true;
 					return;
@@ -359,7 +360,7 @@ namespace PlansModule.Designer
 		void OnShowProperties()
 		{
 			var designerPropertiesViewModel = new DesignerPropertiesViewModel(Plan);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(designerPropertiesViewModel))
+			if (DialogService.ShowModalWindow(designerPropertiesViewModel))
 			{
 				Update();
 				ServiceFactory.SaveService.PlansChanged = true;

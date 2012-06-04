@@ -1,12 +1,13 @@
-﻿namespace DevicesModule.ViewModels
+﻿using Infrastructure.Common.Windows.ViewModels;
+namespace DevicesModule.ViewModels
 {
-    public class DevicesMenuViewModel
-    {
-        public DevicesMenuViewModel(DevicesViewModel devicesViewModel)
-        {
-            Context = devicesViewModel;
-        }
+	public class DevicesMenuViewModel : BaseViewModel
+	{
+		public DevicesMenuViewModel(DevicesViewModel devicesViewModel)
+		{
+			Context = devicesViewModel;
+		}
 
-        public DevicesViewModel Context { get; private set; }
-    }
+		public DevicesViewModel Context { get; private set; }
+	}
 }

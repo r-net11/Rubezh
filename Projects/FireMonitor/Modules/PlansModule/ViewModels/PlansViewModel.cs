@@ -8,10 +8,11 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {
-    public class PlansViewModel : RegionViewModel
+	public class PlansViewModel : ViewPartViewModel
     {
         public PlanCanvasViewModel SelectedPlanCanvasViewModel { get; set; }
         public static PlansViewModel Current;

@@ -11,6 +11,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
 using PlansModule.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace PlansModule.Designer
 {
@@ -169,17 +170,17 @@ namespace PlansModule.Designer
 			if (ElementBase is ElementRectangle)
 			{
 				var rectanglePropertiesViewModel = new RectanglePropertiesViewModel(ElementBase as ElementRectangle);
-				result = ServiceFactory.UserDialogs.ShowModalWindow(rectanglePropertiesViewModel);
+				result = DialogService.ShowModalWindow(rectanglePropertiesViewModel);
 			}
 			if (ElementBase is ElementEllipse)
 			{
 				var ellipsePropertiesViewModel = new EllipsePropertiesViewModel(ElementBase as ElementEllipse);
-				result = ServiceFactory.UserDialogs.ShowModalWindow(ellipsePropertiesViewModel);
+				result = DialogService.ShowModalWindow(ellipsePropertiesViewModel);
 			}
 			if (ElementBase is ElementTextBlock)
 			{
 				var textBlockPropertiesViewModel = new TextBlockPropertiesViewModel(ElementBase as ElementTextBlock);
-				result = ServiceFactory.UserDialogs.ShowModalWindow(textBlockPropertiesViewModel);
+				result = DialogService.ShowModalWindow(textBlockPropertiesViewModel);
 			}
 			if (ElementBase is ElementPolygon)
 			{
@@ -187,7 +188,7 @@ namespace PlansModule.Designer
 				elementPolygon.PolygonPoints = new PointCollection((Content as Polygon).Points);
 
 				var polygonPropertiesViewModel = new PolygonPropertiesViewModel(ElementBase as ElementPolygon);
-				result = ServiceFactory.UserDialogs.ShowModalWindow(polygonPropertiesViewModel);
+				result = DialogService.ShowModalWindow(polygonPropertiesViewModel);
 			}
 			if (ElementBase is ElementPolyline)
 			{
@@ -195,24 +196,24 @@ namespace PlansModule.Designer
 				elementPolyline.PolygonPoints = new PointCollection((Content as Polyline).Points);
 
 				var polylinePropertiesViewModel = new PolylinePropertiesViewModel(ElementBase as ElementPolyline);
-				result = ServiceFactory.UserDialogs.ShowModalWindow(polylinePropertiesViewModel);
+				result = DialogService.ShowModalWindow(polylinePropertiesViewModel);
 			}
 			if (ElementBase is ElementPolygonZone)
 			{
 				ElementPolygonZone elementPolygonZone = ElementBase as ElementPolygonZone;
 				var zonePropertiesViewModel = new ZonePropertiesViewModel(elementPolygonZone);
-				result = ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel);
+				result = DialogService.ShowModalWindow(zonePropertiesViewModel);
 			}
 			if (ElementBase is ElementRectangleZone)
 			{
 				ElementRectangleZone elementRectangleZone = ElementBase as ElementRectangleZone;
 				var zonePropertiesViewModel = new ZonePropertiesViewModel(elementRectangleZone);
-				result = ServiceFactory.UserDialogs.ShowModalWindow(zonePropertiesViewModel);
+				result = DialogService.ShowModalWindow(zonePropertiesViewModel);
 			}
 			if (ElementBase is ElementDevice)
 			{
 				var devicePropertiesViewModel = new DevicePropertiesViewModel(ElementBase as ElementDevice);
-				result = ServiceFactory.UserDialogs.ShowModalWindow(devicePropertiesViewModel);
+				result = DialogService.ShowModalWindow(devicePropertiesViewModel);
 				if (result)
 				{
 					var device = (ElementBase as ElementDevice).Device;
@@ -224,7 +225,7 @@ namespace PlansModule.Designer
 			if (ElementBase is ElementSubPlan)
 			{
 				var subPlanPropertiesViewModel = new SubPlanPropertiesViewModel(ElementBase as ElementSubPlan);
-				result = ServiceFactory.UserDialogs.ShowModalWindow(subPlanPropertiesViewModel);
+				result = DialogService.ShowModalWindow(subPlanPropertiesViewModel);
 			}
 
 			if (result)

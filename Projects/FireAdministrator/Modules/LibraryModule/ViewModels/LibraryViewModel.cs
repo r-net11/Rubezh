@@ -4,11 +4,12 @@ using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace LibraryModule.ViewModels
 {
-	public class LibraryViewModel : RegionViewModel
+	public class LibraryViewModel : ViewPartViewModel
 	{
 		public LibraryViewModel()
 		{
@@ -54,7 +55,7 @@ namespace LibraryModule.ViewModels
 		void OnAddDevice()
 		{
 			var addDeviceViewModel = new DeviceDetailsViewModel();
-			if (ServiceFactory.UserDialogs.ShowModalWindow(addDeviceViewModel))
+			if (DialogService.ShowModalWindow(addDeviceViewModel))
 			{
 				FiresecManager.LibraryConfiguration.Devices.Add(addDeviceViewModel.SelectedItem.LibraryDevice);
 				DeviceViewModels.Add(addDeviceViewModel.SelectedItem);

@@ -6,10 +6,12 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace InstructionsModule.ViewModels
 {
-    public class InstructionDetailsViewModel : SaveCancelDialogContent
+    public class InstructionDetailsViewModel : SaveCancelDialogViewModel
     {
         public Instruction Instruction { get; private set; }
 
@@ -158,7 +160,7 @@ namespace InstructionsModule.ViewModels
         void OnSelectZoneCommand()
         {
             var instructionZonesViewModel = new InstructionZonesViewModel(InstructionZones.ToList());
-            if (ServiceFactory.UserDialogs.ShowModalWindow(instructionZonesViewModel))
+            if (DialogService.ShowModalWindow(instructionZonesViewModel))
             {
                 InstructionZones = new ObservableCollection<ulong>(instructionZonesViewModel.InstructionZonesList);
             }
@@ -168,7 +170,7 @@ namespace InstructionsModule.ViewModels
         void OnSelectDeviceCommand()
         {
             var instructionDevicesViewModel = new InstructionDevicesViewModel(InstructionDevices.ToList());
-            if (ServiceFactory.UserDialogs.ShowModalWindow(instructionDevicesViewModel))
+			if (DialogService.ShowModalWindow(instructionDevicesViewModel))
             {
                 InstructionDevices = new ObservableCollection<Guid>(instructionDevicesViewModel.InstructionDevicesList);
             }
@@ -182,8 +184,8 @@ namespace InstructionsModule.ViewModels
                 return InstructionType == InstructionType.General ? true : (InstructionDevices.IsNotNullOrEmpty() || InstructionZones.IsNotNullOrEmpty());
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             Instruction.No = InstructionNo;
             Instruction.Name = Name;
             Instruction.Text = Text;
@@ -199,6 +201,7 @@ namespace InstructionsModule.ViewModels
                 Instruction.Devices = new List<Guid>();
                 Instruction.Zones = new List<ulong>();
             }
-        }
-    }
+			return base.Save();
+		}
+	}
 }

@@ -5,10 +5,11 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class DeviceDetailsViewModel : DialogContent, IDialogContentGuid
+	public class DeviceDetailsViewModel : DialogViewModel, IWindowIdentity
 	{
 		public Device Device { get; private set; }
 		public DeviceState DeviceState { get; private set; }
@@ -28,6 +29,7 @@ namespace DevicesModule.ViewModels
 			ValveControlViewModel = new ValveControlViewModel(Device);
 
 			Title = Device.Driver.ShortName + " " + Device.DottedAddress;
+			TopMost = true;
 		}
 
 		public string PresentationZone
@@ -115,7 +117,7 @@ namespace DevicesModule.ViewModels
 			ValveControlViewModel.StartTimer(timeLeft);
 		}
 
-		#region IDialogContentGuid Members
+		#region IWindowIdentity Members
 
 		public Guid Guid
 		{

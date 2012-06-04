@@ -2,10 +2,11 @@
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneLogicDeviceSelectionViewModel : SaveCancelDialogContent
+	public class ZoneLogicDeviceSelectionViewModel : SaveCancelDialogViewModel
     {
         public ZoneLogicDeviceSelectionViewModel(Device parentDevice)
         {

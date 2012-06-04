@@ -1,6 +1,7 @@
-﻿namespace GKModule.ViewModels
+﻿using Infrastructure.Common.Windows.ViewModels;
+namespace GKModule.ViewModels
 {
-    public class ZonesMenuViewModel
+    public class ZonesMenuViewModel : BaseViewModel
     {
         public ZonesMenuViewModel(ZonesViewModel context)
         {

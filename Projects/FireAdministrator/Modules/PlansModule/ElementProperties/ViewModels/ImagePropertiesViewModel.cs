@@ -5,8 +5,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Common;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
 using Microsoft.Win32;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace PlansModule.ViewModels
 {

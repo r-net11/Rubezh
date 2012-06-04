@@ -7,10 +7,12 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
-	public class DevicesViewModel : RegionViewModel
+	public class DevicesViewModel : ViewPartViewModel
 	{
 		public DevicesViewModel()
 		{
@@ -140,7 +142,7 @@ namespace DevicesModule.ViewModels
 								if (secondsLeft > 0)
 								{
 									var deviceDetailsViewModel = new DeviceDetailsViewModel(deviceUID);
-									ServiceFactory.UserDialogs.ShowWindow(deviceDetailsViewModel);
+									DialogService.ShowWindow(deviceDetailsViewModel);
 									deviceDetailsViewModel.StartValveTimer(secondsLeft);
 								}
 							}

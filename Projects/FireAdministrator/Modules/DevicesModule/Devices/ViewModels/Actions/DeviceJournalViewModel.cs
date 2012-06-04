@@ -1,10 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class DeviceJournalViewModel : DialogContent
+    public class DeviceJournalViewModel : DialogViewModel
     {
         public DeviceJournalViewModel(string htmlJournal)
         {

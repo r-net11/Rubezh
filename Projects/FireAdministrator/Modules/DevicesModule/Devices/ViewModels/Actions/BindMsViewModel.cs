@@ -2,10 +2,11 @@
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class BindMsViewModel : SaveCancelDialogContent
+    public class BindMsViewModel : SaveCancelDialogViewModel
     {
         Device _device;
 
@@ -53,10 +54,11 @@ namespace DevicesModule.ViewModels
             serialNoProperty.Value = serialNo;
         }
 
-        protected override void Save(ref bool cancel)
-        {
-            if (SelectedSerial != null)
-                SetSerialNo(SelectedSerial);
-        }
+		protected override bool Save()
+		{
+			if (SelectedSerial != null)
+				SetSerialNo(SelectedSerial);
+			return base.Save();
+		}
     }
 }

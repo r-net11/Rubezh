@@ -4,10 +4,11 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class GroupDetailsViewModel : SaveCancelDialogContent
+	public class GroupDetailsViewModel : SaveCancelDialogViewModel
     {
         Device _device;
 
@@ -171,22 +172,23 @@ namespace DevicesModule.ViewModels
             InitializeAvailableDevices();
         }
 
-        protected override void Save(ref bool cancel)
-        {
-            _device.PDUGroupLogic = new PDUGroupLogic();
+		protected override bool Save()
+		{
+			_device.PDUGroupLogic = new PDUGroupLogic();
 
-            _device.PDUGroupLogic.AMTPreset = Devices.Any(x => x.Device.Driver.DriverType == DriverType.AM1_T);
-            foreach (var device in Devices)
-            {
-                var pDUGroupDevice = new PDUGroupDevice()
-                {
-                    DeviceUID = device.Device.UID,
-                    IsInversion = device.IsInversion,
-                    OnDelay = device.OnDelay,
-                    OffDelay = device.OffDelay
-                };
-                _device.PDUGroupLogic.Devices.Add(pDUGroupDevice);
-            }
-        }
+			_device.PDUGroupLogic.AMTPreset = Devices.Any(x => x.Device.Driver.DriverType == DriverType.AM1_T);
+			foreach (var device in Devices)
+			{
+				var pDUGroupDevice = new PDUGroupDevice()
+				{
+					DeviceUID = device.Device.UID,
+					IsInversion = device.IsInversion,
+					OnDelay = device.OnDelay,
+					OffDelay = device.OffDelay
+				};
+				_device.PDUGroupLogic.Devices.Add(pDUGroupDevice);
+			}
+			return base.Save();
+		}
     }
 }

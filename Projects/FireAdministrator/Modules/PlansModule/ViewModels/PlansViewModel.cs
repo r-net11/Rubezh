@@ -7,10 +7,12 @@ using Infrastructure.Common;
 using PlansModule.Designer;
 using PlansModule.Events;
 using PlansModule.Views;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace PlansModule.ViewModels
 {
-	public partial class PlansViewModel : RegionViewModel
+	public partial class PlansViewModel : ViewPartViewModel
 	{
 		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ElementsViewModel ElementsViewModel { get; private set; }
@@ -149,7 +151,7 @@ namespace PlansModule.ViewModels
 		void OnAdd()
 		{
 			var planDetailsViewModel = new PlanDetailsViewModel();
-			if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
+			if (DialogService.ShowModalWindow(planDetailsViewModel))
 			{
 				var plan = planDetailsViewModel.Plan;
 				var planViewModel = new PlanViewModel(plan, Plans);
@@ -166,7 +168,7 @@ namespace PlansModule.ViewModels
 		void OnAddSubPlan()
 		{
 			var planDetailsViewModel = new PlanDetailsViewModel();
-			if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
+			if (DialogService.ShowModalWindow(planDetailsViewModel))
 			{
 				var plan = planDetailsViewModel.Plan;
 				var planViewModel = new PlanViewModel(plan, Plans);
@@ -215,7 +217,7 @@ namespace PlansModule.ViewModels
 		void OnEdit()
 		{
 			var planDetailsViewModel = new PlanDetailsViewModel(SelectedPlan.Plan);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(planDetailsViewModel))
+			if (DialogService.ShowModalWindow(planDetailsViewModel))
 			{
 				SelectedPlan.Update();
 				DesignerCanvas.Update();

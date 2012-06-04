@@ -1,8 +1,9 @@
 ﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {
-    public class GKViewModel : RegionViewModel
+    public class GKViewModel : ViewPartViewModel
     {
         public GKViewModel()
         {

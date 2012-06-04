@@ -4,10 +4,12 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace VideoModule.ViewModels
 {
-	public class CamerasViewModel : RegionViewModel, IEditingViewModel
+	public class CamerasViewModel : ViewPartViewModel, IEditingViewModel
 	{
 		public CamerasViewModel()
 		{
@@ -59,7 +61,7 @@ namespace VideoModule.ViewModels
 		void OnAdd()
 		{
 			var cameraDetailsViewModel = new CameraDetailsViewModel();
-			if (ServiceFactory.UserDialogs.ShowModalWindow(cameraDetailsViewModel))
+			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
 				FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.Camera);
 				Cameras.Add(new CameraViewModel(cameraDetailsViewModel.Camera));
@@ -84,7 +86,7 @@ namespace VideoModule.ViewModels
 		void OnEdit()
 		{
 			var cameraDetailsViewModel = new CameraDetailsViewModel(SelectedCamera.Camera);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(cameraDetailsViewModel))
+			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
 				SelectedCamera.Camera = cameraDetailsViewModel.Camera;
 				SelectedCamera.Update();

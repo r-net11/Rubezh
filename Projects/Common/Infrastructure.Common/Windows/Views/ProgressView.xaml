@@ -2,10 +2,15 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 Foreground="White" MinHeight="200" MinWidth="400">
-	<DockPanel>
-		<TextBlock Text="{Binding Company, Mode=OneWay}" HorizontalAlignment="Center" DockPanel.Dock="Top" Margin="0 2 0 0" />
-		<TextBlock Text="{Binding Copyright, Mode=OneWay}" HorizontalAlignment="Right" DockPanel.Dock="Bottom" Margin="0 0 5 2" />
+    <DockPanel>
+        <TextBlock Text="{Binding Company, Mode=OneWay}" HorizontalAlignment="Center" DockPanel.Dock="Top" Margin="0 2 0 0" />
+        <TextBlock Text="{Binding Copyright, Mode=OneWay}" HorizontalAlignment="Right" DockPanel.Dock="Bottom" Margin="0 0 5 2" />
 
-		<TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Black" Foreground="White"/>
-	</DockPanel>
+        <!--<StackPanel Orientation="Vertical" VerticalAlignment="Center">
+            <TextBlock Text="{Binding Product, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Black" Foreground="White"/>
+            <TextBlock Text="{Binding Version, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Black" Foreground="White"/>
+            <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Black" Foreground="White" Margin="10 10 10 10"/>
+        </StackPanel>-->
+        <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Black" Foreground="White"/>
+    </DockPanel>
 </UserControl>

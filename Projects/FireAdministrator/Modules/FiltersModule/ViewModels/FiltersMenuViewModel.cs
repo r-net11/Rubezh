@@ -1,13 +1,14 @@
 ﻿
+using Infrastructure.Common.Windows.ViewModels;
 namespace FiltersModule.ViewModels
 {
-    public class FiltersMenuViewModel
-    {
-        public FiltersMenuViewModel(FiltersViewModel context)
-        {
-            Context = context;
-        }
+	public class FiltersMenuViewModel : BaseViewModel
+	{
+		public FiltersMenuViewModel(FiltersViewModel context)
+		{
+			Context = context;
+		}
 
-        public FiltersViewModel Context { get; private set; }
-    }
+		public FiltersViewModel Context { get; private set; }
+	}
 }

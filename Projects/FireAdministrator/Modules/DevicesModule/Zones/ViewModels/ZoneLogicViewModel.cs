@@ -2,10 +2,11 @@
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneLogicViewModel : SaveCancelDialogContent
+	public class ZoneLogicViewModel : SaveCancelDialogViewModel
     {
         Device _device;
 
@@ -133,8 +134,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             var zoneLogic = new ZoneLogic();
             zoneLogic.JoinOperator = JoinOperator;
 
@@ -181,6 +182,7 @@ namespace DevicesModule.ViewModels
                 }
             }
             _device.ZoneLogic = zoneLogic;
-        }
+			return base.Save();
+		}
     }
 }

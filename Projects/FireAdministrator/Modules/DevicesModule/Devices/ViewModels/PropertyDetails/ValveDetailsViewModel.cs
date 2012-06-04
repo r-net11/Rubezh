@@ -2,10 +2,11 @@
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class ValveDetailsViewModel : SaveCancelDialogContent
+	public class ValveDetailsViewModel : SaveCancelDialogViewModel
     {
         public ValveDetailsViewModel(Device device)
         {
@@ -59,8 +60,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             var actionProperty = _device.Properties.FirstOrDefault(x => x.Name == "Action");
             if (actionProperty == null)
             {
@@ -76,6 +77,7 @@ namespace DevicesModule.ViewModels
                 _device.Properties.Add(timeoutProperty);
             }
             timeoutProperty.Value = Timeout.ToString();
-        }
+			return base.Save();
+		}
     }
 }

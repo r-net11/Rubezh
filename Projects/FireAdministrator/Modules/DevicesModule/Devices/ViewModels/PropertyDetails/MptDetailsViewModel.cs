@@ -1,10 +1,11 @@
 ﻿using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class MptDetailsViewModel : SaveCancelDialogContent
+	public class MptDetailsViewModel : SaveCancelDialogViewModel
     {
         public MptDetailsViewModel(Device device)
         {
@@ -64,8 +65,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             var timeoutProperty = _device.Properties.FirstOrDefault(x => x.Name == "RunDelay");
             if (timeoutProperty == null)
             {
@@ -88,6 +89,7 @@ namespace DevicesModule.ViewModels
             {
                 _device.Properties.Remove(actionProperty);
             }
-        }
+			return base.Save();
+		}
     }
 }

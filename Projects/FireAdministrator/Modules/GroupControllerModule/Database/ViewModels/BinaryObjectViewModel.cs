@@ -3,6 +3,7 @@ using FiresecClient;
 using GKModule.Database;
 using Infrastructure.Common;
 using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace GKModule.ViewModels
 {

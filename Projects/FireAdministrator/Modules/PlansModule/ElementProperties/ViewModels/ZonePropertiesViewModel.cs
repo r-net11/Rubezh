@@ -5,10 +5,11 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {
-    public class ZonePropertiesViewModel : SaveCancelDialogContent
+	public class ZonePropertiesViewModel : SaveCancelDialogViewModel
     {
         IElementZone IElementZone;
 
@@ -45,13 +46,14 @@ namespace PlansModule.ViewModels
                 Close(true);
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             if (SelectedZone != null)
             {
                 IElementZone.ZoneNo = SelectedZone.No;
                 IElementZone.Zone = SelectedZone;
             }
-        }
+			return base.Save();
+		}
     }
 }

@@ -4,14 +4,15 @@ using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
 using PlansModule.Designer;
 using PlansModule.Events;
 using PlansModule.Views;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace PlansModule.ViewModels
 {
-    public partial class PlansViewModel : RegionViewModel
+    public partial class PlansViewModel : ViewPartViewModel
     {
         List<ElementBase> Buffer;
 

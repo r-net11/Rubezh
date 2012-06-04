@@ -3,6 +3,7 @@ using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
 using Microsoft.Win32;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace LibraryModule.ViewModels
 {

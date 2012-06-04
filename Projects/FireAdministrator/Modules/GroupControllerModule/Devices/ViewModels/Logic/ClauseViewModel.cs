@@ -6,6 +6,8 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -174,7 +176,7 @@ namespace GKModule.ViewModels
         void OnSelectZones()
         {
             var zonesSelectationViewModel = new ZonesSelectationViewModel(Zones);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(zonesSelectationViewModel))
+			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
             {
                 Zones = zonesSelectationViewModel.Zones;
                 OnPropertyChanged("PresenrationZones");
@@ -185,7 +187,7 @@ namespace GKModule.ViewModels
         void OnSelectDevices()
         {
             var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(devicesSelectationViewModel))
+            if (DialogService.ShowModalWindow(devicesSelectationViewModel))
             {
                 Devices = devicesSelectationViewModel.DevicesList;
                 OnPropertyChanged("PresenrationDevices");

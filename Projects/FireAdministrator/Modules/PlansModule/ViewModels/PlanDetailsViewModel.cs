@@ -1,9 +1,10 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {
-    public class PlanDetailsViewModel : SaveCancelDialogContent
+	public class PlanDetailsViewModel : SaveCancelDialogViewModel
     {
         public Plan Plan { get; private set; }
 
@@ -84,12 +85,13 @@ namespace PlansModule.ViewModels
             return !string.IsNullOrEmpty(Caption);
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             Plan.Caption = Caption;
             Plan.Description = Description;
             Plan.Height = Height;
             Plan.Width = Width;
-        }
+			return base.Save();
+		}
     }
 }

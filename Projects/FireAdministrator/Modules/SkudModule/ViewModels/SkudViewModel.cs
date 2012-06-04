@@ -1,9 +1,10 @@
 ﻿using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SkudModule.ViewModels
 {
-	public class SkudViewModel : RegionViewModel
+	public class SkudViewModel : ViewPartViewModel
 	{
 		public SkudViewModel()
 		{

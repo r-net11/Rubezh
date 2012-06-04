@@ -6,10 +6,11 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class ZonesViewModel : RegionViewModel
+	public class ZonesViewModel : ViewPartViewModel
 	{
 		public ZonesViewModel()
 		{

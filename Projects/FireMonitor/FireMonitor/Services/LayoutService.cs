@@ -6,114 +6,59 @@ using System.Windows.Controls;
 using FireMonitor.Views;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using FireMonitor.ViewModels;
 
 namespace FireMonitor
 {
     public class LayoutService : ILayoutService
     {
-        List<ViewModelCash> ViewModelsCash = new List<ViewModelCash>();
-        IViewPart CurrentViewModel;
+		private Infrastructure.Common.Windows.ILayoutService ApplicationLayoutService
+		{
+			get { return Infrastructure.Common.Windows.ApplicationService.Layout; }
+		}
+		private ToolbarViewModel _toolbarViewModel;
+		internal void SetToolbarViewModel(ToolbarViewModel toolbarViewModel)
+		{
+			_toolbarViewModel = toolbarViewModel;
+		}
 
-        ShellView Shell
-        {
-            get { return (ShellView)ServiceFactory.ShellView; }
-        }
+		#region ILayoutService Members
 
-        public void PreLoad(IViewPart viewModel)
-        {
-            ViewModelCash activeModelCash = GetActiveViewModelCash(viewModel);
+		public void AddAlarmGroups(BaseViewModel viewModel)
+		{
+			_toolbarViewModel.AlarmGroups = viewModel;
+		}
 
-            activeModelCash.ContentControl.Visibility = Visibility.Visible;
-            ViewModelCash activeModelCash2 = GetActiveViewModelCash(CurrentViewModel);
-            activeModelCash2.ContentControl.Visibility = Visibility.Visible;
-        }
+		#endregion
+	
+		#region ILayoutService Members
 
-        public void Show(IViewPart viewModel)
-        {
-            ViewModelCash activeModelCash = GetActiveViewModelCash(viewModel);
+		public void Show(ViewPartViewModel model)
+		{
+			ApplicationLayoutService.Show(model);
+		}
 
-            foreach (var item in Shell._itemsControl.Items)
-            {
-                (item as ContentControl).Visibility = Visibility.Collapsed;
-            }
-            activeModelCash.ContentControl.Visibility = Visibility.Visible;
+		public void Close()
+		{
+			ApplicationLayoutService.Close();
+		}
 
-            if (CurrentViewModel != null)
-            {
-                CurrentViewModel.OnHide();
-            }
-            CurrentViewModel = viewModel;
-            CurrentViewModel.OnShow();
-        }
+		public void ShowToolbar(BaseViewModel model)
+		{
+			ApplicationLayoutService.ShowToolbar(model);
+		}
 
-        public void Close()
-        {
-            Shell.Dispatcher.Invoke(new Action(OnClose));
-        }
+		public void ShowHeader(BaseViewModel model)
+		{
+			ApplicationLayoutService.ShowHeader(model);
+		}
 
-        void OnClose()
-        {
-            foreach (var item in Shell._itemsControl.Items)
-            {
-                (item as ContentControl).Visibility = Visibility.Collapsed;
-            }
+		public void ShowFooter(BaseViewModel model)
+		{
+			ApplicationLayoutService.ShowFooter(model);
+		}
 
-            if (CurrentViewModel != null)
-            {
-                CurrentViewModel.OnHide();
-            }
-            CurrentViewModel = null;
-        }
-
-        ViewModelCash GetActiveViewModelCash(IViewPart viewModel)
-        {
-            var modelName = viewModel.GetType().ToString();
-            bool isNew = ViewModelsCash.Any(x => x.ViewModeName == modelName) == false;
-
-            ViewModelCash activeModelCash = null;
-
-            if (isNew)
-            {
-                var obsoleteViewModelsCash = ViewModelsCash.FirstOrDefault(x => x.ViewModeName == modelName);
-                if (obsoleteViewModelsCash != null)
-                {
-                    Shell._itemsControl.Items.Remove(obsoleteViewModelsCash.ContentControl);
-                    ViewModelsCash.Remove(obsoleteViewModelsCash);
-                }
-
-                var contentControl = new ContentControl()
-                {
-                    DataContext = viewModel,
-                    Content = viewModel
-                };
-                Shell._itemsControl.Items.Add(contentControl);
-
-                activeModelCash = new ViewModelCash()
-                {
-                    ViewModel = viewModel,
-                    ViewModeName = modelName,
-                    ContentControl = contentControl
-                };
-                ViewModelsCash.Add(activeModelCash);
-            }
-            else
-            {
-                activeModelCash = ViewModelsCash.FirstOrDefault(x => x.ViewModeName == modelName);
-            }
-
-            return activeModelCash;
-        }
-
-        public void AddAlarmGroups(IViewPart model)
-        {
-            Shell.AlarmGroups = model;
-        }
-    }
-
-    public class ViewModelCash
-    {
-        public string ViewModeName;
-        public IViewPart ViewModel;
-        public ContentControl ContentControl;
-    }
+		#endregion
+	}
 }

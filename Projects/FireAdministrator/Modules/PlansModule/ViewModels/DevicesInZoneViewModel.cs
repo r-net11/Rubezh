@@ -5,10 +5,11 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {
-    public class DevicesInZoneViewModel : SaveCancelDialogContent
+	public class DevicesInZoneViewModel : SaveCancelDialogViewModel
     {
         public DevicesInZoneViewModel(Dictionary<Device, ulong?> deviceInZones)
         {
@@ -23,8 +24,8 @@ namespace PlansModule.ViewModels
 
         public List<DeviceInZoneViewModel> DeviceInZones { get; private set; }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             foreach (var deviceInZone in DeviceInZones)
             {
                 if (deviceInZone.IsActive)
@@ -32,7 +33,8 @@ namespace PlansModule.ViewModels
                     deviceInZone.Activate();
                 }
             }
-        }
+			return base.Save();
+		}
     }
 
     public class DeviceInZoneViewModel : BaseViewModel

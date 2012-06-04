@@ -1,8 +1,9 @@
 ﻿using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace CallModule.ViewModels
 {
-    public class CallViewModel : RegionViewModel
+    public class CallViewModel : ViewPartViewModel
     {
         public CallViewModel()
         {

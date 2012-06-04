@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using FiresecClient;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
 using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
-    public class ZoneDetailsViewModel : SaveCancelDialogContent
+    public class ZoneDetailsViewModel : SaveCancelDialogViewModel
     {
         bool _isNew;
         public XZone XZone;
@@ -87,18 +88,19 @@ namespace GKModule.ViewModels
             }
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             if (XZone.No != No && XManager.DeviceConfiguration.Zones.Any(x => x.No == No))
             {
                 MessageBoxService.Show("Зона с таким номером уже существует");
-                return;
+                return false;
             }
 
             XZone.Name = Name;
             XZone.No = No;
             XZone.Description = Description;
             XZone.DetectorCount = DetectorCount;
-        }
+			return base.Save();
+		}
     }
 }

@@ -4,11 +4,12 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
-    public class DirectionDetailsViewModel : SaveCancelDialogContent
+	public class DirectionDetailsViewModel : SaveCancelDialogViewModel
     {
         bool _isNew;
         public Direction Direction { get; private set; }
@@ -140,7 +141,7 @@ namespace DevicesModule.ViewModels
         {
             var directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel(Direction, DriverType.RM_1);
 
-            if (ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel))
+			if (DialogService.ShowModalWindow(directionDeviceSelectorViewModel))
                 DeviceRm = directionDeviceSelectorViewModel.SelectedDevice.Device;
         }
 
@@ -149,20 +150,19 @@ namespace DevicesModule.ViewModels
         {
             var directionDeviceSelectorViewModel = new DirectionDeviceSelectorViewModel(Direction, DriverType.ShuzUnblockButton);
 
-            if (ServiceFactory.UserDialogs.ShowModalWindow(directionDeviceSelectorViewModel))
+            if (DialogService.ShowModalWindow(directionDeviceSelectorViewModel))
                 DeviceButton = directionDeviceSelectorViewModel.SelectedDevice.Device;
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             if (_isNew)
             {
                 if (FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id))
                 {
                     MessageBoxService.Show("Невозможно сохранить. Номера направдений совпадают");
-                    cancel = true;
-                    return;
-                }
+					return false;
+				}
                 SaveModel();
             }
             else
@@ -170,11 +170,11 @@ namespace DevicesModule.ViewModels
                 if (Id != Direction.Id && FiresecManager.DeviceConfiguration.Directions.Any(x => x.Id == Id))
                 {
                     MessageBoxService.Show("Невозможно сохранить. Номера направдений совпадают");
-                    cancel = true;
-                    return;
+					return false;
                 }
                 SaveModel();
             }
-        }
+			return base.Save();
+		}
     }
 }

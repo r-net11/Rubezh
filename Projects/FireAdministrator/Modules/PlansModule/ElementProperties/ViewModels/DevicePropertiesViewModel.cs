@@ -5,10 +5,11 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {
-    public class DevicePropertiesViewModel : SaveCancelDialogContent
+	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
     {
         ElementDevice _elementDevice;
 
@@ -113,10 +114,11 @@ namespace PlansModule.ViewModels
             }
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             _elementDevice.DeviceUID = SelectedDevice.Device.UID;
             _elementDevice.Device = SelectedDevice.Device;
-        }
+			return base.Save();
+		}
     }
 }

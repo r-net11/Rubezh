@@ -7,11 +7,11 @@ namespace FireAdministrator
 	{
 		public IValidationResult Validate()
 		{
-			ServiceFactory.Layout.ShowValidationArea(null);
+			ServiceFactory.Layout.ShowFooter(null);
 			var validationErrorsViewModel = new ValidationErrorsViewModel();
 			if (validationErrorsViewModel.HasErrors)
 			{
-				ServiceFactory.Layout.ShowValidationArea(validationErrorsViewModel);
+				ServiceFactory.Layout.ShowFooter(validationErrorsViewModel);
 			}
 			return validationErrorsViewModel;
 		}

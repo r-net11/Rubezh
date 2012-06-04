@@ -2,10 +2,11 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class PasteAsViewModel : SaveCancelDialogContent
+    public class PasteAsViewModel : SaveCancelDialogViewModel
     {
         public PasteAsViewModel(DriverType parentDriverType)
         {

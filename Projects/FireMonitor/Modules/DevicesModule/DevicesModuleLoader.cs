@@ -5,6 +5,7 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using Infrastructure.Common.Navigation;
 using System.Collections.Generic;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule
 {
@@ -34,7 +35,7 @@ namespace DevicesModule
 		}
 		void OnShowDeviceDetails(Guid deviceUID)
 		{
-			ServiceFactory.UserDialogs.ShowWindow(new DeviceDetailsViewModel(deviceUID), true);
+			DialogService.ShowWindow(new DeviceDetailsViewModel(deviceUID));
 		}
 
 		public override void Initialize()

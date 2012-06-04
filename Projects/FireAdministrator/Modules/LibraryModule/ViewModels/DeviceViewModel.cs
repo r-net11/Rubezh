@@ -7,7 +7,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace LibraryModule.ViewModels
 {
@@ -127,7 +128,7 @@ namespace LibraryModule.ViewModels
         void OnAddState()
         {
             var addStateViewModel = new StateDetailsViewModel(LibraryDevice);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(addStateViewModel))
+			if (DialogService.ShowModalWindow(addStateViewModel))
             {
                 LibraryDevice.States.Add(addStateViewModel.SelectedItem.State);
                 StateViewModels.Add(addStateViewModel.SelectedItem);
@@ -139,7 +140,7 @@ namespace LibraryModule.ViewModels
         void OnAddAdditionalState()
         {
             var addAdditionalStateViewModel = new AdditionalStateDetailsViewModel(LibraryDevice);
-            if (ServiceFactory.UserDialogs.ShowModalWindow(addAdditionalStateViewModel))
+			if (DialogService.ShowModalWindow(addAdditionalStateViewModel))
             {
                 LibraryDevice.States.Add(addAdditionalStateViewModel.SelectedItem.State);
                 StateViewModels.Add(addAdditionalStateViewModel.SelectedItem);

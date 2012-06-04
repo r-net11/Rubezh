@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace JournalModule.ViewModels
 {
-	public class ArchiveFilterViewModel : DialogContent
+	public class ArchiveFilterViewModel : DialogViewModel
 	{
 		public ArchiveFilterViewModel(ArchiveFilter archiveFilter)
 		{
@@ -171,7 +172,7 @@ namespace JournalModule.ViewModels
 			Devices.ForEach(x => x.IsChecked = true);
 			Subsystems.ForEach(x => x.IsEnable = false);
 		}
-
+		public RelayCommand SaveCommand { get; private set; }
 		void OnSave()
 		{
 			if (StartDate > EndDate)
@@ -181,7 +182,7 @@ namespace JournalModule.ViewModels
 			}
 			Close(true);
 		}
-
+		public RelayCommand CancelCommand { get; private set; }
 		void OnCancel()
 		{
 			Close(false);

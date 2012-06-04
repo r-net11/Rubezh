@@ -2,12 +2,13 @@
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
 using XFiresecAPI;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
-    public class DeviceLogicViewModel : SaveCancelDialogContent
+    public class DeviceLogicViewModel : SaveCancelDialogViewModel
     {
         XDevice Device;
 
@@ -43,8 +44,8 @@ namespace GKModule.ViewModels
             StateLogics.Remove(stateLogicViewModel);
         }
 
-        protected override void Save(ref bool cancel)
-        {
+		protected override bool Save()
+		{
             var deviceLogic = new XDeviceLogic();
             foreach (var stateLogicViewModel in StateLogics)
             {
@@ -67,14 +68,14 @@ namespace GKModule.ViewModels
                 if (deviceLogic.StateLogics.Any(x=>x.StateType == stateLogic.StateType))
                 {
                     MessageBoxService.ShowWarning("Логика для состояние " + stateLogic.StateType.ToDescription() + " дублируется");
-                    cancel = true;
-                    return;
+					return false;
                 }
                 if (stateLogic.Clauses.Count > 0)
                     deviceLogic.StateLogics.Add(stateLogic);
 
                 Device.DeviceLogic = deviceLogic;
             }
-        }
+			return base.Save();
+		}
     }
 }

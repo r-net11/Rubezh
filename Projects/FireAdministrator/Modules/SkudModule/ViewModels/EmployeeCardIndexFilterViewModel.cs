@@ -3,10 +3,11 @@ using FiresecAPI.Models.Skud;
 using FiresecClient;
 using Infrastructure.Common;
 using SkudModule.Properties;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace SkudModule.ViewModels
 {
-	public class EmployeeCardIndexFilterViewModel : SaveCancelDialogContent
+	public class EmployeeCardIndexFilterViewModel : SaveCancelDialogViewModel
 	{
 		public EmployeeCardIndexFilter Filter { get; private set; }
 		public ObservableCollection<EmployeePosition> Positions { get; private set; }
@@ -35,12 +36,12 @@ namespace SkudModule.ViewModels
 			OnPropertyChanged("Filter");
 		}
 
-		protected override void Save(ref bool cancel)
+		protected override bool Save()
 		{
-			base.Save(ref cancel);
-			if (cancel)
-				return;
-			Update();
+			bool res = base.Save();
+			if (res)
+				Update();
+			return res;
 		}
 	}
 }

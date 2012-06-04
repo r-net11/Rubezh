@@ -1,7 +1,8 @@
 ﻿
+using Infrastructure.Common.Windows.ViewModels;
 namespace SkudModule.ViewModels
 {
-    public class EmployeeCardIndexMenuViewModel
+    public class EmployeeCardIndexMenuViewModel : BaseViewModel
     {
         public EmployeeCardIndexMenuViewModel(EmployeeCardIndexViewModel employeeCardIndexViewModel)
         {

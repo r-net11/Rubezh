@@ -2,7 +2,7 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -32,7 +32,7 @@ namespace DevicesModule.ViewModels
                 MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
                 return;
             }
-            ServiceFactory.UserDialogs.ShowModalWindow(new DeviceJournalViewModel(_operationResult.Result));
+			DialogService.ShowModalWindow(new DeviceJournalViewModel(_operationResult.Result));
         }
     }
 }

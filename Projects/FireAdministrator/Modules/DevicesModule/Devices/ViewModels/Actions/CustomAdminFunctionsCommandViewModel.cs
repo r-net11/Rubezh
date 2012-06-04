@@ -2,11 +2,12 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class CustomAdminFunctionsCommandViewModel : SaveCancelDialogContent
+    public class CustomAdminFunctionsCommandViewModel : SaveCancelDialogViewModel
     {
         Device _device;
         public CustomAdminFunctionsCommandViewModel(Device device)
@@ -36,12 +37,13 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        protected override void Save(ref bool cancel)
-        {
-            if (SelectedFunction != null)
-            {
-                DeviceCustomFunctionExecuteHelper.Run(_device, SelectedFunction.Code);
-            }
-        }
+		protected override bool Save()
+		{
+			if (SelectedFunction != null)
+			{
+				DeviceCustomFunctionExecuteHelper.Run(_device, SelectedFunction.Code);
+			}
+			return base.Save();
+		}
     }
 }

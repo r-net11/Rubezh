@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using System.Collections.Generic;
 using Infrastructure;
 using System.Threading;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {

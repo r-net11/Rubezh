@@ -7,8 +7,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.MessageBox;
 using Infrastructure.Events;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -143,7 +143,7 @@ namespace DevicesModule.ViewModels
 		void OnShowZoneLogic()
 		{
 			var zoneLogicViewModel = new ZoneLogicViewModel(Device);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(zoneLogicViewModel))
+			if (DialogService.ShowModalWindow(zoneLogicViewModel))
 			{
 				ServiceFactory.SaveService.DevicesChanged = true;
 				DevicesViewModel.Current.UpdateExternalDevices();
@@ -154,7 +154,7 @@ namespace DevicesModule.ViewModels
 		void OnShowIndicatorLogic()
 		{
 			var indicatorDetailsViewModel = new IndicatorDetailsViewModel(Device);
-			if (ServiceFactory.UserDialogs.ShowModalWindow(indicatorDetailsViewModel))
+			if (DialogService.ShowModalWindow(indicatorDetailsViewModel))
 				ServiceFactory.SaveService.DevicesChanged = true;
 			OnPropertyChanged("PresentationZone");
 		}
@@ -167,7 +167,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			if (ServiceFactory.UserDialogs.ShowModalWindow(new NewDeviceViewModel(this)))
+			if (DialogService.ShowModalWindow(new NewDeviceViewModel(this)))
 			{
 				ServiceFactory.SaveService.DevicesChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
@@ -177,7 +177,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddManyCommand { get; private set; }
 		void OnAddMany()
 		{
-			if (ServiceFactory.UserDialogs.ShowModalWindow(new NewDeviceRangeViewModel(this)))
+			if (DialogService.ShowModalWindow(new NewDeviceRangeViewModel(this)))
 			{
 				ServiceFactory.SaveService.DevicesChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
@@ -241,7 +241,7 @@ namespace DevicesModule.ViewModels
 					break;
 
 				case DriverType.Valve:
-					if (ServiceFactory.UserDialogs.ShowModalWindow(new ValveDetailsViewModel(Device)))
+					if (DialogService.ShowModalWindow(new ValveDetailsViewModel(Device)))
 					{
 						ServiceFactory.SaveService.DevicesChanged = true;
 						OnPropertyChanged("HasExternalDevices");
@@ -252,22 +252,22 @@ namespace DevicesModule.ViewModels
 				case DriverType.JokeyPump:
 				case DriverType.Compressor:
 				case DriverType.CompensationPump:
-					if (ServiceFactory.UserDialogs.ShowModalWindow(new PumpDetailsViewModel(Device)))
+					if (DialogService.ShowModalWindow(new PumpDetailsViewModel(Device)))
 						ServiceFactory.SaveService.DevicesChanged = true;
 					break;
 
 				case DriverType.Direction:
-					if (ServiceFactory.UserDialogs.ShowModalWindow(new GroupDetailsViewModel(Device)))
+					if (DialogService.ShowModalWindow(new GroupDetailsViewModel(Device)))
 						ServiceFactory.SaveService.DevicesChanged = true;
 					break;
 
 				case DriverType.UOO_TL:
-					if (ServiceFactory.UserDialogs.ShowModalWindow(new TelephoneLineDetailsViewModel(Device)))
+					if (DialogService.ShowModalWindow(new TelephoneLineDetailsViewModel(Device)))
 						ServiceFactory.SaveService.DevicesChanged = true;
 					break;
 
 				case DriverType.MPT:
-					if (ServiceFactory.UserDialogs.ShowModalWindow(new MptDetailsViewModel(Device)))
+					if (DialogService.ShowModalWindow(new MptDetailsViewModel(Device)))
 						ServiceFactory.SaveService.DevicesChanged = true;
 					break;
 			}

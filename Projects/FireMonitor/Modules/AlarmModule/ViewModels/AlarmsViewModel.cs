@@ -7,10 +7,11 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace AlarmModule.ViewModels
 {
-	public class AlarmsViewModel : RegionViewModel
+	public class AlarmsViewModel : ViewPartViewModel
 	{
 		List<Alarm> allAlarms;
 		AlarmType? _alarmType;
