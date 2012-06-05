@@ -3,9 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.Windows;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
+	//var preLoadWindow = new Infrastructure.Common.Windows.ViewModels.ProgressViewModel() { Title = "Чтение конфигурации..." };
+	//DialogService.ShowWindow(preLoadWindow);
+	//ReadConfiguration();
+	//preLoadWindow.StepCount = Modules.Count + 1;
+
 	public class ProgressViewModel : WindowBaseViewModel
 	{
 		public ProgressViewModel(bool restrictClose = true)
@@ -34,6 +42,40 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public string Version
 		{
 			get { return Assembly.GetEntryAssembly().GetName().Version.ToString(); }
+		}
+
+		private int _currentStep;
+		public int CurrentStep
+		{
+			get { return _currentStep; }
+			set
+			{
+				_currentStep = value;
+				OnPropertyChanged("CurrentStep");
+			}
+		}
+		private int _stepCount;
+		public int StepCount
+		{
+			get { return _stepCount; }
+			set
+			{
+				_stepCount = value;
+				OnPropertyChanged("StepCount");
+				DoEvents();
+			}
+		}
+
+		public void DoStep(string text)
+		{
+			CurrentStep++;
+			Title = text;
+			DoEvents();
+		}
+		public void DoEvents()
+		{
+			if (Application.Current != null)
+				Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
 		}
 
 		public bool RestrictClose { get; private set; }

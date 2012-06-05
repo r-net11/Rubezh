@@ -58,7 +58,7 @@ namespace Infrastructure.Client
 			return navigationItems;
 		}
 
-		private void ReadConfiguration()
+		protected void ReadConfiguration()
 		{
 			if (Modules == null)
 			{
