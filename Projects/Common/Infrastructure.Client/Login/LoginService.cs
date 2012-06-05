@@ -5,14 +5,14 @@ using System.Text;
 using Infrastructure.Common;
 using Infrastructure.Client.Login.ViewModels;
 using System.Configuration;
-using Infrastructure.Common.Windows;
+using FiresecAPI.Models;
 using System.Windows;
 
 namespace Infrastructure.Client.Login
 {
 	public class LoginService
 	{
-		private string _clientType;
+		private ClientType _clientType;
 		private string _title;
 
 		public LoginService(string clientType, string title = null)

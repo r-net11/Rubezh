@@ -73,7 +73,7 @@ namespace FiresecService.Database
 			};
 
 			AddJournalRecord(journalRecord);
-			CallbackManager.OnNewJournalRecord(journalRecord);
+			ClientsCash.OnNewJournalRecord(journalRecord);
 		}
 	}
 }

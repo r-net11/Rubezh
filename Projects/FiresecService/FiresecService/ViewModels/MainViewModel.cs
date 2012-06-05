@@ -15,24 +15,16 @@ namespace FiresecService.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-
 			ShowImitatorCommand = new RelayCommand(OnShowImitator);
-			ReloadCommand = new RelayCommand(OnReload);
-			Connections = new ObservableCollection<ConnectionViewModel>();
+			Clients = new ObservableCollection<ClientViewModel>();
 			Title = "Сервер ОПС Firesec-2";
-		}
-
-		public RelayCommand ReloadCommand { get; private set; }
-		void OnReload()
-		{
-			Connections = new ObservableCollection<ConnectionViewModel>();
 		}
 		public RelayCommand ShowImitatorCommand { get; private set; }
 		void OnShowImitator()
 		{
-			foreach (var connection in Connections)
+			foreach (var connection in Clients)
 			{
-				if (connection.ClientType == "ITV")
+				if (connection.ClientType == ClientType.Itv)
 				{
 					var imitatorViewModel = new ImitatorViewModel(connection.FiresecService);
 					DialogService.ShowModalWindow(imitatorViewModel);
@@ -51,80 +43,87 @@ namespace FiresecService.ViewModels
 				OnPropertyChanged("Status");
 			}
 		}
-		public string ComServersSatus { get; set; }
-		public void UpdateComServersCount()
-		{
-			ComServersSatus = "Свободных: " + ServiceCash.FreeManagers.Count.ToString() + "\n";
-			ComServersSatus += "Работающих: " + ServiceCash.RunningManagers.Count.ToString();
-			OnPropertyChanged("ComServersSatus");
-		}
 
 		public bool IsDebug
 		{
 			get { return AppSettings.IsDebug; }
 		}
 
-		public ObservableCollection<ConnectionViewModel> Connections { get; private set; }
+		public ObservableCollection<ClientViewModel> Clients { get; private set; }
 
-		ConnectionViewModel _selectedConnection;
-		public ConnectionViewModel SelectedConnection
+		ClientViewModel _selectedClient;
+		public ClientViewModel SelectedClient
 		{
-			get { return _selectedConnection; }
+			get { return _selectedClient; }
 			set
 			{
-				_selectedConnection = value;
-				OnPropertyChanged("SelectedConnection");
+				_selectedClient = value;
+				OnPropertyChanged("SelectedClient");
 			}
 		}
 
-		public void AddConnection(FiresecService.Service.FiresecService firesecService, Guid uid, string userLogin, string userIpAddress, string clientType)
+		public void AddClient(FiresecService.Service.FiresecService firesecService)
 		{
 			Dispatcher.Invoke(new Action(
 			delegate()
 			{
-				var connectionViewModel = new ConnectionViewModel()
+				var connectionViewModel = new ClientViewModel()
 				{
 					FiresecService = firesecService,
-					UID = uid,
-					UserName = userLogin,
-					IpAddress = userIpAddress,
-					ClientType = clientType,
+					UID = firesecService.UID,
+					UserName = firesecService.ClientCredentials.UserName,
+					ClientType = firesecService.ClientCredentials.ClientType,
+					IpAddress = firesecService.ClientAddress,
 					ConnectionDate = DateTime.Now
 				};
-				Connections.Add(connectionViewModel);
+				Clients.Add(connectionViewModel);
 			}
 			));
 		}
-		public void RemoveConnection(Guid uid)
+		public void RemoveClient(Guid uid)
 		{
 			Dispatcher.Invoke(new Action(
 			delegate()
 			{
-				var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == uid);
-				Connections.Remove(connectionViewModel);
+				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
+				Clients.Remove(connectionViewModel);
 			}
 			));
 		}
-		public void EditConnection(Guid uid, string userName)
+		public void EditClient(Guid uid, string userName)
 		{
 			Dispatcher.Invoke(new Action(
 			delegate()
 			{
-				var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == uid);
+				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
 				connectionViewModel.ConnectionDate = DateTime.Now;
 				connectionViewModel.UserName = userName;
 			}
 			));
 		}
-		public void UpdateCurrentOperationName(Guid uid, string operationName)
+		public void UpdateClientOperation(Guid uid, string operationName)
 		{
 			Dispatcher.Invoke(new Action(
 			delegate()
 			{
-				var connectionViewModel = MainViewModel.Current.Connections.FirstOrDefault(x => x.UID == uid);
+				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 				{
 					connectionViewModel.CurrentOperationName = operationName;
+				}
+			}
+			));
+		}
+
+		public void UpdateClientState(Guid uid, string state)
+		{
+			Dispatcher.Invoke(new Action(
+			delegate()
+			{
+				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
+				if (connectionViewModel != null)
+				{
+					connectionViewModel.State = state;
 				}
 			}
 			));

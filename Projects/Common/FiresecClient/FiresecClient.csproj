@@ -137,6 +137,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="SafeFiresecService.cs" />
+    <Compile Include="SafeFiresecService.Operations.cs" />
     <Compile Include="Validation\BaseError.cs" />
     <Compile Include="Validation\DeviceError.cs" />
     <Compile Include="Validation\DirectionError.cs" />

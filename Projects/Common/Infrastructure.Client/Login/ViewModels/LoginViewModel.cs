@@ -8,7 +8,7 @@ using Infrastructure.Common;
 using System.Configuration;
 using Infrastructure.Client.Properties;
 using Common;
-using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Client.Login.ViewModels
@@ -17,11 +17,11 @@ namespace Infrastructure.Client.Login.ViewModels
 	{
 		private PasswordViewType _passwordViewType;
 
-		public LoginViewModel(string clientType)
+		public LoginViewModel(ClientType clientType)
 			: this(clientType, PasswordViewType.Connect)
 		{
 		}
-		public LoginViewModel(string clientType, PasswordViewType passwordViewType)
+		public LoginViewModel(ClientType clientType, PasswordViewType passwordViewType)
 		{
 			ClientType = clientType;
 			_passwordViewType = passwordViewType;
@@ -108,7 +108,7 @@ namespace Infrastructure.Client.Login.ViewModels
 		public bool IsConnected { get; private set; }
 		public bool IsCanceled { get; private set; }
 		public string Message { get; private set; }
-		public string ClientType { get; private set; }
+		public ClientType ClientType { get; private set; }
 
 		protected override bool Save()
 		{

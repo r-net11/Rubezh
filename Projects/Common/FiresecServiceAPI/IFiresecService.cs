@@ -11,17 +11,14 @@ namespace FiresecAPI
 	public interface IFiresecService : IFiresecServiceSKUD
 	{
 		#region Service
-		[OperationContract(IsInitiating = true)]
-		OperationResult<bool> Connect(Guid clientUID, string clientType, string clientCallbackAddress, string userName, string password);
+		[OperationContract]
+		OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew);
 
 		[OperationContract]
 		OperationResult<bool> Reconnect(string userName, string password);
 
-		[OperationContract(IsTerminating = true, IsOneWay = true)]
-		void Disconnect();
-
 		[OperationContract(IsOneWay = true)]
-		void Subscribe();
+		void Disconnect();
 
 		[OperationContract(IsOneWay = true)]
 		void CancelProgress();

@@ -14,8 +14,8 @@ namespace FiresecService.Service
 	{
 		void NotifyConfigurationChanged()
 		{
-			ServiceCash.RunningManagers.ForEach(x => x.FiresecService.FiresecManager.ConvertStates());
-			CallbackManager.OnConfigurationChanged();
+			//ServiceCash.RunningManagers.ForEach(x => x.FiresecService.FiresecManager.ConvertStates());
+			ClientsCash.OnConfigurationChanged();
 		}
 
 		public OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)

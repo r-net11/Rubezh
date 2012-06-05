@@ -4,10 +4,12 @@ using System.ServiceModel;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models.Skud;
+using FiresecAPI.Models;
+using FiresecService.ViewModels;
 
 namespace FiresecService.Service
 {
-	[ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true,
+	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = true,
 	InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public class SafeFiresecService : IFiresecService
 	{
@@ -16,6 +18,16 @@ namespace FiresecService.Service
 		public SafeFiresecService()
 		{
 			FiresecService = new FiresecService();
+		}
+
+		public void BeginOperation(string operationName)
+		{
+			MainViewModel.Current.UpdateClientOperation(FiresecService.UID, operationName);
+		}
+
+		public void EndOperation()
+		{
+			MainViewModel.Current.UpdateClientOperation(FiresecService.UID, "");
 		}
 
 		public OperationResult<T> CreateEmptyOperationResult<T>(string message)
@@ -34,12 +46,12 @@ namespace FiresecService.Service
 			try
 			{
 				if (operationName != null)
-					FiresecService.BeginOperation(operationName);
+					BeginOperation(operationName);
 
 				var result = func();
 
 				if (operationName != null)
-					FiresecService.EndOperation();
+					EndOperation();
 
 				return result;
 			}
@@ -55,12 +67,12 @@ namespace FiresecService.Service
 			try
 			{
 				if (operationName != null)
-					FiresecService.BeginOperation(operationName);
+					BeginOperation(operationName);
 
 				var result = func();
 
 				if (operationName != null)
-					FiresecService.EndOperation();
+					EndOperation();
 
 				return result;
 			}
@@ -76,12 +88,12 @@ namespace FiresecService.Service
 			try
 			{
 				if (operationName != null)
-					FiresecService.BeginOperation(operationName);
+					BeginOperation(operationName);
 
 				action();
 
 				if (operationName != null)
-					FiresecService.EndOperation();
+					EndOperation();
 			}
 			catch (Exception e)
 			{
@@ -89,9 +101,9 @@ namespace FiresecService.Service
 			}
 		}
 
-		public OperationResult<bool> Connect(Guid clientUID, string clientType, string clientCallbackAddress, string userName, string password)
+		public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
 		{
-			return SafeOperationCall(() => { return FiresecService.Connect(clientUID, clientType, clientCallbackAddress, userName, password); }, "Connect");
+			return SafeOperationCall(() => { return FiresecService.Connect(clientCredentials, isNew); }, "Connect");
 		}
 
 		public OperationResult<bool> Reconnect(string userName, string password)
@@ -102,11 +114,6 @@ namespace FiresecService.Service
 		public void Disconnect()
 		{
 			SafeOperationCall(() => { FiresecService.Disconnect(); }, "Disconnect");
-		}
-
-		public void Subscribe()
-		{
-			SafeOperationCall(() => { FiresecService.Subscribe(); }, "Subscribe");
 		}
 
 		public void CancelProgress()
@@ -346,6 +353,9 @@ namespace FiresecService.Service
 
 		public string Test()
 		{
+#if (DEBUG)
+			throw new Exception("Test");
+#endif
 			return SafeOperationCall(() => { return FiresecService.Test(); });
 		}
 

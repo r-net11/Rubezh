@@ -10,10 +10,11 @@ using FiresecService.ViewModels;
 using FiresecService.Database;
 using FiresecService.Processor;
 using FiresecService.DatabaseConverter;
+using System.Timers;
 
 namespace FiresecService.Service
 {
-	[ServiceBehavior(MaxItemsInObjectGraph = 2147483647, UseSynchronizationContext = true,
+	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = true,
 	InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
 	public partial class FiresecService : IFiresecService, IDisposable
 	{
@@ -22,51 +23,73 @@ namespace FiresecService.Service
 		public CallbackWrapper CallbackWrapper { get; private set; }
 		public IFiresecCallbackService FiresecCallbackService { get; private set; }
 		public Guid UID { get; private set; }
-		public Guid ClientUID { get; private set; }
-		string _userLogin;
-		string _userName;
-		string _userIpAddress;
-		string _clientType;
+		public ClientCredentials ClientCredentials { get; private set; }
+		public string ClientAddress { get; private set; }
+		public bool IsSubscribed { get; private set; }
+		System.Timers.Timer _recoveryTimer;
 
-		public FiresecManager FiresecManager { get; private set; }
+		public FiresecManager FiresecManager { get; set; }
 		FiresecSerializedClient FiresecSerializedClient
 		{
 			get { return FiresecManager.FiresecSerializedClient; }
 		}
-		bool IsConnectedToComServer = true;
 
 		public FiresecService()
 		{
 			UID = Guid.NewGuid();
-			FiresecManager = ServiceCash.Get(this);
+
+			_recoveryTimer = new System.Timers.Timer();
+			_recoveryTimer.Interval = 10000;
+			_recoveryTimer.Elapsed += new ElapsedEventHandler((source, e) => { OnRecover(); });
 		}
 
-		public void Free()
+		public void ReconnectToClient()
 		{
-			Logger.Info("Free FiresecService");
-			ServiceCash.Free(FiresecManager);
+			Logger.Info("FiresecService.ReconnectToClient");
+			OnRecover();
 		}
 
-		public OperationResult<bool> Connect(Guid clientUID, string clientType, string clientCallbackAddress, string login, string password)
+		void OnRecover()
 		{
-			var operationResult = Authenticate(login, password);
+			MainViewModel.Current.UpdateClientState(UID, "Соединение");
+			_recoveryTimer.Stop();
+			FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);
+			try
+			{
+				FiresecCallbackService.Ping();
+				_recoveryTimer.Stop();
+				MainViewModel.Current.UpdateClientState(UID, "Норма");
+			}
+			catch
+			{
+				MainViewModel.Current.UpdateClientState(UID, "Ошибка");
+				_recoveryTimer.Start();
+			}
+		}
+
+		public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
+		{
+			ClientCredentials = clientCredentials;
+			var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+			ClientAddress = endpoint.Address + ":" + endpoint.Port.ToString();
+
+			var operationResult = Authenticate(clientCredentials.UserName, clientCredentials.Password);
 			if (operationResult.HasError)
 				return operationResult;
 
-			_clientType = clientType;
-			ClientUID = clientUID;
-
-			MainViewModel.Current.AddConnection(this, UID, _userLogin, _userIpAddress, _clientType);
-
+			IsSubscribed = clientCredentials.ClientType != ClientType.Administrator;
+			FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);
 			Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
 			CallbackWrapper = new CallbackWrapper(this);
-			CallbackManager.Add(this);
 
-			DatabaseHelper.AddInfoMessage(_userName, "Вход пользователя в систему(Firesec-2)");
+			if (ClientsCash.IsNew(this))
+			{
+				DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Вход пользователя в систему(Firesec-2)");
+			}
 
-			FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(clientCallbackAddress);
+			ClientsCash.Add(this);
 
-			if (IsConnectedToComServer)
+			if (FiresecManager.IsConnectedToComServer)
 			{
 				operationResult.Result = true;
 			}
@@ -81,16 +104,18 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> Reconnect(string login, string password)
 		{
-			var oldUserName = _userName;
+			var oldUserName = ClientCredentials.UserName;
 
 			var operationResult = Authenticate(login, password);
 			if (operationResult.HasError)
 				return operationResult;
 
-			MainViewModel.Current.EditConnection(UID, login);
+			MainViewModel.Current.EditClient(UID, login);
 
 			DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал(Firesec-2)");
-			DatabaseHelper.AddInfoMessage(_userName, "Дежурство принял(Firesec-2)");
+			DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Дежурство принял(Firesec-2)");
+
+			ClientCredentials.UserName = login;
 
 			operationResult.Result = true;
 			return operationResult;
@@ -99,16 +124,8 @@ namespace FiresecService.Service
 		[OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.AfterCall)]
 		public void Disconnect()
 		{
-			ServiceCash.Free(FiresecManager);
-			MainViewModel.Current.RemoveConnection(UID);
-			DatabaseHelper.AddInfoMessage(_userName, "Выход пользователя из системы(Firesec-2)");
-			CallbackManager.Remove(this);
-		}
-
-		public bool IsSubscribed { get; private set; }
-		public void Subscribe()
-		{
-			IsSubscribed = true;
+			ClientsCash.Remove(this);
+			DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Выход пользователя из системы(Firesec-2)");
 		}
 
 		public bool ContinueProgress = true;
@@ -131,7 +148,7 @@ namespace FiresecService.Service
 			try
 			{
 				FiresecManager.Convert();
-				CallbackManager.OnConfigurationChanged();
+				ClientsCash.OnConfigurationChanged();
 			}
 			catch(Exception e)
 			{
@@ -149,19 +166,9 @@ namespace FiresecService.Service
 			return "Test";
 		}
 
-		public void BeginOperation(string operationName)
-		{
-			MainViewModel.Current.UpdateCurrentOperationName(UID, operationName);
-		}
-
-		public void EndOperation()
-		{
-			MainViewModel.Current.UpdateCurrentOperationName(UID, "");
-		}
-
 		public void Dispose()
 		{
-			//Disconnect();
+			;
 		}
 	}
 }

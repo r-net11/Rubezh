@@ -112,6 +112,7 @@
     <Compile Include="ConfigurationConverter\ConfigurationFileManager.cs" />
     <Compile Include="Service\CallbackManager.cs" />
     <Compile Include="Service\CallbackWrapper.cs" />
+    <Compile Include="Service\ClientsCash.cs" />
     <Compile Include="Service\ConfigurationCash.cs" />
     <Compile Include="Service\FiresecOperationExtentions.cs" />
     <Compile Include="Service\FiresecService.Authentication.cs" />
@@ -127,7 +128,7 @@
     <Compile Include="Service\FiresecServiceManager.cs" />
     <Compile Include="Imitator\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Service\ServiceCash.cs" />
-    <Compile Include="ViewModels\ConnectionViewModel.cs" />
+    <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>

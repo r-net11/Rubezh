@@ -87,13 +87,10 @@ namespace FireMonitor
 		{
 			ServiceFactory.Layout.Close();
 
-			//FiresecManager.FiresecService.StopPing();
-
 			FiresecManager.GetConfiguration(false);
 			FiresecManager.DeviceStates = FiresecManager.FiresecService.GetStates(true);
 			FiresecManager.UpdateStates();
 
-			//FiresecManager.FiresecService.StartPing();
 			ServiceFactory.SafeCall(InitializeModules);
 		}
 	}

@@ -4,12 +4,12 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiresecService.ViewModels
 {
-	public class ConnectionViewModel : BaseViewModel
+	public class ClientViewModel : BaseViewModel
 	{
 		public FiresecService.Service.FiresecService FiresecService { get; set; }
 		public Guid UID { get; set; }
 		public string IpAddress { get; set; }
-		public string ClientType { get; set; }
+		public ClientType ClientType { get; set; }
 		public DateTime ConnectionDate { get; set; }
 
 		string _userName;
@@ -31,6 +31,17 @@ namespace FiresecService.ViewModels
 			{
 				_currentOperationName = value;
 				OnPropertyChanged("CurrentOperationName");
+			}
+		}
+
+		string _state;
+		public string State
+		{
+			get { return _state; }
+			set
+			{
+				_state = value;
+				OnPropertyChanged("State");
 			}
 		}
 	}

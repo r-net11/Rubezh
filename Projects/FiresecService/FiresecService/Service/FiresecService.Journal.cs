@@ -200,9 +200,9 @@ namespace FiresecService.Service
 			var operationResult = new OperationResult<bool>();
 			try
 			{
-				journalRecord.User = _userName;
+				journalRecord.User = ClientCredentials.UserName;
 				DatabaseHelper.AddJournalRecord(journalRecord);
-				CallbackManager.OnNewJournalRecord(journalRecord);
+				ClientsCash.OnNewJournalRecord(journalRecord);
 				operationResult.Result = true;
 			}
 			catch (Exception e)

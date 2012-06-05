@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using FiresecAPI.Models;
 
 namespace FiresecService.Service
@@ -22,20 +20,22 @@ namespace FiresecService.Service
 
 		public void OnDeviceStatesChanged(List<DeviceState> deviceStates)
 		{
-			//SafeCall((x) => { x.Callback.DeviceStateChanged(deviceStates); });
 			SafeCall((x) => { x.FiresecCallbackService.DeviceStateChanged(deviceStates); });
 		}
 
 		public void OnDeviceParametersChanged(List<DeviceState> deviceParameters)
 		{
-			//SafeCall((x) => { x.Callback.DeviceParametersChanged(deviceParameters); });
 			SafeCall((x) => { x.FiresecCallbackService.DeviceParametersChanged(deviceParameters); });
 		}
 
 		public void OnZoneStateChanged(ZoneState zoneState)
 		{
-			//SafeCall((x) => { x.Callback.ZoneStateChanged(zoneState); });
 			SafeCall((x) => { x.FiresecCallbackService.ZoneStateChanged(zoneState); });
+		}
+
+		public void OnConfigurationChanged()
+		{
+			SafeCall((x) => { x.FiresecCallbackService.ConfigurationChanged(); });
 		}
 
 		public bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
@@ -47,11 +47,11 @@ namespace FiresecService.Service
 			}
 			catch (ObjectDisposedException)
 			{
-				FiresecService.Free();
+				FiresecService.ReconnectToClient();
 			}
 			catch (Exception)
 			{
-				FiresecService.Free();
+				FiresecService.ReconnectToClient();
 			}
 			return true;
 		}
@@ -65,11 +65,11 @@ namespace FiresecService.Service
 				}
 				catch (ObjectDisposedException)
 				{
-					FiresecService.Free();
+					FiresecService.ReconnectToClient();
 				}
 				catch (Exception)
 				{
-					FiresecService.Free();
+					FiresecService.ReconnectToClient();
 				}
 		}
 	}

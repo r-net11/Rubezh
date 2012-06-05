@@ -11,9 +11,9 @@ namespace FiresecService.Processor
 	public class Watcher
 	{
 		FiresecManager FiresecManager;
-		FiresecService.Service.FiresecService FiresecService
+		List<FiresecService.Service.FiresecService> FiresecServices
 		{
-			get { return FiresecManager.FiresecService; }
+			get { return FiresecManager.FiresecServices; }
 		}
 		FiresecSerializedClient FiresecSerializedClient
 		{
@@ -34,9 +34,12 @@ namespace FiresecService.Processor
 
 		bool FiresecInternalClient_Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
-			if (FiresecService != null && FiresecService.CallbackWrapper != null)
+			foreach (var firesecService in FiresecServices)
 			{
-				return FiresecService.CallbackWrapper.OnProgress(stage, comment, percentComplete, bytesRW);
+				if (firesecService != null && firesecService.CallbackWrapper != null)
+				{
+					return firesecService.CallbackWrapper.OnProgress(stage, comment, percentComplete, bytesRW);
+				}
 			}
 			return false;
 		}
@@ -132,9 +135,12 @@ namespace FiresecService.Processor
 				var idNewEvent = DatabaseHelper.AddJournalRecord(journalRecord);
 				if (idNewEvent)
 				{
-					if (FiresecService != null && FiresecService.CallbackWrapper != null)
+					foreach (var firesecService in FiresecServices)
 					{
-						FiresecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
+						if (firesecService != null && firesecService.CallbackWrapper != null)
+						{
+							firesecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
+						}
 					}
 				}
 			}
@@ -168,9 +174,12 @@ namespace FiresecService.Processor
 				}
 
 				if (ChangedDevices.Count > 0)
-					if (FiresecService != null && FiresecService.CallbackWrapper != null)
+					foreach (var firesecService in FiresecServices)
 					{
-						FiresecService.CallbackWrapper.OnDeviceParametersChanged(ChangedDevices.ToList());
+						if (firesecService != null && firesecService.CallbackWrapper != null)
+						{
+							firesecService.CallbackWrapper.OnDeviceParametersChanged(ChangedDevices.ToList());
+						}
 					}
 			}
 			catch (Exception e)
@@ -190,9 +199,12 @@ namespace FiresecService.Processor
 				CalculateZones();
 
 				if (ChangedDevices.Count > 0)
-					if (FiresecService != null && FiresecService.CallbackWrapper != null)
+					foreach (var firesecService in FiresecServices)
 					{
-						FiresecService.CallbackWrapper.OnDeviceStatesChanged(ChangedDevices.ToList());
+						if (firesecService != null && firesecService.CallbackWrapper != null)
+						{
+							firesecService.CallbackWrapper.OnDeviceStatesChanged(ChangedDevices.ToList());
+						}
 					}
 			}
 			catch (Exception e)
@@ -337,9 +349,12 @@ namespace FiresecService.Processor
 					if (zoneState.StateType != minZoneStateType)
 					{
 						zoneState.StateType = minZoneStateType;
-						if ((FiresecService != null) && (FiresecService.CallbackWrapper != null))
+						foreach (var firesecService in FiresecServices)
 						{
-							FiresecService.CallbackWrapper.OnZoneStateChanged(zoneState);
+							if (firesecService != null && firesecService.CallbackWrapper != null)
+							{
+								firesecService.CallbackWrapper.OnZoneStateChanged(zoneState);
+							}
 						}
 					}
 				}

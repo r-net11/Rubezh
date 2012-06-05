@@ -75,6 +75,9 @@ namespace AlarmModule.ViewModels
 		public RelayCommand ShowAllCommand { get; private set; }
 		void OnShowAll()
 		{
+#if (DEBUG)
+			FiresecManager.FiresecService.Test();
+#endif
 			Sort(null);
 		}
 

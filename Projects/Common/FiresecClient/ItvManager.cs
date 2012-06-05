@@ -25,7 +25,7 @@ namespace FiresecClient
 
         public static string Connect(string serverAddress, string login, string password)
         {
-            var result = FiresecManager.Connect("ITV", serverAddress, login, password);
+			var result = FiresecManager.Connect(ClientType.Itv, serverAddress, login, password);
             if (string.IsNullOrEmpty(result))
             {
                 FiresecManager.GetConfiguration(true);

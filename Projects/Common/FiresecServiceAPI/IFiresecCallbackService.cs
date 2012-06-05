@@ -1,7 +1,7 @@
-﻿using System.ServiceModel;
-using FiresecAPI.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ServiceModel;
+using FiresecAPI.Models;
 
 namespace FiresecAPI
 {
@@ -23,10 +23,10 @@ namespace FiresecAPI
 		[OperationContract(IsOneWay = true)]
 		void ConfigurationChanged();
 
-		[OperationContract(IsOneWay = false)]
+		[OperationContract]
 		bool Progress(int stage, string comment, int percentComplete, int bytesRW);
 
-		[OperationContract(IsOneWay = false)]
+		[OperationContract]
 		Guid Ping();
 	}
 }

@@ -7,8 +7,6 @@ using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure;
-using System.Collections.Generic;
 
 namespace Infrastructure
 {
@@ -33,9 +31,6 @@ namespace Infrastructure
 
 		static void SubscribeEvents()
 		{
-			//FiresecEventSubscriber.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournaRecord);
-			//FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournaRecordDispatched);
-
 			FiresecCallbackService.DeviceStateChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceStateChangedEvent(deviceUID); }); });
 			FiresecCallbackService.DeviceParametersChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceParametersChangedEvent(deviceUID); }); });
 			FiresecCallbackService.ZoneStateChangedEvent += new Action<ulong>((zoneNo) => { SafeCall(() => { OnZoneStateChangedEvent(zoneNo); }); });
@@ -76,19 +71,6 @@ namespace Infrastructure
 		{
 			ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
 		}
-
-		//static void OnNewJournaRecord(JournalRecord journalRecord)
-		//{
-		//    ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
-		//}
-		//static void OnNewJournaRecordDispatched(JournalRecord journalRecord)
-		//{
-		//    if (ServiceFactory.ShellView != null)
-		//        ServiceFactory.ShellView.Dispatcher.Invoke(new Action(() =>
-		//        {
-		//            ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
-		//        }));
-		//}
 
 		public static void SafeCall(Action action)
 		{

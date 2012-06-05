@@ -9,18 +9,26 @@ namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
-		static public SafeFiresecService FiresecService { get; private set; }
-		public static Guid ClientUID { get; private set; }
+		public static ClientCredentials ClientCredentials { get; private set; }
+		public static SafeFiresecService FiresecService { get; private set; }
 
-		public static string Connect(string clientType, string serverAddress, string login, string password)
+		public static string Connect(ClientType clientType, string serverAddress, string login, string password)
 		{
 			var clientCallbackAddress = CallbackAddressHelper.GetFreeClientCallbackAddress();
 			FiresecCallbackServiceManager.Open(clientCallbackAddress);
 
-			FiresecService = new SafeFiresecService(FiresecServiceFactory.Create(serverAddress));
+			ClientCredentials = new ClientCredentials()
+			{
+				UserName = login,
+				Password = password,
+				ClientType = clientType,
+				ClientCallbackAddress = clientCallbackAddress,
+				ClientUID = new Guid()
+			};
 
-			ClientUID = Guid.NewGuid();
-			var operationResult = FiresecService.Connect(ClientUID, clientType, clientCallbackAddress, login, password);
+			FiresecService = new SafeFiresecService(serverAddress);
+
+			var operationResult = FiresecService.Connect(ClientCredentials, true);
 			if (operationResult.HasError)
 			{
 				return operationResult.Error;
@@ -48,7 +56,6 @@ namespace FiresecClient
 		{
 			DeviceStates = FiresecService.GetStates(false);
 			UpdateStates();
-			FiresecService.Subscribe();
 			FiresecService.StartPing();
 		}
 
@@ -93,10 +100,8 @@ namespace FiresecClient
 		{
 			if (FiresecService != null)
 			{
-				FiresecService.StopPing();
-				FiresecService.Disconnect();
+				FiresecService.Dispose();
 			}
-			FiresecServiceFactory.Dispose();
 			FiresecCallbackServiceManager.Close();
 		}
 

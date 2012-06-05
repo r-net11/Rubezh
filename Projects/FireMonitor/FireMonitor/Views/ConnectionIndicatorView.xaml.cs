@@ -116,14 +116,20 @@ namespace FireMonitor.Views
 
 		void OnConnectionLost()
 		{
-			IsServiceConnected = false;
-			_serviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsServiceConnected));
+			Dispatcher.Invoke(new Action(() =>
+			{
+				IsServiceConnected = false;
+				_serviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsServiceConnected));
+			}));
 		}
 
 		void OnConnectionAppeared()
 		{
-			IsServiceConnected = true;
-			_serviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsServiceConnected));
+			Dispatcher.Invoke(new Action(() =>
+			{
+				IsServiceConnected = true;
+				_serviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsServiceConnected));
+			}));
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

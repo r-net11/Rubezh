@@ -2,20 +2,22 @@
 using FiresecService.Configuration;
 using FiresecService.Service;
 using System;
+using System.Collections.Generic;
 
 namespace FiresecService.Processor
 {
 	public partial class FiresecManager
 	{
-		public FiresecService.Service.FiresecService FiresecService { get; set; }
+		public List<FiresecService.Service.FiresecService> FiresecServices { get; set; }
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
 		public Watcher Watcher { get; set; }
+		public bool IsConnectedToComServer { get; private set; }
 
-		public FiresecManager(FiresecService.Service.FiresecService firesecService)
+		public FiresecManager()
 		{
-			FiresecService = firesecService;
+			FiresecServices = new List<Service.FiresecService>();
 			FiresecSerializedClient = new FiresecSerializedClient();
 			ConfigurationConverter = new ConfigurationConverter()
 			{
@@ -30,7 +32,7 @@ namespace FiresecService.Processor
 			string login = AppSettings.OldFiresecLogin;
 			string password = AppSettings.OldFiresecPassword;
 
-			if (FiresecSerializedClient.Connect(login, password).Result)
+			if (IsConnectedToComServer = FiresecSerializedClient.Connect(login, password).Result)
 			{
 				ConfigurationConverter.ConvertMetadataFromFiresec();
 				ConfigurationConverter.SetValidChars();

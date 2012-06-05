@@ -1,23 +1,38 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ServiceModel;
 using System.Timers;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecAPI.Models.Skud;
+using System.Diagnostics;
 
 namespace FiresecClient
 {
 	[CallbackBehavior(ConcurrencyMode = ConcurrencyMode.Single)]
-	public class SafeFiresecService : IFiresecService
+	public partial class SafeFiresecService : IFiresecService
 	{
-		public SafeFiresecService(IFiresecService iFiresecService)
-		{
-			_iFiresecService = iFiresecService;
-		}
+		FiresecServiceFactory FiresecServiceFactory;
+		public IFiresecService FiresecService { get; set; }
+		string _serverAddress;
+		ClientCredentials _clientCredentials;
+		bool _isConnected = true;
+		System.Timers.Timer _pingTimer;
+		System.Timers.Timer _recoveryTimer;
 
-		IFiresecService _iFiresecService;
+		public SafeFiresecService(string serverAddress)
+		{
+			FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
+			_serverAddress = serverAddress;
+			FiresecService = FiresecServiceFactory.Create(serverAddress);
+
+			_pingTimer = new System.Timers.Timer();
+			_pingTimer.Interval = 1000;
+			_pingTimer.Elapsed += new ElapsedEventHandler(OnPingTimer);
+
+			_recoveryTimer = new System.Timers.Timer();
+			_recoveryTimer.Interval = 10000;
+			_recoveryTimer.Elapsed += new ElapsedEventHandler((source, e) => { OnRecover(); });
+		}
 
 		public static event Action ConnectionLost;
 		void OnConnectionLost()
@@ -29,6 +44,28 @@ namespace FiresecClient
 				ConnectionLost();
 
 			_isConnected = false;
+
+			OnRecover();
+		}
+
+		void OnRecover()
+		{
+			Trace.WriteLine("OnRecover");
+			_recoveryTimer.Stop();
+			_pingTimer.Stop();
+			FiresecServiceFactory.Dispose();
+			FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
+			FiresecService = FiresecServiceFactory.Create(_serverAddress);
+			try
+			{
+				FiresecService.Connect(_clientCredentials, false);
+				_recoveryTimer.Stop();
+			}
+			catch
+			{
+				_recoveryTimer.Start();
+			}
+			_pingTimer.Start();
 		}
 
 		public static event Action ConnectionAppeared;
@@ -43,31 +80,18 @@ namespace FiresecClient
 			_isConnected = true;
 		}
 
-		bool _isConnected = true;
-
-		System.Timers.Timer _pingTimer;
-
 		public void StartPing()
 		{
-			if (_pingTimer != null)
-			{
-				_pingTimer = new System.Timers.Timer();
-				_pingTimer.Elapsed += new ElapsedEventHandler(OnTimerPing);
-				_pingTimer.Interval = 1000;
-				_pingTimer.Enabled = true;
-			}
+			_pingTimer.Start();
 		}
 
 		public void StopPing()
 		{
-			if (_pingTimer != null)
-			{
-				_pingTimer.Enabled = false;
-				_pingTimer.Dispose();
-			}
+			_pingTimer.Stop();
+			_pingTimer.Dispose();
 		}
 
-		private void OnTimerPing(object source, ElapsedEventArgs e)
+		private void OnPingTimer(object source, ElapsedEventArgs e)
 		{
 			Ping();
 		}
@@ -76,7 +100,7 @@ namespace FiresecClient
 		{
 			try
 			{
-				var result = _iFiresecService.Ping();
+				var result = FiresecService.Ping();
 				OnConnectionAppeared();
 				return result;
 			}
@@ -104,6 +128,7 @@ namespace FiresecClient
 			try
 			{
 				var result = func();
+				OnConnectionAppeared();
 				if (result != null)
 					return result;
 			}
@@ -124,7 +149,9 @@ namespace FiresecClient
 		{
 			try
 			{
-				return func();
+				var t = func();
+				OnConnectionAppeared();
+				return t;
 			}
 			catch (Exception e)
 			{
@@ -139,6 +166,7 @@ namespace FiresecClient
 			try
 			{
 				action();
+				OnConnectionAppeared();
 			}
 			catch (Exception e)
 			{
@@ -147,13 +175,14 @@ namespace FiresecClient
 			}
 		}
 
-		public OperationResult<bool> Connect(Guid clientUID, string clientType, string clientCallbackAddress, string userName, string password)
+		public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
 		{
+			_clientCredentials = clientCredentials;
 			return SafeOperationCall(() =>
 			{
 				try
 				{
-					return _iFiresecService.Connect(clientUID, clientType, clientCallbackAddress, userName, password);
+					return FiresecService.Connect(clientCredentials, isNew);
 				}
 				catch (Exception e)
 				{
@@ -168,299 +197,11 @@ namespace FiresecClient
 			});
 		}
 
-		public OperationResult<bool> Reconnect(string userName, string password)
+		public void Dispose()
 		{
-			return SafeOperationCall(() => { return _iFiresecService.Reconnect(userName, password); });
-		}
-
-		public void Disconnect()
-		{
-			SafeOperationCall(() => { _iFiresecService.Disconnect(); });
-		}
-
-		public void Subscribe()
-		{
-			SafeOperationCall(() => { _iFiresecService.Subscribe(); });
-		}
-
-		public string GetStatus()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetStatus(); });
-		}
-
-		public void CancelProgress()
-		{
-			SafeOperationCall(() => { _iFiresecService.CancelProgress(); });
-		}
-
-		public List<Driver> GetDrivers()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetDrivers(); });
-		}
-
-		public DeviceConfiguration GetDeviceConfiguration()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetDeviceConfiguration(); });
-		}
-
-		public OperationResult<DeviceConfiguration> DeviceReadConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceReadConfiguration(deviceConfiguration, deviceUID); });
-		}
-
-		public OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceAutoDetectChildren(deviceConfiguration, deviceUID, fastSearch); });
-		}
-
-		public OperationResult<List<DeviceCustomFunction>> DeviceCustomFunctionList(Guid driverUID)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceCustomFunctionList(driverUID); });
-		}
-
-		public PlansConfiguration GetPlansConfiguration()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetPlansConfiguration(); });
-		}
-
-		public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
-		{
-			SafeOperationCall(() => { _iFiresecService.SetPlansConfiguration(plansConfiguration); });
-		}
-
-		public SystemConfiguration GetSystemConfiguration()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetSystemConfiguration(); });
-		}
-
-		public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
-		{
-			SafeOperationCall(() => { _iFiresecService.SetSystemConfiguration(systemConfiguration); });
-		}
-
-		public LibraryConfiguration GetLibraryConfiguration()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetLibraryConfiguration(); });
-		}
-
-		public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
-		{
-			SafeOperationCall(() => { _iFiresecService.SetLibraryConfiguration(libraryConfiguration); });
-		}
-
-		public SecurityConfiguration GetSecurityConfiguration()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetSecurityConfiguration(); });
-		}
-
-		public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
-		{
-			SafeOperationCall(() => { _iFiresecService.SetSecurityConfiguration(securityConfiguration); });
-		}
-
-		public DeviceConfigurationStates GetStates(bool forceConvert = false)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetStates(forceConvert); });
-		}
-
-		public OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetFilteredJournal(journalFilter); });
-		}
-
-		public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetFilteredArchive(archiveFilter); });
-		}
-
-		public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetDistinctDescriptions(); });
-		}
-
-		public OperationResult<DateTime> GetArchiveStartDate()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetArchiveStartDate(); });
-		}
-
-		public void AddJournalRecord(JournalRecord journalRecord)
-		{
-			SafeOperationCall(() => { _iFiresecService.AddJournalRecord(journalRecord); });
-		}
-
-		public List<string> GetFileNamesList(string directory)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetFileNamesList(directory); });
-		}
-
-		public Dictionary<string, string> GetDirectoryHash(string directory)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetDirectoryHash(directory); });
-		}
-
-		public System.IO.Stream GetFile(string dirAndFileName)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetFile(dirAndFileName); });
-		}
-
-		public void ConvertConfiguration()
-		{
-			SafeOperationCall(() => { _iFiresecService.ConvertConfiguration(); });
-		}
-
-		public void ConvertJournal()
-		{
-			SafeOperationCall(() => { _iFiresecService.ConvertJournal(); });
-		}
-
-		public string Test()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.Test(); });
-		}
-
-		public void SetXDeviceConfiguration(XFiresecAPI.XDeviceConfiguration xDeviceConfiguration)
-		{
-			SafeOperationCall(() => { _iFiresecService.SetXDeviceConfiguration(xDeviceConfiguration); });
-		}
-
-		public XFiresecAPI.XDeviceConfiguration GetXDeviceConfiguration()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.GetXDeviceConfiguration(); });
-		}
-
-		public OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.SetDeviceConfiguration(deviceConfiguration); });
-		}
-
-		public OperationResult<bool> DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceWriteConfiguration(deviceConfiguration, deviceUID); });
-		}
-
-		public OperationResult<bool> DeviceWriteAllConfiguration(DeviceConfiguration deviceConfiguration)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceWriteAllConfiguration(deviceConfiguration); });
-		}
-
-		public OperationResult<bool> DeviceSetPassword(DeviceConfiguration deviceConfiguration, Guid deviceUID, DevicePasswordType devicePasswordType, string password)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceSetPassword(deviceConfiguration, deviceUID, devicePasswordType, password); });
-		}
-
-		public OperationResult<bool> DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceDatetimeSync(deviceConfiguration, deviceUID); });
-		}
-
-		public OperationResult<string> DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceGetInformation(deviceConfiguration, deviceUID); });
-		}
-
-		public OperationResult<List<string>> DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceGetSerialList(deviceConfiguration, deviceUID); });
-		}
-
-		public OperationResult<string> DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceUpdateFirmware(deviceConfiguration, deviceUID, bytes, fileName); });
-		}
-
-		public OperationResult<string> DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceVerifyFirmwareVersion(deviceConfiguration, deviceUID, bytes, fileName); });
-		}
-
-		public OperationResult<string> DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceReadEventLog(deviceConfiguration, deviceUID); });
-		}
-
-		public OperationResult<string> DeviceCustomFunctionExecute(DeviceConfiguration deviceConfiguration, Guid deviceUID, string functionName)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceCustomFunctionExecute(deviceConfiguration, deviceUID, functionName); });
-		}
-
-		public OperationResult<string> DeviceGetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceGetGuardUsersList(deviceConfiguration, deviceUID); });
-		}
-
-		public OperationResult<bool> DeviceSetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID, string users)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceSetGuardUsersList(deviceConfiguration, deviceUID, users); });
-		}
-
-		public OperationResult<string> DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.DeviceGetMDS5Data(deviceConfiguration, deviceUID); });
-		}
-
-		public void AddToIgnoreList(List<Guid> deviceUIDs)
-		{
-			SafeOperationCall(() => { _iFiresecService.AddToIgnoreList(deviceUIDs); });
-		}
-
-		public void RemoveFromIgnoreList(List<Guid> deviceUIDs)
-		{
-			SafeOperationCall(() => { _iFiresecService.RemoveFromIgnoreList(deviceUIDs); });
-		}
-
-		public void ResetStates(List<ResetItem> resetItems)
-		{
-			SafeOperationCall(() => { _iFiresecService.ResetStates(resetItems); });
-		}
-
-		public void AddUserMessage(string message)
-		{
-			SafeOperationCall(() => { _iFiresecService.AddUserMessage(message); });
-		}
-
-		public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)
-		{
-			return SafeOperationCall(() => { return _iFiresecService.ExecuteCommand(deviceUID, methodName); });
-		}
-
-		public OperationResult<bool> CheckHaspPresence()
-		{
-			return SafeOperationCall(() => { return _iFiresecService.CheckHaspPresence(); });
-		}
-
-		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
-		{
-			return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => _iFiresecService.GetEmployees(filter));
-		}
-
-		public bool DeleteEmployee(int id)
-		{
-			return SafeContext.Execute<bool>(() => _iFiresecService.DeleteEmployee(id));
-		}
-
-		public EmployeeCardDetails GetEmployeeCard(int id)
-		{
-			return SafeContext.Execute<EmployeeCardDetails>(() => _iFiresecService.GetEmployeeCard(id));
-		}
-
-		public int SaveEmployeeCard(EmployeeCardDetails employeeCard)
-		{
-			return SafeContext.Execute<int>(() => _iFiresecService.SaveEmployeeCard(employeeCard));
-		}
-
-		public IEnumerable<EmployeeDepartment> GetEmployeeDepartments()
-		{
-			return SafeContext.Execute<IEnumerable<EmployeeDepartment>>(() => _iFiresecService.GetEmployeeDepartments());
-		}
-
-		public IEnumerable<EmployeeGroup> GetEmployeeGroups()
-		{
-			return SafeContext.Execute<IEnumerable<EmployeeGroup>>(() => _iFiresecService.GetEmployeeGroups());
-		}
-
-		public IEnumerable<EmployeePosition> GetEmployeePositions()
-		{
-			return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => _iFiresecService.GetEmployeePositions());
+			StopPing();
+			Disconnect();
+			FiresecServiceFactory.Dispose();
 		}
 	}
 }

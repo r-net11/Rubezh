@@ -99,6 +99,9 @@ namespace FiresecClient
 
 		public void NewJournalRecord(JournalRecord journalRecord)
 		{
+#if (DEBUG)
+			//throw new Exception("Test");
+#endif
 			SafeOperationCall(() =>
 			{
 				if (NewJournalRecordEvent != null)
@@ -124,7 +127,18 @@ namespace FiresecClient
 
 		public Guid Ping()
 		{
-			return FiresecManager.ClientUID;
+#if (DEBUG)
+			//throw new Exception("Test");
+#endif
+			try
+			{
+				return FiresecManager.ClientCredentials.ClientUID;
+			}
+			catch(Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове FiresecCallbackService.Ping");
+				return Guid.Empty;
+			}
 		}
 
 		public static event Action<Guid> DeviceStateChangedEvent;
