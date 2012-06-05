@@ -109,7 +109,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <DelaySign>true</DelaySign>
-  </PropertyGroup>
+  </PropertyGroup> 
   <ItemGroup>
     <Reference Include="NLog">
       <HintPath>..\..\..\3rdParty\NLog2\NLog.dll</HintPath>

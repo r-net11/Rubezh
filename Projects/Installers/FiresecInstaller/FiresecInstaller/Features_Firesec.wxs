@@ -8,20 +8,17 @@
       <Feature Id="FiresecService" Level="1" ConfigurableDirectory="FIRESECSERVICELOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local" >
         <Condition Level="0">INSTALLLEVEL=2</Condition>
         <FeatureRef Id="FiresecServiceFeature" />
-        <ComponentRef Id="ChangeConnectionsSettings"/>
-        
-        <!--<ComponentRef Id="SqlComponent"/>-->
         <ComponentRef Id="ClearOnUninstallFiresecService"/>
       </Feature>
       <Feature Id="FiresecClient" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
         <FeatureRef Id="FireAdministratorFeature" />
         <FeatureRef Id="FireMonitorFeature" />
+        <ComponentRef Id="ChangeXMLSettings"/>
         <ComponentRef Id="ClearOnUninstallFireAdministrator"/>
         <ComponentRef Id="ClearOnUninstallFireMonitor"/>
       </Feature>
       <ComponentRef Id="DesktopFolder"/>
       <ComponentRef Id="ProgramMenuDir"/>
-      <ComponentRef Id="FiresecProgramsMenuShortcutUninstall"/>
     </Feature>
   </Fragment>
 </Wix>

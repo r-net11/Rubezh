@@ -6,7 +6,7 @@
   </target>
   <target name="BuildAll">
     <msbuild project="..\Projects\FiresecService\FiresecService.sln">
-      <property name="Configuration" value="Release" overwrite="True" />
+      <property name="Configuration" value="Release" overwrite="True" />	  
     </msbuild>			
     <msbuild project="..\Projects\FireMonitor\FireMonitor.sln">
       <property name="Configuration" value="Release" overwrite="True" />

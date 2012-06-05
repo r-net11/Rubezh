@@ -12,8 +12,8 @@
     <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
     
     <Upgrade Id="$(var.UpgradeCode)">
-      <!--<UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="yes" OnlyDetect="yes" Language="1049" Property="NEWPRODUCTFOUND" />-->
-      <UpgradeVersion Maximum="5.5.5.5" IncludeMaximum="yes"  Language="1049" Property="UPGRADEFOUND" />
+      <UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="yes" Maximum="2.0.0.0" IncludeMaximum="no"
+                      Language="1049" Property="OLD_VERSION_FOUND"/>
     </Upgrade>
     
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
@@ -31,10 +31,9 @@
     <Property Id="SETUPCHOICE" Value="Full" />
     <Property Id="IS_SQLSERVER_USERNAME" Value="sa" />
     <Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
-    <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
+    <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />    
 
     <Directory Id="TARGETDIR" Name="SourceDir">
-      
       <Directory Id="SystemFolder"/>
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
@@ -79,15 +78,10 @@
     <FeatureRef Id="FiresecFeature" />
     
     <InstallExecuteSequence>
-      <!--<Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>-->
       <RemoveExistingProducts After="InstallFinalize" />
       <Custom Action="CloseApplications" After="WixCloseApplications" />
-      <Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full" AND NOT UPGRADEFOUND</Custom>
+      <Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full" AND (NOT Installed)</Custom>
     </InstallExecuteSequence>
-
-    <InstallUISequence>
-      <!--<Custom Action="PreventDowngrading" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>-->
-    </InstallUISequence>
 
     <UI Id="MyWixUI_Wizard">
       <UIRef Id="WixUI_Wizard" />

@@ -3,9 +3,9 @@
 		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
 		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
 	<Fragment>
-		<DirectoryRef Id="FIRESECSERVICELOCATION">
-			<Component Id="ChangeConnectionsSettings" Guid="218643AE-C10B-46B7-B363-22DD8DDC89BF">
-				<CreateFolder Directory="FIRESECSERVICELOCATION" />
+		<DirectoryRef Id="FIREADMINISTRATORLOCATION">
+			<Component Id="ChangeXMLSettings" Guid="218643AE-C10B-46B7-B363-22DD8DDC89BF">
+				<CreateFolder Directory="FIREADMINISTRATORLOCATION" />
         <util:XmlConfig Id="XmlFASettings" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
                         ElementPath="//configuration/modules" On="install" 
                         VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]"
@@ -24,14 +24,14 @@
 			</Component>-->
 		</DirectoryRef>
 		
-		<DirectoryRef Id="ProgramMenuDir">
+		<!--<DirectoryRef Id="ProgramMenuDir">
 			<Component Id="FiresecProgramsMenuShortcutUninstall" Guid="CC6AE248-D8F1-4801-8720-0D7AF2177780">
 				<Shortcut Id="FAUninstallProduct" Name="Удалить Firesec 2" Target="[System64Folder]msiexec.exe"
 									Arguments="/x [ProductCode]" Description="Удаляет Firesec 2 с данного компьютера" />
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
 											 Value="1" KeyPath="yes" />
 			</Component>
-		</DirectoryRef>
+		</DirectoryRef>-->
 
     
 	</Fragment>
