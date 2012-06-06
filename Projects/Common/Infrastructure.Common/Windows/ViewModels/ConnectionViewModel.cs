@@ -12,6 +12,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Sizable = false;
 			TopMost = true;
 			RestrictClose = restrictClose;
+			HideInTaskbar = true;
 		}
 
 		public bool RestrictClose { get; private set; }

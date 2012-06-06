@@ -38,16 +38,21 @@ namespace Infrastructure.Client
 
 		protected void RunShell(ShellViewModel shellViewModel)
 		{
+			LoadingService.DoStep("Загрузка модулей приложения");
 			shellViewModel.NavigationItems = GetNavigationItems();
 			InitializeModules();
 			ApplicationService.User = FiresecManager.CurrentUser;
+			LoadingService.DoStep("Запуск приложения");
 			ApplicationService.Run(shellViewModel);
 		}
 		protected void InitializeModules()
 		{
 			ReadConfiguration();
 			foreach (IModule module in Modules)
+			{
+				LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
 				module.Initialize();
+			}
 		}
 		protected List<NavigationItem> GetNavigationItems()
 		{
@@ -58,6 +63,17 @@ namespace Infrastructure.Client
 			return navigationItems;
 		}
 
+		protected int GetModuleCount()
+		{
+			if (Modules == null)
+			{
+				System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+				ModuleSection section = config.GetSection("modules") as ModuleSection;
+				return section.Modules.Count;
+			}
+			else
+				return Modules.Count;
+		}
 		protected void ReadConfiguration()
 		{
 			if (Modules == null)

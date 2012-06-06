@@ -18,6 +18,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			CloseOnEscape = false;
 			Sizable = false;
 			TopMost = false;
+			HideInTaskbar = false;
 		}
 
 		public Window Surface { get; internal set; }
@@ -65,6 +66,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		public bool CloseOnEscape { get; set; }
+		public bool HideInTaskbar { get; set; }
 
 		public virtual bool OnClosing(bool isCanceled)
 		{

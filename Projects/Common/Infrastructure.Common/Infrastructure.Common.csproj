@@ -124,6 +124,7 @@
     <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="Windows\ILayoutService.cs" />
     <Compile Include="Windows\LayoutService.cs" />
+    <Compile Include="Windows\LoadingService.cs" />
     <Compile Include="Windows\ViewModels\BaseViewModel.cs" />
     <Compile Include="Windows\ViewModels\IEditingViewModel.cs" />
     <Compile Include="IModule.cs" />

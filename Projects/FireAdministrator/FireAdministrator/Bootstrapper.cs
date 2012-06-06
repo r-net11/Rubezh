@@ -33,15 +33,15 @@ namespace FireAdministrator
 
 			if (ServiceFactory.LoginService.ExecuteConnect())
 			{
-				var preLoadWindow = new Infrastructure.Common.Windows.ViewModels.ProgressViewModel() { Title = "Инициализация компонент..." };
-				DialogService.ShowWindow(preLoadWindow);
-
+				LoadingService.Show("Чтение конфигурации", 4);
+				LoadingService.AddCount(GetModuleCount());
+				LoadingService.DoStep("Полчучение списка драйверов с сервера");
 				FiresecManager.GetConfiguration();
 				if (FiresecManager.Drivers.Count == 0)
 				{
 					MessageBoxService.Show("Ошибка при получении списка драйверов с сервера");
 				}
-
+				LoadingService.DoStep("Проверка прав пользователя");
 				if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
 				{
 					MessageBoxService.Show("Нет прав на работу с программой");
@@ -53,7 +53,7 @@ namespace FireAdministrator
 					((LayoutService)ServiceFactory.Layout).SetMenuViewModel((MenuViewModel)shell.Toolbar);
 					RunShell(shell);
 				}
-				preLoadWindow.ForceClose();
+				LoadingService.Close();
 			}
 			else
 				Application.Current.Shutdown();

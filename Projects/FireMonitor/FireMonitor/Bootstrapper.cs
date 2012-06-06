@@ -34,23 +34,28 @@ namespace FireMonitor
 
 			if (ServiceFactory.LoginService.ExecuteConnect())
 			{
-				var preLoadWindow = new Infrastructure.Common.Windows.ViewModels.ProgressViewModel() { Title = "Инициализация компонент..." };
-				DialogService.ShowWindow(preLoadWindow);
-
+				LoadingService.Show("Чтение конфигурации", 9);
+				LoadingService.AddCount(GetModuleCount());
+				LoadingService.DoStep("Полчучение списка драйверов с сервера");
 				FiresecManager.GetConfiguration();
 				if (FiresecManager.Drivers.Count == 0)
 					MessageBoxService.Show("Ошибка при получении списка драйверов с сервера");
+				LoadingService.DoStep("Проверка состояния системы");
 				FiresecManager.GetStates();
 
+				LoadingService.DoStep("Проверка HASP-ключа");
 				var operationResult = FiresecManager.FiresecService.CheckHaspPresence();
 				if (operationResult.HasError)
 					MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
+				LoadingService.DoStep("Проверка состояния системы");
 				var serverStatus = FiresecManager.FiresecService.GetStatus();
 				if (serverStatus != null)
 					MessageBoxService.ShowWarning(serverStatus);
 
+				LoadingService.DoStep("Проверка прав пользователя");
 				if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Login))
 				{
+					LoadingService.DoStep("Загрузка клиентских настроек");
 					ClientSettings.LoadSettings();
 
 					//if (ServiceFactory.AppSettings.ShowOnlyVideo)
@@ -71,8 +76,7 @@ namespace FireMonitor
 					MessageBoxService.Show("Нет прав на работу с программой");
 					FiresecManager.Disconnect();
 				}
-
-				preLoadWindow.ForceClose();
+				LoadingService.Close();
 			}
 			else
 				Application.Current.Shutdown();

@@ -55,6 +55,8 @@ namespace Infrastructure.Common.Windows.Views
 				MinHeight = AbsolutMinSize;
 			if (MinWidth < AbsolutMinSize)
 				MinWidth = AbsolutMinSize;
+			if (_model.HideInTaskbar)
+				ShowInTaskbar = false;
 		}
 
 		private void Window_Closing(object sender, CancelEventArgs e)

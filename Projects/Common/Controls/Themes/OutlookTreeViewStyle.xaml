@@ -110,7 +110,7 @@
 				</Setter>
 			</Style>
 		</Style.Resources>
-		<Setter Property="Background" Value="{DynamicResource WindowBlackBackgroundBrush}"/>
+		<Setter Property="Background" Value="Transparent" />
 		<Setter Property="BorderThickness" Value="0"/>
 	</Style>
 

@@ -9,11 +9,6 @@ using System.Threading;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
-	//var preLoadWindow = new Infrastructure.Common.Windows.ViewModels.ProgressViewModel() { Title = "Чтение конфигурации..." };
-	//DialogService.ShowWindow(preLoadWindow);
-	//ReadConfiguration();
-	//preLoadWindow.StepCount = Modules.Count + 1;
-
 	public class ProgressViewModel : WindowBaseViewModel
 	{
 		public ProgressViewModel(bool restrictClose = true)
@@ -21,6 +16,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Sizable = false;
 			TopMost = true;
 			RestrictClose = restrictClose;
+			HideInTaskbar = true;
 		}
 
 		public string Product
