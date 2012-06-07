@@ -5,7 +5,6 @@ using System.Windows;
 using Common;
 using FiresecService.Service;
 using FiresecService.ViewModels;
-using FiresecServiceRunner;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 

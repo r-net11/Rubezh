@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure.Common;
-using XFiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

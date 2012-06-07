@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.Views;
-using Infrastructure.Common.Windows.ViewModels;
-using Common;
-using System.Windows;
 using System.Reflection;
+using System.Windows;
+using Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows.Views;
 
 namespace Infrastructure.Common.Windows
 {

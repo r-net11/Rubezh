@@ -2,11 +2,10 @@
 using System.Windows.Shapes;
 using FiresecAPI.Models;
 using Infrastructure;
-using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
 using PlansModule.Events;
 using PlansModule.Views;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {

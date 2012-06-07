@@ -18,7 +18,7 @@ namespace Infrastructure
 			ResourceService = new ResourceService();
 			Layout = ILayoutService;
 			SecurityService = ISecurityService;
-			LoginService = new LoginService("Монитор", "Оперативная задача. Авторизация.");
+			LoginService = new LoginService(ClientType.Monitor, "Оперативная задача. Авторизация.");
 			SubscribeEvents();
 		}
 

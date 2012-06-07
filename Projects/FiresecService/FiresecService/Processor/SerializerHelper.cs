@@ -2,10 +2,10 @@
 using System.IO;
 using System.Text;
 using System.Xml.Serialization;
+using Common;
 using Firesec.Groups;
 using Firesec.IndicatorsLogic;
 using Firesec.ZonesLogic;
-using Common;
 
 namespace FiresecService.Processor
 {

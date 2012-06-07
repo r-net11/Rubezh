@@ -1,9 +1,7 @@
-﻿using FiresecAPI.Models;
-using Infrastructure;
-using Infrastructure.Common;
-using JournalModule.Events;
-using Infrastructure.Models;
+﻿using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Models;
+using JournalModule.Events;
 
 namespace JournalModule.ViewModels
 {

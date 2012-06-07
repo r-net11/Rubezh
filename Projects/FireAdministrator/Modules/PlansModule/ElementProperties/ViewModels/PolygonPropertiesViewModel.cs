@@ -1,6 +1,5 @@
 ﻿using System.Windows.Media;
 using FiresecAPI.Models;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels

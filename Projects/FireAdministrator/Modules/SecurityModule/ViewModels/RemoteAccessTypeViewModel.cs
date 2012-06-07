@@ -1,8 +1,7 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure;
-using Infrastructure.Common;
-using SecurityModule.Events;
 using Infrastructure.Common.Windows.ViewModels;
+using SecurityModule.Events;
 
 namespace SecurityModule.ViewModels
 {

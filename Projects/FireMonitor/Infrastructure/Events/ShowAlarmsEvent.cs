@@ -1,5 +1,5 @@
-﻿using Microsoft.Practices.Prism.Events;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
+using Microsoft.Practices.Prism.Events;
 
 namespace AlarmModule.Events
 {

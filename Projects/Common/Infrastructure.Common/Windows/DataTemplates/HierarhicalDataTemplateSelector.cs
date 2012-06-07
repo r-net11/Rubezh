@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Controls;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Windows.Media;
 using Infrastructure.Common.Windows.Views;
 
 namespace Infrastructure.Common.Windows.DataTemplates

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common;
-using Infrastructure.Client.Login.ViewModels;
-using System.Configuration;
-using FiresecAPI.Models;
+﻿using System.Configuration;
 using System.Windows;
+using FiresecAPI.Models;
+using Infrastructure.Client.Login.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Client.Login
 {
@@ -15,7 +11,7 @@ namespace Infrastructure.Client.Login
 		private ClientType _clientType;
 		private string _title;
 
-		public LoginService(string clientType, string title = null)
+		public LoginService(ClientType clientType, string title = null)
 		{
 			_clientType = clientType;
 			_title = title ?? "Авторизация";

@@ -1,6 +1,5 @@
-﻿using FiresecService.Properties;
-using FiresecService.Database;
-using FiresecService.DatabaseConverter;
+﻿using FiresecService.DatabaseConverter;
+using FiresecService.Properties;
 
 namespace FiresecService.Database
 {

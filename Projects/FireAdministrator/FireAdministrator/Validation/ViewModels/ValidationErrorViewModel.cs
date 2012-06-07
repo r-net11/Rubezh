@@ -1,8 +1,7 @@
 ﻿using FiresecClient.Validation;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Events;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace FireAdministrator.ViewModels
 {

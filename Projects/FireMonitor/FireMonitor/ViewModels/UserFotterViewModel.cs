@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
 
 namespace FireMonitor.ViewModels
 {

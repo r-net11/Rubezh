@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.ServiceModel;
 using Common;
 using FiresecAPI;
-using FiresecAPI.Models.Skud;
 using FiresecAPI.Models;
+using FiresecAPI.Models.Skud;
 using FiresecService.ViewModels;
 
 namespace FiresecService.Service
@@ -351,7 +351,7 @@ namespace FiresecService.Service
 		public string Test()
 		{
 #if (DEBUG)
-			throw new Exception("Test");
+			//throw new Exception("Test");
 #endif
 			return SafeOperationCall(() => { return FiresecService.Test(); }, "Test");
 		}

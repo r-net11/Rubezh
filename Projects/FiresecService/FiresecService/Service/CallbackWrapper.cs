@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.Models;
 using Common;
+using FiresecAPI.Models;
 
 namespace FiresecService.Service
 {

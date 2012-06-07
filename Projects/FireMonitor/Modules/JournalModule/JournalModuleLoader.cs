@@ -1,10 +1,10 @@
-﻿using Infrastructure;
+﻿using System.Collections.Generic;
+using FiresecAPI.Models;
+using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using JournalModule.ViewModels;
-using Infrastructure.Common.Navigation;
-using System.Collections.Generic;
-using FiresecAPI.Models;
 
 namespace JournalModule
 {

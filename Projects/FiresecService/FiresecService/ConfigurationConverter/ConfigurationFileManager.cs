@@ -2,8 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using FiresecAPI.Models;
 using Common;
+using FiresecAPI.Models;
 
 namespace FiresecService.Configuration
 {

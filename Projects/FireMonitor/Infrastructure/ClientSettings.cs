@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization;
-using FiresecAPI.Models;
-using Infrastructure.Models;
 using Common;
+using Infrastructure.Models;
 
 namespace Infrastructure
 {

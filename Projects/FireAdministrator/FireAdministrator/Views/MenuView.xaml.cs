@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Controls;
 using Common;
+using FireAdministrator.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -12,7 +13,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Microsoft.Win32;
-using FireAdministrator.ViewModels;
 
 namespace FireAdministrator.Views
 {

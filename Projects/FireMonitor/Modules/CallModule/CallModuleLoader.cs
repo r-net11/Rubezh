@@ -1,9 +1,9 @@
-﻿using CallModule.ViewModels;
+﻿using System.Collections.Generic;
+using CallModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Events;
-using System.Collections.Generic;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Events;
 
 namespace CallModule
 {

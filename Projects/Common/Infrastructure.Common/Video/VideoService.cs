@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using FiresecAPI.Models;
 using Vlc.DotNet.Core;
-using System.Windows;
 
 namespace Infrastructure.Common
 {

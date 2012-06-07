@@ -3,9 +3,9 @@ using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
 using PlansModule.Events;
-using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.ViewModels
 {

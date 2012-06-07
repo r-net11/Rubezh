@@ -1,6 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using System.Diagnostics;
 using System.Reflection;
-using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace FireMonitor
 {

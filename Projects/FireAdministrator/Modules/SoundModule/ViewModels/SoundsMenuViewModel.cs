@@ -1,5 +1,4 @@
-﻿using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+﻿using Infrastructure.Common.Windows.ViewModels;
 
 namespace SoundsModule.ViewModels
 {

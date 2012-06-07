@@ -1,8 +1,7 @@
-﻿using System.Windows;
+﻿using FiresecAPI.Models;
+using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Microsoft.Practices.Prism.Events;
-using Infrastructure.Client.Login;
-using FiresecAPI.Models;
 
 namespace Infrastructure
 {
@@ -16,7 +15,7 @@ namespace Infrastructure
 			Layout = ILayoutService;
 			ProgressService = IProgressService;
 			ValidationService = IValidationService;
-			LoginService = new LoginService("Администратор", "Администратор. Авторизация");
+			LoginService = new LoginService(ClientType.Administrator, "Администратор. Авторизация");
 		}
 
 		public static AppSettings AppSettings { get; set; }

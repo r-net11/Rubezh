@@ -1,11 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using DevicesModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Events;
 using Infrastructure.Common.Navigation;
-using System.Collections.Generic;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 
 namespace DevicesModule
 {

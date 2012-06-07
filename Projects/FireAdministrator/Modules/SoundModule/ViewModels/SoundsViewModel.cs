@@ -5,8 +5,8 @@ using Common;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-using SoundsModule.Views;
 using Infrastructure.Common.Windows.ViewModels;
+using SoundsModule.Views;
 
 namespace SoundsModule.ViewModels
 {

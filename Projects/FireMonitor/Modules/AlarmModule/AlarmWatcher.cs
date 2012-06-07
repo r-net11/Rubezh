@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using AlarmModule.Events;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
-using Common;
 
 namespace AlarmModule
 {

@@ -1,5 +1,4 @@
 ﻿using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace SkudModule.ViewModels

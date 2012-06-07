@@ -4,8 +4,8 @@ using AlarmModule.Events;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Events;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace AlarmModule.ViewModels
 {

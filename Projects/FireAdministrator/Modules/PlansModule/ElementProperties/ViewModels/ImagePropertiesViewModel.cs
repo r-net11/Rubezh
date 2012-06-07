@@ -5,9 +5,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Common;
 using Infrastructure.Common;
-using Microsoft.Win32;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Win32;
 
 namespace PlansModule.ViewModels
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Runtime.Serialization;
-using XFiresecAPI;
 using Common;
+using XFiresecAPI;
 
 namespace FiresecService.Service
 {

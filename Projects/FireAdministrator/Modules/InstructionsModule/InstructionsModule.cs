@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using InstructionsModule.ViewModels;
-using Infrastructure.Common;
 
 namespace InstructionsModule
 {

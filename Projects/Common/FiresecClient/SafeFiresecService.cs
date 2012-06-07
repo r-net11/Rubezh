@@ -4,7 +4,6 @@ using System.Timers;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.Diagnostics;
 
 namespace FiresecClient
 {

@@ -1,13 +1,9 @@
-﻿using System;
-using System.ComponentModel;
-using System.Windows;
+﻿using System.Collections.Generic;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using ReportsModule.ViewModels;
-using ReportsModule.Views;
-using System.Collections.Generic;
-using Infrastructure.Common.Navigation;
 
 namespace ReportsModule
 {

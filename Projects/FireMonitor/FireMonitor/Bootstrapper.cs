@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using AlarmModule;
-using AlarmModule.Events;
-using Common;
+using FireMonitor.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Client;
-using FireMonitor.Views;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using FireMonitor.ViewModels;
 
 namespace FireMonitor
 {

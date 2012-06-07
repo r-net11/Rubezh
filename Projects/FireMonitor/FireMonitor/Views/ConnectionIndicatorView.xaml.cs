@@ -1,10 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;

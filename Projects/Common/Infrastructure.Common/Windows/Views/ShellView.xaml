@@ -24,7 +24,7 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" 
-                                          Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}" />
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

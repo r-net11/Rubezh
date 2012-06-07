@@ -1,17 +1,13 @@
 ﻿using System.Linq;
 using System.Windows;
 using FireAdministrator.ViewModels;
-using FireAdministrator.Views;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Events;
 using Infrastructure.Client;
-using Infrastructure.Common.Windows.Views;
-using Infrastructure.Common.Windows.ViewModels;
-using System;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 
 namespace FireAdministrator
 {

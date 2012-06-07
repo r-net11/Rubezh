@@ -5,8 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using Infrastructure.Common.Navigation;
-using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 
 namespace Infrastructure.Common.Navigation

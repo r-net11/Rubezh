@@ -3,8 +3,8 @@ using System.Windows.Controls;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-using PlansModule.Designer;
 using Infrastructure.Common.Windows.ViewModels;
+using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {

@@ -1,8 +1,7 @@
-﻿using FiresecAPI.Models;
+﻿using System.Collections.Generic;
+using FiresecAPI.Models;
 using FiresecService.Configuration;
 using FiresecService.Service;
-using System;
-using System.Collections.Generic;
 
 namespace FiresecService.Processor
 {

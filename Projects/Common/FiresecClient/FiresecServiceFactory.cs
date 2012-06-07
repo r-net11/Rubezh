@@ -2,7 +2,6 @@
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using FiresecAPI;
-using Common;
 
 namespace FiresecClient
 {

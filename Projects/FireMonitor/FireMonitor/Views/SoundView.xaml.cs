@@ -5,9 +5,9 @@ using System.Windows.Controls;
 using Common;
 using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using Infrastructure;
 
 namespace FireMonitor.Views
 {

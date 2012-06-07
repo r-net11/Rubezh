@@ -9,9 +9,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using PlansModule.Events;
 using PlansModule.ViewModels;
-using Infrastructure.Common.Windows;
 
 namespace PlansModule.Designer
 {

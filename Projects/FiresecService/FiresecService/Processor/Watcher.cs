@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using FiresecAPI.Models;
 using FiresecService.Database;
-using FiresecService.Service;
-using Common;
 
 namespace FiresecService.Processor
 {

@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiresecService.ViewModels

@@ -1,15 +1,13 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SettingsModule.Views;
-using System.Linq;
-using FiresecAPI.Models;
-using System.Collections.Generic;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Windows;
 
 namespace SettingsModule.ViewModels
 {

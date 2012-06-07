@@ -7,9 +7,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Events;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {

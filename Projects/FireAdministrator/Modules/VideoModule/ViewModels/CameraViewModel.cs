@@ -3,7 +3,6 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace VideoModule.ViewModels

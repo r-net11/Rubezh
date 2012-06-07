@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using JournalModule.ViewModels;
 using Infrastructure.Models;
+using JournalModule.ViewModels;
 
 namespace JournalModule.Views
 {

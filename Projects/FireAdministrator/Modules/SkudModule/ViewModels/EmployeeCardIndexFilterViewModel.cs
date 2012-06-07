@@ -1,9 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Models.Skud;
 using FiresecClient;
-using Infrastructure.Common;
-using SkudModule.Properties;
 using Infrastructure.Common.Windows.ViewModels;
+using SkudModule.Properties;
 
 namespace SkudModule.ViewModels
 {

@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using AlarmModule.Events;
 using FiresecAPI.Models;
-using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace AlarmModule.ViewModels

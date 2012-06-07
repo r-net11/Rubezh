@@ -1,9 +1,9 @@
-﻿using GKModule.ViewModels;
+﻿using System.Collections.Generic;
+using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Events;
-using System.Collections.Generic;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Events;
 
 namespace GKModule
 {
