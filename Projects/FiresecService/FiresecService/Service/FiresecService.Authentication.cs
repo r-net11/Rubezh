@@ -24,7 +24,7 @@ namespace FiresecService.Service
 			if (CheckRemoteAccessPermissions(login) == false)
 			{
 				operationResult.HasError = true;
-				operationResult.Error = "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + ClientAddress;
+				operationResult.Error = "У пользователя " + login + " нет прав на подкючение к удаленному серверу c хоста: " + ClientIpAddressAndPort;
 				return operationResult;
 			}
 			return operationResult;
@@ -63,7 +63,7 @@ namespace FiresecService.Service
 			try
 			{
 				var addressList = Dns.GetHostEntry(hostNameOrIpAddress).AddressList;
-				return addressList.Any(ip => ip.ToString() == ClientAddress);
+				return addressList.Any(ip => ip.ToString() == ClientIpAddress);
 			}
 			catch (Exception e)
 			{

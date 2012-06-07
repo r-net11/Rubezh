@@ -23,7 +23,7 @@ namespace FiresecClient
 				Password = password,
 				ClientType = clientType,
 				ClientCallbackAddress = clientCallbackAddress,
-				ClientUID = new Guid()
+				ClientUID = Guid.NewGuid()
 			};
 
 			FiresecService = new SafeFiresecService(serverAddress);

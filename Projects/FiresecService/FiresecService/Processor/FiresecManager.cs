@@ -14,9 +14,11 @@ namespace FiresecService.Processor
 		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
 		public Watcher Watcher { get; set; }
 		public bool IsConnectedToComServer { get; private set; }
+		public bool MustMonitorStates { get; private set; }
 
-		public FiresecManager()
+		public FiresecManager(bool mustMonitorStates)
 		{
+			MustMonitorStates = mustMonitorStates;
 			FiresecServices = new List<Service.FiresecService>();
 			FiresecSerializedClient = new FiresecSerializedClient();
 			ConfigurationConverter = new ConfigurationConverter()

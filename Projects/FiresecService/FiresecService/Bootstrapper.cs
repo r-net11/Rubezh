@@ -40,6 +40,7 @@ namespace FiresecService
 				synchronisationHostWindow.Show();
 				synchronisationHostWindow.Hide();
 
+				ClientsCash.InitializeComServers();
 				IsHostOpened = FiresecServiceManager.Open();
 
 				WindowThread = new Thread(new ThreadStart(OnWorkThread));

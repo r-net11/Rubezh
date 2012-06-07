@@ -1,11 +1,11 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using FiresecService.Processor;
 using FiresecService.ViewModels;
+using System.Timers;
 
 namespace FiresecService.Service
 {
@@ -14,12 +14,22 @@ namespace FiresecService.Service
 		public static List<FiresecService> FiresecServices { get; private set; }
 		static FiresecManager MonitoringFiresecManager;
 		static FiresecManager AdministratorFiresecManager;
+		static System.Timers.Timer PingTimer;
 
 		static ClientsCash()
 		{
-			MonitoringFiresecManager = new FiresecManager();
-			AdministratorFiresecManager = new FiresecManager();
 			FiresecServices = new List<FiresecService>();
+
+			PingTimer = new System.Timers.Timer();
+			PingTimer.Interval = 10000;
+			PingTimer.Elapsed += new ElapsedEventHandler((source, e) => { PingClients(); });
+			PingTimer.Start();
+		}
+
+		public static void InitializeComServers()
+		{
+			MonitoringFiresecManager = new FiresecManager(true);
+			AdministratorFiresecManager = new FiresecManager(false);
 		}
 
 		public static bool Add(FiresecService firesecService)
@@ -40,10 +50,11 @@ namespace FiresecService.Service
 			if (!IsNew(firesecService))
 				return false;
 
-			var existingFiresecService = FiresecServices.FirstOrDefault(x => x.ClientAddress == firesecService.ClientAddress);
+			var existingFiresecService = FiresecServices.FirstOrDefault(x => x.ClientIpAddress == firesecService.ClientIpAddress &&
+				x.ClientCredentials.ClientType == firesecService.ClientCredentials.ClientType);
 			if (existingFiresecService != null)
 			{
-				Remove(firesecService);
+				Remove(existingFiresecService);
 				return false;
 			}
 
@@ -76,10 +87,22 @@ namespace FiresecService.Service
 
 		public static void OnConfigurationChanged()
 		{
+			MonitoringFiresecManager.ConvertStates();
+			AdministratorFiresecManager.ConvertStates();
 			foreach (var firesecServices in FiresecServices)
 			{
 				firesecServices.CallbackWrapper.OnConfigurationChanged();
 			}
+		}
+
+		static void PingClients()
+		{
+			PingTimer.Stop();
+			foreach (var firesecServices in FiresecServices)
+			{
+				firesecServices.CallbackWrapper.OnPing();
+			}
+			PingTimer.Start();
 		}
 	}
 }

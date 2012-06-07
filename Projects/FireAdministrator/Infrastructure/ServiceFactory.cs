@@ -2,6 +2,7 @@
 using Infrastructure.Common;
 using Microsoft.Practices.Prism.Events;
 using Infrastructure.Client.Login;
+using FiresecAPI.Models;
 
 namespace Infrastructure
 {

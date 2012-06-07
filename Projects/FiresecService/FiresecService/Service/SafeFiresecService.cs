@@ -41,18 +41,14 @@ namespace FiresecService.Service
 			return operationResult;
 		}
 
-		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string operationName = null)
+		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string operationName)
 		{
 			try
 			{
-				if (operationName != null)
-					BeginOperation(operationName);
-
+				ReconnectIfClientCallbackFaulted();
+				BeginOperation(operationName);
 				var result = func();
-
-				if (operationName != null)
-					EndOperation();
-
+				EndOperation();
 				return result;
 			}
 			catch (Exception e)
@@ -62,18 +58,14 @@ namespace FiresecService.Service
 			}
 		}
 
-		T SafeOperationCall<T>(Func<T> func, string operationName = null)
+		T SafeOperationCall<T>(Func<T> func, string operationName)
 		{
 			try
 			{
-				if (operationName != null)
-					BeginOperation(operationName);
-
+				ReconnectIfClientCallbackFaulted();
+				BeginOperation(operationName);
 				var result = func();
-
-				if (operationName != null)
-					EndOperation();
-
+				EndOperation();
 				return result;
 			}
 			catch (Exception e)
@@ -83,21 +75,26 @@ namespace FiresecService.Service
 			return default(T);
 		}
 
-		void SafeOperationCall(Action action, string operationName = null)
+		void SafeOperationCall(Action action, string operationName)
 		{
 			try
 			{
-				if (operationName != null)
-					BeginOperation(operationName);
-
+				ReconnectIfClientCallbackFaulted();
+				BeginOperation(operationName);
 				action();
-
-				if (operationName != null)
-					EndOperation();
+				EndOperation();
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
+			}
+		}
+
+		void ReconnectIfClientCallbackFaulted()
+		{
+			if (FiresecService.IsClientCallbackFaulted)
+			{
+				FiresecService.ReconnectToClient();
 			}
 		}
 
@@ -348,7 +345,7 @@ namespace FiresecService.Service
 
 		public string Ping()
 		{
-			return SafeOperationCall(() => { return FiresecService.Ping(); });
+			return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
 		}
 
 		public string Test()
@@ -356,7 +353,7 @@ namespace FiresecService.Service
 #if (DEBUG)
 			throw new Exception("Test");
 #endif
-			return SafeOperationCall(() => { return FiresecService.Test(); });
+			return SafeOperationCall(() => { return FiresecService.Test(); }, "Test");
 		}
 
 		public void SetXDeviceConfiguration(XFiresecAPI.XDeviceConfiguration xDeviceConfiguration)

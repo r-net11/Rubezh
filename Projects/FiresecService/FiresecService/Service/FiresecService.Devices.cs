@@ -14,7 +14,6 @@ namespace FiresecService.Service
 	{
 		void NotifyConfigurationChanged()
 		{
-			//ServiceCash.RunningManagers.ForEach(x => x.FiresecService.FiresecManager.ConvertStates());
 			ClientsCash.OnConfigurationChanged();
 		}
 

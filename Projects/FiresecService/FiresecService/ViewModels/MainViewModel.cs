@@ -73,7 +73,7 @@ namespace FiresecService.ViewModels
 					UID = firesecService.UID,
 					UserName = firesecService.ClientCredentials.UserName,
 					ClientType = firesecService.ClientCredentials.ClientType,
-					IpAddress = firesecService.ClientAddress,
+					IpAddress = firesecService.ClientIpAddressAndPort,
 					ConnectionDate = DateTime.Now
 				};
 				Clients.Add(connectionViewModel);

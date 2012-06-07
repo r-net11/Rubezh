@@ -24,9 +24,11 @@ namespace FiresecService.Service
 		public IFiresecCallbackService FiresecCallbackService { get; private set; }
 		public Guid UID { get; private set; }
 		public ClientCredentials ClientCredentials { get; private set; }
-		public string ClientAddress { get; private set; }
+		public string ClientIpAddress { get; private set; }
+		public string ClientIpAddressAndPort { get; private set; }
 		public bool IsSubscribed { get; private set; }
 		System.Timers.Timer _recoveryTimer;
+		public bool IsClientCallbackFaulted { get; private set; }
 
 		public FiresecManager FiresecManager { get; set; }
 		FiresecSerializedClient FiresecSerializedClient
@@ -37,21 +39,18 @@ namespace FiresecService.Service
 		public FiresecService()
 		{
 			UID = Guid.NewGuid();
+			IsClientCallbackFaulted = false;
 
 			_recoveryTimer = new System.Timers.Timer();
 			_recoveryTimer.Interval = 10000;
-			_recoveryTimer.Elapsed += new ElapsedEventHandler((source, e) => { OnRecover(); });
+			_recoveryTimer.Elapsed += new ElapsedEventHandler((source, e) => { ReconnectToClient(); });
 		}
 
-		public void ReconnectToClient()
+		public bool ReconnectToClient()
 		{
 			Logger.Info("FiresecService.ReconnectToClient");
-			OnRecover();
-		}
-
-		void OnRecover()
-		{
-			MainViewModel.Current.UpdateClientState(UID, "Соединение");
+			IsClientCallbackFaulted = true;
+			MainViewModel.Current.UpdateClientState(UID, "Попытка соединения");
 			_recoveryTimer.Stop();
 			FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);
 			try
@@ -64,14 +63,17 @@ namespace FiresecService.Service
 			{
 				MainViewModel.Current.UpdateClientState(UID, "Ошибка");
 				_recoveryTimer.Start();
+				return false;
 			}
+			return false;
 		}
 
 		public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
 		{
 			ClientCredentials = clientCredentials;
 			var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
-			ClientAddress = endpoint.Address + ":" + endpoint.Port.ToString();
+			ClientIpAddress = endpoint.Address;
+			ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
 
 			var operationResult = Authenticate(clientCredentials.UserName, clientCredentials.Password);
 			if (operationResult.HasError)
@@ -121,7 +123,6 @@ namespace FiresecService.Service
 			return operationResult;
 		}
 
-		[OperationBehavior(ReleaseInstanceMode = ReleaseInstanceMode.AfterCall)]
 		public void Disconnect()
 		{
 			ClientsCash.Remove(this);

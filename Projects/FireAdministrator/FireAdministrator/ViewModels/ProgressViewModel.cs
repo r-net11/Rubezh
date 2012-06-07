@@ -14,6 +14,7 @@ namespace FireAdministrator.ViewModels
 			StopCommand = new RelayCommand(OnStop);
 			Title = title;
 			ContinueProgress = true;
+			FiresecCallbackService.ProgressEvent -= new Func<int, string, int, int, bool>(Progress);
 			FiresecCallbackService.ProgressEvent += new Func<int, string, int, int, bool>(Progress);
 		}
 
@@ -89,7 +90,7 @@ namespace FireAdministrator.ViewModels
 		void OnStop()
 		{
 			ContinueProgress = false;
-			//FiresecManager.FiresecService.CancelProgress();
+			FiresecManager.FiresecService.CancelProgress();
 		}
 	}
 }

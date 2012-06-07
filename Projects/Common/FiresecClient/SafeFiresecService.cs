@@ -27,11 +27,11 @@ namespace FiresecClient
 
 			_pingTimer = new System.Timers.Timer();
 			_pingTimer.Interval = 1000;
-			_pingTimer.Elapsed += new ElapsedEventHandler(OnPingTimer);
+			_pingTimer.Elapsed += new ElapsedEventHandler((source, e) => { Ping(); });
 
 			_recoveryTimer = new System.Timers.Timer();
 			_recoveryTimer.Interval = 10000;
-			_recoveryTimer.Elapsed += new ElapsedEventHandler((source, e) => { OnRecover(); });
+			_recoveryTimer.Elapsed += new ElapsedEventHandler((source, e) => { Recover(); });
 		}
 
 		public static event Action ConnectionLost;
@@ -44,13 +44,10 @@ namespace FiresecClient
 				ConnectionLost();
 
 			_isConnected = false;
-
-			OnRecover();
 		}
 
-		void OnRecover()
+		bool Recover()
 		{
-			Trace.WriteLine("OnRecover");
 			_recoveryTimer.Stop();
 			_pingTimer.Stop();
 			FiresecServiceFactory.Dispose();
@@ -60,12 +57,14 @@ namespace FiresecClient
 			{
 				FiresecService.Connect(_clientCredentials, false);
 				_recoveryTimer.Stop();
+				_pingTimer.Start();
+				return true;
 			}
 			catch
 			{
 				_recoveryTimer.Start();
 			}
-			_pingTimer.Start();
+			return false;
 		}
 
 		public static event Action ConnectionAppeared;
@@ -91,11 +90,6 @@ namespace FiresecClient
 			_pingTimer.Dispose();
 		}
 
-		private void OnPingTimer(object source, ElapsedEventArgs e)
-		{
-			Ping();
-		}
-
 		public string Ping()
 		{
 			try
@@ -104,26 +98,15 @@ namespace FiresecClient
 				OnConnectionAppeared();
 				return result;
 			}
-			catch (CommunicationObjectFaultedException)
+			catch
 			{
 				OnConnectionLost();
-			}
-			catch (InvalidOperationException)
-			{
-				OnConnectionLost();
-			}
-			catch (CommunicationException)
-			{
-				OnConnectionLost();
-			}
-			catch (Exception)
-			{
-				OnConnectionLost();
+				Recover();
 			}
 			return null;
 		}
 
-		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func)
+		OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, bool reconnectOnException = true)
 		{
 			try
 			{
@@ -136,6 +119,11 @@ namespace FiresecClient
 			{
 				Logger.Error(e, "Исключение при вызове FiresecClient.SafeOperationCall<T>(Func<OperationResult<T>> func)");
 				OnConnectionLost();
+				if (reconnectOnException)
+				{
+					if (Recover())
+						return SafeOperationCall(func, false);
+				}
 			}
 			var operationResult = new OperationResult<T>()
 			{
@@ -145,7 +133,7 @@ namespace FiresecClient
 			return operationResult;
 		}
 
-		T SafeOperationCall<T>(Func<T> func)
+		T SafeOperationCall<T>(Func<T> func, bool reconnectOnException = true)
 		{
 			try
 			{
@@ -157,11 +145,16 @@ namespace FiresecClient
 			{
 				Logger.Error(e, "Исключение при вызове FiresecClient.SafeOperationCall<T>(Func<T> func)");
 				OnConnectionLost();
+				if (reconnectOnException)
+				{
+					if (Recover())
+						return SafeOperationCall(func, false);
+				}
 			}
 			return default(T);
 		}
 
-		void SafeOperationCall(Action action)
+		void SafeOperationCall(Action action, bool reconnectOnException = true)
 		{
 			try
 			{
@@ -172,6 +165,11 @@ namespace FiresecClient
 			{
 				Logger.Error(e, "Исключение при вызове FiresecClient.SafeOperationCall(Action action)");
 				OnConnectionLost();
+				if (reconnectOnException)
+				{
+					if (Recover())
+						SafeOperationCall(action, false);
+				}
 			}
 		}
 

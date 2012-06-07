@@ -24,12 +24,15 @@ namespace FiresecService.Processor
 		{
 			FiresecManager = firesecManager;
 
-			SynchrinizeJournal();
-			SetLastEvent();
-			FiresecSerializedClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
+			if (firesecManager.MustMonitorStates)
+			{
+				SynchrinizeJournal();
+				SetLastEvent();
+				FiresecSerializedClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
+				OnStateChanged();
+				OnParametersChanged();
+			}
 			FiresecSerializedClient.Progress += new Func<int, string, int, int, bool>(FiresecInternalClient_Progress);
-			OnStateChanged();
-			OnParametersChanged();
 		}
 
 		bool FiresecInternalClient_Progress(int stage, string comment, int percentComplete, int bytesRW)

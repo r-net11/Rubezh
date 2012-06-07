@@ -48,12 +48,15 @@ namespace FiresecService.Database
 					return result.FirstOrDefault();
 				}
 			}
-			catch (Exception e)
+			catch (InvalidOperationException e)
 			{
 				Logger.Info("Обработано исключение при вызове метода DatabaseHelper.GetLastOldId");
-				Logger.Error(e);
-				return -1;
 			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове DatabaseHelper.GetLastOldId");
+			}
+			return -1;
 		}
 
 		public static void AddInfoMessage(string userName, string mesage)

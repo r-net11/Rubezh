@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FiresecAPI.Models;
+using Common;
 
 namespace FiresecService.Service
 {
@@ -38,6 +39,19 @@ namespace FiresecService.Service
 			SafeCall((x) => { x.FiresecCallbackService.ConfigurationChanged(); });
 		}
 
+		public void OnPing()
+		{
+			try
+			{
+				FiresecService.FiresecCallbackService.Ping();
+			}
+			catch
+			{
+				FiresecService.ReconnectToClient();
+			}
+		}
+			
+
 		public bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			try
@@ -45,31 +59,29 @@ namespace FiresecService.Service
 				var result = FiresecService.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
 				return result;
 			}
-			catch (ObjectDisposedException)
+			catch (Exception e)
 			{
-				FiresecService.ReconnectToClient();
-			}
-			catch (Exception)
-			{
+				Logger.Error(e, "Исключение при вызове CallbackWrapper.OnProgress");
 				FiresecService.ReconnectToClient();
 			}
 			return true;
 		}
 
-		void SafeCall(Action<FiresecService> action)
+		void SafeCall(Action<FiresecService> action, bool reconnectOnException = true)
 		{
 			if (FiresecService.IsSubscribed)
 				try
 				{
 					action(FiresecService);
 				}
-				catch (ObjectDisposedException)
+				catch (Exception e)
 				{
-					FiresecService.ReconnectToClient();
-				}
-				catch (Exception)
-				{
-					FiresecService.ReconnectToClient();
+					Logger.Error(e, "Исключение при вызове CallbackWrapper.SafeCall");
+					if (reconnectOnException)
+					{
+						if (FiresecService.ReconnectToClient())
+							SafeCall(action, false);
+					}
 				}
 		}
 	}
