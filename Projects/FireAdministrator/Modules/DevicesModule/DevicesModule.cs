@@ -89,5 +89,9 @@ namespace DevicesModule
 				_guardNavigationItem
 			};
 		}
+		public override string Name
+		{
+			get { return "Устройства, Зоны, Направления"; }
+		}
 	}
 }

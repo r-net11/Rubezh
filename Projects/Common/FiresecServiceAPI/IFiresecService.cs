@@ -142,7 +142,7 @@ namespace FiresecAPI
 		OperationResult<List<JournalRecord>> GetFilteredJournal(JournalFilter journalFilter);
 
 		[OperationContract]
-		OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter);
+		OperationResult<IEnumerable<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter);
 
 		[OperationContract]
 		OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions();

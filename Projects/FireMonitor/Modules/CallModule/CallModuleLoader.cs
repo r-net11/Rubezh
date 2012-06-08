@@ -33,5 +33,10 @@ namespace CallModule
 				//new NavigationItem<ShowCallEvent>("Дозвон", "/Controls;component/Images/phone.png"),
 			};
 		}
+
+		public override string Name
+		{
+			get { return "Оповещения"; }
+		}
 	}
 }

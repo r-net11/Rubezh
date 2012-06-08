@@ -33,5 +33,10 @@ namespace ReportsModule
 				new NavigationItem<ShowReportsEvent>("Отчеты", "/Controls;component/Images/levels.png"),
 			};
 		}
+
+		public override string Name
+		{
+			get { return "Отчеты"; }
+		}
 	}
 }

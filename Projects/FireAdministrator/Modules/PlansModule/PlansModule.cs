@@ -47,5 +47,9 @@ namespace PlansModule
 				new NavigationItem<ShowPlansEvent>("Планы","/Controls;component/Images/map.png"),
 			};
 		}
+		public override string Name
+		{
+			get { return "Графические планы"; }
+		}
 	}
 }

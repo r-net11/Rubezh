@@ -34,5 +34,9 @@ namespace VideoModule
 				new NavigationItem<ShowVideoEvent>("Видео", "/Controls;component/Images/Video1.png"),
 			};
 		}
+		public override string Name
+		{
+			get { return "Видео"; }
+		}
 	}
 }

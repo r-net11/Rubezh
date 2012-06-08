@@ -12,6 +12,7 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
@@ -24,8 +25,10 @@
                               IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}"
                               IsEnabled="{Binding IsFilterExists, Mode=OneWay}"
                               Content="Включить фильтр" Margin="5" VerticalAlignment="Center" Foreground="White" />
+
+                <TextBlock Grid.Column="2" Text="{Binding Status}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
                 
-                <Button Grid.Column="2" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" Style="{StaticResource ToolarButtonStyle}" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <Button Grid.Column="3" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" Style="{StaticResource ToolarButtonStyle}" DockPanel.Dock="Right" HorizontalAlignment="Right">
                     <Image Source="/Controls;component/Images/Settings.png" Height="24" />
                 </Button>
             </Grid>

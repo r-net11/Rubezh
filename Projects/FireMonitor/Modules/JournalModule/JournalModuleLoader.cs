@@ -67,5 +67,9 @@ namespace JournalModule
 				new NavigationItem<ShowArchiveEvent>("Архив", "/Controls;component/Images/archive.png")
 			};
 		}
+		public override string Name
+		{
+			get { return "Журнал событий и Архив"; }
+		}
 	}
 }

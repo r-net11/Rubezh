@@ -33,5 +33,9 @@ namespace LibraryModule
 				new NavigationItem<ShowLibraryEvent>("Библиотека","/Controls;component/Images/book.png"),
 			};
 		}
+		public override string Name
+		{
+			get { return "Библиотека устройств"; }
+		}
 	}
 }

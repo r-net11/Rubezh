@@ -8,6 +8,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Models;
+using System.Threading;
+using System.Windows;
+using System.Windows.Input;
 
 namespace JournalModule.ViewModels
 {
@@ -16,6 +19,7 @@ namespace JournalModule.ViewModels
 		public static DateTime ArchiveFirstDate { get; private set; }
 		ArchiveDefaultState _archiveDefaultState;
 		ArchiveFilter _archiveFilter;
+		Thread _updateThread;
 
 		public ArchiveViewModel()
 		{
@@ -67,7 +71,7 @@ namespace JournalModule.ViewModels
 			{
 				_isFilterOn = value;
 				OnPropertyChanged("IsFilterOn");
-				Update();
+				Update(true);
 			}
 		}
 
@@ -111,7 +115,7 @@ namespace JournalModule.ViewModels
 					_archiveDefaultState = archiveSettingsViewModel.GetModel();
 					ClientSettings.ArchiveDefaultState = _archiveDefaultState;
 					if (IsFilterOn == false)
-						Update();
+						Update(true);
 				}
 			}
 			catch (Exception e)
@@ -157,9 +161,36 @@ namespace JournalModule.ViewModels
 			return archiveFilter;
 		}
 
-		public void Update()
+		string _status;
+		public string Status
 		{
-			WaitHelper.Execute(() =>
+			get { return _status; }
+			set
+			{
+				_status = value;
+				OnPropertyChanged("Status");
+			}
+		}
+
+		public void Update(bool abortRunnig = true)
+		{
+			if (abortRunnig)
+			{
+				if (_updateThread != null)
+					_updateThread.Abort();
+			}
+			if (_updateThread == null)
+			{
+				Status = "Загрузка данных";
+				JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+				_updateThread = new Thread(new ThreadStart(OnUpdate));
+				_updateThread.Start();
+			}
+		}
+
+		void OnUpdate()
+		{
+			try
 			{
 				ArchiveFilter archiveFilter = null;
 				if (IsFilterOn)
@@ -169,21 +200,36 @@ namespace JournalModule.ViewModels
 
 				var operationResult = FiresecManager.FiresecService.GetFilteredArchive(archiveFilter);
 
-				JournalRecords = new ObservableCollection<JournalRecordViewModel>();
-				if (operationResult.HasError == false)
+				ServiceFactory.SafeCall(() =>
 				{
-					foreach (var journalRecord in operationResult.Result)
+					JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+					if (operationResult.HasError == false)
 					{
-						var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-						JournalRecords.Add(journalRecordViewModel);
+						foreach (var journalRecord in operationResult.Result)
+						{
+							var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+							JournalRecords.Add(journalRecordViewModel);
+						}
 					}
-				}
-			});
+				});
+			}
+			catch (Exception e)
+			{
+				;
+			}
+			finally
+			{
+				_updateThread = null;
+				ServiceFactory.SafeCall(() =>
+				{
+					Status = null;
+				});
+			}
 		}
 
 		public override void OnShow()
 		{
-			Update();
+			Update(false);
 		}
 	}
 }

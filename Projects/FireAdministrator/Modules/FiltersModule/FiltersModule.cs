@@ -33,5 +33,9 @@ namespace FiltersModule
 				new NavigationItem<ShowJournalEvent>("Фильтры журнала", "/Controls;component/Images/filter.png"),
 			};
 		}
+		public override string Name
+		{
+			get { return "Фильтры журнала событий"; }
+		}
 	}
 }

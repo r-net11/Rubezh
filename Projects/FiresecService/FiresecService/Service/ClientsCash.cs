@@ -30,7 +30,7 @@ namespace FiresecService.Service
 			AdministratorFiresecManager = new FiresecManager(false);
 		}
 
-		public static bool Add(FiresecService firesecService)
+		public static void Add(FiresecService firesecService)
 		{
 			switch (firesecService.ClientCredentials.ClientType)
 			{
@@ -46,20 +46,18 @@ namespace FiresecService.Service
 			}
 
 			if (!IsNew(firesecService))
-				return false;
+				return;
 
 			var existingFiresecService = FiresecServices.FirstOrDefault(x => x.ClientIpAddress == firesecService.ClientIpAddress &&
 				x.ClientCredentials.ClientType == firesecService.ClientCredentials.ClientType);
 			if (existingFiresecService != null)
 			{
 				Remove(existingFiresecService);
-				return false;
 			}
 
 			firesecService.FiresecManager.FiresecServices.Add(firesecService);
 			FiresecServices.Add(firesecService);
 			MainViewModel.Current.AddClient(firesecService);
-			return true;
 		}
 
 		public static void Remove(FiresecService firesecService)

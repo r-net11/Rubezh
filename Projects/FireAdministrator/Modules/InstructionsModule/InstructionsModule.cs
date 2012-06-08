@@ -38,5 +38,9 @@ namespace InstructionsModule
 				new NavigationItem<ShowInstructionsEvent, ulong?>("Инструкции", "/Controls;component/Images/information.png"),
 			};
 		}
+		public override string Name
+		{
+			get { return "Инструкции"; }
+		}
 	}
 }

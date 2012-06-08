@@ -33,5 +33,10 @@ namespace GKModule
 				new NavigationItem<ShowGKEvent>("ГК", "/Controls;component/Images/Settings.png"),
 			};
 		}
+
+		public override string Name
+		{
+			get { return "Групповой контроллер"; }
+		}
 	}
 }

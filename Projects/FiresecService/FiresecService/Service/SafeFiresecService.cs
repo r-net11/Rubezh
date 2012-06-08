@@ -268,7 +268,7 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetFilteredJournal(journalFilter); }, "GetFilteredJournal");
 		}
 
-		public OperationResult<List<FiresecAPI.Models.JournalRecord>> GetFilteredArchive(FiresecAPI.Models.ArchiveFilter archiveFilter)
+		public OperationResult<IEnumerable<FiresecAPI.Models.JournalRecord>> GetFilteredArchive(FiresecAPI.Models.ArchiveFilter archiveFilter)
 		{
 			return SafeOperationCall(() => { return FiresecService.GetFilteredArchive(archiveFilter); }, "GetFilteredArchive");
 		}

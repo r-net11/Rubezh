@@ -86,5 +86,9 @@ namespace SkudModule
 				}, PermissionType.Adm_SKUD),
 			};
 		}
+		public override string Name
+		{
+			get { return "СКУД"; }
+		}
 	}
 }

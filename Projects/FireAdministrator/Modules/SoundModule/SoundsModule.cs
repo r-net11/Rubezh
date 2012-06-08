@@ -33,5 +33,9 @@ namespace SoundsModule
 				new NavigationItem<ShowSoundsEvent>("Звуки", "/Controls;component/Images/music.png"),
 			};
 		}
+		public override string Name
+		{
+			get { return "Звуки"; }
+		}
 	}
 }

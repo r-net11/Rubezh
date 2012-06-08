@@ -46,5 +46,9 @@ namespace SecurityModule
 				}),
 			};
 		}
+		public override string Name
+		{
+			get { return "Права доступа"; }
+		}
 	}
 }

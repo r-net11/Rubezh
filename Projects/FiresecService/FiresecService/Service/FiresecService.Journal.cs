@@ -87,9 +87,9 @@ namespace FiresecService.Service
 			return operationResult;
 		}
 
-		public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
+		public OperationResult<IEnumerable<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
 		{
-			var operationResult = new OperationResult<List<JournalRecord>>();
+			var operationResult = new OperationResult<IEnumerable<JournalRecord>>();
 			try
 			{
 				string dateInQuery = "DeviceTime";
@@ -145,8 +145,7 @@ namespace FiresecService.Service
 
 				query += "\n ORDER BY SystemTime DESC";
 
-				var result = DataBaseContext.ExecuteQuery<JournalRecord>(query);
-				operationResult.Result = result.ToList();
+				operationResult.Result = DataBaseContext.ExecuteQuery<JournalRecord>(query).ToList();
 			}
 			catch (Exception e)
 			{

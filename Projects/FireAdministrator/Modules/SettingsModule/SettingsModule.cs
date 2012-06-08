@@ -32,5 +32,9 @@ namespace SettingsModule
 				new NavigationItem<ShowSettingsEvent>("Настройки", "/Controls;component/Images/settings.png"),
 			};
 		}
+		public override string Name
+		{
+			get { return "Настройки"; }
+		}
 	}
 }

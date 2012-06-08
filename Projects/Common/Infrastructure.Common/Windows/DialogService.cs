@@ -29,7 +29,7 @@ namespace Infrastructure.Common.Windows
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове DialogService.ShowModalWindow");
 				throw;
 			}
 		}

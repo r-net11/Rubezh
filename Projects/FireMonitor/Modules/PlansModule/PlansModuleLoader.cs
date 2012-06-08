@@ -50,5 +50,10 @@ namespace PlansModule
 				navigation.Add(new NavigationItem<ShowPlansEvent>("Планы", "/Controls;component/Images/map.png"));
 			return navigation;
 		}
+
+		public override string Name
+		{
+			get { return "Графические планы"; }
+		}
 	}
 }

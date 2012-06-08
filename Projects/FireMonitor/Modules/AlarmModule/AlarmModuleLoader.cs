@@ -45,5 +45,10 @@ namespace AlarmModule
 				new NavigationItem<ShowAlarmsEvent, AlarmType?>("Тревоги", "/Controls;component/Images/Alarm.png")
 			};
 		}
+
+		public override string Name
+		{
+			get { return "Тревоги"; }
+		}
 	}
 }

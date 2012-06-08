@@ -51,5 +51,10 @@ namespace DevicesModule
 				new NavigationItem<ShowZoneEvent, ulong?>("Зоны", "/Controls;component/Images/zones.png")
 			};
 		}
+
+		public override string Name
+		{
+			get { return "Устройства и Зоны"; }
+		}
 	}
 }
