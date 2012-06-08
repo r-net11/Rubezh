@@ -128,8 +128,12 @@
     <Compile Include="Imitator\ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\OperationHistoryViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OperationHistoryView.xaml.cs">
+      <DependentUpon>OperationHistoryView.xaml</DependentUpon>
     </Compile>
     <Compile Include="XSD\DeviceCustomFunctions.cs" />
     <Compile Include="XSD\GetCoreConfig.cs">
@@ -178,6 +182,10 @@
     <Compile Include="ConfigurationConverter\ConfigurationConverter.ZonesConverter.cs" />
     <Compile Include="ConfigurationConverter\ZoneLogicConverter.cs" />
     <Page Include="Views\MainView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OperationHistoryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

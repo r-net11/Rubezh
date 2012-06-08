@@ -16,6 +16,7 @@ namespace FiresecClient
 
 		public void Disconnect()
 		{
+			Logger.Info("SafeFiresecService.Disconnect");
 			SafeOperationCall(() => { FiresecService.Disconnect(); });
 		}
 

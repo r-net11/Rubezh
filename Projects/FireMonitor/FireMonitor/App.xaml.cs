@@ -44,6 +44,7 @@ namespace FireMonitor
 		{
 			AlarmPlayerHelper.Dispose();
 			ClientSettings.SaveSettings();
+			Logger.Info("App.OnExit");
 			FiresecManager.Disconnect();
 			VideoService.Close();
 			if (RegistryHelper.IsIntegrated)

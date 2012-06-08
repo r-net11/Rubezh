@@ -15,10 +15,12 @@ namespace FiresecService.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
+			ShowOperationHistoryCommand = new RelayCommand(OnShowOperationHistory);
 			ShowImitatorCommand = new RelayCommand(OnShowImitator);
 			Clients = new ObservableCollection<ClientViewModel>();
-			Title = "Сервер ОПС Firesec-2";
+			Title = "Сервер ОПС FireSec-2";
 		}
+
 		public RelayCommand ShowImitatorCommand { get; private set; }
 		void OnShowImitator()
 		{
@@ -30,6 +32,16 @@ namespace FiresecService.ViewModels
 					DialogService.ShowModalWindow(imitatorViewModel);
 					break;
 				}
+			}
+		}
+
+		public RelayCommand ShowOperationHistoryCommand { get; private set; }
+		void OnShowOperationHistory()
+		{
+			if (SelectedClient != null)
+			{
+				var operationHistoryViewModel = new OperationHistoryViewModel(SelectedClient);
+				DialogService.ShowModalWindow(operationHistoryViewModel);
 			}
 		}
 
@@ -74,6 +86,7 @@ namespace FiresecService.ViewModels
 					UserName = firesecService.ClientCredentials.UserName,
 					ClientType = firesecService.ClientCredentials.ClientType,
 					IpAddress = firesecService.ClientIpAddressAndPort,
+					CallbackAddress = firesecService.ClientCredentials.ClientCallbackAddress,
 					ConnectionDate = DateTime.Now
 				};
 				Clients.Add(connectionViewModel);
@@ -110,6 +123,21 @@ namespace FiresecService.ViewModels
 				if (connectionViewModel != null)
 				{
 					connectionViewModel.CurrentOperationName = operationName;
+				}
+			}
+			));
+		}
+
+		public void UpdateCallbackOperation(Guid uid, string operationName)
+		{
+			Dispatcher.Invoke(new Action(
+			delegate()
+			{
+				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
+				if (connectionViewModel != null)
+				{
+					connectionViewModel.CallbackOperationName = operationName;
+					connectionViewModel.Operations.Add(operationName);
 				}
 			}
 			));

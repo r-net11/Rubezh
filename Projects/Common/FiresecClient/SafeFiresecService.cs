@@ -196,6 +196,7 @@ namespace FiresecClient
 
 		public void Dispose()
 		{
+			Logger.Info("SafeFiresecService.Dispose");
 			StopPing();
 			Disconnect();
 			FiresecServiceFactory.Dispose();

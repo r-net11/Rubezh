@@ -29,23 +29,23 @@ namespace FiresecService
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
-				var synchronisationHostWindow = new Window()
-				{
-					WindowStyle = System.Windows.WindowStyle.None,
-					Width = 0,
-					Height = 0,
-					ShowInTaskbar = false
-				};
-				synchronisationHostWindow.Show();
-				synchronisationHostWindow.Hide();
-
-				ClientsCash.InitializeComServers();
-				IsHostOpened = FiresecServiceManager.Open();
+				//var synchronisationHostWindow = new Window()
+				//{
+				//    WindowStyle = System.Windows.WindowStyle.None,
+				//    Width = 0,
+				//    Height = 0,
+				//    ShowInTaskbar = false
+				//};
+				//synchronisationHostWindow.Show();
+				//synchronisationHostWindow.Hide();
 
 				WindowThread = new Thread(new ThreadStart(OnWorkThread));
 				WindowThread.SetApartmentState(ApartmentState.STA);
 				WindowThread.IsBackground = true;
 				WindowThread.Start();
+
+				ClientsCash.InitializeComServers();
+				IsHostOpened = FiresecServiceManager.Open();
 			}
 			catch (Exception e)
 			{

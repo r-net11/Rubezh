@@ -15,10 +15,15 @@ namespace FiresecService.Processor
 			FiresecManager = firesecManager;
 		}
 
-		public FiresecOperationResult<bool> ResetStates(List<ResetItem> resetItems)
+		public void ResetStates(List<ResetItem> resetItems)
 		{
 			var innerDevices = new List<Firesec.CoreState.devType>();
 
+			if (resetItems == null)
+			{
+				Logger.Error("AlarmWatcher.UpdateValveTimer: resetItems = null");
+				return;
+			}
 			foreach (var resetItem in resetItems)
 			{
 				if (resetItem == null)
@@ -28,17 +33,24 @@ namespace FiresecService.Processor
 				if (deviceState == null)
 				{
 					Logger.Error("AlarmWatcher.UpdateValveTimer: deviceState = null");
-					return new FiresecOperationResult<bool>()
-					{
-						Result = false
-					};
+					return;
 				}
 
 				var innerStates = new List<Firesec.CoreState.stateType>();
 
+				if (resetItem.StateNames == null)
+				{
+					Logger.Error("AlarmWatcher.UpdateValveTimer: resetItem.StateNames = null");
+					return;
+				}
 				foreach (var stateName in resetItem.StateNames)
 				{
 					var deviceDriverState = deviceState.States.First(x => x.DriverState.Name == stateName).DriverState;
+					if (deviceDriverState == null)
+					{
+						Logger.Error("AlarmWatcher.UpdateValveTimer: deviceDriverState = null");
+						continue;
+					}
 					innerStates.Add(new Firesec.CoreState.stateType() { id = deviceDriverState.Id });
 				}
 				var innerDevice = new Firesec.CoreState.devType()
@@ -53,7 +65,7 @@ namespace FiresecService.Processor
 			{
 				dev = innerDevices.ToArray()
 			};
-			return FiresecManager.FiresecSerializedClient.ResetStates(coreState);
+			FiresecManager.FiresecSerializedClient.ResetStates(coreState);
 		}
 	}
 }

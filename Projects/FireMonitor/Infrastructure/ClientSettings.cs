@@ -18,7 +18,7 @@ namespace Infrastructure
 			get
 			{
 				if (_archiveDefaultState == null)
-					_archiveDefaultState = new ArchiveDefaultState() { ArchiveDefaultStateType = ArchiveDefaultStateType.All };
+					_archiveDefaultState = new ArchiveDefaultState();
 
 				return _archiveDefaultState;
 			}
@@ -31,7 +31,7 @@ namespace Infrastructure
 			get
 			{
 				if (_autoActivationSettings == null)
-					_autoActivationSettings = new AutoActivationSettings() { IsAutoActivation = true, IsPlansAutoActivation = true };
+					_autoActivationSettings = new AutoActivationSettings();
 
 				return _autoActivationSettings;
 			}
@@ -77,19 +77,33 @@ namespace Infrastructure
 
 		public static void LoadArchiveDefaultState()
 		{
-			using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Open))
+			if (File.Exists(ArchiveDefaultStateFileName))
 			{
-				var dataContractSerializer = new DataContractSerializer(typeof(ArchiveDefaultState));
-				ArchiveDefaultState = (ArchiveDefaultState)dataContractSerializer.ReadObject(fileStream);
+				using (var fileStream = new FileStream(ArchiveDefaultStateFileName, FileMode.Open))
+				{
+					var dataContractSerializer = new DataContractSerializer(typeof(ArchiveDefaultState));
+					ArchiveDefaultState = (ArchiveDefaultState)dataContractSerializer.ReadObject(fileStream);
+				}
+			}
+			else
+			{
+				ArchiveDefaultState = new ArchiveDefaultState();
 			}
 		}
 
 		public static void LoadAutoActivationSettings()
 		{
-			using (var fileStream = new FileStream(AutoActivationSettingsFileName, FileMode.Open))
+			if (File.Exists(AutoActivationSettingsFileName))
 			{
-				var dataContractSerializer = new DataContractSerializer(typeof(AutoActivationSettings));
-				AutoActivationSettings = (AutoActivationSettings)dataContractSerializer.ReadObject(fileStream);
+				using (var fileStream = new FileStream(AutoActivationSettingsFileName, FileMode.Open))
+				{
+					var dataContractSerializer = new DataContractSerializer(typeof(AutoActivationSettings));
+					AutoActivationSettings = (AutoActivationSettings)dataContractSerializer.ReadObject(fileStream);
+				}
+			}
+			else
+			{
+				AutoActivationSettings = new AutoActivationSettings();
 			}
 		}
 

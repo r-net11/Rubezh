@@ -142,8 +142,11 @@ namespace FireAdministrator.Views
 
 		void OnSaveToFile(object sender, RoutedEventArgs e)
 		{
-			var saveDialog = new SaveFileDialog();
-			saveDialog.Filter = "firesec2 files|*.fsc2";
+			var saveDialog = new SaveFileDialog()
+			{
+				Filter = "firesec2 files|*.fsc2",
+				DefaultExt = "firesec2 files|*.fsc2"
+			};
 			if (saveDialog.ShowDialog().Value)
 			{
 				WaitHelper.Execute(() =>
@@ -155,8 +158,11 @@ namespace FireAdministrator.Views
 
 		void OnLoadFromFile(object sender, RoutedEventArgs e)
 		{
-			var openDialog = new OpenFileDialog();
-			openDialog.Filter = "firesec2 files|*.fsc2";
+			var openDialog = new OpenFileDialog()
+			{
+				Filter = "firesec2 files|*.fsc2",
+				DefaultExt = "firesec2 files|*.fsc2"
+			};
 			if (openDialog.ShowDialog().Value)
 			{
 				CopyTo(LoadFromFile(openDialog.FileName));
@@ -167,6 +173,9 @@ namespace FireAdministrator.Views
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 				ServiceFactory.Layout.Close();
 				ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+
+				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
 

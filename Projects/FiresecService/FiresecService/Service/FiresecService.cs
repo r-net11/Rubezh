@@ -14,7 +14,7 @@ namespace FiresecService.Service
 {
 	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = true,
 	InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
-	public partial class FiresecService : IFiresecService, IDisposable
+	public partial class FiresecService : IFiresecService
 	{
 		public readonly static FiresecDbConverterDataContext DataBaseContext = ConnectionManager.CreateFiresecDataContext();
 		public IFiresecCallback Callback { get; private set; }
@@ -123,6 +123,7 @@ namespace FiresecService.Service
 
 		public void Disconnect()
 		{
+			Logger.Info("FiresecService.Disconnect");
 			ClientsCash.Remove(this);
 			DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Выход пользователя из системы(Firesec-2)");
 		}
@@ -163,11 +164,6 @@ namespace FiresecService.Service
 		public string Test()
 		{
 			return "Test";
-		}
-
-		public void Dispose()
-		{
-			;
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using System.Windows;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Common;
 
 namespace FireAdministrator
 {
@@ -31,6 +32,7 @@ namespace FireAdministrator
 		protected override void OnExit(ExitEventArgs e)
 		{
 			base.OnExit(e);
+			Logger.Info("App.OnExit");
 			//FiresecManager.Disconnect();
 			VideoService.Close();
 		}

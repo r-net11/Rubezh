@@ -15,7 +15,7 @@ namespace FireMonitor
 	{
 		public void Initialize()
 		{
-			if (!MutexHelper.IsNew("FireAdministrator"))
+			if (!MutexHelper.IsNew("FireMonitor"))
 			{
 				MessageBoxService.ShowWarning("Другой экзэмпляр приложения уже запущен. Приложение будет закрыто");
 				Application.Current.Shutdown();

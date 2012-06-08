@@ -2,13 +2,19 @@
 
 namespace Infrastructure.Models
 {
-    [DataContract]
-    public class AutoActivationSettings
-    {
-        [DataMember]
-        public bool IsAutoActivation { get; set; }
+	[DataContract]
+	public class AutoActivationSettings
+	{
+		public AutoActivationSettings()
+		{
+			IsAutoActivation = false;
+			IsPlansAutoActivation = false;
+		}
 
-        [DataMember]
-        public bool IsPlansAutoActivation { get; set; }
-    }
+		[DataMember]
+		public bool IsAutoActivation { get; set; }
+
+		[DataMember]
+		public bool IsPlansAutoActivation { get; set; }
+	}
 }

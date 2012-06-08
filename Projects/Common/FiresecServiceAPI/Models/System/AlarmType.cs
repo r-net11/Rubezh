@@ -1,27 +1,28 @@
 ﻿using System.ComponentModel;
+
 namespace FiresecAPI.Models
 {
-    public enum AlarmType
-    {
-        [DescriptionAttribute("Пожар")]
-        Fire = 0,
+	public enum AlarmType
+	{
+		[DescriptionAttribute("Пожар")]
+		Fire = 0,
 
-        [DescriptionAttribute("Внимание")]
-        Attention = 1,
+		[DescriptionAttribute("Внимание")]
+		Attention = 1,
 
-        [DescriptionAttribute("Неисправность")]
-        Failure = 2,
+		[DescriptionAttribute("Неисправность")]
+		Failure = 2,
 
-        [DescriptionAttribute("Отключенное оборудование")]
-        Off = 3,
+		[DescriptionAttribute("Требуется обслуживание")]
+		Service = 3,
 
-        [DescriptionAttribute("Информация")]
-        Info = 4,
+		[DescriptionAttribute("Отключенное оборудование")]
+		Off = 4,
 
-        [DescriptionAttribute("Требуется обслуживание")]
-        Service = 5,
+		[DescriptionAttribute("Автоматика отключена")]
+		Auto = 5,
 
-        [DescriptionAttribute("Автоматика отключена")]
-        Auto = 6
-    }
+		[DescriptionAttribute("Информация")]
+		Info = 6
+	}
 }

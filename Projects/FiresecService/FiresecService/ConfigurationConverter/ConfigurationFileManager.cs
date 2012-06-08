@@ -22,175 +22,246 @@ namespace FiresecService.Configuration
 
 		public static DeviceConfiguration GetDeviceConfiguration()
 		{
-			try
+			var deviceConfiguration = Get<DeviceConfiguration>(DeviceConfigurationFileName);
+			if (deviceConfiguration.RootDevice == null)
 			{
-				var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
-
-				using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Open))
+				var device = new Device()
 				{
-					return (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetDeviceConfiguration");
-				var deviceConfiguration = new DeviceConfiguration();
-				var device = new Device();
-				device.DriverUID = new Guid(DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverType == DriverType.Computer).DriverId);
+					DriverUID = new Guid(DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverType == DriverType.Computer).DriverId)
+				};
 				deviceConfiguration.Devices.Add(device);
 				deviceConfiguration.RootDevice = device;
 
 				SetDeviceConfiguration(deviceConfiguration);
-				return deviceConfiguration;
 			}
+			return deviceConfiguration;
+
+			//try
+			//{
+			//    if (File.Exists(DeviceConfigurationFileName))
+			//    {
+			//        using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Open))
+			//        {
+			//            var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+			//            return (DeviceConfiguration)dataContractSerializer.ReadObject(fileStream);
+			//        }
+			//    }
+			//}
+			//catch (Exception e)
+			//{
+			//    Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetDeviceConfiguration");
+			//}
+			//var deviceConfiguration = new DeviceConfiguration();
+			//var device = new Device();
+			//device.DriverUID = new Guid(DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverType == DriverType.Computer).DriverId);
+			//deviceConfiguration.Devices.Add(device);
+			//deviceConfiguration.RootDevice = device;
+
+			//SetDeviceConfiguration(deviceConfiguration);
+			//return deviceConfiguration;
 		}
 
 		public static void SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
 		{
-			var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
-			Directory.CreateDirectory("Configuration");
+			Set<DeviceConfiguration>(deviceConfiguration, DeviceConfigurationFileName);
+			//Directory.CreateDirectory("Configuration");
 
-			using (var memoryStream = new MemoryStream())
-			{
-				dataContractSerializer.WriteObject(memoryStream, deviceConfiguration);
+			//using (var memoryStream = new MemoryStream())
+			//{
+			//    var dataContractSerializer = new DataContractSerializer(typeof(DeviceConfiguration));
+			//    dataContractSerializer.WriteObject(memoryStream, deviceConfiguration);
 
-				using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Create))
-				{
-					fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
-				}
-			}
+			//    using (var fileStream = new FileStream(ConfigurationDirectory(DeviceConfigurationFileName), FileMode.Create))
+			//    {
+			//        fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+			//    }
+			//}
 		}
 
 		public static SystemConfiguration GetSystemConfiguration()
 		{
-			try
-			{
-				var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-
-				using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Open))
-				{
-					return (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetSystemConfiguration");
-				var systemConfiguration = new SystemConfiguration();
-				SetSystemConfiguration(systemConfiguration);
-				return systemConfiguration;
-			}
+			return Get<SystemConfiguration>(SystemConfigurationFileName);
+			//try
+			//{
+			//    using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Open))
+			//    {
+			//        var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
+			//        return (SystemConfiguration)dataContractSerializer.ReadObject(fileStream);
+			//    }
+			//}
+			//catch (Exception e)
+			//{
+			//    Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetSystemConfiguration");
+			//    var systemConfiguration = new SystemConfiguration();
+			//    SetSystemConfiguration(systemConfiguration);
+			//    return systemConfiguration;
+			//}
 		}
 
 		public static void SetSystemConfiguration(SystemConfiguration systemConfiguration)
 		{
-			var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
-			using (var memoryStream = new MemoryStream())
-			{
-				dataContractSerializer.WriteObject(memoryStream, systemConfiguration);
+			Set<SystemConfiguration>(systemConfiguration, SystemConfigurationFileName);
+			//using (var memoryStream = new MemoryStream())
+			//{
+			//    var dataContractSerializer = new DataContractSerializer(typeof(SystemConfiguration));
+			//    dataContractSerializer.WriteObject(memoryStream, systemConfiguration);
 
-				using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Create))
-				{
-					fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
-				}
-			}
+			//    using (var fileStream = new FileStream(ConfigurationDirectory(SystemConfigurationFileName), FileMode.Create))
+			//    {
+			//        fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+			//    }
+			//}
 		}
 
 		public static LibraryConfiguration GetLibraryConfiguration()
 		{
-			try
-			{
-				var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
-				using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Open))
-				{
-					return (LibraryConfiguration)dataContractSerializer.ReadObject(fileStream);
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetLibraryConfiguration");
-				var libraryConfiguration = new LibraryConfiguration();
-				SetLibraryConfiguration(libraryConfiguration);
-				return libraryConfiguration;
-			}
+			return Get<LibraryConfiguration>(DeviceLibraryConfigurationFileName);
+			//try
+			//{
+			//    using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Open))
+			//    {
+			//        var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
+			//        return (LibraryConfiguration)dataContractSerializer.ReadObject(fileStream);
+			//    }
+			//}
+			//catch (Exception e)
+			//{
+			//    Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetLibraryConfiguration");
+			//    var libraryConfiguration = new LibraryConfiguration();
+			//    SetLibraryConfiguration(libraryConfiguration);
+			//    return libraryConfiguration;
+			//}
 		}
 
 		public static void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
 		{
-			var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
-			using (var memoryStream = new MemoryStream())
-			{
-				dataContractSerializer.WriteObject(memoryStream, libraryConfiguration);
+			Set<LibraryConfiguration>(libraryConfiguration, DeviceLibraryConfigurationFileName);
+			//using (var memoryStream = new MemoryStream())
+			//{
+			//    var dataContractSerializer = new DataContractSerializer(typeof(LibraryConfiguration));
+			//    dataContractSerializer.WriteObject(memoryStream, libraryConfiguration);
 
-				using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Create))
-				{
-					fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
-				}
-			}
+			//    using (var fileStream = new FileStream(ConfigurationDirectory(DeviceLibraryConfigurationFileName), FileMode.Create))
+			//    {
+			//        fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+			//    }
+			//}
 		}
 
 		public static PlansConfiguration GetPlansConfiguration()
 		{
-			try
-			{
-				var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
-				using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Open))
-				{
-					return (PlansConfiguration)dataContractSerializer.ReadObject(fileStream);
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetPlansConfiguration");
-				var plansConfiguration = new PlansConfiguration();
-				SetPlansConfiguration(plansConfiguration);
-				return plansConfiguration;
-			}
+			return Get<PlansConfiguration>(PlansConfigurationFileName);
+			//try
+			//{
+			//    using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Open))
+			//    {
+			//        var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
+			//        return (PlansConfiguration)dataContractSerializer.ReadObject(fileStream);
+			//    }
+			//}
+			//catch (Exception e)
+			//{
+			//    Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetPlansConfiguration");
+			//    var plansConfiguration = new PlansConfiguration();
+			//    SetPlansConfiguration(plansConfiguration);
+			//    return plansConfiguration;
+			//}
 		}
 
 		public static void SetPlansConfiguration(PlansConfiguration plansConfiguration)
 		{
-			var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
-			using (var memoryStream = new MemoryStream())
-			{
-				dataContractSerializer.WriteObject(memoryStream, plansConfiguration);
+			Set<PlansConfiguration>(plansConfiguration, PlansConfigurationFileName);
+			//using (var memoryStream = new MemoryStream())
+			//{
+			//    var dataContractSerializer = new DataContractSerializer(typeof(PlansConfiguration));
+			//    dataContractSerializer.WriteObject(memoryStream, plansConfiguration);
 
-				using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Create))
-				{
-					fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
-				}
-			}
+			//    using (var fileStream = new FileStream(ConfigurationDirectory(PlansConfigurationFileName), FileMode.Create))
+			//    {
+			//        fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+			//    }
+			//}
 		}
 
 		public static SecurityConfiguration GetSecurityConfiguration()
 		{
-			try
-			{
-				var dataContractSerializer = new DataContractSerializer(typeof(SecurityConfiguration));
-				using (var fileStream = new FileStream(ConfigurationDirectory(SecurityConfigurationFileName), FileMode.Open))
-				{
-					return (SecurityConfiguration)dataContractSerializer.ReadObject(fileStream);
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetSecurityConfiguration");
-				var securityConfiguration = new SecurityConfiguration();
-				SetSecurityConfiguration(securityConfiguration);
-				return securityConfiguration;
-			}
+			return Get<SecurityConfiguration>(SecurityConfigurationFileName);
+			//try
+			//{
+			//    using (var fileStream = new FileStream(ConfigurationDirectory(SecurityConfigurationFileName), FileMode.Open))
+			//    {
+			//        var dataContractSerializer = new DataContractSerializer(typeof(SecurityConfiguration));
+			//        return (SecurityConfiguration)dataContractSerializer.ReadObject(fileStream);
+			//    }
+			//}
+			//catch (Exception e)
+			//{
+			//    Logger.Error(e, "Исключение при вызове ConfigurationFileManager.GetSecurityConfiguration");
+			//    var securityConfiguration = new SecurityConfiguration();
+			//    SetSecurityConfiguration(securityConfiguration);
+			//    return securityConfiguration;
+			//}
 		}
 
 		public static void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
 		{
-			var dataContractSerializer = new DataContractSerializer(typeof(SecurityConfiguration));
-			using (var memoryStream = new MemoryStream())
-			{
-				dataContractSerializer.WriteObject(memoryStream, securityConfiguration);
+			Set<SecurityConfiguration>(securityConfiguration, SecurityConfigurationFileName);
+			//using (var memoryStream = new MemoryStream())
+			//{
+			//    var dataContractSerializer = new DataContractSerializer(typeof(SecurityConfiguration));
+			//    dataContractSerializer.WriteObject(memoryStream, securityConfiguration);
 
-				using (var fileStream = new FileStream(ConfigurationDirectory(SecurityConfigurationFileName), FileMode.Create))
+			//    using (var fileStream = new FileStream(ConfigurationDirectory(SecurityConfigurationFileName), FileMode.Create))
+			//    {
+			//        fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+			//    }
+			//}
+		}
+
+		public static T Get<T>(string fileName)
+			where T : new()
+		{
+			try
+			{
+				if (File.Exists(ConfigurationDirectory(fileName)))
 				{
-					fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+					using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Open))
+					{
+						var dataContractSerializer = new DataContractSerializer(typeof(T));
+						return (T)dataContractSerializer.ReadObject(fileStream);
+					}
 				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.Get<T> typeof(T) = " + typeof(T).ToString());
+			}
+			T configuration = new T();
+			Set<T>(configuration, fileName);
+			return configuration;
+		}
+
+		public static void Set<T>(T configuration, string fileName)
+		{
+			try
+			{
+				if (!Directory.Exists("Configuration"))
+					Directory.CreateDirectory("Configuration");
+
+				using (var memoryStream = new MemoryStream())
+				{
+					var dataContractSerializer = new DataContractSerializer(typeof(T));
+					dataContractSerializer.WriteObject(memoryStream, configuration);
+
+					using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Create))
+					{
+						fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.Set<T> typeof(T) = " + typeof(T).ToString());
 			}
 		}
 	}

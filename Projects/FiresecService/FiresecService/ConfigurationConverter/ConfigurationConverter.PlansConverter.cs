@@ -199,7 +199,7 @@ namespace FiresecService.Configuration
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans elementTextBlock.BorderColor");
+					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans elementTextBlock.BorderColor. Color = " + innerElement.brush[0].color);
 				}
 
 			if (innerElement.pen != null)
@@ -209,7 +209,7 @@ namespace FiresecService.Configuration
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans innerElementLayer.pen");
+					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans innerElementLayer.pen. Color = " + innerElement.pen[0].color);
 				}
 
 			plan.ElementTextBlocks.Add(elementTextBlock);

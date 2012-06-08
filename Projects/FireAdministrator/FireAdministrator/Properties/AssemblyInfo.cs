@@ -4,9 +4,9 @@
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
 [assembly: AssemblyTitle("Администратор")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Приложения для конфигурирования проекта")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyProduct("Администратор ОПС Firesec-2")]
+[assembly: AssemblyProduct("Администратор ОПС FireSec-2")]
 
 
 //Чтобы начать построение локализованных приложений, задайте

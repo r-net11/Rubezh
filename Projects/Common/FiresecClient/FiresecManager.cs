@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Common;
 
 namespace FiresecClient
 {
@@ -100,6 +101,7 @@ namespace FiresecClient
 		{
 			if (FiresecService != null)
 			{
+				Logger.Info("FiresecManager.Disconnect");
 				FiresecService.Dispose();
 			}
 			FiresecCallbackServiceManager.Close();
