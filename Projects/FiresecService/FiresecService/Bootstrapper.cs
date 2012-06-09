@@ -13,7 +13,7 @@ namespace FiresecService
 	public static class Bootstrapper
 	{
 		static Thread WindowThread = null;
-		static bool IsHostOpened = false;
+		static MainViewModel MainViewModel;
 
 		public static void Run()
 		{
@@ -44,8 +44,12 @@ namespace FiresecService
 				WindowThread.IsBackground = true;
 				WindowThread.Start();
 
-				ClientsCash.InitializeComServers();
-				IsHostOpened = FiresecServiceManager.Open();
+				var comServersStatus = ClientsCash.InitializeComServers();
+				var isHostOpened = FiresecServiceManager.Open();
+				MainViewModel.Current.UpdateStatus
+					(isHostOpened ? "Хост сервиса открыт" : "Хост сервиса НЕ открыт",
+					comServersStatus ? "Соединение с ядром Firesec установлено" : "Соединение с ядром Firesec НЕ установлено"
+					);
 			}
 			catch (Exception e)
 			{
@@ -59,9 +63,8 @@ namespace FiresecService
 		{
 			try
 			{
-				var mainViewModel = new MainViewModel();
-				mainViewModel.Satus = IsHostOpened ? "Хост сервиса открыт" : "Хост сервиса НЕ открыт";
-				ApplicationService.Run(mainViewModel);
+				MainViewModel = new MainViewModel();
+				ApplicationService.Run(MainViewModel);
 			}
 			catch (Exception e)
 			{

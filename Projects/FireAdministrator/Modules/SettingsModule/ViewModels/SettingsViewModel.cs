@@ -78,21 +78,26 @@ namespace SettingsModule.ViewModels
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
 		{
-			Trace.WriteLine("\n Все состояния с потерей связи \n");
-			var states = new HashSet<string>();
+			Trace.WriteLine("\n AffectChildren \n");
 			foreach (var driver in FiresecManager.Drivers)
 			{
 				foreach (var state in driver.States)
 				{
-					if (state.Name != null)
+					if (state.AffectChildren)
 					{
-						if (state.Name.Contains("Связ") || state.Name.Contains("связ"))
-						{
-							if (states.Add(state.Name))
-							{
-								Trace.WriteLine(state.Name);
-							}
-						}
+						Trace.WriteLine(driver.Name + state.Name);
+					}
+				}
+			}
+
+			Trace.WriteLine("\n AffectedParent \n");
+			foreach (var driver in FiresecManager.Drivers)
+			{
+				foreach (var state in driver.States)
+				{
+					if (state.AffectedParent)
+					{
+						Trace.WriteLine(driver.Name + state.Name);
 					}
 				}
 			}

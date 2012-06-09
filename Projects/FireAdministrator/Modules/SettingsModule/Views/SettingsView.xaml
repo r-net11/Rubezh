@@ -11,7 +11,7 @@
                 <Button Content="Тест 2" Command="{Binding Test2Command}" Width="300" Margin="2" Visibility="Visible" />
             </StackPanel>
         </Border>
-        <Button Content="Конвертировать конфигурацию из старого формата" Command="{Binding ConvertConfigurationCommand}" Width="400" Margin="2" />
-        <Button Content="Конвертировать журнал событий из старого формата" Command="{Binding ConvertJournalCommand}" Width="400" Margin="2" />
+        <Button Content="Конвертировать конфигурацию из формата firesec-1" Command="{Binding ConvertConfigurationCommand}" Width="400" Margin="2" />
+        <Button Content="Конвертировать журнал событий из формата firesec-1" Command="{Binding ConvertJournalCommand}" Width="400" Margin="2" />
     </StackPanel>
 </UserControl>

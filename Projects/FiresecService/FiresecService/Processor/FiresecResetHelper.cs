@@ -45,7 +45,7 @@ namespace FiresecService.Processor
 				}
 				foreach (var stateName in resetItem.StateNames)
 				{
-					var deviceDriverState = deviceState.States.First(x => x.DriverState.Name == stateName).DriverState;
+					var deviceDriverState = deviceState.States.FirstOrDefault(x => x.DriverState.Name == stateName).DriverState;
 					if (deviceDriverState == null)
 					{
 						Logger.Error("AlarmWatcher.UpdateValveTimer: deviceDriverState = null");

@@ -21,6 +21,9 @@ namespace FiresecAPI.Models
 		public bool AffectChildren { get; set; }
 
 		[DataMember]
+		public bool AffectedParent { get; set; }
+
+		[DataMember]
 		public bool IsManualReset { get; set; }
 
 		[DataMember]

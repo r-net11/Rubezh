@@ -224,10 +224,6 @@ namespace FiresecService.Processor
 				Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
 				if (innerDevice != null)
 				{
-					if (deviceState.Device.Driver.DriverType == DriverType.IndicationBlock)
-					{
-						;
-					}
 					foreach (var driverState in deviceState.Device.Driver.States)
 					{
 						var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);

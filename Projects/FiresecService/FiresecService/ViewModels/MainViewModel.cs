@@ -11,6 +11,8 @@ namespace FiresecService.ViewModels
 	public class MainViewModel : ApplicationViewModel
 	{
 		public static MainViewModel Current { get; private set; }
+		public string HostStatus { get; private set; }
+		public string ComServersStatus { get; private set; }
 
 		public MainViewModel()
 		{
@@ -153,6 +155,19 @@ namespace FiresecService.ViewModels
 				{
 					connectionViewModel.State = state;
 				}
+			}
+			));
+		}
+
+		public void UpdateStatus(string hostStatus, string comServersStatus)
+		{
+			Dispatcher.Invoke(new Action(
+			delegate()
+			{
+				HostStatus = hostStatus;
+				ComServersStatus = comServersStatus;
+				OnPropertyChanged("HostStatus");
+				OnPropertyChanged("ComServersStatus");
 			}
 			));
 		}

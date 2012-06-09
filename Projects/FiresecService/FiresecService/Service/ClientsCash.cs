@@ -24,10 +24,11 @@ namespace FiresecService.Service
 			PingTimer.Start();
 		}
 
-		public static void InitializeComServers()
+		public static bool InitializeComServers()
 		{
 			MonitoringFiresecManager = new FiresecManager(true);
 			AdministratorFiresecManager = new FiresecManager(false);
+			return (MonitoringFiresecManager.IsConnectedToComServer && AdministratorFiresecManager.IsConnectedToComServer);
 		}
 
 		public static void Add(FiresecService firesecService)
