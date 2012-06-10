@@ -14,6 +14,7 @@ using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows;
 
 namespace Infrastructure.Client
 {
@@ -40,19 +41,32 @@ namespace Infrastructure.Client
 		{
 			LoadingService.DoStep("Загрузка модулей приложения");
 			shellViewModel.NavigationItems = GetNavigationItems();
-			InitializeModules();
-			ApplicationService.User = FiresecManager.CurrentUser;
-			LoadingService.DoStep("Запуск приложения");
-			ApplicationService.Run(shellViewModel);
+			if (InitializeModules())
+			{
+				ApplicationService.User = FiresecManager.CurrentUser;
+				LoadingService.DoStep("Запуск приложения");
+				ApplicationService.Run(shellViewModel);
+			}
 		}
-		protected void InitializeModules()
+		protected bool InitializeModules()
 		{
 			ReadConfiguration();
 			foreach (IModule module in Modules)
-			{
-				LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
-				module.Initialize();
-			}
+				try
+				{
+					LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
+					module.Initialize();
+				}
+				catch (Exception ex)
+				{
+					Logger.Error(ex);
+					Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+					LoadingService.Close();
+					MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.", module.Name));
+					Application.Current.Shutdown();
+					return false;
+				}
+			return true;
 		}
 		protected List<NavigationItem> GetNavigationItems()
 		{

@@ -15,7 +15,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			CopyCommand = new RelayCommand(OnCopy);
 			Title = title ?? "Firesec";
 			if (title == null && isException)
-				Title = "В результате работы программы возникло исключение";
+				Title = "Во время работы программы произошла ошибка";
 
 			IsException = isException;
 			Message = message;

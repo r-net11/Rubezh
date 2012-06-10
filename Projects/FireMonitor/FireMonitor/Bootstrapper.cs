@@ -87,7 +87,7 @@ namespace FireMonitor
 			FiresecManager.DeviceStates = FiresecManager.FiresecService.GetStates(true);
 			FiresecManager.UpdateStates();
 
-			ServiceFactory.SafeCall(InitializeModules);
+			ServiceFactory.SafeCall(() => InitializeModules());
 		}
 	}
 }
