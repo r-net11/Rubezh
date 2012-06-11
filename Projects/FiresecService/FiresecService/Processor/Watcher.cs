@@ -197,7 +197,8 @@ namespace FiresecService.Processor
 			try
 			{
 				SetStates(coreState);
-				PropogateStates();
+				PropogateStatesDown();
+				PropogateStatesUp();
 				CalculateZones();
 
 				if (ChangedDevices.Count > 0)
@@ -217,6 +218,12 @@ namespace FiresecService.Processor
 
 		void SetStates(Firesec.CoreState.config coreState)
 		{
+			if (FiresecManager.DeviceConfigurationStates.DeviceStates == null)
+			{
+				Logger.Error("Watcher.SetStates FiresecManager.DeviceConfigurationStates.DeviceStates = null");
+				return;
+			}
+
 			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
 			{
 				bool hasOneChangedState = false;
@@ -224,9 +231,29 @@ namespace FiresecService.Processor
 				Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);
 				if (innerDevice != null)
 				{
+					if (deviceState.Device == null)
+					{
+						Logger.Error("Watcher.SetStates deviceState.Device = null");
+						return;
+					}
+					if (deviceState.Device.Driver == null)
+					{
+						Logger.Error("Watcher.SetStates deviceState.Device.Driver = null");
+						return;
+					}
+					if (deviceState.Device.Driver.States == null)
+					{
+						Logger.Error("Watcher.SetStates deviceState.Device.Driver.States = null");
+						return;
+					}
 					foreach (var driverState in deviceState.Device.Driver.States)
 					{
 						var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);
+						if (deviceState.States == null)
+						{
+							Logger.Error("Watcher.SetStates deviceState.States = null");
+							return;
+						}
 						var state = deviceState.States.FirstOrDefault(x => x.Code == driverState.Code);
 						if ((state != null) != (innerState != null))
 						{
@@ -270,7 +297,7 @@ namespace FiresecService.Processor
 			}
 		}
 
-		void PropogateStates()
+		void PropogateStatesDown()
 		{
 			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
 			{
@@ -316,6 +343,55 @@ namespace FiresecService.Processor
 					if (parentState.IsDeleting)
 					{
 						deviceState.ParentStates.RemoveAt(i - 1);
+						ChangedDevices.Add(deviceState);
+					}
+				}
+			}
+		}
+
+		void PropogateStatesUp()
+		{
+			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			{
+				deviceState.ChildStates.ForEach(x => x.IsDeleting = true);
+			}
+
+			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			{
+				foreach (var state in deviceState.States.Where(x => x.DriverState.AffectedParent))
+				{
+					var parentDevice = deviceState.Device.Parent;
+					var parentDeviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == parentDevice.UID);
+
+					var childDeviceState = new ChildDeviceState()
+					{
+						ChildDeviceId = deviceState.UID,
+						Code = state.Code,
+						DriverState = state.DriverState,
+						IsDeleting = false
+					};
+
+					var existingParentDeviceState = parentDeviceState.ChildStates.FirstOrDefault(x => x.ChildDeviceId == childDeviceState.ChildDeviceId && x.Code == childDeviceState.Code && x.DriverState == childDeviceState.DriverState);
+					if (existingParentDeviceState == null)
+					{
+						parentDeviceState.ChildStates.Add(childDeviceState);
+						ChangedDevices.Add(parentDeviceState);
+					}
+					else
+					{
+						existingParentDeviceState.IsDeleting = false;
+					}
+				}
+			}
+
+			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			{
+				for (int i = deviceState.ChildStates.Count(); i > 0; i--)
+				{
+					var childState = deviceState.ChildStates[i - 1];
+					if (childState.IsDeleting)
+					{
+						deviceState.ChildStates.RemoveAt(i - 1);
 						ChangedDevices.Add(deviceState);
 					}
 				}

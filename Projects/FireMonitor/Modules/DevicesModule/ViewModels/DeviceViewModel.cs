@@ -53,13 +53,13 @@ namespace DevicesModule.ViewModels
 
 		void OnStateChanged()
 		{
-			States = new List<StateViewModel>();
 			if (DeviceState.States == null)
 			{
 				Logger.Error("DeviceViewModel.OnStateChanged: DeviceState.States = null");
 				return;
 			}
 
+			States = new List<StateViewModel>();
 			foreach (var state in DeviceState.States)
 			{
 				var stateViewModel = new StateViewModel()
@@ -69,15 +69,28 @@ namespace DevicesModule.ViewModels
 				States.Add(stateViewModel);
 			}
 
+			ParentStates = new List<StateViewModel>();
+			foreach (var state in DeviceState.ParentStates)
+			{
+				var stateViewModel = new StateViewModel()
+				{
+					DriverState = state.DriverState,
+					DeviceName = state.ParentDevice.PresentationAddressDriver
+				};
+				ParentStates.Add(stateViewModel);
+			}
+
 			OnPropertyChanged("StateType");
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("DeviceState.States");
 			OnPropertyChanged("DeviceState.StringStates");
 			OnPropertyChanged("DeviceState.ParentStringStates");
 			OnPropertyChanged("States");
+			OnPropertyChanged("ParentStates");
 		}
 
 		public List<StateViewModel> States { get; private set; }
+		public List<StateViewModel> ParentStates { get; private set; }
 
 		void OnParametersChanged()
 		{
@@ -127,9 +140,7 @@ namespace DevicesModule.ViewModels
 				if (DeviceState != null && DeviceState.Parameters.IsNotNullOrEmpty())
 					foreach (var parameter in DeviceState.Parameters)
 					{
-						if (string.IsNullOrEmpty(parameter.Value))
-							continue;
-						if (parameter.Value == "<NULL>")
+						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
 							continue;
 						parameters.Add(parameter.Caption + " - " + parameter.Value);
 					}

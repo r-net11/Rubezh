@@ -3,7 +3,7 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:Controls="clr-namespace:Controls;assembly=Controls"
                  xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True" >
-    
+
     <UserControl.Resources>
         <ContextMenu x:Key="DeviceContextMenu">
             <MenuItem Header="Копировать" Command="{Binding CopyCommand}" />
@@ -19,7 +19,7 @@
             <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
         </ContextMenu>
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" Name="topRow" MinHeight="200" />
@@ -28,15 +28,17 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Name="_grid1">
             <DataGrid Name="_devicesDataGrid" Focusable="True" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="False"
-                      VirtualizingStackPanel.IsVirtualizing="True">
+                    VirtualizingStackPanel.IsVirtualizing="True">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}"
-                                            ContextMenu="{StaticResource DeviceContextMenu}">
+                                        ContextMenu="{StaticResource DeviceContextMenu}">
                                     <CheckBox Name="checkBoxExpand"  Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                        Visibility="{Binding Device.CanBeNotUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
                                         Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Width="200" />
@@ -46,15 +48,15 @@
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}"
-                                            ContextMenu="{StaticResource DeviceContextMenu}">
+                                        ContextMenu="{StaticResource DeviceContextMenu}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
                                         Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <TextBlock Text="{Binding Driver.ShortName}"
-                                               Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                                        Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
                                     <ComboBox ItemsSource="{Binding AvailvableDrivers}" SelectedItem="{Binding Driver, UpdateSourceTrigger=PropertyChanged}"
-                                              Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            Visibility="{Binding CanChangeDriver, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding ShortName}" Foreground="Black" />
@@ -97,7 +99,7 @@
                             <DataTemplate>
                                 <Grid>
                                     <ComboBox ItemsSource="{Binding Zones}" SelectedItem="{Binding Zone}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Height="19"
-                                                  Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding PresentationName}" VerticalAlignment="Stretch" Foreground="Black" />

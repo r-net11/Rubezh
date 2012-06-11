@@ -23,7 +23,6 @@ namespace FiresecService.Configuration
 			ConvertDirections();
 			ConvertGuardUsers();
 			ConvertDevices();
-			SetValidChars();
 			Update();
 
 			ConfigurationCash.DeviceConfiguration = DeviceConfiguration;
@@ -86,14 +85,6 @@ namespace FiresecService.Configuration
 						ConfigurationCash.Drivers.Add(driver);
 				}
 			}
-		}
-
-		public void SetValidChars()
-		{
-			DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
-			var validCharsBuilder = new StringBuilder(DriverConverter.Metadata.drv.Last().validChars);
-			validCharsBuilder.Append('№');
-			ConfigurationCash.DeviceConfiguration.ValidChars = validCharsBuilder.ToString();
 		}
 
 		public void Update()

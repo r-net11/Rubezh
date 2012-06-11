@@ -4,7 +4,7 @@
 
     <Grid Name="_grid">
         <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.6"
-                 ToolTip="{Binding PresentationName}" Fill="{Binding ZoneState, Converter={StaticResource ZoneStateToColorConverter}}"
+                 Fill="{Binding ZoneState, Converter={StaticResource ZoneStateToColorConverter}}"
                  MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave" PreviewMouseLeftButtonDown="_polygon_PreviewMouseLeftButtonDown">
             <Polygon.ContextMenu>
                 <ContextMenu>
@@ -13,6 +13,12 @@
                     <MenuItem Header="Включить все устройства в зоне" Command="{Binding EnableAllCommand}" />
                 </ContextMenu>
             </Polygon.ContextMenu>
+            <Polygon.ToolTip>
+                <StackPanel>
+                    <TextBlock Text="{Binding PresentationName}" />
+                    <TextBlock Text="{Binding ZoneState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+                </StackPanel>
+            </Polygon.ToolTip>
         </Polygon>
     </Grid>
 </ContentControl>

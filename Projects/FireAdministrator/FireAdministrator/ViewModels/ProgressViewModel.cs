@@ -11,8 +11,9 @@ namespace FireAdministrator.ViewModels
 
 		public ProgressViewModel(string title)
 		{
-			StopCommand = new RelayCommand(OnStop);
 			Title = title;
+			CancelText = "Отменить";
+			StopCommand = new RelayCommand(OnStop);
 			ContinueProgress = true;
 			FiresecCallbackService.ProgressEvent -= new Func<int, string, int, int, bool>(Progress);
 			FiresecCallbackService.ProgressEvent += new Func<int, string, int, int, bool>(Progress);
@@ -42,7 +43,6 @@ namespace FireAdministrator.ViewModels
 			Description = comment;
 			Percent = percentComplete;
 
-			CancelText = "Отменить";
 			if (stage == -100)
 				CancelText = "Остановить";
 

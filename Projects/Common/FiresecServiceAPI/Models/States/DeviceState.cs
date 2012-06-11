@@ -12,6 +12,7 @@ namespace FiresecAPI.Models
 		{
 			States = new List<DeviceDriverState>();
 			ParentStates = new List<ParentDeviceState>();
+			ChildStates = new List<ChildDeviceState>();
 			Parameters = new List<Parameter>();
 		}
 
@@ -28,19 +29,25 @@ namespace FiresecAPI.Models
 		public List<ParentDeviceState> ParentStates { get; set; }
 
 		[DataMember]
+		public List<ChildDeviceState> ChildStates { get; set; }
+
+		[DataMember]
 		public List<Parameter> Parameters { get; set; }
 
 		public StateType StateType
 		{
 			get
 			{
-				var stateTypes = new List<StateType>() { (StateType)7 };
+				var stateTypes = new List<StateType>() { StateType.Norm };
 
 				stateTypes.AddRange(from DeviceDriverState deviceDriverState in States
 									select deviceDriverState.DriverState.StateType);
 
 				stateTypes.AddRange(from ParentDeviceState parentDeviceState in ParentStates
 									select parentDeviceState.DriverState.StateType);
+
+				stateTypes.AddRange(from ChildDeviceState childDeviceState in ChildStates
+									select childDeviceState.DriverState.StateType);
 
 				return stateTypes.Min();
 			}

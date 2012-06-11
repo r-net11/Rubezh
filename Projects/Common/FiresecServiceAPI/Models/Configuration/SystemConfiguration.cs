@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class SystemConfiguration
+	public class SystemConfiguration : VersionedConfiguration
 	{
 		public SystemConfiguration()
 		{

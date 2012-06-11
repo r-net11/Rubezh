@@ -9,19 +9,18 @@
     
     <DataGrid ItemsSource="{Binding Plans}" SelectedItem="{Binding SelectedPlan}">
         <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Название">
+            <DataGridTemplateColumn Header="Название" Width="*">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}" VerticalAlignment="Center">
                             <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                 Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                             <Image Source="{Binding StateType, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                            <TextBlock Text="{Binding Plan.Caption}" Margin="2, 0, 0, 0" VerticalAlignment="Center" />
+                            <TextBlock Text="{Binding Plan.Caption}" ToolTip="{Binding Plan.Description}" Margin="2, 0, 0, 0" VerticalAlignment="Center" />
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTextColumn Header="Описание" Binding="{Binding Plan.Description}" Width="*" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

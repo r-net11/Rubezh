@@ -17,6 +17,8 @@ namespace FiresecAPI.Models
 			IndicatorLogic = new IndicatorLogic();
 			PDUGroupLogic = new PDUGroupLogic();
 			PlanElementUIDs = new List<Guid>();
+			IsRmAlarmDevice = false;
+			IsNotUsed = false;
 		}
 
 		public Driver Driver { get; set; }
@@ -67,6 +69,14 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool IsAltInterface { get; set; }
+
+		[DataMember]
+		public bool IsNotUsed { get; set; }
+
+		public bool CanBeNotUsed
+		{
+			get { return ((Parent != null) && (Parent.Driver.ChildAddressReserveRangeCount > 0) && (Parent.Driver.AutoChild == DriverUID)); }
+		}
 
 		public string EditingPresentationAddress
 		{

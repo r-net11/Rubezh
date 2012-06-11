@@ -127,6 +127,7 @@ namespace FireAdministrator.Views
 
 				ServiceFactory.Layout.Close();
 				ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+				ServiceFactory.Layout.ShowFooter(null);
 			}
 		}
 
@@ -176,6 +177,7 @@ namespace FireAdministrator.Views
 
 				ServiceFactory.SaveService.DevicesChanged = true;
 				ServiceFactory.SaveService.PlansChanged = true;
+				ServiceFactory.Layout.ShowFooter(null);
 			}
 		}
 
@@ -189,7 +191,8 @@ namespace FireAdministrator.Views
 				SecurityConfiguration = FiresecManager.SecurityConfiguration,
 				SystemConfiguration = FiresecManager.SystemConfiguration,
 				XDeviceConfiguration = XManager.DeviceConfiguration,
-				XDriversConfiguration = XManager.DriversConfiguration
+				XDriversConfiguration = XManager.DriversConfiguration,
+				Version = new ConfigurationVersion() { MajorVersion = 1, MinorVersion = 1 }
 			};
 		}
 

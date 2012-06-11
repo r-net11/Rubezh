@@ -54,7 +54,7 @@ namespace FiresecService.Service
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
-				return CreateEmptyOperationResult<T>(e.Message);
+				return CreateEmptyOperationResult<T>(e.Message + "\n" + e.StackTrace);
 			}
 		}
 

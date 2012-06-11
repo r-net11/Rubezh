@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System.Text;
 
 namespace PlansModule.ViewModels
 {
@@ -16,6 +17,8 @@ namespace PlansModule.ViewModels
 		public ulong? ZoneNo { get; private set; }
 		public Zone Zone { get; private set; }
 		public ZoneState ZoneState { get; private set; }
+		List<Guid> deviceUIDs;
+		List<DeviceState> deviceStates;
 
 		public ElementZoneViewModel(ElementPolygonZone elementPolygonZone)
 		{
@@ -86,9 +89,6 @@ namespace PlansModule.ViewModels
 				}
 			}
 		}
-
-		List<Guid> deviceUIDs;
-		List<DeviceState> deviceStates;
 
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()

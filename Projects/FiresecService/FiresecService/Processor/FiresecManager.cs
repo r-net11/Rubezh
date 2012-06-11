@@ -36,7 +36,6 @@ namespace FiresecService.Processor
 			if (IsConnectedToComServer = FiresecSerializedClient.Connect(login, password).Result)
 			{
 				ConfigurationConverter.ConvertMetadataFromFiresec();
-				ConfigurationConverter.SetValidChars();
 				ConfigurationConverter.Update();
 
 				Watcher = new Watcher(this);

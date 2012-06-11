@@ -21,10 +21,10 @@ namespace FiresecDirect
 
 		void OnSetNewConfig(object sender, RoutedEventArgs e)
 		{
-			using (var reader = new StreamReader("SetNewConfig.xml"))
-			{
-				textBox1.Text = reader.ReadToEnd();
-			}
+			//using (var reader = new StreamReader("SetNewConfig.xml"))
+			//{
+			//    textBox1.Text = reader.ReadToEnd();
+			//}
 
 			//byte[] bytes = Encoding.UTF8.GetBytes(message);
 			//var memoryStream = new MemoryStream(bytes);

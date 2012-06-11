@@ -15,8 +15,6 @@ namespace DevicesModule.ViewModels
 	{
 		public DevicesViewModel()
 		{
-			//FiresecEventSubscriber.DeviceStateChangedEvent -= OnDeviceStateChanged;
-			//FiresecEventSubscriber.DeviceStateChangedEvent += OnDeviceStateChanged;
 			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
 		}
 
@@ -70,6 +68,9 @@ namespace DevicesModule.ViewModels
 			Devices.Insert(Devices.IndexOf(parentDeviceViewModel) + 1, deviceViewModel);
 			foreach (var childDevice in device.Children)
 			{
+				if (childDevice.IsNotUsed)
+					continue;
+
 				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == childDevice.UID);
 				if (deviceState != null)
 				{
