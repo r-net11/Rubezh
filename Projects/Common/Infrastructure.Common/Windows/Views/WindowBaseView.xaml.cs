@@ -46,6 +46,10 @@ namespace Infrastructure.Common.Windows.Views
 				MinHeight = AbsolutMinSize;
 			if (MinWidth < AbsolutMinSize)
 				MinWidth = AbsolutMinSize;
+			if (MaxHeight > SystemParameters.MaximizedPrimaryScreenHeight)
+				MaxHeight = SystemParameters.MaximizedPrimaryScreenHeight;
+			if (MaxWidth > SystemParameters.MaximizedPrimaryScreenWidth)
+				MaxWidth = SystemParameters.MaximizedPrimaryScreenWidth;
 			if (_model.HideInTaskbar)
 				ShowInTaskbar = false;
 		}

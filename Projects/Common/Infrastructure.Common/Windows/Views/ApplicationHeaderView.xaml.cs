@@ -22,7 +22,7 @@ namespace Infrastructure.Common.Windows.Views
 
 		private void OnClose(object sender, RoutedEventArgs e)
 		{
-			Application.Close();
+			Application.Close(false);
 		}
 		private void OnMinimize(object sender, RoutedEventArgs e)
 		{
