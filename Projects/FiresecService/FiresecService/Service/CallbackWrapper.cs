@@ -58,6 +58,11 @@ namespace FiresecService.Service
 			try
 			{
 				var result = FiresecService.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
+				if (FiresecService.ContinueProgress == false)
+				{
+					FiresecService.ContinueProgress = true;
+					return false;
+				}
 				return result;
 			}
 			catch (Exception e)

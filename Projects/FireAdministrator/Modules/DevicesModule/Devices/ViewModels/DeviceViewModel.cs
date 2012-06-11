@@ -117,7 +117,6 @@ namespace DevicesModule.ViewModels
 				{
 					Device.ZoneNo = value.No;
 					OnPropertyChanged("Zone");
-
 					ServiceFactory.SaveService.DevicesChanged = true;
 					DevicesViewModel.Current.UpdateExternalDevices();
 				}
@@ -137,6 +136,17 @@ namespace DevicesModule.ViewModels
 		public string ConnectedTo
 		{
 			get { return Device.ConnectedTo; }
+		}
+
+		public bool IsUsed
+		{
+			get { return !Device.IsNotUsed; }
+			set
+			{
+				Device.IsNotUsed = !value;
+				OnPropertyChanged("IsUsed");
+				ServiceFactory.SaveService.DevicesChanged = true;
+			}
 		}
 
 		public RelayCommand ShowZoneLogicCommand { get; private set; }

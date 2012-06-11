@@ -8,6 +8,7 @@ namespace FiresecClient.Validation
 {
 	public static class DevicesValidator
 	{
+		static string ValidChars = "АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщыьъэюя- .1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$;%^:&?*()-_=+|[]'<>,\"\\/{}&#xD;№";
 		public static List<DeviceError> DeviceErrors { get; set; }
 		public static List<ZoneError> ZoneErrors { get; set; }
 		public static List<DirectionError> DirectionErrors { get; set; }
@@ -160,6 +161,9 @@ namespace FiresecClient.Validation
 
 		static void ValidateDeviceExtendedZoneLogic(Device device)
 		{
+			if (device.IsNotUsed)
+				return;
+
 			if (device.Driver.IsZoneLogicDevice && (device.ZoneLogic == null || device.ZoneLogic.Clauses.Count == 0) &&
 				device.Driver.DriverType != DriverType.ASPT && device.Driver.DriverType != DriverType.Exit && device.Driver.DriverType != DriverType.PumpStation)
 				DeviceErrors.Add(new DeviceError(device, "Отсутствуют настроенные режимы срабатывания", ErrorLevel.CannotWrite));
@@ -533,17 +537,12 @@ namespace FiresecClient.Validation
 
 		static bool ValidateString(string str)
 		{
-			if ((FiresecManager.DeviceConfiguration == null) || (FiresecManager.DeviceConfiguration.ValidChars == null))
-			{
-				Logger.Error("DevicesValidator.ValidateString: Не задан список невалидных символов");
-				return true;
-			}
-			return str.All(x => FiresecManager.DeviceConfiguration.ValidChars.Contains(x));
+			return str.All(x => ValidChars.Contains(x));
 		}
 
 		static string InvalidChars(string str)
 		{
-			return new string(str.Where(x => FiresecManager.DeviceConfiguration.ValidChars.Contains(x) == false).ToArray());
+			return new string(str.Where(x => ValidChars.Contains(x) == false).ToArray());
 		}
 
 		static void ValidateGuardUsers()

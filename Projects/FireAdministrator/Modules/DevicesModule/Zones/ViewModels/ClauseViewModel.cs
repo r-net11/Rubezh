@@ -49,20 +49,22 @@ namespace DevicesModule.ViewModels
 							ZoneLogicState.MPTOn};
 
 					case DriverType.Exit:
+						var states = new List<ZoneLogicState>();
 						switch (_device.Parent.Driver.DriverType)
 						{
 							case DriverType.Rubezh_4A:
 							case DriverType.USB_Rubezh_4A:
-								return new List<ZoneLogicState>() {
+								states = new List<ZoneLogicState>() {
 									ZoneLogicState.Fire,
 									ZoneLogicState.Attention,
 									ZoneLogicState.MPTAutomaticOn,
 									ZoneLogicState.MPTOn,
 									ZoneLogicState.Failure};
+								break;
 
 							case DriverType.BUNS_2:
 							case DriverType.USB_BUNS_2:
-								return new List<ZoneLogicState>() {
+								states = new List<ZoneLogicState>() {
 									ZoneLogicState.Fire,
 									ZoneLogicState.Attention,
 									ZoneLogicState.MPTAutomaticOn,
@@ -70,15 +72,18 @@ namespace DevicesModule.ViewModels
 									ZoneLogicState.PumpStationOn,
 									ZoneLogicState.PumpStationAutomaticOff,
 									ZoneLogicState.Failure};
+								break;
 
 							case DriverType.Rubezh_2OP:
 							case DriverType.USB_Rubezh_2OP:
-								var states = Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();
+								states = Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();
 								states.Remove(ZoneLogicState.PumpStationOn);
 								states.Remove(ZoneLogicState.PumpStationAutomaticOff);
-								return states;
+								break;
 						}
-						break;
+						if((_device.IntAddress == 3) || (_device.IntAddress == 4))
+							states.Remove(ZoneLogicState.Failure);
+						return states;
 
 					case DriverType.RM_1:
 						var rmStates = Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();
@@ -136,11 +141,12 @@ namespace DevicesModule.ViewModels
 
 		void Update()
 		{
+			Zones = new List<ulong>();
+			SelectedDevice = null;
 			OnPropertyChanged("CanSelectOperation");
 			OnPropertyChanged("CanSelectZones");
 			OnPropertyChanged("CanSelectDevice");
-			Zones = new List<ulong>();
-			SelectedDevice = null;
+			OnPropertyChanged("PresenrationZones");
 
 			_zoneLogicViewModel.OnCurrentClauseStateChanged(SelectedState);
 		}

@@ -152,6 +152,8 @@
     <Compile Include="Models\Configuration\LibraryConfiguration.cs" />
     <Compile Include="Models\Configuration\PlansConfiguration.cs" />
     <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
+    <Compile Include="Models\Configuration\ConfigurationVersion.cs" />
+    <Compile Include="Models\Configuration\VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />
     <Compile Include="Models\Device\DevicePasswordType.cs" />
     <Compile Include="Models\Device\Indicator\IndicatorColorType.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Models\Skud\EmployeeCard.cs" />
     <Compile Include="Models\Skud\EmployeeCardIndexFilter.cs" />
     <Compile Include="Models\Archive\ArchiveFilter.cs" />
+    <Compile Include="Models\States\ChildDeviceState.cs" />
     <Compile Include="Models\System\BeeperType.cs" />
     <Compile Include="Models\System\InstructionType.cs" />
     <Compile Include="Models\Security\RemoteAccess.cs" />

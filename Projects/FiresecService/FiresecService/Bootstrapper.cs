@@ -14,6 +14,7 @@ namespace FiresecService
 	{
 		static Thread WindowThread = null;
 		static MainViewModel MainViewModel;
+		static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
 
 		public static void Run()
 		{
@@ -29,20 +30,11 @@ namespace FiresecService
 				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
-				//var synchronisationHostWindow = new Window()
-				//{
-				//    WindowStyle = System.Windows.WindowStyle.None,
-				//    Width = 0,
-				//    Height = 0,
-				//    ShowInTaskbar = false
-				//};
-				//synchronisationHostWindow.Show();
-				//synchronisationHostWindow.Hide();
-
 				WindowThread = new Thread(new ThreadStart(OnWorkThread));
 				WindowThread.SetApartmentState(ApartmentState.STA);
 				WindowThread.IsBackground = true;
 				WindowThread.Start();
+				MainViewStartedEvent.WaitOne();
 
 				var comServersStatus = ClientsCash.InitializeComServers();
 				var isHostOpened = FiresecServiceManager.Open();
@@ -70,6 +62,8 @@ namespace FiresecService
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
 			}
+			Thread.Sleep(2000);
+			MainViewStartedEvent.Set();
 			System.Windows.Threading.Dispatcher.Run();
 		}
 

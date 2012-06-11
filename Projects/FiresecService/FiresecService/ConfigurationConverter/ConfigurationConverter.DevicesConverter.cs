@@ -88,6 +88,16 @@ namespace FiresecService.Configuration
 			{
 				foreach (var innerProperty in innerDevice.prop)
 				{
+					if (innerProperty.name == "IsAlarmDevice")
+					{
+						device.IsRmAlarmDevice = true;
+						continue;
+					}
+					if (innerProperty.name == "NotUsed")
+					{
+						device.IsNotUsed = true;
+						continue;
+					}
 					device.Properties.Add(new Property()
 					{
 						Name = innerProperty.name,
@@ -96,7 +106,6 @@ namespace FiresecService.Configuration
 				}
 			}
 
-			device.IsRmAlarmDevice = device.Properties.Any(x => x.Name == "IsAlarmDevice");
 			var description = innerDevice.name;
 			if (description != null)
 				description = description.Replace('¹', '№');
@@ -287,10 +296,19 @@ namespace FiresecService.Configuration
 
 			if (device.IsRmAlarmDevice)
 			{
-				var zoneLogicProperty = propertyList.FirstOrDefault(x => x.name == "IsAlarmDevice");
-				if (zoneLogicProperty == null)
+				var isRmAlarmDeviceProperty = propertyList.FirstOrDefault(x => x.name == "IsAlarmDevice");
+				if (isRmAlarmDeviceProperty == null)
 				{
 					propertyList.Add(new propType() { name = "IsAlarmDevice", value = "1" });
+				}
+			}
+
+			if (device.IsNotUsed)
+			{
+				var isNotUsedProperty = propertyList.FirstOrDefault(x => x.name == "NotUsed");
+				if (isNotUsedProperty == null)
+				{
+					propertyList.Add(new propType() { name = "NotUsed", value = "1" });
 				}
 			}
 

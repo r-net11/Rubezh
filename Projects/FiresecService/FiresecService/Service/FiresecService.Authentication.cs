@@ -78,12 +78,12 @@ namespace FiresecService.Service
 			if (user == null || !HashHelper.CheckPass(password, user.PasswordHash))
 				return false;
 
-			SetUserFullName();
+			SetUserFullName(login);
 
 			return true;
 		}
 
-		void SetUserFullName()
+		void SetUserFullName(string login)
 		{
 			var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
 			string userIp = endpoint.Address;
@@ -92,7 +92,7 @@ namespace FiresecService.Service
 			if (addressList.Any(ip => ip.ToString() == userIp))
 				userIp = "localhost";
 
-			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == ClientCredentials.UserName);
+			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login);
 			ClientCredentials.UserName = user.Name + " (" + userIp + ")";
 		}
 	}
