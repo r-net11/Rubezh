@@ -9,6 +9,9 @@ namespace FireAdministrator
 {
 	public partial class App : Application
 	{
+		private const string SignalId = "Administrator";
+		private const string WaitId = "AdministratorContinue";
+
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
@@ -20,6 +23,7 @@ namespace FireAdministrator
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
 			bootstrapper = new Bootstrapper();
+			//using (new DoubleLaunchLocker(SignalId, WaitId))
 			bootstrapper.Initialize();
 		}
 
