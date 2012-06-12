@@ -85,9 +85,9 @@ namespace AlarmModule.ViewModels
 		void OnResetAll()
 		{
 			var resetItems = new List<ResetItem>();
-			foreach (var alarmViewModel in Alarms)
+			foreach (var alarm in allAlarms)
 			{
-				var resetItem = alarmViewModel.Alarm.GetResetItem();
+				var resetItem = alarm.GetResetItem();
 				if (resetItem != null)
 				{
 					var existringResetItem = resetItems.FirstOrDefault(x => x.DeviceUID == resetItem.DeviceUID);

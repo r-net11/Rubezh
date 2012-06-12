@@ -40,10 +40,8 @@ namespace DevicesModule.ViewModels
 				string deviceName = Device.AddressFullPath + " - " + device.Driver.Name + "." + device.PresentationAddress;
 				string errorText = "Ошибка при сопоставлении устройства с его состоянием:\n" + deviceName;
 				Logger.Warn(errorText);
-				MessageBoxService.ShowWarning(errorText);
+				//MessageBoxService.ShowWarning(errorText);
 			}
-
-			OnStateChanged();
 		}
 
 		public string PresentationZone
@@ -75,7 +73,7 @@ namespace DevicesModule.ViewModels
 				var stateViewModel = new StateViewModel()
 				{
 					DriverState = state.DriverState,
-					DeviceName = state.ParentDevice.PresentationAddressDriver
+					DeviceName = state.ParentDevice.Driver.ShortName + " - " + state.ParentDevice.DottedAddress
 				};
 				ParentStates.Add(stateViewModel);
 			}

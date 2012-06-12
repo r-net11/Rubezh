@@ -97,14 +97,19 @@ namespace FiresecClient
 			get { return SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin); }
 		}
 
+		static bool IsDisconnected = false;
 		public static void Disconnect()
 		{
-			if (FiresecService != null)
+			if (!IsDisconnected)
 			{
-				Logger.Info("FiresecManager.Disconnect");
-				FiresecService.Dispose();
+				if (FiresecService != null)
+				{
+					Logger.Info("FiresecManager.Disconnect");
+					FiresecService.Dispose();
+				}
+				FiresecCallbackServiceManager.Close();
 			}
-			FiresecCallbackServiceManager.Close();
+			IsDisconnected = true;
 		}
 
 		public static OperationResult<DeviceConfiguration> AutoDetectDevice(Guid deviceUID, bool fastSearch)

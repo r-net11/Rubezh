@@ -87,9 +87,20 @@ namespace FiresecService.Service
 			return operationResult;
 		}
 
-		public OperationResult<IEnumerable<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
+		public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
 		{
-			var operationResult = new OperationResult<IEnumerable<JournalRecord>>();
+			return OnGetFilteredArchive(archiveFilter);
+		}
+
+		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter)
+		{
+			var result = OnGetFilteredArchive(archiveFilter);
+			CallbackWrapper.GetFilteredArchiveCompleted(result.Result);
+		}
+
+		OperationResult<List<JournalRecord>> OnGetFilteredArchive(ArchiveFilter archiveFilter)
+		{
+			var operationResult = new OperationResult<List<JournalRecord>>();
 			try
 			{
 				string dateInQuery = "DeviceTime";

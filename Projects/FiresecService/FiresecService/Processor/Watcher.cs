@@ -40,7 +40,7 @@ namespace FiresecService.Processor
 			{
 				if (firesecService != null && firesecService.CallbackWrapper != null)
 				{
-					return firesecService.CallbackWrapper.OnProgress(stage, comment, percentComplete, bytesRW);
+					return firesecService.CallbackWrapper.Progress(stage, comment, percentComplete, bytesRW);
 				}
 			}
 			return false;
@@ -141,7 +141,7 @@ namespace FiresecService.Processor
 					{
 						if (firesecService != null && firesecService.CallbackWrapper != null)
 						{
-							firesecService.CallbackWrapper.OnNewJournalRecord(journalRecord);
+							firesecService.CallbackWrapper.NewJournalRecord(journalRecord);
 						}
 					}
 				}
@@ -180,7 +180,7 @@ namespace FiresecService.Processor
 					{
 						if (firesecService != null && firesecService.CallbackWrapper != null)
 						{
-							firesecService.CallbackWrapper.OnDeviceParametersChanged(ChangedDevices.ToList());
+							firesecService.CallbackWrapper.DeviceParametersChanged(ChangedDevices.ToList());
 						}
 					}
 			}
@@ -206,7 +206,7 @@ namespace FiresecService.Processor
 					{
 						if (firesecService != null && firesecService.CallbackWrapper != null)
 						{
-							firesecService.CallbackWrapper.OnDeviceStatesChanged(ChangedDevices.ToList());
+							firesecService.CallbackWrapper.DeviceStateChanged(ChangedDevices.ToList());
 						}
 					}
 			}
@@ -427,7 +427,7 @@ namespace FiresecService.Processor
 						{
 							if (firesecService != null && firesecService.CallbackWrapper != null)
 							{
-								firesecService.CallbackWrapper.OnZoneStateChanged(zoneState);
+								firesecService.CallbackWrapper.ZoneStateChanged(zoneState);
 							}
 						}
 					}

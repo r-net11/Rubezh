@@ -145,6 +145,11 @@ namespace DevicesModule.ViewModels
 			{
 				Device.IsNotUsed = !value;
 				OnPropertyChanged("IsUsed");
+				if (!value)
+				{
+					Device.ZoneLogic = new ZoneLogic();
+					OnPropertyChanged("PresentationZone");
+				}
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}
 		}

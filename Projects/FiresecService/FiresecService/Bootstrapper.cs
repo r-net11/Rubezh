@@ -62,7 +62,6 @@ namespace FiresecService
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
 			}
-			Thread.Sleep(2000);
 			MainViewStartedEvent.Set();
 			System.Windows.Threading.Dispatcher.Run();
 		}

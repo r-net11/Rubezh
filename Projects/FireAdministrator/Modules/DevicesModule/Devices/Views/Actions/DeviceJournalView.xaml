@@ -10,6 +10,7 @@
     </UserControl.Resources>
 
     <ScrollViewer>
+        <!--<WebBrowser local:BrowserBehavior.Html="{Binding HtmlString}" Style="{x:Null}" />-->
         <htmlViewer:RichTextBox TextFormatter="{StaticResource HtmlFormatter}" Text="{Binding HtmlString}" />
     </ScrollViewer>
 </UserControl>

@@ -27,7 +27,7 @@ namespace DevicesModule.ViewModels
         {
             if (_operationResult.HasError)
             {
-                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
+				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
                 return;
             }
             DialogService.ShowModalWindow(new BindMsViewModel(_device, _operationResult.Result));

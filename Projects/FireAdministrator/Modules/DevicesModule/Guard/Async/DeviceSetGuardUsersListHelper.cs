@@ -28,7 +28,7 @@ namespace DevicesModule.Guard
         {
             if (_operationResult.HasError)
             {
-                MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult.Error);
+				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
             }
             MessageBoxService.Show("Операция завершилась успешно");
         }

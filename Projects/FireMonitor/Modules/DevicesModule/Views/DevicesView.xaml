@@ -122,7 +122,7 @@
                                     <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateToIconConverter}}"
                                            Margin="-2, -2, 0, 0" Width="16" Height="16" />
                                     <TextBlock Text="{Binding DeviceName}" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
+                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" Margin="5, 0, 0, 0" />
                                 </StackPanel>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>

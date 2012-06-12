@@ -6,141 +6,141 @@ using FiresecClient;
 
 namespace AlarmModule
 {
-    public class Alarm
-    {
-        public AlarmType AlarmType { get; set; }
-        public StateType StateType { get; set; }
-        public Guid DeviceUID { get; set; }
-        public ulong? ZoneNo { get; set; }
-        public DateTime? Time { get; set; }
-        public string StateName { get; set; }
-        public bool IsDeleting { get; set; }
+	public class Alarm
+	{
+		public AlarmType AlarmType { get; set; }
+		public StateType StateType { get; set; }
+		public Guid DeviceUID { get; set; }
+		public ulong? ZoneNo { get; set; }
+		public DateTime? Time { get; set; }
+		public string StateName { get; set; }
+		public bool IsDeleting { get; set; }
 
-        public AlarmEntityType AlarmEntityType
-        {
-            get
-            {
-                if (AlarmType == AlarmType.Fire)
-                    return AlarmEntityType.Zone;
-                return AlarmEntityType.Device;
-            }
-        }
+		public AlarmEntityType AlarmEntityType
+		{
+			get
+			{
+				if (AlarmType == AlarmType.Fire)
+					return AlarmEntityType.Zone;
+				return AlarmEntityType.Device;
+			}
+		}
 
-        public bool IsConfirmed { get; private set; }
+		public bool IsConfirmed { get; private set; }
 
-        public void Confirm()
-        {
-            IsConfirmed = true;
+		public void Confirm()
+		{
+			IsConfirmed = true;
 
-            var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
+			var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
-            FiresecManager.FiresecService.AddJournalRecord(new JournalRecord()
-            {
-                SystemTime = DateTime.Now,
-                DeviceTime = DateTime.Now,
-                ZoneName = zone.No.ToString(),
-                Description = "Состояние \"" + StateName + "\" подтверждено оператором",
-                StateType = StateType.Info
-            });
-        }
+			FiresecManager.FiresecService.AddJournalRecord(new JournalRecord()
+			{
+				SystemTime = DateTime.Now,
+				DeviceTime = DateTime.Now,
+				ZoneName = zone.No.ToString(),
+				Description = "Состояние \"" + StateName + "\" подтверждено оператором",
+				StateType = StateType.Info
+			});
+		}
 
-        public bool CanRemoveFromIgnoreList()
-        {
-            return ((StateType == StateType.Off) &&
-            (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList)));
-        }
+		public bool CanRemoveFromIgnoreList()
+		{
+			return ((StateType == StateType.Off) &&
+			(FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList)));
+		}
 
-        public void RemoveFromIgnoreList()
-        {
-            var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
-            if (deviceState.CanDisable() && deviceState.IsDisabled)
-                FiresecManager.FiresecService.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
-        }
+		public void RemoveFromIgnoreList()
+		{
+			var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
+			if (deviceState.CanDisable() && deviceState.IsDisabled)
+				FiresecManager.FiresecService.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
+		}
 
-        public bool CanReset()
-        {
-            return StateType != StateType.Off;
-        }
+		public bool CanReset()
+		{
+			return GetResetItem() != null;
+		}
 
-        public void Reset()
-        {
-            var resetItems = new List<ResetItem>();
-            resetItems.Add(GetResetItem());
-            FiresecManager.FiresecService.ResetStates(resetItems);
-        }
+		public void Reset()
+		{
+			var resetItems = new List<ResetItem>();
+			resetItems.Add(GetResetItem());
+			FiresecManager.FiresecService.ResetStates(resetItems);
+		}
 
-        public ResetItem GetResetItem()
-        {
-            switch (AlarmEntityType)
-            {
-                case AlarmEntityType.Device:
-                    return GetDeviceResetItem();
+		public ResetItem GetResetItem()
+		{
+			switch (AlarmEntityType)
+			{
+				case AlarmEntityType.Device:
+					return GetDeviceResetItem();
 
-                case AlarmEntityType.Zone:
-                    return GetZoneResetItem();
+				case AlarmEntityType.Zone:
+					return GetZoneResetItem();
 
-                default:
-                    return null;
-            }
-        }
+				default:
+					return null;
+			}
+		}
 
-        ResetItem GetZoneResetItem()
-        {
-            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
-            {
-                if (device.ZoneNo == ZoneNo)
-                {
-                    var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-                    if (deviceState.States.Any(x => x.DriverState.StateType == StateType.Fire))
-                    {
-                        DeviceUID = deviceState.UID;
-                        return GetDeviceResetItem();
-                    }
-                }
-            }
+		ResetItem GetZoneResetItem()
+		{
+			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			{
+				if (device.ZoneNo == ZoneNo)
+				{
+					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+					if (deviceState.States.Any(x => x.DriverState.StateType == StateType.Fire))
+					{
+						DeviceUID = deviceState.UID;
+						return GetDeviceResetItem();
+					}
+				}
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        ResetItem GetDeviceResetItem()
-        {
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceUID);
+		ResetItem GetDeviceResetItem()
+		{
+			var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceUID);
 			var parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.Parent.UID);
 
-            var resetItem = new ResetItem();
+			var resetItem = new ResetItem();
 
-            switch (AlarmType)
-            {
-                case AlarmType.Fire:
-                case AlarmType.Attention:
-                case AlarmType.Info:
-                case AlarmType.Failure:
-                    resetItem.DeviceUID = parentDeviceState.UID;
-                    foreach (var state in parentDeviceState.States)
-                    {
-                        if (state.DriverState.StateType == EnumsConverter.AlarmTypeToStateType(AlarmType) && state.DriverState.IsManualReset)
-                            resetItem.StateNames.Add(state.DriverState.Name);
-                    }
-                    break;
-
-                case AlarmType.Auto:
+			switch (AlarmType)
+			{
+				case AlarmType.Fire:
+				case AlarmType.Attention:
+				case AlarmType.Info:
+				case AlarmType.Failure:
+					resetItem.DeviceUID = parentDeviceState.UID;
+					foreach (var state in parentDeviceState.States)
+					{
+						if (state.DriverState.StateType == EnumsConverter.AlarmTypeToStateType(AlarmType) && state.DriverState.IsManualReset)
+							resetItem.StateNames.Add(state.DriverState.Name);
+					}
 					break;
-                    resetItem.DeviceUID = device.UID;
-                    var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-                    foreach (var state in deviceState.States)
-                    {
-                        if (state.DriverState.IsAutomatic && state.DriverState.IsManualReset)
-                            resetItem.StateNames.Add(state.DriverState.Name);
-                    }
-                    break;
 
-                case AlarmType.Off:
-                    break;
-            }
+				case AlarmType.Auto:
+					break;
+					resetItem.DeviceUID = device.UID;
+					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+					foreach (var state in deviceState.States)
+					{
+						if (state.DriverState.IsAutomatic && state.DriverState.IsManualReset)
+							resetItem.StateNames.Add(state.DriverState.Name);
+					}
+					break;
 
-            if (resetItem.StateNames.Count > 0)
-                return resetItem;
-            return null;
-        }
-    }
+				case AlarmType.Off:
+					break;
+			}
+
+			if (resetItem.StateNames.Count > 0)
+				return resetItem;
+			return null;
+		}
+	}
 }

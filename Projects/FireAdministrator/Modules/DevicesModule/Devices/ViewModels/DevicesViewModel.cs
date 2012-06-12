@@ -40,7 +40,6 @@ namespace DevicesModule.ViewModels
 			UpdateGuardVisibility();
 		}
 
-
 		#region DeviceSelection
 
 		public List<DeviceViewModel> AllDevices;

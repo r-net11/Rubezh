@@ -7,6 +7,7 @@ using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
+using System.Collections.Generic;
 
 namespace Infrastructure
 {
@@ -35,6 +36,7 @@ namespace Infrastructure
 			FiresecCallbackService.DeviceParametersChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceParametersChangedEvent(deviceUID); }); });
 			FiresecCallbackService.ZoneStateChangedEvent += new Action<ulong>((zoneNo) => { SafeCall(() => { OnZoneStateChangedEvent(zoneNo); }); });
 			FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>((journalRecord) => { SafeCall(() => { OnNewJournalRecordEvent(journalRecord); }); });
+			FiresecCallbackService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((journalRecords) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(journalRecords); }); });
 		}
 
 		static void OnDeviceStateChangedEvent(Guid deviceUID)
@@ -70,6 +72,11 @@ namespace Infrastructure
 		static void OnNewJournalRecordEvent(JournalRecord journalRecord)
 		{
 			ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
+		}
+
+		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalRecord> journalRecords)
+		{
+			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(journalRecords);
 		}
 
 		public static void SafeCall(Action action)

@@ -55,7 +55,7 @@ namespace FiresecService.ViewModels
 			);
 			deviceStates.Add(DeviceState);
 
-			FiresecService.CallbackWrapper.OnDeviceStatesChanged(deviceStates);
+			FiresecService.CallbackWrapper.DeviceStateChanged(deviceStates);
 			CalculateZones();
 
 			OnPropertyChanged("State");
@@ -83,7 +83,7 @@ namespace FiresecService.ViewModels
 				if (zoneState.StateType != minZoneStateType)
 				{
 					zoneState.StateType = minZoneStateType;
-					FiresecService.CallbackWrapper.OnZoneStateChanged(zoneState);
+					FiresecService.CallbackWrapper.ZoneStateChanged(zoneState);
 				}
 			}
 		}

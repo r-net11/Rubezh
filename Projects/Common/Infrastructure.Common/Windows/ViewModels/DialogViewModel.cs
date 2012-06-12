@@ -1,5 +1,4 @@
-﻿
-namespace Infrastructure.Common.Windows.ViewModels
+﻿namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class DialogViewModel : HeaderedWindowViewModel
 	{

@@ -11,6 +11,8 @@ using Infrastructure.Models;
 using System.Threading;
 using System.Windows;
 using System.Windows.Input;
+using Infrastructure.Events;
+using System.Collections.Generic;
 
 namespace JournalModule.ViewModels
 {
@@ -25,6 +27,7 @@ namespace JournalModule.ViewModels
 		{
 			ShowFilterCommand = new RelayCommand(OnShowFilter);
 			ShowSettingsCommand = new RelayCommand(OnShowSettings);
+			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 
 			_archiveDefaultState = ClientSettings.ArchiveDefaultState;
 			if (_archiveDefaultState == null)
@@ -178,6 +181,7 @@ namespace JournalModule.ViewModels
 			{
 				if (_updateThread != null)
 					_updateThread.Abort();
+				_updateThread = null;
 			}
 			if (_updateThread == null)
 			{
@@ -198,33 +202,25 @@ namespace JournalModule.ViewModels
 				else
 					archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
 
-				var operationResult = FiresecManager.FiresecService.GetFilteredArchive(archiveFilter);
-
-				ServiceFactory.SafeCall(() =>
-				{
-					JournalRecords = new ObservableCollection<JournalRecordViewModel>();
-					if (operationResult.HasError == false)
-					{
-						foreach (var journalRecord in operationResult.Result)
-						{
-							var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-							JournalRecords.Add(journalRecordViewModel);
-						}
-					}
-				});
+				FiresecManager.FiresecService.BeginGetFilteredArchive(archiveFilter);
 			}
 			catch (Exception e)
 			{
-				;
 			}
-			finally
+			_updateThread = null;
+		}
+
+		void OnGetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
+		{
+			JournalRecords = new ObservableCollection<JournalRecordViewModel>();
+
+			foreach (var journalRecord in journalRecords)
 			{
-				_updateThread = null;
-				ServiceFactory.SafeCall(() =>
-				{
-					Status = null;
-				});
+				var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+				JournalRecords.Add(journalRecordViewModel);
 			}
+
+			Status = null;
 		}
 
 		public override void OnShow()

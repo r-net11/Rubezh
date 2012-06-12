@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
 
 namespace DevicesModule.DeviceProperties
 {
@@ -28,6 +29,8 @@ namespace DevicesModule.DeviceProperties
 
 		protected void Save(string value)
 		{
+			ServiceFactory.SaveService.DevicesChanged = true;
+
 			if (_device.Properties == null)
 				_device.Properties = new List<Property>();
 			var property = _device.Properties.FirstOrDefault(x => x.Name == _driverProperty.Name);

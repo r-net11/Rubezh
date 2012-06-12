@@ -41,12 +41,12 @@
                         <Setter.Value>
                             <ContextMenu>
                                 <MenuItem Header="Подтвердить" Command="{Binding ConfirmCommand}" Visibility="{Binding MustConfirm, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-                                <MenuItem Header="Сбросить" Command="{Binding ResetCommand}"  Visibility="{Binding CanReset, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-                                <MenuItem Header="Включить" Command="{Binding RemoveFromIgnoreListCommand}" Visibility="{Binding CanRemoveFromIgnoreList, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <MenuItem Header="Сбросить" Command="{Binding ResetCommand}" Margin="2" />
+                                <MenuItem Header="Включить" Command="{Binding RemoveFromIgnoreListCommand}" Margin="2" />
                                 <Separator />
-                                <MenuItem Header="Просмотр на плане" Command="{Binding ShowOnPlanCommand}" Margin="2" />
-                                <MenuItem Header="Устройство в дереве" Command="{Binding ShowDeviceCommand}" Margin="2" />
-                                <MenuItem Header="Зона в списке" Command="{Binding ShowZoneCommand}" Margin="2" />
+                                <MenuItem Header="Показать устройство на плане" Command="{Binding ShowOnPlanCommand}" Margin="2" />
+                                <MenuItem Header="Показать устройство" Command="{Binding ShowDeviceCommand}" Margin="2" />
+                                <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" Margin="2" />
                                 <Separator />
                                 <MenuItem Header="Инструкции" Command="{Binding ShowInstructionCommand}" Margin="2" />
                             </ContextMenu>

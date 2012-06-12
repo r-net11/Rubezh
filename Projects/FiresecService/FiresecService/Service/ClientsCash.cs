@@ -4,6 +4,7 @@ using System.Timers;
 using FiresecAPI.Models;
 using FiresecService.Processor;
 using FiresecService.ViewModels;
+using Common;
 
 namespace FiresecService.Service
 {
@@ -78,7 +79,7 @@ namespace FiresecService.Service
 		{
 			foreach (var firesecServices in FiresecServices)
 			{
-				firesecServices.CallbackWrapper.OnNewJournalRecord(journalRecord);
+				firesecServices.CallbackWrapper.NewJournalRecord(journalRecord);
 			}
 		}
 
@@ -88,16 +89,20 @@ namespace FiresecService.Service
 			AdministratorFiresecManager.ConvertStates();
 			foreach (var firesecServices in FiresecServices)
 			{
-				firesecServices.CallbackWrapper.OnConfigurationChanged();
+				firesecServices.CallbackWrapper.ConfigurationChanged();
 			}
 		}
 
 		static void PingClients()
 		{
 			PingTimer.Stop();
-			foreach (var firesecServices in FiresecServices)
+			foreach (var firesecService in FiresecServices)
 			{
-				firesecServices.CallbackWrapper.OnPing();
+				var clientUID = firesecService.CallbackWrapper.Ping();
+				if (clientUID != firesecService.ClientCredentials.ClientUID)
+				{
+					Logger.Info("ClientsCash.PingClients clientUID != firesecService.ClientCredentials.ClientUID");
+				}
 			}
 			PingTimer.Start();
 		}

@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using Common;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.Generic;
 
 namespace FiresecService.ViewModels
 {
@@ -10,14 +11,79 @@ namespace FiresecService.ViewModels
 		public FiresecService.Service.FiresecService FiresecService { get; set; }
 		public Guid UID { get; set; }
 		public string IpAddress { get; set; }
-		public string CallbackAddress { get; set; }
+		public int CallbackPort { get; set; }
 		public ClientType ClientType { get; set; }
 		public DateTime ConnectionDate { get; set; }
-		public List<string> Operations { get; set; }
+		public List<OperationViewModel> Operations { get; set; }
 
 		public ClientViewModel()
 		{
-			Operations = new List<string>();
+			Operations = new List<OperationViewModel>();
+		}
+
+		OperationViewModel ClientToServerOperation;
+		OperationViewModel ServerToClientOperation;
+
+		OperationViewModel GetOperation(OperationDirection operationDirection)
+		{
+			switch (operationDirection)
+			{
+				case OperationDirection.ClientToServer:
+					return ClientToServerOperation;
+
+				case OperationDirection.ServerToClient:
+					return ServerToClientOperation;
+			}
+			return null;
+		}
+
+		public void BeginAddOperation(OperationDirection operationDirection, string operationName)
+		{
+			var operation = new OperationViewModel()
+			{
+				StartDateTime = DateTime.Now,
+				OperationName = operationName,
+				Direction = operationDirection
+			};
+			switch(operationDirection)
+			{
+				case OperationDirection.ClientToServer:
+					ClientToServerOperation = operation;
+					ClientToServerOperationName = operationName;
+					break;
+
+				case OperationDirection.ServerToClient:
+					ServerToClientOperation = operation;
+					ServerToClientOperationName = operationName;
+					break;
+			}
+		}
+
+		public void EndAddOperation(OperationDirection operationDirection)
+		{
+			var operation = GetOperation(operationDirection);
+			if (operation == null)
+			{
+				Logger.Error("ClientViewModel.EndAddOperation operation = null");
+				return;
+			}
+			operation.Duration = DateTime.Now - operation.StartDateTime;
+			if (operation.OperationName != "Ping")
+			{
+				Operations.Add(operation);
+			}
+			operation = null;
+
+			switch (operationDirection)
+			{
+				case OperationDirection.ClientToServer:
+					ClientToServerOperationName = "";
+					break;
+
+				case OperationDirection.ServerToClient:
+					ServerToClientOperationName = "";
+					break;
+			}
 		}
 
 		string _userName;
@@ -31,25 +97,25 @@ namespace FiresecService.ViewModels
 			}
 		}
 
-		string _currentOperationName;
-		public string CurrentOperationName
+		string _clientToServerOperationName;
+		public string ClientToServerOperationName
 		{
-			get { return _currentOperationName; }
+			get { return _clientToServerOperationName; }
 			set
 			{
-				_currentOperationName = value;
-				OnPropertyChanged("CurrentOperationName");
+				_clientToServerOperationName = value;
+				OnPropertyChanged("ClientToServerOperationName");
 			}
 		}
 
-		string _callbackOperationName;
-		public string CallbackOperationName
+		string _serverToClientOperationName;
+		public string ServerToClientOperationName
 		{
-			get { return _callbackOperationName; }
+			get { return _serverToClientOperationName; }
 			set
 			{
-				_callbackOperationName = value;
-				OnPropertyChanged("CallbackOperationName");
+				_serverToClientOperationName = value;
+				OnPropertyChanged("ServerToClientOperationName");
 			}
 		}
 

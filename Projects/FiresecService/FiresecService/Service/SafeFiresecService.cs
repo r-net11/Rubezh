@@ -22,12 +22,12 @@ namespace FiresecService.Service
 
 		public void BeginOperation(string operationName)
 		{
-			MainViewModel.Current.UpdateClientOperation(FiresecService.UID, operationName);
+			MainViewModel.Current.BeginAddOperation(FiresecService.UID, OperationDirection.ClientToServer, operationName);
 		}
 
 		public void EndOperation()
 		{
-			MainViewModel.Current.UpdateClientOperation(FiresecService.UID, "");
+			MainViewModel.Current.EndAddOperation(FiresecService.UID, OperationDirection.ClientToServer);
 		}
 
 		public OperationResult<T> CreateEmptyOperationResult<T>(string message)
@@ -268,9 +268,14 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.GetFilteredJournal(journalFilter); }, "GetFilteredJournal");
 		}
 
-		public OperationResult<IEnumerable<FiresecAPI.Models.JournalRecord>> GetFilteredArchive(FiresecAPI.Models.ArchiveFilter archiveFilter)
+		public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
 		{
 			return SafeOperationCall(() => { return FiresecService.GetFilteredArchive(archiveFilter); }, "GetFilteredArchive");
+		}
+
+		public void BeginGetFilteredArchive(FiresecAPI.Models.ArchiveFilter archiveFilter)
+		{
+			SafeOperationCall(() => { FiresecService.BeginGetFilteredArchive(archiveFilter); }, "BeginGetFilteredArchive");
 		}
 
 		public OperationResult<List<FiresecAPI.Models.JournalDescriptionItem>> GetDistinctDescriptions()

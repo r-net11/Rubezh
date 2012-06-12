@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiresecService.ViewModels
@@ -14,6 +11,6 @@ namespace FiresecService.ViewModels
 			Operations = clientViewModel.Operations;
 		}
 
-		public List<string> Operations { get; private set; }
+		public List<OperationViewModel> Operations { get; private set; }
 	}
 }

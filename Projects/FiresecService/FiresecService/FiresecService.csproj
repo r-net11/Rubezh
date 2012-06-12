@@ -128,7 +128,9 @@
     <Compile Include="Imitator\ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\OperationDirection.cs" />
     <Compile Include="ViewModels\OperationHistoryViewModel.cs" />
+    <Compile Include="ViewModels\OperationViewModel.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>

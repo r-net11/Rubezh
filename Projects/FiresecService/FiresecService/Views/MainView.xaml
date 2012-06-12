@@ -11,12 +11,12 @@
                 <DataGrid ItemsSource="{Binding Clients}" SelectedItem="{Binding SelectedClient}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding ClientType}" Header="Тип" />
-                        <DataGridTextColumn Binding="{Binding IpAddress}" Header="IP адрес" />
-                        <DataGridTextColumn Binding="{Binding CallbackAddress}" Header="Обратный адрес" />
+                        <DataGridTextColumn Binding="{Binding IpAddress}" Header="Адрес" />
+                        <DataGridTextColumn Binding="{Binding CallbackPort}" Header="Обратный порт" />
                         <DataGridTextColumn Binding="{Binding UserName}" Header="Пользователь" Width="*" />
                         <DataGridTextColumn Binding="{Binding ConnectionDate}" Header="Время" Width="*" />
-                        <DataGridTextColumn Binding="{Binding CurrentOperationName}" Header="Операция" Width="*" />
-                        <DataGridTextColumn Binding="{Binding CallbackOperationName}" Header="Обратная операция" />
+                        <DataGridTextColumn Binding="{Binding ClientToServerOperationName}" Header="Операция клиент-сервер" Width="*" />
+                        <DataGridTextColumn Binding="{Binding ServerToClientOperationName}" Header="Операция сервер-клиент" Width="*" />
                         <DataGridTextColumn Binding="{Binding State}" Header="Связь" Width="*" />
                     </DataGrid.Columns>
                     <DataGrid.ContextMenu>

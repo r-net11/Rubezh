@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Common;
 using FiresecAPI.Models;
 using FiresecService.ViewModels;
+using FiresecAPI;
 
 namespace FiresecService.Service
 {
-	public class CallbackWrapper
+	public class CallbackWrapper : IFiresecCallbackService
 	{
 		FiresecService FiresecService;
 
@@ -15,45 +16,50 @@ namespace FiresecService.Service
 			FiresecService = firesecService;
 		}
 
-		public void OnNewJournalRecord(JournalRecord journalRecord)
+		public void NewJournalRecord(JournalRecord journalRecord)
 		{
-			SafeCall((x) => { x.FiresecCallbackService.NewJournalRecord(journalRecord); }, "OnNewJournalRecord");
+			SafeCall((x) => { x.FiresecCallbackService.NewJournalRecord(journalRecord); }, "NewJournalRecord");
 		}
 
-		public void OnDeviceStatesChanged(List<DeviceState> deviceStates)
+		public void DeviceStateChanged(List<DeviceState> deviceStates)
 		{
-			SafeCall((x) => { x.FiresecCallbackService.DeviceStateChanged(deviceStates); }, "OnDeviceStatesChanged");
+			SafeCall((x) => { x.FiresecCallbackService.DeviceStateChanged(deviceStates); }, "DeviceStatesChanged");
 		}
 
-		public void OnDeviceParametersChanged(List<DeviceState> deviceParameters)
+		public void DeviceParametersChanged(List<DeviceState> deviceParameters)
 		{
-			SafeCall((x) => { x.FiresecCallbackService.DeviceParametersChanged(deviceParameters); }, "OnDeviceParametersChanged");
+			SafeCall((x) => { x.FiresecCallbackService.DeviceParametersChanged(deviceParameters); }, "DeviceParametersChanged");
 		}
 
-		public void OnZoneStateChanged(ZoneState zoneState)
+		public void ZoneStateChanged(ZoneState zoneState)
 		{
-			SafeCall((x) => { x.FiresecCallbackService.ZoneStateChanged(zoneState); }, "OnZoneStateChanged");
+			SafeCall((x) => { x.FiresecCallbackService.ZoneStateChanged(zoneState); }, "ZoneStateChanged");
 		}
 
-		public void OnConfigurationChanged()
+		public void ConfigurationChanged()
 		{
-			SafeCall((x) => { x.FiresecCallbackService.ConfigurationChanged(); }, "OnConfigurationChanged");
+			SafeCall((x) => { x.FiresecCallbackService.ConfigurationChanged(); }, "ConfigurationChanged");
 		}
 
-		public void OnPing()
+		public Guid Ping()
 		{
 			try
 			{
-				FiresecService.FiresecCallbackService.Ping();
+				return FiresecService.FiresecCallbackService.Ping();
 			}
 			catch
 			{
 				FiresecService.ReconnectToClient();
 			}
+			return Guid.Empty;
 		}
-			
 
-		public bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
+		public void GetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
+		{
+			SafeCall((x) => { x.FiresecCallbackService.GetFilteredArchiveCompleted(journalRecords); }, "GetFilteredArchiveCompleted");
+		}
+
+		public bool Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			try
 			{
@@ -67,7 +73,7 @@ namespace FiresecService.Service
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Исключение при вызове CallbackWrapper.OnProgress");
+				Logger.Error(e, "Исключение при вызове CallbackWrapper.Progress");
 				FiresecService.ReconnectToClient();
 			}
 			return true;
@@ -77,10 +83,11 @@ namespace FiresecService.Service
 		{
 			if (FiresecService.IsSubscribed)
 			{
-				MainViewModel.Current.UpdateCallbackOperation(FiresecService.UID, actionName);
+				MainViewModel.Current.BeginAddOperation(FiresecService.UID, OperationDirection.ServerToClient, actionName);
 				try
 				{
 					action(FiresecService);
+					MainViewModel.Current.EndAddOperation(FiresecService.UID, OperationDirection.ServerToClient);
 					return;
 				}
 				catch (System.ServiceModel.CommunicationObjectFaultedException)
@@ -95,6 +102,7 @@ namespace FiresecService.Service
 				{
 					Logger.Error(e, "Исключение при вызове CallbackWrapper.SafeCall");
 				}
+				MainViewModel.Current.EndAddOperation(FiresecService.UID, OperationDirection.ServerToClient);
 				if (reconnectOnException)
 				{
 					if (FiresecService.ReconnectToClient())

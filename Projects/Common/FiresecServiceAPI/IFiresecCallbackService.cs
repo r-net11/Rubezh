@@ -23,6 +23,9 @@ namespace FiresecAPI
 		[OperationContract(IsOneWay = true)]
 		void ConfigurationChanged();
 
+		[OperationContract(IsOneWay = true)]
+		void GetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords);
+
 		[OperationContract]
 		bool Progress(int stage, string comment, int percentComplete, int bytesRW);
 

@@ -101,7 +101,7 @@ namespace ReportsModule.Reports
 		public void LoadArchive()
 		{
 			JournalRecords = new List<JournalRecord>();
-			OperationResult<IEnumerable<JournalRecord>> operationResult;
+			OperationResult<List<JournalRecord>> operationResult;
 			operationResult = FiresecManager.FiresecService.GetFilteredArchive(ArchiveFilter);
 			if (operationResult.HasError == false)
 			{

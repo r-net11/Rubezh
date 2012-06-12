@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.ServiceModel;
 
 namespace FiresecService.ViewModels
 {
@@ -81,6 +82,8 @@ namespace FiresecService.ViewModels
 			Dispatcher.Invoke(new Action(
 			delegate()
 			{
+				var endpointAddress = new EndpointAddress(new Uri(firesecService.ClientCredentials.ClientCallbackAddress));
+				var port = endpointAddress.Uri.Port;
 				var connectionViewModel = new ClientViewModel()
 				{
 					FiresecService = firesecService,
@@ -88,7 +91,7 @@ namespace FiresecService.ViewModels
 					UserName = firesecService.ClientCredentials.UserName,
 					ClientType = firesecService.ClientCredentials.ClientType,
 					IpAddress = firesecService.ClientIpAddressAndPort,
-					CallbackAddress = firesecService.ClientCredentials.ClientCallbackAddress,
+					CallbackPort = port,
 					ConnectionDate = DateTime.Now
 				};
 				Clients.Add(connectionViewModel);
@@ -116,7 +119,8 @@ namespace FiresecService.ViewModels
 			}
 			));
 		}
-		public void UpdateClientOperation(Guid uid, string operationName)
+
+		public void BeginAddOperation(Guid uid, OperationDirection operationDirection, string operationName)
 		{
 			Dispatcher.Invoke(new Action(
 			delegate()
@@ -124,13 +128,13 @@ namespace FiresecService.ViewModels
 				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 				{
-					connectionViewModel.CurrentOperationName = operationName;
+					connectionViewModel.BeginAddOperation(operationDirection, operationName);
 				}
 			}
 			));
 		}
 
-		public void UpdateCallbackOperation(Guid uid, string operationName)
+		public void EndAddOperation(Guid uid, OperationDirection operationDirection)
 		{
 			Dispatcher.Invoke(new Action(
 			delegate()
@@ -138,8 +142,7 @@ namespace FiresecService.ViewModels
 				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 				{
-					connectionViewModel.CallbackOperationName = operationName;
-					connectionViewModel.Operations.Add(operationName);
+					connectionViewModel.EndAddOperation(operationDirection);
 				}
 			}
 			));

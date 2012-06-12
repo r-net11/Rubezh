@@ -105,9 +105,14 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.GetFilteredJournal(journalFilter); });
 		}
 
-		public OperationResult<IEnumerable<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
+		public OperationResult<List<JournalRecord>> GetFilteredArchive(ArchiveFilter archiveFilter)
 		{
 			return SafeOperationCall(() => { return FiresecService.GetFilteredArchive(archiveFilter); });
+		}
+
+		public void BeginGetFilteredArchive(ArchiveFilter archiveFilter)
+		{
+			SafeOperationCall(() => { FiresecService.BeginGetFilteredArchive(archiveFilter); });
 		}
 
 		public OperationResult<List<JournalDescriptionItem>> GetDistinctDescriptions()

@@ -3,6 +3,7 @@ using System.Windows;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Common;
+using FiresecClient;
 
 namespace FireAdministrator
 {
@@ -33,7 +34,7 @@ namespace FireAdministrator
 		{
 			base.OnExit(e);
 			Logger.Info("App.OnExit");
-			//FiresecManager.Disconnect();
+			FiresecManager.Disconnect();
 			VideoService.Close();
 		}
 	}

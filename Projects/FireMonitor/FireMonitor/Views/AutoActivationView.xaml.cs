@@ -60,7 +60,6 @@ namespace FireMonitor.Views
             {
                 if ((App.Current.MainWindow != null) && (App.Current.MainWindow.IsActive == false))
                 {
-                    //App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
                     App.Current.MainWindow.Activate();
                 }
             }
@@ -79,8 +78,14 @@ namespace FireMonitor.Views
                     if (device != null)
                     {
                         var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-                        if (deviceState.StateType <= stateType)
-                            ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(device.UID);
+						if (deviceState.StateType <= stateType)
+						{
+							var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == device.UID); });
+							if (existsOnPlan)
+							{
+								ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(device.UID);
+							}
+						}
                     }
                 }
             }

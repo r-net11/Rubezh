@@ -4,6 +4,7 @@ using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Threading;
 
 namespace FiresecClient
 {
@@ -141,18 +142,29 @@ namespace FiresecClient
 			}
 		}
 
+		public void GetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
+		{
+			SafeOperationCall(() =>
+			{
+				if (GetFilteredArchiveCompletedEvent != null)
+					GetFilteredArchiveCompletedEvent(journalRecords);
+			});
+		}
+
 		public static event Action<Guid> DeviceStateChangedEvent;
 		public static event Action<Guid> DeviceParametersChangedEvent;
 		public static event Action<ulong> ZoneStateChangedEvent;
 		public static event Action<JournalRecord> NewJournalRecordEvent;
 		public static event Action ConfigurationChangedEvent;
 		public static event Func<int, string, int, int, bool> ProgressEvent;
+		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
 
 		void SafeOperationCall(Action action)
 		{
 			try
 			{
-				action();
+				Thread thread = new Thread(new ThreadStart(action));
+				thread.Start();
 			}
 			catch (Exception e)
 			{

@@ -48,7 +48,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (_operationResult_1.HasError)
 			{
-				MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult_1.Error);
+				MessageBoxService.ShowError(_operationResult_1.Error, "Ошибка при выполнении операции");
 			}
 			else
 			{
@@ -68,7 +68,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (_operationResult_2.HasError)
 			{
-				MessageBoxService.ShowDeviceError("Ошибка при выполнении операции", _operationResult_2.Error);
+				MessageBoxService.ShowError(_operationResult_2.Error, "Ошибка при выполнении операции");
 				return;
 			}
 			if (string.IsNullOrEmpty(_operationResult_2.Result))
