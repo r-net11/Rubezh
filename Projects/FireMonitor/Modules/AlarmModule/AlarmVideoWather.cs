@@ -13,8 +13,6 @@ namespace AlarmModule
 	{
 		public AlarmVideoWather()
 		{
-			//FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChanged);
-			//FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChanged);
 			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
 			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
 		}

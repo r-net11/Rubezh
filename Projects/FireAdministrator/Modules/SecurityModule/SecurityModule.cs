@@ -42,7 +42,7 @@ namespace SecurityModule
 			{
 				new NavigationItem("Права доступа", null, new List<NavigationItem>(){
 					new NavigationItem<ShowUsersEvent>("Пользователи", "/Controls;component/Images/user.png"),
-					new NavigationItem<ShowUserGroupsEvent>("Роли", "/Controls;component/Images/users.png"),
+					new NavigationItem<ShowUserGroupsEvent>("Группы", "/Controls;component/Images/users.png"),
 				}),
 			};
 		}

@@ -31,7 +31,7 @@ namespace FiresecService.Database
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e);
+				Logger.Error(e, "Исключение при вызове DatabaseHelper.AddJournalRecord");
 			}
 			return false;
 		}
@@ -49,7 +49,7 @@ namespace FiresecService.Database
 			}
 			catch (InvalidOperationException e)
 			{
-				Logger.Info("Обработано исключение при вызове метода DatabaseHelper.GetLastOldId");
+				//Logger.Info("Обработано исключение при вызове метода DatabaseHelper.GetLastOldId");
 			}
 			catch (Exception e)
 			{

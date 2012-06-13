@@ -25,8 +25,6 @@ namespace FireMonitor.Views
 			SafeFiresecService.ConnectionAppeared += new Action(OnConnectionAppeared);
 
 			OnDeviceStateChanged(Guid.Empty);
-			//FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChangedEvent);
-			//FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
 
 			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
 			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
@@ -34,7 +32,6 @@ namespace FireMonitor.Views
 
 		void OnDeviceStateChanged(Guid deviceUID)
 		{
-			//IsDeviceConnected = FiresecManager.DeviceStates.DeviceStates.Any(x => x.StateType == StateType.Unknown) == false;
 			IsDeviceConnected = !HasLostDevices();
 			_deviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));
 		}

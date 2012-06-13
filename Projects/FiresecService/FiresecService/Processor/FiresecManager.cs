@@ -38,8 +38,9 @@ namespace FiresecService.Processor
 				ConfigurationConverter.ConvertMetadataFromFiresec();
 				ConfigurationConverter.Update();
 
-				Watcher = new Watcher(this);
 				ConvertStates();
+				Watcher = new Watcher(this);
+				
 				return true;
 			}
 			return false;
@@ -48,7 +49,6 @@ namespace FiresecService.Processor
 		public void Convert()
 		{
 			ConfigurationConverter.Convert();
-			//ConvertStates();
 		}
 
 		public Firesec.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
@@ -82,7 +82,11 @@ namespace FiresecService.Processor
 			{
 				DeviceConfigurationStates.ZoneStates.Add(new ZoneState() { No = zone.No });
 			}
-			Watcher.OnStateChanged();
+			if (Watcher != null)
+			{
+				Watcher.OnStateChanged();
+				Watcher.OnParametersChanged();
+			}
 		}
 	}
 }

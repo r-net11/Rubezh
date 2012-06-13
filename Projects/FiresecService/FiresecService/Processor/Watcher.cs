@@ -134,8 +134,8 @@ namespace FiresecService.Processor
 			var journalRecords = GetEventsFromLastId(LastEventId);
 			foreach (var journalRecord in journalRecords)
 			{
-				var idNewEvent = DatabaseHelper.AddJournalRecord(journalRecord);
-				if (idNewEvent)
+				var isNewEvent = DatabaseHelper.AddJournalRecord(journalRecord);
+				if (isNewEvent)
 				{
 					foreach (var firesecService in FiresecServices)
 					{
@@ -192,10 +192,11 @@ namespace FiresecService.Processor
 
 		public void OnStateChanged()
 		{
-			ChangedDevices = new HashSet<DeviceState>();
-			var coreState = FiresecSerializedClient.GetCoreState().Result;
 			try
 			{
+				ChangedDevices = new HashSet<DeviceState>();
+				var coreState = FiresecSerializedClient.GetCoreState().Result;
+
 				SetStates(coreState);
 				PropogateStatesDown();
 				PropogateStatesUp();
@@ -218,6 +219,11 @@ namespace FiresecService.Processor
 
 		void SetStates(Firesec.CoreState.config coreState)
 		{
+			if (FiresecManager.DeviceConfigurationStates == null)
+			{
+				Logger.Error("Watcher.SetStates FiresecManager.DeviceConfigurationStates = null");
+				return;
+			}
 			if (FiresecManager.DeviceConfigurationStates.DeviceStates == null)
 			{
 				Logger.Error("Watcher.SetStates FiresecManager.DeviceConfigurationStates.DeviceStates = null");
@@ -226,6 +232,27 @@ namespace FiresecService.Processor
 
 			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
 			{
+				if (deviceState == null)
+				{
+					Logger.Error("Watcher.SetStates deviceState = null");
+					return;
+				}
+				if (coreState == null)
+				{
+					Logger.Error("Watcher.SetStates coreState = null");
+					return;
+				}
+				if (coreState.dev == null)
+				{
+					Logger.Error("Watcher.SetStates coreState.dev = null");
+					return;
+				}
+				if (deviceState.PlaceInTree == null)
+				{
+					Logger.Error("Watcher.SetStates deviceState.PlaceInTree = null");
+					return;
+				}
+
 				bool hasOneChangedState = false;
 
 				Firesec.CoreState.devType innerDevice = FindDevice(coreState.dev, deviceState.PlaceInTree);

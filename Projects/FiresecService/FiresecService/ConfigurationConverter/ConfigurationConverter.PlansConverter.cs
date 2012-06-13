@@ -195,21 +195,21 @@ namespace FiresecService.Configuration
 			if (innerElement.brush != null)
 				try
 				{
-					elementTextBlock.BorderColor = (Color)ColorConverter.ConvertFromString(innerElement.brush[0].color);
+					elementTextBlock.BorderColor = ConvertColor(innerElement.brush[0].color);
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans elementTextBlock.BorderColor. Color = " + innerElement.brush[0].color);
+					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans");
 				}
 
 			if (innerElement.pen != null)
 				try
 				{
-					elementTextBlock.ForegroundColor = (Color)ColorConverter.ConvertFromString(innerElement.pen[0].color);
+					elementTextBlock.ForegroundColor = ConvertColor(innerElement.pen[0].color);
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans innerElementLayer.pen. Color = " + innerElement.pen[0].color);
+					Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertPlans innerElementLayer.pen");
 				}
 
 			plan.ElementTextBlocks.Add(elementTextBlock);
@@ -367,6 +367,27 @@ namespace FiresecService.Configuration
 				pointCollection.Add(point);
 			}
 			return pointCollection;
+		}
+
+static Color ConvertColor(string stringColor)
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(stringColor))
+					return Colors.Transparent;
+
+				if (stringColor.StartsWith("cl"))
+				{
+					stringColor = stringColor.Remove(0, 2);
+				}
+				var color = (Color)ColorConverter.ConvertFromString(stringColor);
+				return color;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове ConfigurationConverter.ConvertColor stringColor = " + stringColor);
+			}
+			return Colors.Transparent;
 		}
 
 		static Double Parse(string input)

@@ -109,6 +109,10 @@ namespace FiresecClient
 				}
 				FiresecCallbackServiceManager.Close();
 			}
+			else
+			{
+				Logger.Info("FiresecManager.Disconnect IsDisconnected=true");
+			}
 			IsDisconnected = true;
 		}
 

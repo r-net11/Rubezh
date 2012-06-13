@@ -39,8 +39,8 @@ namespace FiresecService
 				var comServersStatus = ClientsCash.InitializeComServers();
 				var isHostOpened = FiresecServiceManager.Open();
 				MainViewModel.Current.UpdateStatus
-					(isHostOpened ? "Хост сервиса открыт" : "Хост сервиса НЕ открыт",
-					comServersStatus ? "Соединение с ядром Firesec установлено" : "Соединение с ядром Firesec НЕ установлено"
+					(isHostOpened ? "открыт" : "НЕ открыт",
+					comServersStatus ? "установлено" : "НЕ установлено"
 					);
 			}
 			catch (Exception e)

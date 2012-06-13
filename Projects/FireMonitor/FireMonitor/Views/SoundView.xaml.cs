@@ -17,9 +17,7 @@ namespace FireMonitor.Views
         {
             InitializeComponent();
             DataContext = this;
-            
-            //FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChanged);
-            //FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChanged);
+
 			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
 			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
 

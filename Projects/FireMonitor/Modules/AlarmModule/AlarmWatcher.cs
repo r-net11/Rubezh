@@ -17,8 +17,6 @@ namespace AlarmModule
 		public AlarmWatcher()
 		{
 			Alarms = new List<Alarm>();
-			//FiresecEventSubscriber.DeviceStateChangedEvent -= new Action<Guid>(OnDeviceStateChanged);
-			//FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChanged);
 			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
 			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
 			OnDeviceStateChanged(Guid.Empty);

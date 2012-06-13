@@ -22,6 +22,8 @@ namespace FiresecService.ViewModels
 			ShowImitatorCommand = new RelayCommand(OnShowImitator);
 			Clients = new ObservableCollection<ClientViewModel>();
 			Title = "Сервер ОПС FireSec-2";
+			ComServersStatus = "устанавливается";
+			HostStatus = "устанавливается";
 		}
 
 		public RelayCommand ShowImitatorCommand { get; private set; }
