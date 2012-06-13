@@ -13,7 +13,6 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="ProgramMenuDir">
-			<!--Ярлык для запуска программы-->
 			<Component Id="FiresecServiceProgramsMenuShortcut" Guid="6DC3A33B-2C67-47E1-9356-436B5CCC3D9C">
 				<Shortcut Id="RunProduct" Name="Сервер приложений ОПС Firesec-2" Target="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)"
 									WorkingDirectory="FIRESECSERVICELOCATION" Description="Запускает $(var.FiresecServiceName)" Icon="FiresecServiceIcon"/>
