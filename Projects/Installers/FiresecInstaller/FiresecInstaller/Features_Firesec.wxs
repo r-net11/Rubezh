@@ -19,6 +19,7 @@
       </Feature>
       <ComponentRef Id="DesktopFolder"/>
       <ComponentRef Id="ProgramMenuDir"/>
+      <ComponentRef Id="FiresecProgramsMenuShortcutUninstall"/>
     </Feature>
   </Fragment>
 </Wix>

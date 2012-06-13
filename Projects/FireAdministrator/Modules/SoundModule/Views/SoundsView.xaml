@@ -36,7 +36,7 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellEditingTemplate>
             </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="PC Speaker" Width="1*">
+            <DataGridTemplateColumn Header="Компьютерный динамик" Width="1*">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding BeeperType, Converter={StaticResource BeeperTypeToStringConverter}}" />

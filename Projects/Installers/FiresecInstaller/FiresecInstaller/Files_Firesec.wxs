@@ -24,14 +24,14 @@
 			</Component>-->
 		</DirectoryRef>
 		
-		<!--<DirectoryRef Id="ProgramMenuDir">
+		<DirectoryRef Id="ProgramMenuDir">
 			<Component Id="FiresecProgramsMenuShortcutUninstall" Guid="CC6AE248-D8F1-4801-8720-0D7AF2177780">
-				<Shortcut Id="FAUninstallProduct" Name="Удалить Firesec 2" Target="[System64Folder]msiexec.exe"
-									Arguments="/x [ProductCode]" Description="Удаляет Firesec 2 с данного компьютера" />
+				<Shortcut Id="FAUninstallProduct" Name="Удалить Firesec-2" Target="[System64Folder]msiexec.exe"
+									Arguments="/x [ProductCode]" Description="Удаляет Firesec-2 с данного компьютера" />
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
 											 Value="1" KeyPath="yes" />
 			</Component>
-		</DirectoryRef>-->
+		</DirectoryRef>
 
     
 	</Fragment>
