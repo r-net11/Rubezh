@@ -84,15 +84,44 @@ namespace Infrastructure.Common
 			SignalId = signalId;
 			WaitId = waitId;
 			bool isNew;
-			_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId, out isNew);
-			_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, waitId);
-			if (!isNew && ((!force && !RequestConfirmation()) || !EventWaitHandle.SignalAndWait(_signalHandler, _waitHandler, TIMEOUT, true)))
+			try
 			{
-				TryShutdown();
-				ForceShutdown();
+				_signalHandler = EventWaitHandle.OpenExisting(signalId);
+				isNew = false;
+			}
+			catch
+			{
+				_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId);
+				isNew = true;
+			}
+			if (!isNew)
+			{
+				Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+				bool terminate = false;
+				if (!force && !RequestConfirmation())
+					terminate = true;
+				if (!terminate)
+				{
+					_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, waitId);
+					if (_signalHandler.Set())
+						terminate = !_waitHandler.WaitOne(TIMEOUT);
+					else
+						terminate = true;
+				}
+				if (terminate)
+				{
+					TryShutdown();
+					ForceShutdown();
+				}
+				else
+				{
+					_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId);
+					Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
+				}
 			}
 			else
-				ThreadPool.QueueUserWorkItem(WaitingHandler);
+				ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
+			GC.KeepAlive(_signalHandler);
 		}
 		private bool RequestConfirmation()
 		{
@@ -103,6 +132,7 @@ namespace Infrastructure.Common
 			try
 			{
 				_signalHandler.WaitOne();
+				_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, (string)startInfo);
 				TryShutdown();
 				_waitHandler.Set();
 				ForceShutdown();
