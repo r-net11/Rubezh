@@ -4,7 +4,7 @@
 	<?include Variables_FireMonitor.wxi?>
 	
 	<Fragment>
-		<Feature Id="FireMonitorFeature" Title="$(var.FireMonitorName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="FMFeatureBasic" Title="$(var.FireMonitorName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="FIREMONITORLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="FireMonitorExe" />
 			<ComponentRef Id="FireMonitorConfig" />
@@ -33,8 +33,6 @@
 			<ComponentRef Id="FMNLogComponent"/>
 			<ComponentRef Id="FMManualComponent"/>
 			<ComponentRef Id="FMHASPComponent"/>
-			<ComponentRef Id="FMGKModuleComponent"/>
-			<ComponentRef Id="SystemHASPComponent"/>
 			<ComponentRef Id="FMProgramsMenuShortcut" />
 			<ComponentRef Id="FMDesktopShortcut" />
       <ComponentRef Id="FMIntegrateCmd"/>
@@ -43,7 +41,12 @@
       <ComponentRef Id="FMDeintegrateReg"/>
       <ComponentRef Id="FMIntegrateRegx64"/>
       <ComponentRef Id="FMIntegrateRegx32"/>
+      <ComponentRef Id="SystemHASPComponent"/>
 			<ComponentGroupRef Id="FireMonReportTemplatesFolder"/>
 		</Feature>
+
+    <Feature Id="FMFeatureGK" Level="1" Display="expand" ConfigurableDirectory="FIREMONITORLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+      <ComponentRef Id="FMGKModuleComponent"/>
+    </Feature>
 	</Fragment>
 </Wix>

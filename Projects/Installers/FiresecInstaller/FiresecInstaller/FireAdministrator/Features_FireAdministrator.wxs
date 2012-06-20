@@ -4,7 +4,7 @@
 	<?include Variables_FireAdministrator.wxi?>
 	
 	<Fragment>
-		<Feature Id="FireAdministratorFeature" Title="$(var.FireAdministratorName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="FAFeatureBasic" Title="$(var.FireAdministratorName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="FAExeComponent" />
 			<ComponentRef Id="FAConfigComponent" />
@@ -52,5 +52,13 @@
 			<ComponentRef Id="XslFiles9" />
 			<ComponentRef Id="XslFiles10" />
 		</Feature>
+
+    <Feature Id="FAFeatureGK" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+      <ComponentRef Id="FAGKModuleComponent" />
+    </Feature>
+
+    <Feature Id="FAFeatureVideo" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+      <ComponentRef Id="FAVideoModuleComponent"/>
+    </Feature>
 	</Fragment>
 </Wix>

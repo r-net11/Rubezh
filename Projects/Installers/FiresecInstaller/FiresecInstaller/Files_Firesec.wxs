@@ -4,24 +4,25 @@
 		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
 	<Fragment>
 		<DirectoryRef Id="FIREADMINISTRATORLOCATION">
-			<Component Id="ChangeXMLSettings" Guid="218643AE-C10B-46B7-B363-22DD8DDC89BF">
-				<CreateFolder Directory="FIREADMINISTRATORLOCATION" />
+      <Component Id="DeleteVideoXMLSetting" Guid="8BB6E915-FF92-4F8F-B447-D85A74DC0BA6">
+        <CreateFolder Directory="FIREADMINISTRATORLOCATION" />
+        
+      </Component>
+      
+      <Component Id="DeleteGKXMLSetting" Guid="FD7F5684-1249-4AE8-9ABD-71349815595C">
+        <CreateFolder Directory="FIREADMINISTRATORLOCATION" />
         <util:XmlConfig Id="XmlFASettings" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
-                        ElementPath="//configuration/modules" On="install" 
+                        ElementPath="//configuration/modules" On="install"
                         VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]"
 											/>
+      </Component>
+			<Component Id="ChangeXMLSettings" Guid="218643AE-C10B-46B7-B363-22DD8DDC89BF">
+				<CreateFolder Directory="FIREADMINISTRATORLOCATION" />
         <util:XmlConfig Id="XmlFASettings2" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
                         ElementPath="//configuration/modules" On="install"
                         VerifyPath="//configuration/modules/module[\[]@assemblyFile='SkudModule.dll'[\]]"
 											/>
 			</Component>
-			<!--<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
-				<CreateFolder Directory="FIRESECSERVICELOCATION" />
-				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
-												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="no"  ContinueOnError="yes">
-					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDBSql" ExecuteOnInstall="yes" ContinueOnError="yes"/>
-				</sql:SqlDatabase>
-			</Component>-->
 		</DirectoryRef>
 		
 		<DirectoryRef Id="ProgramMenuDir">
@@ -32,7 +33,13 @@
 											 Value="1" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
-
-    
 	</Fragment>
 </Wix>
+
+<!--<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
+				<CreateFolder Directory="FIRESECSERVICELOCATION" />
+				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
+												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="no"  ContinueOnError="yes">
+					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDBSql" ExecuteOnInstall="yes" ContinueOnError="yes"/>
+				</sql:SqlDatabase>
+			</Component>-->
