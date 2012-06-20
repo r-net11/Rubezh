@@ -15,14 +15,6 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
-			if (!MutexHelper.IsNew("FireAdministrator"))
-			{
-				MessageBoxService.ShowWarning("Другой экзэмпляр приложения уже запущен. Приложение будет закрыто");
-				Application.Current.Shutdown();
-				System.Environment.Exit(1);
-				return;
-			}
-
 			AppSettingsHelper.InitializeAppSettings();
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));

@@ -23,7 +23,7 @@ namespace FireAdministrator
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
 			bootstrapper = new Bootstrapper();
-			//using (new DoubleLaunchLocker(SignalId, WaitId))
+			using (new DoubleLaunchLocker(SignalId, WaitId))
 				bootstrapper.Initialize();
 		}
 

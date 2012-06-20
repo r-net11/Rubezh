@@ -78,22 +78,15 @@ namespace Infrastructure.Common
 
 		private EventWaitHandle _signalHandler;
 		private EventWaitHandle _waitHandler;
+		private bool _force = false;
 
 		public DoubleLaunchLocker(string signalId, string waitId, bool force = false)
 		{
+			_force = force;
 			SignalId = signalId;
 			WaitId = waitId;
 			bool isNew;
-			try
-			{
-				_signalHandler = EventWaitHandle.OpenExisting(signalId);
-				isNew = false;
-			}
-			catch
-			{
-				_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId);
-				isNew = true;
-			}
+			_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId, out isNew);
 			if (!isNew)
 			{
 				Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -114,14 +107,9 @@ namespace Infrastructure.Common
 					ForceShutdown();
 				}
 				else
-				{
-					_signalHandler = new EventWaitHandle(false, EventResetMode.AutoReset, signalId);
 					Application.Current.ShutdownMode = ShutdownMode.OnLastWindowClose;
-				}
 			}
-			else
-				ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
-			GC.KeepAlive(_signalHandler);
+			ThreadPool.QueueUserWorkItem(WaitingHandler, waitId);
 		}
 		private bool RequestConfirmation()
 		{
@@ -132,21 +120,27 @@ namespace Infrastructure.Common
 			try
 			{
 				_signalHandler.WaitOne();
-				_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, (string)startInfo);
 				TryShutdown();
-				_waitHandler.Set();
-				ForceShutdown();
 			}
 			catch (Exception ex)
 			{
-				Logger.Error(ex);
+				Console.WriteLine(ex.ToString());
+				ForceShutdown();
+			}
+			finally
+			{
+				_waitHandler = new EventWaitHandle(false, EventResetMode.AutoReset, (string)startInfo);
+				_waitHandler.Set();
 				ForceShutdown();
 			}
 		}
 		private void TryShutdown()
 		{
-			if (Application.Current != null)
+			if (!_force && Application.Current != null)
+			{
 				Application.Current.Dispatcher.InvokeShutdown();
+				ApplicationService.DoEvents();
+			}
 		}
 		private void ForceShutdown()
 		{

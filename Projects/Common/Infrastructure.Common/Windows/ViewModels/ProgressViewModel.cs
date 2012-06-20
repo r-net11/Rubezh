@@ -55,7 +55,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_stepCount = value;
 				OnPropertyChanged("StepCount");
-				DoEvents();
+				ApplicationService.DoEvents();
 			}
 		}
 
@@ -63,12 +63,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			CurrentStep++;
 			Title = text;
-			DoEvents();
-		}
-		public void DoEvents()
-		{
-			if (Application.Current != null)
-				Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
+			ApplicationService.DoEvents();
 		}
 
 		public bool RestrictClose { get; private set; }

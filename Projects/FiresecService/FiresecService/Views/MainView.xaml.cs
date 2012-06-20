@@ -3,12 +3,12 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Infrastructure.Common.Windows;
+using FiresecService.Service;
 
 namespace FiresecService.Views
 {
 	public partial class MainView : UserControl
 	{
-		private System.Windows.Forms.NotifyIcon _notifyIcon;
 		private Window _window;
 
 
@@ -21,21 +21,7 @@ namespace FiresecService.Views
 
 		private void CreateNotificationIcon()
 		{
-			_notifyIcon = new System.Windows.Forms.NotifyIcon();
-			Stream iconStream = Application.GetResourceStream(new Uri("pack://application:,,,/FiresecService;component/Firesec.ico")).Stream;
-			_notifyIcon.Icon = new System.Drawing.Icon(iconStream);
-			_notifyIcon.Visible = true;
-
-			_notifyIcon.ContextMenu = new System.Windows.Forms.ContextMenu();
-			var menuItem1 = new System.Windows.Forms.MenuItem();
-			menuItem1.Text = "Показать консоль";
-			menuItem1.Click += new EventHandler(OnShow);
-			_notifyIcon.ContextMenu.MenuItems.Add(menuItem1);
-
-			var menuItem2 = new System.Windows.Forms.MenuItem();
-			menuItem2.Text = "Выход";
-			menuItem2.Click += new EventHandler(OnClose);
-			_notifyIcon.ContextMenu.MenuItems.Add(menuItem2);
+			NotifyIconService.Start(OnShow, OnClose);
 		}
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
@@ -53,8 +39,7 @@ namespace FiresecService.Views
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите остановить сервер?") == MessageBoxResult.Yes)
 			{
 				_window.Close();
-				_notifyIcon.Visible = false;
-				_notifyIcon.Dispose();
+				NotifyIconService.Stop();
 				Bootstrapper.Close();
 			}
 		}

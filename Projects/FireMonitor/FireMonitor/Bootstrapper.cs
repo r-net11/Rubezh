@@ -15,14 +15,6 @@ namespace FireMonitor
 	{
 		public void Initialize()
 		{
-			if (!MutexHelper.IsNew("FireMonitor"))
-			{
-				MessageBoxService.ShowWarning("Другой экзэмпляр приложения уже запущен. Приложение будет закрыто");
-				Application.Current.Shutdown();
-				System.Environment.Exit(1);
-				return;
-			}
-
 			AppConfigHelper.InitializeAppSettings();
 			VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
 			ServiceFactory.Initialize(new LayoutService(), new SecurityService());

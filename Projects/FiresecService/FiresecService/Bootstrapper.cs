@@ -18,8 +18,6 @@ namespace FiresecService
 
 		public static void Run()
 		{
-			SingleLaunchHelper.KillRunningProcess(true);
-
 			try
 			{
 				InitializeAppSettings();

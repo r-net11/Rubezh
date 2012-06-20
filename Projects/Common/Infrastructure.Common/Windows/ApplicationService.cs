@@ -2,6 +2,8 @@
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
+using System.Windows.Threading;
+using System.Threading;
 
 namespace Infrastructure.Common.Windows
 {
@@ -35,5 +37,10 @@ namespace Infrastructure.Common.Windows
 			Application.Current.Shutdown();
 		}
 		public static ILayoutService Layout { get; private set; }
+		public static void DoEvents()
+		{
+			if (Application.Current != null)
+				Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
+		}
 	}
 }
