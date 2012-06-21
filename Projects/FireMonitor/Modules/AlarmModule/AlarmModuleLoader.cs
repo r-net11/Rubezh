@@ -42,7 +42,7 @@ namespace AlarmModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowAlarmsEvent, AlarmType?>("Тревоги", "/Controls;component/Images/Alarm.png")
+				new NavigationItem<ShowAlarmsEvent, AlarmType?>("Тревоги", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
 			};
 		}
 

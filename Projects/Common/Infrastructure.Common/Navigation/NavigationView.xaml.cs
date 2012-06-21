@@ -61,6 +61,9 @@ namespace Infrastructure.Common.Navigation
 			TreeViewItem item = GetTreeViewItemClicked(e);
 			if (item != null)
 			{
+				NavigationItem navigation = item.Header as NavigationItem;
+				if (navigation != null && navigation.IsSelectionAllowed && navigation.IsSelected && navigation.SupportMultipleSelect)
+					navigation.Execute();
 				item.IsExpanded = !item.IsExpanded;
 				e.Handled = true;
 			}

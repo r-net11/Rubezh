@@ -18,6 +18,7 @@ namespace Infrastructure.Common.Navigation
 			PermissionPredicate = null;
 			IsVisible = true;
 			IsSelectionAllowed = false;
+			SupportMultipleSelect = false;
 		}
 		public virtual void Execute()
 		{
@@ -113,5 +114,7 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("IsSelectionAllowed");
 			}
 		}
+
+		public bool SupportMultipleSelect { get; set; }
 	}
 }
