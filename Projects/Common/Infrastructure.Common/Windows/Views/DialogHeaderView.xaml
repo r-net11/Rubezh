@@ -16,7 +16,8 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" Text="{Binding Content.Title}" VerticalAlignment="Center" Margin="10, 0, 0, 0" HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" />
-            <Button Grid.Column="1" Margin="0, 0, 10, 0" Style="{StaticResource ToolarButtonStyle}" Click="OnCloseButton">
+            <Button Grid.Column="1" Margin="0, 0, 10, 0" Style="{StaticResource ToolarButtonStyle}" Click="OnCloseButton"
+                    Visibility="{Binding Content.AllowClose, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Image Source="/Controls;component/Images/Close.png" Height="16" />
             </Button>
         </Grid>

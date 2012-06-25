@@ -16,6 +16,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			Sizable = false;
 			TopMost = false;
 			HideInTaskbar = false;
+			AllowClose = true;
 		}
 
 		public Window Surface { get; internal set; }
@@ -62,12 +63,23 @@ namespace Infrastructure.Common.Windows.ViewModels
 			}
 		}
 
+		private bool _allowClose;
+		public bool AllowClose
+		{
+			get { return _allowClose; }
+			set
+			{
+				_allowClose = value;
+				OnPropertyChanged("AllowClose");
+			}
+		}
+
 		public bool CloseOnEscape { get; set; }
 		public bool HideInTaskbar { get; set; }
 
 		public virtual bool OnClosing(bool isCanceled)
 		{
-			return isCanceled;
+			return !AllowClose || isCanceled;
 		}
 		public virtual void OnClosed()
 		{
@@ -80,6 +92,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			if (Surface != null)
 			{
+				AllowClose = true;
 				if (ComponentDispatcher.IsThreadModal && Surface.IsModal())
 					Surface.DialogResult = result;
 				Surface.Close();
