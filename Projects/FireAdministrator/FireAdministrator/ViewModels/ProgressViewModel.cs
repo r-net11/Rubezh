@@ -13,6 +13,7 @@ namespace FireAdministrator.ViewModels
 		{
 			Title = title;
 			CancelText = "Отменить";
+			this.CloseOnEscape = false;
 			StopCommand = new RelayCommand(OnStop);
 			ContinueProgress = true;
 			FiresecCallbackService.ProgressEvent -= new Func<int, string, int, int, bool>(Progress);

@@ -5,7 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class GroupDeviceViewModel : BaseViewModel
+    public class PDUDeviceViewModel : BaseViewModel
     {
         public Device Device { get; private set; }
 

@@ -107,6 +107,8 @@
     <Compile Include="Events\ShowXDevicesEvent.cs" />
     <Compile Include="Events\ShowXZonesEvent.cs" />
     <Compile Include="Events\ShowZoneEvent.cs" />
+    <Compile Include="Events\ShowOPCZoneEvent.cs" />
+    <Compile Include="Events\ShowOPCDeviceEvent.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="Services\IValidationResult.cs" />

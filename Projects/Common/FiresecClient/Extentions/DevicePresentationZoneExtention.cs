@@ -19,7 +19,7 @@ namespace FiresecClient
 				return device.ZoneLogic.ToString();
 			if (device.Driver.IsIndicatorDevice && device.IndicatorLogic != null)
 				return device.IndicatorLogic.ToString();
-			if ((device.Driver.DriverType == DriverType.Direction) && (device.PDUGroupLogic != null))
+			if ((device.Driver.DriverType == DriverType.PDUDirection) && (device.PDUGroupLogic != null))
 				return device.PDUGroupLogic.ToString();
 
 			return "";

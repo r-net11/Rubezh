@@ -73,6 +73,9 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool IsNotUsed { get; set; }
 
+		[DataMember]
+		public bool IsOPCUsed { get; set; }
+
 		public bool CanBeNotUsed
 		{
 			get { return ((Parent != null) && (Parent.Driver.ChildAddressReserveRangeCount > 0) && (Parent.Driver.AutoChild == DriverUID)); }

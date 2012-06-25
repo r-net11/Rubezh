@@ -47,7 +47,7 @@
         <Views:PumpDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:GroupDetailsViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:PDUDetailsViewModel}">
         <Views:GroupDetailsView />
     </DataTemplate>
 

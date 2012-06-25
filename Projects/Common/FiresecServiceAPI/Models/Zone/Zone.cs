@@ -49,6 +49,9 @@ namespace FiresecAPI.Models
         [DataMember]
         public GuardZoneType GuardZoneType { get; set; }
 
+		[DataMember]
+		public bool IsOPCUsed { get; set; }
+
         public string PresentationName
         {
             get { return No + "." + Name; }

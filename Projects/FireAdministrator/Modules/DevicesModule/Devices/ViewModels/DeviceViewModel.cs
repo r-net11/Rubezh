@@ -237,7 +237,7 @@ namespace DevicesModule.ViewModels
 				case DriverType.JokeyPump:
 				case DriverType.Compressor:
 				case DriverType.CompensationPump:
-				case DriverType.Direction:
+				case DriverType.PDUDirection:
 				case DriverType.UOO_TL:
 				case DriverType.MPT:
 					return true;
@@ -271,8 +271,8 @@ namespace DevicesModule.ViewModels
 						ServiceFactory.SaveService.DevicesChanged = true;
 					break;
 
-				case DriverType.Direction:
-					if (DialogService.ShowModalWindow(new GroupDetailsViewModel(Device)))
+				case DriverType.PDUDirection:
+					if (DialogService.ShowModalWindow(new PDUDetailsViewModel(Device)))
 						ServiceFactory.SaveService.DevicesChanged = true;
 					break;
 

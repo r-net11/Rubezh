@@ -8,11 +8,11 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class GroupDetailsViewModel : SaveCancelDialogViewModel
+	public class PDUDetailsViewModel : SaveCancelDialogViewModel
     {
         Device _device;
 
-        public GroupDetailsViewModel(Device device)
+        public PDUDetailsViewModel(Device device)
         {
             Title = "Свойства направление ПДУ";
             AddCommand = new RelayCommand(OnAdd, CanAdd);
@@ -26,16 +26,16 @@ namespace DevicesModule.ViewModels
 
         void InitializeDevices()
         {
-            Devices = new ObservableCollection<GroupDeviceViewModel>();
+            Devices = new ObservableCollection<PDUDeviceViewModel>();
 
             if (_device.PDUGroupLogic == null)
                 return;
 
             foreach (var groupDevice in _device.PDUGroupLogic.Devices)
             {
-                var groupDeviceViewModel = new GroupDeviceViewModel();
-                groupDeviceViewModel.Initialize(groupDevice);
-                Devices.Add(groupDeviceViewModel);
+                var pduDeviceViewModel = new PDUDeviceViewModel();
+                pduDeviceViewModel.Initialize(groupDevice);
+                Devices.Add(pduDeviceViewModel);
             }
 
             SelectedDevice = Devices.FirstOrDefault();
@@ -84,8 +84,8 @@ namespace DevicesModule.ViewModels
             SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.HasChildren == false);
         }
 
-        ObservableCollection<GroupDeviceViewModel> _devices;
-        public ObservableCollection<GroupDeviceViewModel> Devices
+        ObservableCollection<PDUDeviceViewModel> _devices;
+        public ObservableCollection<PDUDeviceViewModel> Devices
         {
             get { return _devices; }
             set
@@ -95,8 +95,8 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        GroupDeviceViewModel _selectedDevice;
-        public GroupDeviceViewModel SelectedDevice
+        PDUDeviceViewModel _selectedDevice;
+        public PDUDeviceViewModel SelectedDevice
         {
             get { return _selectedDevice; }
             set
@@ -152,9 +152,9 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            var groupDeviceViewModel = new GroupDeviceViewModel();
-            groupDeviceViewModel.Initialize(SelectedAvailableDevice.Device);
-            Devices.Add(groupDeviceViewModel);
+            var pduDeviceViewModel = new PDUDeviceViewModel();
+            pduDeviceViewModel.Initialize(SelectedAvailableDevice.Device);
+            Devices.Add(pduDeviceViewModel);
             InitializeAvailableDevices();
         }
 

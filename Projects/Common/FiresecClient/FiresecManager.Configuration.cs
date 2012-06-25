@@ -128,7 +128,7 @@ namespace FiresecClient
 					}
 					device.IndicatorLogic.Zones = zones;
 				}
-				if (device.Driver.DriverType == DriverType.Direction)
+				if (device.Driver.DriverType == DriverType.PDUDirection)
 				{
 					foreach (var pduGroupDevice in device.PDUGroupLogic.Devices)
 					{
@@ -171,7 +171,7 @@ namespace FiresecClient
 
 				if (device.Driver.DriverType != DriverType.Indicator)
 					device.IndicatorLogic = null;
-				if (device.Driver.DriverType != DriverType.Direction)
+				if (device.Driver.DriverType != DriverType.PDUDirection)
 					device.PDUGroupLogic = null;
 				if (!device.Driver.IsZoneDevice)
 					device.ZoneNo = null;

@@ -26,7 +26,7 @@
 			<Button Click="OnMinimize" ToolTip="Свернуть" Style="{StaticResource ToolarButtonStyle}" Visibility="{Binding Content.AllowMinimize, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Image Source="/Controls;component/Images/Minimize.png" Height="12" Margin="-2" />
 			</Button>
-			<Button Click="OnMaximize" ToolTip="Распахнуть" Style="{StaticResource ToolarButtonStyle}" Visibility="{Binding Content.AllowMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Button Click="OnMaximize" ToolTip="Развернуть" Style="{StaticResource ToolarButtonStyle}" Visibility="{Binding Content.AllowMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Image Source="/Controls;component/Images/Maximize.png" Height="12" Margin="-2" />
 			</Button>
 			<Button Click="OnClose" ToolTip="Закрыть" Style="{StaticResource ToolarButtonStyle}">

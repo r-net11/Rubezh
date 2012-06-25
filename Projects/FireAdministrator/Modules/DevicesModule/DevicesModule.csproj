@@ -200,7 +200,7 @@
     <Compile Include="Zones\Converters\ZoneActionToStringConverter.cs" />
     <Compile Include="Zones\Converters\ZoneTypeToStringConverter.cs" />
     <Compile Include="DevicesModule.cs" />
-    <Compile Include="Devices\ViewModels\PropertyDetails\GroupDeviceViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\PDUDeviceViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionDeviceSelectorViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserDetailsViewModel.cs" />
     <Compile Include="Guard\ViewModels\UserViewModel.cs" />
@@ -228,7 +228,7 @@
     <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceRangeViewModel.cs" />
-    <Compile Include="Devices\ViewModels\PropertyDetails\GroupDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\PDUDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\PumpDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\ValveDetailsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionsMenuViewModel.cs" />

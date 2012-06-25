@@ -436,6 +436,8 @@ namespace FiresecClient.Validation
 
 		static void ValidateZoneDetectorCount(Zone zone)
 		{
+			if (zone.DevicesInZone.Any(x => x.Driver.DriverType == DriverType.HandDetector))
+				return;
 			if ((zone.ZoneType == ZoneType.Fire) && (zone.DetectorCount > zone.DevicesInZone.Count))
 				ZoneErrors.Add(new ZoneError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ErrorLevel.Warning));
 		}
