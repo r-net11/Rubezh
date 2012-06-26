@@ -295,6 +295,10 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FiresecService.OPC\FiresecService.OPC.csproj">
+      <Project>{259F10DB-43E3-41FD-AC09-0A4B7F3A78C3}</Project>
+      <Name>FiresecService.OPC</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FiresecService.SKUD\FiresecService.SKUD.csproj">
       <Project>{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}</Project>
       <Name>FiresecService.SKUD</Name>

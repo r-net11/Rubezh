@@ -85,6 +85,7 @@ namespace FiresecService.Configuration
 						ConfigurationCash.Drivers.Add(driver);
 				}
 			}
+			DriverConfigurationParametersHelper.CreateKnownProperties(ConfigurationCash.Drivers);
 		}
 
 		public void Update()

@@ -196,7 +196,9 @@
                 </StackPanel>
             </Border>
             <Border Grid.Column="1" CornerRadius="5" Margin="5, 0, 0, 0" Background="{DynamicResource BackgroundBrush}">
-                <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
+                </ScrollViewer>
             </Border>
         </Grid>
     </Grid>

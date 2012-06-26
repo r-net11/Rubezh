@@ -7,6 +7,7 @@ using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using FiresecService.OPC;
 
 namespace FiresecService
 {
@@ -36,6 +37,7 @@ namespace FiresecService
 
 				var comServersStatus = ClientsCash.InitializeComServers();
 				var isHostOpened = FiresecServiceManager.Open();
+				//FiresecOPCManager.Start();
 				MainViewModel.Current.UpdateStatus
 					(isHostOpened ? "открыт" : "НЕ открыт",
 					comServersStatus ? "установлено" : "НЕ установлено"

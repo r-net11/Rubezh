@@ -27,6 +27,11 @@ namespace DevicesModule.DeviceProperties
 			get { return _driverProperty.ToolTip; }
 		}
 
+		public bool IsInternalDeviceParameter
+		{
+			get { return _driverProperty.IsInternalDeviceParameter; }
+		}
+
 		protected void Save(string value)
 		{
 			ServiceFactory.SaveService.DevicesChanged = true;
