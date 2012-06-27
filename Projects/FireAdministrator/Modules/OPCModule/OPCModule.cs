@@ -48,7 +48,7 @@ namespace OPCModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem("OPC", null, new List<NavigationItem>()
+				new NavigationItem("OPC сервер", null, new List<NavigationItem>()
 				{
 					new NavigationItem<ShowOPCDeviceEvent, Guid>("Устройства","/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowOPCZoneEvent, ulong>("Зоны","/Controls;component/Images/zones.png", null, null, 0)

@@ -37,7 +37,7 @@ namespace FiresecService
 
 				var comServersStatus = ClientsCash.InitializeComServers();
 				var isHostOpened = FiresecServiceManager.Open();
-				//FiresecOPCManager.Start();
+				FiresecOPCManager.Start();
 				MainViewModel.Current.UpdateStatus
 					(isHostOpened ? "открыт" : "НЕ открыт",
 					comServersStatus ? "установлено" : "НЕ установлено"

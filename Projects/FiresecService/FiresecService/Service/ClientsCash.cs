@@ -11,7 +11,7 @@ namespace FiresecService.Service
 	public static class ClientsCash
 	{
 		public static List<FiresecService> FiresecServices { get; private set; }
-		static FiresecManager MonitoringFiresecManager;
+		public static FiresecManager MonitoringFiresecManager { get; private set; }
 		static FiresecManager AdministratorFiresecManager;
 		static System.Timers.Timer PingTimer;
 

@@ -9,6 +9,36 @@ namespace FiresecService.Processor
 {
 	public class Watcher
 	{
+		public event Action<List<DeviceState>> DevicesStateChanged;
+		void OnDevicesStateChanged(List<DeviceState> deviceStates)
+		{
+			foreach (var firesecService in FiresecServices)
+			{
+				if (firesecService != null && firesecService.CallbackWrapper != null)
+				{
+					firesecService.CallbackWrapper.DeviceStateChanged(ChangedDevices.ToList());
+				}
+			}
+
+			if (DevicesStateChanged != null)
+				DevicesStateChanged(deviceStates);
+		}
+
+		public event Action<ZoneState> ZoneStateChanged;
+		void OnZoneStateChanged(ZoneState zoneState)
+		{
+			foreach (var firesecService in FiresecServices)
+			{
+				if (firesecService != null && firesecService.CallbackWrapper != null)
+				{
+					firesecService.CallbackWrapper.ZoneStateChanged(zoneState);
+				}
+			}
+
+			if (ZoneStateChanged != null)
+				ZoneStateChanged(zoneState);
+		}
+
 		FiresecManager FiresecManager;
 		List<FiresecService.Service.FiresecService> FiresecServices
 		{
@@ -176,13 +206,9 @@ namespace FiresecService.Processor
 				}
 
 				if (ChangedDevices.Count > 0)
-					foreach (var firesecService in FiresecServices)
-					{
-						if (firesecService != null && firesecService.CallbackWrapper != null)
-						{
-							firesecService.CallbackWrapper.DeviceParametersChanged(ChangedDevices.ToList());
-						}
-					}
+				{
+					OnDevicesStateChanged(ChangedDevices.ToList());
+				}
 			}
 			catch (Exception e)
 			{
@@ -203,13 +229,9 @@ namespace FiresecService.Processor
 				CalculateZones();
 
 				if (ChangedDevices.Count > 0)
-					foreach (var firesecService in FiresecServices)
-					{
-						if (firesecService != null && firesecService.CallbackWrapper != null)
-						{
-							firesecService.CallbackWrapper.DeviceStateChanged(ChangedDevices.ToList());
-						}
-					}
+				{
+					OnDevicesStateChanged(ChangedDevices.ToList());
+				}
 			}
 			catch (Exception e)
 			{
@@ -450,13 +472,7 @@ namespace FiresecService.Processor
 					if (zoneState.StateType != minZoneStateType)
 					{
 						zoneState.StateType = minZoneStateType;
-						foreach (var firesecService in FiresecServices)
-						{
-							if (firesecService != null && firesecService.CallbackWrapper != null)
-							{
-								firesecService.CallbackWrapper.ZoneStateChanged(zoneState);
-							}
-						}
+						OnZoneStateChanged(zoneState);
 					}
 				}
 			}

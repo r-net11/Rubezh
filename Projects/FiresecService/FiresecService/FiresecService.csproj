@@ -56,6 +56,9 @@
     <ApplicationIcon>Server.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="gbda_clr, Version=1.0.12.306, Culture=neutral, PublicKeyToken=b10b6b342221b9c4, processorArchitecture=x86">
+      <HintPath>..\..\..\3rdParty\OPC\gbda_clr.dll</HintPath>
+    </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>..\..\..\3rdParty\NotifyIcon\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
     </Reference>
@@ -110,6 +113,9 @@
       <DependentUpon>ImitatorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ConfigurationConverter\ConfigurationFileManager.cs" />
+    <Compile Include="OPC\FiresecOPCManager.cs" />
+    <Compile Include="OPC\TagDevice.cs" />
+    <Compile Include="OPC\TagZone.cs" />
     <Compile Include="Service\CallbackWrapper.cs" />
     <Compile Include="Service\ClientsCash.cs" />
     <Compile Include="Service\ConfigurationCash.cs" />
@@ -295,10 +301,6 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FiresecService.OPC\FiresecService.OPC.csproj">
-      <Project>{259F10DB-43E3-41FD-AC09-0A4B7F3A78C3}</Project>
-      <Name>FiresecService.OPC</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FiresecService.SKUD\FiresecService.SKUD.csproj">
       <Project>{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}</Project>
       <Name>FiresecService.SKUD</Name>
@@ -358,6 +360,11 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="gbda3w.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

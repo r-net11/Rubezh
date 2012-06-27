@@ -1,8 +1,8 @@
 ﻿namespace FiresecAPI.Models
 {
-    public enum ZoneLogicOperation
-    {
-        All,
-        Any
-    }
+	public enum ZoneLogicOperation
+	{
+		All,
+		Any
+	}
 }

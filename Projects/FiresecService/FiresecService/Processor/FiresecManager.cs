@@ -11,7 +11,7 @@ namespace FiresecService.Processor
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
-		public Watcher Watcher { get; set; }
+		public Watcher Watcher { get; private set; }
 		public bool IsConnectedToComServer { get; private set; }
 		public bool MustMonitorStates { get; private set; }
 
