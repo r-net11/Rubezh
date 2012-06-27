@@ -76,6 +76,9 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
+		[DataMember]
+		public string InitialPlaceInTree { get; set; }
+
 		public bool CanBeNotUsed
 		{
 			get { return ((Parent != null) && (Parent.Driver.ChildAddressReserveRangeCount > 0) && (Parent.Driver.AutoChild == DriverUID)); }

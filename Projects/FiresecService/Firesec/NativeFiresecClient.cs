@@ -85,9 +85,11 @@ namespace Firesec
 		{
 			return SafeCall<string>(() =>
 			{
-				Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "Device$ReadSimpleParam", paramNo.ToString(), reguestId++);
-				var result = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "StateConfigQueries", null, reguestId);
-				Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "ClearAllQueries", null, reguestId);
+				reguestId += 1;
+				var result1 = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "Device$ReadSimpleParam", paramNo.ToString(), reguestId);
+				Thread.Sleep(TimeSpan.FromMinutes(2));
+				var result = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "StateConfigQueries", null, 0);
+				//var result2 = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "ClearAllQueries", null, reguestId);
 				return result;
 			});
 		}

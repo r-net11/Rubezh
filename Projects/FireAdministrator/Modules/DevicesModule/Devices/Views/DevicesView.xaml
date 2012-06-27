@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Name="_grid1">
             <DataGrid Name="_devicesDataGrid" Focusable="True" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="False"
-                    VirtualizingStackPanel.IsVirtualizing="True">
+                    VirtualizingStackPanel.IsVirtualizing="False">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>

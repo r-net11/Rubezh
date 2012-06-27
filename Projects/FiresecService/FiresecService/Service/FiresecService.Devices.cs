@@ -275,7 +275,7 @@ namespace FiresecService.Service
 		public OperationResult<string> GetConfigurationParameters(Guid deviceUID, int paramNo)
 		{
 			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.GetConfigurationParameters(device.PlaceInTree, paramNo).ToOperationResult();
+			return FiresecSerializedClient.GetConfigurationParameters(device.InitialPlaceInTree, paramNo).ToOperationResult();
 		}
 
 		public void SetConfigurationParameters(Guid deviceUID)

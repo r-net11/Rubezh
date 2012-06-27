@@ -182,7 +182,14 @@ namespace DevicesModule.ViewModels
 				if (property.IsInternalDeviceParameter)
 				{
 					var result = FiresecManager.FiresecService.GetConfigurationParameters(SelectedDevice.Device.UID, property.No);
-					MessageBoxService.Show(result.Result);
+					if (result.HasError)
+					{
+						MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
+					}
+					else
+					{
+						MessageBoxService.Show("Значение параметра " + property.Name + " = " + result.Result);
+					}
 				}
 			}
 		}

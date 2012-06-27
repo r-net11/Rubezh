@@ -120,6 +120,8 @@ namespace FiresecService.Configuration
 					device.ShapeIds.Add(shape.id);
 				}
 			}
+
+			device.InitialPlaceInTree = device.PlaceInTree;
 		}
 
 		void SetZone(Device device, devType innerDevice)
