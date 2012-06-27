@@ -9,6 +9,7 @@ namespace FiresecAPI.Models
 		public static void Create(List<Driver> drivers)
 		{
 			var driver = drivers.FirstOrDefault(x => x.DriverType == DriverType.MPT);
+			driver.HasConfigurationProperties = true;
 
 			AddControlType(driver, 0x87, "Тип контроля выхода 1");
 			AddControlType(driver, 0x88, "Тип контроля выхода 2");

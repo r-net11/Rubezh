@@ -3,6 +3,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
@@ -23,6 +24,8 @@ namespace DevicesModule.ViewModels
 			SetPasswordCommand = new RelayCommand<bool>(OnSetPassword, CanSetPassword);
 			BindMsCommand = new RelayCommand(OnBindMs, CanBindMs);
 			ExecuteCustomAdminFunctionsCommand = new RelayCommand<bool>(OnExecuteCustomAdminFunctions, CanExecuteCustomAdminFunctions);
+			GetConfigurationParametersCommand = new RelayCommand(OnGetConfigurationParameters, CanGetConfigurationParameters);
+			SetConfigurationParametersCommand = new RelayCommand(OnSetConfigurationParameters, CanSetConfigurationParameters);
 
 			_devicesViewModel = devicesViewModel;
 		}
@@ -169,6 +172,35 @@ namespace DevicesModule.ViewModels
 		bool CanExecuteCustomAdminFunctions(bool isUsb)
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
+		}
+
+		public RelayCommand GetConfigurationParametersCommand { get; private set; }
+		void OnGetConfigurationParameters()
+		{
+			foreach (var property in SelectedDevice.Device.Driver.Properties)
+			{
+				if (property.IsInternalDeviceParameter)
+				{
+					var result = FiresecManager.FiresecService.GetConfigurationParameters(SelectedDevice.Device.UID, property.No);
+					MessageBoxService.Show(result.Result);
+				}
+			}
+		}
+
+		bool CanGetConfigurationParameters()
+		{
+			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
+		}
+
+		public RelayCommand SetConfigurationParametersCommand { get; private set; }
+		void OnSetConfigurationParameters()
+		{
+			FiresecManager.FiresecService.SetConfigurationParameters(SelectedDevice.Device.UID);
+		}
+
+		bool CanSetConfigurationParameters()
+		{
+			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
 		}
 
 		public bool IsAlternativeUSB

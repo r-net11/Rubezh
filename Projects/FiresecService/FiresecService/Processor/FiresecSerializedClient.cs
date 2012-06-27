@@ -174,6 +174,11 @@ namespace FiresecService.Processor
 			return NativeFiresecClient.DeviceGetMDS5Data(SerializerHelper.Serialize<Firesec.CoreConfiguration.config>(coreConfig), devicePath);
 		}
 
+		public FiresecOperationResult<string> GetConfigurationParameters(string devicePath, int paramNo)
+		{
+			return NativeFiresecClient.GetConfigurationParameters(devicePath, paramNo);
+		}
+
 		FiresecOperationResult<T> ConvertResultData<T>(FiresecOperationResult<string> result)
 		{
 			var resultData = new FiresecOperationResult<T>();

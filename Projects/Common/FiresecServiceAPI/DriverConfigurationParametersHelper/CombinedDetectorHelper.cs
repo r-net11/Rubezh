@@ -9,6 +9,7 @@ namespace FiresecAPI.Models
 		public static void Create(List<Driver> drivers)
 		{
 			var driver = drivers.FirstOrDefault(x => x.DriverType == DriverType.CombinedDetector);
+			driver.HasConfigurationProperties = true;
 
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму", 0, 0, 0, 255);
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре", 0, 0, 0, 85);

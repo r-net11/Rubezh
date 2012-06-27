@@ -7,6 +7,8 @@ namespace FiresecAPI.Models
 	{
 		public static void Create(Driver driver)
 		{
+			driver.HasConfigurationProperties = true;
+
 			var property1 = new DriverProperty()
 			{
 				IsInternalDeviceParameter = true,

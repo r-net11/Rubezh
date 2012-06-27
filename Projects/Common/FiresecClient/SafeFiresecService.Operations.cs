@@ -270,6 +270,16 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.CheckHaspPresence(); });
 		}
 
+		public OperationResult<string> GetConfigurationParameters(Guid deviceUID, int paramNo)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetConfigurationParameters(deviceUID, paramNo); });
+		}
+
+		public void SetConfigurationParameters(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SetConfigurationParameters(deviceUID); });
+		}
+
 		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)
 		{
 			return SafeContext.Execute<IEnumerable<EmployeeCard>>(() => FiresecService.GetEmployees(filter));

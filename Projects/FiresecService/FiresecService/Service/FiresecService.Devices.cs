@@ -271,5 +271,15 @@ namespace FiresecService.Service
 		{
 			return FiresecSerializedClient.CheckHaspPresence().ToOperationResult();
 		}
+
+		public OperationResult<string> GetConfigurationParameters(Guid deviceUID, int paramNo)
+		{
+			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			return FiresecSerializedClient.GetConfigurationParameters(device.PlaceInTree, paramNo).ToOperationResult();
+		}
+
+		public void SetConfigurationParameters(Guid deviceUID)
+		{
+		}
 	}
 }

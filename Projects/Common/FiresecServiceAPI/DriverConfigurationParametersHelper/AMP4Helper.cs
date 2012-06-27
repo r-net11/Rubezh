@@ -9,6 +9,7 @@ namespace FiresecAPI.Models
 		public static void Create(List<Driver> drivers)
 		{
 			var driver = drivers.FirstOrDefault(x => x.DriverType == DriverType.AMP_4);
+			driver.HasConfigurationProperties = true;
 
 			var property1 = new DriverProperty()
 			{

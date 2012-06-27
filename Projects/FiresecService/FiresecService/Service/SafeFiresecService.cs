@@ -324,6 +324,16 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.CheckHaspPresence(); }, "CheckHaspPresence");
 		}
 
+		public OperationResult<string> GetConfigurationParameters(Guid deviceUID, int paramNo)
+		{
+			return SafeOperationCall(() => { return FiresecService.GetConfigurationParameters(deviceUID, paramNo); }, "GetConfigurationParameters");
+		}
+
+		public void SetConfigurationParameters(Guid deviceUID)
+		{
+			SafeOperationCall(() => { FiresecService.SetConfigurationParameters(deviceUID); }, "SetConfigurationParameters");
+		}
+
 		public List<string> GetFileNamesList(string directory)
 		{
 			return SafeOperationCall(() => { return FiresecService.GetFileNamesList(directory); }, "GetFileNamesList");

@@ -9,6 +9,7 @@ namespace FiresecAPI.Models
 		public static void Create(List<Driver> drivers)
 		{
 			var driver = drivers.FirstOrDefault(x => x.DriverType == DriverType.Valve);
+			driver.HasConfigurationProperties = true;
 
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Уставка времени хода задвижки", 0, 1, 1, 65535);
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x8e, "Время отложенного запуска, с", 0, 0, 0, 255);

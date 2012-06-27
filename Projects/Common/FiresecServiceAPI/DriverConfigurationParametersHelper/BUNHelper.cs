@@ -6,6 +6,8 @@ namespace FiresecAPI.Models
 	{
 		public static void Create(Driver driver)
 		{
+			driver.HasConfigurationProperties = true;
+
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x8b, "Максимальное время перезапуска, 0.1 с", 0, 1, 1, 255);
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x8b, "Время разновременного пуска, с", 0, 1, 1, 255);
 

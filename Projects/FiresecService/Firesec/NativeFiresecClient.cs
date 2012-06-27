@@ -74,9 +74,27 @@ namespace Firesec
 			return SafeCall<bool>(() => { Connectoin.ResetStates(states); return true; });
 		}
 
+		int reguestId = 0;
+
+		public FiresecOperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
+		{
+			return SafeCall<string>(() => { Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, reguestId++); return null; });
+		}
+
+		public FiresecOperationResult<string> GetConfigurationParameters(string devicePath, int paramNo)
+		{
+			return SafeCall<string>(() =>
+			{
+				Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "Device$ReadSimpleParam", paramNo.ToString(), reguestId++);
+				var result = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "StateConfigQueries", null, reguestId);
+				Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "ClearAllQueries", null, reguestId);
+				return result;
+			});
+		}
+
 		public FiresecOperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
-			return SafeCall<bool>(() => { Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null); return true; });
+			return SafeCall<bool>(() => { Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null, reguestId++); return true; });
 		}
 
 		public FiresecOperationResult<bool> CheckHaspPresence()
