@@ -192,6 +192,17 @@ namespace FiresecAPI
 		[OperationContract]
 		XDeviceConfiguration GetXDeviceConfiguration();
 		#endregion
+
+		#region OPC
+		[OperationContract]
+		void OPCRefresh(DeviceConfiguration deviceConfiguration);
+
+		[OperationContract]
+		void OPCRegister();
+
+		[OperationContract]
+		void OPCUnRegister();
+		#endregion
 	}
 
 	public class FiresecException : Exception

@@ -1,17 +1,24 @@
 ﻿<UserControl x:Class="SettingsModule.Views.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <StackPanel>
-        <Border Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}"
-                CornerRadius="10" BorderThickness="0" Margin="10" Background="White" >
-            <StackPanel Margin="10">
-                <TextBlock Text="Только в режиме отладки" HorizontalAlignment="Center" FontSize="20" FontWeight="Bold"  />
-                <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="300" Margin="2" Visibility="Visible" />
-                <Button Content="Тест" Command="{Binding TestCommand}" Width="300" Margin="2" Visibility="Visible" />
-                <Button Content="Тест 2" Command="{Binding Test2Command}" Width="300" Margin="2" Visibility="Visible" />
-            </StackPanel>
-        </Border>
-        <Button Content="Конвертировать конфигурацию из формата FireSec-1" Command="{Binding ConvertConfigurationCommand}" Width="400" Margin="2" />
-        <Button Content="Конвертировать журнал событий из формата FireSec-1" Command="{Binding ConvertJournalCommand}" Width="400" Margin="2" />
-    </StackPanel>
+    
+    <TabControl>
+        <TabItem Header="Конвертация">
+            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
+                <StackPanel Margin="10">
+                    <Button Content="Конвертировать конфигурацию из формата FireSec-1" Command="{Binding ConvertConfigurationCommand}" Width="400" Margin="2" />
+                    <Button Content="Конвертировать журнал событий из формата FireSec-1" Command="{Binding ConvertJournalCommand}" Width="400" Margin="2" />
+                </StackPanel>
+            </Border>
+        </TabItem>
+        <TabItem Header="Отладка" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
+                    <StackPanel Margin="10">
+                        <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="300" Margin="2" Visibility="Visible" />
+                        <Button Content="Тест" Command="{Binding TestCommand}" Width="300" Margin="2" Visibility="Visible" />
+                        <Button Content="Тест 2" Command="{Binding Test2Command}" Width="300" Margin="2" Visibility="Visible" />
+                    </StackPanel>
+                </Border>
+        </TabItem>
+    </TabControl>
 </UserControl>

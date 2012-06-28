@@ -130,6 +130,16 @@
           <RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)" />
         </RegistryKey>
       </Component>
+
+      <Component Id="OPC_gbda3w_Component" Guid="A25FAEB1-6EA4-46EA-8017-D4738831CDFF">
+        <File Id="gbda3w.dll" Name="gbda3w.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+
+      <Component Id="OPC_gbda_clr_Component" Guid="ADD4099E-2ABF-48C1-84FD-ECCF2E67E331">
+        <File Id="gbda_clr.dll" Name="gbda_clr.dll" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="FiresecServiceConfigFolder">

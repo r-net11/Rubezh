@@ -78,11 +78,13 @@ namespace Firesec
 
 		public FiresecOperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
 		{
+			//return null;
 			return SafeCall<string>(() => { Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, reguestId++); return null; });
 		}
 
 		public FiresecOperationResult<string> GetConfigurationParameters(string devicePath, int paramNo)
 		{
+			//return null;
 			return SafeCall<string>(() =>
 			{
 				reguestId += 1;
@@ -96,6 +98,7 @@ namespace Firesec
 
 		public FiresecOperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
+			//return null;
 			return SafeCall<bool>(() => { Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null, reguestId++); return true; });
 		}
 

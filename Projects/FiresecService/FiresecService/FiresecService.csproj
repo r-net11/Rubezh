@@ -122,6 +122,7 @@
     <Compile Include="Service\FiresecOperationExtentions.cs" />
     <Compile Include="Service\FiresecService.Authentication.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
+    <Compile Include="Service\FiresecService.OPC.cs" />
     <Compile Include="Service\FiresecService.SKUD.cs" />
     <Compile Include="Service\FiresecCallbackServiceCreator.cs" />
     <Compile Include="Service\FiresecService.Configuration.cs" />

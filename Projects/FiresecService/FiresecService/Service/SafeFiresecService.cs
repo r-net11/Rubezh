@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
 using FiresecService.ViewModels;
+using FiresecService.OPC;
 
 namespace FiresecService.Service
 {
@@ -409,6 +410,21 @@ namespace FiresecService.Service
 		public IEnumerable<EmployeePosition> GetEmployeePositions()
 		{
 			return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
+		}
+
+		public void OPCRefresh(DeviceConfiguration deviceConfiguration)
+		{
+			SafeOperationCall(() => { FiresecService.OPCRefresh(deviceConfiguration); }, "OPCRefresh");
+		}
+
+		public void OPCRegister()
+			{
+				SafeOperationCall(() => { FiresecService.OPCRegister(); }, "OPCRegister");
+			}
+
+		public void OPCUnRegister()
+		{
+			SafeOperationCall(() => { FiresecService.OPCUnRegister(); }, "OPCUnRegister");
 		}
 	}
 }

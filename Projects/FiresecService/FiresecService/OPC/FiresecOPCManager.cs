@@ -12,9 +12,9 @@ namespace FiresecService.OPC
 {
 	public static class FiresecOPCManager
 	{
+		static Guid srvGuid = new Guid("FBBF742D-3077-40F4-9877-C97F5EE4CE0E");
 		static Thread thread;
 		static OPCDAServer srv = new OPCDAServer();
-		//static List<int> tagIds = new List<int>();
 		static List<TagDevice> TagDevices = new List<TagDevice>();
 		static List<TagZone> TagZones = new List<TagZone>();
 		static int TagsCount = 0;
@@ -22,7 +22,7 @@ namespace FiresecService.OPC
 		public static void Start()
 		{
 			thread = new Thread(new ThreadStart(OnRun));
-			thread.ApartmentState = ApartmentState.MTA;
+			thread.SetApartmentState(ApartmentState.MTA);
 			thread.Start();
 		}
 
@@ -33,6 +33,28 @@ namespace FiresecService.OPC
 			{
 				srv.RevokeClassObject();
 			}
+		}
+
+		public static void OPCRefresh(DeviceConfiguration deviceConfiguration)
+		{
+			ConfigurationCash.DeviceConfiguration = deviceConfiguration;
+			Stop();
+			Start();
+		}
+
+		public static void OPCRegister()
+		{
+			OPCDAServer.RegisterServer(
+				srvGuid,
+				"Rubezh",
+				"FiresecOPC",
+				"Rubezh.FiresecOPC",
+				"1.0");
+		}
+
+		public static void OPCUnRegister()
+		{
+			OPCDAServer.UnregisterServer(srvGuid);
 		}
 
 		static void OnRun()
@@ -49,17 +71,6 @@ namespace FiresecService.OPC
 
 		static void Run()
 		{
-			Guid srvGuid = new Guid("FBBF742D-3077-40F4-9877-C97F5EE4CE0E");
-
-			OPCDAServer.RegisterServer(
-				srvGuid,
-				"Rubezh",
-				"FiresecOPC",
-				"Rubezh.FiresecOPC",
-				"1.0");
-
-			//OPCDAServer.UnregisterServer(srvGuid);
-
 			srv.Events.ServerReleased += new ServerReleasedEventHandler(Events_ServerReleased);
 			srv.Events.ReadItems += new ReadItemsEventHandler(Events_ReadItems);
 			srv.Events.WriteItems += new WriteItemsEventHandler(Events_WriteItems);
@@ -150,10 +161,26 @@ namespace FiresecService.OPC
 
 		static void OnDevicesStateChanged(List<DeviceState> deviceStates)
 		{
+			if (deviceStates == null)
+			{
+				Logger.Error("FiresecOPCManager.OnDevicesStateChanged deviceStates = null");
+				return;
+			}
+
 			srv.BeginUpdate();
 			foreach (var deviceState in deviceStates)
 			{
 				var tagDevice = TagDevices.FirstOrDefault(x => x.DeviceState.UID == deviceState.UID);
+				if (tagDevice == null)
+				{
+					Logger.Error("FiresecOPCManager.OnDevicesStateChanged tagDevice = null");
+					continue;
+				}
+				if (tagDevice.DeviceState == null)
+				{
+					Logger.Error("FiresecOPCManager.OnDevicesStateChanged tagDevice.DeviceState = null");
+					continue;
+				}
 				srv.SetTag(tagDevice.TagId, tagDevice.DeviceState.StateType);
 			}
 			srv.EndUpdate(false);
@@ -161,8 +188,24 @@ namespace FiresecService.OPC
 
 		static void OnZoneStateChanged(ZoneState zoneState)
 		{
+			if (zoneState == null)
+			{
+				Logger.Error("FiresecOPCManager.OnZoneStateChanged zoneState = null");
+				return;
+			}
+
 			srv.BeginUpdate();
 			var tagZone = TagZones.FirstOrDefault(x => x.ZoneState.No == zoneState.No);
+			if (tagZone == null)
+			{
+				Logger.Error("FiresecOPCManager.OnZoneStateChanged tagZone = null");
+				return;
+			}
+			if (tagZone.ZoneState == null)
+			{
+				Logger.Error("FiresecOPCManager.OnZoneStateChanged tagZone.ZoneState = null");
+				return;
+			}
 			srv.SetTag(tagZone.TagId, tagZone.ZoneState.StateType);
 			srv.EndUpdate(false);
 		}

@@ -105,6 +105,10 @@
         <File Id="FAFiltersModuleDll" Name="FiltersModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
+      <Component Id="OPCModuleComponent" Guid="3ECB565D-802D-4A37-83B2-C05AE8774677">
+        <File Id="OPCModuleDll" Name="OPCModule.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
       <!--<Component Id="FAGroupControllerModuleComponent" Guid="68DE1B95-D3B3-47AD-855B-E11A2BB1D349">
         <File Id="FAGroupControllerModuleDll" Name="GKModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />

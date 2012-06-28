@@ -314,5 +314,20 @@ namespace FiresecClient
 		{
 			return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
 		}
+
+		public void OPCRefresh(DeviceConfiguration deviceConfiguration)
+		{
+			SafeOperationCall(() => { FiresecService.OPCRefresh(deviceConfiguration); });
+		}
+
+		public void OPCRegister()
+		{
+			SafeOperationCall(() => { FiresecService.OPCRegister(); });
+		}
+
+		public void OPCUnRegister()
+		{
+			SafeOperationCall(() => { FiresecService.OPCUnRegister(); });
+		}
 	}
 }

@@ -31,6 +31,8 @@
 			<ComponentRef Id="FiresecServiceProgramsMenuShortcut" />
 			<ComponentRef Id="FiresecServiceDesktopShortcut" />
 			<ComponentRef Id="Autorun"/>
+      <ComponentRef Id="OPC_gbda3w_Component"/>
+      <ComponentRef Id="OPC_gbda_clr_Component"/>
 			<ComponentGroupRef Id="ConfigurationGroup"/>
 		</Feature>
 	</Fragment>
