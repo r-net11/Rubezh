@@ -51,14 +51,16 @@
 			<ComponentRef Id="XslFiles8" />
 			<ComponentRef Id="XslFiles9" />
 			<ComponentRef Id="XslFiles10" />
+      <ComponentRef Id="FAGKModuleComponent" />
+      <ComponentRef Id="FAVideoModuleComponent"/>
 		</Feature>
 
-    <Feature Id="FAFeatureGK" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+    <!--<Feature Id="FAFeatureGK" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
       <ComponentRef Id="FAGKModuleComponent" />
     </Feature>
 
     <Feature Id="FAFeatureVideo" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
       <ComponentRef Id="FAVideoModuleComponent"/>
-    </Feature>
+    </Feature>-->
 	</Fragment>
 </Wix>

@@ -13,7 +13,9 @@
       <Feature Id="FiresecClient" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
         <FeatureRef Id="FAFeatureBasic" />
         <FeatureRef Id="FMFeatureBasic" />
-        <Feature Id="VideoModule" Level="1">
+        <ComponentRef Id="DeleteGKXMLSetting" />
+        <ComponentRef Id="ChangeXMLSettings"/>
+        <!--<Feature Id="VideoModule" Level="1">
           <Condition Level="0">INSTALLLEVEL=4</Condition>
           <FeatureRef Id="FAFeatureVideo" />
           <ComponentRef Id="DeleteVideoXMLSetting" />
@@ -23,8 +25,7 @@
           <FeatureRef Id="FAFeatureGK" />
           <FeatureRef Id="FMFeatureGK" />
           <ComponentRef Id="DeleteGKXMLSetting" />
-        </Feature>
-        <ComponentRef Id="ChangeXMLSettings"/>
+        </Feature>-->
         <ComponentRef Id="ClearOnUninstallFireAdministrator"/>
         <ComponentRef Id="ClearOnUninstallFireMonitor"/>
       </Feature>

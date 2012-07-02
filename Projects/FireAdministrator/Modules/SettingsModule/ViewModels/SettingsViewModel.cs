@@ -8,6 +8,9 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SettingsModule.Views;
+using DevicesModule.ViewModels;
+using System.IO;
+using System;
 
 namespace SettingsModule.ViewModels
 {
@@ -38,41 +41,46 @@ namespace SettingsModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			Trace.WriteLine("\n state.IsManualReset \n");
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.IsManualReset)
-					{
-						Trace.WriteLine(driver.ShortName + " - " + state.Id + " - " + state.Code + state.Name);
-					}
-				}
-			}
+			
+			StreamReader sr = new StreamReader("journal.html", System.Text.Encoding.Default);
+			var journal = sr.ReadToEnd();
+			sr.Close();
+			DialogService.ShowModalWindow(new DeviceJournalViewModel(journal));
+			//Trace.WriteLine("\n state.IsManualReset \n");
+			//foreach (var driver in FiresecManager.Drivers)
+			//{
+			//    foreach (var state in driver.States)
+			//    {
+			//        if (state.IsManualReset)
+			//        {
+			//            Trace.WriteLine(driver.ShortName + " - " + state.Id + " - " + state.Code + state.Name);
+			//        }
+			//    }
+			//}
 
-			Trace.WriteLine("\n state.CanResetOnPanel \n");
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.CanResetOnPanel)
-					{
-						Trace.WriteLine(driver.ShortName + " - " + state.Id + " - " + state.Code + state.Name);
-					}
-				}
-			}
+			//Trace.WriteLine("\n state.CanResetOnPanel \n");
+			//foreach (var driver in FiresecManager.Drivers)
+			//{
+			//    foreach (var state in driver.States)
+			//    {
+			//        if (state.CanResetOnPanel)
+			//        {
+			//            Trace.WriteLine(driver.ShortName + " - " + state.Id + " - " + state.Code + state.Name);
+			//        }
+			//    }
+			//}
 
-			Trace.WriteLine("\n state.IsAutomatic \n");
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.IsAutomatic)
-					{
-						Trace.WriteLine(driver.ShortName + " - " + state.Id + " - " + state.Code + state.Name);
-					}
-				}
-			}
+			//Trace.WriteLine("\n state.IsAutomatic \n");
+			//foreach (var driver in FiresecManager.Drivers)
+			//{
+			//    foreach (var state in driver.States)
+			//    {
+			//        if (state.IsAutomatic)
+			//        {
+			//            Trace.WriteLine(driver.ShortName + " - " + state.Id + " - " + state.Code + state.Name);
+			//        }
+			//    }
+			//}
 		}
 
 		public RelayCommand Test2Command { get; private set; }

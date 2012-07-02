@@ -85,20 +85,23 @@ Patch dialog sequence:
       <Publish Dialog="InstallChangeFolder" Control="NewFolder" Event="DirectoryListNew" Value="0">1</Publish>
 
       <Publish Dialog="SetupType" Control="Back" Event="NewDialog" Value="DestinationFolder">1</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ShortcutsDlg">SETUPCHOICE ="Full"</Publish>
+      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ModulesDlg">SETUPCHOICE ="Full"</Publish>
       <Publish Dialog="SetupType" Control="Next" Event="SetInstallLevel" Value="3">SETUPCHOICE ="Full"</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ShortcutsDlg">SETUPCHOICE ="Client"</Publish>
+      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ModulesDlg">SETUPCHOICE ="Client"</Publish>
       <Publish Dialog="SetupType" Control="Next" Event="SetInstallLevel" Value="2">SETUPCHOICE ="Client"</Publish>
       <Publish Dialog="SetupType" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
-
+      <Publish Dialog="ModulesDlg" Control="Back" Event="NewDialog" Value="SetupType">1</Publish>
+      <Publish Dialog="ModulesDlg" Control="Next" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
+      <Publish Dialog="ModulesDlg" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+      
       <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="CustomizeDialog" Order="1">
         WixUI_InstallMode = "Change"
       </Publish>
-      <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="SetupType" Order="2">
+      <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="ModulesDlg" Order="2">
         SETUPCHOICE = "Full"
       </Publish>
-      <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="SetupType" Order="3">
+      <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="ModulesDlg" Order="3">
         SETUPCHOICE = "Client"
       </Publish>
       <Publish Dialog="ShortcutsDlg" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>

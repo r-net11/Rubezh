@@ -41,12 +41,13 @@
       <ComponentRef Id="FMDeintegrateReg"/>
       <ComponentRef Id="FMIntegrateRegx64"/>
       <ComponentRef Id="FMIntegrateRegx32"/>
+      <ComponentRef Id="FMGKModuleComponent"/>
       <ComponentRef Id="SystemHASPComponent"/>
 			<ComponentGroupRef Id="FireMonReportTemplatesFolder"/>
 		</Feature>
 
-    <Feature Id="FMFeatureGK" Level="1" Display="expand" ConfigurableDirectory="FIREMONITORLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+    <!--<Feature Id="FMFeatureGK" Level="1" Display="expand" ConfigurableDirectory="FIREMONITORLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
       <ComponentRef Id="FMGKModuleComponent"/>
-    </Feature>
+    </Feature>-->
 	</Fragment>
 </Wix>

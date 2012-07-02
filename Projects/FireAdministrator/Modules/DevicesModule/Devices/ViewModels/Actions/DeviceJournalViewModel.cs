@@ -13,7 +13,16 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("HtmlString");
 		}
 
-		public string HtmlString { get; set; }
+		string _htmlString;
+		public string HtmlString 
+		{
+			get { return _htmlString; }
+			set
+			{
+				_htmlString = value;
+				OnPropertyChanged("HtmlString");
+			}
+		}
 	}
 
 	public class BrowserBehavior

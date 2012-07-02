@@ -1,4 +1,11 @@
 @echo off
 set BuildFilesPath=%cd%
 set NAntPath=%cd%\..\3rdParty\NAnt\bin\NAnt.exe
+del %cd%\bin /Q
+del %cd%\..\Projects\Installers\FiresecInstaller\FiresecInstaller\bin\Release /Q
 start /I %NAntPath% -logger:NAnt.Core.XmlLogger -logfile:buildlog.xml -buildfile:DeployRelease.build
+PAUSE
+set installerPath=%cd%\..\Projects\Installers\FiresecInstaller\FiresecInstaller\bin\Release
+set destinationPath=%cd%\bin\
+xcopy %installerPath% %destinationPath% /E /Q /K
+echo END

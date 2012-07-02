@@ -141,13 +141,15 @@
 				<File Id="FMHASPDLL" Name="hasp_net_windows.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
-
-			<Component Id="FMGKModuleComponent" Guid="D3C2F25E-1229-442F-A9F7-FE8FCBF884A0">
-				<File Id="FMGKModuleDll" Name="GKModule.dll" Source="$(var.FireMonitor.TargetDir)"
-							DiskId="1" KeyPath="yes" />
-			</Component>
-
 		</DirectoryRef>
+
+    <DirectoryRef Id="FIREMONITORLOCATION">
+      <Component Id="FMGKModuleComponent" Guid="D3C2F25E-1229-442F-A9F7-FE8FCBF884A0">
+        <File Id="FMGKModuleDll" Name="GKModule.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+        <Condition>GK_MODULE</Condition>
+      </Component>
+    </DirectoryRef>
 
     <DirectoryRef Id="ShellFolder">
       <Component Id="FMIntegrateCmd" Guid="D8952A0D-59F7-42EC-A47F-105BD121D123">

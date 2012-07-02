@@ -146,6 +146,22 @@
       </Component>
     </DirectoryRef>
 
+    <DirectoryRef Id="FIREADMINISTRATORLOCATION">
+      <Component Id="FAVideoModuleComponent" Guid="FBA8AC05-19F8-4FD6-826E-AD656C84B801">
+        <File Id="FAVideoModuleDll" Name="VideoModule.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+        <Condition>VIDEO_MODULE</Condition>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="FIREADMINISTRATORLOCATION">
+      <Component Id="FAGKModuleComponent" Guid="68DE1B95-D3B3-47AD-855B-E11A2BB1D349">
+        <File Id="FAGroupControllerModuleDll" Name="GKModule.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+        <Condition>GK_MODULE</Condition>
+      </Component>
+    </DirectoryRef>
+
     <DirectoryRef Id="FireAdmXslFilesFolder">
       <Component Id="XslFiles1" Guid="7D3DEE7F-2E4B-4C4E-8B31-952A85D54538">
         <File Id="svg2xaml.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\svg2xaml.xsl" />
