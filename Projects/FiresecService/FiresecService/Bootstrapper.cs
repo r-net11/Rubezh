@@ -7,6 +7,7 @@ using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using FiresecService.OPC;
 //using FiresecService.OPC;
 
 namespace FiresecService

@@ -40,11 +40,15 @@ namespace FiresecDirect
 		{
 			textBox1.Text = NativeFiresecClient.GetCoreConfig().Result;
 
-			using (var fileStream = new FileStream("D:/CoreConfig.xml", FileMode.Create))
-			using (var streamWriter = new StreamWriter(fileStream))
+			try
 			{
-				streamWriter.Write(textBox1.Text);
+				using (var fileStream = new FileStream("D:/CoreConfig.xml", FileMode.Create))
+				using (var streamWriter = new StreamWriter(fileStream))
+				{
+					streamWriter.Write(textBox1.Text);
+				}
 			}
+			catch { }
 		}
 
 		void OnGetPlans(object sender, RoutedEventArgs e)
@@ -130,7 +134,8 @@ namespace FiresecDirect
 			var result = NativeFiresecClient.ExecuteRuntimeDeviceMethod(Execute1_devicePath.Text, Execute1_MethodName.Text, Execute1_AParams.Text, int.Parse(Execute1_RequestID.Text));
 			if (result.HasError)
 				MessageBox.Show("Error:" + result.ErrorString);
-			MessageBox.Show("Result:" + result.Result);
+			else
+				MessageBox.Show("Result:" + result.Result);
 		}
 
 		private void OnExecuteRuntimeDeviceMethod2(object sender, RoutedEventArgs e)
@@ -138,7 +143,8 @@ namespace FiresecDirect
 			var result = NativeFiresecClient.ExecuteRuntimeDeviceMethod(Execute2_devicePath.Text, Execute2_MethodName.Text, Execute2_AParams.Text, int.Parse(Execute2_RequestID.Text));
 			if (result.HasError)
 				MessageBox.Show("Error:" + result.ErrorString);
-			MessageBox.Show("Result:" + result.Result);
+			else
+				MessageBox.Show("Result:" + result.Result);
 		}
 	}
 }

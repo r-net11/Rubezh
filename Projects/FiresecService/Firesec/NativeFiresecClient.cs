@@ -103,7 +103,7 @@ namespace Firesec
 
 		public FiresecOperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
-			//return null;
+			return null;
 		}
 
 		public FiresecOperationResult<bool> CheckHaspPresence()
