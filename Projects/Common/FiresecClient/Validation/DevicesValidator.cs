@@ -415,11 +415,27 @@ namespace FiresecClient.Validation
 					ValidateZoneSingleBoltInDirectionZone(zone);
 				}
 
+				ValidateZoneHasDevicesFromDifferentNetworks(zone);
 				ValidateZoneNumber(zone);
 				ValidateZoneNameLength(zone);
 				ValidateZoneDescriptionLength(zone);
 				ValidateZoneName(zone);
 			}
+		}
+
+		static void ValidateZoneHasDevicesFromDifferentNetworks(Zone zone)
+		{
+			var deviceUIDs = new HashSet<Guid>();
+			foreach (var device in zone.DevicesInZone)
+			{
+				deviceUIDs.Add(device.ParentChannel.UID);
+			}
+			foreach (var device in zone.DeviceInZoneLogic)
+			{
+				deviceUIDs.Add(device.ParentChannel.UID);
+			}
+			if (deviceUIDs.Count > 1)
+				ZoneErrors.Add(new ZoneError(zone, "В зоне указано устройство, находящееся в другой сети RS-485", ErrorLevel.CannotWrite));
 		}
 
 		static void ValidateGuardZonesCount()

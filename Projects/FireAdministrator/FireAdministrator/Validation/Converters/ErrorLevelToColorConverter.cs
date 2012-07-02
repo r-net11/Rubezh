@@ -11,14 +11,14 @@ namespace FireAdministrator.Converters
         {
             switch ((ErrorLevel) value)
             {
-                case ErrorLevel.CannotSave:
-                    return Brushes.DarkRed;
+				case ErrorLevel.CannotSave:
+					return Brushes.DarkRed;
 
-                case ErrorLevel.CannotWrite:
-                    return Brushes.DarkOrange;
+				case ErrorLevel.CannotWrite:
+					return Brushes.LightPink;
 
-                case ErrorLevel.Warning:
-                    return Brushes.Black;
+				case ErrorLevel.Warning:
+					return Brushes.Wheat;
 
                 default:
                     return Brushes.Blue;

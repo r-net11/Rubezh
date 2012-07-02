@@ -74,12 +74,17 @@ namespace Firesec
 			return SafeCall<bool>(() => { Connectoin.ResetStates(states); return true; });
 		}
 
-		int reguestId = 0;
+		int ReguestId = 0;
 
-		public FiresecOperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
+		public FiresecOperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, int reguestId)
 		{
 			//return null;
 			return SafeCall<string>(() => { Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, reguestId++); return null; });
+		}
+
+		public FiresecOperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
+		{
+			return SafeCall<string>(() => { Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, ReguestId++); return null; });
 		}
 
 		public FiresecOperationResult<string> GetConfigurationParameters(string devicePath, int paramNo)
@@ -87,8 +92,8 @@ namespace Firesec
 			//return null;
 			return SafeCall<string>(() =>
 			{
-				reguestId += 1;
-				var result1 = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "Device$ReadSimpleParam", paramNo.ToString(), reguestId);
+				ReguestId += 1;
+				var result1 = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "Device$ReadSimpleParam", paramNo.ToString(), ReguestId);
 				Thread.Sleep(TimeSpan.FromMinutes(2));
 				var result = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "StateConfigQueries", null, 0);
 				//var result2 = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "ClearAllQueries", null, reguestId);
@@ -98,8 +103,8 @@ namespace Firesec
 
 		public FiresecOperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
-			//return null;
-			return SafeCall<bool>(() => { Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null, reguestId++); return true; });
+			Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null, ReguestId++);
+			return null;
 		}
 
 		public FiresecOperationResult<bool> CheckHaspPresence()

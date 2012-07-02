@@ -119,6 +119,7 @@
     <Compile Include="Services\ProgressService.cs" />
     <Compile Include="Services\ValidationService.cs" />
     <Compile Include="Validation\Converters\ErrorLevelToColorConverter.cs" />
+    <Compile Include="Validation\Converters\ErrorLevelToStringConverter.cs" />
     <Compile Include="Validation\ViewModels\ErrorEntityType.cs" />
     <Compile Include="Validation\ViewModels\ValidationErrorsViewModel.cs" />
     <Compile Include="Validation\ViewModels\ValidationErrorViewModel.cs" />

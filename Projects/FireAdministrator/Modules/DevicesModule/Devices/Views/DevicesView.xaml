@@ -98,7 +98,7 @@
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <Grid>
-                                    <ComboBox ItemsSource="{Binding Zones}" SelectedItem="{Binding Zone}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Height="19"
+                                    <ComboBox ItemsSource="{Binding Zones}" SelectedItem="{Binding Zone, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Height="19"
                                             Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <ComboBox.ItemTemplate>
                                             <DataTemplate>

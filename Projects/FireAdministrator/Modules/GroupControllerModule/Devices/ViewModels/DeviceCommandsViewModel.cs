@@ -69,7 +69,7 @@ namespace GKModule.Models
 		public RelayCommand CheckConnectionCommand { get; private set; }
 		void OnCheckConnection()
 		{
-
+			CommandManager.Send();
 		}
 
 		public RelayCommand GetKAUVersionCommand { get; private set; }
