@@ -28,6 +28,7 @@ namespace PlansModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 
+			Toolbox = new ToolboxViewModel(this);
 			DesignerCanvas = new DesignerCanvas();
 			PlanDesignerViewModel = new PlanDesignerViewModel();
 			PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
@@ -128,6 +129,8 @@ namespace PlansModule.ViewModels
 				ResetHistory();
 			}
 		}
+
+		public ToolboxViewModel Toolbox { get; private set; }
 
 		public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
 

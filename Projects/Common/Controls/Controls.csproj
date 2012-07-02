@@ -115,6 +115,7 @@
     <Compile Include="Converters\ReportTypeToStringConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
+    <Compile Include="ToolBarRadioButton.cs" />
     <Compile Include="DataGridProperties.cs" />
     <Compile Include="DigitalPasswordHelper.cs" />
     <Compile Include="MiddleButtonScrollHelper.cs" />
@@ -187,6 +188,10 @@
     <Page Include="Themes\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ToolBarRadioButtonStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\OutlookTreeViewStyle.xaml">
       <Generator>MSBuild:Compile</Generator>

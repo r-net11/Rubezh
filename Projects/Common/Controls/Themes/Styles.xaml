@@ -10,6 +10,7 @@
         <ResourceDictionary Source="OutlookTabControlStyle.xaml" />
 		<ResourceDictionary Source="OutlookTreeViewStyle.xaml" />
         <ResourceDictionary Source="ToolBarButtonStyle.xaml" />
+		<ResourceDictionary Source="ToolBarRadioButtonStyle.xaml" />
         <ResourceDictionary Source="HyperlinkStyle.xaml" />
         <ResourceDictionary Source="MenuStyle.xaml" />
         <ResourceDictionary Source="TabControlStyle.xaml" />

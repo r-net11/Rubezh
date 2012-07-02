@@ -1,56 +1,56 @@
-﻿<UserControl x:Class="PlansModule.Views.ToolboxView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-    
-    <StackPanel Orientation="Horizontal">
-        <Border CornerRadius="5" Margin="2" Background="{DynamicResource BackgroundBrush}">
-            <StackPanel Orientation="Horizontal">
-                <Controls:ToolBarButton Name="copyButton" Command="{Binding CopyCommand}" ToolTip="Копировать" ImageSource="/Controls;component/Images/Copy.png" />
-                <Controls:ToolBarButton Name="cutButton" Command="{Binding CutCommand}" ToolTip="Вырезать" ImageSource="/Controls;component/Images/Cut.png" />
-                <Controls:ToolBarButton Name="pasteButton" Command="{Binding PasteCommand}" ToolTip="Вставить" ImageSource="/Controls;component/Images/Paste.png" />
-                <Controls:ToolBarButton Name="undoButton" Command="{Binding UndoCommand}" ToolTip="Отменить" ImageSource="/Controls;component/Images/Undo.png" />
-                <Controls:ToolBarButton Name="redoButton" Command="{Binding RedoCommand}" ToolTip="Применить" ImageSource="/Controls;component/Images/Redo.png" />
-            </StackPanel>
-        </Border>
+﻿<UserControl x:Class="PlansModule.Views.ToolboxView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-        <Border CornerRadius="5" Margin="2" Background="{DynamicResource BackgroundBrush}">
-            <StackPanel Orientation="Horizontal">
-                <Controls:ToolBarButton Command="{Binding PlanDesignerViewModel.MoveToFrontCommand}" ToolTip="Вверх" ImageSource="/Controls;component/Images/MoveForward.png" />
-                <Controls:ToolBarButton Command="{Binding PlanDesignerViewModel.SendToBackCommand}" ToolTip="Вниз" ImageSource="/Controls;component/Images/MoveBackward.png" />
-                <Controls:ToolBarButton Command="{Binding PlanDesignerViewModel.MoveForwardCommand}" ToolTip="Выше" ImageSource="/Controls;component/Images/MoveFront.png" />
-                <Controls:ToolBarButton Command="{Binding PlanDesignerViewModel.MoveBackwardCommand}" ToolTip="Ниже" ImageSource="/Controls;component/Images/MoveBack.png" />
-            </StackPanel>
-        </Border>
+	<StackPanel Orientation="Horizontal">
+		<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+			<StackPanel Orientation="Horizontal">
+				<Controls:ToolBarButton Name="copyButton" Command="{Binding PlansViewModel.CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
+				<Controls:ToolBarButton Name="cutButton" Command="{Binding PlansViewModel.CutCommand}" ImageSource="/Controls;component/Images/Cut.png" ToolTip="Вырезать" />
+				<Controls:ToolBarButton Name="pasteButton" Command="{Binding PlansViewModel.PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
+				<Controls:ToolBarButton Name="undoButton" Command="{Binding PlansViewModel.UndoCommand}" ImageSource="/Controls;component/Images/Undo.png" ToolTip="Отменить" />
+				<Controls:ToolBarButton Name="redoButton" Command="{Binding PlansViewModel.RedoCommand}" ImageSource="/Controls;component/Images/Redo.png" ToolTip="Применить" />
+			</StackPanel>
+		</Border>
 
-        <Border CornerRadius="5" Margin="2" Background="{DynamicResource BackgroundBrush}">
-            <StackPanel Orientation="Horizontal">
-                <Controls:ToolBarButton ImageSource="/Controls;component/Images/Line.png" Name="ElementPolyLine" ToolTip="Линия" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-                <Controls:ToolBarButton ImageSource="/Controls;component/Images/Rectangle.png" Name="ElementRectangle" ToolTip="Прямоугольник" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-                <Controls:ToolBarButton ImageSource="/Controls;component/Images/Ellipse.png" Name="ElementEllipse" ToolTip="Эллипс" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-                <Controls:ToolBarButton ImageSource="/Controls;component/Images/Polygon.png" Name="ElementPolygon" ToolTip="Многоугольник" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-                <Controls:ToolBarButton ImageSource="/Controls;component/Images/Font.png" Name="ElementTextBlock" ToolTip="Текст" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-                <Controls:ToolBarButton ImageSource="/Controls;component/Images/ZoneRectangle.png" Name="ElementRectangleZone" ToolTip="Зона" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-                <Controls:ToolBarButton ImageSource="/Controls;component/Images/ZonePolygon.png" Name="ElementPolygonZone" ToolTip="Зона" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-                <Controls:ToolBarButton ImageSource="/Controls;component/Images/SubPlanPolygon.png" Name="ElementSubPlan" ToolTip="Подплан" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-            </StackPanel>
-        </Border>
+		<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+			<StackPanel Orientation="Horizontal">
+				<Controls:ToolBarButton Command="{Binding PlansViewModel.PlanDesignerViewModel.MoveToFrontCommand}" ImageSource="/Controls;component/Images/MoveForward.png" ToolTip="Вверх" />
+				<Controls:ToolBarButton Command="{Binding PlansViewModel.PlanDesignerViewModel.SendToBackCommand}" ImageSource="/Controls;component/Images/MoveBackward.png" ToolTip="Вниз" />
+				<Controls:ToolBarButton Command="{Binding PlansViewModel.PlanDesignerViewModel.MoveForwardCommand}" ImageSource="/Controls;component/Images/MoveFront.png" ToolTip="Выше" />
+				<Controls:ToolBarButton Command="{Binding PlansViewModel.PlanDesignerViewModel.MoveBackwardCommand}" ImageSource="/Controls;component/Images/MoveBack.png" ToolTip="Ниже" />
+			</StackPanel>
+		</Border>
 
-        <Border CornerRadius="5" Margin="2" Background="{DynamicResource BackgroundBrush}" Visibility="Collapsed">
-            <StackPanel Orientation="Horizontal">
-                <StackPanel Orientation="Horizontal">
-                    <Image Source="/Controls;component/Images/shapes-align-hori-center.png" Height="24" />
-                    <Image Source="/Controls;component/Images/shapes-align-hori-left.png" Height="24" />
-                    <Image Source="/Controls;component/Images/shapes-align-hori-right.png" Height="24" />
-                    <Image Source="/Controls;component/Images/shapes-align-verti-bottom.png" Height="24" />
-                    <Image Source="/Controls;component/Images/shapes-align-verti-middle.png" Height="24" />
-                    <Image Source="/Controls;component/Images/shapes-align-verti-top.png" Height="24" />
-                    <Image Source="/Controls;component/Images/shapes-flip-horizontal.png" Height="24" />
-                    <Image Source="/Controls;component/Images/shapes-flip-vertical.png" Height="24" />
-                    <Image Source="/Controls;component/Images/shapes-rotate-anticlockwise.png" Height="24" />
-                    <Image Source="/Controls;component/Images/shapes-rotate-clockwise.png" Height="24" />
-                </StackPanel>
-            </StackPanel>
-        </Border>
-    </StackPanel>
+		<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+			<StackPanel Orientation="Horizontal">
+				<Controls:ToolBarButton Name="ElementPolyLine" ImageSource="/Controls;component/Images/Line.png" MouseMove="On_MouseMove" PreviewMouseDown="On_PreviewMouseDown" ToolTip="Линия" />
+				<Controls:ToolBarButton Name="ElementRectangle" ImageSource="/Controls;component/Images/Rectangle.png" MouseMove="On_MouseMove" PreviewMouseDown="On_PreviewMouseDown" ToolTip="Прямоугольник" />
+				<Controls:ToolBarButton Name="ElementEllipse" ImageSource="/Controls;component/Images/Ellipse.png" MouseMove="On_MouseMove" PreviewMouseDown="On_PreviewMouseDown" ToolTip="Эллипс" />
+				<Controls:ToolBarButton Name="ElementPolygon" ImageSource="/Controls;component/Images/Polygon.png" MouseMove="On_MouseMove" PreviewMouseDown="On_PreviewMouseDown" ToolTip="Многоугольник" />
+				<Controls:ToolBarButton Name="ElementTextBlock" ImageSource="/Controls;component/Images/Font.png" MouseMove="On_MouseMove" PreviewMouseDown="On_PreviewMouseDown" ToolTip="Текст" />
+				<Controls:ToolBarButton Name="ElementRectangleZone" ImageSource="/Controls;component/Images/ZoneRectangle.png" MouseMove="On_MouseMove" PreviewMouseDown="On_PreviewMouseDown" ToolTip="Зона" />
+				<Controls:ToolBarButton Name="ElementPolygonZone" ImageSource="/Controls;component/Images/ZonePolygon.png" MouseMove="On_MouseMove" PreviewMouseDown="On_PreviewMouseDown" ToolTip="Зона" />
+				<Controls:ToolBarButton Name="ElementSubPlan" ImageSource="/Controls;component/Images/SubPlanPolygon.png" MouseMove="On_MouseMove" PreviewMouseDown="On_PreviewMouseDown" ToolTip="Подплан" />
+			</StackPanel>
+		</Border>
+		<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+			<ListBox ItemsSource="{Binding Instruments}" SelectedItem="{Binding ActiveInstrument}" Style="{StaticResource ToolBox}" ItemContainerStyle="{StaticResource ToolBoxItem}" Visibility="Collapsed"/>
+		</Border>
+
+		<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Visibility="Collapsed">
+			<StackPanel Orientation="Horizontal">
+				<StackPanel Orientation="Horizontal">
+					<Image Height="24" Source="/Controls;component/Images/shapes-align-hori-center.png" />
+					<Image Height="24" Source="/Controls;component/Images/shapes-align-hori-left.png" />
+					<Image Height="24" Source="/Controls;component/Images/shapes-align-hori-right.png" />
+					<Image Height="24" Source="/Controls;component/Images/shapes-align-verti-bottom.png" />
+					<Image Height="24" Source="/Controls;component/Images/shapes-align-verti-middle.png" />
+					<Image Height="24" Source="/Controls;component/Images/shapes-align-verti-top.png" />
+					<Image Height="24" Source="/Controls;component/Images/shapes-flip-horizontal.png" />
+					<Image Height="24" Source="/Controls;component/Images/shapes-flip-vertical.png" />
+					<Image Height="24" Source="/Controls;component/Images/shapes-rotate-anticlockwise.png" />
+					<Image Height="24" Source="/Controls;component/Images/shapes-rotate-clockwise.png" />
+				</StackPanel>
+			</StackPanel>
+		</Border>
+	</StackPanel>
 </UserControl>

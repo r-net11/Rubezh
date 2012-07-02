@@ -58,6 +58,7 @@ namespace PlansModule.Views
 
 		public void Reset()
 		{
+			(DataContext as PlansViewModel).PlanDesignerViewModel.DeviceZoom = deviceSlider.Value;
 			FullSize();
 			slider.Value = 1;
 		}

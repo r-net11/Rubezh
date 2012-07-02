@@ -399,9 +399,8 @@ namespace PlansModule.Designer
 		{
 			if (IsDevice)
 			{
-				double zoom = DesignerCanvas.PlanDesignerViewModel.DeviceZoom / DesignerCanvas.PlanDesignerViewModel.Zoom;
-				this.Width = zoom;
-				this.Height = zoom;
+				this.Width = DesignerCanvas.PlanDesignerViewModel.DeviceZoom;
+				this.Height = DesignerCanvas.PlanDesignerViewModel.DeviceZoom;
 				Canvas.SetLeft(this, ElementBase.Left - this.Width / 2);
 				Canvas.SetTop(this, ElementBase.Top - this.Height / 2);
 			}

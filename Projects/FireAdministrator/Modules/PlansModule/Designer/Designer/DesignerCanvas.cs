@@ -152,7 +152,7 @@ namespace PlansModule.Designer
 			var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
 
 			Point position = e.GetPosition(this);
-			elementBase.Left = Math.Max(0, position.X - elementBase.Height / 2);
+			elementBase.Left = Math.Max(0, position.X - elementBase.Width / 2);
 			elementBase.Top = Math.Max(0, position.Y - elementBase.Height / 2);
 
 			if (elementBase is IElementZone)

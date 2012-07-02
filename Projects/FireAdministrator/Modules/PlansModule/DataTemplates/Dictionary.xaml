@@ -6,8 +6,16 @@
     <DataTemplate DataType="{x:Type ViewModels:PlansViewModel}">
         <Views:PlansView />
     </DataTemplate>
-    
-    <DataTemplate DataType="{x:Type ViewModels:PlansMenuViewModel}">
+
+	<DataTemplate DataType="{x:Type ViewModels:ToolboxViewModel}">
+		<Views:ToolboxView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:InstrumentViewModel}">
+		<Views:InstrumentView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:PlansMenuViewModel}">
         <Views:PlansMenuView />
     </DataTemplate>
     

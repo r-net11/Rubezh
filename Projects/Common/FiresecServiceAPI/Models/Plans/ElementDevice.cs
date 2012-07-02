@@ -9,8 +9,8 @@ namespace FiresecAPI.Models
 	{
 		public ElementDevice()
 		{
-			Width = 20;
-			Height = 20;
+			Width = 0;
+			Height = 0;
 			DeviceUID = Guid.Empty;
 		}
 
