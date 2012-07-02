@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Firesec Direct" Height="800" Width="1000" WindowStartupLocation="CenterScreen"
     Loaded="Window_Loaded">
-    <Grid>
+
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Button Click="OnGetCoreConfig" Content="GetCoreConfig" Margin="1" />
@@ -25,9 +25,23 @@
                 <Button Click="OnRemoveFromIgnoreList" Content="RemoveFromIgnoreList" Margin="1" />
                 <Button Click="OnAddCustomMessage" Content="AddCustomMessage" Margin="1" />
             </StackPanel>
-            <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Width="950" Height="700">
+        <StackPanel Orientation="Horizontal">
+            <Button Click="OnExecuteRuntimeDeviceMethod1" Content="ExecuteRuntimeDeviceMethod" Margin="1" />
+            <TextBox Name="Execute1_devicePath" Text="0\0\0\0" Width="100" Margin="1" />
+            <TextBox Name="Execute1_MethodName" Text="Device$ReadSimpleParam" Width="150" Margin="1" />
+            <TextBox Name="Execute1_AParams" Text="133" Width="100" Margin="1" />
+            <TextBox Name="Execute1_RequestID" Text="1" Width="100" Margin="1" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Click="OnExecuteRuntimeDeviceMethod2" Content="ExecuteRuntimeDeviceMethod" Margin="1" />
+            <TextBox Name="Execute2_devicePath" Text="0\0\0\0" Width="100" Margin="1" />
+            <TextBox Name="Execute2_MethodName" Text="StateConfigQueries" Width="150" Margin="1" />
+            <TextBox Name="Execute2_AParams" Text="" Width="100" Margin="1" />
+            <TextBox Name="Execute2_RequestID" Text="0" Width="100" Margin="1" />
+        </StackPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Width="950" Height="700">
                 <TextBox Name="textBox1" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" />
             </ScrollViewer>
         </StackPanel>
-    </Grid>
+
 </Window>
