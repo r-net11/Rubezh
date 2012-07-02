@@ -15,7 +15,7 @@ namespace DevicesModule.ViewModels
 
 		public NewDeviceRangeViewModel(DeviceViewModel parent)
 		{
-			Title = "Новоые устройства";
+			Title = "Новые устройства";
 			_parentDeviceViewModel = parent;
 			_parent = _parentDeviceViewModel.Device;
 

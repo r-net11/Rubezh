@@ -103,6 +103,7 @@ namespace Firesec
 
 		public FiresecOperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
+			Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null, ReguestId++);
 			return null;
 		}
 

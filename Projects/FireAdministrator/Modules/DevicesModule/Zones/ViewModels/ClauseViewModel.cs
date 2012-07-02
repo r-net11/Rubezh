@@ -23,6 +23,10 @@ namespace DevicesModule.ViewModels
 
 			_zoneLogicViewModel = zoneLogicViewModel;
 			_device = device;
+			Zones = new List<ulong>(
+				from zoneNo in clause.Zones
+				orderby zoneNo
+				select zoneNo);
 			Zones = clause.Zones.ToList();
 			_selectedState = clause.State;
 			SelectedOperation = clause.Operation;
@@ -81,7 +85,7 @@ namespace DevicesModule.ViewModels
 								states.Remove(ZoneLogicState.PumpStationAutomaticOff);
 								break;
 						}
-						if((_device.IntAddress == 3) || (_device.IntAddress == 4))
+						if ((_device.IntAddress == 3) || (_device.IntAddress == 4))
 							states.Remove(ZoneLogicState.Failure);
 						return states;
 

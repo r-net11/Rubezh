@@ -12,7 +12,7 @@ namespace GKModule
 			byte whom = 2;
 			byte address = 0;
 			byte length = 0;
-			byte command = 0;
+			byte command = 1;
 			List<byte> data = new List<byte>();
 
 			bytes.Add(whom);
@@ -30,13 +30,13 @@ namespace GKModule
 			{
 				EnableBroadcast = false
 			};
-			udpClient.Connect(IPAddress.Parse("126.1.1.2"), 80);
-			var endPoint = new IPEndPoint(IPAddress.Parse("126.1.1.2"), 80);
+			udpClient.Connect(IPAddress.Parse("172.16.7.103"), 1025);
+			var endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.103"), 1025);
 			//udpClient.Send(bytes, bytes.Length, endPoint);
-			udpClient.Send(bytes, bytes.Length);
+			var result = udpClient.Send(bytes, bytes.Length);
 
-			IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
-			byte[] resievedBytes = udpClient.Receive(ref RemoteIpEndPoint);
+			//IPEndPoint RemoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
+			byte[] resievedBytes = udpClient.Receive(ref endPoint);
 
 			udpClient.Close();
 		}

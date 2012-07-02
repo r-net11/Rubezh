@@ -151,6 +151,13 @@ namespace PlansModule.Designer
 			base.OnDrop(e);
 			var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
 
+			//if (elementBase is ElementDevice)
+			//{
+			//    double zoom = PlanDesignerViewModel.DeviceZoom / PlanDesignerViewModel.Zoom;
+			//    elementBase.Width = zoom;
+			//    elementBase.Height = zoom;
+			//}
+
 			Point position = e.GetPosition(this);
 			elementBase.Left = Math.Max(0, position.X - elementBase.Height / 2);
 			elementBase.Top = Math.Max(0, position.Y - elementBase.Height / 2);

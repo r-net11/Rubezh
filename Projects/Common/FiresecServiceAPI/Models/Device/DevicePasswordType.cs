@@ -1,9 +1,9 @@
 ﻿namespace FiresecAPI.Models
 {
-    public enum DevicePasswordType
-    {
-        Administrator = 1,
-        Installator = 2,
-        Operator = 3
-    }
+	public enum DevicePasswordType
+	{
+		Installator = 0,
+		Administrator = 1,
+		Operator = 2
+	}
 }
