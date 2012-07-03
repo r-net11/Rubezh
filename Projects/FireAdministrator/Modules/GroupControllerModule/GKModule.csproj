@@ -126,6 +126,7 @@
     </Compile>
     <Compile Include="GroupControllerModule.cs" />
     <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
+    <Compile Include="JournalItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

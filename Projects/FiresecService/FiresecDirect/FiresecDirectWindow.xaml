@@ -4,27 +4,27 @@
     Title="Firesec Direct" Height="800" Width="1000" WindowStartupLocation="CenterScreen"
     Loaded="Window_Loaded">
 
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Button Click="OnGetCoreConfig" Content="GetCoreConfig" Margin="1" />
-                <Button Click="OnGetMetaData" Content="GetMetadata" Margin="1" />
-                <Button Click="OnGetPlans" Content="GetPlans" Margin="1" />
-                <Button Click="OnSetNewConfig" Content="SetNewConfig" Margin="1" />
-                <Button Click="OnGetCoreState" Content="GetCoreState" Margin="1" />
-                <Button Click="OnGetCoreDeviceParams" Content="GetCoreDeviceParams" Margin="1" />
-                <Button Click="OnReadEvents" Content="ReadEvents" Margin="1" />
-                <Button Click="Button_Click_6" Content="Serialize metadata" Margin="1" />
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Button Click="OnBoltOpen" Content="BoltOpen" Margin="1" />
-                <Button Click="OnBoltClose" Content="BoltClose" Margin="1" />
-                <Button Click="OnBoltStop" Content="BoltStop" Margin="1" />
-                <Button Click="OnBoltAutoOn" Content="BoltAutoOn" Margin="1" />
-                <Button Click="OnBoltAutoOff" Content="BoltAutoOff" Margin="1" />
-                <Button Click="OnAddToIgnoreList" Content="AddToIgnoreList" Margin="1" />
-                <Button Click="OnRemoveFromIgnoreList" Content="RemoveFromIgnoreList" Margin="1" />
-                <Button Click="OnAddCustomMessage" Content="AddCustomMessage" Margin="1" />
-            </StackPanel>
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Click="OnGetCoreConfig" Content="GetCoreConfig" Margin="1" />
+            <Button Click="OnGetMetaData" Content="GetMetadata" Margin="1" />
+            <Button Click="OnGetPlans" Content="GetPlans" Margin="1" />
+            <Button Click="OnSetNewConfig" Content="SetNewConfig" Margin="1" />
+            <Button Click="OnGetCoreState" Content="GetCoreState" Margin="1" />
+            <Button Click="OnGetCoreDeviceParams" Content="GetCoreDeviceParams" Margin="1" />
+            <Button Click="OnReadEvents" Content="ReadEvents" Margin="1" />
+            <Button Click="Button_Click_6" Content="Serialize metadata" Margin="1" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Button Click="OnBoltOpen" Content="BoltOpen" Margin="1" />
+            <Button Click="OnBoltClose" Content="BoltClose" Margin="1" />
+            <Button Click="OnBoltStop" Content="BoltStop" Margin="1" />
+            <Button Click="OnBoltAutoOn" Content="BoltAutoOn" Margin="1" />
+            <Button Click="OnBoltAutoOff" Content="BoltAutoOff" Margin="1" />
+            <Button Click="OnAddToIgnoreList" Content="AddToIgnoreList" Margin="1" />
+            <Button Click="OnRemoveFromIgnoreList" Content="RemoveFromIgnoreList" Margin="1" />
+            <Button Click="OnAddCustomMessage" Content="AddCustomMessage" Margin="1" />
+        </StackPanel>
         <StackPanel Orientation="Horizontal">
             <Button Click="OnExecuteRuntimeDeviceMethod1" Content="ExecuteRuntimeDeviceMethod" Margin="1" />
             <TextBox Name="Execute1_devicePath" Text="0\0\0\0" Width="100" Margin="1" />
@@ -39,9 +39,13 @@
             <TextBox Name="Execute2_AParams" Text="" Width="100" Margin="1" />
             <TextBox Name="Execute2_RequestID" Text="0" Width="100" Margin="1" />
         </StackPanel>
-        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Width="950" Height="700">
-                <TextBox Name="textBox1" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" />
-            </ScrollViewer>
+        <StackPanel Orientation="Horizontal">
+            <Button Content="GetConfigurationParameters" Click="OnGetConfigurationParameters" Width="200" />
+            <Button Content="SetConfigurationParameters" Click="OnSetConfigurationParameters" Width="200" />
         </StackPanel>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" Width="950" Height="700">
+            <TextBox Name="textBox1" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" TextWrapping="Wrap" />
+        </ScrollViewer>
+    </StackPanel>
 
 </Window>

@@ -5,6 +5,10 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Text;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace GKModule.Models
 {
@@ -66,20 +70,33 @@ namespace GKModule.Models
 			DialogService.ShowModalWindow(deviceConverterViewModel);
 		}
 
+		string BytesdToString(List<byte> bytes)
+		{
+			var stringBuilder = new StringBuilder();
+			foreach (var b in bytes)
+			{
+				stringBuilder.Append(b + " ");
+			}
+			return stringBuilder.ToString();
+		}
+
 		public RelayCommand CheckConnectionCommand { get; private set; }
 		void OnCheckConnection()
 		{
-			CommandManager.Send();
 		}
 
 		public RelayCommand GetKAUVersionCommand { get; private set; }
 		void OnGetKAUVersion()
 		{
+			var bytes = CommandManager.Send(0, 1, 1);
+			MessageBoxService.Show(BytesdToString(bytes));
 		}
 
 		public RelayCommand GetBlocklVersionCommand { get; private set; }
 		void OnGetBlocklVersion()
 		{
+			var bytes = CommandManager.Send(0, 2, 8);
+			MessageBoxService.Show(BytesdToString(bytes));
 		}
 
 		public RelayCommand WriteBlockInfoCommand { get; private set; }
@@ -95,16 +112,27 @@ namespace GKModule.Models
 		public RelayCommand GetTimeCommand { get; private set; }
 		void OnGetTime()
 		{
+			var bytes = CommandManager.Send(0, 4, 6);
+			MessageBoxService.Show(BytesdToString(bytes));
 		}
 
 		public RelayCommand GetLastJournalIndexCommand { get; private set; }
 		void OnGetLastJournalIndex()
 		{
+			var bytes = CommandManager.Send(0, 6, 64);
+			var journalItem = new JournalItem(bytes);
+			MessageBoxService.ShowError(journalItem.ToString());
 		}
 
 		public RelayCommand GetJournalItemByIndexCommand { get; private set; }
 		void OnGetJournalItemByIndex()
 		{
+			var data = new List<byte>();
+			data = BitConverter.GetBytes(1).ToList(); // 110680
+
+			var bytes = CommandManager.Send(4, 7, 64, data);
+			var journalItem = new JournalItem(bytes);
+			MessageBoxService.ShowError(journalItem.ToString());
 		}
 
 		public RelayCommand EraseJournalCommand { get; private set; }
