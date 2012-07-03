@@ -180,6 +180,7 @@
     <Compile Include="Models\Library\LibraryState.cs" />
     <Compile Include="Models\Plans\ElementBasePointCollection.cs" />
     <Compile Include="Models\Plans\ElementBasePolygon.cs" />
+    <Compile Include="Models\Plans\ElementDebug.cs" />
     <Compile Include="Models\Plans\ElementPolyline.cs" />
     <Compile Include="Models\Plans\ElementPolygon.cs" />
     <Compile Include="Models\Plans\ElementPolygonZone.cs" />
@@ -293,13 +294,19 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Models\Plans\ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
+      <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
+      <Name>Infrustructure.Plans</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

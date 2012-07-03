@@ -264,16 +264,16 @@ namespace PlansModule.ViewModels
 			DevicesViewModel.Update();
 			DesignerCanvas.DeselectAll();
 
-			if (ToolboxView.Current != null)
-				ToolboxView.Current.AcceptKeyboard = true;
+			if (Toolbox != null)
+				Toolbox.AcceptKeyboard = true;
 		}
 
 		public override void OnHide()
 		{
 			ServiceFactory.Layout.ShowMenu(null);
 
-			if (ToolboxView.Current != null)
-				ToolboxView.Current.AcceptKeyboard = false;
+			if (Toolbox != null)
+				Toolbox.AcceptKeyboard = false;
 		}
 	}
 }

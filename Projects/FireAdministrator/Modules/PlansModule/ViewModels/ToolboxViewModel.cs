@@ -4,14 +4,49 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
 
 namespace PlansModule.ViewModels
 {
 	public class ToolboxViewModel : BaseViewModel
 	{
+		private InstrumentViewModel _defaultInstrument;
+
 		public ToolboxViewModel(PlansViewModel plansViewModel)
 		{
 			PlansViewModel = plansViewModel;
+			RegisterInstruments();
+			EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyDownEvent, new KeyEventHandler(OnKeyEventHandler), true);
+		}
+
+		public PlansViewModel PlansViewModel { get; private set; }
+		public bool AcceptKeyboard { get; set; }
+
+		private ObservableCollection<InstrumentViewModel> _instruments;
+		public ObservableCollection<InstrumentViewModel> Instruments
+		{
+			get { return _instruments; }
+			set
+			{
+				_instruments = value;
+				OnPropertyChanged("Instruments");
+			}
+		}
+
+		private InstrumentViewModel _activeInstrument;
+		public InstrumentViewModel ActiveInstrument
+		{
+			get { return _activeInstrument; }
+			set
+			{
+				_activeInstrument = value;
+				OnPropertyChanged("ActiveInstrument");
+			}
+		}
+
+		private void RegisterInstruments()
+		{
 			Instruments = new ObservableCollection<InstrumentViewModel>()
 			{
 				new InstrumentViewModel()
@@ -60,31 +95,49 @@ namespace PlansModule.ViewModels
 					ToolTip="Подплан"
 				},
 			};
+			_defaultInstrument = Instruments[0];
 			ActiveInstrument = Instruments[0];
 		}
-
-		public PlansViewModel PlansViewModel { get; private set; }
-
-		private ObservableCollection<InstrumentViewModel> _instruments;
-		public ObservableCollection<InstrumentViewModel> Instruments
+		private void OnKeyEventHandler(object sender, KeyEventArgs e)
 		{
-			get { return _instruments; }
-			set
+			if (AcceptKeyboard == false)
+				return;
+
+			if (Keyboard.Modifiers == ModifierKeys.Control)
+				switch (e.Key)
+				{
+					case Key.C:
+						ExecuteCommand(PlansViewModel.CopyCommand);
+						break;
+					case Key.X:
+						ExecuteCommand(PlansViewModel.CutCommand);
+						break;
+					case Key.V:
+						ExecuteCommand(PlansViewModel.PasteCommand);
+						break;
+					case Key.Z:
+						ExecuteCommand(PlansViewModel.UndoCommand);
+						break;
+					case Key.Y:
+						ExecuteCommand(PlansViewModel.RedoCommand);
+						break;
+					case Key.A:
+						var designerCanvas = PlansViewModel.DesignerCanvas;
+						if (designerCanvas != null)
+							designerCanvas.SelectAll();
+						break;
+				}
+			else if (e.Key == Key.Delete)
 			{
-				_instruments = value;
-				OnPropertyChanged("Instruments");
+				var designerCanvas = PlansViewModel.DesignerCanvas;
+				if (designerCanvas != null)
+					designerCanvas.RemoveAllSelected();
 			}
 		}
-
-		private InstrumentViewModel _activeInstrument;
-		public InstrumentViewModel ActiveInstrument
+		private void ExecuteCommand(ICommand command)
 		{
-			get { return _activeInstrument; }
-			set
-			{
-				_activeInstrument = value;
-				OnPropertyChanged("ActiveInstrument");
-			}
+			if (command.CanExecute(null))
+				command.Execute(null);
 		}
 	}
 }

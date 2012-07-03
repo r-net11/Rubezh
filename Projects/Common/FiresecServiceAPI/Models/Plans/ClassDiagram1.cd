@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="FiresecAPI.Models.ElementBase" Collapsed="true">
+    <Position X="15.75" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAgAAAAAAAEAAAgAIAAAACAAAAAAAEBA=</HashCode>
+      <FileName>Models\Plans\ElementBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FiresecAPI.Models.ElementBasePointCollection" Collapsed="true">
+    <Position X="14.75" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Plans\ElementBasePointCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FiresecAPI.Models.ElementBasePolygon" Collapsed="true">
+    <Position X="13.5" Y="4" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAgAAABAAAAACCgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Plans\ElementBasePolygon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FiresecAPI.Models.ElementDevice" Collapsed="true">
+    <Position X="21" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAoAAAAAAAAAAAgAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Plans\ElementDevice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FiresecAPI.Models.ElementEllipse" Collapsed="true">
+    <Position X="10.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAgAAABAAAAACCAAAAAABAAAAAAAAABA=</HashCode>
+      <FileName>Models\Plans\ElementEllipse.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FiresecAPI.Models.ElementPolygon" Collapsed="true">
+    <Position X="11.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAABA=</HashCode>
+      <FileName>Models\Plans\ElementPolygon.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FiresecAPI.Models.ElementPolygonZone" Collapsed="true">
+    <Position X="13.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAABAEAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Plans\ElementPolygonZone.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FiresecAPI.Models.ElementPolyline" Collapsed="true">
+    <Position X="16.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAABAAAAAACAAAAAABAAAAAAAAABA=</HashCode>
+      <FileName>Models\Plans\ElementPolyline.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FiresecAPI.Models.ElementRectangle" Collapsed="true">
+    <Position X="12.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAkAgAAABAAAAACCAAAAAABAAAAAAAAABA=</HashCode>
+      <FileName>Models\Plans\ElementRectangle.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FiresecAPI.Models.ElementRectangleZone" Collapsed="true">
+    <Position X="19.25" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAABAEAAAAAAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Models\Plans\ElementRectangleZone.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="FiresecAPI.Models.ElementSubPlan" Collapsed="true">
+    <Position X="15.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAABCAAAAAAAABA=</HashCode>
+      <FileName>Models\Plans\ElementSubPlan.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FiresecAPI.Models.ElementTextBlock" Collapsed="true">
+    <Position X="8.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAgAAABAAAgACCAAAAAABAAAQCAAAABA=</HashCode>
+      <FileName>Models\Plans\ElementTextBlock.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="FiresecAPI.Models.IElementZone" Collapsed="true">
+    <Position X="18.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAABAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Plans\IElementZone.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="FiresecAPI.Models.IZIndexedElement" Collapsed="true">
+    <Position X="18.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Plans\IZIndexedElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

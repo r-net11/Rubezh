@@ -18,6 +18,7 @@ namespace PlansModule.ViewModels
 				OnPropertyChanged("ImageSource");
 			}
 		}
+
 		private string _toolTip;
 		public string ToolTip
 		{

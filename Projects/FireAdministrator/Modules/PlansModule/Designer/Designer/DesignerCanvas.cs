@@ -40,32 +40,12 @@ namespace PlansModule.Designer
 
 		public IEnumerable<DesignerItem> Items
 		{
-			get
-			{
-				return from item in this.Children.OfType<DesignerItem>()
-					   select item;
-			}
+			get { return from item in this.Children.OfType<DesignerItem>() select item; }
 		}
-
 		public IEnumerable<DesignerItem> SelectedItems
 		{
-			get
-			{
-				return from item in this.Children.OfType<DesignerItem>()
-					   where item.IsSelected == true
-					   select item;
-			}
+			get { return from item in this.Children.OfType<DesignerItem>() where item.IsSelected == true select item; }
 		}
-
-		public List<ElementBase> Elements
-		{
-			get
-			{
-				return (from item in this.Children.OfType<DesignerItem>()
-						select item.ElementBase).ToList();
-			}
-		}
-
 		public List<ElementBase> SelectedElements
 		{
 			get
@@ -79,28 +59,23 @@ namespace PlansModule.Designer
 		public void DeselectAll()
 		{
 			foreach (DesignerItem item in this.SelectedItems)
-			{
 				item.IsSelected = false;
-			}
 		}
-
 		public void RemoveAllSelected()
 		{
 			if (SelectedElements.Count == 0)
 				return;
 
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(new List<ElementBase>(SelectedElements));
-
-			for (int i = Items.Count(); i > 0; i--)
+			for (int i = Items.Count() - 1; i >= 0; i--)
 			{
-				var designerItem = Children[i - 1] as DesignerItem;
+				var designerItem = Children[i] as DesignerItem;
 				if (designerItem.IsSelected)
 				{
-					(Children[i - 1] as DesignerItem).Remove();
-					Children.RemoveAt(i - 1);
+					designerItem.Remove();
+					Children.Remove(designerItem);
 				}
 			}
-
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
 
@@ -120,7 +95,6 @@ namespace PlansModule.Designer
 				e.Handled = true;
 			}
 		}
-
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			base.OnMouseMove(e);
@@ -185,7 +159,6 @@ namespace PlansModule.Designer
 
 			e.Handled = true;
 		}
-
 		public DesignerItem AddElement(ElementBase elementBase)
 		{
 			if (elementBase is ElementRectangle)
@@ -256,24 +229,23 @@ namespace PlansModule.Designer
 
 			this.Children.Add(designerItem);
 			designerItem.Redraw();
-			SetZIndex(designerItem, elementBase);
+			SetZIndex(designerItem);
 			return designerItem;
 		}
-
-		void SetZIndex(DesignerItem designerItem, ElementBase elementBase)
+		private void SetZIndex(DesignerItem designerItem)
 		{
 			int bigConstatnt = 100000;
 
-			if (elementBase is IZIndexedElement)
-				Panel.SetZIndex(designerItem, (elementBase as IZIndexedElement).ZIndex);
+			if (designerItem.ElementBase is IZIndexedElement)
+				Panel.SetZIndex(designerItem, (designerItem.ElementBase as IZIndexedElement).ZIndex);
 
-			if (elementBase is ElementSubPlan)
+			if (designerItem.ElementBase is ElementSubPlan)
 				Panel.SetZIndex(designerItem, 1 * bigConstatnt);
 
-			if (elementBase is IElementZone)
+			if (designerItem.ElementBase is IElementZone)
 			{
 				Panel.SetZIndex(designerItem, 2 * bigConstatnt);
-				IElementZone elementZone = elementBase as IElementZone;
+				IElementZone elementZone = designerItem.ElementBase as IElementZone;
 				if (elementZone.Zone != null)
 				{
 					if (elementZone.Zone.ZoneType == ZoneType.Fire)
@@ -284,7 +256,7 @@ namespace PlansModule.Designer
 				}
 			}
 
-			if (elementBase is ElementDevice)
+			if (designerItem.ElementBase is ElementDevice)
 				Panel.SetZIndex(designerItem, 5 * bigConstatnt);
 		}
 
@@ -378,25 +350,19 @@ namespace PlansModule.Designer
 		{
 			Width = Plan.Width;
 			Height = Plan.Height;
-
 			Background = new SolidColorBrush(Plan.BackgroundColor);
-
 			if (Plan.BackgroundPixels != null)
-			{
 				Background = PlanElementsHelper.CreateBrush(Plan.BackgroundPixels);
-			}
 		}
 
 		public List<ElementBase> CloneSelectedElements()
 		{
 			initialElements = new List<ElementBase>();
-
 			foreach (var designerItem in SelectedItems)
 			{
 				designerItem.SavePropertiesToElementBase();
 				initialElements.Add(designerItem.ElementBase.Clone());
 			}
-
 			return initialElements;
 		}
 
@@ -404,7 +370,6 @@ namespace PlansModule.Designer
 		{
 			initialElements = CloneSelectedElements();
 		}
-
 		public void EndChange()
 		{
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
@@ -413,14 +378,10 @@ namespace PlansModule.Designer
 		public void UpdateZoom()
 		{
 			foreach (DesignerItem designerItem in this.SelectedItems)
-			{
 				designerItem.UpdateZoom();
-			}
 
 			foreach (DesignerItem designerItem in this.Items)
-			{
 				designerItem.UpdateZoomDevice();
-			}
 		}
 	}
 }
