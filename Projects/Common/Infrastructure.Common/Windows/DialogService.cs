@@ -17,12 +17,13 @@ namespace Infrastructure.Common.Windows
 				return (Window)Application.Current.Dispatcher.Invoke((Func<Window>)GetActiveWindow);
 			return Application.Current.Windows.Cast<Window>().SingleOrDefault(x => x.IsActive);
 		}
-
-		public static bool ShowModalWindow(WindowBaseViewModel model)
+		
+		public static bool ShowModalWindow(WindowBaseViewModel model, bool allowsTransparency = true)
 		{
 			try
 			{
 				WindowBaseView win = new WindowBaseView(model);
+				win.AllowsTransparency = allowsTransparency;
 				PrepareWindow(model);
 				bool? result = win.ShowDialog();
 				return result.HasValue ? result.Value : false;

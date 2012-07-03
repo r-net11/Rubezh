@@ -14,24 +14,17 @@
         <FeatureRef Id="FAFeatureBasic" />
         <FeatureRef Id="FMFeatureBasic" />
         <ComponentRef Id="DeleteGKXMLSetting" />
-        <ComponentRef Id="ChangeXMLSettings"/>
-        <!--<Feature Id="VideoModule" Level="1">
-          <Condition Level="0">INSTALLLEVEL=4</Condition>
-          <FeatureRef Id="FAFeatureVideo" />
-          <ComponentRef Id="DeleteVideoXMLSetting" />
-        </Feature>
-        <Feature Id="GKModule" Level="1">
-          <Condition Level="0">INSTALLLEVEL=5</Condition> 
-          <FeatureRef Id="FAFeatureGK" />
-          <FeatureRef Id="FMFeatureGK" />
-          <ComponentRef Id="DeleteGKXMLSetting" />
-        </Feature>-->
+        <ComponentRef Id="DeleteOPCXMLSetting" />
+        <ComponentRef Id="DeleteVideoXMLSetting" />
+        <ComponentRef Id="DeleteSKUDXMLSetting" />
         <ComponentRef Id="ClearOnUninstallFireAdministrator"/>
         <ComponentRef Id="ClearOnUninstallFireMonitor"/>
       </Feature>
+      <ComponentRef Id="LogScript"/>
       <ComponentRef Id="DesktopFolder"/>
       <ComponentRef Id="ProgramMenuDir"/>
       <ComponentRef Id="FiresecProgramsMenuShortcutUninstall"/>
+      <ComponentRef Id="ClearOnUninstallLogs" />
     </Feature>
   </Fragment>
 </Wix>

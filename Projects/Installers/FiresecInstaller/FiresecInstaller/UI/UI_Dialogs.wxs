@@ -133,8 +133,9 @@
         <Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор дополнительных модулей" TabSkip="yes" Transparent="yes" />
         <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие дополнительные модули должны быть установлены?" TabSkip="yes" Transparent="yes" />
         <Control Id="GKModule" Type="CheckBox" Height="18" Width="295" X="26" Y="58" Text="Групповой контроллер" Property="GK_MODULE" CheckBoxValue="1" />
-        <!--<Control Id="VideoModule" Type="CheckBox" Height="18" Width="295" X="26" Y="79" Text="Видео" Property="VIDEO_MODULE" CheckBoxValue="1" />-->
-        <!--<Control Id="GKModule" Type="CheckBox" Height="18" Width="295" X="26" Y="79" Text="Групповой контроллер" Property="GK_MODULE" CheckBoxValue="1" />-->
+        <Control Id="OPCModule" Type="CheckBox" Height="18" Width="295" X="26" Y="78" Text="Модуль OPC" Property="OPC_MODULE" CheckBoxValue="1" />
+        <Control Id="SkudModule" Type="CheckBox" Height="18" Width="295" X="26" Y="98" Text="Модуль СКУД" Property="SKUD_MODULE" CheckBoxValue="1" />
+        <Control Id="VideoModule" Type="CheckBox" Height="18" Width="295" X="26" Y="118" Text="Видео-модуль" Property="VIDEO_MODULE" CheckBoxValue="1" />
         <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
         <Control Id="Branding1" Type="Text" X="21" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
         <Control Id="Branding2" Type="Text" X="20" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />

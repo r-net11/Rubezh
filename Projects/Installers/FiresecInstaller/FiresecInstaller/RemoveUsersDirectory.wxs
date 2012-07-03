@@ -31,6 +31,7 @@
 				<RemoveFolder Id="RemoveFireMonLogsFolderLocation" On="uninstall" Directory="FireMonLogsFolder"/>
         <RemoveFile Id="RemoveFireMonShell" On="uninstall" Name="*.*" Directory="ShellFolder"/>
         <RemoveFolder Id="RemoveFireMonShellFolderLocation" On="uninstall" Directory="ShellFolder"/>
+        <RemoveFile Id="RemoveFileMonitor" On="uninstall" Name="*.*" Directory="FIREMONITORLOCATION"/>
 				<RemoveFolder Id="RemoveFireMonitorLocation" On="uninstall" Directory="FIREMONITORLOCATION"/>
 			</Component>
 
@@ -47,6 +48,7 @@
 				<RemoveFolder Id="RemoveFireAdmConfigLocation" On="uninstall" Directory="FireAdmConfigFolder" />
 				<RemoveFile Id="RemoveFireAdmLogs" On="uninstall" Name="*.*" Directory="FireAdmLogsFolder"/>
 				<RemoveFolder Id="RemoveFireAdmLogsFolderLocation" On="uninstall" Directory="FireAdmLogsFolder"/>
+        <RemoveFile Id="RemoveFireAdm" On="uninstall" Name="*.*" Directory="FIREADMINISTRATORLOCATION" />
 				<RemoveFolder Id="RemoveFireAdmLocation" On="uninstall" Directory="FIREADMINISTRATORLOCATION" />
 			</Component>
 
@@ -60,8 +62,15 @@
 				<RemoveFolder Id="RemoveFSConfigLocation" On="uninstall" Directory="FiresecServiceConfigFolder" />
 				<RemoveFile Id="RemoveFiresecServiceLogs" On="uninstall" Name="*.*" Directory="FiresecServiceLogsFolder"/>
 				<RemoveFolder Id="RemoveFiresecServiceLogsFolderLocation" On="uninstall" Directory="FiresecServiceLogsFolder"/>
+        <RemoveFile Id="RemoveFiresecService" On="uninstall" Name="*.*" Directory="FIRESECSERVICELOCATION" />
 				<RemoveFolder Id="FiresecServiceRemove" On="uninstall" Directory="FIRESECSERVICELOCATION"/>
 			</Component>
+
+      <Component Id="ClearOnUninstallLogs" Guid="F38130A4-4C61-44EF-B02D-DEE89E42E5AA">
+        <CreateFolder Directory="INSTALLLOCATION" />
+        <RemoveFile Id="RemoveLogs" On="uninstall" Name="*.*" Directory="LOGS" />
+        <RemoveFolder Id="RemoveLogsFolder" On="uninstall" Directory="LOGS"/>
+      </Component>
 		</DirectoryRef>
 	</Fragment>
 </Wix>
