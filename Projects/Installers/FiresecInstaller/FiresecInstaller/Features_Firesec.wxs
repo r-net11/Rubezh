@@ -11,15 +11,20 @@
         <ComponentRef Id="ClearOnUninstallFiresecService"/>
       </Feature>
       <Feature Id="FiresecClient" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
-        <FeatureRef Id="FireAdministratorFeature" />
-        <FeatureRef Id="FireMonitorFeature" />
-        <ComponentRef Id="ChangeXMLSettings"/>
+        <FeatureRef Id="FAFeatureBasic" />
+        <FeatureRef Id="FMFeatureBasic" />
+        <ComponentRef Id="DeleteGKXMLSetting" />
+        <ComponentRef Id="DeleteOPCXMLSetting" />
+        <ComponentRef Id="DeleteVideoXMLSetting" />
+        <ComponentRef Id="DeleteSKUDXMLSetting" />
         <ComponentRef Id="ClearOnUninstallFireAdministrator"/>
         <ComponentRef Id="ClearOnUninstallFireMonitor"/>
       </Feature>
+      <ComponentRef Id="LogScript"/>
       <ComponentRef Id="DesktopFolder"/>
       <ComponentRef Id="ProgramMenuDir"/>
       <ComponentRef Id="FiresecProgramsMenuShortcutUninstall"/>
+      <ComponentRef Id="ClearOnUninstallLogs" />
     </Feature>
   </Fragment>
 </Wix>

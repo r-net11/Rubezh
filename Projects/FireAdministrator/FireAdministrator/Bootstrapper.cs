@@ -23,7 +23,7 @@ namespace FireAdministrator
 			{
 				LoadingService.Show("Чтение конфигурации", 4);
 				LoadingService.AddCount(GetModuleCount());
-				LoadingService.DoStep("Полчучение списка драйверов с сервера");
+				LoadingService.DoStep("Получение списка драйверов с сервера");
 				FiresecManager.GetConfiguration();
 				if (FiresecManager.Drivers.Count == 0)
 				{

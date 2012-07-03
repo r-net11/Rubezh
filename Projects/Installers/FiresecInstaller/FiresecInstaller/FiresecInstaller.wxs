@@ -19,6 +19,11 @@
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
     <Property Id="SHORTCUT_PROGRAMMENU" Value="1"/>
     <Property Id="SHORTCUT_DESKTOP" Value="1"/>
+    <Property Id="GENERAL_MODULE" Value="1" />
+    <Property Id="GK_MODULE" Value="1" />
+    <Property Id="OPC_MODULE" Value="1" />
+    <Property Id="SKUD_MODULE" Value="1" />
+    <Property Id="VIDEO_MODULE" Value="1" />
     <Property Id="CHECKSQLSERVER" Value="0" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
     <Property Id="INSTALLLEVEL" Value="1" />
@@ -63,7 +68,8 @@
               <Directory Id="FireMonSoundsFolder" Name="$(var.SoundsFolder)" />
               <Directory Id="FireMonReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
             </Directory>
-          </Directory>          
+          </Directory>
+          <Directory Id="LOGS" Name="Logs" />
         </Directory>
       </Directory>
       <!--Пуск\Программы\FiresecService-->

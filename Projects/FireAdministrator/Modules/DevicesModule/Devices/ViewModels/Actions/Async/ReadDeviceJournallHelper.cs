@@ -32,7 +32,7 @@ namespace DevicesModule.ViewModels
 				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
                 return;
             }
-			DialogService.ShowModalWindow(new DeviceJournalViewModel(_operationResult.Result));
+			DialogService.ShowModalWindow(new DeviceJournalViewModel(_operationResult.Result), false);
         }
     }
 }

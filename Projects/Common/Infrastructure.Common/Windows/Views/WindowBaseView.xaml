@@ -18,7 +18,8 @@
 		Loaded="Window_Loaded"
 		Unloaded="Window_Unloaded"
         Height="100"
-        Width="100">
+        Width="100"
+        >
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="5"/>
@@ -34,7 +35,8 @@
 			<ColumnDefinition Width="5"/>
 			<ColumnDefinition Width="5"/>
 		</Grid.ColumnDefinitions>
-		<Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="1" CornerRadius="11" Background="{DynamicResource WindowBlackBackgroundBrush}">
+		<Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="1" CornerRadius="11" 
+                Background="{DynamicResource WindowBlackBackgroundBrush}">
 			<Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
 				<ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource HierarhicalDataTemplateSelector}"/>
 			</Border>

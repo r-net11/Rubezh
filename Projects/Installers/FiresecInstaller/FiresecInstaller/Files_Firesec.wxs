@@ -3,25 +3,44 @@
 		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
 		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
 	<Fragment>
-		<DirectoryRef Id="FIREADMINISTRATORLOCATION">
-			<Component Id="ChangeXMLSettings" Guid="218643AE-C10B-46B7-B363-22DD8DDC89BF">
-				<CreateFolder Directory="FIREADMINISTRATORLOCATION" />
-        <util:XmlConfig Id="XmlFASettings" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
-                        ElementPath="//configuration/modules" On="install" 
+		<DirectoryRef Id="INSTALLLOCATION">
+      <Component Id="DeleteGKXMLSetting" Guid="FD7F5684-1249-4AE8-9ABD-71349815595C">
+        <CreateFolder Directory="INSTALLLOCATION" />
+        <util:XmlConfig Id="XmlFASettingsGK" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+                        ElementPath="//configuration/modules" On="install"
                         VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]"
 											/>
-        <util:XmlConfig Id="XmlFASettings2" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="XmlFASettingsGK2" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
+                        ElementPath="//configuration/modules" On="install"
+                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]"
+											/>
+        <Condition>NOT GK_MODULE</Condition>
+      </Component>
+      
+      <Component Id="DeleteOPCXMLSetting" Guid="71455B3E-E78E-47DA-A4BA-04AC68C5813F">
+        <CreateFolder Directory="INSTALLLOCATION" />
+        <util:XmlConfig Id="XmlFASettingsOPC" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+                        ElementPath="//configuration/modules" On="install"
+                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='OPCModule.dll'[\]]"
+											/>
+        <Condition>NOT OPC_MODULE</Condition>
+      </Component>
+      <Component Id="DeleteSKUDXMLSetting" Guid="A6ECBE97-C5C9-4AB0-80DB-AD0492788AED">
+        <CreateFolder Directory="INSTALLLOCATION" />
+        <util:XmlConfig Id="XmlFASettingsSKUD" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
                         ElementPath="//configuration/modules" On="install"
                         VerifyPath="//configuration/modules/module[\[]@assemblyFile='SkudModule.dll'[\]]"
 											/>
-			</Component>
-			<!--<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
-				<CreateFolder Directory="FIRESECSERVICELOCATION" />
-				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
-												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="no"  ContinueOnError="yes">
-					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDBSql" ExecuteOnInstall="yes" ContinueOnError="yes"/>
-				</sql:SqlDatabase>
-			</Component>-->
+        <Condition>NOT SKUD_MODULE</Condition>
+      </Component>
+      <Component Id="DeleteVideoXMLSetting" Guid="A2E8D21A-9BA1-4C4B-9FCC-4B34EE34EDF2">
+        <CreateFolder Directory="INSTALLLOCATION" />
+        <util:XmlConfig Id="XmlFASettingsVIDEO" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+                        ElementPath="//configuration/modules" On="install"
+                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='VideoModule.dll'[\]]"
+											/>
+        <Condition>NOT VIDEO_MODULE</Condition>
+      </Component>
 		</DirectoryRef>
 		
 		<DirectoryRef Id="ProgramMenuDir">
@@ -33,6 +52,18 @@
 			</Component>
 		</DirectoryRef>
 
-    
+    <DirectoryRef Id="LOGS">
+      <Component Id="LogScript" Guid="959A3A9D-A340-483B-A95A-E29BC7D00DD4">
+        <File Id="CopyLogs" Name="CopyLogs.bat" Source="Data\" DiskId="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
 	</Fragment>
 </Wix>
+
+<!--<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
+				<CreateFolder Directory="FIRESECSERVICELOCATION" />
+				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
+												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="no"  ContinueOnError="yes">
+					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDBSql" ExecuteOnInstall="yes" ContinueOnError="yes"/>
+				</sql:SqlDatabase>
+			</Component>-->

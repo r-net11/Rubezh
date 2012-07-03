@@ -5,7 +5,7 @@
   <Fragment>
     <DirectoryRef Id="DesktopFolder">
       <Component Id="FMDesktopShortcut" Guid="33C7F674-40B2-44A9-8703-1C43367C8BA5">
-        <Shortcut Id="FMDesktopShortcut" Name="Оперативная задача" Target="[FIREMONITORLOCATION]$(var.FireMonitor.TargetFileName)"
+        <Shortcut Id="FMDesktopShortcut" Name="Оперативная задача ОПС 'FireSec-2'" Target="[FIREMONITORLOCATION]$(var.FireMonitor.TargetFileName)"
                   WorkingDirectory="FIREMONITORLOCATION" Description="Запускает $(var.FireMonitorName)" Icon="FireMonitorIcon"/>
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.FireMonitorName)" Name="Shortcut" Type="integer"
                        Value="1" KeyPath="yes" />
@@ -16,7 +16,7 @@
     <DirectoryRef Id="ProgramMenuDir">
       <!--Ярлык для запуска программы-->
       <Component Id="FMProgramsMenuShortcut" Guid="91C890F9-F024-4FBB-B11B-C5944EA72A82">
-        <Shortcut Id="FMRunProduct" Name="Оперативная задача" Target="[FIREMONITORLOCATION]$(var.FireMonitor.TargetFileName)"
+        <Shortcut Id="FMRunProduct" Name="Оперативная задача ОПС 'FireSec-2'" Target="[FIREMONITORLOCATION]$(var.FireMonitor.TargetFileName)"
                   WorkingDirectory="FIREMONITORLOCATION" Description="Запускает $(var.FireMonitorName)" Icon="FireMonitorIcon"/>
         <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.FireMonitorName)" Name="installed" Type="integer"
                        Value="1" KeyPath="yes" />

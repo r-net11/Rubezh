@@ -74,12 +74,12 @@ namespace Firesec
 			return SafeCall<bool>(() => { Connectoin.ResetStates(states); return true; });
 		}
 
-		int ReguestId = 0;
+		int ReguestId = 1;
 
 		public FiresecOperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, int reguestId)
 		{
-			//return null;
-			return SafeCall<string>(() => { Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, reguestId++); return null; });
+			var result = SafeCall<string>(() => { return Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, reguestId++); });
+			return result;
 		}
 
 		public FiresecOperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
@@ -89,14 +89,22 @@ namespace Firesec
 
 		public FiresecOperationResult<string> GetConfigurationParameters(string devicePath, int paramNo)
 		{
-			//return null;
 			return SafeCall<string>(() =>
 			{
 				ReguestId += 1;
 				var result1 = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "Device$ReadSimpleParam", paramNo.ToString(), ReguestId);
-				Thread.Sleep(TimeSpan.FromMinutes(2));
+				Thread.Sleep(TimeSpan.FromSeconds(1));
 				var result = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "StateConfigQueries", null, 0);
-				//var result2 = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "ClearAllQueries", null, reguestId);
+				return result;
+			});
+		}
+
+		public FiresecOperationResult<string> SetConfigurationParameters(string devicePath, string paramValues)
+		{
+			return SafeCall<string>(() =>
+			{
+				ReguestId += 1;
+				var result = Connectoin.ExecuteRuntimeDeviceMethod(devicePath, "Device$WriteSimpleParam", paramValues, ReguestId);
 				return result;
 			});
 		}

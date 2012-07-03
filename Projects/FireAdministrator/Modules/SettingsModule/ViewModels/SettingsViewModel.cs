@@ -8,6 +8,9 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SettingsModule.Views;
+using DevicesModule.ViewModels;
+using System.IO;
+using System;
 
 namespace SettingsModule.ViewModels
 {

@@ -105,46 +105,56 @@
         <File Id="FAFiltersModuleDll" Name="FiltersModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="OPCModuleComponent" Guid="3ECB565D-802D-4A37-83B2-C05AE8774677">
-        <File Id="OPCModuleDll" Name="OPCModule.dll" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" KeyPath="yes" />
-      </Component>
-      <!--<Component Id="FAGroupControllerModuleComponent" Guid="68DE1B95-D3B3-47AD-855B-E11A2BB1D349">
-        <File Id="FAGroupControllerModuleDll" Name="GKModule.dll" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" KeyPath="yes" />
-      </Component>-->
-      <Component Id="FAVideoModuleComponent" Guid="FBA8AC05-19F8-4FD6-826E-AD656C84B801">
-        <File Id="FAVideoModuleDll" Name="VideoModule.dll" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" KeyPath="yes" />
-      </Component>
-      <Component Id="FAVlcCoreComponent" Guid="BBB6B974-2CDA-4026-9592-5371C606C258">
-        <File Id="FAVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" KeyPath="yes" />
-      </Component>
-      <Component Id="FAVlcFormsComponent" Guid="93AE30C7-93DB-49CD-9F11-F229F24549C9">
-        <File Id="FAVlcFormsDll" Name="Vlc.DotNet.Forms.dll" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" KeyPath="yes" />
-      </Component>
-      <Component Id="FAVlcInteropsComponent" Guid="43518E85-7C68-4EBD-887E-3D53C1C381B1">
-        <File Id="FAVlcInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" KeyPath="yes" />
-      </Component>
-
+      
       <Component Id="FANLogComponent" Guid="77C3A59F-464F-4052-9A62-7DDB917DBDD6">
         <File Id="FANLogDll" Name="NLog.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-
-      <!--<Component Id="FASkudModuleComponent" Guid="05A9A5F1-AB12-4685-A070-F165F1F0B82A">
-        <File Id="FASkudModuleDll" Name="SkudModule.dll" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" KeyPath="yes" />
-      </Component>-->
-
       <Component Id="FAManualComponent" Guid="4A21BBFD-9D0D-4AC7-A89F-80759B5FFFC5">
         <File Id="FAManualPDF" Name="Manual.pdf" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
+
+    <DirectoryRef Id="FIREADMINISTRATORLOCATION">
+      <Component Id="FAGKModuleComponent" Guid="68DE1B95-D3B3-47AD-855B-E11A2BB1D349">
+        <File Id="FAGroupControllerModuleDll" Name="GKModule.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+        <Condition>GK_MODULE</Condition>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="FIREADMINISTRATORLOCATION">
+      <Component Id="OPCModuleComponent" Guid="3ECB565D-802D-4A37-83B2-C05AE8774677">
+        <File Id="OPCModuleDll" Name="OPCModule.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+        <Condition>OPC_MODULE</Condition>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="FIREADMINISTRATORLOCATION">
+      <Component Id="FASkudModuleComponent" Guid="05A9A5F1-AB12-4685-A070-F165F1F0B82A">
+        <File Id="FASkudModuleDll" Name="SkudModule.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+        <Condition>SKUD_MODULE</Condition>
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="FIREADMINISTRATORLOCATION">
+      <Component Id="FAVideoModuleComponent" Guid="FBA8AC05-19F8-4FD6-826E-AD656C84B801">
+        <File Id="FAVideoModuleDll" Name="VideoModule.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+        <File Id="FAVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" />
+        <File Id="FAVlcFormsDll" Name="Vlc.DotNet.Forms.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" />
+        <File Id="FAVlcInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" />
+        <Condition>VIDEO_MODULE</Condition>
+      </Component>
+    </DirectoryRef>
+
+    
 
     <DirectoryRef Id="FireAdmXslFilesFolder">
       <Component Id="XslFiles1" Guid="7D3DEE7F-2E4B-4C4E-8B31-952A85D54538">

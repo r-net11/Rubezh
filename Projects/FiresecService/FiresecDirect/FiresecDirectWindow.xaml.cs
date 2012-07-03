@@ -146,5 +146,23 @@ namespace FiresecDirect
 			else
 				MessageBox.Show("Result:" + result.Result);
 		}
+
+		private void OnGetConfigurationParameters(object sender, RoutedEventArgs e)
+		{
+			var result = NativeFiresecClient.GetConfigurationParameters(Execute1_devicePath.Text, int.Parse(Execute1_AParams.Text));
+			if (result.HasError)
+				MessageBox.Show("Error:" + result.ErrorString);
+			else
+				MessageBox.Show("Result:" + result.Result);
+		}
+
+		private void OnSetConfigurationParameters(object sender, RoutedEventArgs e)
+		{
+			var result = NativeFiresecClient.SetConfigurationParameters(Execute1_devicePath.Text, Execute1_AParams.Text);
+			if (result.HasError)
+				MessageBox.Show("Error:" + result.ErrorString);
+			else
+				MessageBox.Show("Result:" + result.Result);
+		}
 	}
 }
