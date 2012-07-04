@@ -16,7 +16,6 @@ namespace ReportsModule.Reports
 
 		public override void LoadCrystalReportDocument(ReportDocument reportDocument)
         {
-            //reportDocument.Load(FileHelper.GetReportFilePath(ReportFileName));
 			reportDocument.FileName = FileHelper.GetReportFilePath(ReportFileName);
             reportDocument.SetDataSource(DataList);
         }

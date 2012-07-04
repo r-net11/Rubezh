@@ -13,6 +13,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using JournalModule.ViewModels;
 using ReportsModule.Reports;
 using SAPBusinessObjects.WPF.Viewer;
+using System.Windows;
 
 namespace ReportsModule.ViewModels
 {
