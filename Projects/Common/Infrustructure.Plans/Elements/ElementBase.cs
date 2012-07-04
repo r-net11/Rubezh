@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Windows.Media;
+using System.Windows;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -11,8 +12,8 @@ namespace Infrustructure.Plans.Elements
 		{
 			UID = Guid.NewGuid();
 			BackgroundColor = Colors.White;
-			Color = Colors.Black;
-			Thickness = 1;
+			BorderColor = Colors.Black;
+			BorderThickness = 1;
 			BackgroundPixels = null;
 		}
 
@@ -21,13 +22,18 @@ namespace Infrustructure.Plans.Elements
 			get { return GetType().FullName; }
 		}
 
+		public ElementType Type { get; protected set; }
+
+		public abstract FrameworkElement Draw();
+		public abstract Rect Rectangle { get; }
+
 		[DataMember]
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public Color Color { get; set; }
+		public Color BorderColor { get; set; }
 		[DataMember]
-		public double Thickness { get; set; }
+		public double BorderThickness { get; set; }
 		[DataMember]
 		public Color BackgroundColor { get; set; }
 		[DataMember]
@@ -38,8 +44,8 @@ namespace Infrustructure.Plans.Elements
 		protected virtual void Copy(ElementBase element)
 		{
 			element.UID = UID;
-			element.Color = Color;
-			element.Thickness = Thickness;
+			element.BorderColor = BorderColor;
+			element.BorderThickness = BorderThickness;
 			element.BackgroundColor = BackgroundColor;
 			element.BackgroundPixels = BackgroundPixels;
 		}

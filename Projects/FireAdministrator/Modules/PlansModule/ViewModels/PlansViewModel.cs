@@ -43,9 +43,7 @@ namespace PlansModule.ViewModels
 		{
 			Plans = new ObservableCollection<PlanViewModel>();
 			foreach (var plan in FiresecManager.PlansConfiguration.Plans)
-			{
 				AddPlan(plan, null);
-			}
 
 			for (int i = 0; i < Plans.Count; i++)
 			{
@@ -55,9 +53,7 @@ namespace PlansModule.ViewModels
 
 			SelectedPlan = null;
 			if (Plans.Count > 0)
-			{
 				SelectedPlan = Plans[0];
-			}
 		}
 
 		PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
@@ -112,20 +108,15 @@ namespace PlansModule.ViewModels
 			get { return _selectedPlan; }
 			set
 			{
-				if (_selectedPlan == value)
+				if (SelectedPlan == value)
 					return;
 				_selectedPlan = value;
 				OnPropertyChanged("SelectedPlan");
 
 				PlanDesignerViewModel.Save();
-
+				PlanDesignerViewModel.Initialize(value == null ? null : value.Plan);
 				if (value != null)
-				{
-					PlanDesignerViewModel.ChangeZoom(1);
-					PlanDesignerViewModel.Initialize(value.Plan);
-					//PlanDesignerViewModel.UpdateDeviceInZones();
 					ElementsViewModel.Update();
-				}
 				ResetHistory();
 			}
 		}
@@ -247,12 +238,12 @@ namespace PlansModule.ViewModels
 			{
 				foreach (var elementDevice in plan.Plan.ElementDevices)
 				{
-					if (elementDevice.UID == deviceUID)
-					{
-						SelectedPlan = plan;
-						OnShowElement(deviceUID);
-						return;
-					}
+					//if (elementDevice.UID == deviceUID)
+					//{
+					//    SelectedPlan = plan;
+					//    OnShowElement(deviceUID);
+					//    return;
+					//}
 				}
 			}
 		}

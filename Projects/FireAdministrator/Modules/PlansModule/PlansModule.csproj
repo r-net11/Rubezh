@@ -101,6 +101,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Designer\Designer\DesignerItem2.cs" />
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\Designer\DesignerItem.cs" />
     <Compile Include="Designer\Designer\IResizeChromeBase.cs" />

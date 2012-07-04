@@ -2,11 +2,12 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementRectangleZone : ElementBase, IElementZone
+	public class ElementRectangleZone : ElementBaseRectangle, IElementZone
 	{
 		public Zone Zone { get; set; }
 

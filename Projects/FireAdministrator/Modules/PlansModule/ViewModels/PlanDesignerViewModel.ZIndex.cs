@@ -29,7 +29,7 @@ namespace PlansModule.ViewModels
             int maxZIndex = 0;
             foreach (var designerItem in DesignerCanvas.Items)
             {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+				IElementZIndex iZIndexedElement = designerItem.ElementBase as IElementZIndex;
                 if (iZIndexedElement != null)
                 {
                     maxZIndex = System.Math.Max(iZIndexedElement.ZIndex, maxZIndex);
@@ -38,7 +38,7 @@ namespace PlansModule.ViewModels
 
             foreach (var designerItem in DesignerCanvas.SelectedItems)
             {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+				IElementZIndex iZIndexedElement = designerItem.ElementBase as IElementZIndex;
                 if (iZIndexedElement != null)
                 {
                     iZIndexedElement.ZIndex = maxZIndex + 1;
@@ -55,7 +55,7 @@ namespace PlansModule.ViewModels
             int minZIndex = 0;
             foreach (var designerItem in DesignerCanvas.Items)
             {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+				IElementZIndex iZIndexedElement = designerItem.ElementBase as IElementZIndex;
                 if (iZIndexedElement != null)
                 {
                     minZIndex = System.Math.Min(iZIndexedElement.ZIndex, minZIndex);
@@ -64,7 +64,7 @@ namespace PlansModule.ViewModels
 
             foreach (var designerItem in DesignerCanvas.SelectedItems)
             {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+				IElementZIndex iZIndexedElement = designerItem.ElementBase as IElementZIndex;
                 if (iZIndexedElement != null)
                 {
                     iZIndexedElement.ZIndex = minZIndex - 1;
@@ -80,7 +80,7 @@ namespace PlansModule.ViewModels
         {
             foreach (var designerItem in DesignerCanvas.SelectedItems)
             {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+				IElementZIndex iZIndexedElement = designerItem.ElementBase as IElementZIndex;
                 if (iZIndexedElement != null)
                 {
                     iZIndexedElement.ZIndex++;
@@ -96,7 +96,7 @@ namespace PlansModule.ViewModels
         {
             foreach (var designerItem in DesignerCanvas.SelectedItems)
             {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+				IElementZIndex iZIndexedElement = designerItem.ElementBase as IElementZIndex;
                 if (iZIndexedElement != null)
                 {
                     iZIndexedElement.ZIndex--;
@@ -115,7 +115,7 @@ namespace PlansModule.ViewModels
                 int minZIndex = 300000;
                 foreach (var designerItem in DesignerCanvas.Items)
                 {
-                    IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+					IElementZIndex iZIndexedElement = designerItem.ElementBase as IElementZIndex;
                     if (iZIndexedElement != null)
                     {
                         minZIndex = System.Math.Min(iZIndexedElement.ZIndex, minZIndex);
@@ -127,7 +127,7 @@ namespace PlansModule.ViewModels
 
                 foreach (var designerItem in DesignerCanvas.Items)
                 {
-                    IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+					IElementZIndex iZIndexedElement = designerItem.ElementBase as IElementZIndex;
                     if (iZIndexedElement != null)
                     {
                         if (iZIndexedElement.ZIndex == minZIndex)
@@ -142,7 +142,7 @@ namespace PlansModule.ViewModels
 
             foreach (var designerItem in DesignerCanvas.Items)
             {
-                IZIndexedElement iZIndexedElement = designerItem.ElementBase as IZIndexedElement;
+				IElementZIndex iZIndexedElement = designerItem.ElementBase as IElementZIndex;
                 if (iZIndexedElement != null)
                 {
                     iZIndexedElement.ZIndex -= 3000000;

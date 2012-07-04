@@ -33,6 +33,65 @@
 							<loc:ResizeDecoratorPolygon x:Name="PART_ResizeDecoratorPolygon" Visibility="Collapsed" />
 							<loc:ResizeDecoratorPolyline x:Name="PART_ResizeDecoratorPolyline" Visibility="Collapsed" />
 						</Grid>
+						<ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding DataContext}" />
+						<Grid.ContextMenu>
+							<ContextMenu>
+								<MenuItem Command="{Binding AddPointCommand}" Header="Добавить точку" Visibility="{Binding IsPolygon, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<MenuItem Command="{Binding AddPointCommand}" Header="Добавить точку" Visibility="{Binding IsPolyline, Converter={StaticResource BoolToVisibilityConverter}}" />
+								<MenuItem Command="{Binding DeleteCommand}" Header="Удалить" />
+								<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
+							</ContextMenu>
+						</Grid.ContextMenu>
+					</Grid>
+
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsSelectable" Value="False">
+							<Setter TargetName="PART_Adorners" Property="Visibility" Value="Collapsed" />
+						</Trigger>
+						<Trigger Property="IsSelected" Value="True">
+							<Setter TargetName="PART_ResizeDecoratorRectangle" Property="ShowDecorator" Value="True" />
+							<Setter TargetName="PART_ResizeDecoratorPolygon" Property="ShowDecorator" Value="True" />
+							<Setter TargetName="PART_ResizeDecoratorPolyline" Property="ShowDecorator" Value="True" />
+						</Trigger>
+						<!--<Trigger Property="IsPolygon" Value="True">
+							<Setter TargetName="PART_ResizeDecoratorRectangle" Property="Visibility" Value="Collapsed" />
+							<Setter TargetName="PART_MoveThumbRectangle" Property="Visibility" Value="Collapsed" />
+
+							<Setter TargetName="PART_ResizeDecoratorPolygon" Property="Visibility" Value="Visible" />
+							<Setter TargetName="PART_MoveThumbRectanglePolygon" Property="Visibility" Value="Visible" />
+
+							<Setter TargetName="PART_ResizeDecoratorPolyline" Property="Visibility" Value="Collapsed" />
+							<Setter TargetName="PART_MoveThumbRectanglePolyline" Property="Visibility" Value="Collapsed" />
+						</Trigger>
+						<Trigger Property="IsPolyline" Value="True">
+							<Setter TargetName="PART_ResizeDecoratorRectangle" Property="Visibility" Value="Collapsed" />
+							<Setter TargetName="PART_MoveThumbRectangle" Property="Visibility" Value="Collapsed" />
+
+							<Setter TargetName="PART_ResizeDecoratorPolygon" Property="Visibility" Value="Collapsed" />
+							<Setter TargetName="PART_MoveThumbRectanglePolygon" Property="Visibility" Value="Collapsed" />
+
+							<Setter TargetName="PART_ResizeDecoratorPolyline" Property="Visibility" Value="Visible" />
+							<Setter TargetName="PART_MoveThumbRectanglePolyline" Property="Visibility" Value="Visible" />
+						</Trigger>-->
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	<!--<Style TargetType="{x:Type loc:_DesignerItem}">
+		<Setter Property="SnapsToDevicePixels" Value="true" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type loc:DesignerItem}">
+					<Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}">
+						<Grid Name="PART_Adorners">
+							<loc:MoveThumb x:Name="PART_MoveThumbRectangle" Cursor="SizeAll" Template="{StaticResource MoveThumbRectangleTemplate}" Visibility="Visible" />
+							<loc:MoveThumb x:Name="PART_MoveThumbRectanglePolygon" Cursor="SizeAll" Template="{StaticResource MoveThumbPolygonTemplate}" Visibility="Collapsed" />
+							<loc:MoveThumb x:Name="PART_MoveThumbRectanglePolyline" Cursor="SizeAll" Template="{StaticResource MoveThumbPolylineTemplate}" Visibility="Collapsed" />
+							<loc:ResizeDecoratorRectangle x:Name="PART_ResizeDecoratorRectangle" Visibility="Visible" />
+							<loc:ResizeDecoratorPolygon x:Name="PART_ResizeDecoratorPolygon" Visibility="Collapsed" />
+							<loc:ResizeDecoratorPolyline x:Name="PART_ResizeDecoratorPolyline" Visibility="Collapsed" />
+						</Grid>
 						<ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding ContentControl.Content}" />
 						<Grid.ContextMenu>
 							<ContextMenu>
@@ -77,6 +136,6 @@
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
-	</Style>
+	</Style>-->
 
 </ResourceDictionary>

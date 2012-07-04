@@ -2,27 +2,22 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementPolyline : ElementBasePointCollection, IZIndexedElement
+	public class ElementPolyline : ElementBasePolyline, IElementZIndex
 	{
 		public ElementPolyline()
 		{
 			BackgroundColor = Colors.Black;
 			BorderThickness = 1;
 
-			PolygonPoints = new PointCollection();
-			PolygonPoints.Add(new Point(0, 0));
-			PolygonPoints.Add(new Point(100, 100));
+			Points = new PointCollection();
+			Points.Add(new Point(0, 0));
+			Points.Add(new Point(100, 100));
 		}
-
-		[DataMember]
-		public Color BackgroundColor { get; set; }
-
-		[DataMember]
-		public double BorderThickness { get; set; }
 
 		[DataMember]
 		public int ZIndex { get; set; }
@@ -31,7 +26,7 @@ namespace FiresecAPI.Models
 		{
 			var polyline = new Polyline()
 			{
-				Points = new PointCollection(PolygonPoints),
+				Points = new PointCollection(Points),
 				Stroke = new SolidColorBrush(BackgroundColor),
 				Fill = new SolidColorBrush(Colors.Transparent),
 				StrokeThickness = BorderThickness
@@ -46,7 +41,7 @@ namespace FiresecAPI.Models
 			{
 				BackgroundColor = BackgroundColor,
 				BorderThickness = BorderThickness,
-				PolygonPoints = PolygonPoints.Clone()
+				Points = Points.Clone()
 			};
 			Copy(elementLine);
 			return elementLine;

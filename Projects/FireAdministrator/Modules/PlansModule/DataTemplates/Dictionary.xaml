@@ -15,6 +15,10 @@
 		<Views:InstrumentView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:PlanDesignerViewModel}">
+		<Views:PlanDesignerView />
+	</DataTemplate>
+
 	<DataTemplate DataType="{x:Type ViewModels:PlansMenuViewModel}">
         <Views:PlansMenuView />
     </DataTemplate>

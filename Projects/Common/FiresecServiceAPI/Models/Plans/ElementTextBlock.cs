@@ -2,11 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementTextBlock : ElementBase, IZIndexedElement
+	public class ElementTextBlock : ElementBaseRectangle, IElementZIndex
 	{
 		public ElementTextBlock()
 		{
@@ -18,25 +19,12 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string Text { get; set; }
-
-		[DataMember]
-		public Color BackgroundColor { get; set; }
-
 		[DataMember]
 		public Color ForegroundColor { get; set; }
-
-		[DataMember]
-		public Color BorderColor { get; set; }
-
-		[DataMember]
-		public double BorderThickness { get; set; }
-
 		[DataMember]
 		public double FontSize { get; set; }
-
 		[DataMember]
 		public string FontFamilyName { get; set; }
-
 		[DataMember]
 		public bool Stretch { get; set; }
 

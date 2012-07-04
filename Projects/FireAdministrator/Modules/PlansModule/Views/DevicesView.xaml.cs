@@ -5,6 +5,7 @@ using System.Windows.Input;
 using FiresecAPI.Models;
 using FiresecClient;
 using PlansModule.ViewModels;
+using Infrustructure.Plans.Elements;
 
 namespace PlansModule.Views
 {

@@ -70,17 +70,17 @@ namespace PlansModule.Designer
             ellipses.Add(this.Template.FindName("PART_BottomLeftEllipse", this) as Ellipse);
             ellipses.Add(this.Template.FindName("PART_BottomRightEllipse", this) as Ellipse);
 
-            if (DesignerItem.IsDevice == false)
-            {
-                foreach (var resizeThumb in resizeThumbs)
-                {
-                    resizeThumb.InitializeDragEvents();
-                }
-                PART_TopThumb.InitializeDragEvents();
-                PART_LeftThumb.InitializeDragEvents();
-                PART_RightThumb.InitializeDragEvents();
-                PART_BottomThumb.InitializeDragEvents();
-            }
+			//if (DesignerItem.IsDevice == false)
+			//{
+			//    foreach (var resizeThumb in resizeThumbs)
+			//    {
+			//        resizeThumb.InitializeDragEvents();
+			//    }
+			//    PART_TopThumb.InitializeDragEvents();
+			//    PART_LeftThumb.InitializeDragEvents();
+			//    PART_RightThumb.InitializeDragEvents();
+			//    PART_BottomThumb.InitializeDragEvents();
+			//}
         }
 
         public void UpdateZoom()
@@ -101,7 +101,7 @@ namespace PlansModule.Designer
             {
                 resizeThumb.Width = 7 / zoom;
                 resizeThumb.Height = 7 / zoom;
-                resizeThumb.IsEnabled = !DesignerItem.IsDevice;
+                //resizeThumb.IsEnabled = !DesignerItem.IsDevice;
             }
 
             foreach (var ellipse in ellipses)

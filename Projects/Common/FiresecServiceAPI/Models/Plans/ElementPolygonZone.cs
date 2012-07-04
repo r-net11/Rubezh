@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models
 {
@@ -15,12 +16,12 @@ namespace FiresecAPI.Models
 
 		public override FrameworkElement Draw()
 		{
-			if (PolygonPoints == null)
+			if (Points == null)
 				return null;
 
 			var polygon = new Polygon()
 			{
-				Points = new PointCollection(PolygonPoints),
+				Points = new PointCollection(Points),
 				Fill = new SolidColorBrush(ElementZoneHelper.GetZoneColor(Zone)),
 				Stroke = new SolidColorBrush(Colors.Blue),
 				StrokeThickness = 1

@@ -2,11 +2,12 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementEllipse : ElementBase, IZIndexedElement
+	public class ElementEllipse : ElementBaseRectangle, IElementZIndex
 	{
 		public ElementEllipse()
 		{
@@ -14,18 +15,6 @@ namespace FiresecAPI.Models
 			BorderColor = Colors.Black;
 			BorderThickness = 1;
 		}
-
-		[DataMember]
-		public byte[] BackgroundPixels { get; set; }
-
-		[DataMember]
-		public Color BackgroundColor { get; set; }
-
-		[DataMember]
-		public Color BorderColor { get; set; }
-
-		[DataMember]
-		public double BorderThickness { get; set; }
 
 		[DataMember]
 		public int ZIndex { get; set; }

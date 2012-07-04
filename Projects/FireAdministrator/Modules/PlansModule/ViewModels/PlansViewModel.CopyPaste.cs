@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
 using PlansModule.Events;
 using PlansModule.Views;
+using Infrustructure.Plans.Elements;
 
 namespace PlansModule.ViewModels
 {
@@ -78,15 +79,15 @@ namespace PlansModule.ViewModels
             double maxBottom = 0;
             foreach (var elementBase in Buffer)
             {
-                minLeft = Math.Min(elementBase.Left, minLeft);
-                minTop = Math.Min(elementBase.Top, minTop);
-                maxRight = Math.Max(elementBase.Left + elementBase.Width, maxRight);
-                maxBottom = Math.Max(elementBase.Top + elementBase.Height, maxBottom);
+				//minLeft = Math.Min(elementBase.Left, minLeft);
+				//minTop = Math.Min(elementBase.Top, minTop);
+				//maxRight = Math.Max(elementBase.Left + elementBase.Width, maxRight);
+				//maxBottom = Math.Max(elementBase.Top + elementBase.Height, maxBottom);
             }
             foreach (var elementBase in Buffer)
             {
-                elementBase.Left = elementBase.Left - minLeft + PlanDesignerView.Current._scrollViewer.HorizontalOffset / PlanDesignerViewModel.Zoom;
-                elementBase.Top = elementBase.Top - minTop + PlanDesignerView.Current._scrollViewer.VerticalOffset / PlanDesignerViewModel.Zoom;
+				//elementBase.Left = elementBase.Left - minLeft + PlanDesignerView.Current._scrollViewer.HorizontalOffset / PlanDesignerViewModel.Zoom;
+				//elementBase.Top = elementBase.Top - minTop + PlanDesignerView.Current._scrollViewer.VerticalOffset / PlanDesignerViewModel.Zoom;
             }
             maxRight -= minLeft;
             maxBottom -= minTop;

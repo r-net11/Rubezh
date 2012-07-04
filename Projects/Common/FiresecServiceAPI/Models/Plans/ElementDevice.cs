@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Windows;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementDevice : ElementBase
+	public class ElementDevice : ElementBasePoint
 	{
 		public ElementDevice()
 		{
-			Width = 0;
-			Height = 0;
 			DeviceUID = Guid.Empty;
 		}
 

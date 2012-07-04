@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using System.Windows.Media;
+using System.Windows;
 
 namespace Infrustructure.Plans.Elements
 {
@@ -19,6 +20,29 @@ namespace Infrustructure.Plans.Elements
 		{
 			base.Copy(element);
 			element.Points = Points.Clone();
+		}
+		public override Rect Rectangle
+		{
+			get
+			{
+				double minLeft = double.MaxValue;
+				double minTop = double.MaxValue;
+				double maxLeft = 0;
+				double maxTop = 0;
+
+				foreach (var point in Points)
+				{
+					if (point.X < minLeft)
+						minLeft = point.X;
+					if (point.Y < minTop)
+						minTop = point.Y;
+					if (point.X > maxLeft)
+						maxLeft = point.X;
+					if (point.Y > maxTop)
+						maxTop = point.Y;
+				}
+				return new Rect(minLeft, minTop, maxLeft - minLeft, maxTop - minTop);
+			}
 		}
 	}
 }

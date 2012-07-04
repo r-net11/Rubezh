@@ -15,6 +15,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using PlansModule.Events;
 using PlansModule.ViewModels;
+using Infrustructure.Plans.Elements;
 
 namespace PlansModule.Designer
 {
@@ -125,16 +126,9 @@ namespace PlansModule.Designer
 			base.OnDrop(e);
 			var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
 
-			//if (elementBase is ElementDevice)
-			//{
-			//    double zoom = PlanDesignerViewModel.DeviceZoom / PlanDesignerViewModel.Zoom;
-			//    elementBase.Width = zoom;
-			//    elementBase.Height = zoom;
-			//}
-
 			Point position = e.GetPosition(this);
-			elementBase.Left = Math.Max(0, position.X - elementBase.Width / 2);
-			elementBase.Top = Math.Max(0, position.Y - elementBase.Height / 2);
+			//elementBase.Left = Math.Max(0, position.X - elementBase.Width / 2);
+			//elementBase.Top = Math.Max(0, position.Y - elementBase.Height / 2);
 
 			if (elementBase is IElementZone)
 			{
@@ -216,14 +210,10 @@ namespace PlansModule.Designer
 
 		public DesignerItem Create(ElementBase elementBase)
 		{
-			var designerItem = new DesignerItem()
+			var designerItem = new DesignerItem(elementBase)
 			{
 				MinWidth = 10,
 				MinHeight = 10,
-				ElementBase = elementBase,
-				IsDevice = elementBase is ElementDevice,
-				IsPolygon = elementBase is ElementBasePolygon,
-				IsPolyline = elementBase is ElementPolyline,
 				Opacity = ((elementBase is IElementZone) || (elementBase is ElementSubPlan)) ? 0.5 : 1
 			};
 
@@ -236,8 +226,8 @@ namespace PlansModule.Designer
 		{
 			int bigConstatnt = 100000;
 
-			if (designerItem.ElementBase is IZIndexedElement)
-				Panel.SetZIndex(designerItem, (designerItem.ElementBase as IZIndexedElement).ZIndex);
+			if (designerItem.ElementBase is IElementZIndex)
+				Panel.SetZIndex(designerItem, (designerItem.ElementBase as IElementZIndex).ZIndex);
 
 			if (designerItem.ElementBase is ElementSubPlan)
 				Panel.SetZIndex(designerItem, 1 * bigConstatnt);
@@ -264,74 +254,49 @@ namespace PlansModule.Designer
 		{
 			if (IsPointAdding)
 			{
-				if (SelectedItems == null)
-					return;
-				var selectedItem = SelectedItems.FirstOrDefault();
-				if (selectedItem == null)
-					return;
-				if ((selectedItem.IsPolygon == false) && (selectedItem.IsPolyline == false))
-					return;
+				//if (SelectedItems == null)
+				//    return;
+				//var selectedItem = SelectedItems.FirstOrDefault();
+				//if (selectedItem == null)
+				//    return;
+				//if ((selectedItem.IsPolygon == false) && (selectedItem.IsPolyline == false))
+				//    return;
 
-				IsPointAdding = false;
+				//IsPointAdding = false;
 
-				PointCollection pointCollection = null;
-				if (selectedItem.Content is Polygon)
-				{
-					var polygon = selectedItem.Content as Polygon;
-					pointCollection = polygon.Points;
-				}
-				if (selectedItem.Content is Polyline)
-				{
-					var polyline = selectedItem.Content as Polyline;
-					pointCollection = polyline.Points;
-				}
+				//PointCollection pointCollection = null;
+				//if (selectedItem.Content is Polygon)
+				//{
+				//    var polygon = selectedItem.Content as Polygon;
+				//    pointCollection = polygon.Points;
+				//}
+				//if (selectedItem.Content is Polyline)
+				//{
+				//    var polyline = selectedItem.Content as Polyline;
+				//    pointCollection = polyline.Points;
+				//}
 
-				Point currentPoint = e.GetPosition(selectedItem);
-				var minDistance = double.MaxValue;
-				int minIndex = 0;
-				for (int i = 0; i < pointCollection.Count; i++)
-				{
-					var polygonPoint = pointCollection[i];
-					var distance = Math.Pow(currentPoint.X - polygonPoint.X, 2) + Math.Pow(currentPoint.Y - polygonPoint.Y, 2);
-					if (distance < minDistance)
-					{
-						minIndex = i;
-						minDistance = distance;
-					}
-				}
-				minIndex = minIndex + 1;
-				Point point = e.GetPosition(selectedItem);
-				pointCollection.Insert(minIndex, point);
+				//Point currentPoint = e.GetPosition(selectedItem);
+				//var minDistance = double.MaxValue;
+				//int minIndex = 0;
+				//for (int i = 0; i < pointCollection.Count; i++)
+				//{
+				//    var polygonPoint = pointCollection[i];
+				//    var distance = Math.Pow(currentPoint.X - polygonPoint.X, 2) + Math.Pow(currentPoint.Y - polygonPoint.Y, 2);
+				//    if (distance < minDistance)
+				//    {
+				//        minIndex = i;
+				//        minDistance = distance;
+				//    }
+				//}
+				//minIndex = minIndex + 1;
+				//Point point = e.GetPosition(selectedItem);
+				//pointCollection.Insert(minIndex, point);
 
-				var designerItem = Items.FirstOrDefault(x => x.IsPointAdding);
-				designerItem.UpdatePolygonAdorner();
+				//var designerItem = Items.FirstOrDefault(x => x.IsPointAdding);
+				//designerItem.UpdatePolygonAdorner();
 
-				e.Handled = true;
-			}
-
-			return;
-			bool isPolyLineDrawing = true;
-			if (isPolyLineDrawing)
-			{
-				if (e.LeftButton == MouseButtonState.Pressed)
-				{
-					Point point = e.GetPosition(this);
-					Ellipse ellipse = new Ellipse()
-					{
-						Width = 10,
-						Height = 10,
-						Fill = new SolidColorBrush(Colors.Red)
-					};
-					Canvas.SetLeft(ellipse, point.X);
-					Canvas.SetTop(ellipse, point.Y);
-					this.Children.Add(ellipse);
-				}
-				else
-				{
-					isPolyLineDrawing = false;
-				}
-
-				e.Handled = true;
+				//e.Handled = true;
 			}
 		}
 

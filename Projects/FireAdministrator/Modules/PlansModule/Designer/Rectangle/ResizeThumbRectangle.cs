@@ -56,8 +56,8 @@ namespace PlansModule.Designer
 
                 foreach (var designerItem in DesignerCanvas.SelectedItems)
                 {
-                    if ((designerItem.IsDevice) || (designerItem.IsPolygon))
-                        continue;
+					//if ((designerItem.IsDevice) || (designerItem.IsPolygon))
+					//    continue;
 
                     switch (VerticalAlignment)
                     {

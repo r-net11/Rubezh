@@ -30,7 +30,7 @@
             
             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
             <Border Grid.Column="2" CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
-                <Views:PlanDesignerView Visibility="{Binding SelectedPlan, Converter={StaticResource NullToVisibilityConverter}}" />
+				<ContentPresenter Content="{Binding PlanDesignerViewModel}" />
             </Border>
         </Grid>
     </Grid>

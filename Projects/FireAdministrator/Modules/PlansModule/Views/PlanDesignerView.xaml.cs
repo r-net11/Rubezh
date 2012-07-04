@@ -9,22 +9,12 @@ namespace PlansModule.Views
 {
 	public partial class PlanDesignerView : UserControl
 	{
-		public static PlanDesignerView Current { get; set; }
 		Point? lastMousePositionOnTarget;
 		Point? lastCenterPositionOnTarget;
 		double initialScale = 1;
 
-		public static void Update()
-		{
-			if (Current != null)
-			{
-				Current.Reset();
-			}
-		}
-
 		public PlanDesignerView()
 		{
-			Current = this;
 			InitializeComponent();
 
 			_scrollViewer.PreviewMouseDown += OnMouseMiddleDown;
@@ -42,23 +32,23 @@ namespace PlansModule.Views
 			slider.ValueChanged += OnSliderValueChanged;
 			deviceSlider.ValueChanged += new RoutedPropertyChangedEventHandler<double>(deviceSlider_ValueChanged);
 
-			this.Loaded += new RoutedEventHandler(OnLoaded);
-			this.SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
+			Loaded += new RoutedEventHandler(OnLoaded);
+			SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
+			(DataContext as PlanDesignerViewModel).Updated += (s, e) => Reset();
 		}
 
-		void OnSizeChanged(object sender, SizeChangedEventArgs e)
+		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
 		{
 			Reset();
 		}
-
-		void OnLoaded(object sender, RoutedEventArgs e)
+		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
 			Reset();
 		}
 
 		public void Reset()
 		{
-			(DataContext as PlansViewModel).PlanDesignerViewModel.DeviceZoom = deviceSlider.Value;
+			(DataContext as PlanDesignerViewModel).DeviceZoom = deviceSlider.Value;
 			FullSize();
 			slider.Value = 1;
 		}
@@ -94,7 +84,7 @@ namespace PlansModule.Views
 			if (e.NewValue == 0)
 				return;
 
-			(DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(slider.Value * initialScale);
+			(DataContext as PlanDesignerViewModel).ChangeZoom(slider.Value * initialScale);
 
 			scaleTransform.ScaleX = slider.Value * initialScale;
 			scaleTransform.ScaleY = slider.Value * initialScale;
@@ -165,7 +155,7 @@ namespace PlansModule.Views
 			scaleTransform.ScaleX = scale;
 			scaleTransform.ScaleY = scale;
 
-			(DataContext as PlansViewModel).PlanDesignerViewModel.ChangeZoom(slider.Value * initialScale);
+			(DataContext as PlanDesignerViewModel).ChangeZoom(slider.Value * initialScale);
 		}
 
 		#region Hand Moving
@@ -222,7 +212,7 @@ namespace PlansModule.Views
 
 		private void deviceSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			(DataContext as PlansViewModel).PlanDesignerViewModel.ChangeDeviceZoom(e.NewValue);
+			(DataContext as PlanDesignerViewModel).ChangeDeviceZoom(e.NewValue);
 		}
 
 		void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)
