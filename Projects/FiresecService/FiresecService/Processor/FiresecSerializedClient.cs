@@ -76,6 +76,11 @@ namespace FiresecService.Processor
 			return NativeFiresecClient.ResetStates(SerializerHelper.Serialize<Firesec.CoreState.config>(coreState));
 		}
 
+		public FiresecOperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, ref int reguestId)
+		{
+			return NativeFiresecClient.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, ref reguestId);
+		}
+
 		public FiresecOperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
 			return NativeFiresecClient.ExecuteCommand(devicePath, methodName);

@@ -36,6 +36,12 @@ namespace DevicesModule.ViewModels
 			UpdateDriver();
 		}
 
+		public void UpdataConfigurationProperties()
+		{
+			PropertiesViewModel = new PropertiesViewModel(Device);
+			OnPropertyChanged("PropertiesViewModel");
+		}
+
 		public void Update()
 		{
 			IsExpanded = false;

@@ -48,4 +48,8 @@
         <Views:ZonesMenuView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
+        <Views:JournalView />
+    </DataTemplate>
+
 </ResourceDictionary>

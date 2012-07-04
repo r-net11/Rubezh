@@ -4,6 +4,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecClient;
+using System.Linq;
+using FiresecAPI;
+using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
@@ -177,20 +180,33 @@ namespace DevicesModule.ViewModels
 		public RelayCommand GetConfigurationParametersCommand { get; private set; }
 		void OnGetConfigurationParameters()
 		{
-			foreach (var property in SelectedDevice.Device.Driver.Properties)
+			var result = new OperationResult<List<Property>>();
+			WaitHelper.Execute(() =>
 			{
-				if (property.IsInternalDeviceParameter)
+				result = FiresecManager.FiresecService.GetConfigurationParameters(SelectedDevice.Device.UID);
+			}
+			);
+
+			if (!result.HasError)
+			{
+				foreach (var resultProperty in result.Result)
 				{
-					var result = FiresecManager.FiresecService.GetConfigurationParameters(SelectedDevice.Device.UID, property.No);
-					if (result.HasError)
+					var property = SelectedDevice.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
+					if (property == null)
 					{
-						MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
+						property = new Property()
+						{
+							Name = resultProperty.Name
+						};
+						SelectedDevice.Device.Properties.Add(property);
 					}
-					else
-					{
-						MessageBoxService.Show("Значение параметра " + property.Name + " = " + result.Result);
-					}
+					property.Value = resultProperty.Value;
 				}
+				SelectedDevice.UpdataConfigurationProperties();
+			}
+			else
+			{
+				MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
 			}
 		}
 
@@ -202,7 +218,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SetConfigurationParametersCommand { get; private set; }
 		void OnSetConfigurationParameters()
 		{
-			FiresecManager.FiresecService.SetConfigurationParameters(SelectedDevice.Device.UID);
+			FiresecManager.FiresecService.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
 		}
 
 		bool CanSetConfigurationParameters()

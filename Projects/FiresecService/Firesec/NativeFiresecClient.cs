@@ -76,9 +76,11 @@ namespace Firesec
 
 		int ReguestId = 1;
 
-		public FiresecOperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, int reguestId)
+		public FiresecOperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, ref int reguestId)
 		{
-			var result = SafeCall<string>(() => { return Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, reguestId++); });
+			ReguestId++;
+			reguestId = ReguestId;
+			var result = SafeCall<string>(() => { return Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, ReguestId); });
 			return result;
 		}
 

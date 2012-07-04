@@ -121,6 +121,7 @@
     <Compile Include="Service\ConfigurationCash.cs" />
     <Compile Include="Service\FiresecOperationExtentions.cs" />
     <Compile Include="Service\FiresecService.Authentication.cs" />
+    <Compile Include="Service\FiresecService.ConfigurationParameters.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
     <Compile Include="Service\FiresecService.OPC.cs" />
     <Compile Include="Service\FiresecService.SKUD.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="XSD\ZoneLogic.cs">
       <DependentUpon>ZoneLogic.xsd</DependentUpon>
     </Compile>
+    <Compile Include="XSD\DeviceConfigurationParameters.cs" />
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

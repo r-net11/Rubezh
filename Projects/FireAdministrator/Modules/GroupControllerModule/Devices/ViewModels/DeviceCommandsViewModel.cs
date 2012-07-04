@@ -127,12 +127,8 @@ namespace GKModule.Models
 		public RelayCommand GetJournalItemByIndexCommand { get; private set; }
 		void OnGetJournalItemByIndex()
 		{
-			var data = new List<byte>();
-			data = BitConverter.GetBytes(1).ToList(); // 110680
-
-			var bytes = CommandManager.Send(4, 7, 64, data);
-			var journalItem = new JournalItem(bytes);
-			MessageBoxService.ShowError(journalItem.ToString());
+			var journalViewModel = new JournalViewModel();
+			DialogService.ShowModalWindow(journalViewModel);
 		}
 
 		public RelayCommand EraseJournalCommand { get; private set; }

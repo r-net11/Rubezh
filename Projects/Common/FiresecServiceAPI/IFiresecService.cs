@@ -137,10 +137,10 @@ namespace FiresecAPI
 		OperationResult<bool> CheckHaspPresence();
 
 		[OperationContract]
-		OperationResult<string> GetConfigurationParameters(Guid deviceUID, int paramNo);
+		OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID);
 
 		[OperationContract]
-		void SetConfigurationParameters(Guid deviceUID);
+		void SetConfigurationParameters(Guid deviceUID, List<Property> properties);
 		#endregion
 
 		#region Journal
