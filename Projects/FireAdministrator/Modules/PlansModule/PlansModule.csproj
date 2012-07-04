@@ -101,10 +101,11 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Designer\Designer\DesignerItem2.cs" />
+    <Compile Include="Designer\DesignerItems\DesignerItemBase.cs" />
+    <Compile Include="Designer\DesignerItems\DesignerItemRectangle.cs" />
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
-    <Compile Include="Designer\Designer\DesignerItem.cs" />
-    <Compile Include="Designer\Designer\IResizeChromeBase.cs" />
+    <Compile Include="Designer\DesignerItems\DesignerItem.cs" />
+    <Compile Include="Designer\Designer\DesignerItemFactory.cs" />
     <Compile Include="Designer\Polyline\ResizeAdornerPolyline.cs" />
     <Compile Include="Designer\Polyline\ResizeChromePolyline.cs" />
     <Compile Include="Designer\Polyline\ResizeDecoratorPolyline.cs">
@@ -274,9 +275,7 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Designer\ElementPresenters\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>
@@ -286,7 +285,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer\Designer\DesignerItem.xaml">
+    <Page Include="Designer\DesignerItems\DesignerItem.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

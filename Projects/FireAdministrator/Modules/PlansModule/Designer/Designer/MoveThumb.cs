@@ -3,6 +3,8 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using Infrastructure;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.Designer
 {

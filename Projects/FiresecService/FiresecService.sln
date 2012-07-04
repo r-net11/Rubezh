@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure.Common", "..
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService.SKUD", "FiresecService.SKUD\FiresecService.SKUD.csproj", "{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -140,6 +142,18 @@ Global
 		{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}.Release|x64.ActiveCfg = Release|Any CPU
 		{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}.Release|x86.ActiveCfg = Release|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|x64.ActiveCfg = Release|Any CPU
+		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,5 +163,6 @@ Global
 		{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{FE37B6D4-73E5-40F2-A770-A974561430B8} = {55FE10AF-A462-4908-B710-8824101701E1}
 		{D57CB190-A30E-4A3D-A674-F1766CE1CC72} = {55FE10AF-A462-4908-B710-8824101701E1}
+		{DA2A8431-7328-4AE8-926F-E191700577A1} = {55FE10AF-A462-4908-B710-8824101701E1}
 	EndGlobalSection
 EndGlobal

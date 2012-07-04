@@ -25,7 +25,6 @@ namespace Infrustructure.Plans.Elements
 		public ElementType Type { get; protected set; }
 
 		public abstract FrameworkElement Draw();
-		public abstract Rect Rectangle { get; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -39,6 +38,17 @@ namespace Infrustructure.Plans.Elements
 		[DataMember]
 		public byte[] BackgroundPixels { get; set; }
 
+		public Point Position
+		{
+			get
+			{
+				Rect rect = GetRectangle();
+				return new Point(rect.Left + rect.Width / 2, rect.Top + rect.Height / 2);
+			}
+			set { SetPosition(value); }
+		}
+		public abstract Rect GetRectangle();
+		protected abstract void SetPosition(Point point);
 		public abstract ElementBase Clone();
 
 		protected virtual void Copy(ElementBase element)

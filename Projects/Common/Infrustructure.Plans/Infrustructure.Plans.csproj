@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Practices.Prism">
+      <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -48,9 +51,13 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Designer\CommonDesignerCanvas.cs" />
+    <Compile Include="Designer\IResizeChromeBase.cs" />
     <Compile Include="Elements\ElementBasePolygon.cs" />
     <Compile Include="Elements\ElementBasePolyline.cs" />
     <Compile Include="Elements\ElementType.cs" />
+    <Compile Include="Designer\DesignerItem.cs" />
+    <Compile Include="Events\DesignerItemFactoryEvent.cs" />
     <Compile Include="IElementPresenter.cs" />
     <Compile Include="Elements\ElementBasePoint.cs" />
     <Compile Include="Elements\ElementBaseRectangle.cs" />

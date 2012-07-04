@@ -218,16 +218,16 @@ namespace FiresecService.Configuration
 		void AddPolyLine(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
 		{
 			var elementPolyline = new ElementPolyline();
-			elementPolyline.PolygonPoints = GetPointCollection(innerElement);
-			elementPolyline.Normalize();
+			elementPolyline.Points = GetPointCollection(innerElement);
+			//elementPolyline.Normalize();
 			plan.ElementPolylines.Add(elementPolyline);
 		}
 
 		void AddPolygon(Plan plan, surfacesSurfaceLayerElementsElement innerElement)
 		{
 			var elementPolygon = new ElementPolygon();
-			elementPolygon.PolygonPoints = GetPointCollection(innerElement);
-			elementPolygon.Normalize();
+			elementPolygon.Points = GetPointCollection(innerElement);
+			//elementPolygon.Normalize();
 			plan.ElementPolygons.Add(elementPolygon);
 		}
 
@@ -271,8 +271,8 @@ namespace FiresecService.Configuration
 				{
 					ZoneNo = zoneNo
 				};
-				elementPolygonZone.PolygonPoints = GetPointCollection(innerElement);
-				elementPolygonZone.Normalize();
+				elementPolygonZone.Points = GetPointCollection(innerElement);
+				//elementPolygonZone.Normalize();
 				plan.ElementPolygonZones.Add(elementPolygonZone);
 			};
 		}

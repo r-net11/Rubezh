@@ -37,8 +37,8 @@ namespace PlansModule.ViewModels
             Buffer = new List<ElementBase>();
             foreach (var designerItem in DesignerCanvas.SelectedItems)
             {
-                designerItem.SavePropertiesToElementBase();
-                Buffer.Add(designerItem.ElementBase.Clone());
+                designerItem.UpdateElementProperties();
+                Buffer.Add(designerItem.Element.Clone());
             }
         }
 

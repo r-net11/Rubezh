@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using Infrastructure;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.Designer
 {
@@ -13,7 +15,7 @@ namespace PlansModule.Designer
             get { return DataContext as DesignerItem; }
         }
 
-        DesignerCanvas DesignerCanvas
+		CommonDesignerCanvas DesignerCanvas
         {
             get { return DesignerItem.DesignerCanvas; }
         }

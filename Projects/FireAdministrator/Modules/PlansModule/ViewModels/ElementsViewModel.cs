@@ -8,6 +8,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
 using PlansModule.Events;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.ViewModels
 {
@@ -113,7 +115,7 @@ namespace PlansModule.ViewModels
 		void AddDesignerItem(DesignerItem designerItem)
 		{
 			string name = "";
-			var elementBase = designerItem.ElementBase;
+			var elementBase = designerItem.Element;
 
 			if (elementBase is ElementDevice)
 			{
@@ -173,7 +175,7 @@ namespace PlansModule.ViewModels
 		{
 			foreach (var elementBase in elements)
 			{
-				var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.ElementBase.UID == elementBase.UID);
+				var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
 				if (designerItem != null)
 				{
 					AddDesignerItem(designerItem);

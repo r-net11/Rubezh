@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -13,10 +14,11 @@ namespace PlansModule.ViewModels
 			ElementSubPlan = elementSubPlan;
 
 			ElementSubPlanView = new ElementSubPlanView();
-			foreach (var polygonPoint in elementSubPlan.PolygonPoints)
-			{
-				ElementSubPlanView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
-			}
+			Rect rectangle = elementSubPlan.GetRectangle();
+			ElementSubPlanView._polygon.Points.Add(rectangle.TopLeft);
+			ElementSubPlanView._polygon.Points.Add(rectangle.TopRight);
+			ElementSubPlanView._polygon.Points.Add(rectangle.BottomRight);
+			ElementSubPlanView._polygon.Points.Add(rectangle.BottomLeft);
 			ElementSubPlanView.PlanUID = elementSubPlan.PlanUID;
 		}
 

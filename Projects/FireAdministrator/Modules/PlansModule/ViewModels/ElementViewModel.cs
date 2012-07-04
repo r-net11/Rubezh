@@ -4,6 +4,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
 using PlansModule.Events;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.ViewModels
 {
@@ -14,7 +16,7 @@ namespace PlansModule.ViewModels
             Source = sourceElement;
             ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
             DesignerItem = designerItem;
-            ElementUID = DesignerItem.ElementBase.UID;
+            ElementUID = DesignerItem.Element.UID;
             Name = name;
         }
 
@@ -51,7 +53,7 @@ namespace PlansModule.ViewModels
 
         void OnShowOnPlan()
         {
-            ServiceFactory.Events.GetEvent<ShowElementEvent>().Publish(DesignerItem.ElementBase.UID);
+            ServiceFactory.Events.GetEvent<ShowElementEvent>().Publish(DesignerItem.Element.UID);
         }
     }
 }

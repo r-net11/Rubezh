@@ -38,9 +38,9 @@ namespace PlansModule.ViewModels
 			}
 
 			ElementZoneView = new ElementZoneView();
-			if (elementPolygonZone.PolygonPoints == null)
-				elementPolygonZone.PolygonPoints = new System.Windows.Media.PointCollection();
-			foreach (var polygonPoint in elementPolygonZone.PolygonPoints)
+			if (elementPolygonZone.Points == null)
+				elementPolygonZone.Points = new System.Windows.Media.PointCollection();
+			foreach (var polygonPoint in elementPolygonZone.Points)
 			{
 				ElementZoneView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
 			}

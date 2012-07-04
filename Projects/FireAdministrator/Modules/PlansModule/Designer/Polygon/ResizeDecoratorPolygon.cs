@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.Designer
 {

@@ -34,7 +34,6 @@ namespace PlansModule.Views
 
 			Loaded += new RoutedEventHandler(OnLoaded);
 			SizeChanged += new SizeChangedEventHandler(OnSizeChanged);
-			(DataContext as PlanDesignerViewModel).Updated += (s, e) => Reset();
 		}
 
 		private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -43,6 +42,7 @@ namespace PlansModule.Views
 		}
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
+			(DataContext as PlanDesignerViewModel).Updated += (s, ee) => Reset();
 			Reset();
 		}
 

@@ -16,10 +16,12 @@ using Infrastructure.Common.Windows;
 using PlansModule.Events;
 using PlansModule.ViewModels;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.Designer
 {
-	public class DesignerCanvas : Canvas
+	public class DesignerCanvas : CommonDesignerCanvas
 	{
 		public Plan Plan { get; set; }
 		public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
@@ -39,29 +41,11 @@ namespace PlansModule.Designer
 			DataContext = this;
 		}
 
-		public IEnumerable<DesignerItem> Items
+		public override double Zoom
 		{
-			get { return from item in this.Children.OfType<DesignerItem>() select item; }
-		}
-		public IEnumerable<DesignerItem> SelectedItems
-		{
-			get { return from item in this.Children.OfType<DesignerItem>() where item.IsSelected == true select item; }
-		}
-		public List<ElementBase> SelectedElements
-		{
-			get
-			{
-				return (from item in this.Children.OfType<DesignerItem>()
-						where item.IsSelected == true
-						select item.ElementBase).ToList();
-			}
+			get { return PlanDesignerViewModel.Zoom; }
 		}
 
-		public void DeselectAll()
-		{
-			foreach (DesignerItem item in this.SelectedItems)
-				item.IsSelected = false;
-		}
 		public void RemoveAllSelected()
 		{
 			if (SelectedElements.Count == 0)
@@ -78,12 +62,6 @@ namespace PlansModule.Designer
 				}
 			}
 			ServiceFactory.SaveService.PlansChanged = true;
-		}
-
-		public void SelectAll()
-		{
-			foreach (var designerItem in Items)
-				designerItem.IsSelected = true;
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -127,8 +105,7 @@ namespace PlansModule.Designer
 			var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
 
 			Point position = e.GetPosition(this);
-			//elementBase.Left = Math.Max(0, position.X - elementBase.Width / 2);
-			//elementBase.Top = Math.Max(0, position.Y - elementBase.Height / 2);
+			elementBase.Position = position;
 
 			if (elementBase is IElementZone)
 			{
@@ -210,14 +187,14 @@ namespace PlansModule.Designer
 
 		public DesignerItem Create(ElementBase elementBase)
 		{
-			var designerItem = new DesignerItem(elementBase)
-			{
-				MinWidth = 10,
-				MinHeight = 10,
-				Opacity = ((elementBase is IElementZone) || (elementBase is ElementSubPlan)) ? 0.5 : 1
-			};
-
-			this.Children.Add(designerItem);
+			//var designerItem = new DesignerItemBase(elementBase)
+			//{
+			//    MinWidth = 10,
+			//    MinHeight = 10,
+			//    Opacity = ((elementBase is IElementZone) || (elementBase is ElementSubPlan)) ? 0.5 : 1
+			//};
+			var designerItem = DesignerItemFactory.Create(elementBase);
+			Children.Add(designerItem);
 			designerItem.Redraw();
 			SetZIndex(designerItem);
 			return designerItem;
@@ -226,16 +203,16 @@ namespace PlansModule.Designer
 		{
 			int bigConstatnt = 100000;
 
-			if (designerItem.ElementBase is IElementZIndex)
-				Panel.SetZIndex(designerItem, (designerItem.ElementBase as IElementZIndex).ZIndex);
+			if (designerItem.Element is IElementZIndex)
+				Panel.SetZIndex(designerItem, (designerItem.Element as IElementZIndex).ZIndex);
 
-			if (designerItem.ElementBase is ElementSubPlan)
+			if (designerItem.Element is ElementSubPlan)
 				Panel.SetZIndex(designerItem, 1 * bigConstatnt);
 
-			if (designerItem.ElementBase is IElementZone)
+			if (designerItem.Element is IElementZone)
 			{
 				Panel.SetZIndex(designerItem, 2 * bigConstatnt);
-				IElementZone elementZone = designerItem.ElementBase as IElementZone;
+				IElementZone elementZone = designerItem.Element as IElementZone;
 				if (elementZone.Zone != null)
 				{
 					if (elementZone.Zone.ZoneType == ZoneType.Fire)
@@ -246,7 +223,7 @@ namespace PlansModule.Designer
 				}
 			}
 
-			if (designerItem.ElementBase is ElementDevice)
+			if (designerItem.Element is ElementDevice)
 				Panel.SetZIndex(designerItem, 5 * bigConstatnt);
 		}
 
@@ -311,7 +288,7 @@ namespace PlansModule.Designer
 			}
 		}
 
-		public void Update()
+		public override void Update()
 		{
 			Width = Plan.Width;
 			Height = Plan.Height;
@@ -325,17 +302,17 @@ namespace PlansModule.Designer
 			initialElements = new List<ElementBase>();
 			foreach (var designerItem in SelectedItems)
 			{
-				designerItem.SavePropertiesToElementBase();
-				initialElements.Add(designerItem.ElementBase.Clone());
+				designerItem.UpdateElementProperties();
+				initialElements.Add(designerItem.Element.Clone());
 			}
 			return initialElements;
 		}
 
-		public void BeginChange()
+		public override void BeginChange()
 		{
 			initialElements = CloneSelectedElements();
 		}
-		public void EndChange()
+		public override void EndChange()
 		{
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
 		}

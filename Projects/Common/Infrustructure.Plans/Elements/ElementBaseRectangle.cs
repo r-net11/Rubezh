@@ -22,9 +22,14 @@ namespace Infrustructure.Plans.Elements
 		[DataMember]
 		public double Width { get; set; }
 
-		public override Rect Rectangle
+		public override Rect GetRectangle()
 		{
-			get { return new Rect(Left, Top, Width, Height); }
+			return new Rect(Left, Top, Width, Height);
+		}
+		protected override void SetPosition(Point point)
+		{
+			Left = point.X - Width / 2;
+			Top = point.Y - Height / 2;
 		}
 
 		protected virtual void Copy(ElementBaseRectangle element)

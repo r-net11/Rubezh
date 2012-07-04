@@ -84,7 +84,7 @@ namespace PlansModule.ViewModels
 				case ActionType.Edited:
 					foreach (var elementBase in historyItem.ElementsBefore)
 					{
-						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.ElementBase.UID == elementBase.UID);
+						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
 						designerItem.ResetElement(elementBase.Clone());
 					}
 					DesignerCanvas.UpdateZoom();
@@ -93,7 +93,7 @@ namespace PlansModule.ViewModels
 				case ActionType.Added:
 					foreach (var elementBase in historyItem.ElementsAfter)
 					{
-						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.ElementBase.UID == elementBase.UID);
+						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
 						DesignerCanvas.Children.Remove(designerItem);
 					}
 					return;
@@ -115,7 +115,7 @@ namespace PlansModule.ViewModels
 				case ActionType.Edited:
 					foreach (var elementBase in historyItem.ElementsAfter)
 					{
-						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.ElementBase.UID == elementBase.UID);
+						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
 						designerItem.ResetElement(elementBase.Clone());
 					}
 					DesignerCanvas.UpdateZoom();
@@ -131,7 +131,7 @@ namespace PlansModule.ViewModels
 				case ActionType.Removed:
 					foreach (var elementBase in historyItem.ElementsBefore)
 					{
-						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.ElementBase.UID == elementBase.UID);
+						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
 						DesignerCanvas.Children.Remove(designerItem);
 					}
 					return;

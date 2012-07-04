@@ -6,6 +6,8 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Infrastructure;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.Designer
 {
@@ -18,7 +20,7 @@ namespace PlansModule.Designer
 
         DesignerItem DesignerItem;
 
-        DesignerCanvas DesignerCanvas
+        CommonDesignerCanvas DesignerCanvas
         {
             get { return DesignerItem.DesignerCanvas; }
         }
@@ -30,7 +32,7 @@ namespace PlansModule.Designer
 
         double ZoomFactor
         {
-            get { return DesignerCanvas.PlanDesignerViewModel.Zoom; }
+            get { return DesignerCanvas.Zoom; }
         }
 
         List<ThumbPolygon> thumbs = new List<ThumbPolygon>();
@@ -38,7 +40,7 @@ namespace PlansModule.Designer
         public ResizeChromePolygon(DesignerItem designerItem)
         {
             DesignerItem = designerItem;
-            designerItem.ResizeChromeBase = this;
+            designerItem.ResizeChrome = this;
             Initialize();
         }
 
@@ -171,7 +173,7 @@ namespace PlansModule.Designer
 
         public void UpdateZoom()
         {
-            var zoom = DesignerCanvas.PlanDesignerViewModel.Zoom;
+            var zoom = DesignerCanvas.Zoom;
             foreach (var thumb in thumbs)
             {
                 thumb.Width = 7 / zoom;

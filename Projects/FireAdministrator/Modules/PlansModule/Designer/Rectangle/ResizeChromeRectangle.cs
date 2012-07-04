@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.Designer
 {
@@ -24,7 +26,7 @@ namespace PlansModule.Designer
 
         DesignerItem DesignerItem;
 
-        DesignerCanvas DesignerCanvas
+		CommonDesignerCanvas DesignerCanvas
         {
             get { return DesignerItem.DesignerCanvas; }
         }
@@ -32,7 +34,7 @@ namespace PlansModule.Designer
         public ResizeChromeRectangle(DesignerItem designerItem)
         {
             DesignerItem = designerItem;
-            designerItem.ResizeChromeBase = this;
+            designerItem.ResizeChrome = this;
             this.Loaded += new RoutedEventHandler(ResizeChrome_Loaded);
         }
 
@@ -85,7 +87,7 @@ namespace PlansModule.Designer
 
         public void UpdateZoom()
         {
-            var zoom = DesignerCanvas.PlanDesignerViewModel.Zoom;
+            var zoom = DesignerCanvas.Zoom;
 
             PART_ResizeGrid.Margin = new Thickness(-3 / zoom);
             PART_Decorators.Margin = new Thickness(-3 / zoom);

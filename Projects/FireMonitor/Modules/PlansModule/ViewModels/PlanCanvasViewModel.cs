@@ -10,6 +10,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Events;
 using PlansModule.Views;
+using Infrustructure.Plans.Elements;
 
 namespace PlansModule.ViewModels
 {
@@ -121,20 +122,20 @@ namespace PlansModule.ViewModels
 		void DrawElement(ElementBase elementBase)
 		{
 			var frameworkElement = elementBase.Draw();
-			frameworkElement.Width = elementBase.Width;
-			frameworkElement.Height = elementBase.Height;
-			Canvas.SetLeft(frameworkElement, elementBase.Left);
-			Canvas.SetTop(frameworkElement, elementBase.Top);
+			//frameworkElement.Width = elementBase.Width;
+			//frameworkElement.Height = elementBase.Height;
+			//Canvas.SetLeft(frameworkElement, elementBase.Left);
+			//Canvas.SetTop(frameworkElement, elementBase.Top);
 			Canvas.Children.Add(frameworkElement);
 		}
 
 		void DrawElement(FrameworkElement frameworkElement, ElementBase elementBase, BaseViewModel elementViewModel)
 		{
 			frameworkElement.DataContext = elementViewModel;
-			frameworkElement.Width = elementBase.Width;
-			frameworkElement.Height = elementBase.Height;
-			Canvas.SetLeft(frameworkElement, elementBase.Left);
-			Canvas.SetTop(frameworkElement, elementBase.Top);
+			//frameworkElement.Width = elementBase.Width;
+			//frameworkElement.Height = elementBase.Height;
+			//Canvas.SetLeft(frameworkElement, elementBase.Left);
+			//Canvas.SetTop(frameworkElement, elementBase.Top);
 			Canvas.Children.Add(frameworkElement);
 		}
 
@@ -142,18 +143,18 @@ namespace PlansModule.ViewModels
 		{
 			var elementPolygonZone = new ElementPolygonZone()
 			{
-				Left = elementRectangleZone.Left,
-				Top = elementRectangleZone.Top,
-				Width = elementRectangleZone.Width,
-				Height = elementRectangleZone.Height,
+				//Left = elementRectangleZone.Left,
+				//Top = elementRectangleZone.Top,
+				//Width = elementRectangleZone.Width,
+				//Height = elementRectangleZone.Height,
 				ZoneNo = elementRectangleZone.ZoneNo
 			};
 
-			elementPolygonZone.PolygonPoints = new PointCollection();
-			elementPolygonZone.PolygonPoints.Add(new Point(0, 0));
-			elementPolygonZone.PolygonPoints.Add(new Point(elementRectangleZone.Width, 0));
-			elementPolygonZone.PolygonPoints.Add(new Point(elementRectangleZone.Width, elementRectangleZone.Height));
-			elementPolygonZone.PolygonPoints.Add(new Point(0, elementRectangleZone.Height));
+			elementPolygonZone.Points = new PointCollection();
+			elementPolygonZone.Points.Add(new Point(0, 0));
+			elementPolygonZone.Points.Add(new Point(elementRectangleZone.Width, 0));
+			elementPolygonZone.Points.Add(new Point(elementRectangleZone.Width, elementRectangleZone.Height));
+			elementPolygonZone.Points.Add(new Point(0, elementRectangleZone.Height));
 
 			return elementPolygonZone;
 		}

@@ -1,5 +1,5 @@
 ﻿
-namespace PlansModule.Designer
+namespace Infrustructure.Plans.Designer
 {
     public interface IResizeChromeBase
     {

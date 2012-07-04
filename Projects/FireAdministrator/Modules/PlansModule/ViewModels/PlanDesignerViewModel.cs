@@ -73,8 +73,8 @@ namespace PlansModule.ViewModels
 
 			foreach (var designerItem in DesignerCanvas.Items)
 			{
-				designerItem.SavePropertiesToElementBase();
-				ElementBase elementBase = designerItem.ElementBase;
+				designerItem.UpdateElementProperties();
+				ElementBase elementBase = designerItem.Element;
 
 				if (elementBase is ElementBasePolygon)
 				{

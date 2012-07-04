@@ -225,7 +225,7 @@ namespace PlansModule.ViewModels
 
 			foreach (var designerItem in DesignerCanvas.Items)
 			{
-				if (designerItem.ElementBase.UID == elementUID)
+				if (designerItem.Element.UID == elementUID)
 				{
 					designerItem.IsSelected = true;
 				}

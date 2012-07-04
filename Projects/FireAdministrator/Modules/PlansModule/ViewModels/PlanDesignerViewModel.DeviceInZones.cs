@@ -22,7 +22,7 @@ namespace PlansModule.ViewModels
                 var designerItemCenterX = Canvas.GetLeft(designerItem) + designerItem.Width / 2;
                 var designerItemCenterY = Canvas.GetTop(designerItem) + designerItem.Height / 2;
 
-                ElementDevice elementDevice = designerItem.ElementBase as ElementDevice;
+                ElementDevice elementDevice = designerItem.Element as ElementDevice;
                 if (elementDevice != null)
                 {
                     var device = elementDevice.Device;
@@ -35,7 +35,7 @@ namespace PlansModule.ViewModels
                         var point = new Point((int)(designerItemCenterX - Canvas.GetLeft(elementPolygonZoneItem)),
                             (int)(designerItemCenterY - Canvas.GetTop(elementPolygonZoneItem)));
 
-                        ElementPolygonZone elementPolygonZone = elementPolygonZoneItem.ElementBase as ElementPolygonZone;
+                        ElementPolygonZone elementPolygonZone = elementPolygonZoneItem.Element as ElementPolygonZone;
                         if (elementPolygonZone != null)
                         {
                             bool isInPolygon = IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
@@ -45,7 +45,7 @@ namespace PlansModule.ViewModels
                                     zones.Add(elementPolygonZone.ZoneNo.Value);
                         }
 
-                        ElementRectangleZone elementRectangleZone = elementPolygonZoneItem.ElementBase as ElementRectangleZone;
+                        ElementRectangleZone elementRectangleZone = elementPolygonZoneItem.Element as ElementRectangleZone;
                         if (elementRectangleZone != null)
                         {
                             bool isInRectangle = ((point.X > 0) && (point.X < elementRectangleZone.Width) && (point.Y > 0) && (point.Y < elementRectangleZone.Height));
