@@ -16,6 +16,7 @@
 			<ComponentRef Id="FADevicesModuleComponent" />
 			<ComponentRef Id="FAInfrastructure.CommonComponent" />
       <ComponentRef Id="FAInfrastructure.ClientComponent" />
+      <ComponentRef Id="FAInfrastructure.PlansComponent"/>
 			<ComponentRef Id="FAInfrastructureComponent" />
 			<ComponentRef Id="FAUnityComponent" />
 			<ComponentRef Id="FAPrismDllComponent"/>
