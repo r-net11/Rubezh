@@ -2,24 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows;
-using Infrustructure.Plans.Elements;
 using System.Windows.Shapes;
-using System.Windows.Media;
+using Infrustructure.Plans.Elements;
+using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
-	public class DefaultPainter : ShapePainter<Rectangle>
+	public class PolygonZonePainter : ShapePainter<Polygon>
 	{
-		#region IPainter Members
-
 		public override FrameworkElement Draw(ElementBase element)
 		{
 			var shape = CreateShape(element);
-			shape.Fill = Brushes.Black;
+			shape.Points = PainterHelper.GetPoints(element);
+			shape.Opacity = 0.5;
 			return shape;
 		}
-
-		#endregion
 	}
 }

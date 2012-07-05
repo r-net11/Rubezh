@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Events;
 using PlansModule.Views;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Painters;
 
 namespace PlansModule.ViewModels
 {
@@ -54,7 +55,7 @@ namespace PlansModule.ViewModels
 
 			if (Plan.BackgroundPixels != null)
 			{
-				Canvas.Background = PlanElementsHelper.CreateBrush(Plan.BackgroundPixels); //TODO: ~20-25 % общего времени
+				Canvas.Background = PainterHelper.CreateBrush(Plan.BackgroundPixels); //TODO: ~20-25 % общего времени
 			}
 			else
 			{
@@ -121,12 +122,12 @@ namespace PlansModule.ViewModels
 
 		void DrawElement(ElementBase elementBase)
 		{
-			var frameworkElement = elementBase.Draw();
+			//var frameworkElement = elementBase.Draw();
 			//frameworkElement.Width = elementBase.Width;
 			//frameworkElement.Height = elementBase.Height;
 			//Canvas.SetLeft(frameworkElement, elementBase.Left);
 			//Canvas.SetTop(frameworkElement, elementBase.Top);
-			Canvas.Children.Add(frameworkElement);
+			//Canvas.Children.Add(frameworkElement);
 		}
 
 		void DrawElement(FrameworkElement frameworkElement, ElementBase elementBase, BaseViewModel elementViewModel)

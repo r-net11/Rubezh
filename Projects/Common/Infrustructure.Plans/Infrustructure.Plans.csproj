@@ -58,6 +58,7 @@
     <Compile Include="Elements\ElementType.cs" />
     <Compile Include="Designer\DesignerItem.cs" />
     <Compile Include="Elements\IElementTextBlock.cs" />
+    <Compile Include="Elements\IElementZone.cs" />
     <Compile Include="Elements\IPrimitive.cs" />
     <Compile Include="Elements\Primitive.cs" />
     <Compile Include="Events\PainterFactoryEvent.cs" />
@@ -73,9 +74,12 @@
     <Compile Include="Painters\PainterFactory.cs" />
     <Compile Include="Painters\PainterHelper.cs" />
     <Compile Include="Painters\PolygonPainter.cs" />
+    <Compile Include="Painters\PolygonZonePainter.cs" />
     <Compile Include="Painters\PolylinePainter.cs" />
     <Compile Include="Painters\RectanglePainter.cs" />
+    <Compile Include="Painters\RectangleZonePainter.cs" />
     <Compile Include="Painters\ShapePainter.cs" />
+    <Compile Include="Painters\SubPlanPainter.cs" />
     <Compile Include="Painters\TextBlockPainter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

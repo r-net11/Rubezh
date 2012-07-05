@@ -1,12 +1,11 @@
 ﻿using System.Runtime.Serialization;
+using System.Windows.Media;
 
-namespace FiresecAPI.Models
+namespace Infrustructure.Plans.Elements
 {
 	public interface IElementZone
 	{
-		[DataMember]
 		ulong? ZoneNo { get; set; }
-
-		Zone Zone { get; set; }
+		Color BackgroundColor { get; set; }
 	}
 }

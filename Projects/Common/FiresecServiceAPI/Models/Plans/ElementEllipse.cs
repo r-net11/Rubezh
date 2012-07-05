@@ -7,13 +7,10 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementEllipse : ElementBaseRectangle, IElementZIndex
+	public class ElementEllipse : ElementBaseRectangle, IElementZIndex, IPrimitive
 	{
 		public ElementEllipse()
 		{
-			BackgroundColor = Colors.White;
-			BorderColor = Colors.Black;
-			BorderThickness = 1;
 		}
 
 		[DataMember]
@@ -32,5 +29,14 @@ namespace FiresecAPI.Models
 			Copy(elementBase);
 			return elementBase;
 		}
+
+		#region IPrimitive Members
+
+		public Primitive Primitive
+		{
+			get { return Infrustructure.Plans.Elements.Primitive.Ellipse; }
+		}
+
+		#endregion
 	}
 }

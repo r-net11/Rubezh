@@ -8,10 +8,8 @@ using System.Windows.Media;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementSubPlan : ElementBaseRectangle
+	public class ElementSubPlan : ElementBaseRectangle, IPrimitive
 	{
-		public Plan Plan { get; set; }
-
 		[DataMember]
 		public Guid PlanUID { get; set; }
 
@@ -22,12 +20,20 @@ namespace FiresecAPI.Models
 		{
 			ElementBase elementBase = new ElementSubPlan()
 			{
-				Plan = Plan,
 				PlanUID = PlanUID,
 				Caption = Caption
 			};
 			Copy(elementBase);
 			return elementBase;
 		}
+
+		#region IPrimitive Members
+
+		public Primitive Primitive
+		{
+			get { return Infrustructure.Plans.Elements.Primitive.SubPlan; }
+		}
+
+		#endregion
 	}
 }

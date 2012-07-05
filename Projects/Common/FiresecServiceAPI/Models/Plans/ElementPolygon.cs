@@ -7,11 +7,10 @@ using System.Windows.Media;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementPolygon : ElementBasePolygon, IElementZIndex
+	public class ElementPolygon : ElementBasePolygon, IElementZIndex, IPrimitive
 	{
 		public ElementPolygon()
 		{
-
 		}
 
 		[DataMember]
@@ -23,5 +22,14 @@ namespace FiresecAPI.Models
 			Copy(elementBase);
 			return elementBase;
 		}
+
+		#region IPrimitive Members
+
+		public Primitive Primitive
+		{
+			get { return Infrustructure.Plans.Elements.Primitive.Polygon; }
+		}
+
+		#endregion
 	}
 }

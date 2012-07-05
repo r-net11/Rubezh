@@ -12,8 +12,6 @@ namespace Infrustructure.Plans.Elements
 	{
 		public ElementBasePoint()
 		{
-			Top = 0;
-			Left = 0;
 			Type = ElementType.Point;
 		}
 
@@ -37,6 +35,12 @@ namespace Infrustructure.Plans.Elements
 			base.Copy(element);
 			element.Left = Left;
 			element.Top = Top;
+		}
+
+		public override void SetDefault()
+		{
+			Top = 0;
+			Left = 0;
 		}
 	}
 }

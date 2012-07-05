@@ -21,40 +21,15 @@ namespace Infrustructure.Plans.Painters
 					case Primitive.Polygon:
 						return new PolygonPainter();
 					case Primitive.PolygonZone:
-					//if (Points == null)
-					//    return null;
-
-					//var polygon = new Polygon()
-					//{
-					//    Points = new PointCollection(Points),
-					//    Fill = new SolidColorBrush(ElementZoneHelper.GetZoneColor(Zone)),
-					//    Stroke = new SolidColorBrush(Colors.Blue),
-					//    StrokeThickness = 1
-					//};
-					//return polygon;
-					//return new PolygonZonePainter();
+						return new PolygonZonePainter();
 					case Primitive.Polyline:
 						return new PolylinePainter();
 					case Primitive.Rectangle:
 						return new RectanglePainter();
 					case Primitive.RectangleZone:
-					//var rectangle = new Rectangle()
-					//{
-					//    Fill = new SolidColorBrush(ElementZoneHelper.GetZoneColor(Zone)),
-					//};
-					//return rectangle;
-					//return new RectangleZonePainter();
+						return new RectangleZonePainter();
 					case Primitive.SubPlan:
-					//var rectangle = new Rectangle()
-					//{
-					//    Fill = new SolidColorBrush(BackgroundColor),
-					//    Stroke = new SolidColorBrush(BorderColor),
-					//    StrokeThickness = BorderThickness
-					//};
-					//if (BackgroundPixels != null)
-					//	rectangle.Fill = PlanElementsHelper.CreateBrush(BackgroundPixels);
-					//return rectangle;
-					//return new SubPlanPainter();
+						return new SubPlanPainter();
 					case Primitive.TextBlock:
 						return new TextBlockPainter();
 				}

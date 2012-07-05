@@ -7,16 +7,10 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementPolyline : ElementBasePolyline, IElementZIndex
+	public class ElementPolyline : ElementBasePolyline, IElementZIndex, IPrimitive
 	{
 		public ElementPolyline()
 		{
-			BackgroundColor = Colors.Black;
-			BorderThickness = 1;
-
-			Points = new PointCollection();
-			Points.Add(new Point(0, 0));
-			Points.Add(new Point(100, 100));
 		}
 
 		[DataMember]
@@ -33,5 +27,14 @@ namespace FiresecAPI.Models
 			Copy(elementLine);
 			return elementLine;
 		}
+
+		#region IPrimitive Members
+
+		public Primitive Primitive
+		{
+			get { return Infrustructure.Plans.Elements.Primitive.Polyline; }
+		}
+
+		#endregion
 	}
 }

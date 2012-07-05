@@ -10,14 +10,12 @@ namespace DevicesModule.ViewModels
 {
 	public class ZoneDetailsViewModel : SaveCancelDialogViewModel
 	{
-		bool _isNew;
 		public Zone Zone;
 
 		public ZoneDetailsViewModel(Zone zone = null)
 		{
 			if (zone == null)
 			{
-				_isNew = true;
 				Title = "Создание новой зоны";
 
 				Zone = new Zone()
@@ -30,7 +28,6 @@ namespace DevicesModule.ViewModels
 			}
 			else
 			{
-				_isNew = false;
 				Title = string.Format("Свойства зоны: {0}", zone.PresentationName);
 				Zone = zone;
 			}

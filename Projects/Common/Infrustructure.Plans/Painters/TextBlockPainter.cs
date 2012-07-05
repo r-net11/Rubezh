@@ -26,12 +26,14 @@ namespace Infrustructure.Plans.Painters
 				FontSize = elementText.FontSize,
 				FontFamily = new FontFamily(elementText.FontFamilyName),
 			};
-			return elementText.Stretch ?
+			FrameworkElement frameworkElement = elementText.Stretch ?
 				new Viewbox()
 				{
 					Stretch = Stretch.Fill,
 					Child = textBlock
 				} : (FrameworkElement)textBlock;
+			frameworkElement.IsHitTestVisible = false;
+			return frameworkElement;
 		}
 		#endregion
 	}

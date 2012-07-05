@@ -7,10 +7,8 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementPolygonZone : ElementBasePolygon, IElementZone
+	public class ElementPolygonZone : ElementBasePolygon, IElementZone, IPrimitive
 	{
-		public Zone Zone { get; set; }
-
 		[DataMember]
 		public ulong? ZoneNo { get; set; }
 
@@ -23,5 +21,14 @@ namespace FiresecAPI.Models
 			Copy(elementBase);
 			return elementBase;
 		}
+
+		#region IPrimitive Members
+
+		public Primitive Primitive
+		{
+			get { return Infrustructure.Plans.Elements.Primitive.PolygonZone; }
+		}
+
+		#endregion
 	}
 }

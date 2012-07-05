@@ -41,8 +41,10 @@ namespace Infrustructure.Plans.Elements
 		}
 		protected override void SetPosition(Point point)
 		{
-			//Left = point.X;
-			//Top = point.Y;
+			Rect rect = GetRectangle();
+			Vector shift = new Vector(point.X - rect.Width / 2 - rect.X, point.Y - rect.Height / 2 - rect.Y);
+			for (int i = 0; i < Points.Count; i++)
+				Points[i] = Points[i] + shift;
 		}
 
 		protected virtual void Copy(ElementBaseShape element)

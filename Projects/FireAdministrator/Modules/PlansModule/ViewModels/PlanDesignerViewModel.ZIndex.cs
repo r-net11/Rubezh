@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
+using Infrustructure.Plans.Elements;
 
 namespace PlansModule.ViewModels
 {

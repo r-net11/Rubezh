@@ -80,30 +80,7 @@ namespace FiresecClient
 						elementDevice.Device = device;
 					}
 					else
-					{
 						plan.ElementDevices.RemoveAt(i - 1);
-					}
-				}
-
-				foreach (var elementZone in plan.ElementPolygonZones)
-				{
-					if (elementZone.ZoneNo.HasValue)
-					{
-						elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo.Value);
-					}
-				}
-
-				foreach (var elementZone in plan.ElementRectangleZones)
-				{
-					if (elementZone.ZoneNo.HasValue)
-					{
-						elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo.Value);
-					}
-				}
-
-				foreach (var elementSubPlan in plan.ElementSubPlans)
-				{
-					elementSubPlan.Plan = FiresecManager.PlansConfiguration.AllPlans.FirstOrDefault(x => x.UID == elementSubPlan.PlanUID);
 				}
 			}
 		}

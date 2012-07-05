@@ -12,8 +12,6 @@ namespace Infrustructure.Plans.Elements
 	{
 		public ElementBaseRectangle()
 		{
-			Height = 50;
-			Width = 50;
 			Type = ElementType.Rectangle;
 		}
 
@@ -37,6 +35,13 @@ namespace Infrustructure.Plans.Elements
 			base.Copy(element);
 			element.Height = Height;
 			element.Width = Width;
+		}
+
+		public override void SetDefault()
+		{
+			base.SetDefault();
+			Height = 50;
+			Width = 50;
 		}
 	}
 }

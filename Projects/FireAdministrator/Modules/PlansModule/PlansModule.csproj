@@ -109,6 +109,7 @@
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItem.cs" />
     <Compile Include="Designer\Designer\DesignerItemFactory.cs" />
+    <Compile Include="Designer\Designer\Helper.cs" />
     <Compile Include="Designer\Polyline\ResizeAdornerPolyline.cs" />
     <Compile Include="Designer\Polyline\ResizeChromePolyline.cs" />
     <Compile Include="Designer\Polyline\ResizeDecoratorPolyline.cs">

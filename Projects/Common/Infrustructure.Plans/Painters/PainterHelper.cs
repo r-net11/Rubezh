@@ -15,7 +15,6 @@ namespace Infrustructure.Plans.Painters
 			shape.StrokeThickness = element.BorderThickness;
 			if (element.BackgroundPixels != null)
 				shape.Fill = PainterHelper.CreateBrush(element.BackgroundPixels);
-
 		}
 		public static PointCollection GetPoints(ElementBase element)
 		{
@@ -30,7 +29,6 @@ namespace Infrustructure.Plans.Painters
 				bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
 				bitmapImage.StreamSource = imageStream;
 				bitmapImage.EndInit();
-
 				return new ImageBrush(bitmapImage);
 			}
 		}

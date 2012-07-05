@@ -19,6 +19,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
+using PlansModule.Designer.Designer;
 
 namespace PlansModule.Designer
 {
@@ -108,6 +109,7 @@ namespace PlansModule.Designer
 		{
 			base.OnDrop(e);
 			var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
+			elementBase.SetDefault();
 
 			Point position = e.GetPosition(this);
 			elementBase.Position = position;
@@ -192,12 +194,6 @@ namespace PlansModule.Designer
 
 		public DesignerItem Create(ElementBase elementBase)
 		{
-			//var designerItem = new DesignerItemBase(elementBase)
-			//{
-			//    MinWidth = 10,
-			//    MinHeight = 10,
-			//    Opacity = ((elementBase is IElementZone) || (elementBase is ElementSubPlan)) ? 0.5 : 1
-			//};
 			var designerItem = DesignerItemFactory.Create(elementBase);
 			Children.Add(designerItem);
 			designerItem.Redraw();
@@ -218,12 +214,13 @@ namespace PlansModule.Designer
 			{
 				Panel.SetZIndex(designerItem, 2 * bigConstatnt);
 				IElementZone elementZone = designerItem.Element as IElementZone;
-				if (elementZone.Zone != null)
+				Zone zone = Helper.GetZone(elementZone);
+				if (zone != null)
 				{
-					if (elementZone.Zone.ZoneType == ZoneType.Fire)
+					if (zone.ZoneType == ZoneType.Fire)
 						Panel.SetZIndex(designerItem, 3 * bigConstatnt);
 
-					if (elementZone.Zone.ZoneType == ZoneType.Guard)
+					if (zone.ZoneType == ZoneType.Guard)
 						Panel.SetZIndex(designerItem, 4 * bigConstatnt);
 				}
 			}

@@ -10,6 +10,7 @@ using PlansModule.Events;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
+using PlansModule.Designer.Designer;
 
 namespace PlansModule.ViewModels
 {
@@ -126,27 +127,15 @@ namespace PlansModule.ViewModels
 			if (elementBase is IElementZone)
 			{
 				IElementZone elementZone = elementBase as IElementZone;
-				if (elementZone.Zone != null)
-				{
-					name = elementZone.Zone.PresentationName;
-				}
-				else
-				{
-					name = "Несвязанная зона";
-				}
+				Zone zone = Helper.GetZone(elementZone);
+				name = zone == null ? "Несвязанная зона" : zone.PresentationName;
 				AddElement(ElementZones, new ElementViewModel(Elements, designerItem, name));
 			}
 			if (elementBase is ElementSubPlan)
 			{
 				ElementSubPlan elementSubPlan = elementBase as ElementSubPlan;
-				if (elementSubPlan.Plan != null)
-				{
-					name = elementSubPlan.Plan.Caption;
-				}
-				else
-				{
-					name = "Несвязанный подплан";
-				}
+				Plan plan = Helper.GetPlan(elementSubPlan);
+				name = plan == null ? "Несвязанный подплан" : plan.Caption;
 				AddElement(ElementSubPlans, new ElementViewModel(Elements, designerItem, name));
 			}
 			if (elementBase is ElementEllipse)

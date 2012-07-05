@@ -48,6 +48,7 @@ namespace Infrustructure.Plans.Elements
 		public abstract Rect GetRectangle();
 		protected abstract void SetPosition(Point point);
 		public abstract ElementBase Clone();
+		public abstract void SetDefault();
 
 		protected virtual void Copy(ElementBase element)
 		{

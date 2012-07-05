@@ -5,14 +5,10 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementTextBlock : ElementBaseRectangle, IElementTextBlock, IElementZIndex
+	public class ElementTextBlock : ElementBaseRectangle, IElementTextBlock, IElementZIndex, IPrimitive
 	{
 		public ElementTextBlock()
 		{
-			Text = "Надпись";
-			ForegroundColor = Colors.Black;
-			FontSize = 10;
-			FontFamilyName = "Arial";
 		}
 
 		[DataMember]
@@ -43,6 +39,24 @@ namespace FiresecAPI.Models
 			};
 			Copy(elementBase);
 			return elementBase;
+		}
+
+		#region IPrimitive Members
+
+		public Primitive Primitive
+		{
+			get { return Infrustructure.Plans.Elements.Primitive.TextBlock; }
+		}
+
+		#endregion
+
+		public override void SetDefault()
+		{
+			Text = "Надпись";
+			ForegroundColor = Colors.Black;
+			FontSize = 10;
+			FontFamilyName = "Arial";
+			base.SetDefault();
 		}
 	}
 }
