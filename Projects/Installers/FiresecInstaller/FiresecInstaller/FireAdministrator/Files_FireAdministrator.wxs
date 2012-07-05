@@ -69,8 +69,12 @@
         <File Id="FAInfrastructure.CommonDll" Name="Infrastructure.Common.dll"
               Source="$(var.FireAdministrator.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAInfrastructure.ClientComponent" Guid="CA2962A5-1C84-45BC-A55A-2133F9B27B98">
-        <File Id="FAInfrastructure.CommonClientDll" Name="Infrastructure.Client.dll"
+      <Component Id="FAInfrastructure.ClientComponent" Guid="2CBDB573-560C-4A23-A1F1-3E23362308C9">
+        <File Id="FAInfrastructure.ClientDll" Name="Infrastructure.Client.dll"
+              Source="$(var.FireAdministrator.TargetDir)" DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="FAInfrastructure.PlansComponent" Guid="4A067612-4564-4F22-8541-AE616891C5B6">
+        <File Id="FAInfrustructure.PlansDll" Name="Infrustructure.Plans.dll"
               Source="$(var.FireAdministrator.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
       <Component Id="FAInfrastructureComponent" Guid="23E7ED53-249B-4FDA-B721-5AA4C81B6DAA">
@@ -153,8 +157,6 @@
         <Condition>VIDEO_MODULE</Condition>
       </Component>
     </DirectoryRef>
-
-    
 
     <DirectoryRef Id="FireAdmXslFilesFolder">
       <Component Id="XslFiles1" Guid="7D3DEE7F-2E4B-4C4E-8B31-952A85D54538">

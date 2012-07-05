@@ -325,14 +325,14 @@ namespace FiresecService.Service
 			return SafeOperationCall(() => { return FiresecService.CheckHaspPresence(); }, "CheckHaspPresence");
 		}
 
-		public OperationResult<string> GetConfigurationParameters(Guid deviceUID, int paramNo)
+		public OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetConfigurationParameters(deviceUID, paramNo); }, "GetConfigurationParameters");
+			return SafeOperationCall(() => { return FiresecService.GetConfigurationParameters(deviceUID); }, "GetConfigurationParameters");
 		}
 
-		public void SetConfigurationParameters(Guid deviceUID)
+		public void SetConfigurationParameters(Guid deviceUID, List<Property> properties)
 		{
-			SafeOperationCall(() => { FiresecService.SetConfigurationParameters(deviceUID); }, "SetConfigurationParameters");
+			SafeOperationCall(() => { FiresecService.SetConfigurationParameters(deviceUID, properties); }, "SetConfigurationParameters");
 		}
 
 		public List<string> GetFileNamesList(string directory)

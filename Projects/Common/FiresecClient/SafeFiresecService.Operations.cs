@@ -270,14 +270,14 @@ namespace FiresecClient
 			return SafeOperationCall(() => { return FiresecService.CheckHaspPresence(); });
 		}
 
-		public OperationResult<string> GetConfigurationParameters(Guid deviceUID, int paramNo)
+		public OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
 		{
-			return SafeOperationCall(() => { return FiresecService.GetConfigurationParameters(deviceUID, paramNo); });
+			return SafeOperationCall(() => { return FiresecService.GetConfigurationParameters(deviceUID); });
 		}
 
-		public void SetConfigurationParameters(Guid deviceUID)
+		public void SetConfigurationParameters(Guid deviceUID, List<Property> properties)
 		{
-			SafeOperationCall(() => { FiresecService.SetConfigurationParameters(deviceUID); });
+			SafeOperationCall(() => { FiresecService.SetConfigurationParameters(deviceUID, properties); });
 		}
 
 		public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)

@@ -131,7 +131,8 @@ namespace FiresecDirect
 
 		private void OnExecuteRuntimeDeviceMethod1(object sender, RoutedEventArgs e)
 		{
-			var result = NativeFiresecClient.ExecuteRuntimeDeviceMethod(Execute1_devicePath.Text, Execute1_MethodName.Text, Execute1_AParams.Text, int.Parse(Execute1_RequestID.Text));
+			int reguestId = 0;
+			var result = NativeFiresecClient.ExecuteRuntimeDeviceMethod(Execute1_devicePath.Text, Execute1_MethodName.Text, Execute1_AParams.Text, ref reguestId);
 			if (result.HasError)
 				MessageBox.Show("Error:" + result.ErrorString);
 			else
@@ -140,7 +141,8 @@ namespace FiresecDirect
 
 		private void OnExecuteRuntimeDeviceMethod2(object sender, RoutedEventArgs e)
 		{
-			var result = NativeFiresecClient.ExecuteRuntimeDeviceMethod(Execute2_devicePath.Text, Execute2_MethodName.Text, Execute2_AParams.Text, int.Parse(Execute2_RequestID.Text));
+			int reguestId = 0;
+			var result = NativeFiresecClient.ExecuteRuntimeDeviceMethod(Execute2_devicePath.Text, Execute2_MethodName.Text, Execute2_AParams.Text, ref reguestId);
 			if (result.HasError)
 				MessageBox.Show("Error:" + result.ErrorString);
 			else
