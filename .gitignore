@@ -8,3 +8,6 @@ buildlog.xml
 /3rdParty/VLC/Vlc.DotNet.Src/Vlc.DotNet.Forms/obj
 /build.bat
 /FiresecService.lnk
+/Solution - FireAdministrator.lnk
+/Solution - FireMonitor.lnk
+/Solution - FiresecService.lnk
