@@ -10,6 +10,7 @@ namespace Infrustructure.Plans.Designer
 	public abstract class CommonDesignerCanvas : Canvas
 	{
 		public virtual double Zoom { get { return 1; } }
+		public virtual double PointZoom { get { return 10; } }
 		public abstract void BeginChange();
 		public abstract void EndChange();
 

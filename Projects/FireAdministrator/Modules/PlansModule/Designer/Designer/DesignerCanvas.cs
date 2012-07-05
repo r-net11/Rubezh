@@ -18,6 +18,7 @@ using PlansModule.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Painters;
 
 namespace PlansModule.Designer
 {
@@ -44,6 +45,10 @@ namespace PlansModule.Designer
 		public override double Zoom
 		{
 			get { return PlanDesignerViewModel.Zoom; }
+		}
+		public override double PointZoom
+		{
+			get { return PlanDesignerViewModel.DeviceZoom; }
 		}
 
 		public void RemoveAllSelected()
@@ -294,7 +299,7 @@ namespace PlansModule.Designer
 			Height = Plan.Height;
 			Background = new SolidColorBrush(Plan.BackgroundColor);
 			if (Plan.BackgroundPixels != null)
-				Background = PlanElementsHelper.CreateBrush(Plan.BackgroundPixels);
+				Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
 		}
 
 		public List<ElementBase> CloneSelectedElements()

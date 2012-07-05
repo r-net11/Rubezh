@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using Infrustructure.Plans.Elements;
 using System.Windows;
 using System.Windows.Media;
+using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -60,19 +61,21 @@ namespace Infrustructure.Plans.Designer
 		{
 			get { return VisualTreeHelper.GetParent(this) as CommonDesignerCanvas; }
 		}
-		
+
 		public ElementBase Element { get; protected set; }
+		public IPainter Painter { get; private set; }
 		public IResizeChromeBase ResizeChrome { get; set; }
 
 		public DesignerItem(ElementBase element)
 		{
-			Element = element;
-			DataContext = element;
+			ResetElement(element);
 		}
 
 		public void ResetElement(ElementBase element)
 		{
 			Element = element;
+			DataContext = Element;
+			Painter = PainterFactory.Create(Element);
 			Redraw();
 		}
 		public void UpdateAdorner()
@@ -104,11 +107,17 @@ namespace Infrustructure.Plans.Designer
 			ItemWidth = rect.Width;
 			ItemHeight = rect.Height;
 		}
+		public void Redraw()
+		{
+			Content = Painter == null ? null : Painter.Draw(Element);
+			SetLocation(Element.GetRectangle());
+			UpdateAdorner();
+		}
 
 		public abstract double ItemWidth { get; set; }
 		public abstract double ItemHeight { get; set; }
 
-		public abstract void Redraw();
+
 		public abstract void Remove();
 		public abstract void UpdateElementProperties();
 	}

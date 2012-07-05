@@ -14,21 +14,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public ulong? ZoneNo { get; set; }
 
-		public override FrameworkElement Draw()
-		{
-			if (Points == null)
-				return null;
-
-			var polygon = new Polygon()
-			{
-				Points = new PointCollection(Points),
-				Fill = new SolidColorBrush(ElementZoneHelper.GetZoneColor(Zone)),
-				Stroke = new SolidColorBrush(Colors.Blue),
-				StrokeThickness = 1
-			};
-			return polygon;
-		}
-
 		public override ElementBase Clone()
 		{
 			ElementBase elementBase = new ElementPolygonZone()

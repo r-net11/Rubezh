@@ -29,20 +29,5 @@ namespace FiresecAPI.Models
 			Copy(elementBase);
 			return elementBase;
 		}
-
-		public override FrameworkElement Draw()
-		{
-			var rectangle = new Rectangle()
-			{
-				Fill = new SolidColorBrush(BackgroundColor),
-				Stroke = new SolidColorBrush(BorderColor),
-				StrokeThickness = BorderThickness
-			};
-
-			if (BackgroundPixels != null)
-				rectangle.Fill = PlanElementsHelper.CreateBrush(BackgroundPixels);
-
-			return rectangle;
-		}
 	}
 }

@@ -101,6 +101,9 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Designer\DesignerItems\DesignerItemPolygon.cs" />
+    <Compile Include="Designer\DesignerItems\DesignerItemPolyline.cs" />
+    <Compile Include="Designer\DesignerItems\DesignerItemPoint.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemBase.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemRectangle.cs" />
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />

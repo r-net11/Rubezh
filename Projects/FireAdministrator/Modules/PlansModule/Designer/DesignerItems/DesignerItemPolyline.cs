@@ -8,9 +8,9 @@ using System.Windows.Controls;
 
 namespace PlansModule.Designer.DesignerItems
 {
-	public class DesignerItemRectangle : DesignerItemBase
+	public class DesignerItemPolyline : DesignerItemBase
 	{
-		public DesignerItemRectangle(ElementBase element)
+		public DesignerItemPolyline(ElementBase element)
 			:base (element)
 		{
 		}

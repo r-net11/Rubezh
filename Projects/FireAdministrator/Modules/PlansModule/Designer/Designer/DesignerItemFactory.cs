@@ -22,13 +22,13 @@ namespace PlansModule.Designer
 			switch (element.Type)
 			{
 				case ElementType.Point:
-					break;
+					return new DesignerItemPoint(element);
 				case ElementType.Rectangle:
 					return new DesignerItemRectangle(element);
 				case ElementType.Polygon:
-					break;
+					return new DesignerItemPolygon(element);
 				case ElementType.Polyline:
-					break;
+					return new DesignerItemPolyline(element);
 			}
 			return new DesignerItemBase(element);
 		}

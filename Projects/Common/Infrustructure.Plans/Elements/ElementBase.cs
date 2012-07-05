@@ -24,8 +24,6 @@ namespace Infrustructure.Plans.Elements
 
 		public ElementType Type { get; protected set; }
 
-		public abstract FrameworkElement Draw();
-
 		[DataMember]
 		public Guid UID { get; set; }
 

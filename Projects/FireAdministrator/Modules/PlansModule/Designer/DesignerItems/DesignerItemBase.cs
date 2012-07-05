@@ -1,34 +1,15 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using DeviceControls;
-using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using PlansModule.Events;
-using PlansModule.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
 
 namespace PlansModule.Designer.DesignerItems
 {
 	public class DesignerItemBase : DesignerItem
 	{
-		//public static readonly DependencyProperty MoveThumbTemplateProperty = DependencyProperty.RegisterAttached("MoveThumbTemplate", typeof(ControlTemplate), typeof(DesignerItem));
-		//public static ControlTemplate GetMoveThumbTemplate(UIElement element)
-		//{
-		//    return (ControlTemplate)element.GetValue(MoveThumbTemplateProperty);
-		//}
-		//public static void SetMoveThumbTemplate(UIElement element, ControlTemplate value)
-		//{
-		//    element.SetValue(MoveThumbTemplateProperty, value);
-		//}
-
 		static DesignerItemBase()
 		{
 			FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(DesignerItem), new FrameworkPropertyMetadata(typeof(DesignerItem)));
@@ -38,10 +19,20 @@ namespace PlansModule.Designer.DesignerItems
 			: base(element)
 		{
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			Loaded += new RoutedEventHandler(this.DesignerItem_Loaded);
 			MouseDoubleClick += (s, e) => OnShowProperties();
 			IsVisibleLayout = true;
 			IsSelectableLayout = true;
+		}
+
+		public override double ItemWidth
+		{
+			get { return Width; }
+			set { Width = value; }
+		}
+		public override double ItemHeight
+		{
+			get { return Height; }
+			set { Height = value; }
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -49,46 +40,6 @@ namespace PlansModule.Designer.DesignerItems
 		{
 			//DesignerCanvas.BeginChange();
 			//
-		}
-
-		public override void Redraw()
-		{
-			//    if (ElementBase is IElementZone)
-			//    {
-			//        IElementZone elementZone = ElementBase as IElementZone;
-			//        elementZone.Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == elementZone.ZoneNo);
-			//    }
-
-			//    FrameworkElement frameworkElement = null;
-			//    if (ElementBase is ElementDevice)
-			//    {
-			//        var elementDevice = ElementBase as ElementDevice;
-			//        if (elementDevice.Device == null)
-			//            elementDevice.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-			//        if (elementDevice.Device != null)
-			//        {
-			//            frameworkElement = DeviceControl.GetDefaultPicture(elementDevice.Device.Driver.UID);
-			//        }
-			//        else
-			//        {
-			//            frameworkElement = ElementBase.Draw();
-			//        }
-			//    }
-			//    else
-			//    {
-			//        frameworkElement = ElementBase.Draw();
-			//    }
-
-			FrameworkElement frameworkElement = Element.Draw();
-			if (frameworkElement != null)
-			{
-				frameworkElement.IsHitTestVisible = false;
-				Content = frameworkElement;
-			}
-			SetLocation(Element.GetRectangle());
-
-			//UpdateZoomDevice();
-			UpdateAdorner();
 		}
 
 		protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
@@ -106,35 +57,6 @@ namespace PlansModule.Designer.DesignerItems
 				}
 			}
 			e.Handled = false;
-		}
-
-		private void DesignerItem_Loaded(object sender, RoutedEventArgs e)
-		{
-			if (this.Template != null)
-			{
-				ContentPresenter contentPresenter = this.Template.FindName("PART_ContentPresenter", this) as ContentPresenter;
-				MoveThumb moveThumb = this.Template.FindName("PART_MoveThumbRectangle", this) as MoveThumb;
-
-				if (contentPresenter != null && moveThumb != null)
-				{
-					UIElement contentVisual = null;
-					if (VisualTreeHelper.GetChildrenCount(contentPresenter) > 0)
-					{
-						contentVisual = VisualTreeHelper.GetChild(contentPresenter, 0) as UIElement;
-					}
-
-					if (contentVisual != null)
-					{
-						//ControlTemplate controlTemplate = DesignerItemBase.GetMoveThumbTemplate(contentVisual) as ControlTemplate;
-
-						//if (controlTemplate != null)
-						//{
-						//    moveThumb.Template = controlTemplate;
-						//}
-					}
-				}
-			}
-			UpdateZoomDevice();
 		}
 
 		public override void Remove()
@@ -181,17 +103,6 @@ namespace PlansModule.Designer.DesignerItems
 			//    ElementBase.Width = 0;
 			//    ElementBase.Height = 0;
 			//}
-		}
-
-		public override double ItemWidth
-		{
-			get { return Width; }
-			set { Width = value; }
-		}
-		public override double ItemHeight
-		{
-			get { return Height; }
-			set { Height = value; }
 		}
 	}
 }

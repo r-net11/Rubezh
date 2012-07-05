@@ -57,13 +57,26 @@
     <Compile Include="Elements\ElementBasePolyline.cs" />
     <Compile Include="Elements\ElementType.cs" />
     <Compile Include="Designer\DesignerItem.cs" />
+    <Compile Include="Elements\IElementTextBlock.cs" />
+    <Compile Include="Elements\IPrimitive.cs" />
+    <Compile Include="Elements\Primitive.cs" />
+    <Compile Include="Events\PainterFactoryEvent.cs" />
     <Compile Include="Events\DesignerItemFactoryEvent.cs" />
-    <Compile Include="IElementPresenter.cs" />
     <Compile Include="Elements\ElementBasePoint.cs" />
     <Compile Include="Elements\ElementBaseRectangle.cs" />
     <Compile Include="Elements\ElementBaseShape.cs" />
     <Compile Include="Elements\ElementBase.cs" />
     <Compile Include="Elements\IElementZIndex.cs" />
+    <Compile Include="Painters\DefaultPainter.cs" />
+    <Compile Include="Painters\ElipsePainter.cs" />
+    <Compile Include="Painters\IPainter.cs" />
+    <Compile Include="Painters\PainterFactory.cs" />
+    <Compile Include="Painters\PainterHelper.cs" />
+    <Compile Include="Painters\PolygonPainter.cs" />
+    <Compile Include="Painters\PolylinePainter.cs" />
+    <Compile Include="Painters\RectanglePainter.cs" />
+    <Compile Include="Painters\ShapePainter.cs" />
+    <Compile Include="Painters\TextBlockPainter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

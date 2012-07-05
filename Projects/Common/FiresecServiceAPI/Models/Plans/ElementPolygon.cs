@@ -14,24 +14,6 @@ namespace FiresecAPI.Models
 
 		}
 
-		public override FrameworkElement Draw()
-		{
-			var polygon = new Polygon()
-			{
-				Points = new PointCollection(Points),
-				Fill = new SolidColorBrush(BackgroundColor),
-				Stroke = new SolidColorBrush(BorderColor),
-				StrokeThickness = BorderThickness
-			};
-
-			if (BackgroundPixels != null)
-			{
-				polygon.Fill = PlanElementsHelper.CreateBrush(BackgroundPixels);
-			}
-
-			return polygon;
-		}
-
 		[DataMember]
 		public int ZIndex { get; set; }
 

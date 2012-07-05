@@ -19,23 +19,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public int ZIndex { get; set; }
 
-		public override FrameworkElement Draw()
-		{
-			var ellipse = new Ellipse()
-			{
-				Fill = new SolidColorBrush(BackgroundColor),
-				Stroke = new SolidColorBrush(BorderColor),
-				StrokeThickness = BorderThickness
-			};
-
-			if (BackgroundPixels != null)
-			{
-				ellipse.Fill = PlanElementsHelper.CreateBrush(BackgroundPixels);
-			}
-
-			return ellipse;
-		}
-
 		public override ElementBase Clone()
 		{
 			ElementEllipse elementBase = new ElementEllipse()

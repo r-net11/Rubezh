@@ -1,13 +1,11 @@
 ﻿using System.Runtime.Serialization;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementTextBlock : ElementBaseRectangle, IElementZIndex
+	public class ElementTextBlock : ElementBaseRectangle, IElementTextBlock, IElementZIndex
 	{
 		public ElementTextBlock()
 		{
@@ -30,30 +28,6 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public int ZIndex { get; set; }
-
-		public override FrameworkElement Draw()
-		{
-			var textBlock = new Label()
-			{
-				Content = Text,
-				Background = new SolidColorBrush(BackgroundColor),
-				Foreground = new SolidColorBrush(ForegroundColor),
-				BorderBrush = new SolidColorBrush(BorderColor),
-				BorderThickness = new Thickness(BorderThickness),
-				FontSize = FontSize,
-				FontFamily = new FontFamily(FontFamilyName),
-			};
-			if (Stretch)
-			{
-				var viewbox = new Viewbox()
-				{
-					Stretch = System.Windows.Media.Stretch.Fill,
-					Child = textBlock
-				};
-				return viewbox;
-			}
-			return textBlock;
-		}
 
 		public override ElementBase Clone()
 		{

@@ -14,16 +14,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public ulong? ZoneNo { get; set; }
 
-		public override FrameworkElement Draw()
-		{
-			var rectangle = new Rectangle()
-			{
-				Fill = new SolidColorBrush(ElementZoneHelper.GetZoneColor(Zone)),
-			};
-
-			return rectangle;
-		}
-
 		public override ElementBase Clone()
 		{
 			ElementBase elementBase = new ElementRectangleZone()

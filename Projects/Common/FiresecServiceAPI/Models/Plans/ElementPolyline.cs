@@ -22,19 +22,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public int ZIndex { get; set; }
 
-		public override FrameworkElement Draw()
-		{
-			var polyline = new Polyline()
-			{
-				Points = new PointCollection(Points),
-				Stroke = new SolidColorBrush(BackgroundColor),
-				Fill = new SolidColorBrush(Colors.Transparent),
-				StrokeThickness = BorderThickness
-			};
-
-			return polyline;
-		}
-
 		public override ElementBase Clone()
 		{
 			ElementPolyline elementLine = new ElementPolyline()

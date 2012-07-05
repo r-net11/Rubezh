@@ -79,6 +79,9 @@
 		</Setter>
 	</Style>
 	<Style TargetType="{x:Type loc:DesignerItemRectangle}" BasedOn="{StaticResource {x:Type loc:DesignerItemBase}}" />
+	<Style TargetType="{x:Type loc:DesignerItemPoint}" BasedOn="{StaticResource {x:Type loc:DesignerItemBase}}" />
+	<Style TargetType="{x:Type loc:DesignerItemPolyline}" BasedOn="{StaticResource {x:Type loc:DesignerItemBase}}" />
+	<Style TargetType="{x:Type loc:DesignerItemPolygon}" BasedOn="{StaticResource {x:Type loc:DesignerItemBase}}" />
 	<!--
 		<Style TargetType="{x:Type loc:_DesignerItem}">
 		<Setter Property="SnapsToDevicePixels" Value="true" />

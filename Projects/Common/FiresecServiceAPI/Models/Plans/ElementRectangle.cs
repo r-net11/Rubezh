@@ -19,23 +19,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public int ZIndex { get; set; }
 
-		public override FrameworkElement Draw()
-		{
-			var rectangle = new Rectangle()
-			{
-				Fill = new SolidColorBrush(BackgroundColor),
-				Stroke = new SolidColorBrush(BorderColor),
-				StrokeThickness = BorderThickness
-			};
-
-			if (BackgroundPixels != null)
-			{
-				rectangle.Fill = PlanElementsHelper.CreateBrush(BackgroundPixels); ;
-			}
-
-			return rectangle;
-		}
-
 		public override ElementBase Clone()
 		{
 			ElementRectangle elementBase = new ElementRectangle()

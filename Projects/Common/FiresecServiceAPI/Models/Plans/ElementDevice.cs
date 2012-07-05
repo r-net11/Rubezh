@@ -19,11 +19,6 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 
-		public override FrameworkElement Draw()
-		{
-			return null;
-		}
-
 		public override ElementBase Clone()
 		{
 			ElementBase elementBase = new ElementDevice()

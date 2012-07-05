@@ -1,0 +1,67 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
+using Microsoft.Practices.Prism.Events;
+
+namespace Infrustructure.Plans.Painters
+{
+	public static class PainterFactory
+	{
+		public static IPainter Create(ElementBase element)
+		{
+			Type type = element.GetType();
+			if (element is IPrimitive)
+				switch (((IPrimitive)element).Primitive)
+				{
+					case Primitive.Ellipse:
+						return new ElipsePainter();
+					case Primitive.Polygon:
+						return new PolygonPainter();
+					case Primitive.PolygonZone:
+					//if (Points == null)
+					//    return null;
+
+					//var polygon = new Polygon()
+					//{
+					//    Points = new PointCollection(Points),
+					//    Fill = new SolidColorBrush(ElementZoneHelper.GetZoneColor(Zone)),
+					//    Stroke = new SolidColorBrush(Colors.Blue),
+					//    StrokeThickness = 1
+					//};
+					//return polygon;
+					//return new PolygonZonePainter();
+					case Primitive.Polyline:
+						return new PolylinePainter();
+					case Primitive.Rectangle:
+						return new RectanglePainter();
+					case Primitive.RectangleZone:
+					//var rectangle = new Rectangle()
+					//{
+					//    Fill = new SolidColorBrush(ElementZoneHelper.GetZoneColor(Zone)),
+					//};
+					//return rectangle;
+					//return new RectangleZonePainter();
+					case Primitive.SubPlan:
+					//var rectangle = new Rectangle()
+					//{
+					//    Fill = new SolidColorBrush(BackgroundColor),
+					//    Stroke = new SolidColorBrush(BorderColor),
+					//    StrokeThickness = BorderThickness
+					//};
+					//if (BackgroundPixels != null)
+					//	rectangle.Fill = PlanElementsHelper.CreateBrush(BackgroundPixels);
+					//return rectangle;
+					//return new SubPlanPainter();
+					case Primitive.TextBlock:
+						return new TextBlockPainter();
+				}
+			var aggregator = new EventAggregator();
+			var args = new PainterFactoryEventArgs(element);
+			aggregator.GetEvent<PainterFactoryEvent>().Publish(args);
+			return args.Painter ?? new DefaultPainter();
+		}
+	}
+}
