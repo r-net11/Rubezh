@@ -13,6 +13,12 @@
         <File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
               Source="$(var.FiresecService.TargetPath)" DiskId="1" KeyPath="yes">
         </File>
+        <ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
+												Name="Firesec-2 NT Server" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
+												ErrorControl="ignore" Interactive="yes" Arguments="/service">
+          <util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
+															RestartServiceDelayInSeconds="100"/>
+        </ServiceInstall>
       </Component>
 
       <Component Id="FiresecServiceConfig" Guid="7B35878D-19EB-4552-BF09-E3D658D34957">
@@ -125,11 +131,16 @@
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="Autorun" Guid="A35143F0-4713-4061-BA6F-E94C6FBE458C">
-        <RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
-          <RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)" />
-        </RegistryKey>
-      </Component>
+      <!--<Component Id="FiresecNTService" Guid="4B647FF5-1F32-46C5-BC7B-5CE65C04EAEA">
+        <File Id="FiresecNTServiceExe" Name="$(var.FiresecNTService.TargetFileName)"
+							Source="$(var.FiresecNTService.TargetDir)" KeyPath="yes" DiskId="1" />
+        <ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
+												Name="Firesec-2 NT Server" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
+												ErrorControl="ignore" Interactive="yes" Arguments="$(var.FiresecService.TargetFileName)">
+          <util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
+															RestartServiceDelayInSeconds="100"/>
+        </ServiceInstall>
+      </Component>-->
 
       <Component Id="OPC_gbda3w_Component" Guid="A25FAEB1-6EA4-46EA-8017-D4738831CDFF">
         <File Id="gbda3w.dll" Name="gbda3w.dll" Source="$(var.FiresecService.TargetDir)"
@@ -153,6 +164,8 @@
               DiskId="1" KeyPath="yes">
         </File>
       </Component>
+
+     
     </DirectoryRef>
 
   </Fragment>

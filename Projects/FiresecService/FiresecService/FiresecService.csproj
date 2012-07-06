@@ -116,6 +116,12 @@
     <Compile Include="OPC\FiresecOPCManager.cs" />
     <Compile Include="OPC\TagDevice.cs" />
     <Compile Include="OPC\TagZone.cs" />
+    <Compile Include="FiresecNTService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="FiresecNTService.Designer.cs">
+      <DependentUpon>FiresecNTService.cs</DependentUpon>
+    </Compile>
     <Compile Include="Service\CallbackWrapper.cs" />
     <Compile Include="Service\ClientsCash.cs" />
     <Compile Include="Service\ConfigurationCash.cs" />

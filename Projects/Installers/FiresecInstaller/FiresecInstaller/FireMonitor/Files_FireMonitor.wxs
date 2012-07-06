@@ -69,14 +69,19 @@
 							DiskId="1" KeyPath="yes" />
 			</Component>
 			
-      <Component Id="FMInfrastructure.CommonComponent" Guid="39E6D73E-8564-42CF-907D-E0C614DBBF2E">
-				<File Id="FMInfrastructure.CommonClientDll" Name="Infrastructure.Client.dll"
+      <Component Id="FMInfrastructure.ClientComponent" Guid="5BD25584-50EE-4184-A787-F42C7F63978B">
+				<File Id="FMInfrastructure.ClientDll" Name="Infrastructure.Client.dll"
 							Source="$(var.FireMonitor.TargetDir)" DiskId="1" KeyPath="yes" />
 			</Component>
       
-      <Component Id="FMInfrastructure.ClientComponent" Guid="39E6D73E-8564-42CF-907D-E0C614DBBF3E">
+      <Component Id="FMInfrastructure.CommonComponent" Guid="30E88D0B-9822-4BB5-9277-5FC623BC166A">
         <File Id="FMInfrastructure.CommonDll" Name="Infrastructure.Common.dll"
 							Source="$(var.FireMonitor.TargetDir)" DiskId="1" KeyPath="yes" />
+      </Component>
+
+      <Component Id="FMInfrastructure.PlansComponent" Guid="9A6B7522-A17A-4137-83D2-3DDC82DB75DB">
+        <File Id="FMInfrustructure.PlansDll" Name="Infrustructure.Plans.dll"
+              Source="$(var.FireMonitor.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
 			
       <Component Id="FMInfrastructureComponent" Guid="079519E5-376E-4E61-98D5-B91B50CE1328">

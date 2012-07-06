@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' "></Configuration>
+    <Configuration Condition=" '$(Configuration)' == '' ">
+    </Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>3.5</ProductVersion>
     <ProjectGuid>{184068e9-b59d-4b55-a57b-60c9cc3450f2}</ProjectGuid>
@@ -107,6 +108,14 @@
     <Folder Include="UI" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\FiresecWindowsService\FiresecWindowsService\FiresecNTService.csproj">
+      <Name>FiresecNTService</Name>
+      <Project>{c4a49223-5e98-45dd-814c-cfc03a1f7d15}</Project>
+      <Private>True</Private>
+      <DoNotHarvest>True</DoNotHarvest>
+      <RefProjectOutputGroups>Binaries;Content;Satellites</RefProjectOutputGroups>
+      <RefTargetDir>INSTALLFOLDER</RefTargetDir>
+    </ProjectReference>
     <ProjectReference Include="..\CustomAction\CustomAction.csproj">
       <Name>CustomAction</Name>
       <Project>{db0996cd-bc6b-4783-a61f-25fd1e88e824}</Project>

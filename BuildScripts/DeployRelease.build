@@ -5,6 +5,7 @@
     <call target="BuildAll" />
   </target>
   <target name="BuildAll">
+    <delete dir="bin" />
     <msbuild project="..\Projects\FiresecService\FiresecService.sln">
       <property name="Configuration" value="Release" overwrite="True" />	  
     </msbuild>			
@@ -17,5 +18,10 @@
     <msbuild project="..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>	
+	<copy todir="bin\">
+      <fileset basedir="..\Projects\Installers\FiresecInstaller\FiresecInstaller\bin\Release">
+        <include name="**\*" />
+      </fileset>
+    </copy>
   </target>
 </project>

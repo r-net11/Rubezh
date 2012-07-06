@@ -30,6 +30,7 @@ namespace ReportsModule.Reports
 			{
 				dt.Columns.Add(new DataColumn(info.Name, info.PropertyType));
 			}
+
 			foreach (T t in list)
 			{
 				DataRow row = dt.NewRow();
