@@ -100,8 +100,9 @@ namespace Infrustructure.Plans.Designer
 			//}
 		}
 
-		public void SetLocation(Rect rect)
+		public void SetLocation()
 		{
+			var rect = Element.GetRectangle();
 			Canvas.SetLeft(this, rect.Left);
 			Canvas.SetTop(this, rect.Top);
 			ItemWidth = rect.Width;
@@ -110,13 +111,20 @@ namespace Infrustructure.Plans.Designer
 		public void Redraw()
 		{
 			Content = Painter == null ? null : Painter.Draw(Element);
-			SetLocation(Element.GetRectangle());
+			SetLocation();
 			UpdateAdorner();
 		}
 
-		public abstract double ItemWidth { get; set; }
-		public abstract double ItemHeight { get; set; }
-
+		public virtual double ItemWidth
+		{
+			get { return Width - Element.BorderThickness; }
+			set { Width = value + Element.BorderThickness; }
+		}
+		public virtual double ItemHeight
+		{
+			get { return Height - Element.BorderThickness; }
+			set { Height = value + Element.BorderThickness; }
+		}
 
 		public abstract void Remove();
 		public abstract void UpdateElementProperties();

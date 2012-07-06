@@ -24,16 +24,6 @@ namespace PlansModule.Designer.DesignerItems
 			IsSelectableLayout = true;
 		}
 
-		public override double ItemWidth
-		{
-			get { return Width; }
-			set { Width = value; }
-		}
-		public override double ItemHeight
-		{
-			get { return Height; }
-			set { Height = value; }
-		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		private void OnShowProperties()
@@ -71,11 +61,6 @@ namespace PlansModule.Designer.DesignerItems
 		}
 		public override void UpdateElementProperties()
 		{
-			//ElementBase.Left = Canvas.GetLeft(this);
-			//ElementBase.Top = Canvas.GetTop(this);
-			//ElementBase.Width = this.ItemWidth;
-			//ElementBase.Height = this.ItemHeight;
-
 			//if (ElementBase is ElementBasePolygon)
 			//{
 			//    ElementBasePolygon elementPolygon = ElementBase as ElementBasePolygon;

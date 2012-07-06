@@ -23,14 +23,18 @@
 				<ControlTemplate TargetType="{x:Type s:ResizeChromeRectangle}">
 					<Grid>
 						<Grid Name="PART_ResizeGrid" Margin="-3" Opacity="0">
-							<s:ResizeThumbRectangle Name="PART_TopThumb" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Cursor="SizeNS" />
-							<s:ResizeThumbRectangle Name="PART_LeftThumb" Width="3" HorizontalAlignment="Left" VerticalAlignment="Stretch" Cursor="SizeWE" />
-							<s:ResizeThumbRectangle Name="PART_RightThumb" Width="3" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" />
-							<s:ResizeThumbRectangle Name="PART_BottomThumb" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" />
-							<s:ResizeThumbRectangle Name="PART_TopLeftThumb" Width="7" Height="7" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" Cursor="SizeNWSE" />
-							<s:ResizeThumbRectangle Name="PART_TopRightThumb" Width="7" Height="7" Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="SizeNESW" />
-							<s:ResizeThumbRectangle Name="PART_BottomLeftThumb" Width="7" Height="7" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Cursor="SizeNESW" />
-							<s:ResizeThumbRectangle Name="PART_BottomRightThumb" Width="7" Height="7" Margin="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" />
+							<s:ResizeThumbRectangle x:Name="PART_TopThumb" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Cursor="SizeNS" />
+							<s:ResizeThumbRectangle x:Name="PART_LeftThumb" Width="3" HorizontalAlignment="Left" VerticalAlignment="Stretch" Cursor="SizeWE" />
+							<s:ResizeThumbRectangle x:Name="PART_RightThumb" Width="3" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" />
+							<s:ResizeThumbRectangle x:Name="PART_BottomThumb" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" />
+							<s:ResizeThumbRectangle x:Name="PART_TopLeftThumb" Width="7" Height="7" Margin="0" HorizontalAlignment="Left"
+							                        VerticalAlignment="Top" Cursor="SizeNWSE" />
+							<s:ResizeThumbRectangle x:Name="PART_TopRightThumb" Width="7" Height="7" Margin="0" HorizontalAlignment="Right"
+							                        VerticalAlignment="Top" Cursor="SizeNESW" />
+							<s:ResizeThumbRectangle x:Name="PART_BottomLeftThumb" Width="7" Height="7" Margin="0" HorizontalAlignment="Left"
+							                        VerticalAlignment="Bottom" Cursor="SizeNESW" />
+							<s:ResizeThumbRectangle x:Name="PART_BottomRightThumb" Width="7" Height="7" Margin="0" HorizontalAlignment="Right"
+							                        VerticalAlignment="Bottom" Cursor="SizeNWSE" />
 						</Grid>
 						<Grid Name="PART_Decorators" Margin="-3" IsHitTestVisible="False" Opacity="1">
 							<Rectangle Name="PART_CornerRectangle" Margin="1" SnapsToDevicePixels="True" StrokeThickness="1">

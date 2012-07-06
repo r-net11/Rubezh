@@ -5,6 +5,7 @@ using System.Windows.Media;
 using Infrastructure;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
+using System.Windows;
 
 namespace PlansModule.Designer
 {
@@ -61,24 +62,16 @@ namespace PlansModule.Designer
 
 				double deltaRight = DesignerCanvas.Width - maxRight;
 				double deltaBottom = DesignerCanvas.Height - maxBottom;
-
 				if (deltaRight < 0)
-				{
 					deltaHorizontal = Math.Min(0, e.HorizontalChange);
-				}
 				if (deltaBottom < 0)
-				{
 					deltaVertical = Math.Min(0, e.VerticalChange);
-				}
+				Vector shift = new Vector(deltaHorizontal, deltaVertical);
 
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
-					double left = Canvas.GetLeft(designerItem) + deltaHorizontal;
-					double top = Canvas.GetTop(designerItem) + deltaVertical;
-					Canvas.SetLeft(designerItem, left);
-					Canvas.SetTop(designerItem, top);
-					//designerItem.ElementBase.Left = left;
-					//designerItem.ElementBase.Top = top;
+					designerItem.Element.Position += shift;
+					designerItem.SetLocation();
 				}
 
 				DesignerCanvas.InvalidateMeasure();

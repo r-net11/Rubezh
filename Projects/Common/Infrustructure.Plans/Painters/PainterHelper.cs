@@ -3,6 +3,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Infrustructure.Plans.Elements;
+using System.Windows;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -18,7 +19,14 @@ namespace Infrustructure.Plans.Painters
 		}
 		public static PointCollection GetPoints(ElementBase element)
 		{
-			return element is ElementBaseShape ? ((ElementBaseShape)element).Points : new PointCollection();
+			return element is ElementBaseShape ? Normalize(element.GetRectangle().TopLeft, ((ElementBaseShape)element).Points) : new PointCollection();
+		}
+		public static PointCollection Normalize(Point topLeftPoint, PointCollection points)
+		{
+			var pointCollection = new PointCollection();
+			foreach (var point in points)
+				pointCollection.Add(new Point(point.X - topLeftPoint.X, point.Y - topLeftPoint.Y));
+			return pointCollection;
 		}
 		public static Brush CreateBrush(byte[] backgroundPixels)
 		{

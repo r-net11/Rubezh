@@ -75,59 +75,40 @@ namespace PlansModule.ViewModels
 			{
 				designerItem.UpdateElementProperties();
 				ElementBase elementBase = designerItem.Element;
-
-				if (elementBase is ElementBasePolygon)
-				{
-					ElementBasePolygon elementPolygon = elementBase as ElementBasePolygon;
-					if (designerItem.Content != null)
-						elementPolygon.Points = new System.Windows.Media.PointCollection((designerItem.Content as Polygon).Points);
-				}
-
-				if (elementBase is ElementRectangle)
-				{
-					ElementRectangle elementRectangle = elementBase as ElementRectangle;
-					Plan.ElementRectangles.Add(elementRectangle);
-				}
-				if (elementBase is ElementEllipse)
-				{
-					ElementEllipse elementEllipse = elementBase as ElementEllipse;
-					Plan.ElementEllipses.Add(elementEllipse);
-				}
-				if (elementBase is ElementTextBlock)
-				{
-					ElementTextBlock elementTextBlock = elementBase as ElementTextBlock;
-					Plan.ElementTextBlocks.Add(elementTextBlock);
-				}
-				if (elementBase is ElementPolygon)
-				{
-					ElementPolygon elementPolygon = elementBase as ElementPolygon;
-					Plan.ElementPolygons.Add(elementPolygon);
-				}
-				if (elementBase is ElementPolyline)
-				{
-					ElementPolyline elementPolyline = elementBase as ElementPolyline;
-					Plan.ElementPolylines.Add(elementPolyline);
-				}
-				if (elementBase is ElementPolygonZone)
-				{
-					ElementPolygonZone elementPolygonZone = elementBase as ElementPolygonZone;
-					Plan.ElementPolygonZones.Add(elementPolygonZone);
-				}
-				if (elementBase is ElementRectangleZone)
-				{
-					ElementRectangleZone elementRectangleZone = elementBase as ElementRectangleZone;
-					Plan.ElementRectangleZones.Add(elementRectangleZone);
-				}
-				if (elementBase is ElementDevice)
-				{
-					ElementDevice elementDevice = elementBase as ElementDevice;
-					Plan.ElementDevices.Add(elementDevice);
-				}
-				if (elementBase is ElementSubPlan)
-				{
-					ElementSubPlan elementSubPlan = elementBase as ElementSubPlan;
-					Plan.ElementSubPlans.Add(elementSubPlan);
-				}
+				IPrimitive primitive = elementBase as IPrimitive;
+				if (primitive != null)
+					switch (primitive.Primitive)
+					{
+						case Primitive.Ellipse:
+							Plan.ElementEllipses.Add(elementBase as ElementEllipse);
+							break;
+						case Primitive.Polygon:
+							Plan.ElementPolygons.Add(elementBase as ElementPolygon);
+							break;
+						case Primitive.PolygonZone:
+							Plan.ElementPolygonZones.Add(elementBase as ElementPolygonZone);
+							break;
+						case Primitive.Polyline:
+							Plan.ElementPolylines.Add(elementBase as ElementPolyline);
+							break;
+						case Primitive.Rectangle:
+							Plan.ElementRectangles.Add(elementBase as ElementRectangle);
+							break;
+						case Primitive.RectangleZone:
+							Plan.ElementRectangleZones.Add(elementBase as ElementRectangleZone);
+							break;
+						case Primitive.SubPlan:
+							Plan.ElementSubPlans.Add(elementBase as ElementSubPlan);
+							break;
+						case Primitive.TextBlock:
+							Plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
+							break;
+					}
+				//if (elementBase is ElementDevice)
+				//{
+				//    ElementDevice elementDevice = elementBase as ElementDevice;
+				//    Plan.ElementDevices.Add(elementDevice);
+				//}
 			}
 		}
 
