@@ -11,7 +11,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Events;
 using PlansModule.Views;
 using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
 
 namespace PlansModule.ViewModels
 {
@@ -55,7 +54,7 @@ namespace PlansModule.ViewModels
 
 			if (Plan.BackgroundPixels != null)
 			{
-				Canvas.Background = PainterHelper.CreateBrush(Plan.BackgroundPixels); //TODO: ~20-25 % общего времени
+				//Canvas.Background = PlanElementsHelper.CreateBrush(Plan.BackgroundPixels); //TODO: ~20-25 % общего времени
 			}
 			else
 			{

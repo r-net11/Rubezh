@@ -24,7 +24,7 @@ namespace FiresecAPI.Models
 				BUNHelper.Create(driver);
 			}
 			MPTHelper.Create(drivers);
-			CombinedDetectorHelper.Create(drivers);
+			DetectorsHelper.Create(drivers);
 		}
 	}
 }

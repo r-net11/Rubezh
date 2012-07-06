@@ -89,52 +89,54 @@
         <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
         <Grid Grid.Row="2" DataContext="{Binding SelectedDevice}" TextBlock.FontSize="11" TextBlock.Foreground="White" >
             <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">
-                        <WrapPanel Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <TextBlock Text="{Binding Device.PresentationAddress}" />
-                            <TextBlock Text=" - " />
-                        </WrapPanel>
-                        <TextBlock Text="{Binding Device.Driver.Name}" />
-                        <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
-                        <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
-                    </StackPanel>
-                    <ItemsControl ItemsSource="{Binding States}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateToIconConverter}}"
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">
+                            <WrapPanel Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBlock Text="{Binding Device.PresentationAddress}" />
+                                <TextBlock Text=" - " />
+                            </WrapPanel>
+                            <TextBlock Text="{Binding Device.Driver.Name}" />
+                            <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
+                            <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding States}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateToIconConverter}}"
                                            Margin="0, 0, 5, 0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
-                                    <Controls:ToolBarButton ToolTip="Сбросить" ImageSource="/Controls;component/Images/Close.png"
+                                        <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
+                                        <Controls:ToolBarButton ToolTip="Сбросить" ImageSource="/Controls;component/Images/Close.png"
                                         Width="32" Height="32" VerticalAlignment="Center"
                                         Visibility="{Binding DriverState.IsManualReset, Converter={StaticResource BoolToVisibilityConverter}}"
                                         Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ResetCommand}"
                                         CommandParameter="{Binding DriverState.Name}" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding ParentStates}" Margin="0, 5, 0, 0">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateToIconConverter}}"
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding ParentStates}" Margin="0, 5, 0, 0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateToIconConverter}}"
                                            Margin="-2, -2, 0, 0" Width="16" Height="16" />
-                                    <TextBlock Text="{Binding DeviceName}" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" Margin="5, 0, 0, 0" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding Parameters}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding .}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
+                                        <TextBlock Text="{Binding DeviceName}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" Margin="5, 0, 0, 0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding Parameters}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding .}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
             </Border>
         </Grid>
     </Grid>

@@ -167,23 +167,26 @@ namespace FiresecService.OPC
 				return;
 			}
 
-			srv.BeginUpdate();
-			foreach (var deviceState in deviceStates)
-			{
-				var tagDevice = TagDevices.FirstOrDefault(x => x.DeviceState.UID == deviceState.UID);
-				if (tagDevice == null)
+			var thread = new Thread(() =>{
+				srv.BeginUpdate();
+				foreach (var deviceState in deviceStates)
 				{
-					Logger.Error("FiresecOPCManager.OnDevicesStateChanged tagDevice = null");
-					continue;
+					var tagDevice = TagDevices.FirstOrDefault(x => x.DeviceState.UID == deviceState.UID);
+					if (tagDevice == null)
+					{
+						Logger.Error("FiresecOPCManager.OnDevicesStateChanged tagDevice = null");
+						continue;
+					}
+					if (tagDevice.DeviceState == null)
+					{
+						Logger.Error("FiresecOPCManager.OnDevicesStateChanged tagDevice.DeviceState = null");
+						continue;
+					}
+					srv.SetTag(tagDevice.TagId, tagDevice.DeviceState.StateType);
 				}
-				if (tagDevice.DeviceState == null)
-				{
-					Logger.Error("FiresecOPCManager.OnDevicesStateChanged tagDevice.DeviceState = null");
-					continue;
-				}
-				srv.SetTag(tagDevice.TagId, tagDevice.DeviceState.StateType);
-			}
-			srv.EndUpdate(false);
+				srv.EndUpdate(false);
+			});
+			thread.Start();
 		}
 
 		static void OnZoneStateChanged(ZoneState zoneState)
@@ -194,20 +197,24 @@ namespace FiresecService.OPC
 				return;
 			}
 
-			srv.BeginUpdate();
-			var tagZone = TagZones.FirstOrDefault(x => x.ZoneState.No == zoneState.No);
-			if (tagZone == null)
+			var thread = new Thread(() =>
 			{
-				Logger.Error("FiresecOPCManager.OnZoneStateChanged tagZone = null");
-				return;
-			}
-			if (tagZone.ZoneState == null)
-			{
-				Logger.Error("FiresecOPCManager.OnZoneStateChanged tagZone.ZoneState = null");
-				return;
-			}
-			srv.SetTag(tagZone.TagId, tagZone.ZoneState.StateType);
-			srv.EndUpdate(false);
+				srv.BeginUpdate();
+				var tagZone = TagZones.FirstOrDefault(x => x.ZoneState.No == zoneState.No);
+				if (tagZone == null)
+				{
+					Logger.Error("FiresecOPCManager.OnZoneStateChanged tagZone = null");
+					return;
+				}
+				if (tagZone.ZoneState == null)
+				{
+					Logger.Error("FiresecOPCManager.OnZoneStateChanged tagZone.ZoneState = null");
+					return;
+				}
+				srv.SetTag(tagZone.TagId, tagZone.ZoneState.StateType);
+				srv.EndUpdate(false);
+			});
+			thread.Start();
 		}
 
 		static void Events_DeactivateItems(object sender, DeactivateItemsArgs e)

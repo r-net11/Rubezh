@@ -167,7 +167,7 @@ namespace FiresecClient
 
 			var channelDevice = device.ParentChannel;
 
-			foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+			foreach (var zone in from zone in FiresecManager.DeviceConfiguration.Zones orderby zone.No select zone)
 			{
 				if (channelDevice != null)
 				{

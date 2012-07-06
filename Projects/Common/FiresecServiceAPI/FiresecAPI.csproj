@@ -142,7 +142,7 @@
     <Compile Include="DriverConfigurationParametersHelper\AMP4Helper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\BUNHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\BUZHelper.cs" />
-    <Compile Include="DriverConfigurationParametersHelper\CombinedDetectorHelper.cs" />
+    <Compile Include="DriverConfigurationParametersHelper\DetectorsHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\ConfigurationDriverHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\DriverConfigurationParametersHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\MDUHelper.cs" />
