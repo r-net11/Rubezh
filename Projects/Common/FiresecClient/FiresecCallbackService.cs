@@ -14,6 +14,9 @@ namespace FiresecClient
 		{
 			SafeOperationCall(() =>
 			{
+				if (FiresecManager.DeviceStates == null)
+					return;
+
 				foreach (var newDeviceState in newDeviceStates)
 				{
 					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
@@ -49,6 +52,9 @@ namespace FiresecClient
 		{
 			SafeOperationCall(() =>
 			{
+				if (FiresecManager.DeviceStates == null)
+					return;
+
 				foreach (var newDeviceState in newDeviceStates)
 				{
 					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
@@ -68,6 +74,9 @@ namespace FiresecClient
 		{
 			SafeOperationCall(() =>
 			{
+				if (FiresecManager.DeviceStates == null)
+					return;
+
 				var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == newZoneState.No);
 				zoneState.StateType = newZoneState.StateType;
 				zoneState.RevertColorsForGuardZone = IsZoneOnGuard(newZoneState);

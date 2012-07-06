@@ -113,8 +113,8 @@ namespace FiresecClient.Validation
 				foreach (var zoneNo in device.IndicatorLogic.Zones)
 				{
 					var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-					if (zone.DevicesInZone.All(x => ((x.ParentChannel != null) && (x.ParentChannel.UID == device.ParentChannel.UID)) == false))
-						DeviceErrors.Add(new DeviceError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone), ErrorLevel.CannotWrite));
+					if((zone.DevicesInZone.Count > 0) && (zone.DevicesInZone.All(x => ((x.ParentChannel != null) && (x.ParentChannel.UID == device.ParentChannel.UID)) == false)))
+						DeviceErrors.Add(new DeviceError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone.No), ErrorLevel.CannotWrite));
 				}
 			}
 		}
