@@ -20,6 +20,7 @@
 			<ComponentRef Id="FMServiceLocationComponent" />
 			<ComponentRef Id="FMInfrastructure.CommonComponent" />
       <ComponentRef Id="FMInfrastructure.ClientComponent" />
+      <ComponentRef Id="FMInfrastructure.PlansComponent"/>
 			<ComponentRef Id="FMInfrastructureComponent" />
 			<ComponentRef Id="FMDevicesModuleComponent" />
 			<ComponentRef Id="FMPlansModuleComponent" />

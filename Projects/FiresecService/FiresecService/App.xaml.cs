@@ -3,6 +3,8 @@ using System.Windows;
 using Common;
 using FiresecService;
 using Infrastructure.Common;
+using System.ServiceProcess;
+using System.Diagnostics;
 
 namespace FiresecServiceRunner
 {
@@ -13,8 +15,30 @@ namespace FiresecServiceRunner
 
 		private void Application_Startup(object sender, StartupEventArgs e)
 		{
+			//var commandLineArgs = Environment.GetCommandLineArgs();
+			//bool service = false;
+			//for (int i = 0; i != commandLineArgs.Length; ++i)
+			//{
+			//    switch (commandLineArgs[i])
+			//    {
+			//        case "/service":
+			//            service = true;
+			//            break;
+			//        default:
+			//            break;
+			//    }
+			//}
+			//if (service)
+			//{
+			//    ServiceBase[] ServicesToRun;
+			//    ServicesToRun = new ServiceBase[] { new FiresecNTService() };
+			//    ServiceBase.Run(ServicesToRun);
+			//}
+			//else
+			//{
 			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 				Bootstrapper.Run();
+			//}
 		}
 
 		protected override void OnStartup(StartupEventArgs e)
