@@ -75,7 +75,6 @@ namespace FiresecService.Service
 						HasError = true,
 						Error = "Превышено время выполнения запроса"
 					};
-					break;
 				}
 			}
 
@@ -89,12 +88,15 @@ namespace FiresecService.Service
 		{
 			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 
-			foreach (var property in device.Driver.Properties)
+			foreach (var property in properties)
 			{
-				if (property.IsInternalDeviceParameter)
+				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (driverProperty != null && driverProperty.IsInternalDeviceParameter)
 				{
+					var intValue = int.Parse(property.Value) * 256 + 255;
+					string formattedParam = driverProperty.No.ToString() + "=" + intValue.ToString();
 					int requestId = 0;
-					FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.InitialPlaceInTree, "Device$ReadSimpleParam", property.No.ToString(), ref requestId);
+					FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.InitialPlaceInTree, "Device$WriteSimpleParam", formattedParam, ref requestId);
 				}
 			}
 		}

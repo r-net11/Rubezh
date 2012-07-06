@@ -9,6 +9,8 @@ namespace FiresecService.Processor
 {
 	public class Watcher
 	{
+		public bool DoNotCallback = false;
+
 		public event Action<List<DeviceState>> DevicesStateChanged;
 		void OnDevicesStateChanged(List<DeviceState> deviceStates)
 		{
@@ -22,6 +24,21 @@ namespace FiresecService.Processor
 
 			if (DevicesStateChanged != null)
 				DevicesStateChanged(deviceStates);
+		}
+
+		public event Action<List<DeviceState>> DevicesParametersChanged;
+		void OnDevicesParametersChanged(List<DeviceState> deviceStates)
+		{
+			foreach (var firesecService in FiresecServices)
+			{
+				if (firesecService != null && firesecService.CallbackWrapper != null)
+				{
+					firesecService.CallbackWrapper.DeviceParametersChanged(ChangedDevices.ToList());
+				}
+			}
+
+			if (DevicesParametersChanged != null)
+				DevicesParametersChanged(deviceStates);
 		}
 
 		public event Action<ZoneState> ZoneStateChanged;
@@ -207,7 +224,7 @@ namespace FiresecService.Processor
 
 				if (ChangedDevices.Count > 0)
 				{
-					OnDevicesStateChanged(ChangedDevices.ToList());
+					OnDevicesParametersChanged(ChangedDevices.ToList());
 				}
 			}
 			catch (Exception e)

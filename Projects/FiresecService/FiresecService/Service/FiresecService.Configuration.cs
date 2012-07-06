@@ -16,7 +16,6 @@ namespace FiresecService.Service
 			if (forceConvert)
 			{
 				FiresecManager.ConvertStates();
-				FiresecManager.Watcher.OnStateChanged();
 			}
 			return FiresecManager.DeviceConfigurationStates;
 		}

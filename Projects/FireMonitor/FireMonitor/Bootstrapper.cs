@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using AlarmModule.Events;
 
 namespace FireMonitor
 {
@@ -79,7 +80,14 @@ namespace FireMonitor
 			FiresecManager.DeviceStates = FiresecManager.FiresecService.GetStates(true);
 			FiresecManager.UpdateStates();
 
-			ServiceFactory.SafeCall(() => InitializeModules());
+			ServiceFactory.SafeCall(() =>
+			{
+				var progressInfoViewModel = new ProgressInfoViewModel();
+				DialogService.ShowWindow(progressInfoViewModel);
+				InitializeModules();
+				progressInfoViewModel.Close();
+				ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
+			});
 		}
 	}
 }

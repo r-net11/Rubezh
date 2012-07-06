@@ -84,8 +84,10 @@ namespace FiresecService.Processor
 			}
 			if (Watcher != null)
 			{
+				Watcher.DoNotCallback = true;
 				Watcher.OnStateChanged();
 				Watcher.OnParametersChanged();
+				Watcher.DoNotCallback = false;
 			}
 		}
 	}

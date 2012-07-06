@@ -100,12 +100,16 @@
     <Compile Include="AppConfigHelper.cs" />
     <Compile Include="RegistryHelper.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />
+    <Compile Include="ViewModels\ProgressInfoViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\UserFotterViewModel.cs" />
     <Compile Include="Views\AutoActivationView.xaml.cs">
       <DependentUpon>AutoActivationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Converters\BoolToBackgroundImageConverter.cs" />
+    <Compile Include="Views\ProgressInfoView.xaml.cs">
+      <DependentUpon>ProgressInfoView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ToolbarView.xaml.cs">
       <DependentUpon>ToolbarView.xaml</DependentUpon>
     </Compile>
@@ -161,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AutoActivationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ProgressInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
