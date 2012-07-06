@@ -13,10 +13,7 @@
 	</ControlTemplate>
 
 	<ControlTemplate x:Key="MoveThumbPolylineTemplate" TargetType="{x:Type designer:MoveThumb}">
-		<Polyline DataContext="{Binding Content}"
-		          Fill="Transparent" Opacity="0.01"
-		          Points="{Binding Points}"
-		          Stroke="White" StrokeThickness="10" />
+		<Polyline DataContext="{Binding Content}" Fill="Transparent" Opacity="0.01" Points="{Binding Points}" Stroke="White" StrokeThickness="10" />
 	</ControlTemplate>
 
 	<Style TargetType="{x:Type loc:DesignerItemBase}">
@@ -44,7 +41,6 @@
 							</ContextMenu>
 						</Grid.ContextMenu>
 					</Grid>
-
 					<ControlTemplate.Triggers>
 						<Trigger Property="IsSelectable" Value="False">
 							<Setter TargetName="PART_Adorners" Property="Visibility" Value="Collapsed" />
