@@ -35,6 +35,9 @@ namespace FiresecClient.Validation
 
 			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
 			{
+				if (device.CanBeNotUsed && device.IsNotUsed)
+					continue;
+
 				ValidateAddressEquality(device);
 				ValidateDeviceIndicatorOtherNetwor(device);
 				ValidateDeviceOnInvalidChars(device);

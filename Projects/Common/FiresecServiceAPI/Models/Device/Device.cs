@@ -81,7 +81,7 @@ namespace FiresecAPI.Models
 
 		public bool CanBeNotUsed
 		{
-			get { return ((Parent != null) && (Parent.Driver.ChildAddressReserveRangeCount > 0) && (Parent.Driver.AutoChild == DriverUID)); }
+			get { return ((Parent != null) && (Parent.Driver.ChildAddressReserveRangeCount > 0)); }
 		}
 
 		public string EditingPresentationAddress

@@ -243,6 +243,7 @@ namespace FiresecService.Processor
 				SetStates(coreState);
 				PropogateStatesDown();
 				PropogateStatesUp();
+				PropogateStatesToGroupDevice();
 				CalculateZones();
 
 				if (ChangedDevices.Count > 0)
@@ -424,8 +425,11 @@ namespace FiresecService.Processor
 
 			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
 			{
-				foreach (var state in deviceState.States.Where(x => x.DriverState.AffectedParent))
+				foreach (var state in deviceState.States)
 				{
+					if ((deviceState.Device.Parent.Driver.ChildAddressReserveRangeCount == 0) && (state.DriverState.AffectedParent))
+						continue;
+
 					var parentDevice = deviceState.Device.Parent;
 					var parentDeviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == parentDevice.UID);
 
@@ -462,6 +466,10 @@ namespace FiresecService.Processor
 					}
 				}
 			}
+		}
+
+		void PropogateStatesToGroupDevice()
+		{
 		}
 
 		void CalculateZones()

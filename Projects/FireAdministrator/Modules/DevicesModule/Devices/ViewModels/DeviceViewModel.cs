@@ -49,24 +49,6 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("HasChildren");
 		}
 
-		public Driver Driver
-		{
-			get { return Device.Driver; }
-			set
-			{
-				if (Device.Driver.DriverType != value.DriverType)
-				{
-					Device.Driver = value;
-					Device.DriverUID = value.UID;
-					OnPropertyChanged("Device");
-					OnPropertyChanged("Device.Driver");
-					OnPropertyChanged("PresentationZone");
-					ServiceFactory.SaveService.DevicesChanged = true;
-					DevicesViewModel.Current.UpdateExternalDevices();
-				}
-			}
-		}
-
 		public string Address
 		{
 			get { return Device.PresentationAddress; }
@@ -302,6 +284,24 @@ namespace DevicesModule.ViewModels
 				ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneNo.Value);
 		}
 
+		public Driver Driver
+		{
+			get { return Device.Driver; }
+			set
+			{
+				if (Device.Driver.DriverType != value.DriverType)
+				{
+					Device.Driver = value;
+					Device.DriverUID = value.UID;
+					OnPropertyChanged("Device");
+					OnPropertyChanged("Device.Driver");
+					OnPropertyChanged("PresentationZone");
+					ServiceFactory.SaveService.DevicesChanged = true;
+					DevicesViewModel.Current.UpdateExternalDevices();
+				}
+			}
+		}
+
 		public ObservableCollection<Driver> AvailvableDrivers { get; private set; }
 
 		void UpdateDriver()
@@ -309,34 +309,59 @@ namespace DevicesModule.ViewModels
 			AvailvableDrivers.Clear();
 			if (CanChangeDriver)
 			{
-				foreach (var driverUID in Device.Parent.Driver.AvaliableChildren)
+				switch (Device.Parent.Driver.DriverType)
 				{
-					var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == driverUID);
-					if (CanDriverBeChanged(driver))
-					{
-						AvailvableDrivers.Add(driver);
-					}
+					case DriverType.AM4:
+						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM_1));
+						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.StopButton));
+						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.StartButton));
+						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AutomaticButton));
+						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzOnButton));
+						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzOffButton));
+						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.ShuzUnblockButton));
+						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O));
+						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_T));
+						break;
+
+					case DriverType.AM4_P:
+						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AM1_O));
+						AvailvableDrivers.Add(FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.AMP_4));
+						break;
+
+					default:
+						foreach (var driverUID in Device.Parent.Driver.AvaliableChildren)
+						{
+							var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == driverUID);
+							if (CanDriverBeChanged(driver))
+							{
+								AvailvableDrivers.Add(driver);
+							}
+						}
+						break;
 				}
 			}
 		}
 
 		public bool CanDriverBeChanged(Driver driver)
 		{
-			if (driver == null)
+			if (driver == null || Device.Parent == null)
 				return false;
+
+			if (Device.Parent.Driver.DriverType == DriverType.AM4)
+				return true;
+			if (Device.Parent.Driver.DriverType == DriverType.AM4_P)
+				return true;
+
 			if (driver.IsAutoCreate)
 				return false;
-			if (Parent != null && Parent.Driver.IsChildAddressReservedRange)
+			if (Device.Parent.Driver.IsChildAddressReservedRange)
 				return false;
 			return (driver.Category == DeviceCategoryType.Sensor) || (driver.Category == DeviceCategoryType.Effector);
 		}
 
 		public bool CanChangeDriver
 		{
-			get
-			{
-				return CanDriverBeChanged(Device.Driver);
-			}
+			get { return CanDriverBeChanged(Device.Driver); }
 		}
 
 		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }

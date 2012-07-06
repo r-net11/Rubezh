@@ -57,9 +57,9 @@ namespace Infrastructure.Client
 					LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
 					module.Initialize();
 				}
-				catch (Exception ex)
+				catch (Exception e)
 				{
-					Logger.Error(ex);
+					Logger.Error(e);
 					Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 					LoadingService.Close();
 					MessageBoxService.ShowError(string.Format("Во время инициализации модуля '{0}' произошла ошибка, дальнейшая загрузка невозможна!\nПриложение будет закрыто.", module.Name));
