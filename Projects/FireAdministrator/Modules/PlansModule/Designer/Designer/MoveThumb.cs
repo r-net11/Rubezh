@@ -23,9 +23,14 @@ namespace PlansModule.Designer
 
 		public MoveThumb()
 		{
+			Initialized += new EventHandler(MoveThumb_Initialized);
 			DragStarted += new DragStartedEventHandler(this.MoveThumb_DragStarted);
 			DragDelta += new DragDeltaEventHandler(this.MoveThumb_DragDelta);
 			DragCompleted += new DragCompletedEventHandler(MoveThumb_DragCompleted);
+		}
+
+		void MoveThumb_Initialized(object sender, EventArgs e)
+		{
 		}
 
 		private void MoveThumb_DragStarted(object sender, DragStartedEventArgs e)

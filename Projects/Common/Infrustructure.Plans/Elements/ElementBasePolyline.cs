@@ -12,9 +12,12 @@ namespace Infrustructure.Plans.Elements
 	{
 		public ElementBasePolyline()
 		{
-			Type = ElementType.Polyline;
 		}
 
+		public override ElementType Type
+		{
+			get { return ElementType.Polyline; }
+		}
 		public override void SetDefault()
 		{
 			Points.Add(new Point(0, 0));

@@ -12,7 +12,6 @@ namespace Infrustructure.Plans.Elements
 	{
 		public ElementBasePoint()
 		{
-			Type = ElementType.Point;
 		}
 
 		[DataMember]
@@ -20,6 +19,15 @@ namespace Infrustructure.Plans.Elements
 		[DataMember]
 		public double Top { get; set; }
 
+		public override ElementType Type
+		{
+			get { return ElementType.Point; }
+		}
+		public override void SetDefault()
+		{
+			Top = 0;
+			Left = 0;
+		}
 		public override Rect GetRectangle()
 		{
 			return new Rect(new Point(Left, Top), Size.Empty);
@@ -35,12 +43,6 @@ namespace Infrustructure.Plans.Elements
 			base.Copy(element);
 			element.Left = Left;
 			element.Top = Top;
-		}
-
-		public override void SetDefault()
-		{
-			Top = 0;
-			Left = 0;
 		}
 	}
 }

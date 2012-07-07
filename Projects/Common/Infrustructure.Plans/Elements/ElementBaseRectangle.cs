@@ -12,7 +12,6 @@ namespace Infrustructure.Plans.Elements
 	{
 		public ElementBaseRectangle()
 		{
-			Type = ElementType.Rectangle;
 		}
 
 		[DataMember]
@@ -20,6 +19,16 @@ namespace Infrustructure.Plans.Elements
 		[DataMember]
 		public double Width { get; set; }
 
+		public override ElementType Type
+		{
+			get { return ElementType.Rectangle; }
+		}
+		public override void SetDefault()
+		{
+			base.SetDefault();
+			Height = 50;
+			Width = 50;
+		}
 		public override Rect GetRectangle()
 		{
 			return new Rect(Left, Top, Width, Height);
@@ -35,13 +44,6 @@ namespace Infrustructure.Plans.Elements
 			base.Copy(element);
 			element.Height = Height;
 			element.Width = Width;
-		}
-
-		public override void SetDefault()
-		{
-			base.SetDefault();
-			Height = 50;
-			Width = 50;
 		}
 	}
 }

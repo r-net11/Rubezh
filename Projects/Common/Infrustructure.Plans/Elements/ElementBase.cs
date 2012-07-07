@@ -22,8 +22,6 @@ namespace Infrustructure.Plans.Elements
 			get { return GetType().FullName; }
 		}
 
-		public ElementType Type { get; protected set; }
-
 		[DataMember]
 		public Guid UID { get; set; }
 
@@ -45,6 +43,7 @@ namespace Infrustructure.Plans.Elements
 			}
 			set { SetPosition(value); }
 		}
+		public abstract ElementType Type { get; }
 		public abstract Rect GetRectangle();
 		protected abstract void SetPosition(Point point);
 		public abstract ElementBase Clone();

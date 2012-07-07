@@ -12,9 +12,12 @@ namespace Infrustructure.Plans.Elements
 	{
 		public ElementBasePolygon()
 		{
-			Type = ElementType.Polygon;
 		}
 
+		public override ElementType Type
+		{
+			get { return ElementType.Polygon; }
+		}
 		public override void SetDefault()
 		{
 			Points.Add(new Point(0, 0));

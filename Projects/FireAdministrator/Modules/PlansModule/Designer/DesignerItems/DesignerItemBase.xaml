@@ -23,13 +23,10 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type loc:DesignerItemBase}">
 					<Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=.}">
-						<Grid Name="PART_Adorners">
+						<Grid x:Name="PART_Adorners" Visibility="{Binding IsSelectable, Converter={StaticResource BoolToVisibilityConverter}}">
+							<!--<ContentPresenter Content="{TemplateBinding ContentControl.Content}" ContentTemplateSelector="{StaticResource selector}" />-->
 							<designer:MoveThumb x:Name="PART_MoveThumbRectangle" Cursor="SizeAll" Template="{StaticResource MoveThumbRectangleTemplate}" Visibility="Visible" />
-							<designer:MoveThumb x:Name="PART_MoveThumbRectanglePolygon" Cursor="SizeAll" Template="{StaticResource MoveThumbPolygonTemplate}" Visibility="Collapsed" />
-							<designer:MoveThumb x:Name="PART_MoveThumbRectanglePolyline" Cursor="SizeAll" Template="{StaticResource MoveThumbPolylineTemplate}" Visibility="Collapsed" />
-							<designer:ResizeDecoratorRectangle x:Name="PART_ResizeDecoratorRectangle" Visibility="Visible" />
-							<designer:ResizeDecoratorPolygon x:Name="PART_ResizeDecoratorPolygon" Visibility="Collapsed" />
-							<designer:ResizeDecoratorPolyline x:Name="PART_ResizeDecoratorPolyline" Visibility="Collapsed" />
+							<designer:ResizeDecoratorRectangle x:Name="PART_ResizeDecoratorRectangle" ShowDecorator="{Binding IsSelected}" />
 						</Grid>
 						<ContentPresenter x:Name="PART_ContentPresenter" Content="{TemplateBinding ContentControl.Content}" />
 						<Grid.ContextMenu>
@@ -41,16 +38,6 @@
 							</ContextMenu>
 						</Grid.ContextMenu>
 					</Grid>
-					<ControlTemplate.Triggers>
-						<Trigger Property="IsSelectable" Value="False">
-							<Setter TargetName="PART_Adorners" Property="Visibility" Value="Collapsed" />
-						</Trigger>
-						<Trigger Property="IsSelected" Value="True">
-							<Setter TargetName="PART_ResizeDecoratorRectangle" Property="ShowDecorator" Value="True" />
-							<Setter TargetName="PART_ResizeDecoratorPolygon" Property="ShowDecorator" Value="True" />
-							<Setter TargetName="PART_ResizeDecoratorPolyline" Property="ShowDecorator" Value="True" />
-						</Trigger>
-					</ControlTemplate.Triggers>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
