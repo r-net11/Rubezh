@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using System.Windows;
+using System.Windows.Input;
 
 namespace PlansModule.Designer
 {
@@ -84,6 +85,11 @@ namespace PlansModule.Designer
 
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
+		}
+
+		protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+		{
+			base.OnPreviewMouseDown(e);
 		}
 	}
 }

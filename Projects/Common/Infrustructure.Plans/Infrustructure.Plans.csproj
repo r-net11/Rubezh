@@ -52,7 +52,8 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Designer\CommonDesignerCanvas.cs" />
-    <Compile Include="Designer\IResizeChromeBase.cs" />
+    <Compile Include="Designer\ResizeChrome.cs" />
+    <Compile Include="Designer\ResizeThumb.cs" />
     <Compile Include="Elements\ElementBasePolygon.cs" />
     <Compile Include="Elements\ElementBasePolyline.cs" />
     <Compile Include="Elements\ElementType.cs" />

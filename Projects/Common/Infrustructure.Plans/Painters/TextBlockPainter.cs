@@ -32,7 +32,7 @@ namespace Infrustructure.Plans.Painters
 					Stretch = Stretch.Fill,
 					Child = textBlock
 				} : (FrameworkElement)textBlock;
-			frameworkElement.IsHitTestVisible = false;
+			//frameworkElement.IsHitTestVisible = false;
 			return frameworkElement;
 		}
 		#endregion

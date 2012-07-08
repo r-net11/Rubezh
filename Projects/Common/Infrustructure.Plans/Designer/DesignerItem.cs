@@ -7,6 +7,7 @@ using Infrustructure.Plans.Elements;
 using System.Windows;
 using System.Windows.Media;
 using Infrustructure.Plans.Painters;
+using System.Windows.Input;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -64,7 +65,7 @@ namespace Infrustructure.Plans.Designer
 
 		public ElementBase Element { get; protected set; }
 		public IPainter Painter { get; private set; }
-		public IResizeChromeBase ResizeChrome { get; set; }
+		public ResizeChrome ResizeChrome { get; set; }
 
 		public DesignerItem(ElementBase element)
 		{
@@ -126,6 +127,23 @@ namespace Infrustructure.Plans.Designer
 			set { Height = value + Element.BorderThickness; }
 		}
 
+		protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
+		{
+			base.OnPreviewMouseDown(e);
+
+			if (DesignerCanvas != null)
+			{
+				if ((Keyboard.Modifiers & (ModifierKeys.Shift | ModifierKeys.Control)) != ModifierKeys.None)
+					IsSelected = !IsSelected;
+				else if (!IsSelected)
+				{
+					DesignerCanvas.DeselectAll();
+					IsSelected = true;
+				}
+			}
+			e.Handled = false;
+		}
+		
 		public abstract void Remove();
 		public abstract void UpdateElementProperties();
 	}

@@ -101,23 +101,19 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Designer\Adorners\RectangleResizeChrome.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemPolygon.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemPolyline.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemPoint.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemBase.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemRectangle.cs" />
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
-    <Compile Include="Designer\DesignerItems\DesignerItem.cs" />
     <Compile Include="Designer\Designer\DesignerItemFactory.cs" />
     <Compile Include="Designer\Designer\Helper.cs" />
-    <Compile Include="Designer\Polyline\ResizeAdornerPolyline.cs" />
-    <Compile Include="Designer\Polyline\ResizeChromePolyline.cs" />
-    <Compile Include="Designer\Polyline\ResizeDecoratorPolyline.cs">
-      <Generator>MSBuild:Compile</Generator>
-    </Compile>
     <Compile Include="Designer\Designer\MoveThumb.cs" />
     <Compile Include="Designer\Designer\RubberbandAdorner.cs" />
-    <Compile Include="Designer\Polygon\ThumbPolygon.cs" />
+    <Compile Include="Designer\Resize\ResizeAdorner.cs" />
+    <Compile Include="Designer\Resize\ResizeDecorator.cs" />
     <Compile Include="ElementProperties\ViewModels\DesignerPropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\ImagePropertiesViewModel.cs" />
     <Compile Include="ElementProperties\ViewModels\PolylinePropertiesViewModel.cs" />
@@ -189,13 +185,6 @@
     <Compile Include="Views\ToolboxView.xaml.cs">
       <DependentUpon>ToolboxView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Designer\Polygon\ResizeAdornerPolygon.cs" />
-    <Compile Include="Designer\Polygon\ResizeChromePolygon.cs" />
-    <Compile Include="Designer\Polygon\ResizeDecoratorPolygon.cs" />
-    <Compile Include="Designer\Rectangle\ResizeAdornerRectangle.cs" />
-    <Compile Include="Designer\Rectangle\ResizeChromeRectangle.cs" />
-    <Compile Include="Designer\Rectangle\ResizeDecoratorRectangle.cs" />
-    <Compile Include="Designer\Rectangle\ResizeThumbRectangle.cs" />
     <Compile Include="PlansModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -285,11 +274,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer\DesignerItems\DesignerItem.xaml">
+    <Page Include="Designer\Adorners\Adorners.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer\DesignerItems\DesignerItemPolygon.xaml">
+    <Page Include="Designer\Adorners\RectangleResizeChrome.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Designer\DesignerItems\DesignerItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -297,15 +290,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer\DesignerItems\DesignerItemBase.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Designer\Polyline\ResizeChromePolyline.xaml">
+    <Page Include="Designer\Designer\MoveThumb.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer\Polygon\ResizeChromePolygon.xaml">
+    <Page Include="Designer\Resize\ResizeThumb.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -362,10 +351,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ToolboxView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Designer\Rectangle\ResizeChromeRectangle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

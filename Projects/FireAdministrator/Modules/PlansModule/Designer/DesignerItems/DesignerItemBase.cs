@@ -5,6 +5,7 @@ using System.Windows.Media;
 using Infrastructure.Common;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
+using PlansModule.Designer.Adorners;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -18,6 +19,7 @@ namespace PlansModule.Designer.DesignerItems
 		public DesignerItemBase(ElementBase element)
 			: base(element)
 		{
+			ResizeChrome = new RectangleResizeChrome(this);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			MouseDoubleClick += (s, e) => OnShowProperties();
 			IsVisibleLayout = true;
@@ -30,23 +32,6 @@ namespace PlansModule.Designer.DesignerItems
 		{
 			//DesignerCanvas.BeginChange();
 			//
-		}
-
-		protected override void OnPreviewMouseDown(MouseButtonEventArgs e)
-		{
-			base.OnPreviewMouseDown(e);
-
-			if (DesignerCanvas != null)
-			{
-				if ((Keyboard.Modifiers & (ModifierKeys.Shift | ModifierKeys.Control)) != ModifierKeys.None)
-					IsSelected = !IsSelected;
-				else if (!IsSelected)
-				{
-					((DesignerCanvas)DesignerCanvas).DeselectAll();
-					IsSelected = true;
-				}
-			}
-			e.Handled = false;
 		}
 
 		public override void Remove()

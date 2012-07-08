@@ -15,7 +15,7 @@ namespace Infrustructure.Plans.Painters
 		{
 			T shape = new T();
 			PainterHelper.SetStyle(shape, element);
-			shape.IsHitTestVisible = false;
+			//shape.IsHitTestVisible = false;
 			return shape;
 		}
 

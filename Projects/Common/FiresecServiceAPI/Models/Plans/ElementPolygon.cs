@@ -18,7 +18,7 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementBase elementBase = new ElementPolygon();
+			ElementPolygon elementBase = new ElementPolygon();
 			Copy(elementBase);
 			return elementBase;
 		}
