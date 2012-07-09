@@ -9,6 +9,8 @@ using System.Text;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using XFiresecAPI;
+using System.IO;
 
 namespace GKModule.Models
 {
@@ -20,15 +22,13 @@ namespace GKModule.Models
 		{
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
-			CheckConnectionCommand = new RelayCommand(OnCheckConnection);
-			GetKAUVersionCommand = new RelayCommand(OnGetKAUVersion);
-			GetBlocklVersionCommand = new RelayCommand(OnGetBlocklVersion);
-			WriteBlockInfoCommand = new RelayCommand(OnWriteBlockInfo);
-			SetTimeCommand = new RelayCommand(OnSetTime);
-			GetTimeCommand = new RelayCommand(OnGetTime);
-			GetLastJournalIndexCommand = new RelayCommand(OnGetLastJournalIndex);
-			GetJournalItemByIndexCommand = new RelayCommand(OnGetJournalItemByIndex);
-			EraseJournalCommand = new RelayCommand(OnEraseJournal);
+
+			ControlTimeCommand = new RelayCommand(OnControlTime, CanControlTime);
+			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
+			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
+			WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
+			ConvertToSVBCommand = new RelayCommand(OnConvertToSVB, CanConvertToSVB);
+
 			GetParametersCommand = new RelayCommand(OnGetParameters);
 			WriteParametersCommand = new RelayCommand(OnWriteParameters);
 			StartWorkingProgramCommand = new RelayCommand(OnStartWorkingProgram);
@@ -70,7 +70,7 @@ namespace GKModule.Models
 			DialogService.ShowModalWindow(deviceConverterViewModel);
 		}
 
-		string BytesdToString(List<byte> bytes)
+		string BytesToString(List<byte> bytes)
 		{
 			var stringBuilder = new StringBuilder();
 			foreach (var b in bytes)
@@ -80,60 +80,122 @@ namespace GKModule.Models
 			return stringBuilder.ToString();
 		}
 
-		public RelayCommand CheckConnectionCommand { get; private set; }
-		void OnCheckConnection()
+		bool CanShowInfo()
 		{
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.DriverType == XDriverType.KAU ||
+				SelectedDevice.Device.Driver.DriverType == XDriverType.GK));
+		}
+		public RelayCommand ShowInfoCommand { get; private set; }
+		void OnShowInfo()
+		{
+			var deviceInfoViewModel = new DeviceInfoViewModel(SelectedDevice.Device);
+			DialogService.ShowModalWindow(deviceInfoViewModel);
 		}
 
-		public RelayCommand GetKAUVersionCommand { get; private set; }
-		void OnGetKAUVersion()
+		bool CanControlTime()
 		{
-			var bytes = CommandManager.Send(0, 1, 1);
-			MessageBoxService.Show(BytesdToString(bytes));
+			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
+		}
+		public RelayCommand ControlTimeCommand { get; private set; }
+		void OnControlTime()
+		{
+			var deviceTimeViewModel = new DeviceTimeViewModel(SelectedDevice.Device);
+			DialogService.ShowModalWindow(deviceTimeViewModel);
 		}
 
-		public RelayCommand GetBlocklVersionCommand { get; private set; }
-		void OnGetBlocklVersion()
+		bool CanReadJournal()
 		{
-			var bytes = CommandManager.Send(0, 2, 8);
-			MessageBoxService.Show(BytesdToString(bytes));
+			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
 		}
-
-		public RelayCommand WriteBlockInfoCommand { get; private set; }
-		void OnWriteBlockInfo()
+		public RelayCommand ReadJournalCommand { get; private set; }
+		void OnReadJournal()
 		{
-		}
-
-		public RelayCommand SetTimeCommand { get; private set; }
-		void OnSetTime()
-		{
-		}
-
-		public RelayCommand GetTimeCommand { get; private set; }
-		void OnGetTime()
-		{
-			var bytes = CommandManager.Send(0, 4, 6);
-			MessageBoxService.Show(BytesdToString(bytes));
-		}
-
-		public RelayCommand GetLastJournalIndexCommand { get; private set; }
-		void OnGetLastJournalIndex()
-		{
-			var bytes = CommandManager.Send(0, 6, 64);
-			var journalItem = new JournalItem(bytes);
-			MessageBoxService.ShowError(journalItem.ToString());
-		}
-
-		public RelayCommand GetJournalItemByIndexCommand { get; private set; }
-		void OnGetJournalItemByIndex()
-		{
-			var journalViewModel = new JournalViewModel();
+			var journalViewModel = new JournalViewModel(SelectedDevice.Device);
 			DialogService.ShowModalWindow(journalViewModel);
 		}
 
-		public RelayCommand EraseJournalCommand { get; private set; }
-		void OnEraseJournal()
+		bool CanWriteConfig()
 		{
+			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
+		}
+		public RelayCommand WriteConfigCommand { get; private set; }
+		void OnWriteConfig()
+		{
+			DatabaseProcessor.Convert();
+
+			var gkDatabase = DatabaseProcessor.DatabaseCollection.GkDatabases.First();
+			foreach (var binaryObject in gkDatabase.BinaryObjects)
+			{
+				var bytes = binaryObject.AllBytes;
+				var fullBytes = new List<byte>();
+				fullBytes.AddRange(BytesHelper.ShortToBytes((short)(binaryObject.GetNo())));
+				fullBytes.Add(0);
+				fullBytes.AddRange(bytes);
+				CommandManager.Send(SelectedDevice.Device, (short)(3 + bytes.Count()), 17, 0, fullBytes);
+			}
+			var endBytes = new List<byte>();
+			endBytes.Add(255);
+			endBytes.Add(255);
+			CommandManager.Send(SelectedDevice.Device, 3 + 2, 17, 0, endBytes);
+		}
+
+		bool CanConvertToSVB()
+		{
+			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
+		}
+		public RelayCommand ConvertToSVBCommand { get; private set; }
+		void OnConvertToSVB()
+		{
+			DatabaseProcessor.Convert();
+			var gkDatabase = DatabaseProcessor.DatabaseCollection.GkDatabases.First();
+
+			var fileBytes = new List<byte>();
+			fileBytes.Add(0x25);
+			fileBytes.Add(0x08);
+			fileBytes.Add(0x19);
+			fileBytes.Add(0x65);
+			fileBytes.AddRange(BytesHelper.ShortToBytes((short)(gkDatabase.BinaryObjects.Count + 1)));
+			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
+			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
+			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
+			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
+
+			foreach (var binaryObject in gkDatabase.BinaryObjects)
+			{
+				var bytes = binaryObject.AllBytes;
+				fileBytes.AddRange(BytesHelper.ShortToBytes((short)(binaryObject.GetNo())));
+				fileBytes.Add(1);
+				fileBytes.AddRange(BytesHelper.ShortToBytes((short)bytes.Count));
+				for (int j = 0; j < 33; j++)
+				{
+					fileBytes.Add(32);
+				}
+				fileBytes.AddRange(bytes);
+			}
+			fileBytes.AddRange(BytesHelper.ShortToBytes((short)(gkDatabase.BinaryObjects.Count)));
+			fileBytes.Add(1);
+			fileBytes.AddRange(BytesHelper.ShortToBytes((short)2));
+			for (int j = 0; j < 33; j++)
+			{
+				fileBytes.Add(32);
+			}
+			fileBytes.Add(255);
+			fileBytes.Add(255);
+
+			using (var fileStream = new FileStream(@"D:\GKConfig\GK.GKBIN", FileMode.Create))
+			{
+				fileStream.Write(fileBytes.ToArray(), 0, fileBytes.Count);
+			}
+
+			using (var streamWriter = new StreamWriter(@"D:\GKConfig\GK.gkprj"))
+			{
+				var stringBuilder = new StringBuilder();
+				stringBuilder.AppendLine("<congig>");
+				stringBuilder.AppendLine("<gk name=\"D:/GK.GKBIN\" description=\"описание ГК\"/>");
+				stringBuilder.AppendLine("</congig>");
+
+				streamWriter.Write(stringBuilder.ToString());
+			}
 		}
 
 		public RelayCommand GetParametersCommand { get; private set; }

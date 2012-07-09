@@ -9,6 +9,7 @@ namespace GKModule.Converter
 		{
 			var xDriver = new XDriver()
 			{
+				DriverTypeNo = 0x102,
 				DriverType = XDriverType.GK,
 				UID = DriversHelper.GK_UID,
 				OldDriverUID = Guid.Empty,

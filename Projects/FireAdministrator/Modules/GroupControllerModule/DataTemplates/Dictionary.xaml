@@ -52,4 +52,12 @@
         <Views:JournalView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DeviceInfoViewModel}">
+        <Views:DeviceInfoView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:DeviceTimeViewModel}">
+        <Views:DeviceTimeView />
+    </DataTemplate>
+
 </ResourceDictionary>

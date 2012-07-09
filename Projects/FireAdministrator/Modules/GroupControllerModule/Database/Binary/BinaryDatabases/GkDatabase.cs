@@ -1,4 +1,5 @@
 ﻿using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.Database
 {
@@ -21,11 +22,37 @@ namespace GKModule.Database
 
 			foreach (var device in gkDevice.Children)
 			{
+				if (device.Driver.DriverType == XDriverType.GKLine)
+				{
+					AddDevice(device);
+				}
+			}
+
+			foreach (var device in gkDevice.Children)
+			{
+				if (device.Driver.DriverType == XDriverType.GKRele)
+				{
+					AddDevice(device);
+				}
+			}
+
+			foreach (var device in gkDevice.Children)
+			{
 				if (device.Driver.DriverType == XDriverType.KAU)
 				{
 					AddDevice(device);
 				}
 			}
+		}
+
+		public List<byte> GetBytes()
+		{
+			var bytes = new List<byte>();
+			foreach (var binaryObject in BinaryObjects)
+			{
+				bytes.AddRange(binaryObject.AllBytes);
+			}
+			return bytes;
 		}
 	}
 }

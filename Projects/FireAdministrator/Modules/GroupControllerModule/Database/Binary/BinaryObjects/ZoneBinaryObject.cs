@@ -10,7 +10,7 @@ namespace GKModule.Database
 			DatabaseType = databaseType;
 			Zone = zone;
 
-			DeviceType = ToBytes((short)0x100);
+			DeviceType = BytesHelper.ShortToBytes((short)0x100);
 			SetAddress((short)0);
 
 			InputDependenses = new List<byte>();

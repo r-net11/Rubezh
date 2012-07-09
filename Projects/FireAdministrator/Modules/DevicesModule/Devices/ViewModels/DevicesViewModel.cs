@@ -234,7 +234,9 @@ namespace DevicesModule.ViewModels
 		public void UpdateExternalDevices()
 		{
 			foreach (var device in Devices)
-				device.OnPropertyChanged("HasExternalDevices");
+			{
+				device.HasExternalDevices = FiresecManager.HasExternalDevices(device.Device);
+			}
 		}
 
 		public override void OnHide()

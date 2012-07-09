@@ -13,7 +13,7 @@ namespace GKModule.Database
 			DatabaseType = databaseType;
 			Device = device;
 
-			DeviceType = ToBytes(device.Driver.DriverTypeNo);
+			DeviceType = BytesHelper.ShortToBytes(device.Driver.DriverTypeNo);
 
 			short address = 0;
 			if (device.Driver.IsDeviceOnShleif)
