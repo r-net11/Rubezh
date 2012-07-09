@@ -5,13 +5,13 @@ namespace Infrustructure.Plans.Designer
 {
 	public class ResizeThumb : Thumb
 	{
-		public DesignerItem DesignerItem
+		public ResizeChrome ResizeChrome
 		{
-			get { return DataContext as DesignerItem; }
+			get { return DataContext as ResizeChrome; }
 		}
 		private CommonDesignerCanvas DesignerCanvas
 		{
-			get { return DesignerItem.DesignerCanvas; }
+			get { return ResizeChrome.DesignerCanvas; }
 		}
 
 		protected override void OnInitialized(EventArgs e)

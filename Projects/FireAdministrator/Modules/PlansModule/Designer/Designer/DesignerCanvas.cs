@@ -321,15 +321,8 @@ namespace PlansModule.Designer
 
 		public void UpdateZoom()
 		{
-			// OnPropertyChanged("ResizeThumbSize");
-			// OnPropertyChanged("ResizeBorderSize");
-			// OnPropertyChanged("ResizeMarginSize");
-			//
 			foreach (DesignerItem designerItem in Items)
 				designerItem.UpdateZoom();
-
-			foreach (DesignerItem designerItem in Items)
-				designerItem.UpdateZoomDevice();
 		}
 	}
 }

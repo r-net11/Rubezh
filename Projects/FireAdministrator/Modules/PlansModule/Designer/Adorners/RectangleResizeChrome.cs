@@ -6,6 +6,9 @@ using Infrustructure.Plans.Designer;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Controls.Primitives;
+using Infrastructure;
 
 namespace PlansModule.Designer.Adorners
 {
@@ -16,92 +19,68 @@ namespace PlansModule.Designer.Adorners
 			FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(RectangleResizeChrome), new FrameworkPropertyMetadata(typeof(RectangleResizeChrome)));
 		}
 
-		List<Ellipse> ellipses;
-		List<ResizeThumb> resizeThumbs;
-		Rectangle PART_CornerRectangle;
-		Grid PART_ResizeGrid;
-		Grid PART_Decorators;
-		ResizeThumb PART_TopThumb;
-		ResizeThumb PART_LeftThumb;
-		ResizeThumb PART_RightThumb;
-		ResizeThumb PART_BottomThumb;
-
-		DesignerItem DesignerItem;
-
-		public CommonDesignerCanvas DesignerCanvas
-		{
-			get { return DesignerItem.DesignerCanvas; }
-		}
-
 		public RectangleResizeChrome(DesignerItem designerItem)
 		{
 			DesignerItem = designerItem;
-			Loaded += new RoutedEventHandler(ResizeChrome_Loaded);
-		}
-
-		private void ResizeChrome_Loaded(object sender, RoutedEventArgs e)
-		{
-			InitializeResizeThumbs();
-			UpdateZoom();
-		}
-
-		void InitializeResizeThumbs()
-		{
-			ellipses = new List<Ellipse>();
-			resizeThumbs = new List<ResizeThumb>();
-
-			PART_CornerRectangle = this.Template.FindName("PART_CornerRectangle", this) as Rectangle;
-			PART_ResizeGrid = this.Template.FindName("PART_ResizeGrid", this) as Grid;
-			PART_Decorators = this.Template.FindName("PART_Decorators", this) as Grid;
-
-			PART_TopThumb = this.Template.FindName("PART_TopThumb", this) as ResizeThumb;
-			PART_LeftThumb = this.Template.FindName("PART_LeftThumb", this) as ResizeThumb;
-			PART_RightThumb = this.Template.FindName("PART_RightThumb", this) as ResizeThumb;
-			PART_BottomThumb = this.Template.FindName("PART_BottomThumb", this) as ResizeThumb;
-
-			resizeThumbs.Add(this.Template.FindName("PART_TopLeftThumb", this) as ResizeThumb);
-			resizeThumbs.Add(this.Template.FindName("PART_TopRightThumb", this) as ResizeThumb);
-			resizeThumbs.Add(this.Template.FindName("PART_BottomLeftThumb", this) as ResizeThumb);
-			resizeThumbs.Add(this.Template.FindName("PART_BottomRightThumb", this) as ResizeThumb);
-
-			//ellipses.Add(this.Template.FindName("PART_TopLeftEllipse", this) as Ellipse);
-			//ellipses.Add(this.Template.FindName("PART_TopRightEllipse", this) as Ellipse);
-			//ellipses.Add(this.Template.FindName("PART_BottomLeftEllipse", this) as Ellipse);
-			//ellipses.Add(this.Template.FindName("PART_BottomRightEllipse", this) as Ellipse);
+			Loaded += (s, e) => UpdateZoom();
+			AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(ResizeThumb_DragDelta));
 		}
 
 		public override void Initialize()
 		{
 		}
-		public override void UpdateZoom()
+		public void ResizeThumb_DragDelta(object sender, DragDeltaEventArgs e)
 		{
-			//if (!IsInitialized)
-			//    return;
-			var zoom = DesignerCanvas.Zoom;
-			//PART_ResizeGrid.Margin = new Thickness(-3 / zoom);
-			//PART_Decorators.Margin = new Thickness(-3 / zoom);
-			//PART_CornerRectangle.Margin = new Thickness(1 / zoom);
-			//PART_CornerRectangle.StrokeThickness = 1 / zoom;
+			if (DesignerItem.IsSelected)
+			{
+				ResizeThumb thumb = (ResizeThumb)e.OriginalSource;
+				double minLeft = double.MaxValue;
+				double minTop = double.MaxValue;
+				double minDeltaHorizontal = double.MaxValue;
+				double minDeltaVertical = double.MaxValue;
+				double dragDeltaVertical, dragDeltaHorizontal;
 
-			//PART_TopThumb.Height = 3 / zoom;
-			//PART_LeftThumb.Width = 3 / zoom;
-			//PART_RightThumb.Width = 3 / zoom;
-			//PART_BottomThumb.Height = 3 / zoom;
+				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
+				{
+					minLeft = Math.Min(Canvas.GetLeft(designerItem), minLeft);
+					minTop = Math.Min(Canvas.GetTop(designerItem), minTop);
 
-			//foreach (var resizeThumb in resizeThumbs)
-			//{
-			//    resizeThumb.Width = 7 / zoom;
-			//    resizeThumb.Height = 7 / zoom;
-			//    //resizeThumb.IsEnabled = !DesignerItem.IsDevice;
-			//}
+					minDeltaVertical = Math.Min(minDeltaVertical, designerItem.ActualHeight - designerItem.MinHeight);
+					minDeltaHorizontal = Math.Min(minDeltaHorizontal, designerItem.ActualWidth - designerItem.MinWidth);
+				}
 
-			//foreach (var ellipse in ellipses)
-			//{
-			//    ellipse.Width = 7 / zoom;
-			//    ellipse.Height = 7 / zoom;
-			//    ellipse.StrokeThickness = 0.5 / zoom;
-			//    ellipse.Margin = new Thickness(-2 / zoom);
-			//}
+				foreach (var designerItem in DesignerCanvas.SelectedItems)
+				{
+					switch (thumb.VerticalAlignment)
+					{
+						case VerticalAlignment.Bottom:
+							dragDeltaVertical = Math.Min(-e.VerticalChange, minDeltaVertical);
+							designerItem.Height = designerItem.ActualHeight - dragDeltaVertical;
+							break;
+						case VerticalAlignment.Top:
+							dragDeltaVertical = Math.Min(Math.Max(-minTop, e.VerticalChange), minDeltaVertical);
+							Canvas.SetTop(designerItem, Canvas.GetTop(designerItem) + dragDeltaVertical);
+							designerItem.Height = designerItem.ActualHeight - dragDeltaVertical;
+							break;
+					}
+
+					switch (thumb.HorizontalAlignment)
+					{
+						case HorizontalAlignment.Left:
+							dragDeltaHorizontal = Math.Min(Math.Max(-minLeft, e.HorizontalChange), minDeltaHorizontal);
+							Canvas.SetLeft(designerItem, Canvas.GetLeft(designerItem) + dragDeltaHorizontal);
+							designerItem.Width = designerItem.ActualWidth - dragDeltaHorizontal;
+							break;
+						case HorizontalAlignment.Right:
+							dragDeltaHorizontal = Math.Min(-e.HorizontalChange, minDeltaHorizontal);
+							designerItem.Width = designerItem.ActualWidth - dragDeltaHorizontal;
+							break;
+					}
+				}
+
+				e.Handled = true;
+				ServiceFactory.SaveService.PlansChanged = true;
+			}
 		}
 	}
 }

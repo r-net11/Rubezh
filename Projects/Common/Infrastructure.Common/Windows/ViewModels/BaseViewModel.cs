@@ -7,7 +7,7 @@ namespace Infrastructure.Common.Windows.ViewModels
     {
         #region INotifyPropertyChanged Members and helper
 
-        readonly NotifyPropertyChangedHelper _propertyChangeHelper = new NotifyPropertyChangedHelper();
+        private readonly NotifyPropertyChangedHelper _propertyChangeHelper = new NotifyPropertyChangedHelper();
 
         public event PropertyChangedEventHandler PropertyChanged
         {
