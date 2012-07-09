@@ -84,10 +84,10 @@ namespace PlansModule.Views
 			if (e.NewValue == 0)
 				return;
 
-			(DataContext as PlanDesignerViewModel).ChangeZoom(slider.Value * initialScale);
-
 			scaleTransform.ScaleX = slider.Value * initialScale;
 			scaleTransform.ScaleY = slider.Value * initialScale;
+
+			(DataContext as PlanDesignerViewModel).ChangeZoom(slider.Value * initialScale);
 
 			var centerOfViewport = new Point(_scrollViewer.ViewportWidth / 2, _scrollViewer.ViewportHeight / 2);
 			lastCenterPositionOnTarget = _scrollViewer.TranslatePoint(centerOfViewport, _grid);

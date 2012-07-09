@@ -14,6 +14,10 @@ namespace Infrustructure.Plans.Designer
 		public abstract void BeginChange();
 		public abstract void EndChange();
 
+		public virtual double ResizeThumbSize { get { return 7 / Zoom; } }
+		public virtual double ResizeBorderSize { get { return 3 / Zoom; } }
+		public virtual double ResizeMarginSize { get { return -3 / Zoom; } }
+
 		public IEnumerable<DesignerItem> Items
 		{
 			get { return from item in this.Children.OfType<DesignerItem>() select item; }

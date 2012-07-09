@@ -1,7 +1,6 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:Infrustructure.Plans.Designer;assembly=Infrustructure.Plans" xmlns:ad="clr-namespace:PlansModule.Designer.Adorners">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ad="clr-namespace:PlansModule.Designer.Adorners" xmlns:s="clr-namespace:Infrustructure.Plans.Designer;assembly=Infrustructure.Plans">
 
-	<Style TargetType="{x:Type Shape}" x:Key="ThumbCorner">
+	<Style x:Key="ThumbCorner" TargetType="{x:Type Shape}">
 		<Setter Property="SnapsToDevicePixels" Value="true" />
 		<Setter Property="Stroke" Value="LightSlateGray" />
 		<Setter Property="StrokeThickness" Value=".5" />
@@ -11,8 +10,8 @@
 		<Setter Property="Fill">
 			<Setter.Value>
 				<RadialGradientBrush Center="0.3, 0.3" GradientOrigin="0.3, 0.3" RadiusX="0.7" RadiusY="0.7">
-					<GradientStop Color="White" Offset="0" />
-					<GradientStop Color="DarkSlateGray" Offset="0.9" />
+					<GradientStop Offset="0" Color="White" />
+					<GradientStop Offset="0.9" Color="DarkSlateGray" />
 				</RadialGradientBrush>
 			</Setter.Value>
 		</Setter>
@@ -23,31 +22,33 @@
 			<Setter.Value>
 				<ControlTemplate TargetType="{x:Type ad:RectangleResizeChrome}">
 					<Grid>
-						<Grid Name="PART_ResizeGrid" Opacity="0" Margin="-3">
-							<s:ResizeThumb Name="PART_TopThumb" Height="3" Cursor="SizeNS" VerticalAlignment="Top" HorizontalAlignment="Stretch" />
-							<s:ResizeThumb Name="PART_LeftThumb" Width="3" Cursor="SizeWE" VerticalAlignment="Stretch" HorizontalAlignment="Left" />
-							<s:ResizeThumb Name="PART_RightThumb" Width="3" Cursor="SizeWE" VerticalAlignment="Stretch" HorizontalAlignment="Right" />
-							<s:ResizeThumb Name="PART_BottomThumb" Height="3" Cursor="SizeNS" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" />
-							<s:ResizeThumb Name="PART_TopLeftThumb" Width="7" Height="7" Margin="0" Cursor="SizeNWSE" VerticalAlignment="Top" HorizontalAlignment="Left" />
-							<s:ResizeThumb Name="PART_TopRightThumb" Width="7" Height="7" Margin="0" Cursor="SizeNESW" VerticalAlignment="Top" HorizontalAlignment="Right" />
-							<s:ResizeThumb Name="PART_BottomLeftThumb" Width="7" Height="7" Margin="0" Cursor="SizeNESW" VerticalAlignment="Bottom" HorizontalAlignment="Left" />
-							<s:ResizeThumb Name="PART_BottomRightThumb" Width="7" Height="7" Margin="0" Cursor="SizeNWSE" VerticalAlignment="Bottom" HorizontalAlignment="Right" />
+						<Grid Name="PART_ResizeGrid" Margin="-3" Opacity="1">
+							<s:ResizeThumb Name="PART_TopThumb" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Top" Cursor="SizeNS" />
+							<s:ResizeThumb Name="PART_LeftThumb" Width="3" HorizontalAlignment="Left" VerticalAlignment="Stretch" Cursor="SizeWE" />
+							<s:ResizeThumb Name="PART_RightThumb" Width="3" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" />
+							<s:ResizeThumb Name="PART_BottomThumb" Height="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" />
+							<s:ResizeThumb Name="PART_TopLeftThumb" Width="7" Height="7" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Top" Cursor="SizeNWSE" />
+							<s:ResizeThumb Name="PART_TopRightThumb" Width="7" Height="7" Margin="0" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="SizeNESW" />
+							<s:ResizeThumb Name="PART_BottomLeftThumb" Width="7" Height="7" Margin="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Cursor="SizeNESW" />
+							<s:ResizeThumb Name="PART_BottomRightThumb" Width="{Binding DesignerCanvas.ThumbZoom}" Height="7" Margin="0" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" />
 						</Grid>
-						<Grid Name="PART_Decorators" IsHitTestVisible="False" Opacity="1" Margin="-3">
+						<!--
+							<Grid Name="PART_Decorators" IsHitTestVisible="False" Opacity="1" Margin="-3">
 							<Rectangle Name="PART_CornerRectangle" SnapsToDevicePixels="True" StrokeThickness="1" Margin="1">
-								<Rectangle.Stroke>
-									<LinearGradientBrush StartPoint="0, 0" EndPoint="1, .3" Opacity=".7">
-										<GradientStop Color="SlateGray" Offset="0" />
-										<GradientStop Color="LightGray" Offset=".5" />
-										<GradientStop Color="SlateGray" Offset="1" />
-									</LinearGradientBrush>
-								</Rectangle.Stroke>
+							<Rectangle.Stroke>
+							<LinearGradientBrush StartPoint="0, 0" EndPoint="1, .3" Opacity=".7">
+							<GradientStop Color="SlateGray" Offset="0" />
+							<GradientStop Color="LightGray" Offset=".5" />
+							<GradientStop Color="SlateGray" Offset="1" />
+							</LinearGradientBrush>
+							</Rectangle.Stroke>
 							</Rectangle>
 							<Ellipse Name="PART_TopLeftEllipse" Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left" VerticalAlignment="Top" />
 							<Ellipse Name="PART_TopRightEllipse" Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right" VerticalAlignment="Top" />
 							<Ellipse Name="PART_BottomLeftEllipse" Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
 							<Ellipse Name="PART_BottomRightEllipse" Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
-						</Grid>
+							</Grid>
+						-->
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
