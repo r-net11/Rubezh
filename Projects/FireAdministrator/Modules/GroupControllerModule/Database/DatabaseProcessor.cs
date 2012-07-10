@@ -14,9 +14,7 @@ namespace GKModule.Database
 			InitializeZones();
 			InitializeInputOutputdependences();
 			InitializeDeviceLogicDependences();
-
 			DatabaseCollection = new DatabaseCollection();
-			DatabaseCollection.Build();
 		}
 
 		static void InitializeZones()

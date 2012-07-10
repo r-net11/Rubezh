@@ -41,69 +41,11 @@ namespace SettingsModule.ViewModels
 		public RelayCommand TestCommand { get; private set; }
 		void OnTest()
 		{
-			Trace.WriteLine("\n state.IsManualReset \n");
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.IsManualReset)
-					{
-						Trace.WriteLine(driver.ShortName + " - " + state.Id + " - " + state.Code + state.Name);
-					}
-				}
-			}
-
-			Trace.WriteLine("\n state.CanResetOnPanel \n");
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.CanResetOnPanel)
-					{
-						Trace.WriteLine(driver.ShortName + " - " + state.Id + " - " + state.Code + state.Name);
-					}
-				}
-			}
-
-			Trace.WriteLine("\n state.IsAutomatic \n");
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.IsAutomatic)
-					{
-						Trace.WriteLine(driver.ShortName + " - " + state.Id + " - " + state.Code + state.Name);
-					}
-				}
-			}
 		}
 
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
 		{
-			Trace.WriteLine("\n AffectChildren \n");
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.AffectChildren)
-					{
-						Trace.WriteLine(driver.Name + state.Name);
-					}
-				}
-			}
-
-			Trace.WriteLine("\n AffectedParent \n");
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.AffectedParent)
-					{
-						Trace.WriteLine(driver.Name + state.Name);
-					}
-				}
-			}
 		}
 
 		public RelayCommand ConvertConfigurationCommand { get; private set; }

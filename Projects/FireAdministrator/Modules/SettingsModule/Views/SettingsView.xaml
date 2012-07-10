@@ -12,13 +12,17 @@
             </Border>
         </TabItem>
         <TabItem Header="Отладка" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
-                    <StackPanel Margin="10">
-                        <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="300" Margin="2" Visibility="Visible" />
-                        <Button Content="Тест" Command="{Binding TestCommand}" Width="300" Margin="2" Visibility="Visible" />
-                        <Button Content="Тест 2" Command="{Binding Test2Command}" Width="300" Margin="2" Visibility="Visible" />
-                    </StackPanel>
-                </Border>
+            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
+                <StackPanel Margin="10">
+                    <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="300" Margin="2" Visibility="Visible" />
+                    <Button Content="Тест" Command="{Binding TestCommand}" Width="300" Margin="2" Visibility="Visible" />
+                    <Button Content="Тест 2" Command="{Binding Test2Command}" Width="300" Margin="2" Visibility="Visible" />
+                </StackPanel>
+            </Border>
+        </TabItem>
+        <TabItem Header="Дерево(Отладка)" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
+            </Border>
         </TabItem>
     </TabControl>
 </UserControl>

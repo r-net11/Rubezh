@@ -10,7 +10,7 @@ namespace GKModule.Database
 		public List<KauDatabase> KauDatabases { get; private set; }
 		public List<GkDatabase> GkDatabases { get; private set; }
 
-		public void Build()
+		public DatabaseCollection()
 		{
 			CreateDBs();
 			CreateDevicesInKau();

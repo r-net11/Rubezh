@@ -6,18 +6,41 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using System.Collections.ObjectModel;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
 	public class JournalViewModel : DialogViewModel
 	{
-		public JournalViewModel()
+		XDevice Device;
+
+		public JournalViewModel(XDevice device)
 		{
 			Title = "Журнал событий ГК";
 			ReadCommand = new RelayCommand(OnRead);
 			JournalItems = new ObservableCollection<JournalItem>();
+			Device = device;
 			StartIndex = 1;
 			EndIndex = 100;
+			SetTotalCount();
+		}
+
+		void SetTotalCount()
+		{
+			var bytes = CommandManager.Send(Device, 0, 6, 64);
+			var journalItem = new JournalItem(bytes);
+			TotalCount = journalItem.GKNo;
+		}
+
+		int _totalCount;
+		public int TotalCount
+		{
+			get { return _totalCount; }
+			set
+			{
+				_totalCount = value;
+				OnPropertyChanged("TotalCount");
+			}
 		}
 
 		int _startIndex;
@@ -56,11 +79,12 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
+			JournalItems.Clear();
 			for (int i = StartIndex; i <= EndIndex; i++)
 			{
 				var data = new List<byte>();
 				data = BitConverter.GetBytes(i).ToList();
-				var bytes = CommandManager.Send(4, 7, 64, data);
+				var bytes = CommandManager.Send(Device, 4, 7, 64, data);
 				var journalItem = new JournalItem(bytes);
 				JournalItems.Add(journalItem);
 			}

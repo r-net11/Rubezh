@@ -34,6 +34,7 @@ namespace DevicesModule.ViewModels
 
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
+			//HasExternalDevices = FiresecManager.HasExternalDevices(Device);
 		}
 
 		public void UpdataConfigurationProperties()
@@ -116,9 +117,20 @@ namespace DevicesModule.ViewModels
 			get { return Device.GetPersentationZone(); }
 		}
 
+		//public bool HasExternalDevices
+		//{
+		//    get { return FiresecManager.HasExternalDevices(Device); }
+		//}
+
+		bool _hasExternalDevices;
 		public bool HasExternalDevices
 		{
-			get { return FiresecManager.HasExternalDevices(Device); }
+			get { return _hasExternalDevices; }
+			set
+			{
+				_hasExternalDevices = value;
+				OnPropertyChanged("HasExternalDevices");
+			}
 		}
 
 		public string ConnectedTo
