@@ -7,6 +7,7 @@
       <!--<MergeRef Id="HASPMSM" />-->
       <Feature Id="FiresecService" Level="1" ConfigurableDirectory="FIRESECSERVICELOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local" >
         <Condition Level="0">INSTALLLEVEL=2</Condition>
+        <FeatureRef Id="OldFiresecServiceFeature" />
         <FeatureRef Id="FiresecServiceFeature" />
         <ComponentRef Id="ClearOnUninstallFiresecService"/>
       </Feature>

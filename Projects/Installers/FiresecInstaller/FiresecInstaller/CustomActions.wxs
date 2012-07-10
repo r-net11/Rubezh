@@ -3,6 +3,15 @@
 	<Fragment>
 		<CustomAction Id="StartAppOnExit" FileKey="FiresecServiceExe" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
     <CustomAction Id="PreventDowngrading" Error="Newer version already installed." />
-		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="KillFiresecProcess"/>
+		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="KillFiresecProcess" Execute="immediate" Impersonate="yes" Return="check"/>
+    <CustomAction Id="InstallHaspDriver" BinaryKey="haspdinst.exe" ExeCommand="-i -kp" Return="asyncNoWait" Execute="immediate" />
+    <CustomAction Id="InstallSocketServer" FileKey="FsScktsrvrExeFile" ExeCommand="-install -silent" Execute="immediate" Impersonate="yes" Return="asyncWait" />
+    <CustomAction Id="UnInstallSocketServer" FileKey="FsScktsrvrExeFile" ExeCommand="-uninstall -silent" Execute="immediate" Impersonate="yes" Return="asyncWait" />
+    <CustomAction Id="RegisterServer" FileKey="Fs_serverExeFile" ExeCommand="-regserver" Execute="immediate" Impersonate="yes" Return="check" />
+    <CustomAction Id="UnRegisterServer" FileKey="Fs_serverExeFile" ExeCommand="-unregserver" Execute="immediate" Impersonate="yes" Return="check" />
+    <CustomAction Id="RegisterSockProxy" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s "[OLDFIRESECSERVICELOCATION]SockProxy.dll"' Return="check" />
+    <CustomAction Id="UnregisterSockProxy" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s /u "[OLDFIRESECSERVICELOCATION]SockProxy.dll"' Return='check' />
+    <CustomAction Id="RegisterFs_types" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s "[OLDFIRESECSERVICELOCATION]fs_types.dll"' Return="check"  />
+    <CustomAction Id="UnregisterFs_types" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s /u "[OLDFIRESECSERVICELOCATION]fs_types.dll"' Return='check' />
 	</Fragment>
 </Wix>

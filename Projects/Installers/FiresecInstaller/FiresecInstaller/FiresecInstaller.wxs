@@ -3,27 +3,27 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
      >
   <?include Variables_Firesec.wxi?>
-  
+
   <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
            Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
-    
+
     <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" />
 
     <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
-    
+
     <Upgrade Id="$(var.UpgradeCode)">
       <UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="yes" Maximum="2.0.0.0" IncludeMaximum="no"
                       Language="1049" Property="OLD_VERSION_FOUND"/>
     </Upgrade>
-    
+
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
     <Property Id="SHORTCUT_PROGRAMMENU" Value="1"/>
     <Property Id="SHORTCUT_DESKTOP" Value="1"/>
     <Property Id="GENERAL_MODULE" Value="1" />
-    <Property Id="GK_MODULE" Value="1" />
-    <Property Id="OPC_MODULE" Value="1" />
-    <Property Id="SKUD_MODULE" Value="1" />
-    <Property Id="VIDEO_MODULE" Value="1" />
+    <Property Id="GK_MODULE" Value="0" />
+    <Property Id="OPC_MODULE" Value="0" />
+    <Property Id="SKUD_MODULE" Value="0" />
+    <Property Id="VIDEO_MODULE" Value="0" />
     <Property Id="CHECKSQLSERVER" Value="0" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
     <Property Id="INSTALLLEVEL" Value="1" />
@@ -36,7 +36,7 @@
     <Property Id="SETUPCHOICE" Value="Full" />
     <Property Id="IS_SQLSERVER_USERNAME" Value="sa" />
     <Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
-    <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />    
+    <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="SystemFolder"/>
@@ -69,6 +69,9 @@
               <Directory Id="FireMonReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
             </Directory>
           </Directory>
+          <Directory Id="OLDFIRESECSERVICELOCATION" Name="FiresecOld">
+            <Directory Id="INTL" Name="intl" />
+          </Directory>
           <Directory Id="LOGS" Name="Logs" />
         </Directory>
       </Directory>
@@ -78,15 +81,26 @@
       </Directory>
       <!--Рабочий стол-->
       <Directory Id="DesktopFolder" />
-      
+
     </Directory>
-    
+
     <FeatureRef Id="FiresecFeature" />
-    
+
     <InstallExecuteSequence>
       <RemoveExistingProducts After="InstallFinalize" />
-      <Custom Action="CloseApplications" After="WixCloseApplications" />
+      <!--<Custom Action="WixCloseApplications" Before="InstallInitialize" />-->
+      <Custom Action="CloseApplications" Before="InstallInitialize" />
+      <Custom Action="RegisterServer" After="InstallFinalize" >NOT Installed</Custom>
+      <Custom Action="RegisterSockProxy" After="RegisterServer">NOT Installed</Custom>
+      <Custom Action="RegisterFs_types" After="RegisterSockProxy">NOT Installed</Custom>
+      
+      <Custom Action="UnRegisterServer" After="CloseApplications">Installed</Custom>
+      <Custom Action="UnregisterSockProxy" After="UnRegisterServer">Installed</Custom>
+      <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">Installed</Custom>
       <!--<Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full" AND (NOT Installed)</Custom>-->
+      <!--<Custom Action="InstallSocketServer" After="RegisterFs_types">NOT Installed</Custom>-->
+      <!--<Custom Action="InstallHaspDriver" After="InstallFinalize" >NOT Installed</Custom>-->
+      <!--<Custom Action="UnInstallSocketServer" After="InstallInitialize">Installed</Custom>-->
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

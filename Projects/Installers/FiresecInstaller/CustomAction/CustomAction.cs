@@ -12,12 +12,18 @@ namespace CustomAction
 			string _firesecServiceName = session["FIRESECSERVICENAME"];
 			string _fireMonitorName = session["FIREMONITORNAME"];
 			string _fireAdministratorName = session["FIREADMINISTRATORNAME"];
+			string _firesecNtService = "FiresecNTService.exe";
+			string _socketService = "scktsrvr.exe";
+			string _oldFiresecService = "fs_server.exe";
 			Process[] processes = Process.GetProcesses();
 			foreach (var process in processes)
 			{
 				if ((process.ProcessName == _firesecServiceName)
 					|| (process.ProcessName == _fireMonitorName)
-					|| (process.ProcessName == _fireAdministratorName))
+					|| (process.ProcessName == _fireAdministratorName)
+					|| (process.ProcessName == _oldFiresecService)
+					|| (process.ProcessName == _firesecNtService)
+					|| (process.ProcessName == _socketService))
 					process.Kill();
 			}
 

@@ -57,6 +57,8 @@
         <File Id="CopyLogs" Name="CopyLogs.bat" Source="Data\" DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
+
+    
 	</Fragment>
 </Wix>
 

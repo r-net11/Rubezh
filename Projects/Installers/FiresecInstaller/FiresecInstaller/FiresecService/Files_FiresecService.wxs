@@ -13,12 +13,6 @@
         <File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
               Source="$(var.FiresecService.TargetPath)" DiskId="1" KeyPath="yes">
         </File>
-        <ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
-												Name="Firesec-2 NT Server" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
-												ErrorControl="ignore" Interactive="yes" Arguments="/service">
-          <util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
-															RestartServiceDelayInSeconds="100"/>
-        </ServiceInstall>
       </Component>
 
       <Component Id="FiresecServiceConfig" Guid="7B35878D-19EB-4552-BF09-E3D658D34957">
@@ -39,6 +33,11 @@
       <Component Id="InfrastructureCommonComponent" Guid="6613AC03-F043-4D1B-8CC8-97EF2954B820">
         <File Id="InfrastructureCommonDll" Name="Infrastructure.Common.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
+      </Component>
+
+      <Component Id="Infrastructure.PlansComponent" Guid="EA8AE306-543F-464A-BEC3-9DA5F00C8B0E">
+        <File Id="Infrustructure.PlansDll" Name="Infrustructure.Plans.dll"
+              Source="$(var.FiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
 
       <Component Id="FiresecComponent" Guid="41974E04-F90D-4B43-9334-527425544AE8">
@@ -131,16 +130,18 @@
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <!--<Component Id="FiresecNTService" Guid="4B647FF5-1F32-46C5-BC7B-5CE65C04EAEA">
+      <Component Id="FiresecNTService" Guid="4B647FF5-1F32-46C5-BC7B-5CE65C04EAEA">
         <File Id="FiresecNTServiceExe" Name="$(var.FiresecNTService.TargetFileName)"
 							Source="$(var.FiresecNTService.TargetDir)" KeyPath="yes" DiskId="1" />
         <ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
 												Name="Firesec-2 NT Server" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
 												ErrorControl="ignore" Interactive="yes" Arguments="$(var.FiresecService.TargetFileName)">
-          <util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
-															RestartServiceDelayInSeconds="100"/>
+          <!--<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
+															RestartServiceDelayInSeconds="100" />-->
+          <ServiceDependency Id="Adv_SocketServer"/>
         </ServiceInstall>
-      </Component>-->
+        <ServiceControl Id="StartNTService" Start="install" Stop="uninstall" Name="Firesec-2 NT Server" Wait="yes" Remove="uninstall"/>
+      </Component>
 
       <Component Id="OPC_gbda3w_Component" Guid="A25FAEB1-6EA4-46EA-8017-D4738831CDFF">
         <File Id="gbda3w.dll" Name="gbda3w.dll" Source="$(var.FiresecService.TargetDir)"

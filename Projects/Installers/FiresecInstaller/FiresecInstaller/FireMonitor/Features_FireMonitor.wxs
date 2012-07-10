@@ -30,7 +30,6 @@
 			<ComponentRef Id="FMAlarmModuleComponent"/>
 			<ComponentRef Id="FMNLogComponent"/>
 			<ComponentRef Id="FMManualComponent"/>
-			<ComponentRef Id="FMHASPComponent"/>
 			<ComponentRef Id="FMProgramsMenuShortcut" />
 			<ComponentRef Id="FMDesktopShortcut" />
       <ComponentRef Id="FMIntegrateCmd"/>
@@ -41,8 +40,9 @@
       <ComponentRef Id="FMIntegrateRegx32"/>
       <ComponentRef Id="FMGKModuleComponent"/>
       <ComponentRef Id="FMVideoModuleComponent"/>
-      <ComponentRef Id="SystemHASPComponent"/>
-			<ComponentGroupRef Id="FireMonReportTemplatesFolder"/>
+      <ComponentRef Id="FMHASPComponent"/>
+      <ComponentRef Id="FMSystemHASPComponent"/>
+      <ComponentGroupRef Id="FireMonReportTemplatesFolder"/>
 		</Feature>
 	</Fragment>
 </Wix>

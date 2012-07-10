@@ -51,6 +51,8 @@
     <Compile Include="FiresecService\Output.wxs" />
     <Compile Include="FiresecService\Properties_FiresecService.wxs" />
     <Compile Include="FiresecService\Shortcuts_FiresecService.wxs" />
+    <Compile Include="OldFiresec\Features_OldFiresecService.wxs" />
+    <Compile Include="OldFiresec\Files_OldFiresecService.wxs" />
     <Compile Include="RemoveUsersDirectory.wxs" />
     <Compile Include="UI\UI_Dialogs.wxs" />
     <Compile Include="UI\UI_Elements.wxs" />
@@ -84,6 +86,7 @@
     <Content Include="FiresecService\Xslt\WixReportTemplates.xslt" />
     <Content Include="FiresecService\Xslt\WixSounds.xslt" />
     <Content Include="FiresecService\Xslt\WixXmlConfig.xslt" />
+    <Content Include="OldFiresec\Variables_OldFiresecService.wxi" />
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="Variables_Firesec.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
@@ -105,6 +108,7 @@
     <Folder Include="FiresecService\Xslt\" />
     <Folder Include="FireAdministrator" />
     <Folder Include="FireMonitor" />
+    <Folder Include="OldFiresec" />
     <Folder Include="UI" />
   </ItemGroup>
   <ItemGroup>
