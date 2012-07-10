@@ -34,7 +34,7 @@ namespace DevicesModule.ViewModels
 
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
-			//HasExternalDevices = FiresecManager.HasExternalDevices(Device);
+			HasExternalDevices = FiresecManager.HasExternalDevices(Device);
 		}
 
 		public void UpdataConfigurationProperties()
@@ -223,7 +223,6 @@ namespace DevicesModule.ViewModels
 
 			index = Math.Min(index, DevicesViewModel.Current.Devices.Count - 1);
 			DevicesViewModel.Current.SelectedDevice = DevicesViewModel.Current.Devices[index];
-
 			DevicesViewModel.Current.UpdateExternalDevices();
 		}
 

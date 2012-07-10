@@ -114,8 +114,11 @@
     <Compile Include="Events\ShowJournalEvent.cs" />
     <Compile Include="Events\ShowPlanEvent.cs" />
     <Compile Include="Events\ShowZoneOnPlanEvent.cs" />
-    <Compile Include="Events\ShowZonesEvent.cs" />
+    <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="Events\ZoneStateChangedEvent.cs" />
+    <Compile Include="Events\ShowXDeviceEvent.cs" />
+    <Compile Include="Events\ShowXZoneEvent.cs" />
+    <Compile Include="Events\ShowXJournalEvent.cs" />
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />

@@ -40,8 +40,7 @@
                                   DisplayDateEnd="{Binding NowDate, Mode=OneTime}"
                                   DisplayDate="{Binding StartDate}"
                                   SelectedDate="{Binding StartDate}" />
-                            <extToolkit:TimePicker Width="100" Value="{Binding StartTime}" IsOpen="False" Margin="4" VerticalAlignment="Top" />
-                            <extToolkit:DateTimePicker Width="100" VerticalAlignment="Top" />
+                            <extToolkit:TimePicker Width="100" Value="{Binding StartTime, UpdateSourceTrigger=PropertyChanged}" Margin="4" VerticalAlignment="Top" />
                         </StackPanel>
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <Label Content="По" />

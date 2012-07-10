@@ -46,8 +46,8 @@ namespace FiresecAPI.Models
 				stateTypes.AddRange(from ParentDeviceState parentDeviceState in ParentStates
 									select parentDeviceState.DriverState.StateType);
 
-				stateTypes.AddRange(from ChildDeviceState childDeviceState in ChildStates
-									select childDeviceState.DriverState.StateType);
+				//stateTypes.AddRange(from ChildDeviceState childDeviceState in ChildStates
+				//                    select childDeviceState.DriverState.StateType);
 
 				return stateTypes.Min();
 			}
