@@ -13,8 +13,6 @@
 						<designer:MoveThumb />
 						<Grid.ContextMenu>
 							<ContextMenu>
-								<!--<MenuItem Command="{Binding AddPointCommand}" Header="Добавить точку" Visibility="{Binding IsPolygon, Converter={StaticResource BoolToVisibilityConverter}}" />
-								<MenuItem Command="{Binding AddPointCommand}" Header="Добавить точку" Visibility="{Binding IsPolyline, Converter={StaticResource BoolToVisibilityConverter}}" />-->
 								<MenuItem Command="{Binding DeleteCommand}" Header="Удалить" />
 								<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
 							</ContextMenu>

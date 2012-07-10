@@ -31,6 +31,7 @@ namespace PlansModule.ViewModels
 			StrokeThickness = _elementTextBlock.BorderThickness;
 			FontSize = _elementTextBlock.FontSize;
 			FontFamilyName = _elementTextBlock.FontFamilyName;
+			Stretch = _elementTextBlock.Stretch;
 		}
 
 		string _text;
@@ -99,6 +100,17 @@ namespace PlansModule.ViewModels
 			}
 		}
 
+		bool _stretch;
+		public bool Stretch
+		{
+			get { return _stretch; }
+			set
+			{
+				_stretch = value;
+				OnPropertyChanged("Stretch");
+			}
+		}
+
 		public List<string> Fonts { get; private set; }
 
 		string _fontFamilyName;
@@ -121,6 +133,7 @@ namespace PlansModule.ViewModels
 			_elementTextBlock.BorderThickness = StrokeThickness;
 			_elementTextBlock.FontSize = FontSize;
 			_elementTextBlock.FontFamilyName = FontFamilyName;
+			_elementTextBlock.Stretch = Stretch;
 			return base.Save();
 		}
 	}

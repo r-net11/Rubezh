@@ -9,6 +9,7 @@ using PlansModule.Designer.Adorners;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Events;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -23,15 +24,15 @@ namespace PlansModule.Designer.DesignerItems
 			: base(element)
 		{
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute();
+			DeleteCommand = new RelayCommand(OnDelete);
+			MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute(null);
 			IsVisibleLayout = true;
 			IsSelectableLayout = true;
 		}
 
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		private void OnShowProperties()
+		protected override void OnShowProperties()
 		{
-			var property = CreateProperty();
+			var property = CreatePropertiesViewModel();
 			if (property != null)
 			{
 				DesignerCanvas.BeginChange();
@@ -43,9 +44,15 @@ namespace PlansModule.Designer.DesignerItems
 				}
 			}
 		}
-		protected SaveCancelDialogViewModel CreateProperty()
+		protected override void OnDelete()
 		{
-			return null;
+			((DesignerCanvas)DesignerCanvas).RemoveAllSelected();
+		}
+		protected virtual SaveCancelDialogViewModel CreatePropertiesViewModel()
+		{
+			var args = new ShowPropertiesEventArgs(Element);
+			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Publish(args);
+			return args.PropertyViewModel as SaveCancelDialogViewModel;
 		}
 	}
 }

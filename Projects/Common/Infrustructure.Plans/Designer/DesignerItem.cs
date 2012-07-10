@@ -63,6 +63,8 @@ namespace Infrustructure.Plans.Designer
 		{
 			get { return VisualTreeHelper.GetParent(this) as CommonDesignerCanvas; }
 		}
+		public ICommand ShowPropertiesCommand { get; protected set; }
+		public ICommand DeleteCommand { get; protected set; }
 
 		public ElementBase Element { get; protected set; }
 		public IPainter Painter { get; private set; }
@@ -153,5 +155,8 @@ namespace Infrustructure.Plans.Designer
 		public virtual void UpdateElementProperties()
 		{
 		}
+
+		protected abstract void OnShowProperties();
+		protected abstract void OnDelete();
 	}
 }

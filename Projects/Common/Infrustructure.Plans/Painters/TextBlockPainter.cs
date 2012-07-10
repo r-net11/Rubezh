@@ -21,7 +21,7 @@ namespace Infrustructure.Plans.Painters
 				Content = elementText.Text,
 				Background = new SolidColorBrush(element.BackgroundColor),
 				Foreground = new SolidColorBrush(elementText.ForegroundColor),
-				BorderBrush = new SolidColorBrush(element.BackgroundColor),
+				BorderBrush = new SolidColorBrush(element.BorderColor),
 				BorderThickness = new Thickness(element.BorderThickness),
 				FontSize = elementText.FontSize,
 				FontFamily = new FontFamily(elementText.FontFamilyName),
@@ -32,7 +32,6 @@ namespace Infrustructure.Plans.Painters
 					Stretch = Stretch.Fill,
 					Child = textBlock
 				} : (FrameworkElement)textBlock;
-			//frameworkElement.IsHitTestVisible = false;
 			return frameworkElement;
 		}
 		#endregion

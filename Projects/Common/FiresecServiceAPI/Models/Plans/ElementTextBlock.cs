@@ -57,6 +57,8 @@ namespace FiresecAPI.Models
 			FontSize = 10;
 			FontFamilyName = "Arial";
 			base.SetDefault();
+			Height = 22;
+			Width = 52;
 		}
 	}
 }
