@@ -103,10 +103,13 @@ namespace Infrustructure.Plans.Designer
 		public virtual void SetLocation()
 		{
 			var rect = Element.GetRectangle();
-			Canvas.SetLeft(this, rect.Left);
-			Canvas.SetTop(this, rect.Top);
-			ItemWidth = rect.Width;
-			ItemHeight = rect.Height;
+			{
+				Canvas.SetLeft(this, rect.Left);
+				Canvas.SetTop(this, rect.Top);
+				ItemWidth = rect.Width;
+				ItemHeight = rect.Height;
+			}
+			catch { }
 		}
 		public void Redraw()
 		{
