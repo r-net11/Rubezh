@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.ComponentModel;
 using System.Windows.Shapes;
+using System.Windows.Controls.Primitives;
 namespace Infrustructure.Plans.Designer
 {
 	public abstract class ResizeChrome : Control, INotifyPropertyChanged
@@ -19,7 +20,13 @@ namespace Infrustructure.Plans.Designer
 			get { return DesignerItem.DesignerCanvas; }
 		}
 
+		public ResizeChrome()
+		{
+			AddHandler(Thumb.DragDeltaEvent, new DragDeltaEventHandler(ResizeThumb_DragDelta));
+		}
+
 		public abstract void Initialize();
+		protected abstract void Resize(ResizeDirection direction, double horizontalChange, double verticalChange);
 
 		public virtual void UpdateZoom()
 		{
@@ -40,6 +47,18 @@ namespace Infrustructure.Plans.Designer
 		{
 			if (PropertyChanged != null)
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+		private void ResizeThumb_DragDelta(object sender, DragDeltaEventArgs e)
+		{
+			if (DesignerItem.IsSelected)
+			{
+				ResizeThumb thumb = (ResizeThumb)e.OriginalSource;
+				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
+					if (designerItem.ResizeChrome != null)
+						designerItem.ResizeChrome.Resize(thumb.Direction, e.HorizontalChange, e.VerticalChange);
+				e.Handled = true;
+			}
 		}
 	}
 }

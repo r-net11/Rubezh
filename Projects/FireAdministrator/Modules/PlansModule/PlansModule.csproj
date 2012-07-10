@@ -101,9 +101,10 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Designer\Adorners\RectangleResizeChrome.cs" />
-    <Compile Include="Designer\DesignerItems\DesignerItemPolygon.cs" />
-    <Compile Include="Designer\DesignerItems\DesignerItemPolyline.cs" />
+    <Compile Include="Designer\Adorners\ResizeChromeShape.cs" />
+    <Compile Include="Designer\Adorners\ResizeChromePoint.cs" />
+    <Compile Include="Designer\Adorners\ResizeChromeRectangle.cs" />
+    <Compile Include="Designer\DesignerItems\DesignerItemShape.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemPoint.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemBase.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemRectangle.cs" />
@@ -278,7 +279,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Designer\Adorners\RectangleResizeChrome.xaml">
+    <Page Include="Designer\Adorners\ResizeChromeShape.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Designer\Adorners\ResizeChromePoint.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Designer\Adorners\ResizeChromeRectangle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

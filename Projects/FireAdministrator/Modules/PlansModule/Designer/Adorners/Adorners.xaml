@@ -1,5 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<ResourceDictionary.MergedDictionaries>
-		<ResourceDictionary Source="RectangleResizeChrome.xaml" />
+		<ResourceDictionary Source="ResizeChromeRectangle.xaml" />
+		<ResourceDictionary Source="ResizeChromePoint.xaml" />
+		<ResourceDictionary Source="ResizeChromeShape.xaml" />
 	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -5,6 +5,7 @@ namespace Infrustructure.Plans.Designer
 {
 	public class ResizeThumb : Thumb
 	{
+		public ResizeDirection Direction { get; set; }
 		public ResizeChrome ResizeChrome
 		{
 			get { return DataContext as ResizeChrome; }
@@ -12,6 +13,11 @@ namespace Infrustructure.Plans.Designer
 		private CommonDesignerCanvas DesignerCanvas
 		{
 			get { return ResizeChrome.DesignerCanvas; }
+		}
+
+		public ResizeThumb()
+		{
+			Direction = ResizeDirection.None;
 		}
 
 		protected override void OnInitialized(EventArgs e)
@@ -29,5 +35,6 @@ namespace Infrustructure.Plans.Designer
 		{
 			DesignerCanvas.EndChange();
 		}
+
 	}
 }

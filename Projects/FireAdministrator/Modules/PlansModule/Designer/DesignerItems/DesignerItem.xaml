@@ -26,7 +26,6 @@
 	</Style>
 	<Style BasedOn="{StaticResource {x:Type loc:DesignerItemBase}}" TargetType="{x:Type loc:DesignerItemRectangle}" />
 	<Style BasedOn="{StaticResource {x:Type loc:DesignerItemBase}}" TargetType="{x:Type loc:DesignerItemPoint}" />
-	<Style BasedOn="{StaticResource {x:Type loc:DesignerItemBase}}" TargetType="{x:Type loc:DesignerItemPolyline}" />
-	<Style BasedOn="{StaticResource {x:Type loc:DesignerItemBase}}" TargetType="{x:Type loc:DesignerItemPolygon}" />
+	<Style BasedOn="{StaticResource {x:Type loc:DesignerItemBase}}" TargetType="{x:Type loc:DesignerItemShape}" />
 
 </ResourceDictionary>

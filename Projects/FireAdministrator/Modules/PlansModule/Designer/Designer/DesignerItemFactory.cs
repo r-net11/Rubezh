@@ -26,9 +26,8 @@ namespace PlansModule.Designer
 				case ElementType.Rectangle:
 					return new DesignerItemRectangle(element);
 				case ElementType.Polygon:
-					return new DesignerItemPolygon(element);
 				case ElementType.Polyline:
-					return new DesignerItemPolyline(element);
+					return new DesignerItemShape(element);
 			}
 			return new DesignerItemBase(element);
 		}

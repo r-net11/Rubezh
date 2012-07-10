@@ -143,8 +143,12 @@ namespace Infrustructure.Plans.Designer
 			}
 			e.Handled = false;
 		}
-		
-		public abstract void Remove();
-		public abstract void UpdateElementProperties();
+
+		public virtual void Remove()
+		{
+		}
+		public virtual void UpdateElementProperties()
+		{
+		}
 	}
 }
