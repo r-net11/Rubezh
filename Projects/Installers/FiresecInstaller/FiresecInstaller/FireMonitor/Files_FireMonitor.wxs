@@ -177,12 +177,14 @@
       </Component>
 
     </DirectoryRef>
-    
-		<DirectoryRef Id="SystemFolder">
-			<Component Id="SystemHASPComponent" Guid="235FFA7E-E461-41EE-A7B5-B78FC93E7F1D">
-				<File Id="SystemHASPDLL" Name="hasp_windows_83702.dll" Source="..\..\..\..\..\..\3rdParty\HASP\"
+
+    <DirectoryRef Id="SystemFolder">
+      <Component Id="FMSystemHASPComponent" Guid="235FFA7E-E461-41EE-A7B5-B78FC93E7F1D">
+        <File Id="FMSystemHASPDLL" Name="hasp_windows_83702.dll" Source="..\..\..\..\..\..\3rdParty\HASP\"
 							DiskId="1" KeyPath="yes" />
-			</Component>
-		</DirectoryRef>
+      </Component>
+    </DirectoryRef>
+    
+		
 	</Fragment>
 </Wix>

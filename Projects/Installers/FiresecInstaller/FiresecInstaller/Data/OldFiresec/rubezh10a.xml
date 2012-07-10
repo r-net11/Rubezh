@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="windows-1251"?>
+
+<!-- timeSliceType: 0 - tsNone, 1 - tsDurableOp, 2 - tsNoAnswer, 3 - tsBoth -->
+
+<driverConfig 
+  validChars="АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщыьъэюя- .1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$;%^:&amp;?*()-_=+|[]'&lt;&gt;,\&quot;\\/{}&#xD;"
+  timeSliceType="0"
+  connectionLostDelay="30"
+>
+  <!-- типы записей
+    device - запись типа устройство
+    zone - запись типа зона
+    outputDevice - запись типа выходное устройство реально не присутсвует в панели, хранится в записи зоне
+    composite - устройство является набором других устройств, применимых для этой панели
+  -->
+
+  <deviceTables>
+
+   <deviceTable tableType="$60" recordType="device" recLen="16"
+      deviceDriverID ="{FD91CD1A-4F3B-4F76-AA74-AB9C8B9E79F3}"
+      deviceName="Пожарный комбинированный извещатель ИП212/101-64-А2R1" maxOutputDeviceCount="1"
+      shortName="АПИ: 'ИП64'"
+      HasSmokeChanel="1"
+      addressMask="R[12-15];[0-11]"
+      addressGroup="-1"
+      category="detector"
+      Icon="ИП29-64"
+      />
+
+    <deviceTable tableType="$61" recordType="device" recLen="16"
+      deviceDriverID ="{F8EBE5F5-A012-4DB7-B300-49552B458931}"
+      deviceName="Пожарный дымовой извещатель ИП 212-64"
+      maxOutputDeviceCount="1"
+      shortName="АПИ: 'ИП 212-64'"
+      addressMask="R[12-15];[0-11]"
+      HasSmokeChanel="1"
+      LimitBaseNodeType="$9A"
+      addressGroup="-1"
+      category="detector"
+      Icon="ИП64"
+    />
+      
+    <deviceTable tableType="$62" recordType="device" recLen="16"
+      deviceDriverID ="{E613E421-68A2-4A31-96CC-B9CAB7D64216}"
+      deviceName="Пожарный тепловой извещатель ИП 101-29-A3R1"
+      maxOutputDeviceCount="1"
+      shortName="АПИ: 'ИП29'"
+      addressMask="R[12-15];[0-11]"
+      addressGroup="-1"
+      category="detector"
+      Icon="ИП29"
+     />
+
+    <deviceTable tableType="$55" recordType="device" recLen="16"
+      deviceDriverID ="{4F83823A-2C4E-4F4E-BF67-12EFC82B4FEC}"
+      deviceName="Ручной извещатель ИПР514-3" maxOutputDeviceCount="1"
+      shortName="РПИ"
+      addressMask="R[12-15];[0-11]"
+      addressGroup="-1"
+      category="detector"
+      Icon="ИПР"
+      />
+
+    <deviceTable tableType="$51" recordType="device" recLen="16"
+      deviceDriverID ="{AB9C8B4C-43CA-44BB-86DA-527F0D8B2F75}"
+      deviceName="Пожарная адресная метка АМ1" maxOutputDeviceCount="1"
+      shortName="АМ1"
+      addressMask="R[12-15];[0-11]"
+      addressGroup="-1"
+      category="detector"
+      Icon="АМ-1П"
+      />
+
+<!--
+    <deviceTable recordType="childDevice"
+      deviceDriverID ="FEF902D9-CD61-44E2-9186-7ECBFDDD27C5"
+      deviceName="Линия метки АМ8" maxOutputDeviceCount="1"
+      shortName="Линия АМ8"
+      deviceCount="8"
+      Icon="Device_R_AL"
+      addressGroup="-1"
+      category="detector"
+     />
+
+    <deviceTable tableType="$F0" recordType="composite" recLen="16"
+      deviceDriverID ="18C8ECC9-94A9-4017-A0ED-08D3BE0974A2"
+      deviceName="Пожарная адресная метка АМ8" maxOutputDeviceCount="0"
+      shortName="АМ8"
+      deviceCount="8"
+      addressMask="R[12-15];[0-11]"
+      Icon="Device_R_AL"
+      addressGroup="-1"
+      category="detector"
+    />
+-->
+      
+    <deviceTable tableType="$D2" recordType="device" recLen="16"
+      deviceDriverID ="50CDD49E-4981-475C-9083-ADB79458B0B0"
+      deviceName="Метка контроля питания" maxOutputDeviceCount="0"
+      shortName="МКП"
+      addressMask="R[12-15];[0-11]"
+      Single="1"
+      addressGroup="-1"
+      category="detector"
+      Icon="АМ-1П"
+     />
+      
+    <deviceTable tableType="$75" recordType="device" recLen="16"
+      deviceDriverID ="75D4399D-EC01-42E0-B77E-31F5E1248905"
+      deviceName="Релейный исполнительный модуль РМ-1" maxOutputDeviceCount="1"
+      shortName="РМ-1"
+      addressMask="R[12-15];[0-11]"
+      IsOutDevice="1"
+      Icon="РМ"
+      addressGroup="-1"
+      category="effector"
+      />
+
+    <deviceTable tableType="$100" recordType="zone" recLen="32" deviceName="Зона"/>
+
+    <deviceTable tableType="0" recordType="outputDevice"
+      deviceDriverID ="{C87E5BBD-2E0C-4213-84D0-2376DB27BDF2}"
+      deviceName="АСПТ"
+      MaxOutputDeviceCount="10"
+      Icon="АСПТ"
+      category="effector" />
+      
+  </deviceTables>
+
+  <!-- Классы состояний
+    0 - Тревога
+    1 - Внимание (предтревожное)
+    2 - Неисправность
+    3 - Требуется обслуживание
+    4 - Обход устройств
+    5 - Неизвестно
+    6 - Норма -->
+ 
+  <events>
+    <event rawEventCode="$01" eventClass="0" eventMessage="Пожарная тревога" hasDevice="1"/>
+    <event rawEventCode="$02" eventClass="6" eventMessage="Тест 'Кнопка'" hasDevice="1"/>
+    <event rawEventCode="$03" eventClass="6" eventMessage="Тест 'Лазер'" hasDevice="1"/>
+    <event rawEventCode="$04" eventClass="6" eventMessage="Изменение конфигурации режимов АСПТ" hasDevice="0"/>
+    <event rawEventCode="$05" eventClass="0" eventMessage="Запуск АСПТ в ручном режиме" hasDevice="0"/>
+    <event rawEventCode="$06" eventClass="0" eventMessage="Запуск АСПТ в автоматическом режиме" hasDevice="0"/>
+    <event rawEventCode="$07" eventClass="2" eventMessage="Неисправность системы" hasDevice="0"/>
+    <event rawEventCode="$08" eventClass="6" eventMessage="Неисправность системы устранена" hasDevice="0"/>
+    <event rawEventCode="$09" eventClass="2" eventMessage="Связь с устройством потеряна" hasDevice="1"/>
+    <event rawEventCode="$0A" eventClass="6" eventMessage="Связь с устройством восстановлена" hasDevice="1"/>
+    <event rawEventCode="$0B" eventClass="6" eventMessage="Включение питания" hasDevice="0"/>
+    <event rawEventCode="$0C" eventClass="6" eventMessage="Перезагрузка" hasDevice="0"/>
+    <event rawEventCode="$0D" eventClass="2" eventMessage="Сбой" hasDevice="0"/>
+    <event rawEventCode="$0E" eventClass="1" eventMessage="Внимание" hasDevice="1"/>
+
+    <event rawEventCode="$0F" eventClass="2" eventMessage="Шлейф 1 неисправен" hasDevice="0"/>
+    <event rawEventCode="$10" eventClass="2" eventMessage="Шлейф 2 неисправен" hasDevice="0"/>
+    <event rawEventCode="$11" eventClass="2" eventMessage="Шлейф 3 неисправен" hasDevice="0"/>
+    <event rawEventCode="$12" eventClass="2" eventMessage="Шлейф 4 неисправен" hasDevice="0"/>
+    <event rawEventCode="$13" eventClass="2" eventMessage="Шлейф 5 неисправен" hasDevice="0"/>
+    <event rawEventCode="$14" eventClass="2" eventMessage="Шлейф 6 неисправен" hasDevice="0"/>
+    <event rawEventCode="$15" eventClass="2" eventMessage="Шлейф 7 неисправен" hasDevice="0"/>
+    <event rawEventCode="$16" eventClass="2" eventMessage="Шлейф 8 неисправен" hasDevice="0"/>
+    <event rawEventCode="$17" eventClass="2" eventMessage="Шлейф 9 неисправен" hasDevice="0"/>
+    <event rawEventCode="$18" eventClass="2" eventMessage="Шлейф 10 неисправен" hasDevice="0"/>
+
+    <event rawEventCode="$19" eventClass="6" eventMessage="Шлейф 1 в рабочем состоянии" hasDevice="0"/>
+    <event rawEventCode="$1A" eventClass="6" eventMessage="Шлейф 2 в рабочем состоянии" hasDevice="0"/>
+    <event rawEventCode="$1B" eventClass="6" eventMessage="Шлейф 3 в рабочем состоянии" hasDevice="0"/>
+    <event rawEventCode="$1C" eventClass="6" eventMessage="Шлейф 4 в рабочем состоянии" hasDevice="0"/>
+    <event rawEventCode="$1D" eventClass="6" eventMessage="Шлейф 5 в рабочем состоянии" hasDevice="0"/>
+    <event rawEventCode="$1E" eventClass="6" eventMessage="Шлейф 6 в рабочем состоянии" hasDevice="0"/>
+    <event rawEventCode="$1F" eventClass="6" eventMessage="Шлейф 7 в рабочем состоянии" hasDevice="0"/>
+    <event rawEventCode="$20" eventClass="6" eventMessage="Шлейф 8 в рабочем состоянии" hasDevice="0"/>
+    <event rawEventCode="$21" eventClass="6" eventMessage="Шлейф 9 в рабочем состоянии" hasDevice="0"/>
+    <event rawEventCode="$22" eventClass="6" eventMessage="Шлейф 10 в рабочем состоянии" hasDevice="0"/>
+
+    <event rawEventCode="$23" eventClass="2" eventMessage="Неисправность устройства" hasDevice="1"/>
+    <event rawEventCode="$24" eventClass="6" eventMessage="Восстановление устройства" hasDevice="1"/>
+
+    <event rawEventCode="$25" eventClass="3" eventMessage="Предварительный уровнь запыленности датчика" hasDevice="1"/>
+    <event rawEventCode="$26" eventClass="6" eventMessage="Устранение запыленности датчика ниже предварительного уровня" hasDevice="1"/>
+
+    <event rawEventCode="$27" eventClass="3" eventMessage="Критический уровнь запыленности датчика" hasDevice="1"/>
+    <event rawEventCode="$28" eventClass="6" eventMessage="Устранение запыленности датчика ниже критического уровня" hasDevice="1"/>
+
+    <event rawEventCode="$29" eventClass="6" eventMessage="Установка часов с панели" hasDevice="0"/>
+    <event rawEventCode="$2A" eventClass="6" eventMessage="Конфигурация" hasDevice="0"/>
+    <event rawEventCode="$2B" eventClass="6" eventMessage="Обновление ПО" hasDevice="0"/>
+
+    <event rawEventCode="$2C"  eventClass="3" eventMessage="Переход на резервное питание" hasDevice="0"/>
+    <event rawEventCode="$2D"  eventClass="6" eventMessage="Переход на основное питание" hasDevice="0"/>
+  </events>
+  
+  <!-- Классы состояний
+    0 - Тревога
+    1 - Внимание (предтревожное)
+    2 - Неисправность
+    3 - Требуется обслуживание
+    4 - Обход устройств
+    5 - Неизвестно
+    6 - Норма -->
+
+<!-- Коды состояний панели    
+     0 - Внимание в системе
+     1 - Внимание в зоне
+     2 - Тест Лазер
+     3 - Тест "Кнопка"
+     4 - Пожар
+     5 - Неисправность
+     6 - Потеря связи с устройством
+     7 - Пуск АСПТ в ручном режиме
+     8 - Ошибка конфигурирования БД
+     9 - Блокировка
+     10 - Запыленность: предупреждение
+     11 - Запыленность: критический уровень
+     12 - Ошибка обновления ПО
+
+     32 - Потеря связи с прибором
+
+-->
+
+
+  <deviceStates>
+    <deviceState class="2" name="Потеря связи" ID="ConnectionLost">
+      <enter event="$09"/>
+      <leave event="$0A" />
+      <leave panelState="5"/>
+    </deviceState>
+
+    <deviceState class="0" name="Пожарная тревога" ID="FireAlarm">
+      <enter event="$01"/>
+      <leave panelState="4"/>
+    </deviceState>
+
+    <deviceState class="6" name="Тест 'Кнопка'" ID="TestButton">
+      <enter event="$02"/>
+      <leave panelState="3"/>
+    </deviceState>
+
+    <deviceState class="6" name="'Тест Лазер'" ID="TestLaser">
+      <enter event="$03"/>
+      <leave panelState="2"/>
+    </deviceState>
+
+    <deviceState class="1" name="Внимание" ID="Warning">
+      <enter event="$0E"/>
+      <leave panelState="0"/>
+    </deviceState>
+
+    <deviceState class="2" name="Неисправность" ID="Malfunction">
+      <enter event="$23"/>
+      <leave event="$24"/>
+      <leave panelState="5"/>
+    </deviceState>
+
+    <deviceState class="3" name="Предварительный уровень запыленности" ID="LowDustiness">
+      <enter event="$25"/>
+      <leave event="$26"/>
+      <leave panelState="10"/>
+    </deviceState>
+
+    <deviceState class="3" name="Критический уровень запыленности" ID="HighDustiness">
+      <enter event="$27"/>
+      <leave event="$28"/>
+      <leave panelState="11"/>
+    </deviceState>
+
+<!--    <deviceState class="2" name="Потеря связи с прибором" ID="ParentConnectionLost"/> -->
+
+  </deviceStates>
+
+</driverConfig>

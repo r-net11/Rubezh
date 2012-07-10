@@ -19,13 +19,14 @@ namespace FiresecNTService
 
 		static void Main(string[] args)
 		{
-			ServiceBase.Run(new FiresecNTService());
+			ServiceBase[] ServicesToRun;
+			ServicesToRun = new ServiceBase[] { new FiresecNTService() };
+			ServiceBase.Run(ServicesToRun);
 		}
 
 		protected override void OnStart(string[] args)
 		{
 			base.OnStart(args);
-			Debugger.Break();
 			var commandLineArgs = Environment.GetCommandLineArgs();
 			DirectoryInfo dirInfo = new DirectoryInfo(commandLineArgs[0]);
 			var nameFiresecExe = commandLineArgs[1];
