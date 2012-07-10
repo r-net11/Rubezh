@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="SettingsModule.Views.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Views="clr-namespace:SettingsModule.Views">
     
     <TabControl>
         <TabItem Header="Конвертация">
@@ -22,6 +23,7 @@
         </TabItem>
         <TabItem Header="Дерево(Отладка)" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
             <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
+                <Views:DevicesTreeView />
             </Border>
         </TabItem>
     </TabControl>

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -8,22 +6,22 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SettingsModule.Views;
-using DevicesModule.ViewModels;
-using System.IO;
-using System;
 
 namespace SettingsModule.ViewModels
 {
 	public class SettingsViewModel : ViewPartViewModel
 	{
+		public DevicesTreeViewModel DevicesTree { get; private set; }
+
 		public SettingsViewModel()
 		{
 			ShowDriversCommand = new RelayCommand(OnShowDrivers);
-			TestCommand = new RelayCommand(OnTest);
-			Test2Command = new RelayCommand(OnTest2);
-
 			ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
 			ConvertJournalCommand = new RelayCommand(OnConvertJournal);
+
+			TestCommand = new RelayCommand(OnTest);
+			Test2Command = new RelayCommand(OnTest2);
+			DevicesTree = new DevicesTreeViewModel();
 		}
 
 		public bool IsDebug

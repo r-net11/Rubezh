@@ -2,7 +2,17 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Views="clr-namespace:GKModule.Views"
                     xmlns:ViewModels="clr-namespace:GKModule.ViewModels">
-    <DataTemplate DataType="{x:Type ViewModels:GKViewModel}">
-        <Views:GKView />
+
+    <DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
+        <Views:DevicesView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ZonesViewModel}">
+        <Views:ZonesView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
+        <Views:JournalView />
+    </DataTemplate>
+
 </ResourceDictionary>

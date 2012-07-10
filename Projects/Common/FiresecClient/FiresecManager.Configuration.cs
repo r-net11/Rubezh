@@ -227,11 +227,6 @@ namespace FiresecClient
 
 		public static bool HasExternalDevices(Device device)
 		{
-			if (device.DottedAddress == "1.1.1.21")
-			{
-				;
-			}
-			FiresecManager.UpdateZoneDevices();
 			if (device.ZoneLogic != null)
 			{
 				foreach (var clause in device.ZoneLogic.Clauses)
@@ -239,10 +234,13 @@ namespace FiresecClient
 					foreach (var zoneNo in clause.Zones)
 					{
 						var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-						foreach (var deviceInZone in zone.DevicesInZone)
+						if (zone != null)
 						{
-							if (device.ParentPanel.UID != deviceInZone.ParentPanel.UID)
-								return true;
+							foreach (var deviceInZone in zone.DevicesInZone)
+							{
+								if (device.ParentPanel.UID != deviceInZone.ParentPanel.UID)
+									return true;
+							}
 						}
 					}
 				}

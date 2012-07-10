@@ -100,6 +100,7 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("AB3EF7B1-68AD-4A1B-88A8-997357C3FC5B", 0, "Модуль радиоканала МРК-30", DriverType.MRK_30));
             DriverDataList.Add(new DriverData("D57CDEF3-ACBC-4773-955E-22A1F016D025", 0, "Ручной радиоканальный извещатель ИПР513-11", DriverType.RadioHandDetector));
             DriverDataList.Add(new DriverData("CFD407D1-5D19-43EC-9650-A86EC4422EC6", 0, "Пожарный дымовой радиоканальный извещатель ИП 212-64Р", DriverType.RadioSmokeDetector));
+			DriverDataList.Add(new DriverData("713702A8-E3A1-4328-9A43-DE9CB5167133", 0, "Модуль речевого оповещения (исполнение 2)", DriverType.MRO_2));
             DriverDataList.Add(new DriverData("CD0E9AA0-FD60-48B8-B8D7-F496448FADE6", 0, "USB преобразователь МС-2", DriverType.MS_1));
             DriverDataList.Add(new DriverData("FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6", 0, "USB преобразователь МС-1", DriverType.MS_2));
             DriverDataList.Add(new DriverData("F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E", 0, "USB Канал МС-2", DriverType.USB_Channel_2));

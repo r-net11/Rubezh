@@ -73,6 +73,7 @@
         MRK_30,
         RadioHandDetector,
         RadioSmokeDetector,
+		MRO_2,
         MS_1,
         MS_2,
         USB_Channel_2,

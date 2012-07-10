@@ -182,6 +182,8 @@ namespace GKModule.Models
 			fileBytes.Add(255);
 			fileBytes.Add(255);
 
+			Directory.CreateDirectory(@"D:\GKConfig");
+
 			using (var fileStream = new FileStream(@"D:\GKConfig\GK.GKBIN", FileMode.Create))
 			{
 				fileStream.Write(fileBytes.ToArray(), 0, fileBytes.Count);
@@ -191,7 +193,7 @@ namespace GKModule.Models
 			{
 				var stringBuilder = new StringBuilder();
 				stringBuilder.AppendLine("<congig>");
-				stringBuilder.AppendLine("<gk name=\"D:/GK.GKBIN\" description=\"описание ГК\"/>");
+				stringBuilder.AppendLine("<gk name=\"GK.GKBIN\" description=\"описание ГК\"/>");
 				stringBuilder.AppendLine("</congig>");
 
 				streamWriter.Write(stringBuilder.ToString());
