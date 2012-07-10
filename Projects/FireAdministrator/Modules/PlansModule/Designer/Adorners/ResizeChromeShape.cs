@@ -23,30 +23,41 @@ namespace PlansModule.Designer.Adorners
 		}
 
 		public ResizeChromeShape(DesignerItem designerItem)
+			: base(designerItem)
 		{
-			DesignerItem = designerItem;
-			Loaded += (s, e) => UpdateZoom();
+			Loaded += new RoutedEventHandler(ResizeChromeShape_Loaded);
+		}
+
+		private void ResizeChromeShape_Loaded(object sender, RoutedEventArgs e)
+		{
+			Initialize();
 		}
 
 		public override void Initialize()
 		{
-			Canvas canvas = Template.FindName("canvas", this) as Canvas;
-			canvas.Children.Clear();
-			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
-			if (element != null)
-				foreach (var point in element.Points)
-				{
-					var thumb = new ResizeThumb()
-					{
-						Focusable = true
-					};
-					Canvas.SetLeft(thumb, point.X);
-					Canvas.SetTop(thumb, point.Y);
-					canvas.Children.Add(thumb);
-				}
+			//if (IsInitialized)
+			//{
+			//    Canvas canvas = Template.FindName("canvas", this) as Canvas;
+			//    canvas.Children.Clear();
+			//    ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
+			//    Rect rect = DesignerItem.Element.GetRectangle();
+			//    if (element != null)
+			//        foreach (var point in element.Points)
+			//        {
+			//            var thumb = new ResizeThumb()
+			//            {
+			//                Focusable = true,
+			//                DataContext = this,
+			//                IsHitTestVisible = true
+			//            };
+			//            Canvas.SetLeft(thumb, point.X - rect.X - 3.5 / DesignerCanvas.Zoom);
+			//            Canvas.SetTop(thumb, point.Y - rect.Y - 3.5 / DesignerCanvas.Zoom);
+			//            canvas.Children.Add(thumb);
+			//        }
+			//}
 		}
 
-		protected override void Resize(ResizeDirection direction, double horizontalChange, double verticalChange)
+		protected override void Resize(ResizeDirection direction, Vector vector)
 		{
 			ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
 			if (element != null)
@@ -55,18 +66,18 @@ namespace PlansModule.Designer.Adorners
 				var placeholder = new Rect(rect.TopLeft, rect.Size);
 				if ((direction & ResizeDirection.Top) == ResizeDirection.Top)
 				{
-					placeholder.Y += verticalChange;
-					placeholder.Height -= verticalChange;
+					placeholder.Y += vector.Y;
+					placeholder.Height -= vector.Y;
 				}
 				else if ((direction & ResizeDirection.Bottom) == ResizeDirection.Bottom)
-					placeholder.Height += verticalChange;
+					placeholder.Height += vector.Y;
 				if ((direction & ResizeDirection.Left) == ResizeDirection.Left)
 				{
-					placeholder.X += horizontalChange;
-					placeholder.Width -= horizontalChange;
+					placeholder.X += vector.X;
+					placeholder.Width -= vector.X;
 				}
 				else if ((direction & ResizeDirection.Right) == ResizeDirection.Right)
-					placeholder.Width += horizontalChange;
+					placeholder.Width += vector.X;
 				double kx = placeholder.Width / rect.Width;
 				double ky = placeholder.Height / rect.Height;
 

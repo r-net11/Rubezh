@@ -7,6 +7,7 @@ using Infrustructure.Plans.Elements;
 using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -14,6 +15,12 @@ namespace Infrustructure.Plans.Designer
 	{
 		public virtual double Zoom { get { return 1; } }
 		public virtual double PointZoom { get { return 10; } }
+
+		public CommonDesignerCanvas(IEventAggregator eventAggregator)
+		{
+			EventService.RegisterEventAggregator(eventAggregator);
+		}
+
 		public abstract void BeginChange();
 		public abstract void EndChange();
 

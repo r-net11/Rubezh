@@ -6,6 +6,7 @@ using PlansModule.Designer;
 using PlansModule.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Events;
 
 namespace PlansModule.ViewModels
 {

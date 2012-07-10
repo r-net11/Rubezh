@@ -49,40 +49,26 @@ namespace PlansModule.Designer
 			if (DesignerItem.IsSelected)
 			{
 				_wasMoved = true;
-
-				double minLeft = double.MaxValue;
-				double minTop = double.MaxValue;
-				double maxRight = 0;
-				double maxBottom = 0;
-
+				Vector shift = new Vector(e.HorizontalChange, e.VerticalChange);
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
-					minLeft = Math.Min(Canvas.GetLeft(designerItem), minLeft);
-					minTop = Math.Min(Canvas.GetTop(designerItem), minTop);
-					maxRight = Math.Max(Canvas.GetLeft(designerItem) + designerItem.ItemWidth, maxRight);
-					maxBottom = Math.Max(Canvas.GetTop(designerItem) + designerItem.ItemHeight, maxBottom);
+					Rect rect = new Rect(Canvas.GetLeft(designerItem), Canvas.GetTop(designerItem), designerItem.ActualWidth, designerItem.ActualHeight);
+					if (rect.Right + shift.X > DesignerCanvas.Width)
+						shift.X = DesignerCanvas.Width - rect.Right;
+					if (rect.Left + shift.X < 0)
+						shift.X = -rect.Left;
+					if (rect.Bottom + shift.Y > DesignerCanvas.Height)
+						shift.Y = DesignerCanvas.Height - rect.Bottom;
+					if (rect.Top + shift.Y < 0)
+						shift.Y = -rect.Top;
 				}
-
-				double deltaHorizontal = Math.Max(-minLeft, e.HorizontalChange);
-				double deltaVertical = Math.Max(-minTop, e.VerticalChange);
-
-				double deltaRight = DesignerCanvas.Width - maxRight;
-				double deltaBottom = DesignerCanvas.Height - maxBottom;
-				if (deltaRight < 0)
-					deltaHorizontal = Math.Min(0, e.HorizontalChange);
-				if (deltaBottom < 0)
-					deltaVertical = Math.Min(0, e.VerticalChange);
-				Vector shift = new Vector(deltaHorizontal, deltaVertical);
-
 				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 				{
 					designerItem.Element.Position += shift;
 					designerItem.SetLocation();
 				}
-
 				DesignerCanvas.InvalidateMeasure();
 				e.Handled = true;
-
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}

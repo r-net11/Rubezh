@@ -64,6 +64,12 @@
     <Compile Include="Elements\IElementZone.cs" />
     <Compile Include="Elements\IPrimitive.cs" />
     <Compile Include="Elements\Primitive.cs" />
+    <Compile Include="EventService.cs" />
+    <Compile Include="Events\ShowPropertiesEvent.cs" />
+    <Compile Include="Events\ElementAddedEvent.cs" />
+    <Compile Include="Events\ElementChangedEvent.cs" />
+    <Compile Include="Events\ElementRemovedEvent.cs" />
+    <Compile Include="Events\ElementSelectedEvent.cs" />
     <Compile Include="Events\PainterFactoryEvent.cs" />
     <Compile Include="Events\DesignerItemFactoryEvent.cs" />
     <Compile Include="Elements\ElementBasePoint.cs" />
@@ -71,6 +77,7 @@
     <Compile Include="Elements\ElementBaseShape.cs" />
     <Compile Include="Elements\ElementBase.cs" />
     <Compile Include="Elements\IElementZIndex.cs" />
+    <Compile Include="Events\ShowElementEvent.cs" />
     <Compile Include="Painters\DefaultPainter.cs" />
     <Compile Include="Painters\ElipsePainter.cs" />
     <Compile Include="Painters\IPainter.cs" />

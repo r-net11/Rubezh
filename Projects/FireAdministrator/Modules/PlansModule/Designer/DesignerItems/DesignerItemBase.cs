@@ -6,6 +6,9 @@ using Infrastructure.Common;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer.Adorners;
+using Infrastructure;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -20,17 +23,29 @@ namespace PlansModule.Designer.DesignerItems
 			: base(element)
 		{
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			MouseDoubleClick += (s, e) => OnShowProperties();
+			MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute();
 			IsVisibleLayout = true;
 			IsSelectableLayout = true;
 		}
 
-
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		private void OnShowProperties()
 		{
-			//DesignerCanvas.BeginChange();
-			//
+			var property = CreateProperty();
+			if (property != null)
+			{
+				DesignerCanvas.BeginChange();
+				if (DialogService.ShowModalWindow(property))
+				{
+					Redraw();
+					ServiceFactory.SaveService.PlansChanged = true;
+					DesignerCanvas.EndChange();
+				}
+			}
+		}
+		protected SaveCancelDialogViewModel CreateProperty()
+		{
+			return null;
 		}
 	}
 }

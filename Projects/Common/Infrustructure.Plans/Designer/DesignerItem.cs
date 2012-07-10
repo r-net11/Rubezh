@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Media;
 using Infrustructure.Plans.Painters;
 using System.Windows.Input;
+using Infrustructure.Plans.Events;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -20,8 +21,8 @@ namespace Infrustructure.Plans.Designer
 			set
 			{
 				SetValue(IsSelectedProperty, value);
-				//if (value)
-				//    ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Publish(ElementBase.UID);
+				if (value)
+					EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(Element.UID);
 			}
 		}
 
@@ -32,7 +33,7 @@ namespace Infrustructure.Plans.Designer
 			set { SetValue(IsSelectableProperty, value); }
 		}
 
-		bool _isVisibleLayout;
+		private bool _isVisibleLayout;
 		public virtual bool IsVisibleLayout
 		{
 			get { return _isVisibleLayout; }
@@ -45,7 +46,7 @@ namespace Infrustructure.Plans.Designer
 			}
 		}
 
-		bool _isSelectableLayout;
+		private bool _isSelectableLayout;
 		public virtual bool IsSelectableLayout
 		{
 			get { return _isSelectableLayout; }
@@ -75,6 +76,8 @@ namespace Infrustructure.Plans.Designer
 		public void ResetElement(ElementBase element)
 		{
 			Element = element;
+			MinWidth = 2 * element.BorderThickness;
+			MinHeight = 2 * element.BorderThickness;
 			DataContext = Element;
 			Painter = PainterFactory.Create(Element);
 			Redraw();

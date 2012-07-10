@@ -21,23 +21,22 @@ namespace PlansModule.Designer.Adorners
 		}
 
 		public ResizeChromePoint(DesignerItem designerItem)
+			: base(designerItem)
 		{
-			DesignerItem = designerItem;
-			Loaded += (s, e) => UpdateZoom();
 		}
 
 		public override void Initialize()
 		{
 		}
-		protected override void Resize(ResizeDirection direction, double horizontalChange, double verticalChange)
+		protected override void Resize(ResizeDirection direction, Vector vector)
 		{
 			ElementBasePoint element = DesignerItem.Element as ElementBasePoint;
 			if (element != null)
 			{
 				if ((direction & ResizeDirection.Top) == ResizeDirection.Top || (direction & ResizeDirection.Bottom) == ResizeDirection.Bottom)
-					element.Top += verticalChange;
+					element.Top += vector.Y;
 				if ((direction & ResizeDirection.Left) == ResizeDirection.Left || (direction & ResizeDirection.Right) == ResizeDirection.Right)
-					element.Left += horizontalChange;
+					element.Left += vector.X;
 				DesignerItem.SetLocation();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}

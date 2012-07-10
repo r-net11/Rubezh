@@ -6,10 +6,10 @@
 				<ControlTemplate TargetType="{x:Type ad:ResizeChromeRectangle}">
 					<Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
 						<Grid Margin="{Binding ResizeMargin}" Opacity="0">
-							<s:ResizeThumb Height="{Binding ResizeBorderSize}" Margin="{Binding Thickness}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Cursor="SizeNS" Direction="Top" />
-							<s:ResizeThumb Width="{Binding ResizeBorderSize}" Margin="{Binding Thickness}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Cursor="SizeWE" Direction="Left" />
-							<s:ResizeThumb Width="{Binding ResizeBorderSize}" Margin="{Binding Thickness}" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" Direction="Right" />
-							<s:ResizeThumb Height="{Binding ResizeBorderSize}" Margin="{Binding Thickness}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" Direction="Bottom" />
+							<s:ResizeThumb Width="Auto" Height="{Binding ResizeBorderSize}" Margin="{Binding Thickness}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Cursor="SizeNS" Direction="Top" />
+							<s:ResizeThumb Width="{Binding ResizeBorderSize}" Height="Auto" Margin="{Binding Thickness}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Cursor="SizeWE" Direction="Left" />
+							<s:ResizeThumb Width="{Binding ResizeBorderSize}" Height="Auto" Margin="{Binding Thickness}" HorizontalAlignment="Right" VerticalAlignment="Stretch" Cursor="SizeWE" Direction="Right" />
+							<s:ResizeThumb Width="Auto" Height="{Binding ResizeBorderSize}" Margin="{Binding Thickness}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Cursor="SizeNS" Direction="Bottom" />
 						</Grid>
 						<Grid Margin="{Binding ResizeMargin}" Opacity="1">
 							<s:DesignerItemBorder />

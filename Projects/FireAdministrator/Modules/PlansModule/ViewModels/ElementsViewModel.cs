@@ -11,6 +11,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using PlansModule.Designer.Designer;
+using Infrustructure.Plans.Events;
 
 namespace PlansModule.ViewModels
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Practices.Prism.Events;
 
-namespace PlansModule.Events
+namespace Infrustructure.Plans.Events
 {
 	public class ElementSelectedEvent : CompositePresentationEvent<Guid>
 	{

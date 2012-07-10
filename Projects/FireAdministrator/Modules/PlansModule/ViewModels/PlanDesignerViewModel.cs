@@ -8,6 +8,7 @@ using PlansModule.Events;
 using PlansModule.Views;
 using Infrustructure.Plans.Elements;
 using System;
+using Infrustructure.Plans.Events;
 
 namespace PlansModule.ViewModels
 {

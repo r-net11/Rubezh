@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer;
 using PlansModule.Events;
 using PlansModule.Views;
+using Infrustructure.Plans.Events;
 
 namespace PlansModule.ViewModels
 {

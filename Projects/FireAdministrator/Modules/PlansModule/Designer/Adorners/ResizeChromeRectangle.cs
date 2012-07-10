@@ -21,34 +21,33 @@ namespace PlansModule.Designer.Adorners
 		}
 
 		public ResizeChromeRectangle(DesignerItem designerItem)
+			: base(designerItem)
 		{
-			DesignerItem = designerItem;
-			Loaded += (s, e) => UpdateZoom();
 		}
 
 		public override void Initialize()
 		{
 		}
 
-		protected override void Resize(ResizeDirection direction, double horizontalChange, double verticalChange)
+		protected override void Resize(ResizeDirection direction, Vector vector)
 		{
 			ElementBaseRectangle element = DesignerItem.Element as ElementBaseRectangle;
 			if (element != null)
 			{
 				if ((direction & ResizeDirection.Top) == ResizeDirection.Top)
 				{
-					element.Top += verticalChange;
-					element.Height -= verticalChange;
+					element.Top += vector.Y;
+					element.Height -= vector.Y;
 				}
 				else if ((direction & ResizeDirection.Bottom) == ResizeDirection.Bottom)
-					element.Height += verticalChange;
+					element.Height += vector.Y;
 				if ((direction & ResizeDirection.Left) == ResizeDirection.Left)
 				{
-					element.Left += horizontalChange;
-					element.Width -= horizontalChange;
+					element.Left += vector.X;
+					element.Width -= vector.X;
 				}
 				else if ((direction & ResizeDirection.Right) == ResizeDirection.Right)
-					element.Width += horizontalChange;
+					element.Width += vector.X;
 				DesignerItem.SetLocation();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}

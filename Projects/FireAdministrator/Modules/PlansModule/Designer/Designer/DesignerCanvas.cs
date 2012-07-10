@@ -20,6 +20,7 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Painters;
 using PlansModule.Designer.Designer;
+using Infrustructure.Plans.Events;
 
 namespace PlansModule.Designer
 {
@@ -32,6 +33,7 @@ namespace PlansModule.Designer
 		List<ElementBase> initialElements;
 
 		public DesignerCanvas()
+			: base(ServiceFactory.Events)
 		{
 			AllowDrop = true;
 			Background = new SolidColorBrush(Colors.DarkGray);
