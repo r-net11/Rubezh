@@ -5,119 +5,125 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using PlansModule.Designer.Designer;
+using Infrastructure;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
-    {
-        ElementDevice _elementDevice;
+	{
+		ElementDevice _elementDevice;
 
-        public DevicePropertiesViewModel(ElementDevice elementDevice)
-        {
-            Title = "Свойства фигуры: Устройство";
-            _elementDevice = elementDevice;
+		public DevicePropertiesViewModel(ElementDevice elementDevice)
+		{
+			Title = "Свойства фигуры: Устройство";
+			_elementDevice = elementDevice;
 
-            Devices = new ObservableCollection<DeviceViewModel>();
+			Devices = new ObservableCollection<DeviceViewModel>();
 
-            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
-            {
-                var deviceViewModel = new DeviceViewModel(device, Devices);
-                deviceViewModel.IsExpanded = true;
-                Devices.Add(deviceViewModel);
-            }
+			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			{
+				var deviceViewModel = new DeviceViewModel(device, Devices);
+				deviceViewModel.IsExpanded = true;
+				Devices.Add(deviceViewModel);
+			}
 
-            foreach (var device in Devices)
-            {
-                if (device.Device.Parent != null)
-                {
-                    var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-                    device.Parent = parent;
-                    parent.Children.Add(device);
-                }
-            }
+			foreach (var device in Devices)
+			{
+				if (device.Device.Parent != null)
+				{
+					var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
+					device.Parent = parent;
+					parent.Children.Add(device);
+				}
+			}
 
-            if (Devices.Count > 0)
-            {
-                CollapseChild(Devices[0]);
-                ExpandChild(Devices[0]);
-            }
+			if (Devices.Count > 0)
+			{
+				CollapseChild(Devices[0]);
+				ExpandChild(Devices[0]);
+			}
 
-            Select(elementDevice.DeviceUID);
-        }
+			Select(elementDevice.DeviceUID);
+		}
 
-        #region DeviceSelection
+		#region DeviceSelection
 
-        public List<DeviceViewModel> AllDevices;
+		public List<DeviceViewModel> AllDevices;
 
-        public void FillAllDevices()
-        {
-            AllDevices = new List<DeviceViewModel>();
-            AddChildPlainDevices(Devices[0]);
-        }
+		public void FillAllDevices()
+		{
+			AllDevices = new List<DeviceViewModel>();
+			AddChildPlainDevices(Devices[0]);
+		}
 
-        void AddChildPlainDevices(DeviceViewModel parentViewModel)
-        {
-            AllDevices.Add(parentViewModel);
-            foreach (var childViewModel in parentViewModel.Children)
-            {
-                AddChildPlainDevices(childViewModel);
-            }
-        }
+		void AddChildPlainDevices(DeviceViewModel parentViewModel)
+		{
+			AllDevices.Add(parentViewModel);
+			foreach (var childViewModel in parentViewModel.Children)
+			{
+				AddChildPlainDevices(childViewModel);
+			}
+		}
 
-        public void Select(Guid deviceUID)
-        {
-            FillAllDevices();
+		public void Select(Guid deviceUID)
+		{
+			FillAllDevices();
 
-            var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-            if (deviceViewModel != null)
-            {
-                deviceViewModel.ExpantToThis();
-            }
-            SelectedDevice = deviceViewModel;
-        }
+			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceViewModel != null)
+			{
+				deviceViewModel.ExpantToThis();
+			}
+			SelectedDevice = deviceViewModel;
+		}
 
-        #endregion
+		#endregion
 
-        public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
-        DeviceViewModel _selectedDevice;
-        public DeviceViewModel SelectedDevice
-        {
-            get { return _selectedDevice; }
-            set
-            {
-                _selectedDevice = value;
-                OnPropertyChanged("SelectedDevice");
-            }
-        }
+		DeviceViewModel _selectedDevice;
+		public DeviceViewModel SelectedDevice
+		{
+			get { return _selectedDevice; }
+			set
+			{
+				_selectedDevice = value;
+				OnPropertyChanged("SelectedDevice");
+			}
+		}
 
-        void CollapseChild(DeviceViewModel parentDeviceViewModel)
-        {
-            parentDeviceViewModel.IsExpanded = false;
+		void CollapseChild(DeviceViewModel parentDeviceViewModel)
+		{
+			parentDeviceViewModel.IsExpanded = false;
 
-            foreach (var deviceViewModel in parentDeviceViewModel.Children)
-            {
-                CollapseChild(deviceViewModel);
-            }
-        }
+			foreach (var deviceViewModel in parentDeviceViewModel.Children)
+			{
+				CollapseChild(deviceViewModel);
+			}
+		}
 
-        void ExpandChild(DeviceViewModel parentDeviceViewModel)
-        {
-            if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
-            {
-                parentDeviceViewModel.IsExpanded = true;
-                foreach (var deviceViewModel in parentDeviceViewModel.Children)
-                {
-                    ExpandChild(deviceViewModel);
-                }
-            }
-        }
+		void ExpandChild(DeviceViewModel parentDeviceViewModel)
+		{
+			if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
+			{
+				parentDeviceViewModel.IsExpanded = true;
+				foreach (var deviceViewModel in parentDeviceViewModel.Children)
+				{
+					ExpandChild(deviceViewModel);
+				}
+			}
+		}
 
 		protected override bool Save()
 		{
-            _elementDevice.DeviceUID = SelectedDevice.Device.UID;
-            _elementDevice.Device = SelectedDevice.Device;
+			Guid deviceUID = _elementDevice.DeviceUID;
+			Helper.SetDevice(_elementDevice, SelectedDevice.Device);
+			if (deviceUID != _elementDevice.DeviceUID)
+				ServiceFactory.Events.GetEvent<ElementDeviceChangedEvent>().Publish(deviceUID);
+			ServiceFactory.Events.GetEvent<ElementDeviceChangedEvent>().Publish(_elementDevice.DeviceUID);
 			return base.Save();
 		}
-    }
+	}
 }

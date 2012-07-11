@@ -220,20 +220,23 @@ namespace PlansModule.Views
 				return;
 
 			foreach (var child in canvas.Children)
-			{
 				if (child is ElementDeviceView)
 				{
 					ElementDeviceView elementDeviceView = child as ElementDeviceView;
+					ElementDeviceViewModel viewModel = elementDeviceView.DataContext as ElementDeviceViewModel;
+					elementDeviceView.Width = deviceSlider.Value;
+					elementDeviceView.Height = deviceSlider.Value;
+					Canvas.SetLeft(elementDeviceView, viewModel.Location.X - deviceSlider.Value / 2);
+					Canvas.SetTop(elementDeviceView, viewModel.Location.Y - deviceSlider.Value / 2);
 
-					double scale = deviceSlider.Value / (slider.Value * initialScale);
-					var deviceScaleTransform = new ScaleTransform()
-					{
-						ScaleX = scale,
-						ScaleY = scale
-					};
-					elementDeviceView.LayoutTransform = deviceScaleTransform;
+					//double scale = deviceSlider.Value / (slider.Value * initialScale);
+					//var deviceScaleTransform = new ScaleTransform()
+					//{
+					//    ScaleX = scale,
+					//    ScaleY = scale
+					//};
+					//elementDeviceView.LayoutTransform = deviceScaleTransform;
 				}
-			}
 		}
 
 		void OnMouseMiddleDown(object sender, MouseButtonEventArgs e)

@@ -152,10 +152,8 @@
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementProperties\ViewModels\ZonePropertiesViewModel.cs" />
-    <Compile Include="Events\DeviceAddedEvent.cs" />
+    <Compile Include="Events\ElementDeviceChangedEvent.cs" />
     <Compile Include="Events\DeviceInZoneChangedEvent.cs" />
-    <Compile Include="Events\DeviceRemovedEvent.cs" />
-    <Compile Include="Events\ElementDeviceSelectedEvent.cs" />
     <Compile Include="Events\ShowElementDeviceEvent.cs" />
     <Compile Include="ViewModels\DevicesInZoneViewModel.cs" />
     <Compile Include="ViewModels\ElementsViewModel.cs" />

@@ -122,7 +122,8 @@ namespace PlansModule.ViewModels
 			if (elementBase is ElementDevice)
 			{
 				ElementDevice elementDevice = elementBase as ElementDevice;
-				name = elementDevice.Device.DottedAddress + " " + elementDevice.Device.Driver.ShortName;
+				Device device = Helper.GetDevice(elementDevice);
+				name = device.DottedAddress + " " + device.Driver.ShortName;
 				AddElement(ElementDevices, new ElementViewModel(Elements, designerItem, name));
 			}
 			if (elementBase is IElementZone)
@@ -196,9 +197,9 @@ namespace PlansModule.ViewModels
 		{
 		}
 
-		void OnElementSelected(Guid elementUID)
+		void OnElementSelected(ElementBase element)
 		{
-			Select(elementUID);
+			Select(element.UID);
 		}
 
 		void CollapseChild(ElementBaseViewModel parentElementViewModel)

@@ -11,6 +11,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Events;
 using PlansModule.Views;
 using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Painters;
 
 namespace PlansModule.ViewModels
 {
@@ -53,57 +54,40 @@ namespace PlansModule.ViewModels
 			Canvas.PreviewMouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(_canvas_PreviewMouseLeftButtonDown);
 
 			if (Plan.BackgroundPixels != null)
-			{
-				//Canvas.Background = PlanElementsHelper.CreateBrush(Plan.BackgroundPixels); //TODO: ~20-25 % общего времени
-			}
+				Canvas.Background = PainterHelper.CreateBrush(Plan.BackgroundPixels); //TODO: ~20-25 % общего времени
 			else
-			{
 				Canvas.Background = new SolidColorBrush(Plan.BackgroundColor);
-			}
 
 			foreach (var elementRectangle in Plan.ElementRectangles)
-			{
 				DrawElement(elementRectangle);
-			}
 			foreach (var elementEllipse in Plan.ElementEllipses)
-			{
 				DrawElement(elementEllipse);
-			}
 			foreach (var elementTextBlock in Plan.ElementTextBlocks)
-			{
 				DrawElement(elementTextBlock);
-			}
 			foreach (var elementPolygon in Plan.ElementPolygons)
-			{
 				DrawElement(elementPolygon);
-			}
 			if (Plan.ElementPolylines == null)
 				Plan.ElementPolylines = new List<ElementPolyline>();
 			foreach (var elementPolyline in Plan.ElementPolylines)
-			{
 				DrawElement(elementPolyline);
-			}
 			foreach (var elementSubPlan in Plan.ElementSubPlans)
 			{
 				var subPlanViewModel = new ElementSubPlanViewModel(elementSubPlan);
 				DrawElement(subPlanViewModel.ElementSubPlanView, elementSubPlan, subPlanViewModel);
 				SubPlans.Add(subPlanViewModel);
 			}
-
 			foreach (var elementRectangleZone in Plan.ElementRectangleZones.Where(x => x.ZoneNo != null))
 			{
 				var elementZoneViewModel = new ElementZoneViewModel(RectangleZoneToPolygon(elementRectangleZone));
 				DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone, elementZoneViewModel);
 				Zones.Add(elementZoneViewModel);
 			}
-
 			foreach (var elementPolygonZone in Plan.ElementPolygonZones.Where(x => x.ZoneNo != null))
 			{
 				var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
 				DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone, elementZoneViewModel);
 				Zones.Add(elementZoneViewModel);
 			}
-
 			foreach (var elementDevice in Plan.ElementDevices)
 			{
 				var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice);
@@ -119,34 +103,33 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		void DrawElement(ElementBase elementBase)
+		private void DrawElement(ElementBase elementBase)
 		{
-			//var frameworkElement = elementBase.Draw();
-			//frameworkElement.Width = elementBase.Width;
-			//frameworkElement.Height = elementBase.Height;
-			//Canvas.SetLeft(frameworkElement, elementBase.Left);
-			//Canvas.SetTop(frameworkElement, elementBase.Top);
-			//Canvas.Children.Add(frameworkElement);
+			IPainter painter = PainterFactory.Create(elementBase);
+			var frameworkElement = painter.Draw(elementBase);
+			DrawElement(elementBase, frameworkElement);
 		}
-
-		void DrawElement(FrameworkElement frameworkElement, ElementBase elementBase, BaseViewModel elementViewModel)
+		private void DrawElement(FrameworkElement frameworkElement, ElementBase elementBase, BaseViewModel elementViewModel)
 		{
 			frameworkElement.DataContext = elementViewModel;
-			//frameworkElement.Width = elementBase.Width;
-			//frameworkElement.Height = elementBase.Height;
-			//Canvas.SetLeft(frameworkElement, elementBase.Left);
-			//Canvas.SetTop(frameworkElement, elementBase.Top);
+			DrawElement(elementBase, frameworkElement);
+		}
+		private void DrawElement(ElementBase elementBase, FrameworkElement frameworkElement)
+		{
+			var rect = elementBase.GetRectangle();
+			frameworkElement.Width = rect.Width + elementBase.BorderThickness;
+			frameworkElement.Height = rect.Height + elementBase.BorderThickness;
+			Canvas.SetLeft(frameworkElement, rect.Left);
+			Canvas.SetTop(frameworkElement, rect.Top);
 			Canvas.Children.Add(frameworkElement);
 		}
 
 		ElementPolygonZone RectangleZoneToPolygon(ElementRectangleZone elementRectangleZone)
 		{
+			Rect rect = elementRectangleZone.GetRectangle();
 			var elementPolygonZone = new ElementPolygonZone()
 			{
-				//Left = elementRectangleZone.Left,
-				//Top = elementRectangleZone.Top,
-				//Width = elementRectangleZone.Width,
-				//Height = elementRectangleZone.Height,
+				Points = new PointCollection(new Point[] { rect.TopLeft, rect.TopRight, rect.BottomRight, rect.BottomLeft }),
 				ZoneNo = elementRectangleZone.ZoneNo
 			};
 

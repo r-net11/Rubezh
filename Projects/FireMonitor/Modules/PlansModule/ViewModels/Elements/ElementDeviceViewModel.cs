@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {
@@ -26,19 +27,19 @@ namespace PlansModule.ViewModels
 			DisableCommand = new RelayCommand(OnDisable, CanDisable);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
-			var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-			if (deviceState != null)
-			{
-				elementDevice.DeviceState = deviceState;
-			}
 			ElementDevice = elementDevice;
 			DeviceUID = elementDevice.DeviceUID;
-			Device = elementDevice.Device;
-			DeviceState = elementDevice.DeviceState;
+			Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+			DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
 			if (DeviceState != null)
 			{
 				DeviceState.StateChanged += new Action(OnDeviceStateChanged);
 			}
+		}
+
+		public Point Location
+		{
+			get { return new Point(ElementDevice.Left, ElementDevice.Top); }
 		}
 
 		public void DrawElementDevice()
@@ -54,8 +55,8 @@ namespace PlansModule.ViewModels
 
 			ElementDeviceView.Width = 10;
 			ElementDeviceView.Height = 10;
-			Canvas.SetLeft(ElementDeviceView, ElementDevice.Left);
-			Canvas.SetTop(ElementDeviceView, ElementDevice.Top);
+			Canvas.SetLeft(ElementDeviceView, ElementDevice.Left - 5);
+			Canvas.SetTop(ElementDeviceView, ElementDevice.Top - 5);
 
 			if (Device != null)
 			{

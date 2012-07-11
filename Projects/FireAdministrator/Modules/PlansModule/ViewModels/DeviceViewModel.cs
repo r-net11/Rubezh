@@ -58,9 +58,7 @@ namespace PlansModule.ViewModels
         void OnShowOnPlan()
         {
             if (Device.PlanElementUIDs.Count > 0)
-            {
                 ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Publish(Device.PlanElementUIDs[0]);
-            }
         }
     }
 }

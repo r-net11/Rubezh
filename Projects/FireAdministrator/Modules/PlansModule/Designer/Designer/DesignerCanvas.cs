@@ -64,10 +64,7 @@ namespace PlansModule.Designer
 			{
 				var designerItem = Children[i] as DesignerItem;
 				if (designerItem.IsSelected)
-				{
-					designerItem.Remove();
 					Children.Remove(designerItem);
-				}
 			}
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
@@ -142,50 +139,26 @@ namespace PlansModule.Designer
 		public DesignerItem AddElement(ElementBase elementBase)
 		{
 			if (elementBase is ElementRectangle)
-			{
 				Plan.ElementRectangles.Add(elementBase as ElementRectangle);
-			}
-			if (elementBase is ElementEllipse)
-			{
+			else if (elementBase is ElementEllipse)
 				Plan.ElementEllipses.Add(elementBase as ElementEllipse);
-			}
-			if (elementBase is ElementPolygon)
-			{
+			else if (elementBase is ElementPolygon)
 				Plan.ElementPolygons.Add(elementBase as ElementPolygon);
-			}
-			if (elementBase is ElementPolyline)
-			{
+			else if (elementBase is ElementPolyline)
 				Plan.ElementPolylines.Add(elementBase as ElementPolyline);
-			}
-			if (elementBase is ElementTextBlock)
-			{
+			else if (elementBase is ElementTextBlock)
 				Plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
-			}
-			if (elementBase is ElementRectangleZone)
-			{
+			else if (elementBase is ElementRectangleZone)
 				Plan.ElementRectangleZones.Add(elementBase as ElementRectangleZone);
-			}
-			if (elementBase is ElementPolygonZone)
-			{
+			else if (elementBase is ElementPolygonZone)
 				Plan.ElementPolygonZones.Add(elementBase as ElementPolygonZone);
-			}
-			if (elementBase is ElementSubPlan)
-			{
+			else if (elementBase is ElementSubPlan)
 				Plan.ElementSubPlans.Add(elementBase as ElementSubPlan);
-			}
-			if (elementBase is ElementDevice)
-			{
-				Plan.ElementDevices.Add(elementBase as ElementDevice);
-			}
-			if (elementBase is ElementDevice)
+			else if (elementBase is ElementDevice)
 			{
 				var elementDevice = elementBase as ElementDevice;
-				if (elementDevice.Device == null)
-				{
-					elementDevice.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-				}
-				elementDevice.Device.PlanElementUIDs.Add(elementBase.UID);
-				ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Publish(elementDevice.Device.UID);
+				Helper.SetDevice(elementDevice);
+				Plan.ElementDevices.Add(elementDevice);
 			}
 
 			return Create(elementBase);

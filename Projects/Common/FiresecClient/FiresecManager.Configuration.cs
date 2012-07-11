@@ -76,10 +76,7 @@ namespace FiresecClient
 
 					var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
 					if (device != null)
-					{
 						device.PlanElementUIDs.Add(elementDevice.UID);
-						elementDevice.Device = device;
-					}
 					else
 						plan.ElementDevices.RemoveAt(i - 1);
 				}

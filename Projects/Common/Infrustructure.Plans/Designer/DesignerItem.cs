@@ -22,7 +22,7 @@ namespace Infrustructure.Plans.Designer
 			{
 				SetValue(IsSelectedProperty, value);
 				if (value)
-					EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(Element.UID);
+					EventService.EventAggregator.GetEvent<ElementSelectedEvent>().Publish(Element);
 			}
 		}
 
@@ -147,9 +147,6 @@ namespace Infrustructure.Plans.Designer
 			e.Handled = false;
 		}
 
-		public virtual void Remove()
-		{
-		}
 		public virtual void UpdateElementProperties()
 		{
 		}

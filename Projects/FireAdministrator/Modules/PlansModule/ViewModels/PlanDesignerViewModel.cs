@@ -23,6 +23,10 @@ namespace PlansModule.ViewModels
 			InitializeZIndexCommands();
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(x => { UpdateDeviceInZones(); });
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateDevice);
+			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateDevice);
+			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(ShowDeviceProperties);
+			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(ShowDeviceProperties);
 		}
 
 		public void Initialize(Plan plan)
@@ -60,7 +64,7 @@ namespace PlansModule.ViewModels
 					DesignerCanvas.Create(elementDevice);
 				DesignerCanvas.DeselectAll();
 				OnUpdated();
-				//UpdateDeviceInZones();
+				UpdateDeviceInZones();
 			}
 		}
 
@@ -68,49 +72,7 @@ namespace PlansModule.ViewModels
 		{
 			if (Plan == null)
 				return;
-
 			NormalizeZIndex();
-			Plan.ClearElements();
-
-			foreach (var designerItem in DesignerCanvas.Items)
-			{
-				designerItem.UpdateElementProperties();
-				ElementBase elementBase = designerItem.Element;
-				IPrimitive primitive = elementBase as IPrimitive;
-				if (primitive != null)
-					switch (primitive.Primitive)
-					{
-						case Primitive.Ellipse:
-							Plan.ElementEllipses.Add(elementBase as ElementEllipse);
-							break;
-						case Primitive.Polygon:
-							Plan.ElementPolygons.Add(elementBase as ElementPolygon);
-							break;
-						case Primitive.PolygonZone:
-							Plan.ElementPolygonZones.Add(elementBase as ElementPolygonZone);
-							break;
-						case Primitive.Polyline:
-							Plan.ElementPolylines.Add(elementBase as ElementPolyline);
-							break;
-						case Primitive.Rectangle:
-							Plan.ElementRectangles.Add(elementBase as ElementRectangle);
-							break;
-						case Primitive.RectangleZone:
-							Plan.ElementRectangleZones.Add(elementBase as ElementRectangleZone);
-							break;
-						case Primitive.SubPlan:
-							Plan.ElementSubPlans.Add(elementBase as ElementSubPlan);
-							break;
-						case Primitive.TextBlock:
-							Plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
-							break;
-					}
-				//if (elementBase is ElementDevice)
-				//{
-				//    ElementDevice elementDevice = elementBase as ElementDevice;
-				//    Plan.ElementDevices.Add(elementDevice);
-				//}
-			}
 		}
 
 		private void OnUpdated()

@@ -239,12 +239,12 @@ namespace PlansModule.ViewModels
 			{
 				foreach (var elementDevice in plan.Plan.ElementDevices)
 				{
-					//if (elementDevice.UID == deviceUID)
-					//{
-					//    SelectedPlan = plan;
-					//    OnShowElement(deviceUID);
-					//    return;
-					//}
+					if (elementDevice.UID == deviceUID)
+					{
+						SelectedPlan = plan;
+						OnShowElement(deviceUID);
+						return;
+					}
 				}
 			}
 		}

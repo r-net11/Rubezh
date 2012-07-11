@@ -42,5 +42,29 @@ namespace PlansModule.Designer.Designer
 			}
 			return color;
 		}
+
+		public static Device GetDevice(ElementDevice element)
+		{
+			return element.DeviceUID == null ? null : FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == element.DeviceUID);
+		}
+		public static void SetDevice(ElementDevice element, Device device)
+		{
+			ResetDevice(element);
+			element.DeviceUID = device.UID;
+			device.PlanElementUIDs.Add(element.UID);
+		}
+		public static Device SetDevice(ElementDevice element)
+		{
+			Device device = GetDevice(element);
+			if (device != null)
+				device.PlanElementUIDs.Add(element.UID);
+			return device;
+		}
+		public static void ResetDevice(ElementDevice element)
+		{
+			Device device = GetDevice(element);
+			if (device != null)
+				device.PlanElementUIDs.Remove(element.UID);
+		}
 	}
 }
