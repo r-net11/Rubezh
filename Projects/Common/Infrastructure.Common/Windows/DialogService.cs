@@ -15,7 +15,8 @@ namespace Infrastructure.Common.Windows
 		{
 			if (!Application.Current.Dispatcher.CheckAccess())
 				return (Window)Application.Current.Dispatcher.Invoke((Func<Window>)GetActiveWindow);
-			return Application.Current.Windows.Cast<Window>().SingleOrDefault(x => x.IsActive);
+			var window = Application.Current.Windows.Cast<Window>().SingleOrDefault(x => x.IsActive);
+			return window ?? ApplicationService.ApplicationWindow;
 		}
 		
 		public static bool ShowModalWindow(WindowBaseViewModel model, bool allowsTransparency = true)

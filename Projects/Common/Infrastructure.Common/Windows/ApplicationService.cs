@@ -9,6 +9,7 @@ namespace Infrastructure.Common.Windows
 {
 	public static class ApplicationService
 	{
+		public static Window ApplicationWindow { get; set; }
 		public static User User { get; set; }
 		public static void Run(ApplicationViewModel model)
 		{
@@ -24,6 +25,7 @@ namespace Infrastructure.Common.Windows
 			}
 			else
 				win.Show();
+			ApplicationWindow = win;
 		}
 		public static void Run(ShellViewModel model)
 		{
