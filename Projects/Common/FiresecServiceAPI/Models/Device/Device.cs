@@ -77,7 +77,7 @@ namespace FiresecAPI.Models
 		public bool IsOPCUsed { get; set; }
 
 		[DataMember]
-		public string InitialPlaceInTree { get; set; }
+		public string PlaceInTree { get; set; }
 
 		public bool CanBeNotUsed
 		{
@@ -228,16 +228,14 @@ namespace FiresecAPI.Models
 			}
 		}
 
-		public string PlaceInTree
+		public string GetPlaceInTree()
 		{
-			get
-			{
-				if (Parent == null)
-					return "";
-				if (Parent.PlaceInTree == "")
-					return Parent.Children.IndexOf(this).ToString();
-				return Parent.PlaceInTree + @"\" + Parent.Children.IndexOf(this).ToString();
-			}
+			if (Parent == null)
+				return "";
+			var parentPlaceInTree = Parent.GetPlaceInTree();
+			if (parentPlaceInTree == "")
+				return Parent.Children.IndexOf(this).ToString();
+			return parentPlaceInTree + @"\" + Parent.Children.IndexOf(this).ToString();
 		}
 
 		public List<Device> AllParents

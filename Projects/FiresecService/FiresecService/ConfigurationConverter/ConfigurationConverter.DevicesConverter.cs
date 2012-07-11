@@ -121,7 +121,7 @@ namespace FiresecService.Configuration
 				}
 			}
 
-			device.InitialPlaceInTree = device.PlaceInTree;
+			device.PlaceInTree = device.GetPlaceInTree();
 		}
 
 		void SetZone(Device device, devType innerDevice)
@@ -204,6 +204,10 @@ namespace FiresecService.Configuration
 
 		devType DeviceToInnerDevice(Device device)
 		{
+			if (device.Driver.DriverType == DriverType.UOO_TL)
+			{
+				;
+			}
 			var innerDevice = new devType();
 
 			innerDevice.drv = FiresecConfiguration.drv.FirstOrDefault(x => x.id.ToUpper() == device.DriverUID.ToString().ToUpper()).idx;

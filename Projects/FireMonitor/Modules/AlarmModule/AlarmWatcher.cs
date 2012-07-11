@@ -186,7 +186,7 @@ namespace AlarmModule
 					break;
 			}
 
-			if (state.DriverState.IsAutomatic && state.DriverState.Name.Contains("AutoOff")) // state.DriverState.IsManualReset
+			if (state.DriverState.IsAutomatic && state.DriverState.Code.Contains("AutoOff")) // state.DriverState.IsManualReset
 				alarmType = AlarmType.Auto;
 
 			return alarmType;

@@ -165,11 +165,12 @@ namespace JournalModule.ViewModels
 		void OnClear()
 		{
 			StartDate = StartTime = EndDate = EndTime = DateTime.Now;
+			StartDate = StartDate.AddDays(-1);
 			UseSystemDate = false;
 
 			JournalTypes.ForEach(x => x.IsEnable = false);
 			JournalEvents.ForEach(x => x.IsEnable = false);
-			Devices.ForEach(x => x.IsChecked = true);
+			Devices.ForEach(x => x.IsChecked = false);
 			Subsystems.ForEach(x => x.IsEnable = false);
 		}
 		public RelayCommand SaveCommand { get; private set; }

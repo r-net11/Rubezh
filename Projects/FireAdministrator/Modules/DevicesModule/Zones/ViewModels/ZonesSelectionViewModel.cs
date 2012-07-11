@@ -38,8 +38,7 @@ namespace DevicesModule.ViewModels
 					break;
 			}
 
-			var channelZones = FiresecManager.GetChannelZones(device);
-			foreach (var zone in channelZones)
+			foreach (var zone in FiresecManager.GetChannelZones(device))
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
 

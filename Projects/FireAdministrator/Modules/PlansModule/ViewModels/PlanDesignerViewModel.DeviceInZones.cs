@@ -15,7 +15,7 @@ namespace PlansModule.ViewModels
     {
         public void UpdateDeviceInZones()
         {
-            Dictionary<Device, ulong?> deviceInZones = new Dictionary<Device, ulong?>();
+            var deviceInZones = new Dictionary<Device, ulong?>();
 
             foreach (var designerItem in DesignerCanvas.Items)
             {

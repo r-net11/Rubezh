@@ -243,7 +243,6 @@ namespace FiresecService.Processor
 				SetStates(coreState);
 				PropogateStatesDown();
 				PropogateStatesUp();
-				PropogateStatesToGroupDevice();
 				CalculateZones();
 
 				if (ChangedDevices.Count > 0)
@@ -466,10 +465,6 @@ namespace FiresecService.Processor
 					}
 				}
 			}
-		}
-
-		void PropogateStatesToGroupDevice()
-		{
 		}
 
 		void CalculateZones()

@@ -31,6 +31,10 @@ namespace FiresecService.Configuration
 				IsDeviceOnShleif = innerDriver.addrMask != null && (innerDriver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]" || innerDriver.addrMask == "[0(1)-8(30)]")
 			};
 
+			var driverData = DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == innerDriver.id && x.IgnoreLevel < 2);
+			if (driverData != null)
+				driver.DriverType = driverData.DriverType;
+
 			if (innerDriver.options != null)
 			{
 				driver.DisableAutoCreateChildren = innerDriver.options.Contains("DisableAutoCreateChildren");
@@ -46,7 +50,7 @@ namespace FiresecService.Configuration
 
 				driver.CanWriteDatabase = innerDriver.options.Contains("DeviceDatabaseWrite");
 				driver.CanReadDatabase = innerDriver.options.Contains("DeviceDatabaseRead");
-				driver.CanReadJournal = innerDriver.options.Contains("EventSource");
+				driver.CanReadJournal = innerDriver.options.Contains("EventSource") && driver.DriverType != DriverType.IndicationBlock;
 				driver.CanSynchonize = innerDriver.options.Contains("HasTimer");
 				driver.CanReboot = innerDriver.options.Contains("RemoteReload");
 				driver.CanGetDescription = innerDriver.options.Contains("DescriptionString");
@@ -57,10 +61,6 @@ namespace FiresecService.Configuration
 
 			var metadataClass = Metadata.@class.FirstOrDefault(x => x.clsid == innerDriver.clsid);
 			driver.DeviceClassName = metadataClass.param.FirstOrDefault(x => x.name == "DeviceClassName").value;
-
-			var driverData = DriversHelper.DriverDataList.FirstOrDefault(x => x.DriverId == innerDriver.id && x.IgnoreLevel < 2);
-			if (driverData != null)
-				driver.DriverType = driverData.DriverType;
 
 			driver.CanEditAddress = true;
 			if (innerDriver.ar_no_addr != null)
@@ -230,7 +230,7 @@ namespace FiresecService.Configuration
 			{
 				foreach (var internalProperty in innerDriver.propInfo)
 				{
-					if (internalProperty.hidden == "1")
+					if ((internalProperty.hidden == "1") && (driver.DriverType != DriverType.UOO_TL))
 						continue;
 					if (internalProperty.caption == "Заводской номер" || internalProperty.caption == "Версия микропрограммы")
 						continue;
