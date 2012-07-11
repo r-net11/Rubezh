@@ -41,7 +41,14 @@ namespace PlansModule
 		}
 		public override void Initialize()
 		{
-			_plansViewModel.Initialize();
+			try
+			{
+				_plansViewModel.Initialize();
+			}
+			catch
+			{
+				;
+			}
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

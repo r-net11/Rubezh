@@ -40,14 +40,29 @@ namespace FiresecAPI.Models
 			{
 				var stateTypes = new List<StateType>() { StateType.Norm };
 
-				stateTypes.AddRange(from DeviceDriverState deviceDriverState in States
-									select deviceDriverState.DriverState.StateType);
+				foreach (var deviceDriverState in States)
+				{
+					if (deviceDriverState.DriverState != null)
+					{
+						stateTypes.Add(deviceDriverState.DriverState.StateType);
+					}
+				}
 
-				stateTypes.AddRange(from ParentDeviceState parentDeviceState in ParentStates
-									select parentDeviceState.DriverState.StateType);
+				foreach (var parentDeviceState in ParentStates)
+				{
+					if (parentDeviceState.DriverState != null)
+					{
+						stateTypes.Add(parentDeviceState.DriverState.StateType);
+					}
+				}
 
-				//stateTypes.AddRange(from ChildDeviceState childDeviceState in ChildStates
-				//                    select childDeviceState.DriverState.StateType);
+				foreach (var childDeviceState in ChildStates)
+				{
+					if (childDeviceState.DriverState != null)
+					{
+						stateTypes.Add(childDeviceState.DriverState.StateType);
+					}
+				}
 
 				return stateTypes.Min();
 			}

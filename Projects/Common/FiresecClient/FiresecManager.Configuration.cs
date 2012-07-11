@@ -29,8 +29,6 @@ namespace FiresecClient
 
 			UpdateDrivers();
 			UpdateConfiguration();
-			InvalidateConfiguration();
-			UpdatePlansConfiguration();
 		}
 
 		public static void UpdateDrivers()
@@ -61,6 +59,9 @@ namespace FiresecClient
 					}
 				}
 			}
+
+			InvalidateConfiguration();
+			UpdatePlansConfiguration();
 		}
 
 		public static void UpdatePlansConfiguration()
@@ -250,6 +251,7 @@ namespace FiresecClient
 
 		public static void ReorderConfiguration()
 		{
+			return;
 			foreach (var device in DeviceConfiguration.Devices)
 			{
 				if (device.Children.Count > 0)

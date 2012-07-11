@@ -60,7 +60,7 @@ namespace PlansModule.ViewModels
 					DesignerCanvas.Create(elementDevice);
 				DesignerCanvas.DeselectAll();
 				OnUpdated();
-				UpdateDeviceInZones();
+				//UpdateDeviceInZones();
 			}
 		}
 

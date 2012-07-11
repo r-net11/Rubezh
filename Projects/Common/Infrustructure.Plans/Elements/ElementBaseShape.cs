@@ -18,6 +18,9 @@ namespace Infrustructure.Plans.Elements
 
 		public override Rect GetRectangle()
 		{
+			if (Points == null)
+				Points = new PointCollection();
+
 			if (Points.Count == 0)
 				return new Rect(0, 0, 0, 0);
 

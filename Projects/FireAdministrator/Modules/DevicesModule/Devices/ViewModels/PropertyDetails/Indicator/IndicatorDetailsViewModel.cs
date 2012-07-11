@@ -11,7 +11,7 @@ namespace DevicesModule.ViewModels
 {
 	public class IndicatorDetailsViewModel : SaveCancelDialogViewModel
 	{
-		Device _indicatorDevice;
+		Device Device;
 		List<ulong> _zones;
 
 		public IndicatorDetailsViewModel(Device device)
@@ -27,7 +27,7 @@ namespace DevicesModule.ViewModels
 			ConnectionColor = IndicatorColorType.Orange;
 
 			_zones = new List<ulong>();
-			_indicatorDevice = device;
+			Device = device;
 
 			if (device.IndicatorLogic == null)
 				return;
@@ -155,7 +155,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowZonesCommand { get; private set; }
 		void OnShowZones()
 		{
-			var indicatorZoneSelectionViewModel = new IndicatorZoneSelectionViewModel(_zones);
+			var indicatorZoneSelectionViewModel = new IndicatorZoneSelectionViewModel(_zones, Device);
 			if (DialogService.ShowModalWindow(indicatorZoneSelectionViewModel))
 			{
 				_zones = indicatorZoneSelectionViewModel.Zones;
@@ -179,22 +179,22 @@ namespace DevicesModule.ViewModels
 
 		protected override bool Save()
 		{
-			_indicatorDevice.IndicatorLogic = new IndicatorLogic();
+			Device.IndicatorLogic = new IndicatorLogic();
 
 			if (IsZone)
 			{
-				_indicatorDevice.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Zone;
-				_indicatorDevice.IndicatorLogic.Zones = _zones;
+				Device.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Zone;
+				Device.IndicatorLogic.Zones = _zones;
 			}
 			else if (IsDevice)
 			{
-				_indicatorDevice.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Device;
-				_indicatorDevice.IndicatorLogic.Device = SelectedDevice;
-				_indicatorDevice.IndicatorLogic.DeviceUID = (SelectedDevice == null) ? Guid.Empty : SelectedDevice.UID;
-				_indicatorDevice.IndicatorLogic.OnColor = OnColor;
-				_indicatorDevice.IndicatorLogic.OffColor = OffColor;
-				_indicatorDevice.IndicatorLogic.FailureColor = FailureColor;
-				_indicatorDevice.IndicatorLogic.ConnectionColor = ConnectionColor;
+				Device.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Device;
+				Device.IndicatorLogic.Device = SelectedDevice;
+				Device.IndicatorLogic.DeviceUID = (SelectedDevice == null) ? Guid.Empty : SelectedDevice.UID;
+				Device.IndicatorLogic.OnColor = OnColor;
+				Device.IndicatorLogic.OffColor = OffColor;
+				Device.IndicatorLogic.FailureColor = FailureColor;
+				Device.IndicatorLogic.ConnectionColor = ConnectionColor;
 			}
 			return base.Save();
 		}

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -10,7 +11,7 @@ namespace DevicesModule.ViewModels
     {
         public List<ulong> Zones { get; private set; }
 
-        public IndicatorZoneSelectionViewModel(List<ulong> zones)
+		public IndicatorZoneSelectionViewModel(List<ulong> zones, Device device)
         {
             Title = "Свойства индикатора";
 
@@ -23,7 +24,7 @@ namespace DevicesModule.ViewModels
             TargetZones = new ObservableCollection<ZoneViewModel>();
             SourceZones = new ObservableCollection<ZoneViewModel>();
 
-            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+			foreach (var zone in FiresecManager.GetChannelZones(device))
             {
                 var zoneViewModel = new ZoneViewModel(zone);
 

@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using System.Text;
+using System.Xml.Serialization;
 
 namespace FiresecDirect
 {
@@ -21,12 +23,13 @@ namespace FiresecDirect
 
 		void OnSetNewConfig(object sender, RoutedEventArgs e)
 		{
+			NativeFiresecClient.SetNewConfig(textBox1.Text);
 			//using (var reader = new StreamReader("SetNewConfig.xml"))
 			//{
 			//    textBox1.Text = reader.ReadToEnd();
 			//}
 
-			//byte[] bytes = Encoding.UTF8.GetBytes(message);
+			//byte[] bytes = Encoding.UTF8.GetBytes(textBox1.Text);
 			//var memoryStream = new MemoryStream(bytes);
 			//var serializer = new XmlSerializer(typeof(Firesec.CoreConfig.config));
 			//Firesec.CoreConfig.config config = (Firesec.CoreConfig.config)serializer.Deserialize(memoryStream);

@@ -166,18 +166,21 @@ namespace FireAdministrator.Views
 			};
 			if (openDialog.ShowDialog().Value)
 			{
-				CopyTo(LoadFromFile(openDialog.FileName));
+				WaitHelper.Execute(() =>
+				{
+					CopyTo(LoadFromFile(openDialog.FileName));
 
-				FiresecManager.UpdateConfiguration();
-				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+					FiresecManager.UpdateConfiguration();
+					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
-				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
-				ServiceFactory.Layout.Close();
-				ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+					ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
+					ServiceFactory.Layout.Close();
+					ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
 
-				ServiceFactory.SaveService.DevicesChanged = true;
-				ServiceFactory.SaveService.PlansChanged = true;
-				ServiceFactory.Layout.ShowFooter(null);
+					ServiceFactory.SaveService.DevicesChanged = true;
+					ServiceFactory.SaveService.PlansChanged = true;
+					ServiceFactory.Layout.ShowFooter(null);
+				});
 			}
 		}
 

@@ -228,7 +228,7 @@ namespace FiresecService.Service
 			{
 				dataContext.ExecuteCommand("DELETE FROM Journal");
 
-				var document = FiresecSerializedClient.ReadEvents(0, 100000).Result;
+				var document = FiresecSerializedClient.ReadEvents(0, 10000).Result;
 
 				if (document == null || document.Journal == null || document.Journal.Count() == 0)
 					return;

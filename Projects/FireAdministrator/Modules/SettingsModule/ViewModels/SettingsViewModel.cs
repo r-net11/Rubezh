@@ -6,6 +6,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SettingsModule.Views;
+using System.Diagnostics;
+using System.Text;
 
 namespace SettingsModule.ViewModels
 {
@@ -19,9 +21,20 @@ namespace SettingsModule.ViewModels
 			ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
 			ConvertJournalCommand = new RelayCommand(OnConvertJournal);
 
-			TestCommand = new RelayCommand(OnTest);
+			Test1Command = new RelayCommand(OnTest1);
 			Test2Command = new RelayCommand(OnTest2);
 			DevicesTree = new DevicesTreeViewModel();
+		}
+
+		string _text;
+		public string Text
+		{
+			get { return _text; }
+			set
+			{
+				_text = value;
+				OnPropertyChanged("Text");
+			}
 		}
 
 		public bool IsDebug
@@ -36,9 +49,55 @@ namespace SettingsModule.ViewModels
 			driversView.ShowDialog();
 		}
 
-		public RelayCommand TestCommand { get; private set; }
-		void OnTest()
+		public RelayCommand Test1Command { get; private set; }
+		void OnTest1()
 		{
+			var stringBuilder = new StringBuilder();
+
+			foreach (var driver in FiresecManager.Drivers)
+			{
+				foreach (var state in driver.States)
+				{
+					if (state.IsManualReset)
+					{
+						stringBuilder.AppendLine(driver.Name + " - " + state.Name + " - IsManualReset");
+					}
+				}
+			}
+
+			foreach (var driver in FiresecManager.Drivers)
+			{
+				foreach (var state in driver.States)
+				{
+					if (state.CanResetOnPanel)
+					{
+						stringBuilder.AppendLine(driver.Name + " - " + state.Name + " - CanResetOnPanel");
+					}
+				}
+			}
+
+			foreach (var driver in FiresecManager.Drivers)
+			{
+				foreach (var state in driver.States)
+				{
+					if (state.IsAutomatic && state.Name.Contains("AutoOff")) 
+					{
+						stringBuilder.AppendLine(driver.Name + " - " + state.Name + " - Automatic AutoOff");
+					}
+				}
+			}
+
+			foreach (var driver in FiresecManager.Drivers)
+			{
+				foreach (var state in driver.States)
+				{
+					if (state.IsAutomatic)
+					{
+						stringBuilder.AppendLine(driver.Name + " - " + state.Name + " - " + state.Code + " - Automatic");
+					}
+				}
+			}
+			Text = stringBuilder.ToString();
 		}
 
 		public RelayCommand Test2Command { get; private set; }

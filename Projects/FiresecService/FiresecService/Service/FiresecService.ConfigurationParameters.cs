@@ -23,14 +23,14 @@ namespace FiresecService.Service
 			{
 				if (property.IsInternalDeviceParameter)
 				{
-					FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.InitialPlaceInTree, "Device$ReadSimpleParam", property.No.ToString(), ref requestId);
+					FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$ReadSimpleParam", property.No.ToString(), ref requestId);
 					requestIds.Add(requestId);
 				}
 			}
 
 			while (true)
 			{
-				var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.InitialPlaceInTree, "StateConfigQueries", null, ref requestId);
+				var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "StateConfigQueries", null, ref requestId);
 				if (result.HasError)
 				{
 					return new OperationResult<List<Property>>()
@@ -96,7 +96,7 @@ namespace FiresecService.Service
 					var intValue = int.Parse(property.Value) * 256 + 255;
 					string formattedParam = driverProperty.No.ToString() + "=" + intValue.ToString();
 					int requestId = 0;
-					FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.InitialPlaceInTree, "Device$WriteSimpleParam", formattedParam, ref requestId);
+					FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$WriteSimpleParam", formattedParam, ref requestId);
 				}
 			}
 		}

@@ -33,11 +33,11 @@
                     </WrapPanel>
                     <WrapPanel Visibility="{Binding Device.Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
                         <TextBlock Text="Зона: " FontWeight="Bold" Foreground="Orange" />
-                        <TextBlock Text="{Binding PresentationZone}" Foreground="White" />
+                        <TextBlock Text="{Binding PresentationZone}" Foreground="White" TextWrapping="Wrap" />
                     </WrapPanel>
                     <WrapPanel Visibility="{Binding Device.Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
                         <TextBlock Text="Логика срабатывания по состоянию зон:" FontWeight="Bold" Foreground="Orange" />
-                        <TextBlock Text="{Binding PresentationZone}" Foreground="White" />
+                        <TextBlock Text="{Binding PresentationZone}" Foreground="White" TextWrapping="Wrap" />
                     </WrapPanel>
                 </StackPanel>
             </TabItem>
@@ -53,7 +53,7 @@
                     <ItemsControl ItemsSource="{Binding DeviceState.States}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding DriverState.Name}" Margin="1" />
+                                <TextBlock Text="{Binding DriverState.Name}" TextWrapping="Wrap" Margin="1" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -61,7 +61,7 @@
                         <ItemsControl ItemsSource="{Binding Parameters}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding .}" Margin="1"  />
+                                    <TextBlock Text="{Binding .}" Margin="1" TextWrapping="Wrap"  />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
