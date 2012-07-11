@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -20,7 +21,22 @@ namespace DevicesModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 
 			Zone = zone;
+			if (FiresecManager.DeviceStates == null)
+			{
+				Logger.Error("ZoneViewModel.ctrl FiresecManager.DeviceStates = null");
+				return;
+			}
+			if (FiresecManager.DeviceStates.ZoneStates == null)
+			{
+				Logger.Error("ZoneViewModel.ctrl FiresecManager.DeviceStates.ZoneStates = null");
+				return;
+			}
 			ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
+			if (ZoneState == null)
+			{
+				Logger.Error("ZoneViewModel.ctrl ZoneState = null");
+				return;
+			}
 			ZoneState.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}

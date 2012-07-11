@@ -115,6 +115,7 @@ namespace AlarmModule
 				case AlarmType.Attention:
 				case AlarmType.Info:
 				case AlarmType.Failure:
+				case AlarmType.Service:
 					resetItem.DeviceUID = parentDeviceState.UID;
 					foreach (var state in parentDeviceState.States)
 					{

@@ -250,6 +250,7 @@ namespace FiresecClient
 
 		public static void ReorderConfiguration()
 		{
+			return;
 			foreach (var device in DeviceConfiguration.Devices)
 			{
 				if (device.Children.Count > 0)

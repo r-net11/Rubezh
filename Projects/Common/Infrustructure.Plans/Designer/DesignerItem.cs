@@ -103,6 +103,7 @@ namespace Infrustructure.Plans.Designer
 		public virtual void SetLocation()
 		{
 			var rect = Element.GetRectangle();
+			try
 			{
 				Canvas.SetLeft(this, rect.Left);
 				Canvas.SetTop(this, rect.Top);
