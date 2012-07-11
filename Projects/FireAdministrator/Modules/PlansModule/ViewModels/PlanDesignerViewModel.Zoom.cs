@@ -17,7 +17,7 @@ namespace PlansModule.ViewModels
 		public void ChangeDeviceZoom(double deviceZoom)
 		{
 			DeviceZoom = deviceZoom;
-			DesignerCanvas.UpdateZoom();
+			DesignerCanvas.UpdateZoomPoint();
 		}
 	}
 }

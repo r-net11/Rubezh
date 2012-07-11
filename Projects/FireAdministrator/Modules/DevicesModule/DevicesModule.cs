@@ -6,6 +6,9 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
+using Infrustructure.Plans.Events;
+using FiresecAPI.Models;
+using DeviceControls;
 
 namespace DevicesModule
 {
@@ -75,6 +78,9 @@ namespace DevicesModule
 			_zonesViewModel.Initialize();
 			_directionsViewModel.Initialize();
 			_guardViewModel.Initialize();
+
+			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
+			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -92,6 +98,12 @@ namespace DevicesModule
 		public override string Name
 		{
 			get { return "Устройства, Зоны, Направления"; }
+		}
+
+		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
+		{
+			if (args.Element is ElementDevice)
+				args.Painter = new Painter();
 		}
 	}
 }

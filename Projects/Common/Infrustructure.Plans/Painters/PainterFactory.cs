@@ -33,9 +33,8 @@ namespace Infrustructure.Plans.Painters
 					case Primitive.TextBlock:
 						return new TextBlockPainter();
 				}
-			var aggregator = new EventAggregator();
 			var args = new PainterFactoryEventArgs(element);
-			aggregator.GetEvent<PainterFactoryEvent>().Publish(args);
+			EventService.EventAggregator.GetEvent<PainterFactoryEvent>().Publish(args);
 			return args.Painter ?? new DefaultPainter();
 		}
 	}

@@ -82,7 +82,8 @@ namespace Infrustructure.Plans.Designer
 			MinHeight = 2 * element.BorderThickness;
 			DataContext = Element;
 			Painter = PainterFactory.Create(Element);
-			Redraw();
+			if (DesignerCanvas != null)
+				Redraw();
 		}
 		public void UpdateAdorner()
 		{
@@ -90,23 +91,16 @@ namespace Infrustructure.Plans.Designer
 				ResizeChrome.Initialize();
 		}
 
-		public void UpdateZoom()
+		public virtual void UpdateZoom()
 		{
 			if (ResizeChrome != null)
 				ResizeChrome.UpdateZoom();
 		}
-		public void UpdateZoomDevice()
+		public virtual void UpdateZoomPoint()
 		{
-			//if (IsDevice)
-			//{
-			//    this.Width = DesignerCanvas.PlanDesignerViewModel.DeviceZoom;
-			//    this.Height = DesignerCanvas.PlanDesignerViewModel.DeviceZoom;
-			//    Canvas.SetLeft(this, ElementBase.Left - this.Width / 2);
-			//    Canvas.SetTop(this, ElementBase.Top - this.Height / 2);
-			//}
 		}
 
-		public void SetLocation()
+		public virtual void SetLocation()
 		{
 			var rect = Element.GetRectangle();
 			Canvas.SetLeft(this, rect.Left);

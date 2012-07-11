@@ -30,7 +30,7 @@ namespace Infrustructure.Plans.Elements
 		}
 		public override Rect GetRectangle()
 		{
-			return new Rect(new Point(Left, Top), Size.Empty);
+			return new Rect(new Point(Left, Top), new Point(Left, Top));
 		}
 		protected override void SetPosition(Point point)
 		{

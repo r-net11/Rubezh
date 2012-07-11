@@ -177,9 +177,6 @@ namespace PlansModule.Designer
 			{
 				Plan.ElementDevices.Add(elementBase as ElementDevice);
 			}
-
-			var designerItem = Create(elementBase);
-
 			if (elementBase is ElementDevice)
 			{
 				var elementDevice = elementBase as ElementDevice;
@@ -191,7 +188,7 @@ namespace PlansModule.Designer
 				ServiceFactory.Events.GetEvent<DeviceAddedEvent>().Publish(elementDevice.Device.UID);
 			}
 
-			return designerItem;
+			return Create(elementBase);
 		}
 
 		public DesignerItem Create(ElementBase elementBase)
@@ -325,6 +322,11 @@ namespace PlansModule.Designer
 		{
 			foreach (DesignerItem designerItem in Items)
 				designerItem.UpdateZoom();
+		}
+		public void UpdateZoomPoint()
+		{
+			foreach (DesignerItem designerItem in Items)
+				designerItem.UpdateZoomPoint();
 		}
 	}
 }

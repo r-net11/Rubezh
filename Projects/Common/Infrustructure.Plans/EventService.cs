@@ -8,7 +8,7 @@ namespace Infrustructure.Plans
 {
 	public static class EventService
 	{
-		private static IEventAggregator _eventAggregator;
+		private static IEventAggregator _eventAggregator = null;
 
 		public static void RegisterEventAggregator(IEventAggregator eventAggregator)
 		{
