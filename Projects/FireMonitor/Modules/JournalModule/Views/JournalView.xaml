@@ -89,13 +89,14 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Класс" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Пользователь" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Время" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Устройство - Датчик" Visibility="{Binding DeviceName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Устройство" Visibility="{Binding PanelName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Зона" Visibility="{Binding ZoneName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
+                <TextBlock Grid.Row="5" Grid.Column="0" Text="Зона" Visibility="{Binding ZoneName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
 
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" />
                 <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding User}" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" />
@@ -104,7 +105,8 @@
                 <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding PanelName}" Visibility="{Binding PanelName, Converter={StaticResource StringToVisibilityConverter}}" />
                 <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding ZoneName}" Visibility="{Binding ZoneName, Converter={StaticResource StringToVisibilityConverter}}" />
                 <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Description}" />
-                <Controls:XRichTextBox Grid.Row="6" Grid.Column="1" Text="{Binding Detalization, Mode=OneWay}" BorderThickness="0" Background="Transparent" Foreground="White" />
+                <Controls:XRichTextBox Grid.Row="7" Grid.Column="1" Text="{Binding Detalization}" BorderThickness="0" Background="Transparent" Foreground="White" />
+                <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Detalization, Mode=OneWay}" Foreground="Black" Visibility="Hidden" />
             </Grid>
         </Border>
     </Grid>

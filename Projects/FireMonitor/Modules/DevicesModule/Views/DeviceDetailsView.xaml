@@ -14,59 +14,63 @@
         </StackPanel>
         <TabControl Grid.Row="1">
             <TabItem Header="Основные">
-                <StackPanel Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel Visibility="{Binding Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Image Source="{Binding Device.Driver.ImageSource}" Width="20" Height="20" Margin="5" />
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel Visibility="{Binding Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <Image Source="{Binding Device.Driver.ImageSource}" Width="20" Height="20" Margin="5" />
+                            </StackPanel>
+                            <TextBlock Text="{Binding Device.Driver.Name}" VerticalAlignment="Center" Foreground="White" />
                         </StackPanel>
-                        <TextBlock Text="{Binding Device.Driver.Name}" VerticalAlignment="Center" Foreground="White" />
+                        <WrapPanel Margin="1">
+                            <TextBlock Text="Тип устройства: " FontWeight="Bold" Foreground="Orange" />
+                            <TextBlock Text="{Binding Device.Driver.CategoryName}" Foreground="White" />
+                            <TextBlock Text=", " Foreground="White" />
+                            <TextBlock Text="{Binding Device.Driver.DeviceTypeName}" Foreground="White" />
+                        </WrapPanel>
+                        <WrapPanel Margin="1">
+                            <TextBlock Text="Подключено: " FontWeight="Bold" Foreground="Orange" />
+                            <TextBlock Text="{Binding Device.ConnectedTo}" Foreground="White" />
+                        </WrapPanel>
+                        <WrapPanel Visibility="{Binding Device.Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
+                            <TextBlock Text="Зона: " FontWeight="Bold" Foreground="Orange" />
+                            <TextBlock Text="{Binding PresentationZone}" Foreground="White" TextWrapping="Wrap" />
+                        </WrapPanel>
+                        <WrapPanel Visibility="{Binding Device.Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
+                            <TextBlock Text="Логика срабатывания по состоянию зон:" FontWeight="Bold" Foreground="Orange" />
+                            <TextBlock Text="{Binding PresentationZone}" Foreground="White" TextWrapping="Wrap" />
+                        </WrapPanel>
                     </StackPanel>
-                    <WrapPanel Margin="1">
-                        <TextBlock Text="Тип устройства: " FontWeight="Bold" Foreground="Orange" />
-                        <TextBlock Text="{Binding Device.Driver.CategoryName}" Foreground="White" />
-                        <TextBlock Text=", " Foreground="White" />
-                        <TextBlock Text="{Binding Device.Driver.DeviceTypeName}" Foreground="White" />
-                    </WrapPanel>
-                    <WrapPanel Margin="1">
-                        <TextBlock Text="Подключено: " FontWeight="Bold" Foreground="Orange" />
-                        <TextBlock Text="{Binding Device.ConnectedTo}" Foreground="White" />
-                    </WrapPanel>
-                    <WrapPanel Visibility="{Binding Device.Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
-                        <TextBlock Text="Зона: " FontWeight="Bold" Foreground="Orange" />
-                        <TextBlock Text="{Binding PresentationZone}" Foreground="White" TextWrapping="Wrap" />
-                    </WrapPanel>
-                    <WrapPanel Visibility="{Binding Device.Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}" Margin="1">
-                        <TextBlock Text="Логика срабатывания по состоянию зон:" FontWeight="Bold" Foreground="Orange" />
-                        <TextBlock Text="{Binding PresentationZone}" Foreground="White" TextWrapping="Wrap" />
-                    </WrapPanel>
-                </StackPanel>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="Состояние" TextElement.Foreground="White">
-                <StackPanel>
-                    <ItemsControl ItemsSource="{Binding DeviceState.ParentStringStates}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding .}" Margin="1" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding DeviceState.States}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding DriverState.Name}" TextWrapping="Wrap" Margin="1" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <ItemsControl ItemsSource="{Binding Parameters}">
+                        <ItemsControl ItemsSource="{Binding DeviceState.ParentStringStates}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <TextBlock Text="{Binding .}" Margin="1" TextWrapping="Wrap"  />
+                                    <TextBlock Text="{Binding .}" Margin="1" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        <ItemsControl ItemsSource="{Binding DeviceState.States}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DriverState.Name}" TextWrapping="Wrap" Margin="1" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <StackPanel>
+                            <ItemsControl ItemsSource="{Binding Parameters}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding .}" Margin="1" TextWrapping="Wrap"  />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
+                </ScrollViewer>
             </TabItem>
             <TabItem Header="Управление" Visibility="{Binding CanValveControl, Converter={StaticResource BoolToVisibilityConverter}}"
                      IsSelected="{Binding IsControlTabSelected}">

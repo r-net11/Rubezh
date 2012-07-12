@@ -128,6 +128,7 @@
     <Compile Include="FiresecEventSubscriber.cs" />
     <Compile Include="FiresecManager.Configuration.cs" />
     <Compile Include="FiresecManager.cs" />
+    <Compile Include="FiresecManager.PresentationZone.cs" />
     <Compile Include="FiresecServiceFactory.cs" />
     <Compile Include="ItvManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
