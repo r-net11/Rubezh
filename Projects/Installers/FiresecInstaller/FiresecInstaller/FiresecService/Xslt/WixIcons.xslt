@@ -32,7 +32,7 @@
 
 
   <xsl:template match="wix:Component">
-    <Component Id="{@Id}" Guid="{@Guid}">
+    <Component Id="{@Id}" Guid="*">
       <File Id="{wix:File/@Id}" Source="{concat('..\..\Configuration\Icons', substring(wix:File/@Source, 10))}" />
     </Component>
   </xsl:template>

@@ -5,7 +5,7 @@
 	
 	<Fragment>
 		<DirectoryRef Id="DesktopFolder">
-			<Component Id="FADesktopShortcut" Guid="908694FD-A06F-45A6-BF06-6E8E57E4A996">
+			<Component Id="FADesktopShortcut" Guid="*">
 				<Shortcut Id="FADesktopShortcut" Name="Администратор ОПС 'FireSec-2'" Target="[FIREADMINISTRATORLOCATION]$(var.FireAdministrator.TargetFileName)"
 									WorkingDirectory="FIREADMINISTRATORLOCATION" Description="Запускает $(var.FireAdministratorName)" Icon="FireAdministratorIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.FireAdministratorName)" Name="Shortcut" Type="integer"
@@ -16,7 +16,7 @@
 
 		<DirectoryRef Id="ProgramMenuDir">
 			<!--Ярлык для запуска программы-->
-			<Component Id="FAProgramsMenuShortcut" Guid="D7467870-D796-498F-B790-392A73E145A8">
+			<Component Id="FAProgramsMenuShortcut" Guid="*">
 				<Shortcut Id="FARunProduct" Name="Администратор ОПС 'FireSec-2'" Target="[FIREADMINISTRATORLOCATION]$(var.FireAdministrator.TargetFileName)"
 									WorkingDirectory="FIREADMINISTRATORLOCATION" Description="Запускает $(var.FireAdministratorName)" Icon="FireAdministratorIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.FireAdministratorName)" Name="installed" Type="integer"

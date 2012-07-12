@@ -3,7 +3,7 @@
     <Fragment>
         <!--<DirectoryRef Id="TARGETDIR">
             <Directory Id="dir2EBECCB4F62905C0D2C99FE3BD0B1DC1" Name="ComDlls">
-                <Component Id="cmp427C76D7B196575BC12650B4C6C22888" Guid="{767EC6DE-10EC-45E1-811C-44FA25250B8B}">
+                <Component Id="cmp427C76D7B196575BC12650B4C6C22888" Guid="*">
                     <File Id="fil20CCDD3AB401DEDE66B8B49C3F06F1C8" KeyPath="yes" Source="SourceDir\Interop.FS_Types.dll" />
                     <RegistryValue Root="HKCR" Key="CLSID\{7DEEF78D-A67F-49E2-AFD1-679981936172}\InprocServer32\1.0.0.0" Name="Class" Value="FS_Types.FSC_LIBRARY_CLASSClass" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="CLSID\{7DEEF78D-A67F-49E2-AFD1-679981936172}\InprocServer32\1.0.0.0" Name="Assembly" Value="Interop.FS_Types, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />
@@ -22,7 +22,7 @@
                     <RegistryValue Root="HKCR" Key="Record\{9585E9D3-1707-4BF6-9F31-4C691726952C}\1.0.0.0" Name="RuntimeVersion" Value="v2.0.50727" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="Record\{9585E9D3-1707-4BF6-9F31-4C691726952C}\1.0.0.0" Name="CodeBase" Value="file:///[#fil20CCDD3AB401DEDE66B8B49C3F06F1C8]" Type="string" Action="write" />
                 </Component>
-                <Component Id="cmp432BA525DAEC04B345E818948D5464CC" Guid="{F4E9E463-E5F3-432C-888D-343454A2671E}">
+                <Component Id="cmp432BA525DAEC04B345E818948D5464CC" Guid="*">
                     <File Id="fil4DD1889C58AFDD3A42258831ED4D1C0B" KeyPath="yes" Source="SourceDir\Interop.mscoree.dll" />
                     <RegistryValue Root="HKCR" Key="CLSID\{3F281000-E95A-11D2-886B-00C04F869F04}\InprocServer32\2.0.0.0" Name="Class" Value="mscoree.ComCallUnmarshalClass" Type="string" Action="write" />
                     <RegistryValue Root="HKCR" Key="CLSID\{3F281000-E95A-11D2-886B-00C04F869F04}\InprocServer32\2.0.0.0" Name="Assembly" Value="Interop.mscoree, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null" Type="string" Action="write" />

@@ -4,7 +4,7 @@
 		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
 	<Fragment>
 		<DirectoryRef Id="INSTALLLOCATION">
-      <Component Id="DeleteGKXMLSetting" Guid="FD7F5684-1249-4AE8-9ABD-71349815595C">
+      <Component Id="DeleteGKXMLSetting" Guid="0B88A0D7-FFCA-4A08-A26A-862308B009B2">
         <CreateFolder Directory="INSTALLLOCATION" />
         <util:XmlConfig Id="XmlFASettingsGK" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
                         ElementPath="//configuration/modules" On="install"
@@ -17,7 +17,7 @@
         <Condition>NOT GK_MODULE</Condition>
       </Component>
       
-      <Component Id="DeleteOPCXMLSetting" Guid="71455B3E-E78E-47DA-A4BA-04AC68C5813F">
+      <Component Id="DeleteOPCXMLSetting" Guid="F0B66E96-0FC0-4CB2-BE16-7EF991083700">
         <CreateFolder Directory="INSTALLLOCATION" />
         <util:XmlConfig Id="XmlFASettingsOPC" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
                         ElementPath="//configuration/modules" On="install"
@@ -25,7 +25,7 @@
 											/>
         <Condition>NOT OPC_MODULE</Condition>
       </Component>
-      <Component Id="DeleteSKUDXMLSetting" Guid="A6ECBE97-C5C9-4AB0-80DB-AD0492788AED">
+      <Component Id="DeleteSKUDXMLSetting" Guid="CDBA5061-EB0B-41A5-8B50-926984D7F879">
         <CreateFolder Directory="INSTALLLOCATION" />
         <util:XmlConfig Id="XmlFASettingsSKUD" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
                         ElementPath="//configuration/modules" On="install"
@@ -33,7 +33,7 @@
 											/>
         <Condition>NOT SKUD_MODULE</Condition>
       </Component>
-      <Component Id="DeleteVideoXMLSetting" Guid="A2E8D21A-9BA1-4C4B-9FCC-4B34EE34EDF2">
+      <Component Id="DeleteVideoXMLSetting" Guid="3111F860-74E6-4E75-B78C-3077273A57E3">
         <CreateFolder Directory="INSTALLLOCATION" />
         <util:XmlConfig Id="XmlFASettingsVIDEO" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
                         ElementPath="//configuration/modules" On="install"
@@ -44,7 +44,7 @@
 		</DirectoryRef>
 		
 		<DirectoryRef Id="ProgramMenuDir">
-			<Component Id="FiresecProgramsMenuShortcutUninstall" Guid="CC6AE248-D8F1-4801-8720-0D7AF2177780">
+			<Component Id="FiresecProgramsMenuShortcutUninstall" Guid="*">
 				<Shortcut Id="FAUninstallProduct" Name="Удалить Firesec-2" Target="[System64Folder]msiexec.exe"
 									Arguments="/x [ProductCode]" Description="Удаляет Firesec-2 с данного компьютера" />
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
@@ -53,7 +53,7 @@
 		</DirectoryRef>
 
     <DirectoryRef Id="LOGS">
-      <Component Id="LogScript" Guid="959A3A9D-A340-483B-A95A-E29BC7D00DD4">
+      <Component Id="LogScript" Guid="*">
         <File Id="CopyLogs" Name="CopyLogs.bat" Source="Data\" DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
@@ -62,7 +62,7 @@
 	</Fragment>
 </Wix>
 
-<!--<Component Id="SqlComponent" Guid="DDCF3702-A22E-4F89-8D27-CC0F113B4F68">
+<!--<Component Id="SqlComponent" Guid="*">
 				<CreateFolder Directory="FIRESECSERVICELOCATION" />
 				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
 												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="no"  ContinueOnError="yes">

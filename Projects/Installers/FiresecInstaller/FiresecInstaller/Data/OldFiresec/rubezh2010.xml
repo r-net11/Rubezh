@@ -353,7 +353,7 @@
       deviceDriverID ="33A85F87-E34C-45D6-B4CE-A4FB71A36C28"
       deviceClassID= "8708BDF2-B389-48A9-A1F8-D5F498162033"
       deviceName="Модуль пожаротушения"
-      shortName="МПТ"
+      shortName="МПТ-1"
       IgnoreInZoneState="1"
       addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
       maxOutputDeviceCount="1"
@@ -388,7 +388,7 @@
       deviceName="Пожарный дымовой извещатель ИП 212-64"
       deviceDriverAlias = "{F8EBE5F5-A012-4DB7-B300-49552B458931}"
       maxOutputDeviceCount="1"
-      shortName="АПИ: 'ИП 212-64'"
+      shortName="ИП-64"
       Icon="ИП64" 	
       HasSmokeChanel="1"
       type="fire"
@@ -409,7 +409,7 @@
       deviceDriverAlias = "{E613E421-68A2-4A31-96CC-B9CAB7D64216}"
       deviceName="Пожарный тепловой извещатель ИП 101-29-A3R1"
       maxOutputDeviceCount="1"
-      shortName="АПИ: 'ИП29'"
+      shortName="ИП-29"
       HasTempChanel="1"
       Icon="ИП29"
       ignorable="1"
@@ -430,7 +430,7 @@
       deviceDriverAlias = "{FD91CD1A-4F3B-4F76-AA74-AB9C8B9E79F3}"
       deviceName="Пожарный комбинированный извещатель ИП212/101-64-А2R1" 
       maxOutputDeviceCount="1"
-      shortName="АПИ: 'ИП64'"
+      shortName="ИП-64К"
       HasSmokeChanel="1"
       HasTempChanel="1"
       Icon="ИП29-64"
@@ -452,7 +452,7 @@
       deviceDriverAlias = "{AB9C8B4C-43CA-44BB-86DA-527F0D8B2F75}"
       deviceName="Пожарная адресная метка АМ1"
       maxOutputDeviceCount="1"
-      shortName="АМ1"
+      shortName="АМ-1"
       ignorable="1"
       type="fire"
       Icon="АМ-1П"
@@ -601,7 +601,7 @@
 	  deviceClassID= "C1C26924-EE34-434E-BDCF-274778AECC5A"
       deviceName="Охранная адресная метка АМ1-О"
       maxOutputDeviceCount="1"
-      shortName="АМ1-О"
+      shortName="АМ-1О"
       Icon="АМ-1О"
       type="security"
       ignorable="0"
@@ -771,9 +771,9 @@
 
     <deviceTable tableType="13" recordType="device"
       deviceDriverID ="4935848F-0084-4151-A0C8-3A900E3CB5C5"
-	  deviceClassID= "E924BD46-0041-4D25-A027-91D54BC72914"
+	  deviceClassID= "5B0F56FA-CB5C-464A-9D4B-ECCDA78C4336"
       deviceName="Задвижка"
-      shortName="Задвижка"
+      shortName="ШУЗ"
       addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
       minOutputDeviceCount="1"
       maxOutputDeviceCount="-1"
@@ -804,7 +804,7 @@
 	  deviceClassID= "C1C26924-EE34-434E-BDCF-274778AECC5A"
       deviceName="Технологическая адресная метка АМ1-Т"
       maxOutputDeviceCount="0"
-      shortName="АМ1-Т"
+      shortName="АМ-1Т"
       type="tech"
       Icon="АМ-1Т"
       BaseDevice="1"
@@ -841,6 +841,7 @@
       deviceName="Прибор пожарный управления"
       shortName="ППУ"
       addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
+      IgnoreInZoneState="1"
       maxOutputDeviceCount="1"
       IsOutDevice="1"
       Icon="РМ"
@@ -863,8 +864,6 @@
       <detalization class="7" dictionary="МПТ_Причины_0x83" source="Data_Mpt_0x83" />  
 
     </deviceTable>
-    
-
 
     <deviceTable tableType="17" recordType="outputDevice"
       deviceDriverID ="FD200EDF-94A4-4560-81AA-78C449648D45"
@@ -895,7 +894,6 @@
       category="effector">
 
       <detalization class="7" dictionary="МДУ_Причины" />
-      
       <detalization class="2" dictionary="МДУ_Неисправности_0x81L" source="Data_MDU_0x81L" />
       <detalization class="2" dictionary="МДУ_Неисправности_0x81H" source="Data_MDU_0x81H" />     
       <detalization class="3" dictionary="МДУ_Неисправности_0x81L" source="Data_MDU_0x81L" />
@@ -927,7 +925,6 @@
       addressMask="R[7-15];[0-6]"
       category="transport"
     />
-
     
 <!--    <deviceTable tableType="6" recordType="device"  -->
     <deviceTable tableType="20" recordType="device"  
@@ -956,7 +953,7 @@
       deviceClassID = "85AD641B-9764-462C-95AA-958E216EF0AC"      
       deviceDriverAlias = "{F8EBE5F5-A012-4DB7-B300-49552B458931}"
       maxOutputDeviceCount="1"
-      shortName="АПИ: 'ИП 212-64Р'"
+      shortName="ИП-64Р"
       Icon="ИП64" 	
       deviceCount="0"
       HasSmokeChanel="1"
@@ -974,6 +971,26 @@
     
     </deviceTable>
 
+    <deviceTable tableType="22" recordType="device"
+      deviceDriverID ="713702A8-E3A1-4328-9A43-DE9CB5167133"
+	  deviceClassID= "89C01469-69B7-4AAD-907A-0868DF5E167C"
+      deviceName="Модуль речевого оповещения (исполнение 2)"
+      shortName="МРО-2(исп.2)"
+      addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
+      minOutputDeviceCount="1"
+      maxOutputDeviceCount="-1"
+      IgnoreInZoneState="1"
+      IsOutDevice="1"
+      Icon="МРО"
+      type="fire"
+      category="effector">
+
+      <detalization class="2" dictionary="МРОи2_Неисправности" />
+      <detalization class="6" dictionary="МРОи2_Неисправности" />
+      <detalization class="1" dictionary="МРО_Сработки" />
+      
+    </deviceTable>	
+	
 <!-- групповые устройства -->
 
     <deviceTable tableType="-10" recordType="composite" 
@@ -982,7 +999,7 @@
       childDriverID = "DBA24D99-B7E1-40F3-A7F7-8A47D4433392"
       deviceName="Адресная метка"
       maxOutputDeviceCount="0"
-      shortName="АМ4"
+      shortName="АМ-4"
       deviceCount="4"
       type="fire"
       Icon="Device_Connector"
@@ -1675,56 +1692,56 @@
       <leave event22="$35"/> 
     </deviceState> 
  
-    <deviceState tableType="1024" class="1" name="Авто с БУНС отключено" ID="Pump1024_AutoOff" Bitno="4" type="Auto"> 
+    <deviceState tableType="1024" class="3" name="Авто с БУНС отключено" ID="Pump1024_AutoOff" Bitno="4" type="Auto"> 
       <enter event2="$35"/> 
       <leave event8="$35"/> 
     </deviceState> 
 
-    <deviceState tableType="1036" class="1" name="Авто с БУНС отключено" ID="Pump1036_AutoOff" Bitno="4" type="Auto"> 
+    <deviceState tableType="1036" class="3" name="Авто с БУНС отключено" ID="Pump1036_AutoOff" Bitno="4" type="Auto"> 
       <enter event2="$35"/> 
       <leave event8="$35"/> 
     </deviceState> 
 	
-    <deviceState tableType="1037" class="1" name="Авто с БУНС отключено" ID="Pump1037_AutoOff" Bitno="4" type="Auto"> 
+    <deviceState tableType="1037" class="3" name="Авто с БУНС отключено" ID="Pump1037_AutoOff" Bitno="4" type="Auto"> 
       <enter event2="$35"/> 
       <leave event8="$35"/> 
     </deviceState> 
 	
-    <deviceState tableType="1038" class="1" name="Авто с БУНС отключено" ID="Pump1038_AutoOff" Bitno="4" type="Auto"> 
+    <deviceState tableType="1038" class="3" name="Авто с БУНС отключено" ID="Pump1038_AutoOff" Bitno="4" type="Auto"> 
       <enter event2="$35"/> 
       <leave event8="$35"/> 
     </deviceState> 
 	
-    <deviceState tableType="1039" class="1" name="Авто с БУНС отключено" ID="Pump1039_AutoOff" Bitno="4" type="Auto"> 
+    <deviceState tableType="1039" class="3" name="Авто с БУНС отключено" ID="Pump1039_AutoOff" Bitno="4" type="Auto"> 
       <enter event2="$35"/> 
       <leave event8="$35"/> 
     </deviceState> 
 	
-    <deviceState tableType="1024" class="1" name="Авто с ШУН отключено" ID="Pump1024_ZHUNAutoOff" Bitno="2" type="Auto"> 
+    <deviceState tableType="1024" class="3" name="Авто с ШУН отключено" ID="Pump1024_ZHUNAutoOff" Bitno="2" type="Auto"> 
       <enter event12="$35"/> 
       <enter event14="$35"/> 
       <leave event10="$35"/> 
     </deviceState> 
 	
-    <deviceState tableType="1036" class="1" name="Авто с ШУН отключено" ID="Pump1036_ZHUNAutoOff" Bitno="2" type="Auto"> 
-      <enter event12="$35"/> 
-      <enter event14="$35"/> 
-      <leave event10="$35"/> 
-    </deviceState> 
- 
-    <deviceState tableType="1037" class="1" name="Авто с ШУН отключено" ID="Pump1037_ZHUNAutoOff" Bitno="2" type="Auto"> 
+    <deviceState tableType="1036" class="3" name="Авто с ШУН отключено" ID="Pump1036_ZHUNAutoOff" Bitno="2" type="Auto"> 
       <enter event12="$35"/> 
       <enter event14="$35"/> 
       <leave event10="$35"/> 
     </deviceState> 
  
-    <deviceState tableType="1038" class="1" name="Авто с ШУН отключено" ID="Pump1038_ZHUNAutoOff" Bitno="2" type="Auto"> 
+    <deviceState tableType="1037" class="3" name="Авто с ШУН отключено" ID="Pump1037_ZHUNAutoOff" Bitno="2" type="Auto"> 
       <enter event12="$35"/> 
       <enter event14="$35"/> 
       <leave event10="$35"/> 
     </deviceState> 
  
-    <deviceState tableType="1039" class="1" name="Авто с ШУН отключено" ID="Pump1039_ZHUNAutoOff" Bitno="2" type="Auto"> 
+    <deviceState tableType="1038" class="3" name="Авто с ШУН отключено" ID="Pump1038_ZHUNAutoOff" Bitno="2" type="Auto"> 
+      <enter event12="$35"/> 
+      <enter event14="$35"/> 
+      <leave event10="$35"/> 
+    </deviceState> 
+ 
+    <deviceState tableType="1039" class="3" name="Авто с ШУН отключено" ID="Pump1039_ZHUNAutoOff" Bitno="2" type="Auto"> 
       <enter event12="$35"/> 
       <enter event14="$35"/> 
       <leave event10="$35"/> 
@@ -1816,11 +1833,62 @@
     <devicePropInfo tableType="12" class="1" name="RunWODelay" command1="$0F" shiftInMemory="$80" commandDev="$41" maskCmdDev="$41" caption="Включение без задержки" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="1" off="0" expectedState="MRO_On"/>
     <devicePropInfo tableType="12" class="1" name="Stop" command1="$0F" shiftInMemory="$80" commandDev="$00" maskCmdDev="$41" caption="Выключение" hint="Останов устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="2" off="1" expectedState="MRO_On"/>
 
+  	<!-- МРО-2 исп.2 -->
+    <devicePropInfo tableType="22" class="1" name="Run" command1="$03" shiftInMemory="$80" commandDev="$01" maskCmdDev="$43" caption="Включение" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
+    <devicePropInfo tableType="22" class="1" name="RunWODelay" command1="$03" shiftInMemory="$80" commandDev="$41" maskCmdDev="$43" caption="Включение без задержки" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="1" off="0" expectedState="MRO_On"/>
+    <devicePropInfo tableType="22" class="1" name="Stop" command1="$03" shiftInMemory="$80" commandDev="$00" maskCmdDev="$01" caption="Выключение" hint="Останов устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="2" off="1" expectedState="MRO_On"/>
+
+    <devicePropInfo tableType="22" class="1" name="LineOn" command1="$03" shiftInMemory="$80" commandDev="$43" maskCmdDev="$43" caption="Включить лин. вход" hint="Запуск устройства" hidden="0" blockName="Линейный вход" imageIndex="5" off="0" expectedState="MRO_On"/>
+    <devicePropInfo tableType="22" class="1" name="LineOff" command1="$03" shiftInMemory="$80" commandDev="$00" maskCmdDev="$03" caption="Выключить лин. вход" hint="Останов устройства" hidden="0" blockName="Линейный вход" imageIndex="6" off="1"/>
+
+    <devicePropInfo tableType="22" class="1" name="TestRun" command1="$03" shiftInMemory="$05" commandDev="$04" maskCmdDev="$04" caption="Тест. вкл." hint="Тестовый запуск устройства" hidden="0" blockName="Тест" imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
+    <devicePropInfo tableType="22" class="1" name="TestRunWODelay" command1="$03" shiftInMemory="$05" commandDev="$04" maskCmdDev="$0C" caption="Тест. вкл. без задержки" hint="Тестовый запуск устройства" hidden="0" blockName="Тест" imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
+    <devicePropInfo tableType="22" class="1" name="TestStop" command1="$03" shiftInMemory="$05" commandDev="$00" maskCmdDev="$0C" caption="Тест. выкл." hint="Тестовый останов устройства" hidden="0" blockName="Тест" imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
+
 	<!-- МДУ-1 -->
     <devicePropInfo tableType="18" class="1" name="Run" command1="$03" shiftInMemory="$80" commandDev="$06" maskCmdDev="$06" caption="Включение" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="0" Delay="1" off="0" expectedState="ClapanOn1e"/>
     <devicePropInfo tableType="18" class="1" name="RunWODelay" command1="$03" shiftInMemory="$80" commandDev="$04" maskCmdDev="$06" caption="Включение без задержки" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="1" off="0" expectedState="ClapanOn1e"/>
     <devicePropInfo tableType="18" class="1" name="Stop" command1="$03" shiftInMemory="$80" commandDev="$00" maskCmdDev="$06" caption="Выключение" hint="Останов устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="2" off="1" expectedState="ClapanOn1e"/>
 
+	<!-- Конфиг устройств -->
+	
+	<!-- ИП 212-64 дымовой -->
+    <devicePropInfo tableType="2" class="2" name="SmokeLimit" default="0.19" type="Double" editType="pkText" Min="0" Max="255" shiftInMemory="$84" rawType="word" multiplier="100" caption="Порог дыма" hint="Порог срабатывания по дыму, дБ/м"/>
+    <devicePropInfo tableType="2" class="2" name="FireTwoOn" default="1" type="Int" editType="pkText" Min="0" Max="255" shiftInMemory="$9A" rawType="word" multiplier="20" caption="Задержка Пожар-2" hint="Время до формирования сигнала 'Пожар-2', м"/>
+	
+    <!-- ИП 29 тепловой -->
+    <devicePropInfo tableType="3" class="2" name="TempLimit" default="65" type="Int" editType="pkText" Min="0" Max="85" shiftInMemory="$8B" rawType="word" multiplier="1" caption="Порог температуры" hint="Порог срабатывания по температуре, C"/>
+    <devicePropInfo tableType="3" class="2" name="FireTwoOn" default="1" type="Int" editType="pkText" Min="0" Max="255" shiftInMemory="$9A" rawType="word" multiplier="20" caption="Задержка Пожар-2" hint="Время до формирования сигнала 'Пожар-2', м"/>
+	
+    <!-- ИП 64 комбо -->
+    <devicePropInfo tableType="4" class="2" name="SmokeLimit" default="0.19" type="Double" editType="pkText" Min="0" Max="255" shiftInMemory="$84" rawType="word" multiplier="100" caption="Порог дыма" hint="Порог срабатывания по дыму, дБ/м"/>
+    <devicePropInfo tableType="4" class="2" name="TempLimit" default="65" type="Int" editType="pkText" Min="0" Max="85" shiftInMemory="$8B" rawType="word" multiplier="1" caption="Порог температуры" hint="Порог срабатывания по температуре, C"/>
+    <devicePropInfo tableType="4" class="2" name="FireTwoOn" default="1" type="Int" editType="pkText" Min="0" Max="255" shiftInMemory="$9A" rawType="word" multiplier="20" caption="Задержка Пожар-2" hint="Время до формирования сигнала 'Пожар-2', м"/>
+
+    <!-- АМ-1 -->
+    <devicePropInfo tableType="5" class="2" name="Config" default="1" type="Int" editType="pkDropDownList" Min="0" Max="6" shiftInMemory="$81" rawType="lo_byte" multiplier="1" caption="Конфигурация" hint="Конфигурация устройства">
+		<param type="Byte" value="0" name="0 - один контакт норм. замкн."/>
+		<param type="Byte" value="1" name="1 - один контакт норм. разомкн."/>
+		<param type="Byte" value="2" name="2 - два контакта норм. замкн."/>
+		<param type="Byte" value="3" name="3 - два контакта норм. разомкн."/>
+		<param type="Byte" value="4" name="4 - Тех. шлейф, 1 контакт норм. разомкн."/>
+		<param type="Byte" value="5" name="5 - Тех. шлейф, 1 контакт норм. разомкн."/>
+		<param type="Byte" value="6" name="6 - Охранный шлейф"/>
+	</devicePropInfo>
+	
+	<!-- РМ-1 -->
+    <devicePropInfo tableType="0" class="2" name="Config" default="1" type="Int" editType="pkDropDownList" Min="1" Max="6" shiftInMemory="$82" rawType="word" multiplier="1" caption="Конфигурация" hint="Конфигурация устройства">
+		<param type="Byte" value="1" name="1 - выкл. - разомкн. контакты, вкл. - замкн. контакны"/>
+		<param type="Byte" value="2" name="2 - выкл. - разомкн. контакты, вкл. - 'Мерцание'"/>
+		<param type="Byte" value="3" name="3 - выкл. - замкн. контакты, вкл. - разомкн. контакны"/>
+		<param type="Byte" value="4" name="4 - выкл. - замкн. контакты, вкл. - 'Мерцание'"/>
+		<param type="Byte" value="5" name="5 - выкл. - 'Мерцание', вкл. - разомкн. контакты"/>
+		<param type="Byte" value="6" name="6 - выкл. - 'Мерцание', вкл. - замкн. контакты"/>
+	</devicePropInfo>
+    <devicePropInfo tableType="0" class="2" name="TimeOut" default="0" type="Int" editType="pkText" Min="0" Max="255" shiftInMemory="$83" rawType="lo_byte" multiplier="1" caption="Задержка вкл." hint="Задержка включения, сек."/>
+    <devicePropInfo tableType="0" class="2" name="Delay" default="0" type="Int" editType="pkText" Min="0" Max="255" shiftInMemory="$83" rawType="hi_byte" multiplier="1" caption="Удержание" hint="Время удержания, сек."/>
+
+	
   </devicePropInfos>
     
 </driverConfig>

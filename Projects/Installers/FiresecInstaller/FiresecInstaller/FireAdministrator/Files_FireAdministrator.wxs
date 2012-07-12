@@ -8,120 +8,120 @@
     <util:CloseApplication Id="FACloseAction" CloseMessage="no" Target="$(var.FireAdministrator.TargetFileName)" RebootPrompt="no" />
     
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">
-      <Component Id="FAExeComponent" Guid="1225CC6B-DCB0-4AEE-B6DB-A67FAEADDF15">
+      <Component Id="FAExeComponent" Guid="*">
         <File Id="FAExe" Name="$(var.FireAdministrator.TargetFileName)"
               Source="$(var.FireAdministrator.TargetPath)" DiskId="1" KeyPath="yes">
         </File>
       </Component>
-      <Component Id="FAConfigComponent" Guid="9D204DAF-3C42-4D69-98E6-D190E29C9E7A">
+      <Component Id="FAConfigComponent" Guid="*">
         <File Id="FAConfig" Name="FireAdministrator.exe.config" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAPrismDllComponent" Guid="52F0C30C-9BB4-4013-A2B9-2835F2706B3E">
+      <Component Id="FAPrismDllComponent" Guid="*">
         <File Id="FAPrismDll" Name="Microsoft.Practices.Prism.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAPrismUnityExtensionsComponent" Guid="29CF2942-A8E0-47B0-B10E-6B4E47B0F668">
+      <Component Id="FAPrismUnityExtensionsComponent" Guid="*">
         <File Id="FAPrismUnityExtensionsDll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAUnityComponent" Guid="C97976F8-57B4-46CA-91D4-F02C74F980B3">
+      <Component Id="FAUnityComponent" Guid="*">
         <File Id="FAUnityDll" Name="Microsoft.Practices.Unity.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAServiceLocationComponent" Guid="EEDAF197-C871-4392-9F3F-93F3063404A4">
+      <Component Id="FAServiceLocationComponent" Guid="*">
         <File Id="FAServiceLocationDll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAWPFToolkitExtendedComponent" Guid="449EFC14-1C9F-417C-A2F1-421D461A88B4">
+      <Component Id="FAWPFToolkitExtendedComponent" Guid="*">
         <File Id="FAWPFToolkitExtendedDll" Name="WPFToolkit.Extended.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component> 
-      <Component Id="FAU2UConsult" Guid="BC091003-4331-4041-B511-06F704563D5B">
+      <Component Id="FAU2UConsult" Guid="*">
         <File Id="U2UConsult_RichHtmlTextBlock" Name="U2UConsult.RichHtmlTextBlock.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FACommonComponent" Guid="AFF7178D-58C7-46A3-A17F-32109A43C8A6">
+      <Component Id="FACommonComponent" Guid="*">
         <File Id="FACommonDll" Name="Common.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAControlsComponent" Guid="97FE1DD5-5E42-4747-9E3C-1D0953FAA269">
+      <Component Id="FAControlsComponent" Guid="*">
         <File Id="FAControlsDll" Name="Controls.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FADeviceControlsComponent" Guid="0B461D22-CE8D-4193-9D46-ADFD87316CB7">
+      <Component Id="FADeviceControlsComponent" Guid="*">
         <File Id="FADeviceControlsDll" Name="DeviceControls.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAFiresecAPIComponent" Guid="E752E9C7-BED1-4C5E-9A31-2CF3F8920C1A">
+      <Component Id="FAFiresecAPIComponent" Guid="*">
         <File Id="FAFiresecAPIDll" Name="FiresecAPI.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAFiresecClientComponent" Guid="9B747F2E-3F70-4D63-9F36-FEF9048C1F0E">
+      <Component Id="FAFiresecClientComponent" Guid="*">
         <File Id="FAFiresecClientDll" Name="FiresecClient.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FADevicesModuleComponent" Guid="DF052C6C-199B-4F6E-A797-717476572B64">
+      <Component Id="FADevicesModuleComponent" Guid="*">
         <File Id="FADevicesModuleDll" Name="DevicesModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAInfrastructure.CommonComponent" Guid="CA2962A5-1C84-45BC-A55A-2133F9B27B97">
+      <Component Id="FAInfrastructure.CommonComponent" Guid="*">
         <File Id="FAInfrastructure.CommonDll" Name="Infrastructure.Common.dll"
               Source="$(var.FireAdministrator.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAInfrastructure.ClientComponent" Guid="2CBDB573-560C-4A23-A1F1-3E23362308C9">
+      <Component Id="FAInfrastructure.ClientComponent" Guid="*">
         <File Id="FAInfrastructure.ClientDll" Name="Infrastructure.Client.dll"
               Source="$(var.FireAdministrator.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAInfrastructure.PlansComponent" Guid="4A067612-4564-4F22-8541-AE616891C5B6">
+      <Component Id="FAInfrastructure.PlansComponent" Guid="*">
         <File Id="FAInfrustructure.PlansDll" Name="Infrustructure.Plans.dll"
               Source="$(var.FireAdministrator.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAInfrastructureComponent" Guid="23E7ED53-249B-4FDA-B721-5AA4C81B6DAA">
+      <Component Id="FAInfrastructureComponent" Guid="*">
         <File Id="FAInfrastructureDll" Name="Infrastructure.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAInstructionsModuleComponent" Guid="B81E1C15-AD4A-4EC0-B6B5-EC6742851429">
+      <Component Id="FAInstructionsModuleComponent" Guid="*">
         <File Id="FAInstructionsModuleDll" Name="InstructionsModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FALibraryModuleComponent" Guid="8A74CAEF-54B5-4FB8-8D0E-89C1253F3AC4">
+      <Component Id="FALibraryModuleComponent" Guid="*">
         <File Id="FALibraryModuleDll" Name="LibraryModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAPlansModuleComponent" Guid="A124BA7E-3A23-4F2D-9765-738E1C7FEFAC">
+      <Component Id="FAPlansModuleComponent" Guid="*">
         <File Id="FAPlansModuleDll" Name="PlansModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FASecurityModuleComponent" Guid="AD1E339D-02F6-4363-B89A-67F63A937F43">
+      <Component Id="FASecurityModuleComponent" Guid="*">
         <File Id="FASecurityModuleDll" Name="SecurityModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FASettingsModuleComponent" Guid="AB58F1E0-2971-45E8-9BC5-E02E492B1C57">
+      <Component Id="FASettingsModuleComponent" Guid="*">
         <File Id="FASettingsModuleDll" Name="SettingsModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FASoundsModuleComponent" Guid="2AE3EE35-C1D3-458C-A15B-022B9522B1EB">
+      <Component Id="FASoundsModuleComponent" Guid="*">
         <File Id="FASoundsModuleDll" Name="SoundsModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAFiltersModuleComponent" Guid="5A1BD411-5548-4C3F-99C7-EC3A785CBFC0">
+      <Component Id="FAFiltersModuleComponent" Guid="*">
         <File Id="FAFiltersModuleDll" Name="FiltersModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
       
-      <Component Id="FANLogComponent" Guid="77C3A59F-464F-4052-9A62-7DDB917DBDD6">
+      <Component Id="FANLogComponent" Guid="*">
         <File Id="FANLogDll" Name="NLog.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAManualComponent" Guid="4A21BBFD-9D0D-4AC7-A89F-80759B5FFFC5">
+      <Component Id="FAManualComponent" Guid="*">
         <File Id="FAManualPDF" Name="Manual.pdf" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">
-      <Component Id="FAGKModuleComponent" Guid="68DE1B95-D3B3-47AD-855B-E11A2BB1D349">
+      <Component Id="FAGKModuleComponent" Guid="*">
         <File Id="FAGroupControllerModuleDll" Name="GKModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
         <Condition>GK_MODULE</Condition>
@@ -129,7 +129,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">
-      <Component Id="OPCModuleComponent" Guid="3ECB565D-802D-4A37-83B2-C05AE8774677">
+      <Component Id="OPCModuleComponent" Guid="*">
         <File Id="OPCModuleDll" Name="OPCModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
         <Condition>OPC_MODULE</Condition>
@@ -137,7 +137,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">
-      <Component Id="FASkudModuleComponent" Guid="05A9A5F1-AB12-4685-A070-F165F1F0B82A">
+      <Component Id="FASkudModuleComponent" Guid="*">
         <File Id="FASkudModuleDll" Name="SkudModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
         <Condition>SKUD_MODULE</Condition>
@@ -145,7 +145,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">
-      <Component Id="FAVideoModuleComponent" Guid="FBA8AC05-19F8-4FD6-826E-AD656C84B801">
+      <Component Id="FAVideoModuleComponent" Guid="67F722A1-31D4-4249-B037-64647FD5CC70">
         <File Id="FAVideoModuleDll" Name="VideoModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
         <File Id="FAVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FireAdministrator.TargetDir)"
@@ -159,37 +159,37 @@
     </DirectoryRef>
 
     <DirectoryRef Id="FireAdmXslFilesFolder">
-      <Component Id="XslFiles1" Guid="7D3DEE7F-2E4B-4C4E-8B31-952A85D54538">
+      <Component Id="XslFiles1" Guid="*">
         <File Id="svg2xaml.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\svg2xaml.xsl" />
       </Component>
-      <Component Id="XslFiles2" Guid="BEDAE21B-CAB3-4CA3-AA3A-2AC39A1ACB0F">
+      <Component Id="XslFiles2" Guid="*">
         <File Id="xaml2svg.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg.xsl" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="FireAdmXaml2svgFolder">
-      <Component Id="XslFiles3" Guid="68C0D8EB-DF2E-4753-BAAF-D1446900FBA6">
+      <Component Id="XslFiles3" Guid="*">
         <File Id="animation.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\animation.xsl" />
       </Component>
-      <Component Id="XslFiles4" Guid="2BAAB522-3881-4178-94C0-906EBECA9590">
+      <Component Id="XslFiles4" Guid="*">
         <File Id="brushes.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\brushes.xsl" />
       </Component>
-      <Component Id="XslFiles5" Guid="56732E4B-F6CF-42ED-8F4C-6185B45C5D4E">
+      <Component Id="XslFiles5" Guid="*">
         <File Id="canvas.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\canvas.xsl" />
       </Component>
-      <Component Id="XslFiles6" Guid="7DAEA7C2-647E-4465-B336-073309C4E37C">
+      <Component Id="XslFiles6" Guid="*">
         <File Id="geometry.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\geometry.xsl" />
       </Component>
-      <Component Id="XslFiles7" Guid="57C953B7-B2AC-435B-957C-19806DE0503F">
+      <Component Id="XslFiles7" Guid="*">
         <File Id="properties.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\properties.xsl" />
       </Component>
-      <Component Id="XslFiles8" Guid="1F2E3591-3EBF-44FF-AFED-284880027925">
+      <Component Id="XslFiles8" Guid="*">
         <File Id="propertiesMODIF.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\properties-MODIF.xsl" />
       </Component>
-      <Component Id="XslFiles9" Guid="C78D8FCA-D78D-4D70-A53E-5DE806A44642">
+      <Component Id="XslFiles9" Guid="*">
         <File Id="shapes.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\shapes.xsl" />
       </Component>
-      <Component Id="XslFiles10" Guid="33D5811A-AEE1-4FA2-AF4C-87E9FCF50E0E">
+      <Component Id="XslFiles10" Guid="*">
         <File Id="transform.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\transform.xsl" />
       </Component>
     </DirectoryRef>

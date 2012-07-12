@@ -2,21 +2,21 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
 		<DirectoryRef Id="DesktopFolder">
-			<Component Id="DesktopFolder" Guid="5E21B113-87C1-46E2-8683-41385FF84194">
+			<Component Id="DesktopFolder" Guid="*">
 				<RemoveFolder Id="DesktopFolder" On="uninstall" />
 				<RegistryValue Root="HKCU" Key="Sofware\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 		
 		<DirectoryRef Id="ProgramMenuDir">
-			<Component Id="ProgramMenuDir" Guid="451D5694-84E8-468F-B26C-C49744FBC136">
+			<Component Id="ProgramMenuDir" Guid="3E70B244-6A2B-405C-8C15-59AED0F58DB3">
 				<RemoveFolder Id="ProgramMenuDir" On="uninstall" />
 				<RegistryValue Root="HKCU" Key="Sofware\[Manufacturer]\[ProductName]" Type="string" Value="" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 
 		<DirectoryRef Id="INSTALLLOCATION">
-			<Component Id="ClearOnUninstallFireMonitor" Guid="E430EF93-8DD6-4602-B2B6-27A81142AD81">
+			<Component Id="ClearOnUninstallFireMonitor" Guid="56ECF00B-C73E-4E93-BF09-CF295D691DCE">
 				<CreateFolder Directory="INSTALLLOCATION" />
 				<RemoveFile Id="RemoveMonitorIcons" On="uninstall" Name="*.*" Directory="FireMonIconsFolder" />
 				<RemoveFolder Id="RemoveMonitorIconsLocation" On="uninstall" Directory="FireMonIconsFolder"/>
@@ -35,7 +35,7 @@
 				<RemoveFolder Id="RemoveFireMonitorLocation" On="uninstall" Directory="FIREMONITORLOCATION"/>
 			</Component>
 
-			<Component Id="ClearOnUninstallFireAdministrator" Guid="05F988F3-055D-4C20-92A5-DBB3C5983C89">
+			<Component Id="ClearOnUninstallFireAdministrator" Guid="4B74C764-092A-4BD3-A51F-15FC8471EE63">
 				<CreateFolder Directory="INSTALLLOCATION" />
 				<RemoveFile Id="RemoveAdmIcons" On="uninstall" Name="*.*" Directory="FireAdmIconsFolder" />
 				<RemoveFolder Id="RemoveAdmIconsLocation" On="uninstall" Directory="FireAdmIconsFolder" />
@@ -52,7 +52,7 @@
 				<RemoveFolder Id="RemoveFireAdmLocation" On="uninstall" Directory="FIREADMINISTRATORLOCATION" />
 			</Component>
 
-			<Component Id="ClearOnUninstallFiresecService" Guid="491AB89B-FE4A-4E99-A8D4-C486E13F2663">
+			<Component Id="ClearOnUninstallFiresecService" Guid="EE4A45FE-3EA9-4A33-B259-8B9E6741B859">
 				<CreateFolder Directory="INSTALLLOCATION" />
 				<RemoveFile Id="RemoveFSIcons" On="uninstall" Name="*.*" Directory="FiresecServiceIconsFolder" />
 				<RemoveFolder Id="RemoveFSIconsLocation" On="uninstall" Directory="FiresecServiceIconsFolder"/>
@@ -66,7 +66,7 @@
 				<RemoveFolder Id="FiresecServiceRemove" On="uninstall" Directory="FIRESECSERVICELOCATION"/>
 			</Component>
 
-      <Component Id="ClearOnUninstallLogs" Guid="F38130A4-4C61-44EF-B02D-DEE89E42E5AA">
+      <Component Id="ClearOnUninstallLogs" Guid="FBCDB3DF-5B6D-4236-A11D-76518EE75109">
         <CreateFolder Directory="INSTALLLOCATION" />
         <RemoveFile Id="RemoveLogs" On="uninstall" Name="*.*" Directory="LOGS" />
         <RemoveFolder Id="RemoveLogsFolder" On="uninstall" Directory="LOGS"/>

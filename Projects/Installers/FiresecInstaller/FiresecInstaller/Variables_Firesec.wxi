@@ -2,8 +2,8 @@
 <Include>
   <?define ProductName="Firesec-2" ?>
   <?define ProductVersion="0.0.0.0" ?>
-  <?define ProductCode="D68DA535-FF19-4003-AD31-EB3389BC6942" ?>
-  <?define UpgradeCode="E0FEB494-D0FB-4F3F-8D98-5107DF4C0DFD" ?>
+  <?define ProductCode="93FFAF0E-DE92-4F0C-B9B0-A42AB67D75F4" ?>
+  <?define UpgradeCode="4EC7EDC0-351F-42A3-BB9A-5DD8D5131CFD" ?>
   <?define Manufacturer='Группа компаний "Рубеж"' ?>
   <?define FiresecServiceName="FiresecService"?>
   <?define FireMonitorName="FireMonitor"?>

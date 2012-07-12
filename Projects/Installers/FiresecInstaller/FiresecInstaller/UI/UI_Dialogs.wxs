@@ -23,26 +23,30 @@
 								 Text="{&amp;MSSansBold12}Вас приветствует мастер установки $(var.ProductName)" />
 				<Control Id="Description1" Type="Text" X="135" Y="50" Width="220" Height="60" Transparent="yes" NoPrefix="yes" 
 								 Text="{&amp;NormalText}Программа установит $(var.ProductName) на ваш компьютер." >
-					<Condition Action="show">NOT Installed OR NOT PATCH</Condition>
-					<Condition Action="hide">Installed AND PATCH</Condition>
+          <Condition Action="show">1</Condition>
+					<!--<Condition Action="show">NOT Installed OR NOT PATCH</Condition>-->
+					<!--<Condition Action="hide">Installed AND PATCH</Condition>-->
 				</Control>
 				<Control Id="Description2" Type="Text" X="135" Y="70" Width="220" Height="60" Transparent="yes" NoPrefix="yes" 
 								 Text="{&amp;NormalText}Рекомендуется закрыть все прочие приложения перед тем, как продолжить." >
-					<Condition Action="show">NOT Installed OR NOT PATCH</Condition>
-					<Condition Action="hide">Installed AND PATCH</Condition>
+          <Condition Action="show">1</Condition>
+					<!--<Condition Action="show">NOT Installed OR NOT PATCH</Condition>-->
+					<!--<Condition Action="hide">Installed AND PATCH</Condition>-->
 				</Control>
 				<Control Id="Description3" Type="Text" X="135" Y="95" Width="220" Height="60" Transparent="yes" NoPrefix="yes"
 								 Text="{&amp;NormalText}Нажмите &quot;Далее&quot;, чтобы продолжить, или &quot;Отмена&quot;, чтобы выйти из программы установки." >
-					<Condition Action="show">NOT Installed OR NOT PATCH</Condition>
-					<Condition Action="hide">Installed AND PATCH</Condition>
+          <Condition Action="show">1</Condition>
+					<!--<Condition Action="show">NOT Installed OR NOT PATCH</Condition>-->
+					<!--<Condition Action="hide">Installed AND PATCH</Condition>-->
 				</Control>
-				<Control Id="PatchDescription" Type="Text" X="135" Y="50" Width="220" Height="60" Transparent="yes" NoPrefix="yes" Text="!(loc.WelcomeUpdateDlgDescriptionUpdate)" >
+        
+				<!--<Control Id="PatchDescription" Type="Text" X="135" Y="50" Width="220" Height="60" Transparent="yes" NoPrefix="yes" Text="!(loc.WelcomeUpdateDlgDescriptionUpdate)" >
 					<Condition Action="show">Installed AND PATCH</Condition>
 					<Condition Action="hide">NOT Installed OR NOT PATCH</Condition>
-				</Control>
+				</Control>-->
 
 				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="$(var.btnNext)" >
-					<Publish Property="WixUI_InstallMode" Value="Update">Installed AND PATCH</Publish>
+					<!--<Publish Property="WixUI_InstallMode" Value="NOT Installed">1</Publish>-->
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="$(var.btnCancel)">
 					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
@@ -132,10 +136,10 @@
       <Dialog Id="ModulesDlg" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
         <Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор дополнительных модулей" TabSkip="yes" Transparent="yes" />
         <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие дополнительные модули должны быть установлены?" TabSkip="yes" Transparent="yes" />
-        <Control Id="GKModule" Type="CheckBox" Height="18" Width="295" X="26" Y="58" Text="Групповой контроллер" Property="GK_MODULE" CheckBoxValue="0" />
-        <Control Id="OPCModule" Type="CheckBox" Height="18" Width="295" X="26" Y="78" Text="Модуль OPC" Property="OPC_MODULE" CheckBoxValue="0" />
-        <Control Id="SkudModule" Type="CheckBox" Height="18" Width="295" X="26" Y="98" Text="Модуль СКУД" Property="SKUD_MODULE" CheckBoxValue="0" />
-        <Control Id="VideoModule" Type="CheckBox" Height="18" Width="295" X="26" Y="118" Text="Видео-модуль" Property="VIDEO_MODULE" CheckBoxValue="0" />
+        <Control Id="GKModule" Type="CheckBox" Height="18" Width="295" X="26" Y="58" Text="Групповой контроллер" Property="GK_MODULE" CheckBoxValue="1" />
+        <Control Id="OPCModule" Type="CheckBox" Height="18" Width="295" X="26" Y="78" Text="Модуль OPC" Property="OPC_MODULE" CheckBoxValue="1" />
+        <Control Id="SkudModule" Type="CheckBox" Height="18" Width="295" X="26" Y="98" Text="Модуль СКУД" Property="SKUD_MODULE" CheckBoxValue="1" />
+        <Control Id="VideoModule" Type="CheckBox" Height="18" Width="295" X="26" Y="118" Text="Видео-модуль" Property="VIDEO_MODULE" CheckBoxValue="1" />
         <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
         <Control Id="Branding1" Type="Text" X="21" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
         <Control Id="Branding2" Type="Text" X="20" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
@@ -308,16 +312,17 @@
 			<Dialog Id="VerifyReadyDialog" X="10" Y="0" Width="374" Height="266" Title="!(loc.VerifyReadyDlg_Title)" TrackDiskSpace="yes">
 
 				<Control Id="InstallNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
-					<Condition Action="show">NOT Installed AND NOT ALLUSERS</Condition>
+          <Condition Action="show">1</Condition>
+					<!--<Condition Action="show">NOT Installed AND NOT ALLUSERS</Condition>
 					<Condition Action="enable">NOT Installed</Condition>
-					<Condition Action="default">NOT Installed</Condition>
+					<Condition Action="default">NOT Installed</Condition>-->
 					<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
 					<Publish Event="SpawnDialog" Value="OutOfRbDiskDlg">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST="P" OR NOT PROMPTROLLBACKCOST)</Publish>
 					<Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
 				</Control>
-				<Control Id="Change" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgChange)">
+				<!--<Control Id="Change" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgChange)">
 					<Condition Action="show">WixUI_InstallMode = "Change" AND ALLUSERS AND (ADDLOCAL OR REMOVE)</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Change"</Condition>
 					<Condition Action="default">WixUI_InstallMode = "Change"</Condition>
@@ -326,8 +331,8 @@
 					<Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
-				</Control>
-				<Control Id="ChangeNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgChange)">
+				</Control>-->
+				<!--<Control Id="ChangeNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgChange)">
 					<Condition Action="show">WixUI_InstallMode = "Change" AND (NOT ALLUSERS OR (NOT ADDLOCAL AND NOT REMOVE))</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Change"</Condition>
 					<Condition Action="default">WixUI_InstallMode = "Change"</Condition>
@@ -336,8 +341,8 @@
 					<Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
-				</Control>
-				<Control Id="Repair" Type="PushButton" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRepair)">
+				</Control>-->
+				<!--<Control Id="Repair" Type="PushButton" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRepair)">
 					<Condition Action="show">WixUI_InstallMode = "Repair"</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Repair"</Condition>
 					<Condition Action="default">WixUI_InstallMode = "Repair"</Condition>
@@ -348,8 +353,8 @@
 					<Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
-				</Control>
-				<Control Id="Remove" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRemove)">
+				</Control>-->
+				<!--<Control Id="Remove" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRemove)">
 					<Condition Action="show">WixUI_InstallMode = "Remove" AND ALLUSERS</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Remove"</Condition>
 					<Publish Event="Remove" Value="All"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
@@ -358,8 +363,8 @@
 					<Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
-				</Control>
-				<Control Id="RemoveNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRemove)">
+				</Control>-->
+				<!--<Control Id="RemoveNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgRemove)">
 					<Condition Action="show">WixUI_InstallMode = "Remove" AND NOT ALLUSERS</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Remove"</Condition>
 					<Publish Event="Remove" Value="All"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
@@ -368,8 +373,8 @@
 					<Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
-				</Control>
-				<Control Id="Update" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgUpdate)">
+				</Control>-->
+				<!--<Control Id="Update" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgUpdate)">
 					<Condition Action="show">WixUI_InstallMode = "Update" AND ALLUSERS</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Update"</Condition>
 					<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
@@ -377,8 +382,8 @@
 					<Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
-				</Control>
-				<Control Id="UpdateNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgUpdate)">
+				</Control>-->
+				<!--<Control Id="UpdateNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgUpdate)">
 					<Condition Action="show">WixUI_InstallMode = "Update" AND NOT ALLUSERS</Condition>
 					<Condition Action="enable">WixUI_InstallMode = "Update"</Condition>
 					<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
@@ -386,20 +391,23 @@
 					<Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="EnableRollback" Value="False">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
 					<Publish Event="SpawnDialog" Value="OutOfDiskDlg">(OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 1) OR (OutOfDiskSpace = 1 AND PROMPTROLLBACKCOST="F")</Publish>
-				</Control>
+				</Control>-->
 
 				<Control Id="InstallTitle" Type="Text" X="18" Y="10" Width="244" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes" Text="{&amp;MSSansBold8}Всё готово к установке">
-					<Condition Action="show">NOT Installed</Condition>
+          <Condition Action="show">1</Condition>
+					<!--<Condition Action="show">NOT Installed</Condition>-->
 				</Control>
 				<Control Id="InstallTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes"
 								 Text="Программа установки готова начать установку $(var.ProductName) на ваш компьютер.">
-					<Condition Action="show">NOT Installed</Condition>
+          <Condition Action="show">1</Condition>
+					<!--<Condition Action="show">NOT Installed</Condition>-->
 				</Control>
 				<Control Id="InstallText" Type="Text" X="30" Y="54" Width="340" Height="80" Hidden="yes" Text="!(loc.VerifyReadyDlgInstallText)">
-					<Condition Action="show">NOT Installed</Condition>
+          <Condition Action="show">1</Condition>
+					<!--<Condition Action="show">NOT Installed</Condition>-->
 				</Control>
 				
-				<Control Id="ChangeTitle" Type="Text" X="18" Y="10" Width="300" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes" Text="{&amp;MSSansBold8}Всё готово к изменению">
+				<!--<Control Id="ChangeTitle" Type="Text" X="18" Y="10" Width="300" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes" Text="{&amp;MSSansBold8}Всё готово к изменению">
 					<Condition Action="show">WixUI_InstallMode = "Change"</Condition>
 				</Control>
 				<Control Id="ChangeTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Transparent="yes" NoPrefix="yes" Hidden="yes" 
@@ -441,7 +449,7 @@
 				</Control>
 				<Control Id="UpdateText" Type="Text" X="30" Y="54" Width="340" Height="80" Hidden="yes" NoPrefix="yes" Text="!(loc.VerifyReadyDlgUpdateText)">
 					<Condition Action="show">WixUI_InstallMode = "Update"</Condition>
-				</Control>
+				</Control>-->
 
         <Control Id="AttentionText" Type="Text" X="30" Y="100" Width="340" Height="80" Hidden="yes" NoPrefix="yes" 
                  Text="Внимание!!! Необходимо завершить все работающие приложения Оперативной задачи, Администратора и сервера, в противном случае они будут завршены автоматически.">
@@ -453,12 +461,15 @@
 				<Control Id="Branding2" Type="Text" X="20" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="$(var.btnBack)">
-					<Condition Action="default">WixUI_InstallMode = "Remove"</Condition>
+					<!--<Condition Action="default">WixUI_InstallMode = "Remove"</Condition>-->
 				</Control>
 				<Control Id="Install" Type="PushButton" ElevationShield="yes" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
-					<Condition Action="show">NOT Installed AND ALLUSERS</Condition>
-					<Condition Action="enable">NOT Installed</Condition>
-					<Condition Action="default">NOT Installed</Condition>
+          <Condition Action="show">1</Condition>
+          <Condition Action="enable">1</Condition>
+          <Condition Action="default">1</Condition>
+					<!--<Condition Action="show">NOT Installed AND ALLUSERS</Condition>-->
+					<!--<Condition Action="enable">NOT Installed</Condition>-->
+					<!--<Condition Action="default">NOT Installed</Condition>-->
 					<Publish Event="EndDialog" Value="Return"><![CDATA[OutOfDiskSpace <> 1]]></Publish>
 					<Publish Event="SpawnDialog" Value="OutOfRbDiskDlg">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND (PROMPTROLLBACKCOST="P" OR NOT PROMPTROLLBACKCOST)</Publish>
 					<Publish Event="EndDialog" Value="Return">OutOfDiskSpace = 1 AND OutOfNoRbDiskSpace = 0 AND PROMPTROLLBACKCOST="D"</Publish>
@@ -473,16 +484,19 @@
 			<Dialog Id="SetupProgress" X="50" Y="0" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" Modeless="yes">
 				
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Установка  $(var.ProductName)" TabSkip="yes" Hidden="yes" Transparent="yes">
-					<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>
+          <Condition Action="show">1</Condition>
+					<!--<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>-->
 				</Control>
 				<Control Id="DlgDesc" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Устанавливаются выбранные компоненты программы." TabSkip="yes" Hidden="yes" Transparent="yes">
-					<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>
+          <Condition Action="show">1</Condition>
+					<!--<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>-->
 				</Control>
 				<Control Id="DlgText" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа устанавливает $(var.ProductName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
-					<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>
+          <Condition Action="show">1</Condition>
+					<!--<Condition Action="show">NOT Installed OR (Installed AND (RESUME OR Preselected) AND NOT PATCH)</Condition>-->
 				</Control>
 				
-				<Control Id="DlgTitle2" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Удаление программы $(var.ProductName)" TabSkip="yes" Hidden="yes" Transparent="yes">
+				<!--<Control Id="DlgTitle2" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Удаление программы $(var.ProductName)" TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Remove"</Condition>
 				</Control>
 				<Control Id="DlgDesc2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Удаление выбранных компонентов программы. " TabSkip="yes" Hidden="yes" Transparent="yes">
@@ -514,7 +528,7 @@
 				</Control>
 				<Control Id="DlgText5" Type="Text" X="65" Y="60" Width="327" Height="20" Text="Программа установки обновляет $(var.ProductName). Это может занять несколько минут." TabSkip="yes" Hidden="yes" Transparent="yes">
 					<Condition Action="show">WixUI_InstallMode = "Update"</Condition>
-				</Control>
+				</Control>-->
 				
 				<Control Id="SetupIcon" Type="Icon" X="30" Y="57" Width="25" Height="24" Text="SetupProgress.ico" TabSkip="yes" Disabled="yes" IconSize="32" />
 				

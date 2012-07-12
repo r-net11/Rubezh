@@ -8,135 +8,135 @@
 
 		<DirectoryRef Id="FIREMONITORLOCATION">
 
-			<Component Id="FireMonitorExe" Guid="9F7A8A3F-CAEB-4C63-AEC1-B51B4A8544F2">
+			<Component Id="FireMonitorExe" Guid="*">
 				<File Id="FireMonitorExe" Name="$(var.FireMonitor.TargetFileName)"
 							Source="$(var.FireMonitor.TargetPath)" DiskId="1" KeyPath="yes">
 				</File>
 			</Component>
 
-			<Component Id="FireMonitorConfig" Guid="87DE3A14-3B9B-4B3A-A7D6-7F3FAB5394F6">
+			<Component Id="FireMonitorConfig" Guid="*">
 				<File Id="FireMonitorConfig" Name="FireMonitor.exe.config" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
-			<Component Id="FMPrismComponent" Guid="96941CB8-29AD-48EB-84C7-91961BD8A0DE">
+			<Component Id="FMPrismComponent" Guid="*">
 				<File Id="FMPrismDll" Name="Microsoft.Practices.Prism.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
-			<Component Id="FMPrismUnityExtensionsComponent" Guid="4F741C40-A087-4D15-8A08-2A6053FF3ADE">
+			<Component Id="FMPrismUnityExtensionsComponent" Guid="*">
 				<File Id="FMPrismUnityExtensionsDll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
-			<Component Id="FMUnityComponent" Guid="896A388E-834C-4210-BBD2-AE93CFC65A22">
+			<Component Id="FMUnityComponent" Guid="*">
 				<File Id="FMUnityDll" Name="Microsoft.Practices.Unity.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
-			<Component Id="FMServiceLocationComponent" Guid="05BC10F0-F448-4DF9-9E17-74167F9B6602">
+			<Component Id="FMServiceLocationComponent" Guid="*">
 				<File Id="FMServiceLocationDll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 			
-			<Component Id="FMWPFToolkitExtendedComponent" Guid="C6CABA51-6169-46BD-93A9-7905325C328E">
+			<Component Id="FMWPFToolkitExtendedComponent" Guid="*">
 				<File Id="FMWPFToolkitExtendedDll" Name="WPFToolkit.Extended.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 			
-			<Component Id="FMCommonComponent" Guid="1898D56A-2113-4A02-9469-3BE83C3A147F">
+			<Component Id="FMCommonComponent" Guid="*">
 				<File Id="FMCommonDll" Name="Common.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 		
-      <Component Id="FMControlsComponent" Guid="108CA6EF-0489-4DA9-A700-4DD2BDF59FA9">
+      <Component Id="FMControlsComponent" Guid="*">
 				<File Id="FMControlsDll" Name="Controls.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 			
-      <Component Id="FMDeviceControlsComponent" Guid="45A92F15-F5B3-48F9-91D1-180FDB3493F6">
+      <Component Id="FMDeviceControlsComponent" Guid="*">
 				<File Id="FMDeviceControlsDll" Name="DeviceControls.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 			
-      <Component Id="FMFiresecAPIComponent" Guid="DF810502-686B-4BCF-9A54-61BCA7E502B6">
+      <Component Id="FMFiresecAPIComponent" Guid="*">
 				<File Id="FMFiresecAPIDll" Name="FiresecAPI.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 			
-      <Component Id="FMFiresecClientComponent" Guid="4A46CDB4-7268-405F-BAEB-1E38D278A1EB">
+      <Component Id="FMFiresecClientComponent" Guid="*">
 				<File Id="FMFiresecClientDll" Name="FiresecClient.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 			
-      <Component Id="FMInfrastructure.ClientComponent" Guid="5BD25584-50EE-4184-A787-F42C7F63978B">
+      <Component Id="FMInfrastructure.ClientComponent" Guid="*">
 				<File Id="FMInfrastructure.ClientDll" Name="Infrastructure.Client.dll"
 							Source="$(var.FireMonitor.TargetDir)" DiskId="1" KeyPath="yes" />
 			</Component>
       
-      <Component Id="FMInfrastructure.CommonComponent" Guid="30E88D0B-9822-4BB5-9277-5FC623BC166A">
+      <Component Id="FMInfrastructure.CommonComponent" Guid="*">
         <File Id="FMInfrastructure.CommonDll" Name="Infrastructure.Common.dll"
 							Source="$(var.FireMonitor.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="FMInfrastructure.PlansComponent" Guid="9A6B7522-A17A-4137-83D2-3DDC82DB75DB">
+      <Component Id="FMInfrastructure.PlansComponent" Guid="*">
         <File Id="FMInfrustructure.PlansDll" Name="Infrustructure.Plans.dll"
               Source="$(var.FireMonitor.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
 			
-      <Component Id="FMInfrastructureComponent" Guid="079519E5-376E-4E61-98D5-B91B50CE1328">
+      <Component Id="FMInfrastructureComponent" Guid="*">
 				<File Id="FMInfrastructureDll" Name="Infrastructure.dll"
 							Source="$(var.FireMonitor.TargetDir)" DiskId="1" KeyPath="yes" />
 			</Component>
 			
-      <Component Id="FMPlansModuleComponent" Guid="37BDCE71-82B0-43DD-998A-82AAE306FCC4">
+      <Component Id="FMPlansModuleComponent" Guid="*">
 				<File Id="FMPlansModuleDll" Name="PlansModule.dll"
 							Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 			
-      <Component Id="FMDevicesModuleComponent" Guid="8F200952-94F4-4544-9C2E-3C11394B07D1">
+      <Component Id="FMDevicesModuleComponent" Guid="*">
 				<File Id="FMDevicesModuleDll" Name="DevicesModule.dll"
 							Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 			
-      <Component Id="FMReportsModuleComponent" Guid="DA154025-1535-4AFC-9B0B-D2B2F232D367">
+      <Component Id="FMReportsModuleComponent" Guid="*">
 				<File Id="FMReportsModuleDll" Name="ReportsModule.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
-			<Component Id="FMJournalModuleComponent" Guid="B52D0B74-8059-44A4-8200-88C5C89FA9A4">
+			<Component Id="FMJournalModuleComponent" Guid="*">
 				<File Id="FMJournalModuleDll" Name="JournalModule.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
-			<Component Id="FMCallModuleComponent" Guid="F84521AE-BCBF-4663-A199-7F36EFC91468">
+			<Component Id="FMCallModuleComponent" Guid="*">
 				<File Id="FMCallModuleDll" Name="CallModule.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
-			<Component Id="FMAlarmModuleComponent" Guid="0FA4B2B4-2C8A-416B-9CF4-AC6F9A5D62D0">
+			<Component Id="FMAlarmModuleComponent" Guid="*">
 				<File Id="FMAlarmModuleDll" Name="AlarmModule.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 			
-			<Component Id="FMNLogComponent" Guid="3CA07C87-5915-4601-A02D-BFCAAD13EFB5">
+			<Component Id="FMNLogComponent" Guid="*">
 				<File Id="FMNLogDll" Name="NLog.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
-			<Component Id="FMManualComponent" Guid="09AA6FCD-042A-4F74-B7EF-4D4B5231A203">
+			<Component Id="FMManualComponent" Guid="*">
 				<File Id="FMManualPDF" Name="Manual.pdf" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
-			<Component Id="FMHASPComponent" Guid="69260D52-5A8F-4742-B949-982B31B4C330">
+			<Component Id="FMHASPComponent" Guid="*">
 				<File Id="FMHASPDLL" Name="hasp_net_windows.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
 		</DirectoryRef>
 
     <DirectoryRef Id="FIREMONITORLOCATION">
-      <Component Id="FMGKModuleComponent" Guid="D3C2F25E-1229-442F-A9F7-FE8FCBF884A0">
+      <Component Id="FMGKModuleComponent" Guid="*">
         <File Id="FMGKModuleDll" Name="GKModule.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
         <Condition>GK_MODULE</Condition>
@@ -144,7 +144,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="FIREMONITORLOCATION">
-      <Component Id="FMVideoModuleComponent" Guid="C2278A62-8D93-4B95-A6A1-FBE0082B1132">
+      <Component Id="FMVideoModuleComponent" Guid="3407F2CC-0774-4F13-805B-86399F517F9D">
         <File Id="FMVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
         <File Id="FMVlcFormsDll" Name="Vlc.DotNet.Forms.dll" Source="$(var.FireMonitor.TargetDir)"
@@ -156,30 +156,30 @@
     </DirectoryRef>
 
     <DirectoryRef Id="ShellFolder">
-      <Component Id="FMIntegrateCmd" Guid="D8952A0D-59F7-42EC-A47F-105BD121D123">
+      <Component Id="FMIntegrateCmd" Guid="*">
         <File Id="FMIntegrateCmd" Name="Интегрировать.cmd" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FMDeintegrateCmd" Guid="94A45B32-028A-4F65-B43D-34DD44760D97">
+      <Component Id="FMDeintegrateCmd" Guid="*">
         <File Id="FMDeintegrateCmd" Name="Деинтегрировать.cmd" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
       
-      <Component Id="FMIntegrateReg" Guid="D388A4B4-BA52-4630-952D-C890BDBF7B93">
+      <Component Id="FMIntegrateReg" Guid="*">
         <File Id="FMIntegrateReg" Name="интегрировать.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FMDeintegrateReg" Guid="1309E56A-1DB8-474F-95DE-47D1198CF3D7">
+      <Component Id="FMDeintegrateReg" Guid="*">
         <File Id="FMDeintegrateReg" Name="дизинтегрировать.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FMIntegrateRegx64" Guid="5C72CDF8-06AA-4C7E-87F6-91199E7FBF0B">
+      <Component Id="FMIntegrateRegx64" Guid="*">
         <File Id="FMIntegrateRegx64" Name="интегрировать x64.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FMIntegrateRegx32" Guid="15B9D20F-35FA-49B5-ABD3-6D1CD47964E9">
+      <Component Id="FMIntegrateRegx32" Guid="*">
         <File Id="FMIntegrateRegx32" Name="интегрировать x32.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
 
     </DirectoryRef>
 
     <DirectoryRef Id="SystemFolder">
-      <Component Id="FMSystemHASPComponent" Guid="235FFA7E-E461-41EE-A7B5-B78FC93E7F1D">
+      <Component Id="FMSystemHASPComponent" Guid="*">
         <File Id="FMSystemHASPDLL" Name="hasp_windows_83702.dll" Source="..\..\..\..\..\..\3rdParty\HASP\"
 							DiskId="1" KeyPath="yes" />
       </Component>

@@ -9,38 +9,38 @@
                            Property="IsFiresecServiceRunning"/>
 
     <DirectoryRef Id="FIRESECSERVICELOCATION">
-      <Component Id="MainExe" Guid="8B1C8B55-AF30-4C42-BCB5-5B33DFA3056D" >
+      <Component Id="MainExe" Guid="*" >
         <File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)"
               Source="$(var.FiresecService.TargetPath)" DiskId="1" KeyPath="yes">
         </File>
       </Component>
 
-      <Component Id="FiresecServiceConfig" Guid="7B35878D-19EB-4552-BF09-E3D658D34957">
+      <Component Id="FiresecServiceConfig" Guid="*">
         <File Id="ServiceConfig" Name="FiresecService.exe.config" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="CommonComponent" Guid="5B64430A-2E29-4C73-9C40-4823A9DB5709" >
+      <Component Id="CommonComponent" Guid="*" >
         <File Id="CommonDll" Name="Common.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="ControlsComponent" Guid="671126E3-B211-4386-823D-B074B455FC9B">
+      <Component Id="ControlsComponent" Guid="*">
         <File Id="ControlsDll" Name="Controls.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="InfrastructureCommonComponent" Guid="6613AC03-F043-4D1B-8CC8-97EF2954B820">
+      <Component Id="InfrastructureCommonComponent" Guid="*">
         <File Id="InfrastructureCommonDll" Name="Infrastructure.Common.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="Infrastructure.PlansComponent" Guid="EA8AE306-543F-464A-BEC3-9DA5F00C8B0E">
+      <Component Id="Infrastructure.PlansComponent" Guid="*">
         <File Id="Infrustructure.PlansDll" Name="Infrustructure.Plans.dll"
               Source="$(var.FiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="FiresecComponent" Guid="41974E04-F90D-4B43-9334-527425544AE8">
+      <Component Id="FiresecComponent" Guid="AE91C341-6383-4A0A-8F00-7DFE11638D90">
         <File Id="FiresecDll" Name="Firesec.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
         <File Id="InteropFSTypes" Name="Interop.FS_Types.dll" Source="$(var.FiresecService.TargetDir)"
@@ -49,118 +49,131 @@
               DiskId="1"/>
       </Component>
 
-      <Component Id="FiresecAPIComponent" Guid="248BD6FE-8F57-42DF-BAE3-9EFCD5A1CC5A">
+      <Component Id="FiresecAPIComponent" Guid="*">
         <File Id="FiresecAPIDll" Name="FiresecAPI.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="TrayComponent" Guid="DC1F2F70-E55F-497F-B48E-78BBEB1F6F3D">
+      <Component Id="TrayComponent" Guid="*">
         <File Id="TrayDll" Name="Hardcodet.Wpf.TaskbarNotification.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes">
         </File>
       </Component>
 
-      <Component Id="FSVlcCoreComponent" Guid="12B7A395-377C-4E53-A4E2-4F8C489F167B">
+      <Component Id="FSVlcCoreComponent" Guid="*">
         <File Id="FSVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
       
-      <Component Id="FSVlcFormsComponent" Guid="5802377C-0409-4396-A23F-4F67D88E1431">
+      <Component Id="FSVlcFormsComponent" Guid="*">
         <File Id="FSVlcFormsDll" Name="Vlc.DotNet.Forms.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="FSVlcDotNetCoreInteropsComponent" Guid="A7042B94-3407-47A2-B557-9D1E9BDBA7A9">
+      <Component Id="FSVlcDotNetCoreInteropsComponent" Guid="*">
         <File Id="FSVlcDotNetCoreInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="FSSqlceca35Component" Guid="F3B89EC9-C3D4-4EE9-A3F3-D3554AB3E58E">
+      <Component Id="FSSqlceca35Component" Guid="*">
         <File Id="FSSqlceca35Dll" Name="sqlceca35.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
       
-      <Component Id="FSsqlcecompact35Component" Guid="DDCBFC7A-476E-482A-AF4C-BDCF8C8F608B">
+      <Component Id="FSsqlcecompact35Component" Guid="*">
         <File Id="FSsqlcecompact35Dll" Name="sqlcecompact35.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
       
-      <Component Id="FSsqlceer35ENComponent" Guid="0FBE58F0-8452-4E81-B813-A23B59283BED">
+      <Component Id="FSsqlceer35ENComponent" Guid="*">
         <File Id="FSsqlceer35ENDll" Name="sqlceer35EN.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
       
-      <Component Id="FSsqlceme35Component" Guid="374DC288-9514-4716-AB06-305D82319902">
+      <Component Id="FSsqlceme35Component" Guid="*">
         <File Id="FSsqlceme35Dll" Name="sqlceme35.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
       
-      <Component Id="FSsqlceoledb35Component" Guid="3BF9A184-C1FF-4C54-AA62-58733B9FF1A0">
+      <Component Id="FSsqlceoledb35Component" Guid="*">
         <File Id="FSsqlceoledb35Dll" Name="sqlceoledb35.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
       
-      <Component Id="FSsqlceqp35Component" Guid="804D79C7-F3EA-4D2D-A6A3-E8201BBB16F0">
+      <Component Id="FSsqlceqp35Component" Guid="*">
         <File Id="FSsqlceqp35Dll" Name="sqlceqp35.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
       
-      <Component Id="FSsqlcese35Component" Guid="D0F9A8B6-9DD6-4886-ACBD-34DF2801301E">
+      <Component Id="FSsqlcese35Component" Guid="*">
         <File Id="FSsqlcese35Dll" Name="sqlcese35.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="FSSystemDataSqlServerCeComponent" Guid="1C4D7807-7129-4BAD-B701-86851A12BD0F">
+      <Component Id="FSSystemDataSqlServerCeComponent" Guid="*">
         <File Id="FSSystemDataSqlServerCeDLL" Name="System.Data.SqlServerCe.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="FSNLogComponent" Guid="80F88C62-81BB-4635-A7B3-801A92048A0E">
+      <Component Id="FSNLogComponent" Guid="*">
         <File Id="FSNLogDll" Name="NLog.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="FSFiresecSDFComponent" Guid="496BE66A-EF29-4076-83BD-CEC3EA2C67A9">
+      <Component Id="FSFiresecSDFComponent" Guid="*">
         <File Id="FSFiresecSDF" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="FSSKUDComponent" Guid="EEDB8EE4-BDD6-4C9F-A97C-24BBBC2E9867">
+      <Component Id="FSSKUDComponent" Guid="*">
         <File Id="FS.SKUD.dll" Name="FiresecService.SKUD.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="FiresecNTService" Guid="4B647FF5-1F32-46C5-BC7B-5CE65C04EAEA">
+      <Component Id="FiresecNTServiceComponent" Guid="*">
         <File Id="FiresecNTServiceExe" Name="$(var.FiresecNTService.TargetFileName)"
 							Source="$(var.FiresecNTService.TargetDir)" KeyPath="yes" DiskId="1" />
         <ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
-												Name="Firesec-2 NT Server" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
+												Name="Firesec-2_NTServer" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
 												ErrorControl="ignore" Interactive="yes" Arguments="$(var.FiresecService.TargetFileName)">
-          <!--<util:ServiceConfig FirstFailureActionType="restart" SecondFailureActionType="restart" ThirdFailureActionType="restart"
-															RestartServiceDelayInSeconds="100" />-->
           <ServiceDependency Id="Adv_SocketServer"/>
         </ServiceInstall>
-        <ServiceControl Id="StartNTService" Start="install" Stop="uninstall" Name="Firesec-2 NT Server" Wait="yes" Remove="uninstall"/>
+        <ServiceControl Id="StartNTService" Name="Firesec-2_NTServer" Wait="yes" Remove="uninstall"/>
       </Component>
 
-      <Component Id="OPC_gbda3w_Component" Guid="A25FAEB1-6EA4-46EA-8017-D4738831CDFF">
+      <!--<Component Id="ServiceInstallerComponent" Guid="*">
+        <CreateFolder Directory="FIRESECSERVICELOCATION" />
+        <ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
+                       Name="Firesec-2 NT Server" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
+                       ErrorControl="ignore" Interactive="yes" Arguments="$(var.FiresecService.TargetFileName)">
+          <ServiceDependency Id="Adv_SocketServer"/>
+        </ServiceInstall>
+        --><!--<Condition>NOT Installed</Condition>--><!--
+      </Component>-->
+
+      <!--<Component Id="RemoveNTServiceComponent" Guid="*">
+        <CreateFolder Directory="FIRESECSERVICELOCATION" />
+        <ServiceControl Id="StartNTService" Start="install" Stop="both" Name="Firesec-2 NT Server" Wait="yes" Remove="uninstall"/>
+      </Component>-->
+
+      <Component Id="OPC_gbda3w_Component" Guid="*">
         <File Id="gbda3w.dll" Name="gbda3w.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <Component Id="OPC_gbda_clr_Component" Guid="ADD4099E-2ABF-48C1-84FD-ECCF2E67E331">
+      <Component Id="OPC_gbda_clr_Component" Guid="*">
         <File Id="gbda_clr.dll" Name="gbda_clr.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="FiresecServiceConfigFolder">
-      <Component Id="SecurityConfiguration" Guid="024037C2-F2FD-4A06-A14B-A23B5179E6DE">
+      <Component Id="SecurityConfiguration" Guid="*">
         <File Id="SecurityConfiguration" Name="SecurityConfiguration.xml" Source="$(var.FiresecService.TargetDir)Configuration\"
               DiskId="1" KeyPath="yes">
         </File>
       </Component>
-      <Component Id="DeviceLibrary" Guid="DF7CB00D-27E6-49CA-9CCE-B7B822C14B4A">
+      <Component Id="DeviceLibrary" Guid="*">
         <File Id="DeviceLibrary" Name="DeviceLibrary.xml" Source="$(var.FiresecService.TargetDir)Configuration\"
               DiskId="1" KeyPath="yes">
         </File>

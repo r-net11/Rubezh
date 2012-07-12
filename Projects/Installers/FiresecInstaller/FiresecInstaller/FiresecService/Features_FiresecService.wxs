@@ -34,7 +34,9 @@
 			<!--<ComponentRef Id="Autorun"/>-->
       <ComponentRef Id="OPC_gbda3w_Component"/>
       <ComponentRef Id="OPC_gbda_clr_Component"/>
-      <ComponentRef Id="FiresecNTService"/>
+      <ComponentRef Id="FiresecNTServiceComponent"/>
+      <!--<ComponentRef Id="ServiceInstallerComponent"/>-->
+      <!--<ComponentRef Id="RemoveNTServiceComponent" />-->
 			<ComponentGroupRef Id="ConfigurationGroup"/>
 		</Feature>
 	</Fragment>

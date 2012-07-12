@@ -4,7 +4,11 @@
 	<Fragment>
 		<Feature Id="OldFiresecServiceFeature" Title="$(var.OldFiresecServiceName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="OLDFIRESECSERVICELOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+      <ComponentRef Id="RemoveDll"/>
+      <ComponentRef Id="fs_typesDll" />
+      <ComponentRef Id="FsSockProxyDll" />
       <ComponentRef Id="Fs_serverExe" />
+      <ComponentRef Id="FsScktsrvrExe" />
       <ComponentRef Id="Fs_srvconDll" />
       <ComponentRef Id="FsConfigCdb" />
       <ComponentRef Id="FsSbSql" />
@@ -17,10 +21,9 @@
       <ComponentRef Id="FsGds32Dll" />
       <ComponentRef Id="FsFirebirdMsg" />
       <ComponentRef Id="FsFbintlDll" />
-      <ComponentRef Id="FsScktsrvrExe" />
+      <!--<ComponentRef Id="Adv_SocketServerInstallerComponent" />-->
+      <ComponentRef Id="RemoveSocketServer" />
       <ComponentRef Id="msvcp60Dll" />
-      <ComponentRef Id="fs_typesDll" />
-      <ComponentRef Id="FsSockProxyDll" />
 		</Feature>
 	</Fragment>
 </Wix>
