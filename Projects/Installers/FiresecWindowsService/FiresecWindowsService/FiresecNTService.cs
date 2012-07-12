@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
 using System.IO;
+using System.ServiceProcess;
 
 namespace FiresecNTService
 {
@@ -19,9 +14,8 @@ namespace FiresecNTService
 
 		static void Main(string[] args)
 		{
-			ServiceBase[] ServicesToRun;
-			ServicesToRun = new ServiceBase[] { new FiresecNTService() };
-			ServiceBase.Run(ServicesToRun);
+			var servicesToRun = new ServiceBase[] { new FiresecNTService() };
+			ServiceBase.Run(servicesToRun);
 		}
 
 		protected override void OnStart(string[] args)

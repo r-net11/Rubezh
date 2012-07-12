@@ -14,6 +14,7 @@ namespace Infrastructure.Common
         }
 
         public ObservableCollection<T> Source { get; set; }
+		ObservableCollection<T> updatingSource { get; set; }
 
         bool _isExpanded;
         public bool IsExpanded
@@ -23,10 +24,15 @@ namespace Infrastructure.Common
             {
                 _isExpanded = value;
 
+				updatingSource = Source;
+				Source = null;
+
                 if (_isExpanded)
                     ExpandChildren(this as T);
                 else
                     HideChildren(this as T);
+
+				Source = updatingSource;
 
                 OnPropertyChanged("IsExpanded");
             }
@@ -36,8 +42,8 @@ namespace Infrastructure.Common
         {
             foreach (T t in parent.Children)
             {
-                if (Source.Contains(t))
-                    Source.Remove(t);
+				if (updatingSource.Contains(t))
+					updatingSource.Remove(t);
                 HideChildren(t);
             }
         }
@@ -46,11 +52,11 @@ namespace Infrastructure.Common
         {
             if (parent.IsExpanded)
             {
-                int indexOf = Source.IndexOf(parent);
+				int indexOf = updatingSource.IndexOf(parent);
                 for (int i = 0; i < parent.Children.Count; i++)
                 {
-                    if (Source.Contains(parent.Children[i]) == false)
-                        Source.Insert(indexOf + 1 + i, parent.Children[i]);
+					if (updatingSource.Contains(parent.Children[i]) == false)
+						updatingSource.Insert(indexOf + 1 + i, parent.Children[i]);
                 }
 
                 foreach (T t in parent.Children)
