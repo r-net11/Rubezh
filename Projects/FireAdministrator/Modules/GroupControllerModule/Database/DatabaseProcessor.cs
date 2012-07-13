@@ -11,6 +11,7 @@ namespace GKModule.Database
 
 		public static void Convert()
 		{
+			XManager.InitializeMissingDefaultProperties();
 			InitializeZones();
 			InitializeInputOutputdependences();
 			InitializeDeviceLogicDependences();

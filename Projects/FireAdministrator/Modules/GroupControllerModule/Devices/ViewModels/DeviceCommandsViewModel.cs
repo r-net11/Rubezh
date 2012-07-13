@@ -27,7 +27,7 @@ namespace GKModule.Models
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
-			ConvertToSVBCommand = new RelayCommand(OnConvertToSVB, CanConvertToSVB);
+			ConvertToBinaryFileCommand = new RelayCommand(OnConvertToBinaryFile, CanConvertToBinaryFile);
 
 			GetParametersCommand = new RelayCommand(OnGetParameters);
 			WriteParametersCommand = new RelayCommand(OnWriteParameters);
@@ -126,28 +126,25 @@ namespace GKModule.Models
 			var gkDatabase = DatabaseProcessor.DatabaseCollection.GkDatabases.First();
 			foreach (var binaryObject in gkDatabase.BinaryObjects)
 			{
-				var bytes = binaryObject.AllBytes;
-				var fullBytes = new List<byte>();
-				fullBytes.AddRange(BytesHelper.ShortToBytes((short)(binaryObject.GetNo())));
-				fullBytes.Add(1);
-				fullBytes.AddRange(bytes);
-				CommandManager.Send(SelectedDevice.Device, (short)(3 + bytes.Count()), 17, 0, fullBytes);
+				var bytes = BinaryFileConverter.CreateDescriptor(binaryObject, true);
+				CommandManager.Send(SelectedDevice.Device, (short)(3 + bytes.Count()), 17, 0, bytes);
 			}
-			var endBytes = new List<byte>();
-			endBytes.Add(255);
-			endBytes.Add(255);
+			var endBytes = BinaryFileConverter.CreateEndDescriptor((short)gkDatabase.BinaryObjects.Count);
 			CommandManager.Send(SelectedDevice.Device, 3 + 2, 17, 0, endBytes);
 		}
 
-		bool CanConvertToSVB()
+		bool CanConvertToBinaryFile()
 		{
 			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
 		}
-		public RelayCommand ConvertToSVBCommand { get; private set; }
-		void OnConvertToSVB()
+		public RelayCommand ConvertToBinaryFileCommand { get; private set; }
+		void OnConvertToBinaryFile()
 		{
-			SVBConverter.Convert1();
-			SVBConverter.Convert2();
+			Directory.Delete(@"D:\GKConfig", true);
+			Directory.CreateDirectory(@"D:\GKConfig");
+			BinaryFileConverter.Convert3();
+			//BinaryFileConverter.Convert1();
+			//BinaryFileConverter.Convert2();
 		}
 
 		public RelayCommand GetParametersCommand { get; private set; }

@@ -29,7 +29,7 @@
                 <MenuItem Command="{Binding ShowInfoCommand}" Header="Информация" />
                 <MenuItem Command="{Binding ReadJournalCommand}" Header="Журнал событий" />
                 <MenuItem Command="{Binding WriteConfigCommand}" Header="Записать конфигурацию" />
-                <MenuItem Command="{Binding ConvertToSVBCommand}" Header="Конвертировать в формат SVB" />
+                <MenuItem Command="{Binding ConvertToBinaryFileCommand}" Header="Конвертировать в бинарный файл" />
 
                 <MenuItem Header="Не реализованное">
                     <MenuItem Command="{Binding GetParametersCommand}" Header="Запросить параметры" />

@@ -163,7 +163,7 @@
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
-    <Compile Include="SVBConverter.cs" />
+    <Compile Include="BinaryFileConverter.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />

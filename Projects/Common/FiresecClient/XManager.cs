@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using XFiresecAPI;
+using System;
 
 namespace FiresecClient
 {
@@ -39,10 +40,49 @@ namespace FiresecClient
 					System.Windows.MessageBox.Show("Ошибка при сопоставлении драйвера устройств ГК");
 				}
 			}
+
+			InitializeMissingDefaultProperties();
+		}
+
+		public static void InitializeMissingDefaultProperties()
+		{
+			foreach (var device in DeviceConfiguration.Devices)
+			{
+				foreach (var driverProperty in device.Driver.Properties)
+				{
+					if (device.Properties.Any(x => x.Name == driverProperty.Name) == false)
+					{
+						var property = new XProperty()
+						{
+							Name = driverProperty.Name,
+							Value = driverProperty.Default
+						};
+						device.Properties.Add(property);
+					}
+				}
+			}
 		}
 
 		public static void Invalidate()
 		{
+		}
+
+		public static short GetKauLine(XDevice device)
+		{
+			if (device.Driver.DriverType != XDriverType.KAU)
+			{
+				throw new Exception("В XManager.GetKauLine передан неверный тип устройства");
+			}
+
+			short lineNo = 0;
+			var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
+			if (modeProperty != null)
+			{
+				return modeProperty.Value;
+				//var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == "Mode");
+				//lineNo = driverProperty.Parameters.FirstOrDefault(x => x.Name == modeProperty.Name).Value;
+			}
+			return lineNo;
 		}
 	}
 }

@@ -23,7 +23,7 @@
         </HierarchicalDataTemplate>
     </UserControl.Resources>
 
-    <Grid DataContext="{Binding DevicesTree}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />

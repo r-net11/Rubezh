@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GKModule.Database
 {
@@ -51,14 +52,7 @@ namespace GKModule.Database
 				short controllerAddress = 0;
 				if (binaryBase.KauDatabaseParent != null)
 				{
-					short lineNo = 0;
-					var modeProperty = binaryBase.KauDatabaseParent.Properties.FirstOrDefault(x => x.Name == "Mode");
-					if (modeProperty != null)
-					{
-						var propertyParameter = binaryBase.KauDatabaseParent.Driver.Properties.FirstOrDefault(x => x.Name == "Mode");
-						lineNo = propertyParameter.Parameters.FirstOrDefault(x => x.Name == modeProperty.Name).Value;
-					}
-
+					short lineNo = XManager.GetKauLine(binaryBase.KauDatabaseParent);
 					byte intAddress = binaryBase.KauDatabaseParent.IntAddress;
 					controllerAddress = (short)(lineNo * 256 + intAddress);
 				}
@@ -102,20 +96,32 @@ namespace GKModule.Database
 		{
 			if (DatabaseType == DatabaseType.Gk)
 			{
-				Description = new List<byte>(32);
-				for (int i = 0; i < 32; i++)
+				if (Device != null)
 				{
-					Description.Add(32);
+					Description = BytesHelper.StringDescriptionToBytes(Device.Driver.Name + " - " + Device.Address);
 				}
+				else
+				{
+					Description = new List<byte>(32);
+					for (int i = 0; i < 32; i++)
+					{
+						//Description.Add(32);
+						Description.Add((byte)'y');
+					}
+				}
+			}
+			else
+			{
+				Description = new List<byte>();
 			}
 
 			InitializeInputOutputDependences();
 
-			InputDependensesCount = BytesHelper.ShortToBytes((short)(InputDependenses.Count() / 2));
-			OutputDependensesCount = BytesHelper.ShortToBytes((short)(OutputDependenses.Count() / 2));
-			ParametersCount = BytesHelper.ShortToBytes((short)(Parameters.Count() / 4));
+			InputDependensesCount = BytesHelper.ShortToBytes((short)(InputDependenses.Count / 2));
+			OutputDependensesCount = BytesHelper.ShortToBytes((short)(OutputDependenses.Count / 2));
+			ParametersCount = BytesHelper.ShortToBytes((short)(Parameters.Count / 4));
 
-			Offset = BytesHelper.ShortToBytes((short)(8 + 32 + InputDependenses.Count() + Formula.Count()));
+			Offset = BytesHelper.ShortToBytes((short)(8 + Description.Count + InputDependenses.Count + Formula.Count));
 
 			AllBytes = new List<byte>();
 			AllBytes.AddRange(DeviceType);
