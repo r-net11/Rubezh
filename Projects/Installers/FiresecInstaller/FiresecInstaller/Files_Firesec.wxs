@@ -42,9 +42,12 @@
       </Component>
 
       <Component Id="RegistryFiresec2Key" Guid="257BFCBE-A5C8-4799-9F01-2E02657252AF">
-        <Condition>SETUPCHOICE="Full"</Condition>
         <RegistryValue Id="Firesec2InstallKey" Root="HKLM" Key="Software\rubezh\Firesec-2" Type="string" Value="Installed"
-                       Name="State" KeyPath="yes" />
+                       Name="StateServer" KeyPath="yes" >SETUPCHOICE="Full"</RegistryValue>
+        <RegistryValue Id="Firesec2InstallKey2" Root="HKLM" Key="Software\rubezh\Firesec-2" Type="string" Value="Client"
+               Name="StateFiresec-2" >SETUPCHOICE="Client"</RegistryValue>
+        <RegistryValue Id="Firesec2InstallKey3" Root="HKLM" Key="Software\rubezh\Firesec-2" Type="string" Value="Full"
+               Name="StateFiresec-2" >SETUPCHOICE="Full"</RegistryValue>
         <RemoveRegistryKey Id="RemoveFiresec2InstallKey" Root="HKLM" Key="Software\rubezh\Firesec-2" Action="removeOnUninstall"/>
       </Component>
 		</DirectoryRef>
