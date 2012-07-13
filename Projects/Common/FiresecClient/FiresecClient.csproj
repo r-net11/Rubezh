@@ -119,8 +119,6 @@
     </Compile>
     <Compile Include="CallbackAddressHelper.cs" />
     <Compile Include="Extentions\DeviceCreationExtention.cs" />
-    <Compile Include="Extentions\DevicePresentationZoneExtention.cs" />
-    <Compile Include="Extentions\DeviceStateDisableExtention.cs" />
     <Compile Include="Extentions\XDeviceCreationExtention.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="FiresecCallbackService.cs" />
@@ -128,6 +126,7 @@
     <Compile Include="FiresecEventSubscriber.cs" />
     <Compile Include="FiresecManager.Configuration.cs" />
     <Compile Include="FiresecManager.cs" />
+    <Compile Include="FiresecManager.Disabling.cs" />
     <Compile Include="FiresecManager.PresentationZone.cs" />
     <Compile Include="FiresecServiceFactory.cs" />
     <Compile Include="ItvManager.cs" />

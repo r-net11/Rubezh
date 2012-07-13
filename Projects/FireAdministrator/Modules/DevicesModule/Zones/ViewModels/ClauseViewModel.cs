@@ -159,52 +159,53 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
-				if (Zones.Count > 0)
-				{
-					var orderedZones = Zones.OrderBy(x => x).ToList();
-					ulong prevZoneNo = orderedZones[0];
-					List<List<ulong>> groupOfZones = new List<List<ulong>>();
+				return FiresecManager.GetClausePresentationName(Zones);
+				//if (Zones.Count > 0)
+				//{
+				//    var orderedZones = Zones.OrderBy(x => x).ToList();
+				//    ulong prevZoneNo = orderedZones[0];
+				//    List<List<ulong>> groupOfZones = new List<List<ulong>>();
 
-					for (int i = 0; i < orderedZones.Count; i++)
-					{
-						var zoneNo = orderedZones[i];
-						var haveZonesBetween = FiresecManager.DeviceConfiguration.Zones.Any(x => (x.No > prevZoneNo) && (x.No < zoneNo));
-						if (haveZonesBetween)
-						{
-							groupOfZones.Add(new List<ulong>() { zoneNo });
-						}
-						else
-						{
-							if (groupOfZones.Count == 0)
-							{
-								groupOfZones.Add(new List<ulong>() { zoneNo });
-							}
-							else
-							{
-								groupOfZones.Last().Add(zoneNo);
-							}
-						}
-						prevZoneNo = zoneNo;
-					}
+				//    for (int i = 0; i < orderedZones.Count; i++)
+				//    {
+				//        var zoneNo = orderedZones[i];
+				//        var haveZonesBetween = FiresecManager.DeviceConfiguration.Zones.Any(x => (x.No > prevZoneNo) && (x.No < zoneNo));
+				//        if (haveZonesBetween)
+				//        {
+				//            groupOfZones.Add(new List<ulong>() { zoneNo });
+				//        }
+				//        else
+				//        {
+				//            if (groupOfZones.Count == 0)
+				//            {
+				//                groupOfZones.Add(new List<ulong>() { zoneNo });
+				//            }
+				//            else
+				//            {
+				//                groupOfZones.Last().Add(zoneNo);
+				//            }
+				//        }
+				//        prevZoneNo = zoneNo;
+				//    }
 
-					var presenrationZones = new StringBuilder();
-					for (int i = 0; i < groupOfZones.Count; i++)
-					{
-						var zoneGroup = groupOfZones[i];
+				//    var presenrationZones = new StringBuilder();
+				//    for (int i = 0; i < groupOfZones.Count; i++)
+				//    {
+				//        var zoneGroup = groupOfZones[i];
 
-						if (i > 0)
-							presenrationZones.Append(", ");
+				//        if (i > 0)
+				//            presenrationZones.Append(", ");
 
-						presenrationZones.Append(zoneGroup.First().ToString());
-						if (zoneGroup.Count > 1)
-						{
-							presenrationZones.Append(" - " + zoneGroup.Last().ToString());
-						}
-					}
+				//        presenrationZones.Append(zoneGroup.First().ToString());
+				//        if (zoneGroup.Count > 1)
+				//        {
+				//            presenrationZones.Append(" - " + zoneGroup.Last().ToString());
+				//        }
+				//    }
 
-					return presenrationZones.ToString();
-				}
-				return "";
+				//    return presenrationZones.ToString();
+				//}
+				//return "";
 			}
 		}
 

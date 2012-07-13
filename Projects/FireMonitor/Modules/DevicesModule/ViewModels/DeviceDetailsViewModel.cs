@@ -33,7 +33,7 @@ namespace DevicesModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return Device.GetPersentationZone(); }
+			get { return FiresecManager.GetPresentationZone(Device); }
 		}
 
 		void deviceState_StateChanged()

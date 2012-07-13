@@ -129,7 +129,7 @@ namespace GKModule.Models
 				var bytes = binaryObject.AllBytes;
 				var fullBytes = new List<byte>();
 				fullBytes.AddRange(BytesHelper.ShortToBytes((short)(binaryObject.GetNo())));
-				fullBytes.Add(0);
+				fullBytes.Add(1);
 				fullBytes.AddRange(bytes);
 				CommandManager.Send(SelectedDevice.Device, (short)(3 + bytes.Count()), 17, 0, fullBytes);
 			}
@@ -146,58 +146,8 @@ namespace GKModule.Models
 		public RelayCommand ConvertToSVBCommand { get; private set; }
 		void OnConvertToSVB()
 		{
-			DatabaseProcessor.Convert();
-			var gkDatabase = DatabaseProcessor.DatabaseCollection.GkDatabases.First();
-
-			var fileBytes = new List<byte>();
-			fileBytes.Add(0x25);
-			fileBytes.Add(0x08);
-			fileBytes.Add(0x19);
-			fileBytes.Add(0x65);
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)(gkDatabase.BinaryObjects.Count + 1)));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
-
-			foreach (var binaryObject in gkDatabase.BinaryObjects)
-			{
-				var bytes = binaryObject.AllBytes;
-				fileBytes.AddRange(BytesHelper.ShortToBytes((short)(binaryObject.GetNo())));
-				fileBytes.Add(1);
-				fileBytes.AddRange(BytesHelper.ShortToBytes((short)bytes.Count));
-				for (int j = 0; j < 33; j++)
-				{
-					fileBytes.Add(32);
-				}
-				fileBytes.AddRange(bytes);
-			}
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)(gkDatabase.BinaryObjects.Count)));
-			fileBytes.Add(1);
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)2));
-			for (int j = 0; j < 33; j++)
-			{
-				fileBytes.Add(32);
-			}
-			fileBytes.Add(255);
-			fileBytes.Add(255);
-
-			Directory.CreateDirectory(@"D:\GKConfig");
-
-			using (var fileStream = new FileStream(@"D:\GKConfig\GK.GKBIN", FileMode.Create))
-			{
-				fileStream.Write(fileBytes.ToArray(), 0, fileBytes.Count);
-			}
-
-			using (var streamWriter = new StreamWriter(@"D:\GKConfig\GK.gkprj"))
-			{
-				var stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine("<congig>");
-				stringBuilder.AppendLine("<gk name=\"GK.GKBIN\" description=\"описание ГК\"/>");
-				stringBuilder.AppendLine("</congig>");
-
-				streamWriter.Write(stringBuilder.ToString());
-			}
+			SVBConverter.Convert1();
+			SVBConverter.Convert2();
 		}
 
 		public RelayCommand GetParametersCommand { get; private set; }

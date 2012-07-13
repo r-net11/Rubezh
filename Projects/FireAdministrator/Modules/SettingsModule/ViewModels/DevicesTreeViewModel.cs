@@ -7,10 +7,11 @@ using DevicesModule.ViewModels;
 
 namespace SettingsModule.ViewModels
 {
-	public class DevicesTreeViewModel : BaseViewModel
+	public class DevicesTreeViewModel : DialogViewModel
 	{
 		public DevicesTreeViewModel()
 		{
+			Title = "Дерево устройств";
 			BuildTree();
 		}
 

@@ -46,7 +46,7 @@ namespace DevicesModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return Device.GetPersentationZone(); }
+			get { return FiresecManager.GetPresentationZone(Device); }
 		}
 
 		void OnStateChanged()
@@ -232,7 +232,7 @@ namespace DevicesModule.ViewModels
 
 		public bool CanDisable()
 		{
-			return DeviceState.CanDisable();
+			return FiresecManager.CanDisable(DeviceState);
 		}
 
 		public RelayCommand DisableCommand { get; private set; }
@@ -240,7 +240,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				DeviceState.ChangeDisabled();
+				FiresecManager.ChangeDisabled(DeviceState);
 			}
 		}
 

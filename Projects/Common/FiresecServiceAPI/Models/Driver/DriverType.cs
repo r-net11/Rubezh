@@ -74,6 +74,8 @@
         RadioHandDetector,
         RadioSmokeDetector,
 		MRO_2,
+		Fan,
+		Klapan,
         MS_1,
         MS_2,
         USB_Channel_2,

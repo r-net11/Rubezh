@@ -5,6 +5,11 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System.Windows.Controls;
+using System.IO;
+using System.Text;
+using System.Windows;
+using System.Windows.Documents;
 
 namespace JournalModule.ViewModels
 {
@@ -25,6 +30,20 @@ namespace JournalModule.ViewModels
 				_device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
 			else
 				_device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.PanelDatabaseId);
+		}
+
+		public string Description
+		{
+			get
+			{
+				string rtfString = JournalRecord.Description;
+				var richTextBox = new RichTextBox();
+				MemoryStream memoryStream = new MemoryStream(ASCIIEncoding.UTF8.GetBytes(rtfString));
+				richTextBox.Selection.Load(memoryStream, DataFormats.Rtf);
+				TextRange textrange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
+				string plainText = textrange.Text;
+				return plainText;
+			}
 		}
 
 		public RelayCommand ShowPlanCommand { get; private set; }

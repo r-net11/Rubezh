@@ -60,7 +60,10 @@ namespace FiresecService.Configuration
 			}
 
 			var metadataClass = Metadata.@class.FirstOrDefault(x => x.clsid == innerDriver.clsid);
-			driver.DeviceClassName = metadataClass.param.FirstOrDefault(x => x.name == "DeviceClassName").value;
+			if (metadataClass != null)
+			{
+				driver.DeviceClassName = metadataClass.param.FirstOrDefault(x => x.name == "DeviceClassName").value;
+			}
 
 			driver.CanEditAddress = true;
 			if (innerDriver.ar_no_addr != null)
@@ -178,7 +181,7 @@ namespace FiresecService.Configuration
 			foreach (var childDriver in Metadata.drv)
 			{
 				var childClass = Metadata.@class.FirstOrDefault(x => x.clsid == childDriver.clsid);
-				if (childClass.parent != null && childClass.parent.Any(x => x.clsid == innerDriver.clsid))
+				if (childClass != null && childClass.parent != null && childClass.parent.Any(x => x.clsid == innerDriver.clsid))
 				{
 					if (childDriver.lim_parent != null && childDriver.lim_parent != innerDriver.id)
 						continue;

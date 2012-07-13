@@ -114,13 +114,8 @@ namespace DevicesModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return Device.GetPersentationZone(); }
+			get { return FiresecManager.GetPresentationZone(Device); }
 		}
-
-		//public bool HasExternalDevices
-		//{
-		//    get { return FiresecManager.HasExternalDevices(Device); }
-		//}
 
 		bool _hasExternalDevices;
 		public bool HasExternalDevices

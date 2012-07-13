@@ -8,11 +8,11 @@ namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
-		public string GetClausePresentationName(Clause clause)
+		public static string GetClausePresentationName(List<ulong> zones)
 		{
-			if (clause.Zones.Count > 0)
+			if (zones.Count > 0)
 			{
-				var orderedZones = clause.Zones.OrderBy(x => x).ToList();
+				var orderedZones = zones.OrderBy(x => x).ToList();
 				ulong prevZoneNo = orderedZones[0];
 				List<List<ulong>> groupOfZones = new List<List<ulong>>();
 
@@ -58,7 +58,7 @@ namespace FiresecClient
 			return "";
 		}
 
-		public string GetPresentationZone(ZoneLogic zoneLogic)
+		public static string GetPresentationZone(ZoneLogic zoneLogic)
 		{
 			string result = "";
 
@@ -110,19 +110,30 @@ namespace FiresecClient
 						break;
 				}
 
-				result += " " + stringOperation + " [";
-
-				for (int j = 0; j < clause.Zones.Count; ++j)
-				{
-					if (j > 0)
-						result += ", ";
-					result += clause.Zones[j];
-				}
-
-				result += "]";
+				result += " " + stringOperation + " " + GetClausePresentationName(clause.Zones);
 			}
 
 			return result;
+		}
+
+		public static string GetPresentationZone(Device device)
+		{
+			if (device.Driver.IsZoneDevice)
+			{
+				var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+				if (zone != null)
+					return zone.PresentationName;
+				return "";
+			}
+
+			if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
+				return GetPresentationZone(device.ZoneLogic);
+			if (device.Driver.IsIndicatorDevice && device.IndicatorLogic != null)
+				return device.IndicatorLogic.ToString();
+			if ((device.Driver.DriverType == DriverType.PDUDirection) && (device.PDUGroupLogic != null))
+				return device.PDUGroupLogic.ToString();
+
+			return "";
 		}
 	}
 }

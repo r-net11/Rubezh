@@ -19,71 +19,71 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public ZoneLogicJoinOperator JoinOperator { get; set; }
 
-		public override string ToString()
-		{
-			string result = "";
+		//public override string ToString()
+		//{
+		//    string result = "";
 
-			for (int i = 0; i < Clauses.Count; i++)
-			{
-				var clause = Clauses[i];
+		//    for (int i = 0; i < Clauses.Count; i++)
+		//    {
+		//        var clause = Clauses[i];
 
-				if (i > 0)
-				{
-					switch (JoinOperator)
-					{
-						case ZoneLogicJoinOperator.And:
-							result += " и ";
-							break;
-						case ZoneLogicJoinOperator.Or:
-							result += " или ";
-							break;
-						default:
-							break;
-					}
-				}
+		//        if (i > 0)
+		//        {
+		//            switch (JoinOperator)
+		//            {
+		//                case ZoneLogicJoinOperator.And:
+		//                    result += " и ";
+		//                    break;
+		//                case ZoneLogicJoinOperator.Or:
+		//                    result += " или ";
+		//                    break;
+		//                default:
+		//                    break;
+		//            }
+		//        }
 
-				if (clause.DeviceUID != Guid.Empty)
-				{
-					result += "Сработка устройства " + clause.Device.PresentationAddress + " - " + clause.Device.Driver.Name;
-					continue;
-				}
+		//        if (clause.DeviceUID != Guid.Empty)
+		//        {
+		//            result += "Сработка устройства " + clause.Device.PresentationAddress + " - " + clause.Device.Driver.Name;
+		//            continue;
+		//        }
 
-				if (clause.State == ZoneLogicState.Failure)
-				{
-					result += "состояние неисправность прибора";
-					continue;
-				}
+		//        if (clause.State == ZoneLogicState.Failure)
+		//        {
+		//            result += "состояние неисправность прибора";
+		//            continue;
+		//        }
 
-				result += "состояние " + clause.State.ToDescription();
+		//        result += "состояние " + clause.State.ToDescription();
 
-				string stringOperation = null;
-				switch (clause.Operation)
-				{
-					case ZoneLogicOperation.All:
-						stringOperation = "во всех зонах из";
-						break;
+		//        string stringOperation = null;
+		//        switch (clause.Operation)
+		//        {
+		//            case ZoneLogicOperation.All:
+		//                stringOperation = "во всех зонах из";
+		//                break;
 
-					case ZoneLogicOperation.Any:
-						stringOperation = "в любой зоне из";
-						break;
+		//            case ZoneLogicOperation.Any:
+		//                stringOperation = "в любой зоне из";
+		//                break;
 
-					default:
-						break;
-				}
+		//            default:
+		//                break;
+		//        }
 
-				result += " " + stringOperation + " [";
+		//        result += " " + stringOperation + " [";
 
-				for (int j = 0; j < clause.Zones.Count; ++j)
-				{
-					if (j > 0)
-						result += ", ";
-					result += clause.Zones[j];
-				}
+		//        for (int j = 0; j < clause.Zones.Count; ++j)
+		//        {
+		//            if (j > 0)
+		//                result += ", ";
+		//            result += clause.Zones[j];
+		//        }
 
-				result += "]";
-			}
+		//        result += "]";
+		//    }
 
-			return result;
-		}
+		//    return result;
+		//}
 	}
 }

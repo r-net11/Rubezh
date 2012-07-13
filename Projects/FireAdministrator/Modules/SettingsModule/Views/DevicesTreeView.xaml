@@ -1,7 +1,8 @@
 ﻿<UserControl x:Class="SettingsModule.Views.DevicesTreeView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:r="http://schemas.aspitalia.com/Ricciolo/Controls">
+             xmlns:r="http://schemas.aspitalia.com/Ricciolo/Controls"
+             MinWidth="600" MinHeight="600">
 
     <UserControl.Resources>
         <ContextMenu x:Key="DeviceContextMenu">

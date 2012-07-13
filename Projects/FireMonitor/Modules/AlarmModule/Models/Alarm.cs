@@ -53,7 +53,7 @@ namespace AlarmModule
 		public void RemoveFromIgnoreList()
 		{
 			var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
-			if (deviceState.CanDisable() && deviceState.IsDisabled)
+			if (FiresecManager.CanDisable(deviceState) && deviceState.IsDisabled)
 				FiresecManager.FiresecService.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
 		}
 

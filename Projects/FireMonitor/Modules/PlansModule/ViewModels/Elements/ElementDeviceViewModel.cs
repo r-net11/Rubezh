@@ -91,14 +91,14 @@ namespace PlansModule.ViewModels
 
 		public bool CanDisable()
 		{
-			return DeviceState.CanDisable();
+			return FiresecManager.CanDisable(DeviceState);
 		}
 
 		public RelayCommand DisableCommand { get; private set; }
 		void OnDisable()
 		{
 			if (ServiceFactory.SecurityService.Validate())
-				DeviceState.ChangeDisabled();
+				FiresecManager.ChangeDisabled(DeviceState);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

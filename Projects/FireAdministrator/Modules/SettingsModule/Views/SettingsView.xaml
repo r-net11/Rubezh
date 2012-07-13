@@ -21,6 +21,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0" Margin="10">
                         <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="300" Margin="2" Visibility="Visible" />
+                        <Button Content="Дерево" Command="{Binding ShowTreeCommand}" Width="300" Margin="2" Visibility="Visible" />
                         <Button Content="Тест 1" Command="{Binding Test1Command}" Width="300" Margin="2" Visibility="Visible" />
                         <Button Content="Тест 2" Command="{Binding Test2Command}" Width="300" Margin="2" Visibility="Visible" />
                     </StackPanel>
@@ -28,11 +29,6 @@
                         <TextBox Text="{Binding Text}" />
                     </ScrollViewer>
                 </Grid>
-            </Border>
-        </TabItem>
-        <TabItem Header="Дерево(Отладка)" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
-                <Views:DevicesTreeView />
             </Border>
         </TabItem>
     </TabControl>

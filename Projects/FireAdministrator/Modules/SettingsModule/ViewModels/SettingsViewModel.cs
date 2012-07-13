@@ -8,22 +8,23 @@ using Infrastructure.Events;
 using SettingsModule.Views;
 using System.Diagnostics;
 using System.Text;
+using System.Windows.Controls;
+using System.IO;
+using System.Windows.Documents;
 
 namespace SettingsModule.ViewModels
 {
 	public class SettingsViewModel : ViewPartViewModel
 	{
-		public DevicesTreeViewModel DevicesTree { get; private set; }
-
 		public SettingsViewModel()
 		{
 			ShowDriversCommand = new RelayCommand(OnShowDrivers);
+			ShowTreeCommand = new RelayCommand(OnShowTree);
 			ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
 			ConvertJournalCommand = new RelayCommand(OnConvertJournal);
 
 			Test1Command = new RelayCommand(OnTest1);
 			Test2Command = new RelayCommand(OnTest2);
-			DevicesTree = new DevicesTreeViewModel();
 		}
 
 		string _text;
@@ -47,6 +48,13 @@ namespace SettingsModule.ViewModels
 		{
 			var driversView = new DriversView();
 			driversView.ShowDialog();
+		}
+
+		public RelayCommand ShowTreeCommand { get; private set; }
+		void OnShowTree()
+		{
+			var devicesTreeViewModel = new DevicesTreeViewModel();
+			DialogService.ShowModalWindow(devicesTreeViewModel);
 		}
 
 		public RelayCommand Test1Command { get; private set; }
@@ -103,6 +111,16 @@ namespace SettingsModule.ViewModels
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
 		{
+			string rtfString = "{\\rtf1\\ansi\\ansicpg1251\\deff0\\deflang1049\\fs20{\\fonttbl{\\f0\\fnil\\fprq2\\fcharset204 Arial;}\n{\\f99\\froman\\fcharset0\\fprq2{\\*\\panose 02020603050405020304}Arial;}}\n{\\colortbl ;\\red0\\green0\\blue0;\\red51\\green102\\blue255;}\n\\paperw11907\\paperh16839\\margl0\\margr0\\margt0\\margb0\n\\pard\\plain\\sb0\\ql\\fs20\\lang1049 \\pard\\plain \\fi-180\\li360 \\fs20\\lang1049\\bullet\\tab Устройство: ИП-64 1.10\n\\par\\pard\\sb0\\fs20\\lang1049 \\pard\\plain \\fi-180\\li360 \\fs20\\lang1049\\bullet\\tab Зона: 2\n\\par\\pard\\sb0\\fs20\\lang1049 \\ql \n\\par\\pard\\sb0\\fs20\\lang1049 \\ql {\\b Отладка (контекст): } \n\\par\\pard\\sb0\\fs20\\lang1049 \\ql 00 00 61 0A 00 00 02 00 01 95 \n\\par\\pard\\sb0\\fs20\\lang1049 \\ql 00 00 00 00 06 00 00 00 00 00 00 00 00 00 00 00 FB \\pard}";
+
+			var richTextBox = new RichTextBox();
+			MemoryStream memoryStream = new MemoryStream(ASCIIEncoding.UTF8.GetBytes(rtfString));
+			richTextBox.Selection.Load(memoryStream, DataFormats.Rtf);
+
+			TextRange textrange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
+			string plainText = textrange.Text;
+
+			Text = plainText;
 		}
 
 		public RelayCommand ConvertConfigurationCommand { get; private set; }

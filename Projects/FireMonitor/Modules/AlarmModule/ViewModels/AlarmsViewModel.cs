@@ -126,7 +126,7 @@ namespace AlarmModule.ViewModels
 				{
 					var deviceUID = alarmViewModel.Alarm.DeviceUID;
 					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
-					if (deviceState.CanDisable() && deviceState.IsDisabled)
+					if (FiresecManager.CanDisable(deviceState) && deviceState.IsDisabled)
 
 						deviceUIDs.Add(deviceUID);
 				}
