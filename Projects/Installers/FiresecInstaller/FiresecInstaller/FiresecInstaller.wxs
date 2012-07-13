@@ -16,6 +16,12 @@
                       Language="1049" Property="OLD_VERSION_FOUND"/>
     </Upgrade>
 
+    <Property Id="REGISTRYOLDFIRESECVALUE">
+      <RegistrySearch Id="RegistryOldFiresecValue" Type="directory" Root="HKLM" Key="Software\rubezh\FS_Server" Name="Path"/>
+    </Property>
+    <Property Id="REGISTRYFIRESEC2VALUE">
+      <RegistrySearch Id="RegistryFiresec2Value" Type="raw" Root="HKLM" Key="Software\rubezh\Firesec-2" Name="State"/>
+    </Property>
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
     <Property Id="SHORTCUT_PROGRAMMENU" Value="1"/>
     <Property Id="SHORTCUT_DESKTOP" Value="1"/>
@@ -93,18 +99,18 @@
       <Custom Action="CloseApplications" Before="InstallInitialize" />
       <!--(WixUI_InstallMode = "Remove")-->
       <!--AND REMOVE ~= "ALL"-->
-      <Custom Action="RunSocketServerServiceNet" After="InstallFinalize">NOT Installed</Custom>
-      <Custom Action="RegisterServer" After="RunSocketServerServiceNet" >NOT Installed</Custom>
-      <Custom Action="RegisterSockProxy" After="RegisterServer">NOT Installed</Custom>
-      <Custom Action="RegisterFs_types" After="RegisterSockProxy">NOT Installed</Custom>
-      
-      <Custom Action="RunFiresecServiceNet" After="RegisterFs_types">NOT Installed</Custom>
+      <Custom Action="RunSocketServerServiceNet" After="InstallFinalize">NOT REGISTRYFIRESEC2VALUE AND SETUPCHOICE="Full"</Custom>
+      <Custom Action="RegisterServer" After="RunSocketServerServiceNet" >NOT REGISTRYFIRESEC2VALUE AND NOT REGISTRYOLDFIRESECVALUE AND SETUPCHOICE="Full"</Custom>
+      <Custom Action="RegisterSockProxy" After="RegisterServer">NOT REGISTRYFIRESEC2VALUE AND NOT REGISTRYOLDFIRESECVALUE AND SETUPCHOICE="Full"</Custom>
+      <Custom Action="RegisterFs_types" After="RegisterSockProxy">NOT REGISTRYFIRESEC2VALUE AND NOT REGISTRYOLDFIRESECVALUE AND SETUPCHOICE="Full"</Custom>
+      <Custom Action="InstallHaspDriver" After="RegisterFs_types">NOT REGISTRYFIRESEC2VALUE AND NOT REGISTRYOLDFIRESECVALUE AND SETUPCHOICE="Full"</Custom>
+      <Custom Action="RunFiresecServiceNet" After="InstallHaspDriver">NOT REGISTRYFIRESEC2VALUE AND SETUPCHOICE="Full"</Custom>
 
-      <Custom Action="StopFiresecServiceNet" After="CloseApplications">1</Custom>
-      <!--<Custom Action="StopSocketServerServiceNet" After="StopFiresecServiceNet">1</Custom>-->
-      <Custom Action="UnregisterSockProxy" After="StopFiresecServiceNet">Installed</Custom>
-      <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">Installed</Custom>
-      <Custom Action="UnRegisterServer" After="UnregisterFs_types">Installed</Custom>
+      <Custom Action="StopFiresecServiceNet" After="CloseApplications">SETUPCHOICE="Full"</Custom>
+      <Custom Action="StopSocketServerServiceNet" After="StopFiresecServiceNet">SETUPCHOICE="Full"</Custom>
+      <Custom Action="UnregisterSockProxy" After="StopFiresecServiceNet">REGISTRYFIRESEC2VALUE AND NOT REGISTRYOLDFIRESECVALUE AND SETUPCHOICE="Full"</Custom>
+      <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">REGISTRYFIRESEC2VALUE AND NOT REGISTRYOLDFIRESECVALUE AND SETUPCHOICE="Full"</Custom>
+      <Custom Action="UnRegisterServer" After="UnregisterFs_types">REGISTRYFIRESEC2VALUE AND NOT REGISTRYOLDFIRESECVALUE AND SETUPCHOICE="Full"</Custom>
       
 
 

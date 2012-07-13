@@ -138,7 +138,7 @@
 												ErrorControl="ignore" Interactive="yes" Arguments="$(var.FiresecService.TargetFileName)">
           <ServiceDependency Id="Adv_SocketServer"/>
         </ServiceInstall>
-        <ServiceControl Id="StartNTService" Name="Firesec-2_NTServer" Wait="yes" Remove="uninstall"/>
+        <ServiceControl Id="StartNTService" Name="Firesec-2_NTServer" Wait="yes" Remove="uninstall" />
       </Component>
 
       <!--<Component Id="ServiceInstallerComponent" Guid="*">

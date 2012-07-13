@@ -9,6 +9,7 @@
         <Condition Level="0">INSTALLLEVEL=2</Condition>
         <FeatureRef Id="OldFiresecServiceFeature" />
         <FeatureRef Id="FiresecServiceFeature" />
+        <ComponentRef Id="RegistryFiresec2Key"/>
         <ComponentRef Id="ClearOnUninstallFiresecService"/>
       </Feature>
       <Feature Id="FiresecClient" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
