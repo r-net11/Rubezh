@@ -37,6 +37,7 @@ namespace Infrastructure
 			FiresecCallbackService.ZoneStateChangedEvent += new Action<ulong>((zoneNo) => { SafeCall(() => { OnZoneStateChangedEvent(zoneNo); }); });
 			FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>((journalRecord) => { SafeCall(() => { OnNewJournalRecordEvent(journalRecord); }); });
 			FiresecCallbackService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((journalRecords) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(journalRecords); }); });
+			FiresecCallbackService.NotifyEvent += new Action<string>((message) => { SafeCall(() => { OnNotify(message); }); });
 		}
 
 		static void OnDeviceStateChangedEvent(Guid deviceUID)
@@ -77,6 +78,12 @@ namespace Infrastructure
 		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalRecord> journalRecords)
 		{
 			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(journalRecords);
+		}
+
+
+		static void OnNotify(string message)
+		{
+			ServiceFactory.Events.GetEvent<NotifyEvent>().Publish(message);
 		}
 
 		public static void SafeCall(Action action)

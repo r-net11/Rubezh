@@ -56,6 +56,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Infrastructure\BaseViewModel.cs" />
+    <Compile Include="Infrastructure\RelayCommand.cs" />
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="ZonesViewModel.cs" />
+    <Compile Include="ZoneViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

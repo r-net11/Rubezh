@@ -41,19 +41,19 @@ namespace FiresecService.Processor
 				DevicesParametersChanged(deviceStates);
 		}
 
-		public event Action<ZoneState> ZoneStateChanged;
-		void OnZoneStateChanged(ZoneState zoneState)
+		public event Action<List<ZoneState>> ZoneStateChanged;
+		void OnZonesStateChanged(List<ZoneState> zoneStates)
 		{
 			foreach (var firesecService in FiresecServices)
 			{
 				if (firesecService != null && firesecService.CallbackWrapper != null)
 				{
-					firesecService.CallbackWrapper.ZoneStateChanged(zoneState);
+					firesecService.CallbackWrapper.ZonesStateChanged(zoneStates);
 				}
 			}
 
 			if (ZoneStateChanged != null)
-				ZoneStateChanged(zoneState);
+				ZoneStateChanged(zoneStates);
 		}
 
 		FiresecManager FiresecManager;
@@ -120,6 +120,7 @@ namespace FiresecService.Processor
 
 		int LastEventId = 0;
 		HashSet<DeviceState> ChangedDevices;
+		HashSet<ZoneState> ChangedZones;
 
 		void SetLastEvent()
 		{
@@ -179,17 +180,24 @@ namespace FiresecService.Processor
 		void OnNewEvent()
 		{
 			var journalRecords = GetEventsFromLastId(LastEventId);
+			var newJournalRecords = new List<JournalRecord>();
+
 			foreach (var journalRecord in journalRecords)
 			{
 				var isNewEvent = DatabaseHelper.AddJournalRecord(journalRecord);
 				if (isNewEvent)
 				{
-					foreach (var firesecService in FiresecServices)
+					newJournalRecords.Add(journalRecord);
+				}
+			}
+
+			if (newJournalRecords.Count > 0)
+			{
+				foreach (var firesecService in FiresecServices)
+				{
+					if (firesecService != null && firesecService.CallbackWrapper != null)
 					{
-						if (firesecService != null && firesecService.CallbackWrapper != null)
-						{
-							firesecService.CallbackWrapper.NewJournalRecord(journalRecord);
-						}
+						firesecService.CallbackWrapper.NewJournalRecords(newJournalRecords);
 					}
 				}
 			}
@@ -198,6 +206,7 @@ namespace FiresecService.Processor
 		public void OnParametersChanged()
 		{
 			ChangedDevices = new HashSet<DeviceState>();
+			ChangedZones = new HashSet<ZoneState>();
 			var coreParameters = FiresecSerializedClient.GetDeviceParams().Result;
 			try
 			{
@@ -248,6 +257,11 @@ namespace FiresecService.Processor
 				if (ChangedDevices.Count > 0)
 				{
 					OnDevicesStateChanged(ChangedDevices.ToList());
+				}
+
+				if (ChangedZones.Count > 0)
+				{
+					OnZonesStateChanged(ChangedZones.ToList());
 				}
 			}
 			catch (Exception e)
@@ -492,7 +506,7 @@ namespace FiresecService.Processor
 					if (zoneState.StateType != minZoneStateType)
 					{
 						zoneState.StateType = minZoneStateType;
-						OnZoneStateChanged(zoneState);
+						ChangedZones.Add(zoneState);
 					}
 				}
 			}

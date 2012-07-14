@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using System.ServiceModel;
+using FiresecService.Service;
 
 namespace FiresecService.ViewModels
 {
@@ -29,6 +30,12 @@ namespace FiresecService.ViewModels
 		public RelayCommand ShowImitatorCommand { get; private set; }
 		void OnShowImitator()
 		{
+			var firesecService = Clients[0].FiresecService;
+			firesecService.CallbackWrapper.Notify("Запущен имитатор");
+			var imitatorViewModel1 = new ImitatorViewModel(firesecService);
+			DialogService.ShowModalWindow(imitatorViewModel1);
+			return;
+
 			foreach (var connection in Clients)
 			{
 				if (connection.ClientType == ClientType.Itv)

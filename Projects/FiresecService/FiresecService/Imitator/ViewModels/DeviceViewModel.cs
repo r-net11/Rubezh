@@ -83,7 +83,7 @@ namespace FiresecService.ViewModels
 				if (zoneState.StateType != minZoneStateType)
 				{
 					zoneState.StateType = minZoneStateType;
-					FiresecService.CallbackWrapper.ZoneStateChanged(zoneState);
+					FiresecService.CallbackWrapper.ZonesStateChanged(new List<ZoneState>() { zoneState });
 				}
 			}
 		}

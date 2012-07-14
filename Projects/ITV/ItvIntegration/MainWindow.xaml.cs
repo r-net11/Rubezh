@@ -7,9 +7,8 @@ namespace ItvIntegration
 		public MainWindow()
 		{
 			InitializeComponent();
-			var devicesViewModel = new DevicesViewModel();
-			devicesViewModel.Initialize();
-			DataContext = devicesViewModel;
+			var mainViewModel = new MainViewModel();
+			DataContext = mainViewModel;
 		}
 	}
 }

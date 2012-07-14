@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.Threading;
 
 namespace FiresecClient
 {
@@ -41,7 +41,6 @@ namespace FiresecClient
 						}
 					}
 
-					//deviceState.OnStateChanged();
 					if (DeviceStateChangedEvent != null)
 						DeviceStateChangedEvent(deviceState.UID);
 				}
@@ -62,7 +61,6 @@ namespace FiresecClient
 					{
 						deviceState.Parameters = newDeviceState.Parameters;
 
-						//deviceState.OnParametersChanged();
 						if (DeviceParametersChangedEvent != null)
 							DeviceParametersChangedEvent(deviceState.UID);
 					}
@@ -70,20 +68,22 @@ namespace FiresecClient
 			});
 		}
 
-		public void ZoneStateChanged(ZoneState newZoneState)
+		public void ZonesStateChanged(List<ZoneState> newZoneStates)
 		{
 			SafeOperationCall(() =>
 			{
 				if (FiresecManager.DeviceStates == null)
 					return;
 
-				var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == newZoneState.No);
-				zoneState.StateType = newZoneState.StateType;
-				zoneState.RevertColorsForGuardZone = IsZoneOnGuard(newZoneState);
+				foreach (var newZoneState in newZoneStates)
+				{
+					var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == newZoneState.No);
+					zoneState.StateType = newZoneState.StateType;
+					zoneState.RevertColorsForGuardZone = IsZoneOnGuard(newZoneState);
 
-				//zoneState.OnStateChanged();
-				if (ZoneStateChangedEvent != null)
-					ZoneStateChangedEvent(zoneState.No);
+					if (ZoneStateChangedEvent != null)
+						ZoneStateChangedEvent(zoneState.No);
+				}
 			});
 		}
 
@@ -107,15 +107,17 @@ namespace FiresecClient
 			return false;
 		}
 
-		public void NewJournalRecord(JournalRecord journalRecord)
+		public void NewJournalRecords(List<JournalRecord> journalRecords)
 		{
 #if (DEBUG)
-			//throw new Exception("Test");
 #endif
 			SafeOperationCall(() =>
 			{
-				if (NewJournalRecordEvent != null)
-					NewJournalRecordEvent(journalRecord);
+				foreach (var journalRecord in journalRecords)
+				{
+					if (NewJournalRecordEvent != null)
+						NewJournalRecordEvent(journalRecord);
+				}
 			});
 		}
 
@@ -138,7 +140,6 @@ namespace FiresecClient
 		public Guid Ping()
 		{
 #if (DEBUG)
-			//throw new Exception("Test");
 #endif
 			try
 			{
@@ -160,6 +161,15 @@ namespace FiresecClient
 			});
 		}
 
+		public void Notify(string message)
+		{
+			SafeOperationCall(() =>
+			{
+				if (NotifyEvent != null)
+					NotifyEvent(message);
+			});
+		}
+
 		public static event Action<Guid> DeviceStateChangedEvent;
 		public static event Action<Guid> DeviceParametersChangedEvent;
 		public static event Action<ulong> ZoneStateChangedEvent;
@@ -167,12 +177,13 @@ namespace FiresecClient
 		public static event Action ConfigurationChangedEvent;
 		public static event Func<int, string, int, int, bool> ProgressEvent;
 		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
+		public static event Action<string> NotifyEvent;
 
 		void SafeOperationCall(Action action)
 		{
 			try
 			{
-				Thread thread = new Thread(new ThreadStart(action));
+				var thread = new Thread(new ThreadStart(action));
 				thread.Start();
 			}
 			catch (Exception e)

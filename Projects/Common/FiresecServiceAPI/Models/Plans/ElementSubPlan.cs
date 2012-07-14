@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
-using System.Windows;
-using System.Windows.Shapes;
-using System.Windows.Media;
 
 namespace FiresecAPI.Models
 {

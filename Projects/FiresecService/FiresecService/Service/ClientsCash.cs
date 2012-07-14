@@ -79,7 +79,7 @@ namespace FiresecService.Service
 		{
 			foreach (var firesecServices in FiresecServices)
 			{
-				firesecServices.CallbackWrapper.NewJournalRecord(journalRecord);
+				firesecServices.CallbackWrapper.NewJournalRecords(new List<JournalRecord>() { journalRecord });
 			}
 		}
 
