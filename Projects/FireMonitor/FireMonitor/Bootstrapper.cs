@@ -9,6 +9,7 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using AlarmModule.Events;
+using Infrastructure.Events;
 
 namespace FireMonitor
 {
@@ -60,6 +61,7 @@ namespace FireMonitor
 						RunShell(shell);
 
 						FiresecCallbackService.ConfigurationChangedEvent += new Action(OnConfigurationChanged);
+						ServiceFactory.Events.GetEvent<NotifyEvent>().Subscribe(OnNotify);
 					}
 					else
 					{
@@ -78,7 +80,7 @@ namespace FireMonitor
 			MutexHelper.KeepAlive();
 		}
 
-		private void OnConfigurationChanged()
+		void OnConfigurationChanged()
 		{
 			ServiceFactory.Layout.Close();
 
@@ -94,6 +96,11 @@ namespace FireMonitor
 				progressInfoViewModel.Close();
 				ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
 			});
+		}
+
+		void OnNotify(string message)
+		{
+			MessageBoxService.Show(message);
 		}
 	}
 }

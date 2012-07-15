@@ -255,6 +255,16 @@ namespace FiresecClient
 			SafeOperationCall(() => { FiresecService.ResetStates(resetItems); });
 		}
 
+		public void SetZoneGuard(ulong zoneNo)
+		{
+			SafeOperationCall(() => { FiresecService.SetZoneGuard(zoneNo); });
+		}
+
+		public void UnSetZoneGuard(ulong zoneNo)
+		{
+			SafeOperationCall(() => { FiresecService.UnSetZoneGuard(zoneNo); });
+		}
+
 		public void AddUserMessage(string message)
 		{
 			SafeOperationCall(() => { FiresecService.AddUserMessage(message); });

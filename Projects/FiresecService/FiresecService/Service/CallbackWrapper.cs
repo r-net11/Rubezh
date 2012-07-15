@@ -16,9 +16,9 @@ namespace FiresecService.Service
 			FiresecService = firesecService;
 		}
 
-		public void NewJournalRecord(JournalRecord journalRecord)
+		public void NewJournalRecords(List<JournalRecord> journalRecords)
 		{
-			SafeCall((x) => { x.FiresecCallbackService.NewJournalRecord(journalRecord); }, "NewJournalRecord");
+			SafeCall((x) => { x.FiresecCallbackService.NewJournalRecords(journalRecords); }, "NewJournalRecords");
 		}
 
 		public void DeviceStateChanged(List<DeviceState> deviceStates)
@@ -31,9 +31,9 @@ namespace FiresecService.Service
 			SafeCall((x) => { x.FiresecCallbackService.DeviceParametersChanged(deviceParameters); }, "DeviceParametersChanged");
 		}
 
-		public void ZoneStateChanged(ZoneState zoneState)
+		public void ZonesStateChanged(List<ZoneState> zoneStates)
 		{
-			SafeCall((x) => { x.FiresecCallbackService.ZoneStateChanged(zoneState); }, "ZoneStateChanged");
+			SafeCall((x) => { x.FiresecCallbackService.ZonesStateChanged(zoneStates); }, "ZonesStateChanged");
 		}
 
 		public void ConfigurationChanged()
@@ -77,6 +77,11 @@ namespace FiresecService.Service
 				FiresecService.ReconnectToClient();
 			}
 			return true;
+		}
+
+		public void Notify(string message)
+		{
+			SafeCall((x) => { x.FiresecCallbackService.Notify(message); }, "Notify");
 		}
 
 		void SafeCall(Action<FiresecService> action, string actionName, bool reconnectOnException = true)

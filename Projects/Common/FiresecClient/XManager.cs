@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using XFiresecAPI;
-using System;
 
 namespace FiresecClient
 {

@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using XFiresecAPI;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace FiresecAPI.Models
 {

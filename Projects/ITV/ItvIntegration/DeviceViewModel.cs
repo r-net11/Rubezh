@@ -1,27 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using FiresecAPI.Models;
 using FiresecClient;
 
 namespace ItvIntegration
 {
-	public class DeviceViewModel : INotifyPropertyChanged
+	public class DeviceViewModel : BaseViewModel
 	{
 		public DeviceViewModel(DeviceState deviceState)
 		{
 			DeviceState = deviceState;
 			_stateType = deviceState.StateType;
-			FiresecClient.FiresecEventSubscriber.DeviceStateChangedEvent += new Action<Guid>(FiresecEventSubscriber_DeviceStateChangedEvent);
-			//deviceState.StateChanged += new Action(deviceState_StateChanged);
+			FiresecCallbackService.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
+			Name = DeviceState.Device.Driver.ShortName + " - " + DeviceState.Device.DottedAddress;
 		}
 
-		void deviceState_StateChanged()
-		{
-			StateType = DeviceState.StateType;
-		}
-
-		void FiresecEventSubscriber_DeviceStateChangedEvent(Guid uid)
+		void OnDeviceStateChangedEvent(Guid uid)
 		{
 			if (DeviceState.UID == uid)
 			{
@@ -31,10 +25,7 @@ namespace ItvIntegration
 
 		public DeviceState DeviceState { get; private set; }
 
-		public string Name
-		{
-			get { return DeviceState.Device.Driver.ShortName + " - " + DeviceState.Device.DottedAddress; }
-		}
+		public string Name { get; private set; }
 
 		StateType _stateType;
 		public StateType StateType
@@ -79,13 +70,6 @@ namespace ItvIntegration
 						break;
 				}
 			}
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-		void OnPropertyChanged(string name)
-		{
-			if (PropertyChanged != null)
-				PropertyChanged(this, new PropertyChangedEventArgs(name));
 		}
 	}
 }

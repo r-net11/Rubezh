@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Runtime.Serialization;
-using System.Windows;
 using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models

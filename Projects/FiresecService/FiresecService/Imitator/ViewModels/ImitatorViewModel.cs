@@ -11,7 +11,7 @@ namespace FiresecService.ViewModels
 		{
 			FiresecService = firesecService;
 
-			Title = "Имитатор устройств";
+			Title = "Имитатор состояний устройств";
 			Devices = new ObservableCollection<DeviceViewModel>();
 
 			foreach (var deviceState in FiresecService.FiresecManager.DeviceConfigurationStates.DeviceStates)

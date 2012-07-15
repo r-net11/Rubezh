@@ -1,5 +1,4 @@
-﻿using XFiresecAPI;
-
+﻿
 namespace FiresecAPI.Models
 {
 	public static class ConfigurationDriverHelper

@@ -246,6 +246,14 @@ namespace FiresecService.Service
 			firesecResetHelper.ResetStates(resetItems);
 		}
 
+		public void SetZoneGuard(ulong zoneNo)
+		{
+		}
+
+		public void UnSetZoneGuard(ulong zoneNo)
+		{
+		}
+
 		public void AddUserMessage(string message)
 		{
 			FiresecSerializedClient.AddUserMessage(message);

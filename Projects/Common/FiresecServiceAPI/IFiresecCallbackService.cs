@@ -15,10 +15,10 @@ namespace FiresecAPI
 		void DeviceParametersChanged(List<DeviceState> deviceStates);
 
 		[OperationContract(IsOneWay = true)]
-		void ZoneStateChanged(ZoneState zoneState);
+		void ZonesStateChanged(List<ZoneState> zoneStates);
 
 		[OperationContract(IsOneWay = true)]
-		void NewJournalRecord(JournalRecord journalRecord);
+		void NewJournalRecords(List<JournalRecord> journalRecords);
 
 		[OperationContract(IsOneWay = true)]
 		void ConfigurationChanged();
@@ -31,5 +31,8 @@ namespace FiresecAPI
 
 		[OperationContract]
 		Guid Ping();
+
+		[OperationContract(IsOneWay = true)]
+		void Notify(string message);
 	}
 }

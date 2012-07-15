@@ -25,14 +25,6 @@
                 <DataGridTextColumn Header="Время" Binding="{Binding Time}" Width="150" />
                 <DataGridTextColumn Header="Источник" Binding="{Binding Source}" Width="200" />
                 <DataGridTextColumn Header="Описание" Binding="{Binding Alarm.StateName}" Width="*" />
-                <DataGridTemplateColumn Header="Действия">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
