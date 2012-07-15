@@ -10,51 +10,46 @@ using Infrustructure.Plans.Events;
 
 namespace PlansModule.ViewModels
 {
-    public class ElementViewModel : ElementBaseViewModel
-    {
-        public ElementViewModel(ObservableCollection<ElementBaseViewModel> sourceElement, DesignerItem designerItem, string name)
-        {
-            Source = sourceElement;
-            ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
-            DesignerItem = designerItem;
-            ElementUID = DesignerItem.Element.UID;
-            Name = name;
-        }
+	public class ElementViewModel : ElementBaseViewModel
+	{
+		public ElementViewModel(ObservableCollection<ElementBaseViewModel> sourceElement, DesignerItem designerItem)
+		{
+			Source = sourceElement;
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
+			DesignerItem = designerItem;
+			DesignerItem.PropertyChanged += (s, e) =>
+			{
+				if (e.PropertyName == "Title")
+					OnPropertyChanged("Name");
+			};
+		}
 
-        DesignerItem DesignerItem;
-        public Guid ElementUID { get; private set; }
-        public string Name { get; private set; }
-        public string ElementType { get; set; }
+		public DesignerItem DesignerItem { get; private set; }
+		public string Name { get { return DesignerItem.Title; } }
 
-        public bool IsVisible
-        {
-            get
-            {
-                return DesignerItem.IsVisibleLayout;
-            }
-            set
-            {
-                DesignerItem.IsVisibleLayout = value;
-                OnPropertyChanged("IsVisible");
-            }
-        }
+		public bool IsVisible
+		{
+			get { return DesignerItem.IsVisibleLayout; }
+			set
+			{
+				DesignerItem.IsVisibleLayout = value;
+				OnPropertyChanged("IsVisible");
+			}
+		}
 
-        public bool IsSelectable
-        {
-            get
-            {
-                return DesignerItem.IsSelectableLayout;
-            }
-            set
-            {
-                DesignerItem.IsSelectableLayout = value;
-                OnPropertyChanged("IsSelectable");
-            }
-        }
+		public bool IsSelectable
+		{
+			get { return DesignerItem.IsSelectableLayout; }
+			set
+			{
+				DesignerItem.IsSelectableLayout = value;
+				OnPropertyChanged("IsSelectable");
+			}
+		}
 
-        void OnShowOnPlan()
-        {
-            ServiceFactory.Events.GetEvent<ShowElementEvent>().Publish(DesignerItem.Element.UID);
-        }
-    }
+		void OnShowOnPlan()
+		{
+			ServiceFactory.Events.GetEvent<ShowElementEvent>().Publish(DesignerItem.Element.UID);
+		}
+	}
 }

@@ -8,6 +8,7 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using System;
 
 namespace FireAdministrator
 {
@@ -20,32 +21,37 @@ namespace FireAdministrator
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
 			if (ServiceFactory.LoginService.ExecuteConnect())
-			{
-				LoadingService.Show("Чтение конфигурации", 4);
-				LoadingService.AddCount(GetModuleCount());
-				LoadingService.DoStep("Получение списка драйверов с сервера");
-				FiresecManager.GetConfiguration();
-				if (FiresecManager.Drivers.Count == 0)
+				try
 				{
-					MessageBoxService.Show("Ошибка при получении списка драйверов с сервера");
+					LoadingService.Show("Чтение конфигурации", 4);
+					LoadingService.AddCount(GetModuleCount());
+					LoadingService.DoStep("Получение списка драйверов с сервера");
+					FiresecManager.GetConfiguration();
+					if (FiresecManager.Drivers.Count == 0)
+					{
+						MessageBoxService.Show("Ошибка при получении списка драйверов с сервера");
+					}
+					LoadingService.DoStep("Проверка прав пользователя");
+					if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
+					{
+						MessageBoxService.Show("Нет прав на работу с программой");
+						FiresecManager.Disconnect();
+					}
+					else
+					{
+						var shell = new AdministratorShellViewModel();
+						((LayoutService)ServiceFactory.Layout).SetMenuViewModel((MenuViewModel)shell.Toolbar);
+						RunShell(shell);
+					}
+					LoadingService.Close();
 				}
-				LoadingService.DoStep("Проверка прав пользователя");
-				if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
+				catch (Exception ex)
 				{
-					MessageBoxService.Show("Нет прав на работу с программой");
-					FiresecManager.Disconnect();
+					MessageBoxService.ShowException(ex);
+					Application.Current.Shutdown();
 				}
-				else
-				{
-					var shell = new AdministratorShellViewModel();
-					((LayoutService)ServiceFactory.Layout).SetMenuViewModel((MenuViewModel)shell.Toolbar);
-					RunShell(shell);
-				}
-				LoadingService.Close();
-			}
 			else
 				Application.Current.Shutdown();
-
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 
 			MutexHelper.KeepAlive();

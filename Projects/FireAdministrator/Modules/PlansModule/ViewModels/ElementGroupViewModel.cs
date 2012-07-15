@@ -1,23 +1,25 @@
 ﻿using System.Collections.ObjectModel;
+using Infrustructure.Plans.Services;
 
 namespace PlansModule.ViewModels
 {
     public class ElementGroupViewModel : ElementBaseViewModel
     {
-        public ElementGroupViewModel(ObservableCollection<ElementBaseViewModel> sourceElements, ElementsViewModel elementsViewModel, string name, string elementType)
+		private ElementsViewModel _elementsViewModel;
+		
+		public ElementGroupViewModel(ObservableCollection<ElementBaseViewModel> sourceElements, ElementsViewModel elementsViewModel, string alias)
         {
             Source = sourceElements;
             IsBold = true;
-            ElementsViewModel = elementsViewModel;
-            Name = name;
-            ElementType = elementType;
-            _isVisible = true;
+            _elementsViewModel = elementsViewModel;
+            Group = alias;
+			Name = LayerGroupService.Instance[alias];
+			_isVisible = true;
             _isSelectable = true;
         }
 
-        ElementsViewModel ElementsViewModel;
         public string Name { get; private set; }
-        public string ElementType { get; private set; }
+        public string Group { get; private set; }
 
         bool _isVisible;
         public bool IsVisible
@@ -29,9 +31,9 @@ namespace PlansModule.ViewModels
             set
             {
                 _isVisible = value;
-                foreach (var elementViewModel in ElementsViewModel.AllElements)
+                foreach (var elementViewModel in _elementsViewModel.AllElements)
                 {
-                    if (elementViewModel.ElementType == ElementType)
+                    if (elementViewModel.DesignerItem.Group == Group)
                         elementViewModel.IsVisible = value;
                     OnPropertyChanged("IsVisible");
                 }
@@ -48,9 +50,9 @@ namespace PlansModule.ViewModels
             set
             {
                 _isSelectable = value;
-                foreach (var elementViewModel in ElementsViewModel.AllElements)
+                foreach (var elementViewModel in _elementsViewModel.AllElements)
                 {
-                    if (elementViewModel.ElementType == ElementType)
+                    if (elementViewModel.DesignerItem.Group == Group)
                         elementViewModel.IsSelectable = value;
                 }
                 OnPropertyChanged("IsSelectable");

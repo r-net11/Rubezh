@@ -1,93 +1,90 @@
-﻿<UserControl x:Class="PlansModule.Views.ElementsView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+﻿<UserControl x:Class="PlansModule.Views.ElementsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-    <UserControl.Resources>
-        <Style x:Key="IsSelectableCheckBoxStyle" TargetType="CheckBox">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="CheckBox">
-                        <Image Name="_image" Source="/Controls;component/Images/Lock.png" />
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="true">
-                                <Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Unlock.png" />
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="false">
-                                <Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Lock.png" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+	<UserControl.Resources>
+		<Style x:Key="IsSelectableCheckBoxStyle" TargetType="CheckBox">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="CheckBox">
+						<Image Name="_image" Source="/Controls;component/Images/Lock.png" />
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsChecked" Value="true">
+								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Unlock.png" />
+							</Trigger>
+							<Trigger Property="IsChecked" Value="false">
+								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Lock.png" />
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 
-        <Style x:Key="IsVisibleCheckBoxStyle" TargetType="CheckBox">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="CheckBox">
-                        <Image Name="_image" Source="/Controls;component/Images/Eye1.png" />
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="true">
-                                <Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Eye2.png" />
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="false">
-                                <Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Empty.png" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
-    
-    <DataGrid  Name="_elementsDataGrid" ItemsSource="{Binding Elements}" SelectedItem="{Binding SelectedElement}" IsReadOnly="False">
-        <DataGrid.Columns>
-            <DataGridTemplateColumn MinWidth="25" MaxWidth="25">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                            <StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-            <DataGridTemplateColumn Width="*">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+		<Style x:Key="IsVisibleCheckBoxStyle" TargetType="CheckBox">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="CheckBox">
+						<Image Name="_image" Source="/Controls;component/Images/Eye1.png" />
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsChecked" Value="true">
+								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Eye2.png" />
+							</Trigger>
+							<Trigger Property="IsChecked" Value="false">
+								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Empty.png" />
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+	</UserControl.Resources>
 
-                            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                <CheckBox IsChecked="{Binding IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsVisibleCheckBoxStyle}" Margin="1" />
-                                <CheckBox IsChecked="{Binding IsSelectable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsSelectableCheckBoxStyle}" Margin="1" />
-                                <TextBlock Text="{Binding Name}" Margin="1">
-                                <TextBlock.Style>
-                                    <Style>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsBold}" Value="True">
-                                                <DataTrigger.Setters>
-                                                    <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                </DataTrigger.Setters>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                                </TextBlock>
-                            </StackPanel>
+	<DataGrid Name="_elementsDataGrid" IsReadOnly="False" ItemsSource="{Binding Elements}" SelectedItem="{Binding SelectedElement}">
+		<DataGrid.Columns>
+			<DataGridTemplateColumn MinWidth="25" MaxWidth="25">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<StackPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}" Orientation="Horizontal">
+							<StackPanel Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}">
+								<CheckBox IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource TreeExpanderStyle}" />
+							</StackPanel>
+						</StackPanel>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+			<DataGridTemplateColumn Width="*">
+				<DataGridTemplateColumn.CellTemplate>
+					<DataTemplate>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
 
-                            <Grid.InputBindings>
-                                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
-                            </Grid.InputBindings>
-                        </Grid>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-        </DataGrid.Columns>
-    </DataGrid >
+							<StackPanel Grid.Column="1" Orientation="Horizontal">
+								<CheckBox Margin="1" IsChecked="{Binding IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsVisibleCheckBoxStyle}" />
+								<CheckBox Margin="1" IsChecked="{Binding IsSelectable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsSelectableCheckBoxStyle}" />
+								<TextBlock Margin="1" Text="{Binding Name}">
+									<TextBlock.Style>
+										<Style>
+											<Style.Triggers>
+												<DataTrigger Binding="{Binding IsBold}" Value="True">
+													<DataTrigger.Setters>
+														<Setter Property="TextBlock.FontWeight" Value="Bold" />
+													</DataTrigger.Setters>
+												</DataTrigger>
+											</Style.Triggers>
+										</Style>
+									</TextBlock.Style>
+								</TextBlock>
+							</StackPanel>
+
+							<Grid.InputBindings>
+								<MouseBinding Command="{Binding ShowOnPlanCommand}" MouseAction="LeftDoubleClick" />
+							</Grid.InputBindings>
+						</Grid>
+					</DataTemplate>
+				</DataGridTemplateColumn.CellTemplate>
+			</DataGridTemplateColumn>
+		</DataGrid.Columns>
+	</DataGrid>
 </UserControl>

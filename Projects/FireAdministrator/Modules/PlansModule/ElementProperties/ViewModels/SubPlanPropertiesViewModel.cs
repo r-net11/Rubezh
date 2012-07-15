@@ -84,9 +84,7 @@ namespace PlansModule.ViewModels
 		protected override bool Save()
 		{
 			if (SelectedPlan != null)
-			{
 				_elementSubPlan.PlanUID = SelectedPlan.Plan.UID;
-			}
 			return base.Save();
 		}
 	}

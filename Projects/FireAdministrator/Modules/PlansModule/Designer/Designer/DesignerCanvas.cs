@@ -51,7 +51,7 @@ namespace PlansModule.Designer
 		}
 		public override double PointZoom
 		{
-			get { return PlanDesignerViewModel.DeviceZoom; }
+			get { return PlanDesignerViewModel.DeviceZoom / Zoom; }
 		}
 
 		public void RemoveAllSelected()
@@ -126,7 +126,7 @@ namespace PlansModule.Designer
 			var designerItem = AddElement(elementBase);
 			if (designerItem != null)
 			{
-				this.DeselectAll();
+				DeselectAll();
 				designerItem.IsSelected = true;
 				PlanDesignerViewModel.MoveToFrontCommand.Execute();
 
@@ -289,12 +289,15 @@ namespace PlansModule.Designer
 		public override void EndChange()
 		{
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
+			foreach (var designerItem in SelectedItems)
+				designerItem.UpdateElementProperties();
 		}
 
 		public void UpdateZoom()
 		{
 			foreach (DesignerItem designerItem in Items)
 				designerItem.UpdateZoom();
+			UpdateZoomPoint();
 		}
 		public void UpdateZoomPoint()
 		{

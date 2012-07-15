@@ -66,5 +66,21 @@ namespace PlansModule.Designer.Designer
 			if (device != null)
 				device.PlanElementUIDs.Remove(element.UID);
 		}
+
+		public static string GetZoneTitle(IElementZone element)
+		{
+			Zone zone = GetZone(element);
+			return zone == null ? "Несвязанная зона" : zone.PresentationName;
+		}
+		public static string GetSubPlanTitle(ElementSubPlan element)
+		{
+			Plan plan = GetPlan(element);
+			return plan == null ? "Несвязанный подплан" : plan.Caption;
+		}
+		public static string GetDeviceTitle(ElementDevice element)
+		{
+			var device = GetDevice(element);
+			return device == null ? "Неизвестное устройство" : device.DottedAddress + " " + device.Driver.ShortName;
+		}
 	}
 }

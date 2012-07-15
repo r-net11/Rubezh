@@ -90,7 +90,7 @@ namespace FiresecService.ViewModels
 
 		public int Level
 		{
-			get { return DeviceState.Device.PlaceInTree.Split('\\').Count() - 1; }
+			get { return DeviceState.Device.PlaceInTree == null ? 0 : DeviceState.Device.PlaceInTree.Split('\\').Count() - 1; }
 		}
 
 		public event PropertyChangedEventHandler PropertyChanged;

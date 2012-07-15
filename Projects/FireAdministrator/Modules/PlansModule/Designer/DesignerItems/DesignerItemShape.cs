@@ -9,6 +9,8 @@ using PlansModule.Designer.Adorners;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models;
 using PlansModule.ViewModels;
+using PlansModule.Designer.Designer;
+using Infrustructure.Plans.Services;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -18,6 +20,21 @@ namespace PlansModule.Designer.DesignerItems
 			: base(element)
 		{
 			ResizeChrome = new ResizeChromeShape(this);
+			if (Element is ElementPolygon)
+			{
+				Title = "Многоугольник";
+				Group = LayerGroupService.ElementAlias;
+			}
+			else if (Element is ElementPolyline)
+			{
+				Title = "Линия";
+				Group = LayerGroupService.ElementAlias;
+			}
+			else if (Element is ElementPolygonZone)
+			{
+				Title = Helper.GetZoneTitle((IElementZone)Element);
+				Group = LayerGroupService.ZoneAlias;
+			}
 		}
 
 		protected override SaveCancelDialogViewModel CreatePropertiesViewModel()
@@ -29,6 +46,13 @@ namespace PlansModule.Designer.DesignerItems
 			if (Element is ElementPolygonZone)
 				return new ZonePropertiesViewModel(Element as ElementPolygonZone);
 			return base.CreatePropertiesViewModel();
+		}
+
+		public override void UpdateElementProperties()
+		{
+			if (Element is ElementPolygonZone)
+				Title = Helper.GetZoneTitle((IElementZone)Element);
+			base.UpdateElementProperties();
 		}
 	}
 }

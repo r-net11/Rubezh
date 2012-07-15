@@ -92,6 +92,7 @@
     <Compile Include="Painters\SubPlanPainter.cs" />
     <Compile Include="Painters\TextBlockPainter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\LayerGroupService.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

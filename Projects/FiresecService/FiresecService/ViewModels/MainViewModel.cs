@@ -30,14 +30,12 @@ namespace FiresecService.ViewModels
 		void OnShowImitator()
 		{
 			foreach (var connection in Clients)
-			{
 				if (connection.ClientType == ClientType.Itv)
 				{
 					var imitatorViewModel = new ImitatorViewModel(connection.FiresecService);
 					DialogService.ShowModalWindow(imitatorViewModel);
 					break;
 				}
-			}
 		}
 
 		public RelayCommand ShowOperationHistoryCommand { get; private set; }

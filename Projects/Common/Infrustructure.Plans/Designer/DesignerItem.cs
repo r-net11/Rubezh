@@ -9,11 +9,18 @@ using System.Windows.Media;
 using Infrustructure.Plans.Painters;
 using System.Windows.Input;
 using Infrustructure.Plans.Events;
+using System.ComponentModel;
 
 namespace Infrustructure.Plans.Designer
 {
-	public abstract class DesignerItem : ContentControl
+	public abstract class DesignerItem : ContentControl, INotifyPropertyChanged
 	{
+		#region INotifyPropertyChanged Members
+
+		public event PropertyChangedEventHandler PropertyChanged;
+
+		#endregion
+
 		public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register("IsSelected", typeof(bool), typeof(DesignerItem), new FrameworkPropertyMetadata(false));
 		public virtual bool IsSelected
 		{
@@ -70,9 +77,22 @@ namespace Infrustructure.Plans.Designer
 		public IPainter Painter { get; private set; }
 		public ResizeChrome ResizeChrome { get; set; }
 
+		private string _title;
+		public string Title 
+		{
+			get { return _title; }
+			set
+			{
+				_title = value;
+				OnPropertyChanged("Title");
+			}
+		}
+		public string Group { get; protected set; }
+
 		public DesignerItem(ElementBase element)
 		{
 			ResetElement(element);
+			Group = string.Empty;
 		}
 
 		public void ResetElement(ElementBase element)
@@ -153,5 +173,11 @@ namespace Infrustructure.Plans.Designer
 
 		protected abstract void OnShowProperties();
 		protected abstract void OnDelete();
+
+		protected void OnPropertyChanged(string propertyName)
+		{
+			if (PropertyChanged != null)
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+		}
 	}
 }
