@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.Database
 {
@@ -100,6 +101,11 @@ namespace GKModule.Database
 					for (int clauseIndex = 0; clauseIndex < stateLogic.Clauses.Count; clauseIndex++)
 					{
 						var clause = stateLogic.Clauses[clauseIndex];
+						if (clause.ClauseOperandType == ClauseOperandType.Zone)
+						{
+							MessageBoxService.Show("Логика срабатывания по состоянию зон пока не реализована");
+							continue;
+						}
 
 						if (clause.Devices.Count == 1)
 						{

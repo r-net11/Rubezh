@@ -9,7 +9,7 @@ namespace XFiresecAPI
 		public List<XDevice> InputDevices { get; set; }
 		public List<XDevice> OutputDevices { get; set; }
 		public List<XZone> InputZones { get; set; }
-		//public List<XZone> OutputZones { get; set; }
+		public List<XZone> OutputZones { get; set; }
 
 		public XDevice KauDatabaseParent { get; set; }
 		public XDevice GkDatabaseParent { get; set; }
@@ -22,7 +22,7 @@ namespace XFiresecAPI
 			InputDevices = new List<XDevice>();
 			OutputDevices = new List<XDevice>();
 			InputZones = new List<XZone>();
-			//OutputZones = new List<XZone>();
+			OutputZones = new List<XZone>();
 		}
 
 		public short GetDatabaseNo(DatabaseType databaseType)

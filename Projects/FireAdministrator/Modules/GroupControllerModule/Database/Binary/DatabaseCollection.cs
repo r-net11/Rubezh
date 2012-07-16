@@ -82,7 +82,6 @@ namespace GKModule.Database
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
 				var kauParents = new HashSet<XDevice>();
-				bool hasZoneOnGk = false;
 
 				foreach (var dependentDevice in device.DeviceLogic.DependentDevices)
 				{
@@ -98,11 +97,11 @@ namespace GKModule.Database
 					}
 					if (dependentZone.GkDatabaseParent != null)
 					{
-						hasZoneOnGk = true;
+						kauParents.Add(dependentZone.GkDatabaseParent);
 					}
 				}
 
-				if ((kauParents.Count > 1) || (hasZoneOnGk))
+				if (kauParents.Count > 1)
 				{
 					var kauDevice = kauParents.ToList()[0];
 					var commonDatabase = GetDatabase(kauDevice);

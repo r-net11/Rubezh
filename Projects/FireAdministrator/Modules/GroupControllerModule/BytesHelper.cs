@@ -23,5 +23,15 @@ namespace GKModule
 			}
 			return bytes;
 		}
+
+		public static string BytesToString(List<byte> bytes)
+		{
+			var stringValue = new StringBuilder();
+			foreach (var b in bytes)
+			{
+				stringValue.Append(b.ToString("x2") + " ");
+			}
+			return stringValue.ToString();
+		}
 	}
 }

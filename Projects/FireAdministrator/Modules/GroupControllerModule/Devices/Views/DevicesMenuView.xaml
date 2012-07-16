@@ -23,24 +23,20 @@
                 </MenuItem.Header>
 
                 <MenuItem Command="{Binding ConvertFromFiresecCommand}" Header="Конвертировать в из формата Рубеж-2АМ" />
+                <MenuItem Command="{Binding ConvertToBinaryFileCommand}" Header="Конвертировать в бинарный файл" />
                 <MenuItem Command="{Binding ConvertToBinCommand}" Header="Конвертировать в бинарный формат" />
 
                 <MenuItem Command="{Binding ControlTimeCommand}" Header="Время" />
                 <MenuItem Command="{Binding ShowInfoCommand}" Header="Информация" />
                 <MenuItem Command="{Binding ReadJournalCommand}" Header="Журнал событий" />
                 <MenuItem Command="{Binding WriteConfigCommand}" Header="Записать конфигурацию" />
-                <MenuItem Command="{Binding ConvertToBinaryFileCommand}" Header="Конвертировать в бинарный файл" />
 
-                <MenuItem Header="Не реализованное">
+                <MenuItem Header="Дополнительно">
                     <MenuItem Command="{Binding GetParametersCommand}" Header="Запросить параметры" />
                     <MenuItem Command="{Binding WriteParametersCommand}" Header="Записать параметры" />
-                    <MenuItem Command="{Binding StartWorkingProgramCommand}" Header="Стартовать боевую программу" />
                     <MenuItem Command="{Binding GetObjectInfoCommand}" Header="Запросить информацию об объекте" />
                     <MenuItem Command="{Binding ExecuteObjectCommand}" Header="Управление объектом" />
-                    <MenuItem Command="{Binding GoToTechnologicalProgrammCommand}" Header="Перейти к технологической программе" />
-                    <MenuItem Command="{Binding EraseDatabaseCommand}" Header="Стереть базу" />
                     <MenuItem Command="{Binding EraseWorkingProgramCommand}" Header="Стереть боевую программу" />
-                    <MenuItem Command="{Binding WriteDatabaseCommand}" Header="Записать базу" />
                     <MenuItem Command="{Binding WriteProgramCommand}" Header="Записать программу" />
                     <MenuItem Command="{Binding GetDeviceParameterCommand}" Header="Запросить параметр АУ" />
                     <MenuItem Command="{Binding WriteDeviceParameterCommand}" Header="Записать параметр АУ" />

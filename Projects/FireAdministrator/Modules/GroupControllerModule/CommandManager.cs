@@ -4,12 +4,13 @@ using System.Net.Sockets;
 using System;
 using System.Linq;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKModule
 {
 	public static class CommandManager
 	{
-		public static List<byte> Send(XDevice device, short length, byte command, short inputLenght, List<byte> data = null)
+		public static List<byte> Send(XDevice device, short length, byte command, short inputLenght, List<byte> data = null, bool hasAnswer = true)
 		{
 			byte whom = 0;
 			byte address = 0;
@@ -53,10 +54,20 @@ namespace GKModule
 			if (data != null)
 				bytes.AddRange(data);
 
-			return SendBytes(bytes.ToArray(), inputLenght);
+			if (command == 17 && data.Count != 5)
+			{
+				var bytesCount = bytes.Count;
+				for (int i = 0; i < 256 - bytesCount; i++)
+				{
+					bytes.Add(0);
+				}
+			}
+
+			Trace.WriteLine(BytesHelper.BytesToString(bytes));
+			return SendBytes(bytes.ToArray(), inputLenght, hasAnswer);
 		}
 
-		static List<byte> SendBytes(byte[] bytes, short inputLenght)
+		static List<byte> SendBytes(byte[] bytes, short inputLenght, bool hasAnswer = true)
 		{
 			var udpClient = new UdpClient()
 			{
@@ -65,6 +76,8 @@ namespace GKModule
 			udpClient.Connect(IPAddress.Parse("172.16.7.102"), 1025);
 			var endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.102"), 1025);
 			var bytesSent = udpClient.Send(bytes, bytes.Length);
+			if (hasAnswer == false)
+				return null;
 			byte[] recievedBytes = udpClient.Receive(ref endPoint);
 			udpClient.Close();
 

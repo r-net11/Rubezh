@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using XFiresecAPI;
+using System;
 
 namespace GKModule.Database
 {
@@ -29,14 +30,21 @@ namespace GKModule.Database
 
 			var count = Zone.DetectorCount;
 
-			AppPlainFormula(XStateType.Attention);
-			AppPlainFormula(XStateType.Test);
-			AppPlainFormula(XStateType.Failure);
+			AddPlainFormula(XStateType.Attention);
+			AddPlainFormula(XStateType.Test);
+			AddPlainFormula(XStateType.Failure);
 			AppFireFormula(XStateType.Fire1);
 			AppFireFormula(XStateType.Fire2);
+
+			foreach (var formulaOperation in FormulaOperations)
+			{
+				Formula.Add((byte)formulaOperation.FormulaOperationType);
+				Formula.Add(formulaOperation.FirstOperand);
+				Formula.AddRange(BitConverter.GetBytes(formulaOperation.SecondOperand));
+			}
 		}
 
-		void AppPlainFormula(XStateType stateType)
+		void AddPlainFormula(XStateType stateType)
 		{
 			for (int i = 1; i < Zone.Devices.Count; i++)
 			{

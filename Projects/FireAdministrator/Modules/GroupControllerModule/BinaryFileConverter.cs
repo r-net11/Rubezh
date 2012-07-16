@@ -125,7 +125,7 @@ namespace GKModule
 
 			resultBytes.AddRange(BytesHelper.ShortToBytes((short)(binaryObject.GetNo())));
 			resultBytes.Add(1);
-			resultBytes.AddRange(BytesHelper.ShortToBytes((short)bytes.Count));
+			//resultBytes.AddRange(BytesHelper.ShortToBytes((short)bytes.Count));
 			if (incluteDescription)
 			{
 				if (binaryObject.Device != null)
@@ -134,10 +134,11 @@ namespace GKModule
 					resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Зона " + binaryObject.Device.Driver.DriverType.ToString(), 33));
 			}
 			resultBytes.AddRange(bytes);
-			for (int i = 0; i < 256 - bytes.Count; i++)
-			{
-				resultBytes.Add(0);
-			}
+			//var resultButesCount = resultBytes.Count;
+			//for (int i = 0; i < 256 - resultButesCount; i++)
+			//{
+			//    resultBytes.Add(0);
+			//}
 			return resultBytes;
 		}
 
@@ -146,14 +147,14 @@ namespace GKModule
 			var resultBytes = new List<byte>();
 			resultBytes.AddRange(BytesHelper.ShortToBytes(descriptorNo));
 			resultBytes.Add(1);
-			resultBytes.AddRange(BytesHelper.ShortToBytes((short)2));
-			resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Завершающий дескриптор", 33));
+			//resultBytes.AddRange(BytesHelper.ShortToBytes((short)2));
+			//resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Завершающий дескриптор", 33));
 			resultBytes.Add(255);
 			resultBytes.Add(255);
-			for (int i = 0; i < 256 - 2; i++)
-			{
-				resultBytes.Add(0);
-			}
+			//for (int i = 0; i < 256 - 2; i++)
+			//{
+			//    resultBytes.Add(0);
+			//}
 			return resultBytes;
 		}
 	}

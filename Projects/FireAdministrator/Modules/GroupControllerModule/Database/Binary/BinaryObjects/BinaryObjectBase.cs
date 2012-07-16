@@ -90,6 +90,11 @@ namespace GKModule.Database
 				var no = zone.GetDatabaseNo(DatabaseType);
 				InputDependenses.AddRange(BitConverter.GetBytes(no));
 			}
+			foreach (var zone in binaryBase.OutputZones)
+			{
+				var no = zone.GetDatabaseNo(DatabaseType);
+				OutputDependenses.AddRange(BitConverter.GetBytes(no));
+			}
 		}
 
 		public void InitializeAllBytes()
@@ -98,16 +103,11 @@ namespace GKModule.Database
 			{
 				if (Device != null)
 				{
-					Description = BytesHelper.StringDescriptionToBytes(Device.Driver.Name + " - " + Device.Address);
+					Description = BytesHelper.StringDescriptionToBytes(Device.Driver.ShortName + " - " + Device.Address);
 				}
-				else
+				if (Zone != null)
 				{
-					Description = new List<byte>(32);
-					for (int i = 0; i < 32; i++)
-					{
-						//Description.Add(32);
-						Description.Add((byte)'y');
-					}
+					Description = BytesHelper.StringDescriptionToBytes("Зона " + Zone.No.ToString() + " - " + Zone.Name);
 				}
 			}
 			else
@@ -121,20 +121,21 @@ namespace GKModule.Database
 			OutputDependensesCount = BytesHelper.ShortToBytes((short)(OutputDependenses.Count / 2));
 			ParametersCount = BytesHelper.ShortToBytes((short)(Parameters.Count / 4));
 
-			Offset = BytesHelper.ShortToBytes((short)(8 + Description.Count + InputDependenses.Count + Formula.Count));
+			int lengthToParameters = 2 + 6 + 32 + 2 + 2 + InputDependensesCount.Count + 2 + OutputDependenses.Count + Formula.Count;
+			Offset = BytesHelper.ShortToBytes((short)lengthToParameters);
 
 			AllBytes = new List<byte>();
 			AllBytes.AddRange(DeviceType);
 			AllBytes.AddRange(Address);
 			AllBytes.AddRange(Description);
 			AllBytes.AddRange(Offset);
-			AllBytes.AddRange(OutputDependensesCount);
-			AllBytes.AddRange(OutputDependenses);
 			if (DatabaseType == DatabaseType.Gk)
 			{
 				AllBytes.AddRange(InputDependensesCount);
 				AllBytes.AddRange(InputDependenses);
 			}
+			AllBytes.AddRange(OutputDependensesCount);
+			AllBytes.AddRange(OutputDependenses);
 			AllBytes.AddRange(Formula);
 			AllBytes.AddRange(ParametersCount);
 			AllBytes.AddRange(Parameters);

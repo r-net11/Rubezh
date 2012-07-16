@@ -18,6 +18,7 @@ namespace GKModule.ViewModels
 			ReadCommand = new RelayCommand(OnRead);
 			WriteCommand = new RelayCommand(OnWrite);
 			Device = device;
+			OnRead();
 		}
 
 		string _time;

@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using XFiresecAPI;
 using System.IO;
+using System.Diagnostics;
 
 namespace GKModule.Models
 {
@@ -31,13 +32,9 @@ namespace GKModule.Models
 
 			GetParametersCommand = new RelayCommand(OnGetParameters);
 			WriteParametersCommand = new RelayCommand(OnWriteParameters);
-			StartWorkingProgramCommand = new RelayCommand(OnStartWorkingProgram);
 			GetObjectInfoCommand = new RelayCommand(OnGetObjectInfo);
 			ExecuteObjectCommand = new RelayCommand(OnExecuteObject);
-			GoToTechnologicalProgrammCommand = new RelayCommand(OnGoToTechnologicalProgramm);
-			EraseDatabaseCommand = new RelayCommand(OnEraseDatabase);
 			EraseWorkingProgramCommand = new RelayCommand(OnEraseWorkingProgram);
-			WriteDatabaseCommand = new RelayCommand(OnWriteDatabase);
 			WriteProgramCommand = new RelayCommand(OnWriteProgram);
 			GetDeviceParameterCommand = new RelayCommand(OnGetDeviceParameter);
 			WriteDeviceParameterCommand = new RelayCommand(OnWriteDeviceParameter);
@@ -123,14 +120,37 @@ namespace GKModule.Models
 		{
 			DatabaseProcessor.Convert();
 
-			var gkDatabase = DatabaseProcessor.DatabaseCollection.GkDatabases.First();
-			foreach (var binaryObject in gkDatabase.BinaryObjects)
+			foreach (var gkDatabase in DatabaseProcessor.DatabaseCollection.GkDatabases)
 			{
-				var bytes = BinaryFileConverter.CreateDescriptor(binaryObject, true);
-				CommandManager.Send(SelectedDevice.Device, (short)(3 + bytes.Count()), 17, 0, bytes);
+				LoadingService.Show("Запись конфигурации в ГК", 2 + gkDatabase.BinaryObjects.Count);
+
+				LoadingService.DoStep("Переход в технологический режим");
+				CommandManager.Send(gkDatabase.RootDevice, 0, 14, 0);
+
+				LoadingService.DoStep("Стирание базы данных");
+				CommandManager.Send(gkDatabase.RootDevice, 0, 15, 0);
+
+				foreach (var binaryObject in gkDatabase.BinaryObjects)
+				{
+					LoadingService.DoStep("Запись дескриптора " + binaryObject.GetNo().ToString());
+					var bytes = BinaryFileConverter.CreateDescriptor(binaryObject, false);
+					CommandManager.Send(gkDatabase.RootDevice, (short)(3 + bytes.Count()), 17, 0, bytes);
+				}
+				LoadingService.DoStep("Запись завершающего дескриптора");
+				var endBytes = BinaryFileConverter.CreateEndDescriptor((short)(gkDatabase.BinaryObjects.Count + 1));
+				CommandManager.Send(gkDatabase.RootDevice, 3 + 2, 17, 0, endBytes);
+
+				LoadingService.DoStep("Запуск программы");
+				CommandManager.Send(gkDatabase.RootDevice, 0, 11, 0);
+
+				LoadingService.Close();
 			}
-			var endBytes = BinaryFileConverter.CreateEndDescriptor((short)gkDatabase.BinaryObjects.Count);
-			CommandManager.Send(SelectedDevice.Device, 3 + 2, 17, 0, endBytes);
+
+			foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
+			{
+				LoadingService.Show("Запись конфигурации в КАУ", 2 + kauDatabase.BinaryObjects.Count);
+				LoadingService.Close();
+			}
 		}
 
 		bool CanConvertToBinaryFile()
@@ -157,11 +177,6 @@ namespace GKModule.Models
 		{
 		}
 
-		public RelayCommand StartWorkingProgramCommand { get; private set; }
-		void OnStartWorkingProgram()
-		{
-		}
-
 		public RelayCommand GetObjectInfoCommand { get; private set; }
 		void OnGetObjectInfo()
 		{
@@ -172,23 +187,8 @@ namespace GKModule.Models
 		{
 		}
 
-		public RelayCommand GoToTechnologicalProgrammCommand { get; private set; }
-		void OnGoToTechnologicalProgramm()
-		{
-		}
-
-		public RelayCommand EraseDatabaseCommand { get; private set; }
-		void OnEraseDatabase()
-		{
-		}
-
 		public RelayCommand EraseWorkingProgramCommand { get; private set; }
 		void OnEraseWorkingProgram()
-		{
-		}
-
-		public RelayCommand WriteDatabaseCommand { get; private set; }
-		void OnWriteDatabase()
 		{
 		}
 

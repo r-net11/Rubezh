@@ -85,7 +85,7 @@ namespace GKModule.Database
 				foreach (var device in zone.Devices)
 				{
 					zone.InputDevices.Add(device);
-					device.InputZones.Add(zone);
+					device.OutputZones.Add(zone);
 				}
 			}
 		}

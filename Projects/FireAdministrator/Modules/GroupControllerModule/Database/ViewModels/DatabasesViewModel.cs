@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GKModule.Database;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
