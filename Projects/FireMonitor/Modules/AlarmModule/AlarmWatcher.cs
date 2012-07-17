@@ -174,14 +174,12 @@ namespace AlarmModule
 					break;
 
 				case StateType.Failure:
-					//if (state.DriverState.IsManualReset == false)
-					//    return null;
 					alarmType = AlarmType.Failure;
 					break;
 
 				case StateType.Service:
-					if (state.DriverState.IsAutomatic) //state.DriverState.IsManualReset
-						return null;
+					//if (state.DriverState.IsAutomatic) //state.DriverState.IsManualReset
+					//    return null;
 					alarmType = AlarmType.Service;
 					break;
 			}

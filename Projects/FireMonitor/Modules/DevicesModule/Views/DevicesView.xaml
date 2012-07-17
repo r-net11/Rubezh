@@ -128,6 +128,10 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding HasChildStates, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Image Source="{Binding ChildState, Converter={StaticResource StateToIconConverter}}" Margin="-2, -2, 0, 0" Width="16" Height="16" />
+                            <TextBlock Text="Причина в дочернем устройстве" VerticalAlignment="Center" />
+                        </StackPanel>
                         <ItemsControl ItemsSource="{Binding Parameters}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>

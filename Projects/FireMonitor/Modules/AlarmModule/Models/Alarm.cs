@@ -105,7 +105,11 @@ namespace AlarmModule
 		ResetItem GetDeviceResetItem()
 		{
 			var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceUID);
-			var parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.Parent.UID);
+			DeviceState parentDeviceState;
+			if (device.ParentPanel != null)
+				parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.ParentPanel.UID);
+			else
+				parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.Parent.UID);
 
 			var resetItem = new ResetItem();
 

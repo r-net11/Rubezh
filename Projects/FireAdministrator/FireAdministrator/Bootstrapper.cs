@@ -25,11 +25,11 @@ namespace FireAdministrator
 				{
 					LoadingService.Show("Чтение конфигурации", 4);
 					LoadingService.AddCount(GetModuleCount());
-					LoadingService.DoStep("Получение списка драйверов с сервера");
+					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration();
 					if (FiresecManager.Drivers.Count == 0)
 					{
-						MessageBoxService.Show("Ошибка при получении списка драйверов с сервера");
+						MessageBoxService.Show("Ошибка при загрузке конфигурации с сервера");
 					}
 					LoadingService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)

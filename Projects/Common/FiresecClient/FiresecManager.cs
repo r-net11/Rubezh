@@ -82,6 +82,13 @@ namespace FiresecClient
 					if (parentState.ParentDevice != null)
 						parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
 				}
+
+				foreach (var childState in deviceState.ChildStates)
+				{
+					childState.ChildDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == childState.ChildDeviceId);
+					if (childState.ChildDevice != null)
+						childState.DriverState = childState.ChildDevice.Driver.States.FirstOrDefault(x => x.Code == childState.Code);
+				}
 			}
 		}
 

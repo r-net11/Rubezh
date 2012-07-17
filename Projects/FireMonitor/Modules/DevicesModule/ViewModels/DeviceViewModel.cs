@@ -78,6 +78,17 @@ namespace DevicesModule.ViewModels
 				ParentStates.Add(stateViewModel);
 			}
 
+			ChildState = StateType.Norm;
+			HasChildStates = false;
+			foreach (var state in DeviceState.ChildStates)
+			{
+				if (state.DriverState.StateType < ChildState)
+				{
+					ChildState = state.DriverState.StateType;
+					HasChildStates = true;
+				}
+			}
+
 			OnPropertyChanged("StateType");
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("DeviceState.States");
@@ -85,10 +96,14 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("DeviceState.ParentStringStates");
 			OnPropertyChanged("States");
 			OnPropertyChanged("ParentStates");
+			OnPropertyChanged("ChildState");
+			OnPropertyChanged("HasChildStates");
 		}
 
 		public List<StateViewModel> States { get; private set; }
 		public List<StateViewModel> ParentStates { get; private set; }
+		public StateType ChildState { get; private set; }
+		public bool HasChildStates { get; private set; }
 
 		void OnParametersChanged()
 		{
