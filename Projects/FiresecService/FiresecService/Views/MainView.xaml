@@ -19,11 +19,11 @@
                         <DataGridTextColumn Binding="{Binding ServerToClientOperationName}" Header="Операция сервер-клиент" Width="*" />
                         <DataGridTextColumn Binding="{Binding State}" Header="Связь" Width="*" />
                     </DataGrid.Columns>
-                    <DataGrid.ContextMenu>
+                    <!--<DataGrid.ContextMenu>
                         <ContextMenu>
                             <MenuItem Header="История операций" Command="{Binding ShowOperationHistoryCommand}" />
                         </ContextMenu>
-                    </DataGrid.ContextMenu>
+                    </DataGrid.ContextMenu>-->
                 </DataGrid>
             </TabItem>
             <TabItem Header="Управление(DEBUG)" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">

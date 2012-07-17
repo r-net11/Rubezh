@@ -14,6 +14,9 @@ namespace FiresecService.Processor
 		public event Action<List<DeviceState>> DevicesStateChanged;
 		void OnDevicesStateChanged(List<DeviceState> deviceStates)
 		{
+			if (DoNotCallback)
+				return;
+
 			foreach (var firesecService in FiresecServices)
 			{
 				if (firesecService != null && firesecService.CallbackWrapper != null)
@@ -29,6 +32,9 @@ namespace FiresecService.Processor
 		public event Action<List<DeviceState>> DevicesParametersChanged;
 		void OnDevicesParametersChanged(List<DeviceState> deviceStates)
 		{
+			if (DoNotCallback)
+				return;
+
 			foreach (var firesecService in FiresecServices)
 			{
 				if (firesecService != null && firesecService.CallbackWrapper != null)
@@ -44,6 +50,9 @@ namespace FiresecService.Processor
 		public event Action<List<ZoneState>> ZoneStateChanged;
 		void OnZonesStateChanged(List<ZoneState> zoneStates)
 		{
+			if (DoNotCallback)
+				return;
+
 			foreach (var firesecService in FiresecServices)
 			{
 				if (firesecService != null && firesecService.CallbackWrapper != null)
@@ -242,12 +251,26 @@ namespace FiresecService.Processor
 			}
 		}
 
+		public void ImitatorStateChanged(Firesec.CoreState.config coreState)
+		{
+			StateChanged(coreState);
+		}
+
 		public void OnStateChanged()
+		{
+			var coreState = FiresecSerializedClient.GetCoreState();
+			if (coreState != null && coreState.Result != null)
+			{
+				StateChanged(coreState.Result);
+			}
+		}
+
+		void StateChanged(Firesec.CoreState.config coreState)
 		{
 			try
 			{
 				ChangedDevices = new HashSet<DeviceState>();
-				var coreState = FiresecSerializedClient.GetCoreState().Result;
+				ChangedZones = new HashSet<ZoneState>();
 
 				SetStates(coreState);
 				PropogateStatesDown();
@@ -326,6 +349,7 @@ namespace FiresecService.Processor
 						Logger.Error("Watcher.SetStates deviceState.Device.Driver.States = null");
 						return;
 					}
+
 					foreach (var driverState in deviceState.Device.Driver.States)
 					{
 						var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);

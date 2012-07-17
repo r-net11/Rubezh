@@ -1,42 +1,32 @@
 ﻿using System;
 using System.ComponentModel;
 using FiresecAPI.Models;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiresecService.ViewModels
 {
-    public class DeviceStateViewModel : INotifyPropertyChanged
-    {
-        public DeviceStateViewModel(DriverState driverState, Action stateChanged)
-        {
-            StateChanged = stateChanged;
-            DriverState = driverState;
-        }
+	public class DeviceStateViewModel : BaseViewModel
+	{
+		public DeviceStateViewModel(DriverState driverState)
+		{
+			DriverState = driverState;
+		}
 
-        Action StateChanged;
-        public DriverState DriverState { get; private set; }
+		public DriverState DriverState { get; private set; }
 
-        public bool _isActive;
-        public bool IsActive
-        {
-            get { return _isActive; }
-            set
-            {
-                if (_isActive != value)
-                {
-                    _isActive = value;
-                    OnPropertyChanged("IsActive");
-
-                    if (StateChanged != null)
-                        StateChanged();
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged(string name)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(name));
-        }
-    }
+		public bool _isActive;
+		public bool IsActive
+		{
+			get { return _isActive; }
+			set
+			{
+				if (_isActive != value)
+				{
+					_isActive = value;
+					OnPropertyChanged("IsActive");
+					ImitatorViewModel.Current.Update();
+				}
+			}
+		}
+	}
 }

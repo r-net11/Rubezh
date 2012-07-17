@@ -1,22 +1,25 @@
 ﻿using System.Collections.ObjectModel;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecService.Service;
+using Firesec.CoreState;
+using System.Collections.Generic;
 
 namespace FiresecService.ViewModels
 {
 	public class ImitatorViewModel : DialogViewModel
 	{
-		FiresecService.Service.FiresecService FiresecService;
+		public static ImitatorViewModel Current { get; private set; }
 
-		public ImitatorViewModel(FiresecService.Service.FiresecService firesecService)
+		public ImitatorViewModel()
 		{
-			FiresecService = firesecService;
+			Current = this;
 
 			Title = "Имитатор состояний устройств";
 			Devices = new ObservableCollection<DeviceViewModel>();
 
-			foreach (var deviceState in FiresecService.FiresecManager.DeviceConfigurationStates.DeviceStates)
+			foreach (var deviceState in ClientsCash.MonitoringFiresecManager.DeviceConfigurationStates.DeviceStates)
 			{
-				var deviceViewModel = new DeviceViewModel(deviceState, FiresecService);
+				var deviceViewModel = new DeviceViewModel(deviceState);
 				Devices.Add(deviceViewModel);
 			}
 		}
@@ -32,6 +35,35 @@ namespace FiresecService.ViewModels
 				_selectedDevice = value;
 				OnPropertyChanged("SelectedDevice");
 			}
+		}
+
+		public void Update()
+		{
+			var coreStates = new Firesec.CoreState.config();
+			var innerDevices = new List<devType>();
+			foreach (var device in Devices)
+			{
+				var innerDevice = new devType()
+				{
+					name = device.DeviceState.PlaceInTree
+				};
+				var innerStates = new List<stateType>();
+				foreach (var state in device.DriverStates)
+				{
+					if (state.IsActive)
+					{
+						var innerState = new stateType()
+						{
+							id = state.DriverState.Id
+						};
+						innerStates.Add(innerState);
+					}
+				}
+				innerDevice.state = innerStates.ToArray();
+				innerDevices.Add(innerDevice);
+			}
+			coreStates.dev = innerDevices.ToArray();
+			ClientsCash.MonitoringFiresecManager.Watcher.ImitatorStateChanged(coreStates);
 		}
 	}
 }

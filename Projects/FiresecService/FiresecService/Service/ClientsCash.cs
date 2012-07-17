@@ -106,5 +106,13 @@ namespace FiresecService.Service
 			}
 			PingTimer.Start();
 		}
+
+		public static void NotifyClients(string message)
+		{
+			foreach (var firesecService in FiresecServices)
+			{
+				firesecService.CallbackWrapper.Notify(message);
+			}
+		}
 	}
 }
