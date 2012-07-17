@@ -47,9 +47,8 @@ namespace FiresecService.Database
 					return result.FirstOrDefault();
 				}
 			}
-			catch (InvalidOperationException e)
+			catch (InvalidOperationException)
 			{
-				//Logger.Info("Обработано исключение при вызове метода DatabaseHelper.GetLastOldId");
 			}
 			catch (Exception e)
 			{

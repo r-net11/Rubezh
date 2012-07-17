@@ -40,7 +40,7 @@ namespace FiresecService.Service
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.DeviceWriteConfig(firesecConfiguration, device.PlaceInTree).ToOperationResult();
+			return FiresecSerializedClient.DeviceWriteConfig(firesecConfiguration, device.GetPlaceInTree()).ToOperationResult();
 		}
 
 		[Obsolete]
@@ -52,7 +52,7 @@ namespace FiresecService.Service
 			{
 				if (device.Driver.CanWriteDatabase)
 				{
-					result = FiresecSerializedClient.DeviceWriteConfig(firesecConfiguration, device.PlaceInTree).ToOperationResult();
+					result = FiresecSerializedClient.DeviceWriteConfig(firesecConfiguration, device.GetPlaceInTree()).ToOperationResult();
 					if (result.HasError)
 					{
 						return result;
@@ -67,28 +67,28 @@ namespace FiresecService.Service
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.DeviceSetPassword(firesecConfiguration, device.PlaceInTree, password, (int)devicePasswordType).ToOperationResult();
+			return FiresecSerializedClient.DeviceSetPassword(firesecConfiguration, device.GetPlaceInTree(), password, (int)devicePasswordType).ToOperationResult();
 		}
 
 		public OperationResult<bool> DeviceDatetimeSync(DeviceConfiguration deviceConfiguration, Guid deviceUID)
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.DeviceDatetimeSync(firesecConfiguration, device.PlaceInTree).ToOperationResult();
+			return FiresecSerializedClient.DeviceDatetimeSync(firesecConfiguration, device.GetPlaceInTree()).ToOperationResult();
 		}
 
 		public OperationResult<string> DeviceGetInformation(DeviceConfiguration deviceConfiguration, Guid deviceUID)
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.DeviceGetInformation(firesecConfiguration, device.PlaceInTree).ToOperationResult();
+			return FiresecSerializedClient.DeviceGetInformation(firesecConfiguration, device.GetPlaceInTree()).ToOperationResult();
 		}
 
 		public OperationResult<List<string>> DeviceGetSerialList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			var result = FiresecSerializedClient.DeviceGetSerialList(firesecConfiguration, device.PlaceInTree).ToOperationResult();
+			var result = FiresecSerializedClient.DeviceGetSerialList(firesecConfiguration, device.GetPlaceInTree()).ToOperationResult();
 
 			var operationResult = new OperationResult<List<string>>()
 			{
@@ -112,8 +112,7 @@ namespace FiresecService.Service
 
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			//fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_1.HXC";
-			return FiresecSerializedClient.DeviceUpdateFirmware(firesecConfiguration, device.PlaceInTree, fileName).ToOperationResult();
+			return FiresecSerializedClient.DeviceUpdateFirmware(firesecConfiguration, device.GetPlaceInTree(), fileName).ToOperationResult();
 		}
 
 		public OperationResult<string> DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
@@ -128,22 +127,21 @@ namespace FiresecService.Service
 
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			//`fileName = "D:/Projects/3rdParty/Firesec/XHC/Рубеж-2АМ/2_25/sborka2_25(161211)_2.HXC";
-			return FiresecSerializedClient.DeviceVerifyFirmwareVersion(firesecConfiguration, device.PlaceInTree, fileName).ToOperationResult();
+			return FiresecSerializedClient.DeviceVerifyFirmwareVersion(firesecConfiguration, device.GetPlaceInTree(), fileName).ToOperationResult();
 		}
 
 		public OperationResult<string> DeviceReadEventLog(DeviceConfiguration deviceConfiguration, Guid deviceUID)
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.DeviceReadEventLog(firesecConfiguration, device.PlaceInTree).ToOperationResult();
+			return FiresecSerializedClient.DeviceReadEventLog(firesecConfiguration, device.GetPlaceInTree()).ToOperationResult();
 		}
 
 		public OperationResult<DeviceConfiguration> DeviceAutoDetectChildren(DeviceConfiguration deviceConfiguration, Guid deviceUID, bool fastSearch)
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			var result = FiresecSerializedClient.DeviceAutoDetectChildren(firesecConfiguration, device.PlaceInTree, fastSearch);
+			var result = FiresecSerializedClient.DeviceAutoDetectChildren(firesecConfiguration, device.GetPlaceInTree(), fastSearch);
 
 			var operationResult = new OperationResult<DeviceConfiguration>()
 			{
@@ -160,7 +158,7 @@ namespace FiresecService.Service
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			var result = FiresecSerializedClient.DeviceReadConfig(firesecConfiguration, device.PlaceInTree);
+			var result = FiresecSerializedClient.DeviceReadConfig(firesecConfiguration, device.GetPlaceInTree());
 
 			var operationResult = new OperationResult<DeviceConfiguration>()
 			{
@@ -192,28 +190,28 @@ namespace FiresecService.Service
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.DeviceCustomFunctionExecute(firesecConfiguration, device.PlaceInTree, functionName).ToOperationResult();
+			return FiresecSerializedClient.DeviceCustomFunctionExecute(firesecConfiguration, device.GetPlaceInTree(), functionName).ToOperationResult();
 		}
 
 		public OperationResult<string> DeviceGetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID)
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.DeviceGetGuardUsersList(firesecConfiguration, device.PlaceInTree).ToOperationResult();
+			return FiresecSerializedClient.DeviceGetGuardUsersList(firesecConfiguration, device.GetPlaceInTree()).ToOperationResult();
 		}
 
 		public OperationResult<bool> DeviceSetGuardUsersList(DeviceConfiguration deviceConfiguration, Guid deviceUID, string users)
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.DeviceSetGuardUsersList(firesecConfiguration, device.PlaceInTree, users).ToOperationResult();
+			return FiresecSerializedClient.DeviceSetGuardUsersList(firesecConfiguration, device.GetPlaceInTree(), users).ToOperationResult();
 		}
 
 		public OperationResult<string> DeviceGetMDS5Data(DeviceConfiguration deviceConfiguration, Guid deviceUID)
 		{
 			var firesecConfiguration = FiresecManager.ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			return FiresecSerializedClient.DeviceGetMDS5Data(firesecConfiguration, device.PlaceInTree).ToOperationResult();
+			return FiresecSerializedClient.DeviceGetMDS5Data(firesecConfiguration, device.GetPlaceInTree()).ToOperationResult();
 		}
 
 		public void AddToIgnoreList(List<Guid> deviceGuids)

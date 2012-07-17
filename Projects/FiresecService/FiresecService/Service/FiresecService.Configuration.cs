@@ -23,7 +23,6 @@ namespace FiresecService.Service
 		public DeviceConfiguration GetDeviceConfiguration()
 		{
 			return ConfigurationFileManager.GetDeviceConfiguration();
-			return ConfigurationCash.DeviceConfiguration;
 		}
 
 		public SecurityConfiguration GetSecurityConfiguration()
@@ -62,7 +61,6 @@ namespace FiresecService.Service
 		public PlansConfiguration GetPlansConfiguration()
 		{
 			return ConfigurationFileManager.GetPlansConfiguration();
-			return ConfigurationCash.PlansConfiguration;
 		}
 
 		public void SetPlansConfiguration(PlansConfiguration plansConfiguration)

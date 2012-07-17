@@ -27,18 +27,18 @@ namespace FireMonitor
 				{
 					LoadingService.Show("Чтение конфигурации", 9);
 					LoadingService.AddCount(GetModuleCount());
-					LoadingService.DoStep("Полчучение списка драйверов с сервера");
+					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration();
 					if (FiresecManager.Drivers.Count == 0)
-						MessageBoxService.Show("Ошибка при получении списка драйверов с сервера");
-					LoadingService.DoStep("Проверка состояния системы");
+						MessageBoxService.Show("Ошибка при загрузке конфигурации с сервера");
+					LoadingService.DoStep("Загрузка состояний с сервера");
 					FiresecManager.GetStates();
 
 					LoadingService.DoStep("Проверка HASP-ключа");
 					var operationResult = FiresecManager.FiresecService.CheckHaspPresence();
 					if (operationResult.HasError)
 						MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
-					LoadingService.DoStep("Проверка состояния системы");
+					LoadingService.DoStep("Проверка статуса сервера");
 					var serverStatus = FiresecManager.FiresecService.GetStatus();
 					if (serverStatus != null)
 						MessageBoxService.ShowWarning(serverStatus);

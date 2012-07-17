@@ -77,7 +77,12 @@ namespace FiresecAPI.Models
 		public bool IsOPCUsed { get; set; }
 
 		[DataMember]
-		public string PlaceInTree { get; set; }
+		public string SavedPlaceInTree { get; set; }
+
+		public string PlaceInTree
+		{
+			get { return GetPlaceInTree(); }
+		}
 
 		public bool CanBeNotUsed
 		{

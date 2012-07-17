@@ -121,7 +121,7 @@ namespace FiresecService.Configuration
 				}
 			}
 
-			device.PlaceInTree = device.GetPlaceInTree();
+			device.SavedPlaceInTree = device.GetPlaceInTree();
 		}
 
 		void SetZone(Device device, devType innerDevice)

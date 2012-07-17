@@ -71,7 +71,13 @@ namespace FireAdministrator.Views
 			WaitHelper.Execute(() =>
 			{
 				if (ServiceFactory.SaveService.DevicesChanged)
-					FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
+				{
+					var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
+					if (result.HasError)
+					{
+						MessageBoxService.ShowError(result.Error);
+					}
+				}
 
 				if (ServiceFactory.SaveService.PlansChanged)
 					FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);

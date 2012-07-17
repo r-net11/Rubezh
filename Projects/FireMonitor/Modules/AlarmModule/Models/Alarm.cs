@@ -115,7 +115,6 @@ namespace AlarmModule
 				case AlarmType.Attention:
 				case AlarmType.Info:
 				case AlarmType.Failure:
-				case AlarmType.Service:
 					resetItem.DeviceUID = parentDeviceState.UID;
 					foreach (var state in parentDeviceState.States)
 					{
@@ -124,19 +123,17 @@ namespace AlarmModule
 					}
 					break;
 
-				//case AlarmType.Service:
-				//    resetItem.DeviceUID = device.UID;
-				//    var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-				//    foreach (var state in deviceState.States)
-				//    {
-				//        if (state.DriverState.IsAutomatic && state.DriverState.IsManualReset)
-				//            resetItem.StateNames.Add(state.DriverState.Name);
-				//    }
-				//    break;
-
-				case AlarmType.Auto:
+				case AlarmType.Service:
+					resetItem.DeviceUID = device.UID;
+					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+					foreach (var state in deviceState.States)
+					{
+						if (state.DriverState.IsManualReset)
+							resetItem.StateNames.Add(state.DriverState.Name);
+					}
 					break;
 
+				case AlarmType.Auto:
 				case AlarmType.Off:
 					break;
 			}

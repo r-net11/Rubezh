@@ -10,6 +10,8 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Documents;
+using System;
+using Common;
 
 namespace JournalModule.ViewModels
 {
@@ -36,13 +38,22 @@ namespace JournalModule.ViewModels
 		{
 			get
 			{
-				string rtfString = JournalRecord.Description;
-				var richTextBox = new RichTextBox();
-				MemoryStream memoryStream = new MemoryStream(ASCIIEncoding.UTF8.GetBytes(rtfString));
-				richTextBox.Selection.Load(memoryStream, DataFormats.Rtf);
-				TextRange textrange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
-				string plainText = textrange.Text;
-				return plainText;
+				if (string.IsNullOrEmpty(JournalRecord.Detalization))
+					return null;
+
+				try
+				{
+					var memoryStream = new MemoryStream(ASCIIEncoding.UTF8.GetBytes(JournalRecord.Detalization));
+					var richTextBox = new RichTextBox();
+					richTextBox.Selection.Load(memoryStream, DataFormats.Rtf);
+					TextRange textrange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
+					return textrange.Text;
+				}
+				catch(Exception e)
+				{
+					Logger.Error("JournalRecordViewModel.Description JournalRecord.Detalization = " + JournalRecord.Detalization);
+					return null;
+				}
 			}
 		}
 

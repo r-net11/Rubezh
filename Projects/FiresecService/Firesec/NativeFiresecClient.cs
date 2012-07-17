@@ -310,7 +310,7 @@ namespace Firesec
 		FiresecOperationResult<T> SafeLoopCall<T>(Func<T> f)
 		{
 			var resultData = new FiresecOperationResult<T>();
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				try
 				{
