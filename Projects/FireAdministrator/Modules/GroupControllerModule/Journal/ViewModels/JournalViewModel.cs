@@ -27,7 +27,7 @@ namespace GKModule.ViewModels
 
 		void SetTotalCount()
 		{
-			var bytes = CommandManager.Send(Device, 0, 6, 64);
+			var bytes = SendManager.Send(Device, 0, 6, 64);
 			var journalItem = new JournalItem(bytes);
 			TotalCount = journalItem.GKNo;
 		}
@@ -84,7 +84,7 @@ namespace GKModule.ViewModels
 			{
 				var data = new List<byte>();
 				data = BitConverter.GetBytes(i).ToList();
-				var bytes = CommandManager.Send(Device, 4, 7, 64, data);
+				var bytes = SendManager.Send(Device, 4, 7, 64, data);
 				var journalItem = new JournalItem(bytes);
 				JournalItems.Add(journalItem);
 			}

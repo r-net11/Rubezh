@@ -2,6 +2,7 @@
 using FiresecAPI.Models;
 using FiresecService.Configuration;
 using FiresecService.Service;
+using System.Linq;
 
 namespace FiresecService.Processor
 {
@@ -37,10 +38,9 @@ namespace FiresecService.Processor
 			{
 				ConfigurationConverter.ConvertMetadataFromFiresec();
 				ConfigurationConverter.Update();
-
+				ConfigurationConverter.SynchronyzeConfiguration();
 				ConvertStates();
 				Watcher = new Watcher(this);
-				
 				return true;
 			}
 			return false;

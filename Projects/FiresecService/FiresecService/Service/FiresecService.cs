@@ -136,9 +136,10 @@ namespace FiresecService.Service
 
 		public string GetStatus()
 		{
-			if (!string.IsNullOrEmpty(FiresecManager.ConfigurationConverter.DriversError))
+			var driversError = FiresecManager.ConfigurationConverter.DriversError.ToString();
+			if (!string.IsNullOrEmpty(driversError))
 			{
-				return FiresecManager.ConfigurationConverter.DriversError;
+				return driversError;
 			}
 			return null;
 		}

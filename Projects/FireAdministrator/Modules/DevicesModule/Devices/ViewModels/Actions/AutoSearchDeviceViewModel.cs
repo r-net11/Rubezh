@@ -33,7 +33,7 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return !FiresecManager.DeviceConfiguration.Devices.Any(x => x.Id == Device.Id);
+				return !FiresecManager.DeviceConfiguration.Devices.Any(x => x.PathId == Device.PathId);
             }
         }
 

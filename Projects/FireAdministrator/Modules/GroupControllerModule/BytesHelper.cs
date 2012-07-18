@@ -33,5 +33,17 @@ namespace GKModule
 			}
 			return stringValue.ToString();
 		}
+
+		public static int SubstructInt(List<byte> bytes, int startByte)
+		{
+			var result = 1 * bytes[startByte + 0] + 256 * bytes[startByte + 1] + 256 * 256 * bytes[startByte + 2] + 256 * 256 * 256 * bytes[startByte + 3];
+			return result;
+		}
+
+		public static short SubstructShort(List<byte> bytes, int startByte)
+		{
+			var result = 1 * bytes[startByte + 0] + 256 * bytes[startByte + 1];
+			return (short)result;
+		}
 	}
 }

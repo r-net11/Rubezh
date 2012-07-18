@@ -18,7 +18,7 @@ namespace GKModule
 			stringBuilder.AppendLine("<congig>");
 
 			var gkDatabase = DatabaseProcessor.DatabaseCollection.GkDatabases.First();
-			CreateConfigurationFile(gkDatabase, @"D:\GKConfig\GK.GKBIN");
+			SaveToFile(gkDatabase, @"D:\GKConfig\GK.GKBIN");
 			stringBuilder.AppendLine("<gk name=\"GK.GKBIN\" description=\"описание ГК\"/>");
 
 			foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
@@ -27,7 +27,7 @@ namespace GKModule
 				short lineNo = XManager.GetKauLine(kauDevice);
 				string lineTypeName = lineNo == 0 ? "baseline" : "reserveline";
 				string fileName = "Kau" + kauDevice.Address + ".GKBIN";
-				CreateConfigurationFile(kauDatabase, @"D:\GKConfig\" + fileName);
+				SaveToFile(kauDatabase, @"D:\GKConfig\" + fileName);
 				stringBuilder.AppendLine("<kau name=\"" + fileName + "\" line=\"" + lineTypeName + "\" address=\"" + kauDevice.Address + "\" description=\"описание КАУ\"/>");
 			}
 
@@ -39,7 +39,7 @@ namespace GKModule
 			}
 		}
 
-		static void CreateConfigurationFile(CommonDatabase commonDatabase, string fileName)
+		static void SaveToFile(CommonDatabase commonDatabase, string fileName)
 		{
 			var fileBytes = new List<byte>();
 			fileBytes.Add(0x25);
@@ -54,7 +54,7 @@ namespace GKModule
 
 			foreach (var binaryObject in commonDatabase.BinaryObjects)
 			{
-				fileBytes.AddRange(CreateDescriptor(binaryObject, true));
+				fileBytes.AddRange(CreateDescriptor(binaryObject));
 			}
 			fileBytes.AddRange(CreateEndDescriptor((short)commonDatabase.BinaryObjects.Count));
 
@@ -64,45 +64,7 @@ namespace GKModule
 			}
 		}
 
-		public static void Convert1()
-		{
-			DatabaseProcessor.Convert();
-			var gkDatabase = DatabaseProcessor.DatabaseCollection.GkDatabases.First();
-
-			var fileBytes = new List<byte>();
-			fileBytes.Add(0x25);
-			fileBytes.Add(0x08);
-			fileBytes.Add(0x19);
-			fileBytes.Add(0x65);
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)(gkDatabase.BinaryObjects.Count + 1)));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
-
-			foreach (var binaryObject in gkDatabase.BinaryObjects)
-			{
-				fileBytes.AddRange(CreateDescriptor(binaryObject, true));
-			}
-			fileBytes.AddRange(CreateEndDescriptor((short)gkDatabase.BinaryObjects.Count));
-
-			using (var fileStream = new FileStream(@"D:\GKConfig\GK.GKBIN", FileMode.Create))
-			{
-				fileStream.Write(fileBytes.ToArray(), 0, fileBytes.Count);
-			}
-
-			using (var streamWriter = new StreamWriter(@"D:\GKConfig\GK.gkprj"))
-			{
-				var stringBuilder = new StringBuilder();
-				stringBuilder.AppendLine("<congig>");
-				stringBuilder.AppendLine("<gk name=\"GK.GKBIN\" description=\"описание ГК\"/>");
-				stringBuilder.AppendLine("</congig>");
-
-				streamWriter.Write(stringBuilder.ToString());
-			}
-		}
-
-		public static void Convert2()
+		public static void CreateListOfFilesForGk()
 		{
 			DatabaseProcessor.Convert();
 			var gkDatabase = DatabaseProcessor.DatabaseCollection.GkDatabases.First();
@@ -118,27 +80,26 @@ namespace GKModule
 			}
 		}
 
-		public static List<byte> CreateDescriptor(BinaryObjectBase binaryObject, bool incluteDescription)
+		public static List<byte> CreateDescriptor(BinaryObjectBase binaryObject)
 		{
 			var resultBytes = new List<byte>();
 			var bytes = binaryObject.AllBytes;
 
 			resultBytes.AddRange(BytesHelper.ShortToBytes((short)(binaryObject.GetNo())));
 			resultBytes.Add(1);
-			//resultBytes.AddRange(BytesHelper.ShortToBytes((short)bytes.Count));
-			if (incluteDescription)
-			{
-				if (binaryObject.Device != null)
-					resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Устройство " + binaryObject.Device.Driver.DriverType.ToString(), 33));
-				if (binaryObject.Zone != null)
-					resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Зона " + binaryObject.Device.Driver.DriverType.ToString(), 33));
-			}
+			resultBytes.AddRange(BytesHelper.ShortToBytes((short)bytes.Count));
+
+			if (binaryObject.Device != null)
+				resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Устройство " + binaryObject.Device.Driver.DriverType.ToString(), 33));
+			if (binaryObject.Zone != null)
+				resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Зона " + binaryObject.Device.Driver.DriverType.ToString(), 33));
+
 			resultBytes.AddRange(bytes);
-			//var resultButesCount = resultBytes.Count;
-			//for (int i = 0; i < 256 - resultButesCount; i++)
-			//{
-			//    resultBytes.Add(0);
-			//}
+			var resultButesCount = resultBytes.Count;
+			for (int i = 0; i < 256 - resultButesCount; i++)
+			{
+				resultBytes.Add(0);
+			}
 			return resultBytes;
 		}
 
@@ -147,14 +108,14 @@ namespace GKModule
 			var resultBytes = new List<byte>();
 			resultBytes.AddRange(BytesHelper.ShortToBytes(descriptorNo));
 			resultBytes.Add(1);
-			//resultBytes.AddRange(BytesHelper.ShortToBytes((short)2));
-			//resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Завершающий дескриптор", 33));
+			resultBytes.AddRange(BytesHelper.ShortToBytes((short)2));
+			resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Завершающий дескриптор", 33));
 			resultBytes.Add(255);
 			resultBytes.Add(255);
-			//for (int i = 0; i < 256 - 2; i++)
-			//{
-			//    resultBytes.Add(0);
-			//}
+			for (int i = 0; i < 256 - 2; i++)
+			{
+				resultBytes.Add(0);
+			}
 			return resultBytes;
 		}
 	}

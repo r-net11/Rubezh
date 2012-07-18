@@ -47,7 +47,7 @@
       </Component>-->
       <Component Id="RemoveSocketServer" Guid="FF5E5D55-8211-4E0E-B4E2-5D8D3164D0C1">
         <CreateFolder Directory="OLDFIRESECSERVICELOCATION" />
-        <Condition>NOT REGISTRYOLDFIRESECVALUE</Condition>
+        <Condition>NOT REGOLDFS</Condition>
         <ServiceControl Id="StartAdv_SocketServer" Name="Adv_SocketServer" Wait="yes" Remove="uninstall" />
       </Component>
       <Component Id="Fs_srvconDll" Guid="*" Permanent="yes">
@@ -96,13 +96,13 @@
 
     <DirectoryRef Id="INTL">
       <Component Id="FsFbintlDll" Guid="*" Permanent="yes">
-        <File Id="FsFbintlDllFile" Name="fbintl.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
+        <File Id="FsFbintlDllFile" Name="fbintl.dll" Source="$(var.OldFiresecService.TargetDir)\intl\" DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="SystemFolder" >
       <Component Id="msvcp60Dll" Guid="*" Permanent="yes">
-        <File Id="msvcp60DllFile" Name="msvcp60.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
+        <File Id="msvcp60DllFile" Name="msvcp60.dll" Source="C:\WINDOWS\system32\" DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 

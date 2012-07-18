@@ -77,12 +77,10 @@ namespace FiresecAPI.Models
 		public bool IsOPCUsed { get; set; }
 
 		[DataMember]
-		public string SavedPlaceInTree { get; set; }
+		public string PlaceInTree { get; set; }
 
-		public string PlaceInTree
-		{
-			get { return GetPlaceInTree(); }
-		}
+		[DataMember]
+		public string PathId { get; set; }
 
 		public bool CanBeNotUsed
 		{
@@ -186,15 +184,12 @@ namespace FiresecAPI.Models
 			}
 		}
 
-		public string Id
+		public string GetId()
 		{
-			get
-			{
-				string currentId = Driver.UID.ToString() + ":" + AddressFullPath;
-				if (Parent != null)
-					return Parent.Id + @"/" + currentId;
-				return currentId;
-			}
+			string currentId = Driver.UID.ToString() + ":" + AddressFullPath;
+			if (Parent != null)
+				return Parent.GetId() + @"/" + currentId;
+			return currentId;
 		}
 
 		public string DottedAddress

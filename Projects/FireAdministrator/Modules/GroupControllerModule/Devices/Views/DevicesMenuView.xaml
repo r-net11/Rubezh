@@ -23,15 +23,15 @@
                 </MenuItem.Header>
 
                 <MenuItem Command="{Binding ConvertFromFiresecCommand}" Header="Конвертировать в из формата Рубеж-2АМ" />
-                <MenuItem Command="{Binding ConvertToBinaryFileCommand}" Header="Конвертировать в бинарный файл" />
-                <MenuItem Command="{Binding ConvertToBinCommand}" Header="Конвертировать в бинарный формат" />
-
+                <MenuItem Command="{Binding ConvertToBinaryFileCommand}" Header="Сохранить в бинарный файл" />
+                <MenuItem Command="{Binding ConvertToBinCommand}" Header="Посмотреть бинарную конфигурацию" />
+                <Separator />
                 <MenuItem Command="{Binding ControlTimeCommand}" Header="Время" />
                 <MenuItem Command="{Binding ShowInfoCommand}" Header="Информация" />
                 <MenuItem Command="{Binding ReadJournalCommand}" Header="Журнал событий" />
-                <MenuItem Command="{Binding WriteConfigCommand}" Header="Записать конфигурацию" />
+                <MenuItem Command="{Binding WriteConfigCommand}" Header="Записать конфигурацию во все устройства" />
 
-                <MenuItem Header="Дополнительно">
+                <MenuItem Header="Дополнительно" Margin="12, 0, 0, 0">
                     <MenuItem Command="{Binding GetParametersCommand}" Header="Запросить параметры" />
                     <MenuItem Command="{Binding WriteParametersCommand}" Header="Записать параметры" />
                     <MenuItem Command="{Binding GetObjectInfoCommand}" Header="Запросить информацию об объекте" />

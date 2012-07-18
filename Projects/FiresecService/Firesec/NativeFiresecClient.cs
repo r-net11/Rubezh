@@ -247,7 +247,7 @@ namespace Firesec
 			FS_Types.IFSC_Connection connectoin;
 			try
 			{
-				connectoin = library.Connect2(login, password, serverInfo, this);
+				connectoin = library.Connect3(login, password, serverInfo, this, false);
 			}
 			catch (Exception e)
 			{

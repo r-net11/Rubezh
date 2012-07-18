@@ -8,14 +8,12 @@ namespace GKModule.ViewModels
 {
     public class ZoneDetailsViewModel : SaveCancelDialogViewModel
     {
-        bool _isNew;
         public XZone XZone;
 
         public ZoneDetailsViewModel(XZone xZone = null)
         {
             if (xZone == null)
             {
-                _isNew = true;
                 Title = "Создание новой зоны";
 
                 XZone = new XZone()
@@ -28,7 +26,6 @@ namespace GKModule.ViewModels
             }
             else
             {
-                _isNew = false;
                 Title = string.Format("Свойства зоны: {0}", xZone.PresentationName);
                 XZone = xZone;
             }
