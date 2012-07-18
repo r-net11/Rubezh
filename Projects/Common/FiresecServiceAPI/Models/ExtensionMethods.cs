@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
+using System.Windows;
 
 namespace FiresecAPI.Models
 {
@@ -20,5 +21,10 @@ namespace FiresecAPI.Models
                 return descriptionAttribute[0].Description;
             return value.ToString();
         }
+
+		public static Size Subtract(this Size s1, Size s2)
+		{
+			return new Size(s1.Width - s2.Width, s1.Height - s2.Height);
+		}
     }
 }

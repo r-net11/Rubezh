@@ -4,24 +4,22 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Common;
-using CrystalDecisions.CrystalReports.Engine;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using JournalModule.ViewModels;
-using ReportsModule.Reports;
-using SAPBusinessObjects.WPF.Viewer;
+using ReportsModule2.Reports;
 using System.Windows;
-using ReportsModule.Views;
 using System.Windows.Documents;
 using System.IO;
 using System.Text;
 using System.Windows.Controls;
+using ReportsModule2.DocumentPaginatorModel;
 using System.Windows.Xps.Packaging;
 
-namespace ReportsModule.ViewModels
+namespace ReportsModule2.ViewModels
 {
 	public class ReportsViewModel : ViewPartViewModel
 	{
@@ -39,63 +37,30 @@ namespace ReportsModule.ViewModels
 			SearchCommand = new RelayCommand(OnSearch, GetIsReportLoad);
 			ZoomInCommand = new RelayCommand(OnZoomIn, GetIsReportLoad);
 			ZoomOutCommand = new RelayCommand(OnZoomOut, GetIsReportLoad);
+			XpsDocumentCommand = new RelayCommand(OnXpsDocument);
 
-			ViewerCoreControl = new ViewerCore();
 
-			SelectedReportName = null;
-			PrepareReports();
-			
+			XpsDocumentViewer = new DocumentViewer();
 		}
 
-		private ReportDocument _document;
 		private Dictionary<ReportType, BaseReport> _reportMap;
 
-		private void PrepareReports()
+		DocumentViewer _xpsDocumentViewer;
+		public DocumentViewer XpsDocumentViewer
 		{
-			_reportMap = new Dictionary<ReportType, BaseReport>()
-		    {
-		        {ReportType.ReportIndicationBlock, new ReportIndicationBlock()},
-		        {ReportType.ReportJournal, new ReportJournal()},
-		        {ReportType.ReportDriverCounter, new ReportDriverCounter()},
-		        {ReportType.ReportDeviceParams, new ReportDeviceParams()},
-		        {ReportType.ReportDevicesList, new ReportDevicesList()}
-		    };
-			_document = new ReportDocument();
-			new Thread(() =>
-				{
-					DateTime dt = DateTime.Now;
-					SafeContext.Execute(() => _document.Load(FileHelper.GetReportFilePath(_reportMap[ReportType.ReportIndicationBlock].ReportFileName)));
-					Debug.WriteLine("--- Initial report loaded in: {0}", DateTime.Now - dt);
-				}).Start();
+			get { return _xpsDocumentViewer; }
+			set
+			{
+				_xpsDocumentViewer = value;
+				OnPropertyChanged("XpsDocumentViewer");
+			}
 		}
 
 		void ShowCrystalReport(BaseReport baseReport)
 		{
-			using (new WaitWrapper())
-			{
-				DateTime dt = DateTime.Now;
-				baseReport.LoadData();
-				baseReport.LoadCrystalReportDocument(_document);
-				var viewerCore = new SAPBusinessObjects.WPF.Viewer.ViewerCore()
-				{
-					ToggleSidePanel = Constants.SidePanelKind.None,
-					ReportSource = _document
-				};
-				ViewerCoreControl = viewerCore;
-				Debug.WriteLine("--- Report '{1}' loaded in: {0}", DateTime.Now - dt, baseReport.ReportFileName);
-			}
 		}
 
-		public int ZoomValue
-		{
-			get { return ViewerCoreControl.ZoomFactor; }
-			set
-			{
-				ViewerCoreControl.ZoomFactor = value;
-				ViewerCoreControl.Zoom(value);
-				Update();
-			}
-		}
+		public int ZoomValue { get; set; }
 
 		public double ZoomMinimumValue { get { return 1; } }
 		public double ZoomMaximumValue { get { return 1000; } }
@@ -122,40 +87,9 @@ namespace ReportsModule.ViewModels
 			}
 		}
 
-		public string TotalPageNumber
-		{
-			get
-			{
-				if (ViewerCoreControl.GetLastPageNumber() > 0)
-					return ViewerCoreControl.GetLastPageNumber().ToString();
-				else
-					return "";
-			}
-		}
+		public string TotalPageNumber { get; set; }
 
-		public string CurrentPageNumber
-		{
-			get
-			{
-				if (ViewerCoreControl.CurrentPageNumber == 0)
-					return 1.ToString();
-				else
-					return ViewerCoreControl.CurrentPageNumber.ToString();
-			}
-			set
-			{
-				int pageNumber = 0;
-				if (int.TryParse(value, out pageNumber))
-				{
-					if (pageNumber > 0 && pageNumber <= ViewerCoreControl.TotalPageNumber)
-					{
-						ViewerCoreControl.CurrentPageNumber = pageNumber;
-						ViewerCoreControl.ShowNthPage(pageNumber);
-						Update();
-					}
-				}
-			}
-		}
+		public string CurrentPageNumber { get; set; }
 
 		string _searchText;
 		public string SearchText
@@ -168,88 +102,55 @@ namespace ReportsModule.ViewModels
 			}
 		}
 
-		ViewerCore _viewerCore;
-		public ViewerCore ViewerCoreControl
-		{
-			get { return _viewerCore; }
-			set
-			{
-				_viewerCore = value;
-				OnPropertyChanged("ViewerCoreControl");
-			}
-		}
-
 		public RelayCommand ZoomOutCommand { get; private set; }
 		void OnZoomOut()
 		{
-			ViewerCoreControl.ZoomFactor -= 10;
-			ViewerCoreControl.Zoom(ViewerCoreControl.ZoomFactor);
 			Update();
 		}
-
 		public RelayCommand ZoomInCommand { get; private set; }
 		void OnZoomIn()
 		{
-			ViewerCoreControl.ZoomFactor += 10;
-			ViewerCoreControl.Zoom(ViewerCoreControl.ZoomFactor);
 			Update();
 		}
-
 		public RelayCommand FirstPageCommand { get; private set; }
 		void OnFirstPage()
 		{
-			ViewerCoreControl.ShowFirstPage();
 			Update();
 		}
-
 		public RelayCommand NextPageCommand { get; private set; }
 		void OnNextPage()
 		{
-			ViewerCoreControl.ShowNextPage();
 			Update();
 		}
-
 		public RelayCommand PreviousPageCommand { get; private set; }
 		void OnPreviousPage()
 		{
-			ViewerCoreControl.ShowPreviousPage();
 			Update();
 		}
-
 		public RelayCommand LastPageCommand { get; private set; }
 		void OnLastPage()
 		{
-			ViewerCoreControl.ShowLastPage();
 			Update();
 		}
-
 		public RelayCommand FidthToPageCommand { get; private set; }
 		void OnFidthToPage()
 		{
-			ViewerCoreControl.ZoomFactor = 79;
-			ViewerCoreControl.Zoom(ViewerCoreControl.ZoomFactor);
 			Update();
 		}
-
 		public RelayCommand SaveReportCommand { get; private set; }
 		void OnSaveReportCommand()
 		{
-			ViewerCoreControl.ExportReport();
 		}
-
 		public RelayCommand PrintReportCommand { get; private set; }
 		void OnPrintReport()
 		{
-			ViewerCoreControl.PrintReport();
 		}
-
 		public RelayCommand RefreshCommand { get; private set; }
 		void OnRefresh()
 		{
 			SelectedReportName = SelectedReportName;
 			Update();
 		}
-
 		public RelayCommand FilterCommand { get; private set; }
 		void OnFilter()
 		{
@@ -265,16 +166,8 @@ namespace ReportsModule.ViewModels
 				ShowCrystalReport(new ReportJournal(archiveFilterViewModel));
 			}
 		}
-
 		public RelayCommand SearchCommand { get; private set; }
-		void OnSearch()
-		{
-			if (!String.IsNullOrEmpty(SearchText))
-			{
-				ViewerCoreControl.SearchForText(SearchText, false, false);
-				Update();
-			}
-		}
+		void OnSearch() { }
 
 		string _time;
 		public string Time
@@ -285,6 +178,30 @@ namespace ReportsModule.ViewModels
 				_time = value;
 				OnPropertyChanged("Time");
 			}
+		}
+
+		public RelayCommand XpsDocumentCommand { get; private set; }
+		void OnXpsDocument()
+		{
+			var startDate = DateTime.Now;
+			var reportJournal = new ReportJournal();
+			reportJournal.LoadData();
+			reportJournal.CreateFlowDocumentStringBuilder();
+			var sb = reportJournal.FlowDocumentStringBuilder;
+			ConvertFlowToXPS.SaveAsXps2(sb.ToString());
+			XpsDocumentViewer.Document = reportJournal.XpsDocument.GetFixedDocumentSequence();
+			var endDate = DateTime.Now;
+			Time = (endDate - startDate).ToString();
+			OnPropertyChanged("XpsDocumentViewer");
+
+			//FileStream htmlFile = new FileStream("journal.html", FileMode.Open, FileAccess.Read);
+			//StreamReader myStreamReader = new StreamReader(htmlFile, Encoding.GetEncoding(1251));
+			//string xamlflowDocument = HtmlToXamlConverter.ConvertHtmlToXaml(myStreamReader.ReadToEnd(), true);
+			//ConvertFlowToXPS.SaveAsXps2(xamlflowDocument);
+			//XpsDocument xpsDocument = new XpsDocument("test.xps", FileAccess.Read);
+			//xpsDocument.Close();
+			//myStreamReader.Close();
+			//htmlFile.Close();
 		}
 
 		public void Update()

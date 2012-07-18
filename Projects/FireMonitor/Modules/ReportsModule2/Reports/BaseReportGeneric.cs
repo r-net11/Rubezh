@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
-using CrystalDecisions.CrystalReports.Engine;
 using FiresecClient;
 using System.Data;
 using System.Reflection;
 using System.Windows.Documents;
 
-namespace ReportsModule.Reports
+namespace ReportsModule2.Reports
 {
     public class BaseReportGeneric<T> : BaseReport
     {
@@ -17,11 +16,11 @@ namespace ReportsModule.Reports
         protected List<T> _dataList;
         public List<T> DataList { get; protected set; }
 
-		public override void LoadCrystalReportDocument(ReportDocument reportDocument)
-		{
-			reportDocument.FileName = FileHelper.GetReportFilePath(ReportFileName);
-			reportDocument.SetDataSource(DataList);
-		}
+		//public override void LoadCrystalReportDocument(ReportDocument reportDocument)
+		//{
+		//    reportDocument.FileName = FileHelper.GetReportFilePath(ReportFileName);
+		//    reportDocument.SetDataSource(DataList);
+		//}
 
 		public static DataTable ListToDataTable<D>(List<D> list)
 		{

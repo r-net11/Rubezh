@@ -1,11 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using CrystalDecisions.CrystalReports.Engine;
+//using CrystalDecisions.CrystalReports.Engine;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using JournalModule.ViewModels;
 using ReportsModule.Models;
+using System.Windows.Documents;
+using System.Windows.Media;
+using System.Windows;
+using System.Windows.Xps.Packaging;
+using System.IO;
+using System.Text;
 
 namespace ReportsModule.Reports
 {
@@ -22,6 +28,10 @@ namespace ReportsModule.Reports
 			base.ReportFileName = "JournalCrystalReport.rpt";
 			ReportArchiveFilter = new ReportArchiveFilter(archiveFilterViewModel);
 		}
+
+		public DateTime EndDate { get; set; }
+		public DateTime StartDate { get; set; }
+		public ReportArchiveFilter ReportArchiveFilter { get; set; }
 
 		public override void LoadData()
 		{
@@ -41,17 +51,6 @@ namespace ReportsModule.Reports
 			}
 			StartDate = ReportArchiveFilter.StartDate;
 			EndDate = ReportArchiveFilter.EndDate;
-		}
-
-		public DateTime EndDate { get; set; }
-		public DateTime StartDate { get; set; }
-		public ReportArchiveFilter ReportArchiveFilter { get; set; }
-
-		public override void LoadCrystalReportDocument(ReportDocument reportDocument)
-		{
-			base.LoadCrystalReportDocument(reportDocument);
-			reportDocument.SetParameterValue("StartDate", StartDate.ToString());
-			reportDocument.SetParameterValue("EndDate", EndDate.ToString());
 		}
 	}
 

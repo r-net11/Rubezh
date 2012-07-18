@@ -2,9 +2,9 @@
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
-using ReportsModule.Models;
+using ReportsModule2.Models;
 
-namespace ReportsModule.Reports
+namespace ReportsModule2.Reports
 {
     public class ReportDeviceParams : BaseReportGeneric<ReportDeviceParamsModel>
     {

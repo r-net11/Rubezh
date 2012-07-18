@@ -98,24 +98,20 @@
 
     <InstallExecuteSequence>
       <RemoveExistingProducts After="InstallFinalize" />
-      <!--<Custom Action="WixCloseApplications" Before="InstallInitialize" />-->
       <Custom Action="CloseApplications" Before="InstallInitialize" />
-      <!--(WixUI_InstallMode = "Remove")-->
-      <!--AND REMOVE ~= "ALL"-->
-      <Custom Action="RunSocketServerServiceNet" After="InstallFinalize">NOT REGFS2SERVER AND REGFS2STATE = "Full"</Custom>
-      <Custom Action="RegisterServer" After="RunSocketServerServiceNet" >NOT REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full"</Custom>
-      <Custom Action="RegisterSockProxy" After="RegisterServer">NOT REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full"</Custom>
-      <Custom Action="RegisterFs_types" After="RegisterSockProxy">NOT REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full"</Custom>
-      <Custom Action="InstallHaspDriver" After="RegisterFs_types">NOT REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full"</Custom>
-      <Custom Action="RunFiresecServiceNet" After="InstallHaspDriver">NOT REGFS2SERVER AND REGFS2STATE = "Full"</Custom>
 
-      <Custom Action="StopFiresecServiceNet" After="CloseApplications">REGFS2STATE = "Full"</Custom>
-      <Custom Action="StopSocketServerServiceNet" After="StopFiresecServiceNet">REGFS2STATE = "Full"</Custom>
+      <Custom Action="RegisterServer" After="InstallFinalize" >NOT REGFS2SERVER AND NOT REGOLDFS AND NOT REGFS2STATE</Custom>
+      <Custom Action="RegisterSockProxy" After="RegisterServer">NOT REGFS2SERVER AND NOT REGOLDFS AND NOT REGFS2STATE</Custom>
+      <Custom Action="RegisterFs_types" After="RegisterSockProxy">NOT REGFS2SERVER AND NOT REGOLDFS AND NOT REGFS2STATE</Custom>
+      <Custom Action="RunSocketServerServiceNet" After="RegisterFs_types">1</Custom>
+      <Custom Action="InstallHaspDriver" After="RunSocketServerServiceNet">NOT REGFS2SERVER AND NOT REGOLDFS AND NOT REGFS2STATE</Custom>
+      <Custom Action="RunFiresecServiceNet" After="InstallHaspDriver">1</Custom>
+
+      <Custom Action="StopFiresecServiceNet" After="CloseApplications">1</Custom>
+      <Custom Action="StopSocketServerServiceNet" After="StopFiresecServiceNet">1</Custom>
       <Custom Action="UnregisterSockProxy" After="StopFiresecServiceNet">REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full"</Custom>
       <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full"</Custom>
       <Custom Action="UnRegisterServer" After="UnregisterFs_types">REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full"</Custom>
-      
-
 
       <!--<Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full" AND (NOT Installed)</Custom>-->
       <!--<Custom Action="InstallSocketServer" After="RegisterFs_types">NOT Installed</Custom>-->
