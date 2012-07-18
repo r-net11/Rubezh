@@ -26,7 +26,6 @@ namespace FiresecService.Views
 		private void UserControl_Loaded(object sender, RoutedEventArgs e)
 		{
 			_window = Window.GetWindow(this);
-			_window.ShowInTaskbar = false;
 			_window.StateChanged += new EventHandler(Window_StateChanged);
 			_window.WindowState = WindowState.Minimized;
 		}
