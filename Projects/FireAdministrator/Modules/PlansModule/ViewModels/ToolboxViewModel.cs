@@ -6,6 +6,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using PlansModule.Designer;
+using PlansModule.InstrumentAdorners;
 
 namespace PlansModule.ViewModels
 {
@@ -40,9 +42,28 @@ namespace PlansModule.ViewModels
 			get { return _activeInstrument; }
 			set
 			{
+				if (ActiveInstrument != null && ActiveInstrument.Adorner != null)
+					ActiveInstrument.Adorner.Hide();
 				_activeInstrument = value;
 				OnPropertyChanged("ActiveInstrument");
+				if (ActiveInstrument.Autostart)
+					Apply(null);
+				//bool isSelectable = ActiveInstrument.Cursor == null;
+				//foreach (var item in PlansViewModel.DesignerCanvas.Items)
+				//    item.IsSelectableLayout = isSelectable;
 			}
+		}
+
+		public void Apply(Point? point)
+		{
+			PlansViewModel.DesignerCanvas.DeselectAll();
+			if (ActiveInstrument.Adorner != null)
+				ActiveInstrument.Adorner.Show(point);
+		}
+		public void SetDefault()
+		{
+			if (ActiveInstrument != _defaultInstrument)
+				ActiveInstrument = _defaultInstrument;
 		}
 
 		private void RegisterInstruments()
@@ -52,47 +73,63 @@ namespace PlansModule.ViewModels
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Help.png",
-					ToolTip="Указатель"
+					ToolTip="Указатель",
+					Adorner = new RubberbandAdorner(PlansViewModel.DesignerCanvas)
+				},
+				new InstrumentViewModel()
+				{
+					ImageSource="/Controls;component/Images/Archive.png",
+					ToolTip="Нож",
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Line.png",
-					ToolTip="Линия"
+					ToolTip="Линия",
+					Adorner = new DebugAdorner(PlansViewModel.DesignerCanvas),
+					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Rectangle.png",
-					ToolTip="Прямоугольник"
+					ToolTip="Прямоугольник",
+					Adorner = new RectangleAdorner(PlansViewModel.DesignerCanvas),
+					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Ellipse.png",
-					ToolTip="Эллипс"
+					ToolTip="Эллипс",
+					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Polygon.png",
-					ToolTip="Многоугольник"
+					ToolTip="Многоугольник",
+					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Font.png",
-					ToolTip="Текст"
+					ToolTip="Текст",
+					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/ZoneRectangle.png",
-					ToolTip="Зона"
+					ToolTip="Зона",
+					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/ZonePolygon.png",
-					ToolTip="Зона"
+					ToolTip="Зона",
+					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/SubPlanPolygon.png",
-					ToolTip="Подплан"
+					ToolTip="Подплан",
+					Autostart = true
 				},
 			};
 			_defaultInstrument = Instruments[0];

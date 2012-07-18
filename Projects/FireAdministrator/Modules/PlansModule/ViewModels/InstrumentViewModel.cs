@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
+using System.Windows.Input;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.ViewModels
 {
-	public class InstrumentViewModel : BaseViewModel
+	public class InstrumentViewModel : BaseViewModel, IInstrument
 	{
 		private string _imageSource;
 		public string ImageSource
@@ -31,6 +33,8 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		public RelayCommand Command { get; set; }
+		public ICommand Command { get; set; }
+		public InstrumentAdorner Adorner { get; set; }
+		public bool Autostart { get; set; }
 	}
 }

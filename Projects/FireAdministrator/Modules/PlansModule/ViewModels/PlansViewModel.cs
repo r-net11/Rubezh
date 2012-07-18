@@ -29,8 +29,8 @@ namespace PlansModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 
-			Toolbox = new ToolboxViewModel(this);
 			DesignerCanvas = new DesignerCanvas();
+			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
 			PlanDesignerViewModel = new PlanDesignerViewModel();
 			PlanDesignerViewModel.DesignerCanvas = DesignerCanvas;
 
@@ -121,8 +121,6 @@ namespace PlansModule.ViewModels
 				ResetHistory();
 			}
 		}
-
-		public ToolboxViewModel Toolbox { get; private set; }
 
 		public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
 
@@ -222,6 +220,7 @@ namespace PlansModule.ViewModels
 
 		void OnShowElement(Guid elementUID)
 		{
+			DesignerCanvas.Toolbox.SetDefault();
 			DesignerCanvas.DeselectAll();
 
 			foreach (var designerItem in DesignerCanvas.Items)
@@ -256,16 +255,16 @@ namespace PlansModule.ViewModels
 			DevicesViewModel.Update();
 			DesignerCanvas.DeselectAll();
 
-			if (Toolbox != null)
-				Toolbox.AcceptKeyboard = true;
+			if (DesignerCanvas.Toolbox != null)
+				DesignerCanvas.Toolbox.AcceptKeyboard = true;
 		}
 
 		public override void OnHide()
 		{
 			ServiceFactory.Layout.ShowMenu(null);
 
-			if (Toolbox != null)
-				Toolbox.AcceptKeyboard = false;
+			if (DesignerCanvas.Toolbox != null)
+				DesignerCanvas.Toolbox.AcceptKeyboard = false;
 		}
 	}
 }

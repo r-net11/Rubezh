@@ -20,7 +20,7 @@
 			</StackPanel>
 		</Border>
 
-		<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
+		<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Visibility="Collapsed">
 			<StackPanel Orientation="Horizontal">
 				<Controls:ToolBarButton Name="ElementPolyLine" ImageSource="/Controls;component/Images/Line.png" MouseMove="On_MouseMove" PreviewMouseDown="On_PreviewMouseDown" ToolTip="Линия" />
 				<Controls:ToolBarButton Name="ElementRectangle" ImageSource="/Controls;component/Images/Rectangle.png" MouseMove="On_MouseMove" PreviewMouseDown="On_PreviewMouseDown" ToolTip="Прямоугольник" />

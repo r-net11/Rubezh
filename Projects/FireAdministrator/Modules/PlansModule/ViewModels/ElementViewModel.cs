@@ -34,6 +34,7 @@ namespace PlansModule.ViewModels
 			{
 				DesignerItem.IsVisibleLayout = value;
 				OnPropertyChanged("IsVisible");
+				((DesignerCanvas)DesignerItem.DesignerCanvas).Toolbox.SetDefault();
 			}
 		}
 
@@ -44,6 +45,7 @@ namespace PlansModule.ViewModels
 			{
 				DesignerItem.IsSelectableLayout = value;
 				OnPropertyChanged("IsSelectable");
+				((DesignerCanvas)DesignerItem.DesignerCanvas).Toolbox.SetDefault();
 			}
 		}
 

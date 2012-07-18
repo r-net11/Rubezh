@@ -28,9 +28,9 @@ namespace PlansModule.Designer
 	{
 		public Plan Plan { get; set; }
 		public PlanDesignerViewModel PlanDesignerViewModel { get; set; }
-		private Point? dragStartPoint = null;
-		public bool IsPointAdding = false;
-		List<ElementBase> initialElements;
+		public ToolboxViewModel Toolbox { get; set; }
+		private Point? _startPoint = null;
+		private List<ElementBase> _initialElements;
 
 		public DesignerCanvas()
 			: base(ServiceFactory.Events)
@@ -74,34 +74,16 @@ namespace PlansModule.Designer
 			base.OnMouseDown(e);
 			if (e.Source == this)
 			{
-				this.dragStartPoint = new Point?(e.GetPosition(this));
-				this.DeselectAll();
+				_startPoint = new Point?(e.GetPosition(this));
+				Toolbox.Apply(_startPoint);
 				e.Handled = true;
 			}
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
 			base.OnMouseMove(e);
-
 			if (e.LeftButton != MouseButtonState.Pressed)
-			{
-				this.dragStartPoint = null;
-			}
-
-			if (this.dragStartPoint.HasValue)
-			{
-				AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this);
-				if (adornerLayer != null)
-				{
-					var rubberbandAdorner = new RubberbandAdorner(this, this.dragStartPoint);
-					if (rubberbandAdorner != null)
-					{
-						adornerLayer.Add(rubberbandAdorner);
-					}
-				}
-
-				e.Handled = true;
-			}
+				_startPoint = null;
 		}
 
 		protected override void OnDrop(DragEventArgs e)
@@ -203,52 +185,52 @@ namespace PlansModule.Designer
 
 		void On_PreviewMouseDown(object sender, MouseButtonEventArgs e)
 		{
-			if (IsPointAdding)
-			{
-				//if (SelectedItems == null)
-				//    return;
-				//var selectedItem = SelectedItems.FirstOrDefault();
-				//if (selectedItem == null)
-				//    return;
-				//if ((selectedItem.IsPolygon == false) && (selectedItem.IsPolyline == false))
-				//    return;
+			//if (IsPointAdding)
+			//{
+			//if (SelectedItems == null)
+			//    return;
+			//var selectedItem = SelectedItems.FirstOrDefault();
+			//if (selectedItem == null)
+			//    return;
+			//if ((selectedItem.IsPolygon == false) && (selectedItem.IsPolyline == false))
+			//    return;
 
-				//IsPointAdding = false;
+			//IsPointAdding = false;
 
-				//PointCollection pointCollection = null;
-				//if (selectedItem.Content is Polygon)
-				//{
-				//    var polygon = selectedItem.Content as Polygon;
-				//    pointCollection = polygon.Points;
-				//}
-				//if (selectedItem.Content is Polyline)
-				//{
-				//    var polyline = selectedItem.Content as Polyline;
-				//    pointCollection = polyline.Points;
-				//}
+			//PointCollection pointCollection = null;
+			//if (selectedItem.Content is Polygon)
+			//{
+			//    var polygon = selectedItem.Content as Polygon;
+			//    pointCollection = polygon.Points;
+			//}
+			//if (selectedItem.Content is Polyline)
+			//{
+			//    var polyline = selectedItem.Content as Polyline;
+			//    pointCollection = polyline.Points;
+			//}
 
-				//Point currentPoint = e.GetPosition(selectedItem);
-				//var minDistance = double.MaxValue;
-				//int minIndex = 0;
-				//for (int i = 0; i < pointCollection.Count; i++)
-				//{
-				//    var polygonPoint = pointCollection[i];
-				//    var distance = Math.Pow(currentPoint.X - polygonPoint.X, 2) + Math.Pow(currentPoint.Y - polygonPoint.Y, 2);
-				//    if (distance < minDistance)
-				//    {
-				//        minIndex = i;
-				//        minDistance = distance;
-				//    }
-				//}
-				//minIndex = minIndex + 1;
-				//Point point = e.GetPosition(selectedItem);
-				//pointCollection.Insert(minIndex, point);
+			//Point currentPoint = e.GetPosition(selectedItem);
+			//var minDistance = double.MaxValue;
+			//int minIndex = 0;
+			//for (int i = 0; i < pointCollection.Count; i++)
+			//{
+			//    var polygonPoint = pointCollection[i];
+			//    var distance = Math.Pow(currentPoint.X - polygonPoint.X, 2) + Math.Pow(currentPoint.Y - polygonPoint.Y, 2);
+			//    if (distance < minDistance)
+			//    {
+			//        minIndex = i;
+			//        minDistance = distance;
+			//    }
+			//}
+			//minIndex = minIndex + 1;
+			//Point point = e.GetPosition(selectedItem);
+			//pointCollection.Insert(minIndex, point);
 
-				//var designerItem = Items.FirstOrDefault(x => x.IsPointAdding);
-				//designerItem.UpdatePolygonAdorner();
+			//var designerItem = Items.FirstOrDefault(x => x.IsPointAdding);
+			//designerItem.UpdatePolygonAdorner();
 
-				//e.Handled = true;
-			}
+			//e.Handled = true;
+			//}
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -273,22 +255,22 @@ namespace PlansModule.Designer
 
 		public List<ElementBase> CloneSelectedElements()
 		{
-			initialElements = new List<ElementBase>();
+			_initialElements = new List<ElementBase>();
 			foreach (var designerItem in SelectedItems)
 			{
 				designerItem.UpdateElementProperties();
-				initialElements.Add(designerItem.Element.Clone());
+				_initialElements.Add(designerItem.Element.Clone());
 			}
-			return initialElements;
+			return _initialElements;
 		}
 
 		public override void BeginChange()
 		{
-			initialElements = CloneSelectedElements();
+			_initialElements = CloneSelectedElements();
 		}
 		public override void EndChange()
 		{
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(initialElements);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(_initialElements);
 			foreach (var designerItem in SelectedItems)
 				designerItem.UpdateElementProperties();
 		}

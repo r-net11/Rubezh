@@ -108,11 +108,13 @@
     <Compile Include="Designer\DesignerItems\DesignerItemPoint.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemBase.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemRectangle.cs" />
+    <Compile Include="Designer\InstrumentAdorners\RectangleAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\DebugAdorner.cs" />
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\Designer\DesignerItemFactory.cs" />
     <Compile Include="Designer\Designer\Helper.cs" />
     <Compile Include="Designer\Designer\MoveThumb.cs" />
-    <Compile Include="Designer\Designer\RubberbandAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\RubberbandAdorner.cs" />
     <Compile Include="Designer\Resize\ResizeAdorner.cs" />
     <Compile Include="Designer\Resize\ResizeDecorator.cs" />
     <Compile Include="ElementProperties\ViewModels\DesignerPropertiesViewModel.cs" />
