@@ -118,6 +118,10 @@
         <File Id="FAManualPDF" Name="Manual.pdf" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
+      <Component Id="FATreeListViewComponent" Guid="*">
+        <File Id="FATreeListViewDll" Name="Ricciolo.Controls.TreeListView.dll" Source="$(var.FireAdministrator.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">

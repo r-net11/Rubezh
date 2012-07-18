@@ -2,7 +2,6 @@
 <Include>
   <?define OldFiresecServiceName="fs_server" ?>
   <?define OldFiresecServiceLocationId="OLDFIRESECSERVICELOCATION"?>
-  <?define OldFiresecService.TargetDir="Data\OldFiresec\"?>
+  <?define OldFiresecService.TargetDir="C:\Program Files\Firesec\"?>
   <?define OldFiresecService.TargetFileName="fs_server.exe"?>
-  <?define OldFiresecService.TargetPath="Data\OldFiresec\FiresecService.exe"?>
 </Include>

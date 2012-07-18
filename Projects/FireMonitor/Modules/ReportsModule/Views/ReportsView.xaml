@@ -23,12 +23,11 @@
                 <TextBox Text="{Binding CurrentPageNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" 
                          MinHeight="25" Height="30" MinWidth="25" FontSize="20" IsEnabled="{Binding IsReportLoad}"/>
                 <Label Content="/" VerticalContentAlignment="Center" FontSize="20"/>
-                <Label Content="{Binding Time}" VerticalContentAlignment="Center" FontSize="20"/>
+                <Label Content="{Binding TotalPageNumber}" VerticalContentAlignment="Center" FontSize="20"/>
                 <Controls:ToolBarButton Name="nextPageButton" Command="{Binding NextPageCommand}" ToolTip="Следующая страница" ImageSource="/Controls;component/Images/Right.png" />
                 <Controls:ToolBarButton Name="lastPageButton" Command="{Binding LastPageCommand}" ToolTip="Последняя страница" ImageSource="/Controls;component/Images/RightRight.png" />
                 <Controls:ToolBarButton Name="saveReportButton" Command="{Binding SaveReportCommand}" ToolTip="Экспорт отчета" ImageSource="/Controls;component/Images/save.png" />
                 <Controls:ToolBarButton Name="printReportButton" Command="{Binding PrintReportCommand}" ToolTip="Печать отчета" ImageSource="/Controls;component/Images/Print.png" />
-                <Controls:ToolBarButton Name="xpsDoc" Command="{Binding XpsDocumentCommand}" ToolTip="XpsDocument" ImageSource="/Controls;component/Images/Help.png" />
             </StackPanel>
 
             <Grid DockPanel.Dock="Bottom" Margin="2">

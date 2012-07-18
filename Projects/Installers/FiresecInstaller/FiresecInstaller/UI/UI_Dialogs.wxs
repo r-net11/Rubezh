@@ -54,7 +54,7 @@
 			</Dialog>
 
 			<Dialog Id="LicenseAgreement" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" Hidden="yes" NoMinimize="yes">
-        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Disabled="yes" FixedSize="yes" Text="TitleRect.bmp"/>
+        <!--<Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>-->
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="25" Text="{&amp;MSSansBold8}Информация" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgDesc" Type="Text" X="30" Y="22" Width="292" Height="25" 
 								 Text="Пожалуйста, прочитайте следующую важную информацию перед тем, как продолжить." TabSkip="yes" Transparent="yes" />
@@ -71,6 +71,7 @@
 			</Dialog>
 
 			<Dialog Id="DestinationFolder" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes" TrackDiskSpace="yes">
+        <!--<Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>-->
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор папки установки" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="В какую папку вы хотите установить $(var.ProductName)?" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgDesc" Type="Text" X="30" Y="54" Width="327" Height="20" 
@@ -115,6 +116,7 @@
 			</Dialog>
 
 			<Dialog Id="SetupType" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
+        <!--<Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>-->
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="244" Height="15" Text="{&amp;MSSansBold8}Выбор компонентов" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие компоненты должны быть установлены?" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgText" Type="Text" X="30" Y="54" Width="340" Height="20" 
@@ -136,10 +138,16 @@
       <Dialog Id="ModulesDlg" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
         <Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор дополнительных модулей" TabSkip="yes" Transparent="yes" />
         <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие дополнительные модули должны быть установлены?" TabSkip="yes" Transparent="yes" />
-        <Control Id="GKModule" Type="CheckBox" Height="18" Width="295" X="26" Y="58" Text="Групповой контроллер" Property="GK_MODULE" CheckBoxValue="1" />
+        <Control Id="GKModule" Type="CheckBox" Height="18" Width="295" X="26" Y="58" Text="Групповой контроллер" Property="GK_MODULE" CheckBoxValue="1">
+          <Condition Action="disable">1</Condition>
+        </Control>
         <Control Id="OPCModule" Type="CheckBox" Height="18" Width="295" X="26" Y="78" Text="Модуль OPC" Property="OPC_MODULE" CheckBoxValue="1" />
-        <Control Id="SkudModule" Type="CheckBox" Height="18" Width="295" X="26" Y="98" Text="Модуль СКУД" Property="SKUD_MODULE" CheckBoxValue="1" />
-        <Control Id="VideoModule" Type="CheckBox" Height="18" Width="295" X="26" Y="118" Text="Видео-модуль" Property="VIDEO_MODULE" CheckBoxValue="1" />
+        <Control Id="SkudModule" Type="CheckBox" Height="18" Width="295" X="26" Y="98" Text="Модуль СКУД" Property="SKUD_MODULE" CheckBoxValue="1">
+          <Condition Action="disable">1</Condition>
+        </Control>
+        <Control Id="VideoModule" Type="CheckBox" Height="18" Width="295" X="26" Y="118" Text="Видео-модуль" Property="VIDEO_MODULE" CheckBoxValue="1">
+          <Condition Action="disable">1</Condition>
+        </Control>
         <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
         <Control Id="Branding1" Type="Text" X="21" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
         <Control Id="Branding2" Type="Text" X="20" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />

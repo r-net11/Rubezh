@@ -100,11 +100,11 @@
       <RemoveExistingProducts After="InstallFinalize" />
       <Custom Action="CloseApplications" Before="InstallInitialize" />
 
-      <Custom Action="RegisterServer" After="InstallFinalize" >NOT REGFS2SERVER AND NOT REGOLDFS AND NOT REGFS2STATE</Custom>
-      <Custom Action="RegisterSockProxy" After="RegisterServer">NOT REGFS2SERVER AND NOT REGOLDFS AND NOT REGFS2STATE</Custom>
-      <Custom Action="RegisterFs_types" After="RegisterSockProxy">NOT REGFS2SERVER AND NOT REGOLDFS AND NOT REGFS2STATE</Custom>
+      <Custom Action="RegisterServer" After="InstallFinalize" >NOT REGFS2SERVER AND NOT REGOLDFS</Custom>
+      <Custom Action="RegisterSockProxy" After="RegisterServer">NOT REGFS2SERVER AND NOT REGOLDFS</Custom>
+      <Custom Action="RegisterFs_types" After="RegisterSockProxy">NOT REGFS2SERVER AND NOT REGOLDFS</Custom>
       <Custom Action="RunSocketServerServiceNet" After="RegisterFs_types">1</Custom>
-      <Custom Action="InstallHaspDriver" After="RunSocketServerServiceNet">NOT REGFS2SERVER AND NOT REGOLDFS AND NOT REGFS2STATE</Custom>
+      <Custom Action="InstallHaspDriver" After="RunSocketServerServiceNet">NOT REGFS2SERVER AND NOT REGOLDFS</Custom>
       <Custom Action="RunFiresecServiceNet" After="InstallHaspDriver">1</Custom>
 
       <Custom Action="StopFiresecServiceNet" After="CloseApplications">1</Custom>

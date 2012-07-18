@@ -96,13 +96,13 @@
 
     <DirectoryRef Id="INTL">
       <Component Id="FsFbintlDll" Guid="*" Permanent="yes">
-        <File Id="FsFbintlDllFile" Name="fbintl.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
+        <File Id="FsFbintlDllFile" Name="fbintl.dll" Source="$(var.OldFiresecService.TargetDir)\intl\" DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="SystemFolder" >
       <Component Id="msvcp60Dll" Guid="*" Permanent="yes">
-        <File Id="msvcp60DllFile" Name="msvcp60.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
+        <File Id="msvcp60DllFile" Name="msvcp60.dll" Source="C:\WINDOWS\system32\" DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 
