@@ -71,6 +71,11 @@ namespace FiresecService.ViewModels
 			get { return AppSettings.IsDebug; }
 		}
 
+		public bool CanShowImitator
+		{
+			get { return true; }
+		}
+
 		public ObservableCollection<ClientViewModel> Clients { get; private set; }
 
 		ClientViewModel _selectedClient;
