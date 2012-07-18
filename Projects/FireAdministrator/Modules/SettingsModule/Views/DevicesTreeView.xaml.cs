@@ -7,8 +7,6 @@ namespace SettingsModule.Views
 		public DevicesTreeView()
 		{
 			InitializeComponent();
-			DataGrid dg;
-			// ObservableCollection<DataGridColumn>
 		}
 	}
 }
