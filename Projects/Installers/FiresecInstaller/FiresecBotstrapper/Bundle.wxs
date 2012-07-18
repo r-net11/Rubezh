@@ -19,7 +19,7 @@
     <PackageGroup Id="MyPackage">
       <ExePackage SourceFile="..\..\..\..\..\..\3rdParty\VLC\vlc-1.1.3-win32.exe"
                   InstallCommand="/S"/>
-      <ExePackage SourceFile="..\..\..\..\..\..\3rdParty\Firesec\Installer\rubezh_firesec_4_5.exe"
+      <ExePackage SourceFile="..\..\..\..\..\..\3rdParty\Firesec\Installer\rubezh_firesec_4_6.exe"
                   InstallCommand="/SILENT"
                   />
     </PackageGroup>

@@ -3,35 +3,25 @@
   <property name="debug" value="true"/>
   <property name="intellectFolder" value="..\..\ItvIntegration"/>
 
+  <property name="ToPlansFolder" value="..\..\ItvIntegration\Projects\Common\Infrustructure.Plans"/>
+  <property name="FromPlansFolder" value="..\Projects\Common\Infrustructure.Plans"/>
+
   <target name="run">
-    <call target="BuildServer" />
     <call target="Clean" />
     <call target="Copy" />
     <call target="CompileItv" />
   </target>
 
-  <target name="BuildServer">
-    <msbuild project="..\Projects\FiresecService\FiresecService.sln">
-      <property name="Configuration" value="Release"/>
-    </msbuild>
-  </target>
-
   <target name="Clean">
-    <delete dir="${intellectFolder}\Server" />
+    <delete dir="${intellectFolder}\Firesec" />
     <delete dir="${intellectFolder}\Projects\ITV" />
     <delete dir="${intellectFolder}\Projects\Common" />
     <delete dir="..\Projects\ITV\RepFileManager\bin" />
   </target>
 
   <target name="Copy">
-    <copy todir="${intellectFolder}\Server">
-      <fileset basedir="..\Projects\FiresecService\FiresecService\bin\Release">
-        <include name="**\*" />
-      </fileset>
-    </copy>
-
     <copy todir="${intellectFolder}\Firesec" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="..\3rdParty\Firesec">
+      <fileset basedir="bin">
         <include name="**\*" />
       </fileset>
     </copy>

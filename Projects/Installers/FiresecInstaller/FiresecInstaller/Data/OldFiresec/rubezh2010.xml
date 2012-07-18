@@ -352,7 +352,7 @@
     <deviceTable tableType="1" recordType="device"
       deviceDriverID ="33A85F87-E34C-45D6-B4CE-A4FB71A36C28"
       deviceClassID= "8708BDF2-B389-48A9-A1F8-D5F498162033"
-      deviceName="Модуль пожаротушения"
+      deviceName="Модуль пожаротушения МПТ-1"
       shortName="МПТ-1"
       IgnoreInZoneState="1"
       addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
@@ -450,9 +450,9 @@
       deviceDriverID ="DBA24D99-B7E1-40F3-A7F7-8A47D4433392"
 	  deviceClassID= "C1C26924-EE34-434E-BDCF-274778AECC5A"
       deviceDriverAlias = "{AB9C8B4C-43CA-44BB-86DA-527F0D8B2F75}"
-      deviceName="Пожарная адресная метка АМ1"
+      deviceName="Пожарная адресная метка АМ-1"
       maxOutputDeviceCount="1"
-      shortName="АМ-1"
+      shortName="АМ-1П"
       ignorable="1"
       type="fire"
       Icon="АМ-1П"
@@ -732,11 +732,11 @@
     <deviceTable tableType="11" recordType="device"
       deviceDriverID ="D8997F3B-64C4-4037-B176-DE15546CE568"
       deviceClassID = "E06BFD4E-DD29-4CEF-9E38-36E228604C74"
-      deviceName="Пожарная адресная метка АМП"
+      deviceName="Пожарная адресная метка"
       maxOutputDeviceCount="1"
-      shortName="АМП"
+      shortName="АМ-1П"
       type="fire"
-      Icon="АМП-4"
+      Icon="АМ-1П"
       ignorable="1"
       BaseDevice="1"
       category="detector">
@@ -752,7 +752,7 @@
     <deviceTable tableType="12" recordType="device"
       deviceDriverID ="2D078D43-4D3B-497C-9956-990363D9B19B"
 	  deviceClassID= "E924BD46-0041-4D25-A027-91D54BC72914"
-      deviceName="Модуль речевого оповещения"
+      deviceName="Модуль речевого оповещения МРО-2"
       shortName="МРО-2"
       addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
       minOutputDeviceCount="1"
@@ -990,6 +990,47 @@
       <detalization class="1" dictionary="МРО_Сработки" />
       
     </deviceTable>	
+
+    <deviceTable tableType="23" recordType="device"
+      deviceDriverID ="8DA221DE-A2BF-4C71-AE63-B9C1E2CA024B"
+	  deviceClassID= "0EDC263E-E2AA-479F-8F4A-ADBF5DD8639E"
+      deviceName="Вентилятор"
+      shortName="Вентилятор"
+      addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
+      minOutputDeviceCount="-1"
+      maxOutputDeviceCount="0"
+      IgnoreInZoneState="1"
+      IsOutDevice="1"
+      Icon="МПТ"
+      type="fire"
+      category="effector">
+
+      <detalization class="2" dictionary="МРОи2_Неисправности" />
+      <detalization class="6" dictionary="МРОи2_Неисправности" />
+      <detalization class="1" dictionary="МРО_Сработки" />
+      
+    </deviceTable>	
+
+    <deviceTable tableType="24" recordType="device"
+      deviceDriverID ="8A18E2E6-7ED7-4D3F-8DFA-1E042671F072"
+	  deviceClassID= "0EDC263E-E2AA-479F-8F4A-ADBF5DD8639E"
+      deviceName="Клапан"
+      shortName="Клапан"
+      addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
+      minOutputDeviceCount="0"
+      maxOutputDeviceCount="1"
+      IgnoreInZoneState="1"
+      IsOutDevice="1"
+      Icon="МПТ"
+      type="fire"
+      category="effector">
+
+      <detalization class="2" dictionary="МРОи2_Неисправности" />
+      <detalization class="6" dictionary="МРОи2_Неисправности" />
+      <detalization class="1" dictionary="МРО_Сработки" />
+      
+    </deviceTable>	
+
 	
 <!-- групповые устройства -->
 
@@ -1275,7 +1316,7 @@
     <bit no="28" value="Неисправность насосной станции" class="2" type="Fire" ID="NSFail"/>                      <!-- 10000000 -->
     <bit no="29" value="Есть обойденные зоны" class="4" type="Fire" ID="IgnoreZonesPreset"/>                     <!-- 20000000 -->
     <bit no="30" value="Системная неисправность прибора" class="3" ManualReset="1" ID="SysFail"/>                <!-- 40000000 -->
-    <bit no="31" value="Cработал датчик в зоне, которая в тесте" class="6"  type="Fire" ID="AlarmInTestZone"/>   <!-- 80000000 -->
+    <bit no="31" value="Прибор в режиме 'Тест'" class="6" ID="TestMode"/> 										 <!-- 80000000 -->
 
     <bit no="32" value="Питание резервное" class="3" ID="ReservedPower"/>                                        <!-- 0001 -->    
     <bit no="33" value="Дублирование адресов" class="3" ID="DoubleAddress"/>                                     <!-- 0002 -->    
@@ -1849,46 +1890,7 @@
     <devicePropInfo tableType="18" class="1" name="Run" command1="$03" shiftInMemory="$80" commandDev="$06" maskCmdDev="$06" caption="Включение" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="0" Delay="1" off="0" expectedState="ClapanOn1e"/>
     <devicePropInfo tableType="18" class="1" name="RunWODelay" command1="$03" shiftInMemory="$80" commandDev="$04" maskCmdDev="$06" caption="Включение без задержки" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="1" off="0" expectedState="ClapanOn1e"/>
     <devicePropInfo tableType="18" class="1" name="Stop" command1="$03" shiftInMemory="$80" commandDev="$00" maskCmdDev="$06" caption="Выключение" hint="Останов устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="2" off="1" expectedState="ClapanOn1e"/>
-
-	<!-- Конфиг устройств -->
 	
-	<!-- ИП 212-64 дымовой -->
-    <devicePropInfo tableType="2" class="2" name="SmokeLimit" default="0.19" type="Double" editType="pkText" Min="0" Max="255" shiftInMemory="$84" rawType="word" multiplier="100" caption="Порог дыма" hint="Порог срабатывания по дыму, дБ/м"/>
-    <devicePropInfo tableType="2" class="2" name="FireTwoOn" default="1" type="Int" editType="pkText" Min="0" Max="255" shiftInMemory="$9A" rawType="word" multiplier="20" caption="Задержка Пожар-2" hint="Время до формирования сигнала 'Пожар-2', м"/>
-	
-    <!-- ИП 29 тепловой -->
-    <devicePropInfo tableType="3" class="2" name="TempLimit" default="65" type="Int" editType="pkText" Min="0" Max="85" shiftInMemory="$8B" rawType="word" multiplier="1" caption="Порог температуры" hint="Порог срабатывания по температуре, C"/>
-    <devicePropInfo tableType="3" class="2" name="FireTwoOn" default="1" type="Int" editType="pkText" Min="0" Max="255" shiftInMemory="$9A" rawType="word" multiplier="20" caption="Задержка Пожар-2" hint="Время до формирования сигнала 'Пожар-2', м"/>
-	
-    <!-- ИП 64 комбо -->
-    <devicePropInfo tableType="4" class="2" name="SmokeLimit" default="0.19" type="Double" editType="pkText" Min="0" Max="255" shiftInMemory="$84" rawType="word" multiplier="100" caption="Порог дыма" hint="Порог срабатывания по дыму, дБ/м"/>
-    <devicePropInfo tableType="4" class="2" name="TempLimit" default="65" type="Int" editType="pkText" Min="0" Max="85" shiftInMemory="$8B" rawType="word" multiplier="1" caption="Порог температуры" hint="Порог срабатывания по температуре, C"/>
-    <devicePropInfo tableType="4" class="2" name="FireTwoOn" default="1" type="Int" editType="pkText" Min="0" Max="255" shiftInMemory="$9A" rawType="word" multiplier="20" caption="Задержка Пожар-2" hint="Время до формирования сигнала 'Пожар-2', м"/>
-
-    <!-- АМ-1 -->
-    <devicePropInfo tableType="5" class="2" name="Config" default="1" type="Int" editType="pkDropDownList" Min="0" Max="6" shiftInMemory="$81" rawType="lo_byte" multiplier="1" caption="Конфигурация" hint="Конфигурация устройства">
-		<param type="Byte" value="0" name="0 - один контакт норм. замкн."/>
-		<param type="Byte" value="1" name="1 - один контакт норм. разомкн."/>
-		<param type="Byte" value="2" name="2 - два контакта норм. замкн."/>
-		<param type="Byte" value="3" name="3 - два контакта норм. разомкн."/>
-		<param type="Byte" value="4" name="4 - Тех. шлейф, 1 контакт норм. разомкн."/>
-		<param type="Byte" value="5" name="5 - Тех. шлейф, 1 контакт норм. разомкн."/>
-		<param type="Byte" value="6" name="6 - Охранный шлейф"/>
-	</devicePropInfo>
-	
-	<!-- РМ-1 -->
-    <devicePropInfo tableType="0" class="2" name="Config" default="1" type="Int" editType="pkDropDownList" Min="1" Max="6" shiftInMemory="$82" rawType="word" multiplier="1" caption="Конфигурация" hint="Конфигурация устройства">
-		<param type="Byte" value="1" name="1 - выкл. - разомкн. контакты, вкл. - замкн. контакны"/>
-		<param type="Byte" value="2" name="2 - выкл. - разомкн. контакты, вкл. - 'Мерцание'"/>
-		<param type="Byte" value="3" name="3 - выкл. - замкн. контакты, вкл. - разомкн. контакны"/>
-		<param type="Byte" value="4" name="4 - выкл. - замкн. контакты, вкл. - 'Мерцание'"/>
-		<param type="Byte" value="5" name="5 - выкл. - 'Мерцание', вкл. - разомкн. контакты"/>
-		<param type="Byte" value="6" name="6 - выкл. - 'Мерцание', вкл. - замкн. контакты"/>
-	</devicePropInfo>
-    <devicePropInfo tableType="0" class="2" name="TimeOut" default="0" type="Int" editType="pkText" Min="0" Max="255" shiftInMemory="$83" rawType="lo_byte" multiplier="1" caption="Задержка вкл." hint="Задержка включения, сек."/>
-    <devicePropInfo tableType="0" class="2" name="Delay" default="0" type="Int" editType="pkText" Min="0" Max="255" shiftInMemory="$83" rawType="hi_byte" multiplier="1" caption="Удержание" hint="Время удержания, сек."/>
-
-	
-  </devicePropInfos>
+	</devicePropInfos>
     
 </driverConfig>
