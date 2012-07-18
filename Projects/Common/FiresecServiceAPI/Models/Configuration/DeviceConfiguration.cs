@@ -113,5 +113,23 @@ namespace FiresecAPI.Models
 			deviceConfiguration.RootDevice = currentDevice;
 			return deviceConfiguration;
 		}
+
+		public void UpdateIdPath()
+		{
+			if (RootDevice != null)
+			{
+				RootDevice.PathId = RootDevice.Driver.UID.ToString() + ":" + RootDevice.AddressFullPath;
+				UpdateChildIdPath(RootDevice);
+			}
+		}
+
+		void UpdateChildIdPath(Device parentDevice)
+		{
+			foreach (var device in parentDevice.Children)
+			{
+				device.PathId = device.Parent.PathId + @"/" + device.Driver.UID.ToString() + ":" + device.AddressFullPath; ;
+				UpdateChildIdPath(device);
+			}
+		}
 	}
 }

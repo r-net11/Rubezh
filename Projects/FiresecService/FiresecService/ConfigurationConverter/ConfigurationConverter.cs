@@ -13,7 +13,12 @@ namespace FiresecService.Configuration
 		public FiresecSerializedClient FiresecSerializedClient;
 		public Firesec.CoreConfiguration.config FiresecConfiguration { get; set; }
 		int Gid { get; set; }
-		public string DriversError { get; private set; }
+		public StringBuilder DriversError { get; private set; }
+
+		public ConfigurationConverter()
+		{
+			DriversError = new StringBuilder();
+		}
 
 		public void Convert()
 		{
@@ -77,7 +82,7 @@ namespace FiresecService.Configuration
 				var driver = DriverConverter.Convert(innerDriver);
 				if (driver == null)
 				{
-					DriversError = "Не удается найти данные для драйвера " + innerDriver.name;
+					DriversError.AppendLine("Не удается найти данные для драйвера " + innerDriver.name);
 				}
 				else
 				{
@@ -88,11 +93,14 @@ namespace FiresecService.Configuration
 			DriverConfigurationParametersHelper.CreateKnownProperties(ConfigurationCash.Drivers);
 		}
 
-		public void Update()
+		public void Update(DeviceConfiguration deviceConfiguration = null)
 		{
+			if (deviceConfiguration == null)
+				deviceConfiguration = ConfigurationCash.DeviceConfiguration;
+
 			var hasInvalidDriver = false;
-			ConfigurationCash.DeviceConfiguration.Update();
-			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+			deviceConfiguration.Update();
+			foreach (var device in deviceConfiguration.Devices)
 			{
 				device.Driver = ConfigurationCash.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				if (device.Driver == null)
@@ -102,7 +110,28 @@ namespace FiresecService.Configuration
 				}
 			}
 			if (hasInvalidDriver)
-				ConfigurationCash.DeviceConfiguration.Update();
+				deviceConfiguration.Update();
+
+			deviceConfiguration.UpdateIdPath();
+		}
+
+		public void SynchronyzeConfiguration()
+		{
+			var firesecDeviceConfiguration = ConvertOnlyDevices(FiresecSerializedClient.GetCoreConfig().Result);
+			Update(firesecDeviceConfiguration);
+			firesecDeviceConfiguration.Update();
+			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
+			{
+				var firesecDevice = firesecDeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == device.PathId);
+				if (firesecDevice != null)
+				{
+					device.PlaceInTree = firesecDevice.GetPlaceInTree();
+				}
+				else
+				{
+					DriversError.AppendLine("Для устройства " + device.PresentationAddressDriver + " не найдено устройство в конфигурации firesec-1");
+				}
+			}
 		}
 	}
 }

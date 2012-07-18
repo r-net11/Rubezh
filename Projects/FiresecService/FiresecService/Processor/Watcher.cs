@@ -65,6 +65,20 @@ namespace FiresecService.Processor
 				ZoneStateChanged(zoneStates);
 		}
 
+		void OnNewJournalRecords(List<JournalRecord> journalRecords)
+		{
+			if (DoNotCallback)
+				return;
+
+			foreach (var firesecService in FiresecServices)
+			{
+				if (firesecService != null && firesecService.CallbackWrapper != null)
+				{
+					firesecService.CallbackWrapper.NewJournalRecords(journalRecords);
+				}
+			}
+		}
+
 		FiresecManager FiresecManager;
 		List<FiresecService.Service.FiresecService> FiresecServices
 		{
@@ -202,13 +216,7 @@ namespace FiresecService.Processor
 
 			if (newJournalRecords.Count > 0)
 			{
-				foreach (var firesecService in FiresecServices)
-				{
-					if (firesecService != null && firesecService.CallbackWrapper != null)
-					{
-						firesecService.CallbackWrapper.NewJournalRecords(newJournalRecords);
-					}
-				}
+				OnNewJournalRecords(newJournalRecords);
 			}
 		}
 
@@ -254,6 +262,7 @@ namespace FiresecService.Processor
 		public void ImitatorStateChanged(Firesec.CoreState.config coreState)
 		{
 			StateChanged(coreState);
+			DatabaseHelper.AddInfoMessage("Имитатор", "Изменение состояния устройства имитатором");
 		}
 
 		public void OnStateChanged()

@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FiresecService.Processor;
 using FiresecService.ViewModels;
 using Common;
+using System;
 
 namespace FiresecService.Service
 {
@@ -27,9 +28,17 @@ namespace FiresecService.Service
 
 		public static bool InitializeComServers()
 		{
-			MonitoringFiresecManager = new FiresecManager(true);
-			AdministratorFiresecManager = new FiresecManager(false);
-			return (MonitoringFiresecManager.IsConnectedToComServer && AdministratorFiresecManager.IsConnectedToComServer);
+			try
+			{
+				MonitoringFiresecManager = new FiresecManager(true);
+				AdministratorFiresecManager = new FiresecManager(false);
+				return (MonitoringFiresecManager.IsConnectedToComServer && AdministratorFiresecManager.IsConnectedToComServer);
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "ClientsCash.InitializeComServers");
+				return false;
+			}
 		}
 
 		public static void Add(FiresecService firesecService)

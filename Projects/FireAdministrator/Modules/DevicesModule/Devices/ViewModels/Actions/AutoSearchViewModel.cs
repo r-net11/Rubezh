@@ -64,7 +64,7 @@ namespace DevicesModule.ViewModels
         void AddAutoDevice(AutoSearchDeviceViewModel autoDetectedDevice)
         {
             var device = autoDetectedDevice.Device;
-            var parentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Id == device.Parent.Id);
+			var parentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == device.Parent.PathId);
             parentDevice.Children.Add(device);
 
             var parentDeviceViewModel = DeviceViewModels.FirstOrDefault(x => x.Device.UID == parentDevice.UID);

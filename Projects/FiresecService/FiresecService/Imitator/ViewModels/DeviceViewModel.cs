@@ -14,7 +14,7 @@ namespace FiresecService.ViewModels
 			DeviceState = deviceState;
 			StateType = DeviceState.StateType;
 			Name = DeviceState.Device.Driver.ShortName + " - " + DeviceState.Device.DottedAddress;
-			Level = DeviceState.Device.PlaceInTree == null ? 0 : DeviceState.Device.PlaceInTree.Split('\\').Count() - 1;
+			Level = DeviceState.Device.AllParents.Count;//.SavedPlaceInTree == null ? 0 : DeviceState.Device.SavedPlaceInTree.Split('\\').Count() - 1;
 
 			DriverStates = new List<DeviceStateViewModel>();
 			foreach (var driverState in from x in DeviceState.Device.Driver.States orderby x.StateType select x)

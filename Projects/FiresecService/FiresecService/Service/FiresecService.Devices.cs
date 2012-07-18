@@ -19,6 +19,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
 		{
+			FiresecManager.ConfigurationConverter.Update(deviceConfiguration);
 			ConfigurationFileManager.SetDeviceConfiguration(deviceConfiguration);
 			ConfigurationCash.DeviceConfiguration = deviceConfiguration;
 
