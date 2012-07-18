@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Xps.Packaging;
 using System.IO;
 using System.Text;
+using CrystalDecisions.CrystalReports.Engine;
 
 namespace ReportsModule.Reports
 {
@@ -51,6 +52,13 @@ namespace ReportsModule.Reports
 			}
 			StartDate = ReportArchiveFilter.StartDate;
 			EndDate = ReportArchiveFilter.EndDate;
+		}
+
+		public override void LoadCrystalReportDocument(ReportDocument reportDocument)
+		{
+			base.LoadCrystalReportDocument(reportDocument);
+			reportDocument.SetParameterValue("StartDate", StartDate.ToString());
+			reportDocument.SetParameterValue("EndDate", EndDate.ToString());
 		}
 	}
 
