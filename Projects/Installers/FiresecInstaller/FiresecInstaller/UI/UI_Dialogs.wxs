@@ -46,7 +46,8 @@
 				</Control>-->
 
 				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="$(var.btnNext)" >
-					<!--<Publish Property="WixUI_InstallMode" Value="NOT Installed">1</Publish>-->
+					<Publish Property="WixUI_InstallMode" Value="NOT Installed">1</Publish>
+          <Publish Property="INSTALLMODE" Value="NOT Installed">1</Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="$(var.btnCancel)">
 					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
@@ -54,7 +55,7 @@
 			</Dialog>
 
 			<Dialog Id="LicenseAgreement" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" Hidden="yes" NoMinimize="yes">
-        <!--<Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>-->
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp" />
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="25" Text="{&amp;MSSansBold8}Информация" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgDesc" Type="Text" X="30" Y="22" Width="292" Height="25" 
 								 Text="Пожалуйста, прочитайте следующую важную информацию перед тем, как продолжить." TabSkip="yes" Transparent="yes" />

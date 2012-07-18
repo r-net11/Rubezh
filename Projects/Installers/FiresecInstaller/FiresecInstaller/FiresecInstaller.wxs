@@ -7,7 +7,7 @@
   <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
            Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
 
-    <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" />
+    <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)"  />
 
     <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
 
@@ -46,6 +46,7 @@
     <Property Id="IS_SQLSERVER_USERNAME" Value="sa" />
     <Property Id="IS_SQLSERVER_AUTHENTICATION" Value="0" />
     <Property Id="SQLINSTANCE" Value="SQLEXPRESS" />
+    <Property Id="INSTALLMODE" />
 
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="SystemFolder"/>
@@ -98,20 +99,21 @@
 
     <InstallExecuteSequence>
       <RemoveExistingProducts After="InstallFinalize" />
-      <Custom Action="CloseApplications" Before="InstallInitialize" />
+      <Custom Action="CloseApplications" Before="InstallInitialize" >1</Custom>
 
-      <Custom Action="RegisterServer" After="InstallFinalize" >NOT REGFS2SERVER AND NOT REGOLDFS</Custom>
-      <Custom Action="RegisterSockProxy" After="RegisterServer">NOT REGFS2SERVER AND NOT REGOLDFS</Custom>
-      <Custom Action="RegisterFs_types" After="RegisterSockProxy">NOT REGFS2SERVER AND NOT REGOLDFS</Custom>
-      <Custom Action="RunSocketServerServiceNet" After="RegisterFs_types">1</Custom>
-      <Custom Action="InstallHaspDriver" After="RunSocketServerServiceNet">NOT REGFS2SERVER AND NOT REGOLDFS</Custom>
-      <Custom Action="RunFiresecServiceNet" After="InstallHaspDriver">1</Custom>
+      <Custom Action="RegisterServer" After="InstallFinalize" >NOT REGFS2SERVER AND NOT REGOLDFS AND INSTALLMODE AND SETUPCHOICE = "Full"</Custom>
+      <Custom Action="RegisterSockProxy" After="RegisterServer">NOT REGFS2SERVER AND NOT REGOLDFS AND INSTALLMODE</Custom>
+      <Custom Action="RegisterFs_types" After="RegisterSockProxy">NOT REGFS2SERVER AND NOT REGOLDFS AND INSTALLMODE</Custom>
+      <Custom Action="RunSocketServerServiceNet" After="RegisterFs_types">INSTALLMODE AND SETUPCHOICE = "Full"</Custom>
+      <Custom Action="InstallHaspDriver" After="RunSocketServerServiceNet">NOT REGFS2SERVER AND NOT REGOLDFS AND INSTALLMODE AND SETUPCHOICE = "Full"</Custom>
+      <Custom Action="RunFiresecServiceNet" After="InstallHaspDriver">INSTALLMODE AND SETUPCHOICE = "Full"</Custom>
 
       <Custom Action="StopFiresecServiceNet" After="CloseApplications">1</Custom>
       <Custom Action="StopSocketServerServiceNet" After="StopFiresecServiceNet">1</Custom>
-      <Custom Action="UnregisterSockProxy" After="StopFiresecServiceNet">REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full"</Custom>
-      <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full"</Custom>
-      <Custom Action="UnRegisterServer" After="UnregisterFs_types">REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full"</Custom>
+      <Custom Action="UnregisterSockProxy" After="StopSocketServerServiceNet">REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full" AND NOT INSTALLMODE</Custom>
+      <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full" AND NOT INSTALLMODE</Custom>
+      <Custom Action="UnRegisterServer" After="UnregisterFs_types">REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full" AND NOT INSTALLMODE</Custom>
+      <!--<Custom Action="UnRegisterServer" After="UnregisterFs_types">REGFS2SERVER AND NOT REGOLDFS AND REGFS2STATE = "Full" AND (NOT WixUI_InstallMode)</Custom>-->
 
       <!--<Custom Action="StartAppOnExit" After="InstallFinalize">SETUPCHOICE="Full" AND (NOT Installed)</Custom>-->
       <!--<Custom Action="InstallSocketServer" After="RegisterFs_types">NOT Installed</Custom>-->

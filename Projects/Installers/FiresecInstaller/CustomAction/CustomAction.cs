@@ -14,7 +14,7 @@ namespace CustomAction
 			string _fireAdministratorName = session["FIREADMINISTRATORNAME"];
 			string _firesecNtService = "FiresecNTService.exe";
 			string _socketService = "scktsrvr.exe";
-			string _oldFiresecService = "fs_server.exe";
+			string _oldFiresecService = "FS_SER~1.EXE";
 			Process[] processes = Process.GetProcesses();
 			foreach (var process in processes)
 			{
