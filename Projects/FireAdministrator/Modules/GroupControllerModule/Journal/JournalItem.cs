@@ -33,8 +33,8 @@ namespace GKModule
 
 		public JournalItem(List<byte> bytes)
 		{
-			GKNo = ByteHelper.ToInt(bytes, 0);
-			KAUNo = ByteHelper.ToInt(bytes, 32);
+			GKNo = BytesHelper.SubstructInt(bytes, 0);
+			KAUNo = BytesHelper.SubstructInt(bytes, 32);
 
 			Day = bytes[32 + 4];
 			Month = bytes[32 + 5];
@@ -44,7 +44,7 @@ namespace GKModule
 			Second = bytes[32 + 9];
 			StringDate = Day.ToString() + "/" + Month.ToString() + "/" + Year.ToString() + " " + Hour.ToString() + ":" + Minute.ToString() + ":" + Second.ToString();
 
-			KAUAddress = ByteHelper.ToShort(bytes, 32 + 10);
+			KAUAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
 			Source = (JournalSourceType)(int)(bytes[32 + 12]);
 			Code = bytes[32 + 13];
 
@@ -97,20 +97,20 @@ namespace GKModule
 					break;
 
 				case JournalSourceType.Object:
-					ObjectNo = ByteHelper.ToShort(bytes, 32 + 18);
-					ObjectDeviceType = ByteHelper.ToShort(bytes, 32 + 20);
-					ObjectDeviceAddress = ByteHelper.ToShort(bytes, 32 + 22);
-					ObjectFactoryNo = ByteHelper.ToInt(bytes, 32 + 24);
-					ObjectState = ByteHelper.ToInt(bytes, 32 + 28);
+					ObjectNo = BytesHelper.SubstructShort(bytes, 32 + 18);
+					ObjectDeviceType = BytesHelper.SubstructShort(bytes, 32 + 20);
+					ObjectDeviceAddress = BytesHelper.SubstructShort(bytes, 32 + 22);
+					ObjectFactoryNo = BytesHelper.SubstructInt(bytes, 32 + 24);
+					ObjectState = BytesHelper.SubstructInt(bytes, 32 + 28);
 					switch (Code)
 					{
 						case 0:
 							EventName = "при конфигурации описан другой тип";
-							EventDescription = ByteHelper.ToShort(bytes, 32 + 14).ToString();
+							EventDescription = BytesHelper.SubstructShort(bytes, 32 + 14).ToString();
 							break;
 						case 1:
 							EventName = "изменился заводской номер";
-							EventDescription = ByteHelper.ToInt(bytes, 32 + 14).ToString();
+							EventDescription = BytesHelper.SubstructInt(bytes, 32 + 14).ToString();
 							break;
 						case 2:
 							EventName = "пожар" + StringHelper.ToYesNo(bytes[32 + 14]);
@@ -164,21 +164,6 @@ namespace GKModule
 					}
 					break;
 			}
-		}
-	}
-
-	public static class ByteHelper
-	{
-		public static int ToInt(List<byte> bytes, int startByte)
-		{
-			var result = 1 * bytes[startByte + 0] + 256 * bytes[startByte + 1] + 256 * 256 * bytes[startByte + 2] + 256 * 256 * 256 * bytes[startByte + 3];
-			return result;
-		}
-
-		public static short ToShort(List<byte> bytes, int startByte)
-		{
-			var result = 1 * bytes[startByte + 0] + 256 * bytes[startByte + 1];
-			return (short)result;
 		}
 	}
 

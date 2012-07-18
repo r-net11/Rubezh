@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			var bytes = CommandManager.Send(Device, 0, 4, 6);
+			var bytes = SendManager.Send(Device, 0, 4, 6);
 			var Day = bytes[0];
 			var Month = bytes[1];
 			var Year = bytes[2];
@@ -56,7 +56,7 @@ namespace GKModule.ViewModels
 			bytes.Add((byte)dateTime.Hour);
 			bytes.Add((byte)dateTime.Minute);
 			bytes.Add((byte)dateTime.Second);
-			CommandManager.Send(Device, 6, 5, 0, bytes);
+			SendManager.Send(Device, 6, 5, 0, bytes);
 		}
 	}
 }

@@ -64,8 +64,9 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="BinConfigurationCreator.cs" />
     <Compile Include="BytesHelper.cs" />
-    <Compile Include="CommandManager.cs" />
+    <Compile Include="SendManager.cs" />
     <Compile Include="Converter\Drivers\Helpers\AMP4Helper.cs" />
     <Compile Include="Converter\Drivers\Helpers\BUNHelper.cs" />
     <Compile Include="Converter\Drivers\Helpers\BUZHelper.cs" />
@@ -164,6 +165,10 @@
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="BinaryFileConverter.cs" />
+    <Compile Include="States\ViewModels\StatesViewModel.cs" />
+    <Compile Include="States\Views\StatesView.xaml.cs">
+      <DependentUpon>StatesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
@@ -258,6 +263,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Journal\Views\JournalView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="States\Views\StatesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

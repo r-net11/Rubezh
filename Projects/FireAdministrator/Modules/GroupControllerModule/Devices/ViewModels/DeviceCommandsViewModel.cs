@@ -12,6 +12,8 @@ using System.Linq;
 using XFiresecAPI;
 using System.IO;
 using System.Diagnostics;
+using FiresecClient;
+using System.Collections;
 
 namespace GKModule.Models
 {
@@ -23,12 +25,12 @@ namespace GKModule.Models
 		{
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
+			ConvertToBinaryFileCommand = new RelayCommand(OnConvertToBinaryFile);
 
 			ControlTimeCommand = new RelayCommand(OnControlTime, CanControlTime);
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
-			WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
-			ConvertToBinaryFileCommand = new RelayCommand(OnConvertToBinaryFile, CanConvertToBinaryFile);
+			WriteConfigCommand = new RelayCommand(OnWriteConfig);
 
 			GetParametersCommand = new RelayCommand(OnGetParameters);
 			WriteParametersCommand = new RelayCommand(OnWriteParameters);
@@ -111,60 +113,18 @@ namespace GKModule.Models
 			DialogService.ShowModalWindow(journalViewModel);
 		}
 
-		bool CanWriteConfig()
-		{
-			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
-		}
 		public RelayCommand WriteConfigCommand { get; private set; }
 		void OnWriteConfig()
 		{
-			DatabaseProcessor.Convert();
-
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseCollection.GkDatabases)
-			{
-				LoadingService.Show("Запись конфигурации в ГК", 2 + gkDatabase.BinaryObjects.Count);
-
-				LoadingService.DoStep("Переход в технологический режим");
-				CommandManager.Send(gkDatabase.RootDevice, 0, 14, 0);
-
-				LoadingService.DoStep("Стирание базы данных");
-				CommandManager.Send(gkDatabase.RootDevice, 0, 15, 0);
-
-				foreach (var binaryObject in gkDatabase.BinaryObjects)
-				{
-					LoadingService.DoStep("Запись дескриптора " + binaryObject.GetNo().ToString());
-					var bytes = BinaryFileConverter.CreateDescriptor(binaryObject, false);
-					CommandManager.Send(gkDatabase.RootDevice, (short)(3 + bytes.Count()), 17, 0, bytes);
-				}
-				LoadingService.DoStep("Запись завершающего дескриптора");
-				var endBytes = BinaryFileConverter.CreateEndDescriptor((short)(gkDatabase.BinaryObjects.Count + 1));
-				CommandManager.Send(gkDatabase.RootDevice, 3 + 2, 17, 0, endBytes);
-
-				LoadingService.DoStep("Запуск программы");
-				CommandManager.Send(gkDatabase.RootDevice, 0, 11, 0);
-
-				LoadingService.Close();
-			}
-
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
-			{
-				LoadingService.Show("Запись конфигурации в КАУ", 2 + kauDatabase.BinaryObjects.Count);
-				LoadingService.Close();
-			}
+			BinConfigurationCreator.WriteConfig();
 		}
 
-		bool CanConvertToBinaryFile()
-		{
-			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
-		}
 		public RelayCommand ConvertToBinaryFileCommand { get; private set; }
 		void OnConvertToBinaryFile()
 		{
 			Directory.Delete(@"D:\GKConfig", true);
 			Directory.CreateDirectory(@"D:\GKConfig");
 			BinaryFileConverter.Convert3();
-			//BinaryFileConverter.Convert1();
-			//BinaryFileConverter.Convert2();
 		}
 
 		public RelayCommand GetParametersCommand { get; private set; }
@@ -180,6 +140,36 @@ namespace GKModule.Models
 		public RelayCommand GetObjectInfoCommand { get; private set; }
 		void OnGetObjectInfo()
 		{
+			var statesViewModel = new StatesViewModel();
+			DialogService.ShowModalWindow(statesViewModel);
+
+			for (short i = 1; i < 14; i++)
+			{
+				var bytes = SendManager.Send(SelectedDevice.Device, 2, 12, 32, BytesHelper.ShortToBytes(i));
+				var deviceType = BytesHelper.SubstructShort(bytes, 0);
+				var address = BytesHelper.SubstructShort(bytes, 2);
+				var serialNo = BytesHelper.SubstructInt(bytes, 4);
+				var state = BytesHelper.SubstructInt(bytes, 8);
+				Trace.WriteLine(BytesHelper.BytesToString(bytes));
+
+				var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
+
+				var stateStringBuilder = new StringBuilder();
+				var bitArray = new BitArray(new int[1] { state });
+				for (int j = 0; j < bitArray.Count; j++)
+				{
+					var b = bitArray[j];
+					if (b)
+						stateStringBuilder.Append(j + ", ");
+				}
+
+				var message =
+					"Тип " + driver.ShortName + "\n" +
+					"Адрес " + address + "\n" +
+					"Серийный номер " + serialNo + "\n" +
+					"Состояние " + stateStringBuilder.ToString();
+				MessageBoxService.Show(message);
+			}
 		}
 
 		public RelayCommand ExecuteObjectCommand { get; private set; }

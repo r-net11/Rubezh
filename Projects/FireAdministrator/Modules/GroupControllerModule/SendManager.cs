@@ -5,10 +5,11 @@ using System;
 using System.Linq;
 using XFiresecAPI;
 using System.Diagnostics;
+using Infrastructure.Common.Windows;
 
 namespace GKModule
 {
-	public static class CommandManager
+	public static class SendManager
 	{
 		public static List<byte> Send(XDevice device, short length, byte command, short inputLenght, List<byte> data = null, bool hasAnswer = true)
 		{
@@ -25,7 +26,7 @@ namespace GKModule
 				case XDriverType.KAU:
 					whom = 4;
 					address = device.IntAddress;
-					var modeProperty = device.Properties.FirstOrDefault(x=>x.Name == "");
+					var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
 					if (modeProperty != null)
 					{
 						switch(modeProperty.Value)
@@ -35,16 +36,16 @@ namespace GKModule
 
 							case 1:
 								address += 127;
-								throw new Exception("Неизвестный тип линии");
+								break;
 
 							default:
-								break;
+								throw new Exception("Неизвестный тип линии");
 						}
 					}
 					break;
 
 				default:
-					throw new Exception("Команду пожно отправлять только в ГК или в КАУ");
+					throw new Exception("Команду можно отправлять только в ГК или в КАУ");
 			}
 			var bytes = new List<byte>();
 			bytes.Add(whom);
@@ -82,15 +83,15 @@ namespace GKModule
 			udpClient.Close();
 
 			if (recievedBytes[0] != bytes[0])
-				throw new Exception("Не совпадает байт 0");
+				MessageBoxService.Show("Не совпадает байт 'Кому'");
 			if (recievedBytes[1] != bytes[1])
-				throw new Exception("Не совпадает байт 1");
+				MessageBoxService.Show("Не совпадает байт 'Адрес'");
 			if (recievedBytes[4] != bytes[4])
-				throw new Exception("Не совпадает байт 4");
+				MessageBoxService.Show("Не совпадает байт 'Команда'");
 
 			var recievedInputLenght = (short)(recievedBytes[2] + 256 * recievedBytes[3]);
-			if (inputLenght != recievedInputLenght)
-				throw new Exception("Не совпадает байт 2, 3");
+			//if (inputLenght != recievedInputLenght)
+			//    MessageBoxService.Show("Не совпадают байты 'Длина'");
 
 			return recievedBytes.Skip(5).ToList();
 		}

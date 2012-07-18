@@ -46,17 +46,17 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			var bytes = CommandManager.Send(Device, 0, 1, 1);
+			var bytes = SendManager.Send(Device, 0, 1, 1);
 			Version = BytesToString(bytes);
 
-			bytes = CommandManager.Send(Device, 0, 2, 8);
+			bytes = SendManager.Send(Device, 0, 2, 8);
 			Info = BytesToString(bytes);
 		}
 
 		public RelayCommand WriteCommand { get; private set; }
 		void OnWrite()
 		{
-			var bytes = CommandManager.Send(Device, 8, 3, 0);
+			var bytes = SendManager.Send(Device, 8, 3, 0);
 		}
 
 		List<byte> StringToBytes(string stringBytes)
