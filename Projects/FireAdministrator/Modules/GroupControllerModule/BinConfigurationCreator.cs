@@ -29,7 +29,7 @@ namespace GKModule
 		static void WriteOneConfig(CommonDatabase commonDatabase)
 		{
 			LoadingService.DoStep("Переход в технологический режим");
-			SendManager.Send(commonDatabase.RootDevice, 0, 14, 0);
+			SendManager.Send(commonDatabase.RootDevice, 0, 14, 0, null, false);
 
 			LoadingService.DoStep("Стирание базы данных");
 			SendManager.Send(commonDatabase.RootDevice, 0, 15, 0);
@@ -45,7 +45,7 @@ namespace GKModule
 			SendManager.Send(commonDatabase.RootDevice, 3 + 2, 17, 0, endBytes);
 
 			LoadingService.DoStep("Запуск программы");
-			SendManager.Send(commonDatabase.RootDevice, 0, 11, 0);
+			SendManager.Send(commonDatabase.RootDevice, 0, 11, 0, null, false);
 
 			LoadingService.Close();
 		}

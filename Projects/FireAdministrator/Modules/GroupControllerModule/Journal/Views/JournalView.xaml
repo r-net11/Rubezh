@@ -39,6 +39,7 @@
                 <TextBlock Text="{Binding TotalCount}" Foreground="White" HorizontalAlignment="Right" Margin="2" />
             </StackPanel>
             <Button Content="Считать" Command="{Binding ReadCommand}" Width="100" Margin="2" />
+            <Button Content="Стереть" Command="{Binding EraseCommand}" Width="100" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

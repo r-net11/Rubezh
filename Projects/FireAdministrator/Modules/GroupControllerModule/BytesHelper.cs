@@ -24,12 +24,22 @@ namespace GKModule
 			return bytes;
 		}
 
+		public static string BytesToStringDescription(List<byte> bytes)
+		{
+			var encoding = Encoding.GetEncoding(1251);
+			string result = encoding.GetString(bytes.ToArray());
+			return result;
+		}
+
 		public static string BytesToString(List<byte> bytes)
 		{
 			var stringValue = new StringBuilder();
-			foreach (var b in bytes)
+			if (bytes != null)
 			{
-				stringValue.Append(b.ToString("x2") + " ");
+				foreach (var b in bytes)
+				{
+					stringValue.Append(b.ToString("x2") + " ");
+				}
 			}
 			return stringValue.ToString();
 		}

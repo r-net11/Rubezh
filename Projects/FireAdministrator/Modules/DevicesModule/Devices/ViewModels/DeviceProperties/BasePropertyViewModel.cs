@@ -56,9 +56,11 @@ namespace DevicesModule.DeviceProperties
 			}
 			else
 			{
-				var newProperty = new Property();
-				newProperty.Name = _driverProperty.Name;
-				newProperty.Value = value;
+				var newProperty = new Property()
+				{
+					Name = _driverProperty.Name,
+					Value = value
+				};
 				_device.Properties.Add(newProperty);
 			}
 		}

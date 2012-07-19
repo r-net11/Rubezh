@@ -31,11 +31,11 @@ namespace GKModule.Models
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			WriteConfigCommand = new RelayCommand(OnWriteConfig);
-
+			ShowStatesCommand = new RelayCommand(OnShowStates);
 			GetParametersCommand = new RelayCommand(OnGetParameters);
 			WriteParametersCommand = new RelayCommand(OnWriteParameters);
-			GetObjectInfoCommand = new RelayCommand(OnGetObjectInfo);
-			ExecuteObjectCommand = new RelayCommand(OnExecuteObject);
+
+			ControlObjectCommand = new RelayCommand(OnControlObject);
 			EraseWorkingProgramCommand = new RelayCommand(OnEraseWorkingProgram);
 			WriteProgramCommand = new RelayCommand(OnWriteProgram);
 			GetDeviceParameterCommand = new RelayCommand(OnGetDeviceParameter);
@@ -130,51 +130,45 @@ namespace GKModule.Models
 		public RelayCommand GetParametersCommand { get; private set; }
 		void OnGetParameters()
 		{
+			ParametersHelper.GetParameters();
 		}
 
 		public RelayCommand WriteParametersCommand { get; private set; }
 		void OnWriteParameters()
 		{
+			ParametersHelper.SetParameters();
 		}
 
-		public RelayCommand GetObjectInfoCommand { get; private set; }
-		void OnGetObjectInfo()
+		public RelayCommand ShowStatesCommand { get; private set; }
+		void OnShowStates()
 		{
 			var statesViewModel = new StatesViewModel();
 			DialogService.ShowModalWindow(statesViewModel);
-
-			for (short i = 1; i < 14; i++)
-			{
-				var bytes = SendManager.Send(SelectedDevice.Device, 2, 12, 32, BytesHelper.ShortToBytes(i));
-				var deviceType = BytesHelper.SubstructShort(bytes, 0);
-				var address = BytesHelper.SubstructShort(bytes, 2);
-				var serialNo = BytesHelper.SubstructInt(bytes, 4);
-				var state = BytesHelper.SubstructInt(bytes, 8);
-				Trace.WriteLine(BytesHelper.BytesToString(bytes));
-
-				var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
-
-				var stateStringBuilder = new StringBuilder();
-				var bitArray = new BitArray(new int[1] { state });
-				for (int j = 0; j < bitArray.Count; j++)
-				{
-					var b = bitArray[j];
-					if (b)
-						stateStringBuilder.Append(j + ", ");
-				}
-
-				var message =
-					"Тип " + driver.ShortName + "\n" +
-					"Адрес " + address + "\n" +
-					"Серийный номер " + serialNo + "\n" +
-					"Состояние " + stateStringBuilder.ToString();
-				MessageBoxService.Show(message);
-			}
 		}
 
-		public RelayCommand ExecuteObjectCommand { get; private set; }
-		void OnExecuteObject()
+		public RelayCommand ControlObjectCommand { get; private set; }
+		void OnControlObject()
 		{
+			DatabaseProcessor.Convert();
+			foreach (var gkDatabase in DatabaseProcessor.DatabaseCollection.GkDatabases)
+			{
+				foreach (var binaryObject in gkDatabase.BinaryObjects)
+				{
+					if (binaryObject.Device != null)
+					{
+						if (binaryObject.Device.UID == SelectedDevice.Device.UID)
+						{
+							byte command = 0x90;
+							var rootDevice = gkDatabase.RootDevice;
+							var no = binaryObject.GetNo();
+							var bytes = new List<byte>();
+							bytes.AddRange(BytesHelper.ShortToBytes(no));
+							bytes.Add(command);
+							SendManager.Send(rootDevice, 3, 13, 0, bytes);
+						}
+					}
+				}
+			}
 		}
 
 		public RelayCommand EraseWorkingProgramCommand { get; private set; }

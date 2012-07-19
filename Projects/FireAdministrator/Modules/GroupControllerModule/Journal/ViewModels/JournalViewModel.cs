@@ -18,6 +18,7 @@ namespace GKModule.ViewModels
 		{
 			Title = "Журнал событий ГК";
 			ReadCommand = new RelayCommand(OnRead);
+			EraseCommand = new RelayCommand(OnErase);
 			JournalItems = new ObservableCollection<JournalItem>();
 			Device = device;
 			StartIndex = 1;
@@ -79,15 +80,27 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
+			if (StartIndex > EndIndex)
+				return;
+
 			JournalItems.Clear();
+			LoadingService.Show("Запрос параметра", 2 + EndIndex - StartIndex);
 			for (int i = StartIndex; i <= EndIndex; i++)
 			{
 				var data = new List<byte>();
 				data = BitConverter.GetBytes(i).ToList();
+				LoadingService.DoStep("Чтение записи " + i);
 				var bytes = SendManager.Send(Device, 4, 7, 64, data);
 				var journalItem = new JournalItem(bytes);
 				JournalItems.Add(journalItem);
 			}
+			LoadingService.Close();
+		}
+
+		public RelayCommand EraseCommand { get; private set; }
+		void OnErase()
+		{
+			SendManager.Send(Device, 0, 8, 0);
 		}
 	}
 }

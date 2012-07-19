@@ -14,7 +14,6 @@ namespace XFiresecAPI
 			UID = Guid.NewGuid();
 			Children = new List<XDevice>();
 			Properties = new List<XProperty>();
-			DeviceParameters = new List<XDeviceParameter>();
 			OutDependenceUIDs = new List<Guid>();
 			Zones = new List<short>();
 			DeviceLogic = new XDeviceLogic();
@@ -44,9 +43,6 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public List<XProperty> Properties { get; set; }
-
-		[DataMember]
-		public List<XDeviceParameter> DeviceParameters { get; set; }
 
 		[DataMember]
 		public List<short> Zones { get; set; }
@@ -91,6 +87,16 @@ namespace XFiresecAPI
 					address.Remove(address.Length - 1, 1);
 
 				return address.ToString();
+			}
+		}
+
+		public string PresentationAddressDriver
+		{
+			get
+			{
+				if (Driver.HasAddress)
+					return Address + " - " + Driver.Name;
+				return Driver.Name;
 			}
 		}
 

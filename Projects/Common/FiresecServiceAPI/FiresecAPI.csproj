@@ -226,7 +226,6 @@
     <Compile Include="XModels\Configuration\XDriversConfiguration.cs" />
     <Compile Include="XModels\DatabaseType.cs" />
     <Compile Include="XModels\Device\XDevice.cs" />
-    <Compile Include="XModels\Device\XDeviceParameter.cs" />
     <Compile Include="XModels\Device\XProperty.cs" />
     <Compile Include="XModels\Driver\XDriver.cs" />
     <Compile Include="XModels\Driver\XDriverDeviceParameter.cs" />

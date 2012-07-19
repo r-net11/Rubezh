@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="BinConfigurationCreator.cs" />
     <Compile Include="BytesHelper.cs" />
+    <Compile Include="ParametersHelper.cs" />
     <Compile Include="SendManager.cs" />
     <Compile Include="Converter\Drivers\Helpers\AMP4Helper.cs" />
     <Compile Include="Converter\Drivers\Helpers\BUNHelper.cs" />
@@ -166,6 +167,7 @@
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="BinaryFileConverter.cs" />
     <Compile Include="States\ViewModels\StatesViewModel.cs" />
+    <Compile Include="States\ViewModels\StateViewModel.cs" />
     <Compile Include="States\Views\StatesView.xaml.cs">
       <DependentUpon>StatesView.xaml</DependentUpon>
     </Compile>

@@ -18,7 +18,7 @@
                             <ColumnDefinition SharedSizeGroup="group2" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Content="{Binding Caption}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                        <TextBox Grid.Column="1" Text="{Binding Text}" Margin="2" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -32,7 +32,7 @@
                             <ColumnDefinition SharedSizeGroup="group2" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Content="{Binding Caption}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                        <TextBox Grid.Column="1" Text="{Binding Text}" Margin="2" VerticalAlignment="Center" />
+                        <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -46,7 +46,7 @@
                             <ColumnDefinition SharedSizeGroup="group2" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Content="{Binding Caption}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                        <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked}" Margin="2" VerticalAlignment="Center" />
+                        <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -60,7 +60,7 @@
                             <ColumnDefinition SharedSizeGroup="group2" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Content="{Binding Caption}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                        <ComboBox Grid.Column="1" ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedValue}" Margin="2" VerticalAlignment="Center" />
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

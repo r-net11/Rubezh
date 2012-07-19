@@ -64,34 +64,44 @@ namespace GKModule
 				}
 			}
 
-			Trace.WriteLine(BytesHelper.BytesToString(bytes));
-			return SendBytes(bytes.ToArray(), inputLenght, hasAnswer);
+			var resultBytes = SendBytes(bytes, inputLenght, hasAnswer);
+			return resultBytes;
 		}
 
-		static List<byte> SendBytes(byte[] bytes, short inputLenght, bool hasAnswer = true)
+		static List<byte> SendBytes(List<byte> bytes, short inputLenght, bool hasAnswer = true)
 		{
-			var udpClient = new UdpClient()
-			{
-				EnableBroadcast = false
-			};
+			var udpClient = new UdpClient();
 			udpClient.Connect(IPAddress.Parse("172.16.7.102"), 1025);
 			var endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.102"), 1025);
-			var bytesSent = udpClient.Send(bytes, bytes.Length);
+			var bytesSent = udpClient.Send(bytes.ToArray(), bytes.Count);
+			Trace.WriteLine("<-- " + BytesHelper.BytesToString(bytes));
 			if (hasAnswer == false)
 				return null;
-			byte[] recievedBytes = udpClient.Receive(ref endPoint);
+			var recievedBytes = udpClient.Receive(ref endPoint).ToList();
+			Trace.WriteLine("--> " + BytesHelper.BytesToString(recievedBytes));
 			udpClient.Close();
 
 			if (recievedBytes[0] != bytes[0])
+			{
 				MessageBoxService.Show("Не совпадает байт 'Кому'");
+			}
 			if (recievedBytes[1] != bytes[1])
+			{
 				MessageBoxService.Show("Не совпадает байт 'Адрес'");
+			}
 			if (recievedBytes[4] != bytes[4])
+			{
 				MessageBoxService.Show("Не совпадает байт 'Команда'");
+			}
 
 			var recievedInputLenght = (short)(recievedBytes[2] + 256 * recievedBytes[3]);
-			//if (inputLenght != recievedInputLenght)
-			//    MessageBoxService.Show("Не совпадают байты 'Длина'");
+			if (inputLenght != -1)
+			{
+				if (inputLenght != recievedInputLenght)
+				{
+					//MessageBoxService.Show("Не совпадают байты 'Длина'");
+				}
+			}
 
 			return recievedBytes.Skip(5).ToList();
 		}

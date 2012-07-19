@@ -5,6 +5,7 @@
 		Administrator,
 		Monitor,
 		Itv,
+		Assad,
 		Other
 	}
 }

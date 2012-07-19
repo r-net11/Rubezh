@@ -8,128 +8,134 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
-    {
-        public XDevice Device { get; private set; }
-        public PropertiesViewModel PropertiesViewModel { get; private set; }
+	public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
+	{
+		public XDevice Device { get; private set; }
+		public PropertiesViewModel PropertiesViewModel { get; private set; }
 
-        public DeviceViewModel(XDevice xDevice, ObservableCollection<DeviceViewModel> sourceDevices)
-        {
-            AddCommand = new RelayCommand(OnAdd, CanAdd);
-            RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-            ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
-            ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
+		public DeviceViewModel(XDevice device, ObservableCollection<DeviceViewModel> sourceDevices)
+		{
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
+			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
 
-            Children = new ObservableCollection<DeviceViewModel>();
+			Children = new ObservableCollection<DeviceViewModel>();
 
-            Source = sourceDevices;
-            Device = xDevice;
-            PropertiesViewModel = new PropertiesViewModel(xDevice);
-        }
+			Source = sourceDevices;
+			Device = device;
+			PropertiesViewModel = new PropertiesViewModel(device);
+		}
 
-        public void Update()
-        {
-            IsExpanded = false;
-            IsExpanded = true;
-            OnPropertyChanged("HasChildren");
-        }
+		public void UpdateProperties()
+		{
+			PropertiesViewModel = new PropertiesViewModel(Device);
+			OnPropertyChanged("PropertiesViewModel");
+		}
 
-        public XDriver Driver
-        {
-            get { return Device.Driver; }
-        }
+		public void Update()
+		{
+			IsExpanded = false;
+			IsExpanded = true;
+			OnPropertyChanged("HasChildren");
+		}
 
-        public string Address
-        {
-            get { return Device.Address; }
-            set
-            {
-                if (Device.Parent.Children.Where(x => x != Device).Any(x => x.Address == value))
-                {
-                    MessageBoxService.Show("Устройство с таким адресом уже существует");
-                }
-                else
-                {
-                    if (Driver.IsChildAddressReservedRange)
-                    {
-                        foreach (var deviceViewModel in Children)
-                        {
-                            deviceViewModel.OnPropertyChanged("Address");
-                        }
-                    }
-                }
-                OnPropertyChanged("Address");
-                ServiceFactory.SaveService.XDevicesChanged = true;
-            }
-        }
+		public XDriver Driver
+		{
+			get { return Device.Driver; }
+		}
 
-        public string Description
-        {
-            get { return Device.Description; }
-            set
-            {
-                Device.Description = value;
-                OnPropertyChanged("Description");
-            }
-        }
+		public string Address
+		{
+			get { return Device.Address; }
+			set
+			{
+				if (Device.Parent.Children.Where(x => x != Device).Any(x => x.Address == value))
+				{
+					MessageBoxService.Show("Устройство с таким адресом уже существует");
+				}
+				else
+				{
+					if (Driver.IsChildAddressReservedRange)
+					{
+						foreach (var deviceViewModel in Children)
+						{
+							deviceViewModel.OnPropertyChanged("Address");
+						}
+					}
+				}
+				OnPropertyChanged("Address");
+				ServiceFactory.SaveService.XDevicesChanged = true;
+			}
+		}
 
-        public bool CanAdd()
-        {
-            return (Driver.Children.Count > 0);
-        }
+		public string Description
+		{
+			get { return Device.Description; }
+			set
+			{
+				Device.Description = value;
+				OnPropertyChanged("Description");
+			}
+		}
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
+		public bool CanAdd()
+		{
+			return (Driver.Children.Count > 0);
+		}
+
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
 			if (DialogService.ShowModalWindow(new NewDeviceViewModel(this)))
-            {
-                ServiceFactory.SaveService.XDevicesChanged = true;
-            }
-        }
+			{
+				ServiceFactory.SaveService.XDevicesChanged = true;
+			}
+		}
 
-        bool CanRemove()
-        {
-            return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.AutoChild == Driver.UID);
-        }
+		bool CanRemove()
+		{
+			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.AutoChild == Driver.UID);
+		}
 
-        public RelayCommand RemoveCommand { get; private set; }
-        void OnRemove()
-        {
-            Parent.IsExpanded = false;
-            Parent.Device.Children.Remove(Device);
-            Parent.Children.Remove(this);
-            Parent.Update();
-            Parent.IsExpanded = true;
-            Parent = null;
+		public RelayCommand RemoveCommand { get; private set; }
+		void OnRemove()
+		{
+			Parent.IsExpanded = false;
+			Parent.Device.Children.Remove(Device);
+			Parent.Children.Remove(this);
+			Parent.Update();
+			Parent.IsExpanded = true;
+			Parent = null;
 
-            XManager.DeviceConfiguration.Update();
-            ServiceFactory.SaveService.XDevicesChanged = true;
-        }
+			XManager.DeviceConfiguration.Update();
+			ServiceFactory.SaveService.XDevicesChanged = true;
+		}
 
-        bool CanShowProperties()
-        {
-            return false;
-        }
+		bool CanShowProperties()
+		{
+			return false;
+		}
 
-        public RelayCommand ShowPropertiesCommand { get; private set; }
-        void OnShowProperties()
-        {
-        }
+		public RelayCommand ShowPropertiesCommand { get; private set; }
+		void OnShowProperties()
+		{
+		}
 
-        bool CanShowLogic()
-        {
-            return (Driver.HasLogic);
-        }
+		bool CanShowLogic()
+		{
+			return (Driver.HasLogic);
+		}
 
-        public RelayCommand ShowLogicCommand { get; private set; }
-        void OnShowLogic()
-        {
+		public RelayCommand ShowLogicCommand { get; private set; }
+		void OnShowLogic()
+		{
 			if (DialogService.ShowModalWindow(new DeviceLogicViewModel(Device)))
-                ServiceFactory.SaveService.XDevicesChanged = true;
-        }
+				ServiceFactory.SaveService.XDevicesChanged = true;
+		}
 
-        public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
-        public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
-        public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
-    }
+		public RelayCommand CopyCommand { get { return DevicesViewModel.Current.CopyCommand; } }
+		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
+		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
+	}
 }

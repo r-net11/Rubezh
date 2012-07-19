@@ -219,7 +219,6 @@ namespace GKModule.Database
 			}
 
 			Parameters = new List<byte>();
-
 			foreach (var binProperty in binProperties)
 			{
 				Parameters.Add(binProperty.No);

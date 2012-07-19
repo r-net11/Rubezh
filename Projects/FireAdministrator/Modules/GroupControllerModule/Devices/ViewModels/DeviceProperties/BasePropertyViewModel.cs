@@ -28,6 +28,8 @@ namespace GKModule.ViewModels
 
 		protected void Save(short value)
 		{
+			ServiceFactory.SaveService.XDevicesChanged = true;
+
 			var property = _xDevice.Properties.FirstOrDefault(x => x.Name == _xDriverProperty.Name);
 			if (property == null)
 			{
@@ -38,8 +40,6 @@ namespace GKModule.ViewModels
 				_xDevice.Properties.Add(property);
 			}
 			property.Value = value;
-
-			ServiceFactory.SaveService.XDevicesChanged = true;
 		}
 
 		protected void SaveStringValue(string value)

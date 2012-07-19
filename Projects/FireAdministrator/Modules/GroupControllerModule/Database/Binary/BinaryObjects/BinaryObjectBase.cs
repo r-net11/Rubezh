@@ -99,20 +99,22 @@ namespace GKModule.Database
 
 		public void InitializeAllBytes()
 		{
-			if (DatabaseType == DatabaseType.Gk)
+			switch (DatabaseType)
 			{
-				if (Device != null)
-				{
-					Description = BytesHelper.StringDescriptionToBytes(Device.Driver.ShortName + " - " + Device.Address);
-				}
-				if (Zone != null)
-				{
-					Description = BytesHelper.StringDescriptionToBytes("Зона " + Zone.No.ToString() + " - " + Zone.Name);
-				}
-			}
-			else
-			{
-				Description = new List<byte>();
+				case DatabaseType.Gk:
+					if (Device != null)
+					{
+						Description = BytesHelper.StringDescriptionToBytes(Device.PresentationAddressDriver);
+					}
+					if (Zone != null)
+					{
+						Description = BytesHelper.StringDescriptionToBytes("Зона " + Zone.No.ToString() + " - " + Zone.Name);
+					}
+					break;
+
+				case DatabaseType.Kau:
+					Description = new List<byte>();
+					break;
 			}
 
 			InitializeInputOutputDependences();
@@ -121,8 +123,18 @@ namespace GKModule.Database
 			OutputDependensesCount = BytesHelper.ShortToBytes((short)(OutputDependenses.Count / 2));
 			ParametersCount = BytesHelper.ShortToBytes((short)(Parameters.Count / 4));
 
-			int lengthToParameters = 2 + 6 + 32 + 2 + 2 + InputDependensesCount.Count + 2 + OutputDependenses.Count + Formula.Count;
-			Offset = BytesHelper.ShortToBytes((short)lengthToParameters);
+			int offsetToParameters = 0;
+			switch(DatabaseType)
+			{
+				case DatabaseType.Gk:
+					offsetToParameters = 2 + 6 + 32 + 2 + 2 + InputDependenses.Count + 2 + OutputDependenses.Count + Formula.Count;
+					break;
+
+				case DatabaseType.Kau:
+					offsetToParameters = 2 + 2 + 2 + 2 + OutputDependenses.Count + Formula.Count;
+					break;
+			}
+			Offset = BytesHelper.ShortToBytes((short)offsetToParameters);
 
 			AllBytes = new List<byte>();
 			AllBytes.AddRange(DeviceType);
