@@ -11,7 +11,7 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementBase elementBase = new ElementRectangleZone()
+			ElementRectangleZone elementBase = new ElementRectangleZone()
 			{
 				ZoneNo = ZoneNo
 			};

@@ -13,8 +13,9 @@ namespace PlansModule.ViewModels
 {
 	public partial class PlansViewModel : ViewPartViewModel
 	{
-		List<HistoryItem> HistoryItems;
-		int Offset;
+		private List<HistoryItem> HistoryItems;
+		private int Offset;
+		private bool _historyAction = false;
 
 		void InitializeHistory()
 		{
@@ -46,14 +47,10 @@ namespace PlansModule.ViewModels
 			};
 
 			foreach (var elementBase in elementsBefore)
-			{
 				historyItem.ElementsBefore.Add(elementBase.Clone());
-			}
 
 			foreach (var elementBase in elementsAfter)
-			{
 				historyItem.ElementsAfter.Add(elementBase.Clone());
-			}
 
 			if (HistoryItems.Count > Offset)
 				HistoryItems.RemoveRange(Offset, HistoryItems.Count - Offset);
@@ -63,80 +60,89 @@ namespace PlansModule.ViewModels
 
 		void OnElementsAdded(List<ElementBase> elementsBefore)
 		{
-			AddHistoryItem(new List<ElementBase>(), elementsBefore, ActionType.Added);
+			if (!_historyAction)
+				AddHistoryItem(new List<ElementBase>(), elementsBefore, ActionType.Added);
 		}
 		void OnElementsRemoved(List<ElementBase> elementsBefore)
 		{
-			PlanDesignerViewModel.Save();
-			AddHistoryItem(elementsBefore, new List<ElementBase>(), ActionType.Removed);
+			if (!_historyAction)
+			{
+				PlanDesignerViewModel.Save();
+				AddHistoryItem(elementsBefore, new List<ElementBase>(), ActionType.Removed);
+			}
 		}
 		void OnElementsChanged(List<ElementBase> elementsBefore)
 		{
-			var elementsAfter = DesignerCanvas.CloneSelectedElements();
-			AddHistoryItem(elementsBefore, elementsAfter, ActionType.Edited);
+			if (!_historyAction)
+			{
+				var elementsAfter = DesignerCanvas.CloneSelectedElements();
+				AddHistoryItem(elementsBefore, elementsAfter, ActionType.Edited);
+			}
 		}
 
-		void DoUndo()
+		private void DoUndo()
 		{
 			var historyItem = HistoryItems[Offset];
-
+			_historyAction = true;
 			switch (historyItem.ActionType)
 			{
 				case ActionType.Edited:
+					List<ElementBase> elements = new List<ElementBase>();
 					foreach (var elementBase in historyItem.ElementsBefore)
 					{
 						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
-						designerItem.ResetElement(elementBase.Clone());
+						var element = elementBase.Clone();
+						designerItem.ResetElement(element);
+						elements.Add(element);
 					}
+					ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(elements);
 					DesignerCanvas.UpdateZoom();
-					return;
-
+					break;
 				case ActionType.Added:
 					foreach (var elementBase in historyItem.ElementsAfter)
-					{
-						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
-						DesignerCanvas.Children.Remove(designerItem);
-					}
-					return;
+						DesignerCanvas.RemoveElement(elementBase);
+					ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(historyItem.ElementsAfter);
+					break;
 
 				case ActionType.Removed:
 					foreach (var elementBase in historyItem.ElementsBefore)
-					{
 						DesignerCanvas.AddElement(elementBase);
-					}
-					return;
+					ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(historyItem.ElementsBefore);
+					break;
 			}
+			_historyAction = false;
 		}
-		void DoRedo()
+		private void DoRedo()
 		{
 			var historyItem = HistoryItems[Offset];
-
+			_historyAction = true;
 			switch (historyItem.ActionType)
 			{
 				case ActionType.Edited:
+					List<ElementBase> elements = new List<ElementBase>();
 					foreach (var elementBase in historyItem.ElementsAfter)
 					{
 						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
-						designerItem.ResetElement(elementBase.Clone());
+						var element = elementBase.Clone();
+						designerItem.ResetElement(element);
+						elements.Add(element);
 					}
 					DesignerCanvas.UpdateZoom();
-					return;
+					ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(elements);
+					break;
 
 				case ActionType.Added:
 					foreach (var elementBase in historyItem.ElementsAfter)
-					{
 						DesignerCanvas.AddElement(elementBase);
-					}
-					return;
-
+					ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(historyItem.ElementsAfter);
+					break;
 				case ActionType.Removed:
 					foreach (var elementBase in historyItem.ElementsBefore)
-					{
-						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
-						DesignerCanvas.Children.Remove(designerItem);
-					}
-					return;
+						DesignerCanvas.RemoveElement(elementBase);
+					ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Publish(historyItem.ElementsBefore);
+					break;
 			}
+			_historyAction = false;
 		}
 
 		public RelayCommand UndoCommand { get; private set; }

@@ -8,24 +8,24 @@ using System.Windows.Shapes;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using PlansModule.Designer;
+using FiresecAPI.Models;
 
 namespace PlansModule.InstrumentAdorners
 {
-	public class DebugAdorner : InstrumentAdorner
+	public class ElipseAdorner : RectangleAdorner
 	{
-		public DebugAdorner(DesignerCanvas designerCanvas)
+		public ElipseAdorner(DesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 		}
 
-		protected override void Show()
+		protected override Shape CreateRubberband()
 		{
-			AdornerCanvas.Cursor = Cursors.Pen;
+			return new Ellipse();
 		}
-
-		protected override void OnMouseUp(MouseButtonEventArgs e)
+		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
-			Hide();
+			return new ElementEllipse();
 		}
 	}
 }

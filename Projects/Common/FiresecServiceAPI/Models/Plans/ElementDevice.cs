@@ -17,7 +17,7 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementBase elementBase = new ElementDevice()
+			ElementDevice elementBase = new ElementDevice()
 			{
 				DeviceUID = DeviceUID
 			};

@@ -108,8 +108,12 @@
     <Compile Include="Designer\DesignerItems\DesignerItemPoint.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemBase.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemRectangle.cs" />
+    <Compile Include="Designer\InstrumentAdorners\ZoneRectangleAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\TextBoxAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\SubPlanAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\ElipseAdorner.cs" />
     <Compile Include="Designer\InstrumentAdorners\RectangleAdorner.cs" />
-    <Compile Include="Designer\InstrumentAdorners\DebugAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\PolygonAdorner.cs" />
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\Designer\DesignerItemFactory.cs" />
     <Compile Include="Designer\Designer\Helper.cs" />

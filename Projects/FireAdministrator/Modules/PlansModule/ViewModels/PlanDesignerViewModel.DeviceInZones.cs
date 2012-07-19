@@ -58,7 +58,12 @@ namespace PlansModule.ViewModels
 					{
 						var isInZone = zones.Any(x => x == device.ZoneNo.Value);
 						if (!isInZone)
-							deviceInZones.Add(device, zones.Count > 0 ? (ulong?)zones[0] : null);
+						{
+							if (!deviceInZones.ContainsKey(device))
+								deviceInZones.Add(device, zones.Count > 0 ? (ulong?)zones[0] : null);
+							else if (zones.Count > 0)
+								deviceInZones[device] = zones[0];
+						}
 					}
 					else if (zones.Count > 0)
 					{

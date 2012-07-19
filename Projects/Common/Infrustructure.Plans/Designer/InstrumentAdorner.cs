@@ -48,6 +48,7 @@ namespace Infrustructure.Plans.Designer
 			visuals = new VisualCollection(this);
 			visuals.Add(AdornerCanvas);
 		}
+
 		public void Show(Point? startPoint)
 		{
 			StartPoint = startPoint;
@@ -66,6 +67,20 @@ namespace Infrustructure.Plans.Designer
 			AdornerLayer adornerLayer = Parent as AdornerLayer;
 			if (adornerLayer != null)
 				adornerLayer.Remove(this);
+		}
+
+		protected Point CutPoint(Point point)
+		{
+			var result = new Point(point.X, point.Y);
+			if (result.X < 0)
+				result = new Point(0, result.Y);
+			if (result.Y < 0)
+				result = new Point(result.X, 0);
+			if (result.X > AdornerCanvas.ActualWidth)
+				result = new Point(AdornerCanvas.ActualWidth, result.Y);
+			if (result.Y > AdornerCanvas.ActualHeight)
+				result = new Point(result.X, AdornerCanvas.ActualHeight);
+			return result;
 		}
 	}
 }

@@ -131,14 +131,13 @@ namespace PlansModule.ViewModels
 			foreach (var elementBase in elements)
 			{
 				var element = AllElements.FirstOrDefault(x => x.DesignerItem.Element.UID == elementBase.UID);
-				if (element != null && element.Parent != null)
+				if (element != null)
 				{
 					if ((element.Parent != null) && (element.Parent.Children != null))
-					{
 						element.Parent.Children.Remove(element);
-					}
 					element.Parent = null;
 					Elements.Remove(element);
+					AllElements.Remove(element);
 				}
 			}
 			UpdateHasChildren();

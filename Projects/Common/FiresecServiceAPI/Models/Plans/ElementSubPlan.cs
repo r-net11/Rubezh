@@ -15,7 +15,7 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementBase elementBase = new ElementSubPlan()
+			ElementSubPlan elementBase = new ElementSubPlan()
 			{
 				PlanUID = PlanUID,
 				Caption = Caption

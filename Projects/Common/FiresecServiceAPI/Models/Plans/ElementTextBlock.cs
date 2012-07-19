@@ -27,7 +27,7 @@ namespace FiresecAPI.Models
 
 		public override ElementBase Clone()
 		{
-			ElementBase elementBase = new ElementTextBlock()
+			ElementTextBlock elementBase = new ElementTextBlock()
 			{
 				Text = Text,
 				BackgroundColor = BackgroundColor,

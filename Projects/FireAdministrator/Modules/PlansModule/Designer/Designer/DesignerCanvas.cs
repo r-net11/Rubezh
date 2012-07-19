@@ -1,26 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Shapes;
-using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using PlansModule.Events;
-using PlansModule.ViewModels;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.Designer.Designer;
-using Infrustructure.Plans.Events;
+using PlansModule.ViewModels;
 
 namespace PlansModule.Designer
 {
@@ -64,7 +57,7 @@ namespace PlansModule.Designer
 			{
 				var designerItem = Children[i] as DesignerItem;
 				if (designerItem.IsSelected)
-					Children.Remove(designerItem);
+					RemoveElement(designerItem);
 			}
 			ServiceFactory.SaveService.PlansChanged = true;
 		}
@@ -94,29 +87,20 @@ namespace PlansModule.Designer
 
 			Point position = e.GetPosition(this);
 			elementBase.Position = position;
-
-			if (elementBase is IElementZone)
-			{
-				var zonePropertiesViewModel = new ZonePropertiesViewModel(elementBase as IElementZone);
-				if (DialogService.ShowModalWindow(zonePropertiesViewModel) == false)
-				{
-					e.Handled = true;
-					return;
-				}
-			}
-
+			CreateDesignerItem(elementBase);
+			e.Handled = true;
+		}
+		public void CreateDesignerItem(ElementBase elementBase)
+		{
 			var designerItem = AddElement(elementBase);
 			if (designerItem != null)
 			{
 				DeselectAll();
 				designerItem.IsSelected = true;
 				PlanDesignerViewModel.MoveToFrontCommand.Execute();
-
 				ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase>() { elementBase });
-				ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(new List<ElementBase>() { elementBase });
+				Toolbox.SetDefault();
 			}
-
-			e.Handled = true;
 		}
 		public DesignerItem AddElement(ElementBase elementBase)
 		{
@@ -144,6 +128,34 @@ namespace PlansModule.Designer
 			}
 
 			return Create(elementBase);
+		}
+		public void RemoveElement(DesignerItem designerItem)
+		{
+			if (designerItem.Element is ElementRectangle)
+				Plan.ElementRectangles.Remove(designerItem.Element as ElementRectangle);
+			else if (designerItem.Element is ElementEllipse)
+				Plan.ElementEllipses.Remove(designerItem.Element as ElementEllipse);
+			else if (designerItem.Element is ElementPolygon)
+				Plan.ElementPolygons.Remove(designerItem.Element as ElementPolygon);
+			else if (designerItem.Element is ElementPolyline)
+				Plan.ElementPolylines.Remove(designerItem.Element as ElementPolyline);
+			else if (designerItem.Element is ElementTextBlock)
+				Plan.ElementTextBlocks.Remove(designerItem.Element as ElementTextBlock);
+			else if (designerItem.Element is ElementRectangleZone)
+				Plan.ElementRectangleZones.Remove(designerItem.Element as ElementRectangleZone);
+			else if (designerItem.Element is ElementPolygonZone)
+				Plan.ElementPolygonZones.Remove(designerItem.Element as ElementPolygonZone);
+			else if (designerItem.Element is ElementSubPlan)
+				Plan.ElementSubPlans.Remove(designerItem.Element as ElementSubPlan);
+			else if (designerItem.Element is ElementDevice)
+				Plan.ElementDevices.Remove(designerItem.Element as ElementDevice);
+			Children.Remove(designerItem);
+		}
+		public void RemoveElement(ElementBase elementBase)
+		{
+			var designerItem = Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
+			if (designerItem != null)
+				RemoveElement(designerItem);
 		}
 
 		public DesignerItem Create(ElementBase elementBase)

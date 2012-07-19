@@ -9,13 +9,14 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using PlansModule.Designer;
 using FiresecAPI.Models;
+using Infrustructure.Plans.Elements;
 
 namespace PlansModule.InstrumentAdorners
 {
 	public class RectangleAdorner : InstrumentAdorner
 	{
 		private Point? endPoint;
-		private Rectangle rubberband;
+		private Shape rubberband;
 
 		public RectangleAdorner(DesignerCanvas designerCanvas)
 			: base(designerCanvas)
@@ -24,13 +25,19 @@ namespace PlansModule.InstrumentAdorners
 
 		protected override void Show()
 		{
-			rubberband = new Rectangle()
-			{
-				Stroke = Brushes.Navy,
-				StrokeThickness = 1 / ZoomFactor,
-				StrokeDashArray = new DoubleCollection(new double[] { 2 })
-			};
+			rubberband = CreateRubberband();
+			rubberband.Stroke = Brushes.Navy;
+			rubberband.StrokeThickness = 1 / ZoomFactor;
 			AdornerCanvas.Cursor = Cursors.Pen;
+		}
+
+		protected virtual Shape CreateRubberband()
+		{
+			return new Rectangle();
+		}
+		protected virtual ElementBaseRectangle CreateElement()
+		{
+			return new ElementRectangle();
 		}
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
@@ -38,35 +45,45 @@ namespace PlansModule.InstrumentAdorners
 			if (e.LeftButton == MouseButtonState.Pressed)
 			{
 				StartPoint = e.GetPosition(this);
+				endPoint = null;
 				AdornerCanvas.Children.Add(rubberband);
-				AdornerCanvas.Cursor = null;
-				if (!IsMouseCaptured)
-					CaptureMouse();
+				//AdornerCanvas.Cursor = null;
+				if (!AdornerCanvas.IsMouseCaptured)
+					AdornerCanvas.CaptureMouse();
 			}
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (e.LeftButton == MouseButtonState.Pressed)
+			if (e.LeftButton == MouseButtonState.Pressed && AdornerCanvas.IsMouseCaptured)
 			{
-				endPoint = e.GetPosition(this);
+				endPoint = CutPoint(e.GetPosition(this));
 				UpdateRubberband();
 				e.Handled = true;
 			}
 		}
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			if (IsMouseCaptured)
-				ReleaseMouseCapture();
-			AdornerCanvas.Children.Remove(rubberband);
-			AdornerCanvas.Cursor = Cursors.Pen;
-			ElementRectangle element = new ElementRectangle();
-			element.SetDefault();
-			element.Left = Canvas.GetLeft(rubberband);
-			element.Top = Canvas.GetTop(rubberband);
-			element.Height = rubberband.Height;
-			element.Width = rubberband.Width;
-			((DesignerCanvas)DesignerCanvas).AddElement(element);
-
+			if (AdornerCanvas.IsMouseCaptured && StartPoint.HasValue)
+			{
+				AdornerCanvas.ReleaseMouseCapture();
+				AdornerCanvas.Children.Remove(rubberband);
+				//AdornerCanvas.Cursor = Cursors.Pen;
+				ElementBaseRectangle element = CreateElement();
+				if (element != null)
+				{
+					if (endPoint.HasValue)
+					{
+						element.Left = Canvas.GetLeft(rubberband);
+						element.Top = Canvas.GetTop(rubberband);
+						element.Height = rubberband.Height;
+						element.Width = rubberband.Width;
+					}
+					else
+						element.Position = StartPoint.Value;
+					((DesignerCanvas)DesignerCanvas).CreateDesignerItem(element);
+				}
+				StartPoint = null;
+			}
 		}
 
 		private void UpdateRubberband()
@@ -84,19 +101,5 @@ namespace PlansModule.InstrumentAdorners
 			Canvas.SetLeft(rubberband, left);
 			Canvas.SetTop(rubberband, top);
 		}
-
-		//private void UpdateSelection()
-		//{
-		//    Rect rubberBand = new Rect(StartPoint.Value, endPoint.Value);
-		//    foreach (DesignerItem designerItem in DesignerCanvas.Children)
-		//    {
-		//        if (designerItem.IsVisibleLayout && designerItem.IsSelectableLayout)
-		//        {
-		//            Rect itemRect = VisualTreeHelper.GetDescendantBounds(designerItem);
-		//            Rect itemBounds = designerItem.TransformToAncestor(DesignerCanvas).TransformBounds(itemRect);
-		//            designerItem.IsSelected = rubberBand.Contains(itemBounds);
-		//        }
-		//    }
-		//}
 	}
 }

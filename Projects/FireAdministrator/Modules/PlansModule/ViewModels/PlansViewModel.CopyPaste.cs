@@ -11,92 +11,112 @@ using PlansModule.Events;
 using PlansModule.Views;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using System.Windows;
 
 namespace PlansModule.ViewModels
 {
-    public partial class PlansViewModel : ViewPartViewModel
-    {
-        List<ElementBase> Buffer;
+	public partial class PlansViewModel : ViewPartViewModel
+	{
+		List<ElementBase> Buffer;
 
-        void InitializeCopyPaste()
-        {
-            CopyCommand = new RelayCommand(OnCopy, CanCopyCut);
-            CutCommand = new RelayCommand(OnCut, CanCopyCut);
-            PasteCommand = new RelayCommand(OnPaste, CanPaste);
-            Buffer = new List<ElementBase>();
-        }
+		void InitializeCopyPaste()
+		{
+			CopyCommand = new RelayCommand(OnCopy, CanCopyCut);
+			CutCommand = new RelayCommand(OnCut, CanCopyCut);
+			PasteCommand = new RelayCommand(OnPaste, CanPaste);
+			Buffer = new List<ElementBase>();
+		}
 
-        bool CanCopyCut(object obj)
-        {
-            return DesignerCanvas.SelectedItems.Count() > 0;
-        }
+		bool CanCopyCut(object obj)
+		{
+			return DesignerCanvas.SelectedItems.Count() > 0;
+		}
 
-        public RelayCommand CopyCommand { get; private set; }
-        void OnCopy()
-        {
-            PlanDesignerViewModel.Save();
-            Buffer = new List<ElementBase>();
-            foreach (var designerItem in DesignerCanvas.SelectedItems)
-            {
-                designerItem.UpdateElementProperties();
-                Buffer.Add(designerItem.Element.Clone());
-            }
-        }
+		public RelayCommand CopyCommand { get; private set; }
+		void OnCopy()
+		{
+			PlanDesignerViewModel.Save();
+			Buffer = new List<ElementBase>();
+			foreach (var designerItem in DesignerCanvas.SelectedItems)
+			{
+				designerItem.UpdateElementProperties();
+				Buffer.Add(designerItem.Element.Clone());
+			}
+		}
 
-        public RelayCommand CutCommand { get; private set; }
-        void OnCut()
-        {
-            OnCopy();
-            DesignerCanvas.RemoveAllSelected();
-            ServiceFactory.SaveService.PlansChanged = true;
-        }
+		public RelayCommand CutCommand { get; private set; }
+		void OnCut()
+		{
+			OnCopy();
+			DesignerCanvas.RemoveAllSelected();
+			ServiceFactory.SaveService.PlansChanged = true;
+		}
 
-        bool CanPaste(object obj)
-        {
-            return Buffer.Count > 0;
-        }
+		bool CanPaste(object obj)
+		{
+			return Buffer.Count > 0;
+		}
 
-        public RelayCommand PasteCommand { get; private set; }
-        void OnPaste()
-        {
-            NormalizeBuffer();
+		public RelayCommand PasteCommand { get; private set; }
+		void OnPaste()
+		{
+			if (NormalizeBuffer())
+			{
+				DesignerCanvas.DeselectAll();
+				foreach (var elementBase in Buffer)
+				{
+					var element = elementBase.Clone();
+					element.UID = Guid.NewGuid();
+					var designerItem = DesignerCanvas.AddElement(element);
+					designerItem.IsSelected = true;
+				}
+				PlanDesignerViewModel.MoveToFrontCommand.Execute();
+				ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements);
+				ServiceFactory.SaveService.PlansChanged = true;
+			}
+		}
 
-            DesignerCanvas.DeselectAll();
-            foreach (var elementBase in Buffer)
-            {
-                elementBase.UID = Guid.NewGuid();
-                var designerItem = DesignerCanvas.AddElement(elementBase.Clone());
-                designerItem.IsSelected = true;
-            }
-            ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(DesignerCanvas.SelectedElements);
-            ServiceFactory.SaveService.PlansChanged = true;
-        }
-
-        void NormalizeBuffer()
-        {
-            double minLeft = double.MaxValue;
-            double minTop = double.MaxValue;
-            double maxRight = 0;
-            double maxBottom = 0;
-            foreach (var elementBase in Buffer)
-            {
-				//minLeft = Math.Min(elementBase.Left, minLeft);
-				//minTop = Math.Min(elementBase.Top, minTop);
-				//maxRight = Math.Max(elementBase.Left + elementBase.Width, maxRight);
-				//maxBottom = Math.Max(elementBase.Top + elementBase.Height, maxBottom);
-            }
-            foreach (var elementBase in Buffer)
-            {
-				//elementBase.Left = elementBase.Left - minLeft + PlanDesignerView.Current._scrollViewer.HorizontalOffset / PlanDesignerViewModel.Zoom;
-				//elementBase.Top = elementBase.Top - minTop + PlanDesignerView.Current._scrollViewer.VerticalOffset / PlanDesignerViewModel.Zoom;
-            }
-            maxRight -= minLeft;
-            maxBottom -= minTop;
-
-            if ((maxRight > PlanDesignerViewModel.Plan.Width) || (maxBottom > PlanDesignerViewModel.Plan.Height))
-            {
-                MessageBoxService.Show("Размер вставляемого содержимого больше размеров плана");
-            }
-        }
-    }
+		private bool NormalizeBuffer()
+		{
+			if (Buffer.Count > 0)
+			{
+				double minLeft = double.MaxValue;
+				double minTop = double.MaxValue;
+				double maxRight = 0;
+				double maxBottom = 0;
+				foreach (var elementBase in Buffer)
+				{
+					Rect rect = elementBase.GetRectangle();
+					if (minLeft > rect.Left)
+						minLeft = rect.Left;
+					if (minTop > rect.Top)
+						minTop = rect.Top;
+					if (maxBottom < rect.Top + rect.Height)
+						maxBottom = rect.Top + rect.Height;
+					if (maxRight < rect.Left + rect.Width)
+						maxRight = rect.Left + rect.Width;
+				}
+				Rect border = new Rect(minLeft, minTop, maxRight - minLeft, maxBottom - minTop);
+				if (border.Width > PlanDesignerViewModel.Plan.Width || border.Height > PlanDesignerViewModel.Plan.Height)
+				{
+					MessageBoxService.Show("Размер вставляемого содержимого больше размеров плана");
+					return false;
+				}
+				if (border.X < 0)
+					border.X = 0;
+				if (border.Y < 0)
+					border.Y = 0;
+				if (border.X + border.Width > PlanDesignerViewModel.Plan.Width)
+					border.X -= PlanDesignerViewModel.Plan.Width - border.Width;
+				if (border.Y + border.Height > PlanDesignerViewModel.Plan.Height)
+					border.Y -= PlanDesignerViewModel.Plan.Height - border.Height;
+				Vector shift = new Vector(minLeft - border.X, minTop - border.Y);
+				//if (shift.X == 0 && shift.Y == 0)
+				//    shift = new Vector(-minLeft / 2, -minTop / 2);
+				foreach (var elementBase in Buffer)
+					elementBase.Position += shift;
+			}
+			return true;
+		}
+	}
 }

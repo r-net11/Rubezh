@@ -99,36 +99,42 @@ namespace PlansModule.ViewModels
 				{
 					ImageSource="/Controls;component/Images/Ellipse.png",
 					ToolTip="Эллипс",
+					Adorner = new ElipseAdorner(PlansViewModel.DesignerCanvas),
 					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Polygon.png",
 					ToolTip="Многоугольник",
+					Adorner = new DebugAdorner(PlansViewModel.DesignerCanvas),
 					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Font.png",
 					ToolTip="Текст",
+					Adorner = new TextBoxAdorner(PlansViewModel.DesignerCanvas),
 					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/ZoneRectangle.png",
 					ToolTip="Зона",
+					Adorner = new ZoneRectangleAdorner(PlansViewModel.DesignerCanvas),
 					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/ZonePolygon.png",
 					ToolTip="Зона",
+					Adorner = new DebugAdorner(PlansViewModel.DesignerCanvas),
 					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/SubPlanPolygon.png",
 					ToolTip="Подплан",
+					Adorner = new SubPlanAdorner(PlansViewModel.DesignerCanvas),
 					Autostart = true
 				},
 			};
