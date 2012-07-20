@@ -32,7 +32,7 @@ namespace PlansModule.ViewModels
 					var designerItemCenterX = Canvas.GetLeft(designerItem) + designerItem.Width / 2;
 					var designerItemCenterY = Canvas.GetTop(designerItem) + designerItem.Height / 2;
 					var device = Helper.GetDevice(elementDevice);
-					if (device.Driver.IsZoneDevice == false)
+					if (device == null || device.Driver == null || !device.Driver.IsZoneDevice)
 						continue;
 					var zones = new List<ulong>();
 					foreach (var elementPolygonZoneItem in DesignerCanvas.Items)

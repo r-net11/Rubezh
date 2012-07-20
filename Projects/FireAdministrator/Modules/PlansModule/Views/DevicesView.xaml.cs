@@ -9,56 +9,59 @@ using Infrustructure.Plans.Elements;
 
 namespace PlansModule.Views
 {
-    public partial class DevicesView : UserControl
-    {
-        public DevicesView()
-        {
-            InitializeComponent();
-            Loaded += new RoutedEventHandler(DevicesView_Loaded);
-            _devicesDataGrid.SelectionChanged += new SelectionChangedEventHandler(DevicesView_Loaded);
-        }
+	public partial class DevicesView : UserControl
+	{
+		public DevicesView()
+		{
+			InitializeComponent();
+			Loaded += new RoutedEventHandler(DevicesView_Loaded);
+			_devicesDataGrid.SelectionChanged += new SelectionChangedEventHandler(DevicesView_Loaded);
+		}
 
-        void DevicesView_Loaded(object sender, RoutedEventArgs e)
-        {
-            if (_devicesDataGrid.SelectedItem != null)
-                _devicesDataGrid.ScrollIntoView(_devicesDataGrid.SelectedItem);
-        }
+		void DevicesView_Loaded(object sender, RoutedEventArgs e)
+		{
+			if (_devicesDataGrid.SelectedItem != null)
+				_devicesDataGrid.ScrollIntoView(_devicesDataGrid.SelectedItem);
+		}
 
-        private Point? dragStartPoint = null;
+		private Point? dragStartPoint = null;
 
-        private void On_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            base.OnPreviewMouseDown(e);
-            this.dragStartPoint = new Point?(e.GetPosition(this));
-        }
+		private void On_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+		{
+			base.OnPreviewMouseDown(e);
+			this.dragStartPoint = new Point?(e.GetPosition(this));
+		}
 
-        private void On_MouseMove(object sender, MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
-            if (e.LeftButton != MouseButtonState.Pressed)
-            {
-                this.dragStartPoint = null;
-            }
+		private void On_MouseMove(object sender, MouseEventArgs e)
+		{
+			base.OnMouseMove(e);
+			if (e.LeftButton != MouseButtonState.Pressed)
+			{
+				this.dragStartPoint = null;
+			}
 
-            if (this.dragStartPoint.HasValue)
-            {
-                var device = ((sender as Image).DataContext as DeviceViewModel).Device;
-                if (device.Driver.IsPlaceable == false)
-                    return;
+			if (this.dragStartPoint.HasValue)
+			{
+				DeviceViewModel viewModel = (sender as Image).DataContext as DeviceViewModel;
+				if (viewModel.DesignerCanvas != null)
+					viewModel.DesignerCanvas.Toolbox.SetDefault();
+				var device = viewModel.Device;
+				if (device.Driver.IsPlaceable == false)
+					return;
 
-                if (FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
-                    return;
+				if (FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
+					return;
 
-                ElementBase plansElement = new ElementDevice()
-                {
-                    DeviceUID = device.UID
-                };
+				ElementBase plansElement = new ElementDevice()
+				{
+					DeviceUID = device.UID
+				};
 
-                var dataObject = new DataObject("DESIGNER_ITEM", plansElement);
-                DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Copy);
-            }
+				var dataObject = new DataObject("DESIGNER_ITEM", plansElement);
+				DragDrop.DoDragDrop(this, dataObject, DragDropEffects.Copy);
+			}
 
-            e.Handled = true;
-        }
-    }
+			e.Handled = true;
+		}
+	}
 }

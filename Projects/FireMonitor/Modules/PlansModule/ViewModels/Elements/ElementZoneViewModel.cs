@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using System.Text;
+using Infrustructure.Plans.Painters;
 
 namespace PlansModule.ViewModels
 {
@@ -40,11 +41,7 @@ namespace PlansModule.ViewModels
 			ElementZoneView = new ElementZoneView();
 			if (elementPolygonZone.Points == null)
 				elementPolygonZone.Points = new System.Windows.Media.PointCollection();
-			foreach (var polygonPoint in elementPolygonZone.Points)
-			{
-				ElementZoneView._polygon.Points.Add(new System.Windows.Point() { X = polygonPoint.X, Y = polygonPoint.Y });
-			}
-
+			ElementZoneView._polygon.Points = PainterHelper.GetPoints(elementPolygonZone);
 			InitializeDevices();
 		}
 

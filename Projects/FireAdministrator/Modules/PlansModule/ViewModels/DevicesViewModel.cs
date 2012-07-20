@@ -10,12 +10,13 @@ using PlansModule.Events;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer.Designer;
+using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {
 	public class DevicesViewModel : BaseViewModel
 	{
-		public DevicesViewModel()
+		public DevicesViewModel(DesignerCanvas designerCanvas)
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
@@ -26,6 +27,7 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
 			ServiceFactory.Events.GetEvent<ElementDeviceChangedEvent>().Subscribe(OnDeviceChanged);
+			DesignerCanvas = designerCanvas;
 			AllDevices = new List<DeviceViewModel>();
 			Devices = new ObservableCollection<DeviceViewModel>();
 
@@ -34,6 +36,7 @@ namespace PlansModule.ViewModels
 
 		#region DeviceSelection
 
+		public DesignerCanvas DesignerCanvas { get; set; }
 		public List<DeviceViewModel> AllDevices;
 
 		void AddChildPlainDevices(DeviceViewModel parentViewModel)
@@ -62,7 +65,7 @@ namespace PlansModule.ViewModels
 
 			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
 			{
-				var deviceViewModel = new DeviceViewModel(device, Devices);
+				var deviceViewModel = new DeviceViewModel(DesignerCanvas, device, Devices);
 				deviceViewModel.IsExpanded = true;
 				Devices.Add(deviceViewModel);
 				AllDevices.Add(deviceViewModel);

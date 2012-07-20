@@ -5,17 +5,21 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {
     public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
     {
-        public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
+		public DesignerCanvas DesignerCanvas { get; set; }
+
+        public DeviceViewModel(DesignerCanvas designerCanvas, Device device, ObservableCollection<DeviceViewModel> sourceDevices)
         {
             ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
             ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Subscribe(x => { OnPropertyChanged("PresentationZone"); });
             Source = sourceDevices;
             Device = device;
+			DesignerCanvas = designerCanvas;
         }
 
         public Device Device { get; private set; }

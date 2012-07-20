@@ -23,7 +23,7 @@ namespace Infrustructure.Plans.Elements
 		{
 			get { return ElementType.Rectangle; }
 		}
-		public override void SetDefault()
+		protected override void SetDefault()
 		{
 			base.SetDefault();
 			Height = 50;

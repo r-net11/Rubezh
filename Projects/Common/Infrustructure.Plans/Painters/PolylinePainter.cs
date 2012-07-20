@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Shapes;
 using Infrustructure.Plans.Elements;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -13,6 +14,7 @@ namespace Infrustructure.Plans.Painters
 		public override FrameworkElement Draw(ElementBase element)
 		{
 			var shape = CreateShape(element);
+			shape.Fill = Brushes.Transparent;
 			shape.Points = PainterHelper.GetPoints(element);
 			return shape;
 		}

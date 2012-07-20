@@ -8,23 +8,28 @@ using System.Windows.Shapes;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using PlansModule.Designer;
+using Infrustructure.Plans.Elements;
 using FiresecAPI.Models;
 using PlansModule.ViewModels;
 using Infrastructure.Common.Windows;
 
 namespace PlansModule.InstrumentAdorners
 {
-	public class TextBoxAdorner : RectangleAdorner
+	public class ZonePolygonAdorner : PolygonAdorner
 	{
-		public TextBoxAdorner(DesignerCanvas designerCanvas)
+		public ZonePolygonAdorner(DesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 		}
 
-		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
+		protected override PointCollection Points
 		{
-			var element = new ElementTextBlock();
-			var propertiesViewModel = new TextBlockPropertiesViewModel(element);
+			get { return ((Polygon)Rubberband).Points; }
+		}
+		protected override ElementBaseShape CreateElement()
+		{
+			var element = new ElementPolygonZone();
+			var propertiesViewModel = new ZonePropertiesViewModel(element);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}
 	}

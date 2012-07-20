@@ -83,7 +83,7 @@ namespace PlansModule.Designer
 		{
 			base.OnDrop(e);
 			var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
-			elementBase.SetDefault();
+			//elementBase.SetDefault();
 
 			Point position = e.GetPosition(this);
 			elementBase.Position = position;

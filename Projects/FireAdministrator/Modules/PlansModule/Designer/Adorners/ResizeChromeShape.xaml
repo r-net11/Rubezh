@@ -18,7 +18,7 @@
 							<s:ResizeThumb Margin="{Binding ThumbMargin}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Cursor="SizeNESW" Direction="BottomLeft" />
 							<s:ResizeThumb Margin="{Binding ThumbMargin}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Cursor="SizeNWSE" Direction="BottomRight" />
 						</Grid>
-						<!--  <Canvas x:Name="canvas" Background="Transparent" IsHitTestVisible="false" />  -->
+						<Canvas x:Name="canvas" Background="{x:Null}" />
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>

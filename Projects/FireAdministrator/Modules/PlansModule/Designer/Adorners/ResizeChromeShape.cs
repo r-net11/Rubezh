@@ -12,11 +12,14 @@ using Infrastructure;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace PlansModule.Designer.Adorners
 {
 	public class ResizeChromeShape : ResizeChrome
 	{
+		private bool _isDragging = false;
+		private List<ResizeThumb> _thumbs;
 		static ResizeChromeShape()
 		{
 			FrameworkElement.DefaultStyleKeyProperty.OverrideMetadata(typeof(ResizeChromeShape), new FrameworkPropertyMetadata(typeof(ResizeChromeShape)));
@@ -35,27 +38,75 @@ namespace PlansModule.Designer.Adorners
 
 		public override void Initialize()
 		{
-			//if (IsInitialized)
-			//{
-			//    Canvas canvas = Template.FindName("canvas", this) as Canvas;
-			//    canvas.Children.Clear();
-			//    ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
-			//    Rect rect = DesignerItem.Element.GetRectangle();
-			//    if (element != null)
-			//        foreach (var point in element.Points)
-			//        {
-			//            var thumb = new ResizeThumb()
-			//            {
-			//                Focusable = true,
-			//                DataContext = this,
-			//                IsHitTestVisible = true
-			//            };
-			//            Canvas.SetLeft(thumb, point.X - rect.X - 3.5 / DesignerCanvas.Zoom);
-			//            Canvas.SetTop(thumb, point.Y - rect.Y - 3.5 / DesignerCanvas.Zoom);
-			//            canvas.Children.Add(thumb);
-			//        }
-			//}
+			if (IsInitialized && !_isDragging)
+			{
+				Canvas canvas = Template.FindName("canvas", this) as Canvas;
+				canvas.Children.Clear();
+				_thumbs = new List<ResizeThumb>();
+				ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
+				Rect rect = DesignerItem.Element.GetRectangle();
+				if (element != null)
+					foreach (var point in element.Points)
+					{
+						var thumb = new ResizeThumb()
+						{
+							Direction = ResizeDirection.None,
+							DataContext = this,
+							IsHitTestVisible = true,
+							Cursor = Cursors.Pen,
+						};
+						thumb.SetBinding(ResizeThumb.MarginProperty, new Binding("ThumbMargin"));
+						thumb.DragStarted += new DragStartedEventHandler(Thumb_DragStarted);
+						thumb.DragCompleted += new DragCompletedEventHandler(Thumb_DragCompleted);
+						thumb.DragDelta += new DragDeltaEventHandler(Thumb_DragDelta);
+						Canvas.SetLeft(thumb, point.X - rect.X);
+						Canvas.SetTop(thumb, point.Y - rect.Y);
+						canvas.Children.Add(thumb);
+						_thumbs.Add(thumb);
+					}
+			}
 		}
+		private void Thumb_DragStarted(object sender, DragStartedEventArgs e)
+		{
+			_isDragging = true;
+		}
+		private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
+		{
+			_isDragging = false;
+			Initialize();
+		}
+		private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
+		{
+			if (DesignerItem.IsSelected)
+			{
+				int index = _thumbs.IndexOf((ResizeThumb)sender);
+				if (index > -1)
+				{
+					ElementBaseShape element = DesignerItem.Element as ElementBaseShape;
+					double x = element.Points[index].X + e.HorizontalChange;
+					if (x < 0)
+						x = 0;
+					else if (x > DesignerCanvas.Width)
+						x = DesignerCanvas.Width;
+					double y = element.Points[index].Y + e.VerticalChange;
+					if (y < 0)
+						y = 0;
+					else if (y > DesignerCanvas.Height)
+						y = DesignerCanvas.Height;
+					element.Points[index] = new Point(x, y);
+					DesignerItem.Redraw();
+					Rect rect = DesignerItem.Element.GetRectangle();
+					for (int i = 0; i < _thumbs.Count; i++)
+					{
+						Canvas.SetLeft(_thumbs[i], element.Points[i].X - rect.X);
+						Canvas.SetTop(_thumbs[i], element.Points[i].Y - rect.Y);
+					}
+					ServiceFactory.SaveService.PlansChanged = true;
+					e.Handled = true;
+				}
+			}
+		}
+
 
 		protected override void Resize(ResizeDirection direction, Vector vector)
 		{

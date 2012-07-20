@@ -57,10 +57,13 @@ namespace Infrustructure.Plans.Designer
 			if (DesignerItem.IsSelected)
 			{
 				ResizeThumb thumb = (ResizeThumb)e.OriginalSource;
-				foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
-					if (designerItem.ResizeChrome != null)
-						designerItem.ResizeChrome.Resize(thumb.Direction, CalculateSize(thumb.Direction, e.HorizontalChange, e.VerticalChange));
-				e.Handled = true;
+				if (thumb.Direction != ResizeDirection.None)
+				{
+					foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
+						if (designerItem.ResizeChrome != null)
+							designerItem.ResizeChrome.Resize(thumb.Direction, CalculateSize(thumb.Direction, e.HorizontalChange, e.VerticalChange));
+					e.Handled = true;
+				}
 			}
 		}
 		private Vector CalculateSize(ResizeDirection direction, double horizontalChange, double verticalChange)

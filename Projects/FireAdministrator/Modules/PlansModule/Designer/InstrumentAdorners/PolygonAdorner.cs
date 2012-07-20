@@ -13,13 +13,18 @@ using FiresecAPI.Models;
 
 namespace PlansModule.InstrumentAdorners
 {
-	public class DebugAdorner : InstrumentAdorner
+	public class PolygonAdorner : InstrumentAdorner
 	{
 		private Shape rubberband;
 
-		public DebugAdorner(DesignerCanvas designerCanvas)
+		public PolygonAdorner(DesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
+		}
+
+		protected Shape Rubberband
+		{
+			get { return rubberband; }
 		}
 
 		protected override void Show()
@@ -45,7 +50,7 @@ namespace PlansModule.InstrumentAdorners
 
 		protected override void OnMouseDown(MouseButtonEventArgs e)
 		{
-			if (e.LeftButton == MouseButtonState.Pressed)
+			if (e.LeftButton == MouseButtonState.Pressed || e.RightButton == MouseButtonState.Pressed)
 			{
 				if (!AdornerCanvas.Children.Contains(rubberband))
 					AdornerCanvas.Children.Add(rubberband);
@@ -55,51 +60,36 @@ namespace PlansModule.InstrumentAdorners
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (e.LeftButton == MouseButtonState.Pressed && AdornerCanvas.IsMouseCaptured && StartPoint.HasValue)
+			if (AdornerCanvas.IsMouseCaptured)
 			{
 				Points[Points.Count - 1] = CutPoint(e.GetPosition(this));
-				UpdateRubberband();
 				e.Handled = true;
 			}
 		}
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			if (AdornerCanvas.IsMouseCaptured)
-			{
-				//AdornerCanvas.ReleaseMouseCapture();
-				//AdornerCanvas.Children.Remove(rubberband);
-				//ElementBaseRectangle element = CreateElement();
-				//if (element != null)
-				//{
-				//    if (endPoint.HasValue)
-				//    {
-				//        element.Left = Canvas.GetLeft(rubberband);
-				//        element.Top = Canvas.GetTop(rubberband);
-				//        element.Height = rubberband.Height;
-				//        element.Width = rubberband.Width;
-				//    }
-				//    else
-				//        element.Position = StartPoint.Value;
-				//    ((DesignerCanvas)DesignerCanvas).CreateDesignerItem(element);
-				//}
-				//StartPoint = null;
-			}
-		}
-
-		private void UpdateRubberband()
-		{
-			//rubberband.StrokeThickness = 1 / ZoomFactor;
-
-			//double left = Math.Min(StartPoint.Value.X, endPoint.Value.X);
-			//double top = Math.Min(StartPoint.Value.Y, endPoint.Value.Y);
-
-			//double width = Math.Abs(StartPoint.Value.X - endPoint.Value.X);
-			//double height = Math.Abs(StartPoint.Value.Y - endPoint.Value.Y);
-
-			//rubberband.Width = width;
-			//rubberband.Height = height;
-			//Canvas.SetLeft(rubberband, left);
-			//Canvas.SetTop(rubberband, top);
+			if (AdornerCanvas.IsMouseCaptured && e.ButtonState == MouseButtonState.Released)
+				switch (e.ChangedButton)
+				{
+					case MouseButton.Left:
+						Points.Add(CutPoint(e.GetPosition(this)));
+						if (Points.Count == 1)
+							Points.Add(CutPoint(e.GetPosition(this)));
+						break;
+					case MouseButton.Right:
+						AdornerCanvas.ReleaseMouseCapture();
+						AdornerCanvas.Children.Remove(rubberband);
+						ElementBaseShape element = CreateElement();
+						if (element != null)
+						{
+							if (Points.Count > 1)
+								element.Points = Points;
+							else
+								element.Position = CutPoint(e.GetPosition(this));
+							((DesignerCanvas)DesignerCanvas).CreateDesignerItem(element);
+						}
+						break;
+				}
 		}
 	}
 }

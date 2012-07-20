@@ -36,7 +36,7 @@ namespace PlansModule.ViewModels
 			Update();
 		}
 
-		DesignerCanvas DesignerCanvas;
+		public DesignerCanvas DesignerCanvas { get; set; }
 		public ObservableCollection<ElementBaseViewModel> Elements { get; set; }
 
 		ElementBaseViewModel _selectedElement;

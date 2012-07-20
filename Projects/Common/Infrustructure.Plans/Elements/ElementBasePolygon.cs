@@ -18,8 +18,9 @@ namespace Infrustructure.Plans.Elements
 		{
 			get { return ElementType.Polygon; }
 		}
-		public override void SetDefault()
+		protected override void SetDefault()
 		{
+			base.SetDefault();
 			Points.Add(new Point(0, 0));
 			Points.Add(new Point(50, 0));
 			Points.Add(new Point(50, 50));

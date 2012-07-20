@@ -18,8 +18,9 @@ namespace Infrustructure.Plans.Elements
 		{
 			get { return ElementType.Polyline; }
 		}
-		public override void SetDefault()
+		protected override void SetDefault()
 		{
+			base.SetDefault();
 			Points.Add(new Point(0, 0));
 			Points.Add(new Point(100, 100));
 		}

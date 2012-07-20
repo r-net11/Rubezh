@@ -45,7 +45,7 @@ namespace PlansModule.ViewModels
 
 		protected override bool Save()
 		{
-			_elementPolyline.BackgroundColor = BackgroundColor;
+			_elementPolyline.BorderColor = BackgroundColor;
 			_elementPolyline.BorderThickness = StrokeThickness;
 			return base.Save();
 		}

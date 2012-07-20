@@ -91,7 +91,7 @@ namespace FiresecService.ViewModels
 
 		public void AddClient(FiresecService.Service.FiresecService firesecService)
 		{
-			Dispatcher.Invoke(new Action(
+			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
 				var endpointAddress = new EndpointAddress(new Uri(firesecService.ClientCredentials.ClientCallbackAddress));
@@ -112,7 +112,7 @@ namespace FiresecService.ViewModels
 		}
 		public void RemoveClient(Guid uid)
 		{
-			Dispatcher.Invoke(new Action(
+			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
 				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
@@ -122,7 +122,7 @@ namespace FiresecService.ViewModels
 		}
 		public void EditClient(Guid uid, string userName)
 		{
-			Dispatcher.Invoke(new Action(
+			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
 				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
@@ -134,7 +134,7 @@ namespace FiresecService.ViewModels
 
 		public void BeginAddOperation(Guid uid, OperationDirection operationDirection, string operationName)
 		{
-			Dispatcher.Invoke(new Action(
+			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
 				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
@@ -148,7 +148,7 @@ namespace FiresecService.ViewModels
 
 		public void EndAddOperation(Guid uid, OperationDirection operationDirection)
 		{
-			Dispatcher.Invoke(new Action(
+			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
 				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
@@ -162,7 +162,7 @@ namespace FiresecService.ViewModels
 
 		public void UpdateClientState(Guid uid, string state)
 		{
-			Dispatcher.Invoke(new Action(
+			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
 				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
@@ -176,7 +176,7 @@ namespace FiresecService.ViewModels
 
 		public void UpdateStatus(string hostStatus, string comServersStatus)
 		{
-			Dispatcher.Invoke(new Action(
+			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
 				HostStatus = hostStatus;

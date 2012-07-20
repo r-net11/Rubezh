@@ -48,9 +48,6 @@ namespace PlansModule.ViewModels
 				OnPropertyChanged("ActiveInstrument");
 				if (ActiveInstrument.Autostart)
 					Apply(null);
-				//bool isSelectable = ActiveInstrument.Cursor == null;
-				//foreach (var item in PlansViewModel.DesignerCanvas.Items)
-				//    item.IsSelectableLayout = isSelectable;
 			}
 		}
 
@@ -80,12 +77,14 @@ namespace PlansModule.ViewModels
 				{
 					ImageSource="/Controls;component/Images/Archive.png",
 					ToolTip="Нож",
+					Adorner = new PointsAdorner(PlansViewModel.DesignerCanvas),
+					Autostart = true
 				},
 				new InstrumentViewModel()
 				{
 					ImageSource="/Controls;component/Images/Line.png",
 					ToolTip="Линия",
-					Adorner = new DebugAdorner(PlansViewModel.DesignerCanvas),
+					Adorner = new PolylineAdorner(PlansViewModel.DesignerCanvas),
 					Autostart = true
 				},
 				new InstrumentViewModel()
@@ -106,7 +105,7 @@ namespace PlansModule.ViewModels
 				{
 					ImageSource="/Controls;component/Images/Polygon.png",
 					ToolTip="Многоугольник",
-					Adorner = new DebugAdorner(PlansViewModel.DesignerCanvas),
+					Adorner = new PolygonAdorner(PlansViewModel.DesignerCanvas),
 					Autostart = true
 				},
 				new InstrumentViewModel()
@@ -127,7 +126,7 @@ namespace PlansModule.ViewModels
 				{
 					ImageSource="/Controls;component/Images/ZonePolygon.png",
 					ToolTip="Зона",
-					Adorner = new DebugAdorner(PlansViewModel.DesignerCanvas),
+					Adorner = new ZonePolygonAdorner(PlansViewModel.DesignerCanvas),
 					Autostart = true
 				},
 				new InstrumentViewModel()

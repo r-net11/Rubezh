@@ -50,7 +50,7 @@ namespace FiresecAPI.Models
 
 		#endregion
 
-		public override void SetDefault()
+		protected override void SetDefault()
 		{
 			Text = "Надпись";
 			ForegroundColor = Colors.Black;

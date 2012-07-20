@@ -24,7 +24,6 @@ namespace PlansModule.InstrumentAdorners
 		protected override Infrustructure.Plans.Elements.ElementBaseRectangle CreateElement()
 		{
 			var element = new ElementRectangleZone();
-			element.SetDefault();
 			var propertiesViewModel = new ZonePropertiesViewModel(element);
 			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
 		}

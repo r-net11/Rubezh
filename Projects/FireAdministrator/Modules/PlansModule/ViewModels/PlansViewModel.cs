@@ -37,7 +37,7 @@ namespace PlansModule.ViewModels
 			InitializeCopyPaste();
 			InitializeHistory();
 			ElementsViewModel = new ElementsViewModel(DesignerCanvas);
-			DevicesViewModel = new DevicesViewModel();
+			DevicesViewModel = new DevicesViewModel(DesignerCanvas);
 		}
 
 		public void Initialize()

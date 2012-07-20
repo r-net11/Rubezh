@@ -23,7 +23,7 @@ namespace Infrustructure.Plans.Elements
 		{
 			get { return ElementType.Point; }
 		}
-		public override void SetDefault()
+		protected override void SetDefault()
 		{
 			Top = 0;
 			Left = 0;
