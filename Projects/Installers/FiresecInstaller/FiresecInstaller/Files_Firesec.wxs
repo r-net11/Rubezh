@@ -10,17 +10,21 @@
                         ElementPath="//configuration/modules" On="install"
                         VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]"
 											/>
-        <util:XmlConfig Id="XmlFASettingsGK2" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="XmlFMSettingsGK" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
                         ElementPath="//configuration/modules" On="install"
                         VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]"
 											/>
         <Condition>NOT GK_MODULE</Condition>
       </Component>
-      <Component Id="DeleteReportXMLSetting" Guid="56E1C7F5-29AB-4607-BA3B-B2CBAE183465">
+      <Component Id="DeleteReportXMLSetting" Guid="CAAA9A68-0D03-4159-88DA-5D437A918E74">
         <CreateFolder Directory="INSTALLLOCATION" />
         <util:XmlConfig Id="XmlFMSettingsReport" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
                         ElementPath="//configuration/modules" On="install"
                         VerifyPath="//configuration/modules/module[\[]@assemblyFile='ReportsModule.dll'[\]]"
+											/>
+        <util:XmlConfig Id="XmlFMSettingsReport2" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
+                        ElementPath="//configuration/modules" On="install"
+                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='ReportsModule2.dll'[\]]"
 											/>
       </Component>
       <Component Id="DeleteOPCXMLSetting" Guid="F0B66E96-0FC0-4CB2-BE16-7EF991083700">

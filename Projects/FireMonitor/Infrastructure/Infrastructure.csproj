@@ -120,6 +120,7 @@
     <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Events\ShowXJournalEvent.cs" />
     <Compile Include="Events\NotifyEvent.cs" />
+    <Compile Include="Events\ShowReports2Event.cs" />
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />

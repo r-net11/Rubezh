@@ -11,7 +11,7 @@
 		<Binary Id="InstallFull.ico" SourceFile="Data\InstallFull.ico" />
 		<Binary Id="InstallClient.ico" SourceFile="Data\InstallClient.ico" />
 		<Binary Id="SetupProgress.ico" SourceFile="Data\SetupProgress.ico" />
-    <Binary Id="TitleRect.bmp" SourceFile="Data\TitleRect.bmp" />
+    <Binary Id="TitleRect.bmp" SourceFile="Data\bannrbmp.bmp" />
     <Binary Id="haspdinst.exe" SourceFile="..\..\..\..\..\..\3rdParty\HASPDriver\haspdinst.exe"/>
 		<Binary Id="FiresecCADll" SourceFile="$(var.CustomAction.TargetDir)$(var.CustomAction.TargetName).CA.dll" />
 		<!--<WixVariable Id="WixUIBannerBmp" Value="Data\FiresecBanner.bmp" />-->

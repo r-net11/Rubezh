@@ -16,7 +16,7 @@
 
 			<Component Id="FireMonitorConfig" Guid="*">
 				<File Id="FireMonitorConfig" Name="FireMonitor.exe.config" Source="$(var.FireMonitor.TargetDir)"
-							DiskId="1" KeyPath="yes" />
+							DiskId="1" KeyPath="yes" Checksum="yes"/>
 			</Component>
 
 			<Component Id="FMPrismComponent" Guid="*">

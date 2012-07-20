@@ -17,12 +17,12 @@
 
       <Component Id="FiresecServiceConfig" Guid="*">
         <File Id="ServiceConfig" Name="FiresecService.exe.config" Source="$(var.FiresecService.TargetDir)"
-              DiskId="1" KeyPath="yes" />
+              DiskId="1" KeyPath="yes" Checksum="yes" />
       </Component>
 
       <Component Id="CommonComponent" Guid="*" >
         <File Id="CommonDll" Name="Common.dll" Source="$(var.FiresecService.TargetDir)"
-              DiskId="1" KeyPath="yes" />
+              DiskId="1" KeyPath="yes"  />
       </Component>
 
       <Component Id="ControlsComponent" Guid="*">

@@ -13,9 +13,9 @@
               Source="$(var.FireAdministrator.TargetPath)" DiskId="1" KeyPath="yes">
         </File>
       </Component>
-      <Component Id="FAConfigComponent" Guid="*">
+      <Component Id="FAConfigComponent" Guid="8475B566-E3C8-4A84-93F4-A5FD384F57BF">
         <File Id="FAConfig" Name="FireAdministrator.exe.config" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" KeyPath="yes" />
+              DiskId="1" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="FAPrismDllComponent" Guid="*">
         <File Id="FAPrismDll" Name="Microsoft.Practices.Prism.dll" Source="$(var.FireAdministrator.TargetDir)"
@@ -81,9 +81,9 @@
         <File Id="FAInfrastructureDll" Name="Infrastructure.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAInstructionsModuleComponent" Guid="*">
+      <Component Id="FAInstructionsModuleComponent" Guid="4137FF92-794A-4630-A46B-D59A03611E76">
         <File Id="FAInstructionsModuleDll" Name="InstructionsModule.dll" Source="$(var.FireAdministrator.TargetDir)"
-              DiskId="1" KeyPath="yes" />
+              DiskId="1" KeyPath="yes" Checksum="yes"/>
       </Component>
       <Component Id="FALibraryModuleComponent" Guid="*">
         <File Id="FALibraryModuleDll" Name="LibraryModule.dll" Source="$(var.FireAdministrator.TargetDir)"

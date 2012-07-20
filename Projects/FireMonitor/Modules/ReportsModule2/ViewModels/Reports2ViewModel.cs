@@ -21,9 +21,9 @@ using System.Windows.Xps.Packaging;
 
 namespace ReportsModule2.ViewModels
 {
-	public class ReportsViewModel : ViewPartViewModel
+	public class Reports2ViewModel : ViewPartViewModel
 	{
-		public ReportsViewModel()
+		public Reports2ViewModel()
 		{
 			FirstPageCommand = new RelayCommand(OnFirstPage, GetIsReportLoad);
 			NextPageCommand = new RelayCommand(OnNextPage, GetIsReportLoad);

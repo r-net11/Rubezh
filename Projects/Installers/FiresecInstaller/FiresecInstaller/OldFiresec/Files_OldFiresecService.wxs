@@ -30,8 +30,8 @@
         <RemoveFile Id='Removefbintl.dll' On='install' Name='fbintl.dll' Directory='INTL'/>
       </Component>
       
-      <Component Id="Fs_serverExe" Guid="*" Permanent="yes">
-        <File Id="Fs_serverExeFile" Name="fs_server.exe" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
+      <Component Id="Fs_serverExe" Guid="*" Permanent="yes" >
+        <File Id="Fs_serverExeFile" Name="fs_server.exe" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes"/>
       </Component>
       <Component Id="FsScktsrvrExe" Guid="*" Permanent="yes">
         <File Id="FsScktsrvrExeFile" Name="scktsrvr.exe" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />        

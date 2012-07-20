@@ -144,9 +144,7 @@ Patch dialog sequence:
       <Publish Dialog="SetupProgress" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
       <InstallUISequence>
-        <Show Dialog="SetupProgress" Before="ExecuteAction" Overridable="yes" />
-        <!--<Show Dialog="MaintenanceWelcomeDialog" Before="ProgressDlg" Overridable="yes">Installed AND NOT RESUME AND NOT Preselected AND NOT PATCH</Show>
-        <Show Dialog="WelcomeDialog" Before="ProgressDlg" Overridable="yes">NOT Installed OR PATCH</Show>-->
+        <Show Dialog="SetupProgress" Before="ExecuteAction" Overridable="yes" />        
         <Show Dialog="WelcomeDialog" Before="ProgressDlg" Overridable="yes">1</Show>
       </InstallUISequence>
 

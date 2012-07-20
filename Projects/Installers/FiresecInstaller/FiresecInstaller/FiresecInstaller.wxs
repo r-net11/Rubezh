@@ -82,7 +82,6 @@
               <Directory Id="FireMonReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
             </Directory>
           </Directory>
-
           <Directory Id="LOGS" Name="Logs" />
         </Directory>
       </Directory>
@@ -100,13 +99,12 @@
     <InstallExecuteSequence>
       <RemoveExistingProducts After="InstallFinalize" />
       <Custom Action="CloseApplications" Before="InstallInitialize" >1</Custom>
-
       <Custom Action="RegisterServer" After="InstallFinalize" >NOT REGFS2SERVER AND NOT REGOLDFS AND INSTALLMODE AND SETUPCHOICE = "Full"</Custom>
       <Custom Action="RegisterSockProxy" After="RegisterServer">NOT REGFS2SERVER AND NOT REGOLDFS AND INSTALLMODE</Custom>
       <Custom Action="RegisterFs_types" After="RegisterSockProxy">NOT REGFS2SERVER AND NOT REGOLDFS AND INSTALLMODE</Custom>
-      <Custom Action="RunSocketServerServiceNet" After="RegisterFs_types">INSTALLMODE AND SETUPCHOICE = "Full"</Custom>
+      <Custom Action="RunSocketServerServiceNet" After="RegisterFs_types">1</Custom>
       <Custom Action="InstallHaspDriver" After="RunSocketServerServiceNet">NOT REGFS2SERVER AND NOT REGOLDFS AND INSTALLMODE AND SETUPCHOICE = "Full"</Custom>
-      <Custom Action="RunFiresecServiceNet" After="InstallHaspDriver">INSTALLMODE AND SETUPCHOICE = "Full"</Custom>
+      <Custom Action="RunFiresecServiceNet" After="InstallHaspDriver">1</Custom>
 
       <Custom Action="StopFiresecServiceNet" After="CloseApplications">1</Custom>
       <Custom Action="StopSocketServerServiceNet" After="StopFiresecServiceNet">1</Custom>
