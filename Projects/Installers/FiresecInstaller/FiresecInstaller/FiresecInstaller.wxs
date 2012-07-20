@@ -4,16 +4,17 @@
      >
   <?include Variables_Firesec.wxi?>
 
-  <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="$(var.ProductVersion)"
+  <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="0.0.0.1" 
            Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
 
-    <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)"  />
+    <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" />
 
     <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
 
-    <Upgrade Id="$(var.UpgradeCode)">
-      <UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="yes" Maximum="6.0.0.0" IncludeMaximum="no"
-                      Language="1049" Property="OLD_VERSION_FOUND"/>
+    <!--<MajorUpgrade AllowDowngrades="yes" Schedule="afterInstallInitialize" MigrateFeatures="yes" />-->
+    <Upgrade Id="$(var.UpgradeCode)" >
+      <UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="yes" Maximum="20.0.0.0" IncludeMaximum="no" MigrateFeatures="yes" RemoveFeatures="ALL"
+                      Language="1049" Property="OLD_VERSION_FOUND" IgnoreRemoveFailure="yes"/>
     </Upgrade>
 
     <Property Id="REGOLDFS">
@@ -97,7 +98,8 @@
     <FeatureRef Id="FiresecFeature" />
 
     <InstallExecuteSequence>
-      <RemoveExistingProducts After="InstallFinalize" />
+      <RemoveExistingProducts After="InstallInitialize" />
+      <InstallExecute After="RemoveExistingProducts" />
       <Custom Action="CloseApplications" Before="InstallInitialize" >1</Custom>
       <Custom Action="RegisterServer" After="InstallFinalize" >NOT REGFS2SERVER AND NOT REGOLDFS AND INSTALLMODE AND SETUPCHOICE = "Full"</Custom>
       <Custom Action="RegisterSockProxy" After="RegisterServer">NOT REGFS2SERVER AND NOT REGOLDFS AND INSTALLMODE</Custom>

@@ -38,7 +38,7 @@
 					<Publish Property="WixUI_InstallMode" Value="NOT Installed">1</Publish>
           <Publish Property="INSTALLMODE" Value="NOT Installed">1</Publish>
           <Publish Property="REINSTALLMODE" Value="amus">REGFS2STATE</Publish>
-          <Publish Property="REINSTALL" Value="ALL">REGFS2STATE</Publish>
+          <Publish Property="REINSTALL" Value="ALL">REGFS2STATE AND NOT OLD_VERSION_FOUND</Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="$(var.btnCancel)">
 					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
@@ -63,7 +63,7 @@
 			</Dialog>
 
 			<Dialog Id="DestinationFolder" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes" TrackDiskSpace="yes">
-        <!--<Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>-->
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор папки установки" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="В какую папку вы хотите установить $(var.ProductName)?" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgDesc" Type="Text" X="30" Y="54" Width="327" Height="20" 
@@ -108,7 +108,7 @@
 			</Dialog>
 
 			<Dialog Id="SetupType" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
-        <!--<Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>-->
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="TitleRect.bmp"/>        
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="244" Height="15" Text="{&amp;MSSansBold8}Выбор компонентов" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие компоненты должны быть установлены?" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgText" Type="Text" X="30" Y="54" Width="340" Height="20" 
@@ -128,6 +128,7 @@
 			</Dialog>
 
       <Dialog Id="ModulesDlg" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>
         <Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор дополнительных модулей" TabSkip="yes" Transparent="yes" />
         <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие дополнительные модули должны быть установлены?" TabSkip="yes" Transparent="yes" />
         <Control Id="GKModule" Type="CheckBox" Height="18" Width="295" X="26" Y="58" Text="Групповой контроллер" Property="GK_MODULE" CheckBoxValue="1">
@@ -150,6 +151,7 @@
       </Dialog>
 			
 			<Dialog Id="ShortcutsDlg" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Установка ярлыков." TabSkip="yes" Transparent="yes" />
         <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие ярлыки должны быть установлены?" TabSkip="yes" Transparent="yes" />
 				<Control Id="ShortcutDesktop" Type="CheckBox" Height="18" Width="295" X="26" Y="58" Text="Создать ярлык на рабочем столе" Property="SHORTCUT_DESKTOP" CheckBoxValue="1" />
@@ -310,7 +312,6 @@
 			</Dialog>
 
 			<Dialog Id="VerifyReadyDialog" X="10" Y="0" Width="374" Height="266" Title="!(loc.VerifyReadyDlg_Title)" TrackDiskSpace="yes">
-
 				<Control Id="InstallNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
           <Condition Action="show">1</Condition>
 					<!--<Condition Action="show">NOT Installed AND NOT ALLUSERS</Condition>
@@ -430,7 +431,7 @@
 			</Dialog>
 
 			<Dialog Id="SetupProgress" X="50" Y="0" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" Modeless="yes">
-				
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Установка  $(var.ProductName)" TabSkip="yes" Hidden="yes" Transparent="yes">
           <Condition Action="show">1</Condition>
 				</Control>

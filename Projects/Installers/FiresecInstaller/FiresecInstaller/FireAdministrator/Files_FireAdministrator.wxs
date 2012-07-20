@@ -17,51 +17,51 @@
         <File Id="FAConfig" Name="FireAdministrator.exe.config" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" Checksum="yes"/>
       </Component>
-      <Component Id="FAPrismDllComponent" Guid="*">
+      <Component Id="FAPrismDllComponent" Guid="7C1CA7DF-E5DA-4B3D-ACD4-2A1A5EEBF94D">
         <File Id="FAPrismDll" Name="Microsoft.Practices.Prism.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAPrismUnityExtensionsComponent" Guid="*">
+      <Component Id="FAPrismUnityExtensionsComponent" Guid="8BBDE86B-0E13-4758-A660-ED81586F0881">
         <File Id="FAPrismUnityExtensionsDll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAUnityComponent" Guid="*">
+      <Component Id="FAUnityComponent" Guid="17BE5F1C-8AD8-4A3D-BFEC-BB0FBC777D50">
         <File Id="FAUnityDll" Name="Microsoft.Practices.Unity.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAServiceLocationComponent" Guid="*">
+      <Component Id="FAServiceLocationComponent" Guid="33EB7344-BDE6-468B-AEF0-4C98F306EAB4">
         <File Id="FAServiceLocationDll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAWPFToolkitExtendedComponent" Guid="*">
+      <Component Id="FAWPFToolkitExtendedComponent" Guid="F4F1B07E-9DFE-4638-B72F-A95940361252">
         <File Id="FAWPFToolkitExtendedDll" Name="WPFToolkit.Extended.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component> 
-      <Component Id="FAU2UConsult" Guid="*">
+      <Component Id="FAU2UConsult" Guid="4FDAAC60-703F-4074-9978-0C8C5FC04241">
         <File Id="U2UConsult_RichHtmlTextBlock" Name="U2UConsult.RichHtmlTextBlock.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FACommonComponent" Guid="*">
+      <Component Id="FACommonComponent" Guid="87D7801E-45FC-4205-BB2F-38987F075031">
         <File Id="FACommonDll" Name="Common.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAControlsComponent" Guid="*">
+      <Component Id="FAControlsComponent" Guid="DE25291B-41B4-4EDB-ADC5-980BFB8C536C">
         <File Id="FAControlsDll" Name="Controls.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FADeviceControlsComponent" Guid="*">
+      <Component Id="FADeviceControlsComponent" Guid="4BAF67AE-3C0A-42F3-86D4-AAE34E71DD7A">
         <File Id="FADeviceControlsDll" Name="DeviceControls.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAFiresecAPIComponent" Guid="*">
+      <Component Id="FAFiresecAPIComponent" Guid="B26B2BBA-AFD9-4EC1-83C5-0405E1051A1D">
         <File Id="FAFiresecAPIDll" Name="FiresecAPI.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FAFiresecClientComponent" Guid="*">
+      <Component Id="FAFiresecClientComponent" Guid="F736638F-F0E5-4E56-988A-690AF9EFCD55">
         <File Id="FAFiresecClientDll" Name="FiresecClient.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="FADevicesModuleComponent" Guid="*">
+      <Component Id="FADevicesModuleComponent" Guid="4902D27C-96A6-4D7D-9646-CF79BE32481D">
         <File Id="FADevicesModuleDll" Name="DevicesModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
       </Component>
@@ -133,7 +133,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">
-      <Component Id="OPCModuleComponent" Guid="*">
+      <Component Id="OPCModuleComponent" Guid="C64F8BCF-B83A-43B7-8976-C7287970F7B4">
         <File Id="OPCModuleDll" Name="OPCModule.dll" Source="$(var.FireAdministrator.TargetDir)"
               DiskId="1" KeyPath="yes" />
         <Condition>OPC_MODULE</Condition>

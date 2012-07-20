@@ -19,7 +19,7 @@ namespace DevicesModule.ViewModels
 			get { return _htmlString; }
 			set
 			{
-				_htmlString = value;
+				_htmlString = value;				
 				OnPropertyChanged("HtmlString");
 			}
 		}
