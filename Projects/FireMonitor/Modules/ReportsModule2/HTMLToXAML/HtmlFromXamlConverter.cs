@@ -10,11 +10,11 @@
 
 namespace ReportsModule2.HTMLConverter
 {
-    using System;
-    using System.Diagnostics;
-    using System.Text;
-    using System.IO;
-    using System.Xml;
+	using System;
+	using System.Diagnostics;
+	using System.IO;
+	using System.Text;
+	using System.Xml;
 
     /// <summary>
     /// HtmlToXamlConverter is a static class that takes an HTML string

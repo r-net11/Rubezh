@@ -1,9 +1,9 @@
-﻿using System.Windows;
+﻿using System.Threading;
+using System.Windows;
+using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
-using System.Windows.Threading;
-using System.Threading;
 
 namespace Infrastructure.Common.Windows
 {

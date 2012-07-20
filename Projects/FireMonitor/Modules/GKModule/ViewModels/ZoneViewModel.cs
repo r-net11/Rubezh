@@ -1,26 +1,27 @@
 ﻿using System.Linq;
-using GKModule.Events;
 using FiresecAPI.Models;
 using FiresecClient;
+using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		public Zone Zone { get; private set; }
-		public ZoneState ZoneState { get; private set; }
+		public XZone Zone { get; private set; }
+		public XZoneState ZoneState { get; private set; }
 
-		public ZoneViewModel(Zone zone)
+		public ZoneViewModel(XZone zone)
 		{
 			SelectCommand = new RelayCommand(OnSelect);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 
 			Zone = zone;
-			ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
+			ZoneState = XManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
 			ZoneState.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}
@@ -30,8 +31,8 @@ namespace GKModule.ViewModels
 			StateType = ZoneState.StateType;
 		}
 
-		StateType _stateType;
-		public StateType StateType
+		XStateType _stateType;
+		public XStateType StateType
 		{
 			get { return _stateType; }
 			set
@@ -46,11 +47,8 @@ namespace GKModule.ViewModels
 			get
 			{
 				var toolTip = Zone.PresentationName;
-				toolTip += "\n" + "Состояние: " + EnumsConverter.StateTypeToClassName(StateType);
-				if (Zone.ZoneType == ZoneType.Fire)
-				{
-					toolTip += "\n" + "Количество датчиков для сработки: " + Zone.DetectorCount.ToString();
-				}
+				toolTip += "\n" + "Состояние: " + StateType;
+				toolTip += "\n" + "Количество датчиков для сработки: " + Zone.DetectorCount.ToString();
 				return toolTip;
 			}
 		}
@@ -65,11 +63,11 @@ namespace GKModule.ViewModels
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementPolygonZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == Zone.No)))
+				if (plan.ElementPolygonZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == (ulong)Zone.No)))
 				{
 					return true;
 				}
-				if (plan.ElementRectangleZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == Zone.No)))
+				if (plan.ElementRectangleZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == (ulong)Zone.No)))
 				{
 					return true;
 				}
@@ -80,7 +78,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Zone.No);
+			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish((ulong)Zone.No);
 		}
 	}
 }

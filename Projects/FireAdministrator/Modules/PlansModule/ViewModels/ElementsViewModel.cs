@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using PlansModule.Designer;
-using PlansModule.Events;
 using Infrustructure.Plans.Elements;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Designer;
-using PlansModule.Designer.Designer;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
+using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {

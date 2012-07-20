@@ -1,10 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Controls;
-using System.Windows;
-using System.Diagnostics;
 using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace Ricciolo.Controls
 {

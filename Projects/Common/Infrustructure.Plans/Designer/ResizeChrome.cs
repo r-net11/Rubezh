@@ -1,10 +1,8 @@
 ﻿
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.ComponentModel;
-using System.Windows.Shapes;
 using System.Windows.Controls.Primitives;
-using Infrustructure.Plans.Elements;
 namespace Infrustructure.Plans.Designer
 {
 	public abstract class ResizeChrome : Control, INotifyPropertyChanged

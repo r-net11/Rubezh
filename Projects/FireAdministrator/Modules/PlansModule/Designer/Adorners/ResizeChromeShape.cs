@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrustructure.Plans.Designer;
-using System.Windows.Controls;
-using System.Windows.Shapes;
+﻿using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Data;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using Infrastructure;
-using Infrustructure.Plans.Elements;
-using Infrustructure.Plans.Painters;
-using System.Windows.Media;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
+using Infrastructure;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
 
 namespace PlansModule.Designer.Adorners
 {

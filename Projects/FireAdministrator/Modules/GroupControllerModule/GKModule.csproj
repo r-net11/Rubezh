@@ -65,36 +65,10 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="BinConfigurationCreator.cs" />
-    <Compile Include="BytesHelper.cs" />
     <Compile Include="ParametersHelper.cs" />
-    <Compile Include="SendManager.cs" />
-    <Compile Include="Converter\Drivers\Helpers\AMP4Helper.cs" />
-    <Compile Include="Converter\Drivers\Helpers\BUNHelper.cs" />
-    <Compile Include="Converter\Drivers\Helpers\BUZHelper.cs" />
-    <Compile Include="Converter\Drivers\Helpers\CombinedDetectorHelper.cs" />
-    <Compile Include="Converter\Drivers\Helpers\CommonHelper.cs" />
-    <Compile Include="Converter\Drivers\Helpers\MDUHelper.cs" />
-    <Compile Include="Converter\Drivers\Helpers\MPTHelper.cs" />
-    <Compile Include="Converter\Drivers\Helpers\MROHelper.cs" />
-    <Compile Include="Converter\Drivers\Helpers\RMHelper.cs" />
-    <Compile Include="Converter\Drivers\NewDevicesHelper\GKLineHelper.cs" />
-    <Compile Include="Converter\Drivers\NewDevicesHelper\GKReleHelper.cs" />
-    <Compile Include="Database\Binary\DatabaseCollection.cs" />
-    <Compile Include="Database\Binary\BinaryDatabases\CommonDatabase.cs" />
-    <Compile Include="Database\Binary\BinaryObjects\BinaryObjectBase.cs" />
-    <Compile Include="Database\Binary\BinaryObjects\DeviceBinaryObject.cs" />
-    <Compile Include="Database\Binary\BinaryObjects\ZoneBinaryObject.cs" />
-    <Compile Include="Database\Binary\BinaryDatabases\GkDatabase.cs" />
-    <Compile Include="Database\Binary\BinaryDatabases\KauDatabase.cs" />
-    <Compile Include="Converter\Drivers\DriversConverter.cs" />
-    <Compile Include="Converter\Drivers\NewDevicesHelper\GKIndicatorHelper.cs" />
-    <Compile Include="Converter\Drivers\NewDevicesHelper\GKSystem.cs" />
-    <Compile Include="Converter\Drivers\NewDevicesHelper\KAUIndicatorHelper.cs" />
-    <Compile Include="Converter\Drivers\DriversHelper.cs" />
-    <Compile Include="Database\Converters\BytesToStringConverter.cs" />
-    <Compile Include="Database\DatabaseProcessor.cs" />
-    <Compile Include="Database\ViewModels\BinaryObjectViewModel.cs" />
-    <Compile Include="Database\ViewModels\DatabasesViewModel.cs" />
+    <Compile Include="BinaryFormatViewer\Converters\BytesToStringConverter.cs" />
+    <Compile Include="BinaryFormatViewer\ViewModels\BinaryObjectViewModel.cs" />
+    <Compile Include="BinaryFormatViewer\ViewModels\DatabasesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceInfoViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceTimeViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseViewModel.cs" />
@@ -114,7 +88,7 @@
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Database\Views\DatabasesView.xaml.cs">
+    <Compile Include="BinaryFormatViewer\Views\DatabasesView.xaml.cs">
       <DependentUpon>DatabasesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\DeviceInfoView.xaml.cs">
@@ -156,18 +130,15 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Converter\Drivers\NewDevicesHelper\KAUHelper.cs" />
-    <Compile Include="Converter\ConfigurationConverter.cs" />
+    <Compile Include="FiresecToGKConverter\ConfigurationConverter.cs" />
     <Compile Include="Devices\ViewModels\Logic\DeviceLogicViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceViewModel.cs" />
-    <Compile Include="Converter\Drivers\NewDevicesHelper\GKHelper.cs" />
     <Compile Include="Devices\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="BinaryFileConverter.cs" />
     <Compile Include="States\ViewModels\StatesViewModel.cs" />
-    <Compile Include="States\ViewModels\StateViewModel.cs" />
     <Compile Include="States\Views\StatesView.xaml.cs">
       <DependentUpon>StatesView.xaml</DependentUpon>
     </Compile>
@@ -220,7 +191,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Database\Views\DatabasesView.xaml">
+    <Page Include="BinaryFormatViewer\Views\DatabasesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -290,6 +261,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common.GK\Common.GK.csproj">
+      <Project>{987CDFB8-DC44-4873-9E19-7666DE222820}</Project>
+      <Name>Common.GK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>

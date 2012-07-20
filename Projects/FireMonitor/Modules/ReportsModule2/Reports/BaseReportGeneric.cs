@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using FiresecClient;
 using System.Data;
 using System.Reflection;
-using System.Windows.Documents;
 
 namespace ReportsModule2.Reports
 {

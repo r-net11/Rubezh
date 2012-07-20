@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using GKModule.Events;
-using FiresecAPI.Models;
 using FiresecClient;
+using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -18,7 +18,7 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			Zones = (from Zone zone in FiresecManager.DeviceConfiguration.Zones
+			Zones = (from XZone zone in XManager.DeviceConfiguration.Zones
 					 orderby zone.No
 					 select new ZoneViewModel(zone)).ToList();
 
@@ -49,7 +49,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void Select(ulong? zoneNo)
+		public void Select(short? zoneNo)
 		{
 			if (zoneNo.HasValue)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
@@ -62,15 +62,12 @@ namespace GKModule.ViewModels
 			if (SelectedZone == null)
 				return;
 
-			var devices = new HashSet<Device>();
+			var devices = new HashSet<XDevice>();
 
-			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (device.Driver.IsZoneDevice && device.ZoneNo == SelectedZone.Zone.No)
-				{
-					device.AllParents.ForEach(x => { devices.Add(x); });
-					devices.Add(device);
-				}
+				device.AllParents.ForEach(x => { devices.Add(x); });
+				devices.Add(device);
 
 				//if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
 				//{
@@ -87,8 +84,7 @@ namespace GKModule.ViewModels
 			{
 				Devices.Add(new DeviceViewModel(device, Devices)
 				{
-					IsExpanded = true,
-					IsBold = device.Driver.IsZoneDevice || device.Driver.IsZoneLogicDevice
+					IsExpanded = true
 				});
 			}
 

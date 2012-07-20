@@ -4,14 +4,13 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using PlansModule.Events;
-using PlansModule.Views;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
+using PlansModule.Events;
+using PlansModule.Views;
 
 namespace PlansModule.ViewModels
 {

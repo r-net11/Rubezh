@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
+using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
-using DevicesModule.ViewModels;
 
 namespace SettingsModule.ViewModels
 {

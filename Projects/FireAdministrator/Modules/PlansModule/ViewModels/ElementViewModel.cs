@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Infrastructure;
 using Infrastructure.Common;
-using PlansModule.Designer;
-using PlansModule.Events;
-using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Events;
+using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {

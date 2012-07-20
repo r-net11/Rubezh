@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Controls;
-using Infrustructure.Plans.Elements;
+﻿using System.ComponentModel;
 using System.Windows;
-using System.Windows.Media;
-using Infrustructure.Plans.Painters;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using System.ComponentModel;
+using Infrustructure.Plans.Painters;
 
 namespace Infrustructure.Plans.Designer
 {

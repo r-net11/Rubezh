@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using FiresecAPI.Models;
-using Infrastructure.Common;
 using Infrastructure;
+using Infrastructure.Common;
 
 namespace OPCModule.ViewModels
 {

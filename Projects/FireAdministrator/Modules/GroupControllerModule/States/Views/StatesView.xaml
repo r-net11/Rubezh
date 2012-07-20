@@ -11,7 +11,7 @@
                 <DataGridTextColumn Header="Физический адрес" Binding="{Binding PhysicalAddress}" />
                 <DataGridTextColumn Header="Наименование" Binding="{Binding Description}" />
                 <DataGridTextColumn Header="Серийный номер" Binding="{Binding SerialNo}" />
-                <DataGridTextColumn Header="Состояния" Binding="{Binding States}" Width="*" />
+                <DataGridTextColumn Header="Состояния" Binding="{Binding StringStates}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

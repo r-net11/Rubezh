@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Common;
 using FiresecClient;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace FireAdministrator
 {

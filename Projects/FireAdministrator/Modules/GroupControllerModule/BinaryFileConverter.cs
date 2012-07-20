@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using GKModule.Database;
-using System.IO;
+using Commom.GK;
 using FiresecClient;
 
 namespace GKModule

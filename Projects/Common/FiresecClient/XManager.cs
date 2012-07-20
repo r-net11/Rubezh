@@ -4,15 +4,17 @@ using XFiresecAPI;
 
 namespace FiresecClient
 {
-	public static class XManager
+	public partial class XManager
 	{
 		public static XDeviceConfiguration DeviceConfiguration;
 		public static XDriversConfiguration DriversConfiguration;
+		public static XDeviceConfigurationStates DeviceStates { get; set; }
 
 		static XManager()
 		{
 			DeviceConfiguration = new XDeviceConfiguration();
 			DriversConfiguration = new XDriversConfiguration();
+			DeviceStates = new XDeviceConfigurationStates();
 		}
 
 		public static void SetEmptyConfiguration()
@@ -83,6 +85,20 @@ namespace FiresecClient
 				//lineNo = driverProperty.Parameters.FirstOrDefault(x => x.Name == modeProperty.Name).Value;
 			}
 			return lineNo;
+		}
+
+		public static void CreateStates()
+		{
+			DeviceStates = new XDeviceConfigurationStates();
+			foreach (var device in DeviceConfiguration.Devices)
+			{
+				var deviceState = new XDeviceState()
+				{
+					Device = device,
+					UID = device.UID,
+				};
+				DeviceStates.DeviceStates.Add(deviceState);
+			}
 		}
 	}
 }

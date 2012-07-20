@@ -1,11 +1,10 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
-using FiresecClient;
-using System.Linq;
-using System;
-using System.Collections.Generic;
 
 namespace DeviceControls
 {

@@ -117,12 +117,10 @@ namespace DevicesModule.ViewModels
 		}
 
 		#region IWindowIdentity Members
-
 		public Guid Guid
 		{
 			get { return _guid; }
 		}
-
 		#endregion
 	}
 }

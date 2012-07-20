@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrustructure.Plans.Elements;
+﻿using Infrastructure;
 using Infrustructure.Plans.Designer;
-using FiresecAPI.Models;
-using Infrastructure;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer.DesignerItems;
 

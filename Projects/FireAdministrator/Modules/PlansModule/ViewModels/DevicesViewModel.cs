@@ -6,11 +6,11 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using PlansModule.Events;
-using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Elements;
-using PlansModule.Designer.Designer;
+using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using PlansModule.Designer.Designer;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {

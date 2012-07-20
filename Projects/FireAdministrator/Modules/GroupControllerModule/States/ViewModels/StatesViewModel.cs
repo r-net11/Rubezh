@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.ObjectModel;
+using Commom.GK;
+using Common.GK;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
-using GKModule.Database;
-using System.Diagnostics;
 
 namespace GKModule.ViewModels
 {
@@ -14,38 +10,37 @@ namespace GKModule.ViewModels
 		public StatesViewModel()
 		{
 			Title = "Состояния устройств";
-			States = new ObservableCollection<StateViewModel>();
+			States = new ObservableCollection<BinaryDeviceState>();
 
 			DatabaseProcessor.Convert();
 			foreach (var gkDatabase in DatabaseProcessor.DatabaseCollection.GkDatabases)
 			{
-				foreach (var binaryObject in gkDatabase.BinaryObjects)
-				{
-					var rootDevice = gkDatabase.RootDevice;
-					var no = binaryObject.GetNo();
-					var bytes = SendManager.Send(rootDevice, 2, 12, 68, BytesHelper.ShortToBytes(no));
-					if (bytes.Count > 0)
-					{
-						var stateViewModel = new StateViewModel(bytes);
-						States.Add(stateViewModel);
-					}
-				}
+				GetStatesFromDB(gkDatabase);
 			}
 
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseCollection.GkDatabases)
+			foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
 			{
-				foreach (var binaryObject in gkDatabase.BinaryObjects)
+				GetStatesFromDB(kauDatabase);
+			}
+		}
+
+		void GetStatesFromDB(CommonDatabase commonDatabase)
+		{
+			foreach (var binaryObject in commonDatabase.BinaryObjects)
+			{
+				var rootDevice = commonDatabase.RootDevice;
+				var no = binaryObject.GetNo();
+				var bytes = SendManager.Send(rootDevice, 2, 12, 68, BytesHelper.ShortToBytes(no));
+				if (bytes.Count > 0)
 				{
-					var rootDevice = gkDatabase.RootDevice;
-					var no = binaryObject.GetNo();
-					var bytes = SendManager.Send(rootDevice, 2, 9, -1, BytesHelper.ShortToBytes(no));
-					Trace.WriteLine("Parameter " + no + " : " + BytesHelper.BytesToString(bytes));
+					var binaryDeviceState = new BinaryDeviceState(bytes, binaryObject.DatabaseType);
+					States.Add(binaryDeviceState);
 				}
 			}
 		}
 
-		ObservableCollection<StateViewModel> _states;
-		public ObservableCollection<StateViewModel> States
+		ObservableCollection<BinaryDeviceState> _states;
+		public ObservableCollection<BinaryDeviceState> States
 		{
 			get { return _states; }
 			set
@@ -55,8 +50,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		StateViewModel _selectedState;
-		public StateViewModel SelectedState
+		BinaryDeviceState _selectedState;
+		public BinaryDeviceState SelectedState
 		{
 			get { return _selectedState; }
 			set

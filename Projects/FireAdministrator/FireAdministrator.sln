@@ -51,6 +51,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TreeListView", "..\Common\TreeListView\TreeListView.csproj", "{59A4159D-1038-4770-91DF-154A22CDE411}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.GK", "..\Common\Common.GK\Common.GK.csproj", "{987CDFB8-DC44-4873-9E19-7666DE222820}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -325,6 +327,16 @@ Global
 		{59A4159D-1038-4770-91DF-154A22CDE411}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{59A4159D-1038-4770-91DF-154A22CDE411}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{59A4159D-1038-4770-91DF-154A22CDE411}.Release|x86.ActiveCfg = Release|Any CPU
+		{987CDFB8-DC44-4873-9E19-7666DE222820}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{987CDFB8-DC44-4873-9E19-7666DE222820}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{987CDFB8-DC44-4873-9E19-7666DE222820}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{987CDFB8-DC44-4873-9E19-7666DE222820}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{987CDFB8-DC44-4873-9E19-7666DE222820}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{987CDFB8-DC44-4873-9E19-7666DE222820}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{987CDFB8-DC44-4873-9E19-7666DE222820}.Release|Any CPU.Build.0 = Release|Any CPU
+		{987CDFB8-DC44-4873-9E19-7666DE222820}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{987CDFB8-DC44-4873-9E19-7666DE222820}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{987CDFB8-DC44-4873-9E19-7666DE222820}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -351,5 +363,6 @@ Global
 		{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
 		{DA2A8431-7328-4AE8-926F-E191700577A1} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
 		{59A4159D-1038-4770-91DF-154A22CDE411} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
+		{987CDFB8-DC44-4873-9E19-7666DE222820} = {D663DF3D-C732-4D29-9258-F5C7DC53BD8D}
 	EndGlobalSection
 EndGlobal

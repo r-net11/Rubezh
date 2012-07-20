@@ -4,8 +4,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using PlansModule.Events;
 using PlansModule.Designer;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {

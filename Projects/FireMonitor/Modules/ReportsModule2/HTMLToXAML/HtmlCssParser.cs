@@ -10,16 +10,15 @@
 
 namespace ReportsModule2.HTMLConverter
 {
-    using System;
-    using System.Xml;
-    using System.Diagnostics;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.IO;
+	using System;
+	using System.Collections;
+	using System.Collections.Generic;
+	using System.Diagnostics;
+	using System.Text;
+	using System.Xml;
 
-    using System.Windows; // DependencyProperty
-    using System.Windows.Documents; // TextElement
+	// DependencyProperty
+    // TextElement
   
     internal static class HtmlCssParser
     {

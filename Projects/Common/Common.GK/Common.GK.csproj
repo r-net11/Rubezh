@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{987CDFB8-DC44-4873-9E19-7666DE222820}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Common.GK</RootNamespace>
+    <AssemblyName>Common.GK</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BinaryDeviceState.cs" />
+    <Compile Include="BytesHelper.cs" />
+    <Compile Include="Database\Binary\BinaryDatabases\CommonDatabase.cs" />
+    <Compile Include="Database\Binary\BinaryDatabases\GkDatabase.cs" />
+    <Compile Include="Database\Binary\BinaryDatabases\KauDatabase.cs" />
+    <Compile Include="Database\Binary\BinaryObjects\BinaryObjectBase.cs" />
+    <Compile Include="Database\Binary\BinaryObjects\DeviceBinaryObject.cs" />
+    <Compile Include="Database\Binary\BinaryObjects\ZoneBinaryObject.cs" />
+    <Compile Include="Database\Binary\DatabaseCollection.cs" />
+    <Compile Include="Database\Binary\DatabaseProcessor.cs" />
+    <Compile Include="Drivers\GKDriversConverter.cs" />
+    <Compile Include="Drivers\GKDriversHelper.cs" />
+    <Compile Include="Drivers\Helpers\AMP4Helper.cs" />
+    <Compile Include="Drivers\Helpers\BUNHelper.cs" />
+    <Compile Include="Drivers\Helpers\BUZHelper.cs" />
+    <Compile Include="Drivers\Helpers\CombinedDetectorHelper.cs" />
+    <Compile Include="Drivers\Helpers\CommonHelper.cs" />
+    <Compile Include="Drivers\Helpers\MDUHelper.cs" />
+    <Compile Include="Drivers\Helpers\MPTHelper.cs" />
+    <Compile Include="Drivers\Helpers\MROHelper.cs" />
+    <Compile Include="Drivers\Helpers\RMHelper.cs" />
+    <Compile Include="Drivers\NewDevicesHelper\GKHelper.cs" />
+    <Compile Include="Drivers\NewDevicesHelper\GKIndicatorHelper.cs" />
+    <Compile Include="Drivers\NewDevicesHelper\GKLineHelper.cs" />
+    <Compile Include="Drivers\NewDevicesHelper\GKReleHelper.cs" />
+    <Compile Include="Drivers\NewDevicesHelper\GKSystem.cs" />
+    <Compile Include="Drivers\NewDevicesHelper\KAUHelper.cs" />
+    <Compile Include="Drivers\NewDevicesHelper\KAUIndicatorHelper.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sending\SendManager.cs" />
+    <Compile Include="StatesHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FiresecClient\FiresecClient.csproj">
+      <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
+      <Name>FiresecClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -4,9 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Designer.Designer;
-using Infrastructure;
 using PlansModule.Events;
 
 namespace PlansModule.ViewModels

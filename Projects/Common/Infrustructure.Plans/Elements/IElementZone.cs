@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace Infrustructure.Plans.Elements
 {

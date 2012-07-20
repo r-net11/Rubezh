@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Media;
+using System.Windows.Xps.Packaging;
 //using CrystalDecisions.CrystalReports.Engine;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using JournalModule.ViewModels;
-using ReportsModule2.Models;
-using System.Windows.Documents;
-using System.Windows.Media;
-using System.Windows;
-using System.Windows.Xps.Packaging;
 using ReportsModule2.DocumentPaginatorModel;
-using System.IO;
-using System.Text;
+using ReportsModule2.Models;
 
 namespace ReportsModule2.Reports
 {

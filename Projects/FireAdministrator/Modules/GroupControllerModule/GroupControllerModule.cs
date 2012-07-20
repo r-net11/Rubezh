@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Commom.GK;
 using FiresecClient;
-using GKModule.Converter;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
@@ -35,7 +35,7 @@ namespace GKModule
 
 		public override void Initialize()
 		{
-			DriversConverter.Convert();
+			GKDriversConverter.Convert();
 			XManager.DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
 			XManager.UpdateConfiguration();
 

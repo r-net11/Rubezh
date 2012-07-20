@@ -147,6 +147,7 @@
     <Compile Include="Validation\DevicesValidator.cs" />
     <Compile Include="Validation\ZoneError.cs" />
     <Compile Include="XManager.cs" />
+    <Compile Include="XManager.Disabling.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

@@ -7,10 +7,10 @@ using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using PlansModule.Events;
-using PlansModule.Designer.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using PlansModule.Designer.Designer;
+using PlansModule.Events;
 
 namespace PlansModule.ViewModels
 {

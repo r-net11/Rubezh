@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
-using Common;
+using System.Windows.Controls;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using JournalModule.ViewModels;
-using ReportsModule2.Reports;
-using System.Windows;
-using System.Windows.Documents;
-using System.IO;
-using System.Text;
-using System.Windows.Controls;
 using ReportsModule2.DocumentPaginatorModel;
-using System.Windows.Xps.Packaging;
+using ReportsModule2.Reports;
 
 namespace ReportsModule2.ViewModels
 {

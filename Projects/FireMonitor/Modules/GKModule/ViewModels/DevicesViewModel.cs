@@ -2,23 +2,19 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
 	public class DevicesViewModel : ViewPartViewModel
 	{
-		public DevicesViewModel()
-		{
-		}
-
 		public void Initialize()
 		{
+			UpdateStates();
+
 			BuildDeviceTree();
 			if (Devices.Count > 0)
 			{
@@ -56,10 +52,10 @@ namespace GKModule.ViewModels
 		{
 			Devices = new ObservableCollection<DeviceViewModel>();
 			AllDevices = new List<DeviceViewModel>();
-			AddDevice(FiresecManager.DeviceConfiguration.RootDevice, null);
+			AddDevice(XManager.DeviceConfiguration.RootDevice, null);
 		}
 
-		DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
+		DeviceViewModel AddDevice(XDevice device, DeviceViewModel parentDeviceViewModel)
 		{
 			var deviceViewModel = new DeviceViewModel(device, Devices) { Parent = parentDeviceViewModel };
 			AllDevices.Add(deviceViewModel);
@@ -70,11 +66,13 @@ namespace GKModule.ViewModels
 				if (childDevice.IsNotUsed)
 					continue;
 
-				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == childDevice.UID);
-				if (deviceState != null)
+				var deviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == childDevice.UID);
+				if (deviceState == null)
 				{
-					deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
+					MessageBoxService.Show("Не найдено состояние устройства в конфигурации");
+					continue;
 				}
+				deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
 			}
 
 			return deviceViewModel;
@@ -91,7 +89,7 @@ namespace GKModule.ViewModels
 
 		void ExpandChild(DeviceViewModel parentDeviceViewModel)
 		{
-			if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
+			if ((parentDeviceViewModel.Device.Driver.DriverType == XDriverType.GK) || (parentDeviceViewModel.Device.Driver.DriverType == XDriverType.KAU))
 			{
 				parentDeviceViewModel.IsExpanded = true;
 				foreach (var deviceViewModel in parentDeviceViewModel.Children)
@@ -116,5 +114,16 @@ namespace GKModule.ViewModels
 		}
 
 		#endregion
+
+		void UpdateStates()
+		{
+			StatesWather.Run();
+		}
+
+		public override void OnShow()
+		{
+			base.OnShow();
+			UpdateStates();
+		}
 	}
 }

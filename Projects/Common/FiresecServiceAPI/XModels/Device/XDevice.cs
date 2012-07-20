@@ -17,6 +17,7 @@ namespace XFiresecAPI
 			OutDependenceUIDs = new List<Guid>();
 			Zones = new List<short>();
 			DeviceLogic = new XDeviceLogic();
+			IsNotUsed = false;
 		}
 
 		public XDriver Driver { get; set; }
@@ -49,6 +50,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public XDeviceLogic DeviceLogic { get; set; }
+
+		[DataMember]
+		public bool IsNotUsed { get; set; }
 
 		public string Address
 		{

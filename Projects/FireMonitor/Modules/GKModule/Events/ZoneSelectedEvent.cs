@@ -2,7 +2,7 @@
 
 namespace GKModule.Events
 {
-    public class ZoneSelectedEvent : CompositePresentationEvent<ulong?>
+    public class ZoneSelectedEvent : CompositePresentationEvent<short?>
     {
     }
 }

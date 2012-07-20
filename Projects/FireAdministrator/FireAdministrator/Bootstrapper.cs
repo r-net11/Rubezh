@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using FireAdministrator.ViewModels;
 using FiresecAPI.Models;
@@ -8,7 +9,6 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using System;
 
 namespace FireAdministrator
 {

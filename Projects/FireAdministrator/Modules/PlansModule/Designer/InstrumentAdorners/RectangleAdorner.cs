@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Designer;
-using PlansModule.Designer;
 using FiresecAPI.Models;
+using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
+using PlansModule.Designer;
 
 namespace PlansModule.InstrumentAdorners
 {

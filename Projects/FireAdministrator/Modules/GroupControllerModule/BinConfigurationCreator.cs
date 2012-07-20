@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using GKModule.Database;
+using Commom.GK;
 using Infrastructure.Common.Windows;
 
 namespace GKModule

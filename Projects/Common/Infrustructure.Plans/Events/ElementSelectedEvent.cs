@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Infrustructure.Plans.Elements;
 using Microsoft.Practices.Prism.Events;
-using Infrustructure.Plans.Elements;
 
 namespace Infrustructure.Plans.Events
 {

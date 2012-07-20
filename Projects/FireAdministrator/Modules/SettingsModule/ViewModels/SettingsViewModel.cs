@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -6,11 +10,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SettingsModule.Views;
-using System.Diagnostics;
-using System.Text;
-using System.Windows.Controls;
-using System.IO;
-using System.Windows.Documents;
 
 namespace SettingsModule.ViewModels
 {

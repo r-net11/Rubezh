@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -6,7 +7,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using System;
 
 namespace AlarmModule.ViewModels
 {

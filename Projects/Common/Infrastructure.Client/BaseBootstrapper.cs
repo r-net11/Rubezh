@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.IO;
 using System.Reflection;
+using System.Windows;
 using Common;
 using FiresecClient;
 using Infrastructure.Client.Login.ViewModels;
@@ -14,7 +15,6 @@ using Infrastructure.Common.Configuration;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using System.Windows;
 
 namespace Infrastructure.Client
 {

@@ -5,7 +5,6 @@ using System.Threading;
 using System.Windows;
 using Common;
 using Infrastructure.Common.Windows;
-using System.Windows.Threading;
 
 namespace Infrastructure.Common
 {

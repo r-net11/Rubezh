@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrustructure.Plans.Elements;
-using System.Windows;
-using System.Windows.Controls;
-using PlansModule.Designer.Adorners;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI.Models;
-using PlansModule.ViewModels;
-using PlansModule.Designer.Designer;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Services;
+using PlansModule.Designer.Adorners;
+using PlansModule.Designer.Designer;
+using PlansModule.ViewModels;
 
 namespace PlansModule.Designer.DesignerItems
 {

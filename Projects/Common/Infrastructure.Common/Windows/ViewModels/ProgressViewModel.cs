@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Threading;
-using System.Windows;
-using System.Windows.Threading;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {

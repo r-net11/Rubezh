@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
-using PlansModule.Designer;
+using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.InstrumentAdorners;
 
 namespace PlansModule.ViewModels

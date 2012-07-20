@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using CrystalDecisions.CrystalReports.Engine;
-using FiresecClient;
 using System.Data;
 using System.Reflection;
-using System.Windows.Documents;
+using CrystalDecisions.CrystalReports.Engine;
+using FiresecClient;
 
 namespace ReportsModule.Reports
 {

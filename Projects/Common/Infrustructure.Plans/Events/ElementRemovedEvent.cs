@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using Microsoft.Practices.Prism.Events;
 using Infrustructure.Plans.Elements;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrustructure.Plans.Events
 {

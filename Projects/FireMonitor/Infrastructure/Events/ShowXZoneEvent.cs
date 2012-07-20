@@ -2,7 +2,7 @@
 
 namespace Infrastructure.Events
 {
-    public class ShowXZoneEvent : CompositePresentationEvent<ulong?>
+    public class ShowXZoneEvent : CompositePresentationEvent<short?>
     {
     }
 }

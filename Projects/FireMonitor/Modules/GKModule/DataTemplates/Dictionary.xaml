@@ -15,4 +15,8 @@
         <Views:JournalView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
+        <Views:DeviceDetailsView />
+    </DataTemplate>
+
 </ResourceDictionary>

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Text;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Documents;
 using ReportsModule2.HTMLConverter;
-using System.IO;
-using System.Windows;
 
 namespace ReportsModule2.Converters
 {

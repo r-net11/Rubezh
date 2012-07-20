@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
@@ -7,7 +8,6 @@ using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
-using System.Collections.Generic;
 
 namespace Infrastructure
 {

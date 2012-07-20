@@ -7,7 +7,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using System.Text;
 using Infrustructure.Plans.Painters;
 
 namespace PlansModule.ViewModels

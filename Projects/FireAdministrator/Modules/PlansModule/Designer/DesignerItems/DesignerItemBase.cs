@@ -1,14 +1,10 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using Infrastructure.Common;
-using Infrustructure.Plans.Designer;
-using Infrustructure.Plans.Elements;
-using PlansModule.Designer.Adorners;
 using Infrastructure;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 
 namespace PlansModule.Designer.DesignerItems

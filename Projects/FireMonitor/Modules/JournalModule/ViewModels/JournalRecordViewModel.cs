@@ -1,17 +1,17 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using System.Windows.Controls;
-using System.IO;
-using System.Text;
-using System.Windows;
-using System.Windows.Documents;
-using System;
-using Common;
 
 namespace JournalModule.ViewModels
 {

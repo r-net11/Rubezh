@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Data;
-using System.Windows.Media;
 using FiresecClient.Validation;
 
 namespace FireAdministrator.Converters

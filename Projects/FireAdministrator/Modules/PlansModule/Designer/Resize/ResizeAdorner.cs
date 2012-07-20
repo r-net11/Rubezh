@@ -1,7 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
-using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 
 namespace PlansModule.Designer.Resize

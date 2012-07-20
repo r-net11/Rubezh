@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common;
-using System.Windows.Input;
 using Infrustructure.Plans.Designer;
 
 namespace PlansModule.ViewModels

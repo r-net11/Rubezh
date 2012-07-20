@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Windows.Documents;
 using System.IO.Packaging;
-using System.Windows.Xps.Packaging;
-using System.Windows.Xps.Serialization;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Markup;
 using System.Windows.Xps;
+using System.Windows.Xps.Packaging;
+using System.Windows.Xps.Serialization;
 
 namespace ReportsModule2.DocumentPaginatorModel
 {

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Windows.Controls;
 using Infrustructure.Plans.Elements;
-using System.ComponentModel;
-using System.Windows.Data;
-using System.Windows;
 using Microsoft.Practices.Prism.Events;
 
 namespace Infrustructure.Plans.Designer
