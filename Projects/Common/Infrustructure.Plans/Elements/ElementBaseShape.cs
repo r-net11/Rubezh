@@ -38,6 +38,10 @@ namespace Infrustructure.Plans.Elements
 				if (point.Y > maxTop)
 					maxTop = point.Y;
 			}
+			if (maxTop < minTop)
+				minTop = maxTop;
+			if (maxLeft < minLeft)
+				minLeft = maxLeft;
 			return new Rect(minLeft, minTop, maxLeft - minLeft, maxTop - minTop);
 		}
 		protected override void SetPosition(Point point)

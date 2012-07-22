@@ -40,6 +40,10 @@ namespace PlansModule.Designer.Adorners
 				}
 				else if ((direction & ResizeDirection.Right) == ResizeDirection.Right)
 					element.Width += vector.X;
+				if (element.Height < 0)
+					element.Height = 0;
+				if (element.Width < 0)
+					element.Width = 0;
 				DesignerItem.SetLocation();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}

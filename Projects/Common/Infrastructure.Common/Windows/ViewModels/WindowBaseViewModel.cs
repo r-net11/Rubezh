@@ -17,6 +17,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 			TopMost = false;
 			HideInTaskbar = false;
 			AllowClose = true;
+			ResizeMode = System.Windows.ResizeMode.CanResize;
 		}
 
 		public Window Surface { get; internal set; }
@@ -60,6 +61,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				_sizable = value;
 				OnPropertyChanged("Sizable");
+				ResizeMode = Sizable ? ResizeMode.CanResize : ResizeMode.CanMinimize;
+				OnPropertyChanged("ResizeMode");
 			}
 		}
 
@@ -73,6 +76,8 @@ namespace Infrastructure.Common.Windows.ViewModels
 				OnPropertyChanged("AllowClose");
 			}
 		}
+
+		public ResizeMode ResizeMode { get; private set; }
 
 		public bool CloseOnEscape { get; set; }
 		public bool HideInTaskbar { get; set; }

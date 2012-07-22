@@ -36,10 +36,12 @@ namespace Infrustructure.Plans.Designer
 			OnPropertyChanged("ResizeBorderSize");
 			OnPropertyChanged("ResizeMargin");
 			OnPropertyChanged("Thickness");
+			OnPropertyChanged("PointMargin");
 		}
 
 		public virtual double ResizeThumbSize { get { return 7 / DesignerCanvas.Zoom; } }
 		public virtual double ThumbMargin { get { return -2 / DesignerCanvas.Zoom; } }
+		public virtual double PointMargin { get { return -3.5 / DesignerCanvas.Zoom; } }
 		public virtual double ResizeBorderSize { get { return 3 / DesignerCanvas.Zoom; } }
 		public virtual double ResizeMargin { get { return -4 / DesignerCanvas.Zoom; } }
 		public virtual double Thickness { get { return 1 / DesignerCanvas.Zoom; } }

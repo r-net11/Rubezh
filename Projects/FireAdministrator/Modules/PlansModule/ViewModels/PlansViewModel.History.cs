@@ -73,7 +73,7 @@ namespace PlansModule.ViewModels
 		{
 			if (!_historyAction)
 			{
-				var elementsAfter = DesignerCanvas.CloneSelectedElements();
+				var elementsAfter = DesignerCanvas.CloneElements(DesignerCanvas.SelectedItems);
 				AddHistoryItem(elementsBefore, elementsAfter, ActionType.Edited);
 			}
 		}
@@ -109,6 +109,7 @@ namespace PlansModule.ViewModels
 					break;
 			}
 			_historyAction = false;
+			DesignerCanvas.Toolbox.SetDefault();
 		}
 		private void DoRedo()
 		{
@@ -141,6 +142,7 @@ namespace PlansModule.ViewModels
 					break;
 			}
 			_historyAction = false;
+			DesignerCanvas.Toolbox.SetDefault();
 		}
 
 		public RelayCommand UndoCommand { get; private set; }

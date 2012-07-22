@@ -34,7 +34,6 @@ namespace PlansModule.Designer
 			Height = 100;
 
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-			PreviewMouseDown += new MouseButtonEventHandler(On_PreviewMouseDown);
 			DataContext = this;
 		}
 
@@ -195,56 +194,6 @@ namespace PlansModule.Designer
 				Panel.SetZIndex(designerItem, 5 * bigConstatnt);
 		}
 
-		void On_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-		{
-			//if (IsPointAdding)
-			//{
-			//if (SelectedItems == null)
-			//    return;
-			//var selectedItem = SelectedItems.FirstOrDefault();
-			//if (selectedItem == null)
-			//    return;
-			//if ((selectedItem.IsPolygon == false) && (selectedItem.IsPolyline == false))
-			//    return;
-
-			//IsPointAdding = false;
-
-			//PointCollection pointCollection = null;
-			//if (selectedItem.Content is Polygon)
-			//{
-			//    var polygon = selectedItem.Content as Polygon;
-			//    pointCollection = polygon.Points;
-			//}
-			//if (selectedItem.Content is Polyline)
-			//{
-			//    var polyline = selectedItem.Content as Polyline;
-			//    pointCollection = polyline.Points;
-			//}
-
-			//Point currentPoint = e.GetPosition(selectedItem);
-			//var minDistance = double.MaxValue;
-			//int minIndex = 0;
-			//for (int i = 0; i < pointCollection.Count; i++)
-			//{
-			//    var polygonPoint = pointCollection[i];
-			//    var distance = Math.Pow(currentPoint.X - polygonPoint.X, 2) + Math.Pow(currentPoint.Y - polygonPoint.Y, 2);
-			//    if (distance < minDistance)
-			//    {
-			//        minIndex = i;
-			//        minDistance = distance;
-			//    }
-			//}
-			//minIndex = minIndex + 1;
-			//Point point = e.GetPosition(selectedItem);
-			//pointCollection.Insert(minIndex, point);
-
-			//var designerItem = Items.FirstOrDefault(x => x.IsPointAdding);
-			//designerItem.UpdatePolygonAdorner();
-
-			//e.Handled = true;
-			//}
-		}
-
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
@@ -265,10 +214,10 @@ namespace PlansModule.Designer
 				Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
 		}
 
-		public List<ElementBase> CloneSelectedElements()
+		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)
 		{
 			_initialElements = new List<ElementBase>();
-			foreach (var designerItem in SelectedItems)
+			foreach (var designerItem in designerItems)
 			{
 				designerItem.UpdateElementProperties();
 				_initialElements.Add(designerItem.Element.Clone());
@@ -276,9 +225,13 @@ namespace PlansModule.Designer
 			return _initialElements;
 		}
 
+		public override void BeginChange(IEnumerable<DesignerItem> designerItems)
+		{
+			_initialElements = CloneElements(designerItems);
+		}
 		public override void BeginChange()
 		{
-			_initialElements = CloneSelectedElements();
+			_initialElements = CloneElements(SelectedItems);
 		}
 		public override void EndChange()
 		{
@@ -289,6 +242,7 @@ namespace PlansModule.Designer
 
 		public void UpdateZoom()
 		{
+			Toolbox.UpdateZoom();
 			foreach (DesignerItem designerItem in Items)
 				designerItem.UpdateZoom();
 			UpdateZoomPoint();

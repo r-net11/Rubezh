@@ -57,6 +57,11 @@ namespace PlansModule.ViewModels
 			if (ActiveInstrument != _defaultInstrument)
 				ActiveInstrument = _defaultInstrument;
 		}
+		public void UpdateZoom()
+		{
+			if (ActiveInstrument.Adorner != null)
+				ActiveInstrument.Adorner.UpdateZoom();
+		}
 
 		private void RegisterInstruments()
 		{

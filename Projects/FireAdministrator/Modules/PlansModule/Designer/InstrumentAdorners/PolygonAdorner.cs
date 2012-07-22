@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer;
+using Infrastructure;
 
 namespace PlansModule.InstrumentAdorners
 {
@@ -55,7 +56,7 @@ namespace PlansModule.InstrumentAdorners
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (AdornerCanvas.IsMouseCaptured)
+			if (AdornerCanvas.IsMouseCaptured && Points.Count > 0)
 			{
 				Points[Points.Count - 1] = CutPoint(e.GetPosition(this));
 				e.Handled = true;
@@ -82,6 +83,7 @@ namespace PlansModule.InstrumentAdorners
 							else
 								element.Position = CutPoint(e.GetPosition(this));
 							((DesignerCanvas)DesignerCanvas).CreateDesignerItem(element);
+							ServiceFactory.SaveService.PlansChanged = true;
 						}
 						break;
 				}

@@ -8,6 +8,7 @@ using FiresecAPI.Models;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer;
+using Infrastructure;
 
 namespace PlansModule.InstrumentAdorners
 {
@@ -79,6 +80,7 @@ namespace PlansModule.InstrumentAdorners
 					else
 						element.Position = StartPoint.Value;
 					((DesignerCanvas)DesignerCanvas).CreateDesignerItem(element);
+					ServiceFactory.SaveService.PlansChanged = true;
 				}
 				StartPoint = null;
 			}

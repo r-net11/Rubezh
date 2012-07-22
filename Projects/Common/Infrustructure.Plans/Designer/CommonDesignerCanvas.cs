@@ -16,6 +16,7 @@ namespace Infrustructure.Plans.Designer
 			EventService.RegisterEventAggregator(eventAggregator);
 		}
 
+		public abstract void BeginChange(IEnumerable<DesignerItem> designerItems);
 		public abstract void BeginChange();
 		public abstract void EndChange();
 

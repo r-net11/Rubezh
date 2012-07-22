@@ -94,8 +94,6 @@ namespace Infrustructure.Plans.Designer
 		public void ResetElement(ElementBase element)
 		{
 			Element = element;
-			MinWidth = 2 * element.BorderThickness;
-			MinHeight = 2 * element.BorderThickness;
 			DataContext = Element;
 			Painter = PainterFactory.Create(Element);
 			if (DesignerCanvas != null)
@@ -128,9 +126,11 @@ namespace Infrustructure.Plans.Designer
 			}
 			catch { }
 		}
-		public void Redraw()
+		public virtual void Redraw()
 		{
 			Content = Painter == null ? null : Painter.Draw(Element);
+			MinWidth = Element.BorderThickness;
+			MinHeight = Element.BorderThickness;
 			SetLocation();
 			UpdateAdorner();
 		}

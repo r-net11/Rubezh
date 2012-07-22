@@ -59,6 +59,7 @@ namespace PlansModule.ViewModels
 		{
 			if (NormalizeBuffer())
 			{
+				DesignerCanvas.Toolbox.SetDefault();
 				DesignerCanvas.DeselectAll();
 				foreach (var elementBase in Buffer)
 				{

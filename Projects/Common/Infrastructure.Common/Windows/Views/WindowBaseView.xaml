@@ -12,6 +12,7 @@
 		Icon="{Binding Icon, Converter={StaticResource NullToImageConverter}}"
         Title="{Binding Title}"
         Topmost="{Binding TopMost}"
+		ResizeMode="{Binding ResizeMode}"
        	KeyDown="Window_KeyDown"
         Closing="Window_Closing"
         Closed="Window_Closed"

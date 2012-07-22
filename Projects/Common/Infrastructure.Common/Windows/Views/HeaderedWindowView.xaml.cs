@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace Infrastructure.Common.Windows.Views
 {
@@ -20,7 +21,7 @@ namespace Infrastructure.Common.Windows.Views
 
 		private void Header_MouseDown(object sender, MouseButtonEventArgs e)
 		{
-			if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+			if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2 && Window.ResizeMode == ResizeMode.CanResize)
 				Window.WindowState = Window.WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
 		}
 		private void Header_MouseMove(object sender, MouseEventArgs e)

@@ -64,6 +64,10 @@ namespace Infrustructure.Plans.Designer
 				adornerLayer.Remove(this);
 		}
 
+		public virtual void UpdateZoom()
+		{
+		}
+
 		protected Point CutPoint(Point point)
 		{
 			var result = new Point(point.X, point.Y);

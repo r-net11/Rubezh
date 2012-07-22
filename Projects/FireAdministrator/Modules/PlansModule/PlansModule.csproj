@@ -109,6 +109,7 @@
     <Compile Include="Designer\DesignerItems\DesignerItemBase.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemRectangle.cs" />
     <Compile Include="Designer\InstrumentAdorners\PointsAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\RemoveButton.cs" />
     <Compile Include="Designer\InstrumentAdorners\ZonePolygonAdorner.cs" />
     <Compile Include="Designer\InstrumentAdorners\PolylineAdorner.cs" />
     <Compile Include="Designer\InstrumentAdorners\ZoneRectangleAdorner.cs" />
@@ -302,6 +303,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Designer\Designer\MoveThumb.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Designer\InstrumentAdorners\RemoveButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

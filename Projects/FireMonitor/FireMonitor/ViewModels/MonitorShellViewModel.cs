@@ -12,12 +12,12 @@ namespace FireMonitor.ViewModels
 		public MonitorShellViewModel()
 		{
 			Title = "Оперативная задача ОПС FireSec-2";
+			Toolbar = new ToolbarViewModel();
+			ContentFotter = new UserFotterViewModel();
 			Height = 700;
 			Width = 1100;
 			MinWidth = 800;
 			MinHeight = 550;
-			Toolbar = new ToolbarViewModel();
-			ContentFotter = new UserFotterViewModel();
 		}
 
 		public override bool OnClosing(bool isCanceled)
