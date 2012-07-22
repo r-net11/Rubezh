@@ -1,34 +1,25 @@
-﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.ShellView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Navigation="clr-namespace:Infrastructure.Common.Navigation"
-             MinWidth="{Binding MinWidth}" 
-			 MinHeight="{Binding MinHeight}"
-			 Height="{Binding Height}"
-			 Width="{Binding Width}">
-    <DockPanel>
-        <ContentPresenter Content="{Binding ContentHeader}" DockPanel.Dock="Top"/>
-        <ContentPresenter Content="{Binding ContentFotter}" DockPanel.Dock="Bottom"/>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Navigation:NavigationView Grid.Column="0" Margin="5 5 0 5"/>
-            <ItemsControl Grid.Column="1" Margin="5 5 5 5" ItemsSource="{Binding ContentItems}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <Grid />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" 
-                            Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <!--<ContentPresenter Grid.Column="1" Content="{Binding MainContent}" Margin="5 5 5 5"/>-->
-        </Grid>
-    </DockPanel>
+﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.ShellView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Navigation="clr-namespace:Infrastructure.Common.Navigation" Width="{Binding Width}" Height="{Binding Height}" MinWidth="{Binding MinWidth}" MinHeight="{Binding MinHeight}">
+	<DockPanel>
+		<ContentPresenter Content="{Binding ContentHeader}" DockPanel.Dock="Top" />
+		<ContentPresenter Content="{Binding ContentFotter}" DockPanel.Dock="Bottom" />
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="200" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Navigation:NavigationView Grid.Column="0" Margin="5 5 0 5" />
+			<ItemsControl Grid.Column="1" Margin="5 5 5 5" ItemsSource="{Binding ContentItems}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<Grid />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<ContentPresenter Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Visibility="{Binding IsActive, Converter={StaticResource BoolToVisibilityConverter}}" />
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</Grid>
+	</DockPanel>
 </UserControl>

@@ -1,18 +1,17 @@
-﻿using System.Windows.Input;
-using Infrustructure.Plans.Designer;
-using PlansModule.Designer;
-using System.Linq;
-using PlansModule.Designer.DesignerItems;
-using Infrustructure.Plans.Elements;
-using System.Windows.Data;
-using System.Windows.Controls;
-using System.Windows.Shapes;
-using System.Windows.Media;
-using System.Windows;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using Infrastructure;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using System;
+using PlansModule.Designer;
+using PlansModule.Designer.DesignerItems;
 
 namespace PlansModule.InstrumentAdorners
 {

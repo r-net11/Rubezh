@@ -2,10 +2,10 @@
 using System.Windows.Media;
 using System.Windows.Shapes;
 using FiresecAPI.Models;
+using Infrastructure;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer;
-using Infrastructure;
 
 namespace PlansModule.InstrumentAdorners
 {
