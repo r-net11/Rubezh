@@ -1,4 +1,6 @@
 ﻿using System.Windows.Controls;
+using System.Windows;
+using System.Windows.Input;
 
 namespace SecurityModule.Views
 {
@@ -7,6 +9,9 @@ namespace SecurityModule.Views
         public UsersView()
         {
             InitializeComponent();
+			
         }
+
+		
     }
 }

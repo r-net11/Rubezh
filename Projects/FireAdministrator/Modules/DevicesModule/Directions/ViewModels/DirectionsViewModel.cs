@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using DevicesModule.Views;
 
 namespace DevicesModule.ViewModels
 {
@@ -91,11 +92,17 @@ namespace DevicesModule.ViewModels
         public override void OnShow()
         {
             ServiceFactory.Layout.ShowMenu(new DirectionsMenuViewModel(this));
+
+			if (DirectionsMenuView.Current != null)
+				DirectionsMenuView.Current.AcceptKeyboard = true;
         }
 
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
+
+			if (DirectionsMenuView.Current != null)
+				DirectionsMenuView.Current.AcceptKeyboard = false;
         }
     }
 }

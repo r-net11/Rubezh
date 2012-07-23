@@ -15,6 +15,7 @@ namespace CustomAction
 			string _firesecNtService = "FiresecNTService.exe";
 			string _socketService = "scktsrvr.exe";
 			string _oldFiresecService = "FS_SER~1.EXE";
+			string _oldFiresecService2 = "fs_server.exe";
 			Process[] processes = Process.GetProcesses();
 			foreach (var process in processes)
 			{
@@ -22,6 +23,7 @@ namespace CustomAction
 					|| (process.ProcessName == _fireMonitorName)
 					|| (process.ProcessName == _fireAdministratorName)
 					|| (process.ProcessName == _oldFiresecService)
+					|| (process.ProcessName == _oldFiresecService2)
 					|| (process.ProcessName == _firesecNtService)
 					|| (process.ProcessName == _socketService))
 					process.Kill();

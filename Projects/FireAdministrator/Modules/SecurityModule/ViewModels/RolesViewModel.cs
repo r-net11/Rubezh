@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SecurityModule.Views;
 
 namespace SecurityModule.ViewModels
 {
@@ -123,11 +124,17 @@ namespace SecurityModule.ViewModels
         public override void OnShow()
         {
             ServiceFactory.Layout.ShowMenu(new RolesMenuViewModel(this));
+
+			if (RolesMenuView.Current != null)
+				RolesMenuView.Current.AcceptKeyboard = true;
         }
 
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
+
+			if (RolesMenuView.Current != null)
+				RolesMenuView.Current.AcceptKeyboard = false;
         }
     }
 }

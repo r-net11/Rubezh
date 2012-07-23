@@ -86,7 +86,7 @@
         <File Id="FsFirebirdMsgDll" Name="firebird.msg" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>      
       <Component Id="fs_typesDll" Guid="*" Permanent="yes">
-        <File Id="fs_typesDllFile" Name="fs_types.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
+        <File Id="fs_typesDllFile" Name="Fs_Types.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
       </Component>
       <Component Id="FsSockProxyDll" Guid="*" Permanent="yes">
         <File Id="FsSockProxyDllFile" Name="SockProxy.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />

@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using InstructionsModule.Views;
 
 namespace InstructionsModule.ViewModels
 {
@@ -122,11 +123,17 @@ namespace InstructionsModule.ViewModels
         public override void OnShow()
         {
             ServiceFactory.Layout.ShowMenu(new InstructionsMenuViewModel(this));
+
+			if (InstructionsMenuView.Current != null)
+				InstructionsMenuView.Current.AcceptKeyboard = true;
         }
 
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
+
+			if (InstructionsMenuView.Current != null)
+				InstructionsMenuView.Current.AcceptKeyboard = false;
         }
     }
 }

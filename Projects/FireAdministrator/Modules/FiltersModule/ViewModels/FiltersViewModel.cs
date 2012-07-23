@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using FiltersModule.Views;
 
 namespace FiltersModule.ViewModels
 {
@@ -91,11 +92,17 @@ namespace FiltersModule.ViewModels
 		{
 			var filtersMenuViewModel = new FiltersMenuViewModel(this);
 			ServiceFactory.Layout.ShowMenu(filtersMenuViewModel);
+
+			if (FilterMenuView.Current != null)
+				FilterMenuView.Current.AcceptKeyboard = true;
 		}
 
 		public override void OnHide()
 		{
 			ServiceFactory.Layout.ShowMenu(null);
+
+			if (FilterMenuView.Current != null)
+				FilterMenuView.Current.AcceptKeyboard = false;
 		}
 	}
 }

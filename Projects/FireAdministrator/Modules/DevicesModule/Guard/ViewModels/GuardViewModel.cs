@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using DevicesModule.Views;
 
 namespace DevicesModule.ViewModels
 {
@@ -391,11 +392,17 @@ namespace DevicesModule.ViewModels
 			FiresecManager.DeviceConfiguration.UpdateGuardConfiguration();
 			ServiceFactory.Layout.ShowMenu(new GuardMenuViewModel(this));
 			InitializeDevices();
+
+			if (GuardMenuView.Current != null)
+				GuardMenuView.Current.AcceptKeyboard = true;
 		}
 
 		public override void OnHide()
 		{
 			ServiceFactory.Layout.ShowMenu(null);
+
+			if (GuardMenuView.Current != null)
+				GuardMenuView.Current.AcceptKeyboard = false;
 		}
 	}
 }

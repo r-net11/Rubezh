@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using SecurityModule.Views;
 
 namespace SecurityModule.ViewModels
 {
@@ -106,11 +107,17 @@ namespace SecurityModule.ViewModels
         {
             var usersMenuViewModel = new UsersMenuViewModel(this);
             ServiceFactory.Layout.ShowMenu(usersMenuViewModel);
+
+			if (UsersMenuView.Current != null)
+				UsersMenuView.Current.AcceptKeyboard = true;
         }
 
         public override void OnHide()
         {
             ServiceFactory.Layout.ShowMenu(null);
+
+			if (UsersMenuView.Current != null)
+				UsersMenuView.Current.AcceptKeyboard = false;
         }
     }
 }
