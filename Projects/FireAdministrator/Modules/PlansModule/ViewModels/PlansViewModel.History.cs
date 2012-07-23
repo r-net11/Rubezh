@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using Common;
 
 namespace PlansModule.ViewModels
 {
@@ -89,9 +90,16 @@ namespace PlansModule.ViewModels
 					foreach (var elementBase in historyItem.ElementsBefore)
 					{
 						var designerItem = DesignerCanvas.Items.FirstOrDefault(x => x.Element.UID == elementBase.UID);
-						var element = elementBase.Clone();
-						designerItem.ResetElement(element);
-						elements.Add(element);
+						if (designerItem != null)
+						{
+							var element = elementBase.Clone();
+							designerItem.ResetElement(element);
+							elements.Add(element);
+						}
+						else
+						{
+							Logger.Error("PlansViewModel.DoUndo designerItem = null");
+						}
 					}
 					ServiceFactory.Events.GetEvent<ElementChangedEvent>().Publish(elements);
 					DesignerCanvas.UpdateZoom();

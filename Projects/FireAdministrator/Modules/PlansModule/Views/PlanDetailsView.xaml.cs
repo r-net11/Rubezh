@@ -2,11 +2,11 @@
 
 namespace PlansModule.Views
 {
-    public partial class PlanDetailsView : UserControl
-    {
-        public PlanDetailsView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class PlanDetailsView : UserControl
+	{
+		public PlanDetailsView()
+		{
+			InitializeComponent();
+		}
+	}
 }

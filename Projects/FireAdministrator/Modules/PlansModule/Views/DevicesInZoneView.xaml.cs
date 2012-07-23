@@ -2,11 +2,11 @@
 
 namespace PlansModule.Views
 {
-    public partial class DevicesInZoneView : UserControl
-    {
-        public DevicesInZoneView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class DevicesInZoneView : UserControl
+	{
+		public DevicesInZoneView()
+		{
+			InitializeComponent();
+		}
+	}
 }

@@ -69,13 +69,13 @@ namespace PlansModule.ViewModels
 			{
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/Help.png",
+					ImageSource="/Controls;component/Images/Cursor.png",
 					ToolTip="Указатель",
 					Adorner = new RubberbandAdorner(PlansViewModel.DesignerCanvas)
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/Archive.png",
+					ImageSource="/Controls;component/Images/Pen.png",
 					ToolTip="Нож",
 					Adorner = new PointsAdorner(PlansViewModel.DesignerCanvas),
 					Autostart = true
