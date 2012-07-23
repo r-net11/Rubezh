@@ -60,7 +60,7 @@ namespace FireMonitor
 						((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
 						RunShell(shell);
 
-						FiresecCallbackService.ConfigurationChangedEvent += new Action(OnConfigurationChanged);
+						FiresecCallbackService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
 						ServiceFactory.Events.GetEvent<NotifyEvent>().Subscribe(OnNotify);
 					}
 					else

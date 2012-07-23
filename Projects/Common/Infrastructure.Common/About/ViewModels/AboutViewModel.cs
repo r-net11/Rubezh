@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using Infrastructure.Common.Windows.ViewModels;
+using Common;
 
 namespace Infrastructure.Common.About.ViewModels
 {
@@ -33,6 +34,10 @@ namespace Infrastructure.Common.About.ViewModels
 		public string Version
 		{
 			get { return Assembly.GetEntryAssembly().GetName().Version.ToString(); }
+		}
+		public DateTime BuildDate
+		{
+			get { return AssemblyHelper.GetAssemblyTimestamp(Assembly.GetEntryAssembly()); }
 		}
 	}
 }

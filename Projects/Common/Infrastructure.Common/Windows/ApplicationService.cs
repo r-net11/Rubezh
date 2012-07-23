@@ -4,6 +4,7 @@ using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
+using System;
 
 namespace Infrastructure.Common.Windows
 {
@@ -43,6 +44,14 @@ namespace Infrastructure.Common.Windows
 		{
 			if (Application.Current != null)
 				Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
+		}
+
+		public static void Invoke(Action action)
+		{
+			if (Application.Current.Dispatcher.CheckAccess())
+				action();
+			else
+				Application.Current.Dispatcher.Invoke(action);
 		}
 	}
 }
