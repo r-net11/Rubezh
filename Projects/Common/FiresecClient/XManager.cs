@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using XFiresecAPI;
+using System.Net;
 
 namespace FiresecClient
 {
@@ -81,8 +82,6 @@ namespace FiresecClient
 			if (modeProperty != null)
 			{
 				return modeProperty.Value;
-				//var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == "Mode");
-				//lineNo = driverProperty.Parameters.FirstOrDefault(x => x.Name == modeProperty.Name).Value;
 			}
 			return lineNo;
 		}
@@ -98,6 +97,42 @@ namespace FiresecClient
 					UID = device.UID,
 				};
 				DeviceStates.DeviceStates.Add(deviceState);
+			}
+			foreach (var zone in DeviceConfiguration.Zones)
+			{
+				var zoneState = new XZoneState()
+				{
+					Zone = zone,
+					No = zone.No
+				};
+				DeviceStates.ZoneStates.Add(zoneState);
+			}
+		}
+
+		public static string GetIpAddress(XDevice device)
+		{
+			XDevice gkDevice = null;
+			switch (device.Driver.DriverType)
+			{
+				case XDriverType.GK:
+					gkDevice = device;
+					break;
+
+				case XDriverType.KAU:
+					gkDevice = device.Parent;
+					break;
+
+				default:
+					throw new Exception("Получить IP адрес можно только у ГК или в КАУ");
+			}
+			var ipProperty = gkDevice.Properties.FirstOrDefault(x => x.Name == "IPAddress1");
+			if (ipProperty != null)
+			{
+				return ipProperty.StringValue;
+			}
+			else
+			{
+				throw new Exception("Не задан IP адрес");
 			}
 		}
 	}

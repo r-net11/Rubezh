@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Commom.GK;
 
-namespace GKModule
+namespace Common.GK
 {
 	public class JournalItem
 	{

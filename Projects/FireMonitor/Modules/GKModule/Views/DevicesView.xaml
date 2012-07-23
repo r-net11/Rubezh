@@ -30,6 +30,18 @@
                                             <ContextMenu>
                                                 <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
                                                 <MenuItem Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
+                                                <MenuItem Header="Команды" DataContext="{Binding DeviceCommandsViewModel}"
+                                                          IsEnabled="{Binding CanControl}"
+                                                          Margin="12, 0, 0, 0">
+                                                    <MenuItem Command="{Binding SetToIgnoreCommand}" Header="Поставить в обход" />
+                                                    <MenuItem Command="{Binding TurnOnCommand}" Header="Включить" />
+                                                    <MenuItem Command="{Binding CancelDelayCommand}" Header="Отменить задержку" />
+                                                    <MenuItem Command="{Binding TurnOffCommand}" Header="Выключить" />
+                                                    <MenuItem Command="{Binding StopCommand}" Header="Остановить" />
+                                                    <MenuItem Command="{Binding CancelStartCommand}" Header="Запретить пуск" />
+                                                    <MenuItem Command="{Binding TurnOnNowCommand}" Header="Включить немедленно" />
+                                                    <MenuItem Command="{Binding TurnOffNowCommand}" Header="Выключить немедленно" />
+                                                </MenuItem>
                                                 <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                             </ContextMenu>
                                         </TextBlock.ContextMenu>

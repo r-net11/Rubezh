@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace Commom.GK
 {
@@ -55,30 +56,33 @@ namespace Commom.GK
 			if (data != null)
 				bytes.AddRange(data);
 
-			if (command == 17 && data.Count != 5)
-			{
-				var bytesCount = bytes.Count;
-				for (int i = 0; i < 256 - bytesCount; i++)
-				{
-					bytes.Add(0);
-				}
-			}
-
-			var resultBytes = SendBytes(bytes, inputLenght, hasAnswer);
+			string ipAddress = XManager.GetIpAddress(device);
+			var resultBytes = SendBytes(ipAddress, bytes, inputLenght, hasAnswer);
 			return resultBytes;
 		}
 
-		static List<byte> SendBytes(List<byte> bytes, short inputLenght, bool hasAnswer = true)
+		static List<byte> SendBytes(string ipAddress, List<byte> bytes, short inputLenght, bool hasAnswer = true)
 		{
 			var udpClient = new UdpClient();
-			udpClient.Connect(IPAddress.Parse("172.16.7.102"), 1025);
-			var endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.102"), 1025);
+			udpClient.Client.ReceiveTimeout = 1000;
+			udpClient.Client.SendTimeout = 1000;
+			udpClient.Connect(IPAddress.Parse(ipAddress), 1025);
+			var endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), 1025);
 			var bytesSent = udpClient.Send(bytes.ToArray(), bytes.Count);
-			Trace.WriteLine("<-- " + BytesHelper.BytesToString(bytes));
+			//Trace.WriteLine("<-- " + BytesHelper.BytesToString(bytes));
 			if (hasAnswer == false)
 				return null;
-			var recievedBytes = udpClient.Receive(ref endPoint).ToList();
-			Trace.WriteLine("--> " + BytesHelper.BytesToString(recievedBytes));
+			var recievedBytes = new List<byte>();
+			try
+			{
+				recievedBytes = udpClient.Receive(ref endPoint).ToList();
+			}
+			catch (SocketException)
+			{
+				MessageBoxService.Show("Устройство не отвечает");
+				return new List<byte>();
+			}
+			//Trace.WriteLine("--> " + BytesHelper.BytesToString(recievedBytes));
 			udpClient.Close();
 
 			if (recievedBytes[0] != bytes[0])

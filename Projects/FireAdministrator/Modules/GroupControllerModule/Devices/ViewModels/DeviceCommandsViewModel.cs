@@ -26,15 +26,9 @@ namespace GKModule.Models
 			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			WriteConfigCommand = new RelayCommand(OnWriteConfig);
-			ShowStatesCommand = new RelayCommand(OnShowStates);
 			GetParametersCommand = new RelayCommand(OnGetParameters);
 			WriteParametersCommand = new RelayCommand(OnWriteParameters);
-
-			ControlObjectCommand = new RelayCommand(OnControlObject);
-			EraseWorkingProgramCommand = new RelayCommand(OnEraseWorkingProgram);
-			WriteProgramCommand = new RelayCommand(OnWriteProgram);
-			GetDeviceParameterCommand = new RelayCommand(OnGetDeviceParameter);
-			WriteDeviceParameterCommand = new RelayCommand(OnWriteDeviceParameter);
+			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 
 			_devicesViewModel = devicesViewModel;
 		}
@@ -134,56 +128,14 @@ namespace GKModule.Models
 			ParametersHelper.SetParameters();
 		}
 
-		public RelayCommand ShowStatesCommand { get; private set; }
-		void OnShowStates()
+		public RelayCommand UpdateFirmwhareCommand { get; private set; }
+		void OnUpdateFirmwhare()
 		{
-			var statesViewModel = new StatesViewModel();
-			DialogService.ShowModalWindow(statesViewModel);
+			MessageBoxService.Show("Функия пока не реализована");
 		}
-
-		public RelayCommand ControlObjectCommand { get; private set; }
-		void OnControlObject()
+		bool CanUpdateFirmwhare()
 		{
-			DatabaseProcessor.Convert();
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseCollection.GkDatabases)
-			{
-				foreach (var binaryObject in gkDatabase.BinaryObjects)
-				{
-					if (binaryObject.Device != null)
-					{
-						if (binaryObject.Device.UID == SelectedDevice.Device.UID)
-						{
-							byte command = 0x90;
-							var rootDevice = gkDatabase.RootDevice;
-							var no = binaryObject.GetNo();
-							var bytes = new List<byte>();
-							bytes.AddRange(BytesHelper.ShortToBytes(no));
-							bytes.Add(command);
-							SendManager.Send(rootDevice, 3, 13, 0, bytes);
-						}
-					}
-				}
-			}
-		}
-
-		public RelayCommand EraseWorkingProgramCommand { get; private set; }
-		void OnEraseWorkingProgram()
-		{
-		}
-
-		public RelayCommand WriteProgramCommand { get; private set; }
-		void OnWriteProgram()
-		{
-		}
-
-		public RelayCommand GetDeviceParameterCommand { get; private set; }
-		void OnGetDeviceParameter()
-		{
-		}
-
-		public RelayCommand WriteDeviceParameterCommand { get; private set; }
-		void OnWriteDeviceParameter()
-		{
+			return ((SelectedDevice != null) || (SelectedDevice.Driver.DriverType == XDriverType.KAU));
 		}
 	}
 }

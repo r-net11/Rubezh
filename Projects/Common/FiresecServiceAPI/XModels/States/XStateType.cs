@@ -56,6 +56,12 @@ namespace XFiresecAPI
         TurnOnNow = 16,
 
         [DescriptionAttribute("Выключить немедленно")]
-        TurnOffNow = 17
+        TurnOffNow = 17,
+
+        [DescriptionAttribute("Выключить немедленно")]
+        Reserve1 = 18,
+
+        [DescriptionAttribute("Выключить немедленно")]
+        Reserve2 = 19
     }
 }

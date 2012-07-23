@@ -15,9 +15,11 @@ namespace GKModule.ViewModels
 	{
 		public XDevice Device { get; private set; }
 		public XDeviceState DeviceState { get; private set; }
+		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
 		public DeviceViewModel(XDevice device, ObservableCollection<DeviceViewModel> sourceDevices)
 		{
+			DeviceCommandsViewModel = new DeviceCommandsViewModel(device);
 			ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
 			DisableCommand = new RelayCommand(OnDisable, CanDisable);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
@@ -65,6 +67,7 @@ namespace GKModule.ViewModels
 
 		public bool CanShowOnPlan()
 		{
+			return false;
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				if (plan.ElementDevices.Any(x => x.DeviceUID == Device.UID))

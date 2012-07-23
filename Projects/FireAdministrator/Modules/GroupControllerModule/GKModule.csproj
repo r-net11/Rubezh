@@ -111,8 +111,6 @@
     </Compile>
     <Compile Include="GroupControllerModule.cs" />
     <Compile Include="Devices\ViewModels\DeviceCommandsViewModel.cs" />
-    <Compile Include="Journal\JournalItem.cs" />
-    <Compile Include="Journal\JournalSourceType.cs" />
     <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
     <Compile Include="Journal\Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
@@ -138,10 +136,6 @@
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="BinaryFileConverter.cs" />
-    <Compile Include="States\ViewModels\StatesViewModel.cs" />
-    <Compile Include="States\Views\StatesView.xaml.cs">
-      <DependentUpon>StatesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
@@ -236,10 +230,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Journal\Views\JournalView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="States\Views\StatesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

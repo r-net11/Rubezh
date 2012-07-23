@@ -54,10 +54,13 @@ namespace GKModule
 			XManager.DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
 			XManager.UpdateConfiguration();
 			XManager.CreateStates();
+			DatabaseProcessor.Convert();
 
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			JournalViewModel.Initialize();
+
+			JournalWatcher.Start();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

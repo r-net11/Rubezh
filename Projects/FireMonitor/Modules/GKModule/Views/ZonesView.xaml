@@ -5,6 +5,7 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <UserControl.Resources>
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
+        <Converters:XZoneStateToColorConverter x:Key="XZoneStateToColorConverter" />
     </UserControl.Resources>
     
     <Grid>
@@ -27,7 +28,7 @@
                                     <Setter Property="Margin" Value="0"/>
                                     <Setter Property="VerticalContentAlignment" Value="Center" />
                                     <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    <Setter Property="Background" Value="{Binding ZoneState., Converter={StaticResource ZoneStateToColorConverter}}"/>
+                                    <Setter Property="Background" Value="{Binding ZoneState., Converter={StaticResource XZoneStateToColorConverter}}"/>
                                     <Setter Property="BorderThickness" Value="1" />
                                     <Setter Property="BorderBrush" Value="Transparent" />
                                     <Setter Property="Foreground" Value="Blue" />

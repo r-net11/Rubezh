@@ -7,10 +7,6 @@ namespace JournalModule.ViewModels
 {
 	public class JournalsViewModel : ViewPartViewModel
 	{
-		public JournalsViewModel()
-		{
-		}
-
 		public void Initialize()
 		{
 			Journals = new List<FilteredJournalViewModel>();

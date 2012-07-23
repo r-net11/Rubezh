@@ -31,8 +31,8 @@ namespace GKModule.ViewModels
 			StateType = ZoneState.StateType;
 		}
 
-		XStateType _stateType;
-		public XStateType StateType
+		StateType _stateType;
+		public StateType StateType
 		{
 			get { return _stateType; }
 			set

@@ -89,7 +89,9 @@ namespace GKModule.ViewModels
 
 		void ExpandChild(DeviceViewModel parentDeviceViewModel)
 		{
-			if ((parentDeviceViewModel.Device.Driver.DriverType == XDriverType.GK) || (parentDeviceViewModel.Device.Driver.DriverType == XDriverType.KAU))
+			if ((parentDeviceViewModel.Device.Driver.DriverType == XDriverType.System) ||
+				(parentDeviceViewModel.Device.Driver.DriverType == XDriverType.GK) ||
+				(parentDeviceViewModel.Device.Driver.DriverType == XDriverType.KAU))
 			{
 				parentDeviceViewModel.IsExpanded = true;
 				foreach (var deviceViewModel in parentDeviceViewModel.Children)
@@ -117,7 +119,7 @@ namespace GKModule.ViewModels
 
 		void UpdateStates()
 		{
-			StatesWather.Run();
+			StatesWatcher.Run();
 		}
 
 		public override void OnShow()

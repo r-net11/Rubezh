@@ -16,10 +16,14 @@ namespace FiresecAPI.Models
         public static string ToDescription(this Enum value)
         {
             FieldInfo fieldInfo = value.GetType().GetField(value.ToString());
-            DescriptionAttribute[] descriptionAttribute = (DescriptionAttribute[]) fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
-            if (descriptionAttribute.Length > 0)
-                return descriptionAttribute[0].Description;
-            return value.ToString();
+			if (fieldInfo != null)
+			{
+				DescriptionAttribute[] descriptionAttributes = (DescriptionAttribute[])fieldInfo.GetCustomAttributes(typeof(DescriptionAttribute), false);
+				if (descriptionAttributes.Length > 0)
+					return descriptionAttributes[0].Description;
+				return value.ToString();
+			}
+			return null;
         }
 
 		public static Size Subtract(this Size s1, Size s2)

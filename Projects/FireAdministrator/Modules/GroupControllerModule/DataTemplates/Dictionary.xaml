@@ -60,8 +60,4 @@
         <Views:DeviceTimeView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:StatesViewModel}">
-        <Views:StatesView />
-    </DataTemplate>
-
 </ResourceDictionary>

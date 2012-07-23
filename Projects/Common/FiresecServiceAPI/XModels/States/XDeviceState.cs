@@ -11,6 +11,7 @@ namespace XFiresecAPI
 		public XDeviceState()
 		{
 			States = new List<XStateType>();
+			StateType = StateType.Norm;
 		}
 
 		public XDevice Device { get; set; }

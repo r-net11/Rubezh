@@ -1,5 +1,4 @@
-﻿
-namespace GKModule
+﻿namespace Common.GK
 {
 	public enum JournalSourceType
 	{

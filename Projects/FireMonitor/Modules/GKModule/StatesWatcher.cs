@@ -6,7 +6,7 @@ using FiresecClient;
 
 namespace GKModule
 {
-	public static class StatesWather
+	public static class StatesWatcher
 	{
 		public static void Run()
 		{
@@ -50,6 +50,10 @@ namespace GKModule
 							deviceState.StateType = (StateType)minPriority;
 							deviceState.OnStateChanged();
 						}
+					}
+					if (binaryObject.Zone != null)
+					{
+						;
 					}
 				}
 			}
