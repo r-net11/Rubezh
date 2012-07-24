@@ -3,6 +3,7 @@ using FiresecAPI.Models;
 using FiresecService.Configuration;
 using FiresecService.Service;
 using System.Linq;
+using FiresecService.ViewModels;
 
 namespace FiresecService.Processor
 {
@@ -36,11 +37,16 @@ namespace FiresecService.Processor
 
 			if (IsConnectedToComServer = FiresecSerializedClient.Connect(login, password).Result)
 			{
+				MainViewModel.Current.UpdateCurrentStatus("Конвертирование мктаданных");
 				ConfigurationConverter.ConvertMetadataFromFiresec();
+				MainViewModel.Current.UpdateCurrentStatus("Обновление конфигурации");
 				ConfigurationConverter.Update();
+				MainViewModel.Current.UpdateCurrentStatus("Синхронизация конфигурации");
 				ConfigurationConverter.SynchronyzeConfiguration();
+				MainViewModel.Current.UpdateCurrentStatus("Конвертирование состояний");
 				ConvertStates();
 				Watcher = new Watcher(this);
+				MainViewModel.Current.UpdateCurrentStatus("Готово");
 				return true;
 			}
 			return false;

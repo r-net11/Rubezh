@@ -1,16 +1,14 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using Infrastructure.Common.Windows;
 using FiresecService.Service;
+using Infrastructure.Common.Windows;
 
 namespace FiresecService.Views
 {
 	public partial class MainView : UserControl
 	{
 		private Window _window;
-
 
 		public MainView()
 		{

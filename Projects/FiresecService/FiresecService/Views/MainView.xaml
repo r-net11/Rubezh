@@ -40,11 +40,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Соединение с ядром Firesec" FontWeight="Bold" Foreground="Orange" Margin="2" />
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Хост сервиса" FontWeight="Bold" Foreground="Orange" Margin="2" />
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ComServersStatus}" FontSize="11" FontWeight="Bold" Foreground="Orange" Margin="2" />
             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding HostStatus}" FontSize="11" FontWeight="Bold" Foreground="Orange" Margin="2" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CurrentStatus}" FontSize="11" FontWeight="Bold" Foreground="Orange" Margin="2" />
         </Grid>
     </Grid>
 </UserControl>

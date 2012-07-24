@@ -159,7 +159,7 @@ namespace FiresecService.SKUD.DataAccess
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), id);
 			return ((int)(result.ReturnValue));
 		}
-		
+
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.GetAllEmployees")]
 		public ISingleResult<GetAllEmployeesResult> GetAllEmployees([global::System.Data.Linq.Mapping.ParameterAttribute(Name="ClockNumber", DbType="NVarChar(MAX)")] string clockNumber, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="LastName", DbType="NVarChar(MAX)")] string lastName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="FirstName", DbType="NVarChar(MAX)")] string firstName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="SecondName", DbType="NVarChar(MAX)")] string secondName, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="GroupId", DbType="Int")] System.Nullable<int> groupId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="DepartmentId", DbType="Int")] System.Nullable<int> departmentId, [global::System.Data.Linq.Mapping.ParameterAttribute(Name="PositionId", DbType="Int")] System.Nullable<int> positionId)
 		{

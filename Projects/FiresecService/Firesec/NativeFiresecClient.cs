@@ -232,10 +232,6 @@ namespace Firesec
 		#region Connection
 		FS_Types.IFSC_Connection GetConnection(string login, string password)
 		{
-			//ObjectHandle objectHandle = Activator.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
-			//Domain = AppDomain.CreateDomain("Domain");
-			//ObjectHandle objectHandle = Domain.CreateComInstanceFrom("Interop.FS_Types.dll", "FS_Types.FSC_LIBRARY_CLASSClass");
-			//FS_Types.FSC_LIBRARY_CLASS library = (FS_Types.FSC_LIBRARY_CLASS)objectHandle.Unwrap();
 			FS_Types.FSC_LIBRARY_CLASSClass library = new FS_Types.FSC_LIBRARY_CLASSClass();
 
 			var serverInfo = new FS_Types.TFSC_ServerInfo()
@@ -244,17 +240,17 @@ namespace Firesec
 				ServerName = "localhost"
 			};
 
-			FS_Types.IFSC_Connection connectoin;
 			try
 			{
-				connectoin = library.Connect3(login, password, serverInfo, this, false);
+				FS_Types.IFSC_Connection connectoin = library.Connect3(login, password, serverInfo, this, false);
+				//FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, this);
+				return connectoin;
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове NativeFiresecClient.GetConnection");
 				throw new Exception("Не удается подключиться к COM серверу Firesec");
 			}
-			return connectoin;
 		}
 
 		string ReadFromStream(mscoree.IStream stream)

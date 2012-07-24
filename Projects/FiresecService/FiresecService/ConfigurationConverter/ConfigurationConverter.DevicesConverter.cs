@@ -204,10 +204,6 @@ namespace FiresecService.Configuration
 
 		devType DeviceToInnerDevice(Device device)
 		{
-			if (device.Driver.DriverType == DriverType.UOO_TL)
-			{
-				;
-			}
 			var innerDevice = new devType();
 
 			innerDevice.drv = FiresecConfiguration.drv.FirstOrDefault(x => x.id.ToUpper() == device.DriverUID.ToString().ToUpper()).idx;
@@ -243,14 +239,17 @@ namespace FiresecService.Configuration
 		List<paramType> AddParameters(Device device)
 		{
 			var parameters = new List<paramType>();
-			if (device.UID != Guid.Empty)
+			if (device.Driver.DriverType != DriverType.UOO_TL)
 			{
-				parameters.Add(new paramType()
+				if (device.UID != Guid.Empty)
 				{
-					name = "INT$DEV_GUID",
-					type = "String",
-					value = GuidHelper.ToString(device.UID)
-				});
+					parameters.Add(new paramType()
+					{
+						name = "INT$DEV_GUID",
+						type = "String",
+						value = GuidHelper.ToString(device.UID)
+					});
+				}
 			}
 
 			if (device.DatabaseId != null)

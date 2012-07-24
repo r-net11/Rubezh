@@ -30,7 +30,9 @@ namespace FiresecService.Service
 		{
 			try
 			{
+				MainViewModel.Current.UpdateCurrentStatus("Соединение с ядром для мониторинга");
 				MonitoringFiresecManager = new FiresecManager(true);
+				MainViewModel.Current.UpdateCurrentStatus("Соединение с ядром для администрирования");
 				AdministratorFiresecManager = new FiresecManager(false);
 				return (MonitoringFiresecManager.IsConnectedToComServer && AdministratorFiresecManager.IsConnectedToComServer);
 			}

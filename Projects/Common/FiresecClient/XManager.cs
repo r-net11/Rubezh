@@ -33,6 +33,10 @@ namespace FiresecClient
 
 		public static void UpdateConfiguration()
 		{
+			if (DeviceConfiguration == null)
+			{
+				DeviceConfiguration = new XDeviceConfiguration();
+			}
 			DeviceConfiguration.Update();
 
 			foreach (var device in DeviceConfiguration.Devices)

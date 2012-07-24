@@ -225,6 +225,9 @@ namespace FiresecService.Processor
 			ChangedDevices = new HashSet<DeviceState>();
 			ChangedZones = new HashSet<ZoneState>();
 			var coreParameters = FiresecSerializedClient.GetDeviceParams().Result;
+			if (coreParameters.dev == null)
+				return;
+
 			try
 			{
 				foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
@@ -423,6 +426,11 @@ namespace FiresecService.Processor
 				{
 					foreach (var chilDevice in FiresecManager.DeviceConfigurationStates.DeviceStates)
 					{
+						if (chilDevice.PlaceInTree == null)
+						{
+							Logger.Error("Watcher.PropogateStatesDown chilDevice.PlaceInTree = null");
+							continue;
+						}
 						if (chilDevice.PlaceInTree.StartsWith(deviceState.PlaceInTree) && chilDevice.PlaceInTree != deviceState.PlaceInTree)
 						{
 							var parentDeviceState = new ParentDeviceState()

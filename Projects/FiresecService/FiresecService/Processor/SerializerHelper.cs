@@ -72,7 +72,9 @@ namespace FiresecService.Processor
 
 			try
 			{
+				input = input.Replace("&#xD;&#xA;", "");
 				using (var memoryStream = new MemoryStream(Encoding.Default.GetBytes(input)))
+				//using (var memoryStream = new MemoryStream(Encoding.GetEncoding(1251).GetBytes(input)))
 				{
 					var serializer = new XmlSerializer(typeof(T));
 					return (T)serializer.Deserialize(memoryStream);
@@ -93,8 +95,9 @@ namespace FiresecService.Processor
 				serializer.Serialize(memoryStream, input);
 
 				string output = Encoding.UTF8.GetString(memoryStream.ToArray());
+				//string output = Encoding.GetEncoding(1251).GetString(memoryStream.ToArray());
 				output = output.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
-				output = output.Replace("\r\n", "");
+				//output = output.Replace("\r\n", "");
 
 				return output;
 			}
