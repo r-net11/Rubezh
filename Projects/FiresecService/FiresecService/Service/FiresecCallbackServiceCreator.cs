@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using FiresecAPI;
+using System.ServiceModel.Channels;
 
 namespace FiresecService.Service
 {
@@ -9,23 +10,7 @@ namespace FiresecService.Service
 	{
 		public static IFiresecCallbackService CreateClientCallback(string serverAddress)
 		{
-			var binding = new NetTcpBinding()
-			{
-				MaxReceivedMessageSize = Int32.MaxValue,
-				MaxBufferPoolSize = Int32.MaxValue,
-				MaxBufferSize = Int32.MaxValue,
-				MaxConnections = 1000,
-				OpenTimeout = TimeSpan.FromMinutes(10),
-				ReceiveTimeout = TimeSpan.FromMinutes(10),
-				SendTimeout = TimeSpan.FromMinutes(10),
-				ListenBacklog = 10
-			};
-			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
-			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
-			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
-			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
-			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
-			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
+			var binding = Common.BindingHelper.CreateBindingFromAddress(serverAddress);
 
 			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
 			var channelFactory = new ChannelFactory<IFiresecCallbackService>(binding, endpointAddress);

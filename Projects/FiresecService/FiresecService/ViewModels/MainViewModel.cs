@@ -31,19 +31,9 @@ namespace FiresecService.ViewModels
 		public RelayCommand ShowImitatorCommand { get; private set; }
 		void OnShowImitator()
 		{
-			//var firesecService = Clients[0].FiresecService;
 			ClientsCash.NotifyClients("Запущен имитатор");
 			var imitatorViewModel1 = new ImitatorViewModel();
 			DialogService.ShowModalWindow(imitatorViewModel1);
-			return;
-
-			foreach (var connection in Clients)
-				if (connection.ClientType == ClientType.Itv)
-				{
-					var imitatorViewModel = new ImitatorViewModel();
-					DialogService.ShowModalWindow(imitatorViewModel);
-					break;
-				}
 		}
 
 		public RelayCommand ShowOperationHistoryCommand { get; private set; }
@@ -72,9 +62,9 @@ namespace FiresecService.ViewModels
 			get { return AppSettings.IsDebug; }
 		}
 
-		public bool CanShowImitator
+		public bool IsImitatorVisible
 		{
-			get { return true; }
+			get { return AppSettings.IsImitatorVisible || AppSettings.IsDebug; }
 		}
 
 		public ObservableCollection<ClientViewModel> Clients { get; private set; }

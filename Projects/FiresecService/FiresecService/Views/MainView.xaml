@@ -26,7 +26,7 @@
                     </DataGrid.ContextMenu>-->
                 </DataGrid>
             </TabItem>
-            <TabItem Header="Управление(DEBUG)" Visibility="{Binding CanShowImitator, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TabItem Header="Управление(DEBUG)" Visibility="{Binding IsImitatorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel>
                     <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Width="100" Margin="1" />
                 </StackPanel>

@@ -14,21 +14,32 @@ namespace FiresecService.OPC
 	{
 		static Guid srvGuid = new Guid("FBBF742D-3077-40F4-9877-C97F5EE4CE0E");
 		static Thread thread;
-		static OPCDAServer srv = new OPCDAServer();
+		static OPCDAServer srv;
 		static List<TagDevice> TagDevices = new List<TagDevice>();
 		static List<TagZone> TagZones = new List<TagZone>();
 		static int TagsCount = 0;
 
 		public static void Start()
 		{
-			thread = new Thread(new ThreadStart(OnRun));
-			thread.SetApartmentState(ApartmentState.MTA);
-			thread.Start();
+			try
+			{
+				srv = new OPCDAServer();
+				thread = new Thread(new ThreadStart(OnRun));
+				thread.SetApartmentState(ApartmentState.MTA);
+				thread.Start();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове FiresecOPCManager.Start");
+			}
 		}
 
 		public static void Stop()
 		{
-			thread.Abort();
+			if (thread != null)
+			{
+				thread.Abort();
+			}
 			if (srv != null)
 			{
 				srv.RevokeClassObject();

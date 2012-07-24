@@ -75,8 +75,11 @@ namespace FiresecService.Service
 
 		public static void Remove(FiresecService firesecService)
 		{
-			firesecService.FiresecManager.FiresecServices.Remove(firesecService);
-			firesecService.FiresecManager = null;
+			if (firesecService.FiresecManager != null)
+			{
+				firesecService.FiresecManager.FiresecServices.Remove(firesecService);
+				firesecService.FiresecManager = null;
+			}
 			FiresecServices.Remove(firesecService);
 			MainViewModel.Current.RemoveClient(firesecService.UID);
 		}

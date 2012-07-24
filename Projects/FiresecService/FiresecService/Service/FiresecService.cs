@@ -69,9 +69,18 @@ namespace FiresecService.Service
 		public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
 		{
 			ClientCredentials = clientCredentials;
-			var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
-			ClientIpAddress = endpoint.Address;
-			ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
+			ClientIpAddress = "127.0.0.1";
+			ClientIpAddressAndPort = "127.0.0.1:0";
+			try
+			{
+				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
+				{
+					var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+					ClientIpAddress = endpoint.Address;
+					ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
+				}
+			}
+			catch { }
 
 			var operationResult = Authenticate(clientCredentials.UserName, clientCredentials.Password);
 			if (operationResult.HasError)

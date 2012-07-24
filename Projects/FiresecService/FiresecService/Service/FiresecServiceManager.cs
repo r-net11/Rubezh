@@ -17,36 +17,21 @@ namespace FiresecService.Service
 
 				_serviceHost = new ServiceHost(typeof(SafeFiresecService));
 
-				var binding = new NetTcpBinding()
-				{
-					MaxReceivedMessageSize = Int32.MaxValue,
-					MaxBufferPoolSize = Int32.MaxValue,
-					MaxBufferSize = Int32.MaxValue,
-					MaxConnections = 1000,
-					OpenTimeout = TimeSpan.FromMinutes(10),
-					ReceiveTimeout = TimeSpan.FromMinutes(10),
-					SendTimeout = TimeSpan.FromMinutes(10),
-					ListenBacklog = 10
-				};
-				binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
-				binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
-				binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
-				binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
-				binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
-				binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
+				var netPipeBinding = Common.BindingHelper.CreateNetNamedPipeBinding();
+				var tcpBinding = Common.BindingHelper.CreateNetTcpBinding();
 
-				string serverName = AppSettings.ServiceAddress;
+				string serviceAddress = AppSettings.ServiceAddress;
+				string localServiceAddress = AppSettings.LocalServiceAddress;
 				string machineName = MachineNameHelper.GetMachineName();
-				serverName = serverName.Replace("localhost", machineName);
+				serviceAddress = serviceAddress.Replace("localhost", machineName);
 
 #if DEBUG
 				var behavior = _serviceHost.Description.Behaviors.Find<ServiceDebugBehavior>();
 				behavior.IncludeExceptionDetailInFaults = true;
 #endif
-				_serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", binding, new Uri(serverName));
-
+				_serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", tcpBinding, new Uri(serviceAddress));
+				_serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", netPipeBinding, new Uri(localServiceAddress));
 				_serviceHost.Open();
-
 				return true;
 			}
 			catch(Exception e)

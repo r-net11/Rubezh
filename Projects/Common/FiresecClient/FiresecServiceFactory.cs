@@ -2,6 +2,8 @@
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using FiresecAPI;
+using System.ServiceModel.Channels;
+using Common;
 
 namespace FiresecClient
 {
@@ -19,22 +21,7 @@ namespace FiresecClient
 		public IFiresecService Create(string serverAddress)
 		{
 			_serverAddress = serverAddress;
-			var binding = new NetTcpBinding()
-			{
-				MaxBufferPoolSize = Int32.MaxValue,
-				MaxConnections = 10,
-				OpenTimeout = TimeSpan.FromMinutes(10),
-				ListenBacklog = 10,
-				ReceiveTimeout = TimeSpan.FromMinutes(10),
-				MaxBufferSize = Int32.MaxValue,
-				MaxReceivedMessageSize = Int32.MaxValue
-			};
-			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
-			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
-			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
-			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
-			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
-			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
+			Binding binding = BindingHelper.CreateBindingFromAddress(_serverAddress);
 
 			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
 			_duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecEventSubscriber), binding, endpointAddress);

@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using System.Threading;
 using Common;
+using System.ServiceModel.Channels;
 
 namespace FiresecClient
 {
@@ -20,31 +21,13 @@ namespace FiresecClient
 		static void OnOpen()
 		{
 			Close();
-
 			_serviceHost = new ServiceHost(typeof(FiresecCallbackService));
 
-			var binding = new NetTcpBinding()
-			{
-				MaxReceivedMessageSize = Int32.MaxValue,
-				MaxBufferPoolSize = Int32.MaxValue,
-				MaxBufferSize = Int32.MaxValue,
-				MaxConnections = 1000,
-				OpenTimeout = TimeSpan.FromMinutes(10),
-				ReceiveTimeout = TimeSpan.FromMinutes(10),
-				SendTimeout = TimeSpan.FromMinutes(10),
-				ListenBacklog = 10
-			};
-			binding.ReaderQuotas.MaxStringContentLength = Int32.MaxValue;
-			binding.ReaderQuotas.MaxArrayLength = Int32.MaxValue;
-			binding.ReaderQuotas.MaxBytesPerRead = Int32.MaxValue;
-			binding.ReaderQuotas.MaxDepth = Int32.MaxValue;
-			binding.ReaderQuotas.MaxNameTableCharCount = Int32.MaxValue;
-			binding.ReliableSession.InactivityTimeout = TimeSpan.MaxValue;
+			Binding binding = BindingHelper.CreateBindingFromAddress(_clientCallbackAddress);
 
 			string machineName = MachineNameHelper.GetMachineName();
 			_clientCallbackAddress = _clientCallbackAddress.Replace("localhost", machineName);
 			_clientCallbackAddress = _clientCallbackAddress.Replace("localhost", "127.0.0.1");
-			//Logger.Info("Адрес обратного сервера: " + _clientCallbackAddress);
 			_serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecCallbackService", binding, new Uri(_clientCallbackAddress));
 
 			_serviceHost.Open();

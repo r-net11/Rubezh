@@ -15,7 +15,15 @@ namespace FiresecClient
 
 		public static string Connect(ClientType clientType, string serverAddress, string login, string password)
 		{
-			var clientCallbackAddress = CallbackAddressHelper.GetFreeClientCallbackAddress();
+			string clientCallbackAddress;
+			if (serverAddress.StartsWith("net.pipe:"))
+			{
+				clientCallbackAddress = "net.pipe://127.0.0.1/FiresecCallbackService_" + clientType.ToString() + "/";
+			}
+			else
+			{
+				clientCallbackAddress = CallbackAddressHelper.GetFreeClientCallbackAddress();
+			}
 			FiresecCallbackServiceManager.Open(clientCallbackAddress);
 
 			ClientCredentials = new ClientCredentials()

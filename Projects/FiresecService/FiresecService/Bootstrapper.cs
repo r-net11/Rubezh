@@ -83,7 +83,9 @@ namespace FiresecService
 			AppSettings.OldFiresecLogin = System.Configuration.ConfigurationManager.AppSettings["OldFiresecLogin"] as string;
 			AppSettings.OldFiresecPassword = System.Configuration.ConfigurationManager.AppSettings["OldFiresecPassword"] as string;
 			AppSettings.ServiceAddress = System.Configuration.ConfigurationManager.AppSettings["ServiceAddress"] as string;
+			AppSettings.LocalServiceAddress = System.Configuration.ConfigurationManager.AppSettings["LocalServiceAddress"] as string;
 			AppSettings.OverrideFiresec1Config = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["OverrideFiresec1Config"] as string);
+			AppSettings.IsImitatorVisible = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["IsImitatorVisible"] as string);
 #if DEBUG
 			AppSettings.IsDebug = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["IsDebug"] as string);
 #endif

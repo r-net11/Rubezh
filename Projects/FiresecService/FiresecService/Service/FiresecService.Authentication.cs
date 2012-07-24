@@ -34,6 +34,8 @@ namespace FiresecService.Service
 		{
 			if (CheckHostIps("localhost"))
 				return true;
+			if (CheckHostIps("127.0.0.1"))
+				return true;
 
 			var remoteAccessPermissions = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login).RemoreAccess;
 			if (remoteAccessPermissions == null)
@@ -85,8 +87,16 @@ namespace FiresecService.Service
 
 		void SetUserFullName(string login)
 		{
-			var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
-			string userIp = endpoint.Address;
+			string userIp = "127.0.0.1";
+			try
+			{
+				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
+				{
+					var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+					userIp = endpoint.Address;
+				}
+			}
+			catch { }
 
 			var addressList = Dns.GetHostEntry("localhost").AddressList;
 			if (addressList.Any(ip => ip.ToString() == userIp))
