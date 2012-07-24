@@ -17,6 +17,11 @@ namespace Commom.GK
 			byte whom = 0;
 			byte address = 0;
 
+			if ((device == null) || (device.Driver == null))
+			{
+				return new List<byte>();
+			}
+
 			switch(device.Driver.DriverType)
 			{
 				case XDriverType.GK:

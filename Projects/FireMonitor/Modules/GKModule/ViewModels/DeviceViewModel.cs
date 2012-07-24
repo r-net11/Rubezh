@@ -38,7 +38,6 @@ namespace GKModule.ViewModels
 				string deviceName = Device.PresentationAddressDriver;
 				string errorText = "Ошибка при сопоставлении устройства с его состоянием:\n" + deviceName;
 				Logger.Warn(errorText);
-				//MessageBoxService.ShowWarning(errorText);
 			}
 		}
 
@@ -50,20 +49,10 @@ namespace GKModule.ViewModels
 				return;
 			}
 
-			States = new List<string>();
-			foreach (var state in DeviceState.States)
-			{
-				var stringState = state.ToDescription();
-				States.Add(stringState);
-			}
-
 			OnPropertyChanged("StateType");
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("DeviceState.States");
-			OnPropertyChanged("States");
 		}
-
-		public List<string> States { get; private set; }
 
 		public bool CanShowOnPlan()
 		{

@@ -61,6 +61,7 @@ namespace GKModule.ViewModels
 
 		public bool CanShowOnPlan()
 		{
+			return false;
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
 				if (plan.ElementPolygonZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == (ulong)Zone.No)))

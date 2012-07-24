@@ -22,8 +22,7 @@ namespace GKModule.ViewModels
 					 orderby zone.No
 					 select new ZoneViewModel(zone)).ToList();
 
-			if (Zones.Count > 0)
-				SelectedZone = Zones[0];
+			SelectedZone = Zones.FirstOrDefault();
 		}
 
 		List<ZoneViewModel> _zones;
@@ -66,17 +65,11 @@ namespace GKModule.ViewModels
 
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				device.AllParents.ForEach(x => { devices.Add(x); });
-				devices.Add(device);
-
-				//if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
-				//{
-				//    foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.Zones.Contains(SelectedZone.Zone.No)))
-				//    {
-				//        device.AllParents.ForEach(x => { devices.Add(x); });
-				//        devices.Add(device);
-				//    }
-				//}
+				if (device.Zones.Contains(SelectedZone.Zone.No))
+				{
+					device.AllParents.ForEach(x => { devices.Add(x); });
+					devices.Add(device);
+				}
 			}
 
 			Devices = new ObservableCollection<DeviceViewModel>();
@@ -84,7 +77,8 @@ namespace GKModule.ViewModels
 			{
 				Devices.Add(new DeviceViewModel(device, Devices)
 				{
-					IsExpanded = true
+					IsExpanded = true,
+					IsBold = device.Zones.Contains(SelectedZone.Zone.No)
 				});
 			}
 

@@ -466,6 +466,11 @@ namespace FiresecService.Processor
 		{
 			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
 			{
+				if (deviceState.ChildStates == null)
+				{
+					Logger.Error("Watcher.PropogateStatesUp deviceState.ChildStates = null");
+					return;
+				}
 				deviceState.ChildStates.ForEach(x => x.IsDeleting = true);
 			}
 
@@ -473,6 +478,8 @@ namespace FiresecService.Processor
 			{
 				foreach (var state in deviceState.States)
 				{
+					if (deviceState.Device.Parent == null)
+						continue;
 					if ((deviceState.Device.Parent.Driver.ChildAddressReserveRangeCount == 0) && (state.DriverState.AffectedParent))
 						continue;
 

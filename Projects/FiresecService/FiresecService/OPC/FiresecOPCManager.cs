@@ -174,7 +174,6 @@ namespace FiresecService.OPC
 					var tagDevice = TagDevices.FirstOrDefault(x => x.DeviceState.UID == deviceState.UID);
 					if (tagDevice == null)
 					{
-						Logger.Error("FiresecOPCManager.OnDevicesStateChanged tagDevice = null");
 						continue;
 					}
 					if (tagDevice.DeviceState == null)

@@ -36,7 +36,7 @@ namespace FireAdministrator
 
 		protected override void OnExit(ExitEventArgs e)
 		{
-			base.OnExit(e);
+			//base.OnExit(e);
 			Logger.Info("App.OnExit");
 			FiresecManager.Disconnect();
 			VideoService.Close();

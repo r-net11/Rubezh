@@ -106,6 +106,8 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
+				return Device.Driver.IsDeviceOnShleif;
+
 				if (Device.Parent != null)
 				{
 					switch (Device.Parent.Driver.DriverType)

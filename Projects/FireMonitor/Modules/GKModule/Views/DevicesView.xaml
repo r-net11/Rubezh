@@ -5,6 +5,7 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <UserControl.Resources>
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
+        <Converters:XStateTypeConverter x:Key="XStateTypeConverter" />
     </UserControl.Resources>
     
     <Grid>
@@ -29,10 +30,8 @@
                                         <TextBlock.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
-                                                <MenuItem Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
                                                 <MenuItem Header="Команды" DataContext="{Binding DeviceCommandsViewModel}"
-                                                          IsEnabled="{Binding CanControl}"
-                                                          Margin="12, 0, 0, 0">
+                                                          IsEnabled="{Binding CanControl}">
                                                     <MenuItem Command="{Binding SetToIgnoreCommand}" Header="Поставить в обход" />
                                                     <MenuItem Command="{Binding TurnOnCommand}" Header="Включить" />
                                                     <MenuItem Command="{Binding CancelDelayCommand}" Header="Отменить задержку" />
@@ -47,15 +46,11 @@
                                         </TextBlock.ContextMenu>
                                         <TextBlock.ToolTip>
                                             <StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Device.DottedAddress}" />
-                                                    <TextBlock Text=" - " />
-                                                    <TextBlock Text="{Binding Device.Driver.ShortName}" />
-                                                </StackPanel>
-                                                <ItemsControl ItemsSource="{Binding States}">
+                                                <TextBlock Text="{Binding Device.PresentationAddressDriver}" />
+                                                <ItemsControl ItemsSource="{Binding DeviceState.States}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding}" VerticalAlignment="Center" />
+                                                            <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" VerticalAlignment="Center" />
                                                         </DataTemplate>
                                                     </ItemsControl.ItemTemplate>
                                                 </ItemsControl>
@@ -91,12 +86,10 @@
                             <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
                             <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
                         </StackPanel>
-                        <ItemsControl ItemsSource="{Binding States}">
+                        <ItemsControl ItemsSource="{Binding DeviceState.States}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding}" VerticalAlignment="Center" />
-                                    </StackPanel>
+                                    <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" VerticalAlignment="Center" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>

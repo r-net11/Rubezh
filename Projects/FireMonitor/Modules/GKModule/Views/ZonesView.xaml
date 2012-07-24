@@ -6,6 +6,7 @@
     <UserControl.Resources>
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
         <Converters:XZoneStateToColorConverter x:Key="XZoneStateToColorConverter" />
+        <Converters:XStateTypeConverter x:Key="XStateTypeConverter" />
     </UserControl.Resources>
     
     <Grid>
@@ -82,9 +83,18 @@
                         </ListBox>
                     </ScrollViewer>
                 </Grid>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" DataContext="{Binding SelectedZone}">
-                    <Label Content="{Binding Zone.PresentationName}" Margin="0" />
-                    <Label Content="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="10, 0, 0, 0" />
+                <StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding Zone.PresentationName}" Margin="0" />
+                        <Label Content="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="10, 0, 0, 0" />
+                    </StackPanel>
+                    <ItemsControl ItemsSource="{Binding ZoneState.States}" Margin="2">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" Foreground="White" VerticalAlignment="Center" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
             </Grid>
         </Border>
@@ -124,8 +134,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.PresentationAddress}" />
-                    <DataGridTextColumn Header="Зона" Width="100" Binding="{Binding PresentationZone}" />
+                    <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.DottedAddress}" />
                     <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
                 </DataGrid.Columns>
             </DataGrid>

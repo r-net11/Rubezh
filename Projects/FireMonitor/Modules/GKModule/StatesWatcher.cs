@@ -53,7 +53,23 @@ namespace GKModule
 					}
 					if (binaryObject.Zone != null)
 					{
-						;
+						var zoneState = XManager.DeviceStates.ZoneStates.FirstOrDefault(x=>x.No == binaryObject.Zone.No);
+						if (zoneState != null)
+						{
+							var binaryZoneState = new BinaryDeviceState(bytes, binaryObject.DatabaseType);
+							zoneState.States = binaryZoneState.States;
+							var minPriority = 7;
+							foreach (var state in zoneState.States)
+							{
+								var priority = StatesHelper.XStateTypeToPriority(state);
+								if (priority < minPriority)
+								{
+									minPriority = priority;
+								}
+							}
+							zoneState.StateType = (StateType)minPriority;
+							zoneState.OnStateChanged();
+						}
 					}
 				}
 			}
