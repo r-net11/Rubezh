@@ -24,7 +24,7 @@
 			</ScrollViewer>
 
 			<ScrollViewer Grid.Column="1" Margin="2" VerticalScrollBarVisibility="Auto" Visibility="{Binding IsException, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
-				<TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding Message}" TextWrapping="WrapWithOverflow" />
+				<TextBlock Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Text="{Binding Message}" TextWrapping="Wrap" />
 			</ScrollViewer>
 		</Grid>
 	</DockPanel>
