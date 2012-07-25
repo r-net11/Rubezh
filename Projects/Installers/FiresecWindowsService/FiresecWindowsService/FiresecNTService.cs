@@ -2,11 +2,18 @@
 using System.Diagnostics;
 using System.IO;
 using System.ServiceProcess;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Security;
+using System.Management;
+using System.ComponentModel;
 
 namespace FiresecNTService
 {
 	public partial class FiresecNTService : ServiceBase
 	{
+		
+
 		public FiresecNTService()
 		{
 			InitializeComponent();
@@ -25,7 +32,15 @@ namespace FiresecNTService
 			DirectoryInfo dirInfo = new DirectoryInfo(commandLineArgs[0]);
 			var nameFiresecExe = commandLineArgs[1];
 			var pathFiresecExe = dirInfo.FullName.Replace(dirInfo.Name, "") + nameFiresecExe;
-			Process.Start(pathFiresecExe);
+			try
+			{
+				StringBuilder output = new StringBuilder();
+				if (!Win32API.CreateProcessAsUser(pathFiresecExe, dirInfo.FullName.Replace(dirInfo.Name, ""), "winlogon", out output))
+					Process.Start(pathFiresecExe);
+			}
+			catch (Win32Exception ex)
+			{
+			}
 		}
 
 		protected override void OnStop()

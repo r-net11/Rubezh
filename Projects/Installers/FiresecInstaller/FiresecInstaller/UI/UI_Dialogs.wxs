@@ -37,7 +37,7 @@
         <Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="$(var.btnNext)" >
 					<Publish Property="WixUI_InstallMode" Value="NOT Installed">1</Publish>
           <Publish Property="INSTALLMODE" Value="NOT Installed">1</Publish>
-          <Publish Property="REINSTALLMODE" Value="amus">REGFS2STATE</Publish>
+          <Publish Property="REINSTALLMODE" Value="amus">1</Publish>
           <Publish Property="REINSTALL" Value="ALL">REGFS2STATE AND NOT OLD_VERSION_FOUND</Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="$(var.btnCancel)">

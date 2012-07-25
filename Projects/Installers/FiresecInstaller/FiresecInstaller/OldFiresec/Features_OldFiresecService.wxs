@@ -21,8 +21,7 @@
       <ComponentRef Id="FsGds32Dll" />
       <ComponentRef Id="FsFirebirdMsg" />
       <ComponentRef Id="FsFbintlDll" />
-      <!--<ComponentRef Id="Adv_SocketServerInstallerComponent" />-->
-      <ComponentRef Id="RemoveSocketServer" />
+      <!--<ComponentRef Id="RemoveSocketServer" />-->
       <ComponentRef Id="msvcp60Dll" />
 		</Feature>
 	</Fragment>

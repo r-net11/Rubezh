@@ -20,6 +20,7 @@
         <ComponentRef Id="DeleteVideoXMLSetting" />
         <ComponentRef Id="DeleteSKUDXMLSetting" />
         <ComponentRef Id="DeleteReportXMLSetting" />
+        <ComponentRef Id="DeleteReport2XMLSetting" />
         <ComponentRef Id="ClearOnUninstallFireAdministrator"/>
         <ComponentRef Id="ClearOnUninstallFireMonitor"/>
       </Feature>
