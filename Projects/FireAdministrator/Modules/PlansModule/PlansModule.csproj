@@ -165,6 +165,8 @@
     <Compile Include="Events\ElementDeviceChangedEvent.cs" />
     <Compile Include="Events\DeviceInZoneChangedEvent.cs" />
     <Compile Include="Events\ShowElementDeviceEvent.cs" />
+    <Compile Include="ViewModels\PlansTreeViewModel.cs" />
+    <Compile Include="ViewModels\PlansViewModel.PlanExtension.cs" />
     <Compile Include="ViewModels\DevicesInZoneViewModel.cs" />
     <Compile Include="ViewModels\ElementsViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModel.cs" />

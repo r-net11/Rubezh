@@ -4,6 +4,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using PlansModule.ViewModels;
+using Infrustructure.Plans.Events;
+using Infrustructure.Plans;
 
 namespace PlansModule
 {
@@ -13,6 +15,7 @@ namespace PlansModule
 
 		public PlansModule()
 		{
+			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent>().Subscribe(OnRegisterPlanExtension);
 			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnSave);
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlans);
 			_plansViewModel = new PlansViewModel();
@@ -42,14 +45,7 @@ namespace PlansModule
 		}
 		public override void Initialize()
 		{
-			try
-			{
-				_plansViewModel.Initialize();
-			}
-			catch
-			{
-				;
-			}
+			_plansViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -61,6 +57,11 @@ namespace PlansModule
 		public override string Name
 		{
 			get { return "Графические планы"; }
+		}
+
+		private void OnRegisterPlanExtension(IPlanExtension planExtension)
+		{
+			_plansViewModel.RegisterExtension(planExtension);
 		}
 	}
 }

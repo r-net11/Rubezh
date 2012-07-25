@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using System.Windows.Controls;
 
 namespace PlansModule.Designer.DesignerItems
 {
@@ -22,6 +23,7 @@ namespace PlansModule.Designer.DesignerItems
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			DeleteCommand = new RelayCommand(OnDelete);
 			MouseDoubleClick += (s, e) => ShowPropertiesCommand.Execute(null);
+			CreateContextMenu();
 			IsVisibleLayout = true;
 			IsSelectableLayout = true;
 		}
@@ -49,6 +51,20 @@ namespace PlansModule.Designer.DesignerItems
 			var args = new ShowPropertiesEventArgs(Element);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Publish(args);
 			return args.PropertyViewModel as SaveCancelDialogViewModel;
+		}
+		protected override void CreateContextMenu()
+		{
+			ContextMenu = new ContextMenu();
+			ContextMenu.Items.Add(new MenuItem()
+			{
+				Command = DeleteCommand,
+				Header = "Удалить"
+			});
+			ContextMenu.Items.Add(new MenuItem()
+			{
+				Command = ShowPropertiesCommand,
+				Header = "Свойства"
+			});
 		}
 	}
 }

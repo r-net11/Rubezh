@@ -83,6 +83,7 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="Events\ConfigurationChangedEvent.cs" />
     <Compile Include="Events\ConfigurationSavingEvent.cs" />
+    <Compile Include="Events\EditZoneEvent.cs" />
     <Compile Include="Events\ShowEmployeeGroupsEvent.cs" />
     <Compile Include="Events\ShowEmployeeDepartmentsEvent.cs" />
     <Compile Include="Events\ShowEmployeePositionsEvent.cs" />

@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using FiresecAPI.Models;
 
 namespace DevicesModule.ViewModels
 {
@@ -90,6 +91,21 @@ namespace DevicesModule.ViewModels
 				createZoneEventArg.ZoneNo = null;
 			}
 		}
+		public void EditZone(ulong zoneNo)
+		{
+			var zoneViewModel = zoneNo == 0 ? null  : Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+			if (zoneViewModel != null)
+				OnEdit(zoneViewModel.Zone);
+		}
+		private void OnEdit(Zone zone)
+		{
+			var zoneDetailsViewModel = new ZoneDetailsViewModel(zone);
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
+			{
+				SelectedZone.Update(zoneDetailsViewModel.Zone);
+				ServiceFactory.SaveService.DevicesChanged = true;
+			}
+		}
 
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
@@ -123,12 +139,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.Zone);
-			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
-			{
-				SelectedZone.Update(zoneDetailsViewModel.Zone);
-				ServiceFactory.SaveService.DevicesChanged = true;
-			}
+			OnEdit(SelectedZone.Zone);
 		}
 
 		public RelayCommand DeleteAllCommand { get; private set; }

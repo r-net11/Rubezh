@@ -9,6 +9,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
 using PlansModule.Events;
+using System.Windows.Controls;
+using System.Collections.Generic;
 
 namespace PlansModule.ViewModels
 {
@@ -16,6 +18,7 @@ namespace PlansModule.ViewModels
 	{
 		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ElementsViewModel ElementsViewModel { get; private set; }
+		public PlansTreeViewModel PlansTreeViewModel { get; private set; }
 
 		public PlansViewModel()
 		{
@@ -37,6 +40,8 @@ namespace PlansModule.ViewModels
 			InitializeHistory();
 			ElementsViewModel = new ElementsViewModel(DesignerCanvas);
 			DevicesViewModel = new DevicesViewModel(DesignerCanvas);
+			PlansTreeViewModel = new PlansTreeViewModel(this);
+			CreatePages();
 		}
 
 		public void Initialize()
@@ -155,7 +160,6 @@ namespace PlansModule.ViewModels
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
-
 		public RelayCommand AddSubPlanCommand { get; private set; }
 		void OnAddSubPlan()
 		{
@@ -176,7 +180,6 @@ namespace PlansModule.ViewModels
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
-
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
@@ -204,7 +207,6 @@ namespace PlansModule.ViewModels
 			if (Plans.Count > 0)
 				SelectedPlan = Plans[0];
 		}
-
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
@@ -230,7 +232,6 @@ namespace PlansModule.ViewModels
 				}
 			}
 		}
-
 		void OnShowElementDevice(Guid deviceUID)
 		{
 			foreach (var plan in Plans)
@@ -257,7 +258,6 @@ namespace PlansModule.ViewModels
 			if (DesignerCanvas.Toolbox != null)
 				DesignerCanvas.Toolbox.AcceptKeyboard = true;
 		}
-
 		public override void OnHide()
 		{
 			ServiceFactory.Layout.ShowMenu(null);

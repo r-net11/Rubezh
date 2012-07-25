@@ -27,6 +27,7 @@ namespace DevicesModule
 			ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
 			ServiceFactory.Events.GetEvent<ShowGuardEvent>().Subscribe(OnShowGuardDevices);
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
+			ServiceFactory.Events.GetEvent<EditZoneEvent>().Subscribe(OnEditZone);
 
 			_devicesViewModel = new DevicesViewModel();
 			_zonesViewModel = new ZonesViewModel();
@@ -63,6 +64,10 @@ namespace DevicesModule
 		void OnCreateZone(CreateZoneEventArg createZoneEventArg)
 		{
 			_zonesViewModel.CreateZone(createZoneEventArg);
+		}
+		void OnEditZone(ulong zoneNo)
+		{
+			_zonesViewModel.EditZone(zoneNo);
 		}
 
 		public override void RegisterResource()

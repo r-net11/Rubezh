@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
+using Infrustructure.Plans.Events;
 
 namespace GKModule
 {
@@ -41,6 +42,7 @@ namespace GKModule
 
 			_devicesViewModel.Initialize();
 			_zonesViewModel.Initialize();
+			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent>().Publish(new GKPlanExtension());
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

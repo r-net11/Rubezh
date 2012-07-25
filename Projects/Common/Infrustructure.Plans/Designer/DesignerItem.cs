@@ -167,6 +167,7 @@ namespace Infrustructure.Plans.Designer
 		{
 		}
 
+		protected abstract void CreateContextMenu();
 		protected abstract void OnShowProperties();
 		protected abstract void OnDelete();
 

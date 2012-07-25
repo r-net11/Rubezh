@@ -11,12 +11,6 @@
 							<resize:ResizeDecorator x:Name="PART_ResizeDecoratorRectangle" ShowDecorator="{Binding IsSelected}" />
 						</Grid>
 						<designer:MoveThumb />
-						<Grid.ContextMenu>
-							<ContextMenu>
-								<MenuItem Command="{Binding DeleteCommand}" Header="Удалить" />
-								<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
-							</ContextMenu>
-						</Grid.ContextMenu>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>

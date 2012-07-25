@@ -16,17 +16,7 @@
                 <ColumnDefinition Width="3*" MinWidth="200" />
             </Grid.ColumnDefinitions>
 
-            <TabControl Grid.Column="0">
-                <TabItem Header="Планы">
-                    <Views:PlansTreeView />
-                </TabItem>
-                <TabItem Header="Устройства">
-                    <Views:DevicesView DataContext="{Binding DevicesViewModel}" />
-                </TabItem>
-                <TabItem Header="Слои" Visibility="{Binding SelectedPlan, Converter={StaticResource NullToVisibilityConverter}}">
-                    <Views:ElementsView DataContext="{Binding ElementsViewModel}" />
-                </TabItem>
-            </TabControl>
+			<TabControl Grid.Column="0" ItemsSource="{Binding TabPages}" SelectedIndex="0"/>
             
             <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
             <Border Grid.Column="2" CornerRadius="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
