@@ -199,6 +199,8 @@ namespace FiresecAPI.Models
 				var address = new StringBuilder();
 				foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
 				{
+					if (parentDevice.Driver.DriverType == DriverType.MPT)
+						continue;
 					if (parentDevice.Driver.IsChildAddressReservedRange)
 						continue;
 

@@ -80,8 +80,7 @@ namespace DevicesModule.ViewModels
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.Zone);
-				createZoneEventArg.ZoneNo = zoneDetailsViewModel.Zone.No;
-
+				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}
 			else
@@ -99,7 +98,6 @@ namespace DevicesModule.ViewModels
 			{
 				FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.Zone);
 				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
-
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}
 		}

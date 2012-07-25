@@ -26,6 +26,12 @@
                     </DataGrid.ContextMenu>-->
                 </DataGrid>
             </TabItem>
+            <TabItem Header="Лог">
+                <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+                    <TextBox Text="{Binding LogText}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                TextWrapping="WrapWithOverflow" AcceptsReturn="True" IsReadOnly="True" />
+                </ScrollViewer>
+            </TabItem>
             <TabItem Header="Управление(DEBUG)" Visibility="{Binding IsImitatorVisible, Converter={StaticResource BoolToVisibilityConverter}}">
                 <StackPanel>
                     <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Width="100" Margin="1" />

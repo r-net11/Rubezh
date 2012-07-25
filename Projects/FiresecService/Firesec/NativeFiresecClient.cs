@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Controls;
 using Common;
+using System.ServiceProcess;
 
 namespace Firesec
 {
@@ -123,8 +124,10 @@ namespace Firesec
 			{
 				string errorMessage = "";
 				var result = Connectoin.CheckHaspPresence(out errorMessage);
-				if (result != true)
-					throw new Exception(errorMessage);
+				//if (result != true)
+				//{
+				//    throw new Exception(errorMessage);
+				//}
 				return result;
 			});
 		}
@@ -232,8 +235,9 @@ namespace Firesec
 		#region Connection
 		FS_Types.IFSC_Connection GetConnection(string login, string password)
 		{
-			FS_Types.FSC_LIBRARY_CLASSClass library = new FS_Types.FSC_LIBRARY_CLASSClass();
+			StartSocketServerIfNotRunning();
 
+			FS_Types.FSC_LIBRARY_CLASSClass library = new FS_Types.FSC_LIBRARY_CLASSClass();
 			var serverInfo = new FS_Types.TFSC_ServerInfo()
 			{
 				Port = 211,
@@ -242,8 +246,8 @@ namespace Firesec
 
 			try
 			{
-				FS_Types.IFSC_Connection connectoin = library.Connect3(login, password, serverInfo, this, false);
-				//FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, this);
+				//FS_Types.IFSC_Connection connectoin = library.Connect3(login, password, serverInfo, this, false);
+				FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, this);
 				return connectoin;
 			}
 			catch (Exception e)
@@ -322,6 +326,8 @@ namespace Firesec
 					resultData.Result = default(T);
 					resultData.HasError = true;
 					resultData.Error = e;
+
+					StartSocketServerIfNotRunning();
 				}
 			}
 			return resultData;
@@ -399,6 +405,30 @@ namespace Firesec
 			if (ProgressEvent != null)
 				return ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
 			return true;
+
+			bool stopProgress = (StopProgress == 1);
+			StopProgress = 0;
+			return stopProgress;
+		}
+
+		public int StopProgress;
+		#endregion
+
+		#region NTService
+		static void StartSocketServerIfNotRunning()
+		{
+			var service = new System.ServiceProcess.ServiceController("Borland Advanced Socket Server");
+			if (service.Status != System.ServiceProcess.ServiceControllerStatus.Running)
+			{
+				try
+				{
+					TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
+
+					service.Start();
+					service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+				}
+				catch { }
+			}
 		}
 		#endregion
 	}

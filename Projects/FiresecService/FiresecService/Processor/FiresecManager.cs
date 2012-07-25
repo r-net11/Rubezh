@@ -37,7 +37,7 @@ namespace FiresecService.Processor
 
 			if (IsConnectedToComServer = FiresecSerializedClient.Connect(login, password).Result)
 			{
-				MainViewModel.Current.UpdateCurrentStatus("Конвертирование мктаданных");
+				MainViewModel.Current.UpdateCurrentStatus("Конвертирование метаданных");
 				ConfigurationConverter.ConvertMetadataFromFiresec();
 				MainViewModel.Current.UpdateCurrentStatus("Обновление конфигурации");
 				ConfigurationConverter.Update();

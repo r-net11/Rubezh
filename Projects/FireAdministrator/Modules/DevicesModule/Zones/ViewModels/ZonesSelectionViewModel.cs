@@ -38,7 +38,13 @@ namespace DevicesModule.ViewModels
 					break;
 			}
 
-			foreach (var zone in FiresecManager.GetChannelZones(device))
+			List<Zone> availableZones = FiresecManager.GetChannelZones(device);
+			if (device.Driver.DriverType == DriverType.Exit)
+			{
+				availableZones = FiresecManager.GetPanelZones(device);
+			}
+
+			foreach (var zone in availableZones)
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
 
@@ -49,7 +55,7 @@ namespace DevicesModule.ViewModels
 
 				if ((zoneLogicState == ZoneLogicState.MPTAutomaticOn) || (zoneLogicState == ZoneLogicState.MPTOn))
 				{
-					if (device.Parent.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneNo == zone.No) == false)
+					if (device.ParentPanel.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneNo == zone.No) == false)
 					{
 						continue;
 					}

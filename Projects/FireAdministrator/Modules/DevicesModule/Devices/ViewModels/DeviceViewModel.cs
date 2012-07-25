@@ -87,6 +87,14 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+		public bool IsZoneDevice
+		{
+			get
+			{
+				return Driver.IsZoneDevice && !FiresecManager.IsChildMPT(Device);
+			}
+		}
+
 		public IEnumerable<Zone> Zones
 		{
 			get
@@ -105,6 +113,14 @@ namespace DevicesModule.ViewModels
 				if (Device.ZoneNo != value.No)
 				{
 					Device.ZoneNo = value.No;
+					if (Device.Driver.DriverType == DriverType.MPT)
+					{
+						foreach (var child in Children)
+						{
+							child.Device.ZoneNo = Device.ZoneNo;
+							child.OnPropertyChanged("PresentationZone");
+						}
+					}
 					OnPropertyChanged("Zone");
 					ServiceFactory.SaveService.DevicesChanged = true;
 					DevicesViewModel.Current.UpdateExternalDevices();
@@ -171,6 +187,8 @@ namespace DevicesModule.ViewModels
 
 		public bool CanAdd()
 		{
+			if (FiresecManager.IsChildMPT(Device))
+				return false;
 			return (Driver.CanAddChildren && Driver.AutoChild == Guid.Empty);
 		}
 
@@ -299,6 +317,8 @@ namespace DevicesModule.ViewModels
 				{
 					Device.Driver = value;
 					Device.DriverUID = value.UID;
+					Device.ZoneNo = null;
+					Device.ZoneLogic = new ZoneLogic();
 					OnPropertyChanged("Device");
 					OnPropertyChanged("Device.Driver");
 					OnPropertyChanged("PresentationZone");

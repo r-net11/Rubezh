@@ -101,10 +101,10 @@ namespace FiresecService.Processor
 				OnStateChanged();
 				OnParametersChanged();
 			}
-			FiresecSerializedClient.Progress += new Func<int, string, int, int, bool>(FiresecInternalClient_Progress);
+			FiresecSerializedClient.Progress += new Func<int, string, int, int, bool>(OnProgress);
 		}
 
-		bool FiresecInternalClient_Progress(int stage, string comment, int percentComplete, int bytesRW)
+		bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			foreach (var firesecService in FiresecServices)
 			{
