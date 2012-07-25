@@ -14,6 +14,7 @@ namespace DevicesModule.ViewModels
             Title = "Сравнение конфигураций";
             RootDevice = rootDevice;
             DeviceConfiguration = deviceConfiguration;
+			DeviceConfiguration.Reorder();
 
             BuildTree(rootDevice);
             if (Devices.Count > 0)

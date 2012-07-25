@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using JournalModule.ViewModels;
 using ReportsModule2.DocumentPaginatorModel;
 using ReportsModule2.Reports;
+using System.Diagnostics;
 
 namespace ReportsModule2.ViewModels
 {
@@ -30,7 +31,7 @@ namespace ReportsModule2.ViewModels
 			ZoomOutCommand = new RelayCommand(OnZoomOut, GetIsReportLoad);
 			XpsDocumentCommand = new RelayCommand(OnXpsDocument);
 
-
+			
 			XpsDocumentViewer = new DocumentViewer();
 		}
 

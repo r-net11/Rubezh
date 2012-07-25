@@ -60,8 +60,23 @@ namespace FiresecClient
 				}
 			}
 
+			UpdateChildMPTZones();
 			InvalidateConfiguration();
 			UpdatePlansConfiguration();
+		}
+
+		static void UpdateChildMPTZones()
+		{
+			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			{
+				if (device.Driver.DriverType == DriverType.MPT)
+				{
+					foreach (var child in device.Children)
+					{
+						child.ZoneNo = device.ZoneNo;
+					}
+				}
+			}
 		}
 
 		public static void UpdatePlansConfiguration()
@@ -156,9 +171,7 @@ namespace FiresecClient
 		public static List<Zone> GetChannelZones(Device device)
 		{
 			UpdateZoneDevices();
-
 			var zones = new List<Zone>();
-
 			var channelDevice = device.ParentChannel;
 
 			foreach (var zone in from zone in FiresecManager.DeviceConfiguration.Zones orderby zone.No select zone)
@@ -166,6 +179,29 @@ namespace FiresecClient
 				if (channelDevice != null)
 				{
 					if (zone.DevicesInZone.All(x => ((x.ParentChannel != null) && (x.ParentChannel.UID == channelDevice.UID))))
+						zones.Add(zone);
+				}
+				else
+				{
+					if (zone.DevicesInZone.All(x => (x.Parent.UID == device.UID)))
+						zones.Add(zone);
+				}
+			}
+
+			return zones;
+		}
+
+		public static List<Zone> GetPanelZones(Device device)
+		{
+			UpdateZoneDevices();
+			var zones = new List<Zone>();
+			var channelDevice = device.ParentPanel;
+
+			foreach (var zone in from zone in FiresecManager.DeviceConfiguration.Zones orderby zone.No select zone)
+			{
+				if (channelDevice != null)
+				{
+					if (zone.DevicesInZone.All(x => ((x.ParentPanel != null) && (x.ParentPanel.UID == channelDevice.UID))))
 						zones.Add(zone);
 				}
 				else
@@ -244,13 +280,33 @@ namespace FiresecClient
 
 		public static void ReorderConfiguration()
 		{
-			foreach (var device in DeviceConfiguration.Devices)
+			DeviceConfiguration.Reorder();
+		}
+
+		static List<Device> allChildren;
+		public static List<Device> GetAllChildrenForDevice(Device device)
+		{
+			allChildren = new List<Device>();
+			AddChild(device);
+			return allChildren;
+		}
+		static void AddChild(Device device)
+		{
+			foreach (var child in device.Children)
 			{
-				if (device.Children.Count > 0)
+				allChildren.Add(child);
+				if (child.Driver.DriverType == DriverType.MPT)
 				{
-					device.Children = new List<Device>(device.Children.OrderBy(x => { return x.IntAddress; }));
+					AddChild(child);
 				}
 			}
+		}
+
+		public static bool IsChildMPT(Device device)
+		{
+			if(device.Parent == null)
+				return false;
+			return ((device.Driver.DriverType == DriverType.MPT) && (device.Parent.Driver.DriverType == DriverType.MPT));
 		}
 	}
 }

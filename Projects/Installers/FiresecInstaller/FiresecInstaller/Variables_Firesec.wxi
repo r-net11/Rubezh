@@ -15,6 +15,6 @@
   <?define xaml2svgFolder="xaml2svg"?>
   <?define ReportTemplatesFolder="ReportTemplates"?>
   <?define Codepage="1251" ?>
-  <?define BrandName="Firesec"?>
+  <?define BrandName="Firesec-2"?>
   
 </Include>

@@ -15,6 +15,12 @@
         </File>
       </Component>
 
+      <Component Id="FSAutorunComponent" Guid="72444C34-2199-4EB6-8697-96A3AE1C1096">
+        <RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
+          <RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)" />
+        </RegistryKey>
+      </Component>
+
       <Component Id="FiresecServiceConfig" Guid="*">
         <File Id="ServiceConfig" Name="FiresecService.exe.config" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" Checksum="yes" />
@@ -136,7 +142,7 @@
         <ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
 												Name="Firesec-2_NTServer" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
 												ErrorControl="ignore" Interactive="yes" Arguments="$(var.FiresecService.TargetFileName)">
-          <ServiceDependency Id="Adv_SocketServer"/>
+          <!--<ServiceDependency Id="Adv_SocketServer"/>-->
         </ServiceInstall>
         <ServiceControl Id="StartNTService" Name="Firesec-2_NTServer" Wait="yes" Remove="uninstall" />
       </Component>
@@ -178,8 +184,6 @@
               DiskId="1" KeyPath="yes">
         </File>
       </Component>
-
-     
     </DirectoryRef>
 
   </Fragment>

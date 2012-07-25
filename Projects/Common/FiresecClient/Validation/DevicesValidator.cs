@@ -76,7 +76,7 @@ namespace FiresecClient.Validation
 		static void ValidateAddressEquality(Device device)
 		{
 			var addresses = new List<int>();
-			foreach (var childDevice in device.Children)
+			foreach (var childDevice in FiresecManager.GetAllChildrenForDevice(device))
 			{
 				if (childDevice.Driver.HasAddress)
 				{
@@ -222,8 +222,11 @@ namespace FiresecClient.Validation
 			{
 				if ((device.IntAddress & 0xff) > 250)
 					DeviceErrors.Add(new DeviceError(device, "Не рекомендуется использовать адрес охранного устройства больше 250", ErrorLevel.CannotWrite));
-				if (device.Parent.Driver.Properties.Any(x => x.Name == "DeviceCountSecDev") == false)
-					DeviceErrors.Add(new DeviceError(device, "Устройство подключено к недопустимому устройству", ErrorLevel.CannotWrite));
+				if ((device.Parent.Driver.DriverType != DriverType.AM4_P) && (device.Parent.Driver.DriverType != DriverType.AMP_4))
+				{
+					if (device.Parent.Driver.Properties.Any(x => x.Name == "DeviceCountSecDev") == false)
+						DeviceErrors.Add(new DeviceError(device, "Устройство подключено к недопустимому устройству", ErrorLevel.CannotWrite));
+				}
 			}
 		}
 

@@ -6,7 +6,7 @@ namespace FiresecService.Processor
 {
 	public class FiresecSerializedClient
 	{
-		NativeFiresecClient NativeFiresecClient;
+		public NativeFiresecClient NativeFiresecClient { get; private set; }
 
 		public FiresecSerializedClient()
 		{
@@ -208,7 +208,6 @@ namespace FiresecService.Processor
 		}
 
 		public event Action<int> NewEvent;
-		//public event FiresecEventAggregator.ProgressDelegate Progress;
 		public event Func<int, string, int, int, bool> Progress;
 	}
 }

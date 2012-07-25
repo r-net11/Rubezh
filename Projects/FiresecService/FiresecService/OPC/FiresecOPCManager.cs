@@ -7,6 +7,7 @@ using System.Threading;
 using FiresecService.Service;
 using Common;
 using FiresecAPI.Models;
+using FiresecService.ViewModels;
 
 namespace FiresecService.OPC
 {
@@ -77,6 +78,7 @@ namespace FiresecService.OPC
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecOPCManager.OnRun");
+				MainViewModel.Current.UpdateCurrentStatus("Ошибка при загрузке модуля OPC");
 			}
 		}
 
@@ -89,6 +91,9 @@ namespace FiresecService.OPC
 			srv.Events.DeactivateItems += new DeactivateItemsEventHandler(Events_DeactivateItems);
 
 			srv.Initialize(srvGuid, 50, 50, ServerOptions.NoAccessPaths, '/', 100);
+
+			if (ConfigurationCash.DeviceConfiguration.Devices == null)
+				return;
 
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{

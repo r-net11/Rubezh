@@ -10,19 +10,18 @@ namespace DevicesModule.ViewModels
     {
         public static int GetMinAddress(Driver driver, Device parentDevice)
         {
-            Device parentAddressSystemDevice = parentDevice;
             if (driver.UseParentAddressSystem)
             {
                 if (driver.DriverType == DriverType.MPT)
                 {
-                    while (parentAddressSystemDevice.Driver.UseParentAddressSystem)
+					while (parentDevice.Driver.UseParentAddressSystem)
                     {
-                        parentAddressSystemDevice = parentAddressSystemDevice.Parent;
+						parentDevice = parentDevice.Parent;
                     }
                 }
                 else
                 {
-                    parentAddressSystemDevice = parentAddressSystemDevice.Parent;
+					parentDevice = parentDevice.Parent;
                 }
             }
 
@@ -43,7 +42,7 @@ namespace DevicesModule.ViewModels
                 }
             }
 
-            foreach (var child in parentAddressSystemDevice.Children)
+			foreach (var child in FiresecManager.GetAllChildrenForDevice(parentDevice))
             {
                 if (child.Driver.IsAutoCreate)
                     continue;
@@ -72,6 +71,11 @@ namespace DevicesModule.ViewModels
                     if (child.IntAddress > maxAddress)
                         maxAddress = child.IntAddress;
                 }
+
+				if (child.Driver.DriverType == DriverType.MRK_30)
+				{
+					maxAddress = child.IntAddress + child.GetReservedCount();
+				}
             }
 
             if (parentDevice.Driver.DriverType == DriverType.MRK_30)
@@ -114,131 +118,33 @@ namespace DevicesModule.ViewModels
             return maxAddress;
         }
 
-        public static List<int> GetAvaliableAddresses(Driver driver, Device device)
-        {
-            var avaliableAddresses = new List<int>();
+		public static void AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
+		{
+			if (parentDeviceViewModel.Driver.DriverType == DriverType.MPT)
+			{
+				device.ZoneNo = parentDeviceViewModel.Device.ZoneNo;
+			}
+			var deviceViewModel = new DeviceViewModel(device, parentDeviceViewModel.Source)
+			{
+				Parent = parentDeviceViewModel
+			};
+			parentDeviceViewModel.Children.Add(deviceViewModel);
 
-            if (device.Driver.IsChildAddressReservedRange)
-            {
-                int range = device.Driver.ChildAddressReserveRangeCount;
-                for (int i = device.IntAddress + 1; i < device.IntAddress + range; i++)
-                {
-                    if ((i % 256) == 0)
-                    {
-                        i = device.IntAddress + range;
-                        break;
-                    }
-                    avaliableAddresses.Add(i);
-                }
-                return avaliableAddresses;
-            }
+			foreach (var childDevice in device.Children)
+			{
+				AddDevice(childDevice, deviceViewModel);
+			}
 
-            if (driver.IsRangeEnabled)
-            {
-                for (int i = driver.MinAddress; i <= driver.MaxAddress; i++)
-                {
-                    avaliableAddresses.Add(i);
-                }
-            }
-            else
-            {
-                int shleifCount = GetShleifCount(driver, device);
+			if (device.Driver.AutoChild != Guid.Empty)
+			{
+				var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.Driver.AutoChild);
 
-                List<int> reservedAddresses = GetReservedAddresses(driver, device);
-
-                for (int i = 257; i <= shleifCount * 256 + 255; i++)
-                {
-                    if (reservedAddresses.Contains(i))
-                        continue;
-
-                    if ((i % 256) == 0)
-                        continue;
-
-                    avaliableAddresses.Add(i);
-                }
-            }
-
-            return avaliableAddresses;
-        }
-
-        static int GetShleifCount(Driver driver, Device device)
-        {
-            string addressMask = device.Driver.AddressMask;
-            if (addressMask == null)
-                addressMask = driver.AddressMask;
-
-            int shleifCount = 0;
-            if (addressMask != null)
-            {
-                switch (addressMask)
-                {
-                    case "[8(1)-15(2)];[0(1)-7(255)]":
-                        shleifCount = 2;
-                        break;
-
-                    case "[8(1)-15(4)];[0(1)-7(255)]":
-                        shleifCount = 4;
-                        break;
-
-                    case "[8(1)-15(10)];[0(1)-7(255)]":
-                        shleifCount = 10;
-                        break;
-
-                    default:
-                        shleifCount = 0;
-                        break;
-                }
-            }
-
-            return shleifCount;
-        }
-
-        static List<int> GetReservedAddresses(Driver driver, Device device)
-        {
-            var reservedAddresses = new List<int>();
-            foreach (var childDevice in device.Children)
-            {
-                if (childDevice.Driver.IsChildAddressReservedRange)
-                {
-                    int range = childDevice.Driver.ChildAddressReserveRangeCount;
-                    for (int i = childDevice.IntAddress + 1; i < childDevice.IntAddress + range; i++)
-                    {
-                        if ((i & 0xff) == 0) // i % 256;
-                        {
-                            i = device.IntAddress + range;
-                            break;
-                        }
-                        reservedAddresses.Add(i);
-                    }
-                }
-            }
-
-            return reservedAddresses;
-        }
-
-        public static void AddDevice(Device device, DeviceViewModel parentDeviceViewModel)  
-        {
-            var deviceViewModel = new DeviceViewModel(device, parentDeviceViewModel.Source)
-            {
-                Parent = parentDeviceViewModel
-            };
-            parentDeviceViewModel.Children.Add(deviceViewModel);
-
-            foreach (var childDevice in device.Children)
-            {
-                AddDevice(childDevice, deviceViewModel);
-            }
-
-            if (device.Driver.AutoChild != Guid.Empty)
-            {
-                var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.Driver.AutoChild);
-
-                for (int i = 0; i < device.Driver.AutoChildCount; i++)
-                {
-                    var autoDevice = device.AddChild(driver, device.IntAddress + i);
-                    AddDevice(autoDevice, deviceViewModel);
-                }
-            }
-        }
+				for (int i = 0; i < device.Driver.AutoChildCount; i++)
+				{
+					var autoDevice = device.AddChild(driver, device.IntAddress + i);
+					AddDevice(autoDevice, deviceViewModel);
+				}
+			}
+		}
     }
 }

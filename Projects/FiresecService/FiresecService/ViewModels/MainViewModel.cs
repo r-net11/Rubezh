@@ -185,8 +185,20 @@ namespace FiresecService.ViewModels
 			{
 				CurrentStatus = currentStatus;
 				OnPropertyChanged("CurrentStatus");
+				LogText += CurrentStatus + "\n";
 			}
 			));
+		}
+
+		string _logText = "";
+		public string LogText
+		{
+			get { return _logText; }
+			set
+			{
+				_logText = value;
+				OnPropertyChanged("LogText");
+			}
 		}
 
 		public override bool OnClosing(bool isCanceled)

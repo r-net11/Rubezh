@@ -9,6 +9,7 @@ using FiresecService.Database;
 using FiresecService.DatabaseConverter;
 using FiresecService.Processor;
 using FiresecService.ViewModels;
+using System.Threading;
 
 namespace FiresecService.Service
 {
@@ -141,6 +142,7 @@ namespace FiresecService.Service
 		public void CancelProgress()
 		{
 			ContinueProgress = false;
+			Interlocked.Exchange(ref FiresecSerializedClient.NativeFiresecClient.StopProgress, 1);
 		}
 
 		public string GetStatus()

@@ -131,5 +131,16 @@ namespace FiresecAPI.Models
 				UpdateChildIdPath(device);
 			}
 		}
+
+		public void Reorder()
+		{
+			foreach (var device in Devices)
+			{
+				if (device.Children.Count > 0)
+				{
+					device.Children = new List<Device>(device.Children.OrderBy(x => { return x.IntAddress; }));
+				}
+			}
+		}
 	}
 }
