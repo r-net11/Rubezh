@@ -31,7 +31,7 @@
 			<ComponentRef Id="FiresecServiceProgramsMenuShortcut" />
 			<ComponentRef Id="FiresecServiceDesktopShortcut" />
       <ComponentRef Id="Infrastructure.PlansComponent" />
-			<!--<ComponentRef Id="Autorun"/>-->
+			<ComponentRef Id="FSAutorunComponent"/>
       <ComponentRef Id="OPC_gbda3w_Component"/>
       <ComponentRef Id="OPC_gbda_clr_Component"/>
       <ComponentRef Id="FiresecNTServiceComponent"/>

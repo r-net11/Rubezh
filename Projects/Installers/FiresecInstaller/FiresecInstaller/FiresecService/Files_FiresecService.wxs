@@ -15,6 +15,12 @@
         </File>
       </Component>
 
+      <Component Id="FSAutorunComponent" Guid="72444C34-2199-4EB6-8697-96A3AE1C1096">
+        <RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
+          <RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)" />
+        </RegistryKey>
+      </Component>
+
       <Component Id="FiresecServiceConfig" Guid="*">
         <File Id="ServiceConfig" Name="FiresecService.exe.config" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" Checksum="yes" />
@@ -178,8 +184,6 @@
               DiskId="1" KeyPath="yes">
         </File>
       </Component>
-
-     
     </DirectoryRef>
 
   </Fragment>
