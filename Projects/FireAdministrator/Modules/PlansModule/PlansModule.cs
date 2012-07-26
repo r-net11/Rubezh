@@ -6,6 +6,7 @@ using Infrastructure.Events;
 using PlansModule.ViewModels;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans;
+using FiresecAPI.Models;
 
 namespace PlansModule
 {
@@ -15,7 +16,7 @@ namespace PlansModule
 
 		public PlansModule()
 		{
-			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent>().Subscribe(OnRegisterPlanExtension);
+			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Subscribe(OnRegisterPlanExtension);
 			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnSave);
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlans);
 			_plansViewModel = new PlansViewModel();
@@ -59,7 +60,7 @@ namespace PlansModule
 			get { return "Графические планы"; }
 		}
 
-		private void OnRegisterPlanExtension(IPlanExtension planExtension)
+		private void OnRegisterPlanExtension(IPlanExtension<Plan> planExtension)
 		{
 			_plansViewModel.RegisterExtension(planExtension);
 		}

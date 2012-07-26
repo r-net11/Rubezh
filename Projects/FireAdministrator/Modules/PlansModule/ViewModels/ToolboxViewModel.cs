@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.InstrumentAdorners;
+using System;
 
 namespace PlansModule.ViewModels
 {
@@ -175,6 +176,10 @@ namespace PlansModule.ViewModels
 				if (designerCanvas != null)
 					designerCanvas.RemoveAllSelected();
 			}
+			else if (e.Key == Key.Escape)
+				SetDefault();
+			else if (ActiveInstrument != null && ActiveInstrument.Adorner != null)
+				ActiveInstrument.Adorner.KeyboardInput(e.Key);
 		}
 		private void ExecuteCommand(ICommand command)
 		{

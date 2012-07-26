@@ -7,13 +7,16 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using FiresecAPI.Models;
+using GKModule.Plans.Designer;
+using GKModule.Plans;
 
 namespace GKModule
 {
 	public class GroupControllerModule : ModuleBase
 	{
-		DevicesViewModel _devicesViewModel;
-		ZonesViewModel _zonesViewModel;
+		private DevicesViewModel _devicesViewModel;
+		private ZonesViewModel _zonesViewModel;
 
 		public GroupControllerModule()
 		{
@@ -24,12 +27,11 @@ namespace GKModule
 			_zonesViewModel = new ZonesViewModel();
 		}
 
-		void OnShowXDevices(object obj)
+		private void OnShowXDevices(object obj)
 		{
 			ServiceFactory.Layout.Show(_devicesViewModel);
 		}
-
-		void OnShowXZones(object obj)
+		private void OnShowXZones(object obj)
 		{
 			ServiceFactory.Layout.Show(_zonesViewModel);
 		}
@@ -42,7 +44,8 @@ namespace GKModule
 
 			_devicesViewModel.Initialize();
 			_zonesViewModel.Initialize();
-			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent>().Publish(new GKPlanExtension());
+
+			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(new GKPlanExtension());
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -59,5 +62,12 @@ namespace GKModule
 		{
 			get { return "Групповой контроллер"; }
 		}
+		public override void RegisterResource()
+		{
+			base.RegisterResource();
+			ResourceService resourceService = new ResourceService();
+			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
+		}
+
 	}
 }

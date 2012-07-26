@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Windows.Media;
+using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models
 {
@@ -31,6 +32,7 @@ namespace FiresecAPI.Models
 			ElementTextBlocks = new List<ElementTextBlock>();
 			ElementPolygons = new List<ElementPolygon>();
 			ElementPolylines = new List<ElementPolyline>();
+			ElementXDevices = new List<ElementXDevice>();
 		}
 
 		public Plan Parent { get; set; }
@@ -70,5 +72,18 @@ namespace FiresecAPI.Models
 		public List<ElementSubPlan> ElementSubPlans { get; set; }
 		[DataMember]
 		public List<ElementDevice> ElementDevices { get; set; }
+		[DataMember]
+		public List<ElementXDevice> ElementXDevices { get; set; }
+
+		public List<ElementBase> ElementUnion
+		{
+			get
+			{
+				var union = new List<ElementBase>();
+				union.AddRange(ElementDevices);
+				union.AddRange(ElementXDevices);
+				return union;
+			}
+		}
 	}
 }

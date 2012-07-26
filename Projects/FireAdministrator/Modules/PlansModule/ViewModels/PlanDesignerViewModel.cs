@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using Infrastructure.Common;
 
 namespace PlansModule.ViewModels
 {
@@ -32,34 +33,39 @@ namespace PlansModule.ViewModels
 			OnPropertyChanged("Plan");
 			if (Plan != null)
 			{
-				ChangeZoom(1);
-				DesignerCanvas.Plan = plan;
-				DesignerCanvas.PlanDesignerViewModel = this;
-				DesignerCanvas.Update();
-				DesignerCanvas.Children.Clear();
-				DesignerCanvas.Width = plan.Width;
-				DesignerCanvas.Height = plan.Height;
-				OnUpdated();
+				using (new WaitWrapper())
+				{
+					ChangeZoom(1);
+					DesignerCanvas.Plan = plan;
+					DesignerCanvas.PlanDesignerViewModel = this;
+					DesignerCanvas.Update();
+					DesignerCanvas.Children.Clear();
+					DesignerCanvas.Width = plan.Width;
+					DesignerCanvas.Height = plan.Height;
+					OnUpdated();
 
-				foreach (var elementRectangle in plan.ElementRectangles)
-					DesignerCanvas.Create(elementRectangle);
-				foreach (var elementEllipse in plan.ElementEllipses)
-					DesignerCanvas.Create(elementEllipse);
-				foreach (var elementTextBlock in plan.ElementTextBlocks)
-					DesignerCanvas.Create(elementTextBlock);
-				foreach (var elementPolygon in plan.ElementPolygons)
-					DesignerCanvas.Create(elementPolygon);
-				foreach (var elementPolyline in plan.ElementPolylines)
-					DesignerCanvas.Create(elementPolyline);
-				foreach (var elementRectangleZone in plan.ElementRectangleZones)
-					DesignerCanvas.Create(elementRectangleZone);
-				foreach (var elementPolygonZone in plan.ElementPolygonZones)
-					DesignerCanvas.Create(elementPolygonZone);
-				foreach (var elementSubPlan in plan.ElementSubPlans)
-					DesignerCanvas.Create(elementSubPlan);
-				foreach (var elementDevice in plan.ElementDevices)
-					DesignerCanvas.Create(elementDevice);
-				DesignerCanvas.DeselectAll();
+					foreach (var elementRectangle in plan.ElementRectangles)
+						DesignerCanvas.Create(elementRectangle);
+					foreach (var elementEllipse in plan.ElementEllipses)
+						DesignerCanvas.Create(elementEllipse);
+					foreach (var elementTextBlock in plan.ElementTextBlocks)
+						DesignerCanvas.Create(elementTextBlock);
+					foreach (var elementPolygon in plan.ElementPolygons)
+						DesignerCanvas.Create(elementPolygon);
+					foreach (var elementPolyline in plan.ElementPolylines)
+						DesignerCanvas.Create(elementPolyline);
+					foreach (var elementRectangleZone in plan.ElementRectangleZones)
+						DesignerCanvas.Create(elementRectangleZone);
+					foreach (var elementPolygonZone in plan.ElementPolygonZones)
+						DesignerCanvas.Create(elementPolygonZone);
+					foreach (var elementSubPlan in plan.ElementSubPlans)
+						DesignerCanvas.Create(elementSubPlan);
+					foreach (var elementDevice in plan.ElementDevices)
+						DesignerCanvas.Create(elementDevice);
+					foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
+						DesignerCanvas.Create(element);
+					DesignerCanvas.DeselectAll();
+				}
 				OnUpdated();
 				UpdateDeviceInZones();
 			}

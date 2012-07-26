@@ -2,6 +2,7 @@
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace FireAdministrator.ViewModels
 {
@@ -29,14 +30,7 @@ namespace FireAdministrator.ViewModels
 
 		public bool Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
-			Dispatcher.Invoke(
-				System.Windows.Threading.DispatcherPriority.Normal,
-					new Action(
-					delegate()
-					{
-						OnProgress(stage, comment, percentComplete, bytesRW);
-					}
-				));
+			ApplicationService.Invoke(() => OnProgress(stage, comment, percentComplete, bytesRW));
 			return ContinueProgress;
 		}
 

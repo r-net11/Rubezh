@@ -50,21 +50,21 @@ namespace PlansModule.InstrumentAdorners
 			{
 				if (!AdornerCanvas.Children.Contains(rubberband))
 					AdornerCanvas.Children.Add(rubberband);
-				if (!AdornerCanvas.IsMouseCaptured)
-					AdornerCanvas.CaptureMouse();
 			}
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (AdornerCanvas.IsMouseCaptured && Points.Count > 0)
+			if (Points.Count > 0)
 			{
+				if (!AdornerCanvas.IsMouseCaptured)
+					AdornerCanvas.CaptureMouse();
 				Points[Points.Count - 1] = CutPoint(e.GetPosition(this));
 				e.Handled = true;
 			}
 		}
 		protected override void OnMouseUp(MouseButtonEventArgs e)
 		{
-			if (AdornerCanvas.IsMouseCaptured && e.ButtonState == MouseButtonState.Released)
+			if (e.ButtonState == MouseButtonState.Released)
 				switch (e.ChangedButton)
 				{
 					case MouseButton.Left:
@@ -87,6 +87,24 @@ namespace PlansModule.InstrumentAdorners
 						}
 						break;
 				}
+		}
+
+		public override void KeyboardInput(Key key)
+		{
+			base.KeyboardInput(key);
+			if (key == Key.Enter && Points.Count > 2)
+			{
+				AdornerCanvas.ReleaseMouseCapture();
+				AdornerCanvas.Children.Remove(rubberband);
+				ElementBaseShape element = CreateElement();
+				if (element != null)
+				{
+					Points.RemoveAt(Points.Count - 1);
+					element.Points = Points;
+					((DesignerCanvas)DesignerCanvas).CreateDesignerItem(element);
+					ServiceFactory.SaveService.PlansChanged = true;
+				}
+			}
 		}
 	}
 }

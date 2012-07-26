@@ -178,6 +178,7 @@
     <Compile Include="Models\Library\LibraryDevice.cs" />
     <Compile Include="Models\Library\LibraryFrame.cs" />
     <Compile Include="Models\Library\LibraryState.cs" />
+    <Compile Include="Models\Plans\ElementXDevice.cs" />
     <Compile Include="Models\Plans\ElementPolyline.cs" />
     <Compile Include="Models\Plans\ElementPolygon.cs" />
     <Compile Include="Models\Plans\ElementPolygonZone.cs" />

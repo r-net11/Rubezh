@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Designer;
 using PlansModule.Events;
+using Infrustructure.Plans.Events;
 
 namespace PlansModule.ViewModels
 {
@@ -62,7 +63,7 @@ namespace PlansModule.ViewModels
         void OnShowOnPlan()
         {
             if (Device.PlanElementUIDs.Count > 0)
-                ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Publish(Device.PlanElementUIDs[0]);
+				ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(Device.PlanElementUIDs[0]);
         }
     }
 }

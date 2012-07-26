@@ -5,21 +5,21 @@ using Infrustructure.Plans.Elements;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class ElementDevice : ElementBasePoint, IElementZLayer
+	public class ElementXDevice : ElementBasePoint, IElementZLayer
 	{
-		public ElementDevice()
+		public ElementXDevice()
 		{
-			DeviceUID = Guid.Empty;
+			XDeviceUID = Guid.Empty;
 		}
 
 		[DataMember]
-		public Guid DeviceUID { get; set; }
+		public Guid XDeviceUID { get; set; }
 
 		public override ElementBase Clone()
 		{
-			ElementDevice elementBase = new ElementDevice()
+			ElementXDevice elementBase = new ElementXDevice()
 			{
-				DeviceUID = DeviceUID
+				XDeviceUID = XDeviceUID
 			};
 			Copy(elementBase);
 			return elementBase;
@@ -29,7 +29,7 @@ namespace FiresecAPI.Models
 
 		public int ZLayerIndex
 		{
-			get { return 5; }
+			get { return 6; }
 		}
 
 		#endregion

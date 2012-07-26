@@ -63,6 +63,7 @@
     <Compile Include="Elements\ElementType.cs" />
     <Compile Include="Designer\DesignerItem.cs" />
     <Compile Include="Elements\IElementTextBlock.cs" />
+    <Compile Include="Elements\IElementZLayer.cs" />
     <Compile Include="Elements\IElementZone.cs" />
     <Compile Include="Elements\IPrimitive.cs" />
     <Compile Include="Elements\Primitive.cs" />
@@ -98,6 +99,7 @@
     <Compile Include="Painters\TextBlockPainter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\LayerGroupService.cs" />
+    <Compile Include="Events\FindElementEvent.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

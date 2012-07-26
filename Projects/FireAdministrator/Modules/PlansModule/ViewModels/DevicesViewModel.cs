@@ -106,7 +106,11 @@ namespace PlansModule.ViewModels
 		{
 			var device = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (device != null)
+			{
 				device.Update();
+				device.ExpantToThis();
+				SelectedDevice = device;
+			}
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
 		{

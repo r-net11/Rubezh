@@ -23,7 +23,7 @@ namespace PlansModule.ViewModels
 		public PlansViewModel()
 		{
 			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
-			ServiceFactory.Events.GetEvent<ShowElementDeviceEvent>().Subscribe(OnShowElementDevice);
+			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnShowElementDevice);
 
 			AddCommand = new RelayCommand(OnAdd);
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
@@ -42,6 +42,7 @@ namespace PlansModule.ViewModels
 			DevicesViewModel = new DevicesViewModel(DesignerCanvas);
 			PlansTreeViewModel = new PlansTreeViewModel(this);
 			CreatePages();
+			_planExtensions = new List<Infrustructure.Plans.IPlanExtension<Plan>>();
 		}
 
 		public void Initialize()
@@ -57,8 +58,6 @@ namespace PlansModule.ViewModels
 			}
 
 			SelectedPlan = null;
-			if (Plans.Count > 0)
-				SelectedPlan = Plans[0];
 		}
 
 		PlanViewModel AddPlan(Plan plan, PlanViewModel parentPlanViewModel)
@@ -225,38 +224,35 @@ namespace PlansModule.ViewModels
 			DesignerCanvas.DeselectAll();
 
 			foreach (var designerItem in DesignerCanvas.Items)
-			{
 				if (designerItem.Element.UID == elementUID)
-				{
 					designerItem.IsSelected = true;
-				}
-			}
 		}
 		void OnShowElementDevice(Guid deviceUID)
 		{
 			foreach (var plan in Plans)
-			{
-				foreach (var elementDevice in plan.Plan.ElementDevices)
-				{
+				foreach (var elementDevice in plan.Plan.ElementUnion)
 					if (elementDevice.UID == deviceUID)
 					{
 						SelectedPlan = plan;
 						OnShowElement(deviceUID);
 						return;
 					}
-				}
-			}
 		}
 
 		public override void OnShow()
 		{
-			ServiceFactory.Layout.ShowMenu(new PlansMenuViewModel(this));
-			FiresecManager.UpdatePlansConfiguration();
-			DevicesViewModel.Update();
-			DesignerCanvas.DeselectAll();
+			using (new WaitWrapper())
+			{
+				ServiceFactory.Layout.ShowMenu(new PlansMenuViewModel(this));
+				FiresecManager.UpdatePlansConfiguration();
+				DevicesViewModel.Update();
+				DesignerCanvas.DeselectAll();
 
-			if (DesignerCanvas.Toolbox != null)
-				DesignerCanvas.Toolbox.AcceptKeyboard = true;
+				if (DesignerCanvas.Toolbox != null)
+					DesignerCanvas.Toolbox.AcceptKeyboard = true;
+			}
+			if (SelectedPlan == null && Plans.Count > 0)
+				SelectedPlan = Plans[0];
 		}
 		public override void OnHide()
 		{

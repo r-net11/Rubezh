@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Input;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -65,6 +66,9 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		public virtual void UpdateZoom()
+		{
+		}
+		public virtual void KeyboardInput(Key key)
 		{
 		}
 

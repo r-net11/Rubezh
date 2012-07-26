@@ -17,13 +17,18 @@ using PlansModule.Views;
 using System.Windows.Data;
 using System.Windows;
 using Infrustructure.Plans.Services;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.ViewModels
 {
 	public partial class PlansViewModel : ViewPartViewModel
 	{
-		public void RegisterExtension(IPlanExtension planExtension)
+		private List<IPlanExtension<Plan>> _planExtensions;
+
+		public void RegisterExtension(IPlanExtension<Plan> planExtension)
 		{
+			_planExtensions.Add(planExtension);
 			if (!string.IsNullOrEmpty(planExtension.Alias))
 			{
 				LayerGroupService.Instance.RegisterGroup(planExtension.Alias, planExtension.Title, planExtension.Index);
@@ -38,6 +43,29 @@ namespace PlansModule.ViewModels
 				});
 				OnPropertyChanged("TabPages");
 			}
+		}
+		public void ElementAdded(ElementBase element)
+		{
+			foreach (var planExtension in _planExtensions)
+				if (planExtension.ElementAdded(SelectedPlan.Plan, element))
+					break;
+		}
+		public void ElementRemoved(ElementBase element)
+		{
+			foreach (var planExtension in _planExtensions)
+				if (planExtension.ElementRemoved(SelectedPlan.Plan, element))
+					break;
+		}
+		public void RegisterDesignerItem(DesignerItem designerItem)
+		{
+			foreach (var planExtension in _planExtensions)
+				planExtension.RegisterDesignerItem(designerItem);
+		}
+		public IEnumerable<ElementBase> LoadPlan(Plan plan)
+		{
+			foreach (var planExtension in _planExtensions)
+				foreach (var element in planExtension.LoadPlan(plan))
+					yield return element;
 		}
 
 		private List<TabItem> _tabPages;

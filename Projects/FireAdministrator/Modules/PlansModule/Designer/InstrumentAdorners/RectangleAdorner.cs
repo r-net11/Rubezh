@@ -45,16 +45,17 @@ namespace PlansModule.InstrumentAdorners
 			{
 				StartPoint = e.GetPosition(this);
 				endPoint = null;
-				AdornerCanvas.Children.Add(rubberband);
+				if (!AdornerCanvas.Children.Contains(rubberband))
+					AdornerCanvas.Children.Add(rubberband);
 				//AdornerCanvas.Cursor = null;
-				if (!AdornerCanvas.IsMouseCaptured)
-					AdornerCanvas.CaptureMouse();
 			}
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
-			if (e.LeftButton == MouseButtonState.Pressed && AdornerCanvas.IsMouseCaptured)
+			if (e.LeftButton == MouseButtonState.Pressed && AdornerCanvas.Children.Contains(rubberband))
 			{
+				if (!AdornerCanvas.IsMouseCaptured)
+					AdornerCanvas.CaptureMouse();
 				endPoint = CutPoint(e.GetPosition(this));
 				UpdateRubberband();
 				e.Handled = true;

@@ -82,12 +82,16 @@ namespace PlansModule.Designer
 		{
 			base.OnDrop(e);
 			var elementBase = e.Data.GetData("DESIGNER_ITEM") as ElementBase;
-			//elementBase.SetDefault();
+			if (elementBase != null)
+			{
+				Toolbox.SetDefault();
+				//elementBase.SetDefault();
 
-			Point position = e.GetPosition(this);
-			elementBase.Position = position;
-			CreateDesignerItem(elementBase);
-			e.Handled = true;
+				Point position = e.GetPosition(this);
+				elementBase.Position = position;
+				CreateDesignerItem(elementBase);
+				e.Handled = true;
+			}
 		}
 		public void CreateDesignerItem(ElementBase elementBase)
 		{
@@ -125,6 +129,8 @@ namespace PlansModule.Designer
 				Helper.SetDevice(elementDevice);
 				Plan.ElementDevices.Add(elementDevice);
 			}
+			else
+				Toolbox.PlansViewModel.ElementAdded(elementBase);
 
 			return Create(elementBase);
 		}
@@ -148,6 +154,8 @@ namespace PlansModule.Designer
 				Plan.ElementSubPlans.Remove(designerItem.Element as ElementSubPlan);
 			else if (designerItem.Element is ElementDevice)
 				Plan.ElementDevices.Remove(designerItem.Element as ElementDevice);
+			else
+				Toolbox.PlansViewModel.ElementRemoved(designerItem.Element);
 			Children.Remove(designerItem);
 		}
 		public void RemoveElement(ElementBase elementBase)
@@ -160,6 +168,7 @@ namespace PlansModule.Designer
 		public DesignerItem Create(ElementBase elementBase)
 		{
 			var designerItem = DesignerItemFactory.Create(elementBase);
+			Toolbox.PlansViewModel.RegisterDesignerItem(designerItem);
 			Children.Add(designerItem);
 			designerItem.Redraw();
 			SetZIndex(designerItem);
@@ -171,9 +180,6 @@ namespace PlansModule.Designer
 
 			if (designerItem.Element is IElementZIndex)
 				Panel.SetZIndex(designerItem, (designerItem.Element as IElementZIndex).ZIndex);
-
-			if (designerItem.Element is ElementSubPlan)
-				Panel.SetZIndex(designerItem, 1 * bigConstatnt);
 
 			if (designerItem.Element is IElementZone)
 			{
@@ -190,8 +196,8 @@ namespace PlansModule.Designer
 				}
 			}
 
-			if (designerItem.Element is ElementDevice)
-				Panel.SetZIndex(designerItem, 5 * bigConstatnt);
+			if (designerItem.Element is IElementZLayer)
+				Panel.SetZIndex(designerItem, ((IElementZLayer)designerItem.Element).ZLayerIndex * bigConstatnt);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

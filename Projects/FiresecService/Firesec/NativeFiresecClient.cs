@@ -417,6 +417,7 @@ namespace Firesec
 		#region NTService
 		static void StartSocketServerIfNotRunning()
 		{
+#if !DEBUG
 			var service = new System.ServiceProcess.ServiceController("Borland Advanced Socket Server");
 			if (service.Status != System.ServiceProcess.ServiceControllerStatus.Running)
 			{
@@ -429,6 +430,7 @@ namespace Firesec
 				}
 				catch { }
 			}
+#endif
 		}
 		#endregion
 	}

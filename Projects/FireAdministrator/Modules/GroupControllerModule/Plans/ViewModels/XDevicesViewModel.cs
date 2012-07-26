@@ -10,38 +10,30 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Designer;
 using XFiresecAPI;
+using GKModule.Plans.Designer;
 
 namespace GKModule.Plans.ViewModels
 {
-	public class DevicesViewModel : BaseViewModel
+	public class XDevicesViewModel : BaseViewModel
 	{
-		public DevicesViewModel()
+		public XDevicesViewModel()
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-			//ServiceFactory.Events.GetEvent<ElementDeviceChangedEvent>().Unsubscribe(OnDeviceChanged);
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-			//ServiceFactory.Events.GetEvent<ElementDeviceChangedEvent>().Subscribe(OnDeviceChanged);
-			AllDevices = new List<DeviceViewModel>();
-			Devices = new ObservableCollection<DeviceViewModel>();
+			AllDevices = new List<XDeviceViewModel>();
+			Devices = new ObservableCollection<XDeviceViewModel>();
 
 			Update();
 		}
 
-		public List<DeviceViewModel> AllDevices;
-
-		void AddChildPlainDevices(DeviceViewModel parentViewModel)
-		{
-			AllDevices.Add(parentViewModel);
-			foreach (var childViewModel in parentViewModel.Children)
-			{
-				AddChildPlainDevices(childViewModel);
-			}
-		}
+		public List<XDeviceViewModel> AllDevices;
 
 		public void Select(Guid deviceUID)
 		{
@@ -59,6 +51,7 @@ namespace GKModule.Plans.ViewModels
 			BuildTree();
 			if (Devices.Count > 0)
 			{
+				AddChildPlainDevices(Devices[0]);
 				CollapseChild(Devices[0]);
 				ExpandChild(Devices[0]);
 				SelectedDevice = Devices[0];
@@ -70,9 +63,9 @@ namespace GKModule.Plans.ViewModels
 			var xRootDevice = XManager.DeviceConfiguration.RootDevice;
 			AddDevice(xRootDevice, null);
 		}
-		public DeviceViewModel AddDevice(XDevice xDevice, DeviceViewModel parentDeviceViewModel)
+		public XDeviceViewModel AddDevice(XDevice xDevice, XDeviceViewModel parentDeviceViewModel)
 		{
-			var xDeviceViewModel = new DeviceViewModel(xDevice, Devices);
+			var xDeviceViewModel = new XDeviceViewModel(xDevice, Devices);
 			xDeviceViewModel.Parent = parentDeviceViewModel;
 
 			var indexOf = Devices.IndexOf(parentDeviceViewModel);
@@ -87,12 +80,17 @@ namespace GKModule.Plans.ViewModels
 
 			return xDeviceViewModel;
 		}
+		private void AddChildPlainDevices(XDeviceViewModel parentViewModel)
+		{
+			AllDevices.Add(parentViewModel);
+			foreach (var childViewModel in parentViewModel.Children)
+				AddChildPlainDevices(childViewModel);
+		}
 
+		public ObservableCollection<XDeviceViewModel> Devices { get; private set; }
 
-		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
-
-		private DeviceViewModel _selectedDevice;
-		public DeviceViewModel SelectedDevice
+		private XDeviceViewModel _selectedDevice;
+		public XDeviceViewModel SelectedDevice
 		{
 			get { return _selectedDevice; }
 			set
@@ -102,46 +100,44 @@ namespace GKModule.Plans.ViewModels
 			}
 		}
 
-		private void OnDeviceChanged(Guid deviceUID)
+		private void Update(ElementXDevice elementDevice)
 		{
-			var device = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
+			var device = Devices.FirstOrDefault(x => x.Device.UID == elementDevice.XDeviceUID);
 			if (device != null)
 				device.Update();
 		}
+
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
-			elements.OfType<ElementDevice>().ToList().ForEach(element =>
-				{
-					Device device = element.DeviceUID == null ? null : FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == element.DeviceUID);
-					if (device != null)
-						device.PlanElementUIDs.Remove(element.UID);
-				});
+			elements.OfType<ElementXDevice>().ToList().ForEach(element => Helper.ResetXDevice(element));
 			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
 		{
 			elements.ForEach(element =>
 				{
-					ElementDevice elementDevice = element as ElementDevice;
+					ElementXDevice elementDevice = element as ElementXDevice;
 					if (elementDevice != null)
-						OnDeviceChanged(elementDevice.DeviceUID);
+					{
+						Update(elementDevice);
+						Select(elementDevice.UID);
+					}
 				});
 		}
-
 		private void OnElementSelected(ElementBase element)
 		{
-			ElementDevice elementDevice = element as ElementDevice;
+			ElementXDevice elementDevice = element as ElementXDevice;
 			if (elementDevice != null)
-				Select(elementDevice.DeviceUID);
+				Select(elementDevice.XDeviceUID);
 		}
 
-		private void CollapseChild(DeviceViewModel parentDeviceViewModel)
+		private void CollapseChild(XDeviceViewModel parentDeviceViewModel)
 		{
 			parentDeviceViewModel.IsExpanded = false;
 			foreach (var deviceViewModel in parentDeviceViewModel.Children)
 				CollapseChild(deviceViewModel);
 		}
-		private void ExpandChild(DeviceViewModel parentDeviceViewModel)
+		private void ExpandChild(XDeviceViewModel parentDeviceViewModel)
 		{
 			parentDeviceViewModel.IsExpanded = true;
 			foreach (var deviceViewModel in parentDeviceViewModel.Children)

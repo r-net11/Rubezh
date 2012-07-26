@@ -9,9 +9,9 @@ using GKModule.Plans.ViewModels;
 
 namespace GKModule.Plans.Views
 {
-	public partial class DevicesView : UserControl
+	public partial class XDevicesView : UserControl
 	{
-		public DevicesView()
+		public XDevicesView()
 		{
 			InitializeComponent();
 			Loaded += new RoutedEventHandler(DevicesView_Loaded);
@@ -36,25 +36,23 @@ namespace GKModule.Plans.Views
 		{
 			base.OnMouseMove(e);
 			if (e.LeftButton != MouseButtonState.Pressed)
-			{
-				this.dragStartPoint = null;
-			}
+				dragStartPoint = null;
 
-			if (this.dragStartPoint.HasValue)
+			if (dragStartPoint.HasValue)
 			{
-				DeviceViewModel viewModel = (sender as Image).DataContext as DeviceViewModel;
+				XDeviceViewModel viewModel = (sender as Image).DataContext as XDeviceViewModel;
 				//if (viewModel.DesignerCanvas != null)
 				//    viewModel.DesignerCanvas.Toolbox.SetDefault();
 				var device = viewModel.Device;
-				//if (device.Driver.IsPlaceable == false)
-				//    return;
+				if (!device.Driver.IsDeviceOnShleif)
+					return;
 
 				if (FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
 					return;
 
-				ElementBase plansElement = new ElementDevice()
+				ElementBase plansElement = new ElementXDevice()
 				{
-					DeviceUID = device.UID
+					XDeviceUID = device.UID
 				};
 
 				var dataObject = new DataObject("DESIGNER_ITEM", plansElement);

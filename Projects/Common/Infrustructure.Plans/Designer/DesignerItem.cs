@@ -6,6 +6,7 @@ using System.Windows.Media;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
+using System;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -73,6 +74,8 @@ namespace Infrustructure.Plans.Designer
 		public IPainter Painter { get; private set; }
 		public ResizeChrome ResizeChrome { get; set; }
 
+		public event Action<DesignerItem> UpdateProperties;
+
 		private string _title;
 		public string Title 
 		{
@@ -83,7 +86,7 @@ namespace Infrustructure.Plans.Designer
 				OnPropertyChanged("Title");
 			}
 		}
-		public string Group { get; protected set; }
+		public string Group { get; set; }
 
 		public DesignerItem(ElementBase element)
 		{
@@ -165,6 +168,12 @@ namespace Infrustructure.Plans.Designer
 
 		public virtual void UpdateElementProperties()
 		{
+			OnUpdateProperties();
+		}
+		protected void OnUpdateProperties()
+		{
+			if (UpdateProperties != null)
+				UpdateProperties(this);
 		}
 
 		protected abstract void CreateContextMenu();

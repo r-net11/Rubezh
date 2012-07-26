@@ -83,15 +83,22 @@ namespace FiresecClient
 		{
 			FiresecManager.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+			{
 				for (int i = plan.ElementDevices.Count(); i > 0; i--)
 				{
 					var elementDevice = plan.ElementDevices[i - 1];
 					var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
 					if (device != null)
 						device.PlanElementUIDs.Add(elementDevice.UID);
-					//else
-					//    plan.ElementDevices.RemoveAt(i - 1);
 				}
+				for (int i = plan.ElementXDevices.Count(); i > 0; i--)
+				{
+					var elementXDevice = plan.ElementXDevices[i - 1];
+					var xdevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementXDevice.XDeviceUID);
+					if (xdevice != null)
+						xdevice.PlanElementUIDs.Add(elementXDevice.UID);
+				}
+			}
 		}
 
 		public static void InvalidateConfiguration()
@@ -304,7 +311,7 @@ namespace FiresecClient
 
 		public static bool IsChildMPT(Device device)
 		{
-			if(device.Parent == null)
+			if (device.Parent == null)
 				return false;
 			return ((device.Driver.DriverType == DriverType.MPT) && (device.Parent.Driver.DriverType == DriverType.MPT));
 		}

@@ -17,6 +17,7 @@ namespace XFiresecAPI
 			OutDependenceUIDs = new List<Guid>();
 			Zones = new List<short>();
 			DeviceLogic = new XDeviceLogic();
+			PlanElementUIDs = new List<Guid>();
 			IsNotUsed = false;
 		}
 
@@ -53,6 +54,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public bool IsNotUsed { get; set; }
+
+		[DataMember]
+		public List<Guid> PlanElementUIDs { get; set; }
 
 		public string Address
 		{
