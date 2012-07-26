@@ -2,6 +2,7 @@
 using Infrastructure.Common.Windows;
 using PlansModule.Designer;
 using PlansModule.ViewModels;
+using PlansModule.Designer.Designer;
 
 namespace PlansModule.InstrumentAdorners
 {
@@ -16,7 +17,9 @@ namespace PlansModule.InstrumentAdorners
 		{
 			var element = new ElementRectangleZone();
 			var propertiesViewModel = new ZonePropertiesViewModel(element);
-			return DialogService.ShowModalWindow(propertiesViewModel) ? element : null;
+			DialogService.ShowModalWindow(propertiesViewModel);
+			Helper.SetZone(element);
+			return element;
 		}
 	}
 }
