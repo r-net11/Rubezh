@@ -20,7 +20,7 @@ namespace FiresecService.Processor
 			if (result.Result)
 			{
 				NativeFiresecClient.NewEventAvaliable += new Action<int>(NewEventsAvailable);
-				NativeFiresecClient.ProgressEvent += new Func<int, string, int, int, bool>(FiresecEventAggregator_Progress);
+				NativeFiresecClient.ProgressEvent += new Action<int, string, int, int>(FiresecEventAggregator_Progress);
 			}
 			return result;
 		}
@@ -200,14 +200,13 @@ namespace FiresecService.Processor
 				NewEvent(eventMask);
 		}
 
-		bool FiresecEventAggregator_Progress(int stage, string comment, int percentComplete, int bytesRW)
+		void FiresecEventAggregator_Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			if (Progress != null)
-				return Progress(stage, comment, percentComplete, bytesRW);
-			return true;
+				Progress(stage, comment, percentComplete, bytesRW);
 		}
 
 		public event Action<int> NewEvent;
-		public event Func<int, string, int, int, bool> Progress;
+		public event Action<int, string, int, int> Progress;
 	}
 }

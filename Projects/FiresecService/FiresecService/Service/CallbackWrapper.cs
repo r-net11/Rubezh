@@ -59,24 +59,22 @@ namespace FiresecService.Service
 			SafeCall((x) => { x.FiresecCallbackService.GetFilteredArchiveCompleted(journalRecords); }, "GetFilteredArchiveCompleted");
 		}
 
-		public bool Progress(int stage, string comment, int percentComplete, int bytesRW)
+		public void Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			try
 			{
-				var result = FiresecService.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
-				if (FiresecService.ContinueProgress == false)
-				{
-					FiresecService.ContinueProgress = true;
-					return false;
-				}
-				return result;
+				FiresecService.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
+				//if (FiresecService.ContinueProgress == false)
+				//{
+				//    FiresecService.ContinueProgress = true;
+				//    return false;
+				//}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове CallbackWrapper.Progress");
 				FiresecService.ReconnectToClient();
 			}
-			return true;
 		}
 
 		public void Notify(string message)

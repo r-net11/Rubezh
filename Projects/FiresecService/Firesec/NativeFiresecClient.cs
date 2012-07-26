@@ -152,6 +152,7 @@ namespace Firesec
 
 		public FiresecOperationResult<bool> DeviceWriteConfig(string coreConfig, string devicePath)
 		{
+			coreConfig = "";
 			return SafeCall<bool>(() => { Connectoin.DeviceWriteConfig(coreConfig, devicePath); return true; });
 		}
 
@@ -367,7 +368,7 @@ namespace Firesec
 		#region Progress
 		object locker = new object();
 		Queue<ProgressData> taskQeue = new Queue<ProgressData>();
-		public event Func<int, string, int, int, bool> ProgressEvent;
+		public event Action<int, string, int, int> ProgressEvent;
 
 		public void ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
 		{
@@ -406,8 +407,9 @@ namespace Firesec
 		bool OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
 		{
 			if (ProgressEvent != null)
-				return ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
-			return true;
+			{
+				ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
+			}
 
 			bool stopProgress = (StopProgress == 1);
 			StopProgress = 0;
@@ -416,5 +418,20 @@ namespace Firesec
 
 		public int StopProgress;
 		#endregion
+		static void StopSocketServer()
+		{
+			var service = new System.ServiceProcess.ServiceController("Borland Advanced Socket Server");
+			if (service.Status == System.ServiceProcess.ServiceControllerStatus.Running)
+			{
+				try
+				{
+					var timeout = TimeSpan.FromMilliseconds(10000);
+					service.Stop();
+					service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+				}
+				catch { }
+			}
+		}
+
 	}
 }

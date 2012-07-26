@@ -118,9 +118,11 @@ namespace FiresecService.Processor
 				OnStateChanged();
 				OnParametersChanged();
 			}
-			FiresecSerializedClient.Progress += new Func<int, string, int, int, bool>(OnProgress);
+			FiresecSerializedClient.Progress += new Action<int, string, int, int>(OnProgress);
 		}
 
+		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
+					firesecService.CallbackWrapper.Progress(stage, comment, percentComplete, bytesRW);
 		void FiresecClient_NewEvent(int EventMask)
 		{
 			bool evmNewEvents = ((EventMask & 1) == 1);

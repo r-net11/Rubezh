@@ -108,11 +108,10 @@ namespace FiresecClient
 			});
 		}
 
-		public bool Progress(int stage, string comment, int percentComplete, int bytesRW)
+		public void Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			if (ProgressEvent != null)
-				return ProgressEvent(stage, comment, percentComplete, bytesRW);
-			return true;
+				ProgressEvent(stage, comment, percentComplete, bytesRW);
 		}
 
 		public Guid Ping()
@@ -151,7 +150,7 @@ namespace FiresecClient
 		public static event Action<int> ZoneStateChangedEvent;
 		public static event Action<JournalRecord> NewJournalRecordEvent;
 		public static event Action ConfigurationChangedEvent;
-		public static event Func<int, string, int, int, bool> ProgressEvent;
+		public static event Action<int, string, int, int> ProgressEvent;
 		public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
 		public static event Action<string> NotifyEvent;
 
