@@ -5,6 +5,7 @@ using System.Threading;
 using System.Windows.Controls;
 using Common;
 using System.ServiceProcess;
+using System.IO;
 
 namespace Firesec
 {
@@ -67,7 +68,11 @@ namespace Firesec
 
 		public FiresecOperationResult<bool> SetNewConfig(string coreConfig)
 		{
-			return SafeCall<bool>(() => { Connectoin.SetNewConfig(coreConfig); return true; });
+			using (StreamWriter streamWriter = new StreamWriter(File.Open("D:/Temp.xml", FileMode.Create), Encoding.UTF8))
+			{
+				streamWriter.Write(coreConfig);
+			}
+			return SafeCall<bool>(() => { Connectoin.SetNewConfig("D:/Temp.xml"); return true; });
 		}
 
 		public FiresecOperationResult<bool> ResetStates(string states)
@@ -123,12 +128,16 @@ namespace Firesec
 			return SafeCall<bool>(() =>
 			{
 				string errorMessage = "";
-				var result = Connectoin.CheckHaspPresence(out errorMessage);
-				//if (result != true)
-				//{
-				//    throw new Exception(errorMessage);
-				//}
-				return result;
+				try
+				{
+					var result = Connectoin.CheckHaspPresence(out errorMessage);
+					return result;
+				}
+				catch(Exception e)
+				{
+					Logger.Error(e, "Исключение при вызове NativeFiresecClient.CheckHaspPresence");
+					return true;
+				}
 			});
 		}
 

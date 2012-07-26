@@ -21,6 +21,9 @@ namespace DevicesModule.DeviceProperties
 
 			foreach (var driverProperty in device.Driver.Properties)
 			{
+				if (driverProperty.IsHidden)
+					continue;
+
 				switch (driverProperty.DriverPropertyType)
 				{
 					case DriverPropertyTypeEnum.EnumType:

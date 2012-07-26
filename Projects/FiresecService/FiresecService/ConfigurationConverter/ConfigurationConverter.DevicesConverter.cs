@@ -180,12 +180,13 @@ namespace FiresecService.Configuration
 			var drivers = new List<drvType>();
 			foreach (var driver in ConfigurationCash.Drivers)
 			{
-				drivers.Add(new drvType()
+				var innerDriver = new drvType()
 				{
 					idx = ConfigurationCash.Drivers.IndexOf(driver).ToString(),
 					id = driver.UID.ToString().ToUpper(),
 					name = driver.Name
-				});
+				};
+				drivers.Add(innerDriver);
 			}
 			FiresecConfiguration.drv = drivers.ToArray();
 		}
@@ -239,7 +240,7 @@ namespace FiresecService.Configuration
 		List<paramType> AddParameters(Device device)
 		{
 			var parameters = new List<paramType>();
-			if (device.Driver.DriverType != DriverType.UOO_TL)
+			//if (device.Driver.DriverType != DriverType.UOO_TL)
 			{
 				if (device.UID != Guid.Empty)
 				{
@@ -370,5 +371,17 @@ namespace FiresecService.Configuration
 
 			return propertyList;
 		}
+
+		//string GuidToString(Guid uid)
+		//{
+		//    string id = uid.ToString().ToUpper();
+
+		//    if (id == "584BC59A-28D5-430B-90BF-592E40E843A6")
+		//        id = "&#123;584BC59A-28D5-430B-90BF-592E40E843A6&#125;";
+		//    if (id == "868ED643-0ED6-48CD-A0E0-4AD46104C419")
+		//        id = "&#123;868ED643-0ED6-48CD-A0E0-4AD46104C419&#125;";
+
+		//    return id;
+		//}
 	}
 }

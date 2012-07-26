@@ -99,6 +99,9 @@ namespace FiresecService.Processor
 				output = output.Replace(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"", "");
 				//output = output.Replace("\r\n", "");
 
+				output = output.Replace("\"584BC59A-28D5-430B-90BF-592E40E843A6\"", "\"&#123;584BC59A-28D5-430B-90BF-592E40E843A6&#125;\"");
+				output = output.Replace("\"868ED643-0ED6-48CD-A0E0-4AD46104C419\"", "\"&#123;868ED643-0ED6-48CD-A0E0-4AD46104C419&#125;\"");
+
 				return output;
 			}
 		}

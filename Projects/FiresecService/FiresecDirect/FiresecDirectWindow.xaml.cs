@@ -43,7 +43,6 @@ namespace FiresecDirect
 		{
 			textBox1.Text = NativeFiresecClient.GetCoreConfig().Result;
 
-			return;
 			try
 			{
 				using (var fileStream = new FileStream("D:/CoreConfig.xml", FileMode.Create))
