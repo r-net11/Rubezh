@@ -4,10 +4,11 @@
      >
   <?include Variables_Firesec.wxi?>
 
-  <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="0.0.0.1" 
-           Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
+  <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="0.0.0.1" Manufacturer="$(var.Manufacturer)"
+           UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
 
-    <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" />
+    <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" Description="Установка $(var.ProductName)"
+             SummaryCodepage="$(var.Codepage)" />
 
     <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
 

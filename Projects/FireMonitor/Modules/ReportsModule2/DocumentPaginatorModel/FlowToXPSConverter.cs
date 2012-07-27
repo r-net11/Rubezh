@@ -66,12 +66,12 @@ namespace ReportsModule2.DocumentPaginatorModel
 			return xpsDoc;
 		}
 
-		public static void SaveAsXps2(string xamlFlowDoc)
+		public static void SaveAsXps2(string xamlFlowDoc, string xpsDocumentName)
 		{
 			object doc;
 			doc = XamlReader.Parse(xamlFlowDoc);
-			
-			using (Package container = Package.Open("journal.xps", FileMode.Create))
+
+			using (Package container = Package.Open(xpsDocumentName, FileMode.Create))
 			{
 				using (XpsDocument xpsDoc = new XpsDocument(container, CompressionOption.NotCompressed))
 				{
