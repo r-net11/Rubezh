@@ -79,7 +79,7 @@ namespace DevicesModule.ViewModels
 
 							case DriverType.Rubezh_2OP:
 							case DriverType.USB_Rubezh_2OP:
-								states = Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();
+								states = GetAllZoneLogicStates();
 								states.Remove(ZoneLogicState.PumpStationOn);
 								states.Remove(ZoneLogicState.PumpStationAutomaticOff);
 								break;
@@ -89,14 +89,34 @@ namespace DevicesModule.ViewModels
 						return states;
 
 					case DriverType.RM_1:
-						var rmStates = Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();
+						var rmStates = GetAllZoneLogicStates();
 						rmStates.Remove(ZoneLogicState.PumpStationOn);
 						rmStates.Remove(ZoneLogicState.PumpStationAutomaticOff);
 						rmStates.Remove(ZoneLogicState.Failure);
 						return rmStates;
 				}
-				return Enum.GetValues(typeof(ZoneLogicState)).Cast<ZoneLogicState>().ToList();
+				return GetAllZoneLogicStates();
 			}
+		}
+
+		List<ZoneLogicState> GetAllZoneLogicStates()
+		{
+			var states = new List<ZoneLogicState>();
+			states.Add(ZoneLogicState.Fire);
+			states.Add(ZoneLogicState.Attention);
+			states.Add(ZoneLogicState.MPTAutomaticOn);
+			states.Add(ZoneLogicState.MPTOn);
+			states.Add(ZoneLogicState.Alarm);
+			states.Add(ZoneLogicState.GuardSet);
+			states.Add(ZoneLogicState.GuardUnSet);
+			states.Add(ZoneLogicState.PCN);
+			states.Add(ZoneLogicState.Lamp);
+			states.Add(ZoneLogicState.Failure);
+			states.Add(ZoneLogicState.AM1TOn);
+			states.Add(ZoneLogicState.Firefighting);
+			states.Add(ZoneLogicState.PumpStationOn);
+			states.Add(ZoneLogicState.PumpStationAutomaticOff);
+			return states;
 		}
 
 		public List<ZoneLogicOperation> Operations
@@ -121,7 +141,8 @@ namespace DevicesModule.ViewModels
 					(SelectedState == ZoneLogicState.MPTOn) ||
 					(SelectedState == ZoneLogicState.Alarm) ||
 					(SelectedState == ZoneLogicState.GuardSet) ||
-					(SelectedState == ZoneLogicState.GuardUnSet);
+					(SelectedState == ZoneLogicState.GuardUnSet) ||
+					(SelectedState == ZoneLogicState.Firefighting);
 			}
 		}
 

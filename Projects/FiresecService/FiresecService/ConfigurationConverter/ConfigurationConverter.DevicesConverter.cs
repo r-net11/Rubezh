@@ -52,7 +52,7 @@ namespace FiresecService.Configuration
 			var driverId = FiresecConfiguration.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
 			var driverUID = new Guid(driverId);
 			device.DriverUID = driverUID;
-			device.Driver = ConfigurationCash.Drivers.FirstOrDefault(x => x.UID == driverUID);
+			device.Driver = ConfigurationCash.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == driverUID);
 
 			device.IntAddress = int.Parse(innerDevice.addr);
 			if ((device.Parent != null) && (device.Parent.Driver.IsChildAddressReservedRange))
@@ -178,12 +178,12 @@ namespace FiresecService.Configuration
 		void ConvertDriversBack()
 		{
 			var drivers = new List<drvType>();
-			foreach (var driver in ConfigurationCash.Drivers)
+			foreach (var driver in ConfigurationCash.DriversConfiguration.Drivers)
 			{
 				var innerDriver = new drvType()
 				{
-					idx = ConfigurationCash.Drivers.IndexOf(driver).ToString(),
-					id = driver.UID.ToString().ToUpper(),
+					idx = ConfigurationCash.DriversConfiguration.Drivers.IndexOf(driver).ToString(),
+					id = driver.StringUID,
 					name = driver.Name
 				};
 				drivers.Add(innerDriver);
@@ -206,8 +206,9 @@ namespace FiresecService.Configuration
 		devType DeviceToInnerDevice(Device device)
 		{
 			var innerDevice = new devType();
+			innerDevice.name = device.Description;
 
-			innerDevice.drv = FiresecConfiguration.drv.FirstOrDefault(x => x.id.ToUpper() == device.DriverUID.ToString().ToUpper()).idx;
+			innerDevice.drv = FiresecConfiguration.drv.FirstOrDefault(x => x.id.ToUpper() == device.Driver.StringUID).idx;
 
 			var intAddress = device.IntAddress;
 			if ((device.Parent != null) && (device.Parent.Driver.IsChildAddressReservedRange))
@@ -371,17 +372,5 @@ namespace FiresecService.Configuration
 
 			return propertyList;
 		}
-
-		//string GuidToString(Guid uid)
-		//{
-		//    string id = uid.ToString().ToUpper();
-
-		//    if (id == "584BC59A-28D5-430B-90BF-592E40E843A6")
-		//        id = "&#123;584BC59A-28D5-430B-90BF-592E40E843A6&#125;";
-		//    if (id == "868ED643-0ED6-48CD-A0E0-4AD46104C419")
-		//        id = "&#123;868ED643-0ED6-48CD-A0E0-4AD46104C419&#125;";
-
-		//    return id;
-		//}
 	}
 }

@@ -16,6 +16,7 @@ namespace FiresecService.Configuration
 			var driver = new Driver()
 			{
 				UID = new Guid(innerDriver.id),
+				StringUID = innerDriver.id,
 				Name = innerDriver.name,
 				ShortName = innerDriver.shortName,
 				HasAddress = innerDriver.ar_no_addr != "1",

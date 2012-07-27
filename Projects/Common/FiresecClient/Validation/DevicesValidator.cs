@@ -352,9 +352,9 @@ namespace FiresecClient.Validation
 			if (deviceOnSecondShliefCount > secondShliefMaxCount)
 				DeviceErrors.Add(new DeviceError(device, "Превышено максимальное количество подключаемых охранных устройств на 2-ом шлейфе", ErrorLevel.CannotWrite));
 			if (isFirstShliefOrederCorrupt)
-				DeviceErrors.Add(new DeviceError(device, "Необходима неразрывная последовательность адресов охранных устройств на 1-ом шлейфе начиная  с 176 адреса", ErrorLevel.Warning));
+				DeviceErrors.Add(new DeviceError(device, "Рекомендуется неразрывная последовательность адресов охранных устройств на 1-ом шлейфе начиная  с 176 адреса", ErrorLevel.Warning));
 			if (isSecondShliefOrederCorrupt)
-				DeviceErrors.Add(new DeviceError(device, "Необходима неразрывная последовательность адресов охранных устройств на 2-ом шлейфе начиная  с 176 адреса", ErrorLevel.Warning));
+				DeviceErrors.Add(new DeviceError(device, "Рекомендуется неразрывная последовательность адресов охранных устройств на 2-ом шлейфе начиная  с 176 адреса", ErrorLevel.Warning));
 		}
 
 		static void ValidateDeviceRangeAddress(Device device)

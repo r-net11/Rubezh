@@ -2,11 +2,11 @@
 
 namespace DevicesModule.Views
 {
-    public partial class GuardSynchronizationView : UserControl
-    {
-        public GuardSynchronizationView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class GuardSynchronizationView : UserControl
+	{
+		public GuardSynchronizationView()
+		{
+			InitializeComponent();
+		}
+	}
 }

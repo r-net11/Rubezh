@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Diagnostics;
 
 namespace DevicesModule.ViewModels
 {
@@ -24,8 +25,7 @@ namespace DevicesModule.ViewModels
 				where ((_parent.Driver.AvaliableChildren.Contains(driver.UID) && driver.HasAddress))
 				select driver);
 
-			if (Drivers.Count > 0)
-				SelectedDriver = Drivers[0];
+			SelectedDriver = Drivers.FirstOrDefault();
 		}
 
 		public List<Driver> Drivers { get; private set; }
@@ -53,17 +53,6 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		Device _endDevice;
-		public Device EndDevice
-		{
-			get { return _endDevice; }
-			set
-			{
-				_endDevice = value;
-				OnPropertyChanged("EndDevice");
-			}
-		}
-
 		string _startAddress;
 		public string StartAddress
 		{
@@ -73,56 +62,19 @@ namespace DevicesModule.ViewModels
 				if (_startAddress != value)
 				{
 					_startAddress = value;
-					if (_startAddress.Contains("."))
-					{
-						if (EndAddress != null)
-							EndAddress = _startAddress[0] + EndAddress.Substring(1);
-					}
-
-					if ((StartAddress != null) && (EndAddress != null))
-					{
-						int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
-						int endAddress = AddressConverter.StringToIntAddress(SelectedDriver, EndAddress);
-
-						if (startAddress > endAddress)
-						{
-							EndAddress = StartAddress;
-						}
-					}
-
 					OnPropertyChanged("StartAddress");
 				}
 			}
 		}
 
-		string _endAddress;
-		public string EndAddress
+		int _count;
+		public int Count
 		{
-			get { return _endAddress; }
+			get { return _count; }
 			set
 			{
-				if (_endAddress != value)
-				{
-					_endAddress = value;
-					if (_endAddress.Contains("."))
-					{
-						if (StartAddress != null)
-							StartAddress = _endAddress[0] + StartAddress.Substring(1);
-					}
-
-					if ((StartAddress != null) && (EndAddress != null))
-					{
-						int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
-						int endAddress = AddressConverter.StringToIntAddress(SelectedDriver, EndAddress);
-
-						if (startAddress > endAddress)
-						{
-							StartAddress = EndAddress;
-						}
-					}
-
-					OnPropertyChanged("EndAddress");
-				}
+				_count = value;
+				OnPropertyChanged("Count");
 			}
 		}
 
@@ -136,22 +88,14 @@ namespace DevicesModule.ViewModels
 				IntAddress = maxAddress,
 				Parent = _parent
 			};
-			EndDevice = new Device()
-			{
-				Driver = SelectedDriver,
-				IntAddress = maxAddress,
-				Parent = _parent
-			};
 			StartAddress = StartDevice.EditingPresentationAddress;
-			EndAddress = EndDevice.EditingPresentationAddress;
 		}
 
 		void CreateDevices()
 		{
 			int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
-			int endAddress = AddressConverter.StringToIntAddress(SelectedDriver, EndAddress);
 
-			for (int i = startAddress; i <= endAddress; i++)
+			for (int i = startAddress; i <= startAddress + Count * GetReserverCount(); i++)
 			{
 				if (_parent.Children.Any(x => x.IntAddress == i))
 				{
@@ -160,25 +104,30 @@ namespace DevicesModule.ViewModels
 				}
 			}
 
-			for (int i = startAddress; i <= endAddress; i++)
+			int shleifNo = startAddress / 256;
+
+			for (int i = 0; i < Count; i++)
 			{
-				if (SelectedDriver.IsChildAddressReservedRange)
+				int address = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
+				if (address + GetReserverCount() - 1 >= (shleifNo + 1)*256)
 				{
-					if (i + SelectedDriver.ChildAddressReserveRangeCount > endAddress)
-						break;
+					return;
 				}
-
-				Device device = _parent.AddChild(SelectedDriver, i);
+				Device device = _parent.AddChild(SelectedDriver, address);
 				NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
-
-				if (SelectedDriver.IsChildAddressReservedRange)
-				{
-					int reservedCount = SelectedDriver.ChildAddressReserveRangeCount;
-					if (SelectedDriver.DriverType == DriverType.MRK_30)
-						reservedCount = 30;
-					i += reservedCount - 1;
-				}
 			}
+		}
+
+		int GetReserverCount()
+		{
+			if (SelectedDriver.IsChildAddressReservedRange)
+			{
+				int reservedCount = SelectedDriver.ChildAddressReserveRangeCount;
+				if (SelectedDriver.DriverType == DriverType.MRK_30)
+					reservedCount = 30;
+				return reservedCount;
+			}
+			return 1;
 		}
 
 		protected override bool CanSave()

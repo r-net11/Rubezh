@@ -10,6 +10,7 @@ namespace FiresecAPI.Models
 		public Clause()
 		{
 			Zones = new List<ulong>();
+			State = ZoneLogicState.Fire;
 			Operation = ZoneLogicOperation.Any;
 		}
 

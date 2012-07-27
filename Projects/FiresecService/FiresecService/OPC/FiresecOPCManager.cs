@@ -32,6 +32,7 @@ namespace FiresecService.OPC
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecOPCManager.Start");
+				UILogger.Log("Ошибка при запуске OPC сервера", true);
 			}
 		}
 
@@ -78,7 +79,7 @@ namespace FiresecService.OPC
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecOPCManager.OnRun");
-				MainViewModel.Current.UpdateCurrentStatus("Ошибка при загрузке модуля OPC");
+				UILogger.Log("Ошибка при загрузке модуля OPC");
 			}
 		}
 

@@ -7,7 +7,7 @@
     <UserControl.Resources>
         <CollectionViewSource x:Key="SortedItems" Source="{Binding Path=Items}">
             <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription Direction="Ascending" PropertyName="Name" />
+                <scm:SortDescription Direction="Ascending" PropertyName="Driver.ShortName" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </UserControl.Resources>
@@ -16,8 +16,8 @@
         <ListBox.ItemTemplate>
             <DataTemplate>
                 <StackPanel Orientation="Horizontal" Margin="5, 5, 0, 0">
-                    <Image Width="14" Margin="5,0" Source="{Binding ImageSource}" />
-                    <TextBlock Text="{Binding Name}" />
+                    <Image Width="14" Margin="5,0" Source="{Binding Driver.ImageSource}" />
+                    <TextBlock Text="{Binding Driver.ShortName}" />
                 </StackPanel>
             </DataTemplate>
         </ListBox.ItemTemplate>

@@ -45,7 +45,7 @@ namespace FiresecService.Configuration
 
 			foreach (var device in DeviceConfiguration.Devices)
 			{
-				device.Driver = ConfigurationCash.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				device.Driver = ConfigurationCash.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 			}
 
 			if (includeSecurity)
@@ -76,7 +76,7 @@ namespace FiresecService.Configuration
 		public void ConvertMetadataFromFiresec()
 		{
 			DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
-			ConfigurationCash.Drivers = new List<Driver>();
+			ConfigurationCash.DriversConfiguration.Drivers = new List<Driver>();
 			foreach (var innerDriver in DriverConverter.Metadata.drv)
 			{
 				var driver = DriverConverter.Convert(innerDriver);
@@ -87,10 +87,15 @@ namespace FiresecService.Configuration
 				else
 				{
 					if (driver.IsIgnore == false)
-						ConfigurationCash.Drivers.Add(driver);
+						ConfigurationCash.DriversConfiguration.Drivers.Add(driver);
 				}
 			}
-			DriverConfigurationParametersHelper.CreateKnownProperties(ConfigurationCash.Drivers);
+			DriverConfigurationParametersHelper.CreateKnownProperties(ConfigurationCash.DriversConfiguration.Drivers);
+
+			if (ConfigurationCash.DriversConfiguration.Drivers.Count > 0)
+			{
+				ConfigurationFileManager.SetDriversConfiguration(ConfigurationCash.DriversConfiguration);
+			}
 		}
 
 		public void Update(DeviceConfiguration deviceConfiguration = null)
@@ -102,7 +107,7 @@ namespace FiresecService.Configuration
 			deviceConfiguration.Update();
 			foreach (var device in deviceConfiguration.Devices)
 			{
-				device.Driver = ConfigurationCash.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				device.Driver = ConfigurationCash.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				if (device.Driver == null)
 				{
 					hasInvalidDriver = true;

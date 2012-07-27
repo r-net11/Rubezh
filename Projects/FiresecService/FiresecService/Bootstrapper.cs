@@ -37,17 +37,16 @@ namespace FiresecService
 				MainViewStartedEvent.WaitOne();
 
 				var comServersStatus = ClientsCash.InitializeComServers();
+				UILogger.Log("Открытие хоста");
 				var isHostOpened = FiresecServiceManager.Open();
+				UILogger.Log("Запуск OPC сервера");
 				FiresecOPCManager.Start();
-				MainViewModel.Current.UpdateStatus
-					(isHostOpened ? "открыт" : "НЕ открыт",
-					comServersStatus ? "установлено" : "НЕ установлено"
-					);
+				UILogger.Log("Готово");
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
-				MessageBoxService.ShowException(e);
+				UILogger.Log("Ошибка при запуске сервера", true);
 				Close();
 			}
 		}

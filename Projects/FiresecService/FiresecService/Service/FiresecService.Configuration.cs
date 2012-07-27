@@ -8,7 +8,11 @@ namespace FiresecService.Service
 	{
 		public List<Driver> GetDrivers()
 		{
-			return ConfigurationCash.Drivers;
+			if (ConfigurationCash.DriversConfiguration.Drivers.Count == 0)
+			{
+				return ConfigurationFileManager.GetDriversConfiguration().Drivers;
+			}
+			return ConfigurationCash.DriversConfiguration.Drivers;
 		}
 
 		public DeviceConfigurationStates GetStates(bool forceConvert = false)

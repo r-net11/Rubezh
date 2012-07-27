@@ -29,13 +29,7 @@ namespace LibraryModule.ViewModels
         }
 
         public Driver Driver { get; private set; }
-
         public LibraryDevice LibraryDevice { get; private set; }
-
-        public Guid Id
-        {
-            get { return LibraryDevice.DriverId; }
-        }
 
         public DeviceViewModel(LibraryDevice libraryDevice)
         {

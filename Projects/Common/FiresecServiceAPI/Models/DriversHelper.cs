@@ -75,7 +75,7 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("1909EBDF-467D-4565-AD5C-CD5D9084E4C3", 0, "Кнопка управления автоматикой", DriverType.AutomaticButton));
             DriverDataList.Add(new DriverData("2F875F0C-54AA-47CE-B639-FE5E3ED9841B", 0, "Кнопка вкл автоматики ШУЗ и насосов в направлении", DriverType.ShuzOnButton));
             DriverDataList.Add(new DriverData("032CDF7B-6787-4612-B3D1-03E0D3FD2F53", 0, "Кнопка выкл автоматики ШУЗ и насосов в направлении", DriverType.ShuzOffButton));
-            DriverDataList.Add(new DriverData("935B0020-889B-4A94-9563-EC0E4127E8E3", 1, "Кнопка разблокировки автоматики ШУЗ в направлении", DriverType.ShuzUnblockButton));
+            DriverDataList.Add(new DriverData("935B0020-889B-4A94-9563-EC0E4127E8E3", 0, "Кнопка разблокировки автоматики ШУЗ в направлении", DriverType.ShuzUnblockButton));
             DriverDataList.Add(new DriverData("641FA899-FAA0-455B-B626-646E5FBE785A", 0, "Ручной извещатель ИПР513-11", DriverType.HandDetector));
             DriverDataList.Add(new DriverData("EFCA74B2-AD85-4C30-8DE8-8115CC6DFDD2", 0, "Охранная адресная метка АМ1-О", DriverType.AM1_O));
             DriverDataList.Add(new DriverData("E495C37A-A414-4B47-AF24-FEC1F9E43D86", 0, "Адресная метка  АМ4", DriverType.AM4));

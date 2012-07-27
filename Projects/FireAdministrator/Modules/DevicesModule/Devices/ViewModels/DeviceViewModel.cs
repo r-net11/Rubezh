@@ -220,6 +220,12 @@ namespace DevicesModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
+			if (Driver.DeviceClassName == "ППКП")
+			{
+				if (MessageBoxService.ShowQuestion("Вы действительно хотите удалить устройство") != System.Windows.MessageBoxResult.Yes)
+					return;
+			}
+
 			var index = DevicesViewModel.Current.Devices.IndexOf(DevicesViewModel.Current.SelectedDevice);
 
 			Parent.IsExpanded = false;
@@ -321,6 +327,8 @@ namespace DevicesModule.ViewModels
 					Device.ZoneLogic = new ZoneLogic();
 					OnPropertyChanged("Device");
 					OnPropertyChanged("Device.Driver");
+					//OnPropertyChanged("Driver");
+					OnPropertyChanged("Driver.ImageSource");
 					OnPropertyChanged("PresentationZone");
 					ServiceFactory.SaveService.DevicesChanged = true;
 					DevicesViewModel.Current.UpdateExternalDevices();

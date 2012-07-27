@@ -6,7 +6,8 @@ namespace FiresecService.Service
 {
 	public static class ConfigurationCash
 	{
-		public static List<Driver> Drivers { get; set; }
+		//public static List<Driver> Drivers { get; set; }
+		public static DriversConfiguration DriversConfiguration { get; set; }
 		public static DeviceConfiguration DeviceConfiguration { get; set; }
 		public static LibraryConfiguration LibraryConfiguration { get; set; }
 		public static SystemConfiguration SystemConfiguration { get; set; }
@@ -15,7 +16,8 @@ namespace FiresecService.Service
 
 		static ConfigurationCash()
 		{
-			Drivers = new List<Driver>();
+			//Drivers = new List<Driver>();
+			DriversConfiguration = new DriversConfiguration();
 			DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
 			SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
 			LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();

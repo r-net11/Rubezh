@@ -158,6 +158,7 @@
     <Compile Include="Models\Archive\JournalDeviceItem.cs" />
     <Compile Include="Models\ClientCredentials.cs" />
     <Compile Include="Models\ClientType.cs" />
+    <Compile Include="Models\Configuration\DriversConfiguration.cs" />
     <Compile Include="Models\Configuration\FullConfiguration.cs" />
     <Compile Include="Models\Configuration\LibraryConfiguration.cs" />
     <Compile Include="Models\Configuration\PlansConfiguration.cs" />

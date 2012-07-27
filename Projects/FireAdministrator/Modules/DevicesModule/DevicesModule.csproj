@@ -293,9 +293,6 @@
     <Compile Include="Guard\Views\UserDetailsView.xaml.cs">
       <DependentUpon>UserDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Guard\Views\GuardZoneSelectationView.xaml.cs">
-      <DependentUpon>GuardZoneSelectationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>
@@ -494,10 +491,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Guard\Views\UserDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Guard\Views\GuardZoneSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

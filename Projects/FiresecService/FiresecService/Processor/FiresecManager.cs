@@ -37,16 +37,18 @@ namespace FiresecService.Processor
 
 			if (IsConnectedToComServer = FiresecSerializedClient.Connect(login, password).Result)
 			{
-				MainViewModel.Current.UpdateCurrentStatus("Конвертирование метаданных");
-				ConfigurationConverter.ConvertMetadataFromFiresec();
-				MainViewModel.Current.UpdateCurrentStatus("Обновление конфигурации");
-				ConfigurationConverter.Update();
-				MainViewModel.Current.UpdateCurrentStatus("Синхронизация конфигурации");
-				ConfigurationConverter.SynchronyzeConfiguration();
-				MainViewModel.Current.UpdateCurrentStatus("Конвертирование состояний");
-				ConvertStates();
+				if (MustMonitorStates)
+				{
+					UILogger.Log("Конвертирование метаданных");
+					ConfigurationConverter.ConvertMetadataFromFiresec();
+					UILogger.Log("Обновление конфигурации");
+					ConfigurationConverter.Update();
+					UILogger.Log("Синхронизация конфигурации");
+					ConfigurationConverter.SynchronyzeConfiguration();
+					UILogger.Log("Конвертирование состояний");
+					ConvertStates();
+				}
 				Watcher = new Watcher(this);
-				MainViewModel.Current.UpdateCurrentStatus("Готово");
 				return true;
 			}
 			return false;

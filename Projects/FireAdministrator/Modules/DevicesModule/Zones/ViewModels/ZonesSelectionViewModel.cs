@@ -43,6 +43,22 @@ namespace DevicesModule.ViewModels
 			{
 				availableZones = FiresecManager.GetPanelZones(device);
 			}
+			//if (zoneLogicState == ZoneLogicState.Alarm)
+			//{
+			//    var zonesWithMPT = new List<Zone>();
+			//    foreach (var zone in availableZones)
+			//    {
+			//        foreach (var deviceInZone in zone.DevicesInZone)
+			//        {
+			//            if (deviceInZone.Driver.DriverType == DriverType.MPT)
+			//            {
+			//                zonesWithMPT.Add(zone);
+			//                continue;
+			//            }
+			//        }
+			//    }
+			//    availableZones = zonesWithMPT;
+			//}
 
 			foreach (var zone in availableZones)
 			{
@@ -53,7 +69,7 @@ namespace DevicesModule.ViewModels
 					continue;
 				}
 
-				if ((zoneLogicState == ZoneLogicState.MPTAutomaticOn) || (zoneLogicState == ZoneLogicState.MPTOn))
+				if ((zoneLogicState == ZoneLogicState.MPTAutomaticOn) || (zoneLogicState == ZoneLogicState.MPTOn) || (zoneLogicState == ZoneLogicState.Firefighting))
 				{
 					if (device.ParentPanel.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneNo == zone.No) == false)
 					{
@@ -67,11 +83,8 @@ namespace DevicesModule.ViewModels
 					SourceZones.Add(zoneViewModel);
 			}
 
-			if (TargetZones.Count > 0)
-				SelectedTargetZone = TargetZones[0];
-
-			if (SourceZones.Count > 0)
-				SelectedSourceZone = SourceZones[0];
+			SelectedTargetZone = TargetZones.FirstOrDefault();
+			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
 		public ObservableCollection<ZoneViewModel> SourceZones { get; private set; }

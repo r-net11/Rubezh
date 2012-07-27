@@ -14,6 +14,7 @@ namespace FiresecService.Configuration
 		readonly static string PlansConfigurationFileName = "PlansConfiguration.xml";
 		readonly static string DeviceConfigurationFileName = "DeviceConfiguration.xml";
 		readonly static string SecurityConfigurationFileName = "SecurityConfiguration.xml";
+		readonly static string DriversConfigurationFileName = "DriversConfiguration.xml";
 
 		public static string ConfigurationDirectory(string FileNameOrDirectory)
 		{
@@ -80,6 +81,16 @@ namespace FiresecService.Configuration
 		public static void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
 		{
 			Set<SecurityConfiguration>(securityConfiguration, SecurityConfigurationFileName);
+		}
+
+		public static DriversConfiguration GetDriversConfiguration()
+		{
+			return Get<DriversConfiguration>(DriversConfigurationFileName);
+		}
+
+		public static void SetDriversConfiguration(DriversConfiguration driversConfiguration)
+		{
+			Set<DriversConfiguration>(driversConfiguration, DriversConfigurationFileName);
 		}
 
 		public static T Get<T>(string fileName)

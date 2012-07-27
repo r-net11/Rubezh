@@ -38,13 +38,13 @@ namespace AlarmModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowAlarmsEvent, AlarmType?>("Тревоги", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
+				new NavigationItem<ShowAlarmsEvent, AlarmType?>("Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
 			};
 		}
 
 		public override string Name
 		{
-			get { return "Тревоги"; }
+			get { return "Состояния"; }
 		}
 	}
 }

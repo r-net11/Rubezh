@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using System.ServiceModel.Description;
 using Common;
+using FiresecService.ViewModels;
 
 namespace FiresecService.Service
 {
@@ -37,6 +38,7 @@ namespace FiresecService.Service
 			catch(Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове FiresecServiceManager.Open");
+				UILogger.Log("Ошибка при запуске хоста сервиса", true);
 				return false;
 			}
 		}

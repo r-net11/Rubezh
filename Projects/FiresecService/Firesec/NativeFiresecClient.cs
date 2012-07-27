@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using Common;
 using System.ServiceProcess;
 using System.IO;
+using System.Diagnostics;
+using Microsoft.Win32;
 
 namespace Firesec
 {
@@ -68,11 +70,7 @@ namespace Firesec
 
 		public FiresecOperationResult<bool> SetNewConfig(string coreConfig)
 		{
-			using (StreamWriter streamWriter = new StreamWriter(File.Open("D:/Temp.xml", FileMode.Create), Encoding.UTF8))
-			{
-				streamWriter.Write(coreConfig);
-			}
-			return SafeCall<bool>(() => { Connectoin.SetNewConfig("D:/Temp.xml"); return true; });
+			return SafeCall<bool>(() => { Connectoin.SetNewConfig(coreConfig); return true; });
 		}
 
 		public FiresecOperationResult<bool> ResetStates(string states)
@@ -423,23 +421,71 @@ namespace Firesec
 		public int StopProgress;
 		#endregion
 
-		#region NTService
-		static void StartSocketServerIfNotRunning()
+		#region Socket Server
+		static void StartNTSocketServerIfNotRunning()
 		{
-#if !DEBUG
 			var service = new System.ServiceProcess.ServiceController("Borland Advanced Socket Server");
-			if (service.Status != System.ServiceProcess.ServiceControllerStatus.Running)
+			if ((service != null) && (service.Status != System.ServiceProcess.ServiceControllerStatus.Running))
 			{
 				try
 				{
-					TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
-
 					service.Start();
-					service.WaitForStatus(ServiceControllerStatus.Running, timeout);
+					service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromMilliseconds(10000));
 				}
-				catch { }
+				catch (Exception e)
+				{
+					Logger.Error(e, "Исключение при вызове NativeFiresecClient.StartSocketServerIfNotRunning");
+				}
 			}
-#endif
+		}
+
+		static void StartSocketServerIfNotRunning()
+		{
+			foreach (var process in Process.GetProcesses())
+			{
+				if (process.ProcessName == "scktsrvr")
+				{
+					return;
+				}
+			}
+
+			var newProcess = new Process();
+			newProcess.StartInfo = new ProcessStartInfo()
+			{
+				FileName = GetSocketServerPath()
+			};
+			newProcess.Start();
+
+			for (int i = 0; i < 100; i++)
+			{
+				foreach (var process in Process.GetProcesses())
+				{
+					if (process.ProcessName == "scktsrvr")
+					{
+						return;
+					}
+				}
+				Thread.Sleep(100);
+			}
+			Logger.Error("NativeFiresecClient.StartSocketServerIfNotRunning не удалось запустить процесс scktsrvr");
+		}
+
+		static string GetSocketServerPath()
+		{
+			try
+			{
+				RegistryKey registryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"SYSTEM\CurrentControlSet\Services\Adv_SocketServer", false);
+				object key = registryKey.GetValue("ImagePath");
+				string path = key.ToString();
+				path = path.Replace(" -service", "");
+				path = path.Replace("\"", "");
+				return path;
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове NativeFiresecClient.GetSocketServerPath");
+				return @"C:\Program Files\Firesec\scktsrvr.exe";
+			}
 		}
 		#endregion
 	}

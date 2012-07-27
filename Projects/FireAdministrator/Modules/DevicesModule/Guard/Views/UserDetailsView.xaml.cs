@@ -2,11 +2,11 @@
 
 namespace DevicesModule.Views
 {
-    public partial class UserDetailsView : UserControl
-    {
-        public UserDetailsView()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class UserDetailsView : UserControl
+	{
+		public UserDetailsView()
+		{
+			InitializeComponent();
+		}
+	}
 }

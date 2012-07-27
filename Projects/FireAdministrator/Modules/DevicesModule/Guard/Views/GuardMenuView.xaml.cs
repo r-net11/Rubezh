@@ -4,11 +4,11 @@ using System.Windows.Input;
 
 namespace DevicesModule.Views
 {
-    public partial class GuardMenuView : UserControl
-    {
-        public GuardMenuView()
-        {
-            InitializeComponent();
+	public partial class GuardMenuView : UserControl
+	{
+		public GuardMenuView()
+		{
+			InitializeComponent();
 			Current = this;
 			AcceptKeyboard = true;
 		}
@@ -46,5 +46,5 @@ namespace DevicesModule.Views
 			if (button.Command.CanExecute(null))
 				button.Command.Execute(null);
 		}
-    }
+	}
 }

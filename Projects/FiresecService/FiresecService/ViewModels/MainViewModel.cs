@@ -13,9 +13,6 @@ namespace FiresecService.ViewModels
 	public class MainViewModel : ApplicationViewModel
 	{
 		public static MainViewModel Current { get; private set; }
-		public string HostStatus { get; private set; }
-		public string ComServersStatus { get; private set; }
-		public string CurrentStatus { get; private set; }
 
 		public MainViewModel()
 		{
@@ -24,8 +21,6 @@ namespace FiresecService.ViewModels
 			ShowImitatorCommand = new RelayCommand(OnShowImitator);
 			Clients = new ObservableCollection<ClientViewModel>();
 			Title = "Сервер ОПС FireSec-2";
-			ComServersStatus = "устанавливается";
-			HostStatus = "устанавливается";
 		}
 
 		public RelayCommand ShowImitatorCommand { get; private set; }
@@ -165,39 +160,54 @@ namespace FiresecService.ViewModels
 			));
 		}
 
-		public void UpdateStatus(string hostStatus, string comServersStatus)
+		public void AddLog(string message, bool isError = false)
 		{
 			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
-				HostStatus = hostStatus;
-				ComServersStatus = comServersStatus;
-				OnPropertyChanged("HostStatus");
-				OnPropertyChanged("ComServersStatus");
+				LastLog = message;
+				if (isError)
+				{
+					ErrorLog += message + "\n";
+				}
+				else
+				{
+					InfoLog += message + "\n";
+				}
 			}
 			));
 		}
 
-		public void UpdateCurrentStatus(string currentStatus)
+		string _lastLog = "";
+		public string LastLog
 		{
-			Dispatcher.BeginInvoke(new Action(
-			delegate()
-			{
-				CurrentStatus = currentStatus;
-				OnPropertyChanged("CurrentStatus");
-				LogText += CurrentStatus + "\n";
-			}
-			));
-		}
-
-		string _logText = "";
-		public string LogText
-		{
-			get { return _logText; }
+			get { return _lastLog; }
 			set
 			{
-				_logText = value;
-				OnPropertyChanged("LogText");
+				_lastLog = value;
+				OnPropertyChanged("LastLog");
+			}
+		}
+
+		string _infoLog = "";
+		public string InfoLog
+		{
+			get { return _infoLog; }
+			set
+			{
+				_infoLog = value;
+				OnPropertyChanged("InfoLog");
+			}
+		}
+
+		string _errorLog = "";
+		public string ErrorLog
+		{
+			get { return _errorLog; }
+			set
+			{
+				_errorLog = value;
+				OnPropertyChanged("ErrorLog");
 			}
 		}
 

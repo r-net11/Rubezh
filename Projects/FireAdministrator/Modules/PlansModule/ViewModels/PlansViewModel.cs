@@ -182,20 +182,21 @@ namespace PlansModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			var parent = SelectedPlan.Parent;
+			var selectedPlan = SelectedPlan;
+			var parent = selectedPlan.Parent;
 			var plan = SelectedPlan.Plan;
 
 			if (parent == null)
 			{
-				SelectedPlan.IsExpanded = false;
-				Plans.Remove(SelectedPlan);
+				selectedPlan.IsExpanded = false;
+				Plans.Remove(selectedPlan);
 				FiresecManager.PlansConfiguration.Plans.Remove(plan);
 			}
 			else
 			{
 				parent.IsExpanded = false;
+				parent.Children.Remove(selectedPlan);
 				parent.Plan.Children.Remove(plan);
-				parent.Children.Remove(SelectedPlan);
 				parent.Update();
 				parent.IsExpanded = true;
 			}

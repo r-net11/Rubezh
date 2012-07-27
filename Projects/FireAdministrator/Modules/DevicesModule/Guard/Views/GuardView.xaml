@@ -42,6 +42,11 @@
                     <DataGridTextColumn Header="Пароль" Width="1*" Binding="{Binding GuardUser.Password}" />
                     <DataGridTextColumn Header="ФИО" Width="1*" Binding="{Binding GuardUser.FIO}" />
                 </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Создать пользователя" Command="{Binding AddCommand}" />
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
             </DataGrid>
         </Grid>
 

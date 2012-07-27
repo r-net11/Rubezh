@@ -6,6 +6,8 @@ using FiresecService.Processor;
 using FiresecService.ViewModels;
 using Common;
 using System;
+using System.Diagnostics;
+using System.Threading;
 
 namespace FiresecService.Service
 {
@@ -30,9 +32,26 @@ namespace FiresecService.Service
 		{
 			try
 			{
-				MainViewModel.Current.UpdateCurrentStatus("Соединение с ядром для мониторинга");
+				UILogger.Log("Перезапуск службы Socket Server");
+				try
+				{
+					foreach (var process in Process.GetProcesses())
+					{
+						if (process.ProcessName == "scktsrvr")
+						{
+							process.Kill();
+							process.WaitForExit();
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Исключение при вызове ClientsCash.InitializeComServers");
+				}
+
+				UILogger.Log("Соединение с ядром для мониторинга");
 				MonitoringFiresecManager = new FiresecManager(true);
-				MainViewModel.Current.UpdateCurrentStatus("Соединение с ядром для администрирования");
+				UILogger.Log("Соединение с ядром для администрирования");
 				AdministratorFiresecManager = new FiresecManager(false);
 				return (MonitoringFiresecManager.IsConnectedToComServer && AdministratorFiresecManager.IsConnectedToComServer);
 			}
