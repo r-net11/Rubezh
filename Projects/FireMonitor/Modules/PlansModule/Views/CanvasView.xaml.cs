@@ -87,13 +87,9 @@ namespace PlansModule.Views
 			lastMousePositionOnTarget = Mouse.GetPosition(grid);
 
 			if (e.Delta > 0)
-			{
 				slider.Value += 1;
-			}
 			else if (e.Delta < 0)
-			{
 				slider.Value -= 1;
-			}
 
 			e.Handled = true;
 		}
@@ -223,7 +219,7 @@ namespace PlansModule.Views
 				{
 					ElementDeviceView elementDeviceView = child as ElementDeviceView;
 					ElementDeviceViewModel viewModel = elementDeviceView.DataContext as ElementDeviceViewModel;
-					double k = deviceSlider.Value / slider.Value;
+					double k = deviceSlider.Value / scaleTransform.ScaleX;
 					elementDeviceView.Width = k;
 					elementDeviceView.Height = k;
 					Canvas.SetLeft(elementDeviceView, viewModel.Location.X - k / 2);

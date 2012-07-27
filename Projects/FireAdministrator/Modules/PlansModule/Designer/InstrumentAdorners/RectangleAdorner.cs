@@ -48,6 +48,8 @@ namespace PlansModule.InstrumentAdorners
 				if (!AdornerCanvas.Children.Contains(rubberband))
 					AdornerCanvas.Children.Add(rubberband);
 				//AdornerCanvas.Cursor = null;
+				if (!AdornerCanvas.IsMouseCaptured)
+					AdornerCanvas.CaptureMouse();
 			}
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
