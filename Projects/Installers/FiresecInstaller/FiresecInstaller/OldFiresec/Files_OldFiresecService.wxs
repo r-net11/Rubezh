@@ -101,7 +101,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="SystemFolder" >
-      <Component Id="msvcp60Dll" Guid="*" Permanent="yes">
+      <Component Id="msvcp60Dll" Guid="*" Permanent="yes" >
         <File Id="msvcp60DllFile" Name="msvcp60.dll" Source="C:\WINDOWS\system32\" DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>

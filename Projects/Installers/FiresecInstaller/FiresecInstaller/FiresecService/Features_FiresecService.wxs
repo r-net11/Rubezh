@@ -34,7 +34,7 @@
 			<ComponentRef Id="FSAutorunComponent"/>
       <ComponentRef Id="OPC_gbda3w_Component"/>
       <ComponentRef Id="OPC_gbda_clr_Component"/>
-      <ComponentRef Id="FiresecNTServiceComponent"/>
+      <!--<ComponentRef Id="FiresecNTServiceComponent"/>-->
       <!--<ComponentRef Id="ServiceInstallerComponent"/>-->
       <!--<ComponentRef Id="RemoveNTServiceComponent" />-->
 			<ComponentGroupRef Id="ConfigurationGroup"/>

@@ -9,6 +9,7 @@
 			<ComponentRef Id="FireMonitorExe" />
 			<ComponentRef Id="FireMonitorConfig" />
 			<ComponentRef Id="FMCommonComponent" />
+      <ComponentRef Id="FMCommonGKComponent"/>
 			<ComponentRef Id="FMControlsComponent" />
 			<ComponentRef Id="FMDeviceControlsComponent" />
 			<ComponentRef Id="FMFiresecAPIComponent" />

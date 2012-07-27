@@ -9,6 +9,7 @@
 			<ComponentRef Id="FAExeComponent" />
 			<ComponentRef Id="FAConfigComponent" />
 			<ComponentRef Id="FACommonComponent" />
+      <ComponentRef Id="FACommonGKComponent"/>
 			<ComponentRef Id="FAControlsComponent" />
 			<ComponentRef Id="FADeviceControlsComponent" />
 			<ComponentRef Id="FAFiresecAPIComponent" />

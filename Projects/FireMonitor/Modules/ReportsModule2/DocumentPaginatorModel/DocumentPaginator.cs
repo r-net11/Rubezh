@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Globalization;
+using System;
 
 namespace ReportsModule2.DocumentPaginatorModel
 {
@@ -11,12 +13,15 @@ namespace ReportsModule2.DocumentPaginatorModel
 		DocumentPaginator m_Paginator;
 		Typeface m_Typeface;
 
+		DateTime _dateTime;
+
 		public DocumentPaginatorWrapper(DocumentPaginator paginator, Size pageSize, Size margin)
 		{
 			m_PageSize = pageSize;
 			m_Margin = margin;
 			m_Paginator = paginator;
 			m_Paginator.PageSize = new Size(m_PageSize.Width - margin.Width * 2, m_PageSize.Height - margin.Height * 2);
+			_dateTime = DateTime.Now;
 		}
 
 		Rect Move(Rect rect)
@@ -43,9 +48,22 @@ namespace ReportsModule2.DocumentPaginatorModel
 				{
 					m_Typeface = new Typeface("Times New Roman");
 				}
-				FormattedText text = new FormattedText("Страница " + (pageNumber + 1), System.Globalization.CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+				LineSegment line = new LineSegment(new Point(100, 570), false);
+				FormattedText titleText = new FormattedText("Список устройств конфигурации", CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+					m_Typeface, 20, Brushes.Black);
+				FormattedText text = new FormattedText("Страница " + (pageNumber + 1), CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
 					m_Typeface, 14, Brushes.Black);
-				ctx.DrawText(text, new Point(620, 580)); // 1/4 inch above page content
+				FormattedText textDate = new FormattedText(_dateTime.ToString(), CultureInfo.CurrentCulture, FlowDirection.LeftToRight,
+					m_Typeface, 14, Brushes.Black);
+				var pen = new Pen();
+				pen.Brush = Brushes.Black;
+				pen.Thickness = 2;
+				ctx.DrawLine(pen, new Point(10, 570), new Point(650, 570));
+				ctx.DrawText(text, new Point(580, 580));
+				ctx.DrawText(textDate, new Point(10, 580));
+				if (pageNumber == 0) 
+					ctx.DrawText(titleText, new Point(200, 5));
+
 			}
 			//DrawingVisual background = new DrawingVisual();
 			//using (DrawingContext ctx = background.RenderOpen())

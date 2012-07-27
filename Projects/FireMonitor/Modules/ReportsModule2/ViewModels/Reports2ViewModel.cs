@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Controls;
-using FiresecAPI.Models;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using JournalModule.ViewModels;
 using ReportsModule2.DocumentPaginatorModel;
 using ReportsModule2.Reports;
-using System.Diagnostics;
 
 namespace ReportsModule2.ViewModels
 {
@@ -17,25 +11,21 @@ namespace ReportsModule2.ViewModels
 	{
 		public Reports2ViewModel()
 		{
-			FirstPageCommand = new RelayCommand(OnFirstPage, GetIsReportLoad);
-			NextPageCommand = new RelayCommand(OnNextPage, GetIsReportLoad);
-			PreviousPageCommand = new RelayCommand(OnPreviousPage, GetIsReportLoad);
-			LastPageCommand = new RelayCommand(OnLastPage, GetIsReportLoad);
-			FidthToPageCommand = new RelayCommand(OnFidthToPage, GetIsReportLoad);
-			SaveReportCommand = new RelayCommand(OnSaveReportCommand, GetIsReportLoad);
-			PrintReportCommand = new RelayCommand(OnPrintReport, GetIsReportLoad);
-			RefreshCommand = new RelayCommand(OnRefresh, GetIsReportLoad);
-			FilterCommand = new RelayCommand(OnFilter, GetIsReportLoad);
-			SearchCommand = new RelayCommand(OnSearch, GetIsReportLoad);
-			ZoomInCommand = new RelayCommand(OnZoomIn, GetIsReportLoad);
-			ZoomOutCommand = new RelayCommand(OnZoomOut, GetIsReportLoad);
 			XpsDocumentCommand = new RelayCommand(OnXpsDocument);
-
-			
 			XpsDocumentViewer = new DocumentViewer();
+			XpsViewer = XpsDocumentViewer;
 		}
 
-		private Dictionary<ReportType, BaseReport> _reportMap;
+		object _xpsViewer;
+		public object XpsViewer
+		{
+			get { return _xpsViewer; }
+			set
+			{
+				_xpsViewer = value;
+				OnPropertyChanged("XpsViewer");
+			}
+		}
 
 		DocumentViewer _xpsDocumentViewer;
 		public DocumentViewer XpsDocumentViewer
@@ -48,142 +38,22 @@ namespace ReportsModule2.ViewModels
 			}
 		}
 
-		void ShowCrystalReport(BaseReport baseReport)
+		public void ShowReport()
 		{
-		}
-
-		public int ZoomValue { get; set; }
-
-		public double ZoomMinimumValue { get { return 1; } }
-		public double ZoomMaximumValue { get { return 1000; } }
-		public bool IsReportLoad { get { return GetIsReportLoad(); } }
-		public bool IsJournalReport { get { return SelectedReportName == ReportType.ReportJournal; } }
-
-		public List<ReportType> AvailableReportTypes
-		{
-			get { return Enum.GetValues(typeof(ReportType)).Cast<ReportType>().ToList(); }
-		}
-
-		ReportType? _selectedReportName;
-		public ReportType? SelectedReportName
-		{
-			get { return _selectedReportName; }
-			set
-			{
-				_selectedReportName = value;
-				if (value.HasValue)
-					ShowCrystalReport(_reportMap[value.Value]);
-				OnPropertyChanged("IsReportLoad");
-				OnPropertyChanged("IsJournalReport");
-				OnPropertyChanged("SelectedReportName");
-			}
-		}
-
-		public string TotalPageNumber { get; set; }
-
-		public string CurrentPageNumber { get; set; }
-
-		string _searchText;
-		public string SearchText
-		{
-			get { return _searchText; }
-			set
-			{
-				_searchText = value;
-				OnPropertyChanged("SearchText");
-			}
-		}
-
-		public RelayCommand ZoomOutCommand { get; private set; }
-		void OnZoomOut()
-		{
-			Update();
-		}
-		public RelayCommand ZoomInCommand { get; private set; }
-		void OnZoomIn()
-		{
-			Update();
-		}
-		public RelayCommand FirstPageCommand { get; private set; }
-		void OnFirstPage()
-		{
-			Update();
-		}
-		public RelayCommand NextPageCommand { get; private set; }
-		void OnNextPage()
-		{
-			Update();
-		}
-		public RelayCommand PreviousPageCommand { get; private set; }
-		void OnPreviousPage()
-		{
-			Update();
-		}
-		public RelayCommand LastPageCommand { get; private set; }
-		void OnLastPage()
-		{
-			Update();
-		}
-		public RelayCommand FidthToPageCommand { get; private set; }
-		void OnFidthToPage()
-		{
-			Update();
-		}
-		public RelayCommand SaveReportCommand { get; private set; }
-		void OnSaveReportCommand()
-		{
-		}
-		public RelayCommand PrintReportCommand { get; private set; }
-		void OnPrintReport()
-		{
-		}
-		public RelayCommand RefreshCommand { get; private set; }
-		void OnRefresh()
-		{
-			SelectedReportName = SelectedReportName;
-			Update();
-		}
-		public RelayCommand FilterCommand { get; private set; }
-		void OnFilter()
-		{
-			var archiveFilter = new ArchiveFilter()
-			{
-				EndDate = DateTime.Now,
-				StartDate = DateTime.Now.AddDays(-1),
-				UseSystemDate = false
-			};
-			var archiveFilterViewModel = new ArchiveFilterViewModel(archiveFilter);
-			if (DialogService.ShowModalWindow(archiveFilterViewModel))
-			{
-				ShowCrystalReport(new ReportJournal(archiveFilterViewModel));
-			}
-		}
-		public RelayCommand SearchCommand { get; private set; }
-		void OnSearch() { }
-
-		string _time;
-		public string Time
-		{
-			get { return _time; }
-			set
-			{
-				_time = value;
-				OnPropertyChanged("Time");
-			}
 		}
 
 		public RelayCommand XpsDocumentCommand { get; private set; }
 		void OnXpsDocument()
 		{
 			var startDate = DateTime.Now;
-			var reportJournal = new ReportJournal();
-			reportJournal.LoadData();
-			reportJournal.CreateFlowDocumentStringBuilder();
-			var sb = reportJournal.FlowDocumentStringBuilder;
-			ConvertFlowToXPS.SaveAsXps2(sb.ToString());
-			XpsDocumentViewer.Document = reportJournal.XpsDocument.GetFixedDocumentSequence();
+			var reportDevicesList = new ReportDevicesList();
+			reportDevicesList.LoadData();
+			reportDevicesList.CreateFlowDocumentStringBuilder();
+			var sb = reportDevicesList.FlowDocumentStringBuilder;
+			ConvertFlowToXPS.SaveAsXps2(sb.ToString(), reportDevicesList.XpsDocumentName);
+			XpsDocumentViewer.Document = reportDevicesList.XpsDocument.GetFixedDocumentSequence();
 			var endDate = DateTime.Now;
-			Time = (endDate - startDate).ToString();
+			var Time = (endDate - startDate).ToString();
 			OnPropertyChanged("XpsDocumentViewer");
 
 			//FileStream htmlFile = new FileStream("journal.html", FileMode.Open, FileAccess.Read);
@@ -194,18 +64,6 @@ namespace ReportsModule2.ViewModels
 			//xpsDocument.Close();
 			//myStreamReader.Close();
 			//htmlFile.Close();
-		}
-
-		public void Update()
-		{
-			OnPropertyChanged("ZoomValue");
-			OnPropertyChanged("CurrentPageNumber");
-			OnPropertyChanged("TotalPageNumber");
-		}
-
-		bool GetIsReportLoad()
-		{
-			return SelectedReportName != null;
 		}
 	}
 }

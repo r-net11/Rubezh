@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <?define ProductName="Firesec-2" ?>
+  <?define ProductName="FireSec-2" ?>
   <?define ProductVersion="0.0.0.0" ?>
   <?define ProductCode="93FFAF0E-DE92-4F0C-B9B0-A42AB67D75F4" ?>
   <?define UpgradeCode="4EC7EDC0-351F-42A3-BB9A-5DD8D5131CFD" ?>
@@ -15,6 +15,6 @@
   <?define xaml2svgFolder="xaml2svg"?>
   <?define ReportTemplatesFolder="ReportTemplates"?>
   <?define Codepage="1251" ?>
-  <?define BrandName="Firesec-2"?>
+  <?define BrandName="FireSec-2"?>
   
 </Include>

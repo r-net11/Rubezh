@@ -48,6 +48,11 @@
 				<File Id="FMCommonDll" Name="Common.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
+
+      <Component Id="FMCommonGKComponent" Guid="*">
+        <File Id="FMCommonGKDll" Name="Common.GK.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+      </Component>
 		
       <Component Id="FMControlsComponent" Guid="*">
 				<File Id="FMControlsDll" Name="Controls.dll" Source="$(var.FireMonitor.TargetDir)"

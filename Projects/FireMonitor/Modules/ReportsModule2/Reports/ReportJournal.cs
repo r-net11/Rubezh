@@ -13,6 +13,7 @@ using FiresecClient;
 using JournalModule.ViewModels;
 using ReportsModule2.DocumentPaginatorModel;
 using ReportsModule2.Models;
+using System.Data;
 
 namespace ReportsModule2.Reports
 {
@@ -22,20 +23,20 @@ namespace ReportsModule2.Reports
 		{
 			base.ReportFileName = "JournalCrystalReport.rpt";
 			ReportArchiveFilter = new ReportArchiveFilter();
-			DataTable = new Table();
+			DTable = new Table();
 		}
 
 		public ReportJournal(ArchiveFilterViewModel archiveFilterViewModel)
 		{
 			base.ReportFileName = "JournalCrystalReport.rpt";
 			ReportArchiveFilter = new ReportArchiveFilter(archiveFilterViewModel);
-			DataTable = new Table();
+			DTable = new Table();
 		}
 
 		public DateTime EndDate { get; set; }
 		public DateTime StartDate { get; set; }
 		public ReportArchiveFilter ReportArchiveFilter { get; set; }
-		public Table DataTable { get; set; }
+		public Table DTable { get; set; }
 		public XpsDocument XpsDocument
 		{
 			get
@@ -69,19 +70,19 @@ namespace ReportsModule2.Reports
 
 		void LoadDataTable()
 		{
-			DataTable = new Table();
+			DTable = new Table();
 			int numberOfColumns = 7;
 			for (int i = 0; i < numberOfColumns; i++)
 			{
-				DataTable.Columns.Add(new TableColumn());
+				DTable.Columns.Add(new TableColumn());
 			}
 
-			DataTable.BorderBrush = Brushes.White;
-			DataTable.BorderThickness = new Thickness(1);
-			DataTable.CellSpacing = 0.1;
-			DataTable.RowGroups.Add(new TableRowGroup());
-			DataTable.RowGroups[0].Rows.Add(new TableRow());
-			var currentRow = DataTable.RowGroups[0].Rows[0];
+			DTable.BorderBrush = Brushes.White;
+			DTable.BorderThickness = new Thickness(1);
+			DTable.CellSpacing = 0.1;
+			DTable.RowGroups.Add(new TableRowGroup());
+			DTable.RowGroups[0].Rows.Add(new TableRow());
+			var currentRow = DTable.RowGroups[0].Rows[0];
 			currentRow.Background = Brushes.Silver;
 			currentRow.FontSize = 14;
 			currentRow.FontWeight = FontWeights.Bold;
@@ -93,15 +94,15 @@ namespace ReportsModule2.Reports
 			currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Устройство"))));
 			currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Пользователь"))));
 
-			DataTable.RowGroups.Add(new TableRowGroup());
-			DataTable.RowGroups[1].FontSize = 12;
-			DataTable.RowGroups[1].FontWeight = FontWeights.Normal;
-			DataTable.RowGroups[1].Background = Brushes.White;
+			DTable.RowGroups.Add(new TableRowGroup());
+			DTable.RowGroups[1].FontSize = 12;
+			DTable.RowGroups[1].FontWeight = FontWeights.Normal;
+			DTable.RowGroups[1].Background = Brushes.White;
 			int rowNumber = 0;
 			foreach (var journalModel in DataList)
 			{
-				DataTable.RowGroups[1].Rows.Add(new TableRow());
-				currentRow = DataTable.RowGroups[1].Rows[rowNumber];
+				DTable.RowGroups[1].Rows.Add(new TableRow());
+				currentRow = DTable.RowGroups[1].Rows[rowNumber];
 				currentRow.Cells.Add(new TableCell(new Paragraph(new Run(journalModel.DeviceTime))) { BorderBrush = Brushes.Black, BorderThickness = new Thickness(1) });
 				currentRow.Cells.Add(new TableCell(new Paragraph(new Run(journalModel.SystemTime))) { BorderBrush = Brushes.Black, BorderThickness = new Thickness(1) });
 				currentRow.Cells.Add(new TableCell(new Paragraph(new Run(journalModel.ZoneName))) { BorderBrush = Brushes.Black, BorderThickness = new Thickness(1) });
@@ -114,17 +115,22 @@ namespace ReportsModule2.Reports
 
 		}
 
+		void LoadDataTable2()
+		{
+			base.ListToDataTable();
+		}
+
 		public void CreateXpsDocument()
 		{
 			var flowDocument = new FlowDocument();
-			flowDocument.Blocks.Add(DataTable);
+			flowDocument.Blocks.Add(DTable);
 			ConvertFlowToXPS.SaveFlowAsXpsInFile(flowDocument);
 		}
 
 		public void SaveFlowDocumentToTxt()
 		{
 			var flowDocument = new FlowDocument();
-			flowDocument.Blocks.Add(DataTable);
+			flowDocument.Blocks.Add(DTable);
 			ConvertFlowToXPS.SaveFlowAsString(flowDocument);
 		}
 
