@@ -9,6 +9,6 @@ namespace Infrastructure.Events
     public class CreateZoneEventArg
     {
         public bool Cancel { get; set; }
-        public ulong? ZoneNo { get; set; }
+        public int? ZoneNo { get; set; }
     }
 }

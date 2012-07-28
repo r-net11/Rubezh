@@ -36,7 +36,7 @@ namespace FiresecService
 				WindowThread.Start();
 				MainViewStartedEvent.WaitOne();
 
-				var comServersStatus = ClientsCash.InitializeComServers();
+				ClientsCash.InitializeComServers();
 				UILogger.Log("Открытие хоста");
 				var isHostOpened = FiresecServiceManager.Open();
 				UILogger.Log("Запуск OPC сервера");

@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
     {
         public GuardUser()
         {
-            Zones = new List<ulong>();
+			Zones = new List<int>();
         }
 
         [DataMember]
@@ -40,6 +40,6 @@ namespace FiresecAPI.Models
         public string KeyTM { get; set; }
 
         [DataMember]
-        public List<ulong> Zones { get; set; }
+		public List<int> Zones { get; set; }
     }
 }

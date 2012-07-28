@@ -8,13 +8,13 @@ namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
-		public static string GetClausePresentationName(List<ulong> zones)
+		public static string GetClausePresentationName(List<int> zones)
 		{
 			if (zones.Count > 0)
 			{
 				var orderedZones = zones.OrderBy(x => x).ToList();
-				ulong prevZoneNo = orderedZones[0];
-				List<List<ulong>> groupOfZones = new List<List<ulong>>();
+				int prevZoneNo = orderedZones[0];
+				List<List<int>> groupOfZones = new List<List<int>>();
 
 				for (int i = 0; i < orderedZones.Count; i++)
 				{
@@ -22,13 +22,13 @@ namespace FiresecClient
 					var haveZonesBetween = DeviceConfiguration.Zones.Any(x => (x.No > prevZoneNo) && (x.No < zoneNo));
 					if (haveZonesBetween)
 					{
-						groupOfZones.Add(new List<ulong>() { zoneNo });
+						groupOfZones.Add(new List<int>() { zoneNo });
 					}
 					else
 					{
 						if (groupOfZones.Count == 0)
 						{
-							groupOfZones.Add(new List<ulong>() { zoneNo });
+							groupOfZones.Add(new List<int>() { zoneNo });
 						}
 						else
 						{

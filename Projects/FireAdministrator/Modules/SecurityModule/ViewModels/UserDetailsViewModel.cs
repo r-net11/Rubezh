@@ -54,8 +54,7 @@ namespace SecurityModule.ViewModels
 
             if (IsNew)
             {
-                if (Roles.Count > 0)
-                    UserRole = Roles[0];
+				UserRole = Roles.FirstOrDefault();
             }
             else
             {

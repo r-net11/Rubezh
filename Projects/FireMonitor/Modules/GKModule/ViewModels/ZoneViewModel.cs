@@ -64,11 +64,11 @@ namespace GKModule.ViewModels
 			return false;
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementPolygonZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == (ulong)Zone.No)))
+				if (plan.ElementPolygonZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == (int)Zone.No)))
 				{
 					return true;
 				}
-				if (plan.ElementRectangleZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == (ulong)Zone.No)))
+				if (plan.ElementRectangleZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == (int)Zone.No)))
 				{
 					return true;
 				}
@@ -79,7 +79,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish((ulong)Zone.No);
+			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish((int)Zone.No);
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace InstructionsModule
 			_instructionsViewModel = new InstructionsViewModel();
 		}
 
-		void OnShowInstructions(ulong? instructionNo)
+		void OnShowInstructions(int? instructionNo)
 		{
 			if (instructionNo != null)
 			{
@@ -35,7 +35,7 @@ namespace InstructionsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowInstructionsEvent, ulong?>("Инструкции", "/Controls;component/Images/information.png"),
+				new NavigationItem<ShowInstructionsEvent, int?>("Инструкции", "/Controls;component/Images/information.png"),
 			};
 		}
 		public override string Name

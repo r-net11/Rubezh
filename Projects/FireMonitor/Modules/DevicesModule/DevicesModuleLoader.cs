@@ -28,7 +28,7 @@ namespace DevicesModule
 			DevicesViewModel.Select(deviceUID);
 			ServiceFactory.Layout.Show(DevicesViewModel);
 		}
-		void OnShowZone(ulong? zoneNo)
+		void OnShowZone(int? zoneNo)
 		{
 			ZonesViewModel.Select(zoneNo);
 			ServiceFactory.Layout.Show(ZonesViewModel);
@@ -48,7 +48,7 @@ namespace DevicesModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem<ShowDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-				new NavigationItem<ShowZoneEvent, ulong?>("Зоны", "/Controls;component/Images/zones.png")
+				new NavigationItem<ShowZoneEvent, int?>("Зоны", "/Controls;component/Images/zones.png")
 			};
 		}
 

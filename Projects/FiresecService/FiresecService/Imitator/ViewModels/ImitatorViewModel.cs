@@ -3,6 +3,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using FiresecService.Service;
 using Firesec.CoreState;
 using System.Collections.Generic;
+using FiresecAPI.Models;
 
 namespace FiresecService.ViewModels
 {
@@ -17,8 +18,11 @@ namespace FiresecService.ViewModels
 			Title = "Имитатор состояний устройств";
 			Devices = new ObservableCollection<DeviceViewModel>();
 
-			foreach (var deviceState in ClientsCash.MonitoringFiresecManager.DeviceConfigurationStates.DeviceStates)
+			foreach (var deviceState in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
 			{
+				if (deviceState.Device.Driver.DriverType == (DriverType.IndicationBlock | DriverType.Page | DriverType.Indicator))
+					continue;
+
 				var deviceViewModel = new DeviceViewModel(deviceState);
 				Devices.Add(deviceViewModel);
 			}

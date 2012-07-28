@@ -11,6 +11,7 @@ using PlansModule.Designer;
 using PlansModule.Events;
 using System.Windows.Controls;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PlansModule.ViewModels
 {
@@ -203,9 +204,7 @@ namespace PlansModule.ViewModels
 
 			FiresecManager.PlansConfiguration.Update();
 			ServiceFactory.SaveService.PlansChanged = true;
-
-			if (Plans.Count > 0)
-				SelectedPlan = Plans[0];
+			SelectedPlan = Plans.FirstOrDefault();
 		}
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
@@ -252,8 +251,8 @@ namespace PlansModule.ViewModels
 				if (DesignerCanvas.Toolbox != null)
 					DesignerCanvas.Toolbox.AcceptKeyboard = true;
 			}
-			if (SelectedPlan == null && Plans.Count > 0)
-				SelectedPlan = Plans[0];
+			if (SelectedPlan == null)
+				SelectedPlan = Plans.FirstOrDefault();
 		}
 		public override void OnHide()
 		{

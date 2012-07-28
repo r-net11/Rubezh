@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
 	public class IndicatorDetailsViewModel : SaveCancelDialogViewModel
 	{
 		Device Device;
-		List<ulong> _zones;
+		List<int> Zones;
 
 		public IndicatorDetailsViewModel(Device device)
 		{
@@ -26,7 +26,7 @@ namespace DevicesModule.ViewModels
 			FailureColor = IndicatorColorType.Orange;
 			ConnectionColor = IndicatorColorType.Orange;
 
-			_zones = new List<ulong>();
+			Zones = new List<int>();
 			Device = device;
 
 			if (device.IndicatorLogic == null)
@@ -37,7 +37,7 @@ namespace DevicesModule.ViewModels
 				case IndicatorLogicType.Zone:
 					IsZone = true;
 					if (device.IndicatorLogic.Zones != null)
-						_zones = device.IndicatorLogic.Zones;
+						Zones = device.IndicatorLogic.Zones;
 					break;
 
 				case IndicatorLogicType.Device:
@@ -81,9 +81,9 @@ namespace DevicesModule.ViewModels
 			get
 			{
 				string presenrationZones = "";
-				for (int i = 0; i < _zones.Count; i++)
+				for (int i = 0; i < Zones.Count; i++)
 				{
-					var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == _zones[i]);
+					var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Zones[i]);
 					if (i > 0)
 						presenrationZones += ", ";
 					presenrationZones += zone.PresentationName;
@@ -155,10 +155,10 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowZonesCommand { get; private set; }
 		void OnShowZones()
 		{
-			var indicatorZoneSelectionViewModel = new IndicatorZoneSelectionViewModel(_zones, Device);
+			var indicatorZoneSelectionViewModel = new IndicatorZoneSelectionViewModel(Zones, Device);
 			if (DialogService.ShowModalWindow(indicatorZoneSelectionViewModel))
 			{
-				_zones = indicatorZoneSelectionViewModel.Zones;
+				Zones = indicatorZoneSelectionViewModel.Zones;
 				OnPropertyChanged("PresenrationZones");
 			}
 		}
@@ -184,7 +184,7 @@ namespace DevicesModule.ViewModels
 			if (IsZone)
 			{
 				Device.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Zone;
-				Device.IndicatorLogic.Zones = _zones;
+				Device.IndicatorLogic.Zones = Zones;
 			}
 			else if (IsDevice)
 			{

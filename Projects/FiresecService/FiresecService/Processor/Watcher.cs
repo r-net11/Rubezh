@@ -4,13 +4,16 @@ using System.Linq;
 using Common;
 using FiresecAPI.Models;
 using FiresecService.Database;
+using FiresecService.Service;
 
 namespace FiresecService.Processor
 {
 	public class Watcher
 	{
+		public static bool Ignore = false;
 		public bool DoNotCallback = false;
 
+		#region Callback
 		public event Action<List<DeviceState>> DevicesStateChanged;
 		void OnDevicesStateChanged(List<DeviceState> deviceStates)
 		{
@@ -79,6 +82,19 @@ namespace FiresecService.Processor
 			}
 		}
 
+		bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
+		{
+			foreach (var firesecService in FiresecServices)
+			{
+				if (firesecService != null && firesecService.CallbackWrapper != null)
+				{
+					return firesecService.CallbackWrapper.Progress(stage, comment, percentComplete, bytesRW);
+				}
+			}
+			return false;
+		}
+		#endregion
+
 		FiresecManager FiresecManager;
 		List<FiresecService.Service.FiresecService> FiresecServices
 		{
@@ -104,18 +120,6 @@ namespace FiresecService.Processor
 			FiresecSerializedClient.Progress += new Func<int, string, int, int, bool>(OnProgress);
 		}
 
-		bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
-		{
-			foreach (var firesecService in FiresecServices)
-			{
-				if (firesecService != null && firesecService.CallbackWrapper != null)
-				{
-					return firesecService.CallbackWrapper.Progress(stage, comment, percentComplete, bytesRW);
-				}
-			}
-			return false;
-		}
-
 		void FiresecClient_NewEvent(int EventMask)
 		{
 			bool evmNewEvents = ((EventMask & 1) == 1);
@@ -131,11 +135,14 @@ namespace FiresecService.Processor
 			bool evmIgnoreListChanged = ((EventMask & 1024) == 1024);
 			bool evmEventViewChanged = ((EventMask & 2048) == 2048);
 
-			if (evmStateChanged)
-				OnStateChanged();
+			if (!Ignore)
+			{
+				if (evmStateChanged)
+					OnStateChanged();
 
-			if (evmDeviceParamsUpdated)
-				OnParametersChanged();
+				if (evmDeviceParamsUpdated)
+					OnParametersChanged();
+			}
 
 			if (evmNewEvents)
 				OnNewEvent();
@@ -230,7 +237,7 @@ namespace FiresecService.Processor
 
 			try
 			{
-				foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+				foreach (var deviceState in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
 				{
 					var innerDevice = coreParameters.dev.FirstOrDefault(x => x.name == deviceState.PlaceInTree);
 					if (innerDevice != null)
@@ -307,18 +314,18 @@ namespace FiresecService.Processor
 
 		void SetStates(Firesec.CoreState.config coreState)
 		{
-			if (FiresecManager.DeviceConfigurationStates == null)
+			if (ConfigurationCash.DeviceConfigurationStates == null)
 			{
 				Logger.Error("Watcher.SetStates FiresecManager.DeviceConfigurationStates = null");
 				return;
 			}
-			if (FiresecManager.DeviceConfigurationStates.DeviceStates == null)
+			if (ConfigurationCash.DeviceConfigurationStates.DeviceStates == null)
 			{
 				Logger.Error("Watcher.SetStates FiresecManager.DeviceConfigurationStates.DeviceStates = null");
 				return;
 			}
 
-			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			foreach (var deviceState in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
 			{
 				if (deviceState == null)
 				{
@@ -415,16 +422,16 @@ namespace FiresecService.Processor
 
 		void PropogateStatesDown()
 		{
-			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			foreach (var deviceState in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
 			{
 				deviceState.ParentStates.ForEach(x => x.IsDeleting = true);
 			}
 
-			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			foreach (var deviceState in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
 			{
 				foreach (var state in deviceState.States.Where(x => x.DriverState.AffectChildren))
 				{
-					foreach (var chilDevice in FiresecManager.DeviceConfigurationStates.DeviceStates)
+					foreach (var chilDevice in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
 					{
 						if (chilDevice.PlaceInTree == null)
 						{
@@ -456,7 +463,7 @@ namespace FiresecService.Processor
 				}
 			}
 
-			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			foreach (var deviceState in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
 			{
 				for (int i = deviceState.ParentStates.Count(); i > 0; i--)
 				{
@@ -472,7 +479,7 @@ namespace FiresecService.Processor
 
 		void PropogateStatesUp()
 		{
-			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			foreach (var deviceState in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
 			{
 				if (deviceState.ChildStates == null)
 				{
@@ -482,7 +489,7 @@ namespace FiresecService.Processor
 				deviceState.ChildStates.ForEach(x => x.IsDeleting = true);
 			}
 
-			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			foreach (var deviceState in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
 			{
 				foreach (var state in deviceState.States)
 				{
@@ -492,7 +499,7 @@ namespace FiresecService.Processor
 						continue;
 
 					var parentDevice = deviceState.Device.Parent;
-					var parentDeviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == parentDevice.UID);
+					var parentDeviceState = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == parentDevice.UID);
 
 					var childDeviceState = new ChildDeviceState()
 					{
@@ -515,7 +522,7 @@ namespace FiresecService.Processor
 				}
 			}
 
-			foreach (var deviceState in FiresecManager.DeviceConfigurationStates.DeviceStates)
+			foreach (var deviceState in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
 			{
 				for (int i = deviceState.ChildStates.Count(); i > 0; i--)
 				{
@@ -533,13 +540,13 @@ namespace FiresecService.Processor
 		{
 			try
 			{
-				if (FiresecManager.DeviceConfigurationStates.ZoneStates == null)
+				if (ConfigurationCash.DeviceConfigurationStates.ZoneStates == null)
 					return;
 
-				foreach (var zoneState in FiresecManager.DeviceConfigurationStates.ZoneStates)
+				foreach (var zoneState in ConfigurationCash.DeviceConfigurationStates.ZoneStates)
 				{
 					StateType minZoneStateType = StateType.Norm;
-					var deviceStates = FiresecManager.DeviceConfigurationStates.DeviceStates.
+					var deviceStates = ConfigurationCash.DeviceConfigurationStates.DeviceStates.
 						Where(x => x.Device.ZoneNo == zoneState.No && !x.Device.Driver.IgnoreInZoneState);
 
 					foreach (var deviceState in deviceStates)
@@ -548,7 +555,7 @@ namespace FiresecService.Processor
 							minZoneStateType = deviceState.StateType;
 					}
 
-					if (FiresecManager.DeviceConfigurationStates.DeviceStates.Any(x => x.Device.ZoneNo == zoneState.No) == false)
+					if (ConfigurationCash.DeviceConfigurationStates.DeviceStates.Any(x => x.Device.ZoneNo == zoneState.No) == false)
 						minZoneStateType = StateType.Unknown;
 
 					if (zoneState.StateType != minZoneStateType)

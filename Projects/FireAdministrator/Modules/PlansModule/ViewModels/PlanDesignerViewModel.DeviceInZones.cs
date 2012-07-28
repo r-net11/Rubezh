@@ -23,7 +23,7 @@ namespace PlansModule.ViewModels
 		}
 		public void UpdateDeviceInZones()
 		{
-			var deviceInZones = new Dictionary<Device, ulong?>();
+			var deviceInZones = new Dictionary<Device, int?>();
 			foreach (var designerItem in DesignerCanvas.Items)
 			{
 				ElementDevice elementDevice = designerItem.Element as ElementDevice;
@@ -34,7 +34,7 @@ namespace PlansModule.ViewModels
 					var device = Helper.GetDevice(elementDevice);
 					if (device == null || device.Driver == null || !device.Driver.IsZoneDevice)
 						continue;
-					var zones = new List<ulong>();
+					var zones = new List<int>();
 					foreach (var elementPolygonZoneItem in DesignerCanvas.Items)
 					{
 						var point = new Point((int)(designerItemCenterX - Canvas.GetLeft(elementPolygonZoneItem)), (int)(designerItemCenterY - Canvas.GetTop(elementPolygonZoneItem)));
@@ -60,7 +60,7 @@ namespace PlansModule.ViewModels
 						if (!isInZone)
 						{
 							if (!deviceInZones.ContainsKey(device))
-								deviceInZones.Add(device, zones.Count > 0 ? (ulong?)zones[0] : null);
+								deviceInZones.Add(device, zones.Count > 0 ? (int?)zones[0] : null);
 							else if (zones.Count > 0)
 								deviceInZones[device] = zones[0];
 						}

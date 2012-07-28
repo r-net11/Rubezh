@@ -21,9 +21,7 @@ namespace DevicesModule.ViewModels
 			Zones = (from Zone zone in FiresecManager.DeviceConfiguration.Zones
 					 orderby zone.No
 					 select new ZoneViewModel(zone)).ToList();
-
-			if (Zones.Count > 0)
-				SelectedZone = Zones[0];
+			SelectedZone = Zones.FirstOrDefault();
 		}
 
 		List<ZoneViewModel> _zones;
@@ -49,7 +47,7 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public void Select(ulong? zoneNo)
+		public void Select(int? zoneNo)
 		{
 			if (zoneNo.HasValue)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);

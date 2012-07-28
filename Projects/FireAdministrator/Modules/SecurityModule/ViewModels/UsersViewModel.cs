@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SecurityModule.Views;
+using System.Linq;
 
 namespace SecurityModule.ViewModels
 {
@@ -26,9 +27,7 @@ namespace SecurityModule.ViewModels
 				foreach (var user in FiresecManager.SecurityConfiguration.Users)
 					Users.Add(new UserViewModel(user));
 			}
-
-			if (Users.Count > 0)
-				SelectedUser = Users[0];
+			SelectedUser = Users.FirstOrDefault();
 		}
 
 		ObservableCollection<UserViewModel> _users;

@@ -2,7 +2,7 @@
 
 namespace DevicesModule.Events
 {
-    public class ZoneSelectedEvent : CompositePresentationEvent<ulong?>
+    public class ZoneSelectedEvent : CompositePresentationEvent<int?>
     {
     }
 }

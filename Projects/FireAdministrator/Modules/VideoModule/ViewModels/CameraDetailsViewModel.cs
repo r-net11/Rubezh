@@ -13,7 +13,7 @@ namespace VideoModule.ViewModels
 	public class CameraDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Camera Camera { get; private set; }
-		public List<ulong> Zones { get; set; }
+		public List<int> Zones { get; set; }
 
 		public CameraDetailsViewModel(Camera camera = null)
 		{
@@ -50,7 +50,7 @@ namespace VideoModule.ViewModels
 			IgnoreMoveResize = Camera.IgnoreMoveResize;
 			SelectedStateType = Camera.StateType;
 			if (Camera.Zones == null)
-				Camera.Zones = new List<ulong>();
+				Camera.Zones = new List<int>();
 			Zones = Camera.Zones.ToList();
 		}
 

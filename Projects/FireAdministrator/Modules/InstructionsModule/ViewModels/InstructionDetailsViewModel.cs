@@ -37,7 +37,7 @@ namespace InstructionsModule.ViewModels
 
         void CopyProperties()
         {
-            InstructionZones = new ObservableCollection<ulong>();
+			InstructionZones = new ObservableCollection<int>();
             InstructionDevices = new ObservableCollection<Guid>();
 
             InstructionNo = Instruction.No;
@@ -49,7 +49,7 @@ namespace InstructionsModule.ViewModels
             {
                 case InstructionType.Details:
                     if (Instruction.Zones.IsNotNullOrEmpty())
-                        InstructionZones = new ObservableCollection<ulong>(Instruction.Zones);
+						InstructionZones = new ObservableCollection<int>(Instruction.Zones);
                     if (Instruction.Devices.IsNotNullOrEmpty())
                         InstructionDevices = new ObservableCollection<Guid>(Instruction.Devices);
                     break;
@@ -59,8 +59,8 @@ namespace InstructionsModule.ViewModels
             }
         }
 
-        ulong _instructionNo;
-        public ulong InstructionNo
+		int _instructionNo;
+		public int InstructionNo
         {
             get { return _instructionNo; }
             set
@@ -128,8 +128,8 @@ namespace InstructionsModule.ViewModels
             get { return new List<InstructionType>(Enum.GetValues(typeof(InstructionType)).OfType<InstructionType>()); }
         }
 
-        ObservableCollection<ulong> _instructionZones;
-        public ObservableCollection<ulong> InstructionZones
+		ObservableCollection<int> _instructionZones;
+		public ObservableCollection<int> InstructionZones
         {
             get { return _instructionZones; }
             set
@@ -161,7 +161,7 @@ namespace InstructionsModule.ViewModels
             var instructionZonesViewModel = new InstructionZonesViewModel(InstructionZones.ToList());
             if (DialogService.ShowModalWindow(instructionZonesViewModel))
             {
-                InstructionZones = new ObservableCollection<ulong>(instructionZonesViewModel.InstructionZonesList);
+				InstructionZones = new ObservableCollection<int>(instructionZonesViewModel.InstructionZonesList);
             }
         }
 
@@ -198,7 +198,7 @@ namespace InstructionsModule.ViewModels
             else
             {
                 Instruction.Devices = new List<Guid>();
-                Instruction.Zones = new List<ulong>();
+				Instruction.Zones = new List<int>();
             }
 			return base.Save();
 		}

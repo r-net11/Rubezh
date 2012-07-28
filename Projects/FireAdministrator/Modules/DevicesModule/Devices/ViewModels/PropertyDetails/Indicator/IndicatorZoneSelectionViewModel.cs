@@ -4,42 +4,40 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 
 namespace DevicesModule.ViewModels
 {
 	public class IndicatorZoneSelectionViewModel : SaveCancelDialogViewModel
     {
-        public List<ulong> Zones { get; private set; }
+		public List<int> Zones { get; private set; }
 
-		public IndicatorZoneSelectionViewModel(List<ulong> zones, Device device)
-        {
-            Title = "Свойства индикатора";
+		public IndicatorZoneSelectionViewModel(List<int> zones, Device device)
+		{
+			Title = "Свойства индикатора";
 
-            AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
-            RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);
-            AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
-            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
+			AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
+			RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);
+			AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
+			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
 
-            Zones = zones;
-            TargetZones = new ObservableCollection<ZoneViewModel>();
-            SourceZones = new ObservableCollection<ZoneViewModel>();
+			Zones = zones;
+			TargetZones = new ObservableCollection<ZoneViewModel>();
+			SourceZones = new ObservableCollection<ZoneViewModel>();
 
 			foreach (var zone in FiresecManager.GetChannelZones(device))
-            {
-                var zoneViewModel = new ZoneViewModel(zone);
+			{
+				var zoneViewModel = new ZoneViewModel(zone);
 
-                if (Zones.Contains(zone.No))
-                    TargetZones.Add(zoneViewModel);
-                else
-                    SourceZones.Add(zoneViewModel);
-            }
+				if (Zones.Contains(zone.No))
+					TargetZones.Add(zoneViewModel);
+				else
+					SourceZones.Add(zoneViewModel);
+			}
 
-            if (TargetZones.Count > 0)
-                SelectedTargetZone = TargetZones[0];
-
-            if (SourceZones.Count > 0)
-                SelectedSourceZone = SourceZones[0];
-        }
+			SelectedTargetZone = TargetZones.FirstOrDefault();
+			SelectedSourceZone = SourceZones.FirstOrDefault();
+		}
 
         public ObservableCollection<ZoneViewModel> SourceZones { get; set; }
 
@@ -73,9 +71,7 @@ namespace DevicesModule.ViewModels
             TargetZones.Add(SelectedSourceZone);
             SelectedTargetZone = SelectedSourceZone;
             SourceZones.Remove(SelectedSourceZone);
-
-            if (SourceZones.Count > 0)
-                SelectedSourceZone = SourceZones[0];
+			SelectedSourceZone = SourceZones.FirstOrDefault();
         }
 
         public RelayCommand RemoveOneCommand { get; private set; }
@@ -84,9 +80,7 @@ namespace DevicesModule.ViewModels
             SourceZones.Add(SelectedTargetZone);
             SelectedSourceZone = SelectedTargetZone;
             TargetZones.Remove(SelectedTargetZone);
-
-            if (TargetZones.Count > 0)
-                SelectedTargetZone = TargetZones[0];
+			SelectedTargetZone = TargetZones.FirstOrDefault();
         }
 
         public RelayCommand AddAllCommand { get; private set; }
@@ -97,9 +91,7 @@ namespace DevicesModule.ViewModels
                 TargetZones.Add(zoneViewModel);
             }
             SourceZones.Clear();
-
-            if (TargetZones.Count > 0)
-                SelectedTargetZone = TargetZones[0];
+			SelectedTargetZone = TargetZones.FirstOrDefault();
         }
 
         public RelayCommand RemoveAllCommand { get; private set; }
@@ -110,9 +102,7 @@ namespace DevicesModule.ViewModels
                 SourceZones.Add(zoneViewModel);
             }
             TargetZones.Clear();
-
-            if (SourceZones.Count > 0)
-                SelectedSourceZone = SourceZones[0];
+			SelectedSourceZone = SourceZones.FirstOrDefault();
         }
 
         bool CanAdd()
@@ -127,7 +117,7 @@ namespace DevicesModule.ViewModels
 
 		protected override bool Save()
 		{
-			Zones = new List<ulong>();
+			Zones = new List<int>();
 			foreach (var zone in TargetZones)
 			{
 				Zones.Add(zone.Zone.No);

@@ -7,19 +7,13 @@ namespace OPCModule.ViewModels
 {
 	public class OPCZonesViewModel : ViewPartViewModel
 	{
-		public OPCZonesViewModel()
-		{
-		}
-
 		public void Initialize()
 		{
 			Zones = new ObservableCollection<OPCZoneViewModel>(
 				from zone in FiresecManager.DeviceConfiguration.Zones
 				orderby zone.No
 				select new OPCZoneViewModel(zone));
-
-			if (Zones.Count > 0)
-				SelectedZone = Zones[0];
+			SelectedZone = Zones.FirstOrDefault();
 		}
 
 		ObservableCollection<OPCZoneViewModel> _zones;
@@ -42,14 +36,6 @@ namespace OPCModule.ViewModels
 				_selectedZone = value;
 				OnPropertyChanged("SelectedZone");
 			}
-		}
-
-		void SelectFirstZone()
-		{
-			if (Zones.Count > 0)
-				SelectedZone = Zones[0];
-			else
-				SelectedZone = null;
 		}
 
 		public override void OnShow()

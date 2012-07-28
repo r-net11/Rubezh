@@ -8,6 +8,7 @@ using Common;
 using System;
 using System.Diagnostics;
 using System.Threading;
+using Firesec;
 
 namespace FiresecService.Service
 {
@@ -22,43 +23,26 @@ namespace FiresecService.Service
 		{
 			FiresecServices = new List<FiresecService>();
 
-			PingTimer = new System.Timers.Timer();
-			PingTimer.Interval = 10000;
-			PingTimer.Elapsed += new ElapsedEventHandler((source, e) => { PingClients(); });
-			PingTimer.Start();
+			//PingTimer = new System.Timers.Timer();
+			//PingTimer.Interval = 10000;
+			//PingTimer.Elapsed += new ElapsedEventHandler((source, e) => { PingClients(); });
+			//PingTimer.Start();
 		}
 
-		public static bool InitializeComServers()
+		public static void InitializeComServers()
 		{
 			try
 			{
-				UILogger.Log("Перезапуск службы Socket Server");
-				try
-				{
-					foreach (var process in Process.GetProcesses())
-					{
-						if (process.ProcessName == "scktsrvr")
-						{
-							process.Kill();
-							process.WaitForExit();
-						}
-					}
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "Исключение при вызове ClientsCash.InitializeComServers");
-				}
-
+				UILogger.Log("Остановка службы Socket Server");
+				SocketServerHelper.Stop();
 				UILogger.Log("Соединение с ядром для мониторинга");
 				MonitoringFiresecManager = new FiresecManager(true);
 				UILogger.Log("Соединение с ядром для администрирования");
 				AdministratorFiresecManager = new FiresecManager(false);
-				return (MonitoringFiresecManager.IsConnectedToComServer && AdministratorFiresecManager.IsConnectedToComServer);
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "ClientsCash.InitializeComServers");
-				return false;
 			}
 		}
 
@@ -119,7 +103,6 @@ namespace FiresecService.Service
 		public static void OnConfigurationChanged()
 		{
 			MonitoringFiresecManager.ConvertStates();
-			AdministratorFiresecManager.ConvertStates();
 			foreach (var firesecServices in FiresecServices)
 			{
 				firesecServices.CallbackWrapper.ConfigurationChanged();

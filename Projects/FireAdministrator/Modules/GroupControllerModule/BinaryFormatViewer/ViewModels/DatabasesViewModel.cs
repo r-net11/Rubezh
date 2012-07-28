@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Commom.GK;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -19,9 +20,7 @@ namespace GKModule.ViewModels
 			{
 				Databases.Add(kauDatabase);
 			}
-
-			if (Databases.Count > 0)
-				SelectedDatabase = Databases[0];
+			SelectedDatabase = Databases.FirstOrDefault();
 		}
 
 		public List<CommonDatabase> Databases { get; private set; }
@@ -47,9 +46,7 @@ namespace GKModule.ViewModels
 				var binObjectViewModel = new BinaryObjectViewModel(binaryObject);
 				BinaryObjects.Add(binObjectViewModel);
 			}
-
-			if (BinaryObjects.Count > 0)
-				SelectedBinaryObject = BinaryObjects[0];
+			SelectedBinaryObject = BinaryObjects.FirstOrDefault();
 		}
 
 		List<BinaryObjectViewModel> _binaryObjects;

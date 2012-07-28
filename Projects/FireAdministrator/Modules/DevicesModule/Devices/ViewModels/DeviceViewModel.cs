@@ -20,7 +20,7 @@ namespace DevicesModule.ViewModels
 		public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
-			AddManyCommand = new RelayCommand(OnAddMany, CanAdd);
+			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
@@ -202,10 +202,15 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public RelayCommand AddManyCommand { get; private set; }
-		void OnAddMany()
+		public bool CanAddToParent()
 		{
-			if (DialogService.ShowModalWindow(new NewDeviceRangeViewModel(this)))
+			return ((Parent != null) && (Parent.Driver.DeviceClassName == "ППКП"));
+		}
+
+		public RelayCommand AddToParentCommand { get; private set; }
+		void OnAddToParent()
+		{
+			if (DialogService.ShowModalWindow(new NewDeviceViewModel(this.Parent)))
 			{
 				ServiceFactory.SaveService.DevicesChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
@@ -326,9 +331,7 @@ namespace DevicesModule.ViewModels
 					Device.ZoneNo = null;
 					Device.ZoneLogic = new ZoneLogic();
 					OnPropertyChanged("Device");
-					OnPropertyChanged("Device.Driver");
-					//OnPropertyChanged("Driver");
-					OnPropertyChanged("Driver.ImageSource");
+					OnPropertyChanged("Driver");
 					OnPropertyChanged("PresentationZone");
 					ServiceFactory.SaveService.DevicesChanged = true;
 					DevicesViewModel.Current.UpdateExternalDevices();

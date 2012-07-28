@@ -11,7 +11,7 @@ namespace AlarmModule
 		public AlarmType AlarmType { get; set; }
 		public StateType StateType { get; set; }
 		public Guid DeviceUID { get; set; }
-		public ulong? ZoneNo { get; set; }
+		public int? ZoneNo { get; set; }
 		public DateTime? Time { get; set; }
 		public string StateName { get; set; }
 		public bool IsDeleting { get; set; }

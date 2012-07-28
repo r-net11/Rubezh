@@ -8,7 +8,7 @@ namespace FiresecAPI.Models
 	{
 		public Camera()
 		{
-			Zones = new List<ulong>();
+			Zones = new List<int>();
 			Width = 300;
 			Height = 300;
 		}
@@ -38,6 +38,6 @@ namespace FiresecAPI.Models
 		public StateType StateType { get; set; }
 
 		[DataMember]
-		public List<ulong> Zones { get; set; }
+		public List<int> Zones { get; set; }
 	}
 }

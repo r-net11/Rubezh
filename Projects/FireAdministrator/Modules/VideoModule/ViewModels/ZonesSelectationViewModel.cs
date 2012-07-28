@@ -10,9 +10,9 @@ namespace VideoModule.ViewModels
 {
 	public class ZonesSelectationViewModel : SaveCancelDialogViewModel
     {
-        public List<ulong> Zones { get; private set; }
+		public List<int> Zones { get; private set; }
 
-        public ZonesSelectationViewModel(List<ulong> zones)
+		public ZonesSelectationViewModel(List<int> zones)
         {
             Title = "Выбор зон";
             AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
@@ -33,11 +33,8 @@ namespace VideoModule.ViewModels
                     SourceZones.Add(zone);
             }
 
-            if (TargetZones.Count > 0)
-                SelectedTargetZone = TargetZones[0];
-
-            if (SourceZones.Count > 0)
-                SelectedSourceZone = SourceZones[0];
+			SelectedTargetZone = TargetZones.FirstOrDefault();
+			SelectedSourceZone = SourceZones.FirstOrDefault();
         }
 
         public ObservableCollection<Zone> SourceZones { get; private set; }
@@ -72,9 +69,7 @@ namespace VideoModule.ViewModels
             TargetZones.Add(SelectedSourceZone);
             SelectedTargetZone = SelectedSourceZone;
             SourceZones.Remove(SelectedSourceZone);
-
-            if (SourceZones.Count > 0)
-                SelectedSourceZone = SourceZones[0];
+			SelectedSourceZone = SourceZones.FirstOrDefault();
         }
 
         public RelayCommand RemoveOneCommand { get; private set; }
@@ -83,9 +78,7 @@ namespace VideoModule.ViewModels
             SourceZones.Add(SelectedTargetZone);
             SelectedSourceZone = SelectedTargetZone;
             TargetZones.Remove(SelectedTargetZone);
-
-            if (TargetZones.Count > 0)
-                SelectedTargetZone = TargetZones[0];
+			SelectedTargetZone = TargetZones.FirstOrDefault();
         }
 
         public RelayCommand AddAllCommand { get; private set; }
@@ -96,9 +89,7 @@ namespace VideoModule.ViewModels
                 TargetZones.Add(zoneViewModel);
             }
             SourceZones.Clear();
-
-            if (TargetZones.Count > 0)
-                SelectedTargetZone = TargetZones[0];
+			SelectedTargetZone = TargetZones.FirstOrDefault();
         }
 
         public RelayCommand RemoveAllCommand { get; private set; }
@@ -109,9 +100,7 @@ namespace VideoModule.ViewModels
                 SourceZones.Add(zoneViewModel);
             }
             TargetZones.Clear();
-
-            if (SourceZones.Count > 0)
-                SelectedSourceZone = SourceZones[0];
+			SelectedSourceZone = SourceZones.FirstOrDefault();
         }
 
         bool CanAdd()
@@ -126,7 +115,7 @@ namespace VideoModule.ViewModels
 
 		protected override bool Save()
 		{
-            Zones = new List<ulong>(TargetZones.Select(x => x.No));
+			Zones = new List<int>(TargetZones.Select(x => x.No));
 			return base.Save();
 		}
     }

@@ -82,11 +82,8 @@ namespace GKModule.ViewModels
 
             OnPropertyChanged("Devices");
 
-            if (Devices.Count > 0)
-                SelectedDevice = Devices[Devices.Count - 1];
-
-            if (AvailableDevices.Count > 0)
-                SelectedAvailableDevice = AvailableDevices[AvailableDevices.Count - 1];
+			SelectedDevice = Devices.LastOrDefault();
+			SelectedAvailableDevice = AvailableDevices.LastOrDefault(); ;
         }
 
         public void Clear()

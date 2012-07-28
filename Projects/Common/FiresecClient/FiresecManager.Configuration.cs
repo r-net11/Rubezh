@@ -113,7 +113,7 @@ namespace FiresecClient
 						device.IndicatorLogic.Device = null;
 					}
 
-					var zones = new List<ulong>();
+					var zones = new List<int>();
 					foreach (var zoneNo in device.IndicatorLogic.Zones)
 					{
 						if (DeviceConfiguration.Zones.Any(x => x.No == zoneNo))
@@ -147,7 +147,7 @@ namespace FiresecClient
 								clause.Device = null;
 							}
 
-							var zones = new List<ulong>();
+							var zones = new List<int>();
 							foreach (var zoneNo in clause.Zones)
 							{
 								if (DeviceConfiguration.Zones.Any(x => x.No == zoneNo))
@@ -314,6 +314,78 @@ namespace FiresecClient
 			if (device.Parent == null)
 				return false;
 			return ((device.Driver.DriverType == DriverType.MPT) && (device.Parent.Driver.DriverType == DriverType.MPT));
+		}
+
+		public void UpateGuardZonePanel()
+		{
+			foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+			{
+				zone.SecPanelUID = Guid.Empty;
+				if (zone.ZoneType == ZoneType.Guard)
+				{
+					foreach (var device in zone.DevicesInZone)
+					{
+						if (device.Driver.DriverType == DriverType.AM1_O)
+						{
+							zone.SecPanelUID = device.Parent.UID;
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		public void GetZoneLocalSecNo(Zone zone)
+		{
+			if (zone.SecPanelUID != Guid.Empty)
+			{
+				var guardZones = from guardZone in FiresecManager.DeviceConfiguration.Zones
+								 orderby guardZone.No
+								 where guardZone.SecPanelUID == zone.SecPanelUID
+								 select guardZone;
+
+				var panelDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == zone.SecPanelUID);
+
+				var otherZones = from otherZone in GetPanelLocalZones(panelDevice)
+								 where otherZone.ZoneType == ZoneType.Fire
+								 orderby otherZone.No
+								 select otherZone;
+			}
+		}
+
+		List<Zone> GetPanelLocalZones(Device device)
+		{
+			var zones = new List<Zone>();
+			foreach (var child in GetPanelChildren(device))
+			{
+				if (child.Driver.IsZoneDevice)
+				{
+					if (child.ZoneNo.HasValue)
+					{
+						var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == child.ZoneNo);
+						if (zone != null)
+						{
+							zones.Add(zone);
+						}
+					}
+				}
+			}
+			return zones;
+		}
+
+		List<Device> panelChildren;
+		List<Device> GetPanelChildren(Device device)
+		{
+			panelChildren = new List<Device>();
+			AddPanelChildren(device);
+			return panelChildren;
+		}
+		void AddPanelChildren(Device device)
+		{
+			foreach (var child in device.Children)
+			{
+				panelChildren.Add(child);
+			}
 		}
 	}
 }

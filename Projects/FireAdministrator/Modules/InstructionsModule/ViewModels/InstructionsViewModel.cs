@@ -34,7 +34,7 @@ namespace InstructionsModule.ViewModels
                         instruction.Devices = new List<System.Guid>(
                             instruction.Devices.Where(deviceGuid => FiresecManager.DeviceConfiguration.Devices.Any(x => x.UID == deviceGuid))
                         );
-                        instruction.Zones = new List<ulong>(
+						instruction.Zones = new List<int>(
                             instruction.Zones.Where(zoneNumber => FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == zoneNumber))
                         );
                     }
@@ -42,8 +42,7 @@ namespace InstructionsModule.ViewModels
                 }
             }
 
-            if (Instructions.Count > 0)
-                SelectedInstruction = Instructions[0];
+			SelectedInstruction = Instructions.FirstOrDefault();
         }
 
 		ObservableCollection<InstructionViewModel> _instructions;

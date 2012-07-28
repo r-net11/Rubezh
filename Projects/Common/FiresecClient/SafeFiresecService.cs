@@ -127,7 +127,7 @@ namespace FiresecClient
 			var operationResult = new OperationResult<T>()
 			{
 				HasError = true,
-				Error = "Ошибка при при вызове операции на клиенте"
+				Error = "Ошибка при при вызове операции"
 			};
 			return operationResult;
 		}

@@ -12,9 +12,9 @@ namespace DevicesModule.ViewModels
 	[SaveSizeAttribute]
 	public class ZonesSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public List<ulong> Zones { get; private set; }
+		public List<int> Zones { get; private set; }
 
-		public ZonesSelectionViewModel(Device device, List<ulong> zones, ZoneLogicState zoneLogicState)
+		public ZonesSelectionViewModel(Device device, List<int> zones, ZoneLogicState zoneLogicState)
 		{
 			Title = "Выбор зон";
 			AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
@@ -119,9 +119,7 @@ namespace DevicesModule.ViewModels
 			TargetZones.Add(SelectedSourceZone);
 			SelectedTargetZone = SelectedSourceZone;
 			SourceZones.Remove(SelectedSourceZone);
-
-			if (SourceZones.Count > 0)
-				SelectedSourceZone = SourceZones[0];
+			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
 		public RelayCommand RemoveOneCommand { get; private set; }
@@ -130,9 +128,7 @@ namespace DevicesModule.ViewModels
 			SourceZones.Add(SelectedTargetZone);
 			SelectedSourceZone = SelectedTargetZone;
 			TargetZones.Remove(SelectedTargetZone);
-
-			if (TargetZones.Count > 0)
-				SelectedTargetZone = TargetZones[0];
+			SelectedTargetZone = TargetZones.FirstOrDefault();
 		}
 
 		public RelayCommand AddAllCommand { get; private set; }
@@ -143,9 +139,7 @@ namespace DevicesModule.ViewModels
 				TargetZones.Add(zoneViewModel);
 			}
 			SourceZones.Clear();
-
-			if (TargetZones.Count > 0)
-				SelectedTargetZone = TargetZones[0];
+			SelectedTargetZone = TargetZones.FirstOrDefault();
 		}
 
 		public RelayCommand RemoveAllCommand { get; private set; }
@@ -157,8 +151,7 @@ namespace DevicesModule.ViewModels
 			}
 			TargetZones.Clear();
 
-			if (SourceZones.Count > 0)
-				SelectedSourceZone = SourceZones[0];
+			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
 		bool CanAdd()
@@ -173,7 +166,7 @@ namespace DevicesModule.ViewModels
 
 		protected override bool Save()
 		{
-			Zones = new List<ulong>(TargetZones.Select(x => x.Zone.No));
+			Zones = new List<int>(TargetZones.Select(x => x.Zone.No));
 			return base.Save();
 		}
 	}

@@ -31,7 +31,7 @@ namespace FiresecService.Configuration
 							foreach (var item in innerDirection.PinZ)
 							{
 								if (string.IsNullOrWhiteSpace(item.pidz) == false)
-									direction.Zones.Add(ulong.Parse(item.pidz));
+									direction.Zones.Add(int.Parse(item.pidz));
 							}
 						}
 

@@ -4,6 +4,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 
 namespace SkudModule.ViewModels
 {
@@ -41,9 +42,7 @@ namespace SkudModule.ViewModels
 			if (list != null)
 				foreach (var item in list)
 					Dictionary.Add(new EmployeeDictionaryItemViewModel<T>(item));
-
-			if (Dictionary.Count > 0)
-				SelectedItem = Dictionary[0];
+			SelectedItem = Dictionary.FirstOrDefault();
 		}
 		protected virtual IEnumerable<T> GetDictionary()
 		{

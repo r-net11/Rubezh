@@ -21,7 +21,7 @@ namespace FiresecService.Service
 			{
 				FiresecManager.ConvertStates();
 			}
-			return FiresecManager.DeviceConfigurationStates;
+			return ConfigurationCash.DeviceConfigurationStates;
 		}
 
 		public DeviceConfiguration GetDeviceConfiguration()

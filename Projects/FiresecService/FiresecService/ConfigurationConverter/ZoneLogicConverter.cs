@@ -23,7 +23,7 @@ namespace FiresecService.Configuration
 						foreach (var item in innerClause.zone)
 						{
 							if (string.IsNullOrWhiteSpace(item) == false)
-								clause.Zones.Add(ulong.Parse(item));
+								clause.Zones.Add(int.Parse(item));
 						}
 					}
 

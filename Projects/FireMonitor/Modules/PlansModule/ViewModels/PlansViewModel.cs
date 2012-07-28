@@ -137,7 +137,7 @@ namespace PlansModule.ViewModels
 			return false;
 		}
 
-		public void ShowZone(ulong zoneNo)
+		public void ShowZone(int zoneNo)
 		{
 			foreach (var planViewModel in Plans)
 			{

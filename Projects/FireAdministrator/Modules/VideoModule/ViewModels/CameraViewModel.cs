@@ -22,7 +22,7 @@ namespace VideoModule.ViewModels
             {
                 var presenrationZones = new StringBuilder();
                 if (Camera.Zones == null)
-                    Camera.Zones = new List<ulong>();
+					Camera.Zones = new List<int>();
                 for (int i = 0; i < Camera.Zones.Count; i++)
                 {
                     if (i > 0)

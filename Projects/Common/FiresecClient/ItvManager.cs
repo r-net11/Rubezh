@@ -54,12 +54,12 @@ namespace FiresecClient
             FiresecManager.FiresecService.ExecuteCommand(deviceUID, methodName);
         }
 
-		public static void SetZoneGuard(ulong zoneNo)
+		public static void SetZoneGuard(int zoneNo)
 		{
 			FiresecManager.FiresecService.SetZoneGuard(zoneNo);
 		}
 
-		public static void UnSetZoneGuard(ulong zoneNo)
+		public static void UnSetZoneGuard(int zoneNo)
 		{
 			FiresecManager.FiresecService.UnSetZoneGuard(zoneNo);
 		}

@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
     {
         public IndicatorLogic()
         {
-            Zones = new List<ulong>();
+			Zones = new List<int>();
         }
 
         public Device Device { get; set; }
@@ -18,7 +18,7 @@ namespace FiresecAPI.Models
         public IndicatorLogicType IndicatorLogicType { get; set; }
 
         [DataMember]
-        public List<ulong> Zones { get; set; }
+		public List<int> Zones { get; set; }
 
         [DataMember]
         public Guid DeviceUID { get; set; }

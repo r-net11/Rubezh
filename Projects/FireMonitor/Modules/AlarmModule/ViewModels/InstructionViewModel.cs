@@ -29,7 +29,7 @@ namespace AlarmModule.ViewModels
 		public StateType StateType { get; private set; }
 		public Instruction Instruction { get; private set; }
 
-		public ulong? ZoneNo
+		public int? ZoneNo
 		{
 			get
 			{
@@ -104,7 +104,7 @@ namespace AlarmModule.ViewModels
 			return false;
 		}
 
-		bool FindZoneInstruction(ulong? zoneNo)
+		bool FindZoneInstruction(int? zoneNo)
 		{
 			if (AvailableStateTypeInstructions.IsNotNullOrEmpty())
 			{

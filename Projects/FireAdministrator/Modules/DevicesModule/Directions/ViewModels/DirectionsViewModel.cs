@@ -23,9 +23,7 @@ namespace DevicesModule.ViewModels
 			Directions = new ObservableCollection<DirectionViewModel>(
 				from direction in FiresecManager.DeviceConfiguration.Directions
 				select new DirectionViewModel(direction));
-
-			if (Directions.Count > 0)
-				SelectedDirection = Directions[0];
+			SelectedDirection = Directions.FirstOrDefault(); ;
 		}
 
 		ObservableCollection<DirectionViewModel> _directions;

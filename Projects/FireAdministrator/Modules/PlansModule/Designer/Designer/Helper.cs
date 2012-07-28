@@ -23,7 +23,7 @@ namespace PlansModule.Designer.Designer
 		}
 		public static void SetZone(IElementZone element, Zone zone)
 		{
-			element.ZoneNo = zone == null ? null : (ulong?)zone.No;
+			element.ZoneNo = zone == null ? null : (int?)zone.No;
 			element.BackgroundColor = GetZoneColor(zone);
 		}
 		private static Color GetZoneColor(Zone zone)

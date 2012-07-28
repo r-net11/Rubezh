@@ -163,7 +163,7 @@ namespace PlansModule.ViewModels
 			Devices.FirstOrDefault(x => x.DeviceUID == deviceUID).IsSelected = true;
 		}
 
-		public void SelectZone(ulong zoneNo)
+		public void SelectZone(int zoneNo)
 		{
 			Zones.ForEach(x => x.IsSelected = false);
 			Zones.FirstOrDefault(x => x.ZoneNo.Value == zoneNo).IsSelected = true;

@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
     {
         public Instruction()
         {
-            Zones = new List<ulong>();
+			Zones = new List<int>();
             Devices = new List<Guid>();
             No = 1;
             Name = "";
@@ -17,7 +17,7 @@ namespace FiresecAPI.Models
         }
 
         [DataMember]
-        public ulong No { get; set; }
+		public int No { get; set; }
 
         [DataMember]
         public string Name { get; set; }
@@ -32,7 +32,7 @@ namespace FiresecAPI.Models
         public string Text { get; set; }
 
         [DataMember]
-        public List<ulong> Zones { get; set; }
+		public List<int> Zones { get; set; }
 
         [DataMember]
         public List<Guid> Devices { get; set; }

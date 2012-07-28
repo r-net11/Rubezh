@@ -233,7 +233,7 @@
     <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
-    <Compile Include="Devices\ViewModels\NewDeviceRangeViewModel.cs" />
+    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\PDUDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\PumpDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\ValveDetailsViewModel.cs" />
@@ -245,7 +245,6 @@
     <Compile Include="Directions\ViewModels\DirectionsViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorDetailsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneLogicDeviceSelectionViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />
     <Compile Include="Devices\Views\DevicesMenuView.xaml.cs">
@@ -280,9 +279,6 @@
     </Compile>
     <Compile Include="Devices\Views\NewDeviceView.xaml.cs">
       <DependentUpon>NewDeviceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\NewDeviceRangeView.xaml.cs">
-      <DependentUpon>NewDeviceRangeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PropertyDetails\PumpDetailsView.xaml.cs">
       <DependentUpon>PumpDetailsView.xaml</DependentUpon>
@@ -459,10 +455,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Devices\Views\NewDeviceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\NewDeviceRangeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

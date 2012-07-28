@@ -42,7 +42,7 @@ namespace DevicesModule
 			ServiceFactory.Layout.Show(_devicesViewModel);
 		}
 
-		void OnShowZone(ulong zoneNo)
+		void OnShowZone(int zoneNo)
 		{
 			if (zoneNo != 0)
 				_zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
@@ -65,7 +65,7 @@ namespace DevicesModule
 		{
 			_zonesViewModel.CreateZone(createZoneEventArg);
 		}
-		void OnEditZone(ulong zoneNo)
+		void OnEditZone(int zoneNo)
 		{
 			_zonesViewModel.EditZone(zoneNo);
 		}
@@ -95,7 +95,7 @@ namespace DevicesModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem<ShowDeviceEvent, Guid>("Устройства","/Controls;component/Images/tree.png", null, null, Guid.Empty),
-				new NavigationItem<ShowZoneEvent, ulong>("Зоны","/Controls;component/Images/zones.png", null, null, 0),
+				new NavigationItem<ShowZoneEvent, int>("Зоны","/Controls;component/Images/zones.png", null, null, 0),
 				new NavigationItem<ShowDirectionsEvent, int?>("Направления","/Controls;component/Images/direction.png"),
 				_guardNavigationItem
 			};

@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 
 namespace InstructionsModule.ViewModels
 {
@@ -41,11 +42,8 @@ namespace InstructionsModule.ViewModels
                 }
             }
 
-            if (InstructionDevices.Count > 0)
-                SelectedInstructionDevice = InstructionDevices[0];
-
-            if (AvailableDevices.Count > 0)
-                SelectedAvailableDevice = AvailableDevices[0];
+			SelectedInstructionDevice = InstructionDevices.FirstOrDefault();
+			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
 
             OnPropertyChanged("InstructionDevices");
             OnPropertyChanged("AvailableDevices");

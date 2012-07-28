@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SkudModule.Properties;
+using System.Linq;
 
 namespace SkudModule.ViewModels
 {
@@ -48,9 +49,7 @@ namespace SkudModule.ViewModels
 			if (list != null)
 				foreach (var employee in list)
 					EmployeeCardIndex.Add(new EmployeeCardViewModel(employee));
-
-			if (EmployeeCardIndex.Count > 0)
-				SelectedEmployeeCard = EmployeeCardIndex[0];
+			SelectedEmployeeCard = EmployeeCardIndex.FirstOrDefault();
 		}
 
 		public override void OnShow()

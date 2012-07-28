@@ -28,7 +28,7 @@ namespace FiresecService.Configuration
 						{
 							foreach (var partZone in innerGuardUser.PinZ)
 							{
-								guardUser.Zones.Add(ulong.Parse(partZone.pidz));
+								guardUser.Zones.Add(int.Parse(partZone.pidz));
 							}
 						}
 

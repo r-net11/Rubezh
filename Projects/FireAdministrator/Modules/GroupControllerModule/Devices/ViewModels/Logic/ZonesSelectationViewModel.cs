@@ -32,11 +32,8 @@ namespace GKModule.ViewModels
                     SourceZones.Add(zone);
             }
 
-            if (TargetZones.Count > 0)
-                SelectedTargetZone = TargetZones[0];
-
-            if (SourceZones.Count > 0)
-                SelectedSourceZone = SourceZones[0];
+			SelectedTargetZone = TargetZones.FirstOrDefault();
+			SelectedSourceZone = SourceZones.FirstOrDefault();
         }
 
         public ObservableCollection<XZone> SourceZones { get; private set; }
@@ -71,9 +68,7 @@ namespace GKModule.ViewModels
             TargetZones.Add(SelectedSourceZone);
             SelectedTargetZone = SelectedSourceZone;
             SourceZones.Remove(SelectedSourceZone);
-
-            if (SourceZones.Count > 0)
-                SelectedSourceZone = SourceZones[0];
+			SelectedSourceZone = SourceZones.FirstOrDefault();
         }
 
         public RelayCommand RemoveOneCommand { get; private set; }
@@ -82,9 +77,7 @@ namespace GKModule.ViewModels
             SourceZones.Add(SelectedTargetZone);
             SelectedSourceZone = SelectedTargetZone;
             TargetZones.Remove(SelectedTargetZone);
-
-            if (TargetZones.Count > 0)
-                SelectedTargetZone = TargetZones[0];
+			SelectedTargetZone = TargetZones.FirstOrDefault();
         }
 
         public RelayCommand AddAllCommand { get; private set; }
@@ -95,9 +88,7 @@ namespace GKModule.ViewModels
                 TargetZones.Add(zoneViewModel);
             }
             SourceZones.Clear();
-
-            if (TargetZones.Count > 0)
-                SelectedTargetZone = TargetZones[0];
+			SelectedTargetZone = TargetZones.FirstOrDefault();
         }
 
         public RelayCommand RemoveAllCommand { get; private set; }
@@ -108,9 +99,7 @@ namespace GKModule.ViewModels
                 SourceZones.Add(zoneViewModel);
             }
             TargetZones.Clear();
-
-            if (SourceZones.Count > 0)
-                SelectedSourceZone = SourceZones[0];
+			SelectedSourceZone = SourceZones.FirstOrDefault();
         }
 
         bool CanAdd()

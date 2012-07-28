@@ -130,7 +130,7 @@ namespace FiresecService.Configuration
 			{
 				string zoneIdx = innerDevice.inZ[0].idz;
 				string zoneNo = FiresecConfiguration.zone.FirstOrDefault(x => x.idx == zoneIdx).no;
-				device.ZoneNo = ulong.Parse(zoneNo);
+				device.ZoneNo = int.Parse(zoneNo);
 			}
 			if (innerDevice.prop != null)
 			{

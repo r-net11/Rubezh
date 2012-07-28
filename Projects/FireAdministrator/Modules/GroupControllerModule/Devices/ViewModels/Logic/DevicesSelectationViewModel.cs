@@ -5,6 +5,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -41,11 +42,8 @@ namespace GKModule.ViewModels
                 }
             }
 
-            if (Devices.Count > 0)
-                SelectedDevice = Devices[0];
-
-            if (AvailableDevices.Count > 0)
-                SelectedAvailableDevice = AvailableDevices[0];
+			SelectedDevice = Devices.FirstOrDefault();
+			SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
 
             OnPropertyChanged("Devices");
             OnPropertyChanged("AvailableDevices");

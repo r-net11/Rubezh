@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 
 namespace VideoModule.ViewModels
 {
@@ -30,9 +31,7 @@ namespace VideoModule.ViewModels
 				var cameraViewModel = new CameraViewModel(camera);
 				Cameras.Add(cameraViewModel);
 			}
-
-			if (Cameras.Count > 0)
-				SelectedCamera = Cameras[0];
+			SelectedCamera = Cameras.FirstOrDefault();
 		}
 
 		ObservableCollection<CameraViewModel> _cameras;

@@ -62,7 +62,7 @@ namespace FiresecAPI.Models
 				}
 				else
 				{
-					var userZones = new List<ulong>();
+					var userZones = new List<int>();
 					foreach (var zoneNo in guardUser.Zones)
 					{
 						var zone = Zones.FirstOrDefault(x => x.No == zoneNo);

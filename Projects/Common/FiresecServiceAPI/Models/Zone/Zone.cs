@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace FiresecAPI.Models
 {
@@ -18,9 +19,10 @@ namespace FiresecAPI.Models
 		}
 
 		public List<string> ShapeIds { get; set; }
+		public Guid SecPanelUID { get; set; }
 
 		[DataMember]
-		public ulong No { get; set; }
+		public int No { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

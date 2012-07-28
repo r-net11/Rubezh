@@ -33,9 +33,7 @@ namespace DevicesModule.ViewModels
 				from zone in FiresecManager.DeviceConfiguration.Zones
 				orderby zone.No
 				select new ZoneViewModel(zone));
-
-			if (Zones.Count > 0)
-				SelectedZone = Zones[0];
+			SelectedZone = Zones.FirstOrDefault();
 		}
 
 		ObservableCollection<ZoneViewModel> _zones;
@@ -90,7 +88,7 @@ namespace DevicesModule.ViewModels
 				createZoneEventArg.ZoneNo = null;
 			}
 		}
-		public void EditZone(ulong zoneNo)
+		public void EditZone(int zoneNo)
 		{
 			var zoneViewModel = zoneNo == 0 ? null  : Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
 			if (zoneViewModel != null)
@@ -127,7 +125,7 @@ namespace DevicesModule.ViewModels
 				FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
 				FiresecManager.DeviceConfiguration.Devices.ForEach(x => { if ((x.ZoneNo != null) && (x.ZoneNo.Value == SelectedZone.Zone.No)) x.ZoneNo = null; });
 				Zones.Remove(SelectedZone);
-				SelectFirstZone();
+				SelectedZone = Zones.FirstOrDefault();
 				ZoneDevices.UpdateAvailableDevices();
 				ServiceFactory.SaveService.DevicesChanged = true;
 				FiresecManager.InvalidateConfiguration();
@@ -171,19 +169,11 @@ namespace DevicesModule.ViewModels
 					Zones.Remove(emptyZone);
 				}
 
-				SelectFirstZone();
+				SelectedZone = Zones.FirstOrDefault();
 
 				ServiceFactory.SaveService.DevicesChanged = true;
 				FiresecManager.InvalidateConfiguration();
 			}
-		}
-
-		void SelectFirstZone()
-		{
-			if (Zones.Count > 0)
-				SelectedZone = Zones[0];
-			else
-				SelectedZone = null;
 		}
 
 		public override void OnShow()

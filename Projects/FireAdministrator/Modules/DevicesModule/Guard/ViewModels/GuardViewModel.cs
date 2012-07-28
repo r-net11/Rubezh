@@ -48,9 +48,7 @@ namespace DevicesModule.ViewModels
 				if ((device.Driver.DriverType == DriverType.USB_Rubezh_2OP) || (device.Driver.DriverType == DriverType.Rubezh_2OP))
 					Devices.Add(device);
 			}
-
-			if (Devices.Count > 0)
-				SelectedDevice = Devices[0];
+			SelectedDevice = Devices.FirstOrDefault();
 		}
 
 		void InitializeUsers()
@@ -62,7 +60,7 @@ namespace DevicesModule.ViewModels
 
 			if (SelectedDevice != null)
 			{
-				var deviceZones = new List<ulong>();
+				var deviceZones = new List<int>();
 				foreach (var device in SelectedDevice.Children)
 				{
 					if (device.Driver.DriverType == DriverType.AM1_O)
@@ -91,7 +89,7 @@ namespace DevicesModule.ViewModels
 
 			if (SelectedDevice != null)
 			{
-				var deviceZones = new List<ulong>();
+				var deviceZones = new List<int>();
 				foreach (var device in SelectedDevice.Children)
 				{
 					if (device.Driver.DriverType == DriverType.AM1_O)
@@ -114,20 +112,14 @@ namespace DevicesModule.ViewModels
 
 		void UpdateUsersSelectation()
 		{
-			if (DeviceUsers.Count > 0)
-				SelectedDeviceUser = DeviceUsers[0];
-
-			if (AvailableUsers.Count > 0)
-				SelectedAvailableUser = AvailableUsers[0];
+			SelectedDeviceUser = DeviceUsers.FirstOrDefault();
+			SelectedAvailableUser = AvailableUsers.FirstOrDefault();
 		}
 
 		void UpdateZonesSelectation()
 		{
-			if (UserZones.Count > 0)
-				SelectedUserZone = UserZones[0];
-
-			if (DeviceZones.Count > 0)
-				SelectedDeviceZone = DeviceZones[0];
+			SelectedUserZone = UserZones.FirstOrDefault();
+			SelectedDeviceZone = DeviceZones.FirstOrDefault();
 		}
 
 		ObservableCollection<Device> _devices;

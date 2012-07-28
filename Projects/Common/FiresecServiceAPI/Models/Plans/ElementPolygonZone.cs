@@ -7,7 +7,7 @@ namespace FiresecAPI.Models
 	public class ElementPolygonZone : ElementBasePolygon, IElementZone, IPrimitive
 	{
 		[DataMember]
-		public ulong? ZoneNo { get; set; }
+		public int? ZoneNo { get; set; }
 
 		public override ElementBase Clone()
 		{

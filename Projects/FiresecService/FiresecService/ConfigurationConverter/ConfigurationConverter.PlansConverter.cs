@@ -78,7 +78,7 @@ namespace FiresecService.Configuration
 							case "Зоны":
 								foreach (var innerElement in innerLayer.elements)
 								{
-									ulong? zoneNo = null;
+									int? zoneNo = null;
 
 									long longId = long.Parse(innerElement.id);
 									int intId = (int)longId;
@@ -263,7 +263,7 @@ namespace FiresecService.Configuration
 			}
 		}
 
-		void AddPolygonZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, ulong? zoneNo)
+		void AddPolygonZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, int? zoneNo)
 		{
 			if (innerElement.points != null)
 			{
@@ -277,7 +277,7 @@ namespace FiresecService.Configuration
 			};
 		}
 
-		void AddRectangleZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, ulong? zoneNo)
+		void AddRectangleZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, int? zoneNo)
 		{
 			var elementRectangleZone = new ElementRectangleZone()
 			{

@@ -4,7 +4,7 @@ namespace Infrustructure.Plans.Elements
 {
 	public interface IElementZone
 	{
-		ulong? ZoneNo { get; set; }
+		int? ZoneNo { get; set; }
 		Color BackgroundColor { get; set; }
 	}
 }

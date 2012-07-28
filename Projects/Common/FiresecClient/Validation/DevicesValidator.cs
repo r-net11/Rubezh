@@ -578,7 +578,7 @@ namespace FiresecClient.Validation
 				{
 					var devicePlusPasswords = new List<string>();
 
-					var deviceZones = new List<ulong>();
+					var deviceZones = new List<int>();
 					foreach (var childDevice in device.Children)
 					{
 						if (childDevice.Driver.DriverType == DriverType.AM1_O)

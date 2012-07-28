@@ -3,6 +3,7 @@ using System.Linq;
 using Common;
 using Firesec;
 using FiresecAPI.Models;
+using FiresecService.Service;
 
 namespace FiresecService.Processor
 {
@@ -29,7 +30,7 @@ namespace FiresecService.Processor
 				if (resetItem == null)
 					continue;
 
-				var deviceState = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == resetItem.DeviceUID);
+				var deviceState = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == resetItem.DeviceUID);
 				if (deviceState == null)
 				{
 					Logger.Error("AlarmWatcher.UpdateValveTimer: deviceState = null");

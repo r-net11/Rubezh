@@ -24,9 +24,7 @@ namespace LibraryModule.ViewModels
 			DeviceViewModels = new ObservableCollection<DeviceViewModel>(
 				FiresecManager.LibraryConfiguration.Devices.Select(device => new DeviceViewModel(device))
 			);
-
-			if (DeviceViewModels.Count > 0)
-				SelectedDeviceViewModel = DeviceViewModels[0];
+			SelectedDeviceViewModel = DeviceViewModels.FirstOrDefault();
 		}
 
 		ObservableCollection<DeviceViewModel> _deviceViewModels;

@@ -305,12 +305,12 @@ namespace FiresecService.Service
 			SafeOperationCall(() => { FiresecService.ResetStates(resetItems); }, "ResetStates");
 		}
 
-		public void SetZoneGuard(ulong zoneNo)
+		public void SetZoneGuard(int zoneNo)
 		{
 			SafeOperationCall(() => { FiresecService.SetZoneGuard(zoneNo); }, "SetZoneGuard");
 		}
 
-		public void UnSetZoneGuard(ulong zoneNo)
+		public void UnSetZoneGuard(int zoneNo)
 		{
 			SafeOperationCall(() => { FiresecService.UnSetZoneGuard(zoneNo); }, "UnSetZoneGuard");
 		}

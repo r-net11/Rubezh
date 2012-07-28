@@ -12,7 +12,6 @@ namespace FiresecService.Processor
 		public List<FiresecService.Service.FiresecService> FiresecServices { get; set; }
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
-		public DeviceConfigurationStates DeviceConfigurationStates { get; set; }
 		public Watcher Watcher { get; private set; }
 		public bool IsConnectedToComServer { get; private set; }
 		public bool MustMonitorStates { get; private set; }
@@ -67,7 +66,7 @@ namespace FiresecService.Processor
 
 		public void ConvertStates()
 		{
-			DeviceConfigurationStates = new DeviceConfigurationStates();
+			ConfigurationCash.DeviceConfigurationStates = new DeviceConfigurationStates();
 			if (ConfigurationCash.DeviceConfiguration.Devices.IsNotNullOrEmpty())
 			{
 				foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
@@ -82,20 +81,26 @@ namespace FiresecService.Processor
 					foreach (var parameter in device.Driver.Parameters)
 						deviceState.Parameters.Add(parameter.Copy());
 
-					DeviceConfigurationStates.DeviceStates.Add(deviceState);
+					ConfigurationCash.DeviceConfigurationStates.DeviceStates.Add(deviceState);
 				}
 			}
 
 			foreach (var zone in ConfigurationCash.DeviceConfiguration.Zones)
 			{
-				DeviceConfigurationStates.ZoneStates.Add(new ZoneState() { No = zone.No });
+				ConfigurationCash.DeviceConfigurationStates.ZoneStates.Add(new ZoneState() { No = zone.No });
 			}
 			if (Watcher != null)
 			{
+				Watcher.Ignore = true;
 				Watcher.DoNotCallback = true;
-				Watcher.OnStateChanged();
-				Watcher.OnParametersChanged();
+				try
+				{
+					Watcher.OnStateChanged();
+					Watcher.OnParametersChanged();
+				}
+				catch { }
 				Watcher.DoNotCallback = false;
+				Watcher.Ignore = false;
 			}
 		}
 	}

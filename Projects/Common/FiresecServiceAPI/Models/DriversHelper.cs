@@ -107,7 +107,7 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6", 0, "USB преобразователь МС-1", DriverType.MS_2));
             DriverDataList.Add(new DriverData("F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E", 0, "USB Канал МС-2", DriverType.USB_Channel_2));
             DriverDataList.Add(new DriverData("780DE2E6-8EDD-4CFA-8320-E832EB699544", 0, "USB Канал МС-1", DriverType.USB_Channel_1));
-            DriverDataList.Add(new DriverData("2863E7A3-5122-47F8-BB44-4358450CD0EE", 0, "Канал с резервированием", DriverType.ReserveChannel));
+            DriverDataList.Add(new DriverData("2863E7A3-5122-47F8-BB44-4358450CD0EE", 2, "Канал с резервированием", DriverType.ReserveChannel));
             DriverDataList.Add(new DriverData("C2E0F845-D836-4AAE-9894-D5CBE2B9A7DD", 0, "Состав", DriverType.Sostav));
             DriverDataList.Add(new DriverData("B9680002-511D-4505-9EF6-0C322E61135F", 0, "USB Канал", DriverType.USB_Channel));
             DriverDataList.Add(new DriverData("1EDE7282-0003-424E-B76C-BB7B413B4F3B", 1, "USB Рубеж-2AM", DriverType.USB_Rubezh_2AM));

@@ -12,29 +12,40 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		void NotifyConfigurationChanged()
-		{
-			ClientsCash.OnConfigurationChanged();
-		}
-
 		public OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
 		{
-			FiresecManager.ConfigurationConverter.Update(deviceConfiguration);
-			ConfigurationFileManager.SetDeviceConfiguration(deviceConfiguration);
-			ConfigurationCash.DeviceConfiguration = deviceConfiguration;
-
-			FiresecManager.ConvertBack(deviceConfiguration, true);
-
-			OperationResult<bool> result = null;
-			if (AppSettings.OverrideFiresec1Config)
+			Watcher.Ignore = true;
+			try
 			{
-				result = FiresecSerializedClient.SetNewConfig(FiresecManager.ConfigurationConverter.FiresecConfiguration).ToOperationResult();
+				FiresecManager.ConfigurationConverter.Update(deviceConfiguration);
+				foreach (var device in deviceConfiguration.Devices)
+				{
+					device.PlaceInTree = device.GetPlaceInTree();
+				}
+				ConfigurationFileManager.SetDeviceConfiguration(deviceConfiguration);
+				ConfigurationCash.DeviceConfiguration = deviceConfiguration;
+
+				FiresecManager.ConvertBack(deviceConfiguration, true);
+
+				OperationResult<bool> result = null;
+				if (AppSettings.OverrideFiresec1Config)
+				{
+					result = FiresecSerializedClient.SetNewConfig(FiresecManager.ConfigurationConverter.FiresecConfiguration).ToOperationResult();
+				}
+
+				var thread = new Thread(new ThreadStart(() => { ClientsCash.OnConfigurationChanged(); }));
+				thread.Start();
+
+				return result;
 			}
-
-			var thread = new Thread(new ThreadStart(NotifyConfigurationChanged));
-			thread.Start();
-
-			return result;
+			catch (Exception e)
+			{
+				return new OperationResult<bool>() { HasError = true, Error = e.Message, Result = false };
+			}
+			finally
+			{
+				Watcher.Ignore = false;
+			}
 		}
 
 		public OperationResult<bool> DeviceWriteConfiguration(DeviceConfiguration deviceConfiguration, Guid deviceUID)
@@ -245,11 +256,11 @@ namespace FiresecService.Service
 			firesecResetHelper.ResetStates(resetItems);
 		}
 
-		public void SetZoneGuard(ulong zoneNo)
+		public void SetZoneGuard(int zoneNo)
 		{
 		}
 
-		public void UnSetZoneGuard(ulong zoneNo)
+		public void UnSetZoneGuard(int zoneNo)
 		{
 		}
 
@@ -260,7 +271,7 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)
 		{
-			var device = FiresecManager.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
+			var device = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				FiresecSerializedClient.ExecuteCommand(device.PlaceInTree, methodName).ToOperationResult();

@@ -18,7 +18,7 @@ namespace FiresecService.Configuration
 					var zone = new Zone()
 					{
 						Name = innerZone.name,
-						No = ulong.Parse(innerZone.no),
+						No = int.Parse(innerZone.no),
 						Description = innerZone.desc
 					};
 

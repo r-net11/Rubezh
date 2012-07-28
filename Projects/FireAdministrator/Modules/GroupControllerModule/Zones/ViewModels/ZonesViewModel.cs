@@ -29,9 +29,7 @@ namespace GKModule.ViewModels
                 from zone in XManager.DeviceConfiguration.Zones
                 orderby zone.No
                 select new ZoneViewModel(zone));
-
-            if (Zones.Count > 0)
-                SelectedZone = Zones[0];
+			SelectedZone = Zones.FirstOrDefault();
         }
 
         ObservableCollection<ZoneViewModel> _zones;
@@ -92,7 +90,7 @@ namespace GKModule.ViewModels
             {
                 XManager.DeviceConfiguration.Zones.Remove(SelectedZone.XZone);
                 Zones.Remove(SelectedZone);
-                SelectFirstZone();
+				SelectedZone = Zones.FirstOrDefault();
                 ZoneDevices.UpdateAvailableDevices();
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }
@@ -109,14 +107,6 @@ namespace GKModule.ViewModels
 
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }
-        }
-
-        void SelectFirstZone()
-        {
-            if (Zones.Count > 0)
-                SelectedZone = Zones[0];
-            else
-                SelectedZone = null;
         }
 
         public override void OnShow()

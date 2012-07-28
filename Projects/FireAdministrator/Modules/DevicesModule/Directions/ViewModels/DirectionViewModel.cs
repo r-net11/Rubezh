@@ -3,104 +3,102 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 
 namespace DevicesModule.ViewModels
 {
-    public class DirectionViewModel : BaseViewModel
-    {
-        public Direction Direction { get; private set; }
+	public class DirectionViewModel : BaseViewModel
+	{
+		public Direction Direction { get; private set; }
 
-        public DirectionViewModel(Direction direction)
-        {
-            AddZoneCommand = new RelayCommand(OnAddZone, CanAdd);
-            RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemove);
+		public DirectionViewModel(Direction direction)
+		{
+			AddZoneCommand = new RelayCommand(OnAddZone, CanAdd);
+			RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemove);
 
-            Direction = direction;
+			Direction = direction;
 
-            Zones = new ObservableCollection<ZoneViewModel>();
-            SourceZones = new ObservableCollection<ZoneViewModel>();
+			Zones = new ObservableCollection<ZoneViewModel>();
+			SourceZones = new ObservableCollection<ZoneViewModel>();
 
-            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
-            {
-                var zoneViewModel = new ZoneViewModel(zone);
-                if (Direction.Zones.Contains(zone.No))
-                    Zones.Add(zoneViewModel);
-                else
-                    SourceZones.Add(zoneViewModel);
-            }
+			foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+			{
+				var zoneViewModel = new ZoneViewModel(zone);
+				if (Direction.Zones.Contains(zone.No))
+					Zones.Add(zoneViewModel);
+				else
+					SourceZones.Add(zoneViewModel);
+			}
 
-            if (Zones.Count > 0)
-                SelectedZone = Zones[0];
+			SelectedZone = Zones.FirstOrDefault();
+			SelectedSourceZone = SourceZones.FirstOrDefault();
+		}
 
-            if (SourceZones.Count > 0)
-                SelectedSourceZone = SourceZones[0];
-        }
+		public void Update()
+		{
+			OnPropertyChanged("Direction");
+		}
 
-        public void Update()
-        {
-            OnPropertyChanged("Direction");
-        }
+		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
 
-        public ObservableCollection<ZoneViewModel> Zones { get; private set; }
+		ZoneViewModel _selectedZone;
+		public ZoneViewModel SelectedZone
+		{
+			get { return _selectedZone; }
+			set
+			{
+				_selectedZone = value;
+				OnPropertyChanged("SelectedZone");
+			}
+		}
 
-        ZoneViewModel _selectedZone;
-        public ZoneViewModel SelectedZone
-        {
-            get { return _selectedZone; }
-            set
-            {
-                _selectedZone = value;
-                OnPropertyChanged("SelectedZone");
-            }
-        }
+		public ObservableCollection<ZoneViewModel> SourceZones { get; private set; }
 
-        public ObservableCollection<ZoneViewModel> SourceZones { get; private set; }
+		ZoneViewModel _selectedSourceZone;
+		public ZoneViewModel SelectedSourceZone
+		{
+			get { return _selectedSourceZone; }
+			set
+			{
+				_selectedSourceZone = value;
+				OnPropertyChanged("SelectedSourceZone");
+			}
+		}
 
-        ZoneViewModel _selectedSourceZone;
-        public ZoneViewModel SelectedSourceZone
-        {
-            get { return _selectedSourceZone; }
-            set
-            {
-                _selectedSourceZone = value;
-                OnPropertyChanged("SelectedSourceZone");
-            }
-        }
+		bool CanAdd()
+		{
+			return SelectedSourceZone != null;
+		}
 
-        bool CanAdd()
-        {
-            return SelectedSourceZone != null;
-        }
+		public RelayCommand AddZoneCommand { get; private set; }
+		void OnAddZone()
+		{
+			int oldIndex = SourceZones.IndexOf(SelectedSourceZone);
 
-        public RelayCommand AddZoneCommand { get; private set; }
-        void OnAddZone()
-        {
-            int oldIndex = SourceZones.IndexOf(SelectedSourceZone);
+			Direction.Zones.Add(SelectedSourceZone.Zone.No);
+			Zones.Add(SelectedSourceZone);
+			SourceZones.Remove(SelectedSourceZone);
 
-            Direction.Zones.Add(SelectedSourceZone.Zone.No);
-            Zones.Add(SelectedSourceZone);
-            SourceZones.Remove(SelectedSourceZone);
+			if (SourceZones.Count > 0)
+				SelectedSourceZone = SourceZones[System.Math.Min(oldIndex, SourceZones.Count - 1)];
+		}
 
-            if (SourceZones.Count > 0)
-                SelectedSourceZone = SourceZones[System.Math.Min(oldIndex, SourceZones.Count - 1)];
-        }
+		bool CanRemove()
+		{
+			return SelectedZone != null;
+		}
 
-        bool CanRemove()
-        {
-            return SelectedZone != null;
-        }
+		public RelayCommand RemoveZoneCommand { get; private set; }
+		void OnRemoveZone()
+		{
+			int oldIndex = Zones.IndexOf(SelectedZone);
 
-        public RelayCommand RemoveZoneCommand { get; private set; }
-        void OnRemoveZone()
-        {
-            int oldIndex = Zones.IndexOf(SelectedZone);
+			Direction.Zones.Remove(SelectedZone.Zone.No);
+			SourceZones.Add(SelectedZone);
+			Zones.Remove(SelectedZone);
 
-            Direction.Zones.Remove(SelectedZone.Zone.No);
-            SourceZones.Add(SelectedZone);
-            Zones.Remove(SelectedZone);
-
-            if (Zones.Count > 0)
-                SelectedZone = Zones[System.Math.Min(oldIndex, Zones.Count - 1)];
-        }
-    }
+			if (Zones.Count > 0)
+				SelectedZone = Zones[System.Math.Min(oldIndex, Zones.Count - 1)];
+		}
+	}
 }

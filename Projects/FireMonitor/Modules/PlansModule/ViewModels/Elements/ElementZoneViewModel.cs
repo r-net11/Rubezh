@@ -14,7 +14,7 @@ namespace PlansModule.ViewModels
 	public class ElementZoneViewModel : BaseViewModel
 	{
 		public ElementZoneView ElementZoneView { get; private set; }
-		public ulong? ZoneNo { get; private set; }
+		public int? ZoneNo { get; private set; }
 		public Zone Zone { get; private set; }
 		public ZoneState ZoneState { get; private set; }
 		List<Guid> deviceUIDs;

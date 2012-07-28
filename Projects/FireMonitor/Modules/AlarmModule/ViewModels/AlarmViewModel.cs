@@ -40,15 +40,21 @@ namespace AlarmModule.ViewModels
 				{
 					case AlarmEntityType.Device:
 						var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Alarm.DeviceUID);
-						return "Устройство " + device.Driver.ShortName + " " + device.DottedAddress;
+						if (device != null)
+						{
+							return "Устройство " + device.Driver.ShortName + " " + device.DottedAddress;
+						}
+						break;
 
 					case AlarmEntityType.Zone:
 						var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Alarm.ZoneNo);
-						return "Зона " + zone.PresentationName;
-
-					default:
-						return "";
+						if (zone != null)
+						{
+							return "Зона " + zone.PresentationName;
+						}
+						break;
 				}
+				return "";
 			}
 		}
 

@@ -11,8 +11,8 @@
             <MenuItem Header="Вставить" Command="{Binding PasteCommand}" />
             <MenuItem Header="Вставить как" Command="{Binding PasteAsCommand}" />
             <Separator />
-            <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
-            <MenuItem Header="Добавить несколько" Command="{Binding AddManyCommand}" />
+            <MenuItem Header="Подключить" Command="{Binding AddCommand}" />
+            <MenuItem Header="Добавить" Command="{Binding AddToParentCommand}" />
             <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
             <MenuItem Header="Настройка логики" Command="{Binding ShowZoneLogicCommand}"
                 Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}"/>

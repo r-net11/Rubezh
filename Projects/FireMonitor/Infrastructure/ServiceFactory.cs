@@ -34,7 +34,7 @@ namespace Infrastructure
 		{
 			FiresecCallbackService.DeviceStateChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceStateChangedEvent(deviceUID); }); });
 			FiresecCallbackService.DeviceParametersChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceParametersChangedEvent(deviceUID); }); });
-			FiresecCallbackService.ZoneStateChangedEvent += new Action<ulong>((zoneNo) => { SafeCall(() => { OnZoneStateChangedEvent(zoneNo); }); });
+			FiresecCallbackService.ZoneStateChangedEvent += new Action<int>((zoneNo) => { SafeCall(() => { OnZoneStateChangedEvent(zoneNo); }); });
 			FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>((journalRecord) => { SafeCall(() => { OnNewJournalRecordEvent(journalRecord); }); });
 			FiresecCallbackService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((journalRecords) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(journalRecords); }); });
 			FiresecCallbackService.NotifyEvent += new Action<string>((message) => { SafeCall(() => { OnNotify(message); }); });
@@ -60,7 +60,7 @@ namespace Infrastructure
 			}
 		}
 
-		static void OnZoneStateChangedEvent(ulong zoneNo)
+		static void OnZoneStateChangedEvent(int zoneNo)
 		{
 			ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneNo);
 			var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);

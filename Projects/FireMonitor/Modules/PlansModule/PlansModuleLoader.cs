@@ -33,7 +33,7 @@ namespace PlansModule
 				ServiceFactory.Layout.Show(PlansViewModel);
 			}
 		}
-		void OnShowZoneOnPlan(ulong zoneNo)
+		void OnShowZoneOnPlan(int zoneNo)
 		{
 			ServiceFactory.Layout.Show(PlansViewModel);
 			PlansViewModel.ShowZone(zoneNo);

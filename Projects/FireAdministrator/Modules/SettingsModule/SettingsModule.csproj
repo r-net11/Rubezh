@@ -92,6 +92,7 @@
     <Compile Include="SettingsModule.cs" />
     <Compile Include="ViewModels\DevicesTreeViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\TestViewModel.cs" />
     <Compile Include="Views\DevicesTreeView.xaml.cs">
       <DependentUpon>DevicesTreeView.xaml</DependentUpon>
     </Compile>

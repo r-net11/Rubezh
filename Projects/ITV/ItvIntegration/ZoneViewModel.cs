@@ -11,7 +11,7 @@ namespace ItvIntegration
 		{
 			ZoneState = zoneState;
 			_stateType = zoneState.StateType;
-			FiresecCallbackService.ZoneStateChangedEvent += new Action<ulong>(OnZoneStateChangedEvent);
+			FiresecCallbackService.ZoneStateChangedEvent += new Action<int>(OnZoneStateChangedEvent);
 			var zone = ItvManager.DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == zoneState.No);
 			if (zone != null)
 			{
@@ -19,7 +19,7 @@ namespace ItvIntegration
 			}
 		}
 
-		void OnZoneStateChangedEvent(ulong zoneNo)
+		void OnZoneStateChangedEvent(int zoneNo)
 		{
 			if (ZoneState.No == zoneNo)
 			{
