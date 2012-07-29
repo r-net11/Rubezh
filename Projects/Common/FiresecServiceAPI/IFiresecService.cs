@@ -131,10 +131,10 @@ namespace FiresecAPI
 		void ResetStates(List<ResetItem> resetItems);
 
 		[OperationContract(IsOneWay = true)]
-		void SetZoneGuard(int zoneNo);
+		void SetZoneGuard(Guid secPanelUID, int localZoneNo);
 
 		[OperationContract(IsOneWay = true)]
-		void UnSetZoneGuard(int zoneNo);
+		void UnSetZoneGuard(Guid secPanelUID, int localZoneNo);
 
 		[OperationContract]
 		OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName);

@@ -50,6 +50,8 @@
                                         <Button.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
+                                                <MenuItem Command="{Binding SetGuardCommand}" Header="Поставить на охрану" />
+                                                <MenuItem Command="{Binding UnSetGuardCommand}" Header="Снять с охраны" />
                                             </ContextMenu>
                                         </Button.ContextMenu>
                                         <Button.Style>

@@ -336,7 +336,7 @@ namespace FiresecService.Configuration
 						Id = innerState.id,
 						Name = innerState.name,
 						AffectChildren = innerState.affectChildren == "1" ? true : false,
-						AffectedParent = innerState.AffectedParent == "1" ? true : false,
+						AffectParent = innerState.AffectedParent == "1" ? true : false,
 						StateType = (StateType)int.Parse(innerState.@class),
 						IsManualReset = innerState.manualReset == "1" ? true : false,
 						CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false,

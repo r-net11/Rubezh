@@ -40,7 +40,13 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Binding="{Binding DriverState.Name}" Width="*" />
                 <DataGridTextColumn Header="Состояние" Binding="{Binding DriverState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
-                <DataGridCheckBoxColumn Header="Есть" Binding="{Binding IsActive, UpdateSourceTrigger=PropertyChanged}" />
+                <DataGridTemplateColumn Header="Есть/Нет">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsActive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

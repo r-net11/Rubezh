@@ -11,6 +11,8 @@
                     <MenuItem Header="Показать в дереве" Command="{Binding ShowInTreeCommand}" />
                     <MenuItem Header="Отключить все устройства в зоне" Command="{Binding DisableAllCommand}" />
                     <MenuItem Header="Включить все устройства в зоне" Command="{Binding EnableAllCommand}" />
+                    <MenuItem Command="{Binding SetGuardCommand}" Header="Поставить на охрану" />
+                    <MenuItem Command="{Binding UnSetGuardCommand}" Header="Снять с охраны" />
                 </ContextMenu>
             </Polygon.ContextMenu>
             <Polygon.ToolTip>

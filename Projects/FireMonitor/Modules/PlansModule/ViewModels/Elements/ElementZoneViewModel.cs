@@ -25,6 +25,8 @@ namespace PlansModule.ViewModels
 			ShowInTreeCommand = new RelayCommand(OnShowInTree);
 			DisableAllCommand = new RelayCommand(OnDisableAll, CanDisableAll);
 			EnableAllCommand = new RelayCommand(OnEnableAll, CanEnableAll);
+			SetGuardCommand = new RelayCommand(OnSetGuard, CanSetGuard);
+			UnSetGuardCommand = new RelayCommand(OnUnSetGuard, CanUnSetGuard);
 
 			ZoneNo = elementPolygonZone.ZoneNo;
 			Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
@@ -92,21 +94,17 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(ZoneNo);
 		}
 
-		bool CanDisableAll()
-		{
-			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList) && deviceStates.Any(x => !x.IsDisabled)) ;
-		}
-
 		public RelayCommand DisableAllCommand { get; private set; }
 		void OnDisableAll()
 		{
 			if (ServiceFactory.SecurityService.Validate())
 				FiresecManager.FiresecService.AddToIgnoreList(deviceUIDs);
 		}
-
-		bool CanEnableAll()
+		bool CanDisableAll()
 		{
-			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_AddToIgnoreList) && deviceStates.Any(x => x.IsDisabled));
+			if (Zone.ZoneType == ZoneType.Guard)
+				return false;
+			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList) && deviceStates.Any(x => !x.IsDisabled));
 		}
 
 		public RelayCommand EnableAllCommand { get; private set; }
@@ -114,6 +112,32 @@ namespace PlansModule.ViewModels
 		{
 			if (ServiceFactory.SecurityService.Validate())
 				FiresecManager.FiresecService.RemoveFromIgnoreList(deviceUIDs);
+		}
+		bool CanEnableAll()
+		{
+			if (Zone.ZoneType == ZoneType.Guard)
+				return false;
+			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_AddToIgnoreList) && deviceStates.Any(x => x.IsDisabled));
+		}
+
+		public RelayCommand SetGuardCommand { get; private set; }
+		void OnSetGuard()
+		{
+			FiresecManager.SetZoneGuard(Zone);
+		}
+		bool CanSetGuard()
+		{
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null));
+		}
+
+		public RelayCommand UnSetGuardCommand { get; private set; }
+		void OnUnSetGuard()
+		{
+			FiresecManager.UnSetZoneGuard(Zone);
+		}
+		bool CanUnSetGuard()
+		{
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null));
 		}
 	}
 }

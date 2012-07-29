@@ -37,8 +37,10 @@
             </Grid.RowDefinitions>
             <Label Content="Начальный адрес" Grid.Row="0" Grid.Column="0" />
             <Label Content="Количество" Grid.Row="0" Grid.Column="1" />
-            <Views:AddressEditor Grid.Row="1" Grid.Column="0" Device="{Binding StartDevice}" Address="{Binding StartAddress}" />
-            <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Count}" Minimum="1" Maximum="255" Width="150" HorizontalAlignment="Left" />
+            <Views:AddressEditor Grid.Row="1" Grid.Column="0" Device="{Binding StartDevice}" Address="{Binding StartAddress}"
+                Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Count}" Minimum="1" Maximum="255" Width="150" HorizontalAlignment="Left"
+                Visibility="{Binding SelectedDriver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}"/>
         </Grid>
     </Grid>
 </UserControl>

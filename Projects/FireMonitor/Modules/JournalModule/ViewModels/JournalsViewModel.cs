@@ -2,23 +2,27 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Linq;
 
 namespace JournalModule.ViewModels
 {
 	public class JournalsViewModel : ViewPartViewModel
 	{
-		public void Initialize()
+		public JournalsViewModel()
 		{
 			Journals = new List<FilteredJournalViewModel>();
-
 			Journals.Add(new FilteredJournalViewModel(new JournalFilter() { Name = " Все события" }));
-			SelectedJournal = Journals[0];
+			SelectedJournal = Journals.FirstOrDefault();
 
 			foreach (var journalFilter in FiresecManager.SystemConfiguration.JournalFilters)
 			{
 				var filteredJournalViewModel = new FilteredJournalViewModel(journalFilter);
 				Journals.Add(filteredJournalViewModel);
 			}
+		}
+
+		public void Initialize()
+		{
 		}
 
 		List<FilteredJournalViewModel> _journals;

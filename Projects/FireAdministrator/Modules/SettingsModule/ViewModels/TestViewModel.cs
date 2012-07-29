@@ -11,7 +11,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using SettingsModule.Views;
 using System;
-
+using System.Linq;
+using FiresecAPI.Models;
 
 namespace SettingsModule.ViewModels
 {
@@ -60,13 +61,30 @@ namespace SettingsModule.ViewModels
 		{
 			var stringBuilder = new StringBuilder();
 
+			var Rm1Driver = FiresecManager.Drivers.FirstOrDefault(x=>x.DriverType == DriverType.RM_1);
+			foreach (var state in Rm1Driver.States)
+			{
+				stringBuilder.AppendLine("РМ-1: " + state.Id + " - " + state.Code + " - " + state.Name);
+			}
+
+			foreach (var driver in FiresecManager.Drivers)
+			{
+				foreach (var state in driver.States)
+				{
+					if (state.AffectParent)
+					{
+						stringBuilder.AppendLine("AffectParent - " + driver.Name + " - " + state.Name);
+					}
+				}
+			}
+
 			foreach (var driver in FiresecManager.Drivers)
 			{
 				foreach (var state in driver.States)
 				{
 					if (state.IsManualReset)
 					{
-						stringBuilder.AppendLine(driver.Name + " - " + state.Name + " - IsManualReset");
+						stringBuilder.AppendLine("IsManualReset - " + driver.Name + " - " + state.Name);
 					}
 				}
 			}
@@ -77,7 +95,7 @@ namespace SettingsModule.ViewModels
 				{
 					if (state.CanResetOnPanel)
 					{
-						stringBuilder.AppendLine(driver.Name + " - " + state.Name + " - CanResetOnPanel");
+						stringBuilder.AppendLine("CanResetOnPanel - " + driver.Name + " - " + state.Name);
 					}
 				}
 			}
@@ -88,7 +106,7 @@ namespace SettingsModule.ViewModels
 				{
 					if (state.IsAutomatic && state.Name.Contains("AutoOff"))
 					{
-						stringBuilder.AppendLine(driver.Name + " - " + state.Name + " - Automatic AutoOff");
+						stringBuilder.AppendLine("Automatic AutoOff - " + driver.Name + " - " + state.Name);
 					}
 				}
 			}
@@ -99,7 +117,7 @@ namespace SettingsModule.ViewModels
 				{
 					if (state.IsAutomatic)
 					{
-						stringBuilder.AppendLine(driver.Name + " - " + state.Name + " - " + state.Code + " - Automatic");
+						stringBuilder.AppendLine("Automatic - " + driver.Name + " - " + state.Name + " - " + state.Code);
 					}
 				}
 			}

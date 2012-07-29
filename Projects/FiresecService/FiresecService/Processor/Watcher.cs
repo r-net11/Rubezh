@@ -5,6 +5,7 @@ using Common;
 using FiresecAPI.Models;
 using FiresecService.Database;
 using FiresecService.Service;
+using System.Diagnostics;
 
 namespace FiresecService.Processor
 {
@@ -495,7 +496,9 @@ namespace FiresecService.Processor
 				{
 					if (deviceState.Device.Parent == null)
 						continue;
-					if ((deviceState.Device.Parent.Driver.ChildAddressReserveRangeCount == 0) && (state.DriverState.AffectedParent))
+					if (state.DriverState.AffectParent == false)
+						continue;
+					if (deviceState.Device.Parent.Driver.ChildAddressReserveRangeCount == 0)
 						continue;
 
 					var parentDevice = deviceState.Device.Parent;
@@ -513,6 +516,7 @@ namespace FiresecService.Processor
 					if (existingParentDeviceState == null)
 					{
 						parentDeviceState.ChildStates.Add(childDeviceState);
+						Trace.WriteLine(parentDeviceState.Device.PresentationAddressDriver + " " + childDeviceState.DriverState.Name);
 						ChangedDevices.Add(parentDeviceState);
 					}
 					else

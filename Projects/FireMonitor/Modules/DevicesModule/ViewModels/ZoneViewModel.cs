@@ -19,6 +19,8 @@ namespace DevicesModule.ViewModels
 		{
 			SelectCommand = new RelayCommand(OnSelect);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			SetGuardCommand = new RelayCommand(OnSetGuard, CanSetGuard);
+			UnSetGuardCommand = new RelayCommand(OnUnSetGuard, CanUnSetGuard);
 
 			Zone = zone;
 			if (FiresecManager.DeviceStates == null)
@@ -77,7 +79,7 @@ namespace DevicesModule.ViewModels
 			ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Publish(Zone.No);
 		}
 
-		public bool CanShowOnPlan()
+		bool CanShowOnPlan()
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
@@ -97,6 +99,26 @@ namespace DevicesModule.ViewModels
 		void OnShowOnPlan()
 		{
 			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Zone.No);
+		}
+
+		public RelayCommand SetGuardCommand { get; private set; }
+		void OnSetGuard()
+		{
+			FiresecManager.SetZoneGuard(Zone);
+		}
+		bool CanSetGuard()
+		{
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null));
+		}
+
+		public RelayCommand UnSetGuardCommand { get; private set; }
+		void OnUnSetGuard()
+		{
+			FiresecManager.UnSetZoneGuard(Zone);
+		}
+		bool CanUnSetGuard()
+		{
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null));
 		}
 	}
 }

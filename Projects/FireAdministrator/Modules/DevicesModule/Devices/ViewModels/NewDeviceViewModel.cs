@@ -22,7 +22,7 @@ namespace DevicesModule.ViewModels
 
 			Drivers = new List<Driver>(
 				from Driver driver in FiresecManager.Drivers
-				where ((_parent.Driver.AvaliableChildren.Contains(driver.UID) && driver.HasAddress))
+				where (_parent.Driver.AvaliableChildren.Contains(driver.UID))
 				select driver);
 
 			SelectedDriver = Drivers.FirstOrDefault();
@@ -94,6 +94,13 @@ namespace DevicesModule.ViewModels
 
 		void CreateDevices()
 		{
+			if (SelectedDriver.HasAddress == false)
+			{
+				Device device = _parent.AddChild(SelectedDriver, 0);
+				NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+				return;
+			}
+
 			int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
 
 			for (int i = startAddress; i <= startAddress + Count * GetReserverCount(); i++)

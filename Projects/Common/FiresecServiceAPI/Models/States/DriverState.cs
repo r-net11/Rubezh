@@ -21,7 +21,7 @@ namespace FiresecAPI.Models
 		public bool AffectChildren { get; set; }
 
 		[DataMember]
-		public bool AffectedParent { get; set; }
+		public bool AffectParent { get; set; }
 
 		[DataMember]
 		public bool IsManualReset { get; set; }
@@ -38,6 +38,7 @@ namespace FiresecAPI.Models
 			driverState.Id = Id;
 			driverState.Name = Name;
 			driverState.AffectChildren = AffectChildren;
+			driverState.AffectParent = AffectParent;
 			driverState.StateType = StateType;
 			driverState.IsManualReset = IsManualReset;
 			driverState.CanResetOnPanel = CanResetOnPanel;

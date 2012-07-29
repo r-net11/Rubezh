@@ -256,12 +256,24 @@ namespace FiresecService.Service
 			firesecResetHelper.ResetStates(resetItems);
 		}
 
-		public void SetZoneGuard(int zoneNo)
+		public void SetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
+			var device = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == secPanelUID);
+			if (device != null)
+			{
+				int reguestId = 0;
+				FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "SetZoneToGuard", localZoneNo.ToString(), ref reguestId);
+			}
 		}
 
-		public void UnSetZoneGuard(int zoneNo)
+		public void UnSetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
+			var device = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == secPanelUID);
+			if (device != null)
+			{
+				int reguestId = 0;
+				FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "UnSetZoneFromGuard", localZoneNo.ToString(), ref reguestId);
+			}
 		}
 
 		public void AddUserMessage(string message)

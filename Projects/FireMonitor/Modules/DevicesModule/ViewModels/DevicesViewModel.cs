@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -121,6 +122,11 @@ namespace DevicesModule.ViewModels
 		void OnDeviceStateChanged(Guid deviceUID)
 		{
 			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceViewModel == null)
+			{
+				Logger.Error("DevicesViewModel.OnDeviceStateChanged deviceViewModel = null");
+				return;
+			}
 
 			if (ServiceFactory.AppSettings.CanControl)
 			{
