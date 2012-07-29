@@ -14,11 +14,11 @@ namespace PlansModule.ViewModels
 			ElementSubPlan = elementSubPlan;
 
 			ElementSubPlanView = new ElementSubPlanView();
-			Rect rectangle = elementSubPlan.GetRectangle();
-			ElementSubPlanView._polygon.Points.Add(rectangle.TopLeft);
-			ElementSubPlanView._polygon.Points.Add(rectangle.TopRight);
-			ElementSubPlanView._polygon.Points.Add(rectangle.BottomRight);
-			ElementSubPlanView._polygon.Points.Add(rectangle.BottomLeft);
+			//Rect rectangle = elementSubPlan.GetRectangle();
+			//ElementSubPlanView._polygon.Points.Add(rectangle.TopLeft);
+			//ElementSubPlanView._polygon.Points.Add(rectangle.TopRight);
+			//ElementSubPlanView._polygon.Points.Add(rectangle.BottomRight);
+			//ElementSubPlanView._polygon.Points.Add(rectangle.BottomLeft);
 			ElementSubPlanView.PlanUID = elementSubPlan.PlanUID;
 		}
 

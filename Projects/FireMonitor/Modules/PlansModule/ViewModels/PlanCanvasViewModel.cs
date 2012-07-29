@@ -22,6 +22,7 @@ namespace PlansModule.ViewModels
 		public List<ElementSubPlanViewModel> SubPlans { get; set; }
 		public List<ElementZoneViewModel> Zones { get; set; }
 		public List<ElementDeviceViewModel> Devices { get; set; }
+		public List<ElementXDeviceViewModel> XDevices { get; set; }
 
 		public PlanCanvasViewModel(Plan plan)
 		{
@@ -98,6 +99,19 @@ namespace PlansModule.ViewModels
 					if (elementDeviceViewModel.ElementDeviceView.Parent != null)
 						return;
 					Canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
+				}
+			}
+			foreach (var elementXDevice in Plan.ElementXDevices)
+			{
+				var elementXDeviceViewModel = new ElementXDeviceViewModel(elementXDevice);
+				if (elementXDeviceViewModel.XDeviceState != null)
+				{
+					XDevices.Add(elementXDeviceViewModel);
+
+					elementXDeviceViewModel.DrawElementXDevice();
+					if (elementXDeviceViewModel.ElementXDeviceView.Parent != null)
+						return;
+					Canvas.Children.Add(elementXDeviceViewModel.ElementXDeviceView);
 				}
 			}
 		}
