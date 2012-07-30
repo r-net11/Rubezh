@@ -46,7 +46,7 @@
                                         </TextBlock.ContextMenu>
                                         <TextBlock.ToolTip>
                                             <StackPanel>
-                                                <TextBlock Text="{Binding Device.PresentationAddressDriver}" />
+                                                <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" />
                                                 <ItemsControl ItemsSource="{Binding DeviceState.States}">
                                                     <ItemsControl.ItemTemplate>
                                                         <DataTemplate>
@@ -79,7 +79,7 @@
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">
                             <WrapPanel Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="{Binding Device.PresentationAddressDriver}" />
+                                <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" />
                                 <TextBlock Text=" - " />
                             </WrapPanel>
                             <TextBlock Text="{Binding Device.Driver.Name}" />

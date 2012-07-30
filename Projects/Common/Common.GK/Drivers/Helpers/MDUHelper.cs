@@ -8,7 +8,7 @@ namespace Commom.GK
 	{
 		public static void Create()
 		{
-			var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.MRO);
+			var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.MDU);
 
 			var property1 = new XDriverProperty()
 			{

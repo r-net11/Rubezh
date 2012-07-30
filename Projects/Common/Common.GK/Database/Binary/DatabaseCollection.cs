@@ -14,8 +14,9 @@ namespace Commom.GK
 		{
 			CreateDBs();
 			CreateDevicesInKau();
-			CreateDevicesInGkForZones();
-			CreateDevicesInGkForLogic();
+			CreateDevicesInGK();
+			//CreateDevicesInGkForZones();
+			//CreateDevicesInGkForLogic();
 			CreateZones();
 
 			foreach (var kauDatabase in KauDatabases)
@@ -53,12 +54,25 @@ namespace Commom.GK
 		{
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (device.Driver.IsDeviceOnShleif)
+				if (device.Parent != null && device.Parent.Driver.DriverType == XDriverType.KAU && device.Driver.DriverType != XDriverType.KAUIndicator)
 				{
 					var kauParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
 					var kauDatabase = KauDatabases.FirstOrDefault(x => x.RootDevice.UID == kauParent.UID);
+					device.KauDatabaseParent = kauDatabase.RootDevice;
 					kauDatabase.AddDevice(device);
 				}
+			}
+		}
+
+		void CreateDevicesInGK()
+		{
+			foreach (var device in XManager.DeviceConfiguration.Devices)
+			{
+				if (device.Driver.DriverType == XDriverType.System)
+					continue;
+
+				var gkDatabase = GkDatabases.FirstOrDefault();
+				gkDatabase.AddDevice(device);
 			}
 		}
 
@@ -127,6 +141,7 @@ namespace Commom.GK
 				{
 					var kauDatabase = GetDatabase(zone.KauDatabaseParent);
 					kauDatabase.AddZone(zone);
+					zone.GkDatabaseParent = kauDatabase.RootDevice.Parent;
 				}
 				if (zone.GkDatabaseParent != null)
 				{
@@ -140,14 +155,12 @@ namespace Commom.GK
 		{
 			if (device.Driver.DriverType == XDriverType.KAU)
 			{
-				var kauDatabase = KauDatabases.FirstOrDefault(x => x.RootDevice == device);
-				return kauDatabase;
+				return KauDatabases.FirstOrDefault(x => x.RootDevice == device);
 			}
 
 			if (device.Driver.DriverType == XDriverType.GK)
 			{
-				var gkDatabase = GkDatabases.FirstOrDefault(x => x.RootDevice == device);
-				return gkDatabase;
+				return GkDatabases.FirstOrDefault(x => x.RootDevice == device);
 			}
 
 			return null;

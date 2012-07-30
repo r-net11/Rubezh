@@ -110,9 +110,7 @@ namespace PlansModule.ViewModels
 		{
 			OnPropertyChanged("DeviceState");
 			ElementXDeviceView._deviceControl.StateType = XDeviceState.StateType;
-			ElementXDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
-				from state in XDeviceState.States
-				select state.ToString());
+			ElementXDeviceView._deviceControl.AdditionalStateCodes = new List<string>();
 			ElementXDeviceView._deviceControl.Update();
 
 			UpdateTooltip();
@@ -132,7 +130,7 @@ namespace PlansModule.ViewModels
 		void UpdateTooltip()
 		{
 			var stringBuilder = new StringBuilder();
-			stringBuilder.Append(XDevice.PresentationAddressDriver);
+			stringBuilder.Append(XDevice.PresentationAddressAndDriver);
 			stringBuilder.Append(" - ");
 			stringBuilder.Append(XDevice.Driver.ShortName);
 			stringBuilder.Append("\n");

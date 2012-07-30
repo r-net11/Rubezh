@@ -418,6 +418,7 @@ namespace FiresecClient.Validation
 					ValidateZoneSingleNS(zone);
 					ValidateZoneDifferentLine(zone);
 					ValidateZoneSingleBoltInDirectionZone(zone);
+					ValidateGuardZoneHasDevicesFromSinglePanel(zone);
 				}
 
 				ValidateZoneHasDevicesFromDifferentNetworks(zone);
@@ -511,6 +512,25 @@ namespace FiresecClient.Validation
 		{
 			if (zone.DeviceInZoneLogic.Count(x => x.Driver.DriverType == DriverType.Valve) > 1 && FiresecManager.DeviceConfiguration.Directions.Any(x => x.Zones.Contains(zone.No)))
 				ZoneErrors.Add(new ZoneError(zone, "В зоне направления не может быть более одной задвижки", ErrorLevel.CannotWrite));
+		}
+
+		static void ValidateGuardZoneHasDevicesFromSinglePanel(Zone zone)
+		{
+			if (zone.ZoneType == ZoneType.Guard)
+			{
+				var panelDevices = new HashSet<Guid>();
+				foreach (var device in zone.DevicesInZone)
+				{
+					if (device.Driver.DriverType == DriverType.AM1_O)
+					{
+						panelDevices.Add(device.ParentPanel.UID);
+					}
+				}
+				if (panelDevices.Count > 1)
+				{
+					ZoneErrors.Add(new ZoneError(zone, "В охранной зоне присутствуют устройства из разных приборов", ErrorLevel.CannotWrite));
+				}
+			}
 		}
 
 		static void ValidateZoneNameLength(Zone zone)

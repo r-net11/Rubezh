@@ -34,10 +34,10 @@ namespace Commom.GK
 			Drivers.Add(new DriverItem(XDriverType.ShuzUnblockButton, DriverType.ShuzUnblockButton, 0x51));
 			Drivers.Add(new DriverItem(XDriverType.HandDetector, DriverType.HandDetector, 0x55));
 			Drivers.Add(new DriverItem(XDriverType.Pump, DriverType.Pump, 0x70));
-			Drivers.Add(new DriverItem(XDriverType.JokeyPump, DriverType.JokeyPump, 0x71));
-			Drivers.Add(new DriverItem(XDriverType.Compressor, DriverType.Compressor, 0x72));
-			Drivers.Add(new DriverItem(XDriverType.DrenazhPump, DriverType.DrenazhPump, 0x73));
-			Drivers.Add(new DriverItem(XDriverType.CompensationPump, DriverType.CompensationPump, 0x73));
+			Drivers.Add(new DriverItem(XDriverType.JokeyPump, DriverType.JokeyPump, 0x70));
+			Drivers.Add(new DriverItem(XDriverType.Compressor, DriverType.Compressor, 0x70));
+			Drivers.Add(new DriverItem(XDriverType.DrenazhPump, DriverType.DrenazhPump, 0x70));
+			Drivers.Add(new DriverItem(XDriverType.CompensationPump, DriverType.CompensationPump, 0x70));
 			Drivers.Add(new DriverItem(XDriverType.MRO, DriverType.MRO, 0x74));
 			Drivers.Add(new DriverItem(XDriverType.Valve, DriverType.Valve, 0x71));
 			Drivers.Add(new DriverItem(XDriverType.AM1_T, DriverType.AM1_T, 0x51));

@@ -4,12 +4,11 @@ using XFiresecAPI;
 
 namespace Commom.GK
 {
-	public class CombinedDetectorHelper
+	public class HeatDetectorHelper
 	{
 		public static void Create()
 		{
-			var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.CombinedDetector);
-			CommonHelper.AddIntProprety(xDriver, 0x84, "Порог срабатывания по дыму", 0, 0, 0, 255);
+			var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.HeatDetector);
 			CommonHelper.AddIntProprety(xDriver, 0x8B, "Порог срабатывания по температуре", 0, 0, 0, 85);
 			CommonHelper.AddIntProprety(xDriver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 0, 0, 255);
 		}

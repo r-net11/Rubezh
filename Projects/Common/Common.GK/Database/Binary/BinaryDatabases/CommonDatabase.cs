@@ -30,7 +30,6 @@ namespace Commom.GK
 				return;
 
 			device.SetDatabaseNo(DatabaseType, NextChildNo);
-
 			Devices.Add(device);
 		}
 
@@ -40,7 +39,6 @@ namespace Commom.GK
 				return;
 
 			zone.SetDatabaseNo(DatabaseType, NextChildNo);
-
 			Zones.Add(zone);
 		}
 

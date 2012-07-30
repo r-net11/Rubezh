@@ -60,10 +60,12 @@
     <Compile Include="Drivers\Helpers\BUZHelper.cs" />
     <Compile Include="Drivers\Helpers\CombinedDetectorHelper.cs" />
     <Compile Include="Drivers\Helpers\CommonHelper.cs" />
+    <Compile Include="Drivers\Helpers\HeatDetectorHelper.cs" />
     <Compile Include="Drivers\Helpers\MDUHelper.cs" />
     <Compile Include="Drivers\Helpers\MPTHelper.cs" />
     <Compile Include="Drivers\Helpers\MROHelper.cs" />
     <Compile Include="Drivers\Helpers\RMHelper.cs" />
+    <Compile Include="Drivers\Helpers\SmokeDetectorHelper.cs" />
     <Compile Include="Drivers\NewDevicesHelper\GKHelper.cs" />
     <Compile Include="Drivers\NewDevicesHelper\GKIndicatorHelper.cs" />
     <Compile Include="Drivers\NewDevicesHelper\GKLineHelper.cs" />

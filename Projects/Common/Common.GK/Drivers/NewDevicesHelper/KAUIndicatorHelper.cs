@@ -35,9 +35,11 @@ namespace Commom.GK
                 DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
                 IsInternalDeviceParameter = true
             };
-            modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Не гореть", Value = 0 });
-            modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Гореть", Value = 1 });
-            modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мигать", Value = 2 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Не гореть", Value = 0 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Гореть 0.25 сек", Value = 1 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Гореть 0.5 сек", Value = 3 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Гореть 0.75 сек", Value = 7 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мигать", Value = 15 });
             xDriver.Properties.Add(modeProperty);
 
             xDriver.Properties.Add(

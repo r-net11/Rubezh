@@ -108,6 +108,10 @@ namespace SettingsModule.ViewModels
 					{
 						stringBuilder.AppendLine("Automatic AutoOff - " + driver.Name + " - " + state.Name);
 					}
+					if (state.IsAutomatic && state.Name.Contains("Auto_Off"))
+					{
+						stringBuilder.AppendLine("Automatic Auto_Off - " + driver.Name + " - " + state.Name);
+					}
 				}
 			}
 

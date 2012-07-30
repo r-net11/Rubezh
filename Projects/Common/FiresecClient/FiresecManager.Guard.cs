@@ -13,7 +13,10 @@ namespace FiresecClient
 			if ((zone.ZoneType == ZoneType.Guard) && (zone.SecPanelUID != Guid.Empty))
 			{
 				var localNo = GetZoneLocalSecNo(zone);
-				FiresecService.SetZoneGuard(zone.SecPanelUID, localNo);
+				if (localNo >= 0)
+				{
+					FiresecService.SetZoneGuard(zone.SecPanelUID, localNo);
+				}
 			}
 		}
 

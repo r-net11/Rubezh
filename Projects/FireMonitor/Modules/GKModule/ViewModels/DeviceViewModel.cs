@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 			}
 			else
 			{
-				string deviceName = Device.PresentationAddressDriver;
+				string deviceName = Device.PresentationAddressAndDriver;
 				string errorText = "Ошибка при сопоставлении устройства с его состоянием:\n" + deviceName;
 				Logger.Warn(errorText);
 			}

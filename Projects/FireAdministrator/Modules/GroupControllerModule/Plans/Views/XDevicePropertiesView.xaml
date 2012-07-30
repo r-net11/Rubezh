@@ -45,7 +45,7 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-			<DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.PresentationAddressDriver}" />
+			<DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.PresentationAddressAndDriver}" />
             <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
 
         </DataGrid.Columns>

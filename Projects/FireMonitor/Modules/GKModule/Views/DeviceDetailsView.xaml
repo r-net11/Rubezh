@@ -20,7 +20,7 @@
             <TabItem Header="Основные">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">
-                        <TextBlock Text="{Binding Device.PresentationAddressDriver}" />
+                        <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

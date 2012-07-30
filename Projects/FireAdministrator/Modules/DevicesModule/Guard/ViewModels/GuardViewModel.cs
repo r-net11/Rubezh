@@ -40,6 +40,7 @@ namespace DevicesModule.ViewModels
 
 		void InitializeDevices()
 		{
+			FiresecManager.UpateGuardZoneSecPanelUID();
 			Devices.Clear();
 			SelectedDevice = null;
 
@@ -89,21 +90,15 @@ namespace DevicesModule.ViewModels
 
 			if (SelectedDevice != null)
 			{
-				var deviceZones = new List<int>();
-				foreach (var device in SelectedDevice.Children)
+				foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
 				{
-					if (device.Driver.DriverType == DriverType.AM1_O)
-						if (device.ZoneNo.HasValue)
-							deviceZones.Add(device.ZoneNo.Value);
-				}
-
-				foreach (var zoneNo in deviceZones)
-				{
-					var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-					if ((SelectedDeviceUser != null) && (SelectedDeviceUser.GuardUser.Zones.Contains(zoneNo)))
-						UserZones.Add(zone);
-					else
-						DeviceZones.Add(zone);
+					if (zone.SecPanelUID == SelectedDevice.UID)
+					{
+						if ((SelectedDeviceUser != null) && (SelectedDeviceUser.GuardUser.Zones.Contains(zone.No)))
+							UserZones.Add(zone);
+						else
+							DeviceZones.Add(zone);
+					}
 				}
 
 				UpdateZonesSelectation();

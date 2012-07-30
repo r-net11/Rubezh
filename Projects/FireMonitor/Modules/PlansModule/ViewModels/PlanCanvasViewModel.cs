@@ -45,6 +45,7 @@ namespace PlansModule.ViewModels
 			SubPlans = new List<ElementSubPlanViewModel>();
 			Zones = new List<ElementZoneViewModel>();
 			Devices = new List<ElementDeviceViewModel>();
+			XDevices = new List<ElementXDeviceViewModel>();
 
 			Canvas = new Canvas()
 			{

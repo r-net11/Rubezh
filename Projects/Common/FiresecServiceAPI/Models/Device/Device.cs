@@ -124,7 +124,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
-		public string PresentationAddressDriver
+		public string PresentationAddressAndDriver
 		{
 			get
 			{

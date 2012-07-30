@@ -88,6 +88,8 @@ namespace Commom.GK
 				BUNHelper.Create(xDriver);
 			}
 			MPTHelper.Create();
+			SmokeDetectorHelper.Create();
+			HeatDetectorHelper.Create();
 			CombinedDetectorHelper.Create();
 		}
 	}

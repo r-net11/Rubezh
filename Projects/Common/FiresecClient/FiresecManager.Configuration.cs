@@ -29,7 +29,7 @@ namespace FiresecClient
 
 			UpdateDrivers();
 			UpdateConfiguration();
-			UpateGuardZonePanel();
+			UpateGuardZoneSecPanelUID();
 		}
 
 		public static void UpdateDrivers()
@@ -317,7 +317,7 @@ namespace FiresecClient
 			return ((device.Driver.DriverType == DriverType.MPT) && (device.Parent.Driver.DriverType == DriverType.MPT));
 		}
 
-		public static void UpateGuardZonePanel()
+		public static void UpateGuardZoneSecPanelUID()
 		{
 			foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
 			{
@@ -340,19 +340,13 @@ namespace FiresecClient
 		{
 			if (zone.SecPanelUID != Guid.Empty)
 			{
-				var guardZones = from guardZone in FiresecManager.DeviceConfiguration.Zones
+				var guardZones = (from guardZone in FiresecManager.DeviceConfiguration.Zones
 								 orderby guardZone.No
 								 where guardZone.SecPanelUID == zone.SecPanelUID
-								 select guardZone;
-
-				var panelDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == zone.SecPanelUID);
-
-				var otherZones = from otherZone in GetPanelLocalZones(panelDevice)
-								 where otherZone.ZoneType == ZoneType.Fire
-								 orderby otherZone.No
-								 select otherZone;
+								 select guardZone).ToList();
+				return guardZones.IndexOf(zone);
 			}
-			return 0;
+			return -1;
 		}
 
 		static List<Zone> GetPanelLocalZones(Device device)

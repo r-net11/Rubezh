@@ -10,6 +10,7 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using Commom.GK;
 
 namespace FireMonitor
 {
@@ -29,6 +30,7 @@ namespace FireMonitor
 					LoadingService.AddCount(GetModuleCount());
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration();
+
 					if (FiresecManager.Drivers.Count == 0)
 						MessageBoxService.Show("Ошибка при загрузке конфигурации с сервера");
 					LoadingService.DoStep("Загрузка состояний с сервера");

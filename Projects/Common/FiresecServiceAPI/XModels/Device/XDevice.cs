@@ -98,12 +98,22 @@ namespace XFiresecAPI
 			}
 		}
 
-		public string PresentationAddressDriver
+		public string PresentationAddressAndDriver
 		{
 			get
 			{
 				if (Driver.HasAddress)
 					return Address + " - " + Driver.Name;
+				return Driver.Name;
+			}
+		}
+
+		public string ShortPresentationAddressAndDriver
+		{
+			get
+			{
+				if (Driver.HasAddress)
+					return Address + " - " + Driver.ShortName;
 				return Driver.Name;
 			}
 		}

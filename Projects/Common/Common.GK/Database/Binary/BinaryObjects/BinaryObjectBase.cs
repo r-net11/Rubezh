@@ -103,7 +103,7 @@ namespace Commom.GK
 				case DatabaseType.Gk:
 					if (Device != null)
 					{
-						Description = BytesHelper.StringDescriptionToBytes(Device.PresentationAddressDriver);
+						Description = BytesHelper.StringDescriptionToBytes(Device.ShortPresentationAddressAndDriver);
 					}
 					if (Zone != null)
 					{
