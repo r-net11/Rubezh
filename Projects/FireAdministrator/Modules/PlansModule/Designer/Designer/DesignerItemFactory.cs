@@ -32,29 +32,7 @@ namespace PlansModule.Designer
 				}
 			if (args.DesignerItem == null)
 				args.DesignerItem = new DesignerItemBase(element);
-			if (element is IElementZone)
-				args.DesignerItem.ContextMenu.Items.Add(new MenuItem()
-				{
-					CommandParameter = args.DesignerItem,
-					Command = new RelayCommand<DesignerItem>(OnEditZone, CanEditZone),
-					Header = "Редактировать"
-				});
 			return args.DesignerItem;
-		}
-
-		private static void OnEditZone(DesignerItem designerItem)
-		{
-			var elementZone = designerItem.Element as IElementZone;
-			//var zone = Helper.GetZone(elementZone);
-			ServiceFactory.Events.GetEvent<EditZoneEvent>().Publish(elementZone.ZoneNo.Value);
-			var color = elementZone.BackgroundColor;
-			Helper.SetZone(elementZone);
-			if (color != elementZone.BackgroundColor)
-				designerItem.Redraw();
-		}
-		private static bool CanEditZone(DesignerItem designerItem)
-		{
-			return (designerItem.Element as IElementZone).ZoneNo.HasValue;
 		}
 	}
 }

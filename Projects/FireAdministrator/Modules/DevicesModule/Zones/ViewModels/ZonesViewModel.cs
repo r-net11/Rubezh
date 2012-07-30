@@ -81,6 +81,8 @@ namespace DevicesModule.ViewModels
 				FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.Zone);
 				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
 				ServiceFactory.SaveService.DevicesChanged = true;
+				createZoneEventArg.Cancel = false;
+				createZoneEventArg.ZoneNo = zoneDetailsViewModel.Zone.No;
 			}
 			else
 			{

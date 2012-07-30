@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer.Designer;
+using System.Collections.ObjectModel;
 
 namespace PlansModule.ViewModels
 {
@@ -19,15 +20,16 @@ namespace PlansModule.ViewModels
 		{
 			IElementZone = iElementZone;
 			CreateCommand = new RelayCommand(OnCreate);
+			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: Зона";
-			Zones = new List<Zone>(FiresecManager.DeviceConfiguration.Zones);
+			Zones = new ObservableCollection<Zone>(FiresecManager.DeviceConfiguration.Zones);
 			if (iElementZone.ZoneNo.HasValue)
 				SelectedZone = Zones.FirstOrDefault(x => x.No == iElementZone.ZoneNo.Value);
 		}
 
-		public List<Zone> Zones { get; private set; }
+		public ObservableCollection<Zone> Zones { get; private set; }
 
-		Zone _selectedZone;
+		private Zone _selectedZone;
 		public Zone SelectedZone
 		{
 			get { return _selectedZone; }
@@ -39,7 +41,7 @@ namespace PlansModule.ViewModels
 		}
 
 		public RelayCommand CreateCommand { get; private set; }
-		void OnCreate()
+		private void OnCreate()
 		{
 			var createZoneEventArg = new CreateZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Publish(createZoneEventArg);
@@ -47,6 +49,17 @@ namespace PlansModule.ViewModels
 			Helper.SetZone(IElementZone);
 			if (createZoneEventArg.Cancel == false)
 				Close(true);
+		}
+
+		public RelayCommand EditCommand { get; private set; }
+		private void OnEdit()
+		{
+			ServiceFactory.Events.GetEvent<EditZoneEvent>().Publish(SelectedZone.No);
+			OnPropertyChanged("Zones");
+		}
+		private bool CanEdit()
+		{
+			return SelectedZone != null;
 		}
 
 		protected override bool Save()
