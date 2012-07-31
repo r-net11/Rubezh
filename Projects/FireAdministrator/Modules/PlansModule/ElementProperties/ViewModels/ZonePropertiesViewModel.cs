@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -8,7 +8,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer.Designer;
-using System.Collections.ObjectModel;
 
 namespace PlansModule.ViewModels
 {
@@ -47,7 +46,7 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Publish(createZoneEventArg);
 			IElementZone.ZoneNo = createZoneEventArg.ZoneNo;
 			Helper.SetZone(IElementZone);
-			if (createZoneEventArg.Cancel == false)
+			if (!createZoneEventArg.Cancel)
 				Close(true);
 		}
 

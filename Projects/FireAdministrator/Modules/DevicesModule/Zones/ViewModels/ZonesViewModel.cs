@@ -92,7 +92,7 @@ namespace DevicesModule.ViewModels
 		}
 		public void EditZone(int zoneNo)
 		{
-			var zoneViewModel = zoneNo == 0 ? null  : Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+			var zoneViewModel = zoneNo == 0 ? null : Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
 			if (zoneViewModel != null)
 				OnEdit(zoneViewModel.Zone);
 		}
@@ -101,7 +101,8 @@ namespace DevicesModule.ViewModels
 			var zoneDetailsViewModel = new ZoneDetailsViewModel(zone);
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				SelectedZone.Update(zoneDetailsViewModel.Zone);
+				if (SelectedZone != null)
+					SelectedZone.Update(zoneDetailsViewModel.Zone);
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}
 		}

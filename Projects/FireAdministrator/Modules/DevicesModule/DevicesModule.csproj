@@ -198,6 +198,7 @@
     <Compile Include="Guard\Views\GuardSynchronizationView.xaml.cs">
       <DependentUpon>GuardSynchronizationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plans\PlanExtension.cs" />
     <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Zones\Converters\ClauseStateToStringConverter.cs" />
     <Compile Include="Devices\Converters\ColorIdToStringConverter.cs" />
