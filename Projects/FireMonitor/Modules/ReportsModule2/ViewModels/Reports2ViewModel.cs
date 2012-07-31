@@ -4,6 +4,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ReportsModule2.DocumentPaginatorModel;
 using ReportsModule2.Reports;
+using System.Windows.Markup;
+using System.Windows.Documents;
 
 namespace ReportsModule2.ViewModels
 {
@@ -55,6 +57,11 @@ namespace ReportsModule2.ViewModels
 			var endDate = DateTime.Now;
 			var Time = (endDate - startDate).ToString();
 			OnPropertyChanged("XpsDocumentViewer");
+			//var fd = (FlowDocument)XamlReader.Parse(sb.ToString());
+			//var flowDocumentReader = new FlowDocumentReader();
+			//flowDocumentReader.Document = fd;
+			//XpsViewer = flowDocumentReader;
+			//OnPropertyChanged("XpsViewer");
 
 			//FileStream htmlFile = new FileStream("journal.html", FileMode.Open, FileAccess.Read);
 			//StreamReader myStreamReader = new StreamReader(htmlFile, Encoding.GetEncoding(1251));

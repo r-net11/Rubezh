@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
      >
   <?include Variables_Firesec.wxi?>
 
   <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="0.0.0.1" Manufacturer="$(var.Manufacturer)"
            UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
-
+    
     <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" Description="Установка $(var.ProductName)"
              SummaryCodepage="$(var.Codepage)" />
 
     <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
 
-    <!--<MajorUpgrade AllowDowngrades="yes" Schedule="afterInstallInitialize" MigrateFeatures="yes" />-->
+
     <Upgrade Id="$(var.UpgradeCode)" >
       <UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="yes" Maximum="20.0.0.0" IncludeMaximum="no"
                       Language="1049" Property="OLD_VERSION_FOUND" IgnoreRemoveFailure="yes"/>
     </Upgrade>
+
+    <PropertyRef Id="NETFRAMEWORK40FULL" />
+    <PropertyRef Id="NETFRAMEWORK40CLIENT" />
+    <Condition Message="Не удалось обнаружить Microsoft .NET Framework 4.0. Установите Microsoft .NET Framework 4.0 и запустите установку заново">
+      NETFRAMEWORK40FULL OR NETFRAMEWORK40CLIENT
+    </Condition>
 
     <Property Id="REGOLDFS">
       <RegistrySearch Id="RegistryOldFiresecValue" Type="directory" Root="HKLM" Key="Software\rubezh\FS_Server" Name="Path"/>
@@ -30,6 +37,7 @@
     <Property Id="ISSERVICEREGISTERED">
       <RegistrySearch Id="RegistryServiceRegisteredValue" Type="raw" Root="HKLM" Key="SYSTEM\CurrentControlSet\Services\Adv_SocketServer" Name="Type"/>
     </Property>
+
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
     <Property Id="SHORTCUT_PROGRAMMENU" Value="1"/>
     <Property Id="SHORTCUT_DESKTOP" Value="1"/>
@@ -115,7 +123,7 @@
       <!--<Custom Action="RunFiresecServiceNet" After="InstallHaspDriver" >1</Custom>-->
 
       <!--<Custom Action="StopFiresecServiceNet" After="CloseApplications">1</Custom>-->
-      <Custom Action="StopSocketServerServiceNet" After="CloseApplications">1</Custom>      
+      <Custom Action="StopSocketServerServiceNet" After="CloseApplications">1</Custom>
       <Custom Action="UnregisterSockProxy" After="StopSocketServerServiceNet">NOT REGOLDFS AND NOT INSTALLMODE</Custom>
       <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">NOT REGOLDFS AND NOT INSTALLMODE</Custom>
       <Custom Action="UnRegisterServer" After="UnregisterFs_types">NOT REGOLDFS AND NOT INSTALLMODE</Custom>

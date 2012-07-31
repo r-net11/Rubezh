@@ -10,7 +10,7 @@
         <FeatureRef Id="OldFiresecServiceFeature" />
         <FeatureRef Id="FiresecServiceFeature" />
         <ComponentRef Id="RegistryFiresec2Key"/>
-        <ComponentRef Id="ClearOnUninstallFiresecService"/>
+        <ComponentRef Id="ClearOnUninstallFiresecService"/>        
       </Feature>
       <Feature Id="FiresecClient" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
         <FeatureRef Id="FAFeatureBasic" />

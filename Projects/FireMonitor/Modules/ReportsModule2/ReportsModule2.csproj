@@ -69,6 +69,7 @@
     <Compile Include="DocumentPaginatorModel\DocumentPaginator.cs" />
     <Compile Include="DocumentPaginatorModel\FlowToXPSConverter.cs" />
     <Compile Include="DocumentPaginatorModel\PimpedPaginator.cs" />
+    <Compile Include="DocumentPaginatorModel\ReportPaginator.cs" />
     <Compile Include="HTMLToXAML\HtmlCssParser.cs" />
     <Compile Include="HTMLToXAML\HtmlFromXamlConverter.cs" />
     <Compile Include="HTMLToXAML\HtmlLexicalAnalyzer.cs" />

@@ -85,9 +85,9 @@ namespace ReportsModule2.Reports
 			var flowDocumentSB = new StringBuilder();
 			flowDocumentSB.Append(@"<FlowDocument xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" >");
 			flowDocumentSB.Append(@"<Table CellSpacing=""0.1"" BorderThickness=""1,1,1,1"" BorderBrush=""#FFFFFFFF"">");
-			flowDocumentSB.Append(@"<Table.Columns><TableColumn /><TableColumn /><TableColumn /></Table.Columns>");
-			flowDocumentSB.Append(@"<TableRowGroup><TableRow FontWeight=""Bold"" FontSize=""14"" Background=""#FFC0C0C0""><TableCell><Paragraph>Тип</Paragraph></TableCell><TableCell><Paragraph>Адрес</Paragraph></TableCell><TableCell><Paragraph>Зона</Paragraph></TableCell></TableRow></TableRowGroup>");
-			flowDocumentSB.Append(@"<TableRowGroup FontWeight=""Normal"" FontSize=""12"" Background=""#FFFFFFFF"">");
+			//flowDocumentSB.Append(@"<Table.Columns><TableColumn /><TableColumn /><TableColumn /></Table.Columns>");
+			flowDocumentSB.Append(@"<TableRowGroup Name=""RowVisual"" ><TableRow FontWeight=""Bold"" FontSize=""14"" Background=""#FFC0C0C0""><TableCell><Paragraph>Тип</Paragraph></TableCell><TableCell><Paragraph>Адрес</Paragraph></TableCell><TableCell><Paragraph>Зона</Paragraph></TableCell></TableRow></TableRowGroup>");
+			flowDocumentSB.Append(@"<TableRowGroup Name=""RowVisual2"" FontWeight=""Normal"" FontSize=""12"" Background=""#FFFFFFFF"">");
 			foreach (var deviceListModel in DataList)
 			{
 				string tableCellHeader = @"<TableCell BorderThickness=""1,1,1,1"" BorderBrush=""#FF000000"">";
