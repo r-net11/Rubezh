@@ -136,6 +136,11 @@
               DiskId="1" KeyPath="yes" />
       </Component>
 
+      <Component Id="FSSKUDConfigComponent" Guid="*">
+        <File Id="FS.SKUD.dll.config" Name="FiresecService.SKUD.dll.config" Source="$(var.FiresecService.TargetDir)"
+              DiskId="1" KeyPath="yes" />
+      </Component>
+
       <!--<Component Id="FiresecNTServiceComponent" Guid="*">
         <File Id="FiresecNTServiceExe" Name="$(var.FiresecNTService.TargetFileName)"
 							Source="$(var.FiresecNTService.TargetDir)" KeyPath="yes" DiskId="1" />

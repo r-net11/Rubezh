@@ -25,6 +25,7 @@
       <ComponentRef Id="FSNLogComponent"/>
       <ComponentRef Id="FSFiresecSDFComponent" />
       <ComponentRef Id="FSSKUDComponent"/>
+      <ComponentRef Id="FSSKUDConfigComponent"/>
 			<ComponentRef Id="TrayComponent"/>
 			<ComponentRef Id="SecurityConfiguration"/>
 			<ComponentRef Id="DeviceLibrary"/>

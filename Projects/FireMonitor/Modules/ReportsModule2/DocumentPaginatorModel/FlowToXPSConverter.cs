@@ -76,8 +76,10 @@ namespace ReportsModule2.DocumentPaginatorModel
 				using (XpsDocument xpsDoc = new XpsDocument(container, CompressionOption.NotCompressed))
 				{
 					XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(xpsDoc), false);
+					//var paginator = new PimpedPaginator((FlowDocument)doc, new PimpedPaginator.Definition());
 					DocumentPaginator paginator = ((IDocumentPaginatorSource)doc).DocumentPaginator;
-					paginator = new DocumentPaginatorWrapper(paginator, new Size(768, 676), new Size(48, 48));
+					paginator = new ReportPaginator(paginator);
+					//paginator = new DocumentPaginatorWrapper(paginator, new Size(768, 676), new Size(48, 48));
 					rsm.SaveAsXaml(paginator);
 				}
 			}
