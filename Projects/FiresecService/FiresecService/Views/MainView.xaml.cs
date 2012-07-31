@@ -31,6 +31,7 @@ namespace FiresecService.Views
 		private void OnShow(object sender, EventArgs e)
 		{
 			_window.WindowState = WindowState.Normal;
+			_window.Activate();
 		}
 		private void OnClose(object sender, EventArgs e)
 		{
