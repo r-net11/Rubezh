@@ -14,7 +14,7 @@ namespace DevicesModule.ViewModels
         public static void Run(Device device)
         {
             _device = device;
-            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, _device.PresentationAddressDriver + ". Получение данных с модуля доставки сообщений");
+            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, _device.PresentationAddressAndDriver + ". Получение данных с модуля доставки сообщений");
         }
 
         static void OnPropgress()

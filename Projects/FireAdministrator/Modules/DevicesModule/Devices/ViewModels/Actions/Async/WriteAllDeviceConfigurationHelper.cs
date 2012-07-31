@@ -17,7 +17,7 @@ namespace DevicesModule.ViewModels
                 bool hasError = false;
                 if (device.Driver.CanWriteDatabase)
                 {
-                    var deviceName = device.PresentationAddressDriver + ". Запись конфигурации в устройство";
+                    var deviceName = device.PresentationAddressAndDriver + ". Запись конфигурации в устройство";
                     ServiceFactory.ProgressService.Run(
                         new Action
                             (

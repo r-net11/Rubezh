@@ -134,7 +134,7 @@ namespace FiresecService.Configuration
 				}
 				else
 				{
-					DriversError.AppendLine("Для устройства " + device.PresentationAddressDriver + " не найдено устройство в конфигурации firesec-1");
+					DriversError.AppendLine("Для устройства " + device.PresentationAddressAndDriver + " не найдено устройство в конфигурации firesec-1");
 				}
 			}
 		}

@@ -516,7 +516,7 @@ namespace FiresecService.Processor
 					if (existingParentDeviceState == null)
 					{
 						parentDeviceState.ChildStates.Add(childDeviceState);
-						Trace.WriteLine(parentDeviceState.Device.PresentationAddressDriver + " " + childDeviceState.DriverState.Name);
+						Trace.WriteLine(parentDeviceState.Device.PresentationAddressAndDriver + " " + childDeviceState.DriverState.Name);
 						ChangedDevices.Add(parentDeviceState);
 					}
 					else

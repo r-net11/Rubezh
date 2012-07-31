@@ -19,7 +19,7 @@ namespace DevicesModule.ViewModels
             _isUsb = isUsb;
 
             var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == _deviceUID);
-            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, device.PresentationAddressDriver + ". Установка времени");
+            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, device.PresentationAddressAndDriver + ". Установка времени");
         }
 
         static void OnPropgress()

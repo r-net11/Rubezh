@@ -17,7 +17,7 @@ namespace DevicesModule.ViewModels
             _device = device;
             _functionCode = functionCode;
 
-            ServiceFactory.ProgressService.Run(OnPropgress, OnlCompleted, device.PresentationAddressDriver + ". Выполнение функции");
+            ServiceFactory.ProgressService.Run(OnPropgress, OnlCompleted, device.PresentationAddressAndDriver + ". Выполнение функции");
         }
 
         static void OnPropgress()
