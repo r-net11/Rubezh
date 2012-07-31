@@ -35,11 +35,9 @@ namespace Commom.GK
                 DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
                 IsInternalDeviceParameter = true
             };
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Не гореть", Value = 0 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Гореть 0.25 сек", Value = 1 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Гореть 0.5 сек", Value = 3 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Гореть 0.75 сек", Value = 7 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мигать", Value = 15 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Выключено", Value = 0 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Включено", Value = 1 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает", Value = 2 });
             xDriver.Properties.Add(modeProperty);
 
             xDriver.Properties.Add(
@@ -59,7 +57,7 @@ namespace Commom.GK
                 new XDriverProperty()
                 {
                     No = 2,
-                    Name = "OnDuration",
+                    Name = "OffDuration",
                     Caption = "Продолжительность гашения для режима 2",
                     ToolTip = "Продолжительность гашения для режима 2",
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,

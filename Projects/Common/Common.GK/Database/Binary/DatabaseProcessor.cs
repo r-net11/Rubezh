@@ -28,6 +28,8 @@ namespace Commom.GK
 				foreach (var deviceUID in zone.DeviceUIDs)
 				{
 					var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+					if (device == null)
+						continue;
 					zone.Devices.Add(device);
 
 					var kauParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);

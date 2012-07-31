@@ -4,25 +4,28 @@ namespace FiresecAPI.Models
 {
 	public enum AlarmType
 	{
+		[DescriptionAttribute("Тревога")]
+		Guard = 0,
+
 		[DescriptionAttribute("Пожар")]
-		Fire = 0,
+		Fire = 1,
 
 		[DescriptionAttribute("Внимание")]
-		Attention = 1,
+		Attention = 2,
 
 		[DescriptionAttribute("Неисправность")]
-		Failure = 2,
+		Failure = 3,
 
 		[DescriptionAttribute("Требуется обслуживание")]
-		Service = 3,
+		Service = 4,
 
 		[DescriptionAttribute("Отключенное оборудование")]
-		Off = 4,
+		Off = 5,
 
 		[DescriptionAttribute("Автоматика отключена")]
-		Auto = 5,
+		Auto = 6,
 
 		[DescriptionAttribute("Информация")]
-		Info = 6
+		Info = 7
 	}
 }

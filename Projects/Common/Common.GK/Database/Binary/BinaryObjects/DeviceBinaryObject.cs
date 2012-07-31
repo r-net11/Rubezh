@@ -18,20 +18,12 @@ namespace Commom.GK
 
 			short address = 0;
 			if (device.Driver.IsDeviceOnShleif)
-				address = (short)((device.ShleifNo-1) * 256 + device.IntAddress);
+				address = (short)((device.ShleifNo - 1) * 256 + device.IntAddress);
 			SetAddress(address);
 
 			SetObjectOutDependencesBytes();
 			SetFormulaBytes();
-			if (databaseType == DatabaseType.Gk && device.Driver.IsDeviceOnShleif && device.Parent.Driver.DriverType == XDriverType.KAU)
-			{
-				Parameters = new List<byte>();
-			}
-			else
-			{
-				SetPropertiesBytes();
-			}
-
+			SetPropertiesBytes();
 			InitializeAllBytes();
 			InitializeIsGK();
 		}

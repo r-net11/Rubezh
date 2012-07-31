@@ -49,19 +49,21 @@ namespace Commom.GK
 				var binaryBase = GetBinaryBase();
 
 				short controllerAddress = 0;
+				short no = 0;
 				if (binaryBase.KauDatabaseParent != null)
 				{
 					short lineNo = XManager.GetKauLine(binaryBase.KauDatabaseParent);
 					byte intAddress = binaryBase.KauDatabaseParent.IntAddress;
 					controllerAddress = (short)(lineNo * 256 + intAddress);
+					no = binaryBase.GetDatabaseNo(DatabaseType.Kau);
 				}
 				else
 				{
 					controllerAddress = 0x200;
+					no = binaryBase.GetDatabaseNo(DatabaseType.Gk);
 				}
 				Address.AddRange(BytesHelper.ShortToBytes(controllerAddress));
 
-				var no = binaryBase.GetDatabaseNo(DatabaseType);
 				Address.AddRange(BytesHelper.ShortToBytes(no));
 			}
 			Address.AddRange(BytesHelper.ShortToBytes(address));

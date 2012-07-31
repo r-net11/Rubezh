@@ -89,28 +89,22 @@ namespace Commom.GK
 			};
 			var property6Parameter1 = new XDriverPropertyParameter()
 			{
-				Name = "Резерв",
+				Name = "Реверсивный",
 				Value = 0
 			};
 			var property6Parameter2 = new XDriverPropertyParameter()
 			{
-				Name = "Пружинный привод",
+				Name = "Пружинный",
 				Value = 1
 			};
 			var property6Parameter3 = new XDriverPropertyParameter()
 			{
-				Name = "Привод с ручным возвратом",
+				Name = "Ручной",
 				Value = 2
-			};
-			var property6Parameter4 = new XDriverPropertyParameter()
-			{
-				Name = "Резерв",
-				Value = 3
 			};
 			property6.Parameters.Add(property6Parameter1);
 			property6.Parameters.Add(property6Parameter2);
 			property6.Parameters.Add(property6Parameter3);
-			property6.Parameters.Add(property6Parameter4);
 			xDriver.Properties.Add(property6);
 
 			var property7 = new XDriverProperty()

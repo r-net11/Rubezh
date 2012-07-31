@@ -74,6 +74,7 @@
         RadioHandDetector,
         RadioSmokeDetector,
 		MRO_2,
+		FanControl,
 		Fan,
 		Klapan,
         MS_1,

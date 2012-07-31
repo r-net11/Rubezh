@@ -9,5 +9,6 @@
 		public static bool IsDebug { get; set; }
 		public static bool OverrideFiresec1Config { get; set; }
 		public static bool IsImitatorVisible { get; set; }
+		public static bool RunOPC { get; set; }
 	}
 }

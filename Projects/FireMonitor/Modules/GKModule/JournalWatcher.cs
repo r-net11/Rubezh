@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using GKModule.ViewModels;
 using Infrastructure;
 using GKModule.Events;
+using System.Diagnostics;
 
 namespace GKModule
 {
@@ -27,15 +28,24 @@ namespace GKModule
 
 		static void Timer_Tick(object sender, EventArgs e)
 		{
-			var newLastId = GetLastId();
-			if (newLastId > LastId)
+			try
 			{
-				StatesWatcher.Run();
-				for (int i = LastId+1; i <= newLastId; i++)
+				var newLastId = GetLastId();
+				if (LastId == -1)
+					return;
+				if (newLastId > LastId)
 				{
-					ServiceFactory.Events.GetEvent<NewJournalEvent>().Publish(i);
+					StatesWatcher.Run();
+					for (int index = LastId + 1; index <= newLastId; index++)
+					{
+						ServiceFactory.Events.GetEvent<NewJournalEvent>().Publish(index);
+					}
+					LastId = newLastId;
 				}
-				LastId = newLastId;
+			}
+			catch (ProtocolException)
+			{
+				Trace.WriteLine("ProtocolException");
 			}
 		}
 
@@ -46,6 +56,11 @@ namespace GKModule
 		{
 			var firstGkDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
 			var bytes = SendManager.Send(firstGkDevice, 0, 6, 64);
+			if (bytes == null)
+			{
+				Trace.WriteLine("Connection Lost");
+				return -1;
+			}
 			var journalItem = new JournalItem(bytes);
 			var lastId = journalItem.GKNo;
 			return lastId;

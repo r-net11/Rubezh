@@ -79,7 +79,7 @@ namespace FiresecClient
 				{
 					var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == newZoneState.No);
 					zoneState.StateType = newZoneState.StateType;
-					zoneState.RevertColorsForGuardZone = IsZoneOnGuard(newZoneState);
+					zoneState.RevertColorsForGuardZone = FiresecManager.IsZoneOnGuard(newZoneState);
 
 					if (ZoneStateChangedEvent != null)
 						ZoneStateChangedEvent(zoneState.No);
@@ -87,30 +87,8 @@ namespace FiresecClient
 			});
 		}
 
-		public bool IsZoneOnGuard(ZoneState zoneState)
-		{
-			var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneState.No);
-			if (zone.ZoneType == ZoneType.Guard)
-			{
-				foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
-				{
-					if (deviceState.Device.ZoneNo.HasValue)
-					{
-						if (deviceState.Device.ZoneNo.Value == zone.No)
-						{
-							if (deviceState.States.Any(x => x.Code == "OnGuard") == false)
-								return true;
-						}
-					}
-				}
-			}
-			return false;
-		}
-
 		public void NewJournalRecords(List<JournalRecord> journalRecords)
 		{
-#if (DEBUG)
-#endif
 			SafeOperationCall(() =>
 			{
 				foreach (var journalRecord in journalRecords)
@@ -139,8 +117,6 @@ namespace FiresecClient
 
 		public Guid Ping()
 		{
-#if (DEBUG)
-#endif
 			try
 			{
 				return FiresecManager.ClientCredentials.ClientUID;

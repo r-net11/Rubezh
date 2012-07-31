@@ -54,9 +54,12 @@ namespace Commom.GK
 		{
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (device.Parent != null && device.Parent.Driver.DriverType == XDriverType.KAU && device.Driver.DriverType != XDriverType.KAUIndicator)
+				if (device.Parent != null && (device.Parent.Driver.DriverType == XDriverType.KAU || device.Driver.DriverType == XDriverType.KAU))
+				//if (device.Parent != null && (device.Parent.Driver.DriverType == XDriverType.KAU))
 				{
-					var kauParent = device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
+					var parentsAndSelf = device.AllParents;
+					parentsAndSelf.Add(device);
+					var kauParent = parentsAndSelf.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
 					var kauDatabase = KauDatabases.FirstOrDefault(x => x.RootDevice.UID == kauParent.UID);
 					device.KauDatabaseParent = kauDatabase.RootDevice;
 					kauDatabase.AddDevice(device);

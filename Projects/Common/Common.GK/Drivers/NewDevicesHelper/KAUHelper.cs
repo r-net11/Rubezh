@@ -43,7 +43,7 @@ namespace Commom.GK
                     Name = "Parameter 0",
                     Caption = "Порог питания основного",
                     ToolTip = "",
-                    Default = 10,
+                    Default = 200,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
                     IsInternalDeviceParameter = true
                 }
@@ -56,7 +56,7 @@ namespace Commom.GK
                     Name = "Parameter 1",
                     Caption = "Порог питания резервного",
                     ToolTip = "",
-                    Default = 10,
+                    Default = 200,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
                     IsInternalDeviceParameter = true
                 }
@@ -82,7 +82,7 @@ namespace Commom.GK
                     Name = "Parameter 3",
                     Caption = "Интервал опроса шлейфов",
                     ToolTip = "",
-                    Default = 1,
+                    Default = 1000,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
                     IsInternalDeviceParameter = true
                 }

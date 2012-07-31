@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using FiresecClient;
+using Common.GK;
 
 namespace Commom.GK
 {
@@ -84,8 +85,11 @@ namespace Commom.GK
 			}
 			catch (SocketException)
 			{
-				MessageBoxService.Show("Устройство не отвечает");
-				return new List<byte>();
+				OnConnectionLost();
+				return null;
+				//throw new ProtocolException();
+				//MessageBoxService.Show("Устройство не отвечает");
+				//return new List<byte>();
 			}
 			//Trace.WriteLine("--> " + BytesHelper.BytesToString(recievedBytes));
 			udpClient.Close();
@@ -118,6 +122,13 @@ namespace Commom.GK
 		public static List<byte> ToBytes(short shortValue)
 		{
 			return BitConverter.GetBytes(shortValue).ToList();
+		}
+
+		public static event Action ConnectionLost;
+		static void OnConnectionLost()
+		{
+			if (ConnectionLost != null)
+				ConnectionLost();
 		}
 	}
 }

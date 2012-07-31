@@ -3,6 +3,8 @@ using Commom.GK;
 using Common.GK;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace GKModule
 {
@@ -16,10 +18,10 @@ namespace GKModule
 				GetStatesFromDB(gkDatabase);
 			}
 
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
-			{
-				GetStatesFromDB(kauDatabase);
-			}
+			//foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
+			//{
+			//    GetStatesFromDB(kauDatabase);
+			//}
 		}
 
 		static void GetStatesFromDB(CommonDatabase commonDatabase)
@@ -28,7 +30,21 @@ namespace GKModule
 			{
 				var rootDevice = commonDatabase.RootDevice;
 				var no = binaryObject.GetNo();
-				var bytes = SendManager.Send(rootDevice, 2, 12, 68, BytesHelper.ShortToBytes(no));
+				List<byte> bytes;
+				try
+				{
+					bytes = SendManager.Send(rootDevice, 2, 12, 68, BytesHelper.ShortToBytes(no));
+				}
+				catch (ProtocolException)
+				{
+					Trace.WriteLine("ProtocolException");
+					continue;
+				}
+				if (bytes == null)
+				{
+					Trace.WriteLine("Connection Lost");
+					continue;
+				}
 				if (bytes.Count > 0)
 				{
 					if (binaryObject.Device != null)

@@ -82,26 +82,60 @@ namespace AlarmModule
 		{
 			foreach (var zoneState in FiresecManager.DeviceStates.ZoneStates)
 			{
-				if (zoneState.StateType == StateType.Fire)
+				var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneState.No);
+				if (zone == null)
 				{
-					var alarm = Alarms.FirstOrDefault(x => ((x.StateType == StateType.Fire) && (x.ZoneNo == zoneState.No)));
-					if (alarm != null)
-					{
-						alarm.IsDeleting = false;
-					}
-					else
-					{
-						var newAlarm = new Alarm()
+					Logger.Error("AlarmWatcher.UpdateZoneAlarms zone = null");
+					continue;
+				}
+				switch (zone.ZoneType)
+				{
+					case ZoneType.Fire:
+						if (zoneState.StateType == StateType.Fire)
 						{
-							AlarmType = AlarmType.Fire,
-							StateType = StateType.Fire,
-							ZoneNo = zoneState.No,
-							Time = DateTime.Now,
-							StateName = "Пожар"
-						};
-						Alarms.Add(newAlarm);
-						ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(newAlarm);
-					}
+							var alarm = Alarms.FirstOrDefault(x => ((x.StateType == StateType.Fire) && (x.ZoneNo == zoneState.No)));
+							if (alarm != null)
+							{
+								alarm.IsDeleting = false;
+							}
+							else
+							{
+								var newAlarm = new Alarm()
+								{
+									AlarmType = AlarmType.Fire,
+									StateType = StateType.Fire,
+									ZoneNo = zoneState.No,
+									Time = DateTime.Now,
+									StateName = "Пожар"
+								};
+								Alarms.Add(newAlarm);
+								ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(newAlarm);
+							}
+						}
+						break;
+					case ZoneType.Guard:
+						if (FiresecManager.IsZoneOnGuardAlarm(zoneState))
+						{
+							var guardAlarm = Alarms.FirstOrDefault(x => ((x.AlarmType == AlarmType.Guard) && (x.ZoneNo == zoneState.No)));
+							if (guardAlarm != null)
+							{
+								guardAlarm.IsDeleting = false;
+							}
+							else
+							{
+								var newAlarm = new Alarm()
+								{
+									AlarmType = AlarmType.Guard,
+									StateType = StateType.Fire,
+									ZoneNo = zoneState.No,
+									Time = DateTime.Now,
+									StateName = "Тревога"
+								};
+								Alarms.Add(newAlarm);
+								ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Publish(newAlarm);
+							}
+						}
+						break;
 				}
 			}
 		}

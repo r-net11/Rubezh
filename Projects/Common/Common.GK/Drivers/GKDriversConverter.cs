@@ -28,7 +28,8 @@ namespace Commom.GK
 					ShortName = driver.ShortName,
 					ImageSource = driver.ImageSource,
 					HasImage = driver.HasImage,
-					CanEditAddress = driver.CanEditAddress,
+					//CanEditAddress = driver.CanEditAddress,
+					CanEditAddress = true,
 					IsChildAddressReservedRange = driver.IsChildAddressReservedRange,
 					IsAutoCreate = driver.IsAutoCreate,
 					AutoChild = driver.AutoChild,
@@ -39,9 +40,11 @@ namespace Commom.GK
 					IsRangeEnabled = driver.IsRangeEnabled,
 					MinAddress = (byte)driver.MinAddress,
 					MaxAddress = (byte)driver.MaxAddress,
-					HasAddress = driver.HasAddress,
+					HasAddress = true,
+					//HasAddress = driver.HasAddress,
 					ChildAddressReserveRangeCount = (byte)driver.ChildAddressReserveRangeCount,
-					IsDeviceOnShleif = driver.IsDeviceOnShleif,
+					//IsDeviceOnShleif = driver.IsDeviceOnShleif,
+					IsDeviceOnShleif = true,
 					HasLogic = driver.IsZoneLogicDevice
 				};
 

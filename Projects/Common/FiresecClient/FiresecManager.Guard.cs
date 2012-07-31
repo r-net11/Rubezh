@@ -28,5 +28,45 @@ namespace FiresecClient
 				FiresecService.UnSetZoneGuard(zone.SecPanelUID, localNo);
 			}
 		}
+
+		public static bool IsZoneOnGuard(ZoneState zoneState)
+		{
+			var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneState.No);
+			if (zone.ZoneType == ZoneType.Fire)
+			{
+				return false;
+			}
+			foreach (var device in zone.DevicesInZone)
+			{
+				if (device.Driver.DriverType != DriverType.AM1_O)
+					continue;
+
+				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+				if (deviceState.States.Count != 1)
+					return false;
+				if (deviceState.States.First().Code != "OnGuard")
+					return false;
+			}
+			return true;
+		}
+
+		public static bool IsZoneOnGuardAlarm(ZoneState zoneState)
+		{
+			var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneState.No);
+			if (zone.ZoneType == ZoneType.Fire)
+			{
+				return false;
+			}
+			foreach (var device in zone.DevicesInZone)
+			{
+				if (device.Driver.DriverType != DriverType.AM1_O)
+					continue;
+
+				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+				if (deviceState.States.Any(x => x.Code == "Alarm"))
+					return true;
+			}
+			return false;
+		}
 	}
 }

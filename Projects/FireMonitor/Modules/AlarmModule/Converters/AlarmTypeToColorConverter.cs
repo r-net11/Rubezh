@@ -10,6 +10,9 @@ namespace AlarmModule.Converters
         {
             switch ((AlarmType) value)
             {
+				case AlarmType.Guard:
+					return "DarkRed";
+
                 case AlarmType.Fire:
                     return "Red";
 

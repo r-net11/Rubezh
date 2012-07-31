@@ -39,8 +39,11 @@ namespace FiresecService
 				ClientsCash.InitializeComServers();
 				UILogger.Log("Открытие хоста");
 				var isHostOpened = FiresecServiceManager.Open();
-				UILogger.Log("Запуск OPC сервера");
-				FiresecOPCManager.Start();
+				if (AppSettings.RunOPC)
+				{
+					UILogger.Log("Запуск OPC сервера");
+					FiresecOPCManager.Start();
+				}
 				UILogger.Log("Готово");
 			}
 			catch (Exception e)
@@ -85,6 +88,7 @@ namespace FiresecService
 			AppSettings.LocalServiceAddress = System.Configuration.ConfigurationManager.AppSettings["LocalServiceAddress"] as string;
 			AppSettings.OverrideFiresec1Config = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["OverrideFiresec1Config"] as string);
 			AppSettings.IsImitatorVisible = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["IsImitatorVisible"] as string);
+			AppSettings.RunOPC = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["RunOPC"] as string);
 #if DEBUG
 			AppSettings.IsDebug = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["IsDebug"] as string);
 #endif

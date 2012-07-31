@@ -36,13 +36,13 @@ namespace Commom.GK
 				}
 			}
 
-			foreach (var device in gkDevice.Children)
-			{
-				if (device.Driver.DriverType == XDriverType.KAU)
-				{
-					AddDevice(device);
-				}
-			}
+			//foreach (var device in gkDevice.Children)
+			//{
+			//    if (device.Driver.DriverType == XDriverType.KAU)
+			//    {
+			//        AddDevice(device);
+			//    }
+			//}
 		}
 
 		public List<byte> GetBytes()
