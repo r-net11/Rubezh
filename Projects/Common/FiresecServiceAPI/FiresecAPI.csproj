@@ -237,6 +237,7 @@
     <Compile Include="XModels\Driver\XDriverPropertyParameter.cs" />
     <Compile Include="XModels\Driver\XDriverPropertyTypeEnum.cs" />
     <Compile Include="XModels\Driver\XDriverType.cs" />
+    <Compile Include="XModels\Driver\XDriverTypeMappedProperty.cs" />
     <Compile Include="XModels\Formula\FormulaOperation.cs" />
     <Compile Include="XModels\Formula\FormulaOperationType.cs" />
     <Compile Include="XModels\Logic\ClauseJounOperationType.cs" />

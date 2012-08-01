@@ -45,7 +45,8 @@ namespace Commom.GK
 					ChildAddressReserveRangeCount = (byte)driver.ChildAddressReserveRangeCount,
 					//IsDeviceOnShleif = driver.IsDeviceOnShleif,
 					IsDeviceOnShleif = true,
-					HasLogic = driver.IsZoneLogicDevice
+					HasLogic = driver.IsZoneLogicDevice,
+					IsGroupDevice = driver.IsChildAddressReservedRange
 				};
 
 				xDriver.Children = new List<Guid>();
@@ -94,6 +95,8 @@ namespace Commom.GK
 			SmokeDetectorHelper.Create();
 			HeatDetectorHelper.Create();
 			CombinedDetectorHelper.Create();
+			AMsHelper.Create();
+			PumpsHelper.Create();
 		}
 	}
 }

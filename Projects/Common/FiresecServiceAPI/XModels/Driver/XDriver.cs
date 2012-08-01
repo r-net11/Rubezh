@@ -13,6 +13,7 @@ namespace XFiresecAPI
 			Children = new List<Guid>();
 			AutoCreateChildren = new List<Guid>();
 			UseOffBitInLogic = true;
+			DriverTypeMappedProperties = new List<XDriverTypeMappedProperty>();
 		}
 
 		[DataMember]
@@ -94,6 +95,14 @@ namespace XFiresecAPI
 		public bool HasLogic { get; set; }
 
 		[DataMember]
+		public bool IsGroupDevice { get; set; }
+
+		[DataMember]
 		public bool UseOffBitInLogic { get; set; }
+
+		public List<XDriverTypeMappedProperty> DriverTypeMappedProperties { get; set; }
+
+		[DataMember]
+		public int MaxAddressOnShleif { get; set; }
 	}
 }

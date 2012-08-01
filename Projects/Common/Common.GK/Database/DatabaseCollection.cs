@@ -54,17 +54,30 @@ namespace Commom.GK
 		{
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (device.Parent != null && (device.Parent.Driver.DriverType == XDriverType.KAU || device.Driver.DriverType == XDriverType.KAU))
-				//if (device.Parent != null && (device.Parent.Driver.DriverType == XDriverType.KAU))
+				if (device.Driver.DriverType == XDriverType.KAU)
 				{
-					var parentsAndSelf = device.AllParents;
-					parentsAndSelf.Add(device);
-					var kauParent = parentsAndSelf.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
-					var kauDatabase = KauDatabases.FirstOrDefault(x => x.RootDevice.UID == kauParent.UID);
-					device.KauDatabaseParent = kauDatabase.RootDevice;
-					kauDatabase.AddDevice(device);
+					var kauDatabase = KauDatabases.FirstOrDefault(x => x.RootDevice.UID == device.UID);
+					foreach (var child in KauChildrenHelper.GetRealChildren(device))
+					{
+						child.KauDatabaseParent = kauDatabase.RootDevice;
+						kauDatabase.AddDevice(child);
+					}
 				}
 			}
+
+			//foreach (var device in XManager.DeviceConfiguration.Devices)
+			//{
+			//    if (device.Parent != null && (device.Parent.Driver.DriverType == XDriverType.KAU || device.Driver.DriverType == XDriverType.KAU))
+			//    //if (device.Parent != null && (device.Parent.Driver.DriverType == XDriverType.KAU))
+			//    {
+			//        var parentsAndSelf = device.AllParents;
+			//        parentsAndSelf.Add(device);
+			//        var kauParent = parentsAndSelf.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
+			//        var kauDatabase = KauDatabases.FirstOrDefault(x => x.RootDevice.UID == kauParent.UID);
+			//        device.KauDatabaseParent = kauDatabase.RootDevice;
+			//        kauDatabase.AddDevice(device);
+			//    }
+			//}
 		}
 
 		void CreateDevicesInGK()

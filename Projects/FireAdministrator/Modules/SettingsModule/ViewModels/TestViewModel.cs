@@ -21,6 +21,7 @@ namespace SettingsModule.ViewModels
 		public TestViewModel()
 		{
 			ShowDriversCommand = new RelayCommand(OnShowDrivers);
+			ShowXDriversCommand = new RelayCommand(OnShowXDrivers);
 			ShowTreeCommand = new RelayCommand(OnShowTree);
 			Test1Command = new RelayCommand(OnTest1);
 			Test2Command = new RelayCommand(OnTest2);
@@ -46,6 +47,13 @@ namespace SettingsModule.ViewModels
 		void OnShowDrivers()
 		{
 			var driversView = new DriversView();
+			driversView.ShowDialog();
+		}
+
+		public RelayCommand ShowXDriversCommand { get; private set; }
+		void OnShowXDrivers()
+		{
+			var driversView = new XDriversView();
 			driversView.ShowDialog();
 		}
 
