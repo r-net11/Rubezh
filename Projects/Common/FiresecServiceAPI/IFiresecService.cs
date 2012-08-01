@@ -201,7 +201,7 @@ namespace FiresecAPI
 
 		#region OPC
 		[OperationContract]
-		void OPCRefresh(DeviceConfiguration deviceConfiguration);
+		void OPCRefresh();
 
 		[OperationContract]
 		void OPCRegister();

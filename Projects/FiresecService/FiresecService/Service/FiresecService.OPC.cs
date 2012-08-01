@@ -9,9 +9,9 @@ namespace FiresecService.Service
 {
 	public partial class FiresecService
 	{
-		public void OPCRefresh(DeviceConfiguration deviceConfiguration)
+		public void OPCRefresh()
 		{
-			FiresecOPCManager.OPCRefresh(deviceConfiguration);
+			FiresecOPCManager.OPCRefresh();
 		}
 
 		public void OPCRegister()

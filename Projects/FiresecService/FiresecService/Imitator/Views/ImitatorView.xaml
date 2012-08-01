@@ -2,10 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
-             MinWidth="500" MinHeight="500">
+             MinWidth="800" MinHeight="500">
 
     <UserControl.Resources>
         <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
+        <Converters:StateTypeToIntConverter x:Key="StateTypeToIntConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -23,7 +24,9 @@
                 <DataGridTemplateColumn Header="Устройство">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                            <StackPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}" Orientation="Horizontal">
+                                <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
+                                    Visibility="{Binding DeviceState.Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                 <TextBlock Text="{Binding DeviceState.Device.Driver.ShortName}" />
                             </StackPanel>
                         </DataTemplate>
@@ -38,8 +41,17 @@
 
         <DataGrid Grid.Row="3" Margin="5" DataContext="{Binding SelectedDevice}" ItemsSource="{Binding DriverStates}" IsReadOnly="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название" Binding="{Binding DriverState.Name}" Width="*" />
-                <DataGridTextColumn Header="Состояние" Binding="{Binding DriverState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+                <DataGridTemplateColumn Header="Название" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding DriverState.Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Класс" Binding="{Binding DriverState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+                <DataGridTextColumn Header="Приоритет" Binding="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIntConverter}}" />
                 <DataGridTemplateColumn Header="Есть/Нет">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -47,6 +59,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridCheckBoxColumn Header="Влияет на потомков" Binding="{Binding DriverState.AffectChildren}" IsReadOnly="True" />
+                <DataGridCheckBoxColumn Header="Влияет на предков" Binding="{Binding DriverState.AffectParent}" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -16,7 +16,7 @@ namespace OPCModule.ViewModels
 		public RelayCommand RefreshCommand { get; private set; }
 		void OnRefresh()
 		{
-			FiresecManager.FiresecService.OPCRefresh(FiresecManager.DeviceConfiguration);
+			FiresecManager.FiresecService.OPCRefresh();
 		}
 
 		public RelayCommand RegisterCommand { get; private set; }

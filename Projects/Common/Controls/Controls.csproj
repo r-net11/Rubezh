@@ -115,6 +115,7 @@
     <Compile Include="Converters\ReportTypeToStringConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
+    <Compile Include="Converters\StateTypeToIntConverter.cs" />
     <Compile Include="ToolBarRadioButton.cs" />
     <Compile Include="DataGridProperties.cs" />
     <Compile Include="DigitalPasswordHelper.cs" />

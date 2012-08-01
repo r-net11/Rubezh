@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using System.IO;
 
 namespace FiresecService.ViewModels
 {
@@ -14,7 +15,8 @@ namespace FiresecService.ViewModels
 			DeviceState = deviceState;
 			StateType = DeviceState.StateType;
 			Name = DeviceState.Device.Driver.ShortName + " - " + DeviceState.Device.DottedAddress;
-			Level = DeviceState.Device.AllParents.Count;//.SavedPlaceInTree == null ? 0 : DeviceState.Device.SavedPlaceInTree.Split('\\').Count() - 1;
+			Level = DeviceState.Device.AllParents.Count;
+			ImageSource = GetIconFilePath(DeviceState.Device.Driver.ImageSource) + ".ico";
 
 			DriverStates = new List<DeviceStateViewModel>();
 			foreach (var driverState in from x in DeviceState.Device.Driver.States orderby x.StateType select x)
@@ -38,5 +40,15 @@ namespace FiresecService.ViewModels
 		public StateType StateType { get; private set; }
 		public List<DeviceStateViewModel> DriverStates { get; private set; }
 		public int Level { get; private set; }
+		public string ImageSource { get; private set; }
+
+		string GetIconFilePath(string fileName)
+		{
+			return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory("Icons"), fileName);
+		}
+		static string CurrentDirectory(string directory)
+		{
+			return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Configuration", directory);
+		}
 	}
 }

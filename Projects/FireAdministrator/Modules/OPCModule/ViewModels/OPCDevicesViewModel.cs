@@ -10,10 +10,6 @@ namespace OPCModule.ViewModels
 {
 	public class OPCDevicesViewModel : ViewPartViewModel
 	{
-		public OPCDevicesViewModel()
-		{
-		}
-
 		public void Initialize()
 		{
 			BuildTree();
