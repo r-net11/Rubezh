@@ -12,11 +12,6 @@ namespace PlansModule.Designer.DesignerItems
 			: base(element)
 		{
 			ResizeChrome = new ResizeChromePoint(this);
-			if (Element is ElementDevice)
-			{
-				Title = Helper.GetDeviceTitle((ElementDevice)Element);
-				Group = "Device";
-			}
 		}
 
 		public override void SetLocation()
@@ -37,8 +32,6 @@ namespace PlansModule.Designer.DesignerItems
 
 		public override void UpdateElementProperties()
 		{
-			if (Element is ElementDevice)
-				Title = Helper.GetDeviceTitle((ElementDevice)Element);
 			base.UpdateElementProperties();
 		}
 	}

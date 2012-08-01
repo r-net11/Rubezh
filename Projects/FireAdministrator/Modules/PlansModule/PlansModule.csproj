@@ -132,10 +132,6 @@
     <Compile Include="ElementProperties\Views\DesignerPropertiesView.xaml.cs">
       <DependentUpon>DesignerPropertiesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ElementProperties\Views\DevicePropertiesView.xaml.cs">
-      <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ElementProperties\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="ElementProperties\Views\EllipsePropertiesView.xaml.cs">
       <DependentUpon>EllipsePropertiesView.xaml</DependentUpon>
     </Compile>
@@ -162,7 +158,6 @@
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementProperties\ViewModels\ZonePropertiesViewModel.cs" />
-    <Compile Include="Events\ElementDeviceChangedEvent.cs" />
     <Compile Include="Events\DeviceInZoneChangedEvent.cs" />
     <Compile Include="ViewModels\PlansTreeViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.PlanExtension.cs" />
@@ -204,16 +199,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ViewModels\DevicesViewModel.cs" />
-    <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.cs" />
     <Compile Include="ViewModels\PlansMenuViewModel.cs" />
     <Compile Include="ViewModels\PlanViewModel.cs" />
     <Compile Include="ViewModels\PlanDetailsViewModel.cs" />
-    <Compile Include="Views\DevicesView.xaml.cs">
-      <DependentUpon>DevicesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PlanDesignerView.xaml.cs">
       <DependentUpon>PlanDesignerView.xaml</DependentUpon>
     </Compile>
@@ -327,10 +317,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ElementProperties\Views\DevicePropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ElementProperties\Views\EllipsePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -374,10 +360,6 @@
     <Page Include="Views\ToolboxView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\DevicesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PlanDesignerView.xaml">
       <SubType>Designer</SubType>

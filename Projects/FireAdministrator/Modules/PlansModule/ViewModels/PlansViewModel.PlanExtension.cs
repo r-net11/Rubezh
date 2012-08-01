@@ -36,7 +36,7 @@ namespace PlansModule.ViewModels
 			}
 			if (planExtension.TabPage != null)
 			{
-				TabPages.Insert(TabPages.Count - 1, new TabItem()
+				TabPages.Insert(planExtension.Index + 1, new TabItem()
 				{
 					Header = planExtension.Title,
 					Content = planExtension.TabPage
@@ -97,11 +97,6 @@ namespace PlansModule.ViewModels
 				{
 					Header = "Планы",
 					Content = PlansTreeViewModel
-				},
-				new TabItem()
-				{
-					Header = "Устройства",
-					Content = DevicesViewModel
 				},
 				layers
 			};

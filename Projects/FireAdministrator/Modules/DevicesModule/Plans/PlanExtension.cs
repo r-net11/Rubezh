@@ -4,53 +4,103 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 using Infrustructure.Plans;
+using Infrastructure;
+using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Designer;
+using DeviceControls;
+using Infrustructure.Plans.Elements;
+using DevicesModule.Plans.ViewModels;
 
 namespace DevicesModule.Plans
 {
 	class PlanExtension : IPlanExtension<Plan>
 	{
-		#region IPlanExtension<Plan> Members
+		private DevicesViewModel _devicesViewModel;
+		public PlanExtension()
+		{
+			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
+			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
+			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
+			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
+			_devicesViewModel = new DevicesViewModel();
+		}
+
+		#region IPlanExtension Members
 
 		public int Index
 		{
-			get { throw new NotImplementedException(); }
+			get { return 0; }
 		}
-
 		public string Alias
 		{
-			get { throw new NotImplementedException(); }
+			get { return "Devices"; }
 		}
-
 		public string Title
 		{
-			get { throw new NotImplementedException(); }
+			get { return "Устройства"; }
 		}
 
 		public object TabPage
 		{
-			get { throw new NotImplementedException(); }
+			get { return _devicesViewModel; }
 		}
 
-		public bool ElementAdded(Plan plan, Infrustructure.Plans.Elements.ElementBase element)
+		public bool ElementAdded(Plan plan, ElementBase element)
 		{
-			throw new NotImplementedException();
+			ElementDevice elementDevice = element as ElementDevice;
+			if (elementDevice == null)
+				return false;
+			else
+			{
+				//Helper.SetDevice(elementDevice);
+				plan.ElementDevices.Add(elementDevice);
+				return true;
+			}
+		}
+		public bool ElementRemoved(Plan plan, ElementBase element)
+		{
+			ElementDevice elementDevice = element as ElementDevice;
+			if (elementDevice == null)
+				return false;
+			else
+			{
+				plan.ElementDevices.Remove(elementDevice);
+				return true;
+			}
 		}
 
-		public bool ElementRemoved(Plan plan, Infrustructure.Plans.Elements.ElementBase element)
+		public void RegisterDesignerItem(DesignerItem designerItem)
 		{
-			throw new NotImplementedException();
+			if (designerItem.Element is ElementDevice)
+			{
+				designerItem.Group = Alias;
+				designerItem.UpdateProperties += UpdateDesignerItem;
+				UpdateDesignerItem(designerItem);
+			}
 		}
 
-		public void RegisterDesignerItem(Infrustructure.Plans.Designer.DesignerItem designerItem)
+		public IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
-			throw new NotImplementedException();
-		}
-
-		public IEnumerable<Infrustructure.Plans.Elements.ElementBase> LoadPlan(Plan plan)
-		{
-			throw new NotImplementedException();
+			return plan.ElementDevices;
 		}
 
 		#endregion
+
+		private void UpdateDesignerItem(DesignerItem designerItem)
+		{
+			//designerItem.Title = Helper.GetDeviceTitle((ElementDevice)designerItem.Element);
+		}
+
+		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
+		{
+			if (args.Element is ElementDevice)
+				args.Painter = new Painter();
+		}
+		private void OnShowPropertiesEvent(ShowPropertiesEventArgs e)
+		{
+			//ElementDevice element = e.Element as ElementDevice;
+			//if (element != null)
+			//    e.PropertyViewModel = new XDevicePropertiesViewModel(_xdevicesViewModel, element);
+		}
 	}
 }

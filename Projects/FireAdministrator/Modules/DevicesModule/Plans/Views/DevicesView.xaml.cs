@@ -5,9 +5,9 @@ using System.Windows.Input;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
-using PlansModule.ViewModels;
+using DevicesModule.Plans.ViewModels;
 
-namespace PlansModule.Views
+namespace DevicesModule.Plans.Views
 {
 	public partial class DevicesView : UserControl
 	{
@@ -43,8 +43,8 @@ namespace PlansModule.Views
 			if (this.dragStartPoint.HasValue)
 			{
 				DeviceViewModel viewModel = (sender as Image).DataContext as DeviceViewModel;
-				if (viewModel.DesignerCanvas != null)
-					viewModel.DesignerCanvas.Toolbox.SetDefault();
+				//if (viewModel.DesignerCanvas != null)
+				//    viewModel.DesignerCanvas.Toolbox.SetDefault();
 				var device = viewModel.Device;
 				if (device.Driver.IsPlaceable == false)
 					return;

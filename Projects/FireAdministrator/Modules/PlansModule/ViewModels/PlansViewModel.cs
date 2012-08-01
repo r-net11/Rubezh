@@ -17,7 +17,6 @@ namespace PlansModule.ViewModels
 {
 	public partial class PlansViewModel : ViewPartViewModel
 	{
-		public DevicesViewModel DevicesViewModel { get; private set; }
 		public ElementsViewModel ElementsViewModel { get; private set; }
 		public PlansTreeViewModel PlansTreeViewModel { get; private set; }
 
@@ -40,7 +39,6 @@ namespace PlansModule.ViewModels
 			InitializeCopyPaste();
 			InitializeHistory();
 			ElementsViewModel = new ElementsViewModel(DesignerCanvas);
-			DevicesViewModel = new DevicesViewModel(DesignerCanvas);
 			PlansTreeViewModel = new PlansTreeViewModel(this);
 			CreatePages();
 			_planExtensions = new List<Infrustructure.Plans.IPlanExtension<Plan>>();
@@ -245,7 +243,7 @@ namespace PlansModule.ViewModels
 			{
 				ServiceFactory.Layout.ShowMenu(new PlansMenuViewModel(this));
 				FiresecManager.UpdatePlansConfiguration();
-				DevicesViewModel.Update();
+				//XDevicesViewModel.Update();
 				DesignerCanvas.DeselectAll();
 
 				if (DesignerCanvas.Toolbox != null)

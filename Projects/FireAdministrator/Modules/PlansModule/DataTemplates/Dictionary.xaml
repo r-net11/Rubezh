@@ -32,10 +32,6 @@
 		<Views:PlansTreeView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:DevicesViewModel}">
-		<Views:DevicesView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:RectanglePropertiesViewModel}">
 		<Views:RectanglePropertiesView />
 	</DataTemplate>
@@ -58,10 +54,6 @@
 
 	<DataTemplate DataType="{x:Type ViewModels:ZonePropertiesViewModel}">
 		<Views:ZonePropertiesView />
-	</DataTemplate>
-
-	<DataTemplate DataType="{x:Type ViewModels:DevicePropertiesViewModel}">
-		<Views:DevicePropertiesView />
 	</DataTemplate>
 
 	<DataTemplate DataType="{x:Type ViewModels:SubPlanPropertiesViewModel}">

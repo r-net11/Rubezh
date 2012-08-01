@@ -106,9 +106,9 @@ namespace PlansModule.ViewModels
 
 		private void ShowDeviceProperties(ShowPropertiesEventArgs e)
 		{
-			ElementDevice element = e.Element as ElementDevice;
-			if (element != null)
-				e.PropertyViewModel = new DevicePropertiesViewModel(element);
+			//ElementDevice element = e.Element as ElementDevice;
+			//if (element != null)
+			//    e.PropertyViewModel = new XDevicePropertiesViewModel(element);
 		}
 	}
 }

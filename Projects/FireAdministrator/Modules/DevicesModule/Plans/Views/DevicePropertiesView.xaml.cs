@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace PlansModule.Views
+namespace DevicesModule.Plans.Views
 {
     public partial class DevicePropertiesView : UserControl
     {

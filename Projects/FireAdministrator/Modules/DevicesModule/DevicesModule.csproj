@@ -199,6 +199,15 @@
       <DependentUpon>GuardSynchronizationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\PlanExtension.cs" />
+    <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
+    <Compile Include="Plans\ViewModels\DevicesViewModel.cs" />
+    <Compile Include="Plans\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
+      <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plans\Views\DevicesView.xaml.cs">
+      <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Zones\Converters\ClauseStateToStringConverter.cs" />
     <Compile Include="Devices\Converters\ColorIdToStringConverter.cs" />
@@ -487,6 +496,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Plans\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\DevicePropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\DevicesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Zones\DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -520,7 +541,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Plans\Designer\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

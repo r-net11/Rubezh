@@ -123,12 +123,6 @@ namespace PlansModule.Designer
 				Plan.ElementPolygonZones.Add(elementBase as ElementPolygonZone);
 			else if (elementBase is ElementSubPlan)
 				Plan.ElementSubPlans.Add(elementBase as ElementSubPlan);
-			else if (elementBase is ElementDevice)
-			{
-				var elementDevice = elementBase as ElementDevice;
-				Helper.SetDevice(elementDevice);
-				Plan.ElementDevices.Add(elementDevice);
-			}
 			else
 				Toolbox.PlansViewModel.ElementAdded(elementBase);
 
@@ -152,8 +146,6 @@ namespace PlansModule.Designer
 				Plan.ElementPolygonZones.Remove(designerItem.Element as ElementPolygonZone);
 			else if (designerItem.Element is ElementSubPlan)
 				Plan.ElementSubPlans.Remove(designerItem.Element as ElementSubPlan);
-			else if (designerItem.Element is ElementDevice)
-				Plan.ElementDevices.Remove(designerItem.Element as ElementDevice);
 			else
 				Toolbox.PlansViewModel.ElementRemoved(designerItem.Element);
 			Children.Remove(designerItem);

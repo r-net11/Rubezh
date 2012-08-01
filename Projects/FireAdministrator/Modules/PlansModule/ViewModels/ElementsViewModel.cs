@@ -15,7 +15,6 @@ namespace PlansModule.ViewModels
 	{
 		public ElementsViewModel(DesignerCanvas designerCanvas)
 		{
-			LayerGroupService.Instance.RegisterGroup("Device", "Устройства", 0);
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementAdded);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(OnElementChanged);

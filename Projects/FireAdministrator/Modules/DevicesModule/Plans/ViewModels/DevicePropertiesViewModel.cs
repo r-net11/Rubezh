@@ -6,25 +6,25 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using PlansModule.Designer.Designer;
-using PlansModule.Events;
 
-namespace PlansModule.ViewModels
+namespace DevicesModule.Plans.ViewModels
 {
 	public class DevicePropertiesViewModel : SaveCancelDialogViewModel
 	{
-		ElementDevice _elementDevice;
+		private DevicesViewModel _devicesViewModel;
+		private ElementDevice _elementDevice;
 
-		public DevicePropertiesViewModel(ElementDevice elementDevice)
+		public DevicePropertiesViewModel(DevicesViewModel devicesViewModel, ElementDevice elementDevice)
 		{
 			Title = "Свойства фигуры: Устройство";
 			_elementDevice = elementDevice;
+			_devicesViewModel = devicesViewModel;
 
 			Devices = new ObservableCollection<DeviceViewModel>();
 
 			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
 			{
-				var deviceViewModel = new DeviceViewModel(null, device, Devices);
+				var deviceViewModel = new DeviceViewModel(device, Devices);
 				deviceViewModel.IsExpanded = true;
 				Devices.Add(deviceViewModel);
 			}
@@ -119,11 +119,18 @@ namespace PlansModule.ViewModels
 		protected override bool Save()
 		{
 			Guid deviceUID = _elementDevice.DeviceUID;
-			Helper.SetDevice(_elementDevice, SelectedDevice.Device);
+			//Helper.SetDevice(_elementDevice, SelectedDevice.Device);
+
 			if (deviceUID != _elementDevice.DeviceUID)
-				ServiceFactory.Events.GetEvent<ElementDeviceChangedEvent>().Publish(deviceUID);
-			ServiceFactory.Events.GetEvent<ElementDeviceChangedEvent>().Publish(_elementDevice.DeviceUID);
+				Update(deviceUID);
+			Update(_elementDevice.DeviceUID);
 			return base.Save();
+		}
+		private void Update(Guid deviceUID)
+		{
+			var device = _devicesViewModel.Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (device != null)
+				device.Update();
 		}
 	}
 }

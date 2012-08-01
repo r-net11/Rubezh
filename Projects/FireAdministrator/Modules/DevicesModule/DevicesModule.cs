@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using DevicesModule.Plans;
 
 namespace DevicesModule
 {
@@ -76,6 +77,7 @@ namespace DevicesModule
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Zones/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Directions/DataTemplates/Dictionary.xaml"));
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Guard/DataTemplates/Dictionary.xaml"));
+			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 		}
 		public override void Initialize()
 		{
@@ -84,8 +86,7 @@ namespace DevicesModule
 			_directionsViewModel.Initialize();
 			_guardViewModel.Initialize();
 
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
-			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
+			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(new PlanExtension());
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
@@ -103,12 +104,6 @@ namespace DevicesModule
 		public override string Name
 		{
 			get { return "Устройства, Зоны, Направления"; }
-		}
-
-		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
-		{
-			if (args.Element is ElementDevice)
-				args.Painter = new Painter();
 		}
 	}
 }

@@ -34,13 +34,12 @@ namespace GKModule
 				LoadingService.DoStep("Запрос параметров объекта " + no);
 				var bytes = SendManager.Send(rootDevice, 2, 9, -1, BytesHelper.ShortToBytes(no));
 
-				bool hasChangedProperties = false;
 				if (bytes != null)
 				{
 					for (int i = 0; i < bytes.Count / 4; i++)
 					{
-						byte paramNo = bytes[i*4];
-						short paramValue = BytesHelper.SubstructShort(bytes, i*4 + 1);
+						byte paramNo = bytes[i * 4];
+						short paramValue = BytesHelper.SubstructShort(bytes, i * 4 + 1);
 
 						if (binaryObject.Device != null)
 						{
@@ -51,15 +50,10 @@ namespace GKModule
 								if (property != null)
 								{
 									if (property.Value != paramValue)
-									{
-										hasChangedProperties = true;
 										property.Value = paramValue;
-									}
 								}
 								else
-								{
 									MessageBoxService.Show("Не найдено свойство устройства");
-								}
 							}
 						}
 					}

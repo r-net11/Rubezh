@@ -8,35 +8,28 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using PlansModule.Designer;
-using PlansModule.Designer.Designer;
-using PlansModule.Events;
 
-namespace PlansModule.ViewModels
+namespace DevicesModule.Plans.ViewModels
 {
 	public class DevicesViewModel : BaseViewModel
 	{
-		public DevicesViewModel(DesignerCanvas designerCanvas)
+		public DevicesViewModel()
 		{
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Unsubscribe(OnElementSelected);
-			ServiceFactory.Events.GetEvent<ElementDeviceChangedEvent>().Unsubscribe(OnDeviceChanged);
 
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(OnElementRemoved);
+			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(OnElementChanged);
 			ServiceFactory.Events.GetEvent<ElementSelectedEvent>().Subscribe(OnElementSelected);
-			ServiceFactory.Events.GetEvent<ElementDeviceChangedEvent>().Subscribe(OnDeviceChanged);
-			DesignerCanvas = designerCanvas;
 			AllDevices = new List<DeviceViewModel>();
 			Devices = new ObservableCollection<DeviceViewModel>();
 
 			Update();
 		}
 
-		#region DeviceSelection
-
-		public DesignerCanvas DesignerCanvas { get; set; }
 		public List<DeviceViewModel> AllDevices;
 
 		void AddChildPlainDevices(DeviceViewModel parentViewModel)
@@ -56,8 +49,6 @@ namespace PlansModule.ViewModels
 			SelectedDevice = deviceViewModel;
 		}
 
-		#endregion
-
 		public void Update()
 		{
 			AllDevices.Clear();
@@ -65,7 +56,7 @@ namespace PlansModule.ViewModels
 
 			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
 			{
-				var deviceViewModel = new DeviceViewModel(DesignerCanvas, device, Devices);
+				var deviceViewModel = new DeviceViewModel(device, Devices);
 				deviceViewModel.IsExpanded = true;
 				Devices.Add(deviceViewModel);
 				AllDevices.Add(deviceViewModel);
@@ -114,7 +105,6 @@ namespace PlansModule.ViewModels
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
-			elements.OfType<ElementDevice>().ToList().ForEach(element => Helper.ResetDevice(element));
 			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)
