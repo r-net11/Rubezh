@@ -216,6 +216,15 @@ namespace Commom.GK
 					binProperties.Add(binProperty);
 				}
 			}
+			foreach (var property in Device.Driver.DriverTypeMappedProperties)
+			{
+				var binProperty = new BinProperty()
+				{
+					No = property.No,
+					Value = property.Value
+				};
+				binProperties.Add(binProperty);
+			}
 
 			Parameters = new List<byte>();
 			foreach (var binProperty in binProperties)

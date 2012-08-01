@@ -45,17 +45,19 @@
   <ItemGroup>
     <Compile Include="BinaryDeviceState.cs" />
     <Compile Include="BytesHelper.cs" />
-    <Compile Include="Database\Binary\BinaryDatabases\CommonDatabase.cs" />
-    <Compile Include="Database\Binary\BinaryDatabases\GkDatabase.cs" />
-    <Compile Include="Database\Binary\BinaryDatabases\KauDatabase.cs" />
-    <Compile Include="Database\Binary\BinaryObjects\BinaryObjectBase.cs" />
-    <Compile Include="Database\Binary\BinaryObjects\DeviceBinaryObject.cs" />
-    <Compile Include="Database\Binary\BinaryObjects\ZoneBinaryObject.cs" />
-    <Compile Include="Database\Binary\DatabaseCollection.cs" />
-    <Compile Include="Database\Binary\DatabaseProcessor.cs" />
+    <Compile Include="Database\BinaryDatabases\CommonDatabase.cs" />
+    <Compile Include="Database\BinaryDatabases\GkDatabase.cs" />
+    <Compile Include="Database\BinaryDatabases\KauDatabase.cs" />
+    <Compile Include="Database\BinaryObjects\BinaryObjectBase.cs" />
+    <Compile Include="Database\BinaryObjects\DeviceBinaryObject.cs" />
+    <Compile Include="Database\BinaryObjects\ZoneBinaryObject.cs" />
+    <Compile Include="Database\DatabaseCollection.cs" />
+    <Compile Include="Database\DatabaseProcessor.cs" />
+    <Compile Include="Database\KauChildrenHelper.cs" />
     <Compile Include="Drivers\GKDriversConverter.cs" />
     <Compile Include="Drivers\GKDriversHelper.cs" />
     <Compile Include="Drivers\Helpers\AMP4Helper.cs" />
+    <Compile Include="Drivers\Helpers\AMsHelper.cs" />
     <Compile Include="Drivers\Helpers\BUNHelper.cs" />
     <Compile Include="Drivers\Helpers\BUZHelper.cs" />
     <Compile Include="Drivers\Helpers\CombinedDetectorHelper.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Drivers\Helpers\MDUHelper.cs" />
     <Compile Include="Drivers\Helpers\MPTHelper.cs" />
     <Compile Include="Drivers\Helpers\MROHelper.cs" />
+    <Compile Include="Drivers\Helpers\PumpsHelper.cs" />
     <Compile Include="Drivers\Helpers\RMHelper.cs" />
     <Compile Include="Drivers\Helpers\SmokeDetectorHelper.cs" />
     <Compile Include="Drivers\NewDevicesHelper\GKHelper.cs" />
