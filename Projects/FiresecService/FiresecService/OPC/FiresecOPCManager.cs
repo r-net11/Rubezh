@@ -23,6 +23,7 @@ namespace FiresecService.OPC
 
 		public static void Start()
 		{
+			return;
 			try
 			{
 				StopEvent = new AutoResetEvent(false);

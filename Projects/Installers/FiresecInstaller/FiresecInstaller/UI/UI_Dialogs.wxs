@@ -20,8 +20,8 @@
       
 
       <Dialog Id="WelcomeDialog" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
-				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="!(loc.WelcomeDlgBitmap)" />
-				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="374" Height="234" TabSkip="no" Text="!(loc.WelcomeDlgBitmap)" />
+				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="374" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="10" Width="220" Height="60" Transparent="yes" NoPrefix="yes" 
 								 Text="{&amp;MSSansBold12}Вас приветствует мастер установки $(var.ProductName)" />
 				<Control Id="Description1" Type="Text" X="135" Y="50" Width="220" Height="60" Transparent="yes" NoPrefix="yes" 
@@ -49,11 +49,11 @@
 			</Dialog>
 
 			<Dialog Id="LicenseAgreement" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" Hidden="yes" NoMinimize="yes">
-        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="TitleRect.bmp" />
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp" />
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="25" Text="{&amp;MSSansBold8}Информация" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgDesc" Type="Text" X="30" Y="22" Width="292" Height="25" 
 								 Text="Пожалуйста, прочитайте следующую важную информацию перед тем, как продолжить." TabSkip="yes" Transparent="yes" />
-				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="378" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="15" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
@@ -66,7 +66,7 @@
 			</Dialog>
 
 			<Dialog Id="DestinationFolder" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes" TrackDiskSpace="yes">
-        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp"/>
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор папки установки" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="В какую папку вы хотите установить $(var.ProductName)?" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgDesc" Type="Text" X="30" Y="54" Width="327" Height="20" 
@@ -75,7 +75,7 @@
 				<Control Id="Location" Type="Text" X="64" Y="105" Width="300" Height="26" Property="_BrowseProperty" Text="[INSTALLLOCATION]" TabSkip="yes" Transparent="yes" />
 				<Control Id="ChangeFolder" Type="PushButton" X="281" Y="105" Width="66" Height="17" Text="Обзор..." TabSkip="no" />
 				<Control Id="Copyright" Type="Text" X="30" Y="200" Width="340" Height="25" Text="{&amp;NormalText}Требуется 100,0 Mb свободного дискового пространства" TabSkip="yes" Transparent="yes" />
-				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="378" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="15" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
@@ -93,6 +93,7 @@
 			</Dialog>
 
 			<Dialog Id="InstallChangeFolder" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp"/>
 				<Control Id="Tail" Type="PathEdit" X="21" Y="207" Width="332" Height="17" Property="_BrowseProperty" TabSkip="no" Sunken="yes" Indirect="yes" />
 				<Control Id="OK" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;OK" TabSkip="no" Default="yes" />
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="$(var.btnCancel)" TabSkip="no" Cancel="yes" />
@@ -104,14 +105,14 @@
 				<Control Id="TailText" Type="Text" X="21" Y="193" Width="99" Height="13" Text="&amp;Папка:" TabSkip="no" />
 				<Control Id="DlgDesc" Type="Text" X="21" Y="23" Width="292" Height="25" Text="Выбор папки назначения." TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgTitle" Type="Text" X="10" Y="6" Width="292" Height="25" Text="{&amp;MSSansBold8}Изменить текущую папку назначения" TabSkip="yes" Transparent="yes" />
-				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="378" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="15" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
 			</Dialog>
 
 			<Dialog Id="SetupType" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
-        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="TitleRect.bmp"/>        
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp"/>        
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="244" Height="15" Text="{&amp;MSSansBold8}Выбор компонентов" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие компоненты должны быть установлены?" TabSkip="yes" Transparent="yes" />
 				<Control Id="DlgText" Type="Text" X="30" Y="54" Width="340" Height="20" 
@@ -124,27 +125,27 @@
 				<Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="15" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="2" TabSkip="yes" Disabled="yes" />
-				<Control Id="Line2" Type="Line" Width="374" Height="2" X="0" Y="44" Disabled="yes" TabSkip="yes"/>
+				<Control Id="Line2" Type="Line" X="0" Y="44" Width="378" Height="2"  Disabled="yes" TabSkip="yes"/>
 				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="$(var.btnBack)" TabSkip="no" />
 				<Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="$(var.btnNext)" TabSkip="no" Default="yes" />
 				<Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Text="$(var.btnCancel)" TabSkip="no" Cancel="yes" />
 			</Dialog>
 
       <Dialog Id="ModulesDlg" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
-        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp"/>
         <Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор дополнительных модулей" TabSkip="yes" Transparent="yes" />
         <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие дополнительные модули должны быть установлены?" TabSkip="yes" Transparent="yes" />
         <Control Id="GKModule" Type="CheckBox" Height="18" Width="295" X="26" Y="58" Text="Групповой контроллер" Property="GK_MODULE" CheckBoxValue="1">
           <Condition Action="disable">1</Condition>
         </Control>
-        <Control Id="OPCModule" Type="CheckBox" Height="18" Width="295" X="26" Y="78" Text="Модуль OPC" Property="OPC_MODULE" CheckBoxValue="1" />
-        <Control Id="SkudModule" Type="CheckBox" Height="18" Width="295" X="26" Y="98" Text="Модуль СКУД" Property="SKUD_MODULE" CheckBoxValue="1">
+        <Control Id="OPCModule" Type="CheckBox" Height="18" Width="295" X="26" Y="78" Text="OPC" Property="OPC_MODULE" CheckBoxValue="1" />
+        <Control Id="SkudModule" Type="CheckBox" Height="18" Width="295" X="26" Y="98" Text="СКУД" Property="SKUD_MODULE" CheckBoxValue="1">
           <Condition Action="disable">1</Condition>
         </Control>
         <Control Id="VideoModule" Type="CheckBox" Height="18" Width="295" X="26" Y="118" Text="Видео-модуль" Property="VIDEO_MODULE" CheckBoxValue="1">
           <Condition Action="disable">1</Condition>
         </Control>
-        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="378" Height="0" TabSkip="yes" Disabled="yes" />
         <Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
         <Control Id="Branding2" Type="Text" X="15" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
         <Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
@@ -154,12 +155,12 @@
       </Dialog>
 			
 			<Dialog Id="ShortcutsDlg" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
-        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp"/>
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Установка ярлыков." TabSkip="yes" Transparent="yes" />
         <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие ярлыки должны быть установлены?" TabSkip="yes" Transparent="yes" />
 				<Control Id="ShortcutDesktop" Type="CheckBox" Height="18" Width="295" X="26" Y="58" Text="Создать ярлык на рабочем столе" Property="SHORTCUT_DESKTOP" CheckBoxValue="1" />
 				<Control Id="ShortcutProgramMenu" Type="CheckBox" Height="18" Width="295" X="26" Y="79" Text="Создать ярлык в меню Пуск" Property="SHORTCUT_PROGRAMMENU" CheckBoxValue="1" />
-				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="378" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="15" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
@@ -169,6 +170,7 @@
 			</Dialog>
 
 			<Dialog Id="CustomizeDialog" Width="374" Height="266" Title="!(loc.CustomizeDlg_Title)" TrackDiskSpace="yes">
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp"/>
 				<Control Id="Tree" Type="SelectionTree" X="25" Y="85" Width="175" Height="115" Property="_BrowseProperty" Sunken="yes" TabSkip="no" Text="!(loc.CustomizeDlgTree)" />
 				<Control Id="Browse" Type="PushButton" X="294" Y="210" Width="66" Height="17" Text="!(loc.CustomizeDlgBrowse)">
 					<Publish Event="SelectionBrowse" Value="BrowseDlg">1</Publish>
@@ -184,10 +186,10 @@
 					<Subscribe Event="SelectionNoItems" Attribute="Enabled" />
 				</Control>
 				
-				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" Text="!(loc.CustomizeDlgBannerBitmap)" />
+				<Control Id="BannerBitmap" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="!(loc.CustomizeDlgBannerBitmap)" />
 				<Control Id="Text" Type="Text" X="25" Y="55" Width="320" Height="20" Text="!(loc.CustomizeDlgText)" />
-				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" />
-				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="378" Height="0" />
+				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="374" Height="0" />
 				<Control Id="Description" Type="Text" X="25" Y="23" Width="280" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgDescription)" />
 				<Control Id="Title" Type="Text" X="15" Y="6" Width="210" Height="15" Transparent="yes" NoPrefix="yes" Text="!(loc.CustomizeDlgTitle)" />
 				<Control Id="Box" Type="GroupBox" X="210" Y="81" Width="150" Height="118" />
@@ -243,7 +245,7 @@
 				</Control>
 				
 				
-				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="378" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="15" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
@@ -288,7 +290,7 @@
 					<Condition Action="show">ARPNOREMOVE</Condition>
 				</Control>
 				
-				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="378" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="15" Y="229" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
@@ -301,8 +303,8 @@
 			</Dialog>
 
 			<Dialog Id="MaintenanceWelcomeDialog" X="50" Y="50" Width="374" Height="266" Title="!(loc.MaintenanceWelcomeDlg_Title)">
-				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="370" Height="234" TabSkip="no" Text="!(loc.MaintenanceWelcomeDlgBitmap)" />
-				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="370" Height="0" />
+				<Control Id="Bitmap" Type="Bitmap" X="0" Y="0" Width="374" Height="234" TabSkip="no" Text="!(loc.MaintenanceWelcomeDlgBitmap)" />
+				<Control Id="BottomLine" Type="Line" X="0" Y="234" Width="374" Height="0" />
 				<Control Id="Title" Type="Text" X="135" Y="20" Width="220" Height="60" Transparent="yes" NoPrefix="yes" Text="!(loc.MaintenanceWelcomeDlgTitle)" />
 				<Control Id="Description" Type="Text" X="135" Y="70" Width="220" Height="60" Transparent="yes" NoPrefix="yes" Text="!(loc.MaintenanceWelcomeDlgDescription)" />
 				<Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="$(var.btnBack)" Disabled="yes"/>
@@ -315,7 +317,7 @@
 			</Dialog>
 
 			<Dialog Id="VerifyReadyDialog" X="10" Y="0" Width="374" Height="266" Title="!(loc.VerifyReadyDlg_Title)" TrackDiskSpace="yes">
-        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp"/>
 				<Control Id="InstallNoShield" Type="PushButton" ElevationShield="no" X="230" Y="243" Width="66" Height="17" Default="yes" Hidden="yes" Disabled="yes" Text="!(loc.VerifyReadyDlgInstall)">
           <Condition Action="show">1</Condition>
 					<!--<Condition Action="show">NOT Installed AND NOT ALLUSERS</Condition>
@@ -414,7 +416,7 @@
           <Condition Action="show">1</Condition>
         </Control>
 
-				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="378" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="15" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
@@ -435,7 +437,7 @@
 			</Dialog>
 
 			<Dialog Id="SetupProgress" X="50" Y="0" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" Modeless="yes">
-        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="370" Height="44" TabSkip="no" FixedSize="yes" Text="TitleRect.bmp"/>
+        <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp"/>
 				<Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Установка  $(var.ProductName)" TabSkip="yes" Hidden="yes" Transparent="yes">
           <Condition Action="show">1</Condition>
 				</Control>
@@ -466,7 +468,7 @@
 					<Subscribe Event="SetProgress" Attribute="Progress" />
 				</Control>
 				
-				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="374" Height="0" TabSkip="yes" Disabled="yes" />
+				<Control Id="BannerLine" Type="Line" X="0" Y="44" Width="378" Height="0" TabSkip="yes" Disabled="yes" />
 				<Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
 				<Control Id="Branding2" Type="Text" X="15" Y="228" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
 				<Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />

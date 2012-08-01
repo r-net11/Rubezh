@@ -30,7 +30,7 @@ namespace DevicesModule.Views
 
 		private void _devicesDataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.Key == Key.Space)
+			if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.Space)
 			{
 				e.Handled = true;
 				var dataGrid = sender as DataGrid;

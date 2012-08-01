@@ -6,6 +6,9 @@ using ReportsModule2.DocumentPaginatorModel;
 using ReportsModule2.Reports;
 using System.Windows.Markup;
 using System.Windows.Documents;
+using Controls;
+using System.Windows;
+using MS.Internal.Documents;
 
 namespace ReportsModule2.ViewModels
 {
@@ -15,7 +18,7 @@ namespace ReportsModule2.ViewModels
 		{
 			XpsDocumentCommand = new RelayCommand(OnXpsDocument);
 			XpsDocumentViewer = new DocumentViewer();
-			XpsViewer = XpsDocumentViewer;
+			//XpsViewer = XpsDocumentViewer;
 		}
 
 		object _xpsViewer;
@@ -54,6 +57,7 @@ namespace ReportsModule2.ViewModels
 			var sb = reportDevicesList.FlowDocumentStringBuilder;
 			ConvertFlowToXPS.SaveAsXps2(sb.ToString(), reportDevicesList.XpsDocumentName);
 			XpsDocumentViewer.Document = reportDevicesList.XpsDocument.GetFixedDocumentSequence();
+			var scrollViewer = VisualTreeFinder.FindVisualChild<ScrollViewer>(XpsDocumentViewer);
 			var endDate = DateTime.Now;
 			var Time = (endDate - startDate).ToString();
 			OnPropertyChanged("XpsDocumentViewer");

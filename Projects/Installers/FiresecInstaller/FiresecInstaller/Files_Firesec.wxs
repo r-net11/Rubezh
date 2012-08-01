@@ -3,7 +3,6 @@
 		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
 		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
 	<Fragment>
-    <Condition Message="Не удалось обнаружить Microsoft .NET Framework 4.0. Установите Microsoft .NET Framework 4.0 и запустите установку заново">NETFRAMEWORK40FULL</Condition>
 		<DirectoryRef Id="INSTALLLOCATION">
       <Component Id="DeleteGKXMLSetting" Guid="0B88A0D7-FFCA-4A08-A26A-862308B009B2">
         <CreateFolder Directory="INSTALLLOCATION" />
