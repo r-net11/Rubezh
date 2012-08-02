@@ -5,16 +5,19 @@ using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
 using System;
+using System.ComponentModel;
 
 namespace Infrastructure.Common.Windows
 {
 	public static class ApplicationService
 	{
+		public static event CancelEventHandler Closing;
 		public static Window ApplicationWindow { get; set; }
 		public static User User { get; set; }
 		public static void Run(ApplicationViewModel model)
 		{
 			WindowBaseView win = new WindowBaseView(model);
+			win.Closing += new CancelEventHandler(win_Closing);
 			model.Surface.Owner = null;
 			model.Surface.ShowInTaskbar = true;
 			model.Surface.WindowStartupLocation = WindowStartupLocation.CenterScreen;
@@ -52,6 +55,12 @@ namespace Infrastructure.Common.Windows
 				action();
 			else
 				Application.Current.Dispatcher.Invoke(action);
+		}
+
+		private static void win_Closing(object sender, CancelEventArgs e)
+		{
+			if (Closing != null)
+				Closing(sender, e);
 		}
 	}
 }

@@ -4,6 +4,7 @@ using Common;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using System.ComponentModel;
 
 namespace FireAdministrator
 {
@@ -22,20 +23,19 @@ namespace FireAdministrator
 #endif
 
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 
 			bootstrapper = new Bootstrapper();
 			using (new DoubleLaunchLocker(SignalId, WaitId))
 				bootstrapper.Initialize();
 		}
 
-		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
 			MessageBoxService.ShowException(e.ExceptionObject as Exception);
 		}
-
-		protected override void OnExit(ExitEventArgs e)
+		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
-			//base.OnExit(e);
 			Logger.Info("App.OnExit");
 			FiresecManager.Disconnect();
 			VideoService.Close();
