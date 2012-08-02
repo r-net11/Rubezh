@@ -3,7 +3,7 @@
 	<Fragment>
 		<ComponentGroup Id="ConfigurationGroup">
 			<ComponentGroupRef Id="FiresecServiceSoundsFolder"/>
-			<ComponentGroupRef Id="FiresecServiceIconsFolder"/>
+			<!--<ComponentGroupRef Id="FiresecServiceIconsFolder"/>-->
 		</ComponentGroup>
 	</Fragment>
 </Wix>

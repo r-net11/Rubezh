@@ -10,7 +10,7 @@ namespace PlansModule.Converters
         {
             var icon = StateToIcon((StateType) value);
             if (icon != null)
-                return FiresecClient.FileHelper.GetIconFilePath(icon + ".ico");
+                return FiresecClient.FileHelper.GetIconFilePath(icon + ".png");
             return null;
         }
 

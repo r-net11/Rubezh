@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?include ..\Variables_FiresecService.wxi?>
-  <Fragment>
+  <!--<Fragment>
     <DirectoryRef Id="FiresecServiceIconsFolder">
       <Component Id="cmp28F2CB3051A251FF9EF13A0BDF342F34" Guid="*">
         <File Id="filAB48AB919CD1BFCAAE411814939A1F61" Source="$(var.FiresecService.TargetDir)Configuration\Icons\Device_blackbox.ico" />
@@ -193,8 +193,8 @@
         <File Id="Unknown_Device" Source="$(var.FiresecService.TargetDir)Configuration\Icons\Unknown_Device.ico" />
       </Component>
     </DirectoryRef>
-  </Fragment>
-  <Fragment>
+  </Fragment>-->
+  <!--<Fragment>
     <ComponentGroup Id="FiresecServiceIconsFolder">
       <ComponentRef Id="Unknown_Device" />
       <ComponentRef Id="cmp28F2CB3051A251FF9EF13A0BDF342F34" />
@@ -260,5 +260,5 @@
       <ComponentRef Id="cmp87ABAD6FB33BB2E5CB0DF498F000C0E0" />
       <ComponentRef Id="cmpDC4167C9D26EAA92219A1BB4B4C09DDD" />
     </ComponentGroup>
-  </Fragment>
+  </Fragment>-->
 </Wix>

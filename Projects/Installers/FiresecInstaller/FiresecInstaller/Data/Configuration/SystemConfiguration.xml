@@ -1,0 +1,1 @@
+<SystemConfiguration xmlns="http://schemas.datacontract.org/2004/07/FiresecAPI.Models" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><Version><MajorVersion>1</MajorVersion><MinorVersion>1</MinorVersion></Version><Cameras/><Instructions/><JournalFilters/><Sounds/></SystemConfiguration>

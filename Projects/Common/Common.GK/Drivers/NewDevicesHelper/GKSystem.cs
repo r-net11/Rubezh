@@ -1,5 +1,6 @@
 ﻿using System;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace Commom.GK
 {
@@ -14,7 +15,7 @@ namespace Commom.GK
                 OldDriverUID = Guid.Empty,
                 CanEditAddress = false,
                 HasAddress = false,
-                ImageSource = FiresecClient.FileHelper.GetIconFilePath("Device_Device.ico"),
+				ImageSource = FileHelper.GetIconFilePath("Device_Device") + ".png",
                 HasImage = true,
                 IsChildAddressReservedRange = false,
                 Name = "Система",

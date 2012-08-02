@@ -58,8 +58,8 @@
 				<RemoveFolder Id="RemoveFSIconsLocation" On="uninstall" Directory="FiresecServiceIconsFolder"/>
 				<RemoveFile Id="RemoveFSSounds" On="uninstall" Name="*.*" Directory="FiresecServiceSoundsFolder" />
 				<RemoveFolder Id="RemoveFSSoundsLocation" On="uninstall" Directory="FiresecServiceSoundsFolder"/>
-				<RemoveFile Id="RemoveFSConfigurations" On="uninstall" Name="*.*" Directory="FiresecServiceConfigFolder" />
-				<RemoveFolder Id="RemoveFSConfigLocation" On="uninstall" Directory="FiresecServiceConfigFolder" />
+				<!--<RemoveFile Id="RemoveFSConfigurations" On="uninstall" Name="*.*" Directory="FiresecServiceConfigFolder" />
+				<RemoveFolder Id="RemoveFSConfigLocation" On="uninstall" Directory="FiresecServiceConfigFolder" />-->
 				<RemoveFile Id="RemoveFiresecServiceLogs" On="uninstall" Name="*.*" Directory="FiresecServiceLogsFolder"/>
 				<RemoveFolder Id="RemoveFiresecServiceLogsFolderLocation" On="uninstall" Directory="FiresecServiceLogsFolder"/>
         <RemoveFile Id="RemoveFiresecService" On="uninstall" Name="*.*" Directory="FIRESECSERVICELOCATION" />

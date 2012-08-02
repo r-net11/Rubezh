@@ -141,32 +141,6 @@
               DiskId="1" KeyPath="yes" />
       </Component>
 
-      <!--<Component Id="FiresecNTServiceComponent" Guid="*">
-        <File Id="FiresecNTServiceExe" Name="$(var.FiresecNTService.TargetFileName)"
-							Source="$(var.FiresecNTService.TargetDir)" KeyPath="yes" DiskId="1" />
-        --><!--<ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
-												Name="Firesec-2_NTServer" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
-												ErrorControl="ignore" Interactive="yes" Arguments="$(var.FiresecService.TargetFileName)">
-          --><!--<ServiceDependency Id="Adv_SocketServer"/>--><!--
-        </ServiceInstall>--><!--
-        <ServiceControl Id="StartNTService" Name="Firesec-2_NTServer" Wait="yes" Remove="uninstall" />
-      </Component>-->
-
-      <!--<Component Id="ServiceInstallerComponent" Guid="*">
-        <CreateFolder Directory="FIRESECSERVICELOCATION" />
-        <ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
-                       Name="Firesec-2 NT Server" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
-                       ErrorControl="ignore" Interactive="yes" Arguments="$(var.FiresecService.TargetFileName)">
-          <ServiceDependency Id="Adv_SocketServer"/>
-        </ServiceInstall>
-        --><!--<Condition>NOT Installed</Condition>--><!--
-      </Component>-->
-
-      <!--<Component Id="RemoveNTServiceComponent" Guid="*">
-        <CreateFolder Directory="FIRESECSERVICELOCATION" />
-        <ServiceControl Id="StartNTService" Start="install" Stop="both" Name="Firesec-2 NT Server" Wait="yes" Remove="uninstall"/>
-      </Component>-->
-
       <Component Id="OPC_gbda3w_Component" Guid="*">
         <File Id="gbda3w.dll" Name="gbda3w.dll" Source="$(var.FiresecService.TargetDir)"
               DiskId="1" KeyPath="yes" />
@@ -179,15 +153,23 @@
     </DirectoryRef>
 
     <DirectoryRef Id="FiresecServiceConfigFolder">
-      <Component Id="SecurityConfiguration" Guid="*">
-        <File Id="SecurityConfiguration" Name="SecurityConfiguration.xml" Source="$(var.FiresecService.TargetDir)Configuration\"
-              DiskId="1" KeyPath="yes">
-        </File>
+      <Component Id="SecurityConfiguration" Guid="*" >
+        <File Id="SecurityConfiguration" Name="SecurityConfiguration.xml" Source="$(var.FiresecService.TargetDir)Configuration\" DiskId="1" KeyPath="yes" />
       </Component>
-      <Component Id="DeviceLibrary" Guid="*">
-        <File Id="DeviceLibrary" Name="DeviceLibrary.xml" Source="$(var.FiresecService.TargetDir)Configuration\"
-              DiskId="1" KeyPath="yes">
-        </File>
+      <Component Id="DeviceLibrary" Guid="*" >
+        <File Id="DeviceLibrary" Name="DeviceLibrary.xml" Source="$(var.FiresecService.TargetDir)Configuration\" DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="DriversConfiguration" Guid="4613A05E-52F0-4A51-A0AE-0CD67243FF39" Permanent="yes" NeverOverwrite="yes">
+        <File Id="DriversConfigurationXml" Name="DriversConfiguration.xml" Source="Data\Configuration\" DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="PlansConfiguration" Guid="EDC07C89-0FDB-416C-9C1F-287DDDE4E604" Permanent="yes" NeverOverwrite="yes">
+        <File Id="PlansConfigurationXml" Name="PlansConfiguration.xml" Source="Data\Configuration\" DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="DeviceConfiguration" Guid="28ED8002-C6A6-47AD-80FE-017A622ABA0C" Permanent="yes" NeverOverwrite="yes">
+        <File Id="DeviceConfigurationXml" Name="DeviceConfiguration.xml" Source="Data\Configuration\" DiskId="1" KeyPath="yes" />
+      </Component>
+      <Component Id="SystemConfiguration" Guid="52A35D42-7A57-43F6-9099-72DC7B118E70" Permanent="yes" NeverOverwrite="yes">
+        <File Id="SystemConfigurationXml" Name="SystemConfiguration.xml" Source="Data\Configuration\" DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 
@@ -196,6 +178,39 @@
         <File Id="msvcm90DllFile" Name="msvcm90.dll" Source="C:\WINDOWS\system32\" DiskId="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>-->
+
+
+    <!--<Component Id="FiresecNTServiceComponent" Guid="*">
+        <File Id="FiresecNTServiceExe" Name="$(var.FiresecNTService.TargetFileName)"
+							Source="$(var.FiresecNTService.TargetDir)" KeyPath="yes" DiskId="1" />
+        -->
+    <!--<ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
+												Name="Firesec-2_NTServer" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
+												ErrorControl="ignore" Interactive="yes" Arguments="$(var.FiresecService.TargetFileName)">
+          -->
+    <!--<ServiceDependency Id="Adv_SocketServer"/>-->
+    <!--
+        </ServiceInstall>-->
+    <!--
+        <ServiceControl Id="StartNTService" Name="Firesec-2_NTServer" Wait="yes" Remove="uninstall" />
+      </Component>-->
+
+    <!--<Component Id="ServiceInstallerComponent" Guid="*">
+        <CreateFolder Directory="FIRESECSERVICELOCATION" />
+        <ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
+                       Name="Firesec-2 NT Server" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
+                       ErrorControl="ignore" Interactive="yes" Arguments="$(var.FiresecService.TargetFileName)">
+          <ServiceDependency Id="Adv_SocketServer"/>
+        </ServiceInstall>
+        -->
+    <!--<Condition>NOT Installed</Condition>-->
+    <!--
+      </Component>-->
+
+    <!--<Component Id="RemoveNTServiceComponent" Guid="*">
+        <CreateFolder Directory="FIRESECSERVICELOCATION" />
+        <ServiceControl Id="StartNTService" Start="install" Stop="both" Name="Firesec-2 NT Server" Wait="yes" Remove="uninstall"/>
+      </Component>-->
 
   </Fragment>
 </Wix>

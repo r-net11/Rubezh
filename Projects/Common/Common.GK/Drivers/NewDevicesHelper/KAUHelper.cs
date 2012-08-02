@@ -17,7 +17,7 @@ namespace Commom.GK
                 OldDriverUID = Guid.Empty,
                 CanEditAddress = true,
                 HasAddress = true,
-                ImageSource = FiresecClient.FileHelper.GetIconFilePath("Device_Device.ico"),
+				ImageSource = "/Controls;component/Icons/Device_Device.png",
                 HasImage = true,
                 IsChildAddressReservedRange = false,
                 Name = "Контроллер адресных устройств",

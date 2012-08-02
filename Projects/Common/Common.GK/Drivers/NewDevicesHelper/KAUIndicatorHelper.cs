@@ -1,5 +1,6 @@
 ﻿using System;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace Commom.GK
 {
@@ -18,7 +19,7 @@ namespace Commom.GK
                 IsAutoCreate = true,
                 MinAutoCreateAddress = 1,
                 MaxAutoCreateAddress = 1,
-                ImageSource = FiresecClient.FileHelper.GetIconFilePath("Device_Device.ico"),
+				ImageSource = FileHelper.GetIconFilePath("Device_Device") + ".png",
                 HasImage = true,
                 IsChildAddressReservedRange = false,
                 Name = "Индикатор КАУ",
