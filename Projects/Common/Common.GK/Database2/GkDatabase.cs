@@ -67,6 +67,7 @@ namespace Common.GK
 
 		public override void BuildObjects()
 		{
+			AddKauObjects();
 			BinaryObjects = new List<BinaryObjectBase>();
 
 			foreach (var device in Devices)
@@ -79,13 +80,25 @@ namespace Common.GK
 				var zoneBinaryObject = new ZoneBinaryObject(zone, DatabaseType);
 				BinaryObjects.Add(zoneBinaryObject);
 			}
+		}
 
+		void AddKauObjects()
+		{
 			foreach (var kauDatabase in KauDatabases)
 			{
 				foreach (var binaryObject in kauDatabase.BinaryObjects)
 				{
-					binaryObject.DatabaseType = DatabaseType;
-					BinaryObjects.Add(binaryObject);
+					var binaryBase = binaryObject.BinaryBase;
+					if (binaryBase is XDevice)
+					{
+						XDevice device = binaryBase as XDevice;
+						AddDevice(device);
+					}
+					if (binaryBase is XZone)
+					{
+						XZone zone = binaryBase as XZone;
+						AddZone(zone);
+					}
 				}
 			}
 		}

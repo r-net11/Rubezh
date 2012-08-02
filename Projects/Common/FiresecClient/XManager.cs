@@ -2,6 +2,7 @@
 using System.Linq;
 using XFiresecAPI;
 using System.Net;
+using System.Collections.Generic;
 
 namespace FiresecClient
 {
@@ -37,6 +38,9 @@ namespace FiresecClient
 			{
 				DeviceConfiguration = new XDeviceConfiguration();
 			}
+			if (DeviceConfiguration.Directions == null)
+				DeviceConfiguration.Directions = new List<XDirection>();
+
 			DeviceConfiguration.Update();
 
 			foreach (var device in DeviceConfiguration.Devices)

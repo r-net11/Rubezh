@@ -10,6 +10,7 @@ namespace XFiresecAPI
         {
             Devices = new List<XDevice>();
             Zones = new List<XZone>();
+			Directions = new List<XDirection>();
         }
 
         public List<XDevice> Devices { get; set; }
@@ -19,6 +20,9 @@ namespace XFiresecAPI
 
         [DataMember]
         public List<XZone> Zones { get; set; }
+
+        [DataMember]
+		public List<XDirection> Directions { get; set; }
 
         public void Update()
         {

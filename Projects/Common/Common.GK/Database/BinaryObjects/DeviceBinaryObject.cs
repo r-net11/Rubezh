@@ -14,12 +14,16 @@ namespace Common.GK
 			DatabaseType = databaseType;
 			ObjectType = ObjectType.Device;
 			Device = device;
+			Build();
+		}
 
-			DeviceType = BytesHelper.ShortToBytes(device.Driver.DriverTypeNo);
+		public override void Build()
+		{
+			DeviceType = BytesHelper.ShortToBytes(Device.Driver.DriverTypeNo);
 
 			short address = 0;
-			if (device.Driver.IsDeviceOnShleif)
-				address = (short)((device.ShleifNo - 1) * 256 + device.IntAddress);
+			if (Device.Driver.IsDeviceOnShleif)
+				address = (short)((Device.ShleifNo - 1) * 256 + Device.IntAddress);
 			SetAddress(address);
 
 			SetObjectOutDependencesBytes();

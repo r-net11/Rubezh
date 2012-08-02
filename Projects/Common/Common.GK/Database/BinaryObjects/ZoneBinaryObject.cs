@@ -11,7 +11,11 @@ namespace Common.GK
 			DatabaseType = databaseType;
 			ObjectType = ObjectType.Zone;
 			Zone = zone;
+			Build();
+		}
 
+		public override void Build()
+		{
 			DeviceType = BytesHelper.ShortToBytes((short)0x100);
 			SetAddress((short)0);
 

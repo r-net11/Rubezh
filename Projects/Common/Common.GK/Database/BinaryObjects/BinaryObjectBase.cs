@@ -5,7 +5,7 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public class BinaryObjectBase
+	public abstract class BinaryObjectBase
 	{
 		public DatabaseType DatabaseType { get; set; }
 		public XZone Zone { get; protected set; }
@@ -41,7 +41,7 @@ namespace Common.GK
 
 			if (DatabaseType == DatabaseType.Gk)
 			{
-				var binaryBase = GetBinaryBase();
+				var binaryBase = BinaryBase;
 
 				if (binaryBase.KauDatabaseParent != null)
 				{
@@ -67,7 +67,7 @@ namespace Common.GK
 
 		void InitializeInputOutputDependences()
 		{
-			var binaryBase = GetBinaryBase();
+			var binaryBase = BinaryBase;
 
 			InputDependenses = new List<byte>();
 			OutputDependenses = new List<byte>();
@@ -150,31 +150,36 @@ namespace Common.GK
 			AllBytes.AddRange(Parameters);
 		}
 
-		XBinaryBase GetBinaryBase()
+		public XBinaryBase BinaryBase
 		{
-			switch (ObjectType)
+			get
 			{
-				case ObjectType.Device:
-					return Device;
+				switch (ObjectType)
+				{
+					case ObjectType.Device:
+						return Device;
 
-				case ObjectType.Zone:
-					return Zone;
+					case ObjectType.Zone:
+						return Zone;
+				}
+				return null;
 			}
-			return null;
 		}
 
 		public short GetNo()
 		{
-			return GetBinaryBase().GetDatabaseNo(DatabaseType);
+			return BinaryBase.GetDatabaseNo(DatabaseType);
 		}
 
 		public short KauDescriptorNo
 		{
-			get { return GetBinaryBase().GetDatabaseNo(DatabaseType.Kau); }
+			get { return BinaryBase.GetDatabaseNo(DatabaseType.Kau); }
 		}
 		public short GkDescriptorNo
 		{
-			get { return GetBinaryBase().GetDatabaseNo(DatabaseType.Gk); }
+			get { return BinaryBase.GetDatabaseNo(DatabaseType.Gk); }
 		}
+
+		public abstract void Build();
 	}
 }

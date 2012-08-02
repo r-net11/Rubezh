@@ -17,14 +17,17 @@ namespace GKModule
 	{
 		private DevicesViewModel _devicesViewModel;
 		private ZonesViewModel _zonesViewModel;
+		private DirectionsViewModel _directionsViewModel;
 
 		public GroupControllerModule()
 		{
 			ServiceFactory.Events.GetEvent<ShowXDevicesEvent>().Subscribe(OnShowXDevices);
 			ServiceFactory.Events.GetEvent<ShowXZonesEvent>().Subscribe(OnShowXZones);
+			ServiceFactory.Events.GetEvent<ShowXDirectionsEvent>().Subscribe(OnShowXDirections);
 
 			_devicesViewModel = new DevicesViewModel();
 			_zonesViewModel = new ZonesViewModel();
+			_directionsViewModel = new DirectionsViewModel();
 		}
 
 		private void OnShowXDevices(object obj)
@@ -35,6 +38,10 @@ namespace GKModule
 		{
 			ServiceFactory.Layout.Show(_zonesViewModel);
 		}
+		private void OnShowXDirections(object obj)
+		{
+			ServiceFactory.Layout.Show(_directionsViewModel);
+		}
 
 		public override void Initialize()
 		{
@@ -44,6 +51,7 @@ namespace GKModule
 
 			_devicesViewModel.Initialize();
 			_zonesViewModel.Initialize();
+			_directionsViewModel.Initialize();
 
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(new GKPlanExtension());
 		}
@@ -55,6 +63,7 @@ namespace GKModule
 				{
 					new NavigationItem<ShowXDevicesEvent>("Устройства", "/Controls;component/Images/tree.png"),
 					new NavigationItem<ShowXZonesEvent>("Зоны", "/Controls;component/Images/zones.png"),
+					new NavigationItem<ShowXDirectionsEvent>("Направления", "/Controls;component/Images/direction.png")
 				}),
 			};
 		}
@@ -65,7 +74,7 @@ namespace GKModule
 		public override void RegisterResource()
 		{
 			base.RegisterResource();
-			ResourceService resourceService = new ResourceService();
+			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 		}
 
