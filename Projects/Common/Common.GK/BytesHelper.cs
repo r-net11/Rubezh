@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Common.GK;
 
-namespace Commom.GK
+namespace Common.GK
 {
 	public static class BytesHelper
 	{

@@ -45,11 +45,16 @@
   <ItemGroup>
     <Compile Include="BinaryDeviceState.cs" />
     <Compile Include="BytesHelper.cs" />
+    <Compile Include="Database2\CommonDatabase.cs" />
+    <Compile Include="Database2\DatabaseManager.cs" />
+    <Compile Include="Database2\GkDatabase.cs" />
+    <Compile Include="Database2\KauDatabase.cs" />
     <Compile Include="Database\BinaryDatabases\CommonDatabase.cs" />
     <Compile Include="Database\BinaryDatabases\GkDatabase.cs" />
     <Compile Include="Database\BinaryDatabases\KauDatabase.cs" />
     <Compile Include="Database\BinaryObjects\BinaryObjectBase.cs" />
     <Compile Include="Database\BinaryObjects\DeviceBinaryObject.cs" />
+    <Compile Include="Database\BinaryObjects\ObjectType.cs" />
     <Compile Include="Database\BinaryObjects\ZoneBinaryObject.cs" />
     <Compile Include="Database\DatabaseCollection.cs" />
     <Compile Include="Database\DatabaseProcessor.cs" />
@@ -97,6 +102,7 @@
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

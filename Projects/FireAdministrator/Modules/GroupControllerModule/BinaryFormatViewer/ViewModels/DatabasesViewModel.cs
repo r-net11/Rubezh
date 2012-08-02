@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Commom.GK;
+using Common.GK;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Linq;
 
@@ -12,11 +12,11 @@ namespace GKModule.ViewModels
 			Title = "Бинарный формат конфигурации";
 
 			Databases = new List<CommonDatabase>();
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseCollection.GkDatabases)
+			foreach (var gkDatabase in DatabaseProcessor.DatabaseManager.GkDatabases)
 			{
 				Databases.Add(gkDatabase);
 			}
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
+			foreach (var kauDatabase in DatabaseProcessor.DatabaseManager.KauDatabases)
 			{
 				Databases.Add(kauDatabase);
 			}

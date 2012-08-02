@@ -2,7 +2,7 @@
 using FiresecClient;
 using XFiresecAPI;
 
-namespace Commom.GK
+namespace Common.GK
 {
 	public class PumpsHelper
 	{

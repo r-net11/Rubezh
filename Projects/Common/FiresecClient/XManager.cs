@@ -7,8 +7,8 @@ namespace FiresecClient
 {
 	public partial class XManager
 	{
-		public static XDeviceConfiguration DeviceConfiguration;
-		public static XDriversConfiguration DriversConfiguration;
+		public static XDeviceConfiguration DeviceConfiguration { get; set; }
+		public static XDriversConfiguration DriversConfiguration { get; set; }
 		public static XDeviceConfigurationStates DeviceStates { get; set; }
 
 		static XManager()

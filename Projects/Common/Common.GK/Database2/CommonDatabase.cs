@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using XFiresecAPI;
+using Common.GK;
 
-namespace Common.GK.Obsolete
+namespace Common.GK
 {
-	public class CommonDatabase
+	public abstract class CommonDatabase
 	{
 		short currentChildNo = 1;
 		protected short NextChildNo
@@ -42,20 +46,6 @@ namespace Common.GK.Obsolete
 			Zones.Add(zone);
 		}
 
-		public void BuildObjects()
-		{
-			BinaryObjects = new List<BinaryObjectBase>();
-
-			foreach (var device in Devices)
-			{
-				var deviceBinaryObject = new DeviceBinaryObject(device, DatabaseType);
-				BinaryObjects.Add(deviceBinaryObject);
-			}
-			foreach (var zone in Zones)
-			{
-				var zoneBinaryObject = new ZoneBinaryObject(zone, DatabaseType);
-				BinaryObjects.Add(zoneBinaryObject);
-			}
-		}
+		public abstract void BuildObjects();
 	}
 }

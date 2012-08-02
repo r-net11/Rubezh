@@ -64,6 +64,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="BinaryFormatViewer\Converters\DescriptorNoToStringConverter.cs" />
     <Compile Include="BinConfigurationCreator.cs" />
     <Compile Include="Plans\GKPlanExtension.cs" />
     <Compile Include="ParametersHelper.cs" />

@@ -3,10 +3,18 @@ using System.Collections.Generic;
 using FiresecClient;
 using XFiresecAPI;
 
-namespace Commom.GK
+namespace Common.GK
 {
 	public class BinaryObjectBase
 	{
+		public DatabaseType DatabaseType { get; set; }
+		public XZone Zone { get; protected set; }
+		public XDevice Device { get; protected set; }
+		public ObjectType ObjectType { get; protected set; }
+		public short ControllerAdress { get; protected set; }
+		public short AdressOnController { get; protected set; }
+		public short PhysicalAdress { get; protected set; }
+
 		public List<byte> DeviceType { get; protected set; }
 		public List<byte> Address { get; protected set; }
 		public List<byte> Description { get; protected set; }
@@ -21,52 +29,40 @@ namespace Commom.GK
 		public List<byte> AllBytes { get; private set; }
 		public List<FormulaOperation> FormulaOperations { get; protected set; }
 
-		public DatabaseType DatabaseType { get; protected set; }
-		public XZone Zone { get; protected set; }
-		public XDevice Device { get; protected set; }
-
 		public BinaryObjectBase()
 		{
 			Description = new List<byte>();
 		}
 
-		XBinaryBase GetBinaryBase()
-		{
-			XBinaryBase binaryBase = null;
-			if (Zone != null)
-				binaryBase = Zone;
-			if (Device != null)
-				binaryBase = Device;
-			return binaryBase;
-		}
-
 		protected void SetAddress(short address)
 		{
+			PhysicalAdress = address;
 			Address = new List<byte>();
 
 			if (DatabaseType == DatabaseType.Gk)
 			{
 				var binaryBase = GetBinaryBase();
 
-				short controllerAddress = 0;
-				short no = 0;
 				if (binaryBase.KauDatabaseParent != null)
 				{
 					short lineNo = XManager.GetKauLine(binaryBase.KauDatabaseParent);
 					byte intAddress = binaryBase.KauDatabaseParent.IntAddress;
-					controllerAddress = (short)(lineNo * 256 + intAddress);
-					no = binaryBase.GetDatabaseNo(DatabaseType.Kau);
+					ControllerAdress = (short)(lineNo * 256 + intAddress);
+					AdressOnController = binaryBase.GetDatabaseNo(DatabaseType.Kau);
 				}
 				else
 				{
-					controllerAddress = 0x200;
-					no = binaryBase.GetDatabaseNo(DatabaseType.Gk);
+					ControllerAdress = 0x200;
+					AdressOnController = binaryBase.GetDatabaseNo(DatabaseType.Gk);
 				}
-				Address.AddRange(BytesHelper.ShortToBytes(controllerAddress));
-
-				Address.AddRange(BytesHelper.ShortToBytes(no));
+				Address.AddRange(BytesHelper.ShortToBytes(ControllerAdress));
+				Address.AddRange(BytesHelper.ShortToBytes(AdressOnController));
+				Address.AddRange(BytesHelper.ShortToBytes(PhysicalAdress));
 			}
-			Address.AddRange(BytesHelper.ShortToBytes(address));
+			else
+			{
+				Address.AddRange(BytesHelper.ShortToBytes(PhysicalAdress));
+			}
 		}
 
 		void InitializeInputOutputDependences()
@@ -154,12 +150,31 @@ namespace Commom.GK
 			AllBytes.AddRange(Parameters);
 		}
 
+		XBinaryBase GetBinaryBase()
+		{
+			switch (ObjectType)
+			{
+				case ObjectType.Device:
+					return Device;
+
+				case ObjectType.Zone:
+					return Zone;
+			}
+			return null;
+		}
+
 		public short GetNo()
 		{
-			if (Zone != null)
-				return Zone.GetDatabaseNo(DatabaseType);
-			else
-				return Device.GetDatabaseNo(DatabaseType);
+			return GetBinaryBase().GetDatabaseNo(DatabaseType);
+		}
+
+		public short KauDescriptorNo
+		{
+			get { return GetBinaryBase().GetDatabaseNo(DatabaseType.Kau); }
+		}
+		public short GkDescriptorNo
+		{
+			get { return GetBinaryBase().GetDatabaseNo(DatabaseType.Gk); }
 		}
 	}
 }

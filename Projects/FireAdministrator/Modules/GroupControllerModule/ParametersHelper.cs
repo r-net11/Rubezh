@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Commom.GK;
+using Common.GK;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common.Windows;
@@ -12,11 +12,11 @@ namespace GKModule
 		public static void GetParameters()
 		{
 			DatabaseProcessor.Convert();
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseCollection.GkDatabases)
+			foreach (var gkDatabase in DatabaseProcessor.DatabaseManager.GkDatabases)
 			{
 				GetParametersFromDB(gkDatabase);
 			}
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
+			foreach (var kauDatabase in DatabaseProcessor.DatabaseManager.KauDatabases)
 			{
 				GetParametersFromDB(kauDatabase);
 			}
@@ -74,11 +74,11 @@ namespace GKModule
 		{
 			DatabaseProcessor.Convert();
 
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseCollection.GkDatabases)
+			foreach (var gkDatabase in DatabaseProcessor.DatabaseManager.GkDatabases)
 			{
 				SetParametersToDB(gkDatabase);
 			}
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
+			foreach (var kauDatabase in DatabaseProcessor.DatabaseManager.KauDatabases)
 			{
 				SetParametersToDB(kauDatabase);
 			}

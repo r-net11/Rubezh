@@ -6,6 +6,7 @@
     
     <UserControl.Resources>
         <Converters:BytesToStringConverter x:Key="BytesToStringConverter" />
+        <Converters:DescriptorNoToStringConverter x:Key="DescriptorNoToStringConverter" />
         <Style TargetType="TextBlock">
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="HorizontalAlignment" Value="Right" />
@@ -38,6 +39,11 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Дескриптор КАУ" Binding="{Binding BinaryObject.KauDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                    <DataGridTextColumn Header="Дескриптор ГК" Binding="{Binding BinaryObject.GkDescriptorNo, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                    <DataGridTextColumn Header="Адрес контроллера" Binding="{Binding BinaryObject.ControllerAdress, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                    <DataGridTextColumn Header="Адрес на контроллере" Binding="{Binding BinaryObject.AdressOnController, Converter={StaticResource DescriptorNoToStringConverter}}" />
+                    <DataGridTextColumn Header="Физический адрес" Binding="{Binding BinaryObject.PhysicalAdress, Converter={StaticResource DescriptorNoToStringConverter}}" />
                     <DataGridTextColumn Header="Адрес" Binding="{Binding Address}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>

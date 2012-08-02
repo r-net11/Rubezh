@@ -2,7 +2,7 @@
 using XFiresecAPI;
 using FiresecClient;
 
-namespace Commom.GK
+namespace Common.GK
 {
 	public static class GKHelper
 	{

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using XFiresecAPI;
 
-namespace Commom.GK
+namespace Common.GK
 {
 	public class ZoneBinaryObject : BinaryObjectBase
 	{
 		public ZoneBinaryObject(XZone zone, DatabaseType databaseType)
 		{
 			DatabaseType = databaseType;
+			ObjectType = ObjectType.Zone;
 			Zone = zone;
 
 			DeviceType = BytesHelper.ShortToBytes((short)0x100);

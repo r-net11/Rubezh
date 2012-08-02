@@ -5,13 +5,14 @@ using FiresecClient;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
-namespace Commom.GK
+namespace Common.GK
 {
 	public class DeviceBinaryObject : BinaryObjectBase
 	{
 		public DeviceBinaryObject(XDevice device, DatabaseType databaseType)
 		{
 			DatabaseType = databaseType;
+			ObjectType = ObjectType.Device;
 			Device = device;
 
 			DeviceType = BytesHelper.ShortToBytes(device.Driver.DriverTypeNo);

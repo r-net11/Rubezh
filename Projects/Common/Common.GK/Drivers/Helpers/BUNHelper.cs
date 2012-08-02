@@ -1,6 +1,6 @@
 ﻿using XFiresecAPI;
 
-namespace Commom.GK
+namespace Common.GK
 {
 	public static class BUNHelper
 	{

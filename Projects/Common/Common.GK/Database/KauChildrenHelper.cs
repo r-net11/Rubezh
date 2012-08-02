@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using XFiresecAPI;
 
-namespace Commom.GK
+namespace Common.GK
 {
 	public static class KauChildrenHelper
 	{

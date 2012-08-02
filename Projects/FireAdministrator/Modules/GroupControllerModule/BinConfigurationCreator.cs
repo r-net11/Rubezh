@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Commom.GK;
+using Common.GK;
 using Infrastructure.Common.Windows;
 using System;
 
@@ -12,13 +12,13 @@ namespace GKModule
 		{
 			DatabaseProcessor.Convert();
 
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
+			foreach (var kauDatabase in DatabaseProcessor.DatabaseManager.KauDatabases)
 			{
 				LoadingService.Show("Запись конфигурации в КАУ", 2 + kauDatabase.BinaryObjects.Count);
 				WriteOneConfig(kauDatabase);
 			}
 
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseCollection.GkDatabases)
+			foreach (var gkDatabase in DatabaseProcessor.DatabaseManager.GkDatabases)
 			{
 				LoadingService.Show("Запись конфигурации в ГК", 2 + gkDatabase.BinaryObjects.Count);
 				WriteOneConfig(gkDatabase);

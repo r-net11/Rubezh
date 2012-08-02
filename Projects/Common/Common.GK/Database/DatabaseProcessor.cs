@@ -2,12 +2,13 @@
 using System.Linq;
 using FiresecClient;
 using XFiresecAPI;
+using Common.GK;
 
-namespace Commom.GK
+namespace Common.GK
 {
 	public static class DatabaseProcessor
 	{
-		public static DatabaseCollection DatabaseCollection;
+		public static DatabaseManager DatabaseManager;
 
 		public static void Convert()
 		{
@@ -15,7 +16,7 @@ namespace Commom.GK
 			InitializeZones();
 			InitializeInputOutputdependences();
 			InitializeDeviceLogicDependences();
-			DatabaseCollection = new DatabaseCollection();
+			DatabaseManager = new DatabaseManager();
 		}
 
 		static void InitializeZones()
@@ -23,6 +24,8 @@ namespace Commom.GK
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
 				zone.Devices = new List<XDevice>();
+				zone.KauDatabaseParent = null;
+				zone.GkDatabaseParent = null;
 
 				var kauParents = new HashSet<XDevice>();
 				foreach (var deviceUID in zone.DeviceUIDs)

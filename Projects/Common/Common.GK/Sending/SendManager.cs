@@ -9,7 +9,7 @@ using XFiresecAPI;
 using FiresecClient;
 using Common.GK;
 
-namespace Commom.GK
+namespace Common.GK
 {
 	public static class SendManager
 	{

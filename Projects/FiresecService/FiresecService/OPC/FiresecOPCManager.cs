@@ -153,7 +153,6 @@ namespace FiresecService.OPC
 			{
 				if (StopEvent.WaitOne(5000))
 					break;
-				//Thread.Sleep(500);
 			}
 			srv.RevokeClassObject();
 			srv = null;

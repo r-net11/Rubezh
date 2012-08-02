@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Commom.GK;
+using Common.GK;
 using FiresecClient;
 
 namespace GKModule
@@ -17,11 +17,11 @@ namespace GKModule
 			var stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("<congig>");
 
-			var gkDatabase = DatabaseProcessor.DatabaseCollection.GkDatabases.First();
+			var gkDatabase = DatabaseProcessor.DatabaseManager.GkDatabases.First();
 			SaveToFile(gkDatabase, @"D:\GKConfig\GK.GKBIN");
 			stringBuilder.AppendLine("<gk name=\"GK.GKBIN\" description=\"описание ГК\"/>");
 
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
+			foreach (var kauDatabase in DatabaseProcessor.DatabaseManager.KauDatabases)
 			{
 				var kauDevice = kauDatabase.Devices[0];
 				short lineNo = XManager.GetKauLine(kauDevice);
@@ -67,7 +67,7 @@ namespace GKModule
 		public static void CreateListOfFilesForGk()
 		{
 			DatabaseProcessor.Convert();
-			var gkDatabase = DatabaseProcessor.DatabaseCollection.GkDatabases.First();
+			var gkDatabase = DatabaseProcessor.DatabaseManager.GkDatabases.First();
 
 			foreach (var binaryObject in gkDatabase.BinaryObjects)
 			{

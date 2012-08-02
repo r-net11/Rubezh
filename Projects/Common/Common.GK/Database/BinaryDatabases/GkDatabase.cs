@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using XFiresecAPI;
 
-namespace Commom.GK
+namespace Common.GK.Obsolete
 {
 	public class GkDatabase : CommonDatabase
 	{
@@ -35,24 +35,6 @@ namespace Commom.GK
 					AddDevice(device);
 				}
 			}
-
-			//foreach (var device in gkDevice.Children)
-			//{
-			//    if (device.Driver.DriverType == XDriverType.KAU)
-			//    {
-			//        AddDevice(device);
-			//    }
-			//}
-		}
-
-		public List<byte> GetBytes()
-		{
-			var bytes = new List<byte>();
-			foreach (var binaryObject in BinaryObjects)
-			{
-				bytes.AddRange(binaryObject.AllBytes);
-			}
-			return bytes;
 		}
 	}
 }

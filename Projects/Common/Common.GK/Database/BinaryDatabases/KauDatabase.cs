@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using XFiresecAPI;
 
-namespace Commom.GK
+namespace Common.GK.Obsolete
 {
 	public class KauDatabase : CommonDatabase
 	{

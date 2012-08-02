@@ -4,7 +4,7 @@ using System.Linq;
 using FiresecClient;
 using XFiresecAPI;
 
-namespace Commom.GK
+namespace Common.GK
 {
 	public static class GKDriversConverter
 	{
