@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Commom.GK;
 using Common.GK;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -13,7 +12,7 @@ namespace GKModule
 		public static void Run()
 		{
 			DatabaseProcessor.Convert();
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseCollection.GkDatabases)
+			foreach (var gkDatabase in DatabaseProcessor.DatabaseManager.GkDatabases)
 			{
 				GetStatesFromDB(gkDatabase);
 			}
