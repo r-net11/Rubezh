@@ -57,8 +57,8 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
-    <Reference Include="gbda_clr, Version=1.0.12.306, Culture=neutral, processorArchitecture=x86">
-      <HintPath>..\..\..\3rdParty\OPC\gbda_clr.dll</HintPath>
+    <Reference Include="gbda_clr">
+      <HintPath>..\..\..\3rdParty\OPC\Graybox\gbda_clr.dll</HintPath>
     </Reference>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification">
       <HintPath>..\..\..\3rdParty\NotifyIcon\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>

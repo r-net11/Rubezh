@@ -45,6 +45,11 @@ namespace DevicesModule.Plans
 			get { return _devicesViewModel; }
 		}
 
+		public IEnumerable<IInstrument> Instruments
+		{
+			get { return null; }
+		}
+
 		public bool ElementAdded(Plan plan, ElementBase element)
 		{
 			ElementDevice elementDevice = element as ElementDevice;

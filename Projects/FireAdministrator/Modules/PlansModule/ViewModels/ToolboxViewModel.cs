@@ -4,12 +4,13 @@ using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.InstrumentAdorners;
 using System;
+using Infrustructure.Plans.Designer;
 
 namespace PlansModule.ViewModels
 {
 	public class ToolboxViewModel : BaseViewModel
 	{
-		private InstrumentViewModel _defaultInstrument;
+		private IInstrument _defaultInstrument;
 
 		public ToolboxViewModel(PlansViewModel plansViewModel)
 		{
@@ -21,8 +22,8 @@ namespace PlansModule.ViewModels
 		public PlansViewModel PlansViewModel { get; private set; }
 		public bool AcceptKeyboard { get; set; }
 
-		private ObservableCollection<InstrumentViewModel> _instruments;
-		public ObservableCollection<InstrumentViewModel> Instruments
+		private ObservableCollection<IInstrument> _instruments;
+		public ObservableCollection<IInstrument> Instruments
 		{
 			get { return _instruments; }
 			set
@@ -32,8 +33,8 @@ namespace PlansModule.ViewModels
 			}
 		}
 
-		private InstrumentViewModel _activeInstrument;
-		public InstrumentViewModel ActiveInstrument
+		private IInstrument _activeInstrument;
+		public IInstrument ActiveInstrument
 		{
 			get { return _activeInstrument; }
 			set
@@ -66,7 +67,7 @@ namespace PlansModule.ViewModels
 
 		private void RegisterInstruments()
 		{
-			Instruments = new ObservableCollection<InstrumentViewModel>()
+			Instruments = new ObservableCollection<IInstrument>()
 			{
 				new InstrumentViewModel()
 				{

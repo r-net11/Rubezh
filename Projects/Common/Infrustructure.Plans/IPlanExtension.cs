@@ -17,5 +17,6 @@ namespace Infrustructure.Plans
 		bool ElementRemoved(T plan, ElementBase element);
 		void RegisterDesignerItem(DesignerItem designerItem);
 		IEnumerable<ElementBase> LoadPlan(T plan);
+		IEnumerable<IInstrument> Instruments { get; }
 	}
 }

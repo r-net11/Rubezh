@@ -46,6 +46,11 @@ namespace GKModule.Plans
 			get { return _xdevicesViewModel; }
 		}
 
+		public IEnumerable<IInstrument> Instruments
+		{
+			get { return null; }
+		}
+
 		public bool ElementAdded(Plan plan, ElementBase element)
 		{
 			ElementXDevice elementXDevice = element as ElementXDevice;
