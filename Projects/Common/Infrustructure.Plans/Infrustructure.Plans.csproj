@@ -54,6 +54,7 @@
     <Compile Include="Designer\CommonDesignerCanvas.cs" />
     <Compile Include="Designer\DesignerItemBorder.cs" />
     <Compile Include="Designer\IInstrument.cs" />
+    <Compile Include="Elements\IElementZone.cs" />
     <Compile Include="InstrumentAdorners\InstrumentAdorner.cs" />
     <Compile Include="InstrumentAdorners\PolygonAdorner.cs" />
     <Compile Include="InstrumentAdorners\RectangleAdorner.cs" />
@@ -66,7 +67,6 @@
     <Compile Include="Designer\DesignerItem.cs" />
     <Compile Include="Elements\IElementTextBlock.cs" />
     <Compile Include="Elements\IElementZLayer.cs" />
-    <Compile Include="Elements\IElementZone.cs" />
     <Compile Include="Elements\IPrimitive.cs" />
     <Compile Include="Elements\Primitive.cs" />
     <Compile Include="EventService.cs" />

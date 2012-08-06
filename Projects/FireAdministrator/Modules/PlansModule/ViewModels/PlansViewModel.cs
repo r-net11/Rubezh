@@ -144,7 +144,7 @@ namespace PlansModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			var planDetailsViewModel = new PlanDetailsViewModel();
+			var planDetailsViewModel = new DesignerPropertiesViewModel(null);
 			if (DialogService.ShowModalWindow(planDetailsViewModel))
 			{
 				var plan = planDetailsViewModel.Plan;
@@ -160,7 +160,7 @@ namespace PlansModule.ViewModels
 		public RelayCommand AddSubPlanCommand { get; private set; }
 		void OnAddSubPlan()
 		{
-			var planDetailsViewModel = new PlanDetailsViewModel();
+			var planDetailsViewModel = new DesignerPropertiesViewModel(null);
 			if (DialogService.ShowModalWindow(planDetailsViewModel))
 			{
 				var plan = planDetailsViewModel.Plan;
@@ -206,11 +206,12 @@ namespace PlansModule.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		void OnEdit()
 		{
-			var planDetailsViewModel = new PlanDetailsViewModel(SelectedPlan.Plan);
+			var planDetailsViewModel = new DesignerPropertiesViewModel(SelectedPlan.Plan);
 			if (DialogService.ShowModalWindow(planDetailsViewModel))
 			{
 				SelectedPlan.Update();
 				DesignerCanvas.Update();
+				PlanDesignerViewModel.Update();
 				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}

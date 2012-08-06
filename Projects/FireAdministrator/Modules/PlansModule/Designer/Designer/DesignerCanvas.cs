@@ -32,7 +32,6 @@ namespace PlansModule.Designer
 			Width = 100;
 			Height = 100;
 
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			DataContext = this;
 		}
 
@@ -167,17 +166,6 @@ namespace PlansModule.Designer
 
 			if (designerItem.Element is IElementZLayer)
 				Panel.SetZIndex(designerItem, ((IElementZLayer)designerItem.Element).ZLayerIndex * bigConstatnt);
-		}
-
-		public RelayCommand ShowPropertiesCommand { get; private set; }
-		void OnShowProperties()
-		{
-			var designerPropertiesViewModel = new DesignerPropertiesViewModel(Plan);
-			if (DialogService.ShowModalWindow(designerPropertiesViewModel))
-			{
-				Update();
-				ServiceFactory.SaveService.PlansChanged = true;
-			}
 		}
 
 		public override void Update()

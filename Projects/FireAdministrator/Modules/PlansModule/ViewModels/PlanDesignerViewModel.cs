@@ -61,6 +61,11 @@ namespace PlansModule.ViewModels
 			NormalizeZIndex();
 		}
 
+		public void Update()
+		{
+			OnUpdated();
+		}
+
 		private void OnUpdated()
 		{
 			if (Updated != null)

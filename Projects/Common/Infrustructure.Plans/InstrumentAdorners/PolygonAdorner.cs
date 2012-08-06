@@ -67,7 +67,7 @@ namespace PlansModule.InstrumentAdorners
 						if (element != null)
 						{
 							if (Points.Count > 1)
-								element.Points = Points;
+								element.Points = new PointCollection(Points);
 							else
 								element.Position = CutPoint(e.GetPosition(this));
 							DesignerCanvas.CreateDesignerItem(element);

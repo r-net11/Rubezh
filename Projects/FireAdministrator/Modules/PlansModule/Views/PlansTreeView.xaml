@@ -17,5 +17,8 @@
             </DataGridTemplateColumn>
             <DataGridTextColumn Binding="{Binding Plan.Description}" Header="Описание" Width="*" />
         </DataGrid.Columns>
-    </DataGrid >
+		<DataGrid.InputBindings>
+			<MouseBinding Command="{Binding PlansViewModel.EditCommand}" MouseAction="LeftDoubleClick" />
+		</DataGrid.InputBindings>
+	</DataGrid >
 </UserControl>
