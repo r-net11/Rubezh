@@ -171,6 +171,7 @@
     <Compile Include="Models\Device\Indicator\IndicatorLogic.cs" />
     <Compile Include="Models\Device\Indicator\IndicatorLogicType.cs" />
     <Compile Include="Models\Device\PDU\PDUGroupDevice.cs" />
+    <Compile Include="XModels\Directions\DirectionDevice.cs" />
     <Compile Include="XModels\Directions\XDirection.cs" />
     <Compile Include="Models\Driver\DriverPropertyParameter.cs" />
     <Compile Include="Models\Driver\DriverPropertyTypeEnum.cs" />

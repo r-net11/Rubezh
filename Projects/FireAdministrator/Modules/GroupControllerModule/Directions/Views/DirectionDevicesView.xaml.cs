@@ -2,9 +2,9 @@
 
 namespace GKModule.Views
 {
-	public partial class DirectionZonesView : UserControl
+	public partial class DirectionDevicesView : UserControl
 	{
-		public DirectionZonesView()
+		public DirectionDevicesView()
 		{
 			InitializeComponent();
 		}

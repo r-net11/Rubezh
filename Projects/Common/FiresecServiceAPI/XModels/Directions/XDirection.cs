@@ -11,10 +11,9 @@ namespace XFiresecAPI
 	{
 		public XDirection()
 		{
-			ZoneNos = new List<int>();
+			Zones = new List<int>();
+			DirectionDevices = new List<DirectionDevice>();
 		}
-
-		public List<XZone> Zones { get; set; }
 
 		[DataMember]
 		public short No { get; set; }
@@ -26,7 +25,10 @@ namespace XFiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
-		public List<int> ZoneNos { get; set; }
+		public List<int> Zones { get; set; }
+
+		[DataMember]
+		public List<DirectionDevice> DirectionDevices { get; set; }
 
 		public string PresentationName
 		{

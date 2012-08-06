@@ -11,7 +11,6 @@ namespace GKModule.ViewModels
 {
     public class DirectionsViewModel : ViewPartViewModel, IEditingViewModel
     {
-		public DirectionZonesViewModel DirectionZones { get; private set; }
         public static DirectionsViewModel Current { get; private set; }
 
 		public DirectionsViewModel()
@@ -20,7 +19,6 @@ namespace GKModule.ViewModels
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			DirectionZones = new DirectionZonesViewModel();
         }
 
         public void Initialize()
@@ -50,11 +48,6 @@ namespace GKModule.ViewModels
             set
             {
                 _selectedDirection = value;
-                if (value != null)
-					DirectionZones.Initialize(value.XDirection);
-                else
-					DirectionZones.Clear();
-
 				OnPropertyChanged("SelectedDirection");
             }
         }
@@ -62,11 +55,6 @@ namespace GKModule.ViewModels
         bool CanEditDelete()
         {
             return SelectedDirection != null;
-        }
-
-        bool CanDeleteAll()
-        {
-			return Directions.Count > 0;
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -85,13 +73,12 @@ namespace GKModule.ViewModels
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
         {
-			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedDirection.XDirection.PresentationName);
+			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName);
             if (dialogResult == MessageBoxResult.Yes)
             {
-				XManager.DeviceConfiguration.Directions.Remove(SelectedDirection.XDirection);
+				XManager.DeviceConfiguration.Directions.Remove(SelectedDirection.Direction);
 				Directions.Remove(SelectedDirection);
 				SelectedDirection = Directions.FirstOrDefault();
-				DirectionZones.UpdateAvailableZones();
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }
         }
@@ -99,12 +86,11 @@ namespace GKModule.ViewModels
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-			var directionDetailsViewModel = new DirectionDetailsViewModel(SelectedDirection.XDirection);
+			var directionDetailsViewModel = new DirectionDetailsViewModel(SelectedDirection.Direction);
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
             {
-				SelectedDirection.XDirection = directionDetailsViewModel.XDirection;
+				SelectedDirection.Direction = directionDetailsViewModel.XDirection;
                 SelectedDirection.Update();
-
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }
         }

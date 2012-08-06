@@ -66,9 +66,14 @@
     </Compile>
     <Compile Include="BinaryFormatViewer\Converters\DescriptorNoToStringConverter.cs" />
     <Compile Include="BinConfigurationCreator.cs" />
-    <Compile Include="Directions\ViewModels\DirectionZonesViewModel.cs" />
-    <Compile Include="Directions\Views\DirectionZonesView.xaml.cs">
-      <DependentUpon>DirectionZonesView.xaml</DependentUpon>
+    <Compile Include="Directions\ViewModels\DirectionDeviceSelectationViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionDevicesViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionDeviceViewModel.cs" />
+    <Compile Include="Directions\Views\DirectionDeviceSelectationView.xaml.cs">
+      <DependentUpon>DirectionDeviceSelectationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Directions\Views\DirectionDevicesView.xaml.cs">
+      <DependentUpon>DirectionDevicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\GKPlanExtension.cs" />
     <Compile Include="ParametersHelper.cs" />
@@ -259,7 +264,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Directions\Views\DirectionZonesView.xaml">
+    <Page Include="Directions\Views\DirectionDeviceSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Directions\Views\DirectionDevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -45,18 +45,15 @@
   <ItemGroup>
     <Compile Include="BinaryDeviceState.cs" />
     <Compile Include="BytesHelper.cs" />
-    <Compile Include="Database2\CommonDatabase.cs" />
-    <Compile Include="Database2\DatabaseManager.cs" />
-    <Compile Include="Database2\GkDatabase.cs" />
-    <Compile Include="Database2\KauDatabase.cs" />
-    <Compile Include="Database\BinaryDatabases\CommonDatabase.cs" />
-    <Compile Include="Database\BinaryDatabases\GkDatabase.cs" />
-    <Compile Include="Database\BinaryDatabases\KauDatabase.cs" />
+    <Compile Include="Database\DB\CommonDatabase.cs" />
+    <Compile Include="Database\DatabaseManager.cs" />
+    <Compile Include="Database\DB\GkDatabase.cs" />
+    <Compile Include="Database\DB\KauDatabase.cs" />
     <Compile Include="Database\BinaryObjects\BinaryObjectBase.cs" />
     <Compile Include="Database\BinaryObjects\DeviceBinaryObject.cs" />
+    <Compile Include="Database\BinaryObjects\DirectionBinaryObject.cs" />
     <Compile Include="Database\BinaryObjects\ObjectType.cs" />
     <Compile Include="Database\BinaryObjects\ZoneBinaryObject.cs" />
-    <Compile Include="Database\DatabaseCollection.cs" />
     <Compile Include="Database\DatabaseProcessor.cs" />
     <Compile Include="Database\KauChildrenHelper.cs" />
     <Compile Include="Drivers\GKDriversConverter.cs" />

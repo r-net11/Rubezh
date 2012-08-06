@@ -16,8 +16,7 @@ namespace FiresecClient.Validation
             {
                 if (FiresecManager.SystemConfiguration.Instructions.Count(x => x.No == instruction.No) > 1)
                 {
-                    var instructionError =
-                        new InstructionError(instruction, "Инструкция с таким номером уже существует!", ErrorLevel.Warning);
+                    var instructionError = new InstructionError(instruction, "Инструкция с таким номером уже существует!", ErrorLevel.Warning);
                     InstructionErrors.Add(instructionError);
                 }
             }
@@ -27,8 +26,7 @@ namespace FiresecClient.Validation
                 if (FiresecManager.SystemConfiguration.Instructions.Count(x =>
                     ((x.StateType == instruction.StateType) && (x.InstructionType == InstructionType.General))) > 1)
                 {
-                    var instructionError =
-                        new InstructionError(instruction, "Общая инструкция для данного состояния уже существует!", ErrorLevel.Warning);
+                    var instructionError = new InstructionError(instruction, "Общая инструкция для данного состояния уже существует!", ErrorLevel.Warning);
                     InstructionErrors.Add(instructionError);
                 }
             }

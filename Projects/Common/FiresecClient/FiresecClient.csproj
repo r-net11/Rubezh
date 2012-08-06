@@ -147,8 +147,10 @@
     <Compile Include="Validation\InstructionValidator.cs" />
     <Compile Include="Validation\DevicesValidator.cs" />
     <Compile Include="Validation\ZoneError.cs" />
-    <Compile Include="XManager.cs" />
-    <Compile Include="XManager.Disabling.cs" />
+    <Compile Include="XManager\XManager.cs" />
+    <Compile Include="XManager\XManager.Disabling.cs" />
+    <Compile Include="XModelsValidator\DevicesValidator.cs" />
+    <Compile Include="XModelsValidator\ZoneError.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -190,6 +192,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

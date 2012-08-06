@@ -56,6 +56,10 @@
         <Views:DirectionsMenuView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:DirectionDeviceSelectationViewModel}">
+        <Views:DirectionDeviceSelectationView />
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
 		<Views:JournalView />
 	</DataTemplate>

@@ -10,6 +10,7 @@ namespace Common.GK
 		public DatabaseType DatabaseType { get; set; }
 		public XZone Zone { get; protected set; }
 		public XDevice Device { get; protected set; }
+		public XDirection Direction { get; protected set; }
 		public ObjectType ObjectType { get; protected set; }
 		public short ControllerAdress { get; protected set; }
 		public short AdressOnController { get; protected set; }
