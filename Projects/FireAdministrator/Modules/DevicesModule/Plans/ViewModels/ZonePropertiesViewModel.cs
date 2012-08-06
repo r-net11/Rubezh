@@ -7,9 +7,9 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
-using PlansModule.Designer.Designer;
+using DevicesModule.Plans.Designer;
 
-namespace PlansModule.ViewModels
+namespace DevicesModule.Plans.ViewModels
 {
 	public class ZonePropertiesViewModel : SaveCancelDialogViewModel
 	{

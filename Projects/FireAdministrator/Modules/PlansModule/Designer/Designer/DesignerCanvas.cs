@@ -12,7 +12,6 @@ using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
-using PlansModule.Designer.Designer;
 using PlansModule.ViewModels;
 
 namespace PlansModule.Designer
@@ -93,7 +92,7 @@ namespace PlansModule.Designer
 				e.Handled = true;
 			}
 		}
-		public void CreateDesignerItem(ElementBase elementBase)
+		public override void CreateDesignerItem(ElementBase elementBase)
 		{
 			var designerItem = AddElement(elementBase);
 			if (designerItem != null)
@@ -103,6 +102,7 @@ namespace PlansModule.Designer
 				PlanDesignerViewModel.MoveToFrontCommand.Execute();
 				ServiceFactory.Events.GetEvent<ElementAddedEvent>().Publish(new List<ElementBase>() { elementBase });
 				Toolbox.SetDefault();
+				ServiceFactory.SaveService.PlansChanged = true;
 			}
 		}
 		public DesignerItem AddElement(ElementBase elementBase)
@@ -117,10 +117,6 @@ namespace PlansModule.Designer
 				Plan.ElementPolylines.Add(elementBase as ElementPolyline);
 			else if (elementBase is ElementTextBlock)
 				Plan.ElementTextBlocks.Add(elementBase as ElementTextBlock);
-			else if (elementBase is ElementRectangleZone)
-				Plan.ElementRectangleZones.Add(elementBase as ElementRectangleZone);
-			else if (elementBase is ElementPolygonZone)
-				Plan.ElementPolygonZones.Add(elementBase as ElementPolygonZone);
 			else if (elementBase is ElementSubPlan)
 				Plan.ElementSubPlans.Add(elementBase as ElementSubPlan);
 			else
@@ -140,10 +136,6 @@ namespace PlansModule.Designer
 				Plan.ElementPolylines.Remove(designerItem.Element as ElementPolyline);
 			else if (designerItem.Element is ElementTextBlock)
 				Plan.ElementTextBlocks.Remove(designerItem.Element as ElementTextBlock);
-			else if (designerItem.Element is ElementRectangleZone)
-				Plan.ElementRectangleZones.Remove(designerItem.Element as ElementRectangleZone);
-			else if (designerItem.Element is ElementPolygonZone)
-				Plan.ElementPolygonZones.Remove(designerItem.Element as ElementPolygonZone);
 			else if (designerItem.Element is ElementSubPlan)
 				Plan.ElementSubPlans.Remove(designerItem.Element as ElementSubPlan);
 			else
@@ -172,21 +164,6 @@ namespace PlansModule.Designer
 
 			if (designerItem.Element is IElementZIndex)
 				Panel.SetZIndex(designerItem, (designerItem.Element as IElementZIndex).ZIndex);
-
-			if (designerItem.Element is IElementZone)
-			{
-				Panel.SetZIndex(designerItem, 2 * bigConstatnt);
-				IElementZone elementZone = designerItem.Element as IElementZone;
-				Zone zone = Helper.GetZone(elementZone);
-				if (zone != null)
-				{
-					if (zone.ZoneType == ZoneType.Fire)
-						Panel.SetZIndex(designerItem, 3 * bigConstatnt);
-
-					if (zone.ZoneType == ZoneType.Guard)
-						Panel.SetZIndex(designerItem, 4 * bigConstatnt);
-				}
-			}
 
 			if (designerItem.Element is IElementZLayer)
 				Panel.SetZIndex(designerItem, ((IElementZLayer)designerItem.Element).ZLayerIndex * bigConstatnt);

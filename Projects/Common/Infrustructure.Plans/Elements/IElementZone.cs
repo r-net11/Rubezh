@@ -2,8 +2,9 @@
 
 namespace Infrustructure.Plans.Elements
 {
-	public interface IElementZone
+	public interface IElementZone : IElementZLayer
 	{
+		int ZLayerIndex { get; set; }
 		int? ZoneNo { get; set; }
 		Color BackgroundColor { get; set; }
 	}

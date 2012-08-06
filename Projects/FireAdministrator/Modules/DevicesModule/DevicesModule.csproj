@@ -198,15 +198,28 @@
     <Compile Include="Guard\Views\GuardSynchronizationView.xaml.cs">
       <DependentUpon>GuardSynchronizationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plans\Designer\Helper.cs" />
+    <Compile Include="Plans\Events\DeviceInZoneChangedEvent.cs" />
+    <Compile Include="Plans\InstrumentAdorners\ZonePolygonAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\ZoneRectangleAdorner.cs" />
     <Compile Include="Plans\PlanExtension.cs" />
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
+    <Compile Include="Plans\ViewModels\DevicesInZoneViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicesViewModel.cs" />
     <Compile Include="Plans\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
+    <Compile Include="Plans\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">
       <DependentUpon>DevicePropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Plans\Views\DevicesInZoneView.xaml.cs">
+      <DependentUpon>DevicesInZoneView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plans\Views\ZonePropertiesView.xaml.cs">
+      <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Zones\Converters\ClauseStateToStringConverter.cs" />
@@ -504,7 +517,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Plans\Views\DevicesInZoneView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Plans\Views\DevicesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\ZonePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -541,9 +562,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Plans\Designer\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.

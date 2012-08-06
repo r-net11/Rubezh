@@ -5,7 +5,6 @@ using Infrustructure.Plans.Events;
 using PlansModule.Designer.DesignerItems;
 using System.Windows.Controls;
 using Infrastructure.Common;
-using PlansModule.Designer.Designer;
 using Infrastructure.Events;
 
 namespace PlansModule.Designer

@@ -119,20 +119,6 @@ namespace PlansModule.ViewModels
 				},
 				new InstrumentViewModel()
 				{
-					ImageSource="/Controls;component/Images/ZoneRectangle.png",
-					ToolTip="Зона",
-					Adorner = new ZoneRectangleAdorner(PlansViewModel.DesignerCanvas),
-					Autostart = true
-				},
-				new InstrumentViewModel()
-				{
-					ImageSource="/Controls;component/Images/ZonePolygon.png",
-					ToolTip="Зона",
-					Adorner = new ZonePolygonAdorner(PlansViewModel.DesignerCanvas),
-					Autostart = true
-				},
-				new InstrumentViewModel()
-				{
 					ImageSource="/Controls;component/Images/SubPlanPolygon.png",
 					ToolTip="Подплан",
 					Adorner = new SubPlanAdorner(PlansViewModel.DesignerCanvas),

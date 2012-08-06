@@ -1,10 +1,8 @@
 ﻿using System;
 using FiresecAPI.Models;
-using Infrastructure;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Events;
-using PlansModule.Designer;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {
@@ -17,14 +15,6 @@ namespace PlansModule.ViewModels
 		public PlanDesignerViewModel()
 		{
 			InitializeZIndexCommands();
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Unsubscribe(x => { UpdateDeviceInZones(); });
-			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(x => { UpdateDeviceInZones(); });
-			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateDevice);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateDevice);
-			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(ShowDeviceProperties);
-			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(ShowDeviceProperties);
 		}
 
 		public void Initialize(Plan plan)
@@ -54,20 +44,13 @@ namespace PlansModule.ViewModels
 						DesignerCanvas.Create(elementPolygon);
 					foreach (var elementPolyline in plan.ElementPolylines)
 						DesignerCanvas.Create(elementPolyline);
-					foreach (var elementRectangleZone in plan.ElementRectangleZones)
-						DesignerCanvas.Create(elementRectangleZone);
-					foreach (var elementPolygonZone in plan.ElementPolygonZones)
-						DesignerCanvas.Create(elementPolygonZone);
 					foreach (var elementSubPlan in plan.ElementSubPlans)
 						DesignerCanvas.Create(elementSubPlan);
-					foreach (var elementDevice in plan.ElementDevices)
-						DesignerCanvas.Create(elementDevice);
 					foreach (var element in DesignerCanvas.Toolbox.PlansViewModel.LoadPlan(plan))
 						DesignerCanvas.Create(element);
 					DesignerCanvas.DeselectAll();
 				}
 				OnUpdated();
-				UpdateDeviceInZones();
 			}
 		}
 

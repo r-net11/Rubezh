@@ -1,14 +1,15 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
-using PlansModule.Designer;
-using PlansModule.ViewModels;
-using PlansModule.Designer.Designer;
+using Infrustructure.Plans.Designer;
+using DevicesModule.Plans.ViewModels;
+using DevicesModule.Plans.Designer;
+using PlansModule.InstrumentAdorners;
 
-namespace PlansModule.InstrumentAdorners
+namespace DevicesModule.Plans.InstrumentAdorners
 {
-	public class ZoneRectangleAdorner : RectangleAdorner
+	public class ZoneRectangleAdorner : BaseRectangleAdorner
 	{
-		public ZoneRectangleAdorner(DesignerCanvas designerCanvas)
+		public ZoneRectangleAdorner(CommonDesignerCanvas designerCanvas)
 			: base(designerCanvas)
 		{
 		}

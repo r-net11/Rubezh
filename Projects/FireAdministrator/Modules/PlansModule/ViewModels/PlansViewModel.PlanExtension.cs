@@ -8,7 +8,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
-using PlansModule.Events;
 using Infrustructure.Plans;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -29,11 +28,8 @@ namespace PlansModule.ViewModels
 		public void RegisterExtension(IPlanExtension<Plan> planExtension)
 		{
 			_planExtensions.Add(planExtension);
-			if (!string.IsNullOrEmpty(planExtension.Alias))
-			{
-				LayerGroupService.Instance.RegisterGroup(planExtension.Alias, planExtension.Title, planExtension.Index);
-				ElementsViewModel.Update();
-			}
+			planExtension.ExtensionRegistered(DesignerCanvas);
+			ElementsViewModel.Update();
 			if (planExtension.TabPage != null)
 			{
 				TabPages.Insert(planExtension.Index + 1, new TabItem()

@@ -15,7 +15,6 @@ namespace Infrustructure.Plans.Services
 			}
 		}
 
-		public const string ZoneAlias = "Zone";
 		public const string SubPlanAlias = "SubPlan";
 		public const string ElementAlias = "Element";
 		private Dictionary<string, string> _groups = new Dictionary<string, string>();
@@ -23,10 +22,8 @@ namespace Infrustructure.Plans.Services
 
 		private LayerGroupService()
 		{
-			_groups.Add(ZoneAlias, "Зоны");
 			_groups.Add(SubPlanAlias, "Подпланы");
 			_groups.Add(ElementAlias, "Элементы");
-			_order.Add(ZoneAlias);
 			_order.Add(SubPlanAlias);
 			_order.Add(ElementAlias);
 		}

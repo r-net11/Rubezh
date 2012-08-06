@@ -17,6 +17,7 @@ namespace GKModule.Plans
 	class GKPlanExtension : IPlanExtension<Plan>
 	{
 		private XDevicesViewModel _xdevicesViewModel;
+		private CommonDesignerCanvas _designerCanvas;
 		public GKPlanExtension()
 		{
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
@@ -31,10 +32,6 @@ namespace GKModule.Plans
 		public int Index
 		{
 			get { return 1; }
-		}
-		public string Alias
-		{
-			get { return "GK"; }
 		}
 		public string Title
 		{
@@ -79,7 +76,7 @@ namespace GKModule.Plans
 		{
 			if (designerItem.Element is ElementXDevice)
 			{
-				designerItem.Group = Alias;
+				designerItem.Group = "GK";
 				designerItem.UpdateProperties += UpdateDesignerItem;
 				UpdateDesignerItem(designerItem);
 			}
@@ -89,7 +86,13 @@ namespace GKModule.Plans
 		{
 			return plan.ElementXDevices;
 		}
-		
+
+		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
+		{
+			_designerCanvas = designerCanvas;
+			LayerGroupService.Instance.RegisterGroup("GK", "ГК", 1);
+		}
+
 		#endregion
 
 		private void UpdateDesignerItem(DesignerItem designerItem)

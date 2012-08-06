@@ -8,7 +8,6 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
-using PlansModule.Events;
 using System.Windows.Controls;
 using System.Collections.Generic;
 using System.Linq;
@@ -222,7 +221,7 @@ namespace PlansModule.ViewModels
 			DesignerCanvas.DeselectAll();
 
 			foreach (var designerItem in DesignerCanvas.Items)
-				if (designerItem.Element.UID == elementUID)
+				if (designerItem.Element.UID == elementUID && designerItem.IsSelectable)
 					designerItem.IsSelected = true;
 		}
 		void OnShowElementDevice(Guid deviceUID)

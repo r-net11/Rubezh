@@ -2,7 +2,6 @@
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Services;
 using PlansModule.Designer.Adorners;
-using PlansModule.Designer.Designer;
 using PlansModule.ViewModels;
 
 namespace PlansModule.Designer.DesignerItems
@@ -28,11 +27,6 @@ namespace PlansModule.Designer.DesignerItems
 				Title = "Надпись";
 				Group = LayerGroupService.ElementAlias;
 			}
-			else if (Element is ElementRectangleZone)
-			{
-				Title = Helper.GetZoneTitle((IElementZone)Element);
-				Group = LayerGroupService.ZoneAlias;
-			}
 			else if (Element is ElementSubPlan)
 			{
 				Title = Helper.GetSubPlanTitle((ElementSubPlan)Element);
@@ -47,17 +41,13 @@ namespace PlansModule.Designer.DesignerItems
 				return new EllipsePropertiesViewModel(Element as ElementEllipse);
 			if (Element is ElementTextBlock)
 				return new TextBlockPropertiesViewModel(Element as ElementTextBlock);
-			if (Element is ElementRectangleZone)
-				return new ZonePropertiesViewModel(Element as ElementRectangleZone);
 			if (Element is ElementSubPlan)
 				return new SubPlanPropertiesViewModel(Element as ElementSubPlan);
 			return base.CreatePropertiesViewModel();
 		}
 		public override void UpdateElementProperties()
 		{
-			if (Element is ElementRectangleZone)
-				Title = Helper.GetZoneTitle((IElementZone)Element);
-			else if (Element is ElementSubPlan)
+			if (Element is ElementSubPlan)
 				Title = Helper.GetSubPlanTitle((ElementSubPlan)Element);
 			base.UpdateElementProperties();
 		}

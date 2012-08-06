@@ -4,9 +4,9 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using PlansModule.Events;
+using DevicesModule.Plans.Events;
 
-namespace PlansModule.ViewModels
+namespace DevicesModule.Plans.ViewModels
 {
 	public class DevicesInZoneViewModel : SaveCancelDialogViewModel
     {

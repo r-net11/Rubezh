@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using System.ComponentModel;
 
 namespace FireMonitor
 {
@@ -34,6 +35,8 @@ namespace FireMonitor
 			BindingErrorListener.Listen(m => MessageBox.Show(m));
 #endif
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
+			
 			bootstrapper = new Bootstrapper();
 			using (new DoubleLaunchLocker(SignalId, WaitId))
 				bootstrapper.Initialize();
@@ -43,7 +46,7 @@ namespace FireMonitor
 		{
 			MessageBoxService.ShowException(e.ExceptionObject as Exception);
 		}
-		protected override void OnExit(ExitEventArgs e)
+		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
 			AlarmPlayerHelper.Dispose();
 			ClientSettings.SaveSettings();
@@ -52,7 +55,6 @@ namespace FireMonitor
 			VideoService.Close();
 			if (RegistryHelper.IsIntegrated)
 				RegistryHelper.ShutDown();
-			base.OnExit(e);
 		}
 	}
 }

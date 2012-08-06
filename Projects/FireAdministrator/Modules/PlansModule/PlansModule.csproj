@@ -108,19 +108,17 @@
     <Compile Include="Designer\DesignerItems\DesignerItemPoint.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemBase.cs" />
     <Compile Include="Designer\DesignerItems\DesignerItemRectangle.cs" />
+    <Compile Include="Designer\Designer\Helper.cs" />
     <Compile Include="Designer\InstrumentAdorners\PointsAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\PolygonAdorner.cs" />
+    <Compile Include="Designer\InstrumentAdorners\RectangleAdorner.cs" />
     <Compile Include="Designer\InstrumentAdorners\RemoveButton.cs" />
-    <Compile Include="Designer\InstrumentAdorners\ZonePolygonAdorner.cs" />
     <Compile Include="Designer\InstrumentAdorners\PolylineAdorner.cs" />
-    <Compile Include="Designer\InstrumentAdorners\ZoneRectangleAdorner.cs" />
     <Compile Include="Designer\InstrumentAdorners\TextBoxAdorner.cs" />
     <Compile Include="Designer\InstrumentAdorners\SubPlanAdorner.cs" />
     <Compile Include="Designer\InstrumentAdorners\ElipseAdorner.cs" />
-    <Compile Include="Designer\InstrumentAdorners\RectangleAdorner.cs" />
-    <Compile Include="Designer\InstrumentAdorners\PolygonAdorner.cs" />
     <Compile Include="Designer\Designer\DesignerCanvas.cs" />
     <Compile Include="Designer\Designer\DesignerItemFactory.cs" />
-    <Compile Include="Designer\Designer\Helper.cs" />
     <Compile Include="Designer\Designer\MoveThumb.cs" />
     <Compile Include="Designer\InstrumentAdorners\RubberbandAdorner.cs" />
     <Compile Include="Designer\Resize\ResizeAdorner.cs" />
@@ -154,28 +152,18 @@
       <DependentUpon>TextBlockPropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ElementProperties\ViewModels\TextBlockPropertiesViewModel.cs" />
-    <Compile Include="ElementProperties\Views\ZonePropertiesView.xaml.cs">
-      <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ElementProperties\ViewModels\ZonePropertiesViewModel.cs" />
-    <Compile Include="Events\DeviceInZoneChangedEvent.cs" />
     <Compile Include="ViewModels\PlansTreeViewModel.cs" />
     <Compile Include="ViewModels\PlansViewModel.PlanExtension.cs" />
-    <Compile Include="ViewModels\DevicesInZoneViewModel.cs" />
     <Compile Include="ViewModels\ElementsViewModel.cs" />
     <Compile Include="ViewModels\ElementViewModel.cs" />
     <Compile Include="ViewModels\ElementBaseViewModel.cs" />
     <Compile Include="ViewModels\ElementGroupViewModel.cs" />
     <Compile Include="ViewModels\InstrumentViewModel.cs" />
-    <Compile Include="ViewModels\PlanDesignerViewModel.DeviceInZones.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.ZIndex.cs" />
     <Compile Include="ViewModels\PlanDesignerViewModel.Zoom.cs" />
     <Compile Include="ViewModels\PlansViewModel.CopyPaste.cs" />
     <Compile Include="ViewModels\PlansViewModel.History.cs" />
     <Compile Include="ViewModels\ToolboxViewModel.cs" />
-    <Compile Include="Views\DevicesInZoneView.xaml.cs">
-      <DependentUpon>DevicesInZoneView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ElementsView.xaml.cs">
       <DependentUpon>ElementsView.xaml</DependentUpon>
     </Compile>
@@ -338,14 +326,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ElementProperties\Views\TextBlockPropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ElementProperties\Views\ZonePropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\DevicesInZoneView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

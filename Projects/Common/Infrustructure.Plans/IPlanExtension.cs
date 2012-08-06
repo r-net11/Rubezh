@@ -10,7 +10,6 @@ namespace Infrustructure.Plans
 	public interface IPlanExtension<T>
 	{
 		int Index { get; }
-		string Alias { get; }
 		string Title { get; }
 		object TabPage { get; }
 		bool ElementAdded(T plan, ElementBase element);
@@ -18,5 +17,6 @@ namespace Infrustructure.Plans
 		void RegisterDesignerItem(DesignerItem designerItem);
 		IEnumerable<ElementBase> LoadPlan(T plan);
 		IEnumerable<IInstrument> Instruments { get; }
+		void ExtensionRegistered(CommonDesignerCanvas designerCanvas);
 	}
 }

@@ -2,7 +2,6 @@
 using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer.Adorners;
-using PlansModule.Designer.Designer;
 
 namespace PlansModule.Designer.DesignerItems
 {

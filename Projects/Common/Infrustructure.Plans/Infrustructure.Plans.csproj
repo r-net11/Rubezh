@@ -54,7 +54,9 @@
     <Compile Include="Designer\CommonDesignerCanvas.cs" />
     <Compile Include="Designer\DesignerItemBorder.cs" />
     <Compile Include="Designer\IInstrument.cs" />
-    <Compile Include="Designer\InstrumentAdorner.cs" />
+    <Compile Include="InstrumentAdorners\InstrumentAdorner.cs" />
+    <Compile Include="InstrumentAdorners\PolygonAdorner.cs" />
+    <Compile Include="InstrumentAdorners\RectangleAdorner.cs" />
     <Compile Include="Designer\ResizeChrome.cs" />
     <Compile Include="Designer\ResizeDirection.cs" />
     <Compile Include="Designer\ResizeThumb.cs" />

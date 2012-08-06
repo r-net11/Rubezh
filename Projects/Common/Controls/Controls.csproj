@@ -116,6 +116,7 @@
     <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
     <Compile Include="Converters\StateTypeToIntConverter.cs" />
+    <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="ToolBarRadioButton.cs" />
     <Compile Include="DataGridProperties.cs" />
     <Compile Include="DigitalPasswordHelper.cs" />
@@ -538,6 +539,7 @@
     <Resource Include="Icons\Ультразвуковой.png" />
     <Resource Include="Icons\Электроконтактный.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

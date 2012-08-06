@@ -50,5 +50,6 @@ namespace Infrustructure.Plans.Designer
 		}
 
 		public abstract void Update();
+		public abstract void CreateDesignerItem(ElementBase element);
 	}
 }
