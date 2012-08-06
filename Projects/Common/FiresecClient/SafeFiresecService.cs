@@ -4,6 +4,7 @@ using System.Timers;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.ServiceModel.Security;
 
 namespace FiresecClient
 {
@@ -116,7 +117,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Исключение при вызове FiresecClient.SafeOperationCall<T>(Func<OperationResult<T>> func)");
+				LogException(e);
 				OnConnectionLost();
 				if (reconnectOnException)
 				{
@@ -142,7 +143,7 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Исключение при вызове FiresecClient.SafeOperationCall<T>(Func<T> func)");
+				LogException(e);
 				OnConnectionLost();
 				if (reconnectOnException)
 				{
@@ -162,13 +163,25 @@ namespace FiresecClient
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Исключение при вызове FiresecClient.SafeOperationCall(Action action)");
+				LogException(e);
 				OnConnectionLost();
 				if (reconnectOnException)
 				{
 					if (Recover())
 						SafeOperationCall(action, false);
 				}
+			}
+		}
+
+		void LogException(Exception e)
+		{
+			if (e is CommunicationObjectFaultedException)
+			{
+				Logger.Error("Исключение при вызове FiresecClient.SafeOperationCall CommunicationObjectFaultedException");
+			}
+			else
+			{
+				Logger.Error(e, "Исключение при вызове FiresecClient.SafeOperationCall");
 			}
 		}
 
@@ -180,6 +193,18 @@ namespace FiresecClient
 				try
 				{
 					return FiresecService.Connect(clientCredentials, isNew);
+				}
+				catch (EndpointNotFoundException)
+				{
+					Logger.Error("Исключение при вызове FiresecClient.Connect EndpointNotFoundException");
+				}
+				catch (System.IO.PipeException)
+				{
+					Logger.Error("Исключение при вызове FiresecClient.Connect PipeException");
+				}
+				catch (SecurityNegotiationException)
+				{
+					Logger.Error("Исключение при вызове FiresecClient.Connect SecurityNegotiationException");
 				}
 				catch (Exception e)
 				{
