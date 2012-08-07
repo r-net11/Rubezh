@@ -188,6 +188,7 @@ namespace ReportsModule2.DocumentPaginatorModel
 
 		class ReportDefinition
 		{
+			//Size _pageSize = new Size(11.69 * 96, 8.27 * 96);
 			Size _pageSize = new Size(793.5987, 1122.3987);
 			public Size PageSize
 			{

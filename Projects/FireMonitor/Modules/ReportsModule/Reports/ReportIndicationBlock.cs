@@ -26,7 +26,6 @@ namespace ReportsModule.Reports
             }
             foreach (var block in IndicationBlockList)
             {
-                var stringBuilder = new StringBuilder();
                 foreach (var page in block.Pages)
                 {
                     foreach (var element in page.ElementsPage)
