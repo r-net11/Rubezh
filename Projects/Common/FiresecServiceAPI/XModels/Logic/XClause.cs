@@ -12,7 +12,13 @@ namespace XFiresecAPI
             StateType = XStateType.Fire1;
             Devices = new List<Guid>();
             Zones = new List<short>();
+
+			XDevices = new List<XDevice>();
+			XZones = new List<XZone>();
         }
+
+		public List<XDevice> XDevices { get; set; }
+		public List<XZone> XZones { get; set; }
 
         [DataMember]
         public XStateType StateType { get; set; }

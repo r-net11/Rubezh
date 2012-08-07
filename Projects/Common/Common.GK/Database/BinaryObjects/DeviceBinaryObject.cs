@@ -26,71 +26,9 @@ namespace Common.GK
 				address = (short)((Device.ShleifNo - 1) * 256 + Device.IntAddress);
 			SetAddress(address);
 
-			SetObjectOutDependencesBytes();
 			SetFormulaBytes();
 			SetPropertiesBytes();
 			InitializeAllBytes();
-			InitializeIsGK();
-		}
-
-		void InitializeIsGK()
-		{
-			var kauDevice = Device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
-			var gkDevice = Device.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
-
-			foreach (var stateLogic in Device.DeviceLogic.StateLogics)
-			{
-				foreach (var clause in stateLogic.Clauses)
-				{
-					foreach (var deviceUID in clause.Devices)
-					{
-						var clauseDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-						var cluseKauDevice = clauseDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.KAU);
-						var clauseGkDevice = clauseDevice.AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
-						if (kauDevice.UID != cluseKauDevice.UID)
-						{
-							Device.GkDatabaseParent = gkDevice;
-						}
-						if (gkDevice.UID != clauseGkDevice.UID)
-						{
-							throw (new Exception("Устройства находятся в отношении логики разных ГК"));
-						}
-					}
-
-					foreach (var zoneNo in clause.Zones)
-					{
-						var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-					}
-				}
-			}
-		}
-
-		void SetObjectOutDependencesBytes()
-		{
-			//var inputObjects = new List<short>();
-
-			//foreach (var stateLogic in Device.DeviceLogic.StateLogics)
-			//{
-			//    foreach (var clause in stateLogic.Clauses)
-			//    {
-			//        foreach (var deviceUID in clause.Devices)
-			//        {
-			//            var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			//            inputObjects.Add(device.GetDatabaseNo(DatabaseType));
-			//        }
-			//        foreach (var zoneNo in clause.Zones)
-			//        {
-			//            var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-			//            inputObjects.Add(zone.GetDatabaseNo(DatabaseType));
-			//        }
-			//    }
-			//}
-
-			//InputDependenses = new List<byte>();
-			//foreach (var inputObject in inputObjects)
-			//{
-			//    InputDependenses.AddRange(BitConverter.GetBytes(inputObject));
-			//}
 		}
 
 		void SetFormulaBytes()

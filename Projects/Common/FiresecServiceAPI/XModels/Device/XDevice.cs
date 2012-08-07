@@ -157,40 +157,31 @@ namespace XFiresecAPI
 			}
 		}
 
-		public XDevice Copy(bool fullCopy)
+		public override XBinaryInfo BinaryInfo
 		{
-			var newDevice = new XDevice()
+			get
 			{
-				DriverUID = DriverUID,
-				Driver = Driver,
-				IntAddress = IntAddress,
-				Description = Description
-			};
-
-			if (fullCopy)
-			{
-				newDevice.UID = UID;
-			}
-
-			newDevice.Properties = new List<XProperty>();
-			foreach (var property in Properties)
-			{
-				newDevice.Properties.Add(new XProperty()
+				return new XBinaryInfo()
 				{
-					Name = property.Name,
-					Value = property.Value
-				});
+					Type = "Устройство",
+					Name = Driver.ShortName,
+					Address = Address
+				};
 			}
+		}
 
-			newDevice.Children = new List<XDevice>();
-			foreach (var childDevice in Children)
+		public override string GetBinaryDescription()
+		{
+			switch (Driver.DriverType)
 			{
-				var newChildDevice = childDevice.Copy(fullCopy);
-				newChildDevice.Parent = newDevice;
-				newDevice.Children.Add(newChildDevice);
+				case XDriverType.GKIndicator:
+				case XDriverType.GKLine:
+				case XDriverType.GKRele:
+					return Description;
 			}
-
-			return newDevice;
+			if (Driver.HasAddress)
+				return Driver.ShortName + " - " + DottedAddress;
+			return Driver.ShortName;
 		}
 	}
 }

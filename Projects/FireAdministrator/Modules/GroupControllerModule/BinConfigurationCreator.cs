@@ -10,15 +10,15 @@ namespace GKModule
 	{
 		public static void WriteConfig()
 		{
-			DatabaseProcessor.Convert();
+			DatabaseManager.Convert();
 
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseManager.KauDatabases)
+			foreach (var kauDatabase in DatabaseManager.KauDatabases)
 			{
 				LoadingService.Show("Запись конфигурации в КАУ", 2 + kauDatabase.BinaryObjects.Count);
 				WriteOneConfig(kauDatabase);
 			}
 
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseManager.GkDatabases)
+			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
 				LoadingService.Show("Запись конфигурации в ГК", 2 + gkDatabase.BinaryObjects.Count);
 				WriteOneConfig(gkDatabase);

@@ -7,19 +7,21 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public class DatabaseManager
+	public static class DatabaseManager
 	{
-		public List<KauDatabase> KauDatabases { get; private set; }
-		public List<GkDatabase> GkDatabases { get; private set; }
+		public static List<KauDatabase> KauDatabases { get; private set; }
+		public static List<GkDatabase> GkDatabases { get; private set; }
 
-		public DatabaseManager()
+		public static void Convert()
 		{
+			XManager.Invalidate();
+			XManager.Prepare();
 			CreateDBs();
 			KauDatabases.ForEach(x => x.BuildObjects());
 			GkDatabases.ForEach(x => x.BuildObjects());
 		}
 
-		void CreateDBs()
+		static void CreateDBs()
 		{
 			GkDatabases = new List<GkDatabase>();
 			KauDatabases = new List<KauDatabase>();

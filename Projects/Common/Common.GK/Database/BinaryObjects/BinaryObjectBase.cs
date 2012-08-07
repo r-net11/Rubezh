@@ -32,7 +32,6 @@ namespace Common.GK
 
 		public BinaryObjectBase()
 		{
-			Description = new List<byte>();
 		}
 
 		protected void SetAddress(short address)
@@ -40,29 +39,31 @@ namespace Common.GK
 			PhysicalAdress = address;
 			Address = new List<byte>();
 
-			if (DatabaseType == DatabaseType.Gk)
+			switch (DatabaseType)
 			{
-				var binaryBase = BinaryBase;
+				case DatabaseType.Gk:
+					var binaryBase = BinaryBase;
 
-				if (binaryBase.KauDatabaseParent != null)
-				{
-					short lineNo = XManager.GetKauLine(binaryBase.KauDatabaseParent);
-					byte intAddress = binaryBase.KauDatabaseParent.IntAddress;
-					ControllerAdress = (short)(lineNo * 256 + intAddress);
-					AdressOnController = binaryBase.GetDatabaseNo(DatabaseType.Kau);
-				}
-				else
-				{
-					ControllerAdress = 0x200;
-					AdressOnController = binaryBase.GetDatabaseNo(DatabaseType.Gk);
-				}
-				Address.AddRange(BytesHelper.ShortToBytes(ControllerAdress));
-				Address.AddRange(BytesHelper.ShortToBytes(AdressOnController));
-				Address.AddRange(BytesHelper.ShortToBytes(PhysicalAdress));
-			}
-			else
-			{
-				Address.AddRange(BytesHelper.ShortToBytes(PhysicalAdress));
+					if (binaryBase.KauDatabaseParent != null)
+					{
+						short lineNo = XManager.GetKauLine(binaryBase.KauDatabaseParent);
+						byte intAddress = binaryBase.KauDatabaseParent.IntAddress;
+						ControllerAdress = (short)(lineNo * 256 + intAddress);
+						AdressOnController = binaryBase.GetDatabaseNo(DatabaseType.Kau);
+					}
+					else
+					{
+						ControllerAdress = 0x200;
+						AdressOnController = binaryBase.GetDatabaseNo(DatabaseType.Gk);
+					}
+					Address.AddRange(BytesHelper.ShortToBytes(ControllerAdress));
+					Address.AddRange(BytesHelper.ShortToBytes(AdressOnController));
+					Address.AddRange(BytesHelper.ShortToBytes(PhysicalAdress));
+					break;
+
+				case DatabaseType.Kau:
+					Address.AddRange(BytesHelper.ShortToBytes(PhysicalAdress));
+					break;
 			}
 		}
 
@@ -73,56 +74,36 @@ namespace Common.GK
 			InputDependenses = new List<byte>();
 			OutputDependenses = new List<byte>();
 
-			foreach (var device in binaryBase.InputDevices)
+			foreach (var inputBinaryBase in binaryBase.InputObjects)
 			{
-				var no = device.GetDatabaseNo(DatabaseType);
+				var no = inputBinaryBase.GetDatabaseNo(DatabaseType);
 				InputDependenses.AddRange(BitConverter.GetBytes(no));
 			}
-			foreach (var device in binaryBase.OutputDevices)
+			foreach (var outputBinaryBase in binaryBase.OutputObjects)
 			{
-				var no = device.GetDatabaseNo(DatabaseType);
-				OutputDependenses.AddRange(BitConverter.GetBytes(no));
-			}
-			foreach (var zone in binaryBase.InputZones)
-			{
-				var no = zone.GetDatabaseNo(DatabaseType);
-				InputDependenses.AddRange(BitConverter.GetBytes(no));
-			}
-			foreach (var zone in binaryBase.OutputZones)
-			{
-				var no = zone.GetDatabaseNo(DatabaseType);
+				var no = outputBinaryBase.GetDatabaseNo(DatabaseType);
 				OutputDependenses.AddRange(BitConverter.GetBytes(no));
 			}
 		}
 
-		public void InitializeAllBytes()
+		public void InitializeDescription()
 		{
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-					if (Device != null)
-					{
-						Description = BytesHelper.StringDescriptionToBytes(Device.ShortPresentationAddressAndDriver);
-					}
-					if (Zone != null)
-					{
-						Description = BytesHelper.StringDescriptionToBytes("Зона " + Zone.No.ToString() + " - " + Zone.Name);
-					}
+					Description = BytesHelper.StringDescriptionToBytes(BinaryBase.GetBinaryDescription());
 					break;
 
 				case DatabaseType.Kau:
 					Description = new List<byte>();
 					break;
 			}
+		}
 
-			InitializeInputOutputDependences();
-
-			InputDependensesCount = BytesHelper.ShortToBytes((short)(InputDependenses.Count / 2));
-			OutputDependensesCount = BytesHelper.ShortToBytes((short)(OutputDependenses.Count / 2));
-			ParametersCount = BytesHelper.ShortToBytes((short)(Parameters.Count / 4));
-
+		public void InitializeOffset()
+		{
 			int offsetToParameters = 0;
-			switch(DatabaseType)
+			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
 					offsetToParameters = 2 + 6 + 32 + 2 + 2 + InputDependenses.Count + 2 + OutputDependenses.Count + Formula.Count;
@@ -133,6 +114,18 @@ namespace Common.GK
 					break;
 			}
 			Offset = BytesHelper.ShortToBytes((short)offsetToParameters);
+		}
+
+		public void InitializeAllBytes()
+		{
+			InitializeDescription();
+			InitializeInputOutputDependences();
+
+			InputDependensesCount = BytesHelper.ShortToBytes((short)(InputDependenses.Count / 2));
+			OutputDependensesCount = BytesHelper.ShortToBytes((short)(OutputDependenses.Count / 2));
+			ParametersCount = BytesHelper.ShortToBytes((short)(Parameters.Count / 4));
+
+			InitializeOffset();
 
 			AllBytes = new List<byte>();
 			AllBytes.AddRange(DeviceType);
@@ -162,6 +155,9 @@ namespace Common.GK
 
 					case ObjectType.Zone:
 						return Zone;
+
+					case ObjectType.Direction:
+						return Direction;
 				}
 				return null;
 			}

@@ -46,7 +46,6 @@ namespace Common.GK
 					AddDevice(device);
 				}
 			}
-
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
 				if ((device.Parent == null) || (device.Parent.Driver.DriverType == XDriverType.GK))
@@ -57,7 +56,6 @@ namespace Common.GK
 					AddDevice(device);
 				}
 			}
-
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
 				if (zone.GkDatabaseParent == gkDevice)
@@ -82,10 +80,17 @@ namespace Common.GK
 				var zoneBinaryObject = new ZoneBinaryObject(zone, DatabaseType);
 				BinaryObjects.Add(zoneBinaryObject);
 			}
-			foreach (var direction in Directions)
+
+			foreach (var direction in XManager.DeviceConfiguration.Directions)
 			{
-				var directionBinaryObject = new DirectionBinaryObject(direction, DatabaseType);
-				BinaryObjects.Add(directionBinaryObject);
+				if (direction.GkDatabaseParent == RootDevice)
+				{
+					direction.SetDatabaseNo(DatabaseType, NextChildNo);
+					Directions.Add(direction);
+
+					var directionBinaryObject = new DirectionBinaryObject(direction, DatabaseType);
+					BinaryObjects.Add(directionBinaryObject);
+				}
 			}
 		}
 

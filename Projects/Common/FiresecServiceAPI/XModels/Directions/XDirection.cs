@@ -13,7 +13,11 @@ namespace XFiresecAPI
 		{
 			Zones = new List<int>();
 			DirectionDevices = new List<DirectionDevice>();
+			XZones = new List<XZone>();
+			Regime = 1;
 		}
+
+		public List<XZone> XZones { get; set; }
 
 		[DataMember]
 		public short No { get; set; }
@@ -25,6 +29,15 @@ namespace XFiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
+		public short Delay { get; set; }
+
+		[DataMember]
+		public short Hold { get; set; }
+
+		[DataMember]
+		public short Regime { get; set; }
+
+		[DataMember]
 		public List<int> Zones { get; set; }
 
 		[DataMember]
@@ -33,6 +46,24 @@ namespace XFiresecAPI
 		public string PresentationName
 		{
 			get { return Name + " - " + No.ToString(); }
+		}
+
+		public override XBinaryInfo BinaryInfo
+		{
+			get
+			{
+				return new XBinaryInfo()
+				{
+					Type = "Направление",
+					Name = Name,
+					Address = No.ToString()
+				};
+			}
+		}
+
+		public override string GetBinaryDescription()
+		{
+			return Name + " - " + No.ToString();
 		}
 	}
 }

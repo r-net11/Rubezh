@@ -123,7 +123,7 @@ namespace GKModule.ViewModels
 
                 for (byte i = 0; i < xDevice.Driver.AutoChildCount; i++)
                 {
-                    var autoDevice = xDevice.AddChild(driver, xDevice.ShleifNo, (byte)(xDevice.IntAddress + i));
+                    var autoDevice = XManager.AddChild(xDevice, driver, xDevice.ShleifNo, (byte)(xDevice.IntAddress + i));
                     AddDevice(autoDevice, deviceViewModel);
                 }
             }

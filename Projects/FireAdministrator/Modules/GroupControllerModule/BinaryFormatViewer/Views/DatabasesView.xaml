@@ -29,13 +29,13 @@
 
             <DataGrid Grid.Column="0" ItemsSource="{Binding BinaryObjects}" SelectedItem="{Binding SelectedBinaryObject}" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Устройство" MinWidth="150">
+                    <DataGridTemplateColumn Header="Объект" MinWidth="150">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Text="{Binding Name}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
-                                    <TextBlock Text="{Binding Address}" HorizontalAlignment="Stretch" Margin="5, 0, 0, 0" />
+                                    <TextBlock Text="{Binding BinaryObject.BinaryBase.BinaryInfo.Name}" HorizontalAlignment="Stretch" Margin="5, 0, 5, 0" />
+                                    <TextBlock Text="{Binding BinaryObject.BinaryBase.BinaryInfo.Address}" HorizontalAlignment="Stretch" Margin="5, 0, 0, 0" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -45,6 +45,7 @@
                     <DataGridTextColumn Header="Адрес контроллера" Binding="{Binding BinaryObject.ControllerAdress, Converter={StaticResource DescriptorNoToStringConverter}}" />
                     <DataGridTextColumn Header="Адрес на контроллере" Binding="{Binding BinaryObject.AdressOnController, Converter={StaticResource DescriptorNoToStringConverter}}" />
                     <DataGridTextColumn Header="Физический адрес" Binding="{Binding BinaryObject.PhysicalAdress}" />
+                    <DataGridTextColumn Header="Описание" Binding="{Binding Description}" />
                 </DataGrid.Columns>
             </DataGrid>
 
@@ -136,59 +137,23 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
-                        <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding BinaryBase.InputDevices}" Margin="2">
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Входные объекты" HorizontalAlignment="Left" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="Выходные объекты" HorizontalAlignment="Left" />
+                        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding BinaryBase.InputObjects}" Margin="2">
                             <DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Входные устройства" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Address}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding BinaryInfo.Type}" />
+                                <DataGridTextColumn Header="Название" Binding="{Binding BinaryInfo.Name}" Width="*" />
+                                <DataGridTextColumn Header="Номер" Binding="{Binding BinaryInfo.No}" />
                             </DataGrid.Columns>
                         </DataGrid>
-                        <DataGrid Grid.Row="1" Grid.Column="0" ItemsSource="{Binding BinaryBase.InputZones}" Margin="2">
+                        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding BinaryBase.OutputObjects}" Margin="2">
                             <DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Входные зоны" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding No}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding BinaryBase.OutputDevices}" Margin="2">
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Выходные устройства" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Address}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <DataGrid Grid.Row="1" Grid.Column="1" ItemsSource="{Binding BinaryBase.OutputZones}" Margin="2">
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn Header="Выходные зоны" Width="*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <TextBlock Text="{Binding No}" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Тип" Binding="{Binding BinaryInfo.Type}" />
+                                <DataGridTextColumn Header="Название" Binding="{Binding BinaryInfo.Name}" Width="*" />
+                                <DataGridTextColumn Header="Номер" Binding="{Binding BinaryInfo.No}" />
                             </DataGrid.Columns>
                         </DataGrid>
                     </Grid>

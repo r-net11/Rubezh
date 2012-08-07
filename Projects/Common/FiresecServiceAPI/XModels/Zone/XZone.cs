@@ -34,5 +34,23 @@ namespace XFiresecAPI
 		{
 			get { return No + "." + Name; }
 		}
+
+		public override XBinaryInfo BinaryInfo
+		{
+			get
+			{
+				return new XBinaryInfo()
+				{
+					Type = "Зона",
+					Name = Name,
+					Address = No.ToString()
+				};
+			}
+		}
+
+		public override string GetBinaryDescription()
+		{
+			return Name + " - " + No.ToString();
+		}
 	}
 }

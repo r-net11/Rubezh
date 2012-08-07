@@ -11,16 +11,10 @@ namespace GKModule
 	{
 		public static void Run()
 		{
-			DatabaseProcessor.Convert();
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseManager.GkDatabases)
+			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
 				GetStatesFromDB(gkDatabase);
 			}
-
-			//foreach (var kauDatabase in DatabaseProcessor.DatabaseCollection.KauDatabases)
-			//{
-			//    GetStatesFromDB(kauDatabase);
-			//}
 		}
 
 		static void GetStatesFromDB(CommonDatabase commonDatabase)

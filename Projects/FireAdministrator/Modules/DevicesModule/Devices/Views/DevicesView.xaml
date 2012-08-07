@@ -22,11 +22,11 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" Name="topRow" MinHeight="200" />
+            <RowDefinition Height="*" MinHeight="200" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="100" MinHeight="100" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Name="_grid1">
+        <Grid Grid.Row="0">
             <DataGrid Name="_devicesDataGrid" Focusable="True" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="False"
                     VirtualizingStackPanel.IsVirtualizing="False">
                 <DataGrid.Columns>

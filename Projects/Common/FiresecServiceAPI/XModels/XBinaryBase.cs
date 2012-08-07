@@ -4,12 +4,10 @@ using System.Runtime.Serialization;
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XBinaryBase
+	public abstract class XBinaryBase
 	{
-		public List<XDevice> InputDevices { get; set; }
-		public List<XDevice> OutputDevices { get; set; }
-		public List<XZone> InputZones { get; set; }
-		public List<XZone> OutputZones { get; set; }
+		public List<XBinaryBase> InputObjects { get; set; }
+		public List<XBinaryBase> OutputObjects { get; set; }
 
 		public XDevice KauDatabaseParent { get; set; }
 		public XDevice GkDatabaseParent { get; set; }
@@ -19,10 +17,8 @@ namespace XFiresecAPI
 
 		public void ClearBinaryData()
 		{
-			InputDevices = new List<XDevice>();
-			OutputDevices = new List<XDevice>();
-			InputZones = new List<XZone>();
-			OutputZones = new List<XZone>();
+			InputObjects = new List<XBinaryBase>();
+			OutputObjects = new List<XBinaryBase>();
 		}
 
 		public short GetDatabaseNo(DatabaseType databaseType)
@@ -51,5 +47,8 @@ namespace XFiresecAPI
 					break;
 			}
 		}
+
+		public abstract XBinaryInfo BinaryInfo { get; }
+		public abstract string GetBinaryDescription();
 	}
 }

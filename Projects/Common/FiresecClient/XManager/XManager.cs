@@ -74,10 +74,6 @@ namespace FiresecClient
 			}
 		}
 
-		public static void Invalidate()
-		{
-		}
-
 		public static short GetKauLine(XDevice device)
 		{
 			if (device.Driver.DriverType != XDriverType.KAU)
