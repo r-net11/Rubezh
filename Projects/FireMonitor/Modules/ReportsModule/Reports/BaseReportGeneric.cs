@@ -20,9 +20,9 @@ namespace ReportsModule.Reports
 		{
 			reportDocument.FileName = FileHelper.GetReportFilePath(ReportFileName);
 			reportDocument.SetDataSource(DataList);
-		}
+		}		
 
-		public static DataTable ListToDataTable<D>(List<D> list)
+		public DataTable ListToDataTable<D>(List<D> list)
 		{
 			DataTable dt = new DataTable();
 

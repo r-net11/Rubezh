@@ -36,6 +36,10 @@
                         ElementPath="//configuration/modules" On="install"
                         VerifyPath="//configuration/modules/module[\[]@assemblyFile='OPCModule.dll'[\]]"
 											/>
+        <util:XmlConfig Id="XmlFSSettingsOPC" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="delete" Node="element"
+                        ElementPath="//configuration/modules" On="install"
+                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='OPCModule.dll'[\]]"
+											/>
         <Condition>NOT OPC_MODULE</Condition>
       </Component>
       <Component Id="DeleteSKUDXMLSetting" Guid="CDBA5061-EB0B-41A5-8B50-926984D7F879">

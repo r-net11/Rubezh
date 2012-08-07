@@ -65,76 +65,9 @@ namespace ReportsModule2.Reports
 			}
 			StartDate = ReportArchiveFilter.StartDate;
 			EndDate = ReportArchiveFilter.EndDate;
-			//LoadDataTable();
 		}
 
-		void LoadDataTable()
-		{
-			DTable = new Table();
-			int numberOfColumns = 7;
-			for (int i = 0; i < numberOfColumns; i++)
-			{
-				DTable.Columns.Add(new TableColumn());
-			}
-
-			DTable.BorderBrush = Brushes.White;
-			DTable.BorderThickness = new Thickness(1);
-			DTable.CellSpacing = 0.1;
-			DTable.RowGroups.Add(new TableRowGroup());
-			DTable.RowGroups[0].Rows.Add(new TableRow());
-			var currentRow = DTable.RowGroups[0].Rows[0];
-			currentRow.Background = Brushes.Silver;
-			currentRow.FontSize = 14;
-			currentRow.FontWeight = FontWeights.Bold;
-			currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Время устройства"))));
-			currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Системное время"))));
-			currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Зона"))));
-			currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Событие"))));
-			currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Устройство датчик"))));
-			currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Устройство"))));
-			currentRow.Cells.Add(new TableCell(new Paragraph(new Run("Пользователь"))));
-
-			DTable.RowGroups.Add(new TableRowGroup());
-			DTable.RowGroups[1].FontSize = 12;
-			DTable.RowGroups[1].FontWeight = FontWeights.Normal;
-			DTable.RowGroups[1].Background = Brushes.White;
-			int rowNumber = 0;
-			foreach (var journalModel in DataList)
-			{
-				DTable.RowGroups[1].Rows.Add(new TableRow());
-				currentRow = DTable.RowGroups[1].Rows[rowNumber];
-				currentRow.Cells.Add(new TableCell(new Paragraph(new Run(journalModel.DeviceTime))) { BorderBrush = Brushes.Black, BorderThickness = new Thickness(1) });
-				currentRow.Cells.Add(new TableCell(new Paragraph(new Run(journalModel.SystemTime))) { BorderBrush = Brushes.Black, BorderThickness = new Thickness(1) });
-				currentRow.Cells.Add(new TableCell(new Paragraph(new Run(journalModel.ZoneName))) { BorderBrush = Brushes.Black, BorderThickness = new Thickness(1) });
-				currentRow.Cells.Add(new TableCell(new Paragraph(new Run(journalModel.Description))) { BorderBrush = Brushes.Black, BorderThickness = new Thickness(1) });
-				currentRow.Cells.Add(new TableCell(new Paragraph(new Run(journalModel.Device))) { BorderBrush = Brushes.Black, BorderThickness = new Thickness(1) });
-				currentRow.Cells.Add(new TableCell(new Paragraph(new Run(journalModel.Panel))) { BorderBrush = Brushes.Black, BorderThickness = new Thickness(1) });
-				currentRow.Cells.Add(new TableCell(new Paragraph(new Run(journalModel.User))) { BorderBrush = Brushes.Black, BorderThickness = new Thickness(1) });
-				rowNumber++;
-			}
-
-		}
-
-		void LoadDataTable2()
-		{
-			base.ListToDataTable();
-		}
-
-		public void CreateXpsDocument()
-		{
-			var flowDocument = new FlowDocument();
-			flowDocument.Blocks.Add(DTable);
-			ConvertFlowToXPS.SaveFlowAsXpsInFile(flowDocument);
-		}
-
-		public void SaveFlowDocumentToTxt()
-		{
-			var flowDocument = new FlowDocument();
-			flowDocument.Blocks.Add(DTable);
-			ConvertFlowToXPS.SaveFlowAsString(flowDocument);
-		}
-
-		public void CreateFlowDocumentStringBuilder()
+		public override void CreateFlowDocumentStringBuilder()
 		{
 			var flowDocumentSB = new StringBuilder();
 			flowDocumentSB.Append(@"<FlowDocument xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">");

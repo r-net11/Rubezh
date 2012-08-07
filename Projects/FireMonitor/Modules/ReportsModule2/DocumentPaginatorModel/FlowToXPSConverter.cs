@@ -17,37 +17,6 @@ namespace ReportsModule2.DocumentPaginatorModel
 
 		}
 
-		//public static int SaveAsXps(string fileName)
-		//{
-		//    object doc;
-		//    FileInfo fileInfo = new FileInfo(fileName);
-		//    using (FileStream file = fileInfo.OpenRead())
-		//    {
-		//        System.Windows.Markup.ParserContext context = new System.Windows.Markup.ParserContext();
-		//        context.BaseUri = new Uri(fileInfo.FullName, UriKind.Absolute);
-		//        doc = System.Windows.Markup.XamlReader.Load(file, context);
-		//    }
-		//    if (!(doc is IDocumentPaginatorSource))
-		//    {
-		//        Console.WriteLine("DocumentPaginatorSource expected");
-		//        return -1;
-		//    }
-
-		//    using (Package container = Package.Open(fileName + ".xps", FileMode.Create))
-		//    {
-		//        using (XpsDocument xpsDoc = new XpsDocument(container, CompressionOption.Maximum))
-		//        {
-		//            XpsSerializationManager rsm = new XpsSerializationManager(new XpsPackagingPolicy(xpsDoc), false);
-		//            DocumentPaginator paginator = ((IDocumentPaginatorSource)doc).DocumentPaginator;
-		//            paginator = new DocumentPaginatorWrapper(paginator, new Size(768, 676), new Size(48, 48));
-		//            rsm.SaveAsXaml(paginator);
-		//        }
-		//    }
-		//    Console.WriteLine("{0} generated.", fileName + ".xps");
-		//    return 0;
-
-		//}
-
 		public static XpsDocument CreateXpsDocumentFromString(string xamlFlowDoc)
 		{
 			object doc;
