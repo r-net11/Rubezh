@@ -18,13 +18,8 @@ namespace Common.GK
 		{
 			DeviceType = BytesHelper.ShortToBytes((short)0x100);
 			SetAddress((short)0);
-
-			InputDependenses = new List<byte>();
-			OutputDependenses = new List<byte>();
 			Parameters = new List<byte>();
-
 			SetFormulaBytes();
-
 			InitializeAllBytes();
 		}
 

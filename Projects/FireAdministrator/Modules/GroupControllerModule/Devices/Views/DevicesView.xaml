@@ -25,25 +25,25 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="False"
-                      VirtualizingStackPanel.IsVirtualizing="True">
+                    VirtualizingStackPanel.IsVirtualizing="True">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Header="Тип Устройства" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}"
-                                            ContextMenu="{StaticResource DeviceContextMenu}">
+                                        ContextMenu="{StaticResource DeviceContextMenu}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
                                         Visibility="{Binding Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" />
+                                    <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Width="200" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}"
-                                            ContextMenu="{StaticResource DeviceContextMenu}">
+                                        ContextMenu="{StaticResource DeviceContextMenu}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"

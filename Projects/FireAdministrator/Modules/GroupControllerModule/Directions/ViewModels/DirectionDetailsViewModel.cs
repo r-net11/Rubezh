@@ -38,6 +38,9 @@ namespace GKModule.ViewModels
         {
 			Name = XDirection.Name;
 			No = XDirection.No;
+			Delay = XDirection.Delay;
+			Hold = XDirection.Hold;
+			Regime = XDirection.Regime;
 			Description = XDirection.Description;
         }
 
@@ -63,6 +66,39 @@ namespace GKModule.ViewModels
             }
         }
 
+		short _delay;
+		public short Delay
+		{
+			get { return _delay; }
+			set
+			{
+				_delay = value;
+				OnPropertyChanged("Delay");
+			}
+		}
+
+		short _hold;
+		public short Hold
+		{
+			get { return _hold; }
+			set
+			{
+				_hold = value;
+				OnPropertyChanged("Hold");
+			}
+		}
+
+		short _regime;
+		public short Regime
+		{
+			get { return _regime; }
+			set
+			{
+				_regime = value;
+				OnPropertyChanged("Regime");
+			}
+		}
+
         string _description;
         public string Description
         {
@@ -84,6 +120,9 @@ namespace GKModule.ViewModels
 
 			XDirection.Name = Name;
 			XDirection.No = No;
+			XDirection.Delay = Delay;
+			XDirection.Hold = Hold;
+			XDirection.Regime = Regime;
 			XDirection.Description = Description;
 			DirectionDevicesViewModel.Save();
 			return base.Save();

@@ -12,11 +12,11 @@ namespace GKModule.ViewModels
 			Title = "Бинарный формат конфигурации";
 
 			Databases = new List<CommonDatabase>();
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseManager.GkDatabases)
+			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
 				Databases.Add(gkDatabase);
 			}
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseManager.KauDatabases)
+			foreach (var kauDatabase in DatabaseManager.KauDatabases)
 			{
 				Databases.Add(kauDatabase);
 			}

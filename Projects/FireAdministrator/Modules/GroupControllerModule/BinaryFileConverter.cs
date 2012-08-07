@@ -10,18 +10,18 @@ namespace GKModule
 {
 	public static class BinaryFileConverter
 	{
-		public static void Convert3()
+		public static void Convert()
 		{
-			DatabaseProcessor.Convert();
+			DatabaseManager.Convert();
 
 			var stringBuilder = new StringBuilder();
 			stringBuilder.AppendLine("<congig>");
 
-			var gkDatabase = DatabaseProcessor.DatabaseManager.GkDatabases.First();
+			var gkDatabase = DatabaseManager.GkDatabases.First();
 			SaveToFile(gkDatabase, @"D:\GKConfig\GK.GKBIN");
 			stringBuilder.AppendLine("<gk name=\"GK.GKBIN\" description=\"описание ГК\"/>");
 
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseManager.KauDatabases)
+			foreach (var kauDatabase in DatabaseManager.KauDatabases)
 			{
 				var kauDevice = kauDatabase.Devices[0];
 				short lineNo = XManager.GetKauLine(kauDevice);
@@ -66,8 +66,8 @@ namespace GKModule
 
 		public static void CreateListOfFilesForGk()
 		{
-			DatabaseProcessor.Convert();
-			var gkDatabase = DatabaseProcessor.DatabaseManager.GkDatabases.First();
+			DatabaseManager.Convert();
+			var gkDatabase = DatabaseManager.GkDatabases.First();
 
 			foreach (var binaryObject in gkDatabase.BinaryObjects)
 			{
@@ -88,12 +88,7 @@ namespace GKModule
 			resultBytes.AddRange(BytesHelper.ShortToBytes((short)(binaryObject.GetNo())));
 			resultBytes.Add(1);
 			resultBytes.AddRange(BytesHelper.ShortToBytes((short)bytes.Count));
-
-			if (binaryObject.Device != null)
-				resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Устройство " + binaryObject.Device.Driver.DriverType.ToString(), 33));
-			if (binaryObject.Zone != null)
-				resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Зона " + binaryObject.Device.Driver.DriverType.ToString(), 33));
-
+			resultBytes.AddRange(BytesHelper.StringDescriptionToBytes(binaryObject.BinaryBase.GetBinaryDescription(), 33));
 			resultBytes.AddRange(bytes);
 			var resultButesCount = resultBytes.Count;
 			for (int i = 0; i < 256 - resultButesCount; i++)

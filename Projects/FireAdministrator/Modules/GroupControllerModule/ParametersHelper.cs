@@ -11,14 +11,10 @@ namespace GKModule
 	{
 		public static void GetParameters()
 		{
-			DatabaseProcessor.Convert();
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseManager.GkDatabases)
+			DatabaseManager.Convert();
+			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
 				GetParametersFromDB(gkDatabase);
-			}
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseManager.KauDatabases)
-			{
-				GetParametersFromDB(kauDatabase);
 			}
 			ServiceFactory.SaveService.XDevicesChanged = true;
 		}
@@ -72,13 +68,13 @@ namespace GKModule
 
 		public static void SetParameters()
 		{
-			DatabaseProcessor.Convert();
+			DatabaseManager.Convert();
 
-			foreach (var gkDatabase in DatabaseProcessor.DatabaseManager.GkDatabases)
+			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
 				SetParametersToDB(gkDatabase);
 			}
-			foreach (var kauDatabase in DatabaseProcessor.DatabaseManager.KauDatabases)
+			foreach (var kauDatabase in DatabaseManager.KauDatabases)
 			{
 				SetParametersToDB(kauDatabase);
 			}

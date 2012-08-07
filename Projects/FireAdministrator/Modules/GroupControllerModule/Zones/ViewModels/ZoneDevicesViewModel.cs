@@ -30,8 +30,10 @@ namespace GKModule.ViewModels
 
             foreach (var device in XManager.DeviceConfiguration.Devices)
             {
+				if (!CanBeInZone(device.Driver))
+					continue;
+
                 if (Zone.DeviceUIDs.Contains(device.UID))
-                //if (device.Zones.Contains(Zone.No))
                 {
                     device.AllParents.ForEach(x => { devices.Add(x); });
                     devices.Add(device);
@@ -65,11 +67,18 @@ namespace GKModule.ViewModels
             AvailableDevices.Clear();
             foreach (var device in availableDevices)
             {
+				if ((device.Driver.DriverType == XDriverType.GKIndicator) ||
+					(device.Driver.DriverType == XDriverType.GKLine) ||
+					(device.Driver.DriverType == XDriverType.GKRele) ||
+					(device.Driver.DriverType == XDriverType.KAUIndicator))
+					continue;
+
                 var deviceViewModel = new DeviceViewModel(device, AvailableDevices)
                 {
                     IsExpanded = true,
-                    IsBold = device.Driver.IsDeviceOnShleif
+					IsBold = CanBeInZone(device.Driver)
                 };
+
                 AvailableDevices.Add(deviceViewModel);
             }
 
@@ -127,7 +136,7 @@ namespace GKModule.ViewModels
 
         public bool CanAdd()
         {
-            return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.Driver.IsDeviceOnShleif));
+			return ((SelectedAvailableDevice != null) && (CanBeInZone(SelectedAvailableDevice.Driver)));
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -146,7 +155,7 @@ namespace GKModule.ViewModels
 
         public bool CanRemove()
         {
-            return ((SelectedDevice != null) && (SelectedDevice.Driver.IsDeviceOnShleif));
+            return ((SelectedDevice != null) && (CanBeInZone(SelectedDevice.Driver)));
         }
 
         public RelayCommand RemoveCommand { get; private set; }
@@ -159,5 +168,14 @@ namespace GKModule.ViewModels
             UpdateAvailableDevices();
             ServiceFactory.SaveService.XDevicesChanged = true;
         }
+
+		bool CanBeInZone(XDriver driver)
+		{
+			if (driver.IsDeviceOnShleif == false)
+				return false;
+			if (driver.AutoChildCount > 0)
+				return false;
+			return true;
+		}
     }
 }

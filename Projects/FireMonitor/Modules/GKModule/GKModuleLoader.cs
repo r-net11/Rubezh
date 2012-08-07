@@ -54,7 +54,7 @@ namespace GKModule
 			XManager.DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
 			XManager.UpdateConfiguration();
 			XManager.CreateStates();
-			DatabaseProcessor.Convert();
+			DatabaseManager.Convert();
 
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();

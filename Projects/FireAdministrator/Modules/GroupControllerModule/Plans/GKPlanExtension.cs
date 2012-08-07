@@ -38,7 +38,7 @@ namespace GKModule.Plans
 			get { return "ГК"; }
 		}
 
-		public object TabPage 
+		public object TabPage
 		{
 			get { return _xdevicesViewModel; }
 		}

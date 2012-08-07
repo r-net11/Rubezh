@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Microsoft.Win32;
 
 namespace GKModule.Models
 {
@@ -52,8 +53,7 @@ namespace GKModule.Models
 		public RelayCommand ConvertToBinCommand { get; private set; }
 		void OnConvertToBin()
 		{
-			DatabaseProcessor.Convert();
-
+			DatabaseManager.Convert();
 			var deviceConverterViewModel = new DatabasesViewModel();
 			DialogService.ShowModalWindow(deviceConverterViewModel);
 		}
@@ -111,9 +111,16 @@ namespace GKModule.Models
 		public RelayCommand ConvertToBinaryFileCommand { get; private set; }
 		void OnConvertToBinaryFile()
 		{
+			var saveDialog = new SaveFileDialog();
+			if (saveDialog.ShowDialog().Value)
+			{
+				var x = saveDialog.FileName;
+			}
+			return;
+
 			Directory.Delete(@"D:\GKConfig", true);
 			Directory.CreateDirectory(@"D:\GKConfig");
-			BinaryFileConverter.Convert3();
+			BinaryFileConverter.Convert();
 		}
 
 		public RelayCommand GetParametersCommand { get; private set; }

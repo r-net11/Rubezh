@@ -23,7 +23,7 @@
                 </MenuItem.Header>
 
                 <MenuItem Command="{Binding ConvertFromFiresecCommand}" Header="Конвертировать в из формата Рубеж-2АМ" />
-                <MenuItem Command="{Binding ConvertToBinaryFileCommand}" Header="Сохранить в бинарный файл" />
+                <MenuItem Command="{Binding ConvertToBinaryFileCommand}" Header="Сохранить в бинарный файл" Visibility="Collapsed" />
                 <MenuItem Command="{Binding ConvertToBinCommand}" Header="Посмотреть бинарную конфигурацию" />
                 <Separator />
                 <MenuItem Command="{Binding ControlTimeCommand}" Header="Время" />

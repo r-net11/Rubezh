@@ -54,7 +54,6 @@
     <Compile Include="Database\BinaryObjects\DirectionBinaryObject.cs" />
     <Compile Include="Database\BinaryObjects\ObjectType.cs" />
     <Compile Include="Database\BinaryObjects\ZoneBinaryObject.cs" />
-    <Compile Include="Database\DatabaseProcessor.cs" />
     <Compile Include="Database\KauChildrenHelper.cs" />
     <Compile Include="Drivers\GKDriversConverter.cs" />
     <Compile Include="Drivers\GKDriversHelper.cs" />

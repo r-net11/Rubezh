@@ -11,23 +11,22 @@ namespace GKModule.ViewModels
 		public BinaryObjectViewModel(BinaryObjectBase binaryObject)
 		{
 			BinaryObject = binaryObject;
-			if (binaryObject.Device != null)
+			Description = binaryObject.BinaryBase.GetBinaryDescription();
+			switch (binaryObject.ObjectType)
 			{
-				Name = binaryObject.Device.Driver.ShortName;
-				Address = binaryObject.Device.DottedAddress;
-				ImageSource = binaryObject.Device.Driver.ImageSource;
-			}
-			if (binaryObject.Zone != null)
-			{
-				Name = binaryObject.Zone.Name;
-				Address = binaryObject.Zone.No.ToString();
-				ImageSource = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System).ImageSource;
+				case ObjectType.Device:
+					ImageSource = binaryObject.Device.Driver.ImageSource;
+					break;
+
+				case ObjectType.Zone:
+				case ObjectType.Direction:
+					ImageSource = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System).ImageSource;
+					break;
 			}
 		}
 
 		public BinaryObjectBase BinaryObject { get; set; }
-		public string Name { get; set; }
-		public string Address { get; set; }
 		public string ImageSource { get; set; }
+		public string Description { get; set; }
 	}
 }

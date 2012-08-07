@@ -115,13 +115,13 @@ namespace GKModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			_deviceToCopy = SelectedDevice.Device.Copy(_isFullCopy = false);
+			_deviceToCopy = XManager.CopyDevice(SelectedDevice.Device, false);
 		}
 
 		public RelayCommand CutCommand { get; private set; }
 		void OnCut()
 		{
-			_deviceToCopy = SelectedDevice.Device.Copy(_isFullCopy = true);
+			_deviceToCopy = XManager.CopyDevice(SelectedDevice.Device, true);
 			SelectedDevice.RemoveCommand.Execute();
 
 			XManager.DeviceConfiguration.Update();
@@ -136,7 +136,7 @@ namespace GKModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			var pasteDevice = _deviceToCopy.Copy(_isFullCopy);
+			var pasteDevice = XManager.CopyDevice(_deviceToCopy, _isFullCopy);
 			PasteDevice(pasteDevice);
 		}
 

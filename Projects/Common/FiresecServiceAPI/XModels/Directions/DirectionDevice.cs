@@ -9,6 +9,8 @@ namespace XFiresecAPI
 	[DataContract]
 	public class DirectionDevice
 	{
+		public XDevice Device { get; set; }
+
 		[DataMember]
 		public Guid DeviceUID { get; set; }
 

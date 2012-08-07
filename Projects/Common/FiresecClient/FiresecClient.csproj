@@ -119,7 +119,6 @@
     </Compile>
     <Compile Include="CallbackAddressHelper.cs" />
     <Compile Include="Extentions\DeviceCreationExtention.cs" />
-    <Compile Include="Extentions\XDeviceCreationExtention.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="FiresecCallbackService.cs" />
     <Compile Include="FiresecCallbackServiceManager.cs" />
@@ -147,6 +146,9 @@
     <Compile Include="Validation\InstructionValidator.cs" />
     <Compile Include="Validation\DevicesValidator.cs" />
     <Compile Include="Validation\ZoneError.cs" />
+    <Compile Include="XManager\XManager.Binary.cs" />
+    <Compile Include="XManager\XManager.Configuration.cs" />
+    <Compile Include="XManager\XManager.Device.cs" />
     <Compile Include="XManager\XManager.cs" />
     <Compile Include="XManager\XManager.Disabling.cs" />
     <Compile Include="XModelsValidator\DevicesValidator.cs" />

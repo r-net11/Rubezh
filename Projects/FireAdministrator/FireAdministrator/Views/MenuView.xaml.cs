@@ -21,7 +21,6 @@ namespace FireAdministrator.Views
 		public MenuView()
 		{
 			InitializeComponent();
-			//DataContext = this;
 			DataContextChanged += new DependencyPropertyChangedEventHandler(MenuView_DataContextChanged);
 			ServiceFactory.SaveService.Changed += new Action(SaveService_Changed);
 		}
