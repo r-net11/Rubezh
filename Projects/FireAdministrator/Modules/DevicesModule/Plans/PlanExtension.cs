@@ -20,7 +20,7 @@ using System.Windows.Shapes;
 
 namespace DevicesModule.Plans
 {
-	class PlanExtension : IPlanExtension<Plan>
+	public class PlanExtension : IPlanExtension<Plan>
 	{
 		private DevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
@@ -261,6 +261,15 @@ namespace DevicesModule.Plans
 				var deviceInZoneViewModel = new DevicesInZoneViewModel(deviceInZones);
 				var result = DialogService.ShowModalWindow(deviceInZoneViewModel);
 			}
+		}
+
+		public void UpdateDevices()
+		{
+			_devicesViewModel.Update();
+		}
+		public void RemoveDevice(Device device)
+		{
+			_designerCanvas.Remove(device.PlanElementUIDs);
 		}
 	}
 }

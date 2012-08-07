@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Controls;
 using Infrustructure.Plans.Elements;
 using Microsoft.Practices.Prism.Events;
+using System;
 
 namespace Infrustructure.Plans.Designer
 {
@@ -51,5 +52,6 @@ namespace Infrustructure.Plans.Designer
 
 		public abstract void Update();
 		public abstract void CreateDesignerItem(ElementBase element);
+		public abstract void Remove(List<Guid> elementUIDs);
 	}
 }

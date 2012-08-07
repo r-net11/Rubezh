@@ -199,6 +199,7 @@ namespace DevicesModule.ViewModels
 			{
 				ServiceFactory.SaveService.DevicesChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
+				DevicesViewModel.Current.PlanExtension.UpdateDevices();
 			}
 		}
 
@@ -214,6 +215,7 @@ namespace DevicesModule.ViewModels
 			{
 				ServiceFactory.SaveService.DevicesChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
+				DevicesViewModel.Current.PlanExtension.UpdateDevices();
 			}
 		}
 
@@ -248,6 +250,8 @@ namespace DevicesModule.ViewModels
 			index = Math.Min(index, DevicesViewModel.Current.Devices.Count - 1);
 			DevicesViewModel.Current.SelectedDevice = DevicesViewModel.Current.Devices[index];
 			DevicesViewModel.Current.UpdateExternalDevices();
+			DevicesViewModel.Current.PlanExtension.UpdateDevices();
+			DevicesViewModel.Current.PlanExtension.RemoveDevice(Device);
 		}
 
 		bool CanShowProperties()
@@ -310,6 +314,7 @@ namespace DevicesModule.ViewModels
 					break;
 			}
 			OnPropertyChanged("PresentationZone");
+			DevicesViewModel.Current.UpdateExternalDevices();
 		}
 
 		public RelayCommand ShowZoneCommand { get; private set; }

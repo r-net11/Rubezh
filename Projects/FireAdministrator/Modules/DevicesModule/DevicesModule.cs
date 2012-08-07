@@ -16,10 +16,11 @@ namespace DevicesModule
 	public class DevicesModule : ModuleBase
 	{
 		private NavigationItem _guardNavigationItem;
-		DevicesViewModel _devicesViewModel;
-		ZonesViewModel _zonesViewModel;
-		DirectionsViewModel _directionsViewModel;
-		GuardViewModel _guardViewModel;
+		private DevicesViewModel _devicesViewModel;
+		private ZonesViewModel _zonesViewModel;
+		private DirectionsViewModel _directionsViewModel;
+		private GuardViewModel _guardViewModel;
+		private PlanExtension _planExtension;
 
 		public DevicesModule()
 		{
@@ -30,7 +31,8 @@ namespace DevicesModule
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
 			ServiceFactory.Events.GetEvent<EditZoneEvent>().Subscribe(OnEditZone);
 
-			_devicesViewModel = new DevicesViewModel();
+			_planExtension = new PlanExtension();
+			_devicesViewModel = new DevicesViewModel(_planExtension);
 			_zonesViewModel = new ZonesViewModel();
 			_directionsViewModel = new DirectionsViewModel();
 			_guardViewModel = new GuardViewModel();
@@ -86,7 +88,7 @@ namespace DevicesModule
 			_directionsViewModel.Initialize();
 			_guardViewModel.Initialize();
 
-			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(new PlanExtension());
+			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

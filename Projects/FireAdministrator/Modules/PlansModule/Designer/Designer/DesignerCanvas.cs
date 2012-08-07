@@ -13,6 +13,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
+using System;
 
 namespace PlansModule.Designer
 {
@@ -175,6 +176,15 @@ namespace PlansModule.Designer
 			Background = new SolidColorBrush(Plan.BackgroundColor);
 			if (Plan.BackgroundPixels != null)
 				Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
+		}
+		public override void Remove(List<Guid> elementUIDs)
+		{
+			foreach (var elementUID in elementUIDs)
+			{
+				var designerItem = Items.FirstOrDefault(x => x.Element.UID == elementUID);
+				if (designerItem != null)
+					RemoveElement(designerItem);
+			}
 		}
 
 		public List<ElementBase> CloneElements(IEnumerable<DesignerItem> designerItems)
