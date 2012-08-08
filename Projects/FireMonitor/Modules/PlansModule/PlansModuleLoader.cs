@@ -11,7 +11,8 @@ namespace PlansModule
 {
 	public class PlansModuleLoader : ModuleBase
 	{
-		PlansViewModel PlansViewModel;
+		private PlansViewModel PlansViewModel;
+		private NavigationItem _planNavigationItem;
 
 		public PlansModuleLoader()
 		{
@@ -41,14 +42,13 @@ namespace PlansModule
 
 		public override void Initialize()
 		{
+			_planNavigationItem.IsVisible = FiresecManager.PlansConfiguration.Plans.Count > 0;
 			PlansViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			var navigation = new List<NavigationItem>();
-			if (FiresecManager.PlansConfiguration.Plans.Count > 0)
-				navigation.Add(new NavigationItem<ShowPlansEvent>("Планы", "/Controls;component/Images/map.png"));
-			return navigation;
+			_planNavigationItem = new NavigationItem<ShowPlansEvent>("Планы", "/Controls;component/Images/map.png");
+			return new List<NavigationItem>() { _planNavigationItem };
 		}
 
 		public override string Name

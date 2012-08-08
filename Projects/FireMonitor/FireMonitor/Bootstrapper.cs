@@ -84,6 +84,7 @@ namespace FireMonitor
 
 		void OnConfigurationChanged()
 		{
+			ApplicationService.CloseAllWindows();
 			ServiceFactory.Layout.Close();
 
 			FiresecManager.GetConfiguration(false);

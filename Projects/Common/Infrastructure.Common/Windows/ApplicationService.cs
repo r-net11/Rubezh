@@ -1,19 +1,23 @@
-﻿using System.Threading;
+﻿using System;
+using System.ComponentModel;
+using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
-using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace Infrastructure.Common.Windows
 {
 	public static class ApplicationService
 	{
 		public static event CancelEventHandler Closing;
+
 		public static Window ApplicationWindow { get; set; }
 		public static User User { get; set; }
+		public static ILayoutService Layout { get; private set; }
+
 		public static void Run(ApplicationViewModel model)
 		{
 			WindowBaseView win = new WindowBaseView(model);
@@ -42,19 +46,26 @@ namespace Infrastructure.Common.Windows
 				Application.Current.MainWindow.Close();
 			Application.Current.Shutdown();
 		}
-		public static ILayoutService Layout { get; private set; }
 		public static void DoEvents()
 		{
 			if (Application.Current != null)
 				Application.Current.Dispatcher.Invoke(DispatcherPriority.Background, new ThreadStart(delegate { }));
 		}
-
 		public static void Invoke(Action action)
 		{
 			if (Application.Current.Dispatcher.CheckAccess())
 				action();
 			else
 				Application.Current.Dispatcher.Invoke(action);
+		}
+		public static void CloseAllWindows()
+		{
+			var windows = new List<Window>();
+			foreach (Window win in Application.Current.Windows)
+				if (win != ApplicationWindow)
+					windows.Add(win);
+			foreach (Window window in windows)
+				Invoke(() => window.Close());
 		}
 
 		private static void win_Closing(object sender, CancelEventArgs e)
