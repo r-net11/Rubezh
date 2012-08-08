@@ -5,85 +5,85 @@ using FiresecClient;
 
 namespace ReportsModule.Models
 {
-    public class ReportIndicationBlockModel
-    {
-        public string Number { get; set; }
-        public string PresentationName { get; set; }
-        public string BlockIndicationNumber { get; set; }
-        public string PageNumber { get; set; }
-    }
+	public class ReportIndicationBlockModel
+	{
+		public string Number { get; set; }
+		public string PresentationName { get; set; }
+		public string BlockIndicationNumber { get; set; }
+		public string PageNumber { get; set; }
+	}
 
-    public class IndicationBlocksList
-    {
-        protected IndicationBlocksList() { }
+	public class IndicationBlocksList
+	{
+		protected IndicationBlocksList() { }
 
-        public IndicationBlocksList(Device device)
-        {
-            if (device.Driver.DriverType != DriverType.IndicationBlock)
-                return;
+		public IndicationBlocksList(Device device)
+		{
+			if (device.Driver.DriverType != DriverType.IndicationBlock)
+				return;
 
-            IndicationBlockNumber = device.DottedAddress;
-            Pages = new List<Page>(
-                device.Children.Select(x => new Page(x))
-            );
-        }
+			IndicationBlockNumber = device.DottedAddress;
+			Pages = new List<Page>(
+				device.Children.Select(x => new Page(x))
+			);
+		}
 
-        public string IndicationBlockNumber { get; set; }
-        public List<Page> Pages { get; set; }
-    }
+		public string IndicationBlockNumber { get; set; }
+		public List<Page> Pages { get; set; }
+	}
 
-    public class Page
-    {
-        public Page(Device device)
-        {
-            PageNumber = device.IntAddress;
-            ElementsPage = new List<ElementPage>();
-            foreach (var elementPage in device.Children)
-            {
-                ElementsPage.Add(new ElementPage(
-                    elementPage.IntAddress,
-                    elementPage.IndicatorLogic.Zones,
-                    elementPage.IndicatorLogic.ToString()));
-            }
-        }
+	public class Page
+	{
+		public Page(Device device)
+		{
+			PageNumber = device.IntAddress;
+			ElementsPage = new List<ElementPage>();
+			foreach (var elementPage in device.Children)
+			{
+				ElementsPage.Add(new ElementPage(
+					elementPage.IntAddress,
+					elementPage.IndicatorLogic.Zones,
+					elementPage.IndicatorLogic.ToString()));
+			}
+		}
 
-        public int PageNumber { get; set; }
-        public List<ElementPage> ElementsPage { get; set; }
-    }
+		public int PageNumber { get; set; }
+		public List<ElementPage> ElementsPage { get; set; }
+	}
 
-    public class ElementPage
-    {
-        private ElementPage() { }
+	public class ElementPage
+	{
+		private ElementPage() { }
 
-        public ElementPage(int number, List<int> zonesNo, string presentationName)
-        {
-            No = number;
-            ZonesNo = zonesNo;
-            PresentationName = presentationName;
-        }
+		public ElementPage(int number, List<int> zonesNo, string presentationName)
+		{
+			No = number;
+			ZonesNo = zonesNo;
+			PresentationName = presentationName;
+		}
 
-        public int No { get; set; }
-        public List<int> ZonesNo { get; set; }
+		public int No { get; set; }
+		public List<int> ZonesNo { get; set; }
 
-        string _presentationName;
-        public string PresentationName
-        {
-            get
-            {
-                if (ZonesNo.Count == 1)
-                {
-                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZonesNo[0]);
-                    string presentationName = "";
-                    if (zone != null)
-                        presentationName = zone.PresentationName;
-                    return ("Зоны: " + presentationName);
-                }
-                else
-                {
-                    return _presentationName;
-                }
-            }
-            set { _presentationName = value; }
-        }
-    }
+		string _presentationName;
+		public string PresentationName
+		{
+			get
+			{
+				if (ZonesNo.Count == 1)
+				{
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == ZonesNo[0]);
+					string presentationName = "";
+					if (zone != null)
+						presentationName = zone.PresentationName;
+					return ("Зоны: " + presentationName);
+				}
+				else
+				{
+					return _presentationName;
+				}
+			}
+			set { _presentationName = value; }
+		}
+	}
 }

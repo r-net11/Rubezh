@@ -83,7 +83,7 @@ namespace DevicesModule.ViewModels
 				string presenrationZones = "";
 				for (int i = 0; i < Zones.Count; i++)
 				{
-					var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Zones[i]);
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == Zones[i]);
 					if (i > 0)
 						presenrationZones += ", ";
 					presenrationZones += zone.PresentationName;

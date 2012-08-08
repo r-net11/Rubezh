@@ -23,8 +23,8 @@ namespace DevicesModule.ViewModels
 					Name = "Новая зона",
 					No = 1
 				};
-				if (FiresecManager.DeviceConfiguration.Zones.Count != 0)
-					Zone.No = FiresecManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1;
+				if (FiresecManager.Zones.Count != 0)
+					Zone.No = FiresecManager.Zones.Select(x => x.No).Max() + 1;
 			}
 			else
 			{
@@ -197,7 +197,7 @@ namespace DevicesModule.ViewModels
 
 		protected override bool Save()
 		{
-			if (Zone.No != No && FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == No))
+			if (Zone.No != No && FiresecManager.Zones.Any(x => x.No == No))
 			{
 				MessageBoxService.Show("Зона с таким номером уже существует");
 				return false;
@@ -205,7 +205,7 @@ namespace DevicesModule.ViewModels
 
 			if (Zone.No != No)
 			{
-				foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+				foreach (var device in FiresecManager.Devices)
 				{
 					if (device.ZoneNo == Zone.No)
 						device.ZoneNo = No;

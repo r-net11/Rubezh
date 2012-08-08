@@ -300,58 +300,5 @@ namespace FiresecAPI.Models
 				return parentPart + @"\" + Parent.ConnectedTo;
 			}
 		}
-
-		public Device Copy(bool fullCopy)
-		{
-			var newDevice = new Device()
-			{
-				DriverUID = DriverUID,
-				Driver = Driver,
-				IntAddress = IntAddress,
-				Description = Description,
-				ZoneNo = ZoneNo
-			};
-
-			if (fullCopy)
-			{
-				newDevice.UID = UID;
-				newDevice.DatabaseId = DatabaseId;
-			}
-
-			if (ZoneLogic != null)
-			{
-				newDevice.ZoneLogic = new Models.ZoneLogic();
-				newDevice.ZoneLogic.JoinOperator = ZoneLogic.JoinOperator;
-				foreach (var clause in ZoneLogic.Clauses)
-				{
-					newDevice.ZoneLogic.Clauses.Add(new Clause()
-					{
-						State = clause.State,
-						Operation = clause.Operation,
-						Zones = clause.Zones.ToList()
-					});
-				}
-			}
-
-			newDevice.Properties = new List<Property>();
-			foreach (var property in Properties)
-			{
-				newDevice.Properties.Add(new Property()
-				{
-					Name = property.Name,
-					Value = property.Value
-				});
-			}
-
-			newDevice.Children = new List<Device>();
-			foreach (var childDevice in Children)
-			{
-				var newChildDevice = childDevice.Copy(fullCopy);
-				newChildDevice.Parent = newDevice;
-				newDevice.Children.Add(newChildDevice);
-			}
-
-			return newDevice;
-		}
 	}
 }

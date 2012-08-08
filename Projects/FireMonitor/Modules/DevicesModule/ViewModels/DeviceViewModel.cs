@@ -45,7 +45,7 @@ namespace DevicesModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return FiresecManager.GetPresentationZone(Device); }
+			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
 		}
 
 		void OnStateChanged()

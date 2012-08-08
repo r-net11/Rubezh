@@ -29,9 +29,9 @@ namespace JournalModule.ViewModels
 			JournalRecord = journalRecord;
 
 			if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
-				_device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+				_device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
 			else
-				_device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.PanelDatabaseId);
+				_device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.PanelDatabaseId);
 		}
 
 		public string Description
@@ -49,7 +49,7 @@ namespace JournalModule.ViewModels
 					TextRange textrange = new TextRange(richTextBox.Document.ContentStart, richTextBox.Document.ContentEnd);
 					return textrange.Text;
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					Logger.Error("JournalRecordViewModel.Description JournalRecord.Detalization = " + JournalRecord.Detalization);
 					return null;
@@ -98,7 +98,7 @@ namespace JournalModule.ViewModels
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-			var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.PresentationName == JournalRecord.ZoneName);
+			var zone = FiresecManager.Zones.FirstOrDefault(x => x.PresentationName == JournalRecord.ZoneName);
 			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(zone.No);
 		}
 

@@ -25,7 +25,7 @@ namespace DevicesModule.ViewModels
 			TargetZones = new ObservableCollection<ZoneViewModel>();
 			SourceZones = new ObservableCollection<ZoneViewModel>();
 
-			foreach (var zone in FiresecManager.GetChannelZones(device))
+			foreach (var zone in FiresecManager.FiresecConfiguration.GetChannelZones(device))
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
 

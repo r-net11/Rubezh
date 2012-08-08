@@ -22,7 +22,7 @@ namespace DevicesModule.Plans.ViewModels
 
 			Devices = new ObservableCollection<DeviceViewModel>();
 
-			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.Devices)
 			{
 				var deviceViewModel = new DeviceViewModel(device, Devices);
 				deviceViewModel.IsExpanded = true;

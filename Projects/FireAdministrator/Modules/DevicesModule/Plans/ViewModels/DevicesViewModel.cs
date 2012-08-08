@@ -54,15 +54,10 @@ namespace DevicesModule.Plans.ViewModels
 			AllDevices.Clear();
 			Devices.Clear();
 
-			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.Devices)
 			{
 				if (device.IsNotUsed)
 					continue;
-
-				if (device.Driver.DriverType == DriverType.Exit)
-				{
-					;
-				}
 
 				if (!device.Driver.IsPlaceable && device.Children.Count == 0)
 					continue;

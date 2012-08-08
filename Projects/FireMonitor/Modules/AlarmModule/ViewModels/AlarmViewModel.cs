@@ -39,7 +39,7 @@ namespace AlarmModule.ViewModels
 				switch (Alarm.AlarmEntityType)
 				{
 					case AlarmEntityType.Device:
-						var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Alarm.DeviceUID);
+						var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == Alarm.DeviceUID);
 						if (device != null)
 						{
 							return "Устройство " + device.Driver.ShortName + " " + device.DottedAddress;
@@ -47,7 +47,7 @@ namespace AlarmModule.ViewModels
 						break;
 
 					case AlarmEntityType.Zone:
-						var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Alarm.ZoneNo);
+						var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == Alarm.ZoneNo);
 						if (zone != null)
 						{
 							return "Зона " + zone.PresentationName;

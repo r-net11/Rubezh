@@ -33,7 +33,7 @@ namespace AlarmModule.ViewModels
 		{
 			get
 			{
-				var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceId);
+				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == DeviceId);
 				if (device != null)
 					return device.ZoneNo;
 				return null;

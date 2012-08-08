@@ -24,21 +24,21 @@ namespace ReportsModule2.Reports
 		public override void LoadData()
 		{
 			DataList = new List<ReportDeviceListModel>();
-			if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
+			if (FiresecManager.Devices.IsNotNullOrEmpty())
 			{
 				string type = "";
 				string address = "";
 				string zonePresentationName = "";
-				foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+				foreach (var device in FiresecManager.Devices)
 				{
 					zonePresentationName = "";
 					type = device.Driver.ShortName;
 					address = device.DottedAddress;
 					if (device.Driver.IsZoneDevice)
 					{
-						if (FiresecManager.DeviceConfiguration.Zones.IsNotNullOrEmpty())
+						if (FiresecManager.Zones.IsNotNullOrEmpty())
 						{
-							var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+							var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
 							if (zone != null)
 								zonePresentationName = zone.PresentationName;
 						}
@@ -48,7 +48,7 @@ namespace ReportsModule2.Reports
 					{
 						if (device.IndicatorLogic.Zones.Count == 1)
 						{
-							var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.IndicatorLogic.Zones[0]);
+							var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.IndicatorLogic.Zones[0]);
 							zonePresentationName = "Зоны: " + zone == null ? zone.PresentationName : "";
 						}
 						else

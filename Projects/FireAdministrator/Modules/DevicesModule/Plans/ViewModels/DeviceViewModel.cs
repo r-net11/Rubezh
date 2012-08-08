@@ -22,7 +22,7 @@ namespace DevicesModule.Plans.ViewModels
 
 		public string PresentationZone
 		{
-			get { return FiresecManager.GetPresentationZone(Device); }
+			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
 		}
 
         public bool IsOnPlan

@@ -29,7 +29,7 @@ namespace PlansModule.ViewModels
 
 			ElementDevice = elementDevice;
 			DeviceUID = elementDevice.DeviceUID;
-			Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+			Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
 			DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
 			if (DeviceState != null)
 			{

@@ -20,7 +20,7 @@ namespace DevicesModule.ViewModels
 		public DeviceDetailsViewModel(Guid deviceUID)
 		{
 			_guid = deviceUID;
-			Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
 			if (DeviceState != null)
 				DeviceState.StateChanged += new Action(deviceState_StateChanged);
@@ -33,7 +33,7 @@ namespace DevicesModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return FiresecManager.GetPresentationZone(Device); }
+			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
 		}
 
 		void deviceState_StateChanged()

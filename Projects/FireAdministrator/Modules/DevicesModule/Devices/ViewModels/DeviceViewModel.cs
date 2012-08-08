@@ -34,7 +34,7 @@ namespace DevicesModule.ViewModels
 
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
-			HasExternalDevices = FiresecManager.HasExternalDevices(Device);
+			HasExternalDevices = FiresecManager.FiresecConfiguration.HasExternalDevices(Device);
 		}
 
 		public void UpdataConfigurationProperties()
@@ -91,7 +91,7 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
-				return Driver.IsZoneDevice && !FiresecManager.IsChildMPT(Device);
+				return Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device);
 			}
 		}
 
@@ -99,7 +99,7 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
-				return from Zone zone in FiresecManager.DeviceConfiguration.Zones
+				return from Zone zone in FiresecManager.Zones
 					   orderby zone.No
 					   select zone;
 			}
@@ -107,7 +107,7 @@ namespace DevicesModule.ViewModels
 
 		public Zone Zone
 		{
-			get { return FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo); }
+			get { return FiresecManager.Zones.FirstOrDefault(x => x.No == Device.ZoneNo); }
 			set
 			{
 				if (Device.ZoneNo != value.No)
@@ -130,7 +130,7 @@ namespace DevicesModule.ViewModels
 
 		public string PresentationZone
 		{
-			get { return FiresecManager.GetPresentationZone(Device); }
+			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
 		}
 
 		bool _hasExternalDevices;
@@ -187,7 +187,7 @@ namespace DevicesModule.ViewModels
 
 		public bool CanAdd()
 		{
-			if (FiresecManager.IsChildMPT(Device))
+			if (FiresecManager.FiresecConfiguration.IsChildMPT(Device))
 				return false;
 			return (Driver.CanAddChildren && Driver.AutoChild == Guid.Empty);
 		}
@@ -242,10 +242,10 @@ namespace DevicesModule.ViewModels
 			Parent.IsExpanded = true;
 			Parent = null;
 
-			FiresecManager.DeviceConfiguration.Update();
+			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.DevicesChanged = true;
 			DevicesViewModel.UpdateGuardVisibility();
-			FiresecManager.InvalidateConfiguration();
+			FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 
 			index = Math.Min(index, DevicesViewModel.Current.Devices.Count - 1);
 			DevicesViewModel.Current.SelectedDevice = DevicesViewModel.Current.Devices[index];
@@ -279,7 +279,7 @@ namespace DevicesModule.ViewModels
 			{
 				case DriverType.Indicator:
 					OnShowIndicatorLogic();
-					FiresecManager.InvalidateConfiguration();
+					FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 					break;
 
 				case DriverType.Valve:

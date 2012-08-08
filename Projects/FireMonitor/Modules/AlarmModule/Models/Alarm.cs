@@ -32,7 +32,7 @@ namespace AlarmModule
 		{
 			IsConfirmed = true;
 
-			var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
+			var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
 			FiresecManager.FiresecService.AddJournalRecord(new JournalRecord()
 			{
@@ -86,7 +86,7 @@ namespace AlarmModule
 
 		ResetItem GetZoneResetItem()
 		{
-			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.Devices)
 			{
 				if (device.ZoneNo == ZoneNo)
 				{
@@ -104,7 +104,7 @@ namespace AlarmModule
 
 		ResetItem GetDeviceResetItem()
 		{
-			var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == DeviceUID);
+			var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == DeviceUID);
 			DeviceState parentDeviceState;
 			if (device.ParentPanel != null)
 				parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.ParentPanel.UID);

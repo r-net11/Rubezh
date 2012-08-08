@@ -101,7 +101,7 @@ namespace DevicesModule.ViewModels
 		void BuildTree()
 		{
 			Devices = new ObservableCollection<DeviceViewModel>();
-			AddDevice(FiresecManager.DeviceConfiguration.RootDevice, null);
+			AddDevice(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
 		}
 
 		public DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
@@ -155,16 +155,16 @@ namespace DevicesModule.ViewModels
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
-			_deviceToCopy = SelectedDevice.Device.Copy(_isFullCopy = false);
+			_deviceToCopy = FiresecManager.FiresecConfiguration.CopyDevice(SelectedDevice.Device, false);
 		}
 
 		public RelayCommand CutCommand { get; private set; }
 		void OnCut()
 		{
-			_deviceToCopy = SelectedDevice.Device.Copy(_isFullCopy = true);
+			_deviceToCopy = FiresecManager.FiresecConfiguration.CopyDevice(SelectedDevice.Device, true);
 			SelectedDevice.RemoveCommand.Execute();
 
-			FiresecManager.DeviceConfiguration.Update();
+			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 			PlanExtension.UpdateDevices();
 			ServiceFactory.SaveService.DevicesChanged = true;
 			UpdateGuardVisibility();
@@ -178,7 +178,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			var pasteDevice = _deviceToCopy.Copy(_isFullCopy);
+			var pasteDevice = FiresecManager.FiresecConfiguration.CopyDevice(_deviceToCopy, _isFullCopy);
 			PasteDevice(pasteDevice);
 			PlanExtension.UpdateDevices();
 		}
@@ -196,12 +196,12 @@ namespace DevicesModule.ViewModels
 			var pasteAsViewModel = new PasteAsViewModel(SelectedDevice.Driver.DriverType);
 			if (DialogService.ShowModalWindow(pasteAsViewModel))
 			{
-				var pasteDevice = _deviceToCopy.Copy(_isFullCopy);
+				var pasteDevice = FiresecManager.FiresecConfiguration.CopyDevice(_deviceToCopy, _isFullCopy);
 
 				pasteDevice.DriverUID = pasteAsViewModel.SelectedDriver.UID;
 				pasteDevice.Driver = pasteAsViewModel.SelectedDriver;
 
-				pasteDevice.SynchronizeChildern();
+				FiresecManager.FiresecConfiguration.SynchronizeChildern(pasteDevice);
 
 				PasteDevice(pasteDevice);
 			}
@@ -216,7 +216,7 @@ namespace DevicesModule.ViewModels
 			SelectedDevice.Children.Add(newDevice);
 			CollapseChild(newDevice);
 
-			FiresecManager.DeviceConfiguration.Update();
+			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.DevicesChanged = true;
 			UpdateGuardVisibility();
 		}
@@ -229,7 +229,7 @@ namespace DevicesModule.ViewModels
 			if (DevicesMenuView.Current != null)
 				DevicesMenuView.Current.AcceptKeyboard = true;
 
-			FiresecManager.InvalidateConfiguration();
+			FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 
 			foreach (var device in Devices)
 			{
@@ -241,7 +241,7 @@ namespace DevicesModule.ViewModels
 		{
 			foreach (var device in Devices)
 			{
-				device.HasExternalDevices = FiresecManager.HasExternalDevices(device.Device);
+				device.HasExternalDevices = FiresecManager.FiresecConfiguration.HasExternalDevices(device.Device);
 			}
 		}
 
@@ -255,7 +255,7 @@ namespace DevicesModule.ViewModels
 
 		public static void UpdateGuardVisibility()
 		{
-			var hasSecurityDevice = FiresecManager.DeviceConfiguration.Devices.Any(x => x.Driver.DeviceType == DeviceType.Sequrity);
+			var hasSecurityDevice = FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices.Any(x => x.Driver.DeviceType == DeviceType.Sequrity);
 			ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Publish(hasSecurityDevice);
 		}
 	}

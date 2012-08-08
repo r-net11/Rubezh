@@ -96,7 +96,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (SelectedDriver.HasAddress == false)
 			{
-				Device device = _parent.AddChild(SelectedDriver, 0);
+				Device device = FiresecManager.FiresecConfiguration.AddChild(_parent, SelectedDriver, 0);
 				NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
 				return;
 			}
@@ -121,7 +121,7 @@ namespace DevicesModule.ViewModels
 				{
 					return;
 				}
-				Device device = _parent.AddChild(SelectedDriver, address);
+				Device device = FiresecManager.FiresecConfiguration.AddChild(_parent, SelectedDriver, address);
 				NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
 			}
 		}
@@ -148,7 +148,7 @@ namespace DevicesModule.ViewModels
 			CreateDevices();
 
 			_parentDeviceViewModel.Update();
-			FiresecManager.DeviceConfiguration.Update();
+			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 			return base.Save();
 		}
 	}

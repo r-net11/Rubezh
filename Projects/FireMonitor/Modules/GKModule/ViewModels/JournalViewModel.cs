@@ -8,6 +8,7 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -39,6 +40,8 @@ namespace GKModule.ViewModels
 		void OnNewJournal(int index)
 		{
 			var journalItem = ReadJournal(index);
+			if (journalItem == null)
+				return;
 
 			if (JournalItems.Count > 0)
 				JournalItems.Insert(0, journalItem);
@@ -75,8 +78,13 @@ namespace GKModule.ViewModels
 		{
 			var data = new List<byte>();
 			data = BitConverter.GetBytes(index).ToList();
-			var bytes = SendManager.Send(Device, 4, 7, 64, data);
-			var journalItem = new JournalItem(bytes);
+			var sendResult = SendManager.Send(Device, 4, 7, 64, data);
+			if (sendResult.HasError)
+			{
+				MessageBoxService.Show("Ошибка связи с устройством");
+				return null;
+			}
+			var journalItem = new JournalItem(sendResult.Bytes);
 			return journalItem;
 		}
 	}

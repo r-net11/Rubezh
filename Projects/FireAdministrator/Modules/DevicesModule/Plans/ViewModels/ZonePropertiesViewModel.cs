@@ -21,7 +21,7 @@ namespace DevicesModule.Plans.ViewModels
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: Зона";
-			Zones = new ObservableCollection<Zone>(FiresecManager.DeviceConfiguration.Zones);
+			Zones = new ObservableCollection<Zone>(FiresecManager.Zones);
 			if (iElementZone.ZoneNo.HasValue)
 				SelectedZone = Zones.FirstOrDefault(x => x.No == iElementZone.ZoneNo.Value);
 		}

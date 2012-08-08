@@ -42,7 +42,7 @@ namespace DevicesModule.ViewModels
                 }
             }
 
-			foreach (var child in FiresecManager.GetAllChildrenForDevice(parentDevice))
+			foreach (var child in FiresecManager.FiresecConfiguration.GetAllChildrenForDevice(parentDevice))
             {
                 if (child.Driver.IsAutoCreate)
                     continue;
@@ -137,11 +137,11 @@ namespace DevicesModule.ViewModels
 
 			if (device.Driver.AutoChild != Guid.Empty)
 			{
-				var driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.Driver.AutoChild);
+				var driver = FiresecManager.FiresecConfiguration.Drivers.FirstOrDefault(x => x.UID == device.Driver.AutoChild);
 
 				for (int i = 0; i < device.Driver.AutoChildCount; i++)
 				{
-					var autoDevice = device.AddChild(driver, device.IntAddress + i);
+					var autoDevice = FiresecManager.FiresecConfiguration.AddChild(device, driver, device.IntAddress + i);
 					AddDevice(autoDevice, deviceViewModel);
 				}
 			}

@@ -62,7 +62,7 @@ namespace DevicesModule.ViewModels
 
 			var devices = new HashSet<Device>();
 
-			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.Devices)
 			{
 				if (device.Driver.IsZoneDevice && device.ZoneNo == SelectedZone.Zone.No)
 				{

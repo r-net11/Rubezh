@@ -140,7 +140,7 @@ namespace VideoModule.ViewModels
 				{
 					if (i > 0)
 						presenrationZones.Append(", ");
-					var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Zones[i]);
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == Zones[i]);
 					if (zone != null)
 						presenrationZones.Append(zone.PresentationName);
 				}

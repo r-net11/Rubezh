@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
             _devicePasswordType = devicePasswordType;
             _password = password;
 
-            var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == _deviceUID);
+            var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == _deviceUID);
             ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, device.PresentationAddressAndDriver + ". Установка пароля");
         }
 

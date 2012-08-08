@@ -4,6 +4,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using System.Diagnostics;
 using System.Collections.Generic;
+using Infrastructure.Common.Windows;
 
 namespace GKModule
 {
@@ -23,62 +24,50 @@ namespace GKModule
 			{
 				var rootDevice = commonDatabase.RootDevice;
 				var no = binaryObject.GetNo();
-				List<byte> bytes;
-				try
+				var sendResult = SendManager.Send(rootDevice, 2, 12, 68, BytesHelper.ShortToBytes(no));
+				if (sendResult.HasError)
 				{
-					bytes = SendManager.Send(rootDevice, 2, 12, 68, BytesHelper.ShortToBytes(no));
+					MessageBoxService.Show("Ошибка связи с устройством");
+					return;
 				}
-				catch (ProtocolException)
+				if (binaryObject.Device != null)
 				{
-					Trace.WriteLine("ProtocolException");
-					continue;
-				}
-				if (bytes == null)
-				{
-					Trace.WriteLine("Connection Lost");
-					continue;
-				}
-				if (bytes.Count > 0)
-				{
-					if (binaryObject.Device != null)
+					var deviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == binaryObject.Device.UID);
+					if (deviceState != null)
 					{
-						var deviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == binaryObject.Device.UID);
-						if (deviceState != null)
+						var binaryDeviceState = new BinaryDeviceState(sendResult.Bytes, binaryObject.DatabaseType);
+						deviceState.States = binaryDeviceState.States;
+						var minPriority = 7;
+						foreach (var state in deviceState.States)
 						{
-							var binaryDeviceState = new BinaryDeviceState(bytes, binaryObject.DatabaseType);
-							deviceState.States = binaryDeviceState.States;
-							var minPriority = 7;
-							foreach (var state in deviceState.States)
+							var priority = StatesHelper.XStateTypeToPriority(state);
+							if (priority < minPriority)
 							{
-								var priority = StatesHelper.XStateTypeToPriority(state);
-								if (priority < minPriority)
-								{
-									minPriority = priority;
-								}
+								minPriority = priority;
 							}
-							deviceState.StateType = (StateType)minPriority;
-							deviceState.OnStateChanged();
 						}
+						deviceState.StateType = (StateType)minPriority;
+						deviceState.OnStateChanged();
 					}
-					if (binaryObject.Zone != null)
+				}
+				if (binaryObject.Zone != null)
+				{
+					var zoneState = XManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == binaryObject.Zone.No);
+					if (zoneState != null)
 					{
-						var zoneState = XManager.DeviceStates.ZoneStates.FirstOrDefault(x=>x.No == binaryObject.Zone.No);
-						if (zoneState != null)
+						var binaryZoneState = new BinaryDeviceState(sendResult.Bytes, binaryObject.DatabaseType);
+						zoneState.States = binaryZoneState.States;
+						var minPriority = 7;
+						foreach (var state in zoneState.States)
 						{
-							var binaryZoneState = new BinaryDeviceState(bytes, binaryObject.DatabaseType);
-							zoneState.States = binaryZoneState.States;
-							var minPriority = 7;
-							foreach (var state in zoneState.States)
+							var priority = StatesHelper.XStateTypeToPriority(state);
+							if (priority < minPriority)
 							{
-								var priority = StatesHelper.XStateTypeToPriority(state);
-								if (priority < minPriority)
-								{
-									minPriority = priority;
-								}
+								minPriority = priority;
 							}
-							zoneState.StateType = (StateType)minPriority;
-							zoneState.OnStateChanged();
 						}
+						zoneState.StateType = (StateType)minPriority;
+						zoneState.OnStateChanged();
 					}
 				}
 			}

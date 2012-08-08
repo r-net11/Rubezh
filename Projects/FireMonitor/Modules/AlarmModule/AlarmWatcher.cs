@@ -136,7 +136,7 @@ namespace AlarmModule
 
 		void UpdateValveTimer()
 		{
-			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.Devices)
 			{
 				if (device.Driver.DriverType != DriverType.Valve)
 					continue;

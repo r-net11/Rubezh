@@ -10,7 +10,7 @@ namespace OPCModule.ViewModels
 		public void Initialize()
 		{
 			Zones = new ObservableCollection<OPCZoneViewModel>(
-				from zone in FiresecManager.DeviceConfiguration.Zones
+				from zone in FiresecManager.Zones
 				orderby zone.No
 				select new OPCZoneViewModel(zone));
 			SelectedZone = Zones.FirstOrDefault();

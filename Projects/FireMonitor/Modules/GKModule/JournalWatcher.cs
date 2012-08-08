@@ -27,24 +27,17 @@ namespace GKModule
 
 		static void Timer_Tick(object sender, EventArgs e)
 		{
-			try
+			var newLastId = GetLastId();
+			if (LastId == -1)
+				return;
+			if (newLastId > LastId)
 			{
-				var newLastId = GetLastId();
-				if (LastId == -1)
-					return;
-				if (newLastId > LastId)
+				StatesWatcher.Run();
+				for (int index = LastId + 1; index <= newLastId; index++)
 				{
-					StatesWatcher.Run();
-					for (int index = LastId + 1; index <= newLastId; index++)
-					{
-						ServiceFactory.Events.GetEvent<NewJournalEvent>().Publish(index);
-					}
-					LastId = newLastId;
+					ServiceFactory.Events.GetEvent<NewJournalEvent>().Publish(index);
 				}
-			}
-			catch (ProtocolException)
-			{
-				Trace.WriteLine("ProtocolException");
+				LastId = newLastId;
 			}
 		}
 
@@ -54,13 +47,13 @@ namespace GKModule
 		public static int GetLastId()
 		{
 			var firstGkDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
-			var bytes = SendManager.Send(firstGkDevice, 0, 6, 64);
-			if (bytes == null)
+			var sendResult = SendManager.Send(firstGkDevice, 0, 6, 64);
+			if (sendResult.HasError)
 			{
-				Trace.WriteLine("Connection Lost");
-				return -1;
+				MessageBoxService.Show("Ошибка связи с устройством");
+				return - 1;
 			}
-			var journalItem = new JournalItem(bytes);
+			var journalItem = new JournalItem(sendResult.Bytes);
 			var lastId = journalItem.GKNo;
 			return lastId;
 		}

@@ -40,11 +40,11 @@ namespace DevicesModule.ViewModels
 
 		void InitializeDevices()
 		{
-			FiresecManager.UpateGuardZoneSecPanelUID();
+			FiresecManager.FiresecConfiguration.UpateGuardZoneSecPanelUID();
 			Devices.Clear();
 			SelectedDevice = null;
 
-			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.Devices)
 			{
 				if ((device.Driver.DriverType == DriverType.USB_Rubezh_2OP) || (device.Driver.DriverType == DriverType.Rubezh_2OP))
 					Devices.Add(device);
@@ -69,7 +69,7 @@ namespace DevicesModule.ViewModels
 							deviceZones.Add(device.ZoneNo.Value);
 				}
 
-				foreach (var guardUser in FiresecManager.DeviceConfiguration.GuardUsers)
+				foreach (var guardUser in FiresecManager.GuardUsers)
 				{
 					if ((guardUser.DeviceUID == SelectedDevice.UID) || guardUser.Zones.Any(x => deviceZones.Contains(x)))
 						DeviceUsers.Add(new UserViewModel(guardUser));
@@ -90,7 +90,7 @@ namespace DevicesModule.ViewModels
 
 			if (SelectedDevice != null)
 			{
-				foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+				foreach (var zone in FiresecManager.Zones)
 				{
 					if (zone.SecPanelUID == SelectedDevice.UID)
 					{
@@ -252,7 +252,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			FiresecManager.DeviceConfiguration.GuardUsers.Remove(SelectedAvailableUser.GuardUser);
+			FiresecManager.GuardUsers.Remove(SelectedAvailableUser.GuardUser);
 			AvailableUsers.Remove(SelectedAvailableUser);
 			ServiceFactory.SaveService.DevicesChanged = true;
 		}
@@ -295,7 +295,7 @@ namespace DevicesModule.ViewModels
 			var userDetailsViewModel = new UserDetailsViewModel();
 			if (DialogService.ShowModalWindow(userDetailsViewModel))
 			{
-				FiresecManager.DeviceConfiguration.GuardUsers.Add(userDetailsViewModel.GuardUser);
+				FiresecManager.GuardUsers.Add(userDetailsViewModel.GuardUser);
 				var userViewModel = new UserViewModel(userDetailsViewModel.GuardUser);
 				AvailableUsers.Add(userViewModel);
 				ServiceFactory.SaveService.DevicesChanged = true;
@@ -310,7 +310,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddUserCommand { get; private set; }
 		void OnAddUser()
 		{
-			foreach (var guardUser in FiresecManager.DeviceConfiguration.GuardUsers)
+			foreach (var guardUser in FiresecManager.FiresecConfiguration.DeviceConfiguration.GuardUsers)
 			{
 				if (guardUser.DeviceUID == SelectedDevice.UID)
 					guardUser.DeviceUID = Guid.Empty;
@@ -376,7 +376,7 @@ namespace DevicesModule.ViewModels
 
 		public override void OnShow()
 		{
-			FiresecManager.DeviceConfiguration.UpdateGuardConfiguration();
+			FiresecManager.FiresecConfiguration.DeviceConfiguration.UpdateGuardConfiguration();
 			ServiceFactory.Layout.ShowMenu(new GuardMenuViewModel(this));
 			InitializeDevices();
 

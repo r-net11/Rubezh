@@ -32,10 +32,10 @@ namespace InstructionsModule.ViewModels
                     if (instruction.InstructionType == InstructionType.Details)
                     {
                         instruction.Devices = new List<System.Guid>(
-                            instruction.Devices.Where(deviceGuid => FiresecManager.DeviceConfiguration.Devices.Any(x => x.UID == deviceGuid))
+                            instruction.Devices.Where(deviceGuid => FiresecManager.Devices.Any(x => x.UID == deviceGuid))
                         );
 						instruction.Zones = new List<int>(
-                            instruction.Zones.Where(zoneNumber => FiresecManager.DeviceConfiguration.Zones.Any(x => x.No == zoneNumber))
+                            instruction.Zones.Where(zoneNumber => FiresecManager.Zones.Any(x => x.No == zoneNumber))
                         );
                     }
                     Instructions.Add(new InstructionViewModel(instruction));

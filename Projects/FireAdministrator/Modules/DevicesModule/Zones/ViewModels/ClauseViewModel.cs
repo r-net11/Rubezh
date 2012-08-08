@@ -31,7 +31,7 @@ namespace DevicesModule.ViewModels
 			SelectedOperation = clause.Operation;
 
 			if (clause.DeviceUID != Guid.Empty)
-				SelectedDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
+				SelectedDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
 		}
 
 		public List<ZoneLogicState> States
@@ -177,7 +177,7 @@ namespace DevicesModule.ViewModels
 
 		public string PresenrationZones
 		{
-			get { return FiresecManager.GetClausePresentationName(Zones); }
+			get { return FiresecManager.FiresecConfiguration.GetClausePresentationName(Zones); }
 		}
 
 		ZoneLogicState _selectedState;

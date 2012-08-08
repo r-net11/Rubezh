@@ -19,7 +19,7 @@ namespace DevicesModule.ViewModels
         {
             var devices = new HashSet<Device>();
 
-            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices)
             {
                 if (device.Driver.DriverType == DriverType.Exit)
                     continue;

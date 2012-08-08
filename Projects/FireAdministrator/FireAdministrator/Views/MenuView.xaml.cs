@@ -71,7 +71,7 @@ namespace FireAdministrator.Views
 			{
 				if (ServiceFactory.SaveService.DevicesChanged)
 				{
-					var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.DeviceConfiguration);
+					var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
 					if (result.HasError)
 					{
 						MessageBoxService.ShowError(result.Error);
@@ -106,16 +106,16 @@ namespace FireAdministrator.Views
 			var result = MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
 			if (result == MessageBoxResult.Yes)
 			{
-				FiresecManager.DeviceConfiguration = new DeviceConfiguration();
+				FiresecManager.FiresecConfiguration.DeviceConfiguration = new DeviceConfiguration();
 				FiresecManager.PlansConfiguration = new PlansConfiguration();
 				FiresecManager.SystemConfiguration = new SystemConfiguration();
 
-				FiresecManager.DeviceConfiguration.RootDevice = new Device()
+				FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice = new Device()
 				{
 					DriverUID = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer).UID,
 					Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer)
 				};
-				FiresecManager.DeviceConfiguration.Update();
+				FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 				FiresecManager.PlansConfiguration.Update();
 
 				XManager.SetEmptyConfiguration();
@@ -193,7 +193,7 @@ namespace FireAdministrator.Views
 		{
 			return new FullConfiguration()
 			{
-				DeviceConfiguration = FiresecManager.DeviceConfiguration,
+				DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration,
 				LibraryConfiguration = FiresecManager.LibraryConfiguration,
 				PlansConfiguration = FiresecManager.PlansConfiguration,
 				SecurityConfiguration = FiresecManager.SecurityConfiguration,
@@ -206,7 +206,7 @@ namespace FireAdministrator.Views
 
 		void CopyTo(FullConfiguration fullConfiguration)
 		{
-			FiresecManager.DeviceConfiguration = fullConfiguration.DeviceConfiguration;
+			FiresecManager.FiresecConfiguration.DeviceConfiguration = fullConfiguration.DeviceConfiguration;
 			FiresecManager.LibraryConfiguration = fullConfiguration.LibraryConfiguration;
 			FiresecManager.PlansConfiguration = fullConfiguration.PlansConfiguration;
 			FiresecManager.SecurityConfiguration = fullConfiguration.SecurityConfiguration;

@@ -12,7 +12,7 @@ namespace DeviceControls
 	{
 		public FrameworkElement Draw(ElementBase element)
 		{
-			var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == ((ElementDevice)element).DeviceUID);
+			var device = FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == ((ElementDevice)element).DeviceUID);
 			Guid driverUID = device == null ? Guid.Empty : device.DriverUID;
 			return DeviceControl.GetDefaultPicture(driverUID);
 		}

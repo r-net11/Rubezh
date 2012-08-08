@@ -70,7 +70,7 @@ namespace JournalModule.ViewModels
 			);
 
 			Devices = new List<DeviceViewModel>(
-				FiresecClient.FiresecManager.DeviceConfiguration.Devices.Where(
+				FiresecClient.FiresecManager.Devices.Where(
 				x => x.Driver.Category == DeviceCategoryType.Device).Select(x => new DeviceViewModel(x))
 			);
 

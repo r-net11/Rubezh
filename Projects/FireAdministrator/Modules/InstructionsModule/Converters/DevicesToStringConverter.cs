@@ -21,7 +21,7 @@ namespace InstructionsModule.Converters
                 Device device = null;
                 foreach (var deviceGuid in devices)
                 {
-                    device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceGuid);
+                    device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceGuid);
 
                     result.Append(device.PresentationAddressAndDriver);
                     result.Append(delimString);

@@ -19,7 +19,7 @@ namespace SettingsModule.ViewModels
 		void BuildTree()
 		{
 			Devices = new ObservableCollection<DeviceViewModel>();
-			var deviceViewModel = AddDevice(FiresecManager.DeviceConfiguration.RootDevice, null);
+			var deviceViewModel = AddDevice(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
 			Devices.Add(deviceViewModel);
 		}
 

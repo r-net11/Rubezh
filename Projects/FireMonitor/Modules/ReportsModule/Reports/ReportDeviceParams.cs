@@ -16,14 +16,14 @@ namespace ReportsModule.Reports
         public override void LoadData()
         {
             DataList = new List<ReportDeviceParamsModel>();
-            if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
+            if (FiresecManager.Devices.IsNotNullOrEmpty())
             {
                 string type = "";
                 string address = "";
                 string zonePresentationName = "";
                 string dustiness = "";
                 string failureType = "";
-                foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+                foreach (var device in FiresecManager.Devices)
                 {
                     if (device.Driver.Category == DeviceCategoryType.Other || device.Driver.Category == DeviceCategoryType.Communication)
                         continue;
@@ -36,9 +36,9 @@ namespace ReportsModule.Reports
 
                     if (device.Driver.IsZoneDevice)
                     {
-                        if (FiresecManager.DeviceConfiguration.Zones.IsNotNullOrEmpty())
+                        if (FiresecManager.Zones.IsNotNullOrEmpty())
                         {
-                            var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+                            var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
                             if (zone != null)
                                 zonePresentationName = zone.PresentationName;
                         }

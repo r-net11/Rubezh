@@ -79,7 +79,7 @@ namespace OPCModule.ViewModels
 		void BuildTree()
 		{
 			Devices = new ObservableCollection<OPCDeviceViewModel>();
-			AddDevice(FiresecManager.DeviceConfiguration.RootDevice, null);
+			AddDevice(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
 		}
 
 		public OPCDeviceViewModel AddDevice(Device device, OPCDeviceViewModel parentDeviceViewModel)

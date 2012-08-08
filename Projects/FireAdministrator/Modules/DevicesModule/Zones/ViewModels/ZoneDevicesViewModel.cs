@@ -10,18 +10,18 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class ZoneDevicesViewModel : BaseViewModel
-    {
+	public class ZoneDevicesViewModel : BaseViewModel
+	{
 		int _zoneNo;
 
-        public ZoneDevicesViewModel()
-        {
-            AddCommand = new RelayCommand(OnAdd, CanAdd);
-            RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-            ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
-            Devices = new ObservableCollection<DeviceViewModel>();
-            AvailableDevices = new ObservableCollection<DeviceViewModel>();
-        }
+		public ZoneDevicesViewModel()
+		{
+			AddCommand = new RelayCommand(OnAdd, CanAdd);
+			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
+			ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
+			Devices = new ObservableCollection<DeviceViewModel>();
+			AvailableDevices = new ObservableCollection<DeviceViewModel>();
+		}
 
 		public void Initialize(int zoneNo)
 		{
@@ -30,7 +30,7 @@ namespace DevicesModule.ViewModels
 			var devices = new HashSet<Device>();
 			var availableDevices = new HashSet<Device>();
 
-			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.Devices)
 			{
 				if (device.Driver.IsZoneDevice)
 				{
@@ -99,118 +99,118 @@ namespace DevicesModule.ViewModels
 			SelectedAvailableDevice = AvailableDevices.LastOrDefault();
 		}
 
-        public void Clear()
-        {
-            Devices.Clear();
-            AvailableDevices.Clear();
-            SelectedDevice = null;
-            SelectedAvailableDevice = null;
-        }
+		public void Clear()
+		{
+			Devices.Clear();
+			AvailableDevices.Clear();
+			SelectedDevice = null;
+			SelectedAvailableDevice = null;
+		}
 
-        public void UpdateAvailableDevices()
-        {
-            OnPropertyChanged("AvailableDevices");
-        }
+		public void UpdateAvailableDevices()
+		{
+			OnPropertyChanged("AvailableDevices");
+		}
 
-        public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
-        DeviceViewModel _selectedDevice;
-        public DeviceViewModel SelectedDevice
-        {
-            get { return _selectedDevice; }
-            set
-            {
-                _selectedDevice = value;
-                OnPropertyChanged("SelectedDevice");
-            }
-        }
+		DeviceViewModel _selectedDevice;
+		public DeviceViewModel SelectedDevice
+		{
+			get { return _selectedDevice; }
+			set
+			{
+				_selectedDevice = value;
+				OnPropertyChanged("SelectedDevice");
+			}
+		}
 
-        public ObservableCollection<DeviceViewModel> AvailableDevices { get; private set; }
+		public ObservableCollection<DeviceViewModel> AvailableDevices { get; private set; }
 
-        DeviceViewModel _selectedAvailableDevice;
-        public DeviceViewModel SelectedAvailableDevice
-        {
-            get { return _selectedAvailableDevice; }
-            set
-            {
-                _selectedAvailableDevice = value;
-                OnPropertyChanged("SelectedAvailableDevice");
-            }
-        }
+		DeviceViewModel _selectedAvailableDevice;
+		public DeviceViewModel SelectedAvailableDevice
+		{
+			get { return _selectedAvailableDevice; }
+			set
+			{
+				_selectedAvailableDevice = value;
+				OnPropertyChanged("SelectedAvailableDevice");
+			}
+		}
 
-        public bool CanAdd()
-        {
-            return SelectedAvailableDevice != null && SelectedAvailableDevice.Device.Driver.IsZoneDevice;
-        }
+		public bool CanAdd()
+		{
+			return SelectedAvailableDevice != null && SelectedAvailableDevice.Device.Driver.IsZoneDevice;
+		}
 
-        public RelayCommand AddCommand { get; private set; }
-        void OnAdd()
-        {
-            var oldIndex = AvailableDevices.IndexOf(SelectedAvailableDevice);
-            var oldDeviceUID = SelectedAvailableDevice.Device.UID;
-            
-            SelectedAvailableDevice.Device.ZoneNo = _zoneNo;
-            Initialize(_zoneNo);
-            UpdateAvailableDevices();
+		public RelayCommand AddCommand { get; private set; }
+		void OnAdd()
+		{
+			var oldIndex = AvailableDevices.IndexOf(SelectedAvailableDevice);
+			var oldDeviceUID = SelectedAvailableDevice.Device.UID;
 
-            SelectedDevice = Devices.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
-            if (AvailableDevices.Count > 0)
-            {
-                var newIndex = System.Math.Min(oldIndex, AvailableDevices.Count - 1);
-                SelectedAvailableDevice = AvailableDevices[newIndex];
-            }
-            else
-            {
-                SelectedAvailableDevice = null;
-            }
+			SelectedAvailableDevice.Device.ZoneNo = _zoneNo;
+			Initialize(_zoneNo);
+			UpdateAvailableDevices();
 
-            ServiceFactory.SaveService.DevicesChanged = true;
-        }
+			SelectedDevice = Devices.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
+			if (AvailableDevices.Count > 0)
+			{
+				var newIndex = System.Math.Min(oldIndex, AvailableDevices.Count - 1);
+				SelectedAvailableDevice = AvailableDevices[newIndex];
+			}
+			else
+			{
+				SelectedAvailableDevice = null;
+			}
 
-        public bool CanRemove()
-        {
-            return SelectedDevice != null && SelectedDevice.Device.Driver.IsZoneDevice;
-        }
+			ServiceFactory.SaveService.DevicesChanged = true;
+		}
 
-        public RelayCommand RemoveCommand { get; private set; }
-        void OnRemove()
-        {
-            var oldIndex = Devices.IndexOf(SelectedDevice);
-            var oldDeviceUID = SelectedDevice.Device.UID;
+		public bool CanRemove()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsZoneDevice;
+		}
 
-            SelectedDevice.Device.ZoneNo = null;
-            Initialize(_zoneNo);
-            UpdateAvailableDevices();
+		public RelayCommand RemoveCommand { get; private set; }
+		void OnRemove()
+		{
+			var oldIndex = Devices.IndexOf(SelectedDevice);
+			var oldDeviceUID = SelectedDevice.Device.UID;
 
-            SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
-            if (Devices.Count > 0)
-            {
-                var newIndex = System.Math.Min(oldIndex, Devices.Count - 1);
-                SelectedDevice = Devices[newIndex];
-            }
-            else
-            {
-                SelectedDevice = null;
-            }
-            
-            ServiceFactory.SaveService.DevicesChanged = true;
-        }
+			SelectedDevice.Device.ZoneNo = null;
+			Initialize(_zoneNo);
+			UpdateAvailableDevices();
 
-        public bool CanShowZoneLogic()
-        {
-            return SelectedDevice != null && SelectedDevice.Device.Driver.IsZoneLogicDevice;
-        }
+			SelectedAvailableDevice = AvailableDevices.FirstOrDefault(x => x.Device.UID == oldDeviceUID);
+			if (Devices.Count > 0)
+			{
+				var newIndex = System.Math.Min(oldIndex, Devices.Count - 1);
+				SelectedDevice = Devices[newIndex];
+			}
+			else
+			{
+				SelectedDevice = null;
+			}
 
-        public RelayCommand ShowZoneLogicCommand { get; private set; }
-        void OnShowZoneLogic()
-        {
-            var zoneLogicViewModel = new ZoneLogicViewModel(SelectedDevice.Device);
+			ServiceFactory.SaveService.DevicesChanged = true;
+		}
 
-            if (DialogService.ShowModalWindow(zoneLogicViewModel))
-            {
-                ServiceFactory.SaveService.DevicesChanged = true;
-                Initialize(_zoneNo);
-            }
-        }
-    }
+		public bool CanShowZoneLogic()
+		{
+			return SelectedDevice != null && SelectedDevice.Device.Driver.IsZoneLogicDevice;
+		}
+
+		public RelayCommand ShowZoneLogicCommand { get; private set; }
+		void OnShowZoneLogic()
+		{
+			var zoneLogicViewModel = new ZoneLogicViewModel(SelectedDevice.Device);
+
+			if (DialogService.ShowModalWindow(zoneLogicViewModel))
+			{
+				ServiceFactory.SaveService.DevicesChanged = true;
+				Initialize(_zoneNo);
+			}
+		}
+	}
 }

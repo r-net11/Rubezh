@@ -16,9 +16,9 @@ namespace ReportsModule.Reports
         public override void LoadData()
         {
             var IndicationBlockList = new List<IndicationBlocksList>();
-            if (FiresecManager.DeviceConfiguration.Devices.IsNotNullOrEmpty())
+            if (FiresecManager.Devices.IsNotNullOrEmpty())
             {
-                var devices = FiresecManager.DeviceConfiguration.Devices.FindAll(x => (x.Driver.DriverType == DriverType.IndicationBlock));
+                var devices = FiresecManager.Devices.FindAll(x => (x.Driver.DriverType == DriverType.IndicationBlock));
                 foreach (var device in devices)
                 {
                     IndicationBlockList.Add(new IndicationBlocksList(device));

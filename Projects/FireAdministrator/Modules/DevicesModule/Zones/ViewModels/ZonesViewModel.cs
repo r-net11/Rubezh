@@ -30,7 +30,7 @@ namespace DevicesModule.ViewModels
 		public void Initialize()
 		{
 			Zones = new ObservableCollection<ZoneViewModel>(
-				from zone in FiresecManager.DeviceConfiguration.Zones
+				from zone in FiresecManager.Zones
 				orderby zone.No
 				select new ZoneViewModel(zone));
 			SelectedZone = Zones.FirstOrDefault();
@@ -78,7 +78,7 @@ namespace DevicesModule.ViewModels
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.Zone);
+				FiresecManager.Zones.Add(zoneDetailsViewModel.Zone);
 				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
 				ServiceFactory.SaveService.DevicesChanged = true;
 				createZoneEventArg.Cancel = false;
@@ -113,7 +113,7 @@ namespace DevicesModule.ViewModels
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				FiresecManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.Zone);
+				FiresecManager.Zones.Add(zoneDetailsViewModel.Zone);
 				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}
@@ -125,13 +125,13 @@ namespace DevicesModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				FiresecManager.DeviceConfiguration.Zones.Remove(SelectedZone.Zone);
-				FiresecManager.DeviceConfiguration.Devices.ForEach(x => { if ((x.ZoneNo != null) && (x.ZoneNo.Value == SelectedZone.Zone.No)) x.ZoneNo = null; });
+				FiresecManager.Zones.Remove(SelectedZone.Zone);
+				FiresecManager.Devices.ForEach(x => { if ((x.ZoneNo != null) && (x.ZoneNo.Value == SelectedZone.Zone.No)) x.ZoneNo = null; });
 				Zones.Remove(SelectedZone);
 				SelectedZone = Zones.FirstOrDefault();
 				ZoneDevices.UpdateAvailableDevices();
 				ServiceFactory.SaveService.DevicesChanged = true;
-				FiresecManager.InvalidateConfiguration();
+				FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 			}
 		}
 
@@ -147,13 +147,13 @@ namespace DevicesModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все зоны ?");
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				FiresecManager.DeviceConfiguration.Zones.Clear();
-				FiresecManager.DeviceConfiguration.Devices.ForEach(x => x.ZoneNo = null);
+				FiresecManager.Zones.Clear();
+				FiresecManager.Devices.ForEach(x => x.ZoneNo = null);
 				Zones.Clear();
 				SelectedZone = null;
 
 				ServiceFactory.SaveService.DevicesChanged = true;
-				FiresecManager.InvalidateConfiguration();
+				FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 			}
 		}
 
@@ -164,18 +164,18 @@ namespace DevicesModule.ViewModels
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var emptyZones = new List<ZoneViewModel>(
-					Zones.Where(zone => FiresecManager.DeviceConfiguration.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneNo == zone.Zone.No) == false)
+					Zones.Where(zone => FiresecManager.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneNo == zone.Zone.No) == false)
 				);
 				foreach (var emptyZone in emptyZones)
 				{
-					FiresecManager.DeviceConfiguration.Zones.Remove(emptyZone.Zone);
+					FiresecManager.Zones.Remove(emptyZone.Zone);
 					Zones.Remove(emptyZone);
 				}
 
 				SelectedZone = Zones.FirstOrDefault();
 
 				ServiceFactory.SaveService.DevicesChanged = true;
-				FiresecManager.InvalidateConfiguration();
+				FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 			}
 		}
 

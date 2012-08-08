@@ -56,7 +56,7 @@ namespace ReportsModule.Reports
 
         void AddDrivers(Driver driver)
         {
-            var devices = FiresecManager.DeviceConfiguration.Devices.FindAll(x => x.Driver.UID == driver.UID);
+            var devices = FiresecManager.Devices.FindAll(x => x.Driver.UID == driver.UID);
             if (devices.IsNotNullOrEmpty())
             {
                 DataList.Add(new ReportDriverCounterModel()

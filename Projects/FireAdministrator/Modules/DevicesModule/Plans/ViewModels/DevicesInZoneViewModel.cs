@@ -51,7 +51,7 @@ namespace DevicesModule.Plans.ViewModels
 
             if (newZoneNo.HasValue)
             {
-                var newZone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == newZoneNo.Value);
+                var newZone = FiresecManager.Zones.FirstOrDefault(x => x.No == newZoneNo.Value);
                 NewZoneName = newZone.PresentationName;
             }
             else
@@ -59,7 +59,7 @@ namespace DevicesModule.Plans.ViewModels
                 NewZoneName = "";
             }
 
-            var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
+            var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
             OldZoneName = zone.PresentationName;
         }
 

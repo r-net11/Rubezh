@@ -20,7 +20,7 @@ namespace DevicesModule.ViewModels
 
             Device = device;
 
-            foreach (var guardUser in FiresecManager.DeviceConfiguration.GuardUsers)
+			foreach (var guardUser in FiresecManager.FiresecConfiguration.DeviceConfiguration.GuardUsers)
             {
                 SystemUsers.Add(guardUser);
             }

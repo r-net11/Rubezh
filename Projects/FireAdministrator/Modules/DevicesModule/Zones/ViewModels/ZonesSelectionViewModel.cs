@@ -38,27 +38,11 @@ namespace DevicesModule.ViewModels
 					break;
 			}
 
-			List<Zone> availableZones = FiresecManager.GetChannelZones(device);
+			List<Zone> availableZones = FiresecManager.FiresecConfiguration.GetChannelZones(device);
 			if (device.Driver.DriverType == DriverType.Exit)
 			{
-				availableZones = FiresecManager.GetPanelZones(device);
+				availableZones = FiresecManager.FiresecConfiguration.GetPanelZones(device);
 			}
-			//if (zoneLogicState == ZoneLogicState.Alarm)
-			//{
-			//    var zonesWithMPT = new List<Zone>();
-			//    foreach (var zone in availableZones)
-			//    {
-			//        foreach (var deviceInZone in zone.DevicesInZone)
-			//        {
-			//            if (deviceInZone.Driver.DriverType == DriverType.MPT)
-			//            {
-			//                zonesWithMPT.Add(zone);
-			//                continue;
-			//            }
-			//        }
-			//    }
-			//    availableZones = zonesWithMPT;
-			//}
 
 			foreach (var zone in availableZones)
 			{

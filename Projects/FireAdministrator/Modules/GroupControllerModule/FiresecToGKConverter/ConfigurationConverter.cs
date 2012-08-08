@@ -34,7 +34,7 @@ namespace GKModule.Converter
 			gkDevice.UID = Guid.NewGuid();
 			XManager.DeviceConfiguration.Devices.Add(gkDevice);
 
-			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.Devices)
 			{
 				bool isKAU = false;
 				var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
@@ -84,7 +84,7 @@ namespace GKModule.Converter
 				}
 			}
 
-			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.Devices)
 			{
 				var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
 				if (xDevice != null)
@@ -104,7 +104,7 @@ namespace GKModule.Converter
 
 		void ConvertZones()
 		{
-			foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+			foreach (var zone in FiresecManager.Zones)
 			{
 				var xZone = new XZone()
 				{
@@ -116,12 +116,12 @@ namespace GKModule.Converter
 				XManager.DeviceConfiguration.Zones.Add(xZone);
 			}
 
-			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.Devices)
 			{
 				var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
 				if ((device.Driver.IsZoneDevice) && (device.ZoneNo.HasValue))
 				{
-					var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo.Value);
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo.Value);
 					var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (short)zone.No);
 					if (zone != null)
 					{
@@ -136,7 +136,7 @@ namespace GKModule.Converter
 		{
 			foreach (var xDevice in XManager.DeviceConfiguration.Devices)
 			{
-				var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == xDevice.UID);
+				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == xDevice.UID);
 				if (device != null)
 				{
 					if ((device.Driver.IsZoneDevice) && (device.ZoneLogic != null))

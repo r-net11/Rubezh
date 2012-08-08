@@ -24,7 +24,7 @@ namespace VideoModule.ViewModels
             TargetZones = new ObservableCollection<Zone>();
             SourceZones = new ObservableCollection<Zone>();
 
-            var sortedZones = FiresecManager.DeviceConfiguration.Zones.OrderBy(x => { return x.No; });
+            var sortedZones = FiresecManager.Zones.OrderBy(x => { return x.No; });
             foreach (var zone in sortedZones)
             {
                 if (Zones.Contains(zone.No))

@@ -16,7 +16,7 @@ namespace DevicesModule.ViewModels
 
         public void Initialize(PDUGroupDevice pDUGroupDevice)
         {
-            Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pDUGroupDevice.DeviceUID);
+            Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == pDUGroupDevice.DeviceUID);
 
             IsInversion = pDUGroupDevice.IsInversion;
             OnDelay = pDUGroupDevice.OnDelay;

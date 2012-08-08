@@ -118,18 +118,20 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="CallbackAddressHelper.cs" />
-    <Compile Include="Extentions\DeviceCreationExtention.cs" />
     <Compile Include="FileHelper.cs" />
     <Compile Include="FiresecCallbackService.cs" />
     <Compile Include="FiresecCallbackServiceManager.cs" />
     <Compile Include="FiresecEventSubscriber.cs" />
-    <Compile Include="FiresecManager.Configuration.cs" />
-    <Compile Include="FiresecManager.cs" />
-    <Compile Include="FiresecManager.Disabling.cs" />
-    <Compile Include="FiresecManager.Guard.cs" />
-    <Compile Include="FiresecManager.PresentationZone.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.Device.cs" />
+    <Compile Include="FiresecManager\FiresecManager.Configuration.cs" />
+    <Compile Include="FiresecManager\FiresecManager.cs" />
+    <Compile Include="FiresecManager\FiresecManager.Disabling.cs" />
+    <Compile Include="FiresecManager\FiresecManager.Guard.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.PresentationZone.cs" />
+    <Compile Include="FiresecManager\FiresecManager.States.cs" />
     <Compile Include="FiresecServiceFactory.cs" />
-    <Compile Include="ItvManager.cs" />
+    <Compile Include="FiresecManager\ItvManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -138,21 +140,21 @@
     </Compile>
     <Compile Include="SafeFiresecService.cs" />
     <Compile Include="SafeFiresecService.Operations.cs" />
-    <Compile Include="Validation\BaseError.cs" />
-    <Compile Include="Validation\DeviceError.cs" />
-    <Compile Include="Validation\DirectionError.cs" />
-    <Compile Include="Validation\ErrorLevel.cs" />
-    <Compile Include="Validation\InstructionError.cs" />
-    <Compile Include="Validation\InstructionValidator.cs" />
-    <Compile Include="Validation\DevicesValidator.cs" />
-    <Compile Include="Validation\ZoneError.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\Validation\BaseError.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\Validation\DeviceError.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\Validation\DirectionError.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\Validation\ErrorLevel.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\Validation\InstructionError.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\Validation\InstructionValidator.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\Validation\DevicesValidator.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\Validation\ZoneError.cs" />
     <Compile Include="XManager\XManager.Binary.cs" />
     <Compile Include="XManager\XManager.Configuration.cs" />
     <Compile Include="XManager\XManager.Device.cs" />
     <Compile Include="XManager\XManager.cs" />
     <Compile Include="XManager\XManager.Disabling.cs" />
-    <Compile Include="XModelsValidator\DevicesValidator.cs" />
-    <Compile Include="XModelsValidator\ZoneError.cs" />
+    <Compile Include="XManager\Validation\DevicesValidator.cs" />
+    <Compile Include="XManager\Validation\ZoneError.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -186,7 +188,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FiresecManager.SKUD.cs" />
+    <Compile Include="FiresecManager\FiresecManager.SKUD.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

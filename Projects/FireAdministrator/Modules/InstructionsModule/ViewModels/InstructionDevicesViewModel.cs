@@ -31,7 +31,7 @@ namespace InstructionsModule.ViewModels
             SelectedAvailableDevice = null;
             SelectedInstructionDevice = null;
 
-            foreach (var device in FiresecManager.DeviceConfiguration.Devices)
+            foreach (var device in FiresecManager.Devices)
             {
                 if (device.Driver.DeviceClassName == "ППКП")
                 {

@@ -58,7 +58,7 @@ namespace DevicesModule.ViewModels
 		{
 			Devices = new ObservableCollection<DeviceViewModel>();
 			AllDevices = new List<DeviceViewModel>();
-			AddDevice(FiresecManager.DeviceConfiguration.RootDevice, null);
+			AddDevice(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
 		}
 
 		DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)

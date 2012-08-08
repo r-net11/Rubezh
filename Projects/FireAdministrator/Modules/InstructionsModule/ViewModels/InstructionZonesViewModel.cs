@@ -31,7 +31,7 @@ namespace InstructionsModule.ViewModels
 
         void InitializeZones()
         {
-            foreach (var zone in FiresecManager.DeviceConfiguration.Zones)
+            foreach (var zone in FiresecManager.Zones)
             {
                 var zoneViewModel = new ZoneViewModel(zone);
                 if (InstructionZonesList.IsNotNullOrEmpty())

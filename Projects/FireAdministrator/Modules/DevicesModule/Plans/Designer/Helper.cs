@@ -12,7 +12,7 @@ namespace DevicesModule.Plans.Designer
 	{
 		public static Zone GetZone(IElementZone element)
 		{
-			return element.ZoneNo.HasValue ? FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == element.ZoneNo.Value) : null;
+			return element.ZoneNo.HasValue ? FiresecManager.Zones.FirstOrDefault(x => x.No == element.ZoneNo.Value) : null;
 		}
 		public static Plan GetPlan(ElementSubPlan element)
 		{
@@ -44,7 +44,7 @@ namespace DevicesModule.Plans.Designer
 
 		public static Device GetDevice(ElementDevice element)
 		{
-			return element.DeviceUID == null ? null : FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == element.DeviceUID);
+			return element.DeviceUID == null ? null : FiresecManager.Devices.FirstOrDefault(x => x.UID == element.DeviceUID);
 		}
 		public static void SetDevice(ElementDevice element, Device device)
 		{

@@ -29,7 +29,7 @@ namespace PlansModule.ViewModels
 			UnSetGuardCommand = new RelayCommand(OnUnSetGuard, CanUnSetGuard);
 
 			ZoneNo = elementPolygonZone.ZoneNo;
-			Zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == ZoneNo);
+			Zone = FiresecManager.Zones.FirstOrDefault(x => x.No == ZoneNo);
 			if (Zone != null)
 			{
 				ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
