@@ -83,16 +83,15 @@ namespace FiresecService.Processor
 			}
 		}
 
-		bool OnProgress(int stage, string comment, int percentComplete, int bytesRW)
+		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			foreach (var firesecService in FiresecServices)
 			{
 				if (firesecService != null && firesecService.CallbackWrapper != null)
 				{
-					return firesecService.CallbackWrapper.Progress(stage, comment, percentComplete, bytesRW);
+					firesecService.CallbackWrapper.Progress(stage, comment, percentComplete, bytesRW);
 				}
 			}
-			return false;
 		}
 		#endregion
 
@@ -121,8 +120,6 @@ namespace FiresecService.Processor
 			FiresecSerializedClient.Progress += new Action<int, string, int, int>(OnProgress);
 		}
 
-		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
-					firesecService.CallbackWrapper.Progress(stage, comment, percentComplete, bytesRW);
 		void FiresecClient_NewEvent(int EventMask)
 		{
 			bool evmNewEvents = ((EventMask & 1) == 1);

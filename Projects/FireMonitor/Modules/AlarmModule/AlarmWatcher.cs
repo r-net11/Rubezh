@@ -82,13 +82,7 @@ namespace AlarmModule
 		{
 			foreach (var zoneState in FiresecManager.DeviceStates.ZoneStates)
 			{
-				var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneState.No);
-				if (zone == null)
-				{
-					Logger.Error("AlarmWatcher.UpdateZoneAlarms zone = null");
-					continue;
-				}
-				switch (zone.ZoneType)
+				switch (zoneState.Zone.ZoneType)
 				{
 					case ZoneType.Fire:
 						if (zoneState.StateType == StateType.Fire)

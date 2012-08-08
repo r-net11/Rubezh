@@ -99,6 +99,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Converters\StateToIconConverter.cs" />
+    <Compile Include="Converters\ZoneStateToColorConverter.cs" />
     <Compile Include="DevicesModuleLoader.cs" />
     <Compile Include="Events\ZoneSelectedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

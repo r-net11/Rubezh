@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Controls;
 using Common;
+using System.ServiceProcess;
 
 namespace Firesec
 {
@@ -114,7 +115,7 @@ namespace Firesec
 		public FiresecOperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
 			Connectoin.ExecuteRuntimeDeviceMethod(devicePath, methodName, null, ReguestId++);
-			return null;
+			return new FiresecOperationResult<bool>() { Result = true };
 		}
 
 		public FiresecOperationResult<bool> CheckHaspPresence()

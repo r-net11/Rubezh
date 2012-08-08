@@ -13,7 +13,7 @@ namespace FiresecClient
 			if ((zone.ZoneType == ZoneType.Guard) && (zone.SecPanelUID != Guid.Empty))
 			{
 				var localNo = GetZoneLocalSecNo(zone);
-				if (localNo >= 0)
+				if (localNo > 0)
 				{
 					FiresecService.SetZoneGuard(zone.SecPanelUID, localNo);
 				}
@@ -25,18 +25,20 @@ namespace FiresecClient
 			if ((zone.ZoneType == ZoneType.Guard) && (zone.SecPanelUID != Guid.Empty))
 			{
 				var localNo = GetZoneLocalSecNo(zone);
-				FiresecService.UnSetZoneGuard(zone.SecPanelUID, localNo);
+				if (localNo > 0)
+				{
+					FiresecService.UnSetZoneGuard(zone.SecPanelUID, localNo);
+				}
 			}
 		}
 
 		public static bool IsZoneOnGuard(ZoneState zoneState)
 		{
-			var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneState.No);
-			if (zone.ZoneType == ZoneType.Fire)
+			if (zoneState.Zone.ZoneType == ZoneType.Fire)
 			{
 				return false;
 			}
-			foreach (var device in zone.DevicesInZone)
+			foreach (var device in zoneState.Zone.DevicesInZone)
 			{
 				if (device.Driver.DriverType != DriverType.AM1_O)
 					continue;
@@ -52,12 +54,11 @@ namespace FiresecClient
 
 		public static bool IsZoneOnGuardAlarm(ZoneState zoneState)
 		{
-			var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneState.No);
-			if (zone.ZoneType == ZoneType.Fire)
+			if (zoneState.Zone.ZoneType == ZoneType.Fire)
 			{
 				return false;
 			}
-			foreach (var device in zone.DevicesInZone)
+			foreach (var device in zoneState.Zone.DevicesInZone)
 			{
 				if (device.Driver.DriverType != DriverType.AM1_O)
 					continue;

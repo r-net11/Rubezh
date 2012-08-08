@@ -5,6 +5,7 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <UserControl.Resources>
         <Converters:StateToIconConverter x:Key="StateToIconConverter" />
+        <Converters:ZoneStateToColorConverter x:Key="ZoneStateToColorConverter" />
     </UserControl.Resources>
     
     <Grid>
@@ -43,7 +44,7 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                            Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
+                                            Background="{Binding ZoneState, Converter={StaticResource ZoneStateToColorConverter}}"
                                             ToolTip="{Binding Tooltip}"
                                             Command="{Binding SelectCommand}">
                                         <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
