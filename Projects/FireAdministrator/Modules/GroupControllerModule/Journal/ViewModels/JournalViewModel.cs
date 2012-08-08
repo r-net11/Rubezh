@@ -29,8 +29,13 @@ namespace GKModule.ViewModels
 
 		void SetTotalCount()
 		{
-			var bytes = SendManager.Send(Device, 0, 6, 64);
-			var journalItem = new JournalItem(bytes);
+			var sendResult = SendManager.Send(Device, 0, 6, 64);
+			if (sendResult.HasError)
+			{
+				MessageBoxService.Show("Ошибка связи с устройством");
+				return;
+			}
+			var journalItem = new JournalItem(sendResult.Bytes);
 			TotalCount = journalItem.GKNo;
 		}
 
@@ -91,8 +96,13 @@ namespace GKModule.ViewModels
 				var data = new List<byte>();
 				data = BitConverter.GetBytes(i).ToList();
 				LoadingService.DoStep("Чтение записи " + i);
-				var bytes = SendManager.Send(Device, 4, 7, 64, data);
-				var journalItem = new JournalItem(bytes);
+				var sendResult = SendManager.Send(Device, 4, 7, 64, data);
+				if (sendResult.HasError)
+				{
+					MessageBoxService.Show("Ошибка связи с устройством");
+					break;
+				}
+				var journalItem = new JournalItem(sendResult.Bytes);
 				JournalItems.Add(journalItem);
 			}
 			LoadingService.Close();

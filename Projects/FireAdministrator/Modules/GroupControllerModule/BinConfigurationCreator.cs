@@ -15,17 +15,17 @@ namespace GKModule
 			foreach (var kauDatabase in DatabaseManager.KauDatabases)
 			{
 				LoadingService.Show("Запись конфигурации в КАУ", 2 + kauDatabase.BinaryObjects.Count);
-				WriteOneConfig(kauDatabase);
+				WriteConfigToDevice(kauDatabase);
 			}
 
 			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
 				LoadingService.Show("Запись конфигурации в ГК", 2 + gkDatabase.BinaryObjects.Count);
-				WriteOneConfig(gkDatabase);
+				WriteConfigToDevice(gkDatabase);
 			}
 		}
 
-		static void WriteOneConfig(CommonDatabase commonDatabase)
+		static void WriteConfigToDevice(CommonDatabase commonDatabase)
 		{
 			LoadingService.DoStep("Переход в технологический режим");
 			SendManager.Send(commonDatabase.RootDevice, 0, 14, 0, null, false);

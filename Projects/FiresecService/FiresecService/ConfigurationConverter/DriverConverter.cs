@@ -59,6 +59,8 @@ namespace FiresecService.Configuration
 				driver.CanUpdateSoft = innerDriver.options.Contains("SoftUpdates");
 				driver.CanExecuteCustomAdminFunctions = innerDriver.options.Contains("CustomIOCTLFunctions");
 			}
+			if (driver.DriverType == DriverType.Exit)
+				driver.IsPlaceable = false;
 
 			var metadataClass = Metadata.@class.FirstOrDefault(x => x.clsid == innerDriver.clsid);
 			if (metadataClass != null)

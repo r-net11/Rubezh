@@ -171,6 +171,7 @@ namespace GKModule.ViewModels
 
 		bool CanBeInZone(XDriver driver)
 		{
+			return driver.HasZone;
 			if (driver.IsDeviceOnShleif == false)
 				return false;
 			if (driver.AutoChildCount > 0)

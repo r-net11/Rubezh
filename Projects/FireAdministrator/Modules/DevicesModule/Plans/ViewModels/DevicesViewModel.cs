@@ -32,14 +32,14 @@ namespace DevicesModule.Plans.ViewModels
 
 		public List<DeviceViewModel> AllDevices;
 
-		void AddChildPlainDevices(DeviceViewModel parentViewModel)
-		{
-			AllDevices.Add(parentViewModel);
-			foreach (var childViewModel in parentViewModel.Children)
-			{
-				AddChildPlainDevices(childViewModel);
-			}
-		}
+		//void AddChildPlainDevices(DeviceViewModel parentViewModel)
+		//{
+		//    AllDevices.Add(parentViewModel);
+		//    foreach (var childViewModel in parentViewModel.Children)
+		//    {
+		//        AddChildPlainDevices(childViewModel);
+		//    }
+		//}
 
 		public void Select(Guid deviceUID)
 		{
@@ -56,6 +56,17 @@ namespace DevicesModule.Plans.ViewModels
 
 			foreach (var device in FiresecManager.DeviceConfiguration.Devices)
 			{
+				if (device.IsNotUsed)
+					continue;
+
+				if (device.Driver.DriverType == DriverType.Exit)
+				{
+					;
+				}
+
+				if (!device.Driver.IsPlaceable && device.Children.Count == 0)
+					continue;
+
 				var deviceViewModel = new DeviceViewModel(device, Devices);
 				deviceViewModel.IsExpanded = true;
 				Devices.Add(deviceViewModel);

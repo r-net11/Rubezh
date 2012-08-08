@@ -63,22 +63,25 @@ namespace GKModule.Plans.ViewModels
 			var xRootDevice = XManager.DeviceConfiguration.RootDevice;
 			AddDevice(xRootDevice, null);
 		}
-		public XDeviceViewModel AddDevice(XDevice xDevice, XDeviceViewModel parentDeviceViewModel)
+		public XDeviceViewModel AddDevice(XDevice device, XDeviceViewModel parentDeviceViewModel)
 		{
-			var xDeviceViewModel = new XDeviceViewModel(xDevice, Devices);
-			xDeviceViewModel.Parent = parentDeviceViewModel;
+			var deviceViewModel = new XDeviceViewModel(device, Devices);
+			deviceViewModel.Parent = parentDeviceViewModel;
 
 			var indexOf = Devices.IndexOf(parentDeviceViewModel);
-			Devices.Insert(indexOf + 1, xDeviceViewModel);
+			Devices.Insert(indexOf + 1, deviceViewModel);
 
-			if (xDevice != null)
-				foreach (var childDevice in xDevice.Children)
+			if (device != null)
+				foreach (var childDevice in device.Children)
 				{
-					var childDeviceViewModel = AddDevice(childDevice, xDeviceViewModel);
-					xDeviceViewModel.Children.Add(childDeviceViewModel);
+					if (!childDevice.Driver.IsDeviceOnShleif && childDevice.Children.Count == 0)
+						continue;
+
+					var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
+					deviceViewModel.Children.Add(childDeviceViewModel);
 				}
 
-			return xDeviceViewModel;
+			return deviceViewModel;
 		}
 		private void AddChildPlainDevices(XDeviceViewModel parentViewModel)
 		{

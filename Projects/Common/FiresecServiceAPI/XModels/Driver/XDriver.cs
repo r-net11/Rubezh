@@ -17,10 +17,10 @@ namespace XFiresecAPI
 		}
 
 		[DataMember]
-		public short DriverTypeNo { get; set; }
+		public XDriverType DriverType { get; set; }
 
 		[DataMember]
-		public XDriverType DriverType { get; set; }
+		public short DriverTypeNo { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -93,6 +93,9 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public bool HasLogic { get; set; }
+
+		[DataMember]
+		public bool HasZone { get; set; }
 
 		[DataMember]
 		public bool IsGroupDevice { get; set; }

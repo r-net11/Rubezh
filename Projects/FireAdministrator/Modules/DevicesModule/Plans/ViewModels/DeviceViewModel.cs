@@ -20,26 +20,10 @@ namespace DevicesModule.Plans.ViewModels
 
         public Device Device { get; private set; }
 
-        public string PresentationZone
-        {
-            get
-            {
-                if (Device.Driver.IsZoneDevice)
-                {
-                    var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
-                    if (zone != null)
-                        return zone.PresentationName;
-                }
-
-                if (Device.Driver.IsZoneLogicDevice && Device.ZoneLogic != null)
-                    return Device.ZoneLogic.ToString();
-
-                if (Device.Driver.IsIndicatorDevice && Device.IndicatorLogic != null)
-                    return Device.IndicatorLogic.ToString();
-
-                return "";
-            }
-        }
+		public string PresentationZone
+		{
+			get { return FiresecManager.GetPresentationZone(Device); }
+		}
 
         public bool IsOnPlan
         {

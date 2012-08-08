@@ -19,6 +19,13 @@ namespace GKModule.ViewModels
             RemoveCommand = new RelayCommand<StateLogicViewModel>(OnRemove);
 
             Device = device;
+			if (device.DeviceLogic.StateLogics.Count == 0)
+			{
+				var stateLogic = new StateLogic();
+				var clause = new XClause();
+				stateLogic.Clauses.Add(clause);
+				device.DeviceLogic.StateLogics.Add(stateLogic);
+			}
 
             StateLogics = new ObservableCollection<StateLogicViewModel>();
             foreach (var stateLogic in device.DeviceLogic.StateLogics)

@@ -4,6 +4,7 @@ using Common.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -34,13 +35,18 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			var bytes = SendManager.Send(Device, 0, 4, 6);
-			var Day = bytes[0];
-			var Month = bytes[1];
-			var Year = bytes[2];
-			var Hour = bytes[3];
-			var Minute = bytes[4];
-			var Second = bytes[5];
+			var sendResult = SendManager.Send(Device, 0, 4, 6);
+			if (sendResult.HasError)
+			{
+				MessageBoxService.Show("Ошибка связи с устройством");
+				return;
+			}
+			var Day = sendResult.Bytes[0];
+			var Month = sendResult.Bytes[1];
+			var Year = sendResult.Bytes[2];
+			var Hour = sendResult.Bytes[3];
+			var Minute = sendResult.Bytes[4];
+			var Second = sendResult.Bytes[5];
 			Time = Day.ToString() + "/" + Month.ToString() + "/" + Year.ToString() + " " + Hour.ToString() + ":" + Minute.ToString() + ":" + Second.ToString();
 		}
 

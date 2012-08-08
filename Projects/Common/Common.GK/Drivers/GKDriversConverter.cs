@@ -46,6 +46,7 @@ namespace Common.GK
 					//IsDeviceOnShleif = driver.IsDeviceOnShleif,
 					IsDeviceOnShleif = true,
 					HasLogic = driver.IsZoneLogicDevice,
+					HasZone = driver.IsZoneDevice,
 					IsGroupDevice = driver.IsChildAddressReservedRange
 				};
 

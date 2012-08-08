@@ -13,14 +13,14 @@ namespace Common.GK
 {
 	public static class SendManager
 	{
-		public static List<byte> Send(XDevice device, short length, byte command, short inputLenght, List<byte> data = null, bool hasAnswer = true)
+		public static SendResult Send(XDevice device, short length, byte command, short inputLenght, List<byte> data = null, bool hasAnswer = true)
 		{
 			byte whom = 0;
 			byte address = 0;
 
 			if ((device == null) || (device.Driver == null))
 			{
-				return new List<byte>();
+				return new SendResult("Неизвестное устройство");
 			}
 
 			switch(device.Driver.DriverType)
@@ -67,7 +67,7 @@ namespace Common.GK
 			return resultBytes;
 		}
 
-		static List<byte> SendBytes(string ipAddress, List<byte> bytes, short inputLenght, bool hasAnswer = true)
+		static SendResult SendBytes(string ipAddress, List<byte> bytes, short inputLenght, bool hasAnswer = true)
 		{
 			var udpClient = new UdpClient();
 			udpClient.Client.ReceiveTimeout = 1000;
@@ -96,15 +96,18 @@ namespace Common.GK
 
 			if (recievedBytes[0] != bytes[0])
 			{
-				MessageBoxService.Show("Не совпадает байт 'Кому'");
+				//MessageBoxService.Show("Не совпадает байт 'Кому'");
+				return new SendResult("Не совпадает байт 'Кому'");
 			}
 			if (recievedBytes[1] != bytes[1])
 			{
-				MessageBoxService.Show("Не совпадает байт 'Адрес'");
+				//MessageBoxService.Show("Не совпадает байт 'Адрес'");
+				return new SendResult("Не совпадает байт 'Адрес'");
 			}
 			if (recievedBytes[4] != bytes[4])
 			{
-				MessageBoxService.Show("Не совпадает байт 'Команда'");
+				//MessageBoxService.Show("Не совпадает байт 'Команда'");
+				return new SendResult("Не совпадает байт 'Команда'");
 			}
 
 			var recievedInputLenght = (short)(recievedBytes[2] + 256 * recievedBytes[3]);
@@ -115,8 +118,7 @@ namespace Common.GK
 					//MessageBoxService.Show("Не совпадают байты 'Длина'");
 				}
 			}
-
-			return recievedBytes.Skip(5).ToList();
+			return new SendResult(recievedBytes.Skip(5).ToList());
 		}
 
 		public static List<byte> ToBytes(short shortValue)

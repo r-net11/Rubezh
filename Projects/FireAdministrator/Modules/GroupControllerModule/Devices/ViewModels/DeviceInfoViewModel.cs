@@ -4,6 +4,7 @@ using Common.GK;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -45,11 +46,21 @@ namespace GKModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			var bytes = SendManager.Send(Device, 0, 1, 1);
-			Version = BytesToString(bytes);
+			var sendResult = SendManager.Send(Device, 0, 1, 1);
+			if (sendResult.HasError)
+			{
+				MessageBoxService.Show("Ошибка связи с устройством");
+				return;
+			}
+			Version = BytesToString(sendResult.Bytes);
 
-			bytes = SendManager.Send(Device, 0, 2, 8);
-			Info = BytesToString(bytes);
+			sendResult = SendManager.Send(Device, 0, 2, 8);
+			if (sendResult.HasError)
+			{
+				MessageBoxService.Show("Ошибка связи с устройством");
+				return;
+			}
+			Info = BytesToString(sendResult.Bytes);
 		}
 
 		public RelayCommand WriteCommand { get; private set; }
