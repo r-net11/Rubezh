@@ -194,7 +194,6 @@ namespace FiresecService.Service
 			};
 
 			operationResult.Result = DeviceCustomFunctionConverter.Convert(result.Result);
-
 			return operationResult;
 		}
 

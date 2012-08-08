@@ -17,7 +17,6 @@ namespace FiresecService.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-			ShowOperationHistoryCommand = new RelayCommand(OnShowOperationHistory);
 			ShowImitatorCommand = new RelayCommand(OnShowImitator);
 			Clients = new ObservableCollection<ClientViewModel>();
 			Title = "Сервер ОПС FireSec-2";
@@ -29,16 +28,6 @@ namespace FiresecService.ViewModels
 			ClientsCash.NotifyClients("Запущен имитатор");
 			var imitatorViewModel1 = new ImitatorViewModel();
 			DialogService.ShowModalWindow(imitatorViewModel1);
-		}
-
-		public RelayCommand ShowOperationHistoryCommand { get; private set; }
-		void OnShowOperationHistory()
-		{
-			if (SelectedClient != null)
-			{
-				var operationHistoryViewModel = new OperationHistoryViewModel(SelectedClient);
-				DialogService.ShowModalWindow(operationHistoryViewModel);
-			}
 		}
 
 		private string _status;

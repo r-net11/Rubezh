@@ -18,9 +18,9 @@ namespace DevicesModule.ViewModels
 
 		public void Initialize()
 		{
-			Zones = (from Zone zone in FiresecManager.DeviceConfiguration.Zones
-					 orderby zone.No
-					 select new ZoneViewModel(zone)).ToList();
+			Zones = (from ZoneState zoneState in FiresecManager.DeviceStates.ZoneStates
+					 orderby zoneState.No
+					 select new ZoneViewModel(zoneState)).ToList();
 			SelectedZone = Zones.FirstOrDefault();
 		}
 
@@ -69,15 +69,6 @@ namespace DevicesModule.ViewModels
 					device.AllParents.ForEach(x => { devices.Add(x); });
 					devices.Add(device);
 				}
-
-				//if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
-				//{
-				//    foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.Zones.Contains(SelectedZone.Zone.No)))
-				//    {
-				//        device.AllParents.ForEach(x => { devices.Add(x); });
-				//        devices.Add(device);
-				//    }
-				//}
 			}
 
 			Devices = new ObservableCollection<DeviceViewModel>();

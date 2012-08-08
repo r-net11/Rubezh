@@ -28,10 +28,10 @@ namespace AlarmModule
 			{
 				foreach (var zoneNo in camera.Zones)
 				{
-					var zone = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
-					if (zone != null)
+					var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+					if (zoneState != null)
 					{
-						if (zone.StateType == camera.StateType)
+						if (zoneState.StateType == camera.StateType)
 						{
 							VideoService.Show(camera);
 						}

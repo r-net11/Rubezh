@@ -8,8 +8,6 @@ namespace FireAdministrator.ViewModels
 {
 	public class ProgressViewModel : DialogViewModel
 	{
-		bool ContinueProgress { get; set; }
-
 		public ProgressViewModel(string title)
 		{
 			Title = title;
@@ -17,21 +15,19 @@ namespace FireAdministrator.ViewModels
 			CloseOnEscape = false;
 			AllowClose = false;
 			StopCommand = new RelayCommand(OnStop);
-			ContinueProgress = true;
-			FiresecCallbackService.ProgressEvent -= new Func<int, string, int, int, bool>(Progress);
-			FiresecCallbackService.ProgressEvent += new Func<int, string, int, int, bool>(Progress);
+			FiresecCallbackService.ProgressEvent -= new Action<int, string, int, int>(Progress);
+			FiresecCallbackService.ProgressEvent += new Action<int, string, int, int>(Progress);
 		}
 
 		public void CloseProgress()
 		{
-			FiresecCallbackService.ProgressEvent -= new Func<int, string, int, int, bool>(Progress);
+			FiresecCallbackService.ProgressEvent -= new Action<int, string, int, int>(Progress);
 			Close(true);
 		}
 
-		public bool Progress(int stage, string comment, int percentComplete, int bytesRW)
+		public void Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			ApplicationService.Invoke(() => OnProgress(stage, comment, percentComplete, bytesRW));
-			return ContinueProgress;
 		}
 
 		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
@@ -85,7 +81,6 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand StopCommand { get; private set; }
 		void OnStop()
 		{
-			ContinueProgress = false;
 			FiresecManager.FiresecService.CancelProgress();
 		}
 	}

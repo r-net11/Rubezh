@@ -72,7 +72,7 @@ namespace FiresecClient
 		{
 			foreach (var deviceState in DeviceStates.DeviceStates)
 			{
-				deviceState.Device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
+				deviceState.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceState.UID);
 				if (deviceState.Device == null)
 				{
 					MessageBox.Show("Ошибка при сопоставлении устройства с его состоянием");
@@ -86,17 +86,27 @@ namespace FiresecClient
 
 				foreach (var parentState in deviceState.ParentStates)
 				{
-					parentState.ParentDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == parentState.ParentDeviceId);
+					parentState.ParentDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == parentState.ParentDeviceId);
 					if (parentState.ParentDevice != null)
 						parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
 				}
 
 				foreach (var childState in deviceState.ChildStates)
 				{
-					childState.ChildDevice = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == childState.ChildDeviceId);
+					childState.ChildDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == childState.ChildDeviceId);
 					if (childState.ChildDevice != null)
 						childState.DriverState = childState.ChildDevice.Driver.States.FirstOrDefault(x => x.Code == childState.Code);
 				}
+			}
+
+			foreach (var zoneState in DeviceStates.ZoneStates)
+			{
+				zoneState.Zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneState.No);
+				if (zoneState.Zone == null)
+				{
+					Logger.Error("FiresecManager.UpdateStates zoneState.Zone == null");
+				}
+				zoneState.IsOnGuard = IsZoneOnGuard(zoneState);
 			}
 		}
 

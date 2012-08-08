@@ -344,7 +344,7 @@ namespace FiresecClient
 								 orderby guardZone.No
 								 where guardZone.SecPanelUID == zone.SecPanelUID
 								 select guardZone).ToList();
-				return guardZones.IndexOf(zone);
+				return guardZones.IndexOf(zone) + 1;
 			}
 			return -1;
 		}

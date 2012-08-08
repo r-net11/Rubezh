@@ -12,17 +12,20 @@ namespace DevicesModule.ViewModels
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		public Zone Zone { get; private set; }
 		public ZoneState ZoneState { get; private set; }
+		public Zone Zone
+		{
+			get { return ZoneState.Zone; }
+		}
 
-		public ZoneViewModel(Zone zone)
+		public ZoneViewModel(ZoneState zoneState)
 		{
 			SelectCommand = new RelayCommand(OnSelect);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			SetGuardCommand = new RelayCommand(OnSetGuard, CanSetGuard);
 			UnSetGuardCommand = new RelayCommand(OnUnSetGuard, CanUnSetGuard);
 
-			Zone = zone;
+			ZoneState = zoneState;
 			if (FiresecManager.DeviceStates == null)
 			{
 				Logger.Error("ZoneViewModel.ctrl FiresecManager.DeviceStates = null");
@@ -33,12 +36,6 @@ namespace DevicesModule.ViewModels
 				Logger.Error("ZoneViewModel.ctrl FiresecManager.DeviceStates.ZoneStates = null");
 				return;
 			}
-			ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
-			if (ZoneState == null)
-			{
-				Logger.Error("ZoneViewModel.ctrl ZoneState = null");
-				return;
-			}
 			ZoneState.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}
@@ -46,6 +43,7 @@ namespace DevicesModule.ViewModels
 		void OnStateChanged()
 		{
 			StateType = ZoneState.StateType;
+			OnPropertyChanged("ZoneState");
 		}
 
 		StateType _stateType;
@@ -108,7 +106,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanSetGuard()
 		{
-			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null));
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (ZoneState.IsOnGuard == false));
 		}
 
 		public RelayCommand UnSetGuardCommand { get; private set; }
@@ -118,7 +116,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanUnSetGuard()
 		{
-			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null));
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (ZoneState.IsOnGuard == true));
 		}
 	}
 }

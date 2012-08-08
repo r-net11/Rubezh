@@ -14,46 +14,16 @@ namespace FiresecService.ViewModels
 		public int CallbackPort { get; set; }
 		public ClientType ClientType { get; set; }
 		public DateTime ConnectionDate { get; set; }
-		public List<OperationViewModel> Operations { get; set; }
 
-		public ClientViewModel()
-		{
-			Operations = new List<OperationViewModel>();
-		}
-
-		OperationViewModel ClientToServerOperation;
-		OperationViewModel ServerToClientOperation;
-
-		OperationViewModel GetOperation(OperationDirection operationDirection)
+		public void BeginAddOperation(OperationDirection operationDirection, string operationName)
 		{
 			switch (operationDirection)
 			{
 				case OperationDirection.ClientToServer:
-					return ClientToServerOperation;
-
-				case OperationDirection.ServerToClient:
-					return ServerToClientOperation;
-			}
-			return null;
-		}
-
-		public void BeginAddOperation(OperationDirection operationDirection, string operationName)
-		{
-			var operation = new OperationViewModel()
-			{
-				StartDateTime = DateTime.Now,
-				OperationName = operationName,
-				Direction = operationDirection
-			};
-			switch(operationDirection)
-			{
-				case OperationDirection.ClientToServer:
-					ClientToServerOperation = operation;
 					ClientToServerOperationName = operationName;
 					break;
 
 				case OperationDirection.ServerToClient:
-					ServerToClientOperation = operation;
 					ServerToClientOperationName = operationName;
 					break;
 			}
@@ -61,19 +31,6 @@ namespace FiresecService.ViewModels
 
 		public void EndAddOperation(OperationDirection operationDirection)
 		{
-			var operation = GetOperation(operationDirection);
-			if (operation == null)
-			{
-				Logger.Error("ClientViewModel.EndAddOperation operation = null");
-				return;
-			}
-			operation.Duration = DateTime.Now - operation.StartDateTime;
-			if (operation.OperationName != "Ping")
-			{
-				Operations.Add(operation);
-			}
-			operation = null;
-
 			switch (operationDirection)
 			{
 				case OperationDirection.ClientToServer:
