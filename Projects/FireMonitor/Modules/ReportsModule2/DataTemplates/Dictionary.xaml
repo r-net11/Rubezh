@@ -6,5 +6,4 @@
     <DataTemplate DataType="{x:Type ViewModels:Reports2ViewModel}">
         <Views:Reports2View />
     </DataTemplate>
-
 </ResourceDictionary>

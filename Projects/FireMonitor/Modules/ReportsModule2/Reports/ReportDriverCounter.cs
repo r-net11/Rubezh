@@ -10,8 +10,8 @@ namespace ReportsModule2.Reports
     {
         public ReportDriverCounter()
         {
-            ReportFileName = "DriverCounterCrystalReport.rpt";
-			XpsDocumentName = "DriverCounterCrystalReport.xps";
+            ReportFileName = "DriverCounterRdlc.rdlc";
+			DataSourceFileName = "DriverCounterData";
         }
 
         public override void LoadData()
@@ -55,29 +55,6 @@ namespace ReportsModule2.Reports
                 Count = CountDrivers()
             });
         }
-
-		public override void CreateFlowDocumentStringBuilder()
-		{
-			var flowDocumentSB = new StringBuilder();
-			flowDocumentSB.Append(@"<FlowDocument xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" >");
-			flowDocumentSB.Append(@"<Table CellSpacing=""0.1"" BorderThickness=""1,1,1,1"" BorderBrush=""#FFFFFFFF"">");
-			flowDocumentSB.Append(@"<Table.Columns><TableColumn /><TableColumn /></Table.Columns>");
-			flowDocumentSB.Append(@"<TableRowGroup Name=""RowVisual""><TableRow FontWeight=""Bold"" FontSize=""14"" Background=""#FFC0C0C0""><TableCell><Paragraph>Устройство</Paragraph></TableCell><TableCell><Paragraph>Используется в конфигурации</Paragraph></TableCell></TableRow></TableRowGroup>");
-			flowDocumentSB.Append(@"<TableRowGroup Name=""RowVisual2"" FontWeight=""Normal"" FontSize=""12"" Background=""#FFFFFFFF"">");
-			string tableCellOpenTag = @"<TableCell BorderThickness=""1,1,1,1"" BorderBrush=""#FF000000""><Paragraph>";
-			string tableRowOpenTag = @"<TableRow>";
-			string tableRowCloseTag = @"</TableRow>";
-			string tableCellCloseTag = @"</Paragraph></TableCell>";
-			foreach (var deviceListModel in DataList)
-			{
-				flowDocumentSB.Append(tableRowOpenTag);
-				flowDocumentSB.Append(tableCellOpenTag + deviceListModel.DriverName.ToString() + tableCellCloseTag);
-				flowDocumentSB.Append(tableCellOpenTag + deviceListModel.Count.ToString() + tableCellCloseTag);
-				flowDocumentSB.Append(tableRowCloseTag);
-			}
-			flowDocumentSB.Append(@"</TableRowGroup></Table></FlowDocument>");
-			FlowDocumentStringBuilder = flowDocumentSB;
-		}
 
         void AddDrivers(Driver driver)
         {
