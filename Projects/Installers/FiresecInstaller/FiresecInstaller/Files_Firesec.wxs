@@ -27,7 +27,7 @@
         <CreateFolder Directory="INSTALLLOCATION" />
         <util:XmlConfig Id="XmlFMSettingsReport2" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
                         ElementPath="//configuration/modules" On="install"
-                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='ReportsModule2.dll'[\]]"
+                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='ReportsModule.dll'[\]]"
 											/>
       </Component>
       <Component Id="DeleteOPCXMLSetting" Guid="F0B66E96-0FC0-4CB2-BE16-7EF991083700">

@@ -7,6 +7,20 @@ namespace ReportsModule2.Models
 {
 	public class ReportIndicationBlockModel
 	{
+        public string NumberFirstColumn { get; set; }
+		public string NumberSecondColumn { get; set; }
+		public string NumberThirdColumn { get; set; }
+		public string NumberFourthColumn { get; set; }
+		public string NumberFifthColumn { get; set; }
+        public string PresentationNameFirstColumn { get; set; }
+		public string PresentationNameSecondColumn { get; set; }
+		public string PresentationNameThirdColumn { get; set; }
+		public string PresentationNameFourthColumn { get; set; }
+		public string PresentationNameFifthColumn { get; set; }
+    }
+
+	public class ReportIndicationBlockOldModel
+	{
 		public string Number { get; set; }
 		public string PresentationName { get; set; }
 		public string BlockIndicationNumber { get; set; }

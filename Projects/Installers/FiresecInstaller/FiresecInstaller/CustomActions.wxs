@@ -5,6 +5,7 @@
     <!--<CustomAction Id="PreventDowngrading" Error="Newer version already installed." />-->
 		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="KillFiresecProcess" Execute="immediate" Impersonate="yes" Return="check"/>
     <CustomAction Id="InstallHaspDriver" BinaryKey="haspdinst.exe" ExeCommand="-i -kp" Return="ignore" Execute="immediate" />
+    <CustomAction Id="InstallReportViewer" BinaryKey="ReportViewer.exe" ExeCommand="/q" Return="asyncNoWait" Execute="immediate" />
     <CustomAction Id="InstallSocketServer" FileKey="FsScktsrvrExeFile" ExeCommand="-install -silent" Execute="immediate" Impersonate="yes" Return="ignore" />
     <CustomAction Id="UnInstallSocketServer" FileKey="FsScktsrvrExeFile" ExeCommand="-uninstall -silent" Execute="immediate" Impersonate="yes" Return="ignore" />
     <CustomAction Id="RegisterServer" FileKey="Fs_serverExeFile" ExeCommand="-regserver" Execute="immediate" Impersonate="yes" Return="ignore" />

@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Xps.Packaging;
 using System.IO;
 using Microsoft.Reporting.WinForms;
+using System.Collections;
 
 namespace ReportsModule2.Reports
 {
@@ -16,8 +17,8 @@ namespace ReportsModule2.Reports
         }
 
 		public override ReportDataSource CreateDataSource()
-		{
-			return new ReportDataSource(ReportFileName , DataList);
+		{ 
+			return new ReportDataSource(DataSourceFileName , DataList);
 		}
 
         protected List<T> _dataList;

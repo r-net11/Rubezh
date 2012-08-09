@@ -120,6 +120,7 @@
       <Custom Action="RunSocketServerServiceNet" After="InstallSocketServer">1</Custom>
       <Custom Action="InstallHaspDriver" After="RunSocketServerServiceNet" >NOT REGOLDFS AND INSTALLMODE</Custom>
       <Custom Action="StartAppOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
+      <Custom Action="InstallReportViewer" After="StartAppOnExit" >INSTALLMODE</Custom>
       <!--<Custom Action="RunFiresecServiceNet" After="InstallHaspDriver" >1</Custom>-->
 
       <!--<Custom Action="StopFiresecServiceNet" After="CloseApplications">1</Custom>-->

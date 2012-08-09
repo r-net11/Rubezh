@@ -111,6 +111,11 @@
 							DiskId="1" KeyPath="yes" />
 			</Component>
 
+      <Component Id="FMReportsModule2Component" Guid="*">
+        <File Id="FMReportsModule2Dll" Name="ReportsModule2.dll" Source="$(var.FireMonitor.TargetDir)"
+							DiskId="1" KeyPath="yes" />
+      </Component>
+
 			<Component Id="FMJournalModuleComponent" Guid="*">
 				<File Id="FMJournalModuleDll" Name="JournalModule.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />

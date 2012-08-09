@@ -2,10 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:WinForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
-             xmlns:rep="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms">
+             xmlns:rep="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <Border Background="{DynamicResource BackgroundBrush}" CornerRadius="2">
-        <DockPanel LastChildFill="True" Margin="2">
-            <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" >
+        <Grid>
+            <Button Name="_showReports" Content="ShowReports" Command="{Binding ShowReportCommand}"/>
+            <!--<StackPanel Orientation="Horizontal">
                 <ComboBox ItemsSource="{Binding AvailableReportTypes}" SelectedItem="{Binding SelectedReportName}" Height="25" MinWidth="150" Margin="5, 0, 0, 0">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
@@ -13,70 +15,10 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-                <Button Content="Печать" Width="100"/>
-            </StackPanel>
-            <ContentControl Content="{Binding XpsViewer}" />
-            <!--<WindowsFormsHost>
-                <rep:ReportViewer Name="_reportViewer" />
-            </WindowsFormsHost>-->
-            <!--<FlowDocumentReader>
-                <FlowDocument>
-                    <Table>
-                        <Table.Columns>
-                            <TableColumn Width="40"/>
-                            <TableColumn Width="100"/>
-                            <TableColumn Width="100"/>
-                            <TableColumn Width="100"/>
-                        </Table.Columns>
-                        <Table.RowGroups>
-                            <TableRowGroup>
-                                <TableRow>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                </TableRow>
-                                <TableRow>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                    <TableCell>
-                                        <Paragraph>123</Paragraph>
-                                    </TableCell>
-                                </TableRow>
-                            </TableRowGroup>
-                        </Table.RowGroups>
-                    </Table>
-                </FlowDocument>
-            </FlowDocumentReader>-->
-        </DockPanel>
+                <Controls:ToolBarButton Name="refreshPageButton" Command="{Binding RefreshCommand}" ToolTip="Обновить отчет" ImageSource="/Controls;component/Images/Refresh.png" />
+                <Controls:ToolBarButton Name="filterButton" Command="{Binding FilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png"
+                                        Visibility="{Binding IsJournalReport, Converter={StaticResource BoolToVisibilityConverter}}"/>
+            </StackPanel>-->
+        </Grid>
     </Border>
 </UserControl>

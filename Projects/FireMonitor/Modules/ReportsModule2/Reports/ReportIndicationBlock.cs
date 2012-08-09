@@ -3,6 +3,8 @@ using System.Text;
 using FiresecAPI.Models;
 using FiresecClient;
 using ReportsModule2.Models;
+using Microsoft.Reporting.WinForms;
+using System;
 
 namespace ReportsModule2.Reports
 {
@@ -10,9 +12,14 @@ namespace ReportsModule2.Reports
 	{
 		public ReportIndicationBlock()
 		{
-			base.ReportFileName = "IndicationBlockCrystalReport.rpt";
-			XpsDocumentName = "IndicationBlockCrystalReport.xps";
+			ReportFileName = "IndicationBlockRdlc.rdlc";
+			DataSourceFileName = "IndicationBlockData";
+			BlockIndicationNumbers = new List<string>();
+			PageNumbers = new List<string>();
 		}
+
+		public List<string> PageNumbers { get; set; }
+		public List<string> BlockIndicationNumbers { get; set; }
 
 		public override void LoadData()
 		{
@@ -30,42 +37,34 @@ namespace ReportsModule2.Reports
 			{
 				foreach (var page in block.Pages)
 				{
-					foreach (var element in page.ElementsPage)
+					BlockIndicationNumbers.Add(block.IndicationBlockNumber);
+					PageNumbers.Add(page.PageNumber.ToString());
+					for (int i = 0; i < 10; i++)
 					{
 						DataList.Add(new ReportIndicationBlockModel()
 						{
-							Number = element.No.ToString(),
-							PresentationName = element.PresentationName,
-							BlockIndicationNumber = block.IndicationBlockNumber,
-							PageNumber = page.PageNumber.ToString()
+							NumberFirstColumn = page.ElementsPage[i].No.ToString(),
+							NumberSecondColumn = page.ElementsPage[i + 10].No.ToString(),
+							NumberThirdColumn = page.ElementsPage[i + 20].No.ToString(),
+							NumberFourthColumn = page.ElementsPage[i + 30].No.ToString(),
+							NumberFifthColumn = page.ElementsPage[i + 40].No.ToString(),
+							PresentationNameFirstColumn = page.ElementsPage[i].PresentationName.ToString(),
+							PresentationNameSecondColumn = page.ElementsPage[i + 10].PresentationName.ToString(),
+							PresentationNameThirdColumn = page.ElementsPage[i + 20].PresentationName.ToString(),
+							PresentationNameFourthColumn = page.ElementsPage[i + 30].PresentationName.ToString(),
+							PresentationNameFifthColumn = page.ElementsPage[i + 40].PresentationName.ToString(),
 						});
 					}
 				}
 			}
 		}
 
-		public override void CreateFlowDocumentStringBuilder()
+		public override void LoadReportViewer(ReportViewer reportViewer)
 		{
-			var flowDocumentSB = new StringBuilder();
-			flowDocumentSB.Append(@"<FlowDocument xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" >");
-			flowDocumentSB.Append(@"<Table CellSpacing=""0.1"" BorderThickness=""1,1,1,1"" BorderBrush=""#FFFFFFFF"">");
-			flowDocumentSB.Append(@"<Table.Columns><TableColumn /><TableColumn /><TableColumn /><TableColumn /><TableColumn /><TableColumn /><TableColumn /><TableColumn /><TableColumn /><TableColumn /></Table.Columns>");
-			flowDocumentSB.Append(@"<TableRowGroup Name=""RowVisual2"" FontWeight=""Normal"" FontSize=""12"" Background=""#FFFFFFFF"">");
-			string tableCellOpenTag = @"<TableCell BorderThickness=""1,1,1,1"" BorderBrush=""#FF000000""><Paragraph>";
-			string tableRowOpenTag = @"<TableRow>";
-			string tableRowCloseTag = @"</TableRow>";
-			string tableCellCloseTag = @"</Paragraph></TableCell>";
-			foreach (var deviceListModel in DataList)
-			{
-				if ((int.Parse(deviceListModel.Number) - 1) % 10 == 0 || int.Parse(deviceListModel.Number) == 1)
-					flowDocumentSB.Append(tableRowOpenTag);
-				flowDocumentSB.Append(tableCellOpenTag + deviceListModel.Number.ToString() + tableCellCloseTag);
-				flowDocumentSB.Append(tableCellOpenTag + deviceListModel.PresentationName.ToString() + tableCellCloseTag);
-				if (int.Parse(deviceListModel.Number) % 10 == 0 || int.Parse(deviceListModel.Number) == 10)
-					flowDocumentSB.Append(tableRowCloseTag);
-			}
-			flowDocumentSB.Append(@"</TableRowGroup></Table></FlowDocument>");
-			FlowDocumentStringBuilder = flowDocumentSB;
+			base.LoadReportViewer(reportViewer);
+			var pageNumbersParameter = new ReportParameter("PageNumbers", PageNumbers.ToArray());
+			var blockIndicationNumbersParameter = new ReportParameter("BlockIndicationNumbers", BlockIndicationNumbers.ToArray());
+			reportViewer.LocalReport.SetParameters(new ReportParameter[] { pageNumbersParameter, blockIndicationNumbersParameter });
 		}
 	}
 }
