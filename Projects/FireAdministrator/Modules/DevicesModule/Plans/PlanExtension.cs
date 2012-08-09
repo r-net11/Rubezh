@@ -145,11 +145,11 @@ namespace DevicesModule.Plans
 		public IEnumerable<ElementBase> LoadPlan(Plan plan)
 		{
 			foreach (var element in plan.ElementDevices)
-					yield return element;
+				yield return element;
 			foreach (var element in plan.ElementRectangleZones)
-					yield return element;
+				yield return element;
 			foreach (var element in plan.ElementPolygonZones)
-					yield return element;
+				yield return element;
 		}
 
 		public void ExtensionRegistered(CommonDesignerCanvas designerCanvas)
@@ -195,9 +195,8 @@ namespace DevicesModule.Plans
 			ElementDevice element = e.Element as ElementDevice;
 			if (element != null)
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
-			else if (element is IElementZone)
+			else if (e.Element is IElementZone)
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
-
 		}
 
 		private void UpdateDevice(List<ElementBase> elements)
