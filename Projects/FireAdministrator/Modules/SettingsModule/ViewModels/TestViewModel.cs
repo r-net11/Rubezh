@@ -1,18 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.Linq;
 using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
+using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
 using SettingsModule.Views;
-using System;
-using System.Linq;
-using FiresecAPI.Models;
 
 namespace SettingsModule.ViewModels
 {

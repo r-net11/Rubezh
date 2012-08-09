@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using FiresecClient;
 using Infrastructure;
@@ -6,7 +7,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SecurityModule.Views;
-using System.Linq;
 
 namespace SecurityModule.ViewModels
 {

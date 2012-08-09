@@ -83,20 +83,9 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public bool CanValveControl
+		public bool CanControl
 		{
-			get
-			{
-				return Device.Driver.DriverType == DriverType.Valve && ServiceFactory.AppSettings.CanControl;
-			}
-		}
-
-		public bool CanDeviceControl
-		{
-			get
-			{
-				return Device.Driver.HasControlProperties && ServiceFactory.AppSettings.CanControl;
-			}
+			get { return Device.Driver.HasControlProperties && ServiceFactory.AppSettings.CanControl && !FiresecManager.FiresecConfiguration.IsChildMPT(Device); }
 		}
 
 		bool _isControlTabSelected;

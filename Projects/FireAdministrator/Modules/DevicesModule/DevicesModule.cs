@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DeviceControls;
+using DevicesModule.Plans;
 using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure;
@@ -9,7 +9,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using DevicesModule.Plans;
 
 namespace DevicesModule
 {

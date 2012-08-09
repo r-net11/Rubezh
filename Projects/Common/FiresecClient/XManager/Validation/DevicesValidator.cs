@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using XFiresecAPI;
 using FiresecClient.Validation;
+using XFiresecAPI;
 
 namespace FiresecClient.XModelsValidator
 {
@@ -36,7 +34,7 @@ namespace FiresecClient.XModelsValidator
 		{
 			if (zone.Devices.Any(x => x.Driver.DriverType == XDriverType.HandDetector))
 				return;
-			if (zone.DetectorCount > zone.Devices.Count)
+			if (zone.Fire1Count > zone.Devices.Count)
 				ZoneErrors.Add(new ZoneError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ErrorLevel.Warning));
 		}
 

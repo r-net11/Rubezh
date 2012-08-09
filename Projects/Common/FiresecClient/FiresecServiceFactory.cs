@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ServiceModel;
-using System.ServiceModel.Description;
-using FiresecAPI;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Description;
 using Common;
+using FiresecAPI;
 
 namespace FiresecClient
 {

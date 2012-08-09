@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FiresecClient;
 using XFiresecAPI;
+using System.Text;
 
 namespace Common.GK
 {
@@ -175,6 +176,23 @@ namespace Common.GK
 		public short GkDescriptorNo
 		{
 			get { return BinaryBase.GetDatabaseNo(DatabaseType.Gk); }
+		}
+
+		public string StringFomula
+		{
+			get
+			{
+				var stringBuilder = new StringBuilder();
+				foreach (var formulaOperation in FormulaOperations)
+				{
+					stringBuilder.Append(formulaOperation.FormulaOperationType + "\t");
+					stringBuilder.Append(formulaOperation.FirstOperand + "\t");
+					stringBuilder.Append(formulaOperation.SecondOperand + "\t");
+					stringBuilder.Append(formulaOperation.Comment);
+					stringBuilder.AppendLine("");
+				}
+				return stringBuilder.ToString();
+			}
 		}
 
 		public abstract void Build();

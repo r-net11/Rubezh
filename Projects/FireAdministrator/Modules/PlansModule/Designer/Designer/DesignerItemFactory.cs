@@ -3,9 +3,6 @@ using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer.DesignerItems;
-using System.Windows.Controls;
-using Infrastructure.Common;
-using Infrastructure.Events;
 
 namespace PlansModule.Designer
 {

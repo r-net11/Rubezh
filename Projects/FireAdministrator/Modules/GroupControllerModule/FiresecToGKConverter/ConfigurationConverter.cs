@@ -111,7 +111,7 @@ namespace GKModule.Converter
 					No = (short)zone.No,
 					Name = zone.Name,
 					Description = zone.Description,
-					DetectorCount = (short)zone.DetectorCount,
+					Fire1Count = (short)zone.DetectorCount,
 				};
 				XManager.DeviceConfiguration.Zones.Add(xZone);
 			}

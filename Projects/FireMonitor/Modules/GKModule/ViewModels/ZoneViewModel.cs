@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 			{
 				var toolTip = Zone.PresentationName;
 				toolTip += "\n" + "Состояние: " + StateType;
-				toolTip += "\n" + "Количество датчиков для сработки: " + Zone.DetectorCount.ToString();
+				toolTip += "\n" + "Количество датчиков для сработки: " + Zone.Fire1Count.ToString();
 				return toolTip;
 			}
 		}

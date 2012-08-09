@@ -77,7 +77,7 @@ namespace Common.GK
 			var bytesSent = udpClient.Send(bytes.ToArray(), bytes.Count);
 			//Trace.WriteLine("<-- " + BytesHelper.BytesToString(bytes));
 			if (hasAnswer == false)
-				return null;
+				return new SendResult(new List<byte>());
 			var recievedBytes = new List<byte>();
 			try
 			{
@@ -86,27 +86,21 @@ namespace Common.GK
 			catch (SocketException)
 			{
 				OnConnectionLost();
-				return null;
-				//throw new ProtocolException();
-				//MessageBoxService.Show("Устройство не отвечает");
-				//return new List<byte>();
+				return new SendResult("Коммуникационная ошибка");
 			}
 			//Trace.WriteLine("--> " + BytesHelper.BytesToString(recievedBytes));
 			udpClient.Close();
 
 			if (recievedBytes[0] != bytes[0])
 			{
-				//MessageBoxService.Show("Не совпадает байт 'Кому'");
 				return new SendResult("Не совпадает байт 'Кому'");
 			}
 			if (recievedBytes[1] != bytes[1])
 			{
-				//MessageBoxService.Show("Не совпадает байт 'Адрес'");
 				return new SendResult("Не совпадает байт 'Адрес'");
 			}
 			if (recievedBytes[4] != bytes[4])
 			{
-				//MessageBoxService.Show("Не совпадает байт 'Команда'");
 				return new SendResult("Не совпадает байт 'Команда'");
 			}
 
@@ -115,7 +109,7 @@ namespace Common.GK
 			{
 				if (inputLenght != recievedInputLenght)
 				{
-					//MessageBoxService.Show("Не совпадают байты 'Длина'");
+					//return new SendResult("Не совпадает байт 'Длина'");
 				}
 			}
 			return new SendResult(recievedBytes.Skip(5).ToList());

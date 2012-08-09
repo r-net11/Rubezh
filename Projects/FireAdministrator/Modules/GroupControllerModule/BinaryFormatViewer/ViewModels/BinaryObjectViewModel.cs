@@ -3,6 +3,7 @@ using Common.GK;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Text;
 
 namespace GKModule.ViewModels
 {
@@ -23,10 +24,22 @@ namespace GKModule.ViewModels
 					ImageSource = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System).ImageSource;
 					break;
 			}
+
+			var stringBuilder = new StringBuilder();
+			foreach (var formulaOperation in BinaryObject.FormulaOperations)
+			{
+				stringBuilder.Append(formulaOperation.FormulaOperationType + "\t");
+				stringBuilder.Append(formulaOperation.FirstOperand + "\t");
+				stringBuilder.Append(formulaOperation.SecondOperand + "\t");
+				stringBuilder.Append(formulaOperation.Comment);
+				stringBuilder.AppendLine("");
+			}
+			Formula = stringBuilder.ToString();
 		}
 
 		public BinaryObjectBase BinaryObject { get; set; }
 		public string ImageSource { get; set; }
 		public string Description { get; set; }
+		public string Formula { get; set; }
 	}
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Security;
 using System.Timers;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.ServiceModel.Security;
 
 namespace FiresecClient
 {

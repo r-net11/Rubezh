@@ -1,6 +1,10 @@
 ﻿<ContentControl x:Class="PlansModule.ElementZoneView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Converters="clr-namespace:PlansModule.Converters">
+    <ContentControl.Resources>
+        <Converters:ZoneStateToColorConverter x:Key="ZoneStateToColorConverter" />
+    </ContentControl.Resources>
 
     <Grid Name="_grid">
         <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.6"

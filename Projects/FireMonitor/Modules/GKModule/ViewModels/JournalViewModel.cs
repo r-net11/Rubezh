@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using Infrastructure.Common.Windows;
+using Infrastructure.Events;
 
 namespace GKModule.ViewModels
 {
@@ -26,30 +27,24 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK);
-
-			var lastId = JournalWatcher.GetLastId();
-			for (int i = Math.Max(0, lastId - MaxCount); i <= lastId; i++)
-			{
-				OnNewJournal(i);
-			}
-
-			SelectedJournal = JournalItems.FirstOrDefault();
+			JournalWatcher.GetLastJournalItems(MaxCount);
 		}
 
-		void OnNewJournal(int index)
+		void OnNewJournal(List<JournalItem> journalItems)
 		{
-			var journalItem = ReadJournal(index);
-			if (journalItem == null)
-				return;
+			foreach (var journalItem in journalItems)
+			{
+				if (JournalItems.Count > 0)
+					JournalItems.Insert(0, journalItem);
+				else
+					JournalItems.Add(journalItem);
 
-			if (JournalItems.Count > 0)
-				JournalItems.Insert(0, journalItem);
-			else
-				JournalItems.Add(journalItem);
+				if (JournalItems.Count > MaxCount)
+					JournalItems.RemoveAt(MaxCount);
+			}
 
-			if (JournalItems.Count > MaxCount)
-				JournalItems.RemoveAt(MaxCount);
+			if (SelectedJournal == null)
+				SelectedJournal = JournalItems.FirstOrDefault();
 		}
 
 		ObservableCollection<JournalItem> _journalItems;
@@ -81,7 +76,7 @@ namespace GKModule.ViewModels
 			var sendResult = SendManager.Send(Device, 4, 7, 64, data);
 			if (sendResult.HasError)
 			{
-				MessageBoxService.Show("Ошибка связи с устройством");
+				ServiceFactory.Events.GetEvent<GKConnectionChanged>().Publish(false);
 				return null;
 			}
 			var journalItem = new JournalItem(sendResult.Bytes);

@@ -1,10 +1,10 @@
 ﻿using System.Linq;
+using System.Windows;
 using System.Windows.Media;
+using System.Windows.Shapes;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
-using System.Windows;
-using System.Windows.Shapes;
 
 namespace DevicesModule.Plans.Designer
 {

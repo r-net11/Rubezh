@@ -127,7 +127,7 @@ namespace PlansModule.ViewModels
 		}
 		bool CanSetGuard()
 		{
-			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null));
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (ZoneState.IsOnGuard == false));
 		}
 
 		public RelayCommand UnSetGuardCommand { get; private set; }
@@ -137,7 +137,7 @@ namespace PlansModule.ViewModels
 		}
 		bool CanUnSetGuard()
 		{
-			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null));
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (ZoneState.IsOnGuard == true));
 		}
 	}
 }

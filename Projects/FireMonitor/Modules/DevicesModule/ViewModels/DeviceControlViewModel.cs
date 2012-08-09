@@ -72,9 +72,37 @@ namespace DevicesModule.ViewModels
 
 		void DoConfirm()
 		{
-			var result = FiresecManager.FiresecService.ExecuteCommand(Device.UID, SelectedBlock.SelectedCommand.Name);
+			var result = FiresecManager.FiresecService.ExecuteCommand(Device.UID, GetCommandName());
 			Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged("ConfirmCommand"); }));
 		}
+
+		#region Valve
+		string GetCommandName()
+		{
+			var commandName = SelectedBlock.SelectedCommand.Name;
+			if (Device.Driver.DriverType == DriverType.Valve)
+			{
+				if (!HasActionProprty())
+				{
+					if (commandName == "BoltOpen")
+						return "BoltClose";
+					if (commandName == "BoltClose")
+						return "BoltOpen";
+				}
+			}
+			return commandName;
+		}
+
+		bool HasActionProprty()
+		{
+			var actionProperty = Device.Properties.FirstOrDefault(x => x.Name == "Action");
+			if (actionProperty != null)
+			{
+				return actionProperty.Value == "1";
+			}
+			return false;
+		}
+		#endregion
 	}
 
 	public class BlockViewModel : BaseViewModel
@@ -85,7 +113,6 @@ namespace DevicesModule.ViewModels
 		}
 
 		public string Name { get; set; }
-
 		public List<DriverProperty> Commands { get; set; }
 
 		DriverProperty _selectedCommand;

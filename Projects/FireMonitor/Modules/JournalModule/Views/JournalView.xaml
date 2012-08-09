@@ -16,8 +16,9 @@
     
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
+            <RowDefinition Height="*" MinHeight="200" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="100" MinHeight="100" />
         </Grid.RowDefinitions>
 
         <DataGrid Grid.Row="0" DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}"
@@ -72,8 +73,8 @@
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>
-        
-        <Border Grid.Row="1" CornerRadius="5" BorderThickness="0" Margin="0, 5, 5, 0" Background="{DynamicResource BackgroundBrush}"
+        <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+        <Border Grid.Row="2" CornerRadius="5" BorderThickness="0" Margin="0, 5, 5, 0" Background="{DynamicResource BackgroundBrush}"
                 Visibility="{Binding SelectedRecord, Converter={StaticResource ObjectToVisibilityConverter}}">
             <StackPanel>
                 <Grid DataContext="{Binding SelectedRecord.JournalRecord}" TextElement.Foreground="White">

@@ -101,6 +101,7 @@
     <Compile Include="Events\DeviceParametersChangedEvent.cs" />
     <Compile Include="Events\DeviceStateChangedEvent.cs" />
     <Compile Include="Events\GetFilteredArchiveCompletedEvent.cs" />
+    <Compile Include="Events\GKConnectionChanged.cs" />
     <Compile Include="Events\NewJournalRecordEvent.cs" />
     <Compile Include="Events\ShowAlarmsEvent.cs" />
     <Compile Include="Events\ShowArchiveEvent.cs" />

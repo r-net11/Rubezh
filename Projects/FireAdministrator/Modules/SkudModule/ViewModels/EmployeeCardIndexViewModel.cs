@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
@@ -8,7 +9,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SkudModule.Properties;
-using System.Linq;
 
 namespace SkudModule.ViewModels
 {

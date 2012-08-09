@@ -348,7 +348,23 @@ namespace FiresecService.Configuration
 				}
 			}
 
+			if (driver.DriverType == DriverType.Valve)
+			{
+				AddValveControlProperties(driver);
+			}
 			return driver;
+		}
+
+		static void AddValveControlProperties(Driver driver)
+		{
+			driver.HasControlProperties = true;
+			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Положение", Name = "BoltClose", Caption = "Закрыть" });
+			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Положение", Name = "BoltStop", Caption = "Стоп" });
+			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Положение", Name = "BoltOpen", Caption = "Открыть" });
+			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Автоматика", Name = "BoltAutoOn", Caption = "Включение автоматики" });
+			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Автоматика", Name = "BoltAutoOff", Caption = "Отключение автоматики" });
+			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Задержка пуска", Name = "BoltOpen", Caption = "Пуск" });
+			driver.Properties.Add(new DriverProperty() { IsControl = true, BlockName = "Задержка пуска", Name = "BoltClose", Caption = "Стоп" });
 		}
 	}
 }

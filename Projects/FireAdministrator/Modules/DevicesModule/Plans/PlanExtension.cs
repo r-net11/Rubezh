@@ -1,22 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
-using Infrustructure.Plans;
-using Infrastructure;
-using Infrustructure.Plans.Events;
-using Infrustructure.Plans.Designer;
-using DeviceControls;
-using Infrustructure.Plans.Elements;
-using DevicesModule.Plans.ViewModels;
-using DevicesModule.Plans.InstrumentAdorners;
-using Infrustructure.Plans.Services;
-using DevicesModule.Plans.Events;
-using Infrastructure.Common.Windows;
-using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Shapes;
+using DeviceControls;
+using DevicesModule.Plans.Events;
+using DevicesModule.Plans.InstrumentAdorners;
+using DevicesModule.Plans.ViewModels;
+using FiresecAPI.Models;
+using Infrastructure;
+using Infrastructure.Common.Windows;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Services;
 
 namespace DevicesModule.Plans
 {

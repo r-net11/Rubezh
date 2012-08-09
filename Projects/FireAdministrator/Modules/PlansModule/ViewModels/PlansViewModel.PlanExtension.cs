@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using FiresecAPI.Models;
-using FiresecClient;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrustructure.Plans.Events;
-using PlansModule.Designer;
-using Infrustructure.Plans;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Collections.Generic;
-using PlansModule.Views;
-using System.Windows.Data;
+﻿using System.Collections.Generic;
 using System.Windows;
-using Infrustructure.Plans.Services;
-using Infrustructure.Plans.Elements;
+using System.Windows.Controls;
+using System.Windows.Data;
+using FiresecAPI.Models;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
+using PlansModule.Designer;
 
 namespace PlansModule.ViewModels
 {

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
@@ -6,7 +7,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using System.Windows.Controls;
 
 namespace PlansModule.Designer.DesignerItems
 {

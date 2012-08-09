@@ -1,13 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
-using System.Collections.Generic;
 
 namespace XFiresecAPI
 {
 	[DataContract]
 	public class XZoneState
 	{
+		public XZoneState()
+		{
+			StateType = StateType.Norm;
+		}
+
 		public XZone Zone { get; set; }
 
 		[DataMember]

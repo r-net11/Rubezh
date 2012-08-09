@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using DevicesModule.Plans.Designer;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -7,7 +8,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrustructure.Plans.Elements;
-using DevicesModule.Plans.Designer;
 
 namespace DevicesModule.Plans.ViewModels
 {

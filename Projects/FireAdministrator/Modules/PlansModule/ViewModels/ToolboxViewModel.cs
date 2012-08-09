@@ -2,9 +2,8 @@
 using System.Windows;
 using System.Windows.Input;
 using Infrastructure.Common.Windows.ViewModels;
-using PlansModule.InstrumentAdorners;
-using System;
 using Infrustructure.Plans.Designer;
+using PlansModule.InstrumentAdorners;
 
 namespace PlansModule.ViewModels
 {

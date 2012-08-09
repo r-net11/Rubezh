@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using DevicesModule.Plans.Events;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
-using DevicesModule.Plans.Events;
 
 namespace DevicesModule.Plans.ViewModels
 {

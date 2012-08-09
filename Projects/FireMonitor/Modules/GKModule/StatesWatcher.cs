@@ -5,12 +5,14 @@ using FiresecClient;
 using System.Diagnostics;
 using System.Collections.Generic;
 using Infrastructure.Common.Windows;
+using Infrastructure;
+using Infrastructure.Events;
 
 namespace GKModule
 {
 	public static class StatesWatcher
 	{
-		public static void Run()
+		public static void GetAllStates()
 		{
 			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
@@ -27,7 +29,8 @@ namespace GKModule
 				var sendResult = SendManager.Send(rootDevice, 2, 12, 68, BytesHelper.ShortToBytes(no));
 				if (sendResult.HasError)
 				{
-					MessageBoxService.Show("Ошибка связи с устройством");
+					ServiceFactory.Events.GetEvent<GKConnectionChanged>().Publish(false);
+					//MessageBoxService.Show("Ошибка связи с устройством");
 					return;
 				}
 				if (binaryObject.Device != null)

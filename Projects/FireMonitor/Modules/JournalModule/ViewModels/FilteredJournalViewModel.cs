@@ -36,6 +36,7 @@ namespace JournalModule.ViewModels
 					JournalRecords.Add(journalRecordViewModel);
 				}
 			}
+			SelectedRecord = JournalRecords.FirstOrDefault();
 		}
 
 		public ObservableCollection<JournalRecordViewModel> JournalRecords { get; private set; }

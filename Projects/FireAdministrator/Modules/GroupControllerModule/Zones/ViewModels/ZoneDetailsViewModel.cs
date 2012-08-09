@@ -37,7 +37,7 @@ namespace GKModule.ViewModels
             Name = XZone.Name;
             No = XZone.No;
             Description = XZone.Description;
-            DetectorCount = XZone.DetectorCount;
+            DetectorCount = XZone.Fire1Count;
         }
 
         string _name;
@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
             XZone.Name = Name;
             XZone.No = No;
             XZone.Description = Description;
-            XZone.DetectorCount = DetectorCount;
+            XZone.Fire1Count = DetectorCount;
 			return base.Save();
 		}
     }

@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 	{
 		public void Initialize()
 		{
-			UpdateStates();
+			StatesWatcher.GetAllStates();
 
 			BuildDeviceTree();
 			if (Devices.Count > 0)
@@ -117,15 +117,9 @@ namespace GKModule.ViewModels
 
 		#endregion
 
-		void UpdateStates()
-		{
-			StatesWatcher.Run();
-		}
-
 		public override void OnShow()
 		{
 			base.OnShow();
-			UpdateStates();
 		}
 	}
 }

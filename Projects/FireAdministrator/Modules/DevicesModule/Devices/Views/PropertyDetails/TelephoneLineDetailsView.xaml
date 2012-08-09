@@ -53,7 +53,7 @@
             </Border>
             <StackPanel Orientation="Horizontal">
                 <Button Content="Прямое соединение" Command="{Binding ResetToDirectConnectionCommand}" Width="150" Margin="2" />
-                <Button Content="Считать настройки" Command="{Binding ReadCommand}" Width="150" Margin="2" />
+                <!--<Button Content="Считать настройки" Command="{Binding ReadCommand}" Width="150" Margin="2" />-->
                 <Button Content="Выбрать все" Command="{Binding SelectAllCommand}" Width="100" Margin="2" />
                 <Button Content="Отменить все" Command="{Binding DeselectAllCommand}" Width="100" Margin="2" />
             </StackPanel>

@@ -1,8 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using FiresecAPI.Models;
-using Infrustructure.Plans.Elements;
+﻿using System.Windows.Controls;
 
 namespace PlansModule.Views
 {

@@ -2,10 +2,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DevicesModule.Plans.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
-using DevicesModule.Plans.ViewModels;
 
 namespace DevicesModule.Plans.Views
 {

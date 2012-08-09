@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using FiresecAPI.Models;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer.Adorners;
 

@@ -107,6 +107,9 @@
       <DependentUpon>AutoActivationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Converters\BoolToBackgroundImageConverter.cs" />
+    <Compile Include="Views\GKConnectionIndicator.xaml.cs">
+      <DependentUpon>GKConnectionIndicator.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ProgressInfoView.xaml.cs">
       <DependentUpon>ProgressInfoView.xaml</DependentUpon>
     </Compile>
@@ -165,6 +168,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\AutoActivationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GKConnectionIndicator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

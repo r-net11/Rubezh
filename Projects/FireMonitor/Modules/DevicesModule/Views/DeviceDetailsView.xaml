@@ -72,17 +72,15 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Управление" Visibility="{Binding CanValveControl, Converter={StaticResource BoolToVisibilityConverter}}"
+            <!--<TabItem Header="Управление" Visibility="{Binding CanValveControl, Converter={StaticResource BoolToVisibilityConverter}}"
                      IsSelected="{Binding IsControlTabSelected}">
                 <Grid>
                     <Views:ValveControlView DataContext="{Binding ValveControlViewModel}" />
                 </Grid>
-            </TabItem>
-            <TabItem Header="Управление" Visibility="{Binding CanDeviceControl, Converter={StaticResource BoolToVisibilityConverter}}"
+            </TabItem>-->
+            <TabItem Header="Управление" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}"
                      IsSelected="{Binding IsControlTabSelected}">
-                <Grid>
-                    <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
-                </Grid>
+                <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
             </TabItem>
         </TabControl>
     </Grid>

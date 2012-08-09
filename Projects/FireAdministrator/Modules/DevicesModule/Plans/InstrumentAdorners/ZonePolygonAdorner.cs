@@ -1,11 +1,11 @@
 ﻿using System.Windows.Media;
 using System.Windows.Shapes;
+using DevicesModule.Plans.Designer;
+using DevicesModule.Plans.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
-using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Designer;
-using DevicesModule.Plans.ViewModels;
-using DevicesModule.Plans.Designer;
+using Infrustructure.Plans.Elements;
 using PlansModule.InstrumentAdorners;
 
 namespace DevicesModule.Plans.InstrumentAdorners

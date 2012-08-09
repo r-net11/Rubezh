@@ -15,6 +15,7 @@ namespace XFiresecAPI
 		}
 
 		public XDevice Device { get; set; }
+		public bool IsConnectionLost { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }

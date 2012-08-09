@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows;
@@ -6,7 +7,6 @@ using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
-using System.Collections.Generic;
 
 namespace Infrastructure.Common.Windows
 {

@@ -9,7 +9,8 @@ namespace XFiresecAPI
 	{
 		public XZone()
 		{
-			DetectorCount = 2;
+			Fire1Count = 2;
+			Fire2Count = 3;
 			DeviceUIDs = new List<Guid>();
 		}
 
@@ -25,7 +26,10 @@ namespace XFiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
-		public short DetectorCount { get; set; }
+		public short Fire1Count { get; set; }
+
+		[DataMember]
+		public short Fire2Count { get; set; }
 
 		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }
