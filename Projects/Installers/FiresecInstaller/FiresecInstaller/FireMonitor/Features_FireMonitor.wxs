@@ -44,8 +44,6 @@
       <ComponentRef Id="FMVideoModuleComponent"/>
       <ComponentRef Id="FMHASPComponent"/>
       <ComponentRef Id="FMSystemHASPComponent"/>
-      <ComponentRef Id="FMMicrosoftReportViewerCommondllComponent"/>
-      <ComponentRef Id="FMMicrosoftReportViewerWinFormsdllComponent"/>
       <ComponentGroupRef Id="FireMonReportTemplatesFolder"/>
 		</Feature>
 	</Fragment>

@@ -143,16 +143,6 @@
 				<File Id="FMHASPDLL" Name="hasp_net_windows.dll" Source="$(var.FireMonitor.TargetDir)"
 							DiskId="1" KeyPath="yes" />
 			</Component>
-
-      <Component Id="FMMicrosoftReportViewerCommondllComponent" Guid="*">
-        <File Id="FMMicrosoftReportViewerCommonDLL" Name="Microsoft.ReportViewer.Common.dll" Source="$(var.FireMonitor.TargetDir)"
-							DiskId="1" KeyPath="yes" />
-      </Component>
-
-      <Component Id="FMMicrosoftReportViewerWinFormsdllComponent" Guid="*">
-        <File Id="FMMicrosoftReportViewerWinFormsDLL" Name="Microsoft.ReportViewer.WinForms.dll" Source="$(var.FireMonitor.TargetDir)"
-							DiskId="1" KeyPath="yes" />
-      </Component>
 		</DirectoryRef>
 
     <DirectoryRef Id="FIREMONITORLOCATION">
