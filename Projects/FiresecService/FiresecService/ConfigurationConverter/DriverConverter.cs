@@ -254,7 +254,7 @@ namespace FiresecService.Configuration
 
 					if (internalProperty.name.StartsWith("Control$"))
 					{
-						driverProperty.Name = internalProperty.name.Replace("Control$", "");
+						//driverProperty.Name = internalProperty.name.Replace("Control$", "");
 						driverProperty.IsControl = true;
 						driver.HasControlProperties = true;
 					}
