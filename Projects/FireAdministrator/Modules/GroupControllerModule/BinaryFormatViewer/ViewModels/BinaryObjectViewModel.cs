@@ -25,16 +25,7 @@ namespace GKModule.ViewModels
 					break;
 			}
 
-			var stringBuilder = new StringBuilder();
-			foreach (var formulaOperation in BinaryObject.FormulaOperations)
-			{
-				stringBuilder.Append(formulaOperation.FormulaOperationType + "\t");
-				stringBuilder.Append(formulaOperation.FirstOperand + "\t");
-				stringBuilder.Append(formulaOperation.SecondOperand + "\t");
-				stringBuilder.Append(formulaOperation.Comment);
-				stringBuilder.AppendLine("");
-			}
-			Formula = stringBuilder.ToString();
+			Formula = BinaryObject.Formula.GetStringFomula();
 		}
 
 		public BinaryObjectBase BinaryObject { get; set; }

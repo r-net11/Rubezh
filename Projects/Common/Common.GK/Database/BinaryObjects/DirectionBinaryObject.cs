@@ -28,22 +28,9 @@ namespace Common.GK
 
 		void SetFormulaBytes()
 		{
-			Formula = new List<byte>();
-			FormulaOperations = new List<FormulaOperation>();
-			AddFormulaOperation(FormulaOperationType.END,
-				comment: "Завершающий оператор");
-		}
-
-		void AddFormulaOperation(FormulaOperationType formulaOperationType, byte firstOperand = 0, short secondOperand = 0, string comment = null)
-		{
-			var formulaOperation = new FormulaOperation()
-			{
-				FormulaOperationType = formulaOperationType,
-				FirstOperand = firstOperand,
-				SecondOperand = secondOperand,
-				Comment = comment
-			};
-			FormulaOperations.Add(formulaOperation);
+			Formula = new FormulaBuilder();
+			Formula.Add(FormulaOperationType.END);
+			FormulaBytes = Formula.GetBytes();
 		}
 
 		void SetPropertiesBytes()

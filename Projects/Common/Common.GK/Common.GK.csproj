@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="BinaryDeviceState.cs" />
     <Compile Include="BytesHelper.cs" />
+    <Compile Include="Database\BinaryObjects\FormulaBuilder.cs" />
     <Compile Include="Database\DB\CommonDatabase.cs" />
     <Compile Include="Database\DatabaseManager.cs" />
     <Compile Include="Database\DB\GkDatabase.cs" />

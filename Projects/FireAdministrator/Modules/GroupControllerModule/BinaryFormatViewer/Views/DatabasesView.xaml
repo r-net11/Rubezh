@@ -110,7 +110,7 @@
                                 <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding InputDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                                 <TextBox Grid.Row="6" Grid.Column="1" Text="{Binding OutputDependensesCount, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                                 <TextBox Grid.Row="7" Grid.Column="1" Text="{Binding OutputDependenses, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
-                                <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding Formula, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
+                                <TextBox Grid.Row="8" Grid.Column="1" Text="{Binding FormulaBytes, Converter={StaticResource BytesToStringConverter}, Mode=OneWay}" Margin="1" />
                                 <TextBox Grid.Row="9" Grid.Column="1" Text="{Binding StringFomula, Mode=OneWay}" Margin="1" />
                                 <!--<ItemsControl Grid.Row="9" Grid.Column="1" ItemsSource="{Binding FormulaOperations}" Margin="1">
                                     <ItemsControl.ItemTemplate>

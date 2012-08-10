@@ -12,7 +12,6 @@ namespace XFiresecAPI
 			Properties = new List<XDriverProperty>();
 			Children = new List<Guid>();
 			AutoCreateChildren = new List<Guid>();
-			UseOffBitInLogic = true;
 			DriverTypeMappedProperties = new List<XDriverTypeMappedProperty>();
 		}
 
@@ -99,9 +98,6 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public bool IsGroupDevice { get; set; }
-
-		[DataMember]
-		public bool UseOffBitInLogic { get; set; }
 
 		public List<XDriverTypeMappedProperty> DriverTypeMappedProperties { get; set; }
 

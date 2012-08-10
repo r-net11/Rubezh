@@ -26,163 +26,83 @@ namespace Common.GK
 
 		void SetFormulaBytes()
 		{
-			FormulaOperations = new List<FormulaOperation>();
-			//AddNoneFireFormula(XStateType.Attention);
-			//AddNoneFireFormula(XStateType.Test);
-			//AddNoneFireFormula(XStateType.Failure);
-			//AddFireFormula(XStateType.Fire1);
-			//AddFireFormula(XStateType.Fire2);
+			Formula = new FormulaBuilder();
 			AddNewFormula();
+			FormulaBytes = Formula.GetBytes();
+		}
 
-			Formula = new List<byte>();
-			foreach (var formulaOperation in FormulaOperations)
+		void AddDeviceFire1()
+		{
+			var count = 0;
+			foreach (var device in Zone.Devices)
 			{
-				Formula.Add((byte)formulaOperation.FormulaOperationType);
-				Formula.Add(formulaOperation.FirstOperand);
-				Formula.AddRange(BitConverter.GetBytes(formulaOperation.SecondOperand));
+				if ((device.Driver.DriverType == XDriverType.HandDetector) || (device.Driver.DriverType == XDriverType.RadioHandDetector))
+					continue;
+
+				Formula.AddGetBitOff(XStateType.Fire1, device, DatabaseType);
+
+				if (count > 0)
+				{
+					Formula.Add(FormulaOperationType.ADD);
+				}
+				count++;
+			}
+		}
+		void AddDeviceFire2()
+		{
+			Formula.AddGetBit(XStateType.Fire2, Zone, DatabaseType);
+
+			foreach (var device in Zone.Devices)
+			{
+				if ((device.Driver.DriverType != XDriverType.HandDetector) && (device.Driver.DriverType != XDriverType.RadioHandDetector))
+					continue;
+
+				if (device.Driver.DriverType == XDriverType.HandDetector)
+					Formula.AddGetBit(XStateType.Fire2, device, DatabaseType);
+				Formula.Add(FormulaOperationType.OR);
 			}
 		}
 
 		void AddNewFormula()
 		{
-			for (int i = 0; i < Zone.Devices.Count; i++)
-			{
-				var device = Zone.Devices[i];
+			ushort uval = 0x8000;
+			short val = (short)uval;
 
-				AddFormulaOperation(FormulaOperationType.GETBIT,
-					(byte)XStateType.Fire1,
-					device.GetDatabaseNo(DatabaseType),
-					"Проверка состояния " + XStateType.Fire1.ToDescription() + " устройства " + device.ShortPresentationAddressAndDriver);
-				AddFormulaOperation(FormulaOperationType.GETBIT,
-					(byte)XStateType.Off,
-					device.GetDatabaseNo(DatabaseType));
-				AddFormulaOperation(FormulaOperationType.NEG);
-				AddFormulaOperation(FormulaOperationType.AND);
+			AddDeviceFire1();
+			AddDeviceFire2();
 
-				if (i > 0)
-				{
-					AddFormulaOperation(FormulaOperationType.ADD);
-				}
-			}
+			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire2Count, "Количество устройств для формирования Пожар2");
+			Formula.Add(FormulaOperationType.MUL);
+			Formula.Add(FormulaOperationType.ADD);
+			Formula.Add(FormulaOperationType.DUP);
+			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire2Count, "Количество устройств для формирования Пожар2");
+			Formula.Add(FormulaOperationType.GE);
+			Formula.Add(FormulaOperationType.DUP);
+			Formula.AddPutBit(XStateType.Fire2, Zone, DatabaseType);
 
-			AddFormulaOperation(FormulaOperationType.DUP);
-			AddFormulaOperation(FormulaOperationType.CONST, 0, 1);
-			AddFormulaOperation(FormulaOperationType.GE);
-			AddFormulaOperation(FormulaOperationType.PUTBIT,
-				(byte)XStateType.Attention,
-				Zone.GetDatabaseNo(DatabaseType),
-				"Запись состояния " + XStateType.Attention.ToDescription() + " зоны");
+			Formula.Add(FormulaOperationType.CONST, 0, val, "15-ый бит");
+			Formula.Add(FormulaOperationType.MUL);
+			Formula.Add(FormulaOperationType.CONST, 0, val, "15-ый бит");
+			Formula.Add(FormulaOperationType.XOR);
+			Formula.Add(FormulaOperationType.OR);
+			Formula.Add(FormulaOperationType.DUP);
+			Formula.AddGetBit(XStateType.Fire1, Zone, DatabaseType);
+			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire1Count, "Количество устройств для формирования Пожар1");
+			Formula.Add(FormulaOperationType.MUL);
+			Formula.Add(FormulaOperationType.ADD);
+			Formula.Add(FormulaOperationType.CONST, 0, (short)(Zone.Fire1Count + 0x8000));
+			Formula.Add(FormulaOperationType.GE);
+			Formula.Add(FormulaOperationType.DUP);
+			Formula.AddPutBit(XStateType.Fire1, Zone, DatabaseType);
 
-			AddFormulaOperation(FormulaOperationType.DUP);
-			AddFormulaOperation(FormulaOperationType.CONST, 0, Zone.Fire1Count);
-			AddFormulaOperation(FormulaOperationType.GE);
-			AddFormulaOperation(FormulaOperationType.GETBIT,
-				(byte)XStateType.Fire1,
-				Zone.GetDatabaseNo(DatabaseType),
-				"Проверка состояния " + XStateType.Fire1.ToDescription() + " зоны");
-			AddFormulaOperation(FormulaOperationType.OR);
-			AddFormulaOperation(FormulaOperationType.PUTBIT,
-				(byte)XStateType.Fire1,
-				Zone.GetDatabaseNo(DatabaseType),
-				"Запись состояния " + XStateType.Fire1.ToDescription() + " зоны");
-
-			AddFormulaOperation(FormulaOperationType.DUP);
-			AddFormulaOperation(FormulaOperationType.CONST, 0, Zone.Fire2Count);
-			AddFormulaOperation(FormulaOperationType.GE);
-			AddFormulaOperation(FormulaOperationType.GETBIT,
-				(byte)XStateType.Fire2,
-				Zone.GetDatabaseNo(DatabaseType),
-				"Проверка состояния " + XStateType.Fire2.ToDescription() + " зоны");
-			AddFormulaOperation(FormulaOperationType.OR);
-			AddFormulaOperation(FormulaOperationType.PUTBIT,
-				(byte)XStateType.Fire2,
-				Zone.GetDatabaseNo(DatabaseType),
-				"Запись состояния " + XStateType.Fire2.ToDescription() + " зоны");
-		}
-
-		void AddNoneFireFormula(XStateType stateType)
-		{
-			for (int i = 0; i < Zone.Devices.Count; i++)
-			{
-				var device = Zone.Devices[i];
-
-				AddFormulaOperation(FormulaOperationType.GETBIT,
-					(byte)stateType,
-					device.GetDatabaseNo(DatabaseType),
-					"Проверка состояния " + stateType.ToDescription() + " устройства " + device.ShortPresentationAddressAndDriver);
-
-				if (i > 0)
-				{
-					AddFormulaOperation(FormulaOperationType.ADD);
-				}
-
-				AddFormulaOperation(FormulaOperationType.CONST, 0, Zone.Fire1Count);
-				AddFormulaOperation(FormulaOperationType.GE);
-			}
-
-			AddFormulaOperation(FormulaOperationType.PUTBIT,
-				(byte)stateType,
-				Zone.GetDatabaseNo(DatabaseType),
-				"Запись состояния " + stateType.ToDescription() + " зоны");
-		}
-
-		void AddFireFormula(XStateType stateType)
-		{
-			AddFormulaOperation(FormulaOperationType.GETBIT,
-				(byte)stateType,
-				Zone.GetDatabaseNo(DatabaseType),
-				"Проверка состояния " + stateType.ToDescription() + " зоны");
-
-			for (int i = 0; i < Zone.Devices.Count; i++)
-			{
-				var device = Zone.Devices[i];
-
-				if ((device.Driver.DriverType != XDriverType.HandDetector) && (device.Driver.DriverType != XDriverType.RadioHandDetector))
-					continue;
-
-				AddFormulaOperation(FormulaOperationType.GETBIT,
-					(byte)stateType,
-					device.GetDatabaseNo(DatabaseType),
-					"Проверка состояния " + stateType.ToDescription() + " ручника " + device.ShortPresentationAddressAndDriver);
-
-				AddFormulaOperation(FormulaOperationType.OR);
-			}
-
-			for (int i = 0; i < Zone.Devices.Count; i++)
-			{
-				var device = Zone.Devices[i];
-
-				if ((device.Driver.DriverType == XDriverType.HandDetector) || (device.Driver.DriverType == XDriverType.RadioHandDetector))
-					continue;
-
-				AddFormulaOperation(FormulaOperationType.GETBIT,
-					(byte)stateType,
-					device.GetDatabaseNo(DatabaseType),
-					"Проверка состояния " + stateType.ToDescription() + " устройства " + device.ShortPresentationAddressAndDriver);
-
-				AddFormulaOperation(FormulaOperationType.ADD);
-			}
-
-			AddFormulaOperation(FormulaOperationType.CONST, 0, Zone.Fire1Count);
-			AddFormulaOperation(FormulaOperationType.GE);
-			AddFormulaOperation(FormulaOperationType.OR);
-
-			AddFormulaOperation(FormulaOperationType.PUTBIT,
-				(byte)stateType,
-				Zone.GetDatabaseNo(DatabaseType),
-				"Запись состояния " + stateType.ToDescription() + " зоны");
-		}
-
-		void AddFormulaOperation(FormulaOperationType formulaOperationType, byte firstOperand = 0, short secondOperand = 0, string comment = null)
-		{
-			var formulaOperation = new FormulaOperation()
-			{
-				FormulaOperationType = formulaOperationType,
-				FirstOperand = firstOperand,
-				SecondOperand = secondOperand,
-				Comment = comment
-			};
-			FormulaOperations.Add(formulaOperation);
+			Formula.Add(FormulaOperationType.CONST, 0, val, "15-ый бит");
+			Formula.Add(FormulaOperationType.MUL);
+			Formula.Add(FormulaOperationType.COM);
+			Formula.Add(FormulaOperationType.AND);
+			Formula.Add(FormulaOperationType.CONST, 0, 1, "Количество устройств для формирования Внимание");
+			Formula.Add(FormulaOperationType.GE);
+			Formula.AddPutBit(XStateType.Attention, Zone, DatabaseType);
+			Formula.Add(FormulaOperationType.END);
 		}
 	}
 }

@@ -105,7 +105,7 @@ namespace GKModule.Models
 		public RelayCommand WriteConfigCommand { get; private set; }
 		void OnWriteConfig()
 		{
-			BinConfigurationCreator.WriteConfig();
+			BinConfigurationWriter.WriteConfig();
 		}
 
 		public RelayCommand ConvertToBinaryFileCommand { get; private set; }

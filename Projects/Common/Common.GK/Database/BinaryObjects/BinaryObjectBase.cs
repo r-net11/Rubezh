@@ -25,14 +25,15 @@ namespace Common.GK
 		public List<byte> InputDependenses { get; protected set; }
 		public List<byte> OutputDependensesCount { get; private set; }
 		public List<byte> OutputDependenses { get; protected set; }
-		public List<byte> Formula { get; protected set; }
+		public List<byte> FormulaBytes { get; protected set; }
 		public List<byte> ParametersCount { get; private set; }
 		public List<byte> Parameters { get; protected set; }
 		public List<byte> AllBytes { get; private set; }
-		public List<FormulaOperation> FormulaOperations { get; protected set; }
+		public FormulaBuilder Formula { get; protected set; }
 
 		public BinaryObjectBase()
 		{
+			Formula = new FormulaBuilder();
 		}
 
 		protected void SetAddress(short address)
@@ -107,11 +108,11 @@ namespace Common.GK
 			switch (DatabaseType)
 			{
 				case DatabaseType.Gk:
-					offsetToParameters = 2 + 6 + 32 + 2 + 2 + InputDependenses.Count + 2 + OutputDependenses.Count + Formula.Count;
+					offsetToParameters = 2 + 6 + 32 + 2 + 2 + InputDependenses.Count + 2 + OutputDependenses.Count + FormulaBytes.Count;
 					break;
 
 				case DatabaseType.Kau:
-					offsetToParameters = 2 + 2 + 2 + 2 + OutputDependenses.Count + Formula.Count;
+					offsetToParameters = 2 + 2 + 2 + 2 + OutputDependenses.Count + FormulaBytes.Count;
 					break;
 			}
 			Offset = BytesHelper.ShortToBytes((short)offsetToParameters);
@@ -140,7 +141,7 @@ namespace Common.GK
 			}
 			AllBytes.AddRange(OutputDependensesCount);
 			AllBytes.AddRange(OutputDependenses);
-			AllBytes.AddRange(Formula);
+			AllBytes.AddRange(FormulaBytes);
 			AllBytes.AddRange(ParametersCount);
 			AllBytes.AddRange(Parameters);
 		}
@@ -180,19 +181,7 @@ namespace Common.GK
 
 		public string StringFomula
 		{
-			get
-			{
-				var stringBuilder = new StringBuilder();
-				foreach (var formulaOperation in FormulaOperations)
-				{
-					stringBuilder.Append(formulaOperation.FormulaOperationType + "\t");
-					stringBuilder.Append(formulaOperation.FirstOperand + "\t");
-					stringBuilder.Append(formulaOperation.SecondOperand + "\t");
-					stringBuilder.Append(formulaOperation.Comment);
-					stringBuilder.AppendLine("");
-				}
-				return stringBuilder.ToString();
-			}
+			get { return Formula.GetStringFomula(); }
 		}
 
 		public abstract void Build();

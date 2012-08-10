@@ -33,108 +33,68 @@ namespace Common.GK
 
 		void SetFormulaBytes()
 		{
-			Formula = new List<byte>();
-			FormulaOperations = new List<FormulaOperation>();
+			Formula = new FormulaBuilder();
 
 			if (Device.Driver.HasLogic)
 			{
 				foreach (var stateLogic in Device.DeviceLogic.StateLogics)
 				{
-					for (int clauseIndex = 0; clauseIndex < stateLogic.Clauses.Count; clauseIndex++)
+					var clauseIndex = 0;
+					foreach (var clause in stateLogic.Clauses)
 					{
-						var clause = stateLogic.Clauses[clauseIndex];
-						if (clause.ClauseOperandType == ClauseOperandType.Zone)
+						var baseObjects = new List<XBinaryBase>();
+						foreach (var device in clause.XDevices)
 						{
-							MessageBoxService.Show("Логика срабатывания по состоянию зон пока не реализована");
-							continue;
+							baseObjects.Add(device);
+						}
+						foreach (var zone in clause.XZones)
+						{
+							baseObjects.Add(zone);
 						}
 
-						if (clause.Devices.Count == 1)
+						var objectIndex = 0;
+						foreach (var baseObject in baseObjects)
 						{
-							var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.Devices[0]);
-							GetBit(device, (byte)clause.StateType);
+							Formula.AddGetBitOff(clause.StateType, baseObject, DatabaseType);
 
-							AddFormulaOperation(FormulaOperationType.GETBIT,
-								(byte)clause.StateType,
-								device.GetDatabaseNo(DatabaseType),
-								"Проверка состояния одного объекта");
-						}
-						else
-						{
-							var firstDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.Devices[0]);
-							GetBit(firstDevice, (byte)clause.StateType);
-
-							for (int i = 1; i < clause.Devices.Count; i++)
+							if (objectIndex > 0)
 							{
-								var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.Devices[i]);
-
-								AddFormulaOperation(FormulaOperationType.GETBIT,
-									(byte)clause.StateType,
-									device.GetDatabaseNo(DatabaseType));
-
-								var formulaOperationType = FormulaOperationType.AND;
 								switch (clause.ClauseOperationType)
 								{
 									case ClauseOperationType.All:
-										formulaOperationType = FormulaOperationType.AND;
+										Formula.Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
 										break;
 
 									case ClauseOperationType.One:
-										formulaOperationType = FormulaOperationType.OR;
+										Formula.Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
 										break;
 								}
-
-								AddFormulaOperation(formulaOperationType,
-									comment: "Проверка состояния очередного объекта объекта");
 							}
+							objectIndex++;
 						}
 
-						if (clauseIndex + 1 < stateLogic.Clauses.Count)
+						if (clauseIndex > 0)
 						{
-							var formulaOperationType = FormulaOperationType.AND;
 							switch (clause.ClauseJounOperationType)
 							{
 								case ClauseJounOperationType.And:
-									formulaOperationType = FormulaOperationType.AND;
+									Formula.Add(FormulaOperationType.AND, comment: "Объединение нескольких условий по И");
 									break;
 
 								case ClauseJounOperationType.Or:
-									formulaOperationType = FormulaOperationType.OR;
+									Formula.Add(FormulaOperationType.OR, comment: "Объединение нескольких условий по ИЛИ");
 									break;
 							}
-							AddFormulaOperation(formulaOperationType,
-								comment: "Объединение нескольких условий");
 						}
+						clauseIndex++;
 					}
 
-					AddFormulaOperation(FormulaOperationType.PUTBIT,
-						(byte)stateLogic.StateType,
-						Device.GetDatabaseNo(DatabaseType),
-						"Запись бита глобального словосостояния");
+					Formula.AddPutBit(stateLogic.StateType, Device, DatabaseType);
 				}
 			}
 
-			AddFormulaOperation(FormulaOperationType.END,
-				comment: "Завершающий оператор");
-
-			foreach (var formulaOperation in FormulaOperations)
-			{
-				Formula.Add((byte)formulaOperation.FormulaOperationType);
-				Formula.Add(formulaOperation.FirstOperand);
-				Formula.AddRange(BitConverter.GetBytes(formulaOperation.SecondOperand));
-			}
-		}
-
-		void AddFormulaOperation(FormulaOperationType formulaOperationType, byte firstOperand = 0, short secondOperand = 0, string comment = null)
-		{
-			var formulaOperation = new FormulaOperation()
-			{
-				FormulaOperationType = formulaOperationType,
-				FirstOperand = firstOperand,
-				SecondOperand = secondOperand,
-				Comment = comment
-			};
-			FormulaOperations.Add(formulaOperation);
+			Formula.Add(FormulaOperationType.END);
+			FormulaBytes = Formula.GetBytes();
 		}
 
 		void SetPropertiesBytes()
@@ -176,26 +136,6 @@ namespace Common.GK
 				Parameters.AddRange(BitConverter.GetBytes(binProperty.Value));
 				Parameters.Add(0);
 			}
-		}
-
-		void GetBit(XDevice device, byte bitNo)
-		{
-			if ((bitNo == 1) || (bitNo == 2) || (bitNo == 3))
-			{
-				if (device.Driver.UseOffBitInLogic)
-				{
-					AddFormulaOperation(FormulaOperationType.GETBIT,
-						(byte)6,
-						device.GetDatabaseNo(DatabaseType),
-						"Проверка бита обхода");
-
-					AddFormulaOperation(FormulaOperationType.COM);
-				}
-			}
-
-			AddFormulaOperation(FormulaOperationType.GETBIT,
-				bitNo,
-				device.GetDatabaseNo(DatabaseType));
 		}
 	}
 
