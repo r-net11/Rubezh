@@ -86,14 +86,13 @@ namespace FiresecClient
 			{
 				if (FiresecService != null)
 				{
-					Logger.Info("FiresecManager.Disconnect");
 					FiresecService.Dispose();
 				}
 				FiresecCallbackServiceManager.Close();
 			}
 			else
 			{
-				Logger.Info("FiresecManager.Disconnect IsDisconnected=true");
+				//Logger.Info("FiresecManager.Disconnect IsDisconnected=true");
 			}
 			IsDisconnected = true;
 		}

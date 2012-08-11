@@ -10,7 +10,7 @@
     <Converters:ColorToNameConverter x:Key="ColorToNameConverter" />
     <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
     <Converters:StateToColorConverter x:Key="StateToColorConverter" />
-    <Converters:ZoneStateToColorConverter x:Key="ZoneStateToColorConverter" />
+    <Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
     <Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
     <Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
     <Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />

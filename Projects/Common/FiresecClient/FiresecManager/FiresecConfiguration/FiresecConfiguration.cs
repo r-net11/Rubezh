@@ -14,7 +14,7 @@ namespace FiresecClient
 		{
 			if (Drivers != null)
 			{
-				Drivers.ForEach(x => x.ImageSource = FileHelper.GetFSIcon(x));
+				Drivers.ForEach(x => x.ImageSource = IconHelper.GetFSIcon(x));
 			}
 		}
 

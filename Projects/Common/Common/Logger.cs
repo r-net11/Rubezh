@@ -6,12 +6,21 @@ namespace Common
 {
     public static class Logger
     {
-        private static NLog.Logger _logger = LogManager.GetCurrentClassLogger();
-        private static object[] _empty = new object[0];
+        private static NLog.Logger _logger;// = LogManager.GetCurrentClassLogger();
+        private static object[] _empty;// = new object[0];
 
         static Logger()
         {
             Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
+            try
+            {
+                _logger = LogManager.GetCurrentClassLogger();
+            }
+            catch (Exception e)
+            {
+                ;
+            }
+            _empty = new object[0];
         }
 
         public static void Error(Exception ex)
@@ -20,6 +29,7 @@ namespace Common
         }
         public static void Error(Exception ex, string message)
         {
+            return;
             Error(ex, message, _empty);
         }
         public static void Error(Exception ex, string message, params object[] args)

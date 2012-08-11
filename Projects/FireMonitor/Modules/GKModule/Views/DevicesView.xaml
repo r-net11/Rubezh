@@ -1,10 +1,11 @@
 ﻿<UserControl x:Class="GKModule.Views.DevicesView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:GKModule.Converters"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Converters="clr-namespace:GKModule.Converters"
+        xmlns:CommonConverters="clr-namespace:Controls.Converters;assembly=Controls"
+        xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <UserControl.Resources>
-        <Converters:StateToIconConverter x:Key="StateToIconConverter" />
+        <CommonConverters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
         <Converters:XStateTypeConverter x:Key="XStateTypeConverter" />
     </UserControl.Resources>
     
@@ -23,7 +24,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                    <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                     <Image Source="{Binding Device.Driver.ImageSource}" Visibility="{Binding Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}"
                                         Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200">

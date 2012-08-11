@@ -1,10 +1,10 @@
 ﻿<UserControl x:Class="DevicesModule.Views.DevicesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:DevicesModule.Converters"
+             xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <UserControl.Resources>
-        <Converters:StateToIconConverter x:Key="StateToIconConverter" />
+        <Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
     </UserControl.Resources>
     
     <Grid>
@@ -22,7 +22,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                    <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                     <Image Source="{Binding Device.Driver.ImageSource}" Visibility="{Binding Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}"
                                         Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200">
@@ -100,7 +100,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateToIconConverter}}"
+                                        <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
                                            Margin="0, 0, 5, 0" VerticalAlignment="Center" />
                                         <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
                                         <Controls:ToolBarButton ToolTip="Сбросить" ImageSource="/Controls;component/Images/Close.png"
@@ -116,7 +116,7 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateToIconConverter}}"
+                                        <Image Source="{Binding DriverState.StateType, Converter={StaticResource StateTypeToIconConverter}}"
                                            Margin="-2, -2, 0, 0" Width="16" Height="16" />
                                         <TextBlock Text="{Binding DeviceName}" VerticalAlignment="Center" />
                                         <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" Margin="5, 0, 0, 0" />
@@ -125,7 +125,7 @@
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                         <StackPanel Orientation="Horizontal" Visibility="{Binding HasChildStates, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <Image Source="{Binding ChildState, Converter={StaticResource StateToIconConverter}}" Margin="-2, -2, 0, 0" Width="16" Height="16" />
+                            <Image Source="{Binding ChildState, Converter={StaticResource StateTypeToIconConverter}}" Margin="-2, -2, 0, 0" Width="16" Height="16" />
                             <TextBlock Text="Причина в дочернем устройстве" VerticalAlignment="Center" />
                         </StackPanel>
                         <ItemsControl ItemsSource="{Binding Parameters}">

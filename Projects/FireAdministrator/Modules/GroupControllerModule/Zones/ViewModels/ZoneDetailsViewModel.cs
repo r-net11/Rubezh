@@ -37,7 +37,8 @@ namespace GKModule.ViewModels
             Name = XZone.Name;
             No = XZone.No;
             Description = XZone.Description;
-            DetectorCount = XZone.Fire1Count;
+            Fire1Count = XZone.Fire1Count;
+            Fire2Count = XZone.Fire2Count;
         }
 
         string _name;
@@ -73,14 +74,25 @@ namespace GKModule.ViewModels
             }
         }
 
-        short _detectorCount;
-        public short DetectorCount
+        short _fire1Count;
+        public short Fire1Count
         {
-            get { return _detectorCount; }
+            get { return _fire1Count; }
             set
             {
-                _detectorCount = value;
-                OnPropertyChanged("DetectorCount");
+                _fire1Count = value;
+                OnPropertyChanged("Fire1Count");
+            }
+        }
+
+        short _fire2Count;
+        public short Fire2Count
+        {
+            get { return _fire2Count; }
+            set
+            {
+                _fire2Count = value;
+                OnPropertyChanged("Fire2Count");
             }
         }
 
@@ -95,7 +107,8 @@ namespace GKModule.ViewModels
             XZone.Name = Name;
             XZone.No = No;
             XZone.Description = Description;
-            XZone.Fire1Count = DetectorCount;
+            XZone.Fire1Count = Fire1Count;
+            XZone.Fire2Count = Fire2Count;
 			return base.Save();
 		}
     }

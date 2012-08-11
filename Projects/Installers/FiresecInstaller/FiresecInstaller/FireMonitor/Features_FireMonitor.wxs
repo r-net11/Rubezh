@@ -26,7 +26,6 @@
 			<ComponentRef Id="FMDevicesModuleComponent" />
 			<ComponentRef Id="FMPlansModuleComponent" />
 			<ComponentRef Id="FMJournalModuleComponent" />
-			<ComponentRef Id="FMReportsModuleComponent" />
       <ComponentRef Id="FMReportsModule2Component" />
 			<ComponentRef Id="FMCallModuleComponent"/>
 			<ComponentRef Id="FMAlarmModuleComponent"/>

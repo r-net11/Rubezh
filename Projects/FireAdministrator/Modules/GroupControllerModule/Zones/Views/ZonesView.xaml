@@ -17,7 +17,8 @@
                     <DataGridTextColumn Header="№" Width="1*" Binding="{Binding XZone.No}" />
                     <DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding XZone.Name}" />
                     <DataGridTextColumn  Header="Примечание" Width="2*" Binding="{Binding XZone.Description}" />
-                    <DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding XZone.DetectorCount}" />
+                    <DataGridTextColumn Header="П1" Width="1*" Binding="{Binding XZone.Fire1Count}" />
+                    <DataGridTextColumn Header="П2" Width="1*" Binding="{Binding XZone.Fire2Count}" />
                 </DataGrid.Columns>
             </Controls:XDataGrid>
         </Grid>

@@ -22,13 +22,11 @@ namespace FiresecServiceRunner
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
-			Logger.Info("Firesec Service Startup");
 			base.OnStartup(e);
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 		}
 		protected override void OnExit(ExitEventArgs e)
 		{
-			Logger.Info("Firesec Service Exit");
 			base.OnExit(e);
 		}
 

@@ -48,7 +48,6 @@ namespace Common.GK
 					HasZone = driver.IsZoneDevice,
 					IsGroupDevice = driver.IsChildAddressReservedRange
 				};
-				xDriver.ImageSource = FileHelper.GetGKIcon(xDriver);
 
 				xDriver.Children = new List<Guid>();
 				foreach (var childDriver in driver.AvaliableChildren)
@@ -72,8 +71,12 @@ namespace Common.GK
 			XManager.DriversConfiguration.Drivers.Add(GKIndicatorHelper.Create());
 			XManager.DriversConfiguration.Drivers.Add(GKLineHelper.Create());
 			XManager.DriversConfiguration.Drivers.Add(GKReleHelper.Create());
-
 			CreateKnownProperties();
+
+            foreach (var driver in XManager.DriversConfiguration.Drivers)
+            {
+                driver.ImageSource = IconHelper.GetGKIcon(driver);
+            }
 		}
 
 		static void CreateKnownProperties()

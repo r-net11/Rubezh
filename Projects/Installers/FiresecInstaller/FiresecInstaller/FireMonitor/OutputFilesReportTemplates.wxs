@@ -3,21 +3,6 @@
   <?include Variables_FireMonitor.wxi?>
   <Fragment>
     <DirectoryRef Id="FireMonReportTemplatesFolder">
-      <Component Id="cmp028F14C862340E9295401F5DA8F0FA8C" Guid="*">
-        <File Id="fil7C96A2D9019129A688A92EB7E0C1941B" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\DeviceListCrystalReport.rpt" />
-      </Component>
-      <Component Id="cmp184646B4208A7EF081D2E715F0D1EC7D" Guid="*">
-        <File Id="fil00318FA41C92751A3B6CB618E2BB2813" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\DeviceParamsCrystalReport.rpt" />
-      </Component>
-      <Component Id="cmpBD737D5957826AE6E46C56BC31E0CE8C" Guid="*">
-        <File Id="fil27D90654A9BF67C2B3B5C419311D6ACB" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\DriverCounterCrystalReport.rpt" />
-      </Component>
-      <Component Id="cmp6E5E0DB2BED643C76D13BFFFEB72A0DF" Guid="*">
-        <File Id="fil546B9C94BEAA0D614F307AA8CFFDF82B" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\IndicationBlockCrystalReport.rpt" />
-      </Component>
-      <Component Id="cmp56F243B1A7F81AEF57746A22AEF32E73" Guid="*">
-        <File Id="fil56751F9FBD7862A5160EB89EBF094B48" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\JournalCrystalReport.rpt" />
-      </Component>
       <Component Id="FMDeviceListReportComponent" Guid="*">
         <File Id="FMDeviceListReportRdlc" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\DeviceListRdlc.rdlc" />
       </Component>
@@ -37,11 +22,6 @@
   </Fragment>
   <Fragment>
     <ComponentGroup Id="FireMonReportTemplatesFolder">
-      <ComponentRef Id="cmp028F14C862340E9295401F5DA8F0FA8C" />
-      <ComponentRef Id="cmp184646B4208A7EF081D2E715F0D1EC7D" />
-      <ComponentRef Id="cmpBD737D5957826AE6E46C56BC31E0CE8C" />
-      <ComponentRef Id="cmp6E5E0DB2BED643C76D13BFFFEB72A0DF" />
-      <ComponentRef Id="cmp56F243B1A7F81AEF57746A22AEF32E73" />
       <ComponentRef Id="FMDeviceListReportComponent"/>
       <ComponentRef Id="FMDeviceParamsReportComponent"/>
       <ComponentRef Id="FMDriverCounterReportComponent"/>

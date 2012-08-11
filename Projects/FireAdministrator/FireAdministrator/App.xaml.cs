@@ -19,7 +19,7 @@ namespace FireAdministrator
 			base.OnStartup(e);
 
 #if DEBUG
-			//BindingErrorListener.Listen(m => MessageBox.Show(m));
+			BindingErrorListener.Listen(m => MessageBox.Show(m));
 #endif
 
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
@@ -36,7 +36,6 @@ namespace FireAdministrator
 		}
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
-			Logger.Info("App.OnExit");
 			FiresecManager.Disconnect();
 			VideoService.Close();
 		}

@@ -114,7 +114,7 @@
     <Compile Include="Converters\NullToVisibilityConverter.cs" />
     <Compile Include="Converters\ReportTypeToStringConverter.cs" />
     <Compile Include="Converters\StateToColorConverter.cs" />
-    <Compile Include="Converters\ZoneStateToColorConverter.cs" />
+    <Compile Include="Converters\StateTypeToIconConverter.cs" />
     <Compile Include="Converters\StateTypeToIntConverter.cs" />
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
     <Compile Include="ToolBarRadioButton.cs" />

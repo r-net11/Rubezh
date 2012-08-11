@@ -135,12 +135,12 @@ namespace SettingsModule.ViewModels
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
 		{
-			foreach (var driver in FiresecManager.FiresecConfiguration.Drivers)
-			{
-				string fileName = driver.ImageSource;
-				fileName = fileName.Replace(@"/Controls;component/Icons/", @"D:\Projects\Projects\Common\Controls\Icons\");
-				File.Copy(fileName, @"D:\FSIcons\" + driver.DriverType.ToString() + ".png", true);
-			}
+            //foreach (var driver in FiresecManager.FiresecConfiguration.Drivers)
+            //{
+            //    string fileName = driver.ImageSource;
+            //    fileName = fileName.Replace(@"/Controls;component/Icons/", @"D:\Projects\Projects\Common\Controls\Icons\");
+            //    File.Copy(fileName, @"D:\FSIcons\" + driver.DriverType.ToString() + ".png", true);
+            //}
 
 			//foreach (var driver in XManager.DriversConfiguration.Drivers)
 			//{
@@ -150,10 +150,10 @@ namespace SettingsModule.ViewModels
 			//}
 
 			var stringBuilder = new StringBuilder();
-			foreach (var driver in FiresecManager.FiresecConfiguration.Drivers)
+            foreach (var driver in XManager.DriversConfiguration.Drivers)
 			{
 				stringBuilder.AppendLine(driver.ImageSource);
-				stringBuilder.AppendLine(FileHelper.GetFSIcon(driver));
+                stringBuilder.AppendLine(IconHelper.GetGKIcon(driver));
 			}
 			Text = stringBuilder.ToString();
 		}
