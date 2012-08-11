@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SettingsModule.Views;
+using System.IO;
 
 namespace SettingsModule.ViewModels
 {
@@ -134,13 +135,27 @@ namespace SettingsModule.ViewModels
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
 		{
-			Guid uid1 = Guid.Parse("{584BC59A-28D5-430B-90BF-592E40E843A6}");
-			Guid uid2 = Guid.Parse("28A7487A-BA32-486C-9955-E251AF2E9DD4");
+			foreach (var driver in FiresecManager.FiresecConfiguration.Drivers)
+			{
+				string fileName = driver.ImageSource;
+				fileName = fileName.Replace(@"/Controls;component/Icons/", @"D:\Projects\Projects\Common\Controls\Icons\");
+				File.Copy(fileName, @"D:\FSIcons\" + driver.DriverType.ToString() + ".png", true);
+			}
 
-			string stringUid1 = uid1.ToString("B");
-			string stringUid2 = uid2.ToString("B");
+			//foreach (var driver in XManager.DriversConfiguration.Drivers)
+			//{
+			//    string fileName = driver.ImageSource;
+			//    fileName = fileName.Replace(@"/Controls;component/Icons/", @"D:\Projects\Projects\Common\Controls\Icons\");
+			//    File.Copy(fileName, @"D:\GKIcons\" + driver.DriverType.ToString() + ".png", true);
+			//}
 
-			Text = stringUid1 + "\n" + stringUid2;
+			var stringBuilder = new StringBuilder();
+			foreach (var driver in FiresecManager.FiresecConfiguration.Drivers)
+			{
+				stringBuilder.AppendLine(driver.ImageSource);
+				stringBuilder.AppendLine(FileHelper.GetFSIcon(driver));
+			}
+			Text = stringBuilder.ToString();
 		}
 	}
 }

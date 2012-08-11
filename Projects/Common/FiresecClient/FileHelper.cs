@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Common;
+using FiresecAPI.Models;
+using XFiresecAPI;
 
 namespace FiresecClient
 {
@@ -14,7 +16,6 @@ namespace FiresecClient
         }
 
         static string _reportDirectoryName = "ReportTemplates";
-
         static List<string> _directoriesList;
 
         static string CurrentDirectory(string directory)
@@ -70,16 +71,26 @@ namespace FiresecClient
             return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory(_directoriesList[0]), fileName);
         }
 
-        public static string GetIconFilePath(string fileName)
-        {
-			var path = "/Controls;component/Icons/" + fileName;
-			return string.IsNullOrWhiteSpace(fileName) ? null : path;
-            //return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory(_directoriesList[1]), fileName);
-        }
-
         public static string GetReportFilePath(string fileName)
         {
             return string.IsNullOrWhiteSpace(fileName) ? null : Path.Combine(CurrentDirectory(_reportDirectoryName), fileName);
         }
+
+		public static string GetUnknownDriverIcon()
+		{
+			return "/Controls;component/FSIcons/Unknown_Device.png";
+		}
+		public static string GetFSIcon(Driver driver)
+		{
+			return "/Controls;component/FSIcons/" + driver.DriverType.ToString() + ".png";
+		}
+		public static string GetGKIcon(XDriver driver)
+		{
+			return "/Controls;component/GKIcons/" + driver.DriverType.ToString() + ".png";
+		}
+		public static string GetStateIcon(StateType stateType)
+		{
+			return "/Controls;component/StateIcons/" + stateType.ToString() + ".png";
+		}
     }
 }

@@ -119,6 +119,9 @@ namespace FiresecAPI.Models
         [DataMember]
         public string ImageSource { get; set; }
 
+		[DataMember]
+		public string OldImageSource { get; set; }
+
         [DataMember]
         public bool HasImage { get; set; }
 

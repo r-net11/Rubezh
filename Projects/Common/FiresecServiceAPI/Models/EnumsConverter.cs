@@ -105,38 +105,38 @@ namespace FiresecAPI.Models
             }
         }
 
-        public static string StateToIcon(StateType stateType)
-        {
-            switch (stateType)
-            {
-                case StateType.Fire:
-                    return "DS_Critical";
+		//public static string StateToIcon(StateType stateType)
+		//{
+		//    switch (stateType)
+		//    {
+		//        case StateType.Fire:
+		//            return "DS_Critical";
 
-                case StateType.Attention:
-                    return "DS_Warning";
+		//        case StateType.Attention:
+		//            return "DS_Warning";
 
-                case StateType.Failure:
-                    return "DS_Error";
+		//        case StateType.Failure:
+		//            return "DS_Error";
 
-                case StateType.Service:
-                    return "DS_ServiceRequired";
+		//        case StateType.Service:
+		//            return "DS_ServiceRequired";
 
-                case StateType.Off:
-                    return "DS_Mute";
+		//        case StateType.Off:
+		//            return "DS_Mute";
 
-                case StateType.Unknown:
-                    return "DS_Unknown";
+		//        case StateType.Unknown:
+		//            return "DS_Unknown";
 
-                case StateType.Info:
-                    return "DS_Normal";
+		//        case StateType.Info:
+		//            return "DS_Normal";
 
-                case StateType.Norm:
-                    return null;
+		//        case StateType.Norm:
+		//            return null;
 
-                default:
-                    return null;
-            }
-        }
+		//        default:
+		//            return null;
+		//    }
+		//}
 
         public static StateType AlarmTypeToStateType(AlarmType alarmType)
         {

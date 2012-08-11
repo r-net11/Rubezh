@@ -67,6 +67,13 @@ namespace Common.GK
 			return resultBytes;
 		}
 
+		static UdpClient udpClient;
+
+		static SendManager()
+		{
+
+		}
+
 		static SendResult SendBytes(string ipAddress, List<byte> bytes, short inputLenght, bool hasAnswer = true)
 		{
 			var udpClient = new UdpClient();
@@ -77,7 +84,10 @@ namespace Common.GK
 			var bytesSent = udpClient.Send(bytes.ToArray(), bytes.Count);
 			//Trace.WriteLine("<-- " + BytesHelper.BytesToString(bytes));
 			if (hasAnswer == false)
+			{
+				udpClient.Close();
 				return new SendResult(new List<byte>());
+			}
 			var recievedBytes = new List<byte>();
 			try
 			{
@@ -86,6 +96,7 @@ namespace Common.GK
 			catch (SocketException)
 			{
 				OnConnectionLost();
+				udpClient.Close();
 				return new SendResult("Коммуникационная ошибка");
 			}
 			//Trace.WriteLine("--> " + BytesHelper.BytesToString(recievedBytes));

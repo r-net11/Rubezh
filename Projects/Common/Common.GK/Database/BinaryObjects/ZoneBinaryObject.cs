@@ -50,7 +50,7 @@ namespace Common.GK
 		}
 		void AddDeviceFire2()
 		{
-			Formula.AddGetBit(XStateType.Fire2, Zone, DatabaseType);
+			Formula.AddGetBitOff(XStateType.Fire2, Zone, DatabaseType);
 
 			foreach (var device in Zone.Devices)
 			{
@@ -58,7 +58,7 @@ namespace Common.GK
 					continue;
 
 				if (device.Driver.DriverType == XDriverType.HandDetector)
-					Formula.AddGetBit(XStateType.Fire2, device, DatabaseType);
+					Formula.AddGetBitOff(XStateType.Fire2, device, DatabaseType);
 				Formula.Add(FormulaOperationType.OR);
 			}
 		}

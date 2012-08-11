@@ -16,7 +16,7 @@ namespace FiresecService.ViewModels
 			StateType = DeviceState.StateType;
 			Name = DeviceState.Device.Driver.ShortName + " - " + DeviceState.Device.DottedAddress;
 			Level = DeviceState.Device.AllParents.Count;
-			ImageSource = GetIconFilePath(DeviceState.Device.Driver.ImageSource) + ".png";
+			ImageSource = GetIconFilePath(DeviceState.Device.Driver);
 
 			DriverStates = new List<DeviceStateViewModel>();
 			foreach (var driverState in from x in DeviceState.Device.Driver.States orderby x.StateType select x)
@@ -42,9 +42,9 @@ namespace FiresecService.ViewModels
 		public int Level { get; private set; }
 		public string ImageSource { get; private set; }
 
-		string GetIconFilePath(string fileName)
+		string GetIconFilePath(Driver driver)
 		{
-			return string.IsNullOrWhiteSpace(fileName) ? null : "/Controls;component/Icons/" + fileName;
+			return "/Controls;component/FSIcons/" + driver.DriverType.ToString() + ".png";
 		}
 		static string CurrentDirectory(string directory)
 		{

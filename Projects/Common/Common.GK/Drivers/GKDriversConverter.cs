@@ -26,7 +26,6 @@ namespace Common.GK
 					OldDriverUID = driver.UID,
 					Name = driver.Name,
 					ShortName = driver.ShortName,
-					ImageSource = driver.ImageSource,
 					HasImage = driver.HasImage,
 					//CanEditAddress = driver.CanEditAddress,
 					CanEditAddress = true,
@@ -49,6 +48,7 @@ namespace Common.GK
 					HasZone = driver.IsZoneDevice,
 					IsGroupDevice = driver.IsChildAddressReservedRange
 				};
+				xDriver.ImageSource = FileHelper.GetGKIcon(xDriver);
 
 				xDriver.Children = new List<Guid>();
 				foreach (var childDriver in driver.AvaliableChildren)

@@ -167,23 +167,23 @@
 
     <DirectoryRef Id="ShellFolder">
       <Component Id="FMIntegrateCmd" Guid="*">
-        <File Id="FMIntegrateCmd" Name="Интегрировать.cmd" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+        <File Id="FMIntegrateCmd" Name="Integrate.cmd" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
       <Component Id="FMDeintegrateCmd" Guid="*">
-        <File Id="FMDeintegrateCmd" Name="Деинтегрировать.cmd" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+        <File Id="FMDeintegrateCmd" Name="Desintegrate.cmd" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
       
       <Component Id="FMIntegrateReg" Guid="*">
-        <File Id="FMIntegrateReg" Name="интегрировать.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+        <File Id="FMIntegrateReg" Name="Integrate.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
       <Component Id="FMDeintegrateReg" Guid="*">
-        <File Id="FMDeintegrateReg" Name="дизинтегрировать.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+        <File Id="FMDeintegrateReg" Name="Desintegrate.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
       <Component Id="FMIntegrateRegx64" Guid="*">
-        <File Id="FMIntegrateRegx64" Name="интегрировать x64.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+        <File Id="FMIntegrateRegx64" Name="Integrate x64.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
       <Component Id="FMIntegrateRegx32" Guid="*">
-        <File Id="FMIntegrateRegx32" Name="интегрировать x32.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
+        <File Id="FMIntegrateRegx32" Name="Integrate x32.reg" Source="Data\Shell\" DiskId="1" KeyPath="yes" />
       </Component>
 
     </DirectoryRef>

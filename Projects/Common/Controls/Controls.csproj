@@ -475,71 +475,135 @@
     <Resource Include="Images\Pen.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\Device_blackbox.png" />
-    <Resource Include="Icons\Device_Bus.png" />
-    <Resource Include="Icons\Device_Computer.png" />
-    <Resource Include="Icons\Device_Connector.png" />
-    <Resource Include="Icons\Device_Device.png" />
-    <Resource Include="Icons\Device_Lamp.png" />
-    <Resource Include="Icons\Device_Mech.png" />
-    <Resource Include="Icons\Device_Panel.png" />
-    <Resource Include="Icons\Device_R_AL.png" />
-    <Resource Include="Icons\Device_R_ASPT.png" />
-    <Resource Include="Icons\Device_R_Combo.png" />
-    <Resource Include="Icons\Device_R_Man.png" />
-    <Resource Include="Icons\Device_R_Smoke.png" />
-    <Resource Include="Icons\Device_R_Temp.png" />
-    <Resource Include="Icons\Device_Speaker.png" />
-    <Resource Include="Icons\Device_Switch.png" />
-    <Resource Include="Icons\Device_wireless.png" />
-    <Resource Include="Icons\DS_Critical.png" />
-    <Resource Include="Icons\DS_Error.png" />
-    <Resource Include="Icons\DS_Mute.png" />
-    <Resource Include="Icons\DS_Normal.png" />
-    <Resource Include="Icons\DS_ServiceRequired.png" />
-    <Resource Include="Icons\DS_ServiceRequired_old.png" />
-    <Resource Include="Icons\DS_Unknown.png" />
-    <Resource Include="Icons\DS_Warning.png" />
-    <Resource Include="Icons\Unknown_Device.png" />
-    <Resource Include="Icons\АМ-1О.png" />
-    <Resource Include="Icons\АМ-1П.png" />
-    <Resource Include="Icons\АМ-1Т.png" />
-    <Resource Include="Icons\АМО-4.png" />
-    <Resource Include="Icons\АМП-4.png" />
-    <Resource Include="Icons\АМП-4Т.png" />
-    <Resource Include="Icons\АСПТ.png" />
-    <Resource Include="Icons\БУНС-01-1.png" />
-    <Resource Include="Icons\Емкостной.png" />
-    <Resource Include="Icons\Задвижка.png" />
-    <Resource Include="Icons\Звуковой.png" />
-    <Resource Include="Icons\ИП29-64.png" />
-    <Resource Include="Icons\ИП29.png" />
-    <Resource Include="Icons\ИП64.png" />
-    <Resource Include="Icons\ИПР.png" />
-    <Resource Include="Icons\Комбинированный.png" />
-    <Resource Include="Icons\Магнитоконтактный.png" />
-    <Resource Include="Icons\МДУ.png" />
-    <Resource Include="Icons\МПТ.png" />
-    <Resource Include="Icons\МРО.png" />
-    <Resource Include="Icons\МС.png" />
-    <Resource Include="Icons\насос.png" />
-    <Resource Include="Icons\Оптико-электронный активный.png" />
-    <Resource Include="Icons\Оптико-электронный пассивный линейный.png" />
-    <Resource Include="Icons\Оптико-электронный пассивный объемный.png" />
-    <Resource Include="Icons\Оптико-электронный пассивный поверхностный.png" />
-    <Resource Include="Icons\Пьезоэлектрический.png" />
-    <Resource Include="Icons\Радиоволновой одноблочный.png" />
-    <Resource Include="Icons\РМ.png" />
-    <Resource Include="Icons\Рубеж-2А.png" />
-    <Resource Include="Icons\Рубеж-2АМ.png" />
-    <Resource Include="Icons\Рубеж-2ОП.png" />
-    <Resource Include="Icons\Тревожной сигнализации %28ножной%29.png" />
-    <Resource Include="Icons\Тревожной сигнализации %28ручной%29.png" />
-    <Resource Include="Icons\Ударно-контактный.png" />
-    <Resource Include="Icons\Ультразвуковой.png" />
-    <Resource Include="Icons\Электроконтактный.png" />
+    <Resource Include="FSIcons\AM1_O.png" />
+    <Resource Include="FSIcons\AM1_T.png" />
+    <Resource Include="FSIcons\AM4.png" />
+    <Resource Include="FSIcons\AM4_P.png" />
+    <Resource Include="FSIcons\AMP_4.png" />
+    <Resource Include="FSIcons\AM_1.png" />
+    <Resource Include="FSIcons\ASPT.png" />
+    <Resource Include="FSIcons\AutomaticButton.png" />
+    <Resource Include="FSIcons\BUNS.png" />
+    <Resource Include="FSIcons\BUNS_2.png" />
+    <Resource Include="FSIcons\CombinedDetector.png" />
+    <Resource Include="FSIcons\CompensationPump.png" />
+    <Resource Include="FSIcons\Compressor.png" />
+    <Resource Include="FSIcons\Computer.png" />
+    <Resource Include="FSIcons\DrenazhPump.png" />
+    <Resource Include="FSIcons\Exit.png" />
+    <Resource Include="FSIcons\Fan.png" />
+    <Resource Include="FSIcons\HandDetector.png" />
+    <Resource Include="FSIcons\HeatDetector.png" />
+    <Resource Include="FSIcons\IndicationBlock.png" />
+    <Resource Include="FSIcons\Indicator.png" />
+    <Resource Include="FSIcons\JokeyPump.png" />
+    <Resource Include="FSIcons\Klapan.png" />
+    <Resource Include="FSIcons\MDU.png" />
+    <Resource Include="FSIcons\MPT.png" />
+    <Resource Include="FSIcons\MRK_30.png" />
+    <Resource Include="FSIcons\MRO.png" />
+    <Resource Include="FSIcons\MRO_2.png" />
+    <Resource Include="FSIcons\MS_1.png" />
+    <Resource Include="FSIcons\MS_2.png" />
+    <Resource Include="FSIcons\MS_3.png" />
+    <Resource Include="FSIcons\MS_4.png" />
+    <Resource Include="FSIcons\Page.png" />
+    <Resource Include="FSIcons\PDU.png" />
+    <Resource Include="FSIcons\PDUDirection.png" />
+    <Resource Include="FSIcons\Pump.png" />
+    <Resource Include="FSIcons\PumpStation.png" />
+    <Resource Include="FSIcons\RadioHandDetector.png" />
+    <Resource Include="FSIcons\RadioSmokeDetector.png" />
+    <Resource Include="FSIcons\RM_1.png" />
+    <Resource Include="FSIcons\RM_2.png" />
+    <Resource Include="FSIcons\RM_3.png" />
+    <Resource Include="FSIcons\RM_4.png" />
+    <Resource Include="FSIcons\RM_5.png" />
+    <Resource Include="FSIcons\Rubezh_10AM.png" />
+    <Resource Include="FSIcons\Rubezh_2AM.png" />
+    <Resource Include="FSIcons\Rubezh_2OP.png" />
+    <Resource Include="FSIcons\Rubezh_4A.png" />
+    <Resource Include="FSIcons\ShuzOffButton.png" />
+    <Resource Include="FSIcons\ShuzOnButton.png" />
+    <Resource Include="FSIcons\ShuzUnblockButton.png" />
+    <Resource Include="FSIcons\SmokeDetector.png" />
+    <Resource Include="FSIcons\Sostav.png" />
+    <Resource Include="FSIcons\StartButton.png" />
+    <Resource Include="FSIcons\StopButton.png" />
+    <Resource Include="FSIcons\UOO_TL.png" />
+    <Resource Include="FSIcons\USB_BUNS.png" />
+    <Resource Include="FSIcons\USB_BUNS_2.png" />
+    <Resource Include="FSIcons\USB_Channel.png" />
+    <Resource Include="FSIcons\USB_Channel_1.png" />
+    <Resource Include="FSIcons\USB_Channel_2.png" />
+    <Resource Include="FSIcons\USB_Rubezh_2AM.png" />
+    <Resource Include="FSIcons\USB_Rubezh_2OP.png" />
+    <Resource Include="FSIcons\USB_Rubezh_4A.png" />
+    <Resource Include="FSIcons\Valve.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="StateIcons\Attention.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GKIcons\AM1_O.png" />
+    <Resource Include="GKIcons\AM1_T.png" />
+    <Resource Include="GKIcons\AM4.png" />
+    <Resource Include="GKIcons\AM4_P.png" />
+    <Resource Include="GKIcons\AMP_4.png" />
+    <Resource Include="GKIcons\AM_1.png" />
+    <Resource Include="GKIcons\AutomaticButton.png" />
+    <Resource Include="GKIcons\CombinedDetector.png" />
+    <Resource Include="GKIcons\CompensationPump.png" />
+    <Resource Include="GKIcons\Compressor.png" />
+    <Resource Include="GKIcons\DrenazhPump.png" />
+    <Resource Include="GKIcons\GK.png" />
+    <Resource Include="GKIcons\GKIndicator.png" />
+    <Resource Include="GKIcons\GKLine.png" />
+    <Resource Include="GKIcons\GKRele.png" />
+    <Resource Include="GKIcons\HandDetector.png" />
+    <Resource Include="GKIcons\HeatDetector.png" />
+    <Resource Include="GKIcons\JokeyPump.png" />
+    <Resource Include="GKIcons\KAU.png" />
+    <Resource Include="GKIcons\KAUIndicator.png" />
+    <Resource Include="GKIcons\MDU.png" />
+    <Resource Include="GKIcons\MPT.png" />
+    <Resource Include="GKIcons\MRK_30.png" />
+    <Resource Include="GKIcons\MRO.png" />
+    <Resource Include="GKIcons\Pump.png" />
+    <Resource Include="GKIcons\RadioHandDetector.png" />
+    <Resource Include="GKIcons\RadioSmokeDetector.png" />
+    <Resource Include="GKIcons\RM_1.png" />
+    <Resource Include="GKIcons\RM_2.png" />
+    <Resource Include="GKIcons\RM_3.png" />
+    <Resource Include="GKIcons\RM_4.png" />
+    <Resource Include="GKIcons\RM_5.png" />
+    <Resource Include="GKIcons\ShuzOffButton.png" />
+    <Resource Include="GKIcons\ShuzOnButton.png" />
+    <Resource Include="GKIcons\ShuzUnblockButton.png" />
+    <Resource Include="GKIcons\SmokeDetector.png" />
+    <Resource Include="GKIcons\StartButton.png" />
+    <Resource Include="GKIcons\StopButton.png" />
+    <Resource Include="GKIcons\System.png" />
+    <Resource Include="GKIcons\Valve.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateIcons\Fire.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateIcons\Failure.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateIcons\Off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateIcons\Info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateIcons\Service.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateIcons\Unknown.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

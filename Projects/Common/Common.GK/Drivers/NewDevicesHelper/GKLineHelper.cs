@@ -19,7 +19,6 @@ namespace Common.GK
 				IsAutoCreate = true,
 				MinAutoCreateAddress = 12,
 				MaxAutoCreateAddress = 13,
-				ImageSource = FileHelper.GetIconFilePath("Device_Device") + ".png",
 				HasImage = true,
 				IsChildAddressReservedRange = false,
 				Name = "Линия ГК",

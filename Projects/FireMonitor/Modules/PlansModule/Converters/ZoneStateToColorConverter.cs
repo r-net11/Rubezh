@@ -13,6 +13,9 @@ namespace PlansModule.Converters
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			ZoneState zoneState = (ZoneState)value;
+			if (zoneState == null)
+				return Brushes.Magenta;
+
 			if (zoneState.Zone.ZoneType == ZoneType.Guard)
 			{
 				if (zoneState.StateType == StateType.Norm)

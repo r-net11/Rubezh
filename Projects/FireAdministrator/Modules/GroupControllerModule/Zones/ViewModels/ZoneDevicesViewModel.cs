@@ -150,7 +150,7 @@ namespace GKModule.ViewModels
 
             Initialize(Zone);
             UpdateAvailableDevices();
-            ServiceFactory.SaveService.DevicesChanged = true;
+			ServiceFactory.SaveService.XDevicesChanged = true;
         }
 
         public bool CanRemove()

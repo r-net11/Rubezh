@@ -19,7 +19,6 @@ namespace Common.GK
                 IsAutoCreate = true,
                 MinAutoCreateAddress = 1,
                 MaxAutoCreateAddress = 1,
-				ImageSource = FileHelper.GetIconFilePath("Device_Device") + ".png",
                 HasImage = true,
                 IsChildAddressReservedRange = false,
                 Name = "Индикатор КАУ",

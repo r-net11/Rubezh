@@ -16,7 +16,6 @@ namespace Common.GK
 				OldDriverUID = Guid.Empty,
 				CanEditAddress = false,
 				HasAddress = false,
-				ImageSource = FileHelper.GetIconFilePath("Device_Device") + ".png",
 				HasImage = true,
 				IsChildAddressReservedRange = false,
 				Name = "Групповой контроллер",

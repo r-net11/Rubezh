@@ -136,8 +136,8 @@ namespace FiresecService.Configuration
 				imageSource = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
 			}
 
-			driver.ImageSource = imageSource;
-			driver.HasImage = driver.ImageSource != @"Device_Device";
+			driver.OldImageSource = imageSource;
+			driver.HasImage = imageSource != @"Device_Device";
 
 			driver.IsBUtton = false;
 			switch (driver.DriverType)

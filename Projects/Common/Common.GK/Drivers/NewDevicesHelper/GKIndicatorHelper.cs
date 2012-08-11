@@ -19,7 +19,6 @@ namespace Common.GK
 				IsAutoCreate = true,
 				MinAutoCreateAddress = 2,
 				MaxAutoCreateAddress = 11,
-				ImageSource = FileHelper.GetIconFilePath("Device_Device") + ".png",
 				HasImage = true,
 				IsChildAddressReservedRange = false,
 				Name = "Индикатор ГК",

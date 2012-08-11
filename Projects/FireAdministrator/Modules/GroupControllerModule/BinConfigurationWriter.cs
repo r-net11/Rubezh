@@ -3,6 +3,8 @@ using System.Linq;
 using Common.GK;
 using Infrastructure.Common.Windows;
 using System;
+using System.Threading;
+using XFiresecAPI;
 
 namespace GKModule
 {
@@ -27,11 +29,16 @@ namespace GKModule
 
 		static void WriteConfigToDevice(CommonDatabase commonDatabase)
 		{
+			var recieveAnswer = commonDatabase.DatabaseType == DatabaseType.Gk;
+			recieveAnswer = true;
+
 			LoadingService.DoStep("Переход в технологический режим");
 			SendManager.Send(commonDatabase.RootDevice, 0, 14, 0, null, false);
+			Thread.Sleep(2000);
 
 			LoadingService.DoStep("Стирание базы данных");
-			SendManager.Send(commonDatabase.RootDevice, 0, 15, 0);
+			SendManager.Send(commonDatabase.RootDevice, 0, 15, 0, null, false);
+			Thread.Sleep(10000);
 
 			foreach (var binaryObject in commonDatabase.BinaryObjects)
 			{
@@ -39,7 +46,7 @@ namespace GKModule
 				var packs = BinConfigurationWriter.CreateDescriptors(binaryObject);
 				if (packs.Count > 1)
 				{
-					MessageBoxService.Show("Отправка нескольких пакетов в конфигурации дескриптора");
+					//MessageBoxService.Show("Отправка нескольких пакетов в конфигурации дескриптора");
 				}
 				foreach (var pack in packs)
 				{
@@ -49,17 +56,18 @@ namespace GKModule
 						pack.Add(0);
 					}
 
-					var sendResult = SendManager.Send(commonDatabase.RootDevice, (short)(packBytesCount), 17, 0, pack, true);
+					var sendResult = SendManager.Send(commonDatabase.RootDevice, (short)(packBytesCount), 17, 0, pack, recieveAnswer);
 					if (sendResult.HasError)
 					{
 						MessageBoxService.Show(sendResult.Error);
+						LoadingService.Close();
 						return;
 					}
 				}
 			}
 			LoadingService.DoStep("Запись завершающего дескриптора");
 			var endBytes = BinConfigurationWriter.CreateEndDescriptor((short)(commonDatabase.BinaryObjects.Count + 1));
-			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes);
+			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, recieveAnswer);
 
 			LoadingService.DoStep("Запуск программы");
 			SendManager.Send(commonDatabase.RootDevice, 0, 11, 0, null, false);

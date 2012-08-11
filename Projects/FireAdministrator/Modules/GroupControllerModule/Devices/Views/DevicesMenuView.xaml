@@ -25,11 +25,11 @@
                 <MenuItem Command="{Binding ConvertFromFiresecCommand}" Header="Конвертировать в из формата Рубеж-2АМ" />
                 <MenuItem Command="{Binding ConvertToBinaryFileCommand}" Header="Сохранить в бинарный файл" Visibility="Collapsed" />
                 <MenuItem Command="{Binding ConvertToBinCommand}" Header="Посмотреть бинарную конфигурацию" />
+                <MenuItem Command="{Binding WriteConfigCommand}" Header="Записать конфигурацию в устройства" />
                 <Separator />
                 <MenuItem Command="{Binding ControlTimeCommand}" Header="Время" />
                 <MenuItem Command="{Binding ShowInfoCommand}" Header="Информация" />
                 <MenuItem Command="{Binding ReadJournalCommand}" Header="Журнал событий" />
-                <MenuItem Command="{Binding WriteConfigCommand}" Header="Записать конфигурацию во все устройства" />
                 <MenuItem Command="{Binding GetParametersCommand}" Header="Запросить параметры" />
                 <MenuItem Command="{Binding WriteParametersCommand}" Header="Записать параметры" />
                 <MenuItem Command="{Binding UpdateFirmwhareCommand}" Header="Обновление ПО" />
