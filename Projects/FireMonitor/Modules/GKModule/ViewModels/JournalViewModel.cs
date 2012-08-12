@@ -15,7 +15,6 @@ namespace GKModule.ViewModels
 {
 	public class JournalViewModel : ViewPartViewModel
 	{
-		XDevice Device;
 		const int MaxCount = 100;
 
 		public JournalViewModel()
@@ -27,7 +26,6 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			JournalWatcher.GetLastJournalItems(MaxCount);
 		}
 
 		void OnNewJournal(List<JournalItem> journalItems)
@@ -67,20 +65,6 @@ namespace GKModule.ViewModels
 				_selectedJournal = value;
 				OnPropertyChanged("SelectedJournal");
 			}
-		}
-
-		JournalItem ReadJournal(int index)
-		{
-			var data = new List<byte>();
-			data = BitConverter.GetBytes(index).ToList();
-			var sendResult = SendManager.Send(Device, 4, 7, 64, data);
-			if (sendResult.HasError)
-			{
-				ServiceFactory.Events.GetEvent<GKConnectionChanged>().Publish(false);
-				return null;
-			}
-			var journalItem = new JournalItem(sendResult.Bytes);
-			return journalItem;
 		}
 	}
 }

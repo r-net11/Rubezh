@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
 	{
 		public void Initialize()
 		{
-			StatesWatcher.GetAllStates();
+			StatesWatcher.RequestAllStates();
 
 			BuildDeviceTree();
 			if (Devices.Count > 0)

@@ -1,9 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Views="clr-namespace:ReportsModule2.Views"
-                    xmlns:ViewModels="clr-namespace:ReportsModule2.ViewModels">
-    
-    <DataTemplate DataType="{x:Type ViewModels:Reports2ViewModel}">
-        <Views:Reports2View />
-    </DataTemplate>
-</ResourceDictionary>
