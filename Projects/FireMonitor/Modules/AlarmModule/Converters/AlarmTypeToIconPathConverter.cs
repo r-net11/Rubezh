@@ -11,7 +11,7 @@ namespace AlarmModule.Converters
             switch ((AlarmType) value)
             {
 				case AlarmType.Guard:
-					return "/Controls;component/Images/Alarm_Main_1_Fire.png";
+                    return "/Controls;component/Images/Alarm_shield.png";
 
                 case AlarmType.Fire:
                     return "/Controls;component/Images/Alarm_Main_1_Fire.png";

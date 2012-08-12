@@ -41,7 +41,6 @@
     <Compile Include="FireMonitor\OutputFilesReportTemplates.wxs" />
     <Compile Include="FireMonitor\Shortcuts_FireMonitor.wxs" />
     <Compile Include="FiresecInstaller.wxs" />
-    <Compile Include="FiresecService\AutoGenOutputFiles\OutputFilesComDlls.wxs" />
     <Compile Include="FiresecService\AutoGenOutputFiles\OutputFilesIcons.wxs" />
     <Compile Include="FiresecService\AutoGenOutputFiles\OutputFilesSounds.wxs" />
     <Compile Include="FiresecService\AutoGenOutputFiles\OutputFilesXmlConfig.wxs" />

@@ -24,7 +24,6 @@
 			<ComponentRef Id="FAPrismUnityExtensionsComponent"/>
 			<ComponentRef Id="FAWPFToolkitExtendedComponent"/>
 			<ComponentRef Id="FAServiceLocationComponent"/>
-      <ComponentRef Id="FATreeListViewComponent"/>
 			<ComponentRef Id="FAInstructionsModuleComponent" />
 			<ComponentRef Id="FALibraryModuleComponent" />
 			<ComponentRef Id="FAPlansModuleComponent" />

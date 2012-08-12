@@ -37,7 +37,7 @@ namespace FireAdministrator
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
 			FiresecManager.Disconnect();
-			VideoService.Close();
+			//VideoService.Close();
 		}
 	}
 }
