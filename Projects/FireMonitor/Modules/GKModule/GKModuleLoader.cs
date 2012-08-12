@@ -60,7 +60,8 @@ namespace GKModule
 			ZonesViewModel.Initialize();
 			JournalViewModel.Initialize();
 
-			JournalWatcher.Start();
+			JournalWatcherManager.Start();
+			JournalWatcherManager.GetLastJournalItems(100);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

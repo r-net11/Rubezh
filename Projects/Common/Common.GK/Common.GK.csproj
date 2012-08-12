@@ -43,7 +43,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryDeviceState.cs" />
+    <Compile Include="BinaryObjectState.cs" />
     <Compile Include="BytesHelper.cs" />
     <Compile Include="Database\BinaryObjects\FormulaBuilder.cs" />
     <Compile Include="Database\DB\CommonDatabase.cs" />

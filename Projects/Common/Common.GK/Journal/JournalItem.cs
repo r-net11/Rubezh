@@ -6,6 +6,7 @@ namespace Common.GK
 	public class JournalItem
 	{
 		public int GKNo { get; set; }
+		public short GKObjectNo { get; set; }
 		public int KAUNo { get; set; }
 
 		byte Day { get; set; }
@@ -28,10 +29,10 @@ namespace Common.GK
 		public int ObjectFactoryNo { get; set; }
 		public int ObjectState { get; set; }
 
-
 		public JournalItem(List<byte> bytes)
 		{
 			GKNo = BytesHelper.SubstructInt(bytes, 0);
+			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 			KAUNo = BytesHelper.SubstructInt(bytes, 32);
 
 			Day = bytes[32 + 4];

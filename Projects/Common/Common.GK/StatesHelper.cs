@@ -1,4 +1,6 @@
 ﻿using XFiresecAPI;
+using System.Collections.Generic;
+using System.Collections;
 
 namespace Common.GK
 {
@@ -6,7 +8,7 @@ namespace Common.GK
 	{
 		public static int XStateTypeToPriority(XStateType stateType)
 		{
-			switch(stateType)
+			switch (stateType)
 			{
 				case XStateType.Norm:
 					return 7;
@@ -43,6 +45,22 @@ namespace Common.GK
 					return 7;
 			}
 			return 7;
+		}
+
+		public static List<XStateType> StatesFromInt(int intValue)
+		{
+			var states = new List<XStateType>();
+			var bitArray = new BitArray(new int[1] { intValue });
+			for (int bitIndex = 0; bitIndex < bitArray.Count; bitIndex++)
+			{
+				var b = bitArray[bitIndex];
+				if (b)
+				{
+					var stateTupe = (XStateType)bitIndex;
+					states.Add(stateTupe);
+				}
+			}
+			return states;
 		}
 	}
 }

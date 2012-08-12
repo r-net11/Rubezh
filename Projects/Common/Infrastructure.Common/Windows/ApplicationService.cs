@@ -53,10 +53,13 @@ namespace Infrastructure.Common.Windows
 		}
 		public static void Invoke(Action action)
 		{
-			if (Application.Current.Dispatcher.CheckAccess())
-				action();
-			else
-				Application.Current.Dispatcher.Invoke(action);
+			if (Application.Current != null)
+			{
+				if (Application.Current.Dispatcher.CheckAccess())
+					action();
+				else
+					Application.Current.Dispatcher.Invoke(action);
+			}
 		}
 		public static void CloseAllWindows()
 		{

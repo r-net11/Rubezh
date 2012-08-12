@@ -1,0 +1,44 @@
+﻿<Window x:Class="ReportsModule.Views.ReportControlView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:rep="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
+        xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+        MinHeight="300" MinWidth="400">
+    <Grid>
+        <DockPanel LastChildFill="True">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="Black" >
+                <ComboBox ItemsSource="{Binding AvailableReportTypes}" SelectedItem="{Binding SelectedReportName}" Height="25" MinWidth="150" Margin="5, 0, 0, 0">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ., Converter={StaticResource ReportTypeToStringConverter}}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <Controls:ToolBarButton Name="refreshPageButton" Command="{Binding RefreshCommand}" ToolTip="Обновить отчет" ImageSource="/Controls;component/Images/Refresh.png" />
+                <Controls:ToolBarButton Name="filterButton" Command="{Binding FilterCommand}" ToolTip="Задать фильтр" ImageSource="/Controls;component/Images/Filter.png"
+                                        Visibility="{Binding IsJournalReport, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <Controls:ToolBarButton Name="firstPageButton" Command="{Binding FirstPageCommand}" ToolTip="Начальная страница" ImageSource="/Controls;component/Images/LeftLeft.png" />
+                <Controls:ToolBarButton Name="prevPageButton" Command="{Binding PreviousPageCommand}" ToolTip="Предыдущая страница" ImageSource="/Controls;component/Images/Left.png" />
+                <TextBox Text="{Binding CurrentPageNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Center" 
+                         MinHeight="25" Height="30" MinWidth="25" FontSize="20" IsEnabled="{Binding IsReportLoad}"/>
+                <Label Content="/" VerticalContentAlignment="Center" FontSize="20"/>
+                <Label Content="{Binding TotalPageNumber}" VerticalContentAlignment="Center" FontSize="20"/>
+                <Controls:ToolBarButton Name="nextPageButton" Command="{Binding NextPageCommand}" ToolTip="Следующая страница" ImageSource="/Controls;component/Images/Right.png" />
+                <Controls:ToolBarButton Name="lastPageButton" Command="{Binding LastPageCommand}" ToolTip="Последняя страница" ImageSource="/Controls;component/Images/RightRight.png" />
+                <Controls:ToolBarButton Name="printReportButton" Command="{Binding PrintReportCommand}" ToolTip="Печать отчета" ImageSource="/Controls;component/Images/Print.png" />
+            </StackPanel>
+            <Grid DockPanel.Dock="Bottom" Margin="2" Background="Black">
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Controls:ToolBarButton Name="fidthToPageButton" Command="{Binding FidthToPageCommand}" ToolTip="По размеру страницы" ImageSource="/Controls;component/Images/FidthToPage.png" />
+                    <Controls:ToolBarButton Name="zoomOutButton" Command="{Binding ZoomOutCommand}" ToolTip="Уменьшить масштаб" ImageSource="/Controls;component/Images/ZoomOut.png" />
+                    <Slider Name="_slider" Orientation="Horizontal" VerticalAlignment="Center" Minimum="{Binding ZoomMinimumValue}" Maximum="{Binding ZoomMaximumValue}"
+                        Value="{Binding ZoomValue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsReportLoad}" DockPanel.Dock="Right"/>
+                    <Controls:ToolBarButton Name="zoomInButton" Command="{Binding ZoomInCommand}" ToolTip="Увеличить масштаб" ImageSource="/Controls;component/Images/ZoomIn.png" />
+                </StackPanel>
+            </Grid>
+            <WindowsFormsHost Name="_winFormHost">
+                <rep:ReportViewer Name="_reportViewer" />
+            </WindowsFormsHost>
+        </DockPanel>
+    </Grid>
+</Window>

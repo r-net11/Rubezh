@@ -29,6 +29,23 @@ namespace Common.GK
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
+			var zonesCount = 0;
+			foreach (var zone in Direction.XZones)
+			{
+				Formula.AddGetBitOff(XStateType.Fire2, zone, DatabaseType);
+				if (zonesCount > 0)
+				{
+					Formula.Add(FormulaOperationType.ADD);
+				}
+				zonesCount++;
+			}
+			foreach (var directionDevice in Direction.DirectionDevices)
+			{
+				Formula.Add(FormulaOperationType.DUP);
+				Formula.AddGetBit(directionDevice.StateType, directionDevice.Device, DatabaseType);
+				Formula.Add(FormulaOperationType.LE);
+				Formula.AddPutBit(directionDevice.StateType, directionDevice.Device, DatabaseType);
+			}
 			Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
 		}

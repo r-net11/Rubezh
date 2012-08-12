@@ -63,8 +63,9 @@
     <Compile Include="Converters\XZoneStateToColorConverter.cs" />
     <Compile Include="Events\NewJournalEvent.cs" />
     <Compile Include="Events\ZoneSelectedEvent.cs" />
+    <Compile Include="Watcher\JournalWatcher.cs" />
     <Compile Include="GKModuleLoader.cs" />
-    <Compile Include="JournalWatcher.cs" />
+    <Compile Include="Watcher\JournalWatcherManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -78,7 +79,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="StatesWatcher.cs" />
+    <Compile Include="Watcher\StatesWatcher.cs" />
     <Compile Include="ViewModels\DeviceCommandsViewModel.cs" />
     <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />

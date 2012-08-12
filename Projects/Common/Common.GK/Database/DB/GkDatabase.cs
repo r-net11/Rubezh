@@ -101,6 +101,7 @@ namespace Common.GK
 				foreach (var binaryObject in kauDatabase.BinaryObjects)
 				{
 					var binaryBase = binaryObject.BinaryBase;
+					binaryBase.GkDatabaseParent = RootDevice;
 					if (binaryBase is XDevice)
 					{
 						XDevice device = binaryBase as XDevice;
