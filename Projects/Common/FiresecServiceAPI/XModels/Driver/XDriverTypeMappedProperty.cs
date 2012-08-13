@@ -9,6 +9,6 @@ namespace XFiresecAPI
 		public byte No { get; set; }
 
 		[DataMember]
-		public short Value { get; set; }
+		public ushort Value { get; set; }
 	}
 }

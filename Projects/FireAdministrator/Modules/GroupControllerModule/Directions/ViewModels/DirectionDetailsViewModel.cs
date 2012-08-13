@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
                     No = 1
                 };
 				if (XManager.DeviceConfiguration.Directions.Count != 0)
-					XDirection.No = (short)(XManager.DeviceConfiguration.Directions.Select(x => x.No).Max() + 1);
+					XDirection.No = (ushort)(XManager.DeviceConfiguration.Directions.Select(x => x.No).Max() + 1);
             }
             else
             {
@@ -55,8 +55,8 @@ namespace GKModule.ViewModels
             }
         }
 
-        short _no;
-        public short No
+        ushort _no;
+        public ushort No
         {
             get { return _no; }
             set
@@ -66,8 +66,8 @@ namespace GKModule.ViewModels
             }
         }
 
-		short _delay;
-		public short Delay
+		ushort _delay;
+		public ushort Delay
 		{
 			get { return _delay; }
 			set
@@ -77,8 +77,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		short _hold;
-		public short Hold
+		ushort _hold;
+		public ushort Hold
 		{
 			get { return _hold; }
 			set
@@ -88,8 +88,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		short _regime;
-		public short Regime
+		ushort _regime;
+		public ushort Regime
 		{
 			get { return _regime; }
 			set

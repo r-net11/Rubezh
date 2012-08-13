@@ -13,19 +13,6 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Уставка времени хода задвижки", 0, 1, 1, 65535);
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x8e, "Время отложенного запуска, с", 0, 0, 0, 255);
 
-			var property3 = new DriverProperty()
-			{
-				IsInternalDeviceParameter = true,
-				No = 0x8f,
-				Name = "Время Т2 отложенного запуска, мин",
-				Caption = "Время Т2 отложенного запуска, мин",
-				DriverPropertyType = DriverPropertyTypeEnum.IntType,
-				Default = "0",
-				Min = 1,
-				Max = 360
-			};
-			driver.Properties.Add(property3);
-
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "концевой выключатель «Открыто»", 0, "концевой выключатель «Открыто» НР", "концевой выключатель «Открыто» НЗ");
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "муфтовый выключатель Открыто/ДУ Открыть", 1, "муфтовый выключатель Открыто/ДУ Открыть НР", "муфтовый выключатель Открыто/ДУ Открыть НЗ");
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "концевой выключатель «Закрыто»", 2, "концевой выключатель «Закрыто» НР", "концевой выключатель «Закрыто» НЗ");

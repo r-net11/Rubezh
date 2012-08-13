@@ -33,7 +33,7 @@ namespace GKModule
 			DevicesViewModel.Select(deviceUID);
 			ServiceFactory.Layout.Show(DevicesViewModel);
 		}
-		void OnShowXZone(short? zoneNo)
+		void OnShowXZone(ushort? zoneNo)
 		{
 			ZonesViewModel.Select(zoneNo);
 			ServiceFactory.Layout.Show(ZonesViewModel);
@@ -70,7 +70,7 @@ namespace GKModule
 				new NavigationItem("ГК", null, new List<NavigationItem>()
 				{
 					new NavigationItem<ShowXDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXZoneEvent, short?>("Зоны", "/Controls;component/Images/zones.png"),
+					new NavigationItem<ShowXZoneEvent, ushort?>("Зоны", "/Controls;component/Images/zones.png"),
 					new NavigationItem<ShowXJournalEvent, object>("Журнал", "/Controls;component/Images/book.png")
 				}),
 			};

@@ -54,8 +54,8 @@ namespace FiresecAPI.Models
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Offset = offset,
 				Default = defaultValue.ToString(),
-				Min = (short)min,
-				Max = (short)max
+				Min = (ushort)min,
+				Max = (ushort)max
 			};
 			driver.Properties.Add(property);
 		}

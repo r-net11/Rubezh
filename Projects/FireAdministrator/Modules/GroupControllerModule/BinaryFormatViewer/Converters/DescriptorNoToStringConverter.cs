@@ -10,7 +10,7 @@ namespace GKModule.Converters
 	{
 		object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			short descriptorNo = (short)value;
+			ushort descriptorNo = (ushort)value;
 			if (descriptorNo > 0)
 			{
 				return descriptorNo.ToString();

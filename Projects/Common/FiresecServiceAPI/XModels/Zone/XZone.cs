@@ -17,7 +17,7 @@ namespace XFiresecAPI
 		public List<XDevice> Devices { get; set; }
 
 		[DataMember]
-		public short No { get; set; }
+		public ushort No { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -26,10 +26,10 @@ namespace XFiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
-		public short Fire1Count { get; set; }
+		public ushort Fire1Count { get; set; }
 
 		[DataMember]
-		public short Fire2Count { get; set; }
+		public ushort Fire2Count { get; set; }
 
 		[DataMember]
 		public List<Guid> DeviceUIDs { get; set; }

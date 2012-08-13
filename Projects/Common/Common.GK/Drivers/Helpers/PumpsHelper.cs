@@ -18,8 +18,11 @@ namespace Common.GK
 		static void Update(XDriverType driverType, int maxAddressOnShleif)
 		{
 			var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == driverType);
-			driver.IsRangeEnabled = false;
-			driver.MaxAddressOnShleif = maxAddressOnShleif;
+			if (driver != null)
+			{
+				driver.IsRangeEnabled = false;
+				driver.MaxAddressOnShleif = maxAddressOnShleif;
+			}
 		}
 	}
 }

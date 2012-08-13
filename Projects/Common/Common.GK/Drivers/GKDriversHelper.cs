@@ -11,40 +11,40 @@ namespace Common.GK
 		{
 			Drivers = new List<DriverItem>();
 
-			Drivers.Add(new DriverItem(XDriverType.MRK_30, DriverType.MRK_30, 0x00));
+			//Drivers.Add(new DriverItem(XDriverType.MRK_30, DriverType.MRK_30, 0x00));
 
 			Drivers.Add(new DriverItem(XDriverType.AMP_4, DriverType.AMP_4, 0x50));
 
 			Drivers.Add(new DriverItem(XDriverType.AM_1, DriverType.AM_1, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.AM1_O, DriverType.AM1_O, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.AM4, DriverType.AM4, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.AM4_T, DriverType.AM4_T, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.AM4_P, DriverType.AM4_P, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.AM4_O, DriverType.AM4_O, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.StopButton, DriverType.StopButton, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.StartButton, DriverType.StartButton, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.AutomaticButton, DriverType.AutomaticButton, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.ShuzOnButton, DriverType.ShuzOnButton, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.ShuzOffButton, DriverType.ShuzOffButton, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.ShuzUnblockButton, DriverType.ShuzUnblockButton, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.AM1_T, DriverType.AM1_T, 0x51));
-			Drivers.Add(new DriverItem(XDriverType.AMT_4, DriverType.AMT_4, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.AM1_O, DriverType.AM1_O, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.AM4, DriverType.AM4, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.AM4_T, DriverType.AM4_T, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.AM4_P, DriverType.AM4_P, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.AM4_O, DriverType.AM4_O, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.StopButton, DriverType.StopButton, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.StartButton, DriverType.StartButton, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.AutomaticButton, DriverType.AutomaticButton, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.ShuzOnButton, DriverType.ShuzOnButton, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.ShuzOffButton, DriverType.ShuzOffButton, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.ShuzUnblockButton, DriverType.ShuzUnblockButton, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.AM1_T, DriverType.AM1_T, 0x51));
+			//Drivers.Add(new DriverItem(XDriverType.AMT_4, DriverType.AMT_4, 0x51));
 
 			Drivers.Add(new DriverItem(XDriverType.HandDetector, DriverType.HandDetector, 0x55));
-			Drivers.Add(new DriverItem(XDriverType.RadioHandDetector, DriverType.RadioHandDetector, 0x55, false));
+			//Drivers.Add(new DriverItem(XDriverType.RadioHandDetector, DriverType.RadioHandDetector, 0x55, false));
 
 			Drivers.Add(new DriverItem(XDriverType.CombinedDetector, DriverType.CombinedDetector, 0x60));
 
 			Drivers.Add(new DriverItem(XDriverType.SmokeDetector, DriverType.SmokeDetector, 0x61));
-			Drivers.Add(new DriverItem(XDriverType.RadioSmokeDetector, DriverType.RadioSmokeDetector, 0x61, false));
+			//Drivers.Add(new DriverItem(XDriverType.RadioSmokeDetector, DriverType.RadioSmokeDetector, 0x61, false));
 
 			Drivers.Add(new DriverItem(XDriverType.HeatDetector, DriverType.HeatDetector, 0x62));
 
 			Drivers.Add(new DriverItem(XDriverType.Pump, DriverType.Pump, 0x70));
-			Drivers.Add(new DriverItem(XDriverType.JokeyPump, DriverType.JokeyPump, 0x70));
-			Drivers.Add(new DriverItem(XDriverType.Compressor, DriverType.Compressor, 0x70));
-			Drivers.Add(new DriverItem(XDriverType.DrenazhPump, DriverType.DrenazhPump, 0x70));
-			Drivers.Add(new DriverItem(XDriverType.CompensationPump, DriverType.CompensationPump, 0x70));
+			//Drivers.Add(new DriverItem(XDriverType.JokeyPump, DriverType.JokeyPump, 0x70));
+			//Drivers.Add(new DriverItem(XDriverType.Compressor, DriverType.Compressor, 0x70));
+			//Drivers.Add(new DriverItem(XDriverType.DrenazhPump, DriverType.DrenazhPump, 0x70));
+			//Drivers.Add(new DriverItem(XDriverType.CompensationPump, DriverType.CompensationPump, 0x70));
 
 			Drivers.Add(new DriverItem(XDriverType.Valve, DriverType.Valve, 0x71));
 
@@ -58,7 +58,7 @@ namespace Common.GK
 
 			Drivers.Add(new DriverItem(XDriverType.MPT, DriverType.MPT, 0x76));
 
-			Drivers.Add(new DriverItem(XDriverType.MDU, DriverType.MDU, 0x77));
+			Drivers.Add(new DriverItem(XDriverType.MDU, DriverType.MDU, 0x7E));
 		}
 
 		public static List<DriverItem> Drivers { get; private set; }
@@ -75,7 +75,7 @@ namespace Common.GK
 
 	public class DriverItem
 	{
-		public DriverItem(XDriverType xDriverType, DriverType oldDriverType, short driverTypeNo, bool connectToAddressController = true)
+		public DriverItem(XDriverType xDriverType, DriverType oldDriverType, ushort driverTypeNo, bool connectToAddressController = true)
 		{
 			XDriverType = xDriverType;
 			OldDriverType = oldDriverType;
@@ -85,7 +85,7 @@ namespace Common.GK
 
 		public XDriverType XDriverType { get; set; }
 		public DriverType OldDriverType { get; set; }
-		public short DriverTypeNo { get; set; }
+		public ushort DriverTypeNo { get; set; }
 		public bool ConnectToAddressController { get; set; }
 	}
 }

@@ -11,7 +11,7 @@ namespace XFiresecAPI
         {
             StateType = XStateType.Fire1;
             Devices = new List<Guid>();
-            Zones = new List<short>();
+            Zones = new List<ushort>();
 
 			XDevices = new List<XDevice>();
 			XZones = new List<XZone>();
@@ -27,7 +27,7 @@ namespace XFiresecAPI
         public List<Guid> Devices { get; set; }
 
         [DataMember]
-        public List<short> Zones { get; set; }
+        public List<ushort> Zones { get; set; }
 
         [DataMember]
         public ClauseOperandType ClauseOperandType { get; set; }

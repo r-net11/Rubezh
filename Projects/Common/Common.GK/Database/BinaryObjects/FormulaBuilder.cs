@@ -16,7 +16,7 @@ namespace Common.GK
 			FormulaOperations = new List<FormulaOperation>();
 		}
 
-		public void Add(FormulaOperationType formulaOperationType, byte firstOperand = 0, short secondOperand = 0, string comment = null)
+		public void Add(FormulaOperationType formulaOperationType, byte firstOperand = 0, ushort secondOperand = 0, string comment = null)
 		{
 			var formulaOperation = new FormulaOperation()
 			{
@@ -35,7 +35,7 @@ namespace Common.GK
 				binaryBase.GetDatabaseNo(databaseType),
 				"Проверка состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 			Add(FormulaOperationType.GETBIT,
-				(byte)XStateType.Off,
+				(byte)XStateType.Ignore,
 				binaryBase.GetDatabaseNo(databaseType));
 			Add(FormulaOperationType.COM);
 			Add(FormulaOperationType.AND);

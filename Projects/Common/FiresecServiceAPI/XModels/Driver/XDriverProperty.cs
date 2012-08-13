@@ -29,7 +29,7 @@ namespace XFiresecAPI
 		public string ToolTip { get; set; }
 
 		[DataMember]
-		public short Default { get; set; }
+		public ushort Default { get; set; }
 
 		[DataMember]
 		public string StringDefault { get; set; }
@@ -47,9 +47,9 @@ namespace XFiresecAPI
 		public XDriverPropertyTypeEnum DriverPropertyType { get; set; }
 
 		[DataMember]
-		public short Min { get; set; }
+		public ushort Min { get; set; }
 
 		[DataMember]
-		public short Max { get; set; }
+		public ushort Max { get; set; }
 	}
 }

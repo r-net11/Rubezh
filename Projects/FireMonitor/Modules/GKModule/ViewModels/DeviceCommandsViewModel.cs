@@ -125,7 +125,7 @@ namespace GKModule.ViewModels
 		{
 			if (Device.Parent != null)
 			{
-				short no = 0;
+				ushort no = 0;
 
 				switch(Device.Parent.Driver.DriverType)
 				{

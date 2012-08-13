@@ -17,8 +17,8 @@ namespace Common.GK
 
 		public override void Build()
 		{
-			DeviceType = BytesHelper.ShortToBytes((short)0x100);
-			SetAddress((short)0);
+			DeviceType = BytesHelper.ShortToBytes((ushort)0x100);
+			SetAddress((ushort)0);
 			Parameters = new List<byte>();
 			SetFormulaBytes();
 			InitializeAllBytes();
@@ -27,7 +27,14 @@ namespace Common.GK
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			AddNewFormula();
+			if (DatabaseType == DatabaseType.Gk)
+			{
+				AddGkZoneFormula();
+			}
+			else
+			{
+				Formula.Add(FormulaOperationType.END);
+			}
 			FormulaBytes = Formula.GetBytes();
 		}
 
@@ -63,10 +70,10 @@ namespace Common.GK
 			}
 		}
 
-		void AddNewFormula()
+		void AddGkZoneFormula()
 		{
 			ushort uval = 0x8000;
-			short val = (short)uval;
+			ushort val = (ushort)uval;
 
 			AddDeviceFire1();
 			AddDeviceFire2();
@@ -90,7 +97,7 @@ namespace Common.GK
 			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire1Count, "Количество устройств для формирования Пожар1");
 			Formula.Add(FormulaOperationType.MUL);
 			Formula.Add(FormulaOperationType.ADD);
-			Formula.Add(FormulaOperationType.CONST, 0, (short)(Zone.Fire1Count + 0x8000));
+			Formula.Add(FormulaOperationType.CONST, 0, (ushort)(Zone.Fire1Count + 0x8000));
 			Formula.Add(FormulaOperationType.GE);
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddPutBit(XStateType.Fire1, Zone, DatabaseType);

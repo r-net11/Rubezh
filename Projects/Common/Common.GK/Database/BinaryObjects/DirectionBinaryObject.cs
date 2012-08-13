@@ -18,8 +18,8 @@ namespace Common.GK
 
 		public override void Build()
 		{
-			DeviceType = BytesHelper.ShortToBytes((short)0x106);
-			SetAddress((short)0);
+			DeviceType = BytesHelper.ShortToBytes((ushort)0x106);
+			SetAddress((ushort)0);
 			Parameters = new List<byte>();
 			SetFormulaBytes();
 			SetPropertiesBytes();

@@ -25,9 +25,9 @@ namespace Common.GK
 		}
 
 		public XDriver Driver { get; private set; }
-		public short ControllerAddress { get; private set; }
-		public short AddressOncontroller { get; private set; }
-		public short PhysicalAddress { get; private set; }
+		public ushort ControllerAddress { get; private set; }
+		public ushort AddressOncontroller { get; private set; }
+		public ushort PhysicalAddress { get; private set; }
 		public string Description { get; private set; }
 		public int SerialNo { get; private set; }
 		public List<XStateType> States { get; private set; }

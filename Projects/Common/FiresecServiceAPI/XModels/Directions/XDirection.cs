@@ -17,7 +17,7 @@ namespace XFiresecAPI
 		public List<XZone> XZones { get; set; }
 
 		[DataMember]
-		public short No { get; set; }
+		public ushort No { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -26,13 +26,13 @@ namespace XFiresecAPI
 		public string Description { get; set; }
 
 		[DataMember]
-		public short Delay { get; set; }
+		public ushort Delay { get; set; }
 
 		[DataMember]
-		public short Hold { get; set; }
+		public ushort Hold { get; set; }
 
 		[DataMember]
-		public short Regime { get; set; }
+		public ushort Regime { get; set; }
 
 		[DataMember]
 		public List<int> Zones { get; set; }

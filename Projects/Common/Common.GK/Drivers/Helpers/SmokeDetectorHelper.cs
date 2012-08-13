@@ -9,7 +9,7 @@ namespace Common.GK
 		public static void Create()
 		{
 			var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.SmokeDetector);
-			CommonHelper.AddIntProprety(xDriver, 0x84, "Порог срабатывания по дыму", 0, 0, 0, 255);
+			CommonHelper.AddIntProprety(xDriver, 0x84, "Порог срабатывания по дыму", 0, 65, 0, 255);
 		}
 	}
 }

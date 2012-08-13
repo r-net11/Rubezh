@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
                     No = 1
                 };
                 if (XManager.DeviceConfiguration.Zones.Count != 0)
-                    XZone.No = (short)(XManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1);
+                    XZone.No = (ushort)(XManager.DeviceConfiguration.Zones.Select(x => x.No).Max() + 1);
             }
             else
             {
@@ -52,8 +52,8 @@ namespace GKModule.ViewModels
             }
         }
 
-        short _no;
-        public short No
+        ushort _no;
+        public ushort No
         {
             get { return _no; }
             set
@@ -74,8 +74,8 @@ namespace GKModule.ViewModels
             }
         }
 
-        short _fire1Count;
-        public short Fire1Count
+        ushort _fire1Count;
+        public ushort Fire1Count
         {
             get { return _fire1Count; }
             set
@@ -85,8 +85,8 @@ namespace GKModule.ViewModels
             }
         }
 
-        short _fire2Count;
-        public short Fire2Count
+        ushort _fire2Count;
+        public ushort Fire2Count
         {
             get { return _fire2Count; }
             set

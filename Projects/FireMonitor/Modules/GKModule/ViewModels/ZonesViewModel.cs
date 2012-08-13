@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void Select(short? zoneNo)
+		public void Select(ushort? zoneNo)
 		{
 			if (zoneNo.HasValue)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
