@@ -13,9 +13,9 @@ namespace Common.GK
 		public XDevice Device { get; protected set; }
 		public XDirection Direction { get; protected set; }
 		public ObjectType ObjectType { get; protected set; }
-		public short ControllerAdress { get; protected set; }
-		public short AdressOnController { get; protected set; }
-		public short PhysicalAdress { get; protected set; }
+		public ushort ControllerAdress { get; protected set; }
+		public ushort AdressOnController { get; protected set; }
+		public ushort PhysicalAdress { get; protected set; }
 
 		public List<byte> DeviceType { get; protected set; }
 		public List<byte> Address { get; protected set; }
@@ -36,7 +36,7 @@ namespace Common.GK
 			Formula = new FormulaBuilder();
 		}
 
-		protected void SetAddress(short address)
+		protected void SetAddress(ushort address)
 		{
 			PhysicalAdress = address;
 			Address = new List<byte>();
@@ -48,9 +48,9 @@ namespace Common.GK
 
 					if (binaryBase.KauDatabaseParent != null)
 					{
-						short lineNo = XManager.GetKauLine(binaryBase.KauDatabaseParent);
+						ushort lineNo = XManager.GetKauLine(binaryBase.KauDatabaseParent);
 						byte intAddress = binaryBase.KauDatabaseParent.IntAddress;
-						ControllerAdress = (short)(lineNo * 256 + intAddress);
+						ControllerAdress = (ushort)(lineNo * 256 + intAddress);
 						AdressOnController = binaryBase.GetDatabaseNo(DatabaseType.Kau);
 					}
 					else
@@ -115,7 +115,7 @@ namespace Common.GK
 					offsetToParameters = 2 + 2 + 2 + 2 + OutputDependenses.Count + FormulaBytes.Count;
 					break;
 			}
-			Offset = BytesHelper.ShortToBytes((short)offsetToParameters);
+			Offset = BytesHelper.ShortToBytes((ushort)offsetToParameters);
 		}
 
 		public void InitializeAllBytes()
@@ -123,9 +123,9 @@ namespace Common.GK
 			InitializeDescription();
 			InitializeInputOutputDependences();
 
-			InputDependensesCount = BytesHelper.ShortToBytes((short)(InputDependenses.Count / 2));
-			OutputDependensesCount = BytesHelper.ShortToBytes((short)(OutputDependenses.Count / 2));
-			ParametersCount = BytesHelper.ShortToBytes((short)(Parameters.Count / 4));
+			InputDependensesCount = BytesHelper.ShortToBytes((ushort)(InputDependenses.Count / 2));
+			OutputDependensesCount = BytesHelper.ShortToBytes((ushort)(OutputDependenses.Count / 2));
+			ParametersCount = BytesHelper.ShortToBytes((ushort)(Parameters.Count / 4));
 
 			InitializeOffset();
 
@@ -165,16 +165,16 @@ namespace Common.GK
 			}
 		}
 
-		public short GetNo()
+		public ushort GetNo()
 		{
 			return BinaryBase.GetDatabaseNo(DatabaseType);
 		}
 
-		public short KauDescriptorNo
+		public ushort KauDescriptorNo
 		{
 			get { return BinaryBase.GetDatabaseNo(DatabaseType.Kau); }
 		}
-		public short GkDescriptorNo
+		public ushort GkDescriptorNo
 		{
 			get { return BinaryBase.GetDatabaseNo(DatabaseType.Gk); }
 		}

@@ -6,7 +6,7 @@ namespace Common.GK
 	public class JournalItem
 	{
 		public int GKNo { get; set; }
-		public short GKObjectNo { get; set; }
+		public ushort GKObjectNo { get; set; }
 		public int KAUNo { get; set; }
 
 		byte Day { get; set; }
@@ -17,15 +17,15 @@ namespace Common.GK
 		byte Second { get; set; }
 		public string StringDate { get; set; }
 
-		public short KAUAddress { get; set; }
+		public ushort KAUAddress { get; set; }
 		public JournalSourceType Source { get; set; }
 		public byte Code { get; set; }
 		public string EventName { get; set; }
 		public string EventDescription { get; set; }
 
-		public short ObjectNo { get; set; }
-		public short ObjectDeviceType { get; set; }
-		public short ObjectDeviceAddress { get; set; }
+		public ushort ObjectNo { get; set; }
+		public ushort ObjectDeviceType { get; set; }
+		public ushort ObjectDeviceAddress { get; set; }
 		public int ObjectFactoryNo { get; set; }
 		public int ObjectState { get; set; }
 

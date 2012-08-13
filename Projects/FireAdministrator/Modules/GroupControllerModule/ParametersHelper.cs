@@ -28,14 +28,14 @@ namespace GKModule
 				var rootDevice = commonDatabase.RootDevice;
 				var no = binaryObject.GetNo();
 				LoadingService.DoStep("Запрос параметров объекта " + no);
-				var sendResult = SendManager.Send(rootDevice, 2, 9, -1, BytesHelper.ShortToBytes(no));
+				var sendResult = SendManager.Send(rootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
 
 				if (sendResult.HasError == false)
 				{
 					for (int i = 0; i < sendResult.Bytes.Count / 4; i++)
 					{
 						byte paramNo = sendResult.Bytes[i * 4];
-						short paramValue = BytesHelper.SubstructShort(sendResult.Bytes, i * 4 + 1);
+						ushort paramValue = BytesHelper.SubstructShort(sendResult.Bytes, i * 4 + 1);
 
 						if (binaryObject.Device != null)
 						{
@@ -96,7 +96,7 @@ namespace GKModule
 						bytes.AddRange(BytesHelper.ShortToBytes(no));
 						bytes.AddRange(binaryObject.Parameters);
 						LoadingService.DoStep("Запись параметров объекта " + no);
-						SendManager.Send(rootDevice, (short)bytes.Count, 10, 0, bytes);
+						SendManager.Send(rootDevice, (ushort)bytes.Count, 10, 0, bytes);
 					}
 				}
 			}

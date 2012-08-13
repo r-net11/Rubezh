@@ -12,8 +12,8 @@ namespace XFiresecAPI
 		public XDevice KauDatabaseParent { get; set; }
 		public XDevice GkDatabaseParent { get; set; }
 
-		short databaseGKNo;
-		short databaseKAUNo;
+		ushort databaseGKNo;
+		ushort databaseKAUNo;
 
 		public void ClearBinaryData()
 		{
@@ -21,7 +21,7 @@ namespace XFiresecAPI
 			OutputObjects = new List<XBinaryBase>();
 		}
 
-		public short GetDatabaseNo(DatabaseType databaseType)
+		public ushort GetDatabaseNo(DatabaseType databaseType)
 		{
 			switch (databaseType)
 			{
@@ -34,7 +34,7 @@ namespace XFiresecAPI
 			return 0;
 		}
 
-		public void SetDatabaseNo(DatabaseType databaseType, short no)
+		public void SetDatabaseNo(DatabaseType databaseType, ushort no)
 		{
 			switch (databaseType)
 			{

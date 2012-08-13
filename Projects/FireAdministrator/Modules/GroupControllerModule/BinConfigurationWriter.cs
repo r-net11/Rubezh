@@ -14,16 +14,16 @@ namespace GKModule
 		{
 			DatabaseManager.Convert();
 
-			foreach (var kauDatabase in DatabaseManager.KauDatabases)
-			{
-				LoadingService.Show("Запись конфигурации в КАУ", 2 + kauDatabase.BinaryObjects.Count);
-				WriteConfigToDevice(kauDatabase);
-			}
-
 			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
 				LoadingService.Show("Запись конфигурации в ГК", 2 + gkDatabase.BinaryObjects.Count);
 				WriteConfigToDevice(gkDatabase);
+			}
+			Thread.Sleep(10000);
+			foreach (var kauDatabase in DatabaseManager.KauDatabases)
+			{
+				LoadingService.Show("Запись конфигурации в КАУ", 2 + kauDatabase.BinaryObjects.Count);
+				WriteConfigToDevice(kauDatabase);
 			}
 		}
 
@@ -34,7 +34,7 @@ namespace GKModule
 
 			LoadingService.DoStep("Переход в технологический режим");
 			SendManager.Send(commonDatabase.RootDevice, 0, 14, 0, null, false);
-			Thread.Sleep(2000);
+			Thread.Sleep(10000);
 
 			LoadingService.DoStep("Стирание базы данных");
 			SendManager.Send(commonDatabase.RootDevice, 0, 15, 0, null, false);
@@ -56,7 +56,7 @@ namespace GKModule
 						pack.Add(0);
 					}
 
-					var sendResult = SendManager.Send(commonDatabase.RootDevice, (short)(packBytesCount), 17, 0, pack, recieveAnswer);
+					var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack, recieveAnswer);
 					if (sendResult.HasError)
 					{
 						MessageBoxService.Show(sendResult.Error);
@@ -66,7 +66,7 @@ namespace GKModule
 				}
 			}
 			LoadingService.DoStep("Запись завершающего дескриптора");
-			var endBytes = BinConfigurationWriter.CreateEndDescriptor((short)(commonDatabase.BinaryObjects.Count + 1));
+			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.BinaryObjects.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, recieveAnswer);
 
 			LoadingService.DoStep("Запуск программы");
@@ -84,7 +84,7 @@ namespace GKModule
 				var packBytes = binaryObject.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
 
 				var resultBytes = new List<byte>();
-				resultBytes.AddRange(BytesHelper.ShortToBytes((short)(binaryObject.GetNo())));
+				resultBytes.AddRange(BytesHelper.ShortToBytes((ushort)(binaryObject.GetNo())));
 				resultBytes.Add((byte)(packNo + 1));
 				resultBytes.AddRange(packBytes);
 				packs.Add(resultBytes);
@@ -92,7 +92,7 @@ namespace GKModule
 			return packs;
 		}
 
-		static List<byte> CreateEndDescriptor(short descriptorNo)
+		static List<byte> CreateEndDescriptor(ushort descriptorNo)
 		{
 			var resultBytes = new List<byte>();
 			resultBytes.AddRange(BytesHelper.ShortToBytes(descriptorNo));

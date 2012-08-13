@@ -9,7 +9,7 @@ namespace XFiresecAPI
         public string Name { get; set; }
 
         [DataMember]
-        public short Value { get; set; }
+        public ushort Value { get; set; }
 
 		[DataMember]
 		public string StringValue { get; set; }

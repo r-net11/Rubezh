@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
 			get { return _xDriverProperty.ToolTip; }
 		}
 
-		protected void Save(short value)
+		protected void Save(ushort value)
 		{
 			ServiceFactory.SaveService.XDevicesChanged = true;
 

@@ -15,8 +15,8 @@ namespace GKModule.ViewModels
 				_text = xDriverProperty.Default;
 		}
 
-		short _text;
-		public short Text
+		ushort _text;
+		public ushort Text
 		{
 			get { return _text; }
 			set

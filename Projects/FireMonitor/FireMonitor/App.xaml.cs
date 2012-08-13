@@ -52,7 +52,7 @@ namespace FireMonitor
 			ClientSettings.SaveSettings();
 			Logger.Info("App.OnExit");
 			FiresecManager.Disconnect();
-			VideoService.Close();
+			//VideoService.Close();
 			if (RegistryHelper.IsIntegrated)
 				RegistryHelper.ShutDown();
 		}

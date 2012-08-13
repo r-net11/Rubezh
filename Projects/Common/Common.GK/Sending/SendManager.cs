@@ -13,7 +13,7 @@ namespace Common.GK
 {
     public static class SendManager
     {
-        public static SendResult Send(XDevice device, short length, byte command, short inputLenght, List<byte> data = null, bool hasAnswer = true)
+        public static SendResult Send(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true)
         {
             byte whom = 0;
             byte address = 0;
@@ -67,14 +67,7 @@ namespace Common.GK
             return resultBytes;
         }
 
-        static UdpClient udpClient;
-
-        static SendManager()
-        {
-
-        }
-
-        static SendResult SendBytes(string ipAddress, List<byte> bytes, short inputLenght, bool hasAnswer = true)
+        static SendResult SendBytes(string ipAddress, List<byte> bytes, ushort inputLenght, bool hasAnswer = true)
         {
             if (!CheckIpAddress(ipAddress))
             {
@@ -130,8 +123,8 @@ namespace Common.GK
                 return new SendResult("Не совпадает байт 'Команда'");
             }
 
-            var recievedInputLenght = (short)(recievedBytes[2] + 256 * recievedBytes[3]);
-            if (inputLenght != -1)
+            var recievedInputLenght = (ushort)(recievedBytes[2] + 256 * recievedBytes[3]);
+			if (inputLenght != ushort.MaxValue)
             {
                 if (inputLenght != recievedInputLenght)
                 {
@@ -141,7 +134,7 @@ namespace Common.GK
             return new SendResult(recievedBytes.Skip(5).ToList());
         }
 
-        public static List<byte> ToBytes(short shortValue)
+        public static List<byte> ToBytes(ushort shortValue)
         {
             return BitConverter.GetBytes(shortValue).ToList();
         }

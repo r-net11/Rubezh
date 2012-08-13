@@ -24,7 +24,7 @@ namespace GKModule
 			foreach (var kauDatabase in DatabaseManager.KauDatabases)
 			{
 				var kauDevice = kauDatabase.Devices[0];
-				short lineNo = XManager.GetKauLine(kauDevice);
+				ushort lineNo = XManager.GetKauLine(kauDevice);
 				string lineTypeName = lineNo == 0 ? "baseline" : "reserveline";
 				string fileName = "Kau" + kauDevice.Address + ".GKBIN";
 				SaveToFile(kauDatabase, @"D:\GKConfig\" + fileName);
@@ -46,17 +46,17 @@ namespace GKModule
 			fileBytes.Add(0x08);
 			fileBytes.Add(0x19);
 			fileBytes.Add(0x65);
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)(commonDatabase.BinaryObjects.Count + 1)));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
-			fileBytes.AddRange(BytesHelper.ShortToBytes((short)0));
+			fileBytes.AddRange(BytesHelper.ShortToBytes((ushort)(commonDatabase.BinaryObjects.Count + 1)));
+			fileBytes.AddRange(BytesHelper.ShortToBytes((ushort)0));
+			fileBytes.AddRange(BytesHelper.ShortToBytes((ushort)0));
+			fileBytes.AddRange(BytesHelper.ShortToBytes((ushort)0));
+			fileBytes.AddRange(BytesHelper.ShortToBytes((ushort)0));
 
 			foreach (var binaryObject in commonDatabase.BinaryObjects)
 			{
 				fileBytes.AddRange(CreateDescriptor(binaryObject));
 			}
-			fileBytes.AddRange(CreateEndDescriptor((short)commonDatabase.BinaryObjects.Count));
+			fileBytes.AddRange(CreateEndDescriptor((ushort)commonDatabase.BinaryObjects.Count));
 
 			using (var fileStream = new FileStream(fileName, FileMode.Create))
 			{
@@ -85,9 +85,9 @@ namespace GKModule
 			var resultBytes = new List<byte>();
 			var bytes = binaryObject.AllBytes;
 
-			resultBytes.AddRange(BytesHelper.ShortToBytes((short)(binaryObject.GetNo())));
+			resultBytes.AddRange(BytesHelper.ShortToBytes((ushort)(binaryObject.GetNo())));
 			resultBytes.Add(1);
-			resultBytes.AddRange(BytesHelper.ShortToBytes((short)bytes.Count));
+			resultBytes.AddRange(BytesHelper.ShortToBytes((ushort)bytes.Count));
 			resultBytes.AddRange(BytesHelper.StringDescriptionToBytes(binaryObject.BinaryBase.GetBinaryDescription(), 33));
 			resultBytes.AddRange(bytes);
 			var resultButesCount = resultBytes.Count;
@@ -98,12 +98,12 @@ namespace GKModule
 			return resultBytes;
 		}
 
-		public static List<byte> CreateEndDescriptor(short descriptorNo)
+		public static List<byte> CreateEndDescriptor(ushort descriptorNo)
 		{
 			var resultBytes = new List<byte>();
 			resultBytes.AddRange(BytesHelper.ShortToBytes(descriptorNo));
 			resultBytes.Add(1);
-			resultBytes.AddRange(BytesHelper.ShortToBytes((short)2));
+			resultBytes.AddRange(BytesHelper.ShortToBytes((ushort)2));
 			resultBytes.AddRange(BytesHelper.StringDescriptionToBytes("Завершающий дескриптор", 33));
 			resultBytes.Add(255);
 			resultBytes.Add(255);

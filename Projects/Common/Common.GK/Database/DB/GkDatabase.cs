@@ -46,30 +46,30 @@ namespace Common.GK
 					AddDevice(device);
 				}
 			}
-			foreach (var device in XManager.DeviceConfiguration.Devices)
-			{
-				if ((device.Parent == null) || (device.Parent.Driver.DriverType == XDriverType.GK))
-					continue;
+			//foreach (var device in XManager.DeviceConfiguration.Devices)
+			//{
+			//    if ((device.Parent == null) || (device.Parent.Driver.DriverType == XDriverType.GK))
+			//        continue;
 
-				if (device.GkDatabaseParent == gkDevice)
-				{
-					AddDevice(device);
-				}
-			}
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
-			{
-				if (zone.GkDatabaseParent == gkDevice)
-				{
-					AddZone(zone);
-				}
-			}
+			//    if (device.GkDatabaseParent == gkDevice)
+			//    {
+			//        AddDevice(device);
+			//    }
+			//}
+			//foreach (var zone in XManager.DeviceConfiguration.Zones)
+			//{
+			//    if (zone.GkDatabaseParent == gkDevice)
+			//    {
+			//        AddZone(zone);
+			//    }
+			//}
 		}
 
 		public override void BuildObjects()
 		{
 			AddKauObjects();
-			BinaryObjects = new List<BinaryObjectBase>();
 
+			BinaryObjects = new List<BinaryObjectBase>();
 			foreach (var device in Devices)
 			{
 				var deviceBinaryObject = new DeviceBinaryObject(device, DatabaseType);
@@ -80,7 +80,6 @@ namespace Common.GK
 				var zoneBinaryObject = new ZoneBinaryObject(zone, DatabaseType);
 				BinaryObjects.Add(zoneBinaryObject);
 			}
-
 			foreach (var direction in XManager.DeviceConfiguration.Directions)
 			{
 				if (direction.GkDatabaseParent == RootDevice)

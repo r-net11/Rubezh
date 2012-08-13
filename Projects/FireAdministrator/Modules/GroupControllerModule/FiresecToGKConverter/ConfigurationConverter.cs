@@ -108,10 +108,10 @@ namespace GKModule.Converter
 			{
 				var xZone = new XZone()
 				{
-					No = (short)zone.No,
+					No = (ushort)zone.No,
 					Name = zone.Name,
 					Description = zone.Description,
-					Fire1Count = (short)zone.DetectorCount,
+					Fire1Count = (ushort)zone.DetectorCount,
 				};
 				XManager.DeviceConfiguration.Zones.Add(xZone);
 			}
@@ -122,7 +122,7 @@ namespace GKModule.Converter
 				if ((device.Driver.IsZoneDevice) && (device.ZoneNo.HasValue))
 				{
 					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo.Value);
-					var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (short)zone.No);
+					var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
 					if (zone != null)
 					{
 						xDevice.Zones.Add(xZone.No);
@@ -169,7 +169,7 @@ namespace GKModule.Converter
 
 							foreach (var zoneNo in clause.Zones)
 							{
-								xClause.Zones.Add((short)zoneNo);
+								xClause.Zones.Add((ushort)zoneNo);
 							}
 
 							stateLogic.Clauses.Add(xClause);

@@ -10,9 +10,9 @@ namespace GKModule.ViewModels
 		{
 			var property = xDevice.Properties.FirstOrDefault(x => x.Name == xDriverProperty.Name);
 			if (property != null)
-				_isChecked = property.Value == (short)1 ? true : false;
+				_isChecked = property.Value == (ushort)1 ? true : false;
 			else
-				_isChecked = (xDriverProperty.Default == (short)1) ? true : false;
+				_isChecked = (xDriverProperty.Default == (ushort)1) ? true : false;
 		}
 
 		bool _isChecked;
@@ -23,7 +23,7 @@ namespace GKModule.ViewModels
 			{
 				_isChecked = value;
 				OnPropertyChanged("IsChecked");
-				Save(value ? (short)1 : (short)0);
+				Save(value ? (ushort)1 : (ushort)0);
 			}
 		}
 	}

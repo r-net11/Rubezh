@@ -57,9 +57,9 @@ namespace FiresecAPI.Models
 		public List<string> AlternativePareterNames { get; set; }
 
 		[DataMember]
-		public short Min { get; set; }
+		public ushort Min { get; set; }
 
 		[DataMember]
-		public short Max { get; set; }
+		public ushort Max { get; set; }
     }
 }

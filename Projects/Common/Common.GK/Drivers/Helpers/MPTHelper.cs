@@ -10,6 +10,25 @@ namespace Common.GK
 		{
 			var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.MPT);
 
+			AddRegim(xDriver, 0xBB, "Логика работы выхода 1");
+			AddRegim(xDriver, 0xBC, "Логика работы выхода 2");
+			AddRegim(xDriver, 0xBD, "Логика работы выхода 3");
+			AddRegim(xDriver, 0xBE, "Логика работы выхода 4");
+			AddRegim(xDriver, 0xBF, "Логика работы выхода 5");
+
+
+			var property1 = new XDriverProperty()
+			{
+				No = 0x8C,
+				Name = "Статус МПТ",
+				Caption = "Статус МПТ",
+				Default = 1,
+				Offset = 6
+			};
+			CommonHelper.AddPropertyParameter(property1, "Ведущий", 1);
+			CommonHelper.AddPropertyParameter(property1, "Ведомый", 2);
+			xDriver.Properties.Add(property1);
+
 			AddControlType(xDriver, 0x87, "Тип контроля выхода 1");
 			AddControlType(xDriver, 0x88, "Тип контроля выхода 2");
 			AddControlType(xDriver, 0x89, "Тип контроля выхода 3");
@@ -38,12 +57,6 @@ namespace Common.GK
 			CommonHelper.AddIntProprety(xDriver, 0xC4, "Время задержки включения выхода 4", 0, 0, 0, 255);
 			CommonHelper.AddIntProprety(xDriver, 0xC5, "Время задержки включения выхода 5", 0, 0, 0, 255);
 
-			AddRegim(xDriver, 0xBB, "режим и логика работы выхода 1");
-			AddRegim(xDriver, 0xBC, "режим и логика работы выхода 2");
-			AddRegim(xDriver, 0xBD, "режим и логика работы выхода 3");
-			AddRegim(xDriver, 0xBE, "режим и логика работы выхода 4");
-			AddRegim(xDriver, 0xBF, "режим и логика работы выхода 5");
-
 			CommonHelper.AddPlainEnumProprety(xDriver, 0xC6, "Приоритет запуска", 0,
 				"происходит отмена задержки запуска при нарушении датчика «Двери-окна» и рестарт после восстановления датчика «Двери-окна»",
 				"не происходит отмена задержки запуска при нарушении датчика «Двери-окна»", 1);
@@ -60,17 +73,7 @@ namespace Common.GK
 				"после включения питания  режим «Автоматика включена» включен",
 				"после включения питания  режим «Автоматика включена» отключен", 1);
 
-			var property1 = new XDriverProperty()
-			{
-				No = 0x8C,
-				Name = "Статус МПТ",
-				Caption = "Статус МПТ",
-				Default = 1,
-				Offset = 6
-			};
-			CommonHelper.AddPropertyParameter(property1, "Ведущий", 1);
-			CommonHelper.AddPropertyParameter(property1, "Ведомый", 2);
-			xDriver.Properties.Add(property1);
+
 		}
 
 		static void AddControlType(XDriver xDriver, byte no, string propertyName)

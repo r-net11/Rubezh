@@ -10,9 +10,9 @@ namespace GKModule.ViewModels
 {
     public class ZonesSelectationViewModel : SaveCancelDialogViewModel
     {
-        public List<short> Zones { get; private set; }
+        public List<ushort> Zones { get; private set; }
 
-        public ZonesSelectationViewModel(List<short> zones)
+        public ZonesSelectationViewModel(List<ushort> zones)
         {
             Title = "Выбор зон";
             AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
@@ -114,7 +114,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			Zones = new List<short>(TargetZones.Select(x => x.No));
+			Zones = new List<ushort>(TargetZones.Select(x => x.No));
 			return base.Save();
 		}
     }

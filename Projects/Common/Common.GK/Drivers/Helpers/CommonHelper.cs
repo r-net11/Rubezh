@@ -17,12 +17,12 @@ namespace Common.GK
 			var parameter1 = new XDriverPropertyParameter()
 			{
 				Name = parameter1Name,
-				Value = (short)startValue
+				Value = (ushort)startValue
 			};
 			var parameter2 = new XDriverPropertyParameter()
 			{
 				Name = parameter2Name,
-				Value = (short)(startValue + 1)
+				Value = (ushort)(startValue + 1)
 			};
 			property.Parameters.Add(parameter1);
 			property.Parameters.Add(parameter2);
@@ -51,9 +51,9 @@ namespace Common.GK
 				Caption = propertyName,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Offset = offset,
-				Default = (short)defaultValue,
-				Min = (short)min,
-				Max = (short)max
+				Default = (ushort)defaultValue,
+				Min = (ushort)min,
+				Max = (ushort)max
 			};
 			xDriver.Properties.Add(property);
 		}
@@ -63,7 +63,7 @@ namespace Common.GK
 			var parameter = new XDriverPropertyParameter()
 			{
 				Name = name,
-				Value = (short)value
+				Value = (ushort)value
 			};
 			property.Parameters.Add(parameter);
 		}
@@ -74,7 +74,7 @@ namespace Common.GK
 			{
 				Name = name,
 				AlternativeName = alternativeName,
-				Value = (short)value
+				Value = (ushort)value
 			};
 			property.Parameters.Add(parameter);
 		}

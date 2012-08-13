@@ -9,8 +9,8 @@ namespace Common.GK
 {
 	public abstract class CommonDatabase
 	{
-		short currentChildNo = 1;
-		protected short NextChildNo
+		ushort currentChildNo = 1;
+		protected ushort NextChildNo
 		{
 			get { return currentChildNo++; }
 		}

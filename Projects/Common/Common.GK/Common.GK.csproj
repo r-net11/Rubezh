@@ -58,6 +58,7 @@
     <Compile Include="Database\KauChildrenHelper.cs" />
     <Compile Include="Drivers\GKDriversConverter.cs" />
     <Compile Include="Drivers\GKDriversHelper.cs" />
+    <Compile Include="Drivers\Helpers\AM1Helper.cs" />
     <Compile Include="Drivers\Helpers\AMP4Helper.cs" />
     <Compile Include="Drivers\Helpers\AMsHelper.cs" />
     <Compile Include="Drivers\Helpers\BUNHelper.cs" />

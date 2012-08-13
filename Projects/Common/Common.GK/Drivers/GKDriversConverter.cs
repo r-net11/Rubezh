@@ -90,16 +90,18 @@ namespace Common.GK
 			AMP4Helper.Create();
 			MDUHelper.Create();
 			BUZHelper.Create();
-			foreach (var driverType in new List<XDriverType>() { XDriverType.Pump, XDriverType.JokeyPump, XDriverType.Compressor, XDriverType.DrenazhPump, XDriverType.CompensationPump })
-			{
-				var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == driverType);
-				BUNHelper.Create(xDriver);
-			}
+			BUNHelper.Create(XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.Pump));
+			//foreach (var driverType in new List<XDriverType>() { XDriverType.Pump, XDriverType.JokeyPump, XDriverType.Compressor, XDriverType.DrenazhPump, XDriverType.CompensationPump })
+			//{
+			//    var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == driverType);
+			//    BUNHelper.Create(xDriver);
+			//}
 			MPTHelper.Create();
 			SmokeDetectorHelper.Create();
 			HeatDetectorHelper.Create();
 			CombinedDetectorHelper.Create();
-			AMsHelper.Create();
+			AM1Helper.Create();
+			//AMsHelper.Create();
 			PumpsHelper.Create();
 		}
 	}

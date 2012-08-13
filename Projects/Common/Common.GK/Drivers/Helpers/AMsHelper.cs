@@ -27,7 +27,7 @@ namespace Common.GK
 			SetProperty(XDriverType.AMT_4, 0x81, 0);
 		}
 
-		static void SetProperty(XDriverType driverType, byte no, short value)
+		static void SetProperty(XDriverType driverType, byte no, ushort value)
 		{
 			var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == driverType);
 			if (driver == null)

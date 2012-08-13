@@ -29,7 +29,6 @@ namespace Common
         }
         public static void Error(Exception ex, string message)
         {
-            return;
             Error(ex, message, _empty);
         }
         public static void Error(Exception ex, string message, params object[] args)

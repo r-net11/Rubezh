@@ -79,68 +79,54 @@
   <drv idx="75" name="USB БУНС" id="4A3D1FA3-4F13-44D8-B9AD-825B53416A71"/>
   <drv idx="76" name="USB БУНС-2" id="64CB0AB4-D9BE-4C71-94A1-CF24406DAF92"/>
   <drv idx="77" name="USB Рубеж-2ОП" id="39DBC715-C4B5-4AE6-A809-4F214BBBD6C1"/>
-  <zone idx="0" no="1" name="Новая зона 1" idZones="55441">
-    <param name="DB$IDZones" type="Int" value="55441"/>
-    <param name="DB$IDParentZones" type="Int" value="0"/>
-    <param name="SecPanelID" type="String" value="4606e4bb-96df-49ec-9bb6-d01a2aaea144"/>
-    <param name="Delay" type="Int" value="0"/>
+  <zone idx="0" no="1" name="Новая зона" idZones="55442">
     <param name="GuardZoneType" type="Int" value="0"/>
-    <param name="ZoneType" type="Int" value="1"/>
+    <param name="DB$IDParentZones" type="Int" value="0"/>
+    <param name="DB$IDZones" type="Int" value="55442"/>
     <param name="ExitTime" type="SmallInt" value="0"/>
-    <param name="DB$IDSecObj" type="Int" value="10255"/>
     <param name="AutoSet" type="Int" value="0"/>
+    <param name="Delay" type="Int" value="0"/>
     <param name="Skipped" type="Int" value="0"/>
+    <param name="ZoneType" type="Int" value="1"/>
     <param name="FireDeviceCount" type="Int" value="2"/>
+    <param name="DB$IDSecObj" type="Int" value="10256"/>
+    <param name="SecPanelID" type="String" value="83d771fc-b886-4bb0-92a5-3f24c2139b32"/>
   </zone>
   <dev drv="0" addr="0" name="789">
     <prop name="INT$DEV_GUID" type="String" value="5bf287df-2d32-442f-9a18-4eda02f882c2"/>
-    <dev drv="73" addr="1">
-      <prop name="INT$DEV_GUID" type="String" value="&#123;35FE01D0-D620-4EBD-89AE-027B996FBE11&#125;"/>
-      <dev drv="30" addr="257"/>
-      <dev drv="29" addr="258"/>
-      <dev drv="31" addr="259"/>
-      <dev drv="39" addr="260"/>
-      <dev drv="32" addr="261"/>
-      <dev drv="52" addr="262" name="Клапан дымоудаления"/>
-      <dev drv="27" addr="263"/>
-      <dev drv="48" addr="264"/>
-      <dev drv="40" addr="265"/>
-      <dev drv="32" addr="266"/>
-      <dev drv="50" addr="267"/>
-      <dev drv="60" addr="268">
-        <dev drv="32" addr="0">
-          <prop name="NotUsed" value="1"/>
+    <dev drv="67" addr="0">
+      <prop name="INT$DEV_GUID" type="String" value="31ef4f15-e6da-4231-9c74-ded4b5423b40"/>
+      <dev drv="69" addr="1">
+        <prop name="INT$DEV_GUID" type="String" value="c3cb7fb1-923a-4362-a2a3-b85d6582c517"/>
+        <dev drv="24" addr="1">
+          <prop name="INT$DEV_GUID" type="String" value="83d771fc-b886-4bb0-92a5-3f24c2139b32"/>
+          <dev drv="53" addr="1">
+            <prop name="INT$DEV_GUID" type="String" value="62d848a2-82cd-4927-a9f8-714cd00cba11"/>
+          </dev>
+          <dev drv="53" addr="2">
+            <prop name="INT$DEV_GUID" type="String" value="e82e9195-7990-49a1-b293-433cc780b313"/>
+          </dev>
+          <dev drv="53" addr="3">
+            <prop name="INT$DEV_GUID" type="String" value="d8426355-bcd6-4c22-ba39-7175f83621e8"/>
+          </dev>
+          <dev drv="53" addr="4">
+            <prop name="INT$DEV_GUID" type="String" value="d2585c2b-1668-485c-892c-107f0c8bb533"/>
+          </dev>
+          <dev drv="40" addr="257">
+            <prop name="INT$DEV_GUID" type="String" value="983a9fe6-3012-48bd-ad65-c8ef5e6f129a"/>
+            <inZ idz="0"/>
+          </dev>
         </dev>
-        <dev drv="32" addr="1">
-          <prop name="NotUsed" value="1"/>
-        </dev>
-        <dev drv="32" addr="2">
-          <prop name="NotUsed" value="1"/>
-        </dev>
-        <dev drv="32" addr="3">
-          <prop name="NotUsed" value="1"/>
-        </dev>
-      </dev>
-      <dev drv="61" addr="272">
-        <dev drv="47" addr="0">
-          <prop name="NotUsed" value="1"/>
-        </dev>
-        <dev drv="47" addr="1">
-          <prop name="NotUsed" value="1"/>
-        </dev>
-        <dev drv="47" addr="2">
-          <prop name="NotUsed" value="1"/>
-        </dev>
-        <dev drv="47" addr="3">
-          <prop name="NotUsed" value="1"/>
+        <dev drv="18" addr="2">
+          <dev drv="41" addr="0">
+            <dev drv="42" addr="1"/>
+          </dev>
+          <dev drv="53" addr="1"/>
+          <dev drv="53" addr="2"/>
+          <dev drv="53" addr="3"/>
+          <dev drv="53" addr="4"/>
         </dev>
       </dev>
-      <dev drv="34" addr="276"/>
-      <dev drv="36" addr="277"/>
-      <dev drv="37" addr="278"/>
-      <dev drv="38" addr="279"/>
-      <dev drv="33" addr="280"/>
-      <dev drv="35" addr="281"/>
     </dev>
   </dev>
   <surfaces><![CDATA[ZCMPeNqzsa/IzVEoSy0qzszPs1Uy1DNQUkjNS85PycxLt1Uqz8xLyS8v1jU0MjVUsrfjsikuLUpLTE4tRtVhZ5NelF9aUAyl9e1s9GEC+jAddlwAdjcjxw==]]>

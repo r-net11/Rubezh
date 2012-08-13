@@ -16,7 +16,7 @@ namespace XFiresecAPI
 		public XZone Zone { get; set; }
 
 		[DataMember]
-		public short No { get; set; }
+		public ushort No { get; set; }
 
 		[DataMember]
 		public List<XStateType> States { get; set; }

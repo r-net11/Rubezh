@@ -73,14 +73,14 @@ namespace FiresecClient
 			}
 		}
 
-		public static short GetKauLine(XDevice device)
+		public static ushort GetKauLine(XDevice device)
 		{
 			if (device.Driver.DriverType != XDriverType.KAU)
 			{
 				throw new Exception("В XManager.GetKauLine передан неверный тип устройства");
 			}
 
-			short lineNo = 0;
+			ushort lineNo = 0;
 			var modeProperty = device.Properties.FirstOrDefault(x => x.Name == "Mode");
 			if (modeProperty != null)
 			{

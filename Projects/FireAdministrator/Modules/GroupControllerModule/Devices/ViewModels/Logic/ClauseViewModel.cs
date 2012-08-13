@@ -12,7 +12,7 @@ namespace GKModule.ViewModels
 {
     public class ClauseViewModel : BaseViewModel
     {
-        public List<short> Zones { get; set; }
+        public List<ushort> Zones { get; set; }
         public List<Guid> Devices { get; set; }
         StateLogicViewModel _stateLogicViewModel;
 
@@ -70,7 +70,7 @@ namespace GKModule.ViewModels
                 switch(value)
                 {
                     case ClauseOperandType.Device:
-                        Zones = new List<short>();
+                        Zones = new List<ushort>();
                         break;
 
                     case ClauseOperandType.Zone:

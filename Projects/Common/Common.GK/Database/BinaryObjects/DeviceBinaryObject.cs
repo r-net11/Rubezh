@@ -21,9 +21,9 @@ namespace Common.GK
 		{
 			DeviceType = BytesHelper.ShortToBytes(Device.Driver.DriverTypeNo);
 
-			short address = 0;
+			ushort address = 0;
 			if (Device.Driver.IsDeviceOnShleif)
-				address = (short)((Device.ShleifNo - 1) * 256 + Device.IntAddress);
+				address = (ushort)((Device.ShleifNo - 1) * 256 + Device.IntAddress);
 			SetAddress(address);
 
 			SetFormulaBytes();
@@ -34,7 +34,19 @@ namespace Common.GK
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
+			if (DatabaseType == DatabaseType.Gk)
+			{
+				AddGkDeviceFormula();
+			}
+			else
+			{
+				Formula.Add(FormulaOperationType.END);
+			}
+			FormulaBytes = Formula.GetBytes();
+		}
 
+		void AddGkDeviceFormula()
+		{
 			if (Device.Driver.HasLogic)
 			{
 				foreach (var stateLogic in Device.DeviceLogic.StateLogics)
@@ -94,7 +106,6 @@ namespace Common.GK
 			}
 
 			Formula.Add(FormulaOperationType.END);
-			FormulaBytes = Formula.GetBytes();
 		}
 
 		void SetPropertiesBytes()
@@ -107,7 +118,7 @@ namespace Common.GK
 				if (driverProperty.IsInternalDeviceParameter)
 				{
 					byte no = driverProperty.No;
-					short value = property.Value;
+					ushort value = property.Value;
 
 					var binProperty = binProperties.FirstOrDefault(x => x.No == no);
 					if (binProperty == null)
@@ -115,7 +126,7 @@ namespace Common.GK
 						{
 							No = no
 						};
-					binProperty.Value += (short)(value << driverProperty.Offset);
+					binProperty.Value += (ushort)(value << driverProperty.Offset);
 					binProperties.Add(binProperty);
 				}
 			}
@@ -142,6 +153,6 @@ namespace Common.GK
 	class BinProperty
 	{
 		public byte No { get; set; }
-		public short Value { get; set; }
+		public ushort Value { get; set; }
 	}
 }

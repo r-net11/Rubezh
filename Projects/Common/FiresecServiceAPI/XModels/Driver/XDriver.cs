@@ -19,7 +19,7 @@ namespace XFiresecAPI
 		public XDriverType DriverType { get; set; }
 
 		[DataMember]
-		public short DriverTypeNo { get; set; }
+		public ushort DriverTypeNo { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }

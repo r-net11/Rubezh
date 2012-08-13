@@ -8,7 +8,7 @@ namespace Common.GK
 {
 	public static class BytesHelper
 	{
-		public static List<byte> ShortToBytes(short shortValue)
+		public static List<byte> ShortToBytes(ushort shortValue)
 		{
 			return BitConverter.GetBytes(shortValue).ToList();
 		}
@@ -51,10 +51,10 @@ namespace Common.GK
 			return result;
 		}
 
-		public static short SubstructShort(List<byte> bytes, int startByte)
+		public static ushort SubstructShort(List<byte> bytes, int startByte)
 		{
 			var result = 1 * bytes[startByte + 0] + 256 * bytes[startByte + 1];
-			return (short)result;
+			return (ushort)result;
 		}
 	}
 }

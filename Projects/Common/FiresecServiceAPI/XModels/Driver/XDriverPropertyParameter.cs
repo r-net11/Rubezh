@@ -12,6 +12,6 @@ namespace XFiresecAPI
 		public string AlternativeName { get; set; }
 
 		[DataMember]
-		public short Value { get; set; }
+		public ushort Value { get; set; }
 	}
 }

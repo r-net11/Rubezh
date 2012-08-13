@@ -9,8 +9,8 @@ namespace Common.GK
 		public static void Create()
 		{
 			var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.HeatDetector);
-			CommonHelper.AddIntProprety(xDriver, 0x8B, "Порог срабатывания по температуре", 0, 0, 0, 85);
-			CommonHelper.AddIntProprety(xDriver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 0, 0, 255);
+			CommonHelper.AddIntProprety(xDriver, 0x8B, "Порог срабатывания по температуре", 0, 65, 0, 85);
+			CommonHelper.AddIntProprety(xDriver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 100, 0, 255);
 		}
 	}
 }

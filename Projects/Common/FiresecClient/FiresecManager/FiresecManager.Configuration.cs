@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using System.Windows;
 
 namespace FiresecClient
 {
@@ -24,10 +25,16 @@ namespace FiresecClient
 			LibraryConfiguration = FiresecService.GetLibraryConfiguration();
 			PlansConfiguration = FiresecService.GetPlansConfiguration();
 			SecurityConfiguration = FiresecService.GetSecurityConfiguration();
+			var drivers = FiresecService.GetDrivers();
+			if (drivers == null)
+			{
+				MessageBox.Show("Ошибка. Список драйверов пуст");
+			}
+			var deviceConfiguration = FiresecService.GetDeviceConfiguration();
 			FiresecConfiguration = new FiresecConfiguration()
 			{
-				Drivers = FiresecService.GetDrivers(),
-				DeviceConfiguration = FiresecService.GetDeviceConfiguration()
+				Drivers = drivers,
+				DeviceConfiguration = deviceConfiguration
 			};
 
 			FiresecConfiguration.UpdateDrivers();
