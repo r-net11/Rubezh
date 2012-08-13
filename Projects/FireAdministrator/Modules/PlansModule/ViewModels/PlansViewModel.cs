@@ -119,6 +119,7 @@ namespace PlansModule.ViewModels
 				if (value != null)
 					ElementsViewModel.Update();
 				ResetHistory();
+				DesignerCanvas.Toolbox.SetDefault();
 			}
 		}
 
