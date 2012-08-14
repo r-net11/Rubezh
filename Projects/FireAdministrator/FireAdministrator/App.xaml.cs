@@ -12,7 +12,7 @@ namespace FireAdministrator
 	{
 		private const string SignalId = "{8599F876-2147-4694-A822-B24E36D7F92F}";
 		private const string WaitId = "{07193C2C-CE04-478C-880A-49AB239C6550}";
-		Bootstrapper bootstrapper;
+		private Bootstrapper _bootstrapper;
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
@@ -25,9 +25,9 @@ namespace FireAdministrator
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 
-			bootstrapper = new Bootstrapper();
+			_bootstrapper = new Bootstrapper();
 			using (new DoubleLaunchLocker(SignalId, WaitId))
-				bootstrapper.Initialize();
+				_bootstrapper.Initialize();
 		}
 
 		private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

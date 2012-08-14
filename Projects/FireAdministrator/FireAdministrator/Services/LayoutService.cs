@@ -24,10 +24,6 @@ namespace FireAdministrator
 			_menuViewModel.ExtendedMenu = viewModel;
 		}
 
-		#endregion
-
-		#region ILayoutService Members
-
 		public void Show(ViewPartViewModel model)
 		{
 			ApplicationLayoutService.Show(model);

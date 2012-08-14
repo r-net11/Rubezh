@@ -20,11 +20,11 @@ namespace Infrastructure.Client
 {
 	public class BaseBootstrapper
 	{
-		public ReadOnlyCollection<IModule> Modules { get; private set; }
+		public List<IModule> _modules;
 
 		public BaseBootstrapper()
 		{
-			Modules = null;
+			_modules = null;
 			RegisterResource();
 		}
 
@@ -51,7 +51,7 @@ namespace Infrastructure.Client
 		protected bool InitializeModules()
 		{
 			ReadConfiguration();
-			foreach (IModule module in Modules)
+			foreach (IModule module in _modules)
 				try
 				{
 					LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
@@ -72,29 +72,29 @@ namespace Infrastructure.Client
 		{
 			ReadConfiguration();
 			var navigationItems = new List<NavigationItem>();
-			foreach (IModule module in Modules)
+			foreach (IModule module in _modules)
 				navigationItems.AddRange(module.CreateNavigation());
 			return navigationItems;
 		}
 
 		protected int GetModuleCount()
 		{
-			if (Modules == null)
+			if (_modules == null)
 			{
 				System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 				ModuleSection section = config.GetSection("modules") as ModuleSection;
 				return section.Modules.Count;
 			}
 			else
-				return Modules.Count;
+				return _modules.Count;
 		}
 		protected void ReadConfiguration()
 		{
-			if (Modules == null)
+			if (_modules == null)
 			{
 				System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 				ModuleSection section = config.GetSection("modules") as ModuleSection;
-				List<IModule> modules = new List<IModule>();
+				_modules = new List<IModule>();
 				foreach (ModuleElement module in section.Modules)
 				{
 					string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, module.AssemblyFile);
@@ -102,9 +102,9 @@ namespace Infrastructure.Client
 					if (asm != null)
 						foreach (Type t in asm.GetExportedTypes())
 							if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
-								modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
+								_modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
 				}
-				Modules = new ReadOnlyCollection<IModule>(modules);
+				ApplicationService.RegisterModules(_modules);
 			}
 		}
 		private Assembly GetAssemblyByFileName(string path)

@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Windows.Views;
+using System.Collections.ObjectModel;
 
 namespace Infrastructure.Common.Windows
 {
@@ -14,8 +15,9 @@ namespace Infrastructure.Common.Windows
 	{
 		public static event CancelEventHandler Closing;
 
-		public static Window ApplicationWindow { get; set; }
+		public static Window ApplicationWindow { get; private set; }
 		public static User User { get; set; }
+		public static ReadOnlyCollection<IModule> Modules { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 
 		public static void Run(ApplicationViewModel model)
@@ -69,6 +71,11 @@ namespace Infrastructure.Common.Windows
 					windows.Add(win);
 			foreach (Window window in windows)
 				Invoke(() => window.Close());
+		}
+
+		public static void RegisterModules(List<IModule> modules)
+		{
+			Modules = new ReadOnlyCollection<IModule>(modules);
 		}
 
 		private static void win_Closing(object sender, CancelEventArgs e)

@@ -5,10 +5,12 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using InstructionsModule.ViewModels;
+using Infrastructure.Common.Validation;
+using InstructionsModule.Validation;
 
 namespace InstructionsModule
 {
-	public class InstructionsModule : ModuleBase
+	public class InstructionsModule : ModuleBase, IValidationModule
 	{
 		InstructionsViewModel _instructionsViewModel;
 
@@ -42,5 +44,14 @@ namespace InstructionsModule
 		{
 			get { return "Инструкции"; }
 		}
+
+		#region IValidationModule Members
+
+		public IEnumerable<IValidationError> Validate()
+		{
+			return InstructionValidator.Validate();
+		}
+
+		#endregion
 	}
 }

@@ -14,7 +14,7 @@ namespace FireMonitor
 	{
 		private const string SignalId = "{B8150ECC-9433-4535-89AA-5BF6EF631575}";
 		private const string WaitId = "{358D5240-9A07-4134-9EAF-8D7A54BCA81F}";
-		Bootstrapper bootstrapper;
+		private Bootstrapper _bootstrapper;
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
@@ -37,9 +37,9 @@ namespace FireMonitor
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			
-			bootstrapper = new Bootstrapper();
+			_bootstrapper = new Bootstrapper();
 			using (new DoubleLaunchLocker(SignalId, WaitId))
-				bootstrapper.Initialize();
+				_bootstrapper.Initialize();
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

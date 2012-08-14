@@ -123,6 +123,11 @@
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
+    <Compile Include="ServiceFactoryBase.cs" />
+    <Compile Include="Validation\ObjectValidationError.cs" />
+    <Compile Include="Validation\ValidationErrorLevel.cs" />
+    <Compile Include="Validation\IValidationError.cs" />
+    <Compile Include="Validation\IValidationModule.cs" />
     <Compile Include="Windows\ILayoutService.cs" />
     <Compile Include="Windows\LayoutService.cs" />
     <Compile Include="Windows\LoadingService.cs" />
@@ -304,6 +309,7 @@
     </None>
     <None Include="Windows\ViewModels\ClassDiagram1.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
