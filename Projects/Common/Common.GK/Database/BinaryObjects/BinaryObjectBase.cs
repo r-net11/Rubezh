@@ -76,15 +76,18 @@ namespace Common.GK
 			InputDependenses = new List<byte>();
 			OutputDependenses = new List<byte>();
 
-			foreach (var inputBinaryBase in binaryBase.InputObjects)
+			if (DatabaseType == DatabaseType.Gk)
 			{
-				var no = inputBinaryBase.GetDatabaseNo(DatabaseType);
-				InputDependenses.AddRange(BitConverter.GetBytes(no));
-			}
-			foreach (var outputBinaryBase in binaryBase.OutputObjects)
-			{
-				var no = outputBinaryBase.GetDatabaseNo(DatabaseType);
-				OutputDependenses.AddRange(BitConverter.GetBytes(no));
+				foreach (var inputBinaryBase in binaryBase.InputObjects)
+				{
+					var no = inputBinaryBase.GetDatabaseNo(DatabaseType);
+					InputDependenses.AddRange(BitConverter.GetBytes(no));
+				}
+				foreach (var outputBinaryBase in binaryBase.OutputObjects)
+				{
+					var no = outputBinaryBase.GetDatabaseNo(DatabaseType);
+					OutputDependenses.AddRange(BitConverter.GetBytes(no));
+				}
 			}
 		}
 

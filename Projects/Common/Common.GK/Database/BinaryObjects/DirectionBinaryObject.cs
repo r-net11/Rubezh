@@ -29,6 +29,15 @@ namespace Common.GK
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
+			if ((Direction.Zones.Count > 0) && (Direction.DirectionDevices.Count > 0))
+				AddFormula();
+			else
+				Formula.Add(FormulaOperationType.END);
+			FormulaBytes = Formula.GetBytes();
+		}
+
+		void AddFormula()
+		{
 			var zonesCount = 0;
 			foreach (var zone in Direction.XZones)
 			{
@@ -39,15 +48,11 @@ namespace Common.GK
 				}
 				zonesCount++;
 			}
-			foreach (var directionDevice in Direction.DirectionDevices)
-			{
-				Formula.Add(FormulaOperationType.DUP);
-				Formula.AddGetBit(directionDevice.StateType, directionDevice.Device, DatabaseType);
-				Formula.Add(FormulaOperationType.LE);
-				Formula.AddPutBit(directionDevice.StateType, directionDevice.Device, DatabaseType);
-			}
+			Formula.AddPutBit(XStateType.Norm, Direction, DatabaseType);
+			Formula.Add(FormulaOperationType.OR, comment: "Смешивание с битом Направления");
+			Formula.AddPutBit(XStateType.TurnOn, Direction, DatabaseType);
+
 			Formula.Add(FormulaOperationType.END);
-			FormulaBytes = Formula.GetBytes();
 		}
 
 		void SetPropertiesBytes()

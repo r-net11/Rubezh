@@ -8,11 +8,25 @@ using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using FiresecClient;
 using Common.GK;
+using System.IO;
 
 namespace Common.GK
 {
     public static class SendManager
     {
+		static bool IsLogging = false;
+		static StreamWriter StreamWriter;
+		public static void StrartLog(string fileName)
+		{
+			IsLogging = true;
+			StreamWriter = new StreamWriter(fileName);
+		}
+		public static void StopLog()
+		{
+			IsLogging = false;
+			StreamWriter.Close();
+		}
+
         public static SendResult Send(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true)
         {
             byte whom = 0;
@@ -82,6 +96,10 @@ namespace Common.GK
             try
             {
                 udpClient.Connect(IPAddress.Parse(ipAddress), 1025);
+				if (IsLogging)
+				{
+					StreamWriter.WriteLine(BytesHelper.BytesToString(bytes));
+				}
                 var bytesSent = udpClient.Send(bytes.ToArray(), bytes.Count);
             }
             catch

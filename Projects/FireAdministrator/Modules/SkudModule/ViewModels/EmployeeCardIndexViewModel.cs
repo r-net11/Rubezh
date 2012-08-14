@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using FiresecAPI;
 using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;

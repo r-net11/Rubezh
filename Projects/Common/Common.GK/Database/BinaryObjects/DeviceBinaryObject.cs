@@ -1,4 +1,5 @@
 ﻿using System;
+using FiresecAPI;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
@@ -36,6 +37,7 @@ namespace Common.GK
 			Formula = new FormulaBuilder();
 			if (DatabaseType == DatabaseType.Gk)
 			{
+				InitializeStatesDirections();
 				AddGkDeviceFormula();
 			}
 			else
@@ -101,11 +103,62 @@ namespace Common.GK
 						clauseIndex++;
 					}
 
+					var statesDirection = StatesDirections.FirstOrDefault(x => x.StateType == stateLogic.StateType);
+					if (statesDirection != null)
+					{
+						foreach (var direction in statesDirection.Directions)
+						{
+							Formula.AddGetBitOff(XStateType.On, direction, DatabaseType);
+							Formula.Add(FormulaOperationType.OR);
+						}
+						StatesDirections.Remove(statesDirection);
+					}
+
 					Formula.AddPutBit(stateLogic.StateType, Device, DatabaseType);
 				}
 			}
 
+			foreach (var statesDirection in StatesDirections)
+			{
+				var directionsCount = 0;
+				foreach (var direction in statesDirection.Directions)
+				{
+					Formula.AddGetBitOff(XStateType.On, direction, DatabaseType);
+					if (directionsCount > 0)
+					{
+						Formula.Add(FormulaOperationType.OR);
+					}
+					directionsCount++;
+				}
+				Formula.AddPutBit(statesDirection.StateType, Device, DatabaseType);			
+			}
+
 			Formula.Add(FormulaOperationType.END);
+		}
+
+		List<StatesDirection> StatesDirections;
+		void InitializeStatesDirections()
+		{
+			StatesDirections = new List<StatesDirection>();
+			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			{
+				foreach (var directionDevice in direction.DirectionDevices)
+				{
+					if (Device.UID == directionDevice.DeviceUID)
+					{
+						var statesDirection = StatesDirections.FirstOrDefault(x => x.StateType == directionDevice.StateType);
+						if (statesDirection == null)
+						{
+							statesDirection = new StatesDirection()
+							{
+								StateType = directionDevice.StateType
+							};
+						}
+						statesDirection.Directions.Add(direction);
+						StatesDirections.Add(statesDirection);
+					}
+				}
+			}
 		}
 
 		void SetPropertiesBytes()
@@ -154,5 +207,16 @@ namespace Common.GK
 	{
 		public byte No { get; set; }
 		public ushort Value { get; set; }
+	}
+
+	class StatesDirection
+	{
+		public StatesDirection()
+		{
+			Directions = new List<XDirection>();
+		}
+
+		public XStateType StateType { get; set; }
+		public List<XDirection> Directions { get; set; }
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using FiresecAPI;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Controls;
@@ -12,10 +13,10 @@ using Infrastructure.Events;
 namespace FireMonitor.Views
 {
     public partial class SoundView : UserControl
-    {
-        public SoundView()
-        {
-            InitializeComponent();
+	{
+		public SoundView()
+		{
+			InitializeComponent();
          }
-    }
+	}
 }

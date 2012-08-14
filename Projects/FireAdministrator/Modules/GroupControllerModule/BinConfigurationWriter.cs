@@ -5,6 +5,7 @@ using Infrastructure.Common.Windows;
 using System;
 using System.Threading;
 using XFiresecAPI;
+using System.IO;
 
 namespace GKModule
 {
@@ -14,17 +15,19 @@ namespace GKModule
 		{
 			DatabaseManager.Convert();
 
-			foreach (var gkDatabase in DatabaseManager.GkDatabases)
-			{
-				LoadingService.Show("Запись конфигурации в ГК", 2 + gkDatabase.BinaryObjects.Count);
-				WriteConfigToDevice(gkDatabase);
-			}
-			Thread.Sleep(10000);
+			//SendManager.StrartLog("D:/xxx/Log.txt");
 			foreach (var kauDatabase in DatabaseManager.KauDatabases)
 			{
 				LoadingService.Show("Запись конфигурации в КАУ", 2 + kauDatabase.BinaryObjects.Count);
 				WriteConfigToDevice(kauDatabase);
 			}
+			Thread.Sleep(1000);
+			foreach (var gkDatabase in DatabaseManager.GkDatabases)
+			{
+				LoadingService.Show("Запись конфигурации в ГК", 2 + gkDatabase.BinaryObjects.Count);
+				WriteConfigToDevice(gkDatabase);
+			}
+			//SendManager.StopLog();
 		}
 
 		static void WriteConfigToDevice(CommonDatabase commonDatabase)
@@ -46,22 +49,22 @@ namespace GKModule
 				var packs = BinConfigurationWriter.CreateDescriptors(binaryObject);
 				if (packs.Count > 1)
 				{
-					//MessageBoxService.Show("Отправка нескольких пакетов в конфигурации дескриптора");
+					MessageBoxService.Show("Отправка нескольких пакетов в конфигурации дескриптора");
 				}
 				foreach (var pack in packs)
 				{
 					var packBytesCount = pack.Count;
-					for (int i = 0; i < 256 - packBytesCount; i++)
-					{
-						pack.Add(0);
-					}
+					//for (int i = 0; i < 256 - 5 - packBytesCount; i++)
+					//{
+					//    pack.Add(0);
+					//}
 
 					var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack, recieveAnswer);
 					if (sendResult.HasError)
 					{
 						MessageBoxService.Show(sendResult.Error);
 						LoadingService.Close();
-						return;
+						break;
 					}
 				}
 			}

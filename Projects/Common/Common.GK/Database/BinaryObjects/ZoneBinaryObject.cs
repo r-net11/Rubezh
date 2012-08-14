@@ -30,6 +30,7 @@ namespace Common.GK
 			if (DatabaseType == DatabaseType.Gk)
 			{
 				AddGkZoneFormula();
+				//AddGkZoneFormula2();
 			}
 			else
 			{
@@ -43,7 +44,7 @@ namespace Common.GK
 			var count = 0;
 			foreach (var device in Zone.Devices)
 			{
-				if ((device.Driver.DriverType == XDriverType.HandDetector) || (device.Driver.DriverType == XDriverType.RadioHandDetector))
+				if (device.Driver.DriverType == XDriverType.HandDetector)
 					continue;
 
 				Formula.AddGetBitOff(XStateType.Fire1, device, DatabaseType);
@@ -61,7 +62,7 @@ namespace Common.GK
 
 			foreach (var device in Zone.Devices)
 			{
-				if ((device.Driver.DriverType != XDriverType.HandDetector) && (device.Driver.DriverType != XDriverType.RadioHandDetector))
+				if (device.Driver.DriverType != XDriverType.HandDetector)
 					continue;
 
 				if (device.Driver.DriverType == XDriverType.HandDetector)
@@ -72,9 +73,6 @@ namespace Common.GK
 
 		void AddGkZoneFormula()
 		{
-			ushort uval = 0x8000;
-			ushort val = (ushort)uval;
-
 			AddDeviceFire1();
 			AddDeviceFire2();
 
@@ -83,13 +81,14 @@ namespace Common.GK
 			Formula.Add(FormulaOperationType.ADD);
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire2Count, "Количество устройств для формирования Пожар2");
-			Formula.Add(FormulaOperationType.GE);
+			//Formula.Add(FormulaOperationType.GE);
+			Formula.Add(FormulaOperationType.LE);
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddPutBit(XStateType.Fire2, Zone, DatabaseType);
 
-			Formula.Add(FormulaOperationType.CONST, 0, val, "15-ый бит");
+			Formula.Add(FormulaOperationType.CONST, 0, 0x8000, "15-ый бит");
 			Formula.Add(FormulaOperationType.MUL);
-			Formula.Add(FormulaOperationType.CONST, 0, val, "15-ый бит");
+			Formula.Add(FormulaOperationType.CONST, 0, 0x8000, "15-ый бит");
 			Formula.Add(FormulaOperationType.XOR);
 			Formula.Add(FormulaOperationType.OR);
 			Formula.Add(FormulaOperationType.DUP);
@@ -98,17 +97,34 @@ namespace Common.GK
 			Formula.Add(FormulaOperationType.MUL);
 			Formula.Add(FormulaOperationType.ADD);
 			Formula.Add(FormulaOperationType.CONST, 0, (ushort)(Zone.Fire1Count + 0x8000));
-			Formula.Add(FormulaOperationType.GE);
+			//Formula.Add(FormulaOperationType.GE);
+			Formula.Add(FormulaOperationType.LE);
 			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddPutBit(XStateType.Fire1, Zone, DatabaseType);
 
-			Formula.Add(FormulaOperationType.CONST, 0, val, "15-ый бит");
+			Formula.Add(FormulaOperationType.CONST, 0, 0x8000, "15-ый бит");
 			Formula.Add(FormulaOperationType.MUL);
 			Formula.Add(FormulaOperationType.COM);
 			Formula.Add(FormulaOperationType.AND);
 			Formula.Add(FormulaOperationType.CONST, 0, 1, "Количество устройств для формирования Внимание");
-			Formula.Add(FormulaOperationType.GE);
+			//Formula.Add(FormulaOperationType.GE);
+			Formula.Add(FormulaOperationType.LE);
 			Formula.AddPutBit(XStateType.Attention, Zone, DatabaseType);
+			Formula.Add(FormulaOperationType.END);
+		}
+
+		void AddGkZoneFormula2()
+		{
+			AddDeviceFire1();
+			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire1Count, "Количество устройств для формирования Пожар1");
+			Formula.Add(FormulaOperationType.GE);
+			Formula.AddPutBit(XStateType.Fire1, Zone, DatabaseType);
+
+			AddDeviceFire2();
+			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire2Count, "Количество устройств для формирования Пожар1");
+			Formula.Add(FormulaOperationType.GE);
+			Formula.AddPutBit(XStateType.Fire2, Zone, DatabaseType);
+
 			Formula.Add(FormulaOperationType.END);
 		}
 	}

@@ -1,35 +1,36 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Windows.Data;
+using FiresecAPI;
 using FiresecAPI.Models;
 
 namespace InstructionsModule.Converters
 {
-    public class ZonesToStringConverter : IValueConverter
-    {
-        public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
+	public class ZonesToStringConverter : IValueConverter
+	{
+		public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
 			var zones = value as ICollection<int>;
-            if (zones.IsNotNullOrEmpty())
-            {
-                var delimString = ", ";
-                var result = new StringBuilder();
+			if (zones.IsNotNullOrEmpty())
+			{
+				var delimString = ", ";
+				var result = new StringBuilder();
 
-                foreach (var zone in zones)
-                {
-                    result.Append(zone);
-                    result.Append(delimString);
-                }
+				foreach (var zone in zones)
+				{
+					result.Append(zone);
+					result.Append(delimString);
+				}
 
-                return result.ToString().Remove(result.Length - delimString.Length);
-            }
+				return result.ToString().Remove(result.Length - delimString.Length);
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
+		public object ConvertBack(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			throw new System.NotImplementedException();
+		}
+	}
 }
