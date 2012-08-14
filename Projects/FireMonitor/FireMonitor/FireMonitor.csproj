@@ -100,8 +100,6 @@
     <Compile Include="AppConfigHelper.cs" />
     <Compile Include="RegistryHelper.cs" />
     <Compile Include="ViewModels\AutoActivationViewModel.cs" />
-    <Compile Include="ViewModels\ConnectionIndicatorViewModel.cs" />
-    <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />
     <Compile Include="ViewModels\ProgressInfoViewModel.cs" />
     <Compile Include="ViewModels\SoundViewModel.cs" />
@@ -112,9 +110,6 @@
       <DependentUpon>AutoActivationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Converters\BoolToBackgroundImageConverter.cs" />
-    <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
-      <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ProgressInfoView.xaml.cs">
       <DependentUpon>ProgressInfoView.xaml</DependentUpon>
     </Compile>
@@ -126,9 +121,6 @@
     </Compile>
     <Compile Include="Views\UserView.xaml.cs">
       <DependentUpon>UserView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ConnectionIndicatorView.xaml.cs">
-      <DependentUpon>ConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\LayoutService.cs" />
     <Compile Include="Services\SecurityService.cs" />
@@ -176,10 +168,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GKConnectionIndicatorView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\ProgressInfoView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -193,10 +181,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ConnectionIndicatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

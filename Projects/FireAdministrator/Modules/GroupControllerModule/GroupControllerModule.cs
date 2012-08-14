@@ -10,10 +10,12 @@ using Infrustructure.Plans.Events;
 using FiresecAPI.Models;
 using GKModule.Plans.Designer;
 using GKModule.Plans;
+using Infrastructure.Common.Validation;
+using GKModule.Validation;
 
 namespace GKModule
 {
-	public class GroupControllerModule : ModuleBase
+	public class GroupControllerModule : ModuleBase, IValidationModule
 	{
 		private DevicesViewModel _devicesViewModel;
 		private ZonesViewModel _zonesViewModel;
@@ -78,5 +80,14 @@ namespace GKModule
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 		}
 
+
+		#region IValidationModule Members
+
+		public IEnumerable<IValidationError> Validate()
+		{
+			return Validator.Validate();
+		}
+
+		#endregion
 	}
 }

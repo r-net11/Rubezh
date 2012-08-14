@@ -9,10 +9,13 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using Infrastructure.Common.Validation;
+using DevicesModule.Validation;
+using FiresecClient;
 
 namespace DevicesModule
 {
-	public class DevicesModule : ModuleBase
+	public class DevicesModule : ModuleBase, IValidationModule
 	{
 		private NavigationItem _guardNavigationItem;
 		private DevicesViewModel _devicesViewModel;
@@ -106,5 +109,15 @@ namespace DevicesModule
 		{
 			get { return "Устройства, Зоны, Направления"; }
 		}
+
+		#region IValidationModule Members
+
+		public IEnumerable<IValidationError> Validate()
+		{
+			var devicesValidator = new Validator(FiresecManager.FiresecConfiguration);
+			return devicesValidator.Validate();
+		}
+
+		#endregion
 	}
 }

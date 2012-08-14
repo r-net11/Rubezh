@@ -6,7 +6,7 @@ using System.Windows.Media.Animation;
 using Infrastructure;
 using Infrastructure.Events;
 
-namespace FireMonitor.Views
+namespace GKModule.Views
 {
 	public partial class GKConnectionIndicatorView : UserControl, INotifyPropertyChanged
 	{

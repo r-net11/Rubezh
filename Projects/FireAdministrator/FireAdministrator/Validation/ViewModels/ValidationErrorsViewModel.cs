@@ -18,15 +18,6 @@ namespace FireAdministrator.ViewModels
 
 		public void Validate()
 		{
-			//var devicesValidator = new DevicesValidator(FiresecManager.FiresecConfiguration);
-			//devicesValidator.Validate();
-			//errors.AddRange(devicesValidator.DeviceErrors.Select(x => new ValidationErrorViewModel(x)));
-			//errors.AddRange(devicesValidator.ZoneErrors.Select(x => new ValidationErrorViewModel(x)));
-			//errors.AddRange(devicesValidator.DirectionErrors.Select(x => new ValidationErrorViewModel(x)));
-
-			//InstructionValidator.Validate();
-			//errors.AddRange(InstructionValidator.InstructionErrors.Select(x => new ValidationErrorViewModel(x)));
-
 			Errors = new List<IValidationError>();
 		}
 

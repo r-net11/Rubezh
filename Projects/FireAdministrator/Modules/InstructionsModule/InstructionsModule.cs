@@ -49,7 +49,7 @@ namespace InstructionsModule
 
 		public IEnumerable<IValidationError> Validate()
 		{
-			return InstructionValidator.Validate();
+			return Validator.Validate();
 		}
 
 		#endregion

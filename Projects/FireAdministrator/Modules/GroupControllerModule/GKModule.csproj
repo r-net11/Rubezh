@@ -158,6 +158,8 @@
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="BinaryFileConverter.cs" />
+    <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\ZoneValidationError.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZoneDevicesViewModel.cs" />
     <Compile Include="Zones\ViewModels\ZonesMenuViewModel.cs" />

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="FireMonitor.Views.ConnectionIndicatorView"
+﻿<UserControl x:Class="DevicesModule.Views.ConnectionIndicatorView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"        
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Loaded="UserControl_Loaded">

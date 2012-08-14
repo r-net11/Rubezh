@@ -221,6 +221,10 @@
     <Compile Include="Plans\Views\ZonePropertiesView.xaml.cs">
       <DependentUpon>ZonePropertiesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Validation\DirectionValidationError.cs" />
+    <Compile Include="Validation\ZoneValidationError.cs" />
+    <Compile Include="Validation\Validator.cs" />
+    <Compile Include="Validation\DeviceValidationError.cs" />
     <Compile Include="Zones\Converters\ClauseOperationToStringConverter.cs" />
     <Compile Include="Zones\Converters\ClauseStateToStringConverter.cs" />
     <Compile Include="Devices\Converters\ColorIdToStringConverter.cs" />

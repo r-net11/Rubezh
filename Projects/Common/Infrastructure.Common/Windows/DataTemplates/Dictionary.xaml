@@ -50,4 +50,8 @@
 		<Views:ProgressView />
 	</DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:LoadingViewModel}">
+		<Views:LoadingView />
+	</DataTemplate>
+
 </ResourceDictionary>

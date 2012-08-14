@@ -141,21 +141,11 @@
     </Compile>
     <Compile Include="SafeFiresecService.cs" />
     <Compile Include="SafeFiresecService.Operations.cs" />
-    <Compile Include="FiresecManager\FiresecConfiguration\Validation\BaseError.cs" />
-    <Compile Include="FiresecManager\FiresecConfiguration\Validation\DeviceError.cs" />
-    <Compile Include="FiresecManager\FiresecConfiguration\Validation\DirectionError.cs" />
-    <Compile Include="FiresecManager\FiresecConfiguration\Validation\ErrorLevel.cs" />
-    <Compile Include="FiresecManager\FiresecConfiguration\Validation\InstructionError.cs" />
-    <Compile Include="FiresecManager\FiresecConfiguration\Validation\InstructionValidator.cs" />
-    <Compile Include="FiresecManager\FiresecConfiguration\Validation\DevicesValidator.cs" />
-    <Compile Include="FiresecManager\FiresecConfiguration\Validation\ZoneError.cs" />
     <Compile Include="XManager\XManager.Binary.cs" />
     <Compile Include="XManager\XManager.Configuration.cs" />
     <Compile Include="XManager\XManager.Device.cs" />
     <Compile Include="XManager\XManager.cs" />
     <Compile Include="XManager\XManager.Disabling.cs" />
-    <Compile Include="XManager\Validation\DevicesValidator.cs" />
-    <Compile Include="XManager\Validation\ZoneError.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

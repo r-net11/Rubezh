@@ -19,6 +19,7 @@ namespace GKModule
 
 		public GKModuleLoader()
 		{
+			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
 			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Subscribe(OnShowXDevice);
 			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Subscribe(OnShowXZone);
 			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowXJournalEvent);

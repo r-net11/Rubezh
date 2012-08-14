@@ -6,10 +6,18 @@ namespace Infrastructure.Common.Windows
 	{
 		private static ProgressViewModel _progress = null;
 
+		public static void ShowProgress(string title, string text, int stepCount = 1)
+		{
+			Show(new ProgressViewModel() { Title = title, StepCount = stepCount, Text = text });
+		}
 		public static void Show(string title, int stepCount = 1)
 		{
+			Show(new LoadingViewModel() { Title = title, StepCount = stepCount });
+		}
+		private static void Show(ProgressViewModel progressViewModel)
+		{
 			Close();
-			_progress = new ProgressViewModel() { Title = title, StepCount = stepCount };
+			_progress = progressViewModel;
 			DialogService.ShowWindow(_progress);
 		}
 		public static void Close()

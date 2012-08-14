@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using System.Windows.Media;
-using FiresecClient.Validation;
+using Infrastructure.Common.Validation;
 
 namespace FireAdministrator.Converters
 {
@@ -9,17 +9,14 @@ namespace FireAdministrator.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            switch ((ErrorLevel) value)
+            switch ((ValidationErrorLevel) value)
             {
-				case ErrorLevel.CannotSave:
+				case ValidationErrorLevel.CannotSave:
 					return Brushes.DarkRed;
-
-				case ErrorLevel.CannotWrite:
+				case ValidationErrorLevel.CannotWrite:
 					return Brushes.LightPink;
-
-				case ErrorLevel.Warning:
+				case ValidationErrorLevel.Warning:
 					return Brushes.Wheat;
-
                 default:
                     return Brushes.Blue;
             }

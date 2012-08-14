@@ -1,20 +1,11 @@
-﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.ProgressView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 Foreground="White" MinHeight="140" MinWidth="400">
-    <DockPanel>
-        <TextBlock Text="{Binding Company, Mode=OneWay}" HorizontalAlignment="Center" DockPanel.Dock="Top" Margin="0 2 0 0" FontSize="12" />
-        <StackPanel Orientation="Vertical" DockPanel.Dock="Bottom" >
-            <Grid Margin="10 0 10 10">
-                <ProgressBar Maximum="{Binding StepCount}" Value="{Binding CurrentStep}"/>
-                <TextBlock Text="{Binding Title}" HorizontalAlignment="Center" FontSize="12" Foreground="Black" Margin="10 3 10 3"/>
-            </Grid>
-            <TextBlock Text="{Binding Copyright, Mode=OneWay}" HorizontalAlignment="Right" Margin="0 0 5 2"  FontSize="12"/>
-        </StackPanel>
-        <StackPanel VerticalAlignment="Center">
-            <TextBlock Text="{Binding Product, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Black" Foreground="White" TextWrapping="Wrap" Margin="20 0 20 0" TextAlignment="Center" />
-            <TextBlock Text="{Binding Version, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" FontWeight="Black" Foreground="White" TextWrapping="Wrap" Margin="20 0 20 0" TextAlignment="Center" />
-        </StackPanel>
-        <!--<TextBlock Text="{Binding Title}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Black" Foreground="White"/>-->
-    </DockPanel>
+﻿<UserControl x:Class="Infrastructure.Common.Windows.Views.ProgressView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" MinWidth="400" MinHeight="100" Foreground="White">
+	<DockPanel>
+		<StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
+			<Grid Margin="10 0 10 20">
+				<ProgressBar Maximum="{Binding StepCount}" Value="{Binding CurrentStep}" />
+				<TextBlock Margin="10 3 10 3" HorizontalAlignment="Center" FontSize="12" Foreground="Black" Text="{Binding Title}" />
+			</Grid>
+		</StackPanel>
+		<TextBlock Margin="20 0 20 0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="17" FontWeight="Black" Foreground="White" Text="{Binding Text, Mode=OneWay}" TextAlignment="Center" TextWrapping="Wrap" />
+	</DockPanel>
 </UserControl>

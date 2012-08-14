@@ -16,6 +16,7 @@ namespace DevicesModule
 
 		public DevicesModuleLoader()
 		{
+			ServiceFactory.Layout.AddToolbarItem(new ConnectionIndicatorViewModel());
 			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
 			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
 			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);

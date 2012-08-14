@@ -27,7 +27,8 @@ namespace Infrastructure.Common.Validation
 
 		public virtual void Navigate()
 		{
-			ServiceFactoryBase.Events.GetEvent<TEvent>().Publish(Key);
+			using (new WaitWrapper())
+				ServiceFactoryBase.Events.GetEvent<TEvent>().Publish(Key);
 		}
 
 		#endregion

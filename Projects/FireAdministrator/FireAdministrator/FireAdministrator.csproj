@@ -122,7 +122,6 @@
     <Compile Include="Validation\Converters\ErrorLevelToStringConverter.cs" />
     <Compile Include="Validation\ViewModels\ErrorEntityType.cs" />
     <Compile Include="Validation\ViewModels\ValidationErrorsViewModel.cs" />
-    <Compile Include="Validation\ViewModels\ValidationErrorViewModel.cs" />
     <Compile Include="Validation\Views\ValidationErrorsView.xaml.cs">
       <DependentUpon>ValidationErrorsView.xaml</DependentUpon>
     </Compile>

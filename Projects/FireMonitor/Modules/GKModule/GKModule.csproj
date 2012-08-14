@@ -63,6 +63,10 @@
     <Compile Include="Converters\XZoneStateToColorConverter.cs" />
     <Compile Include="Events\NewJournalEvent.cs" />
     <Compile Include="Events\ZoneSelectedEvent.cs" />
+    <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
+    <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
+      <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Watcher\JournalWatcher.cs" />
     <Compile Include="GKModuleLoader.cs" />
     <Compile Include="Watcher\JournalWatcherManager.cs" />
@@ -119,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DevicesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\GKConnectionIndicatorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

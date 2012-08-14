@@ -7,7 +7,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
 
-namespace FireMonitor.Views
+namespace DevicesModule.Views
 {
 	public partial class ConnectionIndicatorView : UserControl, INotifyPropertyChanged
 	{

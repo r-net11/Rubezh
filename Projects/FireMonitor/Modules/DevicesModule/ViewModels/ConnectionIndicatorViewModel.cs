@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 
-namespace FireMonitor.ViewModels
+namespace DevicesModule.ViewModels
 {
 	public class ConnectionIndicatorViewModel : BaseViewModel
 	{

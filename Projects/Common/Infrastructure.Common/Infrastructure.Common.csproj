@@ -124,6 +124,7 @@
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="ServiceFactoryBase.cs" />
+    <Compile Include="Validation\CommonValidationError.cs" />
     <Compile Include="Validation\ObjectValidationError.cs" />
     <Compile Include="Validation\ValidationErrorLevel.cs" />
     <Compile Include="Validation\IValidationError.cs" />
@@ -132,6 +133,7 @@
     <Compile Include="Windows\LayoutService.cs" />
     <Compile Include="Windows\LoadingService.cs" />
     <Compile Include="Windows\ViewModels\BaseViewModel.cs" />
+    <Compile Include="Windows\ViewModels\LoadingViewModel.cs" />
     <Compile Include="Windows\ViewModels\IEditingViewModel.cs" />
     <Compile Include="IModule.cs" />
     <Compile Include="Windows\ViewModels\IViewPartViewModel.cs" />
@@ -189,6 +191,9 @@
     <Compile Include="Windows\Views\ApplicationView.xaml.cs">
       <DependentUpon>ApplicationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\Views\LoadingView.xaml.cs">
+      <DependentUpon>LoadingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\Views\DialogView.xaml.cs">
       <DependentUpon>DialogView.xaml</DependentUpon>
     </Compile>
@@ -245,6 +250,10 @@
     <Page Include="Windows\Views\ApplicationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\Views\LoadingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Windows\Views\DialogView.xaml">
       <SubType>Designer</SubType>

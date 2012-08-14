@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Common;
+using FiresecAPI;
 
 namespace FireMonitor.ViewModels
 {
