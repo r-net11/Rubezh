@@ -5,5 +5,6 @@ namespace Infrastructure
 	public interface ILayoutService : Infrastructure.Common.Windows.ILayoutService
 	{
 		void AddAlarmGroups(BaseViewModel viewModel);
+		void AddToolbarItem(BaseViewModel viewModel);
 	}
 }

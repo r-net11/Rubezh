@@ -99,16 +99,21 @@
     </Compile>
     <Compile Include="AppConfigHelper.cs" />
     <Compile Include="RegistryHelper.cs" />
+    <Compile Include="ViewModels\AutoActivationViewModel.cs" />
+    <Compile Include="ViewModels\ConnectionIndicatorViewModel.cs" />
+    <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />
     <Compile Include="ViewModels\ProgressInfoViewModel.cs" />
+    <Compile Include="ViewModels\SoundViewModel.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\UserFotterViewModel.cs" />
+    <Compile Include="ViewModels\UserViewModel.cs" />
     <Compile Include="Views\AutoActivationView.xaml.cs">
       <DependentUpon>AutoActivationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Converters\BoolToBackgroundImageConverter.cs" />
-    <Compile Include="Views\GKConnectionIndicator.xaml.cs">
-      <DependentUpon>GKConnectionIndicator.xaml</DependentUpon>
+    <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
+      <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProgressInfoView.xaml.cs">
       <DependentUpon>ProgressInfoView.xaml</DependentUpon>
@@ -171,7 +176,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GKConnectionIndicator.xaml">
+    <Page Include="Views\GKConnectionIndicatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

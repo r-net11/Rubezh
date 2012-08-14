@@ -23,6 +23,11 @@ namespace FireMonitor
 			_toolbarViewModel.AlarmGroups = viewModel;
 		}
 
+		public void AddToolbarItem(BaseViewModel viewModel)
+		{
+			_toolbarViewModel.ToolbarItems.Add(viewModel);
+		}
+
 		#endregion
 	
 		#region ILayoutService Members

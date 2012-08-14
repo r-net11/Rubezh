@@ -61,6 +61,12 @@ namespace FireMonitor
 						var shell = new MonitorShellViewModel();
 						((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
 						RunShell(shell);
+						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());
+						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new ConnectionIndicatorViewModel());
+						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new GKConnectionIndicatorViewModel());
+						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new UserViewModel());
+						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
+
 
 						FiresecCallbackService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
 						ServiceFactory.Events.GetEvent<NotifyEvent>().Subscribe(OnNotify);

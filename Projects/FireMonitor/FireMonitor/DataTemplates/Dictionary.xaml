@@ -15,4 +15,24 @@
         <Views:ProgressInfoView />
     </DataTemplate>
 
+	<DataTemplate DataType="{x:Type ViewModels:SoundViewModel}">
+		<Views:SoundView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:ConnectionIndicatorViewModel}">
+		<Views:ConnectionIndicatorView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:GKConnectionIndicatorViewModel}">
+		<Views:GKConnectionIndicatorView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:UserViewModel}">
+		<Views:UserView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:AutoActivationViewModel}">
+		<Views:AutoActivationView />
+	</DataTemplate>
+
 </ResourceDictionary>
