@@ -15,7 +15,6 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="ProgramMenuDir">
-			<!--Ярлык для запуска программы-->
 			<Component Id="FAProgramsMenuShortcut" Guid="*">
 				<Shortcut Id="FARunProduct" Name="Администратор ОПС 'FireSec-2'" Target="[FIREADMINISTRATORLOCATION]$(var.FireAdministrator.TargetFileName)"
 									WorkingDirectory="FIREADMINISTRATORLOCATION" Description="Запускает $(var.FireAdministratorName)" Icon="FireAdministratorIcon"/>

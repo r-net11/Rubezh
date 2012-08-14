@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     <StackPanel Orientation="Horizontal" Height="40">
-        <Controls:ToolBarButton Click="OnCreateNew" ToolTip="Создать новый" ImageSource="/Controls;component/Images/new.png" />
-        <Controls:ToolBarButton Click="OnLoadFromFile" ToolTip="Считать из файла" ImageSource="/Controls;component/Images/load.png" />
-        <Controls:ToolBarButton Click="OnSaveToFile" ToolTip="Сохранить в файл" ImageSource="/Controls;component/Images/save.png" />
-        <Controls:ToolBarButton Click="OnValidate"  ToolTip="Проверить" ImageSource="/Controls;component/Images/check.png" />
-        <Controls:ToolBarButton Click="OnSetNewConfig" ToolTip="Ok" Name="_saveButton" IsEnabled="False" ImageSource="/Controls;component/Images/download.png" />
+        <Controls:ToolBarButton Click="OnCreateNew" ToolTip="Создать новую конфигурацию" ImageSource="/Controls;component/Images/new.png" />
+        <Controls:ToolBarButton Click="OnLoadFromFile" ToolTip="Считать конфигурацию из файла" ImageSource="/Controls;component/Images/load.png" />
+        <Controls:ToolBarButton Click="OnSaveToFile" ToolTip="Сохранить конфигурацию в файл" ImageSource="/Controls;component/Images/save.png" />
+        <Controls:ToolBarButton Click="OnValidate"  ToolTip="Проверить конфигурацию" ImageSource="/Controls;component/Images/check.png" />
+        <Controls:ToolBarButton Click="OnSetNewConfig" ToolTip="Применить конфигурацию" Name="_saveButton" IsEnabled="False" ImageSource="/Controls;component/Images/download.png" />
         <ContentControl Grid.Column="1" Content="{Binding ExtendedMenu}" MinWidth="400" />
 	</StackPanel>
 </UserControl>

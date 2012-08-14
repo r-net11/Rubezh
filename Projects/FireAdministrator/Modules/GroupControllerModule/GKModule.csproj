@@ -75,6 +75,7 @@
     <Compile Include="Directions\Views\DirectionDevicesView.xaml.cs">
       <DependentUpon>DirectionDevicesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FiresecToGKConverter\ConfigurationConverter2.cs" />
     <Compile Include="Plans\GKPlanExtension.cs" />
     <Compile Include="ParametersHelper.cs" />
     <Compile Include="BinaryFormatViewer\Converters\BytesToStringConverter.cs" />

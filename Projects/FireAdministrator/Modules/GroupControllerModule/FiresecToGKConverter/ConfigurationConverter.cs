@@ -6,180 +6,190 @@ using XFiresecAPI;
 
 namespace GKModule.Converter
 {
-	public class ConfigurationConverter
-	{
-		public void Convert()
-		{
-			XManager.DeviceConfiguration = new XDeviceConfiguration();
-			ConvertDevices();
-			ConvertZones();
-			ConvertLogic();
-		}
+    public class ConfigurationConverter
+    {
+        public void Convert()
+        {
+            XManager.DeviceConfiguration = new XDeviceConfiguration();
+            ConvertDevices();
+            ConvertZones();
+            ConvertLogic();
+        }
 
-		void ConvertDevices()
-		{
-			byte kauAddress = 1;
+        void ConvertDevices()
+        {
+            byte kauAddress = 1;
+            int currentShleifNo = 0;
 
-			var systemDevice = new XDevice()
-			{
-				UID = Guid.NewGuid(),
-				DriverUID = GKDriversHelper.System_UID,
-				Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
-			};
-			XManager.DeviceConfiguration.Devices.Add(systemDevice);
-			XManager.DeviceConfiguration.RootDevice = systemDevice;
+            var systemDevice = new XDevice()
+            {
+                UID = Guid.NewGuid(),
+                DriverUID = GKDriversHelper.System_UID,
+                Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
+            };
+            XManager.DeviceConfiguration.Devices.Add(systemDevice);
+            XManager.DeviceConfiguration.RootDevice = systemDevice;
 
-			var gkDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GK);
-			var gkDevice = XManager.AddChild(systemDevice, gkDriver, 0, 1);
-			gkDevice.UID = Guid.NewGuid();
-			XManager.DeviceConfiguration.Devices.Add(gkDevice);
+            var gkDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+            var gkDevice = XManager.AddChild(systemDevice, gkDriver, 0, 1);
+            gkDevice.UID = Guid.NewGuid();
+            XManager.DeviceConfiguration.Devices.Add(gkDevice);
 
-			foreach (var device in FiresecManager.Devices)
-			{
-				bool isKAU = false;
-				var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+            foreach (var device in FiresecManager.Devices)
+            {
+                bool isKAU = false;
+                var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 
-				if (driver == null)
-				{
-					switch (device.Driver.DriverType)
-					{
-						case FiresecAPI.Models.DriverType.BUNS:
-						case FiresecAPI.Models.DriverType.BUNS_2:
-						case FiresecAPI.Models.DriverType.Rubezh_10AM:
-						case FiresecAPI.Models.DriverType.Rubezh_2AM:
-						case FiresecAPI.Models.DriverType.Rubezh_2OP:
-						case FiresecAPI.Models.DriverType.Rubezh_4A:
-						case FiresecAPI.Models.DriverType.USB_BUNS:
-						case FiresecAPI.Models.DriverType.USB_BUNS_2:
-						case FiresecAPI.Models.DriverType.USB_Rubezh_2AM:
-						case FiresecAPI.Models.DriverType.USB_Rubezh_2OP:
-						case FiresecAPI.Models.DriverType.USB_Rubezh_4A:
-							isKAU = true;
-							driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
-							break;
+                if (driver == null)
+                {
+                    switch (device.Driver.DriverType)
+                    {
+                        case FiresecAPI.Models.DriverType.BUNS:
+                        case FiresecAPI.Models.DriverType.BUNS_2:
+                        case FiresecAPI.Models.DriverType.Rubezh_10AM:
+                        case FiresecAPI.Models.DriverType.Rubezh_2AM:
+                        case FiresecAPI.Models.DriverType.Rubezh_2OP:
+                        case FiresecAPI.Models.DriverType.Rubezh_4A:
+                        case FiresecAPI.Models.DriverType.USB_BUNS:
+                        case FiresecAPI.Models.DriverType.USB_BUNS_2:
+                        case FiresecAPI.Models.DriverType.USB_Rubezh_2AM:
+                        case FiresecAPI.Models.DriverType.USB_Rubezh_2OP:
+                        case FiresecAPI.Models.DriverType.USB_Rubezh_4A:
+                            isKAU = true;
+                            driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
+                            break;
 
-						default:
-							continue;
-					}
-				}
+                        default:
+                            continue;
+                    }
+                }
 
-				if (isKAU)
-				{
-					var kauDevice = XManager.AddChild(gkDevice, driver, 0, kauAddress++);
-					kauDevice.UID = device.UID;
-					XManager.DeviceConfiguration.Devices.Add(kauDevice);
-				}
-				else
-				{
-					var xDevice = new XDevice()
-					{
-						UID = device.UID,
-						DriverUID = driver.UID,
-						Driver = driver,
-						ShleifNo = (byte)(device.IntAddress >> 8),
-						IntAddress = (byte)(device.IntAddress & 0xff),
-						Description = device.Description
-					};
-					XManager.DeviceConfiguration.Devices.Add(xDevice);
-				}
-			}
+                if (isKAU)
+                {
+                    currentShleifNo += 2;
+                    if (currentShleifNo == 8)
+                    {
+                        currentShleifNo = 0;
 
-			foreach (var device in FiresecManager.Devices)
-			{
-				var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
-				if (xDevice != null)
-				{
-					foreach (var child in device.Children)
-					{
-						var xChildDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == child.UID);
-						if (xChildDevice != null)
-						{
-							xDevice.Children.Add(xChildDevice);
-							xChildDevice.Parent = xDevice;
-						}
-					}
-				}
-			}
-		}
+                        var kauDevice = XManager.AddChild(gkDevice, driver, 0, kauAddress++);
+                        kauDevice.UID = device.UID;
+                        XManager.DeviceConfiguration.Devices.Add(kauDevice);
+                    }
+                }
+                else
+                {
+                    var xDevice = new XDevice()
+                    {
+                        UID = device.UID,
+                        DriverUID = driver.UID,
+                        Driver = driver,
+                        ShleifNo = (byte)(device.IntAddress >> 8 + currentShleifNo),
+                        IntAddress = (byte)(device.IntAddress & 0xff),
+                        Description = device.Description
+                    };
+                    XManager.DeviceConfiguration.Devices.Add(xDevice);
+                }
+            }
 
-		void ConvertZones()
-		{
-			foreach (var zone in FiresecManager.Zones)
-			{
-				var xZone = new XZone()
-				{
-					No = (ushort)zone.No,
-					Name = zone.Name,
-					Description = zone.Description,
-					Fire1Count = (ushort)zone.DetectorCount,
-				};
-				XManager.DeviceConfiguration.Zones.Add(xZone);
-			}
+            foreach (var device in FiresecManager.Devices)
+            {
+                var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
+                if (xDevice != null)
+                {
+                    foreach (var child in device.Children)
+                    {
+                        var xChildDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == child.UID);
+                        if (xChildDevice != null)
+                        {
+                            xDevice.Children.Add(xChildDevice);
+                            xChildDevice.Parent = xDevice;
+                        }
+                    }
+                }
+            }
+        }
 
-			foreach (var device in FiresecManager.Devices)
-			{
-				var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
-				if ((device.Driver.IsZoneDevice) && (device.ZoneNo.HasValue))
-				{
-					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo.Value);
-					var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
-					if (zone != null)
-					{
-						xDevice.Zones.Add(xZone.No);
-						xZone.DeviceUIDs.Add(device.UID);
-					}
-				}
-			}
-		}
+        void ConvertZones()
+        {
+            foreach (var zone in FiresecManager.Zones)
+            {
+                var xZone = new XZone()
+                {
+                    No = (ushort)zone.No,
+                    Name = zone.Name,
+                    Description = zone.Description,
+                    Fire1Count = (ushort)zone.DetectorCount,
+                };
+                XManager.DeviceConfiguration.Zones.Add(xZone);
+            }
 
-		void ConvertLogic()
-		{
-			foreach (var xDevice in XManager.DeviceConfiguration.Devices)
-			{
-				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == xDevice.UID);
-				if (device != null)
-				{
-					if ((device.Driver.IsZoneDevice) && (device.ZoneLogic != null))
-					{
-						var xDeviceLogic = new XDeviceLogic();
-						var stateLogic = new StateLogic()
-						{
-							StateType = XStateType.TurnOn
-						};
-						xDeviceLogic.StateLogics.Add(stateLogic);
+            foreach (var device in FiresecManager.Devices)
+            {
+                var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
+                if (xDevice != null)
+                {
+                    if ((device.Driver.IsZoneDevice) && (device.ZoneNo.HasValue))
+                    {
+                        var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo.Value);
+                        var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
+                        if (zone != null)
+                        {
+                            xDevice.Zones.Add(xZone.No);
+                            xZone.DeviceUIDs.Add(device.UID);
+                        }
+                    }
+                }
+            }
+        }
 
-						foreach (var clause in device.ZoneLogic.Clauses)
-						{
-							var xClause = new XClause();
-							switch (clause.State)
-							{
-								case FiresecAPI.Models.ZoneLogicState.Fire:
-									xClause.StateType = XStateType.Fire1;
-									break;
+        void ConvertLogic()
+        {
+            foreach (var xDevice in XManager.DeviceConfiguration.Devices)
+            {
+                var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == xDevice.UID);
+                if (device != null)
+                {
+                    if ((device.Driver.IsZoneDevice) && (device.ZoneLogic != null))
+                    {
+                        var xDeviceLogic = new XDeviceLogic();
+                        var stateLogic = new StateLogic()
+                        {
+                            StateType = XStateType.TurnOn
+                        };
+                        xDeviceLogic.StateLogics.Add(stateLogic);
 
-								case FiresecAPI.Models.ZoneLogicState.Failure:
-									xClause.StateType = XStateType.Failure;
-									break;
+                        foreach (var clause in device.ZoneLogic.Clauses)
+                        {
+                            var xClause = new XClause();
+                            switch (clause.State)
+                            {
+                                case FiresecAPI.Models.ZoneLogicState.Fire:
+                                    xClause.StateType = XStateType.Fire1;
+                                    break;
 
-								default:
-									continue;
-							}
-							if ((clause.Zones == null) || (clause.Zones.Count == 0))
-								continue;
+                                case FiresecAPI.Models.ZoneLogicState.Failure:
+                                    xClause.StateType = XStateType.Failure;
+                                    break;
 
-							foreach (var zoneNo in clause.Zones)
-							{
-								xClause.Zones.Add((ushort)zoneNo);
-							}
+                                default:
+                                    continue;
+                            }
+                            if ((clause.Zones == null) || (clause.Zones.Count == 0))
+                                continue;
 
-							stateLogic.Clauses.Add(xClause);
-						}
+                            foreach (var zoneNo in clause.Zones)
+                            {
+                                xClause.Zones.Add((ushort)zoneNo);
+                            }
 
-						if (stateLogic.Clauses.Count > 0)
-							xDevice.DeviceLogic = xDeviceLogic;
-					}
-				}
-			}
-		}
-	}
+                            stateLogic.Clauses.Add(xClause);
+                        }
+
+                        if (stateLogic.Clauses.Count > 0)
+                            xDevice.DeviceLogic = xDeviceLogic;
+                    }
+                }
+            }
+        }
+    }
 }
