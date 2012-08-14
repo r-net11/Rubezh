@@ -11,6 +11,7 @@ namespace PlansModule.ViewModels
 
 		public DesignerPropertiesViewModel(Plan plan)
 		{
+			Title = "Свойства элемента: План";
 			ImagePropertiesViewModel = new ViewModels.ImagePropertiesViewModel();
 			Plan = plan ?? new Plan()
 			{

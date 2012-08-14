@@ -11,7 +11,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure
 {
-	public class ServiceFactory
+	public class ServiceFactory : ServiceFactoryBase
 	{
 		public static void Initialize(ILayoutService ILayoutService, ISecurityService ISecurityService)
 		{
@@ -24,8 +24,6 @@ namespace Infrastructure
 		}
 
 		public static AppSettings AppSettings { get; set; }
-		public static IEventAggregator Events { get; private set; }
-		public static ResourceService ResourceService { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 		public static ISecurityService SecurityService { get; private set; }
 		public static LoginService LoginService { get; private set; }
@@ -39,7 +37,6 @@ namespace Infrastructure
 			FiresecCallbackService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((journalRecords) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(journalRecords); }); });
 			FiresecCallbackService.NotifyEvent += new Action<string>((message) => { SafeCall(() => { OnNotify(message); }); });
 		}
-
 		static void OnDeviceStateChangedEvent(Guid deviceUID)
 		{
 			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Publish(deviceUID);
@@ -49,7 +46,6 @@ namespace Infrastructure
 				deviceState.OnStateChanged();
 			}
 		}
-
 		static void OnDeviceParametersChangedEvent(Guid deviceUID)
 		{
 			ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(deviceUID);
@@ -59,7 +55,6 @@ namespace Infrastructure
 				deviceState.OnParametersChanged();
 			}
 		}
-
 		static void OnZoneStateChangedEvent(int zoneNo)
 		{
 			ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneNo);
@@ -69,12 +64,10 @@ namespace Infrastructure
 				zoneState.OnStateChanged();
 			}
 		}
-
 		static void OnNewJournalRecordEvent(JournalRecord journalRecord)
 		{
 			ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
 		}
-
 		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalRecord> journalRecords)
 		{
 			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(journalRecords);

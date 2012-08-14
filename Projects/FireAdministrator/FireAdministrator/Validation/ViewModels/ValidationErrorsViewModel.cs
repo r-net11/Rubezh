@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
-using FiresecClient.Validation;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Validation;
 
 namespace FireAdministrator.ViewModels
 {
@@ -18,22 +18,20 @@ namespace FireAdministrator.ViewModels
 
 		public void Validate()
 		{
-			var errors = new List<ValidationErrorViewModel>();
+			//var devicesValidator = new DevicesValidator(FiresecManager.FiresecConfiguration);
+			//devicesValidator.Validate();
+			//errors.AddRange(devicesValidator.DeviceErrors.Select(x => new ValidationErrorViewModel(x)));
+			//errors.AddRange(devicesValidator.ZoneErrors.Select(x => new ValidationErrorViewModel(x)));
+			//errors.AddRange(devicesValidator.DirectionErrors.Select(x => new ValidationErrorViewModel(x)));
 
-			var devicesValidator = new DevicesValidator(FiresecManager.FiresecConfiguration);
-			devicesValidator.Validate();
-			errors.AddRange(devicesValidator.DeviceErrors.Select(x => new ValidationErrorViewModel(x)));
-			errors.AddRange(devicesValidator.ZoneErrors.Select(x => new ValidationErrorViewModel(x)));
-			errors.AddRange(devicesValidator.DirectionErrors.Select(x => new ValidationErrorViewModel(x)));
+			//InstructionValidator.Validate();
+			//errors.AddRange(InstructionValidator.InstructionErrors.Select(x => new ValidationErrorViewModel(x)));
 
-			InstructionValidator.Validate();
-			errors.AddRange(InstructionValidator.InstructionErrors.Select(x => new ValidationErrorViewModel(x)));
-
-			Errors = new List<ValidationErrorViewModel>(errors);
+			Errors = new List<IValidationError>();
 		}
 
-		List<ValidationErrorViewModel> _errors;
-		public List<ValidationErrorViewModel> Errors
+		List<IValidationError> _errors;
+		public List<IValidationError> Errors
 		{
 			get { return _errors; }
 			set
@@ -43,8 +41,8 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
-		ValidationErrorViewModel _selectedError;
-		public ValidationErrorViewModel SelectedError
+		IValidationError _selectedError;
+		public IValidationError SelectedError
 		{
 			get { return _selectedError; }
 			set
@@ -58,21 +56,26 @@ namespace FireAdministrator.ViewModels
 		{
 			get { return Errors.Count > 0; }
 		}
-
 		public bool CannotSave
 		{
-			get { return Errors.Any(x => x.ErrorLevel == ErrorLevel.CannotSave); }
+			get { return Errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotSave); }
 		}
-
 		public bool CannotWrite
 		{
-			get { return Errors.Any(x => x.ErrorLevel == ErrorLevel.CannotWrite); }
+			get { return Errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite); }
 		}
 
 		public RelayCommand ClickCommand { get; private set; }
 		void OnClick()
 		{
-			if (SelectedError != null) SelectedError.Select();
+			if (SelectedError != null) 
+				SelectedError.Navigate();
+		}
+
+		public void AddErrors(IEnumerable<IValidationError> validationErrors)
+		{
+			Errors.AddRange(validationErrors);
+			OnPropertyChanged("Errors");
 		}
 	}
 }

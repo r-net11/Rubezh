@@ -8,6 +8,8 @@ namespace Common.GK
 	{
 		public static void Create()
 		{
+			var AMP_4Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == FiresecAPI.Models.DriverType.AMP_4);
+			var AMP_4ParentDriver = FiresecManager.Drivers.FirstOrDefault(x => x.Children.Contains(AMP_4Driver.UID));
 			var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.AMP_4);
 
 			var property1 = new XDriverProperty()

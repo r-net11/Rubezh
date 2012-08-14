@@ -101,6 +101,8 @@
     <Compile Include="Converters\DevicesToStringConverter.cs" />
     <Compile Include="Converters\ZonesToStringConverter.cs" />
     <Compile Include="InstructionsModule.cs" />
+    <Compile Include="Validation\InstructionValidationError.cs" />
+    <Compile Include="Validation\InstructionValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

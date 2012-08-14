@@ -27,7 +27,6 @@ namespace FireAdministrator.ViewModels
             Error = deviceError.Error;
             ErrorLevel = deviceError.Level;
         }
-
         public ValidationErrorViewModel(ZoneError zoneError)
         {
             _errorEntityType = ErrorEntityType.Zone;
@@ -38,7 +37,6 @@ namespace FireAdministrator.ViewModels
             Error = zoneError.Error;
             ErrorLevel = zoneError.Level;
         }
-
         public ValidationErrorViewModel(DirectionError directionError)
         {
             _errorEntityType = ErrorEntityType.Direction;
@@ -49,7 +47,6 @@ namespace FireAdministrator.ViewModels
             Error = directionError.Error;
             ErrorLevel = directionError.Level;
         }
-
         public ValidationErrorViewModel(InstructionError instructionError)
         {
             _errorEntityType = ErrorEntityType.Instruction;

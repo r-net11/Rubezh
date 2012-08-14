@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows;
 
-namespace FiresecAPI.Models
+namespace FiresecAPI
 {
     public static class ExtensionMethods
     {

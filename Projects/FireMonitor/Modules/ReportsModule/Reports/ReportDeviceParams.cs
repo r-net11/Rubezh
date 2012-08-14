@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -12,7 +13,7 @@ namespace ReportsModule.Reports
 		public ReportDeviceParams()
 			: base()
 		{
-            ReportFileName = "DeviceParamsRdlc.rdlc";
+			ReportFileName = "DeviceParamsRdlc.rdlc";
 			DataSourceFileName = "DeviceParamsData";
 		}
 

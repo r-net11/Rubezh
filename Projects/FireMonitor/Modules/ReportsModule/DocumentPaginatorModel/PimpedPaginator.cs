@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using FiresecAPI;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -6,9 +7,11 @@ using FiresecAPI.Models;
 
 namespace ReportsModule.DocumentPaginatorModel
 {
-	public class PimpedPaginator : DocumentPaginator {
+	public class PimpedPaginator : DocumentPaginator
+	{
 
-		public PimpedPaginator(FlowDocument document, Definition def) {
+		public PimpedPaginator(FlowDocument document, Definition def)
+		{
 			// Create a copy of the flow document,
 			// so we can modify it without modifying
 			// the original.
@@ -33,14 +36,16 @@ namespace ReportsModule.DocumentPaginatorModel
 		DocumentPaginator paginator;
 		Definition definition;
 
-		public override DocumentPage GetPage(int pageNumber) {
+		public override DocumentPage GetPage(int pageNumber)
+		{
 			// Use default paginator to handle pagination
 			Visual originalPage = paginator.GetPage(pageNumber).Visual;
 
 			ContainerVisual visual = new ContainerVisual();
-			ContainerVisual pageVisual = new ContainerVisual() {
+			ContainerVisual pageVisual = new ContainerVisual()
+			{
 				Transform = new TranslateTransform(
-					definition.ContentOrigin.X, 
+					definition.ContentOrigin.X,
 					definition.ContentOrigin.Y
 				)
 			};
@@ -48,18 +53,22 @@ namespace ReportsModule.DocumentPaginatorModel
 			visual.Children.Add(pageVisual);
 
 			// Create headers and footers
-			if(definition.Header != null) {
+			if (definition.Header != null)
+			{
 				visual.Children.Add(CreateHeaderFooterVisual(definition.Header, definition.HeaderRect, pageNumber));
 			}
-			if(definition.Footer != null) {
+			if (definition.Footer != null)
+			{
 				visual.Children.Add(CreateHeaderFooterVisual(definition.Footer, definition.FooterRect, pageNumber));
 			}
 
 			// Check for repeating table headers
-			if(definition.RepeatTableHeaders) {
+			if (definition.RepeatTableHeaders)
+			{
 				// Find table header
 				ContainerVisual table;
-				if(PageStartsWithTable(originalPage, out table) && currentHeader != null) {
+				if (PageStartsWithTable(originalPage, out table) && currentHeader != null)
+				{
 					// The page starts with a table and a table header was
 					// found on the previous page. Presumably this table 
 					// was started on the previous page, so we'll repeat the
@@ -67,7 +76,7 @@ namespace ReportsModule.DocumentPaginatorModel
 					Rect headerBounds = VisualTreeHelper.GetDescendantBounds(currentHeader);
 					Vector offset = VisualTreeHelper.GetOffset(currentHeader);
 					ContainerVisual tableHeaderVisual = new ContainerVisual();
-					
+
 					// Translate the header to be at the top of the page
 					// instead of its previous position
 					tableHeaderVisual.Transform = new TranslateTransform(
@@ -89,7 +98,8 @@ namespace ReportsModule.DocumentPaginatorModel
 					pageVisual.Transform = group;
 
 					ContainerVisual cp = VisualTreeHelper.GetParent(currentHeader) as ContainerVisual;
-					if(cp != null) {
+					if (cp != null)
+					{
 						cp.Children.Remove(currentHeader);
 					}
 					tableHeaderVisual.Children.Add(currentHeader);
@@ -99,22 +109,28 @@ namespace ReportsModule.DocumentPaginatorModel
 				// Check if there is a table on the bottom of the page.
 				// If it's there, its header should be repeated
 				ContainerVisual newTable, newHeader;
-				if(PageEndsWithTable(originalPage, out newTable, out newHeader)) {
-					if(newTable == table) {
+				if (PageEndsWithTable(originalPage, out newTable, out newHeader))
+				{
+					if (newTable == table)
+					{
 						// Still the same table so don't change the repeating header
-					} else {
+					}
+					else
+					{
 						// We've found a new table. Repeat the header on the next page
 						currentHeader = newHeader;
 					}
-				} else {
+				}
+				else
+				{
 					// There was no table at the end of the page
 					currentHeader = null;
 				}
 			}
 
 			return new DocumentPage(
-				visual, 
-				definition.PageSize, 
+				visual,
+				definition.PageSize,
 				new Rect(new Point(), definition.PageSize),
 				new Rect(definition.ContentOrigin, definition.ContentSize)
 			);
@@ -127,9 +143,11 @@ namespace ReportsModule.DocumentPaginatorModel
 		/// <param name="bounds"></param>
 		/// <param name="pageNumber"></param>
 		/// <returns></returns>
-		Visual CreateHeaderFooterVisual(DrawHeaderFooter draw, Rect bounds, int pageNumber) {
+		Visual CreateHeaderFooterVisual(DrawHeaderFooter draw, Rect bounds, int pageNumber)
+		{
 			DrawingVisual visual = new DrawingVisual();
-			using(DrawingContext context = visual.RenderOpen()) {
+			using (DrawingContext context = visual.RenderOpen())
+			{
 				draw(context, bounds, pageNumber);
 			}
 			return visual;
@@ -153,25 +171,33 @@ namespace ReportsModule.DocumentPaginatorModel
 		/// </remarks>
 		/// <param name="originalPage"></param>
 		/// <returns></returns>
-		bool PageEndsWithTable(DependencyObject element, out ContainerVisual tableVisual, out ContainerVisual headerVisual) {
+		bool PageEndsWithTable(DependencyObject element, out ContainerVisual tableVisual, out ContainerVisual headerVisual)
+		{
 			tableVisual = null;
 			headerVisual = null;
-			if(element.GetType().Name == "RowVisual") {
+			if (element.GetType().Name == "RowVisual")
+			{
 				tableVisual = (ContainerVisual)VisualTreeHelper.GetParent(element);
 				headerVisual = (ContainerVisual)VisualTreeHelper.GetChild(tableVisual, 0);
 				return true;
 			}
 			int children = VisualTreeHelper.GetChildrenCount(element);
-			if(element.GetType() == typeof(ContainerVisual)) {
-				for(int c = children - 1; c >= 0; c--) {
+			if (element.GetType() == typeof(ContainerVisual))
+			{
+				for (int c = children - 1; c >= 0; c--)
+				{
 					DependencyObject child = VisualTreeHelper.GetChild(element, c);
-					if(PageEndsWithTable(child, out tableVisual, out headerVisual)) {
+					if (PageEndsWithTable(child, out tableVisual, out headerVisual))
+					{
 						return true;
 					}
 				}
-			} else if(children > 0) {
+			}
+			else if (children > 0)
+			{
 				DependencyObject child = VisualTreeHelper.GetChild(element, children - 1);
-				if(PageEndsWithTable(child, out tableVisual, out headerVisual)) {
+				if (PageEndsWithTable(child, out tableVisual, out headerVisual))
+				{
 					return true;
 				}
 			}
@@ -186,39 +212,49 @@ namespace ReportsModule.DocumentPaginatorModel
 		/// <param name="tableVisual"></param>
 		/// <param name="headerVisual"></param>
 		/// <returns></returns>
-		bool PageStartsWithTable(DependencyObject element, out ContainerVisual tableVisual) {
+		bool PageStartsWithTable(DependencyObject element, out ContainerVisual tableVisual)
+		{
 			tableVisual = null;
-			if(element.GetType().Name == "RowVisual") {
+			if (element.GetType().Name == "RowVisual")
+			{
 				tableVisual = (ContainerVisual)VisualTreeHelper.GetParent(element);
 				return true;
 			}
-			if(VisualTreeHelper.GetChildrenCount(element)> 0) {
+			if (VisualTreeHelper.GetChildrenCount(element) > 0)
+			{
 				DependencyObject child = VisualTreeHelper.GetChild(element, 0);
-				if(PageStartsWithTable(child, out tableVisual)) {
+				if (PageStartsWithTable(child, out tableVisual))
+				{
 					return true;
 				}
 			}
 			return false;
 		}
 
-		public override bool IsPageCountValid {
+		public override bool IsPageCountValid
+		{
 			get { return paginator.IsPageCountValid; }
 		}
 
-		public override int PageCount {
+		public override int PageCount
+		{
 			get { return paginator.PageCount; }
 		}
 
-		public override Size PageSize {
-			get {
+		public override Size PageSize
+		{
+			get
+			{
 				return paginator.PageSize;
 			}
-			set {
+			set
+			{
 				paginator.PageSize = value;
 			}
 		}
 
-		public override IDocumentPaginatorSource Source {
+		public override IDocumentPaginatorSource Source
+		{
 			get { return paginator.Source; }
 		}
 
@@ -301,6 +337,4 @@ namespace ReportsModule.DocumentPaginatorModel
 		public delegate void DrawHeaderFooter(DrawingContext context, Rect bounds, int pageNr);
 
 	}
-
-
 }

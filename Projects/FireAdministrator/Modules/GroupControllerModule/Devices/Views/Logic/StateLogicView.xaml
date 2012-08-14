@@ -68,8 +68,7 @@
 												</ComboBox.ItemTemplate>
 											</ComboBox>
 
-											<ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="100" Margin="2"
-												Visibility="{Binding CanSelectOperation, Converter={StaticResource BoolToVisibilityConverter}}">
+											<ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="100" Margin="2">
 												<ComboBox.ItemTemplate>
 													<DataTemplate>
 														<TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" />
@@ -121,8 +120,6 @@
 								</Grid>
 								<Grid Visibility="{Binding ShowJoinOperator, Converter={StaticResource BoolToVisibilityConverter}}">
 									<Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
-										Visibility="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.ShowJoinOperator,
-										Converter={StaticResource BoolToVisibilityConverter}}"
 										Content="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}"
 										Command="{Binding ChangeJoinOperatorCommand}"
 										Width="75" HorizontalAlignment="Left" Style="{StaticResource ToolarButtonStyle}" Foreground="White" />

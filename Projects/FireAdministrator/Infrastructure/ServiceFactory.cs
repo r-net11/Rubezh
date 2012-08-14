@@ -5,7 +5,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure
 {
-	public class ServiceFactory
+	public class ServiceFactory : ServiceFactoryBase
 	{
 		public static void Initialize(ILayoutService ILayoutService, IProgressService IProgressService, IValidationService IValidationService)
 		{
@@ -20,8 +20,6 @@ namespace Infrastructure
 
 		public static AppSettings AppSettings { get; set; }
 		public static SaveService SaveService { get; private set; }
-		public static IEventAggregator Events { get; private set; }
-		public static ResourceService ResourceService { get; private set; }
 		public static ILayoutService Layout { get; private set; }
 		public static IProgressService ProgressService { get; private set; }
 		public static IValidationService ValidationService { get; private set; }

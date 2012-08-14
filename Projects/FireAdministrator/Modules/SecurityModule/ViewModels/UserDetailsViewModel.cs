@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using FiresecAPI;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
@@ -10,189 +11,189 @@ using Infrastructure.Common.Windows.ViewModels;
 namespace SecurityModule.ViewModels
 {
 	public class UserDetailsViewModel : SaveCancelDialogViewModel
-    {
-        public RemoteAccessViewModel RemoteAccess { get; set; }
-        public User User { get; private set; }
-        public bool IsNew { get; private set; }
-        public bool IsNotNew { get { return !IsNew; } }
+	{
+		public RemoteAccessViewModel RemoteAccess { get; set; }
+		public User User { get; private set; }
+		public bool IsNew { get; private set; }
+		public bool IsNotNew { get { return !IsNew; } }
 
-        public UserDetailsViewModel(User user = null)
-        {
-            if (user != null)
-            {
-                Title = string.Format("Свойства учетной записи: {0}", user.Name);
-                IsNew = false;
-                IsChangePassword = false;
-                User = user;
-            }
-            else
-            {
-                Title = "Создание новой учетной записи";
-                IsNew = true;
-                IsChangePassword = true;
+		public UserDetailsViewModel(User user = null)
+		{
+			if (user != null)
+			{
+				Title = string.Format("Свойства учетной записи: {0}", user.Name);
+				IsNew = false;
+				IsChangePassword = false;
+				User = user;
+			}
+			else
+			{
+				Title = "Создание новой учетной записи";
+				IsNew = true;
+				IsChangePassword = true;
 
-                User = new User()
-                {
-                    Id = FiresecManager.SecurityConfiguration.Users.Max(x => x.Id) + 1,
-                    Name = "",
-                    Login = "",
-                    PasswordHash = HashHelper.GetHashFromString("")
-                };
-            }
+				User = new User()
+				{
+					Id = FiresecManager.SecurityConfiguration.Users.Max(x => x.Id) + 1,
+					Name = "",
+					Login = "",
+					PasswordHash = HashHelper.GetHashFromString("")
+				};
+			}
 
-            CopyProperties();
-        }
+			CopyProperties();
+		}
 
-        void CopyProperties()
-        {
-            Login = User.Login;
-            Name = User.Name;
+		void CopyProperties()
+		{
+			Login = User.Login;
+			Name = User.Name;
 
-            Roles = new ObservableCollection<UserRole>();
-            foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)
-                Roles.Add(role);
+			Roles = new ObservableCollection<UserRole>();
+			foreach (var role in FiresecManager.SecurityConfiguration.UserRoles)
+				Roles.Add(role);
 
-            if (IsNew)
-            {
+			if (IsNew)
+			{
 				UserRole = Roles.FirstOrDefault();
-            }
-            else
-            {
-                UserRole = Roles.FirstOrDefault(role => role.Id == User.RoleId);
-            }
+			}
+			else
+			{
+				UserRole = Roles.FirstOrDefault(role => role.Id == User.RoleId);
+			}
 
-            RemoteAccess = (IsNew || User.RemoreAccess == null) ?
-                new RemoteAccessViewModel(new RemoteAccess() { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
-                new RemoteAccessViewModel(User.RemoreAccess);
-        }
+			RemoteAccess = (IsNew || User.RemoreAccess == null) ?
+				new RemoteAccessViewModel(new RemoteAccess() { RemoteAccessType = RemoteAccessType.RemoteAccessBanned }) :
+				new RemoteAccessViewModel(User.RemoreAccess);
+		}
 
-        string _login;
-        public string Login
-        {
-            get { return _login; }
-            set
-            {
-                _login = value;
-                OnPropertyChanged("Login");
-            }
-        }
+		string _login;
+		public string Login
+		{
+			get { return _login; }
+			set
+			{
+				_login = value;
+				OnPropertyChanged("Login");
+			}
+		}
 
-        string _name;
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                OnPropertyChanged("Name");
-            }
-        }
+		string _name;
+		public string Name
+		{
+			get { return _name; }
+			set
+			{
+				_name = value;
+				OnPropertyChanged("Name");
+			}
+		}
 
-        string _password;
-        public string Password
-        {
-            get { return _password != null ? _password : ""; }
-            set
-            {
-                _password = value;
-                OnPropertyChanged("Password");
-            }
-        }
+		string _password;
+		public string Password
+		{
+			get { return _password != null ? _password : ""; }
+			set
+			{
+				_password = value;
+				OnPropertyChanged("Password");
+			}
+		}
 
-        string _passwordConfirmation;
-        public string PasswordConfirmation
-        {
-            get { return _passwordConfirmation != null ? _passwordConfirmation : ""; }
-            set
-            {
-                _passwordConfirmation = value;
-                OnPropertyChanged("PasswordConfirmation");
-            }
-        }
+		string _passwordConfirmation;
+		public string PasswordConfirmation
+		{
+			get { return _passwordConfirmation != null ? _passwordConfirmation : ""; }
+			set
+			{
+				_passwordConfirmation = value;
+				OnPropertyChanged("PasswordConfirmation");
+			}
+		}
 
-        bool _isChangePassword;
-        public bool IsChangePassword
-        {
-            get { return _isChangePassword; }
-            set
-            {
-                _isChangePassword = value;
-                OnPropertyChanged("IsChangePassword");
-            }
-        }
+		bool _isChangePassword;
+		public bool IsChangePassword
+		{
+			get { return _isChangePassword; }
+			set
+			{
+				_isChangePassword = value;
+				OnPropertyChanged("IsChangePassword");
+			}
+		}
 
-        public ObservableCollection<UserRole> Roles { get; private set; }
+		public ObservableCollection<UserRole> Roles { get; private set; }
 
-        UserRole _userRole;
-        public UserRole UserRole
-        {
-            get { return _userRole; }
-            set
-            {
-                _userRole = value;
-                if (_userRole != null)
-                {
-                    if (Roles[0] == null)
-                        Roles.RemoveAt(0);
+		UserRole _userRole;
+		public UserRole UserRole
+		{
+			get { return _userRole; }
+			set
+			{
+				_userRole = value;
+				if (_userRole != null)
+				{
+					if (Roles[0] == null)
+						Roles.RemoveAt(0);
 
-                    Permissions = new ObservableCollection<PermissionViewModel>(
-                        _userRole.Permissions.Select(permissionType => new PermissionViewModel(permissionType) { IsEnable = true })
-                    );
+					Permissions = new ObservableCollection<PermissionViewModel>(
+						_userRole.Permissions.Select(permissionType => new PermissionViewModel(permissionType) { IsEnable = true })
+					);
 
-                    CheckPermissions();
-                }
-                else
-                {
-                    Permissions = new ObservableCollection<PermissionViewModel>();
-                }
+					CheckPermissions();
+				}
+				else
+				{
+					Permissions = new ObservableCollection<PermissionViewModel>();
+				}
 
-                OnPropertyChanged("UserRole");
-            }
-        }
+				OnPropertyChanged("UserRole");
+			}
+		}
 
-        void CheckPermissions()
-        {
-            if (UserRole.Id != User.RoleId && UserRole.Permissions.IsNotNullOrEmpty())
-                return;
+		void CheckPermissions()
+		{
+			if (UserRole.Id != User.RoleId && UserRole.Permissions.IsNotNullOrEmpty())
+				return;
 
-            foreach (var permissionType in User.Permissions)
-            {
-                if (!Permissions.Any(x => x.PermissionType == permissionType))
-                    User.Permissions.Remove(permissionType);
-            }
+			foreach (var permissionType in User.Permissions)
+			{
+				if (!Permissions.Any(x => x.PermissionType == permissionType))
+					User.Permissions.Remove(permissionType);
+			}
 
-            foreach (var permission in Permissions)
-            {
-                if (!User.Permissions.Any(x => x == permission.PermissionType))
-                    permission.IsEnable = false;
-            }
-        }
+			foreach (var permission in Permissions)
+			{
+				if (!User.Permissions.Any(x => x == permission.PermissionType))
+					permission.IsEnable = false;
+			}
+		}
 
-        ObservableCollection<PermissionViewModel> _permissions;
-        public ObservableCollection<PermissionViewModel> Permissions
-        {
-            get { return _permissions; }
-            set
-            {
-                _permissions = value;
-                OnPropertyChanged("Permissions");
-            }
-        }
+		ObservableCollection<PermissionViewModel> _permissions;
+		public ObservableCollection<PermissionViewModel> Permissions
+		{
+			get { return _permissions; }
+			set
+			{
+				_permissions = value;
+				OnPropertyChanged("Permissions");
+			}
+		}
 
-        void SaveProperties()
-        {
-            User.Login = Login;
-            User.Name = Name;
+		void SaveProperties()
+		{
+			User.Login = Login;
+			User.Name = Name;
 
-            if (IsChangePassword)
-                User.PasswordHash = HashHelper.GetHashFromString(Password);
+			if (IsChangePassword)
+				User.PasswordHash = HashHelper.GetHashFromString(Password);
 
-            User.RoleId = UserRole.Id;
-            User.Permissions = new List<PermissionType>(
-                Permissions.Where(x => x.IsEnable).Select(x => x.PermissionType)
-            );
-            User.RemoreAccess = RemoteAccess.GetModel();
-        }
+			User.RoleId = UserRole.Id;
+			User.Permissions = new List<PermissionType>(
+				Permissions.Where(x => x.IsEnable).Select(x => x.PermissionType)
+			);
+			User.RemoreAccess = RemoteAccess.GetModel();
+		}
 
 		protected override bool Save()
 		{
@@ -203,44 +204,44 @@ namespace SecurityModule.ViewModels
 			return base.Save();
 		}
 
-        void ShowMessage(string message)
-        {
-            MessageBoxService.Show(message);
-        }
+		void ShowMessage(string message)
+		{
+			MessageBoxService.Show(message);
+		}
 
-        bool CheckLogin()
-        {
-            if (string.IsNullOrWhiteSpace(Login))
-            {
-                ShowMessage("Логин не может быть пустым");
-                return false;
-            }
-            else if (Login != User.Login && FiresecManager.SecurityConfiguration.Users.Any(user => user.Login == Login))
-            {
-                ShowMessage("Пользователь с таким логином уже существует");
-                return false;
-            }
-            return true;
-        }
+		bool CheckLogin()
+		{
+			if (string.IsNullOrWhiteSpace(Login))
+			{
+				ShowMessage("Логин не может быть пустым");
+				return false;
+			}
+			else if (Login != User.Login && FiresecManager.SecurityConfiguration.Users.Any(user => user.Login == Login))
+			{
+				ShowMessage("Пользователь с таким логином уже существует");
+				return false;
+			}
+			return true;
+		}
 
-        bool CheckPassword()
-        {
-            if (Password != PasswordConfirmation)
-            {
-                ShowMessage("Поля \"Пароль\" и \"Подтверждение\" должны совпадать");
-                return false;
-            }
-            return true;
-        }
+		bool CheckPassword()
+		{
+			if (Password != PasswordConfirmation)
+			{
+				ShowMessage("Поля \"Пароль\" и \"Подтверждение\" должны совпадать");
+				return false;
+			}
+			return true;
+		}
 
-        bool CheckRole()
-        {
-            if (UserRole == null)
-            {
-                ShowMessage("Не выбрана роль");
-                return false;
-            }
-            return true;
-        }
-    }
+		bool CheckRole()
+		{
+			if (UserRole == null)
+			{
+				ShowMessage("Не выбрана роль");
+				return false;
+			}
+			return true;
+		}
+	}
 }

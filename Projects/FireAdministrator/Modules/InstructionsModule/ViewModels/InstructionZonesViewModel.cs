@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
 
 namespace InstructionsModule.ViewModels
 {

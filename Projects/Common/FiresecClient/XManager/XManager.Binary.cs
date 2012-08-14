@@ -28,12 +28,17 @@ namespace FiresecClient
 					kauParents.Add(kauParent);
 				}
 
-				if (kauParents.Count == 1)
-				{
-					var kauDevice = kauParents.First();
-					zone.KauDatabaseParent = kauDevice;
-				}
-				if (kauParents.Count > 1)
+				//if (kauParents.Count == 1)
+				//{
+				//    var kauDevice = kauParents.First();
+				//    zone.KauDatabaseParent = kauDevice;
+				//}
+				//if (kauParents.Count > 1)
+				//{
+				//    var kauDevice = kauParents.First();
+				//    zone.GkDatabaseParent = kauDevice.Parent;
+				//}
+				if (kauParents.Count > 0)
 				{
 					var kauDevice = kauParents.First();
 					zone.GkDatabaseParent = kauDevice.Parent;

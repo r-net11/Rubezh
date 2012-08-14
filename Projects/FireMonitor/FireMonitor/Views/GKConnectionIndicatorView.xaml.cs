@@ -8,9 +8,9 @@ using Infrastructure.Events;
 
 namespace FireMonitor.Views
 {
-	public partial class GKConnectionIndicator : UserControl, INotifyPropertyChanged
+	public partial class GKConnectionIndicatorView : UserControl, INotifyPropertyChanged
 	{
-		public GKConnectionIndicator()
+		public GKConnectionIndicatorView()
 		{
 			InitializeComponent();
 			DataContext = this;

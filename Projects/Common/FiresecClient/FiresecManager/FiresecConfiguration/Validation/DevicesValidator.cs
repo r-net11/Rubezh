@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 
 namespace FiresecClient.Validation
@@ -121,7 +122,7 @@ namespace FiresecClient.Validation
 				foreach (var zoneNo in device.IndicatorLogic.Zones)
 				{
 					var zone = FiresecConfiguration.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-					if((zone.DevicesInZone.Count > 0) && (zone.DevicesInZone.All(x => ((x.ParentChannel != null) && (x.ParentChannel.UID == device.ParentChannel.UID)) == false)))
+					if ((zone.DevicesInZone.Count > 0) && (zone.DevicesInZone.All(x => ((x.ParentChannel != null) && (x.ParentChannel.UID == device.ParentChannel.UID)) == false)))
 						DeviceErrors.Add(new DeviceError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone.No), ErrorLevel.CannotWrite));
 				}
 			}

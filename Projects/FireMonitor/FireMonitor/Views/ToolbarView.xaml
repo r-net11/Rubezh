@@ -13,16 +13,17 @@
                 <RowDefinition Height="40" />
             </Grid.RowDefinitions>
             <Views:TimePresenterView Grid.Row="0" Margin="11 11 0 0"  />
-            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
-                <Views:SoundView x:Name="soundView" Margin="2" />
-                <Views:ConnectionIndicatorView Margin="2" />
-                <Views:GKConnectionIndicator Margin="2" />
-                <Views:UserView Margin="2" />
-                <Views:AutoActivationView Margin="2" />
-            </StackPanel>
+
+			<ItemsControl Grid.Row="1" VerticalAlignment="Center" ItemsSource="{Binding ToolbarItems}">
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<StackPanel Orientation="Horizontal" />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+			</ItemsControl>
         </Grid>
         <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="15,0,10,5">
-            <ContentControl Content="{Binding AlarmGroups}"/>
+			<ContentControl Content="{Binding AlarmGroups}"/>
         </StackPanel>
     </Grid>
 </UserControl>

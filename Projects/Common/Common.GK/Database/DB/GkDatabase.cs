@@ -68,6 +68,13 @@ namespace Common.GK
 		public override void BuildObjects()
 		{
 			AddKauObjects();
+			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			{
+				if (zone.GkDatabaseParent == RootDevice)
+				{
+					AddZone(zone);
+				}
+			}
 
 			BinaryObjects = new List<BinaryObjectBase>();
 			foreach (var device in Devices)
@@ -80,6 +87,7 @@ namespace Common.GK
 				var zoneBinaryObject = new ZoneBinaryObject(zone, DatabaseType);
 				BinaryObjects.Add(zoneBinaryObject);
 			}
+
 			foreach (var direction in XManager.DeviceConfiguration.Directions)
 			{
 				if (direction.GkDatabaseParent == RootDevice)

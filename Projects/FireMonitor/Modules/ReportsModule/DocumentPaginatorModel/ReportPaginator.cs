@@ -1,4 +1,5 @@
 ﻿using System;
+using FiresecAPI;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ using FiresecAPI.Models;
 namespace ReportsModule.DocumentPaginatorModel
 {
 	class ReportPaginator : DocumentPaginator
- 	{
+	{
 		public ReportPaginator(DocumentPaginator documentPaginator)
 		{
 			_paginator = documentPaginator;
@@ -60,7 +61,7 @@ namespace ReportsModule.DocumentPaginatorModel
 					Vector offset = VisualTreeHelper.GetOffset(_currentHeader);
 					ContainerVisual tableHeaderVisual = new ContainerVisual();
 
-					tableHeaderVisual.Transform = new ScaleTransform(_reportDefinition.ContentOrigin.X, 
+					tableHeaderVisual.Transform = new ScaleTransform(_reportDefinition.ContentOrigin.X,
 						_reportDefinition.ContentOrigin.Y - headerBounds.Top);
 
 					double yScale = (_reportDefinition.ContentSize.Height - headerBounds.Height) / _reportDefinition.ContentSize.Height;
@@ -102,8 +103,8 @@ namespace ReportsModule.DocumentPaginatorModel
 				}
 			}
 
-			return new DocumentPage(visual, _reportDefinition.PageSize, 
-				new Rect(new Point(),_reportDefinition.PageSize),
+			return new DocumentPage(visual, _reportDefinition.PageSize,
+				new Rect(new Point(), _reportDefinition.PageSize),
 				new Rect(_reportDefinition.ContentOrigin, _reportDefinition.ContentSize));
 		}
 
@@ -206,7 +207,7 @@ namespace ReportsModule.DocumentPaginatorModel
 			double _headerHeight;
 			public double HeaderHeight
 			{
-				get { return _headerHeight;}
+				get { return _headerHeight; }
 				set { _headerHeight = value; }
 			}
 
