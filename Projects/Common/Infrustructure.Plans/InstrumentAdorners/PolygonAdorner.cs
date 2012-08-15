@@ -87,7 +87,7 @@ namespace PlansModule.InstrumentAdorners
 				if (element != null)
 				{
 					Points.RemoveAt(Points.Count - 1);
-					element.Points = Points;
+					element.Points = new PointCollection(Points);
 					DesignerCanvas.CreateDesignerItem(element);
 				}
 			}

@@ -8,5 +8,10 @@ namespace PlansModule.Views
 		{
 			InitializeComponent();
 		}
+
+		private void MenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+
+		}
 	}
 }
