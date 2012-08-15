@@ -33,7 +33,8 @@
                                                 <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
                                                 <MenuItem Header="Команды" DataContext="{Binding DeviceCommandsViewModel}"
                                                           IsEnabled="{Binding CanControl}">
-                                                    <MenuItem Command="{Binding SetToIgnoreCommand}" Header="Поставить в обход" />
+                                                    <MenuItem Command="{Binding SetIgnoreCommand}" Header="Поставить в обход" />
+                                                    <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Убрать из обхода" />
                                                     <MenuItem Command="{Binding TurnOnCommand}" Header="Включить" />
                                                     <MenuItem Command="{Binding CancelDelayCommand}" Header="Отменить задержку" />
                                                     <MenuItem Command="{Binding TurnOffCommand}" Header="Выключить" />

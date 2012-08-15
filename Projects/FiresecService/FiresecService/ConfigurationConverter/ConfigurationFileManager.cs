@@ -103,7 +103,9 @@ namespace FiresecService.Configuration
 					using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Open))
 					{
 						var dataContractSerializer = new DataContractSerializer(typeof(T));
-						return (T)dataContractSerializer.ReadObject(fileStream);
+						T configuration = (T)dataContractSerializer.ReadObject(fileStream);
+						configuration.ValidateVersion();
+						return configuration;
 					}
 				}
 			}
@@ -111,9 +113,9 @@ namespace FiresecService.Configuration
 			{
 				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.Get<T> typeof(T) = " + typeof(T).ToString());
 			}
-			T configuration = new T();
-			Set<T>(configuration, fileName);
-			return configuration;
+			T newConfiguration = new T();
+			Set<T>(newConfiguration, fileName);
+			return newConfiguration;
 		}
 
 		public static void Set<T>(T configuration, string fileName)

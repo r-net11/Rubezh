@@ -10,6 +10,11 @@ namespace FiresecAPI.Models
 			Version = new ConfigurationVersion();
 		}
 
+		public virtual void ValidateVersion()
+		{
+
+		}
+
 		[DataMember]
 		public ConfigurationVersion Version { get; set; }
 	}

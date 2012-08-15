@@ -53,6 +53,8 @@
                                         <Button.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
+                                                <MenuItem Command="{Binding ResetFire1Command}" Header="Сбросить Пожар 1" />
+                                                <MenuItem Command="{Binding ResetFire2Command}" Header="Сбросить Пожар 2" />
                                             </ContextMenu>
                                         </Button.ContextMenu>
                                         <Button.Style>

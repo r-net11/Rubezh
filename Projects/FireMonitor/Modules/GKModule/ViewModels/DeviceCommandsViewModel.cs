@@ -8,11 +8,14 @@ namespace GKModule.ViewModels
 	public class DeviceCommandsViewModel
 	{
 		public XDevice Device { get; private set; }
+		public XDeviceState DeviceState { get; private set; }
 
-		public DeviceCommandsViewModel(XDevice device)
+		public DeviceCommandsViewModel(XDeviceState deviceState)
 		{
-			Device = device;
-			SetToIgnoreCommand = new RelayCommand(OnSetToIgnore, CanSetToIgnore);
+			DeviceState = deviceState;
+			Device = deviceState.Device;
+			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
+			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
 			TurnOnCommand = new RelayCommand(OnTurnOn, CanTurnOn);
 			CancelDelayCommand = new RelayCommand(OnCancelDelay, CanCancelDelay);
 			TurnOffCommand = new RelayCommand(OnTurnOff, CanTurnOff);
@@ -22,14 +25,24 @@ namespace GKModule.ViewModels
 			TurnOffNowCommand = new RelayCommand(OnTurnOffNow, CanTurnOffNow);
 		}
 
-		public RelayCommand SetToIgnoreCommand { get; private set; }
-		void OnSetToIgnore()
+		public RelayCommand SetIgnoreCommand { get; private set; }
+		void OnSetIgnore()
 		{
 			SendControlCommand(0x86);
 		}
-		bool CanSetToIgnore()
+		bool CanSetIgnore()
 		{
-			return true;
+			return !DeviceState.States.Contains(XStateType.Ignore);
+		}
+
+		public RelayCommand ResetIgnoreCommand { get; private set; }
+		void OnResetIgnore()
+		{
+			SendControlCommand(0x06);
+		}
+		bool CanResetIgnore()
+		{
+			return DeviceState.States.Contains(XStateType.Ignore);
 		}
 
 		public RelayCommand TurnOnCommand { get; private set; }
@@ -123,31 +136,12 @@ namespace GKModule.ViewModels
 
 		void SendControlCommand(byte code)
 		{
-			if (Device.Parent != null)
+			if (Device.Driver.IsDeviceOnShleif)
 			{
-				ushort no = 0;
-
-				switch(Device.Parent.Driver.DriverType)
-				{
-					case XDriverType.GK:
-						no = Device.GetDatabaseNo(DatabaseType.Gk);
-						break;
-
-					case XDriverType.KAU:
-						no = Device.GetDatabaseNo(DatabaseType.Kau);
-						break;
-
-					default:
-						return;
-				}
-
-				if (Device.Driver.IsDeviceOnShleif)
-				{
-					var bytes = new List<byte>();
-					bytes.AddRange(BytesHelper.ShortToBytes(no));
-					bytes.Add(code);
-					SendManager.Send(Device.Parent, 3, 13, 0, bytes);
-				}
+				var bytes = new List<byte>();
+				bytes.AddRange(BytesHelper.ShortToBytes(Device.GetDatabaseNo(DatabaseType.Gk)));
+				bytes.Add(code);
+				SendManager.Send(Device.Parent, 3, 13, 0, bytes);
 			}
 		}
 	}

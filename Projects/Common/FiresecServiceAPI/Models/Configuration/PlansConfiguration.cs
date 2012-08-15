@@ -35,5 +35,14 @@ namespace FiresecAPI.Models
                 AddChild(plan);
             }
         }
+
+		public override void ValidateVersion()
+		{
+			foreach (var plan in Plans)
+			{
+				if (plan.ElementXDevices == null)
+					plan.ElementXDevices = new List<ElementXDevice>();
+			}
+		}
     }
 }

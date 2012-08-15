@@ -18,13 +18,13 @@ namespace GKModule
 			//SendManager.StrartLog("D:/xxx/Log.txt");
 			foreach (var kauDatabase in DatabaseManager.KauDatabases)
 			{
-				LoadingService.Show("Запись конфигурации в КАУ", 2 + kauDatabase.BinaryObjects.Count);
+				LoadingService.ShowProgress("Запись конфигурации в устройство", "Запись конфигурации в КАУ", 2 + kauDatabase.BinaryObjects.Count);
 				WriteConfigToDevice(kauDatabase);
 			}
 			Thread.Sleep(1000);
 			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
-				LoadingService.Show("Запись конфигурации в ГК", 2 + gkDatabase.BinaryObjects.Count);
+				LoadingService.ShowProgress("Запись конфигурации в устройство", "Запись конфигурации в ГК", 2 + gkDatabase.BinaryObjects.Count);
 				WriteConfigToDevice(gkDatabase);
 			}
 			//SendManager.StopLog();

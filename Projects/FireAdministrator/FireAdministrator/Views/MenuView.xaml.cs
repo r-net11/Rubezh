@@ -222,7 +222,9 @@ namespace FireAdministrator.Views
                 var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
                 using (var fileStream = new FileStream(fileName, FileMode.Open))
                 {
-                    return (FullConfiguration)dataContractSerializer.ReadObject(fileStream);
+					FullConfiguration fullConfiguration = (FullConfiguration)dataContractSerializer.ReadObject(fileStream);
+					fullConfiguration.ValidateVersion();
+					return fullConfiguration;
                 }
             }
             catch (Exception e)

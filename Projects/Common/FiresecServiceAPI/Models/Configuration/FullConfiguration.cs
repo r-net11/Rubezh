@@ -1,5 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace FiresecAPI.Models
 {
@@ -37,5 +38,10 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public XDriversConfiguration XDriversConfiguration { get; set; }
+
+		public override void ValidateVersion()
+		{
+			PlansConfiguration.ValidateVersion();
+		}
 	}
 }

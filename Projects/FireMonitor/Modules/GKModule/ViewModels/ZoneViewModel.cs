@@ -7,6 +7,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
+using System.Collections.Generic;
+using Common.GK;
 
 namespace GKModule.ViewModels
 {
@@ -80,6 +82,24 @@ namespace GKModule.ViewModels
 		void OnShowOnPlan()
 		{
 			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish((int)Zone.No);
+		}
+
+		public RelayCommand ResetFire1Command { get; private set; }
+		void OnResetFire1()
+		{
+			SendControlCommand(0x02);
+		}
+		bool CanResetFire1()
+		{
+			return ZoneState.States.Contains(XStateType.Fire1);
+		}
+
+		void SendControlCommand(byte code)
+		{
+			var bytes = new List<byte>();
+			bytes.AddRange(BytesHelper.ShortToBytes(Zone.GetDatabaseNo(DatabaseType.Gk)));
+			bytes.Add(code);
+			SendManager.Send(Zone.GkDatabaseParent, 3, 13, 0, bytes);
 		}
 	}
 }

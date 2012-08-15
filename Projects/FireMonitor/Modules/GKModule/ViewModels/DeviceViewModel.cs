@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -19,14 +20,8 @@ namespace GKModule.ViewModels
 
 		public DeviceViewModel(XDevice device, ObservableCollection<DeviceViewModel> sourceDevices)
 		{
-			DeviceCommandsViewModel = new DeviceCommandsViewModel(device);
-			ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
-			DisableCommand = new RelayCommand(OnDisable, CanDisable);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
-
 			Source = sourceDevices;
 			Device = device;
-
 			DeviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
 			if (DeviceState != null)
 			{
@@ -35,10 +30,14 @@ namespace GKModule.ViewModels
 			}
 			else
 			{
-				string deviceName = Device.PresentationAddressAndDriver;
-				string errorText = "Ошибка при сопоставлении устройства с его состоянием:\n" + deviceName;
-				Logger.Warn(errorText);
+				Logger.Warn("Ошибка при сопоставлении устройства с его состоянием: " + Device.PresentationAddressAndDriver);
+				MessageBoxService.Show("Ошибка при сопоставлении устройства с его состоянием");
 			}
+
+			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
+			ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
+			DisableCommand = new RelayCommand(OnDisable, CanDisable);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
 		void OnStateChanged()
