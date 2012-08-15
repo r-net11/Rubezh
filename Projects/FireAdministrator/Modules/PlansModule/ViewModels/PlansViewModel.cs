@@ -246,7 +246,6 @@ namespace PlansModule.ViewModels
 			{
 				ServiceFactory.Layout.ShowMenu(new PlansMenuViewModel(this));
 				FiresecManager.UpdatePlansConfiguration();
-				//XDevicesViewModel.Update();
 				DesignerCanvas.DeselectAll();
 
 				if (DesignerCanvas.Toolbox != null)

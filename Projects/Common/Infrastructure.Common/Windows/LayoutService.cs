@@ -6,12 +6,14 @@ namespace Infrastructure.Common.Windows
 {
 	internal class LayoutService : ILayoutService
 	{
+		public ShortcutService ShortcutService { get; private set; }
 		public ShellViewModel ShellViewModel { get; private set; }
 		private Dictionary<string, ContentPresenter> _cache;
 
 		internal LayoutService(ShellViewModel shellViewModel)
 		{
 			ShellViewModel = shellViewModel;
+			ShortcutService = new ShortcutService();
 			_cache = new Dictionary<string, ContentPresenter>();
 		}
 
