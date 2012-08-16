@@ -32,10 +32,10 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public SystemConfiguration SystemConfiguration { get; set; }
 
-		[DataMember]
+		//[DataMember]
 		public XDeviceConfiguration XDeviceConfiguration { get; set; }
 
-		[DataMember]
+		//[DataMember]
 		public XDriversConfiguration XDriversConfiguration { get; set; }
 
 		public override void ValidateVersion()
