@@ -40,9 +40,9 @@ namespace FiresecService.Service
 			UID = Guid.NewGuid();
 			IsClientCallbackFaulted = false;
 
-			_recoveryTimer = new System.Timers.Timer();
-			_recoveryTimer.Interval = 10000;
-			_recoveryTimer.Elapsed += new ElapsedEventHandler((source, e) => { ReconnectToClient(); });
+			//_recoveryTimer = new System.Timers.Timer();
+			//_recoveryTimer.Interval = 10000;
+			//_recoveryTimer.Elapsed += new ElapsedEventHandler((source, e) => { ReconnectToClient(); });
 		}
 
 		public bool ReconnectToClient()
