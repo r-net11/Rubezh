@@ -57,6 +57,11 @@ namespace FireMonitor
 			ApplicationLayoutService.ShowFooter(model);
 		}
 
+		public Infrastructure.Common.Windows.ShortcutService ShortcutService
+		{
+			get { return ApplicationLayoutService.ShortcutService; }
+		}
+
 		#endregion
 	}
 }

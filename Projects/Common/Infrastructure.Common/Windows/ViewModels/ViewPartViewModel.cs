@@ -1,9 +1,65 @@
 ﻿
+using System.Windows.Input;
+using System;
+using System.Collections.Generic;
 namespace Infrastructure.Common.Windows.ViewModels
 {
 	public abstract class ViewPartViewModel : BaseViewModel, IViewPartViewModel
 	{
+		protected Dictionary<KeyGesture, Action> Shortcuts { get; private set; }
+
+		private bool _isActive;
+		public bool IsActive
+		{
+			get { return _isActive; }
+			private set
+			{
+				_isActive = value;
+				OnPropertyChanged("IsActive");
+			}
+		}
+
+		public ViewPartViewModel()
+		{
+			Menu = null;
+			Shortcuts = new Dictionary<KeyGesture, Action>();
+		}
+
+		internal void Show()
+		{
+			IsActive = true;
+			OnShow();
+			//ApplicationService.Layout.ShowMenu(Menu);
+			ApplicationService.Layout.ShortcutService.KeyPressed += new KeyEventHandler(ShortcutService_KeyPressed);
+		}
+		internal void Hide()
+		{
+			if (IsActive)
+			{
+				OnHide();
+				//ApplicationService.Layout.ShowMenu(null);
+				ApplicationService.Layout.ShortcutService.KeyPressed -= new KeyEventHandler(ShortcutService_KeyPressed);
+			}
+			IsActive = false;
+		}
+
+		private void ShortcutService_KeyPressed(object sender, KeyEventArgs e)
+		{
+			if (IsActive)
+			{
+				foreach (var keyGesture in Shortcuts.Keys)
+					if (e.Key == keyGesture.Key && keyGesture.Modifiers == Keyboard.Modifiers)
+						Shortcuts[keyGesture]();
+				KeyPressed(e);
+			}
+		}
+		protected virtual void KeyPressed(KeyEventArgs e)
+		{
+		}
+
 		#region IViewPartViewModel Members
+
+		public BaseViewModel Menu { get; protected set; }
 
 		public virtual void OnShow()
 		{
@@ -18,29 +74,21 @@ namespace Infrastructure.Common.Windows.ViewModels
 			get { return GetType().FullName; }
 		}
 
+		public void RegisterShortcut(KeyGesture keyGesture, Action command)
+		{
+			Shortcuts.Add(keyGesture, command);
+		}
+
+		public void RegisterShortcut(KeyGesture keyGesture, RelayCommand command)
+		{
+			Shortcuts.Add(keyGesture, command.Execute);
+		}
+
+		public void RegisterShortcut<T>(KeyGesture keyGesture, RelayCommand<T> command, Func<T> getArg)
+		{
+			Shortcuts.Add(keyGesture, () => { command.Execute(getArg()); });
+		}
+
 		#endregion
-
-		private bool _isActive;
-		public bool IsActive
-		{
-			get { return _isActive; }
-			private set
-			{
-				_isActive = value;
-				OnPropertyChanged("IsActive");
-			}
-		}
-
-		internal void Show()
-		{
-			IsActive = true;
-			OnShow();
-		}
-		internal void Hide()
-		{
-			if (IsActive)
-				OnHide();
-			IsActive = false;
-		}
 	}
 }
