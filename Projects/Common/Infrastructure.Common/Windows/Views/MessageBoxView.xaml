@@ -20,7 +20,7 @@
 			</Grid>
 
 			<ScrollViewer Grid.Column="1" Margin="2" VerticalScrollBarVisibility="Auto" Visibility="{Binding IsException, Converter={StaticResource BoolToVisibilityConverter}}">
-				<TextBox Text="{Binding Message}" TextWrapping="Wrap" HorizontalAlignment="Stretch"/>
+				<TextBox HorizontalAlignment="Stretch" Text="{Binding Message}" TextWrapping="Wrap" />
 			</ScrollViewer>
 
 			<ScrollViewer Grid.Column="1" Margin="2" VerticalScrollBarVisibility="Auto" Visibility="{Binding IsException, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}">
