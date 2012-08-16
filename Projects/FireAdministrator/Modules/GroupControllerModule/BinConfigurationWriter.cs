@@ -46,10 +46,10 @@ namespace GKModule
 			{
 				LoadingService.DoStep("Запись дескриптора " + binaryObject.GetNo().ToString());
 				var packs = BinConfigurationWriter.CreateDescriptors(binaryObject);
-				if (packs.Count > 1)
-				{
-					MessageBoxService.Show("Отправка нескольких пакетов в конфигурации дескриптора");
-				}
+				//if (packs.Count > 1)
+				//{
+				//    MessageBoxService.Show("Отправка нескольких пакетов в конфигурации дескриптора");
+				//}
 				foreach (var pack in packs)
 				{
 					var packBytesCount = pack.Count;

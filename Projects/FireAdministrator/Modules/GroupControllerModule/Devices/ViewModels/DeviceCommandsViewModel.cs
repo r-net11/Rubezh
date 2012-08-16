@@ -42,7 +42,7 @@ namespace GKModule.Models
 		public RelayCommand ConvertFromFiresecCommand { get; private set; }
 		void OnConvertFromFiresec()
 		{
-			var configurationConverter = new ConfigurationConverter2();
+			var configurationConverter = new ConfigurationConverter();
 			configurationConverter.Convert();
 
 			DevicesViewModel.Current.Initialize();

@@ -79,19 +79,62 @@
   <drv idx="75" name="USB БУНС" id="4A3D1FA3-4F13-44D8-B9AD-825B53416A71"/>
   <drv idx="76" name="USB БУНС-2" id="64CB0AB4-D9BE-4C71-94A1-CF24406DAF92"/>
   <drv idx="77" name="USB Рубеж-2ОП" id="39DBC715-C4B5-4AE6-A809-4F214BBBD6C1"/>
+  <zone idx="0" no="1" name="Зона 1">
+    <param name="ZoneType" type="Int" value="0"/>
+    <param name="ExitTime" type="SmallInt" value="0"/>
+    <param name="FireDeviceCount" type="Int" value="2"/>
+    <param name="Skipped" type="Bool" value="0"/>
+    <param name="GuardZoneType" type="Int" value="0"/>
+    <param name="AutoSet" type="SmallInt" value="0"/>
+    <param name="Delay" type="SmallInt" value="0"/>
+  </zone>
+  <zone idx="1" no="2" name="Зона 2">
+    <param name="FireDeviceCount" type="Int" value="2"/>
+    <param name="ZoneType" type="Int" value="0"/>
+    <param name="ExitTime" type="SmallInt" value="0"/>
+    <param name="GuardZoneType" type="Int" value="0"/>
+    <param name="Skipped" type="Bool" value="0"/>
+    <param name="Delay" type="SmallInt" value="0"/>
+    <param name="AutoSet" type="SmallInt" value="0"/>
+  </zone>
   <dev drv="0" addr="0">
     <dev drv="73" addr="1">
-      <dev drv="30" addr="257"/>
-      <dev drv="27" addr="258"/>
-      <dev drv="28" addr="259"/>
-      <dev drv="29" addr="260"/>
-      <dev drv="30" addr="261"/>
-      <dev drv="31" addr="262"/>
-      <dev drv="32" addr="263"/>
-      <dev drv="39" addr="264"/>
-      <dev drv="48" addr="267"/>
-      <dev drv="49" addr="268"/>
-      <dev drv="52" addr="269" name="Клапан дымоудаления"/>
+      <prop name="INT$DEV_GUID" type="String" value="&#123;E36E04EC-2B91-4353-AC26-9BD4E5234A6F&#125;"/>
+      <dev drv="30" addr="257">
+        <inZ idz="0"/>
+      </dev>
+      <dev drv="29" addr="258">
+        <inZ idz="0"/>
+      </dev>
+      <dev drv="31" addr="259">
+        <inZ idz="0"/>
+      </dev>
+      <dev drv="30" addr="260">
+        <inZ idz="0"/>
+      </dev>
+      <dev drv="39" addr="261">
+        <inZ idz="1"/>
+      </dev>
+      <dev drv="30" addr="262">
+        <inZ idz="1"/>
+      </dev>
+      <dev drv="29" addr="263">
+        <inZ idz="1"/>
+      </dev>
+      <dev drv="31" addr="264">
+        <inZ idz="1"/>
+      </dev>
+      <dev drv="39" addr="265">
+        <inZ idz="1"/>
+      </dev>
+      <dev drv="32" addr="266">
+        <inZ idz="1"/>
+      </dev>
+      <dev drv="27" addr="267"/>
+      <dev drv="48" addr="268"/>
+      <dev drv="28" addr="269"/>
+      <dev drv="52" addr="270" name="Клапан дымоудаления"/>
+      <dev drv="52" addr="271" name="Клапан дымоудаления"/>
     </dev>
   </dev>
   <surfaces><![CDATA[ZCMPeNqzsa/IzVEoSy0qzszPs1Uy1DNQUkjNS85PycxLt1Uqz8xLyS8v1jU0MjVUsrfjsikuLUpLTE4tRtWhb8cFAF/9Frg=]]>
