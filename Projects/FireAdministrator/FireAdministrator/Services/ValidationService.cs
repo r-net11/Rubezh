@@ -1,9 +1,8 @@
 ﻿using FireAdministrator.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Validation;
-using System.Collections.Generic;
+using Infrastructure.Common.Windows;
 
 namespace FireAdministrator
 {

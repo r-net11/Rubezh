@@ -1,40 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using FiresecAPI.Models;
 
 namespace XFiresecAPI
 {
     public class XDeviceState
     {
-		public XDeviceState()
-		{
-			States = new List<XStateType>();
-			StateType = StateType.Norm;
-		}
+        public XDeviceState()
+        {
+            States = new List<XStateType>();
+            StateType = StateType.Norm;
+            Children = new List<XDeviceState>();
+        }
 
-		public XDevice Device { get; set; }
-		public bool IsConnectionLost { get; set; }
+        public XDeviceState Parent { get; set; }
+        public List<XDeviceState> Children { get; set; }
 
-		[DataMember]
-		public Guid UID { get; set; }
+        public Guid UID { get; set; }
+        public XDevice Device { get; set; }
+        public bool IsConnectionLost { get; private set; }
+        public List<XStateType> States { get; private set; }
+        public StateType StateType { get; set; }
 
-		[DataMember]
-		public List<XStateType> States { get; set; }
+        public void SetStates(List<XStateType> states)
+        {
+            if (IsConnectionLost)
+            {
+                States = new List<XStateType>();
+                StateType = StateType.Unknown;
+            }
+            else
+            {
+                States = states;
+            }
+        }
 
-		public StateType StateType { get; set; }
+        public void SetIsConnectionLost(bool value)
+        {
+            IsConnectionLost = true;
+            if (value)
+            {
+                States = new List<XStateType>();
+                StateType = StateType.Unknown;
+            }
+        }
 
-		public bool IsDisabled
-		{
-			get { return States.Any(x => x == XStateType.Off); }
-		}
-
-		public event Action StateChanged;
-		public void OnStateChanged()
-		{
-			if (StateChanged != null)
-				StateChanged();
-		}
+        public event Action StateChanged;
+        public void OnStateChanged()
+        {
+            if (StateChanged != null)
+                StateChanged();
+        }
     }
 }

@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
-using FiresecAPI;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using ReportsModule.Models;
-using System.Text;
-using System.Windows.Xps.Packaging;
-using System.IO;
-using System.Data;
 
 namespace ReportsModule.Reports
 {

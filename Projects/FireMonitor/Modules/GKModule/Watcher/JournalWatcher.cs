@@ -7,7 +7,6 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using XFiresecAPI;
 
 namespace GKModule
 {
@@ -97,6 +96,14 @@ namespace GKModule
 
 		void ConnectionChanged(bool value)
 		{
+            if (!value)
+            {
+                var deviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Device == GkDatabase.RootDevice);
+                foreach (var childDeviceState in XManager.GetAllChildren(deviceState))
+                {
+                    childDeviceState.SetIsConnectionLost(true);
+                }
+            }
 			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKConnectionChanged>().Publish(value); });
 		}
 	}

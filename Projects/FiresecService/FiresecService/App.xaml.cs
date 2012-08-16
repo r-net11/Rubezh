@@ -3,9 +3,6 @@ using System.Windows;
 using Common;
 using FiresecService;
 using Infrastructure.Common;
-using System.ServiceProcess;
-using System.Diagnostics;
-using System.Threading;
 
 namespace FiresecServiceRunner
 {

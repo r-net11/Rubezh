@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure;
-using Infrastructure.Events;
-using Infrastructure.Common;
-using FiresecAPI.Models;
-using FiresecClient;
 using Common;
 using FiresecAPI;
+using FiresecAPI.Models;
+using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
 
 namespace FireMonitor.ViewModels
 {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Windows.Controls;
 using Common;
-using System.ServiceProcess;
 
 namespace Firesec
 {

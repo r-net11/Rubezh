@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using DevicesModule.Plans;
+using DevicesModule.Validation;
 using DevicesModule.ViewModels;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using Infrastructure.Common.Validation;
-using DevicesModule.Validation;
-using FiresecClient;
 
 namespace DevicesModule
 {

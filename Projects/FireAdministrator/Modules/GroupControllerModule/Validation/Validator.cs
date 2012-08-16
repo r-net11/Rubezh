@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using XFiresecAPI;
 using FiresecClient;
 using Infrastructure.Common.Validation;
+using XFiresecAPI;
 
 namespace GKModule.Validation
 {

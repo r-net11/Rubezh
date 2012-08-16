@@ -1,9 +1,5 @@
-﻿using System.Text;
-using System.Windows.Xps.Packaging;
-using System.IO;
+﻿using FiresecClient;
 using Microsoft.Reporting.WinForms;
-using System.Collections;
-using FiresecClient;
 namespace ReportsModule.Reports
 {
 	public class BaseReport

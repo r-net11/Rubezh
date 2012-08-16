@@ -64,9 +64,6 @@ namespace GKModule.ViewModels
                     maxAddress = child.IntAddress;
             }
 
-            if (parentXDevice.Driver.DriverType == XDriverType.MRK_30)
-                maxAddress = parentXDevice.IntAddress;
-
             if (xDriver.IsRangeEnabled)
             {
                 if (parentXDevice.Children.Count > 0)
@@ -78,16 +75,6 @@ namespace GKModule.ViewModels
                 if (parentXDevice.Driver.IsChildAddressReservedRange)
                 {
                     int reservedCount = xDriver.ChildAddressReserveRangeCount;
-                    if (parentXDevice.Driver.DriverType == XDriverType.MRK_30)
-                    {
-                        reservedCount = 30;
-
-                        var reservedCountProperty = parentXDevice.Properties.FirstOrDefault(x => x.Name == "MRK30ChildCount");
-                        if (reservedCountProperty != null)
-                        {
-                            reservedCount = reservedCountProperty.Value;
-                        }
-                    }
 
                     if (parentXDevice.Children.Count > 0)
                         if (maxAddress + 1 <= parentXDevice.IntAddress + reservedCount - 1)

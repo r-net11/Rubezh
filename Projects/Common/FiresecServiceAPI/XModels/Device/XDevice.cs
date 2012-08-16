@@ -122,26 +122,13 @@ namespace XFiresecAPI
 		{
 			get
 			{
-				if (Parent != null && Parent.Driver.IsChildAddressReservedRange && Parent.Driver.DriverType != XDriverType.MRK_30)
-					return false;
 				return (Driver.HasAddress && Driver.CanEditAddress);
 			}
 		}
 
 		public byte GetReservedCount()
 		{
-			byte reservedCount = Driver.ChildAddressReserveRangeCount;
-			if (Driver.DriverType == XDriverType.MRK_30)
-			{
-				reservedCount = 30;
-
-				var reservedCountProperty = Properties.FirstOrDefault(x => x.Name == "MRK30ChildCount");
-				if (reservedCountProperty != null)
-				{
-					reservedCount = (byte)reservedCountProperty.Value;
-				}
-			}
-			return reservedCount;
+            return Driver.ChildAddressReserveRangeCount;
 		}
 
 		public List<XDevice> AllParents

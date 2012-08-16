@@ -103,5 +103,8 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public int MaxAddressOnShleif { get; set; }
+
+        [DataMember]
+        public bool IsControlDevice { get; set; }
 	}
 }

@@ -1,8 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Windows;
-using Infrastructure.Common.Windows;
 using System.Runtime.InteropServices;
+using System.Windows;
 
 namespace FiresecService.Service
 {

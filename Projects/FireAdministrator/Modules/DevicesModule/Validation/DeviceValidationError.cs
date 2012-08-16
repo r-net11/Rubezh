@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Validation;
 using FiresecAPI.Models;
+using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 
 namespace DevicesModule.Validation

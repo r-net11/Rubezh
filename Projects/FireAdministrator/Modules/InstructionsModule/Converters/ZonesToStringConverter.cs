@@ -2,7 +2,6 @@
 using System.Text;
 using System.Windows.Data;
 using FiresecAPI;
-using FiresecAPI.Models;
 
 namespace InstructionsModule.Converters
 {

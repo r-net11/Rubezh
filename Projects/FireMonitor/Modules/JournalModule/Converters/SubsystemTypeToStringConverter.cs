@@ -1,6 +1,6 @@
 ﻿using System;
-using FiresecAPI;
 using System.Windows.Data;
+using FiresecAPI;
 using FiresecAPI.Models;
 
 namespace JournalModule.Converters

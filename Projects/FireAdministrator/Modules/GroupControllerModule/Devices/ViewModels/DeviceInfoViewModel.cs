@@ -2,9 +2,9 @@
 using System.Text;
 using Common.GK;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {

@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common.Validation;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireAdministrator.ViewModels
 {

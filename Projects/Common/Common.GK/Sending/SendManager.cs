@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using Infrastructure.Common.Windows;
-using XFiresecAPI;
 using FiresecClient;
-using Common.GK;
-using System.IO;
+using XFiresecAPI;
 
 namespace Common.GK
 {

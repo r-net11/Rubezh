@@ -77,6 +77,21 @@ namespace Common.GK
             {
                 driver.ImageSource = IconHelper.GetGKIcon(driver);
             }
+
+            foreach (var driver in XManager.DriversConfiguration.Drivers)
+            {
+                switch (driver.DriverType)
+                {
+                    case XDriverType.RM_1:
+                    case XDriverType.MPT:
+                    case XDriverType.Pump:
+                    case XDriverType.MRO:
+                    case XDriverType.Valve:
+                    case XDriverType.MDU:
+                        driver.IsControlDevice = true;
+                        break;
+                }
+            }
 		}
 
 		static void CreateKnownProperties()

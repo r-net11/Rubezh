@@ -1,5 +1,5 @@
-﻿using Infrastructure.Common.Windows.ViewModels;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireMonitor.ViewModels
 {

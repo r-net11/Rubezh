@@ -1,8 +1,8 @@
 ﻿using System;
-using FiresecAPI;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Data;
+using FiresecAPI;
 using FiresecAPI.Models;
 
 namespace FiltersModule.Converters

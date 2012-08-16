@@ -1,14 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
-using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -36,7 +35,6 @@ namespace GKModule.ViewModels
 
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
 			ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
-			DisableCommand = new RelayCommand(OnDisable, CanDisable);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
@@ -70,20 +68,6 @@ namespace GKModule.ViewModels
 		void OnShowPlan()
 		{
 			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.UID);
-		}
-
-		public bool CanDisable()
-		{
-			return XManager.CanDisable(DeviceState);
-		}
-
-		public RelayCommand DisableCommand { get; private set; }
-		void OnDisable()
-		{
-			if (ServiceFactory.SecurityService.Validate())
-			{
-				XManager.ChangeDisabled(DeviceState);
-			}
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

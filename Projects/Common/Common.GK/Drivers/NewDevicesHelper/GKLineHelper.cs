@@ -1,6 +1,5 @@
 ﻿using System;
 using XFiresecAPI;
-using FiresecClient;
 
 namespace Common.GK
 {

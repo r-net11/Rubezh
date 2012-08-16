@@ -3,7 +3,6 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Configuration;
 using FiresecService.Service;
-using System.Linq;
 using FiresecService.ViewModels;
 
 namespace FiresecService.Processor

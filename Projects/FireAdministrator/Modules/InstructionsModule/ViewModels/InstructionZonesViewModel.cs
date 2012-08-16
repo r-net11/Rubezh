@@ -2,11 +2,10 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using DevicesModule.ViewModels;
-using FiresecAPI.Models;
+using FiresecAPI;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
 
 namespace InstructionsModule.ViewModels
 {

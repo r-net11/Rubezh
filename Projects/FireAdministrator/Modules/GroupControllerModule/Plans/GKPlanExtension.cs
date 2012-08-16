@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrustructure.Plans;
-using Infrustructure.Plans.Services;
-using GKModule.Plans.ViewModels;
-using Infrustructure.Plans.Elements;
+﻿using System.Collections.Generic;
 using FiresecAPI.Models;
-using Infrustructure.Plans.Designer;
 using GKModule.Plans.Designer;
+using GKModule.Plans.ViewModels;
 using Infrastructure;
+using Infrustructure.Plans;
+using Infrustructure.Plans.Designer;
+using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
+using Infrustructure.Plans.Services;
 
 namespace GKModule.Plans
 {

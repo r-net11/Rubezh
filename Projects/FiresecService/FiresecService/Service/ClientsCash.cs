@@ -1,14 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Timers;
+using Common;
+using Firesec;
 using FiresecAPI.Models;
 using FiresecService.Processor;
 using FiresecService.ViewModels;
-using Common;
-using System;
-using System.Diagnostics;
-using System.Threading;
-using Firesec;
 
 namespace FiresecService.Service
 {

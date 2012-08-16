@@ -1,6 +1,6 @@
-﻿using Microsoft.Practices.Prism.Events;
+﻿using System.Collections.Generic;
 using Common.GK;
-using System.Collections.Generic;
+using Microsoft.Practices.Prism.Events;
 
 namespace GKModule.Events
 {

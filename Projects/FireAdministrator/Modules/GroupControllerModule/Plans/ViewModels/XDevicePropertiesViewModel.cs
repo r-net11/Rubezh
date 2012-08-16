@@ -4,10 +4,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure;
+using GKModule.Plans.Designer;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using GKModule.Plans.Designer;
 
 namespace GKModule.Plans.ViewModels
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.Threading;
 using System.Timers;
 using Common;
 using FiresecAPI;
@@ -9,7 +10,6 @@ using FiresecService.Database;
 using FiresecService.DatabaseConverter;
 using FiresecService.Processor;
 using FiresecService.ViewModels;
-using System.Threading;
 
 namespace FiresecService.Service
 {

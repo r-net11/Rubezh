@@ -89,29 +89,6 @@ namespace FiresecClient
 			return lineNo;
 		}
 
-		public static void CreateStates()
-		{
-			DeviceStates = new XDeviceConfigurationStates();
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				var deviceState = new XDeviceState()
-				{
-					Device = device,
-					UID = device.UID,
-				};
-				DeviceStates.DeviceStates.Add(deviceState);
-			}
-			foreach (var zone in DeviceConfiguration.Zones)
-			{
-				var zoneState = new XZoneState()
-				{
-					Zone = zone,
-					No = zone.No
-				};
-				DeviceStates.ZoneStates.Add(zoneState);
-			}
-		}
-
 		public static string GetIpAddress(XDevice device)
 		{
 			XDevice gkDevice = null;

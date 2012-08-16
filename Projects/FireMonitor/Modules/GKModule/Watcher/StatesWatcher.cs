@@ -4,9 +4,9 @@ using Common.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
-using Infrastructure.Common.Windows;
 
 namespace GKModule
 {
@@ -50,7 +50,7 @@ namespace GKModule
 				if (deviceState != null)
 				{
 
-					deviceState.States = states;
+					deviceState.SetStates(states);
 					deviceState.StateType = XStatesToState(states);
 					deviceState.OnStateChanged();
 				}

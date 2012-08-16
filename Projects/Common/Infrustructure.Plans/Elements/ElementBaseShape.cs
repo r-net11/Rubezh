@@ -1,7 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using System.Windows;
 using System.Windows.Media;
-using System.Diagnostics;
 
 namespace Infrustructure.Plans.Elements
 {

@@ -1,9 +1,7 @@
 ﻿using System;
-using FiresecAPI;
 using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
-using Infrastructure.Common.Windows;
 using XFiresecAPI;
 
 namespace Common.GK

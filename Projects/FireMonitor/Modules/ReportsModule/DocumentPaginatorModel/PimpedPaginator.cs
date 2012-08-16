@@ -1,9 +1,8 @@
 ﻿using System.IO;
-using FiresecAPI;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
-using FiresecAPI.Models;
+using FiresecAPI;
 
 namespace ReportsModule.DocumentPaginatorModel
 {

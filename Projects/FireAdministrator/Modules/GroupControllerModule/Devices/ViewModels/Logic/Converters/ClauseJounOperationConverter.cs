@@ -1,7 +1,6 @@
 ﻿using System;
-using FiresecAPI;
 using System.Windows.Data;
-using FiresecAPI.Models;
+using FiresecAPI;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels.Converters

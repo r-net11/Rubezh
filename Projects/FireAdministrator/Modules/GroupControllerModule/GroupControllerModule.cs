@@ -1,17 +1,16 @@
 ﻿using System.Collections.Generic;
 using Common.GK;
+using FiresecAPI.Models;
 using FiresecClient;
+using GKModule.Plans;
+using GKModule.Validation;
 using GKModule.ViewModels;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
-using FiresecAPI.Models;
-using GKModule.Plans.Designer;
-using GKModule.Plans;
-using Infrastructure.Common.Validation;
-using GKModule.Validation;
 
 namespace GKModule
 {

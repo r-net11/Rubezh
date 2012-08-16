@@ -1,11 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Data;
-using System.Reflection;
-using System.Text;
-using System.Windows.Xps.Packaging;
-using System.IO;
 using Microsoft.Reporting.WinForms;
-using System.Collections;
 
 namespace ReportsModule.Reports
 {

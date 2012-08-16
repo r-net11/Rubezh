@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrustructure.Plans.Painters;
 using System.Windows;
-using Infrustructure.Plans.Elements;
-using XFiresecAPI;
-using FiresecAPI.Models;
 using DeviceControls;
-using FiresecClient;
+using FiresecAPI.Models;
+using Infrustructure.Plans.Elements;
+using Infrustructure.Plans.Painters;
 
 namespace GKModule.Plans.Designer
 {

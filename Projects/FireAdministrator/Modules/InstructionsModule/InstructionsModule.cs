@@ -3,10 +3,10 @@ using System.Linq;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Events;
-using InstructionsModule.ViewModels;
 using Infrastructure.Common.Validation;
+using Infrastructure.Events;
 using InstructionsModule.Validation;
+using InstructionsModule.ViewModels;
 
 namespace InstructionsModule
 {

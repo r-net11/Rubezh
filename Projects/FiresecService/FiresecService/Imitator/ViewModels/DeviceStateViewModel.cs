@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiresecService.ViewModels

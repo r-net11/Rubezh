@@ -6,7 +6,6 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
 using FiresecService.ViewModels;
-using FiresecService.OPC;
 
 namespace FiresecService.Service
 {

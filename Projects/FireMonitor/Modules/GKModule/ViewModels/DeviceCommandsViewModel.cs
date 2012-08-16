@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using Common.GK;
 using Infrastructure.Common;
 using XFiresecAPI;
-using Common.GK;
 
 namespace GKModule.ViewModels
 {
@@ -52,7 +52,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOn()
 		{
-			return true;
+            return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand CancelDelayCommand { get; private set; }
@@ -62,7 +62,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanCancelDelay()
 		{
-			return true;
+            return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
@@ -72,7 +72,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOff()
 		{
-			return true;
+            return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand StopCommand { get; private set; }
@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanStop()
 		{
-			return true;
+            return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand CancelStartCommand { get; private set; }
@@ -92,7 +92,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanCancelStart()
 		{
-			return true;
+            return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOnNow()
 		{
-			return true;
+            return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand TurnOffNowCommand { get; private set; }
@@ -112,25 +112,25 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOffNow()
 		{
-			return true;
+            return Device.Driver.IsControlDevice;
 		}
 
 		public bool CanControl
 		{
 			get
 			{
-				return Device.Driver.IsDeviceOnShleif;
-
-				if (Device.Parent != null)
-				{
-					switch (Device.Parent.Driver.DriverType)
-					{
-						case XDriverType.GK:
-						case XDriverType.KAU:
-							return true;
-					}
-				}
-				return false;
+                switch(Device.Driver.DriverType)
+                {
+                    case XDriverType.System:
+                    case XDriverType.GK:
+                    case XDriverType.GKIndicator:
+                    case XDriverType.GKLine:
+                    case XDriverType.GKRele:
+                    case XDriverType.KAU:
+                    case XDriverType.KAUIndicator:
+                        return false;
+                }
+                return true;
 			}
 		}
 

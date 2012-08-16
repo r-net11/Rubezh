@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-
+﻿
 namespace Infrastructure.Common.Windows.ViewModels
 {
 	public class ProgressViewModel : WindowBaseViewModel

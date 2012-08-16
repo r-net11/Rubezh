@@ -10,7 +10,6 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Common.GK;
 
 namespace FireMonitor
 {

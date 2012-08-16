@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
-using Common;
 using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;

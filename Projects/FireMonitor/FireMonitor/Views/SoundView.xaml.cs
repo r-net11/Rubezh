@@ -1,14 +1,4 @@
-﻿using System;
-using FiresecAPI;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Controls;
-using Common;
-using FiresecAPI.Models;
-using FiresecClient;
-using Infrastructure;
-using Infrastructure.Common;
-using Infrastructure.Events;
+﻿using System.Windows.Controls;
 
 namespace FireMonitor.Views
 {

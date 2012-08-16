@@ -3,7 +3,6 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using ReportsModule.Models;
-using System.Text;
 
 namespace ReportsModule.Reports
 {

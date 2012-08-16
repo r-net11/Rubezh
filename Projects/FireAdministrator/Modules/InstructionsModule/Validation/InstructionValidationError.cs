@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
-using Infrastructure.Events;
+﻿using FiresecAPI.Models;
 using Infrastructure.Common.Validation;
+using Infrastructure.Events;
 
 namespace InstructionsModule.Validation
 {

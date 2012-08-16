@@ -49,26 +49,10 @@ namespace Common.GK
 			{
 				CommonHelper.AddBoolProprety(xDriver, 0x8b, "УЗН Стоп", 2);
 			}
-			if (xDriver.DriverType == XDriverType.DrenazhPump)
-			{
-				CommonHelper.AddBoolProprety(xDriver, 0x8b, "Авария", 2);
-			}
-			if (xDriver.DriverType == XDriverType.CompensationPump)
-			{
-				CommonHelper.AddBoolProprety(xDriver, 0x8b, "Авария", 2);
-			}
 
 			if (xDriver.DriverType == XDriverType.Pump)
 			{
 				CommonHelper.AddIntProprety(xDriver, 0x84, "уставка времени ожидания выхода насоса на режим, с", 0, 3, 3, 30);
-			}
-			if (xDriver.DriverType == XDriverType.JokeyPump)
-			{
-				CommonHelper.AddIntProprety(xDriver, 0x84, "уставка времени ожидания восстановления давления, мин", 0, 2, 2, 65535);
-			}
-			if (xDriver.DriverType == XDriverType.CompensationPump)
-			{
-				CommonHelper.AddIntProprety(xDriver, 0x84, "уставка времени аварии пневмоемкости, мин", 0, 2, 2, 65535);
 			}
 		}
 	}
