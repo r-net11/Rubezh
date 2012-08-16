@@ -22,7 +22,7 @@
                     <Image Source="/Controls;component/Images/ArrowUpDown.png" Height="24" />
                 </MenuItem.Header>
 
-                <MenuItem Command="{Binding ConvertFromFiresecCommand}" Header="Конвертировать в из формата Рубеж-2АМ" />
+                <MenuItem Command="{Binding ConvertFromFiresecCommand}" Header="Конвертировать из формата Рубеж-2АМ" />
                 <MenuItem Command="{Binding ConvertToBinaryFileCommand}" Header="Сохранить в бинарный файл" Visibility="Collapsed" />
                 <MenuItem Command="{Binding ConvertToBinCommand}" Header="Посмотреть бинарную конфигурацию" />
                 <MenuItem Command="{Binding WriteConfigCommand}" Header="Записать конфигурацию в устройства" />

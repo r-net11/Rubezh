@@ -5,6 +5,7 @@ using Common.GK;
 using FiresecAPI.Models;
 using FiresecClient;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKModule.Converter
 {
@@ -14,6 +15,12 @@ namespace GKModule.Converter
 
         public void Convert()
         {
+			ConvertDdevices();
+			ConvertZones();
+		}
+
+		public void ConvertDdevices()
+		{
             AddRootDevices();
 
             int shleifPairNo = 0;
@@ -22,19 +29,15 @@ namespace GKModule.Converter
 
             foreach (var panelDevice in GetPanels())
             {
-                if (shleifPairNo == 0)
+				shleifPairNo++;
+				if (shleifPairNo == 5)
+					shleifPairNo = 1;
+
+                if (shleifPairNo == 1)
                 {
                     curentKauDevice = XManager.AddChild(gkDevice, XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU), 0, kauAddress);
                     curentKauDevice.UID = panelDevice.UID;
                     XManager.DeviceConfiguration.Devices.Add(curentKauDevice);
-                    kauAddress++;
-                    shleifPairNo++;
-                }
-                else
-                {
-                    shleifPairNo++;
-                    if (shleifPairNo == 4)
-                        shleifPairNo = 0;
                 }
 
                 foreach (var childDevice in panelDevice.Children)
@@ -44,12 +47,27 @@ namespace GKModule.Converter
                     {
                         continue;
                     }
+					var shleifNo = ((shleifPairNo - 1) * 2) + (childDevice.IntAddress >> 8);
+
+					switch(driver.DriverType)
+					{
+						case XDriverType.RM_2:
+						case XDriverType.RM_3:
+						case XDriverType.RM_4:
+						case XDriverType.RM_5:
+						case XDriverType.AM4:
+							continue;
+
+						default:
+							break;
+					}
+
                     var xDevice = new XDevice()
                     {
                         UID = childDevice.UID,
                         DriverUID = driver.UID,
                         Driver = driver,
-                        ShleifNo = (byte)((childDevice.IntAddress >> 8) * (shleifPairNo)),
+						ShleifNo = (byte)shleifNo,
                         IntAddress = (byte)(childDevice.IntAddress & 0xff),
                         Description = childDevice.Description
                     };
@@ -87,5 +105,38 @@ namespace GKModule.Converter
                     yield return device;
             }
         }
+
+		void ConvertZones()
+		{
+			foreach (var zone in FiresecManager.Zones)
+			{
+				var xZone = new XZone()
+				{
+					No = (ushort)zone.No,
+					Name = zone.Name,
+					Description = zone.Description,
+					Fire1Count = (ushort)zone.DetectorCount,
+				};
+				XManager.DeviceConfiguration.Zones.Add(xZone);
+			}
+
+			foreach (var device in FiresecManager.Devices)
+			{
+				var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
+				if (xDevice != null)
+				{
+					if ((device.Driver.IsZoneDevice) && (device.ZoneNo.HasValue))
+					{
+						var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo.Value);
+						var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
+						if (zone != null)
+						{
+							xDevice.Zones.Add(xZone.No);
+							xZone.DeviceUIDs.Add(device.UID);
+						}
+					}
+				}
+			}
+		}
     }
 }

@@ -6,6 +6,11 @@ namespace XFiresecAPI
 	[DataContract]
 	public abstract class XBinaryBase
 	{
+		public XBinaryBase()
+		{
+			ClearBinaryData();
+		}
+
 		public List<XBinaryBase> InputObjects { get; set; }
 		public List<XBinaryBase> OutputObjects { get; set; }
 

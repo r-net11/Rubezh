@@ -32,14 +32,13 @@ namespace GKModule
 		static void WriteConfigToDevice(CommonDatabase commonDatabase)
 		{
 			var recieveAnswer = commonDatabase.DatabaseType == DatabaseType.Gk;
-			recieveAnswer = true;
 
 			LoadingService.DoStep("Переход в технологический режим");
-			SendManager.Send(commonDatabase.RootDevice, 0, 14, 0, null, false);
+			SendManager.Send(commonDatabase.RootDevice, 0, 14, 0, null, recieveAnswer);
 			Thread.Sleep(10000);
 
 			LoadingService.DoStep("Стирание базы данных");
-			SendManager.Send(commonDatabase.RootDevice, 0, 15, 0, null, false);
+			SendManager.Send(commonDatabase.RootDevice, 0, 15, 0, null, true);
 			Thread.Sleep(10000);
 
 			foreach (var binaryObject in commonDatabase.BinaryObjects)
@@ -58,7 +57,7 @@ namespace GKModule
 					//    pack.Add(0);
 					//}
 
-					var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack, recieveAnswer);
+					var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack, true);
 					if (sendResult.HasError)
 					{
 						MessageBoxService.Show(sendResult.Error);
@@ -69,10 +68,10 @@ namespace GKModule
 			}
 			LoadingService.DoStep("Запись завершающего дескриптора");
 			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.BinaryObjects.Count + 1));
-			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, recieveAnswer);
+			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
 
 			LoadingService.DoStep("Запуск программы");
-			SendManager.Send(commonDatabase.RootDevice, 0, 11, 0, null, false);
+			SendManager.Send(commonDatabase.RootDevice, 0, 11, 0, null, recieveAnswer);
 
 			LoadingService.Close();
 		}
@@ -86,7 +85,12 @@ namespace GKModule
 				var packBytes = binaryObject.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
 
 				var resultBytes = new List<byte>();
-				resultBytes.AddRange(BytesHelper.ShortToBytes((ushort)(binaryObject.GetNo())));
+				ushort binaryObjectNo = (ushort)(binaryObject.GetNo());
+				//if (binaryObjectNo == 1024)
+				//{
+				//    MessageBoxService.Show("1024");
+				//}
+				resultBytes.AddRange(BytesHelper.ShortToBytes(binaryObjectNo));
 				resultBytes.Add((byte)(packNo + 1));
 				resultBytes.AddRange(packBytes);
 				packs.Add(resultBytes);

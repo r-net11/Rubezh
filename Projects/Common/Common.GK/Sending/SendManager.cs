@@ -78,21 +78,32 @@ namespace Common.GK
             return resultBytes;
         }
 
+		static UdpClient udpClient;
+		static IPEndPoint endPoint;
+		static SendManager()
+		{
+			endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.102"), 1025);
+			udpClient = new UdpClient();
+			udpClient.Client.ReceiveTimeout = 10000;
+			udpClient.Client.SendTimeout = 10000;
+			udpClient.Connect(IPAddress.Parse("172.16.7.102"), 1025);
+		}
+
         static SendResult SendBytes(string ipAddress, List<byte> bytes, ushort inputLenght, bool hasAnswer = true)
         {
-            if (!CheckIpAddress(ipAddress))
-            {
-                OnConnectionLost();
-                return new SendResult("Ошибка разбора IP адреса");
-            }
+			//if (!CheckIpAddress(ipAddress))
+			//{
+			//    OnConnectionLost();
+			//    return new SendResult("Ошибка разбора IP адреса");
+			//}
 
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), 1025);
-            var udpClient = new UdpClient();
-            udpClient.Client.ReceiveTimeout = 1000;
-            udpClient.Client.SendTimeout = 1000;
+			//IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), 1025);
+			//var udpClient = new UdpClient();
+			//udpClient.Client.ReceiveTimeout = 1000;
+			//udpClient.Client.SendTimeout = 1000;
             try
             {
-                udpClient.Connect(IPAddress.Parse(ipAddress), 1025);
+                //udpClient.Connect(IPAddress.Parse(ipAddress), 1025);
 				if (IsLogging)
 				{
 					StreamWriter.WriteLine(BytesHelper.BytesToString(bytes));
@@ -102,13 +113,13 @@ namespace Common.GK
             catch
             {
                 OnConnectionLost();
-                udpClient.Close();
+                //udpClient.Close();
                 return new SendResult("Ошибка открытия сокета");
             }
             //Trace.WriteLine("<-- " + BytesHelper.BytesToString(bytes));
             if (hasAnswer == false)
             {
-                udpClient.Close();
+                //udpClient.Close();
                 return new SendResult(new List<byte>());
             }
             var recievedBytes = new List<byte>();
@@ -119,11 +130,11 @@ namespace Common.GK
             catch (SocketException)
             {
                 OnConnectionLost();
-                udpClient.Close();
+                //udpClient.Close();
                 return new SendResult("Коммуникационная ошибка");
             }
             //Trace.WriteLine("--> " + BytesHelper.BytesToString(recievedBytes));
-            udpClient.Close();
+            //udpClient.Close();
 
             if (recievedBytes[0] != bytes[0])
             {
