@@ -18,14 +18,14 @@ namespace GKModule.Converter
 
             int shleifPairNo = 0;
             byte kauAddress = 1;
-            XDevice curentKauDevice;
+            XDevice curentKauDevice = null;
 
-            foreach (var device in GetPanels())
+            foreach (var panelDevice in GetPanels())
             {
                 if (shleifPairNo == 0)
                 {
                     curentKauDevice = XManager.AddChild(gkDevice, XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU), 0, kauAddress);
-                    curentKauDevice.UID = device.UID;
+                    curentKauDevice.UID = panelDevice.UID;
                     XManager.DeviceConfiguration.Devices.Add(curentKauDevice);
                     kauAddress++;
                     shleifPairNo++;
@@ -35,6 +35,27 @@ namespace GKModule.Converter
                     shleifPairNo++;
                     if (shleifPairNo == 4)
                         shleifPairNo = 0;
+                }
+
+                foreach (var childDevice in panelDevice.Children)
+                {
+                    var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == childDevice.DriverUID);
+                    if (driver == null)
+                    {
+                        continue;
+                    }
+                    var xDevice = new XDevice()
+                    {
+                        UID = childDevice.UID,
+                        DriverUID = driver.UID,
+                        Driver = driver,
+                        ShleifNo = (byte)((childDevice.IntAddress >> 8) * (shleifPairNo)),
+                        IntAddress = (byte)(childDevice.IntAddress & 0xff),
+                        Description = childDevice.Description
+                    };
+                    XManager.DeviceConfiguration.Devices.Add(xDevice);
+                    curentKauDevice.Children.Add(xDevice);
+                    xDevice.Parent = curentKauDevice;
                 }
             }
         }
