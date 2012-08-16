@@ -15,12 +15,13 @@ namespace GKModule.Converter
 
         public void Convert()
         {
-			ConvertDdevices();
-			ConvertZones();
-		}
+            ConvertDdevices();
+            ConvertZones();
+            ConvertLogic();
+        }
 
-		public void ConvertDdevices()
-		{
+        public void ConvertDdevices()
+        {
             AddRootDevices();
 
             int shleifPairNo = 0;
@@ -29,9 +30,9 @@ namespace GKModule.Converter
 
             foreach (var panelDevice in GetPanels())
             {
-				shleifPairNo++;
-				if (shleifPairNo == 5)
-					shleifPairNo = 1;
+                shleifPairNo++;
+                if (shleifPairNo == 5)
+                    shleifPairNo = 1;
 
                 if (shleifPairNo == 1)
                 {
@@ -47,27 +48,27 @@ namespace GKModule.Converter
                     {
                         continue;
                     }
-					var shleifNo = ((shleifPairNo - 1) * 2) + (childDevice.IntAddress >> 8);
+                    var shleifNo = ((shleifPairNo - 1) * 2) + (childDevice.IntAddress >> 8);
 
-					switch(driver.DriverType)
-					{
-						case XDriverType.RM_2:
-						case XDriverType.RM_3:
-						case XDriverType.RM_4:
-						case XDriverType.RM_5:
-						case XDriverType.AM4:
-							continue;
+                    switch (driver.DriverType)
+                    {
+                        case XDriverType.RM_2:
+                        case XDriverType.RM_3:
+                        case XDriverType.RM_4:
+                        case XDriverType.RM_5:
+                        case XDriverType.AM4:
+                            continue;
 
-						default:
-							break;
-					}
+                        default:
+                            break;
+                    }
 
                     var xDevice = new XDevice()
                     {
                         UID = childDevice.UID,
                         DriverUID = driver.UID,
                         Driver = driver,
-						ShleifNo = (byte)shleifNo,
+                        ShleifNo = (byte)shleifNo,
                         IntAddress = (byte)(childDevice.IntAddress & 0xff),
                         Description = childDevice.Description
                     };
@@ -106,37 +107,94 @@ namespace GKModule.Converter
             }
         }
 
-		void ConvertZones()
-		{
-			foreach (var zone in FiresecManager.Zones)
-			{
-				var xZone = new XZone()
-				{
-					No = (ushort)zone.No,
-					Name = zone.Name,
-					Description = zone.Description,
-					Fire1Count = (ushort)zone.DetectorCount,
-				};
-				XManager.DeviceConfiguration.Zones.Add(xZone);
-			}
+        void ConvertZones()
+        {
+            foreach (var zone in FiresecManager.Zones)
+            {
+                var xZone = new XZone()
+                {
+                    No = (ushort)zone.No,
+                    Name = zone.Name,
+                    Description = zone.Description,
+                    Fire1Count = (ushort)zone.DetectorCount,
+                };
+                XManager.DeviceConfiguration.Zones.Add(xZone);
+            }
 
-			foreach (var device in FiresecManager.Devices)
-			{
-				var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
-				if (xDevice != null)
-				{
-					if ((device.Driver.IsZoneDevice) && (device.ZoneNo.HasValue))
-					{
-						var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo.Value);
-						var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
-						if (zone != null)
-						{
-							xDevice.Zones.Add(xZone.No);
-							xZone.DeviceUIDs.Add(device.UID);
-						}
-					}
-				}
-			}
-		}
+            foreach (var device in FiresecManager.Devices)
+            {
+                var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
+                if (xDevice != null)
+                {
+                    if ((device.Driver.IsZoneDevice) && (device.ZoneNo.HasValue))
+                    {
+                        var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo.Value);
+                        var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
+                        if (zone != null)
+                        {
+                            xDevice.Zones.Add(xZone.No);
+                            xZone.DeviceUIDs.Add(device.UID);
+                        }
+                    }
+                }
+            }
+        }
+
+        void ConvertLogic()
+        {
+            foreach (var xDevice in XManager.DeviceConfiguration.Devices)
+            {
+                var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == xDevice.UID);
+                if (device != null)
+                {
+                    if ((device.Driver.IsZoneLogicDevice) && (device.ZoneLogic != null))
+                    {
+                        var xDeviceLogic = new XDeviceLogic();
+                        var stateLogic = new StateLogic()
+                        {
+                            StateType = XStateType.TurnOn
+                        };
+                        xDeviceLogic.StateLogics.Add(stateLogic);
+
+                        foreach (var clause in device.ZoneLogic.Clauses)
+                        {
+                            var xClause = new XClause()
+                            {
+                                ClauseOperandType = ClauseOperandType.Zone
+                            };
+                            switch (clause.State)
+                            {
+                                case FiresecAPI.Models.ZoneLogicState.Attention:
+                                    xClause.StateType = XStateType.Attention;
+                                    break;
+
+                                case FiresecAPI.Models.ZoneLogicState.Fire:
+                                    xClause.StateType = XStateType.Fire1;
+                                    break;
+
+                                case FiresecAPI.Models.ZoneLogicState.Failure:
+                                    xClause.StateType = XStateType.Failure;
+                                    break;
+
+                                default:
+                                    continue;
+                            }
+                            if ((clause.Zones == null) || (clause.Zones.Count == 0))
+                                continue;
+
+                            foreach (var zoneNo in clause.Zones)
+                            {
+                                xClause.Zones.Add((ushort)zoneNo);
+                            }
+
+                            stateLogic.Clauses.Add(xClause);
+                        }
+
+                        if (stateLogic.Clauses.Count > 0)
+                            xDevice.DeviceLogic = xDeviceLogic;
+                    }
+                }
+            }
+        }
     }
 }
