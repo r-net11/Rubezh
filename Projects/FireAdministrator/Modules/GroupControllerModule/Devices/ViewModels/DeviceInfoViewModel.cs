@@ -52,7 +52,7 @@ namespace GKModule.ViewModels
 				MessageBoxService.Show("Ошибка связи с устройством");
 				return;
 			}
-			Version = BytesToString(sendResult.Bytes);
+			Version = BytesHelper.BytesToString(sendResult.Bytes);
 
 			sendResult = SendManager.Send(Device, 0, 2, 8);
 			if (sendResult.HasError)
@@ -60,7 +60,7 @@ namespace GKModule.ViewModels
 				MessageBoxService.Show("Ошибка связи с устройством");
 				return;
 			}
-			Info = BytesToString(sendResult.Bytes);
+			Info = BytesHelper.BytesToString(sendResult.Bytes);
 		}
 
 		public RelayCommand WriteCommand { get; private set; }
@@ -79,16 +79,6 @@ namespace GKModule.ViewModels
 				bytes.Add(b);
 			}
 			return bytes;
-		}
-
-		string BytesToString(List<byte> bytes)
-		{
-			var stringBuilder = new StringBuilder();
-			foreach (var b in bytes)
-			{
-				stringBuilder.Append(b + " ");
-			}
-			return stringBuilder.ToString();
 		}
 	}
 }
