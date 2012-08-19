@@ -2,10 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <LinearGradientBrush x:Key="BackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
-        <GradientStop Color="#434247" Offset="0" />
-        <GradientStop Color="#383438" Offset="1" />
+        <GradientStop Color="#555555" Offset="0" />
+        <GradientStop Color="#444444" Offset="1" />
     </LinearGradientBrush>
-
+    
     <LinearGradientBrush x:Key="HighlightedBackgoundBrush" StartPoint="0, 0" EndPoint="0,1">
         <GradientStop Color="#F2B352" Offset="0" />
         <GradientStop Color="#DF8E2A" Offset="1" />
@@ -34,13 +34,8 @@
     <SolidColorBrush x:Key="WindowBlackBackgroundBrush" Color="#151515" />
 
     <LinearGradientBrush x:Key="WindowBlacHeaderkBackgroundBrush" StartPoint="0, 0" EndPoint="0, 1">
-        <GradientStop Color="#ADADAD" Offset="0" />
-        <GradientStop Color="#676767" Offset="0.3" />
-        <GradientStop Color="#555555" Offset="0.32" />
-        <GradientStop Color="#303030" Offset="0.75" />
-        <GradientStop Color="#303030" Offset="0.85" />
-        <GradientStop Color="#353535" Offset="0.9" />
-        <GradientStop Color="#555555" Offset="1" />
+        <GradientStop Color="#505050" Offset="0" />
+        <GradientStop Color="#404040" Offset="1" />
     </LinearGradientBrush>
 
 </ResourceDictionary>

@@ -6,8 +6,8 @@
 	    FontSize="12"
 	    FontFamily="Arial"
         WindowStyle="None"
-        AllowsTransparency="True"
         Background="Transparent"
+        AllowsTransparency="True"
 		WindowStartupLocation="CenterScreen"
 		Icon="{Binding Icon, Converter={StaticResource NullToImageConverter}}"
         Title="{Binding Title}"
@@ -36,13 +36,10 @@
 			<ColumnDefinition Width="5"/>
 			<ColumnDefinition Width="5"/>
 		</Grid.ColumnDefinitions>
-		<Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="5" BorderBrush="Black" BorderThickness="1" CornerRadius="11" 
-                Background="{DynamicResource WindowBlackBackgroundBrush}">
-			<Border BorderBrush="#747474" BorderThickness="1" CornerRadius="11">
-				<ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource HierarhicalDataTemplateSelector}"/>
-			</Border>
-		</Border>
-		<Thumb Grid.Column="0" Grid.Row="0" Cursor="SizeNWSE" Background="Green" Grid.ColumnSpan="2" Grid.RowSpan="2" Style="{DynamicResource ResizeThumbStyle}" Visibility="{Binding Sizable, Converter={StaticResource BoolToVisibilityConverter}}" DragDelta="Thumb_DragDelta"  Tag="{x:Static loc:WindowBaseView+ResizeDirection.TopLeft}"/>
+        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="5" Background="#333333" BorderBrush="#444444" BorderThickness="1" CornerRadius="0">
+            <ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource HierarhicalDataTemplateSelector}"/>
+        </Border>
+        <Thumb Grid.Column="0" Grid.Row="0" Cursor="SizeNWSE" Background="Green" Grid.ColumnSpan="2" Grid.RowSpan="2" Style="{DynamicResource ResizeThumbStyle}" Visibility="{Binding Sizable, Converter={StaticResource BoolToVisibilityConverter}}" DragDelta="Thumb_DragDelta"  Tag="{x:Static loc:WindowBaseView+ResizeDirection.TopLeft}"/>
 		<Thumb Grid.Column="2" Grid.Row="0" Cursor="SizeNS" Background="Green" Style="{DynamicResource ResizeThumbStyle}" Visibility="{Binding Sizable, Converter={StaticResource BoolToVisibilityConverter}}" DragDelta="Thumb_DragDelta"  Tag="{x:Static loc:WindowBaseView+ResizeDirection.Top}"/>
 		<Thumb Grid.Column="3" Grid.Row="0" Cursor="SizeNESW" Background="Green" Style="{DynamicResource ResizeThumbStyle}" Visibility="{Binding Sizable, Converter={StaticResource BoolToVisibilityConverter}}" DragDelta="Thumb_DragDelta" Tag="{x:Static loc:WindowBaseView+ResizeDirection.TopRight}"/>
 		<Thumb Grid.Column="4" Grid.Row="0" Cursor="SizeNESW" Background="Green" Style="{DynamicResource ResizeThumbStyle}" Visibility="{Binding Sizable, Converter={StaticResource BoolToVisibilityConverter}}" DragDelta="Thumb_DragDelta" Tag="{x:Static loc:WindowBaseView+ResizeDirection.TopRight}"/>
