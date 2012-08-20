@@ -94,7 +94,7 @@ namespace FiresecClient
 		{
 			try
 			{
-				var result = FiresecService.Ping();
+				 var result = FiresecService.Ping();
 				OnConnectionAppeared();
 				return result;
 			}

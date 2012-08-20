@@ -233,6 +233,8 @@ namespace FiresecService.Processor
 			ChangedDevices = new HashSet<DeviceState>();
 			ChangedZones = new HashSet<ZoneState>();
 			var coreParameters = FiresecSerializedClient.GetDeviceParams().Result;
+			if (coreParameters == null)
+				return;
 			if (coreParameters.dev == null)
 				return;
 
