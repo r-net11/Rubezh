@@ -38,7 +38,7 @@ namespace Infrastructure.Common.Windows
 		public static void ShowWindow(WindowBaseViewModel model)
 		{
 			if (!FindWindowIdentity(model))
-			{
+			{ 
 				WindowBaseView win = new WindowBaseView(model);
 				PrepareWindow(model);
 				win.Show();

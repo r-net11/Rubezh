@@ -153,7 +153,6 @@ namespace Firesec
 
 		public FiresecOperationResult<bool> DeviceWriteConfig(string coreConfig, string devicePath)
 		{
-			coreConfig = "";
 			return SafeCall<bool>(() => { Connectoin.DeviceWriteConfig(coreConfig, devicePath); return true; });
 		}
 
@@ -356,6 +355,7 @@ namespace Firesec
 				var continueProgress = IntContinueProgress == 1;
 				IntContinueProgress = 1;
 				ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
+				return true;
 				return continueProgress;
 			}
 			catch (Exception e)

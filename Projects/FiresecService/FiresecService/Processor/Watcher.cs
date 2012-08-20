@@ -233,6 +233,8 @@ namespace FiresecService.Processor
 			ChangedDevices = new HashSet<DeviceState>();
 			ChangedZones = new HashSet<ZoneState>();
 			var coreParameters = FiresecSerializedClient.GetDeviceParams().Result;
+			if (coreParameters == null)
+				return;
 			if (coreParameters.dev == null)
 				return;
 
@@ -372,6 +374,11 @@ namespace FiresecService.Processor
 
 					foreach (var driverState in deviceState.Device.Driver.States)
 					{
+						if (innerDevice.state == null)
+						{
+							Logger.Error("Watcher.SetStates innerDevice.state = null");
+							return;
+						}
 						var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);
 						if (deviceState.States == null)
 						{

@@ -26,7 +26,7 @@ namespace FiresecService.Service
 		public string ClientIpAddress { get; private set; }
 		public string ClientIpAddressAndPort { get; private set; }
 		public bool IsSubscribed { get; private set; }
-		System.Timers.Timer _recoveryTimer;
+		//System.Timers.Timer _recoveryTimer;
 		public bool IsClientCallbackFaulted { get; private set; }
 
 		public FiresecManager FiresecManager { get; set; }
@@ -40,9 +40,9 @@ namespace FiresecService.Service
 			UID = Guid.NewGuid();
 			IsClientCallbackFaulted = false;
 
-			_recoveryTimer = new System.Timers.Timer();
-			_recoveryTimer.Interval = 10000;
-			_recoveryTimer.Elapsed += new ElapsedEventHandler((source, e) => { ReconnectToClient(); });
+			//_recoveryTimer = new System.Timers.Timer();
+			//_recoveryTimer.Interval = 10000;
+			//_recoveryTimer.Elapsed += new ElapsedEventHandler((source, e) => { ReconnectToClient(); });
 		}
 
 		public bool ReconnectToClient()
@@ -50,18 +50,18 @@ namespace FiresecService.Service
 			Logger.Info("FiresecService.ReconnectToClient");
 			IsClientCallbackFaulted = true;
 			MainViewModel.Current.UpdateClientState(UID, "Попытка соединения");
-			_recoveryTimer.Stop();
+			//_recoveryTimer.Stop();
 			FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);
 			try
 			{
 				FiresecCallbackService.Ping();
-				_recoveryTimer.Stop();
+				//_recoveryTimer.Stop();
 				MainViewModel.Current.UpdateClientState(UID, "Норма");
 			}
-			catch
+			catch 
 			{
 				MainViewModel.Current.UpdateClientState(UID, "Ошибка");
-				_recoveryTimer.Start();
+				//_recoveryTimer.Start();
 				return false;
 			}
 			return false;
@@ -75,7 +75,7 @@ namespace FiresecService.Service
 			try
 			{
 				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
-				{
+				{ 
 					var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
 					ClientIpAddress = endpoint.Address;
 					ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
