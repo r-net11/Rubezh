@@ -38,16 +38,10 @@
     <Compile Include="FireAdministrator\Shortcuts_FireAdministrator.wxs" />
     <Compile Include="FireMonitor\Features_FireMonitor.wxs" />
     <Compile Include="FireMonitor\Files_FireMonitor.wxs" />
-    <Compile Include="FireMonitor\OutputFilesReportTemplates.wxs" />
     <Compile Include="FireMonitor\Shortcuts_FireMonitor.wxs" />
     <Compile Include="FiresecInstaller.wxs" />
-    <Compile Include="FiresecService\AutoGenOutputFiles\OutputFilesIcons.wxs" />
-    <Compile Include="FiresecService\AutoGenOutputFiles\OutputFilesSounds.wxs" />
-    <Compile Include="FiresecService\AutoGenOutputFiles\OutputFilesXmlConfig.wxs" />
-    <Compile Include="FiresecService\Binary_FiresecService.wxs" />
     <Compile Include="FiresecService\Features_FiresecService.wxs" />
     <Compile Include="FiresecService\Files_FiresecService.wxs" />
-    <Compile Include="FiresecService\Output.wxs" />
     <Compile Include="FiresecService\Properties_FiresecService.wxs" />
     <Compile Include="FiresecService\Shortcuts_FiresecService.wxs" />
     <Compile Include="OldFiresec\Features_OldFiresecService.wxs" />
@@ -85,10 +79,7 @@
     <Content Include="FireMonitor\Variables_FireMonitor.wxi" />
     <Content Include="FiresecService\Pre-Build commands.txt" />
     <Content Include="FiresecService\Variables_FiresecService.wxi" />
-    <Content Include="FiresecService\Xslt\WixIcons.xslt" />
-    <Content Include="FiresecService\Xslt\WixReportTemplates.xslt" />
     <Content Include="FiresecService\Xslt\WixSounds.xslt" />
-    <Content Include="FiresecService\Xslt\WixXmlConfig.xslt" />
     <Content Include="OldFiresec\Variables_OldFiresecService.wxi" />
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="Variables_Firesec.wxi" />
@@ -102,12 +93,10 @@
     <Content Include="Data\License.rtf" />
     <Content Include="Data\NewFolder.ico" />
     <Content Include="Data\Up.ico" />
-    <Content Include="Pre-Build commands.txt" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data" />
     <Folder Include="FiresecService" />
-    <Folder Include="FiresecService\AutoGenOutputFiles\" />
     <Folder Include="FiresecService\Xslt\" />
     <Folder Include="FireAdministrator" />
     <Folder Include="FireMonitor" />

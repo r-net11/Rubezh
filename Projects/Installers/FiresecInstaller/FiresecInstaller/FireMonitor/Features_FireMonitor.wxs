@@ -4,46 +4,17 @@
 	<?include Variables_FireMonitor.wxi?>
 	
 	<Fragment>
-		<Feature Id="FMFeatureBasic" Title="$(var.FireMonitorName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="Features_FireMonitor" Title="$(var.FireMonitorName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="FIREMONITORLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="FireMonitorExe" />
-			<ComponentRef Id="FireMonitorConfig" />
-			<ComponentRef Id="FMCommonComponent" />
-      <ComponentRef Id="FMCommonGKComponent"/>
-			<ComponentRef Id="FMControlsComponent" />
-			<ComponentRef Id="FMDeviceControlsComponent" />
-			<ComponentRef Id="FMFiresecAPIComponent" />
-			<ComponentRef Id="FMFiresecClientComponent" />
-			<ComponentRef Id="FMUnityComponent" />
-			<ComponentRef Id="FMPrismComponent" />
-			<ComponentRef Id="FMPrismUnityExtensionsComponent" />
-			<ComponentRef Id="FMWPFToolkitExtendedComponent" />
-			<ComponentRef Id="FMServiceLocationComponent" />
-			<ComponentRef Id="FMInfrastructure.CommonComponent" />
-      <ComponentRef Id="FMInfrastructure.ClientComponent" />
-      <ComponentRef Id="FMInfrastructure.PlansComponent"/>
-			<ComponentRef Id="FMInfrastructureComponent" />
 			<ComponentRef Id="FMDevicesModuleComponent" />
-			<ComponentRef Id="FMPlansModuleComponent" />
-			<ComponentRef Id="FMJournalModuleComponent" />
-      <ComponentRef Id="FMReportsModule2Component" />
-			<ComponentRef Id="FMCallModuleComponent"/>
-			<ComponentRef Id="FMAlarmModuleComponent"/>
-			<ComponentRef Id="FMNLogComponent"/>
-			<ComponentRef Id="FMManualComponent"/>
+      <ComponentRef Id="FMGKModuleComponent" />
+      <ComponentRef Id="FMVideoModuleComponent" />
 			<ComponentRef Id="FMProgramsMenuShortcut" />
 			<ComponentRef Id="FMDesktopShortcut" />
-      <ComponentRef Id="FMIntegrateCmd"/>
-      <ComponentRef Id="FMDeintegrateCmd"/>
-      <ComponentRef Id="FMIntegrateReg"/>
-      <ComponentRef Id="FMDeintegrateReg"/>
-      <ComponentRef Id="FMIntegrateRegx64"/>
-      <ComponentRef Id="FMIntegrateRegx32"/>
-      <ComponentRef Id="FMGKModuleComponent"/>
-      <ComponentRef Id="FMVideoModuleComponent"/>
-      <ComponentRef Id="FMHASPComponent"/>
-      <ComponentRef Id="FMSystemHASPComponent"/>
-      <ComponentGroupRef Id="FireMonReportTemplatesFolder"/>
-		</Feature>
+      <ComponentRef Id="FMIntegrateCmd" />
+      <ComponentRef Id="FMSystemHASPComponent" />
+      <ComponentRef Id="FMDeviceListReportComponent" />
+    </Feature>
 	</Fragment>
 </Wix>

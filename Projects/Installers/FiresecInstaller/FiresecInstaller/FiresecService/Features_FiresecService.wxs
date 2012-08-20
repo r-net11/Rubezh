@@ -2,48 +2,26 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables_FiresecService.wxi?>
 	<Fragment>
-		<Feature Id="FiresecServiceFeature" Title="$(var.FiresecServiceName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="Features_FiresecService" Title="$(var.FiresecServiceName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="FIRESECSERVICELOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="MainExe" />
-			<ComponentRef Id="FiresecServiceConfig" />
-			<ComponentRef Id="CommonComponent" />
-			<ComponentRef Id="ControlsComponent"/>
-			<ComponentRef Id="FiresecComponent" />
-			<ComponentRef Id="FiresecAPIComponent" />
-			<ComponentRef Id="InfrastructureCommonComponent"/>
-			<ComponentRef Id="FSVlcCoreComponent"/>
-			<ComponentRef Id="FSVlcFormsComponent"/>
-			<ComponentRef Id="FSVlcDotNetCoreInteropsComponent"/>
-      <ComponentRef Id="FSSqlceca35Component"/>
-      <ComponentRef Id="FSsqlcecompact35Component"/>
-      <ComponentRef Id="FSsqlceer35ENComponent"/>
-      <ComponentRef Id="FSsqlceme35Component"/>
-      <ComponentRef Id="FSsqlceoledb35Component"/>
-      <ComponentRef Id="FSsqlceqp35Component"/>
-      <ComponentRef Id="FSsqlcese35Component"/>
-      <ComponentRef Id="FSSystemDataSqlServerCeComponent"/>
-      <ComponentRef Id="FSNLogComponent"/>
-      <ComponentRef Id="FSFiresecSDFComponent" />
-      <ComponentRef Id="FSSKUDComponent"/>
-      <ComponentRef Id="FSSKUDConfigComponent"/>
-			<ComponentRef Id="TrayComponent"/>
-			<ComponentRef Id="SecurityConfiguration"/>
-      <ComponentRef Id="DriversConfiguration"/>
-      <ComponentRef Id="PlansConfiguration"/>
-      <ComponentRef Id="DeviceConfiguration"/>
-      <ComponentRef Id="SystemConfiguration"/>
-			<ComponentRef Id="DeviceLibrary"/>
+      <ComponentRef Id="FSSKUDComponent" />
+      <ComponentRef Id="OPC_Libs_Component" />
 			<ComponentRef Id="FiresecServiceProgramsMenuShortcut" />
 			<ComponentRef Id="FiresecServiceDesktopShortcut" />
-      <ComponentRef Id="Infrastructure.PlansComponent" />
-			<ComponentRef Id="FSAutorunComponent"/>
-      <ComponentRef Id="OPC_gbda3w_Component"/>
-      <ComponentRef Id="OPC_gbda_clr_Component"/>
+			<ComponentRef Id="FSAutorunComponent" />
       
+      <ComponentRef Id="SecurityConfiguration" />
+      <ComponentRef Id="DriversConfiguration" />
+      <ComponentRef Id="PlansConfiguration" />
+      <ComponentRef Id="DeviceConfiguration" />
+      <ComponentRef Id="SystemConfiguration" />
+      <ComponentRef Id="DeviceLibrary" />
+      <ComponentRef Id="FS_Sounds" />
+
       <!--<ComponentRef Id="FiresecNTServiceComponent"/>-->
       <!--<ComponentRef Id="ServiceInstallerComponent"/>-->
       <!--<ComponentRef Id="RemoveNTServiceComponent" />-->
-			<ComponentGroupRef Id="ConfigurationGroup"/>
 		</Feature>
 	</Fragment>
 </Wix>

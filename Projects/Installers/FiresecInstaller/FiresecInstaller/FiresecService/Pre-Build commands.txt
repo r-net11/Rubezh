@@ -1,3 +1,1 @@
-﻿"%WIX%\bin\heat.exe" dir "$(ProjectDir)Configuration\Icons" -t "$(ProjectDir)Xslt\WixIcons.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesIcons.wxs" -gg –sfrag
-"%WIX%\bin\heat.exe" dir "$(ProjectDir)Configuration\Sounds" -t "$(ProjectDir)Xslt\WixSounds.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesSounds.wxs" -gg –sfrag
-"%WIX%\bin\heat.exe" dir "$(ProjectDir)Configuration\ReportTemplates" -t "$(ProjectDir)Xslt\WixReportTemplates.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesReportTemplates.wxs" -gg –sfrag
+﻿"%WIX%\bin\heat.exe" dir "$(ProjectDir)Configuration\Sounds" -t "$(ProjectDir)Xslt\WixSounds.xslt" -o "$(ProjectDir)AutoGenOutputFiles\OutputFilesSounds.wxs" -gg –sfrag

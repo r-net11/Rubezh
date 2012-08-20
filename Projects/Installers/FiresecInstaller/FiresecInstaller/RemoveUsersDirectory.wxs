@@ -18,8 +18,6 @@
     <DirectoryRef Id="INSTALLLOCATION">
       <Component Id="ClearOnUninstallFireMonitor" Guid="56ECF00B-C73E-4E93-BF09-CF295D691DCE">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <RemoveFile Id="RemoveMonitorIcons" On="uninstall" Name="*.*" Directory="FireMonIconsFolder" />
-        <RemoveFolder Id="RemoveMonitorIconsLocation" On="uninstall" Directory="FireMonIconsFolder"/>
         <RemoveFile Id="RemoveMonitorSounds" On="uninstall" Name="*.*" Directory="FireMonSoundsFolder" />
         <RemoveFolder Id="RemoveMonitorSoundsLocation" On="uninstall" Directory="FireMonSoundsFolder"/>
         <RemoveFile Id="RemoveMonitorReportTemplates" On="uninstall" Name="*.*" Directory="FireMonReportTemplatesFolder" />
@@ -37,8 +35,6 @@
 
       <Component Id="ClearOnUninstallFireAdministrator" Guid="4B74C764-092A-4BD3-A51F-15FC8471EE63">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <RemoveFile Id="RemoveAdmIcons" On="uninstall" Name="*.*" Directory="FireAdmIconsFolder" />
-        <RemoveFolder Id="RemoveAdmIconsLocation" On="uninstall" Directory="FireAdmIconsFolder" />
         <RemoveFile Id="RemoveAdmSounds" On="uninstall" Name="*.*" Directory="FireAdmSoundsFolder" />
         <RemoveFolder Id="RemoveAdmSoundsLocation" On="uninstall" Directory="FireAdmSoundsFolder" />
         <RemoveFile Id="RemoveAdmXaml2svg" On="uninstall" Name="*.*" Directory="FireAdmXaml2svgFolder" />
@@ -54,12 +50,8 @@
 
       <Component Id="ClearOnUninstallFiresecService" Guid="EE4A45FE-3EA9-4A33-B259-8B9E6741B859">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <RemoveFile Id="RemoveFSIcons" On="uninstall" Name="*.*" Directory="FiresecServiceIconsFolder" />
-        <RemoveFolder Id="RemoveFSIconsLocation" On="uninstall" Directory="FiresecServiceIconsFolder"/>
         <RemoveFile Id="RemoveFSSounds" On="uninstall" Name="*.*" Directory="FiresecServiceSoundsFolder" />
         <RemoveFolder Id="RemoveFSSoundsLocation" On="uninstall" Directory="FiresecServiceSoundsFolder"/>
-        <!--<RemoveFile Id="RemoveFSConfigurations" On="uninstall" Name="*.*" Directory="FiresecServiceConfigFolder" />
-				<RemoveFolder Id="RemoveFSConfigLocation" On="uninstall" Directory="FiresecServiceConfigFolder" />-->
         <RemoveFile Id="RemoveFiresecServiceLogs" On="uninstall" Name="*.*" Directory="FiresecServiceLogsFolder"/>
         <RemoveFolder Id="RemoveFiresecServiceLogsFolderLocation" On="uninstall" Directory="FiresecServiceLogsFolder"/>
         <RemoveFile Id="RemoveFiresecService" On="uninstall" Name="*.*" Directory="FIRESECSERVICELOCATION" />

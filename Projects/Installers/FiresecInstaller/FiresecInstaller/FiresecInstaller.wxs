@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
-     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension"
-     >
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <?include Variables_Firesec.wxi?>
 
-  <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="0.0.0.1" Manufacturer="$(var.Manufacturer)"
-           UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
-
-    <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" Description="Установка $(var.ProductName)"
-             SummaryCodepage="$(var.Codepage)" />
-
+  <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="0.0.0.1" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
+    <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" Description="Установка $(var.ProductName)" SummaryCodepage="$(var.Codepage)" />
     <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
 
-
     <Upgrade Id="$(var.UpgradeCode)" >
-      <UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="yes" Maximum="20.0.0.0" IncludeMaximum="no"
-                      Language="1049" Property="OLD_VERSION_FOUND" IgnoreRemoveFailure="yes"/>
+      <UpgradeVersion Minimum="$(var.ProductVersion)" IncludeMinimum="yes" Maximum="20.0.0.0" IncludeMaximum="no" Language="1049" Property="OLD_VERSION_FOUND" IgnoreRemoveFailure="yes"/>
     </Upgrade>
 
     <PropertyRef Id="NETFRAMEWORK40FULL" />
@@ -42,7 +35,7 @@
     <Property Id="SHORTCUT_PROGRAMMENU" Value="1"/>
     <Property Id="SHORTCUT_DESKTOP" Value="1"/>
     <Property Id="GENERAL_MODULE" Value="1" />
-    <Property Id="R2_MODULE" Value="1" />
+    <Property Id="FS_MODULE" Value="1" />
     <Property Id="GK_MODULE" />
     <Property Id="OPC_MODULE" />
     <Property Id="SKUD_MODULE" />
@@ -72,14 +65,12 @@
           <Directory Id="FIRESECSERVICELOCATION" Name="$(var.FiresecServiceName)">
             <Directory Id="FiresecServiceLogsFolder" Name="Logs" />
             <Directory Id="FiresecServiceConfigFolder" Name="$(var.ConfigurationFolder)">
-              <Directory Id="FiresecServiceIconsFolder" Name="$(var.IconsFolder)" />
               <Directory Id="FiresecServiceSoundsFolder" Name="$(var.SoundsFolder)" />
             </Directory>
           </Directory>
           <Directory Id="FIREADMINISTRATORLOCATION" Name="$(var.FireAdministratorName)">
             <Directory Id="FireAdmLogsFolder" Name="Logs" />
             <Directory Id="FireAdmConfigFolder" Name="$(var.ConfigurationFolder)">
-              <Directory Id="FireAdmIconsFolder" Name="$(var.IconsFolder)" />
               <Directory Id="FireAdmSoundsFolder" Name="$(var.SoundsFolder)" />
               <Directory Id="FireAdmXslFilesFolder" Name="$(var.XslFilesFolder)">
                 <Directory Id="FireAdmXaml2svgFolder" Name="$(var.xaml2svgFolder)" />
@@ -91,7 +82,6 @@
             <Directory Id="FireMonLogsFolder" Name="Logs" />
             <Directory Id="ClientSettingsFolder" Name="ClientSettings" />
             <Directory Id="FireMonConfigFolder" Name="$(var.ConfigurationFolder)">
-              <Directory Id="FireMonIconsFolder" Name="$(var.IconsFolder)" />
               <Directory Id="FireMonSoundsFolder" Name="$(var.SoundsFolder)" />
               <Directory Id="FireMonReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
             </Directory>
@@ -99,13 +89,10 @@
           <Directory Id="LOGS" Name="Logs" />
         </Directory>
       </Directory>
-      <!--Пуск\Программы\FiresecService-->
       <Directory Id="ProgramMenuFolder">
         <Directory Id="ProgramMenuDir" Name="$(var.ProductName)" />
       </Directory>
-      <!--Рабочий стол-->
       <Directory Id="DesktopFolder" />
-
     </Directory>
 
     <FeatureRef Id="FiresecFeature" />

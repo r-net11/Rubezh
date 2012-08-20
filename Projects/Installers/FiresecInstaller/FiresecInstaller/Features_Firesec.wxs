@@ -2,32 +2,29 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?include Variables_Firesec.wxi?>
   <Fragment>
-    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand"
-             ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
-      <!--<MergeRef Id="HASPMSM" />-->
-      <Feature Id="FiresecService" Level="1" ConfigurableDirectory="FIRESECSERVICELOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local" >
+    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <Feature Id="FiresecService" Level="1" ConfigurableDirectory="FIRESECSERVICELOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
         <Condition Level="0">INSTALLLEVEL=2</Condition>
-        <FeatureRef Id="OldFiresecServiceFeature" />
-        <FeatureRef Id="FiresecServiceFeature" />
-        <ComponentRef Id="RegistryFiresec2Key"/>
-        <ComponentRef Id="ClearOnUninstallFiresecService"/>        
+        <FeatureRef Id="Features_OldFiresecService" />
+        <FeatureRef Id="Features_FiresecService" />
+        <ComponentRef Id="RegistryFiresec2Key" />
+        <ComponentRef Id="ClearOnUninstallFiresecService" />
       </Feature>
       <Feature Id="FiresecClient" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
-        <FeatureRef Id="FAFeatureBasic" />
-        <FeatureRef Id="FMFeatureBasic" />
-        <ComponentRef Id="DeleteGKXMLSetting" />
-        <ComponentRef Id="DeleteOPCXMLSetting" />
-        <ComponentRef Id="DeleteVideoXMLSetting" />
-        <ComponentRef Id="DeleteSKUDXMLSetting" />
-        <!--<ComponentRef Id="DeleteReportXMLSetting" />-->
-        <ComponentRef Id="DeleteReport2XMLSetting" />
+        <FeatureRef Id="Features_FireAdministrator" />
+        <FeatureRef Id="Features_FireMonitor" />
+        <ComponentRef Id="DevicesModule_AppConfig" />
+        <ComponentRef Id="GKModule_AppConfig" />
+        <ComponentRef Id="OPCModule_AppConfig" />
+        <ComponentRef Id="SkudModule_AppConfig" />
+        <ComponentRef Id="VideoModule_AppConfig" />
         <ComponentRef Id="ClearOnUninstallFireAdministrator"/>
-        <ComponentRef Id="ClearOnUninstallFireMonitor"/>
+        <ComponentRef Id="ClearOnUninstallFireMonitor" />
       </Feature>
-      <ComponentRef Id="LogScript"/>
-      <ComponentRef Id="DesktopFolder"/>
-      <ComponentRef Id="ProgramMenuDir"/>
-      <ComponentRef Id="FiresecProgramsMenuShortcutUninstall"/>
+      <ComponentRef Id="LogScript" />
+      <ComponentRef Id="DesktopFolder" />
+      <ComponentRef Id="ProgramMenuDir" />
+      <ComponentRef Id="FiresecProgramsMenuShortcutUninstall" />
       <ComponentRef Id="ClearOnUninstallLogs" />
     </Feature>
   </Fragment>

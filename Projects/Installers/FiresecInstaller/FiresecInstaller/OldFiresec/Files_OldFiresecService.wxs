@@ -9,7 +9,7 @@
                            Property="IsFiresecServiceRunning"/>-->
 
     <DirectoryRef Id="OLDFIRESECSERVICELOCATION">
-      <Component Id="RemoveDll" Guid="1412B8B3-43D5-42F4-BEAB-83B671506C91" >
+      <Component Id="RemoveOldFiresecFiles" Guid="1412B8B3-43D5-42F4-BEAB-83B671506C91" >
         <RemoveFile Id='RemoveOldFsTypesDll' On='install' Name='fs_types.dll' Directory='OLDFIRESECSERVICELOCATION' />
         <RemoveFile Id='RemoveOldSockProxyDll' On='install' Name='SockProxy.dll' Directory='OLDFIRESECSERVICELOCATION'/>
         <RemoveFile Id='Removefs_server.exe' On='install' Name='fs_server.exe' Directory='OLDFIRESECSERVICELOCATION' />
@@ -30,79 +30,36 @@
         <RemoveFile Id='Removefbintl.dll' On='install' Name='fbintl.dll' Directory='INTL'/>
       </Component>
       
-      <Component Id="Fs_serverExe" Guid="*" Permanent="yes" >
-        <File Id="Fs_serverExeFile" Name="fs_server.exe" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes"/>
+      <Component Id="InstallOldFiresecFiles" Guid="AC5EF734-CA4A-4913-94F2-7E36D411CF04" Permanent="yes" >
+        <File Id="Fs_serverExeFile" Name="fs_server.exe" Source="$(var.OldFiresecService.TargetDir)" KeyPath="yes"/>
+        <File Id="FsScktsrvrExeFile" Name="scktsrvr.exe" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="Fs_srvconDllFile" Name="fs_srvcon.dll" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="ConfigCdbFile" Name="config.cdb" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="FsDbSqlFile" Name="db.sql" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="Rubezh10aXmlFile" Name="rubezh10a.xml" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="Rubezh2010XmlFile" Name="rubezh2010.xml" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="SqlqXmlFile" Name="sqlq.xml" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="FsFrmDatFile" Name="frm.dat" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="Fs_serverIniFile" Name="fs_server.ini" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="FsLibxml2DllFile" Name="libxml2.dll" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="FsIconvDllFile" Name="iconv.dll" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="FsZlib1DllFile" Name="zlib1.dll" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="FsGds32Dll" Name="gds32.dll" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="FsFirebirdMsgDll" Name="firebird.msg" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="fs_typesDllFile" Name="fs_types.dll" Source="$(var.OldFiresecService.TargetDir)" />
+        <File Id="FsSockProxyDllFile" Name="SockProxy.dll" Source="$(var.OldFiresecService.TargetDir)" />
       </Component>
-      <Component Id="FsScktsrvrExe" Guid="*" Permanent="yes">
-        <File Id="FsScktsrvrExeFile" Name="scktsrvr.exe" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes"/>
-        <!--<ServiceInstall Id="Adv_SocketServerInstaller" Type="ownProcess" Vital="yes" Name="Adv_SocketServer"
-                        DisplayName="Borland Advanced Socket Server" Start="auto" Account="LocalSystem" ErrorControl="ignore"
-                        Interactive="yes" Arguments="-service" />-->
-      </Component>
-      <!--<Component Id="Adv_SocketServerInstallerComponent" Guid="70FB7A3C-255F-42D6-979B-D1A455364F64">
-        <CreateFolder Directory="OLDFIRESECSERVICELOCATION" />
-        <ServiceInstall Id="Adv_SocketServerInstaller" Type="ownProcess" Vital="yes" Name="Adv_SocketServer"
-                        DisplayName="Borland Advanced Socket Server" Start="auto" Account="LocalSystem" ErrorControl="ignore"
-                        Interactive="yes" Arguments="-service" />
-      </Component>-->
-      <!--<Component Id="RemoveSocketServer" Guid="FF5E5D55-8211-4E0E-B4E2-5D8D3164D0C1">
-        <CreateFolder Directory="OLDFIRESECSERVICELOCATION" />
-        <Condition>NOT REGOLDFS</Condition>
-        --><!--<ServiceControl Id="StartAdv_SocketServer" Name="Adv_SocketServer" Wait="yes" Remove="uninstall" />--><!--
-      </Component>-->
-      <Component Id="Fs_srvconDll" Guid="*" Permanent="yes">
-        <File Id="Fs_srvconDllFile" Name="fs_srvcon.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
-      </Component>
-      <Component Id="FsConfigCdb" Guid="*" Permanent="yes">
-        <File Id="ConfigCdbFile" Name="config.cdb" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes"/>
-      </Component>
-      <Component Id="FsSbSql" Guid="*" Permanent="yes">
-        <File Id="FsDbSqlFile" Name="db.sql" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
-      </Component>
-      <Component Id="FsXml" Guid="F348F582-6E99-469E-8782-6C4FCE0339C9" Permanent="yes">
-        <File Id="Rubezh10aXmlFile" Name="rubezh10a.xml" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
-        <File Id="Rubezh2010XmlFile" Name="rubezh2010.xml" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" />
-        <File Id="SqlqXmlFile" Name="sqlq.xml" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" />        
-      </Component>
-      <Component Id="FsFrmDat" Guid="*" Permanent="yes">
-        <File Id="FsFrmDatFile" Name="frm.dat" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
-      </Component>
-      <Component Id="FsServerIni" Guid="*" Permanent="yes">
-        <File Id="Fs_serverIniFile" Name="fs_server.ini" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
-      </Component>
-      <Component Id="FsLibxml2Dll" Guid="*" Permanent="yes">
-        <File Id="FsLibxml2DllFile" Name="libxml2.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
-      </Component>
-      <Component Id="FsIconvDll" Guid="*" Permanent="yes">
-        <File Id="FsIconvDllFile" Name="iconv.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
-      </Component>
-      <Component Id="FsZlib1Dll" Guid="*" Permanent="yes">
-        <File Id="FsZlib1DllFile" Name="zlib1.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
-      </Component>
-      <Component Id="FsGds32Dll" Guid="*" Permanent="yes">
-        <File Id="FsGds32Dll" Name="gds32.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes"  />
-      </Component>
-      <Component Id="FsFirebirdMsg" Guid="*" Permanent="yes">
-        <File Id="FsFirebirdMsgDll" Name="firebird.msg" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
-      </Component>      
-      <Component Id="fs_typesDll" Guid="*" Permanent="yes">
-        <File Id="fs_typesDllFile" Name="fs_types.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
-      </Component>
-      <Component Id="FsSockProxyDll" Guid="*" Permanent="yes" >
-        <File Id="FsSockProxyDllFile" Name="SockProxy.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
-      </Component>
-
     </DirectoryRef>
 
     <DirectoryRef Id="INTL">
       <Component Id="FsFbintlDll" Guid="*" Permanent="yes">
-        <File Id="FsFbintlDllFile" Name="fbintl.dll" Source="$(var.OldFiresecService.TargetDir)" DiskId="1" KeyPath="yes" />
+        <File Id="FsFbintlDllFile" Name="fbintl.dll" Source="$(var.OldFiresecService.TargetDir)" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="SystemFolder" >
       <Component Id="msvcp60Dll" Guid="*" Permanent="yes" >
-        <File Id="msvcp60DllFile" Name="msvcp60.dll" Source="C:\WINDOWS\system32\" DiskId="1" KeyPath="yes" />
+        <File Id="msvcp60DllFile" Name="msvcp60.dll" Source="C:\WINDOWS\system32\" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 

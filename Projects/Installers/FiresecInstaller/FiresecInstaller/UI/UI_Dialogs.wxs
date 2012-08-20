@@ -115,7 +115,7 @@
                 <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp" />
                 <Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор дополнительных модулей" TabSkip="yes" Transparent="yes" />
                 <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие дополнительные модули должны быть установлены?" TabSkip="yes" Transparent="yes" />
-                <Control Id="R2Module" Type="CheckBox" Width="300" Height="17" X="25" Y="60" Text="Адресная система" Property="R2_MODULE" CheckBoxValue="1" Disabled="no" />
+                <Control Id="FSModule" Type="CheckBox" Width="300" Height="17" X="25" Y="60" Text="Адресная система" Property="FS_MODULE" CheckBoxValue="1" Disabled="no" />
                 <Control Id="GKModule" Type="CheckBox" Height="18" Width="300" X="25" Y="80" Text="Групповой контроллер" Property="GK_MODULE" CheckBoxValue="0" Disabled="no" />
                 <Control Id="OPCModule" Type="CheckBox" Height="18" Width="300" X="25" Y="100" Text="OPC" Property="OPC_MODULE" CheckBoxValue="0"  Disabled="no" />
                 <Control Id="SkudModule" Type="CheckBox" Height="18" Width="300" X="25" Y="120" Text="СКУД" Property="SKUD_MODULE" Disabled="yes" />

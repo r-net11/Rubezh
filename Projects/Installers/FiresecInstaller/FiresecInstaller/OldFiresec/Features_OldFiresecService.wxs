@@ -2,26 +2,11 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables_OldFiresecService.wxi?>
 	<Fragment>
-		<Feature Id="OldFiresecServiceFeature" Title="$(var.OldFiresecServiceName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="Features_OldFiresecService" Title="$(var.OldFiresecServiceName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="OLDFIRESECSERVICELOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
-      <ComponentRef Id="RemoveDll"/>
-      <ComponentRef Id="fs_typesDll" />
-      <ComponentRef Id="FsSockProxyDll" />
-      <ComponentRef Id="Fs_serverExe" />
-      <ComponentRef Id="FsScktsrvrExe" />
-      <ComponentRef Id="Fs_srvconDll" />
-      <ComponentRef Id="FsConfigCdb" />
-      <ComponentRef Id="FsSbSql" />
-      <ComponentRef Id="FsXml" />
-      <ComponentRef Id="FsFrmDat" />
-      <ComponentRef Id="FsServerIni" />
-      <ComponentRef Id="FsLibxml2Dll" />
-      <ComponentRef Id="FsIconvDll" />
-      <ComponentRef Id="FsZlib1Dll" />
-      <ComponentRef Id="FsGds32Dll" />
-      <ComponentRef Id="FsFirebirdMsg" />
+      <ComponentRef Id="RemoveOldFiresecFiles"/>
+      <ComponentRef Id="InstallOldFiresecFiles"/>
       <ComponentRef Id="FsFbintlDll" />
-      <!--<ComponentRef Id="RemoveSocketServer" />-->
       <ComponentRef Id="msvcp60Dll" />
 		</Feature>
 	</Fragment>

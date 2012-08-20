@@ -4,78 +4,93 @@
 		 xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension">
   <Fragment>
     <DirectoryRef Id="INSTALLLOCATION">
-      <Component Id="DeleteGKXMLSetting" Guid="0B88A0D7-FFCA-4A08-A26A-862308B009B2">
+      <Component Id="DevicesModule_AppConfig" Guid="0B88A0D7-FFCA-4A08-A26A-862308B009B2">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <util:XmlConfig Id="XmlFASettingsGK" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
-                        ElementPath="//configuration/modules" On="install"
-                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]"
-											/>
-        <util:XmlConfig Id="XmlFMSettingsGK" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
-                        ElementPath="//configuration/modules" On="install"
-                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]"
-											/>
+        <util:XmlConfig Id="FA_DevicesModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='DevicesModule.dll'[\]]" />
+        <util:XmlConfig Id="FA_LibraryModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='LibraryModule.dll'[\]]" />
+        <util:XmlConfig Id="FA_FiltersModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='FiltersModule.dll'[\]]" />
+        <util:XmlConfig Id="FA_SoundsModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='SoundsModule.dll'[\]]" />
+        <util:XmlConfig Id="FA_InstructionsModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='InstructionsModule.dll'[\]]" />
+        <util:XmlConfig Id="FA_SettingsModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='SettingsModule.dll'[\]]" />
+        
+        <util:XmlConfig Id="FM_DevicesModule_AppConfig" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='DevicesModule.dll'[\]]" />
+        <util:XmlConfig Id="FM_JournalModule_AppConfig" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='JournalModule.dll'[\]]" />
+        <util:XmlConfig Id="FM_ReportsModule_AppConfig" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='ReportsModule.dll'[\]]" />
+        <Condition>NOT FS_MODULE</Condition>
+      </Component>
+      
+      <Component Id="GKModule_AppConfig" Guid="0B88A0D7-FFCA-4A08-A26A-862308B009B2">
+        <CreateFolder Directory="INSTALLLOCATION" />
+        <util:XmlConfig Id="FA_GKModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]" />
+        <util:XmlConfig Id="FM_GKModule_AppConfig" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]" />
         <Condition>NOT GK_MODULE</Condition>
       </Component>
-      <!--<Component Id="DeleteReportXMLSetting" Guid="CAAA9A68-0D03-4159-88DA-5D437A918E74">
+
+      <Component Id="OPCModule_AppConfig" Guid="F0B66E96-0FC0-4CB2-BE16-7EF991083700">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <util:XmlConfig Id="XmlFMSettingsReport" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
-                        ElementPath="//configuration/modules" On="install"
-                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='ReportsModule.dll'[\]]"
-											/>
-      </Component>-->
-      <Component Id="DeleteReport2XMLSetting" Guid="51621292-023B-48E3-853B-8CE08F4CAC9E">
-        <CreateFolder Directory="INSTALLLOCATION" />
-        <util:XmlConfig Id="XmlFMSettingsReport2" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
-                        ElementPath="//configuration/modules" On="install"
-                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='ReportsModule.dll'[\]]"
-											/>
-      </Component>
-      <Component Id="DeleteOPCXMLSetting" Guid="F0B66E96-0FC0-4CB2-BE16-7EF991083700">
-        <CreateFolder Directory="INSTALLLOCATION" />
-        <util:XmlConfig Id="XmlFASettingsOPC" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
-                        ElementPath="//configuration/modules" On="install"
-                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='OPCModule.dll'[\]]"
-											/>
-        <util:XmlConfig Id="XmlFSSettingsOPC" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="delete" Node="element"
-                        ElementPath="//configuration/modules" On="install"
-                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='OPCModule.dll'[\]]"
-											/>
+        <util:XmlConfig Id="FA_OPCModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='OPCModule.dll'[\]]" />
+
+        <util:XmlConfig Id="FM_OPCModule_AppConfig_RunOPC" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/appSettings" On="install"
+            VerifyPath="//configuration/appSettings/add[\[]@key='RunOPC'[\]]" />
         <Condition>NOT OPC_MODULE</Condition>
       </Component>
-      <Component Id="DeleteSKUDXMLSetting" Guid="CDBA5061-EB0B-41A5-8B50-926984D7F879">
+
+      <Component Id="SkudModule_AppConfig" Guid="CDBA5061-EB0B-41A5-8B50-926984D7F879">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <util:XmlConfig Id="XmlFASettingsSKUD" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
-                        ElementPath="//configuration/modules" On="install"
-                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='SkudModule.dll'[\]]"
-											/>
+        <util:XmlConfig Id="FA_SkudModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='SkudModule.dll'[\]]" />
         <Condition>NOT SKUD_MODULE</Condition>
       </Component>
-      <Component Id="DeleteVideoXMLSetting" Guid="3111F860-74E6-4E75-B78C-3077273A57E3">
+
+      <Component Id="VideoModule_AppConfig" Guid="3111F860-74E6-4E75-B78C-3077273A57E3">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <util:XmlConfig Id="XmlFASettingsVIDEO" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
-                        ElementPath="//configuration/modules" On="install"
-                        VerifyPath="//configuration/modules/module[\[]@assemblyFile='VideoModule.dll'[\]]"
-											/>
+        <util:XmlConfig Id="FA_VideoModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/modules" On="install"
+            VerifyPath="//configuration/modules/module[\[]@assemblyFile='VideoModule.dll'[\]]" />
         <Condition>NOT VIDEO_MODULE</Condition>
       </Component>
 
       <Component Id="RegistryFiresec2Key" Guid="257BFCBE-A5C8-4799-9F01-2E02657252AF">
         <RegistryValue Id="Firesec2InstallKey" Root="HKLM" Key="Software\rubezh\Firesec-2" Type="string" Value="Installed"
-                       Name="StateServer" KeyPath="yes" >SETUPCHOICE="Full"</RegistryValue>
+            Name="StateServer" KeyPath="yes" >SETUPCHOICE="Full"</RegistryValue>
         <RegistryValue Id="Firesec2InstallKey2" Root="HKLM" Key="Software\rubezh\Firesec-2" Type="string" Value="Client"
                Name="StateFiresec-2" >SETUPCHOICE="Client"</RegistryValue>
         <RegistryValue Id="Firesec2InstallKey3" Root="HKLM" Key="Software\rubezh\Firesec-2" Type="string" Value="Full"
-               Name="StateFiresec-2" >SETUPCHOICE="Full"</RegistryValue>
+            Name="StateFiresec-2" >SETUPCHOICE="Full"</RegistryValue>
         <RemoveRegistryKey Id="RemoveFiresec2InstallKey" Root="HKLM" Key="Software\rubezh\Firesec-2" Action="removeOnUninstall"/>
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="ProgramMenuDir">
       <Component Id="FiresecProgramsMenuShortcutUninstall" Guid="*">
-        <Shortcut Id="FAUninstallProduct" Name="Удалить Firesec-2" Target="[System64Folder]msiexec.exe"
-									Arguments="/x [ProductCode]" Description="Удаляет Firesec-2 с данного компьютера" />
-        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer"
-											 Value="1" KeyPath="yes" />
+        <Shortcut Id="FAUninstallProduct" Name="Удалить Firesec-2" Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" Description="Удаляет Firesec-2 с данного компьютера" />
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 

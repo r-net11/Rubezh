@@ -4,48 +4,14 @@
 	<?include Variables_FireAdministrator.wxi?>
 	
 	<Fragment>
-		<Feature Id="FAFeatureBasic" Title="$(var.FireAdministratorName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="Features_FireAdministrator" Title="$(var.FireAdministratorName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="FAExeComponent" />
-			<ComponentRef Id="FAConfigComponent" />
-			<ComponentRef Id="FACommonComponent" />
-      <ComponentRef Id="FACommonGKComponent"/>
-			<ComponentRef Id="FAControlsComponent" />
-			<ComponentRef Id="FADeviceControlsComponent" />
-			<ComponentRef Id="FAFiresecAPIComponent" />
-			<ComponentRef Id="FAFiresecClientComponent" />
-			<ComponentRef Id="FADevicesModuleComponent" />
-			<ComponentRef Id="FAInfrastructure.CommonComponent" />
-      <ComponentRef Id="FAInfrastructure.ClientComponent" />
-      <ComponentRef Id="FAInfrastructure.PlansComponent"/>
-			<ComponentRef Id="FAInfrastructureComponent" />
-			<ComponentRef Id="FAUnityComponent" />
-			<ComponentRef Id="FAPrismDllComponent"/>
-			<ComponentRef Id="FAPrismUnityExtensionsComponent"/>
-			<ComponentRef Id="FAWPFToolkitExtendedComponent"/>
-			<ComponentRef Id="FAServiceLocationComponent"/>
-			<ComponentRef Id="FAInstructionsModuleComponent" />
-			<ComponentRef Id="FALibraryModuleComponent" />
-			<ComponentRef Id="FAPlansModuleComponent" />
-			<ComponentRef Id="FASecurityModuleComponent" />
-			<ComponentRef Id="FASettingsModuleComponent" />
-			<ComponentRef Id="FASoundsModuleComponent" />
-			<ComponentRef Id="FAFiltersModuleComponent" />
-      <ComponentRef Id="FAManualComponent"/>
-			<ComponentRef Id="FANLogComponent"/>
-			<ComponentRef Id="FAU2UConsult"/>
+      <ComponentRef Id="FADevicesModuleComponent" />
 			<ComponentRef Id="FAProgramsMenuShortcut" />
 			<ComponentRef Id="FADesktopShortcut" />
-			<ComponentRef Id="XslFiles1" />
-			<ComponentRef Id="XslFiles2" />
-			<ComponentRef Id="XslFiles3" />
-			<ComponentRef Id="XslFiles4" />
-			<ComponentRef Id="XslFiles5" />
-			<ComponentRef Id="XslFiles6" />
-			<ComponentRef Id="XslFiles7" />
-			<ComponentRef Id="XslFiles8" />
-			<ComponentRef Id="XslFiles9" />
-			<ComponentRef Id="XslFiles10" />
+			<ComponentRef Id="FASvg2xamlFiles" />
+			<ComponentRef Id="FAXaml2svgFiles" />
       <ComponentRef Id="FAGKModuleComponent" />
       <ComponentRef Id="FASkudModuleComponent"/>
       <ComponentRef Id="OPCModuleComponent" />
