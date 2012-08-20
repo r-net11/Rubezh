@@ -112,8 +112,7 @@
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}"/>
                                     <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" />
-                                    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
-                                        Visibility="{Binding Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                                    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
                                     <TextBlock Text="{Binding Device.Driver.ShortName}">
                                         <TextBlock.ContextMenu>
                                             <ContextMenu>

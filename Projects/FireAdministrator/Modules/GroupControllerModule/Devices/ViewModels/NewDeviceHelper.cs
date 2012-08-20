@@ -104,9 +104,9 @@ namespace GKModule.ViewModels
                 AddDevice(childDevice, deviceViewModel);
             }
 
-            if (xDevice.Driver.AutoChild != Guid.Empty)
+            if (xDevice.Driver.IsGroupDevice)
             {
-                var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == xDevice.Driver.AutoChild);
+                var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == xDevice.Driver.AutoChild);
 
                 for (byte i = 0; i < xDevice.Driver.AutoChildCount; i++)
                 {

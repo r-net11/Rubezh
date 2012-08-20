@@ -42,10 +42,8 @@
                                     <Image Source="/Controls;component/Images/CheckBlack.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" />
                                 </Grid>
                                 <!--<CheckBox IsChecked="{Binding IsOnPlan, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource IsOnPlanCheckBoxStyle}" Margin="1" />-->
-                                <StackPanel Visibility="{Binding Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
-                                               PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove"/>
-                                </StackPanel>
+                                <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"
+                                    PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove"/>
                             </StackPanel>
 
                             <StackPanel Grid.Column="1" Orientation="Horizontal">

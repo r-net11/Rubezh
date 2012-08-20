@@ -20,46 +20,45 @@ namespace Common.GK
 
 				var xDriver = new XDriver()
 				{
-					DriverType = driverItem.XDriverType,
-					DriverTypeNo = driverItem.DriverTypeNo,
-					UID = driver.UID,
-					OldDriverUID = driver.UID,
-					Name = driver.Name,
-					ShortName = driver.ShortName,
-					HasImage = driver.HasImage,
+					//DriverType = driverItem.XDriverType,
+					//DriverTypeNo = driverItem.DriverTypeNo,
+					//UID = driver.UID,
+					//OldDriverUID = driver.UID,
+					//Name = driver.Name,
+					//ShortName = driver.ShortName,
 					//CanEditAddress = driver.CanEditAddress,
-					CanEditAddress = true,
+					//CanEditAddress = true,
 					IsChildAddressReservedRange = driver.IsChildAddressReservedRange,
 					IsAutoCreate = driver.IsAutoCreate,
-					AutoChild = driver.AutoChild,
+					//AutoChild = driver.AutoChild,
 					AutoChildCount = (byte)driver.AutoChildCount,
-					MinAutoCreateAddress = (byte)driver.MinAutoCreateAddress,
-					MaxAutoCreateAddress = (byte)driver.MaxAutoCreateAddress,
+					//MinAddress = (byte)driver.MinAutoCreateAddress,
+					//MaxAddress = (byte)driver.MaxAutoCreateAddress,
 					UseParentAddressSystem = driver.UseParentAddressSystem,
 					IsRangeEnabled = driver.IsRangeEnabled,
-					MinAddress = (byte)driver.MinAddress,
-					MaxAddress = (byte)driver.MaxAddress,
-					HasAddress = true,
+					//MinAddress = (byte)driver.MinAddress,
+					//MaxAddress = (byte)driver.MaxAddress,
+					//HasAddress = true,
 					//HasAddress = driver.HasAddress,
 					ChildAddressReserveRangeCount = (byte)driver.ChildAddressReserveRangeCount,
 					//IsDeviceOnShleif = driver.IsDeviceOnShleif,
-					IsDeviceOnShleif = true,
-					HasLogic = driver.IsZoneLogicDevice,
-					HasZone = driver.IsZoneDevice,
+					//IsDeviceOnShleif = true,
+					//HasLogic = driver.IsZoneLogicDevice,
+					//HasZone = driver.IsZoneDevice,
 					IsGroupDevice = driver.IsChildAddressReservedRange
 				};
 
-				xDriver.Children = new List<Guid>();
-				foreach (var childDriver in driver.AvaliableChildren)
-				{
-					xDriver.Children.Add(childDriver);
-				}
+				//xDriver.Children = new List<Guid>();
+				//foreach (var childDriver in driver.AvaliableChildren)
+				//{
+				//    xDriver.Children.Add(childDriver);
+				//}
 
-				xDriver.AutoCreateChildren = new List<Guid>();
-				foreach (var childDriver in driver.AutoCreateChildren)
-				{
-					xDriver.AutoCreateChildren.Add(childDriver);
-				}
+				//xDriver.AutoCreateChildren = new List<Guid>();
+				//foreach (var childDriver in driver.AutoCreateChildren)
+				//{
+				//    xDriver.AutoCreateChildren.Add(childDriver);
+				//}
 
 				XManager.DriversConfiguration.Drivers.Add(xDriver);
 			}
@@ -71,53 +70,28 @@ namespace Common.GK
 			XManager.DriversConfiguration.Drivers.Add(GKIndicatorHelper.Create());
 			XManager.DriversConfiguration.Drivers.Add(GKLineHelper.Create());
 			XManager.DriversConfiguration.Drivers.Add(GKReleHelper.Create());
-			CreateKnownProperties();
+			XManager.DriversConfiguration.Drivers.Add(GKReleHelper.Create());
 
-            foreach (var driver in XManager.DriversConfiguration.Drivers)
-            {
-                driver.ImageSource = IconHelper.GetGKIcon(driver);
-            }
-
-            foreach (var driver in XManager.DriversConfiguration.Drivers)
-            {
-                switch (driver.DriverType)
-                {
-                    case XDriverType.RM_1:
-                    case XDriverType.MPT:
-                    case XDriverType.Pump:
-                    case XDriverType.MRO:
-                    case XDriverType.Valve:
-                    case XDriverType.MDU:
-                        driver.IsControlDevice = true;
-                        break;
-                }
-            }
+			AddDriverToKau(SmokeDetectorHelper.Create());
+			AddDriverToKau(CombinedDetectorHelper.Create());
+			AddDriverToKau(HeatDetectorHelper.Create());
+			AddDriverToKau(HandDetectorHelper.Create());
+			AddDriverToKau(RMHelper.Create());
+			AddDriverToKau(AM1Helper.Create());
+			AddDriverToKau(MROHelper.Create());
+			AddDriverToKau(BUNHelper.Create());
+			AddDriverToKau(BUZHelper.Create());
+			AddDriverToKau(MDUHelper.Create());
+			AddDriverToKau(MPTHelper.Create());
+			AddDriverToKau(AMP4Helper.Create());
+			AddDriverToKau(RM5Helper.Create());
 		}
 
-		static void CreateKnownProperties()
+		static void AddDriverToKau(XDriver driver)
 		{
-			foreach (var driverType in new List<XDriverType>() { XDriverType.RM_1, XDriverType.RM_2, XDriverType.RM_3, XDriverType.RM_4, XDriverType.RM_5 })
-			{
-				var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == driverType);
-				RMHelper.Create(xDriver);
-			}
-			MROHelper.Create();
-			AMP4Helper.Create();
-			MDUHelper.Create();
-			BUZHelper.Create();
-			BUNHelper.Create(XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.Pump));
-			//foreach (var driverType in new List<XDriverType>() { XDriverType.Pump, XDriverType.JokeyPump, XDriverType.Compressor, XDriverType.DrenazhPump, XDriverType.CompensationPump })
-			//{
-			//    var xDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == driverType);
-			//    BUNHelper.Create(xDriver);
-			//}
-			MPTHelper.Create();
-			SmokeDetectorHelper.Create();
-			HeatDetectorHelper.Create();
-			CombinedDetectorHelper.Create();
-			AM1Helper.Create();
-			//AMsHelper.Create();
-			PumpsHelper.Create();
+			XManager.DriversConfiguration.Drivers.Add(driver);
+			var kauDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
+			kauDriver.Children.Add(driver.DriverType);
 		}
 	}
 }

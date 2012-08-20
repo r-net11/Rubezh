@@ -118,6 +118,19 @@ namespace XFiresecAPI
 			}
 		}
 
+		public string PresentationDriverAndAddress
+		{
+			get
+			{
+				if (Driver.DriverType == XDriverType.GK)
+					return Driver.ShortName + " " + GetGKIpAddress();
+
+				if (Driver.HasAddress)
+					return Driver.ShortName + " - " + Address;
+				return Driver.ShortName;
+			}
+		}
+
 		public bool CanEditAddress
 		{
 			get
@@ -169,6 +182,19 @@ namespace XFiresecAPI
 			if (Driver.HasAddress)
 				return Driver.ShortName + " - " + DottedAddress;
 			return Driver.ShortName;
+		}
+
+		public string GetGKIpAddress()
+		{
+			if (Driver.DriverType == XDriverType.GK)
+			{
+				var ipProperty = this.Properties.FirstOrDefault(x => x.Name == "IPAddress");
+				if (ipProperty != null)
+				{
+					return ipProperty.StringValue;
+				}
+			}
+			return null;
 		}
 	}
 }

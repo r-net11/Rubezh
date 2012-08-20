@@ -71,14 +71,17 @@ namespace Common.GK
 				}
 				count++;
 			}
+			Formula.AddGetBit(XStateType.Fire2, Zone, DatabaseType);
+			if (count > 0)
+			{
+				Formula.Add(FormulaOperationType.OR);
+			}
 		}
 
 		void AddGkZoneFormula()
 		{
 			AddDeviceFire1();
 			AddDeviceFire2();
-			Formula.AddGetBit(XStateType.Fire2, Zone, DatabaseType);
-			Formula.Add(FormulaOperationType.OR);
 
 			Formula.Add(FormulaOperationType.CONST, 0, Zone.Fire2Count, "Количество устройств для формирования Пожар2");
 			Formula.Add(FormulaOperationType.MUL);

@@ -10,9 +10,13 @@ namespace XFiresecAPI
 		public XDriver()
 		{
 			Properties = new List<XDriverProperty>();
-			Children = new List<Guid>();
-			AutoCreateChildren = new List<Guid>();
+			Children = new List<XDriverType>();
+			AutoCreateChildren = new List<XDriverType>();
 			DriverTypeMappedProperties = new List<XDriverTypeMappedProperty>();
+			CanEditAddress = true;
+			HasAddress = true;
+			IsChildAddressReservedRange = true;
+			IsDeviceOnShleif = true;
 		}
 
 		[DataMember]
@@ -25,19 +29,10 @@ namespace XFiresecAPI
 		public Guid UID { get; set; }
 
 		[DataMember]
-		public Guid OldDriverUID { get; set; }
-
-		[DataMember]
 		public string Name { get; set; }
 
 		[DataMember]
 		public string ShortName { get; set; }
-
-		[DataMember]
-		public string ImageSource { get; set; }
-
-		[DataMember]
-		public bool HasImage { get; set; }
 
 		[DataMember]
 		public bool CanEditAddress { get; set; }
@@ -49,25 +44,19 @@ namespace XFiresecAPI
 		public List<XDriverProperty> Properties { get; set; }
 
 		[DataMember]
-		public List<Guid> Children { get; set; }
+		public List<XDriverType> Children { get; set; }
 
 		[DataMember]
-		public List<Guid> AutoCreateChildren { get; set; }
+		public List<XDriverType> AutoCreateChildren { get; set; }
 
 		[DataMember]
 		public bool IsAutoCreate { get; set; }
 
 		[DataMember]
-		public Guid AutoChild { get; set; }
+		public XDriverType AutoChild { get; set; }
 
 		[DataMember]
 		public byte AutoChildCount { get; set; }
-
-		[DataMember]
-		public byte MinAutoCreateAddress { get; set; }
-
-		[DataMember]
-		public byte MaxAutoCreateAddress { get; set; }
 
 		[DataMember]
 		public bool UseParentAddressSystem { get; set; }
@@ -106,5 +95,13 @@ namespace XFiresecAPI
 
         [DataMember]
         public bool IsControlDevice { get; set; }
+
+		public string ImageSource
+		{
+			get
+			{
+				return "/Controls;component/GKIcons/" + this.DriverType.ToString() + ".png";
+			}
+		}
 	}
 }

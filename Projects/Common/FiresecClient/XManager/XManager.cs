@@ -105,15 +105,12 @@ namespace FiresecClient
 				default:
 					throw new Exception("Получить IP адрес можно только у ГК или в КАУ");
 			}
-			var ipProperty = gkDevice.Properties.FirstOrDefault(x => x.Name == "IPAddress1");
-			if (ipProperty != null)
-			{
-				return ipProperty.StringValue;
-			}
-			else
+			var ipAddress = gkDevice.GetGKIpAddress();
+			if (ipAddress == null)
 			{
 				throw new Exception("Не задан IP адрес");
 			}
+			return ipAddress;
 		}
 	}
 }

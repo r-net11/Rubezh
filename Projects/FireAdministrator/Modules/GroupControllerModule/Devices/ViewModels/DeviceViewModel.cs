@@ -95,7 +95,7 @@ namespace GKModule.ViewModels
 
 		bool CanRemove()
 		{
-			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.AutoChild == Driver.UID);
+			return !(Driver.IsAutoCreate || Parent == null || (Parent.Driver.IsGroupDevice && Parent.Driver.AutoChild == Driver.DriverType));
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

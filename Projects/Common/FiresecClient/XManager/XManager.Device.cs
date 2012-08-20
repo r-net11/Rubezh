@@ -60,11 +60,10 @@ namespace FiresecClient
 
 		static void AddAutoCreateChildren(XDevice xDevice)
 		{
-			foreach (var autoCreateDriverId in xDevice.Driver.AutoCreateChildren)
+			foreach (var autoCreateDriverType in xDevice.Driver.AutoCreateChildren)
 			{
-				var autoCreateDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == autoCreateDriverId);
-
-				for (byte i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
+				var autoCreateDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
+				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 				{
 					AddChild(xDevice, autoCreateDriver, 0, i);
 				}
@@ -97,17 +96,16 @@ namespace FiresecClient
 			{
 				var childDevice = xDevice.Children[i - 1];
 
-				if (xDevice.Driver.Children.Contains(childDevice.Driver.UID) == false)
+				if (xDevice.Driver.Children.Contains(childDevice.Driver.DriverType) == false)
 				{
 					xDevice.Children.RemoveAt(i - 1);
 				}
 			}
 
-			foreach (var autoCreateChildUID in xDevice.Driver.AutoCreateChildren)
+			foreach (var autoCreateDriverType in xDevice.Driver.AutoCreateChildren)
 			{
-				var autoCreateDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == autoCreateChildUID);
-
-				for (byte i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
+				var autoCreateDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == autoCreateDriverType);
+				for (byte i = autoCreateDriver.MinAddress; i <= autoCreateDriver.MaxAddress; i++)
 				{
 					var newDevice = new XDevice()
 					{

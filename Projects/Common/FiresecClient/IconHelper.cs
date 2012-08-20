@@ -13,10 +13,10 @@ namespace FiresecClient
         {
             return "/Controls;component/FSIcons/" + driver.DriverType.ToString() + ".png";
         }
-        public static string GetGKIcon(XDriver driver)
-        {
-            return "/Controls;component/GKIcons/" + driver.DriverType.ToString() + ".png";
-        }
+		//public static string GetGKIcon(XDriver driver)
+		//{
+		//    return "/Controls;component/GKIcons/" + driver.DriverType.ToString() + ".png";
+		//}
         public static string GetStateIcon(StateType stateType)
         {
             return "/Controls;component/StateIcons/" + stateType.ToString() + ".png";

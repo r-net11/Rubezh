@@ -16,31 +16,25 @@ namespace GKModule
 			DatabaseManager.Convert();
 
 			//SendManager.StrartLog("D:/xxx/Log.txt");
-			//foreach (var kauDatabase in DatabaseManager.KauDatabases)
-			//{
-			//    LoadingService.ShowProgress("Запись конфигурации в устройство", "Запись конфигурации в КАУ", 2 + kauDatabase.BinaryObjects.Count);
-			//    WriteConfigToDevice(kauDatabase);
-			//}
-			//Thread.Sleep(1000);
 			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
-				LoadingService.ShowProgress("Запись конфигурации в устройство", "Запись конфигурации в ГК", 2 + gkDatabase.BinaryObjects.Count);
+				var summaryObjectsCount = 3 + gkDatabase.BinaryObjects.Count;
+				gkDatabase.KauDatabases.ForEach(x => { summaryObjectsCount += 3 + x.BinaryObjects.Count; });
+				LoadingService.ShowProgress("", gkDatabase.RootDevice.PresentationDriverAndAddress + "\nЗапись конфигурации в ГК", summaryObjectsCount);
 
 				GoToTechnologicalRegime(gkDatabase.RootDevice);
 				EraseDatabase(gkDatabase.RootDevice);
 
 				foreach (var kauDatabase in gkDatabase.KauDatabases)
 				{
-					LoadingService.ShowProgress("Запись конфигурации в устройство", "Запись конфигурации в КАУ", 1 + gkDatabase.BinaryObjects.Count);
 					GoToTechnologicalRegime(kauDatabase.RootDevice);
 					EraseDatabase(kauDatabase.RootDevice);
 					WriteConfigToDevice(kauDatabase);
 					GoToWorkingRegime(kauDatabase.RootDevice);
 				}
-				LoadingService.ShowProgress("Запись конфигурации в устройство", "Запись конфигурации в ГК", 1 + gkDatabase.BinaryObjects.Count);
 				WriteConfigToDevice(gkDatabase);
 				GoToWorkingRegime(gkDatabase.RootDevice);
-				
+
 				LoadingService.Close();
 			}
 			//SendManager.StopLog();
@@ -50,7 +44,9 @@ namespace GKModule
 		{
 			foreach (var binaryObject in commonDatabase.BinaryObjects)
 			{
-				LoadingService.DoStep("Запись дескриптора " + binaryObject.GetNo().ToString());
+				var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись дескриптора " +
+					binaryObject.GetNo().ToString() + " из " + commonDatabase.BinaryObjects.Count.ToString();
+				LoadingService.DoStep(progressStage);
 				var packs = BinConfigurationWriter.CreateDescriptors(binaryObject);
 				foreach (var pack in packs)
 				{
@@ -97,36 +93,42 @@ namespace GKModule
 
 		static void GoToTechnologicalRegime(XDevice device)
 		{
-			var sendResult0 = SendManager.Send(device, 0, 1, 1);
-			Trace.WriteLine("Версия ПО до перехода в технологический режим = " + BytesHelper.BytesToString(sendResult0.Bytes));
-
-			LoadingService.DoStep("Переход в технологический режим");
-			var sendResult1 = SendManager.Send(device, 0, 14, 0, null, device.Driver.DriverType == XDriverType.GK);
-			if (sendResult1.HasError)
-			{
-				Trace.WriteLine("ошибка при переходе в технолошический режим");
-			}
-			else
-			{
-				Trace.WriteLine(BytesHelper.BytesToString(sendResult1.Bytes));
-			}
+			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в технологический режим");
+			SendManager.Send(device, 0, 14, 0, null, device.Driver.DriverType == XDriverType.GK);
 
 			for (int i = 0; i < 10; i++)
 			{
 				var sendResult = SendManager.Send(device, 0, 1, 1);
-				if (sendResult.HasError)
-				{
-					Trace.WriteLine("Ошибка. Версия ПО после перехода в технологический режим");
-				}
-				else
+				if (!sendResult.HasError)
 				{
 					if (sendResult.Bytes.Count > 0)
 					{
 						var version = sendResult.Bytes[0];
-						if (version > 80)
+						if (version >= 80)
 						{
-							Trace.WriteLine("перейден в технологический режим");
-							Trace.WriteLine("Версия ПО после перехода в технологический режим" + BytesHelper.BytesToString(sendResult.Bytes));
+							break;
+						}
+					}
+				}
+				Thread.Sleep(1000);
+			}
+		}
+
+		static void GoToWorkingRegime(XDevice device)
+		{
+			LoadingService.DoStep(device.PresentationDriverAndAddress + " Запуск программы");
+			SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
+
+			for (int i = 0; i < 10; i++)
+			{
+				var sendResult = SendManager.Send(device, 0, 1, 1);
+				if (!sendResult.HasError)
+				{
+					if (sendResult.Bytes.Count > 0)
+					{
+						var version = sendResult.Bytes[0];
+						if (version < 80)
+						{
 							break;
 						}
 					}
@@ -137,41 +139,15 @@ namespace GKModule
 
 		static void EraseDatabase(XDevice device)
 		{
-			LoadingService.DoStep("Стирание базы данных");
+			LoadingService.DoStep(device.ShortPresentationAddressAndDriver + " Стирание базы данных");
 			SendManager.Send(device, 0, 15, 0);
 		}
 
 		static void WriteEndDescriptor(CommonDatabase commonDatabase)
 		{
-			LoadingService.DoStep("Запись завершающего дескриптора");
+			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
 			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.BinaryObjects.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
-		}
-
-		static void GoToWorkingRegime(XDevice device)
-		{
-			var sendResult1 = SendManager.Send(device, 0, 1, 1);
-			if (sendResult1.HasError)
-			{
-				Trace.WriteLine("Ошибка. Версия ПО до запуска");
-			}
-			else
-			{
-				Trace.WriteLine("Версия ПО до запуска " + BytesHelper.BytesToString(sendResult1.Bytes));
-			}
-
-			LoadingService.DoStep("Запуск программы");
-			SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
-
-			var sendResult2 = SendManager.Send(device, 0, 1, 1);
-			if (sendResult2.HasError)
-			{
-				Trace.WriteLine("Ошибка. Версия ПО после запуска");
-			}
-			else
-			{
-				Trace.WriteLine("Версия ПО после запуска " + BytesHelper.BytesToString(sendResult2.Bytes));
-			}
 		}
 	}
 }

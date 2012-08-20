@@ -109,7 +109,8 @@ namespace GKModule.ViewModels
 		bool CanCutCopy()
 		{
 			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
-				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.AutoChild == SelectedDevice.Driver.UID);
+				SelectedDevice.Driver.IsAutoCreate ||
+				(SelectedDevice.Parent.Driver.IsGroupDevice && SelectedDevice.Parent.Driver.AutoChild == SelectedDevice.Driver.DriverType));
 		}
 
 		public RelayCommand CopyCommand { get; private set; }
@@ -130,7 +131,7 @@ namespace GKModule.ViewModels
 
 		bool CanPaste()
 		{
-			return (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.Children.Contains(_deviceToCopy.Driver.UID));
+			return (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.Children.Contains(_deviceToCopy.Driver.DriverType));
 		}
 
 		public RelayCommand PasteCommand { get; private set; }

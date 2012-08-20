@@ -147,13 +147,13 @@ namespace SettingsModule.ViewModels
 			//    File.Copy(fileName, @"D:\GKIcons\" + driver.DriverType.ToString() + ".png", true);
 			//}
 
-			var stringBuilder = new StringBuilder();
-            foreach (var driver in XManager.DriversConfiguration.Drivers)
-			{
-				stringBuilder.AppendLine(driver.ImageSource);
-                stringBuilder.AppendLine(IconHelper.GetGKIcon(driver));
-			}
-			Text = stringBuilder.ToString();
+			//var stringBuilder = new StringBuilder();
+			//foreach (var driver in XManager.DriversConfiguration.Drivers)
+			//{
+			//    stringBuilder.AppendLine(driver.ImageSource);
+			//    stringBuilder.AppendLine(IconHelper.GetGKIcon(driver));
+			//}
+			//Text = stringBuilder.ToString();
 		}
 	}
 }

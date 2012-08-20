@@ -22,9 +22,9 @@ namespace GKModule.ViewModels
         {
             get
             {
-                return from XDriver xDriver in XManager.DriversConfiguration.Drivers
-                       where _parent.Driver.Children.Contains(xDriver.UID)
-                       select xDriver;
+                return from XDriver driver in XManager.DriversConfiguration.Drivers
+                       where _parent.Driver.Children.Contains(driver.DriverType)
+                       select driver;
             }
         }
 
