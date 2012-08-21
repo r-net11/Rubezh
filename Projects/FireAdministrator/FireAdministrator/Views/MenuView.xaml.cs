@@ -109,13 +109,7 @@ namespace FireAdministrator.Views
                 FiresecManager.FiresecConfiguration.DeviceConfiguration = new DeviceConfiguration();
                 FiresecManager.PlansConfiguration = new PlansConfiguration();
                 FiresecManager.SystemConfiguration = new SystemConfiguration();
-
-                FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice = new Device()
-                {
-                    DriverUID = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer).UID,
-                    Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer)
-                };
-                FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
+				FiresecManager.SetEmptyConfiguration();
                 FiresecManager.PlansConfiguration.Update();
 
                 XManager.SetEmptyConfiguration();

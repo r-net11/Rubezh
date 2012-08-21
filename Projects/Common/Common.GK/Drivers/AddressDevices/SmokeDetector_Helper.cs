@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using FiresecClient;
 using XFiresecAPI;
 using System;
 
@@ -18,7 +17,7 @@ namespace Common.GK
 				ShortName = "ИП-64",
 				HasZone = true
 			};
-			CommonHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму", 0, 65, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму", 0, 65, 0, 255);
 			return driver;
 		}
 	}

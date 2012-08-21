@@ -56,7 +56,8 @@ namespace GKModule.ViewModels
 				}
 				else
 				{
-					if (Driver.IsChildAddressReservedRange)
+					Device.SetAddress(value);
+					if (Driver.IsGroupDevice)
 					{
 						foreach (var deviceViewModel in Children)
 						{
@@ -95,7 +96,7 @@ namespace GKModule.ViewModels
 
 		bool CanRemove()
 		{
-			return !(Driver.IsAutoCreate || Parent == null || (Parent.Driver.IsGroupDevice && Parent.Driver.AutoChild == Driver.DriverType));
+			return !(Driver.IsAutoCreate || Parent == null || (Parent.Driver.IsGroupDevice && Parent.Driver.GroupDeviceChildType == Driver.DriverType));
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }

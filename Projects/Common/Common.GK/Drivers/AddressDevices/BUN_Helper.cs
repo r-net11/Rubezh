@@ -3,7 +3,7 @@ using System;
 
 namespace Common.GK
 {
-	public static class BUNHelper
+	public static class BUN_Helper
 	{
 		public static XDriver Create()
 		{
@@ -18,12 +18,12 @@ namespace Common.GK
 				HasLogic = true
 			};
 
-			CommonHelper.AddIntProprety(driver, 0x8b, "Максимальное время перезапуска, 0.1 с", 0, 1, 1, 255);
-			CommonHelper.AddIntProprety(driver, 0x8b, "Время разновременного пуска, с", 0, 1, 1, 255);
+			GKDriversHelper.AddIntProprety(driver, 0x8b, "Максимальное время перезапуска, 0.1 с", 0, 1, 1, 255);
+			GKDriversHelper.AddIntProprety(driver, 0x8b, "Время разновременного пуска, с", 0, 1, 1, 255);
 
 			if (driver.DriverType != XDriverType.Pump)
 			{
-				CommonHelper.AddPlainEnumProprety(driver, 0x8d, "Логика", 0 + 8, "на входах 1 и 2 два обычных датчика", "на входах 1 и 2 два обычных датчика");
+				GKDriversHelper.AddPlainEnumProprety(driver, 0x8d, "Логика", 0 + 8, "на входах 1 и 2 два обычных датчика", "на входах 1 и 2 два обычных датчика");
 			}
 
 			var property3 = new XDriverProperty()
@@ -48,23 +48,23 @@ namespace Common.GK
 
 			if (driver.DriverType == XDriverType.Pump)
 			{
-				CommonHelper.AddBoolProprety(driver, 0x8b, "ЭКМ на выходе насоса", 0);
-				CommonHelper.AddBoolProprety(driver, 0x8b, "УЗН Старт", 1);
+				GKDriversHelper.AddBoolProprety(driver, 0x8b, "ЭКМ на выходе насоса", 0);
+				GKDriversHelper.AddBoolProprety(driver, 0x8b, "УЗН Старт", 1);
 			}
 			else
 			{
-				CommonHelper.AddBoolProprety(driver, 0x8b, "ДД/ДУ Пуск", 0);
-				CommonHelper.AddBoolProprety(driver, 0x8b, "ДД/ДУ Стоп", 1);
+				GKDriversHelper.AddBoolProprety(driver, 0x8b, "ДД/ДУ Пуск", 0);
+				GKDriversHelper.AddBoolProprety(driver, 0x8b, "ДД/ДУ Стоп", 1);
 			}
 
 			if (driver.DriverType == XDriverType.Pump)
 			{
-				CommonHelper.AddBoolProprety(driver, 0x8b, "УЗН Стоп", 2);
+				GKDriversHelper.AddBoolProprety(driver, 0x8b, "УЗН Стоп", 2);
 			}
 
 			if (driver.DriverType == XDriverType.Pump)
 			{
-				CommonHelper.AddIntProprety(driver, 0x84, "уставка времени ожидания выхода насоса на режим, с", 0, 3, 3, 30);
+				GKDriversHelper.AddIntProprety(driver, 0x84, "уставка времени ожидания выхода насоса на режим, с", 0, 3, 3, 30);
 			}
 
 			return driver;

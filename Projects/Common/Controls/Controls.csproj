@@ -547,9 +547,9 @@
   <ItemGroup>
     <Resource Include="GKIcons\AM1_O.png" />
     <Resource Include="GKIcons\AM1_T.png" />
-    <Resource Include="GKIcons\AM4.png" />
-    <Resource Include="GKIcons\AM4_P.png" />
+    <Resource Include="GKIcons\AM_4.png" />
     <Resource Include="GKIcons\AMP_4.png" />
+    <Resource Include="GKIcons\AMP_1.png" />
     <Resource Include="GKIcons\AM_1.png" />
     <Resource Include="GKIcons\AutomaticButton.png" />
     <Resource Include="GKIcons\CombinedDetector.png" />

@@ -3,7 +3,7 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public static class GKHelper
+	public static class GK_Helper
 	{
 		public static XDriver Create()
 		{
@@ -17,7 +17,6 @@ namespace Common.GK
 				IsDeviceOnShleif = false,
 				CanEditAddress = false,
 				HasAddress = false,
-				IsChildAddressReservedRange = false
 			};
 			driver.AutoCreateChildren.Add(XDriverType.GKIndicator);
 			driver.AutoCreateChildren.Add(XDriverType.GKLine);

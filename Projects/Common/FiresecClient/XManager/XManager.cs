@@ -29,6 +29,8 @@ namespace FiresecClient
 					DriverUID = systemDriver.UID,
 					Driver = systemDriver
 				};
+
+			UpdateConfiguration();
 		}
 
 		public static void UpdateConfiguration()

@@ -1,11 +1,10 @@
 ﻿using System.Linq;
-using FiresecClient;
 using XFiresecAPI;
 using System;
 
 namespace Common.GK
 {
-	public class MROHelper
+	public class MRO_Helper
 	{
 		public static XDriver Create()
 		{

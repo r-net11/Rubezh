@@ -1,11 +1,10 @@
 ﻿using System.Linq;
-using FiresecClient;
 using XFiresecAPI;
 using System;
 
 namespace Common.GK
 {
-	public class HeatDetectorHelper
+	public class HeatDetector_Helper
 	{
 		public static XDriver Create()
 		{
@@ -19,8 +18,8 @@ namespace Common.GK
 				HasZone = true
 			};
 
-			CommonHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре", 0, 65, 0, 85);
-			CommonHelper.AddIntProprety(driver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 100, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре", 0, 65, 0, 85);
+			GKDriversHelper.AddIntProprety(driver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 100, 0, 255);
 
 			return driver;
 		}

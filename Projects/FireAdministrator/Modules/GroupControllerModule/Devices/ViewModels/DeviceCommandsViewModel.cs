@@ -42,7 +42,7 @@ namespace GKModule.Models
 		public RelayCommand ConvertFromFiresecCommand { get; private set; }
 		void OnConvertFromFiresec()
 		{
-			var configurationConverter = new ConfigurationConverter2();
+			var configurationConverter = new ConfigurationConverter();
 			configurationConverter.Convert();
 
 			DevicesViewModel.Current.Initialize();
@@ -111,15 +111,8 @@ namespace GKModule.Models
 		public RelayCommand ConvertToBinaryFileCommand { get; private set; }
 		void OnConvertToBinaryFile()
 		{
-			var saveDialog = new SaveFileDialog();
-			if (saveDialog.ShowDialog().Value)
-			{
-				var x = saveDialog.FileName;
-			}
-			return;
-
-			Directory.Delete(@"D:\GKConfig", true);
-			Directory.CreateDirectory(@"D:\GKConfig");
+			Directory.Delete(@"C:\GKConfig", true);
+			Directory.CreateDirectory(@"C:\GKConfig");
 			BinaryFileConverter.Convert();
 		}
 
@@ -142,7 +135,7 @@ namespace GKModule.Models
 		}
 		bool CanUpdateFirmwhare()
 		{
-			return ((SelectedDevice != null) || (SelectedDevice.Driver.DriverType == XDriverType.KAU));
+			return ((SelectedDevice != null) && (SelectedDevice.Driver.DriverType == XDriverType.KAU));
 		}
 	}
 }

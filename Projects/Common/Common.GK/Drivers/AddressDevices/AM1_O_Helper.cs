@@ -1,21 +1,22 @@
-﻿using System.Linq;
-using FiresecClient;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using XFiresecAPI;
-using System;
 
 namespace Common.GK
 {
-	public static class AM1Helper
+	public static class AM1_O_Helper
 	{
 		public static XDriver Create()
 		{
 			var driver = new XDriver()
 			{
 				DriverTypeNo = 0x51,
-				DriverType = XDriverType.AM_1,
-				UID = new Guid("dba24d99-b7e1-40f3-a7f7-8a47d4433392"),
-				Name = "Пожарная адресная метка АМ-1",
-				ShortName = "АМ-1П",
+				DriverType = XDriverType.AM1_O,
+				UID = new Guid("efca74b2-ad85-4c30-8de8-8115cc6dfdd2"),
+				Name = "Охранная адресная метка АМ1-О",
+				ShortName = "АМ1-О",
 				HasZone = true
 			};
 

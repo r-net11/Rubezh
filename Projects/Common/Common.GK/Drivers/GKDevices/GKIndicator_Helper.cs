@@ -3,7 +3,7 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public static class GKIndicatorHelper
+	public static class GKIndicator_Helper
 	{
 		public static XDriver Create()
 		{
@@ -20,7 +20,6 @@ namespace Common.GK
 				MinAddress = 2,
 				MaxAddress = 11,
 				IsDeviceOnShleif = false,
-				IsChildAddressReservedRange = false
 			};
 
 			var modeProperty = new XDriverProperty()
@@ -29,15 +28,15 @@ namespace Common.GK
 				Name = "Mode",
 				Caption = "Режим работы",
 				ToolTip = "Режим работы индикатора",
-				Default = 0,
+				Default = 15,
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
 				IsInternalDeviceParameter = true
 			};
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Не гореть", Value = 0 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Гореть 0.25 сек", Value = 1 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Гореть 0.5 сек", Value = 3 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Гореть 0.75 сек", Value = 7 });
-			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мигать", Value = 15 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Выключено", Value = 0 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.25 сек", Value = 1 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.5 сек", Value = 3 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.75 сек", Value = 7 });
+			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Включено", Value = 15 });
 			driver.Properties.Add(modeProperty);
 
 			return driver;

@@ -3,7 +3,7 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-    public class KAUIndicatorHelper
+    public class KAUIndicator_Helper
     {
         public static XDriver Create()
         {
@@ -19,8 +19,7 @@ namespace Common.GK
                 IsAutoCreate = true,
                 MinAddress = 1,
                 MaxAddress = 1,
-				IsDeviceOnShleif = false,
-                IsChildAddressReservedRange = false
+				IsDeviceOnShleif = false
             };
 
             var modeProperty = new XDriverProperty()
@@ -29,7 +28,7 @@ namespace Common.GK
                 Name = "Mode",
                 Caption = "Режим работы",
                 ToolTip = "Режим работы индикатора",
-                Default = 0,
+                Default = 1,
                 DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
                 IsInternalDeviceParameter = true
             };

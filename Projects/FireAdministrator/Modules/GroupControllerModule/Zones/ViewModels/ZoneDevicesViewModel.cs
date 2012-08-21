@@ -174,7 +174,7 @@ namespace GKModule.ViewModels
 			return driver.HasZone;
 			if (driver.IsDeviceOnShleif == false)
 				return false;
-			if (driver.AutoChildCount > 0)
+			if (driver.GroupDeviceChildrenCount > 0)
 				return false;
 			return true;
 		}

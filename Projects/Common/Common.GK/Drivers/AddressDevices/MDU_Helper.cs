@@ -1,11 +1,10 @@
 ﻿using System.Linq;
-using FiresecClient;
 using XFiresecAPI;
 using System;
 
 namespace Common.GK
 {
-	public class MDUHelper
+	public class MDU_Helper
 	{
 		public static XDriver Create()
 		{

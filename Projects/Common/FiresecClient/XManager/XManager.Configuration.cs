@@ -15,6 +15,12 @@ namespace FiresecClient
 			InitializeDirectionDevices();
 		}
 
+		public static void GetConfiguration()
+		{
+			DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
+			UpdateConfiguration();
+		}
+
 		static void InitializeDevicesInZone()
 		{
 			foreach (var zone in DeviceConfiguration.Zones)

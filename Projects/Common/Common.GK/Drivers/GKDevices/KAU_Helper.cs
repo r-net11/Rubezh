@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
-using FiresecClient;
 using XFiresecAPI;
 
 namespace Common.GK
 {
-    public static class KAUHelper
+    public static class KAU_Helper
     {
         public static XDriver Create()
         {
@@ -19,7 +18,6 @@ namespace Common.GK
                 CanEditAddress = true,
                 HasAddress = true,
 				IsDeviceOnShleif = false,
-                IsChildAddressReservedRange = false,
                 IsRangeEnabled = true,
                 MinAddress = 1,
                 MaxAddress = 127

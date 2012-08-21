@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using XFiresecAPI;
-using FiresecClient;
 
 namespace Common.GK
 {
-	public static class HandDetectorHelper
+	public static class HandDetector_Helper
 	{
 		public static XDriver Create()
 		{

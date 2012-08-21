@@ -110,7 +110,7 @@ namespace GKModule.ViewModels
 		{
 			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
 				SelectedDevice.Driver.IsAutoCreate ||
-				(SelectedDevice.Parent.Driver.IsGroupDevice && SelectedDevice.Parent.Driver.AutoChild == SelectedDevice.Driver.DriverType));
+				(SelectedDevice.Parent.Driver.IsGroupDevice && SelectedDevice.Parent.Driver.GroupDeviceChildType == SelectedDevice.Driver.DriverType));
 		}
 
 		public RelayCommand CopyCommand { get; private set; }

@@ -4,8 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using FiresecClient;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace Common.GK
 {
@@ -106,7 +106,7 @@ namespace Common.GK
                 //udpClient.Connect(IPAddress.Parse(ipAddress), 1025);
 				if (IsLogging)
 				{
-					StreamWriter.WriteLine(BytesHelper.BytesToString(bytes));
+					StreamWriter.WriteLine("--> " + BytesHelper.BytesToString(bytes));
 				}
                 var bytesSent = udpClient.Send(bytes.ToArray(), bytes.Count);
             }
@@ -116,7 +116,6 @@ namespace Common.GK
                 //udpClient.Close();
                 return new SendResult("Ошибка открытия сокета");
             }
-            //Trace.WriteLine("<-- " + BytesHelper.BytesToString(bytes));
             if (hasAnswer == false)
             {
                 //udpClient.Close();
@@ -126,14 +125,17 @@ namespace Common.GK
             try
             {
                 recievedBytes = udpClient.Receive(ref endPoint).ToList();
+				if (IsLogging)
+				{
+					StreamWriter.WriteLine("<-- " + BytesHelper.BytesToString(recievedBytes));
+				}
             }
-            catch (SocketException)
+            catch (SocketException e)
             {
                 OnConnectionLost();
                 //udpClient.Close();
-                return new SendResult("Коммуникационная ошибка");
+                return new SendResult("Коммуникационная ошибка " + e.Message);
             }
-            //Trace.WriteLine("--> " + BytesHelper.BytesToString(recievedBytes));
             //udpClient.Close();
 
             if (recievedBytes[0] != bytes[0])

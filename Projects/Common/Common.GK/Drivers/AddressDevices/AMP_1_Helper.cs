@@ -1,21 +1,20 @@
 ﻿using System.Linq;
-using FiresecClient;
 using XFiresecAPI;
 using System;
 
 namespace Common.GK
 {
-	public class AMP4Helper
+	public class AMP_1_Helper
 	{
 		public static XDriver Create()
 		{
 			var driver = new XDriver()
 			{
 				DriverTypeNo = 0x50,
-				DriverType = XDriverType.AMP_4,
+				DriverType = XDriverType.AMP_1,
 				UID = new Guid("d8997f3b-64c4-4037-b176-de15546ce568"),
-				Name = "Пожарная адресная метка",
-				ShortName = "АМ-1П",
+				Name = "Пожарная адресная метка АМП",
+				ShortName = "АМП",
 				HasZone = true
 			};
 
@@ -78,10 +77,6 @@ namespace Common.GK
 			property2.Parameters.Add(property2Parameter2);
 			property2.Parameters.Add(property2Parameter3);
 			driver.Properties.Add(property2);
-
-			System.Diagnostics.Trace.WriteLine(driver.UID);
-			System.Diagnostics.Trace.WriteLine(driver.Name);
-			System.Diagnostics.Trace.WriteLine(driver.ShortName);
 
 			return driver;
 		}

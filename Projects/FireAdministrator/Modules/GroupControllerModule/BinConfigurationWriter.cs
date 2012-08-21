@@ -15,7 +15,7 @@ namespace GKModule
 		{
 			DatabaseManager.Convert();
 
-			//SendManager.StrartLog("D:/xxx/Log.txt");
+			SendManager.StrartLog("D:/GkLog.txt");
 			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
 				var summaryObjectsCount = 3 + gkDatabase.BinaryObjects.Count;
@@ -37,7 +37,7 @@ namespace GKModule
 
 				LoadingService.Close();
 			}
-			//SendManager.StopLog();
+			SendManager.StopLog();
 		}
 
 		static void WriteConfigToDevice(CommonDatabase commonDatabase)

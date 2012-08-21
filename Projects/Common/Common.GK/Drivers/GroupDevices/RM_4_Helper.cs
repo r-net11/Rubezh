@@ -6,19 +6,19 @@ using XFiresecAPI;
 
 namespace Common.GK
 {
-	public static class RM5Helper
+	public static class RM_4_Helper
 	{
 		public static XDriver Create()
 		{
 			var driver = new XDriver()
 			{
-				DriverType = XDriverType.RM_5,
-				UID = new Guid("15164964-9C14-45D1-B92E-1E085C2EC282"),
-				Name = "РМ-5",
-				ShortName = "РМ-5",
+				DriverType = XDriverType.RM_4,
+				UID = new Guid("3cb0e7fb-670f-4f32-8123-4b310aee1db8"),
+				Name = "РМ-4",
+				ShortName = "РМ-4",
 				IsGroupDevice = true,
-				AutoChild = XDriverType.RM_1,
-				AutoChildCount = 5
+				GroupDeviceChildType = XDriverType.RM_1,
+				GroupDeviceChildrenCount = 4
 			};
 			return driver;
 		}

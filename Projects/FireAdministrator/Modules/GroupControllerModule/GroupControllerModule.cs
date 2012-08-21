@@ -46,10 +46,6 @@ namespace GKModule
 
 		public override void Initialize()
 		{
-			GKDriversConverter.Convert();
-			XManager.DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
-			XManager.UpdateConfiguration();
-
 			_devicesViewModel.Initialize();
 			_zonesViewModel.Initialize();
 			_directionsViewModel.Initialize();

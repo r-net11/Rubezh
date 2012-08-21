@@ -9,6 +9,7 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using Common.GK;
 
 namespace FireAdministrator
 {
@@ -31,6 +32,11 @@ namespace FireAdministrator
 					{
 						MessageBoxService.Show("Ошибка при загрузке конфигурации с сервера");
 					}
+
+					LoadingService.DoStep("Загрузка конфигурации ГК с сервера");
+					GKDriversCreator.Create();
+					XManager.GetConfiguration();
+
 					LoadingService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
 					{
