@@ -50,21 +50,30 @@ namespace FiresecService.Service
 							requestIds.Remove(request.id);
 							var paramNo = request.param.FirstOrDefault(x => x.name == "ParamNo").value;
 							var paramValue = request.param.FirstOrDefault(x => x.name == "ParamValue").value;
+							//paramValue = ExchengeLowAndHigtBytes(paramValue);
+							var heightByteValue = paramValue / 256;
+							var lowByteValue = paramValue - heightByteValue * 256;
 
 							foreach (var driverProperty in device.Driver.Properties)
 							{
 								if (driverProperty.No == paramNo)
 								{
 									var offsetParamValue = paramValue;
-									if (driverProperty.Offset > 0)
-									{
-										offsetParamValue = offsetParamValue >> driverProperty.Offset;
-									}
-									if (driverProperty.Offset < 0)
-									{
-										offsetParamValue = offsetParamValue << -driverProperty.Offset;
-										offsetParamValue = offsetParamValue >> -driverProperty.Offset;
-									}
+
+									if (driverProperty.IsHeighByte)
+										offsetParamValue = lowByteValue;
+									if (driverProperty.IsLowByte)
+										offsetParamValue = heightByteValue;
+
+									//if (driverProperty.Offset > 0)
+									//{
+									//    offsetParamValue = offsetParamValue >> driverProperty.Offset;
+									//}
+									//if (driverProperty.Offset < 0)
+									//{
+									//    offsetParamValue = offsetParamValue << -driverProperty.Offset;
+									//    offsetParamValue = offsetParamValue >> -driverProperty.Offset;
+									//}
 									var property = new Property()
 									{
 										Name = driverProperty.Name,
@@ -132,10 +141,16 @@ namespace FiresecService.Service
 					else
 					{
 						newValue = int.Parse(property.Value);
-						if (driverProperty.Offset > 0)
-						{
-							newValue = newValue << driverProperty.Offset;
-						}
+
+						//if (driverProperty.Offset > 0)
+						//{
+						//    newValue = newValue << driverProperty.Offset;
+						//}
+					}
+
+					if (driverProperty.IsHeighByte)
+					{
+						newValue *= 256;
 					}
 										
 					binProperty.Value += newValue;
@@ -144,10 +159,16 @@ namespace FiresecService.Service
 
 			foreach (var binProperty in binProperties)
 			{
+				//binProperty.Value = ExchengeLowAndHigtBytes(binProperty.Value);
 				int requestId = 0;
 				FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$WriteSimpleParam", binProperty.ToString(), ref requestId);
 				Trace.WriteLine(binProperty.ToString());
 			}
+		}
+
+		int ExchengeLowAndHigtBytes(int value)
+		{
+			return value / 256 + (value - (value / 256) * 256) * 256;
 		}
 
 		class BinProperty

@@ -43,7 +43,7 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 
-		public static void AddIntProprety(Driver driver, byte no, string propertyName, int offset, int defaultValue, int min, int max)
+		public static void AddIntProprety(Driver driver, byte no, string propertyName, int offset, int defaultValue, int min, int max, bool isHeighByte = true, bool isLowByte = false)
 		{
 			var property = new DriverProperty()
 			{
@@ -55,7 +55,9 @@ namespace FiresecAPI.Models
 				Offset = offset,
 				Default = defaultValue.ToString(),
 				Min = (ushort)min,
-				Max = (ushort)max
+				Max = (ushort)max,
+				IsHeighByte = isHeighByte,
+				IsLowByte = isLowByte
 			};
 			driver.Properties.Add(property);
 		}
