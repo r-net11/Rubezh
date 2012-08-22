@@ -51,7 +51,7 @@ namespace FiresecAPI.Models
 		public byte No { get; set; }
 
 		[DataMember]
-		public byte Offset { get; set; }
+		public int Offset { get; set; }
 
 		[DataMember]
 		public List<string> AlternativePareterNames { get; set; }

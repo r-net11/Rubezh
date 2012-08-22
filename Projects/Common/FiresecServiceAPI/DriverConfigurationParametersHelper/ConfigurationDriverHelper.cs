@@ -43,7 +43,7 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 
-		public static void AddIntProprety(Driver driver, byte no, string propertyName, byte offset, int defaultValue, int min, int max)
+		public static void AddIntProprety(Driver driver, byte no, string propertyName, int offset, int defaultValue, int min, int max)
 		{
 			var property = new DriverProperty()
 			{

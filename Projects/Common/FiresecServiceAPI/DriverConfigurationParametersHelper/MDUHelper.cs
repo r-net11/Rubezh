@@ -110,6 +110,7 @@ namespace FiresecAPI.Models
 				Name = "Резерв",
 				Value = "3"
 			};
+			
 			property6.Parameters.Add(property6Parameter1);
 			property6.Parameters.Add(property6Parameter2);
 			property6.Parameters.Add(property6Parameter3);
