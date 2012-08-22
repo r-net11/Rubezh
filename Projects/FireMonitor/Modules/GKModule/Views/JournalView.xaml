@@ -8,15 +8,14 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Запись ГК" Binding="{Binding GKNo}" />
-                <DataGridTextColumn Header="Дата и Время" Binding="{Binding StringDate}" />
-                <DataGridTextColumn Header="Событие" Binding="{Binding EventName}" />
-                <DataGridTextColumn Header="Уточнение" Binding="{Binding EventDescription}" />
-                <DataGridTextColumn Header="Запись КАУ" Binding="{Binding KAUNo}" />
+                <DataGridTextColumn Header="Дата и Время" Binding="{Binding JournalItem.StringDate}" />
+                <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.EventName}" />
+                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.EventDescription}" />
+                <DataGridTextColumn Header="Объект" Binding="{Binding DeviceAddress}" />
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" DataContext="{Binding SelectedJournal}">
-
+            <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" Foreground="White" />
         </Grid>
     </Grid>
 </UserControl>

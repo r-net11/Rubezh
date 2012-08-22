@@ -19,6 +19,7 @@ namespace SettingsModule.ViewModels
 			ShowTreeCommand = new RelayCommand(OnShowTree);
 			Test1Command = new RelayCommand(OnTest1);
 			Test2Command = new RelayCommand(OnTest2);
+            JournalTestCommand = new RelayCommand(OnJournalTest);
 		}
 
 		public bool IsDebug
@@ -51,12 +52,19 @@ namespace SettingsModule.ViewModels
 			driversView.ShowDialog();
 		}
 
-		public RelayCommand ShowTreeCommand { get; private set; }
-		void OnShowTree()
+		public RelayCommand JournalTestCommand { get; private set; }
+        void OnJournalTest()
 		{
-			var devicesTreeViewModel = new DevicesTreeViewModel();
-			DialogService.ShowModalWindow(devicesTreeViewModel);
+            var JournalTestViewModel = new JournalTestViewModel();
+            DialogService.ShowModalWindow(JournalTestViewModel);
 		}
+
+        public RelayCommand ShowTreeCommand { get; private set; }
+        void OnShowTree()
+        {
+            var devicesTreeViewModel = new DevicesTreeViewModel();
+            DialogService.ShowModalWindow(devicesTreeViewModel);
+        }
 
 		public RelayCommand Test1Command { get; private set; }
 		void OnTest1()

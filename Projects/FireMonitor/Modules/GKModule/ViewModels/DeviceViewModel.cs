@@ -8,6 +8,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
+using System;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -24,7 +26,7 @@ namespace GKModule.ViewModels
 			DeviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
 			if (DeviceState != null)
 			{
-				DeviceState.StateChanged += new System.Action(OnStateChanged);
+				DeviceState.StateChanged += new Action(OnStateChanged);
 				OnStateChanged();
 			}
 			else
@@ -47,8 +49,22 @@ namespace GKModule.ViewModels
 			}
 
 			OnPropertyChanged("StateType");
-			OnPropertyChanged("DeviceState");
-			OnPropertyChanged("DeviceState.States");
+			OnPropertyChanged("States");
+		}
+
+		public StateType StateType
+		{
+			get { return DeviceState.StateType; }
+		}
+
+		public List<XStateType> States
+		{
+			get { return DeviceState.States; }
+		}
+
+		public ushort DatabaseNo
+		{
+			get { return Device.GetDatabaseNo(DatabaseType.Gk); }
 		}
 
 		public bool CanShowOnPlan()

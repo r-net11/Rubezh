@@ -10,15 +10,6 @@ namespace Common.GK
 	{
 		public static void Create()
 		{
-			System.Diagnostics.Trace.WriteLine("RM_2 " + FiresecManager.Drivers.FirstOrDefault(x=>x.DriverType == FiresecAPI.Models.DriverType.RM_2).UID.ToString());
-			System.Diagnostics.Trace.WriteLine("RM_3 " + FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == FiresecAPI.Models.DriverType.RM_3).UID.ToString());
-			System.Diagnostics.Trace.WriteLine("RM_4 " + FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == FiresecAPI.Models.DriverType.RM_4).UID.ToString());
-			System.Diagnostics.Trace.WriteLine("RM_5 " + FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == FiresecAPI.Models.DriverType.RM_5).UID.ToString());
-			System.Diagnostics.Trace.WriteLine("AM4 " + FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == FiresecAPI.Models.DriverType.AM4).UID.ToString());
-			System.Diagnostics.Trace.WriteLine("AM4_P " + FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == FiresecAPI.Models.DriverType.AM4_P).UID.ToString());
-			System.Diagnostics.Trace.WriteLine("AM1_O " + FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == FiresecAPI.Models.DriverType.AM1_O).UID.ToString());
-			System.Diagnostics.Trace.WriteLine("AM1_T " + FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == FiresecAPI.Models.DriverType.AM1_T).UID.ToString());
-
 			XManager.DriversConfiguration = new XDriversConfiguration();
 
 			XManager.DriversConfiguration.Drivers.Add(GKSystem_Helper.Create());

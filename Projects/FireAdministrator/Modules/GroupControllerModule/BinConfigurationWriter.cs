@@ -55,8 +55,8 @@ namespace GKModule
 					if (sendResult.HasError)
 					{
 						MessageBoxService.Show(sendResult.Error);
-						LoadingService.Close();
-						break;
+						//LoadingService.Close();
+						//break;
 					}
 				}
 			}
@@ -65,18 +65,27 @@ namespace GKModule
 
 		static List<List<byte>> CreateDescriptors(BinaryObjectBase binaryObject)
 		{
+			var objectNo = (ushort)(binaryObject.GetNo());
+			if (objectNo == 236)
+			{
+				;
+			}
+
 			var packs = new List<List<byte>>();
 			for (int packNo = 0; packNo <= binaryObject.AllBytes.Count / 256; packNo++)
 			{
 				int packLenght = Math.Min(256, binaryObject.AllBytes.Count - packNo * 256);
 				var packBytes = binaryObject.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
 
-				var resultBytes = new List<byte>();
-				ushort binaryObjectNo = (ushort)(binaryObject.GetNo());
-				resultBytes.AddRange(BytesHelper.ShortToBytes(binaryObjectNo));
-				resultBytes.Add((byte)(packNo + 1));
-				resultBytes.AddRange(packBytes);
-				packs.Add(resultBytes);
+				if (packBytes.Count > 0)
+				{
+					var resultBytes = new List<byte>();
+					ushort binaryObjectNo = (ushort)(binaryObject.GetNo());
+					resultBytes.AddRange(BytesHelper.ShortToBytes(binaryObjectNo));
+					resultBytes.Add((byte)(packNo + 1));
+					resultBytes.AddRange(packBytes);
+					packs.Add(resultBytes);
+				}
 			}
 			return packs;
 		}
@@ -116,7 +125,7 @@ namespace GKModule
 
 		static void GoToWorkingRegime(XDevice device)
 		{
-			LoadingService.DoStep(device.PresentationDriverAndAddress + " Запуск программы");
+			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
 			SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
 
 			for (int i = 0; i < 10; i++)

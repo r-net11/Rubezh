@@ -94,17 +94,14 @@ namespace GKModule
 			ReadAndPublish(Math.Max(0, lastId - count), lastId);
 		}
 
-		void ConnectionChanged(bool value)
+		void ConnectionChanged(bool isConnected)
 		{
-            if (!value)
-            {
-                var deviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Device == GkDatabase.RootDevice);
-                foreach (var childDeviceState in XManager.GetAllChildren(deviceState))
-                {
-                    childDeviceState.SetIsConnectionLost(true);
-                }
-            }
-			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKConnectionChanged>().Publish(value); });
+			var deviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Device == GkDatabase.RootDevice);
+			foreach (var childDeviceState in XManager.GetAllChildren(deviceState))
+			{
+				childDeviceState.ConnectionChanged(isConnected);
+			}
+			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKConnectionChanged>().Publish(isConnected); });
 		}
 	}
 }
