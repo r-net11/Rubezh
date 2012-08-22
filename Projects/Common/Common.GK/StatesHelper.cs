@@ -42,7 +42,7 @@ namespace Common.GK
 				case XStateType.TurnOffNow:
 				case XStateType.Reserve1:
 				case XStateType.Reserve2:
-					return 7;
+					return 6;
 			}
 			return 7;
 		}

@@ -83,11 +83,13 @@
                                 <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" />
                                 <TextBlock Text=" - " />
                             </WrapPanel>
+                            <TextBlock Text="Номер" Margin="10, 0, 0, 0" />
+                            <TextBlock Text="{Binding DatabaseNo}" />
                             <TextBlock Text="{Binding Device.Driver.Name}" />
                             <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
-                            <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
+                            <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
                         </StackPanel>
-                        <ItemsControl ItemsSource="{Binding DeviceState.States}">
+                        <ItemsControl ItemsSource="{Binding States}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" VerticalAlignment="Center" />

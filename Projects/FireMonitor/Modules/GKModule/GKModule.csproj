@@ -64,6 +64,7 @@
     <Compile Include="Events\NewJournalEvent.cs" />
     <Compile Include="Events\ZoneSelectedEvent.cs" />
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
+    <Compile Include="ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
       <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
     </Compile>

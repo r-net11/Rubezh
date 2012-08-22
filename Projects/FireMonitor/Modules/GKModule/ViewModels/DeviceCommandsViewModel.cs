@@ -136,13 +136,16 @@ namespace GKModule.ViewModels
 
 		void SendControlCommand(byte code)
 		{
+			SendManager.StrartLog("D:/GKLog.txt");
 			if (Device.Driver.IsDeviceOnShleif)
 			{
 				var bytes = new List<byte>();
-				bytes.AddRange(BytesHelper.ShortToBytes(Device.GetDatabaseNo(DatabaseType.Gk)));
+				var databaseNo = Device.GetDatabaseNo(DatabaseType.Gk);
+				bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
 				bytes.Add(code);
-				SendManager.Send(Device.Parent, 3, 13, 0, bytes);
+				SendManager.Send(Device.GkDatabaseParent, 3, 13, 0, bytes);
 			}
+			SendManager.StopLog();
 		}
 	}
 }

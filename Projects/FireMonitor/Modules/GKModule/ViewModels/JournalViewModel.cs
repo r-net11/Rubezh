@@ -16,7 +16,7 @@ namespace GKModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<NewJournalEvent>().Unsubscribe(OnNewJournal);
 			ServiceFactory.Events.GetEvent<NewJournalEvent>().Subscribe(OnNewJournal);
-			JournalItems = new ObservableCollection<JournalItem>();
+			JournalItems = new ObservableCollection<JournalItemViewModel>();
 		}
 
 		public void Initialize()
@@ -27,10 +27,11 @@ namespace GKModule.ViewModels
 		{
 			foreach (var journalItem in journalItems)
 			{
+				var journalItemViewModel = new JournalItemViewModel(journalItem);
 				if (JournalItems.Count > 0)
-					JournalItems.Insert(0, journalItem);
+					JournalItems.Insert(0, journalItemViewModel);
 				else
-					JournalItems.Add(journalItem);
+					JournalItems.Add(journalItemViewModel);
 
 				if (JournalItems.Count > MaxCount)
 					JournalItems.RemoveAt(MaxCount);
@@ -40,8 +41,8 @@ namespace GKModule.ViewModels
 				SelectedJournal = JournalItems.FirstOrDefault();
 		}
 
-		ObservableCollection<JournalItem> _journalItems;
-		public ObservableCollection<JournalItem> JournalItems
+		ObservableCollection<JournalItemViewModel> _journalItems;
+		public ObservableCollection<JournalItemViewModel> JournalItems
 		{
 			get { return _journalItems; }
 			set
@@ -51,8 +52,8 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		JournalItem _selectedJournal;
-		public JournalItem SelectedJournal
+		JournalItemViewModel _selectedJournal;
+		public JournalItemViewModel SelectedJournal
 		{
 			get { return _selectedJournal; }
 			set
