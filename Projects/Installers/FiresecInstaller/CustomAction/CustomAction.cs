@@ -9,23 +9,23 @@ namespace CustomAction
         public static ActionResult KillFiresecProcess(Session session)
         {
             session.Log("Begin Kill terminate processes");
-            string _firesecServiceName = session["FIRESECSERVICENAME"];
-            string _fireMonitorName = session["FIREMONITORNAME"];
-            string _fireAdministratorName = session["FIREADMINISTRATORNAME"];
-            string _firesecNtService = "FiresecNTService";
-            string _socketService = "scktsrvr";
-            string _oldFiresecService = "FS_SER~1";
-            string _oldFiresecService2 = "fs_server";
+            string firesecServiceName = session["FIRESECSERVICENAME"];
+            string fireMonitorName = session["FIREMONITORNAME"];
+            string fireAdministratorName = session["FIREADMINISTRATORNAME"];
+            string firesecNtService = "FiresecNTService";
+            string socketService = "scktsrvr";
+            string oldFiresecService = "FS_SER~1";
+            string oldFiresecService2 = "fs_server";
             Process[] processes = Process.GetProcesses();
             foreach (var process in processes)
             {
-                if ((process.ProcessName == _firesecServiceName)
-                    || (process.ProcessName == _fireMonitorName)
-                    || (process.ProcessName == _fireAdministratorName)
-                    || (process.ProcessName == _oldFiresecService)
-                    || (process.ProcessName == _oldFiresecService2)
-                    || (process.ProcessName == _firesecNtService)
-                    || (process.ProcessName == _socketService))
+                if ((process.ProcessName == firesecServiceName)
+                    || (process.ProcessName == fireMonitorName)
+                    || (process.ProcessName == fireAdministratorName)
+                    || (process.ProcessName == oldFiresecService)
+                    || (process.ProcessName == oldFiresecService2)
+                    || (process.ProcessName == firesecNtService)
+                    || (process.ProcessName == socketService))
                     process.Kill();
             }
 

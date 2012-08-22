@@ -3,7 +3,6 @@
 		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 	<?include Variables_FireMonitor.wxi?>
 	<Fragment>
-		<Icon Id="FireMonitorIcon" SourceFile="Data\Monitor.ico"/>
 		<util:CloseApplication Id="FMCloseAction" CloseMessage="no" Target="$(var.FireMonitor.TargetFileName)" RebootPrompt="no" />
 
 		<DirectoryRef Id="FIREMONITORLOCATION">

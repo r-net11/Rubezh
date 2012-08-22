@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-
 	<?include Variables_FireAdministrator.wxi?>
-	
 	<Fragment>
+    <Icon Id="FireAdministratorIcon" SourceFile="Data\Administrator.ico"/>
+    
 		<DirectoryRef Id="DesktopFolder">
 			<Component Id="FADesktopShortcut" Guid="*">
 				<Shortcut Id="FADesktopShortcut" Name="Администратор ОПС 'FireSec-2'" Target="[FIREADMINISTRATORLOCATION]$(var.FireAdministrator.TargetFileName)"

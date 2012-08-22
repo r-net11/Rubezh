@@ -4,14 +4,11 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <?include Variables_OldFiresecService.wxi?>
   <Fragment>
-    <!--<Icon Id="FiresecServiceIcon" SourceFile="Data\Server.ico"/>-->
-    <!--<util:CloseApplication Id="FSCloseAction" CloseMessage="no" Target="$(var.FiresecService.TargetFileName)" RebootPrompt="no"  Description="Stop!" ElevatedCloseMessage="no" 
-                           Property="IsFiresecServiceRunning"/>-->
 
     <DirectoryRef Id="OLDFIRESECSERVICELOCATION">
       <Component Id="RemoveOldFiresecFiles" Guid="1412B8B3-43D5-42F4-BEAB-83B671506C91" >
         <RemoveFile Id='RemoveOldFsTypesDll' On='install' Name='fs_types.dll' Directory='OLDFIRESECSERVICELOCATION' />
-        <RemoveFile Id='RemoveOldSockProxyDll' On='install' Name='SockProxy.dll' Directory='OLDFIRESECSERVICELOCATION'/>
+        <RemoveFile Id='RemoveOldSockProxyDll' On='install' Name='SockProxy.dll' Directory='OLDFIRESECSERVICELOCATION' />
         <RemoveFile Id='Removefs_server.exe' On='install' Name='fs_server.exe' Directory='OLDFIRESECSERVICELOCATION' />
         <RemoveFile Id='Removescktsrvr.exe' On='install' Name='scktsrvr.exe' Directory='OLDFIRESECSERVICELOCATION'/>
         <RemoveFile Id='RemoveFs_srvconDll' On='install' Name='fs_srvcon.dll' Directory='OLDFIRESECSERVICELOCATION'/>
@@ -31,7 +28,7 @@
       </Component>
       
       <Component Id="InstallOldFiresecFiles" Guid="AC5EF734-CA4A-4913-94F2-7E36D411CF04" Permanent="yes" >
-        <File Id="Fs_serverExeFile" Name="fs_server.exe" Source="$(var.OldFiresecService.TargetDir)" KeyPath="yes"/>
+        <File Id="Fs_serverExeFile" Name="fs_server.exe" Source="$(var.OldFiresecService.TargetDir)" KeyPath="yes" Vital="no" />
         <File Id="FsScktsrvrExeFile" Name="scktsrvr.exe" Source="$(var.OldFiresecService.TargetDir)" />
         <File Id="Fs_srvconDllFile" Name="fs_srvcon.dll" Source="$(var.OldFiresecService.TargetDir)" />
         <File Id="ConfigCdbFile" Name="config.cdb" Source="$(var.OldFiresecService.TargetDir)" />

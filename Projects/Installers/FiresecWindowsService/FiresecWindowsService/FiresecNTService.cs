@@ -23,13 +23,15 @@ namespace FiresecNTService
         protected override void OnStart(string[] args)
         {
             base.OnStart(args);
+            return;
+
             var commandLineArgs = Environment.GetCommandLineArgs();
-            DirectoryInfo dirInfo = new DirectoryInfo(commandLineArgs[0]);
+            var dirInfo = new DirectoryInfo(commandLineArgs[0]);
             var nameFiresecExe = commandLineArgs[1];
             var pathFiresecExe = dirInfo.FullName.Replace(dirInfo.Name, "") + nameFiresecExe;
             try
             {
-                StringBuilder output = new StringBuilder();
+                var output = new StringBuilder();
                 if (!Win32API.CreateProcessAsUser(pathFiresecExe, dirInfo.FullName.Replace(dirInfo.Name, ""), "winlogon", out output))
                     Process.Start(pathFiresecExe);
             }
@@ -41,6 +43,8 @@ namespace FiresecNTService
         protected override void OnStop()
         {
             base.OnStop();
+            return;
+
             var processes = Process.GetProcesses();
             foreach (var process in processes)
             {

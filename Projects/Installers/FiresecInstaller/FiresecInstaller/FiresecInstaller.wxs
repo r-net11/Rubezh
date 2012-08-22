@@ -15,7 +15,7 @@
     <PropertyRef Id="NETFRAMEWORK40FULL" />
     <PropertyRef Id="NETFRAMEWORK40CLIENT" />
     <Condition Message="Не удалось обнаружить Microsoft .NET Framework 4.0. Установите Microsoft .NET Framework 4.0 и запустите установку заново">
-      NETFRAMEWORK40FULL OR NETFRAMEWORK40CLIENT
+      NETFRAMEWORK40FULL
     </Condition>
 
     <Property Id="REGOLDFS">
@@ -27,16 +27,13 @@
     <Property Id="REGFS2STATE">
       <RegistrySearch Id="RegistryFiresec2ClientValue" Type="raw" Root="HKLM" Key="Software\rubezh\Firesec-2" Name="StateFiresec-2"/>
     </Property>
-    <Property Id="ISSERVICEREGISTERED">
-      <RegistrySearch Id="RegistryServiceRegisteredValue" Type="raw" Root="HKLM" Key="SYSTEM\CurrentControlSet\Services\Adv_SocketServer" Name="Type"/>
-    </Property>
 
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
     <Property Id="SHORTCUT_PROGRAMMENU" Value="1"/>
     <Property Id="SHORTCUT_DESKTOP" Value="1"/>
     <Property Id="GENERAL_MODULE" Value="1" />
     <Property Id="FS_MODULE" Value="1" />
-    <Property Id="GK_MODULE" />
+    <Property Id="GK_MODULE" Value="0" />
     <Property Id="OPC_MODULE" />
     <Property Id="SKUD_MODULE" />
     <Property Id="VIDEO_MODULE" />
@@ -101,22 +98,18 @@
       <RemoveExistingProducts After="InstallInitialize" />
       <InstallExecute After="RemoveExistingProducts" />
       <Custom Action="CloseApplications" Before="InstallInitialize" >1</Custom>
-      <Custom Action="RegisterServer" After="InstallFinalize" >NOT REGOLDFS AND INSTALLMODE</Custom>
-      <Custom Action="RegisterSockProxy" After="RegisterServer" >NOT REGOLDFS AND INSTALLMODE</Custom>
-      <Custom Action="RegisterFs_types" After="RegisterSockProxy" >NOT REGOLDFS AND INSTALLMODE</Custom>
-      <!--<Custom Action="InstallSocketServer" After="RegisterFs_types" >NOT REGOLDFS AND INSTALLMODE</Custom>
-      <Custom Action="RunSocketServerServiceNet" After="InstallSocketServer">1</Custom>-->
+      <Custom Action="RegisterServer" After="InstallFinalize">INSTALLMODE</Custom>
+      <Custom Action="RegisterSockProxy" After="RegisterServer">INSTALLMODE</Custom>
+      <Custom Action="RegisterFs_types" After="RegisterSockProxy">INSTALLMODE</Custom>
       <Custom Action="InstallHaspDriver" After="RegisterFs_types" >NOT REGOLDFS AND INSTALLMODE</Custom>
-      <Custom Action="StartAppOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
-      <Custom Action="InstallReportViewer" After="StartAppOnExit" >INSTALLMODE</Custom>
-      <!--<Custom Action="RunFiresecServiceNet" After="InstallHaspDriver" >1</Custom>-->
+      <Custom Action="InstallReportViewer" After="InstallHaspDriver">INSTALLMODE</Custom>
+      <Custom Action="StartAppOnExit" After="InstallReportViewer">INSTALLMODE</Custom>
+      <Custom Action="RunFiresecNTService" After="InstallReportViewer">1</Custom>
 
-      <!--<Custom Action="StopFiresecServiceNet" After="CloseApplications">1</Custom>-->
-      <Custom Action="StopSocketServerServiceNet" After="CloseApplications">1</Custom>
-      <Custom Action="UnregisterSockProxy" After="StopSocketServerServiceNet">NOT REGOLDFS AND NOT INSTALLMODE</Custom>
-      <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">NOT REGOLDFS AND NOT INSTALLMODE</Custom>
-      <Custom Action="UnRegisterServer" After="UnregisterFs_types">NOT REGOLDFS AND NOT INSTALLMODE</Custom>
-      <Custom Action="UnInstallSocketServer" After="UnRegisterServer">NOT REGOLDFS AND NOT INSTALLMODE</Custom>
+      <Custom Action="StopFiresecNTService" After="CloseApplications">1</Custom>
+      <Custom Action="UnregisterSockProxy" After="CloseApplications">NOT INSTALLMODE</Custom>
+      <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">NOT INSTALLMODE</Custom>
+      <Custom Action="UnRegisterServer" After="UnregisterFs_types">NOT INSTALLMODE</Custom>
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">

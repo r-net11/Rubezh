@@ -26,7 +26,7 @@ namespace FiresecClient
 			PlansConfiguration = FiresecService.GetPlansConfiguration();
 			SecurityConfiguration = FiresecService.GetSecurityConfiguration();
 			var drivers = FiresecService.GetDrivers();
-			if (drivers == null)
+			if ((drivers == null) || (drivers.Count == 0))
 			{
 				MessageBox.Show("Ошибка. Список драйверов пуст");
 			}

@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
-		<CustomAction Id="StartAppOnExit" FileKey="FiresecServiceExe" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
     <!--<CustomAction Id="PreventDowngrading" Error="Newer version already installed." />-->
+		<CustomAction Id="StartAppOnExit" FileKey="FiresecServiceExe" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
 		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="KillFiresecProcess" Execute="immediate" Impersonate="yes" Return="check"/>
     <CustomAction Id="InstallHaspDriver" BinaryKey="haspdinst.exe" ExeCommand="-i -kp" Return="ignore" Execute="immediate" />
     <CustomAction Id="InstallReportViewer" BinaryKey="ReportViewer.exe" ExeCommand="/q" Return="asyncNoWait" Execute="immediate" />
-    <CustomAction Id="InstallSocketServer" FileKey="FsScktsrvrExeFile" ExeCommand="-install -silent" Execute="immediate" Impersonate="yes" Return="ignore" />
-    <CustomAction Id="UnInstallSocketServer" FileKey="FsScktsrvrExeFile" ExeCommand="-uninstall -silent" Execute="immediate" Impersonate="yes" Return="ignore" />
+
     <CustomAction Id="RegisterServer" FileKey="Fs_serverExeFile" ExeCommand="-regserver" Execute="immediate" Impersonate="yes" Return="ignore" />
     <CustomAction Id="UnRegisterServer" FileKey="Fs_serverExeFile" ExeCommand="-unregserver" Execute="immediate" Impersonate="yes" Return="ignore" />
     <CustomAction Id="RegisterSockProxy" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s "[OLDFIRESECSERVICELOCATION]SockProxy.dll"' Return="ignore" />
     <CustomAction Id="UnregisterSockProxy" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s /u "[OLDFIRESECSERVICELOCATION]SockProxy.dll"' Return='ignore' />
     <CustomAction Id="RegisterFs_types" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s "[OLDFIRESECSERVICELOCATION]fs_types.dll"' Return="ignore"  />
     <CustomAction Id="UnregisterFs_types" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s /u "[OLDFIRESECSERVICELOCATION]fs_types.dll"' Return='ignore' />
-    <CustomAction Id='RunSocketServerServiceNet' Directory='OLDFIRESECSERVICELOCATION' ExeCommand='net.exe start Adv_SocketServer' Return='ignore' />
-    <CustomAction Id='StopSocketServerServiceNet' Directory='OLDFIRESECSERVICELOCATION' ExeCommand='net.exe stop Adv_SocketServer' Return='ignore' />
-    <!--<CustomAction Id='RunFiresecServiceNet' Directory='OLDFIRESECSERVICELOCATION' ExeCommand='net.exe start Firesec-2_NTServer' Return='ignore' />
-    <CustomAction Id='StopFiresecServiceNet' Directory='OLDFIRESECSERVICELOCATION' ExeCommand='net.exe stop Firesec-2_NTServer' Return='ignore' />-->
-    <!--<CustomAction Id='RunSocketServer' Directory='OLDFIRESECSERVICELOCATION' ExeCommand='' Return='asyncNoWait' />-->
+
+    <CustomAction Id='RunFiresecNTService' Directory='OLDFIRESECSERVICELOCATION' ExeCommand='net.exe start Firesec-2_NTServer' Return='ignore' />
+    <CustomAction Id='StopFiresecNTService' Directory='OLDFIRESECSERVICELOCATION' ExeCommand='net.exe stop Firesec-2_NTServer' Return='ignore' />
 	</Fragment>
 </Wix>

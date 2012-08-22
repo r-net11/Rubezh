@@ -2,6 +2,8 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables_FiresecService.wxi?>
 	<Fragment>
+    <Icon Id="FiresecServiceIcon" SourceFile="Data\Server.ico"/>
+
 		<DirectoryRef Id="DesktopFolder">
 			<Component Id="FiresecServiceDesktopShortcut" Guid="*">
 				<Shortcut Id="desktopShortcut" Name="Сервер приложений ОПС Firesec-2" Target="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)"

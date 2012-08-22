@@ -3,8 +3,6 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <?include Variables_FireAdministrator.wxi?>
   <Fragment>
-    
-    <Icon Id="FireAdministratorIcon" SourceFile="Data\Administrator.ico"/>
     <util:CloseApplication Id="FACloseAction" CloseMessage="no" Target="$(var.FireAdministrator.TargetFileName)" RebootPrompt="no" />
     
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">

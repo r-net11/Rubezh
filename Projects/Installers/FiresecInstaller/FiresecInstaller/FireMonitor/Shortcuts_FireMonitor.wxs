@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?include Variables_FireMonitor.wxi?>
-
   <Fragment>
+    <Icon Id="FireMonitorIcon" SourceFile="Data\Monitor.ico"/>
+
     <DirectoryRef Id="DesktopFolder">
       <Component Id="FMDesktopShortcut" Guid="*">
         <Shortcut Id="FMDesktopShortcut" Name="Оперативная задача ОПС 'FireSec-2'" Target="[FIREMONITORLOCATION]$(var.FireMonitor.TargetFileName)"

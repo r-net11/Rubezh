@@ -19,9 +19,8 @@
       <ComponentRef Id="DeviceLibrary" />
       <ComponentRef Id="FS_Sounds" />
 
-      <!--<ComponentRef Id="FiresecNTServiceComponent"/>-->
-      <!--<ComponentRef Id="ServiceInstallerComponent"/>-->
-      <!--<ComponentRef Id="RemoveNTServiceComponent" />-->
+      <ComponentRef Id="FiresecNTServiceComponent"/>
+      <ComponentRef Id="RemoveNTServiceComponent" />
 		</Feature>
 	</Fragment>
 </Wix>

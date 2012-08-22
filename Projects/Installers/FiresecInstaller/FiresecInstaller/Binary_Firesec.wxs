@@ -2,7 +2,6 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
 		<Binary Id="FiresecDBSql" SourceFile="Data\FiresecDataBaseStructureSql.sql" />
-		<!--<Binary Id="FiresecBanner" SourceFile="Data\FiresecBanner.bmp" />-->
 		<Binary Id="InstChoiceLogo.bmp" SourceFile="Data\InstallChoiceLogo.bmp" />
 		<Binary Id="DestFolder.ico" SourceFile="Data\DestinationFolder.ico" />
 		<Binary Id="Up.ico" SourceFile="Data\Up.ico" />
@@ -15,6 +14,5 @@
     <Binary Id="haspdinst.exe" SourceFile="..\..\..\..\..\..\3rdParty\HASPDriver\haspdinst.exe"/>
     <Binary Id="ReportViewer.exe" SourceFile="..\..\..\..\..\..\3rdParty\ReportViewer\ReportViewer.exe"/>
 		<Binary Id="FiresecCADll" SourceFile="$(var.CustomAction.TargetDir)$(var.CustomAction.TargetName).CA.dll" />
-		<!--<WixVariable Id="WixUIBannerBmp" Value="Data\FiresecBanner.bmp" />-->
 	</Fragment>
 </Wix>
