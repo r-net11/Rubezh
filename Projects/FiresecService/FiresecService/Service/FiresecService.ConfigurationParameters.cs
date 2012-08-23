@@ -50,7 +50,6 @@ namespace FiresecService.Service
 							requestIds.Remove(request.id);
 							var paramNo = request.param.FirstOrDefault(x => x.name == "ParamNo").value;
 							var paramValue = request.param.FirstOrDefault(x => x.name == "ParamValue").value;
-							//paramValue = ExchengeLowAndHigtBytes(paramValue);
 							var heightByteValue = paramValue / 256;
 							var lowByteValue = paramValue - heightByteValue * 256;
 
@@ -58,6 +57,10 @@ namespace FiresecService.Service
 							{
 								if (driverProperty.No == paramNo)
 								{
+									if (driverProperty.No == 0x85)
+									{
+										;
+									}
 									var offsetParamValue = paramValue;
 
 									if (driverProperty.IsHeighByte)
@@ -65,15 +68,29 @@ namespace FiresecService.Service
 									if (driverProperty.IsLowByte)
 										offsetParamValue = heightByteValue;
 
-									//if (driverProperty.Offset > 0)
-									//{
-									//    offsetParamValue = offsetParamValue >> driverProperty.Offset;
-									//}
-									//if (driverProperty.Offset < 0)
-									//{
-									//    offsetParamValue = offsetParamValue << -driverProperty.Offset;
-									//    offsetParamValue = offsetParamValue >> -driverProperty.Offset;
-									//}
+									if (driverProperty.MinOffset > 0)
+									{
+										byte byteOffsetParamValue = (byte)offsetParamValue;
+										byteOffsetParamValue = (byte)(byteOffsetParamValue >> driverProperty.MinOffset);
+										byteOffsetParamValue = (byte)(byteOffsetParamValue << driverProperty.MinOffset);
+										offsetParamValue = byteOffsetParamValue;
+									}
+									if (driverProperty.MaxOffset > 0)
+									{
+										byte byteOffsetParamValue = (byte)offsetParamValue;
+										byteOffsetParamValue = (byte)(byteOffsetParamValue << 8 - driverProperty.MaxOffset);
+										byteOffsetParamValue = (byte)(byteOffsetParamValue >> 8 - driverProperty.MaxOffset);
+										offsetParamValue = byteOffsetParamValue;
+									}
+									if (driverProperty.Offset > 0)
+									{
+										offsetParamValue = offsetParamValue >> driverProperty.Offset;
+									}
+
+									if (device.Driver.DriverType == DriverType.MRO && driverProperty.Name == "Время отложенного пуска")
+									{
+										offsetParamValue = offsetParamValue * 5;
+									}
 									var property = new Property()
 									{
 										Name = driverProperty.Name,
@@ -142,27 +159,38 @@ namespace FiresecService.Service
 					{
 						newValue = int.Parse(property.Value);
 
-						//if (driverProperty.Offset > 0)
-						//{
-						//    newValue = newValue << driverProperty.Offset;
-						//}
+						if (device.Driver.DriverType == DriverType.MRO && driverProperty.Name == "Время отложенного пуска")
+						{
+							newValue = (int)Math.Truncate((double)newValue / 5);
+						}
 					}
 
-					if (driverProperty.IsHeighByte)
+					if (driverProperty.Offset > 0)
 					{
-						newValue *= 256;
+						newValue = newValue << driverProperty.Offset;
 					}
-										
+
+					//if (driverProperty.IsHeighByte)
+					//{
+					//    newValue *= 256;
+					//}
+
+
 					binProperty.Value += newValue;
 				}
 			}
 
 			foreach (var binProperty in binProperties)
 			{
-				//binProperty.Value = ExchengeLowAndHigtBytes(binProperty.Value);
-				int requestId = 0;
-				FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$WriteSimpleParam", binProperty.ToString(), ref requestId);
+				if (binProperty.No == 0x85)
+				{
+					;
+				}
 				Trace.WriteLine(binProperty.ToString());
+				int requestId = 0;
+				binProperty.Value *= 256;
+				FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$WriteSimpleParam", binProperty.ToString(), ref requestId);
+				//Trace.WriteLine(binProperty.ToString());
 			}
 		}
 

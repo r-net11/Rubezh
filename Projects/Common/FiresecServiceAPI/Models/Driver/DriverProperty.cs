@@ -56,6 +56,12 @@ namespace FiresecAPI.Models
 		public int Offset { get; set; }
 
 		[DataMember]
+		public int MinOffset { get; set; }
+
+		[DataMember]
+		public int MaxOffset { get; set; }
+
+		[DataMember]
 		public List<string> AlternativePareterNames { get; set; }
 
 		[DataMember]

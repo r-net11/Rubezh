@@ -19,7 +19,7 @@ namespace FiresecAPI.Models
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
-				Max = 255
+				Max = 250
 			};
 			driver.Properties.Add(property1);
 
@@ -32,7 +32,7 @@ namespace FiresecAPI.Models
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
-				Max = 255
+				Max = 250
 			};
 			driver.Properties.Add(property2);
 
@@ -45,86 +45,83 @@ namespace FiresecAPI.Models
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
-				Max = 255
+				Max = 250
 			};
 			driver.Properties.Add(property3);
 
 			var property4 = new DriverProperty()
 			{
+				IsInternalDeviceParameter = true,
 				No = 0x86,
 				Name = "Критическое время без обмена для перехода в защищаемое состояние",
 				Caption = "Критическое время без обмена для перехода в защищаемое состояние",
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
-				Max = 255
+				Max = 250
 			};
 			driver.Properties.Add(property4);
 
-			var property5 = new DriverProperty()
-			{
-				No = 0x85,
-				Name = "Тип клапана",
-				Caption = "Тип клапана",
-				Default = "0"
-			};
-			var property5Parameter1 = new DriverPropertyParameter()
-			{
-				Name = "Клапан дымоудаления",
-				Value = "0"
-			};
-			var property5Parameter2 = new DriverPropertyParameter()
-			{
-				Name = "Огнезащитный клапан",
-				Value = "1"
-			};
-			property5.Parameters.Add(property5Parameter1);
-			property5.Parameters.Add(property5Parameter2);
-			driver.Properties.Add(property5);
-
 			var property6 = new DriverProperty()
 			{
+				IsInternalDeviceParameter = true,
 				No = 0x85,
 				Name = "Тип привода",
 				Caption = "Тип привода",
 				Default = "0",
-				Offset = 1
+				MinOffset = 0,
+				MaxOffset = 3
 			};
+			
 			var property6Parameter1 = new DriverPropertyParameter()
 			{
-				Name = "Резерв",
+				Name = "Реверсивный ДУ",
 				Value = "0"
 			};
 			var property6Parameter2 = new DriverPropertyParameter()
 			{
-				Name = "Пружинный привод",
+				Name = "Реверсивный ОЗ",
 				Value = "1"
 			};
 			var property6Parameter3 = new DriverPropertyParameter()
 			{
-				Name = "Привод с ручным возвратом",
+				Name = "Пружинный ДУ",
 				Value = "2"
 			};
 			var property6Parameter4 = new DriverPropertyParameter()
 			{
-				Name = "Резерв",
+				Name = "Пружинный ОЗ",
 				Value = "3"
 			};
-			
+			var property6Parameter5 = new DriverPropertyParameter()
+			{
+				Name = "Ручной ДУ",
+				Value = "4"
+			};
+			var property6Parameter6 = new DriverPropertyParameter()
+			{
+				Name = "Ручной ОЗ",
+				Value = "5"
+			};
+
 			property6.Parameters.Add(property6Parameter1);
 			property6.Parameters.Add(property6Parameter2);
 			property6.Parameters.Add(property6Parameter3);
 			property6.Parameters.Add(property6Parameter4);
+			property6.Parameters.Add(property6Parameter5);
+			property6.Parameters.Add(property6Parameter6);
 			driver.Properties.Add(property6);
 
 			var property7 = new DriverProperty()
 			{
 				IsInternalDeviceParameter = true,
-				No = 0x86,
-				Name = "Перевод заслонки в указанное положение после подачи питания на модуль(Только для пружинного привода)",
-				Caption = "Перевод заслонки в указанное положение после подачи питания на модуль(Только для пружинного привода)",
+				No = 0x85,
+				Name = "Перейти в защиту(иначе перейти в дежурное положение)",
+				Caption = "Перейти в защиту(иначе перейти в дежурное положение)",
 				DriverPropertyType = DriverPropertyTypeEnum.BoolType,
-				Offset = 7
+				Offset = 7,
+				MinOffset = 7,
+				MaxOffset = 8
 			};
 			driver.Properties.Add(property7);
 		}
