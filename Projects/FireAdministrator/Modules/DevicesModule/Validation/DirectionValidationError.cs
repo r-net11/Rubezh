@@ -11,6 +11,11 @@ namespace DevicesModule.Validation
 		{
 		}
 
+		public override string Module
+		{
+			get { return "FS"; }
+		}
+
 		protected override int? Key
 		{
 			get { return Object.Id; }

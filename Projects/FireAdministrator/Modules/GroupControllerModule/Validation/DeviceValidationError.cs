@@ -1,20 +1,20 @@
 ﻿using System;
-using FiresecAPI.Models;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
+using XFiresecAPI;
 
-namespace DevicesModule.Validation
+namespace GKModule.Validation
 {
-	class DeviceValidationError : ObjectValidationError<Device, ShowDeviceEvent, Guid>
+	public class DeviceValidationError : ObjectValidationError<XDevice, ShowXDeviceEvent, Guid>
 	{
-		public DeviceValidationError(Device device, string error, ValidationErrorLevel level)
+		public DeviceValidationError(XDevice device, string error, ValidationErrorLevel level)
 			: base(device, error, level)
 		{
 		}
 
 		public override string Module
 		{
-			get { return "FS"; }
+			get { return "GK"; }
 		}
 
 		protected override Guid Key

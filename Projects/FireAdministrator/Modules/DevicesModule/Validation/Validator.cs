@@ -77,7 +77,7 @@ namespace DevicesModule.Validation
 				}
 			}
 			if (pduCount > 10)
-				_errors.Add(new CommonValidationError("Устройства", string.Empty, string.Format("Максимальное количество ПДУ - 10, сейчас - {0}", pduCount), ValidationErrorLevel.Warning));
+				_errors.Add(new CommonValidationError("FS", "Устройства", string.Empty, string.Format("Максимальное количество ПДУ - 10, сейчас - {0}", pduCount), ValidationErrorLevel.Warning));
 		}
 
 		void ValidateAddressEquality(Device device)
@@ -458,7 +458,7 @@ namespace DevicesModule.Validation
 					++guardZonesCount;
 			}
 			if (guardZonesCount > 64)
-				_errors.Add(new CommonValidationError("Зоны", string.Empty, string.Format("Превышено максимальное количество охранных зон ({0} из 64 максимально возможных)", guardZonesCount), ValidationErrorLevel.CannotWrite));
+				_errors.Add(new CommonValidationError("FS", "Зоны", string.Empty, string.Format("Превышено максимальное количество охранных зон ({0} из 64 максимально возможных)", guardZonesCount), ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateZoneDetectorCount(Zone zone)

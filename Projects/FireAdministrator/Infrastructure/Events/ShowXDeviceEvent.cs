@@ -1,8 +1,9 @@
 ﻿using Microsoft.Practices.Prism.Events;
+using System;
 
 namespace Infrastructure.Events
 {
-    public class ShowXDevicesEvent : CompositePresentationEvent<object>
+    public class ShowXDeviceEvent : CompositePresentationEvent<Guid>
     {
     }
 }

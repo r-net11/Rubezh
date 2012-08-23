@@ -4,14 +4,19 @@ using XFiresecAPI;
 
 namespace GKModule.Validation
 {
-	class ZoneValidationError : ObjectValidationError<XZone, ShowXZonesEvent, object>
+	class ZoneValidationError : ObjectValidationError<XZone, ShowXZoneEvent, ushort>
 	{
 		public ZoneValidationError(XZone zone, string error, ValidationErrorLevel level)
 			: base(zone, error, level)
 		{
 		}
 
-		protected override object Key
+		public override string Module
+		{
+			get { return "GK"; }
+		}
+
+		protected override ushort Key
 		{
 			get { return Object.No; }
 		}

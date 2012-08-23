@@ -29,7 +29,6 @@ namespace Common.GK
 					Name = "IPAddress",
 					Caption = "IP адрес",
 					ToolTip = "IP адрес",
-					StringDefault = "172.16.7.102",
 					DriverPropertyType = XDriverPropertyTypeEnum.StringType,
 					IsInternalDeviceParameter = false
 				}
@@ -55,7 +54,7 @@ namespace Common.GK
 					Name = "Засыпание, мин",
 					Caption = "Засыпание, мин",
 					ToolTip = "Засыпание, мин",
-					Default = 1,
+					Default = 10,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 					IsInternalDeviceParameter = true
 				}

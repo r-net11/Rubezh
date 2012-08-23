@@ -34,6 +34,8 @@
                                                           IsEnabled="{Binding CanControl}">
                                                     <MenuItem Command="{Binding SetIgnoreCommand}" Header="Поставить в обход" />
                                                     <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Убрать из обхода" />
+                                                    <MenuItem Command="{Binding SetAutomaticCommand}" Header="Включить автоматику" />
+                                                    <MenuItem Command="{Binding ResetAutomaticCommand}" Header="Выключить автоматику" />
                                                     <MenuItem Command="{Binding TurnOnCommand}" Header="Включить" />
                                                     <MenuItem Command="{Binding CancelDelayCommand}" Header="Отменить задержку" />
                                                     <MenuItem Command="{Binding TurnOffCommand}" Header="Выключить" />
@@ -83,11 +85,13 @@
                                 <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" />
                                 <TextBlock Text=" - " />
                             </WrapPanel>
-                            <TextBlock Text="Номер" Margin="10, 0, 0, 0" />
-                            <TextBlock Text="{Binding DatabaseNo}" />
                             <TextBlock Text="{Binding Device.Driver.Name}" />
                             <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
                             <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Номер на ГК" />
+                            <TextBlock Text="{Binding DatabaseNo}" Margin="10, 0, 0, 0" />
                         </StackPanel>
                         <ItemsControl ItemsSource="{Binding States}">
                             <ItemsControl.ItemTemplate>

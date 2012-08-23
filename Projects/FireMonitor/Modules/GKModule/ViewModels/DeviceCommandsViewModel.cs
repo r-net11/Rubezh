@@ -7,15 +7,16 @@ namespace GKModule.ViewModels
 {
 	public class DeviceCommandsViewModel
 	{
-		public XDevice Device { get; private set; }
 		public XDeviceState DeviceState { get; private set; }
+		public XDevice Device { get { return DeviceState.Device; } }
 
 		public DeviceCommandsViewModel(XDeviceState deviceState)
 		{
 			DeviceState = deviceState;
-			Device = deviceState.Device;
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
+			SetAutomaticCommand = new RelayCommand(OnSetAutomatic, CanSetAutomatic);
+			ResetAutomaticCommand = new RelayCommand(OnResetAutomatic, CanResetAutomatic);
 			TurnOnCommand = new RelayCommand(OnTurnOn, CanTurnOn);
 			CancelDelayCommand = new RelayCommand(OnCancelDelay, CanCancelDelay);
 			TurnOffCommand = new RelayCommand(OnTurnOff, CanTurnOff);
@@ -43,6 +44,26 @@ namespace GKModule.ViewModels
 		bool CanResetIgnore()
 		{
 			return DeviceState.States.Contains(XStateType.Ignore);
+		}
+
+		public RelayCommand SetAutomaticCommand { get; private set; }
+		void OnSetAutomatic()
+		{
+			SendControlCommand(0x80);
+		}
+		bool CanSetAutomatic()
+		{
+			return Device.Driver.IsControlDevice && !DeviceState.States.Contains(XStateType.Norm);
+		}
+
+		public RelayCommand ResetAutomaticCommand { get; private set; }
+		void OnResetAutomatic()
+		{
+			SendControlCommand(0x00);
+		}
+		bool CanResetAutomatic()
+		{
+			return Device.Driver.IsControlDevice && DeviceState.States.Contains(XStateType.Norm);
 		}
 
 		public RelayCommand TurnOnCommand { get; private set; }
@@ -115,28 +136,9 @@ namespace GKModule.ViewModels
             return Device.Driver.IsControlDevice;
 		}
 
-		public bool CanControl
-		{
-			get
-			{
-                switch(Device.Driver.DriverType)
-                {
-                    case XDriverType.System:
-                    case XDriverType.GK:
-                    case XDriverType.GKIndicator:
-                    case XDriverType.GKLine:
-                    case XDriverType.GKRele:
-                    case XDriverType.KAU:
-                    case XDriverType.KAUIndicator:
-                        return false;
-                }
-                return true;
-			}
-		}
-
 		void SendControlCommand(byte code)
 		{
-			SendManager.StrartLog("D:/GKLog.txt");
+			//SendManager.StrartLog("D:/GKLog.txt");
 			if (Device.Driver.IsDeviceOnShleif)
 			{
 				var bytes = new List<byte>();
@@ -145,7 +147,7 @@ namespace GKModule.ViewModels
 				bytes.Add(code);
 				SendManager.Send(Device.GkDatabaseParent, 3, 13, 0, bytes);
 			}
-			SendManager.StopLog();
+			//SendManager.StopLog();
 		}
 	}
 }

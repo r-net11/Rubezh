@@ -14,7 +14,8 @@ namespace GKModule.ViewModels
 		public JournalItem JournalItem { get; private set; }
 		public XDevice Device { get; private set; }
 		public XDeviceState DeviceState { get; private set; }
-		public string DeviceAddress { get; private set; }
+		public XZoneState ZoneState { get; private set; }
+		public string PresentationName { get; private set; }
 
 		public JournalItemViewModel(JournalItem journalItem)
 		{
@@ -23,7 +24,12 @@ namespace GKModule.ViewModels
 			if (DeviceState != null)
 			{
 				Device = DeviceState.Device;
-				DeviceAddress = Device.Driver.ShortName + " " + Device.DottedAddress;
+				PresentationName = Device.Driver.ShortName + " " + Device.DottedAddress;
+			}
+			ZoneState = XManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.Zone.GetDatabaseNo(DatabaseType.Gk) == journalItem.GKObjectNo);
+			if (ZoneState != null)
+			{
+				PresentationName = ZoneState.Zone.PresentationName;
 			}
 		}
 	}
