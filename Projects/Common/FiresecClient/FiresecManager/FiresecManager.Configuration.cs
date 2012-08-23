@@ -37,7 +37,6 @@ namespace FiresecClient
 				DeviceConfiguration = deviceConfiguration
 			};
 
-			FiresecConfiguration.UpdateDrivers();
 			UpdateConfiguration();
 		}
 

@@ -14,6 +14,10 @@ namespace FiresecService.Service
 	{
 		public OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
 		{
+            if (!AppSettings.IsFSEnabled)
+            {
+                return new OperationResult<bool>("Сервер работает в конфигурации без поддержки адресной системы");
+            }
 			Watcher.Ignore = true;
 			try
 			{
@@ -28,7 +32,7 @@ namespace FiresecService.Service
 				FiresecManager.ConvertBack(deviceConfiguration, true);
 
 				OperationResult<bool> result = null;
-				if (AppSettings.OverrideFiresec1Config)
+				if (!AppSettings.DoNotOverrideFiresec1Config)
 				{
 					result = FiresecSerializedClient.SetNewConfig(FiresecManager.ConfigurationConverter.FiresecConfiguration).ToOperationResult();
 				}
@@ -298,6 +302,9 @@ namespace FiresecService.Service
 
 		public OperationResult<bool> CheckHaspPresence()
 		{
+            if (!AppSettings.IsFSEnabled)
+                return new OperationResult<bool>() { Result = true };
+
 			return FiresecSerializedClient.CheckHaspPresence().ToOperationResult();
 		}
 	}

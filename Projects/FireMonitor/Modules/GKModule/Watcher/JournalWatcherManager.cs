@@ -37,6 +37,11 @@ namespace GKModule
 			{
 				try
 				{
+                    foreach (var journalWatcher in JournalWatchers)
+                    {
+                        journalWatcher.Start();
+                    }
+
 					foreach (var journalWatcher in JournalWatchers)
 					{
 						journalWatcher.PingJournal();
@@ -50,10 +55,15 @@ namespace GKModule
 
 		public static void GetLastJournalItems(int count)
 		{
-			foreach (var journalWatcher in JournalWatchers)
-			{
-				journalWatcher.GetLastJournalItems(count);
-			}
+            var thread = new Thread(new ThreadStart(
+                () => {
+                    foreach (var journalWatcher in JournalWatchers)
+                    {
+                        journalWatcher.GetLastJournalItems(count);
+                    }
+                }
+                ));
+            thread.Start();
 		}
 	}
 }

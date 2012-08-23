@@ -10,6 +10,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Common.GK;
+using System.IO;
+using System.Windows.Markup;
 
 namespace FireAdministrator
 {
@@ -18,6 +20,7 @@ namespace FireAdministrator
 		public void Initialize()
 		{
 			AppSettingsHelper.InitializeAppSettings();
+            LoadStyles();
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
@@ -63,9 +66,33 @@ namespace FireAdministrator
 			MutexHelper.KeepAlive();
 		}
 
-		private void OnConfigurationChanged(object obj)
+		void OnConfigurationChanged(object obj)
 		{
 			InitializeModules();
 		}
+
+        void LoadStyles()
+        {
+            if (!String.IsNullOrEmpty(ServiceFactory.AppSettings.Theme) && ServiceFactory.AppSettings.Theme != "1")
+            {
+                var themeName = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Brushes" + ServiceFactory.AppSettings.Theme + ".xaml";
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themeName) });
+            }
+            //return;
+
+            //string fileName = "E:/xxx.xaml";
+
+            //if (File.Exists(fileName))
+            //{
+            //    using (var fileStream = new FileStream(fileName, FileMode.Open))
+            //    {
+            //        ResourceDictionary resourceDictionary = (ResourceDictionary)XamlReader.Load(fileStream);
+            //        Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
+            //    }
+            //}
+            //else
+            //{
+            //}
+        }
 	}
 }

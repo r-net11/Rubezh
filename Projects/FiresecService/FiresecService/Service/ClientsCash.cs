@@ -67,8 +67,10 @@ namespace FiresecService.Service
 			{
 				Remove(existingFiresecService);
 			}
-
-			firesecService.FiresecManager.FiresecServices.Add(firesecService);
+            if (firesecService.FiresecManager != null)
+            {
+                firesecService.FiresecManager.FiresecServices.Add(firesecService);
+            }
 			FiresecServices.Add(firesecService);
 			MainViewModel.Current.AddClient(firesecService);
 		}

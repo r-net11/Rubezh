@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
+using System.Threading;
 
 namespace GKModule
 {
@@ -14,14 +15,20 @@ namespace GKModule
 	{
 		public static void RequestAllStates()
 		{
-			foreach (var gkDatabase in DatabaseManager.GkDatabases)
-			{
-				foreach (var binaryObject in gkDatabase.BinaryObjects)
-				{
-					GetState(binaryObject.BinaryBase, gkDatabase.RootDevice);
-				}
-			}
+            var thread = new Thread(new ThreadStart(OnRun));
+            thread.Start();
 		}
+
+        static void OnRun()
+        {
+            foreach (var gkDatabase in DatabaseManager.GkDatabases)
+            {
+                foreach (var binaryObject in gkDatabase.BinaryObjects)
+                {
+                    GetState(binaryObject.BinaryBase, gkDatabase.RootDevice);
+                }
+            }
+        }
 
 		public static void RequestObjectState(XBinaryBase binaryBase)
 		{

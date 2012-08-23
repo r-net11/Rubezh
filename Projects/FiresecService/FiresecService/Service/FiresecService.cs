@@ -99,16 +99,19 @@ namespace FiresecService.Service
 
 			ClientsCash.Add(this);
 
-			if (FiresecManager.IsConnectedToComServer)
-			{
-				operationResult.Result = true;
-			}
-			else
-			{
-				operationResult.HasError = false;
-				operationResult.Error = "Нет соединения с ядром Firesec";
-				return operationResult;
-			}
+            if (AppSettings.IsFSEnabled)
+            {
+                if (FiresecManager.IsConnectedToComServer)
+                {
+                    operationResult.Result = true;
+                }
+                else
+                {
+                    operationResult.HasError = false;
+                    operationResult.Error = "Нет соединения с ядром Firesec";
+                    return operationResult;
+                }
+            }
 			return operationResult;
 		}
 
@@ -147,11 +150,14 @@ namespace FiresecService.Service
 
 		public string GetStatus()
 		{
-			var driversError = FiresecManager.ConfigurationConverter.DriversError.ToString();
-			if (!string.IsNullOrEmpty(driversError))
-			{
-				return driversError;
-			}
+            if (AppSettings.IsFSEnabled)
+            {
+                var driversError = FiresecManager.ConfigurationConverter.DriversError.ToString();
+                if (!string.IsNullOrEmpty(driversError))
+                {
+                    return driversError;
+                }
+            }
 			return null;
 		}
 

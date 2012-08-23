@@ -103,6 +103,17 @@ namespace Infrastructure
 			}
 		}
 
+        bool _opcChanged;
+        public bool OPCChanged
+        {
+            get { return _opcChanged; }
+            set
+            {
+                _opcChanged = value;
+                OnChanged();
+            }
+        }
+
 		public event Action Changed;
 		void OnChanged()
 		{
@@ -124,6 +135,7 @@ namespace Infrastructure
 			LibraryChanged = false;
 			XDevicesChanged = false;
 			CamerasChanged = false;
+            OPCChanged = false;
 			HasChanges = false;
 		}
 	}

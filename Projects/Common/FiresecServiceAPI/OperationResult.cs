@@ -10,6 +10,12 @@ namespace FiresecAPI
             HasError = false;
         }
 
+        public OperationResult(string error)
+        {
+            HasError = true;
+            Error = error;
+        }
+
         [DataMember]
         public T Result { get; set; }
 

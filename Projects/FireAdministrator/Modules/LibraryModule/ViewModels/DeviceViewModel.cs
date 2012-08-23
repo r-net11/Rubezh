@@ -20,7 +20,6 @@ namespace LibraryModule.ViewModels
             {
                 return new Driver()
                 {
-					ImageSource = IconHelper.GetUnknownDriverIcon(),
                     UID = new Guid("00000000-0000-0000-0000-000000000000"),
                     Name = "Неизвестное устройство",
                     States = new List<DriverState>(),

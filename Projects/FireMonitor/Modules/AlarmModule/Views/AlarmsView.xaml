@@ -48,9 +48,6 @@
             </DataGrid.RowStyle>
         </DataGrid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Command="{Binding ShowAllCommand}" Width="100" Height="30" Margin="2">
-                <TextBlock Text="Показать все" FontSize="12" />
-            </Button>
             <Button Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" Margin="2">
                 <TextBlock Text="Включить все" FontSize="12" />
             </Button>

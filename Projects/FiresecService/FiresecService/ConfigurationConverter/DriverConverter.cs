@@ -127,19 +127,6 @@ namespace FiresecService.Configuration
 			else
 				driver.MaxAddress = int.Parse(innerDriver.ar_to);
 
-			string imageSource;
-			if (string.IsNullOrEmpty(innerDriver.dev_icon) == false)
-			{
-				imageSource = innerDriver.dev_icon;
-			}
-			else
-			{
-				imageSource = metadataClass.param.FirstOrDefault(x => x.name == "Icon").value;
-			}
-
-			driver.OldImageSource = imageSource;
-			driver.HasImage = imageSource != @"Device_Device";
-
 			driver.IsBUtton = false;
 			switch (driver.DriverType)
 			{

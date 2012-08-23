@@ -10,14 +10,6 @@ namespace FiresecClient
 		public List<Driver> Drivers { get; set; }
 		public DeviceConfiguration DeviceConfiguration { get; set; }
 
-		public void UpdateDrivers()
-		{
-			if (Drivers != null)
-			{
-				Drivers.ForEach(x => x.ImageSource = IconHelper.GetFSIcon(x));
-			}
-		}
-
 		public void UpdateConfiguration()
 		{
 			DeviceConfiguration.Update();

@@ -37,13 +37,5 @@ namespace OPCModule.ViewModels
 				OnPropertyChanged("SelectedZone");
 			}
 		}
-
-		public override void OnShow()
-		{
-		}
-
-		public override void OnHide()
-		{
-		}
 	}
 }

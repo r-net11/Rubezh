@@ -20,7 +20,7 @@ namespace FiresecService
 		{
 			try
 			{
-				InitializeAppSettings();
+                AppSettingsHelper.InitializeAppSettings();
 				var directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
 				Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
 
@@ -35,14 +35,17 @@ namespace FiresecService
 				WindowThread.Start();
 				MainViewStartedEvent.WaitOne();
 
-				ClientsCash.InitializeComServers();
-				UILogger.Log("Открытие хоста");
-				var isHostOpened = FiresecServiceManager.Open();
-				if (AppSettings.RunOPC)
-				{
-					UILogger.Log("Запуск OPC сервера");
-					FiresecOPCManager.Start();
-				}
+                if (AppSettings.IsFSEnabled)
+                {
+                    ClientsCash.InitializeComServers();
+                    if (AppSettings.IsOPCEnabled)
+                    {
+                        UILogger.Log("Запуск OPC сервера");
+                        FiresecOPCManager.Start();
+                    }
+                }
+                UILogger.Log("Открытие хоста");
+                FiresecServiceManager.Open();
 				UILogger.Log("Готово");
 			}
 			catch (Exception e)
@@ -77,20 +80,6 @@ namespace FiresecService
 			}
 
 			System.Environment.Exit(1);
-		}
-
-		static void InitializeAppSettings()
-		{
-			AppSettings.OldFiresecLogin = System.Configuration.ConfigurationManager.AppSettings["OldFiresecLogin"] as string;
-			AppSettings.OldFiresecPassword = System.Configuration.ConfigurationManager.AppSettings["OldFiresecPassword"] as string;
-			AppSettings.ServiceAddress = System.Configuration.ConfigurationManager.AppSettings["ServiceAddress"] as string;
-			AppSettings.LocalServiceAddress = System.Configuration.ConfigurationManager.AppSettings["LocalServiceAddress"] as string;
-			AppSettings.OverrideFiresec1Config = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["OverrideFiresec1Config"] as string);
-			AppSettings.IsImitatorVisible = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["IsImitatorVisible"] as string);
-			AppSettings.RunOPC = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["RunOPC"] as string);
-#if DEBUG
-			AppSettings.IsDebug = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["IsDebug"] as string);
-#endif
 		}
 	}
 }

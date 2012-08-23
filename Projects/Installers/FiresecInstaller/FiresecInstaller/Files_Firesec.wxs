@@ -34,6 +34,10 @@
         <util:XmlConfig Id="FM_ReportsModule_AppConfig" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='ReportsModule.dll'[\]]" />
+
+        <util:XmlConfig Id="FS_AppConfig_IsFSEnabled" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/appSettings" On="install"
+            VerifyPath="//configuration/appSettings/add[\[]@key='IsFSEnabled'[\]]" />
         <Condition>NOT FS_MODULE</Condition>
       </Component>
       
@@ -42,9 +46,14 @@
         <util:XmlConfig Id="FA_GKModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]" />
+
         <util:XmlConfig Id="FM_GKModule_AppConfig" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]" />
+
+        <util:XmlConfig Id="FS_AppConfig_IsGKEnabled" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="delete" Node="element"
+            ElementPath="//configuration/appSettings" On="install"
+            VerifyPath="//configuration/appSettings/add[\[]@key='IsGKEnabled'[\]]" />
         <Condition>NOT GK_MODULE</Condition>
       </Component>
 
@@ -54,9 +63,9 @@
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='OPCModule.dll'[\]]" />
 
-        <util:XmlConfig Id="FM_OPCModule_AppConfig_RunOPC" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FS_AppConfig_IsOPCEnabled" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/appSettings" On="install"
-            VerifyPath="//configuration/appSettings/add[\[]@key='RunOPC'[\]]" />
+            VerifyPath="//configuration/appSettings/add[\[]@key='IsOPCEnabled'[\]]" />
         <Condition>NOT OPC_MODULE</Condition>
       </Component>
 
@@ -96,7 +105,7 @@
 
     <DirectoryRef Id="LOGS">
       <Component Id="LogScript" Guid="*">
-        <File Id="CopyLogs" Name="CopyLogs.bat" Source="Data\" DiskId="1" KeyPath="yes" />
+        <File Id="CopyLogs" Name="CopyLogs.bat" Source="Data\" KeyPath="yes" />
       </Component>
     </DirectoryRef>
   </Fragment>

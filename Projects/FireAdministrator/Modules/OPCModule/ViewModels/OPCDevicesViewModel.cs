@@ -119,13 +119,5 @@ namespace OPCModule.ViewModels
 				}
 			}
 		}
-
-		public override void OnShow()
-		{
-		}
-
-		public override void OnHide()
-		{
-		}
 	}
 }

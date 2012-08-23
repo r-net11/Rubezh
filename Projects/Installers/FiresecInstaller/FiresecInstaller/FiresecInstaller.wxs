@@ -104,9 +104,9 @@
       <Custom Action="InstallHaspDriver" After="RegisterFs_types" >NOT REGOLDFS AND INSTALLMODE</Custom>
       <Custom Action="InstallReportViewer" After="InstallHaspDriver">INSTALLMODE</Custom>
       <Custom Action="StartAppOnExit" After="InstallReportViewer">INSTALLMODE</Custom>
-      <Custom Action="RunFiresecNTService" After="InstallReportViewer">1</Custom>
+      <!--<Custom Action="RunFiresecNTService" After="InstallReportViewer">1</Custom>-->
 
-      <Custom Action="StopFiresecNTService" After="CloseApplications">1</Custom>
+      <!--<Custom Action="StopFiresecNTService" After="CloseApplications">1</Custom>-->
       <Custom Action="UnregisterSockProxy" After="CloseApplications">NOT INSTALLMODE</Custom>
       <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">NOT INSTALLMODE</Custom>
       <Custom Action="UnRegisterServer" After="UnregisterFs_types">NOT INSTALLMODE</Custom>

@@ -45,9 +45,9 @@ namespace FiresecService.ViewModels
 			get { return AppSettings.IsDebug; }
 		}
 
-		public bool IsImitatorVisible
+        public bool IsImitatorEnabled
 		{
-			get { return AppSettings.IsImitatorVisible || AppSettings.IsDebug; }
+            get { return AppSettings.IsImitatorEnabled || AppSettings.IsDebug; }
 		}
 
 		public ObservableCollection<ClientViewModel> Clients { get; private set; }

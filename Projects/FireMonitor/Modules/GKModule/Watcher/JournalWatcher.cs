@@ -18,8 +18,12 @@ namespace GKModule
 		public JournalWatcher(GkDatabase gkDatabase)
 		{
 			GkDatabase = gkDatabase;
-			LastId = GetLastId();
 		}
+
+        public void Start()
+        {
+            LastId = GetLastId();
+        }
 
 		public void PingJournal()
 		{

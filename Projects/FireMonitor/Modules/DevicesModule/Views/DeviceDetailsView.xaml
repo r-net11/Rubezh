@@ -17,9 +17,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <StackPanel Visibility="{Binding Device.Driver.HasImage, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <Image Source="{Binding Device.Driver.ImageSource}" Width="20" Height="20" Margin="5" />
-                            </StackPanel>
+                            <Image Source="{Binding Device.Driver.ImageSource}" Width="20" Height="20" Margin="5" />
                             <TextBlock Text="{Binding Device.Driver.Name}" VerticalAlignment="Center" Foreground="White" />
                         </StackPanel>
                         <WrapPanel Margin="1">

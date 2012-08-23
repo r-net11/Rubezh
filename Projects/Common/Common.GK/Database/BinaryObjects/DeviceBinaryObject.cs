@@ -163,24 +163,27 @@ namespace Common.GK
 		{
 			var binProperties = new List<BinProperty>();
 
-			foreach (var property in Device.Properties)
-			{
-				var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				if (driverProperty.IsInternalDeviceParameter)
-				{
-					byte no = driverProperty.No;
-					ushort value = property.Value;
+            foreach (var property in Device.Properties)
+            {
+                var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+                if (driverProperty != null)
+                {
+                    if (driverProperty.IsInternalDeviceParameter)
+                    {
+                        byte no = driverProperty.No;
+                        ushort value = property.Value;
 
-					var binProperty = binProperties.FirstOrDefault(x => x.No == no);
-					if (binProperty == null)
-						binProperty = new BinProperty()
-						{
-							No = no
-						};
-					binProperty.Value += (ushort)(value << driverProperty.Offset);
-					binProperties.Add(binProperty);
-				}
-			}
+                        var binProperty = binProperties.FirstOrDefault(x => x.No == no);
+                        if (binProperty == null)
+                            binProperty = new BinProperty()
+                            {
+                                No = no
+                            };
+                        binProperty.Value += (ushort)(value << driverProperty.Offset);
+                        binProperties.Add(binProperty);
+                    }
+                }
+            }
 			foreach (var property in Device.Driver.DriverTypeMappedProperties)
 			{
 				var binProperty = new BinProperty()

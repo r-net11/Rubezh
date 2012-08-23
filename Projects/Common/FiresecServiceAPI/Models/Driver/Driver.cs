@@ -117,15 +117,6 @@ namespace FiresecAPI.Models
         public bool HasAddressMask { get; set; }
 
         [DataMember]
-        public string ImageSource { get; set; }
-
-		[DataMember]
-		public string OldImageSource { get; set; }
-
-        [DataMember]
-        public bool HasImage { get; set; }
-
-        [DataMember]
         public bool IsZoneDevice { get; set; }
 
         [DataMember]
@@ -217,5 +208,10 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool HasConfigurationProperties { get; set; }
+
+        public string ImageSource
+        {
+            get { return "/Controls;component/FSIcons/" + this.DriverType.ToString() + ".png"; }
+        }
     }
 }

@@ -96,6 +96,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="AppSettings.cs" />
+    <Compile Include="AppSettingsHelper.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="ConfigurationConverter\ConfigurationConverter.cs" />
     <Compile Include="ConfigurationConverter\ConfigurationConverter.DevicesConverter.cs" />

@@ -60,7 +60,7 @@ namespace OPCModule
 				{
 					new NavigationItem<ShowOPCDeviceEvent, Guid>("Устройства","/Controls;component/Images/Tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowOPCZoneEvent, int>("Зоны","/Controls;component/Images/Zones.png", null, null, 0),
-					new NavigationItem<ShowOPCSettingsEvent, object>("Настройки","/Controls;component/Images/Settings.png", null, null, null)
+					//new NavigationItem<ShowOPCSettingsEvent, object>("Настройки","/Controls;component/Images/Settings.png", null, null, null)
 				}),
 			};
 		}

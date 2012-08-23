@@ -9,7 +9,7 @@ namespace XFiresecAPI
         public XDeviceState()
         {
             States = new List<XStateType>();
-            StateType = StateType.Norm;
+            StateType = StateType.Unknown;
             Children = new List<XDeviceState>();
         }
 
