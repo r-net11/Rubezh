@@ -73,7 +73,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOn()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand CancelDelayCommand { get; private set; }
@@ -83,7 +83,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanCancelDelay()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOff()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand StopCommand { get; private set; }
@@ -103,7 +103,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanStop()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand CancelStartCommand { get; private set; }
@@ -113,7 +113,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanCancelStart()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
@@ -123,7 +123,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOnNow()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand TurnOffNowCommand { get; private set; }
@@ -133,12 +133,11 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOffNow()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		void SendControlCommand(byte code)
 		{
-			//SendManager.StrartLog("D:/GKLog.txt");
 			if (Device.Driver.IsDeviceOnShleif)
 			{
 				var bytes = new List<byte>();
@@ -147,7 +146,11 @@ namespace GKModule.ViewModels
 				bytes.Add(code);
 				SendManager.Send(Device.GkDatabaseParent, 3, 13, 0, bytes);
 			}
-			//SendManager.StopLog();
+		}
+
+		public bool CanControl
+		{
+			get { return Device.Driver.IsDeviceOnShleif; }
 		}
 	}
 }

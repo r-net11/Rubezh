@@ -39,16 +39,16 @@ namespace GKModule
 				_devicesViewModel.Select(deviceUID);
 			ServiceFactory.Layout.Show(_devicesViewModel);
 		}
-		private void OnShowXZones(ushort zoneNo)
+		private void OnShowXZones(Guid zoneUID)
 		{
-			if (zoneNo != 0)
-				_zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.XZone.No == zoneNo);
+			if (zoneUID != Guid.Empty)
+				_zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.XZone.UID == zoneUID);
 			ServiceFactory.Layout.Show(_zonesViewModel);
 		}
-		private void OnShowXDirections(ushort directionNo)
+		private void OnShowXDirections(Guid directionUID)
 		{
-			if (directionNo != 0)
-				_directionsViewModel.SelectedDirection = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.No == directionNo);
+			if (directionUID != Guid.Empty)
+				_directionsViewModel.SelectedDirection = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			ServiceFactory.Layout.Show(_directionsViewModel);
 		}
 
@@ -67,8 +67,8 @@ namespace GKModule
 				new NavigationItem("ГК", null, new List<NavigationItem>()
 				{
 					new NavigationItem<ShowXDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXZoneEvent, ushort>("Зоны", "/Controls;component/Images/zones.png", null, null, 0),
-					new NavigationItem<ShowXDirectionEvent, ushort>("Направления", "/Controls;component/Images/direction.png", null, null, 0)
+					new NavigationItem<ShowXZoneEvent, Guid>("Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXDirectionEvent, Guid>("Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty)
 				}),
 			};
 		}

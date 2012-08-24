@@ -80,109 +80,29 @@
   <drv idx="76" name="USB БУНС" id="4A3D1FA3-4F13-44D8-B9AD-825B53416A71"/>
   <drv idx="77" name="USB БУНС-2" id="64CB0AB4-D9BE-4C71-94A1-CF24406DAF92"/>
   <drv idx="78" name="USB Рубеж-2ОП" id="39DBC715-C4B5-4AE6-A809-4F214BBBD6C1"/>
+  <zone idx="0" no="1" name="Новая зона" idZones="2045">
+    <param name="DB$IDZones" type="Int" value="2045"/>
+    <param name="GuardZoneType" type="Int" value="0"/>
+    <param name="DB$IDParentZones" type="Int" value="0"/>
+    <param name="ZoneType" type="Int" value="0"/>
+    <param name="FireDeviceCount" type="Int" value="2"/>
+    <param name="ExitTime" type="SmallInt" value="0"/>
+    <param name="AutoSet" type="Int" value="0"/>
+    <param name="Skipped" type="Int" value="0"/>
+    <param name="DB$IDSecObj" type="Int" value="525"/>
+    <param name="Delay" type="Int" value="0"/>
+  </zone>
   <dev drv="0" addr="0">
-    <dev drv="68" addr="0">
-      <prop name="INT$DEV_GUID" type="String" value="&#123;9A2AB282-DDD0-4980-8008-B9B99AA9BCB8&#125;"/>
-      <dev drv="70" addr="1">
-        <dev drv="13" addr="1">
-          <prop name="INT$DEV_GUID" type="String" value="&#123;8A8A1518-5B5F-48C5-9451-53B85F2A4955&#125;"/>
-          <dev drv="32" addr="257"/>
-          <dev drv="61" addr="258">
-            <dev drv="32" addr="0">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="32" addr="1">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="32" addr="2">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="32" addr="3">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-          </dev>
-          <dev drv="50" addr="262"/>
-          <dev drv="62" addr="263">
-            <dev drv="47" addr="0">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="47" addr="1">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="47" addr="2">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="47" addr="3">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-          </dev>
-          <dev drv="30" addr="267"/>
-          <dev drv="29" addr="268"/>
-          <dev drv="31" addr="269"/>
-          <dev drv="34" addr="270"/>
-          <dev drv="36" addr="271"/>
-          <dev drv="37" addr="272"/>
-          <dev drv="38" addr="273"/>
-          <dev drv="33" addr="274"/>
-          <dev drv="35" addr="275"/>
-          <dev drv="52" addr="276" name="Клапан дымоудаления"/>
-          <dev drv="28" addr="277"/>
-          <dev drv="48" addr="278"/>
-          <dev drv="27" addr="279"/>
-          <dev drv="63" addr="280">
-            <dev drv="27" addr="0">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="27" addr="1">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-          </dev>
-          <dev drv="64" addr="282">
-            <dev drv="27" addr="0">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="27" addr="1">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="27" addr="2">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-          </dev>
-          <dev drv="65" addr="285">
-            <dev drv="27" addr="0">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="27" addr="1">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="27" addr="2">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="27" addr="3">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-          </dev>
-          <dev drv="66" addr="289">
-            <dev drv="27" addr="0">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="27" addr="1">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="27" addr="2">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="27" addr="3">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-            <dev drv="27" addr="4">
-              <prop name="NotUsed" value="1"/>
-            </dev>
-          </dev>
-          <dev drv="39" addr="294"/>
-          <dev drv="49" addr="295"/>
-          <dev drv="49" addr="296"/>
-        </dev>
+    <prop name="INT$DEV_GUID" type="String" value="88e57feb-38f1-4317-88b3-29207b3c8b1d"/>
+    <dev drv="74" addr="1">
+      <prop name="INT$DEV_GUID" type="String" value="ef3f6c3a-10ce-44e1-9fb2-2deebfd01275"/>
+      <dev drv="30" addr="257">
+        <prop name="INT$DEV_GUID" type="String" value="ce6f63ee-c23f-457f-830c-0ef79f7065e2"/>
+        <inZ idz="0"/>
+      </dev>
+      <dev drv="31" addr="258">
+        <prop name="INT$DEV_GUID" type="String" value="f3d5a205-7a17-4d84-b15c-936c95536c4e"/>
+        <inZ idz="0"/>
       </dev>
     </dev>
   </dev>

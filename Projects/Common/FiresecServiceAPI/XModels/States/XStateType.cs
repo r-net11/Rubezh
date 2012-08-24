@@ -2,66 +2,66 @@
 
 namespace XFiresecAPI
 {
-    public enum XStateType
-    {
-        [DescriptionAttribute("Дежурный")]
-        Norm = 0,
+	public enum XStateType
+	{
+		[DescriptionAttribute("Дежурный")]
+		Norm = 0,
 
-        [DescriptionAttribute("Внимание")]
-        Attention = 1,
+		[DescriptionAttribute("Внимание")]
+		Attention = 1,
 
-        [DescriptionAttribute("Пожар 1")]
-        Fire1 = 2,
+		[DescriptionAttribute("Пожар 1")]
+		Fire1 = 2,
 
-        [DescriptionAttribute("Пожар 2")]
-        Fire2 = 3,
+		[DescriptionAttribute("Пожар 2")]
+		Fire2 = 3,
 
-        [DescriptionAttribute("Тест")]
-        Test = 4,
+		[DescriptionAttribute("Тест")]
+		Test = 4,
 
-        [DescriptionAttribute("Неисправность")]
-        Failure = 5,
+		[DescriptionAttribute("Неисправность")]
+		Failure = 5,
 
-        [DescriptionAttribute("Обход")]
-        Ignore = 6,
+		[DescriptionAttribute("Обход")]
+		Ignore = 6,
 
-        [DescriptionAttribute("Включено")]
-        On = 7,
+		[DescriptionAttribute("Включено")]
+		On = 7,
 
-        [DescriptionAttribute("Выключено")]
-        Off = 8,
+		[DescriptionAttribute("Выключено")]
+		Off = 8,
 
-        [DescriptionAttribute("Включается")]
-        TurningOn = 9,
+		[DescriptionAttribute("Включается")]
+		TurningOn = 9,
 
-        [DescriptionAttribute("Выключается")]
-        TurningOff = 10,
+		[DescriptionAttribute("Выключается")]
+		TurningOff = 10,
 
-        [DescriptionAttribute("Включить")]
-        TurnOn = 11,
+		[DescriptionAttribute("Включить")]
+		TurnOn = 11,
 
-        [DescriptionAttribute("Отменить задержку")]
-        CancelDelay = 12,
+		[DescriptionAttribute("Отменить задержку")]
+		CancelDelay = 12,
 
-        [DescriptionAttribute("Выключить")]
-        TurnOff = 13,
+		[DescriptionAttribute("Выключить")]
+		TurnOff = 13,
 
-        [DescriptionAttribute("Остановить")]
-        Stop = 14,
+		[DescriptionAttribute("Остановить")]
+		Stop = 14,
 
-        [DescriptionAttribute("Запретить пуск")]
-        ForbidStart = 15,
+		[DescriptionAttribute("Запретить пуск")]
+		ForbidStart = 15,
 
-        [DescriptionAttribute("Включить немедленно")]
-        TurnOnNow = 16,
+		[DescriptionAttribute("Включить немедленно")]
+		TurnOnNow = 16,
 
-        [DescriptionAttribute("Выключить немедленно")]
-        TurnOffNow = 17,
+		[DescriptionAttribute("Выключить немедленно")]
+		TurnOffNow = 17,
 
-        [DescriptionAttribute("Выключить немедленно")]
-        Reserve1 = 18,
+		[DescriptionAttribute("Выключить немедленно")]
+		Reserve1 = 18,
 
-        [DescriptionAttribute("Выключить немедленно")]
-        Reserve2 = 19
-    }
+		[DescriptionAttribute("Выключить немедленно")]
+		Reserve2 = 19
+	}
 }

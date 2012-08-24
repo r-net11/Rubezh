@@ -12,10 +12,11 @@
                 <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.EventName}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.EventDescription}" />
                 <DataGridTextColumn Header="Объект" Binding="{Binding PresentationName}" />
+                <DataGridTextColumn Header="Состояние" Binding="{Binding StringStates}" />
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="1" DataContext="{Binding SelectedJournal}">
-            <TextBlock Text="{Binding Device.PresentationDriverAndAddress}" Foreground="White" />
+            <TextBlock Text="{Binding PresentationName}" Foreground="White" />
         </Grid>
     </Grid>
 </UserControl>

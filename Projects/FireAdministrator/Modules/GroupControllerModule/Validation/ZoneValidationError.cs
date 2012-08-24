@@ -1,10 +1,11 @@
 ﻿using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 using XFiresecAPI;
+using System;
 
 namespace GKModule.Validation
 {
-	class ZoneValidationError : ObjectValidationError<XZone, ShowXZoneEvent, ushort>
+	class ZoneValidationError : ObjectValidationError<XZone, ShowXZoneEvent, Guid>
 	{
 		public ZoneValidationError(XZone zone, string error, ValidationErrorLevel level)
 			: base(zone, error, level)
@@ -16,9 +17,9 @@ namespace GKModule.Validation
 			get { return "GK"; }
 		}
 
-		protected override ushort Key
+		protected override Guid Key
 		{
-			get { return Object.No; }
+			get { return Object.UID; }
 		}
 
 		public override string Source

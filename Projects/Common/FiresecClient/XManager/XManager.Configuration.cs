@@ -97,11 +97,12 @@ namespace FiresecClient
 				direction.XZones = new List<XZone>();
 				for (int i = direction.Zones.Count - 1; i >= 0; i--)
 				{
-					var zoneNo = direction.Zones[i];
-					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-					direction.XZones.Add(zone);
-					if (zone == null)
-						direction.Zones.Remove(zoneNo);
+					var zoneUID = direction.Zones[i];
+					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+						direction.XZones.Add(zone);
+					else
+						direction.Zones.Remove(zoneUID);
 				}
 			}
 		}

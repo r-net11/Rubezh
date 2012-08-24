@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 			foreach (var zone in XManager.DeviceConfiguration.Zones)
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
-				if (Direction.Zones.Contains(zone.No))
+				if (Direction.Zones.Contains(zone.UID))
 					Zones.Add(zoneViewModel);
 				else
 					SourceZones.Add(zoneViewModel);
@@ -75,7 +75,7 @@ namespace GKModule.ViewModels
 		{
 			int oldIndex = SourceZones.IndexOf(SelectedSourceZone);
 
-			Direction.Zones.Add(SelectedSourceZone.XZone.No);
+			Direction.Zones.Add(SelectedSourceZone.XZone.UID);
 			Zones.Add(SelectedSourceZone);
 			SourceZones.Remove(SelectedSourceZone);
 
@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
 		{
 			int oldIndex = Zones.IndexOf(SelectedZone);
 
-			Direction.Zones.Remove(SelectedZone.XZone.No);
+			Direction.Zones.Remove(SelectedZone.XZone.UID);
 			SourceZones.Add(SelectedZone);
 			Zones.Remove(SelectedZone);
 

@@ -170,7 +170,7 @@ namespace FiresecAPI.Models
 
 				if ((Driver.DriverType == DriverType.MS_1) || (Driver.DriverType == DriverType.MS_2))
 				{
-					if ((Parent.Children != null) && (Parent.Children.Any(x => ((x.Driver.DriverType == DriverType.MS_1) || (x.Driver.DriverType == DriverType.MS_2)))))
+					if ((Parent.Children != null) && (Parent.Children.Where(x => ((x.Driver.DriverType == DriverType.MS_1) || (x.Driver.DriverType == DriverType.MS_2))).Count() > 1))
 					{
 						var serialNoProperty = Properties.FirstOrDefault(x => x.Name == "SerialNo");
 						if (serialNoProperty != null)

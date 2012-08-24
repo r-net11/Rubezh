@@ -13,7 +13,7 @@ namespace GKModule.Plans
 {
 	class GKPlanExtension : IPlanExtension<Plan>
 	{
-		private XDevicesViewModel _xdevicesViewModel;
+		private XDevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
 		public GKPlanExtension()
 		{
@@ -21,7 +21,7 @@ namespace GKModule.Plans
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
-			_xdevicesViewModel = new XDevicesViewModel();
+			_devicesViewModel = new XDevicesViewModel();
 		}
 
 		#region IPlanExtension Members
@@ -37,7 +37,7 @@ namespace GKModule.Plans
 
 		public object TabPage
 		{
-			get { return _xdevicesViewModel; }
+			get { return _devicesViewModel; }
 		}
 
 		public IEnumerable<IInstrument> Instruments
@@ -106,7 +106,7 @@ namespace GKModule.Plans
 		{
 			ElementXDevice element = e.Element as ElementXDevice;
 			if (element != null)
-				e.PropertyViewModel = new XDevicePropertiesViewModel(_xdevicesViewModel, element);
+				e.PropertyViewModel = new XDevicePropertiesViewModel(_devicesViewModel, element);
 		}
 	}
 }
