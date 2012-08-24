@@ -1,45 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using Common.GK;
-using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class DeviceTimeViewModel : DialogViewModel
+	public static class DeviceTimeHelper
 	{
-		XDevice Device;
-
-		public DeviceTimeViewModel(XDevice device)
+		public static string Read(XDevice device)
 		{
-			Title = "Время устройства";
-			ReadCommand = new RelayCommand(OnRead);
-			WriteCommand = new RelayCommand(OnWrite);
-			Device = device;
-			OnRead();
-		}
-
-		string _time;
-		public string Time
-		{
-			get { return _time; }
-			set
-			{
-				_time = value;
-				OnPropertyChanged("Time");
-			}
-		}
-
-		public RelayCommand ReadCommand { get; private set; }
-		void OnRead()
-		{
-			var sendResult = SendManager.Send(Device, 0, 4, 6);
+			var sendResult = SendManager.Send(device, 0, 4, 6);
 			if (sendResult.HasError)
 			{
 				MessageBoxService.Show("Ошибка связи с устройством");
-				return;
+				return "";
 			}
 			var Day = sendResult.Bytes[0];
 			var Month = sendResult.Bytes[1];
@@ -47,11 +22,11 @@ namespace GKModule.ViewModels
 			var Hour = sendResult.Bytes[3];
 			var Minute = sendResult.Bytes[4];
 			var Second = sendResult.Bytes[5];
-			Time = Day.ToString() + "/" + Month.ToString() + "/" + Year.ToString() + " " + Hour.ToString() + ":" + Minute.ToString() + ":" + Second.ToString();
+			var stringTime = Day.ToString() + "/" + Month.ToString() + "/" + Year.ToString() + " " + Hour.ToString() + ":" + Minute.ToString() + ":" + Second.ToString();
+			return stringTime;
 		}
 
-		public RelayCommand WriteCommand { get; private set; }
-		void OnWrite()
+		public static void Write(XDevice device)
 		{
 			var dateTime = DateTime.Now;
 			var bytes = new List<byte>();
@@ -61,7 +36,7 @@ namespace GKModule.ViewModels
 			bytes.Add((byte)dateTime.Hour);
 			bytes.Add((byte)dateTime.Minute);
 			bytes.Add((byte)dateTime.Second);
-			SendManager.Send(Device, 6, 5, 0, bytes);
+			SendManager.Send(device, 6, 5, 0, bytes);
 		}
 	}
 }

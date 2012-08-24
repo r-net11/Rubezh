@@ -3,6 +3,7 @@ using System.Linq;
 using Common;
 using FiresecAPI.Models;
 using FiresecService.Service;
+using FiresecAPI;
 
 namespace FiresecService.Database
 {

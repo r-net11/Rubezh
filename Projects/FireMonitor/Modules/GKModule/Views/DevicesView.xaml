@@ -24,7 +24,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                    <Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                     <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200">
                                         <TextBlock.ContextMenu>
@@ -34,6 +34,8 @@
                                                           IsEnabled="{Binding CanControl}">
                                                     <MenuItem Command="{Binding SetIgnoreCommand}" Header="Поставить в обход" />
                                                     <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Убрать из обхода" />
+                                                    <MenuItem Command="{Binding SetAutomaticCommand}" Header="Включить автоматику" />
+                                                    <MenuItem Command="{Binding ResetAutomaticCommand}" Header="Выключить автоматику" />
                                                     <MenuItem Command="{Binding TurnOnCommand}" Header="Включить" />
                                                     <MenuItem Command="{Binding CancelDelayCommand}" Header="Отменить задержку" />
                                                     <MenuItem Command="{Binding TurnOffCommand}" Header="Выключить" />
@@ -85,9 +87,13 @@
                             </WrapPanel>
                             <TextBlock Text="{Binding Device.Driver.Name}" />
                             <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
-                            <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
+                            <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
                         </StackPanel>
-                        <ItemsControl ItemsSource="{Binding DeviceState.States}">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Номер на ГК" />
+                            <TextBlock Text="{Binding DatabaseNo}" Margin="10, 0, 0, 0" />
+                        </StackPanel>
+                        <ItemsControl ItemsSource="{Binding States}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" VerticalAlignment="Center" />

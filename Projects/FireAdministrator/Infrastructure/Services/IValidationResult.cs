@@ -2,8 +2,8 @@
 {
 	public interface IValidationResult
 	{
-		bool HasErrors { get; }
-		bool CannotSave { get; }
-		bool CannotWrite { get; }
+		bool HasErrors(string module = null);
+		bool CannotSave(string module = null);
+		bool CannotWrite(string module = null);
 	}
 }

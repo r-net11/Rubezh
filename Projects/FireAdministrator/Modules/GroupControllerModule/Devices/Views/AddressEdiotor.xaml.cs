@@ -191,12 +191,12 @@ namespace GKModule.Views
             else
             {
                 LeftPartMax = 8;
-                if (Device.Parent.Driver.IsChildAddressReservedRange)
+                if (Device.Parent.Driver.IsGroupDevice)
                 {
                     LeftPartMin = LeftPartMax = Device.Parent.ShleifNo;
                     LeftPartMax = LeftPartMax = Device.Parent.ShleifNo;
                     RightPartMin = Device.Parent.IntAddress;
-                    RightPartMax = (byte)(RightPartMin + Device.Parent.GetReservedCount());
+					RightPartMax = (byte)(RightPartMin + Device.Parent.Driver.GroupDeviceChildrenCount);
                 }
             }
         }

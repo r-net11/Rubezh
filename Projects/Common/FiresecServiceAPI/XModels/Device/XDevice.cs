@@ -15,7 +15,7 @@ namespace XFiresecAPI
 			Children = new List<XDevice>();
 			Properties = new List<XProperty>();
 			OutDependenceUIDs = new List<Guid>();
-			Zones = new List<ushort>();
+			Zones = new List<Guid>();
 			DeviceLogic = new XDeviceLogic();
 			PlanElementUIDs = new List<Guid>();
 			IsNotUsed = false;
@@ -47,7 +47,7 @@ namespace XFiresecAPI
 		public List<XProperty> Properties { get; set; }
 
 		[DataMember]
-		public List<ushort> Zones { get; set; }
+		public List<Guid> Zones { get; set; }
 
 		[DataMember]
 		public XDeviceLogic DeviceLogic { get; set; }
@@ -79,7 +79,7 @@ namespace XFiresecAPI
 				var address = new StringBuilder();
 				foreach (var parentDevice in AllParents.Where(x => x.Driver.HasAddress))
 				{
-					if (parentDevice.Driver.IsChildAddressReservedRange)
+					if (parentDevice.Driver.IsGroupDevice)
 						continue;
 
 					address.Append(parentDevice.Address);
@@ -131,17 +131,43 @@ namespace XFiresecAPI
 			}
 		}
 
+		public void SetAddress(string address)
+		{
+			try
+			{
+				if (Driver.HasAddress == false)
+					return;
+
+				if (Driver.IsDeviceOnShleif == false)
+				{
+					IntAddress = byte.Parse(address);
+					return;
+				}
+
+				var addresses = address.Split('.');
+				byte shleifPart = byte.Parse(addresses[0]);
+				byte addressPart = byte.Parse(addresses[1]);
+
+				ShleifNo = shleifPart;
+				IntAddress = addressPart;
+
+				if (Driver.IsGroupDevice)
+				{
+					for (int i = 0; i < Children.Count; i++)
+					{
+						Children[i].IntAddress = (byte)(IntAddress + i);
+					}
+				}
+			}
+			catch { }
+		}
+
 		public bool CanEditAddress
 		{
 			get
 			{
 				return (Driver.HasAddress && Driver.CanEditAddress);
 			}
-		}
-
-		public byte GetReservedCount()
-		{
-            return Driver.ChildAddressReserveRangeCount;
 		}
 
 		public List<XDevice> AllParents

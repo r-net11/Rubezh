@@ -10,6 +10,8 @@ namespace FiresecAPI.Models
         {
             Parameters = new List<DriverPropertyParameter>();
 			AlternativePareterNames = new List<string>();
+			IsHeighByte = true;
+			IsLowByte = false;
         }
 
         [DataMember]
@@ -51,7 +53,13 @@ namespace FiresecAPI.Models
 		public byte No { get; set; }
 
 		[DataMember]
-		public byte Offset { get; set; }
+		public int Offset { get; set; }
+
+		[DataMember]
+		public int MinOffset { get; set; }
+
+		[DataMember]
+		public int MaxOffset { get; set; }
 
 		[DataMember]
 		public List<string> AlternativePareterNames { get; set; }
@@ -61,5 +69,11 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public ushort Max { get; set; }
+
+		[DataMember]
+		public bool IsHeighByte { get; set; }
+
+		[DataMember]
+		public bool IsLowByte { get; set; }
     }
 }

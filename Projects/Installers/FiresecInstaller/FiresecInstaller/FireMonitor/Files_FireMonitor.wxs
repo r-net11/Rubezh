@@ -29,6 +29,7 @@
         <File Id="FMHASPDLL" Name="hasp_net_windows.dll" Source="$(var.FireMonitor.TargetDir)" />
         <File Id="FMPlansModuleDll" Name="PlansModule.dll" Source="$(var.FireMonitor.TargetDir)" />
         <File Id="FMAlarmModuleDll" Name="AlarmModule.dll" Source="$(var.FireMonitor.TargetDir)" />
+        <File Id="FMReportsModuleDll" Name="ReportsModule.dll" Source="$(var.FireMonitor.TargetDir)" />
 			</Component>
 			
       <Component Id="FMDevicesModuleComponent" Guid="B7E2D6B2-C4BF-47E8-A054-2501AC2359C7">

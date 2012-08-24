@@ -12,6 +12,21 @@
     <AssemblyName>Common.GK</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,6 +50,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,39 +74,47 @@
     <Compile Include="Database\BinaryObjects\ObjectType.cs" />
     <Compile Include="Database\BinaryObjects\ZoneBinaryObject.cs" />
     <Compile Include="Database\KauChildrenHelper.cs" />
-    <Compile Include="Drivers\GKDriversConverter.cs" />
+    <Compile Include="Drivers\AddressDevices\AM1_O_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\AM1_T_Helper.cs" />
+    <Compile Include="Drivers\GKDriversCreator.cs" />
+    <Compile Include="Drivers\AddressDevices\AM_1_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\AMP_1_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\BUN_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\BUZ_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\HandDetector_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\CombinedDetector_Helper.cs" />
     <Compile Include="Drivers\GKDriversHelper.cs" />
-    <Compile Include="Drivers\AddressDevices\AM1Helper.cs" />
-    <Compile Include="Drivers\AddressDevices\AMP4Helper.cs" />
-    <Compile Include="Drivers\AMsHelper.cs" />
-    <Compile Include="Drivers\AddressDevices\BUNHelper.cs" />
-    <Compile Include="Drivers\AddressDevices\BUZHelper.cs" />
-    <Compile Include="Drivers\AddressDevices\HandDetectorHelper.cs" />
-    <Compile Include="Drivers\AddressDevices\CombinedDetectorHelper.cs" />
-    <Compile Include="Drivers\CommonHelper.cs" />
-    <Compile Include="Drivers\AddressDevices\HeatDetectorHelper.cs" />
-    <Compile Include="Drivers\AddressDevices\MDUHelper.cs" />
-    <Compile Include="Drivers\AddressDevices\MPTHelper.cs" />
-    <Compile Include="Drivers\AddressDevices\MROHelper.cs" />
-    <Compile Include="Drivers\AddressDevices\RMHelper.cs" />
-    <Compile Include="Drivers\AddressDevices\SmokeDetectorHelper.cs" />
-    <Compile Include="Drivers\GKDevices\GKHelper.cs" />
-    <Compile Include="Drivers\GKDevices\GKIndicatorHelper.cs" />
-    <Compile Include="Drivers\GKDevices\GKLineHelper.cs" />
-    <Compile Include="Drivers\GKDevices\GKReleHelper.cs" />
-    <Compile Include="Drivers\GKDevices\GKSystem.cs" />
-    <Compile Include="Drivers\GKDevices\KAUHelper.cs" />
-    <Compile Include="Drivers\GKDevices\KAUIndicatorHelper.cs" />
-    <Compile Include="Drivers\GroupDevices\AMP4GroupHelper.cs" />
-    <Compile Include="Drivers\GroupDevices\RM2Helper.cs" />
-    <Compile Include="Drivers\GroupDevices\RM3Helper.cs" />
-    <Compile Include="Drivers\GroupDevices\RM4Helper.cs" />
-    <Compile Include="Drivers\GroupDevices\RM5Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\HeatDetector_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\MDU_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\MPT_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\MRO_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\RM_1_Helper.cs" />
+    <Compile Include="Drivers\AddressDevices\SmokeDetector_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GK_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKIndicator_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKLine_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKRele_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\GKSystem_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\KAU_Helper.cs" />
+    <Compile Include="Drivers\GKDevices\KAUIndicator_Helper.cs" />
+    <Compile Include="Drivers\GroupDevices\AM_4_Helper.cs" />
+    <Compile Include="Drivers\GroupDevices\AMP_4_Helper.cs" />
+    <Compile Include="Drivers\GroupDevices\RM_2_Helper.cs" />
+    <Compile Include="Drivers\GroupDevices\RM_3_Helper.cs" />
+    <Compile Include="Drivers\GroupDevices\RM_4_Helper.cs" />
+    <Compile Include="Drivers\GroupDevices\RM_5_Helper.cs" />
+    <Compile Include="Journal\gkEvents.cs" />
+    <Compile Include="Journal\GkJournalDatabaseModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GkJournalDatabaseModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Journal\JournalItem.cs" />
     <Compile Include="Journal\JournalSourceType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sending\SendManager.cs" />
     <Compile Include="Sending\SendResult.cs" />
+    <Compile Include="Sending\SendManager2.cs" />
     <Compile Include="StatesHelper.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -105,7 +131,40 @@
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.Config" />
+    <EntityDeploy Include="Journal\GkJournalDatabaseModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>GkJournalDatabaseModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 и x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>Клиентский профиль .NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.3.5">
+      <Visible>False</Visible>
+      <ProductName>SQL Server Compact 3.5 SP2</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Установщик Windows 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -6,6 +6,7 @@ using Common.GK;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System.Diagnostics;
+using GKModule.ViewModels;
 
 namespace GKModule
 {
@@ -15,10 +16,10 @@ namespace GKModule
 		{
 			DatabaseManager.Convert();
 
-			//SendManager.StrartLog("D:/xxx/Log.txt");
+			//SendManager.StrartLog("D:/GkLog.txt");
 			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
-				var summaryObjectsCount = 3 + gkDatabase.BinaryObjects.Count;
+				var summaryObjectsCount = 4 + gkDatabase.BinaryObjects.Count;
 				gkDatabase.KauDatabases.ForEach(x => { summaryObjectsCount += 3 + x.BinaryObjects.Count; });
 				LoadingService.ShowProgress("", gkDatabase.RootDevice.PresentationDriverAndAddress + "\nЗапись конфигурации в ГК", summaryObjectsCount);
 
@@ -34,6 +35,7 @@ namespace GKModule
 				}
 				WriteConfigToDevice(gkDatabase);
 				GoToWorkingRegime(gkDatabase.RootDevice);
+				SyncronizeTime(gkDatabase.RootDevice);
 
 				LoadingService.Close();
 			}
@@ -55,8 +57,8 @@ namespace GKModule
 					if (sendResult.HasError)
 					{
 						MessageBoxService.Show(sendResult.Error);
-						LoadingService.Close();
-						break;
+						//LoadingService.Close();
+						//break;
 					}
 				}
 			}
@@ -65,18 +67,27 @@ namespace GKModule
 
 		static List<List<byte>> CreateDescriptors(BinaryObjectBase binaryObject)
 		{
+			var objectNo = (ushort)(binaryObject.GetNo());
+			if (objectNo == 236)
+			{
+				;
+			}
+
 			var packs = new List<List<byte>>();
 			for (int packNo = 0; packNo <= binaryObject.AllBytes.Count / 256; packNo++)
 			{
 				int packLenght = Math.Min(256, binaryObject.AllBytes.Count - packNo * 256);
 				var packBytes = binaryObject.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
 
-				var resultBytes = new List<byte>();
-				ushort binaryObjectNo = (ushort)(binaryObject.GetNo());
-				resultBytes.AddRange(BytesHelper.ShortToBytes(binaryObjectNo));
-				resultBytes.Add((byte)(packNo + 1));
-				resultBytes.AddRange(packBytes);
-				packs.Add(resultBytes);
+				if (packBytes.Count > 0)
+				{
+					var resultBytes = new List<byte>();
+					ushort binaryObjectNo = (ushort)(binaryObject.GetNo());
+					resultBytes.AddRange(BytesHelper.ShortToBytes(binaryObjectNo));
+					resultBytes.Add((byte)(packNo + 1));
+					resultBytes.AddRange(packBytes);
+					packs.Add(resultBytes);
+				}
 			}
 			return packs;
 		}
@@ -106,17 +117,19 @@ namespace GKModule
 						var version = sendResult.Bytes[0];
 						if (version >= 80)
 						{
-							break;
+							return;
 						}
 					}
 				}
 				Thread.Sleep(1000);
 			}
+
+			MessageBoxService.ShowError("Не удалось перевести устройство в технологический режим в заданное время");
 		}
 
 		static void GoToWorkingRegime(XDevice device)
 		{
-			LoadingService.DoStep(device.PresentationDriverAndAddress + " Запуск программы");
+			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
 			SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
 
 			for (int i = 0; i < 10; i++)
@@ -129,12 +142,14 @@ namespace GKModule
 						var version = sendResult.Bytes[0];
 						if (version < 80)
 						{
-							break;
+							return;
 						}
 					}
 				}
 				Thread.Sleep(1000);
 			}
+
+			MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
 		}
 
 		static void EraseDatabase(XDevice device)
@@ -148,6 +163,12 @@ namespace GKModule
 			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
 			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.BinaryObjects.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
+		}
+
+		static void SyncronizeTime(XDevice device)
+		{
+			LoadingService.DoStep(device.PresentationDriverAndAddress + " Синхронизация времени");
+			DeviceTimeHelper.Write(device);
 		}
 	}
 }

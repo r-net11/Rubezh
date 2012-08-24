@@ -40,7 +40,8 @@ namespace Common.GK
 			{
 				foreach (var b in bytes)
 				{
-					stringValue.Append(b.ToString("x2") + " ");
+					stringValue.Append(b.ToString() + " ");
+					//stringValue.Append(b.ToString("x2") + " ");
 				}
 			}
 			return stringValue.ToString();

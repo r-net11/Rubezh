@@ -67,11 +67,11 @@ namespace FiresecAPI.Models
 			}
 			if (driver.DriverType == DriverType.JokeyPump)
 			{
-				ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "уставка времени ожидания восстановления давления, мин", 0, 2, 2, 65535);
+				ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "уставка времени ожидания восстановления давления, мин", 0, 2, 2, 255);
 			}
 			if (driver.DriverType == DriverType.CompensationPump)
 			{
-				ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "уставка времени аварии пневмоемкости, мин", 0, 2, 2, 65535);
+				ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "уставка времени аварии пневмоемкости, мин", 0, 2, 2, 255);
 			}
 		}
 	}

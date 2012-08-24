@@ -63,9 +63,9 @@ namespace DevicesModule.ViewModels
 		bool ValidateConfiguration()
 		{
 			var validationResult = ServiceFactory.ValidationService.Validate();
-			if (validationResult.HasErrors)
+			if (validationResult.HasErrors("FS"))
 			{
-				if (validationResult.CannotSave || validationResult.CannotWrite)
+				if (validationResult.CannotSave("FS") || validationResult.CannotWrite("FS"))
 				{
 					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
 					return false;

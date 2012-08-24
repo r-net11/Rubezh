@@ -23,8 +23,7 @@ namespace GKModule.Models
 			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
 			ConvertToBinaryFileCommand = new RelayCommand(OnConvertToBinaryFile);
 
-			ControlTimeCommand = new RelayCommand(OnControlTime, CanControlTime);
-			ShowInfoCommand = new RelayCommand(OnShowInfo, CanShowInfo);
+			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
 			WriteConfigCommand = new RelayCommand(OnWriteConfig);
 			GetParametersCommand = new RelayCommand(OnGetParameters);
@@ -42,7 +41,7 @@ namespace GKModule.Models
 		public RelayCommand ConvertFromFiresecCommand { get; private set; }
 		void OnConvertFromFiresec()
 		{
-			var configurationConverter = new ConfigurationConverter2();
+			var configurationConverter = new ConfigurationConverter();
 			configurationConverter.Convert();
 
 			DevicesViewModel.Current.Initialize();
@@ -68,27 +67,14 @@ namespace GKModule.Models
 			return stringBuilder.ToString();
 		}
 
-		bool CanShowInfo()
-		{
-			return (SelectedDevice != null && (SelectedDevice.Device.Driver.DriverType == XDriverType.KAU ||
-				SelectedDevice.Device.Driver.DriverType == XDriverType.GK));
-		}
-		public RelayCommand ShowInfoCommand { get; private set; }
-		void OnShowInfo()
-		{
-			var deviceInfoViewModel = new DeviceInfoViewModel(SelectedDevice.Device);
-			DialogService.ShowModalWindow(deviceInfoViewModel);
-		}
-
-		bool CanControlTime()
+		bool CanSynchroniseTime()
 		{
 			return (SelectedDevice != null && SelectedDevice.Device.Driver.DriverType == XDriverType.GK);
 		}
-		public RelayCommand ControlTimeCommand { get; private set; }
-		void OnControlTime()
+		public RelayCommand SynchroniseTimeCommand { get; private set; }
+		void OnSynchroniseTime()
 		{
-			var deviceTimeViewModel = new DeviceTimeViewModel(SelectedDevice.Device);
-			DialogService.ShowModalWindow(deviceTimeViewModel);
+			DeviceTimeHelper.Write(SelectedDevice.Device);
 		}
 
 		bool CanReadJournal()
@@ -105,21 +91,17 @@ namespace GKModule.Models
 		public RelayCommand WriteConfigCommand { get; private set; }
 		void OnWriteConfig()
 		{
-			BinConfigurationWriter.WriteConfig();
+			if (ValidateConfiguration())
+			{
+				BinConfigurationWriter.WriteConfig();
+			}
 		}
 
 		public RelayCommand ConvertToBinaryFileCommand { get; private set; }
 		void OnConvertToBinaryFile()
 		{
-			var saveDialog = new SaveFileDialog();
-			if (saveDialog.ShowDialog().Value)
-			{
-				var x = saveDialog.FileName;
-			}
-			return;
-
-			Directory.Delete(@"D:\GKConfig", true);
-			Directory.CreateDirectory(@"D:\GKConfig");
+			Directory.Delete(@"C:\GKConfig", true);
+			Directory.CreateDirectory(@"C:\GKConfig");
 			BinaryFileConverter.Convert();
 		}
 
@@ -138,11 +120,25 @@ namespace GKModule.Models
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
 		{
-			MessageBoxService.Show("Функия пока не реализована");
+			MessageBoxService.Show("Функция не реализована");
 		}
 		bool CanUpdateFirmwhare()
 		{
-			return ((SelectedDevice != null) || (SelectedDevice.Driver.DriverType == XDriverType.KAU));
+			return ((SelectedDevice != null) && (SelectedDevice.Driver.DriverType == XDriverType.KAU));
+		}
+
+		bool ValidateConfiguration()
+		{
+			var validationResult = ServiceFactory.ValidationService.Validate();
+			if (validationResult.HasErrors("GK"))
+			{
+				if (validationResult.CannotSave("GK") || validationResult.CannotWrite("GK"))
+				{
+					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FiresecAPI.Models;
+using FiresecAPI;
 
 namespace XFiresecAPI
 {
@@ -35,10 +36,10 @@ namespace XFiresecAPI
             }
         }
 
-        public void SetIsConnectionLost(bool value)
+        public void ConnectionChanged(bool isConnected)
         {
-            IsConnectionLost = true;
-            if (value)
+			IsConnectionLost = !isConnected;
+            if (!isConnected)
             {
                 States = new List<XStateType>();
                 StateType = StateType.Unknown;

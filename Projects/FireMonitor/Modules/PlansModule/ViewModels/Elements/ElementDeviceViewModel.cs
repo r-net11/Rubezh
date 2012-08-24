@@ -110,59 +110,50 @@ namespace PlansModule.ViewModels
 		void OnDeviceStateChanged()
 		{
 			OnPropertyChanged("DeviceState");
+			OnPropertyChanged("ToolTip");
 			ElementDeviceView._deviceControl.StateType = DeviceState.StateType;
 			ElementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
 				from state in DeviceState.States
 				select state.DriverState.Code);
 			ElementDeviceView._deviceControl.Update();
-
-			UpdateTooltip();
 		}
 
-		string _toolTip;
 		public string ToolTip
 		{
-			get { return _toolTip; }
-			set
+			get
 			{
-				_toolTip = value;
-				OnPropertyChanged("ToolTip");
-			}
-		}
+				var stringBuilder = new StringBuilder();
+				stringBuilder.Append(Device.PresentationAddress);
+				stringBuilder.Append(" - ");
+				stringBuilder.Append(Device.Driver.ShortName);
+				stringBuilder.Append("\n");
 
-		void UpdateTooltip()
-		{
-			var stringBuilder = new StringBuilder();
-			stringBuilder.Append(Device.PresentationAddress);
-			stringBuilder.Append(" - ");
-			stringBuilder.Append(Device.Driver.ShortName);
-			stringBuilder.Append("\n");
-
-			if (DeviceState.ParentStringStates != null)
-			{
-				foreach (var parentState in DeviceState.ParentStringStates)
+				if (DeviceState.ParentStringStates != null)
 				{
-					stringBuilder.AppendLine(parentState);
+					foreach (var parentState in DeviceState.ParentStringStates)
+					{
+						stringBuilder.AppendLine(parentState);
+					}
 				}
-			}
 
-			foreach (var state in DeviceState.States)
-			{
-				stringBuilder.AppendLine(state.DriverState.Name);
-			}
-
-			if (DeviceState.Parameters != null)
-			{
-				var nullString = "<NULL>";
-				foreach (var parameter in DeviceState.Parameters.Where(x => x.Visible && string.IsNullOrEmpty(x.Value) == false && x.Value != nullString))
+				foreach (var state in DeviceState.States)
 				{
-					stringBuilder.Append(parameter.Caption);
-					stringBuilder.Append(" - ");
-					stringBuilder.AppendLine(parameter.Value);
+					stringBuilder.AppendLine(state.DriverState.Name);
 				}
-			}
 
-			ToolTip = stringBuilder.ToString();
+				if (DeviceState.Parameters != null)
+				{
+					var nullString = "<NULL>";
+					foreach (var parameter in DeviceState.Parameters.Where(x => x.Visible && string.IsNullOrEmpty(x.Value) == false && x.Value != nullString))
+					{
+						stringBuilder.Append(parameter.Caption);
+						stringBuilder.Append(" - ");
+						stringBuilder.AppendLine(parameter.Value);
+					}
+				}
+
+				return stringBuilder.ToString();
+			}
 		}
 	}
 }

@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Common.GK.Journal;
 
 namespace GKModule.ViewModels
 {
@@ -90,6 +91,7 @@ namespace GKModule.ViewModels
 
 			JournalItems.Clear();
 			LoadingService.Show("Запрос параметра", 2 + EndIndex - StartIndex);
+            GkEvents gke = new GkEvents();
 			for (int i = StartIndex; i <= EndIndex; i++)
 			{
 				var data = new List<byte>();
@@ -103,6 +105,7 @@ namespace GKModule.ViewModels
 				}
 				var journalItem = new JournalItem(sendResult.Bytes);
 				JournalItems.Add(journalItem);
+                gke.Add(journalItem);
 			}
 			LoadingService.Close();
 		}

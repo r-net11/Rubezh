@@ -17,6 +17,9 @@ namespace XFiresecAPI
 		public List<XDevice> Devices { get; set; }
 
 		[DataMember]
+		public Guid UID { get; set; }
+
+		[DataMember]
 		public ushort No { get; set; }
 
 		[DataMember]

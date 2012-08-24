@@ -145,8 +145,8 @@ namespace GKModule.ViewModels
             if (Zone.DeviceUIDs.Contains(SelectedAvailableDevice.Device.UID) == false)
                 Zone.DeviceUIDs.Add(SelectedAvailableDevice.Device.UID);
 
-            if (SelectedAvailableDevice.Device.Zones.Contains(Zone.No) == false)
-                SelectedAvailableDevice.Device.Zones.Add(Zone.No);
+            if (SelectedAvailableDevice.Device.Zones.Contains(Zone.UID) == false)
+                SelectedAvailableDevice.Device.Zones.Add(Zone.UID);
 
             Initialize(Zone);
             UpdateAvailableDevices();
@@ -162,7 +162,7 @@ namespace GKModule.ViewModels
         void OnRemove()
         {
             Zone.DeviceUIDs.Remove(SelectedDevice.Device.UID);
-            SelectedDevice.Device.Zones.Remove(Zone.No);
+            SelectedDevice.Device.Zones.Remove(Zone.UID);
 
             Initialize(Zone);
             UpdateAvailableDevices();
@@ -174,7 +174,7 @@ namespace GKModule.ViewModels
 			return driver.HasZone;
 			if (driver.IsDeviceOnShleif == false)
 				return false;
-			if (driver.AutoChildCount > 0)
+			if (driver.GroupDeviceChildrenCount > 0)
 				return false;
 			return true;
 		}

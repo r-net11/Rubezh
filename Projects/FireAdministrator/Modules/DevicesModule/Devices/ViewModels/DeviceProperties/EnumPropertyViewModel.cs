@@ -12,7 +12,11 @@ namespace DevicesModule.DeviceProperties
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
 			{
-				_selectedValue = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value).Name;
+				var driverPropertyParameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
+				if (driverPropertyParameter != null)
+				{
+					_selectedValue = driverPropertyParameter.Name;
+				}
 			}
 			else
 			{

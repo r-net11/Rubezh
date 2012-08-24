@@ -29,6 +29,7 @@
         <File Id="FAManualPDF" Name="Manual.pdf" Source="$(var.FireAdministrator.TargetDir)" />
         <File Id="FAPlansModuleDll" Name="PlansModule.dll" Source="$(var.FireAdministrator.TargetDir)" />
         <File Id="FASecurityModuleDll" Name="SecurityModule.dll" Source="$(var.FireAdministrator.TargetDir)" />
+        <File Id="CommonGKDll" Name="Common.GK.dll" Source="$(var.FireAdministrator.TargetDir)" />
       </Component>
 
       <Component Id="FADevicesModuleComponent" Guid="4902D27C-96A6-4D7D-9646-CF79BE32481D">

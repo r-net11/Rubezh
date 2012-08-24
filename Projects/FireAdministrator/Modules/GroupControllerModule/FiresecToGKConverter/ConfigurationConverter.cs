@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Common.GK;
+using FiresecAPI.Models;
 using FiresecClient;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKModule.Converter
 {
@@ -10,102 +13,94 @@ namespace GKModule.Converter
     {
         public void Convert()
         {
-            XManager.DeviceConfiguration = new XDeviceConfiguration();
-            ConvertDevices();
+            ConvertDdevices();
             ConvertZones();
             ConvertLogic();
         }
 
-        void ConvertDevices()
+		XDevice gkDevice;
+		int shleifPairNo = 0;
+		byte kauAddress = 1;
+
+        public void ConvertDdevices()
         {
-            byte kauAddress = 1;
-            int currentShleifNo = 0;
+			XDevice curentKauDevice = null;
+            AddRootDevices();
+
+            foreach (var panelDevice in GetPanels())
+            {
+                shleifPairNo++;
+                if (shleifPairNo == 5)
+                    shleifPairNo = 1;
+
+                if (shleifPairNo == 1)
+                {
+                    curentKauDevice = XManager.AddChild(gkDevice, XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU), 0, kauAddress);
+                    curentKauDevice.UID = panelDevice.UID;
+                    XManager.DeviceConfiguration.Devices.Add(curentKauDevice);
+					kauAddress++;
+                }
+
+                foreach (var childDevice in panelDevice.Children)
+                {
+					AddDevice(curentKauDevice, childDevice);
+                }
+            }
+        }
+
+		public void AddDevice(XDevice parentDevice, Device fsDevice)
+		{
+			var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == fsDevice.DriverUID);
+			if (driver == null)
+			{
+				return;
+			}
+			var shleifNo = ((shleifPairNo - 1) * 2) + (fsDevice.IntAddress >> 8);
+
+			var xDevice = new XDevice()
+			{
+				UID = fsDevice.UID,
+				DriverUID = driver.UID,
+				Driver = driver,
+				ShleifNo = (byte)shleifNo,
+				IntAddress = (byte)(fsDevice.IntAddress & 0xff),
+				Description = fsDevice.Description
+			};
+			XManager.DeviceConfiguration.Devices.Add(xDevice);
+			parentDevice.Children.Add(xDevice);
+			xDevice.Parent = parentDevice;
+
+			foreach (var fsChildDevice in fsDevice.Children)
+			{
+				AddDevice(xDevice, fsChildDevice);
+			}
+		}
+
+        public void AddRootDevices()
+        {
+            XManager.DeviceConfiguration = new XDeviceConfiguration();
 
             var systemDevice = new XDevice()
             {
                 UID = Guid.NewGuid(),
-                DriverUID = GKDriversHelper.System_UID,
+				DriverUID = XDriver.System_UID,
                 Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
             };
             XManager.DeviceConfiguration.Devices.Add(systemDevice);
             XManager.DeviceConfiguration.RootDevice = systemDevice;
 
             var gkDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GK);
-            var gkDevice = XManager.AddChild(systemDevice, gkDriver, 0, 1);
+            gkDevice = XManager.AddChild(systemDevice, gkDriver, 0, 1);
             gkDevice.UID = Guid.NewGuid();
             XManager.DeviceConfiguration.Devices.Add(gkDevice);
+        }
 
+        IEnumerable<Device> GetPanels()
+        {
             foreach (var device in FiresecManager.Devices)
             {
-                bool isKAU = false;
-                var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-
-                if (driver == null)
-                {
-                    switch (device.Driver.DriverType)
-                    {
-                        case FiresecAPI.Models.DriverType.BUNS:
-                        case FiresecAPI.Models.DriverType.BUNS_2:
-                        case FiresecAPI.Models.DriverType.Rubezh_10AM:
-                        case FiresecAPI.Models.DriverType.Rubezh_2AM:
-                        case FiresecAPI.Models.DriverType.Rubezh_2OP:
-                        case FiresecAPI.Models.DriverType.Rubezh_4A:
-                        case FiresecAPI.Models.DriverType.USB_BUNS:
-                        case FiresecAPI.Models.DriverType.USB_BUNS_2:
-                        case FiresecAPI.Models.DriverType.USB_Rubezh_2AM:
-                        case FiresecAPI.Models.DriverType.USB_Rubezh_2OP:
-                        case FiresecAPI.Models.DriverType.USB_Rubezh_4A:
-                            isKAU = true;
-                            driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
-                            break;
-
-                        default:
-                            continue;
-                    }
-                }
-
-                if (isKAU)
-                {
-                    currentShleifNo += 2;
-                    if (currentShleifNo == 8)
-                    {
-                        currentShleifNo = 0;
-
-                        var kauDevice = XManager.AddChild(gkDevice, driver, 0, kauAddress++);
-                        kauDevice.UID = device.UID;
-                        XManager.DeviceConfiguration.Devices.Add(kauDevice);
-                    }
-                }
-                else
-                {
-                    var xDevice = new XDevice()
-                    {
-                        UID = device.UID,
-                        DriverUID = driver.UID,
-                        Driver = driver,
-                        ShleifNo = (byte)(device.IntAddress >> 8 + currentShleifNo),
-                        IntAddress = (byte)(device.IntAddress & 0xff),
-                        Description = device.Description
-                    };
-                    XManager.DeviceConfiguration.Devices.Add(xDevice);
-                }
-            }
-
-            foreach (var device in FiresecManager.Devices)
-            {
-                var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
-                if (xDevice != null)
-                {
-                    foreach (var child in device.Children)
-                    {
-                        var xChildDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == child.UID);
-                        if (xChildDevice != null)
-                        {
-                            xDevice.Children.Add(xChildDevice);
-                            xChildDevice.Parent = xDevice;
-                        }
-                    }
-                }
+                if (device.Driver.DeviceClassName == "ППКП")
+                    yield return device;
             }
         }
 
@@ -134,7 +129,7 @@ namespace GKModule.Converter
                         var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
                         if (zone != null)
                         {
-                            xDevice.Zones.Add(xZone.No);
+                            xDevice.Zones.Add(xZone.UID);
                             xZone.DeviceUIDs.Add(device.UID);
                         }
                     }
@@ -149,7 +144,7 @@ namespace GKModule.Converter
                 var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == xDevice.UID);
                 if (device != null)
                 {
-                    if ((device.Driver.IsZoneDevice) && (device.ZoneLogic != null))
+                    if ((device.Driver.IsZoneLogicDevice) && (device.ZoneLogic != null))
                     {
                         var xDeviceLogic = new XDeviceLogic();
                         var stateLogic = new StateLogic()
@@ -160,9 +155,16 @@ namespace GKModule.Converter
 
                         foreach (var clause in device.ZoneLogic.Clauses)
                         {
-                            var xClause = new XClause();
+                            var xClause = new XClause()
+                            {
+                                ClauseOperandType = ClauseOperandType.Zone
+                            };
                             switch (clause.State)
                             {
+                                case FiresecAPI.Models.ZoneLogicState.Attention:
+                                    xClause.StateType = XStateType.Attention;
+                                    break;
+
                                 case FiresecAPI.Models.ZoneLogicState.Fire:
                                     xClause.StateType = XStateType.Fire1;
                                     break;

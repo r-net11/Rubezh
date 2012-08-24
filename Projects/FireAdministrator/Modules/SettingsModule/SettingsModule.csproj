@@ -59,7 +59,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -76,6 +78,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Db_and_Query.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -91,6 +94,7 @@
     </Compile>
     <Compile Include="SettingsModule.cs" />
     <Compile Include="ViewModels\DevicesTreeViewModel.cs" />
+    <Compile Include="ViewModels\JournalTestViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\TestViewModel.cs" />
     <Compile Include="Views\DevicesTreeView.xaml.cs">
@@ -98,6 +102,9 @@
     </Compile>
     <Compile Include="Views\DriversView.xaml.cs">
       <DependentUpon>DriversView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JournalTestView.xaml.cs">
+      <DependentUpon>JournalTestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
       <DependentUpon>SettingsView.xaml</DependentUpon>
@@ -109,14 +116,20 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Common\Common.GK\Common.GK.csproj">
+      <Project>{987CDFB8-DC44-4873-9E19-7666DE222820}</Project>
+      <Name>Common.GK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>
@@ -160,6 +173,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DriversView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\JournalTestView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

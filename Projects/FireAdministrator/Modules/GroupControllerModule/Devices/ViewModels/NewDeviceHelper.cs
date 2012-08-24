@@ -7,37 +7,28 @@ namespace GKModule.ViewModels
 {
     public static class NewDeviceHelper
     {
-        public static byte GetMinAddress(XDriver xDriver, XDevice parentXDevice)
+        public static byte GetMinAddress(XDriver driver, XDevice parentDevice)
         {
-            XDevice parentAddressSystemDevice = parentXDevice;
-            if (xDriver.UseParentAddressSystem)
-            {
-                if (xDriver.DriverType == XDriverType.MPT)
-                {
-                    while (parentAddressSystemDevice.Driver.UseParentAddressSystem)
-                    {
-                        parentAddressSystemDevice = parentAddressSystemDevice.Parent;
-                    }
-                }
-                else
-                {
-                    parentAddressSystemDevice = parentAddressSystemDevice.Parent;
-                }
-            }
+            XDevice parentAddressSystemDevice = parentDevice;
+
+			//if (driver.DriverType == XDriverType.MPT)
+			//{
+			//    parentAddressSystemDevice = parentAddressSystemDevice.Parent;
+			//}
 
             byte maxAddress = 0;
 
-            if (xDriver.IsRangeEnabled)
+            if (driver.IsRangeEnabled)
             {
-                maxAddress = xDriver.MinAddress;
+                maxAddress = driver.MinAddress;
             }
             else
             {
                 maxAddress = 1;
 
-                if (parentXDevice.Driver.IsChildAddressReservedRange)
+                if (parentDevice.Driver.IsGroupDevice)
                 {
-                    maxAddress = parentXDevice.IntAddress;
+                    maxAddress = parentDevice.IntAddress;
                 }
             }
 
@@ -46,43 +37,39 @@ namespace GKModule.ViewModels
                 if (child.Driver.IsAutoCreate)
                     continue;
 
-                if (xDriver.IsRangeEnabled)
+                if (driver.IsRangeEnabled)
                 {
-                    if ((child.IntAddress < xDriver.MinAddress) && (child.IntAddress > xDriver.MaxAddress))
+                    if ((child.IntAddress < driver.MinAddress) && (child.IntAddress > driver.MaxAddress))
                         continue;
                 }
 
-                if (parentXDevice.Driver.IsChildAddressReservedRange)
-                {
-                    int reservedCount = parentXDevice.GetReservedCount();
-
-                    if ((child.IntAddress < parentXDevice.IntAddress) && (child.IntAddress > parentXDevice.IntAddress + reservedCount - 1))
-                        continue;
-                }
+				if (child.Driver.IsGroupDevice)
+				{
+					if (child.IntAddress + child.Driver.GroupDeviceChildrenCount - 1 > maxAddress)
+						maxAddress = (byte)Math.Min(255, child.IntAddress + child.Driver.GroupDeviceChildrenCount - 1);
+				}
 
                 if (child.IntAddress > maxAddress)
                     maxAddress = child.IntAddress;
             }
 
-            if (xDriver.IsRangeEnabled)
+            if (driver.IsRangeEnabled)
             {
-                if (parentXDevice.Children.Count > 0)
-                    if (maxAddress + 1 <= xDriver.MaxAddress)
+                if (parentDevice.Children.Count > 0)
+                    if (maxAddress + 1 <= driver.MaxAddress)
                         maxAddress = (byte)(maxAddress + 1);
             }
             else
             {
-                if (parentXDevice.Driver.IsChildAddressReservedRange)
+                if (parentDevice.Driver.IsGroupDevice)
                 {
-                    int reservedCount = xDriver.ChildAddressReserveRangeCount;
-
-                    if (parentXDevice.Children.Count > 0)
-                        if (maxAddress + 1 <= parentXDevice.IntAddress + reservedCount - 1)
+                    if (parentDevice.Children.Count > 0)
+						if (maxAddress + 1 <= parentDevice.IntAddress + driver.GroupDeviceChildrenCount - 1)
                             maxAddress = (byte)(maxAddress + 1);
                 }
                 else
                 {
-                    if (parentXDevice.Children.Where(x => x.Driver.IsAutoCreate == false).ToList().Count > 0)
+                    if (parentDevice.Children.Where(x => x.Driver.IsAutoCreate == false).ToList().Count > 0)
                         if (((maxAddress + 1) % 256) != 0)
                             maxAddress = (byte)(maxAddress + 1);
                 }
@@ -106,9 +93,9 @@ namespace GKModule.ViewModels
 
             if (xDevice.Driver.IsGroupDevice)
             {
-                var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == xDevice.Driver.AutoChild);
+                var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == xDevice.Driver.GroupDeviceChildType);
 
-                for (byte i = 0; i < xDevice.Driver.AutoChildCount; i++)
+                for (byte i = 0; i < xDevice.Driver.GroupDeviceChildrenCount; i++)
                 {
                     var autoDevice = XManager.AddChild(xDevice, driver, xDevice.ShleifNo, (byte)(xDevice.IntAddress + i));
                     AddDevice(autoDevice, deviceViewModel);

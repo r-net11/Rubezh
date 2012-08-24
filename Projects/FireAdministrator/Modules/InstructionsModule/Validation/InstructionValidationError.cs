@@ -11,6 +11,11 @@ namespace InstructionsModule.Validation
 		{
 		}
 
+		public override string Module
+		{
+			get { return "FS"; }
+		}
+
 		public override string Source
 		{
 			get { return "Инструкция"; }

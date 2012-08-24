@@ -44,7 +44,6 @@ namespace DevicesModule.ViewModels
 		}
 
 		#region DeviceSelection
-
 		public List<DeviceViewModel> AllDevices;
 
 		public void FillAllDevices()
@@ -71,7 +70,6 @@ namespace DevicesModule.ViewModels
 				deviceViewModel.ExpantToThis();
 			SelectedDevice = deviceViewModel;
 		}
-
 		#endregion
 
 		ObservableCollection<DeviceViewModel> _devices;

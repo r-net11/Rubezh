@@ -11,6 +11,8 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using System;
+using System.Linq;
 
 namespace GKModule
 {
@@ -22,34 +24,36 @@ namespace GKModule
 
 		public GroupControllerModule()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDevicesEvent>().Subscribe(OnShowXDevices);
-			ServiceFactory.Events.GetEvent<ShowXZonesEvent>().Subscribe(OnShowXZones);
-			ServiceFactory.Events.GetEvent<ShowXDirectionsEvent>().Subscribe(OnShowXDirections);
+			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Subscribe(OnShowXDevices);
+			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Subscribe(OnShowXZones);
+			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Subscribe(OnShowXDirections);
 
 			_devicesViewModel = new DevicesViewModel();
 			_zonesViewModel = new ZonesViewModel();
 			_directionsViewModel = new DirectionsViewModel();
 		}
 
-		private void OnShowXDevices(object obj)
+		private void OnShowXDevices(Guid deviceUID)
 		{
+			if (deviceUID != Guid.Empty)
+				_devicesViewModel.Select(deviceUID);
 			ServiceFactory.Layout.Show(_devicesViewModel);
 		}
-		private void OnShowXZones(object obj)
+		private void OnShowXZones(Guid zoneUID)
 		{
+			if (zoneUID != Guid.Empty)
+				_zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.XZone.UID == zoneUID);
 			ServiceFactory.Layout.Show(_zonesViewModel);
 		}
-		private void OnShowXDirections(object obj)
+		private void OnShowXDirections(Guid directionUID)
 		{
+			if (directionUID != Guid.Empty)
+				_directionsViewModel.SelectedDirection = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			ServiceFactory.Layout.Show(_directionsViewModel);
 		}
 
 		public override void Initialize()
 		{
-			GKDriversConverter.Convert();
-			XManager.DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
-			XManager.UpdateConfiguration();
-
 			_devicesViewModel.Initialize();
 			_zonesViewModel.Initialize();
 			_directionsViewModel.Initialize();
@@ -62,9 +66,9 @@ namespace GKModule
 			{
 				new NavigationItem("ГК", null, new List<NavigationItem>()
 				{
-					new NavigationItem<ShowXDevicesEvent>("Устройства", "/Controls;component/Images/tree.png"),
-					new NavigationItem<ShowXZonesEvent>("Зоны", "/Controls;component/Images/zones.png"),
-					new NavigationItem<ShowXDirectionsEvent>("Направления", "/Controls;component/Images/direction.png")
+					new NavigationItem<ShowXDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXZoneEvent, Guid>("Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXDirectionEvent, Guid>("Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty)
 				}),
 			};
 		}

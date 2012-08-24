@@ -1,10 +1,10 @@
 ﻿namespace FireAdministrator.ViewModels
 {
-    enum ErrorEntityType
-    {
-        Device,
-        Zone,
-        Direction,
-        Instruction
-    }
+	enum ErrorEntityType
+	{
+		Device,
+		Zone,
+		Direction,
+		Instruction
+	}
 }

@@ -70,6 +70,16 @@ namespace FiresecClient
 			}
 		}
 
+		public static void SetEmptyConfiguration()
+		{
+			FiresecConfiguration.DeviceConfiguration.RootDevice = new Device()
+			{
+				DriverUID = Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer).UID,
+				Driver = Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer)
+			};
+			FiresecConfiguration.DeviceConfiguration.Update();
+		}
+
 		public static List<Driver> Drivers
 		{
 			get { return FiresecConfiguration.Drivers; }

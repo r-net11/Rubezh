@@ -9,6 +9,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -49,7 +50,7 @@ namespace GKModule.ViewModels
 			get
 			{
 				var toolTip = Zone.PresentationName;
-				toolTip += "\n" + "Состояние: " + StateType;
+				toolTip += "\n" + "Состояние: " + StateType.ToDescription();
 				toolTip += "\n" + "Количество датчиков для сработки: " + Zone.Fire1Count.ToString();
 				return toolTip;
 			}

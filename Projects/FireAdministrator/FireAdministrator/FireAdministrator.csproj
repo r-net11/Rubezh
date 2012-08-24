@@ -79,8 +79,10 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Net" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -181,6 +183,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common.GK\Common.GK.csproj">
+      <Project>{987CDFB8-DC44-4873-9E19-7666DE222820}</Project>
+      <Name>Common.GK</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
       <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
       <Name>Common %28Common\Common%29</Name>
@@ -225,6 +231,11 @@
       <Visible>False</Visible>
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.SQL.Server.Compact.3.5">
+      <Visible>False</Visible>
+      <ProductName>SQL Server Compact 3.5 SP2</ProductName>
+      <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>

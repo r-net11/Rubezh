@@ -27,9 +27,9 @@ namespace FireMonitor
 				{
 					LoadingService.Show("Чтение конфигурации", 9);
 					LoadingService.AddCount(GetModuleCount());
+
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration();
-
 					if (FiresecManager.Drivers.Count == 0)
 						MessageBoxService.Show("Ошибка при загрузке конфигурации с сервера");
 					LoadingService.DoStep("Загрузка состояний с сервера");

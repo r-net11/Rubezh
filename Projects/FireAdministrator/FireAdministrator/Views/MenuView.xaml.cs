@@ -55,9 +55,9 @@ namespace FireAdministrator.Views
             ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
 
             var validationResult = ServiceFactory.ValidationService.Validate();
-            if (validationResult.HasErrors)
+            if (validationResult.HasErrors())
             {
-                if (validationResult.CannotSave)
+                if (validationResult.CannotSave())
                 {
                     MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
                     return false;
@@ -109,13 +109,7 @@ namespace FireAdministrator.Views
                 FiresecManager.FiresecConfiguration.DeviceConfiguration = new DeviceConfiguration();
                 FiresecManager.PlansConfiguration = new PlansConfiguration();
                 FiresecManager.SystemConfiguration = new SystemConfiguration();
-
-                FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice = new Device()
-                {
-                    DriverUID = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer).UID,
-                    Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer)
-                };
-                FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
+				FiresecManager.SetEmptyConfiguration();
                 FiresecManager.PlansConfiguration.Update();
 
                 XManager.SetEmptyConfiguration();

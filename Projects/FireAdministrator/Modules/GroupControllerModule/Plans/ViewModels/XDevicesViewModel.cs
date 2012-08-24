@@ -59,8 +59,7 @@ namespace GKModule.Plans.ViewModels
 
 		private void BuildTree()
 		{
-			var xRootDevice = XManager.DeviceConfiguration.RootDevice;
-			AddDevice(xRootDevice, null);
+			AddDevice(XManager.DeviceConfiguration.RootDevice, null);
 		}
 		public XDeviceViewModel AddDevice(XDevice device, XDeviceViewModel parentDeviceViewModel)
 		{
@@ -73,11 +72,11 @@ namespace GKModule.Plans.ViewModels
 			if (device != null)
 				foreach (var childDevice in device.Children)
 				{
-					if (!childDevice.Driver.IsDeviceOnShleif && childDevice.Children.Count == 0)
-						continue;
-
-					var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-					deviceViewModel.Children.Add(childDeviceViewModel);
+					if (childDevice.Driver.IsDeviceOnShleif || childDevice.Children.Count > 0)
+					{
+						var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
+						deviceViewModel.Children.Add(childDeviceViewModel);
+					}
 				}
 
 			return deviceViewModel;
