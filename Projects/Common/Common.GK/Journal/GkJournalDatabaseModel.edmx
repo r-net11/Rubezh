@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GkJournalDatabaseModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.3.5" ProviderManifestToken="3.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="GkJournalDatabaseModelStoreContainer">
+          <EntitySet Name="gkEvents" EntityType="GkJournalDatabaseModel.Store.gkEvents" store:Type="Tables" />
+        </EntityContainer>
+        <EntityType Name="gkEvents">
+          <Key>
+            <PropertyRef Name="GKNo" />
+          </Key>
+          <Property Name="GKNo" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="EventName" Type="nvarchar" MaxLength="100" />
+          <Property Name="EventDescription" Type="nvarchar" MaxLength="100" />
+          <Property Name="KAUNo" Type="int" />
+          <Property Name="GKObjectNo" Type="int" />
+          <Property Name="KAUAddress" Type="int" />
+          <Property Name="Code" Type="int" />
+          <Property Name="ObjectNo" Type="int" />
+          <Property Name="ObjectDeviceType" Type="int" />
+          <Property Name="ObjectDeviceAddress" Type="int" />
+          <Property Name="ObjectFactoryNo" Type="int" />
+          <Property Name="ObjectState" Type="int" />
+        </EntityType>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GkJournalDatabaseModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="GkJournalDatabaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="gkEvents" EntityType="GkJournalDatabaseModel.gkEvent" />
+        </EntityContainer>
+        <EntityType Name="gkEvent">
+          <Key>
+            <PropertyRef Name="GKNo" />
+          </Key>
+          <Property Name="GKNo" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" />
+          <Property Name="EventName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="EventDescription" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="KAUNo" Type="Int32" />
+          <Property Type="Int32" Name="GKObjectNo" />
+          <Property Type="Int32" Name="KAUAddress" />
+          <Property Type="Int32" Name="Code" />
+          <Property Type="Int32" Name="ObjectNo" />
+          <Property Type="Int32" Name="ObjectDeviceType" />
+          <Property Type="Int32" Name="ObjectDeviceAddress" />
+          <Property Type="Int32" Name="ObjectFactoryNo" />
+          <Property Type="Int32" Name="ObjectState" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GkJournalDatabaseModelStoreContainer" CdmEntityContainer="GkJournalDatabaseEntities">
+          <EntitySetMapping Name="gkEvents"><EntityTypeMapping TypeName="GkJournalDatabaseModel.gkEvent"><MappingFragment StoreEntitySet="gkEvents">
+            <ScalarProperty Name="ObjectState" ColumnName="ObjectState" />
+                <ScalarProperty Name="ObjectFactoryNo" ColumnName="ObjectFactoryNo" />
+                <ScalarProperty Name="ObjectDeviceAddress" ColumnName="ObjectDeviceAddress" />
+                <ScalarProperty Name="ObjectDeviceType" ColumnName="ObjectDeviceType" />
+                <ScalarProperty Name="ObjectNo" ColumnName="ObjectNo" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="KAUAddress" ColumnName="KAUAddress" />
+                <ScalarProperty Name="GKObjectNo" ColumnName="GKObjectNo" />
+                <ScalarProperty Name="GKNo" ColumnName="GKNo" />
+            <ScalarProperty Name="Date" ColumnName="Date" />
+            <ScalarProperty Name="EventName" ColumnName="EventName" />
+            <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
+            <ScalarProperty Name="KAUNo" ColumnName="KAUNo" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="GkJournalDatabaseModel">
+        <EntityTypeShape EntityType="GkJournalDatabaseModel.gkEvent" Width="1.5" PointX="0.75" PointY="0.75" Height="1.7566536458333331" IsExpanded="true" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
