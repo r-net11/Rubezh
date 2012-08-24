@@ -93,7 +93,11 @@
     <Compile Include="Reports\ReportDriverCounter.cs" />
     <Compile Include="Reports\ReportIndicationBlock.cs" />
     <Compile Include="Reports\ReportJournal.cs" />
+    <Compile Include="ViewModels\IndicatorViewModel.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
+    <Compile Include="Views\IndeicatorView.xaml.cs">
+      <DependentUpon>IndeicatorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ReportControlView.xaml.cs">
       <DependentUpon>ReportControlView.xaml</DependentUpon>
     </Compile>
@@ -135,6 +139,10 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\IndeicatorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ReportControlView.xaml">
       <SubType>Designer</SubType>
