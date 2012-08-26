@@ -10,5 +10,7 @@
         public bool ShowSKUD { get; set; }
 		public bool UseLocalConnection { get; set; }
         public string Theme { get; set; }
+        public bool IsFSEnabled { get; set; }
+        public bool IsGKEnabled { get; set; }
     }
 }

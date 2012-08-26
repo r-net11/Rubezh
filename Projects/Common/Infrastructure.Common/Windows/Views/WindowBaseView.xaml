@@ -36,7 +36,7 @@
 			<ColumnDefinition Width="5"/>
 			<ColumnDefinition Width="5"/>
 		</Grid.ColumnDefinitions>
-        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="5" Background="{DynamicResource BaseWindowBackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1" CornerRadius="0">
+        <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Grid.RowSpan="5" Background="{DynamicResource BaseWindowBackgroundBrush}" BorderBrush="{DynamicResource WindowBorderBrush}" BorderThickness="1" CornerRadius="11">
             <ContentPresenter Content="{Binding}" ContentTemplateSelector="{StaticResource HierarhicalDataTemplateSelector}"/>
         </Border>
         <Thumb Grid.Column="0" Grid.Row="0" Cursor="SizeNWSE" Background="Green" Grid.ColumnSpan="2" Grid.RowSpan="2" Style="{DynamicResource ResizeThumbStyle}" Visibility="{Binding Sizable, Converter={StaticResource BoolToVisibilityConverter}}" DragDelta="Thumb_DragDelta"  Tag="{x:Static loc:WindowBaseView+ResizeDirection.TopLeft}"/>

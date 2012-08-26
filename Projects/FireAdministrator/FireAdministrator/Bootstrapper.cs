@@ -78,21 +78,6 @@ namespace FireAdministrator
                 var themeName = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Brushes" + ServiceFactory.AppSettings.Theme + ".xaml";
                 Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themeName) });
             }
-            //return;
-
-            //string fileName = "E:/xxx.xaml";
-
-            //if (File.Exists(fileName))
-            //{
-            //    using (var fileStream = new FileStream(fileName, FileMode.Open))
-            //    {
-            //        ResourceDictionary resourceDictionary = (ResourceDictionary)XamlReader.Load(fileStream);
-            //        Application.Current.Resources.MergedDictionaries.Add(resourceDictionary);
-            //    }
-            //}
-            //else
-            //{
-            //}
         }
 	}
 }

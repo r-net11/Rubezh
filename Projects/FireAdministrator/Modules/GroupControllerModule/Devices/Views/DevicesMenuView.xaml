@@ -35,10 +35,5 @@
                 <MenuItem Command="{Binding UpdateFirmwhareCommand}" Header="Обновление ПО" />
             </MenuItem>
         </Menu>
-
-        <Rectangle Width="50" Height="50" Fill="{DynamicResource xxxBrush}" />
-        <Rectangle Width="50" Height="50" Fill="{DynamicResource xxxBrush2}" />
-        <Rectangle Width="50" Height="50" Fill="Magenta" />
-        
     </StackPanel>
 </UserControl>
