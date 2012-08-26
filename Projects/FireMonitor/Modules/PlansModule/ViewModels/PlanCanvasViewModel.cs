@@ -105,7 +105,7 @@ namespace PlansModule.ViewModels
 			foreach (var elementXDevice in Plan.ElementXDevices)
 			{
 				var elementXDeviceViewModel = new ElementXDeviceViewModel(elementXDevice);
-				if (elementXDeviceViewModel.XDeviceState != null)
+				if (elementXDeviceViewModel.DeviceState != null)
 				{
 					XDevices.Add(elementXDeviceViewModel);
 

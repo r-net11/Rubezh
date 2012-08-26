@@ -28,22 +28,22 @@ namespace Common.GK
 			var property1Parameter1 = new XDriverPropertyParameter()
 			{
 				Name = "1 1 Замкнуто",
-				Value = 1
+				Value = 0
 			};
 			var property1Parameter2 = new XDriverPropertyParameter()
 			{
 				Name = "2 1 Разомкнуто",
-				Value = 2
+				Value = 1
 			};
 			var property1Parameter3 = new XDriverPropertyParameter()
 			{
 				Name = "3 2 Замкнуто",
-				Value = 3
+				Value = 2
 			};
 			var property1Parameter4 = new XDriverPropertyParameter()
 			{
 				Name = "3 4 Разомкнуто",
-				Value = 4
+				Value = 3
 			};
 			property1.Parameters.Add(property1Parameter1);
 			property1.Parameters.Add(property1Parameter2);

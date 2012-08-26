@@ -8,6 +8,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
 using System.Threading;
+using FiresecAPI;
 
 namespace GKModule
 {
@@ -44,8 +45,15 @@ namespace GKModule
 				ConnectionChanged(false);
 				return;
 			}
-			var binaryObjectState = new BinaryObjectState(sendResult.Bytes);
-			SetObjectStates(binaryBase, binaryObjectState.States);
+			if (sendResult.Bytes.Count == 68)
+			{
+				var binaryObjectState = new BinaryObjectState(sendResult.Bytes);
+				SetObjectStates(binaryBase, binaryObjectState.States);
+			}
+			else
+			{
+				;
+			}
 		}
 
 		public static void SetObjectStates(XBinaryBase binaryBase, List<XStateType> states)

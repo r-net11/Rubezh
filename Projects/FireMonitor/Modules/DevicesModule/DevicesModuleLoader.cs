@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using FiresecClient;
 
 namespace DevicesModule
 {
@@ -41,6 +42,7 @@ namespace DevicesModule
 
 		public override void Initialize()
 		{
+			//IsVisible = FiresecManager.FiresecConfiguration.DeviceConfiguration.Zones.Count > 0;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 		}

@@ -7,15 +7,16 @@ namespace GKModule.ViewModels
 {
 	public class DeviceCommandsViewModel
 	{
-		public XDevice Device { get; private set; }
 		public XDeviceState DeviceState { get; private set; }
+		public XDevice Device { get { return DeviceState.Device; } }
 
 		public DeviceCommandsViewModel(XDeviceState deviceState)
 		{
 			DeviceState = deviceState;
-			Device = deviceState.Device;
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
+			SetAutomaticCommand = new RelayCommand(OnSetAutomatic, CanSetAutomatic);
+			ResetAutomaticCommand = new RelayCommand(OnResetAutomatic, CanResetAutomatic);
 			TurnOnCommand = new RelayCommand(OnTurnOn, CanTurnOn);
 			CancelDelayCommand = new RelayCommand(OnCancelDelay, CanCancelDelay);
 			TurnOffCommand = new RelayCommand(OnTurnOff, CanTurnOff);
@@ -45,6 +46,26 @@ namespace GKModule.ViewModels
 			return DeviceState.States.Contains(XStateType.Ignore);
 		}
 
+		public RelayCommand SetAutomaticCommand { get; private set; }
+		void OnSetAutomatic()
+		{
+			SendControlCommand(0x80);
+		}
+		bool CanSetAutomatic()
+		{
+			return Device.Driver.IsControlDevice && !DeviceState.States.Contains(XStateType.Norm);
+		}
+
+		public RelayCommand ResetAutomaticCommand { get; private set; }
+		void OnResetAutomatic()
+		{
+			SendControlCommand(0x00);
+		}
+		bool CanResetAutomatic()
+		{
+			return Device.Driver.IsControlDevice && DeviceState.States.Contains(XStateType.Norm);
+		}
+
 		public RelayCommand TurnOnCommand { get; private set; }
 		void OnTurnOn()
 		{
@@ -52,7 +73,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOn()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand CancelDelayCommand { get; private set; }
@@ -62,7 +83,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanCancelDelay()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand TurnOffCommand { get; private set; }
@@ -72,7 +93,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOff()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand StopCommand { get; private set; }
@@ -82,7 +103,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanStop()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand CancelStartCommand { get; private set; }
@@ -92,7 +113,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanCancelStart()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }
@@ -102,7 +123,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOnNow()
 		{
-            return Device.Driver.IsControlDevice;
+			return Device.Driver.IsControlDevice;
 		}
 
 		public RelayCommand TurnOffNowCommand { get; private set; }
@@ -112,31 +133,11 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOffNow()
 		{
-            return Device.Driver.IsControlDevice;
-		}
-
-		public bool CanControl
-		{
-			get
-			{
-                switch(Device.Driver.DriverType)
-                {
-                    case XDriverType.System:
-                    case XDriverType.GK:
-                    case XDriverType.GKIndicator:
-                    case XDriverType.GKLine:
-                    case XDriverType.GKRele:
-                    case XDriverType.KAU:
-                    case XDriverType.KAUIndicator:
-                        return false;
-                }
-                return true;
-			}
+			return Device.Driver.IsControlDevice;
 		}
 
 		void SendControlCommand(byte code)
 		{
-			SendManager.StrartLog("D:/GKLog.txt");
 			if (Device.Driver.IsDeviceOnShleif)
 			{
 				var bytes = new List<byte>();
@@ -145,7 +146,11 @@ namespace GKModule.ViewModels
 				bytes.Add(code);
 				SendManager.Send(Device.GkDatabaseParent, 3, 13, 0, bytes);
 			}
-			SendManager.StopLog();
+		}
+
+		public bool CanControl
+		{
+			get { return Device.Driver.IsDeviceOnShleif; }
 		}
 	}
 }

@@ -3,25 +3,50 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Validation;
 using XFiresecAPI;
+using System.Net;
+using System;
 
 namespace GKModule.Validation
 {
 	public static class Validator
 	{
-		private static List<IValidationError> _errors { get; set; }
+		static List<IValidationError> Errors { get; set; }
 
 		public static IEnumerable<IValidationError> Validate()
 		{
-			_errors = new List<IValidationError>();
+			Errors = new List<IValidationError>();
 			ValidateDevices();
 			ValidateZones();
 			ValidateDirections();
-			return _errors;
+			return Errors;
 		}
 
 		static void ValidateDevices()
 		{
+			foreach (var device in XManager.DeviceConfiguration.Devices)
+			{
+				ValidateIPAddress(device);
+			}
+		}
 
+		static void ValidateIPAddress(XDevice device)
+		{
+			if (device.Driver.DriverType == XDriverType.GK)
+			{
+				var address = device.GetGKIpAddress();
+				if (!CheckIpAddress(address))
+				{
+					Errors.Add(new DeviceValidationError(device, "Не задан IP адрес", ValidationErrorLevel.CannotWrite));
+				}
+			}
+		}
+
+		static bool CheckIpAddress(string ipAddress)
+		{
+			if (String.IsNullOrEmpty(ipAddress))
+				return false;
+			IPAddress address;
+			return IPAddress.TryParse(ipAddress, out address);
 		}
 
 		static void ValidateZones()
@@ -37,12 +62,14 @@ namespace GKModule.Validation
 			if (zone.Devices == null || zone.Devices.Any(x => x.Driver.DriverType == XDriverType.HandDetector))
 				return;
 			if (zone.Fire1Count > zone.Devices.Count)
-				_errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ValidationErrorLevel.Warning));
+				Errors.Add(new ZoneValidationError(zone, "Количество подключенных к зоне датчиков меньше количества датчиков для сработки", ValidationErrorLevel.CannotWrite));
 		}
 
 		static void ValidateDirections()
 		{
-
+			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			{
+			}
 		}
 	}
 }

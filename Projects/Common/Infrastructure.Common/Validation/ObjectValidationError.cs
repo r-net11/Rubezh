@@ -14,8 +14,8 @@ namespace Infrastructure.Common.Validation
 
 		#region IValidationError Members
 
+		public abstract string Module { get; }
 		public abstract string Source { get; }
-
 		public virtual string Address { get { return Key.ToString(); } }
 
 		public string Error { get; private set; }

@@ -55,9 +55,9 @@ namespace FireAdministrator.Views
             ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Publish(null);
 
             var validationResult = ServiceFactory.ValidationService.Validate();
-            if (validationResult.HasErrors)
+            if (validationResult.HasErrors())
             {
-                if (validationResult.CannotSave)
+                if (validationResult.CannotSave())
                 {
                     MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
                     return false;

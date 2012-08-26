@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System;
 
 namespace XFiresecAPI
 {
@@ -8,13 +9,16 @@ namespace XFiresecAPI
 	{
 		public XDirection()
 		{
-			Zones = new List<int>();
+			Zones = new List<Guid>();
 			DirectionDevices = new List<DirectionDevice>();
 			XZones = new List<XZone>();
 			Regime = 1;
 		}
 
 		public List<XZone> XZones { get; set; }
+
+		[DataMember]
+		public Guid UID { get; set; }
 
 		[DataMember]
 		public ushort No { get; set; }
@@ -35,7 +39,7 @@ namespace XFiresecAPI
 		public ushort Regime { get; set; }
 
 		[DataMember]
-		public List<int> Zones { get; set; }
+		public List<Guid> Zones { get; set; }
 
 		[DataMember]
 		public List<DirectionDevice> DirectionDevices { get; set; }

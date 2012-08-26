@@ -105,13 +105,13 @@
     <Compile Include="Events\ShowUserGroupsEvent.cs" />
     <Compile Include="Events\ShowUsersEvent.cs" />
     <Compile Include="Events\ShowVideoEvent.cs" />
-    <Compile Include="Events\ShowXDevicesEvent.cs" />
-    <Compile Include="Events\ShowXZonesEvent.cs" />
+    <Compile Include="Events\ShowXDeviceEvent.cs" />
+    <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="Events\ShowOPCZoneEvent.cs" />
     <Compile Include="Events\ShowOPCDeviceEvent.cs" />
     <Compile Include="Events\ShowOPCSettingsEvent.cs" />
-    <Compile Include="Events\ShowXDirectionsEvent.cs" />
+    <Compile Include="Events\ShowXDirectionEvent.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="Services\IValidationResult.cs" />

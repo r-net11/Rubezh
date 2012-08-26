@@ -5,6 +5,9 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Collections.Generic;
+using System;
+using System.Linq;
 
 namespace GKModule.ViewModels
 {
@@ -32,6 +35,35 @@ namespace GKModule.ViewModels
 				SelectedDevice = Devices[0];
 			}
 		}
+
+		#region DeviceSelection
+		public List<DeviceViewModel> AllDevices;
+
+		public void FillAllDevices()
+		{
+			AllDevices = new List<DeviceViewModel>();
+			AddChildPlainDevices(Devices[0]);
+		}
+
+		void AddChildPlainDevices(DeviceViewModel parentViewModel)
+		{
+			AllDevices.Add(parentViewModel);
+			foreach (var childViewModel in parentViewModel.Children)
+			{
+				AddChildPlainDevices(childViewModel);
+			}
+		}
+
+		public void Select(Guid deviceUID)
+		{
+			FillAllDevices();
+
+			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+			if (deviceViewModel != null)
+				deviceViewModel.ExpantToThis();
+			SelectedDevice = deviceViewModel;
+		}
+		#endregion
 
 		ObservableCollection<DeviceViewModel> _devices;
 		public ObservableCollection<DeviceViewModel> Devices

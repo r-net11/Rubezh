@@ -6,6 +6,7 @@ using Common.GK;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System.Diagnostics;
+using GKModule.ViewModels;
 
 namespace GKModule
 {
@@ -15,10 +16,10 @@ namespace GKModule
 		{
 			DatabaseManager.Convert();
 
-			SendManager.StrartLog("D:/GkLog.txt");
+			//SendManager.StrartLog("D:/GkLog.txt");
 			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
-				var summaryObjectsCount = 3 + gkDatabase.BinaryObjects.Count;
+				var summaryObjectsCount = 4 + gkDatabase.BinaryObjects.Count;
 				gkDatabase.KauDatabases.ForEach(x => { summaryObjectsCount += 3 + x.BinaryObjects.Count; });
 				LoadingService.ShowProgress("", gkDatabase.RootDevice.PresentationDriverAndAddress + "\nЗапись конфигурации в ГК", summaryObjectsCount);
 
@@ -34,10 +35,11 @@ namespace GKModule
 				}
 				WriteConfigToDevice(gkDatabase);
 				GoToWorkingRegime(gkDatabase.RootDevice);
+				SyncronizeTime(gkDatabase.RootDevice);
 
 				LoadingService.Close();
 			}
-			SendManager.StopLog();
+			//SendManager.StopLog();
 		}
 
 		static void WriteConfigToDevice(CommonDatabase commonDatabase)
@@ -115,12 +117,14 @@ namespace GKModule
 						var version = sendResult.Bytes[0];
 						if (version >= 80)
 						{
-							break;
+							return;
 						}
 					}
 				}
 				Thread.Sleep(1000);
 			}
+
+			MessageBoxService.ShowError("Не удалось перевести устройство в технологический режим в заданное время");
 		}
 
 		static void GoToWorkingRegime(XDevice device)
@@ -138,12 +142,14 @@ namespace GKModule
 						var version = sendResult.Bytes[0];
 						if (version < 80)
 						{
-							break;
+							return;
 						}
 					}
 				}
 				Thread.Sleep(1000);
 			}
+
+			MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
 		}
 
 		static void EraseDatabase(XDevice device)
@@ -157,6 +163,12 @@ namespace GKModule
 			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
 			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.BinaryObjects.Count + 1));
 			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
+		}
+
+		static void SyncronizeTime(XDevice device)
+		{
+			LoadingService.DoStep(device.PresentationDriverAndAddress + " Синхронизация времени");
+			DeviceTimeHelper.Write(device);
 		}
 	}
 }

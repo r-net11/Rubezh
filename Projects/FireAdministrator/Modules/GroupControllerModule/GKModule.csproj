@@ -81,7 +81,6 @@
     <Compile Include="BinaryFormatViewer\Converters\BytesToStringConverter.cs" />
     <Compile Include="BinaryFormatViewer\ViewModels\BinaryObjectViewModel.cs" />
     <Compile Include="BinaryFormatViewer\ViewModels\DatabasesViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceInfoViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceTimeViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ClauseViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
@@ -102,12 +101,6 @@
     </Compile>
     <Compile Include="BinaryFormatViewer\Views\DatabasesView.xaml.cs">
       <DependentUpon>DatabasesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\DeviceInfoView.xaml.cs">
-      <DependentUpon>DeviceInfoView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\DeviceTimeView.xaml.cs">
-      <DependentUpon>DeviceTimeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Logic\DevicesSelectationView.xaml.cs">
       <DependentUpon>DevicesSelectationView.xaml</DependentUpon>
@@ -158,6 +151,7 @@
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="BinaryFileConverter.cs" />
+    <Compile Include="Validation\DeviceValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\ZoneValidationError.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
@@ -223,14 +217,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="BinaryFormatViewer\Views\DatabasesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\DeviceInfoView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Devices\Views\DeviceTimeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

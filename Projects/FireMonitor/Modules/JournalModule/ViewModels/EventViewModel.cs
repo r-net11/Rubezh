@@ -1,5 +1,6 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecAPI;
 
 namespace JournalModule.ViewModels
 {

@@ -15,7 +15,7 @@ namespace XFiresecAPI
 			Children = new List<XDevice>();
 			Properties = new List<XProperty>();
 			OutDependenceUIDs = new List<Guid>();
-			Zones = new List<ushort>();
+			Zones = new List<Guid>();
 			DeviceLogic = new XDeviceLogic();
 			PlanElementUIDs = new List<Guid>();
 			IsNotUsed = false;
@@ -47,7 +47,7 @@ namespace XFiresecAPI
 		public List<XProperty> Properties { get; set; }
 
 		[DataMember]
-		public List<ushort> Zones { get; set; }
+		public List<Guid> Zones { get; set; }
 
 		[DataMember]
 		public XDeviceLogic DeviceLogic { get; set; }

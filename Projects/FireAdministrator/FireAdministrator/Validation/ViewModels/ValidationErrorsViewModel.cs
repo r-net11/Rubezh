@@ -42,23 +42,30 @@ namespace FireAdministrator.ViewModels
 			}
 		}
 
-		public bool HasErrors
+		IEnumerable<IValidationError> SortedErrors(string module)
 		{
-			get { return Errors.Count > 0; }
+			if (module != null)
+				return Errors.Where(x => x.Module == module);
+			return Errors;
 		}
-		public bool CannotSave
+
+		public bool HasErrors(string module = null)
 		{
-			get { return Errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotSave); }
+			return SortedErrors(module).Count() > 0;
 		}
-		public bool CannotWrite
+		public bool CannotSave(string module = null)
 		{
-			get { return Errors.Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite); }
+			return SortedErrors(module).Any(x => x.ErrorLevel == ValidationErrorLevel.CannotSave);
+		}
+		public bool CannotWrite(string module = null)
+		{
+			return SortedErrors(module).Any(x => x.ErrorLevel == ValidationErrorLevel.CannotWrite);
 		}
 
 		public RelayCommand ClickCommand { get; private set; }
 		void OnClick()
 		{
-			if (SelectedError != null) 
+			if (SelectedError != null)
 				SelectedError.Navigate();
 		}
 

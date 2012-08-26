@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             MinWidth="600" MinHeight="350" d:DesignHeight="350" d:DesignWidth="600">
-    <Grid Width="600" Height="350">
+             MinWidth="600" MinHeight="600" d:DesignHeight="600" d:DesignWidth="600">
+    <Grid Width="600" Height="600">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
@@ -14,27 +14,26 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="70*" />
             <RowDefinition Height="25*" />
-            <RowDefinition Height="25*" />
-            <RowDefinition Height="25*" />
-            <RowDefinition Height="25*" />
-            <RowDefinition Height="25*" />
-            <RowDefinition Height="25*" />
-            <RowDefinition Height="25*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
-        <DataGrid AutoGenerateColumns="True" Width="217" Height="200" ItemsSource="{Binding Query}"  Name="dataGrid1" Grid.RowSpan="6" />
-        <Button Content="Add 10 Rows" Command="{Binding Add_10_Rows_Command}" Height="23" Width="86" Grid.Row="5" Grid.Column="0" />
-        <Button Content="Show selected" Command="{Binding Show_selected_devices_Command}" Height="23" Name="button1" Width="86" Grid.Column="0" Grid.Row="6" />
+        <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding Query}"  Name="dataGrid1" Grid.RowSpan="3" Grid.ColumnSpan="3"  />
+        <Button Content="Show selected" Command="{Binding Show_selected_devices_Command}" Height="23" Width="86" Grid.Row="3" />
         <!--Device block-->
-        <CheckBox Content="Enable Device Filtering" IsChecked="{Binding Device_chk}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <CheckBox Content="Add IP to filter" IsChecked="{Binding Ip_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <CheckBox Content="Add RM to filter" IsChecked="{Binding Rm_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <CheckBox Content="Add MDU to filter" IsChecked="{Binding Mdu_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <CheckBox Content="Add MPT to filter" IsChecked="{Binding Mpt_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="4" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <CheckBox Content="Enable Device Filtering" IsChecked="{Binding Device_chk}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" />
+        <CheckBox Content="Add IP to filter" IsChecked="{Binding Ip_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <CheckBox Content="Add RM to filter" IsChecked="{Binding Rm_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <CheckBox Content="Add MDU to filter" IsChecked="{Binding Mdu_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <CheckBox Content="Add MPT to filter" IsChecked="{Binding Mpt_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="7" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" />
         <!--Date block-->
-        <CheckBox Content="Enable Date filtering" IsChecked="{Binding Date_chk}" Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Label Content="from" Height="28" Grid.Row="1" Grid.Column="2" />
-        <DatePicker Height="25" SelectedDate="{Binding Starting_date}" IsEnabled="{Binding Date_chk}" Grid.Row="2" Grid.Column="2" />
-        <Label Content="to" Height="28" Grid.Row="3" Grid.Column="2" />
-        <DatePicker Height="25" SelectedDate="{Binding Ending_date}" IsEnabled="{Binding Date_chk}" Grid.Row="4" Grid.Column="2" />
+        <CheckBox Content="Enable Date filtering" IsChecked="{Binding Date_chk}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
+        <Label Content="from" Height="28" Grid.Row="4" Grid.Column="2" />
+        <DatePicker Height="25" SelectedDate="{Binding Starting_date}" IsEnabled="{Binding Date_chk}" Grid.Row="5" Grid.Column="2" />
+        <Label Content="to" Height="28" Grid.Row="6" Grid.Column="2" />
+        <DatePicker Height="25" SelectedDate="{Binding Ending_date}" IsEnabled="{Binding Date_chk}" Grid.Row="7" Grid.Column="2" />
     </Grid>
 </UserControl>

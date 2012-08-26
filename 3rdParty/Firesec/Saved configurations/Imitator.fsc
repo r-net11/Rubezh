@@ -59,40 +59,53 @@
   <drv idx="55" name="Ручной радиоканальный извещатель ИПР513-11" id="D57CDEF3-ACBC-4773-955E-22A1F016D025"/>
   <drv idx="56" name="Пожарный дымовой радиоканальный извещатель ИП 212-64Р" id="CFD407D1-5D19-43EC-9650-A86EC4422EC6"/>
   <drv idx="57" name="Модуль речевого оповещения (исполнение 2)" id="713702A8-E3A1-4328-9A43-DE9CB5167133"/>
-  <drv idx="58" name="Вентилятор" id="8DA221DE-A2BF-4C71-AE63-B9C1E2CA024B"/>
-  <drv idx="59" name="Клапан" id="8A18E2E6-7ED7-4D3F-8DFA-1E042671F072"/>
-  <drv idx="60" name="Адресная метка" id="E495C37A-A414-4B47-AF24-FEC1F9E43D86"/>
-  <drv idx="61" name="Пожарная адресная метка" id="A15D9258-D5B5-4A81-A60A-3C9A308FB528"/>
-  <drv idx="62" name="Релейный исполнительный модуль" id="EA5F5372-C76C-4E92-B879-0AFA0EE979C7"/>
-  <drv idx="63" name="Релейный исполнительный модуль" id="15E38FA6-DC41-454B-83E5-D7789064B2E1"/>
-  <drv idx="64" name="Релейный исполнительный модуль" id="3CB0E7FB-670F-4F32-8123-4B310AEE1DB8"/>
-  <drv idx="65" name="Релейный исполнительный модуль" id="A7C09BA8-DD00-484C-8BEA-245F2920DFBB"/>
-  <drv idx="66" name="USB преобразователь МС-2" id="CD0E9AA0-FD60-48B8-B8D7-F496448FADE6"/>
-  <drv idx="67" name="USB преобразователь МС-1" id="FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6"/>
-  <drv idx="68" name="USB Канал" id="F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E"/>
-  <drv idx="69" name="USB Канал" id="780DE2E6-8EDD-4CFA-8320-E832EB699544"/>
-  <drv idx="70" name="Канал с резервированием" id="2863E7A3-5122-47F8-BB44-4358450CD0EE"/>
-  <drv idx="71" name="Состав" id="C2E0F845-D836-4AAE-9894-D5CBE2B9A7DD"/>
-  <drv idx="72" name="USB Канал" id="B9680002-511D-4505-9EF6-0C322E61135F"/>
-  <drv idx="73" name="USB Рубеж-2AM" id="1EDE7282-0003-424E-B76C-BB7B413B4F3B"/>
-  <drv idx="74" name="USB Рубеж-4A" id="7CED3D07-C8AF-4141-8D3D-528050EEA72D"/>
-  <drv idx="75" name="USB БУНС" id="4A3D1FA3-4F13-44D8-B9AD-825B53416A71"/>
-  <drv idx="76" name="USB БУНС-2" id="64CB0AB4-D9BE-4C71-94A1-CF24406DAF92"/>
-  <drv idx="77" name="USB Рубеж-2ОП" id="39DBC715-C4B5-4AE6-A809-4F214BBBD6C1"/>
+  <drv idx="58" name="Шкаф управления вентиляцией" id="6636AF15-F8D7-44F8-8AA3-62DA77B41B42"/>
+  <drv idx="59" name="Вентилятор" id="8DA221DE-A2BF-4C71-AE63-B9C1E2CA024B"/>
+  <drv idx="60" name="Клапан" id="8A18E2E6-7ED7-4D3F-8DFA-1E042671F072"/>
+  <drv idx="61" name="Адресная метка" id="E495C37A-A414-4B47-AF24-FEC1F9E43D86"/>
+  <drv idx="62" name="Пожарная адресная метка" id="A15D9258-D5B5-4A81-A60A-3C9A308FB528"/>
+  <drv idx="63" name="Релейный исполнительный модуль" id="EA5F5372-C76C-4E92-B879-0AFA0EE979C7"/>
+  <drv idx="64" name="Релейный исполнительный модуль" id="15E38FA6-DC41-454B-83E5-D7789064B2E1"/>
+  <drv idx="65" name="Релейный исполнительный модуль" id="3CB0E7FB-670F-4F32-8123-4B310AEE1DB8"/>
+  <drv idx="66" name="Релейный исполнительный модуль" id="A7C09BA8-DD00-484C-8BEA-245F2920DFBB"/>
+  <drv idx="67" name="USB преобразователь МС-2" id="CD0E9AA0-FD60-48B8-B8D7-F496448FADE6"/>
+  <drv idx="68" name="USB преобразователь МС-1" id="FDECE1B6-A6C6-4F89-BFAE-51F2DDB8D2C6"/>
+  <drv idx="69" name="USB Канал" id="F36B2416-CAF3-4A9D-A7F1-F06EB7AAA76E"/>
+  <drv idx="70" name="USB Канал" id="780DE2E6-8EDD-4CFA-8320-E832EB699544"/>
+  <drv idx="71" name="Канал с резервированием" id="2863E7A3-5122-47F8-BB44-4358450CD0EE"/>
+  <drv idx="72" name="Состав" id="C2E0F845-D836-4AAE-9894-D5CBE2B9A7DD"/>
+  <drv idx="73" name="USB Канал" id="B9680002-511D-4505-9EF6-0C322E61135F"/>
+  <drv idx="74" name="USB Рубеж-2AM" id="1EDE7282-0003-424E-B76C-BB7B413B4F3B"/>
+  <drv idx="75" name="USB Рубеж-4A" id="7CED3D07-C8AF-4141-8D3D-528050EEA72D"/>
+  <drv idx="76" name="USB БУНС" id="4A3D1FA3-4F13-44D8-B9AD-825B53416A71"/>
+  <drv idx="77" name="USB БУНС-2" id="64CB0AB4-D9BE-4C71-94A1-CF24406DAF92"/>
+  <drv idx="78" name="USB Рубеж-2ОП" id="39DBC715-C4B5-4AE6-A809-4F214BBBD6C1"/>
+  <zone idx="0" no="1" name="Новая зона" idZones="2045">
+    <param name="DB$IDZones" type="Int" value="2045"/>
+    <param name="GuardZoneType" type="Int" value="0"/>
+    <param name="DB$IDParentZones" type="Int" value="0"/>
+    <param name="ZoneType" type="Int" value="0"/>
+    <param name="FireDeviceCount" type="Int" value="2"/>
+    <param name="ExitTime" type="SmallInt" value="0"/>
+    <param name="AutoSet" type="Int" value="0"/>
+    <param name="Skipped" type="Int" value="0"/>
+    <param name="DB$IDSecObj" type="Int" value="525"/>
+    <param name="Delay" type="Int" value="0"/>
+  </zone>
   <dev drv="0" addr="0">
-    <prop name="INT$DEV_GUID" type="String" value="d54f60f2-4376-41ac-b676-996271e85790"/>
-    <dev drv="73" addr="1">
-      <dev drv="29" addr="257"/>
-      <dev drv="29" addr="258"/>
-      <dev drv="29" addr="259"/>
-      <dev drv="29" addr="260"/>
-      <dev drv="29" addr="261"/>
-      <dev drv="29" addr="262"/>
-      <dev drv="29" addr="263"/>
-      <dev drv="29" addr="264"/>
-      <dev drv="29" addr="265"/>
+    <prop name="INT$DEV_GUID" type="String" value="88e57feb-38f1-4317-88b3-29207b3c8b1d"/>
+    <dev drv="74" addr="1">
+      <prop name="INT$DEV_GUID" type="String" value="ef3f6c3a-10ce-44e1-9fb2-2deebfd01275"/>
+      <dev drv="30" addr="257">
+        <prop name="INT$DEV_GUID" type="String" value="ce6f63ee-c23f-457f-830c-0ef79f7065e2"/>
+        <inZ idz="0"/>
+      </dev>
+      <dev drv="31" addr="258">
+        <prop name="INT$DEV_GUID" type="String" value="f3d5a205-7a17-4d84-b15c-936c95536c4e"/>
+        <inZ idz="0"/>
+      </dev>
     </dev>
   </dev>
-  <surfaces><![CDATA[ZCMPeNqzsa/IzVEoSy0qzszPs1Uy1DNQUkjNS85PycxLt1Uqz8xLyS8v1jU0MjVUsrfjsikuLUpLTE4tRtVhZ5NelF9aUAyl9e1s9GEC+jAddlwAdjcjxw==]]>
+  <surfaces><![CDATA[ZCMPeNqzsa/IzVEoSy0qzszPs1Uy1DNQUkjNS85PycxLt1Uqz8xLyS8v1jU0MjVUsrfjsikuLUpLTE4tRtWhb8cFAF/9Frg=]]>
   </surfaces>
 </config>

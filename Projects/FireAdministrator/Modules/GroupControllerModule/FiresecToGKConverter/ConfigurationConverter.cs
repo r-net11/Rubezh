@@ -129,7 +129,7 @@ namespace GKModule.Converter
                         var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
                         if (zone != null)
                         {
-                            xDevice.Zones.Add(xZone.No);
+                            xDevice.Zones.Add(xZone.UID);
                             xZone.DeviceUIDs.Add(device.UID);
                         }
                     }

@@ -6,4 +6,9 @@
     <DataTemplate DataType="{x:Type ViewModels:ReportsViewModel}">
         <Views:ReportsView />
     </DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:IndicatorViewModel}">
+		<Views:IndeicatorView />
+	</DataTemplate>
+
 </ResourceDictionary>

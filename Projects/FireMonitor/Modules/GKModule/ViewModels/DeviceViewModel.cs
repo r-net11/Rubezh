@@ -10,6 +10,7 @@ using Infrastructure.Events;
 using XFiresecAPI;
 using System;
 using System.Collections.Generic;
+using FiresecAPI;
 
 namespace GKModule.ViewModels
 {

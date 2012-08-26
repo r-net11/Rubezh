@@ -5,6 +5,8 @@ using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Windows.Input;
 using Infrastructure.Common;
+using Common.GK;
+using Common.GK.Journal;
 
 
 namespace SettingsModule.ViewModels
@@ -15,15 +17,15 @@ namespace SettingsModule.ViewModels
         #region Construction
         public JournalTestViewModel()
         {
-            db = new Db_and_Query();
+            gke = new GkEvents();
+            Query = gke.Select_Items();
             selected_devices = new List<string>();
-            Query = db.Select_devices();            
         }
         #endregion
 
         #region Fields
-        Db_and_Query db;
-        List<Gk_event> _query;
+        GkEvents gke;
+        List<gkEvent> _query;
         List<string> selected_devices;
         DateTime starting_date = DateTime.Parse("1.1.1900");
         DateTime ending_date = DateTime.Parse("31.12.2012");
@@ -36,10 +38,10 @@ namespace SettingsModule.ViewModels
         #endregion
 
         #region Properties
-        public List<Gk_event> Query
+        public List<gkEvent> Query
         {
             get { return _query; }
-            set 
+            set
             {
                 if (_query != value)
                 {
@@ -95,8 +97,8 @@ namespace SettingsModule.ViewModels
         public bool Device_chk
         {
             get { return _device_chk; }
-            set 
-            { 
+            set
+            {
                 _device_chk = value;
                 OnPropertyChanged("Device_chk");
             }
@@ -105,7 +107,7 @@ namespace SettingsModule.ViewModels
         {
             get { return _date_chk; }
             set
-            { 
+            {
                 _date_chk = value;
                 OnPropertyChanged("Date_chk");
             }
@@ -124,7 +126,7 @@ namespace SettingsModule.ViewModels
             if (_mpt_chk)
                 Selected_divices.Add("MPT");
         }
-        
+
         private bool valid_dates()
         {
             return starting_date != null &&
@@ -137,31 +139,26 @@ namespace SettingsModule.ViewModels
 
         void Show_selected_devices()
         {
-            if (Device_chk && !Date_chk)
-            {
-                GetDeviceFilter();
-                Query = db.Select_devices(selected_devices);
-            }
-            else if (!Device_chk && Date_chk && valid_dates())
-            {
-                Query = db.Select_devices(starting_date, ending_date);
-            }
-            else if (Device_chk && Date_chk && valid_dates())
-            {
-                GetDeviceFilter();
-                Query = db.Select_devices(selected_devices, starting_date, ending_date);
-            }
-            else 
-                Query = db.Select_devices();
-        }
-        void Add_10_Rows()
-        {
-            db.AddRows(10);
+            //if (Device_chk && !Date_chk)
+            //{
+            //    GetDeviceFilter();
+            //    Query = gke.Select_Items(selected_devices);
+            //}
+            //else if (!Device_chk && Date_chk && valid_dates())
+            //{
+            //    Query = gke.Select_Items(starting_date, ending_date);
+            //}
+            //else if (Device_chk && Date_chk && valid_dates())
+            //{
+            //    GetDeviceFilter();
+            //    Query = gke.Select_Items(selected_devices, starting_date, ending_date);
+            //}
+            //else
+                Query = gke.Select_Items();
         }
         
         public ICommand Show_selected_devices_Command { get { return new RelayCommand(Show_selected_devices, delegate() { return true; }); } }
-        public ICommand Add_10_Rows_Command { get { return new RelayCommand(Add_10_Rows, delegate() { return true; }); } }
-
+        
         #endregion
         
  

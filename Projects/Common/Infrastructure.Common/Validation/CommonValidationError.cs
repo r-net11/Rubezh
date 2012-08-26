@@ -10,17 +10,18 @@ namespace Infrastructure.Common.Validation
 			Source = string.Empty;
 			Address = string.Empty;
 		}
-		public CommonValidationError(string source, string address, string error, ValidationErrorLevel validationErrorLevel)
+		public CommonValidationError(string module, string source, string address, string error, ValidationErrorLevel validationErrorLevel)
 			: this(error, validationErrorLevel)
 		{
+			Module = module;
 			Source = source;
 			Address = address;
 		}
 
 		#region IValidationError Members
 
+		public virtual string Module { get; protected set; }
 		public virtual string Source { get; protected set; }
-
 		public virtual string Address { get; protected set; }
 
 		public string Error { get; private set; }
