@@ -3,6 +3,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecAPI;
+using FiresecClient;
 
 namespace PlansModule.Converters
 {
@@ -19,7 +20,10 @@ namespace PlansModule.Converters
 				if (zoneState.StateType == StateType.Norm)
 					return Brushes.Blue;
 
-				if (zoneState.IsOnGuard)
+				if (FiresecManager.IsZoneOnGuardAlarm(zoneState))
+					return Brushes.Red;
+
+				if (FiresecManager.IsZoneOnGuard(zoneState))
 					return Brushes.DarkGreen;
 			}
 
