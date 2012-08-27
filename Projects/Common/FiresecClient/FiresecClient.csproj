@@ -144,6 +144,7 @@
     <Compile Include="XManager\XManager.Configuration.cs" />
     <Compile Include="XManager\XManager.Device.cs" />
     <Compile Include="XManager\XManager.cs" />
+    <Compile Include="XManager\XManager.PresentationZone.cs" />
     <Compile Include="XManager\XManager.States.cs" />
   </ItemGroup>
   <ItemGroup>

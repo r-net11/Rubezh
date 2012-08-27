@@ -5,6 +5,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using System.Collections.Generic;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -68,6 +70,44 @@ namespace GKModule.ViewModels
 				OnPropertyChanged("Address");
 				ServiceFactory.SaveService.XDevicesChanged = true;
 			}
+		}
+
+		public IEnumerable<XZone> Zones
+		{
+			get
+			{
+				return from XZone zone in XManager.DeviceConfiguration.Zones
+					   orderby zone.No
+					   select zone;
+			}
+		}
+
+		public XZone Zone
+		{
+			get
+			{
+				var firstZoneUID = Device.Zones.FirstOrDefault();
+				if (firstZoneUID != Guid.Empty)
+				{
+					return XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == firstZoneUID);
+				}
+				return null;
+			}
+			set
+			{
+				var firstZoneUID = Device.Zones.FirstOrDefault();
+				if (firstZoneUID != value.UID)
+				{
+					firstZoneUID = value.UID;
+					OnPropertyChanged("Zone");
+					ServiceFactory.SaveService.DevicesChanged = true;
+				}
+			}
+		}
+
+		public string PresentationZone
+		{
+			get { return XManager.GetPresentationZone(Device); }
 		}
 
 		public string Description
