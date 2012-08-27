@@ -11,7 +11,7 @@ namespace ReportsModule.ViewModels
 	{
 		public ReportsViewModel()
 		{
-			string flowDoucment = @"<FlowDocument xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" xmlns:crrd=""clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports"" xmlns:s=""clr-namespace:System;assembly=mscorlib"" ColumnWidth=""793.700787401575"" PageHeight=""1122.51968503937"" PageWidth=""793.700787401575"">
+			string flowDoucment = @"<FlowDocument xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" xmlns:s=""clr-namespace:System;assembly=mscorlib"" ColumnWidth=""793.700787401575"" PageHeight=""1122.51968503937"" PageWidth=""793.700787401575"">
 		<FlowDocument.Resources>
 			<Style x:Key=""dataRowStyle"" TargetType=""TableRowGroup"">
 				<Style.Resources>
