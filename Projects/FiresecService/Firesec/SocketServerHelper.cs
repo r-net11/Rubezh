@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
@@ -29,7 +30,10 @@ namespace Firesec
 
 		public static void StopNTServiceIfRunning()
 		{
-			var service = new System.ServiceProcess.ServiceController("Borland Advanced Socket Server");
+			//var service = new System.ServiceProcess.ServiceController("Borland Advanced Socket Server");
+			var service = (from srv in System.ServiceProcess.ServiceController.GetServices()
+						   where srv.ServiceName == "Borland Advanced Socket Server"
+						   select srv).FirstOrDefault();
 			if ((service != null) && (service.Status == System.ServiceProcess.ServiceControllerStatus.Running))
 			{
 				try
@@ -104,7 +108,7 @@ namespace Firesec
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове NativeFiresecClient.GetSocketServerPath");
-				return @"C:\Program Files\Firesec\scktsrvr.exe";
+				return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Firesec\scktsrvr.exe");
 			}
 		}
 	}

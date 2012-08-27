@@ -4,24 +4,33 @@ using System;
 using Infrastructure.Common;
 using System.ComponentModel;
 using System.Windows.Data;
+using System.Windows.Input;
+using System.Windows.Documents;
+using System.Windows.Threading;
+using System.Threading;
+using Infrastructure.Common.Windows;
 
 namespace ReportsModule.Views
 {
 	public partial class ReportsView : UserControl, INotifyPropertyChanged
 	{
-		private double initialScale = 1;
+		private double _initialScale = 1;
+		private BackgroundWorker _worker = null;
 
 		public ReportsView()
 		{
 			InitializeComponent();
 			slider.ValueChanged += OnSliderValueChanged;
 			Loaded += new RoutedEventHandler(OnLoaded);
+			_scrollViewer.PreviewMouseWheel += new MouseWheelEventHandler(_scrollViewer_PreviewMouseWheel);
 
 			FirstPageCommand = new RelayCommand(OnFirstPage, CanFirstPage);
 			NextPageCommand = new RelayCommand(OnNextPage, CanNextPage);
 			PreviousPageCommand = new RelayCommand(OnPreviousPage, CanPreviousPage);
 			LastPageCommand = new RelayCommand(OnLastPage, CanLastPage);
-			WidthToPageCommand = new RelayCommand(OnWidthToPage, CanWidthToPage);
+			FitToWidthCommand = new RelayCommand(OnFitToWidth, CanFitToWidth);
+			FitlToHeightCommand = new RelayCommand(OnFitlToHeight, CanFitlToHeight);
+			FitToPageCommand = new RelayCommand(OnFitToPage, CanFitToPage);
 			PrintReportCommand = new RelayCommand(OnPrintReport, CanPrintReport);
 			ZoomInCommand = new RelayCommand(OnZoomIn, CanZoomIn);
 			ZoomOutCommand = new RelayCommand(OnZoomOut, CanZoomOut);
@@ -60,9 +69,7 @@ namespace ReportsModule.Views
 		{
 			if (e.NewValue == 0)
 				return;
-
-			scaleTransform.ScaleX = slider.Value * initialScale;
-			scaleTransform.ScaleY = slider.Value * initialScale;
+			Scale = slider.Value * _initialScale;
 		}
 
 		public RelayCommand FirstPageCommand { get; private set; }
@@ -119,34 +126,59 @@ namespace ReportsModule.Views
 			return _viewer.PageCount > 0;
 		}
 
-		public RelayCommand WidthToPageCommand { get; private set; }
-		private void OnWidthToPage()
+		public RelayCommand FitToWidthCommand { get; private set; }
+		private void OnFitToWidth()
 		{
-			double scaleX = (_scrollViewer.ActualWidth - 30) / _viewer.Width;
-			scaleTransform.ScaleX = scaleX;
-			scaleTransform.ScaleY = scaleX;
+			Scale = (_scrollViewer.ActualWidth - SystemParameters.VerticalScrollBarWidth) / _viewer.Width;
 		}
-		private bool CanWidthToPage()
+		private bool CanFitToWidth()
+		{
+			return true;
+		}
+		public RelayCommand FitlToHeightCommand { get; private set; }
+		private void OnFitlToHeight()
+		{
+			Scale = (_scrollViewer.ActualHeight - SystemParameters.HorizontalScrollBarHeight) / _viewer.Height;
+		}
+		private bool CanFitlToHeight()
+		{
+			return true;
+		}
+		public RelayCommand FitToPageCommand { get; private set; }
+		private void OnFitToPage()
+		{
+			Scale = 1;
+		}
+		private bool CanFitToPage()
 		{
 			return true;
 		}
 
 		public int TotalPageNumber
 		{
-			get { return _viewer.PageCount; }
+			get
+			{
+				int count = 0;
+				ApplicationService.Invoke(() => count = _viewer.PageCount);
+				return count;
+			}
 		}
 		public int CurrentPageNumber
 		{
 			get
 			{
 				OnPropertyChanged("TotalPageNumber");
-				return _viewer.MasterPageNumber; 
+				return _viewer.MasterPageNumber;
 			}
 			set
 			{
 				_viewer.GoToPage(value);
 				OnPropertyChanged("CurrentPageNumber");
 			}
+		}
+		public double PageBorderThickness
+		{
+			get { return 2.0 / Scale; }
 		}
 
 		#region INotifyPropertyChanged Members and helper
@@ -170,5 +202,68 @@ namespace ReportsModule.Views
 		}
 
 		#endregion
+
+		private double Scale
+		{
+			get { return scaleTransform.ScaleX; }
+			set
+			{
+				if (slider.Value * _initialScale == value)
+				{
+					scaleTransform.ScaleX = value;
+					scaleTransform.ScaleY = value;
+					OnPropertyChanged("PageBorderThickness");
+				}
+				else
+					slider.Value = value / _initialScale;
+			}
+		}
+
+		private void _scrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if (_scrollViewer.ContentVerticalOffset == _scrollViewer.ScrollableHeight && e.Delta < 0 && NextPageCommand.CanExecute(null))
+			{
+				NextPageCommand.Execute();
+				_scrollViewer.ScrollToTop();
+			}
+			else if (_scrollViewer.ContentVerticalOffset == 0 && e.Delta > 0 && PreviousPageCommand.CanExecute(null))
+			{
+				PreviousPageCommand.Execute();
+				_scrollViewer.ScrollToBottom();
+			}
+		}
+		private void _viewer_TargetUpdated(object sender, DataTransferEventArgs e)
+		{
+			if (_worker != null)
+			{
+				_worker.CancelAsync();
+				_worker = null;
+			}
+			_scrollViewer.ScrollToTop();
+			_scrollViewer.ScrollToLeftEnd();
+			_viewer.UpdateLayout();
+			OnPropertyChanged("CurrentPageNumber");
+			if (_viewer.Document != null)
+			{
+				_worker = new BackgroundWorker();
+				_worker.WorkerSupportsCancellation = true;
+				_worker.DoWork += new DoWorkEventHandler(UpdatePageCountWork);
+				_worker.RunWorkerAsync();
+			}
+		}
+
+		private void UpdatePageCountWork(object sender, DoWorkEventArgs e)
+		{
+			var worker = (BackgroundWorker)sender;
+			int count = 0;
+			while (count != TotalPageNumber && !worker.CancellationPending)
+			{
+				count = TotalPageNumber;
+				ApplicationService.Invoke(() => OnPropertyChanged("TotalPageNumber"));
+				Thread.Sleep(100);
+				if (count == TotalPageNumber && !worker.CancellationPending)
+					Thread.Sleep(200);
+			}
+		}
 	}
 }

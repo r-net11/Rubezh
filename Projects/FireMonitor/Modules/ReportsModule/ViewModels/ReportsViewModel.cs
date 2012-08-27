@@ -1,15 +1,56 @@
 ﻿using Infrastructure.Common;
+using System.Linq;
 using Infrastructure.Common.Windows.ViewModels;
 using ReportsModule.Views;
 using System.Windows.Documents;
 using System.Windows.Markup;
 using System.IO;
+using System.Collections.Generic;
+using FiresecAPI.Models;
+using System;
 
 namespace ReportsModule.ViewModels
 {
 	public class ReportsViewModel : ViewPartViewModel
 	{
 		public ReportsViewModel()
+		{
+			RefreshCommand = new RelayCommand(OnRefresh, CanRefresh);
+			FilterCommand = new RelayCommand(OnFilter, CanFilter);
+		}
+
+
+		public List<ReportType> AvailableReportTypes
+		{
+			get { return Enum.GetValues(typeof(ReportType)).Cast<ReportType>().ToList(); }
+		}
+
+		private FlowDocument _document;
+		public FlowDocument Document
+		{
+			get { return _document; }
+			private set
+			{
+				_document = value;
+				OnPropertyChanged("Document");
+			}
+		}
+
+		private ReportType? _selectedReportName;
+		public ReportType? SelectedReportName
+		{
+			get { return _selectedReportName; }
+			set
+			{
+				_selectedReportName = value;
+				OnPropertyChanged("SelectedReportName");
+				OnPropertyChanged("IsJournalReport");
+				RefreshCommand.Execute();
+			}
+		}
+
+		public RelayCommand RefreshCommand { get; private set; }
+		private void OnRefresh()
 		{
 			string flowDoucment = @"<FlowDocument xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"" xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml"" xmlns:s=""clr-namespace:System;assembly=mscorlib"" ColumnWidth=""793.700787401575"" PageHeight=""1122.51968503937"" PageWidth=""793.700787401575"">
 		<FlowDocument.Resources>
@@ -3140,9 +3181,21 @@ namespace ReportsModule.ViewModels
 			</Table>
 		</Section>
 	</FlowDocument>";
-				Document = (FlowDocument)XamlReader.Parse(flowDoucment);
+			Document = (FlowDocument)XamlReader.Parse(flowDoucment);
+		}
+		private bool CanRefresh()
+		{
+			return true;
 		}
 
-		public FlowDocument Document { get; private set; }
+		public RelayCommand FilterCommand { get; private set; }
+		private void OnFilter()
+		{
+		}
+		private bool CanFilter()
+		{
+			return SelectedReportName == ReportType.ReportJournal;
+		}
+
 	}
 }

@@ -2,24 +2,61 @@
 	<Border Grid.Column="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Padding="5">
 		<Grid>
 			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
-			<ScrollViewer Name="_scrollViewer" Grid.Row="0" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
-				<Grid Name="_grid">
+			<Grid Grid.Row="0" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+
+				<StackPanel Grid.Column="0" Orientation="Horizontal">
+					<ComboBox Height="25" MinWidth="150" Margin="5, 0, 0, 0" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ItemsSource="{Binding AvailableReportTypes}" SelectedItem="{Binding SelectedReportName}">
+						<ComboBox.ItemTemplate>
+							<DataTemplate>
+								<TextBlock Text="{Binding ., Converter={StaticResource ReportTypeToStringConverter}}" />
+							</DataTemplate>
+						</ComboBox.ItemTemplate>
+					</ComboBox>
+					<Controls:ToolBarButton Command="{Binding RefreshCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить отчет" />
+					<Controls:ToolBarButton Command="{Binding FilterCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Задать фильтр" />
+
+					<Controls:ToolBarButton Command="{Binding FirstPageCommand}" ImageSource="/Controls;component/Images/LeftLeft.png" ToolTip="Начальная страница" />
+					<Controls:ToolBarButton Command="{Binding PreviousPageCommand}" ImageSource="/Controls;component/Images/Left.png" ToolTip="Предыдущая страница" />
+					<TextBox Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" Text="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+					<Label VerticalContentAlignment="Center" Content="/" FontSize="20" />
+					<Label VerticalContentAlignment="Center" Content="{Binding TotalPageNumber}" FontSize="20" />
+					<Controls:ToolBarButton Command="{Binding NextPageCommand}" ImageSource="/Controls;component/Images/Right.png" ToolTip="Следующая страница" />
+					<Controls:ToolBarButton Command="{Binding LastPageCommand}" ImageSource="/Controls;component/Images/RightRight.png" ToolTip="Последняя страница" />
+					<Controls:ToolBarButton Command="{Binding PrintReportCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать отчета" />
+					<Controls:ToolBarButton Command="{Binding FitToWidthCommand}" ImageSource="/Controls;component/Images/FidthToPage.png" ToolTip="По ширине страницы" />
+					<Controls:ToolBarButton Command="{Binding FitlToHeightCommand}" ImageSource="/Controls;component/Images/FidthToPage.png" ToolTip="По высоте страницы" />
+					<Controls:ToolBarButton Command="{Binding FitToPageCommand}" ImageSource="/Controls;component/Images/FidthToPage.png" ToolTip="Исходный размер" />
+				</StackPanel>
+
+				<Controls:ToolBarButton Grid.Column="1" Command="{Binding ZoomOutCommand}" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб плана" />
+				<Slider x:Name="slider" Grid.Column="2" VerticalAlignment="Center" Maximum="5" Minimum="0.1" Orientation="Horizontal" Value="1" />
+				<Controls:ToolBarButton Grid.Column="3" Command="{Binding ZoomInCommand}" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить масштаб плана" />
+			</Grid>
+
+			<ScrollViewer Name="_scrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+				<Grid>
 					<Grid.LayoutTransform>
 						<TransformGroup>
 							<ScaleTransform x:Name="scaleTransform" />
 						</TransformGroup>
 					</Grid.LayoutTransform>
 					<Border Background="LightGray">
-						<FlowDocumentPageViewer x:Name="_viewer" Width="500" Height="707.14" HorizontalContentAlignment="Center" Background="White" BorderBrush="Black" BorderThickness="3" Document="{Binding Document}" IsManipulationEnabled="False">
+						<FlowDocumentPageViewer x:Name="_viewer" Width="500" Height="707.14" Background="White" BorderBrush="Black" BorderThickness="{Binding PageBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" Document="{Binding Document, NotifyOnTargetUpdated=True}" TargetUpdated="_viewer_TargetUpdated" IsHitTestVisible="False">
 							<FlowDocumentPageViewer.Template>
 								<ControlTemplate TargetType="{x:Type FlowDocumentPageViewer}">
-									<Border Margin="0" HorizontalAlignment="{TemplateBinding Control.HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding Control.VerticalContentAlignment}" Background="{TemplateBinding Border.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}">
+									<Border Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{TemplateBinding Border.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}">
 										<AdornerDecorator ClipToBounds="True">
-											<DocumentPageView DocumentPaginator="{x:Null}" DocumentViewerBase.IsMasterPage="True" KeyboardNavigation.IsTabStop="False" KeyboardNavigation.TabIndex="1" KeyboardNavigation.TabNavigation="Local" PageNumber="0" x:Uid="DocumentPageView_1" />
+											<DocumentPageView DocumentPaginator="{x:Null}" DocumentViewerBase.IsMasterPage="True" KeyboardNavigation.IsTabStop="False" KeyboardNavigation.TabIndex="1" KeyboardNavigation.TabNavigation="Local" PageNumber="0" />
 										</AdornerDecorator>
 									</Border>
 								</ControlTemplate>
@@ -29,30 +66,6 @@
 				</Grid>
 			</ScrollViewer>
 
-			<Grid Grid.Row="1" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-				</Grid.ColumnDefinitions>
-
-				<StackPanel Grid.Column="0" Orientation="Horizontal">
-					<Controls:ToolBarButton Command="{Binding FirstPageCommand}" ImageSource="/Controls;component/Images/LeftLeft.png" ToolTip="Начальная страница" />
-					<Controls:ToolBarButton Command="{Binding PreviousPageCommand}" ImageSource="/Controls;component/Images/Left.png" ToolTip="Предыдущая страница" />
-					<TextBox Height="30" MinWidth="25" MinHeight="25" HorizontalContentAlignment="Center" VerticalContentAlignment="Stretch" FontSize="20" Text="{Binding CurrentPageNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-					<Label VerticalContentAlignment="Center" Content="/" FontSize="20" />
-					<Label VerticalContentAlignment="Center" Content="{Binding TotalPageNumber}" FontSize="20" />
-					<Controls:ToolBarButton Command="{Binding NextPageCommand}" ImageSource="/Controls;component/Images/Right.png" ToolTip="Следующая страница" />
-					<Controls:ToolBarButton Command="{Binding LastPageCommand}" ImageSource="/Controls;component/Images/RightRight.png" ToolTip="Последняя страница" />
-					<Controls:ToolBarButton Command="{Binding PrintReportCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать отчета" />
-					<Controls:ToolBarButton Command="{Binding WidthToPageCommand}" ImageSource="/Controls;component/Images/FidthToPage.png" ToolTip="По размеру страницы" />
-				</StackPanel>
-
-				<Controls:ToolBarButton Grid.Column="1" Command="{Binding ZoomOutCommand}" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб плана" />
-				<Slider x:Name="slider" Grid.Column="2" VerticalAlignment="Center" Maximum="10" Minimum="0.1" Orientation="Horizontal" Value="1" />
-				<Controls:ToolBarButton Grid.Column="3" Command="{Binding ZoomInCommand}" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить масштаб плана" />
-			</Grid>
 		</Grid>
 	</Border>
 </UserControl>
