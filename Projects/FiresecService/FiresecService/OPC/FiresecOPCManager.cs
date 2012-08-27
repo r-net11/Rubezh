@@ -214,7 +214,6 @@ namespace FiresecService.OPC
 					var tagZone = TagZones.FirstOrDefault(x => x.ZoneState.No == zoneState.No);
 					if (tagZone == null)
 					{
-						Logger.Error("FiresecOPCManager.OnZoneStatesChanged tagZone = null");
 						return;
 					}
 					if (tagZone.ZoneState == null)

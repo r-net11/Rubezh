@@ -4,6 +4,7 @@ using System.Text;
 using FiresecAPI.Models;
 using FiresecService.Processor;
 using FiresecService.Service;
+using Common;
 
 namespace FiresecService.Configuration
 {
@@ -122,7 +123,14 @@ namespace FiresecService.Configuration
 
 		public void SynchronyzeConfiguration()
 		{
-			var firesecDeviceConfiguration = ConvertOnlyDevices(FiresecSerializedClient.GetCoreConfig().Result);
+			var coreConfig = FiresecSerializedClient.GetCoreConfig().Result;
+			if (coreConfig == null)
+			{
+				Logger.Error("SynchronyzeConfiguration coreConfig=null");
+				return;
+			}
+
+			var firesecDeviceConfiguration = ConvertOnlyDevices(coreConfig);
 			Update(firesecDeviceConfiguration);
 			firesecDeviceConfiguration.Update();
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)

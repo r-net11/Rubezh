@@ -16,7 +16,7 @@ namespace DevicesModule.ViewModels
         {
             _device = device;
             _isUsb = isUsb;
-            ServiceFactory.ProgressService.Run(OnPropgress, OnlCompleted, _device.PresentationAddressAndDriver + ". Чтение конфигурации из устройства");
+            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, _device.PresentationAddressAndDriver + ". Чтение конфигурации из устройства");
         }
 
         static void OnPropgress()
@@ -24,7 +24,7 @@ namespace DevicesModule.ViewModels
             _operationResult = FiresecManager.DeviceReadConfiguration(_device.UID, _isUsb);
         }
 
-        static void OnlCompleted()
+        static void OnCompleted()
         {
             if (_operationResult.HasError)
             {

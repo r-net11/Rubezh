@@ -50,7 +50,7 @@
 
     <DirectoryRef Id="INTL">
       <Component Id="FsFbintlDll" Guid="*" Permanent="yes">
-        <File Id="FsFbintlDllFile" Name="fbintl.dll" Source="$(var.OldFiresecService.TargetDir)" KeyPath="yes" />
+        <File Id="FsFbintlDllFile" Name="fbintl.dll" Source="$(var.OldFiresecService.TargetDir)intl\" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 

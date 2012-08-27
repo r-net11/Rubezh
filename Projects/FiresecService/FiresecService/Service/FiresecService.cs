@@ -136,7 +136,6 @@ namespace FiresecService.Service
 
 		public void Disconnect()
 		{
-			Logger.Info("FiresecService.Disconnect");
 			ClientsCash.Remove(this);
 			DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Выход пользователя из системы(Firesec-2)");
 		}

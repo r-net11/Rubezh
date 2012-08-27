@@ -18,7 +18,7 @@
 <driverConfig
   validChars="АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщыьъэюя- .1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz`~!@#$;%^:&amp;?*()-_=+|[]'&lt;&gt;,\&quot;\\/{}&#xD;"
   timeSliceType="0"
-  connectionLostDelay="30">
+  connectionLostDelay="0">
     
   
 <!-- Словари -->
@@ -971,34 +971,34 @@
     
     </deviceTable>
 
-    <deviceTable tableType="22" recordType="device"
-      deviceDriverID ="713702A8-E3A1-4328-9A43-DE9CB5167133"
-	  deviceClassID= "89C01469-69B7-4AAD-907A-0868DF5E167C"
-      deviceName="Модуль речевого оповещения (исполнение 2)"
-      shortName="МРО-2(исп.2)"
+    <deviceTable tableType="-1" recordType="composite"
+      deviceDriverID ="6636AF15-F8D7-44F8-8AA3-62DA77B41B42"
+	  deviceClassID= "8EA0168B-C139-44C7-8670-82ACE6C3D6A2"
+      deviceName="Шкаф управления вентиляцией"
+      shortName="ШУВ"
       addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
-      minOutputDeviceCount="1"
-      maxOutputDeviceCount="-1"
+      minOutputDeviceCount="-1"
+      maxOutputDeviceCount="0"
       IgnoreInZoneState="1"
-      IsOutDevice="1"
-      Icon="МРО"
+      IsOutDevice="0"
+	  deviceCount="2"
+      Icon="МПТ"
       type="fire"
-      category="effector">
+      category="transport">
 
       <detalization class="2" dictionary="МРОи2_Неисправности" />
       <detalization class="6" dictionary="МРОи2_Неисправности" />
       <detalization class="1" dictionary="МРО_Сработки" />
       
     </deviceTable>	
-
-    <deviceTable tableType="23" recordType="device"
+	
+    <deviceTable tableType="23" recordType="outputDevice"
       deviceDriverID ="8DA221DE-A2BF-4C71-AE63-B9C1E2CA024B"
 	  deviceClassID= "0EDC263E-E2AA-479F-8F4A-ADBF5DD8639E"
       deviceName="Вентилятор"
       shortName="Вентилятор"
-      addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
-      minOutputDeviceCount="-1"
-      maxOutputDeviceCount="0"
+      minOutputDeviceCount="0"
+      maxOutputDeviceCount="1"
       IgnoreInZoneState="1"
       IsOutDevice="1"
       Icon="МПТ"
@@ -1011,16 +1011,15 @@
       
     </deviceTable>	
 
-    <deviceTable tableType="24" recordType="device"
+    <deviceTable tableType="24" recordType="outputDevice"
       deviceDriverID ="8A18E2E6-7ED7-4D3F-8DFA-1E042671F072"
 	  deviceClassID= "0EDC263E-E2AA-479F-8F4A-ADBF5DD8639E"
       deviceName="Клапан"
       shortName="Клапан"
-      addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
-      minOutputDeviceCount="0"
-      maxOutputDeviceCount="1"
+      minOutputDeviceCount="1"
+      maxOutputDeviceCount="2"
       IgnoreInZoneState="1"
-      IsOutDevice="1"
+      IsOutDevice="0"
       Icon="МПТ"
       type="fire"
       category="effector">
@@ -1043,6 +1042,7 @@
       shortName="АМ-4"
       deviceCount="4"
       type="fire"
+	  BaseDevice="1"
       Icon="Device_Connector"
       category="transport"
     />
@@ -1251,7 +1251,7 @@
     <event rawEventCode="$3c" eventClass="6" eventMessage="Нажатие кнопки" hasDevice="1"/>
     <event rawEventCode="$3d" eventClass="6" eventClass1="2" eventClass2="2" eventMessage="[Давление в норме/Давление ниже нормы/Давление выше нормы]" hasDevice="1"/>
     <event rawEventCode="$3f" eventClass="6" eventClass1="1" eventMessage="[Тест зоны снят/Тест зоны]" hasZoneExt="1" hasGap3="1" hasPassword="1"/>
-    <event rawEventCode="$3e" eventClass="6" eventMessage="[Эмуляция останова ИУ/Эмуляция запуска ИУ]" hasDevice="1"/>    
+    <event rawEventCode="$3e" eventClass="6" eventMessage="[Имитация выключения ИУ/Имитация включения ИУ]" hasDevice="1"/>    
     <event rawEventCode="$40" eventClass="6" eventClass1="6" eventMessage="[Неисправность АСПТ/Автоматический режим АСПТ/Ручной режим АСПТ/Отключение АСПТ]" hasDevice="1"/>
     <event rawEventCode="$41" eventClass="6" eventClass1="6" eventMessage="[Останов АСПТ/Запуск АСПТ]" hasDevice="1"/>
     <event rawEventCode="$42" eventClass="6" eventClass1="6" eventMessage="[Попытка запуска АСПТ/Ручной запуск АСПТ]" hasDevice="0"/>
@@ -1262,6 +1262,7 @@
 		<detailsFor tableType="7" dictionary="АМ1о_Неисправности" />
     </event> 
     <event rawEventCode="$47" eventClass="6" eventClass1="6" eventMessage="Неверный [/ключ/пароль/внешний ключ]"/>
+	<event rawEventCode="$48" eventClass="6" eventClass1="6" eventMessage="[Тестовый режим отключен/Тестовый режим включен]"/>
     <event rawEventCode="$4a" eventClass="6" eventClass1="6" eventMessage="[Включение вывода/Отключение вывода]" hasDevice="0"/>
 
     <event rawEventCode="$50" eventClass="6" eventClass1="2" eventMessage="Ошибка доставки сообщения УОО-ТЛ [устранена/]"/>
@@ -1366,6 +1367,7 @@
     <deviceState class="0" notForTableType="14" name="Тревога" bitNo="2" zoneBitNo="2" ID="Alarm" type="Fire" CanResetOnPanel="1">
       <enter event1="$01"/>
       <leave zoneEvent="$32"/>
+      <leave panelState="2"/>
     </deviceState>
 
     <deviceState class="1" notForTableType="14" name="Внимание" bitNo="2" zoneBitNo="5" ID="Warning" type="Fire" CanResetOnPanel="1">
@@ -1561,7 +1563,7 @@
 
     <deviceState tableType="13" class="1" name="Автоматика отключена" ID="Bolt_PanelAutoOff" bitno="6" type="Auto" ManualReset="1">
       <enter event1="$34"/>
-      <leave event="$34"/> 
+      <leave event="$34"/>
     </deviceState>
 
     <deviceState tableType="13" class="7" name="Автоматика включена" ID="Bolt_PanelAutoOn" bitno="6" inverse="1" type="Auto">
@@ -1672,8 +1674,6 @@
       <enter event1="$41"/>
       <leave event="$41" />
     </deviceState>
-
-    
     
     <!-- Состояния МДУ-1 -->
     <deviceState tableType="18" class="7" name="Задержанный запуск" intBitno="1" ID="MDU_DelayLaunch" type="Fire"/>
@@ -1700,7 +1700,13 @@
       <leave event="$83"/>
       <leave event1="$83"/>
     </deviceState>
-    
+
+    <deviceState tableType="19" class="6" name="Включен" Bitno="6" ID="Output_On" type="security">
+      <enter event1="$83"/>
+      <leave event="$83"/>
+      <leave event2="$83"/>
+    </deviceState>
+	
     <!-- Состояния насосов -->   
      <deviceState tableType="1024" class="6" name="Насос включен" ID="Pump1024_On" Bitno="5" type="Fire"> 
       <enter event20="$35"/> 
@@ -1873,18 +1879,6 @@
     <devicePropInfo tableType="12" class="1" name="Run" command1="$0F" shiftInMemory="$80" commandDev="$01" maskCmdDev="$41" caption="Включение" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
     <devicePropInfo tableType="12" class="1" name="RunWODelay" command1="$0F" shiftInMemory="$80" commandDev="$41" maskCmdDev="$41" caption="Включение без задержки" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="1" off="0" expectedState="MRO_On"/>
     <devicePropInfo tableType="12" class="1" name="Stop" command1="$0F" shiftInMemory="$80" commandDev="$00" maskCmdDev="$41" caption="Выключение" hint="Останов устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="2" off="1" expectedState="MRO_On"/>
-
-  	<!-- МРО-2 исп.2 -->
-    <devicePropInfo tableType="22" class="1" name="Run" command1="$03" shiftInMemory="$80" commandDev="$01" maskCmdDev="$43" caption="Включение" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
-    <devicePropInfo tableType="22" class="1" name="RunWODelay" command1="$03" shiftInMemory="$80" commandDev="$41" maskCmdDev="$43" caption="Включение без задержки" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="1" off="0" expectedState="MRO_On"/>
-    <devicePropInfo tableType="22" class="1" name="Stop" command1="$03" shiftInMemory="$80" commandDev="$00" maskCmdDev="$01" caption="Выключение" hint="Останов устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="2" off="1" expectedState="MRO_On"/>
-
-    <devicePropInfo tableType="22" class="1" name="LineOn" command1="$03" shiftInMemory="$80" commandDev="$43" maskCmdDev="$43" caption="Включить лин. вход" hint="Запуск устройства" hidden="0" blockName="Линейный вход" imageIndex="5" off="0" expectedState="MRO_On"/>
-    <devicePropInfo tableType="22" class="1" name="LineOff" command1="$03" shiftInMemory="$80" commandDev="$00" maskCmdDev="$03" caption="Выключить лин. вход" hint="Останов устройства" hidden="0" blockName="Линейный вход" imageIndex="6" off="1"/>
-
-    <devicePropInfo tableType="22" class="1" name="TestRun" command1="$03" shiftInMemory="$05" commandDev="$04" maskCmdDev="$04" caption="Тест. вкл." hint="Тестовый запуск устройства" hidden="0" blockName="Тест" imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
-    <devicePropInfo tableType="22" class="1" name="TestRunWODelay" command1="$03" shiftInMemory="$05" commandDev="$04" maskCmdDev="$0C" caption="Тест. вкл. без задержки" hint="Тестовый запуск устройства" hidden="0" blockName="Тест" imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
-    <devicePropInfo tableType="22" class="1" name="TestStop" command1="$03" shiftInMemory="$05" commandDev="$00" maskCmdDev="$0C" caption="Тест. выкл." hint="Тестовый останов устройства" hidden="0" blockName="Тест" imageIndex="0" Delay="1" off="0" expectedState="MRO_On"/>
 
 	<!-- МДУ-1 -->
     <devicePropInfo tableType="18" class="1" name="Run" command1="$03" shiftInMemory="$80" commandDev="$06" maskCmdDev="$06" caption="Включение" hint="Запуск устройства" hidden="0" blockName="Вкл. Выкл." imageIndex="0" Delay="1" off="0" expectedState="ClapanOn1e"/>

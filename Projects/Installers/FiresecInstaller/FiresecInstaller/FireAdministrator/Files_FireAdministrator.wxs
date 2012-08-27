@@ -42,7 +42,7 @@
 
       <Component Id="FAGKModuleComponent" Guid="22417D7C-1CF4-4405-A146-9442A351EF62">
         <File Id="FAGroupControllerModuleDll" Name="GKModule.dll" Source="$(var.FireAdministrator.TargetDir)" KeyPath="yes" />
-        <File Id="FACommonGKDll" Name="Common.GK.dll" Source="$(var.FireAdministrator.TargetDir)" />
+        <!--<File Id="FACommonGKDll" Name="Common.GK.dll" Source="$(var.FireAdministrator.TargetDir)" />-->
         <Condition>GK_MODULE</Condition>
       </Component>
 

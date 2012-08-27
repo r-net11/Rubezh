@@ -13,6 +13,8 @@ namespace FiresecService
             AppSettings.DoNotOverrideFiresec1Config = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["DoNotOverrideFiresec1Config"] as string);
             AppSettings.IsImitatorEnabled = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["IsImitatorEnabled"] as string);
             AppSettings.IsOPCEnabled = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["IsOPCEnabled"] as string);
+			AppSettings.IsFSEnabled = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["IsFSEnabled"] as string);
+			AppSettings.IsGKEnabled = Convert.ToBoolean(System.Configuration.ConfigurationManager.AppSettings["IsGKEnabled"] as string);
 #if DEBUG
             AppSettings.IsDebug = true;
 #endif

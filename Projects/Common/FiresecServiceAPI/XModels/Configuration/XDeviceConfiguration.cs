@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using FiresecAPI.Models;
 
 namespace XFiresecAPI
 {
     [DataContract]
-    public class XDeviceConfiguration
+	public class XDeviceConfiguration : VersionedConfiguration
     {
         public XDeviceConfiguration()
         {

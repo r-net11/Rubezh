@@ -85,7 +85,19 @@ namespace DevicesModule.ViewModels
 
 		public bool CanControl
 		{
-			get { return Device.Driver.HasControlProperties && ServiceFactory.AppSettings.CanControl && !FiresecManager.FiresecConfiguration.IsChildMPT(Device); }
+			get
+			{
+				var canControl = false;
+				var controlProperty = Device.Properties.FirstOrDefault(x => x.Name == "AllowControl");
+				if (controlProperty != null)
+				{
+					if (controlProperty.Value == "1")
+						canControl = true;
+				}
+
+				return Device.Driver.HasControlProperties && ServiceFactory.AppSettings.CanControl &&
+				!FiresecManager.FiresecConfiguration.IsChildMPT(Device) && canControl;
+			}
 		}
 
 		bool _isControlTabSelected;

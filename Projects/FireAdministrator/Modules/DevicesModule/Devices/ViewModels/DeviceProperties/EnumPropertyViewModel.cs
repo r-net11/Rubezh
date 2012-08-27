@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using Common;
 
 namespace DevicesModule.DeviceProperties
 {
@@ -9,9 +10,40 @@ namespace DevicesModule.DeviceProperties
 		public EnumPropertyViewModel(DriverProperty driverProperty, Device device)
 			: base(driverProperty, device)
 		{
+			if (driverProperty == null)
+			{
+				Logger.Error("EnumPropertyViewModel driverProperty = null");
+				return;
+			}
+			if (device == null)
+			{
+				Logger.Error("EnumPropertyViewModel device = null");
+				return;
+			}
+			if (driverProperty.Name == null)
+			{
+				Logger.Error("EnumPropertyViewModel driverProperty.Name = null");
+				return;
+			}
+			if (device.Properties == null)
+			{
+				Logger.Error("EnumPropertyViewModel device.Properties = null");
+				return;
+			}
+			if (driverProperty.Parameters == null)
+			{
+				Logger.Error("EnumPropertyViewModel driverProperty.Parameters = null");
+				return;
+			}
+
 			var property = device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
 			if (property != null)
 			{
+				if (property.Value == null)
+				{
+					Logger.Error("EnumPropertyViewModel property.Value = null");
+					return;
+				}
 				var driverPropertyParameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
 				if (driverPropertyParameter != null)
 				{
@@ -20,6 +52,11 @@ namespace DevicesModule.DeviceProperties
 			}
 			else
 			{
+				if (driverProperty.Default == null)
+				{
+					Logger.Error("EnumPropertyViewModel driverProperty.Default = null");
+					return;
+				}
 				var enumdriverProperty = driverProperty.Parameters.FirstOrDefault(x => x.Value == driverProperty.Default);
 				if (enumdriverProperty != null)
 					_selectedValue = enumdriverProperty.Name;

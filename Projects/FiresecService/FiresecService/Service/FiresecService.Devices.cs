@@ -164,6 +164,11 @@ namespace FiresecService.Service
 				HasError = result.HasError,
 				Error = result.ErrorString
 			};
+			if (operationResult.HasError)
+				return operationResult;
+
+			if (result.Result == null)
+				return new OperationResult<DeviceConfiguration>("Ошибка. Получена пустая конфигурация");
 
 			var configurationManager = new ConfigurationConverter();
 			operationResult.Result = configurationManager.ConvertOnlyDevices(result.Result);
@@ -181,6 +186,11 @@ namespace FiresecService.Service
 				HasError = result.HasError,
 				Error = result.ErrorString
 			};
+			if(operationResult.HasError)
+				return operationResult;
+
+			if (result.Result == null)
+				return new OperationResult<DeviceConfiguration>("Ошибка. Получена пустая конфигурация");
 
 			var configurationManager = new ConfigurationConverter();
 			operationResult.Result = configurationManager.ConvertOnlyDevices(result.Result);

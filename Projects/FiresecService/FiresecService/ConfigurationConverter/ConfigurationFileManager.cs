@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Common;
 using FiresecAPI.Models;
+using XFiresecAPI;
 
 namespace FiresecService.Configuration
 {
@@ -15,6 +16,7 @@ namespace FiresecService.Configuration
 		readonly static string DeviceConfigurationFileName = "DeviceConfiguration.xml";
 		readonly static string SecurityConfigurationFileName = "SecurityConfiguration.xml";
 		readonly static string DriversConfigurationFileName = "DriversConfiguration.xml";
+		readonly static string XDeviceConfigurationFileName = "XDeviceConfiguration.xml";
 
 		public static string ConfigurationDirectory(string FileNameOrDirectory)
 		{
@@ -91,6 +93,26 @@ namespace FiresecService.Configuration
 		public static void SetDriversConfiguration(DriversConfiguration driversConfiguration)
 		{
 			Set<DriversConfiguration>(driversConfiguration, DriversConfigurationFileName);
+		}
+
+		public static XDeviceConfiguration GetXDeviceConfiguration()
+		{
+			var deviceConfiguration = Get<XDeviceConfiguration>(XDeviceConfigurationFileName);
+			if (deviceConfiguration.RootDevice == null)
+			{
+				var device = new XDevice();
+				device.DriverUID = new Guid("938947C5-4624-4A1A-939C-60AEEBF7B65C");
+				deviceConfiguration.Devices.Add(device);
+				deviceConfiguration.RootDevice = device;
+
+				SetXDeviceConfiguration(deviceConfiguration);
+			}
+			return deviceConfiguration;
+		}
+
+		public static void SetXDeviceConfiguration(XDeviceConfiguration deviceConfiguration)
+		{
+			Set<XDeviceConfiguration>(deviceConfiguration, XDeviceConfigurationFileName);
 		}
 
 		public static T Get<T>(string fileName)
