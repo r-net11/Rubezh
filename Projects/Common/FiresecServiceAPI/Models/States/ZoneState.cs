@@ -11,7 +11,6 @@ namespace FiresecAPI.Models
 			StateType = StateType.No;
 		}
 
-		public bool IsOnGuard { get; set; }
 		public Zone Zone { get; set; }
 
 		[DataMember]

@@ -9,9 +9,7 @@ namespace FiresecAPI.Models
         public DriverProperty()
         {
             Parameters = new List<DriverPropertyParameter>();
-			AlternativePareterNames = new List<string>();
 			IsHeighByte = true;
-			IsLowByte = false;
         }
 
         [DataMember]
@@ -47,22 +45,19 @@ namespace FiresecAPI.Models
 		// свойства для конфигурации параметров устройств
 
 		[DataMember]
-		public bool IsInternalDeviceParameter { get; set; }
+		public bool IsAUParameter { get; set; }
 
 		[DataMember]
 		public byte No { get; set; }
 
 		[DataMember]
-		public int Offset { get; set; }
+		public int BitOffset { get; set; }
 
 		[DataMember]
-		public int MinOffset { get; set; }
+		public int MinBit { get; set; }
 
 		[DataMember]
-		public int MaxOffset { get; set; }
-
-		[DataMember]
-		public List<string> AlternativePareterNames { get; set; }
+		public int MaxBit { get; set; }
 
 		[DataMember]
 		public ushort Min { get; set; }
@@ -72,8 +67,5 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool IsHeighByte { get; set; }
-
-		[DataMember]
-		public bool IsLowByte { get; set; }
     }
 }

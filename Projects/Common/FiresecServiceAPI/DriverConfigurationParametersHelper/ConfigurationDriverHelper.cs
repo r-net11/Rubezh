@@ -7,12 +7,12 @@ namespace FiresecAPI.Models
 		{
 			var property = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
 				Default = "0",
-				Offset = offset
+				BitOffset = offset
 			};
 			var parameter1 = new DriverPropertyParameter()
 			{
@@ -33,31 +33,30 @@ namespace FiresecAPI.Models
 		{
 			var property = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
 				DriverPropertyType = DriverPropertyTypeEnum.BoolType,
-				Offset = offset
+				BitOffset = offset
 			};
 			driver.Properties.Add(property);
 		}
 
-		public static void AddIntProprety(Driver driver, byte no, string propertyName, int offset, int defaultValue, int min, int max, bool isHeighByte = true, bool isLowByte = false)
+		public static void AddIntProprety(Driver driver, byte no, string propertyName, int offset, int defaultValue, int min, int max, bool isHeighByte = true)
 		{
 			var property = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
-				Offset = offset,
+				BitOffset = offset,
 				Default = defaultValue.ToString(),
 				Min = (ushort)min,
 				Max = (ushort)max,
 				IsHeighByte = isHeighByte,
-				IsLowByte = isLowByte
 			};
 			driver.Properties.Add(property);
 		}
@@ -67,17 +66,6 @@ namespace FiresecAPI.Models
 			var parameter = new DriverPropertyParameter()
 			{
 				Name = name,
-				Value = value.ToString()
-			};
-			property.Parameters.Add(parameter);
-		}
-
-		public static void AddAlternativePropertyParameter(DriverProperty property, string name, string alternativeName, int value)
-		{
-			var parameter = new DriverPropertyParameter()
-			{
-				Name = name,
-				AlternativeName = alternativeName,
 				Value = value.ToString()
 			};
 			property.Parameters.Add(parameter);

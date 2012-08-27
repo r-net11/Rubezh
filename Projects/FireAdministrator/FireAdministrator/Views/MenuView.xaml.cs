@@ -173,6 +173,7 @@ namespace FireAdministrator.Views
                     CopyTo(LoadFromFile(openDialog.FileName));
 
                     FiresecManager.UpdateConfiguration();
+					XManager.UpdateConfiguration();
                     ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
                     ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
@@ -196,7 +197,6 @@ namespace FireAdministrator.Views
                 SecurityConfiguration = FiresecManager.SecurityConfiguration,
                 SystemConfiguration = FiresecManager.SystemConfiguration,
                 XDeviceConfiguration = XManager.DeviceConfiguration,
-                XDriversConfiguration = XManager.DriversConfiguration,
                 Version = new ConfigurationVersion() { MajorVersion = 1, MinorVersion = 1 }
             };
         }
@@ -209,7 +209,6 @@ namespace FireAdministrator.Views
             FiresecManager.SecurityConfiguration = fullConfiguration.SecurityConfiguration;
             FiresecManager.SystemConfiguration = fullConfiguration.SystemConfiguration;
             XManager.DeviceConfiguration = fullConfiguration.XDeviceConfiguration;
-            XManager.DriversConfiguration = fullConfiguration.XDriversConfiguration;
         }
 
         FullConfiguration LoadFromFile(string fileName)

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Common.GK;
+//using Common.GK.Journal;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using Common.GK.Journal;
+using Common.GK;
 
 namespace GKModule.ViewModels
 {

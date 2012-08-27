@@ -6,7 +6,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using System.Windows.Input;
 using Infrastructure.Common;
 using Common.GK;
-using Common.GK.Journal;
+//using Common.GK.Journal;
 
 
 namespace SettingsModule.ViewModels

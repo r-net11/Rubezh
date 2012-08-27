@@ -30,7 +30,7 @@ namespace Common.GK
                 ToolTip = "Режим работы индикатора",
                 Default = 1,
                 DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
-                IsInternalDeviceParameter = true
+                IsAUParameter = true
             };
 			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Выключено", Value = 0 });
 			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Включено", Value = 1 });
@@ -46,7 +46,7 @@ namespace Common.GK
                     ToolTip = "Продолжительность горения для режима 2",
                     Default = 0,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-                    IsInternalDeviceParameter = true
+                    IsAUParameter = true
                 }
                 );
 
@@ -59,7 +59,7 @@ namespace Common.GK
                     ToolTip = "Продолжительность гашения для режима 2",
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
                     Default = 0,
-                    IsInternalDeviceParameter = true
+                    IsAUParameter = true
                 }
                 );
 

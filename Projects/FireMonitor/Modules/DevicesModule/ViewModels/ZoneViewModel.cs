@@ -45,6 +45,7 @@ namespace DevicesModule.ViewModels
 		{
 			StateType = ZoneState.StateType;
 			OnPropertyChanged("ZoneState");
+			OnPropertyChanged("Tooltip");
 		}
 
 		StateType _stateType;
@@ -67,6 +68,18 @@ namespace DevicesModule.ViewModels
 				if (Zone.ZoneType == ZoneType.Fire)
 				{
 					toolTip += "\n" + "Количество датчиков для сработки: " + Zone.DetectorCount.ToString();
+				}
+				if (Zone.ZoneType == ZoneType.Guard)
+				{
+					if (FiresecManager.IsZoneOnGuardAlarm(ZoneState))
+						toolTip += "\n" + "Охранная тревога";
+					else
+					{
+						if (FiresecManager.IsZoneOnGuard(ZoneState))
+							toolTip += "\n" + "На охране";
+						else
+							toolTip += "\n" + "Не на охране";
+					}
 				}
 				return toolTip;
 			}
@@ -103,21 +116,23 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SetGuardCommand { get; private set; }
 		void OnSetGuard()
 		{
-			FiresecManager.SetZoneGuard(Zone);
+			if (ServiceFactory.SecurityService.Validate())
+				FiresecManager.SetZoneGuard(Zone);
 		}
 		bool CanSetGuard()
 		{
-			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (ZoneState.IsOnGuard == false));
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (FiresecManager.IsZoneOnGuard(ZoneState) == false));
 		}
 
 		public RelayCommand UnSetGuardCommand { get; private set; }
 		void OnUnSetGuard()
 		{
-			FiresecManager.UnSetZoneGuard(Zone);
+			if (ServiceFactory.SecurityService.Validate())
+				FiresecManager.UnSetZoneGuard(Zone);
 		}
 		bool CanUnSetGuard()
 		{
-			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (ZoneState.IsOnGuard == true));
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (FiresecManager.IsZoneOnGuard(ZoneState) == true));
 		}
 	}
 }

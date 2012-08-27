@@ -10,7 +10,7 @@ namespace FiresecAPI.Models
 
 			var property1 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x82,
 				Name = "Конфигурация релейного модуля",
 				Caption = "Конфигурация релейного модуля",
@@ -24,8 +24,8 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddPropertyParameter(property1, "Мерцает/Замкнуто", 6);
 			driver.Properties.Add(property1);
 
-			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Задержка на пуск", -8, 0, 0, 250, true, false);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Время удержания", 8, 0, 0, 250, false, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Задержка на пуск", 0, 0, 0, 250, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Время удержания", 0, 0, 0, 250, false);
 		}
 	}
 }

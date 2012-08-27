@@ -27,9 +27,9 @@ namespace DevicesModule.DeviceProperties
 			get { return _driverProperty.ToolTip; }
 		}
 
-		public bool IsInternalDeviceParameter
+		public bool IsAUParameter
 		{
-			get { return _driverProperty.IsInternalDeviceParameter; }
+			get { return _driverProperty.IsAUParameter; }
 		}
 
 		protected void Save(string value)

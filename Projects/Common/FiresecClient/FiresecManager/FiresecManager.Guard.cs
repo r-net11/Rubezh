@@ -30,6 +30,16 @@ namespace FiresecClient
 			}
 		}
 
+		public static void SetDeviceGuard(Device device)
+		{
+			FiresecService.SetZoneGuard(device.UID, 0);
+		}
+
+		public static void UnSetDeviceGuard(Device device)
+		{
+			FiresecService.UnSetZoneGuard(device.UID, 0);
+		}
+
 		public static bool IsZoneOnGuard(ZoneState zoneState)
 		{
 			if (zoneState.Zone.ZoneType == ZoneType.Fire)

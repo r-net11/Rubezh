@@ -12,7 +12,7 @@ namespace FiresecAPI.Models
 
 			var property1 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x81,
 				Name = "Тип шлейфа",
 				Caption = "Тип шлейфа",
@@ -46,7 +46,7 @@ namespace FiresecAPI.Models
 
 			var property2 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x81,
 				Name = "Тип включения выхода при пожаре",
 				Caption = "Тип включения выхода при пожаре",

@@ -21,6 +21,8 @@ namespace DevicesModule.ViewModels
 			ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			DisableCommand = new RelayCommand(OnDisable, CanDisable);
+			SetGuardCommand = new RelayCommand(OnSetGuard);
+			UnsetGuardCommand = new RelayCommand(OnUnsetGuard);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 			ResetCommand = new RelayCommand<string>(OnReset, CanReset);
 
@@ -265,11 +267,6 @@ namespace DevicesModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
 		}
 
-		bool CanReset(string stateName)
-		{
-			return DeviceState.States.Any(x => (x.DriverState.Name == stateName && x.DriverState.IsManualReset));
-		}
-
 		public RelayCommand<string> ResetCommand { get; private set; }
 		void OnReset(string stateName)
 		{
@@ -283,6 +280,29 @@ namespace DevicesModule.ViewModels
 			FiresecManager.FiresecService.ResetStates(resetItems);
 
 			OnPropertyChanged("DeviceState");
+		}
+		bool CanReset(string stateName)
+		{
+			return DeviceState.States.Any(x => (x.DriverState.Name == stateName && x.DriverState.IsManualReset));
+		}
+
+		public RelayCommand SetGuardCommand { get; private set; }
+		void OnSetGuard()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+				FiresecManager.SetDeviceGuard(Device);
+		}
+
+		public RelayCommand UnsetGuardCommand { get; private set; }
+		void OnUnsetGuard()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+				FiresecManager.UnSetDeviceGuard(Device);
+		}
+
+		public bool IsGuardDevice
+		{
+			get { return Device.Driver.DriverType == DriverType.Rubezh_2OP || Device.Driver.DriverType == DriverType.USB_Rubezh_2OP; }
 		}
 	}
 }

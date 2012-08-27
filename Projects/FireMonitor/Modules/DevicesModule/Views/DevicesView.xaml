@@ -30,6 +30,8 @@
                                                 <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
                                                 <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" />
                                                 <MenuItem Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
+                                                <MenuItem Header="Поставить на охрану" Command="{Binding SetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                                <MenuItem Header="Снять с охраны" Command="{Binding UnsetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />
                                                 <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                             </ContextMenu>
                                         </TextBlock.ContextMenu>

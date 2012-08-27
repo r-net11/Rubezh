@@ -12,7 +12,7 @@ namespace FiresecAPI.Models
 
 			var property1 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x82,
 				Name = "Количество повторов",
 				Caption = "Количество повторов",
@@ -25,7 +25,7 @@ namespace FiresecAPI.Models
 
 			var property2 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x88,
 				Name = "Время отложенного пуска",
 				Caption = "Время отложенного пуска",

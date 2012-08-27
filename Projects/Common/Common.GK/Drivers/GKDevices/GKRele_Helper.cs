@@ -30,7 +30,7 @@ namespace Common.GK
 				ToolTip = "Режим работы реле",
 				Default = 15,
 				DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
-				IsInternalDeviceParameter = true
+				IsAUParameter = true
 			};
 			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Выключено", Value = 0 });
 			modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Мерцает 0.25 сек", Value = 1 });
