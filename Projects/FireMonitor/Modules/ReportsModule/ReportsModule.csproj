@@ -8,7 +8,7 @@
     <ProjectGuid>{AF43EDF4-713E-4184-AA60-AC12504EF236}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ReportsModule2</RootNamespace>
+    <RootNamespace>ReportsModule</RootNamespace>
     <AssemblyName>ReportsModule</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
