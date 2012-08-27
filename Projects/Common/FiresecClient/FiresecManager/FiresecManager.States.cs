@@ -44,7 +44,6 @@ namespace FiresecClient
 				{
 					Logger.Error("FiresecManager.UpdateStates zoneState.Zone == null");
 				}
-				zoneState.IsOnGuard = IsZoneOnGuard(zoneState);
 			}
 		}
 	}

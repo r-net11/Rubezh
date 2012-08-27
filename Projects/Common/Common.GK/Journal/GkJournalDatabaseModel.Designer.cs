@@ -17,7 +17,7 @@ using System.Runtime.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 
-namespace Common.GK.Journal
+namespace Common.GK
 {
     #region Контексты
     

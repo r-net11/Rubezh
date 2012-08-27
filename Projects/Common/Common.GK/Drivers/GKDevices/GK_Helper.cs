@@ -30,7 +30,7 @@ namespace Common.GK
 					Caption = "IP адрес",
 					ToolTip = "IP адрес",
 					DriverPropertyType = XDriverPropertyTypeEnum.StringType,
-					IsInternalDeviceParameter = false
+					IsAUParameter = false
 				}
 				);
 
@@ -43,7 +43,7 @@ namespace Common.GK
 					ToolTip = "Неответы",
 					Default = 1,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-					IsInternalDeviceParameter = true
+					IsAUParameter = true
 				}
 				);
 
@@ -56,7 +56,7 @@ namespace Common.GK
 					ToolTip = "Засыпание, мин",
 					Default = 10,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-					IsInternalDeviceParameter = true
+					IsAUParameter = true
 				}
 				);
 
@@ -71,7 +71,7 @@ namespace Common.GK
 					Min = 0,
 					Max = 100,
 					DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-					IsInternalDeviceParameter = true
+					IsAUParameter = true
 				}
 				);
 

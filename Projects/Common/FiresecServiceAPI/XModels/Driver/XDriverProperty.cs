@@ -10,14 +10,14 @@ namespace XFiresecAPI
 		{
 			Parameters = new List<XDriverPropertyParameter>();
 			AlternativePareterNames = new List<string>();
-			IsInternalDeviceParameter = true;
+			IsAUParameter = true;
 		}
 
 		[DataMember]
 		public byte No { get; set; }
 
 		[DataMember]
-		public bool IsInternalDeviceParameter { get; set; }
+		public bool IsAUParameter { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }

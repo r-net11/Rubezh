@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using XFiresecAPI;
+//using FiresecAPI;
 using FiresecClient;
 
 namespace Common.GK
@@ -168,7 +169,8 @@ namespace Common.GK
                 var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
                 if (driverProperty != null)
                 {
-                    if (driverProperty.IsInternalDeviceParameter)
+                    
+					if (driverProperty.IsAUParameter)
                     {
                         byte no = driverProperty.No;
                         ushort value = property.Value;

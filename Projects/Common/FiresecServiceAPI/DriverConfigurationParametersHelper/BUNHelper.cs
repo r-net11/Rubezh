@@ -17,23 +17,23 @@ namespace FiresecAPI.Models
 
 			var property3 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x8b,
 				Name = "разрешение функции УЗН",
 				Caption = "разрешение функции УЗН",
 				DriverPropertyType = DriverPropertyTypeEnum.BoolType,
-				Offset = 3 + 8
+				BitOffset = 3 + 8
 			};
 			driver.Properties.Add(property3);
 
 			var property4 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x8b,
 				Name = "наличие в прошивке логики работы с УЗН",
 				Caption = "наличие в прошивке логики работы с УЗН",
 				DriverPropertyType = DriverPropertyTypeEnum.BoolType,
-				Offset = 7 + 8
+				BitOffset = 7 + 8
 			};
 			driver.Properties.Add(property4);
 

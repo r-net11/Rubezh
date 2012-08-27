@@ -123,21 +123,23 @@ namespace PlansModule.ViewModels
 		public RelayCommand SetGuardCommand { get; private set; }
 		void OnSetGuard()
 		{
-			FiresecManager.SetZoneGuard(Zone);
+			if (ServiceFactory.SecurityService.Validate())
+				FiresecManager.SetZoneGuard(Zone);
 		}
 		bool CanSetGuard()
 		{
-			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (ZoneState.IsOnGuard == false));
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (FiresecManager.IsZoneOnGuard(ZoneState) == false));
 		}
 
 		public RelayCommand UnSetGuardCommand { get; private set; }
 		void OnUnSetGuard()
 		{
-			FiresecManager.UnSetZoneGuard(Zone);
+			if (ServiceFactory.SecurityService.Validate())
+				FiresecManager.UnSetZoneGuard(Zone);
 		}
 		bool CanUnSetGuard()
 		{
-			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (ZoneState.IsOnGuard == true));
+			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (FiresecManager.IsZoneOnGuard(ZoneState) == true));
 		}
 	}
 }

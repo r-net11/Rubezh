@@ -12,7 +12,7 @@ namespace FiresecAPI.Models
 
 			var property1 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x82,
 				Name = "Время переключения электропривода в положение ЗАКРЫТО",
 				Caption = "Время переключения электропривода в положение ЗАКРЫТО",
@@ -25,7 +25,7 @@ namespace FiresecAPI.Models
 
 			var property2 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x83,
 				Name = "Время переключения электропривода в положение ОТКРЫТО",
 				Caption = "Время переключения электропривода в положение ОТКРЫТО",
@@ -38,7 +38,7 @@ namespace FiresecAPI.Models
 
 			var property3 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x84,
 				Name = "Время задержки перед началом движения электропривода в положение ОТКРЫТО",
 				Caption = "Время задержки перед началом движения электропривода в положение ОТКРЫТО",
@@ -51,7 +51,7 @@ namespace FiresecAPI.Models
 
 			var property4 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x86,
 				Name = "Критическое время без обмена для перехода в защищаемое состояние",
 				Caption = "Критическое время без обмена для перехода в защищаемое состояние",
@@ -64,13 +64,13 @@ namespace FiresecAPI.Models
 
 			var property6 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x85,
 				Name = "Тип привода",
 				Caption = "Тип привода",
 				Default = "0",
-				MinOffset = 0,
-				MaxOffset = 3
+				MinBit = 0,
+				MaxBit = 3
 			};
 			
 			var property6Parameter1 = new DriverPropertyParameter()
@@ -114,14 +114,14 @@ namespace FiresecAPI.Models
 
 			var property7 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x85,
 				Name = "Перейти в защиту(иначе перейти в дежурное положение)",
 				Caption = "Перейти в защиту(иначе перейти в дежурное положение)",
 				DriverPropertyType = DriverPropertyTypeEnum.BoolType,
-				Offset = 7,
-				MinOffset = 7,
-				MaxOffset = 8
+				BitOffset = 7,
+				MinBit = 7,
+				MaxBit = 8
 			};
 			driver.Properties.Add(property7);
 		}

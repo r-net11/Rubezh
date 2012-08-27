@@ -62,12 +62,12 @@ namespace FiresecAPI.Models
 
 			var property1 = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = 0x8C,
 				Name = "Статус МПТ",
 				Caption = "Статус МПТ",
 				Default = "1",
-				Offset = 6
+				BitOffset = 6
 			};
 			ConfigurationDriverHelper.AddPropertyParameter(property1, "Ведущий", 1);
 			ConfigurationDriverHelper.AddPropertyParameter(property1, "Ведомый", 2);
@@ -78,12 +78,11 @@ namespace FiresecAPI.Models
 		{
 			var property = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = "1",
-				Offset = 0
+				Default = "1"
 			};
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Состояние цепи не контролируется", 1);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Цепь контролируется только на обрыв", 2);
@@ -96,12 +95,11 @@ namespace FiresecAPI.Models
 		{
 			var property = new DriverProperty()
 			{
-				IsInternalDeviceParameter = true,
+				IsAUParameter = true,
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = "1",
-				Offset = 0
+				Default = "1"
 			};
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Сирена", 1);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Уходи»", 2);
@@ -119,7 +117,7 @@ namespace FiresecAPI.Models
 				Name = propertyName,
 				Caption = propertyName,
 				Default = "1",
-				Offset = offset
+				BitOffset = offset
 			};
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Замкнутое", 1);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "Разомкнутое", 2);

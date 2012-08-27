@@ -22,7 +22,24 @@ namespace Firesec
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e, "Исключение при вызове NativeFiresecClient.StartSocketServerIfNotRunning");
+					Logger.Error(e, "Исключение при вызове NativeFiresecClient.StartNTServiceIfNotRunning");
+				}
+			}
+		}
+
+		public static void StopNTServiceIfRunning()
+		{
+			var service = new System.ServiceProcess.ServiceController("Borland Advanced Socket Server");
+			if ((service != null) && (service.Status == System.ServiceProcess.ServiceControllerStatus.Running))
+			{
+				try
+				{
+					service.Stop();
+					service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromMilliseconds(10000));
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "Исключение при вызове NativeFiresecClient.StopNTServiceIfNotRunning");
 				}
 			}
 		}
@@ -32,9 +49,7 @@ namespace Firesec
 			foreach (var process in Process.GetProcesses())
 			{
 				if (process.ProcessName == "scktsrvr")
-				{
 					return;
-				}
 			}
 
 			var newProcess = new Process();
@@ -60,7 +75,13 @@ namespace Firesec
 
 		public static void Stop()
 		{
+			StopNTServiceIfRunning();
 
+			foreach (var process in Process.GetProcesses())
+			{
+				if (process.ProcessName == "scktsrvr")
+					process.Kill();
+			}
 		}
 
 		static string GetSocketServerPath()

@@ -79,7 +79,6 @@ namespace FiresecClient
 				{
 					var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == newZoneState.No);
 					zoneState.StateType = newZoneState.StateType;
-					zoneState.IsOnGuard = FiresecManager.IsZoneOnGuard(zoneState);
 
 					if (ZoneStateChangedEvent != null)
 						ZoneStateChangedEvent(zoneState.No);

@@ -33,7 +33,7 @@ namespace Common.GK
                     ToolTip = "",
                     Default = 200,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-                    IsInternalDeviceParameter = true
+                    IsAUParameter = true
                 }
                 );
 
@@ -46,7 +46,7 @@ namespace Common.GK
                     ToolTip = "",
                     Default = 200,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-                    IsInternalDeviceParameter = true
+                    IsAUParameter = true
                 }
                 );
 
@@ -59,7 +59,7 @@ namespace Common.GK
                     ToolTip = "",
                     Default = 5,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-                    IsInternalDeviceParameter = true
+                    IsAUParameter = true
                 }
                 );
 
@@ -72,7 +72,7 @@ namespace Common.GK
                     ToolTip = "",
                     Default = 1000,
                     DriverPropertyType = XDriverPropertyTypeEnum.IntType,
-                    IsInternalDeviceParameter = true
+                    IsAUParameter = true
                 }
                 );
 
@@ -83,7 +83,7 @@ namespace Common.GK
                 ToolTip = "",
                 Default = 0,
                 DriverPropertyType = XDriverPropertyTypeEnum.EnumType,
-                IsInternalDeviceParameter = false
+                IsAUParameter = false
             };
             modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Основная", Value = 0 });
             modeProperty.Parameters.Add(new XDriverPropertyParameter() { Name = "Резервная", Value = 1 });

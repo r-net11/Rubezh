@@ -419,20 +419,5 @@ namespace Firesec
 
 		public int StopProgress;
 		#endregion
-		static void StopSocketServer()
-		{
-			var service = new System.ServiceProcess.ServiceController("Borland Advanced Socket Server");
-			if (service.Status == System.ServiceProcess.ServiceControllerStatus.Running)
-			{
-				try
-				{
-					var timeout = TimeSpan.FromMilliseconds(10000);
-					service.Stop();
-					service.WaitForStatus(ServiceControllerStatus.Running, timeout);
-				}
-				catch { }
-			}
-		}
-
 	}
 }

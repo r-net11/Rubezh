@@ -21,7 +21,7 @@ namespace FiresecService.Service
 
 			foreach (var property in device.Driver.Properties)
 			{
-				if (property.IsInternalDeviceParameter)
+				if (property.IsAUParameter)
 				{
 					FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$ReadSimpleParam", property.No.ToString(), ref requestId);
 					requestIds.Add(requestId);
@@ -65,26 +65,26 @@ namespace FiresecService.Service
 
 									if (driverProperty.IsHeighByte)
 										offsetParamValue = lowByteValue;
-									if (driverProperty.IsLowByte)
+									else
 										offsetParamValue = heightByteValue;
 
-									if (driverProperty.MinOffset > 0)
+									if (driverProperty.MinBit > 0)
 									{
 										byte byteOffsetParamValue = (byte)offsetParamValue;
-										byteOffsetParamValue = (byte)(byteOffsetParamValue >> driverProperty.MinOffset);
-										byteOffsetParamValue = (byte)(byteOffsetParamValue << driverProperty.MinOffset);
+										byteOffsetParamValue = (byte)(byteOffsetParamValue >> driverProperty.MinBit);
+										byteOffsetParamValue = (byte)(byteOffsetParamValue << driverProperty.MinBit);
 										offsetParamValue = byteOffsetParamValue;
 									}
-									if (driverProperty.MaxOffset > 0)
+									if (driverProperty.MaxBit > 0)
 									{
 										byte byteOffsetParamValue = (byte)offsetParamValue;
-										byteOffsetParamValue = (byte)(byteOffsetParamValue << 8 - driverProperty.MaxOffset);
-										byteOffsetParamValue = (byte)(byteOffsetParamValue >> 8 - driverProperty.MaxOffset);
+										byteOffsetParamValue = (byte)(byteOffsetParamValue << 8 - driverProperty.MaxBit);
+										byteOffsetParamValue = (byte)(byteOffsetParamValue >> 8 - driverProperty.MaxBit);
 										offsetParamValue = byteOffsetParamValue;
 									}
-									if (driverProperty.Offset > 0)
+									if (driverProperty.BitOffset > 0)
 									{
-										offsetParamValue = offsetParamValue >> driverProperty.Offset;
+										offsetParamValue = offsetParamValue >> driverProperty.BitOffset;
 									}
 
 									if (device.Driver.DriverType == DriverType.MRO && driverProperty.Name == "Время отложенного пуска")
@@ -133,50 +133,49 @@ namespace FiresecService.Service
 			foreach (var property in properties)
 			{
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				if (driverProperty != null && driverProperty.IsInternalDeviceParameter)
+				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
-					var binProperty = binProperties.FirstOrDefault(x=>x.No == driverProperty.No);
+					if (driverProperty.No == 0xB1)
+					{
+						;
+					}
+					var binProperty = binProperties.FirstOrDefault(x => x.No == driverProperty.No);
 					if (binProperty == null)
 					{
 						binProperty = new BinProperty()
 						{
-							No = driverProperty.No,
-							Value = 0
+							No = driverProperty.No
 						};
 						binProperties.Add(binProperty);
 					}
 
-					int newValue = 0;
+					int intValue = 0;
 					if (driverProperty.DriverPropertyType == DriverPropertyTypeEnum.EnumType)
 					{
 						var driverPropertyParameterValue = driverProperty.Parameters.FirstOrDefault(x => x.Name == property.Value);
 						if (driverPropertyParameterValue != null)
 						{
-							newValue = int.Parse(driverPropertyParameterValue.Value);
+							intValue = int.Parse(driverPropertyParameterValue.Value);
 						}
 					}
 					else
 					{
-						newValue = int.Parse(property.Value);
-
+						intValue = int.Parse(property.Value);
 						if (device.Driver.DriverType == DriverType.MRO && driverProperty.Name == "Время отложенного пуска")
 						{
-							newValue = (int)Math.Truncate((double)newValue / 5);
+							intValue = (int)Math.Truncate((double)intValue / 5);
 						}
 					}
 
-					if (driverProperty.Offset > 0)
+					if (driverProperty.BitOffset > 0)
 					{
-						newValue = newValue << driverProperty.Offset;
+						intValue = intValue << driverProperty.BitOffset;
 					}
 
-					//if (driverProperty.IsHeighByte)
-					//{
-					//    newValue *= 256;
-					//}
-
-
-					binProperty.Value += newValue;
+					if (driverProperty.IsHeighByte)
+						binProperty.HeighByte += intValue;
+					else
+						binProperty.LowByte += intValue;
 				}
 			}
 
@@ -188,7 +187,6 @@ namespace FiresecService.Service
 				}
 				Trace.WriteLine(binProperty.ToString());
 				int requestId = 0;
-				binProperty.Value *= 256;
 				FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$WriteSimpleParam", binProperty.ToString(), ref requestId);
 				//Trace.WriteLine(binProperty.ToString());
 			}
@@ -202,10 +200,12 @@ namespace FiresecService.Service
 		class BinProperty
 		{
 			public int No;
-			public int Value;
+			public int LowByte;
+			public int HeighByte;
 			public override string ToString()
 			{
-				return No.ToString() + "=" + Value.ToString();
+				var value = (byte)LowByte + (byte)HeighByte * 256;
+				return No.ToString() + "=" + value.ToString();
 			}
 		}
 	}

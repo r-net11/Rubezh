@@ -291,7 +291,7 @@ namespace FiresecService.Configuration
 				foreach (var deviceProperty in device.Properties)
 				{
 					var property = device.Driver.Properties.FirstOrDefault(x => x.Name == deviceProperty.Name);
-					if (property == null || property.IsInternalDeviceParameter)
+					if (property == null || property.IsAUParameter)
 					{
 						continue;
 					}
