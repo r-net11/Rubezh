@@ -181,7 +181,8 @@ namespace GKModule.Converter
 
                             foreach (var zoneNo in clause.Zones)
                             {
-                                xClause.Zones.Add((ushort)zoneNo);
+                                var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == zoneNo);
+                                xClause.Zones.Add(xZone.UID);
                             }
 
                             stateLogic.Clauses.Add(xClause);
