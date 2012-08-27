@@ -5,14 +5,15 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System;
 
 namespace GKModule.ViewModels
 {
     public class ZonesSelectationViewModel : SaveCancelDialogViewModel
     {
-        public List<ushort> Zones { get; private set; }
+        public List<Guid> Zones { get; private set; }
 
-        public ZonesSelectationViewModel(List<ushort> zones)
+        public ZonesSelectationViewModel(List<Guid> zones)
         {
             Title = "Выбор зон";
             AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
@@ -26,7 +27,7 @@ namespace GKModule.ViewModels
 
             foreach (var zone in XManager.DeviceConfiguration.Zones)
             {
-                if (Zones.Contains(zone.No))
+                if (Zones.Contains(zone.UID))
                     TargetZones.Add(zone);
                 else
                     SourceZones.Add(zone);
@@ -114,7 +115,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			Zones = new List<ushort>(TargetZones.Select(x => x.No));
+			Zones = new List<Guid>(TargetZones.Select(x => x.UID));
 			return base.Save();
 		}
     }

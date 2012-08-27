@@ -9,6 +9,7 @@ namespace XFiresecAPI
 	{
 		public XZone()
 		{
+            UID = Guid.NewGuid();
 			Fire1Count = 2;
 			Fire2Count = 3;
 			DeviceUIDs = new List<Guid>();

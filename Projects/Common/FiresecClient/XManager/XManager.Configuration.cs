@@ -69,15 +69,15 @@ namespace FiresecClient
 						clause.XZones = new List<XZone>();
 						for (int zoneIndex = clause.Zones.Count - 1; zoneIndex >= 0; zoneIndex--)
 						{
-							var zoneNo = clause.Zones[zoneIndex];
-							var clauseZone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+							var zoneUID = clause.Zones[zoneIndex];
+							var clauseZone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
 							if (clauseZone != null)
 							{
 								clause.XZones.Add(clauseZone);
 							}
 							else
 							{
-								clause.Zones.Remove(zoneNo);
+								clause.Zones.Remove(zoneUID);
 							}
 						}
 						if ((clause.XDevices.Count == 0) && (clause.XZones.Count == 0))

@@ -73,29 +73,15 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" />
+                                    <TextBlock Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" MinWidth="100" Cursor="Hand"
+                                               Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding ShowZoneOrLogicCommand}" />
+                                        </TextBlock.InputBindings>                                        
+                                    </TextBlock>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                        <DataGridTemplateColumn.CellEditingTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <ComboBox ItemsSource="{Binding Zones}" SelectedItem="{Binding Zone, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" Height="19"
-                                            Visibility="{Binding Driver.HasZone, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding PresentationName}" VerticalAlignment="Stretch" Foreground="Black" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                    <TextBlock Text="{Binding PresentationZone}" Visibility="{Binding Driver.HasLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <TextBlock.InputBindings>
-                                            <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowLogicCommand}" />
-                                        </TextBlock.InputBindings>
-                                    </TextBlock>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
 
                     <DataGridTemplateColumn Header="Примечание" Width="*">

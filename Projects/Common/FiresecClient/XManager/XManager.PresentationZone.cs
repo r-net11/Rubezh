@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace FiresecClient
 {
@@ -36,7 +37,18 @@ namespace FiresecClient
 
 		public static string GetPresentationZone(XDeviceLogic DeviceLogic)
 		{
-			return "";
+            var stringBuilder = new StringBuilder();
+            foreach (var stateLogic in DeviceLogic.StateLogics)
+            {
+                stringBuilder.Append(stateLogic.StateType.ToDescription() + " если ");
+                foreach (var clause in stateLogic.Clauses)
+                {
+                    stringBuilder.Append(clause.StateType.ToDescription() + " в ");
+                    stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
+                    stringBuilder.Append(clause.ClauseOperandType.ToDescription() + " ");
+                }
+            }
+            return stringBuilder.ToString();
 			//string result = "";
 
 			//for (int i = 0; i < zoneLogic.Clauses.Count; i++)

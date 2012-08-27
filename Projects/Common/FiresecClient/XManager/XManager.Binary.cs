@@ -122,9 +122,9 @@ namespace FiresecClient
 							var dependentDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 							device.DeviceLogic.DependentDevices.Add(dependentDevice);
 						}
-						foreach (var zoneNo in clause.Zones)
+						foreach (var zoneUID in clause.Zones)
 						{
-							var dependentZone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+							var dependentZone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
 							device.DeviceLogic.DependentZones.Add(dependentZone);
 						}
 					}

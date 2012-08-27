@@ -12,7 +12,7 @@ namespace GKModule.ViewModels
 {
     public class ClauseViewModel : BaseViewModel
     {
-        public List<ushort> Zones { get; set; }
+        public List<Guid> Zones { get; set; }
         public List<Guid> Devices { get; set; }
         StateLogicViewModel _stateLogicViewModel;
 
@@ -70,7 +70,7 @@ namespace GKModule.ViewModels
                 switch(value)
                 {
                     case ClauseOperandType.Device:
-                        Zones = new List<ushort>();
+                        Zones = new List<Guid>();
                         break;
 
                     case ClauseOperandType.Zone:
@@ -117,7 +117,7 @@ namespace GKModule.ViewModels
                 {
                     if (i > 0)
                         presenrationZones.Append(", ");
-                    var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == Zones[i]);
+                    var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == Zones[i]);
                     if (zone != null)
                         presenrationZones.Append(zone.PresentationName);
                 }
