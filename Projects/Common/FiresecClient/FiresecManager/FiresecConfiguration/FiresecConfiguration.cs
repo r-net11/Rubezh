@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using Common;
 
 namespace FiresecClient
 {
@@ -328,6 +329,26 @@ namespace FiresecClient
 			foreach (var child in device.Children)
 			{
 				panelChildren.Add(child);
+			}
+		}
+
+		public void SetEmptyConfiguration()
+		{
+			DeviceConfiguration = new DeviceConfiguration();
+
+			var computerDriver = Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer);
+			if (computerDriver != null)
+			{
+				DeviceConfiguration.RootDevice = new Device()
+				{
+					DriverUID = computerDriver.UID,
+					Driver = computerDriver
+				};
+				DeviceConfiguration.Update();
+			}
+			else
+			{
+				Logger.Error("FiresecConfiguration.SetEmptyConfiguration computerDriver = null");
 			}
 		}
 	}

@@ -30,7 +30,7 @@ namespace GKModule.ViewModels
 
             foreach (var device in XManager.DeviceConfiguration.Devices)
             {
-				if (!CanBeInZone(device.Driver))
+				if (!device.Driver.HasZone)
 					continue;
 
                 if (Zone.DeviceUIDs.Contains(device.UID))
@@ -40,8 +40,11 @@ namespace GKModule.ViewModels
                 }
                 else
                 {
-                    device.AllParents.ForEach(x => { availableDevices.Add(x); });
-                    availableDevices.Add(device);
+					if (device.Zones.Count == 0)
+					{
+						device.AllParents.ForEach(x => { availableDevices.Add(x); });
+						availableDevices.Add(device);
+					}
                 }
             }
 
@@ -76,7 +79,7 @@ namespace GKModule.ViewModels
                 var deviceViewModel = new DeviceViewModel(device, AvailableDevices)
                 {
                     IsExpanded = true,
-					IsBold = CanBeInZone(device.Driver)
+					IsBold = device.Driver.HasZone
                 };
 
                 AvailableDevices.Add(deviceViewModel);
@@ -136,7 +139,7 @@ namespace GKModule.ViewModels
 
         public bool CanAdd()
         {
-			return ((SelectedAvailableDevice != null) && (CanBeInZone(SelectedAvailableDevice.Driver)));
+			return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.Driver.HasZone));
         }
 
         public RelayCommand AddCommand { get; private set; }
@@ -155,7 +158,7 @@ namespace GKModule.ViewModels
 
         public bool CanRemove()
         {
-            return ((SelectedDevice != null) && (CanBeInZone(SelectedDevice.Driver)));
+            return ((SelectedDevice != null) && (SelectedDevice.Driver.HasZone));
         }
 
         public RelayCommand RemoveCommand { get; private set; }
@@ -168,15 +171,5 @@ namespace GKModule.ViewModels
             UpdateAvailableDevices();
             ServiceFactory.SaveService.XDevicesChanged = true;
         }
-
-		bool CanBeInZone(XDriver driver)
-		{
-			return driver.HasZone;
-			if (driver.IsDeviceOnShleif == false)
-				return false;
-			if (driver.GroupDeviceChildrenCount > 0)
-				return false;
-			return true;
-		}
     }
 }

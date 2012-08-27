@@ -36,6 +36,8 @@ namespace FiresecAPI.Models
 
 		public override void ValidateVersion()
 		{
+			DeviceConfiguration.ValidateVersion();
+			XDeviceConfiguration.ValidateVersion();
 			PlansConfiguration.ValidateVersion();
 		}
 	}

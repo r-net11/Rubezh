@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using XFiresecAPI;
+using Common;
 
 namespace FiresecClient
 {
@@ -24,11 +25,17 @@ namespace FiresecClient
 
 			var systemDriver = DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
 			if (systemDriver != null)
+			{
 				DeviceConfiguration.RootDevice = new XDevice()
 				{
 					DriverUID = systemDriver.UID,
 					Driver = systemDriver
 				};
+			}
+			else
+			{
+				Logger.Error("XManager.SetEmptyConfiguration systemDriver = null");
+			}
 
 			UpdateConfiguration();
 		}

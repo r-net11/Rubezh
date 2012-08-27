@@ -109,13 +109,11 @@ namespace FireAdministrator.Views
             var result = MessageBoxService.ShowQuestion("Вы уверены, что хотите создать новую конфигурацию");
             if (result == MessageBoxResult.Yes)
             {
-                FiresecManager.FiresecConfiguration.DeviceConfiguration = new DeviceConfiguration();
+				FiresecManager.SetEmptyConfiguration();
+				XManager.SetEmptyConfiguration();
                 FiresecManager.PlansConfiguration = new PlansConfiguration();
                 FiresecManager.SystemConfiguration = new SystemConfiguration();
-				FiresecManager.SetEmptyConfiguration();
                 FiresecManager.PlansConfiguration.Update();
-
-                XManager.SetEmptyConfiguration();
 
                 ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 
@@ -204,11 +202,15 @@ namespace FireAdministrator.Views
         void CopyTo(FullConfiguration fullConfiguration)
         {
             FiresecManager.FiresecConfiguration.DeviceConfiguration = fullConfiguration.DeviceConfiguration;
+			if (FiresecManager.FiresecConfiguration.DeviceConfiguration == null)
+				FiresecManager.FiresecConfiguration.SetEmptyConfiguration();
             FiresecManager.LibraryConfiguration = fullConfiguration.LibraryConfiguration;
             FiresecManager.PlansConfiguration = fullConfiguration.PlansConfiguration;
             FiresecManager.SecurityConfiguration = fullConfiguration.SecurityConfiguration;
             FiresecManager.SystemConfiguration = fullConfiguration.SystemConfiguration;
             XManager.DeviceConfiguration = fullConfiguration.XDeviceConfiguration;
+			if (XManager.DeviceConfiguration == null)
+				XManager.SetEmptyConfiguration();
         }
 
         FullConfiguration LoadFromFile(string fileName)

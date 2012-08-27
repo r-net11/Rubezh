@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FiresecService.Processor;
 using FiresecService.Service;
 using Common;
+using FiresecService.ViewModels;
 
 namespace FiresecService.Configuration
 {
@@ -127,6 +128,7 @@ namespace FiresecService.Configuration
 			if (coreConfig == null)
 			{
 				Logger.Error("SynchronyzeConfiguration coreConfig=null");
+				UILogger.Log("Ошибка при синхронизации конфигурации");
 				return;
 			}
 
