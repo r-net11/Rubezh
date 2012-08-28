@@ -51,7 +51,7 @@
 						</TransformGroup>
 					</Grid.LayoutTransform>
 					<Border Background="LightGray">
-						<FlowDocumentPageViewer x:Name="_viewer" Width="500" Height="707.14" Background="White" BorderBrush="Black" BorderThickness="{Binding PageBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" Document="{Binding Document, NotifyOnTargetUpdated=True}" TargetUpdated="_viewer_TargetUpdated" IsHitTestVisible="False">
+						<FlowDocumentPageViewer x:Name="_viewer" Width="{Binding DocumentWidth}" Height="{Binding DocumentHeight}" Background="White" BorderBrush="Black" BorderThickness="{Binding PageBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" IsHitTestVisible="False" Visibility="{Binding Document, Converter={StaticResource NullToVisibilityConverter}}">
 							<FlowDocumentPageViewer.Template>
 								<ControlTemplate TargetType="{x:Type FlowDocumentPageViewer}">
 									<Border Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{TemplateBinding Border.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}">

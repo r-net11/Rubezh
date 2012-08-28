@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodeReason.Reports">
+      <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\CodeReason.Reports.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -85,7 +88,9 @@
     <Compile Include="Models\ReportIndicationBlockModel.cs" />
     <Compile Include="Models\ReportJournalModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportsModule2Loader.cs" />
+    <Compile Include="ReportProviders\BaseReport.cs" />
+    <Compile Include="ReportProviders\DeviceListReport.cs" />
+    <Compile Include="ReportsModuleLoader.cs" />
     <Compile Include="Reports\BaseReport.cs" />
     <Compile Include="Reports\BaseReportGeneric.cs" />
     <Compile Include="Reports\ReportDeviceParams.cs" />
@@ -140,6 +145,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Resource Include="ReportTemplates\DeviceListReportTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="Views\IndeicatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

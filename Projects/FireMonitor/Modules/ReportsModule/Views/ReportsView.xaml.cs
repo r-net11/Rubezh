@@ -35,6 +35,7 @@ namespace ReportsModule.Views
 			ZoomInCommand = new RelayCommand(OnZoomIn, CanZoomIn);
 			ZoomOutCommand = new RelayCommand(OnZoomOut, CanZoomOut);
 		}
+		//Binding Path=Content.Name, RelativeSource={RelativeSource TemplatedParent}
 
 		private void OnLoaded(object sender, RoutedEventArgs e)
 		{
@@ -42,7 +43,7 @@ namespace ReportsModule.Views
 		}
 		public void Reset()
 		{
-			slider.Value = 1;
+			Scale = _initialScale;
 		}
 
 		public RelayCommand ZoomInCommand { get; private set; }
@@ -239,6 +240,7 @@ namespace ReportsModule.Views
 				_worker.CancelAsync();
 				_worker = null;
 			}
+			Scale = _initialScale;
 			_scrollViewer.ScrollToTop();
 			_scrollViewer.ScrollToLeftEnd();
 			_viewer.UpdateLayout();

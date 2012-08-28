@@ -109,6 +109,7 @@ namespace ReportsModule.Views
 				_selectedReportName = value;
 				if (value.HasValue)
 					ShowReport(_reportMap[value.Value]);
+				OnPropertyChanged("IsJournalReport");
 			}
 		}
 

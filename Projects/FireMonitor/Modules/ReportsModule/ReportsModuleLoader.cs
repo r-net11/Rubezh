@@ -7,11 +7,11 @@ using ReportsModule.ViewModels;
 
 namespace ReportsModule
 {
-	public class ReportsModule2Loader : ModuleBase
+	public class ReportsModuleLoader : ModuleBase
 	{
 		ReportsViewModel Reports2ViewModel;
 
-		public ReportsModule2Loader()
+		public ReportsModuleLoader()
 		{
 			ServiceFactory.Layout.AddToolbarItem(new IndicatorViewModel());
 			ServiceFactory.Events.GetEvent<ShowReports2Event>().Subscribe(OnShowReports2);
