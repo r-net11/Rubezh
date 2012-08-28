@@ -11,11 +11,8 @@ namespace GKModule.ViewModels
 {
     public class DirectionsViewModel : ViewPartViewModel, IEditingViewModel
     {
-        public static DirectionsViewModel Current { get; private set; }
-
 		public DirectionsViewModel()
         {
-            Current = this;
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
@@ -30,13 +27,13 @@ namespace GKModule.ViewModels
 			SelectedDirection = Directions.FirstOrDefault();
         }
 
-		ObservableCollection<DirectionViewModel> _direction;
+		ObservableCollection<DirectionViewModel> _directions;
 		public ObservableCollection<DirectionViewModel> Directions
         {
-            get { return _direction; }
+            get { return _directions; }
             set
             {
-                _direction = value;
+                _directions = value;
 				OnPropertyChanged("Directions");
             }
         }
@@ -65,7 +62,6 @@ namespace GKModule.ViewModels
             {
 				XManager.DeviceConfiguration.Directions.Add(directionDetailsViewModel.XDirection);
 				Directions.Add(new DirectionViewModel(directionDetailsViewModel.XDirection));
-
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }
         }

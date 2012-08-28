@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="GKModule.Views.FiltersMenuView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+
+    <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
+        <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/add.png" />
+        <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/edit.png" />
+        <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/delete.png" />
+    </StackPanel>
+</UserControl>
