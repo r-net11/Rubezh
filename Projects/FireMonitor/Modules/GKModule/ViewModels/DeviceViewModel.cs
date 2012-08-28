@@ -41,14 +41,13 @@ namespace GKModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
+		public string PresentationZone
+		{
+			get { return XManager.GetPresentationZone(Device); }
+		}
+
 		void OnStateChanged()
 		{
-			if (DeviceState.States == null)
-			{
-				Logger.Error("DeviceViewModel.OnStateChanged: DeviceState.States = null");
-				return;
-			}
-
 			OnPropertyChanged("StateType");
 			OnPropertyChanged("States");
 		}
@@ -68,23 +67,21 @@ namespace GKModule.ViewModels
 			get { return Device.GetDatabaseNo(DatabaseType.Gk); }
 		}
 
+		public RelayCommand ShowPlanCommand { get; private set; }
+		void OnShowPlan()
+		{
+			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.UID);
+		}
 		public bool CanShowOnPlan()
 		{
-			return false;
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementDevices.Any(x => x.DeviceUID == Device.UID))
+				if (plan.ElementXDevices.Any(x => x.XDeviceUID == Device.UID))
 				{
 					return true;
 				}
 			}
 			return false;
-		}
-
-		public RelayCommand ShowPlanCommand { get; private set; }
-		void OnShowPlan()
-		{
-			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.UID);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }

@@ -54,7 +54,7 @@ namespace GKModule.ViewModels
 			get { return Device.Address; }
 			set
 			{
-				if (Device.Parent.Children.Where(x => x != Device).Any(x => x.Address == value))
+				if (Device.Parent.Children.Where(x => (x != Device) && (x.Driver.IsAutoCreate == false)).Any(x => x.Address == value))
 				{
 					MessageBoxService.Show("Устройство с таким адресом уже существует");
 				}
@@ -148,7 +148,7 @@ namespace GKModule.ViewModels
         public RelayCommand ShowZonesCommand { get; private set; }
         void OnShowZones()
         {
-            var zonesSelectationViewModel = new ZonesSelectationViewModel(Device.Zones);
+			var zonesSelectationViewModel = new ZonesSelectationViewModel(Device, Device.Zones);
             if (DialogService.ShowModalWindow(zonesSelectationViewModel))
             {
                 Device.Zones = zonesSelectationViewModel.Zones;

@@ -19,6 +19,9 @@ namespace Common.GK
 				ShortName = "РПИ",
 				HasZone = true
 			};
+
+			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire2);
+
 			return driver;
 		}
 	}

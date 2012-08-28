@@ -19,13 +19,14 @@ namespace Common.GK
 				HasLogic = true
 			};
 
+			GKDriversHelper.AddControlAvailableStates(driver);
+
 			var property1 = new XDriverProperty()
 			{
 				No = 0x82,
 				Name = "Конфигурация релейного модуля",
 				Caption = "Конфигурация релейного модуля",
-				Default = 1,
-				AlternativePareterNames = new List<string>() { "Стоп", "Пуск" }
+				Default = 1
 			};
 			GKDriversHelper.AddPropertyParameter(property1, "Разомкнуто Замкнуто", 1);
 			GKDriversHelper.AddPropertyParameter(property1, "Разомкнуто Мерцает", 2);

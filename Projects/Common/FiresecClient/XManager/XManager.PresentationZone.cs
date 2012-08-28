@@ -9,6 +9,14 @@ namespace FiresecClient
 {
 	public partial class XManager
 	{
+		public static IEnumerable<XZone> GetGKZones(XDevice device)
+		{
+			return from zone in DeviceConfiguration.Zones
+				   where zone.GkDatabaseParent == device.GkDatabaseParent
+				   orderby zone.No
+				   select zone;
+		}
+
 		public static string GetPresentationZone(XDevice device)
 		{
 			if (device.Driver.HasZone)
@@ -45,64 +53,77 @@ namespace FiresecClient
                 {
                     stringBuilder.Append(clause.StateType.ToDescription() + " в ");
                     stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
-                    stringBuilder.Append(clause.ClauseOperandType.ToDescription() + " ");
+					stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
+					stringBuilder.Append(GetCommaSeparatedZones(clause.Zones));
                 }
             }
             return stringBuilder.ToString();
-			//string result = "";
+		}
 
-			//for (int i = 0; i < zoneLogic.Clauses.Count; i++)
-			//{
-			//    var clause = zoneLogic.Clauses[i];
+		public static string GetCommaSeparatedZones(IEnumerable<Guid> zoneUIDs)
+		{
+			var zones = from XZone zone in XManager.DeviceConfiguration.Zones where zoneUIDs.Contains(zone.UID) select zone.No;
+			if (zones.Count() > 0)
+			{
+				var orderedZones = zones.OrderBy(x => x).ToList();
+				int prevZoneNo = orderedZones[0];
+				List<List<ushort>> groupOfZones = new List<List<ushort>>();
 
-			//    if (i > 0)
-			//    {
-			//        switch (zoneLogic.JoinOperator)
-			//        {
-			//            case ZoneLogicJoinOperator.And:
-			//                result += " и ";
-			//                break;
-			//            case ZoneLogicJoinOperator.Or:
-			//                result += " или ";
-			//                break;
-			//            default:
-			//                break;
-			//        }
-			//    }
+				for (int i = 0; i < orderedZones.Count; i++)
+				{
+					var zoneNo = orderedZones[i];
+					var haveZonesBetween = DeviceConfiguration.Zones.Any(x => (x.No > prevZoneNo) && (x.No < zoneNo));
+					if (haveZonesBetween)
+					{
+						groupOfZones.Add(new List<ushort>() { zoneNo });
+					}
+					else
+					{
+						if (groupOfZones.Count == 0)
+						{
+							groupOfZones.Add(new List<ushort>() { zoneNo });
+						}
+						else
+						{
+							groupOfZones.Last().Add(zoneNo);
+						}
+					}
+					prevZoneNo = zoneNo;
+				}
 
-			//    if (clause.DeviceUID != Guid.Empty)
-			//    {
-			//        result += "Сработка устройства " + clause.Device.PresentationAddress + " - " + clause.Device.Driver.Name;
-			//        continue;
-			//    }
+				var presenrationZones = new StringBuilder();
+				for (int i = 0; i < groupOfZones.Count; i++)
+				{
+					var zoneGroup = groupOfZones[i];
 
-			//    if (clause.State == ZoneLogicState.Failure)
-			//    {
-			//        result += "состояние неисправность прибора";
-			//        continue;
-			//    }
+					if (i > 0)
+						presenrationZones.Append(", ");
 
-			//    result += "состояние " + clause.State.ToDescription();
+					presenrationZones.Append(zoneGroup.First().ToString());
+					if (zoneGroup.Count > 1)
+					{
+						presenrationZones.Append(" - " + zoneGroup.Last().ToString());
+					}
+				}
 
-			//    string stringOperation = null;
-			//    switch (clause.Operation)
-			//    {
-			//        case ZoneLogicOperation.All:
-			//            stringOperation = "во всех зонах из";
-			//            break;
+				return presenrationZones.ToString();
+			}
+			return "";
+		}
 
-			//        case ZoneLogicOperation.Any:
-			//            stringOperation = "в любой зоне из";
-			//            break;
-
-			//        default:
-			//            break;
-			//    }
-
-			//    result += " " + stringOperation + " " + GetClausePresentationName(clause.Zones);
-			//}
-
-			//return result;
+		public static string GetCommaSeparatedDevices(IEnumerable<Guid> deviceUIDs)
+		{
+			var devices = from XDevice device in XManager.DeviceConfiguration.Devices where deviceUIDs.Contains(device.UID) select device;
+			var stringBuilder = new StringBuilder();
+			var deviceCount = 0;
+			foreach (var device in devices)
+			{
+				if (deviceCount > 0)
+					stringBuilder.Append(", ");
+				stringBuilder.Append(device.Driver.ShortName + device.DottedAddress);
+				deviceCount++;
+			}
+			return stringBuilder.ToString();
 		}
 	}
 }

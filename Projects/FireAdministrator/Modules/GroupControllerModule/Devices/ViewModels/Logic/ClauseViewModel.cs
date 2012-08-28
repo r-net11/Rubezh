@@ -10,187 +10,143 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-    public class ClauseViewModel : BaseViewModel
-    {
-        public List<Guid> Zones { get; set; }
-        public List<Guid> Devices { get; set; }
-        StateLogicViewModel _stateLogicViewModel;
+	public class ClauseViewModel : BaseViewModel
+	{
+		public List<Guid> Zones { get; set; }
+		public List<Guid> Devices { get; set; }
+		StateLogicViewModel _stateLogicViewModel;
 
-        public ClauseViewModel(StateLogicViewModel stateLogicViewModel, XClause clause)
-        {
-            SelectZonesCommand = new RelayCommand(OnSelectZones);
-            SelectDevicesCommand = new RelayCommand(OnSelectDevices);
+		public ClauseViewModel(StateLogicViewModel stateLogicViewModel, XClause clause)
+		{
+			SelectZonesCommand = new RelayCommand(OnSelectZones);
+			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
 
-            _stateLogicViewModel = stateLogicViewModel;
-            SelectedStateType = clause.StateType;
-            SelectedClauseJounOperationType = clause.ClauseJounOperationType;
-            SelectedClauseOperandType = clause.ClauseOperandType;
-            SelectedClauseOperationType = clause.ClauseOperationType;
-            Zones = clause.Zones.ToList();
-            Devices = clause.Devices.ToList();
+			_stateLogicViewModel = stateLogicViewModel;
+			SelectedStateType = clause.StateType;
+			SelectedClauseJounOperationType = clause.ClauseJounOperationType;
+			SelectedClauseOperationType = clause.ClauseOperationType;
+			Zones = clause.Zones.ToList();
+			Devices = clause.Devices.ToList();
 
-            ClauseJounOperationTypes = Enum.GetValues(typeof(ClauseJounOperationType)).Cast<ClauseJounOperationType>().ToList();
-            ClauseOperandTypes = Enum.GetValues(typeof(ClauseOperandType)).Cast<ClauseOperandType>().ToList();
-            ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
+			ClauseJounOperationTypes = Enum.GetValues(typeof(ClauseJounOperationType)).Cast<ClauseJounOperationType>().ToList();
+			ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
 
-            StateTypes = new List<XStateType>();
-            StateTypes.Add(XStateType.Attention);
-            StateTypes.Add(XStateType.Fire1);
-            StateTypes.Add(XStateType.Fire2);
-            StateTypes.Add(XStateType.Test);
-            StateTypes.Add(XStateType.Failure);
+			StateTypes = new List<XStateType>();
+			StateTypes.Add(XStateType.Attention);
+			StateTypes.Add(XStateType.Fire1);
+			StateTypes.Add(XStateType.Fire2);
+			StateTypes.Add(XStateType.Test);
+			StateTypes.Add(XStateType.Failure);
 
-            SelectedStateType = clause.StateType;
-        }
+			SelectedStateType = clause.StateType;
+		}
 
-        public List<ClauseJounOperationType> ClauseJounOperationTypes { get; private set; }
-        public List<ClauseOperandType> ClauseOperandTypes { get; private set; }
-        public List<ClauseOperationType> ClauseOperationTypes { get; private set; }
+		public List<ClauseJounOperationType> ClauseJounOperationTypes { get; private set; }
+		public List<ClauseOperationType> ClauseOperationTypes { get; private set; }
 
-        ClauseJounOperationType _selectedClauseJounOperationType;
-        public ClauseJounOperationType SelectedClauseJounOperationType
-        {
-            get { return _selectedClauseJounOperationType; }
-            set
-            {
-                _selectedClauseJounOperationType = value;
-                OnPropertyChanged("SelectedClauseJounOperationType");
-            }
-        }
+		ClauseJounOperationType _selectedClauseJounOperationType;
+		public ClauseJounOperationType SelectedClauseJounOperationType
+		{
+			get { return _selectedClauseJounOperationType; }
+			set
+			{
+				_selectedClauseJounOperationType = value;
+				OnPropertyChanged("SelectedClauseJounOperationType");
+			}
+		}
 
-        ClauseOperandType _selectedClauseOperandType;
-        public ClauseOperandType SelectedClauseOperandType
-        {
-            get { return _selectedClauseOperandType; }
-            set
-            {
-                _selectedClauseOperandType = value;
-                OnPropertyChanged("SelectedClauseOperandType");
+		ClauseOperationType _selectedClauseOperationType;
+		public ClauseOperationType SelectedClauseOperationType
+		{
+			get { return _selectedClauseOperationType; }
+			set
+			{
+				_selectedClauseOperationType = value;
 
-                switch(value)
-                {
-                    case ClauseOperandType.Device:
-                        Zones = new List<Guid>();
-                        break;
+				switch (value)
+				{
+					case ClauseOperationType.AllDevices:
+					case ClauseOperationType.AnyDevice:
+						Zones = new List<Guid>();
+						break;
 
-                    case ClauseOperandType.Zone:
-                        Devices = new List<Guid>();
-                        break;
-                }
-                OnPropertyChanged("PresenrationZones");
-                OnPropertyChanged("PresenrationDevices");
-                OnPropertyChanged("CanSelectZones");
-                OnPropertyChanged("CanSelectDevices");
-            }
-        }
+					case ClauseOperationType.AllZones:
+					case ClauseOperationType.AnyZone:
+						Devices = new List<Guid>();
+						break;
+				}
+				OnPropertyChanged("SelectedClauseOperationType");
+				OnPropertyChanged("PresenrationZones");
+				OnPropertyChanged("PresenrationDevices");
+				OnPropertyChanged("CanSelectZones");
+				OnPropertyChanged("CanSelectDevices");
+			}
+		}
 
-        ClauseOperationType _selectedClauseOperationType;
-        public ClauseOperationType SelectedClauseOperationType
-        {
-            get { return _selectedClauseOperationType; }
-            set
-            {
-                _selectedClauseOperationType = value;
-                OnPropertyChanged("SelectedClauseOperationType");
-            }
-        }
+		public List<XStateType> StateTypes { get; private set; }
 
-        public List<XStateType> StateTypes { get; private set; }
+		XStateType _selectedStateType;
+		public XStateType SelectedStateType
+		{
+			get { return _selectedStateType; }
+			set
+			{
+				_selectedStateType = value;
+				OnPropertyChanged("SelectedStateType");
+			}
+		}
 
-        XStateType _selectedStateType;
-        public XStateType SelectedStateType
-        {
-            get { return _selectedStateType; }
-            set
-            {
-                _selectedStateType = value;
-                OnPropertyChanged("SelectedStateType");
-            }
-        }
+		bool _showJoinOperator;
+		public bool ShowJoinOperator
+		{
+			get { return _showJoinOperator; }
+			set
+			{
+				_showJoinOperator = value;
+				OnPropertyChanged("ShowJoinOperator");
+			}
+		}
 
-        public string PresenrationZones
-        {
-            get
-            {
-                var presenrationZones = new StringBuilder();
-                for (int i = 0; i < Zones.Count; i++)
-                {
-                    if (i > 0)
-                        presenrationZones.Append(", ");
-                    var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == Zones[i]);
-                    if (zone != null)
-                        presenrationZones.Append(zone.PresentationName);
-                }
+		public string PresenrationZones
+		{
+			get { return XManager.GetCommaSeparatedZones(Zones); }
+		}
 
-                return presenrationZones.ToString();
-            }
-        }
+		public string PresenrationDevices
+		{
+			get { return XManager.GetCommaSeparatedDevices(Devices); }
+		}
 
-        public string PresenrationDevices
-        {
-            get
-            {
-                var presenrationDevices = new StringBuilder();
-                for (int i = 0; i < Devices.Count; i++)
-                {
-                    if (i > 0)
-                        presenrationDevices.Append(", ");
-                    var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == Devices[i]);
-                    if (device != null)
-                        presenrationDevices.Append(device.Driver.ShortName + " - " + device.Address);
-                }
+		public bool CanSelectZones
+		{
+			get { return (SelectedClauseOperationType == ClauseOperationType.AllZones || SelectedClauseOperationType == ClauseOperationType.AnyZone); }
+		}
 
-                return presenrationDevices.ToString();
-            }
-        }
+		public bool CanSelectDevices
+		{
+			get { return (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice); }
+		}
 
-        bool _showJoinOperator;
-        public bool ShowJoinOperator
-        {
-            get { return _showJoinOperator; }
-            set
-            {
-                _showJoinOperator = value;
-                OnPropertyChanged("ShowJoinOperator");
-            }
-        }
-
-        public bool CanSelectZones
-        {
-            get
-            {
-                return SelectedClauseOperandType == ClauseOperandType.Zone;
-            }
-        }
-
-        public bool CanSelectDevices
-        {
-            get
-            {
-                return SelectedClauseOperandType == ClauseOperandType.Device;
-            }
-        }
-
-        public RelayCommand SelectZonesCommand { get; private set; }
-        void OnSelectZones()
-        {
-            var zonesSelectationViewModel = new ZonesSelectationViewModel(Zones);
+		public RelayCommand SelectZonesCommand { get; private set; }
+		void OnSelectZones()
+		{
+			var zonesSelectationViewModel = new ZonesSelectationViewModel(_stateLogicViewModel._deviceDetailsViewModel.Device, Zones);
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
-            {
-                Zones = zonesSelectationViewModel.Zones;
-                OnPropertyChanged("PresenrationZones");
-            }
-        }
+			{
+				Zones = zonesSelectationViewModel.Zones;
+				OnPropertyChanged("PresenrationZones");
+			}
+		}
 
-        public RelayCommand SelectDevicesCommand { get; private set; }
-        void OnSelectDevices()
-        {
-            var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices);
-            if (DialogService.ShowModalWindow(devicesSelectationViewModel))
-            {
-                Devices = devicesSelectationViewModel.DevicesList;
-                OnPropertyChanged("PresenrationDevices");
-            }
-        }
-    }
+		public RelayCommand SelectDevicesCommand { get; private set; }
+		void OnSelectDevices()
+		{
+			var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices);
+			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
+			{
+				Devices = devicesSelectationViewModel.DevicesList;
+				OnPropertyChanged("PresenrationDevices");
+			}
+		}
+	}
 }

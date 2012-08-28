@@ -6,12 +6,13 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
 	public class DeviceLogicViewModel : SaveCancelDialogViewModel
 	{
-		XDevice Device;
+		public XDevice Device { get; private set; }
 
 		public DeviceLogicViewModel(XDevice device)
 		{
@@ -67,9 +68,18 @@ namespace GKModule.ViewModels
 						Devices = clauseViewModel.Devices.ToList(),
 						Zones = clauseViewModel.Zones.ToList(),
 						ClauseJounOperationType = clauseViewModel.SelectedClauseJounOperationType,
-						ClauseOperandType = clauseViewModel.SelectedClauseOperandType,
 						ClauseOperationType = clauseViewModel.SelectedClauseOperationType
 					};
+					foreach (var deviceUID in clause.Devices)
+					{
+						var decvice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.UID == deviceUID);
+						clause.XDevices.Add(decvice);
+					}
+					foreach (var zoneUID in clause.Zones)
+					{
+						var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+						clause.XZones.Add(zone);
+					}
 					if ((clause.Devices.Count > 0) || (clause.Zones.Count > 0))
 						stateLogic.Clauses.Add(clause);
 				}

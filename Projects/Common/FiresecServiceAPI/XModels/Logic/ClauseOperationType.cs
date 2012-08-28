@@ -4,10 +4,16 @@ namespace XFiresecAPI
 {
     public enum ClauseOperationType
     {
-        [DescriptionAttribute("во всех из")]
-        All,
+        [DescriptionAttribute("во всех устройствах из")]
+        AllDevices,
 
-        [DescriptionAttribute("в любой из")]
-        One
+        [DescriptionAttribute("в любм устройстве из")]
+        AnyDevice,
+
+        [DescriptionAttribute("во всех зонах из")]
+        AllZones,
+
+        [DescriptionAttribute("в любой зоне из")]
+        AnyZone
     }
 }

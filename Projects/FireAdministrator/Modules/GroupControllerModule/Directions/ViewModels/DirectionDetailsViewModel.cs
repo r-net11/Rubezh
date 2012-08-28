@@ -11,9 +11,9 @@ namespace GKModule.ViewModels
 		public DirectionDevicesViewModel DirectionDevicesViewModel { get; private set; }
 		public XDirection XDirection { get; set; }
 
-		public DirectionDetailsViewModel(XDirection xDirection = null)
+		public DirectionDetailsViewModel(XDirection direction = null)
         {
-			if (xDirection == null)
+			if (direction == null)
             {
                 Title = "Создание новоого направления";
 
@@ -27,9 +27,14 @@ namespace GKModule.ViewModels
             }
             else
             {
-				Title = string.Format("Свойства направления: {0}", xDirection.PresentationName);
-				XDirection = xDirection;
+				Title = string.Format("Свойства направления: {0}", direction.PresentationName);
+				XDirection = direction;
             }
+			if (XDirection.DirectionDevices.Count == 0)
+			{
+				var directionDevice = new DirectionDevice();
+				XDirection.DirectionDevices.Add(directionDevice);
+			}
             CopyProperties();
 			DirectionDevicesViewModel = new DirectionDevicesViewModel(XDirection);
         }

@@ -9,6 +9,8 @@ using Infrastructure.Events;
 using XFiresecAPI;
 using System.Threading;
 using FiresecAPI;
+using FiresecAPI.XModels;
+using Common;
 
 namespace GKModule
 {
@@ -48,11 +50,11 @@ namespace GKModule
 			if (sendResult.Bytes.Count == 68)
 			{
 				var binaryObjectState = new BinaryObjectState(sendResult.Bytes);
-				SetObjectStates(binaryBase, binaryObjectState.States);
+				ApplicationService.Invoke(() => { SetObjectStates(binaryBase, binaryObjectState.States); });
 			}
 			else
 			{
-				;
+				Logger.Error("StatesWatcher.GetState sendResult.Bytes.Count != 68");
 			}
 		}
 
@@ -64,10 +66,7 @@ namespace GKModule
 				var deviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
 				if (deviceState != null)
 				{
-
-					deviceState.SetStates(states);
-					deviceState.StateType = XStatesToState(states);
-					deviceState.OnStateChanged();
+					deviceState.States = states;
 				}
 			}
 			if (binaryBase is XZone)
@@ -88,7 +87,7 @@ namespace GKModule
 			var minPriority = 7;
 			foreach (var state in states)
 			{
-				var priority = StatesHelper.XStateTypeToPriority(state);
+				var priority = XStatesHelper.XStateTypeToPriority(state);
 				if (priority < minPriority)
 				{
 					minPriority = priority;

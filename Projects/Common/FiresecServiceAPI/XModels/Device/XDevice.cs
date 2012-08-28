@@ -155,6 +155,7 @@ namespace XFiresecAPI
 				{
 					for (int i = 0; i < Children.Count; i++)
 					{
+						Children[i].ShleifNo = ShleifNo;
 						Children[i].IntAddress = (byte)(IntAddress + i);
 					}
 				}
@@ -166,6 +167,8 @@ namespace XFiresecAPI
 		{
 			get
 			{
+				if (Parent != null && Parent.Driver.IsGroupDevice)
+					return false;
 				return (Driver.HasAddress && Driver.CanEditAddress);
 			}
 		}
@@ -221,6 +224,18 @@ namespace XFiresecAPI
 				}
 			}
 			return null;
+		}
+
+		public bool IsRealDevice
+		{
+			get
+			{
+				if (Driver.IsGroupDevice)
+					return false;
+				if (Driver.DriverType == XDriverType.System)
+					return false;
+				return true;
+			}
 		}
 	}
 }

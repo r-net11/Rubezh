@@ -14,6 +14,7 @@ namespace DevicesModule
 	{
 		static DevicesViewModel DevicesViewModel;
 		static ZonesViewModel ZonesViewModel;
+		private NavigationItem _zonesNavigationItem;
 
 		public DevicesModuleLoader()
 		{
@@ -42,16 +43,17 @@ namespace DevicesModule
 
 		public override void Initialize()
 		{
-			//IsVisible = FiresecManager.FiresecConfiguration.DeviceConfiguration.Zones.Count > 0;
+			_zonesNavigationItem.IsVisible = FiresecManager.FiresecConfiguration.DeviceConfiguration.Zones.Count > 0;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
+			_zonesNavigationItem = new NavigationItem<ShowZoneEvent, int?>("Зоны", "/Controls;component/Images/zones.png");
 			return new List<NavigationItem>()
 			{
 				new NavigationItem<ShowDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-				new NavigationItem<ShowZoneEvent, int?>("Зоны", "/Controls;component/Images/zones.png")
+				_zonesNavigationItem
 			};
 		}
 

@@ -11,8 +11,8 @@ namespace Common.GK
             {
                 DriverType = XDriverType.System,
 				UID = XDriver.System_UID,
-                Name = "Система",
-                ShortName = "Система",
+                Name = "Локальная сеть",
+				ShortName = "Локальная сеть",
                 CanEditAddress = false,
                 HasAddress = false,
 				IsDeviceOnShleif = false

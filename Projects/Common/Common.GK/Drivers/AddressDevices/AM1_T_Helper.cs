@@ -17,8 +17,10 @@ namespace Common.GK
 				UID = new Guid("f5a34ce2-322e-4ed9-a75f-fc8660ae33d8"),
 				Name = "Технологическая адресная метка АМ1-Т",
 				ShortName = "АМ1-Т",
-				HasZone = true
+				HasZone = false
 			};
+
+			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);
 
 			var property1 = new XDriverProperty()
 			{

@@ -157,8 +157,27 @@ namespace GKModule.Converter
                         {
                             var xClause = new XClause()
                             {
-                                ClauseOperandType = ClauseOperandType.Zone
+								ClauseOperationType = ClauseOperationType.AllZones
                             };
+							if(clause.Operation.HasValue)
+							switch(clause.Operation.Value)
+							{
+								case ZoneLogicOperation.All:
+									xClause.ClauseOperationType = ClauseOperationType.AllZones;
+									break;
+
+								case ZoneLogicOperation.Any:
+									xClause.ClauseOperationType = ClauseOperationType.AnyZone;
+									break;
+							}
+							if (clause.Device != null)
+							{
+								;
+							}
+							if (clause.DeviceUID != Guid.Empty)
+							{
+								;
+							}
                             switch (clause.State)
                             {
                                 case FiresecAPI.Models.ZoneLogicState.Attention:

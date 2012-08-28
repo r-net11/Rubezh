@@ -28,14 +28,16 @@
                                     <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200">
                                         <TextBlock.ContextMenu>
-                                            <ContextMenu>
+                                            <ContextMenu Visibility="{Binding Device.IsRealDevice, Converter={StaticResource BoolToVisibilityConverter}}">
                                                 <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
                                                 <MenuItem Header="Команды" DataContext="{Binding DeviceCommandsViewModel}"
                                                           IsEnabled="{Binding CanControl}">
                                                     <MenuItem Command="{Binding SetIgnoreCommand}" Header="Поставить в обход" />
                                                     <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Убрать из обхода" />
+                                                    <Separator />
                                                     <MenuItem Command="{Binding SetAutomaticCommand}" Header="Включить автоматику" />
                                                     <MenuItem Command="{Binding ResetAutomaticCommand}" Header="Выключить автоматику" />
+                                                    <Separator />
                                                     <MenuItem Command="{Binding TurnOnCommand}" Header="Включить" />
                                                     <MenuItem Command="{Binding CancelDelayCommand}" Header="Отменить задержку" />
                                                     <MenuItem Command="{Binding TurnOffCommand}" Header="Выключить" />
@@ -71,6 +73,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding PresentationZone}" Width="*" />
                     <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Device.Description}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>

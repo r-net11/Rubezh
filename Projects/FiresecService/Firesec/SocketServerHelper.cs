@@ -30,7 +30,6 @@ namespace Firesec
 
 		public static void StopNTServiceIfRunning()
 		{
-			//var service = new System.ServiceProcess.ServiceController("Borland Advanced Socket Server");
 			var service = (from srv in System.ServiceProcess.ServiceController.GetServices()
 						   where srv.ServiceName == "Borland Advanced Socket Server"
 						   select srv).FirstOrDefault();

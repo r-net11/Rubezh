@@ -33,15 +33,19 @@ namespace GKModule
 
 		static void OnRun()
 		{
+			try
+			{
+				foreach (var journalWatcher in JournalWatchers)
+				{
+					journalWatcher.Start();
+				}
+			}
+			catch { }
+
 			while (true)
 			{
 				try
 				{
-                    foreach (var journalWatcher in JournalWatchers)
-                    {
-                        journalWatcher.Start();
-                    }
-
 					foreach (var journalWatcher in JournalWatchers)
 					{
 						journalWatcher.PingJournal();

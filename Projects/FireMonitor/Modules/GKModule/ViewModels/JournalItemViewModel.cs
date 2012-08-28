@@ -7,6 +7,7 @@ using Common.GK;
 using XFiresecAPI;
 using FiresecClient;
 using FiresecAPI;
+using FiresecAPI.XModels;
 
 namespace GKModule.ViewModels
 {
@@ -33,7 +34,7 @@ namespace GKModule.ViewModels
 				PresentationName = "Зона " + ZoneState.Zone.PresentationName;
 			}
 
-			var states = StatesHelper.StatesFromInt(journalItem.ObjectState);
+			var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
 			var stringBuilder = new StringBuilder();
 			foreach (var state in states)
 			{

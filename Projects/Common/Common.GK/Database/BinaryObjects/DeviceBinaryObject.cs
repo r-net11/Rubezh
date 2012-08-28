@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using XFiresecAPI;
-//using FiresecAPI;
 using FiresecClient;
 
 namespace Common.GK
@@ -74,13 +73,16 @@ namespace Common.GK
 							{
 								switch (clause.ClauseOperationType)
 								{
-									case ClauseOperationType.All:
+									case ClauseOperationType.AllDevices:
 										Formula.Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
 										break;
 
-									case ClauseOperationType.One:
+									case ClauseOperationType.AnyDevice:
 										Formula.Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
 										break;
+
+									default:
+										throw new Exception("Недопустимое значение логики объединения");
 								}
 							}
 							objectIndex++;
@@ -186,15 +188,6 @@ namespace Common.GK
                     }
                 }
             }
-			foreach (var property in Device.Driver.DriverTypeMappedProperties)
-			{
-				var binProperty = new BinProperty()
-				{
-					No = property.No,
-					Value = property.Value
-				};
-				binProperties.Add(binProperty);
-			}
 
 			Parameters = new List<byte>();
 			foreach (var binProperty in binProperties)

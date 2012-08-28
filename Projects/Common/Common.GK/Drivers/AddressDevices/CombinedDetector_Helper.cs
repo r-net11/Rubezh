@@ -17,6 +17,10 @@ namespace Common.GK
 				ShortName = "ИП-64К",
 				HasZone = true
 			};
+
+			GKDriversHelper.AddAvailableStates(driver, XStateType.Test);
+			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);
+
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму", 0, 65, 0, 255);
 			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре", 0, 100, 0, 85);
 			GKDriversHelper.AddIntProprety(driver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 100, 0, 255);

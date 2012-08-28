@@ -14,7 +14,7 @@ namespace XFiresecAPI
 			Children = new List<XDriverType>();
 			Properties = new List<XDriverProperty>();
 			AutoCreateChildren = new List<XDriverType>();
-			DriverTypeMappedProperties = new List<XDriverTypeMappedProperty>();
+			AvailableStates = new List<XStateType>();
 			CanEditAddress = true;
 			HasAddress = true;
 			IsDeviceOnShleif = true;
@@ -34,7 +34,7 @@ namespace XFiresecAPI
 		[DataMember]
 		public List<XDriverProperty> Properties { get; set; }
 		[DataMember]
-		public List<XDriverTypeMappedProperty> DriverTypeMappedProperties { get; set; }
+		public List<XStateType> AvailableStates { get; set; }
 
 		[DataMember]
 		public List<XDriverType> Children { get; set; }

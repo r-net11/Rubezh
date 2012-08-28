@@ -19,6 +19,8 @@ namespace Common.GK
 				HasLogic = true
 			};
 
+			GKDriversHelper.AddControlAvailableStates(driver);
+
 			AddRegim(driver, 0xBB, "Логика работы выхода 1");
 			AddRegim(driver, 0xBC, "Логика работы выхода 2");
 			AddRegim(driver, 0xBD, "Логика работы выхода 3");

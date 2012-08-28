@@ -18,6 +18,8 @@ namespace Common.GK
 				HasZone = true
 			};
 
+			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);
+
 			var property1 = new XDriverProperty()
 			{
 				No = 0x81,

@@ -89,10 +89,9 @@
     <Compile Include="Devices\ViewModels\DeviceProperties\PropertiesViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\ShortPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
-    <Compile Include="Devices\ViewModels\Logic\Converters\ClauseJounOperationConverter.cs" />
-    <Compile Include="Devices\ViewModels\Logic\Converters\ClauseOperandConverter.cs" />
-    <Compile Include="Devices\ViewModels\Logic\Converters\ClauseOperationConverter.cs" />
-    <Compile Include="Devices\ViewModels\Logic\Converters\StateTypesConverter.cs" />
+    <Compile Include="Converters\ClauseJounOperationConverter.cs" />
+    <Compile Include="Converters\ClauseOperationConverter.cs" />
+    <Compile Include="Converters\StateTypesConverter.cs" />
     <Compile Include="Devices\ViewModels\Logic\DevicesSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateLogicViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ZonesSelectationViewModel.cs" />

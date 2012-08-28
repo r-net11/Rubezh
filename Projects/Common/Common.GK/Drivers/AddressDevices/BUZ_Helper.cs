@@ -20,6 +20,8 @@ namespace Common.GK
 				HasLogic = true
 			};
 
+			GKDriversHelper.AddControlAvailableStates(driver);
+
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Уставка времени хода задвижки", 0, 1, 1, 65535);
 			GKDriversHelper.AddIntProprety(driver, 0x8e, "Время отложенного запуска, с", 0, 0, 0, 255);
 

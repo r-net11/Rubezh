@@ -2,6 +2,7 @@
 using System.Linq;
 using XFiresecAPI;
 using FiresecClient;
+using FiresecAPI.XModels;
 
 namespace Common.GK
 {
@@ -19,7 +20,7 @@ namespace Common.GK
 			var deviceType = BytesHelper.SubstructShort(bytes, 0);
 			Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
 
-			States = StatesHelper.StatesFromInt(state);
+			States = XStatesHelper.StatesFromInt(state);
 		}
 
 		public XDriver Driver { get; private set; }

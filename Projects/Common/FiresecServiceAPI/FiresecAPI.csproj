@@ -253,6 +253,7 @@
     <Compile Include="XModels\States\XZoneState.cs" />
     <Compile Include="XModels\XBinaryBase.cs" />
     <Compile Include="XModels\XBinaryInfo.cs" />
+    <Compile Include="XModels\XStatesHelper.cs" />
     <Compile Include="XModels\Zone\XZone.cs" />
   </ItemGroup>
   <ItemGroup>

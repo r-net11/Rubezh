@@ -1,4 +1,5 @@
 ﻿using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace Common.GK
 {
@@ -68,15 +69,23 @@ namespace Common.GK
 			property.Parameters.Add(parameter);
 		}
 
-		public static void AddAlternativePropertyParameter(XDriverProperty property, string name, string alternativeName, int value)
+		public static void AddAvailableStates(XDriver driver, XStateType stateType)
 		{
-			var parameter = new XDriverPropertyParameter()
+			if (driver.AvailableStates.Count == 0)
 			{
-				Name = name,
-				AlternativeName = alternativeName,
-				Value = (ushort)value
-			};
-			property.Parameters.Add(parameter);
+				driver.AvailableStates.Add(XStateType.Norm);
+				driver.AvailableStates.Add(XStateType.Failure);
+				driver.AvailableStates.Add(XStateType.Ignore);
+			}
+			driver.AvailableStates.Add(stateType);
+		}
+
+		public static void AddControlAvailableStates(XDriver driver)
+		{
+			driver.AvailableStates.Add(XStateType.On);
+			driver.AvailableStates.Add(XStateType.Off);
+			driver.AvailableStates.Add(XStateType.TurningOn);
+			driver.AvailableStates.Add(XStateType.TurnOff);
 		}
 	}
 }

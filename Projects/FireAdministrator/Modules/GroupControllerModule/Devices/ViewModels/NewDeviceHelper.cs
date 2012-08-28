@@ -55,7 +55,7 @@ namespace GKModule.ViewModels
 
             if (driver.IsRangeEnabled)
             {
-                if (parentDevice.Children.Count > 0)
+				if (parentDevice.Children.Where(x => x.Driver.IsAutoCreate == false).Count() > 0)
                     if (maxAddress + 1 <= driver.MaxAddress)
                         maxAddress = (byte)(maxAddress + 1);
             }
@@ -63,7 +63,7 @@ namespace GKModule.ViewModels
             {
                 if (parentDevice.Driver.IsGroupDevice)
                 {
-                    if (parentDevice.Children.Count > 0)
+					if (parentDevice.Children.Count > 0)
 						if (maxAddress + 1 <= parentDevice.IntAddress + driver.GroupDeviceChildrenCount - 1)
                             maxAddress = (byte)(maxAddress + 1);
                 }

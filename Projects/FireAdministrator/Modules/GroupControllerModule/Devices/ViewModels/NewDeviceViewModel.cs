@@ -16,17 +16,16 @@ namespace GKModule.ViewModels
             Title = "Новое устройство";
             _parentDeviceViewModel = parent;
             _parent = _parentDeviceViewModel.Device;
+
+			Drivers = new List<XDriver>(
+				from XDriver driver in XManager.DriversConfiguration.Drivers
+                       where _parent.Driver.Children.Contains(driver.DriverType)
+                       select driver);
+
+			SelectedDriver = Drivers.FirstOrDefault();
         }
 
-        public IEnumerable<XDriver> Drivers
-        {
-            get
-            {
-                return from XDriver driver in XManager.DriversConfiguration.Drivers
-                       where _parent.Driver.Children.Contains(driver.DriverType)
-                       select driver;
-            }
-        }
+        public IEnumerable<XDriver> Drivers{get;private set;}
 
         XDriver _selectedDriver;
         public XDriver SelectedDriver

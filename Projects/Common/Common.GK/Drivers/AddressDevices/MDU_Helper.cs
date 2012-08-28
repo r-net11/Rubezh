@@ -19,6 +19,8 @@ namespace Common.GK
 				HasLogic = true
 			};
 
+			GKDriversHelper.AddControlAvailableStates(driver);
+
 			var property1 = new XDriverProperty()
 			{
 				No = 0x82,

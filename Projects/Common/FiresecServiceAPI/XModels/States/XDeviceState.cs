@@ -2,52 +2,98 @@
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecAPI;
+using FiresecAPI.XModels;
 
 namespace XFiresecAPI
 {
     public class XDeviceState
     {
+		public XDeviceState Parent { get; set; }
+		public List<XDeviceState> Children { get; set; }
+		public Guid UID { get; set; }
+		public XDevice Device { get; set; }
+
         public XDeviceState()
         {
-            States = new List<XStateType>();
-            StateType = StateType.Unknown;
+			_states = new List<XStateType>();
+			_isConnectionLost = true;
             Children = new List<XDeviceState>();
         }
 
-        public XDeviceState Parent { get; set; }
-        public List<XDeviceState> Children { get; set; }
+		bool _isConnectionLost;
+		public bool IsConnectionLost
+		{
+			get
+			{
+				if (!Device.IsRealDevice)
+					return false;
 
-        public Guid UID { get; set; }
-        public XDevice Device { get; set; }
-        public bool IsConnectionLost { get; private set; }
-        public List<XStateType> States { get; private set; }
-        public StateType StateType { get; set; }
+				return _isConnectionLost;
+			}
+			set
+			{
+				if (_isConnectionLost != value)
+				{
+					_isConnectionLost = value;
+					OnStateChanged();
+				}
+			}
+		}
 
-        public void SetStates(List<XStateType> states)
-        {
-            if (IsConnectionLost)
-            {
-                States = new List<XStateType>();
-                StateType = StateType.Unknown;
-            }
-            else
-            {
-                States = states;
-            }
-        }
+		List<XStateType> _states;
+		public List<XStateType> States
+		{
+			get
+			{
+				if (!Device.IsRealDevice)
+					return new List<XStateType>();
 
-        public void ConnectionChanged(bool isConnected)
-        {
-			IsConnectionLost = !isConnected;
-            if (!isConnected)
-            {
-                States = new List<XStateType>();
-                StateType = StateType.Unknown;
-            }
-        }
+				if (IsConnectionLost)
+					return new List<XStateType>();
+				else
+				{
+					if (_states == null)
+						_states = new List<XStateType>();
+					return _states;
+				}
+			}
+			set
+			{
+				_states = value;
+				if (_states == null)
+					_states = new List<XStateType>();
+				OnStateChanged();
+			}
+		}
+
+		public StateType StateType
+		{
+			get
+			{
+				if (!Device.IsRealDevice)
+					return StateType.Norm;
+
+				if (IsConnectionLost)
+					return StateType.Unknown;
+				else
+				{
+					var minPriority = 7;
+					foreach (var state in States)
+					{
+						var priority = XStatesHelper.XStateTypeToPriority(state);
+						if (priority < minPriority)
+						{
+							minPriority = priority;
+						}
+					}
+					StateType stateType = (StateType)minPriority;
+					return stateType;
+				}
+			}
+		}
 
         public event Action StateChanged;
-        public void OnStateChanged()
+        void OnStateChanged()
         {
             if (StateChanged != null)
                 StateChanged();

@@ -14,10 +14,9 @@ namespace GKModule.ViewModels
             Title = "Выбор устройства";
 
             var devices = new HashSet<XDevice>();
-
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (device.Driver.IsDeviceOnShleif)
+				if (device.Driver.IsControlDevice)
 				{
 					device.AllParents.ForEach(x => { devices.Add(x); });
 					devices.Add(device);
@@ -28,7 +27,7 @@ namespace GKModule.ViewModels
             foreach (var device in devices)
             {
                 var deviceViewModel = new DeviceViewModel(device, Devices);
-                deviceViewModel.IsExpanded = true;
+				deviceViewModel.IsExpanded = device.Driver.IsControlDevice;
                 Devices.Add(deviceViewModel);
             }
 

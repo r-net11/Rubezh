@@ -12,8 +12,9 @@ namespace GKModule.ViewModels
     public class ZonesSelectationViewModel : SaveCancelDialogViewModel
     {
         public List<Guid> Zones { get; private set; }
+		XDevice Device;
 
-        public ZonesSelectationViewModel(List<Guid> zones)
+        public ZonesSelectationViewModel(XDevice device, List<Guid> zones)
         {
             Title = "Выбор зон";
             AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
@@ -21,11 +22,12 @@ namespace GKModule.ViewModels
             AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
             RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
 
+			Device = device;
             Zones = zones;
             TargetZones = new ObservableCollection<XZone>();
             SourceZones = new ObservableCollection<XZone>();
 
-            foreach (var zone in XManager.DeviceConfiguration.Zones)
+			foreach (var zone in XManager.GetGKZones(device))
             {
                 if (Zones.Contains(zone.UID))
                     TargetZones.Add(zone);

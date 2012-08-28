@@ -16,6 +16,7 @@ namespace GKModule
 		static DevicesViewModel DevicesViewModel;
 		static ZonesViewModel ZonesViewModel;
 		static JournalViewModel JournalViewModel;
+		private NavigationItem _zonesNavigationItem;
 
 		public GKModuleLoader()
 		{
@@ -34,9 +35,10 @@ namespace GKModule
 			DevicesViewModel.Select(deviceUID);
 			ServiceFactory.Layout.Show(DevicesViewModel);
 		}
-		void OnShowXZone(ushort? zoneNo)
+		void OnShowXZone(Guid zoneUID)
 		{
-			ZonesViewModel.Select(zoneNo);
+			if (zoneUID != Guid.Empty)
+				ZonesViewModel.Select(zoneUID);
 			ServiceFactory.Layout.Show(ZonesViewModel);
 		}
 		void OnShowXJournalEvent(object obj)
@@ -57,6 +59,7 @@ namespace GKModule
 			XManager.CreateStates();
 			DatabaseManager.Convert();
 
+			_zonesNavigationItem.IsVisible = XManager.DeviceConfiguration.Zones.Count > 0;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			JournalViewModel.Initialize();
@@ -66,12 +69,13 @@ namespace GKModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
+			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>("Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
 			return new List<NavigationItem>()
 			{
 				new NavigationItem("ГК", null, new List<NavigationItem>()
 				{
 					new NavigationItem<ShowXDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXZoneEvent, ushort?>("Зоны", "/Controls;component/Images/zones.png"),
+					_zonesNavigationItem,
 					new NavigationItem<ShowXJournalEvent, object>("Журнал", "/Controls;component/Images/book.png")
 				}),
 			};

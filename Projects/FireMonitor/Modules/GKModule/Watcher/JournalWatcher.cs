@@ -7,6 +7,7 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using FiresecAPI.XModels;
 
 namespace GKModule
 {
@@ -81,7 +82,7 @@ namespace GKModule
 					var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
 					if (binaryObject != null)
 					{
-						StatesWatcher.SetObjectStates(binaryObject.BinaryBase, StatesHelper.StatesFromInt(journalItem.ObjectState));
+						ApplicationService.Invoke(() => { StatesWatcher.SetObjectStates(binaryObject.BinaryBase, XStatesHelper.StatesFromInt(journalItem.ObjectState)); });
 						//StatesWatcher.RequestObjectState(binaryObject.BinaryBase);
 					}
 				}
@@ -103,7 +104,7 @@ namespace GKModule
 			var deviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Device == GkDatabase.RootDevice);
 			foreach (var childDeviceState in XManager.GetAllChildren(deviceState))
 			{
-				childDeviceState.ConnectionChanged(isConnected);
+				childDeviceState.IsConnectionLost = !isConnected;
 			}
 			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKConnectionChanged>().Publish(isConnected); });
 		}

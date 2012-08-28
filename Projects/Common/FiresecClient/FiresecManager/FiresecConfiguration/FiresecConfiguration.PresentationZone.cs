@@ -9,7 +9,7 @@ namespace FiresecClient
 {
 	public partial class FiresecConfiguration
 	{
-		public string GetClausePresentationName(List<int> zones)
+		public string GetCommaSeparatedZones(List<int> zones)
 		{
 			if (zones.Count > 0)
 			{
@@ -111,7 +111,7 @@ namespace FiresecClient
 						break;
 				}
 
-				result += " " + stringOperation + " " + GetClausePresentationName(clause.Zones);
+				result += " " + stringOperation + " " + GetCommaSeparatedZones(clause.Zones);
 			}
 
 			return result;

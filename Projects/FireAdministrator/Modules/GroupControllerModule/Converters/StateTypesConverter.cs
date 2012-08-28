@@ -3,15 +3,15 @@ using System.Windows.Data;
 using FiresecAPI;
 using XFiresecAPI;
 
-namespace GKModule.ViewModels.Converters
+namespace GKModule.Converters
 {
-	public class ClauseOperandConverter : IValueConverter
+	public class StateTypesConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			if (value is ClauseOperandType)
+			if (value is XStateType)
 			{
-				return ((ClauseOperandType)value).ToDescription();
+				return ((XStateType)value).ToDescription();
 			}
 			return "";
 		}

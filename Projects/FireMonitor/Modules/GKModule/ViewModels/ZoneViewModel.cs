@@ -59,7 +59,7 @@ namespace GKModule.ViewModels
 		public RelayCommand SelectCommand { get; private set; }
 		void OnSelect()
 		{
-			ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Publish(Zone.No);
+			ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Publish(Zone.UID);
 		}
 
 		public bool CanShowOnPlan()

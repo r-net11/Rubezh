@@ -6,6 +6,7 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -48,10 +49,9 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public void Select(ushort? zoneNo)
+		public void Select(Guid zoneUID)
 		{
-			if (zoneNo.HasValue)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+			SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 		}
 
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }

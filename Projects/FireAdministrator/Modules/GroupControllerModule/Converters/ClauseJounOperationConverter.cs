@@ -3,7 +3,7 @@ using System.Windows.Data;
 using FiresecAPI;
 using XFiresecAPI;
 
-namespace GKModule.ViewModels.Converters
+namespace GKModule.Converters
 {
 	public class ClauseJounOperationConverter : IValueConverter
 	{

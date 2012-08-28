@@ -177,7 +177,7 @@ namespace DevicesModule.ViewModels
 
 		public string PresenrationZones
 		{
-			get { return FiresecManager.FiresecConfiguration.GetClausePresentationName(Zones); }
+			get { return FiresecManager.FiresecConfiguration.GetCommaSeparatedZones(Zones); }
 		}
 
 		ZoneLogicState _selectedState;

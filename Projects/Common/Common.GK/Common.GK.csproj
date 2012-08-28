@@ -115,7 +115,6 @@
     <Compile Include="Sending\SendManager.cs" />
     <Compile Include="Sending\SendResult.cs" />
     <Compile Include="Sending\SendManager2.cs" />
-    <Compile Include="StatesHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FiresecClient\FiresecClient.csproj">

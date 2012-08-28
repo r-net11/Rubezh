@@ -29,8 +29,8 @@ namespace XFiresecAPI
         [DataMember]
         public List<Guid> Zones { get; set; }
 
-        [DataMember]
-        public ClauseOperandType ClauseOperandType { get; set; }
+		//[DataMember]
+		//public ClauseOperandType ClauseOperandType { get; set; }
 
         [DataMember]
         public ClauseOperationType ClauseOperationType { get; set; }

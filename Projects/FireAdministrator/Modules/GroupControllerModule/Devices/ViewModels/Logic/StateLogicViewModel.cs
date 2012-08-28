@@ -9,7 +9,7 @@ namespace GKModule.ViewModels
 {
     public class StateLogicViewModel : BaseViewModel
     {
-        DeviceLogicViewModel _deviceDetailsViewModel;
+		public DeviceLogicViewModel _deviceDetailsViewModel { get; private set; }
 
         public StateLogicViewModel(DeviceLogicViewModel deviceDetailsViewModel, StateLogic stateLogic)
         {
