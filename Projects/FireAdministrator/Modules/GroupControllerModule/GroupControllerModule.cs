@@ -21,16 +21,19 @@ namespace GKModule
 		private DevicesViewModel _devicesViewModel;
 		private ZonesViewModel _zonesViewModel;
 		private DirectionsViewModel _directionsViewModel;
+        private FiltersViewModel _filtersViewModel;
 
 		public GroupControllerModule()
 		{
 			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Subscribe(OnShowXDevices);
 			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Subscribe(OnShowXZones);
 			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Subscribe(OnShowXDirections);
+            ServiceFactory.Events.GetEvent<ShowXJournalFilterEvent>().Subscribe(OnShowXJournalFilter);
 
 			_devicesViewModel = new DevicesViewModel();
 			_zonesViewModel = new ZonesViewModel();
 			_directionsViewModel = new DirectionsViewModel();
+            _filtersViewModel = new FiltersViewModel();
 		}
 
 		private void OnShowXDevices(Guid deviceUID)
@@ -51,12 +54,17 @@ namespace GKModule
 				_directionsViewModel.SelectedDirection = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			ServiceFactory.Layout.Show(_directionsViewModel);
 		}
+        private void OnShowXJournalFilter(object obj)
+        {
+            ServiceFactory.Layout.Show(_filtersViewModel);
+        }
 
 		public override void Initialize()
 		{
 			_devicesViewModel.Initialize();
 			_zonesViewModel.Initialize();
 			_directionsViewModel.Initialize();
+            _filtersViewModel.Initialize();
 
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(new GKPlanExtension());
 		}
@@ -68,7 +76,8 @@ namespace GKModule
 				{
 					new NavigationItem<ShowXDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					new NavigationItem<ShowXZoneEvent, Guid>("Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXDirectionEvent, Guid>("Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty)
+					new NavigationItem<ShowXDirectionEvent, Guid>("Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
+                    new NavigationItem<ShowXJournalFilterEvent, object>("Фильтры", "/Controls;component/Images/filter.png")
 				}),
 			};
 		}

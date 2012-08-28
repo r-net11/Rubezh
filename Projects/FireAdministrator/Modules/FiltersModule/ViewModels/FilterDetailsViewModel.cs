@@ -15,9 +15,7 @@ namespace FiltersModule.ViewModels
 		public FilterDetailsViewModel()
 		{
 			Title = "Добавить фильтр";
-
 			JournalFilter = new JournalFilter();
-
 			Initialize();
 		}
 

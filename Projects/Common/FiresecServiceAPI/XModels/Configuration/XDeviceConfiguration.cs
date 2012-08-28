@@ -12,6 +12,7 @@ namespace XFiresecAPI
             Devices = new List<XDevice>();
             Zones = new List<XZone>();
 			Directions = new List<XDirection>();
+            JournalFilters = new List<XJournalFilter>();
         }
 
         public List<XDevice> Devices { get; set; }
@@ -24,6 +25,9 @@ namespace XFiresecAPI
 
         [DataMember]
 		public List<XDirection> Directions { get; set; }
+
+        [DataMember]
+        public List<XJournalFilter> JournalFilters { get; set; }
 
         public void Update()
         {
@@ -44,6 +48,12 @@ namespace XFiresecAPI
                 Devices.Add(device);
                 AddChild(device);
             }
+        }
+
+        public override void ValidateVersion()
+        {
+            if (JournalFilters == null)
+                JournalFilters = new List<XJournalFilter>();
         }
     }
 }

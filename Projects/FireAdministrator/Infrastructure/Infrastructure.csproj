@@ -106,6 +106,7 @@
     <Compile Include="Events\ShowUsersEvent.cs" />
     <Compile Include="Events\ShowVideoEvent.cs" />
     <Compile Include="Events\ShowXDeviceEvent.cs" />
+    <Compile Include="Events\ShowXJournalFilterEvent.cs" />
     <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="Events\ShowOPCZoneEvent.cs" />
