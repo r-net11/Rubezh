@@ -20,12 +20,91 @@ namespace DevicesModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			AddCommand = new RelayCommand(OnAdd);
 
+            WriteGuardUserCommand = new RelayCommand(OnWriteGuardUser);
 			AddUserCommand = new RelayCommand(OnAddUser, CanAddUser);
 			RemoveUserCommand = new RelayCommand(OnRemoveUser, CanRemoveUser);
 			AddZoneCommand = new RelayCommand(OnAddZone, CanAddZone);
 			RemoveZoneCommand = new RelayCommand(OnRemoveZone, CanRemoveZone);
 			ShowSynchronizationCommand = new RelayCommand(OnShowSynchronization, CanShowSynchronization);
 		}
+
+        public class User
+        {
+            public bool[] Attr = new bool[8];
+            public char[] Name = new char[20];
+            public char[] KeyTM = new char[12];
+            public char[] Pass = new char[6];
+            public bool[] Zones = new bool[64];
+            public bool[] ReservedZones = new bool[64];
+        }
+
+        Byte CountUsers;
+        bool[] UsersMask = new bool[104];
+        List<User> Users = new List<User>(80);
+
+        string AddCharsToLen(string str, int Len, char ch)
+        {
+            int i;
+            var result = str;
+            if (Len > str.Length)
+                for (i = str.Length + 1; i < Len; i++)
+                    result = result + ch;
+            return result;
+        }
+
+        User user = new User();
+        User user2 = new User();
+        string CodeDateToTranslate()
+        {
+            user.Attr[0] = true;
+            user.Name = "usr".ToCharArray();
+            user.Pass = "123".ToCharArray();
+            user.Zones[0] = true;
+            CountUsers = 1;
+            UsersMask[0] = true;
+            Users.Add(user);
+
+            user2.Attr[1] = true;
+            user2.Name = "abc".ToCharArray();
+            user2.Pass = "sdop".ToCharArray();
+            user2.Zones[1] = true;
+            CountUsers = 2;
+            UsersMask[1] = true;
+            Users.Add(user2);
+
+            int i, j;
+            string s;
+            CountUsers.ToString();
+            var DeviceGuardData = string.Format("{0,3}", CountUsers.ToString()).Replace(' ', '0');
+            for (i = 0; i < Users.Count; i++)
+            {
+                foreach (bool b in Users[i].Attr)
+                    DeviceGuardData = b == true ? DeviceGuardData + "1" : DeviceGuardData + "0";
+                s = new string(Users[i].Name);
+                s = AddCharsToLen(s, 20, ' ');
+                DeviceGuardData = DeviceGuardData + s;
+                s = new string(Users[i].KeyTM);
+                s = AddCharsToLen(s, 12, '0');
+                DeviceGuardData = DeviceGuardData + s;
+                s = new string(Users[i].Pass);
+                s = AddCharsToLen(s, 6, 'F');
+                DeviceGuardData = DeviceGuardData + s;
+                foreach (bool b in Users[i].Zones)
+                    DeviceGuardData = b == true ? DeviceGuardData + "1" : DeviceGuardData + "0";
+                foreach (bool b in Users[i].ReservedZones)
+                    DeviceGuardData = b == true ? DeviceGuardData + "1" : DeviceGuardData + "0";
+            }
+            return DeviceGuardData = DeviceGuardData + "1";
+        }
+
+        public RelayCommand WriteGuardUserCommand { get; private set; }
+        void OnWriteGuardUser()
+        {
+            if (SelectedDevice != null)
+            {
+                var usersList = FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, CodeDateToTranslate());
+            }
+        }
 
 		public void Initialize()
 		{

@@ -7,6 +7,7 @@
         <Controls:ToolBarButton Name="addButton" Command="{Binding AddCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/Add.png" />
         <Controls:ToolBarButton Name="editButton" Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
         <Controls:ToolBarButton Name="deleteButton" Command="{Binding DeleteCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
+        <Controls:ToolBarButton Name="writeButton" Command="{Binding WriteGuardUserCommand}" ToolTip="Записать конфигурацию охранного пользователя в устройство" ImageSource="/Controls;component/Images/write.png" />
         <Controls:ToolBarButton Command="{Binding ShowSynchronizationCommand}" ToolTip="Синхронизация" ImageSource="/Controls;component/Images/Settings.png" Visibility="Collapsed" />
     </StackPanel>
 </UserControl>
