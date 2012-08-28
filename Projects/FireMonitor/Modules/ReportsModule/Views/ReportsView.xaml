@@ -1,11 +1,10 @@
-﻿<UserControl x:Class="ReportsModule.Views.ReportsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:rep="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms" xmlns:views="clr-namespace:ReportsModule.Views" xmlns:WinForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms">
+﻿<UserControl x:Class="ReportsModule.Views.ReportsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:rep="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms" xmlns:views="clr-namespace:ReportsModule.Views" xmlns:WinForms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms" views:ReportsView.DocumentPaginator="{Binding DocumentPaginator}">
 	<Border Grid.Column="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Padding="5">
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
-
 			<Grid Grid.Row="0" DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto" />
@@ -13,7 +12,6 @@
 					<ColumnDefinition Width="*" />
 					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-
 				<StackPanel Grid.Column="0" Orientation="Horizontal">
 					<ComboBox Height="25" MinWidth="150" Margin="5, 0, 0, 0" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ItemsSource="{Binding AvailableReportTypes}" SelectedItem="{Binding SelectedReportName}">
 						<ComboBox.ItemTemplate>
@@ -42,7 +40,6 @@
 				<Slider x:Name="slider" Grid.Column="2" VerticalAlignment="Center" Maximum="5" Minimum="0.1" Orientation="Horizontal" Value="1" />
 				<Controls:ToolBarButton Grid.Column="3" Command="{Binding ZoomInCommand}" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить масштаб плана" />
 			</Grid>
-
 			<ScrollViewer Name="_scrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
 				<Grid>
 					<Grid.LayoutTransform>
@@ -51,7 +48,7 @@
 						</TransformGroup>
 					</Grid.LayoutTransform>
 					<Border Background="LightGray">
-						<FlowDocumentPageViewer x:Name="_viewer" Width="{Binding DocumentWidth}" Height="{Binding DocumentHeight}" Background="White" BorderBrush="Black" BorderThickness="{Binding PageBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" IsHitTestVisible="False" Visibility="{Binding Document, Converter={StaticResource NullToVisibilityConverter}}">
+						<FlowDocumentPageViewer x:Name="_viewer" Width="{Binding DocumentWidth}" Height="{Binding DocumentHeight}" Background="White" BorderBrush="Black" BorderThickness="{Binding PageBorderThickness, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" IsHitTestVisible="False" Visibility="{Binding DocumentPaginator, Converter={StaticResource NullToVisibilityConverter}}">
 							<FlowDocumentPageViewer.Template>
 								<ControlTemplate TargetType="{x:Type FlowDocumentPageViewer}">
 									<Border Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{TemplateBinding Border.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}">
@@ -65,7 +62,6 @@
 					</Border>
 				</Grid>
 			</ScrollViewer>
-
 		</Grid>
 	</Border>
 </UserControl>

@@ -1,13 +1,10 @@
-﻿using Infrastructure.Common;
-using System.Linq;
-using Infrastructure.Common.Windows.ViewModels;
-using ReportsModule.Views;
-using System.Windows.Documents;
-using System.Windows.Markup;
-using System.IO;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Documents;
 using FiresecAPI.Models;
-using System;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 using ReportsModule.ReportProviders;
 
 namespace ReportsModule.ViewModels
@@ -32,7 +29,7 @@ namespace ReportsModule.ViewModels
 			private set
 			{
 				_documentPaginator = value;
-				OnPropertyChanged("Document");
+				OnPropertyChanged("DocumentPaginator");
 				OnPropertyChanged("DocumentWidth");
 				OnPropertyChanged("DocumentHeight");
 			}
@@ -62,8 +59,15 @@ namespace ReportsModule.ViewModels
 		public RelayCommand RefreshCommand { get; private set; }
 		private void OnRefresh()
 		{
-			DeviceListReport provider = new DeviceListReport();
-			DocumentPaginator = provider.GenerateReport();
+			DateTime dt1 = DateTime.Now;
+			using (new WaitWrapper())
+			{
+				DeviceListReport provider = new DeviceListReport();
+				DocumentPaginator = provider.GenerateReport();
+			}
+			DateTime dt2 = DateTime.Now;
+			Console.WriteLine("Total: {0}", dt2 - dt1);
+			Console.WriteLine("Page Count: {0}", DocumentPaginator.PageCount);
 		}
 		private bool CanRefresh()
 		{

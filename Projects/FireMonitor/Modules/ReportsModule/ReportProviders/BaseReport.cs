@@ -17,10 +17,13 @@ namespace ReportsModule.ReportProviders
 
 		public DocumentPaginator GenerateReport()
 		{
+			DateTime dt1 = DateTime.Now;
 			ReportDocument reportDocument = new ReportDocument();
 			reportDocument.XamlData = GetXaml();
 			ReportData reportData = GetData();
 			ReportPaginator reportPaginator = new ReportPaginator(reportDocument, reportData);
+			DateTime dt2 = DateTime.Now;
+			Console.WriteLine("Build report: {0}", dt2 - dt1);
 			return reportPaginator;
 		}
 

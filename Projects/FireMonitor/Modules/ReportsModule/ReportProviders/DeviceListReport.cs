@@ -57,7 +57,7 @@ namespace ReportsModule.ReportProviders
 			tableData.Columns.Add("EAN", typeof(string));
 			tableData.Columns.Add("Count", typeof(int));
 			Random rnd = new Random(1234);
-			for (int i = 1; i <= 300; i++)
+			for (int i = 1; i <= 10000; i++)
 			{
 				// randomly create some articles
 				tableData.Rows.Add(new object[] { i, "Item " + i.ToString("0000"), "123456790123", rnd.Next(9) + 1 });
