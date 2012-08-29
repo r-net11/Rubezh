@@ -8,22 +8,35 @@ using System.Windows;
 using Infrastructure.Common;
 using System.IO;
 using System.Windows.Resources;
+using System.Diagnostics;
+using FiresecAPI.Models;
+using FiresecAPI;
 
 namespace ReportsModule.ReportProviders
 {
-	internal abstract class BaseReport
+	public abstract class BaseReport
 	{
 		private const string TemplateFormat = "/ReportTemplates/{0}Template.xaml";
 
+		public BaseReport(ReportType reportType)
+		{
+			ReportType = reportType;
+		}
+
+		public ReportType ReportType { get; private set; }
+		public string Title
+		{
+			get { return ReportType.ToDescription(); }
+		}
+
 		public DocumentPaginator GenerateReport()
 		{
-			DateTime dt1 = DateTime.Now;
+			DateTime dt = DateTime.Now;
 			ReportDocument reportDocument = new ReportDocument();
 			reportDocument.XamlData = GetXaml();
 			ReportData reportData = GetData();
 			ReportPaginator reportPaginator = new ReportPaginator(reportDocument, reportData);
-			DateTime dt2 = DateTime.Now;
-			Console.WriteLine("Build report: {0}", dt2 - dt1);
+			Debug.WriteLine("Build report: {0}", DateTime.Now - dt);
 			return reportPaginator;
 		}
 

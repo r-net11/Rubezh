@@ -6,6 +6,12 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using ReportsModule.ReportProviders;
+using System.Diagnostics;
+using System.Windows.Xps;
+using System.Printing;
+using Infrastructure.Common.Windows;
+using System.ComponentModel;
+using System.Threading;
 
 namespace ReportsModule.ViewModels
 {
@@ -15,6 +21,12 @@ namespace ReportsModule.ViewModels
 		{
 			RefreshCommand = new RelayCommand(OnRefresh, CanRefresh);
 			FilterCommand = new RelayCommand(OnFilter, CanFilter);
+			PrintReportCommand = new RelayCommand(OnPrintReport, CanPrintReport);
+			Reports = new List<BaseReport>()
+			{
+				new DeviceListReport()
+			};
+			SelectedReport = null;
 		}
 
 		public List<ReportType> AvailableReportTypes
@@ -43,35 +55,57 @@ namespace ReportsModule.ViewModels
 			get { return DocumentPaginator == null ? 0 : DocumentPaginator.PageSize.Height; }
 		}
 
-		private ReportType? _selectedReportName;
-		public ReportType? SelectedReportName
+		public List<BaseReport> Reports { get; private set; }
+		private BaseReport _selectedReport;
+		public BaseReport SelectedReport
 		{
-			get { return _selectedReportName; }
+			get { return _selectedReport; }
 			set
 			{
-				_selectedReportName = value;
-				OnPropertyChanged("SelectedReportName");
+				_selectedReport = value;
+				OnPropertyChanged("SelectedReport");
 				OnPropertyChanged("IsJournalReport");
 				RefreshCommand.Execute();
+			}
+		}
+		private bool _inProgress;
+		public bool InProgress
+		{
+			get { return _inProgress; }
+			set
+			{
+				_inProgress = value;
+				OnPropertyChanged("InProgress");
 			}
 		}
 
 		public RelayCommand RefreshCommand { get; private set; }
 		private void OnRefresh()
 		{
-			DateTime dt1 = DateTime.Now;
-			using (new WaitWrapper())
-			{
-				DeviceListReport provider = new DeviceListReport();
-				DocumentPaginator = provider.GenerateReport();
-			}
-			DateTime dt2 = DateTime.Now;
-			Console.WriteLine("Total: {0}", dt2 - dt1);
-			Console.WriteLine("Page Count: {0}", DocumentPaginator.PageCount);
+			if (SelectedReport != null)
+				ApplicationService.BeginInvoke((Action)(() =>
+					{
+						DateTime dt = DateTime.Now;
+						try
+						{
+							LoadingService.ShowProgress("Подождите...", "Идет построение отчета", 0);
+							InProgress = true;
+							DocumentPaginator = SelectedReport.GenerateReport();
+						}
+						finally
+						{
+							LoadingService.Close();
+							InProgress = false;
+						}
+						Debug.WriteLine("Total: {0}", DateTime.Now - dt);
+						Debug.WriteLine("Page Count: {0}", DocumentPaginator == null ? 0 : DocumentPaginator.PageCount);
+					}));
+			else
+				DocumentPaginator = null;
 		}
 		private bool CanRefresh()
 		{
-			return true;
+			return SelectedReport != null;
 		}
 
 		public RelayCommand FilterCommand { get; private set; }
@@ -80,8 +114,20 @@ namespace ReportsModule.ViewModels
 		}
 		private bool CanFilter()
 		{
-			return SelectedReportName == ReportType.ReportJournal;
+			return SelectedReport != null && SelectedReport.ReportType == ReportType.ReportJournal;
 		}
 
+		public RelayCommand PrintReportCommand { get; private set; }
+		private void OnPrintReport()
+		{
+			PrintDocumentImageableArea documentImageableArea = null;
+			XpsDocumentWriter writer = PrintQueue.CreateXpsDocumentWriter(ref documentImageableArea);
+			if (writer != null && documentImageableArea != null)
+				writer.WriteAsync(DocumentPaginator);
+		}
+		private bool CanPrintReport()
+		{
+			return DocumentPaginator != null && DocumentPaginator.PageCount > 0;
+		}
 	}
 }

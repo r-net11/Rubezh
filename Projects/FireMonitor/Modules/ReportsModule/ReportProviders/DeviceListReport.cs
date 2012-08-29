@@ -5,11 +5,17 @@ using System.Text;
 using System.Windows.Documents;
 using CodeReason.Reports;
 using System.Data;
+using FiresecAPI.Models;
 
 namespace ReportsModule.ReportProviders
 {
 	internal class DeviceListReport : BaseReport
 	{
+		public DeviceListReport()
+			: base(ReportType.ReportDevicesList)
+		{
+		}
+
 		public override ReportData GetData()
 		{
 			DataTable tableHeader = null;
@@ -57,7 +63,7 @@ namespace ReportsModule.ReportProviders
 			tableData.Columns.Add("EAN", typeof(string));
 			tableData.Columns.Add("Count", typeof(int));
 			Random rnd = new Random(1234);
-			for (int i = 1; i <= 10000; i++)
+			for (int i = 1; i <= 1000; i++)
 			{
 				// randomly create some articles
 				tableData.Rows.Add(new object[] { i, "Item " + i.ToString("0000"), "123456790123", rnd.Next(9) + 1 });

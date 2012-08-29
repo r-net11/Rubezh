@@ -8,6 +8,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public LoadingViewModel(bool restrictClose = true)
 			: base(restrictClose)
 		{
+			TopMost = true;
 		}
 
 		public string Product

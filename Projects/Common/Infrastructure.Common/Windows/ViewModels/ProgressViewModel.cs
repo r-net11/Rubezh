@@ -6,12 +6,12 @@ namespace Infrastructure.Common.Windows.ViewModels
 		public ProgressViewModel(bool restrictClose = true)
 		{
 			Sizable = false;
-			TopMost = true;
 			RestrictClose = restrictClose;
 			HideInTaskbar = true;
+			IsIndeterminate = false;
 		}
 
-		public string Text {get;set;}
+		public string Text { get; set; }
 
 		private int _currentStep;
 		public int CurrentStep
@@ -32,6 +32,16 @@ namespace Infrastructure.Common.Windows.ViewModels
 				_stepCount = value;
 				OnPropertyChanged("StepCount");
 				ApplicationService.DoEvents();
+			}
+		}
+		private bool _isIndeterminate;
+		public bool IsIndeterminate
+		{
+			get { return _isIndeterminate; }
+			set
+			{
+				_isIndeterminate = value;
+				OnPropertyChanged("IsIndeterminate");
 			}
 		}
 
