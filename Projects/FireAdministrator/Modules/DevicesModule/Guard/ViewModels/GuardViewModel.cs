@@ -20,7 +20,7 @@ namespace DevicesModule.ViewModels
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             AddCommand = new RelayCommand(OnAdd);
 
-            WriteGuardUserCommand = new RelayCommand(OnWriteGuardUser);
+            WriteGuardUserCommand = new RelayCommand(OnWriteGuardUser, CanWriteGuardUser);
             AddUserCommand = new RelayCommand(OnAddUser, CanAddUser);
             RemoveUserCommand = new RelayCommand(OnRemoveUser, CanRemoveUser);
             AddZoneCommand = new RelayCommand(OnAddZone, CanAddZone);
@@ -59,18 +59,10 @@ namespace DevicesModule.ViewModels
             return result;
         }
 
-        //User user1 = new User();
         User user = new User();
+
         string CodeDateToTranslate()
         {
-			//user1.Attr[0] = true;
-			//user1.Name = "usr".ToCharArray();
-			//user1.Pass = "123".ToCharArray();
-			//user1.KeyTM = "".ToCharArray();
-			//user1.Zones[0] = true;
-			//CountUsers = 1;
-			//UsersMask[0] = true;
-			//Users.Add(user1);
 
             foreach (var guardUser in FiresecManager.FiresecConfiguration.DeviceConfiguration.GuardUsers)
             {
@@ -79,9 +71,13 @@ namespace DevicesModule.ViewModels
 				user1.Attr[1] = guardUser.CanSetZone;
 				user1.Name = guardUser.Name.ToCharArray();
 				user1.Pass = guardUser.Password.ToCharArray();
-				// ? user1.Zones
-				user1.Zones[0] = true;
-				user1.Zones[2] = true;
+
+                foreach (var userZone in UserZones)
+                {
+                    var localNo = FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(userZone) - 1;
+                    user1.Zones[localNo] = true;
+                }
+
 				UsersMask[Users.Count] = true;
 				Users.Add(user1);
 				CountUsers++;
@@ -124,6 +120,11 @@ namespace DevicesModule.ViewModels
                 var userlist = CodeDateToTranslate();				
                 FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, userlist);
             }
+        }
+
+        bool CanWriteGuardUser()
+        {
+            return (SelectedDeviceUser != null) && (SelectedUserZone != null);
         }
 
         public void Initialize()
