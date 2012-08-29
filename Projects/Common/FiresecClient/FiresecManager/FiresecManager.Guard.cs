@@ -17,7 +17,7 @@ namespace FiresecClient
 				}
 			}
 		}
-
+ 
 		public static void UnSetZoneGuard(Zone zone)
 		{
 			if ((zone.ZoneType == ZoneType.Guard) && (zone.SecPanelUID != Guid.Empty))
