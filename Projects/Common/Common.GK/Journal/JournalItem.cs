@@ -1,10 +1,22 @@
 ﻿using System.Collections.Generic;
+using System;
+using FiresecClient;
+using XFiresecAPI;
+using System.Linq;
 
 namespace Common.GK
 {
 	public class JournalItem
 	{
 		public int GKNo { get; set; }
+		public string StringDate { get; set; }
+		public JournalItemType JournalItemType { get; set; }
+		public Guid ObjectUID { get; set; }
+		public string EventName { get; set; }
+		public string EventYesNo { get; set; }
+		public string EventDescription { get; set; }
+		public int ObjectState { get; set; }
+
 		public ushort GKObjectNo { get; set; }
 		public int KAUNo { get; set; }
 
@@ -14,25 +26,43 @@ namespace Common.GK
 		byte Hour { get; set; }
 		byte Minute { get; set; }
 		byte Second { get; set; }
-		public string StringDate { get; set; }
 
 		public ushort KAUAddress { get; set; }
 		public JournalSourceType Source { get; set; }
 		public byte Code { get; set; }
-		public string EventName { get; set; }
-		public string EventDescription { get; set; }
 
 		public ushort ObjectNo { get; set; }
 		public ushort ObjectDeviceType { get; set; }
 		public ushort ObjectDeviceAddress { get; set; }
 		public int ObjectFactoryNo { get; set; }
-		public int ObjectState { get; set; }
 
 		public JournalItem(List<byte> bytes)
 		{
 			GKNo = BytesHelper.SubstructInt(bytes, 0);
 			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 			KAUNo = BytesHelper.SubstructInt(bytes, 32);
+
+			if (GKObjectNo != 0)
+			{
+				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				if (device != null)
+				{
+					JournalItemType = JournalItemType.Device;
+					ObjectUID = device.UID;
+				}
+				var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				if (zone != null)
+				{
+					JournalItemType = JournalItemType.Zone;
+					ObjectUID = zone.UID;
+				}
+				var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
+				if (direction != null)
+				{
+					JournalItemType = JournalItemType.Direction;
+					ObjectUID = direction.UID;
+				}
+			}
 
 			Day = bytes[32 + 4];
 			Month = bytes[32 + 5];
@@ -52,31 +82,31 @@ namespace Common.GK
 					switch (Code)
 					{
 						case 0:
-							EventName = "технология";
+							EventName = "Технология";
 							break;
 
 						case 1:
-							EventName = "очистка журнала";
+							EventName = "Очистка журнала";
 							break;
 
 						case 2:
-							EventName = "установка часов";
+							EventName = "Установка часов";
 							break;
 
 						case 3:
-							EventName = "запись информации о блоке";
+							EventName = "Запись информации о блоке";
 							break;
 
 						case 4:
-							EventName = "смена ПО";
+							EventName = "Смена ПО";
 							break;
 
 						case 5:
-							EventName = "смена БД";
+							EventName = "Смена БД";
 							break;
 
 						case 6:
-							EventName = "работа";
+							EventName = "Работа";
 							break;
 					}
 					break;
@@ -85,11 +115,11 @@ namespace Common.GK
 					switch (Code)
 					{
 						case 0:
-							EventName = "неизвестный тип";
+							EventName = "Неизвестный тип";
 							break;
 
 						case 1:
-							EventName = "устройство с таким адресом не описано при конфигурации";
+							EventName = "Устройство с таким адресом не описано при конфигурации";
 							break;
 					}
 					break;
@@ -103,61 +133,71 @@ namespace Common.GK
 					switch (Code)
 					{
 						case 0:
-							EventName = "при конфигурации описан другой тип";
+							EventName = "При конфигурации описан другой тип";
 							EventDescription = BytesHelper.SubstructShort(bytes, 32 + 14).ToString();
 							break;
 						case 1:
-							EventName = "изменился заводской номер";
+							EventName = "Изменился заводской номер";
 							EventDescription = BytesHelper.SubstructInt(bytes, 32 + 14).ToString();
 							break;
 						case 2:
-							EventName = "пожар" + StringHelper.ToYesNo(bytes[32 + 14]);
+							EventName = "Пожар";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							EventDescription = StringHelper.ToFire(bytes[32 + 15]);
 							break;
 
 						case 3:
-							EventName = "пожар-2" + StringHelper.ToYesNo(bytes[32 + 14]);
+							EventName = "Пожар-2";
 							break;
 
 						case 4:
-							EventName = "внимание" + StringHelper.ToYesNo(bytes[32 + 14]);
+							EventName = "Внимание";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							break;
 
 						case 5:
-							EventName = "неисправность" + StringHelper.ToYesNo(bytes[32 + 14]);
+							EventName = "Неисправность";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							EventDescription = StringHelper.ToFailure(bytes[32 + 15]);
 							break;
 
 						case 6:
-							EventName = "тест" + StringHelper.ToYesNo(bytes[32 + 14]);
+							EventName = "Тест";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							EventDescription = StringHelper.ToTest(bytes[32 + 15]);
 							break;
 
 						case 7:
-							EventName = "запыленность" + StringHelper.ToYesNo(bytes[32 + 14]);
+							EventName = "Запыленность";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							EventDescription = StringHelper.ToDustinness(bytes[32 + 15]);
 							break;
 
 						case 8:
-							EventName = "управление" + StringHelper.ToYesNo(bytes[32 + 14]);
+							EventName = "Управление";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							EventDescription = StringHelper.ToControl(bytes[32 + 15]);
 							break;
 
 						case 9:
-							EventName = "состояние" + StringHelper.ToYesNo(bytes[32 + 14]);
+							EventName = "Состояние";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							EventDescription = StringHelper.ToState(bytes[32 + 15]);
 							break;
 
 						case 10:
-							EventName = "режим работы" + StringHelper.ToRegime(bytes[32 + 14]);
+							EventName = "Режим работы";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							break;
 
 						case 11:
-							EventName = "дежурный" + StringHelper.ToYesNo(bytes[32 + 14]);
+							EventName = "Дежурный";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							break;
 
 						case 12:
-							EventName = "обход" + StringHelper.ToYesNo(bytes[32 + 14]);
+							EventName = "Обход";
+							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							break;
 					}
 					break;
@@ -170,9 +210,9 @@ namespace Common.GK
 		public static string ToYesNo(byte b)
 		{
 			if (b == 0)
-				return " нет";
-			if (b == 0)
-				return " есть";
+				return " Нет";
+			if (b == 1)
+				return " Есть";
 			return "";
 		}
 
@@ -180,10 +220,10 @@ namespace Common.GK
 		{
 			switch (b)
 			{
-				case 0: return "автомат";
-				case 1: return "ручной";
-				case 2: return "отключен";
-				case 3: return "неопределен";
+				case 0: return "Автомат";
+				case 1: return "Ручной";
+				case 2: return "Отключен";
+				case 3: return "Неопределен";
 			}
 			return "";
 		}
@@ -192,10 +232,10 @@ namespace Common.GK
 		{
 			switch (b)
 			{
-				case 1: return "ручник сорван";
-				case 2: return "срабатывание по дыму";
-				case 3: return "срабатывание по температуре";
-				case 4: return "срабатывание по градиенту температуры";
+				case 1: return "Ручник сорван";
+				case 2: return "Срабатывание по дыму";
+				case 3: return "Срабатывание по температуре";
+				case 4: return "Срабатывание по градиенту температуры";
 			}
 			return "";
 		}
@@ -204,81 +244,81 @@ namespace Common.GK
 		{
 			switch (b)
 			{
-				case 1: return "неисправность питания";
-				case 2: return "неисправность оптического канала или фотоусилителя";
-				case 3: return "неисправность температурного канала";
-				case 4: return "кз ШС";
-				case 5: return "обрыв ШС";
-				case 6: return "состояние датчика давления";
-				case 7: return "состояние датчика массы";
-				case 8: return "вскрытие";
-				case 9: return "реле не реагирует на команды (контакт не переключается)";
-				case 10: return "напряжение запуска реле ниже нормы";
-				case 11: return "кз выхода";
-				case 12: return "обрыв выхода";
-				case 13: return "напряжение питания ШС ниже нормы";
-				case 14: return "ошибка памяти";
-				case 15: return "кз выхода 1";
-				case 16: return "кз выхода 2";
-				case 17: return "кз выхода 3";
-				case 18: return "кз выхода 4";
-				case 19: return "кз выхода 5";
-				case 20: return "обрыв выхода 1";
-				case 21: return "обрыв выхода 2";
-				case 22: return "обрыв выхода 3";
-				case 23: return "обрыв выхода 4";
-				case 24: return "обрыв выхода 5";
-				case 25: return "несовместимость команд";
-				case 26: return "низкое напряжение питания привода";
-				case 27: return "обрыв в цепи НОРМА";
-				case 28: return "кз  в цепи НОРМА";
-				case 29: return "обрыв  в цепи ЗАЩИТА";
-				case 30: return "кз  в цепи ЗАЩИТА";
-				case 31: return "обрыв  в цепи ОТКРЫТО";
-				case 32: return "обрыв  в цепи ЗАКРЫТО";
-				case 33: return "обрыв в цепи ДВИГАТЕЛЬ";
-				case 34: return "замкнуты/разомкнуты оба концевика";
-				case 35: return "превышение времени хода";
-				case 36: return "обрыв в линии РЕЛЕ";
-				case 37: return "кз в линии РЕЛЕ";
-				case 38: return "неисправность выхода 1";
-				case 39: return "неисправность выхода 2";
-				case 40: return "неисправность выхода 3";
-				case 41: return "нет питания на вводе";
-				case 42: return "обрыв шлейфа с концевого выключателя ОТКРЫТО";
-				case 43: return "кз шлейфа с концевого выключателя ОТКРЫТО";
-				case 44: return "обрыв шлейфа с муфтового выключателя ОТКРЫТО";
-				case 45: return "кз шлейфа с муфтового выключателя ОТКРЫТО";
-				case 46: return "обрыв шлейфа с концевого выключателя ЗАКРЫТО";
-				case 47: return "кз шлейфа с концевого выключателя ЗАКРЫТО";
-				case 48: return "обрыв шлейфа с муфтового выключателя ЗАКРЫТО/ДУ ЗАКРЫТЬ";
-				case 49: return "кз шлейфа с муфтового выключателя ЗАКРЫТО/ ДУ ЗАКРЫТЬ";
-				case 50: return "обрыв шлейфа с муфтового выключателя ОТКРЫТЬ УЗЗ/ЗАКРЫТЬ УЗЗ";
-				case 51: return "кз шлейфа с муфтового выключателя ОТКРЫТЬ УЗЗ/ЗАКРЫТЬ УЗЗ";
-				case 52: return "обрыв шлейфа с муфтового выключателя СТОП УЗЗ";
-				case 53: return "кз шлейфа с муфтового выключателя СТОП УЗЗ";
-				case 57: return "неисправность КВ/МВ";
-				case 58: return "не задан режим";
-				case 59: return "отказ ШУЗ";
-				case 60: return "неисправность ДУ/ДД";
-				case 61: return "обрыв вх 9";
-				case 62: return "кз вх 9";
-				case 63: return "обрыв вх 10";
-				case 64: return "кз вх 10";
-				case 65: return "обрыв вх 11";
-				case 66: return "кз вх 11";
-				case 67: return "обрыв вх 12";
-				case 68: return "кз вх 12";
-				case 69: return "не задан тип";
-				case 70: return "отказ ПН";
-				case 71: return "отказ ШУН";
-				case 72: return "неисправность питания основного";
-				case 73: return "неисправность питания резервного";
-				case 74: return "неисправность шлейфа 1, 2";
-				case 75: return "неисправность шлейфа 3, 4";
-				case 76: return "неисправность шлейфа 5, 6";
-				case 77: return "неисправность шлейфа 7, 8";
-				case 255: return "потеря связи";
+				case 1: return "Неисправность питания";
+				case 2: return "Неисправность оптического канала или фотоусилителя";
+				case 3: return "Неисправность температурного канала";
+				case 4: return "Кз ШС";
+				case 5: return "Обрыв ШС";
+				case 6: return "Состояние датчика давления";
+				case 7: return "Состояние датчика массы";
+				case 8: return "Вскрытие";
+				case 9: return "Реле не реагирует на команды (контакт не переключается)";
+				case 10: return "Напряжение запуска реле ниже нормы";
+				case 11: return "Кз выхода";
+				case 12: return "Обрыв выхода";
+				case 13: return "Напряжение питания ШС ниже нормы";
+				case 14: return "Ошибка памяти";
+				case 15: return "Кз выхода 1";
+				case 16: return "Кз выхода 2";
+				case 17: return "Кз выхода 3";
+				case 18: return "Кз выхода 4";
+				case 19: return "Кз выхода 5";
+				case 20: return "Обрыв выхода 1";
+				case 21: return "Обрыв выхода 2";
+				case 22: return "Обрыв выхода 3";
+				case 23: return "Обрыв выхода 4";
+				case 24: return "Обрыв выхода 5";
+				case 25: return "Несовместимость команд";
+				case 26: return "Низкое напряжение питания привода";
+				case 27: return "Обрыв в цепи НОРМА";
+				case 28: return "Кз  в цепи НОРМА";
+				case 29: return "Обрыв  в цепи ЗАЩИТА";
+				case 30: return "Кз  в цепи ЗАЩИТА";
+				case 31: return "Обрыв  в цепи ОТКРЫТО";
+				case 32: return "Обрыв  в цепи ЗАКРЫТО";
+				case 33: return "Обрыв в цепи ДВИГАТЕЛЬ";
+				case 34: return "Замкнуты/разомкнуты оба концевика";
+				case 35: return "Превышение времени хода";
+				case 36: return "Обрыв в линии РЕЛЕ";
+				case 37: return "Кз в линии РЕЛЕ";
+				case 38: return "Неисправность выхода 1";
+				case 39: return "Неисправность выхода 2";
+				case 40: return "Неисправность выхода 3";
+				case 41: return "Нет питания на вводе";
+				case 42: return "Обрыв шлейфа с концевого выключателя ОТКРЫТО";
+				case 43: return "Кз шлейфа с концевого выключателя ОТКРЫТО";
+				case 44: return "Обрыв шлейфа с муфтового выключателя ОТКРЫТО";
+				case 45: return "Кз шлейфа с муфтового выключателя ОТКРЫТО";
+				case 46: return "Обрыв шлейфа с концевого выключателя ЗАКРЫТО";
+				case 47: return "Кз шлейфа с концевого выключателя ЗАКРЫТО";
+				case 48: return "Обрыв шлейфа с муфтового выключателя ЗАКРЫТО/ДУ ЗАКРЫТЬ";
+				case 49: return "Кз шлейфа с муфтового выключателя ЗАКРЫТО/ ДУ ЗАКРЫТЬ";
+				case 50: return "Обрыв шлейфа с муфтового выключателя ОТКРЫТЬ УЗЗ/ЗАКРЫТЬ УЗЗ";
+				case 51: return "Кз шлейфа с муфтового выключателя ОТКРЫТЬ УЗЗ/ЗАКРЫТЬ УЗЗ";
+				case 52: return "Обрыв шлейфа с муфтового выключателя СТОП УЗЗ";
+				case 53: return "Кз шлейфа с муфтового выключателя СТОП УЗЗ";
+				case 57: return "Неисправность КВ/МВ";
+				case 58: return "Не задан режим";
+				case 59: return "Отказ ШУЗ";
+				case 60: return "Неисправность ДУ/ДД";
+				case 61: return "Обрыв вх 9";
+				case 62: return "Кз вх 9";
+				case 63: return "Обрыв вх 10";
+				case 64: return "Кз вх 10";
+				case 65: return "Обрыв вх 11";
+				case 66: return "Кз вх 11";
+				case 67: return "Обрыв вх 12";
+				case 68: return "Кз вх 12";
+				case 69: return "Не задан тип";
+				case 70: return "Отказ ПН";
+				case 71: return "Отказ ШУН";
+				case 72: return "Неисправность питания основного";
+				case 73: return "Неисправность питания резервного";
+				case 74: return "Неисправность шлейфа 1, 2";
+				case 75: return "Неисправность шлейфа 3, 4";
+				case 76: return "Неисправность шлейфа 5, 6";
+				case 77: return "Неисправность шлейфа 7, 8";
+				case 255: return "Потеря связи";
 			}
 			return "";
 		}
@@ -287,8 +327,8 @@ namespace Common.GK
 		{
 			switch (b)
 			{
-				case 1: return "кнопка";
-				case 2: return "указка";
+				case 1: return "Кнопка";
+				case 2: return "Указка";
 			}
 			return "";
 		}
@@ -297,8 +337,8 @@ namespace Common.GK
 		{
 			switch (b)
 			{
-				case 1: return "предварительная";
-				case 2: return "критическая";
+				case 1: return "Предварительная";
+				case 2: return "Критическая";
 			}
 			return "";
 		}
@@ -307,12 +347,12 @@ namespace Common.GK
 		{
 			switch (b)
 			{
-				case 1: return "пуск";
-				case 2: return "отмена задержки";
-				case 3: return "аналоговый вход - память; источник сигнала)";
-				case 4: return "выключить";
-				case 5: return "стоп";
-				case 6: return "запрет пуска";
+				case 1: return "Пуск";
+				case 2: return "Отмена задержки";
+				case 3: return "Аналоговый вход - память; источник сигнала)";
+				case 4: return "Выключить";
+				case 5: return "Стоп";
+				case 6: return "Запрет пуска";
 			}
 			return "";
 		}
@@ -321,33 +361,33 @@ namespace Common.GK
 		{
 			switch (b)
 			{
-				case 1: return "отсчет задержки";
-				case 2: return "включено";
-				case 3: return "выключено";
-				case 4: return "включается";
-				case 5: return "выключается";
-				case 6: return "кнопка (0 — ППКП ; источник команды)";
-				case 7: return "изменение автоматики по неисправности";
-				case 8: return "изменение автоматики по кнопке СТОП";
-				case 9: return "изменение автоматики по датчику ДВЕРИ-ОКНА";
-				case 10: return "изменение автоматики по ТМ";
-				case 11: return "автоматика включена";
-				case 12: return "ручной пуск АУП от ИПР";
-				case 13: return "отложенный пуск АУП по датчику ДВЕРИ-ОКНА";
-				case 14: return "пуск АУП завершен";
-				case 15: return "останов тушения по кнопке СТОП";
-				case 16: return "программирование мастер-ключа";
-				case 17: return "отсчет удержания";
-				case 18: return "уровень высокий";
-				case 19: return "уровень низкий";
-				case 20: return "ход по команде с УЗЗ";
-				case 21: return "у ДУ сообщение ПУСК НЕВОЗМОЖЕН";
-				case 22: return "авария пневмоемкости";
-				case 23: return "уровень аварийный";
-				case 24: return "запрет пуска НС";
-				case 25: return "запрет пуска компрессора";
-				case 26: return "команда с УЗН";
-				case 27: return "перевод в режим ручного управления";
+				case 1: return "Отсчет задержки";
+				case 2: return "Включено";
+				case 3: return "Выключено";
+				case 4: return "Включается";
+				case 5: return "Выключается";
+				case 6: return "Унопка (0 — ППКП ; источник команды)";
+				case 7: return "Изменение автоматики по неисправности";
+				case 8: return "Изменение автоматики по кнопке СТОП";
+				case 9: return "Изменение автоматики по датчику ДВЕРИ-ОКНА";
+				case 10: return "Изменение автоматики по ТМ";
+				case 11: return "Автоматика включена";
+				case 12: return "Ручной пуск АУП от ИПР";
+				case 13: return "Отложенный пуск АУП по датчику ДВЕРИ-ОКНА";
+				case 14: return "Пуск АУП завершен";
+				case 15: return "Останов тушения по кнопке СТОП";
+				case 16: return "Программирование мастер-ключа";
+				case 17: return "Отсчет удержания";
+				case 18: return "Уровень высокий";
+				case 19: return "Уровень низкий";
+				case 20: return "Ход по команде с УЗЗ";
+				case 21: return "У ДУ сообщение ПУСК НЕВОЗМОЖЕН";
+				case 22: return "Авария пневмоемкости";
+				case 23: return "Уровень аварийный";
+				case 24: return "Запрет пуска НС";
+				case 25: return "Запрет пуска компрессора";
+				case 26: return "Команда с УЗН";
+				case 27: return "Перевод в режим ручного управления";
 			}
 			return "";
 		}

@@ -338,6 +338,11 @@ namespace DevicesModule.ViewModels
 					OnPropertyChanged("Device");
 					OnPropertyChanged("Driver");
 					OnPropertyChanged("PresentationZone");
+
+					Device.Properties = new List<Property>();
+					PropertiesViewModel = new PropertiesViewModel(Device);
+					OnPropertyChanged("PropertiesViewModel");
+					
 					ServiceFactory.SaveService.DevicesChanged = true;
 					DevicesViewModel.Current.UpdateExternalDevices();
 				}

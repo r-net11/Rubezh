@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading;
@@ -211,12 +212,12 @@ namespace JournalModule.ViewModels
 		void OnGetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
 		{
 			JournalRecords = new ObservableCollection<JournalRecordViewModel>();
-
 			foreach (var journalRecord in journalRecords)
 			{
 				var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
 				JournalRecords.Add(journalRecordViewModel);
 			}
+			SelectedRecord = JournalRecords.FirstOrDefault();
 
 			Status = null;
 		}

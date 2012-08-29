@@ -34,27 +34,40 @@ namespace FiresecClient
                 var zoneState = new XZoneState()
                 {
                     Zone = zone,
-                    No = zone.No
+					UID = zone.UID
                 };
                 DeviceStates.ZoneStates.Add(zoneState);
             }
         }
 
-        static List<XDeviceState> allChildren;
-        public static List<XDeviceState> GetAllChildren(XDeviceState deviceState)
+        static List<XDeviceState> alDevicelChildren;
+        public static List<XDeviceState> GetAllDeviceChildren(XDeviceState gkDeviceState)
         {
-            allChildren = new List<XDeviceState>();
-            AllChildren(deviceState);
-            return allChildren;
+            alDevicelChildren = new List<XDeviceState>();
+            AllChildren(gkDeviceState);
+            return alDevicelChildren;
         }
         public static void AllChildren(XDeviceState deviceState)
         {
-            allChildren.Add(deviceState);
+            alDevicelChildren.Add(deviceState);
             foreach (var child in deviceState.Children)
             {
-                allChildren.Add(child);
+                alDevicelChildren.Add(child);
                 AllChildren(child);
             }
         }
+
+		public static List<XZoneState> GetAllGKZoneStates(XDeviceState gkDeviceState)
+		{
+			var zoneStates = new List<XZoneState>();
+			foreach (var zoneState in DeviceStates.ZoneStates)
+			{
+				if (zoneState.Zone.GkDatabaseParent == gkDeviceState.Device)
+				{
+					zoneStates.Add(zoneState);
+				}
+			}
+			return zoneStates;
+		}
     }
 }

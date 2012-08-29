@@ -195,18 +195,18 @@
     <Compile Include="Directions\Views\DirectionsView.xaml.cs">
       <DependentUpon>DirectionsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_Filters\ViewModels\FilterDetailsViewModel.cs" />
-    <Compile Include="_Filters\ViewModels\FiltersMenuViewModel.cs" />
-    <Compile Include="_Filters\ViewModels\FiltersViewModel.cs" />
-    <Compile Include="_Filters\ViewModels\FilterViewModel.cs" />
-    <Compile Include="_Filters\ViewModels\StateTypeViewModel.cs" />
-    <Compile Include="_Filters\Views\FilterDetailsView.xaml.cs">
+    <Compile Include="Filters\ViewModels\FilterDetailsViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FiltersMenuViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FiltersViewModel.cs" />
+    <Compile Include="Filters\ViewModels\FilterViewModel.cs" />
+    <Compile Include="Filters\ViewModels\StateTypeViewModel.cs" />
+    <Compile Include="Filters\Views\FilterDetailsView.xaml.cs">
       <DependentUpon>FilterDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_Filters\Views\FiltersMenuView.xaml.cs">
+    <Compile Include="Filters\Views\FiltersMenuView.xaml.cs">
       <DependentUpon>FiltersMenuView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="_Filters\Views\FiltersView.xaml.cs">
+    <Compile Include="Filters\Views\FiltersView.xaml.cs">
       <DependentUpon>FiltersView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -317,15 +317,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="_Filters\Views\FilterDetailsView.xaml">
+    <Page Include="Filters\Views\FilterDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="_Filters\Views\FiltersMenuView.xaml">
+    <Page Include="Filters\Views\FiltersMenuView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="_Filters\Views\FiltersView.xaml">
+    <Page Include="Filters\Views\FiltersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

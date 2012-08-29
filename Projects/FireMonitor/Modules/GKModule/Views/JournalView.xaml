@@ -8,15 +8,41 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Дата и Время" Binding="{Binding JournalItem.StringDate}" />
+                <DataGridTextColumn Header="Дата" Binding="{Binding JournalItem.StringDate}" />
                 <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.EventName}" />
+                <DataGridTextColumn Header="" Binding="{Binding JournalItem.EventYesNo}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.EventDescription}" />
                 <DataGridTextColumn Header="Объект" Binding="{Binding PresentationName}" />
                 <DataGridTextColumn Header="Состояние" Binding="{Binding StringStates}" />
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Row="1" DataContext="{Binding SelectedJournal}">
-            <TextBlock Text="{Binding PresentationName}" Foreground="White" />
+        <Grid Grid.Row="1" DataContext="{Binding SelectedJournal}" TextElement.Foreground="White" Margin="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Событие" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Уточнение" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Состояние" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Объект" />
+
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.StringDate}" Margin="2" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.EventName}" Margin="2" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.EventDescription}" Margin="2" />
+            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StringStates}" Margin="2" />
+            <TextBlock Grid.Row="4" Grid.Column="1" Margin="2">
+				<Hyperlink Command="{Binding ShowObjectCommand}" Style="{StaticResource HyperlinkStyle}">
+					<TextBlock Text="{Binding PresentationName}" />
+				</Hyperlink>
+            </TextBlock>
         </Grid>
     </Grid>
 </UserControl>

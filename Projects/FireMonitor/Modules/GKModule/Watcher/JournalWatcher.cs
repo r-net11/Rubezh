@@ -101,11 +101,16 @@ namespace GKModule
 
 		void ConnectionChanged(bool isConnected)
 		{
-			var deviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Device == GkDatabase.RootDevice);
-			foreach (var childDeviceState in XManager.GetAllChildren(deviceState))
+			var gkDeviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Device == GkDatabase.RootDevice);
+			foreach (var childDeviceState in XManager.GetAllDeviceChildren(gkDeviceState))
 			{
 				childDeviceState.IsConnectionLost = !isConnected;
 			}
+			foreach (var zoneState in XManager.GetAllGKZoneStates(gkDeviceState))
+			{
+				zoneState.IsConnectionLost = !isConnected;
+			}
+
 			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKConnectionChanged>().Publish(isConnected); });
 		}
 	}

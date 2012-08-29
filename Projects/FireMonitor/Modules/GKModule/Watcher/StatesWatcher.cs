@@ -72,12 +72,10 @@ namespace GKModule
 			if (binaryBase is XZone)
 			{
 				var zone = binaryBase as XZone;
-				var zoneState = XManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zone.No);
+				var zoneState = XManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.UID == zone.UID);
 				if (zoneState != null)
 				{
 					zoneState.States = states;
-					zoneState.StateType = XStatesToState(states);
-					zoneState.OnStateChanged();
 				}
 			}
 		}

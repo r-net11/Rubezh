@@ -76,19 +76,7 @@ namespace XFiresecAPI
 				if (IsConnectionLost)
 					return StateType.Unknown;
 				else
-				{
-					var minPriority = 7;
-					foreach (var state in States)
-					{
-						var priority = XStatesHelper.XStateTypeToPriority(state);
-						if (priority < minPriority)
-						{
-							minPriority = priority;
-						}
-					}
-					StateType stateType = (StateType)minPriority;
-					return stateType;
-				}
+					return XStatesHelper.XStateTypesToState(States);
 			}
 		}
 
