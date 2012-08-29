@@ -63,8 +63,16 @@
     <Compile Include="Converters\XZoneStateToColorConverter.cs" />
     <Compile Include="Events\NewJournalEvent.cs" />
     <Compile Include="Events\ZoneSelectedEvent.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
+    <Compile Include="Journal\ViewModels\JournalsViewModel.cs" />
+    <Compile Include="Journal\Views\ArchiveView.xaml.cs">
+      <DependentUpon>ArchiveView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Journal\Views\JournalsView.xaml.cs">
+      <DependentUpon>JournalsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
-    <Compile Include="ViewModels\JournalItemViewModel.cs" />
+    <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
     <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
       <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
@@ -89,7 +97,7 @@
     <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
-    <Compile Include="ViewModels\JournalViewModel.cs" />
+    <Compile Include="Journal\ViewModels\JournalViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
     <Compile Include="ViewModels\ZoneViewModel.cs" />
     <Compile Include="Views\DeviceDetailsView.xaml.cs">
@@ -98,7 +106,7 @@
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\JournalView.xaml.cs">
+    <Compile Include="Journal\Views\JournalView.xaml.cs">
       <DependentUpon>JournalView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ZonesView.xaml.cs">
@@ -119,6 +127,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Journal\Views\ArchiveView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Journal\Views\JournalsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\DeviceDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -131,7 +147,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\JournalView.xaml">
+    <Page Include="Journal\Views\JournalView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,6 +194,7 @@
       <Name>Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
