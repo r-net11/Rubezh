@@ -78,21 +78,15 @@ namespace GKModule
 					zoneState.States = states;
 				}
 			}
-		}
-
-		static StateType XStatesToState(List<XStateType> states)
-		{
-			var minPriority = 7;
-			foreach (var state in states)
+			if (binaryBase is XDirection)
 			{
-				var priority = XStatesHelper.XStateTypeToPriority(state);
-				if (priority < minPriority)
+				var direction = binaryBase as XDirection;
+				var directionState = XManager.DeviceStates.DirectionStates.FirstOrDefault(x => x.UID == direction.UID);
+				if (directionState != null)
 				{
-					minPriority = priority;
+					directionState.States = states;
 				}
 			}
-			StateType stateType = (StateType)minPriority;
-			return stateType;
 		}
 
 		static void ConnectionChanged(bool value)

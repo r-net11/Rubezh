@@ -59,6 +59,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Converters\JournalItemTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateTypeConverter.cs" />
     <Compile Include="Converters\XZoneStateToColorConverter.cs" />
     <Compile Include="Events\NewJournalEvent.cs" />
@@ -71,8 +72,13 @@
     <Compile Include="Journal\Views\JournalsView.xaml.cs">
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModels\DirectionsViewModel.cs" />
+    <Compile Include="ViewModels\DirectionViewModel.cs" />
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
+    <Compile Include="Views\DirectionsView.xaml.cs">
+      <DependentUpon>DirectionsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\GKConnectionIndicatorView.xaml.cs">
       <DependentUpon>GKConnectionIndicatorView.xaml</DependentUpon>
     </Compile>
@@ -142,6 +148,10 @@
     <Page Include="Views\DevicesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\DirectionsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\GKConnectionIndicatorView.xaml">
       <Generator>MSBuild:Compile</Generator>

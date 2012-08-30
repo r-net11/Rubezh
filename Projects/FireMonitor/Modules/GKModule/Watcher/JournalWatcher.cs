@@ -49,7 +49,7 @@ namespace GKModule
 				return -1;
 			}
 			ConnectionChanged(true);
-			var journalItem = new JournalItem(sendResult.Bytes);
+			var journalItem = new JournalItem(GkDatabase.RootDevice, sendResult.Bytes);
 			return journalItem.GKNo;
 		}
 
@@ -64,7 +64,7 @@ namespace GKModule
 			}
 			if (sendResult.Bytes.Count == 64)
 			{
-				var journalItem = new JournalItem(sendResult.Bytes);
+				var journalItem = new JournalItem(GkDatabase.RootDevice, sendResult.Bytes);
 				return journalItem;
 			}
 			return null;
@@ -109,6 +109,10 @@ namespace GKModule
 			foreach (var zoneState in XManager.GetAllGKZoneStates(gkDeviceState))
 			{
 				zoneState.IsConnectionLost = !isConnected;
+			}
+			foreach (var directionState in XManager.GetAllGKDirectionStates(gkDeviceState))
+			{
+				directionState.IsConnectionLost = !isConnected;
 			}
 
 			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKConnectionChanged>().Publish(isConnected); });

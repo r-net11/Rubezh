@@ -15,10 +15,13 @@ namespace GKModule.ViewModels
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		public XZone Zone { get; private set; }
 		public XZoneState ZoneState { get; private set; }
+		public XZone Zone
+		{
+			get { return ZoneState.Zone; }
+		}
 
-		public ZoneViewModel(XZone zone)
+		public ZoneViewModel(XZoneState zoneState)
 		{
 			SelectCommand = new RelayCommand(OnSelect);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
@@ -27,8 +30,7 @@ namespace GKModule.ViewModels
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
 
-			Zone = zone;
-			ZoneState = XManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.UID == zone.UID);
+			ZoneState = zoneState;
 			ZoneState.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}
@@ -36,10 +38,10 @@ namespace GKModule.ViewModels
 		void OnStateChanged()
 		{
 			OnPropertyChanged("ZoneState");
-			OnPropertyChanged("Tooltip");
+			OnPropertyChanged("ToolTip");
 		}
 
-		public string Tooltip
+		public string ToolTip
 		{
 			get
 			{

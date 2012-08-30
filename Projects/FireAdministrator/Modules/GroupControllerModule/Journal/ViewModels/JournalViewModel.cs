@@ -35,7 +35,7 @@ namespace GKModule.ViewModels
 				MessageBoxService.Show("Ошибка связи с устройством");
 				return;
 			}
-			var journalItem = new JournalItem(sendResult.Bytes);
+			var journalItem = new JournalItem(Device, sendResult.Bytes);
 			TotalCount = journalItem.GKNo;
 		}
 
@@ -103,7 +103,7 @@ namespace GKModule.ViewModels
 					MessageBoxService.Show("Ошибка связи с устройством");
 					break;
 				}
-				var journalItem = new JournalItem(sendResult.Bytes);
+				var journalItem = new JournalItem(Device, sendResult.Bytes);
 				JournalItems.Add(journalItem);
                 gke.Add(journalItem);
 			}

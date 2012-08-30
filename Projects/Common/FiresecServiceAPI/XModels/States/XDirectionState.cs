@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using FiresecAPI.Models;
+using System.Linq;
+using System.Text;
+using XFiresecAPI;
 using FiresecAPI;
 using FiresecAPI.XModels;
 
 namespace XFiresecAPI
 {
-	public class XZoneState
+	public class XDirectionState
 	{
-		public XZoneState()
+		public XDirectionState()
 		{
 			_states = new List<XStateType>();
 			_isConnectionLost = true;
 		}
 
-		public XZone Zone { get; set; }
+		public XDirection Direction { get; set; }
 		public Guid UID { get; set; }
 
 		bool _isConnectionLost;

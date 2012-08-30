@@ -14,7 +14,7 @@ namespace ReportsModule
 		public ReportsModuleLoader()
 		{
 			ServiceFactory.Layout.AddToolbarItem(new IndicatorViewModel());
-			ServiceFactory.Events.GetEvent<ShowReports2Event>().Subscribe(OnShowReports2);
+			ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(OnShowReports2);
 			Reports2ViewModel = new ReportsViewModel();
 		}
 
@@ -32,7 +32,7 @@ namespace ReportsModule
 			return new List<NavigationItem>()
 		    {
 #if DEBUG
-		        new NavigationItem<ShowReports2Event>("Отчеты", "/Controls;component/Images/levels.png"),
+		        new NavigationItem<ShowReportsEvent>("Отчеты", "/Controls;component/Images/levels.png"),
 #endif
 		    };
 		}

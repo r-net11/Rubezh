@@ -46,8 +46,8 @@ namespace Common.GK
 				}
 				zonesCount++;
 			}
-			Formula.AddPutBit(XStateType.Norm, Direction, DatabaseType);
-			Formula.Add(FormulaOperationType.OR, comment: "Смешивание с битом Направления");
+			Formula.AddGetBit(XStateType.Norm, Direction, DatabaseType);
+			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
 			Formula.AddPutBit(XStateType.TurnOn, Direction, DatabaseType);
 
 			Formula.Add(FormulaOperationType.END);
