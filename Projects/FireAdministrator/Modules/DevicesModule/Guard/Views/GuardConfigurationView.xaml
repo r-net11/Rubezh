@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="DevicesModule.Views.GuardConfigurationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+    <Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <DataGrid ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" Grid.Column="0" Grid.Row="0" Margin="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Width="50" Binding="{Binding GuardUser.Id}" />
+                <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding GuardUser.Name}" />
+                <DataGridTextColumn Header="Пароль" Width="1*" Binding="{Binding GuardUser.Password}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Grid.Column="1" Grid.Row="0" Margin="5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="№" Width="50" Binding="{Binding GuardUser.Id}" />
+                <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding GuardUser.Name}" />
+                <DataGridTextColumn Header="Пароль" Width="1*" Binding="{Binding GuardUser.Password}" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <DataGrid Grid.Column="0" Grid.Row="1" Margin="5">
+        </DataGrid>
+        <DataGrid Grid.Column="1" Grid.Row="1" Margin="5">
+        </DataGrid>
+    </Grid>
+</UserControl>
