@@ -20,6 +20,7 @@ namespace DevicesModule.ViewModels
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             AddCommand = new RelayCommand(OnAdd);
 
+            ReadGuardUserCommand = new RelayCommand(OnReadGuardUser);
             WriteGuardUserCommand = new RelayCommand(OnWriteGuardUser, CanWriteGuardUser);
             AddUserCommand = new RelayCommand(OnAddUser, CanAddUser);
             RemoveUserCommand = new RelayCommand(OnRemoveUser, CanRemoveUser);
@@ -45,10 +46,15 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        Byte CountUsers;
         bool[] UsersMask = new bool[104];
-        List<User> Users = new List<User>(80);
+        List<User> Users;
 
+        public RelayCommand ReadGuardUserCommand { get; private set; }
+        void OnReadGuardUser()
+        {
+            GuardConfigurationViewModel guardConfigurationViewModel = new GuardConfigurationViewModel(SelectedDevice, DeviceZones);
+            DialogService.ShowModalWindow(guardConfigurationViewModel);
+        }
         string AddCharsToLen(string str, int Len, char ch)
         {
             int i;
@@ -64,24 +70,46 @@ namespace DevicesModule.ViewModels
         string CodeDateToTranslate()
         {
 
-            foreach (var guardUser in FiresecManager.FiresecConfiguration.DeviceConfiguration.GuardUsers)
-            {
-				User user1 = new User();
-				user1.Attr[0] = guardUser.CanUnSetZone;
-				user1.Attr[1] = guardUser.CanSetZone;
-				user1.Name = guardUser.Name.ToCharArray();
-				user1.Pass = guardUser.Password.ToCharArray();
+            //foreach (var guardUser in FiresecManager.FiresecConfiguration.DeviceConfiguration.GuardUsers)
+            //{
+            //    User user1 = new User();
+            //    user1.Attr[0] = guardUser.CanUnSetZone;
+            //    user1.Attr[1] = guardUser.CanSetZone;
+            //    user1.Name = guardUser.Name.ToCharArray();
+            //    user1.Pass = guardUser.Password.ToCharArray();
 
-                foreach (var userZone in UserZones)
-                {
-                    var localNo = FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(userZone) - 1;
-                    user1.Zones[localNo] = true;
-                }
+            //    foreach (var userZone in UserZones)
+            //    {
+            //        var localNo = FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(userZone) - 1;
+            //        user1.Zones[localNo] = true;
+            //    }
 
-				UsersMask[Users.Count] = true;
-				Users.Add(user1);
-				CountUsers++;
-            }
+            //    UsersMask[Users.Count] = true;
+            //    Users.Add(user1);
+            //    CountUsers++;
+            //}
+            List<User> Users = new List<User>(80);
+            Byte CountUsers = 0;
+            User user1 = new User();
+            user1.Attr[0] = true;
+            user1.Attr[1] = true;
+            user1.Name = "man".ToCharArray();
+            user1.Pass = "123".ToCharArray();
+            user1.Zones[0] = true;
+            user1.Zones[2] = true;
+            UsersMask[Users.Count] = true;
+            Users.Add(user1);
+            CountUsers++;
+
+            User user2 = new User();
+            user2.Attr[0] = false;
+            user2.Attr[1] = true;
+            user2.Name = "woman".ToCharArray();
+            user2.Pass = "456".ToCharArray();
+            user2.Zones[1] = true;
+            UsersMask[Users.Count] = true;
+            Users.Add(user2);
+            CountUsers++;
 
             string s;
             CountUsers.ToString();
@@ -116,12 +144,13 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedDevice != null)
             {
-                var result = FiresecManager.DeviceGetGuardUsersList(SelectedDevice.UID);
-                var userlist = CodeDateToTranslate();				
-                FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, userlist);
+                //var result = FiresecManager.DeviceGetGuardUsersList(SelectedDevice.UID);
+                Userlist = CodeDateToTranslate();				
+                //FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, userlist);
             }
         }
 
+        public static string Userlist { get; set; }
         bool CanWriteGuardUser()
         {
             return (SelectedDeviceUser != null) && (SelectedUserZone != null);

@@ -11,6 +11,10 @@
         <Views:GuardMenuView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:GuardConfigurationViewModel}">
+        <Views:GuardConfigurationView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:UserDetailsViewModel}">
         <Views:UserDetailsView />
     </DataTemplate>

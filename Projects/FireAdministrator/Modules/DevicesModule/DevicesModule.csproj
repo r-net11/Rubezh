@@ -186,9 +186,13 @@
     </Compile>
     <Compile Include="Guard\Async\DeviceGetGuardUsersListHelper.cs" />
     <Compile Include="Guard\Async\DeviceSetGuardUsersListHelper.cs" />
+    <Compile Include="Guard\ViewModels\GuardConfigurationViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardMenuViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardViewModel.cs" />
     <Compile Include="Guard\ViewModels\GuardSynchronizationViewModel.cs" />
+    <Compile Include="Guard\Views\GuardConfigurationView.xaml.cs">
+      <DependentUpon>GuardConfigurationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Guard\Views\GuardMenuView.xaml.cs">
       <DependentUpon>GuardMenuView.xaml</DependentUpon>
     </Compile>
@@ -494,6 +498,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Guard\DataTemplates\Dictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Guard\Views\GuardConfigurationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
