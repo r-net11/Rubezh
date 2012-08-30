@@ -6,6 +6,9 @@ using System.Windows.Documents;
 using CodeReason.Reports;
 using System.Data;
 using FiresecAPI.Models;
+using System.Windows;
+using FiresecClient;
+using FiresecAPI;
 
 namespace ReportsModule.ReportProviders
 {
@@ -18,59 +21,63 @@ namespace ReportsModule.ReportProviders
 
 		public override ReportData GetData()
 		{
-			DataTable tableHeader = null;
-			DataTable tableData = null;
-			object[] obj = null;
 			var data = new ReportData();
+			data.ReportDocumentValues.Add("PrintDate", DateTime.Now);
 
-			// REPORT 1 DATA
-			tableHeader = new DataTable("Header");
-			tableData = new DataTable("Data");
+			DataTable table = new DataTable("Devices");
+			table.Columns.Add("Type");
+			table.Columns.Add("Address");
+			table.Columns.Add("Zone");
 
-
-			tableHeader.Columns.Add();
-			tableHeader.Rows.Add(new object[] { "Service" });
-			tableHeader.Rows.Add(new object[] { "Amount" });
-			tableHeader.Rows.Add(new object[] { "Price" });
-			tableData.Columns.Add();
-			tableData.Columns.Add();
-			tableData.Columns.Add();
-			obj = new object[3];
-			for (int i = 0; i < 15; i++)
+			//DataList = new List<ReportDeviceListModel>();
+			if (FiresecManager.Devices.IsNotNullOrEmpty())
 			{
-				obj[0] = String.Format("Service oferted. Nº{0}", i);
-				obj[1] = i * 2;
-				obj[2] = String.Format("{0} €", i);
-				tableData.Rows.Add(obj);
+				string type = "";
+				string address = "";
+				string zonePresentationName = "";
+				foreach (var device in FiresecManager.Devices)
+				{
+					zonePresentationName = "";
+					type = device.Driver.ShortName;
+					address = device.DottedAddress;
+					if (device.Driver.IsZoneDevice)
+					{
+						if (FiresecManager.Zones.IsNotNullOrEmpty())
+						{
+							var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+							if (zone != null)
+								zonePresentationName = zone.PresentationName;
+						}
+					}
+
+					if (device.Driver.DriverType == DriverType.Indicator)
+					{
+						if (device.IndicatorLogic.Zones.Count == 1)
+						{
+							var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.IndicatorLogic.Zones[0]);
+							zonePresentationName = "Зоны: " + zone == null ? zone.PresentationName : "";
+						}
+						else
+						{
+							zonePresentationName = device.IndicatorLogic.ToString();
+						}
+					}
+
+					if (device.Driver.DriverType == DriverType.Page)
+						address = device.IntAddress.ToString();
+					if (device.Driver.DriverType == DriverType.PumpStation)
+					{
+					}
+					//DataList.Add(new ReportDeviceListModel()
+					//{
+					//    Type = type,
+					//    Address = address,
+					//    ZoneName = zonePresentationName
+					//});
+					table.Rows.Add(type, address, zonePresentationName);
+				}
 			}
-
-			data.DataTables.Add(tableData);
-			data.DataTables.Add(tableHeader);
-
-
-			// REPORT 2 DATA
-			tableHeader = new DataTable("Header2");
-			tableData = new DataTable("Data2");
-
-			// sample table "Ean"
-			tableHeader.Columns.Add();
-			tableHeader.Rows.Add(new object[] { "Position" });
-			tableHeader.Rows.Add(new object[] { "Item" });
-			tableHeader.Rows.Add(new object[] { "EAN" });
-			tableHeader.Rows.Add(new object[] { "Count" });
-			tableData.Columns.Add("Position", typeof(string));
-			tableData.Columns.Add("Item", typeof(string));
-			tableData.Columns.Add("EAN", typeof(string));
-			tableData.Columns.Add("Count", typeof(int));
-			Random rnd = new Random(1234);
-			for (int i = 1; i <= 1000; i++)
-			{
-				// randomly create some articles
-				tableData.Rows.Add(new object[] { i, "Item " + i.ToString("0000"), "123456790123", rnd.Next(9) + 1 });
-			}
-
-			data.DataTables.Add(tableData);
-			data.DataTables.Add(tableHeader);
+			data.DataTables.Add(table);
 			return data;
 		}
 	}

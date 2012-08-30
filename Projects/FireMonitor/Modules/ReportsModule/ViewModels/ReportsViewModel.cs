@@ -24,7 +24,8 @@ namespace ReportsModule.ViewModels
 			PrintReportCommand = new RelayCommand(OnPrintReport, CanPrintReport);
 			Reports = new List<BaseReport>()
 			{
-				new DeviceListReport()
+				new DeviceListReport(),
+				new JournalReport(),
 			};
 			SelectedReport = null;
 		}
