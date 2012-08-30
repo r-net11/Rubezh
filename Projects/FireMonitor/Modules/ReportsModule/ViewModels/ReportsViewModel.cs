@@ -24,7 +24,10 @@ namespace ReportsModule.ViewModels
 			PrintReportCommand = new RelayCommand(OnPrintReport, CanPrintReport);
 			Reports = new List<BaseReport>()
 			{
+				new DeviceParamsReport(),
 				new DeviceListReport(),
+				new DriverCounterReport(),
+				new IndicationBlockReport(),
 				new JournalReport(),
 			};
 			SelectedReport = null;
@@ -115,7 +118,7 @@ namespace ReportsModule.ViewModels
 		}
 		private bool CanFilter()
 		{
-			return SelectedReport != null && SelectedReport.ReportType == ReportType.ReportJournal;
+			return SelectedReport != null && SelectedReport.IsFilterable;
 		}
 
 		public RelayCommand PrintReportCommand { get; private set; }

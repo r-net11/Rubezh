@@ -89,6 +89,9 @@
     <Compile Include="Models\ReportJournalModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReportProviders\BaseReport.cs" />
+    <Compile Include="ReportProviders\IndicationBlockReport.cs" />
+    <Compile Include="ReportProviders\DriverCounterReport.cs" />
+    <Compile Include="ReportProviders\DeviceParamsReport.cs" />
     <Compile Include="ReportProviders\JournalReport.cs" />
     <Compile Include="ReportProviders\DeviceListReport.cs" />
     <Compile Include="ReportsModuleLoader.cs" />
@@ -150,6 +153,18 @@
       <SubType>Designer</SubType>
     </Resource>
     <Resource Include="ReportTemplates\JournalReportTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="ReportTemplates\TemplateResources.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="ReportTemplates\DeviceParamsReportTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="ReportTemplates\DriverCounterReportTemplate.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="ReportTemplates\IndicationBlockReportTemplate.xaml">
       <SubType>Designer</SubType>
     </Resource>
     <Page Include="Views\IndeicatorView.xaml">

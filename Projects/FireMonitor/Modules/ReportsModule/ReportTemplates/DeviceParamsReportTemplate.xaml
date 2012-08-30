@@ -9,7 +9,7 @@
 
 	<xrd:ReportProperties />
 
- 	<xrd:SectionReportFooter Padding="0,0,0,0" PageFooterHeight="4" Style="{StaticResource section}">
+	<xrd:SectionReportFooter Padding="0,0,0,0" PageFooterHeight="4" Style="{StaticResource section}">
 		<Table BorderBrush="Black" BorderThickness="0,1,0,0" CellSpacing="0" Padding="0,3,0,0">
 			<Table.Columns>
 				<TableColumn Width="*" />
@@ -38,14 +38,21 @@
 	<Section BreakPageBefore="True" FontSize="12" Padding="80,20,40,10" Style="{StaticResource section}">
 		<Table BorderBrush="Black" BorderThickness="0.02cm" CellSpacing="0">
 			<Table.Columns>
-				<TableColumn Width="2*"/>
-				<TableColumn Width="1*"/>
-				<TableColumn Width="5*"/>
+				<TableColumn Width="3*" />
+				<TableColumn Width="3*" />
+				<TableColumn Width="4*" />
+				<TableColumn Width="2*" />
+				<TableColumn Width="5*" />
 			</Table.Columns>
 			<TableRowGroup Style="{StaticResource header1}">
 				<TableRow>
-					<TableCell ColumnSpan="3">
-						<Paragraph TextAlignment="Center">Список устройств конфигурации</Paragraph>
+					<TableCell ColumnSpan="5">
+						<Paragraph TextAlignment="Center">
+							Параметры устройств
+							<LineBreak />
+							на
+							<xrd:InlineDocumentValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="PrintDate" />
+						</Paragraph>
 					</TableCell>
 				</TableRow>
 			</TableRowGroup>
@@ -58,6 +65,18 @@
 						<Paragraph TextAlignment="Center">
 							<LineBreak />
 							Зона
+						</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph TextAlignment="Center">
+							<LineBreak />
+							Запыленность
+						</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph TextAlignment="Center">
+							<LineBreak />
+							Неисправность
 						</Paragraph>
 					</TableCell>
 				</TableRow>
@@ -86,6 +105,16 @@
 					<TableCell>
 						<Paragraph>
 							<xrd:InlineTableCellValue PropertyName="Zone" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Dustiness" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="FailureType" />
 						</Paragraph>
 					</TableCell>
 				</xrd:TableRowForDataTable>

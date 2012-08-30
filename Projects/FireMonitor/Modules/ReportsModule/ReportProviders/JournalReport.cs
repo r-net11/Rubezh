@@ -6,6 +6,7 @@ using System.Windows.Documents;
 using CodeReason.Reports;
 using System.Data;
 using FiresecAPI.Models;
+using System.Windows;
 
 namespace ReportsModule.ReportProviders
 {
@@ -72,6 +73,16 @@ namespace ReportsModule.ReportProviders
 			data.DataTables.Add(tableData);
 			data.DataTables.Add(tableHeader);
 			return data;
+		}
+
+		public override bool IsFilterable
+		{
+			get { return true; }
+		}
+		public override void Filter()
+		{
+			base.Filter();
+			MessageBox.Show("Filter");
 		}
 	}
 }

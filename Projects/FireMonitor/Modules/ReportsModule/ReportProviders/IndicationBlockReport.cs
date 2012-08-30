@@ -12,10 +12,10 @@ using FiresecAPI;
 
 namespace ReportsModule.ReportProviders
 {
-	internal class DeviceListReport : BaseReport
+	internal class IndicationBlockReport : BaseReport
 	{
-		public DeviceListReport()
-			: base(ReportType.ReportDevicesList)
+		public IndicationBlockReport()
+			: base(ReportType.ReportIndicationBlock)
 		{
 		}
 

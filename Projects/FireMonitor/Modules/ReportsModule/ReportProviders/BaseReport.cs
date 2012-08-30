@@ -28,6 +28,7 @@ namespace ReportsModule.ReportProviders
 		{
 			get { return ReportType.ToDescription(); }
 		}
+		public abstract bool IsFilterable { get; }
 
 		public DocumentPaginator GenerateReport()
 		{
@@ -41,6 +42,9 @@ namespace ReportsModule.ReportProviders
 		}
 
 		public abstract ReportData GetData();
+		public virtual void Filter()
+		{
+		}
 
 		private string GetXaml()
 		{
