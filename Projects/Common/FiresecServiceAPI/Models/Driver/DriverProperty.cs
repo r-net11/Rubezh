@@ -9,7 +9,6 @@ namespace FiresecAPI.Models
         public DriverProperty()
         {
             Parameters = new List<DriverPropertyParameter>();
-			IsHeighByte = true;
         }
 
         [DataMember]
@@ -66,6 +65,6 @@ namespace FiresecAPI.Models
 		public ushort Max { get; set; }
 
 		[DataMember]
-		public bool IsHeighByte { get; set; }
+		public bool UseMask { get; set; }
     }
 }
