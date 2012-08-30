@@ -2,7 +2,7 @@
 	<DockPanel>
 		<StackPanel DockPanel.Dock="Bottom" Orientation="Vertical">
 			<Grid Margin="10 0 10 20">
-				<ProgressBar Maximum="{Binding StepCount}" Value="{Binding CurrentStep}" />
+				<ProgressBar IsIndeterminate="{Binding IsIndeterminate}" Maximum="{Binding StepCount}" Value="{Binding CurrentStep}" />
 				<TextBlock Margin="10 3 10 3" HorizontalAlignment="Center" FontSize="12" Foreground="Black" Text="{Binding Title}" />
 			</Grid>
 		</StackPanel>

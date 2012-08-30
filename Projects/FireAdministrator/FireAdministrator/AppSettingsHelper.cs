@@ -16,7 +16,7 @@ namespace FireAdministrator
                 Theme = ConfigurationManager.AppSettings["Theme"] as string
 			};
 #if DEBUG
-			appSettings.IsDebug = Convert.ToBoolean(ConfigurationManager.AppSettings["IsDebug"] as string);
+			appSettings.IsDebug = true;
 #endif
 			ServiceFactory.AppSettings = appSettings;
 		}

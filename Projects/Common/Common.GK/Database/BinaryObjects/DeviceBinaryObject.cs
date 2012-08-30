@@ -74,15 +74,14 @@ namespace Common.GK
 								switch (clause.ClauseOperationType)
 								{
 									case ClauseOperationType.AllDevices:
+									case ClauseOperationType.AllZones:
 										Formula.Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
 										break;
 
 									case ClauseOperationType.AnyDevice:
+									case ClauseOperationType.AnyZone:
 										Formula.Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
 										break;
-
-									default:
-										throw new Exception("Недопустимое значение логики объединения");
 								}
 							}
 							objectIndex++;

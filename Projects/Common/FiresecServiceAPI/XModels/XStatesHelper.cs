@@ -65,5 +65,20 @@ namespace FiresecAPI.XModels
 			}
 			return states;
 		}
+
+		public static StateType XStateTypesToState(List<XStateType> states)
+		{
+			var minPriority = 7;
+			foreach (var state in states)
+			{
+				var priority = XStateTypeToPriority(state);
+				if (priority < minPriority)
+				{
+					minPriority = priority;
+				}
+			}
+			StateType stateType = (StateType)minPriority;
+			return stateType;
+		}
 	}
 }

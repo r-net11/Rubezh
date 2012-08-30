@@ -46,13 +46,17 @@
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
-                                            Background="{Binding StateType, Converter={StaticResource StateToColorConverter}}"
+                                            Background="{Binding ZoneState.StateType, Converter={StaticResource StateToColorConverter}}"
                                             ToolTip="{Binding Tooltip}"
                                             Command="{Binding SelectCommand}">
                                         <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
                                         <Button.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
+                                                <Separator />
+                                                <MenuItem Command="{Binding SetIgnoreCommand}" Header="Поставить в обход" />
+                                                <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Убрать из обхода" />
+                                                <Separator />
                                                 <MenuItem Command="{Binding ResetFire1Command}" Header="Сбросить Пожар 1" />
                                                 <MenuItem Command="{Binding ResetFire2Command}" Header="Сбросить Пожар 2" />
                                             </ContextMenu>
@@ -89,7 +93,7 @@
                 <StackPanel Grid.Row="1" DataContext="{Binding SelectedZone}">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="{Binding Zone.PresentationName}" Margin="0" />
-                        <Label Content="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="10, 0, 0, 0" />
+                        <Label Content="{Binding ZoneState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="10, 0, 0, 0" />
                     </StackPanel>
                     <ItemsControl ItemsSource="{Binding ZoneState.States}" Margin="2">
                         <ItemsControl.ItemTemplate>

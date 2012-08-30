@@ -1,30 +1,30 @@
 ﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports" xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports" ColumnWidth="21cm" PageHeight="29.7cm" PageWidth="21cm">
 	<FlowDocument.Resources>
-		<!--  Style for header/footer rows.  -->
-		<Style x:Key="headerFooterRowStyle" TargetType="{x:Type TableRowGroup}">
-			<Setter Property="FontWeight" Value="DemiBold" />
-			<Setter Property="FontSize" Value="16" />
-			<Setter Property="Background" Value="LightGray" />
-		</Style>
-
-		<!--  Style for data rows.  -->
-		<Style x:Key="dataRowStyle" TargetType="{x:Type TableRowGroup}">
-			<Setter Property="FontSize" Value="12" />
-		</Style>
-
-		<!--  Style for data cells.  -->
 		<Style TargetType="{x:Type TableCell}">
 			<Setter Property="Padding" Value="0.1cm" />
 			<Setter Property="BorderBrush" Value="Black" />
 			<Setter Property="BorderThickness" Value="0.01cm" />
 		</Style>
+		<Style TargetType="{x:Type TextElement}">
+			<Setter Property="FontFamily" Value="Arial" />
+			<Setter Property="FontSize" Value="12" />
+		</Style>
+		<Style x:Key="section" BasedOn="{StaticResource {x:Type TextElement}}" TargetType="{x:Type Section}" />
+		<Style x:Key="header1" BasedOn="{StaticResource {x:Type TextElement}}" TargetType="{x:Type TableRowGroup}">
+			<Setter Property="FontWeight" Value="DemiBold" />
+			<Setter Property="FontSize" Value="16" />
+			<Setter Property="Background" Value="LightGray" />
+		</Style>
+		<Style x:Key="header2" BasedOn="{StaticResource {x:Type TextElement}}" TargetType="{x:Type TableRowGroup}">
+			<Setter Property="Background" Value="LightGray" />
+		</Style>
+		<Style x:Key="text" BasedOn="{StaticResource {x:Type TextElement}}" TargetType="{x:Type TableRowGroup}" />
 	</FlowDocument.Resources>
-	<xrd:ReportProperties>
-		<xrd:ReportProperties.ReportTitle>Dynamic Report</xrd:ReportProperties.ReportTitle>
-	</xrd:ReportProperties>
 
-	<xrd:SectionReportHeader FontSize="12" Padding="10,10,10,0" PageHeaderHeight="2">
-		<Table CellSpacing="0">
+	<xrd:ReportProperties />
+
+	<xrd:SectionReportFooter Padding="10,0,10,10" PageFooterHeight="2" Style="{StaticResource section}">
+		<Table BorderBrush="Black" BorderThickness="0,1,0,0" CellSpacing="0" Padding="0,3,0,0">
 			<Table.Columns>
 				<TableColumn Width="*" />
 				<TableColumn Width="*" />
@@ -33,36 +33,14 @@
 				<TableRow>
 					<TableCell>
 						<Paragraph>
-							<xrd:InlineContextValue PropertyName="ReportTitle" />
-							No.
-							<xrd:InlineDocumentValue PropertyName="ReportNumber" />
-						</Paragraph>
-					</TableCell>
-					<TableCell>
-						<Paragraph TextAlignment="Right">
 							<xrd:InlineDocumentValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="PrintDate" />
 						</Paragraph>
 					</TableCell>
-				</TableRow>
-			</TableRowGroup>
-		</Table>
-	</xrd:SectionReportHeader>
-	<xrd:SectionReportFooter FontSize="12" Padding="10,0,10,10" PageFooterHeight="2">
-		<Table CellSpacing="0">
-			<Table.Columns>
-				<TableColumn Width="*" />
-				<TableColumn Width="*" />
-			</Table.Columns>
-			<TableRowGroup>
-				<TableRow>
-					<TableCell>
-						<Paragraph />
-					</TableCell>
 					<TableCell>
 						<Paragraph TextAlignment="Right">
-							Page
+							Страница
 							<xrd:InlineContextValue FontWeight="Bold" PropertyName="PageNumber" />
-							of
+							из
 							<xrd:InlineContextValue FontWeight="Bold" PropertyName="PageCount" />
 						</Paragraph>
 					</TableCell>
@@ -71,38 +49,63 @@
 		</Table>
 	</xrd:SectionReportFooter>
 
-	<Section BreakPageBefore="True" FontSize="12" Padding="80,20,40,10">
-		<Paragraph FontSize="24" FontWeight="Bold">
-			<xrd:InlineContextValue PropertyName="ReportTitle" />
-		</Paragraph>
-		<Paragraph>Reports whose headers/colums and data/rows are created on execution time.</Paragraph>
-
-		<Paragraph>Report 1</Paragraph>
+	<Section BreakPageBefore="True" FontSize="12" Padding="80,20,40,10" Style="{StaticResource section}">
 		<Table BorderBrush="Black" BorderThickness="0.02cm" CellSpacing="0">
-
-			<TableRowGroup Style="{StaticResource headerFooterRowStyle}">
-				<xrd:TableRowForDynamicHeader TableName="Header" />
+			<Table.Columns>
+				<TableColumn />
+				<TableColumn />
+				<TableColumn />
+			</Table.Columns>
+			<TableRowGroup Style="{StaticResource header1}">
+				<TableRow>
+					<TableCell ColumnSpan="3">
+						<Paragraph TextAlignment="Center">Список устройств конфигурации</Paragraph>
+					</TableCell>
+				</TableRow>
+			</TableRowGroup>
+			<TableRowGroup Style="{StaticResource header2}">
+				<TableRow>
+					<TableCell ColumnSpan="2">
+						<Paragraph TextAlignment="Center">Устройство</Paragraph>
+					</TableCell>
+					<TableCell RowSpan="2">
+						<Paragraph TextAlignment="Center">
+							<LineBreak />
+							Зона
+						</Paragraph>
+					</TableCell>
+				</TableRow>
+				<TableRow>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Тип</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Адрес</Paragraph>
+					</TableCell>
+				</TableRow>
 			</TableRowGroup>
 
-			<TableRowGroup Style="{StaticResource dataRowStyle}">
-				<xrd:TableRowForDynamicDataTable TableName="Data" />
+			<TableRowGroup Style="{StaticResource text}">
+				<xrd:TableRowForDataTable TableName="Devices">
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Type" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Address" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Zone" />
+						</Paragraph>
+					</TableCell>
+				</xrd:TableRowForDataTable>
 			</TableRowGroup>
 
 		</Table>
-
-		<Paragraph>Report 2</Paragraph>
-		<Table BorderBrush="Black" BorderThickness="0.02cm" CellSpacing="0">
-
-			<TableRowGroup Style="{StaticResource headerFooterRowStyle}">
-				<xrd:TableRowForDynamicHeader TableName="Header2" />
-			</TableRowGroup>
-
-			<TableRowGroup Style="{StaticResource dataRowStyle}">
-				<xrd:TableRowForDynamicDataTable TableName="Data2" />
-			</TableRowGroup>
-
-		</Table>
-
 	</Section>
 </FlowDocument>
 

@@ -63,6 +63,16 @@ namespace Infrastructure.Common.Windows
 					Application.Current.Dispatcher.Invoke(action);
 			}
 		}
+		public static void BeginInvoke(Action action)
+		{
+			Application.Current.Dispatcher.BeginInvoke(action);
+		}
+		public static void ExecuteThread(Action action)
+		{
+			Thread thread = new Thread(() => action());
+			thread.SetApartmentState(ApartmentState.STA);
+			thread.Start();
+		}
 		public static void CloseAllWindows()
 		{
 			var windows = new List<Window>();

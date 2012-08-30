@@ -79,25 +79,47 @@
   <drv idx="75" name="USB ÁÓÍÑ" id="4A3D1FA3-4F13-44D8-B9AD-825B53416A71"/>
   <drv idx="76" name="USB ÁÓÍÑ-2" id="64CB0AB4-D9BE-4C71-94A1-CF24406DAF92"/>
   <drv idx="77" name="USB Ðóáåæ-2ÎÏ" id="39DBC715-C4B5-4AE6-A809-4F214BBBD6C1"/>
+  <zone idx="0" no="1" name="1">
+    <param name="ZoneType" type="Int" value="0"/>
+    <param name="FireDeviceCount" type="Int" value="2"/>
+    <param name="AutoSet" type="SmallInt" value="0"/>
+    <param name="Delay" type="SmallInt" value="0"/>
+    <param name="Skipped" type="Bool" value="0"/>
+    <param name="GuardZoneType" type="Int" value="0"/>
+    <param name="ExitTime" type="SmallInt" value="0"/>
+  </zone>
+  <zone idx="1" no="2" name="1">
+    <param name="AutoSet" type="SmallInt" value="0"/>
+    <param name="Delay" type="SmallInt" value="0"/>
+    <param name="Skipped" type="Bool" value="0"/>
+    <param name="GuardZoneType" type="Int" value="0"/>
+    <param name="ExitTime" type="SmallInt" value="0"/>
+    <param name="ZoneType" type="Int" value="0"/>
+    <param name="FireDeviceCount" type="Int" value="2"/>
+  </zone>
   <dev drv="0" addr="0">
     <dev drv="67" addr="0">
-      <prop name="INT$DEV_GUID" type="String" value="&#123;C3B297A8-FF48-42B3-AE1F-AD18679C665E&#125;"/>
+      <prop name="INT$DEV_GUID" type="String" value="&#123;8AFD23C7-0B6E-4D00-BD75-8E471E513DE7&#125;"/>
       <dev drv="69" addr="1">
         <dev drv="13" addr="1">
-          <prop name="INT$DEV_GUID" type="String" value="&#123;F6B3B069-F536-4F39-908A-B667FAC97D11&#125;"/>
-          <dev drv="65" addr="257">
-            <dev drv="27" addr="0"/>
-            <dev drv="27" addr="1"/>
-            <dev drv="27" addr="2"/>
-            <dev drv="27" addr="3"/>
-            <dev drv="27" addr="4"/>
+          <prop name="INT$DEV_GUID" type="String" value="&#123;0594ABB0-F768-4892-A68B-14919ACEC3E2&#125;"/>
+          <dev drv="30" addr="257">
+            <inZ idz="0"/>
           </dev>
-          <dev drv="30" addr="262"/>
-          <dev drv="29" addr="263"/>
-          <dev drv="31" addr="264"/>
-          <dev drv="27" addr="265"/>
-          <dev drv="28" addr="266"/>
-          <dev drv="27" addr="267"/>
+          <dev drv="30" addr="258">
+            <inZ idz="0"/>
+          </dev>
+          <dev drv="30" addr="259"/>
+          <dev drv="39" addr="260">
+            <inZ idz="1"/>
+          </dev>
+          <dev drv="27" addr="261">
+            <prop name="ExtendedZoneLogic" value="&lt;?xml version&#061;&quot;1.0&quot; encoding&#061;&quot;windows-1251&quot;?&gt;&#010;&lt;expr&gt;&lt;clause state&#061;&quot;2&quot; operation&#061;&quot;or&quot; MRO_MessageNo&#061;&quot;0&quot; MRO_MessageType&#061;&quot;0&quot;&gt;&lt;zone&gt;1&lt;&#047;zone&gt;&lt;&#047;clause&gt;&lt;&#047;expr&gt;&#010;"/>
+          </dev>
+          <dev drv="27" addr="262">
+            <prop name="ExtendedZoneLogic" value="&lt;?xml version&#061;&quot;1.0&quot; encoding&#061;&quot;windows-1251&quot;?&gt;&#010;&lt;expr&gt;&lt;clause state&#061;&quot;2&quot; operation&#061;&quot;or&quot; MRO_MessageNo&#061;&quot;0&quot; MRO_MessageType&#061;&quot;0&quot;&gt;&lt;zone&gt;2&lt;&#047;zone&gt;&lt;&#047;clause&gt;&lt;&#047;expr&gt;&#010;"/>
+          </dev>
+          <dev drv="27" addr="263"/>
         </dev>
       </dev>
     </dev>

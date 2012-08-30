@@ -21,7 +21,7 @@ namespace GKModule
 			{
 				var summaryObjectsCount = 4 + gkDatabase.BinaryObjects.Count;
 				gkDatabase.KauDatabases.ForEach(x => { summaryObjectsCount += 3 + x.BinaryObjects.Count; });
-				LoadingService.ShowProgress("", gkDatabase.RootDevice.PresentationDriverAndAddress + "\nЗапись конфигурации в ГК", summaryObjectsCount);
+				LoadingService.ShowProgress("", "Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress, summaryObjectsCount);
 
 				GoToTechnologicalRegime(gkDatabase.RootDevice);
 				EraseDatabase(gkDatabase.RootDevice);

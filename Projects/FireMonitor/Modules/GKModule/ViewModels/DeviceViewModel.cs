@@ -41,25 +41,14 @@ namespace GKModule.ViewModels
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
+		void OnStateChanged()
+		{
+			OnPropertyChanged("DeviceState");
+		}
+
 		public string PresentationZone
 		{
 			get { return XManager.GetPresentationZone(Device); }
-		}
-
-		void OnStateChanged()
-		{
-			OnPropertyChanged("StateType");
-			OnPropertyChanged("States");
-		}
-
-		public StateType StateType
-		{
-			get { return DeviceState.StateType; }
-		}
-
-		public List<XStateType> States
-		{
-			get { return DeviceState.States; }
 		}
 
 		public ushort DatabaseNo

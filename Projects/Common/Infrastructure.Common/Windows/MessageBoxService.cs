@@ -26,7 +26,6 @@ namespace Infrastructure.Common.Windows
 		}
 		public static MessageBoxResult ShowWarning(string message, string title = null)
 		{
-			Logger.Warn(message);
 			return ShowWindow(title, message, MessageBoxButton.OK, MessageBoxImage.Warning);
 		}
 		public static MessageBoxResult ShowException(Exception e, string title = null)

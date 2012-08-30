@@ -9,13 +9,14 @@ using System.Windows.Documents;
 using System.Windows.Threading;
 using System.Threading;
 using Infrastructure.Common.Windows;
+using System.Windows.Controls.Primitives;
+using System.Diagnostics;
 
 namespace ReportsModule.Views
 {
 	public partial class ReportsView : UserControl, INotifyPropertyChanged
 	{
 		private double _initialScale = 1;
-		private BackgroundWorker _worker = null;
 
 		public static readonly DependencyProperty DocumentPaginatorProperty = DependencyProperty.RegisterAttached("DocumentPaginator", typeof(DocumentPaginator), typeof(ReportsView), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.Inherits));
 		public static void SetDocumentPaginator(UIElement element, double value)
@@ -41,7 +42,6 @@ namespace ReportsModule.Views
 			FitToWidthCommand = new RelayCommand(OnFitToWidth, CanFitToWidth);
 			FitlToHeightCommand = new RelayCommand(OnFitlToHeight, CanFitlToHeight);
 			FitToPageCommand = new RelayCommand(OnFitToPage, CanFitToPage);
-			PrintReportCommand = new RelayCommand(OnPrintReport, CanPrintReport);
 			ZoomInCommand = new RelayCommand(OnZoomIn, CanZoomIn);
 			ZoomOutCommand = new RelayCommand(OnZoomOut, CanZoomOut);
 
@@ -89,55 +89,41 @@ namespace ReportsModule.Views
 		public RelayCommand FirstPageCommand { get; private set; }
 		private void OnFirstPage()
 		{
-			_viewer.FirstPage();
-			OnPropertyChanged("CurrentPageNumber");
+			CurrentPageNumber = 1;
 		}
 		private bool CanFirstPage()
 		{
-			return _viewer.CanGoToPreviousPage;
+			return CurrentPageNumber > 1;
 		}
 
 		public RelayCommand PreviousPageCommand { get; private set; }
 		private void OnPreviousPage()
 		{
-			_viewer.PreviousPage();
-			OnPropertyChanged("CurrentPageNumber");
+			CurrentPageNumber--;
 		}
 		private bool CanPreviousPage()
 		{
-			return _viewer.CanGoToPreviousPage;
+			return CurrentPageNumber > 1;
 		}
 
 		public RelayCommand NextPageCommand { get; private set; }
 		private void OnNextPage()
 		{
-			_viewer.NextPage();
-			OnPropertyChanged("CurrentPageNumber");
+			CurrentPageNumber++;
 		}
 		private bool CanNextPage()
 		{
-			return _viewer.CanGoToNextPage;
+			return CurrentPageNumber < TotalPageNumber;
 		}
 
 		public RelayCommand LastPageCommand { get; private set; }
 		private void OnLastPage()
 		{
-			_viewer.LastPage();
-			OnPropertyChanged("CurrentPageNumber");
+			CurrentPageNumber = TotalPageNumber;
 		}
 		private bool CanLastPage()
 		{
-			return _viewer.CanGoToNextPage;
-		}
-
-		public RelayCommand PrintReportCommand { get; private set; }
-		private void OnPrintReport()
-		{
-			_viewer.Print();
-		}
-		private bool CanPrintReport()
-		{
-			return _viewer.PageCount > 0;
+			return CurrentPageNumber < TotalPageNumber;
 		}
 
 		public RelayCommand FitToWidthCommand { get; private set; }
@@ -170,24 +156,22 @@ namespace ReportsModule.Views
 
 		public int TotalPageNumber
 		{
-			get
-			{
-				int count = 0;
-				ApplicationService.Invoke(() => count = _viewer.PageCount);
-				return count;
-			}
+			get { return DocumentPaginator == null ? 0 : DocumentPaginator.PageCount; }
 		}
 		public int CurrentPageNumber
 		{
-			get
-			{
-				OnPropertyChanged("TotalPageNumber");
-				return _viewer.MasterPageNumber;
-			}
+			get { return DocumentPaginator == null ? 0 : PageView.PageNumber + 1; }
 			set
 			{
-				_viewer.GoToPage(value);
-				OnPropertyChanged("CurrentPageNumber");
+				using (new WaitWrapper())
+				{
+					PageView.PageNumber = value - 1;
+					OnPropertyChanged("CurrentPageNumber");
+					OnPropertyChanged("TotalPageNumber");
+					CommandManager.InvalidateRequerySuggested();
+					ResetScroll();
+					PageView.UpdateLayout();
+				}
 			}
 		}
 		public double PageBorderThickness
@@ -236,6 +220,15 @@ namespace ReportsModule.Views
 					slider.Value = value / _initialScale;
 			}
 		}
+		private DocumentPageView PageView
+		{
+			get { return _viewer.PageViews[0]; }
+		}
+		private void ResetScroll()
+		{
+			_scrollViewer.ScrollToTop();
+			_scrollViewer.ScrollToLeftEnd();
+		}
 
 		private void _scrollViewer_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
 		{
@@ -252,60 +245,15 @@ namespace ReportsModule.Views
 		}
 		private void DocumentPaginatorChanged(object sender, EventArgs e)
 		{
-			DateTime dt1 = DateTime.Now;
-			if (_worker != null)
-			{
-				_worker.CancelAsync();
-				_worker = null;
-			}
-			DateTime dt3 = DateTime.Now;
-			//foreach (var pageView in _viewer.PageViews)
-			//    pageView.DocumentPaginator = null;
-			//_viewer.Document = null;
-			//_viewer.GoToPage(0);
-			DateTime dt4 = DateTime.Now;
-			DocumentPaginator documentPaginator = GetDocumentPaginator(this);
-			DateTime dt5 = DateTime.Now;
-			if (documentPaginator != null)
-			{
-				//_viewer.Document = documentPaginator.Source;
-				foreach (var pageView in _viewer.PageViews)
-					pageView.DocumentPaginator = documentPaginator;
-			}
-			DateTime dt6 = DateTime.Now;
+			DateTime dt = DateTime.Now;
+			PageView.DocumentPaginator = DocumentPaginator;
+			PageView.PageNumber = 0;
 			Scale = _initialScale;
-			_scrollViewer.ScrollToTop();
-			_scrollViewer.ScrollToLeftEnd();
-			_viewer.UpdateLayout();
-			DateTime dt7 = DateTime.Now;
+			ResetScroll();
+			PageView.UpdateLayout();
 			OnPropertyChanged("CurrentPageNumber");
-			if (_viewer.Document != null)
-			{
-				_worker = new BackgroundWorker();
-				_worker.WorkerSupportsCancellation = true;
-				_worker.DoWork += new DoWorkEventHandler(UpdatePageCountWork);
-				_worker.RunWorkerAsync();
-			}
-			DateTime dt2 = DateTime.Now;
-			Console.WriteLine("Refresh view: {0}", dt2 - dt1);
-			Console.WriteLine("-- Cleanup Document: {0}", dt4 - dt3);
-			Console.WriteLine("-- Get DocumentPaginator: {0}", dt5 - dt4);
-			Console.WriteLine("-- Set Document: {0}", dt6 - dt5);
-			Console.WriteLine("-- Update Layout: {0}", dt7 - dt6);
-		}
-
-		private void UpdatePageCountWork(object sender, DoWorkEventArgs e)
-		{
-			var worker = (BackgroundWorker)sender;
-			int count = 0;
-			while (count != TotalPageNumber && !worker.CancellationPending)
-			{
-				count = TotalPageNumber;
-				ApplicationService.Invoke(() => OnPropertyChanged("TotalPageNumber"));
-				Thread.Sleep(100);
-				if (count == TotalPageNumber && !worker.CancellationPending)
-					Thread.Sleep(200);
-			}
+			OnPropertyChanged("TotalPageNumber");
+			Debug.WriteLine("Refresh view: {0}", DateTime.Now - dt);
 		}
 	}
 }

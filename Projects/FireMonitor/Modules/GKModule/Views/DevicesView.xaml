@@ -24,7 +24,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <Image Source="{Binding StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                    <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                     <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
                                     <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200">
                                         <TextBlock.ContextMenu>
@@ -73,7 +73,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding PresentationZone}" Width="*" />
+                    <DataGridTextColumn Header="Зона" MinWidth="100" Binding="{Binding PresentationZone}" Width="*" />
                     <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Device.Description}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
@@ -84,19 +84,15 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">
-                            <WrapPanel Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" />
-                                <TextBlock Text=" - " />
-                            </WrapPanel>
-                            <TextBlock Text="{Binding Device.Driver.Name}" />
+                            <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" />
                             <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
-                            <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
+                            <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Номер на ГК" />
                             <TextBlock Text="{Binding DatabaseNo}" Margin="10, 0, 0, 0" />
                         </StackPanel>
-                        <ItemsControl ItemsSource="{Binding States}">
+                        <ItemsControl ItemsSource="{Binding DeviceState.States}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" VerticalAlignment="Center" />

@@ -3,30 +3,83 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
 using FiresecAPI;
+using FiresecAPI.XModels;
 
 namespace XFiresecAPI
 {
-	[DataContract]
 	public class XZoneState
 	{
 		public XZoneState()
 		{
-			StateType = StateType.Norm;
+			_states = new List<XStateType>();
+			_isConnectionLost = true;
 		}
 
 		public XZone Zone { get; set; }
+		public Guid UID { get; set; }
+		//public List<XStateType> States { get; set; }
+		//public StateType StateType { get; set; }
 
-		[DataMember]
-		public ushort No { get; set; }
+		//public event Action StateChanged;
+		//public void OnStateChanged()
+		//{
+		//    if (StateChanged != null)
+		//        StateChanged();
+		//}
 
-		[DataMember]
-		public List<XStateType> States { get; set; }
+		bool _isConnectionLost;
+		public bool IsConnectionLost
+		{
+			get
+			{
+				return _isConnectionLost;
+			}
+			set
+			{
+				if (_isConnectionLost != value)
+				{
+					_isConnectionLost = value;
+					OnStateChanged();
+				}
+			}
+		}
 
-		[DataMember]
-		public StateType StateType { get; set; }
+		List<XStateType> _states;
+		public List<XStateType> States
+		{
+			get
+			{
+				if (IsConnectionLost)
+					return new List<XStateType>();
+				else
+				{
+					if (_states == null)
+						_states = new List<XStateType>();
+					return _states;
+				}
+			}
+			set
+			{
+				_states = value;
+				if (_states == null)
+					_states = new List<XStateType>();
+				OnStateChanged();
+			}
+		}
+
+		public StateType StateType
+		{
+			get
+			{
+				if (IsConnectionLost)
+					return StateType.Unknown;
+				else
+					return XStatesHelper.XStateTypesToState(States);
+			}
+		}
 
 		public event Action StateChanged;
-		public void OnStateChanged()
+		void OnStateChanged()
 		{
 			if (StateChanged != null)
 				StateChanged();

@@ -115,11 +115,12 @@ namespace DevicesModule.ViewModels
 
 			for (int i = 0; i < Count; i++)
 			{
-				int address = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
-				if (address + GetReserverCount() - 1 >= (shleifNo + 1)*256)
+				var address = startAddress + i * GetReserverCount();
+				if (address + GetReserverCount() - 1 >= (shleifNo + 1) * 256)
 				{
 					return;
 				}
+
 				Device device = FiresecManager.FiresecConfiguration.AddChild(_parent, SelectedDriver, address);
 				NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
 			}

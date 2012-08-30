@@ -10,16 +10,9 @@
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
 				</Grid.ColumnDefinitions>
-				<StackPanel Grid.Column="0" Orientation="Horizontal">
-					<ComboBox Height="25" MinWidth="150" Margin="5, 0, 0, 0" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ItemsSource="{Binding AvailableReportTypes}" SelectedItem="{Binding SelectedReportName}">
-						<ComboBox.ItemTemplate>
-							<DataTemplate>
-								<TextBlock Text="{Binding ., Converter={StaticResource ReportTypeToStringConverter}}" />
-							</DataTemplate>
-						</ComboBox.ItemTemplate>
-					</ComboBox>
+				<ComboBox Grid.Column="0" Height="25" MinWidth="150" Margin="5, 0, 0, 0" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ItemsSource="{Binding Reports}" SelectedItem="{Binding SelectedReport}" DisplayMemberPath="Title"/>
+				<StackPanel Grid.Column="1" IsEnabled="{Binding DocumentPaginator, Converter={StaticResource NullToBoolConverter}}" Orientation="Horizontal">
 					<Controls:ToolBarButton Command="{Binding RefreshCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить отчет" />
 					<Controls:ToolBarButton Command="{Binding FilterCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Задать фильтр" />
 
@@ -30,15 +23,17 @@
 					<Label VerticalContentAlignment="Center" Content="{Binding TotalPageNumber}" FontSize="20" />
 					<Controls:ToolBarButton Command="{Binding NextPageCommand}" ImageSource="/Controls;component/Images/Right.png" ToolTip="Следующая страница" />
 					<Controls:ToolBarButton Command="{Binding LastPageCommand}" ImageSource="/Controls;component/Images/RightRight.png" ToolTip="Последняя страница" />
-					<Controls:ToolBarButton Command="{Binding PrintReportCommand}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать отчета" />
+					<Controls:ToolBarButton Command="{Binding PrintReportCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Print.png" ToolTip="Печать отчета" />
 					<Controls:ToolBarButton Command="{Binding FitToWidthCommand}" ImageSource="/Controls;component/Images/FidthToPage.png" ToolTip="По ширине страницы" />
 					<Controls:ToolBarButton Command="{Binding FitlToHeightCommand}" ImageSource="/Controls;component/Images/FidthToPage.png" ToolTip="По высоте страницы" />
 					<Controls:ToolBarButton Command="{Binding FitToPageCommand}" ImageSource="/Controls;component/Images/FidthToPage.png" ToolTip="Исходный размер" />
 				</StackPanel>
 
-				<Controls:ToolBarButton Grid.Column="1" Command="{Binding ZoomOutCommand}" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб плана" />
-				<Slider x:Name="slider" Grid.Column="2" VerticalAlignment="Center" Maximum="5" Minimum="0.1" Orientation="Horizontal" Value="1" />
-				<Controls:ToolBarButton Grid.Column="3" Command="{Binding ZoomInCommand}" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить масштаб плана" />
+				<DockPanel Grid.Column="2" IsEnabled="{Binding DocumentPaginator, Converter={StaticResource NullToBoolConverter}}">
+					<Controls:ToolBarButton Command="{Binding ZoomOutCommand}" DockPanel.Dock="Left" ImageSource="/Controls;component/Images/ZoomOut.png" ToolTip="Уменьшить масштаб плана" />
+					<Controls:ToolBarButton Command="{Binding ZoomInCommand}" DockPanel.Dock="Right" ImageSource="/Controls;component/Images/ZoomIn.png" ToolTip="Увеличить масштаб плана" />
+					<Slider x:Name="slider" VerticalAlignment="Center" Maximum="5" Minimum="0.1" Orientation="Horizontal" Value="1" />
+				</DockPanel>
 			</Grid>
 			<ScrollViewer Name="_scrollViewer" Grid.Row="1" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
 				<Grid>

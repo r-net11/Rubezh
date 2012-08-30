@@ -10,6 +10,10 @@ namespace Infrastructure.Common.Windows
 		{
 			Show(new ProgressViewModel() { Title = title, StepCount = stepCount, Text = text });
 		}
+		public static void ShowProgressIndeterminate(string title, string text)
+		{
+			Show(new ProgressViewModel() { Title = title, IsIndeterminate = true, Text = text });
+		}
 		public static void Show(string title, int stepCount = 1)
 		{
 			Show(new LoadingViewModel() { Title = title, StepCount = stepCount });
@@ -19,12 +23,16 @@ namespace Infrastructure.Common.Windows
 			Close();
 			_progress = progressViewModel;
 			DialogService.ShowWindow(_progress);
+			if (ApplicationService.ApplicationWindow != null)
+				ApplicationService.Invoke(() => ApplicationService.ApplicationWindow.IsHitTestVisible = false);
 		}
 		public static void Close()
 		{
 			if (_progress != null)
 				_progress.ForceClose();
 			_progress = null;
+			if (ApplicationService.ApplicationWindow != null)
+				ApplicationService.Invoke(() => ApplicationService.ApplicationWindow.IsHitTestVisible = true);
 		}
 		public static void DoStep(string title)
 		{
