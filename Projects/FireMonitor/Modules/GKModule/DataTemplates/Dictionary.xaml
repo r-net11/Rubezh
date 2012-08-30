@@ -11,10 +11,6 @@
         <Views:ZonesView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:JournalViewModel}">
-        <Views:JournalView />
-    </DataTemplate>
-
     <DataTemplate DataType="{x:Type ViewModels:DeviceDetailsViewModel}">
         <Views:DeviceDetailsView />
     </DataTemplate>
@@ -22,5 +18,13 @@
 	<DataTemplate DataType="{x:Type ViewModels:GKConnectionIndicatorViewModel}">
 		<Views:GKConnectionIndicatorView />
 	</DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:JournalsViewModel}">
+        <Views:JournalsView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ArchiveViewModel}">
+        <Views:ArchiveView />
+    </DataTemplate>
 
 </ResourceDictionary>

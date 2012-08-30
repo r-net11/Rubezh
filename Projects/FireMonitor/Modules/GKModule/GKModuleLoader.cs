@@ -15,7 +15,7 @@ namespace GKModule
 	{
 		static DevicesViewModel DevicesViewModel;
 		static ZonesViewModel ZonesViewModel;
-		static JournalViewModel JournalViewModel;
+		static JournalsViewModel JournalsViewModel;
 		private NavigationItem _zonesNavigationItem;
 
 		public GKModuleLoader()
@@ -27,7 +27,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowXDeviceDetails);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
-			JournalViewModel = new JournalViewModel();
+			JournalsViewModel = new JournalsViewModel();
 		}
 
 		void OnShowXDevice(Guid deviceUID)
@@ -43,7 +43,7 @@ namespace GKModule
 		}
 		void OnShowXJournalEvent(object obj)
 		{
-			ServiceFactory.Layout.Show(JournalViewModel);
+			ServiceFactory.Layout.Show(JournalsViewModel);
 		}
 
 		void OnShowXDeviceDetails(Guid deviceUID)
@@ -62,7 +62,7 @@ namespace GKModule
 			_zonesNavigationItem.IsVisible = XManager.DeviceConfiguration.Zones.Count > 0;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
-			JournalViewModel.Initialize();
+			JournalsViewModel.Initialize();
 
             JournalWatcherManager.Start();
             JournalWatcherManager.GetLastJournalItems(100);
