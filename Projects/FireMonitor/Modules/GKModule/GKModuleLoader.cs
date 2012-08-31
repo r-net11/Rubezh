@@ -15,8 +15,9 @@ namespace GKModule
 	{
 		static DevicesViewModel DevicesViewModel;
 		static ZonesViewModel ZonesViewModel;
+        static DirectionsViewModel DirectionsViewModel;
 		static JournalsViewModel JournalsViewModel;
-		static DirectionsViewModel DirectionsViewModel;
+        static ArchiveViewModel ArchiveViewModel;
 		NavigationItem _zonesNavigationItem;
 		NavigationItem _directionsNavigationItem;
 
@@ -30,8 +31,9 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowXDeviceDetails);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
-			JournalsViewModel = new JournalsViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
+            JournalsViewModel = new JournalsViewModel();
+            ArchiveViewModel = new ArchiveViewModel();
 		}
 
 		void OnShowXDevice(Guid deviceUID)

@@ -31,4 +31,12 @@
         <Views:ArchiveView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:ArchiveFilterViewModel}">
+        <Views:ArchiveFilterView />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ArchiveSettingsViewModel}">
+        <Views:ArchiveSettingsView />
+    </DataTemplate>
+
 </ResourceDictionary>

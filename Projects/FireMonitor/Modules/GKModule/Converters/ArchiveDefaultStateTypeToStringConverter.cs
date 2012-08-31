@@ -2,7 +2,7 @@
 using FiresecAPI;
 using Infrastructure.Models;
 
-namespace JournalModule.Converters
+namespace GKModule.Converters
 {
     public class ArchiveDefaultStateTypeToStringConverter : IValueConverter
     {
@@ -15,5 +15,6 @@ namespace JournalModule.Converters
         {
             throw new System.NotImplementedException();
         }
+
     }
 }
