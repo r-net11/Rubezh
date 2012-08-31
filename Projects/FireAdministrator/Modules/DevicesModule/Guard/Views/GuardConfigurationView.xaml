@@ -17,7 +17,7 @@
         
         <DataGrid DataContext="Список охранных пользователей прибора" Grid.Column="1" Grid.Row="0" Margin ="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" FontSize="14"/>
         
-        <DataGrid Grid.Column="1" Grid.Row="0" Margin="1" >
+        <DataGrid Grid.Column="0" Grid.Row="1" Margin="1" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="50" />
                 <DataGridTextColumn Header="Имя" Width="1*" />
@@ -25,17 +25,24 @@
             </DataGrid.Columns>
         </DataGrid>
         
-        <DataGrid ItemsSource="{Binding Users}" Grid.Column="1" Grid.Row="1" Margin="1">
+        <DataGrid ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Grid.Column="1" Grid.Row="1" Margin="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="50" Binding="{Binding GuardUser.Id}"/>
-                <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding GuardUser.Name}" />
-                <DataGridTextColumn Header="Пароль" Width="1*" Binding="{Binding GuardUser.Password}" />
+                <DataGridTextColumn Header="Имя" Binding="{Binding GuardUser.Name}" />
+                <DataGridTextColumn Header="Пароль" Binding="{Binding GuardUser.Password}" />
+                <DataGridCheckBoxColumn Header="Постановка на охрану" Binding="{Binding GuardUser.CanSetZone}" />
+                <DataGridCheckBoxColumn Header="Снятие с охраны" Binding="{Binding GuardUser.CanUnSetZone}" />
+                <DataGridTextColumn Header="Ключ" Binding="{Binding GuardUser.KeyTM}" />
             </DataGrid.Columns>
         </DataGrid>
 
-        <DataGrid Grid.Column="0" Grid.Row="2" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Visible" />
+        <DataGrid Grid.Column="0" Grid.Row="2" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
         
-        <DataGrid Grid.Column="1" Grid.Row="2" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
-        
+        <DataGrid ItemsSource="{Binding UserZones}" Grid.Column="1" Grid.Row="2" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Название" Binding="{Binding PresentationName}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>      
+       
     </Grid>
 </UserControl>

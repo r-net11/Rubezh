@@ -21,6 +21,18 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        UserViewModel _selectedUser;
+        public UserViewModel SelectedUser
+        {
+            get { return _selectedUser; }
+            set
+            {
+                _selectedUser = value;
+                GetUserZones(_selectedUser.GuardUser);
+                OnPropertyChanged("SelectedUser");
+            }
+        }
+
         ObservableCollection<Zone> _userZones;
         public ObservableCollection<Zone> UserZones
         {
@@ -31,47 +43,52 @@ namespace DevicesModule.ViewModels
                 OnPropertyChanged("UserZones");
             }
         }
-        public GuardConfigurationViewModel(Device selectedDevice, ObservableCollection<Zone> deviceZones)
+        public void GetUserZones(GuardUser guardUser)
         {
-            //var result = FiresecManager.DeviceGetGuardUsersList(selectedDevice.UID);
-            //string res = result.Result.ToString(); //3,104,8,20,12,6,64,64
+            UserZones = new ObservableCollection<Zone>();
+            foreach (int localNo in guardUser.Zones)
+            {
+                UserZones.Add(FiresecManager.Zones.FirstOrDefault(
+                                x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == localNo));
+            }
+        }
+        public GuardConfigurationViewModel(Device selectedDevice)
+        {
             Title = "Синхронизация охранных пользователей";
+            var result = FiresecManager.DeviceGetGuardUsersList(selectedDevice.UID);
+            if (result.Result == null)
+                return;
+            string res = result.Result.ToString(); //3,104,8,20,12,6,64,64
             Users = new ObservableCollection<UserViewModel>();
             UserZones = new ObservableCollection<Zone>();//(FiresecManager.Zones);
-            string res = GuardViewModel.Userlist;
+            //string res = GuardViewModel.Userlist;
+            if (res == null)
+                return;
             int CountUsers = byte.Parse(res.ToString().Substring(0,3));
             for (int i = 0; i < CountUsers; i++)
             {
                 User user = new User();
                 var userViewModel = new UserViewModel(new GuardUser());
                 var guardUser = userViewModel.GuardUser;
-                //guardUser.CanUnSetZone = Convert.ToBoolean(res[174*i + 107].ToString());
-                //guardUser.CanSetZone = Convert.ToBoolean(res[174 * i + 108].ToString());
+                guardUser.Id = i;
                 guardUser.Name = res.Substring(174*i + 115, 20);
                 guardUser.Password = res.Substring(174*i + 147, 6);
                 guardUser.Password = guardUser.Password.Remove(guardUser.Password.IndexOf('F'));
-                guardUser.Id = i;
+                guardUser.CanUnSetZone = (res[174 * i + 107] == '1');
+                guardUser.CanSetZone = (res[174 * i + 108] == '1');
+                guardUser.KeyTM = res.Substring(174 * i + 135, 12);
                 for (int j = 0; j < 64; j++)
                 {
                     if (res.Substring(174*i + 153, 64)[j] == '1')
                     {
-                        //?(find zone with localNo == j) UserZones.Add(FiresecManager.Zones[(FiresecManager.FiresecConfiguration.GetZoneLocalSecNo() == j));
+                        Zone zone =
+                            FiresecManager.Zones.FirstOrDefault(
+                                x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == j+1);
+                        if (zone != null)
+                            guardUser.Zones.Add(j+1);
                     }
-                    //var localNo = FiresecManager.FiresecConfiguration.GetZoneLocalSecNo - 1;
-                    //guardUser.Zones.Add(deviceZones.FirstOrDefault() res.Substring(174*i + 153, 64).IndexOf(res.Substring(174*i + 153, 64).FirstOrDefault(chr => chr == '1')));
                 }
-                    //user.Attr = res.Substring(174 * i + 107, 8).Select(chr => chr == '1').ToArray();
-                    //user.Name = res.Substring(174 * i + 115, 20).ToCharArray();
-                    //user.KeyTM = res.Substring(174 * i + 135, 12).ToCharArray();
-                    //user.Pass = res.Substring(174 * i + 147, 6).ToCharArray();
-                    //user.Zones = res.Substring(174 * i + 153, 64).Select(chr => chr == '1').ToArray();
-                    //user.ReservedZones = res.Substring(174 * i + 217, 64).Select(chr => chr == '1').ToArray();
-                    //UserViewModel userViewModel = new UserViewModel(new GuardUser());
-                    //userViewModel.GuardUser.CanUnSetZone = user.Attr[0];
-                    //userViewModel.GuardUser.CanSetZone = user.Attr[1];
-                    //userViewModel.GuardUser.Name = user.Name.ToString();
-                    //userViewModel.GuardUser.Password = user.Pass.ToString();
-                    Users.Add(userViewModel);
+                Users.Add(userViewModel);
             }
         }
     }

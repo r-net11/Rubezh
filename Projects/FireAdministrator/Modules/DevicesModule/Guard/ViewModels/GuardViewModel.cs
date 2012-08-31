@@ -52,7 +52,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ReadGuardUserCommand { get; private set; }
         void OnReadGuardUser()
         {
-            GuardConfigurationViewModel guardConfigurationViewModel = new GuardConfigurationViewModel(SelectedDevice, DeviceZones);
+            GuardConfigurationViewModel guardConfigurationViewModel = new GuardConfigurationViewModel(SelectedDevice);
             DialogService.ShowModalWindow(guardConfigurationViewModel);
         }
         string AddCharsToLen(string str, int Len, char ch)
@@ -88,6 +88,9 @@ namespace DevicesModule.ViewModels
             //    Users.Add(user1);
             //    CountUsers++;
             //}
+
+            //TEST MODE
+            #region 
             List<User> Users = new List<User>(80);
             Byte CountUsers = 0;
             User user1 = new User();
@@ -110,7 +113,8 @@ namespace DevicesModule.ViewModels
             UsersMask[Users.Count] = true;
             Users.Add(user2);
             CountUsers++;
-
+            #endregion
+            
             string s;
             CountUsers.ToString();
             var DeviceGuardData = string.Format("{0,3}", CountUsers.ToString()).Replace(' ', '0'); //3
@@ -145,8 +149,8 @@ namespace DevicesModule.ViewModels
             if (SelectedDevice != null)
             {
                 //var result = FiresecManager.DeviceGetGuardUsersList(SelectedDevice.UID);
-                Userlist = CodeDateToTranslate();				
-                //FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, userlist);
+                Userlist = CodeDateToTranslate();
+                FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, Userlist);
             }
         }
 
