@@ -4,12 +4,29 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
     class GuardConfigurationViewModel : DialogViewModel
     {
-        
+        void SaveConfiguration()
+        {
+            deviceUsers.Clear();
+            foreach (var user in Users)
+            {
+                var userViewModel = new UserViewModel(new GuardUser());
+                userViewModel.GuardUser.Name = user.GuardUser.Name;
+                userViewModel.GuardUser.Password = user.GuardUser.Password;
+                userViewModel.GuardUser.CanSetZone = user.GuardUser.CanSetZone;
+                userViewModel.GuardUser.CanUnSetZone = user.GuardUser.CanUnSetZone;
+                userViewModel.GuardUser.KeyTM = user.GuardUser.KeyTM;
+                userViewModel.GuardUser.Zones = user.GuardUser.Zones;
+                deviceUsers.Add(user);
+            }
+        }
+        public ObservableCollection<GuardUser> DeviceUsers { get; private set; }
+
         ObservableCollection<UserViewModel> _users;
         public ObservableCollection<UserViewModel> Users
         {
@@ -52,9 +69,12 @@ namespace DevicesModule.ViewModels
                                 x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == localNo));
             }
         }
-        public GuardConfigurationViewModel(Device selectedDevice)
+        ObservableCollection<UserViewModel> deviceUsers = new ObservableCollection<UserViewModel>();
+        public GuardConfigurationViewModel(Device selectedDevice, ObservableCollection<UserViewModel> DeviceUsers)
         {
             Title = "Синхронизация охранных пользователей";
+            deviceUsers = DeviceUsers;
+            AcceptCommand = new RelayCommand(OnAccept);
             var result = FiresecManager.DeviceGetGuardUsersList(selectedDevice.UID);
             if (result.Result == null)
                 return;
@@ -90,6 +110,12 @@ namespace DevicesModule.ViewModels
                 }
                 Users.Add(userViewModel);
             }
+        }
+
+        public RelayCommand AcceptCommand { get; private set; }
+        void OnAccept()
+        {
+            SaveConfiguration();
         }
     }
 }

@@ -53,7 +53,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand ReadGuardUserCommand { get; private set; }
         void OnReadGuardUser()
         {
-            GuardConfigurationViewModel guardConfigurationViewModel = new GuardConfigurationViewModel(SelectedDevice);
+            GuardConfigurationViewModel guardConfigurationViewModel = new GuardConfigurationViewModel(SelectedDevice, DeviceUsers);
             DialogService.ShowModalWindow(guardConfigurationViewModel);
         }
         string AddCharsToLen(string str, int Len, char ch)
