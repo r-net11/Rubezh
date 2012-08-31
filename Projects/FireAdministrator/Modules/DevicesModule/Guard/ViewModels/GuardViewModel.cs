@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -69,28 +70,31 @@ namespace DevicesModule.ViewModels
 
         string CodeDateToTranslate()
         {
+			Byte CountUsers = 0;
+			List<User> Users = new List<User>(80);
+			foreach (var deviceUsers in DeviceUsers)
+			{
+				var guardUser = deviceUsers.GuardUser;
+				User user1 = new User();
+				user1.Attr[0] = guardUser.CanUnSetZone;
+				user1.Attr[1] = guardUser.CanSetZone;
+				user1.Name = guardUser.Name.ToCharArray();
+				user1.Pass = guardUser.Password.ToCharArray();
 
-            //foreach (var guardUser in FiresecManager.FiresecConfiguration.DeviceConfiguration.GuardUsers)
-            //{
-            //    User user1 = new User();
-            //    user1.Attr[0] = guardUser.CanUnSetZone;
-            //    user1.Attr[1] = guardUser.CanSetZone;
-            //    user1.Name = guardUser.Name.ToCharArray();
-            //    user1.Pass = guardUser.Password.ToCharArray();
+				foreach (var userZone in guardUser.Zones)
+				{
+					var localNo = FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(FiresecManager.Zones.FirstOrDefault(x=>x.No == userZone)) - 1;
+					user1.Zones[localNo] = true;
+				}
 
-            //    foreach (var userZone in UserZones)
-            //    {
-            //        var localNo = FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(userZone) - 1;
-            //        user1.Zones[localNo] = true;
-            //    }
-
-            //    UsersMask[Users.Count] = true;
-            //    Users.Add(user1);
-            //    CountUsers++;
-            //}
+				UsersMask[Users.Count] = true;
+				Users.Add(user1);
+				CountUsers++;
+			}
 
             //TEST MODE
             #region 
+			/*
             List<User> Users = new List<User>(80);
             Byte CountUsers = 0;
             User user1 = new User();
@@ -113,8 +117,9 @@ namespace DevicesModule.ViewModels
             UsersMask[Users.Count] = true;
             Users.Add(user2);
             CountUsers++;
+			*/
             #endregion
-            
+
             string s;
             CountUsers.ToString();
             var DeviceGuardData = string.Format("{0,3}", CountUsers.ToString()).Replace(' ', '0'); //3
@@ -148,16 +153,24 @@ namespace DevicesModule.ViewModels
         {
             if (SelectedDevice != null)
             {
-                //var result = FiresecManager.DeviceGetGuardUsersList(SelectedDevice.UID);
-                Userlist = CodeDateToTranslate();
-                FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, Userlist);
+				if (DeviceUsers.Count == 0)
+				{
+					var result = MessageBox.Show("Вы действительно хотите стереть всех охранных пользователей из устройства?", "Не выбрано ни одного пользователя", MessageBoxButton.YesNo);
+					if (result == MessageBoxResult.No)
+						return;
+				}
+                var userlist = CodeDateToTranslate();
+                FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, userlist);
             }
         }
 
         public static string Userlist { get; set; }
         bool CanWriteGuardUser()
         {
-            return (SelectedDeviceUser != null) && (SelectedUserZone != null);
+			foreach (var deviceUser in DeviceUsers)
+				if (deviceUser.GuardUser.Zones.Count == 0)
+					return false;
+			return true;
         }
 
         public void Initialize()
@@ -499,7 +512,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand RemoveZoneCommand { get; private set; }
         void OnRemoveZone()
         {
-            SelectedDeviceUser.GuardUser.Zones.Add(SelectedUserZone.No);
+            SelectedDeviceUser.GuardUser.Zones.Remove(SelectedUserZone.No);
             DeviceZones.Add(SelectedUserZone);
             UserZones.Remove(SelectedUserZone);
 

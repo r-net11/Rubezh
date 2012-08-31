@@ -6,26 +6,13 @@
         <Grid.RowDefinitions>
             <RowDefinition MaxHeight="30"/>
             <RowDefinition/>
+            <RowDefinition MaxHeight="30"/>
             <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+        </Grid.RowDefinitions> 
+                
+        <DataGrid DataContext="Список охранных пользователей прибора" Grid.Row="0" Margin ="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" FontSize="14"/>
         
-        <DataGrid DataContext="Список охранных пользователей FireSec2" Grid.Column="0" Grid.Row="0" Margin="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" FontSize="14"/>
-        
-        <DataGrid DataContext="Список охранных пользователей прибора" Grid.Column="1" Grid.Row="0" Margin ="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" FontSize="14"/>
-        
-        <DataGrid Grid.Column="0" Grid.Row="1" Margin="1" >
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Width="50" />
-                <DataGridTextColumn Header="Имя" Width="1*" />
-                <DataGridTextColumn Header="Пароль" Width="1*" />
-            </DataGrid.Columns>
-        </DataGrid>
-        
-        <DataGrid ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Grid.Column="1" Grid.Row="1" Margin="1">
+        <DataGrid ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Grid.Row="1" Margin="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="50" Binding="{Binding GuardUser.Id}"/>
                 <DataGridTextColumn Header="Имя" Binding="{Binding GuardUser.Name}" />
@@ -35,12 +22,10 @@
                 <DataGridTextColumn Header="Ключ" Binding="{Binding GuardUser.KeyTM}" />
             </DataGrid.Columns>
         </DataGrid>
-
-        <DataGrid Grid.Column="0" Grid.Row="2" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
-        
-        <DataGrid ItemsSource="{Binding UserZones}" Grid.Column="1" Grid.Row="2" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Visible">
+        <DataGrid DataContext="Список охраняемых зон" Grid.Column="1" Grid.Row="0" Margin ="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" FontSize="14"/>
+        <DataGrid ItemsSource="{Binding UserZones}" Grid.Row="3" Margin="1" ScrollViewer.VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название" Binding="{Binding PresentationName}" Width="*" />
+                <DataGridTextColumn Header="Название прибора" Binding="{Binding PresentationName}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>      
        
