@@ -80,5 +80,10 @@ namespace ReportsModule.ReportProviders
 			data.DataTables.Add(table);
 			return data;
 		}
+
+		public override bool IsFilterable
+		{
+			get { return false; }
+		}
 	}
 }

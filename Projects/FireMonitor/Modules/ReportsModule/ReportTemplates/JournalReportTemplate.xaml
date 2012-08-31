@@ -1,30 +1,16 @@
-﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports" xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports" ColumnWidth="21cm" PageHeight="29.7cm" PageWidth="21cm">
+﻿<FlowDocument xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:xrbc="clr-namespace:CodeReason.Reports.Document.Barcode;assembly=CodeReason.Reports" xmlns:xrd="clr-namespace:CodeReason.Reports.Document;assembly=CodeReason.Reports" ColumnWidth="29.7cm" PageHeight="21cm" PageWidth="29.7cm">
 	<FlowDocument.Resources>
-		<!--  Style for header/footer rows.  -->
-		<Style x:Key="headerFooterRowStyle" TargetType="{x:Type TableRowGroup}">
-			<Setter Property="FontWeight" Value="DemiBold" />
-			<Setter Property="FontSize" Value="16" />
-			<Setter Property="Background" Value="LightGray" />
-		</Style>
-
-		<!--  Style for data rows.  -->
-		<Style x:Key="dataRowStyle" TargetType="{x:Type TableRowGroup}">
-			<Setter Property="FontSize" Value="12" />
-		</Style>
-
-		<!--  Style for data cells.  -->
-		<Style TargetType="{x:Type TableCell}">
-			<Setter Property="Padding" Value="0.1cm" />
-			<Setter Property="BorderBrush" Value="Black" />
-			<Setter Property="BorderThickness" Value="0.01cm" />
-		</Style>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="pack://application:,,,/ReportsModule;component/ReportTemplates/TemplateResources.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
 	</FlowDocument.Resources>
-	<xrd:ReportProperties>
-		<xrd:ReportProperties.ReportTitle>Dynamic Report</xrd:ReportProperties.ReportTitle>
-	</xrd:ReportProperties>
 
-	<xrd:SectionReportHeader FontSize="12" Padding="10,10,10,0" PageHeaderHeight="2">
-		<Table CellSpacing="0">
+	<xrd:ReportProperties />
+
+	<xrd:SectionReportFooter Padding="0,0,0,0" PageFooterHeight="4" Style="{StaticResource section}">
+		<Table BorderBrush="Black" BorderThickness="0,1,0,0" CellSpacing="0" Padding="0,3,0,0">
 			<Table.Columns>
 				<TableColumn Width="*" />
 				<TableColumn Width="*" />
@@ -33,36 +19,14 @@
 				<TableRow>
 					<TableCell>
 						<Paragraph>
-							<xrd:InlineContextValue PropertyName="ReportTitle" />
-							No.
-							<xrd:InlineDocumentValue PropertyName="ReportNumber" />
-						</Paragraph>
-					</TableCell>
-					<TableCell>
-						<Paragraph TextAlignment="Right">
 							<xrd:InlineDocumentValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="PrintDate" />
 						</Paragraph>
 					</TableCell>
-				</TableRow>
-			</TableRowGroup>
-		</Table>
-	</xrd:SectionReportHeader>
-	<xrd:SectionReportFooter FontSize="12" Padding="10,0,10,10" PageFooterHeight="2">
-		<Table CellSpacing="0">
-			<Table.Columns>
-				<TableColumn Width="*" />
-				<TableColumn Width="*" />
-			</Table.Columns>
-			<TableRowGroup>
-				<TableRow>
-					<TableCell>
-						<Paragraph />
-					</TableCell>
 					<TableCell>
 						<Paragraph TextAlignment="Right">
-							Page
+							Страница
 							<xrd:InlineContextValue FontWeight="Bold" PropertyName="PageNumber" />
-							of
+							из
 							<xrd:InlineContextValue FontWeight="Bold" PropertyName="PageCount" />
 						</Paragraph>
 					</TableCell>
@@ -71,38 +35,95 @@
 		</Table>
 	</xrd:SectionReportFooter>
 
-	<Section BreakPageBefore="True" FontSize="12" Padding="80,20,40,10">
-		<Paragraph FontSize="24" FontWeight="Bold">
-			<xrd:InlineContextValue PropertyName="ReportTitle" />
-		</Paragraph>
-		<Paragraph>Reports whose headers/colums and data/rows are created on execution time.</Paragraph>
-
-		<Paragraph>Report 1</Paragraph>
+	<Section BreakPageBefore="True" FontSize="12" Padding="80,20,40,10" Style="{StaticResource section}">
 		<Table BorderBrush="Black" BorderThickness="0.02cm" CellSpacing="0">
-
-			<TableRowGroup Style="{StaticResource headerFooterRowStyle}">
-				<xrd:TableRowForDynamicHeader TableName="Header" />
+			<Table.Columns>
+				<TableColumn Width="1*" />
+				<TableColumn Width="1*" />
+				<TableColumn Width="2*" />
+				<TableColumn Width="2*" />
+				<TableColumn Width="1*" />
+				<TableColumn Width="1.5*" />
+				<TableColumn Width="1.5*" />
+			</Table.Columns>
+			<TableRowGroup Style="{StaticResource header1}">
+				<TableRow>
+					<TableCell ColumnSpan="7">
+						<Paragraph TextAlignment="Center">
+							Журнал событий с
+							<xrd:InlineDocumentValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="StartDate" />
+							по
+							<xrd:InlineDocumentValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="EndDate" />
+						</Paragraph>
+					</TableCell>
+				</TableRow>
 			</TableRowGroup>
-
-			<TableRowGroup Style="{StaticResource dataRowStyle}">
-				<xrd:TableRowForDynamicDataTable TableName="Data" />
+			<TableRowGroup Style="{StaticResource header2}">
+				<TableRow>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Время устройства</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Системное время</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Зона</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Событие</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Устройство датчик</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Устройство</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">Пользователь</Paragraph>
+					</TableCell>
+				</TableRow>
+			</TableRowGroup>
+			<TableRowGroup Style="{StaticResource text}">
+				<xrd:TableRowForDataTable TableName="Journal">
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<xrd:InlineTableCellValue PropertyName="DeviceTime" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<xrd:InlineTableCellValue PropertyName="SystemTime" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="ZoneName" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="Description" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="DeviceName" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph>
+							<xrd:InlineTableCellValue PropertyName="PanelName" />
+						</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<xrd:InlineTableCellValue PropertyName="User" />
+						</Paragraph>
+					</TableCell>
+				</xrd:TableRowForDataTable>
 			</TableRowGroup>
 
 		</Table>
-
-		<Paragraph>Report 2</Paragraph>
-		<Table BorderBrush="Black" BorderThickness="0.02cm" CellSpacing="0">
-
-			<TableRowGroup Style="{StaticResource headerFooterRowStyle}">
-				<xrd:TableRowForDynamicHeader TableName="Header2" />
-			</TableRowGroup>
-
-			<TableRowGroup Style="{StaticResource dataRowStyle}">
-				<xrd:TableRowForDynamicDataTable TableName="Data2" />
-			</TableRowGroup>
-
-		</Table>
-
 	</Section>
 </FlowDocument>
 

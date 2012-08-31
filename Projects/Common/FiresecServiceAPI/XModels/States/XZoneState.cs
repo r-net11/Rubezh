@@ -17,15 +17,6 @@ namespace XFiresecAPI
 
 		public XZone Zone { get; set; }
 		public Guid UID { get; set; }
-		//public List<XStateType> States { get; set; }
-		//public StateType StateType { get; set; }
-
-		//public event Action StateChanged;
-		//public void OnStateChanged()
-		//{
-		//    if (StateChanged != null)
-		//        StateChanged();
-		//}
 
 		bool _isConnectionLost;
 		public bool IsConnectionLost

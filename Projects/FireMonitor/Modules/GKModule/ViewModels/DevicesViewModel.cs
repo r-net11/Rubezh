@@ -102,19 +102,20 @@ namespace GKModule.ViewModels
 		}
 
 		#region DeviceSelection
-
 		public List<DeviceViewModel> AllDevices;
 
 		public void Select(Guid deviceUID)
 		{
-			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceViewModel != null)
+			if (deviceUID != Guid.Empty)
 			{
-				deviceViewModel.ExpantToThis();
-				SelectedDevice = deviceViewModel;
+				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+				if (deviceViewModel != null)
+				{
+					deviceViewModel.ExpantToThis();
+					SelectedDevice = deviceViewModel;
+				}
 			}
 		}
-
 		#endregion
 
 		public override void OnShow()

@@ -38,6 +38,15 @@ namespace FiresecClient
                 };
                 DeviceStates.ZoneStates.Add(zoneState);
             }
+			foreach (var direction in DeviceConfiguration.Directions)
+			{
+				var directionState = new XDirectionState()
+				{
+					Direction = direction,
+					UID = direction.UID
+				};
+				DeviceStates.DirectionStates.Add(directionState);
+			}
         }
 
         static List<XDeviceState> alDevicelChildren;
@@ -68,6 +77,19 @@ namespace FiresecClient
 				}
 			}
 			return zoneStates;
+		}
+
+		public static List<XDirectionState> GetAllGKDirectionStates(XDeviceState gkDeviceState)
+		{
+			var directionStates = new List<XDirectionState>();
+			foreach (var directionState in DeviceStates.DirectionStates)
+			{
+				if (directionState.Direction.GkDatabaseParent == gkDeviceState.Device)
+				{
+					directionStates.Add(directionState);
+				}
+			}
+			return directionStates;
 		}
     }
 }

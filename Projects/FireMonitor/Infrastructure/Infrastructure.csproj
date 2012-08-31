@@ -114,6 +114,7 @@
     <Compile Include="Events\ShowDeviceEvent.cs" />
     <Compile Include="Events\ShowJournalEvent.cs" />
     <Compile Include="Events\ShowPlanEvent.cs" />
+    <Compile Include="Events\ShowXDirectionEvent.cs" />
     <Compile Include="Events\ShowZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowZoneEvent.cs" />
     <Compile Include="Events\ZoneStateChangedEvent.cs" />
@@ -121,7 +122,6 @@
     <Compile Include="Events\ShowXZoneEvent.cs" />
     <Compile Include="Events\ShowXJournalEvent.cs" />
     <Compile Include="Events\NotifyEvent.cs" />
-    <Compile Include="Events\ShowReports2Event.cs" />
     <Compile Include="Events\ShowXDeviceDetailsEvent.cs" />
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />

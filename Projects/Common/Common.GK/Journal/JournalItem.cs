@@ -36,12 +36,14 @@ namespace Common.GK
 		public ushort ObjectDeviceAddress { get; set; }
 		public int ObjectFactoryNo { get; set; }
 
-		public JournalItem(List<byte> bytes)
+		public JournalItem(XDevice gkDevice, List<byte> bytes)
 		{
 			GKNo = BytesHelper.SubstructInt(bytes, 0);
 			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
 			KAUNo = BytesHelper.SubstructInt(bytes, 32);
 
+			JournalItemType = JournalItemType.GK;
+			ObjectUID = gkDevice.UID;
 			if (GKObjectNo != 0)
 			{
 				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);

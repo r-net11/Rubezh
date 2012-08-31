@@ -19,9 +19,9 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			Zones = (from XZone zone in XManager.DeviceConfiguration.Zones
-					 orderby zone.No
-					 select new ZoneViewModel(zone)).ToList();
+			Zones = (from XZoneState zoneState in XManager.DeviceStates.ZoneStates
+					 orderby zoneState.Zone.No
+					 select new ZoneViewModel(zoneState)).ToList();
 
 			SelectedZone = Zones.FirstOrDefault();
 		}
@@ -51,7 +51,10 @@ namespace GKModule.ViewModels
 
 		public void Select(Guid zoneUID)
 		{
-			SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+			if (zoneUID != Guid.Empty)
+			{
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+			}
 		}
 
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }

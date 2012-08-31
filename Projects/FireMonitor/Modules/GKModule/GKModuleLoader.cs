@@ -16,18 +16,22 @@ namespace GKModule
 		static DevicesViewModel DevicesViewModel;
 		static ZonesViewModel ZonesViewModel;
 		static JournalsViewModel JournalsViewModel;
-		private NavigationItem _zonesNavigationItem;
+		static DirectionsViewModel DirectionsViewModel;
+		NavigationItem _zonesNavigationItem;
+		NavigationItem _directionsNavigationItem;
 
 		public GKModuleLoader()
 		{
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
 			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Subscribe(OnShowXDevice);
 			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Subscribe(OnShowXZone);
+			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Subscribe(OnShowXDirection);
 			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowXJournalEvent);
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowXDeviceDetails);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 			JournalsViewModel = new JournalsViewModel();
+			DirectionsViewModel = new DirectionsViewModel();
 		}
 
 		void OnShowXDevice(Guid deviceUID)
@@ -37,9 +41,13 @@ namespace GKModule
 		}
 		void OnShowXZone(Guid zoneUID)
 		{
-			if (zoneUID != Guid.Empty)
-				ZonesViewModel.Select(zoneUID);
+			ZonesViewModel.Select(zoneUID);
 			ServiceFactory.Layout.Show(ZonesViewModel);
+		}
+		void OnShowXDirection(Guid directionUID)
+		{
+			DirectionsViewModel.Select(directionUID);
+			ServiceFactory.Layout.Show(DirectionsViewModel);
 		}
 		void OnShowXJournalEvent(object obj)
 		{
@@ -60,9 +68,11 @@ namespace GKModule
 			DatabaseManager.Convert();
 
 			_zonesNavigationItem.IsVisible = XManager.DeviceConfiguration.Zones.Count > 0;
+			_directionsNavigationItem.IsVisible = XManager.DeviceConfiguration.Directions.Count > 0;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
 			JournalsViewModel.Initialize();
+			DirectionsViewModel.Initialize();
 
             JournalWatcherManager.Start();
             JournalWatcherManager.GetLastJournalItems(100);
@@ -70,12 +80,14 @@ namespace GKModule
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>("Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
+			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>("Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty);
 			return new List<NavigationItem>()
 			{
 				new NavigationItem("ГК", null, new List<NavigationItem>()
 				{
 					new NavigationItem<ShowXDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					_zonesNavigationItem,
+					_directionsNavigationItem,
 					new NavigationItem<ShowXJournalEvent, object>("Журнал", "/Controls;component/Images/book.png")
 				}),
 			};

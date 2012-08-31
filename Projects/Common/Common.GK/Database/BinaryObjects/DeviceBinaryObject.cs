@@ -114,6 +114,8 @@ namespace Common.GK
 						StatesDirections.Remove(statesDirection);
 					}
 
+					Formula.AddGetBit(XStateType.Norm, Device, DatabaseType);
+					Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 					Formula.AddPutBit(stateLogic.StateType, Device, DatabaseType);
 				}
 			}
@@ -130,6 +132,8 @@ namespace Common.GK
 					}
 					directionsCount++;
 				}
+				Formula.AddGetBit(XStateType.Norm, Device, DatabaseType);
+				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
 				Formula.AddPutBit(statesDirection.StateType, Device, DatabaseType);			
 			}
 
