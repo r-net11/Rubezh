@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Printing;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Xps;
 using FiresecAPI.Models;
@@ -43,9 +44,9 @@ namespace ReportsModule.ViewModels
 			private set
 			{
 				_documentPaginator = value;
-				OnPropertyChanged("DocumentPaginator");
 				OnPropertyChanged("DocumentWidth");
 				OnPropertyChanged("DocumentHeight");
+				OnPropertyChanged("DocumentPaginator");
 			}
 		}
 		public double DocumentWidth
@@ -64,7 +65,11 @@ namespace ReportsModule.ViewModels
 			get { return _selectedReport; }
 			set
 			{
+				if (SelectedReport != null)
+					SelectedReport.IsActive = false;
 				_selectedReport = value;
+				if (SelectedReport != null)
+					SelectedReport.IsActive = true;
 				OnPropertyChanged("SelectedReport");
 				RefreshCommand.Execute();
 			}
@@ -77,6 +82,18 @@ namespace ReportsModule.ViewModels
 			{
 				_inProgress = value;
 				OnPropertyChanged("InProgress");
+			}
+		}
+		private bool _isSelectingReport;
+		public bool IsSelectingReport
+		{
+			get { return _isSelectingReport; }
+			set
+			{
+				_isSelectingReport = value;
+				OnPropertyChanged("IsSelectingReport");
+				if (IsSelectingReport)
+					Reports.ForEach(report => report.OnPropertyChanged("IsEnabled"));
 			}
 		}
 
@@ -122,10 +139,14 @@ namespace ReportsModule.ViewModels
 		public RelayCommand PrintReportCommand { get; private set; }
 		private void OnPrintReport()
 		{
-			PrintDocumentImageableArea documentImageableArea = null;
-			XpsDocumentWriter writer = PrintQueue.CreateXpsDocumentWriter(ref documentImageableArea);
-			if (writer != null && documentImageableArea != null)
-				writer.WriteAsync(DocumentPaginator);
+			var printDialog = new PrintDialog();
+			if (printDialog.ShowDialog() == true)
+			{
+				SelectedReport.PreparePrinting(printDialog.PrintTicket, DocumentPaginator.PageSize);
+				XpsDocumentWriter writer = PrintQueue.CreateXpsDocumentWriter(printDialog.PrintQueue);
+				if (writer != null)
+					writer.WriteAsync(DocumentPaginator, printDialog.PrintTicket);
+			}
 		}
 		private bool CanPrintReport()
 		{

@@ -121,7 +121,7 @@ namespace DevicesModule.ViewModels
 
 		void OnDeviceStateChanged(Guid deviceUID)
 		{
-			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+			var deviceViewModel = AllDevices == null ? null : AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceViewModel == null)
 			{
 				Logger.Error("DevicesViewModel.OnDeviceStateChanged deviceViewModel = null");

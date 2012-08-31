@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Printing;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Resources;
@@ -9,16 +10,18 @@ using CodeReason.Reports;
 using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ReportsModule.ReportProviders
 {
-	public abstract class BaseReport
+	public abstract class BaseReport : BaseViewModel
 	{
 		private const string TemplateFormat = "/ReportTemplates/{0}Template.xaml";
 
 		public BaseReport(ReportType reportType)
 		{
 			ReportType = reportType;
+			IsActive = false;
 		}
 
 		public ReportType ReportType { get; private set; }
@@ -31,6 +34,11 @@ namespace ReportsModule.ReportProviders
 		{
 			get { return false; }
 		}
+		public virtual bool IsEnabled
+		{
+			get { return true; }
+		}
+		public bool IsActive { get; set; }
 
 		public DocumentPaginator GenerateReport()
 		{
@@ -52,6 +60,10 @@ namespace ReportsModule.ReportProviders
 		}
 		public virtual void Filter(RelayCommand refreshCommand)
 		{
+		}
+		public virtual void PreparePrinting(PrintTicket printTicket, Size pageSize)
+		{
+			printTicket.PageOrientation = pageSize.Height >= pageSize.Width ? PageOrientation.Portrait : PageOrientation.Landscape;
 		}
 
 		private string GetXaml()

@@ -9,7 +9,7 @@
 
 	<xrd:ReportProperties />
 
-	<xrd:SectionReportFooter Padding="0,0,0,0" PageFooterHeight="4" Style="{StaticResource section}">
+	<xrd:SectionReportFooter Padding="10,0,10,0" PageFooterHeight="4" Style="{StaticResource section}">
 		<Table BorderBrush="Black" BorderThickness="0,1,0,0" CellSpacing="0" Padding="0,3,0,0">
 			<Table.Columns>
 				<TableColumn Width="*" />
@@ -71,7 +71,7 @@
 			<TableRowGroup Style="{StaticResource text}">
 				<xrd:TableRowForDataTable TableName="Records">
 					<TableCell>
-						<Paragraph TextAlignment="Center">
+						<Paragraph LineHeight="35" Padding="0,20,0,0" TextAlignment="Center">
 							<xrd:InlineTableCellValue PropertyName="NumberFirstColumn" />
 						</Paragraph>
 					</TableCell>
@@ -81,7 +81,7 @@
 						</Paragraph>
 					</TableCell>
 					<TableCell>
-						<Paragraph TextAlignment="Center">
+						<Paragraph Padding="0,20,0,0" TextAlignment="Center">
 							<xrd:InlineTableCellValue PropertyName="NumberSecondColumn" />
 						</Paragraph>
 					</TableCell>
@@ -91,7 +91,7 @@
 						</Paragraph>
 					</TableCell>
 					<TableCell>
-						<Paragraph TextAlignment="Center">
+						<Paragraph Padding="0,20,0,0" TextAlignment="Center">
 							<xrd:InlineTableCellValue PropertyName="NumberThirdColumn" />
 						</Paragraph>
 					</TableCell>
@@ -101,7 +101,7 @@
 						</Paragraph>
 					</TableCell>
 					<TableCell>
-						<Paragraph TextAlignment="Center">
+						<Paragraph Padding="0,20,0,0" TextAlignment="Center">
 							<xrd:InlineTableCellValue PropertyName="NumberFourthColumn" />
 						</Paragraph>
 					</TableCell>
@@ -111,7 +111,7 @@
 						</Paragraph>
 					</TableCell>
 					<TableCell>
-						<Paragraph TextAlignment="Center">
+						<Paragraph Padding="0,20,0,0" TextAlignment="Center">
 							<xrd:InlineTableCellValue PropertyName="NumberFifthColumn" />
 						</Paragraph>
 					</TableCell>

@@ -22,13 +22,12 @@ namespace ReportsModule.ReportProviders
 		public JournalReport()
 			: base(ReportType.ReportJournal)
 		{
-			ReportArchiveFilter = null;
+			ReportArchiveFilter = new ReportArchiveFilter();
 		}
 
 		public override ReportData GetData()
 		{
-			if (ReportArchiveFilter == null)
-				ReportArchiveFilter = new ReportArchiveFilter();
+			ReportArchiveFilter.LoadArchive();
 			var data = new ReportData();
 			data.ReportDocumentValues.Add("PrintDate", DateTime.Now);
 			data.ReportDocumentValues.Add("StartDate", ReportArchiveFilter.StartDate);
@@ -54,13 +53,7 @@ namespace ReportsModule.ReportProviders
 		}
 		public override void Filter(RelayCommand refreshCommand)
 		{
-			var archiveFilter = new ArchiveFilter()
-			{
-				EndDate = DateTime.Now,
-				StartDate = DateTime.Now.AddDays(-1),
-				UseSystemDate = false
-			};
-			var archiveFilterViewModel = new ArchiveFilterViewModel(archiveFilter);
+			var archiveFilterViewModel = new ArchiveFilterViewModel(ReportArchiveFilter.ArchiveFilter);
 			if (DialogService.ShowModalWindow(archiveFilterViewModel))
 			{
 				ReportArchiveFilter = new ReportArchiveFilter(archiveFilterViewModel);
@@ -85,7 +78,6 @@ namespace ReportsModule.ReportProviders
 		void Initialize()
 		{
 			JournalRecords = new List<JournalRecord>();
-			LoadArchive();
 		}
 
 		public readonly DateTime ArchiveFirstDate = FiresecManager.FiresecService.GetArchiveStartDate().Result;
@@ -104,7 +96,7 @@ namespace ReportsModule.ReportProviders
 
 		void SetFilter()
 		{
-			var archiveFilter = new ArchiveFilter() { StartDate = ArchiveFirstDate, EndDate = DateTime.Now, UseSystemDate = false };
+			var archiveFilter = new ArchiveFilter() { StartDate = ArchiveFirstDate < DateTime.Now.AddDays(-1) ? DateTime.Now.AddDays(-1) : ArchiveFirstDate, EndDate = DateTime.Now, UseSystemDate = false };
 			var archiveFilterViewModel = new ArchiveFilterViewModel(archiveFilter);
 			ArchiveFilter = archiveFilterViewModel.GetModel();
 			StartDate = archiveFilterViewModel.StartDate;

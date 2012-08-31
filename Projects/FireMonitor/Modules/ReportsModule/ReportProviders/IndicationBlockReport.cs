@@ -6,6 +6,7 @@ using CodeReason.Reports;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Windows.Documents;
 
 namespace ReportsModule.ReportProviders
 {
@@ -21,7 +22,7 @@ namespace ReportsModule.ReportProviders
 			get { return true; }
 		}
 
-		public override IEnumerable<ReportData>  GetMultiData()
+		public override IEnumerable<ReportData> GetMultiData()
 		{
 			var fullData = new List<ReportData>();
 
@@ -76,6 +77,10 @@ namespace ReportsModule.ReportProviders
 		{
 			get { return false; }
 		}
+		public override bool IsEnabled
+		{
+			get { return FiresecManager.Devices.IsNotNullOrEmpty(); }
+		}
 	}
 
 
@@ -97,7 +102,6 @@ namespace ReportsModule.ReportProviders
 		public string IndicationBlockNumber { get; set; }
 		public List<Page> Pages { get; set; }
 	}
-
 	public class Page
 	{
 		public Page(Device device)
@@ -116,7 +120,6 @@ namespace ReportsModule.ReportProviders
 		public int PageNumber { get; set; }
 		public List<ElementPage> ElementsPage { get; set; }
 	}
-
 	public class ElementPage
 	{
 		private ElementPage() { }

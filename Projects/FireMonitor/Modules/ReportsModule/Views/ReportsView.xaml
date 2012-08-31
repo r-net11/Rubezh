@@ -11,7 +11,13 @@
 					<ColumnDefinition Width="Auto" />
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
-				<ComboBox Grid.Column="0" Height="25" MinWidth="150" Margin="5, 0, 0, 0" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ItemsSource="{Binding Reports}" SelectedItem="{Binding SelectedReport}" DisplayMemberPath="Title"/>
+				<ComboBox Grid.Column="0" Height="25" MinWidth="150" Margin="5, 0, 0, 0" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ItemsSource="{Binding Reports}" SelectedItem="{Binding SelectedReport}" DisplayMemberPath="Title" IsDropDownOpen="{Binding IsSelectingReport}">
+					<ComboBox.ItemContainerStyle>
+						<Style TargetType="{x:Type ComboBoxItem}">
+							<Setter Property="IsEnabled" Value="{Binding IsEnabled, Mode=OneWay}" />
+						</Style>
+					</ComboBox.ItemContainerStyle>
+				</ComboBox>
 				<StackPanel Grid.Column="1" IsEnabled="{Binding DocumentPaginator, Converter={StaticResource NullToBoolConverter}}" Orientation="Horizontal">
 					<Controls:ToolBarButton Command="{Binding RefreshCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Refresh.png" ToolTip="Обновить отчет" />
 					<Controls:ToolBarButton Command="{Binding FilterCommand}" DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type views:ReportsView}}}" ImageSource="/Controls;component/Images/Filter.png" ToolTip="Задать фильтр" />
