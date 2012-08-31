@@ -3,7 +3,8 @@ namespace FiresecAPI.Models
 {
 	public static class ConfigurationDriverHelper
 	{
-		public static void AddPlainEnumProprety(Driver driver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int startValue = 0)
+		public static void AddPlainEnumProprety(Driver driver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int startValue = 0,
+			int minBit = 0, int maxBit = 0, bool useMask = false)
 		{
 			var property = new DriverProperty()
 			{
@@ -12,7 +13,10 @@ namespace FiresecAPI.Models
 				Name = propertyName,
 				Caption = propertyName,
 				Default = "0",
-				BitOffset = offset
+				BitOffset = offset,
+				MinBit = minBit,
+				MaxBit = maxBit,
+				UseMask = useMask
 			};
 			var parameter1 = new DriverPropertyParameter()
 			{
@@ -43,7 +47,7 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 
-		public static void AddIntProprety(Driver driver, byte no, string propertyName, int offset, int defaultValue, int min, int max, bool isHeighByte = true)
+		public static void AddIntProprety(Driver driver, byte no, string propertyName, int offset, int defaultValue, int min, int max, bool useMask = false)
 		{
 			var property = new DriverProperty()
 			{
@@ -56,7 +60,7 @@ namespace FiresecAPI.Models
 				Default = defaultValue.ToString(),
 				Min = (ushort)min,
 				Max = (ushort)max,
-				IsHeighByte = isHeighByte,
+				UseMask = useMask
 			};
 			driver.Properties.Add(property);
 		}

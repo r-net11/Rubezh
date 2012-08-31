@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Documents;
-using CodeReason.Reports;
-using System.Windows;
-using Infrastructure.Common;
-using System.IO;
-using System.Windows.Resources;
 using System.Diagnostics;
-using FiresecAPI.Models;
+using System.IO;
+using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Resources;
+using CodeReason.Reports;
 using FiresecAPI;
+using FiresecAPI.Models;
+using Infrastructure.Common;
 
 namespace ReportsModule.ReportProviders
 {
@@ -29,20 +27,30 @@ namespace ReportsModule.ReportProviders
 			get { return ReportType.ToDescription(); }
 		}
 		public abstract bool IsFilterable { get; }
+		public virtual bool IsMultiReport
+		{
+			get { return false; }
+		}
 
 		public DocumentPaginator GenerateReport()
 		{
 			DateTime dt = DateTime.Now;
 			ReportDocument reportDocument = new ReportDocument();
 			reportDocument.XamlData = GetXaml();
-			ReportData reportData = GetData();
-			ReportPaginator reportPaginator = new ReportPaginator(reportDocument, reportData);
+			DocumentPaginator documentPaginator = IsMultiReport ? (DocumentPaginator)new MultipleReportPaginator(reportDocument, GetMultiData()) : (DocumentPaginator)new ReportPaginator(reportDocument, GetData());
 			Debug.WriteLine("Build report: {0}", DateTime.Now - dt);
-			return reportPaginator;
+			return documentPaginator;
 		}
 
-		public abstract ReportData GetData();
-		public virtual void Filter()
+		public virtual ReportData GetData()
+		{
+			return new ReportData();
+		}
+		public virtual IEnumerable<ReportData> GetMultiData()
+		{
+			return new ReportData[0];
+		}
+		public virtual void Filter(RelayCommand refreshCommand)
 		{
 		}
 

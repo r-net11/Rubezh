@@ -42,7 +42,6 @@ namespace DevicesModule.ViewModels
 				string deviceName = Device.AddressFullPath + " - " + device.Driver.Name + "." + device.PresentationAddress;
 				string errorText = "Ошибка при сопоставлении устройства с его состоянием:\n" + deviceName;
 				Logger.Warn(errorText);
-				//MessageBoxService.ShowWarning(errorText);
 			}
 		}
 
@@ -156,6 +155,8 @@ namespace DevicesModule.ViewModels
 					foreach (var parameter in DeviceState.Parameters)
 					{
 						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
+							continue;
+						if ((parameter.Name == "Config$SerialNum") || (parameter.Name == "Config$SoftVersion"))
 							continue;
 						parameters.Add(parameter.Caption + " - " + parameter.Value);
 					}

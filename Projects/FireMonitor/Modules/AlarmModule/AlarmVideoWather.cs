@@ -19,6 +19,7 @@ namespace AlarmModule
 
 		void OnDeviceStateChanged(Guid obj)
 		{
+			return;
 			UpdateVideoAlarms();
 		}
 
@@ -42,6 +43,7 @@ namespace AlarmModule
 
 		public override void Initialize()
 		{
+			return;
 			OnDeviceStateChanged(Guid.Empty);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()

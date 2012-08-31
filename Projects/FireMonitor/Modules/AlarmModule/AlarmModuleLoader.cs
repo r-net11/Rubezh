@@ -11,7 +11,6 @@ namespace AlarmModule
 	public class AlarmModuleLoader : ModuleBase
 	{
 		AlarmWatcher AlarmWatcher;
-		AlarmVideoWather AlarmVideoWather;
 		AlarmsViewModel AlarmsViewModel;
 
 		public AlarmModuleLoader()
@@ -21,7 +20,6 @@ namespace AlarmModule
 			AlarmsViewModel = new AlarmsViewModel();
 
 			AlarmWatcher = new AlarmWatcher();
-			AlarmVideoWather = new AlarmVideoWather();
 		}
 
 		void OnShowAlarms(AlarmType? alarmType)

@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Printing;
 using System.Windows.Documents;
+using System.Windows.Xps;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using ReportsModule.ReportProviders;
-using System.Diagnostics;
-using System.Windows.Xps;
-using System.Printing;
-using Infrastructure.Common.Windows;
-using System.ComponentModel;
-using System.Threading;
 
 namespace ReportsModule.ViewModels
 {
@@ -68,7 +66,6 @@ namespace ReportsModule.ViewModels
 			{
 				_selectedReport = value;
 				OnPropertyChanged("SelectedReport");
-				OnPropertyChanged("IsJournalReport");
 				RefreshCommand.Execute();
 			}
 		}
@@ -115,6 +112,7 @@ namespace ReportsModule.ViewModels
 		public RelayCommand FilterCommand { get; private set; }
 		private void OnFilter()
 		{
+			SelectedReport.Filter(RefreshCommand);
 		}
 		private bool CanFilter()
 		{
