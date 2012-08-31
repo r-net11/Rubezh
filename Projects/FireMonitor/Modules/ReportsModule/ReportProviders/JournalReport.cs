@@ -7,71 +7,44 @@ using CodeReason.Reports;
 using System.Data;
 using FiresecAPI.Models;
 using System.Windows;
+using JournalModule.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common;
+using FiresecClient;
+using FiresecAPI;
 
 namespace ReportsModule.ReportProviders
 {
 	internal class JournalReport : BaseReport
 	{
+		private ReportArchiveFilter ReportArchiveFilter { get; set; }
+
 		public JournalReport()
 			: base(ReportType.ReportJournal)
 		{
+			ReportArchiveFilter = null;
 		}
 
 		public override ReportData GetData()
 		{
-			DataTable tableHeader = null;
-			DataTable tableData = null;
-			object[] obj = null;
+			if (ReportArchiveFilter == null)
+				ReportArchiveFilter = new ReportArchiveFilter();
 			var data = new ReportData();
+			data.ReportDocumentValues.Add("PrintDate", DateTime.Now);
+			data.ReportDocumentValues.Add("StartDate", ReportArchiveFilter.StartDate);
+			data.ReportDocumentValues.Add("EndDate", ReportArchiveFilter.EndDate);
 
-			// REPORT 1 DATA
-			tableHeader = new DataTable("Header");
-			tableData = new DataTable("Data");
-
-
-			tableHeader.Columns.Add();
-			tableHeader.Rows.Add(new object[] { "Service" });
-			tableHeader.Rows.Add(new object[] { "Amount" });
-			tableHeader.Rows.Add(new object[] { "Price" });
-			tableData.Columns.Add();
-			tableData.Columns.Add();
-			tableData.Columns.Add();
-			obj = new object[3];
-			for (int i = 0; i < 15; i++)
-			{
-				obj[0] = String.Format("Service oferted. Nº{0}", i);
-				obj[1] = i * 2;
-				obj[2] = String.Format("{0} €", i);
-				tableData.Rows.Add(obj);
-			}
-
-			data.DataTables.Add(tableData);
-			data.DataTables.Add(tableHeader);
-
-
-			// REPORT 2 DATA
-			tableHeader = new DataTable("Header2");
-			tableData = new DataTable("Data2");
-
-			// sample table "Ean"
-			tableHeader.Columns.Add();
-			tableHeader.Rows.Add(new object[] { "Position" });
-			tableHeader.Rows.Add(new object[] { "Item" });
-			tableHeader.Rows.Add(new object[] { "EAN" });
-			tableHeader.Rows.Add(new object[] { "Count" });
-			tableData.Columns.Add("Position", typeof(string));
-			tableData.Columns.Add("Item", typeof(string));
-			tableData.Columns.Add("EAN", typeof(string));
-			tableData.Columns.Add("Count", typeof(int));
-			Random rnd = new Random(1234);
-			for (int i = 1; i <= 1000; i++)
-			{
-				// randomly create some articles
-				tableData.Rows.Add(new object[] { i, "Item " + i.ToString("0000"), "123456790123", rnd.Next(9) + 1 });
-			}
-
-			data.DataTables.Add(tableData);
-			data.DataTables.Add(tableHeader);
+			DataTable table = new DataTable("Journal");
+			table.Columns.Add("DeviceTime");
+			table.Columns.Add("SystemTime");
+			table.Columns.Add("ZoneName");
+			table.Columns.Add("Description");
+			table.Columns.Add("DeviceName");
+			table.Columns.Add("PanelName");
+			table.Columns.Add("User");
+			foreach (var journalRecord in ReportArchiveFilter.JournalRecords)
+				table.Rows.Add(journalRecord.DeviceTime, journalRecord.SystemTime, journalRecord.ZoneName, journalRecord.Description, journalRecord.DeviceName, journalRecord.PanelName, journalRecord.User);
+			data.DataTables.Add(table);
 			return data;
 		}
 
@@ -79,10 +52,76 @@ namespace ReportsModule.ReportProviders
 		{
 			get { return true; }
 		}
-		public override void Filter()
+		public override void Filter(RelayCommand refreshCommand)
 		{
-			base.Filter();
-			MessageBox.Show("Filter");
+			var archiveFilter = new ArchiveFilter()
+			{
+				EndDate = DateTime.Now,
+				StartDate = DateTime.Now.AddDays(-1),
+				UseSystemDate = false
+			};
+			var archiveFilterViewModel = new ArchiveFilterViewModel(archiveFilter);
+			if (DialogService.ShowModalWindow(archiveFilterViewModel))
+			{
+				ReportArchiveFilter = new ReportArchiveFilter(archiveFilterViewModel);
+				refreshCommand.Execute();
+			}
+		}
+	}
+	internal class ReportArchiveFilter
+	{
+		public ReportArchiveFilter()
+		{
+			SetFilter();
+			Initialize();
+		}
+
+		public ReportArchiveFilter(ArchiveFilterViewModel archiveFilterViewModel)
+		{
+			SetFilter(archiveFilterViewModel);
+			Initialize();
+		}
+
+		void Initialize()
+		{
+			JournalRecords = new List<JournalRecord>();
+			LoadArchive();
+		}
+
+		public readonly DateTime ArchiveFirstDate = FiresecManager.FiresecService.GetArchiveStartDate().Result;
+		public List<JournalRecord> JournalRecords { get; set; }
+		public ArchiveFilter ArchiveFilter { get; set; }
+		public bool IsFilterOn { get; set; }
+		public DateTime StartDate { get; private set; }
+		public DateTime EndDate { get; private set; }
+
+		void SetFilter(ArchiveFilterViewModel archiveFilterViewModel)
+		{
+			ArchiveFilter = archiveFilterViewModel.GetModel();
+			StartDate = archiveFilterViewModel.StartDate;
+			EndDate = archiveFilterViewModel.EndDate;
+		}
+
+		void SetFilter()
+		{
+			var archiveFilter = new ArchiveFilter() { StartDate = ArchiveFirstDate, EndDate = DateTime.Now, UseSystemDate = false };
+			var archiveFilterViewModel = new ArchiveFilterViewModel(archiveFilter);
+			ArchiveFilter = archiveFilterViewModel.GetModel();
+			StartDate = archiveFilterViewModel.StartDate;
+			EndDate = archiveFilterViewModel.EndDate;
+		}
+
+		public void LoadArchive()
+		{
+			JournalRecords = new List<JournalRecord>();
+			OperationResult<List<JournalRecord>> operationResult = FiresecManager.FiresecService.GetFilteredArchive(ArchiveFilter);
+			if (operationResult.HasError == false)
+			{
+				foreach (var journalRecord in operationResult.Result)
+				{
+					JournalRecords.Add(journalRecord);
+				}
+			}
 		}
 	}
 }
