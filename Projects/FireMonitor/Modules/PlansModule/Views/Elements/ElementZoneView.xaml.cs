@@ -10,62 +10,62 @@ using PlansModule.Events;
 
 namespace PlansModule
 {
-    public partial class ElementZoneView : ContentControl
-    {
-        public ElementZoneView()
-        {
-            InitializeComponent();
-        }
+	public partial class ElementZoneView : ContentControl
+	{
+		public ElementZoneView()
+		{
+			InitializeComponent();
+		}
 
-        void _polygon_MouseEnter(object sender, MouseEventArgs e)
-        {
-            _polygon.StrokeThickness = 1;
-        }
+		void _polygon_MouseEnter(object sender, MouseEventArgs e)
+		{
+			_polygon.StrokeThickness = 1;
+		}
 
-        void _polygon_MouseLeave(object sender, MouseEventArgs e)
-        {
-            _polygon.StrokeThickness = 0;
-        }
+		void _polygon_MouseLeave(object sender, MouseEventArgs e)
+		{
+			_polygon.StrokeThickness = 0;
+		}
 
-        private void _polygon_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            ServiceFactory.Events.GetEvent<ElementZoneSelectedEvent>().Publish(null);
-            _polygon.StrokeThickness = 1;
-        }
+		private void _polygon_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			ServiceFactory.Events.GetEvent<ElementZoneSelectedEvent>().Publish(null);
+			_polygon.StrokeThickness = 1;
+		}
 
-        Ellipse _flushEllipse;
+		Ellipse _flushEllipse;
 
-        public void Flush()
-        {
-            var thicknessAnimationUsingKeyFrames = new ThicknessAnimationUsingKeyFrames();
-            thicknessAnimationUsingKeyFrames.KeyFrames = new ThicknessKeyFrameCollection();
+		public void Flush()
+		{
+			var thicknessAnimationUsingKeyFrames = new ThicknessAnimationUsingKeyFrames();
+			thicknessAnimationUsingKeyFrames.KeyFrames = new ThicknessKeyFrameCollection();
 
-            double delta = (Width - Height) / 2;
+			double delta = (Width - Height) / 2;
 
-            var thicknessAnimation = new ThicknessAnimation()
-            {
-                From = new Thickness(delta, 0, delta, 0),
-                To = new Thickness(delta - 500, -500, delta - 500, -500),
-                Duration = new Duration(TimeSpan.FromSeconds(1)),
-                AutoReverse = true
-            };
-            thicknessAnimation.Completed += new EventHandler(animation_Completed);
+			var thicknessAnimation = new ThicknessAnimation()
+			{
+				From = new Thickness(delta, 0, delta, 0),
+				To = new Thickness(delta - 500, -500, delta - 500, -500),
+				Duration = new Duration(TimeSpan.FromSeconds(1)),
+				AutoReverse = true
+			};
+			thicknessAnimation.Completed += new EventHandler(animation_Completed);
 
-            _flushEllipse = new Ellipse()
-            {
-                Fill = new SolidColorBrush(Colors.LightBlue),
-                Stroke = new SolidColorBrush(Colors.Orange),
-                StrokeThickness=5,
-                Opacity=0.5
-            };
+			_flushEllipse = new Ellipse()
+			{
+				Fill = new SolidColorBrush(Colors.LightBlue),
+				Stroke = new SolidColorBrush(Colors.Orange),
+				StrokeThickness = 5,
+				Opacity = 0.5
+			};
 
-            _grid.Children.Add(_flushEllipse);
-            _flushEllipse.BeginAnimation(Ellipse.MarginProperty, thicknessAnimation);
-        }
+			_grid.Children.Add(_flushEllipse);
+			_flushEllipse.BeginAnimation(Ellipse.MarginProperty, thicknessAnimation);
+		}
 
-        void animation_Completed(object sender, EventArgs e)
-        {
-            _grid.Children.Remove(_flushEllipse);
-        }
-    }
+		void animation_Completed(object sender, EventArgs e)
+		{
+			_grid.Children.Remove(_flushEllipse);
+		}
+	}
 }

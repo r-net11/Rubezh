@@ -57,16 +57,9 @@ namespace FiresecService.Service
 							{
 								if (driverProperty.No == paramNo)
 								{
-									if (driverProperty.No == 0x85)
-									{
-										;
-									}
 									var offsetParamValue = paramValue;
 
-									if (driverProperty.IsHeighByte)
-										offsetParamValue = lowByteValue;
-									else
-										offsetParamValue = heightByteValue;
+									offsetParamValue = lowByteValue;
 
 									if (driverProperty.MinBit > 0)
 									{
@@ -135,10 +128,6 @@ namespace FiresecService.Service
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
-					if (driverProperty.No == 0xB1)
-					{
-						;
-					}
 					var binProperty = binProperties.FirstOrDefault(x => x.No == driverProperty.No);
 					if (binProperty == null)
 					{
@@ -172,10 +161,9 @@ namespace FiresecService.Service
 						intValue = intValue << driverProperty.BitOffset;
 					}
 
-					if (driverProperty.IsHeighByte)
-						binProperty.HeighByte += intValue;
-					else
-						binProperty.LowByte += intValue;
+					binProperty.HeighByte += intValue;
+					if (driverProperty.UseMask)
+						binProperty.LowByte = 0xFF;
 				}
 			}
 
