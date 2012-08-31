@@ -146,6 +146,11 @@ namespace PlansModule.ViewModels
 					var nullString = "<NULL>";
 					foreach (var parameter in DeviceState.Parameters.Where(x => x.Visible && string.IsNullOrEmpty(x.Value) == false && x.Value != nullString))
 					{
+						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
+							continue;
+						if ((parameter.Name == "Config$SerialNum") || (parameter.Name == "Config$SoftVersion"))
+							continue;
+
 						stringBuilder.Append(parameter.Caption);
 						stringBuilder.Append(" - ");
 						stringBuilder.AppendLine(parameter.Value);

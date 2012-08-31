@@ -109,7 +109,7 @@ namespace FiresecClient
 							}
 							clause.Zones = zones;
 
-							if ((clause.Device != null) || (clause.Zones.Count > 0))
+							if ((clause.Device != null) || (clause.Zones.Count > 0) || clause.State == ZoneLogicState.Failure)
 								clauses.Add(clause);
 						}
 						device.ZoneLogic.Clauses = clauses;

@@ -7,7 +7,7 @@
     </ContentControl.Resources>
 
     <Grid Name="_grid">
-        <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.6"
+        <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.9"
                  Fill="{Binding ZoneState, Converter={StaticResource ZoneStateToColorConverter}}"
                  MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave" PreviewMouseLeftButtonDown="_polygon_PreviewMouseLeftButtonDown">
             <Polygon.ContextMenu>

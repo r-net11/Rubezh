@@ -185,13 +185,6 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("PresentationZone");
 		}
 
-		public bool CanAdd()
-		{
-			if (FiresecManager.FiresecConfiguration.IsChildMPT(Device))
-				return false;
-			return (Driver.CanAddChildren && Driver.AutoChild == Guid.Empty);
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
@@ -202,26 +195,21 @@ namespace DevicesModule.ViewModels
 				DevicesViewModel.Current.PlanExtension.UpdateDevices();
 			}
 		}
-
-		public bool CanAddToParent()
+		public bool CanAdd()
 		{
-			return ((Parent != null) && (Parent.Driver.DeviceClassName == "ППКП"));
+			if (FiresecManager.FiresecConfiguration.IsChildMPT(Device))
+				return false;
+			return (Driver.CanAddChildren && Driver.AutoChild == Guid.Empty);
 		}
 
 		public RelayCommand AddToParentCommand { get; private set; }
 		void OnAddToParent()
 		{
-			if (DialogService.ShowModalWindow(new NewDeviceViewModel(this.Parent)))
-			{
-				ServiceFactory.SaveService.DevicesChanged = true;
-				DevicesViewModel.UpdateGuardVisibility();
-				DevicesViewModel.Current.PlanExtension.UpdateDevices();
-			}
+			Parent.AddCommand.Execute();
 		}
-
-		bool CanRemove()
+		public bool CanAddToParent()
 		{
-			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.AutoChild == Driver.UID);
+			return ((Parent != null) && (Parent.AddCommand.CanExecute(null)));
 		}
 
 		public RelayCommand RemoveCommand { get; private set; }
@@ -253,23 +241,9 @@ namespace DevicesModule.ViewModels
 			DevicesViewModel.Current.PlanExtension.UpdateDevices();
 			DevicesViewModel.Current.PlanExtension.RemoveDevice(Device);
 		}
-
-		bool CanShowProperties()
+		bool CanRemove()
 		{
-			switch (Device.Driver.DriverType)
-			{
-				case DriverType.Indicator:
-				case DriverType.Valve:
-				case DriverType.Pump:
-				case DriverType.JokeyPump:
-				case DriverType.Compressor:
-				case DriverType.CompensationPump:
-				case DriverType.PDUDirection:
-				case DriverType.UOO_TL:
-				case DriverType.MPT:
-					return true;
-			}
-			return false;
+			return !(Driver.IsAutoCreate || Parent == null || Parent.Driver.AutoChild == Driver.UID);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -315,6 +289,23 @@ namespace DevicesModule.ViewModels
 			}
 			OnPropertyChanged("PresentationZone");
 			DevicesViewModel.Current.UpdateExternalDevices();
+		}
+		bool CanShowProperties()
+		{
+			switch (Device.Driver.DriverType)
+			{
+				case DriverType.Indicator:
+				case DriverType.Valve:
+				case DriverType.Pump:
+				case DriverType.JokeyPump:
+				case DriverType.Compressor:
+				case DriverType.CompensationPump:
+				case DriverType.PDUDirection:
+				case DriverType.UOO_TL:
+				case DriverType.MPT:
+					return true;
+			}
+			return false;
 		}
 
 		public RelayCommand ShowZoneCommand { get; private set; }
