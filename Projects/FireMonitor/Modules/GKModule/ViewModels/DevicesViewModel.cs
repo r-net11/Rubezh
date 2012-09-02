@@ -9,7 +9,7 @@ using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class DevicesViewModel : ViewPartViewModel
+	public class DevicesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public void Initialize()
 		{

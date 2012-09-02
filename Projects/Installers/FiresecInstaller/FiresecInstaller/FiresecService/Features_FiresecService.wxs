@@ -12,11 +12,8 @@
 			<ComponentRef Id="FSAutorunComponent" />
       
       <ComponentRef Id="SecurityConfiguration" />
-      <ComponentRef Id="DriversConfiguration" />
-      <ComponentRef Id="PlansConfiguration" />
-      <ComponentRef Id="DeviceConfiguration" />
-      <ComponentRef Id="SystemConfiguration" />
       <ComponentRef Id="DeviceLibrary" />
+      <ComponentRef Id="DriversConfiguration" />
       <ComponentRef Id="FS_Sounds" />
 
       <!--<ComponentRef Id="FiresecNTServiceComponent" />

@@ -2,7 +2,7 @@
 <project name="Simple" default="run">
   <property name="nant.settings.currentframework" value="net-4.0" />
   <target name="run">
-    <copy todir="..\Projects\Installers\FiresecInstaller\FiresecInstaller\Data\OldFiresec">
+    <copy todir="..\Projects\Deploy\Firesec">
       <fileset basedir="C:\Program Files\Firesec">
         <include name="config.cdb" />
         <include name="db.sql" />

@@ -55,14 +55,14 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="SystemFolder"/>
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="OLDFIRESECSERVICELOCATION" Name="Firesec">
-          <Directory Id="INTL" Name="intl" />
-        </Directory>
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
           <Directory Id="FIRESECSERVICELOCATION" Name="$(var.FiresecServiceName)">
             <Directory Id="FiresecServiceLogsFolder" Name="Logs" />
             <Directory Id="FiresecServiceConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FiresecServiceSoundsFolder" Name="$(var.SoundsFolder)" />
+            </Directory>
+            <Directory Id="OLDFIRESECSERVICELOCATION" Name="Firesec">
+              <Directory Id="INTL" Name="intl" />
             </Directory>
           </Directory>
           <Directory Id="FIREADMINISTRATORLOCATION" Name="$(var.FireAdministratorName)">

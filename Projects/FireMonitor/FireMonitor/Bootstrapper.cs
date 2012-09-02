@@ -50,13 +50,6 @@ namespace FireMonitor
 						LoadingService.DoStep("Загрузка клиентских настроек");
 						ClientSettings.LoadSettings();
 
-						//if (ServiceFactory.AppSettings.ShowOnlyVideo)
-						//{
-						//    var alarmVideoWather = new AlarmVideoWather();
-						//    preLoadWindow.Close();
-						//    return;
-						//}
-
 						var shell = new MonitorShellViewModel();
 						((LayoutService)ServiceFactory.Layout).SetToolbarViewModel((ToolbarViewModel)shell.Toolbar);
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new SoundViewModel());

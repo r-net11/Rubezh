@@ -29,7 +29,7 @@ namespace AssadProcessor.Devices
             if (FiresecManager.DeviceStates.ZoneStates.Any(x => x.No.ToString() == ZoneNo))
             {
                 var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No.ToString() == ZoneNo);
-                var zone = FiresecManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No.ToString() == ZoneNo);
+                var zone = FiresecManager.Zones.FirstOrDefault(x => x.No.ToString() == ZoneNo);
 
                 var mainState = new Assad.DeviceTypeState()
                 {

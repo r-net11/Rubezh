@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
-	public class DirectionsViewModel : ViewPartViewModel
+	public class DirectionsViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public DirectionsViewModel()
 		{

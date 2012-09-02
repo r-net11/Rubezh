@@ -54,18 +54,32 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFToolkit.Extended, Version=1.4.0.2, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\3rdParty\WPF Toolkit\WPFToolkit.Extended.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
     <Compile Include="Converters\JournalItemTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateTypeConverter.cs" />
     <Compile Include="Converters\XZoneStateToColorConverter.cs" />
+    <Compile Include="Events\ArchiveDefaultStateCheckedEvent.cs" />
     <Compile Include="Events\NewJournalEvent.cs" />
     <Compile Include="Events\ZoneSelectedEvent.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveDefaultStateViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveFilterViewModel.cs" />
+    <Compile Include="Journal\ViewModels\ArchiveSettingsViewModel.cs" />
     <Compile Include="Journal\ViewModels\ArchiveViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalsViewModel.cs" />
+    <Compile Include="Journal\Views\ArchiveFilterView.xaml.cs">
+      <DependentUpon>ArchiveFilterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Journal\Views\ArchiveSettingsView.xaml.cs">
+      <DependentUpon>ArchiveSettingsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Journal\Views\ArchiveView.xaml.cs">
       <DependentUpon>ArchiveView.xaml</DependentUpon>
     </Compile>
@@ -132,6 +146,14 @@
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Journal\Views\ArchiveFilterView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Journal\Views\ArchiveSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Journal\Views\ArchiveView.xaml">
       <SubType>Designer</SubType>

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace FiresecAPI.Models
 {
 	public static class RMHelper

@@ -10,7 +10,7 @@ using System;
 
 namespace GKModule.ViewModels
 {
-	public class ZonesViewModel : ViewPartViewModel
+	public class ZonesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public ZonesViewModel()
 		{

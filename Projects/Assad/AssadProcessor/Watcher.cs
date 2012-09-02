@@ -10,13 +10,13 @@ namespace AssadProcessor
 		internal void Start()
 		{
 			FiresecCallbackService.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
-			FiresecCallbackService.ZoneStateChangedEvent += new Action<ulong>(OnZoneStateChangedEvent);
+			FiresecCallbackService.ZoneStateChangedEvent += new Action<int>(OnZoneStateChangedEvent);
 			FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
 		}
 
 		void OnDeviceStateChangedEvent(Guid deviceUID)
 		{
-			var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == device.PathId);
 			if (assadDevice != null)
 			{
@@ -29,7 +29,7 @@ namespace AssadProcessor
 			}
 		}
 
-		void OnZoneStateChangedEvent(ulong zoneNo)
+		void OnZoneStateChangedEvent(int zoneNo)
 		{
 			var assadZone = Configuration.Zones.FirstOrDefault(x => x.ZoneNo == zoneNo.ToString());
 			if (assadZone != null)
@@ -52,7 +52,7 @@ namespace AssadProcessor
 
 		void SendEvent(JournalRecord journalRecord, string dataBaseId)
 		{
-			var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
+			var device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == dataBaseId);
 			if (device != null)
 			{
 				var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == device.PathId);

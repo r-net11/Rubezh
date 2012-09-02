@@ -8,7 +8,7 @@ namespace AssadProcessor
 	{
 		public static DeviceState GetDeviceState(string id)
 		{
-			var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == id);
+			var device = FiresecManager.Devices.FirstOrDefault(x => x.PathId == id);
 			if (device != null)
 			{
 				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
