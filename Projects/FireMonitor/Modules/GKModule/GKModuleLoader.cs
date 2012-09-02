@@ -28,6 +28,7 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Subscribe(OnShowXZone);
 			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Subscribe(OnShowXDirection);
 			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowXJournalEvent);
+            ServiceFactory.Events.GetEvent<ShowXArchiveEvent>().Subscribe(OnShowXArchiveEvent);
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowXDeviceDetails);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
@@ -55,6 +56,10 @@ namespace GKModule
 		{
 			ServiceFactory.Layout.Show(JournalsViewModel);
 		}
+        void OnShowXArchiveEvent(object obj)
+        {
+            ServiceFactory.Layout.Show(ArchiveViewModel);
+        }
 
 		void OnShowXDeviceDetails(Guid deviceUID)
 		{
@@ -73,8 +78,9 @@ namespace GKModule
 			_directionsNavigationItem.IsVisible = XManager.DeviceConfiguration.Directions.Count > 0;
 			DevicesViewModel.Initialize();
 			ZonesViewModel.Initialize();
+            DirectionsViewModel.Initialize();
 			JournalsViewModel.Initialize();
-			DirectionsViewModel.Initialize();
+            ArchiveViewModel.Initialize();
 
             JournalWatcherManager.Start();
             JournalWatcherManager.GetLastJournalItems(100);
@@ -90,7 +96,8 @@ namespace GKModule
 					new NavigationItem<ShowXDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					_zonesNavigationItem,
 					_directionsNavigationItem,
-					new NavigationItem<ShowXJournalEvent, object>("Журнал", "/Controls;component/Images/book.png")
+					new NavigationItem<ShowXJournalEvent, object>("Журнал", "/Controls;component/Images/book.png"),
+                    new NavigationItem<ShowXArchiveEvent, object>("Архив", "/Controls;component/Images/archive.png")
 				}),
 			};
 		}

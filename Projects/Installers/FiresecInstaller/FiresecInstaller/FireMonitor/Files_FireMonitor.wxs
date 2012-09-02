@@ -29,6 +29,7 @@
         <File Id="FMPlansModuleDll" Name="PlansModule.dll" Source="$(var.FireMonitor.TargetDir)" />
         <File Id="FMAlarmModuleDll" Name="AlarmModule.dll" Source="$(var.FireMonitor.TargetDir)" />
         <File Id="FMReportsModuleDll" Name="ReportsModule.dll" Source="$(var.FireMonitor.TargetDir)" />
+        <File Id="FMCodeReasonReportsDll" Name="CodeReason.Reports.dll" Source="$(var.FireMonitor.TargetDir)" />
 			</Component>
 			
       <Component Id="FMDevicesModuleComponent" Guid="B7E2D6B2-C4BF-47E8-A054-2501AC2359C7">
@@ -44,7 +45,8 @@
       </Component>
 
       <Component Id="FMVideoModuleComponent" Guid="3407F2CC-0774-4F13-805B-86399F517F9D">
-        <File Id="FMVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FireMonitor.TargetDir)" KeyPath="yes" />
+        <File Id="FMVideoModuleDll" Name="VideoModule.dll" Source="$(var.FireMonitor.TargetDir)" KeyPath="yes" />
+        <File Id="FMVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FireMonitor.TargetDir)" />
         <File Id="FMVlcFormsDll" Name="Vlc.DotNet.Forms.dll" Source="$(var.FireMonitor.TargetDir)" />
         <File Id="FMVlcInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FireMonitor.TargetDir)" />
         <Condition>VIDEO_MODULE</Condition>

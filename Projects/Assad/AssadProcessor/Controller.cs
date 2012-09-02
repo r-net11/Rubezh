@@ -68,7 +68,7 @@ namespace AssadProcessor
 			}
 			else
 			{
-				var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == assadDevice.Id);
+				var device = FiresecManager.Devices.FirstOrDefault(x => x.PathId == assadDevice.Id);
 				if (device != null)
 				{
 					if (commandName.StartsWith("Сброс "))
@@ -77,7 +77,7 @@ namespace AssadProcessor
 
 						if (device.Driver.DriverType == DriverType.Computer)
 						{
-							foreach (var resetDevice in FiresecManager.DeviceConfiguration.Devices)
+							foreach (var resetDevice in FiresecManager.Devices)
 							{
 								if (resetDevice.Driver.States.Any(x => ((x.Name == commandName) && (x.IsManualReset))))
 								{
@@ -103,7 +103,7 @@ namespace AssadProcessor
 		public void ResetAllStates(string deviceId)
 		{
 			var assadDevice = Configuration.Devices.First(x => x.DeviceId == deviceId);
-			var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == assadDevice.Id);
+			var device = FiresecManager.Devices.FirstOrDefault(x => x.PathId == assadDevice.Id);
 			if (device != null)
 			{
 				foreach (var state in device.Driver.States)

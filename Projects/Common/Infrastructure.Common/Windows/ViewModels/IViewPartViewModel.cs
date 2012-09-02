@@ -1,7 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows.Input;
-using System.Collections.Generic;
-using System;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {

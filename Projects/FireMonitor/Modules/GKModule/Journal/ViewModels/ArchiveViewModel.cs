@@ -39,25 +39,25 @@ namespace GKModule.ViewModels
             _isFilterOn = false;
         }
 
-        ObservableCollection<JournalItemViewModel> _journalRecords;
-        public ObservableCollection<JournalItemViewModel> JournalRecords
+        ObservableCollection<JournalItemViewModel> _journalItems;
+        public ObservableCollection<JournalItemViewModel> JournalItems
         {
-            get { return _journalRecords; }
+            get { return _journalItems; }
             private set
             {
-                _journalRecords = value;
-                OnPropertyChanged("JournalRecords");
+                _journalItems = value;
+                OnPropertyChanged("JournalItems");
             }
         }
 
-        JournalItemViewModel _selectedRecord;
-        public JournalItemViewModel SelectedRecord
+        JournalItemViewModel _selectedJournal;
+        public JournalItemViewModel SelectedJournal
         {
-            get { return _selectedRecord; }
+            get { return _selectedJournal; }
             set
             {
-                _selectedRecord = value;
-                OnPropertyChanged("SelectedRecord");
+                _selectedJournal = value;
+                OnPropertyChanged("SelectedJournal");
             }
         }
 
@@ -181,7 +181,7 @@ namespace GKModule.ViewModels
             if (_updateThread == null)
             {
                 Status = "Загрузка данных";
-                JournalRecords = new ObservableCollection<JournalItemViewModel>();
+                JournalItems = new ObservableCollection<JournalItemViewModel>();
                 _updateThread = new Thread(new ThreadStart(OnUpdate));
                 _updateThread.Start();
             }
@@ -207,13 +207,13 @@ namespace GKModule.ViewModels
 
         void OnGetFilteredArchiveCompleted(IEnumerable<JournalItem> journalRecords)
         {
-            JournalRecords = new ObservableCollection<JournalItemViewModel>();
+            JournalItems = new ObservableCollection<JournalItemViewModel>();
             foreach (var journalRecord in journalRecords)
             {
                 var journalRecordViewModel = new JournalItemViewModel(journalRecord);
-                JournalRecords.Add(journalRecordViewModel);
+                JournalItems.Add(journalRecordViewModel);
             }
-            SelectedRecord = JournalRecords.FirstOrDefault();
+            SelectedJournal = JournalItems.FirstOrDefault();
 
             Status = null;
         }

@@ -2,13 +2,13 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
     <!--<CustomAction Id="PreventDowngrading" Error="Newer version already installed." />-->
-		<CustomAction Id="StartAppOnExit" FileKey="FiresecServiceExe" ExeCommand="" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
+    <CustomAction Id="StartAppOnExit" Directory="FIRESECSERVICELOCATION" ExeCommand="[FIRESECSERVICELOCATION]FiresecService.exe" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
 		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="KillFiresecProcess" Execute="immediate" Impersonate="yes" Return="check"/>
     <CustomAction Id="InstallHaspDriver" BinaryKey="haspdinst.exe" ExeCommand="-i -kp" Return="ignore" Execute="immediate" />
     <CustomAction Id="InstallReportViewer" BinaryKey="ReportViewer.exe" ExeCommand="/q" Return="asyncNoWait" Execute="immediate" />
 
-    <CustomAction Id="RegisterServer" FileKey="Fs_serverExeFile" ExeCommand="-regserver" Execute="immediate" Impersonate="yes" Return="ignore" />
-    <CustomAction Id="UnRegisterServer" FileKey="Fs_serverExeFile" ExeCommand="-unregserver" Execute="immediate" Impersonate="yes" Return="ignore" />
+    <CustomAction Id="RegisterServer" Directory="OLDFIRESECSERVICELOCATION" ExeCommand="Fs_server.exe -regserver" Execute="immediate" Impersonate="yes" Return="ignore" />
+    <CustomAction Id="UnRegisterServer" Directory="OLDFIRESECSERVICELOCATION" ExeCommand="Fs_server.exe -unregserver" Execute="immediate" Impersonate="yes" Return="ignore" />
     <CustomAction Id="RegisterSockProxy" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s "[OLDFIRESECSERVICELOCATION]SockProxy.dll"' Return="ignore" />
     <CustomAction Id="UnregisterSockProxy" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s /u "[OLDFIRESECSERVICELOCATION]SockProxy.dll"' Return='ignore' />
     <CustomAction Id="RegisterFs_types" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s "[OLDFIRESECSERVICELOCATION]fs_types.dll"' Return="ignore"  />

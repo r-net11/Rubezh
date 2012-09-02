@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using FiresecAPI.Models;
 using FiresecAPI;
 using FiresecAPI.XModels;
 

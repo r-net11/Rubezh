@@ -102,9 +102,9 @@ namespace AssadProcessor.Devices
 					}
 				}
 
-				if (FiresecManager.DeviceConfiguration.Devices.Any(x => x.PathId == Id))
+				if (FiresecManager.Devices.Any(x => x.PathId == Id))
 				{
-					var device = FiresecManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == Id);
+					var device = FiresecManager.Devices.FirstOrDefault(x => x.PathId == Id);
 
 					var state0 = new Assad.DeviceTypeState();
 					state0.state = "Примечание";

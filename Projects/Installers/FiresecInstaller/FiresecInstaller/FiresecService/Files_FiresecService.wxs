@@ -55,17 +55,8 @@
       <Component Id="DeviceLibrary" Guid="*" >
         <File Id="DeviceLibrary" Name="DeviceLibrary.xml" Source="$(var.FiresecService.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
-      <Component Id="PlansConfiguration" Guid="EDC07C89-0FDB-416C-9C1F-287DDDE4E604" Permanent="yes" NeverOverwrite="yes">
-        <File Id="PlansConfigurationXml" Name="PlansConfiguration.xml" Source="Data\Configuration\" KeyPath="yes" />
-      </Component>
-      <Component Id="DeviceConfiguration" Guid="28ED8002-C6A6-47AD-80FE-017A622ABA0C" Permanent="yes" NeverOverwrite="yes">
-        <File Id="DeviceConfigurationXml" Name="DeviceConfiguration.xml" Source="Data\Configuration\" KeyPath="yes" />
-      </Component>
-      <Component Id="SystemConfiguration" Guid="52A35D42-7A57-43F6-9099-72DC7B118E70" Permanent="yes" NeverOverwrite="yes">
-        <File Id="SystemConfigurationXml" Name="SystemConfiguration.xml" Source="Data\Configuration\" KeyPath="yes" />
-      </Component>
-      <Component Id="DriversConfiguration" Guid="176F0269-D8B7-46AC-B76D-0D2F002B523A">
-        <File Id="DriversConfigurationXml" Name="DriversConfiguration.xml" Source="Data\Configuration\" KeyPath="yes" />
+      <Component Id="DriversConfiguration" Guid="*">
+        <File Id="DriversConfigurationXml" Name="DriversConfiguration.xml" Source="$(var.FiresecService.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
     </DirectoryRef>
 

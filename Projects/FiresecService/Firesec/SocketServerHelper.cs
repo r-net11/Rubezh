@@ -5,6 +5,7 @@ using System.ServiceProcess;
 using System.Threading;
 using Common;
 using Microsoft.Win32;
+using System.IO;
 
 namespace Firesec
 {
@@ -97,6 +98,9 @@ namespace Firesec
 		{
 			try
 			{
+                var result = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Firesec", "scktsrvr.exe");
+                return result;
+
 				RegistryKey registryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"SYSTEM\CurrentControlSet\Services\Adv_SocketServer", false);
 				object key = registryKey.GetValue("ImagePath");
 				string path = key.ToString();

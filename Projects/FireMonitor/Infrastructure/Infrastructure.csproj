@@ -114,6 +114,7 @@
     <Compile Include="Events\ShowDeviceEvent.cs" />
     <Compile Include="Events\ShowJournalEvent.cs" />
     <Compile Include="Events\ShowPlanEvent.cs" />
+    <Compile Include="Events\ShowXArchiveEvent.cs" />
     <Compile Include="Events\ShowXDirectionEvent.cs" />
     <Compile Include="Events\ShowZoneOnPlanEvent.cs" />
     <Compile Include="Events\ShowZoneEvent.cs" />
