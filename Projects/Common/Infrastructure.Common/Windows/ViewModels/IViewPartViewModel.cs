@@ -7,7 +7,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	public interface IViewPartViewModel : INotifyPropertyChanged
 	{
-		BaseViewModel Menu { get; }
 		string Key { get; }
 		void OnShow();
 		void OnHide();

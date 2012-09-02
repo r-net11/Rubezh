@@ -2,6 +2,9 @@
 using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Microsoft.Practices.Prism.Events;
+using System;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Services;
 
 namespace Infrastructure
 {
@@ -24,5 +27,6 @@ namespace Infrastructure
 		public static IProgressService ProgressService { get; private set; }
 		public static IValidationService ValidationService { get; private set; }
 		public static LoginService LoginService { get; private set; }
+		public static MenuService MenuService { get; set; }
 	}
 }

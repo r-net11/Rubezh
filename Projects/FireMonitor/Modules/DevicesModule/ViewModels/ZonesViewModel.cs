@@ -9,7 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class ZonesViewModel : ViewPartViewModel
+	public class ZonesViewModel : ViewPartViewModel, ISelectable<int?>
 	{
 		public ZonesViewModel()
 		{

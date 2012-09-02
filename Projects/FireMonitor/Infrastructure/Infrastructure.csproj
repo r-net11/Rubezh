@@ -126,7 +126,6 @@
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />
-    <Compile Include="NavigationItem.cs" />
     <Compile Include="Services\ILayoutService.cs" />
     <Compile Include="Services\ISecurityService.cs" />
     <Compile Include="Models\AutoActivationSettings.cs" />

@@ -13,14 +13,5 @@ namespace SkudModule.ViewModels
 		{
 
 		}
-
-		public override void OnShow()
-		{
-		}
-
-		public override void OnHide()
-		{
-			ServiceFactory.Layout.ShowMenu(null);
-		}
 	}
 }

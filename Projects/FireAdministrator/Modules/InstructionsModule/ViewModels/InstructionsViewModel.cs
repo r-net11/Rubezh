@@ -9,13 +9,15 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using InstructionsModule.Views;
+using Infrastructure.ViewModels;
 
 namespace InstructionsModule.ViewModels
 {
-	public class InstructionsViewModel : ViewPartViewModel, IEditingViewModel
+	public class InstructionsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<int?>
 	{
 		public InstructionsViewModel()
 		{
+			Menu = new InstructionsMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
 			DeleteAllCommand = new RelayCommand(OnDeleteAll, CanRemoveAll);
@@ -122,18 +124,26 @@ namespace InstructionsModule.ViewModels
 
 		public override void OnShow()
 		{
-			ServiceFactory.Layout.ShowMenu(new InstructionsMenuViewModel(this));
-
+			base.OnShow();
 			if (InstructionsMenuView.Current != null)
 				InstructionsMenuView.Current.AcceptKeyboard = true;
 		}
 
 		public override void OnHide()
 		{
-			ServiceFactory.Layout.ShowMenu(null);
-
+			base.OnHide();
 			if (InstructionsMenuView.Current != null)
 				InstructionsMenuView.Current.AcceptKeyboard = false;
 		}
+
+		#region ISelectable<int?> Members
+
+		public void Select(int? instructionNo)
+		{
+			if (instructionNo != null)
+				SelectedInstruction = Instructions.FirstOrDefault(x => x.Instruction.No == instructionNo.Value);
+		}
+
+		#endregion
 	}
 }

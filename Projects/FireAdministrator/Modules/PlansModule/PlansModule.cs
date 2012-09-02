@@ -7,6 +7,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Events;
 using PlansModule.ViewModels;
+using Infrastructure.Client;
 
 namespace PlansModule
 {
@@ -18,13 +19,7 @@ namespace PlansModule
 		{
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Subscribe(OnRegisterPlanExtension);
 			ServiceFactory.Events.GetEvent<ConfigurationSavingEvent>().Subscribe(OnSave);
-			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Subscribe(OnShowPlans);
 			_plansViewModel = new PlansViewModel();
-		}
-
-		void OnShowPlans(object obj)
-		{
-			ServiceFactory.Layout.Show(_plansViewModel);
 		}
 
 		void OnSave(object obj)
@@ -51,7 +46,7 @@ namespace PlansModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowPlansEvent>("Планы","/Controls;component/Images/map.png"),
+				new NavigationItem<ShowPlansEvent>(_plansViewModel, "Планы","/Controls;component/Images/map.png"),
 			};
 		}
 		public override string Name

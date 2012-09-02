@@ -8,7 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace OPCModule.ViewModels
 {
-	public class OPCDevicesViewModel : ViewPartViewModel
+	public class OPCDevicesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public void Initialize()
 		{
@@ -42,12 +42,16 @@ namespace OPCModule.ViewModels
 
 		public void Select(Guid deviceUID)
 		{
-			FillAllDevices();
+			Initialize();
+			if (deviceUID != Guid.Empty)
+			{
+				FillAllDevices();
 
-			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceViewModel != null)
-				deviceViewModel.ExpantToThis();
-			SelectedDevice = deviceViewModel;
+				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+				if (deviceViewModel != null)
+					deviceViewModel.ExpantToThis();
+				SelectedDevice = deviceViewModel;
+			}
 		}
 
 		#endregion

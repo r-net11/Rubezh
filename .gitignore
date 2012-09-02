@@ -185,3 +185,7 @@ buildlog.xml
 /3rdParty/codereason_reports_v0.5_alpha/Source/Samples/SimpleReport/obj/Release/TempPE/Properties.Resources.Designer.cs.dll
 /3rdParty/codereason_reports_v0.5_alpha/Source/Samples/SimpleReport/obj/Release/WindowMain.baml
 /3rdParty/codereason_reports_v0.5_alpha/Source/Samples/SimpleReport/obj/Release/WindowMain.g.cs
+/3rdParty/codereason_reports_v0.5_alpha/Source/CodeReason.Reports/obj
+/3rdParty/codereason_reports_v0.5_alpha/Source/CodeReason.Reports/bin
+/3rdParty/codereason_reports_v0.5_alpha/Source/Samples/SimpleReport/obj
+/3rdParty/codereason_reports_v0.5_alpha/Source/Samples/SimpleReport/bin

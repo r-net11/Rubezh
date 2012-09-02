@@ -10,10 +10,11 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using Infrastructure.ViewModels;
 
 namespace PlansModule.ViewModels
 {
-	public partial class PlansViewModel : ViewPartViewModel
+	public partial class PlansViewModel : MenuViewPartViewModel
 	{
 		public ElementsViewModel ElementsViewModel { get; private set; }
 		public PlansTreeViewModel PlansTreeViewModel { get; private set; }
@@ -23,6 +24,7 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnShowElementDevice);
 
+			Menu = new PlansMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 			RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
@@ -244,7 +246,7 @@ namespace PlansModule.ViewModels
 		{
 			using (new WaitWrapper())
 			{
-				ServiceFactory.Layout.ShowMenu(new PlansMenuViewModel(this));
+				base.OnShow();
 				FiresecManager.UpdatePlansConfiguration();
 				DesignerCanvas.DeselectAll();
 
@@ -256,8 +258,7 @@ namespace PlansModule.ViewModels
 		}
 		public override void OnHide()
 		{
-			ServiceFactory.Layout.ShowMenu(null);
-
+			base.OnHide();
 			if (DesignerCanvas.Toolbox != null)
 				DesignerCanvas.Toolbox.AcceptKeyboard = false;
 		}

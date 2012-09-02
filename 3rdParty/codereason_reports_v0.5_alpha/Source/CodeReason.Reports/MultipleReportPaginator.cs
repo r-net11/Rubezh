@@ -65,7 +65,7 @@ namespace CodeReason.Reports
 			}
 			if (pagePaginator == null)
 				return DocumentPage.Missing;
-
+			pagePaginator.PageShift = currentPage;
 			DocumentPage dp = pagePaginator.GetPage(pageNumber - currentPage);
 			if (dp == DocumentPage.Missing)
 				return DocumentPage.Missing;

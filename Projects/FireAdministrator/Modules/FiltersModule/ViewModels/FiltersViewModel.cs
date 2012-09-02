@@ -5,13 +5,15 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
 
 namespace FiltersModule.ViewModels
 {
-	public class FiltersViewModel : ViewPartViewModel, IEditingViewModel
+	public class FiltersViewModel : MenuViewPartViewModel, IEditingViewModel
 	{
 		public FiltersViewModel()
 		{
+			Menu = new FiltersMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
@@ -90,17 +92,14 @@ namespace FiltersModule.ViewModels
 
 		public override void OnShow()
 		{
-			var filtersMenuViewModel = new FiltersMenuViewModel(this);
-			ServiceFactory.Layout.ShowMenu(filtersMenuViewModel);
-
+			base.OnShow();
 			if (FilterMenuView.Current != null)
 				FilterMenuView.Current.AcceptKeyboard = true;
 		}
 
 		public override void OnHide()
 		{
-			ServiceFactory.Layout.ShowMenu(null);
-
+			base.OnHide();
 			if (FilterMenuView.Current != null)
 				FilterMenuView.Current.AcceptKeyboard = false;
 		}

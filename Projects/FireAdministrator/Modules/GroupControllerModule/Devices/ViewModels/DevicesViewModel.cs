@@ -8,16 +8,18 @@ using XFiresecAPI;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using Infrastructure.ViewModels;
 
 namespace GKModule.ViewModels
 {
-	public class DevicesViewModel : ViewPartViewModel
+	public class DevicesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static DevicesViewModel Current { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
 
 		public DevicesViewModel()
 		{
+			Menu = new DevicesMenuViewModel(this);
 			Current = this;
 			CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
@@ -56,12 +58,15 @@ namespace GKModule.ViewModels
 
 		public void Select(Guid deviceUID)
 		{
-			FillAllDevices();
+			if (deviceUID != Guid.Empty)
+			{
+				FillAllDevices();
 
-			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceViewModel != null)
-				deviceViewModel.ExpantToThis();
-			SelectedDevice = deviceViewModel;
+				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+				if (deviceViewModel != null)
+					deviceViewModel.ExpantToThis();
+				SelectedDevice = deviceViewModel;
+			}
 		}
 		#endregion
 
@@ -184,17 +189,6 @@ namespace GKModule.ViewModels
 
 			XManager.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.XDevicesChanged = true;
-		}
-
-		public override void OnShow()
-		{
-			var devicesMenuViewModel = new DevicesMenuViewModel(this);
-			ServiceFactory.Layout.ShowMenu(devicesMenuViewModel);
-		}
-
-		public override void OnHide()
-		{
-			ServiceFactory.Layout.ShowMenu(null);
 		}
 	}
 }

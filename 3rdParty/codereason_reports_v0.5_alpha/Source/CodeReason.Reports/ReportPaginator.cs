@@ -55,6 +55,7 @@ namespace CodeReason.Reports
 		/// <exception cref="ArgumentException">Flow document can have only one report footer section</exception>
 		public ReportPaginator(ReportDocument report, ReportData data)
 		{
+			PageShift = 0;
 			_report = report;
 			_data = data;
 			_reportDate = DateTime.Now;
@@ -455,7 +456,7 @@ namespace CodeReason.Reports
 					switch (reportContextValueType.Value)
 					{
 						case ReportContextValueType.PageNumber:
-							cv.Value = pageNumber;
+							cv.Value = pageNumber + PageShift;
 							break;
 						case ReportContextValueType.PageCount:
 							cv.Value = _pageCount;
@@ -473,6 +474,8 @@ namespace CodeReason.Reports
 				}
 			}
 		}
+
+		public int PageShift { get; set; }
 
 		/// <summary>
 		/// This is most important method, modifies the original 

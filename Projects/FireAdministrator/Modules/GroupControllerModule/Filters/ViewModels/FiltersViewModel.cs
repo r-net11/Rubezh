@@ -10,14 +10,16 @@ using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure;
 using System.Windows;
+using Infrastructure.ViewModels;
 
 namespace GKModule.ViewModels
 {
-    public class FiltersViewModel : ViewPartViewModel, IEditingViewModel
+    public class FiltersViewModel : MenuViewPartViewModel, IEditingViewModel
     {
         public FiltersViewModel()
         {
-            AddCommand = new RelayCommand(OnAdd);
+			Menu = new FiltersMenuViewModel(this);
+			AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
         }
@@ -97,13 +99,13 @@ namespace GKModule.ViewModels
 
         public override void OnShow()
         {
+			base.OnShow();
             SelectedJournalFilter = SelectedJournalFilter;
-            ServiceFactory.Layout.ShowMenu(new FiltersMenuViewModel(this));
         }
 
         public override void OnHide()
         {
-            ServiceFactory.Layout.ShowMenu(null);
+			base.OnHide();
         }
     }
 }

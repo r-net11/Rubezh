@@ -9,10 +9,11 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
+using Infrastructure.ViewModels;
 
 namespace PlansModule.ViewModels
 {
-	public partial class PlansViewModel : ViewPartViewModel
+	public partial class PlansViewModel : MenuViewPartViewModel
 	{
 		List<ElementBase> Buffer;
 

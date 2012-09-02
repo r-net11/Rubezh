@@ -8,6 +8,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using Infrastructure.Client;
 
 namespace GKModule
 {
@@ -26,7 +27,6 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Subscribe(OnShowXDevice);
 			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Subscribe(OnShowXZone);
 			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Subscribe(OnShowXDirection);
-			ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowXJournalEvent);
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowXDeviceDetails);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
@@ -37,21 +37,14 @@ namespace GKModule
 		void OnShowXDevice(Guid deviceUID)
 		{
 			DevicesViewModel.Select(deviceUID);
-			ServiceFactory.Layout.Show(DevicesViewModel);
 		}
 		void OnShowXZone(Guid zoneUID)
 		{
 			ZonesViewModel.Select(zoneUID);
-			ServiceFactory.Layout.Show(ZonesViewModel);
 		}
 		void OnShowXDirection(Guid directionUID)
 		{
 			DirectionsViewModel.Select(directionUID);
-			ServiceFactory.Layout.Show(DirectionsViewModel);
-		}
-		void OnShowXJournalEvent(object obj)
-		{
-			ServiceFactory.Layout.Show(JournalsViewModel);
 		}
 
 		void OnShowXDeviceDetails(Guid deviceUID)
@@ -79,16 +72,16 @@ namespace GKModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>("Зоны", "/Controls;component/Images/zones.png", null, null, null, Guid.Empty);
-			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>("Направления", "/Controls;component/Images/direction.png", null, null, null, Guid.Empty);
+			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
+			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty);
 			return new List<NavigationItem>()
 			{
 				new NavigationItem("ГК", null, new List<NavigationItem>()
 				{
-					new NavigationItem<ShowXDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, null, Guid.Empty),
+					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel,"Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 					_zonesNavigationItem,
 					_directionsNavigationItem,
-					new NavigationItem<ShowXJournalEvent, object>("Журнал", "/Controls;component/Images/book.png")
+					new NavigationItem<ShowXJournalEvent, object>(JournalsViewModel,"Журнал", "/Controls;component/Images/book.png")
 				}),
 			};
 		}

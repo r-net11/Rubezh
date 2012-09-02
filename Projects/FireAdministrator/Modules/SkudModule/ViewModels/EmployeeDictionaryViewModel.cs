@@ -5,15 +5,15 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
 
 namespace SkudModule.ViewModels
 {
-	public class EmployeeDictionaryViewModel<T> : ViewPartViewModel, IEditingViewModel
+	public class EmployeeDictionaryViewModel<T> : MenuViewPartViewModel, IEditingViewModel
 	{
 		public ObservableCollection<EmployeeDictionaryItemViewModel<T>> Dictionary { get; private set; }
-		private EmployeeDictionaryItemViewModel<T> _selectedItem;
-		private EmployeeDictionaryMenuViewModel _menuViewModel;
 
+		private EmployeeDictionaryItemViewModel<T> _selectedItem;
 		public EmployeeDictionaryItemViewModel<T> SelectedItem
 		{
 			get { return _selectedItem; }
@@ -26,12 +26,12 @@ namespace SkudModule.ViewModels
 
 		public EmployeeDictionaryViewModel()
 		{
+			Menu = new EmployeeDictionaryMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 			RefreshCommand = new RelayCommand(OnRefresh);
 			Dictionary = new ObservableCollection<EmployeeDictionaryItemViewModel<T>>();
-			_menuViewModel = new EmployeeDictionaryMenuViewModel(this);
 			Initialize();
 		}
 
@@ -47,15 +47,6 @@ namespace SkudModule.ViewModels
 		protected virtual IEnumerable<T> GetDictionary()
 		{
 			return new List<T>();
-		}
-
-		public override void OnShow()
-		{
-			ServiceFactory.Layout.ShowMenu(_menuViewModel);
-		}
-		public override void OnHide()
-		{
-			ServiceFactory.Layout.ShowMenu(null);
 		}
 
 		public RelayCommand AddCommand { get; private set; }

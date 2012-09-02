@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SettingsModule.ViewModels;
+using Infrastructure.Client;
 
 namespace SettingsModule
 {
@@ -13,13 +14,7 @@ namespace SettingsModule
 
 		public SettingsModule()
 		{
-			ServiceFactory.Events.GetEvent<ShowSettingsEvent>().Subscribe(OnShowSettings);
 			_settingsViewModel = new SettingsViewModel();
-		}
-
-		void OnShowSettings(object obj)
-		{
-			ServiceFactory.Layout.Show(_settingsViewModel);
 		}
 
 		public override void Initialize()
@@ -29,7 +24,7 @@ namespace SettingsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowSettingsEvent>("Настройки", "/Controls;component/Images/settings.png"),
+				new NavigationItem<ShowSettingsEvent>(_settingsViewModel, "Настройки", "/Controls;component/Images/settings.png"),
 			};
 		}
 		public override string Name

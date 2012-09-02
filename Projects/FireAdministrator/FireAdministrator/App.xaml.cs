@@ -35,6 +35,8 @@ namespace FireAdministrator
 		}
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
+			foreach (var module in ApplicationService.Modules)
+				module.Dispose();
 			FiresecManager.Disconnect();
 			//VideoService.Close();
 		}

@@ -27,5 +27,13 @@ namespace Infrastructure.Common
         public abstract IEnumerable<NavigationItem> CreateNavigation();
 
         #endregion
-    }
+
+		#region IDisposable Members
+
+		public virtual void Dispose()
+		{
+		}
+
+		#endregion
+	}
 }

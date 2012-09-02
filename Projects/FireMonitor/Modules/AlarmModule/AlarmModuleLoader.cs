@@ -3,6 +3,7 @@ using AlarmModule.Events;
 using AlarmModule.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure;
+using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 
@@ -25,7 +26,6 @@ namespace AlarmModule
 		void OnShowAlarms(AlarmType? alarmType)
 		{
 			AlarmsViewModel.Sort(alarmType);
-			ServiceFactory.Layout.Show(AlarmsViewModel);
 		}
 
 		public override void Initialize()
@@ -36,7 +36,7 @@ namespace AlarmModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowAlarmsEvent, AlarmType?>("Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
+				new NavigationItem<ShowAlarmsEvent, AlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
 			};
 		}
 

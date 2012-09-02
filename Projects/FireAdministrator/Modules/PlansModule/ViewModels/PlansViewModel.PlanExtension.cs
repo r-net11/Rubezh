@@ -8,10 +8,11 @@ using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using PlansModule.Designer;
+using Infrastructure.ViewModels;
 
 namespace PlansModule.ViewModels
 {
-	public partial class PlansViewModel : ViewPartViewModel
+	public partial class PlansViewModel : MenuViewPartViewModel
 	{
 		private List<IPlanExtension<Plan>> _planExtensions;
 

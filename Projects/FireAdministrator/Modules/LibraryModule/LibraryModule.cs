@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using LibraryModule.ViewModels;
+using Infrastructure.Client;
 
 namespace LibraryModule
 {
@@ -13,13 +14,7 @@ namespace LibraryModule
 
 		public LibraryModule()
 		{
-			ServiceFactory.Events.GetEvent<ShowLibraryEvent>().Subscribe(OnShowLibrary);
 			_libraryViewModel = new LibraryViewModel();
-		}
-
-		void OnShowLibrary(object obj)
-		{
-			ServiceFactory.Layout.Show(_libraryViewModel);
 		}
 
 		public override void Initialize()
@@ -30,7 +25,7 @@ namespace LibraryModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowLibraryEvent>("Библиотека","/Controls;component/Images/book.png"),
+				new NavigationItem<ShowLibraryEvent>(_libraryViewModel, "Библиотека","/Controls;component/Images/book.png"),
 			};
 		}
 		public override string Name

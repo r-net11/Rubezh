@@ -10,15 +10,17 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class ZonesViewModel : ViewPartViewModel, IEditingViewModel
+	public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<int>
 	{
 		public ZoneDevicesViewModel ZoneDevices { get; set; }
 
 		public ZonesViewModel()
 		{
+			Menu = new ZonesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
@@ -181,20 +183,27 @@ namespace DevicesModule.ViewModels
 
 		public override void OnShow()
 		{
+			base.OnShow();
 			SelectedZone = SelectedZone;
-			ServiceFactory.Layout.ShowMenu(new ZonesMenuViewModel(this));
-
 			if (ZonesMenuView.Current != null)
 				ZonesMenuView.Current.AcceptKeyboard = true;
-
 		}
 
 		public override void OnHide()
 		{
-			ServiceFactory.Layout.ShowMenu(null);
-
+			base.OnHide();
 			if (ZonesMenuView.Current != null)
 				ZonesMenuView.Current.AcceptKeyboard = false;
 		}
+
+		#region ISelectable<int> Members
+
+		public void Select(int zoneNo)
+		{
+			if (zoneNo != 0)
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+		}
+
+		#endregion
 	}
 }

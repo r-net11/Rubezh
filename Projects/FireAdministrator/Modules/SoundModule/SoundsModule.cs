@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SoundsModule.ViewModels;
+using Infrastructure.Client;
 
 namespace SoundsModule
 {
@@ -13,13 +14,7 @@ namespace SoundsModule
 
 		public SoundsModule()
 		{
-			ServiceFactory.Events.GetEvent<ShowSoundsEvent>().Subscribe(OnShowSounds);
 			_soundsViewModel = new SoundsViewModel();
-		}
-
-		void OnShowSounds(object obj)
-		{
-			ServiceFactory.Layout.Show(_soundsViewModel);
 		}
 
 		public override void Initialize()
@@ -30,7 +25,7 @@ namespace SoundsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowSoundsEvent>("Звуки", "/Controls;component/Images/music.png"),
+				new NavigationItem<ShowSoundsEvent>(_soundsViewModel, "Звуки", "/Controls;component/Images/music.png"),
 			};
 		}
 		public override string Name

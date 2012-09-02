@@ -12,6 +12,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 using Infrustructure.Plans.Events;
+using Infrastructure.Client;
 
 namespace DevicesModule
 {
@@ -26,10 +27,6 @@ namespace DevicesModule
 
 		public DevicesModule()
 		{
-			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
-			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
-			ServiceFactory.Events.GetEvent<ShowDirectionsEvent>().Subscribe(OnShowDirections);
-			ServiceFactory.Events.GetEvent<ShowGuardEvent>().Subscribe(OnShowGuardDevices);
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
 			ServiceFactory.Events.GetEvent<EditZoneEvent>().Subscribe(OnEditZone);
 
@@ -38,32 +35,6 @@ namespace DevicesModule
 			_zonesViewModel = new ZonesViewModel();
 			_directionsViewModel = new DirectionsViewModel();
 			_guardViewModel = new GuardViewModel();
-		}
-
-		void OnShowDevice(Guid deviceUID)
-		{
-			if (deviceUID != Guid.Empty)
-				_devicesViewModel.Select(deviceUID);
-			ServiceFactory.Layout.Show(_devicesViewModel);
-		}
-
-		void OnShowZone(int zoneNo)
-		{
-			if (zoneNo != 0)
-				_zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
-			ServiceFactory.Layout.Show(_zonesViewModel);
-		}
-
-		void OnShowDirections(int? directionId)
-		{
-			if (directionId.HasValue)
-				_directionsViewModel.SelectedDirection = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.Id == directionId);
-			ServiceFactory.Layout.Show(_directionsViewModel);
-		}
-
-		void OnShowGuardDevices(object obj)
-		{
-			ServiceFactory.Layout.Show(_guardViewModel);
 		}
 
 		void OnCreateZone(CreateZoneEventArg createZoneEventArg)
@@ -94,14 +65,14 @@ namespace DevicesModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_guardNavigationItem = new NavigationItem<ShowGuardEvent>("Охрана", "/Controls;component/Images/user.png") { IsVisible = false };
+			_guardNavigationItem = new NavigationItem<ShowGuardEvent>(_guardViewModel, "Охрана", "/Controls;component/Images/user.png") { IsVisible = false };
 			ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Subscribe(x => { _guardNavigationItem.IsVisible = x; });
 
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowDeviceEvent, Guid>("Устройства","/Controls;component/Images/tree.png", null, null, Guid.Empty),
-				new NavigationItem<ShowZoneEvent, int>("Зоны","/Controls;component/Images/zones.png", null, null, 0),
-				new NavigationItem<ShowDirectionsEvent, int?>("Направления","/Controls;component/Images/direction.png"),
+				new NavigationItem<ShowDeviceEvent, Guid>(_devicesViewModel, "Устройства","/Controls;component/Images/tree.png", null, null, Guid.Empty),
+				new NavigationItem<ShowZoneEvent, int>(_zonesViewModel, "Зоны","/Controls;component/Images/zones.png", null, null, 0),
+				new NavigationItem<ShowDirectionsEvent, int?>(_directionsViewModel, "Направления","/Controls;component/Images/direction.png"),
 				_guardNavigationItem
 			};
 		}

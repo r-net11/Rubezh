@@ -10,14 +10,16 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SecurityModule.Views;
+using Infrastructure.ViewModels;
 
 namespace SecurityModule.ViewModels
 {
-    public class RolesViewModel : ViewPartViewModel, IEditingViewModel
+    public class RolesViewModel : MenuViewPartViewModel, IEditingViewModel
     {
         public RolesViewModel()
         {
-            DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+			Menu = new RolesMenuViewModel(this);
+			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             AddCommand = new RelayCommand(OnAdd);
 		}
@@ -121,16 +123,14 @@ namespace SecurityModule.ViewModels
 
         public override void OnShow()
         {
-            ServiceFactory.Layout.ShowMenu(new RolesMenuViewModel(this));
-
+			base.OnShow();
 			if (RolesMenuView.Current != null)
 				RolesMenuView.Current.AcceptKeyboard = true;
         }
 
         public override void OnHide()
         {
-            ServiceFactory.Layout.ShowMenu(null);
-
+			base.OnHide();
 			if (RolesMenuView.Current != null)
 				RolesMenuView.Current.AcceptKeyboard = false;
         }

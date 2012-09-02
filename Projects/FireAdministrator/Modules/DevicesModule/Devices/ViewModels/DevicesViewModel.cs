@@ -11,10 +11,11 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class DevicesViewModel : ViewPartViewModel
+	public class DevicesViewModel : MenuViewPartViewModel, ISelectable<Guid>
 	{
 		public static DevicesViewModel Current { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
@@ -29,6 +30,7 @@ namespace DevicesModule.ViewModels
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			PasteAsCommand = new RelayCommand(OnPasteAs, CanPasteAs);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
+			Menu = new DevicesMenuViewModel(this);
 		}
 
 		public void Initialize()
@@ -63,12 +65,15 @@ namespace DevicesModule.ViewModels
 
 		public void Select(Guid deviceUID)
 		{
-			FillAllDevices();
+			if (deviceUID != Guid.Empty)
+			{
+				FillAllDevices();
 
-			var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceViewModel != null)
-				deviceViewModel.ExpantToThis();
-			SelectedDevice = deviceViewModel;
+				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
+				if (deviceViewModel != null)
+					deviceViewModel.ExpantToThis();
+				SelectedDevice = deviceViewModel;
+			}
 		}
 		#endregion
 
@@ -221,9 +226,7 @@ namespace DevicesModule.ViewModels
 
 		public override void OnShow()
 		{
-			var devicesMenuViewModel = new DevicesMenuViewModel(this);
-			ServiceFactory.Layout.ShowMenu(devicesMenuViewModel);
-
+			base.OnShow();
 			if (DevicesMenuView.Current != null)
 				DevicesMenuView.Current.AcceptKeyboard = true;
 
@@ -245,8 +248,7 @@ namespace DevicesModule.ViewModels
 
 		public override void OnHide()
 		{
-			ServiceFactory.Layout.ShowMenu(null);
-
+			base.OnHide();
 			if (DevicesMenuView.Current != null)
 				DevicesMenuView.Current.AcceptKeyboard = false;
 		}

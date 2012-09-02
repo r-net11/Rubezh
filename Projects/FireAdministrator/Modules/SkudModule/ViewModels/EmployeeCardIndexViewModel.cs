@@ -9,14 +9,14 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using SkudModule.Properties;
+using Infrastructure.ViewModels;
 
 namespace SkudModule.ViewModels
 {
-	public class EmployeeCardIndexViewModel : ViewPartViewModel, IEditingViewModel
+	public class EmployeeCardIndexViewModel : MenuViewPartViewModel, IEditingViewModel
 	{
 		public ObservableCollection<EmployeeCardViewModel> EmployeeCardIndex { get; set; }
 		private EmployeeCardViewModel _selectedCard;
-		private EmployeeCardIndexMenuViewModel _сardIndexMenuViewModel;
 		private EmployeeCardIndexFilter _filter;
 
 		public EmployeeCardViewModel SelectedEmployeeCard
@@ -31,6 +31,7 @@ namespace SkudModule.ViewModels
 
 		public EmployeeCardIndexViewModel()
 		{
+			Menu = new EmployeeCardIndexMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
@@ -38,7 +39,6 @@ namespace SkudModule.ViewModels
 			FilterCommand = new RelayCommand(OnFilter);
 			ClearFilterCommand = new RelayCommand(OnClearFilter, CanClearFilter);
 			EmployeeCardIndex = new ObservableCollection<EmployeeCardViewModel>();
-			_сardIndexMenuViewModel = new EmployeeCardIndexMenuViewModel(this);
 			_filter = new EmployeeCardIndexFilter();
 		}
 
@@ -50,15 +50,6 @@ namespace SkudModule.ViewModels
 				foreach (var employee in list)
 					EmployeeCardIndex.Add(new EmployeeCardViewModel(employee));
 			SelectedEmployeeCard = EmployeeCardIndex.FirstOrDefault();
-		}
-
-		public override void OnShow()
-		{
-			ServiceFactory.Layout.ShowMenu(_сardIndexMenuViewModel);
-		}
-		public override void OnHide()
-		{
-			ServiceFactory.Layout.ShowMenu(null);
 		}
 
 		public RelayCommand AddCommand { get; private set; }

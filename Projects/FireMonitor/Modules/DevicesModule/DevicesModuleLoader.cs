@@ -9,6 +9,7 @@ using Infrastructure.Events;
 using FiresecClient;
 using Infrastructure.Common.Reports;
 using DevicesModule.Reports;
+using Infrastructure.Client;
 
 namespace DevicesModule
 {
@@ -21,23 +22,11 @@ namespace DevicesModule
 		public DevicesModuleLoader()
 		{
 			ServiceFactory.Layout.AddToolbarItem(new ConnectionIndicatorViewModel());
-			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Subscribe(OnShowDevice);
-			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Subscribe(OnShowZone);
 			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Subscribe(OnShowDeviceDetails);
 			DevicesViewModel = new DevicesViewModel();
 			ZonesViewModel = new ZonesViewModel();
 		}
 
-		void OnShowDevice(Guid deviceUID)
-		{
-			DevicesViewModel.Select(deviceUID);
-			ServiceFactory.Layout.Show(DevicesViewModel);
-		}
-		void OnShowZone(int? zoneNo)
-		{
-			ZonesViewModel.Select(zoneNo);
-			ServiceFactory.Layout.Show(ZonesViewModel);
-		}
 		void OnShowDeviceDetails(Guid deviceUID)
 		{
 			DialogService.ShowWindow(new DeviceDetailsViewModel(deviceUID));
@@ -51,10 +40,10 @@ namespace DevicesModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_zonesNavigationItem = new NavigationItem<ShowZoneEvent, int?>("Зоны", "/Controls;component/Images/zones.png");
+			_zonesNavigationItem = new NavigationItem<ShowZoneEvent, int?>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png");
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, null, Guid.Empty),
+				new NavigationItem<ShowDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
 				_zonesNavigationItem
 			};
 		}

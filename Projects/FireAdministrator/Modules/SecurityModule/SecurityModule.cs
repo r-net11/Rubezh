@@ -4,6 +4,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SecurityModule.ViewModels;
+using Infrastructure.Client;
 
 namespace SecurityModule
 {
@@ -14,21 +15,8 @@ namespace SecurityModule
 
 		public SecurityModule()
 		{
-			ServiceFactory.Events.GetEvent<ShowUsersEvent>().Subscribe(OnShowUsers);
-			ServiceFactory.Events.GetEvent<ShowUserGroupsEvent>().Subscribe(OnShowUserGroups);
-
 			_usersViewModel = new UsersViewModel();
 			_groupsViewModel = new RolesViewModel();
-		}
-
-		void OnShowUsers(object obj)
-		{	
-			ServiceFactory.Layout.Show(_usersViewModel);
-		}
-
-		void OnShowUserGroups(object obj)
-		{
-			ServiceFactory.Layout.Show(_groupsViewModel);
 		}
 
 		public override void Initialize()
@@ -41,8 +29,8 @@ namespace SecurityModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem("Права доступа", null, new List<NavigationItem>(){
-					new NavigationItem<ShowUsersEvent>("Пользователи", "/Controls;component/Images/user.png"),
-					new NavigationItem<ShowUserGroupsEvent>("Группы", "/Controls;component/Images/users.png"),
+					new NavigationItem<ShowUsersEvent>(_usersViewModel, "Пользователи", "/Controls;component/Images/user.png"),
+					new NavigationItem<ShowUserGroupsEvent>(_groupsViewModel, "Группы", "/Controls;component/Images/users.png"),
 				}),
 			};
 		}

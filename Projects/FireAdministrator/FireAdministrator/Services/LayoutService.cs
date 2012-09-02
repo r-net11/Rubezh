@@ -10,19 +10,8 @@ namespace FireAdministrator
 		{
 			get { return Infrastructure.Common.Windows.ApplicationService.Layout; }
 		}
-		private MenuViewModel _menuViewModel;
-
-		internal void SetMenuViewModel(MenuViewModel menuViewModel)
-		{
-			_menuViewModel = menuViewModel;
-		}
 
 		#region ILayoutService Members
-
-		public void ShowMenu(BaseViewModel viewModel)
-		{
-			_menuViewModel.ExtendedMenu = viewModel;
-		}
 
 		public void Show(ViewPartViewModel model)
 		{

@@ -7,13 +7,15 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
 
 namespace VideoModule.ViewModels
 {
-	public class CamerasViewModel : ViewPartViewModel, IEditingViewModel
+	public class CamerasViewModel : MenuViewPartViewModel, IEditingViewModel
 	{
 		public CamerasViewModel()
 		{
+			Menu = new CamerasMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
@@ -91,16 +93,6 @@ namespace VideoModule.ViewModels
 				SelectedCamera.Update();
 				ServiceFactory.SaveService.CamerasChanged = true;
 			}
-		}
-
-		public override void OnShow()
-		{
-			ServiceFactory.Layout.ShowMenu(new CamerasMenuViewModel(this));
-		}
-
-		public override void OnHide()
-		{
-			ServiceFactory.Layout.ShowMenu(null);
 		}
 	}
 }

@@ -12,7 +12,7 @@ using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
-	public class DevicesViewModel : ViewPartViewModel
+	public class DevicesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public DevicesViewModel()
 		{

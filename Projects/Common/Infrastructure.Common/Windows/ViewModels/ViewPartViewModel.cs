@@ -21,7 +21,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public ViewPartViewModel()
 		{
-			Menu = null;
 			Shortcuts = new Dictionary<KeyGesture, Action>();
 		}
 
@@ -29,7 +28,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			IsActive = true;
 			OnShow();
-			//ApplicationService.Layout.ShowMenu(Menu);
 			ApplicationService.Layout.ShortcutService.KeyPressed += new KeyEventHandler(ShortcutService_KeyPressed);
 		}
 		internal void Hide()
@@ -37,7 +35,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 			if (IsActive)
 			{
 				OnHide();
-				//ApplicationService.Layout.ShowMenu(null);
 				ApplicationService.Layout.ShortcutService.KeyPressed -= new KeyEventHandler(ShortcutService_KeyPressed);
 			}
 			IsActive = false;
@@ -58,8 +55,6 @@ namespace Infrastructure.Common.Windows.ViewModels
 		}
 
 		#region IViewPartViewModel Members
-
-		public BaseViewModel Menu { get; protected set; }
 
 		public virtual void OnShow()
 		{

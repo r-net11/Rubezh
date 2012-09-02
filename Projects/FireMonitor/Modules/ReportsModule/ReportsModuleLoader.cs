@@ -6,6 +6,7 @@ using Infrastructure.Events;
 using ReportsModule.ViewModels;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Reports;
+using Infrastructure.Client;
 
 namespace ReportsModule
 {
@@ -32,9 +33,7 @@ namespace ReportsModule
 		{
 			return new List<NavigationItem>()
 		    {
-#if DEBUG
-		        new NavigationItem<ShowReportsEvent>("Отчеты", "/Controls;component/Images/levels.png", null, null, _reportViewModel),
-#endif
+		        new NavigationItem<ShowReportsEvent>(_reportViewModel, "Отчеты", "/Controls;component/Images/levels.png"),
 		    };
 		}
 

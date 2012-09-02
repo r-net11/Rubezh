@@ -8,13 +8,15 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using SoundsModule.Views;
+using Infrastructure.ViewModels;
 
 namespace SoundsModule.ViewModels
 {
-	public class SoundsViewModel : ViewPartViewModel
+	public class SoundsViewModel : MenuViewPartViewModel
 	{
 		public SoundsViewModel()
 		{
+			Menu = new SoundsMenuViewModel(this);
 			PlaySoundCommand = new RelayCommand(OnPlaySound, CanPlaySound);
 		}
 
@@ -106,16 +108,14 @@ namespace SoundsModule.ViewModels
 
 		public override void OnShow()
 		{
-			var soundsMenuViewModel = new SoundsMenuViewModel(this);
-			ServiceFactory.Layout.ShowMenu(soundsMenuViewModel);
-
+			base.OnShow();
 			if (SoundsMenuView.Current != null)
 				SoundsMenuView.Current.AcceptKeyboard = true;
 		}
 
 		public override void OnHide()
 		{
-			ServiceFactory.Layout.ShowMenu(null);
+			base.OnHide();
 			IsNowPlaying = false;
 			AlarmPlayerHelper.Stop();
 

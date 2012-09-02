@@ -13,6 +13,7 @@ using Infrastructure.Events;
 using Infrustructure.Plans.Events;
 using System;
 using System.Linq;
+using Infrastructure.Client;
 
 namespace GKModule
 {
@@ -25,39 +26,11 @@ namespace GKModule
 
 		public GroupControllerModule()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceEvent>().Subscribe(OnShowXDevices);
-			ServiceFactory.Events.GetEvent<ShowXZoneEvent>().Subscribe(OnShowXZones);
-			ServiceFactory.Events.GetEvent<ShowXDirectionEvent>().Subscribe(OnShowXDirections);
-            ServiceFactory.Events.GetEvent<ShowXJournalFilterEvent>().Subscribe(OnShowXJournalFilter);
-
 			_devicesViewModel = new DevicesViewModel();
 			_zonesViewModel = new ZonesViewModel();
 			_directionsViewModel = new DirectionsViewModel();
             _filtersViewModel = new FiltersViewModel();
 		}
-
-		private void OnShowXDevices(Guid deviceUID)
-		{
-			if (deviceUID != Guid.Empty)
-				_devicesViewModel.Select(deviceUID);
-			ServiceFactory.Layout.Show(_devicesViewModel);
-		}
-		private void OnShowXZones(Guid zoneUID)
-		{
-			if (zoneUID != Guid.Empty)
-				_zonesViewModel.SelectedZone = _zonesViewModel.Zones.FirstOrDefault(x => x.XZone.UID == zoneUID);
-			ServiceFactory.Layout.Show(_zonesViewModel);
-		}
-		private void OnShowXDirections(Guid directionUID)
-		{
-			if (directionUID != Guid.Empty)
-				_directionsViewModel.SelectedDirection = _directionsViewModel.Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
-			ServiceFactory.Layout.Show(_directionsViewModel);
-		}
-        private void OnShowXJournalFilter(object obj)
-        {
-            ServiceFactory.Layout.Show(_filtersViewModel);
-        }
 
 		public override void Initialize()
 		{
@@ -74,10 +47,10 @@ namespace GKModule
 			{
 				new NavigationItem("ГК", null, new List<NavigationItem>()
 				{
-					new NavigationItem<ShowXDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXZoneEvent, Guid>("Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXDirectionEvent, Guid>("Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
-                    new NavigationItem<ShowXJournalFilterEvent, object>("Фильтры", "/Controls;component/Images/filter.png")
+					new NavigationItem<ShowXDeviceEvent, Guid>(_devicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXZoneEvent, Guid>(_zonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXDirectionEvent, Guid>(_directionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
+                    new NavigationItem<ShowXJournalFilterEvent, object>(_filtersViewModel, "Фильтры", "/Controls;component/Images/filter.png")
 				}),
 			};
 		}

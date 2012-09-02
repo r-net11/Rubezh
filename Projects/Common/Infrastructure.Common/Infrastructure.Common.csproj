@@ -146,6 +146,7 @@
     <Compile Include="Windows\LoadingService.cs" />
     <Compile Include="Windows\ShortcutService.cs" />
     <Compile Include="Windows\ViewModels\BaseViewModel.cs" />
+    <Compile Include="Windows\ViewModels\ISelectable.cs" />
     <Compile Include="Windows\ViewModels\LoadingViewModel.cs" />
     <Compile Include="Windows\ViewModels\IEditingViewModel.cs" />
     <Compile Include="IModule.cs" />

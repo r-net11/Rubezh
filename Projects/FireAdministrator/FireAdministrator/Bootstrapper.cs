@@ -12,6 +12,7 @@ using Infrastructure.Events;
 using Common.GK;
 using System.IO;
 using System.Windows.Markup;
+using Infrastructure.Services;
 
 namespace FireAdministrator
 {
@@ -20,7 +21,7 @@ namespace FireAdministrator
 		public void Initialize()
 		{
 			AppSettingsHelper.InitializeAppSettings();
-            LoadStyles();
+			LoadStyles();
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
@@ -49,7 +50,7 @@ namespace FireAdministrator
 					else
 					{
 						var shell = new AdministratorShellViewModel();
-						((LayoutService)ServiceFactory.Layout).SetMenuViewModel((MenuViewModel)shell.Toolbar);
+						ServiceFactory.MenuService = new MenuService((vm) => ((MenuViewModel)shell.Toolbar).ExtendedMenu = vm);
 						RunShell(shell);
 					}
 					LoadingService.Close();
@@ -71,13 +72,13 @@ namespace FireAdministrator
 			InitializeModules();
 		}
 
-        void LoadStyles()
-        {
-            if (!String.IsNullOrEmpty(ServiceFactory.AppSettings.Theme) && ServiceFactory.AppSettings.Theme != "1")
-            {
-                var themeName = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Brushes" + ServiceFactory.AppSettings.Theme + ".xaml";
-                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themeName) });
-            }
-        }
+		void LoadStyles()
+		{
+			if (!String.IsNullOrEmpty(ServiceFactory.AppSettings.Theme) && ServiceFactory.AppSettings.Theme != "1")
+			{
+				var themeName = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Brushes" + ServiceFactory.AppSettings.Theme + ".xaml";
+				Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themeName) });
+			}
+		}
 	}
 }

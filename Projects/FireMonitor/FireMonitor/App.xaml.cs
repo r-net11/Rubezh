@@ -48,6 +48,8 @@ namespace FireMonitor
 		}
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
+			foreach (var module in ApplicationService.Modules)
+				module.Dispose();
 			AlarmPlayerHelper.Dispose();
 			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();

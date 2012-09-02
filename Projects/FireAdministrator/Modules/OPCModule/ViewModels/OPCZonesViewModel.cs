@@ -5,7 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace OPCModule.ViewModels
 {
-	public class OPCZonesViewModel : ViewPartViewModel
+	public class OPCZonesViewModel : ViewPartViewModel, ISelectable<int>
 	{
 		public void Initialize()
 		{
@@ -37,5 +37,16 @@ namespace OPCModule.ViewModels
 				OnPropertyChanged("SelectedZone");
 			}
 		}
+
+		#region ISelectable<int> Members
+
+		public void Select(int zoneNo)
+		{
+			Initialize();
+			if (zoneNo != 0)
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+		}
+
+		#endregion
 	}
 }

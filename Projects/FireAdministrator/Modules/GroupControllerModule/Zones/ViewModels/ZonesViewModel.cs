@@ -6,16 +6,19 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
+using System;
 
 namespace GKModule.ViewModels
 {
-    public class ZonesViewModel : ViewPartViewModel, IEditingViewModel
+    public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
     {
         public static ZonesViewModel Current { get; private set; }
         public ZoneDevicesViewModel ZoneDevices { get; set; }
 
         public ZonesViewModel()
         {
+			Menu = new ZonesMenuViewModel(this);
             Current = this;
             AddCommand = new RelayCommand(OnAdd);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
@@ -111,13 +114,23 @@ namespace GKModule.ViewModels
 
         public override void OnShow()
         {
+			base.OnShow();
             SelectedZone = SelectedZone;
-            ServiceFactory.Layout.ShowMenu(new ZonesMenuViewModel(this));
         }
 
         public override void OnHide()
         {
-            ServiceFactory.Layout.ShowMenu(null);
+			base.OnHide();
         }
-    }
+
+		#region ISelectable<Guid> Members
+
+		public void Select(Guid zoneUID)
+		{
+			if (zoneUID != Guid.Empty)
+				SelectedZone = Zones.FirstOrDefault(x => x.XZone.UID == zoneUID);
+		}
+
+		#endregion
+	}
 }

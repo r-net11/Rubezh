@@ -6,13 +6,15 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class DirectionsViewModel : ViewPartViewModel, IEditingViewModel
+	public class DirectionsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<int?>
 	{
 		public DirectionsViewModel()
 		{
+			Menu = new DirectionsMenuViewModel(this);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditOrDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditOrDelete);
 			AddCommand = new RelayCommand(OnAdd);
@@ -89,18 +91,26 @@ namespace DevicesModule.ViewModels
 
 		public override void OnShow()
 		{
-			ServiceFactory.Layout.ShowMenu(new DirectionsMenuViewModel(this));
-
+			base.OnShow();
 			if (DirectionsMenuView.Current != null)
 				DirectionsMenuView.Current.AcceptKeyboard = true;
 		}
 
 		public override void OnHide()
 		{
-			ServiceFactory.Layout.ShowMenu(null);
-
+			base.OnHide();
 			if (DirectionsMenuView.Current != null)
 				DirectionsMenuView.Current.AcceptKeyboard = false;
 		}
+
+		#region ISelectable<int?> Members
+
+		public void Select(int? directionId)
+		{
+			if (directionId.HasValue)
+				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.Id == directionId);
+		}
+
+		#endregion
 	}
 }
