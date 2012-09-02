@@ -73,6 +73,9 @@
     <DelaySign>true</DelaySign>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodeReason.Reports">
+      <HintPath>..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -85,10 +88,12 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="ReachFramework" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Printing" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
@@ -124,6 +129,10 @@
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="KnownServiceType.cs" />
+    <Compile Include="Reports\IFilterableReport.cs" />
+    <Compile Include="Reports\IReportPrintExtension.cs" />
+    <Compile Include="Reports\IMultiReportProvider.cs" />
+    <Compile Include="Reports\ISingleReportProvider.cs" />
     <Compile Include="Reports\IReportProvider.cs" />
     <Compile Include="Reports\IReportProviderModule.cs" />
     <Compile Include="ServiceFactoryBase.cs" />

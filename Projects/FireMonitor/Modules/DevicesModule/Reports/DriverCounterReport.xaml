@@ -2,7 +2,7 @@
 	<FlowDocument.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/ReportsModule;component/ReportTemplates/TemplateResources.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/ReportsModule;component/DataTemplates/ReportResources.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</FlowDocument.Resources>
@@ -19,7 +19,7 @@
 				<TableRow>
 					<TableCell>
 						<Paragraph>
-							<xrd:InlineDocumentValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="PrintDate" />
+							<xrd:InlineContextValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="ReportDate" />
 						</Paragraph>
 					</TableCell>
 					<TableCell>
@@ -38,35 +38,26 @@
 	<Section BreakPageBefore="True" FontSize="12" Padding="80,20,40,10" Style="{StaticResource section}">
 		<Table BorderBrush="Black" BorderThickness="0.02cm" CellSpacing="0">
 			<Table.Columns>
-				<TableColumn Width="2*"/>
-				<TableColumn Width="1*"/>
-				<TableColumn Width="5*"/>
+				<TableColumn Width="6*" />
+				<TableColumn Width="1*" />
 			</Table.Columns>
 			<TableRowGroup Style="{StaticResource header1}">
 				<TableRow>
-					<TableCell ColumnSpan="3">
-						<Paragraph TextAlignment="Center">Список устройств конфигурации</Paragraph>
+					<TableCell ColumnSpan="2">
+						<Paragraph TextAlignment="Center">Количество устройств в конфигурации</Paragraph>
 					</TableCell>
 				</TableRow>
 			</TableRowGroup>
 			<TableRowGroup Style="{StaticResource header2}">
 				<TableRow>
-					<TableCell ColumnSpan="2">
-						<Paragraph TextAlignment="Center">Устройство</Paragraph>
-					</TableCell>
-					<TableCell RowSpan="2">
+					<TableCell>
 						<Paragraph TextAlignment="Center">
 							<LineBreak />
-							Зона
+							Устройство
 						</Paragraph>
 					</TableCell>
-				</TableRow>
-				<TableRow>
 					<TableCell>
-						<Paragraph TextAlignment="Center">Тип</Paragraph>
-					</TableCell>
-					<TableCell>
-						<Paragraph TextAlignment="Center">Адрес</Paragraph>
+						<Paragraph TextAlignment="Center">Используется в конфигурации</Paragraph>
 					</TableCell>
 				</TableRow>
 			</TableRowGroup>
@@ -75,20 +66,27 @@
 				<xrd:TableRowForDataTable TableName="Devices">
 					<TableCell>
 						<Paragraph>
-							<xrd:InlineTableCellValue PropertyName="Type" />
+							<xrd:InlineTableCellValue PropertyName="Driver" />
 						</Paragraph>
 					</TableCell>
 					<TableCell>
-						<Paragraph>
-							<xrd:InlineTableCellValue PropertyName="Address" />
-						</Paragraph>
-					</TableCell>
-					<TableCell>
-						<Paragraph>
-							<xrd:InlineTableCellValue PropertyName="Zone" />
+						<Paragraph TextAlignment="Center">
+							<xrd:InlineTableCellValue AggregateGroup="ItemCount" PropertyName="Count" />
 						</Paragraph>
 					</TableCell>
 				</xrd:TableRowForDataTable>
+			</TableRowGroup>
+			<TableRowGroup Style="{StaticResource text}">
+				<TableRow>
+					<TableCell>
+						<Paragraph FontWeight="Bold">Всего устройств</Paragraph>
+					</TableCell>
+					<TableCell>
+						<Paragraph TextAlignment="Center">
+							<xrd:InlineAggregateValue AggregateGroup="ItemCount" AggregateValueType="Sum" EmptyValue="0" FontWeight="Bold" />
+						</Paragraph>
+					</TableCell>
+				</TableRow>
 			</TableRowGroup>
 
 		</Table>

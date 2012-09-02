@@ -42,6 +42,7 @@ namespace CodeReason.Reports
 		protected Block _blockPageFooter = null;
 		protected ArrayList _reportContextValues = null;
 		protected ReportPaginatorDynamicCache _dynamicCache = null;
+		protected DateTime _reportDate;
 
 		/// <summary>
 		/// Constructor
@@ -56,6 +57,7 @@ namespace CodeReason.Reports
 		{
 			_report = report;
 			_data = data;
+			_reportDate = DateTime.Now;
 
 			_flowDocument = report.CreateFlowDocument();
 			_pageSize = new Size(_flowDocument.PageWidth, _flowDocument.PageHeight);
@@ -463,6 +465,9 @@ namespace CodeReason.Reports
 							break;
 						case ReportContextValueType.ReportTitle:
 							cv.Value = _report.ReportTitle;
+							break;
+						case ReportContextValueType.ReportDate:
+							cv.Value = _reportDate;
 							break;
 					}
 				}

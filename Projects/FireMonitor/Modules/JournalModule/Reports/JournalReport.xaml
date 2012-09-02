@@ -2,7 +2,7 @@
 	<FlowDocument.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="pack://application:,,,/ReportsModule;component/ReportTemplates/TemplateResources.xaml" />
+				<ResourceDictionary Source="pack://application:,,,/ReportsModule;component/DataTemplates/ReportResources.xaml" />
 			</ResourceDictionary.MergedDictionaries>
 		</ResourceDictionary>
 	</FlowDocument.Resources>
@@ -19,7 +19,7 @@
 				<TableRow>
 					<TableCell>
 						<Paragraph>
-							<xrd:InlineDocumentValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="PrintDate" />
+							<xrd:InlineContextValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="ReportDate" />
 						</Paragraph>
 					</TableCell>
 					<TableCell>

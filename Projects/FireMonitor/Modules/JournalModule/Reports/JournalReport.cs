@@ -1,29 +1,41 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using CodeReason.Reports;
 using FiresecAPI.Models;
 using Infrastructure.Common;
+using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using JournalModule.ViewModels;
-using ReportsModule.Models;
 
-namespace ReportsModule.ReportProviders
+namespace JournalModule.Reports
 {
-	internal class JournalReport : BaseReport
+	internal class JournalReport : ISingleReportProvider, IFilterableReport
 	{
 		private ReportArchiveFilter ReportArchiveFilter { get; set; }
-
 		public JournalReport()
-			: base(ReportType.ReportJournal)
 		{
 			ReportArchiveFilter = new ReportArchiveFilter();
 		}
 
-		public override ReportData GetData()
+		#region IFilterableReport Members
+
+		public void Filter(RelayCommand refreshCommand)
+		{
+			var archiveFilterViewModel = new ArchiveFilterViewModel(ReportArchiveFilter.ArchiveFilter);
+			if (DialogService.ShowModalWindow(archiveFilterViewModel))
+			{
+				ReportArchiveFilter = new ReportArchiveFilter(archiveFilterViewModel);
+				refreshCommand.Execute();
+			}
+		}
+
+		#endregion
+
+		#region ISingleReportProvider Members
+
+		public ReportData GetData()
 		{
 			ReportArchiveFilter.LoadArchive();
 			var data = new ReportData();
-			data.ReportDocumentValues.Add("PrintDate", DateTime.Now);
 			data.ReportDocumentValues.Add("StartDate", ReportArchiveFilter.StartDate);
 			data.ReportDocumentValues.Add("EndDate", ReportArchiveFilter.EndDate);
 
@@ -41,18 +53,25 @@ namespace ReportsModule.ReportProviders
 			return data;
 		}
 
-		public override bool IsFilterable
+		#endregion
+
+		#region IReportProvider Members
+
+		public string Template
+		{
+			get { return "Reports/JournalReport.xaml"; }
+		}
+
+		public ReportType ReportType
+		{
+			get { return ReportType.ReportJournal; }
+		}
+
+		public bool IsEnabled
 		{
 			get { return true; }
 		}
-		public override void Filter(RelayCommand refreshCommand)
-		{
-			var archiveFilterViewModel = new ArchiveFilterViewModel(ReportArchiveFilter.ArchiveFilter);
-			if (DialogService.ShowModalWindow(archiveFilterViewModel))
-			{
-				ReportArchiveFilter = new ReportArchiveFilter(archiveFilterViewModel);
-				refreshCommand.Execute();
-			}
-		}
+
+		#endregion
 	}
 }

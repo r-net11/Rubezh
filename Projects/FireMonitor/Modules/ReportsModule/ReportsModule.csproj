@@ -74,19 +74,10 @@
     <Compile Include="DocumentPaginatorModel\FlowToXPSConverter.cs" />
     <Compile Include="DocumentPaginatorModel\PimpedPaginator.cs" />
     <Compile Include="DocumentPaginatorModel\ReportPaginator.cs" />
-    <Compile Include="Models\ElementPage.cs" />
-    <Compile Include="Models\IndicationBlocksList.cs" />
-    <Compile Include="Models\Page.cs" />
-    <Compile Include="Models\ReportArchiveFilter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReportProviders\BaseReport.cs" />
-    <Compile Include="ReportProviders\IndicationBlockReport.cs" />
-    <Compile Include="ReportProviders\DriverCounterReport.cs" />
-    <Compile Include="ReportProviders\DeviceParamsReport.cs" />
-    <Compile Include="ReportProviders\JournalReport.cs" />
-    <Compile Include="ReportProviders\DeviceListReport.cs" />
     <Compile Include="ReportsModuleLoader.cs" />
     <Compile Include="ViewModels\ReportsViewModel.cs" />
+    <Compile Include="ViewModels\ReportViewModel.cs" />
     <Compile Include="Views\ReportsView.xaml.cs">
       <DependentUpon>ReportsView.xaml</DependentUpon>
     </Compile>
@@ -116,32 +107,13 @@
       <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
     </ProjectReference>
-    <ProjectReference Include="..\JournalModule\JournalModule.csproj">
-      <Project>{73FD68C0-A071-4BC1-8299-0EDB03B9C119}</Project>
-      <Name>JournalModule</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Resource Include="ReportTemplates\DeviceListReportTemplate.xaml">
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="ReportTemplates\JournalReportTemplate.xaml">
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="ReportTemplates\TemplateResources.xaml">
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="ReportTemplates\DeviceParamsReportTemplate.xaml">
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="ReportTemplates\DriverCounterReportTemplate.xaml">
-      <SubType>Designer</SubType>
-    </Resource>
-    <Resource Include="ReportTemplates\IndicationBlockReportTemplate.xaml">
+    <Resource Include="DataTemplates\ReportResources.xaml">
       <SubType>Designer</SubType>
     </Resource>
     <Page Include="Views\ReportsView.xaml">

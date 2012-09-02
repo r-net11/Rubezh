@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 
 namespace Infrastructure.Common.Reports
 {
 	public interface IReportProvider
 	{
-		//ReportType ReportType { get; }
-		//bool IsFilterable { get; }
-		//bool IsMultiReport { get; }
-		//bool IsEnabled { get; }
-		//ReportData GetData();
-		//IEnumerable<ReportData> GetMultiData();
-		//void Filter(RelayCommand refreshCommand);
+		string Template { get; }
+		ReportType ReportType { get; }
+		bool IsEnabled { get; }
 	}
 }

@@ -7,10 +7,12 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using FiresecClient;
+using Infrastructure.Common.Reports;
+using DevicesModule.Reports;
 
 namespace DevicesModule
 {
-	public class DevicesModuleLoader : ModuleBase
+	public class DevicesModuleLoader : ModuleBase, IReportProviderModule
 	{
 		static DevicesViewModel DevicesViewModel;
 		static ZonesViewModel ZonesViewModel;
@@ -52,7 +54,7 @@ namespace DevicesModule
 			_zonesNavigationItem = new NavigationItem<ShowZoneEvent, int?>("Зоны", "/Controls;component/Images/zones.png");
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+				new NavigationItem<ShowDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, null, Guid.Empty),
 				_zonesNavigationItem
 			};
 		}
@@ -61,5 +63,20 @@ namespace DevicesModule
 		{
 			get { return "Устройства и Зоны"; }
 		}
+
+		#region IReportProviderModule Members
+
+		public IEnumerable<IReportProvider> GetReportProviders()
+		{
+			return new List<IReportProvider>()
+			{
+				new DeviceParamsReport(),
+				new DeviceListReport(),
+				new DriverCounterReport(),
+				new IndicationBlockReport(),
+			};
+		}
+
+		#endregion
 	}
 }

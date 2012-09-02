@@ -5,10 +5,12 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using JournalModule.ViewModels;
+using Infrastructure.Common.Reports;
+using JournalModule.Reports;
 
 namespace JournalModule
 {
-	public class JournalModuleLoader : ModuleBase
+	public class JournalModuleLoader : ModuleBase, IReportProviderModule
 	{
 		private NavigationItem _journalItem;
 		private int _unreadJournalCount;
@@ -70,5 +72,17 @@ namespace JournalModule
 		{
 			get { return "Журнал событий и Архив"; }
 		}
+
+		#region IReportProviderModule Members
+
+		public IEnumerable<IReportProvider> GetReportProviders()
+		{
+			return new List<IReportProvider>()
+			{
+				new JournalReport()
+			};
+		}
+
+		#endregion
 	}
 }

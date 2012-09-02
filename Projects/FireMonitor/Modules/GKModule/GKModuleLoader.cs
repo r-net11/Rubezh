@@ -74,18 +74,18 @@ namespace GKModule
 			JournalsViewModel.Initialize();
 			DirectionsViewModel.Initialize();
 
-            JournalWatcherManager.Start();
-            JournalWatcherManager.GetLastJournalItems(100);
+			JournalWatcherManager.Start();
+			JournalWatcherManager.GetLastJournalItems(100);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>("Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
-			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>("Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty);
+			_zonesNavigationItem = new NavigationItem<ShowXZoneEvent, Guid>("Зоны", "/Controls;component/Images/zones.png", null, null, null, Guid.Empty);
+			_directionsNavigationItem = new NavigationItem<ShowXDirectionEvent, Guid>("Направления", "/Controls;component/Images/direction.png", null, null, null, Guid.Empty);
 			return new List<NavigationItem>()
 			{
 				new NavigationItem("ГК", null, new List<NavigationItem>()
 				{
-					new NavigationItem<ShowXDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXDeviceEvent, Guid>("Устройства", "/Controls;component/Images/tree.png", null, null, null, Guid.Empty),
 					_zonesNavigationItem,
 					_directionsNavigationItem,
 					new NavigationItem<ShowXJournalEvent, object>("Журнал", "/Controls;component/Images/book.png")

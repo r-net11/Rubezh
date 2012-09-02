@@ -74,6 +74,10 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CodeReason.Reports, Version=0.5.0.0, Culture=neutral, PublicKeyToken=74fc60a060db7911, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\3rdParty\codereason_reports_v0.5_alpha\Bin\CodeReason.Reports.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism">
       <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
     </Reference>
@@ -114,6 +118,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Reports\DeviceListReport.cs" />
+    <Compile Include="Reports\DeviceParamsReport.cs" />
+    <Compile Include="Reports\DriverCounterReport.cs" />
+    <Compile Include="Reports\ElementPage.cs" />
+    <Compile Include="Reports\IndicationBlockReport.cs" />
+    <Compile Include="Reports\IndicationBlocksList.cs" />
+    <Compile Include="Reports\Page.cs" />
     <Compile Include="ViewModels\ConnectionIndicatorViewModel.cs" />
     <Compile Include="ViewModels\DeviceControlViewModel.cs" />
     <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
@@ -156,6 +167,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Resource Include="Reports\DeviceListReport.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Reports\IndicationBlockReport.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Reports\DeviceParamsReport.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
+    <Resource Include="Reports\DriverCounterReport.xaml">
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="Views\ConnectionIndicatorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

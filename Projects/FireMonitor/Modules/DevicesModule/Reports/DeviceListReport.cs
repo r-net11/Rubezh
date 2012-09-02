@@ -9,27 +9,23 @@ using FiresecAPI.Models;
 using System.Windows;
 using FiresecClient;
 using FiresecAPI;
+using Infrastructure.Common.Reports;
 
-namespace ReportsModule.ReportProviders
+namespace DevicesModule.Reports
 {
-	internal class DeviceListReport : BaseReport
+	internal class DeviceListReport : ISingleReportProvider
 	{
-		public DeviceListReport()
-			: base(ReportType.ReportDevicesList)
-		{
-		}
+		#region ISingleReportProvider Members
 
-		public override ReportData GetData()
+		public ReportData GetData()
 		{
 			var data = new ReportData();
-			data.ReportDocumentValues.Add("PrintDate", DateTime.Now);
 
 			DataTable table = new DataTable("Devices");
 			table.Columns.Add("Type");
 			table.Columns.Add("Address");
 			table.Columns.Add("Zone");
 
-			//DataList = new List<ReportDeviceListModel>();
 			if (FiresecManager.Devices.IsNotNullOrEmpty())
 			{
 				string type = "";
@@ -68,12 +64,6 @@ namespace ReportsModule.ReportProviders
 					if (device.Driver.DriverType == DriverType.PumpStation)
 					{
 					}
-					//DataList.Add(new ReportDeviceListModel()
-					//{
-					//    Type = type,
-					//    Address = address,
-					//    ZoneName = zonePresentationName
-					//});
 					table.Rows.Add(type, address, zonePresentationName);
 				}
 			}
@@ -81,9 +71,25 @@ namespace ReportsModule.ReportProviders
 			return data;
 		}
 
-		public override bool IsFilterable
+		#endregion
+
+		#region IReportProvider Members
+
+		public string Template
 		{
-			get { return false; }
+			get { return "Reports/DeviceListReport.xaml"; }
 		}
+
+		public ReportType ReportType
+		{
+			get { return ReportType.ReportDevicesList; }
+		}
+
+		public bool IsEnabled
+		{
+			get { return true; }
+		}
+
+		#endregion
 	}
 }

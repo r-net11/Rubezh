@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using JournalModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
-using JournalModule.ViewModels;
 using FiresecAPI;
 
-namespace ReportsModule.Models
+namespace JournalModule.Reports
 {
 	internal class ReportArchiveFilter
 	{
@@ -62,4 +64,5 @@ namespace ReportsModule.Models
 			}
 		}
 	}
+
 }

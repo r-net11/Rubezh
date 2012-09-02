@@ -1,29 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using CodeReason.Reports;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using System.Windows.Documents;
-using ReportsModule.Models;
+using Infrastructure.Common.Reports;
 
-namespace ReportsModule.ReportProviders
+namespace DevicesModule.Reports
 {
-	internal class IndicationBlockReport : BaseReport
+	internal class IndicationBlockReport : IMultiReportProvider
 	{
-		public IndicationBlockReport()
-			: base(ReportType.ReportIndicationBlock)
-		{
-		}
+		#region IMultiReportProvider Members
 
-		public override bool IsMultiReport
-		{
-			get { return true; }
-		}
-
-		public override IEnumerable<ReportData> GetMultiData()
+		public IEnumerable<ReportData> GetData()
 		{
 			var fullData = new List<ReportData>();
 
@@ -39,7 +29,6 @@ namespace ReportsModule.ReportProviders
 				foreach (var page in block.Pages)
 				{
 					var data = new ReportData();
-					data.ReportDocumentValues.Add("PrintDate", DateTime.Now);
 					data.ReportDocumentValues.Add("IndicationBlockNumber", block.IndicationBlockNumber);
 					data.ReportDocumentValues.Add("PageNumber", page.PageNumber.ToString());
 
@@ -74,13 +63,25 @@ namespace ReportsModule.ReportProviders
 			return fullData;
 		}
 
-		public override bool IsFilterable
+		#endregion
+
+		#region IReportProvider Members
+
+		public string Template
 		{
-			get { return false; }
+			get { return "Reports/IndicationBlockReport.xaml"; }
 		}
-		public override bool IsEnabled
+
+		public ReportType ReportType
+		{
+			get { return ReportType.ReportIndicationBlock; }
+		}
+
+		public bool IsEnabled
 		{
 			get { return FiresecManager.Devices.IsNotNullOrEmpty(); }
 		}
+
+		#endregion
 	}
 }

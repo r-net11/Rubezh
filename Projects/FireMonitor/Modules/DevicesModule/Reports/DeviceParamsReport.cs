@@ -9,20 +9,17 @@ using FiresecAPI.Models;
 using System.Windows;
 using FiresecClient;
 using FiresecAPI;
+using Infrastructure.Common.Reports;
 
-namespace ReportsModule.ReportProviders
+namespace DevicesModule.Reports
 {
-	internal class DeviceParamsReport : BaseReport
+	internal class DeviceParamsReport : ISingleReportProvider
 	{
-		public DeviceParamsReport()
-			: base(ReportType.ReportDeviceParams)
-		{
-		}
+		#region ISingleReportProvider Members
 
-		public override ReportData GetData()
+		public ReportData GetData()
 		{
 			var data = new ReportData();
-			data.ReportDocumentValues.Add("PrintDate", DateTime.Now);
 
 			DataTable table = new DataTable("Devices");
 			table.Columns.Add("Type");
@@ -91,9 +88,25 @@ namespace ReportsModule.ReportProviders
 			return data;
 		}
 
-		public override bool IsFilterable
+		#endregion
+
+		#region IReportProvider Members
+
+		public string Template
 		{
-			get { return false; }
+			get { return "Reports/DeviceParamsReport.xaml"; }
 		}
+
+		public ReportType ReportType
+		{
+			get { return ReportType.ReportDeviceParams; }
+		}
+
+		public bool IsEnabled
+		{
+			get { return true; }
+		}
+
+		#endregion
 	}
 }

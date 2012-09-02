@@ -4,26 +4,28 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using ReportsModule.ViewModels;
+using Infrastructure.Common.Windows;
+using Infrastructure.Common.Reports;
 
 namespace ReportsModule
 {
 	public class ReportsModuleLoader : ModuleBase
 	{
-		ReportsViewModel Reports2ViewModel;
+		private ReportsViewModel _reportViewModel;
 
 		public ReportsModuleLoader()
 		{
-			ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(OnShowReports2);
-			Reports2ViewModel = new ReportsViewModel();
-		}
-
-		void OnShowReports2(object obj)
-		{
-			ServiceFactory.Layout.Show(Reports2ViewModel);
+			_reportViewModel = new ReportsViewModel();
 		}
 
 		public override void Initialize()
 		{
+			foreach (var module in ApplicationService.Modules)
+			{
+				var reportProviderModule = module as IReportProviderModule;
+				if (reportProviderModule != null)
+					_reportViewModel.AddReports(reportProviderModule.GetReportProviders());
+			}
 		}
 
 		public override IEnumerable<NavigationItem> CreateNavigation()
@@ -31,7 +33,7 @@ namespace ReportsModule
 			return new List<NavigationItem>()
 		    {
 #if DEBUG
-		        new NavigationItem<ShowReportsEvent>("Отчеты", "/Controls;component/Images/levels.png"),
+		        new NavigationItem<ShowReportsEvent>("Отчеты", "/Controls;component/Images/levels.png", null, null, _reportViewModel),
 #endif
 		    };
 		}

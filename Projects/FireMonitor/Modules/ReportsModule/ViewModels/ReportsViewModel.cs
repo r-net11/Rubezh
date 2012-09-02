@@ -10,7 +10,7 @@ using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using ReportsModule.ReportProviders;
+using Infrastructure.Common.Reports;
 
 namespace ReportsModule.ViewModels
 {
@@ -21,20 +21,8 @@ namespace ReportsModule.ViewModels
 			RefreshCommand = new RelayCommand(OnRefresh, CanRefresh);
 			FilterCommand = new RelayCommand(OnFilter, CanFilter);
 			PrintReportCommand = new RelayCommand(OnPrintReport, CanPrintReport);
-			Reports = new List<BaseReport>()
-			{
-				new DeviceParamsReport(),
-				new DeviceListReport(),
-				new DriverCounterReport(),
-				new IndicationBlockReport(),
-				new JournalReport(),
-			};
+			Reports = new List<ReportViewModel>();
 			SelectedReport = null;
-		}
-
-		public List<ReportType> AvailableReportTypes
-		{
-			get { return Enum.GetValues(typeof(ReportType)).Cast<ReportType>().ToList(); }
 		}
 
 		private DocumentPaginator _documentPaginator;
@@ -58,9 +46,9 @@ namespace ReportsModule.ViewModels
 			get { return DocumentPaginator == null ? 0 : DocumentPaginator.PageSize.Height; }
 		}
 
-		public List<BaseReport> Reports { get; private set; }
-		private BaseReport _selectedReport;
-		public BaseReport SelectedReport
+		public List<ReportViewModel> Reports { get; private set; }
+		private ReportViewModel _selectedReport;
+		public ReportViewModel SelectedReport
 		{
 			get { return _selectedReport; }
 			set
@@ -151,6 +139,12 @@ namespace ReportsModule.ViewModels
 		private bool CanPrintReport()
 		{
 			return DocumentPaginator != null && DocumentPaginator.PageCount > 0;
+		}
+
+		public void AddReports(IEnumerable<IReportProvider> reportProviders)
+		{
+			foreach (var reportProvider in reportProviders)
+				Reports.Add(new ReportViewModel(reportProvider));
 		}
 	}
 }

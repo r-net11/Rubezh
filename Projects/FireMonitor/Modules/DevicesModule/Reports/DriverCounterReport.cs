@@ -9,20 +9,18 @@ using FiresecAPI.Models;
 using System.Windows;
 using FiresecClient;
 using FiresecAPI;
+using Infrastructure.Common.Reports;
 
-namespace ReportsModule.ReportProviders
+namespace DevicesModule.Reports
 {
-	internal class DriverCounterReport : BaseReport
+	internal class DriverCounterReport : ISingleReportProvider
 	{
-		public DriverCounterReport()
-			: base(ReportType.ReportDriverCounter)
-		{
-		}
 
-		public override ReportData GetData()
+		#region ISingleReportProvider Members
+
+		public ReportData GetData()
 		{
 			var data = new ReportData();
-			data.ReportDocumentValues.Add("PrintDate", DateTime.Now);
 
 			DataTable table = new DataTable("Devices");
 			table.Columns.Add("Driver");
@@ -62,29 +60,32 @@ namespace ReportsModule.ReportProviders
 			return data;
 		}
 
-		public override bool IsFilterable
+		#endregion
+
+		#region IReportProvider Members
+
+		public string Template
 		{
-			get { return false; }
+			get { return "Reports/DriverCounterReport.xaml"; }
 		}
+
+		public ReportType ReportType
+		{
+			get { return ReportType.ReportDriverCounter; }
+		}
+
+		public bool IsEnabled
+		{
+			get { return true; }
+		}
+
+		#endregion
 
 		private void AddDrivers(Driver driver, DataTable table)
 		{
 			var devices = FiresecManager.Devices.FindAll(x => x.Driver.UID == driver.UID);
 			if (devices.IsNotNullOrEmpty())
 				table.Rows.Add(driver.ShortName, devices.Count);
-			//{
-			//    DataList.Add(new ReportDriverCounterModel()
-			//    {
-			//        DriverName = driver.ShortName,
-			//        Count = devices.Count
-			//    });
-			//}
-		}
-		private int CountDrivers(DataTable table)
-		{
-			int count = 0;
-			//DataList.ForEach(x => count += x.Count);
-			return count;
 		}
 	}
 }

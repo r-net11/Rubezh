@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
 
-namespace ReportsModule.Models
+namespace DevicesModule.Reports
 {
 	internal class IndicationBlocksList
 	{
