@@ -13,7 +13,6 @@ namespace ReportsModule
 
 		public ReportsModuleLoader()
 		{
-			ServiceFactory.Layout.AddToolbarItem(new IndicatorViewModel());
 			ServiceFactory.Events.GetEvent<ShowReportsEvent>().Subscribe(OnShowReports2);
 			Reports2ViewModel = new ReportsViewModel();
 		}

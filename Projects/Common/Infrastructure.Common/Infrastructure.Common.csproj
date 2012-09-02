@@ -124,6 +124,8 @@
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
     <Compile Include="KnownServiceType.cs" />
+    <Compile Include="Reports\IReportProvider.cs" />
+    <Compile Include="Reports\IReportProviderModule.cs" />
     <Compile Include="ServiceFactoryBase.cs" />
     <Compile Include="Validation\CommonValidationError.cs" />
     <Compile Include="Validation\ObjectValidationError.cs" />
