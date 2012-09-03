@@ -20,8 +20,6 @@
         <CreateFolder Directory="INSTALLLOCATION" />
         <RemoveFile Id="RemoveMonitorSounds" On="uninstall" Name="*.*" Directory="FireMonSoundsFolder" />
         <RemoveFolder Id="RemoveMonitorSoundsLocation" On="uninstall" Directory="FireMonSoundsFolder"/>
-        <RemoveFile Id="RemoveMonitorReportTemplates" On="uninstall" Name="*.*" Directory="FireMonReportTemplatesFolder" />
-        <RemoveFolder Id="RemoveMonitorReportTemplatesLocation" On="uninstall" Directory="FireMonReportTemplatesFolder"/>
         <RemoveFolder Id="RemoveFireMonitorConfigLocation" On="uninstall" Directory="FireMonConfigFolder"/>
         <RemoveFile Id="RemoveMonitorClSettings" On="uninstall" Name="*.*" Directory="ClientSettingsFolder"/>
         <RemoveFolder Id="RemoveFireMonitorClSettingsLocation" On="uninstall" Directory="ClientSettingsFolder"/>

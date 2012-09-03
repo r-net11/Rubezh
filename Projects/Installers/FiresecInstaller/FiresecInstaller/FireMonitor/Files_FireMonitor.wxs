@@ -70,15 +70,5 @@
       </Component>
     </DirectoryRef>
 
-    <DirectoryRef Id="FireMonReportTemplatesFolder">
-      <Component Id="FMDeviceListReportComponent" Guid="AAA25065-8B28-4DCB-9C85-4746CC814614">
-        <File Id="FMDeviceListReportRdlc" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\DeviceListRdlc.rdlc" />
-        <File Id="FMDeviceParamsReportRdlc" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\DeviceParamsRdlc.rdlc" />
-        <File Id="FMDriverCounterReportRdlc" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\DriverCounterRdlc.rdlc" />
-        <File Id="FMIndicationBlockReportRdlc" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\IndicationBlockRdlc.rdlc" />
-        <File Id="FMJournalReportRdlc" Source="$(var.FireMonitor.TargetDir)Configuration\ReportTemplates\JournalRdlc.rdlc" />
-      </Component>
-    </DirectoryRef>
-
 	</Fragment>
 </Wix>

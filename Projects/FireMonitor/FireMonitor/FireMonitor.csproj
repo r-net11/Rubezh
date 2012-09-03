@@ -273,7 +273,6 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>xcopy $(SolutionDir)..\Deploy\ConfigurationMonitor $(TargetDir)Configuration\ /e /y
-xcopy $(SolutionDir)..\Deploy\Manual $(TargetDir) /e /y</PostBuildEvent>
+    <PostBuildEvent>xcopy $(SolutionDir)..\Deploy\Manual $(TargetDir) /e /y</PostBuildEvent>
   </PropertyGroup>
 </Project>

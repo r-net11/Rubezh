@@ -15,6 +15,7 @@
 
       <Component Id="MainExe" Guid="4D74CC22-A53B-4684-BB3C-3FCE962E3A52" >
         <File Id="FiresecServiceExe" Name="$(var.FiresecService.TargetFileName)" Source="$(var.FiresecService.TargetPath)" KeyPath="yes" />
+        <RemoveFile Id="ServiceConfig" Name="FiresecService.exe.config" On="both"/>
         <File Id="ServiceConfig" Name="FiresecService.exe.config" Source="$(var.FiresecService.TargetDir)" />
         <File Id="CommonDll" Name="Common.dll" Source="$(var.FiresecService.TargetDir)" />
         <File Id="ControlsDll" Name="Controls.dll" Source="$(var.FiresecService.TargetDir)" />

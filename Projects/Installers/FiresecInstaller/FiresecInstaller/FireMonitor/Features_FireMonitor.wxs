@@ -14,7 +14,6 @@
 			<ComponentRef Id="FMDesktopShortcut" />
       <ComponentRef Id="FMIntegrateCmd" />
       <ComponentRef Id="FMSystemHASPComponent" />
-      <ComponentRef Id="FMDeviceListReportComponent" />
     </Feature>
 	</Fragment>
 </Wix>

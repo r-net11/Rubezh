@@ -44,12 +44,12 @@ namespace FiresecService.Database
 				using (var dataContext = ConnectionManager.CreateFiresecDataContext())
 				{
 					var query = "SELECT MAX(OldId) FROM Journal";
-					var result = dataContext.ExecuteQuery<int>(query);
-					return result.FirstOrDefault();
+					var result = dataContext.ExecuteQuery<int?>(query);
+					var firstResult = result.FirstOrDefault();
+					if (firstResult != null)
+						return firstResult.Value;
+					return -1;
 				}
-			}
-			catch (InvalidOperationException)
-			{
 			}
 			catch (Exception e)
 			{

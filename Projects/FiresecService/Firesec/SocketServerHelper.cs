@@ -98,10 +98,10 @@ namespace Firesec
 		{
 			try
 			{
-                //var result = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Firesec", "scktsrvr.exe");
-                //return result;
+				var result = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Firesec", "scktsrvr.exe");
+				return result;
 
-				RegistryKey registryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64).OpenSubKey(@"SYSTEM\CurrentControlSet\Services\Adv_SocketServer", false);
+				RegistryKey registryKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(@"SYSTEM\CurrentControlSet\Services\Adv_SocketServer", false);
 				object key = registryKey.GetValue("ImagePath");
 				string path = key.ToString();
 				path = path.Replace(" -service", "");

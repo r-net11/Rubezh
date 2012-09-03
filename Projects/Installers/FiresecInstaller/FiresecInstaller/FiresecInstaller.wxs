@@ -13,7 +13,6 @@
     </Upgrade>
 
     <PropertyRef Id="NETFRAMEWORK40FULL" />
-    <PropertyRef Id="NETFRAMEWORK40CLIENT" />
     <Condition Message="Не удалось обнаружить Microsoft .NET Framework 4.0. Установите Microsoft .NET Framework 4.0 и запустите установку заново">
       NETFRAMEWORK40FULL
     </Condition>
@@ -80,7 +79,6 @@
             <Directory Id="ClientSettingsFolder" Name="ClientSettings" />
             <Directory Id="FireMonConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="FireMonSoundsFolder" Name="$(var.SoundsFolder)" />
-              <Directory Id="FireMonReportTemplatesFolder" Name="$(var.ReportTemplatesFolder)" />
             </Directory>
           </Directory>
           <Directory Id="LOGS" Name="Logs" />
@@ -98,12 +96,14 @@
       <RemoveExistingProducts After="InstallInitialize" />
       <InstallExecute After="RemoveExistingProducts" />
       <Custom Action="CloseApplications" Before="InstallInitialize" >1</Custom>
-      <Custom Action="RegisterServer" After="InstallFinalize">INSTALLMODE</Custom>
-      <Custom Action="RegisterSockProxy" After="RegisterServer">INSTALLMODE</Custom>
-      <Custom Action="RegisterFs_types" After="RegisterSockProxy">INSTALLMODE</Custom>
-      <Custom Action="InstallHaspDriver" After="RegisterFs_types" >NOT REGOLDFS AND INSTALLMODE</Custom>
-      <Custom Action="InstallReportViewer" After="InstallHaspDriver">INSTALLMODE</Custom>
-      <Custom Action="StartAppOnExit" After="InstallReportViewer">INSTALLMODE</Custom>
+      
+      <Custom Action="RegisterFs_types" After="InstallFinalize">INSTALLMODE</Custom>
+      <Custom Action="RegisterSockProxy" After="RegisterFs_types">INSTALLMODE</Custom>
+      <Custom Action="RegisterServer" After="RegisterSockProxy">INSTALLMODE</Custom>
+      
+      <Custom Action="InstallHaspDriver" After="RegisterServer" >NOT REGOLDFS AND INSTALLMODE</Custom>
+      <!--<Custom Action="InstallReportViewer" After="InstallHaspDriver">INSTALLMODE</Custom>-->
+      <Custom Action="StartAppOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
       <!--<Custom Action="RunFiresecNTService" After="InstallReportViewer">1</Custom>-->
 
       <!--<Custom Action="StopFiresecNTService" After="CloseApplications">1</Custom>-->
