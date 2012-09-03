@@ -12,7 +12,8 @@
                 </StackPanel>
             </Border>
         </TabItem>
-        <TabItem DataContext="{Binding TestViewModel}" Header="Отладка" Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}">
+        <!--Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}"-->
+        <TabItem DataContext="{Binding TestViewModel}" Header="Отладка" >
             <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
                 <Grid>
                     <Grid.RowDefinitions>

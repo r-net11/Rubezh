@@ -8,11 +8,19 @@ namespace Common.GK
 {
     public class GkEvents
     {
-        GkJournalDatabaseEntities db;
+        
+        #region Construction
         public GkEvents()
         {
             db = new GkJournalDatabaseEntities();
         }
+        #endregion
+
+        #region Fields
+        GkJournalDatabaseEntities db;
+        #endregion
+
+        #region Methods
         public void Add(JournalItem j)
         {
             if (db.gkEvents.FirstOrDefault(gke => gke.GKNo == j.GKNo) == null)
@@ -37,6 +45,12 @@ namespace Common.GK
                 db.SaveChanges();
             }
         }
+        public void Emptify()
+        {
+            foreach (gkEvent t in db.gkEvents)
+                db.gkEvents.DeleteObject(t);
+            db.SaveChanges();
+        }
         public List<gkEvent> Select_Items()
         {
             var query =
@@ -45,6 +59,25 @@ namespace Common.GK
                 select t;
             return query.ToList();
         }
+        public List<gkEvent> Select_Items(int start_no, int end_no)
+        {
+            var query =
+                from t in db.gkEvents
+                where t.GKNo>= start_no && t.GKNo<=end_no
+                orderby t.GKNo
+                select t;
+            return query.ToList();
+        }
+        public List<gkEvent> Select_Items(DateTime start_dt, DateTime end_dt)
+        {
+            var query =
+                from t in db.gkEvents
+                where t.Date >= start_dt && t.Date <= end_dt
+                orderby t.GKNo
+                select t;
+            return query.ToList();
+        }
+        #endregion
     }
 
 }
