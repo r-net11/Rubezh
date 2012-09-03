@@ -28,7 +28,10 @@
             </DataGrid.Columns>
         </DataGrid>
         <Grid Grid.Row="3" Margin="1">
-            <Button Content=" Применить " Command="{Binding AcceptCommand}" HorizontalAlignment="Right" Margin="3" />
+            <DockPanel>
+                <Button Content=" Применить " Command="{Binding AcceptCommand}" HorizontalAlignment="Right" Margin="3" />
+                <Button Content=" Отмена " Command="{Binding CancelCommand}" HorizontalAlignment="Right" Margin="3" />
+            </DockPanel>
         </Grid>
     </Grid>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecClient;
@@ -15,13 +16,18 @@ namespace DevicesModule.ViewModels
             deviceUsers.Clear();
             foreach (var user in Users)
             {
-                var userViewModel = new UserViewModel(new GuardUser());
-                userViewModel.GuardUser.Name = user.GuardUser.Name;
-                userViewModel.GuardUser.Password = user.GuardUser.Password;
-                userViewModel.GuardUser.CanSetZone = user.GuardUser.CanSetZone;
-                userViewModel.GuardUser.CanUnSetZone = user.GuardUser.CanUnSetZone;
-                userViewModel.GuardUser.KeyTM = user.GuardUser.KeyTM;
-                userViewModel.GuardUser.Zones = user.GuardUser.Zones;
+                availableUsers.Clear();
+                userZones.Clear();
+                List<int> zones = new List<int>();
+                foreach (int localNo in user.GuardUser.Zones)
+                {
+                    Zone zone = FiresecManager.Zones.FirstOrDefault(
+                        x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == localNo);
+                    zones.Add(zone.No);
+                    userZones.Add(zone);
+                    deviceZones.Remove(zone);
+                }
+                user.GuardUser.Zones = zones;
                 deviceUsers.Add(user);
             }
         }
@@ -70,20 +76,23 @@ namespace DevicesModule.ViewModels
             }
         }
         ObservableCollection<UserViewModel> deviceUsers = new ObservableCollection<UserViewModel>();
-        public GuardConfigurationViewModel(Device selectedDevice, ObservableCollection<UserViewModel> DeviceUsers)
+        ObservableCollection<UserViewModel> availableUsers = new ObservableCollection<UserViewModel>();
+        ObservableCollection<Zone> userZones = new ObservableCollection<Zone>();
+        ObservableCollection<Zone> deviceZones = new ObservableCollection<Zone>();
+        public GuardConfigurationViewModel(Device selectedDevice, ObservableCollection<UserViewModel> DeviceUsers, ObservableCollection<UserViewModel> AvailableUsers, ObservableCollection<Zone> UserZones, ObservableCollection<Zone> DeviceZones)
         {
             Title = "Синхронизация охранных пользователей";
             deviceUsers = DeviceUsers;
+            availableUsers = AvailableUsers;
+            userZones = UserZones;
+            deviceZones = DeviceZones;
             AcceptCommand = new RelayCommand(OnAccept);
+            CancelCommand = new RelayCommand(OnCancel);
             var result = FiresecManager.DeviceGetGuardUsersList(selectedDevice.UID);
             if (result.Result == null)
                 return;
-            string res = result.Result.ToString(); //3,104,8,20,12,6,64,64
+            string res = result.Result; //3,104,8,20,12,6,64,64
             Users = new ObservableCollection<UserViewModel>();
-            UserZones = new ObservableCollection<Zone>();//(FiresecManager.Zones);
-            //string res = GuardViewModel.Userlist;
-            if (res == null)
-                return;
             int CountUsers = byte.Parse(res.ToString().Substring(0,3));
             for (int i = 0; i < CountUsers; i++)
             {
@@ -110,12 +119,20 @@ namespace DevicesModule.ViewModels
                 }
                 Users.Add(userViewModel);
             }
+            SelectedUser = Users.FirstOrDefault();
         }
 
         public RelayCommand AcceptCommand { get; private set; }
         void OnAccept()
         {
             SaveConfiguration();
+            this.Close();
+        }
+
+        public RelayCommand CancelCommand { get; private set; }
+        void OnCancel()
+        {
+            this.Close();
         }
     }
 }
