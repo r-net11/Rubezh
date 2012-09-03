@@ -2,12 +2,12 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables_OldFiresecService.wxi?>
 	<Fragment>
-		<Feature Id="Features_OldFiresecService" Title="$(var.OldFiresecServiceName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="Firesec.Features" Title="$(var.OldFiresecServiceName)" Description="Полная установка" Level="1" Display="expand"
           ConfigurableDirectory="OLDFIRESECSERVICELOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
       <ComponentRef Id="RemoveOldFiresecFiles" />
-      <ComponentRef Id="InstallOldFiresecFiles" />
-      <ComponentRef Id="FsFbintlDll" />
-      <ComponentRef Id="msvcp60Dll" />
+      <ComponentRef Id="Firesec.Files" />
+      <ComponentRef Id="Firesec.fbintl.dll" />
+      <ComponentRef Id="Firesec.msvcp60.dll" />
 		</Feature>
 	</Fragment>
 </Wix>

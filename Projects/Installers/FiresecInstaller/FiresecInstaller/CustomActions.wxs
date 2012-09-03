@@ -5,7 +5,6 @@
     <CustomAction Id="StartAppOnExit" Directory="FIRESECSERVICELOCATION" ExeCommand="[FIRESECSERVICELOCATION]FiresecService.exe" Execute="immediate" Impersonate="yes" Return="asyncNoWait" />
 		<CustomAction Id="CloseApplications" BinaryKey="FiresecCADll" DllEntry="KillFiresecProcess" Execute="immediate" Impersonate="yes" Return="check"/>
     <CustomAction Id="InstallHaspDriver" BinaryKey="haspdinst.exe" ExeCommand="-i -kp" Return="ignore" Execute="immediate" />
-    <!--<CustomAction Id="InstallReportViewer" BinaryKey="ReportViewer.exe" ExeCommand="/q" Return="asyncNoWait" Execute="immediate" />-->
 
     <CustomAction Id="RegisterFs_types" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s "[OLDFIRESECSERVICELOCATION]fs_types.dll"' Return="check"  />
     <CustomAction Id="RegisterSockProxy" Directory="OLDFIRESECSERVICELOCATION" ExeCommand='regsvr32.exe /s "[OLDFIRESECSERVICELOCATION]SockProxy.dll"' Return="check" />

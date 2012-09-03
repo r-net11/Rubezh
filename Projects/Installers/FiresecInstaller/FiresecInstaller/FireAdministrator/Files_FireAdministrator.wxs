@@ -3,84 +3,83 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <?include Variables_FireAdministrator.wxi?>
   <Fragment>
-    <util:CloseApplication Id="FACloseAction" CloseMessage="no" Target="$(var.FireAdministrator.TargetFileName)" RebootPrompt="no" />
+    <util:CloseApplication Id="Administrator.CloseAction" CloseMessage="no" Target="$(var.Administrator.TargetFileName)" RebootPrompt="no" />
     
     <DirectoryRef Id="FIREADMINISTRATORLOCATION">
-      <Component Id="FAExeComponent" Guid="57391822-9954-40B9-BA3C-B7BDC9DBC289">
-        <File Id="FAExe" Name="$(var.FireAdministrator.TargetFileName)" Source="$(var.FireAdministrator.TargetPath)" KeyPath="yes" />
-        <File Id="FAConfig" Name="FireAdministrator.exe.config" Source="$(var.FireAdministrator.TargetDir)" Checksum="yes"/>
-        <File Id="FAPrismDll" Name="Microsoft.Practices.Prism.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAPrismUnityExtensionsDll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAUnityDll" Name="Microsoft.Practices.Unity.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAServiceLocationDll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAWPFToolkitExtendedDll" Name="WPFToolkit.Extended.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FACommonDll" Name="Common.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAControlsDll" Name="Controls.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FADeviceControlsDll" Name="DeviceControls.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAFiresecAPIDll" Name="FiresecAPI.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAFiresecClientDll" Name="FiresecClient.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAInfrastructure.CommonDll" Name="Infrastructure.Common.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAInfrastructure.ClientDll" Name="Infrastructure.Client.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAInfrustructure.PlansDll" Name="Infrustructure.Plans.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAInfrastructureDll" Name="Infrastructure.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FANLogDll" Name="NLog.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAManualPDF" Name="Manual.pdf" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAPlansModuleDll" Name="PlansModule.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FASecurityModuleDll" Name="SecurityModule.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="CommonGKDll" Name="Common.GK.dll" Source="$(var.FireAdministrator.TargetDir)" />
+      <Component Id="Administrator.Files" Guid="57391822-9954-40B9-BA3C-B7BDC9DBC289">
+        <File Id="Administrator.FireAdministrator.exe" Name="$(var.Administrator.TargetFileName)" Source="$(var.Administrator.TargetPath)" KeyPath="yes" />
+        <File Id="Administrator.FireAdministrator.exe.config" Name="FireAdministrator.exe.config" Source="$(var.Administrator.TargetDir)" Checksum="yes"/>
+        <File Id="Administrator.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Microsoft.Practices.ServiceLocation.dll" Name="Microsoft.Practices.ServiceLocation.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.WPFToolkit.Extended.dll" Name="WPFToolkit.Extended.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Common.dll" Name="Common.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Controls.dll" Name="Controls.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.DeviceControls.dll" Name="DeviceControls.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FiresecClient.dll" Name="FiresecClient.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Infrastructure.Client.dll" Name="Infrastructure.Client.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Infrustructure.Plans.dll" Name="Infrustructure.Plans.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Infrastructure.dll" Name="Infrastructure.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.NLog.dll" Name="NLog.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Manual.pdf" Name="Manual.pdf" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.SecurityModule.dll" Name="SecurityModule.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
-      <Component Id="FADevicesModuleComponent" Guid="4902D27C-96A6-4D7D-9646-CF79BE32481D">
-        <File Id="FADevicesModuleDll" Name="DevicesModule.dll" Source="$(var.FireAdministrator.TargetDir)" KeyPath="yes" />
-        <File Id="FAInstructionsModuleDll" Name="InstructionsModule.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FALibraryModuleDll" Name="LibraryModule.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FASettingsModuleDll" Name="SettingsModule.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FASoundsModuleDll" Name="SoundsModule.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAFiltersModuleDll" Name="FiltersModule.dll" Source="$(var.FireAdministrator.TargetDir)" />
+      <Component Id="Administrator.FS_MODULE" Guid="4902D27C-96A6-4D7D-9646-CF79BE32481D">
+        <File Id="Administrator.DevicesModule.dll" Name="DevicesModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
+        <File Id="Administrator.InstructionsModule.dll" Name="InstructionsModule.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.LibraryModule.dll" Name="LibraryModule.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.SettingsModule.dll" Name="SettingsModule.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.SoundsModule.dll" Name="SoundsModule.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FiltersModule.dll" Name="FiltersModule.dll" Source="$(var.Administrator.TargetDir)" />
         <Condition>FS_MODULE</Condition>
       </Component>
 
-      <Component Id="FAGKModuleComponent" Guid="22417D7C-1CF4-4405-A146-9442A351EF62">
-        <File Id="FAGroupControllerModuleDll" Name="GKModule.dll" Source="$(var.FireAdministrator.TargetDir)" KeyPath="yes" />
-        <!--<File Id="FACommonGKDll" Name="Common.GK.dll" Source="$(var.FireAdministrator.TargetDir)" />-->
+      <Component Id="Administrator.GK_MODULE" Guid="22417D7C-1CF4-4405-A146-9442A351EF62">
+        <File Id="Administrator.GKModule.dll" Name="GKModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
         <Condition>GK_MODULE</Condition>
       </Component>
 
-      <Component Id="OPCModuleComponent" Guid="*">
-        <File Id="OPCModuleDll" Name="OPCModule.dll" Source="$(var.FireAdministrator.TargetDir)" KeyPath="yes" />
+      <Component Id="Administrator.OPC_MODULE" Guid="*">
+        <File Id="Administrator.OPCModule.dll" Name="OPCModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
         <Condition>OPC_MODULE</Condition>
       </Component>
 
-      <Component Id="FASkudModuleComponent" Guid="*">
-        <File Id="FASkudModuleDll" Name="SkudModule.dll" Source="$(var.FireAdministrator.TargetDir)" KeyPath="yes" />
+      <Component Id="Administrator.SKUD_MODULE" Guid="*">
+        <File Id="Administrator.SkudModule.dll" Name="SkudModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
         <Condition>SKUD_MODULE</Condition>
       </Component>
 
-      <Component Id="FAVideoModuleComponent" Guid="B25F6265-78F7-413B-8107-56929863F5FA">
-        <File Id="FAVideoModuleDll" Name="VideoModule.dll" Source="$(var.FireAdministrator.TargetDir)" KeyPath="yes" />
-        <File Id="FAVlcCoreDll" Name="Vlc.DotNet.Core.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAVlcFormsDll" Name="Vlc.DotNet.Forms.dll" Source="$(var.FireAdministrator.TargetDir)" />
-        <File Id="FAVlcInteropsDll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.FireAdministrator.TargetDir)" />
+      <Component Id="Administrator.VIDEO_MODULE" Guid="B25F6265-78F7-413B-8107-56929863F5FA">
+        <File Id="Administrator.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
+        <File Id="Administrator.Vlc.DotNet.Core.dll" Name="Vlc.DotNet.Core.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Vlc.DotNet.Forms.dll" Name="Vlc.DotNet.Forms.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Vlc.DotNet.Core.Interops.dll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.Administrator.TargetDir)" />
         <Condition>VIDEO_MODULE</Condition>
       </Component>
     </DirectoryRef>
 
-    <DirectoryRef Id="FireAdmXslFilesFolder">
-      <Component Id="FASvg2xamlFiles" Guid="*">
-        <File Id="svg2xaml.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\svg2xaml.xsl" />
+    <DirectoryRef Id="Administrator.XslFolder">
+      <Component Id="Administrator.svg2xaml" Guid="*">
+        <File Id="Administrator.svg2xaml.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\svg2xaml.xsl" />
       </Component>
     </DirectoryRef>
 
-    <DirectoryRef Id="FireAdmXaml2svgFolder">
-      <Component Id="FAXaml2svgFiles" Guid="4B7652B7-B008-4CC6-8476-DE9D66C56AB4">
-        <File Id="animation.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\animation.xsl" />
-        <File Id="brushes.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\brushes.xsl" />
-        <File Id="canvas.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\canvas.xsl" />
-        <File Id="geometry.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\geometry.xsl" />
-        <File Id="properties.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\properties.xsl" />
-        <File Id="propertiesMODIF.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\properties-MODIF.xsl" />
-        <File Id="shapes.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\shapes.xsl" />
-        <File Id="transform.xsl" Source="$(var.FireAdministrator.TargetDir)Configuration\XslFiles\xaml2svg\transform.xsl" />
+    <DirectoryRef Id="Administrator.Xaml2svgFolder">
+      <Component Id="Administrator.xaml2svg" Guid="4B7652B7-B008-4CC6-8476-DE9D66C56AB4">
+        <File Id="Administrator.animation.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\animation.xsl" />
+        <File Id="Administrator.brushes.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\brushes.xsl" />
+        <File Id="Administrator.canvas.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\canvas.xsl" />
+        <File Id="Administrator.geometry.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\geometry.xsl" />
+        <File Id="Administrator.properties.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\properties.xsl" />
+        <File Id="Administrator.propertiesMODIF.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\properties-MODIF.xsl" />
+        <File Id="Administrator.shapes.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\shapes.xsl" />
+        <File Id="Administrator.transform.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\transform.xsl" />
       </Component>
     </DirectoryRef>
   </Fragment>

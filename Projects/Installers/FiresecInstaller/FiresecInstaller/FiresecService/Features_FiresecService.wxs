@@ -2,19 +2,18 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables_FiresecService.wxi?>
 	<Fragment>
-		<Feature Id="Features_FiresecService" Title="$(var.FiresecServiceName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="Server.Features" Title="$(var.FiresecServiceName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="FIRESECSERVICELOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
-			<ComponentRef Id="MainExe" />
-      <ComponentRef Id="FSSKUDComponent" />
-      <ComponentRef Id="OPC_Libs_Component" />
-			<ComponentRef Id="FiresecServiceProgramsMenuShortcut" />
-			<ComponentRef Id="FiresecServiceDesktopShortcut" />
-			<ComponentRef Id="FSAutorunComponent" />
-      
-      <ComponentRef Id="SecurityConfiguration" />
-      <ComponentRef Id="DeviceLibrary" />
-      <ComponentRef Id="DriversConfiguration" />
-      <ComponentRef Id="FS_Sounds" />
+			<ComponentRef Id="Server.Files" />
+      <ComponentRef Id="Server.SecurityConfiguration.xml" />
+      <ComponentRef Id="Server.DeviceLibrary.xml" />
+      <ComponentRef Id="Server.DriversConfiguration.xml" />
+      <ComponentRef Id="Server.Sounds" />
+      <ComponentRef Id="Server.SKUD_MODULE" />
+      <ComponentRef Id="Server.OPC_MODULE" />
+			<ComponentRef Id="Server.ProgramsMenuShortcut" />
+			<ComponentRef Id="Server.DesktopShortcut" />
+			<ComponentRef Id="Server.AutorunComponent" />
 
       <!--<ComponentRef Id="FiresecNTServiceComponent" />
       <ComponentRef Id="RemoveNTServiceComponent" />-->

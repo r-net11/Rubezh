@@ -5,8 +5,8 @@
     <Icon Id="FiresecServiceIcon" SourceFile="Data\Server.ico"/>
 
 		<DirectoryRef Id="DesktopFolder">
-			<Component Id="FiresecServiceDesktopShortcut" Guid="*">
-				<Shortcut Id="desktopShortcut" Name="Сервер приложений ОПС Firesec-2" Target="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)"
+			<Component Id="Server.DesktopShortcut" Guid="*">
+				<Shortcut Id="Server.DesktopShortcut" Name="Сервер приложений ОПС Firesec-2" Target="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)"
 						WorkingDirectory="FIRESECSERVICELOCATION" Description="Запускает $(var.FiresecServiceName)" Icon="FiresecServiceIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.FiresecServiceName)" Name="Shortcut" Type="integer" Value="1" KeyPath="yes" />
 				<Condition>SHORTCUT_DESKTOP</Condition>
@@ -14,8 +14,8 @@
 		</DirectoryRef>
 
 		<DirectoryRef Id="ProgramMenuDir">
-			<Component Id="FiresecServiceProgramsMenuShortcut" Guid="*">
-				<Shortcut Id="RunProduct" Name="Сервер приложений ОПС Firesec-2" Target="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)"
+			<Component Id="Server.ProgramsMenuShortcut" Guid="*">
+				<Shortcut Id="Server.ProgramsMenuShortcut" Name="Сервер приложений ОПС Firesec-2" Target="[FIRESECSERVICELOCATION]$(var.FiresecService.TargetFileName)"
             WorkingDirectory="FIRESECSERVICELOCATION" Description="Запускает $(var.FiresecServiceName)" Icon="FiresecServiceIcon"/>
 				<RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]\$(var.FiresecServiceName)" Name="installed" Type="integer" Value="1" KeyPath="yes" />
 				<Condition>SHORTCUT_PROGRAMMENU</Condition>

@@ -4,18 +4,18 @@
 	<?include Variables_FireAdministrator.wxi?>
 	
 	<Fragment>
-		<Feature Id="Features_FireAdministrator" Title="$(var.FireAdministratorName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="Administrator.Features" Title="$(var.AdministratorName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
-			<ComponentRef Id="FAExeComponent" />
-      <ComponentRef Id="FADevicesModuleComponent" />
-			<ComponentRef Id="FAProgramsMenuShortcut" />
-			<ComponentRef Id="FADesktopShortcut" />
-			<ComponentRef Id="FASvg2xamlFiles" />
-			<ComponentRef Id="FAXaml2svgFiles" />
-      <ComponentRef Id="FAGKModuleComponent" />
-      <ComponentRef Id="FASkudModuleComponent"/>
-      <ComponentRef Id="OPCModuleComponent" />
-      <ComponentRef Id="FAVideoModuleComponent"/>
+			<ComponentRef Id="Administrator.Files" />
+      <ComponentRef Id="Administrator.FS_MODULE" />
+      <ComponentRef Id="Administrator.GK_MODULE" />
+      <ComponentRef Id="Administrator.OPC_MODULE" />
+      <ComponentRef Id="Administrator.SKUD_MODULE"/>
+      <ComponentRef Id="Administrator.VIDEO_MODULE"/>
+      <ComponentRef Id="Administrator.svg2xaml" />
+      <ComponentRef Id="Administrator.xaml2svg" />
+			<ComponentRef Id="Administrator.ProgramsMenuShortcut" />
+			<ComponentRef Id="Administrator.DesktopShortcut" />
 		</Feature>
 	</Fragment>
 </Wix>

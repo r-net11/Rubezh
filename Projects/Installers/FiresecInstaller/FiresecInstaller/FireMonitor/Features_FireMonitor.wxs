@@ -4,16 +4,16 @@
 	<?include Variables_FireMonitor.wxi?>
 	
 	<Fragment>
-		<Feature Id="Features_FireMonitor" Title="$(var.FireMonitorName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="Monitor.Features" Title="$(var.FireMonitorName)" Description="Полная установка" Level="1" Display="expand"
 						 ConfigurableDirectory="FIREMONITORLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
-			<ComponentRef Id="FireMonitorExe" />
-			<ComponentRef Id="FMDevicesModuleComponent" />
-      <ComponentRef Id="FMGKModuleComponent" />
-      <ComponentRef Id="FMVideoModuleComponent" />
-			<ComponentRef Id="FMProgramsMenuShortcut" />
-			<ComponentRef Id="FMDesktopShortcut" />
-      <ComponentRef Id="FMIntegrateCmd" />
-      <ComponentRef Id="FMSystemHASPComponent" />
+			<ComponentRef Id="Monitor.Files" />
+			<ComponentRef Id="Monitor.FS_MODULE" />
+      <ComponentRef Id="Monitor.GK_MODULE" />
+      <ComponentRef Id="Monitor.VIDEO_MODULE" />
+      <ComponentRef Id="Monitor.Integrate" />
+      <ComponentRef Id="Monitor.Hasp" />
+			<ComponentRef Id="Monitor.ProgramsMenuShortcut" />
+			<ComponentRef Id="Monitor.DesktopShortcut" />
     </Feature>
 	</Fragment>
 </Wix>
