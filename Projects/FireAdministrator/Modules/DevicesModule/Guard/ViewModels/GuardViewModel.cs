@@ -524,18 +524,16 @@ namespace DevicesModule.ViewModels
 
         public override void OnShow()
         {
+            base.OnShow();
             FiresecManager.FiresecConfiguration.DeviceConfiguration.UpdateGuardConfiguration();
-            ServiceFactory.Layout.ShowMenu(new GuardMenuViewModel(this));
             InitializeDevices();
 
             if (GuardMenuView.Current != null)
                 GuardMenuView.Current.AcceptKeyboard = true;
         }
-
         public override void OnHide()
         {
-            ServiceFactory.Layout.ShowMenu(null);
-
+            base.OnHide();
             if (GuardMenuView.Current != null)
                 GuardMenuView.Current.AcceptKeyboard = false;
         }
