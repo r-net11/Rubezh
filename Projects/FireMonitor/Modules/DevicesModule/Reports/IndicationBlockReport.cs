@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Data;
 using CodeReason.Reports;
@@ -79,7 +80,7 @@ namespace DevicesModule.Reports
 
 		public bool IsEnabled
 		{
-			get { return FiresecManager.Devices.IsNotNullOrEmpty(); }
+			get { return FiresecManager.Devices.Any(x => (x.Driver.DriverType == DriverType.IndicationBlock)); }
 		}
 
 		#endregion

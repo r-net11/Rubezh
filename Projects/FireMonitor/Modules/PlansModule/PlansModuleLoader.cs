@@ -26,13 +26,11 @@ namespace PlansModule
 		{
 			var hasDeviceOnPlan = PlansViewModel.ShowDevice(deviceUID);
 			if (hasDeviceOnPlan)
-			{
-				ServiceFactory.Layout.Show(PlansViewModel);
-			}
+				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 		}
 		void OnShowZoneOnPlan(int zoneNo)
 		{
-			ServiceFactory.Layout.Show(PlansViewModel);
+			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 			PlansViewModel.ShowZone(zoneNo);
 		}
 

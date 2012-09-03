@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using Infrastructure;
+using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Reports;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using ReportsModule.ViewModels;
-using Infrastructure.Common.Windows;
-using Infrastructure.Common.Reports;
-using Infrastructure.Client;
 
 namespace ReportsModule
 {
@@ -21,6 +20,7 @@ namespace ReportsModule
 
 		public override void Initialize()
 		{
+			_reportViewModel.Reports.Clear();
 			foreach (var module in ApplicationService.Modules)
 			{
 				var reportProviderModule = module as IReportProviderModule;
