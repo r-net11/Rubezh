@@ -35,14 +35,14 @@ namespace FireMonitor
 					LoadingService.DoStep("Загрузка состояний с сервера");
 					FiresecManager.GetStates();
 
-					LoadingService.DoStep("Проверка HASP-ключа");
-					var operationResult = FiresecManager.FiresecService.CheckHaspPresence();
-					if (operationResult.HasError)
-						MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
-					LoadingService.DoStep("Проверка статуса сервера");
-					var serverStatus = FiresecManager.FiresecService.GetStatus();
-					if (serverStatus != null)
-						MessageBoxService.ShowWarning(serverStatus);
+					//LoadingService.DoStep("Проверка HASP-ключа");
+					//var operationResult = FiresecManager.FiresecService.CheckHaspPresence();
+					//if (operationResult.HasError)
+					//    MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
+					//LoadingService.DoStep("Проверка статуса сервера");
+					//var serverStatus = FiresecManager.FiresecService.GetStatus();
+					//if (serverStatus != null)
+					//    MessageBoxService.ShowWarning(serverStatus);
 
 					LoadingService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Login))

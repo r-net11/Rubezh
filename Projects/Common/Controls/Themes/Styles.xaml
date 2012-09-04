@@ -3,6 +3,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Converters.xaml" />
+		
         <ResourceDictionary Source="Brushes.xaml" />
         <ResourceDictionary Source="ScrollBarStyle.xaml" />
         <ResourceDictionary Source="DataGridStyle.xaml" />
@@ -28,5 +29,7 @@
         <ResourceDictionary Source="ProgressBarStyle.xaml" />
         <ResourceDictionary Source="ContextMenuStyle.xaml" />
         <ResourceDictionary Source="ResizeThumbStyle.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+
+		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
+	</ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
