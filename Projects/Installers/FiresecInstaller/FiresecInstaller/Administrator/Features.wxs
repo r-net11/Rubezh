@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	
-	<?include Variables_FireAdministrator.wxi?>
+	<?include Variables.wxi?>
 	
 	<Fragment>
-		<Feature Id="Administrator.Features" Title="$(var.AdministratorName)" Description="Полная установка" Level="1" Display="expand"
+		<Feature Id="Administrator.Features" Title="Администратор" Description="Установка приложения Администратор" Level="1" Display="expand"
 						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Administrator.Files" />
       <ComponentRef Id="Administrator.FS_MODULE" />

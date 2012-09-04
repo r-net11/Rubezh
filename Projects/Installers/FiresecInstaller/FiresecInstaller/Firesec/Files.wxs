@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
+     xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
+  <?include Variables.wxi?>
+  <Fragment>
+
+    <DirectoryRef Id="FIRESECLOCATION">
+      <Component Id="Firesec.Files" Guid="1E68FA6E-92A1-442C-99B5-215BEDDC2BBC" >
+        <File Id="Firesec.fs_server.exe" Name="fs_server.exe" Source="$(var.Firesec.TargetDir)" KeyPath="yes" />
+        <File Id="Firesec.scktsrvr.exe" Name="scktsrvr.exe" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.fs_types.dll" Name="fs_types.dll" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.SockProxy.dll" Name="SockProxy.dll" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.fs_server.ini" Name="fs_server.ini" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.rubezh10a.xml" Name="rubezh10a.xml" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.rubezh2010.xml" Name="rubezh2010.xml" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.fs_srvcon.dll" Name="fs_srvcon.dll" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.config.cdb" Name="config.cdb" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.db.sql" Name="db.sql" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.sqlq.xml" Name="sqlq.xml" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.frm.dat" Name="frm.dat" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.libxml2.dll" Name="libxml2.dll" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.iconv.dll" Name="iconv.dll" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.zlib1.dll" Name="zlib1.dll" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.gds32.dll" Name="gds32.dll" Source="$(var.Firesec.TargetDir)" />
+        <File Id="Firesec.firebird.msg" Name="firebird.msg" Source="$(var.Firesec.TargetDir)" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="INTL">
+      <Component Id="Firesec.fbintl.dll" Guid="*" Permanent="yes">
+        <File Id="Firesec.fbintl.dll" Name="fbintl.dll" Source="$(var.Firesec.TargetDir)intl\" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="SystemFolder" >
+      <Component Id="Firesec.msvcp60.dll" Guid="*" Permanent="yes" >
+        <File Id="Firesec.msvcp60.dll" Name="msvcp60.dll" Source="C:\WINDOWS\system32\" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+  </Fragment>
+</Wix>

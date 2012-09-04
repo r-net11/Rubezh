@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:loc="http://schemas.microsoft.com/wix/2006/localization">
-    <?include ../Variables_Firesec.wxi?>
+    <?include ../Variables.wxi?>
     <?include UI_Variables.wxi?>
     <Fragment>
         <UI Id="UIDialogs">

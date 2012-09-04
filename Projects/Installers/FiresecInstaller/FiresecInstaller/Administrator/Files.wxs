@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-  <?include Variables_FireAdministrator.wxi?>
+  <?include Variables.wxi?>
   <Fragment>
-    <util:CloseApplication Id="Administrator.CloseAction" CloseMessage="no" Target="$(var.Administrator.TargetFileName)" RebootPrompt="no" />
-    
+
     <DirectoryRef Id="ADMINISTRATORLOCATION">
       <Component Id="Administrator.Files" Guid="57391822-9954-40B9-BA3C-B7BDC9DBC289">
         <File Id="Administrator.FireAdministrator.exe" Name="$(var.Administrator.TargetFileName)" Source="$(var.Administrator.TargetPath)" KeyPath="yes" />

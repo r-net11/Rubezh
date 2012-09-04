@@ -2,14 +2,13 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:sql="http://schemas.microsoft.com/wix/SqlExtension"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-  <?include Variables_FiresecService.wxi?>
+  <?include Variables.wxi?>
   <Fragment>
-    <util:CloseApplication Id="FSCloseAction" CloseMessage="no" Target="$(var.Server.TargetFileName)" RebootPrompt="no"  Description="Stop!" ElevatedCloseMessage="no" Property="IsFiresecServiceRunning" />
 
-    <DirectoryRef Id="FIRESECSERVICELOCATION">
+    <DirectoryRef Id="SERVERLOCATION">
       <Component Id="Server.AutorunComponent" Guid="72444C34-2199-4EB6-8697-96A3AE1C1096">
         <RegistryKey Root="HKCU" Key="SOFTWARE\Microsoft\Windows\CurrentVersion\Run" Action="none">
-          <RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[FIRESECSERVICELOCATION]$(var.Server.TargetFileName)" />
+          <RegistryValue KeyPath="yes" Name="FiresecService" Type="string" Value="[SERVERLOCATION]$(var.Server.TargetFileName)" />
         </RegistryKey>
       </Component>
 
@@ -73,30 +72,6 @@
         <File Id="Server.Sound9.wav" Source="$(var.Server.TargetDir)Configuration\Sounds\Sound9.wav" />
       </Component>
     </DirectoryRef>
-
-    <!--<DirectoryRef Id="SystemFolder" >
-      <Component Id="msvcm90Dll" Guid="*" Permanent="yes">
-        <File Id="msvcm90DllFile" Name="msvcm90.dll" Source="C:\WINDOWS\system32\" KeyPath="yes" />
-      </Component>
-    </DirectoryRef>-->
-
-    <!--<DirectoryRef Id="FIRESECSERVICELOCATION">
-      <Component Id="FiresecNTServiceComponent" Guid="C60A222E-937B-4757-AF56-42CB163599AA">
-        <CreateFolder Directory="FIRESECSERVICELOCATION" />
-        <File Id="FiresecNTServiceExe" Name="$(var.FiresecNTService.TargetFileName)" Source="$(var.FiresecNTService.TargetDir)" KeyPath="yes" />
-        <ServiceInstall Id="ServiceInstaller" Type="ownProcess" Vital="yes" Description="Запускает сервер ОПС 'Firesec-2'"
-            Name="Firesec-2_NTServer" DisplayName="Firesec-2 NT Server" Start="auto" Account="LocalSystem"
-            ErrorControl="ignore" Interactive="yes" Arguments="$(var.Server.TargetFileName)">
-        </ServiceInstall>
-        <ServiceControl Id="StartNTService" Name="Firesec-2_NTServer" Wait="yes" Remove="uninstall" />
-        --><!--<Condition>NOT Installed</Condition>--><!--
-      </Component>
-
-      <Component Id="RemoveNTServiceComponent" Guid="E93A6011-9E04-43F7-B954-06AA2FA8752D">
-        <CreateFolder Directory="FIRESECSERVICELOCATION" />
-        <ServiceControl Id="StopNTService" Start="install" Stop="both" Name="Firesec-2 NT Server" Wait="yes" Remove="uninstall"/>
-      </Component>
-    </DirectoryRef>-->
 
   </Fragment>
 </Wix>

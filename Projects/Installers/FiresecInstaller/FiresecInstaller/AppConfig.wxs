@@ -35,7 +35,7 @@
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='ReportsModule.dll'[\]]" />
 
-        <util:XmlConfig Id="FS_AppConfig_IsFSEnabled" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FS_AppConfig_IsFSEnabled" File="[SERVERLOCATION]FiresecService.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/appSettings" On="install"
             VerifyPath="//configuration/appSettings/add[\[]@key='IsFSEnabled'[\]]" />
         <Condition>NOT FS_MODULE</Condition>
@@ -51,7 +51,7 @@
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]" />
 
-        <util:XmlConfig Id="FS_AppConfig_IsGKEnabled" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FS_AppConfig_IsGKEnabled" File="[SERVERLOCATION]FiresecService.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/appSettings" On="install"
             VerifyPath="//configuration/appSettings/add[\[]@key='IsGKEnabled'[\]]" />
         <Condition>NOT GK_MODULE</Condition>
@@ -63,7 +63,7 @@
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='OPCModule.dll'[\]]" />
 
-        <util:XmlConfig Id="FS_AppConfig_IsOPCEnabled" File="[FIRESECSERVICELOCATION]FiresecService.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FS_AppConfig_IsOPCEnabled" File="[SERVERLOCATION]FiresecService.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/appSettings" On="install"
             VerifyPath="//configuration/appSettings/add[\[]@key='IsOPCEnabled'[\]]" />
         <Condition>NOT OPC_MODULE</Condition>
@@ -109,7 +109,7 @@
 </Wix>
 
 <!--<Component Id="SqlComponent" Guid="*">
-				<CreateFolder Directory="FIRESECSERVICELOCATION" />
+				<CreateFolder Directory="SERVERLOCATION" />
 				<sql:SqlDatabase Id="FiresecSqlDatabase" Database="Firesec" CreateOnInstall="yes"
 												 Server="(local)\[SQLINSTANCE]" DropOnUninstall="no"  ContinueOnError="yes">
 					<sql:SqlScript Id="DatabaseStructureScript" BinaryKey="FiresecDBSql" ExecuteOnInstall="yes" ContinueOnError="yes"/>

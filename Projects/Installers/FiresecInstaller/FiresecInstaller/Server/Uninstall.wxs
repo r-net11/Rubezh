@@ -8,8 +8,8 @@
         <RemoveFolder Id="Server.SoundsFolder.RemoveFolder" On="uninstall" Directory="Server.SoundsFolder" />
         <RemoveFile Id="Server.LogsFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Server.LogsFolder" />
         <RemoveFolder Id="Server.LogsFolder.RemoveFolder" On="uninstall" Directory="Server.LogsFolder" />
-        <RemoveFile Id="Server.RemoveFiles" On="uninstall" Name="*.*" Directory="FIRESECSERVICELOCATION" />
-        <RemoveFolder Id="Server.RemoveFolder" On="uninstall" Directory="FIRESECSERVICELOCATION" />
+        <RemoveFile Id="Server.RemoveFiles" On="uninstall" Name="*.*" Directory="SERVERLOCATION" />
+        <RemoveFolder Id="Server.RemoveFolder" On="uninstall" Directory="SERVERLOCATION" />
       </Component>
     </DirectoryRef>
 	</Fragment>

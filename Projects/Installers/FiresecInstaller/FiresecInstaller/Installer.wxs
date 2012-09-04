@@ -2,7 +2,7 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension"
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <?include Variables_Firesec.wxi?>
+  <?include Variables.wxi?>
 
   <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="0.0.0.1" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
     <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" Description="Установка $(var.ProductName)" SummaryCodepage="$(var.Codepage)" />
@@ -55,14 +55,14 @@
       <Directory Id="SystemFolder"/>
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
-          <Directory Id="FIRESECSERVICELOCATION" Name="$(var.ServerName)">
+          <Directory Id="SERVERLOCATION" Name="$(var.ServerName)">
             <Directory Id="Server.LogsFolder" Name="Logs" />
             <Directory Id="Server.ConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="Server.SoundsFolder" Name="$(var.SoundsFolder)" />
             </Directory>
-            <Directory Id="OLDFIRESECSERVICELOCATION" Name="Firesec">
+            <Directory Id="FIRESECLOCATION" Name="Firesec">
               <Directory Id="INTL" Name="intl" />
-              <Directory Id="OLDFIRESECSERVICELOCATION.Cache" Name="Cache" />
+              <Directory Id="FIRESECLOCATION.Cache" Name="Cache" />
             </Directory>
           </Directory>
           <Directory Id="ADMINISTRATORLOCATION" Name="$(var.AdministratorName)">
@@ -102,7 +102,7 @@
       <Custom Action="RegisterSockProxy" After="RegisterFs_types">INSTALLMODE</Custom>
       <Custom Action="RegisterServer" After="RegisterSockProxy">INSTALLMODE</Custom>
       
-      <Custom Action="InstallHaspDriver" After="RegisterServer">REGOLDFS AND INSTALLMODE</Custom>
+      <Custom Action="InstallHaspDriver" After="RegisterServer">NOT REGOLDFS AND INSTALLMODE</Custom>
       <!--<Custom Action="InstallReportViewer" After="InstallHaspDriver">INSTALLMODE</Custom>-->
       <Custom Action="StartAppOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
       <!--<Custom Action="RunFiresecNTService" After="InstallReportViewer">1</Custom>-->

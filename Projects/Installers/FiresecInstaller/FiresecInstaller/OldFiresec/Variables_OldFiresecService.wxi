@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Include>
-  <?define OldFiresecServiceName="fs_server" ?>
-  <?define OldFiresecServiceLocationId="OLDFIRESECSERVICELOCATION"?>
-  <?define OldFiresecService.TargetDir="..\..\..\..\..\FiresecService\bin\Release\Firesec\"?>
-  <?define OldFiresecService.TargetFileName="fs_server.exe"?>
-</Include>

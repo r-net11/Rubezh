@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
 		 xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-	<?include Variables_FireMonitor.wxi?>
+	<?include Variables.wxi?>
 	<Fragment>
-		<util:CloseApplication Id="FMCloseAction" CloseMessage="no" Target="$(var.Monitor.TargetFileName)" RebootPrompt="no" />
 
 		<DirectoryRef Id="MONITORLOCATION">
 			<Component Id="Monitor.Files" Guid="34861B8C-8282-4115-96FD-0E924552A1DD">

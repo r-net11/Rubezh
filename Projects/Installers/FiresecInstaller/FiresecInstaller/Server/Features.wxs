@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<?include Variables_FiresecService.wxi?>
+	<?include Variables.wxi?>
 	<Fragment>
-		<Feature Id="Server.Features" Title="$(var.ServerName)" Description="Полная установка" Level="1" Display="expand"
-						 ConfigurableDirectory="FIRESECSERVICELOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+		<Feature Id="Server.Features" Title="Сервер приложений" Description="Установка приложения Сервер приложений" Level="1" Display="expand"
+						 ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Server.Files" />
       <ComponentRef Id="Server.SecurityConfiguration.xml" />
       <ComponentRef Id="Server.DeviceLibrary.xml" />

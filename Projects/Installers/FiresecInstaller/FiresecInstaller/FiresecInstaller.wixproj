@@ -29,28 +29,27 @@
     <LinkerAdditionalOptions>-cultures:ru-RU%3ben-US</LinkerAdditionalOptions>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Binary_Firesec.wxs" />
+    <Compile Include="Binary.wxs" />
     <Compile Include="CustomActions.wxs" />
-    <Compile Include="Features_Firesec.wxs" />
-    <Compile Include="Files_Firesec.wxs" />
-    <Compile Include="FireAdministrator\Features_FireAdministrator.wxs" />
-    <Compile Include="FireAdministrator\Files_FireAdministrator.wxs" />
-    <Compile Include="FireAdministrator\Shortcuts_FireAdministrator.wxs" />
-    <Compile Include="FireAdministrator\Uninstall_Administrator.wxs" />
-    <Compile Include="FireMonitor\Features_FireMonitor.wxs" />
-    <Compile Include="FireMonitor\Files_FireMonitor.wxs" />
-    <Compile Include="FireMonitor\Shortcuts_FireMonitor.wxs" />
-    <Compile Include="FireMonitor\Uninstall.wxs" />
-    <Compile Include="FiresecInstaller.wxs" />
-    <Compile Include="FiresecService\Features_FiresecService.wxs" />
-    <Compile Include="FiresecService\Files_FiresecService.wxs" />
-    <Compile Include="FiresecService\Properties_FiresecService.wxs" />
-    <Compile Include="FiresecService\Shortcuts_FiresecService.wxs" />
-    <Compile Include="FiresecService\Uninstall.wxs" />
-    <Compile Include="OldFiresec\Features_OldFiresecService.wxs" />
-    <Compile Include="OldFiresec\Files_OldFiresecService.wxs" />
-    <Compile Include="OldFiresec\Uninstall.wxs" />
-    <Compile Include="RemoveUsersDirectory.wxs" />
+    <Compile Include="Features.wxs" />
+    <Compile Include="AppConfig.wxs" />
+    <Compile Include="Administrator\Features.wxs" />
+    <Compile Include="Administrator\Files.wxs" />
+    <Compile Include="Administrator\Shortcuts.wxs" />
+    <Compile Include="Administrator\Uninstall.wxs" />
+    <Compile Include="Monitor\Features.wxs" />
+    <Compile Include="Monitor\Files.wxs" />
+    <Compile Include="Monitor\Shortcuts.wxs" />
+    <Compile Include="Monitor\Uninstall.wxs" />
+    <Compile Include="Installer.wxs" />
+    <Compile Include="Server\Features.wxs" />
+    <Compile Include="Server\Files.wxs" />
+    <Compile Include="Server\Shortcuts.wxs" />
+    <Compile Include="Server\Uninstall.wxs" />
+    <Compile Include="Firesec\Features.wxs" />
+    <Compile Include="Firesec\Files.wxs" />
+    <Compile Include="Firesec\Uninstall.wxs" />
+    <Compile Include="Uninstall.wxs" />
     <Compile Include="UI\UI_Dialogs.wxs" />
     <Compile Include="UI\UI_Elements.wxs" />
     <Compile Include="UI\UI_Logic.wxs" />
@@ -79,14 +78,12 @@
     <Content Include="Data\Monitor.ico" />
     <Content Include="Data\Server.ico" />
     <Content Include="Data\SetupProgress.ico" />
-    <Content Include="FireAdministrator\Variables_FireAdministrator.wxi" />
-    <Content Include="FireMonitor\Variables_FireMonitor.wxi" />
-    <Content Include="FiresecService\Pre-Build commands.txt" />
-    <Content Include="FiresecService\Variables_FiresecService.wxi" />
-    <Content Include="FiresecService\Xslt\WixSounds.xslt" />
-    <Content Include="OldFiresec\Variables_OldFiresecService.wxi" />
+    <Content Include="Administrator\Variables.wxi" />
+    <Content Include="Monitor\Variables.wxi" />
+    <Content Include="Server\Variables.wxi" />
+    <Content Include="Firesec\Variables.wxi" />
     <Content Include="UI\UI_Variables.wxi" />
-    <Content Include="Variables_Firesec.wxi" />
+    <Content Include="Variables.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
     <Content Include="Data\FiresecBanner.bmp" />
     <Content Include="Data\FiresecDataBaseStructureSql.sql" />
@@ -100,11 +97,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data" />
-    <Folder Include="FiresecService" />
-    <Folder Include="FiresecService\Xslt\" />
-    <Folder Include="FireAdministrator" />
-    <Folder Include="FireMonitor" />
-    <Folder Include="OldFiresec" />
+    <Folder Include="Server" />
+    <Folder Include="Administrator" />
+    <Folder Include="Monitor" />
+    <Folder Include="Firesec" />
     <Folder Include="UI" />
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?include Variables.wxi?>
+	<Fragment>
+		<Feature Id="Firesec.Features" Title="Драйвер FireSes" Description="Установка драйверов оборудования Адресной системы Рубеж" Level="1" Display="expand"
+          ConfigurableDirectory="FIRESECLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+      <ComponentRef Id="Firesec.Files" />
+      <ComponentRef Id="Firesec.fbintl.dll" />
+      <ComponentRef Id="Firesec.msvcp60.dll" />
+		</Feature>
+	</Fragment>
+</Wix>
