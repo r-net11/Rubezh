@@ -9,7 +9,7 @@
 
 	<xrd:ReportProperties />
 
-	<xrd:SectionReportFooter Padding="10,0,10,0" PageFooterHeight="4" Style="{StaticResource section}">
+	<xrd:SectionReportFooter Padding="30,0,30,0" PageFooterHeight="4" Style="{StaticResource section}">
 		<Table BorderBrush="Black" BorderThickness="0,1,0,0" CellSpacing="0" Padding="0,3,0,0">
 			<Table.Columns>
 				<TableColumn Width="*" />
@@ -51,7 +51,7 @@
 							Параметры устройств
 							<LineBreak />
 							на
-							<xrd:InlineDocumentValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="PrintDate" />
+							<xrd:InlineContextValue Format="dd.MM.yyyy HH:mm:ss" PropertyName="ReportDate" />
 						</Paragraph>
 					</TableCell>
 				</TableRow>

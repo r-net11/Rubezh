@@ -24,12 +24,13 @@ namespace PlansModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowElementEvent>().Subscribe(OnShowElement);
 			ServiceFactory.Events.GetEvent<FindElementEvent>().Subscribe(OnShowElementDevice);
 
-			Menu = new PlansMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
 			RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
+			//Menu = new PlansMenuViewModel(this);
+			Menu = new PlansMenuTestViewModel(this);
 
 			DesignerCanvas = new DesignerCanvas();
 			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
