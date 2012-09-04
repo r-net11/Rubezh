@@ -13,7 +13,6 @@ namespace AlarmModule
 		public StateType StateType { get; set; }
 		public Guid DeviceUID { get; set; }
 		public int? ZoneNo { get; set; }
-		public DateTime? Time { get; set; }
 		public string StateName { get; set; }
 		public bool IsDeleting { get; set; }
 
@@ -21,8 +20,12 @@ namespace AlarmModule
 		{
 			get
 			{
-				if (AlarmType == AlarmType.Fire)
-					return AlarmEntityType.Zone;
+				switch(AlarmType)
+				{
+					case AlarmType.Fire:
+					case AlarmType.Guard:
+						return AlarmEntityType.Zone;
+				}
 				return AlarmEntityType.Device;
 			}
 		}

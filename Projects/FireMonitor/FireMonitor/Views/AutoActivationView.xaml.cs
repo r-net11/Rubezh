@@ -61,6 +61,7 @@ namespace FireMonitor.Views
 			{
 				if ((App.Current.MainWindow != null) && (App.Current.MainWindow.IsActive == false))
 				{
+					App.Current.MainWindow.WindowState = System.Windows.WindowState.Maximized;
 					App.Current.MainWindow.Activate();
 				}
 			}
@@ -68,18 +69,18 @@ namespace FireMonitor.Views
 			{
 				if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
 				{
-					var stateType = StateType.No;
+					var globalStateType = StateType.No;
 					foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
 					{
-						if (deviceState.StateType < stateType)
-							stateType = deviceState.StateType;
+						if (deviceState.StateType < globalStateType)
+							globalStateType = deviceState.StateType;
 					}
 
 					var device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
 					if (device != null)
 					{
 						var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-						if (deviceState.StateType <= stateType)
+						//if (deviceState.StateType <= globalStateType)
 						{
 							var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == device.UID); });
 							if (existsOnPlan)

@@ -17,7 +17,7 @@ namespace FiresecClient
 				}
 			}
 		}
- 
+
 		public static void UnSetZoneGuard(Zone zone)
 		{
 			if ((zone.ZoneType == ZoneType.Guard) && (zone.SecPanelUID != Guid.Empty))
@@ -72,8 +72,13 @@ namespace FiresecClient
 					continue;
 
 				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-				if (deviceState.States.Any(x => x.Code == "Alarm"))
-					return true;
+				foreach (var state in deviceState.States)
+				{
+					if (state.Code.Contains("Alarm"))
+						return true;
+					if (state.Code == "InitFailed")
+						return true;
+				}
 			}
 			return false;
 		}

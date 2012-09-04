@@ -8,6 +8,7 @@
 
     <Grid Name="_grid">
         <Polygon Name="_polygon" Stroke="Orange" StrokeThickness="0" Opacity="0.9"
+                 ToolTip="{Binding Tooltip}"
                  Fill="{Binding ZoneState, Converter={StaticResource ZoneStateToColorConverter}}"
                  MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave" PreviewMouseLeftButtonDown="_polygon_PreviewMouseLeftButtonDown">
             <Polygon.ContextMenu>
@@ -19,12 +20,6 @@
                     <MenuItem Command="{Binding UnSetGuardCommand}" Header="Снять с охраны" />
                 </ContextMenu>
             </Polygon.ContextMenu>
-            <Polygon.ToolTip>
-                <StackPanel>
-                    <TextBlock Text="{Binding PresentationName}" />
-                    <TextBlock Text="{Binding ZoneState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
-                </StackPanel>
-            </Polygon.ToolTip>
         </Polygon>
     </Grid>
 </ContentControl>

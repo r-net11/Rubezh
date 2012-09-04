@@ -22,7 +22,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Время" Binding="{Binding Time}" Width="150" />
                 <DataGridTextColumn Header="Источник" Binding="{Binding Source}" Width="200" />
                 <DataGridTextColumn Header="Описание" Binding="{Binding Alarm.StateName}" Width="*" />
             </DataGrid.Columns>

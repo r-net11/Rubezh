@@ -47,45 +47,65 @@ namespace DevicesModule.DeviceProperties
 				var driverPropertyParameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
 				if (driverPropertyParameter != null)
 				{
-					_selectedValue = driverPropertyParameter.Name;
+					_selectedParameter = driverPropertyParameter;
 				}
 			}
 			else
 			{
 				if (driverProperty.Default == null)
 				{
-					Logger.Error("EnumPropertyViewModel driverProperty.Default = null");
+					Logger.Error("EnumPropertyViewModel driverProperty.Default = null " + device.Driver.ShortName + "." + driverProperty.Name);
 					return;
 				}
 				var enumdriverProperty = driverProperty.Parameters.FirstOrDefault(x => x.Value == driverProperty.Default);
 				if (enumdriverProperty != null)
-					_selectedValue = enumdriverProperty.Name;
+					_selectedParameter = enumdriverProperty;
 			}
 		}
 
-		public List<string> Values
+		public List<DriverPropertyParameter> Parameters
 		{
 			get
 			{
-				var values = new List<string>();
-				foreach (var propertyParameter in _driverProperty.Parameters)
-				{
-					values.Add(propertyParameter.Name);
-				}
-				return values;
+				return _driverProperty.Parameters;
 			}
 		}
 
-		string _selectedValue;
-		public string SelectedValue
+		DriverPropertyParameter _selectedParameter;
+		public DriverPropertyParameter SelectedParameter
 		{
-			get { return _selectedValue; }
+			get { return _selectedParameter; }
 			set
 			{
-				_selectedValue = value;
-				OnPropertyChanged("SelectedValue");
-				Save(value);
+				_selectedParameter = value;
+				OnPropertyChanged("SelectedParameter");
+				Save(value.Value);
 			}
 		}
+
+		//public List<string> Values
+		//{
+		//    get
+		//    {
+		//        var values = new List<string>();
+		//        foreach (var propertyParameter in _driverProperty.Parameters)
+		//        {
+		//            values.Add(propertyParameter.Name);
+		//        }
+		//        return values;
+		//    }
+		//}
+
+		//string _selectedValue;
+		//public string SelectedValue
+		//{
+		//    get { return _selectedValue; }
+		//    set
+		//    {
+		//        _selectedValue = value;
+		//        OnPropertyChanged("SelectedValue");
+		//        Save(value);
+		//    }
+		//}
 	}
 }

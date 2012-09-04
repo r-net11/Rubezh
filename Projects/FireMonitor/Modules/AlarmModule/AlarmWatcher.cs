@@ -69,7 +69,6 @@ namespace AlarmModule
 							StateType = stateType,
 							DeviceUID = deviceState.UID,
 							ZoneNo = deviceState.Device.ZoneNo,
-							Time = state.Time,
 							StateName = state.DriverState.Name
 						};
 						Alarms.Add(newAlarm);
@@ -100,7 +99,6 @@ namespace AlarmModule
 									AlarmType = AlarmType.Fire,
 									StateType = StateType.Fire,
 									ZoneNo = zoneState.No,
-									Time = DateTime.Now,
 									StateName = "Пожар"
 								};
 								Alarms.Add(newAlarm);
@@ -123,7 +121,6 @@ namespace AlarmModule
 									AlarmType = AlarmType.Guard,
 									StateType = StateType.Fire,
 									ZoneNo = zoneState.No,
-									Time = DateTime.Now,
 									StateName = "Тревога"
 								};
 								Alarms.Add(newAlarm);

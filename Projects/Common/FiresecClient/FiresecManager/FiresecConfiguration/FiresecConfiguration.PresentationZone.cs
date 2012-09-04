@@ -136,5 +136,29 @@ namespace FiresecClient
 
 			return "";
 		}
+
+		public string GetIndicatorString(Device indicatorDevice)
+		{
+			switch (indicatorDevice.IndicatorLogic.IndicatorLogicType)
+			{
+				case IndicatorLogicType.Device:
+					{
+						if (indicatorDevice.IndicatorLogic.DeviceUID != Guid.Empty)
+						{
+							var deviceString = "Устр: ";
+							deviceString += indicatorDevice.IndicatorLogic.Device.PresentationAddressAndDriver;
+							return deviceString;
+						}
+						break;
+					}
+				case IndicatorLogicType.Zone:
+					{
+						if (indicatorDevice.IndicatorLogic.Zones.Count > 0)
+							return "Зоны: " + GetCommaSeparatedZones(indicatorDevice.IndicatorLogic.Zones);
+						break;
+					}
+			}
+			return "";
+		}
 	}
 }

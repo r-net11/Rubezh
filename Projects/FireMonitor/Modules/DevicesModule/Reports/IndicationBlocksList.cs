@@ -24,5 +24,4 @@ namespace DevicesModule.Reports
 		public string IndicationBlockNumber { get; set; }
 		public List<Page> Pages { get; set; }
 	}
-
 }

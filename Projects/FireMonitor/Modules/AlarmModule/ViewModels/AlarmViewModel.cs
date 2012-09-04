@@ -27,11 +27,6 @@ namespace AlarmModule.ViewModels
 			ShowInstructionCommand = new RelayCommand(OnShowInstruction, CanShowInstruction);
 		}
 
-		public string Time
-		{
-			get { return Alarm.Time.ToString(); }
-		}
-
 		public string Source
 		{
 			get

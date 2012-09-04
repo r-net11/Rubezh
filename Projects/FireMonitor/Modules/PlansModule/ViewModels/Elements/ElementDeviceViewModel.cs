@@ -144,9 +144,9 @@ namespace PlansModule.ViewModels
 				if (DeviceState.Parameters != null)
 				{
 					var nullString = "<NULL>";
-					foreach (var parameter in DeviceState.Parameters.Where(x => x.Visible && string.IsNullOrEmpty(x.Value) == false && x.Value != nullString))
+					foreach (var parameter in DeviceState.Parameters)
 					{
-						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
+						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == nullString)
 							continue;
 						if ((parameter.Name == "Config$SerialNum") || (parameter.Name == "Config$SoftVersion"))
 							continue;

@@ -95,7 +95,8 @@ namespace DevicesModule.ViewModels
 						canControl = true;
 				}
 
-				return Device.Driver.HasControlProperties && ServiceFactory.AppSettings.CanControl &&
+				return ServiceFactory.AppSettings.CanControl &&
+				//Device.Driver.HasControlProperties &&
 				!FiresecManager.FiresecConfiguration.IsChildMPT(Device) && canControl;
 			}
 		}

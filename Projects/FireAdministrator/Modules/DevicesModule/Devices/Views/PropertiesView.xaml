@@ -70,7 +70,13 @@
                             <ColumnDefinition SharedSizeGroup="group2" />
                         </Grid.ColumnDefinitions>
                         <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                        <ComboBox Grid.Column="1" ItemsSource="{Binding Values}" SelectedItem="{Binding SelectedValue, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
+                        <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Name}" />
+                                </DataTemplate>                                
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
