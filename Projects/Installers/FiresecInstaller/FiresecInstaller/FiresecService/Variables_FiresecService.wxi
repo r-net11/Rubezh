@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <?define FiresecServiceName="FiresecService" ?>
-  <?define FiresecServiceLocationId="FIRESECSERVICELOCATION"?>
-  <?define FiresecService.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
-  <?define FiresecService.TargetFileName="FiresecService.exe"?>
-  <?define FiresecService.TargetPath="..\..\..\..\..\FiresecService\bin\Release\FiresecService.exe"?>
+  <?define ServerName="FiresecService" ?>
+  <?define ServerLocationId="FIRESECSERVICELOCATION"?>
+  <?define Server.TargetDir="..\..\..\..\..\FiresecService\bin\Release\"?>
+  <?define Server.TargetFileName="FiresecService.exe"?>
+  <?define Server.TargetPath="..\..\..\..\..\FiresecService\bin\Release\FiresecService.exe"?>
 </Include>

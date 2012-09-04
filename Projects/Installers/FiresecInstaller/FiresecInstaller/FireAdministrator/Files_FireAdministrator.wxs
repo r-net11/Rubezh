@@ -5,7 +5,7 @@
   <Fragment>
     <util:CloseApplication Id="Administrator.CloseAction" CloseMessage="no" Target="$(var.Administrator.TargetFileName)" RebootPrompt="no" />
     
-    <DirectoryRef Id="FIREADMINISTRATORLOCATION">
+    <DirectoryRef Id="ADMINISTRATORLOCATION">
       <Component Id="Administrator.Files" Guid="57391822-9954-40B9-BA3C-B7BDC9DBC289">
         <File Id="Administrator.FireAdministrator.exe" Name="$(var.Administrator.TargetFileName)" Source="$(var.Administrator.TargetPath)" KeyPath="yes" />
         <File Id="Administrator.FireAdministrator.exe.config" Name="FireAdministrator.exe.config" Source="$(var.Administrator.TargetDir)" Checksum="yes"/>

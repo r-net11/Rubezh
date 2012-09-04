@@ -16,56 +16,6 @@
     </DirectoryRef>
 
     <DirectoryRef Id="INSTALLLOCATION">
-      <Component Id="Monitor.Remove" Guid="56ECF00B-C73E-4E93-BF09-CF295D691DCE">
-        <CreateFolder Directory="INSTALLLOCATION" />
-        <RemoveFile Id="Monitor.SoundsFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Monitor.SoundsFolder" />
-        <RemoveFolder Id="Monitor.SoundsFolder.RemoveFolder" On="uninstall" Directory="Monitor.SoundsFolder" />
-        <RemoveFolder Id="Monitor.ConfigFolder.RemoveFolder" On="uninstall" Directory="Monitor.ConfigFolder" />
-        <RemoveFile Id="Monitor.ClientSettingsFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Monitor.ClientSettingsFolder" />
-        <RemoveFolder Id="Monitor.ClientSettingsFolder.RemoveFolder" On="uninstall" Directory="Monitor.ClientSettingsFolder" />
-        <RemoveFile Id="Monitor.LogsFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Monitor.LogsFolder" />
-        <RemoveFolder Id="Monitor.LogsFolder.RemoveFolder" On="uninstall" Directory="Monitor.LogsFolder" />
-        <RemoveFile Id="Monitor.ShellFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Monitor.ShellFolder" />
-        <RemoveFolder Id="Monitor.ShellFolder.RemoveFolder" On="uninstall" Directory="Monitor.ShellFolder" />
-        <RemoveFile Id="Monitor.SoundsFolderFiles" On="uninstall" Name="*.*" Directory="FIREMONITORLOCATION" />
-        <RemoveFolder Id="Monitor.SoundsFolderFolder" On="uninstall" Directory="FIREMONITORLOCATION" />
-      </Component>
-
-      <Component Id="Administrator.Remove" Guid="4B74C764-092A-4BD3-A51F-15FC8471EE63">
-        <CreateFolder Directory="INSTALLLOCATION" />
-        <RemoveFile Id="Administrator.SoundsFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Administrator.SoundsFolder" />
-        <RemoveFolder Id="Administrator.SoundsFolder.RemoveFolder" On="uninstall" Directory="Administrator.SoundsFolder" />
-        <RemoveFile Id="Administrator.Xaml2svgFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Administrator.Xaml2svgFolder" />
-        <RemoveFolder Id="Administrator.Xaml2svgFolder.RemoveFolder" On="uninstall" Directory="Administrator.Xaml2svgFolder" />
-        <RemoveFile Id="Administrator.XslFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Administrator.XslFolder" />
-        <RemoveFolder Id="Administrator.XslFolder.RemoveFolder" On="uninstall" Directory="Administrator.XslFolder" />
-        <RemoveFolder Id="Administrator.ConfigFolder.RemoveFolder" On="uninstall" Directory="Administrator.ConfigFolder" />
-        <RemoveFile Id="Administrator.LogsFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Administrator.LogsFolder" />
-        <RemoveFolder Id="Administrator.LogsFolder.RemoveFolder" On="uninstall" Directory="Administrator.LogsFolder" />
-        <RemoveFile Id="Administrator.RemoveFiles" On="uninstall" Name="*.*" Directory="FIREADMINISTRATORLOCATION" />
-        <RemoveFolder Id="Administrator.RemoveFolder" On="uninstall" Directory="FIREADMINISTRATORLOCATION" />
-      </Component>
-
-      <Component Id="Server.Remove" Guid="EE4A45FE-3EA9-4A33-B259-8B9E6741B859">
-        <CreateFolder Directory="INSTALLLOCATION" />
-        <RemoveFile Id="Server.SoundsFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Server.SoundsFolder" />
-        <RemoveFolder Id="Server.SoundsFolder.RemoveFolder" On="uninstall" Directory="Server.SoundsFolder" />
-        <RemoveFile Id="Server.LogsFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Server.LogsFolder" />
-        <RemoveFolder Id="Server.LogsFolder.RemoveFolder" On="uninstall" Directory="Server.LogsFolder" />
-        <RemoveFile Id="Server.RemoveFiles" On="uninstall" Name="*.*" Directory="FIRESECSERVICELOCATION" />
-        <RemoveFolder Id="Server.RemoveFolder" On="uninstall" Directory="FIRESECSERVICELOCATION" />
-      </Component>
-
-      <Component Id="Installer.Remove" Guid="5A1DCC77-88DC-48C5-9610-5FA10E4573F4">
-        <CreateFolder Directory="INSTALLLOCATION" />
-        <RemoveFile Id="Installer.INTL.RemoveFiles" On="uninstall" Name="*.*" Directory="INTL" />
-        <RemoveFolder Id="Installer.INTL.RemoveFolder" On="uninstall" Directory="INTL" />
-        <RemoveFile Id="Installer.OLDFIRESECSERVICELOCATION.Cache.RemoveFiles" On="uninstall" Name="*.*" Directory="OLDFIRESECSERVICELOCATION.Cache" />
-        <RemoveFolder Id="Installer.OLDFIRESECSERVICELOCATION.Cache.RemoveFolder" On="uninstall" Directory="OLDFIRESECSERVICELOCATION.Cache" />
-        <RemoveFile Id="Installer.OLDFIRESECSERVICELOCATION.RemoveFiles" On="uninstall" Name="*.*" Directory="OLDFIRESECSERVICELOCATION" />
-        <RemoveFolder Id="Installer.OLDFIRESECSERVICELOCATION.RemoveFolder" On="uninstall" Directory="OLDFIRESECSERVICELOCATION" />
-      </Component>
-
       <Component Id="Logs.Remove" Guid="FBCDB3DF-5B6D-4236-A11D-76518EE75109">
         <CreateFolder Directory="INSTALLLOCATION" />
         <RemoveFile Id="LOGS.RemoveFiles" On="uninstall" Name="*.*" Directory="LOGS" />

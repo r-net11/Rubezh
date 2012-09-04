@@ -9,7 +9,7 @@
         <FeatureRef Id="Server.Features" />
         <ComponentRef Id="RegistryFiresec2Key" />
         <ComponentRef Id="Server.Remove" />
-        <ComponentRef Id="Installer.Remove" />
+        <ComponentRef Id="Firesec.Remove" />
       </Feature>
       <Feature Id="FiresecClient" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
         <FeatureRef Id="Administrator.Features" />

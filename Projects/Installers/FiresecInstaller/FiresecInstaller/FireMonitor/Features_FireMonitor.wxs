@@ -4,8 +4,8 @@
 	<?include Variables_FireMonitor.wxi?>
 	
 	<Fragment>
-		<Feature Id="Monitor.Features" Title="$(var.FireMonitorName)" Description="Полная установка" Level="1" Display="expand"
-						 ConfigurableDirectory="FIREMONITORLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+		<Feature Id="Monitor.Features" Title="$(var.MonitorName)" Description="Полная установка" Level="1" Display="expand"
+						 ConfigurableDirectory="MONITORLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Monitor.Files" />
 			<ComponentRef Id="Monitor.FS_MODULE" />
       <ComponentRef Id="Monitor.GK_MODULE" />

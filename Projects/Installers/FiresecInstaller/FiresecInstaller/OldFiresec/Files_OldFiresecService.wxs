@@ -6,27 +6,6 @@
   <Fragment>
 
     <DirectoryRef Id="OLDFIRESECSERVICELOCATION">
-      <Component Id="RemoveOldFiresecFiles" Guid="1412B8B3-43D5-42F4-BEAB-83B671506C91" >
-        <RemoveFile Id='Removefs_server.exe' On='install' Name='fs_server.exe' Directory='OLDFIRESECSERVICELOCATION' />
-        <RemoveFile Id='Removescktsrvr.exe' On='install' Name='scktsrvr.exe' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='RemoveOldFsTypesDll' On='install' Name='fs_types.dll' Directory='OLDFIRESECSERVICELOCATION' />
-        <RemoveFile Id='RemoveOldSockProxyDll' On='install' Name='SockProxy.dll' Directory='OLDFIRESECSERVICELOCATION' />
-        <RemoveFile Id='Removefs_server.ini' On='install' Name='fs_server.ini' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='Removerubezh10a.xml' On='install' Name='rubezh10a.xml' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='Removerubezh2010.xml' On='install' Name='rubezh2010.xml' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='RemoveFs_srvconDll' On='install' Name='fs_srvcon.dll' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='Removeconfig.cdb' On='install' Name='config.cdb' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='Removedb.sql' On='install' Name='db.sql' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='Removesqlq.xml' On='install' Name='sqlq.xml' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='Removefrm.dat' On='install' Name='frm.dat' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='Removelibxml2.dll' On='install' Name='libxml2.dll' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='Removeiconv.dll' On='install' Name='iconv.dll' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='Removezlib1.dll' On='install' Name='zlib1.dll' Directory='OLDFIRESECSERVICELOCATION'/>        
-        <RemoveFile Id='Removegds32.dll' On='install' Name='gds32.dll' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='Removefirebird.msg' On='install' Name='firebird.msg' Directory='OLDFIRESECSERVICELOCATION'/>
-        <RemoveFile Id='Removefbintl.dll' On='install' Name='fbintl.dll' Directory='INTL'/>
-      </Component>
-
       <Component Id="Firesec.Files" Guid="1E68FA6E-92A1-442C-99B5-215BEDDC2BBC" >
         <File Id="Firesec.fs_server.exe" Name="fs_server.exe" Source="$(var.OldFiresecService.TargetDir)" KeyPath="yes" />
         <File Id="Firesec.scktsrvr.exe" Name="scktsrvr.exe" Source="$(var.OldFiresecService.TargetDir)" />

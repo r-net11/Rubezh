@@ -39,9 +39,9 @@
     <Property Id="CHECKSQLSERVER" Value="0" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
     <Property Id="INSTALLLEVEL" Value="1" />
-    <Property Id="FIRESECSERVICENAME" Value="$(var.FiresecServiceName)" />
-    <Property Id="FIREMONITORNAME" Value="$(var.FireMonitorName)" />
-    <Property Id="FIREADMINISTRATORNAME" Value="$(var.AdministratorName)" />
+    <Property Id="SERVERNAME" Value="$(var.ServerName)" />
+    <Property Id="MONITORNAME" Value="$(var.MonitorName)" />
+    <Property Id="ADMINISTRATORNAME" Value="$(var.AdministratorName)" />
     <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
     <Property Id="WixUI_Mode" Value="Mondo" />
     <Property Id="AgreeToLicense" Value="No" />
@@ -55,7 +55,7 @@
       <Directory Id="SystemFolder"/>
       <Directory Id="ProgramFilesFolder">
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
-          <Directory Id="FIRESECSERVICELOCATION" Name="$(var.FiresecServiceName)">
+          <Directory Id="FIRESECSERVICELOCATION" Name="$(var.ServerName)">
             <Directory Id="Server.LogsFolder" Name="Logs" />
             <Directory Id="Server.ConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="Server.SoundsFolder" Name="$(var.SoundsFolder)" />
@@ -65,7 +65,7 @@
               <Directory Id="OLDFIRESECSERVICELOCATION.Cache" Name="Cache" />
             </Directory>
           </Directory>
-          <Directory Id="FIREADMINISTRATORLOCATION" Name="$(var.AdministratorName)">
+          <Directory Id="ADMINISTRATORLOCATION" Name="$(var.AdministratorName)">
             <Directory Id="Administrator.LogsFolder" Name="Logs" />
             <Directory Id="Administrator.ConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="Administrator.SoundsFolder" Name="$(var.SoundsFolder)" />
@@ -74,7 +74,7 @@
               </Directory>
             </Directory>
           </Directory>
-          <Directory Id="FIREMONITORLOCATION" Name="$(var.FireMonitorName)">
+          <Directory Id="MONITORLOCATION" Name="$(var.MonitorName)">
             <Directory Id="Monitor.ShellFolder" Name="Shell" />
             <Directory Id="Monitor.LogsFolder" Name="Logs" />
             <Directory Id="Monitor.ClientSettingsFolder" Name="ClientSettings" />
@@ -102,7 +102,7 @@
       <Custom Action="RegisterSockProxy" After="RegisterFs_types">INSTALLMODE</Custom>
       <Custom Action="RegisterServer" After="RegisterSockProxy">INSTALLMODE</Custom>
       
-      <Custom Action="InstallHaspDriver" After="RegisterServer" >NOT REGOLDFS AND INSTALLMODE</Custom>
+      <Custom Action="InstallHaspDriver" After="RegisterServer">REGOLDFS AND INSTALLMODE</Custom>
       <!--<Custom Action="InstallReportViewer" After="InstallHaspDriver">INSTALLMODE</Custom>-->
       <Custom Action="StartAppOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
       <!--<Custom Action="RunFiresecNTService" After="InstallReportViewer">1</Custom>-->

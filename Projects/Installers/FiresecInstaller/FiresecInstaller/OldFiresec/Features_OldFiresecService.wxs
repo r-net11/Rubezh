@@ -4,7 +4,6 @@
 	<Fragment>
 		<Feature Id="Firesec.Features" Title="$(var.OldFiresecServiceName)" Description="Полная установка" Level="1" Display="expand"
           ConfigurableDirectory="OLDFIRESECSERVICELOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
-      <ComponentRef Id="RemoveOldFiresecFiles" />
       <ComponentRef Id="Firesec.Files" />
       <ComponentRef Id="Firesec.fbintl.dll" />
       <ComponentRef Id="Firesec.msvcp60.dll" />

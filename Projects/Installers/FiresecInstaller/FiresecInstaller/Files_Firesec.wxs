@@ -6,32 +6,32 @@
     <DirectoryRef Id="INSTALLLOCATION">
       <Component Id="DevicesModule_AppConfig" Guid="0B88A0D7-FFCA-4A08-A26A-862308B009B2">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <util:XmlConfig Id="FA_DevicesModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FA_DevicesModule_AppConfig" File="[ADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='DevicesModule.dll'[\]]" />
-        <util:XmlConfig Id="FA_LibraryModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FA_LibraryModule_AppConfig" File="[ADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='LibraryModule.dll'[\]]" />
-        <util:XmlConfig Id="FA_FiltersModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FA_FiltersModule_AppConfig" File="[ADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='FiltersModule.dll'[\]]" />
-        <util:XmlConfig Id="FA_SoundsModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FA_SoundsModule_AppConfig" File="[ADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='SoundsModule.dll'[\]]" />
-        <util:XmlConfig Id="FA_InstructionsModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FA_InstructionsModule_AppConfig" File="[ADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='InstructionsModule.dll'[\]]" />
-        <util:XmlConfig Id="FA_SettingsModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FA_SettingsModule_AppConfig" File="[ADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='SettingsModule.dll'[\]]" />
         
-        <util:XmlConfig Id="FM_DevicesModule_AppConfig" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FM_DevicesModule_AppConfig" File="[MONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='DevicesModule.dll'[\]]" />
-        <util:XmlConfig Id="FM_JournalModule_AppConfig" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FM_JournalModule_AppConfig" File="[MONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='JournalModule.dll'[\]]" />
-        <util:XmlConfig Id="FM_ReportsModule_AppConfig" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FM_ReportsModule_AppConfig" File="[MONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='ReportsModule.dll'[\]]" />
 
@@ -43,11 +43,11 @@
       
       <Component Id="GKModule_AppConfig" Guid="0B88A0D7-FFCA-4A08-A26A-862308B009B2">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <util:XmlConfig Id="FA_GKModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FA_GKModule_AppConfig" File="[ADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]" />
 
-        <util:XmlConfig Id="FM_GKModule_AppConfig" File="[FIREMONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FM_GKModule_AppConfig" File="[MONITORLOCATION]FireMonitor.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='GKModule.dll'[\]]" />
 
@@ -59,7 +59,7 @@
 
       <Component Id="OPCModule_AppConfig" Guid="F0B66E96-0FC0-4CB2-BE16-7EF991083700">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <util:XmlConfig Id="FA_OPCModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FA_OPCModule_AppConfig" File="[ADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='OPCModule.dll'[\]]" />
 
@@ -71,7 +71,7 @@
 
       <Component Id="SkudModule_AppConfig" Guid="CDBA5061-EB0B-41A5-8B50-926984D7F879">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <util:XmlConfig Id="FA_SkudModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FA_SkudModule_AppConfig" File="[ADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='SkudModule.dll'[\]]" />
         <Condition>NOT SKUD_MODULE</Condition>
@@ -79,7 +79,7 @@
 
       <Component Id="VideoModule_AppConfig" Guid="3111F860-74E6-4E75-B78C-3077273A57E3">
         <CreateFolder Directory="INSTALLLOCATION" />
-        <util:XmlConfig Id="FA_VideoModule_AppConfig" File="[FIREADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
+        <util:XmlConfig Id="FA_VideoModule_AppConfig" File="[ADMINISTRATORLOCATION]FireAdministrator.exe.config" Action="delete" Node="element"
             ElementPath="//configuration/modules" On="install"
             VerifyPath="//configuration/modules/module[\[]@assemblyFile='VideoModule.dll'[\]]" />
         <Condition>NOT VIDEO_MODULE</Condition>

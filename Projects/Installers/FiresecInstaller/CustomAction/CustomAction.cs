@@ -9,9 +9,9 @@ namespace CustomAction
         public static ActionResult KillFiresecProcess(Session session)
         {
             session.Log("Begin Kill terminate processes");
-            string firesecServiceName = session["FIRESECSERVICENAME"];
-            string fireMonitorName = session["FIREMONITORNAME"];
-            string fireAdministratorName = session["FIREADMINISTRATORNAME"];
+            string firesecServiceName = session["SERVERNAME"];
+            string fireMonitorName = session["MONITORNAME"];
+            string fireAdministratorName = session["ADMINISTRATORNAME"];
             string firesecNtService = "FiresecNTService";
             string socketService = "scktsrvr";
             string oldFiresecService = "FS_SER~1";

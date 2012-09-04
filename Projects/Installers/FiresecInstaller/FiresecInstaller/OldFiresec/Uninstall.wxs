@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+    <DirectoryRef Id="INSTALLLOCATION">
+      <Component Id="Firesec.Remove" Guid="5A1DCC77-88DC-48C5-9610-5FA10E4573F4">
+        <CreateFolder Directory="INSTALLLOCATION" />
+        <RemoveFile Id="Firesec.INTL.RemoveFiles" On="uninstall" Name="*.*" Directory="INTL" />
+        <RemoveFolder Id="Firesec.INTL.RemoveFolder" On="uninstall" Directory="INTL" />
+        <RemoveFile Id="Firesec.OLDFIRESECSERVICELOCATION.Cache.RemoveFiles" On="uninstall" Name="*.*" Directory="OLDFIRESECSERVICELOCATION.Cache" />
+        <RemoveFolder Id="Firesec.OLDFIRESECSERVICELOCATION.Cache.RemoveFolder" On="uninstall" Directory="OLDFIRESECSERVICELOCATION.Cache" />
+        <RemoveFile Id="Firesec.OLDFIRESECSERVICELOCATION.RemoveFiles" On="uninstall" Name="*.*" Directory="OLDFIRESECSERVICELOCATION" />
+        <RemoveFolder Id="Firesec.OLDFIRESECSERVICELOCATION.RemoveFolder" On="uninstall" Directory="OLDFIRESECSERVICELOCATION" />
+      </Component>
+    </DirectoryRef>
+	</Fragment>
+</Wix>

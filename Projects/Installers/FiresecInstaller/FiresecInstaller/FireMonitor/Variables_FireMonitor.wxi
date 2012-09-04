@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <?define FireMonitorName="FireMonitor" ?>
-  <?define FireMonitor.TargetDir="..\..\..\..\..\FireMonitor\bin\Release\"?>
-  <?define FireMonitor.TargetFileName="FireMonitor.exe"?>
-  <?define FireMonitor.TargetPath="..\..\..\..\..\FireMonitor\bin\Release\FireMonitor.exe"?>
+  <?define MonitorName="FireMonitor" ?>
+  <?define Monitor.TargetDir="..\..\..\..\..\FireMonitor\bin\Release\"?>
+  <?define Monitor.TargetFileName="FireMonitor.exe"?>
+  <?define Monitor.TargetPath="..\..\..\..\..\FireMonitor\bin\Release\FireMonitor.exe"?>
 </Include>
