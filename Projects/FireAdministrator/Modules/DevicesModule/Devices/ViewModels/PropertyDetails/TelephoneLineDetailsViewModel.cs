@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using FiresecAPI;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
@@ -290,9 +294,9 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
 		{
-			DeviceGetMDS5DataHelper.Run(Device);
+		    GetConfiguration();
 		}
-
+        
 		public RelayCommand ResetToDirectConnectionCommand { get; private set; }
 		void OnResetToDirectConnection()
 		{
@@ -308,6 +312,112 @@ namespace DevicesModule.ViewModels
 			SaveProperties();
 			return base.Save();
 		}
+
+        public void GetConfiguration()
+        {
+            var _operationResult = FiresecManager.DeviceGetMDS5Data(Device.UID);
+
+            if (_operationResult.HasError)
+            {
+                MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
+                return;
+            }
+            var DeviceData = _operationResult.Result;
+            // TESTMODE
+            // var DeviceData = "0                    0                    0                    0                    00000212010100000000111001100000000000000000000000000000000000000000000000";
+            string result = "";
+            result = result.PadRight(result.Length, '0');
+            string s;
+            bool b = true; // if Device.DeviceDriver.GetBaseType = 102
+            if (b)
+            {
+                s = DeviceData.Substring(0, 21);
+                s = DeleteCharsFromEnd(s, ' ');
+                Phone1 = int.Parse(s);
+
+                s = DeviceData.Substring(21, 21);
+                s = DeleteCharsFromEnd(s, ' ');
+                Phone2 = int.Parse(s);
+
+                s = DeviceData.Substring(42, 21);
+                s = DeleteCharsFromEnd(s, ' ');
+                Phone3 = int.Parse(s);
+
+                s = DeviceData.Substring(63, 21);
+                s = DeleteCharsFromEnd(s, ' ');
+                Phone4 = int.Parse(s);
+
+                ObjectNumber = int.Parse(DeviceData.Substring(84, 4));
+                TestDialtone = int.Parse(DeviceData.Substring(88, 2)) * 5;
+                TestVoltage = int.Parse(DeviceData.Substring(90, 1)) * 10;
+                CountRecalls = int.Parse(DeviceData.Substring(91, 1));
+                Timeout = int.Parse(DeviceData.Substring(92, 1)) * 10;
+                OutcomingTest = int.Parse(DeviceData.Substring(93, 1)) * 10;
+                //for (int i = 0; i <= 7; i++)
+                //{
+                //    s = DeviceData.Substring(94 + i * 8, 8);
+
+                //    //EventsFilter[i] = BinStrToByte(s);
+                //    //StringFlagsEvents = StringFlagsEvents + s;
+                //}
+                for (int i = 0; i < 54; i++)
+                {
+                    if (DeviceData[94 + i] == '1')
+                        FilterItems[i].IsActive = true;
+                }
+            }
+            else
+                //for (int i = 0; i <= 7; i++)
+                //{
+                //    s = DeviceData.Substring(0 + i * 8, 8);
+                //    //EventsFilter[i] = BinStrToByte(s);
+                //    //StringFlagsEvents = StringFlagsEvents + s;
+                //}
+                for (int i = 0; i < 54; i++)
+                {
+                    if (DeviceData[i] == '1')
+                        FilterItems[i].IsActive = true;
+                }
+        }
+        static int BinStrToByte(string str)
+        {
+            int result = 0;
+            if (str.Length == 8)
+            {
+                if (str[0] == '1')
+                    result = result + 128;
+                if (str[1] == '1')
+                    result = result + 64;
+                if (str[2] == '1')
+                    result = result + 32;
+                if (str[3] == '1')
+                    result = result + 16;
+                if (str[4] == '1')
+                    result = result + 8;
+                if (str[5] == '1')
+                    result = result + 4;
+                if (str[6] == '1')
+                    result = result + 2;
+                if (str[7] == '1')
+                    result = result + 1;
+            }
+            return result;
+        }
+
+        static string DeleteCharsFromEnd(string str, char ch)
+        {
+            int cnt = 0;
+            for (int i = str.Length - 1; i > 0; i--)
+            {
+                if (str[i] == ch)
+                    cnt++;
+                else
+                    break;
+            }
+            if (cnt > 0)
+                str = str.Remove(str.Length - cnt, cnt);
+            return str;
+        }
 	}
 
 	public class FilterItemViewModel : BaseViewModel
@@ -325,4 +435,6 @@ namespace DevicesModule.ViewModels
 			}
 		}
 	}
+
+
 }
