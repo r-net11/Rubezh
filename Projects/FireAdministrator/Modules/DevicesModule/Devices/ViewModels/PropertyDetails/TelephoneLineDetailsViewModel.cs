@@ -360,13 +360,6 @@ namespace DevicesModule.ViewModels
                 CountRecalls = int.Parse(DeviceData.Substring(91, 1));
                 Timeout = int.Parse(DeviceData.Substring(92, 1)) * 10;
                 OutcomingTest = int.Parse(DeviceData.Substring(93, 1)) * 10;
-                //for (int i = 0; i <= 7; i++)
-                //{
-                //    s = DeviceData.Substring(94 + i * 8, 8);
-
-                //    //EventsFilter[i] = BinStrToByte(s);
-                //    //StringFlagsEvents = StringFlagsEvents + s;
-                //}
                 for (int i = 0; i < 54; i++)
                 {
                     if (DeviceData[94 + i] == '1')
@@ -374,12 +367,6 @@ namespace DevicesModule.ViewModels
                 }
             }
             else
-                //for (int i = 0; i <= 7; i++)
-                //{
-                //    s = DeviceData.Substring(0 + i * 8, 8);
-                //    //EventsFilter[i] = BinStrToByte(s);
-                //    //StringFlagsEvents = StringFlagsEvents + s;
-                //}
                 for (int i = 0; i < 54; i++)
                 {
                     if (DeviceData[i] == '1')

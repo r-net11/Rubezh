@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI;
 using FiresecClient;
+using Infrastructure;
+using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 
 namespace DevicesModule.ViewModels
 {
-    class GuardConfigurationViewModel : DialogViewModel
+    class GuardConfigurationViewModel : SaveCancelDialogViewModel
     {
         void SaveConfiguration()
         {
@@ -81,16 +84,18 @@ namespace DevicesModule.ViewModels
         ObservableCollection<UserViewModel> availableUsers = new ObservableCollection<UserViewModel>();
         ObservableCollection<Zone> userZones = new ObservableCollection<Zone>();
         ObservableCollection<Zone> deviceZones = new ObservableCollection<Zone>();
+        FiresecAPI.OperationResult<string> result;
+        private Device SelectedDevice;
         public GuardConfigurationViewModel(Device selectedDevice, ObservableCollection<UserViewModel> DeviceUsers, ObservableCollection<UserViewModel> AvailableUsers, ObservableCollection<Zone> UserZones, ObservableCollection<Zone> DeviceZones)
         {
             Title = "Синхронизация охранных пользователей";
+            SaveCaption = "Применить";
             deviceUsers = DeviceUsers;
             availableUsers = AvailableUsers;
             userZones = UserZones;
             deviceZones = DeviceZones;
-            AcceptCommand = new RelayCommand(OnAccept);
-            CancelCommand = new RelayCommand(OnCancel);
-            var result = FiresecManager.DeviceGetGuardUsersList(selectedDevice.UID);
+            SelectedDevice = selectedDevice;
+            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Чтение охранной конфигурации");
             if (result.Result == null)
                 return;
             string res = result.Result; //3,104,8,20,12,6,64,64
@@ -124,18 +129,22 @@ namespace DevicesModule.ViewModels
             if (Users.Count > 0)
                 SelectedUser = Users.FirstOrDefault();
         }
-
-        public RelayCommand AcceptCommand { get; private set; }
-        void OnAccept()
+        void OnPropgress()
+        {
+            result = FiresecManager.DeviceGetGuardUsersList(SelectedDevice.UID);
+        }
+        void OnCompleted()
+        {
+            if (result.HasError)
+            {
+                MessageBoxService.ShowError(result.Error, "Ошибка при выполнении операции");
+                return;
+            }
+        }
+        protected override bool Save()
         {
             SaveConfiguration();
-            this.Close();
-        }
-
-        public RelayCommand CancelCommand { get; private set; }
-        void OnCancel()
-        {
-            this.Close();
+            return base.Save();
         }
     }
 }
