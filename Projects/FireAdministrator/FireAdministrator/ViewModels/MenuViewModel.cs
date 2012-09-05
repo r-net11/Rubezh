@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows.Controls;
 
 namespace FireAdministrator.ViewModels
 {

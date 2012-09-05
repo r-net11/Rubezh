@@ -118,6 +118,7 @@
     <Compile Include="Converters\StateTypeToIconConverter.cs" />
     <Compile Include="Converters\StateTypeToIntConverter.cs" />
     <Compile Include="Menu\ViewModels\MenuButtonViewModel.cs" />
+    <Compile Include="Menu\ViewModels\MenuSeparatorViewModel.cs" />
     <Compile Include="Menu\ViewModels\MenuViewModel.cs" />
     <Compile Include="Menu\Views\MenuButtonView.xaml.cs">
       <DependentUpon>MenuButtonView.xaml</DependentUpon>
@@ -215,6 +216,10 @@
     <Page Include="Themes\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\SeparatorStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\ToolBarRadioButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>

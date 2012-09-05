@@ -29,8 +29,6 @@ namespace PlansModule.ViewModels
 			RemoveCommand = new RelayCommand(OnRemove, CanAddEditRemove);
 			EditCommand = new RelayCommand(OnEdit, CanAddEditRemove);
 			AddSubPlanCommand = new RelayCommand(OnAddSubPlan, CanAddEditRemove);
-			//Menu = new PlansMenuViewModel(this);
-			Menu = new PlansMenuTestViewModel(this);
 
 			DesignerCanvas = new DesignerCanvas();
 			DesignerCanvas.Toolbox = new ToolboxViewModel(this);
@@ -43,6 +41,7 @@ namespace PlansModule.ViewModels
 			PlansTreeViewModel = new PlansTreeViewModel(this);
 			CreatePages();
 			_planExtensions = new List<Infrustructure.Plans.IPlanExtension<Plan>>();
+			Menu = new PlansMenuViewModel(this);
 		}
 
 		public void Initialize()
@@ -116,7 +115,7 @@ namespace PlansModule.ViewModels
 					return;
 				_selectedPlan = value;
 				OnPropertyChanged("SelectedPlan");
-
+				DesignerCanvas.Toolbox.IsEnabled = SelectedPlan != null;
 				PlanDesignerViewModel.Save();
 				PlanDesignerViewModel.Initialize(value == null ? null : value.Plan);
 				if (value != null)

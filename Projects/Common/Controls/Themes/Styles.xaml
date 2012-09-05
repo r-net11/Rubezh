@@ -29,6 +29,7 @@
         <ResourceDictionary Source="ProgressBarStyle.xaml" />
         <ResourceDictionary Source="ContextMenuStyle.xaml" />
         <ResourceDictionary Source="ResizeThumbStyle.xaml" />
+		<ResourceDictionary Source="SeparatorStyle.xaml" />
 
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
 	</ResourceDictionary.MergedDictionaries>

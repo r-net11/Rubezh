@@ -47,6 +47,17 @@ namespace PlansModule.ViewModels
 			}
 		}
 
+		private bool _isEnabled;
+		public bool IsEnabled
+		{
+			get { return _isEnabled; }
+			set
+			{
+				_isEnabled = value;
+				OnPropertyChanged("IsEnabled");
+			}
+		}
+
 		public void Apply(Point? point)
 		{
 			PlansViewModel.DesignerCanvas.DeselectAll();

@@ -1,35 +1,13 @@
-﻿<UserControl x:Class="PlansModule.Views.ToolboxView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:TemplateSelector="clr-namespace:Controls.TemplateSelectors;assembly=Controls"
-			 xmlns:i="clr-namespace:Infrustructure.Plans.Designer;assembly=Infrustructure.Plans">
-	
+﻿<UserControl x:Class="PlansModule.Views.ToolboxView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:TemplateSelector="clr-namespace:Controls.TemplateSelectors;assembly=Controls" xmlns:i="clr-namespace:Infrustructure.Plans.Designer;assembly=Infrustructure.Plans" IsEnabled="{Binding IsEnabled}">
+
 	<UserControl.Resources>
 		<TemplateSelector:InterfaceTemplateSelector x:Key="ToolboxItemTemplateSelector" Type="{x:Type i:IInstrument}" />
 	</UserControl.Resources>
 
 	<StackPanel Orientation="Horizontal">
-		<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
-			<StackPanel Orientation="Horizontal">
-				<Controls:ToolBarButton Name="copyButton" Command="{Binding PlansViewModel.CopyCommand}" ImageSource="/Controls;component/Images/Copy.png" ToolTip="Копировать" />
-				<Controls:ToolBarButton Name="cutButton" Command="{Binding PlansViewModel.CutCommand}" ImageSource="/Controls;component/Images/Cut.png" ToolTip="Вырезать" />
-				<Controls:ToolBarButton Name="pasteButton" Command="{Binding PlansViewModel.PasteCommand}" ImageSource="/Controls;component/Images/Paste.png" ToolTip="Вставить" />
-				<Controls:ToolBarButton Name="undoButton" Command="{Binding PlansViewModel.UndoCommand}" ImageSource="/Controls;component/Images/Undo.png" ToolTip="Отменить" />
-				<Controls:ToolBarButton Name="redoButton" Command="{Binding PlansViewModel.RedoCommand}" ImageSource="/Controls;component/Images/Redo.png" ToolTip="Применить" />
-			</StackPanel>
-		</Border>
+		<ListBox ItemContainerStyle="{StaticResource ToolBoxItem}" ItemsSource="{Binding Instruments}" SelectedItem="{Binding ActiveInstrument}" Style="{StaticResource ToolBox}" ItemTemplateSelector="{StaticResource ToolboxItemTemplateSelector}" />
 
-		<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
-			<StackPanel Orientation="Horizontal">
-				<Controls:ToolBarButton Command="{Binding PlansViewModel.PlanDesignerViewModel.MoveToFrontCommand}" ImageSource="/Controls;component/Images/MoveForward.png" ToolTip="Вверх" />
-				<Controls:ToolBarButton Command="{Binding PlansViewModel.PlanDesignerViewModel.SendToBackCommand}" ImageSource="/Controls;component/Images/MoveBackward.png" ToolTip="Вниз" />
-				<Controls:ToolBarButton Command="{Binding PlansViewModel.PlanDesignerViewModel.MoveForwardCommand}" ImageSource="/Controls;component/Images/MoveFront.png" ToolTip="Выше" />
-				<Controls:ToolBarButton Command="{Binding PlansViewModel.PlanDesignerViewModel.MoveBackwardCommand}" ImageSource="/Controls;component/Images/MoveBack.png" ToolTip="Ниже" />
-			</StackPanel>
-		</Border>
-
-		<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
-			<ListBox ItemContainerStyle="{StaticResource ToolBoxItem}" ItemsSource="{Binding Instruments}" SelectedItem="{Binding ActiveInstrument}" Style="{StaticResource ToolBox}" ItemTemplateSelector="{StaticResource ToolboxItemTemplateSelector}" />
-		</Border>
-
-		<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Visibility="Collapsed">
+		<!--<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5" Visibility="Collapsed">
 			<StackPanel Orientation="Horizontal">
 				<StackPanel Orientation="Horizontal">
 					<Image Height="24" Source="/Controls;component/Images/shapes-align-hori-center.png" />
@@ -44,6 +22,6 @@
 					<Image Height="24" Source="/Controls;component/Images/shapes-rotate-clockwise.png" />
 				</StackPanel>
 			</StackPanel>
-		</Border>
+		</Border>-->
 	</StackPanel>
 </UserControl>

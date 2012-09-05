@@ -21,10 +21,6 @@
 		<Views:PlanDesignerView />
 	</DataTemplate>
 
-	<DataTemplate DataType="{x:Type ViewModels:PlansMenuViewModel}">
-		<Views:PlansMenuView />
-	</DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:ElementsViewModel}">
 		<Views:ElementsView />
 	</DataTemplate>
