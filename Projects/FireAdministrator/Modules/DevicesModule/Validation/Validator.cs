@@ -229,11 +229,10 @@ namespace DevicesModule.Validation
 			{
 				if ((device.IntAddress & 0xff) > 250)
 					_errors.Add(new DeviceValidationError(device, "Не рекомендуется использовать адрес охранного устройства больше 250", ValidationErrorLevel.CannotWrite));
-				if ((device.Parent.Driver.DriverType != DriverType.AM4_P) && (device.Parent.Driver.DriverType != DriverType.AMP_4))
-				{
-					if (device.Parent.Driver.Properties.Any(x => x.Name == "DeviceCountSecDev") == false)
-						_errors.Add(new DeviceValidationError(device, "Устройство подключено к недопустимому устройству", ValidationErrorLevel.CannotWrite));
-				}
+				if (device.Parent.Driver.IsChildAddressReservedRange)
+					return;
+				if (device.Parent.Driver.Properties.Any(x => x.Name == "DeviceCountSecDev") == false)
+					_errors.Add(new DeviceValidationError(device, "Устройство подключено к недопустимому устройству", ValidationErrorLevel.CannotWrite));
 			}
 		}
 

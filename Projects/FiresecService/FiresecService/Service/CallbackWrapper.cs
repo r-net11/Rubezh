@@ -93,13 +93,13 @@ namespace FiresecService.Service
 					MainViewModel.Current.EndAddOperation(FiresecService.UID, OperationDirection.ServerToClient);
 					return;
 				}
-				catch (System.ServiceModel.CommunicationObjectFaultedException)
+				catch (System.ServiceModel.CommunicationObjectFaultedException e)
 				{
-					Logger.Error("Исключение CommunicationObjectFaultedException при вызове CallbackWrapper.SafeCall." + actionName);
+					Logger.Error(e, "Исключение CommunicationObjectFaultedException при вызове CallbackWrapper.SafeCall." + actionName);
 				}
-				catch (System.ServiceModel.CommunicationException)
+				catch (System.ServiceModel.CommunicationException e)
 				{
-					Logger.Error("Исключение CommunicationException при вызове CallbackWrapper.SafeCall." + actionName);
+					Logger.Error(e, "Исключение CommunicationException при вызове CallbackWrapper.SafeCall." + actionName);
 				}
 				catch (Exception e)
 				{

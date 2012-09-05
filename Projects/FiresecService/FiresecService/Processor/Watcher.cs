@@ -7,6 +7,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Database;
 using FiresecService.Service;
+using FiresecService.ViewModels;
 
 namespace FiresecService.Processor
 {
@@ -75,6 +76,11 @@ namespace FiresecService.Processor
 			if (DoNotCallback)
 				return;
 
+			foreach (var journalRecord in journalRecords)
+			{
+				UILogger.Log("Журнал " + journalRecord.Description);
+			}
+
 			foreach (var firesecService in FiresecServices)
 			{
 				if (firesecService != null && firesecService.CallbackWrapper != null)
@@ -86,13 +92,17 @@ namespace FiresecService.Processor
 
 		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
-			foreach (var firesecService in FiresecServices)
+			try
 			{
-				if (firesecService != null && firesecService.CallbackWrapper != null)
+				foreach (var firesecService in FiresecServices)
 				{
-					firesecService.CallbackWrapper.Progress(stage, comment, percentComplete, bytesRW);
+					if (firesecService != null && firesecService.CallbackWrapper != null)
+					{
+						firesecService.CallbackWrapper.Progress(stage, comment, percentComplete, bytesRW);
+					}
 				}
 			}
+			catch (InvalidOperationException) { ;}
 		}
 		#endregion
 

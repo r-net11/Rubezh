@@ -13,6 +13,7 @@ using Common.GK;
 using System.IO;
 using System.Windows.Markup;
 using Infrastructure.Services;
+using Common;
 
 namespace FireAdministrator
 {
@@ -20,6 +21,8 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
+			Logger.Info("DEBUG: Start");
+
 			AppSettingsHelper.InitializeAppSettings();
 			LoadStyles();
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());

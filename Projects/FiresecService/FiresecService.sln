@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecService.SKUD", "Fire
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\Common\Infrustructure.Plans\Infrustructure.Plans.csproj", "{DA2A8431-7328-4AE8-926F-E191700577A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsTest", "EventsTest\EventsTest.csproj", "{601CFCF1-F995-4F68-82FC-1BB38F593840}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -154,6 +156,18 @@ Global
 		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|x64.ActiveCfg = Release|Any CPU
 		{DA2A8431-7328-4AE8-926F-E191700577A1}.Release|x86.ActiveCfg = Release|Any CPU
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Debug|x64.ActiveCfg = Debug|x86
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Debug|x86.ActiveCfg = Debug|x86
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Debug|x86.Build.0 = Debug|x86
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Release|Any CPU.ActiveCfg = Release|x86
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Release|Mixed Platforms.Build.0 = Release|x86
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Release|x64.ActiveCfg = Release|x86
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Release|x86.ActiveCfg = Release|x86
+		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
