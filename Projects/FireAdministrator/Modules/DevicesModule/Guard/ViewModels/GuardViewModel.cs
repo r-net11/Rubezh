@@ -8,15 +8,16 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using Infrastructure.Common.Windows.ViewModels;
 using System.Windows;
+using Infrastructure.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class GuardViewModel : ViewPartViewModel
+    public class GuardViewModel : MenuViewPartViewModel
     {
         public GuardViewModel()
         {
+            Menu = new GuardMenuViewModel(this);
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             AddCommand = new RelayCommand(OnAdd);
@@ -525,7 +526,7 @@ namespace DevicesModule.ViewModels
         public override void OnShow()
         {
             FiresecManager.FiresecConfiguration.DeviceConfiguration.UpdateGuardConfiguration();
-            ServiceFactory.Layout.ShowHeader(new GuardMenuViewModel(this));
+            base.OnShow();
             InitializeDevices();
             if (GuardMenuView.Current != null)
                 GuardMenuView.Current.AcceptKeyboard = true;
@@ -533,8 +534,7 @@ namespace DevicesModule.ViewModels
 
         public override void OnHide()
         {
-            ServiceFactory.Layout.ShowHeader(null);
-
+            base.OnHide();
             if (GuardMenuView.Current != null)
                 GuardMenuView.Current.AcceptKeyboard = false;
         }
