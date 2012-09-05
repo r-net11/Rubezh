@@ -97,9 +97,9 @@ namespace DevicesModule.Reports
 			get { return "Reports/DeviceParamsReport.xaml"; }
 		}
 
-		public ReportType ReportType
+		public string Title
 		{
-			get { return ReportType.ReportDeviceParams; }
+			get { return "Параметры устройств"; }
 		}
 
 		public bool IsEnabled

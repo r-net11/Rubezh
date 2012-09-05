@@ -12,7 +12,6 @@
 	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
 	<Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
 	<Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
-	<Converters:ReportTypeToStringConverter x:Key="ReportTypeToStringConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 	<Converters:NullToBoolConverter x:Key="NullToBoolConverter" />
 </ResourceDictionary>

@@ -73,9 +73,9 @@ namespace DevicesModule.Reports
 			get { return "Reports/IndicationBlockReport.xaml"; }
 		}
 
-		public ReportType ReportType
+		public string Title
 		{
-			get { return ReportType.ReportIndicationBlock; }
+			get { return "Блоки индикации"; }
 		}
 
 		public bool IsEnabled

@@ -29,7 +29,7 @@ namespace ReportsModule.ViewModels
 
 		public string Title
 		{
-			get { return _reportProvider.ReportType.ToDescription(); }
+			get { return _reportProvider.Title; }
 		}
 		public bool IsFilterable
 		{

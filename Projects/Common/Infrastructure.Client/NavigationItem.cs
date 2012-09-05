@@ -27,23 +27,31 @@ namespace Infrastructure.Client
 		{
 			ViewPartViewModel = viewPartViewModel;
 			Arg = arg;
-			ServiceFactoryBase.Events.GetEvent<T>().Subscribe(x => { IsSelected = true; });
+			Subscribe();
 			IsSelectionAllowed = true;
 		}
 		public override void Execute()
 		{
-			if (ViewPartViewModel != null)
-			{
-				var selectable = ViewPartViewModel as ISelectable<W>;
-				if (selectable != null)
-					selectable.Select(Arg);
-				ApplicationService.Layout.Show(ViewPartViewModel);
-			}
 			ServiceFactoryBase.Events.GetEvent<T>().Publish(Arg);
 		}
 		public void Execute(W arg)
 		{
 			ServiceFactoryBase.Events.GetEvent<T>().Publish(arg);
+		}
+
+		private void Subscribe()
+		{
+			ServiceFactoryBase.Events.GetEvent<T>().Subscribe(arg => 
+			{ 
+				IsSelected = true;
+				if (ViewPartViewModel != null)
+				{
+					var selectable = ViewPartViewModel as ISelectable<W>;
+					if (selectable != null)
+						selectable.Select(arg);
+					ApplicationService.Layout.Show(ViewPartViewModel);
+				}
+			});
 		}
 	}
 }

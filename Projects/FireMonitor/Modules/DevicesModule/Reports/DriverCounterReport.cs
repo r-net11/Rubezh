@@ -69,9 +69,9 @@ namespace DevicesModule.Reports
 			get { return "Reports/DriverCounterReport.xaml"; }
 		}
 
-		public ReportType ReportType
+		public string Title
 		{
-			get { return ReportType.ReportDriverCounter; }
+			get { return "Количество устройств по типам"; }
 		}
 
 		public bool IsEnabled

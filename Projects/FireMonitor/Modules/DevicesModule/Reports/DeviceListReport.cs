@@ -80,9 +80,9 @@ namespace DevicesModule.Reports
 			get { return "Reports/DeviceListReport.xaml"; }
 		}
 
-		public ReportType ReportType
+		public string Title
 		{
-			get { return ReportType.ReportDevicesList; }
+			get { return "Список устройств"; }
 		}
 
 		public bool IsEnabled

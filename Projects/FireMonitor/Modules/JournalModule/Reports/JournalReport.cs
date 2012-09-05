@@ -62,9 +62,9 @@ namespace JournalModule.Reports
 			get { return "Reports/JournalReport.xaml"; }
 		}
 
-		public ReportType ReportType
+		public string Title
 		{
-			get { return ReportType.ReportJournal; }
+			get { return "Журнал событий"; }
 		}
 
 		public bool IsEnabled

@@ -189,7 +189,6 @@
     <Compile Include="Models\Plans\ElementTextBlock.cs" />
     <Compile Include="Models\Plans\ElementEllipse.cs" />
     <Compile Include="Models\Plans\ElementRectangle.cs" />
-    <Compile Include="Models\Reports\ReportType.cs" />
     <Compile Include="Models\Security\PermissionType.cs" />
     <Compile Include="Models\Security\RemoteAccessType.cs" />
     <Compile Include="Models\Security\UserRole.cs" />

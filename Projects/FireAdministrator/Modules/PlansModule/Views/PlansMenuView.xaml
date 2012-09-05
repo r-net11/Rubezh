@@ -1,12 +1,9 @@
-﻿<UserControl x:Class="PlansModule.Views.PlansMenuView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+﻿<UserControl x:Class="PlansModule.Views.PlansMenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-    <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-        <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-        <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/Edit.png" />
-        <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Delete.png" />
-        <Controls:ToolBarButton Command="{Binding AddSubPlanCommand}" ToolTip="Добавить дочерний план" ImageSource="/Controls;component/Images/AddChild.png" />
-    </StackPanel>
+	<StackPanel DataContext="{Binding Context}" Orientation="Horizontal">
+		<Controls:ToolBarButton Command="{Binding AddCommand}" ImageSource="/Controls;component/Images/Add.png" ToolTip="Добавить" />
+		<Controls:ToolBarButton Command="{Binding EditCommand}" ImageSource="/Controls;component/Images/Edit.png" ToolTip="Редактировать" />
+		<Controls:ToolBarButton Command="{Binding RemoveCommand}" ImageSource="/Controls;component/Images/Delete.png" ToolTip="Удалить" />
+		<!--  <Controls:ToolBarButton Command="{Binding AddSubPlanCommand}" ToolTip="Добавить дочерний план" ImageSource="/Controls;component/Images/AddChild.png" />  -->
+	</StackPanel>
 </UserControl>

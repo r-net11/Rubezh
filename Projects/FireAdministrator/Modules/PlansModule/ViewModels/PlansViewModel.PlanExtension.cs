@@ -18,21 +18,24 @@ namespace PlansModule.ViewModels
 
 		public void RegisterExtension(IPlanExtension<Plan> planExtension)
 		{
-			_planExtensions.Add(planExtension);
-			planExtension.ExtensionRegistered(DesignerCanvas);
-			ElementsViewModel.Update();
-			if (planExtension.TabPage != null)
+			if (!_planExtensions.Contains(planExtension))
 			{
-				TabPages.Insert(planExtension.Index + 1, new TabItem()
+				_planExtensions.Add(planExtension);
+				planExtension.ExtensionRegistered(DesignerCanvas);
+				ElementsViewModel.Update();
+				if (planExtension.TabPage != null)
 				{
-					Header = planExtension.Title,
-					Content = planExtension.TabPage
-				});
-				OnPropertyChanged("TabPages");
+					TabPages.Insert(planExtension.Index + 1, new TabItem()
+					{
+						Header = planExtension.Title,
+						Content = planExtension.TabPage
+					});
+					OnPropertyChanged("TabPages");
+				}
+				if (planExtension.Instruments != null)
+					foreach (IInstrument instrument in planExtension.Instruments)
+						DesignerCanvas.Toolbox.Instruments.Add(instrument);
 			}
-			if (planExtension.Instruments != null)
-				foreach (IInstrument instrument in planExtension.Instruments)
-					DesignerCanvas.Toolbox.Instruments.Add(instrument);
 		}
 		public void ElementAdded(ElementBase element)
 		{
