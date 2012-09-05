@@ -14,10 +14,12 @@ namespace DevicesModule.ViewModels
         void SaveConfiguration()
         {
             deviceUsers.Clear();
+            availableUsers.Clear();
+            userZones.Clear();
+            FiresecManager.GuardUsers.Clear();
             foreach (var user in Users)
             {
-                availableUsers.Clear();
-                userZones.Clear();
+                FiresecManager.GuardUsers.Add(user.GuardUser);
                 List<int> zones = new List<int>();
                 foreach (int localNo in user.GuardUser.Zones)
                 {
@@ -99,7 +101,7 @@ namespace DevicesModule.ViewModels
                 User user = new User();
                 var userViewModel = new UserViewModel(new GuardUser());
                 var guardUser = userViewModel.GuardUser;
-                guardUser.Id = i;
+                guardUser.Id = i + 1;
                 guardUser.Name = res.Substring(174*i + 115, 20);
                 guardUser.Password = res.Substring(174*i + 147, 6);
                 guardUser.Password = guardUser.Password.Remove(guardUser.Password.IndexOf('F'));
@@ -119,7 +121,8 @@ namespace DevicesModule.ViewModels
                 }
                 Users.Add(userViewModel);
             }
-            SelectedUser = Users.FirstOrDefault();
+            if (Users.Count > 0)
+                SelectedUser = Users.FirstOrDefault();
         }
 
         public RelayCommand AcceptCommand { get; private set; }

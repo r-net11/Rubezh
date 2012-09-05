@@ -82,7 +82,7 @@ namespace DevicesModule.ViewModels
 				user1.Attr[0] = guardUser.CanUnSetZone;
 				user1.Attr[1] = guardUser.CanSetZone;
 				user1.Name = guardUser.Name.ToCharArray();
-				user1.Pass = guardUser.Password.ToCharArray();
+				user1.Pass = guardUser.Password!=null?guardUser.Password.ToCharArray():"".ToCharArray();
 
 				foreach (var userZone in guardUser.Zones)
 				{
