@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecClient;
+using FiresecAPI.Models;
 
 namespace DevicesModule.Reports
 {
@@ -10,35 +11,21 @@ namespace DevicesModule.Reports
 	{
 		private ElementPage() { }
 
-		public ElementPage(int number, List<int> zonesNo, string presentationName)
+		public ElementPage(int number, Device device)
 		{
 			No = number;
-			ZonesNo = zonesNo;
-			PresentationName = presentationName;
+			_device = device;
 		}
 
+		Device _device;
 		public int No { get; set; }
-		public List<int> ZonesNo { get; set; }
 
-		string _presentationName;
 		public string PresentationName
 		{
 			get
 			{
-				if (ZonesNo.Count == 1)
-				{
-					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == ZonesNo[0]);
-					string presentationName = "";
-					if (zone != null)
-						presentationName = zone.PresentationName;
-					return ("Зоны: " + presentationName);
-				}
-				else
-				{
-					return _presentationName;
-				}
+				return FiresecManager.FiresecConfiguration.GetIndicatorString(_device);
 			}
-			set { _presentationName = value; }
 		}
 	}
 }

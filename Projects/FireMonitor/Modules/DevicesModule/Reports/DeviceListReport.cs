@@ -36,34 +36,7 @@ namespace DevicesModule.Reports
 					zonePresentationName = "";
 					type = device.Driver.ShortName;
 					address = device.DottedAddress;
-					if (device.Driver.IsZoneDevice)
-					{
-						if (FiresecManager.Zones.IsNotNullOrEmpty())
-						{
-							var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
-							if (zone != null)
-								zonePresentationName = zone.PresentationName;
-						}
-					}
-
-					if (device.Driver.DriverType == DriverType.Indicator)
-					{
-						if (device.IndicatorLogic.Zones.Count == 1)
-						{
-							var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.IndicatorLogic.Zones[0]);
-							zonePresentationName = "Зоны: " + zone == null ? zone.PresentationName : "";
-						}
-						else
-						{
-							zonePresentationName = device.IndicatorLogic.ToString();
-						}
-					}
-
-					if (device.Driver.DriverType == DriverType.Page)
-						address = device.IntAddress.ToString();
-					if (device.Driver.DriverType == DriverType.PumpStation)
-					{
-					}
+					zonePresentationName = FiresecManager.FiresecConfiguration.GetPresentationZone(device);
 					table.Rows.Add(type, address, zonePresentationName);
 				}
 			}

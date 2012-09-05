@@ -321,6 +321,10 @@ namespace FiresecService.Configuration
 					{
 						innerState.code += "_" + Guid.NewGuid().ToString();
 					}
+					if (innerState.name == null)
+						continue;
+					if (innerState.code == null)
+						continue;
 					driver.States.Add(new DriverState()
 					{
 						Id = innerState.id,
@@ -330,7 +334,8 @@ namespace FiresecService.Configuration
 						StateType = (StateType)int.Parse(innerState.@class),
 						IsManualReset = innerState.manualReset == "1" ? true : false,
 						CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false,
-						IsAutomatic = innerState.type == "Auto" ? true : false,
+						//IsAutomatic = innerState.type == "Auto" ? true : false,
+						IsAutomatic = (innerState.code.Contains("AutoOff") || innerState.code.Contains("Auto_Off")),
 						Code = innerState.code
 					});
 				}

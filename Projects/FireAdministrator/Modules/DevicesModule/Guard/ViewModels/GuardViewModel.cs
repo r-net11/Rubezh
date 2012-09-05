@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using DevicesModule.Views;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -82,7 +83,7 @@ namespace DevicesModule.ViewModels
 				user1.Attr[0] = guardUser.CanUnSetZone;
 				user1.Attr[1] = guardUser.CanSetZone;
 				user1.Name = guardUser.Name.ToCharArray();
-				user1.Pass = guardUser.Password.ToCharArray();
+				user1.Pass = guardUser.Password!=null?guardUser.Password.ToCharArray():"".ToCharArray();
 
 				foreach (var userZone in guardUser.Zones)
 				{
@@ -158,13 +159,27 @@ namespace DevicesModule.ViewModels
             {
 				if (DeviceUsers.Count == 0)
 				{
-					var result = MessageBox.Show("Вы действительно хотите стереть всех охранных пользователей из устройства?", "Не выбрано ни одного пользователя", MessageBoxButton.YesNo);
+                    var result = MessageBoxService.ShowConfirmation("Вы действительно хотите стереть всех охранных пользователей из устройства?", "Не выбрано ни одного пользователя");
 					if (result == MessageBoxResult.No)
 						return;
 				}
-                var userlist = CodeDateToTranslate();
-                FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, userlist);
+                ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Запись охранной конфигурации");
             }
+        }
+        OperationResult<bool> _operationResult;
+        void OnPropgress()
+        {
+            var userlist = CodeDateToTranslate();
+            _operationResult = FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, userlist);
+        }
+        void OnCompleted()
+        {
+            if (_operationResult.HasError)
+            {
+                MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
+                return;
+            }
+            MessageBoxService.Show("Операция завершилась успешно", "Firesec");
         }
 
         public static string Userlist { get; set; }

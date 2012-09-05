@@ -14,15 +14,11 @@ namespace DevicesModule.Reports
 			ElementsPage = new List<ElementPage>();
 			foreach (var elementPage in device.Children)
 			{
-				ElementsPage.Add(new ElementPage(
-					elementPage.IntAddress,
-					elementPage.IndicatorLogic.Zones,
-					elementPage.IndicatorLogic.ToString()));
+				ElementsPage.Add(new ElementPage(elementPage.IntAddress, elementPage));
 			}
 		}
 
 		public int PageNumber { get; set; }
 		public List<ElementPage> ElementsPage { get; set; }
 	}
-
 }

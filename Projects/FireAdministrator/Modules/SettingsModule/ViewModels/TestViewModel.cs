@@ -114,14 +114,18 @@ namespace SettingsModule.ViewModels
 			{
 				foreach (var state in driver.States)
 				{
-					if (state.IsAutomatic && state.Name.Contains("AutoOff"))
+					if (state.IsAutomatic)
 					{
-						stringBuilder.AppendLine("Automatic AutoOff - " + driver.Name + " - " + state.Name);
+						stringBuilder.AppendLine("Automatic " + driver.Name + " - " + state.Name);
 					}
-					if (state.IsAutomatic && state.Name.Contains("Auto_Off"))
-					{
-						stringBuilder.AppendLine("Automatic Auto_Off - " + driver.Name + " - " + state.Name);
-					}
+					//if (state.IsAutomatic && state.Name.Contains("AutoOff"))
+					//{
+					//    stringBuilder.AppendLine("Automatic AutoOff - " + driver.Name + " - " + state.Name);
+					//}
+					//if (state.IsAutomatic && state.Name.Contains("Auto_Off"))
+					//{
+					//    stringBuilder.AppendLine("Automatic Auto_Off - " + driver.Name + " - " + state.Name);
+					//}
 				}
 			}
 

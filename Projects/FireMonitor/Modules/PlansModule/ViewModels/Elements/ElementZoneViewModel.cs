@@ -49,11 +49,38 @@ namespace PlansModule.ViewModels
 		void ZoneState_StateChanged()
 		{
 			OnPropertyChanged("ZoneState");
+			OnPropertyChanged("Tooltip");
 		}
 
 		public string PresentationName
 		{
 			get { return "Зона " + Zone.No + "." + Zone.Name; }
+		}
+
+		public string Tooltip
+		{
+			get
+			{
+				var toolTip = Zone.PresentationName;
+				toolTip += "\n" + "Состояние: " + EnumsConverter.StateTypeToClassName(ZoneState.StateType);
+				if (Zone.ZoneType == ZoneType.Fire)
+				{
+					toolTip += "\n" + "Количество датчиков для сработки: " + Zone.DetectorCount.ToString();
+				}
+				if (Zone.ZoneType == ZoneType.Guard)
+				{
+					if (FiresecManager.IsZoneOnGuardAlarm(ZoneState))
+						toolTip += "\n" + "Охранная тревога";
+					else
+					{
+						if (FiresecManager.IsZoneOnGuard(ZoneState))
+							toolTip += "\n" + "На охране";
+						else
+							toolTip += "\n" + "Не на охране";
+					}
+				}
+				return toolTip;
+			}
 		}
 
 		bool _isSelected;

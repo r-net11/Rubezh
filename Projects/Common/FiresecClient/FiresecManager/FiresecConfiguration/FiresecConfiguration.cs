@@ -13,12 +13,23 @@ namespace FiresecClient
 
 		public void UpdateConfiguration()
 		{
+			if (DeviceConfiguration == null)
+			{
+				Logger.Error("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
+				return;
+			}
+
 			DeviceConfiguration.Update();
 			ReorderConfiguration();
 
 			foreach (var device in DeviceConfiguration.Devices)
 			{
 				device.Driver = Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				if (device.Driver == null)
+				{
+					Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null");
+					continue;
+				}
 				if (device.Driver.IsIndicatorDevice || device.IndicatorLogic != null)
 					device.IndicatorLogic.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
 

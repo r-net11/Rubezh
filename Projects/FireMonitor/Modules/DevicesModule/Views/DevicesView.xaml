@@ -24,7 +24,8 @@
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                     <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200">
+                                    <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200"
+                                               ToolTip="{Binding ToolTip}">
                                         <TextBlock.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
@@ -35,36 +36,6 @@
                                                 <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                             </ContextMenu>
                                         </TextBlock.ContextMenu>
-                                        <TextBlock.ToolTip>
-                                            <StackPanel>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="{Binding Device.DottedAddress}" />
-                                                    <TextBlock Text=" - " />
-                                                    <TextBlock Text="{Binding Device.Driver.ShortName}" />
-                                                </StackPanel>
-                                                <ItemsControl ItemsSource="{Binding States}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <TextBlock Text="{Binding DriverState.Name}" VerticalAlignment="Center" />
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                                <ItemsControl ItemsSource="{Binding DeviceState.ParentStringStates}" Margin="0, 5, 0, 0">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <TextBlock Text="{Binding .}" />
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                                <ItemsControl ItemsSource="{Binding Parameters}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <TextBlock Text="{Binding .}" />
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </StackPanel>
-                                        </TextBlock.ToolTip>
                                     </TextBlock>
                                 </StackPanel>
                             </DataTemplate>

@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
+using System.Text;
 
 namespace DevicesModule.ViewModels
 {
@@ -91,6 +92,7 @@ namespace DevicesModule.ViewModels
 			}
 
 			OnPropertyChanged("StateType");
+			OnPropertyChanged("ToolTip");
 			OnPropertyChanged("DeviceState");
 			OnPropertyChanged("DeviceState.States");
 			OnPropertyChanged("DeviceState.StringStates");
@@ -105,6 +107,49 @@ namespace DevicesModule.ViewModels
 		public List<StateViewModel> ParentStates { get; private set; }
 		public StateType ChildState { get; private set; }
 		public bool HasChildStates { get; private set; }
+
+		public string ToolTip
+		{
+			get
+			{
+				var stringBuilder = new StringBuilder();
+				stringBuilder.Append(Device.PresentationAddress);
+				stringBuilder.Append(" - ");
+				stringBuilder.Append(Device.Driver.ShortName);
+				stringBuilder.Append("\n");
+
+				if (DeviceState.ParentStringStates != null)
+				{
+					foreach (var parentState in DeviceState.ParentStringStates)
+					{
+						stringBuilder.AppendLine(parentState);
+					}
+				}
+
+				foreach (var state in DeviceState.States)
+				{
+					stringBuilder.AppendLine(state.DriverState.Name);
+				}
+
+				if (DeviceState.Parameters != null)
+				{
+					var nullString = "<NULL>";
+					foreach (var parameter in DeviceState.Parameters)
+					{
+						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == nullString)
+							continue;
+						if ((parameter.Name == "Config$SerialNum") || (parameter.Name == "Config$SoftVersion"))
+							continue;
+
+						stringBuilder.Append(parameter.Caption);
+						stringBuilder.Append(" - ");
+						stringBuilder.AppendLine(parameter.Value);
+					}
+				}
+
+				return stringBuilder.ToString();
+			}
+		}
 
 		void OnParametersChanged()
 		{
