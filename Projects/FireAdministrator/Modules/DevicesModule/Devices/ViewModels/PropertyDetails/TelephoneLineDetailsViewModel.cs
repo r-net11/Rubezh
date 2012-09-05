@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -293,9 +294,23 @@ namespace DevicesModule.ViewModels
 
 		public RelayCommand ReadCommand { get; private set; }
 		void OnRead()
-		{
-		    GetConfiguration();
-		}
+        {
+            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Получение данных с модуля доставки сообщений");
+        }
+        OperationResult<string> _operationResult;
+        void OnPropgress()
+        {
+            _operationResult = FiresecManager.DeviceGetMDS5Data(Device.UID);
+        }
+        void OnCompleted()
+        {
+            if (_operationResult.HasError)
+            {
+				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
+                return;
+            }
+            GetConfiguration(_operationResult.Result);
+        }
         
 		public RelayCommand ResetToDirectConnectionCommand { get; private set; }
 		void OnResetToDirectConnection()
@@ -313,16 +328,8 @@ namespace DevicesModule.ViewModels
 			return base.Save();
 		}
 
-        public void GetConfiguration()
+        public void GetConfiguration(string DeviceData)
         {
-            var _operationResult = FiresecManager.DeviceGetMDS5Data(Device.UID);
-
-            if (_operationResult.HasError)
-            {
-                MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
-                return;
-            }
-            var DeviceData = _operationResult.Result;
             // TESTMODE
             // var DeviceData = "0                    0                    0                    0                    00000212010100000000111001100000000000000000000000000000000000000000000000";
             string result = "";
