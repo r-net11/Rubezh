@@ -30,11 +30,11 @@ namespace FiresecService.Service
 		{
 			try
 			{
-				UILogger.Log("Остановка службы Socket Server");
+				UILogger.Log("Перезапуск Socket Server");
 				SocketServerHelper.Stop();
-				UILogger.Log("Соединение с ядром для мониторинга");
+				UILogger.Log("Загрузка драйвера для мониторинга");
 				MonitoringFiresecManager = new FiresecManager(true);
-				UILogger.Log("Соединение с ядром для администрирования");
+				UILogger.Log("Загрузка драйвера для администрирования");
 				AdministratorFiresecManager = new FiresecManager(false);
 			}
 			catch (Exception e)

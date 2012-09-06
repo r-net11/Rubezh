@@ -21,8 +21,8 @@ namespace DevicesModule.ViewModels
 					Id = 1
 				};
 
-				if (FiresecManager.FiresecConfiguration.DeviceConfiguration.GuardUsers.Count != 0)
-					GuardUser.Id = FiresecManager.FiresecConfiguration.DeviceConfiguration.GuardUsers.Select(x => x.Id).Max() + 1;
+				if (FiresecManager.GuardUsers.Count != 0)
+					GuardUser.Id = FiresecManager.GuardUsers.Select(x => x.Id).Max() + 1;
 			}
 			else
 			{

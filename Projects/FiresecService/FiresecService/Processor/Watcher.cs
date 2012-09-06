@@ -76,11 +76,6 @@ namespace FiresecService.Processor
 			if (DoNotCallback)
 				return;
 
-			foreach (var journalRecord in journalRecords)
-			{
-				UILogger.Log("Журнал " + journalRecord.Description);
-			}
-
 			foreach (var firesecService in FiresecServices)
 			{
 				if (firesecService != null && firesecService.CallbackWrapper != null)

@@ -255,7 +255,7 @@ namespace DevicesModule.ViewModels
 
 		public static void UpdateGuardVisibility()
 		{
-			var hasSecurityDevice = FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices.Any(x => x.Driver.DeviceType == DeviceType.Sequrity);
+			var hasSecurityDevice = FiresecManager.Devices.Any(x => x.Driver.DeviceType == DeviceType.Sequrity);
 			ServiceFactory.Events.GetEvent<GuardVisibilityChangedEvent>().Publish(hasSecurityDevice);
 		}
 	}

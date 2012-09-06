@@ -20,8 +20,6 @@ namespace FiresecService
 		{
 			try
 			{
-				Logger.Info("DEBUG: Start");
-
                 AppSettingsHelper.InitializeAppSettings();
 				var directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
 				Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
@@ -46,8 +44,11 @@ namespace FiresecService
                         FiresecOPCManager.Start();
                     }
                 }
-                UILogger.Log("Открытие хоста");
-                FiresecServiceManager.Open();
+				if (!AppSettings.IsOPCOnly)
+				{
+					UILogger.Log("Открытие хоста");
+					FiresecServiceManager.Open();
+				}
 				UILogger.Log("Готово");
 			}
 			catch (Exception e)

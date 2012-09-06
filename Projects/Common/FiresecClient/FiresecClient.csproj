@@ -122,6 +122,7 @@
     <Compile Include="FiresecCallbackService.cs" />
     <Compile Include="FiresecCallbackServiceManager.cs" />
     <Compile Include="FiresecEventSubscriber.cs" />
+    <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.Actions.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.Device.cs" />
     <Compile Include="FiresecManager\FiresecManager.Configuration.cs" />

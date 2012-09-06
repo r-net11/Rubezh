@@ -119,10 +119,6 @@ namespace DevicesModule.ViewModels
 
 		public static void AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
 		{
-			if (parentDeviceViewModel.Driver.DriverType == DriverType.MPT)
-			{
-				device.ZoneNo = parentDeviceViewModel.Device.ZoneNo;
-			}
 			var deviceViewModel = new DeviceViewModel(device, parentDeviceViewModel.Source)
 			{
 				Parent = parentDeviceViewModel
@@ -132,17 +128,6 @@ namespace DevicesModule.ViewModels
 			foreach (var childDevice in device.Children)
 			{
 				AddDevice(childDevice, deviceViewModel);
-			}
-
-			if (device.Driver.AutoChild != Guid.Empty)
-			{
-				var driver = FiresecManager.FiresecConfiguration.Drivers.FirstOrDefault(x => x.UID == device.Driver.AutoChild);
-
-				for (int i = 0; i < device.Driver.AutoChildCount; i++)
-				{
-					var autoDevice = FiresecManager.FiresecConfiguration.AddChild(device, driver, device.IntAddress + i);
-					AddDevice(autoDevice, deviceViewModel);
-				}
 			}
 		}
     }

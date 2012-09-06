@@ -76,18 +76,16 @@ namespace FiresecService.Service
 
 		bool CheckLogin(string login, string password)
 		{
-			Logger.Info("Проверка пользователя - " + login + " - " + password);
 			var user = ConfigurationCash.SecurityConfiguration.Users.FirstOrDefault(x => x.Login == login);
 			{
 				if (user == null)
 				{
-					Logger.Error("user = null");
+					Logger.Error("FiresecService.CheckLogin user = null");
 					return false;
 				}
 				if (!HashHelper.CheckPass(password, user.PasswordHash))
 				{
-					Logger.Error("password=" + password + " user.PasswordHash=" + user.PasswordHash);
-					Logger.Error("!HashHelper.CheckPass");
+					Logger.Error("FiresecService.CheckLogin HashHelper.CheckPass Password=" + password + " User.PasswordHash=" + user.PasswordHash);
 					return false;
 				}
 			}

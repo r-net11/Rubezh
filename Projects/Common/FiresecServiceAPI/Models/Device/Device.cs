@@ -300,5 +300,12 @@ namespace FiresecAPI.Models
 				return parentPart + @"\" + Parent.ConnectedTo;
 			}
 		}
+
+		public void OnChanged()
+		{
+			if (Changed != null)
+				Changed();
+		}
+		public Action Changed { get; set; }
 	}
 }

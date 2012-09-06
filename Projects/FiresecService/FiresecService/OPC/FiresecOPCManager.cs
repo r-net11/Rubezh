@@ -121,7 +121,7 @@ namespace FiresecService.OPC
 
 				var tagId = srv.CreateTag(
 					TagsCount,
-					"Zones/" + zone.Name,
+					"Zones/" + zone.PresentationName,
 					AccessRights.readable,
 					(double)0);
 

@@ -26,7 +26,7 @@
                 <Label Grid.Row="1" Grid.Column="0" Content="Наименование" HorizontalAlignment="Right" />
                 <Label Grid.Row="2" Grid.Column="0" Content="Примечание" HorizontalAlignment="Right" />
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" IsEnabled="False" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" />
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" TextWrapping="Wrap" />
             </Grid>
@@ -103,10 +103,10 @@
                         </CheckBox>
 
                         <Label Grid.Row="2" Grid.Column="0" Content="Входная/выходная задержка, сек" HorizontalAlignment="Right" />
-                        <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" IsEnabled="{Binding CanAutoSet}" Minimum="0" Increment="10" Margin="2" />
+                        <extToolkit:IntegerUpDown Grid.Row="2" Grid.Column="1" Value="{Binding Delay}" IsEnabled="{Binding CanDelay}" Minimum="0" Increment="10" Margin="2" />
 
                         <Label Grid.Row="3" Grid.Column="0" Content="Автоперевзятие, сек" HorizontalAlignment="Right" />
-                        <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding AutoSet}" Minimum="0" Margin="2" />
+                        <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding AutoSet}" IsEnabled="{Binding CanAutoSet}" Minimum="0" Margin="2" />
                     </Grid>
                 </StackPanel>
             </StackPanel>

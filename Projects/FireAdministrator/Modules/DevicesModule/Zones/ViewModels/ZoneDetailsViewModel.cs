@@ -121,33 +121,18 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		string _delay;
-		public string Delay
+		GuardZoneType _guardZoneType;
+		public GuardZoneType GuardZoneType
 		{
-			get { return _delay; }
+			get { return _guardZoneType; }
 			set
 			{
-				_delay = value;
-				OnPropertyChanged("Delay");
-			}
-		}
-
-		public bool CanAutoSet
-		{
-			get
-			{
-				return (GuardZoneType != GuardZoneType.Ordinary);
-			}
-		}
-
-		string _autoSet;
-		public string AutoSet
-		{
-			get { return _autoSet; }
-			set
-			{
-				_autoSet = value;
-				OnPropertyChanged("AutoSet");
+				_guardZoneType = value;
+				OnPropertyChanged("GuardZoneType");
+				OnPropertyChanged("CanDelay");
+				OnPropertyChanged("CanAutoSet");
+				if (value == GuardZoneType.CanNotReset)
+					Skipped = true;
 			}
 		}
 
@@ -162,37 +147,51 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+		string _delay;
+		public string Delay
+		{
+			get { return _delay; }
+			set
+			{
+				_delay = value;
+				OnPropertyChanged("Delay");
+			}
+		}
+
+		string _autoSet;
+		public string AutoSet
+		{
+			get { return _autoSet; }
+			set
+			{
+				_autoSet = value;
+				OnPropertyChanged("AutoSet");
+			}
+		}
+
+		public bool CanDelay
+		{
+			get { return (GuardZoneType == GuardZoneType.Delay); }
+		}
+
+		public bool CanAutoSet
+		{
+			get { return (GuardZoneType != GuardZoneType.CanNotReset); }
+		}
+
 		public List<GuardZoneType> AvailableGuardZoneTypes
 		{
 			get { return Enum.GetValues(typeof(GuardZoneType)).Cast<GuardZoneType>().ToList(); }
 		}
 
-		GuardZoneType _guardZoneType;
-		public GuardZoneType GuardZoneType
-		{
-			get { return _guardZoneType; }
-			set
-			{
-				_guardZoneType = value;
-				OnPropertyChanged("GuardZoneType");
-				OnPropertyChanged("CanAutoSet");
-			}
-		}
-
 		public bool IsFireZone
 		{
-			get
-			{
-				return ZoneType == ZoneType.Fire;
-			}
+			get { return ZoneType == ZoneType.Fire; }
 		}
 
 		public bool IsGuardZone
 		{
-			get
-			{
-				return ZoneType == ZoneType.Guard;
-			}
+			get { return ZoneType == ZoneType.Guard; }
 		}
 
 		protected override bool Save()
@@ -218,10 +217,10 @@ namespace DevicesModule.ViewModels
 			Zone.Description = Description;
 			Zone.DetectorCount = DetectorCount;
 			Zone.EvacuationTime = EvacuationTime;
-			Zone.AutoSet = AutoSet;
-			Zone.Delay = Delay;
-			Zone.Skipped = Skipped;
 			Zone.GuardZoneType = GuardZoneType;
+			Zone.Skipped = Skipped;
+			Zone.Delay = Delay;
+			Zone.AutoSet = AutoSet;
 			return base.Save();
 		}
 	}

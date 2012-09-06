@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace DevicesModule.ViewModels
 {
@@ -100,19 +101,24 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddOneCommand { get; private set; }
 		void OnAddOne()
 		{
+			var index = SourceZones.IndexOf(SelectedSourceZone);
 			TargetZones.Add(SelectedSourceZone);
 			SelectedTargetZone = SelectedSourceZone;
 			SourceZones.Remove(SelectedSourceZone);
-			SelectedSourceZone = SourceZones.FirstOrDefault();
+			if (SourceZones.Count > 0)
+				SelectedSourceZone = SourceZones[Math.Min(index, SourceZones.Count - 1)];
 		}
 
 		public RelayCommand RemoveOneCommand { get; private set; }
 		void OnRemoveOne()
 		{
+			var index = TargetZones.IndexOf(SelectedTargetZone);
 			SourceZones.Add(SelectedTargetZone);
 			SelectedSourceZone = SelectedTargetZone;
 			TargetZones.Remove(SelectedTargetZone);
 			SelectedTargetZone = TargetZones.FirstOrDefault();
+			if (TargetZones.Count > 0)
+				SelectedTargetZone = TargetZones[Math.Min(index, TargetZones.Count - 1)];
 		}
 
 		public RelayCommand AddAllCommand { get; private set; }
@@ -123,7 +129,6 @@ namespace DevicesModule.ViewModels
 				TargetZones.Add(zoneViewModel);
 			}
 			SourceZones.Clear();
-			SelectedTargetZone = TargetZones.FirstOrDefault();
 		}
 
 		public RelayCommand RemoveAllCommand { get; private set; }
@@ -134,8 +139,6 @@ namespace DevicesModule.ViewModels
 				SourceZones.Add(zoneViewModel);
 			}
 			TargetZones.Clear();
-
-			SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
 		bool CanAdd()

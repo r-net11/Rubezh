@@ -54,15 +54,15 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="SystemFolder"/>
       <Directory Id="ProgramFilesFolder">
+        <Directory Id="FIRESECLOCATION" Name="Firesec">
+          <Directory Id="INTL" Name="intl" />
+          <Directory Id="FIRESECLOCATION.Cache" Name="Cache" />
+        </Directory>
         <Directory Id="INSTALLLOCATION" Name="Rubezh">
           <Directory Id="SERVERLOCATION" Name="$(var.ServerName)">
             <Directory Id="Server.LogsFolder" Name="Logs" />
             <Directory Id="Server.ConfigFolder" Name="$(var.ConfigurationFolder)">
               <Directory Id="Server.SoundsFolder" Name="$(var.SoundsFolder)" />
-            </Directory>
-            <Directory Id="FIRESECLOCATION" Name="Firesec">
-              <Directory Id="INTL" Name="intl" />
-              <Directory Id="FIRESECLOCATION.Cache" Name="Cache" />
             </Directory>
           </Directory>
           <Directory Id="ADMINISTRATORLOCATION" Name="$(var.AdministratorName)">

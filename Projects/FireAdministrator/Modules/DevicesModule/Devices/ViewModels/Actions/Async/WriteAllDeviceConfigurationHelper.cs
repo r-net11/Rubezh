@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
 
         public static void Run()
         {
-			foreach (var device in FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices)
+			foreach (var device in FiresecManager.Devices)
             {
                 bool hasError = false;
                 if (device.Driver.CanWriteDatabase)

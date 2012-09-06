@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
   <?define FiresecName="fs_server" ?>
-  <?define Firesec.TargetDir="..\..\..\..\..\FiresecService\bin\Release\Firesec\"?>
+  <?define Firesec.TargetDir="..\..\..\..\..\Deploy\Firesec\"?>
   <?define Firesec.TargetFileName="fs_server.exe"?>
 </Include>

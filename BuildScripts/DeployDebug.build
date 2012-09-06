@@ -10,11 +10,6 @@
         <include name="**\*" />
       </fileset>
     </copy>
-    <copy todir="..\Projects\FiresecService\bin\Debug\Firesec" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="..\Projects\Deploy\Firesec">
-        <include name="**\*" />
-      </fileset>
-    </copy>
     <copy todir="..\Projects\FiresecService\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\Projects\Deploy\SqlCE">
         <include name="**\*" />

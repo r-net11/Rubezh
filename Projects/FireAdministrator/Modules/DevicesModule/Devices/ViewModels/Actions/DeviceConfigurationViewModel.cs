@@ -27,7 +27,7 @@ namespace DevicesModule.ViewModels
 				device.Driver = FiresecManager.FiresecConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 			}
 
-			LocalRootDevice = FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == _deviceUID);
+			LocalRootDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == _deviceUID);
 			RemoteRootDevice = _deviceConfiguration.Devices.FirstOrDefault(x => x.UID == _deviceUID);
 			LocalDevices = new DeviceTreeViewModel(LocalRootDevice, FiresecManager.FiresecConfiguration.DeviceConfiguration);
 			RemoteDevices = new DeviceTreeViewModel(RemoteRootDevice, _deviceConfiguration);

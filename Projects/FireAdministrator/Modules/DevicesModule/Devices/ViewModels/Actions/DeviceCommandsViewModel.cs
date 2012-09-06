@@ -7,6 +7,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -63,13 +64,15 @@ namespace DevicesModule.ViewModels
 		bool ValidateConfiguration()
 		{
 			var validationResult = ServiceFactory.ValidationService.Validate();
+			if (validationResult.CannotSave("FS") || validationResult.CannotWrite("FS"))
+			{
+				MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+				return false;
+			}
 			if (validationResult.HasErrors("FS"))
 			{
-				if (validationResult.CannotSave("FS") || validationResult.CannotWrite("FS"))
-				{
-					MessageBoxService.ShowWarning("Обнаружены ошибки. Операция прервана");
+				if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить") != MessageBoxResult.Yes)
 					return false;
-				}
 			}
 			return true;
 		}

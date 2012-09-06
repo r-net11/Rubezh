@@ -119,7 +119,7 @@ namespace Firesec
 						Logger.Error("SocketServerHelper.GetSocketServerPath filePath1 = null");
 					}
 				}
-				var filePath2 = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Firesec", "scktsrvr.exe");
+				var filePath2 = @"C:\Program Files\Firesec\scktsrvr.exe";
 				if (File.Exists(filePath2))
 				{
 					return filePath2;

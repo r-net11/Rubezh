@@ -29,7 +29,6 @@ namespace DevicesModule.ViewModels
 
             foreach (var childDevice in device.Children)
             {
-                // устаревшие устройства
                 if (childDevice.Driver == null)
                     continue;
 
@@ -64,7 +63,7 @@ namespace DevicesModule.ViewModels
         void AddAutoDevice(AutoSearchDeviceViewModel autoDetectedDevice)
         {
             var device = autoDetectedDevice.Device;
-			var parentDevice = FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == device.Parent.PathId);
+			var parentDevice = FiresecManager.Devices.FirstOrDefault(x => x.PathId == device.Parent.PathId);
             parentDevice.Children.Add(device);
 
             var parentDeviceViewModel = DeviceViewModels.FirstOrDefault(x => x.Device.UID == parentDevice.UID);

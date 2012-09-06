@@ -59,34 +59,6 @@ namespace FiresecClient
 			return newDevice;
 		}
 
-		public Device AddChild(Device parentDevice, Driver newDriver, int newAddress)
-		{
-			var device = new Device()
-			{
-				DriverUID = newDriver.UID,
-				Driver = newDriver,
-				IntAddress = newAddress,
-				Parent = parentDevice
-			};
-			parentDevice.Children.Add(device);
-			AddAutoCreateChildren(device);
-
-			return device;
-		}
-
-		void AddAutoCreateChildren(Device device)
-		{
-			foreach (var autoCreateDriverId in device.Driver.AutoCreateChildren)
-			{
-				var autoCreateDriver = Drivers.FirstOrDefault(x => x.UID == autoCreateDriverId);
-
-				for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
-				{
-					AddChild(device, autoCreateDriver, i);
-				}
-			}
-		}
-
 		public void SynchronizeChildern(Device device)
 		{
 			for (int i = device.Children.Count(); i > 0; i--)

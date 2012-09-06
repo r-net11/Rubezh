@@ -474,7 +474,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddUserCommand { get; private set; }
         void OnAddUser()
         {
-            foreach (var guardUser in FiresecManager.FiresecConfiguration.DeviceConfiguration.GuardUsers)
+            foreach (var guardUser in FiresecManager.GuardUsers)
             {
                 if (guardUser.DeviceUID == SelectedDevice.UID)
                     guardUser.DeviceUID = Guid.Empty;

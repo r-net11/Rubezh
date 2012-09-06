@@ -10,6 +10,7 @@
 		public static bool DoNotOverrideFiresec1Config { get; set; }
         public static bool IsImitatorEnabled { get; set; }
         public static bool IsOPCEnabled { get; set; }
+		public static bool IsOPCOnly { get; set; }
         public static bool IsFSEnabled { get; set; }
         public static bool IsGKEnabled { get; set; }
 	}
