@@ -74,6 +74,11 @@ namespace DevicesModule.Views
                 {
                     e.Handled = true;
                 }
+                if (((TextBox)sender).Name != "ObjectNumber")
+                    if  ((ch == 'p')||(ch == 'P')||(ch == 'W')||(ch == 'T')||(ch == '*'))
+                {
+                    e.Handled = false;
+                }
             }
         }
 

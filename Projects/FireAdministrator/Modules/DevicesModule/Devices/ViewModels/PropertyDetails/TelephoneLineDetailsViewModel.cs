@@ -89,17 +89,18 @@ namespace DevicesModule.ViewModels
 
 		void CopyProperties()
 		{
-			Phone1 = StringToInt("Phone1");
-			Phone2 = StringToInt("Phone2");
-			Phone3 = StringToInt("Phone3");
-			Phone4 = StringToInt("Phone4");
+            Phone1 = StringToString("Phone1");
+            Phone2 = StringToString("Phone2");
+            Phone3 = StringToString("Phone3");
+            Phone4 = StringToString("Phone4");
+            IsDirect = StringToBool("IsDirect");
 			ObjectNumber = StringToInt("ObjectNumber");
 			TestDialtone = StringToInt("TestDialtone");
 			TestVoltage = StringToInt("TestVoltage");
 			CountRecalls = StringToInt("CountRecalls");
 			Timeout = StringToInt("Timeout");
 			OutcomingTest = StringToInt("OutcomingTest");
-
+    
 			InitializeFilters();
 			var eventsFilterString = Device.Properties.FirstOrDefault(x => x.Name == "EventsFilter");
 			if (eventsFilterString != null)
@@ -121,6 +122,7 @@ namespace DevicesModule.ViewModels
 			SaveProperty(Phone2, "Phone2");
 			SaveProperty(Phone3, "Phone3");
 			SaveProperty(Phone4, "Phone4");
+            SaveProperty(IsDirect, "IsDirect");
 			SaveProperty(ObjectNumber, "ObjectNumber");
 			SaveProperty(TestDialtone, "TestDialtone");
 			SaveProperty(TestVoltage, "TestVoltage");
@@ -154,7 +156,30 @@ namespace DevicesModule.ViewModels
 				return null;
 			}
 		}
-
+        string StringToString(string name)
+        {
+            try
+            {
+                var value = Device.Properties.FirstOrDefault(x => x.Name == name).Value;
+                return System.Convert.ToString(value);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        bool StringToBool(string name)
+        {
+            try
+            {
+                var value = Device.Properties.FirstOrDefault(x => x.Name == name).Value;
+                return System.Convert.ToBoolean(value);
+            }
+            catch
+            {
+                return false;
+            }
+        }
 		void SaveProperty(int? intProperty, string propertyName)
 		{
 			if (intProperty.HasValue)
@@ -168,48 +193,86 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+        void SaveProperty(string stringProperty, string propertyName)
+        {
+            if (stringProperty != null)
+            {
+                var property = new Property()
+                {
+                    Name = propertyName,
+                    Value = stringProperty
+                };
+                Device.Properties.Add(property);
+            }
+        }
+
+        void SaveProperty(bool boolProperty, string propertyName)
+        {
+            var property = new Property()
+            {
+                Name = propertyName,
+                Value = boolProperty.ToString()
+            };
+            Device.Properties.Add(property);
+        }
+
+        bool isDirect;
+        public bool IsDirect
+        {
+            get { return isDirect; }
+            set
+            {
+                isDirect = value;
+                OnPropertyChanged("IsDirect");
+            }
+        }
+
 		public List<FilterItemViewModel> FilterItems { get; private set; }
 
-		int? _phone1;
-		public int? Phone1
+		string _phone1;
+		public string Phone1
 		{
 			get { return _phone1; }
 			set
 			{
 				_phone1 = value;
+                if(!IsDirect)
 				OnPropertyChanged("Phone1");
 			}
 		}
 
-		int? _phone2;
-		public int? Phone2
+        string _phone2;
+        public string Phone2
 		{
 			get { return _phone2; }
 			set
 			{
 				_phone2 = value;
+                if (!IsDirect)
 				OnPropertyChanged("Phone2");
 			}
 		}
 
-		int? _phone3;
-		public int? Phone3
+        string _phone3;
+        public string Phone3
 		{
 			get { return _phone3; }
 			set
 			{
 				_phone3 = value;
+                if (!IsDirect)
 				OnPropertyChanged("Phone3");
 			}
 		}
 
-		int? _phone4;
-		public int? Phone4
+        string _phone4;
+        public string Phone4
 		{
 			get { return _phone4; }
 			set
 			{
 				_phone4 = value;
+                if (!IsDirect)
 				OnPropertyChanged("Phone4");
 			}
 		}
@@ -232,6 +295,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				_testDialtone = value;
+                if (!IsDirect)
 				OnPropertyChanged("TestDialtone");
 			}
 		}
@@ -311,15 +375,37 @@ namespace DevicesModule.ViewModels
             }
             GetConfiguration(_operationResult.Result);
         }
-        
+
+        private string tempPhone1;
+        private string tempPhone2;
+        private string tempPhone3;
+        private string tempPhone4;
+        private int? tempTestDialtone;
 		public RelayCommand ResetToDirectConnectionCommand { get; private set; }
-		void OnResetToDirectConnection()
+        void OnResetToDirectConnection()
 		{
-			Phone1 = null;
-			Phone2 = null;
-			Phone3 = null;
-			Phone4 = null;
-			TestDialtone = null;
+            
+            if (IsDirect)
+            {
+                tempPhone1 = Phone1;
+                tempPhone2 = Phone2;
+                tempPhone3 = Phone3;
+                tempPhone4 = Phone4;
+                tempTestDialtone = TestDialtone;
+                Phone1 = "DL";
+                Phone2 = null;
+                Phone3 = null;
+                Phone4 = null;
+                TestDialtone = null;
+            }
+            else
+            {
+                Phone1 = tempPhone1;
+                Phone2 = tempPhone2;
+                Phone3 = tempPhone3;
+                Phone4 = tempPhone4;
+                TestDialtone = tempTestDialtone; 
+            }
 		}
 
 		protected override bool Save()
@@ -340,19 +426,19 @@ namespace DevicesModule.ViewModels
             {
                 s = DeviceData.Substring(0, 21);
                 s = DeleteCharsFromEnd(s, ' ');
-                Phone1 = int.Parse(s);
+                Phone1 = s;
 
                 s = DeviceData.Substring(21, 21);
                 s = DeleteCharsFromEnd(s, ' ');
-                Phone2 = int.Parse(s);
+                Phone2 = s;
 
                 s = DeviceData.Substring(42, 21);
                 s = DeleteCharsFromEnd(s, ' ');
-                Phone3 = int.Parse(s);
+                Phone3 = s;
 
                 s = DeviceData.Substring(63, 21);
                 s = DeleteCharsFromEnd(s, ' ');
-                Phone4 = int.Parse(s);
+                Phone4 = s;
 
                 ObjectNumber = int.Parse(DeviceData.Substring(84, 4));
                 TestDialtone = int.Parse(DeviceData.Substring(88, 2)) * 5;
