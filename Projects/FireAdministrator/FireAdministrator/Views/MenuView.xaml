@@ -1,12 +1,10 @@
 ﻿<UserControl x:Class="FireAdministrator.Views.MenuView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
-	<Border Margin="2" Background="{DynamicResource BackgroundBrush}" CornerRadius="5">
-		<StackPanel Height="40" Orientation="Horizontal" Margin="5,0,0,0">
-			<Controls:ToolBarButton Click="OnCreateNew" ImageSource="/Controls;component/Images/new.png" ToolTip="Создать новую конфигурацию"/>
-			<Controls:ToolBarButton Click="OnLoadFromFile" ImageSource="/Controls;component/Images/load.png" ToolTip="Считать конфигурацию из файла" />
-			<Controls:ToolBarButton Click="OnSaveToFile" ImageSource="/Controls;component/Images/save.png" ToolTip="Сохранить конфигурацию в файл" />
-			<Controls:ToolBarButton Click="OnValidate" ImageSource="/Controls;component/Images/check.png" ToolTip="Проверить конфигурацию" />
-			<Controls:ToolBarButton Name="_saveButton" Click="OnSetNewConfig" ImageSource="/Controls;component/Images/download.png" IsEnabled="False" ToolTip="Применить конфигурацию" />
-			<ContentControl Grid.Column="1" MinWidth="400" Content="{Binding ExtendedMenu}" />
-		</StackPanel>
-	</Border>
+	<StackPanel Height="40" Margin="5,0,0,0" Orientation="Horizontal">
+		<Controls:ToolBarButton Click="OnCreateNew" ImageSource="/Controls;component/Images/new.png" ToolTip="Создать новую конфигурацию" />
+		<Controls:ToolBarButton Click="OnLoadFromFile" ImageSource="/Controls;component/Images/load.png" ToolTip="Считать конфигурацию из файла" />
+		<Controls:ToolBarButton Click="OnSaveToFile" ImageSource="/Controls;component/Images/save.png" ToolTip="Сохранить конфигурацию в файл" />
+		<Controls:ToolBarButton Click="OnValidate" ImageSource="/Controls;component/Images/check.png" ToolTip="Проверить конфигурацию" />
+		<Controls:ToolBarButton Name="_saveButton" Click="OnSetNewConfig" ImageSource="/Controls;component/Images/download.png" IsEnabled="False" ToolTip="Применить конфигурацию" />
+		<ContentControl Grid.Column="1" MinWidth="400" Content="{Binding ExtendedMenu}" />
+	</StackPanel>
 </UserControl>
