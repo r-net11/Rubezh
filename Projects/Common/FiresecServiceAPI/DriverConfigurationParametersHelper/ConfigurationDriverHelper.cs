@@ -4,7 +4,7 @@ namespace FiresecAPI.Models
 	public static class ConfigurationDriverHelper
 	{
 		public static void AddPlainEnumProprety(Driver driver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int startValue = 0,
-			int minBit = 0, int maxBit = 0, bool useMask = false)
+			int minBit = 0, int maxBit = 0, bool useMask = false, bool highByte = false, bool mptHighByte = false, bool mptLowByte = false)
 		{
 			var property = new DriverProperty()
 			{
@@ -16,7 +16,10 @@ namespace FiresecAPI.Models
 				BitOffset = offset,
 				MinBit = minBit,
 				MaxBit = maxBit,
-				UseMask = useMask
+				UseMask = useMask,
+				HighByte = highByte,
+				MptHighByte = mptHighByte,
+				MptLowByte = mptLowByte
 			};
 			var parameter1 = new DriverPropertyParameter()
 			{
@@ -71,7 +74,7 @@ namespace FiresecAPI.Models
 			var parameter = new DriverPropertyParameter()
 			{
 				Name = name,
-				Value = value.ToString()
+				Value = value.ToString(),
 			};
 			property.Parameters.Add(parameter);
 		}
