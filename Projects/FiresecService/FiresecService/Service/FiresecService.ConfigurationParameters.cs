@@ -59,7 +59,10 @@ namespace FiresecService.Service
 								{
 									var offsetParamValue = paramValue;
 
-									offsetParamValue = lowByteValue;
+									if (driverProperty.HighByte)
+										offsetParamValue = heightByteValue;
+									else
+										offsetParamValue = lowByteValue;
 
 									if (driverProperty.MinBit > 0)
 									{
@@ -141,7 +144,7 @@ namespace FiresecService.Service
 					int intValue = 0;
 					if (driverProperty.DriverPropertyType == DriverPropertyTypeEnum.EnumType)
 					{
-						var driverPropertyParameterValue = driverProperty.Parameters.FirstOrDefault(x => x.Name == property.Value);
+						var driverPropertyParameterValue = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
 						if (driverPropertyParameterValue != null)
 						{
 							intValue = int.Parse(driverPropertyParameterValue.Value);
@@ -161,9 +164,18 @@ namespace FiresecService.Service
 						intValue = intValue << driverProperty.BitOffset;
 					}
 
-					binProperty.HeighByte += intValue;
 					if (driverProperty.UseMask)
+					{
+						binProperty.HighByte += intValue;
 						binProperty.LowByte = 0xFF;
+					}
+					else
+					{
+						if (driverProperty.HighByte)
+							binProperty.LowByte += intValue;
+						else
+							binProperty.HighByte += intValue;
+					}
 				}
 			}
 
@@ -189,10 +201,10 @@ namespace FiresecService.Service
 		{
 			public int No;
 			public int LowByte;
-			public int HeighByte;
+			public int HighByte;
 			public override string ToString()
 			{
-				var value = (byte)LowByte + (byte)HeighByte * 256;
+				var value = (byte)LowByte + (byte)HighByte * 256;
 				return No.ToString() + "=" + value.ToString();
 			}
 		}

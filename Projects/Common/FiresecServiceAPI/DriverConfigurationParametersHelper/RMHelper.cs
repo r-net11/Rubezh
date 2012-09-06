@@ -24,7 +24,7 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property1);
 
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Задержка на пуск", 0, 0, 0, 250);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Время удержания", 0, 0, 0, 250);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Время удержания", 0, 0, 0, 250, false, true);
 		}
 	}
 }
