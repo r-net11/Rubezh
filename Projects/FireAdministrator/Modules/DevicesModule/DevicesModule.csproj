@@ -107,6 +107,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Devices\Converters\DevicePasswordTypeToIntConverter.cs" />
+    <Compile Include="Devices\Converters\InverseBooleanConverter.cs" />
     <Compile Include="Devices\Converters\StringToPasswordConverter.cs" />
     <Compile Include="Devices\Converters\ZoneLogicJoinOperatorConverter.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\DeviceCustomFunctionExecuteHelper.cs" />

@@ -50,6 +50,10 @@ namespace FiresecService.Service
 							requestIds.Remove(request.id);
 							var paramNo = request.param.FirstOrDefault(x => x.name == "ParamNo").value;
 							var paramValue = request.param.FirstOrDefault(x => x.name == "ParamValue").value;
+							if (paramNo >= 0xBB && paramNo<= 0xBF)
+							{
+								;
+							}
 							var heightByteValue = paramValue / 256;
 							var lowByteValue = paramValue - heightByteValue * 256;
 
@@ -61,6 +65,10 @@ namespace FiresecService.Service
 
 									if (driverProperty.HighByte)
 										offsetParamValue = heightByteValue;
+									else if (driverProperty.MptHighByte)
+										offsetParamValue = paramValue / 16;
+									else if (driverProperty.MptLowByte)
+										offsetParamValue = paramValue % 16;
 									else
 										offsetParamValue = lowByteValue;
 
@@ -157,6 +165,8 @@ namespace FiresecService.Service
 						{
 							intValue = (int)Math.Truncate((double)intValue / 5);
 						}
+						else if (device.Driver.DriverType == DriverType.MPT && driverProperty.Name.Contains("логика работы выхода"))
+							intValue *= 16; 
 					}
 
 					if (driverProperty.BitOffset > 0)

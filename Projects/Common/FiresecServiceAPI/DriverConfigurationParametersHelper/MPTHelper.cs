@@ -38,11 +38,18 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddIntProprety(driver, 0xC4, "Время задержки включения выхода 4", 0, 0, 0, 255, true);
 			ConfigurationDriverHelper.AddIntProprety(driver, 0xC5, "Время задержки включения выхода 5", 0, 0, 0, 255, true);
 
-			AddRegim(driver, 0xBB, "режим и логика работы выхода 1");
-			AddRegim(driver, 0xBC, "режим и логика работы выхода 2");
-			AddRegim(driver, 0xBD, "режим и логика работы выхода 3");
-			AddRegim(driver, 0xBE, "режим и логика работы выхода 4");
-			AddRegim(driver, 0xBF, "режим и логика работы выхода 5");
+			AddRegime(driver, 0xBB, "режим работы выхода 1");
+			AddRegime(driver, 0xBC, "режим работы выхода 2");
+			AddRegime(driver, 0xBD, "режим работы выхода 3");
+			AddRegime(driver, 0xBE, "режим работы выхода 4");
+			AddRegime(driver, 0xBF, "режим работы выхода 5");
+
+			AddLogic(driver, 0xBB, "логика работы выхода 1");
+			AddLogic(driver, 0xBC, "логика работы выхода 2");
+			AddLogic(driver, 0xBD, "логика работы выхода 3");
+			AddLogic(driver, 0xBE, "логика работы выхода 4");
+			AddLogic(driver, 0xBF, "логика работы выхода 5");
+
 
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0xC6, "Приоритет запуска", 0,
 				"происходит отмена задержки запуска при нарушении датчика «Двери-окна» и рестарт после восстановления датчика «Двери-окна»",
@@ -93,7 +100,7 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 
-		static void AddRegim(Driver driver, byte no, string propertyName)
+		static void AddRegime(Driver driver, byte no, string propertyName)
 		{
 			var property = new DriverProperty()
 			{
@@ -101,14 +108,39 @@ namespace FiresecAPI.Models
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = "34",
-				UseMask = true
+				Default = "1",
+				MptLowByte = true
 			};
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Сирена", 34);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Уходи»", 99);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Не входи»", 36);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Автоматика отключена»", 98);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Выход АУП", 165);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Сирена", 1);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Уходи»", 2);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Не входи»", 3);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Автоматика отключена»", 4);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Выход АУП", 5);
+			driver.Properties.Add(property);
+		}
+
+		static void AddLogic(Driver driver, byte no, string propertyName)
+		{
+			var property = new DriverProperty()
+			{
+				IsAUParameter = true,
+				No = no,
+				Name = propertyName,
+				Caption = propertyName,
+				Default = "1",
+				MptHighByte = true
+			};
+			ConfigurationDriverHelper.AddPropertyParameter(property, "1 Не включать", 1);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "2 Включить сразу", 2);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "3 Включить после паузы", 3);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "4 Включить на заданное время", 4);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "5 Включить после паузы на заданное время и выключить", 5);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "6 Переключать постоянно", 6);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "7 Начать переключение после паузы", 7);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "8 Переключать заданное время и оставить выключенным", 8);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "9 Начать переключение после паузы, переключать заданное время и оставить выключенным", 9);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "10 Переключать заданное время и оставить выключенным", 10);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "11 Начать переключение после паузы, переключать заданное время и оставить выключенным", 11);
 			driver.Properties.Add(property);
 		}
 
