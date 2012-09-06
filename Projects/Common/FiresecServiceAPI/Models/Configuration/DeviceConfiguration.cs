@@ -16,7 +16,7 @@ namespace FiresecAPI.Models
 			GuardUsers = new List<GuardUser>();
 		}
 
-		public List<Device> Devices { get; internal set; }
+		public List<Device> Devices { get; set; }
 
 		[DataMember]
 		public Device RootDevice { get; set; }
