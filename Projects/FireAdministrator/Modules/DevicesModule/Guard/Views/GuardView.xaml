@@ -5,13 +5,13 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <DataGrid Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" Margin="2">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Название" Binding="{Binding Driver.ShortName}" />
+                <DataGridTextColumn Header="Устройство" Binding="{Binding Driver.ShortName}" />
                 <DataGridTextColumn Header="Адрес" Binding="{Binding DottedAddress}" />
                 <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
             </DataGrid.Columns>
@@ -25,8 +25,8 @@
             </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding DeviceUsers}" SelectedItem="{Binding SelectedDeviceUser}" MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Width="50" Binding="{Binding GuardUser.Id}" />
-                    <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding GuardUser.Name}" />
+                    <DataGridTextColumn Header="№" Width="25" Binding="{Binding GuardUser.Id}" />
+                    <DataGridTextColumn Header="Пользователь устройства" Width="2*" Binding="{Binding GuardUser.Name}" />
                     <DataGridTextColumn Header="Пароль" Width="1*" Binding="{Binding GuardUser.Password}" />
                     <DataGridTextColumn Header="ФИО" Width="1*" Binding="{Binding GuardUser.FIO}" />
                 </DataGrid.Columns>
@@ -34,11 +34,14 @@
             <StackPanel Grid.Row="1" Orientation="Horizontal">
                 <Controls:ToolBarButton Command="{Binding AddUserCommand}" ToolTip="Добавить пользователя" ImageSource="/Controls;component/Images/ArrowUp.png" />
                 <Controls:ToolBarButton Command="{Binding RemoveUserCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/ArrowDown.png" />
+                <Controls:ToolBarButton Name="addButton" Command="{Binding AddCommand}" ToolTip="Создать пользователя" ImageSource="/Controls;component/Images/Add.png" Margin="20,0,0,0"/>
+                <Controls:ToolBarButton Name="editButton" Command="{Binding EditCommand}" ToolTip="Редактировать пользователя" ImageSource="/Controls;component/Images/Edit.png" />
+                <Controls:ToolBarButton Name="deleteButton" Command="{Binding DeleteCommand}" ToolTip="Удалить пользователя" ImageSource="/Controls;component/Images/Delete.png" />
             </StackPanel>
             <DataGrid Grid.Row="2" ItemsSource="{Binding AvailableUsers}" SelectedItem="{Binding SelectedAvailableUser}" MouseDoubleClick="DataGrid_MouseDoubleClick_1">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Width="50" Binding="{Binding GuardUser.Id}" />
-                    <DataGridTextColumn Header="Имя" Width="1*" Binding="{Binding GuardUser.Name}" />
+                    <DataGridTextColumn Header="№" Width="25" Binding="{Binding GuardUser.Id}" />
+                    <DataGridTextColumn Header="Пользователь" Width="2*" Binding="{Binding GuardUser.Name}" />
                     <DataGridTextColumn Header="Пароль" Width="1*" Binding="{Binding GuardUser.Password}" />
                     <DataGridTextColumn Header="ФИО" Width="1*" Binding="{Binding GuardUser.FIO}" />
                 </DataGrid.Columns>
@@ -58,7 +61,7 @@
             </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding UserZones}" SelectedItem="{Binding SelectedUserZone}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Название" Binding="{Binding PresentationName}" Width="*" />
+                    <DataGridTextColumn Header="Зоны пользователя" Binding="{Binding PresentationName}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -67,7 +70,7 @@
             </StackPanel>
             <DataGrid Grid.Row="2" ItemsSource="{Binding DeviceZones}" SelectedItem="{Binding SelectedDeviceZone}">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Название" Binding="{Binding PresentationName}" Width="*" />
+                    <DataGridTextColumn Header="Зоны" Binding="{Binding PresentationName}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

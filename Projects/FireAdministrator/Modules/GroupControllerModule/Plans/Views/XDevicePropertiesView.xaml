@@ -6,7 +6,7 @@
 
     <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" SelectionChanged="DataGrid_SelectionChanged">
         <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Тип Устройства" Width="250">
+            <DataGridTemplateColumn Header="Устройство" Width="250">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <Grid>

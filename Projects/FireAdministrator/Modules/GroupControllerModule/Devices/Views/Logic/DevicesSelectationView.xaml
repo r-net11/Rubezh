@@ -12,7 +12,7 @@
         </Grid.ColumnDefinitions>
         <DataGrid Grid.Column="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Тип Устройства" Width="2*">
+                <DataGridTemplateColumn Header="Устройство" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -33,7 +33,7 @@
         </StackPanel>
         <DataGrid Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Тип Устройства" Width="2*">
+                <DataGridTemplateColumn Header="Устройство" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

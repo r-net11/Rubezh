@@ -13,7 +13,7 @@
         <DataGrid Grid.Column="0" ItemsSource="{Binding InstructionDevices}" SelectedItem="{Binding SelectedInstructionDevice}"
                   MouseDoubleClick="SelectedInstructionDeviceDoubleClick">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Тип Устройства" Width="2*">
+                <DataGridTemplateColumn Header="Устройство" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -34,7 +34,7 @@
         </StackPanel>
         <DataGrid Grid.Column="2" ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}" MouseDoubleClick="SelectedAvailableDeviceDoubleClick">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Тип Устройства" Width="2*">
+                <DataGridTemplateColumn Header="Устройство" Width="2*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">

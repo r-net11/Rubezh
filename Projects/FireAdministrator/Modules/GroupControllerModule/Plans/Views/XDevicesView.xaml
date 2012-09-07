@@ -25,7 +25,7 @@
     
     <DataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
         <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Тип Устройства" MinWidth="250">
+            <DataGridTemplateColumn Header="Устройство" MinWidth="250">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <Grid>

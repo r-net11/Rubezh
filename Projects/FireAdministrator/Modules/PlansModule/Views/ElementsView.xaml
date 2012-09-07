@@ -5,7 +5,7 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="CheckBox">
-						<Image Name="_image" Source="/Controls;component/Images/Lock.png" />
+						<Image Margin="3,0,0,0" Name="_image" Source="/Controls;component/Images/Lock.png" />
 						<ControlTemplate.Triggers>
 							<Trigger Property="IsChecked" Value="true">
 								<Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Unlock.png" />

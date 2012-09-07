@@ -21,7 +21,7 @@
                             <TextBlock Text="{Binding Device.Driver.Name}" VerticalAlignment="Center" Foreground="White" />
                         </StackPanel>
                         <WrapPanel Margin="1">
-                            <TextBlock Text="Тип устройства: " FontWeight="Bold" Foreground="Orange" />
+                            <TextBlock Text="Устройство: " FontWeight="Bold" Foreground="Orange" />
                             <TextBlock Text="{Binding Device.Driver.CategoryName}" Foreground="White" />
                             <TextBlock Text=", " Foreground="White" />
                             <TextBlock Text="{Binding Device.Driver.DeviceTypeName}" Foreground="White" />

@@ -7,7 +7,7 @@
     <Grid>
         <DataGrid ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Тип Устройства" Width="250">
+                <DataGridTemplateColumn Header="Устройство" Width="250">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">

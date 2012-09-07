@@ -51,7 +51,7 @@
             <DataGrid Grid.Column="1" Margin="2">
                 <DataGrid ItemsSource="{Binding Devices}">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Тип Устройства" Width="250">
+                        <DataGridTemplateColumn Header="Устройство" Width="250">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <WrapPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">

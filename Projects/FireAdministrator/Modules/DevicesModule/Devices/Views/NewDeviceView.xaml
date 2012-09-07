@@ -12,7 +12,7 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" CanUserSortColumns="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Название" MinWidth="100">
+                <DataGridTemplateColumn Header="Обозначение" MinWidth="100">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
@@ -22,7 +22,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Полное название" Binding="{Binding Name}" MinWidth="200" />
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" MinWidth="200" />
                 <DataGridTextColumn Header="Класс" Binding="{Binding DeviceClassName}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>

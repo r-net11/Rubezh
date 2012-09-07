@@ -32,7 +32,7 @@
         <r:TreeListView Grid.Row="1" ItemsSource="{Binding Devices}" ItemTemplate="{StaticResource dt}">
             <r:TreeListView.Columns>
 
-                <GridViewColumn Header="Тип Устройства" Width="250">
+                <GridViewColumn Header="Устройство" Width="250">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal" ContextMenu="{StaticResource DeviceContextMenu}">

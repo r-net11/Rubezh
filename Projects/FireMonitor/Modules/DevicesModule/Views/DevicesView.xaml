@@ -16,7 +16,7 @@
         <Grid Grid.Row="0" VirtualizingStackPanel.VirtualizationMode="Recycling" ScrollViewer.IsDeferredScrollingEnabled="True">
             <DataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedDevice, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Тип Устройства" MinWidth="250" Width="250">
+                    <DataGridTemplateColumn Header="Устройство" MinWidth="250" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
