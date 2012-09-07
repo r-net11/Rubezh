@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:complexType name="journalType">
+    <xs:sequence>
+      <xs:element name="IDEvents" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="IDSubSystem" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="Dt" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="SysDt" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="ZoneName" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="IDTypeEvents" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="EventDesc" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="UserInfo" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="CLC_Detalization" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="IDDevices" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="IDDevicesSource" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="CLC_DeviceSource" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="CLC_Device" type="xs:string" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="parametersType">
+    <xs:sequence>
+      <xs:element name="date_from" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="date_to" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="useSysDate" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="eventFilterSet" type="xs:string" minOccurs="1" maxOccurs="1" />
+      <xs:element name="totalRecords" type="xs:string" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+    <!-- Root Element -->
+
+  <xs:element name="document">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ЖурналСобытий" type="journalType" minOccurs="0" maxOccurs="unbounded" />
+        <xs:element name="Параметры" type="parametersType" minOccurs="1" maxOccurs="1" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

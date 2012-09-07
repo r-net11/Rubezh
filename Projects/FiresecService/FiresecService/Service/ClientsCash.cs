@@ -14,7 +14,7 @@ namespace FiresecService.Service
 		public static List<FiresecService> FiresecServices { get; private set; }
 		public static FiresecManager MonitoringFiresecManager { get; private set; }
 		static FiresecManager AdministratorFiresecManager;
-		static System.Timers.Timer PingTimer;
+		//static System.Timers.Timer PingTimer;
 
 		static ClientsCash()
 		{
@@ -110,7 +110,7 @@ namespace FiresecService.Service
 
 		static void PingClients()
 		{
-			PingTimer.Stop();
+			//PingTimer.Stop();
 			foreach (var firesecService in FiresecServices)
 			{
 				var clientUID = firesecService.CallbackWrapper.Ping();
@@ -119,7 +119,7 @@ namespace FiresecService.Service
 					Logger.Info("ClientsCash.PingClients clientUID != firesecService.ClientCredentials.ClientUID");
 				}
 			}
-			PingTimer.Start();
+			//PingTimer.Start();
 		}
 
 		public static void NotifyClients(string message)

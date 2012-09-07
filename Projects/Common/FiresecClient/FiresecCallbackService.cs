@@ -88,6 +88,11 @@ namespace FiresecClient
 
 		public void NewJournalRecords(List<JournalRecord> journalRecords)
 		{
+			foreach (var journalRecord in journalRecords)
+			{
+				journalRecord.Time2 = DateTime.Now.TimeOfDay;
+			}
+
 			SafeOperationCall(() =>
 			{
 				foreach (var journalRecord in journalRecords)

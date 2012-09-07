@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{765D9A28-8099-478F-9647-251ED66BEBEC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FiresecDriver2</RootNamespace>
+    <AssemblyName>FiresecDriver2</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ConfigurationCash.cs" />
+    <Compile Include="DatabaseHelper.cs" />
+    <Compile Include="DriverManager.cs" />
+    <Compile Include="FiresecSerializedClient.cs" />
+    <Compile Include="JournalConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializerHelper.cs" />
+    <Compile Include="Watcher.cs" />
+    <Compile Include="XSD\DeviceConfigurationParameters.cs" />
+    <Compile Include="XSD\DeviceCustomFunctions.cs">
+      <DependentUpon>DeviceCustomFunctions.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="XSD\GetCoreConfig.cs">
+      <DependentUpon>GetCoreConfig.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="XSD\GetCoreDeviceParams.cs">
+      <DependentUpon>GetCoreDeviceParams.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="XSD\GetCoreState.cs">
+      <DependentUpon>GetCoreState.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="XSD\GetMetaData.cs">
+      <DependentUpon>GetMetaData.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="XSD\Group.cs">
+      <DependentUpon>Group.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="XSD\IndicatorLogic.cs">
+      <DependentUpon>IndicatorLogic.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="XSD\Plan.cs">
+      <DependentUpon>Plan.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="XSD\ReadEvents.cs">
+      <DependentUpon>ReadEvents.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="XSD\ZoneLogic.cs">
+      <DependentUpon>ZoneLogic.xsd</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Common\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Common\FiresecServiceAPI\FiresecAPI.csproj">
+      <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
+      <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Firesec\Firesec.csproj">
+      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
+      <Name>Firesec</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="XSD\DeviceCustomFunctions.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DeviceCustomFunctions.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\GetCoreConfig.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\GetCoreDeviceParams.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\GetCoreState.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\GetMetaData.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\Group.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Group.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\IndicatorLogic.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\Plan.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Plan.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\ReadEvents.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="XSD\ZoneLogic.xsd">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="FS_Types">
+      <Guid>{B86C6AD7-5766-4233-AF55-707B45661224}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="mscoree">
+      <Guid>{5477469E-83B1-11D2-8B49-00A0C9B7C9C4}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -4,44 +4,44 @@ using FiresecAPI.Models;
 
 namespace AlarmModule.Converters
 {
-    public class AlarmTypeToColorConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            switch ((AlarmType) value)
-            {
+	public class AlarmTypeToColorConverter : IValueConverter
+	{
+		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			switch ((AlarmType)value)
+			{
 				case AlarmType.Guard:
 					return "DarkRed";
 
-                case AlarmType.Fire:
-                    return "Red";
+				case AlarmType.Fire:
+					return "Red";
 
-                case AlarmType.Attention:
-                    return "Orange";
+				case AlarmType.Attention:
+					return "Orange";
 
-                case AlarmType.Failure:
-                    return "Yellow";
+				case AlarmType.Failure:
+					return "Yellow";
 
-                case AlarmType.Off:
-                    return "Wheat";
+				case AlarmType.Off:
+					return "Wheat";
 
-                case AlarmType.Info:
-                    return "SkyBlue";
+				case AlarmType.Info:
+					return "SkyBlue";
 
-                case AlarmType.Service:
-                    return "SkyBlue";
+				case AlarmType.Service:
+					return "SkyBlue";
 
-                case AlarmType.Auto:
-                    return "GreenYellow";
+				case AlarmType.Auto:
+					return "YellowGreen";
 
-                default:
-                    return "Transparent";
-            }
-        }
+				default:
+					return "Transparent";
+			}
+		}
 
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

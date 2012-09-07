@@ -5,16 +5,17 @@ using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecService.Database;
-using FiresecService.Service;
-using FiresecService.ViewModels;
+//using FiresecService.Database;
+//using FiresecService.Service;
+//using FiresecService.ViewModels;
 
-namespace FiresecService.Processor
+namespace FiresecDriver
 {
 	public class Watcher
 	{
 		public static bool Ignore = false;
 		public bool DoNotCallback = false;
+		FiresecSerializedClient FiresecSerializedClient;
 
 		#region Callback
 		public event Action<List<DeviceState>> DevicesStateChanged;
@@ -23,13 +24,13 @@ namespace FiresecService.Processor
 			if (DoNotCallback)
 				return;
 
-			foreach (var firesecService in FiresecServices)
-			{
-				if (firesecService != null && firesecService.CallbackWrapper != null)
-				{
-					firesecService.CallbackWrapper.DeviceStateChanged(ChangedDevices.ToList());
-				}
-			}
+			//foreach (var firesecService in FiresecServices)
+			//{
+			//    if (firesecService != null && firesecService.CallbackWrapper != null)
+			//    {
+			//        firesecService.CallbackWrapper.DeviceStateChanged(ChangedDevices.ToList());
+			//    }
+			//}
 
 			if (DevicesStateChanged != null)
 				DevicesStateChanged(deviceStates);
@@ -41,13 +42,13 @@ namespace FiresecService.Processor
 			if (DoNotCallback)
 				return;
 
-			foreach (var firesecService in FiresecServices)
-			{
-				if (firesecService != null && firesecService.CallbackWrapper != null)
-				{
-					firesecService.CallbackWrapper.DeviceParametersChanged(ChangedDevices.ToList());
-				}
-			}
+			//foreach (var firesecService in FiresecServices)
+			//{
+			//    if (firesecService != null && firesecService.CallbackWrapper != null)
+			//    {
+			//        firesecService.CallbackWrapper.DeviceParametersChanged(ChangedDevices.ToList());
+			//    }
+			//}
 
 			if (DevicesParametersChanged != null)
 				DevicesParametersChanged(deviceStates);
@@ -59,13 +60,13 @@ namespace FiresecService.Processor
 			if (DoNotCallback)
 				return;
 
-			foreach (var firesecService in FiresecServices)
-			{
-				if (firesecService != null && firesecService.CallbackWrapper != null)
-				{
-					firesecService.CallbackWrapper.ZonesStateChanged(zoneStates);
-				}
-			}
+			//foreach (var firesecService in FiresecServices)
+			//{
+			//    if (firesecService != null && firesecService.CallbackWrapper != null)
+			//    {
+			//        firesecService.CallbackWrapper.ZonesStateChanged(zoneStates);
+			//    }
+			//}
 
 			if (ZoneStateChanged != null)
 				ZoneStateChanged(zoneStates);
@@ -81,46 +82,45 @@ namespace FiresecService.Processor
 				journalRecord.Time1 = DateTime.Now.TimeOfDay;
 			}
 
-			foreach (var firesecService in FiresecServices)
-			{
-				if (firesecService != null && firesecService.CallbackWrapper != null)
-				{
-					firesecService.CallbackWrapper.NewJournalRecords(journalRecords);
-				}
-			}
+			//foreach (var firesecService in FiresecServices)
+			//{
+			//    if (firesecService != null && firesecService.CallbackWrapper != null)
+			//    {
+			//        firesecService.CallbackWrapper.NewJournalRecords(journalRecords);
+			//    }
+			//}
 		}
 
 		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			try
 			{
-				foreach (var firesecService in FiresecServices)
-				{
-					if (firesecService != null && firesecService.CallbackWrapper != null)
-					{
-						firesecService.CallbackWrapper.Progress(stage, comment, percentComplete, bytesRW);
-					}
-				}
+				//foreach (var firesecService in FiresecServices)
+				//{
+				//    if (firesecService != null && firesecService.CallbackWrapper != null)
+				//    {
+				//        firesecService.CallbackWrapper.Progress(stage, comment, percentComplete, bytesRW);
+				//    }
+				//}
 			}
 			catch (InvalidOperationException) { ;}
 		}
 		#endregion
 
-		FiresecManager FiresecManager;
-		List<FiresecService.Service.FiresecService> FiresecServices
-		{
-			get { return FiresecManager.FiresecServices; }
-		}
-		FiresecSerializedClient FiresecSerializedClient
-		{
-			get { return FiresecManager.FiresecSerializedClient; }
-		}
+		//FiresecManager FiresecManager;
+		//List<FiresecService.Service.FiresecService> FiresecServices
+		//{
+		//    get { return FiresecManager.FiresecServices; }
+		//}
+		//FiresecSerializedClient FiresecSerializedClient
+		//{
+		//    get { return FiresecManager.FiresecSerializedClient; }
+		//}
 
-		public Watcher(FiresecManager firesecManager)
+		//public Watcher(FiresecManager firesecManager)
+		public Watcher(bool mustMonitorStates)
 		{
-			FiresecManager = firesecManager;
-
-			if (firesecManager.MustMonitorStates)
+			if (mustMonitorStates)
 			{
 				SynchrinizeJournal();
 				SetLastEvent();

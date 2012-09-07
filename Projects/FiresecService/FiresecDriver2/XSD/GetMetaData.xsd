@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Class -->
+
+  <xs:complexType name="parentType">
+    <xs:attribute name="clsid" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="paramType">
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="classType">
+    <xs:sequence>
+      <xs:element name="parent" type="parentType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="clsid" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Driver -->
+
+  <xs:complexType name="propInfoType">
+    <xs:sequence>
+      <xs:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="default" type="xs:string" />
+    <xs:attribute name="editType" type="xs:string" />
+    <xs:attribute name="caption" type="xs:string" />
+    <xs:attribute name="helpIndex" type="xs:string" />
+    <xs:attribute name="hint" type="xs:string" />
+    <xs:attribute name="paramID" type="xs:string" />
+    <xs:attribute name="min" type="xs:string" />
+    <xs:attribute name="max" type="xs:string" />
+    <xs:attribute name="tslen" type="xs:string" />
+    <xs:attribute name="hidden" type="xs:string" />
+    <xs:attribute name="showOnlyInState" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="stateType">
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="code" type="xs:string" />
+    <xs:attribute name="nameSource" type="xs:string" />
+    <xs:attribute name="class" type="xs:string" />
+    <xs:attribute name="affectChildren" type="xs:string" />
+    <xs:attribute name="manualReset" type="xs:string" />
+    <xs:attribute name="primaryState" type="xs:string" />
+    <xs:attribute name="CanResetOnPanel" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="paramInfoType">
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="default" type="xs:string" />
+    <xs:attribute name="editType" type="xs:string" />
+    <xs:attribute name="nameSource" type="xs:string" />
+    <xs:attribute name="caption" type="xs:string" />
+    <xs:attribute name="helpIndex" type="xs:string" />
+    <xs:attribute name="hint" type="xs:string" />
+    <xs:attribute name="paramID" type="xs:string" />
+    <xs:attribute name="min" type="xs:string" />
+    <xs:attribute name="max" type="xs:string" />
+    <xs:attribute name="tslen" type="xs:string" />
+    <xs:attribute name="hidden" type="xs:string" />
+    <xs:attribute name="showOnlyInState" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="drvType">
+    <xs:sequence>
+      <xs:element name="propInfo" type="propInfoType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="paramInfo" type="paramInfoType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="state" type="stateType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="id" type="xs:string" />
+    <xs:attribute name="clsid" type="xs:string" />
+    <xs:attribute name="options" type="xs:string" />
+    <xs:attribute name="maxZoneCardinality" type="xs:string" />
+    <xs:attribute name="minZoneCardinality" type="xs:string" />
+    <xs:attribute name="addrGroup" type="xs:string" />
+    <xs:attribute name="parentInAddr" type="xs:string" />
+    <xs:attribute name="shortName" type="xs:string" />
+    <xs:attribute name="acr_enabled" type="xs:string" />
+    <xs:attribute name="acr_from" type="xs:string" />
+    <xs:attribute name="acr_to" type="xs:string" />
+    <xs:attribute name="ar_enabled" type="xs:string" />
+    <xs:attribute name="ar_from" type="xs:string" />
+    <xs:attribute name="ar_to" type="xs:string" />
+    <xs:attribute name="ar_no_addr" type="xs:string" />
+    <xs:attribute name="cat" type="xs:string" />
+    <xs:attribute name="caseCnt" type="xs:string" />
+    <xs:attribute name="childAddrMask" type="xs:string" />
+    <xs:attribute name="validChars" type="xs:string" />
+    <xs:attribute name="addrMask" type="xs:string" />
+    <xs:attribute name="dev_icon" type="xs:string" />
+    <xs:attribute name="id_alias" type="xs:string" />
+    <xs:attribute name="lim_parent" type="xs:string" />
+    <xs:attribute name="altIntf" type="xs:string" />
+    <xs:attribute name="addrPrefix" type="xs:string" />
+    <xs:attribute name="res_addr" type="xs:string" />
+    <xs:attribute name="child_id" type="xs:string" />
+    <xs:attribute name="child_count" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Root Element -->
+
+  <xs:element name="config">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="class" type="classType" maxOccurs="unbounded" />
+        <xs:element name="drv" type="drvType" maxOccurs="unbounded" />
+      </xs:sequence>
+      <xs:attribute name="clsid" type="xs:string" />
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>

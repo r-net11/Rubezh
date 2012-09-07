@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System;
 
 namespace JournalModule.ViewModels
 {
@@ -55,6 +56,8 @@ namespace JournalModule.ViewModels
 
         void OnNewJournalRecord(JournalRecord journalRecord)
         {
+			journalRecord.Time3 = DateTime.Now.TimeOfDay;
+
             if (FilterRecord(journalRecord) == false)
                 return;
 

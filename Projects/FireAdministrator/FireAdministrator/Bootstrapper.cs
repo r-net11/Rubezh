@@ -21,8 +21,6 @@ namespace FireAdministrator
 	{
 		public void Initialize()
 		{
-			Logger.Info("DEBUG: Start");
-
 			AppSettingsHelper.InitializeAppSettings();
 			LoadStyles();
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());

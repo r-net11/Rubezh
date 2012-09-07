@@ -195,7 +195,7 @@ namespace FiresecService.Configuration
 			if (innerElement.brush != null)
 				try
 				{
-					elementTextBlock.BorderColor = ConvertColor(innerElement.brush[0].color);
+					elementTextBlock.BackgroundColor = ConvertColor(innerElement.brush[0].color);
 				}
 				catch (Exception e)
 				{

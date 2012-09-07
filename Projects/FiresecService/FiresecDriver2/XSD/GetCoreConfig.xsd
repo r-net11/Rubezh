@@ -1,0 +1,176 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- Common types -->
+
+  <xs:complexType name="paramType">
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="value" type="xs:integer" />
+  </xs:complexType>
+
+  <!-- Drivers -->
+
+  <xs:complexType name="drvType">
+    <xs:attribute name="idx" type="xs:integer" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="id" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Security actions -->
+
+  <xs:complexType name="secActionType">
+    <xs:sequence>
+      <xs:element name="param" type="paramType" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute name="idx" type="xs:integer" />
+    <xs:attribute name="num" type="xs:string" />
+    <xs:attribute name="name" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="secObjTypeType">
+    <xs:sequence>
+      <xs:element name="secAction" type="secActionType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name ="idx" type="xs:integer" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="num" type="xs:integer" />
+  </xs:complexType>
+
+  <!-- User groups -->
+
+  <xs:complexType name="extSecurityType">
+    <xs:attribute name="remoteAccess" type="xs:integer" />
+  </xs:complexType>
+
+  <xs:complexType name="userGroupType">
+    <xs:sequence>
+      <xs:element name="param" type="paramType" />
+      <xs:element name="extSecurity" type="extSecurityType" />
+    </xs:sequence>
+    <xs:attribute name="idx" type="xs:integer" />
+    <xs:attribute name="name" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Users -->
+
+  <xs:complexType name="grpType">
+    <xs:attribute name="idx" type="xs:integer" />
+  </xs:complexType>
+
+  <xs:complexType name="userType">
+    <xs:sequence>
+      <xs:element name="param" type="paramType" />
+      <xs:element name="extSecurity" type="extSecurityType" />
+      <xs:element name="grp" type="grpType" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="idx" type="xs:integer" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="fullName" type="xs:string" />
+    <xs:attribute name="password" type="xs:string" />
+    <xs:attribute name="builtin" type="xs:integer" />
+  </xs:complexType>
+
+  <!-- Security GUI -->
+
+  <xs:complexType name="secRightType">
+    <xs:attribute name="act" type="xs:integer" />
+    <xs:attribute name="subj" type="xs:integer" />
+    <xs:attribute name="deleteflag" type="xs:integer" />
+  </xs:complexType>
+
+  <xs:complexType name="secGUIType">
+    <xs:sequence>
+      <xs:element name="param" type="paramType" />
+      <xs:element name="secRight" type="secRightType" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Zones -->
+
+  <xs:complexType name="shapeType">
+    <xs:attribute name="id" type="xs:string" />
+  </xs:complexType>  
+  
+  <xs:complexType name ="zoneType">
+    <xs:sequence>
+      <xs:element name="param" type="paramType" maxOccurs="unbounded" />
+      <xs:element name="shape" type="shapeType" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="idx" type="xs:integer" />
+    <xs:attribute name="no" type="xs:integer" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="desc" type="xs:string" />
+    <xs:attribute name="idZones" type="xs:integer" />
+    <xs:attribute name="RemidZones" type="xs:integer" />
+  </xs:complexType>
+
+  <!-- Parts -->
+
+  <xs:complexType name="partType">
+    <xs:sequence>
+      <xs:element name="PinZ" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="pidz" type="xs:integer" />
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="no" type="xs:integer" />
+    <xs:attribute name="id" type="xs:integer" />
+    <xs:attribute name="gid" type="xs:integer" />
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="desc" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+  </xs:complexType>
+
+  <!-- Devices -->
+
+  <xs:complexType name="propType">
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="dev_paramType">
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="type" type="xs:string" />
+    <xs:attribute name="value" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="inZType">
+    <xs:attribute name="idz" type="xs:integer" />
+  </xs:complexType>
+
+  <xs:complexType name="devType">
+    <xs:sequence>
+      <xs:element name="prop" type="propType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="param" type="paramType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="dev" type="devType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="dev_param" type="dev_paramType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="inZ" type="inZType" minOccurs="0" maxOccurs="unbounded" />
+      <xs:element name="shape" type="shapeType" minOccurs="0" maxOccurs="unbounded" />
+    </xs:sequence>
+    <xs:attribute name="drv" type="xs:integer" />
+    <xs:attribute name="addr" type="xs:integer" />
+    <xs:attribute name="name" />
+    <xs:attribute name="disabled" />
+  </xs:complexType>
+
+  <!-- Root element of the document -->
+
+  <xs:element name="config">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="drv" type="drvType" maxOccurs="unbounded" />
+        <xs:element name="secObjType" type="secObjTypeType" maxOccurs="unbounded" />
+        <xs:element name="userGroup" type="userGroupType" maxOccurs="unbounded" />
+        <xs:element name="user" type="userType" maxOccurs="unbounded" />
+        <xs:element name="secGUI" type="secGUIType" maxOccurs="unbounded" />
+        <xs:element name="zone" type="zoneType" maxOccurs="unbounded" />
+        <xs:element name="part" type="partType" maxOccurs="unbounded" />
+        <xs:element name="dev" type="devType" minOccurs="0" maxOccurs="unbounded" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

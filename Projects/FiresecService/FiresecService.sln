@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrustructure.Plans", "..\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventsTest", "EventsTest\EventsTest.csproj", "{601CFCF1-F995-4F68-82FC-1BB38F593840}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FiresecDriver2", "FiresecDriver2\FiresecDriver2.csproj", "{765D9A28-8099-478F-9647-251ED66BEBEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -168,6 +170,18 @@ Global
 		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Release|x64.ActiveCfg = Release|x86
 		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Release|x86.ActiveCfg = Release|x86
 		{601CFCF1-F995-4F68-82FC-1BB38F593840}.Release|x86.Build.0 = Release|x86
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Release|x64.ActiveCfg = Release|Any CPU
+		{765D9A28-8099-478F-9647-251ED66BEBEC}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

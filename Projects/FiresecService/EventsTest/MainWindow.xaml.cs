@@ -29,10 +29,20 @@ namespace EventsTest
 
 		public ObservableCollection<string> JournalItems { get; private set; }
 		FiresecSerializedClient FiresecSerializedClient;
+		int count = 1;
+
+		void AddJournalItem(JournalRecord journalRecord)
+		{
+			var value = count.ToString() + "\t" + DateTime.Now.TimeOfDay.ToString() + "\t" + journalRecord.SystemTime.ToString() + "\t" + journalRecord.Description;
+			JournalItems.Insert(0, value);
+			count++;
+		}
 
 		private void Button_Click(object sender, RoutedEventArgs e)
 		{
 			FiresecSerializedClient = new FiresecSerializedClient();
+			var result = FiresecSerializedClient.Connect("adm", "").Result;
+			JournalItems.Add(result ? "Соединение установлено" : "Ошибка при установлении соединения");
 			SetLastEvent();
 			FiresecSerializedClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
 		}
@@ -40,17 +50,6 @@ namespace EventsTest
 		void FiresecClient_NewEvent(int EventMask)
 		{
 			bool evmNewEvents = ((EventMask & 1) == 1);
-			bool evmStateChanged = ((EventMask & 2) == 2);
-			bool evmConfigChanged = ((EventMask & 4) == 4);
-			bool evmDeviceParamsUpdated = ((EventMask & 8) == 8);
-			bool evmPong = ((EventMask & 16) == 16);
-			bool evmDatabaseChanged = ((EventMask & 32) == 32);
-			bool evmReportsChanged = ((EventMask & 64) == 64);
-			bool evmSoundsChanged = ((EventMask & 128) == 128);
-			bool evmLibraryChanged = ((EventMask & 256) == 256);
-			bool evmPing = ((EventMask & 512) == 512);
-			bool evmIgnoreListChanged = ((EventMask & 1024) == 1024);
-			bool evmEventViewChanged = ((EventMask & 2048) == 2048);
 
 			if (evmNewEvents)
 				OnNewEvent();
@@ -59,12 +58,10 @@ namespace EventsTest
 		void OnNewEvent()
 		{
 			var journalRecords = GetEventsFromLastId(LastEventId);
-			var newJournalRecords = new List<JournalRecord>();
 
 			foreach (var journalRecord in journalRecords)
 			{
-				newJournalRecords.Add(journalRecord);
-				AddJournalItem(journalRecord.Description);
+				AddJournalItem(journalRecord);
 			}
 		}
 
@@ -109,11 +106,6 @@ namespace EventsTest
 			}
 
 			return result;
-		}
-
-		void AddJournalItem(string value)
-		{
-			JournalItems.Add(value);
 		}
 	}
 }
