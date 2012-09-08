@@ -16,6 +16,7 @@ using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
+using Devices = DevicesModule.ViewModels;
 
 namespace DevicesModule.Plans
 {
@@ -23,7 +24,7 @@ namespace DevicesModule.Plans
 	{
 		private DevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
-		public PlanExtension()
+		public PlanExtension(Devices.DevicesViewModel devicesViewModel)
 		{
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
@@ -37,7 +38,7 @@ namespace DevicesModule.Plans
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateDevice);
 			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateDevice);
 
-			_devicesViewModel = new DevicesViewModel();
+			_devicesViewModel = new DevicesViewModel(devicesViewModel);
 		}
 
 		#region IPlanExtension Members
@@ -259,15 +260,6 @@ namespace DevicesModule.Plans
 				var deviceInZoneViewModel = new DevicesInZoneViewModel(deviceInZones);
 				var result = DialogService.ShowModalWindow(deviceInZoneViewModel);
 			}
-		}
-
-		public void UpdateDevices()
-		{
-			_devicesViewModel.Update();
-		}
-		public void RemoveDevice(Device device)
-		{
-			_designerCanvas.Remove(device.PlanElementUIDs);
 		}
 	}
 }

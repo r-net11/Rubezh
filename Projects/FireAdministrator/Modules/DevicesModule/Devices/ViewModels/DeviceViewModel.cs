@@ -25,6 +25,7 @@ namespace DevicesModule.ViewModels
 			ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 
 			Children = new ObservableCollection<DeviceViewModel>();
 
@@ -48,6 +49,7 @@ namespace DevicesModule.ViewModels
 			IsExpanded = false;
 			IsExpanded = true;
 			OnPropertyChanged("HasChildren");
+			OnPropertyChanged("IsOnPlan");
 		}
 
 		public string Address
@@ -165,6 +167,15 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+		public bool IsOnPlan
+		{
+			get { return Device.PlanElementUIDs.Count > 0; }
+		}
+		public bool ShowOnPlan
+		{
+			get { return !Device.IsNotUsed && (Device.Driver.IsPlaceable || Device.Children.Count > 0); }
+		}
+
 		public RelayCommand ShowZoneLogicCommand { get; private set; }
 		void OnShowZoneLogic()
 		{
@@ -192,7 +203,7 @@ namespace DevicesModule.ViewModels
 			{
 				ServiceFactory.SaveService.DevicesChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
-				DevicesViewModel.Current.PlanExtension.UpdateDevices();
+				//DevicesViewModel.Current.PlanExtension.UpdateDevices();
 			}
 		}
 		public bool CanAdd()
@@ -238,8 +249,8 @@ namespace DevicesModule.ViewModels
 			index = Math.Min(index, DevicesViewModel.Current.Devices.Count - 1);
 			DevicesViewModel.Current.SelectedDevice = DevicesViewModel.Current.Devices[index];
 			DevicesViewModel.Current.UpdateExternalDevices();
-			DevicesViewModel.Current.PlanExtension.UpdateDevices();
-			DevicesViewModel.Current.PlanExtension.RemoveDevice(Device);
+			//DevicesViewModel.Current.PlanExtension.UpdateDevices();
+			//DevicesViewModel.Current.PlanExtension.RemoveDevice(Device);
 		}
 		bool CanRemove()
 		{
@@ -315,6 +326,13 @@ namespace DevicesModule.ViewModels
 				ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneNo.Value);
 		}
 
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+			if (Device.PlanElementUIDs.Count > 0)
+				ServiceFactory.Events.GetEvent<Infrustructure.Plans.Events.FindElementEvent>().Publish(Device.PlanElementUIDs[0]);
+		}
+
 		public Driver Driver
 		{
 			get { return Device.Driver; }
@@ -333,7 +351,7 @@ namespace DevicesModule.ViewModels
 					Device.Properties = new List<Property>();
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged("PropertiesViewModel");
-					
+
 					ServiceFactory.SaveService.DevicesChanged = true;
 					DevicesViewModel.Current.UpdateExternalDevices();
 				}

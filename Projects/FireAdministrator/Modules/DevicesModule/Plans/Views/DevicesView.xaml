@@ -26,6 +26,11 @@
     </UserControl.Resources>
     
     <DataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
+		<DataGrid.RowStyle>
+			<Style TargetType="{x:Type DataGridRow}">
+				<Setter Property="Visibility" Value="{Binding ShowOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" />
+			</Style>
+		</DataGrid.RowStyle>
         <DataGrid.Columns>
             <DataGridTemplateColumn Header="Устройство" MinWidth="250">
                 <DataGridTemplateColumn.CellTemplate>

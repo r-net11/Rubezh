@@ -30,11 +30,11 @@ namespace DevicesModule
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Subscribe(OnCreateZone);
 			ServiceFactory.Events.GetEvent<EditZoneEvent>().Subscribe(OnEditZone);
 
-			_planExtension = new PlanExtension();
-			_devicesViewModel = new DevicesViewModel(_planExtension);
+			_devicesViewModel = new DevicesViewModel();
 			_zonesViewModel = new ZonesViewModel();
 			_directionsViewModel = new DirectionsViewModel();
 			_guardViewModel = new GuardViewModel();
+			_planExtension = new PlanExtension(_devicesViewModel);
 		}
 
 		void OnCreateZone(CreateZoneEventArg createZoneEventArg)

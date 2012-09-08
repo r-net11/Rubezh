@@ -5,6 +5,8 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using DevicesModule.ViewModels;
+using DevicesModule.Plans.Designer;
 
 namespace DevicesModule.Plans.ViewModels
 {
@@ -118,11 +120,11 @@ namespace DevicesModule.Plans.ViewModels
 		protected override bool Save()
 		{
 			Guid deviceUID = _elementDevice.DeviceUID;
-			//Helper.SetDevice(_elementDevice, SelectedDevice.Device);
-
+			Helper.SetDevice(_elementDevice, SelectedDevice.Device);
 			if (deviceUID != _elementDevice.DeviceUID)
 				Update(deviceUID);
 			Update(_elementDevice.DeviceUID);
+			_devicesViewModel.Select(_elementDevice.DeviceUID);
 			return base.Save();
 		}
 		private void Update(Guid deviceUID)

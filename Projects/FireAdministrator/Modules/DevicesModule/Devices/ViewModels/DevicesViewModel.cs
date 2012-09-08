@@ -19,11 +19,9 @@ namespace DevicesModule.ViewModels
 	{
 		public static DevicesViewModel Current { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
-		public PlanExtension PlanExtension { get; private set; }
 
-		public DevicesViewModel(PlanExtension planExtension)
+		public DevicesViewModel()
 		{
-			PlanExtension = planExtension;
 			Current = this;
 			CopyCommand = new RelayCommand(OnCopy, CanCutCopy);
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
@@ -168,7 +166,6 @@ namespace DevicesModule.ViewModels
 			SelectedDevice.RemoveCommand.Execute();
 
 			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
-			PlanExtension.UpdateDevices();
 			ServiceFactory.SaveService.DevicesChanged = true;
 			UpdateGuardVisibility();
 		}
@@ -183,7 +180,6 @@ namespace DevicesModule.ViewModels
 		{
 			var pasteDevice = FiresecManager.FiresecConfiguration.CopyDevice(_deviceToCopy, _isFullCopy);
 			PasteDevice(pasteDevice);
-			PlanExtension.UpdateDevices();
 		}
 
 		bool CanPasteAs()

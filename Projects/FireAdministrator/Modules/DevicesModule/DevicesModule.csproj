@@ -210,7 +210,6 @@
     <Compile Include="Plans\ViewModels\DevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicesInZoneViewModel.cs" />
     <Compile Include="Plans\ViewModels\DevicesViewModel.cs" />
-    <Compile Include="Plans\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
     <Compile Include="Plans\ViewModels\ZonePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\DevicePropertiesView.xaml.cs">

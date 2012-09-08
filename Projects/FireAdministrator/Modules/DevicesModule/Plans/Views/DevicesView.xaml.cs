@@ -6,6 +6,7 @@ using DevicesModule.Plans.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
+using Devices = DevicesModule.ViewModels;
 
 namespace DevicesModule.Plans.Views
 {
@@ -42,7 +43,7 @@ namespace DevicesModule.Plans.Views
 
 			if (this.dragStartPoint.HasValue)
 			{
-				DeviceViewModel viewModel = (sender as Image).DataContext as DeviceViewModel;
+				Devices.DeviceViewModel viewModel = (sender as Image).DataContext as Devices.DeviceViewModel;
 				//if (viewModel.DesignerCanvas != null)
 				//    viewModel.DesignerCanvas.Toolbox.SetDefault();
 				var device = viewModel.Device;
