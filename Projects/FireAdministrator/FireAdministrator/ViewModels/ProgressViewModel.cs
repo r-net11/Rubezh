@@ -81,7 +81,7 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand StopCommand { get; private set; }
 		void OnStop()
 		{
-			FiresecManager.FiresecService.CancelProgress();
+			//FiresecManager.FiresecDriver.CancelProgress();
 		}
 	}
 }

@@ -58,7 +58,7 @@ namespace AlarmModule
 		{
 			var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
 			if (FiresecManager.CanDisable(deviceState) && deviceState.IsDisabled)
-				FiresecManager.FiresecService.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
+                FiresecManager.FiresecDriver.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
 		}
 
 		public bool CanReset()
@@ -70,7 +70,7 @@ namespace AlarmModule
 		{
 			var resetItems = new List<ResetItem>();
 			resetItems.Add(GetResetItem());
-			FiresecManager.FiresecService.ResetStates(resetItems);
+            FiresecManager.FiresecDriver.ResetStates(resetItems);
 		}
 
 		public ResetItem GetResetItem()

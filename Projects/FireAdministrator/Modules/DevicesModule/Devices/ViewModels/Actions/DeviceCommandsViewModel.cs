@@ -186,7 +186,7 @@ namespace DevicesModule.ViewModels
 			var result = new OperationResult<List<Property>>();
 			WaitHelper.Execute(() =>
 			{
-				result = FiresecManager.FiresecService.GetConfigurationParameters(SelectedDevice.Device.UID);
+				result = FiresecManager.FiresecDriver.GetConfigurationParameters(SelectedDevice.Device.UID);
 			}
 			);
 
@@ -221,7 +221,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SetConfigurationParametersCommand { get; private set; }
 		void OnSetConfigurationParameters()
 		{
-			FiresecManager.FiresecService.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
+            FiresecManager.FiresecDriver.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
 		}
 
 		bool CanSetConfigurationParameters()

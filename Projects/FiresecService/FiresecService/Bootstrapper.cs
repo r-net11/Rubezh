@@ -7,82 +7,93 @@ using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+//using FiresecDriver;
+using FiresecService.Configuration;
+using FiresecAPI.Models;
 
 namespace FiresecService
 {
-	public static class Bootstrapper
-	{
-		static Thread WindowThread = null;
-		static MainViewModel MainViewModel;
-		static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
+    public static class Bootstrapper
+    {
+        static Thread WindowThread = null;
+        static MainViewModel MainViewModel;
+        static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
 
-		public static void Run()
-		{
-			try
-			{
+        public static void Run()
+        {
+            try
+            {
                 AppSettingsHelper.InitializeAppSettings();
-				var directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
-				Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
+                var directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
+                Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
 
-				var resourceService = new ResourceService();
-				resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
-				resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+                var resourceService = new ResourceService();
+                resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
+                resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
-				WindowThread = new Thread(new ThreadStart(OnWorkThread));
-				WindowThread.Priority = ThreadPriority.Highest;
-				WindowThread.SetApartmentState(ApartmentState.STA);
-				WindowThread.IsBackground = true;
-				WindowThread.Start();
-				MainViewStartedEvent.WaitOne();
+                WindowThread = new Thread(new ThreadStart(OnWorkThread));
+                WindowThread.Priority = ThreadPriority.Highest;
+                WindowThread.SetApartmentState(ApartmentState.STA);
+                WindowThread.IsBackground = true;
+                WindowThread.Start();
+                MainViewStartedEvent.WaitOne();
+
+                ConfigurationCash.DriversConfiguration = new DriversConfiguration();
+                ConfigurationCash.DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
+                ConfigurationCash.SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
+                ConfigurationCash.LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
+                ConfigurationCash.SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
+                ConfigurationCash.PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
+                ConfigurationCash.DeviceConfigurationStates = new DeviceConfigurationStates();
 
                 if (AppSettings.IsFSEnabled)
                 {
-                    ClientsCash.InitializeComServers();
+                    //ClientsCash.InitializeComServers();
                     if (AppSettings.IsOPCEnabled)
                     {
                         UILogger.Log("Запуск OPC сервера");
                         FiresecOPCManager.Start();
                     }
                 }
-				if (!AppSettings.IsOPCOnly)
-				{
-					UILogger.Log("Открытие хоста");
-					FiresecServiceManager.Open();
-				}
-				UILogger.Log("Готово");
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
-				UILogger.Log("Ошибка при запуске сервера", true);
-				Close();
-			}
-		}
+                if (!AppSettings.IsOPCOnly)
+                {
+                    UILogger.Log("Открытие хоста");
+                    FiresecServiceManager.Open();
+                }
+                UILogger.Log("Готово");
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Исключение при вызове Bootstrapper.Run");
+                UILogger.Log("Ошибка при запуске сервера", true);
+                Close();
+            }
+        }
 
-		static void OnWorkThread()
-		{
-			try
-			{
-				MainViewModel = new MainViewModel();
-				ApplicationService.Run(MainViewModel);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
-			}
-			MainViewStartedEvent.Set();
-			System.Windows.Threading.Dispatcher.Run();
-		}
+        static void OnWorkThread()
+        {
+            try
+            {
+                MainViewModel = new MainViewModel();
+                ApplicationService.Run(MainViewModel);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Исключение при вызове Bootstrapper.OnWorkThread");
+            }
+            MainViewStartedEvent.Set();
+            System.Windows.Threading.Dispatcher.Run();
+        }
 
-		public static void Close()
-		{
-			if (WindowThread != null)
-			{
-				WindowThread.Interrupt();
-				WindowThread = null;
-			}
+        public static void Close()
+        {
+            if (WindowThread != null)
+            {
+                WindowThread.Interrupt();
+                WindowThread = null;
+            }
 
-			System.Environment.Exit(1);
-		}
-	}
+            System.Environment.Exit(1);
+        }
+    }
 }

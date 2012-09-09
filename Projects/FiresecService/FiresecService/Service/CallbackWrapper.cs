@@ -16,25 +16,25 @@ namespace FiresecService.Service
 			FiresecService = firesecService;
 		}
 
-		public void NewJournalRecords(List<JournalRecord> journalRecords)
-		{
-			SafeCall((x) => { x.FiresecCallbackService.NewJournalRecords(journalRecords); }, "NewJournalRecords");
-		}
+        public void NewJournalRecords(List<JournalRecord> journalRecords)
+        {
+            SafeCall((x) => { x.FiresecCallbackService.NewJournalRecords(journalRecords); }, "NewJournalRecords");
+        }
 
-		public void DeviceStateChanged(List<DeviceState> deviceStates)
-		{
-			SafeCall((x) => { x.FiresecCallbackService.DeviceStateChanged(deviceStates); }, "DeviceStatesChanged");
-		}
+        //public void DeviceStateChanged(List<DeviceState> deviceStates)
+        //{
+        //    SafeCall((x) => { x.FiresecCallbackService.DeviceStateChanged(deviceStates); }, "DeviceStatesChanged");
+        //}
 
-		public void DeviceParametersChanged(List<DeviceState> deviceParameters)
-		{
-			SafeCall((x) => { x.FiresecCallbackService.DeviceParametersChanged(deviceParameters); }, "DeviceParametersChanged");
-		}
+        //public void DeviceParametersChanged(List<DeviceState> deviceParameters)
+        //{
+        //    SafeCall((x) => { x.FiresecCallbackService.DeviceParametersChanged(deviceParameters); }, "DeviceParametersChanged");
+        //}
 
-		public void ZonesStateChanged(List<ZoneState> zoneStates)
-		{
-			SafeCall((x) => { x.FiresecCallbackService.ZonesStateChanged(zoneStates); }, "ZonesStateChanged");
-		}
+        //public void ZonesStateChanged(List<ZoneState> zoneStates)
+        //{
+        //    SafeCall((x) => { x.FiresecCallbackService.ZonesStateChanged(zoneStates); }, "ZonesStateChanged");
+        //}
 
 		public void ConfigurationChanged()
 		{
@@ -59,23 +59,23 @@ namespace FiresecService.Service
 			SafeCall((x) => { x.FiresecCallbackService.GetFilteredArchiveCompleted(journalRecords); }, "GetFilteredArchiveCompleted");
 		}
 
-		public void Progress(int stage, string comment, int percentComplete, int bytesRW)
-		{
-			try
-			{
-				FiresecService.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
-				//if (FiresecService.ContinueProgress == false)
-				//{
-				//    FiresecService.ContinueProgress = true;
-				//    return false;
-				//}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове CallbackWrapper.Progress");
-				FiresecService.ReconnectToClient();
-			}
-		}
+        //public void Progress(int stage, string comment, int percentComplete, int bytesRW)
+        //{
+        //    try
+        //    {
+        //        FiresecService.FiresecCallbackService.Progress(stage, comment, percentComplete, bytesRW);
+        //        //if (FiresecService.ContinueProgress == false)
+        //        //{
+        //        //    FiresecService.ContinueProgress = true;
+        //        //    return false;
+        //        //}
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Logger.Error(e, "Исключение при вызове CallbackWrapper.Progress");
+        //        FiresecService.ReconnectToClient();
+        //    }
+        //}
 
 		public void Notify(string message)
 		{

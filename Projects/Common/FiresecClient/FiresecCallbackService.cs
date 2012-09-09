@@ -10,6 +10,12 @@ namespace FiresecClient
 {
 	public class FiresecCallbackService : IFiresecCallbackService
 	{
+        public static FiresecCallbackService Current;
+        public FiresecCallbackService()
+        {
+            Current = new FiresecCallbackService();
+        }
+
 		public void DeviceStateChanged(List<DeviceState> newDeviceStates)
 		{
 			SafeOperationCall(() =>

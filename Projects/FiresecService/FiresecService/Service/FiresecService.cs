@@ -8,7 +8,6 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecService.Database;
 using FiresecService.DatabaseConverter;
-using FiresecService.Processor;
 using FiresecService.ViewModels;
 
 namespace FiresecService.Service
@@ -26,23 +25,12 @@ namespace FiresecService.Service
 		public string ClientIpAddress { get; private set; }
 		public string ClientIpAddressAndPort { get; private set; }
 		public bool IsSubscribed { get; private set; }
-		//System.Timers.Timer _recoveryTimer;
 		public bool IsClientCallbackFaulted { get; private set; }
-
-		public FiresecManager FiresecManager { get; set; }
-		FiresecSerializedClient FiresecSerializedClient
-		{
-			get { return FiresecManager.FiresecSerializedClient; }
-		}
 
 		public FiresecService()
 		{
 			UID = Guid.NewGuid();
 			IsClientCallbackFaulted = false;
-
-			//_recoveryTimer = new System.Timers.Timer();
-			//_recoveryTimer.Interval = 10000;
-			//_recoveryTimer.Elapsed += new ElapsedEventHandler((source, e) => { ReconnectToClient(); });
 		}
 
 		public bool ReconnectToClient()
@@ -50,18 +38,15 @@ namespace FiresecService.Service
 			Logger.Info("FiresecService.ReconnectToClient");
 			IsClientCallbackFaulted = true;
 			MainViewModel.Current.UpdateClientState(UID, "Попытка соединения");
-			//_recoveryTimer.Stop();
 			FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);
 			try
 			{
 				FiresecCallbackService.Ping();
-				//_recoveryTimer.Stop();
 				MainViewModel.Current.UpdateClientState(UID, "Норма");
 			}
 			catch 
 			{
 				MainViewModel.Current.UpdateClientState(UID, "Ошибка");
-				//_recoveryTimer.Start();
 				return false;
 			}
 			return false;
@@ -99,19 +84,6 @@ namespace FiresecService.Service
 
 			ClientsCash.Add(this);
 
-			if (AppSettings.IsFSEnabled)
-			{
-				if (FiresecManager.IsConnectedToComServer)
-				{
-					operationResult.Result = true;
-				}
-				else
-				{
-					operationResult.HasError = false;
-					operationResult.Error = "Нет соединения с ядром Firesec";
-					return operationResult;
-				}
-			}
 			return operationResult;
 		}
 
@@ -140,37 +112,9 @@ namespace FiresecService.Service
 			DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Выход пользователя из системы(Firesec-2)");
 		}
 
-		public bool ContinueProgress = true;
-		public void CancelProgress()
-		{
-			ContinueProgress = false;
-			Interlocked.Exchange(ref FiresecSerializedClient.NativeFiresecClient.StopProgress, 1);
-		}
-
 		public string GetStatus()
 		{
-			if (AppSettings.IsFSEnabled)
-			{
-				var driversError = FiresecManager.ConfigurationConverter.DriversError.ToString();
-				if (!string.IsNullOrEmpty(driversError))
-				{
-					return driversError;
-				}
-			}
 			return null;
-		}
-
-		public void ConvertConfiguration()
-		{
-			try
-			{
-				FiresecManager.Convert();
-				ClientsCash.OnConfigurationChanged();
-			}
-			catch(Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове FiresecService.ConvertConfiguration");
-			}
 		}
 
 		public string Ping()

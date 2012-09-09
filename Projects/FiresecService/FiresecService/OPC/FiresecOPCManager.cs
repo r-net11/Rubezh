@@ -147,8 +147,8 @@ namespace FiresecService.OPC
 			}
 			srv.EndUpdate(false);
 
-			ClientsCash.MonitoringFiresecManager.Watcher.DevicesStateChanged += new Action<List<DeviceState>>(OnDevicesStateChanged);
-			ClientsCash.MonitoringFiresecManager.Watcher.ZoneStateChanged += new Action<List<ZoneState>>(OnZoneStatesChanged);
+			//ClientsCash.MonitoringFiresecManager.Watcher.DevicesStateChanged += new Action<List<DeviceState>>(OnDevicesStateChanged);
+			//ClientsCash.MonitoringFiresecManager.Watcher.ZoneStateChanged += new Action<List<ZoneState>>(OnZoneStatesChanged);
 
 			while (true)
 			{

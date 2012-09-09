@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common;
-using Firesec;
 using FiresecAPI.Models;
-using FiresecService.Processor;
+//using FiresecService.Processor;
 using FiresecService.ViewModels;
 
 namespace FiresecService.Service
@@ -12,51 +11,45 @@ namespace FiresecService.Service
 	public static class ClientsCash
 	{
 		public static List<FiresecService> FiresecServices { get; private set; }
-		public static FiresecManager MonitoringFiresecManager { get; private set; }
-		static FiresecManager AdministratorFiresecManager;
-		//static System.Timers.Timer PingTimer;
+        //public static FiresecManager MonitoringFiresecManager { get; private set; }
+        //static FiresecManager AdministratorFiresecManager;
 
 		static ClientsCash()
 		{
 			FiresecServices = new List<FiresecService>();
-
-			//PingTimer = new System.Timers.Timer();
-			//PingTimer.Interval = 10000;
-			//PingTimer.Elapsed += new ElapsedEventHandler((source, e) => { PingClients(); });
-			//PingTimer.Start();
 		}
 
-		public static void InitializeComServers()
-		{
-			try
-			{
-				UILogger.Log("Перезапуск Socket Server");
-				SocketServerHelper.Stop();
-				UILogger.Log("Загрузка драйвера для мониторинга");
-				MonitoringFiresecManager = new FiresecManager(true);
-				UILogger.Log("Загрузка драйвера для администрирования");
-				AdministratorFiresecManager = new FiresecManager(false);
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "ClientsCash.InitializeComServers");
-			}
-		}
+        //public static void InitializeComServers()
+        //{
+        //    try
+        //    {
+        //        UILogger.Log("Перезапуск Socket Server");
+        //        SocketServerHelper.Stop();
+        //        UILogger.Log("Загрузка драйвера для мониторинга");
+        //        MonitoringFiresecManager = new FiresecManager(true);
+        //        UILogger.Log("Загрузка драйвера для администрирования");
+        //        AdministratorFiresecManager = new FiresecManager(false);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Logger.Error(e, "ClientsCash.InitializeComServers");
+        //    }
+        //}
 
 		public static void Add(FiresecService firesecService)
 		{
-			switch (firesecService.ClientCredentials.ClientType)
-			{
-				case ClientType.Administrator:
-					firesecService.FiresecManager = AdministratorFiresecManager;
-					break;
+            //switch (firesecService.ClientCredentials.ClientType)
+            //{
+            //    case ClientType.Administrator:
+            //        firesecService.FiresecManager = AdministratorFiresecManager;
+            //        break;
 
-				case ClientType.Monitor:
-				case ClientType.Itv:
-				case ClientType.Other:
-					firesecService.FiresecManager = MonitoringFiresecManager;
-					break;
-			}
+            //    case ClientType.Monitor:
+            //    case ClientType.Itv:
+            //    case ClientType.Other:
+            //        firesecService.FiresecManager = MonitoringFiresecManager;
+            //        break;
+            //}
 
 			if (!IsNew(firesecService))
 				return;
@@ -67,21 +60,21 @@ namespace FiresecService.Service
 			{
 				Remove(existingFiresecService);
 			}
-            if (firesecService.FiresecManager != null)
-            {
-                firesecService.FiresecManager.FiresecServices.Add(firesecService);
-            }
+            //if (firesecService.FiresecManager != null)
+            //{
+            //    firesecService.FiresecManager.FiresecServices.Add(firesecService);
+            //}
 			FiresecServices.Add(firesecService);
 			MainViewModel.Current.AddClient(firesecService);
 		}
 
 		public static void Remove(FiresecService firesecService)
 		{
-			if (firesecService.FiresecManager != null)
-			{
-				firesecService.FiresecManager.FiresecServices.Remove(firesecService);
-				firesecService.FiresecManager = null;
-			}
+            //if (firesecService.FiresecManager != null)
+            //{
+            //    firesecService.FiresecManager.FiresecServices.Remove(firesecService);
+            //    firesecService.FiresecManager = null;
+            //}
 			FiresecServices.Remove(firesecService);
 			MainViewModel.Current.RemoveClient(firesecService.UID);
 		}
@@ -91,17 +84,17 @@ namespace FiresecService.Service
 			return !FiresecServices.Any(x => x.UID == firesecService.UID || x.ClientCredentials.ClientUID == firesecService.ClientCredentials.ClientUID);
 		}
 
-		public static void OnNewJournalRecord(JournalRecord journalRecord)
-		{
-			foreach (var firesecServices in FiresecServices)
-			{
-				firesecServices.CallbackWrapper.NewJournalRecords(new List<JournalRecord>() { journalRecord });
-			}
-		}
+        public static void OnNewJournalRecord(JournalRecord journalRecord)
+        {
+            foreach (var firesecServices in FiresecServices)
+            {
+                firesecServices.CallbackWrapper.NewJournalRecords(new List<JournalRecord>() { journalRecord });
+            }
+        }
 
 		public static void OnConfigurationChanged()
 		{
-			MonitoringFiresecManager.ConvertStates();
+			//MonitoringFiresecManager.ConvertStates();
 			foreach (var firesecServices in FiresecServices)
 			{
 				firesecServices.CallbackWrapper.ConfigurationChanged();
@@ -110,7 +103,6 @@ namespace FiresecService.Service
 
 		static void PingClients()
 		{
-			//PingTimer.Stop();
 			foreach (var firesecService in FiresecServices)
 			{
 				var clientUID = firesecService.CallbackWrapper.Ping();
@@ -119,7 +111,6 @@ namespace FiresecService.Service
 					Logger.Info("ClientsCash.PingClients clientUID != firesecService.ClientCredentials.ClientUID");
 				}
 			}
-			//PingTimer.Start();
 		}
 
 		public static void NotifyClients(string message)

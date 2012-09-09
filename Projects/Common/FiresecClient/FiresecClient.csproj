@@ -128,6 +128,7 @@
     <Compile Include="FiresecManager\FiresecManager.Configuration.cs" />
     <Compile Include="FiresecManager\FiresecManager.cs" />
     <Compile Include="FiresecManager\FiresecManager.Disabling.cs" />
+    <Compile Include="FiresecManager\FiresecManager.FiresecDriver.cs" />
     <Compile Include="FiresecManager\FiresecManager.Guard.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.PresentationZone.cs" />
     <Compile Include="FiresecManager\FiresecManager.States.cs" />
@@ -173,6 +174,10 @@
     <ProjectReference Include="..\FiresecServiceAPI\FiresecAPI.csproj">
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Firesec\Firesec.csproj">
+      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
+      <Name>Firesec</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>
