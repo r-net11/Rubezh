@@ -2,11 +2,40 @@
 using FiresecAPI.Models;
 using FiresecClient;
 using XFiresecAPI;
+using Infrustructure.Plans.Elements;
+using System.Windows.Media;
 
 namespace GKModule.Plans.Designer
 {
 	internal static class Helper
 	{
+		public static string GetXZoneTitle(IElementZone element)
+		{
+			XZone xzone = GetXZone(element);
+			return xzone == null ? "Несвязанная зона" : xzone.PresentationName;
+		}
+		public static XZone GetXZone(IElementZone element)
+		{
+			return element.ZoneNo.HasValue ? XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == element.ZoneNo.Value) : null;
+		}
+		public static void SetXZone(IElementZone element)
+		{
+			XZone zone = GetXZone(element);
+			element.BackgroundColor = GetXZoneColor(zone);
+		}
+		public static void SetXZone(IElementZone element, XZone xzone)
+		{
+			element.ZoneNo = xzone == null ? null : (int?)xzone.No;
+			element.BackgroundColor = GetXZoneColor(xzone);
+		}
+		private static Color GetXZoneColor(XZone zone)
+		{
+			Color color = Colors.Gray;
+			if (zone != null)
+				color = Colors.Purple;
+			return color;
+		}
+
 		public static XDevice GetXDevice(ElementXDevice element)
 		{
 			return XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == (element.XDeviceUID));

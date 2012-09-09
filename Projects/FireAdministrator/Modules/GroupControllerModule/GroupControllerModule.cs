@@ -27,6 +27,9 @@ namespace GKModule
 
 		public GroupControllerModule()
 		{
+			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Subscribe(OnCreateXZone);
+			ServiceFactory.Events.GetEvent<EditXZoneEvent>().Subscribe(OnEditXZone);
+			
 			_devicesViewModel = new DevicesViewModel();
 			_zonesViewModel = new ZonesViewModel();
 			_directionsViewModel = new DirectionsViewModel();
@@ -66,8 +69,7 @@ namespace GKModule
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(GetType().Assembly, "Plans/DataTemplates/Dictionary.xaml"));
 		}
-
-
+		
 		#region IValidationModule Members
 
 		public IEnumerable<IValidationError> Validate()
@@ -76,5 +78,14 @@ namespace GKModule
 		}
 
 		#endregion
+
+		private void OnCreateXZone(CreateXZoneEventArg createZoneEventArg)
+		{
+			_zonesViewModel.CreateZone(createZoneEventArg);
+		}
+		private void OnEditXZone(int zoneNo)
+		{
+			_zonesViewModel.EditZone(zoneNo);
+		}
 	}
 }

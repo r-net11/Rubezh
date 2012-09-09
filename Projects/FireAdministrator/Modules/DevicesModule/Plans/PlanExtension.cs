@@ -35,8 +35,6 @@ namespace DevicesModule.Plans
 			ServiceFactory.Events.GetEvent<ElementChangedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Unsubscribe(x => { UpdateDeviceInZones(); });
 			ServiceFactory.Events.GetEvent<ElementAddedEvent>().Subscribe(x => { UpdateDeviceInZones(); });
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Unsubscribe(UpdateDevice);
-			ServiceFactory.Events.GetEvent<ElementRemovedEvent>().Subscribe(UpdateDevice);
 
 			_devicesViewModel = new DevicesViewModel(devicesViewModel);
 		}
@@ -86,11 +84,13 @@ namespace DevicesModule.Plans
 			IElementZone elementZone = element as IElementZone;
 			if (elementZone != null)
 			{
-				Designer.Helper.SetZone(elementZone);
 				if (elementZone is ElementRectangleZone)
 					plan.ElementRectangleZones.Add((ElementRectangleZone)elementZone);
 				else if (elementZone is ElementPolygonZone)
 					plan.ElementPolygonZones.Add((ElementPolygonZone)elementZone);
+				else
+					return false;
+				Designer.Helper.SetZone(elementZone);
 				return true;
 			}
 			else if (element is ElementDevice)
@@ -111,6 +111,8 @@ namespace DevicesModule.Plans
 					plan.ElementRectangleZones.Remove((ElementRectangleZone)elementZone);
 				else if (elementZone is ElementPolygonZone)
 					plan.ElementPolygonZones.Remove((ElementPolygonZone)elementZone);
+				else
+					return false;
 				return true;
 			}
 			else
@@ -128,13 +130,13 @@ namespace DevicesModule.Plans
 
 		public void RegisterDesignerItem(DesignerItem designerItem)
 		{
-			if (designerItem.Element is IElementZone)
+			if (designerItem.Element is ElementRectangleZone || designerItem.Element is ElementPolygonZone)
 			{
 				designerItem.Group = "Zone";
-				designerItem.UpdateProperties += new Action<DesignerItem>(UpdateDesignerItemZone);
+				designerItem.UpdateProperties += UpdateDesignerItemZone;
 				UpdateDesignerItemZone(designerItem);
 			}
-			if (designerItem.Element is ElementDevice)
+			else if (designerItem.Element is ElementDevice)
 			{
 				designerItem.Group = "Devices";
 				designerItem.UpdateProperties += UpdateDesignerItemDevice;
@@ -195,15 +197,10 @@ namespace DevicesModule.Plans
 			ElementDevice element = e.Element as ElementDevice;
 			if (element != null)
 				e.PropertyViewModel = new DevicePropertiesViewModel(_devicesViewModel, element);
-			else if (e.Element is IElementZone)
+			else if (e.Element is ElementRectangleZone || e.Element is ElementPolygonZone)
 				e.PropertyViewModel = new ZonePropertiesViewModel((IElementZone)e.Element);
 		}
 
-		private void UpdateDevice(List<ElementBase> elements)
-		{
-			foreach (var element in elements.OfType<ElementDevice>())
-				Designer.Helper.ResetDevice(element);
-		}
 		public void UpdateDeviceInZones()
 		{
 			var deviceInZones = new Dictionary<Device, int?>();
@@ -224,7 +221,7 @@ namespace DevicesModule.Plans
 						ElementPolygonZone elementPolygonZone = elementPolygonZoneItem.Element as ElementPolygonZone;
 						if (elementPolygonZone != null)
 						{
-							bool isInPolygon = Designer.Helper.IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
+							bool isInPolygon = DesignerHelper.IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
 							if (isInPolygon && elementPolygonZone.ZoneNo.HasValue)
 								zones.Add(elementPolygonZone.ZoneNo.Value);
 						}

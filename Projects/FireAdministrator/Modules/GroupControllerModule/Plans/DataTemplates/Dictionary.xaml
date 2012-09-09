@@ -1,5 +1,4 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:GKModule.Plans.ViewModels" xmlns:Views="clr-namespace:GKModule.Plans.Views">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ViewModels="clr-namespace:GKModule.Plans.ViewModels" xmlns:Views="clr-namespace:GKModule.Plans.Views">
 
 	<DataTemplate DataType="{x:Type ViewModels:XDevicesViewModel}">
 		<Views:XDevicesView />
@@ -7,6 +6,10 @@
 
 	<DataTemplate DataType="{x:Type ViewModels:XDevicePropertiesViewModel}">
 		<Views:XDevicePropertiesView />
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type ViewModels:XZonePropertiesViewModel}">
+		<Views:XZonePropertiesView />
 	</DataTemplate>
 
 </ResourceDictionary>

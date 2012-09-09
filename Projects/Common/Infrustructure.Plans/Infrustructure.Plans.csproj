@@ -52,6 +52,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="Designer\CommonDesignerCanvas.cs" />
+    <Compile Include="Designer\DesignerHelper.cs" />
     <Compile Include="Designer\DesignerItemBorder.cs" />
     <Compile Include="Designer\IInstrument.cs" />
     <Compile Include="Elements\IElementZone.cs" />

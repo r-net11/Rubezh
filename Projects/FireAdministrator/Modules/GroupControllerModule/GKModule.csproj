@@ -121,13 +121,20 @@
     </Compile>
     <Compile Include="Plans\Designer\Helper.cs" />
     <Compile Include="Plans\Designer\Painter.cs" />
+    <Compile Include="Plans\InstrumentAdorners\XZonePolygonAdorner.cs" />
+    <Compile Include="Plans\InstrumentAdorners\XZoneRectangleAdorner.cs" />
+    <Compile Include="Plans\ViewModels\InstrumentViewModel.cs" />
     <Compile Include="Plans\ViewModels\XDevicePropertiesViewModel.cs" />
     <Compile Include="Plans\ViewModels\XDevicesViewModel.cs" />
+    <Compile Include="Plans\ViewModels\XZonePropertiesViewModel.cs" />
     <Compile Include="Plans\Views\XDevicePropertiesView.xaml.cs">
       <DependentUpon>XDevicePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Views\XDevicesView.xaml.cs">
       <DependentUpon>XDevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Plans\Views\XZonePropertiesView.xaml.cs">
+      <DependentUpon>XZonePropertiesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -285,6 +292,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Plans\Views\XDevicesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Plans\Views\XZonePropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

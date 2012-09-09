@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using System.Windows;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrustructure.Plans.Elements;
@@ -80,25 +78,6 @@ namespace DevicesModule.Plans.Designer
 		{
 			var device = GetDevice(element);
 			return device == null ? "Неизвестное устройство" : device.DottedAddress + " " + device.Driver.ShortName;
-		}
-
-		public static bool IsPointInPolygon(Point point, Polygon polygon)
-		{
-			if (polygon == null)
-				return false;
-
-			var j = polygon.Points.Count - 1;
-			var oddNodes = false;
-
-			for (var i = 0; i < polygon.Points.Count; i++)
-			{
-				if ((polygon.Points[i].Y < point.Y && polygon.Points[j].Y >= point.Y || polygon.Points[j].Y < point.Y && polygon.Points[i].Y >= point.Y) &&
-					(polygon.Points[i].X + (point.Y - polygon.Points[i].Y) / (polygon.Points[j].Y - polygon.Points[i].Y) * (polygon.Points[j].X - polygon.Points[i].X) < point.X))
-					oddNodes = !oddNodes;
-				j = i;
-			}
-
-			return oddNodes;
 		}
 	}
 }

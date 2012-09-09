@@ -42,37 +42,6 @@ namespace GKModule.Plans.ViewModels
 			_devicesViewModel.Select(deviceUID);
 		}
 
-		//private void BuildTree()
-		//{
-		//    AddDevice(XManager.DeviceConfiguration.RootDevice, null);
-		//}
-		//public XDeviceViewModel AddDevice(XDevice device, XDeviceViewModel parentDeviceViewModel)
-		//{
-		//    var deviceViewModel = new XDeviceViewModel(device, Devices);
-		//    deviceViewModel.Parent = parentDeviceViewModel;
-
-		//    var indexOf = Devices.IndexOf(parentDeviceViewModel);
-		//    Devices.Insert(indexOf + 1, deviceViewModel);
-
-		//    if (device != null)
-		//        foreach (var childDevice in device.Children)
-		//        {
-		//            if (childDevice.Driver.IsDeviceOnShleif || childDevice.Children.Count > 0)
-		//            {
-		//                var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-		//                deviceViewModel.Children.Add(childDeviceViewModel);
-		//            }
-		//        }
-
-		//    return deviceViewModel;
-		//}
-		//private void AddChildPlainDevices(XDeviceViewModel parentViewModel)
-		//{
-		//    AllDevices.Add(parentViewModel);
-		//    foreach (var childViewModel in parentViewModel.Children)
-		//        AddChildPlainDevices(childViewModel);
-		//}
-
 		public ObservableCollection<GKModule.ViewModels.DeviceViewModel> Devices
 		{
 			get { return _devicesViewModel.Devices; }

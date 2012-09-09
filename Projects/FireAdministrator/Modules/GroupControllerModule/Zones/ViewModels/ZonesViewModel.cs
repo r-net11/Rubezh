@@ -8,6 +8,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using System;
+using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -75,15 +77,21 @@ namespace GKModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            var zoneDetailsViewModel = new ZoneDetailsViewModel();
-			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
-            {
-                XManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.XZone);
-                Zones.Add(new ZoneViewModel(zoneDetailsViewModel.XZone));
-
-                ServiceFactory.SaveService.XDevicesChanged = true;
-            }
+			OnAddResult();
         }
+		ZoneDetailsViewModel OnAddResult()
+		{
+			var zoneDetailsViewModel = new ZoneDetailsViewModel();
+			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
+			{
+				XManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.XZone);
+				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.XZone));
+
+				ServiceFactory.SaveService.XDevicesChanged = true;
+				return zoneDetailsViewModel;
+			}
+			return null;
+		}
 
         public RelayCommand DeleteCommand { get; private set; }
         void OnDelete()
@@ -102,7 +110,11 @@ namespace GKModule.ViewModels
         public RelayCommand EditCommand { get; private set; }
         void OnEdit()
         {
-            var zoneDetailsViewModel = new ZoneDetailsViewModel(SelectedZone.XZone);
+			OnEdit(SelectedZone.XZone);
+		}
+		void OnEdit(XZone xzone)
+		{
+			var zoneDetailsViewModel = new ZoneDetailsViewModel(xzone);
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
             {
                 SelectedZone.XZone = zoneDetailsViewModel.XZone;
@@ -132,5 +144,26 @@ namespace GKModule.ViewModels
 		}
 
 		#endregion
+
+		public void CreateZone(CreateXZoneEventArg createZoneEventArg)
+		{
+			ZoneDetailsViewModel result = OnAddResult();
+			if (result == null)
+			{
+				createZoneEventArg.Cancel = true;
+				createZoneEventArg.ZoneNo = null;
+			}
+			else
+			{
+				createZoneEventArg.Cancel = false;
+				createZoneEventArg.ZoneNo = result.XZone.No;
+			}
+		}
+		public void EditZone(int zoneNo)
+		{
+			var zoneViewModel = zoneNo == 0 ? null : Zones.FirstOrDefault(x => x.XZone.No == zoneNo);
+			if (zoneViewModel != null)
+				OnEdit(zoneViewModel.XZone);
+		}
 	}
 }
