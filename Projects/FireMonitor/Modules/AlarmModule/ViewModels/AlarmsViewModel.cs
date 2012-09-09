@@ -98,7 +98,7 @@ namespace AlarmModule.ViewModels
 
 			alrmWasReset = true;
 			OnPropertyChanged("HasAlarmsToReset");
-			FiresecManager.FiresecService.ResetStates(resetItems);
+            FiresecManager.FiresecDriver.ResetStates(resetItems);
 		}
 
 		public bool CanRemoveAllFromIgnoreList()
@@ -124,7 +124,7 @@ namespace AlarmModule.ViewModels
 
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				FiresecManager.FiresecService.RemoveFromIgnoreList(deviceUIDs);
+                FiresecManager.FiresecDriver.RemoveFromIgnoreList(deviceUIDs);
 			}
 		}
 

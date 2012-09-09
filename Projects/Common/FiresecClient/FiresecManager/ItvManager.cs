@@ -41,17 +41,17 @@ namespace FiresecClient
 
         public static void AddToIgnoreList(List<Guid> deviceUIDs)
         {
-            FiresecManager.FiresecService.AddToIgnoreList(deviceUIDs);
+            FiresecManager.FiresecDriver.AddToIgnoreList(deviceUIDs);
         }
 
         public static void RemoveFromIgnoreList(List<Guid> deviceUIDs)
         {
-            FiresecManager.FiresecService.RemoveFromIgnoreList(deviceUIDs);
+            FiresecManager.FiresecDriver.RemoveFromIgnoreList(deviceUIDs);
         }
 
         public static void ExecuteCommand(Guid deviceUID, string methodName)
         {
-            FiresecManager.FiresecService.ExecuteCommand(deviceUID, methodName);
+            FiresecManager.FiresecDriver.ExecuteCommand(deviceUID, methodName);
         }
 
 		public static void SetZoneGuard(Zone zone)

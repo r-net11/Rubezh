@@ -128,7 +128,7 @@ namespace DevicesModule.ViewModels
 
 		void DoConfirm()
 		{
-			var result = FiresecManager.FiresecService.ExecuteCommand(Device.UID, SelectedCommand);
+            var result = FiresecManager.FiresecDriver.ExecuteCommand(Device.UID, SelectedCommand);
 			Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged("ConfirmCommand"); }));
 		}
 

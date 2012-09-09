@@ -25,8 +25,8 @@ namespace FiresecService.ViewModels
 		void OnShowImitator()
 		{
 			ClientsCash.NotifyClients("Запущен имитатор");
-			var imitatorViewModel1 = new ImitatorViewModel();
-			DialogService.ShowModalWindow(imitatorViewModel1);
+            //var imitatorViewModel = new ImitatorViewModel();
+            //DialogService.ShowModalWindow(imitatorViewModel);
 		}
 
 		private string _status;

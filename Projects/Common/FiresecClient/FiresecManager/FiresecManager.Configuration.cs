@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
+using Firesec;
 
 namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
 		public static FiresecConfiguration FiresecConfiguration { get; set; }
-
 		public static DeviceConfigurationStates DeviceStates { get; set; }
 		public static LibraryConfiguration LibraryConfiguration { get; set; }
 		public static SystemConfiguration SystemConfiguration { get; set; }
@@ -38,6 +38,17 @@ namespace FiresecClient
 			};
 
 			UpdateConfiguration();
+
+            ConfigurationCash.DriversConfiguration = new DriversConfiguration();
+            ConfigurationCash.DriversConfiguration.Drivers = FiresecConfiguration.Drivers;
+            ConfigurationCash.DeviceConfiguration = FiresecConfiguration.DeviceConfiguration;
+            ConfigurationCash.SecurityConfiguration = SecurityConfiguration;
+            ConfigurationCash.LibraryConfiguration = LibraryConfiguration;
+            ConfigurationCash.SystemConfiguration = SystemConfiguration;
+            ConfigurationCash.PlansConfiguration = PlansConfiguration;
+            ConfigurationCash.DeviceConfigurationStates = new DeviceConfigurationStates();
+
+            InitializeDriverManager();
 		}
 
 		public static void UpdateConfiguration()

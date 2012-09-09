@@ -98,32 +98,24 @@
     <Compile Include="AppSettings.cs" />
     <Compile Include="AppSettingsHelper.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="ConfigurationConverter\ConfigurationConverter.cs" />
-    <Compile Include="ConfigurationConverter\ConfigurationConverter.DevicesConverter.cs" />
-    <Compile Include="ConfigurationConverter\DeviceCustomFunctionConverter.cs" />
-    <Compile Include="ConfigurationConverter\ConfigurationConverter.GuardUsersConverter.cs" />
-    <Compile Include="ConfigurationConverter\PDUGroupLogicConverter.cs" />
-    <Compile Include="ConfigurationConverter\ConfigurationConverter.PlansConverter.cs" />
-    <Compile Include="DatabaseConverter\FiresecDbConverter.designer.cs">
+    <Compile Include="Processor\FiresecDbConverter.designer.cs">
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Database\ConnectionManager.cs" />
-    <Compile Include="Database\DatabaseHelper.cs" />
-    <Compile Include="Imitator\ViewModels\DeviceStateViewModel.cs" />
-    <Compile Include="Imitator\ViewModels\ImitatorViewModel.cs" />
-    <Compile Include="Imitator\Views\ImitatorView.xaml.cs">
-      <DependentUpon>ImitatorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigurationConverter\ConfigurationFileManager.cs" />
+    <Compile Include="Processor\ConnectionManager.cs" />
+    <Compile Include="Processor\DatabaseHelper.cs" />
+    <Compile Include="Processor\ConfigurationCash.cs" />
+    <Compile Include="Processor\ConfigurationFileManager.cs" />
     <Compile Include="OPC\FiresecOPCManager.cs" />
     <Compile Include="OPC\TagDevice.cs" />
     <Compile Include="OPC\TagZone.cs" />
+    <Compile Include="Processor\FiresecDbConverter1.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Service\CallbackWrapper.cs" />
     <Compile Include="Service\ClientsCash.cs" />
-    <Compile Include="Service\ConfigurationCash.cs" />
-    <Compile Include="Service\FiresecOperationExtentions.cs" />
     <Compile Include="Service\FiresecService.Authentication.cs" />
-    <Compile Include="Service\FiresecService.ConfigurationParameters.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
     <Compile Include="Service\FiresecService.OPC.cs" />
     <Compile Include="Service\FiresecService.SKUD.cs" />
@@ -136,7 +128,6 @@
     <Compile Include="Service\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\FiresecServiceManager.cs" />
-    <Compile Include="Imitator\ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\OperationDirection.cs" />
@@ -144,41 +135,7 @@
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="XSD\DeviceCustomFunctions.cs" />
-    <Compile Include="XSD\GetCoreConfig.cs">
-      <DependentUpon>GetCoreConfig.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\GetCoreDeviceParams.cs">
-      <DependentUpon>GetCoreDeviceParams.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\GetCoreState.cs">
-      <DependentUpon>GetCoreState.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\GetMetaData.cs">
-      <DependentUpon>GetMetaData.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\Group.cs">
-      <DependentUpon>Group.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\IndicatorLogic.cs">
-      <DependentUpon>IndicatorLogic.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="ConfigurationConverter\IndicatorLogicConverter.cs" />
-    <Compile Include="XSD\Plan.cs">
-      <DependentUpon>Plan.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\ReadEvents.cs">
-      <DependentUpon>ReadEvents.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\ZoneLogic.cs">
-      <DependentUpon>ZoneLogic.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="XSD\DeviceConfigurationParameters.cs" />
     <Page Include="DataTemplates\Dictionary.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Imitator\Views\ImitatorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,22 +143,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ConfigurationConverter\ConfigurationConverter.DirectionsConverter.cs" />
-    <Compile Include="ConfigurationConverter\DriverConverter.cs" />
-    <Compile Include="Database\JournalConverter.cs" />
-    <Compile Include="ConfigurationConverter\ConfigurationConverter.ZonesConverter.cs" />
-    <Compile Include="ConfigurationConverter\ZoneLogicConverter.cs" />
     <Page Include="Views\MainView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Processor\FiresecSerializedClient.cs" />
-    <Compile Include="Processor\FiresecManager.cs" />
-    <Compile Include="Processor\FiresecResetHelper.cs" />
-    <Compile Include="Processor\SerializerHelper.cs" />
-    <Compile Include="Processor\Watcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -218,12 +165,12 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="DatabaseConverter\FiresecDbConverter.dbml">
+    <None Include="Processor\FiresecDbConverter.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>FiresecDbConverter1.designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="DatabaseConverter\FiresecDbConverter.dbml.layout">
+    <None Include="Processor\FiresecDbConverter.dbml.layout">
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </None>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -236,50 +183,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="XSD\CreateClasses.ps1" />
-    <None Include="XSD\GetCoreConfig.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\GetCoreDeviceParams.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\GetCoreState.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\GetMetaData.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\Group.xsc">
-      <DependentUpon>Group.xsd</DependentUpon>
-    </None>
-    <None Include="XSD\Group.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Group.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\Group.xss">
-      <DependentUpon>Group.xsd</DependentUpon>
-    </None>
-    <None Include="XSD\IndicatorLogic.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\Plan.xsc">
-      <DependentUpon>Plan.xsd</DependentUpon>
-    </None>
-    <None Include="XSD\Plan.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>Plan.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\Plan.xss">
-      <DependentUpon>Plan.xsd</DependentUpon>
-    </None>
-    <None Include="XSD\ReadEvents.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="XSD\ZoneLogic.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common\Common.csproj">
@@ -305,10 +208,6 @@
     <ProjectReference Include="..\FiresecService.SKUD\FiresecService.SKUD.csproj">
       <Project>{B1E83A53-F3FF-4FF0-9FD7-B51E866BF0E0}</Project>
       <Name>FiresecService.SKUD</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Firesec\Firesec.csproj">
-      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
-      <Name>Firesec</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

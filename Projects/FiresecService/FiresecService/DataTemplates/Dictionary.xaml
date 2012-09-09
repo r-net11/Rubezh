@@ -3,10 +3,6 @@
                     xmlns:Views="clr-namespace:FiresecService.Views"
                     xmlns:ViewModels="clr-namespace:FiresecService.ViewModels">
 
-    <DataTemplate DataType="{x:Type ViewModels:ImitatorViewModel}">
-        <Views:ImitatorView />
-    </DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:MainViewModel}">
 		<Views:MainView />
 	</DataTemplate>
