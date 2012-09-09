@@ -6,6 +6,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Plans.ViewModels;
 using Infrustructure.Plans.Elements;
+using GKModule.ViewModels;
 
 namespace GKModule.Plans.Views
 {
@@ -40,7 +41,7 @@ namespace GKModule.Plans.Views
 
 			if (dragStartPoint.HasValue)
 			{
-				XDeviceViewModel viewModel = (sender as Image).DataContext as XDeviceViewModel;
+				DeviceViewModel viewModel = (sender as Image).DataContext as DeviceViewModel;
 				//if (viewModel.DesignerCanvas != null)
 				//    viewModel.DesignerCanvas.Toolbox.SetDefault();
 				var device = viewModel.Device;

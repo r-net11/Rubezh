@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using DevicesModule.Plans.Designer;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Devices = DevicesModule.ViewModels;
-using System.Windows.Data;
 
 namespace DevicesModule.Plans.ViewModels
 {
@@ -68,6 +67,7 @@ namespace DevicesModule.Plans.ViewModels
 		}
 		private void OnElementRemoved(List<ElementBase> elements)
 		{
+			elements.OfType<ElementDevice>().ToList().ForEach(element => Helper.ResetDevice(element));
 			OnElementChanged(elements);
 		}
 		private void OnElementChanged(List<ElementBase> elements)

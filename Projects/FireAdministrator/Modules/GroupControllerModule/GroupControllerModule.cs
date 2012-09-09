@@ -23,6 +23,7 @@ namespace GKModule
 		private ZonesViewModel _zonesViewModel;
 		private DirectionsViewModel _directionsViewModel;
         private FiltersViewModel _filtersViewModel;
+		private GKPlanExtension _planExtension;
 
 		public GroupControllerModule()
 		{
@@ -30,6 +31,7 @@ namespace GKModule
 			_zonesViewModel = new ZonesViewModel();
 			_directionsViewModel = new DirectionsViewModel();
             _filtersViewModel = new FiltersViewModel();
+			_planExtension = new GKPlanExtension(_devicesViewModel);
 		}
 
 		public override void Initialize()
@@ -39,7 +41,7 @@ namespace GKModule
 			_directionsViewModel.Initialize();
             _filtersViewModel.Initialize();
 
-			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(new GKPlanExtension());
+			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

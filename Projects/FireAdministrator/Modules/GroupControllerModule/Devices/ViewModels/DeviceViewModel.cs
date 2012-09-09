@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System.Collections.Generic;
 using System;
+using Infrustructure.Plans.Events;
 
 namespace GKModule.ViewModels
 {
@@ -23,6 +24,7 @@ namespace GKModule.ViewModels
 			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
             ShowZonesCommand = new RelayCommand(OnShowZones, CanShowZones);
             ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic, CanShowZoneOrLogic);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 
 			Children = new ObservableCollection<DeviceViewModel>();
 
@@ -42,6 +44,7 @@ namespace GKModule.ViewModels
 			IsExpanded = false;
 			IsExpanded = true;
 			OnPropertyChanged("HasChildren");
+			OnPropertyChanged("IsOnPlan");
 		}
 
 		public XDriver Driver
@@ -131,6 +134,22 @@ namespace GKModule.ViewModels
             get { return XManager.GetPresentationZone(Device); }
         }
 
+		public bool IsOnPlan
+		{
+			get { return Device.PlanElementUIDs.Count > 0; }
+		}
+		public bool ShowOnPlan
+		{
+			get { return Device.Driver.IsDeviceOnShleif || Device.Children.Count > 0; }
+		}
+
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+			if (Device.PlanElementUIDs.Count > 0)
+				ServiceFactory.Events.GetEvent<FindElementEvent>().Publish(Device.PlanElementUIDs[0]);
+		}
+		
 		public RelayCommand ShowLogicCommand { get; private set; }
 		void OnShowLogic()
 		{

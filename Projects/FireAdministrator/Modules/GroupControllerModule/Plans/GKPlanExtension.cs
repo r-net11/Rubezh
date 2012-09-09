@@ -15,13 +15,14 @@ namespace GKModule.Plans
 	{
 		private XDevicesViewModel _devicesViewModel;
 		private CommonDesignerCanvas _designerCanvas;
-		public GKPlanExtension()
+		public GKPlanExtension(GKModule.ViewModels.DevicesViewModel devicesViewModel)
 		{
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Unsubscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<PainterFactoryEvent>().Subscribe(OnPainterFactoryEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Unsubscribe(OnShowPropertiesEvent);
 			ServiceFactory.Events.GetEvent<ShowPropertiesEvent>().Subscribe(OnShowPropertiesEvent);
-			_devicesViewModel = new XDevicesViewModel();
+
+			_devicesViewModel = new XDevicesViewModel(devicesViewModel);
 		}
 
 		#region IPlanExtension Members

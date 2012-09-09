@@ -7,6 +7,7 @@ using FiresecClient;
 using GKModule.Plans.Designer;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using GKModule.ViewModels;
 
 namespace GKModule.Plans.ViewModels
 {
@@ -21,7 +22,7 @@ namespace GKModule.Plans.ViewModels
 			_elementXDevice = elementDevice;
 			_xdevicesViewModel = xdevicesViewModel;
 
-			Devices = new ObservableCollection<XDeviceViewModel>();
+			Devices = new ObservableCollection<DeviceViewModel>();
 			BuildTree();
 
 			if (Devices.Count > 0)
@@ -33,11 +34,11 @@ namespace GKModule.Plans.ViewModels
 			Select(elementDevice.XDeviceUID);
 		}
 
-		public List<XDeviceViewModel> AllDevices;
-		public ObservableCollection<XDeviceViewModel> Devices { get; private set; }
+		public List<DeviceViewModel> AllDevices;
+		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
-		XDeviceViewModel _selectedDevice;
-		public XDeviceViewModel SelectedDevice
+		DeviceViewModel _selectedDevice;
+		public DeviceViewModel SelectedDevice
 		{
 			get { return _selectedDevice; }
 			set
@@ -52,9 +53,9 @@ namespace GKModule.Plans.ViewModels
 			var xRootDevice = XManager.DeviceConfiguration.RootDevice;
 			AddDevice(xRootDevice, null);
 		}
-		public XDeviceViewModel AddDevice(XDevice xDevice, XDeviceViewModel parentDeviceViewModel)
+		public DeviceViewModel AddDevice(XDevice xDevice, DeviceViewModel parentDeviceViewModel)
 		{
-			var xDeviceViewModel = new XDeviceViewModel(xDevice, Devices);
+			var xDeviceViewModel = new DeviceViewModel(xDevice, Devices);
 			xDeviceViewModel.Parent = parentDeviceViewModel;
 
 			var indexOf = Devices.IndexOf(parentDeviceViewModel);
@@ -72,10 +73,10 @@ namespace GKModule.Plans.ViewModels
 
 		public void FillAllDevices()
 		{
-			AllDevices = new List<XDeviceViewModel>();
+			AllDevices = new List<DeviceViewModel>();
 			AddChildPlainDevices(Devices[0]);
 		}
-		private void AddChildPlainDevices(XDeviceViewModel parentViewModel)
+		private void AddChildPlainDevices(DeviceViewModel parentViewModel)
 		{
 			AllDevices.Add(parentViewModel);
 			foreach (var childViewModel in parentViewModel.Children)
@@ -91,13 +92,13 @@ namespace GKModule.Plans.ViewModels
 			SelectedDevice = deviceViewModel;
 		}
 
-		private void CollapseChild(XDeviceViewModel parentDeviceViewModel)
+		private void CollapseChild(DeviceViewModel parentDeviceViewModel)
 		{
 			parentDeviceViewModel.IsExpanded = false;
 			foreach (var deviceViewModel in parentDeviceViewModel.Children)
 				CollapseChild(deviceViewModel);
 		}
-		private void ExpandChild(XDeviceViewModel parentDeviceViewModel)
+		private void ExpandChild(DeviceViewModel parentDeviceViewModel)
 		{
 			parentDeviceViewModel.IsExpanded = true;
 			foreach (var deviceViewModel in parentDeviceViewModel.Children)
