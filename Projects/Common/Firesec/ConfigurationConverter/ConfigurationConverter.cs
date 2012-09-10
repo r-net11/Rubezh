@@ -98,27 +98,28 @@ namespace Firesec
 			}
 		}
 
-		public void Update(DeviceConfiguration deviceConfiguration = null)
-		{
-			if (deviceConfiguration == null)
-				deviceConfiguration = ConfigurationCash.DeviceConfiguration;
+        public void Update(DeviceConfiguration deviceConfiguration = null)
+        {
+            if (deviceConfiguration == null)
+                deviceConfiguration = ConfigurationCash.DeviceConfiguration;
 
-			var hasInvalidDriver = false;
-			deviceConfiguration.Update();
-			foreach (var device in deviceConfiguration.Devices)
-			{
-				device.Driver = ConfigurationCash.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-				if (device.Driver == null)
-				{
-					hasInvalidDriver = true;
-					device.Parent.Children.Remove(device);
-				}
-			}
-			if (hasInvalidDriver)
-				deviceConfiguration.Update();
+            var hasInvalidDriver = false;
+            deviceConfiguration.Update();
+            foreach (var device in deviceConfiguration.Devices)
+            {
+                device.Driver = ConfigurationCash.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+                if (device.Driver == null)
+                {
+                    hasInvalidDriver = true;
+                    if (device.Parent != null)
+                        device.Parent.Children.Remove(device);
+                }
+            }
+            if (hasInvalidDriver)
+                deviceConfiguration.Update();
 
-			deviceConfiguration.UpdateIdPath();
-		}
+            deviceConfiguration.UpdateIdPath();
+        }
 
 		public void SynchronyzeConfiguration()
 		{

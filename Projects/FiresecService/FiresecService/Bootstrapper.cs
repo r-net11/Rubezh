@@ -2,12 +2,10 @@
 using System.IO;
 using System.Threading;
 using Common;
-using FiresecService.OPC;
 using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-//using FiresecDriver;
 using FiresecService.Configuration;
 using FiresecAPI.Models;
 
@@ -46,15 +44,6 @@ namespace FiresecService
                 ConfigurationCash.PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
                 ConfigurationCash.DeviceConfigurationStates = new DeviceConfigurationStates();
 
-                if (AppSettings.IsFSEnabled)
-                {
-                    //ClientsCash.InitializeComServers();
-                    if (AppSettings.IsOPCEnabled)
-                    {
-                        UILogger.Log("Запуск OPC сервера");
-                        FiresecOPCManager.Start();
-                    }
-                }
                 if (!AppSettings.IsOPCOnly)
                 {
                     UILogger.Log("Открытие хоста");

@@ -37,20 +37,13 @@ namespace FiresecClient
 				DeviceConfiguration = deviceConfiguration
 			};
 
+            UpdateConfiguration();
 
-			
-			UpdateConfiguration();
+            ConfigurationCash.DriversConfiguration = new DriversConfiguration();
+            ConfigurationCash.DriversConfiguration.Drivers = ConfigurationCash.DriversConfiguration.Drivers;
+            FiresecConfiguration.Drivers = Drivers;
 			
             InitializeFiresecDriver();
-            //ConfigurationCash.DriversConfiguration.Drivers = FiresecConfiguration.Drivers;
-
-			ConfigurationCash.DriversConfiguration = new DriversConfiguration();
-			ConfigurationCash.DriversConfiguration.Drivers = ConfigurationCash.DriversConfiguration.Drivers;
-
-			FiresecConfiguration.Drivers = Drivers;
-
-			
-
 		}
 
 		public static void UpdateConfiguration()

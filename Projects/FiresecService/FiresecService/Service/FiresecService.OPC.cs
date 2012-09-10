@@ -1,5 +1,4 @@
-﻿using FiresecService.OPC;
-using FiresecAPI;
+﻿using FiresecAPI;
 
 namespace FiresecService.Service
 {
@@ -7,18 +6,15 @@ namespace FiresecService.Service
     {
         public void OPCRefresh()
         {
-            if (AppSettings.IsFSEnabled)
-                FiresecOPCManager.OPCRefresh();
+            //FiresecOPCManager.OPCRefresh();
         }
 
         public void OPCRegister()
         {
-            FiresecOPCManager.OPCRegister();
         }
 
         public void OPCUnRegister()
         {
-            FiresecOPCManager.OPCUnRegister();
         }
     }
 }

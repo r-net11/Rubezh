@@ -25,6 +25,7 @@ namespace Firesec
 				FiresecSerializedClient = FiresecSerializedClient
 			};
 			ConfigurationConverter.ConvertMetadataFromFiresec();
+            Watcher = new Watcher(FiresecSerializedClient, true);
 		}
 
 		public DeviceConfigurationStates ConvertStates()

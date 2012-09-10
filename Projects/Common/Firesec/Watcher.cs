@@ -15,7 +15,7 @@ namespace Firesec
 		HashSet<DeviceState> ChangedDevices;
 		HashSet<ZoneState> ChangedZones;
 
-		public Watcher(FiresecSerializedClient firesecSerializedClient, bool mustMonitorStates, int lastId)
+		public Watcher(FiresecSerializedClient firesecSerializedClient, bool mustMonitorStates)
 		{
 			FiresecSerializedClient = firesecSerializedClient;
 			if (mustMonitorStates)
