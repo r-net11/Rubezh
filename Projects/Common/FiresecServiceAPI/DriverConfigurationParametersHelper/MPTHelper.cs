@@ -108,14 +108,14 @@ namespace FiresecAPI.Models
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = "1",
-				MptLowByte = true
+				Default = "2",
+				MaxBit = 1
 			};
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Сирена", 1);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Уходи»", 2);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Не входи»", 3);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Автоматика отключена»", 4);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "Выход АУП", 5);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "1 Сирена", 1);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "2 Табличка «Уходи»", 2);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "3 Табличка «Не входи»", 3);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "4 Табличка «Автоматика отключена»", 4);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "5 Выход АУП", 5);
 			driver.Properties.Add(property);
 		}
 
@@ -128,7 +128,7 @@ namespace FiresecAPI.Models
 				Name = propertyName,
 				Caption = propertyName,
 				Default = "1",
-				MptHighByte = true
+				BitOffset = 4
 			};
 			ConfigurationDriverHelper.AddPropertyParameter(property, "1 Не включать", 1);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "2 Включить сразу", 2);

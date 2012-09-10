@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Firesec
 {
-    public partial class FiresecDriver
+	public partial class FiresecDriver
 	{
 		public OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
 		{
@@ -39,7 +39,7 @@ namespace Firesec
 						Error = result.ErrorString
 					};
 				}
-                Firesec.Models.DeviceCustomFunctions.requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.requests>(result.Result);
+				Firesec.Models.DeviceCustomFunctions.requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.requests>(result.Result);
 				if (requests != null)
 				{
 					foreach (var request in requests.request)
@@ -49,7 +49,9 @@ namespace Firesec
 							requestIds.Remove(request.id);
 							var paramNo = request.param.FirstOrDefault(x => x.name == "ParamNo").value;
 							var paramValue = request.param.FirstOrDefault(x => x.name == "ParamValue").value;
-							if (paramNo >= 0xBB && paramNo<= 0xBF)
+							if (paramNo == 0xc6
+								//&& paramNo<= 0x8b
+								)
 							{
 								;
 							}
@@ -64,10 +66,10 @@ namespace Firesec
 
 									if (driverProperty.HighByte)
 										offsetParamValue = heightByteValue;
-									else if (driverProperty.MptHighByte)
-										offsetParamValue = paramValue / 16;
-									else if (driverProperty.MptLowByte)
-										offsetParamValue = paramValue % 16;
+									//else if (driverProperty.MptHighByte)
+									//    offsetParamValue = paramValue / 16;
+									//else if (driverProperty.MptLowByte)
+									//    offsetParamValue = paramValue % 16;
 									else
 										offsetParamValue = lowByteValue;
 
@@ -111,15 +113,15 @@ namespace Firesec
 				}
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 				waitCount++;
-				if (waitCount > 60)
-				{
-					return new OperationResult<List<Property>>()
-					{
-						Result = null,
-						HasError = true,
-						Error = "Превышено время выполнения запроса"
-					};
-				}
+				//if (waitCount > 60)
+				//{
+				//    return new OperationResult<List<Property>>()
+				//    {
+				//        Result = null,
+				//        HasError = true,
+				//        Error = "Превышено время выполнения запроса"
+				//    };
+				//}
 			}
 
 			return new OperationResult<List<Property>>()
@@ -164,8 +166,8 @@ namespace Firesec
 						{
 							intValue = (int)Math.Truncate((double)intValue / 5);
 						}
-						else if (device.Driver.DriverType == DriverType.MPT && driverProperty.Name.Contains("логика работы выхода"))
-							intValue *= 16; 
+						//else if (device.Driver.DriverType == DriverType.MPT && driverProperty.Name.Contains("логика работы выхода"))
+						//    intValue *= 16; 
 					}
 
 					if (driverProperty.BitOffset > 0)

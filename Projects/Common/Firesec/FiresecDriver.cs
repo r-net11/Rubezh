@@ -22,6 +22,7 @@ namespace Firesec
             {
                 FiresecSerializedClient = FiresecSerializedClient
             };
+			ConfigurationConverter.ConvertMetadataFromFiresec();
         }
 
 		public void Connect()
