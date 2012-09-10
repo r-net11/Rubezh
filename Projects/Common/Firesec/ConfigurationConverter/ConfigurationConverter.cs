@@ -126,15 +126,19 @@ namespace Firesec
 			if (coreConfig == null)
 			{
 				Logger.Error("SynchronyzeConfiguration coreConfig=null");
-				//UILogger.Log("Ошибка при синхронизации конфигурации");
 				return;
 			}
 
 			var firesecDeviceConfiguration = ConvertOnlyDevices(coreConfig);
 			Update(firesecDeviceConfiguration);
+			Update(ConfigurationCash.DeviceConfiguration);
 			firesecDeviceConfiguration.Update();
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
+				if (device.Parent != null && device.Parent.Driver.DriverType == DriverType.IndicationBlock)
+				{
+					;
+				}
 				var firesecDevice = firesecDeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == device.PathId);
 				if (firesecDevice != null)
 				{

@@ -4,12 +4,21 @@ using Common;
 using FiresecAPI.Models;
 using FiresecService.Service;
 using FiresecAPI;
+using System.Collections.Generic;
 
 namespace FiresecService.Database
 {
 	public static class DatabaseHelper
 	{
-		public static bool AddJournalRecord(JournalRecord journalRecord)
+		public static void AddJournalRecords(List<JournalRecord> journalRecords)
+		{
+			foreach (var journalRecord in journalRecords)
+			{
+				AddJournalRecord(journalRecord);
+			}
+		}
+
+		static bool AddJournalRecord(JournalRecord journalRecord)
 		{
 			try
 			{

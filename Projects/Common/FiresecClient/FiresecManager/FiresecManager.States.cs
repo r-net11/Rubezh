@@ -6,6 +6,16 @@ namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
+		public static void GetStates()
+		{
+			FiresecDriver.ConfigurationConverter.SynchronyzeConfiguration();
+			FiresecDriver.ConfigurationConverter.Update();
+			DeviceStates = FiresecDriver.ConvertStates();
+
+			UpdateStates();
+			FiresecService.StartPing();
+		}
+
 		public static void UpdateStates()
 		{
 			foreach (var deviceState in DeviceStates.DeviceStates)

@@ -104,9 +104,9 @@ namespace FiresecClient
             return SafeOperationCall(() => { return FiresecService.GetArchiveStartDate(); });
         }
 
-        public void AddJournalRecord(JournalRecord journalRecord)
+        public void AddJournalRecords(List<JournalRecord> journalRecords)
         {
-            SafeOperationCall(() => { FiresecService.AddJournalRecord(journalRecord); });
+            SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); });
         }
 
         public List<string> GetFileNamesList(string directory)
@@ -124,14 +124,9 @@ namespace FiresecClient
             return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); });
         }
 
-        public void ConvertConfiguration()
+		public void ConvertJournal(List<JournalRecord> journalRecords)
         {
-            //SafeOperationCall(() => { FiresecService.ConvertConfiguration(); });
-        }
-
-        public void ConvertJournal()
-        {
-            SafeOperationCall(() => { FiresecService.ConvertJournal(); });
+			SafeOperationCall(() => { FiresecService.ConvertJournal(journalRecords); });
         }
 
         public string Test()

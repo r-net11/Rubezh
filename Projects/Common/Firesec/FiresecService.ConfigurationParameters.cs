@@ -36,7 +36,7 @@ namespace Firesec
 					{
 						Result = null,
 						HasError = true,
-						Error = result.ErrorString
+						Error = result.Error
 					};
 				}
 				Firesec.Models.DeviceCustomFunctions.requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.requests>(result.Result);

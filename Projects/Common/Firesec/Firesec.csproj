@@ -91,7 +91,6 @@
     <Compile Include="..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Firesec\FiresecOperationResult.cs" />
     <Compile Include="Firesec\NativeFiresecClient.cs" />
     <Compile Include="Firesec\ProgressData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -121,11 +120,10 @@
     <Compile Include="ConfigurationConverter\PDUGroupLogicConverter.cs" />
     <Compile Include="ConfigurationConverter\ZoneLogicConverter.cs" />
     <Compile Include="FiresecDriver.cs" />
-    <Compile Include="FiresecOperationExtentions.cs" />
     <Compile Include="FiresecResetHelper.cs" />
     <Compile Include="FiresecSerializedClient.cs" />
     <Compile Include="FiresecService.ConfigurationParameters.cs" />
-    <Compile Include="FiresecWatcher.cs" />
+    <Compile Include="Watcher.cs" />
     <Compile Include="Imitator\ViewModels\DeviceStateViewModel.cs" />
     <Compile Include="Imitator\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Imitator\ViewModels\ImitatorViewModel.cs" />

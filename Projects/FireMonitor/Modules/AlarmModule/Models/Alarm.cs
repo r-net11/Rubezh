@@ -38,14 +38,18 @@ namespace AlarmModule
 
 			var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == ZoneNo);
 
-			FiresecManager.FiresecService.AddJournalRecord(new JournalRecord()
-			{
-				SystemTime = DateTime.Now,
-				DeviceTime = DateTime.Now,
-				ZoneName = zone.No.ToString(),
-				Description = "Состояние \"" + StateName + "\" подтверждено оператором",
-				StateType = StateType.Info
-			});
+			var journalRecords = new List<JournalRecord>();
+			journalRecords.Add(
+				new JournalRecord()
+					{
+						SystemTime = DateTime.Now,
+						DeviceTime = DateTime.Now,
+						ZoneName = zone.No.ToString(),
+						Description = "Состояние \"" + StateName + "\" подтверждено оператором",
+						StateType = StateType.Info
+					}
+				);
+			FiresecManager.FiresecService.AddJournalRecords(journalRecords);
 		}
 
 		public bool CanRemoveFromIgnoreList()

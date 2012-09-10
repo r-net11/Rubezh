@@ -30,9 +30,10 @@ namespace Infrastructure
 
 		static void SubscribeEvents()
 		{
-			FiresecCallbackService.DeviceStateChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceStateChangedEvent(deviceUID); }); });
-			FiresecCallbackService.DeviceParametersChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceParametersChangedEvent(deviceUID); }); });
-			FiresecCallbackService.ZoneStateChangedEvent += new Action<int>((zoneNo) => { SafeCall(() => { OnZoneStateChangedEvent(zoneNo); }); });
+			FiresecManager.DeviceStateChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceStateChangedEvent(deviceUID); }); });
+			FiresecManager.DeviceParametersChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceParametersChangedEvent(deviceUID); }); });
+			FiresecManager.ZoneStateChangedEvent += new Action<int>((zoneNo) => { SafeCall(() => { OnZoneStateChangedEvent(zoneNo); }); });
+			FiresecManager.NewJournalRecordEvent += new Action<JournalRecord>((journalRecord) => { SafeCall(() => { OnNewJournalRecordEvent(journalRecord); }); });
 			FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>((journalRecord) => { SafeCall(() => { OnNewJournalRecordEvent(journalRecord); }); });
 			FiresecCallbackService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((journalRecords) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(journalRecords); }); });
 			FiresecCallbackService.NotifyEvent += new Action<string>((message) => { SafeCall(() => { OnNotify(message); }); });

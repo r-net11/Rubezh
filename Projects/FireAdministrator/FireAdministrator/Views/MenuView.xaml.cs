@@ -71,6 +71,11 @@ namespace FireAdministrator.Views
             {
                 if (ServiceFactory.SaveService.DevicesChanged)
                 {
+					var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+					if (fsResult.HasError)
+					{
+						MessageBoxService.ShowError(fsResult.Error);
+					}
                     var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
                     if (result.HasError)
                     {

@@ -5,6 +5,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Firesec;
 
 namespace SettingsModule.ViewModels
 {
@@ -26,8 +27,12 @@ namespace SettingsModule.ViewModels
 			{
 				WaitHelper.Execute(() =>
 				{
-					FiresecManager.FiresecService.ConvertConfiguration();
-					FiresecManager.GetConfiguration(false);
+					FiresecManager.FiresecDriver.Convert();
+					FiresecManager.FiresecConfiguration.DeviceConfiguration = ConfigurationCash.DeviceConfiguration;
+					FiresecManager.PlansConfiguration = ConfigurationCash.PlansConfiguration;
+					ServiceFactory.SaveService.DevicesChanged = true;
+					ServiceFactory.SaveService.PlansChanged = true;
+					FiresecManager.UpdateConfiguration();
 				});
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
@@ -40,7 +45,8 @@ namespace SettingsModule.ViewModels
 			{
 				WaitHelper.Execute(() =>
 				{
-					FiresecManager.FiresecService.ConvertJournal();
+					var journalRecords = FiresecManager.FiresecDriver.ConvertJournal();
+					FiresecManager.FiresecService.ConvertJournal(journalRecords);
 				});
 			}
 		}

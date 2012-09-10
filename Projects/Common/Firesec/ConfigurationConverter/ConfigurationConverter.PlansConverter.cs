@@ -369,7 +369,7 @@ namespace Firesec
 			return pointCollection;
 		}
 
-static Color ConvertColor(string stringColor)
+		static Color ConvertColor(string stringColor)
 		{
 			try
 			{

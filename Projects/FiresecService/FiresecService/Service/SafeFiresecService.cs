@@ -203,9 +203,9 @@ namespace FiresecService.Service
             return SafeOperationCall(() => { return FiresecService.GetArchiveStartDate(); }, "GetArchiveStartDate");
         }
 
-        public void AddJournalRecord(FiresecAPI.Models.JournalRecord journalRecord)
+		public void AddJournalRecords(List<JournalRecord> journalRecords)
         {
-            SafeOperationCall(() => { FiresecService.AddJournalRecord(journalRecord); }, "AddJournalRecord");
+            SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); }, "AddJournalRecords");
         }
 
         public List<string> GetFileNamesList(string directory)
@@ -223,9 +223,9 @@ namespace FiresecService.Service
             return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); }, "GetFile");
         }
 
-        public void ConvertJournal()
+		public void ConvertJournal(List<JournalRecord> journalRecords)
         {
-            SafeOperationCall(() => { FiresecService.ConvertJournal(); }, "ConvertJournal");
+			SafeOperationCall(() => { FiresecService.ConvertJournal(journalRecords); }, "ConvertJournal");
         }
 
         public string Ping()

@@ -25,10 +25,6 @@
                   ItemsSource="{Binding JournalRecords}" SelectedItem="{Binding SelectedRecord}"
                   EnableRowVirtualization="True" VirtualizingStackPanel.VirtualizationMode="Recycling">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="T1" Binding="{Binding JournalRecord.Time1}" MinWidth="120" />
-                <DataGridTextColumn Header="T2" Binding="{Binding JournalRecord.Time2}" MinWidth="120" />
-                <DataGridTextColumn Header="T3" Binding="{Binding JournalRecord.Time3}" MinWidth="120" />
-                
                 <DataGridTextColumn Header="Время устройства" Binding="{Binding JournalRecord.DeviceTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />
                 <DataGridTextColumn Header="Системное время" Binding="{Binding JournalRecord.SystemTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />
                 <DataGridTextColumn Header="Зона" Binding="{Binding JournalRecord.ZoneName}" MinWidth="100" />

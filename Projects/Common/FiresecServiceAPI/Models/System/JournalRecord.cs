@@ -9,13 +9,6 @@ namespace FiresecAPI.Models
 	[DataContract]
 	public class JournalRecord : IEqualityComparer<JournalRecord>
 	{
-		[DataMember]
-		public TimeSpan Time1 { get; set; }
-		[DataMember]
-		public TimeSpan Time2 { get; set; }
-		[DataMember]
-		public TimeSpan Time3 { get; set; }
-
 		[Column(AutoSync = AutoSync.OnInsert, DbType = "Int NOT NULL IDENTITY", IsPrimaryKey = true, IsDbGenerated = true, Name = "Id")]
 		[DataMember]
 		public int No { get; set; }

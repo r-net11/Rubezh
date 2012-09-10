@@ -10,6 +10,7 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using Firesec;
 
 namespace FireMonitor
 {
@@ -25,9 +26,11 @@ namespace FireMonitor
 			if (ServiceFactory.LoginService.ExecuteConnect())
 				try
 				{
-					LoadingService.Show("Чтение конфигурации", 9);
+					LoadingService.Show("Чтение конфигурации", 10);
 					LoadingService.AddCount(GetModuleCount());
 
+					LoadingService.DoStep("Остановка Socket Server");
+					SocketServerHelper.Stop();
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
 					FiresecManager.GetConfiguration();
 					if (FiresecManager.Drivers.Count == 0)

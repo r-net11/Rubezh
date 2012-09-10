@@ -88,7 +88,7 @@ namespace FiresecAPI
         OperationResult<DateTime> GetArchiveStartDate();
 
         [OperationContract()]
-        void AddJournalRecord(JournalRecord journalRecord);
+		void AddJournalRecords(List<JournalRecord> journalRecords);
         #endregion
 
         #region Files
@@ -104,7 +104,7 @@ namespace FiresecAPI
 
         #region Convertation
         [OperationContract]
-        void ConvertJournal();
+		void ConvertJournal(List<JournalRecord> journalRecords);
         #endregion
 
         #region XSystem

@@ -60,13 +60,6 @@ namespace FiresecClient
 			return null;
 		}
 
-		public static void GetStates()
-		{
-            FiresecDriver.ConvertStates();
-			UpdateStates();
-			FiresecService.StartPing();
-		}
-
 		public static event Action UserChanged;
 		static void OnUserChanged()
 		{

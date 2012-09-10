@@ -5,7 +5,7 @@ namespace Firesec
 {
 	public static class DeviceCustomFunctionConverter
 	{
-        public static List<DeviceCustomFunction> Convert(Firesec.Models.Functions.functions functions)
+		public static List<DeviceCustomFunction> Convert(Firesec.Models.Functions.functions functions)
 		{
 			var deviceCustomFunctions = new List<DeviceCustomFunction>();
 			if (functions != null && functions.Items != null)

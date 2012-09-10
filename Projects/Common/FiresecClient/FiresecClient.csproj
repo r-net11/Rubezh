@@ -128,7 +128,7 @@
     <Compile Include="FiresecManager\FiresecManager.Configuration.cs" />
     <Compile Include="FiresecManager\FiresecManager.cs" />
     <Compile Include="FiresecManager\FiresecManager.Disabling.cs" />
-    <Compile Include="FiresecManager\FiresecManager.FiresecDriver.cs" />
+    <Compile Include="FiresecManager\FiresecManager.Firesec.cs" />
     <Compile Include="FiresecManager\FiresecManager.Guard.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.PresentationZone.cs" />
     <Compile Include="FiresecManager\FiresecManager.States.cs" />

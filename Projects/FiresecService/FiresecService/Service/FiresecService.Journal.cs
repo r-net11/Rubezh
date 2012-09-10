@@ -211,42 +211,36 @@ namespace FiresecService.Service
             return operationResult;
         }
 
-        public void AddJournalRecord(JournalRecord journalRecord)
+        public void AddJournalRecords(List<JournalRecord> journalRecords)
         {
             var operationResult = new OperationResult<bool>();
             try
             {
-                journalRecord.User = ClientCredentials.UserName;
-                DatabaseHelper.AddJournalRecord(journalRecord);
+				journalRecords.ForEach(x => x.User = ClientCredentials.UserName);
+                DatabaseHelper.AddJournalRecords(journalRecords);
                 //ClientsCash.OnNewJournalRecord(journalRecord);
                 operationResult.Result = true;
             }
             catch (Exception e)
             {
-                Logger.Error(e, "Исключение при вызове FiresecService.AddJournalRecord");
+                Logger.Error(e, "Исключение при вызове FiresecService.AddJournalRecords");
                 operationResult.HasError = true;
                 operationResult.Error = e.Message.ToString();
             }
         }
 
-        public void ConvertJournal()
+		public void ConvertJournal(List<JournalRecord> journalRecords)
         {
-            //using (var dataContext = ConnectionManager.CreateFiresecDataContext())
-            //{
-            //    dataContext.ExecuteCommand("DELETE FROM Journal");
-
-            //    var document = FiresecSerializedClient.ReadEvents(0, 10000).Result;
-
-            //    if (document == null || document.Journal == null || document.Journal.Count() == 0)
-            //        return;
-
-            //    foreach (var innerJournalItem in document.Journal)
-            //    {
-            //        var journalRecord = JournalConverter.Convert(innerJournalItem);
-            //        dataContext.JournalRecords.InsertOnSubmit(journalRecord);
-            //    }
-            //    dataContext.SubmitChanges();
-            //}
+            using (var dataContext = ConnectionManager.CreateFiresecDataContext())
+            {
+                dataContext.ExecuteCommand("DELETE FROM Journal");
+				dataContext.JournalRecords.InsertAllOnSubmit(journalRecords);
+				//foreach (var journalRecord in journalRecords)
+				//{
+				//    dataContext.JournalRecords.InsertOnSubmit(journalRecord);
+				//}
+                dataContext.SubmitChanges();
+            }
         }
     }
 }
