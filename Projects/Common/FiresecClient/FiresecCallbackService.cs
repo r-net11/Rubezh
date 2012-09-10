@@ -13,7 +13,7 @@ namespace FiresecClient
         public static FiresecCallbackService Current;
         public FiresecCallbackService()
         {
-            Current = new FiresecCallbackService();
+            Current = this;
         }
 
 		public void DeviceStateChanged(List<DeviceState> newDeviceStates)
