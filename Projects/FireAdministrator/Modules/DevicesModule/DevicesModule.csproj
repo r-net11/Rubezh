@@ -256,11 +256,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Devices\ViewModels\DeviceProperties\BasePropertyViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceProperties\BoolPropertyViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceProperties\EnumPropertyViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceProperties\PropertiesViewModel.cs" />
-    <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\DeviceProperties\BasePropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\DeviceProperties\BoolPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\DeviceProperties\EnumPropertyViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\DeviceProperties\PropertiesViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\DeviceProperties\StringPropertyViewModel.cs" />
     <Compile Include="Devices\ViewModels\DevicesMenuViewModel.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceHelper.cs" />
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />

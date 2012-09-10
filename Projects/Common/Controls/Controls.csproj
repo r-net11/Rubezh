@@ -652,6 +652,16 @@
   <ItemGroup>
     <Resource Include="Images\HeightToPage.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\readconfig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\writeconfig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\adrparameters.png" />
+    <Resource Include="Images\devparameters.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

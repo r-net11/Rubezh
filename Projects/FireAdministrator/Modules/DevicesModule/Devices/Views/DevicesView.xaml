@@ -24,7 +24,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="200" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="100" MinHeight="100" />
+            <RowDefinition Height="150" MinHeight="150" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <DataGrid Name="_devicesDataGrid" Focusable="True" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" IsReadOnly="False"
@@ -196,9 +196,9 @@
                 </StackPanel>
             </Border>
             <Border Grid.Column="1" CornerRadius="5" Margin="5, 0, 0, 0" Background="{DynamicResource BackgroundBrush}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Grid>
                     <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
-                </ScrollViewer>
+                </Grid>
             </Border>
         </Grid>
     </Grid>

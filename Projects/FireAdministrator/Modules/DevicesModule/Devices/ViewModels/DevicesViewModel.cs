@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using DevicesModule.DeviceProperties;
 using DevicesModule.Plans;
 using DevicesModule.Views;
 using FiresecAPI.Models;
@@ -19,7 +20,7 @@ namespace DevicesModule.ViewModels
 	{
 		public static DevicesViewModel Current { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
-
+        public PropertiesViewModel PropMenu { get; private set; }
 		public DevicesViewModel()
 		{
 			Current = this;
@@ -29,6 +30,7 @@ namespace DevicesModule.ViewModels
 			PasteAsCommand = new RelayCommand(OnPasteAs, CanPasteAs);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
 			Menu = new DevicesMenuViewModel(this);
+            PropMenu = new PropertiesViewModel(this);
 		}
 
 		public void Initialize()
