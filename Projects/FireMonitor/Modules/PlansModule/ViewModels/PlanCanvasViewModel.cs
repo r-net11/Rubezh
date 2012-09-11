@@ -97,9 +97,8 @@ namespace PlansModule.ViewModels
 					Devices.Add(elementDeviceViewModel);
 
 					elementDeviceViewModel.DrawElementDevice();
-					if (elementDeviceViewModel.ElementDeviceView.Parent != null)
-						return;
-					Canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
+					if (elementDeviceViewModel.ElementDeviceView.Parent == null)
+						Canvas.Children.Add(elementDeviceViewModel.ElementDeviceView);
 				}
 			}
 			foreach (var elementXDevice in Plan.ElementXDevices)
@@ -110,9 +109,8 @@ namespace PlansModule.ViewModels
 					XDevices.Add(elementXDeviceViewModel);
 
 					elementXDeviceViewModel.DrawElementXDevice();
-					if (elementXDeviceViewModel.ElementXDeviceView.Parent != null)
-						return;
-					Canvas.Children.Add(elementXDeviceViewModel.ElementXDeviceView);
+					if (elementXDeviceViewModel.ElementXDeviceView.Parent == null)
+						Canvas.Children.Add(elementXDeviceViewModel.ElementXDeviceView);
 				}
 			}
 		}
