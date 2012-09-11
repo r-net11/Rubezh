@@ -51,10 +51,9 @@ namespace FiresecClient
 				if (device.Driver.DriverType != DriverType.AM1_O)
 					continue;
 
-				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-				if (deviceState.States.Count != 1)
+				if (device.DeviceState.States.Count != 1)
 					return false;
-				if (deviceState.States.First().Code != "OnGuard")
+				if (device.DeviceState.States.First().Code != "OnGuard")
 					return false;
 			}
 			return true;
@@ -71,8 +70,7 @@ namespace FiresecClient
 				if (device.Driver.DriverType != DriverType.AM1_O)
 					continue;
 
-				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-				foreach (var state in deviceState.States)
+				foreach (var state in device.DeviceState.States)
 				{
 					if (state.Code.Contains("Alarm"))
 						return true;

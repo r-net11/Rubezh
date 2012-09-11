@@ -60,7 +60,7 @@ namespace AlarmModule
 
 		public void RemoveFromIgnoreList()
 		{
-			var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == DeviceUID);
+			var deviceState = FiresecManager.Devices.FirstOrDefault(x => x.UID == DeviceUID).DeviceState;
 			if (FiresecManager.CanDisable(deviceState) && deviceState.IsDisabled)
                 FiresecManager.FiresecDriver.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
 		}
@@ -98,7 +98,7 @@ namespace AlarmModule
 			{
 				if (device.ZoneNo == ZoneNo)
 				{
-					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+					var deviceState = FiresecManager.Devices.FirstOrDefault(x => x.UID == device.UID).DeviceState;
 					if (deviceState.States.Any(x => x.DriverState.StateType == StateType.Fire))
 					{
 						DeviceUID = deviceState.UID;
@@ -115,9 +115,9 @@ namespace AlarmModule
 			var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == DeviceUID);
 			DeviceState parentDeviceState;
 			if (device.ParentPanel != null)
-				parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.ParentPanel.UID);
+				parentDeviceState = FiresecManager.Devices.FirstOrDefault(x => x.UID == device.ParentPanel.UID).DeviceState;
 			else
-				parentDeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.Parent.UID);
+				parentDeviceState = FiresecManager.Devices.FirstOrDefault(x => x.UID == device.Parent.UID).DeviceState;
 
 			var resetItem = new ResetItem();
 
@@ -127,21 +127,21 @@ namespace AlarmModule
 				case AlarmType.Attention:
 				case AlarmType.Info:
 				case AlarmType.Failure:
-					resetItem.DeviceUID = parentDeviceState.UID;
+					resetItem.DeviceState = parentDeviceState;
 					foreach (var state in parentDeviceState.States)
 					{
 						if (state.DriverState.StateType == EnumsConverter.AlarmTypeToStateType(AlarmType) && state.DriverState.IsManualReset)
-							resetItem.StateNames.Add(state.DriverState.Name);
+							resetItem.States.Add(state);
 					}
 					break;
 
 				case AlarmType.Service:
-					resetItem.DeviceUID = device.UID;
-					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+					resetItem.DeviceState = device.DeviceState;
+					var deviceState = FiresecManager.Devices.FirstOrDefault(x => x.UID == device.UID).DeviceState;
 					foreach (var state in deviceState.States)
 					{
 						if (state.DriverState.IsManualReset)
-							resetItem.StateNames.Add(state.DriverState.Name);
+							resetItem.States.Add(state);
 					}
 					break;
 
@@ -150,7 +150,7 @@ namespace AlarmModule
 					break;
 			}
 
-			if (resetItem.StateNames.Count > 0)
+			if (resetItem.States.Count > 0)
 				return resetItem;
 			return null;
 		}

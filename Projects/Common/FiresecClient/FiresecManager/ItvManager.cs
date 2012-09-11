@@ -14,6 +14,7 @@ namespace FiresecClient
         {
 			get { return FiresecManager.FiresecConfiguration.DeviceConfiguration; }
         }
+		[Obsolete]
         public static DeviceConfigurationStates DeviceStates
         {
             get { return FiresecManager.DeviceStates; }

@@ -16,17 +16,8 @@ namespace FiresecService.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-			ShowImitatorCommand = new RelayCommand(OnShowImitator);
 			Clients = new ObservableCollection<ClientViewModel>();
 			Title = "Сервер ОПС FireSec-2";
-		}
-
-		public RelayCommand ShowImitatorCommand { get; private set; }
-		void OnShowImitator()
-		{
-			ClientsCash.NotifyClients("Запущен имитатор");
-            //var imitatorViewModel = new ImitatorViewModel();
-            //DialogService.ShowModalWindow(imitatorViewModel);
 		}
 
 		private string _status;

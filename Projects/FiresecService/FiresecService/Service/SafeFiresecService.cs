@@ -118,9 +118,9 @@ namespace FiresecService.Service
             return SafeOperationCall(() => { return FiresecService.GetStatus(); }, "GetStatus");
         }
 
-        public List<FiresecAPI.Models.Driver> GetDrivers()
+		public DriversConfiguration GetDriversConfiguration()
         {
-            return SafeOperationCall(() => { return FiresecService.GetDrivers(); }, "GetDrivers");
+			return SafeOperationCall(() => { return FiresecService.GetDriversConfiguration(); }, "GetDriversConfiguration");
         }
 
         public FiresecAPI.Models.DeviceConfiguration GetDeviceConfiguration()

@@ -119,7 +119,7 @@
     <Compile Include="Service\FiresecService.Devices.cs" />
     <Compile Include="Service\FiresecService.Journal.cs" />
     <Compile Include="Service\FiresecService.XDevices.cs" />
-    <Compile Include="Service\NotifyIconService.cs" />
+    <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\FiresecServiceManager.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />

@@ -18,12 +18,12 @@ namespace Firesec.Imitator.ViewModels
 			Title = "Имитатор состояний устройств";
 			Devices = new ObservableCollection<DeviceViewModel>();
 
-			foreach (var deviceState in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
+			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				if (deviceState.Device.Driver.DriverType == (DriverType.IndicationBlock | DriverType.Page | DriverType.Indicator))
+				if (device.Driver.DriverType == (DriverType.IndicationBlock | DriverType.Page | DriverType.Indicator))
 					continue;
 
-				var deviceViewModel = new DeviceViewModel(deviceState);
+				var deviceViewModel = new DeviceViewModel(device.DeviceState);
 				Devices.Add(deviceViewModel);
 			}
 		}

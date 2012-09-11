@@ -376,6 +376,7 @@ namespace Firesec
 		List<shapeType> AddShapes(Device device)
 		{
 			var shapeTypes = new List<shapeType>();
+			if (device.ShapeIds != null)
 			foreach (var shapeId in device.ShapeIds)
 			{
 				var shape = new shapeType()

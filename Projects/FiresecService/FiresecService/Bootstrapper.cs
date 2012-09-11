@@ -36,13 +36,7 @@ namespace FiresecService
                 WindowThread.Start();
                 MainViewStartedEvent.WaitOne();
 
-                ConfigurationCash.DriversConfiguration = new DriversConfiguration();
-                ConfigurationCash.DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
                 ConfigurationCash.SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
-                ConfigurationCash.LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
-                ConfigurationCash.SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
-                ConfigurationCash.PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
-                ConfigurationCash.DeviceConfigurationStates = new DeviceConfigurationStates();
 
                 if (!AppSettings.IsOPCOnly)
                 {

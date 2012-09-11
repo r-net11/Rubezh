@@ -6,25 +6,24 @@ namespace FiresecService.Service
 {
     public partial class FiresecService
     {
-        public List<Driver> GetDrivers()
+		public DriversConfiguration GetDriversConfiguration()
         {
-            if (ConfigurationCash.DriversConfiguration.Drivers.Count == 0)
-            {
-                return ConfigurationFileManager.GetDriversConfiguration().Drivers;
-            }
-            return ConfigurationCash.DriversConfiguration.Drivers;
+			return ConfigurationFileManager.GetDriversConfiguration();
         }
+		//public void SetDriversConfiguration(DriversConfiguration driversConfiguration)
+		//{
+		//    ConfigurationFileManager.SetDriversConfiguration(driversConfiguration);
+		//}
 
         public DeviceConfiguration GetDeviceConfiguration()
         {
-            return ConfigurationFileManager.GetDeviceConfiguration();
+			return ConfigurationFileManager.GetDeviceConfiguration();
         }
 
         public SecurityConfiguration GetSecurityConfiguration()
         {
-            return ConfigurationCash.SecurityConfiguration;
+			return ConfigurationFileManager.GetSecurityConfiguration();
         }
-
         public void SetSecurityConfiguration(SecurityConfiguration securityConfiguration)
         {
             ConfigurationFileManager.SetSecurityConfiguration(securityConfiguration);
@@ -33,35 +32,29 @@ namespace FiresecService.Service
 
         public SystemConfiguration GetSystemConfiguration()
         {
-            return ConfigurationCash.SystemConfiguration;
+			return ConfigurationFileManager.GetSystemConfiguration();
         }
-
         public void SetSystemConfiguration(SystemConfiguration systemConfiguration)
         {
             ConfigurationFileManager.SetSystemConfiguration(systemConfiguration);
-            ConfigurationCash.SystemConfiguration = systemConfiguration;
         }
 
         public LibraryConfiguration GetLibraryConfiguration()
         {
-            return ConfigurationCash.LibraryConfiguration;
+			return ConfigurationFileManager.GetLibraryConfiguration();
         }
-
         public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
         {
             ConfigurationFileManager.SetLibraryConfiguration(libraryConfiguration);
-            ConfigurationCash.LibraryConfiguration = libraryConfiguration;
         }
 
         public PlansConfiguration GetPlansConfiguration()
         {
-            return ConfigurationFileManager.GetPlansConfiguration();
+			return ConfigurationFileManager.GetPlansConfiguration();
         }
-
         public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
         {
             ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
-            ConfigurationCash.PlansConfiguration = plansConfiguration;
         }
     }
 }

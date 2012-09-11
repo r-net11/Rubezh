@@ -1,19 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Common;
 using FiresecAPI.Models;
 
 namespace Firesec
 {
-	public class FiresecResetHelper
+	public partial class FiresecDriver
 	{
-		FiresecSerializedClient FiresecSerializedClient;
-
-		public FiresecResetHelper(FiresecSerializedClient firesecSerializedClient)
-		{
-			FiresecSerializedClient = firesecSerializedClient;
-		}
-
 		public void ResetStates(List<ResetItem> resetItems)
 		{
 			if (FiresecSerializedClient == null)
@@ -26,16 +21,6 @@ namespace Firesec
 				Logger.Error("FiresecResetHelper.ResetStates: resetItems = null");
 				return;
 			}
-			if (ConfigurationCash.DeviceConfigurationStates == null)
-			{
-				Logger.Error("FiresecResetHelper.ResetStates: ConfigurationCash.DeviceConfigurationStates = null");
-				return;
-			}
-			if (ConfigurationCash.DeviceConfigurationStates.DeviceStates == null)
-			{
-				Logger.Error("FiresecResetHelper.ResetStates: ConfigurationCash.DeviceConfigurationStates.DeviceStates = null");
-				return;
-			}
 
 			var innerDevices = new List<Firesec.Models.CoreState.devType>();
 
@@ -46,34 +31,26 @@ namespace Firesec
 					Logger.Error("FiresecResetHelper.ResetStates: resetItem = null");
 					continue;
 				}
-
-				var deviceState = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == resetItem.DeviceUID);
-				if (deviceState == null)
+				if (resetItem.DeviceState == null)
 				{
-					Logger.Error("FiresecResetHelper.ResetStates: deviceState = null");
+					Logger.Error("FiresecResetHelper.ResetStates: resetItem.DeviceState = null");
 					continue;
 				}
 
 				var innerStates = new List<Firesec.Models.CoreState.stateType>();
 
-				if (resetItem.StateNames == null)
+				if (resetItem.States == null)
 				{
-					Logger.Error("FiresecResetHelper.ResetStates: resetItem.StateNames = null");
+					Logger.Error("FiresecResetHelper.ResetStates: resetItem.States = null");
 					continue;
 				}
-				if (deviceState.States == null)
+				if (resetItem.DeviceState.States == null)
 				{
 					Logger.Error("FiresecResetHelper.ResetStates: deviceState.States = null");
 					continue;
 				}
-				foreach (var stateName in resetItem.StateNames)
+				foreach (var deviceDriverState in resetItem.States)
 				{
-					if (stateName == null)
-					{
-						Logger.Error("FiresecResetHelper.ResetStates: stateName = null");
-						continue;
-					}
-					var deviceDriverState = deviceState.States.FirstOrDefault(x => x.DriverState.Name == stateName);
 					if (deviceDriverState == null)
 					{
 						Logger.Error("FiresecResetHelper.ResetStates: deviceDriverState = null");
@@ -89,7 +66,7 @@ namespace Firesec
 				}
 				var innerDevice = new Firesec.Models.CoreState.devType()
 				{
-					name = deviceState.PlaceInTree,
+					name = resetItem.DeviceState.PlaceInTree,
 					state = innerStates.ToArray()
 				};
 				innerDevices.Add(innerDevice);

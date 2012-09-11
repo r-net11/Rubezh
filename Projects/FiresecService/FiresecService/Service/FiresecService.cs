@@ -9,6 +9,7 @@ using FiresecAPI.Models;
 using FiresecService.Database;
 using FiresecService.DatabaseConverter;
 using FiresecService.ViewModels;
+using FiresecService.Configuration;
 
 namespace FiresecService.Service
 {
