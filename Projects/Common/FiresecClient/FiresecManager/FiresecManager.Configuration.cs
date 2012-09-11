@@ -10,10 +10,18 @@ namespace FiresecClient
 	public partial class FiresecManager
 	{
 		public static FiresecConfiguration FiresecConfiguration { get; set; }
-		public static DeviceConfigurationStates DeviceStates { get; set; }
+		public static PlansConfiguration PlansConfiguration
+		{
+			get { return ConfigurationCash.PlansConfiguration; }
+			set { ConfigurationCash.PlansConfiguration = value; }
+		}
+		public static DeviceConfigurationStates DeviceStates
+		{
+			get { return ConfigurationCash.DeviceConfigurationStates; }
+			set { ConfigurationCash.DeviceConfigurationStates = value; }
+		}
 		public static LibraryConfiguration LibraryConfiguration { get; set; }
 		public static SystemConfiguration SystemConfiguration { get; set; }
-		public static PlansConfiguration PlansConfiguration { get; set; }
 		public static SecurityConfiguration SecurityConfiguration { get; set; }
 
 		public static void GetConfiguration(bool updateFiles = true)
@@ -38,11 +46,6 @@ namespace FiresecClient
 			};
 
             UpdateConfiguration();
-
-            ConfigurationCash.DriversConfiguration = new DriversConfiguration();
-            ConfigurationCash.DriversConfiguration.Drivers = ConfigurationCash.DriversConfiguration.Drivers;
-            FiresecConfiguration.Drivers = Drivers;
-			
             InitializeFiresecDriver();
 		}
 

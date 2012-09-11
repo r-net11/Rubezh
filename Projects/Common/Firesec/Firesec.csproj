@@ -107,7 +107,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Firesec\SocketServerHelper.cs" />
-    <Compile Include="ConfigurationCash.cs" />
     <Compile Include="ConfigurationConverter\ConfigurationConverter.cs" />
     <Compile Include="ConfigurationConverter\ConfigurationConverter.DevicesConverter.cs" />
     <Compile Include="ConfigurationConverter\ConfigurationConverter.DirectionsConverter.cs" />

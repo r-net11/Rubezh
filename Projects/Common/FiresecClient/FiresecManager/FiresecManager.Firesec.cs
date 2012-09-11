@@ -14,12 +14,6 @@ namespace FiresecClient
 
 		public static void InitializeFiresecDriver()
 		{
-			ConfigurationCash.DriversConfiguration = new DriversConfiguration();
-			ConfigurationCash.DriversConfiguration.Drivers = FiresecConfiguration.Drivers;
-			ConfigurationCash.DeviceConfiguration = FiresecConfiguration.DeviceConfiguration;
-			ConfigurationCash.PlansConfiguration = PlansConfiguration;
-			ConfigurationCash.DeviceConfigurationStates = new DeviceConfigurationStates();
-
 			var lastJournalNo = FiresecService.FiresecService.GetJournalLastId().Result;
 			FiresecDriver = new FiresecDriver(lastJournalNo);
 			FiresecDriver.Watcher.DevicesStateChanged += new Action<List<FiresecAPI.Models.DeviceState>>(OnDevicesStateChanged);

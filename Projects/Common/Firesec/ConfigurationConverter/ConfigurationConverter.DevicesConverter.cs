@@ -233,6 +233,7 @@ namespace Firesec
 			innerDevice.prop = AddProperties(device).ToArray();
 			innerDevice.param = AddParameters(device).ToArray();
 			innerDevice.dev_param = AddDevParameters(device).ToArray();
+			innerDevice.shape = AddShapes(device).ToArray();
 
 			return innerDevice;
 		}
@@ -370,6 +371,20 @@ namespace Firesec
 			}
 
 			return propertyList;
+		}
+
+		List<shapeType> AddShapes(Device device)
+		{
+			var shapeTypes = new List<shapeType>();
+			foreach (var shapeId in device.ShapeIds)
+			{
+				var shape = new shapeType()
+				{
+					id = shapeId
+				};
+				shapeTypes.Add(shape);
+			}
+			return shapeTypes;
 		}
 	}
 }
