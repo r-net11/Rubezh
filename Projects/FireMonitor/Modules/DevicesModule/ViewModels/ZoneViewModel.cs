@@ -27,16 +27,6 @@ namespace DevicesModule.ViewModels
 			UnSetGuardCommand = new RelayCommand(OnUnSetGuard, CanUnSetGuard);
 
 			ZoneState = zoneState;
-			if (FiresecManager.DeviceStates == null)
-			{
-				Logger.Error("ZoneViewModel.ctrl FiresecManager.DeviceStates = null");
-				return;
-			}
-			if (FiresecManager.DeviceStates.ZoneStates == null)
-			{
-				Logger.Error("ZoneViewModel.ctrl FiresecManager.DeviceStates.ZoneStates = null");
-				return;
-			}
 			ZoneState.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
 		}

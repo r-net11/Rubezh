@@ -70,22 +70,21 @@ namespace FireMonitor.Views
 				if (string.IsNullOrWhiteSpace(journalRecord.DeviceDatabaseId) == false)
 				{
 					var globalStateType = StateType.No;
-					foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
+					foreach (var device in FiresecManager.Devices)
 					{
-						if (deviceState.StateType < globalStateType)
-							globalStateType = deviceState.StateType;
+						if (device.DeviceState.StateType < globalStateType)
+							globalStateType = device.DeviceState.StateType;
 					}
 
-					var device = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
-					if (device != null)
+					var journalDevice = FiresecManager.Devices.FirstOrDefault(x => x.DatabaseId == journalRecord.DeviceDatabaseId);
+					if (journalDevice != null)
 					{
-						var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-						//if (deviceState.StateType <= globalStateType)
+						//if (journalDevice.DeviceState.StateType <= globalStateType)
 						{
-							var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == device.UID); });
+							var existsOnPlan = FiresecManager.PlansConfiguration.AllPlans.Any(x => { return x.ElementDevices.Any(y => y.DeviceUID == journalDevice.UID); });
 							if (existsOnPlan)
 							{
-								ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(device.UID);
+								ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(journalDevice.UID);
 							}
 						}
 					}

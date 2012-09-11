@@ -1,11 +1,16 @@
 ﻿using System.Linq;
 using System.Windows;
 using Common;
+using FiresecAPI.Models;
+using System;
 
 namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
+		[Obsolete]
+		public static DeviceConfigurationStates DeviceStates { get; set; }
+
 		public static void GetStates()
 		{
 			FiresecDriver.ConfigurationConverter.SynchronyzeConfiguration();

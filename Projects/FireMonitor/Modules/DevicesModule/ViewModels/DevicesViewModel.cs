@@ -72,11 +72,7 @@ namespace DevicesModule.ViewModels
 				if (childDevice.IsNotUsed)
 					continue;
 
-				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == childDevice.UID);
-				if (deviceState != null)
-				{
-					deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
-				}
+				deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
 			}
 
 			return deviceViewModel;

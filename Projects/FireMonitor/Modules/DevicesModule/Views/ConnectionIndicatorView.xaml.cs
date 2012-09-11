@@ -38,9 +38,9 @@ namespace DevicesModule.Views
 
 		bool HasLostDevices()
 		{
-			foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
+			foreach (var device in FiresecManager.Devices)
 			{
-				foreach (var state in deviceState.States)
+				foreach (var state in device.DeviceState.States)
 				{
 					if (state.DriverState.Name.Contains("Потеря связи") || state.DriverState.Name.Contains("Связь с панелью потеряна"))
 						return true;

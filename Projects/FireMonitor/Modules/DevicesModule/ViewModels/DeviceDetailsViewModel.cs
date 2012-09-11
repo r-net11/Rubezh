@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
 		{
 			_guid = deviceUID;
 			Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
+			DeviceState = Device.DeviceState;
 			if (DeviceState != null)
 				DeviceState.StateChanged += new Action(deviceState_StateChanged);
 			DeviceControlViewModel = new DeviceControlViewModel(Device);

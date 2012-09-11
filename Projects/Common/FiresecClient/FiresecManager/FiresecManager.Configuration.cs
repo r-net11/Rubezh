@@ -10,10 +10,14 @@ namespace FiresecClient
 	public partial class FiresecManager
 	{
 		public static FiresecConfiguration FiresecConfiguration { get; set; }
-		public static DeviceConfigurationStates DeviceStates { get; set; }
+		public static PlansConfiguration PlansConfiguration
+		{
+			get { return ConfigurationCash.PlansConfiguration; }
+			set { ConfigurationCash.PlansConfiguration = value; }
+		}
+
 		public static LibraryConfiguration LibraryConfiguration { get; set; }
 		public static SystemConfiguration SystemConfiguration { get; set; }
-		public static PlansConfiguration PlansConfiguration { get; set; }
 		public static SecurityConfiguration SecurityConfiguration { get; set; }
 
 		public static void GetConfiguration(bool updateFiles = true)
@@ -25,24 +29,19 @@ namespace FiresecClient
 			LibraryConfiguration = FiresecService.GetLibraryConfiguration();
 			PlansConfiguration = FiresecService.GetPlansConfiguration();
 			SecurityConfiguration = FiresecService.GetSecurityConfiguration();
-			var drivers = FiresecService.GetDrivers();
-			if ((drivers == null) || (drivers.Count == 0))
+			var driversConfiguration = FiresecService.GetDriversConfiguration();
+			if ((driversConfiguration == null) || (driversConfiguration.Drivers == null) || (driversConfiguration.Drivers.Count == 0))
 			{
 				MessageBox.Show("Ошибка. Список драйверов пуст");
 			}
 			var deviceConfiguration = FiresecService.GetDeviceConfiguration();
 			FiresecConfiguration = new FiresecConfiguration()
 			{
-				Drivers = drivers,
+				Drivers = driversConfiguration.Drivers,
 				DeviceConfiguration = deviceConfiguration
 			};
 
             UpdateConfiguration();
-
-            ConfigurationCash.DriversConfiguration = new DriversConfiguration();
-            ConfigurationCash.DriversConfiguration.Drivers = ConfigurationCash.DriversConfiguration.Drivers;
-            FiresecConfiguration.Drivers = Drivers;
-			
             InitializeFiresecDriver();
 		}
 

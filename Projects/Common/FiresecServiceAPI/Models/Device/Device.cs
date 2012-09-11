@@ -23,6 +23,7 @@ namespace FiresecAPI.Models
 
 		public Driver Driver { get; set; }
 		public Device Parent { get; set; }
+		public DeviceState DeviceState { get; set; }
 		public List<string> ShapeIds { get; set; }
 
 		[DataMember]

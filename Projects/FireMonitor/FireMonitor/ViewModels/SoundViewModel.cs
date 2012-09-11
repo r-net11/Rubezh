@@ -57,9 +57,9 @@ namespace FireMonitor.ViewModels
 		{
 			var minState = StateType.No;
 
-			foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
-				if (deviceState.StateType < minState)
-					minState = deviceState.StateType;
+			foreach (var device in FiresecManager.Devices)
+				if (device.DeviceState.StateType < minState)
+					minState = device.DeviceState.StateType;
 
 			if (CurrentStateType != minState)
 				CurrentStateType = minState;

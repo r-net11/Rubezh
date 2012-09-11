@@ -33,7 +33,7 @@ namespace FiresecAPI
 
         #region Configuration
         [OperationContract]
-        List<Driver> GetDrivers();
+		DriversConfiguration GetDriversConfiguration();
 
         [OperationContract]
         DeviceConfiguration GetDeviceConfiguration();

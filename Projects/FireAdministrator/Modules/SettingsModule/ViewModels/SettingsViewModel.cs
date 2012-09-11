@@ -6,6 +6,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Firesec;
+using FiresecAPI.Models;
 
 namespace SettingsModule.ViewModels
 {
@@ -28,8 +29,6 @@ namespace SettingsModule.ViewModels
 				WaitHelper.Execute(() =>
 				{
 					FiresecManager.FiresecDriver.Convert();
-					FiresecManager.FiresecConfiguration.DeviceConfiguration = ConfigurationCash.DeviceConfiguration;
-					FiresecManager.PlansConfiguration = ConfigurationCash.PlansConfiguration;
 					ServiceFactory.SaveService.DevicesChanged = true;
 					ServiceFactory.SaveService.PlansChanged = true;
 					FiresecManager.UpdateConfiguration();

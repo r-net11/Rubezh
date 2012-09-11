@@ -14,12 +14,6 @@ namespace FiresecClient
 
 		public static void InitializeFiresecDriver()
 		{
-			ConfigurationCash.DriversConfiguration = new DriversConfiguration();
-			ConfigurationCash.DriversConfiguration.Drivers = FiresecConfiguration.Drivers;
-			ConfigurationCash.DeviceConfiguration = FiresecConfiguration.DeviceConfiguration;
-			ConfigurationCash.PlansConfiguration = PlansConfiguration;
-			ConfigurationCash.DeviceConfigurationStates = new DeviceConfigurationStates();
-
 			var lastJournalNo = FiresecService.FiresecService.GetJournalLastId().Result;
 			FiresecDriver = new FiresecDriver(lastJournalNo);
 			FiresecDriver.Watcher.DevicesStateChanged += new Action<List<FiresecAPI.Models.DeviceState>>(OnDevicesStateChanged);
@@ -35,70 +29,30 @@ namespace FiresecClient
 			}
 		}
 
-		static void OnDevicesStateChanged(List<DeviceState> newDeviceStates)
+		static void OnDevicesStateChanged(List<DeviceState> deviceStates)
 		{
-			if (FiresecManager.DeviceStates == null)
-				return;
-
-			foreach (var newDeviceState in newDeviceStates)
+			foreach (var deviceState in deviceStates)
 			{
-				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
-				if (deviceState == null)
-					continue;
-
-				deviceState.States.Clear();
-				foreach (var newState in newDeviceState.States)
-				{
-					deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == newState.Code);
-					newState.DriverState = deviceState.Device.Driver.States.FirstOrDefault(x => x.Code == newState.Code);
-					deviceState.States.Add(newState);
-				}
-
-				deviceState.ParentStates = newDeviceState.ParentStates;
-				foreach (var parentState in deviceState.ParentStates)
-				{
-					parentState.ParentDevice = FiresecManager.FiresecConfiguration.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == parentState.ParentDeviceId);
-					if (parentState.ParentDevice != null)
-					{
-						parentState.DriverState = parentState.ParentDevice.Driver.States.FirstOrDefault(x => x.Code == parentState.Code);
-					}
-				}
-
 				if (DeviceStateChangedEvent != null)
-					DeviceStateChangedEvent(deviceState.UID);
+					DeviceStateChangedEvent(deviceState);
 			}
 		}
 
 		static void OnDevicesParametersChanged(List<DeviceState> newDeviceStates)
 		{
-			if (FiresecManager.DeviceStates == null)
-				return;
-
-			foreach (var newDeviceState in newDeviceStates)
+			foreach (var deviceState in newDeviceStates)
 			{
-				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == newDeviceState.UID);
-				if (deviceState != null)
-				{
-					deviceState.Parameters = newDeviceState.Parameters;
-
-					if (DeviceParametersChangedEvent != null)
-						DeviceParametersChangedEvent(deviceState.UID);
-				}
+				if (DeviceParametersChangedEvent != null)
+					DeviceParametersChangedEvent(deviceState);
 			}
 		}
 
-		static void OnZonesStateChanged(List<ZoneState> newZoneStates)
+		static void OnZonesStateChanged(List<ZoneState> zoneStates)
 		{
-			if (FiresecManager.DeviceStates == null)
-				return;
-
-			foreach (var newZoneState in newZoneStates)
+			foreach (var zoneState in zoneStates)
 			{
-				var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == newZoneState.No);
-				zoneState.StateType = newZoneState.StateType;
-
 				if (ZoneStateChangedEvent != null)
-					ZoneStateChangedEvent(zoneState.No);
+					ZoneStateChangedEvent(zoneState);
 			}
 		}
 
@@ -122,9 +76,9 @@ namespace FiresecClient
 			});
 		}
 
-		public static event Action<Guid> DeviceStateChangedEvent;
-		public static event Action<Guid> DeviceParametersChangedEvent;
-		public static event Action<int> ZoneStateChangedEvent;
+		public static event Action<DeviceState> DeviceStateChangedEvent;
+		public static event Action<DeviceState> DeviceParametersChangedEvent;
+		public static event Action<ZoneState> ZoneStateChangedEvent;
 		public static event Action<JournalRecord> NewJournalRecordEvent;
 		public static event Action<int, string, int, int> ProgressEvent;
 

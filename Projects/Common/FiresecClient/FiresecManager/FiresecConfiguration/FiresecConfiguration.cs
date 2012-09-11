@@ -8,8 +8,16 @@ namespace FiresecClient
 {
 	public partial class FiresecConfiguration
 	{
-		public List<Driver> Drivers { get; set; }
-		public DeviceConfiguration DeviceConfiguration { get; set; }
+		public List<Driver> Drivers
+		{
+			get { return ConfigurationCash.DriversConfiguration.Drivers; }
+			set { ConfigurationCash.DriversConfiguration.Drivers = value; }
+		}
+		public DeviceConfiguration DeviceConfiguration
+		{
+			get { return ConfigurationCash.DeviceConfiguration; }
+			set { ConfigurationCash.DeviceConfiguration = value; }
+		}
 
 		public void UpdateConfiguration()
 		{

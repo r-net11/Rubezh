@@ -57,7 +57,7 @@ namespace DevicesModule.Reports
 						}
 					}
 
-					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+					var deviceState = device.DeviceState;
 					if (deviceState.Parameters != null)
 					{
 						var parameter = deviceState.Parameters.FirstOrDefault(x => (x.Name == "Dustiness" && x.Visible));

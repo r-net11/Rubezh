@@ -25,12 +25,15 @@ namespace Firesec
 				FiresecSerializedClient = FiresecSerializedClient
 			};
 			ConfigurationConverter.ConvertMetadataFromFiresec();
-            Watcher = new Watcher(FiresecSerializedClient, true);
+			ConvertStates();
+			Watcher = new Watcher(FiresecSerializedClient, true);
+			Watcher.OnStateChanged();
+			Watcher.OnParametersChanged();
 		}
 
 		public DeviceConfigurationStates ConvertStates()
 		{
-			ConfigurationCash.DeviceConfigurationStates = new DeviceConfigurationStates();
+			var deviceConfigurationStates = new DeviceConfigurationStates();
 			if (ConfigurationCash.DeviceConfiguration.Devices.IsNotNullOrEmpty())
 			{
 				foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
@@ -45,19 +48,20 @@ namespace Firesec
 					foreach (var parameter in device.Driver.Parameters)
 						deviceState.Parameters.Add(parameter.Copy());
 
-					ConfigurationCash.DeviceConfigurationStates.DeviceStates.Add(deviceState);
+					device.DeviceState = deviceState;
+
+					deviceConfigurationStates.DeviceStates.Add(deviceState);
 				}
 			}
 
 			foreach (var zone in ConfigurationCash.DeviceConfiguration.Zones)
 			{
-				ConfigurationCash.DeviceConfigurationStates.ZoneStates.Add(new ZoneState() { No = zone.No });
+				var zoneState = new ZoneState() { No = zone.No };
+				zone.ZoneState = zoneState;
+				deviceConfigurationStates.ZoneStates.Add(zoneState);
 			}
 
-			Watcher.OnStateChanged();
-			Watcher.OnParametersChanged();
-
-			return ConfigurationCash.DeviceConfigurationStates;
+			return deviceConfigurationStates;
 		}
 
 		public void Convert()
@@ -268,15 +272,9 @@ namespace Firesec
 			FiresecSerializedClient.RemoveFromIgnoreList(devicePaths);
 		}
 
-		public void ResetStates(List<ResetItem> resetItems)
-		{
-			var firesecResetHelper = new FiresecResetHelper(FiresecSerializedClient);
-			firesecResetHelper.ResetStates(resetItems);
-		}
-
 		public void SetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
-			var device = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == secPanelUID);
+			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
 			if (device != null)
 			{
 				int reguestId = 0;
@@ -286,7 +284,7 @@ namespace Firesec
 
 		public void UnSetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
-			var device = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == secPanelUID);
+			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
 			if (device != null)
 			{
 				int reguestId = 0;
@@ -301,7 +299,7 @@ namespace Firesec
 
 		public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)
 		{
-			var device = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
+			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				FiresecSerializedClient.ExecuteCommand(device.PlaceInTree, methodName);

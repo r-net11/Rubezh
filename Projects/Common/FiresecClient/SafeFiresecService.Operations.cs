@@ -24,9 +24,9 @@ namespace FiresecClient
             return SafeOperationCall(() => { return FiresecService.GetStatus(); });
         }
 
-        public List<Driver> GetDrivers()
+		public DriversConfiguration GetDriversConfiguration()
         {
-            return SafeOperationCall(() => { return FiresecService.GetDrivers(); });
+			return SafeOperationCall(() => { return FiresecService.GetDriversConfiguration(); });
         }
 
         public DeviceConfiguration GetDeviceConfiguration()
