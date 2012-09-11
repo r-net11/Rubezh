@@ -1,11 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
 namespace Controls
 {
-    public class AlarmButton : ToggleButton
+    public class AlarmButton : System.Windows.Controls.Primitives.ToggleButton
     {
         public static readonly DependencyProperty CornerRadiusProperty =
             Border.CornerRadiusProperty.AddOwner(typeof(AlarmButton));
