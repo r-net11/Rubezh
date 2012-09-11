@@ -136,7 +136,6 @@ namespace AssadProcessor
                 bytes = Encoding.UTF8.GetBytes(message);
 
                 Socket_Connection.Send(bytes);
-                Services.LogEngine.AddEntry(new Logger.LogEntry(Logger.LogType.Outgoing, message));
             }
         }
 

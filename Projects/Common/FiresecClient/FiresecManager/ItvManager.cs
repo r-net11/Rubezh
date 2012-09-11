@@ -24,12 +24,12 @@ namespace FiresecClient
             get { return FiresecManager.LibraryConfiguration; }
         }
 
-        public static string Connect(string serverAddress, string login, string password)
+        public static string Connect(string serverAddress, string login="adm", string password="", string FS_Address="localhost", int FS_Port=211, string FS_Login="adm", string FS_Password="")
         {
 			var result = FiresecManager.Connect(ClientType.Itv, serverAddress, login, password);
             if (string.IsNullOrEmpty(result))
             {
-                FiresecManager.GetConfiguration(true);
+                FiresecManager.GetConfiguration(true, FS_Address, FS_Port, FS_Login, FS_Password);
                 FiresecManager.GetStates();
             }
             return result;

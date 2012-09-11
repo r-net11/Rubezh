@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecAPI.Models;
@@ -8,9 +9,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
-using System;
-using System.Collections.Generic;
-using FiresecAPI;
 
 namespace GKModule.ViewModels
 {

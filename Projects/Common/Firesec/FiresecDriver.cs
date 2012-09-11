@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using Firesec;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.IO;
 
 namespace Firesec
 {
@@ -16,10 +14,10 @@ namespace Firesec
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public Watcher Watcher { get; private set; }
 
-		public FiresecDriver(int lastJournalNo)
+        public FiresecDriver(int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			FiresecSerializedClient = new FiresecSerializedClient();
-			FiresecSerializedClient.Connect("adm", "");
+			FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
 			ConfigurationConverter = new ConfigurationConverter()
 			{
 				FiresecSerializedClient = FiresecSerializedClient

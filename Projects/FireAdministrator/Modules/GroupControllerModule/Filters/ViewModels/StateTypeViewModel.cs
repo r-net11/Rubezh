@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using FiresecAPI;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
 
 namespace GKModule.ViewModels
 {

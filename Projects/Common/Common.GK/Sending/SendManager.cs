@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using XFiresecAPI;
 using FiresecClient;
 using Infrastructure.Common.Windows;
+using XFiresecAPI;
 
 namespace Common.GK
 {

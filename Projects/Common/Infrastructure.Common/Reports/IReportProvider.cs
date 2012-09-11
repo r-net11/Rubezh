@@ -1,5 +1,4 @@
-﻿using FiresecAPI.Models;
-
+﻿
 namespace Infrastructure.Common.Reports
 {
 	public interface IReportProvider

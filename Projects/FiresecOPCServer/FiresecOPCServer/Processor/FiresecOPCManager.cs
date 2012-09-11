@@ -103,7 +103,7 @@ namespace FiresecOPCServer
                 var tagDevice = new TagDevice()
                 {
                     TagId = tagId,
-                    DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID)
+                    DeviceState = device.DeviceState
                 };
                 TagDevices.Add(tagDevice);
                 TagsCount++;
@@ -125,7 +125,7 @@ namespace FiresecOPCServer
                 var tagZone = new TagZone()
                 {
                     TagId = tagId,
-                    ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zone.No)
+                    ZoneState = zone.ZoneState
                 };
                 TagZones.Add(tagZone);
                 TagsCount++;

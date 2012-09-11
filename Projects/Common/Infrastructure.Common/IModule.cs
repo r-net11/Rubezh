@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Infrastructure.Common.Navigation;
-using System;
 
 namespace Infrastructure.Common
 {

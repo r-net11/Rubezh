@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
-using FiresecAPI;
 
 namespace PlansModule.ViewModels
 {

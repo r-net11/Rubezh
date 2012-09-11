@@ -17,7 +17,7 @@ namespace VideoModule
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
-        void OnDeviceStateChanged(Guid obj)
+        void OnDeviceStateChanged(Guid deviceUID)
         {
             UpdateVideoAlarms();
         }

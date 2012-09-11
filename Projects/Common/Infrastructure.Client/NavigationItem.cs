@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
-using Infrastructure.Common.Navigation;
-using Microsoft.Practices.Prism.Events;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Common;
+using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
+using Infrastructure.Common.Windows.ViewModels;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Client
 {

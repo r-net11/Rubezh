@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Common.GK;
+using FiresecAPI.XModels;
 using FiresecClient;
 using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using FiresecAPI.XModels;
 
 namespace GKModule
 {

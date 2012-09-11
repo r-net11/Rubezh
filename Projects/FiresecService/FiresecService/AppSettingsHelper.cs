@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace FiresecService
 {
 	public static class AppSettingsHelper

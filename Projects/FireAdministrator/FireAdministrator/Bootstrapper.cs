@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using Common.GK;
 using FireAdministrator.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -9,11 +10,7 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Common.GK;
-using System.IO;
-using System.Windows.Markup;
 using Infrastructure.Services;
-using Common;
 
 namespace FireAdministrator
 {
@@ -32,7 +29,7 @@ namespace FireAdministrator
 					LoadingService.Show("Чтение конфигурации", 4);
 					LoadingService.AddCount(GetModuleCount());
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
-					FiresecManager.GetConfiguration();
+                    FiresecManager.GetConfiguration(true, ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
 					if (FiresecManager.Drivers.Count == 0)
 					{
 						MessageBoxService.Show("Ошибка при загрузке конфигурации с сервера");

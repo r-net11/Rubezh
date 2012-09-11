@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Firesec.Imitator.ViewModels;
+﻿using Firesec.Imitator.ViewModels;
 using Infrastructure.Common.Windows;
 
 namespace Firesec.Imitator

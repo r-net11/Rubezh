@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using FiltersModule.ViewModels;
-using Infrastructure;
+using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
-using Infrastructure.Client;
 
 namespace FiltersModule
 {

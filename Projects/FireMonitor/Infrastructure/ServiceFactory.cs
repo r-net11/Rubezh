@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -66,6 +65,7 @@ namespace Infrastructure
 		{
 			ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
 		}
+
 		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalRecord> journalRecords)
 		{
 			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(journalRecords);

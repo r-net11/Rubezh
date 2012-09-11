@@ -2,12 +2,11 @@
 using System.IO;
 using System.Threading;
 using Common;
+using FiresecService.Configuration;
 using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using FiresecService.Configuration;
-using FiresecAPI.Models;
 
 namespace FiresecService
 {

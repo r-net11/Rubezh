@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using DevicesModule.Reports;
 using DevicesModule.ViewModels;
+using FiresecClient;
 using Infrastructure;
+using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using FiresecClient;
-using Infrastructure.Common.Reports;
-using DevicesModule.Reports;
-using Infrastructure.Client;
 
 namespace DevicesModule
 {

@@ -1,5 +1,4 @@
-﻿using FireAdministrator.ViewModels;
-using Infrastructure;
+﻿using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FireAdministrator

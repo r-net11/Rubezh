@@ -8,8 +8,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using InstructionsModule.Views;
 using Infrastructure.ViewModels;
+using InstructionsModule.Views;
 
 namespace InstructionsModule.ViewModels
 {

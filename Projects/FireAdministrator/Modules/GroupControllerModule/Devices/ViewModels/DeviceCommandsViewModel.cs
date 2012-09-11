@@ -8,7 +8,6 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Microsoft.Win32;
 using XFiresecAPI;
 
 namespace GKModule.Models

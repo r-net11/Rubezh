@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
 
 namespace Firesec.Imitator.ViewModels
 {

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using FiresecAPI.Models;
 using Infrastructure;
+using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
-using Infrastructure.Events;
-using JournalModule.ViewModels;
 using Infrastructure.Common.Reports;
+using Infrastructure.Events;
 using JournalModule.Reports;
-using Infrastructure.Client;
+using JournalModule.ViewModels;
 
 namespace JournalModule
 {
@@ -42,7 +42,7 @@ namespace JournalModule
 			UnreadJournalCount = 0;
 			JournalsViewModel.SelectedJournal = JournalsViewModel.Journals[0];
 		}
-		void OnNewJournalRecord(JournalRecord journalItem)
+		void OnNewJournalRecord(JournalRecord journalRecord)
 		{
 			if (_journalItem == null || !_journalItem.IsSelected)
 				++UnreadJournalCount;

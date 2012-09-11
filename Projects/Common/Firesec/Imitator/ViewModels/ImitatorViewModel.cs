@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Firesec.Models.CoreState;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
-using Firesec.Models.CoreState;
-using Firesec;
 
 namespace Firesec.Imitator.ViewModels
 {

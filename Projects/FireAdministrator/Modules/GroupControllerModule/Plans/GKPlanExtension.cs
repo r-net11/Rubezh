@@ -1,20 +1,15 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
 using FiresecAPI.Models;
 using GKModule.Plans.Designer;
 using GKModule.Plans.InstrumentAdorners;
 using GKModule.Plans.ViewModels;
 using Infrastructure;
-using Infrastructure.Common.Windows;
 using Infrustructure.Plans;
 using Infrustructure.Plans.Designer;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using XFiresecAPI;
-using System.Linq;
-using System.Windows.Shapes;
 
 namespace GKModule.Plans
 {

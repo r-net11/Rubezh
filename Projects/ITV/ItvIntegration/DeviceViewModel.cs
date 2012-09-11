@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using FiresecAPI.Models;
 using FiresecClient;
+using FiresecAPI;
 
 namespace ItvIntegration
 {
@@ -11,13 +12,13 @@ namespace ItvIntegration
 		{
 			DeviceState = deviceState;
 			_stateType = deviceState.StateType;
-			FiresecCallbackService.DeviceStateChangedEvent += new Action<Guid>(OnDeviceStateChangedEvent);
+			FiresecManager.DeviceStateChangedEvent += new Action<DeviceState>(OnDeviceStateChangedEvent);
 			Name = DeviceState.Device.Driver.ShortName + " - " + DeviceState.Device.DottedAddress;
 		}
 
-		void OnDeviceStateChangedEvent(Guid uid)
+        void OnDeviceStateChangedEvent(DeviceState deviceState)
 		{
-			if (DeviceState.UID == uid)
+            if (DeviceState == deviceState)
 			{
 				StateType = DeviceState.StateType;
 			}

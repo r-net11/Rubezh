@@ -6,6 +6,7 @@ using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
 using ItvIntergation.Ngi;
+using FiresecAPI;
 
 namespace RepFileManager
 {

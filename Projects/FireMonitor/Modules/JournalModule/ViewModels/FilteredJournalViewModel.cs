@@ -6,7 +6,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using System;
 
 namespace JournalModule.ViewModels
 {

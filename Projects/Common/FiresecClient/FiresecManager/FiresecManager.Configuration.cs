@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
-using Firesec;
 
 namespace FiresecClient
 {
@@ -12,15 +11,15 @@ namespace FiresecClient
 		public static FiresecConfiguration FiresecConfiguration { get; set; }
 		public static PlansConfiguration PlansConfiguration
 		{
-			get { return ConfigurationCash.PlansConfiguration; }
-			set { ConfigurationCash.PlansConfiguration = value; }
+            get { return FiresecAPI.Models.ConfigurationCash.PlansConfiguration; }
+            set { FiresecAPI.Models.ConfigurationCash.PlansConfiguration = value; }
 		}
 
 		public static LibraryConfiguration LibraryConfiguration { get; set; }
 		public static SystemConfiguration SystemConfiguration { get; set; }
 		public static SecurityConfiguration SecurityConfiguration { get; set; }
 
-		public static void GetConfiguration(bool updateFiles = true)
+        public static void GetConfiguration(bool updateFiles, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			if (updateFiles)
 				FileHelper.Synchronize();
@@ -42,7 +41,7 @@ namespace FiresecClient
 			};
 
             UpdateConfiguration();
-            InitializeFiresecDriver();
+            InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
 		}
 
 		public static void UpdateConfiguration()

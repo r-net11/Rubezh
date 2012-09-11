@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AlarmModule.Events;
 using Common;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
-using FiresecAPI;
 
 namespace AlarmModule
 {
@@ -23,7 +23,7 @@ namespace AlarmModule
 			OnDeviceStateChanged(Guid.Empty);
 		}
 
-		void OnDeviceStateChanged(Guid obj)
+		void OnDeviceStateChanged(Guid deviceUID)
 		{
 			Alarms.ForEach(x => x.IsDeleting = true);
 

@@ -6,8 +6,8 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SecurityModule.Views;
 using Infrastructure.ViewModels;
+using SecurityModule.Views;
 
 namespace SecurityModule.ViewModels
 {

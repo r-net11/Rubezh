@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
+using GKModule.Events;
+using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Models;
-using System.Collections.ObjectModel;
-using Infrastructure;
-using GKModule.Events;
 
 namespace GKModule.ViewModels
 {

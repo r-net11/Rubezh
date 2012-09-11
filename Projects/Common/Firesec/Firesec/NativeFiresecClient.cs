@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ServiceProcess;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Windows.Controls;
 using Common;
-using System.Runtime.InteropServices;
 using FiresecAPI;
 
 namespace Firesec
@@ -27,14 +26,14 @@ namespace Firesec
 			get
 			{
 				if (_connectoin == null)
-					_connectoin = GetConnection("adm", "");
+					_connectoin = GetConnection("localhost", 211, "adm", "");
 				return _connectoin;
 			}
 		}
 
-		public OperationResult<bool> Connect(string login, string password)
+        public OperationResult<bool> Connect(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
-			return SafeCall<bool>(() => { _connectoin = GetConnection(login, password); return true; }, "Connect");
+			return SafeCall<bool>(() => { _connectoin = GetConnection(FS_Address, FS_Port, FS_Login, FS_Password); return true; }, "Connect");
 		}
 
 		public OperationResult<string> GetCoreConfig()
@@ -239,21 +238,21 @@ namespace Firesec
 		}
 
 		#region Connection
-		FS_Types.IFSC_Connection GetConnection(string login, string password)
+        FS_Types.IFSC_Connection GetConnection(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			SocketServerHelper.StartIfNotRunning();
 
 			FS_Types.FSC_LIBRARY_CLASSClass library = new FS_Types.FSC_LIBRARY_CLASSClass();
 			var serverInfo = new FS_Types.TFSC_ServerInfo()
 			{
-				Port = 211,
-				ServerName = "localhost"
+                ServerName = FS_Address,
+                Port = FS_Port
 			};
 
 			try
 			{
 				//FS_Types.IFSC_Connection connectoin = library.Connect3(login, password, serverInfo, this, false);
-				FS_Types.IFSC_Connection connectoin = library.Connect2(login, password, serverInfo, this);
+                FS_Types.IFSC_Connection connectoin = library.Connect2(FS_Login, FS_Password, serverInfo, this);
 				return connectoin;
 			}
 			catch (Exception e)

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using Firesec;
 using FiresecAPI.Models;
-using System.Threading;
 
 namespace FiresecClient
 {
@@ -12,10 +10,10 @@ namespace FiresecClient
 	{
 		public static FiresecDriver FiresecDriver { get; private set; }
 
-		public static void InitializeFiresecDriver()
+        public static void InitializeFiresecDriver(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			var lastJournalNo = FiresecService.FiresecService.GetJournalLastId().Result;
-			FiresecDriver = new FiresecDriver(lastJournalNo);
+			FiresecDriver = new FiresecDriver(lastJournalNo, FS_Address, FS_Port, FS_Login, FS_Password);
 			FiresecDriver.Watcher.DevicesStateChanged += new Action<List<FiresecAPI.Models.DeviceState>>(OnDevicesStateChanged);
 			FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>(OnDevicesParametersChanged);
 			FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(OnZonesStateChanged);

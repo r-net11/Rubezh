@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using FiresecAPI.Models;
+﻿using FiresecAPI.Models;
 using FiresecService.Configuration;
 
 namespace FiresecService.Service

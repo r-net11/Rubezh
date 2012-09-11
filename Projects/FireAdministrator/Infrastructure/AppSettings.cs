@@ -2,15 +2,15 @@
 {
     public class AppSettings
     {
-		public bool IsDebug { get; set; }
+        public string FS_Address { get; set; }
+        public int FS_Port { get; set; }
+        public string FS_Login { get; set; }
+        public string FS_Password { get; set; }
+
         public string ServiceAddress { get; set; }
-        public bool ShowVideo { get; set; }
         public string LibVlcDllsPath { get; set; }
-        public bool ShowGK { get; set; }
-        public bool ShowSKUD { get; set; }
+		public bool IsDebug { get; set; }
 		public bool UseLocalConnection { get; set; }
         public string Theme { get; set; }
-        public bool IsFSEnabled { get; set; }
-        public bool IsGKEnabled { get; set; }
     }
 }

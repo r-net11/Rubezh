@@ -4,9 +4,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using FiresecAPI.Models;
 using FiresecClient;
-using GKModule.Plans.ViewModels;
-using Infrustructure.Plans.Elements;
 using GKModule.ViewModels;
+using Infrustructure.Plans.Elements;
 
 namespace GKModule.Plans.Views
 {

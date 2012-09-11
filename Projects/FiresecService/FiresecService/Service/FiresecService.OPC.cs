@@ -1,5 +1,4 @@
-﻿using FiresecAPI;
-
+﻿
 namespace FiresecService.Service
 {
     public partial class FiresecService

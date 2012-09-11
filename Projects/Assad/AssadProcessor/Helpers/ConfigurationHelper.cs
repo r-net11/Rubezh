@@ -11,8 +11,7 @@ namespace AssadProcessor
 			var device = FiresecManager.Devices.FirstOrDefault(x => x.PathId == id);
 			if (device != null)
 			{
-				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-				return deviceState;
+				return device.DeviceState;
 			}
 			return null;
 		}

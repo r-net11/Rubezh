@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Firesec.Models.Journals;
-using FiresecAPI.Models;
 using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace Firesec
 {

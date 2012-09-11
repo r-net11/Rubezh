@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using XFiresecAPI;
 using FiresecClient;
+using XFiresecAPI;
 
 namespace Common.GK
 {

@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
+using FiresecAPI;
 
 namespace ItvIntegration
 {
@@ -11,7 +12,7 @@ namespace ItvIntegration
 		{
 			ZoneState = zoneState;
 			_stateType = zoneState.StateType;
-			FiresecCallbackService.ZoneStateChangedEvent += new Action<int>(OnZoneStateChangedEvent);
+			FiresecManager.ZoneStateChangedEvent += new Action<ZoneState>(OnZoneStateChangedEvent);
 			var zone = ItvManager.DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == zoneState.No);
 			if (zone != null)
 			{
@@ -19,9 +20,9 @@ namespace ItvIntegration
 			}
 		}
 
-		void OnZoneStateChangedEvent(int zoneNo)
+        void OnZoneStateChangedEvent(ZoneState zoneState)
 		{
-			if (ZoneState.No == zoneNo)
+            if (ZoneState == zoneState)
 			{
 				StateType = ZoneState.StateType;
 			}

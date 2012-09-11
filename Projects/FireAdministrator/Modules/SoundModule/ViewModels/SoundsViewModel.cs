@@ -4,11 +4,9 @@ using System.Linq;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
-using SoundsModule.Views;
 using Infrastructure.ViewModels;
+using SoundsModule.Views;
 
 namespace SoundsModule.ViewModels
 {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Firesec;
 using FiresecAPI;
 using FiresecAPI.Models;
-using Firesec;
 
 namespace FiresecClient
 {

@@ -4,12 +4,11 @@ using System.Windows;
 using FiresecAPI;
 using FiresecAPI.Models.Skud;
 using FiresecClient;
-using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using SkudModule.Properties;
 using Infrastructure.ViewModels;
+using SkudModule.Properties;
 
 namespace SkudModule.ViewModels
 {

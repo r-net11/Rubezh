@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -8,7 +9,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using System.Text;
 
 namespace DevicesModule.ViewModels
 {
