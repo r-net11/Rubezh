@@ -16,10 +16,10 @@ namespace PlansModule.ViewModels
 	public class ElementDeviceViewModel : BaseViewModel
 	{
 		public ElementDeviceView ElementDeviceView { get; private set; }
-		ElementDevice ElementDevice;
 		public Guid DeviceUID { get; private set; }
-		Device Device;
 		public DeviceState DeviceState { get; private set; }
+		private ElementDevice _elementDevice;
+		private Device _device;
 
 		public ElementDeviceViewModel(ElementDevice elementDevice)
 		{
@@ -27,9 +27,9 @@ namespace PlansModule.ViewModels
 			DisableCommand = new RelayCommand(OnDisable, CanDisable);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 
-			ElementDevice = elementDevice;
+			_elementDevice = elementDevice;
 			DeviceUID = elementDevice.DeviceUID;
-			Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+			_device = FiresecManager.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
 			DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
 			if (DeviceState != null)
 			{
@@ -39,7 +39,7 @@ namespace PlansModule.ViewModels
 
 		public Point Location
 		{
-			get { return new Point(ElementDevice.Left, ElementDevice.Top); }
+			get { return new Point(_elementDevice.Left, _elementDevice.Top); }
 		}
 
 		public void DrawElementDevice()
@@ -55,12 +55,12 @@ namespace PlansModule.ViewModels
 
 			ElementDeviceView.Width = 10;
 			ElementDeviceView.Height = 10;
-			Canvas.SetLeft(ElementDeviceView, ElementDevice.Left - 5);
-			Canvas.SetTop(ElementDeviceView, ElementDevice.Top - 5);
+			Canvas.SetLeft(ElementDeviceView, _elementDevice.Left - 5);
+			Canvas.SetTop(ElementDeviceView, _elementDevice.Top - 5);
 
-			if (Device != null)
+			if (_device != null)
 			{
-				ElementDeviceView._deviceControl.DriverId = Device.Driver.UID;
+				ElementDeviceView._deviceControl.DriverId = _device.Driver.UID;
 				OnDeviceStateChanged();
 			}
 		}
@@ -86,7 +86,7 @@ namespace PlansModule.ViewModels
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Device.UID);
+			ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(_device.UID);
 		}
 
 		public bool CanDisable()
@@ -104,7 +104,7 @@ namespace PlansModule.ViewModels
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()
 		{
-			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
+			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(_device.UID);
 		}
 
 		void OnDeviceStateChanged()
@@ -123,9 +123,9 @@ namespace PlansModule.ViewModels
 			get
 			{
 				var stringBuilder = new StringBuilder();
-				stringBuilder.Append(Device.PresentationAddress);
+				stringBuilder.Append(_device.PresentationAddress);
 				stringBuilder.Append(" - ");
-				stringBuilder.Append(Device.Driver.ShortName);
+				stringBuilder.Append(_device.Driver.ShortName);
 				stringBuilder.Append("\n");
 
 				if (DeviceState.ParentStringStates != null)
