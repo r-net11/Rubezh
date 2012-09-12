@@ -1,7 +1,7 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Windows;
 using FiresecClient;
-using System;
 
 namespace ItvIntegration
 {

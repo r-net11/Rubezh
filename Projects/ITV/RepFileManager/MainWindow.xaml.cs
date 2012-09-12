@@ -1,11 +1,10 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Windows;
 using System.Xml.Serialization;
 using FiresecClient;
 using ItvIntergation.Ngi;
-using System;
-using FiresecAPI.Models;
 
 namespace RepFileManager
 {

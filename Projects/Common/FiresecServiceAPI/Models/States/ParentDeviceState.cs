@@ -1,6 +1,4 @@
-﻿using System;
-using System.Runtime.Serialization;
-
+﻿
 namespace FiresecAPI.Models
 {
 	public class ParentDeviceState

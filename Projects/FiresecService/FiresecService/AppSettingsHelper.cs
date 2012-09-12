@@ -1,5 +1,4 @@
-﻿
-namespace FiresecService
+﻿namespace FiresecService
 {
 	public static class AppSettingsHelper
 	{

@@ -6,12 +6,4 @@
     <DataTemplate DataType="{x:Type ViewModels:SettingsViewModel}">
         <Views:SettingsView />
     </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:DevicesTreeViewModel}">
-        <Views:DevicesTreeView />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type ViewModels:JournalTestViewModel}">
-        <Views:JournalTestView />
-    </DataTemplate>
 </ResourceDictionary>

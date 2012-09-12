@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
-using FiresecAPI;
 
 namespace ItvIntegration
 {
 	public class ZoneViewModel : BaseViewModel
 	{
-		public ZoneViewModel(ZoneState zoneState)
-		{
-			ZoneState = zoneState;
-			_stateType = zoneState.StateType;
-			FiresecManager.ZoneStateChangedEvent += new Action<ZoneState>(OnZoneStateChangedEvent);
-			var zone = ItvManager.DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == zoneState.No);
-			if (zone != null)
-			{
-				Name = zone.PresentationName;
-			}
-		}
+        public ZoneViewModel(ZoneState zoneState)
+        {
+            ZoneState = zoneState;
+            _stateType = zoneState.StateType;
+            FiresecManager.ZoneStateChangedEvent += new Action<ZoneState>(OnZoneStateChangedEvent);
+            Name = zoneState.Zone.PresentationName;
+        }
 
         void OnZoneStateChangedEvent(ZoneState zoneState)
 		{

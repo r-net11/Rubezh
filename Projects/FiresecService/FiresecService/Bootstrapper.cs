@@ -35,13 +35,8 @@ namespace FiresecService
                 WindowThread.Start();
                 MainViewStartedEvent.WaitOne();
 
-                ConfigurationCash.SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
-
-                if (!AppSettings.IsOPCOnly)
-                {
-                    UILogger.Log("Открытие хоста");
-                    FiresecServiceManager.Open();
-                }
+                UILogger.Log("Открытие хоста");
+                FiresecServiceManager.Open();
                 UILogger.Log("Готово");
             }
             catch (Exception e)

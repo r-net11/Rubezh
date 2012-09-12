@@ -31,7 +31,7 @@ namespace AssadProcessor
 
 		void OnZoneStateChangedEvent(ZoneState zoneState)
 		{
-            var assadZone = Configuration.Zones.FirstOrDefault(x => x.ZoneNo == zoneState.No.ToString());
+            var assadZone = Configuration.Zones.FirstOrDefault(x => x.ZoneNo == zoneState.Zone.No.ToString());
 			if (assadZone != null)
 			{
 				assadZone.FireEvent(null);

@@ -29,7 +29,7 @@ namespace AssadProcessor
             var Password = ConfigurationManager.AppSettings["Password"] as string;
 
             FiresecManager.Connect(ClientType.Assad, serverAddress, Login, Password);
-            FiresecManager.GetConfiguration(false, FS_Address, FS_Port, FS_Login, FS_Password);
+            FiresecManager.GetConfiguration(false, true, FS_Address, FS_Port, FS_Login, FS_Password);
 
 			Services.NetManager.Start();
 			_watcher = new Watcher();

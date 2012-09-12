@@ -174,7 +174,7 @@ namespace FiresecOPCServer
                 srv.BeginUpdate();
                 foreach (var deviceState in deviceStates)
                 {
-                    var tagDevice = TagDevices.FirstOrDefault(x => x.DeviceState.UID == deviceState.UID);
+                    var tagDevice = TagDevices.FirstOrDefault(x => x.DeviceState.Device.UID == deviceState.Device.UID);
                     if (tagDevice == null)
                     {
                         continue;
@@ -209,7 +209,7 @@ namespace FiresecOPCServer
                 srv.BeginUpdate();
                 foreach (var zoneState in zoneStates)
                 {
-                    var tagZone = TagZones.FirstOrDefault(x => x.ZoneState.No == zoneState.No);
+                    var tagZone = TagZones.FirstOrDefault(x => x.ZoneState.Zone.No == zoneState.Zone.No);
                     if (tagZone == null)
                     {
                         return;

@@ -10,13 +10,10 @@ namespace SettingsModule.ViewModels
 {
 	public class SettingsViewModel : ViewPartViewModel
 	{
-		public TestViewModel TestViewModel { get; private set; }
-
 		public SettingsViewModel()
 		{
 			ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
 			ConvertJournalCommand = new RelayCommand(OnConvertJournal);
-			TestViewModel = new TestViewModel();
 		}
 
 		public RelayCommand ConvertConfigurationCommand { get; private set; }
