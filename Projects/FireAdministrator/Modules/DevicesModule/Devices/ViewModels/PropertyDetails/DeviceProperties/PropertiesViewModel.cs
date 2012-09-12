@@ -78,54 +78,46 @@ namespace DevicesModule.DeviceProperties
                 OnPropertyChanged("AUParameterVis");
             }
 	    }
-
-	    private bool choiseAUVis;
-        public bool ChoiseAUVis
+        private bool choise;
+	    public bool Choise
 	    {
             get
             {
-                if ((StringProperties.FirstOrDefault(x => x.IsAUParameter) == null) && (BoolProperties.FirstOrDefault(x => x.IsAUParameter) == null) && (EnumProperties.FirstOrDefault(x => x.IsAUParameter) == null))
+                bool choise1 = (StringProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
+                               (BoolProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
+                               (EnumProperties.FirstOrDefault(x => x.IsAUParameter) == null);
+                bool choise2 = (StringProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) &&
+                               (BoolProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) &&
+                               (EnumProperties.FirstOrDefault(x => x.IsAUParameter == false) == null);
+                if (choise1)
                 {
-                    choiseAUVis = false;
+                    choise = false;
                     AUParameterVis = false;
                 }
-                else
+                if (choise2)
                 {
-                    choiseAUVis = true;
+                    choise = false;
                     AUParameterVis = true;
                 }
-                return choiseAUVis;
+                if(choise1&&choise2)
+                {
+                    choise = false;
+                    AUParameterVis = false;
+                }
+                if(!choise1&&!choise2)
+                {
+                    choise = true;
+                    AUParameterVis = true;
+                }
+                return choise;
             }
             set
             {
-                choiseAUVis = value;
-                OnPropertyChanged("ChoiseAUVis");
+                choise = value;
+                OnPropertyChanged("Choise");
             }
-        }
-        private bool choiseBaseVis;
-        public bool ChoiseBaseVis
-        {
-            get
-            {
-                if ((StringProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) && (BoolProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) && (EnumProperties.FirstOrDefault(x => x.IsAUParameter == false) == null))
-                {
-                    choiseBaseVis = false;
-                    AUParameterVis = true;
-                }
-                else
-                {
-                    choiseBaseVis = true;
-                    if(ChoiseAUVis==false)
-                        AUParameterVis = false;
-                }
-                return choiseBaseVis;
-            }
-            set
-            {
-                choiseBaseVis = value;
-                OnPropertyChanged("ChoiseBaseVis");
-            }
-        }
+	    }
+	 
         public RelayCommand OneCommand { get; private set; }
         private void OnOne()
         {

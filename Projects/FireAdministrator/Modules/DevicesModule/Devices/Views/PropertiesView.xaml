@@ -22,7 +22,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />                
-            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="28"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -162,8 +162,8 @@
         </ScrollViewer>
         <Grid Column="1">
             <StackPanel>
-                <Controls:ToggleButton Visibility="{Binding ChoiseAUVis, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры устройства" Command="{Binding OneCommand}" IsChecked="{Binding AUParameterVis}" ImageSource="/Controls;component/Images/devparameters.png"/>
-                <Controls:ToggleButton Visibility="{Binding ChoiseBaseVis, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры адресного устройства" Command="{Binding TwoCommand}" IsChecked="{Binding AUParameterVis, Converter={StaticResource InverseBooleanConverter}}" ImageSource="/Controls;component/Images/adrparameters.png"/>
+                <Controls:ToggleButton Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры адресного устройства" Command="{Binding OneCommand}" IsChecked="{Binding AUParameterVis}" ImageSource="/Controls;component/Images/devparameters.png"/>
+                <Controls:ToggleButton Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры устройства" Command="{Binding TwoCommand}" IsChecked="{Binding AUParameterVis, Converter={StaticResource InverseBooleanConverter}}" ImageSource="/Controls;component/Images/adrparameters.png"/>
             </StackPanel>
         </Grid>
         <Grid Column="0" Row="1" Visibility="{Binding AUParameterVis, Converter={StaticResource BoolToVisibilityConverter}}">

@@ -6,30 +6,30 @@
     <Converters:NullToImageConverter x:Key="NullToImageConverter" />
 
     <Style TargetType="{x:Type local:ToggleButton}">
-        <Setter Property="Height" Value="25" />
-        <Setter Property="Width" Value="25" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Width" Value="28" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border Name="border" BorderThickness="1" BorderBrush="#5B5B5B" Background="#727272" Padding="2" Margin="2" CornerRadius="2"
                             ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True">
                         <Grid>
-                            <Image Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" />
+                            <Image Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                             <ContentPresenter Content="{TemplateBinding ContentControl.Content}"  />
                         </Grid>
                     </Border>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="UIElement.IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="ToggleButton.Background" Value="#7E7E87" />
-                            <Setter TargetName="border" Property="ToggleButton.BorderBrush" Value="#6262D9" />
+                            <Setter TargetName="border" Property="ToggleButton.Background" Value="Orange" />
+                            <Setter TargetName="border" Property="ToggleButton.BorderBrush" Value="DarkOrange" />
                         </Trigger>
                         <Trigger Property="ToggleButton.IsPressed" Value="True">
-                            <Setter TargetName="border" Property="ToggleButton.Background" Value="#333333" />
+                            <Setter TargetName="border" Property="ToggleButton.Background" Value="DarkOrange" />
                             <Setter TargetName="border" Property="ToggleButton.BorderBrush" Value="#606060" />
                         </Trigger>
                         <Trigger Property="ToggleButton.IsChecked" Value="True">
-                            <Setter TargetName="border" Property="ToggleButton.Background" Value="#424242" />
+                            <Setter TargetName="border" Property="ToggleButton.Background" Value="DarkOrange" />
                             <Setter TargetName="border" Property="ToggleButton.BorderBrush" Value="#3A3A3A" />
                         </Trigger>
                         <Trigger Property="ToggleButton.IsEnabled" Value="False">
