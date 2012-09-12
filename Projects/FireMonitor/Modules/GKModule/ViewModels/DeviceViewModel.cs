@@ -22,17 +22,9 @@ namespace GKModule.ViewModels
 		{
 			Source = sourceDevices;
 			Device = device;
-			DeviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
-			if (DeviceState != null)
-			{
-				DeviceState.StateChanged += new Action(OnStateChanged);
-				OnStateChanged();
-			}
-			else
-			{
-				Logger.Warn("Ошибка при сопоставлении устройства с его состоянием: " + Device.PresentationAddressAndDriver);
-				MessageBoxService.Show("Ошибка при сопоставлении устройства с его состоянием");
-			}
+			DeviceState = Device.DeviceState;
+			DeviceState.StateChanged += new Action(OnStateChanged);
+			OnStateChanged();
 
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
 			ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
