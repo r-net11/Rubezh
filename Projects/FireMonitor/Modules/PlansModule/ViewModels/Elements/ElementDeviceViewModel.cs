@@ -30,8 +30,11 @@ namespace PlansModule.ViewModels
 			ElementDevice = elementDevice;
 			DeviceUID = elementDevice.DeviceUID;
 			Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-			DeviceState = Device.DeviceState;
-			DeviceState.StateChanged += new Action(OnDeviceStateChanged);
+			if (Device != null)
+			{
+				DeviceState = Device.DeviceState;
+				DeviceState.StateChanged += new Action(OnDeviceStateChanged);
+			}
 		}
 
 		public Point Location

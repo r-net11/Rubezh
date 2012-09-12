@@ -29,7 +29,7 @@ namespace FireAdministrator
 					LoadingService.Show("Чтение конфигурации", 4);
 					LoadingService.AddCount(GetModuleCount());
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
-                    FiresecManager.GetConfiguration(true, ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
+                    FiresecManager.GetConfiguration(true, false, ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
 					if (FiresecManager.Drivers.Count == 0)
 					{
 						MessageBoxService.Show("Ошибка при загрузке конфигурации с сервера");

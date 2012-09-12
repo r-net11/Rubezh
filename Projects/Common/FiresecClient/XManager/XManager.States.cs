@@ -16,6 +16,7 @@ namespace FiresecClient
                     Device = device,
                     UID = device.UID,
                 };
+				device.DeviceState = deviceState;
                 DeviceStates.DeviceStates.Add(deviceState);
             }
             foreach (var deviceState in DeviceStates.DeviceStates)
@@ -36,6 +37,7 @@ namespace FiresecClient
                     Zone = zone,
 					UID = zone.UID
                 };
+				zone.ZoneState = zoneState;
                 DeviceStates.ZoneStates.Add(zoneState);
             }
 			foreach (var direction in DeviceConfiguration.Directions)
@@ -45,6 +47,7 @@ namespace FiresecClient
 					Direction = direction,
 					UID = direction.UID
 				};
+				direction.DirectionState = directionState;
 				DeviceStates.DirectionStates.Add(directionState);
 			}
         }

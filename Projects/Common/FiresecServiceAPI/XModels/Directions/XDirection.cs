@@ -16,6 +16,7 @@ namespace XFiresecAPI
 			Regime = 1;
 		}
 
+		public XDirectionState DirectionState { get; set; }
 		public List<XZone> XZones { get; set; }
 
 		[DataMember]

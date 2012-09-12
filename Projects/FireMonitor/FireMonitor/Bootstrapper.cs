@@ -32,7 +32,7 @@ namespace FireMonitor
 					LoadingService.DoStep("Остановка Socket Server");
 					SocketServerHelper.Stop();
 					LoadingService.DoStep("Загрузка конфигурации с сервера");
-                    FiresecManager.GetConfiguration(true, ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
+                    FiresecManager.GetConfiguration(true, true, ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
 					if (FiresecManager.Drivers.Count == 0)
 						MessageBoxService.Show("Ошибка при загрузке конфигурации с сервера");
 					LoadingService.DoStep("Загрузка состояний с сервера");
@@ -86,7 +86,7 @@ namespace FireMonitor
 			ApplicationService.CloseAllWindows();
 			ServiceFactory.Layout.Close();
 
-            FiresecManager.GetConfiguration(false, ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
+            FiresecManager.GetConfiguration(false, true, ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
             //FiresecManager.DeviceStates = FiresecManager.FiresecDriver.ConvertStates();
 			FiresecManager.UpdateStates();
 

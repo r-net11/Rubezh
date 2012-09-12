@@ -14,7 +14,7 @@ namespace Firesec
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public Watcher Watcher { get; private set; }
 
-        public FiresecDriver(int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
+        public FiresecDriver(bool mustMonitorStates, int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			FiresecSerializedClient = new FiresecSerializedClient();
 			FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
@@ -25,12 +25,12 @@ namespace Firesec
 			ConfigurationConverter.ConvertMetadataFromFiresec();
 
 			ConfigurationConverter.SynchronyzeConfiguration();
-			Watcher.OnStateChanged();
-			Watcher.OnParametersChanged();
 			Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates);
 			if (mustMonitorStates)
 			{
 				ConvertStates();
+				Watcher.OnStateChanged();
+				Watcher.OnParametersChanged();
 			}
 		}
 

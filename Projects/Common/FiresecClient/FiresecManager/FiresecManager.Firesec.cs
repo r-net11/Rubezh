@@ -10,10 +10,10 @@ namespace FiresecClient
 	{
 		public static FiresecDriver FiresecDriver { get; private set; }
 
-        public static void InitializeFiresecDriver(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
+        public static void InitializeFiresecDriver(bool mustMonitorStates, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			var lastJournalNo = FiresecService.FiresecService.GetJournalLastId().Result;
-			FiresecDriver = new FiresecDriver(lastJournalNo, FS_Address, FS_Port, FS_Login, FS_Password);
+			FiresecDriver = new FiresecDriver(mustMonitorStates, lastJournalNo, FS_Address, FS_Port, FS_Login, FS_Password);
 			if (mustMonitorStates)
 			{
 				FiresecDriver.Watcher.DevicesStateChanged += new Action<List<FiresecAPI.Models.DeviceState>>(OnDevicesStateChanged);

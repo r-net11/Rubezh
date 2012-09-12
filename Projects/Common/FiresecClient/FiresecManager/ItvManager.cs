@@ -29,7 +29,7 @@ namespace FiresecClient
 			var result = FiresecManager.Connect(ClientType.Itv, serverAddress, login, password);
             if (string.IsNullOrEmpty(result))
             {
-                FiresecManager.GetConfiguration(true, FS_Address, FS_Port, FS_Login, FS_Password);
+                FiresecManager.GetConfiguration(true, true, FS_Address, FS_Port, FS_Login, FS_Password);
                 FiresecManager.GetStates();
             }
             return result;
