@@ -91,7 +91,7 @@ namespace Firesec
 				}
 			}
 			DriverConfigurationParametersHelper.CreateKnownProperties(ConfigurationCash.DriversConfiguration.Drivers);
-
+			
 			if (ConfigurationCash.DriversConfiguration.Drivers.Count > 0)
 			{
 				//ConfigurationFileManager.SetDriversConfiguration(ConfigurationCash.DriversConfiguration);

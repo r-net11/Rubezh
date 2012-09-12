@@ -109,7 +109,7 @@ namespace FiresecAPI.Models
 				Name = propertyName,
 				Caption = propertyName,
 				Default = "2",
-				MaxBit = 1
+				MaxBit = 3
 			};
 			ConfigurationDriverHelper.AddPropertyParameter(property, "1 Сирена", 1);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "2 Табличка «Уходи»", 2);

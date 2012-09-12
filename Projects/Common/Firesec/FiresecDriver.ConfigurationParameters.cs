@@ -49,12 +49,7 @@ namespace Firesec
 							requestIds.Remove(request.id);
 							var paramNo = request.param.FirstOrDefault(x => x.name == "ParamNo").value;
 							var paramValue = request.param.FirstOrDefault(x => x.name == "ParamValue").value;
-							if (paramNo == 0xc6
-								//&& paramNo<= 0x8b
-								)
-							{
-								;
-							}
+							
 							var heightByteValue = paramValue / 256;
 							var lowByteValue = paramValue - heightByteValue * 256;
 
@@ -62,6 +57,12 @@ namespace Firesec
 							{
 								if (driverProperty.No == paramNo)
 								{
+									if (paramNo >= 0xbb
+										&& paramNo <= 0xbf
+										)
+									{
+										;
+									}
 									var offsetParamValue = paramValue;
 
 									if (driverProperty.HighByte)
@@ -138,9 +139,16 @@ namespace Firesec
 			foreach (var property in properties)
 			{
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (driverProperty.No == 0xbc
+					//&& binProperty.No <= 0xbf
+						)
+				{
+					;
+				}
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
 					var binProperty = binProperties.FirstOrDefault(x => x.No == driverProperty.No);
+					
 					if (binProperty == null)
 					{
 						binProperty = new BinProperty()
@@ -175,24 +183,26 @@ namespace Firesec
 						intValue = intValue << driverProperty.BitOffset;
 					}
 
-					if (driverProperty.UseMask)
+					//if (driverProperty.UseMask)
 					{
 						binProperty.HighByte += intValue;
 						binProperty.LowByte = 0xFF;
 					}
-					else
-					{
-						if (driverProperty.HighByte)
-							binProperty.LowByte += intValue;
-						else
-							binProperty.HighByte += intValue;
-					}
+					//else
+					//{
+					//    if (driverProperty.HighByte)
+					//        binProperty.LowByte += intValue+2;
+					//    else
+					//        binProperty.HighByte += intValue+2;
+					//}
 				}
 			}
 
 			foreach (var binProperty in binProperties)
 			{
-				if (binProperty.No == 0x85)
+				if (binProperty.No >= 0xbb
+					&& binProperty.No <= 0xbf
+					)
 				{
 					;
 				}
