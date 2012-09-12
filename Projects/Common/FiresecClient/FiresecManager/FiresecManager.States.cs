@@ -15,9 +15,10 @@ namespace FiresecClient
 		{
 			//FiresecDriver.ConfigurationConverter.SynchronyzeConfiguration();
 			//FiresecDriver.ConfigurationConverter.Update();
-			DeviceStates = FiresecDriver.ConvertStates();
 
+			DeviceStates = FiresecDriver.DeviceConfigurationStates;
 			UpdateStates();
+
 			FiresecService.StartPing();
 		}
 

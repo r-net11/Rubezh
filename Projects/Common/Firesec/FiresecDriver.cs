@@ -23,17 +23,18 @@ namespace Firesec
 				FiresecSerializedClient = FiresecSerializedClient
 			};
 			ConfigurationConverter.ConvertMetadataFromFiresec();
-
 			ConfigurationConverter.SynchronyzeConfiguration();
+			ConvertStates();
+
 			Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates);
 			if (mustMonitorStates)
 			{
-				ConvertStates();
 				Watcher.OnStateChanged();
 				Watcher.OnParametersChanged();
 			}
 		}
 
+		public DeviceConfigurationStates DeviceConfigurationStates;
 		public DeviceConfigurationStates ConvertStates()
 		{
 			var deviceConfigurationStates = new DeviceConfigurationStates();
@@ -59,11 +60,16 @@ namespace Firesec
 
 			foreach (var zone in ConfigurationCash.DeviceConfiguration.Zones)
 			{
-				var zoneState = new ZoneState() { No = zone.No };
+				var zoneState = new ZoneState()
+				{
+					Zone = zone,
+					No = zone.No
+				};
 				zone.ZoneState = zoneState;
 				deviceConfigurationStates.ZoneStates.Add(zoneState);
 			}
 
+			DeviceConfigurationStates = deviceConfigurationStates;
 			return deviceConfigurationStates;
 		}
 

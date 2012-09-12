@@ -21,9 +21,9 @@ namespace Firesec
 			if (mustMonitorStates)
 			{
 				SetLastEvent();
+				OnStateChanged();
+				OnParametersChanged();
 				FiresecSerializedClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
-				//OnStateChanged();
-				//OnParametersChanged();
 			}
 			FiresecSerializedClient.Progress += new Action<int, string, int, int>(OnProgress);
 		}
