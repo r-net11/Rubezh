@@ -40,8 +40,9 @@ namespace FiresecClient
 				DeviceConfiguration = deviceConfiguration
 			};
 
-            UpdateConfiguration();
+			UpdateConfiguration();
             InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
+			InitializeFiresecDriver(mustMonitorStates);
 		}
 
 		public static void UpdateConfiguration()

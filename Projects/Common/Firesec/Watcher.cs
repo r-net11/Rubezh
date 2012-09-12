@@ -22,8 +22,8 @@ namespace Firesec
 			{
 				SetLastEvent();
 				FiresecSerializedClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
-				OnStateChanged();
-				OnParametersChanged();
+				//OnStateChanged();
+				//OnParametersChanged();
 			}
 			FiresecSerializedClient.Progress += new Action<int, string, int, int>(OnProgress);
 		}
@@ -82,7 +82,7 @@ namespace Firesec
 			var result = new List<JournalRecord>();
 
 			var hasNewRecords = true;
-			while (hasNewRecords)
+			//while (hasNewRecords)
 			{
 				hasNewRecords = false;
 				var document = FiresecSerializedClient.ReadEvents(oldJournalNo, 100).Result;

@@ -14,17 +14,20 @@ namespace FiresecClient
 		{
 			var lastJournalNo = FiresecService.FiresecService.GetJournalLastId().Result;
 			FiresecDriver = new FiresecDriver(lastJournalNo, FS_Address, FS_Port, FS_Login, FS_Password);
-			FiresecDriver.Watcher.DevicesStateChanged += new Action<List<FiresecAPI.Models.DeviceState>>(OnDevicesStateChanged);
-			FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>(OnDevicesParametersChanged);
-			FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(OnZonesStateChanged);
-			FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
-			FiresecDriver.Watcher.Progress += new Action<int, string, int, int>(OnProgress);
-
-			var journalRecords = FiresecDriver.Watcher.SynchrinizeJournal(lastJournalNo);
-			if (journalRecords.Count > 0)
+			if (mustMonitorStates)
 			{
-				OnNewJournalRecords(journalRecords);
+				FiresecDriver.Watcher.DevicesStateChanged += new Action<List<FiresecAPI.Models.DeviceState>>(OnDevicesStateChanged);
+				FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>(OnDevicesParametersChanged);
+				FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(OnZonesStateChanged);
+				FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
+
+				var journalRecords = FiresecDriver.Watcher.SynchrinizeJournal(lastJournalNo);
+				if (journalRecords.Count > 0)
+				{
+					FiresecService.AddJournalRecords(journalRecords);
+				}
 			}
+			FiresecDriver.Watcher.Progress += new Action<int, string, int, int>(OnProgress);
 		}
 
 		static void OnDevicesStateChanged(List<DeviceState> deviceStates)

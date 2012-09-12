@@ -13,9 +13,9 @@ namespace FiresecClient
 
 		public static void GetStates()
 		{
-			FiresecDriver.ConfigurationConverter.SynchronyzeConfiguration();
-			FiresecDriver.ConfigurationConverter.Update();
-			DeviceStates = FiresecDriver.ConvertStates();
+			//FiresecDriver.ConfigurationConverter.SynchronyzeConfiguration();
+			//FiresecDriver.ConfigurationConverter.Update();
+			//DeviceStates = FiresecDriver.ConvertStates();
 
 			UpdateStates();
 			FiresecService.StartPing();

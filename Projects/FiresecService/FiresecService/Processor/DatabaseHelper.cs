@@ -12,9 +12,17 @@ namespace FiresecService.Database
 	{
 		public static void AddJournalRecords(List<JournalRecord> journalRecords)
 		{
-			foreach (var journalRecord in journalRecords)
+			try
 			{
-				AddJournalRecord(journalRecord);
+				using (var dataContext = ConnectionManager.CreateFiresecDataContext())
+				{
+					dataContext.JournalRecords.InsertAllOnSubmit(journalRecords);
+					dataContext.SubmitChanges();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове DatabaseHelper.AddJournalRecords");
 			}
 		}
 
