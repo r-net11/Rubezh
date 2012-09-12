@@ -162,17 +162,13 @@
         </ScrollViewer>
         <Grid Column="1">
             <StackPanel>
-                <Controls:ToggleButton ToolTip="Параметры устройства" Command="{Binding OneCommand}" IsChecked="{Binding AUParameterVis}" Background="Transparent">
-                    <Image Source="/Controls;component/Images/devparameters.png"/>
-                </Controls:ToggleButton>
-                <Controls:ToggleButton ToolTip="Параметры адресного устройства" Command="{Binding TwoCommand}" IsChecked="{Binding AUParameterVis, Converter={StaticResource InverseBooleanConverter}}" Background="Transparent">
-                    <Image Source="/Controls;component/Images/adrparameters.png" />
-                </Controls:ToggleButton>
+                <Controls:ToggleButton Visibility="{Binding ChoiseAUVis, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры устройства" Command="{Binding OneCommand}" IsChecked="{Binding AUParameterVis}" ImageSource="/Controls;component/Images/devparameters.png"/>
+                <Controls:ToggleButton Visibility="{Binding ChoiseBaseVis, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры адресного устройства" Command="{Binding TwoCommand}" IsChecked="{Binding AUParameterVis, Converter={StaticResource InverseBooleanConverter}}" ImageSource="/Controls;component/Images/adrparameters.png"/>
             </StackPanel>
         </Grid>
         <Grid Column="0" Row="1" Visibility="{Binding AUParameterVis, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal" DataContext="{Binding Context.DeviceCommandsViewModel}">
-                <Controls:ToolBarButton ToolTip="Считать параметры с устройства"  Command="{Binding GetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/readconfig.png"/>
+                <Controls:ToolBarButton ToolTip="Считать параметры устройства"  Command="{Binding GetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/readconfig.png"/>
                 <Controls:ToolBarButton ToolTip="Записать параметры на устройство" Command="{Binding SetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/writeconfig.png"/>
             </StackPanel>
         </Grid>

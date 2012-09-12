@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using Infrastructure;
@@ -67,7 +68,10 @@ namespace DevicesModule.DeviceProperties
 	    private bool aUParameterVis = true;
         public bool AUParameterVis
 	    {
-            get { return aUParameterVis; }
+            get
+            {
+                return aUParameterVis;
+            }
             set 
             {
                 aUParameterVis = value;
@@ -75,6 +79,53 @@ namespace DevicesModule.DeviceProperties
             }
 	    }
 
+	    private bool choiseAUVis;
+        public bool ChoiseAUVis
+	    {
+            get
+            {
+                if ((StringProperties.FirstOrDefault(x => x.IsAUParameter) == null) && (BoolProperties.FirstOrDefault(x => x.IsAUParameter) == null) && (EnumProperties.FirstOrDefault(x => x.IsAUParameter) == null))
+                {
+                    choiseAUVis = false;
+                    AUParameterVis = false;
+                }
+                else
+                {
+                    choiseAUVis = true;
+                    AUParameterVis = true;
+                }
+                return choiseAUVis;
+            }
+            set
+            {
+                choiseAUVis = value;
+                OnPropertyChanged("ChoiseAUVis");
+            }
+        }
+        private bool choiseBaseVis;
+        public bool ChoiseBaseVis
+        {
+            get
+            {
+                if ((StringProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) && (BoolProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) && (EnumProperties.FirstOrDefault(x => x.IsAUParameter == false) == null))
+                {
+                    choiseBaseVis = false;
+                    AUParameterVis = true;
+                }
+                else
+                {
+                    choiseBaseVis = true;
+                    if(ChoiseAUVis==false)
+                        AUParameterVis = false;
+                }
+                return choiseBaseVis;
+            }
+            set
+            {
+                choiseBaseVis = value;
+                OnPropertyChanged("ChoiseBaseVis");
+            }
+        }
         public RelayCommand OneCommand { get; private set; }
         private void OnOne()
         {
