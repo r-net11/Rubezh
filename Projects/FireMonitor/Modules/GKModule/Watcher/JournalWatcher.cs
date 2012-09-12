@@ -8,6 +8,7 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using Common;
 
 namespace GKModule
 {
@@ -21,10 +22,10 @@ namespace GKModule
 			GkDatabase = gkDatabase;
 		}
 
-        public void Start()
-        {
-            LastId = GetLastId();
-        }
+		public void Start()
+		{
+			LastId = GetLastId();
+		}
 
 		public void PingJournal()
 		{
@@ -101,16 +102,22 @@ namespace GKModule
 
 		void ConnectionChanged(bool isConnected)
 		{
-			var gkDeviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.Device == GkDatabase.RootDevice);
-			foreach (var childDeviceState in XManager.GetAllDeviceChildren(gkDeviceState))
+			var gkDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x == GkDatabase.RootDevice);
+			if (gkDevice == null)
+			{
+				Logger.Error("JournalWatcher ConnectionChanged gkDevice = null");
+				return;
+			}
+
+			foreach (var childDeviceState in XManager.GetAllDeviceChildren(gkDevice.DeviceState))
 			{
 				childDeviceState.IsConnectionLost = !isConnected;
 			}
-			foreach (var zoneState in XManager.GetAllGKZoneStates(gkDeviceState))
+			foreach (var zoneState in XManager.GetAllGKZoneStates(gkDevice.DeviceState))
 			{
 				zoneState.IsConnectionLost = !isConnected;
 			}
-			foreach (var directionState in XManager.GetAllGKDirectionStates(gkDeviceState))
+			foreach (var directionState in XManager.GetAllGKDirectionStates(gkDevice.DeviceState))
 			{
 				directionState.IsConnectionLost = !isConnected;
 			}

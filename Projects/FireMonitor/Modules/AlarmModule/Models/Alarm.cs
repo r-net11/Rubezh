@@ -98,10 +98,9 @@ namespace AlarmModule
 			{
 				if (device.ZoneNo == ZoneNo)
 				{
-					var deviceState = FiresecManager.Devices.FirstOrDefault(x => x.UID == device.UID).DeviceState;
-					if (deviceState.States.Any(x => x.DriverState.StateType == StateType.Fire))
+					if (device.DeviceState.States.Any(x => x.DriverState.StateType == StateType.Fire))
 					{
-						DeviceUID = deviceState.UID;
+						DeviceUID = device.UID;
 						return GetDeviceResetItem();
 					}
 				}

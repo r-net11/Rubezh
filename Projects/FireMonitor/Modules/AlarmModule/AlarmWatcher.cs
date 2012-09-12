@@ -85,7 +85,7 @@ namespace AlarmModule
 					case ZoneType.Fire:
 						if (zone.ZoneState.StateType == StateType.Fire)
 						{
-							var alarm = Alarms.FirstOrDefault(x => ((x.StateType == StateType.Fire) && (x.ZoneNo == zone.ZoneState.No)));
+							var alarm = Alarms.FirstOrDefault(x => ((x.StateType == StateType.Fire) && (x.ZoneNo == zone.No)));
 							if (alarm != null)
 							{
 								alarm.IsDeleting = false;
@@ -139,7 +139,7 @@ namespace AlarmModule
 
 				foreach (var state in device.DeviceState.States)
 				{
-					if (state.Code == "Bolt_On")
+					if (state.DriverState.Code == "Bolt_On")
 					{
 						if (state.Time.HasValue == false)
 							continue;

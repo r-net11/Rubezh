@@ -63,7 +63,7 @@ namespace Firesec
 				}
 				var innerDevice = new Firesec.Models.CoreState.devType()
 				{
-					name = resetItem.DeviceState.PlaceInTree,
+					name = resetItem.DeviceState.Device.PlaceInTree,
 					state = innerStates.ToArray()
 				};
 				innerDevices.Add(innerDevice);

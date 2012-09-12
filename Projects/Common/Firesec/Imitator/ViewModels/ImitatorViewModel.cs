@@ -48,7 +48,7 @@ namespace Firesec.Imitator.ViewModels
 			{
 				var innerDevice = new devType()
 				{
-					name = device.DeviceState.PlaceInTree
+					name = device.DeviceState.Device.PlaceInTree
 				};
 				var innerStates = new List<stateType>();
 				foreach (var state in device.DriverStates)

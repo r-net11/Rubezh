@@ -109,7 +109,7 @@ namespace PlansModule.ViewModels
 				{
 					if ((device.ZoneNo == ZoneNo) && (device.Driver.CanDisable))
 					{
-						deviceUIDs.Add(device.DeviceState.UID);
+						deviceUIDs.Add(device.UID);
 						deviceStates.Add(device.DeviceState);
 					}
 				}

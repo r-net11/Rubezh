@@ -7,14 +7,13 @@ namespace XFiresecAPI
 {
 	public class XDirectionState
 	{
+		public XDirection Direction { get; set; }
+
 		public XDirectionState()
 		{
 			_states = new List<XStateType>();
 			_isConnectionLost = true;
 		}
-
-		public XDirection Direction { get; set; }
-		public Guid UID { get; set; }
 
 		bool _isConnectionLost;
 		public bool IsConnectionLost

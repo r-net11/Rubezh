@@ -250,7 +250,7 @@ namespace Firesec
 							Logger.Error("Watcher.SetStates deviceState.States = null");
 							return;
 						}
-						var state = device.DeviceState.States.FirstOrDefault(x => x.Code == driverState.Code);
+						var state = device.DeviceState.States.FirstOrDefault(x => x.DriverState.Code == driverState.Code);
 						if ((state != null) != (innerState != null))
 						{
 							hasOneChangedState = true;
@@ -262,8 +262,7 @@ namespace Firesec
 							{
 								state = new DeviceDriverState()
 								{
-									Code = driverState.Code,
-									DriverState = driverState.Copy()
+									DriverState = driverState
 								};
 								device.DeviceState.States.Add(state);
 							}
@@ -315,13 +314,12 @@ namespace Firesec
 						{
 							var parentDeviceState = new ParentDeviceState()
 							{
-								ParentDeviceId = device.UID,
-								Code = state.Code,
+								ParentDevice = device,
 								DriverState = state.DriverState,
 								IsDeleting = false
 							};
 
-							var existingParentDeviceState = childDevice.DeviceState.ParentStates.FirstOrDefault(x => x.ParentDeviceId == parentDeviceState.ParentDeviceId && x.Code == parentDeviceState.Code && x.DriverState == parentDeviceState.DriverState);
+							var existingParentDeviceState = childDevice.DeviceState.ParentStates.FirstOrDefault(x => x.ParentDevice.UID == parentDeviceState.ParentDevice.UID && x.DriverState.Code == parentDeviceState.DriverState.Code && x.DriverState == parentDeviceState.DriverState);
 							if (existingParentDeviceState == null)
 							{
 								childDevice.DeviceState.ParentStates.Add(parentDeviceState);
@@ -375,13 +373,12 @@ namespace Firesec
 
 					var childDeviceState = new ChildDeviceState()
 					{
-						ChildDeviceId = device.UID,
-						Code = state.Code,
+						ChildDevice = device,
 						DriverState = state.DriverState,
 						IsDeleting = false
 					};
 
-					var existingParentDeviceState = parentDeviceState.ChildStates.FirstOrDefault(x => x.ChildDeviceId == childDeviceState.ChildDeviceId && x.Code == childDeviceState.Code && x.DriverState == childDeviceState.DriverState);
+					var existingParentDeviceState = parentDeviceState.ChildStates.FirstOrDefault(x => x.ChildDevice.UID == childDeviceState.ChildDevice.UID && x.DriverState.Code == childDeviceState.DriverState.Code && x.DriverState == childDeviceState.DriverState);
 					if (existingParentDeviceState == null)
 					{
 						parentDeviceState.ChildStates.Add(childDeviceState);
@@ -417,7 +414,7 @@ namespace Firesec
 				{
 					StateType minZoneStateType = StateType.Norm;
 					var devices = ConfigurationCash.DeviceConfiguration.Devices.
-						Where(x => x.ZoneNo == zone.ZoneState.No && !x.Driver.IgnoreInZoneState);
+						Where(x => x.ZoneNo == zone.No && !x.Driver.IgnoreInZoneState);
 
 					foreach (var device in devices)
 					{

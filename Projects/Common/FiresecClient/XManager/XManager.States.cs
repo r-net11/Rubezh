@@ -8,49 +8,30 @@ namespace FiresecClient
     {
         public static void CreateStates()
         {
-            var deviceStates = new XDeviceConfigurationStates();
             foreach (var device in DeviceConfiguration.Devices)
             {
                 var deviceState = new XDeviceState()
                 {
-                    Device = device,
-                    UID = device.UID,
+                    Device = device
                 };
 				device.DeviceState = deviceState;
-                deviceStates.DeviceStates.Add(deviceState);
-            }
-			foreach (var deviceState in deviceStates.DeviceStates)
-            {
-                if (deviceState.Device.Parent != null)
-                {
-					deviceState.Parent = deviceStates.DeviceStates.FirstOrDefault(x => x.Device == deviceState.Device.Parent);
-                }
-                foreach (var childDevice in deviceState.Device.Children)
-                {
-					deviceState.Children.Add(deviceStates.DeviceStates.FirstOrDefault(x => x.Device == childDevice));
-                }
             }
             foreach (var zone in DeviceConfiguration.Zones)
             {
                 var zoneState = new XZoneState()
                 {
-                    Zone = zone,
-					UID = zone.UID
+                    Zone = zone
                 };
 				zone.ZoneState = zoneState;
-                deviceStates.ZoneStates.Add(zoneState);
             }
 			foreach (var direction in DeviceConfiguration.Directions)
 			{
 				var directionState = new XDirectionState()
 				{
-					Direction = direction,
-					UID = direction.UID
+					Direction = direction
 				};
 				direction.DirectionState = directionState;
-				deviceStates.DirectionStates.Add(directionState);
 			}
-			DeviceStates = deviceStates;
         }
 
         static List<XDeviceState> alDevicelChildren;
@@ -63,10 +44,10 @@ namespace FiresecClient
         public static void AllChildren(XDeviceState deviceState)
         {
             alDevicelChildren.Add(deviceState);
-            foreach (var child in deviceState.Children)
+            foreach (var childDevice in deviceState.Device.Children)
             {
-                alDevicelChildren.Add(child);
-                AllChildren(child);
+				alDevicelChildren.Add(childDevice.DeviceState);
+				AllChildren(childDevice.DeviceState);
             }
         }
 

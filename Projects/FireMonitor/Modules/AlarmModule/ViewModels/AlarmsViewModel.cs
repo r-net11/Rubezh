@@ -85,7 +85,7 @@ namespace AlarmModule.ViewModels
 					{
 						foreach (var driverState in resetItem.States)
 						{
-							if (existringResetItem.States.Any(x=>x.Code == driverState.Code) == false)
+							if (existringResetItem.States.Any(x => x.DriverState.Code == driverState.DriverState.Code) == false)
 								existringResetItem.States.Add(driverState);
 						}
 					}

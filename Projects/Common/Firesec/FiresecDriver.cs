@@ -34,27 +34,19 @@ namespace Firesec
 			}
 		}
 
-		public DeviceConfigurationStates DeviceConfigurationStates;
-		public DeviceConfigurationStates ConvertStates()
+		public void ConvertStates()
 		{
-			var deviceConfigurationStates = new DeviceConfigurationStates();
 			if (ConfigurationCash.DeviceConfiguration.Devices.IsNotNullOrEmpty())
 			{
 				foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 				{
 					var deviceState = new DeviceState()
 					{
-						UID = device.UID,
-						PlaceInTree = device.PlaceInTree,
 						Device = device
 					};
-
 					foreach (var parameter in device.Driver.Parameters)
 						deviceState.Parameters.Add(parameter.Copy());
-
 					device.DeviceState = deviceState;
-
-					deviceConfigurationStates.DeviceStates.Add(deviceState);
 				}
 			}
 
@@ -63,14 +55,9 @@ namespace Firesec
 				var zoneState = new ZoneState()
 				{
 					Zone = zone,
-					No = zone.No
 				};
 				zone.ZoneState = zoneState;
-				deviceConfigurationStates.ZoneStates.Add(zoneState);
 			}
-
-			DeviceConfigurationStates = deviceConfigurationStates;
-			return deviceConfigurationStates;
 		}
 
 		public void Convert()

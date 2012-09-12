@@ -132,7 +132,7 @@ namespace DevicesModule.ViewModels
 			{
 				if (deviceViewModel.Device.Driver.DriverType == DriverType.Valve)
 				{
-					var deviceDriverState = deviceViewModel.DeviceState.States.FirstOrDefault(x => x.Code == "Bolt_On");
+					var deviceDriverState = deviceViewModel.DeviceState.States.FirstOrDefault(x => x.DriverState.Code == "Bolt_On");
 					if (deviceDriverState != null)
 					{
 						if (DateTime.Now > deviceDriverState.Time)

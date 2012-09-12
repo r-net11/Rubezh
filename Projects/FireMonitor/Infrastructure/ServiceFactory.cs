@@ -39,7 +39,7 @@ namespace Infrastructure
 		}
 		static void OnDeviceStateChangedEvent(DeviceState deviceState)
 		{
-			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Publish(deviceState.UID);
+			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Publish(deviceState.Device.UID);
 			if (deviceState != null)
 			{
 				deviceState.OnStateChanged();
@@ -47,7 +47,7 @@ namespace Infrastructure
 		}
 		static void OnDeviceParametersChangedEvent(DeviceState deviceState)
 		{
-			ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(deviceState.UID);
+			ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(deviceState.Device.UID);
 			if (deviceState != null)
 			{
 				deviceState.OnParametersChanged();
@@ -55,7 +55,7 @@ namespace Infrastructure
 		}
 		static void OnZoneStateChangedEvent(ZoneState zoneState)
 		{
-			ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneState.No);
+			ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneState.Zone.No);
 			if (zoneState != null)
 			{
 				zoneState.OnStateChanged();
