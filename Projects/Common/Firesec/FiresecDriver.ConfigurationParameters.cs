@@ -57,8 +57,8 @@ namespace Firesec
 							{
 								if (driverProperty.No == paramNo)
 								{
-									if (paramNo >= 0xbb
-										&& paramNo <= 0xbf
+									if (paramNo == 0x8c
+										//&& paramNo <= 0xbf
 										)
 									{
 										;
@@ -67,12 +67,10 @@ namespace Firesec
 
 									if (driverProperty.HighByte)
 										offsetParamValue = heightByteValue;
-									//else if (driverProperty.MptHighByte)
-									//    offsetParamValue = paramValue / 16;
-									//else if (driverProperty.MptLowByte)
-									//    offsetParamValue = paramValue % 16;
 									else
 										offsetParamValue = lowByteValue;
+
+									
 
 									if (driverProperty.MinBit > 0)
 									{
@@ -88,11 +86,12 @@ namespace Firesec
 										byteOffsetParamValue = (byte)(byteOffsetParamValue >> 8 - driverProperty.MaxBit);
 										offsetParamValue = byteOffsetParamValue;
 									}
+
 									if (driverProperty.BitOffset > 0)
 									{
 										offsetParamValue = offsetParamValue >> driverProperty.BitOffset;
 									}
-
+									
 									if (device.Driver.DriverType == DriverType.MRO && driverProperty.Name == "Время отложенного пуска")
 									{
 										offsetParamValue = offsetParamValue * 5;
@@ -102,7 +101,8 @@ namespace Firesec
 										Name = driverProperty.Name,
 										Value = offsetParamValue.ToString()
 									};
-									properties.Add(property);
+									if (properties.FirstOrDefault(x => x.Name == property.Name) == null)
+										properties.Add(property);
 								}
 							}
 						}
@@ -139,7 +139,7 @@ namespace Firesec
 			foreach (var property in properties)
 			{
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				if (driverProperty.No == 0xbc
+				if (driverProperty.No == 0x8c
 					//&& binProperty.No <= 0xbf
 						)
 				{
@@ -174,8 +174,6 @@ namespace Firesec
 						{
 							intValue = (int)Math.Truncate((double)intValue / 5);
 						}
-						//else if (device.Driver.DriverType == DriverType.MPT && driverProperty.Name.Contains("логика работы выхода"))
-						//    intValue *= 16; 
 					}
 
 					if (driverProperty.BitOffset > 0)
@@ -183,25 +181,25 @@ namespace Firesec
 						intValue = intValue << driverProperty.BitOffset;
 					}
 
-					//if (driverProperty.UseMask)
+					if (driverProperty.UseMask)
 					{
 						binProperty.HighByte += intValue;
 						binProperty.LowByte = 0xFF;
 					}
-					//else
-					//{
-					//    if (driverProperty.HighByte)
-					//        binProperty.LowByte += intValue+2;
-					//    else
-					//        binProperty.HighByte += intValue+2;
-					//}
+					else
+					{
+						if (driverProperty.HighByte)
+							binProperty.LowByte += intValue;
+						else
+							binProperty.HighByte += intValue;
+					}
 				}
 			}
 
 			foreach (var binProperty in binProperties)
 			{
-				if (binProperty.No >= 0xbb
-					&& binProperty.No <= 0xbf
+				if (binProperty.No == 0x8c
+					//&& binProperty.No <= 0xbf
 					)
 				{
 					;

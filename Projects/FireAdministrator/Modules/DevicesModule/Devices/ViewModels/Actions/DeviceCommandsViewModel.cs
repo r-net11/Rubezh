@@ -183,38 +183,38 @@ namespace DevicesModule.ViewModels
 		public RelayCommand GetConfigurationParametersCommand { get; private set; }
 		void OnGetConfigurationParameters()
 		{
-            ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Считывание параметров устройства");
+			ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Считывание параметров устройства");
 		}
-        private OperationResult<List<Property>> result;
-        void OnPropgress()
-        {
-            result = FiresecManager.FiresecDriver.GetConfigurationParameters(SelectedDevice.Device.UID);
-        }
-        void OnCompleted()
-        {
-            if (!result.HasError)
-            {
-                foreach (var resultProperty in result.Result)
-                {
-                    var property = SelectedDevice.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
-                    if (property == null)
-                    {
-                        property = new Property()
-                        {
-                            Name = resultProperty.Name
-                        };
-                        SelectedDevice.Device.Properties.Add(property);
-                    }
-                    property.Value = resultProperty.Value;
-                }
-                SelectedDevice.UpdataConfigurationProperties();
-                MessageBoxService.Show("Операция завершилась успешно", "Firesec");
-            }
-            else
-            {
-                MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
-            }
-        }
+		private OperationResult<List<Property>> result;
+		void OnPropgress()
+		{
+			result = FiresecManager.FiresecDriver.GetConfigurationParameters(SelectedDevice.Device.UID);
+		}
+		void OnCompleted()
+		{
+			if (!result.HasError)
+			{
+				foreach (var resultProperty in result.Result)
+				{
+					var property = SelectedDevice.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
+					if (property == null)
+					{
+						property = new Property()
+						{
+							Name = resultProperty.Name
+						};
+						SelectedDevice.Device.Properties.Add(property);
+					}
+					property.Value = resultProperty.Value;
+				}
+				SelectedDevice.UpdataConfigurationProperties();
+				MessageBoxService.Show("Операция завершилась успешно", "Firesec");
+			}
+			else
+			{
+				MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
+			}
+		}
 		bool CanGetConfigurationParameters()
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
@@ -223,17 +223,17 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SetConfigurationParametersCommand { get; private set; }
 		void OnSetConfigurationParameters()
 		{
-            ServiceFactory.ProgressService.Run(OnPropgress1, OnCompleted1, "Запись параметров в устройство");
+			ServiceFactory.ProgressService.Run(OnPropgress1, OnCompleted1, "Запись параметров в устройство");
 		}
-        void OnPropgress1()
-        {
-            FiresecManager.FiresecDriver.SetConfigurationParameters(SelectedDevice.Device.UID,
-                                                                    SelectedDevice.Device.Properties);
-        }
-        void OnCompleted1()
-        {
-            MessageBoxService.Show("Операция завершилась успешно", "Firesec");
-        }
+		void OnPropgress1()
+		{
+			FiresecManager.FiresecDriver.SetConfigurationParameters(SelectedDevice.Device.UID,
+																	SelectedDevice.Device.Properties);
+		}
+		void OnCompleted1()
+		{
+			MessageBoxService.Show("Операция завершилась успешно", "Firesec");
+		}
 		bool CanSetConfigurationParameters()
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
@@ -243,7 +243,7 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
-				return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsAlternativeUSB));
+				return  ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsAlternativeUSB));
 			}
 		}
 	}

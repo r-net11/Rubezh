@@ -15,6 +15,8 @@ namespace DevicesModule.DeviceProperties
 		{
 			_driverProperty = driverProperty;
 			_device = device;
+			if (_device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name)==null)
+				Save(driverProperty.Default);
 		}
 
 		public string Caption
