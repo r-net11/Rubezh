@@ -65,7 +65,7 @@ namespace DevicesModule.DeviceProperties
 			}
 		}
 
-	    private bool aUParameterVis = true;
+	    private bool aUParameterVis;
         public bool AUParameterVis
 	    {
             get
@@ -86,9 +86,10 @@ namespace DevicesModule.DeviceProperties
                 bool choise1 = (StringProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
                                (BoolProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
                                (EnumProperties.FirstOrDefault(x => x.IsAUParameter) == null);
-                bool choise2 = (StringProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) &&
-                               (BoolProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) &&
-                               (EnumProperties.FirstOrDefault(x => x.IsAUParameter == false) == null);
+                //bool choise2 = (StringProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) &&
+                //               (BoolProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) &&
+                //               (EnumProperties.FirstOrDefault(x => x.IsAUParameter == false) == null);
+                bool choise2 = false;
                 if (choise1)
                 {
                     choise = false;
@@ -107,7 +108,7 @@ namespace DevicesModule.DeviceProperties
                 if(!choise1&&!choise2)
                 {
                     choise = true;
-                    AUParameterVis = true;
+                    AUParameterVis = false;
                 }
                 return choise;
             }

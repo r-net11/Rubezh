@@ -11,7 +11,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Name="border" BorderThickness="1" BorderBrush="#5B5B5B" Background="#727272" Padding="2" Margin="2" CornerRadius="2"
+                    <Border Name="border" BorderThickness="1" BorderBrush="#5B5B5B" Background="Transparent" Padding="2" Margin="2" CornerRadius="2"
                             ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True">
                         <Grid>
                             <Image Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
