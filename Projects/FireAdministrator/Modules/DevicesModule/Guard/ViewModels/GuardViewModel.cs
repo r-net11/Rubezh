@@ -170,7 +170,7 @@ namespace DevicesModule.ViewModels
         void OnPropgress()
         {
             var userlist = CodeDateToTranslate();
-            _operationResult = FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, userlist);
+            _operationResult = FiresecManager.DeviceSetGuardUsersList(SelectedDevice, userlist);
         }
         void OnCompleted()
         {

@@ -101,31 +101,15 @@ namespace Firesec
 			return operationResult;
 		}
 
-		public OperationResult<string> DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
+		public OperationResult<string> DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, string fileName)
 		{
-			fileName = Guid.NewGuid().ToString();
-			Directory.CreateDirectory("Temp");
-			fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
-			using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-			{
-				stream.Write(bytes, 0, bytes.Length);
-			}
-
 			var firesecConfiguration = ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			return FiresecSerializedClient.DeviceUpdateFirmware(firesecConfiguration, device.GetPlaceInTree(), fileName);
 		}
 
-		public OperationResult<string> DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
+		public OperationResult<string> DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, string fileName)
 		{
-			fileName = Guid.NewGuid().ToString();
-			Directory.CreateDirectory("Temp");
-			fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
-			using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-			{
-				stream.Write(bytes, 0, bytes.Length);
-			}
-
 			var firesecConfiguration = ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			return FiresecSerializedClient.DeviceVerifyFirmwareVersion(firesecConfiguration, device.GetPlaceInTree(), fileName);

@@ -30,6 +30,8 @@ namespace FireMonitor
 					LoadingService.Show("Чтение конфигурации", 15);
 					LoadingService.AddCount(GetModuleCount());
 
+					LoadingService.DoStep("Синхронизация файлов");
+					FiresecManager.UpdateFiles();
 					InitializeFs();
 					LoadingService.DoStep("Загрузка конфигурации ГК");
 					InitializeGk();
@@ -85,7 +87,7 @@ namespace FireMonitor
 			LoadingService.DoStep("Остановка Socket Server");
 			SocketServerHelper.Stop();
 			LoadingService.DoStep("Загрузка конфигурации с сервера");
-			FiresecManager.GetConfiguration(true);
+			FiresecManager.GetConfiguration();
 			LoadingService.DoStep("Загрузка драйвера устройств");
 			FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
 			LoadingService.DoStep("Синхронизация конфигурации");

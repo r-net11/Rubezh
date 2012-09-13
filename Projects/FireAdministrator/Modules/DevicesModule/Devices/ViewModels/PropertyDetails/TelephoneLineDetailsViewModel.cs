@@ -363,7 +363,7 @@ namespace DevicesModule.ViewModels
         OperationResult<string> _operationResult;
         void OnPropgress()
         {
-            _operationResult = FiresecManager.DeviceGetMDS5Data(Device.UID);
+            _operationResult = FiresecManager.DeviceGetMDS5Data(Device);
         }
         void OnCompleted()
         {

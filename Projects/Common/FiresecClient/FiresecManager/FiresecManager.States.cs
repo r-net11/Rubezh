@@ -4,7 +4,7 @@
 	{
 		public static void StartPing()
 		{
-			//FiresecService.StartPing();
+			FiresecService.StartPing();
 		}
 	}
 }

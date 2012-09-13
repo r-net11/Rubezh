@@ -22,7 +22,7 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _operationResult = FiresecManager.ReadDeviceJournal(_device.UID, _isUsb);
+            _operationResult = FiresecManager.ReadDeviceJournal(_device, _isUsb);
         }
 
         static void OnCompleted()

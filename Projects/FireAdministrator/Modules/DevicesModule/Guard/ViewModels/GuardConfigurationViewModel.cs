@@ -128,7 +128,7 @@ namespace DevicesModule.ViewModels
         }
         void OnPropgress()
         {
-            result = FiresecManager.DeviceGetGuardUsersList(SelectedDevice.UID);
+            result = FiresecManager.DeviceGetGuardUsersList(SelectedDevice);
         }
         void OnCompleted()
         {

@@ -16,7 +16,6 @@ namespace DevicesModule.ViewModels
 		static string _fileName;
 		static OperationResult<string> _operationResult_1;
 		static OperationResult<string> _operationResult_2;
-		static byte[] bytes;
 
 		public static void Run(Device device, bool isUsb)
 		{
@@ -29,19 +28,13 @@ namespace DevicesModule.ViewModels
 			if (openFileDialog.ShowDialog() == true)
 			{
 				_fileName = openFileDialog.FileName;
-				using (var fileStream = new FileStream(_fileName, FileMode.Open))
-				{
-					bytes = new byte[fileStream.Length];
-					fileStream.Read(bytes, 0, bytes.Length);
-				}
-
 				ServiceFactory.ProgressService.Run(OnVarifyPropgress, OnVerifyCompleted, _device.PresentationAddressAndDriver + ". Обновление прошивки");
 			}
 		}
 
 		static void OnVarifyPropgress()
 		{
-			_operationResult_1 = FiresecManager.DeviceVerifyFirmwareVersion(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
+			_operationResult_1 = FiresecManager.DeviceVerifyFirmwareVersion(_device, _isUsb, new FileInfo(_fileName).Name);
 		}
 
 		static void OnVerifyCompleted()
@@ -61,7 +54,7 @@ namespace DevicesModule.ViewModels
 
 		static void OnUpdatePropgress()
 		{
-			_operationResult_2 = FiresecManager.DeviceUpdateFirmware(_device.UID, _isUsb, bytes, new FileInfo(_fileName).Name);
+			_operationResult_2 = FiresecManager.DeviceUpdateFirmware(_device, _isUsb, new FileInfo(_fileName).Name);
 		}
 
 		static void OnUpdateCompleted()

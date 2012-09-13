@@ -10,26 +10,25 @@ namespace DevicesModule.ViewModels
 {
     public static class SetPasswordHelper
     {
-        static Guid _deviceUID;
+		static Device _device;
         static bool _isUsb;
         static DevicePasswordType _devicePasswordType;
         static string _password;
         static OperationResult<bool> _operationResult;
 
-        public static void Run(Guid deviceUID, bool isUsb, DevicePasswordType devicePasswordType, string password)
+        public static void Run(Device device, bool isUsb, DevicePasswordType devicePasswordType, string password)
         {
-            _deviceUID = deviceUID;
+			_device = device;
             _isUsb = isUsb;
             _devicePasswordType = devicePasswordType;
             _password = password;
 
-            var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == _deviceUID);
             ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, device.PresentationAddressAndDriver + ". Установка пароля");
         }
 
         static void OnPropgress()
         {
-            _operationResult = FiresecManager.SetPassword(_deviceUID, _isUsb, _devicePasswordType, _password);
+            _operationResult = FiresecManager.SetPassword(_device, _isUsb, _devicePasswordType, _password);
         }
 
         static void OnCompleted()

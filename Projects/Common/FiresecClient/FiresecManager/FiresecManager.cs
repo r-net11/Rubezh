@@ -90,74 +90,74 @@ namespace FiresecClient
 			IsDisconnected = true;
 		}
 
-		public static OperationResult<DeviceConfiguration> AutoDetectDevice(Guid deviceUID, bool fastSearch)
+		public static OperationResult<DeviceConfiguration> AutoDetectDevice(Device device, bool fastSearch)
 		{
-			return FiresecDriver.DeviceAutoDetectChildren(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID, fastSearch);
+			return FiresecDriver.DeviceAutoDetectChildren(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID, fastSearch);
 		}
 
-		public static OperationResult<DeviceConfiguration> DeviceReadConfiguration(Guid deviceUID, bool isUsb)
+		public static OperationResult<DeviceConfiguration> DeviceReadConfiguration(Device device, bool isUsb)
 		{
-			return FiresecDriver.DeviceReadConfiguration(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
+			return FiresecDriver.DeviceReadConfiguration(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID);
 		}
 
-		public static OperationResult<bool> DeviceWriteConfiguration(Guid deviceUID, bool isUsb)
+		public static OperationResult<bool> DeviceWriteConfiguration(Device device, bool isUsb)
 		{
-			return FiresecDriver.DeviceWriteConfiguration(FiresecConfiguration.DeviceConfiguration, deviceUID);
+			return FiresecDriver.DeviceWriteConfiguration(FiresecConfiguration.DeviceConfiguration, device.UID);
 		}
 
-		public static OperationResult<string> ReadDeviceJournal(Guid deviceUID, bool isUsb)
+		public static OperationResult<string> ReadDeviceJournal(Device device, bool isUsb)
 		{
-			return FiresecDriver.DeviceReadEventLog(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
+			return FiresecDriver.DeviceReadEventLog(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID);
 		}
 
-		public static OperationResult<bool> SynchronizeDevice(Guid deviceUID, bool isUsb)
+		public static OperationResult<bool> SynchronizeDevice(Device device, bool isUsb)
 		{
-			return FiresecDriver.DeviceDatetimeSync(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
+			return FiresecDriver.DeviceDatetimeSync(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID);
 		}
 
-		public static OperationResult<string> DeviceUpdateFirmware(Guid deviceUID, bool isUsb, byte[] bytes, string fileName)
+		public static OperationResult<string> DeviceUpdateFirmware(Device device, bool isUsb, string fileName)
 		{
-			return FiresecDriver.DeviceUpdateFirmware(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID, bytes, fileName);
+			return FiresecDriver.DeviceUpdateFirmware(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID, fileName);
 		}
 
-		public static OperationResult<string> DeviceVerifyFirmwareVersion(Guid deviceUID, bool isUsb, byte[] bytes, string fileName)
+		public static OperationResult<string> DeviceVerifyFirmwareVersion(Device device, bool isUsb, string fileName)
 		{
-			return FiresecDriver.DeviceVerifyFirmwareVersion(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID, bytes, fileName);
+			return FiresecDriver.DeviceVerifyFirmwareVersion(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID, fileName);
 		}
 
-		public static OperationResult<string> DeviceGetInformation(Guid deviceUID, bool isUsb)
+		public static OperationResult<string> DeviceGetInformation(Device device, bool isUsb)
 		{
-			return FiresecDriver.DeviceGetInformation(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID);
+			return FiresecDriver.DeviceGetInformation(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID);
 		}
 
-		public static OperationResult<List<string>> DeviceGetSerialList(Guid deviceUID)
+		public static OperationResult<List<string>> DeviceGetSerialList(Device device)
 		{
-			return FiresecDriver.DeviceGetSerialList(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID);
+			return FiresecDriver.DeviceGetSerialList(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID);
 		}
 
-		public static OperationResult<bool> SetPassword(Guid deviceUID, bool isUsb, DevicePasswordType devicePasswordType, string password)
+		public static OperationResult<bool> SetPassword(Device device, bool isUsb, DevicePasswordType devicePasswordType, string password)
 		{
-			return FiresecDriver.DeviceSetPassword(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, isUsb), deviceUID, devicePasswordType, password);
+			return FiresecDriver.DeviceSetPassword(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, isUsb), device.UID, devicePasswordType, password);
 		}
 
-		public static OperationResult<string> DeviceCustomFunctionExecute(Guid deviceUID, string functionName)
+		public static OperationResult<string> DeviceCustomFunctionExecute(Device device, string functionName)
 		{
-			return FiresecDriver.DeviceCustomFunctionExecute(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID, functionName);
+			return FiresecDriver.DeviceCustomFunctionExecute(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID, functionName);
 		}
 
-		public static OperationResult<string> DeviceGetGuardUsersList(Guid deviceUID)
+		public static OperationResult<string> DeviceGetGuardUsersList(Device device)
 		{
-			return FiresecDriver.DeviceGetGuardUsersList(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID);
+			return FiresecDriver.DeviceGetGuardUsersList(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID);
 		}
 
-		public static OperationResult<bool> DeviceSetGuardUsersList(Guid deviceUID, string users)
+		public static OperationResult<bool> DeviceSetGuardUsersList(Device device, string users)
 		{
-			return FiresecDriver.DeviceSetGuardUsersList(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID, users);
+			return FiresecDriver.DeviceSetGuardUsersList(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID, users);
 		}
 
-		public static OperationResult<string> DeviceGetMDS5Data(Guid deviceUID)
+		public static OperationResult<string> DeviceGetMDS5Data(Device device)
 		{
-			return FiresecDriver.DeviceGetMDS5Data(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(deviceUID, false), deviceUID);
+			return FiresecDriver.DeviceGetMDS5Data(FiresecConfiguration.DeviceConfiguration.CopyOneBranch(device, false), device.UID);
 		}
 	}
 }

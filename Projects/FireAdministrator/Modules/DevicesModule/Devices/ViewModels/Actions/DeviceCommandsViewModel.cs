@@ -101,7 +101,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand<bool> SynchronizeDeviceCommand { get; private set; }
 		void OnSynchronizeDevice(bool isUsb)
 		{
-			SynchronizeDeviceHelper.Run(SelectedDevice.Device.UID, isUsb);
+			SynchronizeDeviceHelper.Run(SelectedDevice.Device, isUsb);
 		}
 
 		bool CanSynchronizeDevice(bool isUsb)
@@ -150,7 +150,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand<bool> SetPasswordCommand { get; private set; }
 		void OnSetPassword(bool isUsb)
 		{
-			DialogService.ShowModalWindow(new SetPasswordViewModel(SelectedDevice.Device.UID, isUsb));
+			DialogService.ShowModalWindow(new SetPasswordViewModel(SelectedDevice.Device, isUsb));
 		}
 
 		bool CanSetPassword(bool isUsb)

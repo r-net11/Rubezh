@@ -19,11 +19,13 @@ namespace FiresecClient
 		public static SystemConfiguration SystemConfiguration { get; set; }
 		public static SecurityConfiguration SecurityConfiguration { get; set; }
 
-        public static void GetConfiguration(bool updateFiles)
+		public static void UpdateFiles()
 		{
-			if (updateFiles)
-				FileHelper.Synchronize();
+			FileHelper.Synchronize();
+		}
 
+        public static void GetConfiguration()
+		{
 			SystemConfiguration = FiresecService.GetSystemConfiguration();
 			LibraryConfiguration = FiresecService.GetLibraryConfiguration();
 			PlansConfiguration = FiresecService.GetPlansConfiguration();
