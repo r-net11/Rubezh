@@ -95,6 +95,15 @@ namespace Firesec
 
 			foreach (var process in Process.GetProcesses())
 			{
+				if (process.ProcessName == "fs_server")
+				{
+					process.Kill();
+					process.WaitForExit(1000);
+				}
+			}
+
+			foreach (var process in Process.GetProcesses())
+			{
 				if (process.ProcessName == "scktsrvr")
 				{
 					process.Kill();
