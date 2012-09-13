@@ -19,7 +19,7 @@ namespace FiresecClient
 		public static SystemConfiguration SystemConfiguration { get; set; }
 		public static SecurityConfiguration SecurityConfiguration { get; set; }
 
-        public static void GetConfiguration(bool updateFiles, bool mustMonitorStates, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
+        public static void GetConfiguration(bool updateFiles)
 		{
 			if (updateFiles)
 				FileHelper.Synchronize();
@@ -36,12 +36,12 @@ namespace FiresecClient
 			var deviceConfiguration = FiresecService.GetDeviceConfiguration();
 			FiresecConfiguration = new FiresecConfiguration()
 			{
-				Drivers = driversConfiguration.Drivers,
+				DriversConfiguration = driversConfiguration,
 				DeviceConfiguration = deviceConfiguration
 			};
 
 			UpdateConfiguration();
-			InitializeFiresecDriver(mustMonitorStates, FS_Address, FS_Port, FS_Login, FS_Password);
+			FiresecConfiguration.CreateStates();
 		}
 
 		public static void UpdateConfiguration()
@@ -80,7 +80,7 @@ namespace FiresecClient
 
 		public static List<Driver> Drivers
 		{
-			get { return FiresecConfiguration.Drivers; }
+			get { return FiresecConfiguration.DriversConfiguration.Drivers; }
 		}
 
 		public static List<Device> Devices

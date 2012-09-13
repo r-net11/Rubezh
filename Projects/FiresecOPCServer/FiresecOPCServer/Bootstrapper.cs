@@ -10,6 +10,7 @@ using FiresecOPCServer.ViewModels;
 using Infrastructure.Common;
 using System.Threading;
 using Common;
+using Firesec;
 
 namespace FiresecOPCServer
 {
@@ -38,11 +39,9 @@ namespace FiresecOPCServer
             var message = FiresecManager.Connect(ClientType.OPC, AppSettings.ServerAddress, AppSettings.Login, AppSettings.Password);
             if (message == null)
             {
-                UILogger.Log("Загрузка конфигурации");
-                FiresecManager.GetConfiguration(false, true, AppSettings.FS_Address, AppSettings.FS_Port, AppSettings.FS_Login, AppSettings.FS_Password);
-                UILogger.Log("Загрузка состояний");
-                FiresecManager.GetStates();
-                UILogger.Log("Запуск OPC Сервра");
+				InitializeFs();
+				UILogger.Log("Старт полинга сервера");
+				FiresecManager.StartPing();
                 FiresecOPCManager.Start();
                 FiresecCallbackService.ConfigurationChangedEvent += new Action(OnConfigurationChangedEvent);
             }
@@ -52,6 +51,20 @@ namespace FiresecOPCServer
             }
             UILogger.Log("Готово");
         }
+
+		static void InitializeFs()
+		{
+			UILogger.Log("Остановка Socket Server");
+			SocketServerHelper.Stop();
+			UILogger.Log("Загрузка конфигурации с сервера");
+			FiresecManager.GetConfiguration(true);
+			UILogger.Log("Загрузка драйвера устройств");
+			FiresecManager.InitializeFiresecDriver(AppSettings.FS_Address, AppSettings.FS_Port, AppSettings.FS_Login, AppSettings.FS_Password);
+			UILogger.Log("Синхронизация конфигурации");
+			FiresecManager.Synchronyze();
+			UILogger.Log("Старт мониторинга");
+			FiresecManager.StatrtWatcher(true);
+		}
 
         static void OnWorkThread()
         {
@@ -82,9 +95,7 @@ namespace FiresecOPCServer
         static void OnConfigurationChangedEvent()
         {
             UILogger.Log("Перезагрузка конфигурации");
-            FiresecManager.GetConfiguration(false, true, AppSettings.FS_Address, AppSettings.FS_Port, AppSettings.FS_Login, AppSettings.FS_Password);
-            UILogger.Log("Перезагрузка состояний");
-            FiresecManager.GetStates();
+			InitializeFs();
             UILogger.Log("Перезапуск OPC Сервера");
             FiresecOPCManager.OPCRefresh();
         }

@@ -24,7 +24,7 @@ namespace DevicesModule.ViewModels
 			_deviceConfiguration.Update();
 			foreach (var device in _deviceConfiguration.Devices)
 			{
-				device.Driver = FiresecManager.FiresecConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 			}
 
 			LocalRootDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == _deviceUID);

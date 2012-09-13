@@ -8,10 +8,10 @@ namespace FiresecClient
 {
 	public partial class FiresecConfiguration
 	{
-		public List<Driver> Drivers
+		public DriversConfiguration DriversConfiguration
 		{
-			get { return ConfigurationCash.DriversConfiguration.Drivers; }
-			set { ConfigurationCash.DriversConfiguration.Drivers = value; }
+			get { return ConfigurationCash.DriversConfiguration; }
+			set { ConfigurationCash.DriversConfiguration = value; }
 		}
 		public DeviceConfiguration DeviceConfiguration
 		{
@@ -32,7 +32,7 @@ namespace FiresecClient
 
 			foreach (var device in DeviceConfiguration.Devices)
 			{
-				device.Driver = Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				if (device.Driver == null)
 				{
 					Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null");
@@ -53,6 +53,29 @@ namespace FiresecClient
 			UpdateChildMPTZones();
 			InvalidateConfiguration();
 			UpateGuardZoneSecPanelUID();
+		}
+
+		public void CreateStates()
+		{
+			foreach (var device in DeviceConfiguration.Devices)
+			{
+				var deviceState = new DeviceState()
+				{
+					Device = device
+				};
+				foreach (var parameter in device.Driver.Parameters)
+					deviceState.Parameters.Add(parameter.Copy());
+				device.DeviceState = deviceState;
+			}
+
+			foreach (var zone in DeviceConfiguration.Zones)
+			{
+				var zoneState = new ZoneState()
+				{
+					Zone = zone,
+				};
+				zone.ZoneState = zoneState;
+			}
 		}
 
 		public void ReorderConfiguration()
@@ -355,7 +378,7 @@ namespace FiresecClient
 		{
 			DeviceConfiguration = new DeviceConfiguration();
 
-			var computerDriver = Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer);
+			var computerDriver = DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == DriverType.Computer);
 			if (computerDriver != null)
 			{
 				DeviceConfiguration.RootDevice = new Device()

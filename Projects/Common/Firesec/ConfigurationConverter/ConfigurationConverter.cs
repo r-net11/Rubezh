@@ -82,6 +82,7 @@ namespace Firesec
 				var driver = DriverConverter.Convert(innerDriver);
 				if (driver == null)
 				{
+					Logger.Error("Не удается найти данные для драйвера " + innerDriver.name);
 					DriversError.AppendLine("Не удается найти данные для драйвера " + innerDriver.name);
 				}
 				else
@@ -91,11 +92,6 @@ namespace Firesec
 				}
 			}
 			DriverConfigurationParametersHelper.CreateKnownProperties(ConfigurationCash.DriversConfiguration.Drivers);
-			
-			if (ConfigurationCash.DriversConfiguration.Drivers.Count > 0)
-			{
-				//ConfigurationFileManager.SetDriversConfiguration(ConfigurationCash.DriversConfiguration);
-			}
 		}
 
         public void Update(DeviceConfiguration deviceConfiguration = null)

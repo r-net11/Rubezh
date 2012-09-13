@@ -113,10 +113,6 @@ namespace FiresecClient
 					throw new Exception("Получить IP адрес можно только у ГК или в КАУ");
 			}
 			var ipAddress = gkDevice.GetGKIpAddress();
-			if (ipAddress == null)
-			{
-				throw new Exception("Не задан IP адрес");
-			}
 			return ipAddress;
 		}
 	}

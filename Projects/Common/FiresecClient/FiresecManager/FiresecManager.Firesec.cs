@@ -9,25 +9,39 @@ namespace FiresecClient
 	public partial class FiresecManager
 	{
 		public static FiresecDriver FiresecDriver { get; private set; }
+		static int lastJournalNo;
 
-        public static void InitializeFiresecDriver(bool mustMonitorStates, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
+		public static void InitializeFiresecDriver(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
-			var lastJournalNo = FiresecService.FiresecService.GetJournalLastId().Result;
-			FiresecDriver = new FiresecDriver(mustMonitorStates, lastJournalNo, FS_Address, FS_Port, FS_Login, FS_Password);
+			lastJournalNo = FiresecService.FiresecService.GetJournalLastId().Result;
+			FiresecDriver = new FiresecDriver(lastJournalNo, FS_Address, FS_Port, FS_Login, FS_Password);
+		}
+
+		public static void Synchronyze()
+		{
+			FiresecDriver.Synchronyze();
+		}
+
+		public static void StatrtWatcher(bool mustMonitorStates)
+		{
+			FiresecDriver.StatrtWatcher(mustMonitorStates);
 			if (mustMonitorStates)
 			{
 				FiresecDriver.Watcher.DevicesStateChanged += new Action<List<FiresecAPI.Models.DeviceState>>(OnDevicesStateChanged);
 				FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>(OnDevicesParametersChanged);
 				FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(OnZonesStateChanged);
 				FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
-
-				var journalRecords = FiresecDriver.Watcher.SynchrinizeJournal(lastJournalNo);
-				if (journalRecords.Count > 0)
-				{
-					FiresecService.AddJournalRecords(journalRecords);
-				}
 			}
 			FiresecDriver.Watcher.Progress += new Action<int, string, int, int>(OnProgress);
+		}
+
+		public static void SynchrinizeJournal()
+		{
+			var journalRecords = FiresecDriver.Watcher.SynchrinizeJournal(lastJournalNo);
+			if (journalRecords.Count > 0)
+			{
+				FiresecService.AddJournalRecords(journalRecords);
+			}
 		}
 
 		static void OnDevicesStateChanged(List<DeviceState> deviceStates)

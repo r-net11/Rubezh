@@ -14,7 +14,7 @@ namespace Firesec
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public Watcher Watcher { get; private set; }
 
-        public FiresecDriver(bool mustMonitorStates, int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
+        public FiresecDriver(int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			FiresecSerializedClient = new FiresecSerializedClient();
 			FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
@@ -23,40 +23,20 @@ namespace Firesec
 				FiresecSerializedClient = FiresecSerializedClient
 			};
 			ConfigurationConverter.ConvertMetadataFromFiresec();
-			ConfigurationConverter.SynchronyzeConfiguration();
-			ConvertStates();
+		}
 
+		public void Synchronyze()
+		{
+			ConfigurationConverter.SynchronyzeConfiguration();
+		}
+
+		public void StatrtWatcher(bool mustMonitorStates)
+		{
 			Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates);
 			if (mustMonitorStates)
 			{
 				Watcher.OnStateChanged();
 				Watcher.OnParametersChanged();
-			}
-		}
-
-		public void ConvertStates()
-		{
-			if (ConfigurationCash.DeviceConfiguration.Devices.IsNotNullOrEmpty())
-			{
-				foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
-				{
-					var deviceState = new DeviceState()
-					{
-						Device = device
-					};
-					foreach (var parameter in device.Driver.Parameters)
-						deviceState.Parameters.Add(parameter.Copy());
-					device.DeviceState = deviceState;
-				}
-			}
-
-			foreach (var zone in ConfigurationCash.DeviceConfiguration.Zones)
-			{
-				var zoneState = new ZoneState()
-				{
-					Zone = zone,
-				};
-				zone.ZoneState = zoneState;
 			}
 		}
 

@@ -1,11 +1,10 @@
-﻿
-namespace FiresecClient
+﻿namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
-		public static void GetStates()
+		public static void StartPing()
 		{
-			FiresecService.StartPing();
+			//FiresecService.StartPing();
 		}
 	}
 }

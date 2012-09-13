@@ -73,7 +73,7 @@ namespace FiresecClient
 
 			foreach (var autoCreateChildUID in device.Driver.AutoCreateChildren)
 			{
-				var autoCreateDriver = Drivers.FirstOrDefault(x => x.UID == autoCreateChildUID);
+				var autoCreateDriver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == autoCreateChildUID);
 
 				for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
 				{

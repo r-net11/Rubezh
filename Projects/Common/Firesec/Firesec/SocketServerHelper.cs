@@ -81,6 +81,7 @@ namespace Firesec
 
 		public static void Stop()
 		{
+			//return;
 			StopNTServiceIfRunning();
 
 			foreach (var process in Process.GetProcesses())

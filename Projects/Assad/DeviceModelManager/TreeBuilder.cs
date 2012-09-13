@@ -22,8 +22,11 @@ namespace DeviveModelManager
             var Login = ConfigurationManager.AppSettings["Login"] as string;
             var Password = ConfigurationManager.AppSettings["Password"] as string;
 
-            FiresecManager.Connect(ClientType.Assad, serverAddress, Login, Password);
-            FiresecManager.GetConfiguration(false, false, FS_Address, FS_Port, FS_Login, FS_Password);
+			FiresecManager.Connect(ClientType.Assad, serverAddress, Login, Password);
+			FiresecManager.GetConfiguration(true);
+			FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
+			FiresecManager.Synchronyze();
+			FiresecManager.StatrtWatcher(true);
 
 			RootTreeItem = RootHelper.CreateRoot();
 			RootTreeItem.Name = "Компьютер";
