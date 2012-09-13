@@ -19,7 +19,6 @@ namespace DeviceControls
 				{
 					var canvas = (Canvas)xamlReader.LoadAsync(xmlReader);
 					Panel.SetZIndex(canvas, layer);
-
 					return canvas;
 				}
 			}

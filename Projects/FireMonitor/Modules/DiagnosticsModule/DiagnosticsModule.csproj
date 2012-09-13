@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4CF1CD7F-310C-4593-9250-F962CEB63DE8}</ProjectGuid>
+    <ProjectGuid>{B7A9E349-55EF-4A5F-A7C3-52EB03CCF2AE}</ProjectGuid>
     <OutputType>library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DiagnosticsModule</RootNamespace>
@@ -37,12 +37,8 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.Prism, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\3rdParty\PRISM\Desktop\Microsoft.Practices.Prism.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,9 +52,21 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
-      <Link>Properties\AssemblyInfoCommon.cs</Link>
+    <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
+    <Compile Include="Views\DiagnosticsView.xaml.cs">
+      <DependentUpon>DiagnosticsView.xaml</DependentUpon>
     </Compile>
+    <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="DiagnosticsModuleLoader.cs" />
+    <Page Include="Views\DiagnosticsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -72,25 +80,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="DiagnosticsModule.cs" />
-    <Compile Include="ViewModels\DevicesTreeViewModel.cs" />
-    <Compile Include="ViewModels\JournalTestViewModel.cs" />
-    <Compile Include="ViewModels\DiagnosticsViewModel.cs" />
-    <Compile Include="Views\DevicesTreeView.xaml.cs">
-      <DependentUpon>DevicesTreeView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DriversView.xaml.cs">
-      <DependentUpon>DriversView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\JournalTestView.xaml.cs">
-      <DependentUpon>JournalTestView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\DiagnosticsView.xaml.cs">
-      <DependentUpon>DiagnosticsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\XDriversView.xaml.cs">
-      <DependentUpon>XDriversView.xaml</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -102,35 +91,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="DataTemplates\Dictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\DevicesTreeView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\DriversView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\JournalTestView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\DiagnosticsView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\XDriversView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Common\Common.GK\Common.GK.csproj">
-      <Project>{987CDFB8-DC44-4873-9E19-7666DE222820}</Project>
-      <Name>Common.GK</Name>
+    <ProjectReference Include="..\..\..\Common\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Controls\Controls.csproj">
       <Project>{0F0ACE8E-E606-4FCA-B6B2-2F1FD86121DE}</Project>
@@ -144,25 +107,17 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\Infrastructure.Client\Infrastructure.Client.csproj">
-      <Project>{F91017CC-7740-46F0-B86A-9FDB6E2E1EDB}</Project>
-      <Name>Infrastructure.Client</Name>
+    <ProjectReference Include="..\..\..\Common\Firesec\Firesec.csproj">
+      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
+      <Name>Firesec</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Common\Infrastructure.Common\Infrastructure.Common.csproj">
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\Common\TreeListView\TreeListView.csproj">
-      <Project>{59A4159D-1038-4770-91DF-154A22CDE411}</Project>
-      <Name>TreeListView</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj">
-      <Project>{7E982F7A-E8B8-4B63-A204-9FC7E5F97170}</Project>
+      <Project>{2A951DA3-6221-43E1-8B88-13A591FAA53B}</Project>
       <Name>Infrastructure</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DevicesModule\DevicesModule.csproj">
-      <Project>{948B3C2D-715A-4B65-9847-36B71E90B40A}</Project>
-      <Name>DevicesModule</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

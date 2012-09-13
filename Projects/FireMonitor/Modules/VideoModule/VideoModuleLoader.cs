@@ -50,5 +50,10 @@ namespace VideoModule
             {
             };
         }
+
+        public override void Dispose()
+        {
+            VideoService.Close();
+        }
     }
 }

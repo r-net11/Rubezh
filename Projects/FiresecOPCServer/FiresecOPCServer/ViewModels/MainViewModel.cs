@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common;
+using Firesec.Imitator;
 
 namespace FiresecOPCServer.ViewModels
 {
@@ -14,6 +16,7 @@ namespace FiresecOPCServer.ViewModels
         {
             Current = this;
             Title = "OPC Сервер";
+            ShowImitatorCommand = new RelayCommand(OnShowImitator);
         }
 
         public void AddLog(string message)
@@ -35,6 +38,17 @@ namespace FiresecOPCServer.ViewModels
                 _log = value;
                 OnPropertyChanged("Log");
             }
+        }
+
+        public bool IsImitatorEnabled
+        {
+            get { return AppSettings.IsImitatorEnabled; }
+        }
+
+        public RelayCommand ShowImitatorCommand { get; private set; }
+        void OnShowImitator()
+        {
+            ImitatorService.Show();
         }
 
         public override bool OnClosing(bool isCanceled)

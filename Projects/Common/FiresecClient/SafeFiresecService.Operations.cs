@@ -4,6 +4,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
+using System.Threading;
 
 namespace FiresecClient
 {
@@ -106,7 +107,12 @@ namespace FiresecClient
 
         public void AddJournalRecords(List<JournalRecord> journalRecords)
         {
-            SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); });
+            var thread = new Thread(new ThreadStart(() =>
+            {
+                SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); });
+            }
+                ));
+            thread.Start();
         }
 
         public List<string> GetFileNamesList(string directory)

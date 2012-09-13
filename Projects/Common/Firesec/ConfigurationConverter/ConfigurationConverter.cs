@@ -30,11 +30,8 @@ namespace Firesec
 			Update();
 
 			ConfigurationCash.DeviceConfiguration = DeviceConfiguration;
-			//ConfigurationFileManager.SetDeviceConfiguration(DeviceConfiguration);
-
 			var plans = FiresecSerializedClient.GetPlans().Result;
 			ConfigurationCash.PlansConfiguration = ConvertPlans(plans);
-			//ConfigurationFileManager.SetPlansConfiguration(ConfigurationCash.PlansConfiguration);
 		}
 
 		public void ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
@@ -132,10 +129,6 @@ namespace Firesec
 			firesecDeviceConfiguration.Update();
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				if (device.Parent != null && device.Parent.Driver.DriverType == DriverType.IndicationBlock)
-				{
-					;
-				}
 				var firesecDevice = firesecDeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == device.PathId);
 				if (firesecDevice != null)
 				{

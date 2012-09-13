@@ -14,5 +14,6 @@ namespace FiresecOPCServer
         public static string ServerAddress { get; set; }
         public static string Login { get; set; }
         public static string Password { get; set; }
+        public static bool IsImitatorEnabled { get; set; }
     }
 }

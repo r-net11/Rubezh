@@ -169,26 +169,22 @@ namespace FiresecOPCServer
                 return;
             }
 
-            var thread = new Thread(() =>
+            srv.BeginUpdate();
+            foreach (var deviceState in deviceStates)
             {
-                srv.BeginUpdate();
-                foreach (var deviceState in deviceStates)
+                var tagDevice = TagDevices.FirstOrDefault(x => x.DeviceState.Device.UID == deviceState.Device.UID);
+                if (tagDevice == null)
                 {
-                    var tagDevice = TagDevices.FirstOrDefault(x => x.DeviceState.Device.UID == deviceState.Device.UID);
-                    if (tagDevice == null)
-                    {
-                        continue;
-                    }
-                    if (tagDevice.DeviceState == null)
-                    {
-                        Logger.Error("FiresecOPCManager.OnDevicesStateChanged tagDevice.DeviceState = null");
-                        continue;
-                    }
-                    srv.SetTag(tagDevice.TagId, tagDevice.DeviceState.StateType);
+                    continue;
                 }
-                srv.EndUpdate(false);
-            });
-            thread.Start();
+                if (tagDevice.DeviceState == null)
+                {
+                    Logger.Error("FiresecOPCManager.OnDevicesStateChanged tagDevice.DeviceState = null");
+                    continue;
+                }
+                srv.SetTag(tagDevice.TagId, tagDevice.DeviceState.StateType);
+            }
+            srv.EndUpdate(false);
         }
 
         static void OnZoneStatesChanged(List<ZoneState> zoneStates)
@@ -204,26 +200,22 @@ namespace FiresecOPCServer
                 return;
             }
 
-            var thread = new Thread(() =>
+            srv.BeginUpdate();
+            foreach (var zoneState in zoneStates)
             {
-                srv.BeginUpdate();
-                foreach (var zoneState in zoneStates)
+                var tagZone = TagZones.FirstOrDefault(x => x.ZoneState.Zone.No == zoneState.Zone.No);
+                if (tagZone == null)
                 {
-                    var tagZone = TagZones.FirstOrDefault(x => x.ZoneState.Zone.No == zoneState.Zone.No);
-                    if (tagZone == null)
-                    {
-                        return;
-                    }
-                    if (tagZone.ZoneState == null)
-                    {
-                        Logger.Error("FiresecOPCManager.OnZoneStatesChanged tagZone.ZoneState = null");
-                        return;
-                    }
-                    srv.SetTag(tagZone.TagId, tagZone.ZoneState.StateType);
+                    return;
                 }
-                srv.EndUpdate(false);
-            });
-            thread.Start();
+                if (tagZone.ZoneState == null)
+                {
+                    Logger.Error("FiresecOPCManager.OnZoneStatesChanged tagZone.ZoneState = null");
+                    return;
+                }
+                srv.SetTag(tagZone.TagId, tagZone.ZoneState.StateType);
+            }
+            srv.EndUpdate(false);
         }
 
         static void Events_DeactivateItems(object sender, DeactivateItemsArgs e)

@@ -17,6 +17,7 @@ namespace FiresecOPCServer
             AppSettings.ServerAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
             AppSettings.Login = ConfigurationManager.AppSettings["Login"] as string;
             AppSettings.Password = ConfigurationManager.AppSettings["Password"] as string;
+            AppSettings.IsImitatorEnabled = Convert.ToBoolean(ConfigurationManager.AppSettings["IsImitatorEnabled"] as string);
         }
     }
 }

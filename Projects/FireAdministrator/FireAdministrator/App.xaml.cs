@@ -38,7 +38,6 @@ namespace FireAdministrator
 			foreach (var module in ApplicationService.Modules)
 				module.Dispose();
 			FiresecManager.Disconnect();
-			//VideoService.Close();
 		}
 	}
 }

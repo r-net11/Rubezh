@@ -33,5 +33,9 @@ namespace VideoModule
 		{
 			get { return "Видео"; }
 		}
+        public override void Dispose()
+        {
+            VideoService.Close();
+        }
 	}
 }
