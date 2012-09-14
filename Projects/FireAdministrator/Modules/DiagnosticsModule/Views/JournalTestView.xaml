@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="DiagnosticsModule.Views.JournalTestView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              MinWidth="600" MinHeight="600">
     <Grid Width="600" Height="600">
         <Grid.ColumnDefinitions>
@@ -9,28 +10,26 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70*" />
-            <RowDefinition Height="25*" />
-            <RowDefinition Height="10*" />
-            <RowDefinition Height="10*" />
-            <RowDefinition Height="10*" />
+            <RowDefinition Height="105*" />
             <RowDefinition Height="10*" />
             <RowDefinition Height="10*" />
             <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
-        <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding Query}"  Name="dataGrid1" Grid.RowSpan="3" Grid.ColumnSpan="3"  />
-        <Button Content="Show selected" Command="{Binding Show_selected_devices_Command}" Height="23" Width="86" Grid.Row="3" />
-        <!--Device block-->
-        <CheckBox Content="Enable Device Filtering" IsChecked="{Binding Device_chk}" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Row="3" />
-        <CheckBox Content="Add IP to filter" IsChecked="{Binding Ip_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" />
-        <CheckBox Content="Add RM to filter" IsChecked="{Binding Rm_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" />
-        <CheckBox Content="Add MDU to filter" IsChecked="{Binding Mdu_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" />
-        <CheckBox Content="Add MPT to filter" IsChecked="{Binding Mpt_chk}" IsEnabled="{Binding Device_chk}" Grid.Row="7" Grid.Column="1"  VerticalAlignment="Center" HorizontalAlignment="Center" />
-        <!--Date block-->
-        <CheckBox Content="Enable Date filtering" IsChecked="{Binding Date_chk}" Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" />
-        <Label Content="from" Height="28" Grid.Row="4" Grid.Column="2" />
-        <DatePicker Height="25" SelectedDate="{Binding Starting_date}" IsEnabled="{Binding Date_chk}" Grid.Row="5" Grid.Column="2" />
-        <Label Content="to" Height="28" Grid.Row="6" Grid.Column="2" />
-        <DatePicker Height="25" SelectedDate="{Binding Ending_date}" IsEnabled="{Binding Date_chk}" Grid.Row="7" Grid.Column="2" />
+        <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding Query}"  Name="dataGrid1" Grid.ColumnSpan="3"/>
+        <Button Content="Show selected" Command="{Binding Show_selected_devices_Command}" Height="23" Width="86" Grid.Row="3"/>
+        <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Top">
+            <CheckBox IsChecked="{Binding Date_chk}" Content="Enable DateTime filtering" VerticalAlignment="Center"/>
+            <Label Content="from"/>
+            <extToolkit:DateTimePicker Value="{Binding Starting_date}" IsEnabled="{Binding Date_chk}"/>
+            <Label Content="to"/>
+            <extToolkit:DateTimePicker Value="{Binding Ending_date}" IsEnabled="{Binding Date_chk}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3">
+            <CheckBox IsChecked="{Binding Gkno_chk}" Content="Enable GKNo filtering" VerticalAlignment="Center"/>
+            <Label Content="from"/>
+            <extToolkit:IntegerUpDown Value="{Binding Starting_gkno}" IsEnabled="{Binding Gkno_chk}"/>
+            <Label Content="to"/>
+            <extToolkit:IntegerUpDown Value="{Binding Ending_gkno}" IsEnabled="{Binding Gkno_chk}"/>
+        </StackPanel>
     </Grid>
 </UserControl>
