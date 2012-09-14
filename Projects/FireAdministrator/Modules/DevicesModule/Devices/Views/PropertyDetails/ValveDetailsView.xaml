@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"             
              xmlns:Converters="clr-namespace:DevicesModule.Converters"
-             MinWidth="400" MinHeight="150">
+             MinWidth="400" MinHeight="50">
     <UserControl.Resources>
         <Converters:ValveActionConverter x:Key="ValveActionConverter" />
     </UserControl.Resources>
@@ -15,11 +15,9 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Label Grid.Row="0" Grid.Column="0" Content="Действие при событии в зоне:" HorizontalAlignment="Right" />
-        <Label Grid.Row="1" Grid.Column="0" Content="Задержка запуска, с:" HorizontalAlignment="Right" />
 
         <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Actions}" SelectedItem="{Binding SelectiedAction}" Margin="2">
             <ComboBox.ItemTemplate>
@@ -28,6 +26,5 @@
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>
-        <extToolkit:IntegerUpDown Grid.Row="1" Grid.Column="1" Value="{Binding Timeout}" Minimum="0" Margin="2" />
     </Grid>
 </UserControl>

@@ -11,7 +11,7 @@ namespace FiresecAPI.Models
                     return "Тревога";
 
                 case StateType.Attention:
-                    return "Внимание (предтревожное)";
+                    return "Внимание";
 
                 case StateType.Failure:
                     return "Неисправность";
@@ -23,7 +23,7 @@ namespace FiresecAPI.Models
                     return "Обход устройств";
 
                 case StateType.Unknown:
-                    return "Неопределено";
+                    return "Неопределенно";
 
                 case StateType.Info:
                     return "Норма(*)";
@@ -47,7 +47,7 @@ namespace FiresecAPI.Models
                     return "Тревога";
 
                 case StateType.Attention:
-                    return "Внимание (предтревожное)";
+                    return "Внимание";
 
                 case StateType.Failure:
                     return "Неисправность";
@@ -59,7 +59,7 @@ namespace FiresecAPI.Models
                     return "Обход устройств";
 
                 case StateType.Unknown:
-                    return "Неопределено";
+                    return "Неопределенно";
 
                 case StateType.Info:
                     return "Норма(*)";

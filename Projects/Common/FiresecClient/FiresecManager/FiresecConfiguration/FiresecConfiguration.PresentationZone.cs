@@ -95,23 +95,7 @@ namespace FiresecClient
 				}
 
 				result += "состояние " + clause.State.ToDescription();
-
-				string stringOperation = null;
-				switch (clause.Operation)
-				{
-					case ZoneLogicOperation.All:
-						stringOperation = "во всех зонах из";
-						break;
-
-					case ZoneLogicOperation.Any:
-						stringOperation = "в любой зоне из";
-						break;
-
-					default:
-						break;
-				}
-
-				result += " " + stringOperation + " " + GetCommaSeparatedZones(clause.Zones);
+				result += " " + clause.Operation.ToDescription() + " " + GetCommaSeparatedZones(clause.Zones);
 			}
 
 			return result;

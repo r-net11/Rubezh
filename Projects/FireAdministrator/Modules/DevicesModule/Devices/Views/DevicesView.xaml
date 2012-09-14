@@ -14,7 +14,7 @@
             <MenuItem Header="Добавить дочернее устройство" Command="{Binding AddCommand}" />
             <MenuItem Header="Добавить к родительскому устройству" Command="{Binding AddToParentCommand}" />
             <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
-            <MenuItem Header="Настройка логики" Command="{Binding ShowZoneLogicCommand}"
+            <MenuItem Header="Настройка логики исполнительного устройства по состоянию зон" Command="{Binding ShowZoneLogicCommand}"
                 Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
         </ContextMenu>
