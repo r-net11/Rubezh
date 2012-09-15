@@ -24,10 +24,6 @@ namespace FireAdministrator
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
-			var test = new FireAdministrator._Test.TestApplication();
-			ApplicationService.Run(test);
-			return;
-
 			if (ServiceFactory.LoginService.ExecuteConnect())
 				try
 				{

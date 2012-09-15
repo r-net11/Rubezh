@@ -31,6 +31,7 @@
         <ResourceDictionary Source="ContextMenuStyle.xaml" />
         <ResourceDictionary Source="ResizeThumbStyle.xaml" />
 		<ResourceDictionary Source="SeparatorStyle.xaml" />
+		<ResourceDictionary Source="TreeListViewStyle.xaml" />
 
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
 	</ResourceDictionary.MergedDictionaries>
