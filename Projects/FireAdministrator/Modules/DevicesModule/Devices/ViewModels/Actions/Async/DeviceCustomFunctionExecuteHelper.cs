@@ -22,7 +22,7 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _operationResult = FiresecManager.DeviceCustomFunctionExecute(_device.UID, _functionCode);
+            _operationResult = FiresecManager.DeviceCustomFunctionExecute(_device, _functionCode);
         }
 
         static void OnlCompleted()

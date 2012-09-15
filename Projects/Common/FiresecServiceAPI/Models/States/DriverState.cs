@@ -31,20 +31,5 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public bool IsAutomatic { get; set; }
-
-		public DriverState Copy()
-		{
-			var driverState = new DriverState();
-			driverState.Id = Id;
-			driverState.Name = Name;
-			driverState.AffectChildren = AffectChildren;
-			driverState.AffectParent = AffectParent;
-			driverState.StateType = StateType;
-			driverState.IsManualReset = IsManualReset;
-			driverState.CanResetOnPanel = CanResetOnPanel;
-			driverState.IsAutomatic = IsAutomatic;
-			driverState.Code = Code;
-			return driverState;
-		}
 	}
 }

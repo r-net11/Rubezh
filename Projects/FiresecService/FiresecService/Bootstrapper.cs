@@ -2,14 +2,11 @@
 using System.IO;
 using System.Threading;
 using Common;
-using FiresecService.OPC;
+using FiresecService.Configuration;
 using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-//using FiresecDriver;
-using FiresecService.Configuration;
-using FiresecAPI.Models;
 
 namespace FiresecService
 {
@@ -38,28 +35,8 @@ namespace FiresecService
                 WindowThread.Start();
                 MainViewStartedEvent.WaitOne();
 
-                ConfigurationCash.DriversConfiguration = new DriversConfiguration();
-                ConfigurationCash.DeviceConfiguration = ConfigurationFileManager.GetDeviceConfiguration();
-                ConfigurationCash.SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();
-                ConfigurationCash.LibraryConfiguration = ConfigurationFileManager.GetLibraryConfiguration();
-                ConfigurationCash.SystemConfiguration = ConfigurationFileManager.GetSystemConfiguration();
-                ConfigurationCash.PlansConfiguration = ConfigurationFileManager.GetPlansConfiguration();
-                ConfigurationCash.DeviceConfigurationStates = new DeviceConfigurationStates();
-
-                if (AppSettings.IsFSEnabled)
-                {
-                    //ClientsCash.InitializeComServers();
-                    if (AppSettings.IsOPCEnabled)
-                    {
-                        UILogger.Log("Запуск OPC сервера");
-                        FiresecOPCManager.Start();
-                    }
-                }
-                if (!AppSettings.IsOPCOnly)
-                {
-                    UILogger.Log("Открытие хоста");
-                    FiresecServiceManager.Open();
-                }
+                UILogger.Log("Открытие хоста");
+                FiresecServiceManager.Open();
                 UILogger.Log("Готово");
             }
             catch (Exception e)

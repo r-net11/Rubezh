@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Diagnostics;
 
 namespace Common.GK
 {
@@ -59,19 +57,11 @@ namespace Common.GK
                 select t;
             return query.ToList();
         }
-        public List<gkEvent> Select_Items(int start_no, int end_no)
+        public List<gkEvent> Select_Items(uint start_no, uint end_no, DateTime start_dt, DateTime end_dt)
         {
             var query =
                 from t in db.gkEvents
                 where t.GKNo>= start_no && t.GKNo<=end_no
-                orderby t.GKNo
-                select t;
-            return query.ToList();
-        }
-        public List<gkEvent> Select_Items(DateTime start_dt, DateTime end_dt)
-        {
-            var query =
-                from t in db.gkEvents
                 where t.Date >= start_dt && t.Date <= end_dt
                 orderby t.GKNo
                 select t;

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using XFiresecAPI;
 
 namespace FiresecClient
@@ -8,44 +7,29 @@ namespace FiresecClient
     {
         public static void CreateStates()
         {
-            DeviceStates = new XDeviceConfigurationStates();
             foreach (var device in DeviceConfiguration.Devices)
             {
                 var deviceState = new XDeviceState()
                 {
-                    Device = device,
-                    UID = device.UID,
+                    Device = device
                 };
-                DeviceStates.DeviceStates.Add(deviceState);
-            }
-            foreach (var deviceState in DeviceStates.DeviceStates)
-            {
-                if (deviceState.Device.Parent != null)
-                {
-                    deviceState.Parent = DeviceStates.DeviceStates.FirstOrDefault(x => x.Device == deviceState.Device.Parent);
-                }
-                foreach (var childDevice in deviceState.Device.Children)
-                {
-                    deviceState.Children.Add(DeviceStates.DeviceStates.FirstOrDefault(x => x.Device == childDevice));
-                }
+				device.DeviceState = deviceState;
             }
             foreach (var zone in DeviceConfiguration.Zones)
             {
                 var zoneState = new XZoneState()
                 {
-                    Zone = zone,
-					UID = zone.UID
+                    Zone = zone
                 };
-                DeviceStates.ZoneStates.Add(zoneState);
+				zone.ZoneState = zoneState;
             }
 			foreach (var direction in DeviceConfiguration.Directions)
 			{
 				var directionState = new XDirectionState()
 				{
-					Direction = direction,
-					UID = direction.UID
+					Direction = direction
 				};
-				DeviceStates.DirectionStates.Add(directionState);
+				direction.DirectionState = directionState;
 			}
         }
 
@@ -59,21 +43,21 @@ namespace FiresecClient
         public static void AllChildren(XDeviceState deviceState)
         {
             alDevicelChildren.Add(deviceState);
-            foreach (var child in deviceState.Children)
+            foreach (var childDevice in deviceState.Device.Children)
             {
-                alDevicelChildren.Add(child);
-                AllChildren(child);
+				alDevicelChildren.Add(childDevice.DeviceState);
+				AllChildren(childDevice.DeviceState);
             }
         }
 
 		public static List<XZoneState> GetAllGKZoneStates(XDeviceState gkDeviceState)
 		{
 			var zoneStates = new List<XZoneState>();
-			foreach (var zoneState in DeviceStates.ZoneStates)
+			foreach (var zone in DeviceConfiguration.Zones)
 			{
-				if (zoneState.Zone.GkDatabaseParent == gkDeviceState.Device)
+				if (zone.GkDatabaseParent == gkDeviceState.Device)
 				{
-					zoneStates.Add(zoneState);
+					zoneStates.Add(zone.ZoneState);
 				}
 			}
 			return zoneStates;
@@ -82,11 +66,11 @@ namespace FiresecClient
 		public static List<XDirectionState> GetAllGKDirectionStates(XDeviceState gkDeviceState)
 		{
 			var directionStates = new List<XDirectionState>();
-			foreach (var directionState in DeviceStates.DirectionStates)
+			foreach (var direction in DeviceConfiguration.Directions)
 			{
-				if (directionState.Direction.GkDatabaseParent == gkDeviceState.Device)
+				if (direction.GkDatabaseParent == gkDeviceState.Device)
 				{
-					directionStates.Add(directionState);
+					directionStates.Add(direction.DirectionState);
 				}
 			}
 			return directionStates;

@@ -8,9 +8,9 @@ namespace ItvIntegration
 		public DevicesViewModel()
 		{
 			Devices = new ObservableCollection<DeviceViewModel>();
-			foreach (var deviceState in ItvManager.DeviceStates.DeviceStates)
+			foreach (var device in ItvManager.DeviceConfiguration.Devices)
 			{
-				var deviceViewModel = new DeviceViewModel(deviceState);
+				var deviceViewModel = new DeviceViewModel(device.DeviceState);
 				Devices.Add(deviceViewModel);
 			}
 		}

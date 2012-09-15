@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
 using Common.GK;
-using XFiresecAPI;
-using FiresecClient;
 using FiresecAPI;
 using FiresecAPI.XModels;
-using Infrastructure.Common;
-using Infrastructure.Events;
+using FiresecClient;
 using Infrastructure;
+using Infrastructure.Common;
+using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -30,23 +28,39 @@ namespace GKModule.ViewModels
 			switch(JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
-					DeviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					PresentationName = DeviceState.Device.Driver.ShortName + " " + DeviceState.Device.DottedAddress;
+					var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (device != null)
+					{
+						DeviceState = device.DeviceState;
+					PresentationName = device.Driver.ShortName + " " + device.DottedAddress;
+					}
 					break;
 
 				case JournalItemType.Zone:
-					ZoneState = XManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					PresentationName = ZoneState.Zone.PresentationName;
+					var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (zone != null)
+					{
+						ZoneState = zone.ZoneState;
+						PresentationName = zone.PresentationName;
+					}
 					break;
 
 				case JournalItemType.Direction:
-					DirectionState = XManager.DeviceStates.DirectionStates.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					PresentationName = DirectionState.Direction.PresentationName;
+					var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (direction != null)
+					{
+						DirectionState = direction.DirectionState;
+						PresentationName = DirectionState.Direction.PresentationName;
+					}
 					break;
 
 				case JournalItemType.GK:
-					DeviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-					PresentationName = DeviceState.Device.Driver.ShortName + " " + DeviceState.Device.DottedAddress;
+					var gkDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (gkDevice != null)
+					{
+						DeviceState = gkDevice.DeviceState;
+						PresentationName = DeviceState.Device.Driver.ShortName + " " + DeviceState.Device.DottedAddress;
+					}
 					break;
 
 				case JournalItemType.System:

@@ -1,16 +1,12 @@
-﻿using System.Windows.Controls;
-using System.Windows;
-using System;
-using Infrastructure.Common;
+﻿using System;
 using System.ComponentModel;
-using System.Windows.Data;
-using System.Windows.Input;
-using System.Windows.Documents;
-using System.Windows.Threading;
-using System.Threading;
-using Infrastructure.Common.Windows;
-using System.Windows.Controls.Primitives;
 using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
+using System.Windows.Input;
+using Infrastructure.Common;
 
 namespace ReportsModule.Views
 {

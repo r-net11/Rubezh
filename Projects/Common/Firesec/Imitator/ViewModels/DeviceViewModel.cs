@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecAPI;
 
 namespace Firesec.Imitator.ViewModels
 {
@@ -30,7 +28,7 @@ namespace Firesec.Imitator.ViewModels
 
             foreach (var deviceDriverState in deviceState.States)
             {
-                var state = DriverStates.FirstOrDefault(x => x.DriverState.Code == deviceDriverState.Code);
+                var state = DriverStates.FirstOrDefault(x => x.DriverState.Code == deviceDriverState.DriverState.Code);
                 state._isActive = true;
             }
         }

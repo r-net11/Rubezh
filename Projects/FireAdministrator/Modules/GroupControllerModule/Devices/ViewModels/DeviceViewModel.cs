@@ -4,10 +4,8 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using XFiresecAPI;
-using System.Collections.Generic;
-using System;
 using Infrustructure.Plans.Events;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {

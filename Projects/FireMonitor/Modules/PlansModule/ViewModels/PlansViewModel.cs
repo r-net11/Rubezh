@@ -128,7 +128,7 @@ namespace PlansModule.ViewModels
 		{
 			foreach (var planViewModel in Plans)
 			{
-				if (planViewModel.DeviceStates.Any(x => x.UID == deviceUID))
+				if (planViewModel.DeviceStates.Any(x => x.Device.UID == deviceUID))
 				{
 					SelectedPlan = planViewModel;
 					SelectedPlanCanvasViewModel.SelectDevice(deviceUID);

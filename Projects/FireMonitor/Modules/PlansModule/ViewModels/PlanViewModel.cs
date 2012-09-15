@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
-using FiresecAPI;
 
 namespace PlansModule.ViewModels
 {
@@ -25,11 +25,11 @@ namespace PlansModule.ViewModels
 			DeviceStates = new List<DeviceState>();
 			foreach (var elementDevice in plan.ElementDevices)
 			{
-				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-				if (deviceState != null)
+				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+				if (device != null)
 				{
-					DeviceStates.Add(deviceState);
-					deviceState.StateChanged += new Action(UpdateSelfState);
+					DeviceStates.Add(device.DeviceState);
+					device.DeviceState.StateChanged += new Action(UpdateSelfState);
 				}
 			}
 			ZoneStates = new List<ZoneState>();
@@ -37,18 +37,18 @@ namespace PlansModule.ViewModels
 			{
 				if (elementRectangleZone.ZoneNo.HasValue)
 				{
-					var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == elementRectangleZone.ZoneNo.Value);
-					if (zoneState != null)
-						ZoneStates.Add(zoneState);
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == elementRectangleZone.ZoneNo.Value);
+					if (zone != null)
+						ZoneStates.Add(zone.ZoneState);
 				}
 			}
 			foreach (var elementPolygonZone in plan.ElementPolygonZones)
 			{
 				if (elementPolygonZone.ZoneNo.HasValue)
 				{
-					var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == elementPolygonZone.ZoneNo.Value);
-					if (zoneState != null)
-						ZoneStates.Add(zoneState);
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == elementPolygonZone.ZoneNo.Value);
+					if (zone != null)
+						ZoneStates.Add(zone.ZoneState);
 				}
 			}
 

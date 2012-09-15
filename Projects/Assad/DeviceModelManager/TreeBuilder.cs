@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -13,8 +14,19 @@ namespace DeviveModelManager
 
 		public void Build()
 		{
-			FiresecManager.Connect(ClientType.Assad, "net.tcp://localhost:8000/FiresecService/", "adm", "");
+            var FS_Address = ConfigurationManager.AppSettings["FS_Address"] as string;
+            var FS_Port = Convert.ToInt32(ConfigurationManager.AppSettings["FS_Port"] as string);
+            var FS_Login = ConfigurationManager.AppSettings["FS_Login"] as string;
+            var FS_Password = ConfigurationManager.AppSettings["FS_Password"] as string;
+            var serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+            var Login = ConfigurationManager.AppSettings["Login"] as string;
+            var Password = ConfigurationManager.AppSettings["Password"] as string;
+
+			FiresecManager.Connect(ClientType.Assad, serverAddress, Login, Password);
 			FiresecManager.GetConfiguration();
+			FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
+			FiresecManager.Synchronyze();
+			FiresecManager.StatrtWatcher(true);
 
 			RootTreeItem = RootHelper.CreateRoot();
 			RootTreeItem.Name = "Компьютер";

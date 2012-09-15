@@ -32,9 +32,10 @@ namespace PlansModule.ViewModels
 			Zone = FiresecManager.Zones.FirstOrDefault(x => x.No == ZoneNo);
 			if (Zone != null)
 			{
-				ZoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == ZoneNo);
-				if (ZoneState != null)
+				Zone = FiresecManager.Zones.FirstOrDefault(x => x.No == ZoneNo);
+				if (Zone != null)
 				{
+					ZoneState = Zone.ZoneState;
 					ZoneState.StateChanged += new Action(ZoneState_StateChanged);
 				}
 			}
@@ -102,14 +103,14 @@ namespace PlansModule.ViewModels
 		{
 			deviceUIDs = new List<Guid>();
 			deviceStates = new List<DeviceState>();
-			foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
+			foreach (var device in FiresecManager.Devices)
 			{
-				if ((deviceState.Device != null) && (deviceState.Device.Driver != null))
+				if ((device != null) && (device.Driver != null))
 				{
-					if ((deviceState.Device.ZoneNo == ZoneNo) && (deviceState.Device.Driver.CanDisable))
+					if ((device.ZoneNo == ZoneNo) && (device.Driver.CanDisable))
 					{
-						deviceUIDs.Add(deviceState.UID);
-						deviceStates.Add(deviceState);
+						deviceUIDs.Add(device.UID);
+						deviceStates.Add(device.DeviceState);
 					}
 				}
 			}

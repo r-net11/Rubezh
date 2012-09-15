@@ -3,9 +3,9 @@ using System.IO;
 using System.Text;
 using System.Xml.Serialization;
 using Common;
+using Firesec.Groups;
 using Firesec.Models.IndicatorsLogic;
 using Firesec.Models.ZonesLogic;
-using Firesec.Groups;
 
 namespace Firesec
 {

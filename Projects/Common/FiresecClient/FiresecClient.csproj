@@ -142,6 +142,7 @@
     </Compile>
     <Compile Include="SafeFiresecService.cs" />
     <Compile Include="SafeFiresecService.Operations.cs" />
+    <Compile Include="SafeFiresecService.Ping.cs" />
     <Compile Include="XManager\XManager.Binary.cs" />
     <Compile Include="XManager\XManager.Configuration.cs" />
     <Compile Include="XManager\XManager.Device.cs" />

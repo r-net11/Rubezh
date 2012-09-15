@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure;
-using FiresecClient;
-using XFiresecAPI;
 using System.Collections.ObjectModel;
+using System.Linq;
+using FiresecClient;
+using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -18,9 +16,9 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			Directions = (from XDirectionState directionState in XManager.DeviceStates.DirectionStates
-					 orderby directionState.Direction.No
-					 select new DirectionViewModel(directionState)).ToList();
+			Directions = (from XDirection direction in XManager.DeviceConfiguration.Directions
+					 orderby direction.No
+					 select new DirectionViewModel(direction.DirectionState)).ToList();
 
 			SelectedDirection = Directions.FirstOrDefault();
 		}

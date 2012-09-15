@@ -1,10 +1,7 @@
-﻿using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DevicesModule.Plans.ViewModels;
 using FiresecAPI.Models;
-using FiresecClient;
 using Infrustructure.Plans.Elements;
 using Devices = DevicesModule.ViewModels;
 
@@ -50,8 +47,8 @@ namespace DevicesModule.Plans.Views
 				if (device.Driver.IsPlaceable == false)
 					return;
 
-				if (FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
-					return;
+                //if (FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
+                //    return;
 
 				ElementBase plansElement = new ElementDevice()
 				{

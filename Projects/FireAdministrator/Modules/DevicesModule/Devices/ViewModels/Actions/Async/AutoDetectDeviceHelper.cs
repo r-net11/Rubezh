@@ -27,7 +27,7 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _operationResult = FiresecManager.AutoDetectDevice(_deviceViewModel.Device.UID, _fastSearch);
+            _operationResult = FiresecManager.AutoDetectDevice(_deviceViewModel.Device, _fastSearch);
         }
 
         static void OnCompleted()

@@ -13,7 +13,6 @@ namespace FiresecService.Views
 		public MainView()
 		{
 			InitializeComponent();
-			//Loaded += new RoutedEventHandler(MainWindow_Loaded);
 			CreateNotificationIcon();
 		}
 

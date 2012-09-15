@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using AlarmModule.Events;
 using FireMonitor.ViewModels;
+using Firesec;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -10,7 +11,7 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Firesec;
+using Common.GK;
 
 namespace FireMonitor
 {
@@ -26,17 +27,17 @@ namespace FireMonitor
 			if (ServiceFactory.LoginService.ExecuteConnect())
 				try
 				{
-					LoadingService.Show("Чтение конфигурации", 10);
+					LoadingService.Show("Чтение конфигурации", 15);
 					LoadingService.AddCount(GetModuleCount());
 
-					LoadingService.DoStep("Остановка Socket Server");
-					SocketServerHelper.Stop();
-					LoadingService.DoStep("Загрузка конфигурации с сервера");
-					FiresecManager.GetConfiguration();
-					if (FiresecManager.Drivers.Count == 0)
-						MessageBoxService.Show("Ошибка при загрузке конфигурации с сервера");
-					LoadingService.DoStep("Загрузка состояний с сервера");
-					FiresecManager.GetStates();
+					LoadingService.DoStep("Синхронизация файлов");
+					FiresecManager.UpdateFiles();
+					InitializeFs();
+					LoadingService.DoStep("Загрузка конфигурации ГК");
+					InitializeGk();
+					
+					LoadingService.DoStep("Старт полинга сервера");
+					FiresecManager.StartPing();
 
 					//LoadingService.DoStep("Проверка HASP-ключа");
 					//var operationResult = FiresecManager.FiresecService.CheckHaspPresence();
@@ -81,14 +82,37 @@ namespace FireMonitor
 			MutexHelper.KeepAlive();
 		}
 
+		void InitializeFs()
+		{
+			LoadingService.DoStep("Остановка Socket Server");
+			SocketServerHelper.Stop();
+			LoadingService.DoStep("Загрузка конфигурации с сервера");
+			FiresecManager.GetConfiguration();
+			LoadingService.DoStep("Загрузка драйвера устройств");
+			FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
+			LoadingService.DoStep("Синхронизация конфигурации");
+			FiresecManager.Synchronyze();
+			LoadingService.DoStep("Старт мониторинга");
+			FiresecManager.StatrtWatcher(true);
+			LoadingService.DoStep("Синхронизация журнала событий");
+			FiresecManager.SynchrinizeJournal();
+		}
+
+		void InitializeGk()
+		{
+			GKDriversCreator.Create();
+			XManager.GetConfiguration();
+			XManager.CreateStates();
+			DatabaseManager.Convert();
+		}
+
 		void OnConfigurationChanged()
 		{
 			ApplicationService.CloseAllWindows();
 			ServiceFactory.Layout.Close();
 
-			FiresecManager.GetConfiguration(false);
-            //FiresecManager.DeviceStates = FiresecManager.FiresecDriver.ConvertStates();
-			FiresecManager.UpdateStates();
+			InitializeFs();
+			InitializeGk();
 
 			ServiceFactory.SafeCall(() =>
 			{

@@ -16,7 +16,7 @@ namespace FiresecDirect
 
 		void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			NativeFiresecClient.Connect("adm", "");
+			NativeFiresecClient.Connect("localhost", 211, "adm", "");
 		}
 
 		void OnSetNewConfig(object sender, RoutedEventArgs e)
@@ -135,7 +135,7 @@ namespace FiresecDirect
 			int reguestId = 0;
 			var result = NativeFiresecClient.ExecuteRuntimeDeviceMethod(Execute1_devicePath.Text, Execute1_MethodName.Text, Execute1_AParams.Text, ref reguestId);
 			if (result.HasError)
-				MessageBox.Show("Error:" + result.ErrorString);
+				MessageBox.Show("Error:" + result.Error);
 			else
 				MessageBox.Show("Result:" + result.Result);
 		}
@@ -145,7 +145,7 @@ namespace FiresecDirect
 			int reguestId = 0;
 			var result = NativeFiresecClient.ExecuteRuntimeDeviceMethod(Execute2_devicePath.Text, Execute2_MethodName.Text, Execute2_AParams.Text, ref reguestId);
 			if (result.HasError)
-				MessageBox.Show("Error:" + result.ErrorString);
+				MessageBox.Show("Error:" + result.Error);
 			else
 				MessageBox.Show("Result:" + result.Result);
 		}
@@ -154,7 +154,7 @@ namespace FiresecDirect
 		{
 			var result = NativeFiresecClient.GetConfigurationParameters(Execute1_devicePath.Text, int.Parse(Execute1_AParams.Text));
 			if (result.HasError)
-				MessageBox.Show("Error:" + result.ErrorString);
+				MessageBox.Show("Error:" + result.Error);
 			else
 				MessageBox.Show("Result:" + result.Result);
 		}
@@ -163,7 +163,7 @@ namespace FiresecDirect
 		{
 			var result = NativeFiresecClient.SetConfigurationParameters(Execute1_devicePath.Text, Execute1_AParams.Text);
 			if (result.HasError)
-				MessageBox.Show("Error:" + result.ErrorString);
+				MessageBox.Show("Error:" + result.Error);
 			else
 				MessageBox.Show("Result:" + result.Result);
 		}

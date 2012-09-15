@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using FiresecClient;
 using Infrastructure;
+using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using PlansModule.ViewModels;
-using Infrastructure.Client;
 
 namespace PlansModule
 {

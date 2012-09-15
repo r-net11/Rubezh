@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using FiresecAPI.Models;
 using FiresecAPI;
+using FiresecAPI.Models;
 
 namespace LibraryModule.ViewModels
 {

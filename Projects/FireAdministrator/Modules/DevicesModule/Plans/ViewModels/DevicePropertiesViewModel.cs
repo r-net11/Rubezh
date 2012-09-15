@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using DevicesModule.Plans.Designer;
+using DevicesModule.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
-using DevicesModule.ViewModels;
-using DevicesModule.Plans.Designer;
 
 namespace DevicesModule.Plans.ViewModels
 {

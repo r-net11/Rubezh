@@ -1,28 +1,34 @@
-﻿using System.Configuration;
+﻿using System;
+using System.Configuration;
 using System.Windows;
 using FiresecClient;
 
 namespace ItvIntegration
 {
-	public class MainViewModel : BaseViewModel
-	{
-		public DevicesViewModel DevicesViewModel { get; private set; }
-		public ZonesViewModel ZonesViewModel { get; private set; }
+    public class MainViewModel : BaseViewModel
+    {
+        public DevicesViewModel DevicesViewModel { get; private set; }
+        public ZonesViewModel ZonesViewModel { get; private set; }
 
-		public MainViewModel()
-		{
-			string serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
-			string defaultLogin = ConfigurationManager.AppSettings["DefaultLogin"] as string;
-			string defaultPassword = ConfigurationManager.AppSettings["DefaultPassword"] as string;
-			string result = ItvManager.Connect(serverAddress, defaultLogin, defaultPassword);
-			if (result != null)
-			{
-				MessageBox.Show(result);
-				return;
-			}
+        public MainViewModel()
+        {
+            var FS_Address = ConfigurationManager.AppSettings["FS_Address"] as string;
+            var FS_Port = Convert.ToInt32(ConfigurationManager.AppSettings["FS_Port"] as string);
+            var FS_Login = ConfigurationManager.AppSettings["FS_Login"] as string;
+            var FS_Password = ConfigurationManager.AppSettings["FS_Password"] as string;
+            var serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+            var Login = ConfigurationManager.AppSettings["Login"] as string;
+            var Password = ConfigurationManager.AppSettings["Password"] as string;
 
-			DevicesViewModel = new DevicesViewModel();
-			ZonesViewModel = new ZonesViewModel();
-		}
-	}
+            var message = ItvManager.Connect(serverAddress, Login, Password, FS_Address, FS_Port, FS_Login, FS_Password);
+            if (message != null)
+            {
+                MessageBox.Show(message);
+                return;
+            }
+
+            DevicesViewModel = new DevicesViewModel();
+            ZonesViewModel = new ZonesViewModel();
+        }
+    }
 }

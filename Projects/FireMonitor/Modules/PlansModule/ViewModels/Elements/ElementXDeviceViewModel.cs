@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using XFiresecAPI;
-using FiresecAPI;
 
 namespace PlansModule.ViewModels
 {
@@ -32,9 +31,8 @@ namespace PlansModule.ViewModels
 			ElementDevice = elementXDevice;
 			XDeviceUID = elementXDevice.XDeviceUID;
 			XDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementXDevice.XDeviceUID);
-			DeviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == elementXDevice.XDeviceUID);
-			if (DeviceState != null)
-				DeviceState.StateChanged += new Action(OnDeviceStateChanged);
+			if (XDevice != null)
+				XDevice.DeviceState.StateChanged += new Action(OnDeviceStateChanged);
 		}
 
 		public Point Location

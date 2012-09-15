@@ -18,9 +18,9 @@ namespace DevicesModule.ViewModels
 
 		public void Initialize()
 		{
-			Zones = (from ZoneState zoneState in FiresecManager.DeviceStates.ZoneStates
-					 orderby zoneState.No
-					 select new ZoneViewModel(zoneState)).ToList();
+			Zones = (from Zone zone in FiresecManager.Zones
+					 orderby zone.No
+					 select new ZoneViewModel(zone.ZoneState)).ToList();
 			SelectedZone = Zones.FirstOrDefault();
 		}
 

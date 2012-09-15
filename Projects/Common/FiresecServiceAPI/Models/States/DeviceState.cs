@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
 {
-	[DataContract]
 	public class DeviceState
 	{
+		public Device Device { get; set; }
+		public List<DeviceDriverState> States { get; set; }
+		public List<ParentDeviceState> ParentStates { get; set; }
+		public List<ChildDeviceState> ChildStates { get; set; }
+		public List<Parameter> Parameters { get; set; }
+
 		public DeviceState()
 		{
 			States = new List<DeviceDriverState>();
@@ -15,24 +19,6 @@ namespace FiresecAPI.Models
 			ChildStates = new List<ChildDeviceState>();
 			Parameters = new List<Parameter>();
 		}
-
-		public Device Device { get; set; }
-		public string PlaceInTree { get; set; }
-
-		[DataMember]
-		public Guid UID { get; set; }
-
-		[DataMember]
-		public List<DeviceDriverState> States { get; set; }
-
-		[DataMember]
-		public List<ParentDeviceState> ParentStates { get; set; }
-
-		[DataMember]
-		public List<ChildDeviceState> ChildStates { get; set; }
-
-		[DataMember]
-		public List<Parameter> Parameters { get; set; }
 
 		public StateType StateType
 		{

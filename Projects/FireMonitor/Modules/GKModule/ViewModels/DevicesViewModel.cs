@@ -66,12 +66,7 @@ namespace GKModule.ViewModels
 				if (childDevice.IsNotUsed)
 					continue;
 
-				var deviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == childDevice.UID);
-				if (deviceState == null)
-				{
-					MessageBoxService.Show("Не найдено состояние устройства в конфигурации");
-					continue;
-				}
+				var deviceState = childDevice.DeviceState;
 				deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
 			}
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -30,36 +29,33 @@ namespace Infrastructure
 
 		static void SubscribeEvents()
 		{
-			FiresecManager.DeviceStateChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceStateChangedEvent(deviceUID); }); });
-			FiresecManager.DeviceParametersChangedEvent += new Action<Guid>((deviceUID) => { SafeCall(() => { OnDeviceParametersChangedEvent(deviceUID); }); });
-			FiresecManager.ZoneStateChangedEvent += new Action<int>((zoneNo) => { SafeCall(() => { OnZoneStateChangedEvent(zoneNo); }); });
+			FiresecManager.DeviceStateChangedEvent += new Action<DeviceState>((deviceState) => { SafeCall(() => { OnDeviceStateChangedEvent(deviceState); }); });
+			FiresecManager.DeviceParametersChangedEvent += new Action<DeviceState>((deviceState) => { SafeCall(() => { OnDeviceParametersChangedEvent(deviceState); }); });
+			FiresecManager.ZoneStateChangedEvent += new Action<ZoneState>((zoneState) => { SafeCall(() => { OnZoneStateChangedEvent(zoneState); }); });
 			FiresecManager.NewJournalRecordEvent += new Action<JournalRecord>((journalRecord) => { SafeCall(() => { OnNewJournalRecordEvent(journalRecord); }); });
 			FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>((journalRecord) => { SafeCall(() => { OnNewJournalRecordEvent(journalRecord); }); });
 			FiresecCallbackService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((journalRecords) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(journalRecords); }); });
 			FiresecCallbackService.NotifyEvent += new Action<string>((message) => { SafeCall(() => { OnNotify(message); }); });
 		}
-		static void OnDeviceStateChangedEvent(Guid deviceUID)
+		static void OnDeviceStateChangedEvent(DeviceState deviceState)
 		{
-			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Publish(deviceUID);
-			var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
+			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Publish(deviceState.Device.UID);
 			if (deviceState != null)
 			{
 				deviceState.OnStateChanged();
 			}
 		}
-		static void OnDeviceParametersChangedEvent(Guid deviceUID)
+		static void OnDeviceParametersChangedEvent(DeviceState deviceState)
 		{
-			ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(deviceUID);
-			var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
+			ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(deviceState.Device.UID);
 			if (deviceState != null)
 			{
 				deviceState.OnParametersChanged();
 			}
 		}
-		static void OnZoneStateChangedEvent(int zoneNo)
+		static void OnZoneStateChangedEvent(ZoneState zoneState)
 		{
-			ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneNo);
-			var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
+			ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneState.Zone.No);
 			if (zoneState != null)
 			{
 				zoneState.OnStateChanged();
@@ -69,11 +65,11 @@ namespace Infrastructure
 		{
 			ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Publish(journalRecord);
 		}
+
 		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalRecord> journalRecords)
 		{
 			ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Publish(journalRecords);
 		}
-
 
 		static void OnNotify(string message)
 		{

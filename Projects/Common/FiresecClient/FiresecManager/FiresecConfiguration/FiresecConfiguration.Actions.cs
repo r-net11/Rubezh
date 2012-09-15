@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using FiresecAPI.Models;
 
 namespace FiresecClient
@@ -32,7 +30,7 @@ namespace FiresecClient
 		{
 			foreach (var autoCreateDriverId in device.Driver.AutoCreateChildren)
 			{
-				var autoCreateDriver = Drivers.FirstOrDefault(x => x.UID == autoCreateDriverId);
+				var autoCreateDriver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == autoCreateDriverId);
 
 				for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
 				{
@@ -45,7 +43,7 @@ namespace FiresecClient
 		{
 			if (device.Driver.AutoChild != Guid.Empty)
 			{
-				var driver = FiresecManager.FiresecConfiguration.Drivers.FirstOrDefault(x => x.UID == device.Driver.AutoChild);
+				var driver = FiresecManager.FiresecConfiguration.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.Driver.AutoChild);
 
 				for (int i = 0; i < device.Driver.AutoChildCount; i++)
 				{

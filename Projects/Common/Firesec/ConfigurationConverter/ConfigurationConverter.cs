@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using FiresecAPI.Models;
 using Common;
+using FiresecAPI.Models;
 
 namespace Firesec
 {
@@ -30,11 +30,8 @@ namespace Firesec
 			Update();
 
 			ConfigurationCash.DeviceConfiguration = DeviceConfiguration;
-			//ConfigurationFileManager.SetDeviceConfiguration(DeviceConfiguration);
-
 			var plans = FiresecSerializedClient.GetPlans().Result;
 			ConfigurationCash.PlansConfiguration = ConvertPlans(plans);
-			//ConfigurationFileManager.SetPlansConfiguration(ConfigurationCash.PlansConfiguration);
 		}
 
 		public void ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
@@ -82,6 +79,7 @@ namespace Firesec
 				var driver = DriverConverter.Convert(innerDriver);
 				if (driver == null)
 				{
+					Logger.Error("Не удается найти данные для драйвера " + innerDriver.name);
 					DriversError.AppendLine("Не удается найти данные для драйвера " + innerDriver.name);
 				}
 				else
@@ -91,34 +89,30 @@ namespace Firesec
 				}
 			}
 			DriverConfigurationParametersHelper.CreateKnownProperties(ConfigurationCash.DriversConfiguration.Drivers);
-
-			if (ConfigurationCash.DriversConfiguration.Drivers.Count > 0)
-			{
-				//ConfigurationFileManager.SetDriversConfiguration(ConfigurationCash.DriversConfiguration);
-			}
 		}
 
-		public void Update(DeviceConfiguration deviceConfiguration = null)
-		{
-			if (deviceConfiguration == null)
-				deviceConfiguration = ConfigurationCash.DeviceConfiguration;
+        public void Update(DeviceConfiguration deviceConfiguration = null)
+        {
+            if (deviceConfiguration == null)
+                deviceConfiguration = ConfigurationCash.DeviceConfiguration;
 
-			var hasInvalidDriver = false;
-			deviceConfiguration.Update();
-			foreach (var device in deviceConfiguration.Devices)
-			{
-				device.Driver = ConfigurationCash.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-				if (device.Driver == null)
-				{
-					hasInvalidDriver = true;
-					device.Parent.Children.Remove(device);
-				}
-			}
-			if (hasInvalidDriver)
-				deviceConfiguration.Update();
+            var hasInvalidDriver = false;
+            deviceConfiguration.Update();
+            foreach (var device in deviceConfiguration.Devices)
+            {
+                device.Driver = ConfigurationCash.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+                if (device.Driver == null)
+                {
+                    hasInvalidDriver = true;
+                    if (device.Parent != null)
+                        device.Parent.Children.Remove(device);
+                }
+            }
+            if (hasInvalidDriver)
+                deviceConfiguration.Update();
 
-			deviceConfiguration.UpdateIdPath();
-		}
+            deviceConfiguration.UpdateIdPath();
+        }
 
 		public void SynchronyzeConfiguration()
 		{
@@ -135,10 +129,6 @@ namespace Firesec
 			firesecDeviceConfiguration.Update();
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				if (device.Parent != null && device.Parent.Driver.DriverType == DriverType.IndicationBlock)
-				{
-					;
-				}
 				var firesecDevice = firesecDeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == device.PathId);
 				if (firesecDevice != null)
 				{

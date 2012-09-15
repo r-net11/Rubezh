@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Media;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using ItvIntergation.Ngi;

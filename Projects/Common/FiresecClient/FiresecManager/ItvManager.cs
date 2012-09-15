@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FiresecAPI.Models;
+using Firesec;
 
 namespace FiresecClient
 {
@@ -8,28 +9,28 @@ namespace FiresecClient
     {
         public static List<Driver> Drivers
         {
-            get { return FiresecManager.FiresecConfiguration.Drivers; }
+			get { return FiresecManager.Drivers; }
         }
         public static DeviceConfiguration DeviceConfiguration
         {
 			get { return FiresecManager.FiresecConfiguration.DeviceConfiguration; }
-        }
-        public static DeviceConfigurationStates DeviceStates
-        {
-            get { return FiresecManager.DeviceStates; }
         }
         public static LibraryConfiguration LibraryConfiguration
         {
             get { return FiresecManager.LibraryConfiguration; }
         }
 
-        public static string Connect(string serverAddress, string login, string password)
+        public static string Connect(string serverAddress, string login="adm", string password="", string FS_Address="localhost", int FS_Port=211, string FS_Login="adm", string FS_Password="")
         {
 			var result = FiresecManager.Connect(ClientType.Itv, serverAddress, login, password);
             if (string.IsNullOrEmpty(result))
             {
-                FiresecManager.GetConfiguration(true);
-                FiresecManager.GetStates();
+				SocketServerHelper.Stop();
+				FiresecManager.GetConfiguration();
+				FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
+				FiresecManager.Synchronyze();
+				FiresecManager.StatrtWatcher(true);
+                FiresecManager.StartPing();
             }
             return result;
         }

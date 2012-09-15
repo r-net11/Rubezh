@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Common;
 using FiresecAPI.Models;
@@ -8,9 +9,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
-using System;
-using System.Collections.Generic;
-using FiresecAPI;
 
 namespace GKModule.ViewModels
 {
@@ -24,17 +22,9 @@ namespace GKModule.ViewModels
 		{
 			Source = sourceDevices;
 			Device = device;
-			DeviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
-			if (DeviceState != null)
-			{
-				DeviceState.StateChanged += new Action(OnStateChanged);
-				OnStateChanged();
-			}
-			else
-			{
-				Logger.Warn("Ошибка при сопоставлении устройства с его состоянием: " + Device.PresentationAddressAndDriver);
-				MessageBoxService.Show("Ошибка при сопоставлении устройства с его состоянием");
-			}
+			DeviceState = Device.DeviceState;
+			DeviceState.StateChanged += new Action(OnStateChanged);
+			OnStateChanged();
 
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
 			ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);

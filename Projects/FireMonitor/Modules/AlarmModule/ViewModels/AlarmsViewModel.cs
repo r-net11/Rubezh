@@ -80,13 +80,13 @@ namespace AlarmModule.ViewModels
 				var resetItem = alarm.GetResetItem();
 				if (resetItem != null)
 				{
-					var existringResetItem = resetItems.FirstOrDefault(x => x.DeviceUID == resetItem.DeviceUID);
+					var existringResetItem = resetItems.FirstOrDefault(x => x.DeviceState == resetItem.DeviceState);
 					if (existringResetItem != null)
 					{
-						foreach (string stateName in resetItem.StateNames)
+						foreach (var driverState in resetItem.States)
 						{
-							if (existringResetItem.StateNames.Contains(stateName) == false)
-								existringResetItem.StateNames.Add(stateName);
+							if (existringResetItem.States.Any(x => x.DriverState.Code == driverState.DriverState.Code) == false)
+								existringResetItem.States.Add(driverState);
 						}
 					}
 					else
@@ -115,8 +115,8 @@ namespace AlarmModule.ViewModels
 				if (alarmViewModel.Alarm.AlarmType == AlarmType.Off)
 				{
 					var deviceUID = alarmViewModel.Alarm.DeviceUID;
-					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
-					if (FiresecManager.CanDisable(deviceState) && deviceState.IsDisabled)
+					var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+					if (FiresecManager.CanDisable(device.DeviceState) && device.DeviceState.IsDisabled)
 
 						deviceUIDs.Add(deviceUID);
 				}

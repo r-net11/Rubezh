@@ -5,19 +5,15 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
-using Firesec;
 
 namespace SettingsModule.ViewModels
 {
 	public class SettingsViewModel : ViewPartViewModel
 	{
-		public TestViewModel TestViewModel { get; private set; }
-
 		public SettingsViewModel()
 		{
 			ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
 			ConvertJournalCommand = new RelayCommand(OnConvertJournal);
-			TestViewModel = new TestViewModel();
 		}
 
 		public RelayCommand ConvertConfigurationCommand { get; private set; }
@@ -28,8 +24,6 @@ namespace SettingsModule.ViewModels
 				WaitHelper.Execute(() =>
 				{
 					FiresecManager.FiresecDriver.Convert();
-					FiresecManager.FiresecConfiguration.DeviceConfiguration = ConfigurationCash.DeviceConfiguration;
-					FiresecManager.PlansConfiguration = ConfigurationCash.PlansConfiguration;
 					ServiceFactory.SaveService.DevicesChanged = true;
 					ServiceFactory.SaveService.PlansChanged = true;
 					FiresecManager.UpdateConfiguration();

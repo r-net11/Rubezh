@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
                             (
                             () =>
                             {
-                                _operationResult = FiresecManager.DeviceWriteConfiguration(device.UID, false);
+                                _operationResult = FiresecManager.DeviceWriteConfiguration(device, false);
                                 if (_operationResult.HasError)
                                 {
 									MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");

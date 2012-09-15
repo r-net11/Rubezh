@@ -6,8 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using FiresecAPI;
-using FiresecAPI.Models;
 using FiresecClient;
+using FiresecAPI.Models;
 
 namespace DeviceControls
 {
@@ -58,27 +58,49 @@ namespace DeviceControls
 
 		public void Update()
 		{
-			var canvases = new List<Canvas>();
+            var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
+            if (libraryDevice == null)
+                return;
+
+            var additionalLibraryStates = new List<LibraryState>();
+            foreach (var additionalStateCode in AdditionalStateCodes)
+            {
+                var additionalState = libraryDevice.States.FirstOrDefault(x => x.Code == additionalStateCode);
+                if (additionalState != null)
+                {
+                    additionalLibraryStates.Add(additionalState);
+                }
+            }
+
+            var resultLibraryStates = new List<LibraryState>();
 
 			if (_stateViewModelList.IsNotNullOrEmpty())
 				_stateViewModelList.ForEach(x => x.Dispose());
 			_stateViewModelList = new List<StateViewModel>();
 
-			var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
-			if (libraryDevice == null)
-				return;
-
 			var libraryState = libraryDevice.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType);
-			if (libraryState != null)
-				_stateViewModelList.Add(new StateViewModel(libraryState, canvases));
+            if (libraryState == null)
+            {
+                if (!additionalLibraryStates.Any(x=>x.StateType == StateType))
+                {
+                    libraryState = libraryDevice.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.No);
+                }
+            }
+            if (libraryState != null)
+            {
+                resultLibraryStates.Add(libraryState);
+            }
 
-			if (AdditionalStateCodes.IsNotNullOrEmpty())
-				foreach (var additionalStateCode in AdditionalStateCodes)
-				{
-					var additionalState = libraryDevice.States.FirstOrDefault(x => x.Code == additionalStateCode);
-					if (additionalState != null)
-						_stateViewModelList.Add(new StateViewModel(additionalState, canvases));
-				}
+            foreach (var additionalLibraryState in additionalLibraryStates)
+            {
+                resultLibraryStates.Add(additionalLibraryState);
+            }
+
+            var canvases = new List<Canvas>();
+            foreach (var libraryStates in resultLibraryStates)
+            {
+                _stateViewModelList.Add(new StateViewModel(libraryStates, canvases));
+            }
 
 			_canvas.Children.Clear();
 			foreach (var canvas in canvases)

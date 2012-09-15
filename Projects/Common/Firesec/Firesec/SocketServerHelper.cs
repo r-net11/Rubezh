@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.ServiceProcess;
 using System.Threading;
 using Common;
 using Microsoft.Win32;
-using System.IO;
 
 namespace Firesec
 {
@@ -81,11 +81,21 @@ namespace Firesec
 
 		public static void Stop()
 		{
+			//return;
 			StopNTServiceIfRunning();
 
 			foreach (var process in Process.GetProcesses())
 			{
 				if (process.ProcessName == "FS_SER~1")
+				{
+					process.Kill();
+					process.WaitForExit(1000);
+				}
+			}
+
+			foreach (var process in Process.GetProcesses())
+			{
+				if (process.ProcessName == "fs_server")
 				{
 					process.Kill();
 					process.WaitForExit(1000);

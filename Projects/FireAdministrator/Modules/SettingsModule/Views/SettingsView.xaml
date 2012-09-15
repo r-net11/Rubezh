@@ -12,27 +12,5 @@
                 </StackPanel>
             </Border>
         </TabItem>
-        <!--Visibility="{Binding IsDebug, Converter={StaticResource BoolToVisibilityConverter}}"-->
-        <TabItem DataContext="{Binding TestViewModel}" Header="Отладка" >
-            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0" Margin="10">
-                        <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="300" Margin="2" />
-                        <Button Content="Драйверы ГК" Command="{Binding ShowXDriversCommand}" Width="300" Margin="2" />
-                        <Button Content="Дерево" Command="{Binding ShowTreeCommand}" Width="300" Margin="2" />
-                        <Button Content="Тест 1" Command="{Binding Test1Command}" Width="300" Margin="2" />
-                        <Button Content="Тест 2" Command="{Binding Test2Command}" Width="300" Margin="2" />
-                        <Button Content="JournalTest" Command="{Binding JournalTestCommand}" Width="300" Margin="2" />
-                    </StackPanel>
-                    <ScrollViewer Grid.Row="1">
-                        <TextBox Text="{Binding Text}" />
-                    </ScrollViewer>
-                </Grid>
-            </Border>
-        </TabItem>
     </TabControl>
 </UserControl>

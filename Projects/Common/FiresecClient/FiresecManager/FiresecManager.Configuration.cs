@@ -3,54 +3,47 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
-using Firesec;
 
 namespace FiresecClient
 {
 	public partial class FiresecManager
 	{
 		public static FiresecConfiguration FiresecConfiguration { get; set; }
-		public static DeviceConfigurationStates DeviceStates { get; set; }
+		public static PlansConfiguration PlansConfiguration
+		{
+            get { return FiresecAPI.Models.ConfigurationCash.PlansConfiguration; }
+            set { FiresecAPI.Models.ConfigurationCash.PlansConfiguration = value; }
+		}
+
 		public static LibraryConfiguration LibraryConfiguration { get; set; }
 		public static SystemConfiguration SystemConfiguration { get; set; }
-		public static PlansConfiguration PlansConfiguration { get; set; }
 		public static SecurityConfiguration SecurityConfiguration { get; set; }
 
-		public static void GetConfiguration(bool updateFiles = true)
+		public static void UpdateFiles()
 		{
-			if (updateFiles)
-				FileHelper.Synchronize();
+			FileHelper.Synchronize();
+		}
 
+        public static void GetConfiguration()
+		{
 			SystemConfiguration = FiresecService.GetSystemConfiguration();
 			LibraryConfiguration = FiresecService.GetLibraryConfiguration();
 			PlansConfiguration = FiresecService.GetPlansConfiguration();
 			SecurityConfiguration = FiresecService.GetSecurityConfiguration();
-			var drivers = FiresecService.GetDrivers();
-			if ((drivers == null) || (drivers.Count == 0))
+			var driversConfiguration = FiresecService.GetDriversConfiguration();
+			if ((driversConfiguration == null) || (driversConfiguration.Drivers == null) || (driversConfiguration.Drivers.Count == 0))
 			{
 				MessageBox.Show("Ошибка. Список драйверов пуст");
 			}
 			var deviceConfiguration = FiresecService.GetDeviceConfiguration();
 			FiresecConfiguration = new FiresecConfiguration()
 			{
-				Drivers = drivers,
+				DriversConfiguration = driversConfiguration,
 				DeviceConfiguration = deviceConfiguration
 			};
 
-
-			
 			UpdateConfiguration();
-			
-            InitializeFiresecDriver();
-            //ConfigurationCash.DriversConfiguration.Drivers = FiresecConfiguration.Drivers;
-
-			ConfigurationCash.DriversConfiguration = new DriversConfiguration();
-			ConfigurationCash.DriversConfiguration.Drivers = ConfigurationCash.DriversConfiguration.Drivers;
-
-			FiresecConfiguration.Drivers = Drivers;
-
-			
-
+			FiresecConfiguration.CreateStates();
 		}
 
 		public static void UpdateConfiguration()
@@ -89,7 +82,7 @@ namespace FiresecClient
 
 		public static List<Driver> Drivers
 		{
-			get { return FiresecConfiguration.Drivers; }
+			get { return FiresecConfiguration.DriversConfiguration.Drivers; }
 		}
 
 		public static List<Device> Devices

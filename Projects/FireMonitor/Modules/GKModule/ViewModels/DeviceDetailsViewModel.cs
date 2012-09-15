@@ -17,9 +17,8 @@ namespace GKModule.ViewModels
 		{
 			_guid = deviceUID;
 			Device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			DeviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
-			if (DeviceState != null)
-				DeviceState.StateChanged += new Action(deviceState_StateChanged);
+			DeviceState = Device.DeviceState;
+			DeviceState.StateChanged += new Action(deviceState_StateChanged);
 
 			Title = Device.Driver.ShortName + " " + Device.DottedAddress;
 			TopMost = true;

@@ -44,7 +44,7 @@ namespace FireMonitor
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-			MessageBoxService.ShowException(e.ExceptionObject as Exception);
+			ApplicationService.Invoke(() => MessageBoxService.ShowException(e.ExceptionObject as Exception));
 		}
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{

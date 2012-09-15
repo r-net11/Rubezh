@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Windows.Data;
 using System.Windows.Media;
-using FiresecAPI.Models;
-using XFiresecAPI;
 using FiresecAPI;
+using XFiresecAPI;
 
 namespace GKModule.Converters
 {

@@ -3,11 +3,10 @@ using System.Linq;
 using Common;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using PlansModule.Designer;
-using Infrastructure.ViewModels;
 
 namespace PlansModule.ViewModels
 {

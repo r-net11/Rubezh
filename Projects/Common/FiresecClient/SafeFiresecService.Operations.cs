@@ -4,6 +4,7 @@ using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
+using System.Threading;
 
 namespace FiresecClient
 {
@@ -24,9 +25,9 @@ namespace FiresecClient
             return SafeOperationCall(() => { return FiresecService.GetStatus(); });
         }
 
-        public List<Driver> GetDrivers()
+		public DriversConfiguration GetDriversConfiguration()
         {
-            return SafeOperationCall(() => { return FiresecService.GetDrivers(); });
+			return SafeOperationCall(() => { return FiresecService.GetDriversConfiguration(); });
         }
 
         public DeviceConfiguration GetDeviceConfiguration()
@@ -106,7 +107,12 @@ namespace FiresecClient
 
         public void AddJournalRecords(List<JournalRecord> journalRecords)
         {
-            SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); });
+            var thread = new Thread(new ThreadStart(() =>
+            {
+                SafeOperationCall(() => { FiresecService.AddJournalRecords(journalRecords); });
+            }
+                ));
+            thread.Start();
         }
 
         public List<string> GetFileNamesList(string directory)

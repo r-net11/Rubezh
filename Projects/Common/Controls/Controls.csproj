@@ -127,6 +127,7 @@
       <DependentUpon>MenuView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TemplateSelectors\InterfaceTemplateSelector.cs" />
+    <Compile Include="ToggleButton.cs" />
     <Compile Include="ToolBarRadioButton.cs" />
     <Compile Include="DataGridProperties.cs" />
     <Compile Include="DigitalPasswordHelper.cs" />
@@ -220,6 +221,10 @@
     <Page Include="Themes\SeparatorStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ToggleButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\ToolBarRadioButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -661,6 +666,18 @@
   <ItemGroup>
     <Resource Include="Images\adrparameters.png" />
     <Resource Include="Images\devparameters.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\map2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\map3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\map1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Bug.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using Firesec;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.IO;
 
 namespace Firesec
 {
@@ -16,10 +14,10 @@ namespace Firesec
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public Watcher Watcher { get; private set; }
 
-		public FiresecDriver(int lastJournalNo)
+        public FiresecDriver(int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			FiresecSerializedClient = new FiresecSerializedClient();
-			FiresecSerializedClient.Connect("adm", "");
+			FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
 			ConfigurationConverter = new ConfigurationConverter()
 			{
 				FiresecSerializedClient = FiresecSerializedClient
@@ -27,36 +25,19 @@ namespace Firesec
 			ConfigurationConverter.ConvertMetadataFromFiresec();
 		}
 
-		public DeviceConfigurationStates ConvertStates()
+		public void Synchronyze()
 		{
-			ConfigurationCash.DeviceConfigurationStates = new DeviceConfigurationStates();
-			if (ConfigurationCash.DeviceConfiguration.Devices.IsNotNullOrEmpty())
+			ConfigurationConverter.SynchronyzeConfiguration();
+		}
+
+		public void StatrtWatcher(bool mustMonitorStates)
+		{
+			Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates);
+			if (mustMonitorStates)
 			{
-				foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
-				{
-					var deviceState = new DeviceState()
-					{
-						UID = device.UID,
-						PlaceInTree = device.PlaceInTree,
-						Device = device
-					};
-
-					foreach (var parameter in device.Driver.Parameters)
-						deviceState.Parameters.Add(parameter.Copy());
-
-					ConfigurationCash.DeviceConfigurationStates.DeviceStates.Add(deviceState);
-				}
+				Watcher.OnStateChanged();
+				Watcher.OnParametersChanged();
 			}
-
-			foreach (var zone in ConfigurationCash.DeviceConfiguration.Zones)
-			{
-				ConfigurationCash.DeviceConfigurationStates.ZoneStates.Add(new ZoneState() { No = zone.No });
-			}
-
-			Watcher.OnStateChanged();
-			Watcher.OnParametersChanged();
-
-			return ConfigurationCash.DeviceConfigurationStates;
 		}
 
 		public void Convert()
@@ -120,31 +101,15 @@ namespace Firesec
 			return operationResult;
 		}
 
-		public OperationResult<string> DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
+		public OperationResult<string> DeviceUpdateFirmware(DeviceConfiguration deviceConfiguration, Guid deviceUID, string fileName)
 		{
-			fileName = Guid.NewGuid().ToString();
-			Directory.CreateDirectory("Temp");
-			fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
-			using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-			{
-				stream.Write(bytes, 0, bytes.Length);
-			}
-
 			var firesecConfiguration = ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			return FiresecSerializedClient.DeviceUpdateFirmware(firesecConfiguration, device.GetPlaceInTree(), fileName);
 		}
 
-		public OperationResult<string> DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, byte[] bytes, string fileName)
+		public OperationResult<string> DeviceVerifyFirmwareVersion(DeviceConfiguration deviceConfiguration, Guid deviceUID, string fileName)
 		{
-			fileName = Guid.NewGuid().ToString();
-			Directory.CreateDirectory("Temp");
-			fileName = Directory.GetCurrentDirectory() + "\\Temp\\" + fileName;
-			using (var stream = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-			{
-				stream.Write(bytes, 0, bytes.Length);
-			}
-
 			var firesecConfiguration = ConvertBack(deviceConfiguration, false);
 			var device = deviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			return FiresecSerializedClient.DeviceVerifyFirmwareVersion(firesecConfiguration, device.GetPlaceInTree(), fileName);
@@ -267,15 +232,9 @@ namespace Firesec
 			FiresecSerializedClient.RemoveFromIgnoreList(devicePaths);
 		}
 
-		public void ResetStates(List<ResetItem> resetItems)
-		{
-			var firesecResetHelper = new FiresecResetHelper(FiresecSerializedClient);
-			firesecResetHelper.ResetStates(resetItems);
-		}
-
 		public void SetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
-			var device = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == secPanelUID);
+			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
 			if (device != null)
 			{
 				int reguestId = 0;
@@ -285,7 +244,7 @@ namespace Firesec
 
 		public void UnSetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
-			var device = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == secPanelUID);
+			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
 			if (device != null)
 			{
 				int reguestId = 0;
@@ -300,7 +259,7 @@ namespace Firesec
 
 		public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)
 		{
-			var device = ConfigurationCash.DeviceConfigurationStates.DeviceStates.FirstOrDefault(x => x.UID == deviceUID);
+			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 			if (device != null)
 			{
 				FiresecSerializedClient.ExecuteCommand(device.PlaceInTree, methodName);

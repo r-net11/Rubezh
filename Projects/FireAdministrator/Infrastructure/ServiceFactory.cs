@@ -1,10 +1,8 @@
 ﻿using FiresecAPI.Models;
 using Infrastructure.Client.Login;
 using Infrastructure.Common;
-using Microsoft.Practices.Prism.Events;
-using System;
-using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Services;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure
 {

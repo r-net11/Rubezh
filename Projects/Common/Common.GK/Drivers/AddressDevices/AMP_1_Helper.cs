@@ -1,6 +1,5 @@
-﻿using System.Linq;
+﻿using System;
 using XFiresecAPI;
-using System;
 
 namespace Common.GK
 {

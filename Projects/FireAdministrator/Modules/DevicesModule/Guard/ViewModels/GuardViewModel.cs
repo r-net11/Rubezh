@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using DevicesModule.Views;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -9,7 +10,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
-using System.Windows;
 using Infrastructure.ViewModels;
 
 namespace DevicesModule.ViewModels
@@ -170,7 +170,7 @@ namespace DevicesModule.ViewModels
         void OnPropgress()
         {
             var userlist = CodeDateToTranslate();
-            _operationResult = FiresecManager.DeviceSetGuardUsersList(SelectedDevice.UID, userlist);
+            _operationResult = FiresecManager.DeviceSetGuardUsersList(SelectedDevice, userlist);
         }
         void OnCompleted()
         {

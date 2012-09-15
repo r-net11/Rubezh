@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using DevicesModule.DeviceProperties;
-using DevicesModule.Plans;
 using DevicesModule.Views;
 using FiresecAPI.Models;
 using FiresecClient;

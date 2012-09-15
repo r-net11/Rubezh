@@ -4,11 +4,11 @@ using Common.GK;
 using FiresecClient;
 using GKModule.ViewModels;
 using Infrastructure;
+using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Infrastructure.Client;
 
 namespace GKModule
 {
@@ -40,12 +40,6 @@ namespace GKModule
 
 		public override void Initialize()
 		{
-			GKDriversCreator.Create();
-			XManager.DeviceConfiguration = FiresecManager.FiresecService.GetXDeviceConfiguration();
-			XManager.UpdateConfiguration();
-			XManager.CreateStates();
-			DatabaseManager.Convert();
-
 			_zonesNavigationItem.IsVisible = XManager.DeviceConfiguration.Zones.Count > 0;
 			_directionsNavigationItem.IsVisible = XManager.DeviceConfiguration.Directions.Count > 0;
 			DevicesViewModel.Initialize();

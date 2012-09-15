@@ -23,6 +23,7 @@ namespace XFiresecAPI
 
 		public XDriver Driver { get; set; }
 		public XDevice Parent { get; set; }
+		public XDeviceState DeviceState { get; set; }
 		public List<Guid> OutDependenceUIDs { get; set; }
 
 		[DataMember]

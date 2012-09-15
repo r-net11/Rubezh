@@ -15,6 +15,7 @@ namespace XFiresecAPI
 			DeviceUIDs = new List<Guid>();
 		}
 
+		public XZoneState ZoneState { get; set; }
 		public List<XDevice> Devices { get; set; }
 
 		[DataMember]

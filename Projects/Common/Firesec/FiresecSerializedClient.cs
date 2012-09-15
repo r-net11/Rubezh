@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Firesec;
 using Firesec.Models.Functions;
 using FiresecAPI;
 
@@ -15,9 +14,9 @@ namespace Firesec
 			NativeFiresecClient = new NativeFiresecClient();
 		}
 
-		public OperationResult<bool> Connect(string login, string password)
+        public OperationResult<bool> Connect(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
-			var result = NativeFiresecClient.Connect(login, password);
+			var result = NativeFiresecClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
 
 			if (result.Result)
 			{

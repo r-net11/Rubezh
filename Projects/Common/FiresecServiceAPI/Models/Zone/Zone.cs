@@ -18,6 +18,7 @@ namespace FiresecAPI.Models
 			ShapeIds = new List<string>();
 		}
 
+		public ZoneState ZoneState { get; set; }
 		public List<string> ShapeIds { get; set; }
 		public Guid SecPanelUID { get; set; }
 

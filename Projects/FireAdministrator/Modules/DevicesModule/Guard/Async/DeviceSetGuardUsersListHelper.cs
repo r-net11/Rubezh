@@ -21,7 +21,7 @@ namespace DevicesModule.Guard
 
 		static void OnPropgress()
 		{
-			_operationResult = FiresecManager.DeviceSetGuardUsersList(_device.UID, _users);
+			_operationResult = FiresecManager.DeviceSetGuardUsersList(_device, _users);
 		}
 
 		static void OnCompleted()

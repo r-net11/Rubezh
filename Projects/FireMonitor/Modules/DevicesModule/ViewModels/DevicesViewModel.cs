@@ -72,11 +72,7 @@ namespace DevicesModule.ViewModels
 				if (childDevice.IsNotUsed)
 					continue;
 
-				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == childDevice.UID);
-				if (deviceState != null)
-				{
-					deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
-				}
+				deviceViewModel.Children.Add(AddDevice(childDevice, deviceViewModel));
 			}
 
 			return deviceViewModel;
@@ -136,7 +132,7 @@ namespace DevicesModule.ViewModels
 			{
 				if (deviceViewModel.Device.Driver.DriverType == DriverType.Valve)
 				{
-					var deviceDriverState = deviceViewModel.DeviceState.States.FirstOrDefault(x => x.Code == "Bolt_On");
+					var deviceDriverState = deviceViewModel.DeviceState.States.FirstOrDefault(x => x.DriverState.Code == "Bolt_On");
 					if (deviceDriverState != null)
 					{
 						if (DateTime.Now > deviceDriverState.Time)

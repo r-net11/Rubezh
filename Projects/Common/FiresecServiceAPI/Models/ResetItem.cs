@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
 
 namespace FiresecAPI.Models
 {
-	[DataContract]
 	public class ResetItem
 	{
 		public ResetItem()
 		{
-			StateNames = new List<string>();
+			States = new List<DeviceDriverState>();
 		}
-
-		[DataMember]
-		public Guid DeviceUID { get; set; }
-
-		[DataMember]
-		public List<string> StateNames { get; set; }
+		public DeviceState DeviceState { get; set; }
+		public List<DeviceDriverState> States { get; set; }
 	}
 }

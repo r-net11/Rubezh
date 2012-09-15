@@ -5,9 +5,9 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using GKModule.Plans.Designer;
+using GKModule.ViewModels;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using GKModule.ViewModels;
 
 namespace GKModule.Plans.ViewModels
 {

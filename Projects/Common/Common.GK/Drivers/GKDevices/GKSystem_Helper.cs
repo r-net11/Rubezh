@@ -1,5 +1,4 @@
-﻿using System;
-using XFiresecAPI;
+﻿using XFiresecAPI;
 
 namespace Common.GK
 {

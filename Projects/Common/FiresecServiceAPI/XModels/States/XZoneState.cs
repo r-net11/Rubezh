@@ -7,14 +7,13 @@ namespace XFiresecAPI
 {
 	public class XZoneState
 	{
+		public XZone Zone { get; set; }
+
 		public XZoneState()
 		{
 			_states = new List<XStateType>();
 			_isConnectionLost = true;
 		}
-
-		public XZone Zone { get; set; }
-		public Guid UID { get; set; }
 
 		bool _isConnectionLost;
 		public bool IsConnectionLost

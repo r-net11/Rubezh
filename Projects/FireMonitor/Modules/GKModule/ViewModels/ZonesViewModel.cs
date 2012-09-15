@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecClient;
@@ -6,7 +7,6 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
-using System;
 
 namespace GKModule.ViewModels
 {
@@ -19,9 +19,9 @@ namespace GKModule.ViewModels
 
 		public void Initialize()
 		{
-			Zones = (from XZoneState zoneState in XManager.DeviceStates.ZoneStates
-					 orderby zoneState.Zone.No
-					 select new ZoneViewModel(zoneState)).ToList();
+			Zones = (from XZone zone in XManager.DeviceConfiguration.Zones
+					 orderby zone.No
+					 select new ZoneViewModel(zone.ZoneState)).ToList();
 
 			SelectedZone = Zones.FirstOrDefault();
 		}

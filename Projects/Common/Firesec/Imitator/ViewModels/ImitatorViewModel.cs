@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using Firesec.Models.CoreState;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
-using Firesec.Models.CoreState;
-using Firesec;
 
 namespace Firesec.Imitator.ViewModels
 {
@@ -18,12 +17,12 @@ namespace Firesec.Imitator.ViewModels
 			Title = "Имитатор состояний устройств";
 			Devices = new ObservableCollection<DeviceViewModel>();
 
-			foreach (var deviceState in ConfigurationCash.DeviceConfigurationStates.DeviceStates)
+			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				if (deviceState.Device.Driver.DriverType == (DriverType.IndicationBlock | DriverType.Page | DriverType.Indicator))
+				if (device.Driver.DriverType == (DriverType.IndicationBlock | DriverType.Page | DriverType.Indicator))
 					continue;
 
-				var deviceViewModel = new DeviceViewModel(deviceState);
+				var deviceViewModel = new DeviceViewModel(device.DeviceState);
 				Devices.Add(deviceViewModel);
 			}
 		}
@@ -49,7 +48,7 @@ namespace Firesec.Imitator.ViewModels
 			{
 				var innerDevice = new devType()
 				{
-					name = device.DeviceState.PlaceInTree
+					name = device.DeviceState.Device.PlaceInTree
 				};
 				var innerStates = new List<stateType>();
 				foreach (var state in device.DriverStates)

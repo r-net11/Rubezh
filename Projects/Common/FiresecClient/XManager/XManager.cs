@@ -10,13 +10,11 @@ namespace FiresecClient
 	{
 		public static XDeviceConfiguration DeviceConfiguration { get; set; }
 		public static XDriversConfiguration DriversConfiguration { get; set; }
-		public static XDeviceConfigurationStates DeviceStates { get; set; }
 
 		static XManager()
 		{
 			DeviceConfiguration = new XDeviceConfiguration();
 			DriversConfiguration = new XDriversConfiguration();
-			DeviceStates = new XDeviceConfigurationStates();
 		}
 
 		public static void SetEmptyConfiguration()
@@ -115,10 +113,6 @@ namespace FiresecClient
 					throw new Exception("Получить IP адрес можно только у ГК или в КАУ");
 			}
 			var ipAddress = gkDevice.GetGKIpAddress();
-			if (ipAddress == null)
-			{
-				throw new Exception("Не задан IP адрес");
-			}
 			return ipAddress;
 		}
 	}

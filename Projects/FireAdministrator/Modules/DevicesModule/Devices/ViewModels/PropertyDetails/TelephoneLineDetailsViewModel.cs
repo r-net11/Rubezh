@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure;
 
 namespace DevicesModule.ViewModels
 {
@@ -364,7 +363,7 @@ namespace DevicesModule.ViewModels
         OperationResult<string> _operationResult;
         void OnPropgress()
         {
-            _operationResult = FiresecManager.DeviceGetMDS5Data(Device.UID);
+            _operationResult = FiresecManager.DeviceGetMDS5Data(Device);
         }
         void OnCompleted()
         {

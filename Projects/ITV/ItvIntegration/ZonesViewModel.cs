@@ -11,9 +11,9 @@ namespace ItvIntegration
 			UnSetZoneGuardCommand = new RelayCommand(OnUnSetZoneGuard, CanUnSetZoneGuard);
 
 			Zones = new ObservableCollection<ZoneViewModel>();
-			foreach (var zoneState in ItvManager.DeviceStates.ZoneStates)
+			foreach (var zone in ItvManager.DeviceConfiguration.Zones)
 			{
-				var deviceViewModel = new ZoneViewModel(zoneState);
+				var deviceViewModel = new ZoneViewModel(zone.ZoneState);
 				Zones.Add(deviceViewModel);
 			}
 		}
@@ -38,7 +38,7 @@ namespace ItvIntegration
 		public RelayCommand SetZoneGuardCommand { get; private set; }
 		void OnSetZoneGuard()
 		{
-			ItvManager.SetZoneGuard(SelectedZone.ZoneState.No);
+			ItvManager.SetZoneGuard(SelectedZone.ZoneState.Zone);
 		}
 
 		bool CanUnSetZoneGuard()
@@ -48,7 +48,7 @@ namespace ItvIntegration
 		public RelayCommand UnSetZoneGuardCommand { get; private set; }
 		void OnUnSetZoneGuard()
 		{
-			ItvManager.UnSetZoneGuard(SelectedZone.ZoneState.No);
+            ItvManager.UnSetZoneGuard(SelectedZone.ZoneState.Zone);
 		}
 	}
 }

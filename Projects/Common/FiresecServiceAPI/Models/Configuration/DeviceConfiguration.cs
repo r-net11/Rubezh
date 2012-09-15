@@ -74,11 +74,10 @@ namespace FiresecAPI.Models
 			}
 		}
 
-		public DeviceConfiguration CopyOneBranch(Guid uid, bool isUsb)
+		public DeviceConfiguration CopyOneBranch(Device device, bool isUsb)
 		{
 			var deviceConfiguration = new DeviceConfiguration();
 
-			var device = Devices.FirstOrDefault(x => x.UID == uid);
 			Device currentDevice = device;
 			Device copyChildDevice = null;
 
@@ -93,7 +92,7 @@ namespace FiresecAPI.Models
 					ZoneNo = currentDevice.ZoneNo,
 					Properties = new List<Property>(currentDevice.Properties)
 				};
-				if ((currentDevice.UID == uid))
+				if ((currentDevice.UID == device.UID))
 				{
 					copyDevice.IsAltInterface = isUsb;
 				}

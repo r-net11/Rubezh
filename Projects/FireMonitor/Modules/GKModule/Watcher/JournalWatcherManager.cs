@@ -2,6 +2,7 @@
 using System.Threading;
 using Common.GK;
 using Infrastructure.Common.Windows;
+using Common;
 
 namespace GKModule
 {
@@ -16,6 +17,12 @@ namespace GKModule
 			JournalWatchers = new List<JournalWatcher>();
 			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
+				var ipAddress = gkDatabase.RootDevice.GetGKIpAddress();
+				if (ipAddress == null)
+				{
+					Logger.Error("JournalWatcherManager.Start ipAddress = null");
+					continue;
+				}
 				var journalWatcher = new JournalWatcher(gkDatabase);
 				JournalWatchers.Add(journalWatcher);
 			}

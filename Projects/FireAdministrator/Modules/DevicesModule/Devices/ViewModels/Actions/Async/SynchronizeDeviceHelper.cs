@@ -4,27 +4,27 @@ using FiresecAPI;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
+using FiresecAPI.Models;
 
 namespace DevicesModule.ViewModels
 {
     public static class SynchronizeDeviceHelper
     {
-        static Guid _deviceUID;
+		static Device _device;
         static bool _isUsb;
         static OperationResult<bool> _operationResult;
 
-        public static void Run(Guid deviceUID, bool isUsb)
+        public static void Run(Device device, bool isUsb)
         {
-            _deviceUID = deviceUID;
+			_device = device;
             _isUsb = isUsb;
 
-			var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == _deviceUID);
             ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, device.PresentationAddressAndDriver + ". Установка времени");
         }
 
         static void OnPropgress()
         {
-            _operationResult = FiresecManager.SynchronizeDevice(_deviceUID, _isUsb);
+            _operationResult = FiresecManager.SynchronizeDevice(_device, _isUsb);
         }
 
         static void OnCompleted()

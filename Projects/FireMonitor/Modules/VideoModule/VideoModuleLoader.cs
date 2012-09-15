@@ -17,7 +17,7 @@ namespace VideoModule
             ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
         }
 
-        void OnDeviceStateChanged(Guid obj)
+        void OnDeviceStateChanged(Guid deviceUID)
         {
             UpdateVideoAlarms();
         }
@@ -28,10 +28,10 @@ namespace VideoModule
             {
                 foreach (var zoneNo in camera.Zones)
                 {
-                    var zoneState = FiresecManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.No == zoneNo);
-                    if (zoneState != null)
+                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == zoneNo);
+					if (zone != null)
                     {
-                        if (zoneState.StateType == camera.StateType)
+						if (zone.ZoneState.StateType == camera.StateType)
                         {
                             VideoService.Show(camera);
                         }
@@ -49,6 +49,11 @@ namespace VideoModule
             return new List<NavigationItem>()
             {
             };
+        }
+
+        public override void Dispose()
+        {
+            VideoService.Close();
         }
     }
 }

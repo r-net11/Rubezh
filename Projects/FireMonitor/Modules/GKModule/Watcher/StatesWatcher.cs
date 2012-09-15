@@ -1,16 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using Common;
 using Common.GK;
-using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
-using System.Threading;
-using FiresecAPI;
-using FiresecAPI.XModels;
-using Common;
 
 namespace GKModule
 {
@@ -63,29 +60,17 @@ namespace GKModule
 			if (binaryBase is XDevice)
 			{
 				var device = binaryBase as XDevice;
-				var deviceState = XManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-				if (deviceState != null)
-				{
-					deviceState.States = states;
-				}
+				device.DeviceState.States = states;
 			}
 			if (binaryBase is XZone)
 			{
 				var zone = binaryBase as XZone;
-				var zoneState = XManager.DeviceStates.ZoneStates.FirstOrDefault(x => x.UID == zone.UID);
-				if (zoneState != null)
-				{
-					zoneState.States = states;
-				}
+				zone.ZoneState.States = states;
 			}
 			if (binaryBase is XDirection)
 			{
 				var direction = binaryBase as XDirection;
-				var directionState = XManager.DeviceStates.DirectionStates.FirstOrDefault(x => x.UID == direction.UID);
-				if (directionState != null)
-				{
-					directionState.States = states;
-				}
+				direction.DirectionState.States = states;
 			}
 		}
 

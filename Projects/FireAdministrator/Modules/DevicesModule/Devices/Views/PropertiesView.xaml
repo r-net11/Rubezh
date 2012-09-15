@@ -1,6 +1,6 @@
 ﻿<UserControl x:Class="DevicesModule.Views.PropertiesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Controls="clr-namespace:Controls;assembly=Controls" xmlns:Converters="clr-namespace:DevicesModule.Converters">
 
     <UserControl.Resources>
         <Style TargetType="Label" x:Key="PropertyCaptionStyle">
@@ -17,11 +17,12 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />                
-            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="28"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -161,13 +162,13 @@
         </ScrollViewer>
         <Grid Column="1">
             <StackPanel>
-                <Controls:ToolBarButton ToolTip="Параметры устройства" Command="{Binding OneCommand}" ImageSource="/Controls;component/Images/devparameters.png" Width="25" Height="25"/>
-                <Controls:ToolBarButton ToolTip="Параметры адресного устройства" Command="{Binding TwoCommand}" ImageSource="/Controls;component/Images/adrparameters.png" Width="25" Height="25" />
+                <Controls:ToggleButton Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры адресного устройства" Command="{Binding OneCommand}" IsChecked="{Binding AUParameterVis}" ImageSource="/Controls;component/Images/devparameters.png"/>
+                <Controls:ToggleButton Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры устройства" Command="{Binding TwoCommand}" IsChecked="{Binding AUParameterVis, Converter={StaticResource InverseBooleanConverter}}" ImageSource="/Controls;component/Images/adrparameters.png"/>
             </StackPanel>
         </Grid>
         <Grid Column="0" Row="1" Visibility="{Binding AUParameterVis, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel Orientation="Horizontal" DataContext="{Binding Context.DeviceCommandsViewModel}">
-                <Controls:ToolBarButton ToolTip="Считать параметры с устройства"  Command="{Binding GetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/readconfig.png"/>
+                <Controls:ToolBarButton ToolTip="Считать параметры устройства"  Command="{Binding GetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/readconfig.png"/>
                 <Controls:ToolBarButton ToolTip="Записать параметры на устройство" Command="{Binding SetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/writeconfig.png"/>
             </StackPanel>
         </Grid>

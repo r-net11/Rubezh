@@ -55,6 +55,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -102,13 +103,13 @@
       <Project>{75DDFD5C-6572-4D90-961A-4E08D65B8FE7}</Project>
       <Name>FiresecAPI</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Common\Firesec\Firesec.csproj">
+      <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
+      <Name>Firesec</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AssadApi\AssadApi.csproj">
       <Project>{51886DB4-DD4E-416F-8B0D-E1D78D0D3EA0}</Project>
       <Name>AssadApi</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Logger\Logger.csproj">
-      <Project>{B34963D3-C13E-49CF-B1FC-CA2E53F89CBA}</Project>
-      <Name>Logger</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sockets\Sockets.csproj">
       <Project>{7BEF526F-7B55-468B-A7DA-90A9E1191DC4}</Project>

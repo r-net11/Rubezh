@@ -158,6 +158,7 @@
     <Compile Include="Models\Archive\JournalDeviceItem.cs" />
     <Compile Include="Models\ClientCredentials.cs" />
     <Compile Include="Models\ClientType.cs" />
+    <Compile Include="Models\ConfigurationCash.cs" />
     <Compile Include="Models\Configuration\DriversConfiguration.cs" />
     <Compile Include="Models\Configuration\FullConfiguration.cs" />
     <Compile Include="Models\Configuration\LibraryConfiguration.cs" />
@@ -228,7 +229,6 @@
     <Compile Include="Models\Configuration\SystemConfiguration.cs" />
     <Compile Include="OperationResult.cs" />
     <Compile Include="XModels\Configuration\XDeviceConfiguration.cs" />
-    <Compile Include="XModels\Configuration\XDeviceConfigurationStates.cs" />
     <Compile Include="XModels\Configuration\XDriversConfiguration.cs" />
     <Compile Include="XModels\DatabaseType.cs" />
     <Compile Include="XModels\Device\XDevice.cs" />
@@ -262,7 +262,6 @@
   <ItemGroup>
     <Compile Include="Models\System\AlarmType.cs" />
     <Compile Include="Models\Configuration\DeviceConfiguration.cs" />
-    <Compile Include="Models\Configuration\DeviceConfigurationStates.cs" />
     <Compile Include="Models\Device\Device.cs" />
     <Compile Include="Models\Driver\DeviceCategory.cs" />
     <Compile Include="Models\States\DeviceState.cs" />

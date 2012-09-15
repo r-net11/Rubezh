@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -8,7 +9,6 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Events;
-using System.Text;
 
 namespace DevicesModule.ViewModels
 {
@@ -29,8 +29,7 @@ namespace DevicesModule.ViewModels
 
 			Source = sourceDevices;
 			Device = device;
-
-			DeviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == Device.UID);
+			DeviceState = Device.DeviceState;
 			if (DeviceState != null)
 			{
 				DeviceState.StateChanged += new System.Action(OnStateChanged);
@@ -319,9 +318,10 @@ namespace DevicesModule.ViewModels
 			var resetItems = new List<ResetItem>();
 			var resetItem = new ResetItem()
 			{
-				DeviceUID = Device.UID
+				DeviceState = DeviceState
 			};
-			resetItem.StateNames.Add(stateName);
+			var deviceDriverState = DeviceState.States.FirstOrDefault(x => x.DriverState.Name == stateName);
+			resetItem.States.Add(deviceDriverState);
 			resetItems.Add(resetItem);
             FiresecManager.FiresecDriver.ResetStates(resetItems);
 

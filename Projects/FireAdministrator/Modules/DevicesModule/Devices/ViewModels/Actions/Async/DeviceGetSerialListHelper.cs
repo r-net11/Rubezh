@@ -20,7 +20,7 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
-            _operationResult = FiresecManager.DeviceGetSerialList(_device.UID);
+            _operationResult = FiresecManager.DeviceGetSerialList(_device);
         }
 
         static void OnlCompleted()

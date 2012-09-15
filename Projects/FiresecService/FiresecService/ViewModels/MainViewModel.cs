@@ -2,9 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
-using FiresecService.Service;
-using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiresecService.ViewModels
@@ -16,17 +13,8 @@ namespace FiresecService.ViewModels
 		public MainViewModel()
 		{
 			Current = this;
-			ShowImitatorCommand = new RelayCommand(OnShowImitator);
 			Clients = new ObservableCollection<ClientViewModel>();
 			Title = "Сервер ОПС FireSec-2";
-		}
-
-		public RelayCommand ShowImitatorCommand { get; private set; }
-		void OnShowImitator()
-		{
-			ClientsCash.NotifyClients("Запущен имитатор");
-            //var imitatorViewModel = new ImitatorViewModel();
-            //DialogService.ShowModalWindow(imitatorViewModel);
 		}
 
 		private string _status;

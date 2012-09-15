@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
-using FiresecClient;
 using GKModule.Plans.Designer;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
-using XFiresecAPI;
 
 namespace GKModule.Plans.ViewModels
 {

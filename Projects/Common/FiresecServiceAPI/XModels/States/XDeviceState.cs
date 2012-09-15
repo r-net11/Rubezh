@@ -8,16 +8,12 @@ namespace XFiresecAPI
 {
     public class XDeviceState
     {
-		public XDeviceState Parent { get; set; }
-		public List<XDeviceState> Children { get; set; }
-		public Guid UID { get; set; }
 		public XDevice Device { get; set; }
 
         public XDeviceState()
         {
 			_states = new List<XStateType>();
 			_isConnectionLost = true;
-            Children = new List<XDeviceState>();
         }
 
 		bool _isConnectionLost;

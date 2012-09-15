@@ -1,19 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Common.Reports;
-using FiresecAPI.Models;
-using FiresecAPI;
-using System.Windows.Documents;
-using CodeReason.Reports;
 using System.Diagnostics;
-using Infrastructure.Common;
-using System.Printing;
-using System.Windows.Resources;
-using System.Windows;
 using System.IO;
+using System.Printing;
+using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Resources;
+using CodeReason.Reports;
+using Infrastructure.Common;
+using Infrastructure.Common.Reports;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace ReportsModule.ViewModels
 {

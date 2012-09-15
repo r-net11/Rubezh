@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using AlarmModule.Events;
 using Common;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
-using FiresecAPI;
 
 namespace AlarmModule
 {
@@ -23,7 +23,7 @@ namespace AlarmModule
 			OnDeviceStateChanged(Guid.Empty);
 		}
 
-		void OnDeviceStateChanged(Guid obj)
+		void OnDeviceStateChanged(Guid deviceUID)
 		{
 			Alarms.ForEach(x => x.IsDeleting = true);
 
@@ -44,19 +44,17 @@ namespace AlarmModule
 
 		void UpdateDeviceAlarms()
 		{
-			foreach (var deviceState in FiresecManager.DeviceStates.DeviceStates)
+			foreach (var device in FiresecManager.Devices)
 			{
-				foreach (var state in deviceState.States)
+				foreach (var state in device.DeviceState.States)
 				{
-					if (deviceState.Device == null) continue;
-
-					AlarmType? alarmType = StateToAlarmType(state, deviceState.Device.Driver);
+					AlarmType? alarmType = StateToAlarmType(state, device.Driver);
 					if (alarmType.HasValue == false)
 						continue;
 
 					var stateType = state.DriverState.StateType;
 
-					var alarm = Alarms.FirstOrDefault(x => ((x.StateType == stateType) && (x.DeviceUID == deviceState.UID)));
+					var alarm = Alarms.FirstOrDefault(x => ((x.StateType == stateType) && (x.DeviceUID == device.UID)));
 					if (alarm != null)
 					{
 						alarm.IsDeleting = false;
@@ -67,8 +65,8 @@ namespace AlarmModule
 						{
 							AlarmType = alarmType.Value,
 							StateType = stateType,
-							DeviceUID = deviceState.UID,
-							ZoneNo = deviceState.Device.ZoneNo,
+							DeviceUID = device.UID,
+							ZoneNo = device.ZoneNo,
 							StateName = state.DriverState.Name
 						};
 						Alarms.Add(newAlarm);
@@ -80,14 +78,14 @@ namespace AlarmModule
 
 		void UpdateZoneAlarms()
 		{
-			foreach (var zoneState in FiresecManager.DeviceStates.ZoneStates)
+			foreach (var zone in FiresecManager.Zones)
 			{
-				switch (zoneState.Zone.ZoneType)
+				switch (zone.ZoneType)
 				{
 					case ZoneType.Fire:
-						if (zoneState.StateType == StateType.Fire)
+						if (zone.ZoneState.StateType == StateType.Fire)
 						{
-							var alarm = Alarms.FirstOrDefault(x => ((x.StateType == StateType.Fire) && (x.ZoneNo == zoneState.No)));
+							var alarm = Alarms.FirstOrDefault(x => ((x.StateType == StateType.Fire) && (x.ZoneNo == zone.No)));
 							if (alarm != null)
 							{
 								alarm.IsDeleting = false;
@@ -98,7 +96,7 @@ namespace AlarmModule
 								{
 									AlarmType = AlarmType.Fire,
 									StateType = StateType.Fire,
-									ZoneNo = zoneState.No,
+									ZoneNo = zone.No,
 									StateName = "Пожар"
 								};
 								Alarms.Add(newAlarm);
@@ -107,9 +105,9 @@ namespace AlarmModule
 						}
 						break;
 					case ZoneType.Guard:
-						if (FiresecManager.IsZoneOnGuardAlarm(zoneState))
+						if (FiresecManager.IsZoneOnGuardAlarm(zone.ZoneState))
 						{
-							var guardAlarm = Alarms.FirstOrDefault(x => ((x.AlarmType == AlarmType.Guard) && (x.ZoneNo == zoneState.No)));
+							var guardAlarm = Alarms.FirstOrDefault(x => ((x.AlarmType == AlarmType.Guard) && (x.ZoneNo == zone.No)));
 							if (guardAlarm != null)
 							{
 								guardAlarm.IsDeleting = false;
@@ -120,7 +118,7 @@ namespace AlarmModule
 								{
 									AlarmType = AlarmType.Guard,
 									StateType = StateType.Fire,
-									ZoneNo = zoneState.No,
+									ZoneNo = zone.No,
 									StateName = "Тревога"
 								};
 								Alarms.Add(newAlarm);
@@ -139,13 +137,9 @@ namespace AlarmModule
 				if (device.Driver.DriverType != DriverType.Valve)
 					continue;
 
-				var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
-				if (deviceState == null)
-					continue;
-
-				foreach (var state in deviceState.States)
+				foreach (var state in device.DeviceState.States)
 				{
-					if (state.Code == "Bolt_On")
+					if (state.DriverState.Code == "Bolt_On")
 					{
 						if (state.Time.HasValue == false)
 							continue;

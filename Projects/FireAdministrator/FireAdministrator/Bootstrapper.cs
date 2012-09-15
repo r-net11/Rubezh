@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using Common.GK;
 using FireAdministrator.ViewModels;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -9,11 +10,8 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
-using Common.GK;
-using System.IO;
-using System.Windows.Markup;
 using Infrastructure.Services;
-using Common;
+using Firesec;
 
 namespace FireAdministrator
 {
@@ -26,21 +24,21 @@ namespace FireAdministrator
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
+			var test = new FireAdministrator._Test.TestApplication();
+			ApplicationService.Run(test);
+			return;
+
 			if (ServiceFactory.LoginService.ExecuteConnect())
 				try
 				{
 					LoadingService.Show("Чтение конфигурации", 4);
 					LoadingService.AddCount(GetModuleCount());
-					LoadingService.DoStep("Загрузка конфигурации с сервера");
-					FiresecManager.GetConfiguration();
-					if (FiresecManager.Drivers.Count == 0)
-					{
-						MessageBoxService.Show("Ошибка при загрузке конфигурации с сервера");
-					}
 
-					LoadingService.DoStep("Загрузка конфигурации ГК с сервера");
-					GKDriversCreator.Create();
-					XManager.GetConfiguration();
+					LoadingService.DoStep("Синхронизация файлов");
+					FiresecManager.UpdateFiles();
+					InitializeFs();
+					LoadingService.DoStep("Загрузка конфигурации ГК");
+					InitializeGk();
 
 					LoadingService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
@@ -66,6 +64,26 @@ namespace FireAdministrator
 			ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Subscribe(OnConfigurationChanged);
 
 			MutexHelper.KeepAlive();
+		}
+
+		void InitializeFs()
+		{
+			LoadingService.DoStep("Остановка Socket Server");
+			SocketServerHelper.Stop();
+			LoadingService.DoStep("Загрузка конфигурации с сервера");
+			FiresecManager.GetConfiguration();
+			LoadingService.DoStep("Загрузка драйвера устройств");
+			FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
+			LoadingService.DoStep("Синхронизация конфигурации");
+			FiresecManager.Synchronyze();
+			LoadingService.DoStep("Старт мониторинга");
+			FiresecManager.StatrtWatcher(false);
+		}
+
+		void InitializeGk()
+		{
+			GKDriversCreator.Create();
+			XManager.GetConfiguration();
 		}
 
 		void OnConfigurationChanged(object obj)

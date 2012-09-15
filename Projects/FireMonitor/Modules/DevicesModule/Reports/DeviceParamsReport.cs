@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Data;
 using System.Linq;
-using System.Text;
-using System.Windows.Documents;
 using CodeReason.Reports;
-using System.Data;
-using FiresecAPI.Models;
-using System.Windows;
-using FiresecClient;
 using FiresecAPI;
+using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common.Reports;
 
 namespace DevicesModule.Reports
@@ -57,7 +52,7 @@ namespace DevicesModule.Reports
 						}
 					}
 
-					var deviceState = FiresecManager.DeviceStates.DeviceStates.FirstOrDefault(x => x.UID == device.UID);
+					var deviceState = device.DeviceState;
 					if (deviceState.Parameters != null)
 					{
 						var parameter = deviceState.Parameters.FirstOrDefault(x => (x.Name == "Dustiness" && x.Visible));

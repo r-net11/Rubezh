@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using AssadProcessor.Devices;
 using FiresecAPI.Models;
 using FiresecClient;
+using Firesec;
 
 namespace AssadProcessor
 {
@@ -18,7 +21,20 @@ namespace AssadProcessor
 
 		public void Start()
 		{
-			FiresecManager.Connect(ClientType.Assad, "net.tcp://localhost:8000/FiresecService/", "adm", "");
+            var FS_Address = ConfigurationManager.AppSettings["FS_Address"] as string;
+            var FS_Port = Convert.ToInt32(ConfigurationManager.AppSettings["FS_Port"] as string);
+            var FS_Login = ConfigurationManager.AppSettings["FS_Login"] as string;
+            var FS_Password = ConfigurationManager.AppSettings["FS_Password"] as string;
+            var serverAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
+            var Login = ConfigurationManager.AppSettings["Login"] as string;
+            var Password = ConfigurationManager.AppSettings["Password"] as string;
+
+			FiresecManager.Connect(ClientType.Assad, serverAddress, Login, Password);
+			SocketServerHelper.Stop();
+			FiresecManager.GetConfiguration();
+			FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
+			FiresecManager.Synchronyze();
+			FiresecManager.StatrtWatcher(true);
 
 			Services.NetManager.Start();
 			_watcher = new Watcher();
@@ -82,18 +98,26 @@ namespace AssadProcessor
 								if (resetDevice.Driver.States.Any(x => ((x.Name == commandName) && (x.IsManualReset))))
 								{
 									var resetItem = new ResetItem();
-									resetItem.DeviceUID = resetDevice.UID;
-									resetItem.StateNames = new List<string>() { commandName };
-									FiresecManager.FiresecService.ResetStates(new List<ResetItem>() { resetItem });
+                                    resetItem.DeviceState = resetDevice.DeviceState;
+                                    var deviceDriverState = resetDevice.DeviceState.States.FirstOrDefault(x => x.DriverState.Name == commandName);
+                                    if (deviceDriverState != null)
+                                    {
+                                        resetItem.States = new List<DeviceDriverState>() { deviceDriverState };
+                                        FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
+                                    }
 								}
 							}
 						}
 						else
 						{
 							var resetItem = new ResetItem();
-							resetItem.DeviceUID = device.UID;
-							resetItem.StateNames = new List<string>() { commandName };
-							FiresecManager.FiresecService.ResetStates(new List<ResetItem>() { resetItem });
+                            FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
+                            var deviceDriverState = device.DeviceState.States.FirstOrDefault(x => x.DriverState.Name == commandName);
+                            if (deviceDriverState != null)
+                            {
+                                resetItem.States = new List<DeviceDriverState>() { deviceDriverState };
+                                FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
+                            }
 						}
 					}
 				}
@@ -111,9 +135,13 @@ namespace AssadProcessor
 					if (state.IsManualReset)
 					{
 						var resetItem = new ResetItem();
-						resetItem.DeviceUID = device.UID;
-						resetItem.StateNames = new List<string>() { state.Name };
-						FiresecManager.FiresecService.ResetStates(new List<ResetItem>() { resetItem });
+						resetItem.DeviceState = device.DeviceState;
+                        var deviceDriverState = device.DeviceState.States.FirstOrDefault(x => x.DriverState.Name == state.Name);
+                        if (deviceDriverState != null)
+                        {
+                            resetItem.States = new List<DeviceDriverState>() { deviceDriverState };
+                            FiresecManager.FiresecDriver.ResetStates(new List<ResetItem>() { resetItem });
+                        }
 					}
 				}
 			}
@@ -121,7 +149,6 @@ namespace AssadProcessor
 
 		public void Stop()
 		{
-			Services.LogEngine.Save();
 			FiresecManager.Disconnect();
 			Services.NetManager.Stop();
 		}
