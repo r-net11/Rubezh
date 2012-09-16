@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
 
         public ZoneLogicViewModel(Device device)
         {
-            Title = "Настройка логики зон";
+			Title = "Настройка логики исполнительного устройства по состоянию зон";
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
             ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);

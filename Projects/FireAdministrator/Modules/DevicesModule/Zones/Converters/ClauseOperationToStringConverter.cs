@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Data;
+using FiresecAPI;
 using FiresecAPI.Models;
 
 namespace DevicesModule.Converters
@@ -8,18 +9,9 @@ namespace DevicesModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is ZoneLogicOperation)
-            {
-                switch ((ZoneLogicOperation) value)
-                {
-                    case ZoneLogicOperation.All:
-                        return "во всех зонах из";
-
-                    case ZoneLogicOperation.Any:
-                        return "в любой зонах из";
-                }
-            }
-            return "";
+			if (value is ZoneLogicOperation)
+				return ((ZoneLogicOperation)value).ToDescription();
+			return "";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

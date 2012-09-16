@@ -2,7 +2,7 @@
                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:Controls="clr-namespace:Controls;assembly=Controls"
-                 xmlns:Views="clr-namespace:DevicesModule.Views" Focusable="True" >
+                 xmlns:Views="clr-namespace:DevicesModule.Views" xmlns:Converters="clr-namespace:DevicesModule.Converters" Focusable="True" >
 
     <UserControl.Resources>
         <ContextMenu x:Key="DeviceContextMenu">
@@ -14,10 +14,11 @@
             <MenuItem Header="Добавить дочернее устройство" Command="{Binding AddCommand}" />
             <MenuItem Header="Добавить к родительскому устройству" Command="{Binding AddToParentCommand}" />
             <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
-            <MenuItem Header="Настройка логики" Command="{Binding ShowZoneLogicCommand}"
+            <MenuItem Header="Настройка логики исполнительного устройства по состоянию зон" Command="{Binding ShowZoneLogicCommand}"
                 Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}"/>
             <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
         </ContextMenu>
+        <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -137,69 +138,31 @@
             </DataGrid>
         </Grid>
         <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+        
         <Grid Grid.Row="2" DataContext="{Binding SelectedDevice}" Margin="0, 5, 0, 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" CornerRadius="5" Background="{DynamicResource BackgroundBrush}">
-                <StackPanel HorizontalAlignment="Left" Margin="5">
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding Driver.ImageSource}" Width="16" Margin="2" />
-                        <Label Content="{Binding Driver.Name}" FontWeight="Bold" />
+            <!---->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>                        
+                    <ColumnDefinition Width="40"/>
+                </Grid.ColumnDefinitions>
+                <Border  Grid.Column="0" CornerRadius="5,0,0,5" Background="{DynamicResource BackgroundBrush}">
+                    <Grid>
+                        <Views:PropertiesView Visibility="{Binding PropertiesViewModel.AUParameterVis, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" />
+                        <Views:AUPropertiesView DataContext="{Binding PropertiesViewModel}"  Visibility="{Binding AUParameterVis, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    </Grid>
+                </Border>
+                <Border  Grid.Column="1" CornerRadius="0,5,5,0" Background="{DynamicResource BackgroundBrush}">
+                    <StackPanel DataContext="{Binding PropertiesViewModel}">
+                        <Controls:ToggleButton Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры устройства" Command="{Binding TwoCommand}" IsChecked="{Binding AUParameterVis, Converter={StaticResource InverseBooleanConverter}}" ImageSource="/Controls;component/Images/devparameters.png"/>
+                        <Controls:ToggleButton Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры адресного устройства" Command="{Binding OneCommand}" IsChecked="{Binding AUParameterVis}" ImageSource="/Controls;component/Images/adrparameters.png"/>
+                        <StackPanel Visibility="{Binding AUParameterVis, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <Controls:ToolBarButton ToolTip="Считать параметры устройства" DataContext="{Binding Context.DeviceCommandsViewModel}" Command="{Binding GetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/readconfig.png" Margin="0,30,0,-8" Height="36" Width="36"/>
+                            <Controls:ToolBarButton ToolTip="Записать параметры на устройство" DataContext="{Binding Context.DeviceCommandsViewModel}" Command="{Binding SetConfigurationParametersCommand}" ImageSource="/Controls;component/Images/writeconfig.png" Height="36"  Width="36"/>
+                        </StackPanel>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Подключено к" FontWeight="Bold" />
-                        <Label Content="{Binding ConnectedTo}" />
-                        <StackPanel.Style>
-                            <Style>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ConnectedTo}" Value="{x:Null}" >
-                                        <Setter Property="StackPanel.Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
-                    </StackPanel>
-                    
-                    <StackPanel Visibility="{Binding Driver.IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
-                        <Label Content="Зона: " />
-
-                        <Label Content="Зона не указана" IsEnabled="False">
-                            <Label.Style>
-                                <Style>
-                                    <Setter Property="Label.Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding PresentationZone}" Value="">
-                                            <Setter Property="Label.Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Label.Style>
-                        </Label>
-
-                        <TextBlock VerticalAlignment="Center">
-                            <Hyperlink Command="{Binding ShowZoneCommand}" Style="{StaticResource HyperlinkStyle}">
-                                <TextBlock Margin="2" Text="{Binding PresentationZone}" />
-                            </Hyperlink>
-                            <TextBlock.Style>
-                                <Style>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding PresentationZone}" Value="">
-                                            <Setter Property="TextBlock.Visibility" Value="Collapsed" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </TextBlock.Style>
-                        </TextBlock>
-                    </StackPanel>
-                </StackPanel>
-            </Border>
-            <Border Grid.Column="1" CornerRadius="5" Margin="5, 0, 0, 0" Background="{DynamicResource BackgroundBrush}">
-                <Grid>
-                    <Views:PropertiesView DataContext="{Binding PropertiesViewModel}" />
-                </Grid>
-            </Border>
+                </Border>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

@@ -4,14 +4,14 @@ using System.Windows.Input;
 
 namespace SecurityModule.Views
 {
-    public partial class RolesMenuView : UserControl
-    {
-        public RolesMenuView()
-        {
-            InitializeComponent();
+	public partial class RolesMenuView : UserControl
+	{
+		public RolesMenuView()
+		{
+			InitializeComponent();
 			Current = this;
 			AcceptKeyboard = true;
-        }
+		}
 
 		static RolesMenuView()
 		{
@@ -46,5 +46,5 @@ namespace SecurityModule.Views
 			if (button.Command.CanExecute(null))
 				button.Command.Execute(null);
 		}
-    }
+	}
 }

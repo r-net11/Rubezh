@@ -111,7 +111,7 @@
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
 			</ScrollViewer>
-			<CheckBox Grid.Row="2" Content="К РМ подключено светозвуковое оповещение(Таким РМ можно одновременно управлять с прибора)" Foreground="White"
+			<CheckBox Grid.Row="2" Content="К РМ подключено светозвуковое оповещение (Таким РМ можно одновременно управлять с прибора)" Foreground="White"
 					  Visibility="{Binding IsRm, Converter={StaticResource BoolToVisibilityConverter}}"
 					  IsChecked="{Binding IsRmWithTablo}" />
 		</Grid>

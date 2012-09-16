@@ -11,7 +11,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Name="border" BorderThickness="1" BorderBrush="#5B5B5B" Background="Transparent" Padding="2" Margin="2" CornerRadius="2"
+                    <Border Name="border" BorderThickness="0" BorderBrush="Transparent" Background="Transparent" Padding="2" Margin="2" CornerRadius="2"
                             ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True">
                         <Grid>
                             <Image Source="{Binding Path=ImageSource, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource NullToImageConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -21,16 +21,14 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="UIElement.IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="ToggleButton.Background" Value="Orange" />
-                            <Setter TargetName="border" Property="ToggleButton.BorderBrush" Value="DarkOrange" />
+                            <Setter TargetName="border" Property="Border.Background" Value="{DynamicResource HighlightedBackgoundBrush}" />
+                            <Setter TargetName="border" Property="Border.BorderBrush" Value="{DynamicResource PressedBackgroundBrush}" />
                         </Trigger>
                         <Trigger Property="ToggleButton.IsPressed" Value="True">
-                            <Setter TargetName="border" Property="ToggleButton.Background" Value="DarkOrange" />
-                            <Setter TargetName="border" Property="ToggleButton.BorderBrush" Value="#606060" />
+                            <Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
                         </Trigger>
                         <Trigger Property="ToggleButton.IsChecked" Value="True">
-                            <Setter TargetName="border" Property="ToggleButton.Background" Value="DarkOrange" />
-                            <Setter TargetName="border" Property="ToggleButton.BorderBrush" Value="#3A3A3A" />
+                            <Setter TargetName="border" Property="Border.Background" Value="{DynamicResource PressedBackgroundBrush}" />
                         </Trigger>
                         <Trigger Property="ToggleButton.IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />

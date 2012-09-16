@@ -168,14 +168,6 @@ namespace GKModule.Converter
 									xClause.ClauseOperationType = ClauseOperationType.AnyZone;
 									break;
 							}
-							if (clause.Device != null)
-							{
-								;
-							}
-							if (clause.DeviceUID != Guid.Empty)
-							{
-								;
-							}
                             switch (clause.State)
                             {
                                 case FiresecAPI.Models.ZoneLogicState.Attention:
