@@ -1,42 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
-using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 
 namespace LibraryModule.ViewModels
 {
     public class StateViewModel : BaseViewModel
     {
-        public const StateType DefaultStateType = StateType.No;
-
-        public StateViewModel(LibraryState state, Driver parentDriver)
+        public StateViewModel(LibraryState libraryState, Driver driver)
         {
-            State = state;
-            if (state.Frames == null)
-                SetDefaultFrameTo(State);
-
-            ParentDriver = parentDriver;
-
-            FrameViewModels = new ObservableCollection<FrameViewModel>(
-                State.Frames.Select(frame => new FrameViewModel(frame))
-            );
-            SelectedFrameViewModel = FrameViewModels[0];
-
             AddFrameCommand = new RelayCommand(OnAddFrame);
             RemoveFrameCommand = new RelayCommand(OnRemoveFrame, CanRemoveFrame);
+
+            State = libraryState;
+            Driver = driver;
+
+            Frames = new ObservableCollection<FrameViewModel>(
+                State.Frames.Select(frame => new FrameViewModel(frame))
+            );
+            SelectedFrame = Frames.FirstOrDefault();
         }
 
         public LibraryState State { get; private set; }
-        public Driver ParentDriver { get; private set; }
-
-        public bool IsChecked { get; set; }
+        public Driver Driver { get; private set; }
 
         public bool IsAdditional
         {
@@ -48,19 +36,11 @@ namespace LibraryModule.ViewModels
             get { return EnumsConverter.StateTypeToLibraryStateName(State.StateType); }
         }
 
-        public string Name
-        {
-            get
-            {
-                return IsAdditional ? String.Format("{0}. {1}", ClassName, AdditionalName) : ClassName;
-            }
-        }
-
         public string AdditionalName
         {
             get
             {
-                var driverState = ParentDriver.States.FirstOrDefault(x => x.Code != null && x.Code == State.Code);
+                var driverState = Driver.States.FirstOrDefault(x => x.Code != null && x.Code == State.Code);
                 if (driverState != null)
                 {
                     return IsAdditional ? driverState.Name : null;
@@ -69,62 +49,43 @@ namespace LibraryModule.ViewModels
             }
         }
 
-        public ObservableCollection<FrameViewModel> FrameViewModels { get; private set; }
+        public ObservableCollection<FrameViewModel> Frames { get; private set; }
 
-        FrameViewModel _selectedFrameViewModel;
-        public FrameViewModel SelectedFrameViewModel
+        FrameViewModel _selectedFrame;
+        public FrameViewModel SelectedFrame
         {
-            get { return _selectedFrameViewModel; }
+            get { return _selectedFrame; }
             set
             {
-                _selectedFrameViewModel = value;
-                OnPropertyChanged("SelectedFrameViewModel");
+                _selectedFrame = value;
+                OnPropertyChanged("SelectedFrame");
             }
-        }
-
-        public static void SetDefaultFrameTo(LibraryState state)
-        {
-            state.Frames = new List<LibraryFrame>();
-            state.Frames.Add(FrameViewModel.GetDefaultFrameWith(state.Frames.Count));
-        }
-
-        public static LibraryState GetDefaultStateWith(StateType stateType = DefaultStateType, string code = null)
-        {
-            var state = new LibraryState();
-            state.StateType = stateType;
-            state.Code = code;
-            SetDefaultFrameTo(state);
-
-            return state;
         }
 
         public RelayCommand AddFrameCommand { get; private set; }
         void OnAddFrame()
         {
-            var defaultFrame = FrameViewModel.GetDefaultFrameWith(FrameViewModels.Count);
-            State.Frames.Add(defaultFrame);
-            FrameViewModels.Add(new FrameViewModel(defaultFrame));
-
+            var libraryFrame = new LibraryFrame()
+            {
+                Id = Frames.Count
+            };
+            State.Frames.Add(libraryFrame);
+            Frames.Add(new FrameViewModel(libraryFrame));
+            SelectedFrame = Frames.LastOrDefault();
             ServiceFactory.SaveService.LibraryChanged = true;
         }
 
         public RelayCommand RemoveFrameCommand { get; private set; }
         void OnRemoveFrame()
         {
-            var result = MessageBoxService.ShowQuestion("Удалить выбранный кадр?");
-
-            if (result == MessageBoxResult.Yes)
-            {
-                State.Frames.Remove(SelectedFrameViewModel.Frame);
-                FrameViewModels.Remove(SelectedFrameViewModel);
-
-                ServiceFactory.SaveService.LibraryChanged = true;
-            }
+            State.Frames.Remove(SelectedFrame.Frame);
+            Frames.Remove(SelectedFrame);
+            SelectedFrame = Frames.FirstOrDefault();
+            ServiceFactory.SaveService.LibraryChanged = true;
         }
-
         bool CanRemoveFrame()
         {
-            return SelectedFrameViewModel != null && FrameViewModels.Count > 1;
+            return SelectedFrame != null && Frames.Count > 1;
         }
     }
 }

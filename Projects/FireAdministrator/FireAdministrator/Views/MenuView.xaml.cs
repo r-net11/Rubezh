@@ -100,9 +100,6 @@ namespace FireAdministrator.Views
 
                 if (ServiceFactory.SaveService.XDevicesChanged)
                     FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
-
-                if (ServiceFactory.SaveService.OPCChanged)
-                    FiresecManager.FiresecService.OPCRefresh();
             });
             ServiceFactory.SaveService.Reset();
             _saveButton.IsEnabled = false;

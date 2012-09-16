@@ -1,23 +1,61 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Infrastructure.Common.Windows.ViewModels;
 
 namespace LibraryModule.ViewModels
 {
-	public class StateDetailsViewModel : DetailsBaseViewModel<StateViewModel>
+    public class StateDetailsViewModel : SaveCancelDialogViewModel
 	{
-		public StateDetailsViewModel(LibraryDevice device)
+		public StateDetailsViewModel(LibraryDevice libraryDevice)
 			: base()
 		{
 			Title = "Добавить состояние";
 
-			var driver = FiresecClient.FiresecManager.Drivers.First(x => x.UID == device.DriverId);
+            var libraryStates = new List<LibraryState>();
 			foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
 			{
-				if (!device.States.Any(x => x.StateType == stateType && x.Code == null))
-					Items.Add(new StateViewModel(StateViewModel.GetDefaultStateWith(stateType), driver));
+                if (!libraryDevice.States.Any(x => x.StateType == stateType && x.Code == null))
+                {
+                    var libraryState = new LibraryState()
+                    {
+                        StateType = stateType
+                    };
+                    libraryStates.Add(libraryState);
+                }
 			}
+
+            var driverStates = from DriverState driverState in libraryDevice.Driver.States orderby driverState.StateType select driverState;
+            foreach (var driverState in driverStates)
+            {
+                if (driverState.Name != null && !libraryDevice.States.Any(x => x.Code == driverState.Code))
+                {
+                    var libraryState = new LibraryState()
+                    {
+                        StateType = driverState.StateType,
+                        Code = driverState.Code
+                    };
+                    libraryStates.Add(libraryState);
+                }
+            }
+
+            States = new List<StateViewModel>();
+            foreach (var libraryState in libraryStates)
+            {
+                var stateViewModel = new StateViewModel(libraryState, libraryDevice.Driver);
+                States.Add(stateViewModel);
+            }
+            SelectedState = States.FirstOrDefault();
 		}
+
+        public List<StateViewModel> States { get; private set; }
+        public StateViewModel SelectedState { get; set; }
+
+        protected override bool CanSave()
+        {
+            return SelectedState != null;
+        }
 	}
 }

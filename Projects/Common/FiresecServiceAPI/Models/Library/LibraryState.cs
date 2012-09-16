@@ -6,6 +6,12 @@ namespace FiresecAPI.Models
     [DataContract]
     public class LibraryState
     {
+        public LibraryState()
+        {
+            Frames = new List<LibraryFrame>();
+            Frames.Add(new LibraryFrame() { Id = 0 });
+        }
+
         [DataMember]
         public StateType StateType { get; set; }
 
