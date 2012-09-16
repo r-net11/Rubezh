@@ -9,10 +9,6 @@ namespace FiresecService.Service
         {
 			return ConfigurationFileManager.GetDriversConfiguration();
         }
-		//public void SetDriversConfiguration(DriversConfiguration driversConfiguration)
-		//{
-		//    ConfigurationFileManager.SetDriversConfiguration(driversConfiguration);
-		//}
 
         public DeviceConfiguration GetDeviceConfiguration()
         {

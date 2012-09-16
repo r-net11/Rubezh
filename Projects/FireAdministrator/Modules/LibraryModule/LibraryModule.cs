@@ -9,22 +9,22 @@ namespace LibraryModule
 {
 	public class LibraryModule : ModuleBase
 	{
-		LibraryViewModel _libraryViewModel;
+		LibraryViewModel LibraryViewModel;
 
 		public LibraryModule()
 		{
-			_libraryViewModel = new LibraryViewModel();
+			LibraryViewModel = new LibraryViewModel();
 		}
 
 		public override void Initialize()
 		{
-			_libraryViewModel.Initialize();
+			LibraryViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowLibraryEvent>(_libraryViewModel, "Библиотека","/Controls;component/Images/book.png"),
+                new NavigationItem<ShowLibraryEvent>(LibraryViewModel, "Библиотека","/Controls;component/Images/book.png"),
 			};
 		}
 		public override string Name

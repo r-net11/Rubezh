@@ -6,6 +6,7 @@ namespace FiresecService
     public static class ConfigurationCash
     {
         public static SecurityConfiguration SecurityConfiguration { get; set; }
+
         static ConfigurationCash()
         {
             SecurityConfiguration = ConfigurationFileManager.GetSecurityConfiguration();

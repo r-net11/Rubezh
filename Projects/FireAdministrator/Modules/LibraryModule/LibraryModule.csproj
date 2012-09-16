@@ -119,33 +119,19 @@
     </Compile>
     <Compile Include="ImageConverters.cs" />
     <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
-    <Compile Include="ViewModels\DetailsBaseViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
     <Compile Include="ViewModels\FrameViewModel.cs" />
-    <Compile Include="ViewModels\LibraryViewModel.cs" />
-    <Compile Include="ViewModels\AdditionalStateDetailsViewModel.cs" />
     <Compile Include="ViewModels\StateDetailsViewModel.cs" />
     <Compile Include="ViewModels\StateViewModel.cs" />
-    <Compile Include="Views\DeviceControlView.xaml.cs">
-      <DependentUpon>DeviceControlView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\FramesView.xaml.cs">
-      <DependentUpon>FramesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LibraryTree.xaml.cs">
-      <DependentUpon>LibraryTree.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LibraryView.xaml.cs">
-      <DependentUpon>LibraryView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AdditionalStateDetailsView.xaml.cs">
-      <DependentUpon>AdditionalStateDetailsView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModels\LibraryViewModel.cs" />
     <Compile Include="Views\StateDetailsView.xaml.cs">
       <DependentUpon>StateDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\DeviceDetailsView.xaml.cs">
       <DependentUpon>DeviceDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LibraryView.xaml.cs">
+      <DependentUpon>LibraryView.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -197,26 +183,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\DeviceControlView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\FramesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LibraryTree.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\LibraryView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AdditionalStateDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\StateDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -224,6 +190,10 @@
     <Page Include="Views\DeviceDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LibraryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

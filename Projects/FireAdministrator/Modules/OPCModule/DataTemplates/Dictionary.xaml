@@ -11,8 +11,4 @@
         <Views:OPCZonesView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:OPCSettingsViewModel}">
-        <Views:OPCSettingsView />
-    </DataTemplate>
-
 </ResourceDictionary>

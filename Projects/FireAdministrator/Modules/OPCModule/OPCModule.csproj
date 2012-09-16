@@ -61,14 +61,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\OPCDevicesViewModel.cs" />
     <Compile Include="ViewModels\OPCDeviceViewModel.cs" />
-    <Compile Include="ViewModels\OPCSettingsViewModel.cs" />
     <Compile Include="ViewModels\OPCZonesViewModel.cs" />
     <Compile Include="ViewModels\OPCZoneViewModel.cs" />
     <Compile Include="Views\OPCDevicesView.xaml.cs">
       <DependentUpon>OPCDevicesView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OPCSettingsView.xaml.cs">
-      <DependentUpon>OPCSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\OPCZonesView.xaml.cs">
       <DependentUpon>OPCZonesView.xaml</DependentUpon>
@@ -108,10 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\OPCDevicesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OPCSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
