@@ -39,6 +39,8 @@ namespace PlansModule.InstrumentAdorners
 				if (!AdornerCanvas.Children.Contains(rubberband))
 					AdornerCanvas.Children.Add(rubberband);
 			}
+			if (e.LeftButton == MouseButtonState.Pressed && e.ClickCount == 2)
+				ClosePolygon();
 		}
 		protected override void OnMouseMove(MouseEventArgs e)
 		{
@@ -79,7 +81,12 @@ namespace PlansModule.InstrumentAdorners
 		public override void KeyboardInput(Key key)
 		{
 			base.KeyboardInput(key);
-			if (key == Key.Enter && Points.Count > 2)
+			if (key == Key.Enter)
+				ClosePolygon();
+		}
+		private void ClosePolygon()
+		{
+			if (Points.Count > 2)
 			{
 				AdornerCanvas.ReleaseMouseCapture();
 				AdornerCanvas.Children.Remove(rubberband);

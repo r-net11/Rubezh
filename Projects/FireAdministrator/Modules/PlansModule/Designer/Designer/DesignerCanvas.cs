@@ -12,6 +12,8 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
+using System.Windows.Media.Imaging;
+using Infrastructure.Common;
 
 namespace PlansModule.Designer
 {
@@ -174,6 +176,8 @@ namespace PlansModule.Designer
 			Background = new SolidColorBrush(Plan.BackgroundColor);
 			if (Plan.BackgroundPixels != null)
 				Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
+			else if (Plan.BackgroundColor == Colors.Transparent)
+				Background = PainterHelper.CreateTransparentBrush();
 		}
 		public override void Remove(List<Guid> elementUIDs)
 		{

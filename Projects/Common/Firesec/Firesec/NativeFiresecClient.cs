@@ -6,16 +6,31 @@ using System.Threading;
 using System.Windows.Controls;
 using Common;
 using FiresecAPI;
+using System.Windows.Threading;
 
 namespace Firesec
 {
 	public class NativeFiresecClient : FS_Types.IFS_CallBack
 	{
-		Control control;
+		private Dispatcher _dispatcher;
 
 		public NativeFiresecClient()
 		{
-			control = new Control();
+			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
+				{
+					if (_dispatcher != null)
+						_dispatcher.InvokeShutdown();
+				};
+			var dispatcherThread = new Thread(new ParameterizedThreadStart(obj =>
+			{
+				_dispatcher = Dispatcher.CurrentDispatcher;
+				Dispatcher.Run();
+			}));
+			dispatcherThread.SetApartmentState(ApartmentState.STA);
+			dispatcherThread.IsBackground = true;
+			dispatcherThread.Start();
+			dispatcherThread.Join(100);
+
 			var thread = new Thread(new ThreadStart(WorkTask));
 			thread.Start();
 		}
@@ -31,7 +46,7 @@ namespace Firesec
 			}
 		}
 
-        public OperationResult<bool> Connect(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
+		public OperationResult<bool> Connect(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			return SafeCall<bool>(() => { _connectoin = GetConnection(FS_Address, FS_Port, FS_Login, FS_Password); return true; }, "Connect");
 		}
@@ -129,7 +144,7 @@ namespace Firesec
 					var result = Connectoin.CheckHaspPresence(out errorMessage);
 					return result;
 				}
-				catch(Exception e)
+				catch (Exception e)
 				{
 					Logger.Error(e, "Исключение при вызове NativeFiresecClient.CheckHaspPresence");
 					return true;
@@ -238,21 +253,21 @@ namespace Firesec
 		}
 
 		#region Connection
-        FS_Types.IFSC_Connection GetConnection(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
+		FS_Types.IFSC_Connection GetConnection(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			SocketServerHelper.StartIfNotRunning();
 
 			FS_Types.FSC_LIBRARY_CLASSClass library = new FS_Types.FSC_LIBRARY_CLASSClass();
 			var serverInfo = new FS_Types.TFSC_ServerInfo()
 			{
-                ServerName = FS_Address,
-                Port = FS_Port
+				ServerName = FS_Address,
+				Port = FS_Port
 			};
 
 			try
 			{
 				//FS_Types.IFSC_Connection connectoin = library.Connect3(login, password, serverInfo, this, false);
-                FS_Types.IFSC_Connection connectoin = library.Connect2(FS_Login, FS_Password, serverInfo, this);
+				FS_Types.IFSC_Connection connectoin = library.Connect2(FS_Login, FS_Password, serverInfo, this);
 				return connectoin;
 			}
 			catch (Exception e)
@@ -299,7 +314,7 @@ namespace Firesec
 		#region SafeCall
 		OperationResult<T> SafeCall<T>(Func<T> func, string methodName)
 		{
-			var safeCallResult = (OperationResult<T>)control.Dispatcher.Invoke
+			var safeCallResult = (OperationResult<T>)_dispatcher.Invoke
 			(
 				new Func<OperationResult<T>>
 				(

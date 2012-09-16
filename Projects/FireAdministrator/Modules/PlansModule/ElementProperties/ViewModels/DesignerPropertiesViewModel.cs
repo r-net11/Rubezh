@@ -16,7 +16,8 @@ namespace PlansModule.ViewModels
 			Plan = plan ?? new Plan()
 			{
 				Width = 400,
-				Height = 400
+				Height = 400,
+				//BackgroundColor = Colors.Transparent
 			};
 			CopyProperties();
 		}
@@ -91,7 +92,7 @@ namespace PlansModule.ViewModels
 		{
 			return !string.IsNullOrEmpty(Caption);
 		}
-		
+
 		protected override bool Save()
 		{
 			Plan.Caption = Caption;

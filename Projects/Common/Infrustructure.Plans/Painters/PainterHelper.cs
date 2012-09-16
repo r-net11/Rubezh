@@ -4,6 +4,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Infrustructure.Plans.Elements;
+using System.Reflection;
 
 namespace Infrustructure.Plans.Painters
 {
@@ -11,11 +12,9 @@ namespace Infrustructure.Plans.Painters
 	{
 		public static void SetStyle(Shape shape, ElementBase element)
 		{
-			shape.Fill = new SolidColorBrush(element.BackgroundColor);
+			shape.Fill = CreateBackgroundBrush(element);
 			shape.Stroke = new SolidColorBrush(element.BorderColor);
 			shape.StrokeThickness = element.BorderThickness;
-			if (element.BackgroundPixels != null)
-				shape.Fill = PainterHelper.CreateBrush(element.BackgroundPixels);
 		}
 		public static PointCollection GetPoints(ElementBase element)
 		{
@@ -40,6 +39,28 @@ namespace Infrustructure.Plans.Painters
 				bitmapImage.EndInit();
 				return new ImageBrush(bitmapImage);
 			}
+		}
+		public static Brush CreateTransparentBrush()
+		{
+			BitmapImage bi = new BitmapImage();
+			bi.BeginInit();
+			bi.UriSource = new System.Uri(string.Format("pack://application:,,,/{0};component/Resources/Transparent.bmp", Assembly.GetExecutingAssembly()));
+			bi.EndInit();
+			return new ImageBrush(bi)
+			{
+				TileMode = TileMode.Tile,
+				ViewportUnits = BrushMappingMode.Absolute,
+				Viewport = new Rect(0, 0, 16, 16)
+			};
+		}
+		public static Brush CreateBackgroundBrush(ElementBase element)
+		{
+			if (element.BackgroundPixels != null)
+				return PainterHelper.CreateBrush(element.BackgroundPixels);
+			else if (element.BackgroundColor == Colors.Transparent)
+				return PainterHelper.CreateTransparentBrush();
+			else
+				return new SolidColorBrush(element.BackgroundColor);
 		}
 	}
 }

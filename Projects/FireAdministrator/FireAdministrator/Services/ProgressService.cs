@@ -5,6 +5,7 @@ using Common;
 using FireAdministrator.ViewModels;
 using Infrastructure;
 using Infrastructure.Common.Windows;
+using FiresecClient;
 
 namespace FireAdministrator
 {
