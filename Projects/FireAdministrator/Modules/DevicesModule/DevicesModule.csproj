@@ -139,7 +139,7 @@
     <Compile Include="Devices\ViewModels\PropertyDetails\Indicator\IndicatorZoneSelectionViewModel.cs" />
     <Compile Include="Devices\ViewModels\Actions\Async\SetPasswordHelper.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\MptDetailsViewModel.cs" />
-    <Compile Include="Devices\ViewModels\PropertyDetails\TelephoneLineDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\PropertyDetails\UOOTLDetailsViewModel.cs" />
     <Compile Include="Devices\Views\Actions\CustomAdminFunctionsCommandView.xaml.cs">
       <DependentUpon>CustomAdminFunctionsCommandView.xaml</DependentUpon>
     </Compile>
@@ -184,8 +184,8 @@
     <Compile Include="Devices\Views\PropertyDetails\MptDetailsView.xaml.cs">
       <DependentUpon>MptDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\PropertyDetails\TelephoneLineDetailsView.xaml.cs">
-      <DependentUpon>TelephoneLineDetailsView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\PropertyDetails\UOOTLDetailsView.xaml.cs">
+      <DependentUpon>UOOTLDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Guard\Async\DeviceGetGuardUsersListHelper.cs" />
     <Compile Include="Guard\Async\DeviceSetGuardUsersListHelper.cs" />
@@ -463,9 +463,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\PropertyDetails\TelephoneLineDetailsView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Devices\Views\PropertyDetails\UOOTLDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Directions\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>

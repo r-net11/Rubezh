@@ -38,9 +38,6 @@ namespace DevicesModule.Views
             if (e.Key == Key.Delete && Keyboard.Modifiers == ModifierKeys.Control)
                 PressButton(deleteButton);
 
-            if (e.Key == Key.Delete && Keyboard.Modifiers == ModifierKeys.Shift)
-                PressButton(deleteAllButton);
-
             if (e.Key == Key.Delete && ((int)Keyboard.Modifiers == ((int)ModifierKeys.Control + (int)ModifierKeys.Shift)))
                 PressButton(deleteAllEmptyButton);
 

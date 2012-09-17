@@ -6,10 +6,11 @@
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 	
 	<Style x:Key="ToolarButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border Name="border" BorderThickness="1" BorderBrush="Transparent" Padding="2" Margin="2" CornerRadius="2"
+                    <Border Name="border" BorderThickness="1" BorderBrush="Transparent" Background="{TemplateBinding Background}" Padding="2" Margin="2" CornerRadius="2"
                             ToolTip="{TemplateBinding ToolTip}" ToolTipService.ShowOnDisabled="True">
                         <ContentPresenter Content="{TemplateBinding ContentControl.Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" />
                     </Border>

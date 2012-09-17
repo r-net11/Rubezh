@@ -11,7 +11,7 @@ namespace DevicesModule.ViewModels
 
 		public ValveDetailsViewModel(Device device)
 		{
-			Title = "Свойства Задвижки";
+			Title = "Параметры устройства: ШУЗ";
 			_device = device;
 
 			var actionProperty = _device.Properties.FirstOrDefault(x => x.Name == "Action");

@@ -5,9 +5,9 @@ using System.Windows.Input;
 
 namespace DevicesModule.Views
 {
-    public partial class TelephoneLineDetailsView : UserControl
+    public partial class UOOTLDetailsView : UserControl
     {
-        public TelephoneLineDetailsView()
+        public UOOTLDetailsView()
         {
             InitializeComponent();
         }
@@ -15,7 +15,7 @@ namespace DevicesModule.Views
         public static readonly DependencyProperty IsNumericOnlyProperty = DependencyProperty.RegisterAttached(
                  "IsNumericOnly",
                  typeof(bool),
-                 typeof(TelephoneLineDetailsView),
+                 typeof(UOOTLDetailsView),
                  new UIPropertyMetadata(false, OnIsNumericOnlyChanged));
 
         /// <summary>

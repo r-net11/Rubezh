@@ -108,7 +108,6 @@
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\ColorToNameConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
-    <Compile Include="Converters\LevelToIndentConverter.cs" />
     <Compile Include="Converters\MultiBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\NullToBoolConverter.cs" />
     <Compile Include="Converters\DateTimeToStringConverter.cs" />
@@ -158,9 +157,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ToolBarButton.cs" />
-    <Compile Include="TreeGridViewRowPresenter.cs" />
-    <Compile Include="TreeListView.cs" />
-    <Compile Include="TreeListViewItem.cs" />
     <Compile Include="XButton.cs" />
     <Compile Include="XDataGrid.cs" />
     <Compile Include="XRichTextBox.cs" />
@@ -310,10 +306,6 @@
     <Page Include="Themes\HyperlinkStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Themes\TreeListViewStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\TreeViewStyle.xaml">
       <SubType>Designer</SubType>
@@ -687,13 +679,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\Bug.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\Arrow-down-right.png" />
-    <Resource Include="Images\Arrow-up-left.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="FSIcons\FanControl.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

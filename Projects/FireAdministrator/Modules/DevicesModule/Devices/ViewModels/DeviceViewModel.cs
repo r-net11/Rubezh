@@ -289,7 +289,7 @@ namespace DevicesModule.ViewModels
 					break;
 
 				case DriverType.UOO_TL:
-					if (DialogService.ShowModalWindow(new TelephoneLineDetailsViewModel(Device)))
+					if (DialogService.ShowModalWindow(new UOOTLDetailsViewModel(Device)))
 						ServiceFactory.SaveService.DevicesChanged = true;
 					break;
 

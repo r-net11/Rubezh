@@ -11,10 +11,10 @@ namespace Controls.Converters
                                 object parameter,
                                 System.Globalization.CultureInfo culture)
         {
-            bool visible = true;
+            bool visible = false;
             foreach (object value in values)
                 if (value is bool)
-                    visible = visible && (bool)value;
+                    visible = visible || (bool)value;
             if (parameter != null && System.Convert.ToBoolean(parameter))
             {
                 return visible ? Visibility.Collapsed : Visibility.Visible;

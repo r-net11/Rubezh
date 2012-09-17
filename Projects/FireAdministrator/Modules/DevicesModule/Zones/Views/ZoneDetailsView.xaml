@@ -28,7 +28,7 @@
 
                 <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" />
-                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" TextWrapping="Wrap" />
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="2" TextWrapping="Wrap" MaxLength="20"/>
             </Grid>
         </TabItem>
 

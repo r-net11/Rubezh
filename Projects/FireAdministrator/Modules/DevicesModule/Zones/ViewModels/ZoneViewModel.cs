@@ -22,6 +22,17 @@ namespace DevicesModule.ViewModels
             }
         }
 
+        bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                _isSelected = value;
+                OnPropertyChanged("IsSelected");
+            }
+        }
+
         public void Update(Zone zone)
         {
             Zone = zone;

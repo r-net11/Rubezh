@@ -50,8 +50,8 @@
 												</ComboBox.ItemTemplate>
 											</ComboBox>
 
-											<TextBlock Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-												<Hyperlink Command="{Binding ShowZonesCommand}" Style="{StaticResource HyperlinkStyle}">
+											<Grid Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+                                                <Button Command="{Binding ShowZonesCommand}" Foreground="White" Style="{StaticResource ToolarButtonStyle}" Background="#333333">
 													<TextBlock Margin="2">
 														<TextBlock.Style>
 															<Style>
@@ -63,9 +63,9 @@
 																</Style.Triggers>
 															</Style>
 														</TextBlock.Style>
-													</TextBlock>         
-												</Hyperlink>
-											</TextBlock>
+													</TextBlock>
+                                                </Button>
+                                            </Grid>
 
 										</StackPanel>
 
@@ -100,12 +100,12 @@
 										ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
 								</Grid>
 								<Grid Visibility="{Binding ShowJoinOperator, Converter={StaticResource BoolToVisibilityConverter}}">
-									<Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
+                                    <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
 										Content="{Binding JoinOperator, Converter={StaticResource ZoneLogicJoinOperatorConverter}}"
 										Command="{Binding ChangeJoinOperatorCommand}"
-										Width="75" HorizontalAlignment="Left" Style="{StaticResource ToolarButtonStyle}" Foreground="White" />
-								</Grid>
-
+										Width="75" HorizontalAlignment="Left" Foreground="White" Background="#333333" Style="{StaticResource ToolarButtonStyle}">
+                                    </Button>
+                                </Grid>
 							</StackPanel>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>

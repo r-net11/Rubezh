@@ -35,8 +35,8 @@
         <Views:ValveDetailsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:TelephoneLineDetailsViewModel}">
-        <Views:TelephoneLineDetailsView />
+    <DataTemplate DataType="{x:Type ViewModels:UOOTLDetailsViewModel}">
+        <Views:UOOTLDetailsView />
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type ViewModels:PumpDetailsViewModel}">

@@ -11,13 +11,13 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class TelephoneLineDetailsViewModel : SaveCancelDialogViewModel
+	public class UOOTLDetailsViewModel : SaveCancelDialogViewModel
 	{
 		Device Device;
 
-		public TelephoneLineDetailsViewModel(Device device)
+		public UOOTLDetailsViewModel(Device device)
 		{
-			Title = "Параметры УОО-ТЛ";
+			Title = "Параметры устройства: УОО-ТЛ";
 			SelectAllCommand = new RelayCommand(OnSelectAll);
 			DeselectAllCommand = new RelayCommand(OnDeselectAll);
 			ReadCommand = new RelayCommand(OnRead);

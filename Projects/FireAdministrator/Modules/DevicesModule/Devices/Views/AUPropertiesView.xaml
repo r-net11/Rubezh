@@ -18,8 +18,8 @@
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition SharedSizeGroup="group1" Width="700" />
-                                    <ColumnDefinition SharedSizeGroup="group2" Width="*"/>
+                                    <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                    <ColumnDefinition SharedSizeGroup="group2" Width="350"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}"/>
@@ -32,8 +32,8 @@
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition SharedSizeGroup="group1" Width="700" />
-                                    <ColumnDefinition SharedSizeGroup="group2" Width="*"/>
+                                    <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                    <ColumnDefinition SharedSizeGroup="group2" Width="350"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -46,8 +46,8 @@
                         <DataTemplate>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition SharedSizeGroup="group1" Width="700" />
-                                    <ColumnDefinition SharedSizeGroup="group2" Width="*"/>
+                                    <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                    <ColumnDefinition SharedSizeGroup="group2" Width="350"/>
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
                                 <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}">

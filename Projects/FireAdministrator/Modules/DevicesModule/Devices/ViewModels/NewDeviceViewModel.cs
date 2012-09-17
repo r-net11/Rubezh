@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
 				from Driver driver in FiresecManager.Drivers
 				where (_parent.Driver.AvaliableChildren.Contains(driver.UID))
 				select driver);
-
+            Drivers = Drivers.OrderBy(driver => driver.ShortName).ToList();
 			SelectedDriver = Drivers.FirstOrDefault();
 			Count = 1;
 		}

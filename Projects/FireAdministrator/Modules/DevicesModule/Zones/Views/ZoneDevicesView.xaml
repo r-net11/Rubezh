@@ -17,7 +17,7 @@
             </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Устройство" Width="250">
+                    <DataGridTemplateColumn Header="Устройства в зоне" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
@@ -65,7 +65,7 @@
         <Grid Grid.Row="2">
             <DataGrid ItemsSource="{Binding AvailableDevices}" SelectedItem="{Binding SelectedAvailableDevice}">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Устройство" Width="250">
+                    <DataGridTemplateColumn Header="Устройства не в зоне" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">

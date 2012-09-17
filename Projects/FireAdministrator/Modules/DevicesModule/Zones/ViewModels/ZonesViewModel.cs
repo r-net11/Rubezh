@@ -22,9 +22,8 @@ namespace DevicesModule.ViewModels
 		{
 			Menu = new ZonesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
-			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
+            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
-			DeleteAllCommand = new RelayCommand(OnDeleteAll, CanDeleteAll);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAll);
 			ZoneDevices = new ZoneDevicesViewModel();
 		}
@@ -67,8 +66,15 @@ namespace DevicesModule.ViewModels
 
 		bool CanEditDelete()
 		{
-			return SelectedZone != null;
+            int count = Zones.Count(zone => zone.IsSelected == true);
+            EditingEnabled = (count > 1) ? false : true;
+            return EditingEnabled;
 		}
+
+        bool CanDelete()
+        {
+            return SelectedZone!=null;
+        }
 
 		bool CanDeleteAll()
 		{
@@ -109,6 +115,20 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+        private bool editingEnabled;
+        public bool EditingEnabled
+	    {
+	        get
+	        {
+                return editingEnabled;
+	        }
+            set
+            {
+                editingEnabled = value;
+                OnPropertyChanged("EditingEnabled");
+            }
+	    }
+       
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
@@ -124,16 +144,29 @@ namespace DevicesModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName);
+		    string title = "Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName + "?";
+            if(Zones.Count(zone => zone.IsSelected == true) > 1)
+                title = "Вы уверены, что хотите удалить выбранные зоны?";
+			var dialogResult = MessageBoxService.ShowQuestion(title);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				FiresecManager.Zones.Remove(SelectedZone.Zone);
-				FiresecManager.Devices.ForEach(x => { if ((x.ZoneNo != null) && (x.ZoneNo.Value == SelectedZone.Zone.No)) x.ZoneNo = null; });
-				Zones.Remove(SelectedZone);
-				SelectedZone = Zones.FirstOrDefault();
-				ZoneDevices.UpdateAvailableDevices();
-				ServiceFactory.SaveService.DevicesChanged = true;
-				FiresecManager.FiresecConfiguration.InvalidateConfiguration();
+			    var tempZones = new ObservableCollection<ZoneViewModel>(Zones);
+                foreach (var zoneViewModel in Zones)
+                {
+                    if (zoneViewModel.IsSelected)
+                    {
+                        FiresecManager.Zones.Remove(zoneViewModel.Zone);
+                        FiresecManager.Devices.ForEach(
+                            x =>
+                            { if ((x.ZoneNo != null) && (x.ZoneNo.Value == zoneViewModel.Zone.No)) x.ZoneNo = null; });
+                        tempZones.Remove(zoneViewModel);
+                    }
+                }
+                Zones = new ObservableCollection<ZoneViewModel>(tempZones);
+                SelectedZone = Zones.FirstOrDefault();
+                ZoneDevices.UpdateAvailableDevices();
+                ServiceFactory.SaveService.DevicesChanged = true;
+                FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 			}
 		}
 
@@ -141,22 +174,6 @@ namespace DevicesModule.ViewModels
 		void OnEdit()
 		{
 			OnEdit(SelectedZone.Zone);
-		}
-
-		public RelayCommand DeleteAllCommand { get; private set; }
-		void OnDeleteAll()
-		{
-			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить все зоны ?");
-			if (dialogResult == MessageBoxResult.Yes)
-			{
-				FiresecManager.Zones.Clear();
-				FiresecManager.Devices.ForEach(x => x.ZoneNo = null);
-				Zones.Clear();
-				SelectedZone = null;
-
-				ServiceFactory.SaveService.DevicesChanged = true;
-				FiresecManager.FiresecConfiguration.InvalidateConfiguration();
-			}
 		}
 
 		public RelayCommand DeleteAllEmptyCommand { get; private set; }
