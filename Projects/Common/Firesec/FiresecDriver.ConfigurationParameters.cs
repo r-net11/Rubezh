@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Windows;
 
 namespace Firesec
 {
@@ -57,7 +58,7 @@ namespace Firesec
 							{
 								if (driverProperty.No == paramNo)
 								{
-									if (paramNo == 0x81
+									if (paramNo == 0x8d && driverProperty.Name == "датчик уровня"
 										//&& paramNo <= 0xbf
 										)
 									{
@@ -96,6 +97,7 @@ namespace Firesec
 									{
 										offsetParamValue = offsetParamValue * 5;
 									}
+
 									var property = new Property()
 									{
 										Name = driverProperty.Name,
@@ -114,15 +116,15 @@ namespace Firesec
 				}
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 				waitCount++;
-				//if (waitCount > 60)
-				//{
-				//    return new OperationResult<List<Property>>()
-				//    {
-				//        Result = null,
-				//        HasError = true,
-				//        Error = "Превышено время выполнения запроса"
-				//    };
-				//}
+				if (waitCount > 600)
+				{
+					return new OperationResult<List<Property>>()
+					{
+						Result = null,
+						HasError = true,
+						Error = "Превышено время выполнения запроса"
+					};
+				}
 			}
 
 			return new OperationResult<List<Property>>()
@@ -139,12 +141,12 @@ namespace Firesec
 			foreach (var property in properties)
 			{
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				if (driverProperty.No == 0x8c
-					//&& binProperty.No <= 0xbf
-						)
-				{
-					;
-				}
+				//if (driverProperty.No == 0x8c
+				//    //&& binProperty.No <= 0xbf
+				//        )
+				//{
+				//    ;
+				//}
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
 					var binProperty = binProperties.FirstOrDefault(x => x.No == driverProperty.No);
@@ -175,6 +177,11 @@ namespace Firesec
 							intValue = (int)Math.Truncate((double)intValue / 5);
 						}
 					}
+					//if (intValue < driverProperty.Min || intValue > driverProperty.Max)
+					//{
+					//    MessageBox.Show("Значение параметра " + driverProperty.Caption + " вне допустимого диапазона");
+					//    return ;
+					//}
 
 					if (driverProperty.BitOffset > 0)
 					{

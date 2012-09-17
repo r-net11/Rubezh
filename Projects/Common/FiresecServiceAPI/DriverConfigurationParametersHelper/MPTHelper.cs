@@ -94,7 +94,7 @@ namespace FiresecAPI.Models
 				Name = propertyName,
 				Caption = propertyName,
 				Default = "4",
-				UseMask = true
+				UseMask = true,
 			};
 			ConfigurationDriverHelper.AddPropertyParameter(property, "1 Состояние цепи не контролируется", 1);
 			ConfigurationDriverHelper.AddPropertyParameter(property, "2 Цепь контролируется только на обрыв", 2);

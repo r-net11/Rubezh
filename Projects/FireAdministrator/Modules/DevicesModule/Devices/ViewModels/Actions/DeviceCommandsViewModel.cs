@@ -223,12 +223,28 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SetConfigurationParametersCommand { get; private set; }
 		void OnSetConfigurationParameters()
 		{
-			ServiceFactory.ProgressService.Run(OnPropgress1, OnCompleted1, "Запись параметров в устройство");
+			bool ewrthg_ok = true;
+			foreach (var property in SelectedDevice.Device.Properties)
+			{
+				var prop = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (prop != null &&
+					prop.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
+					(int.Parse(property.Value) < prop.Min || int.Parse(property.Value) > prop.Max)
+					)
+				{
+					MessageBoxService.Show("Значение параметра " + prop.Caption + " вне допустимого диапазона", "Firesec");
+					ewrthg_ok = false;
+				}
+			}
+
+
+			if (ewrthg_ok)
+				ServiceFactory.ProgressService.Run(OnPropgress1, OnCompleted1, "Запись параметров в устройство");
 		}
 		void OnPropgress1()
 		{
 			FiresecManager.FiresecDriver.SetConfigurationParameters(SelectedDevice.Device.UID,
-																	SelectedDevice.Device.Properties);
+																		SelectedDevice.Device.Properties);
 		}
 		void OnCompleted1()
 		{
@@ -236,6 +252,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanSetConfigurationParameters()
 		{
+			
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
 		}
 
