@@ -6,6 +6,7 @@ using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using Firesec.Imitator;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -139,27 +140,7 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand Test2Command { get; private set; }
         void OnTest2()
         {
-            //foreach (var driver in FiresecManager.FiresecConfiguration.Drivers)
-            //{
-            //    string fileName = driver.ImageSource;
-            //    fileName = fileName.Replace(@"/Controls;component/Icons/", @"D:\Projects\Projects\Common\Controls\Icons\");
-            //    File.Copy(fileName, @"D:\FSIcons\" + driver.DriverType.ToString() + ".png", true);
-            //}
-
-            //foreach (var driver in XManager.DriversConfiguration.Drivers)
-            //{
-            //    string fileName = driver.ImageSource;
-            //    fileName = fileName.Replace(@"/Controls;component/Icons/", @"D:\Projects\Projects\Common\Controls\Icons\");
-            //    File.Copy(fileName, @"D:\GKIcons\" + driver.DriverType.ToString() + ".png", true);
-            //}
-
-            //var stringBuilder = new StringBuilder();
-            //foreach (var driver in XManager.DriversConfiguration.Drivers)
-            //{
-            //    stringBuilder.AppendLine(driver.ImageSource);
-            //    stringBuilder.AppendLine(IconHelper.GetGKIcon(driver));
-            //}
-            //Text = stringBuilder.ToString();
+			ImitatorService.Show();
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Firesec
 				foreach (var item in lEDProperties.zone)
 				{
 					if (string.IsNullOrWhiteSpace(item) == false)
-						indicatorLogic.Zones.Add(int.Parse(item));
+						indicatorLogic.ZoneNos.Add(int.Parse(item));
 				}
 			}
 
@@ -53,7 +53,7 @@ namespace Firesec
 				case IndicatorLogicType.Zone:
 					lEDProperties.type = "0";
 					lEDProperties.device = null;
-					lEDProperties.zone = indicatorLogic.Zones.Select(x => x.ToString()).ToArray();
+					lEDProperties.zone = indicatorLogic.ZoneNos.Select(x => x.ToString()).ToArray();
 					break;
 
 				case IndicatorLogicType.Device:

@@ -185,10 +185,10 @@ namespace GKModule.Converter
                                 default:
                                     continue;
                             }
-                            if ((clause.Zones == null) || (clause.Zones.Count == 0))
+                            if ((clause.ZoneNos == null) || (clause.ZoneNos.Count == 0))
                                 continue;
 
-                            foreach (var zoneNo in clause.Zones)
+                            foreach (var zoneNo in clause.ZoneNos)
                             {
                                 var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == zoneNo);
                                 xClause.Zones.Add(xZone.UID);

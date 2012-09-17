@@ -16,11 +16,18 @@ namespace FiresecAPI.Models
 			AutoSet = "0";
 			Delay = "0";
 			ShapeIds = new List<string>();
+
+			DevicesInZone = new List<Device>();
+			DeviceInZoneLogic = new List<Device>();
+			IndicatorsInZone = new List<Device>();
 		}
 
 		public ZoneState ZoneState { get; set; }
 		public List<string> ShapeIds { get; set; }
 		public Guid SecPanelUID { get; set; }
+		public List<Device> DevicesInZone { get; set; }
+		public List<Device> DeviceInZoneLogic { get; set; }
+		public List<Device> IndicatorsInZone { get; set; }
 
 		[DataMember]
 		public int No { get; set; }
@@ -60,7 +67,11 @@ namespace FiresecAPI.Models
 			get { return No + "." + Name; }
 		}
 
-		public List<Device> DevicesInZone { get; set; }
-		public List<Device> DeviceInZoneLogic { get; set; }
+		public void OnChanged()
+		{
+			if (Changed != null)
+				Changed();
+		}
+		public Action Changed { get; set; }
 	}
 }

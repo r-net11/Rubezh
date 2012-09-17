@@ -36,8 +36,8 @@ namespace DevicesModule.ViewModels
 			{
 				case IndicatorLogicType.Zone:
 					IsZone = true;
-					if (device.IndicatorLogic.Zones != null)
-						Zones = device.IndicatorLogic.Zones;
+					if (device.IndicatorLogic.ZoneNos != null)
+						Zones = device.IndicatorLogic.ZoneNos;
 					break;
 
 				case IndicatorLogicType.Device:
@@ -184,7 +184,7 @@ namespace DevicesModule.ViewModels
 			if (IsZone)
 			{
 				Device.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Zone;
-				Device.IndicatorLogic.Zones = Zones;
+				Device.IndicatorLogic.ZoneNos = Zones;
 			}
 			else if (IsDevice)
 			{

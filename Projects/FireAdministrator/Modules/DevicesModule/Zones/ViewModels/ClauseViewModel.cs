@@ -23,10 +23,10 @@ namespace DevicesModule.ViewModels
 			_zoneLogicViewModel = zoneLogicViewModel;
 			_device = device;
 			Zones = new List<int>(
-				from zoneNo in clause.Zones
+				from zoneNo in clause.ZoneNos
 				orderby zoneNo
 				select zoneNo);
-			Zones = clause.Zones.ToList();
+			Zones = clause.ZoneNos.ToList();
 			_selectedState = clause.State;
 			SelectedOperation = clause.Operation;
 

@@ -19,7 +19,11 @@ namespace Firesec.Imitator.ViewModels
 
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				if (device.Driver.DriverType == (DriverType.IndicationBlock | DriverType.Page | DriverType.Indicator))
+				if (device.Driver.DriverType == DriverType.IndicationBlock)
+					continue;
+				if (device.Driver.DriverType == DriverType.Page)
+					continue;
+				if (device.Driver.DriverType == DriverType.Indicator)
 					continue;
 
 				var deviceViewModel = new DeviceViewModel(device.DeviceState);

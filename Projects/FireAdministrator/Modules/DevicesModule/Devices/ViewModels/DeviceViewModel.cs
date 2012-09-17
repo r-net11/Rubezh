@@ -235,16 +235,14 @@ namespace DevicesModule.ViewModels
 			var index = DevicesViewModel.Current.Devices.IndexOf(DevicesViewModel.Current.SelectedDevice);
 
 			Parent.IsExpanded = false;
-			Parent.Device.Children.Remove(Device);
+			FiresecManager.FiresecConfiguration.RemoveDevice(Device);
 			Parent.Children.Remove(this);
 			Parent.Update();
 			Parent.IsExpanded = true;
 			Parent = null;
 
-			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.DevicesChanged = true;
 			DevicesViewModel.UpdateGuardVisibility();
-			FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 
 			index = Math.Min(index, DevicesViewModel.Current.Devices.Count - 1);
 			DevicesViewModel.Current.SelectedDevice = DevicesViewModel.Current.Devices[index];

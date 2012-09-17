@@ -25,6 +25,9 @@ namespace FiresecAPI.Models
 		public Device Parent { get; set; }
 		public DeviceState DeviceState { get; set; }
 		public List<string> ShapeIds { get; set; }
+		public Zone Zone { get; set; }
+		public List<Zone> ZonesInLogic { get; set; }
+		public List<Device> DependentDevices { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }

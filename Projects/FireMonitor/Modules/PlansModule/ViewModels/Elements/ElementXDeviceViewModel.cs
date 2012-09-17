@@ -32,7 +32,10 @@ namespace PlansModule.ViewModels
 			XDeviceUID = elementXDevice.XDeviceUID;
 			XDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementXDevice.XDeviceUID);
 			if (XDevice != null)
-				XDevice.DeviceState.StateChanged += new Action(OnDeviceStateChanged);
+			{
+				DeviceState = XDevice.DeviceState;
+				DeviceState.StateChanged += new Action(OnDeviceStateChanged);
+			}
 		}
 
 		public Point Location

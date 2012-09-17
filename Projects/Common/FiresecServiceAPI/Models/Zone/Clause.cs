@@ -9,12 +9,14 @@ namespace FiresecAPI.Models
 	{
 		public Clause()
 		{
-			Zones = new List<int>();
+			ZoneNos = new List<int>();
 			State = ZoneLogicState.Fire;
 			Operation = ZoneLogicOperation.Any;
+			Zones = new List<Zone>();
 		}
 
 		public Device Device { get; set; }
+		public List<Zone> Zones { get; set; }
 
 		[DataMember]
 		public ZoneLogicState State { get; set; }
@@ -23,7 +25,7 @@ namespace FiresecAPI.Models
 		public ZoneLogicOperation? Operation { get; set; }
 
 		[DataMember]
-		public List<int> Zones { get; set; }
+		public List<int> ZoneNos { get; set; }
 
 		[DataMember]
 		public Guid DeviceUID { get; set; }

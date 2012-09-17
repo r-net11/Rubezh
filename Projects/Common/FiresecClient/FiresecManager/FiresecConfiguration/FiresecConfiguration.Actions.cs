@@ -22,7 +22,9 @@ namespace FiresecClient
 			parentDevice.Children.Add(device);
 			AddAutoCreateChildren(device);
 			AddAutoChildren(device);
+
 			parentDevice.OnChanged();
+			DeviceConfiguration.Update();
 			return device;
 		}
 
@@ -52,8 +54,46 @@ namespace FiresecClient
 			}
 		}
 
-		public void RemoveDevice()
+		public void RemoveDevice(Device device)
 		{
+			Zone zone = null;
+			if (device.ZoneNo.HasValue)
+				zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+			if (zone != null)
+			{
+				zone.DevicesInZone.Remove(device);
+				zone.OnChanged();
+			}
+
+			var parentDevice = device.Parent;
+			parentDevice.Children.Remove(device);
+
+			parentDevice.OnChanged();
+			DeviceConfiguration.Update();
+			InvalidateConfiguration();
+		}
+
+		public void AddZone(Zone zone)
+		{
+			DeviceConfiguration.Zones.Add(zone);
+		}
+
+		public void RemoveZone(Zone zone)
+		{
+			foreach (var device in zone.DeviceInZoneLogic)
+			{
+				DeviceConfiguration.InvalidateOneDevice(device);
+				device.OnChanged();
+			}
+			foreach (var device in zone.DevicesInZone)
+			{
+				device.Zone = null;
+				device.ZoneNo = null;
+				device.OnChanged();
+			}
+			DeviceConfiguration.Zones.Remove(zone);
+			DeviceConfiguration.Devices.ForEach(x => { if ((x.ZoneNo != null) && (x.ZoneNo.Value == zone.No)) x.ZoneNo = null; });
+			InvalidateConfiguration();
 		}
 	}
 }

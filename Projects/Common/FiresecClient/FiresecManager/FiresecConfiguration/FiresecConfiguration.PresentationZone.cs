@@ -95,7 +95,7 @@ namespace FiresecClient
 				}
 
 				result += "состояние " + clause.State.ToDescription();
-				result += " " + clause.Operation.ToDescription() + " " + GetCommaSeparatedZones(clause.Zones);
+				result += " " + clause.Operation.ToDescription() + " " + GetCommaSeparatedZones(clause.ZoneNos);
 			}
 
 			return result;
@@ -137,8 +137,8 @@ namespace FiresecClient
 					}
 				case IndicatorLogicType.Zone:
 					{
-						if (indicatorDevice.IndicatorLogic.Zones.Count > 0)
-							return "Зоны: " + GetCommaSeparatedZones(indicatorDevice.IndicatorLogic.Zones);
+						if (indicatorDevice.IndicatorLogic.ZoneNos.Count > 0)
+							return "Зоны: " + GetCommaSeparatedZones(indicatorDevice.IndicatorLogic.ZoneNos);
 						break;
 					}
 			}

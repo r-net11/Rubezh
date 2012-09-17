@@ -135,7 +135,7 @@ namespace DevicesModule.ViewModels
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				FiresecManager.Zones.Add(zoneDetailsViewModel.Zone);
+				FiresecManager.FiresecConfiguration.AddZone(zoneDetailsViewModel.Zone);
 				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}

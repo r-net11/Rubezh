@@ -174,7 +174,7 @@ namespace DevicesModule.ViewModels
                             {
                                 State = clauseViewModel.SelectedState,
                                 Operation = clauseViewModel.SelectedOperation,
-                                Zones = clauseViewModel.Zones
+                                ZoneNos = clauseViewModel.Zones
                             };
                             zoneLogic.Clauses.Add(clause);
                         }

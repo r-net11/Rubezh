@@ -64,15 +64,21 @@ namespace FiresecService.Service
 					ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
 				}
 			}
-			catch { }
+			catch(Exception e)
+			{
+				Logger.Error(e, "FiresecService.Connect");
+			}
 
 			var operationResult = Authenticate(clientCredentials.UserName, clientCredentials.Password);
 			if (operationResult.HasError)
 				return operationResult;
 
-			IsSubscribed = clientCredentials.ClientType != ClientType.Administrator;
-			FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);
-			Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+			if (clientCredentials.ClientType != ClientType.Administrator)
+			{
+				IsSubscribed = true;
+				FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);
+				Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+			}
 			CallbackWrapper = new CallbackWrapper(this);
 
 			if (ClientsCash.IsNew(this))

@@ -119,7 +119,7 @@ namespace DevicesModule.Validation
 		{
 			if (device.Driver.IsIndicatorDevice)
 			{
-				foreach (var zoneNo in device.IndicatorLogic.Zones)
+				foreach (var zoneNo in device.IndicatorLogic.ZoneNos)
 				{
 					var zone = _firesecConfiguration.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
 					if ((zone.DevicesInZone.Count > 0) && (zone.DevicesInZone.All(x => ((x.ParentChannel != null) && (x.ParentChannel.UID == device.ParentChannel.UID)) == false)))

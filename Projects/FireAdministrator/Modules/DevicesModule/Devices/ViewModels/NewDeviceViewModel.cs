@@ -101,7 +101,6 @@ namespace DevicesModule.ViewModels
 			}
 
 			int startAddress = AddressConverter.StringToIntAddress(SelectedDriver, StartAddress);
-
 			for (int i = startAddress; i <= startAddress + Count * GetReserverCount(); i++)
 			{
 				if (_parent.Children.Any(x => x.IntAddress == i))
@@ -112,7 +111,6 @@ namespace DevicesModule.ViewModels
 			}
 
 			int shleifNo = startAddress / 256;
-
 			for (int i = 0; i < Count; i++)
 			{
 				var address = startAddress + i * GetReserverCount();
@@ -146,9 +144,7 @@ namespace DevicesModule.ViewModels
 		protected override bool Save()
 		{
 			CreateDevices();
-
 			_parentDeviceViewModel.Update();
-			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 			return base.Save();
 		}
 	}

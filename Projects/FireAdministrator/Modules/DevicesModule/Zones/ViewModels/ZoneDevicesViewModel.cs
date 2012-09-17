@@ -50,7 +50,7 @@ namespace DevicesModule.ViewModels
 
 				if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null && device.ZoneLogic.Clauses.IsNotNullOrEmpty())
 				{
-					foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.Zones.Contains(zoneNo)))
+					foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.ZoneNos.Contains(zoneNo)))
 					{
 						device.AllParents.ForEach(x => { devices.Add(x); });
 						devices.Add(device);

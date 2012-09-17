@@ -99,75 +99,7 @@ namespace FiresecClient
 
 		public void InvalidateConfiguration()
 		{
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				if (device.Driver.DriverType == DriverType.Indicator)
-				{
-					if (DeviceConfiguration.Devices.Any(x => x.UID == device.IndicatorLogic.DeviceUID) == false)
-					{
-						device.IndicatorLogic.DeviceUID = Guid.Empty;
-						device.IndicatorLogic.Device = null;
-					}
-
-					var zones = new List<int>();
-					foreach (var zoneNo in device.IndicatorLogic.Zones)
-					{
-						if (DeviceConfiguration.Zones.Any(x => x.No == zoneNo))
-							zones.Add(zoneNo);
-					}
-					device.IndicatorLogic.Zones = zones;
-				}
-				if (device.Driver.DriverType == DriverType.PDUDirection)
-				{
-					foreach (var pduGroupDevice in device.PDUGroupLogic.Devices)
-					{
-						if (DeviceConfiguration.Devices.Any(x => x.UID == pduGroupDevice.DeviceUID) == false)
-							pduGroupDevice.DeviceUID = Guid.Empty;
-					}
-				}
-				if (device.Driver.IsZoneDevice)
-				{
-					if (DeviceConfiguration.Zones.Any(x => x.No == device.ZoneNo) == false)
-						device.ZoneNo = null;
-				}
-				if (device.Driver.IsZoneLogicDevice)
-				{
-					if (device.ZoneLogic != null)
-					{
-						var clauses = new List<Clause>();
-						foreach (var clause in device.ZoneLogic.Clauses)
-						{
-							if (DeviceConfiguration.Devices.Any(x => x.UID == clause.DeviceUID) == false)
-							{
-								clause.DeviceUID = Guid.Empty;
-								clause.Device = null;
-							}
-
-							var zones = new List<int>();
-							foreach (var zoneNo in clause.Zones)
-							{
-								if (DeviceConfiguration.Zones.Any(x => x.No == zoneNo))
-									zones.Add(zoneNo);
-							}
-							clause.Zones = zones;
-
-							if ((clause.Device != null) || (clause.Zones.Count > 0) || clause.State == ZoneLogicState.Failure)
-								clauses.Add(clause);
-						}
-						device.ZoneLogic.Clauses = clauses;
-					}
-				}
-
-				if (device.Driver.DriverType != DriverType.Indicator)
-					device.IndicatorLogic = null;
-				if (device.Driver.DriverType != DriverType.PDUDirection)
-					device.PDUGroupLogic = null;
-				if (!device.Driver.IsZoneDevice)
-					device.ZoneNo = null;
-				if (!device.Driver.IsZoneLogicDevice)
-					device.ZoneLogic = null;
-			}
-
+			DeviceConfiguration.InvalidateConfiguration();
 			UpdateZoneDevices();
 		}
 
@@ -199,7 +131,7 @@ namespace FiresecClient
 				{
 					foreach (var clause in device.ZoneLogic.Clauses)
 					{
-						foreach (var clauseZone in clause.Zones)
+						foreach (var clauseZone in clause.ZoneNos)
 						{
 							var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == clauseZone);
 							if (zone != null)
@@ -264,7 +196,7 @@ namespace FiresecClient
 			{
 				foreach (var clause in device.ZoneLogic.Clauses)
 				{
-					foreach (var zoneNo in clause.Zones)
+					foreach (var zoneNo in clause.ZoneNos)
 					{
 						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
 						if (zone != null)

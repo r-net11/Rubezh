@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
 using Firesec;
+using Firesec.Imitator;
 
 namespace FireAdministrator
 {

@@ -1,4 +1,8 @@
-﻿<UserControl x:Class="DiagnosticsModule.Views.DevicesTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:c="clr-namespace:Controls;assembly=Controls" MinWidth="600" MinHeight="600">
+﻿<UserControl x:Class="DiagnosticsModule.Views.DevicesTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="clr-namespace:Controls;assembly=Controls"
+             MinWidth="600" MinHeight="600">
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="DeviceContextMenu">
@@ -35,7 +39,6 @@
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel ContextMenu="{StaticResource DeviceContextMenu}" Orientation="Horizontal">
-								<CheckBox IsChecked="{Binding IsUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 								<TextBlock Width="200" HorizontalAlignment="Stretch" Text="{Binding Driver.ShortName}" />
 							</StackPanel>
 						</DataTemplate>
@@ -58,7 +61,7 @@
 						</DataTemplate>
 					</GridViewColumn.CellTemplate>
 				</GridViewColumn>
-				<GridViewColumn Width="100" Header="Примечание">
+				<GridViewColumn Header="Примечание">
 					<GridViewColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Text="{Binding Description}" />

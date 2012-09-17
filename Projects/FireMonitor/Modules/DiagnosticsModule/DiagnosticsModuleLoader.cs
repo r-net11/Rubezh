@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Infrastructure.Common;
 using DiagnosticsModule.ViewModels;
 using Infrastructure;
-using Infrastructure.Events;
+using Infrastructure.Client;
+using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Events;
 
 namespace DiagnosticsModule
 {
@@ -28,13 +29,13 @@ namespace DiagnosticsModule
 		public override void Initialize()
 		{
 		}
-        public override IEnumerable<NavigationItem> CreateNavigation()
-        {
-            return new List<NavigationItem>()
-            {
-                //new NavigationItem<ShowDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Settings.png")
-            };
-        }
+		public override IEnumerable<NavigationItem> CreateNavigation()
+		{
+			return new List<NavigationItem>()
+			{
+			    new NavigationItem<ShowDiagnosticsEvent, object>(DiagnosticsViewModel, "Диагностика", "/Controls;component/Images/Bug.png")
+			};
+		}
 		public override string Name
 		{
             get { return "Диагностика"; }

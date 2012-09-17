@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using CallModule.ViewModels;
 using Infrastructure;
-using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
+using Infrastructure.Client;
+using Infrastructure.Common;
 
 namespace CallModule
 {
@@ -30,7 +31,7 @@ namespace CallModule
 		{
 			return new List<NavigationItem>()
 			{
-				//new NavigationItem<ShowCallEvent>("Дозвон", "/Controls;component/Images/phone.png"),
+				new NavigationItem<ShowCallEvent, object>(CallViewModel, "Дозвон", "/Controls;component/Images/phone.png"),
 			};
 		}
 

@@ -24,7 +24,7 @@ namespace Firesec
 						foreach (var item in innerClause.zone)
 						{
 							if (string.IsNullOrWhiteSpace(item) == false)
-								clause.Zones.Add(int.Parse(item));
+								clause.ZoneNos.Add(int.Parse(item));
 						}
 					}
 
@@ -113,7 +113,7 @@ namespace Firesec
 					innerClause.device[0] = new deviceType() { UID = clause.DeviceUID.ToString() };
 				}
 
-				innerClause.zone = clause.Zones.Select(x => x.ToString()).ToArray();
+				innerClause.zone = clause.ZoneNos.Select(x => x.ToString()).ToArray();
 				innerClauses.Add(innerClause);
 			}
 
