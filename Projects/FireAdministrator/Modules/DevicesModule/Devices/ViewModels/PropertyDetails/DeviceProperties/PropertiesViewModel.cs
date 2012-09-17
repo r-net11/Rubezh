@@ -29,7 +29,6 @@ namespace DevicesModule.DeviceProperties
 			StringProperties = new List<StringPropertyViewModel>();
 			BoolProperties = new List<BoolPropertyViewModel>();
 			EnumProperties = new List<EnumPropertyViewModel>();
-
 			foreach (var driverProperty in device.Driver.Properties)
 			{
 				if (driverProperty.IsHidden)
@@ -86,21 +85,8 @@ namespace DevicesModule.DeviceProperties
                 bool choise1 = (StringProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
                                (BoolProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
                                (EnumProperties.FirstOrDefault(x => x.IsAUParameter) == null);
-                //bool choise2 = (StringProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) &&
-                //               (BoolProperties.FirstOrDefault(x => x.IsAUParameter == false) == null) &&
-                //               (EnumProperties.FirstOrDefault(x => x.IsAUParameter == false) == null);
                 bool choise2 = false;
                 if (choise1)
-                {
-                    choise = false;
-                    AUParameterVis = false;
-                }
-                if (choise2)
-                {
-                    choise = false;
-                    AUParameterVis = true;
-                }
-                if(choise1&&choise2)
                 {
                     choise = false;
                     AUParameterVis = false;

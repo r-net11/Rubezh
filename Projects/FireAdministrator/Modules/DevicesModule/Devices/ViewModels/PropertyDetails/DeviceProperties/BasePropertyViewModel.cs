@@ -33,6 +33,10 @@ namespace DevicesModule.DeviceProperties
 		{
 			get { return _driverProperty.IsAUParameter; }
 		}
+        public bool IsControl
+        {
+            get { return _driverProperty.IsControl; }
+        }
 
 		protected void Save(string value)
 		{
