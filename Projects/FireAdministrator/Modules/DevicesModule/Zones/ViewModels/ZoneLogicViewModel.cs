@@ -3,6 +3,7 @@ using System.Linq;
 using FiresecAPI.Models;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
@@ -181,7 +182,7 @@ namespace DevicesModule.ViewModels
                         break;
                 }
             }
-            _device.ZoneLogic = zoneLogic;
+            FiresecManager.FiresecConfiguration.SetDeviceZoneLogic(_device, zoneLogic);
 			return base.Save();
 		}
     }

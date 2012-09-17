@@ -54,7 +54,6 @@ namespace DevicesModule.ViewModels
                     (device.Driver.DriverType == DriverType.RM_1) ||
                     (device.Driver.DriverType == DriverType.MDU) ||
                     (device.Driver.DriverType == DriverType.MRO) ||
-                    //(device.Driver.DriverType == "Модуль пожаротушения") ||
                     (device.Driver.DriverType == DriverType.AM1_T)
                 )
                 {
@@ -174,20 +173,21 @@ namespace DevicesModule.ViewModels
 
 		protected override bool Save()
 		{
-			_device.PDUGroupLogic = new PDUGroupLogic();
+			var pduGroupLogic = new PDUGroupLogic();
 
-			_device.PDUGroupLogic.AMTPreset = Devices.Any(x => x.Device.Driver.DriverType == DriverType.AM1_T);
+            pduGroupLogic.AMTPreset = Devices.Any(x => x.Device.Driver.DriverType == DriverType.AM1_T);
 			foreach (var device in Devices)
 			{
-				var pDUGroupDevice = new PDUGroupDevice()
+				var pduGroupDevice = new PDUGroupDevice()
 				{
 					DeviceUID = device.Device.UID,
 					IsInversion = device.IsInversion,
 					OnDelay = device.OnDelay,
 					OffDelay = device.OffDelay
 				};
-				_device.PDUGroupLogic.Devices.Add(pDUGroupDevice);
+                pduGroupLogic.Devices.Add(pduGroupDevice);
 			}
+            FiresecManager.FiresecConfiguration.SetPDUGroupLogic(_device, pduGroupLogic);
 			return base.Save();
 		}
     }

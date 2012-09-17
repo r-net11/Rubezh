@@ -113,7 +113,7 @@ namespace FiresecClient
 
 			if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
 				return GetPresentationZone(device.ZoneLogic);
-			if (device.Driver.IsIndicatorDevice && device.IndicatorLogic != null)
+            if (device.Driver.DriverType == DriverType.Indicator && device.IndicatorLogic != null)
 				return device.IndicatorLogic.ToString();
 			if ((device.Driver.DriverType == DriverType.PDUDirection) && (device.PDUGroupLogic != null))
 				return device.PDUGroupLogic.ToString();

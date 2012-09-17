@@ -6,6 +6,8 @@ namespace FiresecAPI.Models
     [DataContract]
     public class PDUGroupDevice
     {
+        public Device Device { get; set; }
+
         [DataMember]
         public Guid DeviceUID { get; set; }
 

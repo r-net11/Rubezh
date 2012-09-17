@@ -179,23 +179,23 @@ namespace DevicesModule.ViewModels
 
 		protected override bool Save()
 		{
-			Device.IndicatorLogic = new IndicatorLogic();
-
+			var indicatorLogic = new IndicatorLogic();
 			if (IsZone)
 			{
-				Device.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Zone;
-				Device.IndicatorLogic.ZoneNos = Zones;
+				indicatorLogic.IndicatorLogicType = IndicatorLogicType.Zone;
+				indicatorLogic.ZoneNos = Zones;
 			}
 			else if (IsDevice)
 			{
-				Device.IndicatorLogic.IndicatorLogicType = IndicatorLogicType.Device;
-				Device.IndicatorLogic.Device = SelectedDevice;
-				Device.IndicatorLogic.DeviceUID = (SelectedDevice == null) ? Guid.Empty : SelectedDevice.UID;
-				Device.IndicatorLogic.OnColor = OnColor;
-				Device.IndicatorLogic.OffColor = OffColor;
-				Device.IndicatorLogic.FailureColor = FailureColor;
-				Device.IndicatorLogic.ConnectionColor = ConnectionColor;
+				indicatorLogic.IndicatorLogicType = IndicatorLogicType.Device;
+				indicatorLogic.Device = SelectedDevice;
+				indicatorLogic.DeviceUID = (SelectedDevice == null) ? Guid.Empty : SelectedDevice.UID;
+				indicatorLogic.OnColor = OnColor;
+				indicatorLogic.OffColor = OffColor;
+				indicatorLogic.FailureColor = FailureColor;
+				indicatorLogic.ConnectionColor = ConnectionColor;
 			}
+            FiresecManager.FiresecConfiguration.SetIndicatorLogic(Device, indicatorLogic);
 			return base.Save();
 		}
 	}

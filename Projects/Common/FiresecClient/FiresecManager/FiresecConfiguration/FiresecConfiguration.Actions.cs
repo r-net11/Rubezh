@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FiresecAPI.Models;
+using System.Collections.Generic;
 
 namespace FiresecClient
 {
@@ -56,21 +57,29 @@ namespace FiresecClient
 
 		public void RemoveDevice(Device device)
 		{
-			Zone zone = null;
-			if (device.ZoneNo.HasValue)
-				zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
-			if (zone != null)
+			if (device.Zone != null)
 			{
-				zone.DevicesInZone.Remove(device);
-				zone.OnChanged();
+                device.Zone.UpdateExternalDevices();
+                device.Zone.DevicesInZone.Remove(device);
+                device.Zone.OnChanged();
 			}
+
+            foreach (var zone in device.ZonesInLogic)
+            {
+                zone.DevicesInZoneLogic.Remove(device);
+                zone.OnChanged();
+            }
+
+            foreach (var dependentDevice in device.DependentDevices)
+            {
+                DeviceConfiguration.InvalidateOneDevice(dependentDevice);
+                DeviceConfiguration.UpdateOneDeviceCrossReferences(dependentDevice);
+                device.OnChanged();
+            }
 
 			var parentDevice = device.Parent;
 			parentDevice.Children.Remove(device);
-
 			parentDevice.OnChanged();
-			DeviceConfiguration.Update();
-			InvalidateConfiguration();
 		}
 
 		public void AddZone(Zone zone)
@@ -80,20 +89,137 @@ namespace FiresecClient
 
 		public void RemoveZone(Zone zone)
 		{
-			foreach (var device in zone.DeviceInZoneLogic)
+            DeviceConfiguration.Zones.Remove(zone);
+            foreach (var device in zone.DevicesInZone)
+            {
+                device.Zone = null;
+                device.ZoneNo = null;
+                device.OnChanged();
+            }
+			foreach (var device in zone.DevicesInZoneLogic)
 			{
-				DeviceConfiguration.InvalidateOneDevice(device);
+                //DeviceConfiguration.InvalidateOneDevice(device);
+                DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
 				device.OnChanged();
 			}
-			foreach (var device in zone.DevicesInZone)
+            zone.UpdateExternalDevices();
+            foreach (var device in zone.IndicatorsInZone)
 			{
-				device.Zone = null;
-				device.ZoneNo = null;
+                //DeviceConfiguration.InvalidateOneDevice(device);
+                DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
 				device.OnChanged();
 			}
-			DeviceConfiguration.Zones.Remove(zone);
-			DeviceConfiguration.Devices.ForEach(x => { if ((x.ZoneNo != null) && (x.ZoneNo.Value == zone.No)) x.ZoneNo = null; });
-			InvalidateConfiguration();
 		}
+
+        List<Device> GetMPTGroup(Device device)
+        {
+            var devices = new List<Device>();
+            devices.Add(device);
+            if (device.Driver.DriverType == DriverType.MPT)
+            {
+                foreach (var child in device.Children)
+                {
+                    devices.Add(child);
+                }
+            }
+            return devices;
+        }
+
+        public void AddDeviceToZone(Device parentDevice, Zone zone)
+        {
+            foreach (var device in GetMPTGroup(parentDevice))
+            {
+                device.OnChanged();
+                if (device.Zone != null)
+                {
+                    device.Zone.UpdateExternalDevices();
+                    device.Zone.DevicesInZone.Remove(device);
+                    device.Zone.OnChanged();
+                }
+                device.Zone = zone;
+                if (zone != null)
+                {
+                    device.ZoneNo = zone.No;
+                    zone.DevicesInZone.Add(device);
+                    zone.UpdateExternalDevices();
+                    zone.OnChanged();
+                }
+                else
+                    device.ZoneNo = null;
+            }
+        }
+
+        public void RemoveDeviceFromZone(Device parentDevice, Zone zone)
+        {
+            foreach (var device in GetMPTGroup(parentDevice))
+            {
+                device.OnChanged();
+                if (device.Zone != null)
+                {
+                    device.Zone.UpdateExternalDevices();
+                }
+                device.Zone = null;
+                device.ZoneNo = null;
+                zone.DevicesInZone.Remove(device);
+                zone.UpdateExternalDevices();
+                zone.OnChanged();
+            }
+        }
+
+        public void SetDeviceZoneLogic(Device device, ZoneLogic zoneLogic)
+        {
+            foreach (var zone in device.ZonesInLogic)
+            {
+                zone.DevicesInZoneLogic.Remove(device);
+                zone.OnChanged();
+            }
+            device.ZonesInLogic.Clear();
+
+            foreach (var dependentDevice in device.DependentDevices)
+            {
+                DeviceConfiguration.InvalidateOneDevice(dependentDevice);
+                DeviceConfiguration.UpdateOneDeviceCrossReferences(dependentDevice);
+                device.OnChanged();
+            }
+            device.DependentDevices.Clear();
+
+            device.ZoneLogic = zoneLogic;
+            DeviceConfiguration.InvalidateOneDevice(device);
+            DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
+            device.HasExternalDevices = HasExternalDevices(device);
+            device.OnChanged();
+        }
+
+        public void SetIndicatorLogic(Device device, IndicatorLogic indicatorLogic)
+        {
+            foreach (var zone in device.IndicatorLogic.Zones)
+                zone.IndicatorsInZone.Remove(device);
+            device.IndicatorLogic = indicatorLogic;
+            DeviceConfiguration.InvalidateIndicator(device);
+            DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
+            device.OnChanged();
+        }
+
+        public void SetPDUGroupLogic(Device device, PDUGroupLogic pduGroupLogic)
+        {
+            foreach (var pduGroupDevice in device.PDUGroupLogic.Devices)
+            {
+                pduGroupDevice.Device = null;
+                if (pduGroupDevice.DeviceUID != Guid.Empty)
+                {
+                    var pduDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == pduGroupDevice.DeviceUID);
+                    if (pduDevice != null)
+                    {
+                        pduGroupDevice.Device = pduDevice;
+                        pduDevice.DependentDevices.Remove(device);
+                    }
+                }
+            }
+
+            device.PDUGroupLogic = pduGroupLogic;
+            DeviceConfiguration.InvalidatePDUDirection(device);
+            DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
+            device.OnChanged();
+        }
 	}
 }

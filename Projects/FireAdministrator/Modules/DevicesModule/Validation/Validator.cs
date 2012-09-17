@@ -25,7 +25,6 @@ namespace DevicesModule.Validation
 			_errors = new List<IValidationError>();
 			_firesecConfiguration.DeviceConfiguration.UpdateGuardConfiguration();
 			_firesecConfiguration.InvalidateConfiguration();
-			_firesecConfiguration.UpdateZoneDevices();
 			ValidateDevices();
 			ValidateZones();
 			ValidateDirections();
@@ -108,7 +107,7 @@ namespace DevicesModule.Validation
 
 		void ValidateDeviceIndicatorOtherNetworkDevice(Device device)
 		{
-			if ((device.Driver.IsIndicatorDevice) && (device.IndicatorLogic.Device != null))
+            if ((device.Driver.DriverType == DriverType.Indicator) && (device.IndicatorLogic.Device != null))
 			{
 				if ((device.IndicatorLogic.Device.ParentChannel == null) && (device.IndicatorLogic.Device.ParentChannel.UID != device.ParentChannel.UID))
 					_errors.Add(new DeviceValidationError(device, "Для индикатора указано устройство находящееся в другой сети RS-485", ValidationErrorLevel.CannotWrite));
@@ -117,7 +116,7 @@ namespace DevicesModule.Validation
 
 		void ValidateDeviceIndicatorOtherNetworkZone(Device device)
 		{
-			if (device.Driver.IsIndicatorDevice)
+            if (device.Driver.DriverType == DriverType.Indicator)
 			{
 				foreach (var zoneNo in device.IndicatorLogic.ZoneNos)
 				{
@@ -284,7 +283,7 @@ namespace DevicesModule.Validation
 				}
 
 				var childZonesDevices = new List<Device>();
-				childZones.ForEach(x => childZonesDevices.AddRange(x.DeviceInZoneLogic));
+				childZones.ForEach(x => childZonesDevices.AddRange(x.DevicesInZoneLogic));
 
 				int extendedDevicesCount = childZonesDevices.Where(x => x.Driver.IsZoneLogicDevice && x.Parent != device).Distinct().Count();
 				if (extendedDevicesCount > 250)
@@ -440,7 +439,7 @@ namespace DevicesModule.Validation
 			{
 				deviceUIDs.Add(device.ParentChannel.UID);
 			}
-			foreach (var device in zone.DeviceInZoneLogic)
+			foreach (var device in zone.DevicesInZoneLogic)
 			{
 				deviceUIDs.Add(device.ParentChannel.UID);
 			}
@@ -494,7 +493,7 @@ namespace DevicesModule.Validation
 
 		void ValidateZoneSingleNS(Zone zone)
 		{
-			if (zone.DeviceInZoneLogic.Where(x => x.Driver.DriverType == DriverType.PumpStation).Count() > 1)
+			if (zone.DevicesInZoneLogic.Where(x => x.Driver.DriverType == DriverType.PumpStation).Count() > 1)
 				_errors.Add(new ZoneValidationError(zone, "В одной зоне не может быть несколько внешних НС", ValidationErrorLevel.CannotWrite));
 		}
 
@@ -514,7 +513,7 @@ namespace DevicesModule.Validation
 
 		void ValidateZoneSingleBoltInDirectionZone(Zone zone)
 		{
-			if (zone.DeviceInZoneLogic.Count(x => x.Driver.DriverType == DriverType.Valve) > 1 && _firesecConfiguration.DeviceConfiguration.Directions.Any(x => x.Zones.Contains(zone.No)))
+			if (zone.DevicesInZoneLogic.Count(x => x.Driver.DriverType == DriverType.Valve) > 1 && _firesecConfiguration.DeviceConfiguration.Directions.Any(x => x.Zones.Contains(zone.No)))
 				_errors.Add(new ZoneValidationError(zone, "В зоне направления не может быть более одной задвижки", ValidationErrorLevel.CannotWrite));
 		}
 

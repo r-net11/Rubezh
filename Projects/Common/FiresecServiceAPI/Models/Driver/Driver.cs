@@ -135,9 +135,6 @@ namespace FiresecAPI.Models
         public bool IsSingleInZone { get; set; }
 
         [DataMember]
-        public bool IsIndicatorDevice { get; set; }
-
-        [DataMember]
         public bool IsNotValidateZoneAndChildren { get; set; }
 
         [DataMember]

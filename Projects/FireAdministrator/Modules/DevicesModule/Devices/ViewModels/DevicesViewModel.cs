@@ -237,10 +237,10 @@ namespace DevicesModule.ViewModels
 
 		public void UpdateExternalDevices()
 		{
-			foreach (var device in Devices)
-			{
-				device.HasExternalDevices = FiresecManager.FiresecConfiguration.HasExternalDevices(device.Device);
-			}
+            //foreach (var device in Devices)
+            //{
+            //    device.HasExternalDevices = FiresecManager.FiresecConfiguration.HasExternalDevices(device.Device);
+            //}
 		}
 
 		public override void OnHide()

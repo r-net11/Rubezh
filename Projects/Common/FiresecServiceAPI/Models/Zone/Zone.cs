@@ -18,7 +18,7 @@ namespace FiresecAPI.Models
 			ShapeIds = new List<string>();
 
 			DevicesInZone = new List<Device>();
-			DeviceInZoneLogic = new List<Device>();
+			DevicesInZoneLogic = new List<Device>();
 			IndicatorsInZone = new List<Device>();
 		}
 
@@ -26,7 +26,7 @@ namespace FiresecAPI.Models
 		public List<string> ShapeIds { get; set; }
 		public Guid SecPanelUID { get; set; }
 		public List<Device> DevicesInZone { get; set; }
-		public List<Device> DeviceInZoneLogic { get; set; }
+		public List<Device> DevicesInZoneLogic { get; set; }
 		public List<Device> IndicatorsInZone { get; set; }
 
 		[DataMember]
@@ -66,6 +66,14 @@ namespace FiresecAPI.Models
 		{
 			get { return No + "." + Name; }
 		}
+
+        public void UpdateExternalDevices()
+        {
+            foreach (var device in DevicesInZoneLogic)
+            {
+                device.HasExternalDevices = device.HaveExternalDevices();
+            }
+        }
 
 		public void OnChanged()
 		{

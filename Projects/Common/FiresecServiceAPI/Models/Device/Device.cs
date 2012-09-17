@@ -29,6 +29,20 @@ namespace FiresecAPI.Models
 		public List<Zone> ZonesInLogic { get; set; }
 		public List<Device> DependentDevices { get; set; }
 
+        public bool _hasExternalDevices;
+        public bool HasExternalDevices
+        {
+            get { return _hasExternalDevices; }
+            set
+            {
+                if (_hasExternalDevices != value)
+                {
+                    _hasExternalDevices = value;
+                    OnChanged();
+                }
+            }
+        }
+
 		[DataMember]
 		public Guid UID { get; set; }
 
@@ -164,6 +178,7 @@ namespace FiresecAPI.Models
 					Children[i].IntAddress = IntAddress + i;
 				}
 			}
+            OnChanged();
 		}
 
 		public string AddressFullPath
@@ -305,11 +320,30 @@ namespace FiresecAPI.Models
 			}
 		}
 
+        public bool HaveExternalDevices()
+        {
+            if (this.ZoneLogic != null)
+            {
+                foreach (var clause in this.ZoneLogic.Clauses)
+                {
+                    foreach (var zone in clause.Zones)
+                    {
+                        foreach (var deviceInZone in zone.DevicesInZone)
+                        {
+                            if (this.ParentPanel.UID != deviceInZone.ParentPanel.UID)
+                                return true;
+                        }
+                    }
+                }
+            }
+            return false;
+        }
+
 		public void OnChanged()
 		{
 			if (Changed != null)
 				Changed();
 		}
-		public Action Changed { get; set; }
+        public event Action Changed;
 	}
 }

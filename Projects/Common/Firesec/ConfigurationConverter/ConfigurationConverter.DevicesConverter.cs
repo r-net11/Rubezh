@@ -342,7 +342,7 @@ namespace Firesec
 				}
 			}
 
-			if ((device.Driver.IsIndicatorDevice) && (device.IndicatorLogic != null))
+            if ((device.Driver.DriverType == DriverType.Indicator) && (device.IndicatorLogic != null))
 			{
 				var indicatorLogicProperty = propertyList.FirstOrDefault(x => x.name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");
 				if (indicatorLogicProperty == null)

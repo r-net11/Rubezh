@@ -28,32 +28,32 @@ namespace FiresecClient
 			}
 
 			DeviceConfiguration.Update();
-			ReorderConfiguration();
+            DeviceConfiguration.Reorder();
 
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
-				if (device.Driver == null)
-				{
-					Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null");
-					continue;
-				}
-				if (device.Driver.IsIndicatorDevice || device.IndicatorLogic != null)
-					device.IndicatorLogic.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
+            foreach (var device in DeviceConfiguration.Devices)
+            {
+                device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+                if (device.Driver == null)
+                {
+                    Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null");
+                    continue;
+                }
+            }
 
-				if (device.Driver.IsZoneLogicDevice && device.ZoneLogic != null)
-				{
-					foreach (var clause in device.ZoneLogic.Clauses.Where(x => x.DeviceUID != Guid.Empty))
-					{
-						clause.Device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == clause.DeviceUID);
-					}
-				}
-			}
-
-			UpdateChildMPTZones();
-			InvalidateConfiguration();
+            InvalidateConfiguration();
 			UpateGuardZoneSecPanelUID();
+
+            foreach (var device in DeviceConfiguration.Devices)
+            {
+                device.HasExternalDevices = device.HaveExternalDevices();
+            }
 		}
+
+        public void InvalidateConfiguration()
+        {
+            DeviceConfiguration.InvalidateConfiguration();
+            DeviceConfiguration.UpdateCrossReferences();
+        }
 
 		public void CreateStates()
 		{
@@ -78,75 +78,9 @@ namespace FiresecClient
 			}
 		}
 
-		public void ReorderConfiguration()
-		{
-			DeviceConfiguration.Reorder();
-		}
-
-		void UpdateChildMPTZones()
-		{
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				if (device.Driver.DriverType == DriverType.MPT)
-				{
-					foreach (var child in device.Children)
-					{
-						child.ZoneNo = device.ZoneNo;
-					}
-				}
-			}
-		}
-
-		public void InvalidateConfiguration()
-		{
-			DeviceConfiguration.InvalidateConfiguration();
-			UpdateZoneDevices();
-		}
-
-		public void UpdateZoneDevices()
-		{
-			foreach (var zone in DeviceConfiguration.Zones)
-			{
-				zone.DevicesInZone = new List<Device>();
-				zone.DeviceInZoneLogic = new List<Device>();
-			}
-
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				if (device.Driver == null)
-				{
-					System.Windows.MessageBox.Show("У устройства отсутствует драйвер");
-					continue;
-				}
-
-				if ((device.Driver.IsZoneDevice) && (device.ZoneNo != null))
-				{
-					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
-					if (zone != null)
-					{
-						zone.DevicesInZone.Add(device);
-					}
-				}
-				if ((device.Driver.IsZoneLogicDevice) && (device.ZoneLogic != null))
-				{
-					foreach (var clause in device.ZoneLogic.Clauses)
-					{
-						foreach (var clauseZone in clause.ZoneNos)
-						{
-							var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == clauseZone);
-							if (zone != null)
-							{
-								zone.DeviceInZoneLogic.Add(device);
-							}
-						}
-					}
-				}
-			}
-		}
-
 		public List<Zone> GetChannelZones(Device device)
 		{
-			UpdateZoneDevices();
+            DeviceConfiguration.UpdateCrossReferences();
 			var zones = new List<Zone>();
 			var channelDevice = device.ParentChannel;
 
@@ -169,7 +103,7 @@ namespace FiresecClient
 
 		public List<Zone> GetPanelZones(Device device)
 		{
-			UpdateZoneDevices();
+            DeviceConfiguration.UpdateCrossReferences();
 			var zones = new List<Zone>();
 			var channelDevice = device.ParentPanel;
 
@@ -190,28 +124,10 @@ namespace FiresecClient
 			return zones;
 		}
 
-		public bool HasExternalDevices(Device device)
-		{
-			if (device.ZoneLogic != null)
-			{
-				foreach (var clause in device.ZoneLogic.Clauses)
-				{
-					foreach (var zoneNo in clause.ZoneNos)
-					{
-						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
-						if (zone != null)
-						{
-							foreach (var deviceInZone in zone.DevicesInZone)
-							{
-								if (device.ParentPanel.UID != deviceInZone.ParentPanel.UID)
-									return true;
-							}
-						}
-					}
-				}
-			}
-			return false;
-		}
+        public bool HasExternalDevices(Device device)
+        {
+            return device.HaveExternalDevices();
+        }
 
 		List<Device> allChildren;
 		public List<Device> GetAllChildrenForDevice(Device device)

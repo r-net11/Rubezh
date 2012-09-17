@@ -36,7 +36,15 @@ namespace DevicesModule.ViewModels
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
 			HasExternalDevices = FiresecManager.FiresecConfiguration.HasExternalDevices(Device);
+            device.Changed += new Action(device_Changed);
 		}
+
+        void device_Changed()
+        {
+            OnPropertyChanged("Address");
+            OnPropertyChanged("PresentationZone");
+            OnPropertyChanged("HasExternalDevices");
+        }
 
 		public void UpdataConfigurationProperties()
 		{
@@ -84,28 +92,19 @@ namespace DevicesModule.ViewModels
 			{
 				Device.Description = value;
 				OnPropertyChanged("Description");
-
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}
 		}
 
-		public bool IsZoneDevice
-		{
-			get
-			{
-				return Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device);
-			}
-		}
+        public bool IsZoneDevice
+        {
+            get { return Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device); }
+        }
 
-		public IEnumerable<Zone> Zones
-		{
-			get
-			{
-				return from Zone zone in FiresecManager.Zones
-					   orderby zone.No
-					   select zone;
-			}
-		}
+        public IEnumerable<Zone> Zones
+        {
+            get { return from Zone zone in FiresecManager.Zones orderby zone.No select zone; }
+        }
 
 		public Zone Zone
 		{
@@ -114,15 +113,7 @@ namespace DevicesModule.ViewModels
 			{
 				if (Device.ZoneNo != value.No)
 				{
-					Device.ZoneNo = value.No;
-					if (Device.Driver.DriverType == DriverType.MPT)
-					{
-						foreach (var child in Children)
-						{
-							child.Device.ZoneNo = Device.ZoneNo;
-							child.OnPropertyChanged("PresentationZone");
-						}
-					}
+                    FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, value);
 					OnPropertyChanged("Zone");
 					ServiceFactory.SaveService.DevicesChanged = true;
 					DevicesViewModel.Current.UpdateExternalDevices();
@@ -138,7 +129,7 @@ namespace DevicesModule.ViewModels
 		bool _hasExternalDevices;
 		public bool HasExternalDevices
 		{
-			get { return _hasExternalDevices; }
+			get { return Device.HasExternalDevices; }
 			set
 			{
 				_hasExternalDevices = value;

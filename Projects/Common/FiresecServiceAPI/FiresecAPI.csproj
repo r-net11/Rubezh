@@ -159,6 +159,7 @@
     <Compile Include="Models\ClientCredentials.cs" />
     <Compile Include="Models\ClientType.cs" />
     <Compile Include="Models\ConfigurationCash.cs" />
+    <Compile Include="Models\Configuration\DeviceConfiguration.Invalidate.cs" />
     <Compile Include="Models\Configuration\DriversConfiguration.cs" />
     <Compile Include="Models\Configuration\FullConfiguration.cs" />
     <Compile Include="Models\Configuration\LibraryConfiguration.cs" />
