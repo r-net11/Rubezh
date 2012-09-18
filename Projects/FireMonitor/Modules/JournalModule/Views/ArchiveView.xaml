@@ -20,10 +20,10 @@
                     <Image Source="/Controls;component/Images/Filter.png" Height="24" />
                 </Button>
 
-                <CheckBox Grid.Column="1"
+                <!--<CheckBox Grid.Column="1"
                               IsChecked="{Binding IsFilterOn, UpdateSourceTrigger=PropertyChanged}"
                               IsEnabled="{Binding IsFilterExists, Mode=OneWay}"
-                              Content="Включить фильтр" Margin="5" VerticalAlignment="Center" Foreground="White" />
+                              Content="Включить фильтр" Margin="5" VerticalAlignment="Center" Foreground="White" />-->
 
                 <TextBlock Grid.Column="2" Text="{Binding Status}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
                 
