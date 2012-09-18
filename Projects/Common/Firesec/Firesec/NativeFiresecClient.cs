@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using Common;
 using FiresecAPI;
 using System.Windows.Threading;
+using Infrastructure.Common.Windows;
 
 namespace Firesec
 {
@@ -16,7 +17,7 @@ namespace Firesec
 
 		public NativeFiresecClient()
 		{
-			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
+			Dispatcher.CurrentDispatcher.ShutdownFinished += (s, e) =>
 				{
 					if (_dispatcher != null)
 						_dispatcher.InvokeShutdown();
@@ -30,6 +31,11 @@ namespace Firesec
 			dispatcherThread.IsBackground = true;
 			dispatcherThread.Start();
 			dispatcherThread.Join(100);
+			//ApplicationService.Closing += (s, e) =>
+			//{
+			//    if (dispatcherThread!= null)
+			//        dispatcherThread.Abort();
+			//};
 
 			var thread = new Thread(new ThreadStart(WorkTask));
 			thread.Start();
