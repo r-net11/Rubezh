@@ -14,7 +14,7 @@ namespace DevicesModule.ViewModels
 
         public PDUDetailsViewModel(Device device)
         {
-            Title = "Свойства направление ПДУ";
+            Title = "Параметры устройства: Направление ПДУ";
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 

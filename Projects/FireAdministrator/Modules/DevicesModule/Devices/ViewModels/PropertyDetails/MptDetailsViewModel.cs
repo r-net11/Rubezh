@@ -8,7 +8,7 @@ namespace DevicesModule.ViewModels
     {
         public MptDetailsViewModel(Device device)
         {
-            Title = "Параметры модуля пожаротушения";
+            Title = "Параметры устройства: Модуль пожаротушения";
             _device = device;
 
             int timeout = 0;

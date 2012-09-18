@@ -10,7 +10,7 @@ namespace DevicesModule.ViewModels
 
         public PumpDetailsViewModel(Device device)
         {
-            Title = "Свойства насоса";
+            Title = "Параметры устройства: Насос";
 
             _device = device;
 
