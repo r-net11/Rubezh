@@ -22,7 +22,7 @@ namespace DevicesModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
-			ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic);
+			ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
@@ -35,8 +35,7 @@ namespace DevicesModule.ViewModels
 
 			AvailvableDrivers = new ObservableCollection<Driver>();
 			UpdateDriver();
-			HasExternalDevices = FiresecManager.FiresecConfiguration.HasExternalDevices(Device);
-            device.Changed += new Action(device_Changed);
+			device.Changed += new Action(device_Changed);
 		}
 
         void device_Changed()
@@ -91,6 +90,7 @@ namespace DevicesModule.ViewModels
 			set
 			{
 				Device.Description = value;
+				Device.OnChanged();
 				OnPropertyChanged("Description");
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}
@@ -116,7 +116,6 @@ namespace DevicesModule.ViewModels
                     FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, value);
 					OnPropertyChanged("Zone");
 					ServiceFactory.SaveService.DevicesChanged = true;
-					DevicesViewModel.Current.UpdateExternalDevices();
 				}
 			}
 		}
@@ -126,15 +125,9 @@ namespace DevicesModule.ViewModels
 			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
 		}
 
-		bool _hasExternalDevices;
 		public bool HasExternalDevices
 		{
 			get { return Device.HasExternalDevices; }
-			set
-			{
-				_hasExternalDevices = value;
-				OnPropertyChanged("HasExternalDevices");
-			}
 		}
 
 		public string ConnectedTo
@@ -147,13 +140,9 @@ namespace DevicesModule.ViewModels
 			get { return !Device.IsNotUsed; }
 			set
 			{
-				Device.IsNotUsed = !value;
+				FiresecManager.FiresecConfiguration.SetIsNotUsed(Device, !value);
 				OnPropertyChanged("IsUsed");
-				if (!value)
-				{
-					Device.ZoneLogic = new ZoneLogic();
-					OnPropertyChanged("PresentationZone");
-				}
+				OnPropertyChanged("ShowOnPlan");
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}
 		}
@@ -174,9 +163,12 @@ namespace DevicesModule.ViewModels
 			if (DialogService.ShowModalWindow(zoneLogicViewModel))
 			{
 				ServiceFactory.SaveService.DevicesChanged = true;
-				DevicesViewModel.Current.UpdateExternalDevices();
 			}
 			OnPropertyChanged("PresentationZone");
+		}
+		bool CanShowZoneLogic()
+		{
+			return (Driver.IsZoneLogicDevice && !Device.IsNotUsed);
 		}
 
 		void OnShowIndicatorLogic()
@@ -194,7 +186,6 @@ namespace DevicesModule.ViewModels
 			{
 				ServiceFactory.SaveService.DevicesChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
-				//DevicesViewModel.Current.PlanExtension.UpdateDevices();
 			}
 		}
 		public bool CanAdd()
@@ -237,9 +228,6 @@ namespace DevicesModule.ViewModels
 
 			index = Math.Min(index, DevicesViewModel.Current.Devices.Count - 1);
 			DevicesViewModel.Current.SelectedDevice = DevicesViewModel.Current.Devices[index];
-			DevicesViewModel.Current.UpdateExternalDevices();
-			//DevicesViewModel.Current.PlanExtension.UpdateDevices();
-			//DevicesViewModel.Current.PlanExtension.RemoveDevice(Device);
 		}
 		bool CanRemove()
 		{
@@ -288,7 +276,6 @@ namespace DevicesModule.ViewModels
 					break;
 			}
 			OnPropertyChanged("PresentationZone");
-			DevicesViewModel.Current.UpdateExternalDevices();
 		}
 		bool CanShowProperties()
 		{
@@ -311,7 +298,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-			if (Device.ZoneNo.HasValue)
+			if (Device.ZoneNo != null)
 				ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneNo.Value);
 		}
 
@@ -329,20 +316,13 @@ namespace DevicesModule.ViewModels
 			{
 				if (Device.Driver.DriverType != value.DriverType)
 				{
-					Device.Driver = value;
-					Device.DriverUID = value.UID;
-					Device.ZoneNo = null;
-					Device.ZoneLogic = new ZoneLogic();
+					FiresecManager.FiresecConfiguration.ChangeDriver(Device, value);
 					OnPropertyChanged("Device");
 					OnPropertyChanged("Driver");
-					OnPropertyChanged("PresentationZone");
-
-					Device.Properties = new List<Property>();
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged("PropertiesViewModel");
-
+					Update();
 					ServiceFactory.SaveService.DevicesChanged = true;
-					DevicesViewModel.Current.UpdateExternalDevices();
 				}
 			}
 		}

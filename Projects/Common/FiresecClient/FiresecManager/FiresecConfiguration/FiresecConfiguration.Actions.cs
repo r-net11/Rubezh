@@ -57,6 +57,7 @@ namespace FiresecClient
 
 		public void RemoveDevice(Device device)
 		{
+			DeviceConfiguration.Devices.Remove(device);
 			if (device.Zone != null)
 			{
                 device.Zone.UpdateExternalDevices();
@@ -70,11 +71,18 @@ namespace FiresecClient
                 zone.OnChanged();
             }
 
-            foreach (var dependentDevice in device.DependentDevices)
+			foreach (var zone in device.IndicatorLogic.Zones)
+			{
+				zone.IndicatorsInZone.Remove(device);
+				zone.OnChanged();
+			}
+
+			var dependentDevices = new List<Device>(device.DependentDevices);
+            foreach (var dependentDevice in dependentDevices)
             {
                 DeviceConfiguration.InvalidateOneDevice(dependentDevice);
                 DeviceConfiguration.UpdateOneDeviceCrossReferences(dependentDevice);
-                device.OnChanged();
+				dependentDevice.OnChanged();
             }
 
 			var parentDevice = device.Parent;
@@ -90,25 +98,47 @@ namespace FiresecClient
 		public void RemoveZone(Zone zone)
 		{
             DeviceConfiguration.Zones.Remove(zone);
+			zone.OnColorTypeChanged();
             foreach (var device in zone.DevicesInZone)
             {
                 device.Zone = null;
                 device.ZoneNo = null;
                 device.OnChanged();
             }
-			foreach (var device in zone.DevicesInZoneLogic)
+			var devicesInZoneLogic = new List<Device>(zone.DevicesInZoneLogic);
+			foreach (var device in devicesInZoneLogic)
 			{
-                //DeviceConfiguration.InvalidateOneDevice(device);
+                DeviceConfiguration.InvalidateOneDevice(device);
                 DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
 				device.OnChanged();
 			}
             zone.UpdateExternalDevices();
-            foreach (var device in zone.IndicatorsInZone)
+			var indicatorsInZone = new List<Device>(zone.IndicatorsInZone);
+			foreach (var device in indicatorsInZone)
 			{
-                //DeviceConfiguration.InvalidateOneDevice(device);
+                DeviceConfiguration.InvalidateOneDevice(device);
                 DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
 				device.OnChanged();
 			}
+		}
+
+		public void ChangeZone(Zone zone)
+		{
+			foreach (var device in zone.DevicesInZone)
+			{
+				device.OnChanged();
+			}
+			foreach (var device in zone.DevicesInZoneLogic)
+			{
+				DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
+				device.OnChanged();
+			}
+			foreach (var device in zone.IndicatorsInZone)
+			{
+				DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
+				device.OnChanged();
+			}
+			zone.OnChanged();
 		}
 
         List<Device> GetMPTGroup(Device device)
@@ -129,11 +159,10 @@ namespace FiresecClient
         {
             foreach (var device in GetMPTGroup(parentDevice))
             {
-                device.OnChanged();
                 if (device.Zone != null)
                 {
+					device.Zone.DevicesInZone.Remove(device);
                     device.Zone.UpdateExternalDevices();
-                    device.Zone.DevicesInZone.Remove(device);
                     device.Zone.OnChanged();
                 }
                 device.Zone = zone;
@@ -146,6 +175,8 @@ namespace FiresecClient
                 }
                 else
                     device.ZoneNo = null;
+
+				device.OnChanged();
             }
         }
 
@@ -153,16 +184,20 @@ namespace FiresecClient
         {
             foreach (var device in GetMPTGroup(parentDevice))
             {
-                device.OnChanged();
-                if (device.Zone != null)
-                {
-                    device.Zone.UpdateExternalDevices();
-                }
+				var oldZone = device.Zone;
                 device.Zone = null;
                 device.ZoneNo = null;
-                zone.DevicesInZone.Remove(device);
-                zone.UpdateExternalDevices();
-                zone.OnChanged();
+				if (oldZone != null)
+				{
+					oldZone.UpdateExternalDevices();
+				}
+				if (zone != null)
+				{
+					zone.DevicesInZone.Remove(device);
+					zone.UpdateExternalDevices();
+					zone.OnChanged();
+				}
+				device.OnChanged();
             }
         }
 
@@ -175,7 +210,8 @@ namespace FiresecClient
             }
             device.ZonesInLogic.Clear();
 
-            foreach (var dependentDevice in device.DependentDevices)
+			var dependentDevices = new List<Device>(device.DependentDevices);
+            foreach (var dependentDevice in dependentDevices)
             {
                 DeviceConfiguration.InvalidateOneDevice(dependentDevice);
                 DeviceConfiguration.UpdateOneDeviceCrossReferences(dependentDevice);
@@ -186,7 +222,7 @@ namespace FiresecClient
             device.ZoneLogic = zoneLogic;
             DeviceConfiguration.InvalidateOneDevice(device);
             DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
-            device.HasExternalDevices = HasExternalDevices(device);
+            device.UpdateHasExternalDevices();
             device.OnChanged();
         }
 
@@ -221,5 +257,24 @@ namespace FiresecClient
             DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
             device.OnChanged();
         }
+
+		public void SetIsNotUsed(Device device, bool isUsed)
+		{
+			device.IsNotUsed = isUsed;
+			device.OnChanged();
+			if (isUsed)
+			{
+				SetDeviceZoneLogic(device, new ZoneLogic());
+			}
+		}
+
+		public void ChangeDriver(Device device, Driver driver)
+		{
+			device.Driver = driver;
+			device.DriverUID = driver.UID;
+			RemoveDeviceFromZone(device, null);
+			SetDeviceZoneLogic(device, new ZoneLogic());
+			device.Properties = new List<Property>();
+		}
 	}
 }

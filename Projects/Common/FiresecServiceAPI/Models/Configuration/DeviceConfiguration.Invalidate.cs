@@ -43,15 +43,18 @@ namespace FiresecAPI.Models
                     device.ZoneLogic = new ZoneLogic();
                 foreach (var clause in device.ZoneLogic.Clauses)
                 {
+					var zones = new List<Zone>();
                     foreach (var clauseZone in clause.ZoneNos)
                     {
                         var zone = Zones.FirstOrDefault(x => x.No == clauseZone);
                         if (zone != null)
                         {
+							zones.Add(zone);
                             device.ZonesInLogic.Add(zone);
                             zone.DevicesInZoneLogic.Add(device);
                         }
                     }
+					clause.Zones = zones;
 
                     clause.Device = null;
                     if (clause.DeviceUID != Guid.Empty)
@@ -74,6 +77,18 @@ namespace FiresecAPI.Models
                     device.IndicatorLogic.Device = indicatorLogicDevice;
                     indicatorLogicDevice.DependentDevices.Add(device);
                 }
+
+				var zones = new List<Zone>();
+				foreach (var zoneNo in device.IndicatorLogic.ZoneNos)
+				{
+					var zone = Zones.FirstOrDefault(x => x.No == zoneNo);
+					if (zone != null)
+					{
+						zones.Add(zone);
+						zone.IndicatorsInZone.Add(device);
+					}
+				}
+				device.IndicatorLogic.Zones = zones;
             }
 
             if (device.Driver.DriverType == DriverType.PDUDirection)
@@ -115,17 +130,17 @@ namespace FiresecAPI.Models
             if (device.Driver.IsZoneLogicDevice)
                 InvalidateZoneLogicDevice(device);
             else
-                device.ZoneLogic = null;
+                device.ZoneLogic = new ZoneLogic();
 
             if (device.Driver.DriverType == DriverType.Indicator)
                 InvalidateIndicator(device);
             else
-                device.IndicatorLogic = null;
+                device.IndicatorLogic = new IndicatorLogic();
 
             if (device.Driver.DriverType == DriverType.PDUDirection)
                 InvalidatePDUDirection(device);
             else
-                device.PDUGroupLogic = null;
+                device.PDUGroupLogic = new PDUGroupLogic();
 
             UpdateChildMPTZones();
         }
@@ -154,7 +169,6 @@ namespace FiresecAPI.Models
                     }
 
                     var zoneNos = new List<int>();
-                    var zones = new List<Zone>();
                     if (clause.ZoneNos == null)
                         clause.ZoneNos = new List<int>();
                     foreach (var zoneNo in clause.ZoneNos)
@@ -163,11 +177,9 @@ namespace FiresecAPI.Models
                         if (zone != null)
                         {
                             zoneNos.Add(zoneNo);
-                            zones.Add(zone);
                         }
                     }
                     clause.ZoneNos = zoneNos;
-                    clause.Zones = zones;
 
                     if ((clause.Device != null) || (clause.ZoneNos.Count > 0) || clause.State == ZoneLogicState.Failure)
                         clauses.Add(clause);
@@ -176,43 +188,41 @@ namespace FiresecAPI.Models
             }
         }
 
-        public void InvalidateIndicator(Device device)
-        {
-            if (device.Driver.DriverType == DriverType.Indicator)
-            {
-                device.IndicatorLogic.Device = Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
-                if (device.IndicatorLogic.Device == null)
-                {
-                    device.IndicatorLogic.DeviceUID = Guid.Empty;
-                }
+		public void InvalidateIndicator(Device device)
+		{
+			device.IndicatorLogic.Device = Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
+			if (device.IndicatorLogic.Device == null)
+			{
+				device.IndicatorLogic.DeviceUID = Guid.Empty;
+			}
 
-                var zoneNos = new List<int>();
-                var zones = new List<Zone>();
-                if (device.IndicatorLogic.ZoneNos == null)
-                {
-                    device.IndicatorLogic.ZoneNos = new List<int>();
-                }
-                foreach (var zoneNo in device.IndicatorLogic.ZoneNos)
-                {
-                    var zone = Zones.FirstOrDefault(x => x.No == zoneNo);
-                    if (zone != null)
-                    {
-                        zoneNos.Add(zoneNo);
-                        zones.Add(zone);
-                    }
-                }
-                device.IndicatorLogic.ZoneNos = zoneNos;
-                device.IndicatorLogic.Zones = zones;
-            }
-        }
+			var zoneNos = new List<int>();
+			if (device.IndicatorLogic.ZoneNos == null)
+			{
+				device.IndicatorLogic.ZoneNos = new List<int>();
+			}
+			foreach (var zoneNo in device.IndicatorLogic.ZoneNos)
+			{
+				var zone = Zones.FirstOrDefault(x => x.No == zoneNo);
+				if (zone != null)
+				{
+					zoneNos.Add(zoneNo);
+				}
+			}
+			device.IndicatorLogic.ZoneNos = zoneNos;
+		}
 
         public void InvalidatePDUDirection(Device device)
         {
-            foreach (var pduGroupDevice in device.PDUGroupLogic.Devices)
-            {
-                if (Devices.Any(x => x.UID == pduGroupDevice.DeviceUID) == false)
-                    pduGroupDevice.DeviceUID = Guid.Empty;
-            }
+			var pduGroupLogic = new PDUGroupLogic();
+			foreach (var pduGroupDevice in device.PDUGroupLogic.Devices)
+			{
+				if (Devices.Any(x => x.UID == pduGroupDevice.DeviceUID))
+				{
+					pduGroupLogic.Devices.Add(pduGroupDevice);
+				}
+			}
+			device.PDUGroupLogic = pduGroupLogic;
         }
 
         void UpdateChildMPTZones()

@@ -45,7 +45,7 @@ namespace FiresecClient
 
             foreach (var device in DeviceConfiguration.Devices)
             {
-                device.HasExternalDevices = device.HaveExternalDevices();
+				device.UpdateHasExternalDevices();
             }
 		}
 
@@ -123,11 +123,6 @@ namespace FiresecClient
 
 			return zones;
 		}
-
-        public bool HasExternalDevices(Device device)
-        {
-            return device.HaveExternalDevices();
-        }
 
 		List<Device> allChildren;
 		public List<Device> GetAllChildrenForDevice(Device device)

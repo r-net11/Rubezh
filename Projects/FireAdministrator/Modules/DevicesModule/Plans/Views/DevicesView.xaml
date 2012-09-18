@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-
     <UserControl.Resources>
         <Style x:Key="IsOnPlanCheckBoxStyle" TargetType="CheckBox">
             <Setter Property="Template">
@@ -74,9 +73,9 @@
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
 
-            <DataGridTextColumn Header="Адрес" MinWidth="50" Binding="{Binding Device.PresentationAddress}" />
+            <DataGridTextColumn Header="Адрес" MinWidth="50" Binding="{Binding Address}" />
             <DataGridTextColumn Header="Зона" MinWidth="50" Binding="{Binding PresentationZone}" />
-            <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
+            <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
 
         </DataGrid.Columns>
     </DataGrid >

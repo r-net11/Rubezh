@@ -226,21 +226,6 @@ namespace DevicesModule.ViewModels
 			base.OnShow();
 			if (DevicesMenuView.Current != null)
 				DevicesMenuView.Current.AcceptKeyboard = true;
-
-			FiresecManager.FiresecConfiguration.InvalidateConfiguration();
-
-			foreach (var device in Devices)
-			{
-				device.OnPropertyChanged("PresentationZone");
-			}
-		}
-
-		public void UpdateExternalDevices()
-		{
-            //foreach (var device in Devices)
-            //{
-            //    device.HasExternalDevices = FiresecManager.FiresecConfiguration.HasExternalDevices(device.Device);
-            //}
 		}
 
 		public override void OnHide()

@@ -19,12 +19,15 @@ namespace FiresecAPI.Models
 			PlanElementUIDs = new List<Guid>();
 			IsRmAlarmDevice = false;
 			IsNotUsed = false;
+
+			ShapeIds = new List<string>();
+			ZonesInLogic = new List<Zone>();
+			DependentDevices = new List<Device>();
 		}
 
 		public Driver Driver { get; set; }
 		public Device Parent { get; set; }
 		public DeviceState DeviceState { get; set; }
-		public List<string> ShapeIds { get; set; }
 		public Zone Zone { get; set; }
 		public List<Zone> ZonesInLogic { get; set; }
 		public List<Device> DependentDevices { get; set; }
@@ -99,6 +102,9 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public string PathId { get; set; }
+
+		[DataMember]
+		public List<string> ShapeIds { get; set; }
 
 		public bool CanBeNotUsed
 		{
@@ -320,7 +326,7 @@ namespace FiresecAPI.Models
 			}
 		}
 
-        public bool HaveExternalDevices()
+        public void UpdateHasExternalDevices()
         {
             if (this.ZoneLogic != null)
             {
@@ -330,13 +336,16 @@ namespace FiresecAPI.Models
                     {
                         foreach (var deviceInZone in zone.DevicesInZone)
                         {
-                            if (this.ParentPanel.UID != deviceInZone.ParentPanel.UID)
-                                return true;
+							if (this.ParentPanel.UID != deviceInZone.ParentPanel.UID)
+							{
+								HasExternalDevices = true;
+								return;
+							}
                         }
                     }
                 }
             }
-            return false;
+			HasExternalDevices = false;
         }
 
 		public void OnChanged()

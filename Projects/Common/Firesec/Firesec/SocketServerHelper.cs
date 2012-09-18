@@ -64,7 +64,6 @@ namespace Firesec
 			newProcess.Start();
 			newProcess.WaitForInputIdle(1000);
 
-
 			for (int i = 0; i < 100; i++)
 			{
 				foreach (var process in Process.GetProcesses())

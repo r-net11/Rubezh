@@ -15,15 +15,14 @@ namespace FiresecAPI.Models
 			EvacuationTime = "0";
 			AutoSet = "0";
 			Delay = "0";
-			ShapeIds = new List<string>();
 
+			ShapeIds = new List<string>();
 			DevicesInZone = new List<Device>();
 			DevicesInZoneLogic = new List<Device>();
 			IndicatorsInZone = new List<Device>();
 		}
 
 		public ZoneState ZoneState { get; set; }
-		public List<string> ShapeIds { get; set; }
 		public Guid SecPanelUID { get; set; }
 		public List<Device> DevicesInZone { get; set; }
 		public List<Device> DevicesInZoneLogic { get; set; }
@@ -62,6 +61,9 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public bool IsOPCUsed { get; set; }
 
+		[DataMember]
+		public List<string> ShapeIds { get; set; }
+
 		public string PresentationName
 		{
 			get { return No + "." + Name; }
@@ -71,7 +73,7 @@ namespace FiresecAPI.Models
         {
             foreach (var device in DevicesInZoneLogic)
             {
-                device.HasExternalDevices = device.HaveExternalDevices();
+				device.UpdateHasExternalDevices();
             }
         }
 
@@ -80,6 +82,13 @@ namespace FiresecAPI.Models
 			if (Changed != null)
 				Changed();
 		}
-		public Action Changed { get; set; }
+		public event Action Changed;
+
+		public void OnColorTypeChanged()
+		{
+			if (ColorTypeChanged != null)
+				ColorTypeChanged();
+		}
+		public event Action ColorTypeChanged;
 	}
 }

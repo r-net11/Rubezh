@@ -221,7 +221,8 @@ namespace DevicesModule.ViewModels
 			Zone.Skipped = Skipped;
 			Zone.Delay = Delay;
 			Zone.AutoSet = AutoSet;
-            Zone.OnChanged();
+			FiresecManager.FiresecConfiguration.ChangeZone(Zone);
+			Zone.OnColorTypeChanged();
 			return base.Save();
 		}
 	}

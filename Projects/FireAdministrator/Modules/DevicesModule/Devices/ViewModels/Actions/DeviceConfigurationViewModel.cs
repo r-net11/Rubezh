@@ -5,6 +5,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Infrastructure.Common.Windows;
 
 namespace DevicesModule.ViewModels
 {
@@ -20,6 +21,7 @@ namespace DevicesModule.ViewModels
 			Title = "Сравнение конфигураций";
 			ReplaceCommand = new RelayCommand(OnReplace);
 			_deviceUID = deviceUID;
+			deviceConfiguration.Reorder();
 			_deviceConfiguration = deviceConfiguration;
 			_deviceConfiguration.Update();
 			foreach (var device in _deviceConfiguration.Devices)
@@ -39,6 +41,9 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ReplaceCommand { get; private set; }
 		void OnReplace()
 		{
+			if (MessageBoxService.ShowQuestion("Обратите внимание, что при наличии межпанельных связей, информация о внешних устройствах может быть восстановлена не полностью") != System.Windows.MessageBoxResult.Yes)
+				return;
+
 			var parent = LocalRootDevice.Parent;
 			parent.Children.Remove(LocalRootDevice);
 			parent.Children.Add(RemoteRootDevice);
