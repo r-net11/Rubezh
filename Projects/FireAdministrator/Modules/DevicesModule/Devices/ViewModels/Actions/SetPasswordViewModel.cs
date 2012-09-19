@@ -1,5 +1,4 @@
-﻿using System;
-using Controls;
+﻿using Controls;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;

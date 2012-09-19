@@ -40,7 +40,7 @@ namespace DevicesModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_zonesNavigationItem = new NavigationItem<ShowZoneEvent, int?>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png");
+			_zonesNavigationItem = new NavigationItem<ShowZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty);
 			return new List<NavigationItem>()
 			{
 				new NavigationItem<ShowDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),

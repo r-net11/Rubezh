@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Data;
 using FiresecAPI;
+using FiresecClient;
 
 namespace InstructionsModule.Converters
 {
@@ -9,16 +12,20 @@ namespace InstructionsModule.Converters
 	{
 		public object Convert(object value, System.Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var zones = value as ICollection<int>;
-			if (zones.IsNotNullOrEmpty())
+			var zoneUIDs = value as ICollection<Guid>;
+			if (zoneUIDs.IsNotNullOrEmpty())
 			{
 				var delimString = ", ";
 				var result = new StringBuilder();
 
-				foreach (var zone in zones)
+                foreach (var zoneUID in zoneUIDs)
 				{
-					result.Append(zone);
-					result.Append(delimString);
+                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+                    if (zone != null)
+                    {
+                        result.Append(zone.No);
+                        result.Append(delimString);
+                    }
 				}
 
 				return result.ToString().Remove(result.Length - delimString.Length);

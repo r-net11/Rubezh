@@ -14,7 +14,7 @@ namespace FiresecClient
 				Driver = device.Driver,
 				IntAddress = device.IntAddress,
 				Description = device.Description,
-				ZoneNo = device.ZoneNo
+				ZoneUID = device.ZoneUID
 			};
 
 			if (fullCopy)
@@ -33,7 +33,7 @@ namespace FiresecClient
 					{
 						State = clause.State,
 						Operation = clause.Operation,
-						ZoneNos = clause.ZoneNos.ToList()
+                        ZoneUIDs = clause.ZoneUIDs.ToList()
 					});
 				}
 			}

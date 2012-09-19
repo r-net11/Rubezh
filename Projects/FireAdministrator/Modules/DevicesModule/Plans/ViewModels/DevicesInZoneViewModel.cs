@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DevicesModule.Plans.Events;
 using FiresecAPI.Models;
@@ -10,7 +11,7 @@ namespace DevicesModule.Plans.ViewModels
 {
 	public class DevicesInZoneViewModel : SaveCancelDialogViewModel
     {
-		public DevicesInZoneViewModel(Dictionary<Device, int?> deviceInZones)
+		public DevicesInZoneViewModel(Dictionary<Device, Guid> deviceInZones)
         {
             Title = "Изменение зон устройств на плане";
             DeviceInZones = new List<DeviceInZoneViewModel>();
@@ -39,19 +40,19 @@ namespace DevicesModule.Plans.ViewModels
     public class DeviceInZoneViewModel : BaseViewModel
     {
         public Device Device { get; private set; }
-		public int? NewZoneNo { get; private set; }
+        public Guid NewZoneUID { get; private set; }
         public string OldZoneName { get; private set; }
         public string NewZoneName { get; private set; }
 
-		public DeviceInZoneViewModel(Device device, int? newZoneNo)
+		public DeviceInZoneViewModel(Device device, Guid newZoneUID)
         {
             IsActive = true;
             Device = device;
-            NewZoneNo = newZoneNo;
+            NewZoneUID = newZoneUID;
 
-            if (newZoneNo.HasValue)
+            if (NewZoneUID != Guid.Empty)
             {
-                var newZone = FiresecManager.Zones.FirstOrDefault(x => x.No == newZoneNo.Value);
+                var newZone = FiresecManager.Zones.FirstOrDefault(x => x.UID == NewZoneUID);
                 NewZoneName = newZone.PresentationName;
             }
             else
@@ -59,13 +60,13 @@ namespace DevicesModule.Plans.ViewModels
                 NewZoneName = "";
             }
 
-            var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == Device.ZoneNo);
+            var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == Device.ZoneUID);
             OldZoneName = zone.PresentationName;
         }
 
         public void Activate()
         {
-            Device.ZoneNo = NewZoneNo;
+            Device.ZoneUID = NewZoneUID;
             ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(Device.UID);
         }
 

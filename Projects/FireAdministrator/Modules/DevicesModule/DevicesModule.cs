@@ -40,9 +40,9 @@ namespace DevicesModule
 		{
 			_zonesViewModel.CreateZone(createZoneEventArg);
 		}
-		void OnEditZone(int zoneNo)
+		void OnEditZone(Guid zoneUID)
 		{
-			_zonesViewModel.EditZone(zoneNo);
+			_zonesViewModel.EditZone(zoneUID);
 		}
 
 		public override void RegisterResource()
@@ -70,8 +70,8 @@ namespace DevicesModule
 			return new List<NavigationItem>()
 			{
 				new NavigationItem<ShowDeviceEvent, Guid>(_devicesViewModel, "Устройства","/Controls;component/Images/tree.png", null, null, Guid.Empty),
-				new NavigationItem<ShowZoneEvent, int>(_zonesViewModel, "Зоны","/Controls;component/Images/zones.png", null, null, 0),
-				new NavigationItem<ShowDirectionsEvent, int?>(_directionsViewModel, "Направления","/Controls;component/Images/direction.png"),
+				new NavigationItem<ShowZoneEvent, Guid>(_zonesViewModel, "Зоны","/Controls;component/Images/zones.png", null, null, Guid.Empty),
+				new NavigationItem<ShowDirectionsEvent, Guid>(_directionsViewModel, "Направления","/Controls;component/Images/direction.png", null, null, Guid.Empty),
 				_guardNavigationItem
 			};
 		}

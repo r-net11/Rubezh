@@ -14,16 +14,22 @@ namespace FiresecClient
 
 		public static string Connect(ClientType clientType, string serverAddress, string login, string password)
 		{
-			string clientCallbackAddress;
-			if (serverAddress.StartsWith("net.pipe:"))
-			{
-				clientCallbackAddress = "net.pipe://127.0.0.1/FiresecCallbackService_" + clientType.ToString() + "/";
-			}
-			else
-			{
-				clientCallbackAddress = CallbackAddressHelper.GetFreeClientCallbackAddress();
-			}
-			FiresecCallbackServiceManager.Open(clientCallbackAddress);
+			string clientCallbackAddress = null;
+            switch (clientType)
+            {
+                case ClientType.Monitor:
+                case ClientType.OPC:
+                    if (serverAddress.StartsWith("net.pipe:"))
+                    {
+                        clientCallbackAddress = "net.pipe://127.0.0.1/FiresecCallbackService_" + clientType.ToString() + "/";
+                    }
+                    else
+                    {
+                        clientCallbackAddress = CallbackAddressHelper.GetFreeClientCallbackAddress();
+                    }
+                    FiresecCallbackServiceManager.Open(clientCallbackAddress);
+                    break;
+            }
 
 			ClientCredentials = new ClientCredentials()
 			{
@@ -83,12 +89,13 @@ namespace FiresecClient
 				}
 				FiresecCallbackServiceManager.Close();
 			}
-			else
-			{
-				//Logger.Info("FiresecManager.Disconnect IsDisconnected=true");
-			}
 			IsDisconnected = true;
 		}
+
+        public static void StartPing()
+        {
+            FiresecService.StartPing();
+        }
 
 		public static OperationResult<DeviceConfiguration> AutoDetectDevice(Device device, bool fastSearch)
 		{

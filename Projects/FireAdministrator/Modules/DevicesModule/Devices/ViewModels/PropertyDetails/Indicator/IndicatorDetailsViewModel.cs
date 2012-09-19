@@ -12,7 +12,7 @@ namespace DevicesModule.ViewModels
 	public class IndicatorDetailsViewModel : SaveCancelDialogViewModel
 	{
 		Device Device;
-		List<int> Zones;
+		List<Guid> Zones;
 
 		public IndicatorDetailsViewModel(Device device)
 		{
@@ -26,7 +26,7 @@ namespace DevicesModule.ViewModels
 			FailureColor = IndicatorColorType.Orange;
 			ConnectionColor = IndicatorColorType.Orange;
 
-			Zones = new List<int>();
+			Zones = new List<Guid>();
 			Device = device;
 
 			if (device.IndicatorLogic == null)
@@ -36,8 +36,8 @@ namespace DevicesModule.ViewModels
 			{
 				case IndicatorLogicType.Zone:
 					IsZone = true;
-					if (device.IndicatorLogic.ZoneNos != null)
-						Zones = device.IndicatorLogic.ZoneNos;
+                    if (device.IndicatorLogic.ZoneUIDs != null)
+                        Zones = device.IndicatorLogic.ZoneUIDs;
 					break;
 
 				case IndicatorLogicType.Device:
@@ -83,7 +83,7 @@ namespace DevicesModule.ViewModels
 				string presenrationZones = "";
 				for (int i = 0; i < Zones.Count; i++)
 				{
-					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == Zones[i]);
+                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == Zones[i]);
 					if (i > 0)
 						presenrationZones += ", ";
 					presenrationZones += zone.PresentationName;
@@ -183,7 +183,7 @@ namespace DevicesModule.ViewModels
 			if (IsZone)
 			{
 				indicatorLogic.IndicatorLogicType = IndicatorLogicType.Zone;
-				indicatorLogic.ZoneNos = Zones;
+                indicatorLogic.ZoneUIDs = Zones;
 			}
 			else if (IsDevice)
 			{

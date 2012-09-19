@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.Windows;
 
 namespace Firesec
 {

@@ -10,17 +10,24 @@ namespace Firesec
 {
 	public class Watcher
 	{
+        internal static Watcher Current;
 		FiresecSerializedClient FiresecSerializedClient;
 		int LastJournalNo = 0;
 		HashSet<DeviceState> ChangedDevices;
 		HashSet<ZoneState> ChangedZones;
+        bool MustMonitorJournal;
 
-		public Watcher(FiresecSerializedClient firesecSerializedClient, bool mustMonitorStates)
+        public Watcher(FiresecSerializedClient firesecSerializedClient, bool mustMonitorStates, bool mustMonitorJournal)
 		{
+            Current = this;
 			FiresecSerializedClient = firesecSerializedClient;
-			if (mustMonitorStates)
+            MustMonitorJournal = mustMonitorJournal;
+            if (mustMonitorJournal)
 			{
 				SetLastEvent();
+            }
+            if (mustMonitorStates)
+            {
 				OnStateChanged();
 				OnParametersChanged();
 				FiresecSerializedClient.NewEvent += new Action<int>(FiresecClient_NewEvent);
@@ -50,7 +57,10 @@ namespace Firesec
 				OnParametersChanged();
 
 			if (evmNewEvents)
-				OnNewEvent();
+                if (MustMonitorJournal)
+                {
+                    OnNewEvent();
+                }
 		}
 
 		void SetLastEvent()
@@ -159,9 +169,9 @@ namespace Firesec
 			}
 		}
 
-		public void ImitatorStateChanged(Firesec.Models.CoreState.config coreState)
+		internal static void ImitatorStateChanged(Firesec.Models.CoreState.config coreState)
 		{
-			StateChanged(coreState);
+			Current.StateChanged(coreState);
 		}
 
 		public void OnStateChanged()
@@ -414,7 +424,7 @@ namespace Firesec
 				{
 					StateType minZoneStateType = StateType.Norm;
 					var devices = ConfigurationCash.DeviceConfiguration.Devices.
-						Where(x => x.ZoneNo == zone.No && !x.Driver.IgnoreInZoneState);
+                        Where(x => x.ZoneUID == zone.UID && !x.Driver.IgnoreInZoneState);
 
 					foreach (var device in devices)
 					{
@@ -422,7 +432,7 @@ namespace Firesec
 							minZoneStateType = device.DeviceState.StateType;
 					}
 
-					if (ConfigurationCash.DeviceConfiguration.Devices.Any(x => x.ZoneNo == zone.No) == false)
+                    if (ConfigurationCash.DeviceConfiguration.Devices.Any(x => x.ZoneUID == zone.UID) == false)
 						minZoneStateType = StateType.Unknown;
 
 					if (zone.ZoneState.StateType != minZoneStateType)

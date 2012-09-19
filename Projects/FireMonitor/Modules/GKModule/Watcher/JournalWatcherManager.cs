@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
+using Common;
 using Common.GK;
 using Infrastructure.Common.Windows;
-using Common;
 
 namespace GKModule
 {

@@ -13,9 +13,9 @@ namespace DevicesModule.ViewModels
 	[SaveSizeAttribute]
 	public class ZonesSelectionViewModel : SaveCancelDialogViewModel
 	{
-		public List<int> Zones { get; private set; }
+		public List<Guid> Zones { get; private set; }
 
-		public ZonesSelectionViewModel(Device device, List<int> zones, ZoneLogicState zoneLogicState)
+		public ZonesSelectionViewModel(Device device, List<Guid> zones, ZoneLogicState zoneLogicState)
 		{
 			Title = "Выбор зон";
 			AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
@@ -56,13 +56,13 @@ namespace DevicesModule.ViewModels
 
 				//if ((zoneLogicState == ZoneLogicState.MPTAutomaticOn) || (zoneLogicState == ZoneLogicState.MPTOn) || (zoneLogicState == ZoneLogicState.Firefighting))
 				//{
-				//    if (device.ParentPanel.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneNo == zone.No) == false)
+                //    if (device.ParentPanel.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneUID == zone.UID) == false)
 				//    {
 				//        continue;
 				//    }
 				//}
 
-				if (Zones.Contains(zone.No))
+                if (Zones.Contains(zone.UID))
 					TargetZones.Add(zoneViewModel);
 				else
 					SourceZones.Add(zoneViewModel);
@@ -153,7 +153,7 @@ namespace DevicesModule.ViewModels
 
 		protected override bool Save()
 		{
-			Zones = new List<int>(TargetZones.Select(x => x.Zone.No));
+            Zones = new List<Guid>(TargetZones.Select(x => x.Zone.UID));
 			return base.Save();
 		}
 	}

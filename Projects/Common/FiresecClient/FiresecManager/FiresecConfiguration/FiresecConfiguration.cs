@@ -189,9 +189,9 @@ namespace FiresecClient
 			{
 				if (child.Driver.IsZoneDevice)
 				{
-					if (child.ZoneNo.HasValue)
+					if (child.ZoneUID != Guid.Empty)
 					{
-						var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == child.ZoneNo);
+                        var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == child.ZoneUID);
 						if (zone != null)
 						{
 							zones.Add(zone);

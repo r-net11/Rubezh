@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DevicesModule.Events;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -77,18 +78,18 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SelectCommand { get; private set; }
 		void OnSelect()
 		{
-			ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Publish(Zone.No);
+            ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Publish(Zone.UID);
 		}
 
 		bool CanShowOnPlan()
 		{
 			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
 			{
-				if (plan.ElementPolygonZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == Zone.No)))
+                if (plan.ElementPolygonZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
 				{
 					return true;
 				}
-				if (plan.ElementRectangleZones.Any(x => (x.ZoneNo.HasValue) && (x.ZoneNo.Value == Zone.No)))
+                if (plan.ElementRectangleZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
 				{
 					return true;
 				}
@@ -99,7 +100,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Zone.No);
+            ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Zone.UID);
 		}
 
 		public RelayCommand SetGuardCommand { get; private set; }

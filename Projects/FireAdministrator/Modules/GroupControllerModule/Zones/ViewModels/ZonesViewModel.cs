@@ -151,17 +151,17 @@ namespace GKModule.ViewModels
 			if (result == null)
 			{
 				createZoneEventArg.Cancel = true;
-				createZoneEventArg.ZoneNo = null;
+                createZoneEventArg.ZoneUID = Guid.Empty;
 			}
 			else
 			{
 				createZoneEventArg.Cancel = false;
-				createZoneEventArg.ZoneNo = result.XZone.No;
+                createZoneEventArg.ZoneUID = result.XZone.UID;
 			}
 		}
-		public void EditZone(int zoneNo)
+        public void EditZone(Guid zoneUID)
 		{
-			var zoneViewModel = zoneNo == 0 ? null : Zones.FirstOrDefault(x => x.XZone.No == zoneNo);
+            var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.XZone.UID == zoneUID);
 			if (zoneViewModel != null)
 				OnEdit(zoneViewModel.XZone);
 		}

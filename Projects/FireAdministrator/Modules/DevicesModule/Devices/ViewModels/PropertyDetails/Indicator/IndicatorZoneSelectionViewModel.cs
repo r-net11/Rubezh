@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
@@ -10,9 +11,9 @@ namespace DevicesModule.ViewModels
 {
 	public class IndicatorZoneSelectionViewModel : SaveCancelDialogViewModel
     {
-		public List<int> Zones { get; private set; }
+		public List<Guid> Zones { get; private set; }
 
-		public IndicatorZoneSelectionViewModel(List<int> zones, Device device)
+		public IndicatorZoneSelectionViewModel(List<Guid> zones, Device device)
 		{
 			Title = "Свойства индикатора";
 
@@ -29,7 +30,7 @@ namespace DevicesModule.ViewModels
 			{
 				var zoneViewModel = new ZoneViewModel(zone);
 
-				if (Zones.Contains(zone.No))
+                if (Zones.Contains(zone.UID))
 					TargetZones.Add(zoneViewModel);
 				else
 					SourceZones.Add(zoneViewModel);
@@ -117,10 +118,10 @@ namespace DevicesModule.ViewModels
 
 		protected override bool Save()
 		{
-			Zones = new List<int>();
+			Zones = new List<Guid>();
 			foreach (var zone in TargetZones)
 			{
-				Zones.Add(zone.Zone.No);
+                Zones.Add(zone.Zone.UID);
 			}
 			return base.Save();
 		}

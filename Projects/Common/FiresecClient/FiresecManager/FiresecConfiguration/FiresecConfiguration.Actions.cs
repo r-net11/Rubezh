@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
-using System.Collections.Generic;
 
 namespace FiresecClient
 {
@@ -18,7 +18,7 @@ namespace FiresecClient
 			};
 			if (parentDevice.Driver.DriverType == DriverType.MPT)
 			{
-				device.ZoneNo = parentDevice.ZoneNo;
+				device.ZoneUID = parentDevice.ZoneUID;
 			}
 			parentDevice.Children.Add(device);
 			AddAutoCreateChildren(device);
@@ -102,7 +102,7 @@ namespace FiresecClient
             foreach (var device in zone.DevicesInZone)
             {
                 device.Zone = null;
-                device.ZoneNo = null;
+                device.ZoneUID = Guid.Empty;
                 device.OnChanged();
             }
 			var devicesInZoneLogic = new List<Device>(zone.DevicesInZoneLogic);
@@ -168,13 +168,13 @@ namespace FiresecClient
                 device.Zone = zone;
                 if (zone != null)
                 {
-                    device.ZoneNo = zone.No;
+                    device.ZoneUID = zone.UID;
                     zone.DevicesInZone.Add(device);
                     zone.UpdateExternalDevices();
                     zone.OnChanged();
                 }
                 else
-                    device.ZoneNo = null;
+                    device.ZoneUID = Guid.Empty;
 
 				device.OnChanged();
             }
@@ -186,7 +186,7 @@ namespace FiresecClient
             {
 				var oldZone = device.Zone;
                 device.Zone = null;
-                device.ZoneNo = null;
+                device.ZoneUID = Guid.Empty;
 				if (oldZone != null)
 				{
 					oldZone.UpdateExternalDevices();

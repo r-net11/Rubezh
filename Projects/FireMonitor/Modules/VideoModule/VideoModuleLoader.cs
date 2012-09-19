@@ -26,9 +26,9 @@ namespace VideoModule
         {
             foreach (var camera in FiresecManager.SystemConfiguration.Cameras)
             {
-                foreach (var zoneNo in camera.Zones)
+                foreach (var zoneUID in camera.ZoneUIDs)
                 {
-                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == zoneNo);
+                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
                     {
 						if (zone.ZoneState.StateType == camera.StateType)

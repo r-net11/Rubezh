@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -30,9 +29,9 @@ namespace Firesec
 			ConfigurationConverter.SynchronyzeConfiguration();
 		}
 
-		public void StatrtWatcher(bool mustMonitorStates)
+        public void StatrtWatcher(bool mustMonitorStates, bool mustMonitorJournal)
 		{
-			Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates);
+            Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
 			if (mustMonitorStates)
 			{
 				Watcher.OnStateChanged();

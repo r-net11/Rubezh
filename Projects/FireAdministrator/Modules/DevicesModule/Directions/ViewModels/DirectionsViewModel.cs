@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using DevicesModule.Views;
 using FiresecClient;
@@ -10,7 +11,7 @@ using Infrastructure.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class DirectionsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<int?>
+	public class DirectionsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public DirectionsViewModel()
 		{
@@ -103,12 +104,12 @@ namespace DevicesModule.ViewModels
 				DirectionsMenuView.Current.AcceptKeyboard = false;
 		}
 
-		#region ISelectable<int?> Members
+		#region ISelectable<Guid> Members
 
-		public void Select(int? directionId)
+		public void Select(Guid directionUID)
 		{
-			if (directionId.HasValue)
-				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.Id == directionId);
+            if (directionUID != Guid.Empty)
+                SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 		}
 
 		#endregion

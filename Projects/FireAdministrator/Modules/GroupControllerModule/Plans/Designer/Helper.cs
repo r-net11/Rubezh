@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -16,7 +17,7 @@ namespace GKModule.Plans.Designer
 		}
 		public static XZone GetXZone(IElementZone element)
 		{
-			return element.ZoneNo.HasValue ? XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == element.ZoneNo.Value) : null;
+            return element.ZoneUID != Guid.Empty ? XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == element.ZoneUID) : null;
 		}
 		public static void SetXZone(IElementZone element)
 		{
@@ -25,7 +26,7 @@ namespace GKModule.Plans.Designer
 		}
 		public static void SetXZone(IElementZone element, XZone xzone)
 		{
-			element.ZoneNo = xzone == null ? null : (int?)xzone.No;
+            element.ZoneUID = xzone == null ? Guid.Empty : xzone.UID;
 			element.BackgroundColor = GetXZoneColor(xzone);
 		}
 		private static Color GetXZoneColor(XZone zone)

@@ -19,7 +19,7 @@ namespace AlarmModule.ViewModels
 			DeviceId = deviceUID;
 			StateType = AlarmTypeToStateType(alarmType);
 
-			HasContent = FindDeviceInstruction(DeviceId) || FindZoneInstruction(ZoneNo);
+            HasContent = FindDeviceInstruction(DeviceId) || FindZoneInstruction(ZoneUID);
 			if (!HasContent)
 			{
 				Instruction = InstructionGeneral;
@@ -30,14 +30,14 @@ namespace AlarmModule.ViewModels
 		public StateType StateType { get; private set; }
 		public Instruction Instruction { get; private set; }
 
-		public int? ZoneNo
+        public Guid ZoneUID
 		{
 			get
 			{
 				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == DeviceId);
 				if (device != null)
-					return device.ZoneNo;
-				return null;
+                    return device.ZoneUID;
+				return Guid.Empty;
 			}
 		}
 
@@ -105,14 +105,14 @@ namespace AlarmModule.ViewModels
 			return false;
 		}
 
-		bool FindZoneInstruction(int? zoneNo)
+        bool FindZoneInstruction(Guid zoneUID)
 		{
 			if (AvailableStateTypeInstructions.IsNotNullOrEmpty())
 			{
 				foreach (var instruction in AvailableStateTypeInstructions)
 				{
-					if (zoneNo != null)
-						if (instruction.Zones.IsNotNullOrEmpty() && instruction.Zones.Contains(zoneNo.Value))
+                    if (zoneUID != Guid.Empty)
+                        if (instruction.ZoneUIDs.IsNotNullOrEmpty() && instruction.ZoneUIDs.Contains(zoneUID))
 						{
 							Instruction = instruction;
 							return true;

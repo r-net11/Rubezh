@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
-using System.Windows.Controls;
+using System.Windows.Threading;
 using Common;
 using FiresecAPI;
-using System.Windows.Threading;
 
 namespace Firesec
 {

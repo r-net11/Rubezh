@@ -1,8 +1,9 @@
-﻿using Microsoft.Practices.Prism.Events;
+﻿using System;
+using Microsoft.Practices.Prism.Events;
 
 namespace DevicesModule.Events
 {
-    public class ZoneSelectedEvent : CompositePresentationEvent<int?>
+    public class ZoneSelectedEvent : CompositePresentationEvent<Guid>
     {
     }
 }

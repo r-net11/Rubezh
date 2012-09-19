@@ -12,7 +12,7 @@ namespace AlarmModule
 		public AlarmType AlarmType { get; set; }
 		public StateType StateType { get; set; }
 		public Guid DeviceUID { get; set; }
-		public int? ZoneNo { get; set; }
+        public Guid ZoneUID { get; set; }
 		public string StateName { get; set; }
 		public bool IsDeleting { get; set; }
 
@@ -36,7 +36,7 @@ namespace AlarmModule
 		{
 			IsConfirmed = true;
 
-			var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == ZoneNo);
+            var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == ZoneUID);
 
 			var journalRecords = new List<JournalRecord>();
 			journalRecords.Add(
@@ -96,7 +96,7 @@ namespace AlarmModule
 		{
 			foreach (var device in FiresecManager.Devices)
 			{
-				if (device.ZoneNo == ZoneNo)
+                if (device.ZoneUID == ZoneUID)
 				{
 					if (device.DeviceState.States.Any(x => x.DriverState.StateType == StateType.Fire))
 					{

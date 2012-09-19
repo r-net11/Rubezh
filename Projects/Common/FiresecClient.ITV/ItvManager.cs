@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using FiresecAPI.Models;
 using Firesec;
+using Firesec.Imitator;
+using FiresecAPI.Models;
 
-namespace FiresecClient
+namespace FiresecClient.Itv
 {
     public static class ItvManager
     {
@@ -29,8 +30,9 @@ namespace FiresecClient
 				FiresecManager.GetConfiguration();
 				FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
 				FiresecManager.Synchronyze();
-				FiresecManager.StatrtWatcher(true);
-                FiresecManager.StartPing();
+				FiresecManager.StartWatcher(true, false);
+                FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>(Watcher_DevicesStateChanged);
+                FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(Watcher_ZonesStateChanged);
             }
             return result;
         }
@@ -67,6 +69,31 @@ namespace FiresecClient
 
         public static void ResetAllStates()
         {
+            FiresecManager.ResetAllStates();
         }
+
+        public static void ShowImitator()
+        {
+            ImitatorService.Show();
+        }
+
+        static void Watcher_DevicesStateChanged(List<DeviceState> deviceStates)
+        {
+            foreach (var deviceState in deviceStates)
+            {
+                if (DeviceStateChanged != null)
+                    DeviceStateChanged(deviceState);
+            }
+        }
+        static void Watcher_ZonesStateChanged(List<ZoneState> zoneStates)
+        {
+            foreach (var zoneState in zoneStates)
+            {
+                if (ZoneStateChanged != null)
+                    ZoneStateChanged(zoneState);
+            }
+        }
+        public static event Action<DeviceState> DeviceStateChanged;
+        public static event Action<ZoneState> ZoneStateChanged;
     }
 }

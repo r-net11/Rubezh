@@ -16,6 +16,11 @@ namespace OPCModule.ViewModels
 			Source = sourceDevices;
 		}
 
+        public bool CanOPCUsed
+        {
+            get { return Device.Driver.IsPlaceable; }
+        }
+
 		public bool IsOPCUsed
 		{
 			get { return Device.IsOPCUsed; }

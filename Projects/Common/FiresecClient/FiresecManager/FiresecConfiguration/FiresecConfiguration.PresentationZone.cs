@@ -9,11 +9,20 @@ namespace FiresecClient
 {
 	public partial class FiresecConfiguration
 	{
-		public string GetCommaSeparatedZones(List<int> zones)
+		public string GetCommaSeparatedZones(List<Guid> zoneUIDs)
 		{
-			if (zones.Count > 0)
+			if (zoneUIDs.Count > 0)
 			{
-				var orderedZones = zones.OrderBy(x => x).ToList();
+                var orderedZones = new List<int>();
+                foreach (var zoneUID in zoneUIDs)
+                {
+                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+                    if (zone != null)
+                    {
+                        orderedZones.Add(zone.No);
+                    }
+                }
+                orderedZones = orderedZones.OrderBy(x => x).ToList();
 				int prevZoneNo = orderedZones[0];
 				List<List<int>> groupOfZones = new List<List<int>>();
 
@@ -95,7 +104,7 @@ namespace FiresecClient
 				}
 
 				result += "состояние " + clause.State.ToDescription();
-				result += " " + clause.Operation.ToDescription() + " " + GetCommaSeparatedZones(clause.ZoneNos);
+                result += " " + clause.Operation.ToDescription() + " " + GetCommaSeparatedZones(clause.ZoneUIDs);
 			}
 
 			return result;
@@ -105,7 +114,7 @@ namespace FiresecClient
 		{
 			if (device.Driver.IsZoneDevice)
 			{
-				var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+                var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
 				if (zone != null)
 					return zone.PresentationName;
 				return "";
@@ -137,8 +146,8 @@ namespace FiresecClient
 					}
 				case IndicatorLogicType.Zone:
 					{
-						if (indicatorDevice.IndicatorLogic.ZoneNos.Count > 0)
-							return "Зоны: " + GetCommaSeparatedZones(indicatorDevice.IndicatorLogic.ZoneNos);
+                        if (indicatorDevice.IndicatorLogic.ZoneUIDs.Count > 0)
+                            return "Зоны: " + GetCommaSeparatedZones(indicatorDevice.IndicatorLogic.ZoneUIDs);
 						break;
 					}
 			}

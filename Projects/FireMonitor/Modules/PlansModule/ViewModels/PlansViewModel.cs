@@ -138,25 +138,25 @@ namespace PlansModule.ViewModels
 			return false;
 		}
 
-		public void ShowZone(int zoneNo)
+		public void ShowZone(Guid zoneUID)
 		{
 			foreach (var planViewModel in Plans)
 			{
-				foreach (var zone in planViewModel.Plan.ElementPolygonZones.Where(x => x.ZoneNo.HasValue))
+				foreach (var zone in planViewModel.Plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty))
 				{
-					if (zone.ZoneNo.Value == zoneNo)
+                    if (zone.ZoneUID == zoneUID)
 					{
 						SelectedPlan = planViewModel;
-						SelectedPlanCanvasViewModel.SelectZone(zoneNo);
+						SelectedPlanCanvasViewModel.SelectZone(zoneUID);
 						return;
 					}
 				}
-				foreach (var zone in planViewModel.Plan.ElementRectangleZones.Where(x => x.ZoneNo.HasValue))
+                foreach (var zone in planViewModel.Plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty))
 				{
-					if (zone.ZoneNo.Value == zoneNo)
+					if (zone.ZoneUID == zoneUID)
 					{
 						SelectedPlan = planViewModel;
-						SelectedPlanCanvasViewModel.SelectZone(zoneNo);
+						SelectedPlanCanvasViewModel.SelectZone(zoneUID);
 						return;
 					}
 				}

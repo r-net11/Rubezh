@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecClient;
 using GKModule.Plans.Designer;
@@ -22,8 +23,8 @@ namespace GKModule.Plans.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: Зона";
 			Zones = new ObservableCollection<XZone>(XManager.DeviceConfiguration.Zones);
-			if (iElementZone.ZoneNo.HasValue)
-				SelectedZone = Zones.FirstOrDefault(x => x.No == iElementZone.ZoneNo.Value);
+            if (iElementZone.ZoneUID != Guid.Empty)
+                SelectedZone = Zones.FirstOrDefault(x => x.UID == iElementZone.ZoneUID);
 		}
 
 		public ObservableCollection<XZone> Zones { get; private set; }
@@ -44,7 +45,7 @@ namespace GKModule.Plans.ViewModels
 		{
 			var createZoneEventArg = new CreateXZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Publish(createZoneEventArg);
-			IElementZone.ZoneNo = createZoneEventArg.ZoneNo;
+            IElementZone.ZoneUID = createZoneEventArg.ZoneUID;
 			Helper.SetXZone(IElementZone);
 			if (!createZoneEventArg.Cancel)
 				Close(true);
@@ -53,7 +54,7 @@ namespace GKModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditXZoneEvent>().Publish(SelectedZone.No);
+            ServiceFactory.Events.GetEvent<EditXZoneEvent>().Publish(SelectedZone.UID);
 			OnPropertyChanged("Zones");
 		}
 		private bool CanEdit()

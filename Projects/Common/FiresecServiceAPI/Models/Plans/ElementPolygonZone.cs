@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models
@@ -6,14 +7,14 @@ namespace FiresecAPI.Models
 	[DataContract]
 	public class ElementPolygonZone : ElementBasePolygon, IElementZone, IPrimitive, IElementZLayer
 	{
-		[DataMember]
-		public int? ZoneNo { get; set; }
+        [DataMember]
+        public Guid ZoneUID { get; set; }
 
 		public override ElementBase Clone()
 		{
 			ElementPolygonZone elementBase = new ElementPolygonZone()
 			{
-				ZoneNo = ZoneNo
+                ZoneUID = ZoneUID
 			};
 			Copy(elementBase);
 			return elementBase;

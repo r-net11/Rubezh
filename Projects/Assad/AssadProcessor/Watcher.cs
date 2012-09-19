@@ -2,6 +2,7 @@
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Collections.Generic;
 
 namespace AssadProcessor
 {
@@ -9,46 +10,54 @@ namespace AssadProcessor
 	{
 		internal void Start()
 		{
-            FiresecManager.DeviceStateChangedEvent += new Action<DeviceState>(OnDeviceStateChangedEvent);
-            FiresecManager.ZoneStateChangedEvent += new Action<ZoneState>(OnZoneStateChangedEvent);
-            FiresecManager.NewJournalRecordEvent += new Action<JournalRecord>(OnNewJournalItemEvent);
+            FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>(OnDevicesStateChanged);
+            FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(OnZoneStateChanged);
+            FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
 		}
 
-        void OnDeviceStateChangedEvent(DeviceState deviceState)
+        void OnDevicesStateChanged(List<DeviceState> deviceStates)
+        {
+            foreach (var deviceState in deviceStates)
+            {
+                var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == deviceState.Device.PathId);
+                if (assadDevice != null)
+                {
+                    assadDevice.FireEvent(null);
+                }
+
+                if (Configuration.Monitor != null)
+                {
+                    Configuration.Monitor.FireEvent(null);
+                }
+            }
+        }
+
+		void OnZoneStateChanged(List<ZoneState> zoneStates)
 		{
-            var device = deviceState.Device;
-			var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == device.PathId);
-			if (assadDevice != null)
-			{
-				assadDevice.FireEvent(null);
-			}
-
-			if (Configuration.Monitor != null)
-			{
-				Configuration.Monitor.FireEvent(null);
-			}
+            foreach (var zoneState in zoneStates)
+            {
+                var assadZone = Configuration.Zones.FirstOrDefault(x => x.ZoneNo == zoneState.Zone.No.ToString());
+                if (assadZone != null)
+                {
+                    assadZone.FireEvent(null);
+                }
+            }
 		}
 
-		void OnZoneStateChangedEvent(ZoneState zoneState)
-		{
-            var assadZone = Configuration.Zones.FirstOrDefault(x => x.ZoneNo == zoneState.Zone.No.ToString());
-			if (assadZone != null)
-			{
-				assadZone.FireEvent(null);
-			}
-		}
-
-		void OnNewJournalItemEvent(JournalRecord journalRecord)
-		{
-			if (journalRecord.DeviceDatabaseId != null)
-			{
-				SendEvent(journalRecord, journalRecord.DeviceDatabaseId);
-			}
-			if (journalRecord.PanelDatabaseId != null)
-			{
-				SendEvent(journalRecord, journalRecord.PanelDatabaseId);
-			}
-		}
+        void OnNewJournalRecords(List<JournalRecord> journalRecords)
+        {
+            foreach (var journalRecord in journalRecords)
+            {
+                if (journalRecord.DeviceDatabaseId != null)
+                {
+                    SendEvent(journalRecord, journalRecord.DeviceDatabaseId);
+                }
+                if (journalRecord.PanelDatabaseId != null)
+                {
+                    SendEvent(journalRecord, journalRecord.PanelDatabaseId);
+                }
+            }
+        }
 
 		void SendEvent(JournalRecord journalRecord, string dataBaseId)
 		{

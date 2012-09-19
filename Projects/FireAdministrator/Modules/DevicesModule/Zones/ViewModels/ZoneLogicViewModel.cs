@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
-using FiresecClient;
 
 namespace DevicesModule.ViewModels
 {
@@ -175,7 +175,7 @@ namespace DevicesModule.ViewModels
                             {
                                 State = clauseViewModel.SelectedState,
                                 Operation = clauseViewModel.SelectedOperation,
-                                ZoneNos = clauseViewModel.Zones
+                                ZoneUIDs = clauseViewModel.Zones
                             };
                             zoneLogic.Clauses.Add(clause);
                         }

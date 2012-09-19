@@ -63,7 +63,7 @@ namespace FiresecOPCServer
 			UILogger.Log("Синхронизация конфигурации");
 			FiresecManager.Synchronyze();
 			UILogger.Log("Старт мониторинга");
-			FiresecManager.StatrtWatcher(true);
+            FiresecManager.StatrtWatcher(true, false);
 		}
 
         static void OnWorkThread()
@@ -83,6 +83,7 @@ namespace FiresecOPCServer
 
         public static void Close()
         {
+            FiresecManager.Disconnect();
             if (WindowThread != null)
             {
                 WindowThread.Interrupt();
@@ -95,7 +96,10 @@ namespace FiresecOPCServer
         static void OnConfigurationChangedEvent()
         {
             UILogger.Log("Перезагрузка конфигурации");
-			InitializeFs();
+            FiresecManager.GetConfiguration();
+            UILogger.Log("Синхронизация конфигурации");
+            FiresecManager.Synchronyze();
+
             UILogger.Log("Перезапуск OPC Сервера");
             FiresecOPCManager.OPCRefresh();
         }

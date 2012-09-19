@@ -30,8 +30,12 @@ namespace Firesec
 						{
 							foreach (var item in innerDirection.PinZ)
 							{
-								if (string.IsNullOrWhiteSpace(item.pidz) == false)
-									direction.Zones.Add(int.Parse(item.pidz));
+                                if (string.IsNullOrWhiteSpace(item.pidz) == false)
+                                {
+                                    var zoneNo = int.Parse(item.pidz);
+                                    var zone = DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == zoneNo);
+                                    direction.ZoneUIDs.Add(zone.UID);
+                                }
 							}
 						}
 
@@ -66,12 +70,16 @@ namespace Firesec
 				};
 				++no;
 
-				var zones = new List<partTypePinZ>();
-				foreach (var zone in direction.Zones)
+				var zonesPartTypePinZ = new List<partTypePinZ>();
+                foreach (var zoneUID in direction.ZoneUIDs)
 				{
-					zones.Add(new partTypePinZ() { pidz = zone.ToString() });
+                    var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+                    if (zone != null)
+                    {
+                        zonesPartTypePinZ.Add(new partTypePinZ() { pidz = zone.No.ToString() });
+                    }
 				}
-				innerDirection.PinZ = zones.ToArray();
+				innerDirection.PinZ = zonesPartTypePinZ.ToArray();
 
 				if (direction.DeviceRm != Guid.Empty || direction.DeviceButton != Guid.Empty)
 				{

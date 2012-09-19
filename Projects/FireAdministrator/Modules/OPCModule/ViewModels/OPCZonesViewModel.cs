@@ -2,10 +2,11 @@
 using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace OPCModule.ViewModels
 {
-	public class OPCZonesViewModel : ViewPartViewModel, ISelectable<int>
+	public class OPCZonesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public void Initialize()
 		{
@@ -38,13 +39,13 @@ namespace OPCModule.ViewModels
 			}
 		}
 
-		#region ISelectable<int> Members
+        #region ISelectable<Guid> Members
 
-		public void Select(int zoneNo)
+        public void Select(Guid zoneUID)
 		{
 			Initialize();
-			if (zoneNo != 0)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+            if (zoneUID != Guid.Empty)
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 		}
 
 		#endregion

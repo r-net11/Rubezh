@@ -78,7 +78,7 @@ namespace Firesec
 							case "Зоны":
 								foreach (var innerElement in innerLayer.elements)
 								{
-									int? zoneNo = null;
+									Guid zoneUID = Guid.Empty;
 
 									long longId = long.Parse(innerElement.id);
 									int intId = (int)longId;
@@ -88,7 +88,7 @@ namespace Firesec
 										{
 											if ((zoneShapeId == longId.ToString()) || (zoneShapeId == intId.ToString()))
 											{
-												zoneNo = zone.No;
+                                                zoneUID = zone.UID;
 											}
 										}
 									}
@@ -96,11 +96,11 @@ namespace Firesec
 									switch (innerElement.@class)
 									{
 										case "TFS_PolyZoneShape":
-											AddPolygonZone(plan, innerElement, zoneNo);
+											AddPolygonZone(plan, innerElement, zoneUID);
 											break;
 
 										case "TFS_ZoneShape":
-											AddRectangleZone(plan, innerElement, zoneNo);
+											AddRectangleZone(plan, innerElement, zoneUID);
 											break;
 
 										case "TSCDeRectangle":
@@ -263,13 +263,13 @@ namespace Firesec
 			}
 		}
 
-		void AddPolygonZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, int? zoneNo)
+        void AddPolygonZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Guid zoneUID)
 		{
 			if (innerElement.points != null)
 			{
 				var elementPolygonZone = new ElementPolygonZone()
 				{
-					ZoneNo = zoneNo
+                    ZoneUID = zoneUID
 				};
 				elementPolygonZone.Points = GetPointCollection(innerElement);
 				//elementPolygonZone.Normalize();
@@ -277,11 +277,11 @@ namespace Firesec
 			};
 		}
 
-		void AddRectangleZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, int? zoneNo)
+        void AddRectangleZone(Plan plan, surfacesSurfaceLayerElementsElement innerElement, Guid zoneUID)
 		{
 			var elementRectangleZone = new ElementRectangleZone()
 			{
-				ZoneNo = zoneNo,
+                ZoneUID = zoneUID,
 				Left = Math.Min(Parse(innerElement.rect[0].left), Parse(innerElement.rect[0].right)),
 				Top = Math.Min(Parse(innerElement.rect[0].top), Parse(innerElement.rect[0].bottom)),
 				Width = Math.Abs(Parse(innerElement.rect[0].right) - Parse(innerElement.rect[0].left)),

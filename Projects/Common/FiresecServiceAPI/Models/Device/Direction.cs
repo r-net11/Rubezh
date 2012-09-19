@@ -9,8 +9,12 @@ namespace FiresecAPI.Models
     {
         public Direction()
         {
-			Zones = new List<int>();
+            UID = Guid.NewGuid();
+            ZoneUIDs = new List<Guid>();
         }
+
+        [DataMember]
+        public Guid UID { get; set; }
 
         [DataMember]
         public int Id { get; set; }
@@ -28,6 +32,6 @@ namespace FiresecAPI.Models
         public Guid DeviceButton { get; set; }
 
         [DataMember]
-		public List<int> Zones { get; set; }
+        public List<Guid> ZoneUIDs { get; set; }
     }
 }

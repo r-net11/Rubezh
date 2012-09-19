@@ -46,7 +46,7 @@ namespace DevicesModule.Reports
 					{
 						if (FiresecManager.Zones.IsNotNullOrEmpty())
 						{
-							var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+                            var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
 							if (zone != null)
 								zonePresentationName = zone.PresentationName;
 						}

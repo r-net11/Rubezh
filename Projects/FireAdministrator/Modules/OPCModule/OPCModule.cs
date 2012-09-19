@@ -5,10 +5,12 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using OPCModule.ViewModels;
+using Infrastructure.Common.Validation;
+using OPCModule.Validation;
 
 namespace OPCModule
 {
-	public class OPCModule : ModuleBase
+    public class OPCModule : ModuleBase, IValidationModule
 	{
 		OPCDevicesViewModel OPCDevicesViewModel;
 		OPCZonesViewModel OPCZonesViewModel;
@@ -39,5 +41,12 @@ namespace OPCModule
 		{
 			get { return "OPC сервер"; }
 		}
+
+        #region IValidationModule Members
+        public IEnumerable<IValidationError> Validate()
+        {
+            return Validator.Validate();
+        }
+        #endregion
 	}
 }

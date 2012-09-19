@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
@@ -15,8 +16,8 @@ namespace JournalModule.ViewModels
 
         public FilteredJournalViewModel(JournalFilter journalFilter)
         {
-            ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Unsubscribe(OnNewJournalRecord);
-            ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Subscribe(OnNewJournalRecord);
+            ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Unsubscribe(OnNewJournalRecords);
+            ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecords);
 
             if (journalFilter != null)
             {
@@ -53,18 +54,21 @@ namespace JournalModule.ViewModels
             }
         }
 
-        void OnNewJournalRecord(JournalRecord journalRecord)
+        void OnNewJournalRecords(List<JournalRecord> journalRecords)
         {
-            if (FilterRecord(journalRecord) == false)
-                return;
+            foreach (var journalRecord in journalRecords)
+            {
+                if (FilterRecord(journalRecord) == false)
+                    return;
 
-            if (JournalRecords.Count > 0)
-                JournalRecords.Insert(0, new JournalRecordViewModel(journalRecord));
-            else
-                JournalRecords.Add(new JournalRecordViewModel(journalRecord));
+                if (JournalRecords.Count > 0)
+                    JournalRecords.Insert(0, new JournalRecordViewModel(journalRecord));
+                else
+                    JournalRecords.Add(new JournalRecordViewModel(journalRecord));
 
-            if (JournalRecords.Count > JournalFilter.LastRecordsCount)
-                JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
+                if (JournalRecords.Count > JournalFilter.LastRecordsCount)
+                    JournalRecords.RemoveAt(JournalFilter.LastRecordsCount);
+            }
         }
 
         bool FilterRecord(JournalRecord journalRecord)

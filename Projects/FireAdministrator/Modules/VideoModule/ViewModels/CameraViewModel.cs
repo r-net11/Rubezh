@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FiresecAPI.Models;
@@ -21,13 +22,13 @@ namespace VideoModule.ViewModels
             get
             {
                 var presenrationZones = new StringBuilder();
-                if (Camera.Zones == null)
-					Camera.Zones = new List<int>();
-                for (int i = 0; i < Camera.Zones.Count; i++)
+                if (Camera.ZoneUIDs == null)
+					Camera.ZoneUIDs = new List<Guid>();
+                for (int i = 0; i < Camera.ZoneUIDs.Count; i++)
                 {
                     if (i > 0)
                         presenrationZones.Append(", ");
-                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == Camera.Zones[i]);
+                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == Camera.ZoneUIDs[i]);
                     if (zone != null)
                         presenrationZones.Append(zone.PresentationName);
                 }

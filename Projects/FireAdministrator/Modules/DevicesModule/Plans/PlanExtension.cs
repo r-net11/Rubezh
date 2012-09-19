@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -202,7 +203,7 @@ namespace DevicesModule.Plans
 
 		public void UpdateDeviceInZones()
 		{
-			var deviceInZones = new Dictionary<Device, int?>();
+			var deviceInZones = new Dictionary<Device, Guid>();
 			foreach (var designerItem in _designerCanvas.Items)
 			{
 				ElementDevice elementDevice = designerItem.Element as ElementDevice;
@@ -213,7 +214,7 @@ namespace DevicesModule.Plans
 					var device = Designer.Helper.GetDevice(elementDevice);
 					if (device == null || device.Driver == null || !device.Driver.IsZoneDevice)
 						continue;
-					var zones = new List<int>();
+					var zones = new List<Guid>();
 					foreach (var elementPolygonZoneItem in _designerCanvas.Items)
 					{
 						var point = new Point((int)(designerItemCenterX - Canvas.GetLeft(elementPolygonZoneItem)), (int)(designerItemCenterY - Canvas.GetTop(elementPolygonZoneItem)));
@@ -221,32 +222,32 @@ namespace DevicesModule.Plans
 						if (elementPolygonZone != null)
 						{
 							bool isInPolygon = DesignerHelper.IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
-							if (isInPolygon && elementPolygonZone.ZoneNo.HasValue)
-								zones.Add(elementPolygonZone.ZoneNo.Value);
+                            if (isInPolygon && elementPolygonZone.ZoneUID != Guid.Empty)
+                                zones.Add(elementPolygonZone.ZoneUID);
 						}
 						ElementRectangleZone elementRectangleZone = elementPolygonZoneItem.Element as ElementRectangleZone;
 						if (elementRectangleZone != null)
 						{
 							bool isInRectangle = ((point.X > 0) && (point.X < elementRectangleZone.Width) && (point.Y > 0) && (point.Y < elementRectangleZone.Height));
-							if (isInRectangle && elementRectangleZone.ZoneNo.HasValue)
-								zones.Add(elementRectangleZone.ZoneNo.Value);
+                            if (isInRectangle && elementRectangleZone.ZoneUID != Guid.Empty)
+                                zones.Add(elementRectangleZone.ZoneUID);
 						}
 					}
 
-					if (device.ZoneNo.HasValue)
+                    if (device.ZoneUID != Guid.Empty)
 					{
-						var isInZone = zones.Any(x => x == device.ZoneNo.Value);
+                        var isInZone = zones.Any(x => x == device.ZoneUID);
 						if (!isInZone)
 						{
 							if (!deviceInZones.ContainsKey(device))
-								deviceInZones.Add(device, zones.Count > 0 ? (int?)zones[0] : null);
+								deviceInZones.Add(device, zones.Count > 0 ? zones[0] : Guid.Empty);
 							else if (zones.Count > 0)
 								deviceInZones[device] = zones[0];
 						}
 					}
 					else if (zones.Count > 0)
 					{
-						device.ZoneNo = zones[0];
+						device.ZoneUID = zones[0];
 						ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
 					}
 				}

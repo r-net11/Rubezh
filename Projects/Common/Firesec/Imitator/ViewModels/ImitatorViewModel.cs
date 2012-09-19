@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Firesec.Models.CoreState;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
@@ -8,7 +9,7 @@ namespace Firesec.Imitator.ViewModels
 {
 	public class ImitatorViewModel : DialogViewModel
 	{
-		public static ImitatorViewModel Current { get; private set; }
+		internal static ImitatorViewModel Current { get; private set; }
 
 		public ImitatorViewModel()
 		{
@@ -29,7 +30,21 @@ namespace Firesec.Imitator.ViewModels
 				var deviceViewModel = new DeviceViewModel(device.DeviceState);
 				Devices.Add(deviceViewModel);
 			}
+
+            Watcher.Current.DevicesStateChanged += new System.Action<List<FiresecAPI.Models.DeviceState>>(OnDevicesStateChanged);
 		}
+
+        void OnDevicesStateChanged(List<DeviceState> deviceStates)
+        {
+            foreach (var deviceState in deviceStates)
+            {
+                var device = Devices.FirstOrDefault(x => x.DeviceState == deviceState);
+                if (device != null)
+                {
+                    device.OnPropertyChanged("StateType");
+                }
+            }
+        }
 
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
 
@@ -70,7 +85,7 @@ namespace Firesec.Imitator.ViewModels
 				innerDevices.Add(innerDevice);
 			}
 			coreStates.dev = innerDevices.ToArray();
-			//ClientsCash.MonitoringFiresecManager.Watcher.ImitatorStateChanged(coreStates);
+			Watcher.ImitatorStateChanged(coreStates);
 		}
 	}
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using Firesec;
-using FiresecAPI.Models;
+﻿using Firesec;
 
 namespace FiresecClient
 {
@@ -22,17 +18,9 @@ namespace FiresecClient
 			FiresecDriver.Synchronyze();
 		}
 
-		public static void StatrtWatcher(bool mustMonitorStates)
+        public static void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
 		{
-			FiresecDriver.StatrtWatcher(mustMonitorStates);
-			if (mustMonitorStates)
-			{
-				FiresecDriver.Watcher.DevicesStateChanged += new Action<List<FiresecAPI.Models.DeviceState>>(OnDevicesStateChanged);
-				FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>(OnDevicesParametersChanged);
-				FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(OnZonesStateChanged);
-				FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>(OnNewJournalRecords);
-			}
-			FiresecDriver.Watcher.Progress += new Action<int, string, int, int>(OnProgress);
+            FiresecDriver.StatrtWatcher(mustMonitorStates, mustMonitorJournal);
 		}
 
 		public static void SynchrinizeJournal()
@@ -42,65 +30,6 @@ namespace FiresecClient
 			{
 				FiresecService.AddJournalRecords(journalRecords);
 			}
-		}
-
-		static void OnDevicesStateChanged(List<DeviceState> deviceStates)
-		{
-			foreach (var deviceState in deviceStates)
-			{
-				if (DeviceStateChangedEvent != null)
-					DeviceStateChangedEvent(deviceState);
-			}
-		}
-
-		static void OnDevicesParametersChanged(List<DeviceState> newDeviceStates)
-		{
-			foreach (var deviceState in newDeviceStates)
-			{
-				if (DeviceParametersChangedEvent != null)
-					DeviceParametersChangedEvent(deviceState);
-			}
-		}
-
-		static void OnZonesStateChanged(List<ZoneState> zoneStates)
-		{
-			foreach (var zoneState in zoneStates)
-			{
-				if (ZoneStateChangedEvent != null)
-					ZoneStateChangedEvent(zoneState);
-			}
-		}
-
-		static void OnNewJournalRecords(List<JournalRecord> journalRecords)
-		{
-			foreach (var journalRecord in journalRecords)
-			{
-				if (NewJournalRecordEvent != null)
-					NewJournalRecordEvent(journalRecord);
-			}
-
-			FiresecService.AddJournalRecords(journalRecords);
-		}
-
-		static void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
-		{
-			SafeOperationCall(() =>
-			{
-				if (ProgressEvent != null)
-					ProgressEvent(stage, comment, percentComplete, bytesRW);
-			});
-		}
-
-		public static event Action<DeviceState> DeviceStateChangedEvent;
-		public static event Action<DeviceState> DeviceParametersChangedEvent;
-		public static event Action<ZoneState> ZoneStateChangedEvent;
-		public static event Action<JournalRecord> NewJournalRecordEvent;
-		public static event Action<int, string, int, int> ProgressEvent;
-
-		static void SafeOperationCall(Action action)
-		{
-			var thread = new Thread(new ThreadStart(action));
-			thread.Start();
 		}
 	}
 }

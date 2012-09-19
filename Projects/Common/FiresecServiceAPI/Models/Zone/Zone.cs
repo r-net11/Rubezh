@@ -9,6 +9,7 @@ namespace FiresecAPI.Models
 	{
 		public Zone()
 		{
+            UID = Guid.NewGuid();
 			ZoneType = ZoneType.Fire;
 			GuardZoneType = GuardZoneType.Ordinary;
 			DetectorCount = 2;
@@ -27,6 +28,9 @@ namespace FiresecAPI.Models
 		public List<Device> DevicesInZone { get; set; }
 		public List<Device> DevicesInZoneLogic { get; set; }
 		public List<Device> IndicatorsInZone { get; set; }
+
+        [DataMember]
+        public Guid UID { get; set; }
 
 		[DataMember]
 		public int No { get; set; }

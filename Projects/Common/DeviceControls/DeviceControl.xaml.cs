@@ -6,8 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using FiresecAPI;
-using FiresecClient;
 using FiresecAPI.Models;
+using FiresecClient;
 
 namespace DeviceControls
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
-using FiresecClient;
+using FiresecClient.Itv;
 using ItvIntergation.Ngi;
 
 namespace RepFileManager

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using DevicesModule.ViewModels;
@@ -11,7 +12,7 @@ namespace InstructionsModule.ViewModels
 {
     public class InstructionZonesViewModel : SaveCancelDialogViewModel
     {
-		public InstructionZonesViewModel(List<int> instructionZonesList)
+		public InstructionZonesViewModel(List<Guid> instructionZonesList)
         {
             AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
             RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
@@ -20,7 +21,7 @@ namespace InstructionsModule.ViewModels
 
             Title = "Выбор зоны";
 
-			InstructionZonesList = new List<int>(instructionZonesList);
+			InstructionZonesList = new List<Guid>(instructionZonesList);
             InstructionZones = new ObservableCollection<ZoneViewModel>();
             AvailableZones = new ObservableCollection<ZoneViewModel>();
 
@@ -36,8 +37,8 @@ namespace InstructionsModule.ViewModels
                 var zoneViewModel = new ZoneViewModel(zone);
                 if (InstructionZonesList.IsNotNullOrEmpty())
                 {
-                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.Zone.No);
-                    if (instructionZone != 0)
+                    var instructionZone = InstructionZonesList.FirstOrDefault(x => x == zoneViewModel.Zone.UID);
+                    if (instructionZone != Guid.Empty)
                         InstructionZones.Add(zoneViewModel);
                     else
                         AvailableZones.Add(zoneViewModel);
@@ -54,7 +55,7 @@ namespace InstructionsModule.ViewModels
                 SelectedAvailableZone = AvailableZones[0];
         }
 
-		public List<int> InstructionZonesList { get; set; }
+		public List<Guid> InstructionZonesList { get; set; }
         public ObservableCollection<ZoneViewModel> AvailableZones { get; set; }
         public ObservableCollection<ZoneViewModel> InstructionZones { get; set; }
 
@@ -152,7 +153,7 @@ namespace InstructionsModule.ViewModels
 
 		protected override bool Save()
 		{
-			InstructionZonesList = new List<int>(from zone in InstructionZones select zone.Zone.No);
+			InstructionZonesList = new List<Guid>(from zone in InstructionZones select zone.Zone.UID);
 			return base.Save();
 		}
     }

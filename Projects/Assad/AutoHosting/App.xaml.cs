@@ -7,7 +7,7 @@ namespace AutoHosting
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 
             var view = new View();
             var viewModel = new ViewModel();
@@ -18,7 +18,6 @@ namespace AutoHosting
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             MessageBox.Show("An unhandled exception occured: " + e.ToString());
-            //var result = Logger.Logger.SaveLogToFile();
         }
     }
 }

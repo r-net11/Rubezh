@@ -108,10 +108,10 @@ namespace DevicesModule.ViewModels
 
 		public Zone Zone
 		{
-			get { return FiresecManager.Zones.FirstOrDefault(x => x.No == Device.ZoneNo); }
+            get { return FiresecManager.Zones.FirstOrDefault(x => x.UID == Device.ZoneUID); }
 			set
 			{
-				if (Device.ZoneNo != value.No)
+                if (Device.ZoneUID != value.UID)
 				{
                     FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, value);
 					OnPropertyChanged("Zone");
@@ -298,8 +298,8 @@ namespace DevicesModule.ViewModels
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-			if (Device.ZoneNo != null)
-				ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneNo.Value);
+			if (Device.ZoneUID != Guid.Empty)
+                ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneUID);
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }

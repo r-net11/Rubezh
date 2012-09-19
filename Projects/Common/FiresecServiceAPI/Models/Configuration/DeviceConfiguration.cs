@@ -62,14 +62,14 @@ namespace FiresecAPI.Models
 				}
 				else
 				{
-					var userZones = new List<int>();
-					foreach (var zoneNo in guardUser.Zones)
+					var userZones = new List<Guid>();
+					foreach (var zoneUID in guardUser.ZoneUIDs)
 					{
-						var zone = Zones.FirstOrDefault(x => x.No == zoneNo);
+						var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
 						if (zone != null)
-							userZones.Add(zoneNo);
+							userZones.Add(zoneUID);
 					}
-					guardUser.Zones = userZones;
+					guardUser.ZoneUIDs = userZones;
 				}
 			}
 		}
@@ -89,7 +89,7 @@ namespace FiresecAPI.Models
 					DriverUID = currentDevice.DriverUID,
 					IntAddress = currentDevice.IntAddress,
 					Description = currentDevice.Description,
-					ZoneNo = currentDevice.ZoneNo,
+                    ZoneUID = currentDevice.ZoneUID,
 					Properties = new List<Property>(currentDevice.Properties)
 				};
 				if ((currentDevice.UID == device.UID))

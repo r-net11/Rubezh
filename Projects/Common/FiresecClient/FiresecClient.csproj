@@ -131,9 +131,8 @@
     <Compile Include="FiresecManager\FiresecManager.Firesec.cs" />
     <Compile Include="FiresecManager\FiresecManager.Guard.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.PresentationZone.cs" />
-    <Compile Include="FiresecManager\FiresecManager.States.cs" />
+    <Compile Include="FiresecManager\FiresecManager.Reset.cs" />
     <Compile Include="FiresecServiceFactory.cs" />
-    <Compile Include="FiresecManager\ItvManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

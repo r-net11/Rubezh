@@ -13,7 +13,7 @@
             <DataGridTextColumn Header="Название" Width="200" Binding="{Binding Instruction.Name}" />
             <DataGridTextColumn Header="Тип инструкции" Binding="{Binding Instruction.InstructionType,  Converter={StaticResource InstructionTypeToStringConverter}}" />
             <DataGridTextColumn Header="Состояние" Binding="{Binding Instruction.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
-            <DataGridTextColumn Header="Зоны" Width="200" Binding="{Binding Instruction.Zones, Converter={StaticResource ZonesToStringConverter}}" />
+            <DataGridTextColumn Header="Зоны" Width="200" Binding="{Binding Instruction.ZoneUIDs, Converter={StaticResource ZonesToStringConverter}}" />
             <DataGridTextColumn Header="Устройства" Width="200" Binding="{Binding Instruction.Devices, Converter={StaticResource DevicesToStringConverter}}" />
             <DataGridTextColumn Header="Описание" Width="*" Binding="{Binding Instruction.Text}" />
         </DataGrid.Columns>

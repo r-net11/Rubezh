@@ -94,6 +94,7 @@
     <Compile Include="FiresecDriver.Reset.cs" />
     <Compile Include="Firesec\NativeFiresecClient.cs" />
     <Compile Include="Firesec\ProgressData.cs" />
+    <Compile Include="Imitator\Converters\BoolToYesConverter.cs" />
     <Compile Include="Imitator\ImitatorService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

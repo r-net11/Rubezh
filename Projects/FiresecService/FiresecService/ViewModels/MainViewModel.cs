@@ -56,8 +56,12 @@ namespace FiresecService.ViewModels
 			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
-				var endpointAddress = new EndpointAddress(new Uri(firesecService.ClientCredentials.ClientCallbackAddress));
-				var port = endpointAddress.Uri.Port;
+                var port = 0;
+                if (firesecService.ClientCredentials.ClientCallbackAddress != null)
+                {
+                    var endpointAddress = new EndpointAddress(new Uri(firesecService.ClientCredentials.ClientCallbackAddress));
+                    port = endpointAddress.Uri.Port;
+                }
 				var connectionViewModel = new ClientViewModel()
 				{
 					FiresecService = firesecService,

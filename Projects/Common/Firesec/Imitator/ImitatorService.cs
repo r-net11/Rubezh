@@ -1,6 +1,6 @@
 ﻿using Firesec.Imitator.ViewModels;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 
 namespace Firesec.Imitator
 {

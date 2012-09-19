@@ -10,7 +10,7 @@ namespace Firesec
 {
 	public static class ZoneLogicConverter
 	{
-		public static ZoneLogic Convert(expr innerZoneLogic)
+		public static ZoneLogic Convert(DeviceConfiguration deviceConfiguration, expr innerZoneLogic)
 		{
 			var zoneLogic = new ZoneLogic();
 
@@ -23,8 +23,15 @@ namespace Firesec
 					{
 						foreach (var item in innerClause.zone)
 						{
-							if (string.IsNullOrWhiteSpace(item) == false)
-								clause.ZoneNos.Add(int.Parse(item));
+                            if (string.IsNullOrWhiteSpace(item) == false)
+                            {
+                                var zoneNo = int.Parse(item);
+                                var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+                                if (zone != null)
+                                {
+                                    clause.ZoneUIDs.Add(zone.UID);
+                                }
+                            }
 						}
 					}
 
@@ -113,7 +120,7 @@ namespace Firesec
 					innerClause.device[0] = new deviceType() { UID = clause.DeviceUID.ToString() };
 				}
 
-				innerClause.zone = clause.ZoneNos.Select(x => x.ToString()).ToArray();
+                innerClause.zone = clause.Zones.Select(x => x.No.ToString()).ToArray();
 				innerClauses.Add(innerClause);
 			}
 

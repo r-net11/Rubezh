@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using DevicesModule.Events;
@@ -9,7 +10,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class ZonesViewModel : ViewPartViewModel, ISelectable<int?>
+	public class ZonesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
 		public ZonesViewModel()
 		{
@@ -47,10 +48,10 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public void Select(int? zoneNo)
+        public void Select(Guid zoneUID)
 		{
-			if (zoneNo.HasValue)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+            if (zoneUID != Guid.Empty)
+                SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 		}
 
 		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
@@ -64,7 +65,7 @@ namespace DevicesModule.ViewModels
 
 			foreach (var device in FiresecManager.Devices)
 			{
-				if (device.Driver.IsZoneDevice && device.ZoneNo == SelectedZone.Zone.No)
+                if (device.Driver.IsZoneDevice && device.ZoneUID == SelectedZone.Zone.UID)
 				{
 					device.AllParents.ForEach(x => { devices.Add(x); });
 					devices.Add(device);
