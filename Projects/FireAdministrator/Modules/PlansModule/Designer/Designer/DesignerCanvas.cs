@@ -12,8 +12,6 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Painters;
 using PlansModule.ViewModels;
-using System.Windows.Media.Imaging;
-using Infrastructure.Common;
 
 namespace PlansModule.Designer
 {

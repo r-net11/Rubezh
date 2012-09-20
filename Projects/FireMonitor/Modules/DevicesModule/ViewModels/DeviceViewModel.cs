@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
@@ -283,13 +284,13 @@ namespace DevicesModule.ViewModels
 
 		public bool CanShowZone()
 		{
-			return ((Device.Driver.IsZoneDevice) && (Device.ZoneNo.HasValue));
+            return ((Device.Driver.IsZoneDevice) && (Device.ZoneUID != Guid.Empty));
 		}
 
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneNo);
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneUID);
 		}
 
 		public bool CanDisable()

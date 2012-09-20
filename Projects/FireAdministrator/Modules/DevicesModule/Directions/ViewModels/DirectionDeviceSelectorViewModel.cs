@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
@@ -19,7 +20,7 @@ namespace DevicesModule.ViewModels
             {
                 if (device.Driver.DriverType == driverType)
                 {
-                    if (device.Parent.Children.Any(x => x.Driver.IsZoneDevice && x.ZoneNo.HasValue && direction.Zones.Contains(x.ZoneNo.Value)))
+                    if (device.Parent.Children.Any(x => x.Driver.IsZoneDevice && x.ZoneUID != Guid.Empty && direction.ZoneUIDs.Contains(x.ZoneUID)))
                     {
                         device.AllParents.ForEach(x => { devices.Add(x); });
                         devices.Add(device);

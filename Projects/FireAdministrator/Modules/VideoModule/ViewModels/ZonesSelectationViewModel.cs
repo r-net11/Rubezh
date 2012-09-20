@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
@@ -10,9 +11,9 @@ namespace VideoModule.ViewModels
 {
 	public class ZonesSelectationViewModel : SaveCancelDialogViewModel
     {
-		public List<int> Zones { get; private set; }
+		public List<Guid> Zones { get; private set; }
 
-		public ZonesSelectationViewModel(List<int> zones)
+		public ZonesSelectationViewModel(List<Guid> zones)
         {
             Title = "Выбор зон";
             AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
@@ -27,7 +28,7 @@ namespace VideoModule.ViewModels
             var sortedZones = FiresecManager.Zones.OrderBy(x => { return x.No; });
             foreach (var zone in sortedZones)
             {
-                if (Zones.Contains(zone.No))
+                if (Zones.Contains(zone.UID))
                     TargetZones.Add(zone);
                 else
                     SourceZones.Add(zone);
@@ -115,7 +116,7 @@ namespace VideoModule.ViewModels
 
 		protected override bool Save()
 		{
-			Zones = new List<int>(TargetZones.Select(x => x.No));
+			Zones = new List<Guid>(TargetZones.Select(x => x.UID));
 			return base.Save();
 		}
     }

@@ -107,6 +107,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\FiresecClient.ITV\FiresecClient.ITV.csproj">
+      <Project>{BA3B2046-3E62-4BCC-814D-33B1ABE17211}</Project>
+      <Name>FiresecClient.ITV</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Common\FiresecClient\FiresecClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>FiresecClient</Name>

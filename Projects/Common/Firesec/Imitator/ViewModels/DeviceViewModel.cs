@@ -11,7 +11,6 @@ namespace Firesec.Imitator.ViewModels
         public DeviceViewModel(DeviceState deviceState)
         {
             DeviceState = deviceState;
-            StateType = DeviceState.StateType;
             Name = DeviceState.Device.Driver.ShortName + " - " + DeviceState.Device.DottedAddress;
             Level = DeviceState.Device.AllParents.Count;
             ImageSource = DeviceState.Device.Driver.ImageSource;
@@ -35,9 +34,12 @@ namespace Firesec.Imitator.ViewModels
 
         public DeviceState DeviceState { get; private set; }
         public string Name { get; private set; }
-        public StateType StateType { get; private set; }
         public List<DeviceStateViewModel> DriverStates { get; private set; }
         public int Level { get; private set; }
         public string ImageSource { get; private set; }
+        public StateType StateType
+        {
+            get { return DeviceState.StateType; }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using DevicesModule.Plans.Designer;
 using FiresecAPI.Models;
@@ -22,8 +23,8 @@ namespace DevicesModule.Plans.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: Зона";
 			Zones = new ObservableCollection<Zone>(FiresecManager.Zones);
-			if (iElementZone.ZoneNo.HasValue)
-				SelectedZone = Zones.FirstOrDefault(x => x.No == iElementZone.ZoneNo.Value);
+            if (iElementZone.ZoneUID != Guid.Empty)
+                SelectedZone = Zones.FirstOrDefault(x => x.UID == iElementZone.ZoneUID);
 		}
 
 		public ObservableCollection<Zone> Zones { get; private set; }
@@ -44,7 +45,7 @@ namespace DevicesModule.Plans.ViewModels
 		{
 			var createZoneEventArg = new CreateZoneEventArg();
 			ServiceFactory.Events.GetEvent<CreateZoneEvent>().Publish(createZoneEventArg);
-			IElementZone.ZoneNo = createZoneEventArg.ZoneNo;
+            IElementZone.ZoneUID = createZoneEventArg.ZoneUID;
 			Helper.SetZone(IElementZone);
 			if (!createZoneEventArg.Cancel)
 				Close(true);
@@ -53,7 +54,7 @@ namespace DevicesModule.Plans.ViewModels
 		public RelayCommand EditCommand { get; private set; }
 		private void OnEdit()
 		{
-			ServiceFactory.Events.GetEvent<EditZoneEvent>().Publish(SelectedZone.No);
+			ServiceFactory.Events.GetEvent<EditZoneEvent>().Publish(SelectedZone.UID);
 			OnPropertyChanged("Zones");
 		}
 		private bool CanEdit()

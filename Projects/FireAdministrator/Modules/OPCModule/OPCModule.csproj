@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="OPCModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\Validator.cs" />
     <Compile Include="ViewModels\OPCDevicesViewModel.cs" />
     <Compile Include="ViewModels\OPCDeviceViewModel.cs" />
     <Compile Include="ViewModels\OPCZonesViewModel.cs" />

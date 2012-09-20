@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows.Media;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -10,7 +11,7 @@ namespace DevicesModule.Plans.Designer
 	{
 		public static Zone GetZone(IElementZone element)
 		{
-			return element.ZoneNo.HasValue ? FiresecManager.Zones.FirstOrDefault(x => x.No == element.ZoneNo.Value) : null;
+            return element.ZoneUID != Guid.Empty ? FiresecManager.Zones.FirstOrDefault(x => x.UID == element.ZoneUID) : null;
 		}
 		public static Plan GetPlan(ElementSubPlan element)
 		{
@@ -23,7 +24,7 @@ namespace DevicesModule.Plans.Designer
 		}
 		public static void SetZone(IElementZone element, Zone zone)
 		{
-			element.ZoneNo = zone == null ? null : (int?)zone.No;
+            element.ZoneUID = zone == null ? Guid.Empty : zone.UID;
 			element.BackgroundColor = GetZoneColor(zone);
 		}
 		private static Color GetZoneColor(Zone zone)

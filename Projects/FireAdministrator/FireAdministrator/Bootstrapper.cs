@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using Common.GK;
 using FireAdministrator.ViewModels;
+using Firesec;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -11,8 +12,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
-using Firesec;
-using Firesec.Imitator;
 
 namespace FireAdministrator
 {
@@ -65,8 +64,6 @@ namespace FireAdministrator
 
 		void InitializeFs()
 		{
-			LoadingService.DoStep("Остановка Socket Server");
-			SocketServerHelper.Stop();
 			LoadingService.DoStep("Загрузка конфигурации с сервера");
 			FiresecManager.GetConfiguration();
 			LoadingService.DoStep("Загрузка драйвера устройств");
@@ -74,7 +71,7 @@ namespace FireAdministrator
 			LoadingService.DoStep("Синхронизация конфигурации");
 			FiresecManager.Synchronyze();
 			LoadingService.DoStep("Старт мониторинга");
-			FiresecManager.StatrtWatcher(false);
+			FiresecManager.StartWatcher(false, false);
 		}
 
 		void InitializeGk()

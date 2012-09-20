@@ -42,7 +42,7 @@ namespace AlarmModule.ViewModels
 						break;
 
 					case AlarmEntityType.Zone:
-						var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == Alarm.ZoneNo);
+                        var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == Alarm.ZoneUID);
 						if (zone != null)
 						{
 							return "Зона " + zone.PresentationName;
@@ -125,13 +125,13 @@ namespace AlarmModule.ViewModels
 
 		bool CanShowZone()
 		{
-			return Alarm.ZoneNo.HasValue;
+            return Alarm.ZoneUID != Guid.Empty;
 		}
 
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Alarm.ZoneNo.Value);
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Alarm.ZoneUID);
 		}
 
 		bool CanShowInstruction()

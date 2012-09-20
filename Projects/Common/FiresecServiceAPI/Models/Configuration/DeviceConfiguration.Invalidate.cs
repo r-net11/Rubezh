@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace FiresecAPI.Models
 {
@@ -29,9 +28,9 @@ namespace FiresecAPI.Models
 
             if (device.Driver.IsZoneDevice)
             {
-                if ((device.ZoneNo != null))
+                if ((device.ZoneUID != Guid.Empty))
                 {
-                    var zone = Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+                    var zone = Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
                     device.Zone = zone;
                     zone.DevicesInZone.Add(device);
                 }
@@ -44,9 +43,9 @@ namespace FiresecAPI.Models
                 foreach (var clause in device.ZoneLogic.Clauses)
                 {
 					var zones = new List<Zone>();
-                    foreach (var clauseZone in clause.ZoneNos)
+                    foreach (var zoneUID in clause.ZoneUIDs)
                     {
-                        var zone = Zones.FirstOrDefault(x => x.No == clauseZone);
+                        var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
                         if (zone != null)
                         {
 							zones.Add(zone);
@@ -72,16 +71,16 @@ namespace FiresecAPI.Models
                     device.IndicatorLogic = new IndicatorLogic();
 
                 var indicatorLogicDevice = Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
-                if (indicatorLogicDevice != null)
+				if (indicatorLogicDevice != null && indicatorLogicDevice.DependentDevices!=null)
                 {
                     device.IndicatorLogic.Device = indicatorLogicDevice;
                     indicatorLogicDevice.DependentDevices.Add(device);
                 }
 
 				var zones = new List<Zone>();
-				foreach (var zoneNo in device.IndicatorLogic.ZoneNos)
+                foreach (var zoneUID in device.IndicatorLogic.ZoneUIDs)
 				{
-					var zone = Zones.FirstOrDefault(x => x.No == zoneNo);
+                    var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
 					{
 						zones.Add(zone);
@@ -125,7 +124,7 @@ namespace FiresecAPI.Models
             if (device.Driver.IsZoneDevice)
                 InvalidateZoneDevice(device);
             else
-                device.ZoneNo = null;
+                device.ZoneUID = Guid.Empty;
 
             if (device.Driver.IsZoneLogicDevice)
                 InvalidateZoneLogicDevice(device);
@@ -147,11 +146,11 @@ namespace FiresecAPI.Models
 
         public void InvalidateZoneDevice(Device device)
         {
-            if (device.ZoneNo != null)
+            if (device.ZoneUID != Guid.Empty)
             {
-                var zone = Zones.FirstOrDefault(x => x.No == device.ZoneNo);
+                var zone = Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
                 if (zone == null)
-                    device.ZoneNo = null;
+                    device.ZoneUID = Guid.Empty;
             }
         }
 
@@ -168,20 +167,20 @@ namespace FiresecAPI.Models
                         clause.Device = null;
                     }
 
-                    var zoneNos = new List<int>();
-                    if (clause.ZoneNos == null)
-                        clause.ZoneNos = new List<int>();
-                    foreach (var zoneNo in clause.ZoneNos)
+                    var zoneUIDs = new List<Guid>();
+                    if (clause.ZoneUIDs == null)
+                        clause.ZoneUIDs = new List<Guid>();
+                    foreach (var zoneUID in clause.ZoneUIDs)
                     {
-                        var zone = Zones.FirstOrDefault(x => x.No == zoneNo);
+                        var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
                         if (zone != null)
                         {
-                            zoneNos.Add(zoneNo);
+                            zoneUIDs.Add(zoneUID);
                         }
                     }
-                    clause.ZoneNos = zoneNos;
+                    clause.ZoneUIDs = zoneUIDs;
 
-                    if ((clause.Device != null) || (clause.ZoneNos.Count > 0) || clause.State == ZoneLogicState.Failure)
+                    if ((clause.Device != null) || (clause.ZoneUIDs.Count > 0) || clause.State == ZoneLogicState.Failure)
                         clauses.Add(clause);
                 }
                 device.ZoneLogic.Clauses = clauses;
@@ -196,20 +195,20 @@ namespace FiresecAPI.Models
 				device.IndicatorLogic.DeviceUID = Guid.Empty;
 			}
 
-			var zoneNos = new List<int>();
-			if (device.IndicatorLogic.ZoneNos == null)
+            var zoneUIDs = new List<Guid>();
+			if (device.IndicatorLogic.ZoneUIDs == null)
 			{
-				device.IndicatorLogic.ZoneNos = new List<int>();
+                device.IndicatorLogic.ZoneUIDs = new List<Guid>();
 			}
-			foreach (var zoneNo in device.IndicatorLogic.ZoneNos)
+            foreach (var zoneUID in device.IndicatorLogic.ZoneUIDs)
 			{
-				var zone = Zones.FirstOrDefault(x => x.No == zoneNo);
+                var zone = Zones.FirstOrDefault(x => x.UID == zoneUID);
 				if (zone != null)
 				{
-					zoneNos.Add(zoneNo);
+                    zoneUIDs.Add(zoneUID);
 				}
 			}
-			device.IndicatorLogic.ZoneNos = zoneNos;
+            device.IndicatorLogic.ZoneUIDs = zoneUIDs;
 		}
 
         public void InvalidatePDUDirection(Device device)
@@ -233,7 +232,7 @@ namespace FiresecAPI.Models
                 {
                     foreach (var child in device.Children)
                     {
-                        child.ZoneNo = device.ZoneNo;
+                        child.ZoneUID = device.ZoneUID;
                     }
                 }
             }

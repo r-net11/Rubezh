@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
-using System.Windows;
 
 namespace Firesec
 {
@@ -58,12 +57,12 @@ namespace Firesec
 							{
 								if (driverProperty.No == paramNo)
 								{
-									if (paramNo == 0x8d && driverProperty.Name == "датчик уровня"
-										//&& paramNo <= 0xbf
-										)
-									{
-										;
-									}
+									//if (paramNo == 0x80
+									//    //&& paramNo <= 0xbf
+									//    )
+									//{
+									//    ;
+									//}
 									var offsetParamValue = paramValue;
 
 									if (driverProperty.HighByte)
@@ -141,14 +140,16 @@ namespace Firesec
 			foreach (var property in properties)
 			{
 				var driverProperty = device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				//if (driverProperty.No == 0x8c
-				//    //&& binProperty.No <= 0xbf
-				//        )
-				//{
-				//    ;
-				//}
+				
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
+					if (driverProperty.No == 0x80
+						//&& binProperty.No <= 0xbf
+						)
+					{
+						;
+					}
+
 					var binProperty = binProperties.FirstOrDefault(x => x.No == driverProperty.No);
 					
 					if (binProperty == null)

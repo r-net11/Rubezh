@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Configuration;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Xml.Serialization;
-using FiresecClient;
+using FiresecClient.Itv;
 using ItvIntergation.Ngi;
 
 namespace RepFileManager
@@ -48,10 +49,30 @@ namespace RepFileManager
             {
                 serializer.Serialize(fileStream, repositoryModule);
             }
+
+            CreateDeviceCommands();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        void CreateDeviceCommands()
         {
+            var stringBuilder = new StringBuilder();
+            foreach (var driver in Helper.RealDevices)
+            {
+                foreach (var driverProperty in driver.Properties)
+                {
+                    if (driverProperty.IsControl)
+                    {
+                        stringBuilder.AppendLine(driver.Name + " - " + driverProperty.Caption + " - " + driverProperty.Name);
+                    }
+                }
+            }
+
+            DeviceCommands.Text = stringBuilder.ToString();
+        }
+
+        private void OnClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            ItvManager.Disconnect();
         }
     }
 }

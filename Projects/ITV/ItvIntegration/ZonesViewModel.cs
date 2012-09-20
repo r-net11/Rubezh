@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecClient;
+using FiresecClient.Itv;
 
 namespace ItvIntegration
 {

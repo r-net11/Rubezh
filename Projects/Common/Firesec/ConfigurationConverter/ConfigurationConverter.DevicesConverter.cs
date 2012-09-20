@@ -34,6 +34,7 @@ namespace Firesec
 			parentDevice.Children = new List<Device>();
 			foreach (var innerDevice in parentInnerDevice.dev)
 			{
+					
 				var device = new Device()
 				{
 					Parent = parentDevice
@@ -44,6 +45,8 @@ namespace Firesec
 				DeviceConfiguration.Devices.Add(device);
 				AddDevice(innerDevice, device);
 			}
+			
+			
 		}
 
 		void SetInnerDevice(Device device, devType innerDevice)
@@ -129,7 +132,12 @@ namespace Firesec
 			{
 				string zoneIdx = innerDevice.inZ[0].idz;
 				string zoneNo = FiresecConfiguration.zone.FirstOrDefault(x => x.idx == zoneIdx).no;
-				device.ZoneNo = int.Parse(zoneNo);
+                int intZoneNo = int.Parse(zoneNo);
+                var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.No == intZoneNo);
+                if (zone != null)
+                {
+                    device.ZoneUID = zone.UID;
+                }
 			}
 			if (innerDevice.prop != null)
 			{
@@ -138,7 +146,7 @@ namespace Firesec
 				{
 					string zoneLogicstring = zoneLogicProperty.value;
 					if (string.IsNullOrEmpty(zoneLogicstring) == false)
-						device.ZoneLogic = ZoneLogicConverter.Convert(SerializerHelper.GetZoneLogic(zoneLogicstring));
+                        device.ZoneLogic = ZoneLogicConverter.Convert(DeviceConfiguration, SerializerHelper.GetZoneLogic(zoneLogicstring));
 				}
 
 				var indicatorLogicProperty = innerDevice.prop.FirstOrDefault(x => x.name == "C4D7C1BE-02A3-4849-9717-7A3C01C23A24");
@@ -149,7 +157,7 @@ namespace Firesec
 					{
 						var indicatorLogic = SerializerHelper.GetIndicatorLogic(indicatorLogicString);
 						if (indicatorLogic != null)
-							device.IndicatorLogic = IndicatorLogicConverter.Convert(indicatorLogic);
+							device.IndicatorLogic = IndicatorLogicConverter.Convert(DeviceConfiguration, indicatorLogic);
 					}
 				}
 
@@ -223,11 +231,15 @@ namespace Firesec
 			else
 				innerDevice.disabled = null;
 
-			if (device.ZoneNo != null)
+			if (device.ZoneUID != Guid.Empty)
 			{
-				var zones = new List<inZType>();
-				zones.Add(new inZType() { idz = device.ZoneNo.ToString() });
-				innerDevice.inZ = zones.ToArray();
+                var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
+                if (zone != null)
+                {
+                    var zones = new List<inZType>();
+                    zones.Add(new inZType() { idz = zone.No.ToString() });
+                    innerDevice.inZ = zones.ToArray();
+                }
 			}
 
 			innerDevice.prop = AddProperties(device).ToArray();

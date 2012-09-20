@@ -44,6 +44,7 @@ namespace FireMonitor
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
+            Logger.Error(e.ExceptionObject as Exception);
 			ApplicationService.Invoke(() => MessageBoxService.ShowException(e.ExceptionObject as Exception));
 		}
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
@@ -53,7 +54,6 @@ namespace FireMonitor
 			AlarmPlayerHelper.Dispose();
 			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();
-			//VideoService.Close();
 			if (RegistryHelper.IsIntegrated)
 				RegistryHelper.ShutDown();
 		}

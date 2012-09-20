@@ -1,8 +1,9 @@
-﻿using Microsoft.Practices.Prism.Events;
+﻿using System;
+using Microsoft.Practices.Prism.Events;
 
 namespace Infrastructure.Events
 {
-	public class ShowZoneOnPlanEvent : CompositePresentationEvent<int>
+	public class ShowZoneOnPlanEvent : CompositePresentationEvent<Guid>
 	{
 	}
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Windows;
-using FiresecClient;
+using FiresecClient.Itv;
 
 namespace ItvIntegration
 {
@@ -12,6 +12,8 @@ namespace ItvIntegration
 
         public MainViewModel()
         {
+            ShowImitatorCommand = new RelayCommand(OnShowImitator);
+
             var FS_Address = ConfigurationManager.AppSettings["FS_Address"] as string;
             var FS_Port = Convert.ToInt32(ConfigurationManager.AppSettings["FS_Port"] as string);
             var FS_Login = ConfigurationManager.AppSettings["FS_Login"] as string;
@@ -29,6 +31,12 @@ namespace ItvIntegration
 
             DevicesViewModel = new DevicesViewModel();
             ZonesViewModel = new ZonesViewModel();
+        }
+
+        public RelayCommand ShowImitatorCommand { get; private set; }
+        void OnShowImitator()
+        {
+            ItvManager.ShowImitator();
         }
     }
 }

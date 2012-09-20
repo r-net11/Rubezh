@@ -100,7 +100,7 @@ namespace JournalModule.ViewModels
 		void OnShowZone()
 		{
 			var zone = FiresecManager.Zones.FirstOrDefault(x => x.PresentationName == JournalRecord.ZoneName);
-			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(zone.No);
+            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(zone.UID);
 		}
 
 		bool CanShowZone()

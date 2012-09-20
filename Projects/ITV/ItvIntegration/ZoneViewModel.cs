@@ -1,7 +1,7 @@
 ﻿using System;
 using FiresecAPI;
 using FiresecAPI.Models;
-using FiresecClient;
+using FiresecClient.Itv;
 
 namespace ItvIntegration
 {
@@ -11,7 +11,7 @@ namespace ItvIntegration
         {
             ZoneState = zoneState;
             _stateType = zoneState.StateType;
-            FiresecManager.ZoneStateChangedEvent += new Action<ZoneState>(OnZoneStateChangedEvent);
+            ItvManager.ZoneStateChanged += new Action<ZoneState>(OnZoneStateChangedEvent);
             Name = zoneState.Zone.PresentationName;
         }
 

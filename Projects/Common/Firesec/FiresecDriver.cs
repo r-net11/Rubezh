@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Text;
 
 namespace Firesec
 {
@@ -13,9 +13,11 @@ namespace Firesec
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public Watcher Watcher { get; private set; }
+		public StringBuilder LoadingErrors { get; private set; }
 
         public FiresecDriver(int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
+			LoadingErrors = new StringBuilder();
 			FiresecSerializedClient = new FiresecSerializedClient();
 			FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
 			ConfigurationConverter = new ConfigurationConverter()
@@ -30,9 +32,9 @@ namespace Firesec
 			ConfigurationConverter.SynchronyzeConfiguration();
 		}
 
-		public void StatrtWatcher(bool mustMonitorStates)
+        public void StatrtWatcher(bool mustMonitorStates, bool mustMonitorJournal)
 		{
-			Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates);
+            Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
 			if (mustMonitorStates)
 			{
 				Watcher.OnStateChanged();

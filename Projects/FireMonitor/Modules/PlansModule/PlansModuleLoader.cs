@@ -28,10 +28,10 @@ namespace PlansModule
 			if (hasDeviceOnPlan)
 				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 		}
-		void OnShowZoneOnPlan(int zoneNo)
+        void OnShowZoneOnPlan(Guid zoneUID)
 		{
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
-			PlansViewModel.ShowZone(zoneNo);
+            PlansViewModel.ShowZone(zoneUID);
 		}
 
 		public override void Initialize()

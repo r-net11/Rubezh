@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace FiresecAPI.Models
@@ -8,10 +9,14 @@ namespace FiresecAPI.Models
 	{
 		public Camera()
 		{
-			Zones = new List<int>();
+            UID = Guid.NewGuid();
+			ZoneUIDs = new List<Guid>();
 			Width = 300;
 			Height = 300;
 		}
+
+        [DataMember]
+        public Guid UID { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
@@ -38,6 +43,6 @@ namespace FiresecAPI.Models
 		public StateType StateType { get; set; }
 
 		[DataMember]
-		public List<int> Zones { get; set; }
+		public List<Guid> ZoneUIDs { get; set; }
 	}
 }

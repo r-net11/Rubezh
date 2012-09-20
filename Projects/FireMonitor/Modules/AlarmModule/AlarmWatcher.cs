@@ -66,7 +66,7 @@ namespace AlarmModule
 							AlarmType = alarmType.Value,
 							StateType = stateType,
 							DeviceUID = device.UID,
-							ZoneNo = device.ZoneNo,
+                            ZoneUID = device.ZoneUID,
 							StateName = state.DriverState.Name
 						};
 						Alarms.Add(newAlarm);
@@ -85,7 +85,7 @@ namespace AlarmModule
 					case ZoneType.Fire:
 						if (zone.ZoneState.StateType == StateType.Fire)
 						{
-							var alarm = Alarms.FirstOrDefault(x => ((x.StateType == StateType.Fire) && (x.ZoneNo == zone.No)));
+                            var alarm = Alarms.FirstOrDefault(x => ((x.StateType == StateType.Fire) && (x.ZoneUID == zone.UID)));
 							if (alarm != null)
 							{
 								alarm.IsDeleting = false;
@@ -96,7 +96,7 @@ namespace AlarmModule
 								{
 									AlarmType = AlarmType.Fire,
 									StateType = StateType.Fire,
-									ZoneNo = zone.No,
+                                    ZoneUID = zone.UID,
 									StateName = "Пожар"
 								};
 								Alarms.Add(newAlarm);
@@ -107,7 +107,7 @@ namespace AlarmModule
 					case ZoneType.Guard:
 						if (FiresecManager.IsZoneOnGuardAlarm(zone.ZoneState))
 						{
-							var guardAlarm = Alarms.FirstOrDefault(x => ((x.AlarmType == AlarmType.Guard) && (x.ZoneNo == zone.No)));
+                            var guardAlarm = Alarms.FirstOrDefault(x => ((x.AlarmType == AlarmType.Guard) && (x.ZoneUID == zone.UID)));
 							if (guardAlarm != null)
 							{
 								guardAlarm.IsDeleting = false;
@@ -118,7 +118,7 @@ namespace AlarmModule
 								{
 									AlarmType = AlarmType.Guard,
 									StateType = StateType.Fire,
-									ZoneNo = zone.No,
+                                    ZoneUID = zone.UID,
 									StateName = "Тревога"
 								};
 								Alarms.Add(newAlarm);

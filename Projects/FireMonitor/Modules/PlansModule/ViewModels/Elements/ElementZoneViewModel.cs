@@ -14,7 +14,7 @@ namespace PlansModule.ViewModels
 	public class ElementZoneViewModel : BaseViewModel
 	{
 		public ElementZoneView ElementZoneView { get; private set; }
-		public int? ZoneNo { get; private set; }
+		public Guid ZoneUID { get; private set; }
 		public Zone Zone { get; private set; }
 		public ZoneState ZoneState { get; private set; }
 		List<Guid> deviceUIDs;
@@ -28,11 +28,11 @@ namespace PlansModule.ViewModels
 			SetGuardCommand = new RelayCommand(OnSetGuard, CanSetGuard);
 			UnSetGuardCommand = new RelayCommand(OnUnSetGuard, CanUnSetGuard);
 
-			ZoneNo = elementPolygonZone.ZoneNo;
-			Zone = FiresecManager.Zones.FirstOrDefault(x => x.No == ZoneNo);
+			ZoneUID = elementPolygonZone.ZoneUID;
+			Zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == ZoneUID);
 			if (Zone != null)
 			{
-				Zone = FiresecManager.Zones.FirstOrDefault(x => x.No == ZoneNo);
+				Zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == ZoneUID);
 				if (Zone != null)
 				{
 					ZoneState = Zone.ZoneState;
@@ -107,7 +107,7 @@ namespace PlansModule.ViewModels
 			{
 				if ((device != null) && (device.Driver != null))
 				{
-					if ((device.ZoneNo == ZoneNo) && (device.Driver.CanDisable))
+                    if ((device.ZoneUID == ZoneUID) && (device.Driver.CanDisable))
 					{
 						deviceUIDs.Add(device.UID);
 						deviceStates.Add(device.DeviceState);
@@ -119,7 +119,7 @@ namespace PlansModule.ViewModels
 		public RelayCommand ShowInTreeCommand { get; private set; }
 		void OnShowInTree()
 		{
-			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(ZoneNo);
+			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(ZoneUID);
 		}
 
 		public RelayCommand DisableAllCommand { get; private set; }

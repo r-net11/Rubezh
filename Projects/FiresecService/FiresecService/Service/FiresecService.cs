@@ -73,7 +73,7 @@ namespace FiresecService.Service
 			if (operationResult.HasError)
 				return operationResult;
 
-			if (clientCredentials.ClientType != ClientType.Administrator)
+			if (clientCredentials.ClientCallbackAddress != null)
 			{
 				IsSubscribed = true;
 				FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);

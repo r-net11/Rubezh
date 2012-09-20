@@ -77,13 +77,13 @@ namespace PlansModule.ViewModels
 				DrawElement(subPlanViewModel.ElementSubPlanView, elementSubPlan, subPlanViewModel);
 				SubPlans.Add(subPlanViewModel);
 			}
-			foreach (var elementRectangleZone in Plan.ElementRectangleZones.Where(x => x.ZoneNo != null))
+			foreach (var elementRectangleZone in Plan.ElementRectangleZones.Where(x => x.ZoneUID != Guid.Empty))
 			{
 				var elementZoneViewModel = new ElementZoneViewModel(RectangleZoneToPolygon(elementRectangleZone));
 				DrawElement(elementZoneViewModel.ElementZoneView, elementRectangleZone, elementZoneViewModel);
 				Zones.Add(elementZoneViewModel);
 			}
-			foreach (var elementPolygonZone in Plan.ElementPolygonZones.Where(x => x.ZoneNo != null))
+            foreach (var elementPolygonZone in Plan.ElementPolygonZones.Where(x => x.ZoneUID != Guid.Empty))
 			{
 				var elementZoneViewModel = new ElementZoneViewModel(elementPolygonZone);
 				DrawElement(elementZoneViewModel.ElementZoneView, elementPolygonZone, elementZoneViewModel);
@@ -142,7 +142,7 @@ namespace PlansModule.ViewModels
 			var elementPolygonZone = new ElementPolygonZone()
 			{
 				Points = new PointCollection(new Point[] { rect.TopLeft, rect.TopRight, rect.BottomRight, rect.BottomLeft }),
-				ZoneNo = elementRectangleZone.ZoneNo
+                ZoneUID = elementRectangleZone.ZoneUID
 			};
 
 			elementPolygonZone.Points = new PointCollection();
@@ -176,10 +176,10 @@ namespace PlansModule.ViewModels
 			Devices.FirstOrDefault(x => x.DeviceUID == deviceUID).IsSelected = true;
 		}
 
-		public void SelectZone(int zoneNo)
+		public void SelectZone(Guid zoneUID)
 		{
 			Zones.ForEach(x => x.IsSelected = false);
-			Zones.FirstOrDefault(x => x.ZoneNo.Value == zoneNo).IsSelected = true;
+            Zones.FirstOrDefault(x => x.ZoneUID == zoneUID).IsSelected = true;
 		}
 
 		void OnPlanStateChanged(Guid planUID)

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI.Models;
@@ -20,16 +21,18 @@ namespace DevicesModule.ViewModels
             foreach (var user in Users)
             {
                 FiresecManager.GuardUsers.Add(user.GuardUser);
-                List<int> zones = new List<int>();
-                foreach (int localNo in user.GuardUser.Zones)
+                var zoneUIDs = new List<Guid>();
+                foreach (var ZoneUID in user.GuardUser.ZoneUIDs)
                 {
-                    Zone zone = FiresecManager.Zones.FirstOrDefault(
-                        x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == localNo);
-                    zones.Add(zone.No);
-                    userZones.Add(zone);
-                    deviceZones.Remove(zone);
+                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == ZoneUID);
+                    if (zone != null)
+                    {
+                        zoneUIDs.Add(zone.UID);
+                        userZones.Add(zone);
+                        deviceZones.Remove(zone);
+                    }
                 }
-                user.GuardUser.Zones = zones;
+                user.GuardUser.ZoneUIDs = zoneUIDs;
                 deviceUsers.Add(user);
             }
         }
@@ -71,10 +74,13 @@ namespace DevicesModule.ViewModels
         public void GetUserZones(GuardUser guardUser)
         {
             UserZones = new ObservableCollection<Zone>();
-            foreach (int localNo in guardUser.Zones)
+            foreach (var ZoneUID in guardUser.ZoneUIDs)
             {
-                UserZones.Add(FiresecManager.Zones.FirstOrDefault(
-                                x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == localNo));
+                var zone = FiresecManager.Zones.FirstOrDefault(x=>x.UID == ZoneUID);
+                if(zone != null)
+                {
+                    UserZones.Add(zone);
+                }
             }
         }
         ObservableCollection<UserViewModel> deviceUsers = new ObservableCollection<UserViewModel>();
@@ -114,11 +120,9 @@ namespace DevicesModule.ViewModels
                 {
                     if (res.Substring(174*i + 153, 64)[j] == '1')
                     {
-                        Zone zone =
-                            FiresecManager.Zones.FirstOrDefault(
-                                x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == j+1);
+                        Zone zone = FiresecManager.Zones.FirstOrDefault(x => FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(x) == j+1);
                         if (zone != null)
-                            guardUser.Zones.Add(j+1);
+                            guardUser.ZoneUIDs.Add(zone.UID);
                     }
                 }
                 Users.Add(userViewModel);

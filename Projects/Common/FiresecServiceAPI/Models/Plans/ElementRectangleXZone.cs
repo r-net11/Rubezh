@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 using Infrustructure.Plans.Elements;
 
 namespace FiresecAPI.Models
@@ -7,13 +8,13 @@ namespace FiresecAPI.Models
 	public class ElementRectangleXZone : ElementBaseRectangle, IElementZone, IPrimitive, IElementZLayer
 	{
 		[DataMember]
-		public int? ZoneNo { get; set; }
+        public Guid ZoneUID { get; set; }
 
 		public override ElementBase Clone()
 		{
 			ElementRectangleZone elementBase = new ElementRectangleZone()
 			{
-				ZoneNo = ZoneNo
+                ZoneUID = ZoneUID
 			};
 			Copy(elementBase);
 			return elementBase;

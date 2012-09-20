@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -14,7 +15,7 @@ using Infrastructure.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-	public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<int>
+	public class ZonesViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public ZoneDevicesViewModel ZoneDevices { get; set; }
 
@@ -90,17 +91,17 @@ namespace DevicesModule.ViewModels
 				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
 				ServiceFactory.SaveService.DevicesChanged = true;
 				createZoneEventArg.Cancel = false;
-				createZoneEventArg.ZoneNo = zoneDetailsViewModel.Zone.No;
+                createZoneEventArg.ZoneUID = zoneDetailsViewModel.Zone.UID;
 			}
 			else
 			{
 				createZoneEventArg.Cancel = true;
-				createZoneEventArg.ZoneNo = null;
+                createZoneEventArg.ZoneUID = Guid.Empty;
 			}
 		}
-		public void EditZone(int zoneNo)
+		public void EditZone(Guid zoneUID)
 		{
-			var zoneViewModel = zoneNo == 0 ? null : Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+			var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 			if (zoneViewModel != null)
 				OnEdit(zoneViewModel.Zone);
 		}
@@ -180,7 +181,7 @@ namespace DevicesModule.ViewModels
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var emptyZones = new List<ZoneViewModel>(
-					Zones.Where(zone => FiresecManager.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneNo == zone.Zone.No) == false)
+                    Zones.Where(zone => FiresecManager.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneUID == zone.Zone.UID) == false)
 				);
 				foreach (var emptyZone in emptyZones)
 				{
@@ -207,12 +208,12 @@ namespace DevicesModule.ViewModels
 				ZonesMenuView.Current.AcceptKeyboard = false;
 		}
 
-		#region ISelectable<int> Members
+        #region ISelectable<Guid> Members
 
-		public void Select(int zoneNo)
+        public void Select(Guid zoneUID)
 		{
-			if (zoneNo != 0)
-				SelectedZone = Zones.FirstOrDefault(x => x.Zone.No == zoneNo);
+            if (zoneUID != Guid.Empty)
+                SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 		}
 
 		#endregion

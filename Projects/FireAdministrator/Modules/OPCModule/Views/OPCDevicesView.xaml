@@ -20,7 +20,8 @@
             <DataGridTemplateColumn Header="Использовать" Width="*">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <CheckBox IsChecked="{Binding IsOPCUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <CheckBox IsChecked="{Binding IsOPCUsed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                  Visibility="{Binding CanOPCUsed, Converter={StaticResource BoolToVisibilityConverter}}" />
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>

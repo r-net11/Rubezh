@@ -21,7 +21,7 @@ namespace JournalModule
 		public JournalModuleLoader()
 		{
 			ServiceFactory.Events.GetEvent<ShowJournalEvent>().Subscribe(OnShowJournal);
-			ServiceFactory.Events.GetEvent<NewJournalRecordEvent>().Subscribe(OnNewJournalRecord);
+			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Subscribe(OnNewJournalRecord);
 			JournalsViewModel = new JournalsViewModel();
 			ArchiveViewModel = new ArchiveViewModel();
 		}
@@ -42,11 +42,11 @@ namespace JournalModule
 			UnreadJournalCount = 0;
 			JournalsViewModel.SelectedJournal = JournalsViewModel.Journals[0];
 		}
-		void OnNewJournalRecord(JournalRecord journalRecord)
-		{
-			if (_journalItem == null || !_journalItem.IsSelected)
-				++UnreadJournalCount;
-		}
+        void OnNewJournalRecord(List<JournalRecord> journalRecords)
+        {
+            if (_journalItem == null || !_journalItem.IsSelected)
+                UnreadJournalCount += journalRecords.Count;
+        }
 
 		public override void Initialize()
 		{

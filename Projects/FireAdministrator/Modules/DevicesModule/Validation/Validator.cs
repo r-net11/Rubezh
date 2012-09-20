@@ -118,9 +118,9 @@ namespace DevicesModule.Validation
 		{
             if (device.Driver.DriverType == DriverType.Indicator)
 			{
-				foreach (var zoneNo in device.IndicatorLogic.ZoneNos)
+                foreach (var zoneUID in device.IndicatorLogic.ZoneUIDs)
 				{
-					var zone = _firesecConfiguration.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+                    var zone = _firesecConfiguration.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if ((zone.DevicesInZone.Count > 0) && (zone.DevicesInZone.All(x => ((x.ParentChannel != null) && (x.ParentChannel.UID == device.ParentChannel.UID)) == false)))
 						_errors.Add(new DeviceValidationError(device, string.Format("Для индикатора указана зона ({0}) имеющая устройства другой сети RS-485", zone.No), ValidationErrorLevel.CannotWrite));
 				}
@@ -151,7 +151,7 @@ namespace DevicesModule.Validation
 
 		void ValidateDeviceOwnerZone(Device device)
 		{
-			if (device.Driver.IsZoneDevice && device.ZoneNo == null)
+            if (device.Driver.IsZoneDevice && device.ZoneUID == Guid.Empty)
 				_errors.Add(new DeviceValidationError(device, "Устройство должно содержать хотя бы одну зону", ValidationErrorLevel.CannotWrite));
 		}
 
@@ -274,9 +274,9 @@ namespace DevicesModule.Validation
 				var childZones = new List<Zone>();
 				foreach (var childDevice in device.Children)
 				{
-					if (childDevice.Driver.IsZoneDevice && childDevice.ZoneNo != null)
+                    if (childDevice.Driver.IsZoneDevice && childDevice.ZoneUID != Guid.Empty)
 					{
-						var zone = _firesecConfiguration.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == childDevice.ZoneNo.Value);
+                        var zone = _firesecConfiguration.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == childDevice.ZoneUID);
 						if (zone != null)
 							childZones.Add(zone);
 					}
@@ -513,7 +513,7 @@ namespace DevicesModule.Validation
 
 		void ValidateZoneSingleBoltInDirectionZone(Zone zone)
 		{
-			if (zone.DevicesInZoneLogic.Count(x => x.Driver.DriverType == DriverType.Valve) > 1 && _firesecConfiguration.DeviceConfiguration.Directions.Any(x => x.Zones.Contains(zone.No)))
+            if (zone.DevicesInZoneLogic.Count(x => x.Driver.DriverType == DriverType.Valve) > 1 && _firesecConfiguration.DeviceConfiguration.Directions.Any(x => x.ZoneUIDs.Contains(zone.UID)))
 				_errors.Add(new ZoneValidationError(zone, "В зоне направления не может быть более одной задвижки", ValidationErrorLevel.CannotWrite));
 		}
 
@@ -571,7 +571,7 @@ namespace DevicesModule.Validation
 
 		bool ValidateDirectionZonesContent(Direction direction)
 		{
-			if (direction.Zones.IsNotNullOrEmpty() == false)
+            if (direction.ZoneUIDs.IsNotNullOrEmpty() == false)
 			{
 				_errors.Add(new DirectionValidationError(direction, "В направлении тушения нет ни одной зоны", ValidationErrorLevel.CannotWrite));
 				return false;
@@ -599,17 +599,17 @@ namespace DevicesModule.Validation
 				{
 					var devicePlusPasswords = new List<string>();
 
-					var deviceZones = new List<int>();
+					var deviceZones = new List<Guid>();
 					foreach (var childDevice in device.Children)
 					{
 						if (childDevice.Driver.DriverType == DriverType.AM1_O)
-							if (childDevice.ZoneNo.HasValue)
-								deviceZones.Add(childDevice.ZoneNo.Value);
+							if (childDevice.ZoneUID != Guid.Empty)
+								deviceZones.Add(childDevice.ZoneUID);
 					}
 
 					foreach (var guardUser in _firesecConfiguration.DeviceConfiguration.GuardUsers)
 					{
-						if ((guardUser.DeviceUID == device.UID) || guardUser.Zones.Any(x => deviceZones.Contains(x)))
+						if ((guardUser.DeviceUID == device.UID) || guardUser.ZoneUIDs.Any(x => deviceZones.Contains(x)))
 						{
 							if (string.IsNullOrEmpty(guardUser.Password))
 							{

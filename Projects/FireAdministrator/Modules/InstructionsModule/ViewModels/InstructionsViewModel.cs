@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using FiresecAPI;
@@ -13,7 +14,7 @@ using InstructionsModule.Views;
 
 namespace InstructionsModule.ViewModels
 {
-	public class InstructionsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<int?>
+	public class InstructionsViewModel : MenuViewPartViewModel, IEditingViewModel, ISelectable<Guid>
 	{
 		public InstructionsViewModel()
 		{
@@ -34,12 +35,10 @@ namespace InstructionsModule.ViewModels
 				{
 					if (instruction.InstructionType == InstructionType.Details)
 					{
-						instruction.Devices = new List<System.Guid>(
-							instruction.Devices.Where(deviceGuid => FiresecManager.Devices.Any(x => x.UID == deviceGuid))
-						);
-						instruction.Zones = new List<int>(
-							instruction.Zones.Where(zoneNumber => FiresecManager.Zones.Any(x => x.No == zoneNumber))
-						);
+                        if (instruction.ZoneUIDs == null)
+                            instruction.ZoneUIDs = new List<Guid>();
+						instruction.Devices = new List<Guid>(instruction.Devices.Where(deviceGuid => FiresecManager.Devices.Any(x => x.UID == deviceGuid)));
+						instruction.ZoneUIDs = new List<Guid>(instruction.ZoneUIDs.Where(zoneUID => FiresecManager.Zones.Any(x => x.UID == zoneUID)));
 					}
 					Instructions.Add(new InstructionViewModel(instruction));
 				}
@@ -136,12 +135,12 @@ namespace InstructionsModule.ViewModels
 				InstructionsMenuView.Current.AcceptKeyboard = false;
 		}
 
-		#region ISelectable<int?> Members
+		#region ISelectable<Guid> Members
 
-		public void Select(int? instructionNo)
+		public void Select(Guid instructionUID)
 		{
-			if (instructionNo != null)
-				SelectedInstruction = Instructions.FirstOrDefault(x => x.Instruction.No == instructionNo.Value);
+            if (instructionUID != Guid.Empty)
+                SelectedInstruction = Instructions.FirstOrDefault(x => x.Instruction.UID == instructionUID);
 		}
 
 		#endregion

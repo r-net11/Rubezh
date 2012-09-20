@@ -1,10 +1,11 @@
-﻿using FiresecAPI.Models;
+﻿using System;
+using FiresecAPI.Models;
 using Infrastructure.Common.Validation;
 using Infrastructure.Events;
 
 namespace DevicesModule.Validation
 {
-	class ZoneValidationError : ObjectValidationError<Zone, ShowZoneEvent, int>
+	class ZoneValidationError : ObjectValidationError<Zone, ShowZoneEvent, Guid>
 	{
 		public ZoneValidationError(Zone zone, string error, ValidationErrorLevel level)
 			: base(zone, error, level)
@@ -16,9 +17,9 @@ namespace DevicesModule.Validation
 			get { return "FS"; }
 		}
 
-		protected override int Key
+		protected override Guid Key
 		{
-			get { return Object.No; }
+			get { return Object.UID; }
 		}
 
 		public override string Source

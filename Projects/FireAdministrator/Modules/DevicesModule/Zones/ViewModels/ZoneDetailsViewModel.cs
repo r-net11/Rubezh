@@ -202,15 +202,6 @@ namespace DevicesModule.ViewModels
 				return false;
 			}
 
-			if (Zone.No != No)
-			{
-				foreach (var device in FiresecManager.Devices)
-				{
-					if (device.ZoneNo == Zone.No)
-						device.ZoneNo = No;
-				}
-			}
-
 			Zone.ZoneType = ZoneType;
 			Zone.Name = Name;
 			Zone.No = No;

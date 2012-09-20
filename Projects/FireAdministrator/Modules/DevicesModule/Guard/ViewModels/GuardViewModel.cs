@@ -85,9 +85,9 @@ namespace DevicesModule.ViewModels
 				user1.Name = guardUser.Name.ToCharArray();
 				user1.Pass = guardUser.Password!=null?guardUser.Password.ToCharArray():"".ToCharArray();
 
-				foreach (var userZone in guardUser.Zones)
+				foreach (var userZone in guardUser.ZoneUIDs)
 				{
-					var localNo = FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(FiresecManager.Zones.FirstOrDefault(x=>x.No == userZone)) - 1;
+					var localNo = FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(FiresecManager.Zones.FirstOrDefault(x=>x.UID == userZone)) - 1;
 					user1.Zones[localNo] = true;
 				}
 
@@ -186,7 +186,7 @@ namespace DevicesModule.ViewModels
         bool CanWriteGuardUser()
         {
 			foreach (var deviceUser in DeviceUsers)
-				if (deviceUser.GuardUser.Zones.Count == 0)
+				if (deviceUser.GuardUser.ZoneUIDs.Count == 0)
 					return false;
 			return true;
         }
@@ -225,17 +225,17 @@ namespace DevicesModule.ViewModels
 
             if (SelectedDevice != null)
             {
-                var deviceZones = new List<int>();
+                var deviceZones = new List<Guid>();
                 foreach (var device in SelectedDevice.Children)
                 {
                     if (device.Driver.DriverType == DriverType.AM1_O)
-                        if (device.ZoneNo.HasValue)
-                            deviceZones.Add(device.ZoneNo.Value);
+                        if (device.ZoneUID != Guid.Empty)
+                            deviceZones.Add(device.ZoneUID);
                 }
 
                 foreach (var guardUser in FiresecManager.GuardUsers)
                 {
-                    if ((guardUser.DeviceUID == SelectedDevice.UID) || guardUser.Zones.Any(x => deviceZones.Contains(x)))
+                    if ((guardUser.DeviceUID == SelectedDevice.UID) || guardUser.ZoneUIDs.Any(x => deviceZones.Contains(x)))
                         DeviceUsers.Add(new UserViewModel(guardUser));
                     else
                         AvailableUsers.Add(new UserViewModel(guardUser));
@@ -258,7 +258,7 @@ namespace DevicesModule.ViewModels
                 {
                     if (zone.SecPanelUID == SelectedDevice.UID)
                     {
-                        if ((SelectedDeviceUser != null) && (SelectedDeviceUser.GuardUser.Zones.Contains(zone.No)))
+                        if ((SelectedDeviceUser != null) && (SelectedDeviceUser.GuardUser.ZoneUIDs.Contains(zone.UID)))
                             UserZones.Add(zone);
                         else
                             DeviceZones.Add(zone);
@@ -497,7 +497,7 @@ namespace DevicesModule.ViewModels
         void OnRemoveUser()
         {
             SelectedDeviceUser.GuardUser.DeviceUID = Guid.Empty;
-            SelectedDeviceUser.GuardUser.Zones.Clear();
+            SelectedDeviceUser.GuardUser.ZoneUIDs.Clear();
 
             AvailableUsers.Add(SelectedDeviceUser);
             DeviceUsers.Remove(SelectedDeviceUser);
@@ -514,7 +514,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand AddZoneCommand { get; private set; }
         void OnAddZone()
         {
-            SelectedDeviceUser.GuardUser.Zones.Add(SelectedDeviceZone.No);
+            SelectedDeviceUser.GuardUser.ZoneUIDs.Add(SelectedDeviceZone.UID);
             UserZones.Add(SelectedDeviceZone);
             DeviceZones.Remove(SelectedDeviceZone);
 
@@ -530,7 +530,7 @@ namespace DevicesModule.ViewModels
         public RelayCommand RemoveZoneCommand { get; private set; }
         void OnRemoveZone()
         {
-            SelectedDeviceUser.GuardUser.Zones.Remove(SelectedUserZone.No);
+            SelectedDeviceUser.GuardUser.ZoneUIDs.Remove(SelectedUserZone.UID);
             DeviceZones.Add(SelectedUserZone);
             UserZones.Remove(SelectedUserZone);
 

@@ -4,17 +4,17 @@
              MinWidth="400" MinHeight="400"
              Loaded="UserControl_Loaded">
     <Grid Margin="10">
-<TabControl Grid.Row="0" Background="{DynamicResource AlternativeBackgroundBrush}">
-            <TabItem Header="Состояние">
-                <StackPanel>
-                    <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Visibility="{Binding IsImitatorEnabled, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
-                </StackPanel>
-            </TabItem>
+        <TabControl Grid.Row="0" Background="{DynamicResource AlternativeBackgroundBrush}">
             <TabItem Header="Лог">
                 <ScrollViewer HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
                     <TextBox Text="{Binding Log}" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
                             TextWrapping="WrapWithOverflow" AcceptsReturn="True" IsReadOnly="True" />
                 </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Имитатор" Visibility="{Binding IsImitatorEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                <StackPanel>
+                    <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Width="100" Margin="2" />
+                </StackPanel>
             </TabItem>
         </TabControl>            
     </Grid>

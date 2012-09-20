@@ -121,9 +121,9 @@ namespace GKModule.Converter
                 var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
                 if (xDevice != null)
                 {
-                    if ((device.Driver.IsZoneDevice) && (device.ZoneNo.HasValue))
+                    if ((device.Driver.IsZoneDevice) && (device.ZoneUID != Guid.Empty))
                     {
-                        var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == device.ZoneNo.Value);
+                        var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
                         var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
                         if (zone != null)
                         {
@@ -185,12 +185,12 @@ namespace GKModule.Converter
                                 default:
                                     continue;
                             }
-                            if ((clause.ZoneNos == null) || (clause.ZoneNos.Count == 0))
+                            if ((clause.ZoneUIDs == null) || (clause.ZoneUIDs.Count == 0))
                                 continue;
 
-                            foreach (var zoneNo in clause.ZoneNos)
+                            foreach (var zoneUID in clause.ZoneUIDs)
                             {
-                                var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x=>x.No == zoneNo);
+                                var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
                                 xClause.Zones.Add(xZone.UID);
                             }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
@@ -26,7 +27,7 @@ namespace InstructionsModule
 		{
 			return new List<NavigationItem>()
 			{
-				new NavigationItem<ShowInstructionsEvent, int?>(_instructionsViewModel, "Инструкции", "/Controls;component/Images/information.png"),
+				new NavigationItem<ShowInstructionsEvent, Guid>(_instructionsViewModel, "Инструкции", "/Controls;component/Images/information.png", null, null, Guid.Empty),
 			};
 		}
 		public override string Name
@@ -35,12 +36,10 @@ namespace InstructionsModule
 		}
 
 		#region IValidationModule Members
-
 		public IEnumerable<IValidationError> Validate()
 		{
 			return Validator.Validate();
 		}
-
 		#endregion
 	}
 }

@@ -63,6 +63,11 @@ namespace LibraryModule.ViewModels
             get { return _selectedDevice; }
             set
             {
+                var oldSelectedStateType = StateType.No;
+                if (SelectedState != null)
+                {
+                    oldSelectedStateType = SelectedState.State.StateType;
+                }
                 _selectedDevice = value;
                 OnPropertyChanged("SelectedDevice");
 
@@ -76,7 +81,9 @@ namespace LibraryModule.ViewModels
                         var stateViewModel = new StateViewModel(libraryState, driver);
                         States.Add(stateViewModel);
                     }
-                    SelectedState = States.FirstOrDefault();
+                    SelectedState = States.FirstOrDefault(x => x.State.StateType == oldSelectedStateType);
+                    if (SelectedState == null)
+                        SelectedState = States.FirstOrDefault();
                 }
                 else
                 {

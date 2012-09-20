@@ -1,4 +1,5 @@
 ﻿using Microsoft.Practices.Prism.Events;
+using System;
 
 namespace Infrastructure.Events
 {
@@ -9,6 +10,6 @@ namespace Infrastructure.Events
     public class CreateZoneEventArg
     {
         public bool Cancel { get; set; }
-        public int? ZoneNo { get; set; }
+        public Guid ZoneUID { get; set; }
     }
 }

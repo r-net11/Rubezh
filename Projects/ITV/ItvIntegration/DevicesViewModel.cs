@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using FiresecClient;
+using FiresecClient.Itv;
 
 namespace ItvIntegration
 {
@@ -7,6 +7,8 @@ namespace ItvIntegration
 	{
 		public DevicesViewModel()
 		{
+            ResetAllCommand = new RelayCommand(OnResetAll);
+
 			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in ItvManager.DeviceConfiguration.Devices)
 			{
@@ -27,5 +29,11 @@ namespace ItvIntegration
 				OnPropertyChanged("StateType");
 			}
 		}
+
+        public RelayCommand ResetAllCommand { get; private set; }
+        void OnResetAll()
+        {
+            ItvManager.ResetAllStates();
+        }
 	}
 }

@@ -80,9 +80,9 @@ namespace GKModule
 		{
 			_zonesViewModel.CreateZone(createZoneEventArg);
 		}
-		private void OnEditXZone(int zoneNo)
+		private void OnEditXZone(Guid zoneUID)
 		{
-			_zonesViewModel.EditZone(zoneNo);
+            _zonesViewModel.EditZone(zoneUID);
 		}
 	}
 }

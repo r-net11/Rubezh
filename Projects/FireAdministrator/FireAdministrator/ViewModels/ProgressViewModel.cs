@@ -15,13 +15,13 @@ namespace FireAdministrator.ViewModels
 			CloseOnEscape = false;
 			AllowClose = false;
 			StopCommand = new RelayCommand(OnStop);
-			FiresecManager.ProgressEvent -= new Action<int, string, int, int>(Progress);
-			FiresecManager.ProgressEvent += new Action<int, string, int, int>(Progress);
+			FiresecManager.FiresecDriver.Watcher.Progress -= new Action<int, string, int, int>(Progress);
+            FiresecManager.FiresecDriver.Watcher.Progress += new Action<int, string, int, int>(Progress);
 		}
 
 		public void CloseProgress()
 		{
-			FiresecManager.ProgressEvent -= new Action<int, string, int, int>(Progress);
+            FiresecManager.FiresecDriver.Watcher.Progress -= new Action<int, string, int, int>(Progress);
 			Close(true);
 		}
 

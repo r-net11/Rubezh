@@ -32,7 +32,7 @@ namespace FireMonitor
 
 					LoadingService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
-					InitializeFs();
+					InitializeFs(false);
 					LoadingService.DoStep("Загрузка конфигурации ГК");
 					InitializeGk();
 					
@@ -80,22 +80,26 @@ namespace FireMonitor
 			else
 				Application.Current.Shutdown();
 			MutexHelper.KeepAlive();
+			ServiceFactory.SubscribeEvents();
 		}
 
-		void InitializeFs()
+		void InitializeFs(bool reconnect = false)
 		{
-			LoadingService.DoStep("Остановка Socket Server");
-			SocketServerHelper.Stop();
 			LoadingService.DoStep("Загрузка конфигурации с сервера");
 			FiresecManager.GetConfiguration();
-			LoadingService.DoStep("Загрузка драйвера устройств");
-			FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
-			LoadingService.DoStep("Синхронизация конфигурации");
-			FiresecManager.Synchronyze();
-			LoadingService.DoStep("Старт мониторинга");
-			FiresecManager.StatrtWatcher(true);
-			LoadingService.DoStep("Синхронизация журнала событий");
-			FiresecManager.SynchrinizeJournal();
+
+            if (!reconnect)
+            {
+                LoadingService.DoStep("Загрузка драйвера устройств");
+                FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
+                LoadingService.DoStep("Старт мониторинга");
+                FiresecManager.StartWatcher(true, true);
+                LoadingService.DoStep("Синхронизация журнала событий");
+                FiresecManager.SynchrinizeJournal();
+            }
+
+            LoadingService.DoStep("Синхронизация конфигурации");
+            FiresecManager.Synchronyze();
 		}
 
 		void InitializeGk()
@@ -108,11 +112,15 @@ namespace FireMonitor
 
 		void OnConfigurationChanged()
 		{
+			LoadingService.Show("Перезагрузка конфигурации", 10);
+			LoadingService.AddCount(10);
+
 			ApplicationService.CloseAllWindows();
 			ServiceFactory.Layout.Close();
 
-			InitializeFs();
+			InitializeFs(true);
 			InitializeGk();
+			LoadingService.Close();
 
 			ServiceFactory.SafeCall(() =>
 			{

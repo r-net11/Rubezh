@@ -7,7 +7,7 @@ namespace Firesec
 {
 	public static class IndicatorLogicConverter
 	{
-		public static IndicatorLogic Convert(LEDProperties lEDProperties)
+        public static IndicatorLogic Convert(DeviceConfiguration deviceConfiguration, LEDProperties lEDProperties)
 		{
 			var indicatorLogic = new IndicatorLogic();
 
@@ -26,8 +26,15 @@ namespace Firesec
 			{
 				foreach (var item in lEDProperties.zone)
 				{
-					if (string.IsNullOrWhiteSpace(item) == false)
-						indicatorLogic.ZoneNos.Add(int.Parse(item));
+                    if (string.IsNullOrWhiteSpace(item) == false)
+                    {
+                        int zoneNo = int.Parse(item);
+                        var zone = deviceConfiguration.Zones.FirstOrDefault(x => x.No == zoneNo);
+                        if (zone != null)
+                        {
+                            indicatorLogic.ZoneUIDs.Add(zone.UID);
+                        }
+                    }
 				}
 			}
 
@@ -35,13 +42,22 @@ namespace Firesec
 			{
 				var indicatorDevice = lEDProperties.device[0];
 				indicatorLogic.DeviceUID = GuidHelper.ToGuid(indicatorDevice.UID);
-				indicatorLogic.OnColor = (IndicatorColorType)int.Parse(indicatorDevice.state1);
-				indicatorLogic.OffColor = (IndicatorColorType)int.Parse(indicatorDevice.state2);
-				indicatorLogic.FailureColor = (IndicatorColorType)int.Parse(indicatorDevice.state3);
-				indicatorLogic.ConnectionColor = (IndicatorColorType)int.Parse(indicatorDevice.state4);
+				indicatorLogic.OnColor = StringToIndicatorColorType(indicatorDevice.state1);
+				indicatorLogic.OffColor = StringToIndicatorColorType(indicatorDevice.state2);
+				indicatorLogic.FailureColor = StringToIndicatorColorType(indicatorDevice.state3);
+				indicatorLogic.ConnectionColor = StringToIndicatorColorType(indicatorDevice.state4);
 			}
 
 			return indicatorLogic;
+		}
+
+		static IndicatorColorType StringToIndicatorColorType(string sate)
+		{
+			if (sate != null)
+			{
+				return (IndicatorColorType)int.Parse(sate);
+			}
+			return IndicatorColorType.Green;
 		}
 
 		public static LEDProperties ConvertBack(IndicatorLogic indicatorLogic)
@@ -53,7 +69,7 @@ namespace Firesec
 				case IndicatorLogicType.Zone:
 					lEDProperties.type = "0";
 					lEDProperties.device = null;
-					lEDProperties.zone = indicatorLogic.ZoneNos.Select(x => x.ToString()).ToArray();
+					lEDProperties.zone = indicatorLogic.Zones.Select(x => x.No.ToString()).ToArray();
 					break;
 
 				case IndicatorLogicType.Device:

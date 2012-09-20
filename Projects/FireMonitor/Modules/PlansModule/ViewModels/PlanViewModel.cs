@@ -35,18 +35,18 @@ namespace PlansModule.ViewModels
 			ZoneStates = new List<ZoneState>();
 			foreach (var elementRectangleZone in plan.ElementRectangleZones)
 			{
-				if (elementRectangleZone.ZoneNo.HasValue)
+				if (elementRectangleZone.ZoneUID != Guid.Empty)
 				{
-					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == elementRectangleZone.ZoneNo.Value);
+                    var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == elementRectangleZone.ZoneUID);
 					if (zone != null)
 						ZoneStates.Add(zone.ZoneState);
 				}
 			}
 			foreach (var elementPolygonZone in plan.ElementPolygonZones)
 			{
-				if (elementPolygonZone.ZoneNo.HasValue)
+                if (elementPolygonZone.ZoneUID != Guid.Empty)
 				{
-					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == elementPolygonZone.ZoneNo.Value);
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == elementPolygonZone.ZoneUID);
 					if (zone != null)
 						ZoneStates.Add(zone.ZoneState);
 				}

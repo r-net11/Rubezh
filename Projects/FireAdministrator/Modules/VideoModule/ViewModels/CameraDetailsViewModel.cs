@@ -14,7 +14,7 @@ namespace VideoModule.ViewModels
 	public class CameraDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public Camera Camera { get; private set; }
-		public List<int> Zones { get; set; }
+		public List<Guid> Zones { get; set; }
 
 		public CameraDetailsViewModel(Camera camera = null)
 		{
@@ -50,9 +50,9 @@ namespace VideoModule.ViewModels
 			Height = Camera.Height;
 			IgnoreMoveResize = Camera.IgnoreMoveResize;
 			SelectedStateType = Camera.StateType;
-			if (Camera.Zones == null)
-				Camera.Zones = new List<int>();
-			Zones = Camera.Zones.ToList();
+			if (Camera.ZoneUIDs == null)
+				Camera.ZoneUIDs = new List<Guid>();
+			Zones = Camera.ZoneUIDs.ToList();
 		}
 
 		string _name;
@@ -141,7 +141,7 @@ namespace VideoModule.ViewModels
 				{
 					if (i > 0)
 						presenrationZones.Append(", ");
-					var zone = FiresecManager.Zones.FirstOrDefault(x => x.No == Zones[i]);
+					var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == Zones[i]);
 					if (zone != null)
 						presenrationZones.Append(zone.PresentationName);
 				}
@@ -202,7 +202,7 @@ namespace VideoModule.ViewModels
 			Camera.Width = Width;
 			Camera.Height = Height;
 			Camera.StateType = SelectedStateType;
-			Camera.Zones = Zones.ToList();
+			Camera.ZoneUIDs = Zones.ToList();
 			return base.Save();
 		}
 	}

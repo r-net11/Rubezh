@@ -1,0 +1,21 @@
+﻿using System;
+using System.Windows.Data;
+
+namespace Firesec.Imitator.Converters
+{
+    public class BoolToYesConverter : IValueConverter
+    {
+        object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            bool boolValue = (bool)value;
+            if (boolValue)
+                return "Да";
+            return "";
+        }
+
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}

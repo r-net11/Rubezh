@@ -38,7 +38,7 @@ namespace InstructionsModule.ViewModels
 
 		void CopyProperties()
 		{
-			InstructionZones = new ObservableCollection<int>();
+			InstructionZones = new ObservableCollection<Guid>();
 			InstructionDevices = new ObservableCollection<Guid>();
 
 			InstructionNo = Instruction.No;
@@ -49,8 +49,8 @@ namespace InstructionsModule.ViewModels
 			switch (InstructionType)
 			{
 				case InstructionType.Details:
-					if (Instruction.Zones.IsNotNullOrEmpty())
-						InstructionZones = new ObservableCollection<int>(Instruction.Zones);
+					if (Instruction.ZoneUIDs.IsNotNullOrEmpty())
+						InstructionZones = new ObservableCollection<Guid>(Instruction.ZoneUIDs);
 					if (Instruction.Devices.IsNotNullOrEmpty())
 						InstructionDevices = new ObservableCollection<Guid>(Instruction.Devices);
 					break;
@@ -129,8 +129,8 @@ namespace InstructionsModule.ViewModels
 			get { return new List<InstructionType>(Enum.GetValues(typeof(InstructionType)).OfType<InstructionType>()); }
 		}
 
-		ObservableCollection<int> _instructionZones;
-		public ObservableCollection<int> InstructionZones
+		ObservableCollection<Guid> _instructionZones;
+		public ObservableCollection<Guid> InstructionZones
 		{
 			get { return _instructionZones; }
 			set
@@ -162,7 +162,7 @@ namespace InstructionsModule.ViewModels
 			var instructionZonesViewModel = new InstructionZonesViewModel(InstructionZones.ToList());
 			if (DialogService.ShowModalWindow(instructionZonesViewModel))
 			{
-				InstructionZones = new ObservableCollection<int>(instructionZonesViewModel.InstructionZonesList);
+				InstructionZones = new ObservableCollection<Guid>(instructionZonesViewModel.InstructionZonesList);
 			}
 		}
 
@@ -194,12 +194,12 @@ namespace InstructionsModule.ViewModels
 			if (InstructionType == InstructionType.Details)
 			{
 				Instruction.Devices = InstructionDevices.ToList();
-				Instruction.Zones = InstructionZones.ToList();
+				Instruction.ZoneUIDs = InstructionZones.ToList();
 			}
 			else
 			{
 				Instruction.Devices = new List<Guid>();
-				Instruction.Zones = new List<int>();
+                Instruction.ZoneUIDs = new List<Guid>();
 			}
 			return base.Save();
 		}

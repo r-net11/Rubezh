@@ -61,8 +61,8 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public int IntAddress { get; set; }
 
-		[DataMember]
-		public int? ZoneNo { get; set; }
+        [DataMember]
+        public Guid ZoneUID { get; set; }
 
 		[DataMember]
 		public ZoneLogic ZoneLogic { get; set; }

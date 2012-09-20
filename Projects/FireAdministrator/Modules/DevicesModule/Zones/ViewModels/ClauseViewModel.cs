@@ -11,7 +11,7 @@ namespace DevicesModule.ViewModels
 {
 	public class ClauseViewModel : BaseViewModel
 	{
-		public List<int> Zones { get; set; }
+		public List<Guid> Zones { get; set; }
 		Device _device;
 		ZoneLogicViewModel _zoneLogicViewModel;
 
@@ -22,11 +22,10 @@ namespace DevicesModule.ViewModels
 
 			_zoneLogicViewModel = zoneLogicViewModel;
 			_device = device;
-			Zones = new List<int>(
-				from zoneNo in clause.ZoneNos
-				orderby zoneNo
-				select zoneNo);
-			Zones = clause.ZoneNos.ToList();
+			Zones = new List<Guid>(
+                from zoneUID in clause.ZoneUIDs
+				select zoneUID);
+            Zones = clause.ZoneUIDs.ToList();
 			_selectedState = clause.State;
 			SelectedOperation = clause.Operation;
 
@@ -165,7 +164,7 @@ namespace DevicesModule.ViewModels
 
 		void Update()
 		{
-			Zones = new List<int>();
+			Zones = new List<Guid>();
 			SelectedDevice = null;
 			OnPropertyChanged("CanSelectOperation");
 			OnPropertyChanged("CanSelectZones");
