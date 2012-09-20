@@ -80,6 +80,7 @@ namespace FireMonitor
 			else
 				Application.Current.Shutdown();
 			MutexHelper.KeepAlive();
+			ServiceFactory.SubscribeEvents();
 		}
 
 		void InitializeFs(bool reconnect = false)
@@ -89,8 +90,6 @@ namespace FireMonitor
 
             if (!reconnect)
             {
-                LoadingService.DoStep("Остановка Socket Server");
-                SocketServerHelper.Stop();
                 LoadingService.DoStep("Загрузка драйвера устройств");
                 FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
                 LoadingService.DoStep("Старт мониторинга");
@@ -113,11 +112,15 @@ namespace FireMonitor
 
 		void OnConfigurationChanged()
 		{
+			LoadingService.Show("Перезагрузка конфигурации", 10);
+			LoadingService.AddCount(10);
+
 			ApplicationService.CloseAllWindows();
 			ServiceFactory.Layout.Close();
 
 			InitializeFs(true);
 			InitializeGk();
+			LoadingService.Close();
 
 			ServiceFactory.SafeCall(() =>
 			{

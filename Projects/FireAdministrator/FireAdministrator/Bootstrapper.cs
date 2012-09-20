@@ -64,8 +64,6 @@ namespace FireAdministrator
 
 		void InitializeFs()
 		{
-			LoadingService.DoStep("Остановка Socket Server");
-			SocketServerHelper.Stop();
 			LoadingService.DoStep("Загрузка конфигурации с сервера");
 			FiresecManager.GetConfiguration();
 			LoadingService.DoStep("Загрузка драйвера устройств");

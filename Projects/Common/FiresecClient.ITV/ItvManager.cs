@@ -26,7 +26,6 @@ namespace FiresecClient.Itv
 			var result = FiresecManager.Connect(ClientType.Itv, serverAddress, login, password);
             if (string.IsNullOrEmpty(result))
             {
-				SocketServerHelper.Stop();
 				FiresecManager.GetConfiguration();
 				FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
 				FiresecManager.Synchronyze();

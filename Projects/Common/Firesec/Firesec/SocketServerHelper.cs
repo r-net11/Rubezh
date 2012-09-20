@@ -78,9 +78,8 @@ namespace Firesec
 			Logger.Error("NativeFiresecClient.StartSocketServerIfNotRunning не удалось запустить процесс scktsrvr");
 		}
 
-		public static void Stop()
+		static void Stop()
 		{
-			//return;
 			StopNTServiceIfRunning();
 
 			foreach (var process in Process.GetProcesses())
@@ -109,6 +108,12 @@ namespace Firesec
 					process.WaitForExit(1000);
 				}
 			}
+		}
+
+		public static void Restart()
+		{
+			Stop();
+			StartIfNotRunning();
 		}
 
 		static string GetSocketServerPath()

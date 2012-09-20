@@ -265,14 +265,30 @@ namespace Firesec
 
 			try
 			{
+				ConnectionTimeoutEvent = new AutoResetEvent(false);
+				ConnectionTimeoutThread = new Thread(new ThreadStart(OnConnectionTimeoutThread));
+				ConnectionTimeoutThread.Start();
+
 				//FS_Types.IFSC_Connection connectoin = library.Connect3(login, password, serverInfo, this, false);
 				FS_Types.IFSC_Connection connectoin = library.Connect2(FS_Login, FS_Password, serverInfo, this);
+				ConnectionTimeoutEvent.Set();
 				return connectoin;
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове NativeFiresecClient.GetConnection");
+				SocketServerHelper.Restart();
 				throw new Exception("Не удается подключиться к COM серверу Firesec");
+			}
+		}
+
+		static Thread ConnectionTimeoutThread;
+		static AutoResetEvent ConnectionTimeoutEvent;
+		static void OnConnectionTimeoutThread()
+		{
+			if (!ConnectionTimeoutEvent.WaitOne(60000))
+			{
+				SocketServerHelper.Restart();
 			}
 		}
 
@@ -356,6 +372,7 @@ namespace Firesec
 					SocketServerHelper.StartIfNotRunning();
 				}
 			}
+			SocketServerHelper.Restart();
 			return resultData;
 		}
 		#endregion

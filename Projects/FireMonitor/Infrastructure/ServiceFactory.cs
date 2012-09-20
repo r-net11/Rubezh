@@ -19,7 +19,6 @@ namespace Infrastructure
 			Layout = ILayoutService;
 			SecurityService = ISecurityService;
 			LoginService = new LoginService(ClientType.Monitor, "Оперативная задача. Авторизация.");
-			SubscribeEvents();
 		}
 
 		public static AppSettings AppSettings { get; set; }
@@ -27,7 +26,7 @@ namespace Infrastructure
 		public static ISecurityService SecurityService { get; private set; }
 		public static LoginService LoginService { get; private set; }
 
-		static void SubscribeEvents()
+		public static void SubscribeEvents()
 		{
             FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
             FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
