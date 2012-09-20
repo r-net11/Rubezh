@@ -42,13 +42,22 @@ namespace Firesec
 			{
 				var indicatorDevice = lEDProperties.device[0];
 				indicatorLogic.DeviceUID = GuidHelper.ToGuid(indicatorDevice.UID);
-				indicatorLogic.OnColor = (IndicatorColorType)int.Parse(indicatorDevice.state1);
-				indicatorLogic.OffColor = (IndicatorColorType)int.Parse(indicatorDevice.state2);
-				indicatorLogic.FailureColor = (IndicatorColorType)int.Parse(indicatorDevice.state3);
-				indicatorLogic.ConnectionColor = (IndicatorColorType)int.Parse(indicatorDevice.state4);
+				indicatorLogic.OnColor = StringToIndicatorColorType(indicatorDevice.state1);
+				indicatorLogic.OffColor = StringToIndicatorColorType(indicatorDevice.state2);
+				indicatorLogic.FailureColor = StringToIndicatorColorType(indicatorDevice.state3);
+				indicatorLogic.ConnectionColor = StringToIndicatorColorType(indicatorDevice.state4);
 			}
 
 			return indicatorLogic;
+		}
+
+		static IndicatorColorType StringToIndicatorColorType(string sate)
+		{
+			if (sate != null)
+			{
+				return (IndicatorColorType)int.Parse(sate);
+			}
+			return IndicatorColorType.Green;
 		}
 
 		public static LEDProperties ConvertBack(IndicatorLogic indicatorLogic)

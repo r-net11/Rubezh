@@ -34,6 +34,7 @@ namespace Firesec
 			parentDevice.Children = new List<Device>();
 			foreach (var innerDevice in parentInnerDevice.dev)
 			{
+					
 				var device = new Device()
 				{
 					Parent = parentDevice
@@ -44,6 +45,8 @@ namespace Firesec
 				DeviceConfiguration.Devices.Add(device);
 				AddDevice(innerDevice, device);
 			}
+			
+			
 		}
 
 		void SetInnerDevice(Device device, devType innerDevice)

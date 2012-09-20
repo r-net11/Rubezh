@@ -12,7 +12,7 @@ namespace FiresecAPI.Models
 				{
 					driver.HasConfigurationProperties = true;
 
-					ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму", 0, 0, 5, 20);
+					ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму", 0, 18, 5, 20);
 				}
 				if (driver.DriverType == DriverType.HeatDetector)
 				{

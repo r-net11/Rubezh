@@ -16,7 +16,7 @@ namespace FiresecAPI.Models
 				No = 0x82,
 				Name = "Время переключения электропривода в положение ЗАКРЫТО",
 				Caption = "Время переключения электропривода в положение ЗАКРЫТО",
-				Default = "0",
+				Default = "180",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
 				Max = 250
@@ -29,7 +29,7 @@ namespace FiresecAPI.Models
 				No = 0x83,
 				Name = "Время переключения электропривода в положение ОТКРЫТО",
 				Caption = "Время переключения электропривода в положение ОТКРЫТО",
-				Default = "0",
+				Default = "180",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
 				Max = 250
@@ -68,7 +68,7 @@ namespace FiresecAPI.Models
 				No = 0x85,
 				Name = "Тип привода",
 				Caption = "Тип привода",
-				Default = "0",
+				Default = "2",
 				MinBit = 0,
 				MaxBit = 3
 			};
@@ -121,7 +121,8 @@ namespace FiresecAPI.Models
 				DriverPropertyType = DriverPropertyTypeEnum.BoolType,
 				BitOffset = 7,
 				MinBit = 7,
-				MaxBit = 8
+				MaxBit = 8,
+				Default="true"
 			};
 			driver.Properties.Add(property7);
 		}

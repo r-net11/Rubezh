@@ -32,9 +32,12 @@ namespace FiresecAPI.Models
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
-				Max = 255
+				Max = 1200
 			};
 			driver.Properties.Add(property2);
+
+			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x80, "источник воспроизведения", 1, "пам", "вх");
+					
 		}
 	}
 }

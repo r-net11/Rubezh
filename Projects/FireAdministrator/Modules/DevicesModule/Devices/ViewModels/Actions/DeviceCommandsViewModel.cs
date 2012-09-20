@@ -232,7 +232,7 @@ namespace DevicesModule.ViewModels
 					(int.Parse(property.Value) < prop.Min || int.Parse(property.Value) > prop.Max)
 					)
 				{
-					MessageBoxService.Show("Значение параметра " + prop.Caption + " вне допустимого диапазона", "Firesec");
+					MessageBoxService.Show("Значение параметра " + prop.Caption + " должно находиться в диапазоне от " + prop.Min.ToString() + " до " + prop.Max.ToString(), "Firesec");
 					ewrthg_ok = false;
 				}
 			}

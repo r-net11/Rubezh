@@ -71,7 +71,7 @@ namespace FiresecAPI.Models
                     device.IndicatorLogic = new IndicatorLogic();
 
                 var indicatorLogicDevice = Devices.FirstOrDefault(x => x.UID == device.IndicatorLogic.DeviceUID);
-                if (indicatorLogicDevice != null)
+				if (indicatorLogicDevice != null && indicatorLogicDevice.DependentDevices!=null)
                 {
                     device.IndicatorLogic.Device = indicatorLogicDevice;
                     indicatorLogicDevice.DependentDevices.Add(device);
