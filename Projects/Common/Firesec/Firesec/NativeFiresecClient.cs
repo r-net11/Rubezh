@@ -30,7 +30,6 @@ namespace Firesec
 							_connection = null;
 							GC.Collect();
 						}
-						//while (Marshal.ReleaseComObject(_connection) > 0) { }
 						_dispatcher.InvokeShutdown();
 					}
 				};

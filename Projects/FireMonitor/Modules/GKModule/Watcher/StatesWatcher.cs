@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using XFiresecAPI;
+using System.Windows.Threading;
 
 namespace GKModule
 {
@@ -15,6 +16,11 @@ namespace GKModule
 		{
             var thread = new Thread(new ThreadStart(OnRun));
             thread.Start();
+			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
+				{
+					if (thread.IsAlive)
+						thread.Abort();
+				};
 		}
 
         static void OnRun()
