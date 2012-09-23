@@ -171,11 +171,12 @@ namespace PlansModule.Designer
 		{
 			Width = Plan.Width;
 			Height = Plan.Height;
-			Background = new SolidColorBrush(Plan.BackgroundColor);
 			if (Plan.BackgroundPixels != null)
 				Background = PainterHelper.CreateBrush(Plan.BackgroundPixels);
 			else if (Plan.BackgroundColor == Colors.Transparent)
-				Background = PainterHelper.CreateTransparentBrush();
+				Background = PainterHelper.CreateTransparentBrush(Zoom);
+			else
+				Background = new SolidColorBrush(Plan.BackgroundColor);
 		}
 		public override void Remove(List<Guid> elementUIDs)
 		{
@@ -215,6 +216,8 @@ namespace PlansModule.Designer
 
 		public void UpdateZoom()
 		{
+			if (Plan != null)
+				Update();
 			Toolbox.UpdateZoom();
 			foreach (DesignerItem designerItem in Items)
 				designerItem.UpdateZoom();
