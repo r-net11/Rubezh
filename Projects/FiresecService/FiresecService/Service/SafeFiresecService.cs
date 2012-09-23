@@ -276,5 +276,14 @@ namespace FiresecService.Service
         {
             return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
         }
+
+        public IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state)
+        {
+            return SafeContext.Execute<IAsyncResult>(() => FiresecService.BeginPoll(index, dateTime, asyncCallback, state));
+        }
+        public List<CallbackResult> EndPoll(IAsyncResult asyncResult)
+        {
+            return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.EndPoll(asyncResult));
+        }
     }
 }

@@ -102,7 +102,8 @@ namespace FiresecService.Service
         public void BeginGetFilteredArchive(ArchiveFilter archiveFilter)
         {
             var result = OnGetFilteredArchive(archiveFilter);
-            CallbackWrapper.GetFilteredArchiveCompleted(result.Result);
+            CallbackArchiveCompleted(result.Result);
+            //CallbackWrapper.GetFilteredArchiveCompleted(result.Result);
         }
 
         OperationResult<List<JournalRecord>> OnGetFilteredArchive(ArchiveFilter archiveFilter)
@@ -235,10 +236,6 @@ namespace FiresecService.Service
             {
                 dataContext.ExecuteCommand("DELETE FROM Journal");
 				dataContext.JournalRecords.InsertAllOnSubmit(journalRecords);
-				//foreach (var journalRecord in journalRecords)
-				//{
-				//    dataContext.JournalRecords.InsertOnSubmit(journalRecord);
-				//}
                 dataContext.SubmitChanges();
             }
         }

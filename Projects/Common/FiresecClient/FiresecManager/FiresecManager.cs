@@ -78,7 +78,7 @@ namespace FiresecClient
 			get { return SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin); }
 		}
 
-		static bool IsDisconnected = false;
+        public static bool IsDisconnected { get; private set; }
 		public static void Disconnect()
 		{
 			if (!IsDisconnected)

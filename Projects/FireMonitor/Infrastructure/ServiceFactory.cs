@@ -28,14 +28,17 @@ namespace Infrastructure
 
 		public static void SubscribeEvents()
 		{
-            FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
-            FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
-            FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
-            FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
+            //FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
+            //FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
+            //FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
+            //FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
 
-            FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewJournalRecordEvent(new List<JournalRecord>() { x }); }); });
-			FiresecCallbackService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
-			FiresecCallbackService.NotifyEvent += new Action<string>((x) => { SafeCall(() => { OnNotify(x); }); });
+            //FiresecCallbackService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewJournalRecordEvent(new List<JournalRecord>() { x }); }); });
+			//FiresecCallbackService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
+			//FiresecCallbackService.NotifyEvent += new Action<string>((x) => { SafeCall(() => { OnNotify(x); }); });
+
+            SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
+            SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
 		}
         static void OnDeviceStateChangedEvent(List<DeviceState> deviceStates)
         {
@@ -75,6 +78,11 @@ namespace Infrastructure
             FiresecManager.FiresecService.AddJournalRecords(journalRecords);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
 		}
+
+        static void OnNewServerJournalRecordEvent(List<JournalRecord> journalRecords)
+        {
+            ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
+        }
 
 		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalRecord> journalRecords)
 		{

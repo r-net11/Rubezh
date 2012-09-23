@@ -62,7 +62,8 @@ namespace FireMonitor
 						((LayoutService)ServiceFactory.Layout).AddToolbarItem(new AutoActivationViewModel());
 
 
-						FiresecCallbackService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
+						//FiresecCallbackService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
+                        SafeFiresecService.ConfigurationChangedEvent += () => { ApplicationService.Invoke(OnConfigurationChanged); };
 						ServiceFactory.Events.GetEvent<NotifyEvent>().Subscribe(OnNotify);
 					}
 					else
@@ -90,7 +91,7 @@ namespace FireMonitor
 
             if (!reconnect)
             {
-                LoadingService.DoStep("Загрузка драйвера устройств");
+                LoadingService.DoStep("Инициализация драйвера устройств");
                 FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
                 LoadingService.DoStep("Старт мониторинга");
                 FiresecManager.StartWatcher(true, true);
@@ -118,18 +119,19 @@ namespace FireMonitor
 			ApplicationService.CloseAllWindows();
 			ServiceFactory.Layout.Close();
 
-			InitializeFs(true);
-			InitializeGk();
-			LoadingService.Close();
+			//ServiceFactory.SafeCall(() =>
+			//{
+                InitializeFs(true);
+                InitializeGk();
 
-			ServiceFactory.SafeCall(() =>
-			{
-				var progressInfoViewModel = new ProgressInfoViewModel();
-				DialogService.ShowWindow(progressInfoViewModel);
+				//var progressInfoViewModel = new ProgressInfoViewModel();
+				//DialogService.ShowWindow(progressInfoViewModel);
 				InitializeModules();
-				progressInfoViewModel.Close();
+				//progressInfoViewModel.Close();
 				ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
-			});
+			//});
+
+            LoadingService.Close();
 		}
 
 		void OnNotify(string message)

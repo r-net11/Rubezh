@@ -4,6 +4,7 @@ using System.ServiceModel.Security;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Collections.Generic;
 
 namespace FiresecClient
 {
@@ -137,9 +138,25 @@ namespace FiresecClient
 
         public void Dispose()
         {
-            StopPing();
             Disconnect();
+            StopPing();
             FiresecServiceFactory.Dispose();
+        }
+
+        public IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state)
+        {
+            return SafeOperationCall(() => { return FiresecService.BeginPoll(index, dateTime, asyncCallback, state); });
+        }
+        public List<CallbackResult> EndPoll(IAsyncResult asyncResult)
+        {
+            try
+            {
+                return FiresecService.EndPoll(asyncResult);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

@@ -7,128 +7,131 @@ using FiresecAPI.Models;
 using FiresecService.Database;
 using FiresecService.DatabaseConverter;
 using FiresecService.ViewModels;
+using System.Collections.Generic;
+using System.Threading;
+using System.Runtime.Serialization;
 
 namespace FiresecService.Service
 {
-	[ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = true,
-	InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
-	public partial class FiresecService : IFiresecService
-	{
-		public readonly static FiresecDbConverterDataContext DataBaseContext = ConnectionManager.CreateFiresecDataContext();
-		public IFiresecCallback Callback { get; private set; }
-		public CallbackWrapper CallbackWrapper { get; private set; }
-		public IFiresecCallbackService FiresecCallbackService { get; private set; }
-		public Guid UID { get; private set; }
-		public ClientCredentials ClientCredentials { get; private set; }
-		public string ClientIpAddress { get; private set; }
-		public string ClientIpAddressAndPort { get; private set; }
-		public bool IsSubscribed { get; private set; }
-		public bool IsClientCallbackFaulted { get; private set; }
+    [ServiceBehavior(MaxItemsInObjectGraph = Int32.MaxValue, UseSynchronizationContext = false,
+    InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
+    public partial class FiresecService : IFiresecService
+    {
+        public readonly static FiresecDbConverterDataContext DataBaseContext = ConnectionManager.CreateFiresecDataContext();
+        public IFiresecCallback Callback { get; private set; }
+        public CallbackWrapper CallbackWrapper { get; private set; }
+        public IFiresecCallbackService FiresecCallbackService { get; private set; }
+        public Guid UID { get; private set; }
+        public ClientCredentials ClientCredentials { get; private set; }
+        public string ClientIpAddress { get; private set; }
+        public string ClientIpAddressAndPort { get; private set; }
+        public bool IsSubscribed { get; private set; }
+        public bool IsClientCallbackFaulted { get; private set; }
 
-		public FiresecService()
-		{
-			UID = Guid.NewGuid();
-			IsClientCallbackFaulted = false;
-		}
+        public FiresecService()
+        {
+            UID = Guid.NewGuid();
+            IsClientCallbackFaulted = false;
+        }
 
-		public bool ReconnectToClient()
-		{
-			Logger.Info("FiresecService.ReconnectToClient");
-			IsClientCallbackFaulted = true;
-			MainViewModel.Current.UpdateClientState(UID, "Попытка соединения");
-			FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);
-			try
-			{
-				FiresecCallbackService.Ping();
-				MainViewModel.Current.UpdateClientState(UID, "Норма");
-			}
-			catch 
-			{
-				MainViewModel.Current.UpdateClientState(UID, "Ошибка");
-				return false;
-			}
-			return false;
-		}
+        public bool ReconnectToClient()
+        {
+            Logger.Info("FiresecService.ReconnectToClient");
+            IsClientCallbackFaulted = true;
+            MainViewModel.Current.UpdateClientState(UID, "Попытка соединения");
+            FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);
+            try
+            {
+                FiresecCallbackService.Ping();
+                MainViewModel.Current.UpdateClientState(UID, "Норма");
+            }
+            catch
+            {
+                MainViewModel.Current.UpdateClientState(UID, "Ошибка");
+                return false;
+            }
+            return false;
+        }
 
-		public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
-		{
-			ClientCredentials = clientCredentials;
-			ClientIpAddress = "127.0.0.1";
-			ClientIpAddressAndPort = "127.0.0.1:0";
-			try
-			{
-				if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
-				{ 
-					var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
-					ClientIpAddress = endpoint.Address;
-					ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
-				}
-			}
-			catch(Exception e)
-			{
-				Logger.Error(e, "FiresecService.Connect");
-			}
+        public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
+        {
+            CallbackResults = new List<CallbackResult>();
 
-			var operationResult = Authenticate(clientCredentials.UserName, clientCredentials.Password);
-			if (operationResult.HasError)
-				return operationResult;
+            ClientCredentials = clientCredentials;
+            ClientIpAddress = "127.0.0.1";
+            ClientIpAddressAndPort = "127.0.0.1:0";
+            try
+            {
+                if (OperationContext.Current.IncomingMessageProperties.Keys.Contains(RemoteEndpointMessageProperty.Name))
+                {
+                    var endpoint = OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+                    ClientIpAddress = endpoint.Address;
+                    ClientIpAddressAndPort = endpoint.Address + ":" + endpoint.Port.ToString();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "FiresecService.Connect");
+            }
 
-			if (clientCredentials.ClientCallbackAddress != null)
-			{
-				IsSubscribed = true;
-				FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);
-				Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
-			}
-			CallbackWrapper = new CallbackWrapper(this);
+            var operationResult = Authenticate(clientCredentials.UserName, clientCredentials.Password);
+            if (operationResult.HasError)
+                return operationResult;
 
-			if (ClientsCash.IsNew(this))
-			{
-				DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Вход пользователя в систему(Firesec-2)");
-			}
+            if (clientCredentials.ClientCallbackAddress != null)
+            {
+                IsSubscribed = true;
+                FiresecCallbackService = FiresecCallbackServiceCreator.CreateClientCallback(ClientCredentials.ClientCallbackAddress);
+                Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
+            }
+            CallbackWrapper = new CallbackWrapper(this);
 
-			ClientsCash.Add(this);
+            if (ClientsCash.IsNew(this))
+            {                
+            }
 
-			return operationResult;
-		}
+            ClientsCash.Add(this);
+            DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Вход пользователя в систему(Firesec-2)");
 
-		public OperationResult<bool> Reconnect(string login, string password)
-		{
-			var oldUserName = ClientCredentials.UserName;
+            return operationResult;
+        }
 
-			var operationResult = Authenticate(login, password);
-			if (operationResult.HasError)
-				return operationResult;
+        public OperationResult<bool> Reconnect(string login, string password)
+        {
+            CallbackResults = new List<CallbackResult>();
 
-			MainViewModel.Current.EditClient(UID, login);
+            var oldUserName = ClientCredentials.UserName;
 
-			DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал(Firesec-2)");
-			DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Дежурство принял(Firesec-2)");
+            var operationResult = Authenticate(login, password);
+            if (operationResult.HasError)
+                return operationResult;
 
-			ClientCredentials.UserName = login;
+            MainViewModel.Current.EditClient(UID, login);
 
-			operationResult.Result = true;
-			return operationResult;
-		}
+            DatabaseHelper.AddInfoMessage(oldUserName, "Дежурство сдал(Firesec-2)");
+            DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Дежурство принял(Firesec-2)");
 
-		public void Disconnect()
-		{
-			ClientsCash.Remove(this);
-			DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Выход пользователя из системы(Firesec-2)");
-		}
+            ClientCredentials.UserName = login;
 
-		public string GetStatus()
-		{
-			return null;
-		}
+            operationResult.Result = true;
+            return operationResult;
+        }
 
-		public string Ping()
-		{
-			return "Pong";
-		}
+        public void Disconnect()
+        {
+            DatabaseHelper.AddInfoMessage(ClientCredentials.UserName, "Выход пользователя из системы(Firesec-2)");
+            //StopPingEvent.Set();
+            ClientsCash.Remove(this);
+        }
 
-		public string Test()
-		{
-			return "Test";
-		}
-	}
+        public string GetStatus()
+        {
+            return null;
+        }
+
+        public string Ping()
+        {
+            return "Hello";
+        }
+    }
 }

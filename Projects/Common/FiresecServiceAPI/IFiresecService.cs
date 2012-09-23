@@ -27,13 +27,12 @@ namespace FiresecAPI
         string Ping();
 
         [OperationContract]
-        [FaultContract(typeof(FiresecException))]
         string Test();
         #endregion
 
         #region Configuration
         [OperationContract]
-		DriversConfiguration GetDriversConfiguration();
+        DriversConfiguration GetDriversConfiguration();
 
         [OperationContract]
         DeviceConfiguration GetDeviceConfiguration();
@@ -88,7 +87,7 @@ namespace FiresecAPI
         OperationResult<DateTime> GetArchiveStartDate();
 
         [OperationContract()]
-		void AddJournalRecords(List<JournalRecord> journalRecords);
+        void AddJournalRecords(List<JournalRecord> journalRecords);
         #endregion
 
         #region Files
@@ -104,7 +103,7 @@ namespace FiresecAPI
 
         #region Convertation
         [OperationContract]
-		void ConvertJournal(List<JournalRecord> journalRecords);
+        void ConvertJournal(List<JournalRecord> journalRecords);
         #endregion
 
         #region XSystem
@@ -114,9 +113,10 @@ namespace FiresecAPI
         [OperationContract]
         XDeviceConfiguration GetXDeviceConfiguration();
         #endregion
-    }
 
-    public class FiresecException : Exception
-    {
+        [OperationContract(AsyncPattern = true)]
+        IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state);
+
+        List<CallbackResult> EndPoll(IAsyncResult asyncResult);
     }
 }

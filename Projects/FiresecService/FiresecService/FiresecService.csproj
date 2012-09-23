@@ -111,6 +111,7 @@
     <Compile Include="Service\ClientsCash.cs" />
     <Compile Include="Service\FiresecService.Authentication.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
+    <Compile Include="Service\FiresecService.Poll.cs" />
     <Compile Include="Service\FiresecService.SKUD.cs" />
     <Compile Include="Service\FiresecCallbackServiceCreator.cs" />
     <Compile Include="Service\FiresecService.Configuration.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="Service\FiresecService.Devices.cs" />
     <Compile Include="Service\FiresecService.Journal.cs" />
     <Compile Include="Service\FiresecService.XDevices.cs" />
+    <Compile Include="Service\PollAsyncResult.cs" />
     <Compile Include="ViewModels\NotifyIconService.cs" />
     <Compile Include="Service\SafeFiresecService.cs" />
     <Compile Include="Service\FiresecServiceManager.cs" />
