@@ -10,6 +10,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using XFiresecAPI;
+using System;
 
 namespace GKModule.Plans
 {
@@ -166,9 +167,10 @@ namespace GKModule.Plans
 		}
 		private void UpdateDesignerItemXZone(DesignerItem designerItem)
 		{
-			designerItem.Title = Designer.Helper.GetXZoneTitle((IElementZone)designerItem.Element);
 			IElementZone elementZone = designerItem.Element as IElementZone;
+			designerItem.Title = Designer.Helper.GetXZoneTitle(elementZone);
 			XZone zone = Designer.Helper.GetXZone(elementZone);
+			elementZone.BackgroundColor = Designer.Helper.GetXZoneColor(zone);
 			elementZone.ZLayerIndex = zone == null ? 5 : 6;
 		}
 

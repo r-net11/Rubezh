@@ -90,7 +90,6 @@ namespace DevicesModule.Plans
 					plan.ElementPolygonZones.Add((ElementPolygonZone)elementZone);
 				else
 					return false;
-				Designer.Helper.SetZone(elementZone);
 				return true;
 			}
 			else if (element is ElementDevice)
@@ -132,6 +131,8 @@ namespace DevicesModule.Plans
 		{
 			if (designerItem.Element is ElementRectangleZone || designerItem.Element is ElementPolygonZone)
 			{
+				designerItem.DesignerItemPropertyChanged += new EventHandler(ZonePropertyChanged);
+				OnZonePropertyChanged(designerItem);
 				designerItem.Group = "Zone";
 				designerItem.UpdateProperties += UpdateDesignerItemZone;
 				UpdateDesignerItemZone(designerItem);
@@ -170,9 +171,12 @@ namespace DevicesModule.Plans
 		}
 		private void UpdateDesignerItemZone(DesignerItem designerItem)
 		{
-			designerItem.Title = Designer.Helper.GetZoneTitle((IElementZone)designerItem.Element);
 			IElementZone elementZone = designerItem.Element as IElementZone;
 			Zone zone = Designer.Helper.GetZone(elementZone);
+			if (zone == null)
+				Designer.Helper.SetZone(elementZone, zone);
+			designerItem.Title = Designer.Helper.GetZoneTitle(zone);
+			elementZone.BackgroundColor = Designer.Helper.GetZoneColor(zone);
 			if (zone == null)
 				elementZone.ZLayerIndex = 2;
 			else
@@ -185,6 +189,22 @@ namespace DevicesModule.Plans
 						elementZone.ZLayerIndex = 4;
 						break;
 				}
+		}
+
+		private void ZonePropertyChanged(object sender, EventArgs e)
+		{
+			DesignerItem designerItem = (DesignerItem)sender;
+			OnZonePropertyChanged(designerItem);
+		}
+		private void OnZonePropertyChanged(DesignerItem designerItem)
+		{
+			Zone zone = Designer.Helper.GetZone((IElementZone)designerItem.Element);
+			if (zone != null)
+				zone.ColorTypeChanged += () =>
+				{
+					UpdateDesignerItemZone(designerItem);
+					designerItem.Redraw();
+				};
 		}
 
 		private void OnPainterFactoryEvent(PainterFactoryEventArgs args)
@@ -222,21 +242,21 @@ namespace DevicesModule.Plans
 						if (elementPolygonZone != null)
 						{
 							bool isInPolygon = DesignerHelper.IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
-                            if (isInPolygon && elementPolygonZone.ZoneUID != Guid.Empty)
-                                zones.Add(elementPolygonZone.ZoneUID);
+							if (isInPolygon && elementPolygonZone.ZoneUID != Guid.Empty)
+								zones.Add(elementPolygonZone.ZoneUID);
 						}
 						ElementRectangleZone elementRectangleZone = elementPolygonZoneItem.Element as ElementRectangleZone;
 						if (elementRectangleZone != null)
 						{
 							bool isInRectangle = ((point.X > 0) && (point.X < elementRectangleZone.Width) && (point.Y > 0) && (point.Y < elementRectangleZone.Height));
-                            if (isInRectangle && elementRectangleZone.ZoneUID != Guid.Empty)
-                                zones.Add(elementRectangleZone.ZoneUID);
+							if (isInRectangle && elementRectangleZone.ZoneUID != Guid.Empty)
+								zones.Add(elementRectangleZone.ZoneUID);
 						}
 					}
 
-                    if (device.ZoneUID != Guid.Empty)
+					if (device.ZoneUID != Guid.Empty)
 					{
-                        var isInZone = zones.Any(x => x == device.ZoneUID);
+						var isInZone = zones.Any(x => x == device.ZoneUID);
 						if (!isInZone)
 						{
 							if (!deviceInZones.ContainsKey(device))
