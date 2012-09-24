@@ -57,12 +57,12 @@ namespace Firesec
 							{
 								if (driverProperty.No == paramNo)
 								{
-									//if (paramNo == 0x80
-									//    //&& paramNo <= 0xbf
-									//    )
-									//{
-									//    ;
-									//}
+									if (paramValue != -1
+										//&& paramNo <= 0xbf
+										)
+									{
+										;
+									}
 									var offsetParamValue = paramValue;
 
 									if (driverProperty.HighByte)
@@ -115,7 +115,7 @@ namespace Firesec
 				}
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 				waitCount++;
-				if (waitCount > 600)
+				if (waitCount > 600000)
 				{
 					return new OperationResult<List<Property>>()
 					{

@@ -36,7 +36,7 @@ namespace FiresecAPI.Models
 			};
 			driver.Properties.Add(property2);
 
-			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x80, "источник воспроизведения", 1, "пам", "вх");
+			//ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x80, "источник воспроизведения", 1, "пам", "вх");
 					
 		}
 	}

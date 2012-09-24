@@ -37,11 +37,11 @@ namespace FiresecAPI.Models
 			//};
 			//driver.Properties.Add(property4);
 
-			if (driver.DriverType == DriverType.Pump)
-			{
-				ConfigurationDriverHelper.AddBoolProprety(driver, 0x83, "ЭКМ на выходе насоса", 0);
-				ConfigurationDriverHelper.AddBoolProprety(driver, 0x83, "УЗН Старт", 3);
-			}
+			//if (driver.DriverType == DriverType.Pump)
+			//{
+			//    ConfigurationDriverHelper.AddBoolProprety(driver, 0x83, "ЭКМ на выходе насоса", 0);
+			//    ConfigurationDriverHelper.AddBoolProprety(driver, 0x83, "УЗН Старт", 3);
+			//}
 			//else
 			//{
 			//    ConfigurationDriverHelper.AddBoolProprety(driver, 0x8b, "ДД/ДУ Пуск", 0);
@@ -73,6 +73,21 @@ namespace FiresecAPI.Models
 			//{
 			//    ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "уставка времени аварии пневмоемкости, мин", 0, 2, 2, 255);
 			//}
+
+			//ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "Разрешение функции УЗН", 3,
+			//    "0 нет",
+			//    "1 есть", 0, 0, 0, false, true, "0");
+
+			//ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "Наличие в прошивке логики работы с УЗН", 7,
+			//    "0 нет",
+			//    "1 есть", 0, 0, 0, false, true, "0");
+
+			for (byte i = 0x80; i <= 0x8d; i++)
+			{
+				ConfigurationDriverHelper.AddPlainEnumProprety(driver, i, i.ToString(), 0,
+				"0 нет",
+				"1 есть", 0, 0, 0, false, false, "0");
+			}
 		}
 	}
 }
