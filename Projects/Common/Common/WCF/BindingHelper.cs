@@ -24,7 +24,7 @@ namespace Common
 		{
 			var binding = new NetNamedPipeBinding()
 			{
-				MaxBufferPoolSize = Int32.MaxValue,
+				MaxBufferPoolSize = Int64.MaxValue,
 				MaxConnections = 10,
 				OpenTimeout = TimeSpan.FromMinutes(10),
 				ReceiveTimeout = TimeSpan.FromMinutes(10),
@@ -43,7 +43,7 @@ namespace Common
 		{
 			var binding = new NetTcpBinding()
 			{
-				MaxBufferPoolSize = Int32.MaxValue,
+				MaxBufferPoolSize = Int64.MaxValue,
 				MaxConnections = 10,
 				OpenTimeout = TimeSpan.FromMinutes(10),
 				ListenBacklog = 10,

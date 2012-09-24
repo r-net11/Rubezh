@@ -29,7 +29,7 @@ namespace GKModule.Plans.Designer
             element.ZoneUID = xzone == null ? Guid.Empty : xzone.UID;
 			element.BackgroundColor = GetXZoneColor(xzone);
 		}
-		private static Color GetXZoneColor(XZone zone)
+		public static Color GetXZoneColor(XZone zone)
 		{
 			Color color = Colors.Gray;
 			if (zone != null)

@@ -40,7 +40,7 @@ namespace Infrustructure.Plans.Painters
 				return new ImageBrush(bitmapImage);
 			}
 		}
-		public static Brush CreateTransparentBrush()
+		public static Brush CreateTransparentBrush(double zoom = 1)
 		{
 			BitmapImage bi = new BitmapImage();
 			bi.BeginInit();
@@ -50,15 +50,13 @@ namespace Infrustructure.Plans.Painters
 			{
 				TileMode = TileMode.Tile,
 				ViewportUnits = BrushMappingMode.Absolute,
-				Viewport = new Rect(0, 0, 16, 16)
+				Viewport = new Rect(0, 0, 16 / zoom, 16 / zoom)
 			};
 		}
 		public static Brush CreateBackgroundBrush(ElementBase element)
 		{
 			if (element.BackgroundPixels != null)
 				return PainterHelper.CreateBrush(element.BackgroundPixels);
-			else if (element.BackgroundColor == Colors.Transparent)
-				return PainterHelper.CreateTransparentBrush();
 			else
 				return new SolidColorBrush(element.BackgroundColor);
 		}

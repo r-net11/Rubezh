@@ -27,7 +27,7 @@ namespace DevicesModule.Plans.Designer
             element.ZoneUID = zone == null ? Guid.Empty : zone.UID;
 			element.BackgroundColor = GetZoneColor(zone);
 		}
-		private static Color GetZoneColor(Zone zone)
+		public static Color GetZoneColor(Zone zone)
 		{
 			Color color = Colors.Gray;
 			if (zone != null)
@@ -68,6 +68,10 @@ namespace DevicesModule.Plans.Designer
 		public static string GetZoneTitle(IElementZone element)
 		{
 			Zone zone = GetZone(element);
+			return GetZoneTitle(zone);
+		}
+		public static string GetZoneTitle(Zone zone)
+		{
 			return zone == null ? "Несвязанная зона" : zone.PresentationName;
 		}
 		public static string GetSubPlanTitle(ElementSubPlan element)
