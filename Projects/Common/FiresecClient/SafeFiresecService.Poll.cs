@@ -9,42 +9,51 @@ namespace FiresecClient
 {
 	public partial class SafeFiresecService
 	{
-        public static event Action<JournalRecord> NewJournalRecordEvent;
-        public static event Action ConfigurationChangedEvent;
-        public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
-
         static void SafeOperationCall(Action action)
         {
             try
             {
                 action();
             }
-            catch {}
+            catch { }
         }
 
+        public static event Action<JournalRecord> NewJournalRecordEvent;
+        public static event Action ConfigurationChangedEvent;
+        public static event Action<IEnumerable<JournalRecord>> GetFilteredArchiveCompletedEvent;
+
 		bool isConnected = true;
-		static AutoResetEvent StopPingEvent;
-		static Thread pingThread;
-		static bool suspendPing = false;
+		static AutoResetEvent StopPollEvent;
+		static bool suspendPoll = false;
 
-		public void StartPing()
+		public void StopPoll()
 		{
-			StopPingEvent = new AutoResetEvent(false);
-			pingThread = new Thread(new ThreadStart(OnPing));
-			pingThread.Start();
-		}
-
-		public void StopPing()
-		{
-			if (StopPingEvent != null)
+			if (StopPollEvent != null)
 			{
-				StopPingEvent.Set();
+				StopPollEvent.Set();
 			}
 		}
 
-        void OnPing()
+        public void StartPoll()
         {
-            IAsyncResult asyncResult = BeginPoll(0, DateTime.Now, new AsyncCallback(CallbackPall), (IFiresecService)this);
+            try
+            {
+                BeginPoll(0, DateTime.Now, new AsyncCallback(CallbackPall), (IFiresecService)this);
+            }
+            catch
+            {
+                OnConnectionLost();
+                Recover();
+
+                StopPollEvent = new AutoResetEvent(false);
+                if (StopPollEvent.WaitOne(5000))
+                {
+                    if (!FiresecManager.IsDisconnected)
+                    {
+                        StartPoll();
+                    }
+                }
+            }
         }
 
         void CallbackPall(IAsyncResult asyncResult)
@@ -105,25 +114,14 @@ namespace FiresecClient
             {
                 if (!FiresecManager.IsDisconnected)
                 {
-                    BeginPoll(0, DateTime.Now, new AsyncCallback(CallbackPall), (IFiresecService)this);
+                    StartPoll();
                 }
             }
         }
 
 		public string Ping()
 		{
-			try
-			{
-				var result = FiresecService.Ping();
-				OnConnectionAppeared();
-				return result;
-			}
-			catch
-			{
-				OnConnectionLost();
-				Recover();
-			}
-			return null;
+            return null;
 		}
 
 		public static event Action ConnectionLost;
@@ -152,7 +150,7 @@ namespace FiresecClient
 
 		bool Recover()
 		{
-			suspendPing = true;
+			suspendPoll = true;
 			FiresecServiceFactory.Dispose();
 			FiresecServiceFactory = new FiresecClient.FiresecServiceFactory();
 			FiresecService = FiresecServiceFactory.Create(_serverAddress);
@@ -167,7 +165,7 @@ namespace FiresecClient
 			}
 			finally
 			{
-				suspendPing = false;
+				suspendPoll = false;
 			}
 		}
 	}

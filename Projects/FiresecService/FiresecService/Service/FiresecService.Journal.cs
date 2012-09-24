@@ -230,7 +230,7 @@ namespace FiresecService.Service
             }
         }
 
-		public void ConvertJournal(List<JournalRecord> journalRecords)
+		public void SetJournal(List<JournalRecord> journalRecords)
         {
             using (var dataContext = ConnectionManager.CreateFiresecDataContext())
             {

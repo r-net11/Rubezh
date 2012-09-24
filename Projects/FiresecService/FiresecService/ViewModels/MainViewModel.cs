@@ -33,11 +33,6 @@ namespace FiresecService.ViewModels
 			get { return AppSettings.IsDebug; }
 		}
 
-        public bool IsImitatorEnabled
-		{
-            get { return AppSettings.IsImitatorEnabled || AppSettings.IsDebug; }
-		}
-
 		public ObservableCollection<ClientViewModel> Clients { get; private set; }
 
 		ClientViewModel _selectedClient;
@@ -56,12 +51,6 @@ namespace FiresecService.ViewModels
 			Dispatcher.BeginInvoke(new Action(
 			delegate()
 			{
-                var port = 0;
-                if (firesecService.ClientCredentials.ClientCallbackAddress != null)
-                {
-                    var endpointAddress = new EndpointAddress(new Uri(firesecService.ClientCredentials.ClientCallbackAddress));
-                    port = endpointAddress.Uri.Port;
-                }
 				var connectionViewModel = new ClientViewModel()
 				{
 					FiresecService = firesecService,
@@ -69,7 +58,6 @@ namespace FiresecService.ViewModels
 					UserName = firesecService.ClientCredentials.UserName,
 					ClientType = firesecService.ClientCredentials.ClientType,
 					IpAddress = firesecService.ClientIpAddressAndPort,
-					CallbackPort = port,
 					ConnectionDate = DateTime.Now
 				};
 				Clients.Add(connectionViewModel);
@@ -98,7 +86,7 @@ namespace FiresecService.ViewModels
 			));
 		}
 
-		public void BeginAddOperation(Guid uid, OperationDirection operationDirection, string operationName)
+		public void BeginAddOperation(Guid uid, string operationName)
 		{
 			Dispatcher.BeginInvoke(new Action(
 			delegate()
@@ -106,13 +94,13 @@ namespace FiresecService.ViewModels
 				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 				{
-					connectionViewModel.BeginAddOperation(operationDirection, operationName);
+					connectionViewModel.BeginAddOperation(operationName);
 				}
 			}
 			));
 		}
 
-		public void EndAddOperation(Guid uid, OperationDirection operationDirection)
+		public void EndAddOperation(Guid uid)
 		{
 			Dispatcher.BeginInvoke(new Action(
 			delegate()
@@ -120,7 +108,7 @@ namespace FiresecService.ViewModels
 				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
 				if (connectionViewModel != null)
 				{
-					connectionViewModel.EndAddOperation(operationDirection);
+					connectionViewModel.EndAddOperation();
 				}
 			}
 			));

@@ -27,7 +27,7 @@ namespace FiresecAPI
         string Ping();
 
         [OperationContract]
-        string Test();
+        string Test(string arg);
         #endregion
 
         #region Configuration
@@ -103,7 +103,7 @@ namespace FiresecAPI
 
         #region Convertation
         [OperationContract]
-        void ConvertJournal(List<JournalRecord> journalRecords);
+        void SetJournal(List<JournalRecord> journalRecords);
         #endregion
 
         #region XSystem

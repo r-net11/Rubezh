@@ -17,8 +17,5 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public Guid ClientUID { get; set; }
-
-		[DataMember]
-		public string ClientCallbackAddress { get; set; }
 	}
 }

@@ -152,7 +152,6 @@
     <Compile Include="DriverConfigurationParametersHelper\RMHelper.cs" />
     <Compile Include="IFiresecServiceSKUD.cs" />
     <Compile Include="Models\AddressConverter.cs" />
-    <Compile Include="IFiresecCallbackService.cs" />
     <Compile Include="IFiresecCallback.cs" />
     <Compile Include="IFiresecService.cs" />
     <Compile Include="Models\Archive\JournalDescriptionItem.cs" />

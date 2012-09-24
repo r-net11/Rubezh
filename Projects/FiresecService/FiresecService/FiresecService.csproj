@@ -107,13 +107,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>FiresecDbConverter.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Service\CallbackWrapper.cs" />
     <Compile Include="Service\ClientsCash.cs" />
     <Compile Include="Service\FiresecService.Authentication.cs" />
     <Compile Include="Service\FiresecService.Files.cs" />
     <Compile Include="Service\FiresecService.Poll.cs" />
     <Compile Include="Service\FiresecService.SKUD.cs" />
-    <Compile Include="Service\FiresecCallbackServiceCreator.cs" />
     <Compile Include="Service\FiresecService.Configuration.cs" />
     <Compile Include="Service\FiresecService.cs" />
     <Compile Include="Service\FiresecService.Devices.cs" />
@@ -125,7 +123,6 @@
     <Compile Include="Service\FiresecServiceManager.cs" />
     <Compile Include="ViewModels\ClientViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
-    <Compile Include="ViewModels\OperationDirection.cs" />
     <Compile Include="ViewModels\UILogger.cs" />
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>

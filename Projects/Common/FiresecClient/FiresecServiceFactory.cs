@@ -9,13 +9,13 @@ namespace FiresecClient
 {
 	public class FiresecServiceFactory
 	{
-		static FiresecEventSubscriber _firesecEventSubscriber;
+		static FiresecCallback _firesecCallback;
 		DuplexChannelFactory<IFiresecService> _duplexChannelFactory;
 		string _serverAddress;
 
 		static FiresecServiceFactory()
 		{
-			_firesecEventSubscriber = new FiresecEventSubscriber();
+			_firesecCallback = new FiresecCallback();
 		}
 
 		public IFiresecService Create(string serverAddress)
@@ -24,7 +24,7 @@ namespace FiresecClient
 			Binding binding = BindingHelper.CreateBindingFromAddress(_serverAddress);
 
 			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
-			_duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecEventSubscriber), binding, endpointAddress);
+			_duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecCallback), binding, endpointAddress);
 
 			foreach (OperationDescription operationDescription in _duplexChannelFactory.Endpoint.Contract.Operations)
 			{
@@ -45,7 +45,7 @@ namespace FiresecClient
 			{
 				if (_duplexChannelFactory != null)
 				{
-					_duplexChannelFactory.Abort();
+					//_duplexChannelFactory.Abort();
 					_duplexChannelFactory.Close();
 				}
 			}

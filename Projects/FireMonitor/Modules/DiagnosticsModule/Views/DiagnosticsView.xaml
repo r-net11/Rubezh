@@ -4,8 +4,8 @@
     <Grid Margin="10">
         <StackPanel>
             <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Width="100" Margin="2" />
-            <Button Content="Poll" Command="{Binding PollCommand}" Width="100" Margin="2" />
-            <Button Content="StopPoll" Command="{Binding StopPollCommand}" Width="100" Margin="2" />
+            <Button Content="Poll" Command="{Binding Test1Command}" Width="100" Margin="2" />
+            <Button Content="StopPoll" Command="{Binding Test2Command}" Width="100" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

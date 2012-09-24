@@ -11,7 +11,7 @@ namespace FiresecService.Service
 {
     public partial class FiresecService
     {
-        public string Test()
+        public string Test(string arg)
         {
             //CallbackNewJournal(new List<JournalRecord>() { new JournalRecord() { Description = "Test JournalRecord" } });
             CallbackConfigurationChanged();
@@ -67,7 +67,7 @@ namespace FiresecService.Service
             }
             CallbackResults = new List<CallbackResult>();
             StopPingEvent = new AutoResetEvent(false);
-            if (StopPingEvent.WaitOne(5000))
+            if (StopPingEvent.WaitOne(500000))
             {
                 return new List<CallbackResult>(CallbackResults);
             }

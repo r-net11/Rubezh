@@ -9,36 +9,17 @@ namespace FiresecService.ViewModels
         public FiresecService.Service.FiresecService FiresecService { get; set; }
         public Guid UID { get; set; }
         public string IpAddress { get; set; }
-        public int CallbackPort { get; set; }
         public ClientType ClientType { get; set; }
         public DateTime ConnectionDate { get; set; }
 
-        public void BeginAddOperation(OperationDirection operationDirection, string operationName)
+        public void BeginAddOperation(string operationName)
         {
-            switch (operationDirection)
-            {
-                case OperationDirection.ClientToServer:
-                    ClientToServerOperationName = operationName;
-                    break;
-
-                case OperationDirection.ServerToClient:
-                    ServerToClientOperationName = operationName;
-                    break;
-            }
+            ClientToServerOperationName = operationName;
         }
 
-        public void EndAddOperation(OperationDirection operationDirection)
+        public void EndAddOperation()
         {
-            switch (operationDirection)
-            {
-                case OperationDirection.ClientToServer:
-                    ClientToServerOperationName = "";
-                    break;
-
-                case OperationDirection.ServerToClient:
-                    ServerToClientOperationName = "";
-                    break;
-            }
+            ClientToServerOperationName = "";
         }
 
         string _userName;

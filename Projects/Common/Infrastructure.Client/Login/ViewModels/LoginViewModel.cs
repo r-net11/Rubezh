@@ -148,13 +148,9 @@ namespace Infrastructure.Client.Login.ViewModels
 		{
 			ConnectionViewModel preLoadWindow = new ConnectionViewModel() { Title = "Соединение с сервером..." };
 			DialogService.ShowWindow(preLoadWindow);
-			Message = FiresecManager.Connect(ClientType, GetServerAddress(), UserName, Password);
+            var serviceAddress = ConfigurationManager.AppSettings["ServiceAddress"];
+            Message = FiresecManager.Connect(ClientType, serviceAddress, UserName, Password);
 			preLoadWindow.ForceClose();
-		}
-
-		private string GetServerAddress()
-		{
-			return ConfigurationManager.AppSettings["ServiceAddress"];
 		}
 
 		public enum PasswordViewType

@@ -130,14 +130,14 @@ namespace FiresecClient
             return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); });
         }
 
-		public void ConvertJournal(List<JournalRecord> journalRecords)
+		public void SetJournal(List<JournalRecord> journalRecords)
         {
-			SafeOperationCall(() => { FiresecService.ConvertJournal(journalRecords); });
+			SafeOperationCall(() => { FiresecService.SetJournal(journalRecords); });
         }
 
-        public string Test()
+        public string Test(string arg)
         {
-            return SafeOperationCall(() => { return FiresecService.Test(); });
+            return SafeOperationCall(() => { return FiresecService.Test(arg); });
         }
 
         public void SetXDeviceConfiguration(XFiresecAPI.XDeviceConfiguration xDeviceConfiguration)
