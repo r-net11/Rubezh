@@ -9,32 +9,27 @@
       <FeatureRef Id="Administrator.Features" />
       <FeatureRef Id="Monitor.Features" />
       <FeatureRef Id="OPC.Features" />
-      <Feature Id="FS.Features" Title="Адресная система Рубеж" Description="Установка еомпонентов для работы с адресной системой Рубеж" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <Feature Id="FS.Features" Title="Адресная система Рубеж" Description="Устанавливает компопненты для работы  адресной системой Рубеж" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
         <ComponentRef Id="Administrator.FS_MODULE" />
         <ComponentRef Id="Monitor.FS_MODULE" />
       </Feature>
-      <Feature Id="GK.Features" Title="ГК" Description="ГК" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <Feature Id="GK.Features" Title="ГК" Description="Устанавливает компопненты для работы Группового Контроллера" Level="2" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
         <ComponentRef Id="Administrator.GK_MODULE" />
         <ComponentRef Id="Monitor.GK_MODULE" />
       </Feature>
-      <Feature Id="SKUD.Features" Title="СКУД" Description="СКУД" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <Feature Id="SKUD.Features" Title="СКУД" Description="Устанавливает компопненты для работы СКУД" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
         <ComponentRef Id="Administrator.SKUD_MODULE"/>
       </Feature>
-      <Feature Id="Video.Features" Title="Видео" Description="Видео" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <Feature Id="Video.Features" Title="Видео" Description="Устанавливает компопненты для работы Видео" Level="0" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
         <ComponentRef Id="Administrator.VIDEO_MODULE"/>
         <ComponentRef Id="Monitor.VIDEO_MODULE" />
       </Feature>
 
-        <ComponentRef Id="DevicesModule_AppConfig" />
-        <ComponentRef Id="GKModule_AppConfig" />
-        <ComponentRef Id="OPCModule_AppConfig" />
-        <ComponentRef Id="SkudModule_AppConfig" />
-        <ComponentRef Id="VideoModule_AppConfig" />
       <!--<ComponentRef Id="Administrator.Remove" />
       <ComponentRef Id="Monitor.Remove" />
       <ComponentRef Id="OPC.Remove" />
       <ComponentRef Id="Server.Remove" />-->
-      <ComponentRef Id="RegistryFiresec2Key" />
+
       <ComponentRef Id="LogScript" />
       <ComponentRef Id="DesktopFolder" />
       <ComponentRef Id="ProgramMenuDir" />

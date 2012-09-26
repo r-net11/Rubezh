@@ -7,7 +7,7 @@
       <ComponentRef Id="Firesec.Files" />
       <ComponentRef Id="Firesec.fbintl.dll" />
       <ComponentRef Id="Firesec.msvcp60.dll" />
-      <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Установка драйверов криптопроцессора HASP" Level="1" Display="expand"
+      <Feature Id="Firesec.HASP" Title="Драйвер HASP" Description="Установка драйверов криптопроцессора HASP" Level="2" Display="expand"
             AllowAdvertise="no" Absent='allow' InstallDefault="local" />
 		</Feature>
 	</Fragment>

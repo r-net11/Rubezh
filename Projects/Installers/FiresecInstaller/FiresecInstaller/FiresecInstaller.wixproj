@@ -30,9 +30,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Binary.wxs" />
+    <Compile Include="Common.wxs" />
     <Compile Include="CustomActions.wxs" />
     <Compile Include="Features.wxs" />
-    <Compile Include="AppConfig.wxs" />
     <Compile Include="Administrator\Features.wxs" />
     <Compile Include="Administrator\Files.wxs" />
     <Compile Include="Administrator\Shortcuts.wxs" />
@@ -51,16 +51,12 @@
     <Compile Include="Server\Uninstall.wxs" />
     <Compile Include="Firesec\Features.wxs" />
     <Compile Include="Firesec\Files.wxs" />
-    <Compile Include="UI\ModulesDlg.wxs" />
-    <Compile Include="UI\CustomizeDialog.wxs" />
-    <Compile Include="UI\DestinationFolder.wxs" />
-    <Compile Include="UI\InstallChangeFolder.wxs" />
-    <Compile Include="UI\InstallChangeFolderError.wxs" />
-    <Compile Include="UI\LicenseAgreement.wxs" />
-    <Compile Include="UI\MaintenanceTypeDialog.wxs" />
-    <Compile Include="UI\MaintenanceWelcomeDialog.wxs" />
-    <Compile Include="UI\SetupProgress.wxs" />
-    <Compile Include="UI\ShortcutsDlg.wxs" />
+    <Compile Include="UI\ModulesDialog.wxs" />
+    <Compile Include="UI\DestinationFolderDialog.wxs" />
+    <Compile Include="UI\InstallChangeFolderDialog.wxs" />
+    <Compile Include="UI\LicenseAgreementDialog.wxs" />
+    <Compile Include="UI\SetupProgressDialog.wxs" />
+    <Compile Include="UI\ShortcutsDialog.wxs" />
     <Compile Include="UI\SQLLoginDialog.wxs" />
     <Compile Include="UI\VerifyReadyDialog.wxs" />
     <Compile Include="UI\WelcomeDialog.wxs" />

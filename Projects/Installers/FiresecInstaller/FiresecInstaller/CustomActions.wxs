@@ -10,9 +10,9 @@
     <CustomAction Id="RegisterSockProxy" Directory="FIRESECLOCATION" ExeCommand='regsvr32.exe /s "[FIRESECLOCATION]SockProxy.dll"' Return="check" />
     <CustomAction Id="RegisterServer" Directory="FIRESECLOCATION" ExeCommand="[FIRESECLOCATION]Fs_server.exe -regserver" Execute="immediate" Impersonate="yes" Return="check" />
     
-    <CustomAction Id="UnregisterSockProxy" Directory="FIRESECLOCATION" ExeCommand='regsvr32.exe /s /u "[FIRESECLOCATION]SockProxy.dll"' Return='ignore' />
+    <!--<CustomAction Id="UnregisterSockProxy" Directory="FIRESECLOCATION" ExeCommand='regsvr32.exe /s /u "[FIRESECLOCATION]SockProxy.dll"' Return='ignore' />
     <CustomAction Id="UnregisterFs_types" Directory="FIRESECLOCATION" ExeCommand='regsvr32.exe /s /u "[FIRESECLOCATION]fs_types.dll"' Return='ignore' />
-    <CustomAction Id="UnRegisterServer" Directory="FIRESECLOCATION" ExeCommand="[FIRESECLOCATION]Fs_server.exe -unregserver" Execute="immediate" Impersonate="yes" Return="ignore" />
+    <CustomAction Id="UnRegisterServer" Directory="FIRESECLOCATION" ExeCommand="[FIRESECLOCATION]Fs_server.exe -unregserver" Execute="immediate" Impersonate="yes" Return="ignore" />-->
 
     <!--<CustomAction Id='RunFiresecNTService' Directory='SERVERLOCATION' ExeCommand='net.exe start Firesec-2_NTServer' Return='ignore' />
     <CustomAction Id='StopFiresecNTService' Directory='SERVERLOCATION' ExeCommand='net.exe stop Firesec-2_NTServer' Return='ignore' />-->

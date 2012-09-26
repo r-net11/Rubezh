@@ -4,7 +4,7 @@
     <?include UI_Variables.wxi?>
     <Fragment>
         <UI>
-            <Dialog Id="ModulesDlg" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
+            <Dialog Id="ModulesDialog" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)">
                 <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp" />
                 <Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}Выбор компонентов системы" TabSkip="yes" Transparent="yes" />
                 <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="244" Height="15" Text="Какие компоненты должны быть установлены?" TabSkip="yes" Transparent="yes" />

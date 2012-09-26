@@ -2,9 +2,11 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables.wxi?>
 	<Fragment>
-		<Feature Id="OPC.Features" Title="OPC Сервер" Description="Установка приложения OPC Сервер" Level="1" Display="expand"
+		<Feature Id="OPC.Features" Title="OPC Сервер" Description="Установка приложения OPC Сервер" Level="2" Display="expand"
 						 ConfigurableDirectory="OPCLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="OPC.Files" />
+      <ComponentRef Id="Administrator.OPC_MODULE" />
+      <ComponentRef Id="OPC.AutorunComponent" />
     </Feature>
 	</Fragment>
 </Wix>

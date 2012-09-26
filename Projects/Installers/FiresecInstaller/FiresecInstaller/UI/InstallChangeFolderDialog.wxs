@@ -4,7 +4,7 @@
   <?include UI_Variables.wxi?>
 	<Fragment>
     <UI>
-      <Dialog Id="InstallChangeFolder" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
+      <Dialog Id="InstallChangeFolderDialog" X="50" Y="50" Width="374" Height="266" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
         <Control Id="TitleRect" Type="Bitmap" X="0" Y="0" Width="374" Height="44" TabSkip="no" Text="TitleRect.bmp" />
         <Control Id="Tail" Type="PathEdit" X="21" Y="207" Width="332" Height="17" Property="_BrowseProperty" TabSkip="no" Sunken="yes" Indirect="yes" />
         <Control Id="OK" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="&amp;OK" TabSkip="no" Default="yes" />

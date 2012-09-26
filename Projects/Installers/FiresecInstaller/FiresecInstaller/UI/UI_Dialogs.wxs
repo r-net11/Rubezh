@@ -2,7 +2,6 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:loc="http://schemas.microsoft.com/wix/2006/localization">
   <Fragment>
     <UI Id="UIDialogs">
-      <DialogRef Id="InstallDirDlg" />
       <DialogRef Id="BrowseDlg" />
       <DialogRef Id="ErrorDlg" />
       <DialogRef Id="FatalError" />
@@ -12,20 +11,16 @@
       <DialogRef Id="ResumeDlg" />
       <DialogRef Id="UserExit" />
 
-      <DialogRef Id="ModulesDlg" />
       <DialogRef Id="WelcomeDialog" />
-      <DialogRef Id="LicenseAgreement" />
-      <DialogRef Id="DestinationFolder" />
-      <DialogRef Id="InstallChangeFolderError" />
-      <DialogRef Id="InstallChangeFolder" />
-      <!--<DialogRef Id="SetupType" />-->
-      <DialogRef Id="ShortcutsDlg" />
-      <DialogRef Id="CustomizeDialog" />
-      <DialogRef Id="SQLLoginDialog" />
-      <DialogRef Id="MaintenanceTypeDialog" />
-      <DialogRef Id="MaintenanceWelcomeDialog" />
+      <DialogRef Id="LicenseAgreementDialog" />
+      <DialogRef Id="DestinationFolderDialog" />
+      <DialogRef Id="InstallChangeFolderDialog" />
+      <DialogRef Id="ModulesDialog" />
+      <DialogRef Id="ShortcutsDialog" />
       <DialogRef Id="VerifyReadyDialog" />
-      <DialogRef Id="SetupProgress" />
+      <DialogRef Id="SetupProgressDialog" />
+
+      <DialogRef Id="SQLLoginDialog" />
     </UI>
   </Fragment>
 </Wix>

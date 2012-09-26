@@ -4,7 +4,7 @@
      xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
   <?include Variables.wxi?>
 
-  <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="0.0.0.1" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
+  <Product Id="*" Name="$(var.ProductName)" Language="1049" Version="1.0.1.0" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)" Codepage="$(var.Codepage)">
     <Package InstallerVersion="200" Compressed="yes" Manufacturer="$(var.Manufacturer)" Description="Установка $(var.ProductName)" SummaryCodepage="$(var.Codepage)" />
     <Media Id="1" Cabinet="Firesec.cab" EmbedCab="yes" />
 
@@ -17,31 +17,12 @@
       NETFRAMEWORK40FULL
     </Condition>
 
-    <Property Id="REGOLDFS">
-      <RegistrySearch Id="RegistryOldFiresecValue" Type="directory" Root="HKLM" Key="Software\rubezh\FS_Server" Name="Path"/>
-    </Property>
-    <Property Id="REGFS2SERVER">
-      <RegistrySearch Id="RegistryFiresec2Value" Type="raw" Root="HKLM" Key="Software\rubezh\Firesec-2" Name="StateServer"/>
-    </Property>
-    <Property Id="REGFS2STATE">
-      <RegistrySearch Id="RegistryFiresec2ClientValue" Type="raw" Root="HKLM" Key="Software\rubezh\Firesec-2" Name="StateFiresec-2"/>
-    </Property>
-
     <Property Id="_BrowseProperty" Value="INSTALLLOCATION" />
     <Property Id="SHORTCUT_PROGRAMMENU" Value="1"/>
     <Property Id="SHORTCUT_DESKTOP" Value="1"/>
-    <Property Id="GENERAL_MODULE" Value="1" />
-    <Property Id="FS_MODULE" Value="1" />
-    <Property Id="GK_MODULE" Value="1" />
-    <Property Id="OPC_MODULE" />
-    <Property Id="SKUD_MODULE" />
-    <Property Id="VIDEO_MODULE" />
     <Property Id="CHECKSQLSERVER" Value="0" />
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLLOCATION" />
     <Property Id="INSTALLLEVEL" Value="1" />
-    <Property Id="SERVERNAME" Value="$(var.ServerName)" />
-    <Property Id="MONITORNAME" Value="$(var.MonitorName)" />
-    <Property Id="ADMINISTRATORNAME" Value="$(var.AdministratorName)" />
     <Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
     <Property Id="WixUI_Mode" Value="Mondo" />
     <Property Id="AgreeToLicense" Value="No" />
@@ -112,9 +93,9 @@
       <!--<Custom Action="RunFiresecNTService" After="InstallReportViewer">1</Custom>-->
 
       <!--<Custom Action="StopFiresecNTService" After="CloseApplications">1</Custom>-->
-      <Custom Action="UnregisterSockProxy" After="CloseApplications">NOT INSTALLMODE</Custom>
+      <!--<Custom Action="UnregisterSockProxy" After="CloseApplications">NOT INSTALLMODE</Custom>
       <Custom Action="UnregisterFs_types" After="UnregisterSockProxy">NOT INSTALLMODE</Custom>
-      <Custom Action="UnRegisterServer" After="UnregisterFs_types">NOT INSTALLMODE</Custom>
+      <Custom Action="UnRegisterServer" After="UnregisterFs_types">NOT INSTALLMODE</Custom>-->
     </InstallExecuteSequence>
 
     <UI Id="MyWixUI_Wizard">
