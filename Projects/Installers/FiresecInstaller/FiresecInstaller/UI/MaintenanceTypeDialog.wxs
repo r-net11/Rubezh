@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include ../Variables.wxi?>
+  <?include UI_Variables.wxi?>
+	<Fragment>
+    <UI>
+      <Dialog Id="MaintenanceTypeDialog" X="50" Y="50" Width="374" Height="266" Title="!(loc.MaintenanceTypeDlg_Title)">
+        <Control Id="DlgTitle" Type="Text" X="18" Y="10" Width="292" Height="15" Text="{&amp;MSSansBold8}$(var.ProductName) уже был установлен на ваш компьютер." TabSkip="yes" Transparent="yes" />
+        <Control Id="DlgTitle2" Type="Text" X="30" Y="22" Width="340" Height="15" Text="Вы можете изменить, восстановить или удалить $(var.ProductName)." TabSkip="yes" Transparent="yes" />
+        <Control Id="ChangeButton" Type="PushButton" X="40" Y="65" Width="80" Height="17" ToolTip="!(loc.MaintenanceTypeDlgChangeButtonTooltip)" Default="yes" Text="!(loc.MaintenanceTypeDlgChangeButton)">
+          <Publish Property="WixUI_InstallMode" Value="Change">1</Publish>
+          <Condition Action="disable">ARPNOMODIFY</Condition>
+        </Control>
+        <Control Id="ChangeText" Type="Text" X="60" Y="85" Width="280" Height="20" Text="!(loc.MaintenanceTypeDlgChangeText)">
+          <Condition Action="hide">ARPNOMODIFY</Condition>
+        </Control>
+        <Control Id="ChangeDisabledText" Type="Text" X="60" Y="85" Width="280" Height="20" NoPrefix="yes" Text="!(loc.MaintenanceTypeDlgChangeDisabledText)" Hidden="yes">
+          <Condition Action="show">ARPNOMODIFY</Condition>
+        </Control>
+        <Control Id="RepairButton" Type="PushButton" X="40" Y="118" Width="80" Height="17" ToolTip="!(loc.MaintenanceTypeDlgRepairButtonTooltip)" Text="!(loc.MaintenanceTypeDlgRepairButton)">
+          <Publish Property="WixUI_InstallMode" Value="Repair">1</Publish>
+          <Condition Action="disable">ARPNOREPAIR</Condition>
+        </Control>
+        <Control Id="RepairText" Type="Text" X="60" Y="138" Width="280" Height="30" Text="!(loc.MaintenanceTypeDlgRepairText)">
+          <Condition Action="hide">ARPNOREPAIR</Condition>
+        </Control>
+        <Control Id="RepairDisabledText" Type="Text" X="60" Y="138" Width="280" Height="30" NoPrefix="yes" Text="!(loc.MaintenanceTypeDlgRepairDisabledText)" Hidden="yes">
+          <Condition Action="show">ARPNOREPAIR</Condition>
+        </Control>
+        <Control Id="RemoveButton" Type="PushButton" X="40" Y="171" Width="80" Height="17" ToolTip="!(loc.MaintenanceTypeDlgRemoveButtonTooltip)" Text="!(loc.MaintenanceTypeDlgRemoveButton)">
+          <Publish Property="WixUI_InstallMode" Value="Remove">1</Publish>
+          <Condition Action="disable">ARPNOREMOVE</Condition>
+        </Control>
+        <Control Id="RemoveText" Type="Text" X="60" Y="191" Width="280" Height="20" NoPrefix="yes" Text="!(loc.MaintenanceTypeDlgRemoveText)">
+          <Condition Action="hide">ARPNOREMOVE</Condition>
+        </Control>
+        <Control Id="RemoveDisabledText" Type="Text" X="60" Y="191" Width="280" Height="20" NoPrefix="yes" Text="!(loc.MaintenanceTypeDlgRemoveDisabledText)" Hidden="yes">
+          <Condition Action="show">ARPNOREMOVE</Condition>
+        </Control>
+        <Control Id="BannerLine" Type="Line" X="0" Y="44" Width="370" Height="0" TabSkip="yes" Disabled="yes" />
+        <Control Id="Branding1" Type="Text" X="16" Y="229" Width="50" Height="13" Text="{&amp;MSSWhiteSerif8}$(var.BrandName)" TabSkip="yes" />
+        <Control Id="Branding2" Type="Text" X="15" Y="229" Width="50" Height="13" Text="{&amp;Tahoma8}$(var.BrandName)" TabSkip="yes" Disabled="yes" Transparent="yes" />
+        <Control Id="DlgLine" Type="Line" X="48" Y="234" Width="326" Height="0" TabSkip="yes" Disabled="yes" />
+        <Control Id="Back" Type="PushButton" X="164" Y="243" Width="66" Height="17" Text="$(var.btnBack)" />
+        <Control Id="Next" Type="PushButton" X="230" Y="243" Width="66" Height="17" Text="$(var.btnNext)" Disabled="yes" />
+        <Control Id="Cancel" Type="PushButton" X="301" Y="243" Width="66" Height="17" Cancel="yes" Text="$(var.btnCancel)">
+          <Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>
+        </Control>
+      </Dialog>
+    </UI>
+	</Fragment>
+</Wix>

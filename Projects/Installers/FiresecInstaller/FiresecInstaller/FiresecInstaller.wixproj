@@ -42,13 +42,28 @@
     <Compile Include="Monitor\Shortcuts.wxs" />
     <Compile Include="Monitor\Uninstall.wxs" />
     <Compile Include="Installer.wxs" />
+    <Compile Include="OPC\Features.wxs" />
+    <Compile Include="OPC\Files.wxs" />
+    <Compile Include="OPC\Uninstall.wxs" />
     <Compile Include="Server\Features.wxs" />
     <Compile Include="Server\Files.wxs" />
     <Compile Include="Server\Shortcuts.wxs" />
     <Compile Include="Server\Uninstall.wxs" />
     <Compile Include="Firesec\Features.wxs" />
     <Compile Include="Firesec\Files.wxs" />
-    <Compile Include="Firesec\Uninstall.wxs" />
+    <Compile Include="UI\ModulesDlg.wxs" />
+    <Compile Include="UI\CustomizeDialog.wxs" />
+    <Compile Include="UI\DestinationFolder.wxs" />
+    <Compile Include="UI\InstallChangeFolder.wxs" />
+    <Compile Include="UI\InstallChangeFolderError.wxs" />
+    <Compile Include="UI\LicenseAgreement.wxs" />
+    <Compile Include="UI\MaintenanceTypeDialog.wxs" />
+    <Compile Include="UI\MaintenanceWelcomeDialog.wxs" />
+    <Compile Include="UI\SetupProgress.wxs" />
+    <Compile Include="UI\ShortcutsDlg.wxs" />
+    <Compile Include="UI\SQLLoginDialog.wxs" />
+    <Compile Include="UI\VerifyReadyDialog.wxs" />
+    <Compile Include="UI\WelcomeDialog.wxs" />
     <Compile Include="Uninstall.wxs" />
     <Compile Include="UI\UI_Dialogs.wxs" />
     <Compile Include="UI\UI_Elements.wxs" />
@@ -80,6 +95,7 @@
     <Content Include="Data\SetupProgress.ico" />
     <Content Include="Administrator\Variables.wxi" />
     <Content Include="Monitor\Variables.wxi" />
+    <Content Include="OPC\Variables.wxi" />
     <Content Include="Server\Variables.wxi" />
     <Content Include="Firesec\Variables.wxi" />
     <Content Include="UI\UI_Variables.wxi" />
@@ -97,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data" />
+    <Folder Include="OPC" />
     <Folder Include="Server" />
     <Folder Include="Administrator" />
     <Folder Include="Monitor" />

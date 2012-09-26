@@ -1,17 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">	
 	<?include Variables.wxi?>
-	
 	<Fragment>
-		<Feature Id="Administrator.Features" Title="Администратор" Description="Установка приложения Администратор" Level="1" Display="expand"
-						 ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+		<Feature Id="Administrator.Features" Title="Администратор" Description="Установка приложения Администратор" Level="1" Display="hidden"
+						 ConfigurableDirectory="ADMINISTRATORLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Administrator.Files" />
-      <ComponentRef Id="Administrator.FS_MODULE" />
-      <ComponentRef Id="Administrator.GK_MODULE" />
-      <ComponentRef Id="Administrator.OPC_MODULE" />
-      <ComponentRef Id="Administrator.SKUD_MODULE"/>
-      <ComponentRef Id="Administrator.VIDEO_MODULE"/>
       <ComponentRef Id="Administrator.svg2xaml" />
       <ComponentRef Id="Administrator.xaml2svg" />
 			<ComponentRef Id="Administrator.ProgramsMenuShortcut" />

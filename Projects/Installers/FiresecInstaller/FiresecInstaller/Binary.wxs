@@ -12,6 +12,7 @@
 		<Binary Id="SetupProgress.ico" SourceFile="Data\SetupProgress.ico" />
     <Binary Id="TitleRect.bmp" SourceFile="Data\bannrbmp.bmp" />
     <Binary Id="haspdinst.exe" SourceFile="..\..\..\..\..\..\3rdParty\HASPDriver\haspdinst.exe" />
+    <Binary Id="OPCCoreComponents.msi" SourceFile="..\..\..\..\..\..\3rdParty\OPC\OPCCoreComponents.msi" />
 		<Binary Id="FiresecCADll" SourceFile="$(var.CustomAction.TargetDir)$(var.CustomAction.TargetName).CA.dll" />
 	</Fragment>
 </Wix>

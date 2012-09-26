@@ -4,9 +4,8 @@
      xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
   <?include Variables.wxi?>
   <Fragment>
-
     <DirectoryRef Id="FIRESECLOCATION">
-      <Component Id="Firesec.Files" Guid="1E68FA6E-92A1-442C-99B5-215BEDDC2BBC" >
+      <Component Id="Firesec.Files" Guid="CCA1D261-4B12-478A-99EF-C2264AD1A5AA" Permanent='yes'>
         <File Id="Firesec.fs_server.exe" Name="fs_server.exe" Source="$(var.Firesec.TargetDir)" KeyPath="yes" />
         <File Id="Firesec.scktsrvr.exe" Name="scktsrvr.exe" Source="$(var.Firesec.TargetDir)" />
         <File Id="Firesec.fs_types.dll" Name="fs_types.dll" Source="$(var.Firesec.TargetDir)" />
@@ -38,6 +37,5 @@
         <File Id="Firesec.msvcp60.dll" Name="msvcp60.dll" Source="C:\WINDOWS\system32\" KeyPath="yes" />
       </Component>
     </DirectoryRef>
-
   </Fragment>
 </Wix>

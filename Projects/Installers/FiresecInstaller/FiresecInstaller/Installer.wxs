@@ -82,6 +82,11 @@
               <Directory Id="Monitor.SoundsFolder" Name="$(var.SoundsFolder)" />
             </Directory>
           </Directory>
+          <Directory Id="OPCLOCATION" Name="OPC">
+            <Directory Id="OPC.LogsFolder" Name="Logs" />
+            <Directory Id="OPC.ConfigFolder" Name="$(var.ConfigurationFolder)">
+            </Directory>
+          </Directory>
           <Directory Id="LOGS" Name="Logs" />
         </Directory>
       </Directory>
@@ -96,14 +101,13 @@
     <InstallExecuteSequence>
       <RemoveExistingProducts After="InstallInitialize" />
       <InstallExecute After="RemoveExistingProducts" />
-      <Custom Action="CloseApplications" Before="InstallInitialize" >1</Custom>
+      <Custom Action="CloseApplications" Before="InstallInitialize">1</Custom>
       
-      <Custom Action="RegisterFs_types" After="InstallFinalize">INSTALLMODE</Custom>
-      <Custom Action="RegisterSockProxy" After="RegisterFs_types">INSTALLMODE</Custom>
-      <Custom Action="RegisterServer" After="RegisterSockProxy">INSTALLMODE</Custom>
-      
-      <Custom Action="InstallHaspDriver" After="RegisterServer">NOT REGOLDFS AND INSTALLMODE</Custom>
-      <!--<Custom Action="InstallReportViewer" After="InstallHaspDriver">INSTALLMODE</Custom>-->
+      <Custom Action="RegisterFs_types" After="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
+      <Custom Action="RegisterSockProxy" After="RegisterFs_types">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
+      <Custom Action="RegisterServer" After="RegisterSockProxy">INSTALLMODE AND <![CDATA[&Firesec.Features=3]]></Custom>
+      <Custom Action="InstallHaspDriver" After="InstallFinalize">INSTALLMODE AND <![CDATA[&Firesec.HASP=3]]></Custom>
+
       <Custom Action="StartAppOnExit" After="InstallHaspDriver">INSTALLMODE</Custom>
       <!--<Custom Action="RunFiresecNTService" After="InstallReportViewer">1</Custom>-->
 

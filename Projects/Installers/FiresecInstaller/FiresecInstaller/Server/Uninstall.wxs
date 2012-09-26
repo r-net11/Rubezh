@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<Fragment>
-    <DirectoryRef Id="INSTALLLOCATION">
+    <!--<DirectoryRef Id="INSTALLLOCATION">
       <Component Id="Server.Remove" Guid="EE4A45FE-3EA9-4A33-B259-8B9E6741B859">
         <CreateFolder Directory="INSTALLLOCATION" />
         <RemoveFile Id="Server.SoundsFolder.RemoveFiles" On="uninstall" Name="*.*" Directory="Server.SoundsFolder" />
@@ -11,6 +11,6 @@
         <RemoveFile Id="Server.RemoveFiles" On="uninstall" Name="*.*" Directory="SERVERLOCATION" />
         <RemoveFolder Id="Server.RemoveFolder" On="uninstall" Directory="SERVERLOCATION" />
       </Component>
-    </DirectoryRef>
+    </DirectoryRef>-->
 	</Fragment>
 </Wix>

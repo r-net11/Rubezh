@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?include Variables.wxi?>
+	<Fragment>
+		<Feature Id="OPC.Features" Title="OPC Сервер" Description="Установка приложения OPC Сервер" Level="1" Display="expand"
+						 ConfigurableDirectory="OPCLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+			<ComponentRef Id="OPC.Files" />
+    </Feature>
+	</Fragment>
+</Wix>

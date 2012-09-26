@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?include ../Variables.wxi?>
+  <?include UI_Variables.wxi?>
+  <Fragment>
+    <UI>
+      <Dialog Id="InstallChangeFolderError" X="50" Y="50" Width="358" Height="111" Title="!(loc.WelcomeDlg_Title)" NoMinimize="yes">
+        <Control Id="OkButton" Type="PushButton" X="142" Y="82" Width="66" Height="17" Text="&amp;ОК" TabSkip="no" Default="yes">
+          <Publish Event="EndDialog" Value="Return">1</Publish>
+        </Control>
+        <Control Id="Text1" Type="Text" X="55" Y="22" Width="298" Height="50" Text="[INSTALLLOCATION]&#xA;&#xA;- неправильно указан путь к каталогу.  Выберите другой целевой каталог." TabSkip="yes" />
+        <Control Id="Icon1" Type="Icon" X="20" Y="22" Width="24" Height="24" Text="InstFolderErr.ico" TabSkip="yes" Disabled="yes" IconSize="32" FixedSize="yes" />
+      </Dialog>
+    </UI>
+  </Fragment>
+</Wix>

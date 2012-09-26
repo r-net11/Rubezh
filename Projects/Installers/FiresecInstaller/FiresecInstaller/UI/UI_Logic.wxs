@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--
-First-time install dialog sequence:
-- WixUI_WelcomeDlg
-- WixUI_LicenseAgreementDlg
-- WixUI_SetupTypeDlg
-- WixUI_VerifyReadyDlg
-- WixUI_CustomizeDlg
-- WixUI_DiskCostDlg
-- WixUI_BrowseDlg
-
-Maintenance dialog sequence:
-- WixUI_MaintenanceWelcomeDlg
-- WixUI_MaintenanceTypeDlg
-- WixUI_CustomizeDlg
-- WixUI_VerifyReadyDlg
-
-Patch dialog sequence:
- - WixUI_WelcomeDlg
- - WixUI_VerifyReadyDlg
--->
-
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <UI Id="WixUI_Wizard">
@@ -28,7 +6,6 @@ Patch dialog sequence:
       <UIRef Id="UIElements"/>
       <UIRef Id="UIDialogs"/>
       <UIRef Id="WixUI_Common"/>
-
 
       <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="LicenseAgreement">1</Publish>
       <Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
@@ -57,7 +34,7 @@ Patch dialog sequence:
       <Publish Dialog="DestinationFolder" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3">
         <![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]>
       </Publish>
-      <Publish Dialog="DestinationFolder" Control="Next" Event="NewDialog" Value="SetupType" Order="4">
+      <Publish Dialog="DestinationFolder" Control="Next" Event="NewDialog" Value="ModulesDlg" Order="4">
         WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"
       </Publish>
       <Publish Dialog="DestinationFolder" Control="Back" Event="NewDialog" Value="LicenseAgreement">1</Publish>
@@ -74,14 +51,7 @@ Patch dialog sequence:
       <Publish Dialog="InstallChangeFolder" Control="Up" Event="DirectoryListUp" Value="0">1</Publish>
       <Publish Dialog="InstallChangeFolder" Control="NewFolder" Event="DirectoryListNew" Value="0">1</Publish>
 
-      <Publish Dialog="SetupType" Control="Back" Event="NewDialog" Value="DestinationFolder">1</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ModulesDlg">SETUPCHOICE ="Full"</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="SetInstallLevel" Value="3">SETUPCHOICE ="Full"</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ModulesDlg">SETUPCHOICE ="Client"</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="SetInstallLevel" Value="2">SETUPCHOICE ="Client"</Publish>
-      <Publish Dialog="SetupType" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-
-      <Publish Dialog="ModulesDlg" Control="Back" Event="NewDialog" Value="SetupType">1</Publish>
+      <Publish Dialog="ModulesDlg" Control="Back" Event="NewDialog" Value="DestinationFolder">1</Publish>
       <Publish Dialog="ModulesDlg" Control="Next" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
       <Publish Dialog="ModulesDlg" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
       
@@ -97,10 +67,10 @@ Patch dialog sequence:
       <Publish Dialog="ShortcutsDlg" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
       <Publish Dialog="ShortcutsDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
 
-      <Publish Dialog="SQLLogin" Control="Back" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
-      <Publish Dialog="SQLLogin" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
-      <Publish Dialog="SQLLogin" Control="Next" Property="SQLINSTANCE" Value="[SQLINSTANCE]">1</Publish>
-      <Publish Dialog="SQLLogin" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+      <Publish Dialog="SQLLoginDialog" Control="Back" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
+      <Publish Dialog="SQLLoginDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
+      <Publish Dialog="SQLLoginDialog" Control="Next" Property="SQLINSTANCE" Value="[SQLINSTANCE]">1</Publish>
+      <Publish Dialog="SQLLoginDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
       <Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
       <!--<Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="ShortcutsDlg">

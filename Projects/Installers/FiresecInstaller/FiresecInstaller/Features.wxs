@@ -2,26 +2,39 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?include Variables.wxi?>
   <Fragment>
-    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
-      <Feature Id="FiresecService" Level="1" ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
-        <Condition Level="0">INSTALLLEVEL=2</Condition>
-        <FeatureRef Id="Firesec.Features" />
-        <FeatureRef Id="Server.Features" />
-        <ComponentRef Id="RegistryFiresec2Key" />
-        <ComponentRef Id="Server.Remove" />
-        <ComponentRef Id="Firesec.Remove" />
+    <Feature Id="FiresecFeature" Title="$(var.ProductName)" Description="Полная установка" Level="1" Display="expand" ConfigurableDirectory="INSTALLLOCATION"
+             AllowAdvertise="no" Absent="allow" InstallDefault="local">
+      <FeatureRef Id="Firesec.Features" />
+      <FeatureRef Id="Server.Features" />
+      <FeatureRef Id="Administrator.Features" />
+      <FeatureRef Id="Monitor.Features" />
+      <FeatureRef Id="OPC.Features" />
+      <Feature Id="FS.Features" Title="Адресная система Рубеж" Description="Установка еомпонентов для работы с адресной системой Рубеж" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+        <ComponentRef Id="Administrator.FS_MODULE" />
+        <ComponentRef Id="Monitor.FS_MODULE" />
       </Feature>
-      <Feature Id="FiresecClient" Level="1" ConfigurableDirectory="INSTALLLOCATION" AllowAdvertise="no" Absent="allow" Display="expand" InstallDefault="local">
-        <FeatureRef Id="Administrator.Features" />
-        <FeatureRef Id="Monitor.Features" />
+      <Feature Id="GK.Features" Title="ГК" Description="ГК" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+        <ComponentRef Id="Administrator.GK_MODULE" />
+        <ComponentRef Id="Monitor.GK_MODULE" />
+      </Feature>
+      <Feature Id="SKUD.Features" Title="СКУД" Description="СКУД" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+        <ComponentRef Id="Administrator.SKUD_MODULE"/>
+      </Feature>
+      <Feature Id="Video.Features" Title="Видео" Description="Видео" Level="1" Display="expand" AllowAdvertise="no" Absent="allow" InstallDefault="local">
+        <ComponentRef Id="Administrator.VIDEO_MODULE"/>
+        <ComponentRef Id="Monitor.VIDEO_MODULE" />
+      </Feature>
+
         <ComponentRef Id="DevicesModule_AppConfig" />
         <ComponentRef Id="GKModule_AppConfig" />
         <ComponentRef Id="OPCModule_AppConfig" />
         <ComponentRef Id="SkudModule_AppConfig" />
         <ComponentRef Id="VideoModule_AppConfig" />
-        <ComponentRef Id="Administrator.Remove" />
-        <ComponentRef Id="Monitor.Remove" />
-      </Feature>
+      <!--<ComponentRef Id="Administrator.Remove" />
+      <ComponentRef Id="Monitor.Remove" />
+      <ComponentRef Id="OPC.Remove" />
+      <ComponentRef Id="Server.Remove" />-->
+      <ComponentRef Id="RegistryFiresec2Key" />
       <ComponentRef Id="LogScript" />
       <ComponentRef Id="DesktopFolder" />
       <ComponentRef Id="ProgramMenuDir" />
