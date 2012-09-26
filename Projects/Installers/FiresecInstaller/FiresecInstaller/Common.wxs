@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Fragment>
+    <DirectoryRef Id="ProgramMenuDir">
+      <Component Id="FiresecProgramsMenuShortcutUninstall" Guid="*">
+        <Shortcut Id="FAUninstallProduct" Name="Удалить Firesec-2" Target="[System64Folder]msiexec.exe" Arguments="/x [ProductCode]" Description="Удаляет Firesec-2 с данного компьютера" />
+        <RegistryValue Root="HKCU" Key="Software\[Manufacturer]\[ProductName]" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+
+    <DirectoryRef Id="LOGS">
+      <Component Id="LogScript" Guid="*">
+        <File Id="CopyLogs" Name="CopyLogs.bat" Source="Data\" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+</Wix>

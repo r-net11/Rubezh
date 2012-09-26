@@ -5,9 +5,10 @@
   <Fragment>
 
     <DirectoryRef Id="ADMINISTRATORLOCATION">
-      <Component Id="Administrator.Files" Guid="57391822-9954-40B9-BA3C-B7BDC9DBC289">
+      <Component Id="Administrator.Files" Guid="F78F2E80-61E7-4AA3-9605-4AD05EF21975">
         <File Id="Administrator.FireAdministrator.exe" Name="$(var.Administrator.TargetFileName)" Source="$(var.Administrator.TargetPath)" KeyPath="yes" />
-        <File Id="Administrator.FireAdministrator.exe.config" Name="FireAdministrator.exe.config" Source="$(var.Administrator.TargetDir)" Checksum="yes"/>
+        <File Id="Administrator.FireAdministrator.exe.config" Name="FireAdministrator.exe.config" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FireAdministrator.exe.manifest" Name="FireAdministrator.exe.manifest" Source="$(var.Administrator.TargetDir)"/>
         <File Id="Administrator.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Administrator.TargetDir)" />
@@ -27,39 +28,37 @@
         <File Id="Administrator.PlansModule.dll" Name="PlansModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.SecurityModule.dll" Name="SecurityModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Firesec.dll" Name="Firesec.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Interop.FS_Types.dll" Name="Interop.FS_Types.dll" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.Interop.mscoree.dll" Name="Interop.mscoree.dll" Source="$(var.Administrator.TargetDir)" />
       </Component>
 
-      <Component Id="Administrator.FS_MODULE" Guid="4902D27C-96A6-4D7D-9646-CF79BE32481D">
+      <Component Id="Administrator.FS_MODULE" Guid="4EF4953F-8CCD-4E73-8E61-7D7235A6E0AD">
         <File Id="Administrator.DevicesModule.dll" Name="DevicesModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
         <File Id="Administrator.InstructionsModule.dll" Name="InstructionsModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.LibraryModule.dll" Name="LibraryModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.SettingsModule.dll" Name="SettingsModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.SoundsModule.dll" Name="SoundsModule.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.FiltersModule.dll" Name="FiltersModule.dll" Source="$(var.Administrator.TargetDir)" />
-        <Condition>FS_MODULE</Condition>
       </Component>
 
-      <Component Id="Administrator.GK_MODULE" Guid="22417D7C-1CF4-4405-A146-9442A351EF62">
+      <Component Id="Administrator.GK_MODULE" Guid="B543D275-4600-49BD-A8A9-5E155E508B04">
         <File Id="Administrator.GKModule.dll" Name="GKModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
-        <Condition>GK_MODULE</Condition>
       </Component>
 
-      <Component Id="Administrator.OPC_MODULE" Guid="*">
+      <Component Id="Administrator.OPC_MODULE" Guid="3D59A078-3323-4FD3-AEF8-C78DB210EE74">
         <File Id="Administrator.OPCModule.dll" Name="OPCModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
-        <Condition>OPC_MODULE</Condition>
       </Component>
 
       <Component Id="Administrator.SKUD_MODULE" Guid="*">
         <File Id="Administrator.SkudModule.dll" Name="SkudModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
-        <Condition>SKUD_MODULE</Condition>
       </Component>
 
-      <Component Id="Administrator.VIDEO_MODULE" Guid="B25F6265-78F7-413B-8107-56929863F5FA">
+      <Component Id="Administrator.VIDEO_MODULE" Guid="06A0E756-7AFF-4E90-8B9C-52C71F0ADF06">
         <File Id="Administrator.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Administrator.TargetDir)" KeyPath="yes" />
         <File Id="Administrator.Vlc.DotNet.Core.dll" Name="Vlc.DotNet.Core.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Vlc.DotNet.Forms.dll" Name="Vlc.DotNet.Forms.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Vlc.DotNet.Core.Interops.dll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.Administrator.TargetDir)" />
-        <Condition>VIDEO_MODULE</Condition>
       </Component>
     </DirectoryRef>
 
@@ -70,7 +69,7 @@
     </DirectoryRef>
 
     <DirectoryRef Id="Administrator.Xaml2svgFolder">
-      <Component Id="Administrator.xaml2svg" Guid="4B7652B7-B008-4CC6-8476-DE9D66C56AB4">
+      <Component Id="Administrator.xaml2svg" Guid="1B4EF891-5572-4C28-8462-1844FE4F6989">
         <File Id="Administrator.animation.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\animation.xsl" />
         <File Id="Administrator.brushes.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\brushes.xsl" />
         <File Id="Administrator.canvas.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg\canvas.xsl" />

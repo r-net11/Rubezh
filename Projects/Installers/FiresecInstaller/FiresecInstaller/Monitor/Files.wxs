@@ -5,9 +5,10 @@
 	<Fragment>
 
 		<DirectoryRef Id="MONITORLOCATION">
-			<Component Id="Monitor.Files" Guid="34861B8C-8282-4115-96FD-0E924552A1DD">
+			<Component Id="Monitor.Files" Guid="6FE1B80B-3E17-4D02-83F2-20E081B6F49B">
 				<File Id="Monitor.FireMonitor.exe" Name="$(var.Monitor.TargetFileName)" Source="$(var.Monitor.TargetPath)" KeyPath="yes" />
         <File Id="Monitor.FireMonitor.exe.config" Name="FireMonitor.exe.config" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.FireMonitor.exe.manifest" Name="FireMonitor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Monitor.TargetDir)" />
@@ -29,31 +30,31 @@
         <File Id="Monitor.AlarmModule.dll" Name="AlarmModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.ReportsModule.dll" Name="ReportsModule.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.CodeReason.Reports.dll" Name="CodeReason.Reports.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.Firesec.dll" Name="Firesec.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.Interop.FS_Types.dll" Name="Interop.FS_Types.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.Interop.mscoree.dll" Name="Interop.mscoree.dll" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 			
-      <Component Id="Monitor.FS_MODULE" Guid="B7E2D6B2-C4BF-47E8-A054-2501AC2359C7">
+      <Component Id="Monitor.FS_MODULE" Guid="7182915D-56AF-408F-9F8C-4995F4AE5EAA">
 				<File Id="Monitor.DevicesModule.dll" Name="DevicesModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
 				<File Id="Monitor.JournalModule.dll" Name="JournalModule.dll" Source="$(var.Monitor.TargetDir)" />
-        <Condition>FS_MODULE</Condition>
 			</Component>
 
-      <Component Id="Monitor.GK_MODULE" Guid="26778DD1-BD5A-4E00-80AE-419B5A9A4706">
+      <Component Id="Monitor.GK_MODULE" Guid="7C84F6F3-BFE8-4C60-B062-A126AC9748C7">
         <File Id="Monitor.GKModule.dll" Name="GKModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
-        <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
-        <Condition>GK_MODULE</Condition>
       </Component>
 
-      <Component Id="Monitor.VIDEO_MODULE" Guid="3407F2CC-0774-4F13-805B-86399F517F9D">
+      <Component Id="Monitor.VIDEO_MODULE" Guid="FC8B6B53-86FD-4864-9739-AC6082B90C8B">
         <File Id="Monitor.VideoModule.dll" Name="VideoModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />
         <File Id="Monitor.Vlc.DotNet.Core.dll" Name="Vlc.DotNet.Core.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Vlc.DotNet.Forms.dll" Name="Vlc.DotNet.Forms.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.DotNet.Core.Interops.dll" Name="Vlc.DotNet.Core.Interops.dll" Source="$(var.Monitor.TargetDir)" />
-        <Condition>VIDEO_MODULE</Condition>
       </Component>
     </DirectoryRef>
 
     <DirectoryRef Id="Monitor.ShellFolder">
-      <Component Id="Monitor.Integrate" Guid="468A1A24-737A-4452-BDCD-4496C994EFDC">
+      <Component Id="Monitor.Integrate" Guid="F4BAD8FB-EEC4-44C4-9C80-849C9F3A9F29">
         <File Id="Monitor.Integrate.cmd" Name="Integrate.cmd" Source="Data\Shell\" KeyPath="yes" />
         <File Id="Monitor.Desintegrate.cmd" Name="Desintegrate.cmd" Source="Data\Shell\" />
         <File Id="Monitor.Integrate.reg" Name="Integrate.reg" Source="Data\Shell\" />

@@ -94,15 +94,18 @@ namespace Infrastructure.Client
 				System.Configuration.Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
 				ModuleSection section = config.GetSection("modules") as ModuleSection;
 				_modules = new List<IModule>();
-				foreach (ModuleElement module in section.Modules)
-				{
-					string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, module.AssemblyFile);
-					Assembly asm = GetAssemblyByFileName(path);
-					if (asm != null)
-						foreach (Type t in asm.GetExportedTypes())
-							if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
-								_modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
-				}
+                foreach (ModuleElement moduleElement in section.Modules)
+                {
+                    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, moduleElement.AssemblyFile);
+                    if (File.Exists(path))
+                    {
+                        Assembly assembly = GetAssemblyByFileName(path);
+                        if (assembly != null)
+                            foreach (Type t in assembly.GetExportedTypes())
+                                if (typeof(IModule).IsAssignableFrom(t) && t.GetConstructor(new Type[0]) != null)
+                                    _modules.Add((IModule)Activator.CreateInstance(t, new object[0]));
+                    }
+                }
 				ApplicationService.RegisterModules(_modules);
 			}
 		}

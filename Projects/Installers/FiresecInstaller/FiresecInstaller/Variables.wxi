@@ -13,5 +13,5 @@
   <?define ConfigurationFolder="Configuration"?>
   <?define SoundsFolder="Sounds"?>
   <?define XslFilesFolder="XslFiles"?>
-  <?define xaml2svgFolder="xaml2svg"?>
+  <?define xaml2svgFolder="xaml2svg"?>  
 </Include>

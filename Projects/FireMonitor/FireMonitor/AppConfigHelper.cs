@@ -16,7 +16,6 @@ namespace FireMonitor
 
 			appSettings.ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string;
 			appSettings.LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string;
-			appSettings.ShowOnlyVideo = Convert.ToBoolean(ConfigurationManager.AppSettings["ShowOnlyVideo"] as string);
 #if DEBUG
 			appSettings.IsDebug = true;
 #endif

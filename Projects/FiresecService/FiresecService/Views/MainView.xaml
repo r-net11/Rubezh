@@ -14,7 +14,6 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding ClientType}" Header="Тип" />
                         <DataGridTextColumn Binding="{Binding IpAddress}" Header="Адрес" />
-                        <DataGridTextColumn Binding="{Binding CallbackPort}" Header="Обратный порт" />
                         <DataGridTextColumn Binding="{Binding UserName}" Header="Пользователь" Width="*" />
                         <DataGridTextColumn Binding="{Binding ConnectionDate}" Header="Время" Width="*" />
                         <DataGridTextColumn Binding="{Binding ClientToServerOperationName}" Header="Операция клиент-сервер" Width="*" />

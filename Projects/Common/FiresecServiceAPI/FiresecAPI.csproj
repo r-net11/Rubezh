@@ -139,6 +139,7 @@
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="CallbackResult.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AMP4Helper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\BUNHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\BUZHelper.cs" />
@@ -151,7 +152,6 @@
     <Compile Include="DriverConfigurationParametersHelper\RMHelper.cs" />
     <Compile Include="IFiresecServiceSKUD.cs" />
     <Compile Include="Models\AddressConverter.cs" />
-    <Compile Include="IFiresecCallbackService.cs" />
     <Compile Include="IFiresecCallback.cs" />
     <Compile Include="IFiresecService.cs" />
     <Compile Include="Models\Archive\JournalDescriptionItem.cs" />

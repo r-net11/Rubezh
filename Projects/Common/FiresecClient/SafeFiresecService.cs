@@ -4,6 +4,7 @@ using System.ServiceModel.Security;
 using Common;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Collections.Generic;
 
 namespace FiresecClient
 {
@@ -110,18 +111,9 @@ namespace FiresecClient
                 {
                     return FiresecService.Connect(clientCredentials, isNew);
                 }
-                catch (EndpointNotFoundException)
-                {
-                    //Logger.Error("Исключение при вызове FiresecClient.Connect EndpointNotFoundException");
-                }
-                catch (System.IO.PipeException)
-                {
-                    //Logger.Error("Исключение при вызове FiresecClient.Connect PipeException");
-                }
-                catch (SecurityNegotiationException)
-                {
-                    //Logger.Error("Исключение при вызове FiresecClient.Connect SecurityNegotiationException");
-                }
+                catch (EndpointNotFoundException) { }
+                catch (System.IO.PipeException) { }
+                catch (SecurityNegotiationException) { }
                 catch (Exception e)
                 {
                     Logger.Error(e, "Исключение при вызове FiresecClient.Connect");
@@ -137,9 +129,32 @@ namespace FiresecClient
 
         public void Dispose()
         {
-            StopPing();
             Disconnect();
+            StopPoll();
             FiresecServiceFactory.Dispose();
+        }
+
+        public IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state)
+        {
+            try
+            {
+                return FiresecService.BeginPoll(index, dateTime, asyncCallback, state);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public List<CallbackResult> EndPoll(IAsyncResult asyncResult)
+        {
+            try
+            {
+                return FiresecService.EndPoll(asyncResult);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }

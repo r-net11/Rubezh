@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
 	<?include Variables.wxi?>
-	
 	<Fragment>
-		<Feature Id="Monitor.Features" Title="Оперативная задача" Description="Установка приложения Оперативная задача" Level="1" Display="expand"
-						 ConfigurableDirectory="MONITORLOCATION" AllowAdvertise="yes" Absent="allow" InstallDefault="local">
+		<Feature Id="Monitor.Features" Title="Оперативная задача" Description="Установка приложения Оперативная задача" Level="1" Display="hidden"
+						 ConfigurableDirectory="MONITORLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Monitor.Files" />
-			<ComponentRef Id="Monitor.FS_MODULE" />
-      <ComponentRef Id="Monitor.GK_MODULE" />
-      <ComponentRef Id="Monitor.VIDEO_MODULE" />
       <ComponentRef Id="Monitor.Integrate" />
       <ComponentRef Id="Monitor.Hasp" />
 			<ComponentRef Id="Monitor.ProgramsMenuShortcut" />

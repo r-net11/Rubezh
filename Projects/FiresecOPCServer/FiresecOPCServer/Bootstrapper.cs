@@ -41,9 +41,9 @@ namespace FiresecOPCServer
             {
 				InitializeFs();
 				UILogger.Log("Старт полинга сервера");
-				FiresecManager.StartPing();
+				FiresecManager.StartPoll();
                 FiresecOPCManager.Start();
-                FiresecCallbackService.ConfigurationChangedEvent += new Action(OnConfigurationChangedEvent);
+                SafeFiresecService.ConfigurationChangedEvent += new Action(OnConfigurationChangedEvent);
             }
             else
             {
@@ -55,7 +55,6 @@ namespace FiresecOPCServer
 		static void InitializeFs()
 		{
 			UILogger.Log("Остановка Socket Server");
-			SocketServerHelper.Stop();
 			UILogger.Log("Загрузка конфигурации с сервера");
 			FiresecManager.GetConfiguration();
 			UILogger.Log("Загрузка драйвера устройств");
@@ -63,7 +62,7 @@ namespace FiresecOPCServer
 			UILogger.Log("Синхронизация конфигурации");
 			FiresecManager.Synchronyze();
 			UILogger.Log("Старт мониторинга");
-            FiresecManager.StatrtWatcher(true, false);
+            FiresecManager.StartWatcher(true, false);
 		}
 
         static void OnWorkThread()

@@ -22,12 +22,12 @@ namespace FiresecService.Service
 
         public void BeginOperation(string operationName)
         {
-            MainViewModel.Current.BeginAddOperation(FiresecService.UID, OperationDirection.ClientToServer, operationName);
+            MainViewModel.Current.BeginAddOperation(FiresecService.UID, operationName);
         }
 
         public void EndOperation()
         {
-            MainViewModel.Current.EndAddOperation(FiresecService.UID, OperationDirection.ClientToServer);
+            MainViewModel.Current.EndAddOperation(FiresecService.UID);
         }
 
         public OperationResult<T> CreateEmptyOperationResult<T>(string message)
@@ -45,7 +45,6 @@ namespace FiresecService.Service
         {
             try
             {
-                ReconnectIfClientCallbackFaulted();
                 BeginOperation(operationName);
                 var result = func();
                 EndOperation();
@@ -62,7 +61,6 @@ namespace FiresecService.Service
         {
             try
             {
-                ReconnectIfClientCallbackFaulted();
                 BeginOperation(operationName);
                 var result = func();
                 EndOperation();
@@ -79,7 +77,6 @@ namespace FiresecService.Service
         {
             try
             {
-                ReconnectIfClientCallbackFaulted();
                 BeginOperation(operationName);
                 action();
                 EndOperation();
@@ -87,14 +84,6 @@ namespace FiresecService.Service
             catch (Exception e)
             {
                 Logger.Error(e, "Исключение при вызове SafeFiresecService.SafeOperationCall. operationName = " + operationName);
-            }
-        }
-
-        void ReconnectIfClientCallbackFaulted()
-        {
-            if (FiresecService.IsClientCallbackFaulted)
-            {
-                FiresecService.ReconnectToClient();
             }
         }
 
@@ -223,9 +212,9 @@ namespace FiresecService.Service
             return SafeOperationCall(() => { return FiresecService.GetFile(dirAndFileName); }, "GetFile");
         }
 
-		public void ConvertJournal(List<JournalRecord> journalRecords)
+		public void SetJournal(List<JournalRecord> journalRecords)
         {
-			SafeOperationCall(() => { FiresecService.ConvertJournal(journalRecords); }, "ConvertJournal");
+			SafeOperationCall(() => { FiresecService.SetJournal(journalRecords); }, "ConvertJournal");
         }
 
         public string Ping()
@@ -233,9 +222,9 @@ namespace FiresecService.Service
             return SafeOperationCall(() => { return FiresecService.Ping(); }, "Ping");
         }
 
-        public string Test()
+        public string Test(string arg)
         {
-            return SafeOperationCall(() => { return FiresecService.Test(); }, "Test");
+            return SafeOperationCall(() => { return FiresecService.Test(arg); }, "Test");
         }
 
         public void SetXDeviceConfiguration(XFiresecAPI.XDeviceConfiguration xDeviceConfiguration)
@@ -275,6 +264,15 @@ namespace FiresecService.Service
         public IEnumerable<EmployeePosition> GetEmployeePositions()
         {
             return SafeContext.Execute<IEnumerable<EmployeePosition>>(() => FiresecService.GetEmployeePositions());
+        }
+
+        public IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state)
+        {
+            return SafeContext.Execute<IAsyncResult>(() => FiresecService.BeginPoll(index, dateTime, asyncCallback, state));
+        }
+        public List<CallbackResult> EndPoll(IAsyncResult asyncResult)
+        {
+            return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.EndPoll(asyncResult));
         }
     }
 }

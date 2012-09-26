@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<!--
-First-time install dialog sequence:
-- WixUI_WelcomeDlg
-- WixUI_LicenseAgreementDlg
-- WixUI_SetupTypeDlg
-- WixUI_VerifyReadyDlg
-- WixUI_CustomizeDlg
-- WixUI_DiskCostDlg
-- WixUI_BrowseDlg
-
-Maintenance dialog sequence:
-- WixUI_MaintenanceWelcomeDlg
-- WixUI_MaintenanceTypeDlg
-- WixUI_CustomizeDlg
-- WixUI_VerifyReadyDlg
-
-Patch dialog sequence:
- - WixUI_WelcomeDlg
- - WixUI_VerifyReadyDlg
--->
-
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <Fragment>
     <UI Id="WixUI_Wizard">
@@ -29,114 +7,54 @@ Patch dialog sequence:
       <UIRef Id="UIDialogs"/>
       <UIRef Id="WixUI_Common"/>
 
+      <Publish Dialog="WelcomeDialog" Control="Next" Event="NewDialog" Value="LicenseAgreementDialog">1</Publish>
 
-      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="LicenseAgreement">1</Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
-      <Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="SetupTypeDlg" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
-      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
-      <Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="2">1</Publish>
+      <Publish Dialog="LicenseAgreementDialog" Control="Next" Event="NewDialog" Value="DestinationFolderDialog">1</Publish>
+      <Publish Dialog="LicenseAgreementDialog" Control="Back" Event="NewDialog" Value="WelcomeDialog">1</Publish>
+      <Publish Dialog="LicenseAgreementDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
-      <Publish Dialog="BrowseDlg" Control="OK" Event="DoAction" Value="WixUIValidatePath" Order="3">1</Publish>
-      <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
+      <Publish Dialog="DestinationFolderDialog" Control="Next" Event="SetTargetPath" Value="[_BrowseProperty]" Order="1">1</Publish>
+      <Publish Dialog="DestinationFolderDialog" Control="Next" Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
+      <Publish Dialog="DestinationFolderDialog" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
+      <Publish Dialog="DestinationFolderDialog" Control="Next" Event="NewDialog" Value="ModulesDialog" Order="4">WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"</Publish>
+      <Publish Dialog="DestinationFolderDialog" Control="Back" Event="NewDialog" Value="LicenseAgreementDialog">1</Publish>
+      <Publish Dialog="DestinationFolderDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+      <Publish Dialog="DestinationFolderDialog" Control="ChangeFolder" Event="SpawnDialog" Value="InstallChangeFolderDialog">1</Publish>
+      <Publish Dialog="DestinationFolderDialog" Control="ChangeFolder" Property="_BrowseProperty" Value="INSTALLLOCATION">1</Publish>
+
+      <Publish Dialog="InstallChangeFolderDialog" Control="Cancel" Event="Reset" Value="0">1</Publish>
+      <Publish Dialog="InstallChangeFolderDialog" Control="Cancel" Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
+      <Publish Dialog="InstallChangeFolderDialog" Control="Cancel" Event="EndDialog" Value="Return">1</Publish>
+      <Publish Dialog="InstallChangeFolderDialog" Control="OK" Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
+      <Publish Dialog="InstallChangeFolderDialog" Control="OK" Event="DoAction" Value="WixUIValidatePath">1</Publish>
+      <Publish Dialog="InstallChangeFolderDialog" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg"><![CDATA[WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
+      <Publish Dialog="InstallChangeFolderDialog" Control="OK" Event="EndDialog" Value="Return">1</Publish>
+      <Publish Dialog="InstallChangeFolderDialog" Control="Up" Event="DirectoryListUp" Value="0">1</Publish>
+      <Publish Dialog="InstallChangeFolderDialog" Control="NewFolder" Event="DirectoryListNew" Value="0">1</Publish>
+
+      <Publish Dialog="ModulesDialog" Control="Next" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
+      <Publish Dialog="ModulesDialog" Control="Back" Event="NewDialog" Value="DestinationFolderDialog">1</Publish>
+      <Publish Dialog="ModulesDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+
+      <Publish Dialog="ShortcutsDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
+      <Publish Dialog="ShortcutsDialog" Control="Back" Event="NewDialog" Value="ModulesDialog">1</Publish>
+      <Publish Dialog="ShortcutsDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+
+      <Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
+
+      <Publish Dialog="SetupProgressDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
       <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
 
-      <Publish Dialog="WelcomeDialog" Control="Next" Event="NewDialog" Value="LicenseAgreement">1</Publish>
-      <!--<Publish Dialog="WelcomeDialog" Control="Next" Event="NewDialog" Value="LicenseAgreement">NOT Installed AND NOT PATCH</Publish>
-      <Publish Dialog="WelcomeDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">Installed AND PATCH</Publish>-->
-
-      <Publish Dialog="LicenseAgreement" Control="Back" Event="NewDialog" Value="WelcomeDialog">1</Publish>
-      <Publish Dialog="LicenseAgreement" Control="Next" Event="NewDialog" Value="DestinationFolder">1</Publish>
-      <Publish Dialog="LicenseAgreement" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-
-      <Publish Dialog="DestinationFolder" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-      <Publish Dialog="DestinationFolder" Control="Next" Event="SetTargetPath" Value="[_BrowseProperty]" Order="1">1</Publish>
-      <Publish Dialog="DestinationFolder" Control="Next" Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
-      <Publish Dialog="DestinationFolder" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3">
-        <![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]>
-      </Publish>
-      <Publish Dialog="DestinationFolder" Control="Next" Event="NewDialog" Value="SetupType" Order="4">
-        WIXUI_DONTVALIDATEPATH OR WIXUI_INSTALLDIR_VALID="1"
-      </Publish>
-      <Publish Dialog="DestinationFolder" Control="Back" Event="NewDialog" Value="LicenseAgreement">1</Publish>
-      <Publish Dialog="DestinationFolder" Control="ChangeFolder" Event="SpawnDialog" Value="InstallChangeFolder">1</Publish>
-      <Publish Dialog="DestinationFolder" Control="ChangeFolder" Property="_BrowseProperty" Value="INSTALLLOCATION">1</Publish>
-
-      <Publish Dialog="InstallChangeFolder" Control="Cancel" Event="Reset" Value="0">1</Publish>
-      <Publish Dialog="InstallChangeFolder" Control="Cancel" Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
-      <Publish Dialog="InstallChangeFolder" Control="Cancel" Event="EndDialog" Value="Return">1</Publish>
-      <Publish Dialog="InstallChangeFolder" Control="OK" Event="SetTargetPath" Value="[_BrowseProperty]">1</Publish>
-      <Publish Dialog="InstallChangeFolder" Control="OK" Event="DoAction" Value="WixUIValidatePath">1</Publish>
-      <Publish Dialog="InstallChangeFolder" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg"><![CDATA[WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
-      <Publish Dialog="InstallChangeFolder" Control="OK" Event="EndDialog" Value="Return">1</Publish>
-      <Publish Dialog="InstallChangeFolder" Control="Up" Event="DirectoryListUp" Value="0">1</Publish>
-      <Publish Dialog="InstallChangeFolder" Control="NewFolder" Event="DirectoryListNew" Value="0">1</Publish>
-
-      <Publish Dialog="SetupType" Control="Back" Event="NewDialog" Value="DestinationFolder">1</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ModulesDlg">SETUPCHOICE ="Full"</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="SetInstallLevel" Value="3">SETUPCHOICE ="Full"</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="NewDialog" Value="ModulesDlg">SETUPCHOICE ="Client"</Publish>
-      <Publish Dialog="SetupType" Control="Next" Event="SetInstallLevel" Value="2">SETUPCHOICE ="Client"</Publish>
-      <Publish Dialog="SetupType" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-
-      <Publish Dialog="ModulesDlg" Control="Back" Event="NewDialog" Value="SetupType">1</Publish>
-      <Publish Dialog="ModulesDlg" Control="Next" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
-      <Publish Dialog="ModulesDlg" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-      
-      <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="CustomizeDialog" Order="1">
-        WixUI_InstallMode = "Change"
-      </Publish>
-      <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="ModulesDlg" Order="2">
-        SETUPCHOICE = "Full"
-      </Publish>
-      <Publish Dialog="ShortcutsDlg" Control="Back" Event="NewDialog" Value="ModulesDlg" Order="3">
-        SETUPCHOICE = "Client"
-      </Publish>
-      <Publish Dialog="ShortcutsDlg" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-      <Publish Dialog="ShortcutsDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
-
-      <Publish Dialog="SQLLogin" Control="Back" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
-      <Publish Dialog="SQLLogin" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
-      <Publish Dialog="SQLLogin" Control="Next" Property="SQLINSTANCE" Value="[SQLINSTANCE]">1</Publish>
-      <Publish Dialog="SQLLogin" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
-
-      <Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
-      <!--<Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="ShortcutsDlg">
-        NOT Installed
-      </Publish>
-      <Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="CustomizeDialog" Order="1">
-        WixUI_InstallMode = "Change"
-      </Publish>
-      <Publish Dialog="VerifyReadyDialog" Control="Back" Event="NewDialog" Value="MaintenanceTypeDialog" Order="2">
-        WixUI_InstallMode = "Repair" OR WixUI_InstallMode = "Remove"
-      </Publish>-->
-
-      <Publish Dialog="MaintenanceWelcomeDialog" Control="Next" Event="NewDialog" Value="LicenseAgreement">1</Publish>
-
-      <Publish Dialog="MaintenanceTypeDialog" Control="ChangeButton" Event="NewDialog" Value="CustomizeDialog">1</Publish>
-      <Publish Dialog="MaintenanceTypeDialog" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
-      <Publish Dialog="MaintenanceTypeDialog" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
-      <Publish Dialog="MaintenanceTypeDialog" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDialog">1</Publish>
-
-
-      <Publish Dialog="SetupTypeDlg" Control="Back" Event="NewDialog" Value="DestinationFolder">1</Publish>
-      <Publish Dialog="SetupTypeDlg" Control="TypicalButton" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
-      <Publish Dialog="SetupTypeDlg" Control="CustomButton" Event="NewDialog" Value="CustomizeDialog">1</Publish>
-      <Publish Dialog="SetupTypeDlg" Control="CompleteButton" Event="NewDialog" Value="ShortcutsDlg">1</Publish>
-
-      <Publish Dialog="CustomizeDialog" Control="Back" Event="NewDialog" Value="MaintenanceTypeDialog" Order="1"> WixUI_InstallMode = "Change" </Publish>
-      <Publish Dialog="CustomizeDialog" Control="Back" Event="NewDialog" Value="SetupTypeDlg" Order="2"> WixUI_InstallMode = "InstallCustom" </Publish>
-      <Publish Dialog="CustomizeDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
-
-      <Publish Dialog="SetupProgress" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
+      <Publish Dialog="SQLLoginDialog" Control="Back" Event="NewDialog" Value="ShortcutsDialog">1</Publish>
+      <Publish Dialog="SQLLoginDialog" Control="Next" Event="NewDialog" Value="VerifyReadyDialog">1</Publish>
+      <Publish Dialog="SQLLoginDialog" Control="Next" Property="SQLINSTANCE" Value="[SQLINSTANCE]">1</Publish>
+      <Publish Dialog="SQLLoginDialog" Control="Cancel" Event="SpawnDialog" Value="CancelDlg">1</Publish>
 
       <InstallUISequence>
-        <Show Dialog="SetupProgress" Before="ExecuteAction" Overridable="yes" />        
+        <Show Dialog="SetupProgressDialog" Before="ExecuteAction" Overridable="yes" />
         <Show Dialog="WelcomeDialog" Before="ProgressDlg" Overridable="yes">1</Show>
       </InstallUISequence>
-
     </UI>
   </Fragment>
 </Wix>

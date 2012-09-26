@@ -45,7 +45,7 @@ namespace FiresecService.Service
         {
             foreach (var firesecServices in FiresecServices)
             {
-                firesecServices.CallbackWrapper.NewJournalRecords(new List<JournalRecord>() { journalRecord });
+                firesecServices.CallbackNewJournal(new List<JournalRecord>() { journalRecord });
             }
         }
 
@@ -53,15 +53,7 @@ namespace FiresecService.Service
 		{
 			foreach (var firesecServices in FiresecServices)
 			{
-				firesecServices.CallbackWrapper.ConfigurationChanged();
-			}
-		}
-
-		public static void NotifyClients(string message)
-		{
-			foreach (var firesecService in FiresecServices)
-			{
-				firesecService.CallbackWrapper.Notify(message);
+                firesecServices.CallbackConfigurationChanged();
 			}
 		}
 	}

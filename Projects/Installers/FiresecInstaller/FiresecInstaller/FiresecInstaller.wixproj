@@ -30,9 +30,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Binary.wxs" />
+    <Compile Include="Common.wxs" />
     <Compile Include="CustomActions.wxs" />
     <Compile Include="Features.wxs" />
-    <Compile Include="AppConfig.wxs" />
     <Compile Include="Administrator\Features.wxs" />
     <Compile Include="Administrator\Files.wxs" />
     <Compile Include="Administrator\Shortcuts.wxs" />
@@ -42,13 +42,25 @@
     <Compile Include="Monitor\Shortcuts.wxs" />
     <Compile Include="Monitor\Uninstall.wxs" />
     <Compile Include="Installer.wxs" />
+    <Compile Include="OPC\Features.wxs" />
+    <Compile Include="OPC\Files.wxs" />
+    <Compile Include="OPC\Shortcuts.wxs" />
+    <Compile Include="OPC\Uninstall.wxs" />
     <Compile Include="Server\Features.wxs" />
     <Compile Include="Server\Files.wxs" />
     <Compile Include="Server\Shortcuts.wxs" />
     <Compile Include="Server\Uninstall.wxs" />
     <Compile Include="Firesec\Features.wxs" />
     <Compile Include="Firesec\Files.wxs" />
-    <Compile Include="Firesec\Uninstall.wxs" />
+    <Compile Include="UI\ModulesDialog.wxs" />
+    <Compile Include="UI\DestinationFolderDialog.wxs" />
+    <Compile Include="UI\InstallChangeFolderDialog.wxs" />
+    <Compile Include="UI\LicenseAgreementDialog.wxs" />
+    <Compile Include="UI\SetupProgressDialog.wxs" />
+    <Compile Include="UI\ShortcutsDialog.wxs" />
+    <Compile Include="UI\SQLLoginDialog.wxs" />
+    <Compile Include="UI\VerifyReadyDialog.wxs" />
+    <Compile Include="UI\WelcomeDialog.wxs" />
     <Compile Include="Uninstall.wxs" />
     <Compile Include="UI\UI_Dialogs.wxs" />
     <Compile Include="UI\UI_Elements.wxs" />
@@ -75,28 +87,28 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\Administrator.ico" />
+    <Content Include="Data\CopyLogs.bat" />
     <Content Include="Data\Monitor.ico" />
+    <Content Include="Data\OPC.ico" />
     <Content Include="Data\Server.ico" />
     <Content Include="Data\SetupProgress.ico" />
     <Content Include="Administrator\Variables.wxi" />
+    <Content Include="Data\TitleRect.bmp" />
     <Content Include="Monitor\Variables.wxi" />
+    <Content Include="OPC\Variables.wxi" />
     <Content Include="Server\Variables.wxi" />
     <Content Include="Firesec\Variables.wxi" />
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="Variables.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
-    <Content Include="Data\FiresecBanner.bmp" />
     <Content Include="Data\FiresecDataBaseStructureSql.sql" />
-    <Content Include="Data\InstallChoiceLogo.bmp" />
-    <Content Include="Data\InstallClient.ico" />
-    <Content Include="Data\InstallFolderError.ico" />
-    <Content Include="Data\InstallFull.ico" />
     <Content Include="Data\License.rtf" />
     <Content Include="Data\NewFolder.ico" />
     <Content Include="Data\Up.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Data" />
+    <Folder Include="OPC" />
     <Folder Include="Server" />
     <Folder Include="Administrator" />
     <Folder Include="Monitor" />

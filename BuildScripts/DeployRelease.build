@@ -7,18 +7,21 @@
   <target name="BuildAll">
     <delete dir="bin" />
     <msbuild project="..\Projects\FiresecService\FiresecService.sln">
-      <property name="Configuration" value="Release" overwrite="True" />	  
-    </msbuild>			
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>
     <msbuild project="..\Projects\FireMonitor\FireMonitor.sln">
       <property name="Configuration" value="Release" overwrite="True" />
     </msbuild>
-	<msbuild project="..\Projects\FireAdministrator\FireAdministrator.sln">
+    <msbuild project="..\Projects\FireAdministrator\FireAdministrator.sln">
       <property name="Configuration" value="Release" overwrite="True" />
-    </msbuild>	
+    </msbuild>
+    <msbuild project="..\Projects\FiresecOPCServer\FiresecOPCServer.sln">
+      <property name="Configuration" value="Release" overwrite="True" />
+    </msbuild>
     <msbuild project="..\Projects\Installers\FiresecInstaller\FiresecInstaller.sln">
       <property name="Configuration" value="Release" overwrite="True" />
-    </msbuild>	
-	<copy todir="bin\">
+    </msbuild>
+    <copy todir="bin\">
       <fileset basedir="..\Projects\Installers\FiresecInstaller\FiresecInstaller\bin\Release">
         <include name="**\*" />
       </fileset>

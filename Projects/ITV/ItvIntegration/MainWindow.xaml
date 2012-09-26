@@ -58,7 +58,7 @@
                 </StackPanel>
             </Grid>
         </TabItem>
-        <TabItem Header="Имитатор" Visibility="Collapsed">
+        <TabItem Header="Имитатор" Visibility="Visible">
             <StackPanel>
                 <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Width="100" Margin="2" />
             </StackPanel>

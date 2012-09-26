@@ -17,7 +17,6 @@ namespace FireAdministrator
 
                 ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string,
                 LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string,
-                UseLocalConnection = Convert.ToBoolean(ConfigurationManager.AppSettings["UseLocalConnection"] as string),
                 Theme = ConfigurationManager.AppSettings["Theme"] as string
             };
 #if DEBUG

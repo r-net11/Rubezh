@@ -40,7 +40,7 @@ namespace SettingsModule.ViewModels
 				WaitHelper.Execute(() =>
 				{
 					var journalRecords = FiresecManager.FiresecDriver.ConvertJournal();
-					FiresecManager.FiresecService.ConvertJournal(journalRecords);
+					FiresecManager.FiresecService.SetJournal(journalRecords);
 				});
 			}
 		}

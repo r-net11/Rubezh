@@ -8,8 +8,11 @@ namespace Firesec.Imitator
 	{
 		static ImitatorService()
 		{
-			var resourceService = new ResourceService();
-			resourceService.AddResource(new ResourceDescription(typeof(ImitatorService).Assembly, "Imitator/DataTemplates/Dictionary.xaml"));
+			ResourceService resourceService = new ResourceService();
+			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+            resourceService.AddResource(new ResourceDescription(typeof(Controls.Converters.StateToColorConverter).Assembly, "Themes/Styles.xaml"));
+            resourceService.AddResource(new ResourceDescription(typeof(Controls.Converters.StateToColorConverter).Assembly, "Themes/ScrollBarStyle.xaml"));
+            resourceService.AddResource(new ResourceDescription(typeof(ImitatorService).Assembly, "Imitator/DataTemplates/Dictionary.xaml"));
 		}
 
 		public static void Show()

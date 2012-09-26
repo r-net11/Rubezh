@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Include>
-  <?define MonitorName="FireMonitor" ?>
+  <?define MonitorName="Оперативная задача ОПС FireSec-2" ?>
   <?define Monitor.TargetDir="..\..\..\..\..\FireMonitor\bin\Release\"?>
   <?define Monitor.TargetFileName="FireMonitor.exe"?>
   <?define Monitor.TargetPath="..\..\..\..\..\FireMonitor\bin\Release\FireMonitor.exe"?>
