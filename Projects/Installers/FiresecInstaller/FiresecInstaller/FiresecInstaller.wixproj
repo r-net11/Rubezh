@@ -44,6 +44,7 @@
     <Compile Include="Installer.wxs" />
     <Compile Include="OPC\Features.wxs" />
     <Compile Include="OPC\Files.wxs" />
+    <Compile Include="OPC\Shortcuts.wxs" />
     <Compile Include="OPC\Uninstall.wxs" />
     <Compile Include="Server\Features.wxs" />
     <Compile Include="Server\Files.wxs" />
@@ -86,10 +87,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Data\Administrator.ico" />
+    <Content Include="Data\CopyLogs.bat" />
     <Content Include="Data\Monitor.ico" />
+    <Content Include="Data\OPC.ico" />
     <Content Include="Data\Server.ico" />
     <Content Include="Data\SetupProgress.ico" />
     <Content Include="Administrator\Variables.wxi" />
+    <Content Include="Data\TitleRect.bmp" />
     <Content Include="Monitor\Variables.wxi" />
     <Content Include="OPC\Variables.wxi" />
     <Content Include="Server\Variables.wxi" />
@@ -97,12 +101,7 @@
     <Content Include="UI\UI_Variables.wxi" />
     <Content Include="Variables.wxi" />
     <Content Include="Data\DestinationFolder.ico" />
-    <Content Include="Data\FiresecBanner.bmp" />
     <Content Include="Data\FiresecDataBaseStructureSql.sql" />
-    <Content Include="Data\InstallChoiceLogo.bmp" />
-    <Content Include="Data\InstallClient.ico" />
-    <Content Include="Data\InstallFolderError.ico" />
-    <Content Include="Data\InstallFull.ico" />
     <Content Include="Data\License.rtf" />
     <Content Include="Data\NewFolder.ico" />
     <Content Include="Data\Up.ico" />

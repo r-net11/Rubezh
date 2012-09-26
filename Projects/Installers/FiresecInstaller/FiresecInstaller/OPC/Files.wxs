@@ -13,6 +13,7 @@
       <Component Id="OPC.Files" Guid="941EAA5D-FEE7-441E-9297-B2AFFF694F52">
         <File Id="OPC.FiresecOPCServer.exe" Name="FiresecOPCServer.exe" Source="$(var.OPC.TargetDir)" KeyPath="yes" />
         <File Id="OPC.FiresecOPCServer.exe.config" Name="FiresecOPCServer.exe.config" Source="$(var.OPC.TargetDir)" />
+        <File Id="OPC.FiresecOPCServer.exe.manifest" Name="FiresecOPCServer.exe.manifest" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.Common.dll" Name="Common.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.Controls.dll" Name="Controls.dll" Source="$(var.OPC.TargetDir)" />
         <File Id="OPC.FiresecAPI.dll" Name="FiresecAPI.dll" Source="$(var.OPC.TargetDir)" />

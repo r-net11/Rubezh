@@ -7,6 +7,8 @@
 			<ComponentRef Id="OPC.Files" />
       <ComponentRef Id="Administrator.OPC_MODULE" />
       <ComponentRef Id="OPC.AutorunComponent" />
+      <ComponentRef Id="OPC.ProgramsMenuShortcut" />
+      <ComponentRef Id="OPC.DesktopShortcut" />
     </Feature>
 	</Fragment>
 </Wix>

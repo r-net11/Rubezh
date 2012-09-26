@@ -15,6 +15,7 @@
       <Component Id="Server.Files" Guid="DF63AD3D-F414-49A1-86A5-79D635310E8D">
         <File Id="Server.FiresecService.exe" Name="$(var.Server.TargetFileName)" Source="$(var.Server.TargetPath)" KeyPath="yes" />
         <File Id="Server.FiresecService.exe.config" Name="FiresecService.exe.config" Source="$(var.Server.TargetDir)" />
+        <File Id="Server.FiresecService.exe.manifest" Name="FiresecService.exe.manifest" Source="$(var.Server.TargetDir)" />
         <File Id="Server.Common.dll" Name="Common.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.Controls.dll" Name="Controls.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.Infrastructure.Common.dll" Name="Infrastructure.Common.dll" Source="$(var.Server.TargetDir)" />

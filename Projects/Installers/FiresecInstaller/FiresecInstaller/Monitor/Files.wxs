@@ -8,6 +8,7 @@
 			<Component Id="Monitor.Files" Guid="6FE1B80B-3E17-4D02-83F2-20E081B6F49B">
 				<File Id="Monitor.FireMonitor.exe" Name="$(var.Monitor.TargetFileName)" Source="$(var.Monitor.TargetPath)" KeyPath="yes" />
         <File Id="Monitor.FireMonitor.exe.config" Name="FireMonitor.exe.config" Source="$(var.Monitor.TargetDir)" />
+        <File Id="Monitor.FireMonitor.exe.manifest" Name="FireMonitor.exe.manifest" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Monitor.TargetDir)" />

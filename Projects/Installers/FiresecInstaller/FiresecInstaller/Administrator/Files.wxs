@@ -7,7 +7,8 @@
     <DirectoryRef Id="ADMINISTRATORLOCATION">
       <Component Id="Administrator.Files" Guid="F78F2E80-61E7-4AA3-9605-4AD05EF21975">
         <File Id="Administrator.FireAdministrator.exe" Name="$(var.Administrator.TargetFileName)" Source="$(var.Administrator.TargetPath)" KeyPath="yes" />
-        <File Id="Administrator.FireAdministrator.exe.config" Name="FireAdministrator.exe.config" Source="$(var.Administrator.TargetDir)" Checksum="yes"/>
+        <File Id="Administrator.FireAdministrator.exe.config" Name="FireAdministrator.exe.config" Source="$(var.Administrator.TargetDir)" />
+        <File Id="Administrator.FireAdministrator.exe.manifest" Name="FireAdministrator.exe.manifest" Source="$(var.Administrator.TargetDir)"/>
         <File Id="Administrator.Microsoft.Practices.Prism.dll" Name="Microsoft.Practices.Prism.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Prism.UnityExtensions.dll" Name="Microsoft.Practices.Prism.UnityExtensions.dll" Source="$(var.Administrator.TargetDir)" />
         <File Id="Administrator.Microsoft.Practices.Unity.dll" Name="Microsoft.Practices.Unity.dll" Source="$(var.Administrator.TargetDir)" />
