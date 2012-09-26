@@ -20,7 +20,6 @@ namespace FiresecService.Service
 				if (dataContractSerializerOperationBehavior != null)
 					dataContractSerializerOperationBehavior.MaxItemsInObjectGraph = Int32.MaxValue;
 			}
-
 			channelFactory.Open();
 			IFiresecCallbackService _firesecCallbackService = channelFactory.CreateChannel();
 			(_firesecCallbackService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(100);

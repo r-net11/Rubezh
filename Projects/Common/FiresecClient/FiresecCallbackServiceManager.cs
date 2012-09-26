@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Description;
 using System.Threading;
 using Common;
 
@@ -29,7 +30,13 @@ namespace FiresecClient
 			_clientCallbackAddress = _clientCallbackAddress.Replace("localhost", machineName);
 			_clientCallbackAddress = _clientCallbackAddress.Replace("localhost", "127.0.0.1");
 			_serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecCallbackService", binding, new Uri(_clientCallbackAddress));
-
+#if DEBUG
+			ServiceDebugBehavior behavior = _serviceHost.Description.Behaviors.Find<ServiceDebugBehavior>();
+			if (behavior != null)
+				behavior.IncludeExceptionDetailInFaults = true;
+			else
+				_serviceHost.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+#endif
 			_serviceHost.Open();
 		}
 
