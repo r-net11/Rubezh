@@ -14,9 +14,9 @@ namespace PlansModule.ViewModels
 	public class PlanViewModel : TreeBaseViewModel<PlanViewModel>
 	{
 		public Plan Plan { get; private set; }
-		public List<DeviceState> DeviceStates;
-		public List<ZoneState> ZoneStates;
-		StateType _selfState = StateType.No;
+        public List<DeviceState> DeviceStates { get; private set; }
+		List<ZoneState> ZoneStates;
+		StateType SelfState = StateType.No;
 
 		public PlanViewModel(Plan plan, ObservableCollection<PlanViewModel> source)
 		{
@@ -51,7 +51,6 @@ namespace PlansModule.ViewModels
 						ZoneStates.Add(zone.ZoneState);
 				}
 			}
-
 			UpdateSelfState();
 		}
 
@@ -69,27 +68,23 @@ namespace PlansModule.ViewModels
 
 		public void UpdateSelfState()
 		{
-			_selfState = StateType.No;
-
-			foreach (var zoneState in ZoneStates)
+			SelfState = StateType.No;
+            foreach (var deviceState in DeviceStates)
 			{
-				if (zoneState.StateType < _selfState)
-					_selfState = zoneState.StateType;
+				if (deviceState.StateType < SelfState)
+					SelfState = deviceState.StateType;
 			}
-
 			UpdateState();
 		}
 
 		public void UpdateState()
 		{
-			StateType = _selfState;
-
-			foreach (var planViewModel in Children)
+			StateType = SelfState;
+			foreach (var child in Children)
 			{
-				if (planViewModel.StateType < StateType)
-					StateType = planViewModel.StateType;
+				if (child.StateType < StateType)
+					StateType = child.StateType;
 			}
-
 			if (Parent != null)
 				Parent.UpdateState();
 		}

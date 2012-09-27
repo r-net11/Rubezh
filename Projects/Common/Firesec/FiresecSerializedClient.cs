@@ -17,12 +17,6 @@ namespace Firesec
         public OperationResult<bool> Connect(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			var result = NativeFiresecClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
-
-			if (result.Result)
-			{
-				NativeFiresecClient.NewEventAvaliable += new Action<int>(NewEventsAvailable);
-				NativeFiresecClient.ProgressEvent += new Action<int, string, int, int>(FiresecEventAggregator_Progress);
-			}
 			return result;
 		}
 
@@ -194,20 +188,5 @@ namespace Firesec
 				resultData.Result = SerializerHelper.Deserialize<T>(result.Result);
 			return resultData;
 		}
-
-		public void NewEventsAvailable(int eventMask)
-		{
-			if (NewEvent != null)
-				NewEvent(eventMask);
-		}
-
-		void FiresecEventAggregator_Progress(int stage, string comment, int percentComplete, int bytesRW)
-		{
-			if (Progress != null)
-				Progress(stage, comment, percentComplete, bytesRW);
-		}
-
-		public event Action<int> NewEvent;
-		public event Action<int, string, int, int> Progress;
-	}
+    }
 }

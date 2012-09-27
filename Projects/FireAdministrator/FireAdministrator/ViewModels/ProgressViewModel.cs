@@ -8,6 +8,8 @@ namespace FireAdministrator.ViewModels
 {
 	public class ProgressViewModel : DialogViewModel
 	{
+        bool IsCanceling = false;
+
 		public ProgressViewModel(string title)
 		{
 			Title = title;
@@ -15,19 +17,20 @@ namespace FireAdministrator.ViewModels
 			CloseOnEscape = false;
 			AllowClose = false;
 			StopCommand = new RelayCommand(OnStop);
-			FiresecManager.FiresecDriver.Watcher.Progress -= new Action<int, string, int, int>(Progress);
-            FiresecManager.FiresecDriver.Watcher.Progress += new Action<int, string, int, int>(Progress);
+            FiresecManager.FiresecDriver.Watcher.Progress -= new Func<int, string, int, int, bool>(Progress);
+            FiresecManager.FiresecDriver.Watcher.Progress += new Func<int, string, int, int, bool>(Progress);
 		}
 
 		public void CloseProgress()
 		{
-            FiresecManager.FiresecDriver.Watcher.Progress -= new Action<int, string, int, int>(Progress);
+            FiresecManager.FiresecDriver.Watcher.Progress -= new Func<int, string, int, int, bool>(Progress);
 			Close(true);
 		}
 
-		public void Progress(int stage, string comment, int percentComplete, int bytesRW)
+		public bool Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
-			ApplicationService.Invoke(() => OnProgress(stage, comment, percentComplete, bytesRW));
+            ApplicationService.Invoke(() => OnProgress(stage, comment, percentComplete, bytesRW));
+            return !IsCanceling;
 		}
 
 		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
@@ -81,6 +84,7 @@ namespace FireAdministrator.ViewModels
 		public RelayCommand StopCommand { get; private set; }
 		void OnStop()
 		{
+            IsCanceling = true;
 			//FiresecManager.FiresecDriver.CancelProgress();
 		}
 	}

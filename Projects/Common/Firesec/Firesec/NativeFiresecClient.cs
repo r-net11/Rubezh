@@ -252,7 +252,6 @@ namespace Firesec
 				ConnectionTimeoutThread = new Thread(new ThreadStart(OnConnectionTimeoutThread));
 				ConnectionTimeoutThread.Start();
 
-				//FS_Types.IFSC_Connection connectoin = library.Connect3(login, password, serverInfo, this, false);
 				FS_Types.IFSC_Connection connectoin = library.Connect2(FS_Login, FS_Password, serverInfo, this);
 				ConnectionTimeoutEvent.Set();
 				return connectoin;
@@ -355,7 +354,7 @@ namespace Firesec
 					SocketServerHelper.StartIfNotRunning();
 				}
 			}
-			SocketServerHelper.Restart();
+			//SocketServerHelper.Restart();
 			return resultData;
 		}
 		#endregion
@@ -377,7 +376,7 @@ namespace Firesec
 				var continueProgress = IntContinueProgress == 1;
 				IntContinueProgress = 1;
 				ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
-				return true;
+				//return true;
 				return continueProgress;
 			}
 			catch (Exception e)
@@ -391,7 +390,7 @@ namespace Firesec
 		#region Progress
 		object locker = new object();
 		Queue<ProgressData> taskQeue = new Queue<ProgressData>();
-		public event Action<int, string, int, int> ProgressEvent;
+		public event Func<int, string, int, int, bool> ProgressEvent;
 
 		public void ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
 		{
@@ -431,8 +430,10 @@ namespace Firesec
 		{
 			if (ProgressEvent != null)
 			{
-				ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
+				var result = ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
+                return result;
 			}
+            return true;
 
 			bool stopProgress = (StopProgress == 1);
 			StopProgress = 0;

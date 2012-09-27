@@ -165,8 +165,8 @@
     <Compile Include="Models\Configuration\LibraryConfiguration.cs" />
     <Compile Include="Models\Configuration\PlansConfiguration.cs" />
     <Compile Include="Models\Configuration\SecurityConfiguration.cs" />
-    <Compile Include="Models\Configuration\ConfigurationVersion.cs" />
-    <Compile Include="Models\Configuration\VersionedConfiguration.cs" />
+    <Compile Include="ConfigurationVersion.cs" />
+    <Compile Include="VersionedConfiguration.cs" />
     <Compile Include="Models\Device\DeviceCustomFunction.cs" />
     <Compile Include="Models\Device\DevicePasswordType.cs" />
     <Compile Include="Models\Device\Indicator\IndicatorColorType.cs" />

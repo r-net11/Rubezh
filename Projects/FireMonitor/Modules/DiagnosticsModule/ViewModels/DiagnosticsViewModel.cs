@@ -31,8 +31,6 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand Test2Command { get; private set; }
         void OnTest2()
         {
-            return;
-            FiresecManager.FiresecService.Test("ConfigurationChanged");
         }
     }
 }

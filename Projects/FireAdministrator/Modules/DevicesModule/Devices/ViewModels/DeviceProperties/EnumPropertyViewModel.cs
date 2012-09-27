@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using FiresecAPI.Models;
 using Common;
+using FiresecAPI.Models;
 
 namespace DevicesModule.DeviceProperties
 {
@@ -60,6 +60,7 @@ namespace DevicesModule.DeviceProperties
 				var enumdriverProperty = driverProperty.Parameters.FirstOrDefault(x => x.Value == driverProperty.Default);
 				if (enumdriverProperty != null)
 					_selectedParameter = enumdriverProperty;
+				
 			}
 		}
 

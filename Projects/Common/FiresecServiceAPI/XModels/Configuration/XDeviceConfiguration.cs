@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
+using FiresecAPI;
 
 namespace XFiresecAPI
 {
     [DataContract]
-	public class XDeviceConfiguration : VersionedConfiguration
+    public class XDeviceConfiguration : VersionedConfiguration
     {
         public XDeviceConfiguration()
         {
             Devices = new List<XDevice>();
             Zones = new List<XZone>();
-			Directions = new List<XDirection>();
+            Directions = new List<XDirection>();
             JournalFilters = new List<XJournalFilter>();
         }
 
@@ -24,7 +25,7 @@ namespace XFiresecAPI
         public List<XZone> Zones { get; set; }
 
         [DataMember]
-		public List<XDirection> Directions { get; set; }
+        public List<XDirection> Directions { get; set; }
 
         [DataMember]
         public List<XJournalFilter> JournalFilters { get; set; }

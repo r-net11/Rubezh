@@ -76,9 +76,14 @@
                     <Views:ValveControlView DataContext="{Binding ValveControlViewModel}" />
                 </Grid>
             </TabItem>-->
-            <TabItem Header="Управление" Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}"
+            <TabItem Header="Управление" Visibility="{Binding IsControlDevice, Converter={StaticResource BoolToVisibilityConverter}}"
                      IsSelected="{Binding IsControlTabSelected}">
-                <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
+                <Grid>
+                    <Grid Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />
+                    </Grid>
+                    <TextBlock Text="{Binding ControlDenyMessage}" Visibility="{Binding CanNotControl, Converter={StaticResource BoolToVisibilityConverter}}" Foreground="White" />
+                </Grid>
             </TabItem>
         </TabControl>
     </Grid>

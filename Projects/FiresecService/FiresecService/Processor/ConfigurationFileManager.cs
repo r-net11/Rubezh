@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 using Common;
 using FiresecAPI.Models;
 using XFiresecAPI;
+using FiresecAPI;
 
 namespace FiresecService.Configuration
 {
