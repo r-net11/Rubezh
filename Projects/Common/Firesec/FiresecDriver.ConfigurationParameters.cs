@@ -57,7 +57,7 @@ namespace Firesec
 							{
 								if (driverProperty.No == paramNo)
 								{
-									if (paramValue != -1
+									if (paramNo == 0x80
 										//&& paramNo <= 0xbf
 										)
 									{
