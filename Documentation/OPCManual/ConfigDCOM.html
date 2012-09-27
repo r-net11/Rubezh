@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1251">
+	<title>Настройка DCOM</title>
+</head>
+
+<body>
+<h2>Настройка DCOM для Windows XP SP2, Windows 2003 SP1</h2>
+
+<p><em><strong>Внимание!</strong> В ОС Windows XP / 2003 может быть включен "Брандмауэр Windows" ("Windows Firewall"). 
+Для работы по DCOM его необходимо выключить или настроить для работы с соответствующим сервером оборудования. 
+Описание настройки брандмауэра выходит за рамки данной документации.</em></p>
+
+<p></p><ol>
+  <li>Из меню "Пуск" ("Start") выбрать "Выполнить" ("Run").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM1.png"></div><p></p>
+  
+  <li>Ввести "dcomcnfg" и нажать "OK".</li>
+
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM2.png"></div><p></p>
+  
+  <li>Выбрать "Корень консоли"\"Службы компонентов\Компьютеры\Мой компьютер\Настройка DCOM"
+  ("Consol Root"\"Component Services\Computers\My Computer\DCOM config"), 
+  нажать правую кнопку мыши и выбрать "Свойства" ("Properties") так как показано на рисунке:</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM3.png"></div><p></p>
+  
+  <li>Выбрать закладку "Свойства по умолчанию" ("Default Properties") и установить параметры, 
+  указанные на рисунке:</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM4.png"></div><p></p>
+  
+  <li>Выбрать закладку "Безопасность COM" ("COM Security"). В группе "Права доступа" ("Access Permissions")
+  нажать кнопку "Изменить ограничения" ("Edit Limits"):</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM5.png"></div><p></p>
+  
+  <li>Разрешить "Локальный доступ" ("Local Access"), "Удаленный доступ" ("Remote Access") для пользователей: 
+  "Анонимный вход" ("Anonymous Logon"), "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM6.png"></div><p></p>
+  
+  <li>В группе "Права доступа" ("Access Permissions") нажать кнопку "Изменить настройки по умолчанию" ("Edit Default"):</li>
+
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM7.png"></div><p></p>
+  
+  <li>Разрешить "Локальный доступ" ("Local Access"), "Удаленный доступ" ("Remote Access") для пользователей: 
+  "Анонимный вход" ("Anonymous Logon"), "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM8.png"></div><p></p>
+  
+  <li>В группе "Разрешение на запуск и активацию" ("Launch and Activation Permissions") нажать кнопку 
+  "Изменить ограничения" ("Edit Limits"):</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM9.png"></div><p></p>
+  
+  <li>Разрешить "Локальный запуск" ("Local Launch"), "Удаленный запуск" ("Remote Launch"), "Локальная активация" ("Local
+  Activation"), "Удаленная активация" ("Remote Activation") для пользователей: 
+  "Анонимный вход" ("Anonymous Logon"), "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM10.png"></div><p></p>
+  
+  <li>В группе "Разрешение на запуск и активацию" ("Launch and Activation Permissions") нажать кнопку 
+  "Изменить настройки по умолчанию" ("Edit Default"):</li>
+
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM11.png"></div><p></p>
+  
+  <li>Разрешить "Локальный запуск" ("Local Launch"), "Удаленный запуск" ("Remote Launch"), "Локальная активация" ("Local
+  Activation"), "Удаленная активация" ("Remote Activation") для пользователей: 
+  "Анонимный вход" ("Anonymous Logon"), "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM12.png"></div><p></p>
+  
+  <li>На дереве "Корень консоли" ("Consol Root") выделить OPC сервер
+  "Службы компонентов\Компьютеры\Мой компьютер\Настройка DCOM\Lectus Modbus OPC/DDE server"
+  ("Component Services\Computers\My Computer\DCOM config\Lectus Modbus OPC/DDE server"), нажать правую кнопку мыши
+  и выбрать "Свойства" ("Properties") так как показано на рисунке:</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM13.png"></div><p></p>
+  
+  <li>Выбрать закладку "Общие" ("General") и установить параметры, указанные на рисунке:</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM14.png"></div><p></p>
+  
+  <li>Перейти на закладку "Безопасность" ("Security"). В группе "Разрешения на запуск и активацию" 
+  ("Launch and Activation Permissions") нажать кнопку "Изменить" ("Edit").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM15.png"></div><p></p>
+  
+  <li>Разрешить "Локальный запуск" ("Local Launch"), "Удаленный запуск" ("Remote Launch"), "Локальная активация" ("Local
+  Activation"), "Удаленная активация" ("Remote Activation") для пользователей: 
+  "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM16.png"></div><p></p>
+  
+  <li>В группе "Права доступа" ("Access Permissions") нажать кнопку "Изменить" ("Edit").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM17.png"></div><p></p>
+  
+  <li>Разрешить "Локальный доступ" ("Local Access"), "Удаленный доступ" ("Remote Access") для пользователей: 
+  "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM18.png"></div><p></p>
+  
+  <li>Перейти на закладку "Удостоверение" ("Identity"). Установить запуск сервера от имени "Текущий пользователь"
+  ("The interactive user") или, если он запускается как сервис, "Системная учетная запись" ("The system account").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM19.png"></div><p></p>
+  
+  <li>На дереве "Корень консоли" ("Consol Root") выделить "OpcEnum"
+  "Службы компонентов\Компьютеры\Мой компьютер\Настройка DCOM\Lectus Modbus OPC/DDE server"
+  ("Component Services\Computers\My Computer\DCOM config\OpcEnum"), нажать правую кнопку мыши
+  и выбрать "Свойства" ("Properties") так как показано на рисунке:</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM20.png"></div><p></p>
+  
+  <li>Настроить свойства "OpcEnum" аналогично свойствам OPC сервера.</li>
+</ol>
+<p></p>
+
+<h3>Настройка предотвращения выполнения данных (Data Execution Prevention)</h3>
+
+<p>Предотвращение выполнения данных (DEP) это набор аппаратных и программных технологий, которые выполняют дополнительную
+проверку памяти для защиты компьютера от повреждения вирусами и при других угрозах безопасности.</p>
+
+<p>
+</p><ol>
+  <li>Из меню "Пуск" ("Start") выбрать "Мой компьютер" ("My computer"), нажать правую кнопку мыши
+  и выбрать "Свойства" ("Properties") так как показано на рисунке: </li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM21.png"></div><p></p>
+  
+  <li>Перейти на закладку "Дополнительно" ("Advanced"). В группе "Быстродействие" ("Performance") нажать кнопку 
+  "Параметры" ("Settings").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM22.png"></div><p></p>
+  
+  <li>Выбрать закладку "Предотвращение выполнения данных" ("Data Execution Prevention") и установить параметры, 
+  указанные на рисунке:</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM23.png"></div><p></p>
+</ol>
+<p></p>
+
+<h3>Настройка локальной политики безопасности (Local Security Policy)</h3>
+
+<p>Если компьютер является членом рабочей группы, а не домена, то следующие шаги необходимы для установки
+соединения. Имейте в виду, что эти настройки могут снизить безопасность вашей системы - обратитесь к
+сетевому администратору, если у вас есть какие-либо проблемы.</p>
+
+<ol>
+  <li>Из меню "Пуск" ("Start") выбрать "Панель управления" ("Control panel").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM24.png"></div><p></p>
+  
+  <li>Выбрать "Администрирование" ("Administrative Tools").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM25.png"></div><p></p>
+  
+  <li>Выбрать "Локальная политика безопасности" ("Local Security Policy").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM26.png"></div><p></p>
+  
+  <li>Выбрать "Параметры безопасности"\"Локальные политики"\"Параметры безопасности" 
+  ("Security Settings"\"Local Policies"\"Security Options"). Нажать правую кнопку мыши на
+  "DCOM: Ограничения компьютера на доступ в синтаксисе SDDL" ("DCOM: Machine Access Restrictions…") 
+  и выбрать "Свойства" ("Properties")</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM27.png"></div><p></p>
+  
+  <li>Нажать кнопку "Изменить безопасность" ("Edit Security").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM28.png"></div><p></p>
+  
+  <li>Разрешить "Локальный доступ" ("Local Access"), "Удаленный доступ" ("Remote Access") для пользователей: 
+  "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM29.png"></div><p></p>
+  
+  <li>Нажать правую кнопку мыши на "DCOM: Ограничения компьютера на запуск в синтаксисе SDDL" 
+  ("DCOM: Machine Launch Restrictions…") и выбрать "Свойства" ("Properties")</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM30.png"></div><p></p>
+  
+  <li>Нажать кнопку "Изменить безопасность" ("Edit Security").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM31.png"></div><p></p>
+  
+  <li>Разрешить "Локальный запуск" ("Local Launch"), "Удаленный запуск" ("Remote Launch"), "Локальная активация" ("Local
+  Activation"), "Удаленная активация" ("Remote Activation") для пользователей: 
+  "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM32.png"></div><p></p>
+  
+  <li>Нажать правую кнопку мыши на "Сетевой доступ: разрешить применение разрешений для всех к анонимным пользователям" 
+  ("Network access: Let Everyone permissions apply to anonymous users") и выбрать "Свойства" ("Properties")</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM33.png"></div><p></p>
+  
+  <li>Выбрать "Включить" ("Enabled").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM34.png"></div><p></p>
+  
+  <li>Нажать правую кнопку мыши на "Сетевой доступ: модель совместного доступа и безопасности для локальных учетных записей" 
+  ("Network access: Sharing and security model for local accounts") и выбрать "Свойства" ("Properties")</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM35.png"></div><p></p>
+  
+  <li>Выбрать "Обычная - локальные пользователи удостоверяются как они сами" 
+  ("Classic – local users authenticate as themselves").</li>
+  
+  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM36.png"></div><p></p>
+</ol>
+
+<p><strong>Теперь компьютер настроен для взаимодействия через DCOM</strong>.</p>
+
+<p><em><strong>P.S.</strong> DCOM имеет ограничения для подключений при
+взаимодействии компьютеров в домене и рабочей группе. Подключения через DCOM
+ с вышеприведенными настройки могут работать, но, в зависимости от индивидуальных настроек сетей, 
+ может потребоваться настройка дополнительных параметров.</em></p>
+
+
+
+</body></html>

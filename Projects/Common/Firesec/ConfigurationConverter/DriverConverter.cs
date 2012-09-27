@@ -334,7 +334,7 @@ namespace Firesec
 						IsManualReset = innerState.manualReset == "1" ? true : false,
 						CanResetOnPanel = innerState.CanResetOnPanel == "1" ? true : false,
 						//IsAutomatic = innerState.type == "Auto" ? true : false,
-						IsAutomatic = (innerState.code.Contains("AutoOff") || innerState.code.Contains("Auto_Off")),
+						IsAutomatic = (innerState.code.Contains("AutoOff") || innerState.code.Contains("Auto_Off") || innerState.code.Contains("Auto_off")),
 						Code = innerState.code
 					});
 				}

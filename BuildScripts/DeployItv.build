@@ -14,47 +14,44 @@
 
   <target name="Clean">
     <delete dir="${intellectFolder}\Firesec" />
-    <delete dir="${intellectFolder}\Projects\ITV" />
-    <delete dir="${intellectFolder}\Projects\Common" />
+    <delete dir="${intellectFolder}\Projects" />
+    <delete dir="${intellectFolder}\Projects\Assemblies" />
     <delete dir="..\Projects\ITV\RepFileManager\bin" />
-  </target>
-
-  <target name="Copy">
-    <copy todir="${intellectFolder}\Firesec" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="bin">
-        <include name="**\*" />
-      </fileset>
-    </copy>
-
-    <copy todir="${intellectFolder}\Projects\Common\FiresecClient" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="..\Projects\Common\FiresecClient">
-        <include name="**\*" />
-      </fileset>
-    </copy>
-
-    <copy todir="${intellectFolder}\Projects\Common\FiresecServiceApi" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="..\Projects\Common\FiresecServiceApi">
-        <include name="**\*" />
-      </fileset>
-    </copy>
-
-    <copy todir="${intellectFolder}\Projects\Common\Common" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="..\Projects\Common\Common">
-        <include name="**\*" />
-      </fileset>
-    </copy>
-
-    <copy todir="${intellectFolder}\Projects\ITV" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="..\Projects\ITV">
-        <include name="**\*" />
-      </fileset>
-    </copy>
   </target>
 
   <target name="CompileItv">
     <msbuild project="..\Projects\ITV\ItvIntegration.sln">
       <property name="Configuration" value="Debug"/>
     </msbuild>
+  </target>
+
+  <target name="Copy">
+    <copy todir="${intellectFolder}\Projects" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\Projects\ITV">
+        <include name="**\*" />
+      </fileset>
+    </copy>
+
+    <copy todir="${intellectFolder}\Firesec" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="bin">
+        <include name="Firesec-2.msi" />
+      </fileset>
+    </copy>
+
+    <copy todir="${intellectFolder}\Projects\Assemblies" includeemptydirs="true" overwrite="true" verbose="true">
+      <fileset basedir="..\Projects\ITV\ItvIntegration\bin\Debug">
+        <include name="Common.dll" />
+        <include name="Controls.dll" />
+        <include name="Firesec.dll" />
+        <include name="FiresecAPI.dll" />
+        <include name="FiresecClient.dll" />
+        <include name="FiresecClient.ITV.dll" />
+        <include name="Infrustructure.Plans.dll" />
+        <include name="Interop.FS_Types.dll" />
+        <include name="Interop.mscoree.dll" />
+        <include name="Infrastructure.Common.dll" />
+      </fileset>
+    </copy>
   </target>
 
 </project>
