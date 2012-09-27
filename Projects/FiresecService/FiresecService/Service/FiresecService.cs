@@ -29,7 +29,7 @@ namespace FiresecService.Service
             UID = Guid.NewGuid();
         }
 
-        public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
+		public OperationResult<bool> Connect(ClientCredentials clientCredentials, bool isNew)
         {
             CallbackResults = new List<CallbackResult>();
 
@@ -102,5 +102,5 @@ namespace FiresecService.Service
         {
             return "Hello";
         }
-    }
+	}
 }
