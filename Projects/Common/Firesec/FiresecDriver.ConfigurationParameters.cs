@@ -13,23 +13,31 @@ namespace Firesec
 		public OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
 		{
 			var properties = new List<Property>();
-			var requestIds = new List<int>();
-			int requestId = 0;
-			int waitCount = 0;
 			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 
+			var propertyNos = new HashSet<int>();
 			foreach (var property in device.Driver.Properties)
 			{
 				if (property.IsAUParameter)
 				{
-					FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$ReadSimpleParam", property.No.ToString(), ref requestId);
-					requestIds.Add(requestId);
+					propertyNos.Add(property.No);
 				}
 			}
 
+			int requestId = 0;
+			var requestIds = new List<int>();
+			foreach (var propertyNo in propertyNos)
+			{
+				FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$ReadSimpleParam", propertyNo.ToString(), ref requestId);
+				requestIds.Add(requestId);
+			}
+
+			int count = propertyNos.Count;
+			
 			while (true)
 			{
 				var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "StateConfigQueries", null, ref requestId);
+				
 				if (result.HasError)
 				{
 					return new OperationResult<List<Property>>()
@@ -39,80 +47,32 @@ namespace Firesec
 						Error = result.Error
 					};
 				}
+
 				Firesec.Models.DeviceCustomFunctions.requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.requests>(result.Result);
+				
 				if (requests != null)
 				{
-					foreach (var request in requests.request)
-					{
-						if (requestIds.Contains(request.id))
+					int address = requests.request.First().param.FirstOrDefault(x => x.name == "ParamNo").value;
+				    int fullvalue = requests.request.First().param.FirstOrDefault(x => x.name == "ParamValue").value;
+					count--;
+					foreach(var driverProperty in device.Driver.Properties.FindAll(x => x.No == address))
+				    {
+						if (address == 0xbf)
+						{ 
+							;
+						}
+						if (properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
 						{
-							requestIds.Remove(request.id);
-							var paramNo = request.param.FirstOrDefault(x => x.name == "ParamNo").value;
-							var paramValue = request.param.FirstOrDefault(x => x.name == "ParamValue").value;
-							
-							var heightByteValue = paramValue / 256;
-							var lowByteValue = paramValue - heightByteValue * 256;
-
-							foreach (var driverProperty in device.Driver.Properties)
-							{
-								if (driverProperty.No == paramNo)
-								{
-									if (paramNo == 0x80
-										//&& paramNo <= 0xbf
-										)
-									{
-										;
-									}
-									var offsetParamValue = paramValue;
-
-									if (driverProperty.HighByte)
-										offsetParamValue = heightByteValue;
-									else
-										offsetParamValue = lowByteValue;
-
-									
-
-									if (driverProperty.MinBit > 0)
-									{
-										byte byteOffsetParamValue = (byte)offsetParamValue;
-										byteOffsetParamValue = (byte)(byteOffsetParamValue >> driverProperty.MinBit);
-										byteOffsetParamValue = (byte)(byteOffsetParamValue << driverProperty.MinBit);
-										offsetParamValue = byteOffsetParamValue;
-									}
-									if (driverProperty.MaxBit > 0)
-									{
-										byte byteOffsetParamValue = (byte)offsetParamValue;
-										byteOffsetParamValue = (byte)(byteOffsetParamValue << 8 - driverProperty.MaxBit);
-										byteOffsetParamValue = (byte)(byteOffsetParamValue >> 8 - driverProperty.MaxBit);
-										offsetParamValue = byteOffsetParamValue;
-									}
-
-									if (driverProperty.BitOffset > 0)
-									{
-										offsetParamValue = offsetParamValue >> driverProperty.BitOffset;
-									}
-									
-									if (device.Driver.DriverType == DriverType.MRO && driverProperty.Name == "Время отложенного пуска")
-									{
-										offsetParamValue = offsetParamValue * 5;
-									}
-
-									var property = new Property()
-									{
-										Name = driverProperty.Name,
-										Value = offsetParamValue.ToString()
-									};
-									if (properties.FirstOrDefault(x => x.Name == property.Name) == null)
-										properties.Add(property);
-								}
-							}
+							properties.Add(CreateProperty(fullvalue, driverProperty));
 						}
 					}
 				}
-				if (requestIds.Count == 0)
+					
+				if (count == 0)
 				{
 					break;
 				}
+				int waitCount = 0;
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 				waitCount++;
 				if (waitCount > 600000)
@@ -130,6 +90,50 @@ namespace Firesec
 			{
 				Result = properties
 			};
+		}
+
+		private static Property CreateProperty(int paramValue, DriverProperty driverProperty)
+		{
+			var offsetParamValue = paramValue;
+
+			if (driverProperty.HighByte)
+				offsetParamValue = paramValue / 256;
+			else
+				offsetParamValue = (int)Math.Abs(Math.IEEERemainder(paramValue, 256));
+
+			if (driverProperty.MinBit > 0)
+			{
+				byte byteOffsetParamValue = (byte)offsetParamValue;
+				byteOffsetParamValue = (byte)(byteOffsetParamValue >> driverProperty.MinBit);
+				byteOffsetParamValue = (byte)(byteOffsetParamValue << driverProperty.MinBit);
+				offsetParamValue = byteOffsetParamValue;
+			}
+
+			if (driverProperty.MaxBit > 0)
+			{
+				byte byteOffsetParamValue = (byte)offsetParamValue;
+				byteOffsetParamValue = (byte)(byteOffsetParamValue << 8 - driverProperty.MaxBit);
+				byteOffsetParamValue = (byte)(byteOffsetParamValue >> 8 - driverProperty.MaxBit);
+				offsetParamValue = byteOffsetParamValue;
+			}
+
+			if (driverProperty.BitOffset > 0)
+			{
+				offsetParamValue = offsetParamValue >> driverProperty.BitOffset;
+			}
+
+			if (driverProperty.Name == "Время отложенного пуска МРО")
+			{
+				offsetParamValue = offsetParamValue * 5;
+			}
+
+			var property = new Property()
+			{
+				Name = driverProperty.Name,
+				Value = offsetParamValue.ToString()
+			};
+
+			return property;
 		}
 
 		public void SetConfigurationParameters(Guid deviceUID, List<Property> properties)
@@ -173,7 +177,7 @@ namespace Firesec
 					else
 					{
 						intValue = int.Parse(property.Value);
-						if (device.Driver.DriverType == DriverType.MRO && driverProperty.Name == "Время отложенного пуска")
+						if (driverProperty.Name == "Время отложенного пуска МРО")
 						{
 							intValue = (int)Math.Truncate((double)intValue / 5);
 						}
