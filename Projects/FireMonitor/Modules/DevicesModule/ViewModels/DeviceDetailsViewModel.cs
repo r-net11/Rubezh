@@ -83,23 +83,40 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public bool CanControl
-		{
-			get
-			{
-				var canControl = false;
-				var controlProperty = Device.Properties.FirstOrDefault(x => x.Name == "AllowControl");
-				if (controlProperty != null)
-				{
-					if (controlProperty.Value == "1")
-						canControl = true;
-				}
+        public bool CanControl
+        {
+            get { return ControlDenyMessage == null; }
+        }
+        public bool CanNotControl
+        {
+            get { return ControlDenyMessage != null; }
+        }
 
-				return ServiceFactory.AppSettings.CanControl &&
-				//Device.Driver.HasControlProperties &&
-				!FiresecManager.FiresecConfiguration.IsChildMPT(Device) && canControl;
-			}
-		}
+        public string ControlDenyMessage
+        {
+            get
+            {
+                //if (!ServiceFactory.AppSettings.HasLicenseToControl)
+                //    return "Отсутствует лицензия на управление";
+
+                var controlProperty = Device.Properties.FirstOrDefault(x => x.Name == "AllowControl");
+                if (controlProperty != null)
+                {
+                    if (controlProperty.Value != "1")
+                        return "Управление запрещено настройкой конфигурации";
+                }
+
+                return null;
+            }
+        }
+
+        public bool IsControlDevice
+        {
+            get
+            {
+                return Device.Driver.HasControlProperties && !FiresecManager.FiresecConfiguration.IsChildMPT(Device);
+            }
+        }
 
 		bool _isControlTabSelected;
 		public bool IsControlTabSelected

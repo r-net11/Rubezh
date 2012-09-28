@@ -54,13 +54,13 @@ namespace DevicesModule.ViewModels
 					continue;
 				}
 
-				//if ((zoneLogicState == ZoneLogicState.MPTAutomaticOn) || (zoneLogicState == ZoneLogicState.MPTOn) || (zoneLogicState == ZoneLogicState.Firefighting))
-				//{
-                //    if (device.ParentPanel.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneUID == zone.UID) == false)
-				//    {
-				//        continue;
-				//    }
-				//}
+				if ((zoneLogicState == ZoneLogicState.MPTAutomaticOn) || (zoneLogicState == ZoneLogicState.MPTOn) || (zoneLogicState == ZoneLogicState.Firefighting))
+				{
+					if (device.ParentPanel.Children.Any(x => x.Driver.DriverType == DriverType.MPT && x.ZoneUID == zone.UID) == false)
+					{
+						continue;
+					}
+				}
 
                 if (Zones.Contains(zone.UID))
 					TargetZones.Add(zoneViewModel);

@@ -16,12 +16,10 @@ namespace DevicesModule.Validation
 		{
 			get { return "FS"; }
 		}
-
 		protected override Guid Key
 		{
 			get { return Object.UID; }
 		}
-
 		public override string Source
 		{
 			get { return Object.Driver.ShortName; }

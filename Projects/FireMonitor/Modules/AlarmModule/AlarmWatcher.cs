@@ -169,7 +169,7 @@ namespace AlarmModule
 
 		AlarmType? StateToAlarmType(DeviceDriverState state, Driver driver)
 		{
-			if (state.DriverState.IsAutomatic && (state.DriverState.Code.Contains("AutoOff") || state.DriverState.Code.Contains("Auto_Off")))
+			if (state.DriverState.IsAutomatic && (state.DriverState.Code.Contains("AutoOff") || state.DriverState.Code.Contains("Auto_Off") || state.DriverState.Code.Contains("Auto_off")))
 				return AlarmType.Auto;
 
 			AlarmType? alarmType = null;

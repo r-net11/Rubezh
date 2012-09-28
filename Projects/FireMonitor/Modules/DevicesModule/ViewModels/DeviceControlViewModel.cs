@@ -20,6 +20,7 @@ namespace DevicesModule.ViewModels
 		{
 			Device = device;
 			ConfirmCommand = new RelayCommand(OnConfirm, CanConfirm);
+            StopTimerCommand = new RelayCommand(OnStopTimer);
 
 			Blocks = new List<BlockViewModel>();
 
@@ -103,7 +104,55 @@ namespace DevicesModule.ViewModels
 			return false;
 		}
 		#endregion
-	}
+
+        #region Timer
+        bool _isTimerEnabled;
+        public bool IsTimerEnabled
+        {
+            get { return _isTimerEnabled; }
+            set
+            {
+                _isTimerEnabled = value;
+                OnPropertyChanged("IsTimerEnabled");
+            }
+        }
+
+        int _timeLeft;
+        public int TimeLeft
+        {
+            get { return _timeLeft; }
+            set
+            {
+                _timeLeft = value;
+                OnPropertyChanged("TimeLeft");
+
+                if (TimeLeft <= 0)
+                    IsTimerEnabled = false;
+            }
+        }
+
+        public void StartTimer(int timeLeft)
+        {
+            TimeLeft = timeLeft;
+            IsTimerEnabled = true;
+            var dispatcherTimer = new DispatcherTimer();
+            dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Start();
+        }
+
+        void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            --TimeLeft;
+        }
+
+        public RelayCommand StopTimerCommand { get; private set; }
+        void OnStopTimer()
+        {
+            TimeLeft = 0;
+        }
+        #endregion
+    }
 
 	public class BlockViewModel : BaseViewModel
 	{
