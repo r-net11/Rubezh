@@ -31,6 +31,10 @@ namespace DevicesModule.ViewModels
 			GetConfigurationParametersCommand = new RelayCommand(OnGetConfigurationParameters, CanGetConfigurationParameters);
 			SetConfigurationParametersCommand = new RelayCommand(OnSetConfigurationParameters, CanSetConfigurationParameters);
 
+			GetAllDevicesConfigurationParametersCommand = new RelayCommand(OnGetAllDeviceConfigurationParameters, CanGetAllDeviceConfigurationParameters);
+			//SetAllDeviceConfigurationParametersCommand = new RelayCommand(OnSetAllDeviceConfigurationParameters, CanSetAllDeviceConfigurationParameters);
+			
+
 			_devicesViewModel = devicesViewModel;
 		}
 
@@ -186,6 +190,7 @@ namespace DevicesModule.ViewModels
 			ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Считывание параметров устройства");
 		}
 		private OperationResult<List<Property>> result;
+
 		void OnPropgress()
 		{
 			result = FiresecManager.FiresecDriver.GetConfigurationParameters(SelectedDevice.Device.UID);
@@ -208,17 +213,72 @@ namespace DevicesModule.ViewModels
 					property.Value = resultProperty.Value;
 				}
 				SelectedDevice.UpdataConfigurationProperties();
-				MessageBoxService.Show("Операция завершилась успешно", "Firesec");
 			}
 			else
 			{
 				MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
 			}
 		}
+		
 		bool CanGetConfigurationParameters()
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
 		}
+
+		public RelayCommand GetAllDevicesConfigurationParametersCommand { get; private set; }
+		void OnGetAllDeviceConfigurationParameters()
+		{
+			ServiceFactory.ProgressService.Run(OnAllGetProgress, OnAllGetCompleted, "Считывание параметров дочерних устройств");
+		}
+		void OnAllGetProgress()
+		{
+			OperationResult<List<Property>> res;
+			foreach (var child in SelectedDevice.Children)
+			{
+				//MessageBoxService.Show("Считывание параметров устройства " + child.Device.Driver.Name + " " + child.Address);
+
+				res = FiresecManager.FiresecDriver.GetConfigurationParameters(child.Device.UID);
+				if (!res.HasError)
+				{
+					foreach (var resultProperty in res.Result)
+					{
+						var property = child.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
+						if (property == null)
+						{
+							property = new Property()
+							{
+								Name = resultProperty.Name
+							};
+							child.Device.Properties.Add(property);
+						}
+						property.Value = resultProperty.Value;
+					}
+					child.UpdataConfigurationProperties();
+				}
+				else
+				{
+					MessageBoxService.Show("При вызове метода на сервере возникло исключение " + res.Error);
+				}
+			};
+		}
+
+		void OnAllGetCompleted() 
+		{ 
+			;
+		} 
+
+		bool CanGetAllDeviceConfigurationParameters()
+		{
+			foreach (var child in SelectedDevice.Children)
+			{
+				if ((child != null) && (child.Device.Driver.HasConfigurationProperties))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
 
 		public RelayCommand SetConfigurationParametersCommand { get; private set; }
 		void OnSetConfigurationParameters()
