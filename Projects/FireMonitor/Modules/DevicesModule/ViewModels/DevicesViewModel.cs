@@ -16,6 +16,7 @@ namespace DevicesModule.ViewModels
 	{
 		public DevicesViewModel()
 		{
+			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
 			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
 		}
 
@@ -120,8 +121,8 @@ namespace DevicesModule.ViewModels
 			var deviceViewModel = AllDevices == null ? null : AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (deviceViewModel == null)
 			{
-				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 				string deviceName = deviceUID.ToString();
+				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
 				if (device != null)
 					deviceName = device.PresentationAddressAndDriver;
 				Logger.Error("DevicesViewModel.OnDeviceStateChanged deviceViewModel = null " + deviceName);

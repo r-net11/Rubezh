@@ -128,12 +128,14 @@ namespace FiresecClient
 			{
 				device.OnChanged();
 			}
-			foreach (var device in zone.DevicesInZoneLogic)
+			var devicesInZoneLogic = new List<Device>(zone.DevicesInZoneLogic);
+			foreach (var device in devicesInZoneLogic)
 			{
 				DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
 				device.OnChanged();
 			}
-			foreach (var device in zone.IndicatorsInZone)
+			var indicatorsInZone = new List<Device>(zone.IndicatorsInZone);
+			foreach (var device in indicatorsInZone)
 			{
 				DeviceConfiguration.UpdateOneDeviceCrossReferences(device);
 				device.OnChanged();

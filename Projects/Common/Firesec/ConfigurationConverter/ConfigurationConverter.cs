@@ -93,8 +93,11 @@ namespace Firesec
 
         public void Update(DeviceConfiguration deviceConfiguration = null)
         {
-            if (deviceConfiguration == null)
-                deviceConfiguration = ConfigurationCash.DeviceConfiguration;
+			if (deviceConfiguration == null)
+			{
+				Logger.Error("ConfigurationConverter.Update deviceConfiguration = null");
+				deviceConfiguration = ConfigurationCash.DeviceConfiguration;
+			}
 
             var hasInvalidDriver = false;
             deviceConfiguration.Update();
@@ -126,7 +129,6 @@ namespace Firesec
 			var firesecDeviceConfiguration = ConvertOnlyDevices(coreConfig);
 			Update(firesecDeviceConfiguration);
 			Update(ConfigurationCash.DeviceConfiguration);
-			firesecDeviceConfiguration.Update();
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
 				var firesecDevice = firesecDeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == device.PathId);
