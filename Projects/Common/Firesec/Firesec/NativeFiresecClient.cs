@@ -375,7 +375,9 @@ namespace Firesec
 			{
 				var continueProgress = IntContinueProgress == 1;
 				IntContinueProgress = 1;
-				ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
+				var result = OnProgress(Stage, Comment, PercentComplete, BytesRW);
+				return result;
+				//ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
 				//return true;
 				return continueProgress;
 			}
