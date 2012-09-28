@@ -96,10 +96,13 @@ namespace Firesec
 		{
 			var offsetParamValue = paramValue;
 
+			var highByteValue = paramValue / 256;
+			var lowByteValue = paramValue - highByteValue * 256;
+
 			if (driverProperty.HighByte)
-				offsetParamValue = paramValue / 256;
+				offsetParamValue = highByteValue;
 			else
-				offsetParamValue = (int)Math.Abs(Math.IEEERemainder(paramValue, 256));
+				offsetParamValue = lowByteValue;
 
 			if (driverProperty.MinBit > 0)
 			{

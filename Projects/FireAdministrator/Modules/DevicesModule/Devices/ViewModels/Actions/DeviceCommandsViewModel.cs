@@ -31,8 +31,8 @@ namespace DevicesModule.ViewModels
 			GetConfigurationParametersCommand = new RelayCommand(OnGetConfigurationParameters, CanGetConfigurationParameters);
 			SetConfigurationParametersCommand = new RelayCommand(OnSetConfigurationParameters, CanSetConfigurationParameters);
 
-			GetAllDevicesConfigurationParametersCommand = new RelayCommand(OnGetAllDeviceConfigurationParameters, CanGetAllDeviceConfigurationParameters);
-			//SetAllDeviceConfigurationParametersCommand = new RelayCommand(OnSetAllDeviceConfigurationParameters, CanSetAllDeviceConfigurationParameters);
+			GetAllDeviceConfigurationParametersCommand = new RelayCommand(OnGetAllDeviceConfigurationParameters, CanGetAllDeviceConfigurationParameters);
+			SetAllDeviceConfigurationParametersCommand = new RelayCommand(OnSetAllDeviceConfigurationParameters, CanSetAllDeviceConfigurationParameters);
 			
 
 			_devicesViewModel = devicesViewModel;
@@ -54,6 +54,7 @@ namespace DevicesModule.ViewModels
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanAutoDetect));
 		}
 
+		#region ReadWriteDevice
 		public RelayCommand<bool> ReadDeviceCommand { get; private set; }
 		void OnReadDevice(bool isUsb)
 		{
@@ -101,18 +102,18 @@ namespace DevicesModule.ViewModels
 				WriteAllDeviceConfigurationHelper.Run();
 			}
 		}
+		#endregion
+		
 
 		public RelayCommand<bool> SynchronizeDeviceCommand { get; private set; }
 		void OnSynchronizeDevice(bool isUsb)
 		{
 			SynchronizeDeviceHelper.Run(SelectedDevice.Device, isUsb);
 		}
-
 		bool CanSynchronizeDevice(bool isUsb)
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSynchonize));
 		}
-
 		bool CanRebootDevice()
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReboot));
@@ -123,7 +124,6 @@ namespace DevicesModule.ViewModels
 		{
 			FirmwareUpdateHelper.Run(SelectedDevice.Device, isUsb);
 		}
-
 		bool CanUpdateSoft(bool isUsb)
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanUpdateSoft));
@@ -134,7 +134,6 @@ namespace DevicesModule.ViewModels
 		{
 			DeviceGetInformationHelper.Run(SelectedDevice.Device, isUsb);
 		}
-
 		bool CanGetDescription(bool isUsb)
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanGetDescription));
@@ -145,7 +144,6 @@ namespace DevicesModule.ViewModels
 		{
 			ReadDeviceJournalHelper.Run(SelectedDevice.Device, isUsb);
 		}
-
 		bool CanGetDeveceJournal(bool isUsb)
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReadJournal));
@@ -156,7 +154,6 @@ namespace DevicesModule.ViewModels
 		{
 			DialogService.ShowModalWindow(new SetPasswordViewModel(SelectedDevice.Device, isUsb));
 		}
-
 		bool CanSetPassword(bool isUsb)
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSetPassword));
@@ -167,7 +164,6 @@ namespace DevicesModule.ViewModels
 		{
 			DeviceGetSerialListHelper.Run(SelectedDevice.Device);
 		}
-
 		bool CanBindMs()
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == DriverType.MS_1 || SelectedDevice.Device.Driver.DriverType == DriverType.MS_2));
@@ -178,25 +174,19 @@ namespace DevicesModule.ViewModels
 		{
 			DialogService.ShowModalWindow(new CustomAdminFunctionsCommandViewModel(SelectedDevice.Device));
 		}
-
 		bool CanExecuteCustomAdminFunctions(bool isUsb)
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
 		}
 
+		#region GetConfig
 		public RelayCommand GetConfigurationParametersCommand { get; private set; }
 		void OnGetConfigurationParameters()
 		{
-			ServiceFactory.ProgressService.Run(OnPropgress, OnCompleted, "Считывание параметров устройства");
-		}
-		private OperationResult<List<Property>> result;
-
-		void OnPropgress()
-		{
-			result = FiresecManager.FiresecDriver.GetConfigurationParameters(SelectedDevice.Device.UID);
-		}
-		void OnCompleted()
-		{
+			LoadingService.Show("Считывание параметров устройства " + SelectedDevice.Device.Driver.ShortName);
+			OperationResult<List<Property>> result = FiresecManager.FiresecDriver.GetConfigurationParameters(SelectedDevice.Device.UID);
+			LoadingService.AddCount(result.Result.Count());
+			
 			if (!result.HasError)
 			{
 				foreach (var resultProperty in result.Result)
@@ -208,6 +198,7 @@ namespace DevicesModule.ViewModels
 						{
 							Name = resultProperty.Name
 						};
+						LoadingService.DoStep(resultProperty.Name);
 						SelectedDevice.Device.Properties.Add(property);
 					}
 					property.Value = resultProperty.Value;
@@ -218,25 +209,93 @@ namespace DevicesModule.ViewModels
 			{
 				MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
 			}
+			LoadingService.Close();
 		}
-		
+
 		bool CanGetConfigurationParameters()
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
 		}
+		#endregion
 
-		public RelayCommand GetAllDevicesConfigurationParametersCommand { get; private set; }
+		#region SetConfig
+		public RelayCommand SetConfigurationParametersCommand { get; private set; }
+		void OnSetConfigurationParameters()
+		{
+			foreach (var property in SelectedDevice.Device.Properties)
+			{
+				var prop = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+				if (prop != null &&
+					prop.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
+					(int.Parse(property.Value) < prop.Min || int.Parse(property.Value) > prop.Max)
+					)
+				{
+					MessageBoxService.Show("Значение параметра " + prop.Caption + " должно находиться в диапазоне от " + prop.Min.ToString() + " до " + prop.Max.ToString(), "Firesec");
+					return;
+				}
+			}
+			FiresecManager.FiresecDriver.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
+		}
+
+		bool CanSetConfigurationParameters()
+		{
+			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
+		}
+		#endregion
+		
+		#region SetAllCommand 
+		public RelayCommand SetAllDeviceConfigurationParametersCommand { get; private set; }
+		void OnSetAllDeviceConfigurationParameters()
+		{
+			LoadingService.Show("Запись параметров в дочерние устройства");
+			LoadingService.AddCount(SelectedDevice.Children.Count());
+			foreach (var childDevice in SelectedDevice.Children)
+			{
+				foreach (var property in childDevice.Device.Properties)
+				{
+					var prop = childDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+					if (prop != null &&
+						prop.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
+						(int.Parse(property.Value) < prop.Min || int.Parse(property.Value) > prop.Max)
+						)
+					{
+						property.Value = prop.Min.ToString();
+						MessageBoxService.Show("Значение параметра " + prop.Caption + " должно находиться в диапазоне от " + prop.Min.ToString() + " до " + prop.Max.ToString(), "Firesec");
+						return;
+					}
+				}
+			}
+			foreach (var childDevice in SelectedDevice.Children)
+			{
+				LoadingService.DoStep(childDevice.Device.Driver.ShortName + " " + childDevice.Address);
+				FiresecManager.FiresecDriver.SetConfigurationParameters(childDevice.Device.UID,	childDevice.Device.Properties);
+			}
+			LoadingService.Close();
+		}
+		bool CanSetAllDeviceConfigurationParameters()
+		{
+			foreach (var childDevice in SelectedDevice.Children)
+			{
+				if ((childDevice != null) && (childDevice.Device.Driver.HasConfigurationProperties))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+		#endregion
+
+		#region GetAllCommand
+		public RelayCommand GetAllDeviceConfigurationParametersCommand { get; private set; }
 		void OnGetAllDeviceConfigurationParameters()
 		{
-			ServiceFactory.ProgressService.Run(OnAllGetProgress, OnAllGetCompleted, "Считывание параметров дочерних устройств");
-		}
-		void OnAllGetProgress()
-		{
+			LoadingService.Show("Считывание параметров дочерних устройств");
+			LoadingService.AddCount(SelectedDevice.Children.Count());
+
 			OperationResult<List<Property>> res;
 			foreach (var child in SelectedDevice.Children)
 			{
-				//MessageBoxService.Show("Считывание параметров устройства " + child.Device.Driver.Name + " " + child.Address);
-
+				LoadingService.DoStep(child.Device.Driver.ShortName + " " + child.Address);
 				res = FiresecManager.FiresecDriver.GetConfigurationParameters(child.Device.UID);
 				if (!res.HasError)
 				{
@@ -260,13 +319,9 @@ namespace DevicesModule.ViewModels
 					MessageBoxService.Show("При вызове метода на сервере возникло исключение " + res.Error);
 				}
 			};
+
+			LoadingService.Close();
 		}
-
-		void OnAllGetCompleted() 
-		{ 
-			;
-		} 
-
 		bool CanGetAllDeviceConfigurationParameters()
 		{
 			foreach (var child in SelectedDevice.Children)
@@ -278,43 +333,9 @@ namespace DevicesModule.ViewModels
 			}
 			return false;
 		}
+		#endregion
+		
 
-
-		public RelayCommand SetConfigurationParametersCommand { get; private set; }
-		void OnSetConfigurationParameters()
-		{
-			bool ewrthg_ok = true;
-			foreach (var property in SelectedDevice.Device.Properties)
-			{
-				var prop = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				if (prop != null &&
-					prop.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
-					(int.Parse(property.Value) < prop.Min || int.Parse(property.Value) > prop.Max)
-					)
-				{
-					MessageBoxService.Show("Значение параметра " + prop.Caption + " должно находиться в диапазоне от " + prop.Min.ToString() + " до " + prop.Max.ToString(), "Firesec");
-					ewrthg_ok = false;
-				}
-			}
-
-
-			if (ewrthg_ok)
-				ServiceFactory.ProgressService.Run(OnPropgress1, OnCompleted1, "Запись параметров в устройство");
-		}
-		void OnPropgress1()
-		{
-			FiresecManager.FiresecDriver.SetConfigurationParameters(SelectedDevice.Device.UID,
-																		SelectedDevice.Device.Properties);
-		}
-		void OnCompleted1()
-		{
-			MessageBoxService.Show("Операция завершилась успешно", "Firesec");
-		}
-		bool CanSetConfigurationParameters()
-		{
-			
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.HasConfigurationProperties));
-		}
 
 		public bool IsAlternativeUSB
 		{
@@ -323,5 +344,6 @@ namespace DevicesModule.ViewModels
 				return  ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsAlternativeUSB));
 			}
 		}
+
 	}
 }
