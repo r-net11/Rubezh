@@ -213,22 +213,17 @@ namespace Firesec
 
 		void SetStates(Firesec.Models.CoreState.config coreState)
 		{
+            if (coreState == null && coreState.dev == null)
+            {
+                return;
+            }
+
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				if (coreState == null)
-				{
-					Logger.Error("Watcher.SetStates coreState = null");
-					return;
-				}
-				if (coreState.dev == null)
-				{
-					//Logger.Error("Watcher.SetStates coreState.dev = null");
-					return;
-				}
 				if (device.PlaceInTree == null)
 				{
 					Logger.Error("Watcher.SetStates deviceState.PlaceInTree = null");
-					return;
+					continue;
 				}
 
 				bool hasOneChangedState = false;
@@ -239,21 +234,21 @@ namespace Firesec
 					if (device.Driver == null)
 					{
 						Logger.Error("Watcher.SetStates deviceState.Device.Driver = null");
-						return;
+                        continue;
 					}
 					if (device.Driver.States == null)
 					{
 						Logger.Error("Watcher.SetStates deviceState.Device.Driver.States = null");
-						return;
+                        continue;
 					}
+                    if (innerDevice.state == null)
+                    {
+                        Logger.Error("Watcher.SetStates innerDevice.state = null");
+                        continue;
+                    }
 
 					foreach (var driverState in device.Driver.States)
 					{
-						if (innerDevice.state == null)
-						{
-							Logger.Error("Watcher.SetStates innerDevice.state = null");
-							return;
-						}
 						var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);
 						if (device.DeviceState.States == null)
 						{

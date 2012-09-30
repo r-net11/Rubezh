@@ -5,4 +5,8 @@
     <DataTemplate DataType="{x:Type ViewModels:DiagnosticsViewModel}">
         <Views:DiagnosticsView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ImitatorViewModel}">
+        <Views:ImitatorView />
+    </DataTemplate>
 </ResourceDictionary>

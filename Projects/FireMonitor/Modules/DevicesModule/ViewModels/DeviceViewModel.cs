@@ -33,8 +33,8 @@ namespace DevicesModule.ViewModels
 			DeviceState = Device.DeviceState;
 			if (DeviceState != null)
 			{
-				DeviceState.StateChanged += new System.Action(OnStateChanged);
-				DeviceState.ParametersChanged += new System.Action(OnParametersChanged);
+				DeviceState.StateChanged += new Action(OnStateChanged);
+				DeviceState.ParametersChanged += new Action(OnParametersChanged);
 				OnStateChanged();
 				OnParametersChanged();
 			}

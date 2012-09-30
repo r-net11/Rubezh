@@ -34,6 +34,7 @@ namespace PlansModule.ViewModels
 			{
 				DeviceState = Device.DeviceState;
 				DeviceState.StateChanged += new Action(OnDeviceStateChanged);
+                DeviceState.ParametersChanged +=new Action(OnParametersChanged);
 			}
 		}
 
@@ -51,7 +52,6 @@ namespace PlansModule.ViewModels
 			{
 				DataContext = this,
 			};
-			ElementDeviceView._deviceControl.IsManualUpdate = true;
 
 			ElementDeviceView.Width = 10;
 			ElementDeviceView.Height = 10;
@@ -117,6 +117,11 @@ namespace PlansModule.ViewModels
 				select state.DriverState.Code);
 			ElementDeviceView._deviceControl.Update();
 		}
+
+        void OnParametersChanged()
+        {
+            OnPropertyChanged("ToolTip");
+        }
 
 		public string ToolTip
 		{

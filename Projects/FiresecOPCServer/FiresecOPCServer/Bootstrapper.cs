@@ -60,9 +60,9 @@ namespace FiresecOPCServer
 			UILogger.Log("Загрузка драйвера устройств");
 			FiresecManager.InitializeFiresecDriver(AppSettings.FS_Address, AppSettings.FS_Port, AppSettings.FS_Login, AppSettings.FS_Password);
 			UILogger.Log("Синхронизация конфигурации");
-			FiresecManager.Synchronyze();
+			FiresecManager.FiresecDriver.Synchronyze();
 			UILogger.Log("Старт мониторинга");
-            FiresecManager.StartWatcher(true, false);
+            FiresecManager.FiresecDriver.StartWatcher(true, false);
 		}
 
         static void OnWorkThread()
@@ -97,8 +97,7 @@ namespace FiresecOPCServer
             UILogger.Log("Перезагрузка конфигурации");
             FiresecManager.GetConfiguration();
             UILogger.Log("Синхронизация конфигурации");
-            FiresecManager.Synchronyze();
-
+            FiresecManager.FiresecDriver.Synchronyze();
             UILogger.Log("Перезапуск OPC Сервера");
             FiresecOPCManager.OPCRefresh();
         }

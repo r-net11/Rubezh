@@ -23,7 +23,7 @@ namespace FiresecClient
 			{
 				var stringBuilder = new StringBuilder();
 				var indx = 0;
-				foreach(var zoneUID in device.Zones)
+				foreach(var zoneUID in device.ZoneUIDs)
 				{
 					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)

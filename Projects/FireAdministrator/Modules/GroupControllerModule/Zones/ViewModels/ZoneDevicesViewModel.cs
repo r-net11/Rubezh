@@ -33,14 +33,14 @@ namespace GKModule.ViewModels
 				if (!device.Driver.HasZone)
 					continue;
 
-                if (Zone.DeviceUIDs.Contains(device.UID))
+                if (device.ZoneUIDs.Contains(Zone.UID))
                 {
                     device.AllParents.ForEach(x => { devices.Add(x); });
                     devices.Add(device);
                 }
                 else
                 {
-					if (device.Zones.Count == 0)
+					if (device.ZoneUIDs.Count == 0)
 					{
 						device.AllParents.ForEach(x => { availableDevices.Add(x); });
 						availableDevices.Add(device);
@@ -54,8 +54,7 @@ namespace GKModule.ViewModels
                 var deviceViewModel = new DeviceViewModel(device, Devices)
                 {
                     IsExpanded = true,
-                    IsBold = Zone.DeviceUIDs.Contains(device.UID)
-                    //IsBold = device.Zones.Contains(Zone.No)
+                    IsBold = device.ZoneUIDs.Contains(Zone.UID)
                 };
                 Devices.Add(deviceViewModel);
             }
@@ -145,11 +144,11 @@ namespace GKModule.ViewModels
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            if (Zone.DeviceUIDs.Contains(SelectedAvailableDevice.Device.UID) == false)
-                Zone.DeviceUIDs.Add(SelectedAvailableDevice.Device.UID);
+            if (SelectedAvailableDevice.Device.ZoneUIDs.Contains(Zone.UID) == false)
+                SelectedAvailableDevice.Device.ZoneUIDs.Add(Zone.UID);
 
-            if (SelectedAvailableDevice.Device.Zones.Contains(Zone.UID) == false)
-                SelectedAvailableDevice.Device.Zones.Add(Zone.UID);
+            if (SelectedAvailableDevice.Device.ZoneUIDs.Contains(Zone.UID) == false)
+                SelectedAvailableDevice.Device.ZoneUIDs.Add(Zone.UID);
 
             Initialize(Zone);
             UpdateAvailableDevices();
@@ -164,8 +163,7 @@ namespace GKModule.ViewModels
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
-            Zone.DeviceUIDs.Remove(SelectedDevice.Device.UID);
-            SelectedDevice.Device.Zones.Remove(Zone.UID);
+            SelectedDevice.Device.ZoneUIDs.Remove(Zone.UID);
 
             Initialize(Zone);
             UpdateAvailableDevices();

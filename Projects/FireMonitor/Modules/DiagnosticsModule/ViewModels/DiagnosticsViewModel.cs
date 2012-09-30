@@ -5,6 +5,7 @@ using FiresecClient;
 using System;
 using FiresecAPI;
 using System.Diagnostics;
+using System.Text;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -12,20 +13,31 @@ namespace DiagnosticsModule.ViewModels
     {
         public DiagnosticsViewModel()
         {
-            ShowImitatorCommand = new RelayCommand(OnShowImitator);
             Test1Command = new RelayCommand(OnTest1);
             Test2Command = new RelayCommand(OnTest2);
         }
 
-        public RelayCommand ShowImitatorCommand { get; private set; }
-        void OnShowImitator()
+        string _text;
+        public string Text
         {
-			ImitatorService.Show();
+            get { return _text; }
+            set
+            {
+                _text = value;
+                OnPropertyChanged("Text");
+            }
         }
 
         public RelayCommand Test1Command { get; private set; }
         void OnTest1()
         {
+            var stringBuilder = new StringBuilder();
+            foreach (var device in FiresecManager.Devices)
+            {
+                if (device.PlaceInTree == null)
+                    stringBuilder.AppendLine(device.PresentationAddress);
+            }
+            Text = stringBuilder.ToString();
         }
 
         public RelayCommand Test2Command { get; private set; }

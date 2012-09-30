@@ -245,6 +245,7 @@
     <Compile Include="XModels\Filters\XJournalFilter.cs" />
     <Compile Include="XModels\Formula\FormulaOperation.cs" />
     <Compile Include="XModels\Formula\FormulaOperationType.cs" />
+    <Compile Include="XModels\Logic\ClauseConditionType.cs" />
     <Compile Include="XModels\Logic\ClauseJounOperationType.cs" />
     <Compile Include="XModels\Logic\ClauseOperandType.cs" />
     <Compile Include="XModels\Logic\ClauseOperationType.cs" />

@@ -5,5 +5,4 @@
     <Button Command="{Binding ChangeUserCommand}" ToolTip="Сменить пользователя" Style="{StaticResource ToolarButtonStyle}">
         <Image Source="/Controls;component/Images/user.png" Height="24" Opacity="0.5" />
     </Button>
-
 </UserControl>

@@ -59,6 +59,7 @@ namespace FiresecClient
 			}
 
 			InitializeMissingDefaultProperties();
+            Invalidate();
 		}
 
 		public static void InitializeMissingDefaultProperties()

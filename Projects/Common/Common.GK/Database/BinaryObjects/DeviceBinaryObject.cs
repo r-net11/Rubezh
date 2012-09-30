@@ -87,6 +87,9 @@ namespace Common.GK
 							objectIndex++;
 						}
 
+                        if(clause.ClauseConditionType == ClauseConditionType.IfNot)
+                            Formula.Add(FormulaOperationType.NEG, comment: "Условие Если НЕ");
+
 						if (clauseIndex > 0)
 						{
 							switch (clause.ClauseJounOperationType)

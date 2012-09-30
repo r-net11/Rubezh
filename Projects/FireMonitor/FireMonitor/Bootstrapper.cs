@@ -91,14 +91,16 @@ namespace FireMonitor
             {
                 LoadingService.DoStep("Инициализация драйвера устройств");
                 FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
+            }
+            LoadingService.DoStep("Синхронизация конфигурации");
+            FiresecManager.FiresecDriver.Synchronyze();
+            if (!reconnect)
+            {
                 LoadingService.DoStep("Старт мониторинга");
-                FiresecManager.StartWatcher(true, true);
+                FiresecManager.FiresecDriver.StartWatcher(true, true);
                 LoadingService.DoStep("Синхронизация журнала событий");
                 FiresecManager.SynchrinizeJournal();
             }
-
-            LoadingService.DoStep("Синхронизация конфигурации");
-            FiresecManager.Synchronyze();
         }
 
         void InitializeGk()

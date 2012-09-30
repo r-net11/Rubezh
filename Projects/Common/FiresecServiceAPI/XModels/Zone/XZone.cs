@@ -12,7 +12,7 @@ namespace XFiresecAPI
             UID = Guid.NewGuid();
 			Fire1Count = 2;
 			Fire2Count = 3;
-			DeviceUIDs = new List<Guid>();
+            Devices = new List<XDevice>();
 		}
 
 		public XZoneState ZoneState { get; set; }
@@ -35,9 +35,6 @@ namespace XFiresecAPI
 
 		[DataMember]
 		public ushort Fire2Count { get; set; }
-
-		[DataMember]
-		public List<Guid> DeviceUIDs { get; set; }
 
 		public string PresentationName
 		{

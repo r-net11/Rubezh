@@ -21,6 +21,9 @@ namespace XFiresecAPI
 		public List<XZone> XZones { get; set; }
 
         [DataMember]
+        public ClauseConditionType ClauseConditionType { get; set; }
+
+        [DataMember]
         public XStateType StateType { get; set; }
 
         [DataMember]
@@ -28,9 +31,6 @@ namespace XFiresecAPI
 
         [DataMember]
         public List<Guid> Zones { get; set; }
-
-		//[DataMember]
-		//public ClauseOperandType ClauseOperandType { get; set; }
 
         [DataMember]
         public ClauseOperationType ClauseOperationType { get; set; }

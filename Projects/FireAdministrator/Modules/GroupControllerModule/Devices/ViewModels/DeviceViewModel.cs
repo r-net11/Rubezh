@@ -25,7 +25,6 @@ namespace GKModule.ViewModels
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 
 			Children = new ObservableCollection<DeviceViewModel>();
-
 			Source = sourceDevices;
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
@@ -165,10 +164,10 @@ namespace GKModule.ViewModels
         public RelayCommand ShowZonesCommand { get; private set; }
         void OnShowZones()
         {
-			var zonesSelectationViewModel = new ZonesSelectationViewModel(Device, Device.Zones);
+			var zonesSelectationViewModel = new ZonesSelectationViewModel(Device, Device.ZoneUIDs);
             if (DialogService.ShowModalWindow(zonesSelectationViewModel))
             {
-                Device.Zones = zonesSelectationViewModel.Zones;
+                Device.ZoneUIDs = zonesSelectationViewModel.Zones;
                 OnPropertyChanged("PresentationZone");
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }

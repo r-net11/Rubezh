@@ -21,8 +21,8 @@ namespace DeviveModelManager
             FiresecManager.Connect(ClientType.Assad, serverAddress, Login, Password);
             FiresecManager.GetConfiguration();
             FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
-            FiresecManager.Synchronyze();
-            FiresecManager.StartWatcher(false, false);
+            FiresecManager.FiresecDriver.Synchronyze();
+            FiresecManager.FiresecDriver.StartWatcher(false, false);
 
             var view = new View();
             var viewModel = new ViewModel();

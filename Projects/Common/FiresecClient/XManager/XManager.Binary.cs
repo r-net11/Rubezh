@@ -55,6 +55,7 @@ namespace FiresecClient
 			foreach (var zone in DeviceConfiguration.Zones)
 			{
 				zone.ClearBinaryData();
+                zone.InputObjects.Add(zone);
 			}
 			foreach (var direction in DeviceConfiguration.Directions)
 			{

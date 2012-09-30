@@ -66,6 +66,7 @@
     </Compile>
     <Compile Include="BinaryFormatViewer\Converters\DescriptorNoToStringConverter.cs" />
     <Compile Include="BinConfigurationWriter.cs" />
+    <Compile Include="Converters\ClauseConditionConverter.cs" />
     <Compile Include="Directions\ViewModels\DirectionDeviceSelectationViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionDevicesViewModel.cs" />
     <Compile Include="Directions\ViewModels\DirectionDeviceViewModel.cs" />

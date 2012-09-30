@@ -2,10 +2,16 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Grid Margin="10">
-        <StackPanel>
-            <Button Content="Имитатор" Command="{Binding ShowImitatorCommand}" Width="100" Margin="2" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
             <Button Content="Test1" Command="{Binding Test1Command}" Width="100" Margin="2" />
             <Button Content="Test2" Command="{Binding Test2Command}" Width="100" Margin="2" />
         </StackPanel>
+        <ScrollViewer Grid.Row="1">
+            <TextBox Text="{Binding Text}" />
+        </ScrollViewer>
     </Grid>
 </UserControl>

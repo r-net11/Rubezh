@@ -69,9 +69,9 @@ namespace FireAdministrator
 			LoadingService.DoStep("Загрузка драйвера устройств");
 			FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
 			LoadingService.DoStep("Синхронизация конфигурации");
-			FiresecManager.Synchronyze();
+			FiresecManager.FiresecDriver.Synchronyze();
 			LoadingService.DoStep("Старт мониторинга");
-			FiresecManager.StartWatcher(false, false);
+            FiresecManager.FiresecDriver.StartWatcher(false, false);
 		}
 
 		void InitializeGk()

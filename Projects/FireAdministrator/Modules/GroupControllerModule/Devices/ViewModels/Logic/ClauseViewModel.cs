@@ -27,8 +27,9 @@ namespace GKModule.ViewModels
 			Zones = clause.Zones.ToList();
 			Devices = clause.Devices.ToList();
 
+            ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
+            ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
 			ClauseJounOperationTypes = Enum.GetValues(typeof(ClauseJounOperationType)).Cast<ClauseJounOperationType>().ToList();
-			ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
 
 			StateTypes = new List<XStateType>();
 			StateTypes.Add(XStateType.Attention);
@@ -37,9 +38,11 @@ namespace GKModule.ViewModels
 			StateTypes.Add(XStateType.Test);
 			StateTypes.Add(XStateType.Failure);
 
+            SelectedClauseConditionType = clause.ClauseConditionType;
 			SelectedStateType = clause.StateType;
 		}
 
+        public List<ClauseConditionType> ClauseConditionTypes { get; private set; }
 		public List<ClauseJounOperationType> ClauseJounOperationTypes { get; private set; }
 		public List<ClauseOperationType> ClauseOperationTypes { get; private set; }
 
@@ -53,6 +56,17 @@ namespace GKModule.ViewModels
 				OnPropertyChanged("SelectedClauseJounOperationType");
 			}
 		}
+
+        ClauseConditionType _selectedClauseConditionType;
+        public ClauseConditionType SelectedClauseConditionType
+        {
+            get { return _selectedClauseConditionType; }
+            set
+            {
+                _selectedClauseConditionType = value;
+                OnPropertyChanged("SelectedClauseConditionType");
+            }
+        }
 
 		ClauseOperationType _selectedClauseOperationType;
 		public ClauseOperationType SelectedClauseOperationType
