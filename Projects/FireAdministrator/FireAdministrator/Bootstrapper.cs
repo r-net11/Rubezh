@@ -91,7 +91,7 @@ namespace FireAdministrator
             RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh");
             ServiceFactory.AppSettings.Theme = (string)readKey.GetValue("Theme");
             readKey.Close();
-            if (!String.IsNullOrEmpty(ServiceFactory.AppSettings.Theme) && ServiceFactory.AppSettings.Theme != "DefaultTheme")
+            if (!String.IsNullOrEmpty(ServiceFactory.AppSettings.Theme))
 			{
                 var themeName = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/" + ServiceFactory.AppSettings.Theme + ".xaml";
 				Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themeName) });

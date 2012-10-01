@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using FiresecClient;
 using Infrastructure;
@@ -18,10 +21,18 @@ namespace SettingsModule.ViewModels
 		{
 			ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
 			ConvertJournalCommand = new RelayCommand(OnConvertJournal);
-		    ThemeInitialization();
-            ImportThemeCommand = new RelayCommand(OnImportTheme);
+            Themes = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
+            //(ButtonState)Enum.Parse(typeof(ButtonState);, buttonState, true);
+		    SelectedTheme = (Theme)Enum.Parse(typeof(Theme), ServiceFactory.AppSettings.Theme);
 		}
+        public enum Theme
+        {
+            [DescriptionAttribute("Серая тема")]
+            GrayTheme,
 
+            [Description("Синяя тема")]
+            BlueTheme
+        }
 		public RelayCommand ConvertConfigurationCommand { get; private set; }
 		void OnConvertConfiguration()
 		{
@@ -51,49 +62,23 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-        public RelayCommand ImportThemeCommand { get; private set; }
-        void OnImportTheme()
-        {
-            RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh");
-            saveKey.SetValue("Theme", ServiceFactory.AppSettings.Theme);
-            saveKey.Close();
-        }
-
-        private ObservableCollection<string> themeNames = new ObservableCollection<string>();
-	    public ObservableCollection<string> ThemeNames
-	    {
-	        get { return themeNames; }
-            set 
-            { 
-                themeNames = value;
-                OnPropertyChanged("ThemeNames");
-            }
-	    }
-
-        private void ThemeInitialization()
-        {
-            ThemeName = ServiceFactory.AppSettings.Theme;
-            themeNames.Add("По умолчанию");
-            themeNames.Add("Синяя тема");
-        }
-
-        private string themeName;
-        public string ThemeName
+        public List<Theme> Themes { get; private set; }
+        private Theme selectedTheme;
+        public Theme SelectedTheme
         {
             get
             {
-                return themeName;
+                return selectedTheme;
             }
             set
             {
-                themeName = value;
-                if (themeName == "По умолчанию")
-                    ServiceFactory.AppSettings.Theme = "DefaultTheme";
-                if (themeName == "Синяя тема")
-                    ServiceFactory.AppSettings.Theme = "BlueTheme";
-                var themeUri = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/" + ServiceFactory.AppSettings.Theme + ".xaml";
+                selectedTheme = value;
+                var themeUri = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/" + selectedTheme + ".xaml";
                 Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themeUri) });
-                OnPropertyChanged("ThemeName");
+                RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh");
+                saveKey.SetValue("Theme", selectedTheme);
+                saveKey.Close();
+                OnPropertyChanged("SelectedTheme");
             }
         }
 	}
