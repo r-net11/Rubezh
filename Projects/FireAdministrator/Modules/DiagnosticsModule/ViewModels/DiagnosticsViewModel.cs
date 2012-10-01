@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
+using System.Windows;
 using DiagnosticsModule.Views;
 using FiresecAPI.Models;
 using FiresecClient;
+using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -144,7 +147,7 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
 		{
-			ImitatorService.Show();
+            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("H://Brushes2.xaml") });
 		}
 
 		public RelayCommand Test3Command { get; private set; }

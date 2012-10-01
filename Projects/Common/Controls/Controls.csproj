@@ -191,17 +191,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Brushes.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Themes\DefaultTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Brushes2.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Themes\BlueTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\ButtonStyle.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Themes\CheckBoxStyle.xaml">
       <SubType>Designer</SubType>

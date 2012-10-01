@@ -12,5 +12,15 @@
                 </StackPanel>
             </Border>
         </TabItem>
+        <TabItem Header="Выбор темы">
+            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
+                <StackPanel>
+                    <StackPanel Margin="10" Orientation="Horizontal">
+                        <ComboBox ItemsSource="{Binding ThemeNames}" SelectedItem="{Binding ThemeName}" SelectedIndex="0"  Width="200" HorizontalAlignment="Left" />
+                        <Button Content="Применить тему" Command="{Binding ImportThemeCommand}" Width="150" Margin="15,0,0,0" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </TabItem>
     </TabControl>
 </UserControl>

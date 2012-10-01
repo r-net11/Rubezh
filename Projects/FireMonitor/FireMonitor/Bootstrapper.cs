@@ -12,6 +12,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Common.GK;
+using Microsoft.Win32;
 
 namespace FireMonitor
 {
@@ -20,6 +21,7 @@ namespace FireMonitor
         public void Initialize()
         {
             AppConfigHelper.InitializeAppSettings();
+            LoadStyles();
             VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
             ServiceFactory.Initialize(new LayoutService(), new SecurityService());
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
@@ -131,6 +133,18 @@ namespace FireMonitor
         void OnNotify(string message)
         {
             MessageBoxService.Show(message);
+        }
+
+        void LoadStyles()
+        {
+            RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh");
+            ServiceFactory.AppSettings.Theme = (string)readKey.GetValue("Theme");
+            readKey.Close();
+            if (!String.IsNullOrEmpty(ServiceFactory.AppSettings.Theme) && ServiceFactory.AppSettings.Theme != "DefaultTheme")
+            {
+                var themeName = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/" + ServiceFactory.AppSettings.Theme + ".xaml";
+                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themeName) });
+            }
         }
     }
 }
