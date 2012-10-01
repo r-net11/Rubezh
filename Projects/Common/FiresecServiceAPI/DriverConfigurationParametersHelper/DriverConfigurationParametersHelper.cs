@@ -7,11 +7,7 @@ namespace FiresecAPI.Models
 	{
 		public static void CreateKnownProperties(List<Driver> drivers)
 		{
-			foreach (var driverType in new List<DriverType>() { DriverType.RM_1, DriverType.RM_2, DriverType.RM_3, DriverType.RM_4, DriverType.RM_5 })
-			{
-				var driver = drivers.FirstOrDefault(x => x.DriverType == driverType);
-				RMHelper.Create(driver);
-			}
+			RMHelper.Create(drivers);
 			MROHelper.Create(drivers);
 			AMP4Helper.Create(drivers);
 			MDUHelper.Create(drivers);
@@ -23,6 +19,9 @@ namespace FiresecAPI.Models
 			}
 			MPTHelper.Create(drivers);
 			DetectorsHelper.Create(drivers);
+
+			AM_1_Helper.Create(drivers);
+			AM1_T_Helper.Create(drivers);
 		}
 	}
 }

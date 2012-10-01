@@ -183,33 +183,31 @@ namespace DevicesModule.ViewModels
 		public RelayCommand GetConfigurationParametersCommand { get; private set; }
 		void OnGetConfigurationParameters()
 		{
-			LoadingService.Show("Считывание параметров устройства " + SelectedDevice.Device.Driver.ShortName);
-			OperationResult<List<Property>> result = FiresecManager.FiresecDriver.GetConfigurationParameters(SelectedDevice.Device.UID);
-			LoadingService.AddCount(result.Result.Count());
-			
-			if (!result.HasError)
-			{
-				foreach (var resultProperty in result.Result)
+			WaitHelper.Execute(() => {
+				OperationResult<List<Property>> result = FiresecManager.FiresecDriver.GetConfigurationParameters(SelectedDevice.Device.UID);
+				if (!result.HasError)
 				{
-					var property = SelectedDevice.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
-					if (property == null)
+					foreach (var resultProperty in result.Result)
 					{
-						property = new Property()
+						var property = SelectedDevice.Device.Properties.FirstOrDefault(x => x.Name == resultProperty.Name);
+						if (property == null)
 						{
-							Name = resultProperty.Name
-						};
-						LoadingService.DoStep(resultProperty.Name);
-						SelectedDevice.Device.Properties.Add(property);
+							property = new Property()
+							{
+								Name = resultProperty.Name
+							};
+							SelectedDevice.Device.Properties.Add(property);
+						}
+						property.Value = resultProperty.Value;
 					}
-					property.Value = resultProperty.Value;
+					SelectedDevice.UpdataConfigurationProperties();
 				}
-				SelectedDevice.UpdataConfigurationProperties();
-			}
-			else
-			{
-				MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
-			}
-			LoadingService.Close();
+				else
+				{
+					MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
+				}
+			});
+			
 		}
 
 		bool CanGetConfigurationParameters()
@@ -222,19 +220,23 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SetConfigurationParametersCommand { get; private set; }
 		void OnSetConfigurationParameters()
 		{
-			foreach (var property in SelectedDevice.Device.Properties)
+			WaitHelper.Execute(() =>
 			{
-				var prop = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-				if (prop != null &&
-					prop.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
-					(int.Parse(property.Value) < prop.Min || int.Parse(property.Value) > prop.Max)
-					)
+				foreach (var property in SelectedDevice.Device.Properties)
 				{
-					MessageBoxService.Show("Значение параметра " + prop.Caption + " должно находиться в диапазоне от " + prop.Min.ToString() + " до " + prop.Max.ToString(), "Firesec");
-					return;
+					var prop = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+					if (prop != null &&
+						prop.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
+						(int.Parse(property.Value) < prop.Min || int.Parse(property.Value) > prop.Max)
+						)
+					{
+						MessageBoxService.Show("Значение параметра " + prop.Caption + " должно находиться в диапазоне от " + prop.Min.ToString() + " до " + prop.Max.ToString(), "Firesec");
+						return;
+					}
+
 				}
-			}
-			FiresecManager.FiresecDriver.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
+				FiresecManager.FiresecDriver.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
+			});
 		}
 
 		bool CanSetConfigurationParameters()
@@ -247,8 +249,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand SetAllDeviceConfigurationParametersCommand { get; private set; }
 		void OnSetAllDeviceConfigurationParameters()
 		{
-			LoadingService.Show("Запись параметров в дочерние устройства");
-			LoadingService.AddCount(SelectedDevice.Children.Count());
+			LoadingService.ShowProgress("", "Запись параметров в дочерние устройства", SelectedDevice.Children.Count());
 			foreach (var childDevice in SelectedDevice.Children)
 			{
 				foreach (var property in childDevice.Device.Properties)
@@ -289,9 +290,8 @@ namespace DevicesModule.ViewModels
 		public RelayCommand GetAllDeviceConfigurationParametersCommand { get; private set; }
 		void OnGetAllDeviceConfigurationParameters()
 		{
-			LoadingService.Show("Считывание параметров дочерних устройств");
-			LoadingService.AddCount(SelectedDevice.Children.Count());
-
+			LoadingService.ShowProgress("", "Считывание параметров дочерних устройств", SelectedDevice.Children.Count());
+			
 			OperationResult<List<Property>> res;
 			foreach (var child in SelectedDevice.Children)
 			{

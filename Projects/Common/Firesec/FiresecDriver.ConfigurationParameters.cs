@@ -151,7 +151,6 @@ namespace Firesec
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
 					if (driverProperty.No == 0x80
-						//&& binProperty.No <= 0xbf
 						)
 					{
 						;
@@ -177,6 +176,17 @@ namespace Firesec
 							intValue = int.Parse(driverPropertyParameterValue.Value);
 						}
 					}
+					else if (driverProperty.DriverPropertyType == DriverPropertyTypeEnum.BoolType)
+					{
+						if (property.Value == null)
+						{
+							intValue = 0;
+						}
+						else
+						{
+							intValue = 1;
+						}
+					}
 					else
 					{
 						intValue = int.Parse(property.Value);
@@ -185,12 +195,6 @@ namespace Firesec
 							intValue = (int)Math.Truncate((double)intValue / 5);
 						}
 					}
-					//if (intValue < driverProperty.Min || intValue > driverProperty.Max)
-					//{
-					//    MessageBox.Show("Значение параметра " + driverProperty.Caption + " вне допустимого диапазона");
-					//    return ;
-					//}
-
 					if (driverProperty.BitOffset > 0)
 					{
 						intValue = intValue << driverProperty.BitOffset;

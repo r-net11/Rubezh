@@ -140,7 +140,9 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="CallbackResult.cs" />
+    <Compile Include="DriverConfigurationParametersHelper\AM1_T_Helper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\AMP4Helper.cs" />
+    <Compile Include="DriverConfigurationParametersHelper\AM_1Helper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\BUNHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\BUZHelper.cs" />
     <Compile Include="DriverConfigurationParametersHelper\DetectorsHelper.cs" />

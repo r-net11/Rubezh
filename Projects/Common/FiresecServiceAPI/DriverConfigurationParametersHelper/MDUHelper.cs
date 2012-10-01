@@ -14,8 +14,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x82,
-				Name = "Время переключения электропривода в положение ЗАКРЫТО",
-				Caption = "Время переключения электропривода в положение ЗАКРЫТО",
+				Name = "Время переключения электропривода в положение НОРМА",
+				Caption = "Время переключения электропривода в положение НОРМА",
 				Default = "180",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -27,8 +27,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x83,
-				Name = "Время переключения электропривода в положение ОТКРЫТО",
-				Caption = "Время переключения электропривода в положение ОТКРЫТО",
+				Name = "Время переключения электропривода в положение ЗАЩИТА",
+				Caption = "Время переключения электропривода в положение ЗАЩИТА",
 				Default = "180",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -40,8 +40,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x84,
-				Name = "Время задержки перед началом движения электропривода в положение ОТКРЫТО",
-				Caption = "Время задержки перед началом движения электропривода в положение ОТКРЫТО",
+				Name = "Время задержки перед началом движения электропривода в положение ЗАЩИТА",
+				Caption = "Время задержки перед началом движения электропривода в положение ЗАЩИТА",
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
