@@ -21,10 +21,20 @@ namespace SettingsModule.ViewModels
 		{
 			ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
 			ConvertJournalCommand = new RelayCommand(OnConvertJournal);
-            Themes = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
-            //(ButtonState)Enum.Parse(typeof(ButtonState);, buttonState, true);
-		    SelectedTheme = (Theme)Enum.Parse(typeof(Theme), ServiceFactory.AppSettings.Theme);
 		}
+
+        public void Initialize()
+        {
+            try
+            {
+                Themes = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
+                //(ButtonState)Enum.Parse(typeof(ButtonState);, buttonState, true);
+                if (ServiceFactory.AppSettings.Theme != null)
+                    SelectedTheme = (Theme)Enum.Parse(typeof(Theme), ServiceFactory.AppSettings.Theme);
+            }
+            catch { ;}
+        }
+
         public enum Theme
         {
             [DescriptionAttribute("Серая тема")]
