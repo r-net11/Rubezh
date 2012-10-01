@@ -6,6 +6,7 @@ using System;
 using FiresecAPI;
 using System.Diagnostics;
 using System.Text;
+using FiresecAPI.Models;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -35,7 +36,7 @@ namespace DiagnosticsModule.ViewModels
             foreach (var device in FiresecManager.Devices)
             {
                 if (device.PlaceInTree == null)
-                    stringBuilder.AppendLine(device.PresentationAddress);
+                    stringBuilder.AppendLine(device.PresentationAddressAndDriver);
             }
             Text = stringBuilder.ToString();
         }
@@ -43,6 +44,16 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand Test2Command { get; private set; }
         void OnTest2()
         {
+			var stringBuilder = new StringBuilder();
+			foreach (var zone in FiresecManager.Zones)
+			{
+				if (zone.ZoneType == ZoneType.Guard)
+				{
+					var localNo = FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(zone);
+					stringBuilder.AppendLine(zone.PresentationName + " - " + localNo.ToString() + " - " + zone.SecPanelUID.ToString());
+				}
+			}
+			Text = stringBuilder.ToString();
         }
     }
 }
