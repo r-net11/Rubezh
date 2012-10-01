@@ -41,9 +41,15 @@ namespace SettingsModule.ViewModels
 				WaitHelper.Execute(() =>
 				{
 					FiresecManager.FiresecDriver.Convert();
-					ServiceFactory.SaveService.DevicesChanged = true;
-					ServiceFactory.SaveService.PlansChanged = true;
+					ServiceFactory.SaveService.DevicesChanged = false;
+					ServiceFactory.SaveService.PlansChanged = false;
 					FiresecManager.UpdateConfiguration();
+					FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+					var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+					if (result.HasError)
+					{
+						MessageBoxService.ShowError(result.Error);
+					}
 				});
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}

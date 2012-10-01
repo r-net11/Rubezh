@@ -367,32 +367,39 @@ namespace Firesec
 
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				foreach (var state in device.DeviceState.States)
+				if (device.Driver.ChildAddressReserveRangeCount == 0)
+					continue;
+
+				var childDeviceState = new ChildDeviceState();
+				var minChildStateType = StateType.Norm;
+				foreach (var child in device.Children)
 				{
-					if (device.Parent == null)
-						continue;
-					if (device.Parent.Driver.ChildAddressReserveRangeCount == 0 || state.DriverState.AffectParent == false)
-						continue;
-
-					var parentDeviceState = device.Parent.DeviceState;
-
-					var childDeviceState = new ChildDeviceState()
+					if (child.DeviceState.StateType < minChildStateType)
 					{
-						ChildDevice = device,
-						DriverState = state.DriverState,
-						IsDeleting = false
-					};
+						minChildStateType = child.DeviceState.StateType;
+						childDeviceState = new ChildDeviceState()
+						{
+							ChildDevice = device,
+							StateType = minChildStateType,
+							IsDeleting = false
+						};
+					}
+				}
 
-					var existingParentDeviceState = parentDeviceState.ChildStates.FirstOrDefault(x => x.ChildDevice.UID == childDeviceState.ChildDevice.UID && x.DriverState.Code == childDeviceState.DriverState.Code && x.DriverState == childDeviceState.DriverState);
-					if (existingParentDeviceState == null)
+				if (childDeviceState == null)
+					continue;
+
+				if (minChildStateType < device.DeviceState.StateType)
+				{
+					var existingDeviceState = device.DeviceState.ChildStates.FirstOrDefault(x => x.ChildDevice.UID == childDeviceState.ChildDevice.UID && x.StateType == childDeviceState.StateType);
+					if (existingDeviceState == null)
 					{
-						parentDeviceState.ChildStates.Add(childDeviceState);
-						Trace.WriteLine(parentDeviceState.Device.PresentationAddressAndDriver + " " + childDeviceState.DriverState.Name);
-						ChangedDevices.Add(parentDeviceState);
+						device.DeviceState.ChildStates.Add(childDeviceState);
+						ChangedDevices.Add(device.DeviceState);
 					}
 					else
 					{
-						existingParentDeviceState.IsDeleting = false;
+						existingDeviceState.IsDeleting = false;
 					}
 				}
 			}

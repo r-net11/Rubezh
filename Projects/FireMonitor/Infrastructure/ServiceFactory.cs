@@ -7,6 +7,7 @@ using Infrastructure.Client.Login;
 using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
+using Common;
 
 namespace Infrastructure
 {
@@ -28,6 +29,16 @@ namespace Infrastructure
 
 		public static void SubscribeEvents()
 		{
+			if (FiresecManager.FiresecDriver == null)
+			{
+				Logger.Error("ServiceFactory.SubscribeEvents FiresecManager.FiresecDriver = null");
+				return;
+			}
+			if (FiresecManager.FiresecDriver.Watcher == null)
+			{
+				Logger.Error("ServiceFactory.SubscribeEvents FiresecManager.FiresecDriver.Watcher = null");
+				return;
+			}
             FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
             FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
             FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });

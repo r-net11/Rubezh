@@ -9,6 +9,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
+using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
@@ -84,9 +85,9 @@ namespace DevicesModule.ViewModels
 			HasChildStates = false;
 			foreach (var state in DeviceState.ChildStates)
 			{
-				if (state.DriverState.StateType < ChildState)
+				if (state.StateType < ChildState)
 				{
-					ChildState = state.DriverState.StateType;
+					ChildState = state.StateType;
 					HasChildStates = true;
 				}
 			}
@@ -101,6 +102,8 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("ParentStates");
 			OnPropertyChanged("ChildState");
 			OnPropertyChanged("HasChildStates");
+
+			ShowTimerDetails();
 		}
 
 		public List<StateViewModel> States { get; private set; }
@@ -284,13 +287,13 @@ namespace DevicesModule.ViewModels
 
 		public bool CanShowZone()
 		{
-            return ((Device.Driver.IsZoneDevice) && (Device.ZoneUID != Guid.Empty));
+			return ((Device.Driver.IsZoneDevice) && (Device.ZoneUID != Guid.Empty));
 		}
 
 		public RelayCommand ShowZoneCommand { get; private set; }
 		void OnShowZone()
 		{
-            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneUID);
+			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneUID);
 		}
 
 		public bool CanDisable()
@@ -324,7 +327,7 @@ namespace DevicesModule.ViewModels
 			var deviceDriverState = DeviceState.States.FirstOrDefault(x => x.DriverState.Name == stateName);
 			resetItem.States.Add(deviceDriverState);
 			resetItems.Add(resetItem);
-            FiresecManager.FiresecDriver.ResetStates(resetItems);
+			FiresecManager.FiresecDriver.ResetStates(resetItems);
 
 			OnPropertyChanged("DeviceState");
 		}
@@ -350,6 +353,38 @@ namespace DevicesModule.ViewModels
 		public bool IsGuardDevice
 		{
 			get { return Device.Driver.DriverType == DriverType.Rubezh_2OP || Device.Driver.DriverType == DriverType.USB_Rubezh_2OP; }
+		}
+
+		void ShowTimerDetails()
+		{
+			if (ServiceFactory.AppSettings.CanControl)
+			{
+				if (Device.Driver.DriverType == DriverType.Valve)
+				{
+					var deviceDriverState = DeviceState.States.FirstOrDefault(x => x.DriverState.Code == "Bolt_On");
+					if (deviceDriverState != null)
+					{
+						if (DateTime.Now > deviceDriverState.Time)
+						{
+							var timeSpan = deviceDriverState.Time - DateTime.Now;
+
+							var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+							if (timeoutProperty != null)
+							{
+								var timeout = int.Parse(timeoutProperty.Value);
+
+								int secondsLeft = timeout - timeSpan.Value.Seconds;
+								if (secondsLeft > 0)
+								{
+									var deviceDetailsViewModel = new DeviceDetailsViewModel(Device.UID);
+									DialogService.ShowWindow(deviceDetailsViewModel);
+									deviceDetailsViewModel.StartValveTimer(secondsLeft);
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }

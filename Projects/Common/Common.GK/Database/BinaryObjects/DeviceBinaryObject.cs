@@ -49,77 +49,11 @@ namespace Common.GK
 		{
 			if (Device.Driver.HasLogic)
 			{
-				foreach (var stateLogic in Device.DeviceLogic.StateLogics)
+				var stateLogic = Device.DeviceLogic.StateLogics.FirstOrDefault(x=>x.StateType == XStateType.TurnOn);
+				if(stateLogic != null)
 				{
-					var clauseIndex = 0;
-					foreach (var clause in stateLogic.Clauses)
-					{
-						var baseObjects = new List<XBinaryBase>();
-						foreach (var device in clause.XDevices)
-						{
-							baseObjects.Add(device);
-						}
-						foreach (var zone in clause.XZones)
-						{
-							baseObjects.Add(zone);
-						}
-
-						var objectIndex = 0;
-						foreach (var baseObject in baseObjects)
-						{
-							Formula.AddGetBitOff(clause.StateType, baseObject, DatabaseType);
-
-							if (objectIndex > 0)
-							{
-								switch (clause.ClauseOperationType)
-								{
-									case ClauseOperationType.AllDevices:
-									case ClauseOperationType.AllZones:
-										Formula.Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
-										break;
-
-									case ClauseOperationType.AnyDevice:
-									case ClauseOperationType.AnyZone:
-										Formula.Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
-										break;
-								}
-							}
-							objectIndex++;
-						}
-
-                        if(clause.ClauseConditionType == ClauseConditionType.IfNot)
-                            Formula.Add(FormulaOperationType.NEG, comment: "Условие Если НЕ");
-
-						if (clauseIndex > 0)
-						{
-							switch (clause.ClauseJounOperationType)
-							{
-								case ClauseJounOperationType.And:
-									Formula.Add(FormulaOperationType.AND, comment: "Объединение нескольких условий по И");
-									break;
-
-								case ClauseJounOperationType.Or:
-									Formula.Add(FormulaOperationType.OR, comment: "Объединение нескольких условий по ИЛИ");
-									break;
-							}
-						}
-						clauseIndex++;
-					}
-
-					var statesDirection = StatesDirections.FirstOrDefault(x => x.StateType == stateLogic.StateType);
-					if (statesDirection != null)
-					{
-						foreach (var direction in statesDirection.Directions)
-						{
-							Formula.AddGetBitOff(XStateType.On, direction, DatabaseType);
-							Formula.Add(FormulaOperationType.OR);
-						}
-						StatesDirections.Remove(statesDirection);
-					}
-
-					Formula.AddGetBit(XStateType.Norm, Device, DatabaseType);
-					Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-					Formula.AddPutBit(stateLogic.StateType, Device, DatabaseType);
+					AddClauseFormula(stateLogic, XStateType.TurnOn);
+					AddClauseFormula(stateLogic, XStateType.TurnOff);
 				}
 			}
 
@@ -141,6 +75,83 @@ namespace Common.GK
 			}
 
 			Formula.Add(FormulaOperationType.END);
+		}
+
+		void AddClauseFormula(StateLogic stateLogic, XStateType stateType)
+		{
+			var clauseIndex = 0;
+			foreach (var clause in stateLogic.Clauses)
+			{
+				var baseObjects = new List<XBinaryBase>();
+				foreach (var device in clause.XDevices)
+				{
+					baseObjects.Add(device);
+				}
+				foreach (var zone in clause.XZones)
+				{
+					baseObjects.Add(zone);
+				}
+
+				var objectIndex = 0;
+				foreach (var baseObject in baseObjects)
+				{
+					Formula.AddGetBitOff(clause.StateType, baseObject, DatabaseType);
+
+					if (objectIndex > 0)
+					{
+						switch (clause.ClauseOperationType)
+						{
+							case ClauseOperationType.AllDevices:
+							case ClauseOperationType.AllZones:
+								Formula.Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
+								break;
+
+							case ClauseOperationType.AnyDevice:
+							case ClauseOperationType.AnyZone:
+								Formula.Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
+								break;
+						}
+					}
+					objectIndex++;
+				}
+
+				if (clause.ClauseConditionType == ClauseConditionType.IfNot)
+					Formula.Add(FormulaOperationType.COM, comment: "Условие Если НЕ");
+
+				if (clauseIndex > 0)
+				{
+					switch (clause.ClauseJounOperationType)
+					{
+						case ClauseJounOperationType.And:
+							Formula.Add(FormulaOperationType.AND, comment: "Объединение нескольких условий по И");
+							break;
+
+						case ClauseJounOperationType.Or:
+							Formula.Add(FormulaOperationType.OR, comment: "Объединение нескольких условий по ИЛИ");
+							break;
+					}
+				}
+				clauseIndex++;
+			}
+
+			var statesDirection = StatesDirections.FirstOrDefault(x => x.StateType == stateType);
+			if (statesDirection != null)
+			{
+				foreach (var direction in statesDirection.Directions)
+				{
+					Formula.AddGetBitOff(XStateType.On, direction, DatabaseType);
+					Formula.Add(FormulaOperationType.OR);
+				}
+				StatesDirections.Remove(statesDirection);
+			}
+
+			if (stateType == XStateType.TurnOff)
+			{
+				Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
+			}
+			Formula.AddGetBit(XStateType.Norm, Device, DatabaseType);
+			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
+			Formula.AddPutBit(stateType, Device, DatabaseType);
 		}
 
 		List<StatesDirection> StatesDirections;

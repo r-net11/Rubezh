@@ -44,10 +44,7 @@ namespace FiresecAPI.Models
 
 				foreach (var childDeviceState in ChildStates)
 				{
-					if (childDeviceState.DriverState != null)
-					{
-						stateTypes.Add(childDeviceState.DriverState.StateType);
-					}
+					stateTypes.Add(childDeviceState.StateType);
 				}
 
 				return stateTypes.Min();
