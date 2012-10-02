@@ -389,18 +389,15 @@ namespace Firesec
 				if (childDeviceState == null)
 					continue;
 
-				if (minChildStateType < device.DeviceState.StateType)
+				var existingDeviceState = device.DeviceState.ChildStates.FirstOrDefault(x => x.ChildDevice.UID == childDeviceState.ChildDevice.UID && x.StateType == childDeviceState.StateType);
+				if (existingDeviceState == null)
 				{
-					var existingDeviceState = device.DeviceState.ChildStates.FirstOrDefault(x => x.ChildDevice.UID == childDeviceState.ChildDevice.UID && x.StateType == childDeviceState.StateType);
-					if (existingDeviceState == null)
-					{
-						device.DeviceState.ChildStates.Add(childDeviceState);
-						ChangedDevices.Add(device.DeviceState);
-					}
-					else
-					{
-						existingDeviceState.IsDeleting = false;
-					}
+					device.DeviceState.ChildStates.Add(childDeviceState);
+					ChangedDevices.Add(device.DeviceState);
+				}
+				else
+				{
+					existingDeviceState.IsDeleting = false;
 				}
 			}
 
