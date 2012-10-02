@@ -13,7 +13,8 @@ namespace FiresecClient
 			InitializeZoneLogic();
 			InitializeDirectionZones();
 			InitializeDirectionDevices();
-            UpdateZones();
+			UpdateDeviceZones();
+			UpdateDirections();
 		}
 
 		public static void GetConfiguration()
@@ -26,9 +27,9 @@ namespace FiresecClient
 		{
             foreach (var device in DeviceConfiguration.Devices)
             {
-                var zoneUIDs = new List<Guid>();
+				var zoneUIDs = new List<Guid>();
                 if (device.ZoneUIDs == null)
-                    device.ZoneUIDs = new List<Guid>();
+					device.ZoneUIDs = new List<Guid>();
                 foreach(var zoneUID in device.ZoneUIDs)
                 {
                     var zone = DeviceConfiguration.Zones.FirstOrDefault(x=>x.UID == zoneUID);
@@ -91,15 +92,15 @@ namespace FiresecClient
 		{
 			foreach (var direction in DeviceConfiguration.Directions)
 			{
-				direction.XZones = new List<XZone>();
-				for (int i = direction.Zones.Count - 1; i >= 0; i--)
+				direction.Zones = new List<XZone>();
+				for (int i = direction.ZoneUIDs.Count - 1; i >= 0; i--)
 				{
-					var zoneUID = direction.Zones[i];
+					var zoneUID = direction.ZoneUIDs[i];
 					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
 					if (zone != null)
-						direction.XZones.Add(zone);
+						direction.Zones.Add(zone);
 					else
-						direction.Zones.Remove(zoneUID);
+						direction.ZoneUIDs.Remove(zoneUID);
 				}
 			}
 		}
@@ -119,20 +120,48 @@ namespace FiresecClient
 			}
 		}
 
-        static void UpdateZones()
-        {
-            foreach (var zone in DeviceConfiguration.Zones)
-            {
-                zone.Devices = new List<XDevice>();
-            }
-            foreach (var device in DeviceConfiguration.Devices)
-            {
-                foreach (var zonUID in device.ZoneUIDs)
-                {
-                    var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zonUID);
-                    zone.Devices.Add(device);
-                }
-            }
-        }
+		static void UpdateDeviceZones()
+		{
+			foreach (var zone in DeviceConfiguration.Zones)
+			{
+				zone.Devices = new List<XDevice>();
+			}
+
+			foreach (var device in DeviceConfiguration.Devices)
+			{
+				device.Zones = new List<XZone>();
+				foreach (var zoneUID in device.ZoneUIDs)
+				{
+					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+					{
+						device.Zones.Add(zone);
+						zone.Devices.Add(device);
+					}
+				}
+			}
+		}
+
+		static void UpdateDirections()
+		{
+			foreach (var zone in DeviceConfiguration.Zones)
+			{
+				zone.Directions = new List<XDirection>();
+			}
+
+			foreach (var direction in DeviceConfiguration.Directions)
+			{
+				direction.Zones = new List<XZone>();
+				foreach (var zoneUID in direction.ZoneUIDs)
+				{
+					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+					if (zone != null)
+					{
+						direction.Zones.Add(zone);
+						zone.Directions.Add(direction);
+					}
+				}
+			}
+		}
 	}
 }

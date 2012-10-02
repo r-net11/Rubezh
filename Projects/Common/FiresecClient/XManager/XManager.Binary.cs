@@ -93,7 +93,7 @@ namespace FiresecClient
 
 			foreach (var direction in DeviceConfiguration.Directions)
 			{
-				foreach (var zone in direction.XZones)
+				foreach (var zone in direction.Zones)
 				{
 					direction.InputObjects.Add(zone);
 					zone.OutputObjects.Add(direction);
@@ -139,7 +139,7 @@ namespace FiresecClient
 			{
 				direction.KauDatabaseParent = null;
 				direction.GkDatabaseParent = null;
-				var zone = direction.XZones.FirstOrDefault();
+				var zone = direction.Zones.FirstOrDefault();
 				if (zone != null)
 				{
 					if (zone.KauDatabaseParent != null)

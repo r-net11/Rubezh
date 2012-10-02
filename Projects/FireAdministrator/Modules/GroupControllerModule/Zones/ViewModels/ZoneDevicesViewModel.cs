@@ -25,8 +25,8 @@ namespace GKModule.ViewModels
         {
             Zone = zone;
 
-            var devices = new HashSet<XDevice>();
-            var availableDevices = new HashSet<XDevice>();
+			var devices = new HashSet<XDevice>();
+			var availableDevices = new HashSet<XDevice>();
 
             foreach (var device in XManager.DeviceConfiguration.Devices)
             {
@@ -136,38 +136,30 @@ namespace GKModule.ViewModels
             }
         }
 
-        public bool CanAdd()
-        {
-			return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.Driver.HasZone));
-        }
-
         public RelayCommand AddCommand { get; private set; }
         void OnAdd()
         {
-            if (SelectedAvailableDevice.Device.ZoneUIDs.Contains(Zone.UID) == false)
-                SelectedAvailableDevice.Device.ZoneUIDs.Add(Zone.UID);
-
-            if (SelectedAvailableDevice.Device.ZoneUIDs.Contains(Zone.UID) == false)
-                SelectedAvailableDevice.Device.ZoneUIDs.Add(Zone.UID);
-
+			XManager.AddDeviceToZone(SelectedAvailableDevice.Device, Zone);
             Initialize(Zone);
             UpdateAvailableDevices();
 			ServiceFactory.SaveService.XDevicesChanged = true;
         }
-
-        public bool CanRemove()
-        {
-            return ((SelectedDevice != null) && (SelectedDevice.Driver.HasZone));
-        }
+		public bool CanAdd()
+		{
+			return ((SelectedAvailableDevice != null) && (SelectedAvailableDevice.Driver.HasZone));
+		}
 
         public RelayCommand RemoveCommand { get; private set; }
         void OnRemove()
         {
-            SelectedDevice.Device.ZoneUIDs.Remove(Zone.UID);
-
+			XManager.RemoveDeviceFromZone(SelectedDevice.Device, Zone);
             Initialize(Zone);
             UpdateAvailableDevices();
             ServiceFactory.SaveService.XDevicesChanged = true;
         }
+		public bool CanRemove()
+		{
+			return ((SelectedDevice != null) && (SelectedDevice.Driver.HasZone));
+		}
     }
 }

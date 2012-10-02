@@ -27,7 +27,7 @@ namespace Common.GK
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			if ((Direction.Zones.Count > 0) && (Direction.DirectionDevices.Count > 0))
+			if ((Direction.ZoneUIDs.Count > 0) && (Direction.DirectionDevices.Count > 0))
 				AddFormula();
 			else
 				Formula.Add(FormulaOperationType.END);
@@ -37,7 +37,7 @@ namespace Common.GK
 		void AddFormula()
 		{
 			var zonesCount = 0;
-			foreach (var zone in Direction.XZones)
+			foreach (var zone in Direction.Zones)
 			{
 				Formula.AddGetBitOff(XStateType.Fire2, zone, DatabaseType);
 				if (zonesCount > 0)

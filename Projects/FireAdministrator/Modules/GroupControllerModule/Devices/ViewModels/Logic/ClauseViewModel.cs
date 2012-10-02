@@ -143,7 +143,7 @@ namespace GKModule.ViewModels
 		public RelayCommand SelectZonesCommand { get; private set; }
 		void OnSelectZones()
 		{
-			var zonesSelectationViewModel = new ZonesSelectationViewModel(_stateLogicViewModel._deviceDetailsViewModel.Device, Zones);
+			var zonesSelectationViewModel = new ZonesSelectationViewModel(Zones);
 			if (DialogService.ShowModalWindow(zonesSelectationViewModel))
 			{
 				Zones = zonesSelectationViewModel.Zones;

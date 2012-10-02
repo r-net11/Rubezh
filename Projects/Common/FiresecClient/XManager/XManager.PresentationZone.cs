@@ -9,14 +9,6 @@ namespace FiresecClient
 {
 	public partial class XManager
 	{
-		public static IEnumerable<XZone> GetGKZones(XDevice device)
-		{
-			return from zone in DeviceConfiguration.Zones
-				   where zone.GkDatabaseParent == device.GkDatabaseParent
-				   orderby zone.No
-				   select zone;
-		}
-
 		public static string GetPresentationZone(XDevice device)
 		{
 			if (device.Driver.HasZone)

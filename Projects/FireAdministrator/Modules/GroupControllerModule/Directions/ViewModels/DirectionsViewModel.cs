@@ -63,7 +63,7 @@ namespace GKModule.ViewModels
 			var directionDetailsViewModel = new DirectionDetailsViewModel();
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
-				XManager.DeviceConfiguration.Directions.Add(directionDetailsViewModel.XDirection);
+				XManager.AddDirection(directionDetailsViewModel.XDirection);
 				Directions.Add(new DirectionViewModel(directionDetailsViewModel.XDirection));
 				ServiceFactory.SaveService.XDevicesChanged = true;
 			}
@@ -75,7 +75,7 @@ namespace GKModule.ViewModels
 			var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить направление " + SelectedDirection.Direction.PresentationName);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-				XManager.DeviceConfiguration.Directions.Remove(SelectedDirection.Direction);
+				XManager.RemoveDirection(SelectedDirection.Direction);
 				Directions.Remove(SelectedDirection);
 				SelectedDirection = Directions.FirstOrDefault();
 				ServiceFactory.SaveService.XDevicesChanged = true;

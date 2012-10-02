@@ -46,8 +46,8 @@ namespace GKModule.ViewModels
 		protected override bool Save()
 		{
             byte address = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
-            XDevice xDevice = XManager.AddChild(_parent, SelectedDriver, 1, address);
-            NewDeviceHelper.AddDevice(xDevice, _parentDeviceViewModel);
+            XDevice device = XManager.AddChild(_parent, SelectedDriver, 1, address);
+            NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
 
             _parentDeviceViewModel.Update();
             XManager.DeviceConfiguration.Update();

@@ -84,9 +84,8 @@ namespace GKModule.ViewModels
 			var zoneDetailsViewModel = new ZoneDetailsViewModel();
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
-				XManager.DeviceConfiguration.Zones.Add(zoneDetailsViewModel.XZone);
+				XManager.AddZone(zoneDetailsViewModel.XZone);
 				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.XZone));
-
 				ServiceFactory.SaveService.XDevicesChanged = true;
 				return zoneDetailsViewModel;
 			}
@@ -99,7 +98,7 @@ namespace GKModule.ViewModels
             var dialogResult = MessageBoxService.ShowQuestion("Вы уверены, что хотите удалить зону " + SelectedZone.XZone.PresentationName);
             if (dialogResult == MessageBoxResult.Yes)
             {
-                XManager.DeviceConfiguration.Zones.Remove(SelectedZone.XZone);
+				XManager.RemoveZone(SelectedZone.XZone);
                 Zones.Remove(SelectedZone);
 				SelectedZone = Zones.FirstOrDefault();
                 ZoneDevices.UpdateAvailableDevices();

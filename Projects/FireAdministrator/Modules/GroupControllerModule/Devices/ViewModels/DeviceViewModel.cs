@@ -28,6 +28,14 @@ namespace GKModule.ViewModels
 			Source = sourceDevices;
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
+			device.Changed += new System.Action(OnChanged);
+		}
+
+		void OnChanged()
+		{
+			//OnPropertyChanged("Address");
+			//OnPropertyChanged("Description");
+			OnPropertyChanged("PresentationZone");
 		}
 
 		public void UpdateProperties()
@@ -98,16 +106,11 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		bool CanRemove()
-		{
-			return !(Driver.IsAutoCreate || Parent == null || (Parent.Driver.IsGroupDevice && Parent.Driver.GroupDeviceChildType == Driver.DriverType));
-		}
-
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
 			Parent.IsExpanded = false;
-			Parent.Device.Children.Remove(Device);
+			XManager.RemoveDevice(Parent.Device, Device);
 			Parent.Children.Remove(this);
 			Parent.Update();
 			Parent.IsExpanded = true;
@@ -115,6 +118,10 @@ namespace GKModule.ViewModels
 
 			XManager.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.XDevicesChanged = true;
+		}
+		bool CanRemove()
+		{
+			return !(Driver.IsAutoCreate || Parent == null || (Parent.Driver.IsGroupDevice && Parent.Driver.GroupDeviceChildType == Driver.DriverType));
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
@@ -164,10 +171,10 @@ namespace GKModule.ViewModels
         public RelayCommand ShowZonesCommand { get; private set; }
         void OnShowZones()
         {
-			var zonesSelectationViewModel = new ZonesSelectationViewModel(Device, Device.ZoneUIDs);
+			var zonesSelectationViewModel = new ZonesSelectationViewModel(Device.ZoneUIDs);
             if (DialogService.ShowModalWindow(zonesSelectationViewModel))
             {
-                Device.ZoneUIDs = zonesSelectationViewModel.Zones;
+				XManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
                 OnPropertyChanged("PresentationZone");
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }

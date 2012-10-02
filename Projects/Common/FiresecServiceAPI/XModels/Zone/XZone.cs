@@ -12,11 +12,13 @@ namespace XFiresecAPI
             UID = Guid.NewGuid();
 			Fire1Count = 2;
 			Fire2Count = 3;
-            Devices = new List<XDevice>();
+			Devices = new List<XDevice>();
+			Directions = new List<XDirection>();
 		}
 
 		public XZoneState ZoneState { get; set; }
 		public List<XDevice> Devices { get; set; }
+		public List<XDirection> Directions { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -58,5 +60,12 @@ namespace XFiresecAPI
 		{
 			return Name + " - " + No.ToString();
 		}
+
+		public void OnChanged()
+		{
+			if (Changed != null)
+				Changed();
+		}
+		public event Action Changed;
 	}
 }
