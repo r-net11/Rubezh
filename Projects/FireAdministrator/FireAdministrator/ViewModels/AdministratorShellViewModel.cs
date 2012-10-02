@@ -13,8 +13,8 @@ namespace FireAdministrator.ViewModels
 		{
 			Title = "Администратор ОПС FireSec-2";
 			Height = 700;
-			Width = 1100;
-			MinWidth = 800;
+			Width = 1000;
+			MinWidth = 930;
 			MinHeight = 550;
 			Toolbar = new MenuViewModel();
 		}

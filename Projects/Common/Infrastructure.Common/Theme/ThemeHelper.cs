@@ -8,15 +8,6 @@ using Microsoft.Win32;
 
 namespace Infrastructure.Common.Theme
 {
-    public enum Theme
-    {
-        [DescriptionAttribute("Серая тема")]
-        GrayTheme,
-
-        [DescriptionAttribute("Синяя тема")]
-        BlueTheme
-    }
-
     public class ThemeHelper
     {
         public static string CurrentTheme { get; private set; }
