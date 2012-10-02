@@ -136,6 +136,7 @@
     <Compile Include="Reports\IReportProvider.cs" />
     <Compile Include="Reports\IReportProviderModule.cs" />
     <Compile Include="ServiceFactoryBase.cs" />
+    <Compile Include="Theme\Theme.cs" />
     <Compile Include="Validation\CommonValidationError.cs" />
     <Compile Include="Validation\ObjectValidationError.cs" />
     <Compile Include="Validation\ValidationErrorLevel.cs" />

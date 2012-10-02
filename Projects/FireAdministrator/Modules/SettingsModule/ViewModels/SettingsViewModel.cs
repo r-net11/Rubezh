@@ -11,6 +11,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.Common.Theme;
 using Microsoft.Win32;
 
 namespace SettingsModule.ViewModels
@@ -28,21 +29,12 @@ namespace SettingsModule.ViewModels
             try
             {
                 Themes = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
-                //(ButtonState)Enum.Parse(typeof(ButtonState);, buttonState, true);
-                if (ServiceFactory.AppSettings.Theme != null)
-                    SelectedTheme = (Theme)Enum.Parse(typeof(Theme), ServiceFactory.AppSettings.Theme);
+                if (ThemeHelper.CurrentTheme != null)
+                    SelectedTheme = (Theme)Enum.Parse(typeof(Theme), ThemeHelper.CurrentTheme);
             }
             catch { ;}
         }
 
-        public enum Theme
-        {
-            [DescriptionAttribute("Серая тема")]
-            GrayTheme,
-
-            [Description("Синяя тема")]
-            BlueTheme
-        }
 		public RelayCommand ConvertConfigurationCommand { get; private set; }
 		void OnConvertConfiguration()
 		{
@@ -89,11 +81,8 @@ namespace SettingsModule.ViewModels
             set
             {
                 selectedTheme = value;
-                var themeUri = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/" + selectedTheme + ".xaml";
-                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themeUri) });
-                RegistryKey saveKey = Registry.LocalMachine.CreateSubKey("software\\rubezh");
-                saveKey.SetValue("Theme", selectedTheme);
-                saveKey.Close();
+                ThemeHelper.SetThemeIntoRegister(selectedTheme);
+                ThemeHelper.LoadThemeFromRegister();
                 OnPropertyChanged("SelectedTheme");
             }
         }

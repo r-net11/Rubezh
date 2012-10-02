@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI;
-using SettingsModule.ViewModels;
+using Infrastructure.Common.Theme;
 
 namespace SettingsModule.Converters
 {
@@ -9,9 +9,9 @@ namespace SettingsModule.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is SettingsViewModel.Theme)
+            if (value is Theme)
             {
-                return ((SettingsViewModel.Theme)value).ToDescription();
+                return ((Theme)value).ToDescription();
             }
             return "";
         }

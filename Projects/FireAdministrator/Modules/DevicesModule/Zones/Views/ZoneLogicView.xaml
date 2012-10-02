@@ -97,7 +97,7 @@
 										RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, 
 										Path=DataContext.RemoveCommand}"
 										CommandParameter="{Binding}"
-										ImageSource="/Controls;component/Images/deleteCross.png" Height="32" Width="32" />
+										ImageSource="/Controls;component/Images/Close.png" Height="32" Width="32" />
 								</Grid>
 								<Grid Visibility="{Binding ShowJoinOperator, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"

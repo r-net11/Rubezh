@@ -12,6 +12,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
+using Infrastructure.Common.Theme;
 using Microsoft.Win32;
 
 namespace FireAdministrator
@@ -88,14 +89,7 @@ namespace FireAdministrator
 
 		void LoadStyles()
 		{
-            RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh");
-            ServiceFactory.AppSettings.Theme = (string)readKey.GetValue("Theme");
-            readKey.Close();
-            if (!String.IsNullOrEmpty(ServiceFactory.AppSettings.Theme))
-			{
-                var themeName = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/" + ServiceFactory.AppSettings.Theme + ".xaml";
-				Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themeName) });
-			}
+            ThemeHelper.LoadThemeFromRegister();
 		}
 	}
 }

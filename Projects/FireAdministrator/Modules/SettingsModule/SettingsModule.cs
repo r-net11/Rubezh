@@ -18,6 +18,7 @@ namespace SettingsModule
 
 		public override void Initialize()
 		{
+            _settingsViewModel.Initialize();
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{

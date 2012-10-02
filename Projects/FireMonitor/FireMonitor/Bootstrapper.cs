@@ -11,6 +11,7 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using Infrastructure.Common.Theme;
 using Common.GK;
 using Microsoft.Win32;
 
@@ -137,14 +138,7 @@ namespace FireMonitor
 
         void LoadStyles()
         {
-            RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh");
-            ServiceFactory.AppSettings.Theme = (string)readKey.GetValue("Theme");
-            readKey.Close();
-            if (!String.IsNullOrEmpty(ServiceFactory.AppSettings.Theme) && ServiceFactory.AppSettings.Theme != "DefaultTheme")
-            {
-                var themeName = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/" + ServiceFactory.AppSettings.Theme + ".xaml";
-                Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themeName) });
-            }
+            ThemeHelper.LoadThemeFromRegister();
         }
     }
 }
