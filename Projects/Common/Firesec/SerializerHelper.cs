@@ -67,12 +67,9 @@ namespace Firesec
 
 		public static T Deserialize<T>(string input)
 		{
-			if (string.IsNullOrEmpty(input))
-				return default(T);
-
 			try
 			{
-				if ((string.IsNullOrEmpty(input)) && (input == "0"))
+				if ((string.IsNullOrEmpty(input)) || (input == "0"))
 				{
 					Logger.Error("SerializerHelper.Deserialize<" + typeof(T).ToString() + "> input IsNullOrEmpty");
 					return default(T);
