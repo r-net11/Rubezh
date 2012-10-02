@@ -101,8 +101,10 @@ namespace Firesec
 		{
 			_reguestId++;
 			reguestId = _reguestId;
-			var result = SafeCall<string>(() => { return Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId); }, "ExecuteRuntimeDeviceMethod");
-			return result;
+			return SafeCall<string>(() =>
+			{
+				return Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId);
+			}, "ExecuteRuntimeDeviceMethod");
 		}
 		public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
 		{
@@ -130,8 +132,16 @@ namespace Firesec
 		}
 		public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
-			Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, null, _reguestId++);
-			return new OperationResult<bool>() { Result = true };
+			return SafeCall<bool>(() =>
+			{
+				_reguestId += 1;
+				var result = Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, "Test", _reguestId);
+				return true;
+			}, "ExecuteCommand");
+
+			//Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, null, _reguestId++);
+			//Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, "Test", _reguestId++);
+			//return new OperationResult<bool>() { Result = true };
 		}
 		public OperationResult<bool> CheckHaspPresence()
 		{
@@ -433,9 +443,9 @@ namespace Firesec
 			if (ProgressEvent != null)
 			{
 				var result = ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
-                return result;
+				return result;
 			}
-            return true;
+			return true;
 
 			bool stopProgress = (StopProgress == 1);
 			StopProgress = 0;

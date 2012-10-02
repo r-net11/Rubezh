@@ -59,6 +59,7 @@ namespace DevicesModule.ViewModels
 							from state in DeviceState.States
 							select state.DriverState.Code)
 					};
+					_deviceControl.Update();
 				}
 
 				return _deviceControl;
