@@ -14,14 +14,11 @@ namespace Firesec
 	{
 		private int _reguestId = 1;
 		private Dispatcher _dispatcher;
-		//private Thread _taskThread;
 
 		public NativeFiresecClient()
 		{
 			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
 				{
-					//if (_taskThread != null)
-					//    _taskThread.Abort();
 					if (_dispatcher != null)
 					{
 						if (_connection != null)
@@ -43,9 +40,6 @@ namespace Firesec
 			dispatcherThread.IsBackground = true;
 			dispatcherThread.Start();
 			dispatcherThread.Join(100);
-
-			//_taskThread = new Thread(new ThreadStart(WorkTask));
-			//_taskThread.Start();
 		}
 
 		FS_Types.IFSC_Connection _connection;
@@ -247,30 +241,44 @@ namespace Firesec
 		#region Connection
 		FS_Types.IFSC_Connection GetConnection(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
-			SocketServerHelper.StartIfNotRunning();
-
-			FS_Types.FSC_LIBRARY_CLASSClass library = new FS_Types.FSC_LIBRARY_CLASSClass();
-			var serverInfo = new FS_Types.TFSC_ServerInfo()
-			{
-				ServerName = FS_Address,
-				Port = FS_Port
-			};
-
 			try
 			{
+				SocketServerHelper.StartIfNotRunning();
+
+				FS_Types.FSC_LIBRARY_CLASSClass library = new FS_Types.FSC_LIBRARY_CLASSClass();
+				var serverInfo = new FS_Types.TFSC_ServerInfo()
+				{
+					ServerName = FS_Address,
+					Port = FS_Port
+				};
+
 				ConnectionTimeoutEvent = new AutoResetEvent(false);
 				ConnectionTimeoutThread = new Thread(new ThreadStart(OnConnectionTimeoutThread));
 				ConnectionTimeoutThread.Start();
 
-				FS_Types.IFSC_Connection connectoin = library.Connect2(FS_Login, FS_Password, serverInfo, this);
-				ConnectionTimeoutEvent.Set();
-				return connectoin;
+				try
+				{
+					FS_Types.IFSC_Connection connectoin = library.Connect2(FS_Login, FS_Password, serverInfo, this);
+					return connectoin;
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "NativeFiresecClient.GetConnection");
+					FiresecDriver.LoadingErrors.Append(e.Message);
+					SocketServerHelper.Restart();
+					return null;
+				}
+				finally
+				{
+					ConnectionTimeoutEvent.Set();
+				}
 			}
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове NativeFiresecClient.GetConnection");
+				FiresecDriver.LoadingErrors.Append(e.Message);
 				SocketServerHelper.Restart();
-				throw new Exception("Не удается подключиться к COM серверу Firesec");
+				return null;
 			}
 		}
 
@@ -376,20 +384,15 @@ namespace Firesec
 				NewEventAvaliable(eventMask);
 		}
 
-		public event Action<int> NewEventAvaliable;
-		//public int IntContinueProgress = 1;
-
 		public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
 		{
 			try
 			{
-				//var continueProgress = IntContinueProgress == 1;
-				//IntContinueProgress = 1;
-				var result = OnProgress(Stage, Comment, PercentComplete, BytesRW);
-				return result;
-				//ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
-				//return true;
-				//return continueProgress;
+				if (ProgressEvent != null)
+				{
+					return ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
+				}
+				return true;
 			}
 			catch (Exception e)
 			{
@@ -397,62 +400,9 @@ namespace Firesec
 				return false;
 			}
 		}
-		#endregion
 
-		#region Progress
-		//object locker = new object();
-		//Queue<ProgressData> taskQeue = new Queue<ProgressData>();
+		public event Action<int> NewEventAvaliable;
 		public event Func<int, string, int, int, bool> ProgressEvent;
-
-		//public void ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
-		//{
-		//    lock (locker)
-		//    {
-		//        var progressData = new ProgressData()
-		//        {
-		//            Stage = Stage,
-		//            Comment = Comment,
-		//            PercentComplete = PercentComplete,
-		//            BytesRW = BytesRW
-		//        };
-
-		//        taskQeue.Enqueue(progressData);
-		//        Monitor.PulseAll(locker);
-		//    }
-		//}
-
-		//void WorkTask()
-		//{
-		//    while (true)
-		//    {
-		//        lock (locker)
-		//        {
-		//            while (taskQeue.Count == 0)
-		//                Monitor.Wait(locker);
-
-		//            ProgressData progressData = taskQeue.Dequeue();
-		//            var result = OnProgress(progressData.Stage, progressData.Comment, progressData.PercentComplete, progressData.BytesRW);
-
-		//            Interlocked.Exchange(ref IntContinueProgress, result ? 1 : 0);
-		//        }
-		//    }
-		//}
-
-		bool OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
-		{
-			if (ProgressEvent != null)
-			{
-				var result = ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
-				return result;
-			}
-			return true;
-
-			//bool stopProgress = (StopProgress == 1);
-			//StopProgress = 0;
-			//return stopProgress;
-		}
-
-		//public int StopProgress;
 		#endregion
 	}
 }

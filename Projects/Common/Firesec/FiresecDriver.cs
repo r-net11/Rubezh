@@ -4,6 +4,7 @@ using System.Linq;
 using FiresecAPI;
 using FiresecAPI.Models;
 using System.Text;
+using Common;
 
 namespace Firesec
 {
@@ -13,38 +14,70 @@ namespace Firesec
 		public FiresecSerializedClient FiresecSerializedClient { get; private set; }
 		public ConfigurationConverter ConfigurationConverter { get; private set; }
 		public Watcher Watcher { get; private set; }
-		public StringBuilder LoadingErrors { get; private set; }
+		public static StringBuilder LoadingErrors { get; private set; }
 
         public FiresecDriver(int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
 			LoadingErrors = new StringBuilder();
-			FiresecSerializedClient = new FiresecSerializedClient();
-			FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
-			ConfigurationConverter = new ConfigurationConverter()
+			try
 			{
-				FiresecSerializedClient = FiresecSerializedClient
-			};
-			ConfigurationConverter.ConvertMetadataFromFiresec();
+				FiresecSerializedClient = new FiresecSerializedClient();
+				FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
+				ConfigurationConverter = new ConfigurationConverter()
+				{
+					FiresecSerializedClient = FiresecSerializedClient
+				};
+				ConfigurationConverter.ConvertMetadataFromFiresec();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecDriver.Synchronyze");
+				FiresecDriver.LoadingErrors.Append(e.Message);
+			}
 		}
 
 		public void Synchronyze()
 		{
-			ConfigurationConverter.SynchronyzeConfiguration();
+			try
+			{
+				ConfigurationConverter.SynchronyzeConfiguration();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecDriver.Synchronyze");
+				FiresecDriver.LoadingErrors.Append(e.Message);
+			}
 		}
 
-        public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
+		public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
 		{
-            Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
-			if (mustMonitorStates)
+			try
 			{
-				Watcher.OnStateChanged();
-				Watcher.OnParametersChanged();
+				Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
+				if (mustMonitorStates)
+				{
+					Watcher.OnStateChanged();
+					Watcher.OnParametersChanged();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecDriver.Synchronyze");
+				FiresecDriver.LoadingErrors.Append(e.Message);
 			}
 		}
 
 		public void Convert()
 		{
-			ConfigurationConverter.Convert();
+			try
+			{
+				ConfigurationConverter.Convert();
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecDriver.Synchronyze");
+				FiresecDriver.LoadingErrors.Append(e.Message);
+			}
 		}
 
 		public Firesec.Models.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)

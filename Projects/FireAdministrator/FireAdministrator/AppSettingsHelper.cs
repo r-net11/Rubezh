@@ -17,7 +17,8 @@ namespace FireAdministrator
 
                 ServiceAddress = ConfigurationManager.AppSettings["ServiceAddress"] as string,
                 LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string,
-                Theme = ConfigurationManager.AppSettings["Theme"] as string
+                Theme = ConfigurationManager.AppSettings["Theme"] as string,
+				DoNotOverrideFS1 = Convert.ToBoolean(ConfigurationManager.AppSettings["DoNotOverrideFS1"] as string),
             };
 #if DEBUG
             appSettings.IsDebug = true;

@@ -109,13 +109,12 @@ namespace FiresecClient
 		{
 			foreach (var direction in DeviceConfiguration.Directions)
 			{
-				for (int i = direction.DirectionDevices.Count - 1; i >= 0; i--)
+				for (int i = direction.DeviceUIDs.Count - 1; i >= 0; i--)
 				{
-					var directionDevice = direction.DirectionDevices[i];
-					var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == directionDevice.DeviceUID);
-					directionDevice.Device = device;
+					var deviceUID = direction.DeviceUIDs[i];
+					var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
 					if (device == null)
-						direction.DirectionDevices.Remove(directionDevice);
+						direction.DeviceUIDs.Remove(deviceUID);
 				}
 			}
 		}
@@ -159,6 +158,16 @@ namespace FiresecClient
 					{
 						direction.Zones.Add(zone);
 						zone.Directions.Add(direction);
+					}
+				}
+
+				direction.Devices = new List<XDevice>();
+				foreach (var deviceUID in direction.DeviceUIDs)
+				{
+					var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+					if (device != null)
+					{
+						direction.Devices.Add(device);
 					}
 				}
 			}

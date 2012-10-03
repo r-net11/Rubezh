@@ -73,7 +73,6 @@ namespace Firesec
 		{
 			DriverConverter.Metadata = FiresecSerializedClient.GetMetaData().Result;
 			ConfigurationCash.DriversConfiguration = new DriversConfiguration();
-			ConfigurationCash.DriversConfiguration.Drivers = new List<Driver>();
 			foreach (var innerDriver in DriverConverter.Metadata.drv)
 			{
 				var driver = DriverConverter.Convert(innerDriver);

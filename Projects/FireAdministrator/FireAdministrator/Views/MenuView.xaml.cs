@@ -74,10 +74,13 @@ namespace FireAdministrator.Views
                 if (ServiceFactory.SaveService.DevicesChanged)
                 {
                     LoadingService.DoStep("Применение конфигурации устройств");
-					var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
-					if (fsResult.HasError)
+					if (!ServiceFactory.AppSettings.DoNotOverrideFS1)
 					{
-						MessageBoxService.ShowError(fsResult.Error);
+						var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+						if (fsResult.HasError)
+						{
+							MessageBoxService.ShowError(fsResult.Error);
+						}
 					}
                     LoadingService.DoStep("Сохранение конфигурации устройств");
                     var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);

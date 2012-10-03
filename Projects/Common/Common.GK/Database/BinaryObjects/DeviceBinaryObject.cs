@@ -160,16 +160,16 @@ namespace Common.GK
 			StatesDirections = new List<StatesDirection>();
 			foreach (var direction in XManager.DeviceConfiguration.Directions)
 			{
-				foreach (var directionDevice in direction.DirectionDevices)
+				foreach (var directionDevice in direction.Devices)
 				{
-					if (Device.UID == directionDevice.DeviceUID)
+					if (Device.UID == directionDevice.UID)
 					{
-						var statesDirection = StatesDirections.FirstOrDefault(x => x.StateType == directionDevice.StateType);
+						var statesDirection = StatesDirections.FirstOrDefault(x => x.StateType == XStateType.TurnOn);
 						if (statesDirection == null)
 						{
 							statesDirection = new StatesDirection()
 							{
-								StateType = directionDevice.StateType
+								StateType = XStateType.TurnOn
 							};
 						}
 						statesDirection.Directions.Add(direction);

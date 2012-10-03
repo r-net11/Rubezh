@@ -27,7 +27,7 @@ namespace Common.GK
 		void SetFormulaBytes()
 		{
 			Formula = new FormulaBuilder();
-			if ((Direction.ZoneUIDs.Count > 0) && (Direction.DirectionDevices.Count > 0))
+			if ((Direction.ZoneUIDs.Count > 0) && (Direction.Devices.Count > 0))
 				AddFormula();
 			else
 				Formula.Add(FormulaOperationType.END);

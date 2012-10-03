@@ -15,11 +15,7 @@ namespace Firesec
 			DeviceConfiguration.Devices = new List<Device>();
 
 			var rootInnerDevice = FiresecConfiguration.dev[0];
-			var rootDevice = new Device()
-			{
-				Parent = null
-			};
-			SetInnerDevice(rootDevice, rootInnerDevice);
+			var rootDevice = SetInnerDevice(rootInnerDevice);
 			DeviceConfiguration.Devices.Add(rootDevice);
 			AddDevice(rootInnerDevice, rootDevice);
 
@@ -34,27 +30,30 @@ namespace Firesec
 			parentDevice.Children = new List<Device>();
 			foreach (var innerDevice in parentInnerDevice.dev)
 			{
-					
-				var device = new Device()
+				var device = SetInnerDevice(innerDevice);
+				if (device != null)
 				{
-					Parent = parentDevice
-				};
-
-				parentDevice.Children.Add(device);
-				SetInnerDevice(device, innerDevice);
-				DeviceConfiguration.Devices.Add(device);
-				AddDevice(innerDevice, device);
+					device.Parent = parentDevice;
+					parentDevice.Children.Add(device);
+					DeviceConfiguration.Devices.Add(device);
+					AddDevice(innerDevice, device);
+				}
 			}
-			
-			
 		}
 
-		void SetInnerDevice(Device device, devType innerDevice)
+		Device SetInnerDevice(devType innerDevice)
 		{
+			var device = new Device();
 			var driverId = FiresecConfiguration.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
 			var driverUID = new Guid(driverId);
 			device.DriverUID = driverUID;
 			device.Driver = ConfigurationCash.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == driverUID);
+			if (device.Driver == null)
+			{
+				Logger.Error("ConvertDevices.SetInnerDevice driver = null " + driverUID.ToString());
+				FiresecDriver.LoadingErrors.Append("Неизвестный драйвер устройства " + driverUID.ToString());
+				return null;
+			}
 
 			device.IntAddress = int.Parse(innerDevice.addr);
 			if ((device.Parent != null) && (device.Parent.Driver.IsChildAddressReservedRange))
@@ -124,6 +123,7 @@ namespace Firesec
 			}
 
 			device.PlaceInTree = device.GetPlaceInTree();
+			return device;
 		}
 
 		void SetZone(Device device, devType innerDevice)

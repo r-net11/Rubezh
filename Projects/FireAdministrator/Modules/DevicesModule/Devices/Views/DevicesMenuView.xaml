@@ -24,7 +24,6 @@
 
                 <MenuItem Name="autoDetectButton" Command="{Binding AutoDetectCommand}" Header="_Автопоиск" />
                 <MenuItem Name="readDeviceButton" Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource False}" Header="_Считать конфигурацию из устройства" />
-                <MenuItem Header="_Синхронизировать охранных пользователей" IsEnabled="False" />
                 <MenuItem Name="getDescriptionButton" Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource False}" Header="_Информация об устройстве" />
                 <MenuItem Name="getDeviceJournalButton" Command="{Binding GetDeveceJournalCommand}" CommandParameter="{StaticResource False}" Header="_Журнал событий" />
                 <Separator />

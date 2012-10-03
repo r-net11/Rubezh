@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Firesec.Models.Functions;
 using FiresecAPI;
+using Common;
 
 namespace Firesec
 {
@@ -11,13 +12,20 @@ namespace Firesec
 
 		public FiresecSerializedClient()
 		{
-			NativeFiresecClient = new NativeFiresecClient();
+			try
+			{
+				NativeFiresecClient = new NativeFiresecClient();
+			}
+			catch(Exception e)
+			{
+				Logger.Error(e, "FiresecSerializedClient.FiresecSerializedClient");
+				FiresecDriver.LoadingErrors.Append(e.Message);
+			}
 		}
 
         public OperationResult<bool> Connect(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
 		{
-			var result = NativeFiresecClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
-			return result;
+			return NativeFiresecClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
 		}
 
 		public OperationResult<Firesec.Models.CoreConfiguration.config> GetCoreConfig()

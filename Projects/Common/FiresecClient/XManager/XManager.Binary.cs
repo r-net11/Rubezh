@@ -28,16 +28,6 @@ namespace FiresecClient
 					kauParents.Add(kauParent);
 				}
 
-				//if (kauParents.Count == 1)
-				//{
-				//    var kauDevice = kauParents.First();
-				//    zone.KauDatabaseParent = kauDevice;
-				//}
-				//if (kauParents.Count > 1)
-				//{
-				//    var kauDevice = kauParents.First();
-				//    zone.GkDatabaseParent = kauDevice.Parent;
-				//}
 				if (kauParents.Count > 0)
 				{
 					var kauDevice = kauParents.First();
@@ -56,6 +46,7 @@ namespace FiresecClient
 			{
 				zone.ClearBinaryData();
                 zone.InputObjects.Add(zone);
+				zone.OutputObjects.Add(zone);
 			}
 			foreach (var direction in DeviceConfiguration.Directions)
 			{
@@ -99,10 +90,10 @@ namespace FiresecClient
 					zone.OutputObjects.Add(direction);
 				}
 
-				foreach (var directionDevice in direction.DirectionDevices)
+				foreach (var device in direction.Devices)
 				{
-					direction.OutputObjects.Add(directionDevice.Device);
-					directionDevice.Device.InputObjects.Add(direction);
+					direction.OutputObjects.Add(device);
+					device.InputObjects.Add(direction);
 				}
 			}
 		}

@@ -42,23 +42,6 @@ namespace Common.GK
 					AddDevice(device);
 				}
 			}
-			//foreach (var device in XManager.DeviceConfiguration.Devices)
-			//{
-			//    if ((device.Parent == null) || (device.Parent.Driver.DriverType == XDriverType.GK))
-			//        continue;
-
-			//    if (device.GkDatabaseParent == gkDevice)
-			//    {
-			//        AddDevice(device);
-			//    }
-			//}
-			//foreach (var zone in XManager.DeviceConfiguration.Zones)
-			//{
-			//    if (zone.GkDatabaseParent == gkDevice)
-			//    {
-			//        AddZone(zone);
-			//    }
-			//}
 		}
 
 		public override void BuildObjects()
