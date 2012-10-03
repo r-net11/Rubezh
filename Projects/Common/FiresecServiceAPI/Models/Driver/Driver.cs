@@ -51,9 +51,6 @@ namespace FiresecAPI.Models
         public bool CanEditAddress { get; set; }
 
         [DataMember]
-        public string AddressMask { get; set; }
-
-        [DataMember]
         public string ChildAddressMask { get; set; }
 
         [DataMember]

@@ -26,7 +26,6 @@ namespace Firesec
 				MaxAutoCreateAddress = int.Parse(innerDriver.acr_to),
 				HasAddressMask = innerDriver.addrMask != null,
 				IsAlternativeUSB = innerDriver.altIntf != null,
-				AddressMask = innerDriver.addrMask,
 				ChildAddressMask = innerDriver.childAddrMask,
 				IsZoneDevice = ((innerDriver.minZoneCardinality == "0") && (innerDriver.maxZoneCardinality == "0")) == false,
 				IsDeviceOnShleif = innerDriver.addrMask != null && (innerDriver.addrMask == "[8(1)-15(2)];[0(1)-7(255)]" || innerDriver.addrMask == "[0(1)-8(30)]")

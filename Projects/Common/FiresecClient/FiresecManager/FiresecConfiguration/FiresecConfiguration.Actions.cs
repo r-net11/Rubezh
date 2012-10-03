@@ -85,6 +85,11 @@ namespace FiresecClient
 				dependentDevice.OnChanged();
             }
 
+            var children = new List<Device>(device.Children);
+            foreach (var child in children)
+            {
+                RemoveDevice(child);
+            }
 			var parentDevice = device.Parent;
 			parentDevice.Children.Remove(device);
 			parentDevice.OnChanged();

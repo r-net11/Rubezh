@@ -42,16 +42,21 @@ namespace SettingsModule.ViewModels
 			{
 				WaitHelper.Execute(() =>
 				{
+                    LoadingService.ShowProgress("Конвертирование конфигурации", "Конвертирование конфигурации", 4);
 					FiresecManager.FiresecDriver.Convert();
 					ServiceFactory.SaveService.DevicesChanged = false;
 					ServiceFactory.SaveService.PlansChanged = false;
+                    LoadingService.DoStep("Обновление конфигурации");
 					FiresecManager.UpdateConfiguration();
+                    LoadingService.DoStep("Сохранение конфигурации планов");
 					FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+                    LoadingService.DoStep("Сохранение конфигурации устройств");
 					var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
 					if (result.HasError)
 					{
 						MessageBoxService.ShowError(result.Error);
 					}
+                    LoadingService.Close();
 				});
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}

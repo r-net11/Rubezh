@@ -34,7 +34,7 @@ namespace FireAdministrator.Views
 
         void SaveService_Changed()
         {
-            _saveButton.IsEnabled = true;
+            _saveButton.IsEnabled = ServiceFactory.SaveService.HasChanges;
         }
 
         void OnSetNewConfig(object sender, RoutedEventArgs e)
@@ -70,13 +70,16 @@ namespace FireAdministrator.Views
 
             WaitHelper.Execute(() =>
             {
+                LoadingService.ShowProgress("Применение конфигурации", "Применение конфигурации", 10);
                 if (ServiceFactory.SaveService.DevicesChanged)
                 {
+                    LoadingService.DoStep("Применение конфигурации устройств");
 					var fsResult = FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
 					if (fsResult.HasError)
 					{
 						MessageBoxService.ShowError(fsResult.Error);
 					}
+                    LoadingService.DoStep("Сохранение конфигурации устройств");
                     var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
                     if (result.HasError)
                     {
@@ -85,25 +88,40 @@ namespace FireAdministrator.Views
                 }
 
                 if (ServiceFactory.SaveService.PlansChanged)
+                {
+                    LoadingService.DoStep("Сохранение конфигурации графических планов");
                     FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+                }
 
                 if (ServiceFactory.SaveService.SecurityChanged)
+                {
+                    LoadingService.DoStep("Сохранение конфигурации пользователей и ролей");
                     FiresecManager.FiresecService.SetSecurityConfiguration(FiresecManager.SecurityConfiguration);
+                }
 
                 if (ServiceFactory.SaveService.LibraryChanged)
+                {
+                    LoadingService.DoStep("Сохранение конфигурации библиотеки устройств");
                     FiresecManager.FiresecService.SetLibraryConfiguration(FiresecManager.LibraryConfiguration);
+                }
 
                 if ((ServiceFactory.SaveService.InstructionsChanged) ||
                     (ServiceFactory.SaveService.SoundsChanged) ||
                     (ServiceFactory.SaveService.FilterChanged) ||
                     (ServiceFactory.SaveService.CamerasChanged))
+                {
+                    LoadingService.DoStep("Сохранение конфигурации прочих настроек");
                     FiresecManager.FiresecService.SetSystemConfiguration(FiresecManager.SystemConfiguration);
+                }
 
                 if (ServiceFactory.SaveService.XDevicesChanged)
+                {
+                    LoadingService.DoStep("Сохранение конфигурации ГК");
                     FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
+                }
             });
+            LoadingService.Close();
             ServiceFactory.SaveService.Reset();
-            _saveButton.IsEnabled = false;
             return true;
         }
 
