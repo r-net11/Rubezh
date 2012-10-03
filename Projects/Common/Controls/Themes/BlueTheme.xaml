@@ -8,9 +8,7 @@
     </LinearGradientBrush>
 	
     <LinearGradientBrush x:Key="BaseWindowBackgroundBrush" StartPoint="0, 0" EndPoint="0,1">
-	<GradientStop Color="#255F98 " Offset="0"/>
-	<GradientStop Color="#386B9E" Offset="0.5"/>
-	<GradientStop Color="#4172A3" Offset="0.75"/>
+	<GradientStop Color="#266199 " Offset="0"/>
 	<GradientStop Color="Black" Offset="1"/>
     </LinearGradientBrush>
 

@@ -40,7 +40,7 @@
                 <MenuItem Command="{Binding SetConfigurationParametersCommand}" Header="Записать параметры устройства"/>-->
                 <MenuItem Command="{Binding GetAllDeviceConfigurationParametersCommand}" Header="Считать параметры дочерних устройств"/>
                 <MenuItem Command="{Binding SetAllDeviceConfigurationParametersCommand}" Header="Записать параметры дочерних устройств"/>
-
+  
                 <MenuItem Header="USB" Margin="12, 0, 0, 0" IsEnabled="{Binding IsAlternativeUSB, Converter={StaticResource BoolToVisibilityConverter}}">
                     <MenuItem Name="usbReadDeviceButton" Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Считать конфигурацию из устройства" />
                     <MenuItem Name="usbGetDescription" Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource True}" Header="_Информация об устройстве" />

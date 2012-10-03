@@ -166,8 +166,8 @@
     <Compile Include="Devices\Views\AddressEdiotor.xaml.cs">
       <DependentUpon>AddressEdiotor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Devices\Views\AUPropertiesView.xaml.cs">
-      <DependentUpon>AUPropertiesView.xaml</DependentUpon>
+    <Compile Include="Devices\Views\ParametersView.xaml.cs">
+      <DependentUpon>ParametersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\PasteAsView.xaml.cs">
       <DependentUpon>PasteAsView.xaml</DependentUpon>
@@ -431,7 +431,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Devices\Views\AUPropertiesView.xaml">
+    <Page Include="Devices\Views\ParametersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

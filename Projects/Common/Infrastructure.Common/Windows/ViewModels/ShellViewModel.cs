@@ -16,7 +16,34 @@ namespace Infrastructure.Common.Windows.ViewModels
 			MinWidth = 800;
 			MinHeight = 600;
 			ContentItems = new ObservableCollection<IViewPartViewModel>();
+            MinimizeCommand = new RelayCommand(OnMinimize);
 		}
+
+	    private int navigationWidth = 200;
+	    public int NavigationWidth
+	    {
+	        get { return navigationWidth; }
+            set 
+            { 
+                navigationWidth = value;
+                OnPropertyChanged("NavigationWidth");
+            }
+	    }
+
+
+
+        public RelayCommand MinimizeCommand { get; private set; }
+        private void OnMinimize()
+        {
+            if (NavigationWidth == 200)
+            {
+                NavigationWidth = 50;
+            }
+            else
+            {
+                NavigationWidth = 200;
+            }
+        }
 
 		private BaseViewModel _contentHeader;
 		public BaseViewModel ContentHeader

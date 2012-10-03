@@ -47,7 +47,7 @@ namespace DevicesModule.ViewModels
 
 		public void UpdataConfigurationProperties()
 		{
-			PropertiesViewModel = new PropertiesViewModel(Device);
+            PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
 			OnPropertyChanged("PropertiesViewModel");
 		}
 

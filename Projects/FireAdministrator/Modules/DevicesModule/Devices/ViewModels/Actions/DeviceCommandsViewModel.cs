@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using FiresecAPI;
@@ -31,6 +32,7 @@ namespace DevicesModule.ViewModels
 			GetConfigurationParametersCommand = new RelayCommand(OnGetConfigurationParameters, CanGetConfigurationParameters);
 			SetConfigurationParametersCommand = new RelayCommand(OnSetConfigurationParameters, CanSetConfigurationParameters);
 
+            ResetConfigurationParametersCommand = new RelayCommand(OnResetConfigurationParameters, CanGetConfigurationParameters);
 			GetAllDeviceConfigurationParametersCommand = new RelayCommand(OnGetAllDeviceConfigurationParameters, CanGetAllDeviceConfigurationParameters);
 			SetAllDeviceConfigurationParametersCommand = new RelayCommand(OnSetAllDeviceConfigurationParameters, CanSetAllDeviceConfigurationParameters);
 			
@@ -178,6 +180,24 @@ namespace DevicesModule.ViewModels
 		{
 			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanExecuteCustomAdminFunctions));
 		}
+
+        public RelayCommand ResetConfigurationParametersCommand { get; private set; }
+        void OnResetConfigurationParameters()
+        {
+            foreach (var property in SelectedDevice.Device.Properties)
+            {
+                try
+                {
+                    string value1 = property.Value;
+                    string value2 = SelectedDevice.Driver.Properties.FirstOrDefault(x => x.Name == property.Name).Default;
+                    property.Value = value2;
+                }
+                catch (Exception)
+                {
+                }
+                SelectedDevice.UpdataConfigurationProperties();
+            }
+        }
 
 		#region GetConfig
 		public RelayCommand GetConfigurationParametersCommand { get; private set; }

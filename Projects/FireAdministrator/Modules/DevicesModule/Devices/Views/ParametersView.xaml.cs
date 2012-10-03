@@ -2,9 +2,9 @@
 
 namespace DevicesModule.Views
 {
-    public partial class AUPropertiesView : UserControl
+    public partial class ParametersView : UserControl
     {
-        public AUPropertiesView()
+        public ParametersView()
         {
             InitializeComponent();
         }

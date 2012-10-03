@@ -3,7 +3,7 @@
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 	<DockPanel>
-        <TreeView DockPanel.Dock="Top" Style="{StaticResource OutlookTreeView}" VerticalAlignment="Top" ItemsSource="{Binding NavigationItems, NotifyOnTargetUpdated=True}" TargetUpdated="TreeView_TargetUpdated" TreeViewItem.Selected="TreeViewItem_Selected" MouseLeftButtonUp="TreeView_MouseLeftButtonUp" TreeViewItem.PreviewMouseDoubleClick="TreeViewItem_PreviewMouseDoubleClick">
+        <TreeView ScrollViewer.HorizontalScrollBarVisibility="Hidden" DockPanel.Dock="Top" Style="{StaticResource OutlookTreeView}" VerticalAlignment="Top" ItemsSource="{Binding NavigationItems, NotifyOnTargetUpdated=True}" TargetUpdated="TreeView_TargetUpdated" TreeViewItem.Selected="TreeViewItem_Selected" MouseLeftButtonUp="TreeView_MouseLeftButtonUp" TreeViewItem.PreviewMouseDoubleClick="TreeViewItem_PreviewMouseDoubleClick">
 			<TreeView.ItemTemplate>
 				<HierarchicalDataTemplate ItemsSource="{Binding Childs}">
 					<HierarchicalDataTemplate.Resources>
