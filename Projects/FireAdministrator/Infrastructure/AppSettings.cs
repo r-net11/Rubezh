@@ -12,5 +12,6 @@
 		public bool IsDebug { get; set; }
         public string Theme { get; set; }
 		public bool DoNotOverrideFS1 { get; set; }
+		public bool IsExpertMode { get; set; }
     }
 }

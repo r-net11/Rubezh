@@ -8,7 +8,6 @@
     <UserControl.Resources>
         <Converter:StateToColorConverter x:Key="StateToColorConverter" />
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
-        <Converter:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converter:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
         <Converter:TimeToStringConverter x:Key="TimeToStringConverter" />
         <Converter:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
@@ -97,7 +96,7 @@
                     <TextBlock Grid.Row="4" Grid.Column="0" Text="Устройство" Visibility="{Binding PanelName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
                     <TextBlock Grid.Row="5" Grid.Column="0" Text="Зона" Visibility="{Binding ZoneName, Converter={StaticResource StringToVisibilityConverter}}" HorizontalAlignment="Right" Margin="0, 0, 10, 0" />
 
-                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding User}" Visibility="{Binding User, Converter={StaticResource StringToVisibilityConverter}}" />
                     <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding SystemTime, Converter={StaticResource TimeToStringConverter}}" />
                     <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding DeviceName}" Visibility="{Binding DeviceName, Converter={StaticResource StringToVisibilityConverter}}" />

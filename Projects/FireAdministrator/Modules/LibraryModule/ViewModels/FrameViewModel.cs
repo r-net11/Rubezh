@@ -20,6 +20,11 @@ namespace LibraryModule.ViewModels
 
         public LibraryFrame Frame { get; private set; }
 
+		public bool IsLayerEditingVisible
+		{
+			get { return ServiceFactory.AppSettings.IsDebug || ServiceFactory.AppSettings.IsExpertMode; }
+		}
+
         public int Layer
         {
             get { return Frame.Layer; }

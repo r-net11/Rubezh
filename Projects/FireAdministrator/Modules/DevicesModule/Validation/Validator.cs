@@ -419,6 +419,7 @@ namespace DevicesModule.Validation
 					ValidateZoneType(zone);
 					ValidateZoneOutDevices(zone);
 					ValidateZoneSingleNS(zone);
+					ValidateZoneSingleMPT(zone);
 					ValidateZoneDifferentLine(zone);
 					ValidateZoneSingleBoltInDirectionZone(zone);
 					ValidateGuardZoneHasDevicesFromSinglePanel(zone);
@@ -487,14 +488,28 @@ namespace DevicesModule.Validation
 
 		void ValidateZoneOutDevices(Zone zone)
 		{
-			//if (zoneDevices.All(x => x.Driver.IsOutDevice))
-			//    _errors.Add(new ZoneError(zone, "К зоне нельзя отнести только выходные устройства", ErrorLevel.CannotWrite));
+			if (zone.DevicesInZone.All(x => x.Driver.IsOutDevice))
+				_errors.Add(new ZoneValidationError(zone, "К зоне нельзя отнести только выходные устройства", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateZoneSingleNS(Zone zone)
 		{
 			if (zone.DevicesInZoneLogic.Where(x => x.Driver.DriverType == DriverType.PumpStation).Count() > 1)
 				_errors.Add(new ZoneValidationError(zone, "В одной зоне не может быть несколько внешних НС", ValidationErrorLevel.CannotWrite));
+		}
+
+		void ValidateZoneSingleMPT(Zone zone)
+		{
+			var mptCount = 0;
+			foreach (var device in zone.DevicesInZone)
+			{
+				if (device.Driver.DriverType == DriverType.MPT && !FiresecManager.FiresecConfiguration.IsChildMPT(device))
+				{
+					mptCount++;
+				}
+			}
+			if(mptCount > 1)
+				_errors.Add(new ZoneValidationError(zone, "В зоне не может быть несколько МПТ", ValidationErrorLevel.CannotWrite));
 		}
 
 		void ValidateZoneDifferentLine(Zone zone)

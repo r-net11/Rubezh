@@ -24,6 +24,7 @@ namespace FiltersModule.ViewModels
 			Filters = new ObservableCollection<FilterViewModel>(
 				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Select(journalFilter => new FilterViewModel(journalFilter))
 			);
+			SelectedFilter = Filters.FirstOrDefault();
 		}
 
 		ObservableCollection<FilterViewModel> _filters;

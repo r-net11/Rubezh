@@ -26,7 +26,7 @@ namespace DevicesModule.ViewModels
 			DisableCommand = new RelayCommand(OnDisable, CanDisable);
 			SetGuardCommand = new RelayCommand(OnSetGuard);
 			UnsetGuardCommand = new RelayCommand(OnUnsetGuard);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
+			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ResetCommand = new RelayCommand<string>(OnReset, CanReset);
 
 			Source = sourceDevices;
@@ -315,6 +315,10 @@ namespace DevicesModule.ViewModels
 		{
 			ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(Device.UID);
 		}
+		bool CanShowProperties()
+		{
+			return !Device.Driver.IsChildAddressReservedRange;
+		}
 
 		public RelayCommand<string> ResetCommand { get; private set; }
 		void OnReset(string stateName)
@@ -376,7 +380,7 @@ namespace DevicesModule.ViewModels
 								int secondsLeft = timeout - timeSpan.Value.Seconds;
 								if (secondsLeft > 0)
 								{
-									var deviceDetailsViewModel = new DeviceDetailsViewModel(Device.UID);
+									var deviceDetailsViewModel = new DeviceDetailsViewModel(Device);
 									DialogService.ShowWindow(deviceDetailsViewModel);
 									deviceDetailsViewModel.StartValveTimer(secondsLeft);
 								}

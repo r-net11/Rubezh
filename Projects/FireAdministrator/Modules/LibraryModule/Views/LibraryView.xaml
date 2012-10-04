@@ -88,8 +88,10 @@
                         <DataTemplate>
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
-                                    <Label Content="Слой: " VerticalAlignment="Center" />
-                                    <ExtToolkit:IntegerUpDown Minimum="-10" Maximum="10" IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="20" Width="50" />
+                                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsLayerEditingVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <Label Content="Слой: " VerticalAlignment="Center" />
+                                        <ExtToolkit:IntegerUpDown Minimum="-10" Maximum="10" IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="20" Width="50" />
+                                    </StackPanel>
                                     <Label Content=" Длительность, мс: " VerticalAlignment="Center" />
                                     <ExtToolkit:IntegerUpDown Minimum="100" Maximum="10000" Increment="100" IsEditable="False" Text="{Binding Duration, Mode=TwoWay}" Height="20" Width="75" />
                                     <Controls:ToolBarButton Command="{Binding ImportSvgCommand}" ToolTip="Импорт из .svg" ImageSource="/Controls;component/Images/Arrow-up-left.png" />

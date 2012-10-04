@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -63,7 +64,7 @@ namespace PlansModule.ViewModels
 			get
 			{
 				var toolTip = Zone.PresentationName;
-				toolTip += "\n" + "Состояние: " + EnumsConverter.StateTypeToClassName(ZoneState.StateType);
+				toolTip += "\n" + "Состояние: " + ZoneState.StateType.ToDescription();
 				if (Zone.ZoneType == ZoneType.Fire)
 				{
 					toolTip += "\n" + "Количество датчиков для сработки: " + Zone.DetectorCount.ToString();

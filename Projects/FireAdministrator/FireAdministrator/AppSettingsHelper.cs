@@ -19,6 +19,7 @@ namespace FireAdministrator
                 LibVlcDllsPath = ConfigurationManager.AppSettings["LibVlcDllsPath"] as string,
                 Theme = ConfigurationManager.AppSettings["Theme"] as string,
 				DoNotOverrideFS1 = Convert.ToBoolean(ConfigurationManager.AppSettings["DoNotOverrideFS1"] as string),
+				IsExpertMode = Convert.ToBoolean(ConfigurationManager.AppSettings["IsExpertMode"] as string),
             };
 #if DEBUG
             appSettings.IsDebug = true;

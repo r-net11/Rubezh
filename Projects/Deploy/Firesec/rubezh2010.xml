@@ -970,66 +970,6 @@
       <detalization class="6" dictionary="Радио_Дымовой_Неисправности" />    
     
     </deviceTable>
-
-    <deviceTable tableType="-1" recordType="composite"
-      deviceDriverID ="6636AF15-F8D7-44F8-8AA3-62DA77B41B42"
-	  deviceClassID= "8EA0168B-C139-44C7-8670-82ACE6C3D6A2"
-      deviceName="Шкаф управления вентиляцией"
-      shortName="ШУВ"
-      addressMask="R[7(1)-15(255)];[0(1)-6(2)]"
-      minOutputDeviceCount="-1"
-      maxOutputDeviceCount="0"
-      IgnoreInZoneState="1"
-      IsOutDevice="0"
-	  deviceCount="2"
-      Icon="МПТ"
-      type="fire"
-      category="transport">
-
-      <detalization class="2" dictionary="МРОи2_Неисправности" />
-      <detalization class="6" dictionary="МРОи2_Неисправности" />
-      <detalization class="1" dictionary="МРО_Сработки" />
-      
-    </deviceTable>	
-	
-    <deviceTable tableType="23" recordType="outputDevice"
-      deviceDriverID ="8DA221DE-A2BF-4C71-AE63-B9C1E2CA024B"
-	  deviceClassID= "0EDC263E-E2AA-479F-8F4A-ADBF5DD8639E"
-      deviceName="Вентилятор"
-      shortName="Вентилятор"
-      minOutputDeviceCount="0"
-      maxOutputDeviceCount="1"
-      IgnoreInZoneState="1"
-      IsOutDevice="1"
-      Icon="МПТ"
-      type="fire"
-      category="effector">
-
-      <detalization class="2" dictionary="МРОи2_Неисправности" />
-      <detalization class="6" dictionary="МРОи2_Неисправности" />
-      <detalization class="1" dictionary="МРО_Сработки" />
-      
-    </deviceTable>	
-
-    <deviceTable tableType="24" recordType="outputDevice"
-      deviceDriverID ="8A18E2E6-7ED7-4D3F-8DFA-1E042671F072"
-	  deviceClassID= "0EDC263E-E2AA-479F-8F4A-ADBF5DD8639E"
-      deviceName="Клапан"
-      shortName="Клапан"
-      minOutputDeviceCount="1"
-      maxOutputDeviceCount="2"
-      IgnoreInZoneState="1"
-      IsOutDevice="0"
-      Icon="МПТ"
-      type="fire"
-      category="effector">
-
-      <detalization class="2" dictionary="МРОи2_Неисправности" />
-      <detalization class="6" dictionary="МРОи2_Неисправности" />
-      <detalization class="1" dictionary="МРО_Сработки" />
-      
-    </deviceTable>	
-
 	
 <!-- групповые устройства -->
 
@@ -1695,18 +1635,18 @@
       <leave event2="$83"/>
     </deviceState>
 
-     <deviceState tableType="19" class="2" name="Перезрузка" Bitno="0" ID="Output_KZ" type="security">
+     <deviceState tableType="19" class="2" name="Перегрузка" Bitno="0" ID="Output_KZ" type="security">
       <enter event2="$83"/>
       <leave event="$83"/>
       <leave event1="$83"/>
     </deviceState>
-
+<!--
     <deviceState tableType="19" class="6" name="Включен" Bitno="6" ID="Output_On" type="security">
       <enter event1="$83"/>
       <leave event="$83"/>
       <leave event2="$83"/>
     </deviceState>
-	
+-->	
     <!-- Состояния насосов -->   
      <deviceState tableType="1024" class="6" name="Насос включен" ID="Pump1024_On" Bitno="5" type="Fire"> 
       <enter event20="$35"/> 

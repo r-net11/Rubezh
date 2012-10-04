@@ -15,11 +15,10 @@ namespace GKModule.ViewModels
         public FilterDetailsViewModel(XJournalFilter journalFilter = null)
         {
             StateTypes = new ObservableCollection<StateTypeViewModel>();
-            foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
-            {
-                if (string.IsNullOrEmpty(EnumsConverter.StateTypeToEventName(stateType)) == false)
-                    StateTypes.Add(new StateTypeViewModel(stateType));
-            }
+			foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
+			{
+				StateTypes.Add(new StateTypeViewModel(stateType));
+			}
 
 			if (journalFilter == null)
             {

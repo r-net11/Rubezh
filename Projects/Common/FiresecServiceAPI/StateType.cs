@@ -3,7 +3,7 @@ namespace FiresecAPI
 {
     public enum StateType
     {
-		[DescriptionAttribute("Пожар")]
+		[DescriptionAttribute("Тревога")]
         Fire = 0,
 
 		[DescriptionAttribute("Внимание")]

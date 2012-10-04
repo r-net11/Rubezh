@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Linq;
+using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure;
 using Infrastructure.Common;
@@ -33,7 +34,7 @@ namespace LibraryModule.ViewModels
 
         public string ClassName
         {
-            get { return EnumsConverter.StateTypeToLibraryStateName(State.StateType); }
+			get { return State.StateType.ToDescription(); }
         }
 
         public string AdditionalName

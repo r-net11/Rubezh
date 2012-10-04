@@ -1,12 +1,13 @@
 ﻿<UserControl x:Class="FiltersModule.Views.FilterDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:FiltersModule.Converters"
+             xmlns:Converters="clr-namespace:Controls.Converters;assembly=Controls"
+             xmlns:LacalConverters="clr-namespace:FiltersModule.Converters"
              xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              MinWidth="550" MinHeight="350">
     <UserControl.Resources>
-        <Converters:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
-        <Converters:CategoryTypeToCategoryNameConverter x:Key="CategoryTypeToCategoryNameConverter" />
+        <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
+        <LacalConverters:CategoryTypeToCategoryNameConverter x:Key="CategoryTypeToCategoryNameConverter" />
     </UserControl.Resources>
 
 
@@ -31,7 +32,7 @@
                     <ItemsControl ItemsSource="{Binding StateTypes}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox Content="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="1" />
+                                <CheckBox Content="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="1" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

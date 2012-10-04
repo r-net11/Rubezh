@@ -15,7 +15,7 @@ namespace Firesec
 			DeviceConfiguration.Devices = new List<Device>();
 
 			var rootInnerDevice = FiresecConfiguration.dev[0];
-			var rootDevice = SetInnerDevice(rootInnerDevice);
+			var rootDevice = SetInnerDevice(rootInnerDevice, null);
 			DeviceConfiguration.Devices.Add(rootDevice);
 			AddDevice(rootInnerDevice, rootDevice);
 
@@ -30,10 +30,9 @@ namespace Firesec
 			parentDevice.Children = new List<Device>();
 			foreach (var innerDevice in parentInnerDevice.dev)
 			{
-				var device = SetInnerDevice(innerDevice);
+				var device = SetInnerDevice(innerDevice, parentDevice);
 				if (device != null)
 				{
-					device.Parent = parentDevice;
 					parentDevice.Children.Add(device);
 					DeviceConfiguration.Devices.Add(device);
 					AddDevice(innerDevice, device);
@@ -41,9 +40,12 @@ namespace Firesec
 			}
 		}
 
-		Device SetInnerDevice(devType innerDevice)
+		Device SetInnerDevice(devType innerDevice, Device parentDevice)
 		{
-			var device = new Device();
+			var device = new Device()
+			{
+				Parent = parentDevice
+			};
 			var driverId = FiresecConfiguration.drv.FirstOrDefault(x => x.idx == innerDevice.drv).id;
 			var driverUID = new Guid(driverId);
 			device.DriverUID = driverUID;
