@@ -1,225 +1,1132 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head>
-<meta http-equiv="content-type" content="text/html; charset=windows-1251">
-	<title>Настройка DCOM</title>
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1251">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 12">
+<meta name=Originator content="Microsoft Word 12">
+<link rel=File-List href="ConfigDCOM.files/filelist.xml">
+<link rel=Edit-Time-Data href="ConfigDCOM.files/editdata.mso">
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<title>Настройка DCOM</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>Роман Б. Казаков</o:Author>
+  <o:LastAuthor>Роман Б. Казаков</o:LastAuthor>
+  <o:Revision>7</o:Revision>
+  <o:TotalTime>52</o:TotalTime>
+  <o:Created>2012-10-04T10:51:00Z</o:Created>
+  <o:LastSaved>2012-10-04T11:43:00Z</o:LastSaved>
+  <o:Pages>13</o:Pages>
+  <o:Words>1618</o:Words>
+  <o:Characters>9225</o:Characters>
+  <o:Company>DG Win&amp;Soft</o:Company>
+  <o:Lines>76</o:Lines>
+  <o:Paragraphs>21</o:Paragraphs>
+  <o:CharactersWithSpaces>10822</o:CharactersWithSpaces>
+  <o:Version>12.00</o:Version>
+ </o:DocumentProperties>
+</xml><![endif]-->
+<link rel=themeData href="ConfigDCOM.files/themedata.thmx">
+<link rel=colorSchemeMapping href="ConfigDCOM.files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>RU</w:LidThemeOther>
+  <w:LidThemeAsian>X-NONE</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:DontVertAlignCellWithSp/>
+   <w:DontBreakConstrainedForcedTables/>
+   <w:DontVertAlignInTxbx/>
+   <w:Word11KerningPairs/>
+   <w:CachedColBalance/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="true"
+  DefSemiHidden="true" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="267">
+  <w:LsdException Locked="false" Priority="0" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 9"/>
+  <w:LsdException Locked="false" Priority="35" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" Priority="10" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" Priority="11" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" Priority="22" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="59" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Table Grid"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"Cambria Math";
+	panose-1:0 0 0 0 0 0 0 0 0 0;
+	mso-font-charset:1;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:variable;
+	mso-font-signature:0 0 0 0 0 0;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;
+	mso-font-charset:204;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:1627400839 -2147483648 8 0 66047 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+h2
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Заголовок 2 Знак";
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	mso-outline-level:2;
+	font-size:18.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+h3
+	{mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"Заголовок 3 Знак";
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	mso-outline-level:3;
+	font-size:13.5pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	font-weight:bold;}
+p
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-margin-top-alt:auto;
+	margin-right:0cm;
+	mso-margin-bottom-alt:auto;
+	margin-left:0cm;
+	mso-pagination:widow-orphan;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"Текст выноски Знак";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;}
+span.2
+	{mso-style-name:"Заголовок 2 Знак";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Заголовок 2";
+	mso-ansi-font-size:13.0pt;
+	mso-bidi-font-size:13.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#4F81BD;
+	mso-themecolor:accent1;
+	font-weight:bold;}
+span.3
+	{mso-style-name:"Заголовок 3 Знак";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Заголовок 3";
+	mso-ansi-font-size:12.0pt;
+	mso-bidi-font-size:12.0pt;
+	font-family:"Cambria","serif";
+	mso-ascii-font-family:Cambria;
+	mso-ascii-theme-font:major-latin;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:major-fareast;
+	mso-hansi-font-family:Cambria;
+	mso-hansi-theme-font:major-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:major-bidi;
+	color:#4F81BD;
+	mso-themecolor:accent1;
+	font-weight:bold;}
+span.a
+	{mso-style-name:"Текст выноски Знак";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"Текст выноски";
+	mso-ansi-font-size:8.0pt;
+	mso-bidi-font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";
+	mso-ascii-font-family:Tahoma;
+	mso-fareast-font-family:"Times New Roman";
+	mso-fareast-theme-font:minor-fareast;
+	mso-hansi-font-family:Tahoma;
+	mso-bidi-font-family:Tahoma;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;}
+@page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:2.0cm 42.5pt 2.0cm 3.0cm;
+	mso-header-margin:35.4pt;
+	mso-footer-margin:35.4pt;
+	mso-paper-source:0;}
+div.WordSection1
+	{page:WordSection1;}
+ /* List Definitions */
+ @list l0
+	{mso-list-id:273755126;
+	mso-list-template-ids:1454532116;}
+@list l1
+	{mso-list-id:512841848;
+	mso-list-template-ids:2099835056;}
+@list l2
+	{mso-list-id:569972577;
+	mso-list-template-ids:-824032500;}
+ol
+	{margin-bottom:0cm;}
+ul
+	{margin-bottom:0cm;}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Обычная таблица";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="2050"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
 </head>
 
-<body>
-<h2>Настройка DCOM для Windows XP SP2, Windows 2003 SP1</h2>
+<body lang=RU style='tab-interval:35.4pt'>
 
-<p><em><strong>Внимание!</strong> В ОС Windows XP / 2003 может быть включен "Брандмауэр Windows" ("Windows Firewall"). 
-Для работы по DCOM его необходимо выключить или настроить для работы с соответствующим сервером оборудования. 
-Описание настройки брандмауэра выходит за рамки данной документации.</em></p>
+<div class=WordSection1>
 
-<p></p><ol>
-  <li>Из меню "Пуск" ("Start") выбрать "Выполнить" ("Run").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM1.png"></div><p></p>
-  
-  <li>Ввести "dcomcnfg" и нажать "OK".</li>
+<h2><span style='mso-fareast-font-family:"Times New Roman"'>Настройка DCOM для
+Windows XP SP2, Windows 2003 SP1<o:p></o:p></span></h2>
 
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM2.png"></div><p></p>
-  
-  <li>Выбрать "Корень консоли"\"Службы компонентов\Компьютеры\Мой компьютер\Настройка DCOM"
-  ("Consol Root"\"Component Services\Computers\My Computer\DCOM config"), 
-  нажать правую кнопку мыши и выбрать "Свойства" ("Properties") так как показано на рисунке:</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM3.png"></div><p></p>
-  
-  <li>Выбрать закладку "Свойства по умолчанию" ("Default Properties") и установить параметры, 
-  указанные на рисунке:</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM4.png"></div><p></p>
-  
-  <li>Выбрать закладку "Безопасность COM" ("COM Security"). В группе "Права доступа" ("Access Permissions")
-  нажать кнопку "Изменить ограничения" ("Edit Limits"):</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM5.png"></div><p></p>
-  
-  <li>Разрешить "Локальный доступ" ("Local Access"), "Удаленный доступ" ("Remote Access") для пользователей: 
-  "Анонимный вход" ("Anonymous Logon"), "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM6.png"></div><p></p>
-  
-  <li>В группе "Права доступа" ("Access Permissions") нажать кнопку "Изменить настройки по умолчанию" ("Edit Default"):</li>
+<p><strong><i>Внимание!</i></strong><em> В ОС Windows XP / 2003 может быть
+включен &quot;Брандмауэр Windows&quot; (&quot;Windows Firewall&quot;). Для
+работы по DCOM его необходимо выключить или настроить для работы с
+соответствующим сервером оборудования. Описание настройки брандмауэра выходит
+за рамки данной документации.</em></p>
 
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM7.png"></div><p></p>
-  
-  <li>Разрешить "Локальный доступ" ("Local Access"), "Удаленный доступ" ("Remote Access") для пользователей: 
-  "Анонимный вход" ("Anonymous Logon"), "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM8.png"></div><p></p>
-  
-  <li>В группе "Разрешение на запуск и активацию" ("Launch and Activation Permissions") нажать кнопку 
-  "Изменить ограничения" ("Edit Limits"):</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM9.png"></div><p></p>
-  
-  <li>Разрешить "Локальный запуск" ("Local Launch"), "Удаленный запуск" ("Remote Launch"), "Локальная активация" ("Local
-  Activation"), "Удаленная активация" ("Remote Activation") для пользователей: 
-  "Анонимный вход" ("Anonymous Logon"), "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM10.png"></div><p></p>
-  
-  <li>В группе "Разрешение на запуск и активацию" ("Launch and Activation Permissions") нажать кнопку 
-  "Изменить настройки по умолчанию" ("Edit Default"):</li>
-
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM11.png"></div><p></p>
-  
-  <li>Разрешить "Локальный запуск" ("Local Launch"), "Удаленный запуск" ("Remote Launch"), "Локальная активация" ("Local
-  Activation"), "Удаленная активация" ("Remote Activation") для пользователей: 
-  "Анонимный вход" ("Anonymous Logon"), "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM12.png"></div><p></p>
-  
-  <li>На дереве "Корень консоли" ("Consol Root") выделить OPC сервер
-  "Службы компонентов\Компьютеры\Мой компьютер\Настройка DCOM\Lectus Modbus OPC/DDE server"
-  ("Component Services\Computers\My Computer\DCOM config\Lectus Modbus OPC/DDE server"), нажать правую кнопку мыши
-  и выбрать "Свойства" ("Properties") так как показано на рисунке:</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM13.png"></div><p></p>
-  
-  <li>Выбрать закладку "Общие" ("General") и установить параметры, указанные на рисунке:</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM14.png"></div><p></p>
-  
-  <li>Перейти на закладку "Безопасность" ("Security"). В группе "Разрешения на запуск и активацию" 
-  ("Launch and Activation Permissions") нажать кнопку "Изменить" ("Edit").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM15.png"></div><p></p>
-  
-  <li>Разрешить "Локальный запуск" ("Local Launch"), "Удаленный запуск" ("Remote Launch"), "Локальная активация" ("Local
-  Activation"), "Удаленная активация" ("Remote Activation") для пользователей: 
-  "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM16.png"></div><p></p>
-  
-  <li>В группе "Права доступа" ("Access Permissions") нажать кнопку "Изменить" ("Edit").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM17.png"></div><p></p>
-  
-  <li>Разрешить "Локальный доступ" ("Local Access"), "Удаленный доступ" ("Remote Access") для пользователей: 
-  "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM18.png"></div><p></p>
-  
-  <li>Перейти на закладку "Удостоверение" ("Identity"). Установить запуск сервера от имени "Текущий пользователь"
-  ("The interactive user") или, если он запускается как сервис, "Системная учетная запись" ("The system account").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM19.png"></div><p></p>
-  
-  <li>На дереве "Корень консоли" ("Consol Root") выделить "OpcEnum"
-  "Службы компонентов\Компьютеры\Мой компьютер\Настройка DCOM\Lectus Modbus OPC/DDE server"
-  ("Component Services\Computers\My Computer\DCOM config\OpcEnum"), нажать правую кнопку мыши
-  и выбрать "Свойства" ("Properties") так как показано на рисунке:</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM20.png"></div><p></p>
-  
-  <li>Настроить свойства "OpcEnum" аналогично свойствам OPC сервера.</li>
+<ol start=1 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Из меню &quot;Пуск&quot; (&quot;Start&quot;) выбрать
+     &quot;Выполнить&quot; (&quot;Run&quot;).<o:p></o:p></span></li>
 </ol>
-<p></p>
 
-<h3>Настройка предотвращения выполнения данных (Data Execution Prevention)</h3>
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=432 height=611 id="_x0000_i1060" src="ConfigDCOM_files/ConfigDCOM1.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
 
-<p>Предотвращение выполнения данных (DEP) это набор аппаратных и программных технологий, которые выполняют дополнительную
-проверку памяти для защиты компьютера от повреждения вирусами и при других угрозах безопасности.</p>
-
-<p>
-</p><ol>
-  <li>Из меню "Пуск" ("Start") выбрать "Мой компьютер" ("My computer"), нажать правую кнопку мыши
-  и выбрать "Свойства" ("Properties") так как показано на рисунке: </li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM21.png"></div><p></p>
-  
-  <li>Перейти на закладку "Дополнительно" ("Advanced"). В группе "Быстродействие" ("Performance") нажать кнопку 
-  "Параметры" ("Settings").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM22.png"></div><p></p>
-  
-  <li>Выбрать закладку "Предотвращение выполнения данных" ("Data Execution Prevention") и установить параметры, 
-  указанные на рисунке:</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM23.png"></div><p></p>
+<ol start=2 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Ввести &quot;dcomcnfg&quot; и нажать &quot;OK&quot;.<o:p></o:p></span></li>
 </ol>
-<p></p>
 
-<h3>Настройка локальной политики безопасности (Local Security Policy)</h3>
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=347 height=179 id="_x0000_i1059" src="ConfigDCOM_files/ConfigDCOM2.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
 
-<p>Если компьютер является членом рабочей группы, а не домена, то следующие шаги необходимы для установки
-соединения. Имейте в виду, что эти настройки могут снизить безопасность вашей системы - обратитесь к
-сетевому администратору, если у вас есть какие-либо проблемы.</p>
-
-<ol>
-  <li>Из меню "Пуск" ("Start") выбрать "Панель управления" ("Control panel").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM24.png"></div><p></p>
-  
-  <li>Выбрать "Администрирование" ("Administrative Tools").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM25.png"></div><p></p>
-  
-  <li>Выбрать "Локальная политика безопасности" ("Local Security Policy").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM26.png"></div><p></p>
-  
-  <li>Выбрать "Параметры безопасности"\"Локальные политики"\"Параметры безопасности" 
-  ("Security Settings"\"Local Policies"\"Security Options"). Нажать правую кнопку мыши на
-  "DCOM: Ограничения компьютера на доступ в синтаксисе SDDL" ("DCOM: Machine Access Restrictions…") 
-  и выбрать "Свойства" ("Properties")</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM27.png"></div><p></p>
-  
-  <li>Нажать кнопку "Изменить безопасность" ("Edit Security").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM28.png"></div><p></p>
-  
-  <li>Разрешить "Локальный доступ" ("Local Access"), "Удаленный доступ" ("Remote Access") для пользователей: 
-  "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM29.png"></div><p></p>
-  
-  <li>Нажать правую кнопку мыши на "DCOM: Ограничения компьютера на запуск в синтаксисе SDDL" 
-  ("DCOM: Machine Launch Restrictions…") и выбрать "Свойства" ("Properties")</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM30.png"></div><p></p>
-  
-  <li>Нажать кнопку "Изменить безопасность" ("Edit Security").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM31.png"></div><p></p>
-  
-  <li>Разрешить "Локальный запуск" ("Local Launch"), "Удаленный запуск" ("Remote Launch"), "Локальная активация" ("Local
-  Activation"), "Удаленная активация" ("Remote Activation") для пользователей: 
-  "Все" ("Everyone"), "Интерактивные" ("Interactive"), "Сеть" ("Network") и "System":</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM32.png"></div><p></p>
-  
-  <li>Нажать правую кнопку мыши на "Сетевой доступ: разрешить применение разрешений для всех к анонимным пользователям" 
-  ("Network access: Let Everyone permissions apply to anonymous users") и выбрать "Свойства" ("Properties")</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM33.png"></div><p></p>
-  
-  <li>Выбрать "Включить" ("Enabled").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM34.png"></div><p></p>
-  
-  <li>Нажать правую кнопку мыши на "Сетевой доступ: модель совместного доступа и безопасности для локальных учетных записей" 
-  ("Network access: Sharing and security model for local accounts") и выбрать "Свойства" ("Properties")</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM35.png"></div><p></p>
-  
-  <li>Выбрать "Обычная - локальные пользователи удостоверяются как они сами" 
-  ("Classic – local users authenticate as themselves").</li>
-  
-  <p></p><div align="center"><img src="ConfigDCOM_files/ConfigDCOM36.png"></div><p></p>
+<ol start=3 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Выбрать &quot;Корень консоли&quot;\&quot;Службы
+     компонентов\Компьютеры\Мой компьютер\Настройка DCOM&quot; (&quot;Consol
+     Root&quot;\&quot;Component Services\Computers\My Computer\DCOM
+     config&quot;), нажать правую кнопку мыши и выбрать &quot;Свойства&quot;
+     (&quot;Properties&quot;) так как показано на рисунке:<o:p></o:p></span></li>
 </ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=600 height=413 id="_x0000_i1058" src="ConfigDCOM_files/ConfigDCOM3.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=4 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Выбрать закладку &quot;Свойства по умолчанию&quot;
+     (&quot;Default Properties&quot;) и установить параметры, указанные на
+     рисунке:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=403 height=465 id="_x0000_i1057" src="ConfigDCOM_files/ConfigDCOM4.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=5 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Выбрать закладку &quot;Безопасность COM&quot;
+     (&quot;COM Security&quot;). В группе &quot;Права доступа&quot;
+     (&quot;Access Permissions&quot;) нажать кнопку &quot;Изменить
+     ограничения&quot; (&quot;Edit Limits&quot;):<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=404 height=465 id="_x0000_i1056" src="ConfigDCOM_files/ConfigDCOM5.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=6 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Разрешить &quot;Локальный доступ&quot; (&quot;Local
+     Access&quot;), &quot;Удаленный доступ&quot; (&quot;Remote Access&quot;)
+     для пользователей: &quot;Анонимный вход&quot; (&quot;Anonymous Logon&quot;),
+     &quot;Все&quot; (&quot;Everyone&quot;), &quot;Интерактивные&quot;
+     (&quot;Interactive&quot;), &quot;Сеть&quot; (&quot;Network&quot;) и
+     &quot;System&quot;:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=366 height=442 id="_x0000_i1055" src="ConfigDCOM_files/ConfigDCOM6.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=7 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>В группе &quot;Права доступа&quot; (&quot;Access
+     Permissions&quot;) нажать кнопку &quot;Изменить настройки по
+     умолчанию&quot; (&quot;Edit Default&quot;):<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=403 height=465 id="_x0000_i1054" src="ConfigDCOM_files/ConfigDCOM7.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=8 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Разрешить &quot;Локальный доступ&quot; (&quot;Local
+     Access&quot;), &quot;Удаленный доступ&quot; (&quot;Remote Access&quot;)
+     для пользователей: &quot;Анонимный вход&quot; (&quot;Anonymous
+     Logon&quot;), &quot;Все&quot; (&quot;Everyone&quot;),
+     &quot;Интерактивные&quot; (&quot;Interactive&quot;), &quot;Сеть&quot;
+     (&quot;Network&quot;) и &quot;System&quot;:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=366 height=442 id="_x0000_i1053" src="ConfigDCOM_files/ConfigDCOM8.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=9 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>В группе &quot;Разрешение на запуск и активацию&quot;
+     (&quot;Launch and Activation Permissions&quot;) нажать кнопку
+     &quot;Изменить ограничения&quot; (&quot;Edit Limits&quot;):<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=403 height=465 id="_x0000_i1052" src="ConfigDCOM_files/ConfigDCOM9.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=10 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Разрешить &quot;Локальный запуск&quot; (&quot;Local
+     Launch&quot;), &quot;Удаленный запуск&quot; (&quot;Remote Launch&quot;),
+     &quot;Локальная активация&quot; (&quot;Local Activation&quot;),
+     &quot;Удаленная активация&quot; (&quot;Remote Activation&quot;) для
+     пользователей: &quot;Анонимный вход&quot; (&quot;Anonymous Logon&quot;),
+     &quot;Все&quot; (&quot;Everyone&quot;), &quot;Интерактивные&quot;
+     (&quot;Interactive&quot;), &quot;Сеть&quot; (&quot;Network&quot;) и
+     &quot;System&quot;:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=366 height=442 id="_x0000_i1051" src="ConfigDCOM_files/ConfigDCOM10.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=11 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>В группе &quot;Разрешение на запуск и активацию&quot;
+     (&quot;Launch and Activation Permissions&quot;) нажать кнопку
+     &quot;Изменить настройки по умолчанию&quot; (&quot;Edit Default&quot;):<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=403 height=465 id="_x0000_i1050" src="ConfigDCOM_files/ConfigDCOM11.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=12 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Разрешить &quot;Локальный запуск&quot; (&quot;Local
+     Launch&quot;), &quot;Удаленный запуск&quot; (&quot;Remote Launch&quot;),
+     &quot;Локальная активация&quot; (&quot;Local Activation&quot;),
+     &quot;Удаленная активация&quot; (&quot;Remote Activation&quot;) для
+     пользователей: &quot;Анонимный вход&quot; (&quot;Anonymous Logon&quot;),
+     &quot;Все&quot; (&quot;Everyone&quot;), &quot;Интерактивные&quot;
+     (&quot;Interactive&quot;), &quot;Сеть&quot; (&quot;Network&quot;) и
+     &quot;System&quot;:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=366 height=442 id="_x0000_i1049" src="ConfigDCOM_files/ConfigDCOM12.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=13 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>На дереве &quot;Корень консоли&quot; (&quot;Consol
+     Root&quot;) выделить OPC сервер &quot;Службы компонентов\Компьютеры\Мой
+     компьютер\Настройка DCOM\FiresecOPC&quot; (&quot;Component
+     Services\Computers\My Computer\DCOM config\FiresecOPC&quot;), нажать
+     правую кнопку мыши и выбрать &quot;Свойства&quot; (&quot;Properties&quot;)
+     так как показано на рисунке:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><!--[if gte vml 1]><v:shapetype
+ id="_x0000_t75" coordsize="21600,21600" o:spt="75" o:preferrelative="t"
+ path="m@4@5l@4@11@9@11@9@5xe" filled="f" stroked="f">
+ <v:stroke joinstyle="miter"/>
+ <v:formulas>
+  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn="sum @0 1 0"/>
+  <v:f eqn="sum 0 0 @1"/>
+  <v:f eqn="prod @2 1 2"/>
+  <v:f eqn="prod @3 21600 pixelWidth"/>
+  <v:f eqn="prod @3 21600 pixelHeight"/>
+  <v:f eqn="sum @0 0 1"/>
+  <v:f eqn="prod @6 1 2"/>
+  <v:f eqn="prod @7 21600 pixelWidth"/>
+  <v:f eqn="sum @8 21600 0"/>
+  <v:f eqn="prod @7 21600 pixelHeight"/>
+  <v:f eqn="sum @10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+ <o:lock v:ext="edit" aspectratio="t"/>
+</v:shapetype><v:shape id="Рисунок_x0020_37" o:spid="_x0000_i1048" type="#_x0000_t75"
+ style='width:480pt;height:305.25pt;visibility:visible;mso-wrap-style:square'>
+ <v:imagedata src="ConfigDCOM.files/image001.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=640 height=407
+src="ConfigDCOM.files/image002.jpg" v:shapes="Рисунок_x0020_37"><![endif]></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=14 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Выбрать закладку &quot;Общие&quot;
+     (&quot;General&quot;) и установить параметры, указанные на рисунке:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><!--[if gte vml 1]><v:shape
+ id="Рисунок_x0020_38" o:spid="_x0000_i1047" type="#_x0000_t75" style='width:303pt;
+ height:350.25pt;visibility:visible;mso-wrap-style:square'>
+ <v:imagedata src="ConfigDCOM.files/image003.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=404 height=467
+src="ConfigDCOM.files/image004.jpg" v:shapes="Рисунок_x0020_38"><![endif]></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=15 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Перейти на закладку &quot;Безопасность&quot;
+     (&quot;Security&quot;). В группе &quot;Разрешения на запуск и
+     активацию&quot; (&quot;Launch and Activation Permissions&quot;) нажать
+     кнопку &quot;Изменить&quot; (&quot;Edit&quot;).<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><!--[if gte vml 1]><v:shape
+ id="Рисунок_x0020_39" o:spid="_x0000_i1046" type="#_x0000_t75" style='width:302.25pt;
+ height:350.25pt;visibility:visible;mso-wrap-style:square'>
+ <v:imagedata src="ConfigDCOM.files/image007.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=403 height=467
+src="ConfigDCOM.files/image009.jpg" v:shapes="Рисунок_x0020_39"><![endif]></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=16 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Разрешить &quot;Локальный запуск&quot; (&quot;Local
+     Launch&quot;), &quot;Удаленный запуск&quot; (&quot;Remote Launch&quot;),
+     &quot;Локальная активация&quot; (&quot;Local Activation&quot;),
+     &quot;Удаленная активация&quot; (&quot;Remote Activation&quot;) для
+     пользователей: &quot;Все&quot; (&quot;Everyone&quot;),
+     &quot;Интерактивные&quot; (&quot;Interactive&quot;), &quot;Сеть&quot;
+     (&quot;Network&quot;) и &quot;System&quot;:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=366 height=443 id="_x0000_i1045" src="ConfigDCOM_files/ConfigDCOM16.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=17 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>В группе &quot;Права доступа&quot; (&quot;Access
+     Permissions&quot;) нажать кнопку &quot;Изменить&quot; (&quot;Edit&quot;).<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><!--[if gte vml 1]><v:shape
+ id="Рисунок_x0020_40" o:spid="_x0000_i1044" type="#_x0000_t75" style='width:302.25pt;
+ height:350.25pt;visibility:visible;mso-wrap-style:square'>
+ <v:imagedata src="ConfigDCOM.files/image010.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=403 height=467
+src="ConfigDCOM.files/image011.jpg" v:shapes="Рисунок_x0020_40"><![endif]></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=18 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Разрешить &quot;Локальный доступ&quot; (&quot;Local
+     Access&quot;), &quot;Удаленный доступ&quot; (&quot;Remote Access&quot;)
+     для пользователей: &quot;Все&quot; (&quot;Everyone&quot;),
+     &quot;Интерактивные&quot; (&quot;Interactive&quot;), &quot;Сеть&quot;
+     (&quot;Network&quot;) и &quot;System&quot;:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=366 height=442 id="_x0000_i1043" src="ConfigDCOM_files/ConfigDCOM18.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=19 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Перейти на закладку &quot;Удостоверение&quot;
+     (&quot;Identity&quot;). Установить запуск сервера от имени &quot;Текущий
+     пользователь&quot; (&quot;The interactive user&quot;) или, если он
+     запускается как сервис, &quot;Системная учетная запись&quot; (&quot;The
+     system account&quot;).<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><!--[if gte vml 1]><v:shape
+ id="Рисунок_x0020_42" o:spid="_x0000_i1042" type="#_x0000_t75" style='width:302.25pt;
+ height:350.25pt;visibility:visible;mso-wrap-style:square'>
+ <v:imagedata src="ConfigDCOM.files/image013.png" o:title=""/>
+</v:shape><![endif]--><![if !vml]><img width=403 height=467
+src="ConfigDCOM.files/image015.jpg" v:shapes="Рисунок_x0020_42"><![endif]></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=20 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>На дереве &quot;Корень консоли&quot; (&quot;Consol
+     Root&quot;) выделить &quot;OpcEnum&quot; &quot;Службы компонентов\Компьютеры\Мой
+     компьютер\Настройка DCOM\</span><span lang=EN-US style='mso-fareast-font-family:
+     "Times New Roman";mso-ansi-language:EN-US'>Firesec</span><span lang=EN-US
+     style='mso-fareast-font-family:"Times New Roman"'> </span><span
+     style='mso-fareast-font-family:"Times New Roman"'>OPC&quot;
+     (&quot;Component Services\Computers\My Computer\DCOM
+     config\OpcEnum&quot;), нажать правую кнопку мыши и выбрать
+     &quot;Свойства&quot; (&quot;Properties&quot;) так как показано на рисунке:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=639 height=405 id="_x0000_i1041" src="ConfigDCOM_files/ConfigDCOM20.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=21 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l2 level1 lfo1;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Настроить свойства &quot;OpcEnum&quot; аналогично
+     свойствам OPC сервера.<o:p></o:p></span></li>
+</ol>
+
+<h3><span style='mso-fareast-font-family:"Times New Roman"'>Настройка
+предотвращения выполнения данных (Data Execution Prevention)<o:p></o:p></span></h3>
+
+<p>Предотвращение выполнения данных (DEP) это набор аппаратных и программных
+технологий, которые выполняют дополнительную проверку памяти для защиты
+компьютера от повреждения вирусами и при других угрозах безопасности.</p>
+
+<ol start=1 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l1 level1 lfo2;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Из меню &quot;Пуск&quot; (&quot;Start&quot;) выбрать
+     &quot;Мой компьютер&quot; (&quot;My computer&quot;), нажать правую кнопку
+     мыши и выбрать &quot;Свойства&quot; (&quot;Properties&quot;) так как
+     показано на рисунке: <o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=482 height=613 id="_x0000_i1040" src="ConfigDCOM_files/ConfigDCOM21.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=2 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l1 level1 lfo2;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Перейти на закладку &quot;Дополнительно&quot;
+     (&quot;Advanced&quot;). В группе &quot;Быстродействие&quot;
+     (&quot;Performance&quot;) нажать кнопку &quot;Параметры&quot;
+     (&quot;Settings&quot;).<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=418 height=497 id="_x0000_i1039" src="ConfigDCOM_files/ConfigDCOM22.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=3 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l1 level1 lfo2;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Выбрать закладку &quot;Предотвращение выполнения
+     данных&quot; (&quot;Data Execution Prevention&quot;) и установить
+     параметры, указанные на рисунке:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=366 height=546 id="_x0000_i1038" src="ConfigDCOM_files/ConfigDCOM23.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<h3><span style='mso-fareast-font-family:"Times New Roman"'>Настройка локальной
+политики безопасности (Local Security Policy)<o:p></o:p></span></h3>
+
+<p>Если компьютер является членом рабочей группы, а не домена, то следующие
+шаги необходимы для установки соединения. Имейте в виду, что эти настройки
+могут снизить безопасность вашей системы - обратитесь к сетевому
+администратору, если у вас есть какие-либо проблемы.</p>
+
+<ol start=1 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Из меню &quot;Пуск&quot; (&quot;Start&quot;) выбрать
+     &quot;Панель управления&quot; (&quot;Control panel&quot;).<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=456 height=614 id="_x0000_i1037" src="ConfigDCOM_files/ConfigDCOM24.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=2 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Выбрать &quot;Администрирование&quot;
+     (&quot;Administrative Tools&quot;).<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=597 height=441 id="_x0000_i1036" src="ConfigDCOM_files/ConfigDCOM25.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=3 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Выбрать &quot;Локальная политика безопасности&quot;
+     (&quot;Local Security Policy&quot;).<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=597 height=441 id="_x0000_i1035" src="ConfigDCOM_files/ConfigDCOM26.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=4 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Выбрать &quot;Параметры
+     безопасности&quot;\&quot;Локальные политики&quot;\&quot;Параметры
+     безопасности&quot; (&quot;Security Settings&quot;\&quot;Local
+     Policies&quot;\&quot;Security Options&quot;). Нажать правую кнопку мыши на
+     &quot;DCOM: Ограничения компьютера на доступ в синтаксисе SDDL&quot;
+     (&quot;DCOM: Machine Access Restrictions…&quot;) и выбрать
+     &quot;Свойства&quot; (&quot;Properties&quot;)<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=623 height=440 id="_x0000_i1034" src="ConfigDCOM_files/ConfigDCOM27.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=5 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Нажать кнопку &quot;Изменить безопасность&quot;
+     (&quot;Edit Security&quot;).<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=403 height=286 id="_x0000_i1033" src="ConfigDCOM_files/ConfigDCOM28.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=6 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Разрешить &quot;Локальный доступ&quot; (&quot;Local
+     Access&quot;), &quot;Удаленный доступ&quot; (&quot;Remote Access&quot;)
+     для пользователей: &quot;Все&quot; (&quot;Everyone&quot;),
+     &quot;Интерактивные&quot; (&quot;Interactive&quot;), &quot;Сеть&quot; (&quot;Network&quot;)
+     и &quot;System&quot;:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=366 height=442 id="_x0000_i1032" src="ConfigDCOM_files/ConfigDCOM29.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=7 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Нажать правую кнопку мыши на &quot;DCOM: Ограничения
+     компьютера на запуск в синтаксисе SDDL&quot; (&quot;DCOM: Machine Launch
+     Restrictions…&quot;) и выбрать &quot;Свойства&quot;
+     (&quot;Properties&quot;)<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=623 height=440 id="_x0000_i1031" src="ConfigDCOM_files/ConfigDCOM30.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=8 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Нажать кнопку &quot;Изменить безопасность&quot;
+     (&quot;Edit Security&quot;).<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=403 height=286 id="_x0000_i1030" src="ConfigDCOM_files/ConfigDCOM31.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=9 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Разрешить &quot;Локальный запуск&quot; (&quot;Local
+     Launch&quot;), &quot;Удаленный запуск&quot; (&quot;Remote Launch&quot;),
+     &quot;Локальная активация&quot; (&quot;Local Activation&quot;),
+     &quot;Удаленная активация&quot; (&quot;Remote Activation&quot;) для
+     пользователей: &quot;Все&quot; (&quot;Everyone&quot;),
+     &quot;Интерактивные&quot; (&quot;Interactive&quot;), &quot;Сеть&quot;
+     (&quot;Network&quot;) и &quot;System&quot;:<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=366 height=442 id="_x0000_i1029" src="ConfigDCOM_files/ConfigDCOM32.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=10 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Нажать правую кнопку мыши на &quot;Сетевой доступ:
+     разрешить применение разрешений для всех к анонимным пользователям&quot;
+     (&quot;Network access: Let Everyone permissions apply to anonymous
+     users&quot;) и выбрать &quot;Свойства&quot; (&quot;Properties&quot;)<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=691 height=440 id="_x0000_i1028" src="ConfigDCOM_files/ConfigDCOM33.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=11 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Выбрать &quot;Включить&quot; (&quot;Enabled&quot;).<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=403 height=303 id="_x0000_i1027" src="ConfigDCOM_files/ConfigDCOM34.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=12 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Нажать правую кнопку мыши на &quot;Сетевой доступ:
+     модель совместного доступа и безопасности для локальных учетных
+     записей&quot; (&quot;Network access: Sharing and security model for local
+     accounts&quot;) и выбрать &quot;Свойства&quot; (&quot;Properties&quot;)<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=691 height=440 id="_x0000_i1026" src="ConfigDCOM_files/ConfigDCOM35.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
+
+<ol start=13 type=1>
+ <li class=MsoNormal style='mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;
+     mso-list:l0 level1 lfo3;tab-stops:list 36.0pt'><span style='mso-fareast-font-family:
+     "Times New Roman"'>Выбрать &quot;Обычная - локальные пользователи
+     удостоверяются как они сами&quot; (&quot;Classic – local users
+     authenticate as themselves&quot;).<o:p></o:p></span></li>
+</ol>
+
+<p class=MsoNormal align=center style='margin-left:36.0pt;text-align:center'><span
+style='mso-fareast-font-family:"Times New Roman";mso-no-proof:yes'><img
+width=403 height=278 id="_x0000_i1025" src="ConfigDCOM_files/ConfigDCOM36.png"></span><span
+style='mso-fareast-font-family:"Times New Roman"'><o:p></o:p></span></p>
 
 <p><strong>Теперь компьютер настроен для взаимодействия через DCOM</strong>.</p>
 
-<p><em><strong>P.S.</strong> DCOM имеет ограничения для подключений при
-взаимодействии компьютеров в домене и рабочей группе. Подключения через DCOM
- с вышеприведенными настройки могут работать, но, в зависимости от индивидуальных настроек сетей, 
- может потребоваться настройка дополнительных параметров.</em></p>
+<p><strong><i>P.S.</i></strong><em> DCOM имеет ограничения для подключений при
+взаимодействии компьютеров в домене и рабочей группе. Подключения через DCOM с
+вышеприведенными настройки могут работать, но, в зависимости от индивидуальных
+настроек сетей, может потребоваться настройка дополнительных параметров.</em></p>
 
+</div>
 
+</body>
 
-</body></html>
+</html>
