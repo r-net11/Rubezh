@@ -14,17 +14,20 @@ namespace XFiresecAPI
 			UID = Guid.NewGuid();
 			Children = new List<XDevice>();
 			Properties = new List<XProperty>();
-			OutDependenceUIDs = new List<Guid>();
-			Zones = new List<Guid>();
+			ZoneUIDs = new List<Guid>();
 			DeviceLogic = new XDeviceLogic();
 			PlanElementUIDs = new List<Guid>();
 			IsNotUsed = false;
+
+			OutDependenceUIDs = new List<Guid>();
+			Zones = new List<XZone>();
 		}
 
 		public XDriver Driver { get; set; }
 		public XDevice Parent { get; set; }
 		public XDeviceState DeviceState { get; set; }
 		public List<Guid> OutDependenceUIDs { get; set; }
+		public List<XZone> Zones { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -48,7 +51,7 @@ namespace XFiresecAPI
 		public List<XProperty> Properties { get; set; }
 
 		[DataMember]
-		public List<Guid> Zones { get; set; }
+		public List<Guid> ZoneUIDs { get; set; }
 
 		[DataMember]
 		public XDeviceLogic DeviceLogic { get; set; }
@@ -238,5 +241,12 @@ namespace XFiresecAPI
 				return true;
 			}
 		}
+
+		public void OnChanged()
+		{
+			if (Changed != null)
+				Changed();
+		}
+		public event Action Changed;
 	}
 }

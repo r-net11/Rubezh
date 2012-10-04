@@ -14,14 +14,14 @@ namespace Firesec
 	{
 		private int _reguestId = 1;
 		private Dispatcher _dispatcher;
-		private Thread _taskThread;
+		//private Thread _taskThread;
 
 		public NativeFiresecClient()
 		{
 			Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
 				{
-					if (_taskThread != null)
-						_taskThread.Abort();
+					//if (_taskThread != null)
+					//    _taskThread.Abort();
 					if (_dispatcher != null)
 					{
 						if (_connection != null)
@@ -44,8 +44,8 @@ namespace Firesec
 			dispatcherThread.Start();
 			dispatcherThread.Join(100);
 
-			_taskThread = new Thread(new ThreadStart(WorkTask));
-			_taskThread.Start();
+			//_taskThread = new Thread(new ThreadStart(WorkTask));
+			//_taskThread.Start();
 		}
 
 		FS_Types.IFSC_Connection _connection;
@@ -101,8 +101,10 @@ namespace Firesec
 		{
 			_reguestId++;
 			reguestId = _reguestId;
-			var result = SafeCall<string>(() => { return Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId); }, "ExecuteRuntimeDeviceMethod");
-			return result;
+			return SafeCall<string>(() =>
+			{
+				return Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId);
+			}, "ExecuteRuntimeDeviceMethod");
 		}
 		public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters)
 		{
@@ -130,8 +132,16 @@ namespace Firesec
 		}
 		public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
-			Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, null, _reguestId++);
-			return new OperationResult<bool>() { Result = true };
+			return SafeCall<bool>(() =>
+			{
+				_reguestId += 1;
+				var result = Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, "Test", _reguestId);
+				return true;
+			}, "ExecuteCommand");
+
+			//Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, null, _reguestId++);
+			//Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, "Test", _reguestId++);
+			//return new OperationResult<bool>() { Result = true };
 		}
 		public OperationResult<bool> CheckHaspPresence()
 		{
@@ -367,17 +377,19 @@ namespace Firesec
 		}
 
 		public event Action<int> NewEventAvaliable;
-		public int IntContinueProgress = 1;
+		//public int IntContinueProgress = 1;
 
 		public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
 		{
 			try
 			{
-				var continueProgress = IntContinueProgress == 1;
-				IntContinueProgress = 1;
-				ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
+				//var continueProgress = IntContinueProgress == 1;
+				//IntContinueProgress = 1;
+				var result = OnProgress(Stage, Comment, PercentComplete, BytesRW);
+				return result;
+				//ProcessProgress(Stage, Comment, PercentComplete, BytesRW);
 				//return true;
-				return continueProgress;
+				//return continueProgress;
 			}
 			catch (Exception e)
 			{
@@ -388,59 +400,59 @@ namespace Firesec
 		#endregion
 
 		#region Progress
-		object locker = new object();
-		Queue<ProgressData> taskQeue = new Queue<ProgressData>();
+		//object locker = new object();
+		//Queue<ProgressData> taskQeue = new Queue<ProgressData>();
 		public event Func<int, string, int, int, bool> ProgressEvent;
 
-		public void ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
-		{
-			lock (locker)
-			{
-				var progressData = new ProgressData()
-				{
-					Stage = Stage,
-					Comment = Comment,
-					PercentComplete = PercentComplete,
-					BytesRW = BytesRW
-				};
+		//public void ProcessProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
+		//{
+		//    lock (locker)
+		//    {
+		//        var progressData = new ProgressData()
+		//        {
+		//            Stage = Stage,
+		//            Comment = Comment,
+		//            PercentComplete = PercentComplete,
+		//            BytesRW = BytesRW
+		//        };
 
-				taskQeue.Enqueue(progressData);
-				Monitor.PulseAll(locker);
-			}
-		}
+		//        taskQeue.Enqueue(progressData);
+		//        Monitor.PulseAll(locker);
+		//    }
+		//}
 
-		void WorkTask()
-		{
-			while (true)
-			{
-				lock (locker)
-				{
-					while (taskQeue.Count == 0)
-						Monitor.Wait(locker);
+		//void WorkTask()
+		//{
+		//    while (true)
+		//    {
+		//        lock (locker)
+		//        {
+		//            while (taskQeue.Count == 0)
+		//                Monitor.Wait(locker);
 
-					ProgressData progressData = taskQeue.Dequeue();
-					var result = OnProgress(progressData.Stage, progressData.Comment, progressData.PercentComplete, progressData.BytesRW);
+		//            ProgressData progressData = taskQeue.Dequeue();
+		//            var result = OnProgress(progressData.Stage, progressData.Comment, progressData.PercentComplete, progressData.BytesRW);
 
-					Interlocked.Exchange(ref IntContinueProgress, result ? 1 : 0);
-				}
-			}
-		}
+		//            Interlocked.Exchange(ref IntContinueProgress, result ? 1 : 0);
+		//        }
+		//    }
+		//}
 
 		bool OnProgress(int Stage, string Comment, int PercentComplete, int BytesRW)
 		{
 			if (ProgressEvent != null)
 			{
 				var result = ProgressEvent(Stage, Comment, PercentComplete, BytesRW);
-                return result;
+				return result;
 			}
-            return true;
+			return true;
 
-			bool stopProgress = (StopProgress == 1);
-			StopProgress = 0;
-			return stopProgress;
+			//bool stopProgress = (StopProgress == 1);
+			//StopProgress = 0;
+			//return stopProgress;
 		}
 
-		public int StopProgress;
+		//public int StopProgress;
 		#endregion
 	}
 }

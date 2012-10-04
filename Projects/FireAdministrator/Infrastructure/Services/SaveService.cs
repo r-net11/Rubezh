@@ -117,12 +117,17 @@ namespace Infrastructure
 		public event Action Changed;
 		void OnChanged()
 		{
-			HasChanges = true;
 			if (Changed != null)
 				Changed();
 		}
 
-		public bool HasChanges { get; private set; }
+		public bool HasChanges
+        {
+            get
+            {
+                return DevicesChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XDevicesChanged || CamerasChanged || OPCChanged;
+            }
+        }
 
 		public void Reset()
 		{
@@ -136,7 +141,7 @@ namespace Infrastructure
 			XDevicesChanged = false;
 			CamerasChanged = false;
             OPCChanged = false;
-			HasChanges = false;
+            OnChanged();
 		}
 	}
 }

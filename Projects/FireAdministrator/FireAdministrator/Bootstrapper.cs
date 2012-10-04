@@ -12,6 +12,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
 using Infrastructure.Services;
+using Infrastructure.Common.Theme;
+using Microsoft.Win32;
 
 namespace FireAdministrator
 {
@@ -69,9 +71,9 @@ namespace FireAdministrator
 			LoadingService.DoStep("Загрузка драйвера устройств");
 			FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
 			LoadingService.DoStep("Синхронизация конфигурации");
-			FiresecManager.Synchronyze();
+			FiresecManager.FiresecDriver.Synchronyze();
 			LoadingService.DoStep("Старт мониторинга");
-			FiresecManager.StartWatcher(false, false);
+            FiresecManager.FiresecDriver.StartWatcher(false, false);
 		}
 
 		void InitializeGk()
@@ -87,11 +89,7 @@ namespace FireAdministrator
 
 		void LoadStyles()
 		{
-			if (!String.IsNullOrEmpty(ServiceFactory.AppSettings.Theme) && ServiceFactory.AppSettings.Theme != "1")
-			{
-				var themeName = "pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Brushes" + ServiceFactory.AppSettings.Theme + ".xaml";
-				Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri(themeName) });
-			}
+            ThemeHelper.LoadThemeFromRegister();
 		}
 	}
 }

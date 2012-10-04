@@ -32,7 +32,7 @@ namespace Firesec
 			ConfigurationConverter.SynchronyzeConfiguration();
 		}
 
-        public void StatrtWatcher(bool mustMonitorStates, bool mustMonitorJournal)
+        public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
 		{
             Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
 			if (mustMonitorStates)

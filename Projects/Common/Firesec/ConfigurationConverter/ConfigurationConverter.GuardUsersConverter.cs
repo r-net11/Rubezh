@@ -103,9 +103,13 @@ namespace Firesec
 				++no;
 
 				var innerZones = new List<partTypePinZ>();
-				foreach (var zone in guardUser.ZoneUIDs)
+				foreach (var zoneUID in guardUser.ZoneUIDs)
 				{
-					innerZones.Add(new partTypePinZ() { pidz = zone.ToString() });
+					var zone = DeviceConfiguration.Zones.FirstOrDefault(x=>x.UID == zoneUID);
+					if (zone != null)
+					{
+						innerZones.Add(new partTypePinZ() { pidz = zone.No.ToString() });
+					}
 				}
 				innerGuardUser.PinZ = innerZones.ToArray();
 

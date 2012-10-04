@@ -184,6 +184,7 @@ namespace LibraryModule.ViewModels
                 {
                     DriverId = SelectedDevice.LibraryDevice.DriverId
                 };
+                deviceControl.StateType = SelectedState.State.StateType;
 
                 var additionalStateCodes = new List<string>();
                 if (SelectedState.IsAdditional)
@@ -191,10 +192,8 @@ namespace LibraryModule.ViewModels
                     additionalStateCodes.Add(SelectedState.State.Code);
                     deviceControl.AdditionalStateCodes = additionalStateCodes;
                 }
-                else
-                {
-                    deviceControl.StateType = SelectedState.State.StateType;
-                }
+
+                deviceControl.Update();
                 return deviceControl;
             }
         }

@@ -14,6 +14,7 @@ namespace DiagnosticsModule
 
         public DiagnosticsModuleLoader()
         {
+            ServiceFactory.Layout.AddToolbarItem(new ImitatorViewModel());
             ServiceFactory.Events.GetEvent<ShowDiagnosticsEvent>().Subscribe(OnShowDiagnostics);
             DiagnosticsViewModel = new DiagnosticsViewModel();
         }

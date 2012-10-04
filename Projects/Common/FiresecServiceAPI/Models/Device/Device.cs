@@ -176,7 +176,14 @@ namespace FiresecAPI.Models
 
 		public void SetAddress(string address)
 		{
-			IntAddress = AddressConverter.StringToIntAddress(Driver, address);
+            var intAddress = AddressConverter.StringToIntAddress(Driver, address);
+            if (Driver.IsChildAddressReservedRange)
+            {
+                if ((intAddress & 0xff) + GetReservedCount() > 255)
+                    return;
+            }
+
+            IntAddress = intAddress;
 			if (Driver.IsChildAddressReservedRange)
 			{
 				for (int i = 0; i < Children.Count; i++)

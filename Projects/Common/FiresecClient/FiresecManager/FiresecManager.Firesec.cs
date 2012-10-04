@@ -13,16 +13,6 @@ namespace FiresecClient
 			FiresecDriver = new FiresecDriver(lastJournalNo, FS_Address, FS_Port, FS_Login, FS_Password);
 		}
 
-		public static void Synchronyze()
-		{
-			FiresecDriver.Synchronyze();
-		}
-
-        public static void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
-		{
-            FiresecDriver.StatrtWatcher(mustMonitorStates, mustMonitorJournal);
-		}
-
 		public static void SynchrinizeJournal()
 		{
 			var journalRecords = FiresecDriver.Watcher.SynchrinizeJournal(lastJournalNo);

@@ -11,7 +11,9 @@ using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using Infrastructure.Common.Theme;
 using Common.GK;
+using Microsoft.Win32;
 
 namespace FireMonitor
 {
@@ -20,6 +22,7 @@ namespace FireMonitor
         public void Initialize()
         {
             AppConfigHelper.InitializeAppSettings();
+            LoadStyles();
             VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
             ServiceFactory.Initialize(new LayoutService(), new SecurityService());
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
@@ -91,14 +94,16 @@ namespace FireMonitor
             {
                 LoadingService.DoStep("Инициализация драйвера устройств");
                 FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
+            }
+            LoadingService.DoStep("Синхронизация конфигурации");
+            FiresecManager.FiresecDriver.Synchronyze();
+            if (!reconnect)
+            {
                 LoadingService.DoStep("Старт мониторинга");
-                FiresecManager.StartWatcher(true, true);
+                FiresecManager.FiresecDriver.StartWatcher(true, true);
                 LoadingService.DoStep("Синхронизация журнала событий");
                 FiresecManager.SynchrinizeJournal();
             }
-
-            LoadingService.DoStep("Синхронизация конфигурации");
-            FiresecManager.Synchronyze();
         }
 
         void InitializeGk()
@@ -129,6 +134,11 @@ namespace FireMonitor
         void OnNotify(string message)
         {
             MessageBoxService.Show(message);
+        }
+
+        void LoadStyles()
+        {
+            ThemeHelper.LoadThemeFromRegister();
         }
     }
 }

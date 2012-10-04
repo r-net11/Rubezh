@@ -2,23 +2,14 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using Common;
 using FiresecAPI.Models;
 using FiresecClient;
-using Infrastructure;
-using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
 	public class DevicesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		public DevicesViewModel()
-		{
-			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
-		}
-
 		public void Initialize()
 		{
 			BuildDeviceTree();
@@ -100,7 +91,6 @@ namespace DevicesModule.ViewModels
 		}
 
 		#region DeviceSelection
-
 		public List<DeviceViewModel> AllDevices;
 
 		public void Select(Guid deviceUID)
@@ -112,50 +102,6 @@ namespace DevicesModule.ViewModels
 				SelectedDevice = deviceViewModel;
 			}
 		}
-
 		#endregion
-
-		void OnDeviceStateChanged(Guid deviceUID)
-		{
-			var deviceViewModel = AllDevices == null ? null : AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
-			if (deviceViewModel == null)
-			{
-				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
-				string deviceName = deviceUID.ToString();
-				if (device != null)
-					deviceName = device.PresentationAddressAndDriver;
-				Logger.Error("DevicesViewModel.OnDeviceStateChanged deviceViewModel = null " + deviceName);
-				return;
-			}
-
-			if (ServiceFactory.AppSettings.CanControl)
-			{
-				if (deviceViewModel.Device.Driver.DriverType == DriverType.Valve)
-				{
-					var deviceDriverState = deviceViewModel.DeviceState.States.FirstOrDefault(x => x.DriverState.Code == "Bolt_On");
-					if (deviceDriverState != null)
-					{
-						if (DateTime.Now > deviceDriverState.Time)
-						{
-							var timeSpan = deviceDriverState.Time - DateTime.Now;
-
-							var timeoutProperty = deviceViewModel.Device.Properties.FirstOrDefault(x => x.Name == "Timeout");
-							if (timeoutProperty != null)
-							{
-								var timeout = int.Parse(timeoutProperty.Value);
-
-								int secondsLeft = timeout - timeSpan.Value.Seconds;
-								if (secondsLeft > 0)
-								{
-									var deviceDetailsViewModel = new DeviceDetailsViewModel(deviceUID);
-									DialogService.ShowWindow(deviceDetailsViewModel);
-									deviceDetailsViewModel.StartValveTimer(secondsLeft);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
 	}
 }

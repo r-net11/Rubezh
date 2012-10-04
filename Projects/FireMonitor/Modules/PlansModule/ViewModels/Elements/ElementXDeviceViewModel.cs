@@ -52,7 +52,6 @@ namespace PlansModule.ViewModels
 			{
 				DataContext = this,
 			};
-			ElementXDeviceView._deviceControl.IsManualUpdate = true;
 
 			ElementXDeviceView.Width = 10;
 			ElementXDeviceView.Height = 10;

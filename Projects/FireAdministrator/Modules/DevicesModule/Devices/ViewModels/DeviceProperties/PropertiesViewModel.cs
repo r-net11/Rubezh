@@ -64,37 +64,31 @@ namespace DevicesModule.DeviceProperties
 			}
 		}
 
-	    private bool aUParameterVis;
-        public bool AUParameterVis
+	    private bool parameterVis;
+        public bool ParameterVis
 	    {
             get
             {
-                return aUParameterVis;
+                return parameterVis;
             }
             set 
             {
-                aUParameterVis = value;
-                OnPropertyChanged("AUParameterVis");
+                parameterVis = value;
+                OnPropertyChanged("ParameterVis");
             }
 	    }
-        private bool choise;
+        private bool choise = true;
 	    public bool Choise
 	    {
             get
             {
-                bool choise1 = (StringProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
-                               (BoolProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
-                               (EnumProperties.FirstOrDefault(x => x.IsAUParameter) == null);
-                bool choise2 = false;
+                bool choise1 = (StringProperties.FirstOrDefault(x => x.IsControl == false) == null) &&
+                               (BoolProperties.FirstOrDefault(x => x.IsControl == false) == null) &&
+                               (EnumProperties.FirstOrDefault(x => x.IsControl == false) == null);
                 if (choise1)
                 {
                     choise = false;
-                    AUParameterVis = false;
-                }
-                if(!choise1&&!choise2)
-                {
-                    choise = true;
-                    AUParameterVis = false;
+                    ParameterVis = false;
                 }
                 return choise;
             }
@@ -108,12 +102,12 @@ namespace DevicesModule.DeviceProperties
         public RelayCommand OneCommand { get; private set; }
         private void OnOne()
         {
-            AUParameterVis = true;
+            ParameterVis = true;
         }
         public RelayCommand TwoCommand { get; private set; }
         private void OnTwo()
         {
-            AUParameterVis = false;
+            ParameterVis = false;
         }
     }
 }

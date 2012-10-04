@@ -1,10 +1,13 @@
-﻿
+﻿using System.Linq;
+using System.Collections.Generic;
+
 namespace FiresecAPI.Models
 {
 	public static class RMHelper
 	{
-		public static void Create(Driver driver)
+		public static void Create(List<Driver> drivers)
 		{
+			var driver = drivers.FirstOrDefault(x => x.DriverType == DriverType.RM_1);
 			driver.HasConfigurationProperties = true;
 
 			var property1 = new DriverProperty()

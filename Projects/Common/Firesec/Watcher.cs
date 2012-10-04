@@ -213,22 +213,17 @@ namespace Firesec
 
 		void SetStates(Firesec.Models.CoreState.config coreState)
 		{
+            if (coreState == null && coreState.dev == null)
+            {
+                return;
+            }
+
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				if (coreState == null)
-				{
-					Logger.Error("Watcher.SetStates coreState = null");
-					return;
-				}
-				if (coreState.dev == null)
-				{
-					//Logger.Error("Watcher.SetStates coreState.dev = null");
-					return;
-				}
 				if (device.PlaceInTree == null)
 				{
 					Logger.Error("Watcher.SetStates deviceState.PlaceInTree = null");
-					return;
+					continue;
 				}
 
 				bool hasOneChangedState = false;
@@ -239,21 +234,21 @@ namespace Firesec
 					if (device.Driver == null)
 					{
 						Logger.Error("Watcher.SetStates deviceState.Device.Driver = null");
-						return;
+                        continue;
 					}
 					if (device.Driver.States == null)
 					{
 						Logger.Error("Watcher.SetStates deviceState.Device.Driver.States = null");
-						return;
+                        continue;
 					}
+                    if (innerDevice.state == null)
+                    {
+                        Logger.Error("Watcher.SetStates innerDevice.state = null");
+                        continue;
+                    }
 
 					foreach (var driverState in device.Driver.States)
 					{
-						if (innerDevice.state == null)
-						{
-							Logger.Error("Watcher.SetStates innerDevice.state = null");
-							return;
-						}
 						var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);
 						if (device.DeviceState.States == null)
 						{
@@ -372,33 +367,37 @@ namespace Firesec
 
 			foreach (var device in ConfigurationCash.DeviceConfiguration.Devices)
 			{
-				foreach (var state in device.DeviceState.States)
+				if (device.Driver.ChildAddressReserveRangeCount == 0)
+					continue;
+
+				var childDeviceState = new ChildDeviceState();
+				var minChildStateType = StateType.Norm;
+				foreach (var child in device.Children)
 				{
-					if (device.Parent == null)
-						continue;
-					if (device.Parent.Driver.ChildAddressReserveRangeCount == 0 || state.DriverState.AffectParent == false)
-						continue;
-
-					var parentDeviceState = device.Parent.DeviceState;
-
-					var childDeviceState = new ChildDeviceState()
+					if (child.DeviceState.StateType < minChildStateType)
 					{
-						ChildDevice = device,
-						DriverState = state.DriverState,
-						IsDeleting = false
-					};
-
-					var existingParentDeviceState = parentDeviceState.ChildStates.FirstOrDefault(x => x.ChildDevice.UID == childDeviceState.ChildDevice.UID && x.DriverState.Code == childDeviceState.DriverState.Code && x.DriverState == childDeviceState.DriverState);
-					if (existingParentDeviceState == null)
-					{
-						parentDeviceState.ChildStates.Add(childDeviceState);
-						Trace.WriteLine(parentDeviceState.Device.PresentationAddressAndDriver + " " + childDeviceState.DriverState.Name);
-						ChangedDevices.Add(parentDeviceState);
+						minChildStateType = child.DeviceState.StateType;
+						childDeviceState = new ChildDeviceState()
+						{
+							ChildDevice = device,
+							StateType = minChildStateType,
+							IsDeleting = false
+						};
 					}
-					else
-					{
-						existingParentDeviceState.IsDeleting = false;
-					}
+				}
+
+				if (childDeviceState == null)
+					continue;
+
+				var existingDeviceState = device.DeviceState.ChildStates.FirstOrDefault(x => x.ChildDevice.UID == childDeviceState.ChildDevice.UID && x.StateType == childDeviceState.StateType);
+				if (existingDeviceState == null)
+				{
+					device.DeviceState.ChildStates.Add(childDeviceState);
+					ChangedDevices.Add(device.DeviceState);
+				}
+				else
+				{
+					existingDeviceState.IsDeleting = false;
 				}
 			}
 

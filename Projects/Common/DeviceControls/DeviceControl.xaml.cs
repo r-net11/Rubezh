@@ -8,6 +8,7 @@ using System.Windows.Media;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
+using Common;
 
 namespace DeviceControls
 {
@@ -18,7 +19,6 @@ namespace DeviceControls
 			InitializeComponent();
 			DataContext = this;
 			AdditionalStateCodes = new List<string>();
-			IsManualUpdate = false;
 		}
 
 		void DeviceControl_Loaded(object sender, RoutedEventArgs e)
@@ -36,8 +36,6 @@ namespace DeviceControls
 			set
 			{
 				_stateType = value;
-				if (IsManualUpdate == false)
-					Update();
 			}
 		}
 
@@ -48,9 +46,6 @@ namespace DeviceControls
 			set
 			{
 				_additionalStateCodes = value;
-
-				if ((IsManualUpdate == false) && _additionalStateCodes.IsNotNullOrEmpty())
-					Update();
 			}
 		}
 
@@ -60,7 +55,10 @@ namespace DeviceControls
 		{
             var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
             if (libraryDevice == null)
+            {
+                Logger.Error("DeviceControl.Update libraryDevice = null " + DriverId.ToString());
                 return;
+            }
 
             var additionalLibraryStates = new List<LibraryState>();
             foreach (var additionalStateCode in AdditionalStateCodes)
@@ -68,7 +66,10 @@ namespace DeviceControls
                 var additionalState = libraryDevice.States.FirstOrDefault(x => x.Code == additionalStateCode);
                 if (additionalState != null)
                 {
-                    additionalLibraryStates.Add(additionalState);
+                    if (additionalState.StateType == StateType)
+                    {
+                        additionalLibraryStates.Add(additionalState);
+                    }
                 }
             }
 
@@ -84,13 +85,18 @@ namespace DeviceControls
                 if (!additionalLibraryStates.Any(x=>x.StateType == StateType))
                 {
                     libraryState = libraryDevice.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.No);
+                    if (libraryState == null)
+                    {
+                        Logger.Error("DeviceControl.Update libraryState = null " + DriverId.ToString());
+                        return;
+                    }
                 }
             }
-            if (libraryState != null)
+
+            if (libraryState!= null)
             {
                 resultLibraryStates.Add(libraryState);
             }
-
             foreach (var additionalLibraryState in additionalLibraryStates)
             {
                 resultLibraryStates.Add(additionalLibraryState);

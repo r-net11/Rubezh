@@ -13,7 +13,7 @@ namespace GKModule.ViewModels
         {
             Title = "Выбор устройства";
 
-            var devices = new HashSet<XDevice>();
+			var devices = new List<XDevice>();
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
 				if (device.Driver.IsControlDevice)

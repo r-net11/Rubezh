@@ -21,7 +21,7 @@
 
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
 
-        <Grid Grid.Column="2" DataContext="{Binding SelectedDirection}">
+        <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" MinHeight="200" />
                 <RowDefinition Height="Auto" />
@@ -32,7 +32,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
+                <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" DataContext="{Binding SelectedDirection}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Binding="{Binding XZone.No}" />
                         <DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding XZone.Name}" />
@@ -40,21 +40,37 @@
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
-                    <Controls:ToolBarButton Command="{Binding AddZoneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/ArrowUp.png" />
-                    <Controls:ToolBarButton Command="{Binding RemoveZoneCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/ArrowDown.png" />
+                    <Button Command="{Binding ChangeZonesCommand}" Content="Изменить зоны" Width="150" Margin="2" />
                 </StackPanel>
             </Grid>
 
             <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
 
             <Grid Grid.Row="2">
-                <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" DataContext="{Binding SelectedDirection}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="№" Binding="{Binding XZone.No}" />
-                        <DataGridTextColumn Width="1*" Header="Наименование" Binding="{Binding XZone.Name}" />
-                        <DataGridTextColumn Width="1*" Header="Примечание" Binding="{Binding XZone.Description}" />
+                        <DataGridTemplateColumn Header="Устройство" Width="250">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                        <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Width="200" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Binding="{Binding Address}" Header="Адрес" Width="100" />
+                        <DataGridTextColumn Binding="{Binding PresentationZone}" Header="Зона" Width="100" />
+                        <DataGridTextColumn Binding="{Binding Description}" Header="Примечание" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
+                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
+                    <Button Command="{Binding ChangeDevicesCommand}" Content="Изменить устройства" Width="150" Margin="2" />
+                </StackPanel>
             </Grid>
         </Grid>
     </Grid>

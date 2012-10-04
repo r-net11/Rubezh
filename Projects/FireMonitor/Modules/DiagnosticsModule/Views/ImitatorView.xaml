@@ -1,0 +1,8 @@
+﻿<UserControl x:Class="DiagnosticsModule.Views.ImitatorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Button Command="{Binding ShowImitatorCommand}" ToolTip="Запустить имитатор" Style="{StaticResource ToolarButtonStyle}">
+        <Image Source="/Controls;component/Images/Lamp.png" Opacity="0.5" Height="24" Width="24" />
+    </Button>
+</UserControl>

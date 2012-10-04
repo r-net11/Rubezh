@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 
@@ -14,6 +16,8 @@ namespace GKModule.ViewModels
 
 		public PropertiesViewModel(XDevice xDevice)
 		{
+            OneCommand = new RelayCommand(OnOne);
+            TwoCommand = new RelayCommand(OnTwo);
 			XDevice = xDevice;
 			StringProperties = new List<StringPropertyViewModel>();
 			ShortProperties = new List<ShortPropertyViewModel>();
@@ -43,5 +47,51 @@ namespace GKModule.ViewModels
 					}
 				}
 		}
+        private bool parameterVis;
+        public bool ParameterVis
+        {
+            get
+            {
+                return parameterVis;
+            }
+            set
+            {
+                parameterVis = value;
+                OnPropertyChanged("ParameterVis");
+            }
+        }
+        private bool choise = true;
+        public bool Choise
+        {
+            get
+            {
+                bool choise1 = (StringProperties.Count == 0) &&
+                               (BoolProperties.Count == 0) &&
+                               (EnumProperties.Count == 0);
+
+                if (choise1)
+                {
+                    choise = false;
+                    ParameterVis = false;
+                }
+                return choise;
+            }
+            set
+            {
+                choise = value;
+                OnPropertyChanged("Choise");
+            }
+        }
+
+        public RelayCommand OneCommand { get; private set; }
+        private void OnOne()
+        {
+            ParameterVis = true;
+        }
+        public RelayCommand TwoCommand { get; private set; }
+        private void OnTwo()
+        {
+            ParameterVis = false;
+        }
 	}
 }

@@ -14,8 +14,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x82,
-				Name = "Время переключения электропривода в положение ЗАКРЫТО",
-				Caption = "Время переключения электропривода в положение ЗАКРЫТО",
+				Name = "Время переключения электропривода в положение НОРМА",
+				Caption = "Время переключения электропривода в положение НОРМА",
 				Default = "180",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -27,8 +27,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x83,
-				Name = "Время переключения электропривода в положение ОТКРЫТО",
-				Caption = "Время переключения электропривода в положение ОТКРЫТО",
+				Name = "Время переключения электропривода в положение ЗАЩИТА",
+				Caption = "Время переключения электропривода в положение ЗАЩИТА",
 				Default = "180",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -40,8 +40,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x84,
-				Name = "Время задержки перед началом движения электропривода в положение ОТКРЫТО",
-				Caption = "Время задержки перед началом движения электропривода в положение ОТКРЫТО",
+				Name = "Время задержки перед началом движения электропривода в положение ЗАЩИТА",
+				Caption = "Время задержки перед началом движения электропривода в положение ЗАЩИТА",
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -112,19 +112,20 @@ namespace FiresecAPI.Models
 			property6.Parameters.Add(property6Parameter6);
 			driver.Properties.Add(property6);
 
-			var property7 = new DriverProperty()
-			{
-				IsAUParameter = true,
-				No = 0x85,
-				Name = "Перейти в защиту(иначе перейти в дежурное положение)",
-				Caption = "Перейти в защиту(иначе перейти в дежурное положение)",
-				DriverPropertyType = DriverPropertyTypeEnum.BoolType,
-				BitOffset = 7,
-				MinBit = 7,
-				MaxBit = 8,
-				Default="true"
-			};
-			driver.Properties.Add(property7);
+			//var property7 = new DriverProperty()
+			//{
+			//    IsAUParameter = true,
+			//    No = 0x85,
+			//    Name = "Перейти в защиту(иначе перейти в дежурное положение)",
+			//    Caption = "Перейти в защиту(иначе перейти в дежурное положение)",
+			//    DriverPropertyType = DriverPropertyTypeEnum.BoolType,
+			//    BitOffset = 7,
+			//    MinBit = 7,
+			//    MaxBit = 8,
+			//    Default="true"
+			//};
+			//driver.Properties.Add(property7);
+			ConfigurationDriverHelper.AddBoolProprety(driver, 0x85, "Перейти в защиту(иначе перейти в дежурное положение)", 7);
 		}
 	}
 }

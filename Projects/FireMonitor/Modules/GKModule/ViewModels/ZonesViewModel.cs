@@ -68,7 +68,7 @@ namespace GKModule.ViewModels
 
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
-				if (device.Zones.Contains(SelectedZone.Zone.UID))
+				if (device.ZoneUIDs.Contains(SelectedZone.Zone.UID))
 				{
 					device.AllParents.ForEach(x => { devices.Add(x); });
 					devices.Add(device);
@@ -81,7 +81,7 @@ namespace GKModule.ViewModels
 				Devices.Add(new DeviceViewModel(device, Devices)
 				{
 					IsExpanded = true,
-					IsBold = device.Zones.Contains(SelectedZone.Zone.UID)
+                    IsBold = device.ZoneUIDs.Contains(SelectedZone.Zone.UID)
 				});
 			}
 

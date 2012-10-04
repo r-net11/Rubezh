@@ -28,8 +28,8 @@ namespace FiresecClient.Itv
             {
 				FiresecManager.GetConfiguration();
 				FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
-				FiresecManager.Synchronyze();
-				FiresecManager.StartWatcher(true, false);
+                FiresecManager.FiresecDriver.Synchronyze();
+				FiresecManager.FiresecDriver.StartWatcher(true, false);
                 FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>(Watcher_DevicesStateChanged);
                 FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(Watcher_ZonesStateChanged);
             }

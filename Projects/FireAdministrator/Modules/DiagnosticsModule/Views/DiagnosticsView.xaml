@@ -15,9 +15,11 @@
                         <Button Content="Драйверы" Command="{Binding ShowDriversCommand}" Width="300" Margin="2" />
                         <Button Content="Драйверы ГК" Command="{Binding ShowXDriversCommand}" Width="300" Margin="2" />
                         <Button Content="Дерево" Command="{Binding ShowTreeCommand}" Width="300" Margin="2" />
+                        <Button Content="JournalTest" Command="{Binding JournalTestCommand}" Width="300" Margin="2" />
                         <Button Content="Тест 1" Command="{Binding Test1Command}" Width="300" Margin="2" />
                         <Button Content="Тест 2" Command="{Binding Test2Command}" Width="300" Margin="2" />
-                        <Button Content="JournalTest" Command="{Binding JournalTestCommand}" Width="300" Margin="2" />
+                        <Button Content="Тест 3" Command="{Binding Test3Command}" Width="300" Margin="2" />
+                        <Button Content="Тест 4" Command="{Binding Test4Command}" Width="300" Margin="2" />
                     </StackPanel>
                     <ScrollViewer Grid.Row="1">
                         <TextBox Text="{Binding Text}" />

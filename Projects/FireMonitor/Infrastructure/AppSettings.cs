@@ -12,5 +12,6 @@
 		public bool IsDebug { get; set; }
 		public bool CanControl { get; set; }
 		public bool HasLicenseToControl { get; set; }
+        public string Theme { get; set; }
 	}
 }

@@ -161,7 +161,7 @@ namespace FiresecClient
 					{
 						if (device.Driver.DriverType == DriverType.AM1_O)
 						{
-							zone.SecPanelUID = device.Parent.UID;
+							zone.SecPanelUID = device.ParentPanel.UID;
 							break;
 						}
 					}

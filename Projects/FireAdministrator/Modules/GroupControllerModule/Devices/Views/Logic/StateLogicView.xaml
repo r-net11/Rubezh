@@ -5,9 +5,10 @@
 		xmlns:Converters="clr-namespace:GKModule.Converters">
 
 	<UserControl.Resources>
+        <Converters:ClauseConditionConverter x:Key="ClauseConditionConverter" />
+        <Converters:StateTypesConverter x:Key="StateTypesConverter" />
+        <Converters:ClauseOperationConverter x:Key="ClauseOperationConverter" />
 		<Converters:ClauseJounOperationConverter x:Key="ClauseJounOperationConverter" />
-		<Converters:ClauseOperationConverter x:Key="ClauseOperationConverter" />
-		<Converters:StateTypesConverter x:Key="StateTypesConverter" />
 	</UserControl.Resources>
 
 	<Border CornerRadius="5" Margin="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
@@ -23,7 +24,7 @@
 					<ColumnDefinition Width="*" />
 				</Grid.ColumnDefinitions>
 				<Controls:ToolBarButton Grid.Row="0" Margin="2" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
-				<ComboBox Grid.Column="1" Width="150" Height="30" VerticalAlignment="Center" Margin="2"
+                <ComboBox IsEnabled="False" Grid.Column="1" Width="150" Height="30" VerticalAlignment="Center" Margin="2"
 					ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
 					<ComboBox.ItemTemplate>
 						<DataTemplate>
@@ -31,7 +32,7 @@
 						</DataTemplate>
 					</ComboBox.ItemTemplate>
 				</ComboBox>
-				<Controls:ToolBarButton Grid.Column="2" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить"
+                <Controls:ToolBarButton IsEnabled="False" Grid.Column="2" HorizontalAlignment="Right" Margin="2" ToolTip="Удалить"
 					Command="{Binding
 					RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}, AncestorLevel=2}, 
 					Path=DataContext.RemoveCommand}"
@@ -49,6 +50,14 @@
 										<ColumnDefinition Width="Auto" />
 									</Grid.ColumnDefinitions>
                                     <StackPanel Grid.Column="0" Margin="2" Orientation="Horizontal">
+                                        <ComboBox ItemsSource="{Binding ClauseConditionTypes}" SelectedItem="{Binding SelectedClauseConditionType}" Width="30" Margin="2">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding ., Converter={StaticResource ClauseConditionConverter}}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+
                                         <ComboBox Grid.Column="1" Width="150" Height="30" VerticalAlignment="Center" Margin="2"
 											ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
                                             <ComboBox.ItemTemplate>
@@ -58,7 +67,7 @@
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>
 
-                                        <ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="100" Margin="2">
+                                        <ComboBox ItemsSource="{Binding ClauseOperationTypes}" SelectedItem="{Binding SelectedClauseOperationType}" Width="160" Margin="2">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
                                                     <TextBlock Text="{Binding ., Converter={StaticResource ClauseOperationConverter}}" />

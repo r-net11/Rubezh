@@ -10,14 +10,14 @@ namespace XFiresecAPI
 		public XDirection()
 		{
             UID = Guid.NewGuid();
-			Zones = new List<Guid>();
+			ZoneUIDs = new List<Guid>();
 			DirectionDevices = new List<DirectionDevice>();
-			XZones = new List<XZone>();
+			Zones = new List<XZone>();
 			Regime = 1;
 		}
 
 		public XDirectionState DirectionState { get; set; }
-		public List<XZone> XZones { get; set; }
+		public List<XZone> Zones { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -41,7 +41,7 @@ namespace XFiresecAPI
 		public ushort Regime { get; set; }
 
 		[DataMember]
-		public List<Guid> Zones { get; set; }
+		public List<Guid> ZoneUIDs { get; set; }
 
 		[DataMember]
 		public List<DirectionDevice> DirectionDevices { get; set; }
@@ -68,5 +68,12 @@ namespace XFiresecAPI
 		{
 			return Name + " - " + No.ToString();
 		}
+
+		public void OnChanged()
+		{
+			if (Changed != null)
+				Changed();
+		}
+		public event Action Changed;
 	}
 }

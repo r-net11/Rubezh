@@ -1,10 +1,18 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Windows;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using Infrastructure.Common.Theme;
+using Microsoft.Win32;
 
 namespace SettingsModule.ViewModels
 {
@@ -16,6 +24,17 @@ namespace SettingsModule.ViewModels
 			ConvertJournalCommand = new RelayCommand(OnConvertJournal);
 		}
 
+        public void Initialize()
+        {
+            try
+            {
+                Themes = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
+                if (ThemeHelper.CurrentTheme != null)
+                    SelectedTheme = (Theme)Enum.Parse(typeof(Theme), ThemeHelper.CurrentTheme);
+            }
+            catch { ;}
+        }
+
 		public RelayCommand ConvertConfigurationCommand { get; private set; }
 		void OnConvertConfiguration()
 		{
@@ -23,10 +42,21 @@ namespace SettingsModule.ViewModels
 			{
 				WaitHelper.Execute(() =>
 				{
+                    LoadingService.ShowProgress("Конвертирование конфигурации", "Конвертирование конфигурации", 4);
 					FiresecManager.FiresecDriver.Convert();
-					ServiceFactory.SaveService.DevicesChanged = true;
-					ServiceFactory.SaveService.PlansChanged = true;
+					ServiceFactory.SaveService.DevicesChanged = false;
+					ServiceFactory.SaveService.PlansChanged = false;
+                    LoadingService.DoStep("Обновление конфигурации");
 					FiresecManager.UpdateConfiguration();
+                    LoadingService.DoStep("Сохранение конфигурации планов");
+					FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+                    LoadingService.DoStep("Сохранение конфигурации устройств");
+					var result = FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+					if (result.HasError)
+					{
+						MessageBoxService.ShowError(result.Error);
+					}
+                    LoadingService.Close();
 				});
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);
 			}
@@ -44,5 +74,22 @@ namespace SettingsModule.ViewModels
 				});
 			}
 		}
+
+        public List<Theme> Themes { get; private set; }
+        private Theme selectedTheme;
+        public Theme SelectedTheme
+        {
+            get
+            {
+                return selectedTheme;
+            }
+            set
+            {
+                selectedTheme = value;
+                ThemeHelper.SetThemeIntoRegister(selectedTheme);
+                ThemeHelper.LoadThemeFromRegister();
+                OnPropertyChanged("SelectedTheme");
+            }
+        }
 	}
 }

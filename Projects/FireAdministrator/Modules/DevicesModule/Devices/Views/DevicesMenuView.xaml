@@ -36,9 +36,11 @@
                 <MenuItem Name="setPasswordButton" Command="{Binding SetPasswordCommand}" CommandParameter="{StaticResource False}" Header="_Задать пароль" />
                 <MenuItem Name="bindMsButton" Command="{Binding BindMsCommand}" Header="_Привязать" />
                 <MenuItem Name="executeCustomAdminFunctionButton" Command="{Binding ExecuteCustomAdminFunctionsCommand}" CommandParameter="{StaticResource False}" Header="_Другие функции" />
-                <MenuItem Command="{Binding GetConfigurationParametersCommand}" Header="Считать параметры устройства" />
-                <MenuItem Command="{Binding SetConfigurationParametersCommand}" Header="Записать параметры устройства" />
-
+                <!--<MenuItem Command="{Binding GetConfigurationParametersCommand}" Header="Считать параметры устройства"/>
+                <MenuItem Command="{Binding SetConfigurationParametersCommand}" Header="Записать параметры устройства"/>-->
+                <MenuItem Command="{Binding GetAllDeviceConfigurationParametersCommand}" Header="Считать параметры дочерних устройств"/>
+                <MenuItem Command="{Binding SetAllDeviceConfigurationParametersCommand}" Header="Записать параметры дочерних устройств"/>
+  
                 <MenuItem Header="USB" Margin="12, 0, 0, 0" IsEnabled="{Binding IsAlternativeUSB, Converter={StaticResource BoolToVisibilityConverter}}">
                     <MenuItem Name="usbReadDeviceButton" Command="{Binding ReadDeviceCommand}" CommandParameter="{StaticResource True}" Header="_Считать конфигурацию из устройства" />
                     <MenuItem Name="usbGetDescription" Command="{Binding GetDescriptionCommand}" CommandParameter="{StaticResource True}" Header="_Информация об устройстве" />

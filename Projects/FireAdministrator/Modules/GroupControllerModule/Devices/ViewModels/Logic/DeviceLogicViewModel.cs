@@ -64,6 +64,7 @@ namespace GKModule.ViewModels
 				{
 					var clause = new XClause()
 					{
+                        ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
 						StateType = clauseViewModel.SelectedStateType,
 						Devices = clauseViewModel.Devices.ToList(),
 						Zones = clauseViewModel.Zones.ToList(),

@@ -10,7 +10,7 @@
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<Controls:ToolBarButton Grid.Row="0" Margin="2" HorizontalAlignment="Left" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+		<Controls:ToolBarButton IsEnabled="False" Grid.Row="0" Margin="2" HorizontalAlignment="Left" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
 		<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
 			<ItemsControl ItemsSource="{Binding StateLogics}">
 				<ItemsControl.ItemTemplate>

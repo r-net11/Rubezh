@@ -54,7 +54,6 @@ namespace DevicesModule
 		}
 
 		#region IReportProviderModule Members
-
 		public IEnumerable<IReportProvider> GetReportProviders()
 		{
 			return new List<IReportProvider>()
@@ -65,7 +64,6 @@ namespace DevicesModule
 				new IndicationBlockReport(),
 			};
 		}
-
 		#endregion
 	}
 }

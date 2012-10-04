@@ -5,12 +5,12 @@
              MinWidth="500" MinHeight="400">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition MaxHeight="30"/>
+            <RowDefinition MaxHeight="35"/>
             <RowDefinition/>
             <RowDefinition/>
-        </Grid.RowDefinitions> 
-                
-        <DataGrid DataContext="Список охранных пользователей прибора" Grid.Row="0" Margin ="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="White" FontSize="14"/>
+        </Grid.RowDefinitions>
+
+        <DataGrid ColumnHeaderHeight="40" DataContext="Список охранных пользователей прибора" Grid.Row="0" Margin ="1,1,1,-10" VerticalContentAlignment="Top" HorizontalContentAlignment="Center" Foreground="White" FontSize="14" />
         <DataGrid ItemsSource="{Binding Users}" SelectedItem="{Binding SelectedUser}" Grid.Row="1" Margin="1">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Width="50" Binding="{Binding GuardUser.Id}"/>

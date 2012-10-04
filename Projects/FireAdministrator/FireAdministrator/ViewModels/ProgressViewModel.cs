@@ -36,7 +36,10 @@ namespace FireAdministrator.ViewModels
 		void OnProgress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			Description = comment;
-			Percent = percentComplete;
+			if (percentComplete >= 0)
+			{
+				Percent = percentComplete;
+			}
 
 			if (stage == -100)
 				CancelText = "Остановить";

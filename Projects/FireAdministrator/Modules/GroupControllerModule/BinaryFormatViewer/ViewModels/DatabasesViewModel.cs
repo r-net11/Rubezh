@@ -26,16 +26,19 @@ namespace GKModule.ViewModels
 		public List<CommonDatabase> Databases { get; private set; }
 
 		CommonDatabase _selectedDatabase;
-		public CommonDatabase SelectedDatabase
-		{
-			get { return _selectedDatabase; }
-			set
-			{
-				_selectedDatabase = value;
-				OnPropertyChanged("SelectedDatabase");
-				InitializeSelectedDB();
-			}
-		}
+        public CommonDatabase SelectedDatabase
+        {
+            get { return _selectedDatabase; }
+            set
+            {
+                _selectedDatabase = value;
+                OnPropertyChanged("SelectedDatabase");
+                if (value != null)
+                {
+                    InitializeSelectedDB();
+                }
+            }
+        }
 
 		void InitializeSelectedDB()
 		{

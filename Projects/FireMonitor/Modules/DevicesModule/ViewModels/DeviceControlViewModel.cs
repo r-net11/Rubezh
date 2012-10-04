@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -66,15 +67,37 @@ namespace DevicesModule.ViewModels
 			IsBuisy = true;
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var thread = new Thread(DoConfirm);
-				thread.Start();
+				try
+				{
+					var thread = new Thread(DoConfirm);
+					thread.Start();
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "DeviceControlViewModel.OnConfirm");
+				}
 			}
 		}
 
 		void DoConfirm()
 		{
-            var result = FiresecManager.FiresecDriver.ExecuteCommand(Device.UID, GetCommandName());
-			Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged("ConfirmCommand"); }));
+			try
+			{
+				var result = FiresecManager.FiresecDriver.ExecuteCommand(Device.UID, GetCommandName());
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "DeviceControlViewModel.DoConfirm.ExecuteCommand");
+			}
+
+			try
+			{
+				Dispatcher.BeginInvoke(new Action(() => { IsBuisy = false; OnPropertyChanged("ConfirmCommand"); }));
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "DeviceControlViewModel.DoConfirm.BeginInvoke");
+			}
 		}
 
 		#region Valve

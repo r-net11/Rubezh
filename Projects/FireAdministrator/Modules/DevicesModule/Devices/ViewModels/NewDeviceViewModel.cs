@@ -5,6 +5,7 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
+using System;
 
 namespace DevicesModule.ViewModels
 {
@@ -109,6 +110,11 @@ namespace DevicesModule.ViewModels
 					return;
 				}
 			}
+
+            if (_parent.Driver.IsChildAddressReservedRange)
+            {
+                Count = Math.Min(Count, _parent.GetReservedCount());
+            }
 
 			int shleifNo = startAddress / 256;
 			for (int i = 0; i < Count; i++)
