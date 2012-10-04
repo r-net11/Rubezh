@@ -701,7 +701,10 @@
   <ItemGroup>
     <Resource Include="Images\defconfig.png" />
   </ItemGroup>
+  <ItemGroup>
     <Resource Include="FSIcons\PDU_PT.png" />
+  </ItemGroup>
+  <ItemGroup>
     <Resource Include="FSIcons\PDU_PTDirection.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
