@@ -9,6 +9,7 @@ namespace Infrastructure.Common.Navigation
 	public class NavigationItem : BaseViewModel
 	{
 		public ReadOnlyCollection<NavigationItem> Childs { get; private set; }
+        public ShellViewModel Context { get; set; }
 
 		public NavigationItem(string title, string icon = null, IList<NavigationItem> childs = null, PermissionType? permission = null)
 		{
@@ -20,6 +21,7 @@ namespace Infrastructure.Common.Navigation
 			IsSelectionAllowed = false;
 			SupportMultipleSelect = false;
 		}
+
 		public virtual void Execute()
 		{
 		}
@@ -60,6 +62,7 @@ namespace Infrastructure.Common.Navigation
 				OnPropertyChanged("IsVisible");
 			}
 		}
+
 		private bool _isExpanded;
 		public bool IsExpanded
 		{

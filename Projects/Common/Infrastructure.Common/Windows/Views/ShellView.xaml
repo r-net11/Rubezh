@@ -4,12 +4,11 @@
 		<ContentPresenter Content="{Binding ContentFotter}" DockPanel.Dock="Bottom" />
 		<Grid>
 			<Grid.ColumnDefinitions>
-                <ColumnDefinition Width="{Binding NavigationWidth}"/>
+                <ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="*" />
 			</Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
                 <Navigation:NavigationView Margin="5 5 0 5" />
-                <Button Content="&#171;" Width="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Command="{Binding MinimizeCommand}"/>
             </Grid>
 			<ItemsControl Grid.Column="1" Margin="5 5 5 5" ItemsSource="{Binding ContentItems}">
 				<ItemsControl.ItemsPanel>
