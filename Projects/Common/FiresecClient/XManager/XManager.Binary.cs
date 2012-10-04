@@ -53,25 +53,22 @@ namespace FiresecClient
 				direction.ClearBinaryData();
 			}
 
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				foreach (var stateLogic in device.DeviceLogic.StateLogics)
-				{
-					foreach (var clause in stateLogic.Clauses)
-					{
-						foreach (var clauseDevice in clause.XDevices)
-						{
-							device.InputObjects.Add(clauseDevice);
-							clauseDevice.OutputObjects.Add(device);
-						}
-						foreach (var zone in clause.XZones)
-						{
-							device.InputObjects.Add(zone);
-							zone.OutputObjects.Add(device);
-						}
-					}
-				}
-			}
+            foreach (var device in DeviceConfiguration.Devices)
+            {
+                foreach (var clause in device.DeviceLogic.Clauses)
+                {
+                    foreach (var clauseDevice in clause.Devices)
+                    {
+                        device.InputObjects.Add(clauseDevice);
+                        clauseDevice.OutputObjects.Add(device);
+                    }
+                    foreach (var zone in clause.Zones)
+                    {
+                        device.InputObjects.Add(zone);
+                        zone.OutputObjects.Add(device);
+                    }
+                }
+            }
 
 			foreach (var zone in DeviceConfiguration.Zones)
 			{
@@ -98,31 +95,28 @@ namespace FiresecClient
 			}
 		}
 
-		static void PrepareDeviceLogicDependences()
-		{
-			foreach (var device in DeviceConfiguration.Devices)
-			{
-				device.DeviceLogic.DependentDevices = new List<XDevice>();
-				device.DeviceLogic.DependentZones = new List<XZone>();
+        static void PrepareDeviceLogicDependences()
+        {
+            foreach (var device in DeviceConfiguration.Devices)
+            {
+                device.DeviceLogic.DependentDevices = new List<XDevice>();
+                device.DeviceLogic.DependentZones = new List<XZone>();
 
-				foreach (var stateLogic in device.DeviceLogic.StateLogics)
-				{
-					foreach (var clause in stateLogic.Clauses)
-					{
-						foreach (var deviceUID in clause.Devices)
-						{
-							var dependentDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-							device.DeviceLogic.DependentDevices.Add(dependentDevice);
-						}
-						foreach (var zoneUID in clause.Zones)
-						{
-							var dependentZone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-							device.DeviceLogic.DependentZones.Add(dependentZone);
-						}
-					}
-				}
-			}
-		}
+                foreach (var clause in device.DeviceLogic.Clauses)
+                {
+                    foreach (var deviceUID in clause.DeviceUIDs)
+                    {
+                        var dependentDevice = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+                        device.DeviceLogic.DependentDevices.Add(dependentDevice);
+                    }
+                    foreach (var zoneUID in clause.ZoneUIDs)
+                    {
+                        var dependentZone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+                        device.DeviceLogic.DependentZones.Add(dependentZone);
+                    }
+                }
+            }
+        }
 
 		static void PrepareDirections()
 		{

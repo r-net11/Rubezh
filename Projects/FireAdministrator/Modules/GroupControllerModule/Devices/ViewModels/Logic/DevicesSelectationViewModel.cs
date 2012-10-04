@@ -11,7 +11,7 @@ namespace GKModule.ViewModels
 {
 	public class DevicesSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public DevicesSelectationViewModel(List<Guid> devicesList)
+		public DevicesSelectationViewModel(List<XDevice> devices)
 		{
 			Title = "Выбор устройства";
 			AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
@@ -19,7 +19,7 @@ namespace GKModule.ViewModels
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
-			DevicesList = new List<Guid>(devicesList);
+			DevicesList = new List<XDevice>(devices);
 			UpdateDevices();
 		}
 
@@ -34,7 +34,7 @@ namespace GKModule.ViewModels
 			{
 				if (device.Driver.IsDeviceOnShleif && !device.Driver.IsGroupDevice)
 				{
-					if (DevicesList.Contains(device.UID))
+					if (DevicesList.Contains(device))
 						Devices.Add(device);
 					else
 						AvailableDevices.Add(device);
@@ -48,7 +48,7 @@ namespace GKModule.ViewModels
 			OnPropertyChanged("AvailableDevices");
 		}
 
-		public List<Guid> DevicesList { get; private set; }
+        public List<XDevice> DevicesList { get; private set; }
 		public ObservableCollection<XDevice> AvailableDevices { get; private set; }
 		public ObservableCollection<XDevice> Devices { get; private set; }
 
@@ -97,16 +97,16 @@ namespace GKModule.ViewModels
 		public RelayCommand AddOneCommand { get; private set; }
 		void OnAddOne()
 		{
-			DevicesList.Add(SelectedAvailableDevice.UID);
+			DevicesList.Add(SelectedAvailableDevice);
 			UpdateDevices();
 		}
 
 		public RelayCommand AddAllCommand { get; private set; }
 		void OnAddAll()
 		{
-			foreach (var deviceViewModel in AvailableDevices)
+			foreach (var device in AvailableDevices)
 			{
-				DevicesList.Add(deviceViewModel.UID);
+				DevicesList.Add(device);
 			}
 			UpdateDevices();
 		}
@@ -114,7 +114,7 @@ namespace GKModule.ViewModels
 		public RelayCommand RemoveOneCommand { get; private set; }
 		void OnRemoveOne()
 		{
-			DevicesList.Remove(SelectedDevice.UID);
+			DevicesList.Remove(SelectedDevice);
 			UpdateDevices();
 		}
 
@@ -127,10 +127,10 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-			DevicesList = new List<Guid>();
+			DevicesList = new List<XDevice>();
 			foreach (var device in Devices)
 			{
-				DevicesList.Add(device.UID);
+				DevicesList.Add(device);
 			}
 			return base.Save();
 		}

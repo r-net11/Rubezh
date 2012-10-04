@@ -250,7 +250,6 @@
     <Compile Include="XModels\Logic\ClauseJounOperationType.cs" />
     <Compile Include="XModels\Logic\ClauseOperandType.cs" />
     <Compile Include="XModels\Logic\ClauseOperationType.cs" />
-    <Compile Include="XModels\Logic\StateLogic.cs" />
     <Compile Include="XModels\Logic\XClause.cs" />
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
     <Compile Include="XModels\States\XDeviceState.cs" />

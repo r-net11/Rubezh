@@ -7,94 +7,117 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
-	public class DeviceLogicViewModel : SaveCancelDialogViewModel
-	{
-		public XDevice Device { get; private set; }
+    public class DeviceLogicViewModel : SaveCancelDialogViewModel
+    {
+        public XDevice Device { get; private set; }
 
-		public DeviceLogicViewModel(XDevice device)
-		{
-			Title = "Настройка логики устройства";
-			AddCommand = new RelayCommand(OnAdd);
-			RemoveCommand = new RelayCommand<StateLogicViewModel>(OnRemove);
+        public DeviceLogicViewModel(XDevice device)
+        {
+            Title = "Настройка логики устройства";
+            Device = device;
 
-			Device = device;
-			if (device.DeviceLogic.StateLogics.Count == 0)
-			{
-				var stateLogic = new StateLogic();
-				var clause = new XClause();
-				stateLogic.Clauses.Add(clause);
-				device.DeviceLogic.StateLogics.Add(stateLogic);
-			}
+            AddCommand = new RelayCommand(OnAdd);
+            RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
+            ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 
-			StateLogics = new ObservableCollection<StateLogicViewModel>();
-			foreach (var stateLogic in device.DeviceLogic.StateLogics)
-			{
-				var stateLogicViewModel = new StateLogicViewModel(this, stateLogic);
-				StateLogics.Add(stateLogicViewModel);
-			}
-		}
+            Clauses = new ObservableCollection<ClauseViewModel>();
+            foreach (var clause in device.DeviceLogic.Clauses)
+            {
+                var clauseViewModel = new ClauseViewModel(clause);
+                Clauses.Add(clauseViewModel);
+            }
+        }
 
-		public ObservableCollection<StateLogicViewModel> StateLogics { get; private set; }
+        public DeviceLogicViewModel _deviceDetailsViewModel { get; private set; }
 
-		public RelayCommand AddCommand { get; private set; }
-		void OnAdd()
-		{
-			var stateLogic = new StateLogic();
-			var stateLogicViewModel = new StateLogicViewModel(this, stateLogic);
-			StateLogics.Add(stateLogicViewModel);
-		}
+        public ObservableCollection<ClauseViewModel> Clauses { get; private set; }
 
-		public RelayCommand<StateLogicViewModel> RemoveCommand { get; private set; }
-		void OnRemove(StateLogicViewModel stateLogicViewModel)
-		{
-			StateLogics.Remove(stateLogicViewModel);
-		}
+        public RelayCommand AddCommand { get; private set; }
+        void OnAdd()
+        {
+            var clause = new XClause();
+            var clauseViewModel = new ClauseViewModel(clause);
+            Clauses.Add(clauseViewModel);
+            UpdateJoinOperatorVisibility();
+        }
 
-		protected override bool Save()
-		{
-			var deviceLogic = new XDeviceLogic();
-			foreach (var stateLogicViewModel in StateLogics)
-			{
-				var stateLogic = new StateLogic();
-				stateLogic.StateType = stateLogicViewModel.SelectedStateType;
-				foreach (var clauseViewModel in stateLogicViewModel.Clauses)
-				{
-					var clause = new XClause()
-					{
-                        ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
-						StateType = clauseViewModel.SelectedStateType,
-						Devices = clauseViewModel.Devices.ToList(),
-						Zones = clauseViewModel.Zones.ToList(),
-						ClauseJounOperationType = clauseViewModel.SelectedClauseJounOperationType,
-						ClauseOperationType = clauseViewModel.SelectedClauseOperationType
-					};
-					foreach (var deviceUID in clause.Devices)
-					{
-						var decvice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x=>x.UID == deviceUID);
-						clause.XDevices.Add(decvice);
-					}
-					foreach (var zoneUID in clause.Zones)
-					{
-						var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-						clause.XZones.Add(zone);
-					}
-					if ((clause.Devices.Count > 0) || (clause.Zones.Count > 0))
-						stateLogic.Clauses.Add(clause);
-				}
-				if (deviceLogic.StateLogics.Any(x => x.StateType == stateLogic.StateType))
-				{
-					MessageBoxService.ShowWarning("Логика для состояние " + stateLogic.StateType.ToDescription() + " дублируется");
-					return false;
-				}
-				if (stateLogic.Clauses.Count > 0)
-					deviceLogic.StateLogics.Add(stateLogic);
+        public void UpdateJoinOperatorVisibility()
+        {
+            foreach (var clause in Clauses)
+                clause.ShowJoinOperator = false;
 
-				Device.DeviceLogic = deviceLogic;
-			}
-			return base.Save();
-		}
-	}
+            if (Clauses.Count > 1)
+            {
+                foreach (var clause in Clauses)
+                    clause.ShowJoinOperator = true;
+
+                Clauses.Last().ShowJoinOperator = false;
+            }
+        }
+
+        ClauseJounOperationType _joinOperator;
+        public ClauseJounOperationType JoinOperator
+        {
+            get { return _joinOperator; }
+            set
+            {
+                _joinOperator = value;
+                OnPropertyChanged("JoinOperator");
+            }
+        }
+
+        public RelayCommand ChangeJoinOperatorCommand { get; private set; }
+        void OnChangeJoinOperator()
+        {
+            if (JoinOperator == ClauseJounOperationType.And)
+                JoinOperator = ClauseJounOperationType.Or;
+            else
+                JoinOperator = ClauseJounOperationType.And;
+        }
+
+        public RelayCommand<ClauseViewModel> RemoveCommand { get; private set; }
+        void OnRemove(ClauseViewModel clauseViewModel)
+        {
+            Clauses.Remove(clauseViewModel);
+            UpdateJoinOperatorVisibility();
+        }
+
+        protected override bool Save()
+        {
+            var deviceLogic = new XDeviceLogic();
+            foreach (var clauseViewModel in Clauses)
+            {
+                var clause = new XClause()
+                {
+                    ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
+                    StateType = clauseViewModel.SelectedStateType,
+                    Devices = clauseViewModel.Devices.ToList(),
+                    Zones = clauseViewModel.Zones.ToList(),
+                    DeviceUIDs = clauseViewModel.Devices.Select(x => x.UID).ToList(),
+                    ZoneUIDs = clauseViewModel.Zones.Select(x => x.UID).ToList(),
+                    ClauseJounOperationType = clauseViewModel.SelectedClauseJounOperationType,
+                    ClauseOperationType = clauseViewModel.SelectedClauseOperationType
+                };
+                foreach (var deviceUID in clause.DeviceUIDs)
+                {
+                    var decvice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+                    clause.Devices.Add(decvice);
+                }
+                foreach (var zoneUID in clause.ZoneUIDs)
+                {
+                    var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+                    clause.Zones.Add(zone);
+                }
+                if ((clause.DeviceUIDs.Count > 0) || (clause.ZoneUIDs.Count > 0))
+                    deviceLogic.Clauses.Add(clause);
+            }
+
+            Device.DeviceLogic = deviceLogic;
+            return base.Save();
+        }
+    }
 }

@@ -10,15 +10,15 @@ namespace XFiresecAPI
         public XClause()
         {
             StateType = XStateType.Fire1;
-            Devices = new List<Guid>();
-            Zones = new List<Guid>();
+            DeviceUIDs = new List<Guid>();
+            ZoneUIDs = new List<Guid>();
 
-			XDevices = new List<XDevice>();
-			XZones = new List<XZone>();
+			Devices = new List<XDevice>();
+			Zones = new List<XZone>();
         }
 
-		public List<XDevice> XDevices { get; set; }
-		public List<XZone> XZones { get; set; }
+		public List<XDevice> Devices { get; set; }
+		public List<XZone> Zones { get; set; }
 
         [DataMember]
         public ClauseConditionType ClauseConditionType { get; set; }
@@ -27,10 +27,10 @@ namespace XFiresecAPI
         public XStateType StateType { get; set; }
 
         [DataMember]
-        public List<Guid> Devices { get; set; }
+        public List<Guid> DeviceUIDs { get; set; }
 
         [DataMember]
-        public List<Guid> Zones { get; set; }
+        public List<Guid> ZoneUIDs { get; set; }
 
         [DataMember]
         public ClauseOperationType ClauseOperationType { get; set; }

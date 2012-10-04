@@ -21,6 +21,7 @@ namespace XFiresecAPI
 
 			OutDependenceUIDs = new List<Guid>();
 			Zones = new List<XZone>();
+            Directions = new List<XDirection>();
 		}
 
 		public XDriver Driver { get; set; }
@@ -28,6 +29,7 @@ namespace XFiresecAPI
 		public XDeviceState DeviceState { get; set; }
 		public List<Guid> OutDependenceUIDs { get; set; }
 		public List<XZone> Zones { get; set; }
+        public List<XDirection> Directions { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
