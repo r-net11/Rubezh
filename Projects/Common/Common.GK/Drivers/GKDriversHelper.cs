@@ -4,14 +4,14 @@ namespace Common.GK
 {
 	public static class GKDriversHelper
 	{
-		public static void AddPlainEnumProprety(XDriver xDriver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int startValue = 0)
+		public static void AddPlainEnumProprety(XDriver xDriver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int startValue = 0, ushort dflt = 0)
 		{
 			var property = new XDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = 0,
+				Default = dflt,
 				Offset = offset
 			};
 			var parameter1 = new XDriverPropertyParameter()

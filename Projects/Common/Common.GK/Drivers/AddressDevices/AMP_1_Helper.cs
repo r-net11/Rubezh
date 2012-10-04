@@ -57,7 +57,7 @@ namespace Common.GK
 				No = 0x81,
 				Name = "Тип включения выхода при пожаре",
 				Caption = "Тип включения выхода при пожаре",
-				Default = 0
+				Default = 2
 			};
 			var property2Parameter1 = new XDriverPropertyParameter()
 			{

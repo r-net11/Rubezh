@@ -24,7 +24,7 @@ namespace Common.GK
 				No = 0x81,
 				Name = "Конфигурация",
 				Caption = "Конфигурация",
-				Default = 0
+				Default = 1
 			};
 			var property1Parameter1 = new XDriverPropertyParameter()
 			{

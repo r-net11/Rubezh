@@ -34,7 +34,7 @@ namespace Firesec
 
 			int count = propertyNos.Count;
 			
-			while (true)
+			while (count > 0)
 			{
 				var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "StateConfigQueries", null, ref requestId);
 				
@@ -68,10 +68,6 @@ namespace Firesec
 					}
 				}
 					
-				if (count == 0)
-				{
-					break;
-				}
 				int waitCount = 0;
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 				waitCount++;
