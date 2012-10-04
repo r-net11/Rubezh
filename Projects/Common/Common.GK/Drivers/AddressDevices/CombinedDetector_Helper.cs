@@ -22,7 +22,7 @@ namespace Common.GK
 
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму", 0, 18, 5, 20);
 			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре", 0, 70, 0, 85);
-			//GKDriversHelper.AddIntProprety(driver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 100, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 100, 0, 255);
 			return driver;
 		}
 	}

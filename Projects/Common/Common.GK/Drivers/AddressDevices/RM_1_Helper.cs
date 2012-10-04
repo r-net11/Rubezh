@@ -38,18 +38,18 @@ namespace Common.GK
 			GKDriversHelper.AddIntProprety(driver, 0x83, "Задержка на пуск", 0, 0, 0, 255);
 			GKDriversHelper.AddIntProprety(driver, 0x83, "Время удержания", 8, 0, 0, 255);
 
-			//var property2 = new XDriverProperty()
-			//{
-			//    No = 0x85,
-			//    Name = "Тип контроля выхода",
-			//    Caption = "Тип контроля выхода",
-			//    Default = 1
-			//};
-			//GKDriversHelper.AddPropertyParameter(property2, "Состояние цепи не контролируется", 1);
-			//GKDriversHelper.AddPropertyParameter(property2, "Цепь контролируется только на обрыв", 2);
-			//GKDriversHelper.AddPropertyParameter(property2, "Цепь контролируется только на короткое замыкание", 3);
-			//GKDriversHelper.AddPropertyParameter(property2, "Цепь контролируется на короткое замыкание и на обрыв", 4);
-			//driver.Properties.Add(property2);
+			var property2 = new XDriverProperty()
+			{
+				No = 0x85,
+				Name = "Тип контроля выхода",
+				Caption = "Тип контроля выхода",
+				Default = 1
+			};
+			GKDriversHelper.AddPropertyParameter(property2, "Состояние цепи не контролируется", 1);
+			GKDriversHelper.AddPropertyParameter(property2, "Цепь контролируется только на обрыв", 2);
+			GKDriversHelper.AddPropertyParameter(property2, "Цепь контролируется только на короткое замыкание", 3);
+			GKDriversHelper.AddPropertyParameter(property2, "Цепь контролируется на короткое замыкание и на обрыв", 4);
+			driver.Properties.Add(property2);
 
 			return driver;
 		}
