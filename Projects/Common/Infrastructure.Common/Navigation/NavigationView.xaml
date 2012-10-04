@@ -5,7 +5,7 @@
 	<Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>
-            <RowDefinition Height="50"/>            
+            <RowDefinition Height="30"/>            
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <TreeView ScrollViewer.HorizontalScrollBarVisibility="Hidden" DockPanel.Dock="Top" Style="{StaticResource OutlookTreeView}" VerticalAlignment="Top" ItemsSource="{Binding NavigationItems, NotifyOnTargetUpdated=True}" TargetUpdated="TreeView_TargetUpdated" TreeViewItem.Selected="TreeViewItem_Selected" MouseLeftButtonUp="TreeView_MouseLeftButtonUp" TreeViewItem.PreviewMouseDoubleClick="TreeViewItem_PreviewMouseDoubleClick">
@@ -24,7 +24,7 @@
                                 <Setter Property="Width" Value="24" />
                             </Style>
                         </HierarchicalDataTemplate.Resources>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" ToolTip="{Binding Title}">
                             <Image Source="{Binding Icon, Converter={StaticResource NullToImageConverter}, Mode=OneTime}" />
                             <TextBlock Text="{Binding Title}"  Visibility="{Binding Context.TextVisibility, Converter={StaticResource BoolToVisibilityConverter}}"/>
                         </StackPanel>
