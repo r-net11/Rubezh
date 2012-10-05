@@ -109,22 +109,20 @@ namespace AlarmModule.ViewModels
 		public RelayCommand RemoveAllFromIgnoreListCommand { get; private set; }
 		void OnRemoveAllFromIgnoreList()
 		{
-			var deviceUIDs = new List<Guid>();
+			var devices = new List<Device>();
 			foreach (var alarmViewModel in Alarms)
 			{
 				if (alarmViewModel.Alarm.AlarmType == AlarmType.Off)
 				{
-					var deviceUID = alarmViewModel.Alarm.DeviceUID;
-					var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+					var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == alarmViewModel.Alarm.DeviceUID);
 					if (FiresecManager.CanDisable(device.DeviceState) && device.DeviceState.IsDisabled)
-
-						deviceUIDs.Add(deviceUID);
+						devices.Add(device);
 				}
 			}
 
 			if (ServiceFactory.SecurityService.Validate())
 			{
-                FiresecManager.FiresecDriver.RemoveFromIgnoreList(deviceUIDs);
+                FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
 			}
 		}
 

@@ -2,6 +2,7 @@
 using System.Runtime.Serialization;
 using FiresecAPI.Models;
 using FiresecAPI;
+using System;
 
 namespace XFiresecAPI
 {
@@ -55,6 +56,43 @@ namespace XFiresecAPI
         {
             if (JournalFilters == null)
                 JournalFilters = new List<XJournalFilter>();
+
+			if (Devices == null)
+				Devices = new List<XDevice>();
+			if (Zones == null)
+				Zones = new List<XZone>();
+			if (Directions == null)
+				Directions = new List<XDirection>();
+
+			foreach (var device in Devices)
+			{
+				if (device.ZoneUIDs == null)
+					device.ZoneUIDs = new List<Guid>();
+
+				if (device.DeviceLogic == null)
+					device.DeviceLogic = new XDeviceLogic();
+				if (device.DeviceLogic.Clauses == null)
+					device.DeviceLogic.Clauses = new List<XClause>();
+				foreach (var clause in device.DeviceLogic.Clauses)
+				{
+					if (clause.DeviceUIDs == null)
+						clause.DeviceUIDs = new List<Guid>();
+
+					if (clause.ZoneUIDs == null)
+						clause.ZoneUIDs = new List<Guid>();
+				}
+			}
+			foreach (var zone in Zones)
+			{
+			}
+			foreach (var direction in Directions)
+			{
+				if (direction.DeviceUIDs == null)
+					direction.DeviceUIDs = new List<Guid>();
+
+				if (direction.ZoneUIDs == null)
+					direction.ZoneUIDs = new List<Guid>();
+			}
         }
     }
 }

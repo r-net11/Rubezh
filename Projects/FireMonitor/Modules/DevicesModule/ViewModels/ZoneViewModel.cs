@@ -8,6 +8,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
+using System.Collections.Generic;
 
 namespace DevicesModule.ViewModels
 {
@@ -18,17 +19,22 @@ namespace DevicesModule.ViewModels
 		{
 			get { return ZoneState.Zone; }
 		}
+		List<Device> devices;
+		List<DeviceState> deviceStates;
 
 		public ZoneViewModel(ZoneState zoneState)
 		{
 			SelectCommand = new RelayCommand(OnSelect);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			DisableAllCommand = new RelayCommand(OnDisableAll, CanDisableAll);
+			EnableAllCommand = new RelayCommand(OnEnableAll, CanEnableAll);
 			SetGuardCommand = new RelayCommand(OnSetGuard, CanSetGuard);
 			UnSetGuardCommand = new RelayCommand(OnUnSetGuard, CanUnSetGuard);
 
 			ZoneState = zoneState;
 			ZoneState.StateChanged += new System.Action(OnStateChanged);
 			OnStateChanged();
+			InitializeDevices();
 		}
 
 		void OnStateChanged()
@@ -97,10 +103,53 @@ namespace DevicesModule.ViewModels
 			return false;
 		}
 
+		void InitializeDevices()
+		{
+			devices = new List<Device>();
+			deviceStates = new List<DeviceState>();
+			foreach (var device in FiresecManager.Devices)
+			{
+				if ((device != null) && (device.Driver != null))
+				{
+					if ((device.ZoneUID == ZoneState.Zone.UID) && (device.Driver.CanDisable))
+					{
+						devices.Add(device);
+						deviceStates.Add(device.DeviceState);
+					}
+				}
+			}
+		}
+
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
             ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Zone.UID);
+		}
+
+		public RelayCommand DisableAllCommand { get; private set; }
+		void OnDisableAll()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+				FiresecManager.FiresecDriver.AddToIgnoreList(devices);
+		}
+		bool CanDisableAll()
+		{
+			if (Zone.ZoneType == ZoneType.Guard)
+				return false;
+			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList) && deviceStates.Any(x => !x.IsDisabled));
+		}
+
+		public RelayCommand EnableAllCommand { get; private set; }
+		void OnEnableAll()
+		{
+			if (ServiceFactory.SecurityService.Validate())
+				FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+		}
+		bool CanEnableAll()
+		{
+			if (Zone.ZoneType == ZoneType.Guard)
+				return false;
+			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_AddToIgnoreList) && deviceStates.Any(x => x.IsDisabled));
 		}
 
 		public RelayCommand SetGuardCommand { get; private set; }

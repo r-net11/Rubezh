@@ -243,24 +243,22 @@ namespace Firesec
 			return FiresecSerializedClient.DeviceGetMDS5Data(firesecConfiguration, device.GetPlaceInTree());
 		}
 
-		public void AddToIgnoreList(List<Guid> deviceGuids)
+		public void AddToIgnoreList(List<Device> devices)
 		{
 			var devicePaths = new List<string>();
-			foreach (var guid in deviceGuids)
+			foreach (var device in devices)
 			{
-				var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == guid);
 				devicePaths.Add(device.PlaceInTree);
 			}
 
 			FiresecSerializedClient.AddToIgnoreList(devicePaths);
 		}
 
-		public void RemoveFromIgnoreList(List<Guid> deviceGuids)
+		public void RemoveFromIgnoreList(List<Device> devices)
 		{
 			var devicePaths = new List<string>();
-			foreach (var guid in deviceGuids)
+			foreach (var device in devices)
 			{
-				var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == guid);
 				devicePaths.Add(device.PlaceInTree);
 			}
 

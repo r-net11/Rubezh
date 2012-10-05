@@ -18,7 +18,7 @@ namespace PlansModule.ViewModels
 		public Guid ZoneUID { get; private set; }
 		public Zone Zone { get; private set; }
 		public ZoneState ZoneState { get; private set; }
-		List<Guid> deviceUIDs;
+		List<Device> devices;
 		List<DeviceState> deviceStates;
 
 		public ElementZoneViewModel(ElementPolygonZone elementPolygonZone)
@@ -102,7 +102,7 @@ namespace PlansModule.ViewModels
 
 		void InitializeDevices()
 		{
-			deviceUIDs = new List<Guid>();
+			devices = new List<Device>();
 			deviceStates = new List<DeviceState>();
 			foreach (var device in FiresecManager.Devices)
 			{
@@ -110,7 +110,7 @@ namespace PlansModule.ViewModels
 				{
                     if ((device.ZoneUID == ZoneUID) && (device.Driver.CanDisable))
 					{
-						deviceUIDs.Add(device.UID);
+						devices.Add(device);
 						deviceStates.Add(device.DeviceState);
 					}
 				}
@@ -127,7 +127,7 @@ namespace PlansModule.ViewModels
 		void OnDisableAll()
 		{
 			if (ServiceFactory.SecurityService.Validate())
-                FiresecManager.FiresecDriver.AddToIgnoreList(deviceUIDs);
+                FiresecManager.FiresecDriver.AddToIgnoreList(devices);
 		}
 		bool CanDisableAll()
 		{
@@ -140,7 +140,7 @@ namespace PlansModule.ViewModels
 		void OnEnableAll()
 		{
 			if (ServiceFactory.SecurityService.Validate())
-                FiresecManager.FiresecDriver.RemoveFromIgnoreList(deviceUIDs);
+                FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
 		}
 		bool CanEnableAll()
 		{

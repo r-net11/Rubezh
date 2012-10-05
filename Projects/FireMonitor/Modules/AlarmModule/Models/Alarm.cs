@@ -62,7 +62,7 @@ namespace AlarmModule
 		{
 			var deviceState = FiresecManager.Devices.FirstOrDefault(x => x.UID == DeviceUID).DeviceState;
 			if (FiresecManager.CanDisable(deviceState) && deviceState.IsDisabled)
-                FiresecManager.FiresecDriver.RemoveFromIgnoreList(new List<Guid>() { deviceState.Device.UID });
+				FiresecManager.FiresecDriver.RemoveFromIgnoreList(new List<Device>() { deviceState.Device });
 		}
 
 		public bool CanReset()

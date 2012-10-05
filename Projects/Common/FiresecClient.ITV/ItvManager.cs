@@ -41,16 +41,6 @@ namespace FiresecClient.Itv
             FiresecManager.Disconnect();
         }
 
-        public static void AddToIgnoreList(List<Guid> deviceUIDs)
-        {
-            FiresecManager.FiresecDriver.AddToIgnoreList(deviceUIDs);
-        }
-
-        public static void RemoveFromIgnoreList(List<Guid> deviceUIDs)
-        {
-            FiresecManager.FiresecDriver.RemoveFromIgnoreList(deviceUIDs);
-        }
-
         public static void ExecuteCommand(Guid deviceUID, string methodName)
         {
             FiresecManager.FiresecDriver.ExecuteCommand(deviceUID, methodName);

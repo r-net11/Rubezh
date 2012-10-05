@@ -25,7 +25,6 @@ namespace FiresecClient
         {
             foreach (var device in DeviceConfiguration.Devices)
             {
-                device.ZoneUIDs = new List<Guid>();
                 device.Zones = new List<XZone>();
                 device.Directions = new List<XDirection>();
             }
@@ -36,7 +35,6 @@ namespace FiresecClient
             }
             foreach (var direction in DeviceConfiguration.Directions)
             {
-                direction.ZoneUIDs = new List<Guid>();
                 direction.Zones = new List<XZone>();
                 direction.Devices = new List<XDevice>();
             }
@@ -65,7 +63,6 @@ namespace FiresecClient
 			foreach (var logicDevice in DeviceConfiguration.Devices)
 			{
                 var clauses = new List<XClause>();
-                logicDevice.DeviceLogic.Clauses = new List<XClause>();
                 foreach (var clause in logicDevice.DeviceLogic.Clauses)
                 {
                     clause.Devices = new List<XDevice>();

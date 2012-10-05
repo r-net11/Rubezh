@@ -36,10 +36,10 @@ namespace DevicesModule.Converters
 					return Brushes.Pink;
 
 				case StateType.Service:
-					return Brushes.LightGreen;
+					return Brushes.Yellow;
 
 				case StateType.Off:
-					return Brushes.LightYellow;
+					return Brushes.Blue;
 
 				case StateType.Unknown:
 					return Brushes.Gray;
