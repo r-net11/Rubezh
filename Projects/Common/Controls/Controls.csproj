@@ -108,6 +108,7 @@
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\ColorToNameConverter.cs" />
     <Compile Include="Converters\CountToVisibilityConverter.cs" />
+    <Compile Include="Converters\EventsToStringConverter.cs" />
     <Compile Include="Converters\LevelToIndentConverter.cs" />
     <Compile Include="Converters\MultiBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\NullToBoolConverter.cs" />
@@ -652,7 +653,7 @@
     <Resource Include="Images\Alarm_shield.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="StateIcons\no.png" />
+    <Resource Include="StateIcons\No.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\write.png" />
@@ -700,6 +701,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\defconfig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\PDU_PT.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="FSIcons\PDU_PTDirection.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

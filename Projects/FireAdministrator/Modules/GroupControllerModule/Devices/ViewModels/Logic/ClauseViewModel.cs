@@ -11,16 +11,14 @@ namespace GKModule.ViewModels
 {
 	public class ClauseViewModel : BaseViewModel
 	{
-		public List<Guid> Zones { get; set; }
-		public List<Guid> Devices { get; set; }
-		StateLogicViewModel _stateLogicViewModel;
+		public List<XZone> Zones { get; set; }
+		public List<XDevice> Devices { get; set; }
 
-		public ClauseViewModel(StateLogicViewModel stateLogicViewModel, XClause clause)
+		public ClauseViewModel(XClause clause)
 		{
 			SelectZonesCommand = new RelayCommand(OnSelectZones);
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
 
-			_stateLogicViewModel = stateLogicViewModel;
 			SelectedStateType = clause.StateType;
 			SelectedClauseJounOperationType = clause.ClauseJounOperationType;
 			SelectedClauseOperationType = clause.ClauseOperationType;
@@ -80,12 +78,12 @@ namespace GKModule.ViewModels
 				{
 					case ClauseOperationType.AllDevices:
 					case ClauseOperationType.AnyDevice:
-						Zones = new List<Guid>();
+						Zones = new List<XZone>();
 						break;
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
-						Devices = new List<Guid>();
+						Devices = new List<XDevice>();
 						break;
 				}
 				OnPropertyChanged("SelectedClauseOperationType");

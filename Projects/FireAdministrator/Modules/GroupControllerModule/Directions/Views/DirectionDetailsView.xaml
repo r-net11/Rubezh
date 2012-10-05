@@ -42,8 +42,5 @@
                 </ComboBox>
             </Grid>
         </TabItem>
-        <TabItem Header="Устройства" DataContext="{Binding DirectionDevicesViewModel}">
-            <Views:DirectionDevicesView />
-        </TabItem>
     </TabControl>
 </UserControl>

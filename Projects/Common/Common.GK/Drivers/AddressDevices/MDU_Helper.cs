@@ -25,7 +25,7 @@ namespace Common.GK
 				No = 0x82,
 				Name = "Время переключения электропривода в положение ЗАКРЫТО",
 				Caption = "Время переключения электропривода в положение ЗАКРЫТО",
-				Default = 0,
+				Default = 180,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
 				Max = 255
@@ -37,7 +37,7 @@ namespace Common.GK
 				No = 0x83,
 				Name = "Время переключения электропривода в положение ОТКРЫТО",
 				Caption = "Время переключения электропривода в положение ОТКРЫТО",
-				Default = 0,
+				Default = 180,
 				DriverPropertyType = XDriverPropertyTypeEnum.IntType,
 				Min = 0,
 				Max = 255
@@ -95,7 +95,7 @@ namespace Common.GK
 				Name = "Тип привода",
 				Caption = "Тип привода",
 				Default = 0,
-				Offset = 1
+				Offset = 0
 			};
 			var property6Parameter1 = new XDriverPropertyParameter()
 			{

@@ -177,7 +177,6 @@
     <Compile Include="Models\Device\PDU\PDUGroupDevice.cs" />
     <Compile Include="Models\Plans\ElementPolygonXZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXZone.cs" />
-    <Compile Include="XModels\Directions\DirectionDevice.cs" />
     <Compile Include="XModels\Directions\XDirection.cs" />
     <Compile Include="Models\Driver\DriverPropertyParameter.cs" />
     <Compile Include="Models\Driver\DriverPropertyTypeEnum.cs" />
@@ -251,7 +250,6 @@
     <Compile Include="XModels\Logic\ClauseJounOperationType.cs" />
     <Compile Include="XModels\Logic\ClauseOperandType.cs" />
     <Compile Include="XModels\Logic\ClauseOperationType.cs" />
-    <Compile Include="XModels\Logic\StateLogic.cs" />
     <Compile Include="XModels\Logic\XClause.cs" />
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
     <Compile Include="XModels\States\XDeviceState.cs" />

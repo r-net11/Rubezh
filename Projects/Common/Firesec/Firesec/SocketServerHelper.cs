@@ -56,10 +56,16 @@ namespace Firesec
 					return;
 			}
 
+			var fileName = GetSocketServerPath();
+			if (fileName == null)
+			{
+				return;
+			}
+
 			var newProcess = new Process();
 			newProcess.StartInfo = new ProcessStartInfo()
 			{
-				FileName = GetSocketServerPath()
+				FileName = fileName
 			};
 			newProcess.Start();
 			newProcess.WaitForInputIdle(1000);
@@ -130,7 +136,7 @@ namespace Firesec
 					}
 					else
 					{
-						Logger.Error("SocketServerHelper.GetSocketServerPath filePath1 = null");
+						Logger.Error("SocketServerHelper.GetSocketServerPath File1 Not Exists " + filePath1);
 					}
 				}
 				var filePath2 = @"C:\Program Files\Firesec\scktsrvr.exe";
@@ -140,9 +146,19 @@ namespace Firesec
 				}
 				else
 				{
-					Logger.Error("SocketServerHelper.GetSocketServerPath filePath2 = null");
+					Logger.Error("SocketServerHelper.GetSocketServerPath File2 Not Exists " + filePath2);
+				}
+				var filePath3 = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Firesec\scktsrvr.exe");
+				if (File.Exists(filePath2))
+				{
+					return filePath3;
+				}
+				else
+				{
+					Logger.Error("SocketServerHelper.GetSocketServerPath File3 Not Exists " + filePath3);
 				}
 
+				FiresecDriver.LoadingErrors.Append("Не удалось обнаружить драйвер устройств");
 				return null;
 
 				//var result = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Firesec", "scktsrvr.exe");
@@ -158,7 +174,8 @@ namespace Firesec
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове NativeFiresecClient.GetSocketServerPath");
-				return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Firesec\scktsrvr.exe");
+				FiresecDriver.LoadingErrors.Append(e.Message);
+				return null;
 			}
 		}
 

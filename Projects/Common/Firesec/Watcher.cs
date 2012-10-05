@@ -370,7 +370,7 @@ namespace Firesec
 				if (device.Driver.ChildAddressReserveRangeCount == 0)
 					continue;
 
-				var childDeviceState = new ChildDeviceState();
+				ChildDeviceState childDeviceState = null;
 				var minChildStateType = StateType.Norm;
 				foreach (var child in device.Children)
 				{

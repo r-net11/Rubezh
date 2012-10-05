@@ -188,10 +188,13 @@ namespace DevicesModule.ViewModels
             {
                 try
                 {
-                    string value1 = property.Value;
-                    string value2 = SelectedDevice.Driver.Properties.FirstOrDefault(x => x.Name == property.Name).Default;
-                    property.Value = value2;
-                }
+                    var v = SelectedDevice.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
+					if (v != null)
+					{
+						string defValue = v.Default;
+						property.Value = defValue;
+					}
+				}
                 catch (Exception)
                 {
                 }

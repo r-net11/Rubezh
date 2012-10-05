@@ -37,7 +37,7 @@ namespace AlarmModule.ViewModels
 						var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == Alarm.DeviceUID);
 						if (device != null)
 						{
-							return "Устройство " + device.Driver.ShortName + " " + device.DottedAddress;
+							return device.Driver.ShortName + " " + device.DottedAddress;
 						}
 						break;
 

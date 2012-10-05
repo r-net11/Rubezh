@@ -4,7 +4,6 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls"
              xmlns:Converters="clr-namespace:FiltersModule.Converters">
     <UserControl.Resources>
-        <Converters:EventsToStringConverter x:Key="EventsToStringConverter" />
         <Converters:CategoriesToStringConverter x:Key="CategoriesToStringConverter" />
     </UserControl.Resources>
 

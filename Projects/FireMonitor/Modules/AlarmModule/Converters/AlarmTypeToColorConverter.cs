@@ -32,7 +32,7 @@ namespace AlarmModule.Converters
 					return "SkyBlue";
 
 				case AlarmType.Auto:
-					return "YellowGreen";
+					return "Yellow";
 
 				default:
 					return "Transparent";

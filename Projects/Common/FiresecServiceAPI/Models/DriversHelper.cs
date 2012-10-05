@@ -49,6 +49,7 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("6298807D-850B-4C65-8792-A4EAB2A4A72A", 0, "Страница", DriverType.Page));
             DriverDataList.Add(new DriverData("E486745F-6130-4027-9C01-465DE5415BBF", 0, "Индикатор", DriverType.Indicator));
             DriverDataList.Add(new DriverData("7C4B1A3E-BC00-4542-9AB7-061D2AE92BA2", 0, "Направление", DriverType.PDUDirection));
+			DriverDataList.Add(new DriverData("145B6D5B-FD19-4E1F-8ED3-70923A11232B", 0, "Направление", DriverType.PDUDirection));
             DriverDataList.Add(new DriverData("B476541B-5298-4B3E-A9BA-605B839B1011", 0, "Прибор Рубеж-2AM", DriverType.Rubezh_2AM));
             DriverDataList.Add(new DriverData("02CE2CC4-D71F-4EAA-ACCC-4F2E870F548C", 0, "БУНС", DriverType.BUNS));
             DriverDataList.Add(new DriverData("A7BB2FD0-0088-49AE-8C04-7D6FA22C79D6", 0, "БУНС-2", DriverType.BUNS_2));
@@ -60,6 +61,7 @@ namespace FiresecAPI.Models
             DriverDataList.Add(new DriverData("F3485243-2F60-493B-8A4E-338C61EF6581", 0, "Прибор Рубеж-4A", DriverType.Rubezh_4A));
             DriverDataList.Add(new DriverData("96CDBD7E-29F6-45D4-9028-CF10332FAB1A", 0, "Прибор Рубеж-2ОП", DriverType.Rubezh_2OP));
             DriverDataList.Add(new DriverData("B1DF571E-8786-4987-94B2-EC91F7578D20", 0, "Пульт дистанционного управления", DriverType.PDU));
+			DriverDataList.Add(new DriverData("07BEB3DD-7D14-41F8-B8BC-FE8EDD215762", 0, "Пульт дистанционного управления ПДУ-ПТ", DriverType.PDU_PT));
             DriverDataList.Add(new DriverData("4A60242A-572E-41A8-8B87-2FE6B6DC4ACE", 0, "Релейный исполнительный модуль РМ-1", DriverType.RM_1));
             DriverDataList.Add(new DriverData("EA5F5372-C76C-4E92-B879-0AFA0EE979C7", 0, "Релейный исполнительный модуль РМ-2", DriverType.RM_2));
             DriverDataList.Add(new DriverData("15E38FA6-DC41-454B-83E5-D7789064B2E1", 0, "Релейный исполнительный модуль РМ-3", DriverType.RM_3));

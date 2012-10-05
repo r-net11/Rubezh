@@ -8,7 +8,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace FiltersModule.ViewModels
 {
-	public class FilterDetailsViewModel : SaveCancelDialogViewModel//, IDataErrorInfo
+	public class FilterDetailsViewModel : SaveCancelDialogViewModel
 	{
 		public static readonly int DefaultDaysCount = 10;
 
@@ -53,8 +53,7 @@ namespace FiltersModule.ViewModels
 			StateTypes = new ObservableCollection<StateTypeViewModel>();
 			foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
 			{
-				if (string.IsNullOrEmpty(EnumsConverter.StateTypeToEventName(stateType)) == false)
-					StateTypes.Add(new StateTypeViewModel(stateType));
+				StateTypes.Add(new StateTypeViewModel(stateType));
 			}
 
 			Categories = new ObservableCollection<CategoryViewModel>();

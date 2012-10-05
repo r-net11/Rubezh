@@ -102,8 +102,11 @@ namespace DeviceControls
                 resultLibraryStates.Add(additionalLibraryState);
             }
 
+			var sortedResultLibraryStates = from LibraryState state in resultLibraryStates
+											orderby state.Frames.FirstOrDefault().Layer
+											select state;
             var canvases = new List<Canvas>();
-            foreach (var libraryStates in resultLibraryStates)
+			foreach (var libraryStates in sortedResultLibraryStates)
             {
                 _stateViewModelList.Add(new StateViewModel(libraryStates, canvases));
             }

@@ -112,20 +112,11 @@ namespace FiresecAPI.Models
 			property6.Parameters.Add(property6Parameter6);
 			driver.Properties.Add(property6);
 
-			//var property7 = new DriverProperty()
-			//{
-			//    IsAUParameter = true,
-			//    No = 0x85,
-			//    Name = "Перейти в защиту(иначе перейти в дежурное положение)",
-			//    Caption = "Перейти в защиту(иначе перейти в дежурное положение)",
-			//    DriverPropertyType = DriverPropertyTypeEnum.BoolType,
-			//    BitOffset = 7,
-			//    MinBit = 7,
-			//    MaxBit = 8,
-			//    Default="true"
-			//};
-			//driver.Properties.Add(property7);
-			ConfigurationDriverHelper.AddBoolProprety(driver, 0x85, "Перейти в защиту(иначе перейти в дежурное положение)", 7);
+			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x85, "нормальное положение", 7,
+				"0 защита",
+				"1 норма", 0, 0, 0, false, false, "0");
+			
+			//ConfigurationDriverHelper.AddBoolProprety(driver, 0x85, "Перейти в защиту(иначе перейти в дежурное положение)", 7);
 		}
 	}
 }

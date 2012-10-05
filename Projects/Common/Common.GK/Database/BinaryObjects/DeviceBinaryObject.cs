@@ -49,11 +49,10 @@ namespace Common.GK
 		{
 			if (Device.Driver.HasLogic)
 			{
-				var stateLogic = Device.DeviceLogic.StateLogics.FirstOrDefault(x=>x.StateType == XStateType.TurnOn);
-				if(stateLogic != null)
+                if (Device.DeviceLogic.Clauses.Count > 0)
 				{
-					AddClauseFormula(stateLogic, XStateType.TurnOn);
-					AddClauseFormula(stateLogic, XStateType.TurnOff);
+                    AddClauseFormula(Device.DeviceLogic, XStateType.TurnOn);
+                    AddClauseFormula(Device.DeviceLogic, XStateType.TurnOff);
 				}
 			}
 
@@ -77,17 +76,17 @@ namespace Common.GK
 			Formula.Add(FormulaOperationType.END);
 		}
 
-		void AddClauseFormula(StateLogic stateLogic, XStateType stateType)
+		void AddClauseFormula(XDeviceLogic deviceLogic, XStateType stateType)
 		{
 			var clauseIndex = 0;
-			foreach (var clause in stateLogic.Clauses)
+			foreach (var clause in deviceLogic.Clauses)
 			{
 				var baseObjects = new List<XBinaryBase>();
-				foreach (var device in clause.XDevices)
+				foreach (var device in clause.Devices)
 				{
 					baseObjects.Add(device);
 				}
-				foreach (var zone in clause.XZones)
+				foreach (var zone in clause.Zones)
 				{
 					baseObjects.Add(zone);
 				}
@@ -160,16 +159,16 @@ namespace Common.GK
 			StatesDirections = new List<StatesDirection>();
 			foreach (var direction in XManager.DeviceConfiguration.Directions)
 			{
-				foreach (var directionDevice in direction.DirectionDevices)
+				foreach (var directionDevice in direction.Devices)
 				{
-					if (Device.UID == directionDevice.DeviceUID)
+					if (Device.UID == directionDevice.UID)
 					{
-						var statesDirection = StatesDirections.FirstOrDefault(x => x.StateType == directionDevice.StateType);
+						var statesDirection = StatesDirections.FirstOrDefault(x => x.StateType == XStateType.TurnOn);
 						if (statesDirection == null)
 						{
 							statesDirection = new StatesDirection()
 							{
-								StateType = directionDevice.StateType
+								StateType = XStateType.TurnOn
 							};
 						}
 						statesDirection.Directions.Add(direction);

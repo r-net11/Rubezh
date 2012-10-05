@@ -11,13 +11,15 @@ namespace XFiresecAPI
 		{
             UID = Guid.NewGuid();
 			ZoneUIDs = new List<Guid>();
-			DirectionDevices = new List<DirectionDevice>();
-			Zones = new List<XZone>();
+			DeviceUIDs = new List<Guid>();
 			Regime = 1;
+			Zones = new List<XZone>();
+			Devices = new List<XDevice>();
 		}
 
 		public XDirectionState DirectionState { get; set; }
 		public List<XZone> Zones { get; set; }
+		public List<XDevice> Devices { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -44,7 +46,7 @@ namespace XFiresecAPI
 		public List<Guid> ZoneUIDs { get; set; }
 
 		[DataMember]
-		public List<DirectionDevice> DirectionDevices { get; set; }
+		public List<Guid> DeviceUIDs { get; set; }
 
 		public string PresentationName
 		{

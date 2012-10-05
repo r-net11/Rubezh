@@ -45,39 +45,39 @@ namespace Common.GK
 			AddControlType(driver, 0x8A, "Тип контроля выхода 4");
 			AddControlType(driver, 0x8B, "Тип контроля выхода 5");
 
-			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Масса", 0);
-			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Давление", 2);
-			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Двери-Окна", 4);
+			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Масса", 0, 2);
+			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Давление", 2, 2);
+			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Двери-Окна", 4, 1);
 
-			GKDriversHelper.AddIntProprety(driver, 0xAB, "время включенного состояния выхода 1", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xAC, "время включенного состояния выхода 2", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xAD, "время включенного состояния выхода 3", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xAE, "время включенного состояния выхода 4", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xAF, "время включенного состояния выхода 5", 0, 0, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xAB, "время включенного состояния выхода 1", 0, 2, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xAC, "время включенного состояния выхода 2", 0, 2, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xAD, "время включенного состояния выхода 3", 0, 2, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xAE, "время включенного состояния выхода 4", 0, 2, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xAF, "время включенного состояния выхода 5", 0, 2, 0, 255);
 
-			GKDriversHelper.AddIntProprety(driver, 0xB1, "период переключения выхода 1", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xB2, "период переключения выхода 2", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xB3, "период переключения выхода 3", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xB4, "период переключения выхода 4", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xB5, "период переключения выхода 5", 0, 0, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xB1, "период переключения выхода 1", 0, 1, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xB2, "период переключения выхода 2", 0, 1, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xB3, "период переключения выхода 3", 0, 1, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xB4, "период переключения выхода 4", 0, 1, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xB5, "период переключения выхода 5", 0, 1, 0, 255);
 
-			GKDriversHelper.AddIntProprety(driver, 0xC1, "Время задержки включения выхода 1", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xC2, "Время задержки включения выхода 2", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xC3, "Время задержки включения выхода 3", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xC4, "Время задержки включения выхода 4", 0, 0, 0, 255);
-			GKDriversHelper.AddIntProprety(driver, 0xC5, "Время задержки включения выхода 5", 0, 0, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xC1, "Время задержки включения выхода 1", 0, 3, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xC2, "Время задержки включения выхода 2", 0, 3, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xC3, "Время задержки включения выхода 3", 0, 3, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xC4, "Время задержки включения выхода 4", 0, 3, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0xC5, "Время задержки включения выхода 5", 0, 60, 0, 255);
 
 			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Приоритет запуска", 0,
 				"происходит отмена задержки запуска при нарушении датчика «Двери-окна» и рестарт после восстановления датчика «Двери-окна»",
-				"не происходит отмена задержки запуска при нарушении датчика «Двери-окна»", 1);
+				"не происходит отмена задержки запуска при нарушении датчика «Двери-окна»", 1, 1);
 
 			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Блокировка выключения режима «Автоматика включена» при неисправности", 2,
 				"режим «Автоматика включена» отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»",
-				"режим «Автоматика включена» не отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»", 1);
+				"режим «Автоматика включена» не отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»", 1,1);
 
 			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Восстановление режима «Автоматика включена»", 4,
 				"режим восстанавливается после восстановления датчика «Двери-окна»",
-				"режим не восстанавливается после восстановления  датчика «Двери-окна», восстановление возможно по протоколу RSR", 1);
+				"режим не восстанавливается после восстановления  датчика «Двери-окна», восстановление возможно по протоколу RSR", 1,2);
 
 			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Состояние  режима «Автоматика включена» после включения питания", 6,
 				"после включения питания  режим «Автоматика включена» включен",
@@ -93,7 +93,7 @@ namespace Common.GK
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = 1,
+				Default = 4,
 				Offset = 0
 			};
 			GKDriversHelper.AddPropertyParameter(property, "Состояние цепи не контролируется", 1);
@@ -121,7 +121,7 @@ namespace Common.GK
 			driver.Properties.Add(property);
 		}
 
-		static void AddDetectorState(XDriver driver, byte no, string propertyName, byte offset)
+		static void AddDetectorState(XDriver driver, byte no, string propertyName, byte offset, ushort dflt)
 		{
 			var property = new XDriverProperty()
 			{

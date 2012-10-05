@@ -91,7 +91,7 @@ namespace DevicesModule.ViewModels
         private Device SelectedDevice;
         public GuardConfigurationViewModel(Device selectedDevice, ObservableCollection<UserViewModel> DeviceUsers, ObservableCollection<UserViewModel> AvailableUsers, ObservableCollection<Zone> UserZones, ObservableCollection<Zone> DeviceZones)
         {
-            Title = "Синхронизация охранных пользователей";
+            Title = "Список охранных пользователей прибора: " + selectedDevice.Driver.ShortName;
             SaveCaption = "Применить";
             deviceUsers = DeviceUsers;
             availableUsers = AvailableUsers;

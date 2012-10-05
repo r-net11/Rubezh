@@ -69,8 +69,6 @@
     <Compile Include="Converters\ClauseConditionConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Directions\ViewModels\DirectionDeviceSelectationViewModel.cs" />
-    <Compile Include="Directions\ViewModels\DirectionDevicesViewModel.cs" />
-    <Compile Include="Directions\ViewModels\DirectionDeviceViewModel.cs" />
     <Compile Include="Directions\Views\DirectionDeviceSelectationView.xaml.cs">
       <DependentUpon>DirectionDeviceSelectationView.xaml</DependentUpon>
     </Compile>

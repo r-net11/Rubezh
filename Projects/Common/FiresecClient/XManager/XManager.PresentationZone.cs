@@ -35,29 +35,24 @@ namespace FiresecClient
 			return "";
 		}
 
-		public static string GetPresentationZone(XDeviceLogic DeviceLogic)
-		{
+        public static string GetPresentationZone(XDeviceLogic DeviceLogic)
+        {
             var stringBuilder = new StringBuilder();
-            foreach (var stateLogic in DeviceLogic.StateLogics)
+            foreach (var clause in DeviceLogic.Clauses)
             {
-                stringBuilder.Append(stateLogic.StateType.ToDescription() + " если ");
-                foreach (var clause in stateLogic.Clauses)
-                {
-                    stringBuilder.Append(clause.StateType.ToDescription() + " в ");
-                    stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
-					stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
-					stringBuilder.Append(GetCommaSeparatedZones(clause.Zones));
-                }
+                stringBuilder.Append(clause.StateType.ToDescription() + " в ");
+                stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
+                stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
+                stringBuilder.Append(GetCommaSeparatedZones(clause.Zones));
             }
             return stringBuilder.ToString();
-		}
+        }
 
-		public static string GetCommaSeparatedZones(IEnumerable<Guid> zoneUIDs)
+		public static string GetCommaSeparatedZones(List<XZone> zones)
 		{
-			var zones = from XZone zone in XManager.DeviceConfiguration.Zones where zoneUIDs.Contains(zone.UID) select zone.No;
 			if (zones.Count() > 0)
 			{
-				var orderedZones = zones.OrderBy(x => x).ToList();
+				var orderedZones = zones.OrderBy(x => x.No).Select(x=>x.No).ToList();
 				int prevZoneNo = orderedZones[0];
 				List<List<ushort>> groupOfZones = new List<List<ushort>>();
 
@@ -103,9 +98,8 @@ namespace FiresecClient
 			return "";
 		}
 
-		public static string GetCommaSeparatedDevices(IEnumerable<Guid> deviceUIDs)
+		public static string GetCommaSeparatedDevices(IEnumerable<XDevice> devices)
 		{
-			var devices = from XDevice device in XManager.DeviceConfiguration.Devices where deviceUIDs.Contains(device.UID) select device;
 			var stringBuilder = new StringBuilder();
 			var deviceCount = 0;
 			foreach (var device in devices)

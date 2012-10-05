@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Infrastructure.Common.Navigation;
+using System.Linq;
 
 namespace Infrastructure.Common.Windows.ViewModels
 {
@@ -19,29 +20,32 @@ namespace Infrastructure.Common.Windows.ViewModels
             MinimizeCommand = new RelayCommand(OnMinimize);
 		}
 
-	    private int navigationWidth = 200;
-	    public int NavigationWidth
+        public RelayCommand MinimizeCommand { get; private set; }
+        void OnMinimize()
+        {
+            TextVisibility = TextVisibility ? false : true;
+            MinimizeButtonContent = TextVisibility ? "<<" : ">>";
+        }
+
+	    private string minimizeButtonContent = "<<";
+	    public string MinimizeButtonContent
 	    {
-	        get { return navigationWidth; }
-            set 
-            { 
-                navigationWidth = value;
-                OnPropertyChanged("NavigationWidth");
+	        get { return minimizeButtonContent; }
+            set
+            {
+                minimizeButtonContent = value;
+                OnPropertyChanged("MinimizeButtonContent");
             }
 	    }
 
-
-
-        public RelayCommand MinimizeCommand { get; private set; }
-        private void OnMinimize()
+        private bool textVisibility = true;
+        public bool TextVisibility
         {
-            if (NavigationWidth == 200)
+            get { return textVisibility; }
+            set
             {
-                NavigationWidth = 50;
-            }
-            else
-            {
-                NavigationWidth = 200;
+                textVisibility = value;
+                OnPropertyChanged("TextVisibility");
             }
         }
 
@@ -72,6 +76,15 @@ namespace Infrastructure.Common.Windows.ViewModels
 			set
 			{
 				_navigationItems = value;
+                foreach (var navigationItem in _navigationItems)
+                {
+                    navigationItem.Context = this;
+                    if (navigationItem.Childs != null)
+                    foreach (var navigationItemChild in navigationItem.Childs)
+                    {
+                        navigationItemChild.Context = this;
+                    }
+                }
 				OnPropertyChanged("NavigationItems1");
 			}
 		}

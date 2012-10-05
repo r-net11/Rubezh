@@ -54,7 +54,7 @@ namespace DevicesModule.ViewModels
 			get
 			{
 				var toolTip = Zone.PresentationName;
-				toolTip += "\n" + "Состояние: " + EnumsConverter.StateTypeToClassName(StateType);
+				toolTip += "\n" + "Состояние: " + StateType.ToDescription();
 				if (Zone.ZoneType == ZoneType.Fire)
 				{
 					toolTip += "\n" + "Количество датчиков для сработки: " + Zone.DetectorCount.ToString();

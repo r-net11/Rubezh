@@ -8,7 +8,7 @@ namespace XFiresecAPI
 	{
 		public XDeviceLogic()
 		{
-			StateLogics = new List<StateLogic>();
+            Clauses = new List<XClause>();
 			DependentDevices = new List<XDevice>();
 			DependentZones = new List<XZone>();
 		}
@@ -16,7 +16,7 @@ namespace XFiresecAPI
 		public List<XDevice> DependentDevices { get; set; }
 		public List<XZone> DependentZones { get; set; }
 
-		[DataMember]
-		public List<StateLogic> StateLogics { get; set; }
+        [DataMember]
+        public List<XClause> Clauses { get; set; }
 	}
 }

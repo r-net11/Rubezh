@@ -98,6 +98,7 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Converters\StateTypeToPlanColorConverter.cs" />
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
     <Compile Include="Events\ElementDeviceSelectedEvent.cs" />
     <Compile Include="Events\ElementZoneSelectedEvent.cs" />

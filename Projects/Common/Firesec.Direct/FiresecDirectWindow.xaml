@@ -6,6 +6,9 @@
 
     <StackPanel>
         <StackPanel Orientation="Horizontal">
+            <Button Click="OnCreateDrivers" Content="Создать конфигурацию драйверов" Margin="1" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
             <Button Click="OnGetCoreConfig" Content="GetCoreConfig" Margin="1" />
             <Button Click="OnGetMetaData" Content="GetMetadata" Margin="1" />
             <Button Click="OnGetPlans" Content="GetPlans" Margin="1" />

@@ -1,6 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Windows;
+using Firesec;
+using FiresecAPI.Models;
+using FiresecAPI;
+using System.Runtime.Serialization;
+using System;
 
 namespace FiresecDirect
 {
@@ -166,6 +171,32 @@ namespace FiresecDirect
 				MessageBox.Show("Error:" + result.Error);
 			else
 				MessageBox.Show("Result:" + result.Result);
+		}
+
+		private void OnCreateDrivers(object sender, RoutedEventArgs e)
+		{
+			var firesecDriver = new FiresecDriver(0, "localhost", 211, "adm", "");
+			var driversConfiguration = ConfigurationCash.DriversConfiguration;
+
+			try
+			{
+				driversConfiguration.Version = new ConfigurationVersion() { MajorVersion = 1, MinorVersion = 1 };
+
+				using (var memoryStream = new MemoryStream())
+				{
+					var dataContractSerializer = new DataContractSerializer(typeof(DriversConfiguration));
+					dataContractSerializer.WriteObject(memoryStream, driversConfiguration);
+
+					using (var fileStream = new FileStream("D:/DriversConfiguration.xml", FileMode.Create))
+					{
+						fileStream.Write(memoryStream.GetBuffer(), 0, (int)memoryStream.Position);
+					}
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
 		}
 	}
 }

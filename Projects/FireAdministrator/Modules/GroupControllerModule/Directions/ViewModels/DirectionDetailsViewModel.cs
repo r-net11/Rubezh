@@ -8,7 +8,6 @@ namespace GKModule.ViewModels
 {
     public class DirectionDetailsViewModel : SaveCancelDialogViewModel
     {
-		public DirectionDevicesViewModel DirectionDevicesViewModel { get; private set; }
 		public XDirection XDirection { get; set; }
 
 		public DirectionDetailsViewModel(XDirection direction = null)
@@ -30,13 +29,7 @@ namespace GKModule.ViewModels
 				Title = string.Format("Свойства направления: {0}", direction.PresentationName);
 				XDirection = direction;
             }
-			if (XDirection.DirectionDevices.Count == 0)
-			{
-				var directionDevice = new DirectionDevice();
-				XDirection.DirectionDevices.Add(directionDevice);
-			}
             CopyProperties();
-			DirectionDevicesViewModel = new DirectionDevicesViewModel(XDirection);
         }
 
         void CopyProperties()
@@ -129,7 +122,6 @@ namespace GKModule.ViewModels
 			XDirection.Hold = Hold;
 			XDirection.Regime = Regime;
 			XDirection.Description = Description;
-			DirectionDevicesViewModel.Save();
 			return base.Save();
 		}
     }

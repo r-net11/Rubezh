@@ -20,37 +20,42 @@ namespace FiresecOPCServer
         static MainViewModel MainViewModel;
         static AutoResetEvent MainViewStartedEvent = new AutoResetEvent(false);
 
-        public static void Run()
-        {
-            AppSettingsHelper.InitializeAppSettings();
+		public static void Run()
+		{
+			AppSettingsHelper.InitializeAppSettings();
 
-            var resourceService = new ResourceService();
-            resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
-            resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
+			var resourceService = new ResourceService();
+			resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
+			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));
 
-            WindowThread = new Thread(new ThreadStart(OnWorkThread));
-            WindowThread.Priority = ThreadPriority.Highest;
-            WindowThread.SetApartmentState(ApartmentState.STA);
-            WindowThread.IsBackground = true;
-            WindowThread.Start();
-            MainViewStartedEvent.WaitOne();
+			WindowThread = new Thread(new ThreadStart(OnWorkThread));
+			WindowThread.Priority = ThreadPriority.Highest;
+			WindowThread.SetApartmentState(ApartmentState.STA);
+			WindowThread.IsBackground = true;
+			WindowThread.Start();
+			MainViewStartedEvent.WaitOne();
 
-            UILogger.Log("Соединение с сервером");
-            var message = FiresecManager.Connect(ClientType.OPC, AppSettings.ServerAddress, AppSettings.Login, AppSettings.Password);
-            if (message == null)
-            {
-				InitializeFs();
-				UILogger.Log("Старт полинга сервера");
-				FiresecManager.StartPoll();
-                FiresecOPCManager.Start();
-                SafeFiresecService.ConfigurationChangedEvent += new Action(OnConfigurationChangedEvent);
-            }
-            else
-            {
-                UILogger.Log("Ошибка при загрузке драйвера: " + message);
-            }
-            UILogger.Log("Готово");
-        }
+			UILogger.Log("Соединение с сервером");
+			for (int i = 1; i <= 10; i++)
+			{
+				var message = FiresecManager.Connect(ClientType.OPC, AppSettings.ServerAddress, AppSettings.Login, AppSettings.Password);
+				if (message == null)
+					break;
+				Thread.Sleep(5000);
+				if (i == 10)
+				{
+					UILogger.Log("Ошибка соединения с сервером: " + message);
+					return;
+				}
+			}
+
+			InitializeFs();
+			UILogger.Log("Старт полинга сервера");
+			FiresecManager.StartPoll();
+			FiresecOPCManager.Start();
+			SafeFiresecService.ConfigurationChangedEvent += new Action(OnConfigurationChangedEvent);
+			UILogger.Log("Готово");
+		}
 
 		static void InitializeFs()
 		{

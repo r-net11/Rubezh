@@ -38,9 +38,9 @@ namespace GKModule.ViewModels
         void InitializeDirectionDevices()
         {
             Devices.Clear();
-            foreach (var directionDevice in Direction.DirectionDevices)
+            foreach (var device in Direction.Devices)
             {
-                var deviceViewModel = new DeviceViewModel(directionDevice.Device, null);
+                var deviceViewModel = new DeviceViewModel(device, null);
                 Devices.Add(deviceViewModel);
             }
         }
@@ -78,7 +78,7 @@ namespace GKModule.ViewModels
 
         public void ChangeZones()
         {
-            var zonesSelectationViewModel = new ZonesSelectationViewModel(Direction.ZoneUIDs);
+            var zonesSelectationViewModel = new ZonesSelectationViewModel(Direction.Zones);
             if (DialogService.ShowModalWindow(zonesSelectationViewModel))
             {
                 XManager.ChangeDirectionZones(Direction, zonesSelectationViewModel.Zones);
@@ -89,26 +89,10 @@ namespace GKModule.ViewModels
 
         public void ChangeDevices()
         {
-            var deviceUIDs = new List<Guid>();
-            foreach (var directionDevice in Direction.DirectionDevices)
-            {
-                deviceUIDs.Add(directionDevice.DeviceUID);
-            }
-            var devicesSelectationViewModel = new DevicesSelectationViewModel(deviceUIDs);
+            var devicesSelectationViewModel = new DevicesSelectationViewModel(Direction.Devices);
             if (DialogService.ShowModalWindow(devicesSelectationViewModel))
             {
-                Direction.DirectionDevices = new List<DirectionDevice>();
-                foreach (var deviceUID in devicesSelectationViewModel.DevicesList)
-                {
-                    var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-                    var directionDevice = new DirectionDevice()
-                    {
-                        Device = device,
-                        DeviceUID = deviceUID,
-                        StateType = XStateType.TurningOn
-                    };
-                    Direction.DirectionDevices.Add(directionDevice);
-                }
+                XManager.ChangeDirectionDevices(Direction, devicesSelectationViewModel.DevicesList);
                 InitializeDirectionDevices();
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }

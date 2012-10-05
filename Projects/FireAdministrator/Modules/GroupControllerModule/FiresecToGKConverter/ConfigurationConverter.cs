@@ -144,11 +144,6 @@ namespace GKModule.Converter
                     if ((device.Driver.IsZoneLogicDevice) && (device.ZoneLogic != null))
                     {
                         var xDeviceLogic = new XDeviceLogic();
-                        var stateLogic = new StateLogic()
-                        {
-                            StateType = XStateType.TurnOn
-                        };
-                        xDeviceLogic.StateLogics.Add(stateLogic);
 
                         foreach (var clause in device.ZoneLogic.Clauses)
                         {
@@ -190,13 +185,13 @@ namespace GKModule.Converter
                             foreach (var zoneUID in clause.ZoneUIDs)
                             {
                                 var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-                                xClause.Zones.Add(xZone.UID);
+                                xClause.ZoneUIDs.Add(xZone.UID);
                             }
 
-                            stateLogic.Clauses.Add(xClause);
+                            xDeviceLogic.Clauses.Add(xClause);
                         }
 
-                        if (stateLogic.Clauses.Count > 0)
+                        if (xDeviceLogic.Clauses.Count > 0)
                             xDevice.DeviceLogic = xDeviceLogic;
                     }
                 }

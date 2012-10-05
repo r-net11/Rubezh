@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using DevicesModule.Reports;
 using DevicesModule.ViewModels;
@@ -10,6 +11,7 @@ using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Reports;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using Common;
 
 namespace DevicesModule
 {
@@ -29,7 +31,13 @@ namespace DevicesModule
 
 		void OnShowDeviceDetails(Guid deviceUID)
 		{
-			DialogService.ShowWindow(new DeviceDetailsViewModel(deviceUID));
+			var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			if (device == null)
+			{
+				Logger.Error("DevicesModuleLoader.OnShowDeviceDetails device=null " + deviceUID.ToString());
+				return;
+			}
+			DialogService.ShowWindow(new DeviceDetailsViewModel(device));
 		}
 
 		public override void Initialize()

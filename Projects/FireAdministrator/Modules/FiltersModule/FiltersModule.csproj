@@ -80,8 +80,6 @@
     </Compile>
     <Compile Include="Converters\CategoriesToStringConverter.cs" />
     <Compile Include="Converters\CategoryTypeToCategoryNameConverter.cs" />
-    <Compile Include="Converters\EventsToStringConverter.cs" />
-    <Compile Include="Converters\StateTypeToEventNameConverter.cs" />
     <Compile Include="FiltersModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

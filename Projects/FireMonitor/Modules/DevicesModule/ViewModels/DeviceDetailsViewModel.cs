@@ -17,10 +17,10 @@ namespace DevicesModule.ViewModels
 		DeviceControls.DeviceControl _deviceControl;
 		private Guid _guid;
 
-		public DeviceDetailsViewModel(Guid deviceUID)
+		public DeviceDetailsViewModel(Device device)
 		{
-			_guid = deviceUID;
-			Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			Device = device;
+			_guid = device.UID;
 			DeviceState = Device.DeviceState;
 			if (DeviceState != null)
 				DeviceState.StateChanged += new Action(deviceState_StateChanged);
@@ -47,6 +47,11 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
+				var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == Device.Driver.UID);
+				if (libraryDevice == null)
+				{
+					return null;
+				}
 				if (DeviceState != null)
 				{
 					_deviceControl = new DeviceControls.DeviceControl()

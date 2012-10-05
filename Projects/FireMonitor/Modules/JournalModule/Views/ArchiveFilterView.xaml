@@ -8,7 +8,6 @@
              MinWidth="700" MinHeight="500">
 
     <UserControl.Resources>
-        <Converters:StateTypeToEventNameConverter x:Key="StateTypeToEventNameConverter" />
         <Converters:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
         <Converters:ArchiveDefaultStateTypeToStringConverter x:Key="ArchiveDefaultStateTypeToStringConverter" />
     </UserControl.Resources>
@@ -96,7 +95,7 @@
                                     <WrapPanel>
                                         <CheckBox Margin="2" Indeterminate="CheckBox_Indeterminate" IsChecked="{Binding IsEnable}" IsThreeState="True"
                                               Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />
-                                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToEventNameConverter}}" />
+                                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
                                     </WrapPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
