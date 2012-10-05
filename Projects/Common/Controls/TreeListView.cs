@@ -12,6 +12,13 @@ namespace Controls
 			set { SetValue(IsHeaderVisibleProperty, value); }
 		}
 
+		public static readonly DependencyProperty RowHeightProperty = DependencyProperty.Register("RowHeight", typeof(double), typeof(TreeListView), new FrameworkPropertyMetadata(double.NaN));
+		public virtual double RowHeight
+		{
+			get { return (double)GetValue(RowHeightProperty); }
+			set { SetValue(RowHeightProperty, value); }
+		}
+
 		static TreeListView()
 		{
 			DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeListView), new FrameworkPropertyMetadata(typeof(TreeListView)));

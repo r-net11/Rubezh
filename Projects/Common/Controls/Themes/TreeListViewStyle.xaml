@@ -28,7 +28,7 @@
 				<ControlTemplate TargetType="Controls:TreeListViewItem">
 					<StackPanel>
 						<Border Name="Bd" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}" Padding="{TemplateBinding Control.Padding}" SnapsToDevicePixels="True">
-							<Controls:TreeGridViewRowPresenter x:Name="PART_Header" Columns="{Binding Path=Columns, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" Content="{TemplateBinding Header}" FirstColumnIndent="{Binding Level, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListViewItem}}, ConverterParameter=19}">
+							<Controls:TreeGridViewRowPresenter x:Name="PART_Header" Height="{Binding Path=RowHeight, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" Columns="{Binding Path=Columns, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" Content="{TemplateBinding Header}" FirstColumnIndent="{Binding Level, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListViewItem}}, ConverterParameter=19}">
 								<Controls:TreeGridViewRowPresenter.Resources>
 									<Style TargetType="{x:Type ContentPresenter}">
 										<Setter Property="VerticalAlignment" Value="Center" />

@@ -26,7 +26,12 @@ namespace DiagnosticsModule.Controls
 				bool val = IsEditing;
 				SetValue(IsEditingProperty, value);
 				if (val != IsEditing)
-					Template = IsEditing ? EditTemplate : ViewTemplate;
+				{
+					if (IsEditing && EditTemplate != null)
+						Template = EditTemplate;
+					else if (!IsEditing)
+						Template = ViewTemplate;
+				}
 			}
 		}
 
@@ -54,6 +59,8 @@ namespace DiagnosticsModule.Controls
 			IsKeyboardFocusWithinChanged += new DependencyPropertyChangedEventHandler(OnEditorIsKeyboardFocusWithinChanged);
 			LostKeyboardFocus += new KeyboardFocusChangedEventHandler(OnEditorLostKeyboardFocus);
 			LayoutUpdated += new EventHandler(OnEditorLayoutUpdated);
+			KeyDown += new KeyEventHandler(OnEditorKeyDown);
+			FocusVisualStyle = null;
 		}
 
 		private static void ViewTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -87,9 +94,7 @@ namespace DiagnosticsModule.Controls
 			if (!IsEditing)
 			{
 				if (!e.Handled && (_canBeEdit || _isMouseWithinScope))
-				{
 					IsEditing = true;
-				}
 
 				if (IsParentSelected)
 					_isMouseWithinScope = true;
