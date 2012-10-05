@@ -23,8 +23,10 @@ namespace DiagnosticsModule.Controls
 			get { return (bool)GetValue(IsEditingProperty); }
 			private set
 			{
+				bool val = IsEditing;
 				SetValue(IsEditingProperty, value);
-				UpdateEditingMode();
+				if (val != IsEditing)
+					Template = IsEditing ? EditTemplate : ViewTemplate;
 			}
 		}
 
@@ -42,15 +44,16 @@ namespace DiagnosticsModule.Controls
 			set { SetValue(ViewTemplateProperty, value); }
 		}
 
-		private EditorAdorner _adorner;
 		private bool _canBeEdit = false;
 		private bool _isMouseWithinScope = false;
-		private ItemsControl _itemsControl;
 		private TreeViewItem _treeViewItem;
 
 		public EditorPresenter()
 		{
-			
+			LostKeyboardFocus += new KeyboardFocusChangedEventHandler(OnEditorLostKeyboardFocus);
+			IsKeyboardFocusWithinChanged += new DependencyPropertyChangedEventHandler(OnEditorIsKeyboardFocusWithinChanged);
+			LostKeyboardFocus += new KeyboardFocusChangedEventHandler(OnEditorLostKeyboardFocus);
+			LayoutUpdated += new EventHandler(OnEditorLayoutUpdated);
 		}
 
 		private static void ViewTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -88,8 +91,6 @@ namespace DiagnosticsModule.Controls
 					IsEditing = true;
 				}
 
-				//Handle a specific case: After a ListViewItem was selected by clicking it,
-				// Clicking the EditBox again should switch into Editable mode.
 				if (IsParentSelected)
 					_isMouseWithinScope = true;
 			}
@@ -98,32 +99,17 @@ namespace DiagnosticsModule.Controls
 		public override void OnApplyTemplate()
 		{
 			base.OnApplyTemplate();
-			//hook resize event to handle the the column resize. 
-			HookTemplateParentResizeEvent();
-			//hook the resize event to  handle ListView resize cases.
-			HookItemsControlEvents();
-			_treeViewItem = GetDependencyObjectFromVisualTree(this, typeof(TreeViewItem)) as TreeViewItem;
+			if (IsEditing)
+				Focus();
+			if (_treeViewItem == null)
+				_treeViewItem = GetDependencyObjectFromVisualTree(this, typeof(TreeViewItem)) as TreeViewItem;
 		}
-
-		private void UpdateEditingMode()
+		private void OnEditorLayoutUpdated(object sender, EventArgs e)
 		{
-			//if (value != IsEditing)
-			//    Template = value ? EditTemplate : ViewTemplate;
-			if (IsEditing && _adorner == null)
-			{
-				var child = (VisualChildrenCount == 1 ? GetVisualChild(0) : null) as UIElement;
-				_adorner = new EditorAdorner(this, child);
-				AdornerLayer layer = AdornerLayer.GetAdornerLayer(child);
-				layer.Add(_adorner);
-				_adorner.Root.IsKeyboardFocusWithinChanged += new DependencyPropertyChangedEventHandler(Root_IsKeyboardFocusWithinChanged);
-				_adorner.Root.KeyDown += new KeyEventHandler(OnTextBoxKeyDown);
-				_adorner.Root.LostKeyboardFocus += new KeyboardFocusChangedEventHandler(OnTextBoxLostKeyboardFocus);
-			}
-			if (_adorner != null)
-				_adorner.UpdateVisibilty(IsEditing);
+			if (IsEditing && !IsKeyboardFocusWithin)
+				Focus();
 		}
-
-		private void OnTextBoxKeyDown(object sender, KeyEventArgs e)
+		private void OnEditorKeyDown(object sender, KeyEventArgs e)
 		{
 			if (IsEditing && (e.Key == Key.Enter || e.Key == Key.F2))
 			{
@@ -131,12 +117,12 @@ namespace DiagnosticsModule.Controls
 				_canBeEdit = false;
 			}
 		}
-		private void OnTextBoxLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+		private void OnEditorLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
 		{
-			if (!((Control)sender).IsKeyboardFocusWithin)
+			if (!IsKeyboardFocusWithin)
 				IsEditing = false;
 		}
-		private void Root_IsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
+		private void OnEditorIsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
 		{
 			if ((bool)e.OldValue == true && (bool)e.NewValue == false)
 				IsEditing = false;
@@ -153,37 +139,6 @@ namespace DiagnosticsModule.Controls
 			}
 		}
 
-		private void OnCouldSwitchToNormalMode(object sender, RoutedEventArgs e)
-		{
-			IsEditing = false;
-		}
-		private void OnScrollViewerChanged(object sender, RoutedEventArgs args)
-		{
-			if (IsEditing && Mouse.PrimaryDevice.LeftButton == MouseButtonState.Pressed)
-			{
-				IsEditing = false;
-			}
-		}
-		private void HookItemsControlEvents()
-		{
-			_itemsControl = GetDependencyObjectFromVisualTree(this, typeof(ItemsControl)) as ItemsControl;
-			if (_itemsControl != null)
-			{
-				//The reason of hooking Resize/ScrollChange/MouseWheel event is :
-				//when one of these event happens, the EditBox should be switched into editable mode.
-				_itemsControl.SizeChanged += new SizeChangedEventHandler(OnCouldSwitchToNormalMode);
-				_itemsControl.AddHandler(ScrollViewer.ScrollChangedEvent, new RoutedEventHandler(OnScrollViewerChanged));
-				_itemsControl.AddHandler(ScrollViewer.MouseWheelEvent, new RoutedEventHandler(OnCouldSwitchToNormalMode), true);
-			}
-		}
-		private void HookTemplateParentResizeEvent()
-		{
-			FrameworkElement parent = TemplatedParent as FrameworkElement;
-			if (parent != null)
-			{
-				parent.SizeChanged += new SizeChangedEventHandler(OnCouldSwitchToNormalMode);
-			}
-		}
 		private DependencyObject GetDependencyObjectFromVisualTree(DependencyObject startObject, Type type)
 		{
 			//Iterate the visual tree to get the parent(ItemsControl) of this control
