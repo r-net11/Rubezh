@@ -12,86 +12,55 @@
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
-            <StackPanel>
-                <StackPanel Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition SharedSizeGroup="group1" Width="600" />
-                            <ColumnDefinition SharedSizeGroup="group2" Width="400" />
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-                    <Grid Visibility="{Binding Device.Driver.CanMonitoringDisable, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition SharedSizeGroup="group1" />
-                            <ColumnDefinition SharedSizeGroup="group2" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0" Content="Отключить мониторинг устройства" ToolTip="Не использовать устройство при периодическом опросе" HorizontalAlignment="Right" VerticalAlignment="Center" />
-                        <CheckBox Grid.Column="1" IsChecked="{Binding IsMonitoringDisabled}" Margin="2" VerticalAlignment="Center" />
-                    </Grid>
-                    <ItemsControl ItemsSource="{Binding StringProperties}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid  >
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition SharedSizeGroup="group1" />
-                                        <ColumnDefinition SharedSizeGroup="group2" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.Visibility>
-                                        <MultiBinding Converter="{StaticResource MultiBooleanToVisibilityConverter}" ConverterParameter="true">
-                                            <Binding Path="IsControl" />
-                                        </MultiBinding>
-                                    </Grid.Visibility>
-                                    <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}"/>
-                                    <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding BoolProperties}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition SharedSizeGroup="group1" />
-                                        <ColumnDefinition SharedSizeGroup="group2" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.Visibility>
-                                        <MultiBinding Converter="{StaticResource MultiBooleanToVisibilityConverter}" ConverterParameter="true">
-                                            <Binding Path="IsControl" />
-                                        </MultiBinding>
-                                    </Grid.Visibility>
-                                    <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                    <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" />
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                    <ItemsControl ItemsSource="{Binding EnumProperties}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition SharedSizeGroup="group1" />
-                                        <ColumnDefinition SharedSizeGroup="group2" />
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.Visibility>
-                                        <MultiBinding Converter="{StaticResource MultiBooleanToVisibilityConverter}" ConverterParameter="true">
-                                            <Binding Path="IsControl" />
-                                        </MultiBinding>
-                                    </Grid.Visibility>
-                                    <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" />
-                                    <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding Name}" />
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </StackPanel>
+            <StackPanel Visibility="{Binding ParameterVis, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ItemsControl ItemsSource="{Binding StringProperties}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                    <ColumnDefinition SharedSizeGroup="group2" Width="350"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <TextBox Grid.Column="1" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding BoolProperties}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                    <ColumnDefinition SharedSizeGroup="group2" Width="350"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <CheckBox Grid.Column="1" IsChecked="{Binding IsChecked, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <ItemsControl ItemsSource="{Binding EnumProperties}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition SharedSizeGroup="group1" Width="*" />
+                                    <ColumnDefinition SharedSizeGroup="group2" Width="350"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Column="0" Style="{StaticResource PropertyCaptionStyle}" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <ComboBox Grid.Column="1" ItemsSource="{Binding Parameters}" SelectedItem="{Binding SelectedParameter, UpdateSourceTrigger=PropertyChanged}" Margin="2" VerticalAlignment="Center" Visibility="{Binding IsAUParameter, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </StackPanel>
         </Grid>
     </ScrollViewer>

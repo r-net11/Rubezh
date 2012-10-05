@@ -82,9 +82,9 @@ namespace DevicesModule.DeviceProperties
 	    {
             get
             {
-                bool choise1 = (StringProperties.FirstOrDefault(x => x.IsControl == false) == null) &&
-                               (BoolProperties.FirstOrDefault(x => x.IsControl == false) == null) &&
-                               (EnumProperties.FirstOrDefault(x => x.IsControl == false) == null);
+                bool choise1 = (StringProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
+                               (BoolProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
+                               (EnumProperties.FirstOrDefault(x => x.IsAUParameter) == null);
                 if (choise1)
                 {
                     choise = false;
