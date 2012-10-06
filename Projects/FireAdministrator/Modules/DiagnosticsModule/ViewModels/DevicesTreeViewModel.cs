@@ -31,6 +31,8 @@ namespace DiagnosticsModule.ViewModels
 			var devices = new ObservableCollection<DeviceViewModel2>();
 			var deviceViewModel = AddDevice(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice);
 			devices.Add(deviceViewModel);
+			for (int i = 0; i < 1000; i++)
+				deviceViewModel.Children[0].Children.Add(deviceViewModel.Children[0].Children[0]);
 			return devices;
 		}
 		private void ExpandCollapse(ObservableCollection<DeviceViewModel2> devices)
@@ -47,11 +49,11 @@ namespace DiagnosticsModule.ViewModels
 		{
 			var deviceViewModel = new DeviceViewModel2(device);
 			foreach (var childDevice in device.Children)
-				deviceViewModel.Children.Add(AddDevice(childDevice));
+					deviceViewModel.Children.Add(AddDevice(childDevice));
 			return deviceViewModel;
 		}
 	}
-	public class DeviceViewModel2  : BaseViewModel
+	public class DeviceViewModel2 : BaseViewModel
 	{
 		public bool IsExpanded { get; set; }
 
@@ -65,7 +67,7 @@ namespace DiagnosticsModule.ViewModels
 				OnPropertyChanged("Children");
 			}
 		}
-		
+
 		public Device Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
 

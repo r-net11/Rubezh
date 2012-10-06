@@ -32,7 +32,7 @@
 		</Grid.RowDefinitions>
 		<TabControl>
 			<TabItem Header="GridTreeView">
-				<c:TreeListView Grid.Row="1" ItemsSource="{Binding Devices}" ItemTemplate="{StaticResource dt}" RowHeight="19">
+				<c:TreeListView ItemsSource="{Binding Devices}" ItemTemplate="{StaticResource dt}" RowHeight="19" VirtualizingStackPanel.IsVirtualizing="False">
 					<c:TreeListView.Resources>
 						<Style BasedOn="{StaticResource {x:Type c:TreeListViewItem}}" TargetType="{x:Type c:TreeListViewItem}">
 							<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
@@ -151,7 +151,7 @@
 				</c:TreeListView>
 			</TabItem>
 			<TabItem Header="GridTreeView Expanded">
-				<c:TreeListView Grid.Row="1" ItemsSource="{Binding Devices2}" ItemTemplate="{StaticResource dt}" RowHeight="19">
+				<c:TreeListView Grid.Row="1" ItemsSource="{Binding Devices2}" ItemTemplate="{StaticResource dt}" RowHeight="19" VirtualizingStackPanel.IsVirtualizing="True">
 					<c:TreeListView.Resources>
 						<Style BasedOn="{StaticResource {x:Type c:TreeListViewItem}}" TargetType="{x:Type c:TreeListViewItem}">
 							<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />

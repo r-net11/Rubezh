@@ -24,6 +24,11 @@ namespace Controls
 			DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeListView), new FrameworkPropertyMetadata(typeof(TreeListView)));
 		}
 
+		public TreeListView()
+		{
+			//PreviewMouseDoubleClick += (sender, e) => e.Handled = true;
+		}
+
 		private GridViewColumnCollection _columns;
 		public GridViewColumnCollection Columns
 		{

@@ -64,7 +64,7 @@
 								</Controls:TreeGridViewRowPresenter.Expander>
 							</Controls:TreeGridViewRowPresenter>
 						</Border>
-						<ItemsPresenter Name="ItemsHost" />
+						<ItemsPresenter Name="ItemsHost" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" />
 					</StackPanel>
 					<ControlTemplate.Triggers>
 						<Trigger Property="TreeViewItem.IsExpanded" Value="False">
@@ -226,6 +226,8 @@
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="{x:Static ScrollBarVisibility.Auto}" />
 		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="{x:Static ScrollBarVisibility.Auto}" />
 		<Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+		<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
+		<Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="Controls:TreeListView">
