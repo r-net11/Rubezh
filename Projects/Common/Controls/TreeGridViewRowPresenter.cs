@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.ComponentModel;
 
 namespace Controls
 {
@@ -22,18 +23,21 @@ namespace Controls
 		public TreeGridViewRowPresenter()
 		{
 			childs = new UIElementCollection(this, this);
+			DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ColumnsProperty, typeof(TreeGridViewRowPresenter));
+			if (dpd != null)
+				dpd.AddValueChanged(this, (s, e) => EnsureLines(Columns.Count));
 		}
 
 		public Double FirstColumnIndent
 		{
-			get { return (Double)this.GetValue(FirstColumnIndentProperty); }
-			set { this.SetValue(FirstColumnIndentProperty, value); }
+			get { return (Double)GetValue(FirstColumnIndentProperty); }
+			set { SetValue(FirstColumnIndentProperty, value); }
 		}
 
 		public UIElement Expander
 		{
-			get { return (UIElement)this.GetValue(ExpanderProperty); }
-			set { this.SetValue(ExpanderProperty, value); }
+			get { return (UIElement)GetValue(ExpanderProperty); }
+			set { SetValue(ExpanderProperty, value); }
 		}
 
 		private static void OnExpanderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -41,8 +45,10 @@ namespace Controls
 			// Use a second UIElementCollection so base methods work as original
 			TreeGridViewRowPresenter p = (TreeGridViewRowPresenter)d;
 
-			p.childs.Remove(e.OldValue as UIElement);
-			p.childs.Add((UIElement)e.NewValue);
+			if (e.OldValue != null)
+				p.childs.Remove(e.OldValue as UIElement);
+			if (e.NewValue != null)
+				p.childs.Add((UIElement)e.NewValue);
 		}
 
 		private static readonly Style DefaultSeparatorStyle;
@@ -89,18 +95,18 @@ namespace Controls
 		protected override Size ArrangeOverride(Size arrangeSize)
 		{
 			Size s = base.ArrangeOverride(arrangeSize);
-			if (this.Columns == null || this.Columns.Count == 0)
+			if (Columns == null || Columns.Count == 0)
 				return s;
-			UIElement expander = this.Expander;
+			UIElement expander = Expander;
 
-			if (Columns != null)
-				EnsureLines(Columns.Count);
+			//if (Columns != null)
+			//    EnsureLines(Columns.Count);
 
 			double current = 0;
 			double max = arrangeSize.Width;
-			for (int x = 0; x < this.Columns.Count; x++)
+			for (int x = 0; x < Columns.Count; x++)
 			{
-				GridViewColumn column = this.Columns[x];
+				GridViewColumn column = Columns[x];
 				// Actual index needed for column reorder
 				UIElement uiColumn = (UIElement)base.GetVisualChild((int)ActualIndexProperty.GetValue(column, null));
 
@@ -130,7 +136,7 @@ namespace Controls
 					double ew = FirstColumnIndent + expander.DesiredSize.Width <= w ? expander.DesiredSize.Width : w - FirstColumnIndent;
 					if (ew < 0)
 						ew = 0;
-					expander.Arrange(new Rect(this.FirstColumnIndent, 0, ew, expander.DesiredSize.Height) );
+					expander.Arrange(new Rect(FirstColumnIndent, 0, ew, expander.DesiredSize.Height));
 				}
 				max -= w;
 				current += w;
@@ -142,7 +148,7 @@ namespace Controls
 			Size s = base.MeasureOverride(constraint);
 
 			// Measure expander
-			UIElement expander = this.Expander;
+			UIElement expander = Expander;
 			if (expander != null)
 			{
 				// Compute max measure
@@ -163,14 +169,14 @@ namespace Controls
 			else if (index - count < _lines.Count)
 				return _lines[index - count];
 			else
-				return this.Expander;
+				return Expander;
 		}
 		protected override int VisualChildrenCount
 		{
 			get
 			{
 				// Last element is always the expander
-				if (this.Expander != null)
+				if (Expander != null)
 					return base.VisualChildrenCount + 1 + _lines.Count;
 				else
 					return base.VisualChildrenCount + _lines.Count;

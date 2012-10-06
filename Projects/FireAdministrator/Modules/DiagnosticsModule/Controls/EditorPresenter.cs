@@ -100,6 +100,10 @@ namespace DiagnosticsModule.Controls
 					_isMouseWithinScope = true;
 			}
 		}
+		protected override void OnPreviewMouseDoubleClick(MouseButtonEventArgs e)
+		{
+			e.Handled = true;
+		}
 
 		public override void OnApplyTemplate()
 		{
@@ -138,7 +142,7 @@ namespace DiagnosticsModule.Controls
 			get
 			{
 				if (_treeViewItem == null)
-					return false;
+					return true;
 				else
 					return _treeViewItem.IsSelected;
 			}

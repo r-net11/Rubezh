@@ -32,7 +32,7 @@
 		</Grid.RowDefinitions>
 		<TabControl>
 			<TabItem Header="GridTreeView">
-				<c:TreeListView ItemsSource="{Binding Devices}" ItemTemplate="{StaticResource dt}" RowHeight="19" VirtualizingStackPanel.IsVirtualizing="False">
+				<c:TreeListView ItemsSource="{Binding Devices}" ItemTemplate="{StaticResource dt}" RowHeight="19">
 					<c:TreeListView.Resources>
 						<Style BasedOn="{StaticResource {x:Type c:TreeListViewItem}}" TargetType="{x:Type c:TreeListViewItem}">
 							<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
@@ -140,7 +140,12 @@
 										</ctrl:EditorPresenter.ViewTemplate>
 										<ctrl:EditorPresenter.EditTemplate>
 											<ControlTemplate>
-												<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="Black" />
+												<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="Black" Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}" />
+												<ControlTemplate.Triggers>
+													<Trigger SourceName="descriptionTextBox" Property="IsVisible" Value="True">
+														<Setter TargetName="descriptionTextBox" Property="FocusManager.FocusedElement" Value="{Binding ElementName=descriptionTextBox}" />
+													</Trigger>
+												</ControlTemplate.Triggers>
 											</ControlTemplate>
 										</ctrl:EditorPresenter.EditTemplate>
 									</ctrl:EditorPresenter>
@@ -259,7 +264,7 @@
 										</ctrl:EditorPresenter.ViewTemplate>
 										<ctrl:EditorPresenter.EditTemplate>
 											<ControlTemplate>
-												<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="Black" />
+												<TextBox Name="descriptionTextBox" HorizontalAlignment="Stretch" BorderThickness="0" Foreground="Black" Text="{Binding Description}" />
 											</ControlTemplate>
 										</ctrl:EditorPresenter.EditTemplate>
 									</ctrl:EditorPresenter>

@@ -2,6 +2,7 @@
 
 	<Converters:LevelToIndentConverter x:Key="LevelToIndentConverter" />
 
+	
 	<Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
 		<Setter Property="Panel.Background" Value="#00FFFFFF" />
 		<Setter Property="Control.HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorLevel=1, Mode=FindAncestor, AncestorType=ItemsControl}}" />
@@ -10,6 +11,8 @@
 		<Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 		<Setter Property="BorderThickness" Value="0,0,0,1" />
 		<Setter Property="BorderBrush" Value="LightGray" />
+		<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
+		<Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
 		<Setter Property="FrameworkElement.FocusVisualStyle">
 			<Setter.Value>
 				<Style TargetType="IFrameworkInputElement">
@@ -26,8 +29,15 @@
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="Controls:TreeListViewItem">
-					<StackPanel>
-						<Border Name="Bd" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}" Padding="{TemplateBinding Control.Padding}" SnapsToDevicePixels="True">
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+						<Border Grid.Row="0" Name="Bd" Background="{TemplateBinding Panel.Background}" BorderBrush="{TemplateBinding Border.BorderBrush}" BorderThickness="{TemplateBinding Border.BorderThickness}" Padding="{TemplateBinding Control.Padding}" SnapsToDevicePixels="True">
 							<Controls:TreeGridViewRowPresenter x:Name="PART_Header" Height="{Binding Path=RowHeight, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" Columns="{Binding Path=Columns, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListView}}}" Content="{TemplateBinding Header}" FirstColumnIndent="{Binding Level, Converter={StaticResource LevelToIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListViewItem}}, ConverterParameter=19}">
 								<Controls:TreeGridViewRowPresenter.Resources>
 									<Style TargetType="{x:Type ContentPresenter}">
@@ -64,8 +74,8 @@
 								</Controls:TreeGridViewRowPresenter.Expander>
 							</Controls:TreeGridViewRowPresenter>
 						</Border>
-						<ItemsPresenter Name="ItemsHost" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" />
-					</StackPanel>
+						<ItemsPresenter Grid.Row="1" Name="ItemsHost" VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.VirtualizationMode="Recycling" />
+					</Grid>
 					<ControlTemplate.Triggers>
 						<Trigger Property="TreeViewItem.IsExpanded" Value="False">
 							<Setter TargetName="ItemsHost" Property="UIElement.Visibility" Value="{x:Static Visibility.Collapsed}" />
@@ -77,16 +87,6 @@
 							<Setter TargetName="Bd" Property="Panel.Background" Value="{DynamicResource PressedBackgroundBrush}" />
 							<Setter Property="TextElement.Foreground" Value="White" />
 						</Trigger>
-						<!--
-							<MultiTrigger>
-							<MultiTrigger.Conditions>
-							<Condition Property="TreeViewItem.IsSelected" Value="True" />
-							<Condition Property="TreeViewItem.IsSelectionActive" Value="False" />
-							</MultiTrigger.Conditions>
-							<Setter TargetName="Bd" Property="Panel.Opacity" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
-							<Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-							</MultiTrigger>
-						-->
 						<Trigger Property="UIElement.IsEnabled" Value="False">
 							<Setter Property="TextElement.Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
 						</Trigger>
@@ -237,7 +237,7 @@
 							<Grid.OpacityMask>
 								<VisualBrush Visual="{Binding Source={x:Reference Bd}}" />
 							</Grid.OpacityMask>
-							<ScrollViewer Background="{TemplateBinding Background}" CanContentScroll="false" Focusable="false" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Style="{StaticResource scroll}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+							<ScrollViewer Background="{TemplateBinding Background}" CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Style="{StaticResource scroll}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
 								<ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
 							</ScrollViewer>
 						</Grid>
