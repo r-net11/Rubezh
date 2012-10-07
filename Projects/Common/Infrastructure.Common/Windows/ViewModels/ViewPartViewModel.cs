@@ -42,7 +42,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		private void ShortcutService_KeyPressed(object sender, KeyEventArgs e)
 		{
-			if (IsActive)
+			if (IsActive && ApplicationService.ApplicationWindow.IsKeyboardFocusWithin)
 			{
 				foreach (var keyGesture in Shortcuts.Keys)
 					if (e.Key == keyGesture.Key && keyGesture.Modifiers == Keyboard.Modifiers)
@@ -56,29 +56,26 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		#region IViewPartViewModel Members
 
-		public virtual void OnShow()
-		{
-		}
-
-		public virtual void OnHide()
-		{
-		}
-
 		public virtual string Key
 		{
 			get { return GetType().FullName; }
+		}
+
+		public virtual void OnShow()
+		{
+		}
+		public virtual void OnHide()
+		{
 		}
 
 		public void RegisterShortcut(KeyGesture keyGesture, Action command)
 		{
 			Shortcuts.Add(keyGesture, command);
 		}
-
 		public void RegisterShortcut(KeyGesture keyGesture, RelayCommand command)
 		{
 			Shortcuts.Add(keyGesture, command.Execute);
 		}
-
 		public void RegisterShortcut<T>(KeyGesture keyGesture, RelayCommand<T> command, Func<T> getArg)
 		{
 			Shortcuts.Add(keyGesture, () => { command.Execute(getArg()); });

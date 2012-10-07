@@ -12,6 +12,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.ViewModels;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace DevicesModule.ViewModels
 {
@@ -19,7 +21,7 @@ namespace DevicesModule.ViewModels
 	{
 		public static DevicesViewModel Current { get; private set; }
 		public DeviceCommandsViewModel DeviceCommandsViewModel { get; private set; }
-        public PropertiesViewModel PropMenu { get; private set; }
+		public PropertiesViewModel PropMenu { get; private set; }
 		public DevicesViewModel()
 		{
 			Current = this;
@@ -29,11 +31,12 @@ namespace DevicesModule.ViewModels
 			PasteAsCommand = new RelayCommand(OnPasteAs, CanPasteAs);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
 			Menu = new DevicesMenuViewModel(this);
-            PropMenu = new PropertiesViewModel(this);
+			PropMenu = new PropertiesViewModel(this);
 		}
 
 		public void Initialize()
 		{
+			RegisterShortcuts();
 			BuildTree();
 			if (Devices.Count > 0)
 			{
@@ -42,6 +45,61 @@ namespace DevicesModule.ViewModels
 				SelectedDevice = Devices[0];
 			}
 			UpdateGuardVisibility();
+		}
+		private void RegisterShortcuts()
+		{
+			RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.X, ModifierKeys.Control), CutCommand);
+			RegisterShortcut(new KeyGesture(KeyboardKey.Insert, ModifierKeys.Control), () =>
+				{
+					if (SelectedDevice == null)
+						return;
+					SelectedDevice.AddCommand.Execute();
+				});
+			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), () =>
+				{
+					if (SelectedDevice == null)
+						return;
+					SelectedDevice.RemoveCommand.Execute();
+				});
+			RegisterShortcut(new KeyGesture(KeyboardKey.Right, ModifierKeys.Control), () =>
+				{
+					if (SelectedDevice == null)
+						return;
+					if (SelectedDevice.HasChildren && !SelectedDevice.IsExpanded)
+						SelectedDevice.IsExpanded = true;
+				});
+			RegisterShortcut(new KeyGesture(KeyboardKey.Left, ModifierKeys.Control), () =>
+				{
+					if (SelectedDevice == null)
+						return;
+					if (SelectedDevice.HasChildren && SelectedDevice.IsExpanded)
+						SelectedDevice.IsExpanded = false;
+				});
+
+			//if (e.Key == Key.P && Keyboard.Modifiers == ModifierKeys.Control)
+			//    PressButton(showPropertiesButton);
+			//if (e.Key == Key.F && Keyboard.Modifiers == ModifierKeys.Control)
+			//    PressButton(autoDetectButton);
+			//if (e.Key == Key.R && Keyboard.Modifiers == ModifierKeys.Control)
+			//    PressButton(readDeviceButton, false);
+			//if (e.Key == Key.R && Keyboard.Modifiers == ModifierKeys.Alt)
+			//    PressButton(usbReadDeviceButton, true);
+			//if (e.Key == Key.W && Keyboard.Modifiers == ModifierKeys.Control)
+			//    PressButton(writeDeviceButton, false);
+			//if (e.Key == Key.W && Keyboard.Modifiers == ModifierKeys.Alt)
+			//    PressButton(usbWriteDeviceButton, true);
+			//if (e.Key == Key.W && ((int)Keyboard.Modifiers == ((int)ModifierKeys.Control + (int)ModifierKeys.Shift)))
+			//    PressButton(writeAllDeviceButton);
+			//if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
+			//    PressButton(setPasswordButton, false);
+			//if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Alt)
+			//    PressButton(usbSetPasswordButton, true);
+			//if (e.Key == Key.U && Keyboard.Modifiers == ModifierKeys.Control)
+			//    PressButton(updateSoftButton, false);
+			//if (e.Key == Key.U && Keyboard.Modifiers == ModifierKeys.Alt)
+			//    PressButton(usbUpdateSoftButton, true);
 		}
 
 		#region DeviceSelection
@@ -219,20 +277,6 @@ namespace DevicesModule.ViewModels
 			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.DevicesChanged = true;
 			UpdateGuardVisibility();
-		}
-
-		public override void OnShow()
-		{
-			base.OnShow();
-			if (DevicesMenuView.Current != null)
-				DevicesMenuView.Current.AcceptKeyboard = true;
-		}
-
-		public override void OnHide()
-		{
-			base.OnHide();
-			if (DevicesMenuView.Current != null)
-				DevicesMenuView.Current.AcceptKeyboard = false;
 		}
 
 		public static void UpdateGuardVisibility()

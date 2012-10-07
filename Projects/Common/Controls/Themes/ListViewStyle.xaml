@@ -51,6 +51,37 @@
 		</Setter>
 	</Style>
 
+	<Style x:Key="listviewscroll" TargetType="{x:Type ScrollViewer}">
+		<Setter Property="UIElement.Focusable" Value="False" />
+		<Setter Property="Control.Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type ScrollViewer}">
+					<Grid Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition Height="*" />
+							<RowDefinition Height="Auto" />
+						</Grid.RowDefinitions>
+						<ScrollViewer Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden">
+							<GridViewHeaderRowPresenter Columns="{Binding Path=View.Columns, RelativeSource={RelativeSource AncestorType={x:Type ListView}}}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+						</ScrollViewer>
+						<ScrollContentPresenter Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.Column="0" CanContentScroll="{TemplateBinding CanContentScroll}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" KeyboardNavigation.DirectionalNavigation="Local" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+						<ScrollBar Name="PART_VerticalScrollBar" Grid.Row="1" Grid.Column="1" Cursor="Arrow" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0.0" Orientation="Vertical" ViewportSize="{TemplateBinding ViewportHeight}" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+						<ScrollBar Name="PART_HorizontalScrollBar" Grid.Row="2" Grid.Column="0" Cursor="Arrow" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0.0" Orientation="Horizontal" ViewportSize="{TemplateBinding ViewportWidth}" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}" />
+						<DockPanel Grid.Row="2" Grid.Column="1" Background="{Binding Path=Background, ElementName=PART_VerticalScrollBar}" LastChildFill="false">
+							<Rectangle Width="1" DockPanel.Dock="Left" Fill="White" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
+							<Rectangle Height="1" DockPanel.Dock="Top" Fill="White" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
+						</DockPanel>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	
 	<Style TargetType="{x:Type ListView}">
 		<Setter Property="Panel.Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" />
 		<Setter Property="Border.BorderBrush" Value="#00FFFFFF" />
@@ -74,12 +105,9 @@
 							<Grid.OpacityMask>
 								<VisualBrush Visual="{Binding Source={x:Reference Bd}}" />
 							</Grid.OpacityMask>
-							<Controls:HeaderedScrollViewer Background="{TemplateBinding Background}" CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
-								<Controls:HeaderedScrollViewer.ScrollViewerHeader>
-									<GridViewHeaderRowPresenter Columns="{Binding Path=View.Columns, RelativeSource={RelativeSource TemplatedParent}}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-								</Controls:HeaderedScrollViewer.ScrollViewerHeader>
-								<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-							</Controls:HeaderedScrollViewer>
+							<ScrollViewer Background="{TemplateBinding Background}" CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Style="{StaticResource listviewscroll}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+								<ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
+							</ScrollViewer>
 						</Grid>
 					</Grid>
 					<ControlTemplate.Triggers>

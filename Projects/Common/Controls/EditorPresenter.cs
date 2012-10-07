@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows.Input;
-using System.Windows.Controls;
 using System.Windows;
-using System.Windows.Documents;
+using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Controls
@@ -90,7 +86,6 @@ namespace Controls
 
 			if (e.ChangedButton == MouseButton.Right || e.ChangedButton == MouseButton.Middle)
 				return;
-
 			if (!IsEditing)
 			{
 				if (!e.Handled && (_canBeEdit || _isMouseWithinScope))
