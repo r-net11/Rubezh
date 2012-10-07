@@ -7,8 +7,7 @@ namespace FiresecAPI.Models
     {
         public LibraryFrame()
         {
-            Duration = 300;
-            Layer = 0;
+            Duration = 500;
             Image = "<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<Canvas Width=\"500\" Height=\"500\" xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\" xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\">\n</Canvas>";
         }
 
@@ -17,9 +16,6 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public int Duration { get; set; }
-
-        [DataMember]
-        public int Layer { get; set; }
 
         [DataMember]
         public string Image { get; set; }

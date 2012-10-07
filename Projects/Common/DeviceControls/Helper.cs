@@ -10,7 +10,7 @@ namespace DeviceControls
 	{
 		static readonly XamlReader xamlReader = new XamlReader();
 
-		public static Canvas Xml2Canvas(string xmlOfimage, int layer)
+		public static Canvas Xml2Canvas(string xmlOfimage)
 		{
 			try
 			{
@@ -18,13 +18,12 @@ namespace DeviceControls
 				using (var xmlReader = XmlReader.Create(stringReader))
 				{
 					var canvas = (Canvas)xamlReader.LoadAsync(xmlReader);
-					Panel.SetZIndex(canvas, layer);
 					return canvas;
 				}
 			}
 			catch
 			{
-				Logger.Error("Ошибка при вызове метода Xml2Canvas. xmlOfimage= " + xmlOfimage + " layer= " + layer.ToString());
+				Logger.Error("Ошибка при вызове метода Xml2Canvas. xmlOfimage= " + xmlOfimage);
 				return new Canvas();
 			}
 		}

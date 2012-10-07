@@ -10,6 +10,7 @@ namespace FiresecAPI.Models
         {
             Frames = new List<LibraryFrame>();
             Frames.Add(new LibraryFrame() { Id = 0 });
+            Layer = 0;
         }
 
         [DataMember]
@@ -20,5 +21,8 @@ namespace FiresecAPI.Models
 
         [DataMember]
         public List<LibraryFrame> Frames { get; set; }
+
+        [DataMember]
+        public int Layer { get; set; }
     }
 }

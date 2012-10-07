@@ -103,7 +103,7 @@ namespace DeviceControls
             }
 
 			var sortedResultLibraryStates = from LibraryState state in resultLibraryStates
-											orderby state.Frames.FirstOrDefault().Layer
+											orderby state.Layer
 											select state;
             var canvases = new List<Canvas>();
 			foreach (var libraryStates in sortedResultLibraryStates)
@@ -124,7 +124,7 @@ namespace DeviceControls
 			if (device != null)
 			{
 				var state = device.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.No);
-				Canvas canvas = Helper.Xml2Canvas(state.Frames[0].Image, 0);
+				Canvas canvas = Helper.Xml2Canvas(state.Frames[0].Image);
 				canvas.Background = Brushes.Transparent;
 				content = canvas;
 			}

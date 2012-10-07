@@ -88,7 +88,9 @@
                         <DataTemplate>
                             <DockPanel>
                                 <StackPanel Orientation="Horizontal" DockPanel.Dock="Bottom">
-                                    <StackPanel Orientation="Horizontal" Visibility="{Binding IsLayerEditingVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <StackPanel Orientation="Horizontal"
+                                                DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=DataContext}"
+                                                Visibility="{Binding IsLayerEditingVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <Label Content="Слой: " VerticalAlignment="Center" />
                                         <ExtToolkit:IntegerUpDown Minimum="-10" Maximum="10" IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="20" Width="50" />
                                     </StackPanel>

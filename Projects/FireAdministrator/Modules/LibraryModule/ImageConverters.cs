@@ -52,7 +52,7 @@ namespace LibraryModule
             }
         }
 
-        public static Canvas Xml2Canvas(string xmlOfimage, int layer)
+        public static Canvas Xml2Canvas(string xmlOfimage)
         {
             try
             {
@@ -60,7 +60,6 @@ namespace LibraryModule
                 {
                     var xmlReader = XmlReader.Create(stringReader);
                     var canvas = (Canvas) XamlReader.Load(xmlReader);
-                    Panel.SetZIndex(canvas, layer);
                     return canvas;
                 }
             }
