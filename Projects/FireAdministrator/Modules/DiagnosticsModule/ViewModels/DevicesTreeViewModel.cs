@@ -26,8 +26,9 @@ namespace DiagnosticsModule.ViewModels
 				from zone in FiresecManager.Zones
 				orderby zone.No
 				select new ZoneViewModel(zone));
-			for (int i = 0; i < 1000; i++)
-				Zones.Add(Zones[0]);
+			if (Zones.Count > 0)
+				for (int i = 0; i < 1000; i++)
+					Zones.Add(new ZoneViewModel(new Zone() { No = i }));
 		}
 
 		public ObservableCollection<ZoneViewModel> Zones { get; private set; }

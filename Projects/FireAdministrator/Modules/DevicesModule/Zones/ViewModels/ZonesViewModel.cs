@@ -23,7 +23,7 @@ namespace DevicesModule.ViewModels
 		{
 			Menu = new ZonesMenuViewModel(this);
 			AddCommand = new RelayCommand(OnAdd);
-            DeleteCommand = new RelayCommand(OnDelete, CanDelete);
+			DeleteCommand = new RelayCommand(OnDelete, CanDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAll);
 			ZoneDevices = new ZoneDevicesViewModel();
@@ -67,15 +67,15 @@ namespace DevicesModule.ViewModels
 
 		bool CanEditDelete()
 		{
-            int count = Zones.Count(zone => zone.IsSelected == true);
-            EditingEnabled = (count > 1) ? false : true;
-            return EditingEnabled;
+			int count = Zones.Count(zone => zone.IsSelected == true);
+			EditingEnabled = (count > 1) ? false : true;
+			return EditingEnabled;
 		}
 
-        bool CanDelete()
-        {
-            return SelectedZone!=null;
-        }
+		bool CanDelete()
+		{
+			return SelectedZone != null;
+		}
 
 		bool CanDeleteAll()
 		{
@@ -91,12 +91,12 @@ namespace DevicesModule.ViewModels
 				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
 				ServiceFactory.SaveService.DevicesChanged = true;
 				createZoneEventArg.Cancel = false;
-                createZoneEventArg.ZoneUID = zoneDetailsViewModel.Zone.UID;
+				createZoneEventArg.ZoneUID = zoneDetailsViewModel.Zone.UID;
 			}
 			else
 			{
 				createZoneEventArg.Cancel = true;
-                createZoneEventArg.ZoneUID = Guid.Empty;
+				createZoneEventArg.ZoneUID = Guid.Empty;
 			}
 		}
 		public void EditZone(Guid zoneUID)
@@ -116,20 +116,20 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-        private bool editingEnabled;
-        public bool EditingEnabled
-	    {
-	        get
-	        {
-                return editingEnabled;
-	        }
-            set
-            {
-                editingEnabled = value;
-                OnPropertyChanged("EditingEnabled");
-            }
-	    }
-       
+		private bool editingEnabled;
+		public bool EditingEnabled
+		{
+			get
+			{
+				return editingEnabled;
+			}
+			set
+			{
+				editingEnabled = value;
+				OnPropertyChanged("EditingEnabled");
+			}
+		}
+
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
@@ -145,26 +145,26 @@ namespace DevicesModule.ViewModels
 		public RelayCommand DeleteCommand { get; private set; }
 		void OnDelete()
 		{
-		    string title = "Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName + "?";
-            if(Zones.Count(zone => zone.IsSelected == true) > 1)
-                title = "Вы уверены, что хотите удалить выбранные зоны?";
+			string title = "Вы уверены, что хотите удалить зону " + SelectedZone.Zone.PresentationName + "?";
+			if (Zones.Count(zone => zone.IsSelected == true) > 1)
+				title = "Вы уверены, что хотите удалить выбранные зоны?";
 			var dialogResult = MessageBoxService.ShowQuestion(title);
 			if (dialogResult == MessageBoxResult.Yes)
 			{
-			    var tempZones = new ObservableCollection<ZoneViewModel>(Zones);
-                foreach (var zoneViewModel in Zones)
-                {
-                    if (zoneViewModel.IsSelected)
-                    {
-                        FiresecManager.FiresecConfiguration.RemoveZone(zoneViewModel.Zone);
-                        tempZones.Remove(zoneViewModel);
-                    }
-                }
-                Zones = new ObservableCollection<ZoneViewModel>(tempZones);
-                SelectedZone = Zones.FirstOrDefault();
-                ZoneDevices.UpdateAvailableDevices();
-                ServiceFactory.SaveService.DevicesChanged = true;
-                FiresecManager.FiresecConfiguration.InvalidateConfiguration();
+				var tempZones = new ObservableCollection<ZoneViewModel>(Zones);
+				foreach (var zoneViewModel in Zones)
+				{
+					if (zoneViewModel.IsSelected)
+					{
+						FiresecManager.FiresecConfiguration.RemoveZone(zoneViewModel.Zone);
+						tempZones.Remove(zoneViewModel);
+					}
+				}
+				Zones = new ObservableCollection<ZoneViewModel>(tempZones);
+				SelectedZone = Zones.FirstOrDefault();
+				ZoneDevices.UpdateAvailableDevices();
+				ServiceFactory.SaveService.DevicesChanged = true;
+				FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 			}
 		}
 
@@ -181,7 +181,7 @@ namespace DevicesModule.ViewModels
 			if (dialogResult == MessageBoxResult.Yes)
 			{
 				var emptyZones = new List<ZoneViewModel>(
-                    Zones.Where(zone => FiresecManager.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneUID == zone.Zone.UID) == false)
+					Zones.Where(zone => FiresecManager.Devices.Any(x => x.Driver.IsZoneDevice && x.ZoneUID == zone.Zone.UID) == false)
 				);
 				foreach (var emptyZone in emptyZones)
 				{
@@ -208,12 +208,12 @@ namespace DevicesModule.ViewModels
 				ZonesMenuView.Current.AcceptKeyboard = false;
 		}
 
-        #region ISelectable<Guid> Members
+		#region ISelectable<Guid> Members
 
-        public void Select(Guid zoneUID)
+		public void Select(Guid zoneUID)
 		{
-            if (zoneUID != Guid.Empty)
-                SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
+			if (zoneUID != Guid.Empty)
+				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 		}
 
 		#endregion

@@ -12,7 +12,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <Controls:XDataGrid Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionMode="Extended" CanUserSortColumns="True" VirtualizingStackPanel.IsVirtualizing="False">
+            <Controls:XDataGrid Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionMode="Extended" CanUserSortColumns="True">
                 <DataGrid.Resources>
                     <Style TargetType="DataGridRow">
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />

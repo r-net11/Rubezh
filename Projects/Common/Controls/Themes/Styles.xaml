@@ -30,7 +30,10 @@
         <ResourceDictionary Source="ContextMenuStyle.xaml" />
         <ResourceDictionary Source="ResizeThumbStyle.xaml" />
 		<ResourceDictionary Source="SeparatorStyle.xaml" />
+		<ResourceDictionary Source="HeaderedScrollViewerStyle.xaml" />
+		<ResourceDictionary Source="GridViewColumnHeaderStyle.xaml" />
 		<ResourceDictionary Source="TreeListViewStyle.xaml" />
+		<ResourceDictionary Source="ListViewStyle.xaml" />
 
 		<ResourceDictionary Source="../Menu/DataTemplates/Dictionary.xaml" />
 	</ResourceDictionary.MergedDictionaries>

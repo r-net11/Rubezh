@@ -30,9 +30,9 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
-		<TabControl SelectedIndex="2">
-			<TabItem Header="GridTreeView">
-				<c:TreeListView ItemsSource="{Binding Devices}" ItemTemplate="{StaticResource dt}" RowHeight="19">
+		<TabControl>
+			<TabItem Header="TreeListView">
+				<c:TreeListView ItemsSource="{Binding Devices}" ItemTemplate="{StaticResource dt}">
 					<c:TreeListView.Resources>
 						<Style BasedOn="{StaticResource {x:Type c:TreeListViewItem}}" TargetType="{x:Type c:TreeListViewItem}">
 							<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
@@ -155,7 +155,7 @@
 					</c:TreeListView.Columns>
 				</c:TreeListView>
 			</TabItem>
-			<TabItem Header="GridTreeView Expanded">
+			<TabItem Header="TreeListView Expanded">
 				<c:TreeListView Grid.Row="1" ItemsSource="{Binding Devices2}" ItemTemplate="{StaticResource dt}" RowHeight="19">
 					<c:TreeListView.Resources>
 						<Style BasedOn="{StaticResource {x:Type c:TreeListViewItem}}" TargetType="{x:Type c:TreeListViewItem}">
@@ -275,30 +275,24 @@
 				</c:TreeListView>
 			</TabItem>
 			<TabItem Header="ListView">
-				<TabItem.Resources>
-
-				</TabItem.Resources>
 				<ListView ItemsSource="{Binding Zones}">
 					<ListView.View>
 						<GridView>
-							<GridViewColumn Header="№" DisplayMemberBinding="{Binding Zone.No}" />
-							<GridViewColumn Header="Наименование" DisplayMemberBinding="{Binding Zone.Name}" />
-							<GridViewColumn Header="Примечание" DisplayMemberBinding="{Binding Zone.Description}" />
-							<GridViewColumn Header="Число ИП для перехода в пожар" DisplayMemberBinding="{Binding DetectorCount}" />
+							<GridViewColumn DisplayMemberBinding="{Binding Zone.No}" Header="№" />
+							<GridViewColumn DisplayMemberBinding="{Binding Zone.Name}" Header="Наименование" />
+							<GridViewColumn DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" />
+							<GridViewColumn DisplayMemberBinding="{Binding DetectorCount}" Header="Число ИП для перехода в пожар" />
 						</GridView>
 					</ListView.View>
 				</ListView>
 			</TabItem>
-			<TabItem Header="ListView">
-				<TabItem.Resources>
-
-				</TabItem.Resources>
-				<DataGrid ItemsSource="{Binding Zones}">
+			<TabItem Header="DataGrid">
+				<DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Zones}">
 					<DataGrid.Columns>
-						<DataGridTextColumn Header="№" Width="1*" Binding="{Binding Zone.No}" />
-						<DataGridTextColumn Header="Наименование" Width="2*" Binding="{Binding Zone.Name}" />
-						<DataGridTextColumn Header="Примечание" Width="2*" Binding="{Binding Zone.Description}" />
-						<DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding DetectorCount}" />
+						<DataGridTextColumn Width="1*" Binding="{Binding Zone.No}" Header="№" />
+						<DataGridTextColumn Width="2*" Binding="{Binding Zone.Name}" Header="Наименование" />
+						<DataGridTextColumn Width="2*" Binding="{Binding Zone.Description}" Header="Примечание" />
+						<DataGridTextColumn Width="2*" Binding="{Binding DetectorCount}" Header="Число ИП для перехода в пожар" />
 					</DataGrid.Columns>
 				</DataGrid>
 			</TabItem>

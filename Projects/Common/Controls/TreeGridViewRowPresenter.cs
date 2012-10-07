@@ -25,7 +25,7 @@ namespace Controls
 			childs = new UIElementCollection(this, this);
 			DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(ColumnsProperty, typeof(TreeGridViewRowPresenter));
 			if (dpd != null)
-				dpd.AddValueChanged(this, (s, e) => EnsureLines(Columns.Count));
+				dpd.AddValueChanged(this, (s, e) => EnsureLines());
 		}
 
 		public Double FirstColumnIndent
@@ -79,8 +79,9 @@ namespace Controls
 				line.Style = style;
 			}
 		}
-		private void EnsureLines(int count)
+		private void EnsureLines()
 		{
+			int count = Columns == null ? 0 : Columns.Count;
 			count = count - _lines.Count;
 			for (var i = 0; i < count; i++)
 			{
@@ -162,8 +163,6 @@ namespace Controls
 		protected override Visual GetVisualChild(int index)
 		{
 			var count = base.VisualChildrenCount;
-			// Last element is always the expander
-			// called by render engine
 			if (index < count)
 				return base.GetVisualChild(index);
 			else if (index - count < _lines.Count)
@@ -175,12 +174,21 @@ namespace Controls
 		{
 			get
 			{
-				// Last element is always the expander
 				if (Expander != null)
 					return base.VisualChildrenCount + 1 + _lines.Count;
 				else
 					return base.VisualChildrenCount + _lines.Count;
 			}
+		}
+		protected override void OnVisualChildrenChanged(DependencyObject visualAdded, DependencyObject visualRemoved)
+		{
+			if (visualAdded != null)
+			{
+				var textBlock = visualAdded as TextBlock;
+				if (textBlock != null)
+					textBlock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+			}
+			base.OnVisualChildrenChanged(visualAdded, visualRemoved);
 		}
 	}
 }

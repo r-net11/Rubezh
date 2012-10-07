@@ -116,7 +116,7 @@ namespace Controls
 		}
 		private void OnResizeColumns(object sender, EventArgs e)
 		{
-			ResizeColumns(sender == Columns[Columns.Count - 1]);
+			ResizeColumns(Columns != null && sender == Columns[Columns.Count - 1]);
 		}
 
 		private ScrollViewer FindScroller(DependencyObject start)
