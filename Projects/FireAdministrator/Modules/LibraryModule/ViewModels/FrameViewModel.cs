@@ -20,24 +20,6 @@ namespace LibraryModule.ViewModels
 
         public LibraryFrame Frame { get; private set; }
 
-		public bool IsLayerEditingVisible
-		{
-			get { return ServiceFactory.AppSettings.IsDebug || ServiceFactory.AppSettings.IsExpertMode; }
-		}
-
-        public int Layer
-        {
-            get { return Frame.Layer; }
-            set
-            {
-                if (value != Frame.Layer)
-                {
-                    Frame.Layer = value;
-                    ServiceFactory.SaveService.LibraryChanged = true;
-                }
-            }
-        }
-
         public int Duration
         {
             get { return Frame.Duration; }
@@ -55,8 +37,8 @@ namespace LibraryModule.ViewModels
         {
             get
             {
-                try { return ImageConverters.Xml2Canvas(Frame.Image, Frame.Layer); }
-                catch { return ImageConverters.Xml2Canvas(ErrorFrame, Frame.Layer); }
+                try { return ImageConverters.Xml2Canvas(Frame.Image); }
+                catch { return ImageConverters.Xml2Canvas(ErrorFrame); }
             }
         }
 

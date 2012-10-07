@@ -22,7 +22,7 @@ namespace DeviceControls
             _frames = state.Frames;
             foreach (var frame in _frames)
             {
-                var canvas = Helper.Xml2Canvas(frame.Image, frame.Layer);
+                var canvas = Helper.Xml2Canvas(frame.Image);
                 if (canvas.Children.Count == 0)
                 {
                     canvas.Background = Brushes.White;

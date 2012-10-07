@@ -50,6 +50,24 @@ namespace LibraryModule.ViewModels
             }
         }
 
+        public bool IsLayerEditingVisible
+        {
+            get { return ServiceFactory.AppSettings.IsDebug || ServiceFactory.AppSettings.IsExpertMode; }
+        }
+
+        public int Layer
+        {
+            get { return State.Layer; }
+            set
+            {
+                if (value != State.Layer)
+                {
+                    State.Layer = value;
+                    ServiceFactory.SaveService.LibraryChanged = true;
+                }
+            }
+        }
+
         public ObservableCollection<FrameViewModel> Frames { get; private set; }
 
         FrameViewModel _selectedFrame;
