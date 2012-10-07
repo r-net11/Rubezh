@@ -63,8 +63,6 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="Controls\EditorAdorner.cs" />
-    <Compile Include="Controls\EditorPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,10 +1,14 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.ComponentModel;
+using System.Collections.Specialized;
+using System.Windows.Media;
 
 namespace Controls
 {
 	public class TreeListView : TreeView
 	{
+		private const int MinColumnWidth = 20;
 		public static readonly DependencyProperty IsHeaderVisibleProperty = DependencyProperty.Register("IsHeaderVisible", typeof(bool), typeof(TreeListView), new FrameworkPropertyMetadata(true));
 		public virtual bool IsHeaderVisible
 		{
@@ -48,7 +52,7 @@ namespace Controls
 		{
 			return item is TreeListViewItem;
 		}
-		protected override void OnItemsChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+		protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
 		{
 			base.OnItemsChanged(e);
 		}

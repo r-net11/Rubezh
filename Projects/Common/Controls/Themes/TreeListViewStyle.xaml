@@ -228,6 +228,9 @@
 		<Setter Property="ScrollViewer.CanContentScroll" Value="True" />
 		<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />
 		<Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling" />
+		<Setter Property="Controls:ListViewLayoutManager.Enabled" Value="True" />
+		<Setter Property="Controls:ListViewLayoutManager.MinWidth" Value="50" />
+		<Setter Property="Controls:ListViewLayoutManager.Columns" Value="{Binding Columns, RelativeSource={RelativeSource Self}}" />
 		<Setter Property="Control.Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="Controls:TreeListView">
@@ -237,7 +240,7 @@
 							<Grid.OpacityMask>
 								<VisualBrush Visual="{Binding Source={x:Reference Bd}}" />
 							</Grid.OpacityMask>
-							<ScrollViewer Background="{TemplateBinding Background}" CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Style="{StaticResource scroll}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
+							<ScrollViewer Name="scroller" Background="{TemplateBinding Background}" CanContentScroll="True" Focusable="False" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Style="{StaticResource scroll}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
 								<ItemsPresenter SnapsToDevicePixels="{TemplateBinding UIElement.SnapsToDevicePixels}" />
 							</ScrollViewer>
 						</Grid>

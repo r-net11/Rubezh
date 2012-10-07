@@ -21,7 +21,16 @@ namespace DiagnosticsModule.ViewModels
 			Devices = BuildTree();
 			Devices2 = BuildTree();
 			ExpandCollapse(Devices2);
+
+			Zones = new ObservableCollection<ZoneViewModel>(
+				from zone in FiresecManager.Zones
+				orderby zone.No
+				select new ZoneViewModel(zone));
+			for (int i = 0; i < 1000; i++)
+				Zones.Add(Zones[0]);
 		}
+
+		public ObservableCollection<ZoneViewModel> Zones { get; private set; }
 
 		public ObservableCollection<DeviceViewModel2> Devices { get; private set; }
 		public ObservableCollection<DeviceViewModel2> Devices2 { get; private set; }
@@ -31,8 +40,9 @@ namespace DiagnosticsModule.ViewModels
 			var devices = new ObservableCollection<DeviceViewModel2>();
 			var deviceViewModel = AddDevice(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice);
 			devices.Add(deviceViewModel);
-			for (int i = 0; i < 1000; i++)
-				deviceViewModel.Children[0].Children.Add(deviceViewModel.Children[0].Children[0]);
+			if (deviceViewModel.Children.Count > 0 && deviceViewModel.Children[0].Children.Count > 0)
+				for (int i = 0; i < 1000; i++)
+					deviceViewModel.Children[0].Children.Add(deviceViewModel.Children[0].Children[0]);
 			return devices;
 		}
 		private void ExpandCollapse(ObservableCollection<DeviceViewModel2> devices)
@@ -49,7 +59,7 @@ namespace DiagnosticsModule.ViewModels
 		{
 			var deviceViewModel = new DeviceViewModel2(device);
 			foreach (var childDevice in device.Children)
-					deviceViewModel.Children.Add(AddDevice(childDevice));
+				deviceViewModel.Children.Add(AddDevice(childDevice));
 			return deviceViewModel;
 		}
 	}

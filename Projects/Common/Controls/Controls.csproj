@@ -120,6 +120,8 @@
     <Compile Include="Converters\StateToColorConverter.cs" />
     <Compile Include="Converters\StateTypeToIconConverter.cs" />
     <Compile Include="Converters\StateTypeToIntConverter.cs" />
+    <Compile Include="EditorPresenter.cs" />
+    <Compile Include="ListViewLayoutManager.cs" />
     <Compile Include="Menu\ViewModels\MenuButtonViewModel.cs" />
     <Compile Include="Menu\ViewModels\MenuSeparatorViewModel.cs" />
     <Compile Include="Menu\ViewModels\MenuViewModel.cs" />
