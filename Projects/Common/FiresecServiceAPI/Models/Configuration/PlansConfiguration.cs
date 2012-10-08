@@ -36,13 +36,18 @@ namespace FiresecAPI.Models
             }
         }
 
-		public override void ValidateVersion()
+		public override bool ValidateVersion()
 		{
+			bool result = true;
 			foreach (var plan in Plans)
 			{
 				if (plan.ElementXDevices == null)
+				{
 					plan.ElementXDevices = new List<ElementXDevice>();
+					result = false;
+				}
 			}
+			return result;
 		}
     }
 }

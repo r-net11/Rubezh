@@ -10,9 +10,9 @@ namespace FiresecAPI
             Version = new ConfigurationVersion();
         }
 
-        public virtual void ValidateVersion()
+        public virtual bool ValidateVersion()
         {
-
+			return true;
         }
 
         [DataMember]

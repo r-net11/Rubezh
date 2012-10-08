@@ -34,10 +34,10 @@ namespace FiresecAPI.Models
 		[DataMember]
 		public XDeviceConfiguration XDeviceConfiguration { get; set; }
 
-		public override void ValidateVersion()
+		public override bool ValidateVersion()
 		{
-			DeviceConfiguration.ValidateVersion();
-			XDeviceConfiguration.ValidateVersion();
+			return DeviceConfiguration.ValidateVersion() &&
+			XDeviceConfiguration.ValidateVersion() &&
 			PlansConfiguration.ValidateVersion();
 		}
 	}

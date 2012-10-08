@@ -15,10 +15,6 @@
                         <DataGridTextColumn Binding="{Binding ClientType}" Header="Тип" />
                         <DataGridTextColumn Binding="{Binding IpAddress}" Header="Адрес" />
                         <DataGridTextColumn Binding="{Binding UserName}" Header="Пользователь" Width="*" />
-                        <DataGridTextColumn Binding="{Binding ConnectionDate}" Header="Время" Width="*" />
-                        <DataGridTextColumn Binding="{Binding ClientToServerOperationName}" Header="Операция клиент-сервер" Width="*" />
-                        <DataGridTextColumn Binding="{Binding ServerToClientOperationName}" Header="Операция сервер-клиент" Width="*" />
-                        <DataGridTextColumn Binding="{Binding State}" Header="Связь" Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>

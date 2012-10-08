@@ -22,12 +22,10 @@ namespace FiresecService.Service
 
         public void BeginOperation(string operationName)
         {
-            MainViewModel.Current.BeginAddOperation(FiresecService.UID, operationName);
         }
 
         public void EndOperation()
         {
-            MainViewModel.Current.EndAddOperation(FiresecService.UID);
         }
 
         public OperationResult<T> CreateEmptyOperationResult<T>(string message)

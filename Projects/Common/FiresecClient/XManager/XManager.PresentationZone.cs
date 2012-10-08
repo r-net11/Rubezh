@@ -44,6 +44,7 @@ namespace FiresecClient
                 stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
                 stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
                 stringBuilder.Append(GetCommaSeparatedZones(clause.Zones));
+				stringBuilder.Append(GetCommaSeparatedDirections(clause.Directions));
             }
             return stringBuilder.ToString();
         }
@@ -108,6 +109,20 @@ namespace FiresecClient
 					stringBuilder.Append(", ");
 				stringBuilder.Append(device.Driver.ShortName + device.DottedAddress);
 				deviceCount++;
+			}
+			return stringBuilder.ToString();
+		}
+
+		public static string GetCommaSeparatedDirections(IEnumerable<XDirection> directions)
+		{
+			var stringBuilder = new StringBuilder();
+			var directionCount = 0;
+			foreach (var direction in directions)
+			{
+				if (directionCount > 0)
+					stringBuilder.Append(", ");
+				stringBuilder.Append(direction.PresentationName);
+				directionCount++;
 			}
 			return stringBuilder.ToString();
 		}

@@ -42,20 +42,21 @@ namespace FiresecClient
 			return newDevice;
 		}
 
-		public static XDevice AddChild(XDevice parentXDevice, XDriver newXDriver, byte shleifNo, byte intAddress)
+		public static XDevice AddChild(XDevice parentDevice, XDriver driver, byte shleifNo, byte intAddress)
 		{
-			var xDevice = new XDevice()
+			var device = new XDevice()
 			{
-				DriverUID = newXDriver.UID,
-				Driver = newXDriver,
+				DriverUID = driver.UID,
+				Driver = driver,
 				ShleifNo = shleifNo,
 				IntAddress = intAddress,
-				Parent = parentXDevice
+				Parent = parentDevice
 			};
-			parentXDevice.Children.Add(xDevice);
-			AddAutoCreateChildren(xDevice);
+			device.InitializeDefaultProperties();
+			parentDevice.Children.Add(device);
+			AddAutoCreateChildren(device);
 
-			return xDevice;
+			return device;
 		}
 
 		static void AddAutoCreateChildren(XDevice xDevice)

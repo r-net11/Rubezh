@@ -24,6 +24,10 @@ namespace GKModule.ViewModels
             RemoveCommand = new RelayCommand<ClauseViewModel>(OnRemove);
             ChangeJoinOperatorCommand = new RelayCommand(OnChangeJoinOperator);
 
+			if(device.DeviceLogic.Clauses.Count == 0)
+			{
+				device.DeviceLogic.Clauses.Add(new XClause());
+			}
             Clauses = new ObservableCollection<ClauseViewModel>();
             foreach (var clause in device.DeviceLogic.Clauses)
             {
@@ -33,7 +37,6 @@ namespace GKModule.ViewModels
         }
 
         public DeviceLogicViewModel _deviceDetailsViewModel { get; private set; }
-
         public ObservableCollection<ClauseViewModel> Clauses { get; private set; }
 
         public RelayCommand AddCommand { get; private set; }
@@ -95,24 +98,16 @@ namespace GKModule.ViewModels
                 {
                     ClauseConditionType = clauseViewModel.SelectedClauseConditionType,
                     StateType = clauseViewModel.SelectedStateType,
+					Zones = clauseViewModel.Zones.ToList(),
                     Devices = clauseViewModel.Devices.ToList(),
-                    Zones = clauseViewModel.Zones.ToList(),
+					Directions = clauseViewModel.Directions.ToList(),
+					ZoneUIDs = clauseViewModel.Zones.Select(x => x.UID).ToList(),
                     DeviceUIDs = clauseViewModel.Devices.Select(x => x.UID).ToList(),
-                    ZoneUIDs = clauseViewModel.Zones.Select(x => x.UID).ToList(),
+					DirectionUIDs = clauseViewModel.Directions.Select(x => x.UID).ToList(),
                     ClauseJounOperationType = clauseViewModel.SelectedClauseJounOperationType,
                     ClauseOperationType = clauseViewModel.SelectedClauseOperationType
                 };
-                foreach (var deviceUID in clause.DeviceUIDs)
-                {
-                    var decvice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-                    clause.Devices.Add(decvice);
-                }
-                foreach (var zoneUID in clause.ZoneUIDs)
-                {
-                    var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-                    clause.Zones.Add(zone);
-                }
-                if ((clause.DeviceUIDs.Count > 0) || (clause.ZoneUIDs.Count > 0))
+                if (clause.ZoneUIDs.Count > 0 || clause.DeviceUIDs.Count > 0 || clause.DirectionUIDs.Count > 0)
                     deviceLogic.Clauses.Add(clause);
             }
 

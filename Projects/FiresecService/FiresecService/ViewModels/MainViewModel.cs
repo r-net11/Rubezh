@@ -56,9 +56,7 @@ namespace FiresecService.ViewModels
 					FiresecService = firesecService,
 					UID = firesecService.UID,
 					UserName = firesecService.ClientCredentials.UserName,
-					ClientType = firesecService.ClientCredentials.ClientType,
 					IpAddress = firesecService.ClientIpAddressAndPort,
-					ConnectionDate = DateTime.Now
 				};
 				Clients.Add(connectionViewModel);
 			}
@@ -80,50 +78,7 @@ namespace FiresecService.ViewModels
 			delegate()
 			{
 				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
-				connectionViewModel.ConnectionDate = DateTime.Now;
 				connectionViewModel.UserName = userName;
-			}
-			));
-		}
-
-		public void BeginAddOperation(Guid uid, string operationName)
-		{
-			Dispatcher.BeginInvoke(new Action(
-			delegate()
-			{
-				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
-				if (connectionViewModel != null)
-				{
-					connectionViewModel.BeginAddOperation(operationName);
-				}
-			}
-			));
-		}
-
-		public void EndAddOperation(Guid uid)
-		{
-			Dispatcher.BeginInvoke(new Action(
-			delegate()
-			{
-				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
-				if (connectionViewModel != null)
-				{
-					connectionViewModel.EndAddOperation();
-				}
-			}
-			));
-		}
-
-		public void UpdateClientState(Guid uid, string state)
-		{
-			Dispatcher.BeginInvoke(new Action(
-			delegate()
-			{
-				var connectionViewModel = MainViewModel.Current.Clients.FirstOrDefault(x => x.UID == uid);
-				if (connectionViewModel != null)
-				{
-					connectionViewModel.State = state;
-				}
 			}
 			));
 		}

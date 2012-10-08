@@ -13,17 +13,20 @@ namespace GKModule.ViewModels
 	{
 		public List<XZone> Zones { get; set; }
 		public List<XDevice> Devices { get; set; }
+		public List<XDirection> Directions { get; set; }
 
 		public ClauseViewModel(XClause clause)
 		{
 			SelectZonesCommand = new RelayCommand(OnSelectZones);
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
+			SelectDirectionCommand = new RelayCommand(OnSelectDirections);
 
 			SelectedStateType = clause.StateType;
 			SelectedClauseJounOperationType = clause.ClauseJounOperationType;
 			SelectedClauseOperationType = clause.ClauseOperationType;
 			Zones = clause.Zones.ToList();
 			Devices = clause.Devices.ToList();
+			Directions = clause.Directions.ToList();
 
             ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
             ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
@@ -79,18 +82,28 @@ namespace GKModule.ViewModels
 					case ClauseOperationType.AllDevices:
 					case ClauseOperationType.AnyDevice:
 						Zones = new List<XZone>();
+						Directions = new List<XDirection>();
 						break;
 
 					case ClauseOperationType.AllZones:
 					case ClauseOperationType.AnyZone:
+						Devices = new List<XDevice>();
+						Directions = new List<XDirection>();
+						break;
+
+					case ClauseOperationType.AllDirections:
+					case ClauseOperationType.AnyDirection:
+						Zones = new List<XZone>();
 						Devices = new List<XDevice>();
 						break;
 				}
 				OnPropertyChanged("SelectedClauseOperationType");
 				OnPropertyChanged("PresenrationZones");
 				OnPropertyChanged("PresenrationDevices");
+				OnPropertyChanged("PresenrationDirections");
 				OnPropertyChanged("CanSelectZones");
 				OnPropertyChanged("CanSelectDevices");
+				OnPropertyChanged("CanSelectDirections");
 			}
 		}
 
@@ -128,6 +141,11 @@ namespace GKModule.ViewModels
 			get { return XManager.GetCommaSeparatedDevices(Devices); }
 		}
 
+		public string PresenrationDirections
+		{
+			get { return XManager.GetCommaSeparatedDirections(Directions); }
+		}
+
 		public bool CanSelectZones
 		{
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllZones || SelectedClauseOperationType == ClauseOperationType.AnyZone); }
@@ -136,6 +154,11 @@ namespace GKModule.ViewModels
 		public bool CanSelectDevices
 		{
 			get { return (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice); }
+		}
+
+		public bool CanSelectDirections
+		{
+			get { return (SelectedClauseOperationType == ClauseOperationType.AllDirections || SelectedClauseOperationType == ClauseOperationType.AnyDirection); }
 		}
 
 		public RelayCommand SelectZonesCommand { get; private set; }
@@ -157,6 +180,17 @@ namespace GKModule.ViewModels
 			{
 				Devices = devicesSelectationViewModel.DevicesList;
 				OnPropertyChanged("PresenrationDevices");
+			}
+		}
+
+		public RelayCommand SelectDirectionCommand { get; private set; }
+		void OnSelectDirections()
+		{
+			var directionsSelectationViewModel = new DirectionsSelectationViewModel(Directions);
+			if (DialogService.ShowModalWindow(directionsSelectationViewModel))
+			{
+				Directions = directionsSelectationViewModel.Directions;
+				OnPropertyChanged("PresenrationDirections");
 			}
 		}
 	}

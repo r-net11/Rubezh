@@ -48,7 +48,7 @@ namespace FiresecClient
 
 		public static void AddDevice(XDevice device)
 		{
-
+			device.InitializeDefaultProperties();
 		}
 
 		public static void RemoveDevice(XDevice parentDevice, XDevice device)

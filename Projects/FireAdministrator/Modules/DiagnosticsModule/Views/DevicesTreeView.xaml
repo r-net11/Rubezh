@@ -1,4 +1,10 @@
-﻿<UserControl x:Class="DiagnosticsModule.Views.DevicesTreeView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:c="clr-namespace:Controls;assembly=Controls" xmlns:Views="clr-namespace:DevicesModule.Views;assembly=DevicesModule" MinWidth="600" MinHeight="600">
+﻿<UserControl x:Class="DiagnosticsModule.Views.DevicesTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:c="clr-namespace:Controls;assembly=Controls"
+             xmlns:Views="clr-namespace:DevicesModule.Views;assembly=DevicesModule"
+             MinWidth="600"
+             MinHeight="600">
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="DeviceContextMenu">
@@ -86,7 +92,7 @@
 										<c:EditorPresenter.EditTemplate>
 											<ControlTemplate>
 												<Grid>
-													<Views:AddressEditor Address="{Binding Address}" Device="{Binding Device}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+													<Views:AddressEditor Address="{Binding Address, UpdateSourceTrigger=Default}" Device="{Binding Device}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
 													<TextBlock Text="{Binding Address}" Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 												</Grid>
 											</ControlTemplate>

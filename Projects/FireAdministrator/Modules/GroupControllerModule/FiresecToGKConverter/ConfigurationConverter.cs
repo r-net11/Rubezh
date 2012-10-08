@@ -108,6 +108,7 @@ namespace GKModule.Converter
             {
                 var xZone = new XZone()
                 {
+					UID = zone.UID,
                     No = (ushort)zone.No,
                     Name = zone.Name,
                     Description = zone.Description,

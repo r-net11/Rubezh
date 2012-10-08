@@ -9,12 +9,14 @@ namespace XFiresecAPI
 		public XDeviceLogic()
 		{
             Clauses = new List<XClause>();
-			DependentDevices = new List<XDevice>();
 			DependentZones = new List<XZone>();
+			DependentDevices = new List<XDevice>();
+			DependentDirections = new List<XDirection>();
 		}
 
-		public List<XDevice> DependentDevices { get; set; }
 		public List<XZone> DependentZones { get; set; }
+		public List<XDevice> DependentDevices { get; set; }
+		public List<XDirection> DependentDirections { get; set; }
 
         [DataMember]
         public List<XClause> Clauses { get; set; }

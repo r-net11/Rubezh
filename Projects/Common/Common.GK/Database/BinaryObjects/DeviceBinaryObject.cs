@@ -180,6 +180,11 @@ namespace Common.GK
 
 		void SetPropertiesBytes()
 		{
+			if (Device.Driver.DriverType == XDriverType.MRO)
+			{
+				;
+			}
+
 			var binProperties = new List<BinProperty>();
 
             foreach (var property in Device.Properties)
@@ -187,7 +192,6 @@ namespace Common.GK
                 var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
                 if (driverProperty != null)
                 {
-                    
 					if (driverProperty.IsAUParameter)
                     {
                         byte no = driverProperty.No;

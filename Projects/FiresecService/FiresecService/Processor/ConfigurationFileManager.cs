@@ -116,30 +116,35 @@ namespace FiresecService.Configuration
             Set<XDeviceConfiguration>(deviceConfiguration, XDeviceConfigurationFileName);
         }
 
-        public static T Get<T>(string fileName)
-            where T : VersionedConfiguration, new()
-        {
-            try
-            {
-                if (File.Exists(ConfigurationDirectory(fileName)))
-                {
-                    using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Open))
-                    {
-                        var dataContractSerializer = new DataContractSerializer(typeof(T));
-                        T configuration = (T)dataContractSerializer.ReadObject(fileStream);
-                        configuration.ValidateVersion();
-                        return configuration;
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "Исключение при вызове ConfigurationFileManager.Get<T> typeof(T) = " + typeof(T).ToString());
-            }
-            T newConfiguration = new T();
-            Set<T>(newConfiguration, fileName);
-            return newConfiguration;
-        }
+		public static T Get<T>(string fileName)
+			where T : VersionedConfiguration, new()
+		{
+			try
+			{
+				if (File.Exists(ConfigurationDirectory(fileName)))
+				{
+					T configuration = null;
+					using (var fileStream = new FileStream(ConfigurationDirectory(fileName), FileMode.Open))
+					{
+						var dataContractSerializer = new DataContractSerializer(typeof(T));
+						configuration = (T)dataContractSerializer.ReadObject(fileStream);
+					}
+					var result = configuration.ValidateVersion();
+					if (!result)
+					{
+						Set<T>(configuration, fileName);
+					}
+					return configuration;
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "Исключение при вызове ConfigurationFileManager.Get<T> typeof(T) = " + typeof(T).ToString());
+			}
+			T newConfiguration = new T();
+			Set<T>(newConfiguration, fileName);
+			return newConfiguration;
+		}
 
         public static void Set<T>(T configuration, string fileName)
             where T : VersionedConfiguration

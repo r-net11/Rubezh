@@ -244,6 +244,22 @@ namespace XFiresecAPI
 			}
 		}
 
+		public void InitializeDefaultProperties()
+		{
+			foreach (var driverProperty in Driver.Properties)
+			{
+				if (Properties.Any(x => x.Name == driverProperty.Name) == false)
+				{
+					var property = new XProperty()
+					{
+						Name = driverProperty.Name,
+						Value = driverProperty.Default
+					};
+					Properties.Add(property);
+				}
+			}
+		}
+
 		public void OnChanged()
 		{
 			if (Changed != null)

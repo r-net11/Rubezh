@@ -68,6 +68,10 @@
     <Compile Include="BinConfigurationWriter.cs" />
     <Compile Include="Converters\ClauseConditionConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Devices\ViewModels\Logic\DirectionsSelectationViewModel.cs" />
+    <Compile Include="Devices\Views\Logic\DirectionsSelectationView.xaml.cs">
+      <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Directions\ViewModels\DirectionDeviceSelectationViewModel.cs" />
     <Compile Include="Directions\Views\DirectionDeviceSelectationView.xaml.cs">
       <DependentUpon>DirectionDeviceSelectationView.xaml</DependentUpon>
@@ -103,9 +107,6 @@
     </Compile>
     <Compile Include="Devices\Views\Logic\DevicesSelectationView.xaml.cs">
       <DependentUpon>DevicesSelectationView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Devices\Views\Logic\StateLogicView.xaml.cs">
-      <DependentUpon>StateLogicView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\Views\Logic\ZonesSelectationView.xaml.cs">
       <DependentUpon>ZonesSelectationView.xaml</DependentUpon>
@@ -255,7 +256,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Devices\Views\Logic\StateLogicView.xaml">
+    <Page Include="Devices\Views\Logic\DirectionsSelectationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

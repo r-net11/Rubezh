@@ -52,34 +52,69 @@ namespace XFiresecAPI
             }
         }
 
-        public override void ValidateVersion()
+        public override bool ValidateVersion()
         {
-            if (JournalFilters == null)
-                JournalFilters = new List<XJournalFilter>();
+			bool result = true;
+
+			if (JournalFilters == null)
+			{
+				JournalFilters = new List<XJournalFilter>();
+				result = false;
+			}
 
 			if (Devices == null)
+			{
 				Devices = new List<XDevice>();
+				result = false;
+			}
 			if (Zones == null)
+			{
 				Zones = new List<XZone>();
+				result = false;
+			}
 			if (Directions == null)
+			{
 				Directions = new List<XDirection>();
+				result = false;
+			}
 
 			foreach (var device in Devices)
 			{
 				if (device.ZoneUIDs == null)
+				{
 					device.ZoneUIDs = new List<Guid>();
+					result = false;
+				}
 
 				if (device.DeviceLogic == null)
+				{
 					device.DeviceLogic = new XDeviceLogic();
+					result = false;
+				}
 				if (device.DeviceLogic.Clauses == null)
+				{
 					device.DeviceLogic.Clauses = new List<XClause>();
+					result = false;
+				}
 				foreach (var clause in device.DeviceLogic.Clauses)
 				{
-					if (clause.DeviceUIDs == null)
-						clause.DeviceUIDs = new List<Guid>();
-
 					if (clause.ZoneUIDs == null)
+					{
 						clause.ZoneUIDs = new List<Guid>();
+						result = false;
+					}
+
+					if (clause.DeviceUIDs == null)
+					{
+						clause.DeviceUIDs = new List<Guid>();
+						result = false;
+					}
+
+					if (clause.DirectionUIDs == null)
+					{
+						clause.DirectionUIDs = new List<Guid>();
+						result = false;
+					}
 				}
 			}
 			foreach (var zone in Zones)
@@ -87,12 +122,20 @@ namespace XFiresecAPI
 			}
 			foreach (var direction in Directions)
 			{
-				if (direction.DeviceUIDs == null)
-					direction.DeviceUIDs = new List<Guid>();
-
 				if (direction.ZoneUIDs == null)
+				{
 					direction.ZoneUIDs = new List<Guid>();
+					result = false;
+				}
+
+				if (direction.DeviceUIDs == null)
+				{
+					direction.DeviceUIDs = new List<Guid>();
+					result = false;
+				}
 			}
+
+			return result;
         }
     }
 }

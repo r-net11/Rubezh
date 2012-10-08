@@ -14,35 +14,35 @@ namespace GKModule.ViewModels
 		public List<BoolPropertyViewModel> BoolProperties { get; set; }
 		public List<EnumPropertyViewModel> EnumProperties { get; set; }
 
-		public PropertiesViewModel(XDevice xDevice)
+		public PropertiesViewModel(XDevice device)
 		{
             OneCommand = new RelayCommand(OnOne);
             TwoCommand = new RelayCommand(OnTwo);
-			XDevice = xDevice;
+			XDevice = device;
 			StringProperties = new List<StringPropertyViewModel>();
 			ShortProperties = new List<ShortPropertyViewModel>();
 			BoolProperties = new List<BoolPropertyViewModel>();
 			EnumProperties = new List<EnumPropertyViewModel>();
 
-			if (xDevice != null)
-				foreach (var driverProperty in xDevice.Driver.Properties)
+			if (device != null)
+				foreach (var driverProperty in device.Driver.Properties)
 				{
 					switch (driverProperty.DriverPropertyType)
 					{
 						case XDriverPropertyTypeEnum.EnumType:
-							EnumProperties.Add(new EnumPropertyViewModel(driverProperty, xDevice));
+							EnumProperties.Add(new EnumPropertyViewModel(driverProperty, device));
 							break;
 
 						case XDriverPropertyTypeEnum.StringType:
-							StringProperties.Add(new StringPropertyViewModel(driverProperty, xDevice));
+							StringProperties.Add(new StringPropertyViewModel(driverProperty, device));
 							break;
 
 						case XDriverPropertyTypeEnum.IntType:
-							ShortProperties.Add(new ShortPropertyViewModel(driverProperty, xDevice));
+							ShortProperties.Add(new ShortPropertyViewModel(driverProperty, device));
 							break;
 
 						case XDriverPropertyTypeEnum.BoolType:
-							BoolProperties.Add(new BoolPropertyViewModel(driverProperty, xDevice));
+							BoolProperties.Add(new BoolPropertyViewModel(driverProperty, device));
 							break;
 					}
 				}
@@ -66,6 +66,7 @@ namespace GKModule.ViewModels
             get
             {
                 bool choise1 = (StringProperties.Count == 0) &&
+							   (ShortProperties.Count == 0) &&
                                (BoolProperties.Count == 0) &&
                                (EnumProperties.Count == 0);
 

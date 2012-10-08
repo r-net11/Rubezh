@@ -44,11 +44,9 @@ namespace FiresecClient
 			{
 				DeviceConfiguration = new XDeviceConfiguration();
 			}
-			if (DeviceConfiguration.Directions == null)
-				DeviceConfiguration.Directions = new List<XDirection>();
+			DeviceConfiguration.ValidateVersion();
 
 			DeviceConfiguration.Update();
-
 			foreach (var device in DeviceConfiguration.Devices)
 			{
 				device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
@@ -66,18 +64,7 @@ namespace FiresecClient
 		{
 			foreach (var device in DeviceConfiguration.Devices)
 			{
-				foreach (var driverProperty in device.Driver.Properties)
-				{
-					if (device.Properties.Any(x => x.Name == driverProperty.Name) == false)
-					{
-						var property = new XProperty()
-						{
-							Name = driverProperty.Name,
-							Value = driverProperty.Default
-						};
-						device.Properties.Add(property);
-					}
-				}
+				device.InitializeDefaultProperties();
 			}
 		}
 

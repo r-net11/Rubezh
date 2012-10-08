@@ -19,7 +19,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Controls:ToolBarButton Grid.Row="0" Margin="2" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" />
+            <Controls:ToolBarButton Grid.Row="0" Margin="2" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Add.png" HorizontalAlignment="Left" />
             <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <ItemsControl ItemsSource="{Binding Clauses}">
                     <ItemsControl.ItemTemplate>
@@ -82,6 +82,23 @@
 															<Style.Triggers>
 																<DataTrigger Binding="{Binding PresenrationDevices}" Value="">
 																	<Setter Property="TextBlock.Text" Value="Нажмите для выбора устройств" />
+																</DataTrigger>
+															</Style.Triggers>
+														</Style>
+													</TextBlock.Style>
+												</TextBlock>
+											</Hyperlink>
+										</TextBlock>
+
+                                        <TextBlock Visibility="{Binding CanSelectDirections, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
+											<Hyperlink Command="{Binding SelectDirectionCommand}" Style="{StaticResource HyperlinkStyle}">
+												<TextBlock Margin="2">
+													<TextBlock.Style>
+														<Style>
+															<Setter Property="TextBlock.Text" Value="{Binding PresenrationDirections}" />
+															<Style.Triggers>
+																<DataTrigger Binding="{Binding PresenrationDirections}" Value="">
+																	<Setter Property="TextBlock.Text" Value="Нажмите для выбора направлений" />
 																</DataTrigger>
 															</Style.Triggers>
 														</Style>
