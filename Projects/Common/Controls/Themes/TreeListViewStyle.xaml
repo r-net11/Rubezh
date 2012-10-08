@@ -4,7 +4,7 @@
 	<Converters:DebugConverter x:Key="DebugConverter" />
 
 	<Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
-		<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+		<!--<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />-->
 		<Setter Property="Panel.Background" Value="#00FFFFFF" />
 		<Setter Property="Control.HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Converter={StaticResource DebugConverter}}" />
 		<Setter Property="Control.VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}, Converter={StaticResource DebugConverter}}" />

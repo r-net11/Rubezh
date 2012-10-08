@@ -34,7 +34,7 @@
 			<TabItem Header="Debug">
 				<Controls:TreeListView ItemsSource="{Binding Devices}" ItemTemplate="{StaticResource dt}">
 					<Controls:TreeListView.Resources>
-						<!--<Style BasedOn="{StaticResource {x:Type Controls:TreeListViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}" />-->
+						<Style BasedOn="{StaticResource {x:Type Controls:TreeListViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}" />
 					</Controls:TreeListView.Resources>
 					<Controls:TreeListView.Columns>
 						<GridViewColumn Width="250" Header="Устройство">
@@ -155,11 +155,6 @@
 			</TabItem>
 			<TabItem Header="TreeListView">
 				<Controls:TreeListView ItemsSource="{Binding Devices}" ItemTemplate="{StaticResource dt}">
-					<Controls:TreeListView.Resources>
-						<Style BasedOn="{StaticResource {x:Type Controls:TreeListViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
-							<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
-						</Style>
-					</Controls:TreeListView.Resources>
 					<Controls:TreeListView.Columns>
 						<GridViewColumn Width="250" Header="Устройство">
 							<GridViewColumn.CellTemplate>
@@ -279,11 +274,6 @@
 			</TabItem>
 			<TabItem Header="TreeListView Expanded">
 				<Controls:TreeListView Grid.Row="1" ItemsSource="{Binding Devices2}" ItemTemplate="{StaticResource dt}" RowHeight="19">
-					<Controls:TreeListView.Resources>
-						<Style BasedOn="{StaticResource {x:Type Controls:TreeListViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
-							<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
-						</Style>
-					</Controls:TreeListView.Resources>
 					<Controls:TreeListView.Columns>
 						<GridViewColumn Width="250" Header="Устройство">
 							<GridViewColumn.CellTemplate>
