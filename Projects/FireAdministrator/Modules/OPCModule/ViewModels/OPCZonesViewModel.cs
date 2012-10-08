@@ -40,14 +40,17 @@ namespace OPCModule.ViewModels
 		}
 
         #region ISelectable<Guid> Members
-
         public void Select(Guid zoneUID)
 		{
 			Initialize();
             if (zoneUID != Guid.Empty)
 				SelectedZone = Zones.FirstOrDefault(x => x.Zone.UID == zoneUID);
 		}
-
 		#endregion
+
+        public override void OnShow()
+        {
+            Initialize();
+        }
 	}
 }

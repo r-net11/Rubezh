@@ -33,7 +33,7 @@ namespace OPCModule
 				new NavigationItem("OPC сервер", null, new List<NavigationItem>()
 				{
 					new NavigationItem<ShowOPCDeviceEvent, Guid>(OPCDevicesViewModel, "Устройства","/Controls;component/Images/Tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowOPCZoneEvent, int>(OPCZonesViewModel, "Зоны","/Controls;component/Images/Zones.png", null, null, 0),
+					new NavigationItem<ShowOPCZoneEvent, Guid>(OPCZonesViewModel, "Зоны","/Controls;component/Images/Zones.png", null, null, Guid.Empty),
 				}),
 			};
 		}

@@ -170,6 +170,8 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test4Command { get; private set; }
 		void OnTest4()
 		{
+            throw new Exception("Тестовое исключение");
+
 			var firesecConfiguration = FiresecManager.FiresecDriver.ConvertBack(FiresecManager.FiresecConfiguration.DeviceConfiguration, true);
 			var stringConfig = SerializerHelper.Serialize<Firesec.Models.CoreConfiguration.config>(firesecConfiguration);
 			Text = stringConfig;

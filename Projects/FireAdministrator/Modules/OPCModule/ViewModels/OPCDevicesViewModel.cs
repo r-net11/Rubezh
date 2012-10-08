@@ -123,5 +123,10 @@ namespace OPCModule.ViewModels
 				}
 			}
 		}
+
+        public override void OnShow()
+        {
+            Initialize();
+        }
 	}
 }

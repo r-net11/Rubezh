@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Collections.ObjectModel;
 
 namespace GKModule.ViewModels
 {
@@ -21,7 +22,6 @@ namespace GKModule.ViewModels
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
 			SelectDirectionCommand = new RelayCommand(OnSelectDirections);
 
-			SelectedStateType = clause.StateType;
 			SelectedClauseJounOperationType = clause.ClauseJounOperationType;
 			SelectedClauseOperationType = clause.ClauseOperationType;
 			Zones = clause.Zones.ToList();
@@ -32,7 +32,7 @@ namespace GKModule.ViewModels
             ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
 			ClauseJounOperationTypes = Enum.GetValues(typeof(ClauseJounOperationType)).Cast<ClauseJounOperationType>().ToList();
 
-			StateTypes = new List<XStateType>();
+            StateTypes = new ObservableCollection<XStateType>();
 			StateTypes.Add(XStateType.Attention);
 			StateTypes.Add(XStateType.Fire1);
 			StateTypes.Add(XStateType.Fire2);
@@ -70,44 +70,68 @@ namespace GKModule.ViewModels
         }
 
 		ClauseOperationType _selectedClauseOperationType;
-		public ClauseOperationType SelectedClauseOperationType
-		{
-			get { return _selectedClauseOperationType; }
-			set
-			{
-				_selectedClauseOperationType = value;
+        public ClauseOperationType SelectedClauseOperationType
+        {
+            get { return _selectedClauseOperationType; }
+            set
+            {
+                _selectedClauseOperationType = value;
 
-				switch (value)
-				{
-					case ClauseOperationType.AllDevices:
-					case ClauseOperationType.AnyDevice:
-						Zones = new List<XZone>();
-						Directions = new List<XDirection>();
-						break;
+                switch (value)
+                {
+                    case ClauseOperationType.AllDevices:
+                    case ClauseOperationType.AnyDevice:
+                        Zones = new List<XZone>();
+                        Directions = new List<XDirection>();
+                        StateTypes = new ObservableCollection<XStateType>();
+                        StateTypes.Add(XStateType.Attention);
+                        StateTypes.Add(XStateType.Fire1);
+                        StateTypes.Add(XStateType.Fire2);
+                        StateTypes.Add(XStateType.Test);
+                        StateTypes.Add(XStateType.Failure);
+                        SelectedStateType = StateTypes.FirstOrDefault();
+                        break;
 
-					case ClauseOperationType.AllZones:
-					case ClauseOperationType.AnyZone:
-						Devices = new List<XDevice>();
-						Directions = new List<XDirection>();
-						break;
+                    case ClauseOperationType.AllZones:
+                    case ClauseOperationType.AnyZone:
+                        Devices = new List<XDevice>();
+                        Directions = new List<XDirection>();
+                        StateTypes = new ObservableCollection<XStateType>();
+                        StateTypes.Add(XStateType.Attention);
+                        StateTypes.Add(XStateType.Fire1);
+                        StateTypes.Add(XStateType.Fire2);
+                        SelectedStateType = StateTypes.FirstOrDefault();
+                        break;
 
-					case ClauseOperationType.AllDirections:
-					case ClauseOperationType.AnyDirection:
-						Zones = new List<XZone>();
-						Devices = new List<XDevice>();
-						break;
-				}
-				OnPropertyChanged("SelectedClauseOperationType");
-				OnPropertyChanged("PresenrationZones");
-				OnPropertyChanged("PresenrationDevices");
-				OnPropertyChanged("PresenrationDirections");
-				OnPropertyChanged("CanSelectZones");
-				OnPropertyChanged("CanSelectDevices");
-				OnPropertyChanged("CanSelectDirections");
-			}
-		}
+                    case ClauseOperationType.AllDirections:
+                    case ClauseOperationType.AnyDirection:
+                        Zones = new List<XZone>();
+                        Devices = new List<XDevice>();
+                        StateTypes = new ObservableCollection<XStateType>();
+                        StateTypes.Add(XStateType.On);
+                        SelectedStateType = StateTypes.FirstOrDefault();
+                        break;
+                }
+                OnPropertyChanged("SelectedClauseOperationType");
+                OnPropertyChanged("PresenrationZones");
+                OnPropertyChanged("PresenrationDevices");
+                OnPropertyChanged("PresenrationDirections");
+                OnPropertyChanged("CanSelectZones");
+                OnPropertyChanged("CanSelectDevices");
+                OnPropertyChanged("CanSelectDirections");
+            }
+        }
 
-		public List<XStateType> StateTypes { get; private set; }
+        ObservableCollection<XStateType> _stateTypes;
+        public ObservableCollection<XStateType> StateTypes
+        {
+            get { return _stateTypes; }
+            set
+            {
+                _stateTypes = value;
+                OnPropertyChanged("StateTypes");
+            }
+        }
 
 		XStateType _selectedStateType;
 		public XStateType SelectedStateType
