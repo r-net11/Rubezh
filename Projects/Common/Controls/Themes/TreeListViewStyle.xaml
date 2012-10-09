@@ -4,12 +4,9 @@
 
 	<Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
 		<Setter Property="Panel.Background" Value="#00FFFFFF" />
-		<Setter Property="Control.HorizontalContentAlignment" Value="Left" />
-		<Setter Property="Control.VerticalContentAlignment" Value="Center" />
-		<!--
-			<Setter Property="Control.HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
-			<Setter Property="Control.VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
-		-->
+		<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+		<Setter Property="Control.HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
+		<Setter Property="Control.VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
 		<Setter Property="Control.Padding" Value="1,0,0,0" />
 		<Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
 		<Setter Property="BorderThickness" Value="0,0,0,1" />
