@@ -14,8 +14,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x82,
-				Name = "Время переключения электропривода в положение НОРМА",
-				Caption = "Время переключения электропривода в положение НОРМА",
+				Name = "Время переключения в положение НОРМА, сек",
+				Caption = "Время переключения в положение НОРМА, сек",
 				Default = "180",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -27,8 +27,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x83,
-				Name = "Время переключения электропривода в положение ЗАЩИТА",
-				Caption = "Время переключения электропривода в положение ЗАЩИТА",
+				Name = "Время переключения электропривода в положение ЗАЩИТА, сек",
+				Caption = "Время переключения электропривода в положение ЗАЩИТА, сек",
 				Default = "180",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -40,8 +40,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x84,
-				Name = "Время задержки перед началом движения электропривода в положение ЗАЩИТА",
-				Caption = "Время задержки перед началом движения электропривода в положение ЗАЩИТА",
+				Name = "Время задержки перед началом движения электропривода в положение ЗАЩИТА, сек",
+				Caption = "Время задержки перед началом движения электропривода в положение ЗАЩИТА, сек",
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -53,8 +53,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x86,
-				Name = "Критическое время без обмена для перехода в защищаемое состояние",
-				Caption = "Критическое время без обмена для перехода в защищаемое состояние",
+				Name = "Отказ обмена, сек",
+				Caption = "Отказ обмена, сек",
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,
@@ -112,7 +112,7 @@ namespace FiresecAPI.Models
 			property6.Parameters.Add(property6Parameter6);
 			driver.Properties.Add(property6);
 
-			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x85, "нормальное положение", 7,
+			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x85, "начальное положение для привода пружинный ДУ", 7,
 				"0 защита",
 				"1 норма", 0, 0, 0, false, false, "0");
 			
