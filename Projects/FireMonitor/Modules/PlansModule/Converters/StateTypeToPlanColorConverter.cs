@@ -15,10 +15,8 @@ namespace PlansModule.Converters
 			switch(stateType)
 			{
 				case StateType.Fire:
-					return Brushes.Red;
-
 				case StateType.Attention:
-					return Brushes.Yellow;
+					return Brushes.Red;
 
 				default:
 					return Brushes.Transparent;

@@ -121,7 +121,7 @@ namespace Firesec
 				offsetParamValue = offsetParamValue >> driverProperty.BitOffset;
 			}
 
-			if (driverProperty.Name == "Время отложенного пуска МРО")
+			if (driverProperty.Name == "Задержка включения МРО, сек")
 			{
 				offsetParamValue = offsetParamValue * 5;
 			}
@@ -186,7 +186,7 @@ namespace Firesec
 					else
 					{
 						intValue = int.Parse(property.Value);
-						if (driverProperty.Name == "Время отложенного пуска МРО")
+						if (driverProperty.Name == "Задержка включения МРО, сек")
 						{
 							intValue = (int)Math.Truncate((double)intValue / 5);
 						}

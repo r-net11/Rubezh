@@ -27,8 +27,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x88,
-				Name = "Время отложенного пуска МРО",
-				Caption = "Время отложенного пуска МРО",
+				Name = "Задержка включения МРО, сек",
+				Caption = "Задержка включения МРО, сек",
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Min = 0,

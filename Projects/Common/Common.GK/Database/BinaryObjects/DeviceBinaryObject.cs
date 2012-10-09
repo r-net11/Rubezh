@@ -35,45 +35,17 @@ namespace Common.GK
 			Formula = new FormulaBuilder();
 			if (DatabaseType == DatabaseType.Gk)
 			{
-				InitializeStatesDirections();
-				AddGkDeviceFormula();
+                if (Device.Driver.HasLogic)
+                {
+                    if (Device.DeviceLogic.Clauses.Count > 0)
+                    {
+                        AddClauseFormula(Device.DeviceLogic, XStateType.TurnOn);
+                        AddClauseFormula(Device.DeviceLogic, XStateType.TurnOff);
+                    }
+                }
 			}
-			else
-			{
-				Formula.Add(FormulaOperationType.END);
-			}
+            Formula.Add(FormulaOperationType.END);
 			FormulaBytes = Formula.GetBytes();
-		}
-
-		void AddGkDeviceFormula()
-		{
-			if (Device.Driver.HasLogic)
-			{
-                if (Device.DeviceLogic.Clauses.Count > 0)
-				{
-                    AddClauseFormula(Device.DeviceLogic, XStateType.TurnOn);
-                    AddClauseFormula(Device.DeviceLogic, XStateType.TurnOff);
-				}
-			}
-
-			foreach (var statesDirection in StatesDirections)
-			{
-				var directionsCount = 0;
-				foreach (var direction in statesDirection.Directions)
-				{
-					Formula.AddGetBitOff(XStateType.On, direction, DatabaseType);
-					if (directionsCount > 0)
-					{
-						Formula.Add(FormulaOperationType.OR);
-					}
-					directionsCount++;
-				}
-				Formula.AddGetBit(XStateType.Norm, Device, DatabaseType);
-				Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-				Formula.AddPutBit(statesDirection.StateType, Device, DatabaseType);			
-			}
-
-			Formula.Add(FormulaOperationType.END);
 		}
 
 		void AddClauseFormula(XDeviceLogic deviceLogic, XStateType stateType)
@@ -82,14 +54,18 @@ namespace Common.GK
 			foreach (var clause in deviceLogic.Clauses)
 			{
 				var baseObjects = new List<XBinaryBase>();
+                foreach (var zone in clause.Zones)
+                {
+                    baseObjects.Add(zone);
+                }
 				foreach (var device in clause.Devices)
 				{
 					baseObjects.Add(device);
 				}
-				foreach (var zone in clause.Zones)
-				{
-					baseObjects.Add(zone);
-				}
+                foreach (var direction in clause.Directions)
+                {
+                    baseObjects.Add(direction);
+                }
 
 				var objectIndex = 0;
 				foreach (var baseObject in baseObjects)
@@ -102,11 +78,13 @@ namespace Common.GK
 						{
 							case ClauseOperationType.AllDevices:
 							case ClauseOperationType.AllZones:
+                            case ClauseOperationType.AllDirections:
 								Formula.Add(FormulaOperationType.AND, comment: "Объединение объектов по И");
 								break;
 
 							case ClauseOperationType.AnyDevice:
 							case ClauseOperationType.AnyZone:
+                            case ClauseOperationType.AnyDirection:
 								Formula.Add(FormulaOperationType.OR, comment: "Объединение объектов по Или");
 								break;
 						}
@@ -133,17 +111,6 @@ namespace Common.GK
 				clauseIndex++;
 			}
 
-			var statesDirection = StatesDirections.FirstOrDefault(x => x.StateType == stateType);
-			if (statesDirection != null)
-			{
-				foreach (var direction in statesDirection.Directions)
-				{
-					Formula.AddGetBitOff(XStateType.On, direction, DatabaseType);
-					Formula.Add(FormulaOperationType.OR);
-				}
-				StatesDirections.Remove(statesDirection);
-			}
-
 			if (stateType == XStateType.TurnOff)
 			{
 				Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
@@ -153,38 +120,8 @@ namespace Common.GK
 			Formula.AddPutBit(stateType, Device, DatabaseType);
 		}
 
-		List<StatesDirection> StatesDirections;
-		void InitializeStatesDirections()
-		{
-			StatesDirections = new List<StatesDirection>();
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
-			{
-				foreach (var directionDevice in direction.Devices)
-				{
-					if (Device.UID == directionDevice.UID)
-					{
-						var statesDirection = StatesDirections.FirstOrDefault(x => x.StateType == XStateType.TurnOn);
-						if (statesDirection == null)
-						{
-							statesDirection = new StatesDirection()
-							{
-								StateType = XStateType.TurnOn
-							};
-						}
-						statesDirection.Directions.Add(direction);
-						StatesDirections.Add(statesDirection);
-					}
-				}
-			}
-		}
-
 		void SetPropertiesBytes()
 		{
-			if (Device.Driver.DriverType == XDriverType.MRO)
-			{
-				;
-			}
-
 			var binProperties = new List<BinProperty>();
 
             foreach (var property in Device.Properties)
@@ -223,16 +160,5 @@ namespace Common.GK
 	{
 		public byte No { get; set; }
 		public ushort Value { get; set; }
-	}
-
-	class StatesDirection
-	{
-		public StatesDirection()
-		{
-			Directions = new List<XDirection>();
-		}
-
-		public XStateType StateType { get; set; }
-		public List<XDirection> Directions { get; set; }
 	}
 }

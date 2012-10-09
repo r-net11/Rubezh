@@ -20,23 +20,23 @@ namespace FiresecAPI.Models
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Давление", 2, 2, 4,"2");
 			AddDetectorState(driver, 0x8C, "Нормальное состояние датчика Двери-Окна", 4, 4, 6, "1");
 
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xAB, "время включенного состояния выхода 1", 0, 2, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xAC, "время включенного состояния выхода 2", 0, 2, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xAD, "время включенного состояния выхода 3", 0, 2, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xAE, "время включенного состояния выхода 4", 0, 2, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xAF, "время включенного состояния выхода 5", 0, 2, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xAB, "время включенного состояния выхода 1, сек", 0, 2, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xAC, "время включенного состояния выхода 2, сек", 0, 2, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xAD, "время включенного состояния выхода 3, сек", 0, 2, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xAE, "время включенного состояния выхода 4, сек", 0, 2, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xAF, "время включенного состояния выхода 5, сек", 0, 2, 0, 255, true);
 
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xB1, "период переключения выхода 1", 0, 1, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xB2, "период переключения выхода 2", 0, 1, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xB3, "период переключения выхода 3", 0, 1, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xB4, "период переключения выхода 4", 0, 1, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xB5, "период переключения выхода 5", 0, 1, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xB1, "период переключения выхода 1, сек", 0, 1, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xB2, "период переключения выхода 2, сек", 0, 1, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xB3, "период переключения выхода 3, сек", 0, 1, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xB4, "период переключения выхода 4, сек", 0, 1, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xB5, "период переключения выхода 5, сек", 0, 1, 0, 255, true);
 
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xC1, "Время задержки включения выхода 1", 0, 3, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xC2, "Время задержки включения выхода 2", 0, 3, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xC3, "Время задержки включения выхода 3", 0, 3, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xC4, "Время задержки включения выхода 4", 0, 3, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xC5, "Время задержки включения выхода 5", 0, 60, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xC1, "задержка включения выхода 1, сек", 0, 3, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xC2, "задержка включения выхода 2, сек", 0, 3, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xC3, "задержка включения выхода 3, сек", 0, 3, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xC4, "задержка включения выхода 4, сек", 0, 3, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xC5, "задержка включения выхода 5, сек", 0, 60, 0, 255, true);
 
 			AddRegime(driver, 0xBB, "логика работы выхода 1", "1");
 			AddRegime(driver, 0xBC, "логика работы выхода 2", "3");
@@ -56,12 +56,12 @@ namespace FiresecAPI.Models
 				"2 не происходит отмена задержки запуска при нарушении датчика «Двери-окна»", 1, 0, 2, true, false, "1");
 
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0xC6, "Блокировка выключения режима «Автоматика включена» при неисправности", 2,
-				"1 режим «Автоматика включена» отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»",
-				"2 режим «Автоматика включена» не отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»", 1, 2, 4, true, false, "1");
+				"1 отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»",
+				"2 не отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»", 1, 2, 4, true, false, "1");
 
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0xC6, "Восстановление режима «Автоматика включена»", 4,
-				"1 режим восстанавливается после восстановления датчика «Двери-окна»",
-				"2 режим не восстанавливается после восстановления  датчика «Двери-окна», восстановление возможно по протоколу RSR", 1, 4, 6, true, false, "2");
+				"1 восстанавливается после восстановления датчика «Двери-окна»",
+				"2 не восстанавливается после восстановления  датчика «Двери-окна», восстановление возможно по протоколу RSR", 1, 4, 6, true, false, "2");
 
 			//ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0xC6, "Состояние  режима «Автоматика включена» после включения питания", 6,
 			//    "после включения питания  режим «Автоматика включена» включен",

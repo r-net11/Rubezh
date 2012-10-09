@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -29,10 +30,35 @@ namespace DevicesModule.ViewModels
 				device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 			}
 
-			LocalRootDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == _deviceUID);
-			RemoteRootDevice = _deviceConfiguration.Devices.FirstOrDefault(x => x.UID == _deviceUID);
-			LocalDevices = new DeviceTreeViewModel(LocalRootDevice, FiresecManager.FiresecConfiguration.DeviceConfiguration);
-			RemoteDevices = new DeviceTreeViewModel(RemoteRootDevice, _deviceConfiguration);
+            LocalRootDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == _deviceUID);
+            RemoteRootDevice = _deviceConfiguration.Devices.FirstOrDefault(x => x.UID == _deviceUID);
+            var UnionRootDevice = (Device)FiresecManager.Devices.FirstOrDefault(x => x.UID == _deviceUID).Clone();
+            UnionRootDevice.Children = new List<Device>();
+            foreach (var localChild in LocalRootDevice.Children)
+            {
+                localChild.IsLocal = true;
+                localChild.IsRemote = false;
+                UnionRootDevice.Children.Add(localChild);
+            }
+
+            foreach (var remoteChild in RemoteRootDevice.Children)
+            {
+                remoteChild.IsRemote = true;
+                remoteChild.IsLocal = false;
+                var localAndRemote = LocalRootDevice.Children.FirstOrDefault(x => x.PresentationAddressAndDriver == remoteChild.PresentationAddressAndDriver);
+		        if(localAndRemote != null)
+		        {
+                    UnionRootDevice.Children.FirstOrDefault(
+                        x => x.PresentationAddressAndDriver == localAndRemote.PresentationAddressAndDriver).IsRemote = true;
+		        }
+		        else
+		        {
+		            UnionRootDevice.Children.Add(remoteChild);
+		        }
+		    }
+
+            LocalDevices = new DeviceTreeViewModel(UnionRootDevice, FiresecManager.FiresecConfiguration.DeviceConfiguration);
+            RemoteDevices = new DeviceTreeViewModel(UnionRootDevice, _deviceConfiguration);
 		}
 
 		public DeviceTreeViewModel LocalDevices { get; private set; }

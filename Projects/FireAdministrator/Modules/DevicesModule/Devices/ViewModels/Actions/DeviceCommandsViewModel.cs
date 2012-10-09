@@ -248,18 +248,26 @@ namespace DevicesModule.ViewModels
 				foreach (var property in SelectedDevice.Device.Properties)
 				{
 					var prop = SelectedDevice.Device.Driver.Properties.FirstOrDefault(x => x.Name == property.Name);
-					if (prop != null &&
-						prop.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
-						(int.Parse(property.Value) < prop.Min || int.Parse(property.Value) > prop.Max)
-						)
+					if (ValidSet(property, prop))
+						
 					{
-						MessageBoxService.Show("Значение параметра " + prop.Caption + " должно находиться в диапазоне от " + prop.Min.ToString() + " до " + prop.Max.ToString(), "Firesec");
+						MessageBoxService.Show("Значение параметра \n" + prop.Caption + "\nдолжно быть целым числом " + "в диапазоне от " + prop.Min.ToString() + " до " + prop.Max.ToString(), "Firesec");
 						return;
 					}
 
 				}
 				FiresecManager.FiresecDriver.SetConfigurationParameters(SelectedDevice.Device.UID, SelectedDevice.Device.Properties);
 			});
+		}
+
+		bool ValidSet(Property property, DriverProperty prop)
+		{
+			int v;
+			return 
+					prop != null &&
+					prop.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
+					(!int.TryParse(property.Value, out v) ||
+					(v < prop.Min || v > prop.Max));
 		}
 
 		bool CanSetConfigurationParameters()

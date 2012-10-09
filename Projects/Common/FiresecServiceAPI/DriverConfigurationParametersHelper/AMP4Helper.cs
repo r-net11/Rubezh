@@ -19,8 +19,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x81,
-				Name = "Тип шлейфа модуля",
-				Caption = "Тип шлейфа модуля",
+				Name = "Тип шлейфа",
+				Caption = "Тип шлейфа",
 				Default = "0",
 				BitOffset = 4,
 				UseMask = true
@@ -55,8 +55,8 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x81,
-				Name = "Тип включения выхода при пожаре модуля",
-				Caption = "Тип включения выхода при пожаре модуля",
+				Name = "Тип включения выхода при пожаре",
+				Caption = "Тип включения выхода при пожаре",
 				Default = "2",
 				MaxBit=3,
 				UseMask=true

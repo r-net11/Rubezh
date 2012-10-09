@@ -84,6 +84,16 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+	    public bool IsLocal
+	    {
+            get { return Device.IsLocal; }
+            set{}
+	    }
+        public bool IsRemote
+        {
+            get { return Device.IsRemote; }
+            set { }
+        }
 		public string Description
 		{
 			get { return Device.Description; }

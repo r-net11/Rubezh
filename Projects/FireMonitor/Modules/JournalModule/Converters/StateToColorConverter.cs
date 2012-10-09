@@ -33,7 +33,7 @@ namespace JournalModule.Converters
 					return Brushes.White;
 
 				case StateType.Norm:
-					return Brushes.Green;
+					return Brushes.White;
 
 				case StateType.No:
 					return Brushes.White;

@@ -1,8 +1,9 @@
 ﻿using Microsoft.Practices.Prism.Events;
+using System;
 
 namespace Infrastructure.Events
 {
-	public class ShowOPCZoneEvent : CompositePresentationEvent<int>
+	public class ShowOPCZoneEvent : CompositePresentationEvent<Guid>
     {
     }
 }

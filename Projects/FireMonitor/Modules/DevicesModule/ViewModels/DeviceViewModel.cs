@@ -206,7 +206,7 @@ namespace DevicesModule.ViewModels
 							continue;
 						if ((parameter.Name == "Config$SerialNum") || (parameter.Name == "Config$SoftVersion"))
 							continue;
-						parameters.Add(parameter.Caption + " - " + parameter.Value);
+						parameters.Add(parameter.Caption + ": " + parameter.Value);
 					}
 				return parameters;
 			}

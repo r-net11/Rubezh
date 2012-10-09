@@ -24,33 +24,47 @@ namespace Common.GK
 			InitializeAllBytes();
 		}
 
-		void SetFormulaBytes()
-		{
-			Formula = new FormulaBuilder();
-			if ((Direction.ZoneUIDs.Count > 0) && (Direction.Devices.Count > 0))
-				AddFormula();
-			else
-				Formula.Add(FormulaOperationType.END);
-			FormulaBytes = Formula.GetBytes();
-		}
+        void SetFormulaBytes()
+        {
+            Formula = new FormulaBuilder();
+            if (Direction.Zones.Count > 0 || Direction.Devices.Count > 0)
+            {
+                AddFormula(XStateType.TurnOn);
+                AddFormula(XStateType.TurnOff);
+            }
+            Formula.Add(FormulaOperationType.END);
+            FormulaBytes = Formula.GetBytes();
+        }
 
-		void AddFormula()
+        void AddFormula(XStateType stateType)
 		{
-			var zonesCount = 0;
+			var inputObjectsCount = 0;
 			foreach (var zone in Direction.Zones)
 			{
 				Formula.AddGetBitOff(XStateType.Fire2, zone, DatabaseType);
-				if (zonesCount > 0)
+				if (inputObjectsCount > 0)
 				{
 					Formula.Add(FormulaOperationType.ADD);
 				}
-				zonesCount++;
+				inputObjectsCount++;
 			}
+            foreach (var device in Direction.Devices)
+            {
+                Formula.AddGetBitOff(XStateType.On, device, DatabaseType);
+                if (inputObjectsCount > 0)
+                {
+                    Formula.Add(FormulaOperationType.ADD);
+                }
+                inputObjectsCount++;
+            }
+
+            if (stateType == XStateType.TurnOff)
+            {
+                Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
+            }
 			Formula.AddGetBit(XStateType.Norm, Direction, DatabaseType);
 			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-			Formula.AddPutBit(XStateType.TurnOn, Direction, DatabaseType);
-
-			Formula.Add(FormulaOperationType.END);
+            Formula.AddPutBit(stateType, Direction, DatabaseType);
 		}
 
 		void SetPropertiesBytes()

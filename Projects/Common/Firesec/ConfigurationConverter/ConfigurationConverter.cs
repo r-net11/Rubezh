@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using Common;
 using FiresecAPI.Models;
+using System.Diagnostics;
 
 namespace Firesec
 {
@@ -134,6 +135,12 @@ namespace Firesec
 				if (firesecDevice != null)
 				{
 					device.PlaceInTree = firesecDevice.GetPlaceInTree();
+					device.DatabaseId = firesecDevice.DatabaseId;
+					//var x1 = device.DatabaseId;
+					//var x2 = firesecDevice.DatabaseId;
+					//if(x1 == null) x1 = "";
+					//if(x2 == null) x2 = "";
+					//Trace.WriteLine(x1 + " - " + x2);
 				}
 				else
 				{
