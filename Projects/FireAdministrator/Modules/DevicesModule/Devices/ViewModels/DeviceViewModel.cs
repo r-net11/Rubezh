@@ -23,8 +23,9 @@ namespace DevicesModule.ViewModels
 			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
-			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
+            ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic, CanShowZoneOrLogic);
+            ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 
 			Children = new ObservableCollection<DeviceViewModel>();
@@ -111,30 +112,6 @@ namespace DevicesModule.ViewModels
             get { return Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device); }
         }
 
-        public IEnumerable<Zone> Zones
-        {
-            get { return from Zone zone in FiresecManager.Zones orderby zone.No select zone; }
-        }
-
-		public Zone Zone
-		{
-            get { return FiresecManager.Zones.FirstOrDefault(x => x.UID == Device.ZoneUID); }
-			set
-			{
-                if (Device.ZoneUID != value.UID)
-				{
-                    FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, value);
-					OnPropertyChanged("Zone");
-					ServiceFactory.SaveService.DevicesChanged = true;
-				}
-			}
-		}
-
-		public string PresentationZone
-		{
-			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
-		}
-
 		public bool HasExternalDevices
 		{
 			get { return Device.HasExternalDevices; }
@@ -166,6 +143,23 @@ namespace DevicesModule.ViewModels
 			get { return !Device.IsNotUsed && (Device.Driver.IsPlaceable || Device.Children.Count > 0); }
 		}
 
+        #region Zones
+        public string PresentationZone
+        {
+            get
+            {
+                var zonePresenationName = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
+                if (string.IsNullOrEmpty(zonePresenationName))
+                {
+                    if (Driver.IsZoneDevice)
+                        return "Нажмите для выбора зоны";
+                    if (Driver.IsZoneLogicDevice)
+                        return "Нажмите для выбора логики";
+                }
+                return zonePresenationName;
+            }
+        }
+
 		public RelayCommand ShowZoneLogicCommand { get; private set; }
 		void OnShowZoneLogic()
 		{
@@ -189,7 +183,46 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("PresentationZone");
 		}
 
-		public RelayCommand AddCommand { get; private set; }
+
+        public RelayCommand ShowZoneOrLogicCommand { get; private set; }
+        void OnShowZoneOrLogic()
+        {
+            if (Driver.IsZoneDevice)
+            {
+                var zoneSelectationViewModel = new ZoneSelectationViewModel(Device);
+                if (DialogService.ShowModalWindow(zoneSelectationViewModel))
+                    ServiceFactory.SaveService.DevicesChanged = true;
+                OnPropertyChanged("PresentationZone");
+            }
+
+            if (CanShowZoneLogic())
+                OnShowZoneLogic();
+        }
+        bool CanShowZoneOrLogic()
+        {
+            return (Driver.IsZoneDevice || Driver.IsZoneLogicDevice);
+        }
+        public bool IsZoneOrLogic
+        {
+            get { return CanShowZoneOrLogic(); }
+        }
+
+        public RelayCommand ShowZoneCommand { get; private set; }
+        void OnShowZone()
+        {
+            if (Device.ZoneUID != Guid.Empty)
+            {
+                ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneUID);
+            }
+            else
+            {
+                if (ShowZoneOrLogicCommand.CanExecute(null))
+                    ShowZoneOrLogicCommand.Execute();
+            }
+        }
+        #endregion
+
+        public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
 			if (DialogService.ShowModalWindow(new NewDeviceViewModel(this)))
@@ -303,13 +336,6 @@ namespace DevicesModule.ViewModels
 					return true;
 			}
 			return false;
-		}
-
-		public RelayCommand ShowZoneCommand { get; private set; }
-		void OnShowZone()
-		{
-			if (Device.ZoneUID != Guid.Empty)
-                ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneUID);
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }

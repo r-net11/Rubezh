@@ -122,31 +122,37 @@ namespace FiresecClient
 		{
 			foreach (var direction in DeviceConfiguration.Directions)
 			{
-				var deviceUIDs = new List<Guid>();
-				foreach (var deviceUID in direction.DeviceUIDs)
-				{
-					var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-					if (device != null)
-					{
-						deviceUIDs.Add(deviceUID);
-						direction.Devices.Add(device);
-						device.Directions.Add(direction);
-					}
-				}
-				direction.DeviceUIDs = deviceUIDs;
+                var directionDevices = new List<XDirectionDevice>();
+                foreach (var directionDevice in direction.DirectionDevices)
+                {
+                    if (directionDevice.DeviceUID != Guid.Empty)
+                    {
+                        var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == directionDevice.DeviceUID);
+                        if (device != null)
+                        {
+                            directionDevices.Add(directionDevice);
+                            direction.Devices.Add(device);
+                            device.Directions.Add(direction);
+                        }
+                    }
+                }
+                direction.DirectionDevices = directionDevices;
 
-				var zoneUIDs = new List<Guid>();
-				foreach (var zoneUID in direction.ZoneUIDs)
-				{
-					var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-					if (zone != null)
-					{
-						zoneUIDs.Add(zoneUID);
-						direction.Zones.Add(zone);
-						zone.Directions.Add(direction);
-					}
-				}
-				direction.ZoneUIDs = zoneUIDs;
+                var directionZones = new List<XDirectionZone>();
+                foreach (var directionZone in direction.DirectionZones)
+                {
+                    if (directionZone.ZoneUID != Guid.Empty)
+                    {
+                        var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == directionZone.ZoneUID);
+                        if (zone != null)
+                        {
+                            directionZones.Add(directionZone);
+                            direction.Zones.Add(zone);
+                            zone.Directions.Add(direction);
+                        }
+                    }
+                }
+                direction.DirectionZones = directionZones;
 			}
 		}
 	}

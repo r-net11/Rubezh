@@ -91,12 +91,12 @@ namespace DevicesModule.ViewModels
 				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
 				ServiceFactory.SaveService.DevicesChanged = true;
 				createZoneEventArg.Cancel = false;
-				createZoneEventArg.ZoneUID = zoneDetailsViewModel.Zone.UID;
+				createZoneEventArg.Zone = zoneDetailsViewModel.Zone;
 			}
 			else
 			{
 				createZoneEventArg.Cancel = true;
-				createZoneEventArg.ZoneUID = Guid.Empty;
+				createZoneEventArg.Zone = null;
 			}
 		}
 		public void EditZone(Guid zoneUID)

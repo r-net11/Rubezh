@@ -1,10 +1,18 @@
 ﻿using FiresecAPI.Models;
 using FiresecService.Configuration;
+using FiresecAPI;
 
 namespace FiresecService.Service
 {
     public partial class FiresecService
     {
+        public OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
+        {
+            ConfigurationFileManager.SetDeviceConfiguration(deviceConfiguration);
+            OperationResult<bool> result = new OperationResult<bool>();
+            return result;
+        }
+
 		public DriversConfiguration GetDriversConfiguration()
         {
 			return ConfigurationFileManager.GetDriversConfiguration();

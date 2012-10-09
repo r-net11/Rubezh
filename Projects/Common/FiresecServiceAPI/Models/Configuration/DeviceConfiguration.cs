@@ -141,5 +141,10 @@ namespace FiresecAPI.Models
 				}
 			}
 		}
+
+        public override bool ValidateVersion()
+        {
+            return true;
+        }
 	}
 }
