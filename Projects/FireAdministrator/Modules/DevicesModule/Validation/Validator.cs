@@ -301,15 +301,15 @@ namespace DevicesModule.Validation
 				if (deviceSecurityDeviceCountProperty != null)
 					securityDeviceCountPropertyValue = deviceSecurityDeviceCountProperty.Value;
 
-				if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[0].Name)
+				if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[0].Value)
 					ValidateDeviceCountAndOrderOnShlief(device, 64, 0);
-				else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[1].Name)
+				else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[1].Value)
 					ValidateDeviceCountAndOrderOnShlief(device, 48, 16);
-				else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[2].Name)
+				else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[2].Value)
 					ValidateDeviceCountAndOrderOnShlief(device, 32, 32);
-				else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[3].Name)
+				else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[3].Value)
 					ValidateDeviceCountAndOrderOnShlief(device, 16, 48);
-				else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[4].Name)
+				else if (securityDeviceCountPropertyValue == driverSecurityDeviceCountProperty.Parameters[4].Value)
 					ValidateDeviceCountAndOrderOnShlief(device, 0, 64);
 			}
 		}

@@ -31,7 +31,7 @@ namespace DevicesModule.DeviceProperties
 			EnumProperties = new List<EnumPropertyViewModel>();
 			foreach (var driverProperty in device.Driver.Properties)
 			{
-				if (driverProperty.IsHidden)
+				if (driverProperty.IsHidden || driverProperty.IsControl)
 					continue;
 
 				switch (driverProperty.DriverPropertyType)
