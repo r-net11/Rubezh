@@ -50,6 +50,9 @@ namespace DevicesModule.Converters
 				case StateType.Norm:
 					return Brushes.LightGreen;
 
+				case StateType.No:
+					return Brushes.White;
+
 				default:
 					return Brushes.Black;
 			}

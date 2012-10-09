@@ -22,8 +22,8 @@ namespace DevicesModule.ViewModels
 			Device = device;
 			_guid = device.UID;
 			DeviceState = Device.DeviceState;
-			if (DeviceState != null)
-				DeviceState.StateChanged += new Action(deviceState_StateChanged);
+			DeviceState.StateChanged += new Action(OnStateChanged);
+			DeviceState.ParametersChanged += new Action(OnParametersChanged);
 			DeviceControlViewModel = new DeviceControlViewModel(Device);
 			ValveControlViewModel = new ValveControlViewModel(Device);
 
@@ -36,11 +36,17 @@ namespace DevicesModule.ViewModels
 			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
 		}
 
-		void deviceState_StateChanged()
+		void OnStateChanged()
 		{
 			if (DeviceState != null && _deviceControl != null)
 				_deviceControl.StateType = DeviceState.StateType;
 			OnPropertyChanged("DeviceControlContent");
+			OnPropertyChanged("DeviceState");
+		}
+
+		void OnParametersChanged()
+		{
+			OnPropertyChanged("Parameters");
 		}
 
 		public object DeviceControlContent
@@ -82,7 +88,9 @@ namespace DevicesModule.ViewModels
 					{
 						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
 							continue;
-						parameters.Add(parameter.Caption + " - " + parameter.Value);
+						if (!parameter.Visible)
+							continue;
+						parameters.Add(parameter.Caption + ": " + parameter.Value);
 					}
 				}
 				return parameters;
