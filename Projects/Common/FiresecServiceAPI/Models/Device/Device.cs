@@ -7,8 +7,13 @@ using System.Text;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class Device
+	public class Device: ICloneable
 	{
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
 		public Device()
 		{
 			UID = Guid.NewGuid();
@@ -24,13 +29,14 @@ namespace FiresecAPI.Models
 			ZonesInLogic = new List<Zone>();
 			DependentDevices = new List<Device>();
 		}
-
 		public Driver Driver { get; set; }
 		public Device Parent { get; set; }
 		public DeviceState DeviceState { get; set; }
 		public Zone Zone { get; set; }
 		public List<Zone> ZonesInLogic { get; set; }
 		public List<Device> DependentDevices { get; set; }
+        public bool IsLocal { get; set; }
+        public bool IsRemote { get; set; }
 
         public bool _hasExternalDevices;
         public bool HasExternalDevices
@@ -46,7 +52,7 @@ namespace FiresecAPI.Models
             }
         }
 
-		[DataMember]
+        [DataMember]
 		public Guid UID { get; set; }
 
 		[DataMember]
