@@ -9,6 +9,7 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Devices = DevicesModule.ViewModels;
+using DevicesModule.ViewModels;
 
 namespace DevicesModule.Plans.ViewModels
 {
@@ -41,9 +42,9 @@ namespace DevicesModule.Plans.ViewModels
 			_devicesViewModel.Select(deviceUID);
 		}
 
-		public ObservableCollection<Devices.DeviceViewModel> Devices
+		public DeviceViewModel RootDevice
 		{
-			get { return _devicesViewModel.Devices; }
+			get { return _devicesViewModel.RootDevice; }
 		}
 		public Devices.DeviceViewModel SelectedDevice
 		{
@@ -54,10 +55,14 @@ namespace DevicesModule.Plans.ViewModels
 				OnPropertyChanged("SelectedDevice");
 			}
 		}
+		public List<Devices.DeviceViewModel> AllDevices
+		{
+			get { return _devicesViewModel.AllDevices; }
+		}
 
 		private void OnDeviceChanged(Guid deviceUID)
 		{
-			var device = Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
+			var device = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (device != null)
 			{
 				device.Update();

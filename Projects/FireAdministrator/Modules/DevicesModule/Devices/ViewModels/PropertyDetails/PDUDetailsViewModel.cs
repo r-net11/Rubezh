@@ -65,7 +65,7 @@ namespace DevicesModule.ViewModels
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
-                var deviceViewModel = new DeviceViewModel(device, AvailableDevices);
+                var deviceViewModel = new DeviceViewModel(device);
                 deviceViewModel.IsExpanded = true;
                 AvailableDevices.Add(deviceViewModel);
             }
@@ -75,7 +75,6 @@ namespace DevicesModule.ViewModels
                 if (device.Device.Parent != null)
                 {
                     var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-                    device.Parent = parent;
                     parent.Children.Add(device);
                 }
             }

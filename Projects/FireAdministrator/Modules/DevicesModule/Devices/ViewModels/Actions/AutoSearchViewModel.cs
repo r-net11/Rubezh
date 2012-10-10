@@ -67,9 +67,7 @@ namespace DevicesModule.ViewModels
             parentDevice.Children.Add(device);
 
             var parentDeviceViewModel = DeviceViewModels.FirstOrDefault(x => x.Device.UID == parentDevice.UID);
-
-            var deviceViewModel = new DeviceViewModel(device, parentDeviceViewModel.Source);
-            deviceViewModel.Parent = parentDeviceViewModel;
+            var deviceViewModel = new DeviceViewModel(device);
             parentDeviceViewModel.Children.Add(deviceViewModel);
 
             parentDeviceViewModel.Update();

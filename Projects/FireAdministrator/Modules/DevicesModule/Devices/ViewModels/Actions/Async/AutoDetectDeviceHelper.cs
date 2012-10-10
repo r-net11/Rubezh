@@ -49,7 +49,7 @@ namespace DevicesModule.ViewModels
 
             var autodetectionViewModel = new AutoSearchViewModel(deviceConfiguration)
             {
-                DeviceViewModels = _deviceViewModel.Source
+                //DeviceViewModels = _deviceViewModel.Source
             };
 
 			if (DialogService.ShowModalWindow(autodetectionViewModel))

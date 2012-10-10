@@ -12,12 +12,12 @@ using Infrastructure.Events;
 
 namespace DevicesModule.ViewModels
 {
-	public class DeviceViewModel : TreeBaseViewModel<DeviceViewModel>
+	public class DeviceViewModel : TreeItemViewModel<DeviceViewModel>
 	{
 		public Device Device { get; private set; }
 		public PropertiesViewModel PropertiesViewModel { get; private set; }
 
-		public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
+		public DeviceViewModel(Device device)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
 			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
@@ -27,9 +27,6 @@ namespace DevicesModule.ViewModels
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
 
-			Children = new ObservableCollection<DeviceViewModel>();
-
-			Source = sourceDevices;
 			Device = device;
 			PropertiesViewModel = new PropertiesViewModel(device);
 
@@ -38,16 +35,16 @@ namespace DevicesModule.ViewModels
 			device.Changed += new Action(device_Changed);
 		}
 
-        void device_Changed()
-        {
-            OnPropertyChanged("Address");
-            OnPropertyChanged("PresentationZone");
-            OnPropertyChanged("HasExternalDevices");
-        }
+		void device_Changed()
+		{
+			OnPropertyChanged("Address");
+			OnPropertyChanged("PresentationZone");
+			OnPropertyChanged("HasExternalDevices");
+		}
 
 		public void UpdataConfigurationProperties()
 		{
-            PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
+			PropertiesViewModel = new PropertiesViewModel(Device) { ParameterVis = true };
 			OnPropertyChanged("PropertiesViewModel");
 		}
 
@@ -84,16 +81,16 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-	    public bool IsLocal
-	    {
-            get { return Device.IsLocal; }
-            set{}
-	    }
-        public bool IsRemote
-        {
-            get { return Device.IsRemote; }
-            set { }
-        }
+		public bool IsLocal
+		{
+			get { return Device.IsLocal; }
+			set { }
+		}
+		public bool IsRemote
+		{
+			get { return Device.IsRemote; }
+			set { }
+		}
 		public string Description
 		{
 			get { return Device.Description; }
@@ -106,24 +103,24 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-        public bool IsZoneDevice
-        {
-            get { return Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device); }
-        }
+		public bool IsZoneDevice
+		{
+			get { return Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device); }
+		}
 
-        public IEnumerable<Zone> Zones
-        {
-            get { return from Zone zone in FiresecManager.Zones orderby zone.No select zone; }
-        }
+		public IEnumerable<Zone> Zones
+		{
+			get { return from Zone zone in FiresecManager.Zones orderby zone.No select zone; }
+		}
 
 		public Zone Zone
 		{
-            get { return FiresecManager.Zones.FirstOrDefault(x => x.UID == Device.ZoneUID); }
+			get { return FiresecManager.Zones.FirstOrDefault(x => x.UID == Device.ZoneUID); }
 			set
 			{
-                if (Device.ZoneUID != value.UID)
+				if (Device.ZoneUID != value.UID)
 				{
-                    FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, value);
+					FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, value);
 					OnPropertyChanged("Zone");
 					ServiceFactory.SaveService.DevicesChanged = true;
 				}
@@ -224,20 +221,17 @@ namespace DevicesModule.ViewModels
 					return;
 			}
 
-			var index = DevicesViewModel.Current.Devices.IndexOf(DevicesViewModel.Current.SelectedDevice);
+			var index = Parent.Children.IndexOf(DevicesViewModel.Current.SelectedDevice);
 
-			Parent.IsExpanded = false;
 			FiresecManager.FiresecConfiguration.RemoveDevice(Device);
 			Parent.Children.Remove(this);
 			Parent.Update();
-			Parent.IsExpanded = true;
-			Parent = null;
 
 			ServiceFactory.SaveService.DevicesChanged = true;
 			DevicesViewModel.UpdateGuardVisibility();
 
-			index = Math.Min(index, DevicesViewModel.Current.Devices.Count - 1);
-			DevicesViewModel.Current.SelectedDevice = DevicesViewModel.Current.Devices[index];
+			index = Math.Min(index, Parent.Children.Count - 1);
+			DevicesViewModel.Current.SelectedDevice = index >= 0 ? Parent.Children[index] : Parent;
 		}
 		bool CanRemove()
 		{
@@ -309,7 +303,7 @@ namespace DevicesModule.ViewModels
 		void OnShowZone()
 		{
 			if (Device.ZoneUID != Guid.Empty)
-                ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneUID);
+				ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneUID);
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }
@@ -403,5 +397,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand CutCommand { get { return DevicesViewModel.Current.CutCommand; } }
 		public RelayCommand PasteCommand { get { return DevicesViewModel.Current.PasteCommand; } }
 		public RelayCommand PasteAsCommand { get { return DevicesViewModel.Current.PasteAsCommand; } }
+
+		public bool IsBold { get; set; }
 	}
 }

@@ -62,7 +62,7 @@ namespace DevicesModule.ViewModels
 			Devices.Clear();
 			foreach (var device in devices)
 			{
-				var deviceViewModel = new DeviceViewModel(device, Devices)
+				var deviceViewModel = new DeviceViewModel(device)
 				{
 					IsExpanded = true,
 					IsBold = device.Driver.IsZoneDevice || device.Driver.IsZoneLogicDevice
@@ -73,14 +73,13 @@ namespace DevicesModule.ViewModels
 			foreach (var device in Devices.Where(x => x.Device.Parent != null))
 			{
 				var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-				device.Parent = parent;
 				parent.Children.Add(device);
 			}
 
 			AvailableDevices.Clear();
 			foreach (var device in availableDevices)
 			{
-				var deviceViewModel = new DeviceViewModel(device, AvailableDevices)
+				var deviceViewModel = new DeviceViewModel(device)
 				{
 					IsExpanded = true,
 					IsBold = device.Driver.IsZoneDevice
@@ -91,7 +90,6 @@ namespace DevicesModule.ViewModels
 			foreach (var device in AvailableDevices.Where(x => x.Device.Parent != null))
 			{
 				var parent = AvailableDevices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-				device.Parent = parent;
 				parent.Children.Add(device);
 			}
 

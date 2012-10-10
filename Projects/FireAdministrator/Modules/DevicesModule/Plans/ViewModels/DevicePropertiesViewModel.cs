@@ -25,7 +25,7 @@ namespace DevicesModule.Plans.ViewModels
 
 			foreach (var device in FiresecManager.Devices)
 			{
-				var deviceViewModel = new DeviceViewModel(device, Devices);
+				var deviceViewModel = new DeviceViewModel(device);
 				deviceViewModel.IsExpanded = true;
 				Devices.Add(deviceViewModel);
 			}
@@ -35,7 +35,6 @@ namespace DevicesModule.Plans.ViewModels
 				if (device.Device.Parent != null)
 				{
 					var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-					device.Parent = parent;
 					parent.Children.Add(device);
 				}
 			}
@@ -129,7 +128,7 @@ namespace DevicesModule.Plans.ViewModels
 		}
 		private void Update(Guid deviceUID)
 		{
-			var device = _devicesViewModel.Devices.FirstOrDefault(x => x.Device.UID == deviceUID);
+			var device = _devicesViewModel.AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 			if (device != null)
 				device.Update();
 		}

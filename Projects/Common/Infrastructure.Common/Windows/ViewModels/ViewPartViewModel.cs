@@ -6,7 +6,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 {
 	public abstract class ViewPartViewModel : BaseViewModel, IViewPartViewModel
 	{
-		protected Dictionary<KeyGesture, Action> Shortcuts { get; private set; }
+		protected Dictionary<KeyGesture, RelayCommand> Shortcuts { get; private set; }
 
 		private bool _isActive;
 		public bool IsActive
@@ -21,7 +21,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 
 		public ViewPartViewModel()
 		{
-			Shortcuts = new Dictionary<KeyGesture, Action>();
+			Shortcuts = new Dictionary<KeyGesture, RelayCommand>();
 		}
 
 		internal void Show()
@@ -46,7 +46,11 @@ namespace Infrastructure.Common.Windows.ViewModels
 			{
 				foreach (var keyGesture in Shortcuts.Keys)
 					if (e.Key == keyGesture.Key && keyGesture.Modifiers == Keyboard.Modifiers)
-						Shortcuts[keyGesture]();
+					{
+						RelayCommand command = Shortcuts[keyGesture];
+						if (command.CanExecute(null))
+							command.Execute();
+					}
 				KeyPressed(e);
 			}
 		}
@@ -68,17 +72,19 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 		}
 
-		public void RegisterShortcut(KeyGesture keyGesture, Action command)
+		public void RegisterShortcut(KeyGesture keyGesture, RelayCommand command)
 		{
 			Shortcuts.Add(keyGesture, command);
 		}
-		public void RegisterShortcut(KeyGesture keyGesture, RelayCommand command)
-		{
-			Shortcuts.Add(keyGesture, command.Execute);
-		}
 		public void RegisterShortcut<T>(KeyGesture keyGesture, RelayCommand<T> command, Func<T> getArg)
 		{
-			Shortcuts.Add(keyGesture, () => { command.Execute(getArg()); });
+			RelayCommand cmd = new RelayCommand(() => command.Execute(getArg()), () => command.CanExecute(getArg()));
+			RegisterShortcut(keyGesture, cmd);
+		}
+		public void RegisterShortcut(KeyGesture keyGesture, Action action)
+		{
+			RelayCommand cmd = new RelayCommand(action);
+			RegisterShortcut(keyGesture, cmd);
 		}
 
 		#endregion

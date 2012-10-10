@@ -38,11 +38,10 @@ namespace DevicesModule.ViewModels
 		{
 			RegisterShortcuts();
 			BuildTree();
-			if (Devices.Count > 0)
+			if (RootDevice != null)
 			{
-				CollapseChild(Devices[0]);
-				ExpandChild(Devices[0]);
-				SelectedDevice = Devices[0];
+				RootDevice.IsExpanded = true;
+				SelectedDevice = RootDevice;
 			}
 			UpdateGuardVisibility();
 		}
@@ -55,13 +54,15 @@ namespace DevicesModule.ViewModels
 				{
 					if (SelectedDevice == null)
 						return;
-					SelectedDevice.AddCommand.Execute();
+					if (SelectedDevice.AddCommand.CanExecute(null))
+						SelectedDevice.AddCommand.Execute();
 				});
 			RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), () =>
 				{
 					if (SelectedDevice == null)
 						return;
-					SelectedDevice.RemoveCommand.Execute();
+					if (SelectedDevice.RemoveCommand.CanExecute(null))
+						SelectedDevice.RemoveCommand.Execute();
 				});
 			RegisterShortcut(new KeyGesture(KeyboardKey.Right, ModifierKeys.Control), () =>
 				{
@@ -108,24 +109,20 @@ namespace DevicesModule.ViewModels
 		public void FillAllDevices()
 		{
 			AllDevices = new List<DeviceViewModel>();
-			AddChildPlainDevices(Devices[0]);
+			AddChildPlainDevices(RootDevice);
 		}
 
 		void AddChildPlainDevices(DeviceViewModel parentViewModel)
 		{
 			AllDevices.Add(parentViewModel);
 			foreach (var childViewModel in parentViewModel.Children)
-			{
 				AddChildPlainDevices(childViewModel);
-			}
 		}
 
 		public void Select(Guid deviceUID)
 		{
 			if (deviceUID != Guid.Empty)
 			{
-				FillAllDevices();
-
 				var deviceViewModel = AllDevices.FirstOrDefault(x => x.Device.UID == deviceUID);
 				if (deviceViewModel != null)
 					deviceViewModel.ExpantToThis();
@@ -133,17 +130,6 @@ namespace DevicesModule.ViewModels
 			}
 		}
 		#endregion
-
-		ObservableCollection<DeviceViewModel> _devices;
-		public ObservableCollection<DeviceViewModel> Devices
-		{
-			get { return _devices; }
-			set
-			{
-				_devices = value;
-				OnPropertyChanged("Devices");
-			}
-		}
 
 		DeviceViewModel _selectedDevice;
 		public DeviceViewModel SelectedDevice
@@ -158,60 +144,46 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
+		DeviceViewModel _rootDevice;
+		public DeviceViewModel RootDevice
+		{
+			get { return _rootDevice; }
+			private set
+			{
+				_rootDevice = value;
+				OnPropertyChanged("RootDevice");
+			}
+		}
+
+		public DeviceViewModel[] RootDevices
+		{
+			get { return new DeviceViewModel[] { RootDevice }; }
+		}
+
 		void BuildTree()
 		{
-			Devices = new ObservableCollection<DeviceViewModel>();
-			AddDevice(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
+			RootDevice = AddDeviceInternal(FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice, null);
+			FillAllDevices();
 		}
 
 		public DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
 		{
-			var deviceViewModel = new DeviceViewModel(device, Devices);
-			deviceViewModel.Parent = parentDeviceViewModel;
-
-			var indexOf = Devices.IndexOf(parentDeviceViewModel);
-			Devices.Insert(indexOf + 1, deviceViewModel);
+			var deviceViewModel = AddDeviceInternal(device, parentDeviceViewModel);
+			FillAllDevices();
+			return deviceViewModel;
+		}
+		private DeviceViewModel AddDeviceInternal(Device device, DeviceViewModel parentDeviceViewModel)
+		{
+			var deviceViewModel = new DeviceViewModel(device);
+			if (parentDeviceViewModel != null)
+				parentDeviceViewModel.Children.Add(deviceViewModel);
 
 			foreach (var childDevice in device.Children)
-			{
-				var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
-				deviceViewModel.Children.Add(childDeviceViewModel);
-			}
-
+				AddDeviceInternal(childDevice, deviceViewModel);
 			return deviceViewModel;
 		}
 
-		public void CollapseChild(DeviceViewModel parentDeviceViewModel)
-		{
-			parentDeviceViewModel.IsExpanded = false;
-			foreach (var deviceViewModel in parentDeviceViewModel.Children)
-			{
-				CollapseChild(deviceViewModel);
-			}
-		}
-
-		public void ExpandChild(DeviceViewModel parentDeviceViewModel)
-		{
-			if (parentDeviceViewModel.Device.Driver.Category != DeviceCategoryType.Device)
-			{
-				parentDeviceViewModel.IsExpanded = true;
-				foreach (var deviceViewModel in parentDeviceViewModel.Children)
-				{
-					ExpandChild(deviceViewModel);
-				}
-			}
-		}
-
 		Device _deviceToCopy;
-		bool _isFullCopy;
-
-		bool CanCutCopy()
-		{
-			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
-				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.AutoChild == SelectedDevice.Driver.UID
-				|| SelectedDevice.Driver.DriverType == DriverType.MPT);
-		}
-
 		public RelayCommand CopyCommand { get; private set; }
 		void OnCopy()
 		{
@@ -228,24 +200,22 @@ namespace DevicesModule.ViewModels
 			ServiceFactory.SaveService.DevicesChanged = true;
 			UpdateGuardVisibility();
 		}
-
-		bool CanPaste()
+		bool CanCutCopy()
 		{
-			return (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.UID));
+			return !(SelectedDevice == null || SelectedDevice.Parent == null ||
+				SelectedDevice.Driver.IsAutoCreate || SelectedDevice.Parent.Driver.AutoChild == SelectedDevice.Driver.UID
+				|| SelectedDevice.Driver.DriverType == DriverType.MPT);
 		}
 
 		public RelayCommand PasteCommand { get; private set; }
 		void OnPaste()
 		{
-			var pasteDevice = FiresecManager.FiresecConfiguration.CopyDevice(_deviceToCopy, _isFullCopy);
+			var pasteDevice = FiresecManager.FiresecConfiguration.CopyDevice(_deviceToCopy, false);
 			PasteDevice(pasteDevice);
 		}
-
-		bool CanPasteAs()
+		bool CanPaste()
 		{
-			return (SelectedDevice != null && _deviceToCopy != null &&
-				(DriversHelper.PanelDrivers.Contains(_deviceToCopy.Driver.DriverType) || DriversHelper.UsbPanelDrivers.Contains(_deviceToCopy.Driver.DriverType)) &&
-				(SelectedDevice.Driver.DriverType == DriverType.Computer || SelectedDevice.Driver.DriverType == DriverType.USB_Channel_1 || SelectedDevice.Driver.DriverType == DriverType.USB_Channel_2));
+			return (SelectedDevice != null && _deviceToCopy != null && SelectedDevice.Driver.AvaliableChildren.Contains(_deviceToCopy.Driver.UID));
 		}
 
 		public RelayCommand PasteAsCommand { get; private set; }
@@ -254,7 +224,7 @@ namespace DevicesModule.ViewModels
 			var pasteAsViewModel = new PasteAsViewModel(SelectedDevice.Driver.DriverType);
 			if (DialogService.ShowModalWindow(pasteAsViewModel))
 			{
-				var pasteDevice = FiresecManager.FiresecConfiguration.CopyDevice(_deviceToCopy, _isFullCopy);
+				var pasteDevice = FiresecManager.FiresecConfiguration.CopyDevice(_deviceToCopy, false);
 
 				pasteDevice.DriverUID = pasteAsViewModel.SelectedDriver.UID;
 				pasteDevice.Driver = pasteAsViewModel.SelectedDriver;
@@ -264,19 +234,25 @@ namespace DevicesModule.ViewModels
 				PasteDevice(pasteDevice);
 			}
 		}
+		bool CanPasteAs()
+		{
+			return (SelectedDevice != null && _deviceToCopy != null &&
+				(DriversHelper.PanelDrivers.Contains(_deviceToCopy.Driver.DriverType) || DriversHelper.UsbPanelDrivers.Contains(_deviceToCopy.Driver.DriverType)) &&
+				(SelectedDevice.Driver.DriverType == DriverType.Computer || SelectedDevice.Driver.DriverType == DriverType.USB_Channel_1 || SelectedDevice.Driver.DriverType == DriverType.USB_Channel_2));
+		}
 
 		void PasteDevice(Device device)
 		{
 			SelectedDevice.Device.Children.Add(device);
 			device.Parent = SelectedDevice.Device;
 
-			var newDevice = AddDevice(device, SelectedDevice);
-			SelectedDevice.Children.Add(newDevice);
-			CollapseChild(newDevice);
+			var newDevice = AddDeviceInternal(device, SelectedDevice);
+			newDevice.CollapseChildren();
 
 			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.DevicesChanged = true;
 			UpdateGuardVisibility();
+			FillAllDevices();
 		}
 
 		public static void UpdateGuardVisibility()
