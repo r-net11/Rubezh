@@ -42,9 +42,9 @@ namespace DevicesModule.Plans.ViewModels
 			_devicesViewModel.Select(deviceUID);
 		}
 
-		public DeviceViewModel RootDevice
+		public DeviceViewModel[] RootDevices
 		{
-			get { return _devicesViewModel.RootDevice; }
+			get { return _devicesViewModel.RootDevices; }
 		}
 		public Devices.DeviceViewModel SelectedDevice
 		{

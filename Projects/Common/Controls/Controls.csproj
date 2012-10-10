@@ -104,6 +104,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="AlarmButton.cs" />
+    <Compile Include="Attach.cs" />
     <Compile Include="ColorsHelper.cs" />
     <Compile Include="Converters\ColorToBrushConverter.cs" />
     <Compile Include="Converters\ColorToNameConverter.cs" />

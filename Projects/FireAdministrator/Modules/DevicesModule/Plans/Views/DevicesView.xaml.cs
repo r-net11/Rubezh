@@ -12,14 +12,6 @@ namespace DevicesModule.Plans.Views
 		public DevicesView()
 		{
 			InitializeComponent();
-			Loaded += new RoutedEventHandler(DevicesView_Loaded);
-			_devicesDataGrid.SelectionChanged += new SelectionChangedEventHandler(DevicesView_Loaded);
-		}
-
-		void DevicesView_Loaded(object sender, RoutedEventArgs e)
-		{
-			if (_devicesDataGrid.SelectedItem != null)
-				_devicesDataGrid.ScrollIntoView(_devicesDataGrid.SelectedItem);
 		}
 
 		private Point? dragStartPoint = null;
@@ -47,8 +39,8 @@ namespace DevicesModule.Plans.Views
 				if (device.Driver.IsPlaceable == false)
 					return;
 
-                //if (FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
-                //    return;
+				//if (FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
+				//    return;
 
 				ElementBase plansElement = new ElementDevice()
 				{

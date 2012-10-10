@@ -136,6 +136,11 @@ namespace Infrustructure.Plans.Designer
 			Content = Painter == null ? null : Painter.Draw(Element);
 			MinWidth = Element.BorderThickness;
 			MinHeight = Element.BorderThickness;
+			if (Element is ElementBaseShape)
+			{
+				MinWidth += 3;
+				MinHeight += 3;
+			}
 			SetLocation();
 			UpdateAdorner();
 		}

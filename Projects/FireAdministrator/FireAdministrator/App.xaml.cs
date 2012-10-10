@@ -18,7 +18,8 @@ namespace FireAdministrator
 			base.OnStartup(e);
 
 #if DEBUG
-			BindingErrorListener.Listen(m => MessageBox.Show(m));
+			bool trace = true;
+			BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });
 #endif
 
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);

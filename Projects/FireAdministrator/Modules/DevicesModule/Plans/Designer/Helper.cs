@@ -11,7 +11,7 @@ namespace DevicesModule.Plans.Designer
 	{
 		public static Zone GetZone(IElementZone element)
 		{
-            return element.ZoneUID != Guid.Empty ? FiresecManager.Zones.FirstOrDefault(x => x.UID == element.ZoneUID) : null;
+			return element.ZoneUID != Guid.Empty ? FiresecManager.Zones.FirstOrDefault(x => x.UID == element.ZoneUID) : null;
 		}
 		public static Plan GetPlan(ElementSubPlan element)
 		{
@@ -24,7 +24,7 @@ namespace DevicesModule.Plans.Designer
 		}
 		public static void SetZone(IElementZone element, Zone zone)
 		{
-            element.ZoneUID = zone == null ? Guid.Empty : zone.UID;
+			element.ZoneUID = zone == null ? Guid.Empty : zone.UID;
 			element.BackgroundColor = GetZoneColor(zone);
 		}
 		public static Color GetZoneColor(Zone zone)
@@ -48,8 +48,9 @@ namespace DevicesModule.Plans.Designer
 		public static void SetDevice(ElementDevice element, Device device)
 		{
 			ResetDevice(element);
-			element.DeviceUID = device.UID;
-			device.PlanElementUIDs.Add(element.UID);
+			element.DeviceUID = device == null ? Guid.Empty : device.UID;
+			if (device != null)
+				device.PlanElementUIDs.Add(element.UID);
 		}
 		public static Device SetDevice(ElementDevice element)
 		{

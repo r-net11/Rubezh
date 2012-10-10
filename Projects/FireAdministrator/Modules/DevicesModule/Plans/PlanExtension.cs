@@ -139,6 +139,8 @@ namespace DevicesModule.Plans
 			}
 			else if (designerItem.Element is ElementDevice)
 			{
+				designerItem.DesignerItemPropertyChanged += new EventHandler(DevicePropertyChanged);
+				OnDevicePropertyChanged(designerItem);
 				designerItem.Group = "Devices";
 				designerItem.UpdateProperties += UpdateDesignerItemDevice;
 				UpdateDesignerItemDevice(designerItem);
@@ -167,6 +169,10 @@ namespace DevicesModule.Plans
 
 		private void UpdateDesignerItemDevice(DesignerItem designerItem)
 		{
+			ElementDevice elementDevice = designerItem.Element as ElementDevice;
+			Device device = Designer.Helper.GetDevice(elementDevice);
+			if (device == null)
+				Designer.Helper.SetDevice(elementDevice, device);
 			designerItem.Title = Designer.Helper.GetDeviceTitle((ElementDevice)designerItem.Element);
 		}
 		private void UpdateDesignerItemZone(DesignerItem designerItem)
@@ -203,6 +209,22 @@ namespace DevicesModule.Plans
 				zone.ColorTypeChanged += () =>
 				{
 					UpdateDesignerItemZone(designerItem);
+					designerItem.Redraw();
+				};
+		}
+
+		private void DevicePropertyChanged(object sender, EventArgs e)
+		{
+			DesignerItem designerItem = (DesignerItem)sender;
+			OnDevicePropertyChanged(designerItem);
+		}
+		private void OnDevicePropertyChanged(DesignerItem designerItem)
+		{
+			Device device = Designer.Helper.GetDevice((ElementDevice)designerItem.Element);
+			if (device != null)
+				device.Changed += () =>
+				{
+					UpdateDesignerItemDevice(designerItem);
 					designerItem.Redraw();
 				};
 		}

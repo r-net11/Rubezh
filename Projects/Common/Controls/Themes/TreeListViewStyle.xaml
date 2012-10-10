@@ -6,7 +6,7 @@
 
 	<Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type Controls:TreeListViewItem}">
 		<Setter Property="Panel.Background" Value="#00FFFFFF" />
-		<Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
+		<Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
 		<Setter Property="IsSelected" Value="{Binding IsSelected}" />
 		<Setter Property="Control.HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
 		<Setter Property="Control.VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" />
@@ -49,7 +49,7 @@
 								</Controls:TreeGridViewRowPresenter.Resources>
 								<Controls:TreeGridViewRowPresenter.Expander>
 									<Grid>
-										<ToggleButton Name="Expander" Width="19" Height="18" ClickMode="Press" IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListViewItem}}}">
+										<ToggleButton Name="Expander" Width="19" Height="18" ClickMode="Press" IsChecked="{Binding Path=IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource AncestorType={x:Type Controls:TreeListViewItem}}}">
 											<ToggleButton.Style>
 												<Style TargetType="ToggleButton">
 													<Setter Property="UIElement.Focusable" Value="False" />

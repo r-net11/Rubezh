@@ -17,18 +17,18 @@ namespace PlansModule.ViewModels
 
 		void CopyProperties()
 		{
-			BackgroundColor = _elementPolyline.BackgroundColor;
+			BorderColor = _elementPolyline.BorderColor;
 			StrokeThickness = _elementPolyline.BorderThickness;
 		}
 
-		Color _backgroundColor;
-		public Color BackgroundColor
+		Color _borderColor;
+		public Color BorderColor
 		{
-			get { return _backgroundColor; }
+			get { return _borderColor; }
 			set
 			{
-				_backgroundColor = value;
-				OnPropertyChanged("BackgroundColor");
+				_borderColor = value;
+				OnPropertyChanged("BorderColor");
 			}
 		}
 
@@ -45,7 +45,7 @@ namespace PlansModule.ViewModels
 
 		protected override bool Save()
 		{
-			_elementPolyline.BorderColor = BackgroundColor;
+			_elementPolyline.BorderColor = BorderColor;
 			_elementPolyline.BorderThickness = StrokeThickness;
 			return base.Save();
 		}

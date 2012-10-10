@@ -3,55 +3,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
 
-    <UserControl.Resources>
-        <Style x:Key="IsOnPlanCheckBoxStyle" TargetType="CheckBox">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="CheckBox">
-                        <Image Name="_image" Source="/Controls;component/Images/Lamp1.png" />
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="true">
-                                <Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Lamp1.png" />
-                            </Trigger>
-                            <Trigger Property="IsChecked" Value="false">
-                                <Setter TargetName="_image" Property="Source" Value="/Controls;component/Images/Lamp2.png" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-    </UserControl.Resources>
-    
-    <DataGrid Name="_devicesDataGrid" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
-		<DataGrid.RowStyle>
-			<Style TargetType="{x:Type DataGridRow}">
+	<Controls:TreeListView Name="_tree" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
+		<Controls:TreeListView.Resources>
+			<InputBindingCollection x:Key="inputCollection" x:Shared="False">
+				<MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
+			</InputBindingCollection>
+		</Controls:TreeListView.Resources>
+		<Controls:TreeListView.ItemContainerStyle>
+			<Style TargetType="{x:Type Controls:TreeListViewItem}" BasedOn="{StaticResource {x:Type Controls:TreeListViewItem}}">
 				<Setter Property="Visibility" Value="{Binding ShowOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" />
+				<Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
 			</Style>
-		</DataGrid.RowStyle>
-        <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Устройство" MinWidth="250">
-                <DataGridTemplateColumn.CellTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                <Image Source="/Controls;component/Images/map1.png" Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove"/>
-                                <Grid Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <Image Source="/Controls;component/Images/map3.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove"/>
-                                    <Image Source="/Controls;component/Images/map2.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
-                                </Grid>                                
-                                <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0"/>                                    
-                            </StackPanel>
-
-                            <TextBlock Grid.Column="1" Text="{Binding Device.Driver.ShortName}">
+		</Controls:TreeListView.ItemContainerStyle>
+		<Controls:TreeListView.Columns>
+			<GridViewColumn Header="Устройство" Width="250">
+				<GridViewColumn.CellTemplate>
+					<DataTemplate>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
+							<StackPanel Grid.Column="0" Orientation="Horizontal">
+								<Image Source="/Controls;component/Images/map1.png" Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
+								<Grid Visibility="{Binding Path=Driver.IsPlaceable, Converter={StaticResource BoolToVisibilityConverter}}">
+									<Image Source="/Controls;component/Images/map3.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}}" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
+									<Image Source="/Controls;component/Images/map2.png" Visibility="{Binding IsOnPlan, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=true}" PreviewMouseDown="On_PreviewMouseDown" MouseMove="On_MouseMove" />
+								</Grid>
+								<Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+							</StackPanel>
+							<TextBlock Grid.Column="1" Text="{Binding Device.Driver.ShortName}" VerticalAlignment="Center">
                                 <TextBlock.Style>
                                     <Style>
                                         <Style.Triggers>
@@ -63,20 +44,15 @@
                                         </Style.Triggers>
                                     </Style>
                                 </TextBlock.Style>
-                            </TextBlock>
+							</TextBlock>
+						</Grid>
+					</DataTemplate>
+				</GridViewColumn.CellTemplate>
+			</GridViewColumn>
 
-                            <Grid.InputBindings>
-                                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ShowOnPlanCommand}" />
-                            </Grid.InputBindings>
-                        </Grid>
-                    </DataTemplate>
-                </DataGridTemplateColumn.CellTemplate>
-            </DataGridTemplateColumn>
-
-            <DataGridTextColumn Header="Адрес" MinWidth="50" Binding="{Binding Address}" />
-            <DataGridTextColumn Header="Зона" MinWidth="50" Binding="{Binding PresentationZone}" />
-            <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Description}" />
-
-        </DataGrid.Columns>
-    </DataGrid >
+			<GridViewColumn Header="Адрес" Width="50" DisplayMemberBinding="{Binding Address}" />
+			<GridViewColumn Header="Зона" Width="50" DisplayMemberBinding="{Binding PresentationZone}" />
+			<GridViewColumn Header="Примечание" DisplayMemberBinding="{Binding Description}" />
+		</Controls:TreeListView.Columns>
+	</Controls:TreeListView>
 </UserControl>

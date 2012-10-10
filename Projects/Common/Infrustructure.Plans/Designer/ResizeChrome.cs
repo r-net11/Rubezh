@@ -3,10 +3,13 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using Infrustructure.Plans.Elements;
 namespace Infrustructure.Plans.Designer
 {
 	public abstract class ResizeChrome : Control, INotifyPropertyChanged
 	{
+		private const int MinSize = 3;
+
 		#region INotifyPropertyChanged Members
 
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -59,9 +62,10 @@ namespace Infrustructure.Plans.Designer
 				ResizeThumb thumb = (ResizeThumb)e.OriginalSource;
 				if (thumb.Direction != ResizeDirection.None)
 				{
+					var vector = CalculateSize(thumb.Direction, e.HorizontalChange, e.VerticalChange);
 					foreach (DesignerItem designerItem in DesignerCanvas.SelectedItems)
 						if (designerItem.ResizeChrome != null)
-							designerItem.ResizeChrome.Resize(thumb.Direction, CalculateSize(thumb.Direction, e.HorizontalChange, e.VerticalChange));
+							designerItem.ResizeChrome.Resize(thumb.Direction, vector);
 					e.Handled = true;
 				}
 			}
