@@ -102,5 +102,11 @@ namespace FiresecService.Service
         {
             return "Hello";
         }
+
+        public void NotifyClientsOnConfigurationChanged()
+        {
+            var thread = new Thread(new ThreadStart(() => { ClientsCash.OnConfigurationChanged(); }));
+            thread.Start();
+        }
 	}
 }

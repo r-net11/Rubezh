@@ -122,6 +122,9 @@ namespace FireAdministrator.Views
                     LoadingService.DoStep("Сохранение конфигурации ГК");
                     FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
                 }
+
+                if (ServiceFactory.SaveService.DevicesChanged || ServiceFactory.SaveService.PlansChanged || ServiceFactory.SaveService.OPCChanged)
+                    FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
             });
             LoadingService.Close();
             ServiceFactory.SaveService.Reset();

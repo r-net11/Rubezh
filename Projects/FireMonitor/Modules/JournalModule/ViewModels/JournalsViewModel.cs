@@ -3,14 +3,15 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Collections.ObjectModel;
 
 namespace JournalModule.ViewModels
 {
 	public class JournalsViewModel : ViewPartViewModel
 	{
-		public JournalsViewModel()
+		public void Initialize()
 		{
-			Journals = new List<FilteredJournalViewModel>();
+			Journals = new ObservableCollection<FilteredJournalViewModel>();
 			Journals.Add(new FilteredJournalViewModel(new JournalFilter() { Name = " Все события" }));
 			SelectedJournal = Journals.FirstOrDefault();
 
@@ -21,12 +22,8 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public void Initialize()
-		{
-		}
-
-		List<FilteredJournalViewModel> _journals;
-		public List<FilteredJournalViewModel> Journals
+		ObservableCollection<FilteredJournalViewModel> _journals;
+		public ObservableCollection<FilteredJournalViewModel> Journals
 		{
 			get { return _journals; }
 			set

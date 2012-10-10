@@ -10,22 +10,29 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" CanUserSortColumns="True" MouseDoubleClick="DataGrid_MouseDoubleClick">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Обозначение" MinWidth="100">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="1" />
-                                <TextBlock Text="{Binding ShortName}" Margin="1" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" MinWidth="200" />
-                <DataGridTextColumn Header="Класс" Binding="{Binding DeviceClassName}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
+        <ListView Grid.Row="0" ItemsSource="{Binding Drivers}" SelectedItem="{Binding SelectedDriver}" MouseDoubleClick="OnMouseDoubleClick">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Обозначение">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding ImageSource}" Width="16" Height="16" Margin="1" />
+                                        <TextBlock Text="{Binding ShortName}" Margin="1" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Наименование" />
+                        <GridViewColumn DisplayMemberBinding="{Binding DeviceClassName}" Header="Класс" />
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding SaveCommand}" />
+            </ListView.InputBindings>
+        </ListView>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />

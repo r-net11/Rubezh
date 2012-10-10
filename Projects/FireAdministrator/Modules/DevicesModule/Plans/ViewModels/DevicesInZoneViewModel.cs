@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DevicesModule.Plans.Events;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -66,8 +65,12 @@ namespace DevicesModule.Plans.ViewModels
 
         public void Activate()
         {
-            Device.ZoneUID = NewZoneUID;
-            ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(Device.UID);
+			var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == NewZoneUID);
+			if (zone != null)
+			{
+				FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, zone);
+			}
+			FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, null);
         }
 
         bool _isActive;

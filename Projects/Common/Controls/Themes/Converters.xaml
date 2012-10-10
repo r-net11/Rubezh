@@ -8,6 +8,7 @@
 	<Converters:ColorToBrushConverter x:Key="ColorToBrushConverter" />
 	<Converters:ColorToNameConverter x:Key="ColorToNameConverter" />
 	<Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
+    <Converters:StateTypeToJournalStringConverter x:Key="StateTypeToJournalStringConverter" />
 	<Converters:StateToColorConverter x:Key="StateToColorConverter" />
 	<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
 	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />

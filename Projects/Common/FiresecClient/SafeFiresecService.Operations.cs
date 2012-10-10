@@ -20,6 +20,11 @@ namespace FiresecClient
             SafeOperationCall(() => { FiresecService.Disconnect(); });
         }
 
+        public void NotifyClientsOnConfigurationChanged()
+        {
+            SafeOperationCall(() => { FiresecService.NotifyClientsOnConfigurationChanged(); });
+        }
+
         public string GetStatus()
         {
             return SafeOperationCall(() => { return FiresecService.GetStatus(); });

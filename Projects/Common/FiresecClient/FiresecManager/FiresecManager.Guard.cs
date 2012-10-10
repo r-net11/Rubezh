@@ -51,12 +51,10 @@ namespace FiresecClient
 				if (device.Driver.DriverType != DriverType.AM1_O)
 					continue;
 
-				if (device.DeviceState.States.Count != 1)
-					return false;
-				if (device.DeviceState.States.First().DriverState.Code != "OnGuard")
-					return false;
+				if (device.DeviceState.States.Count == 1 && device.DeviceState.States.First().DriverState.Code == "OnGuard")
+					return true;
 			}
-			return true;
+			return false;
 		}
 
 		public static bool IsZoneOnGuardAlarm(ZoneState zoneState)
@@ -72,9 +70,7 @@ namespace FiresecClient
 
 				foreach (var state in device.DeviceState.States)
 				{
-					if (state.DriverState.Code.Contains("Alarm"))
-						return true;
-					if (state.DriverState.Code == "InitFailed")
+					if (state.DriverState.Code.Contains("Alarm") || state.DriverState.Code.Contains("InitFailed"))
 						return true;
 				}
 			}

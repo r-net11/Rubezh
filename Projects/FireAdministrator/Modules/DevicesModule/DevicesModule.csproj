@@ -140,6 +140,7 @@
     <Compile Include="Devices\ViewModels\Actions\Async\SetPasswordHelper.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\MptDetailsViewModel.cs" />
     <Compile Include="Devices\ViewModels\PropertyDetails\UOOTLDetailsViewModel.cs" />
+    <Compile Include="Devices\ViewModels\ZoneSelectationViewModel.cs" />
     <Compile Include="Devices\Views\Actions\CustomAdminFunctionsCommandView.xaml.cs">
       <DependentUpon>CustomAdminFunctionsCommandView.xaml</DependentUpon>
     </Compile>
@@ -187,6 +188,9 @@
     <Compile Include="Devices\Views\PropertyDetails\UOOTLDetailsView.xaml.cs">
       <DependentUpon>UOOTLDetailsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Devices\Views\ZoneSelectationView.xaml.cs">
+      <DependentUpon>ZoneSelectationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Guard\Async\DeviceGetGuardUsersListHelper.cs" />
     <Compile Include="Guard\Async\DeviceSetGuardUsersListHelper.cs" />
     <Compile Include="Guard\ViewModels\GuardConfigurationViewModel.cs" />
@@ -206,7 +210,6 @@
       <DependentUpon>GuardSynchronizationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\Helper.cs" />
-    <Compile Include="Plans\Events\DeviceInZoneChangedEvent.cs" />
     <Compile Include="Plans\InstrumentAdorners\ZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\ZoneRectangleAdorner.cs" />
     <Compile Include="Plans\PlanExtension.cs" />
@@ -466,6 +469,10 @@
     <Page Include="Devices\Views\PropertyDetails\UOOTLDetailsView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Devices\Views\ZoneSelectationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Directions\DataTemplates\Dictionary.xaml">
       <SubType>Designer</SubType>

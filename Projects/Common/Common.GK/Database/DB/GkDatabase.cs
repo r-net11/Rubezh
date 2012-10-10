@@ -7,16 +7,10 @@ namespace Common.GK
 	public class GkDatabase : CommonDatabase
 	{
 		public List<KauDatabase> KauDatabases { get; set; }
-		public List<XDirection> Directions { get; set; }
-		public List<XDevice> KauDevices { get; set; }
-		public List<XZone> KauZones { get; set; }
 
 		public GkDatabase(XDevice gkDevice)
 		{
 			KauDatabases = new List<KauDatabase>();
-			Directions = new List<XDirection>();
-			KauDevices = new List<XDevice>();
-			KauZones = new List<XZone>();
 			DatabaseType = DatabaseType.Gk;
 			RootDevice = gkDevice;
 
@@ -54,6 +48,13 @@ namespace Common.GK
 					AddZone(zone);
 				}
 			}
+			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			{
+				if (direction.GkDatabaseParent == RootDevice)
+				{
+					AddDirection(direction);
+				}
+			}
 
 			BinaryObjects = new List<BinaryObjectBase>();
 			foreach (var device in Devices)
@@ -66,17 +67,10 @@ namespace Common.GK
 				var zoneBinaryObject = new ZoneBinaryObject(zone, DatabaseType);
 				BinaryObjects.Add(zoneBinaryObject);
 			}
-
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
+			foreach (var direction in Directions)
 			{
-				if (direction.GkDatabaseParent == RootDevice)
-				{
-					direction.SetDatabaseNo(DatabaseType, NextChildNo);
-					Directions.Add(direction);
-
-					var directionBinaryObject = new DirectionBinaryObject(direction, DatabaseType);
-					BinaryObjects.Add(directionBinaryObject);
-				}
+				var directionBinaryObject = new DirectionBinaryObject(direction, DatabaseType);
+				BinaryObjects.Add(directionBinaryObject);
 			}
 		}
 

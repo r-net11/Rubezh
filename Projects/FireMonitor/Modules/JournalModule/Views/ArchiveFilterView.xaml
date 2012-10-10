@@ -95,7 +95,7 @@
                                     <WrapPanel>
                                         <CheckBox Margin="2" Indeterminate="CheckBox_Indeterminate" IsChecked="{Binding IsEnable}" IsThreeState="True"
                                               Checked="CheckBox_Checked" Unchecked="CheckBox_Checked" />
-                                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+                                        <TextBlock Text="{Binding StateType, Converter={StaticResource StateTypeToJournalStringConverter}}" />
                                     </WrapPanel>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>

@@ -77,7 +77,7 @@
                                                Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <TextBlock.InputBindings>
                                             <MouseBinding MouseAction="LeftClick" Command="{Binding ShowZoneOrLogicCommand}" />
-                                        </TextBlock.InputBindings>                                        
+                                        </TextBlock.InputBindings>
                                     </TextBlock>
                                 </StackPanel>
                             </DataTemplate>

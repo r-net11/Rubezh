@@ -15,12 +15,14 @@ namespace Common.GK
 		public XDevice RootDevice { get; protected set; }
 		public List<XDevice> Devices { get; set; }
 		public List<XZone> Zones { get; set; }
+		public List<XDirection> Directions { get; set; }
 		public List<BinaryObjectBase> BinaryObjects { get; set; }
 
 		public CommonDatabase()
 		{
 			Devices = new List<XDevice>();
 			Zones = new List<XZone>();
+			Directions = new List<XDirection>();
 			BinaryObjects = new List<BinaryObjectBase>();
 		}
 
@@ -40,6 +42,15 @@ namespace Common.GK
 
 			zone.SetDatabaseNo(DatabaseType, NextChildNo);
 			Zones.Add(zone);
+		}
+
+		public virtual void AddDirection(XDirection direction)
+		{
+			if (Directions.Contains(direction))
+				return;
+
+			direction.SetDatabaseNo(DatabaseType, NextChildNo);
+			Directions.Add(direction);
 		}
 
 		public abstract void BuildObjects();

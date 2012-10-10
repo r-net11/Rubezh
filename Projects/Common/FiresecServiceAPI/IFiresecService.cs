@@ -28,6 +28,9 @@ namespace FiresecAPI
 
         [OperationContract]
         string Test(string arg);
+
+        [OperationContract(IsOneWay = true)]
+        void NotifyClientsOnConfigurationChanged();
         #endregion
 
         #region Configuration

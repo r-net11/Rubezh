@@ -10,56 +10,20 @@ namespace AlarmModule.ViewModels
 {
 	public class InstructionViewModel : DialogViewModel
 	{
-		public bool HasContent { get; private set; }
-
-		public InstructionViewModel(Guid deviceUID, AlarmType alarmType)
+		public InstructionViewModel(Guid deviceUID, Guid zoneUID, AlarmType alarmType)
 		{
 			Title = "Инструкции";
-
-			DeviceId = deviceUID;
 			StateType = AlarmTypeToStateType(alarmType);
+			DeviceId = deviceUID;
 
-            HasContent = FindDeviceInstruction(DeviceId) || FindZoneInstruction(ZoneUID);
-			if (!HasContent)
-			{
-				Instruction = InstructionGeneral;
-			}
+			Instruction = FindInstruction(deviceUID, zoneUID);
+			HasContent = Instruction != null;
 		}
 
+		public bool HasContent { get; private set; }
 		public Guid DeviceId { get; private set; }
 		public StateType StateType { get; private set; }
 		public Instruction Instruction { get; private set; }
-
-        public Guid ZoneUID
-		{
-			get
-			{
-				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == DeviceId);
-				if (device != null)
-                    return device.ZoneUID;
-				return Guid.Empty;
-			}
-		}
-
-		List<Instruction> AvailableStateTypeInstructions
-		{
-			get
-			{
-				if (FiresecClient.FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
-					return FiresecClient.FiresecManager.SystemConfiguration.Instructions.FindAll(x => x.StateType == StateType);
-				return new List<Instruction>();
-			}
-		}
-
-		Instruction InstructionGeneral
-		{
-			get
-			{
-				if (AvailableStateTypeInstructions.IsNotNullOrEmpty())
-					return AvailableStateTypeInstructions.FirstOrDefault(x => x.InstructionType == InstructionType.General);
-				return new Instruction();
-			}
-		}
 
 		StateType AlarmTypeToStateType(AlarmType alarmType)
 		{
@@ -88,39 +52,49 @@ namespace AlarmModule.ViewModels
 			}
 		}
 
-		bool FindDeviceInstruction(Guid deviceUID)
+		Instruction FindInstruction(Guid deviceUID, Guid zoneUID)
 		{
-			if (AvailableStateTypeInstructions.IsNotNullOrEmpty())
+			var availableStateTypeInstructions = FiresecClient.FiresecManager.SystemConfiguration.Instructions.FindAll(x => x.StateType == StateType);
+
+			if (deviceUID != Guid.Empty)
 			{
-				foreach (var instruction in AvailableStateTypeInstructions)
+				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == DeviceId);
+				if (device != null)
 				{
-					if (instruction.Devices.IsNotNullOrEmpty() && instruction.Devices.Contains(deviceUID))
+					foreach (var instruction in availableStateTypeInstructions)
 					{
-						Instruction = instruction;
-						return true;
+						if (instruction.Devices.Contains(deviceUID))
+						{
+							return instruction;
+						}
 					}
 				}
 			}
 
-			return false;
-		}
-
-        bool FindZoneInstruction(Guid zoneUID)
-		{
-			if (AvailableStateTypeInstructions.IsNotNullOrEmpty())
+			if (zoneUID != Guid.Empty)
 			{
-				foreach (var instruction in AvailableStateTypeInstructions)
+				var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUID);
+				if (zone != null)
 				{
-                    if (zoneUID != Guid.Empty)
-                        if (instruction.ZoneUIDs.IsNotNullOrEmpty() && instruction.ZoneUIDs.Contains(zoneUID))
+					foreach (var instruction in availableStateTypeInstructions)
+					{
+						if (instruction.ZoneUIDs.Contains(zoneUID))
 						{
-							Instruction = instruction;
-							return true;
+							return instruction;
 						}
+					}
 				}
 			}
 
-			return false;
+			foreach (var instruction in availableStateTypeInstructions)
+			{
+				if (instruction.InstructionType == InstructionType.General)
+				{
+					return instruction;
+				}
+			}
+
+			return null;
 		}
 	}
 }

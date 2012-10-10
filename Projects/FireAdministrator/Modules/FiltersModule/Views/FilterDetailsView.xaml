@@ -32,7 +32,7 @@
                     <ItemsControl ItemsSource="{Binding StateTypes}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <CheckBox Content="{Binding StateType, Converter={StaticResource StateTypeToStringConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="1" />
+                                <CheckBox Content="{Binding StateType, Converter={StaticResource StateTypeToJournalStringConverter}}" IsChecked="{Binding IsChecked}" Foreground="White" Margin="1" />
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>

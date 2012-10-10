@@ -56,6 +56,8 @@ namespace XFiresecAPI
         {
 			bool result = true;
 
+            Update();
+
 			if (JournalFilters == null)
 			{
 				JournalFilters = new List<XJournalFilter>();
@@ -122,15 +124,15 @@ namespace XFiresecAPI
 			}
 			foreach (var direction in Directions)
 			{
-				if (direction.ZoneUIDs == null)
+				if (direction.DirectionZones == null)
 				{
-					direction.ZoneUIDs = new List<Guid>();
+                    direction.DirectionZones = new List<XDirectionZone>();
 					result = false;
 				}
 
-				if (direction.DeviceUIDs == null)
+				if (direction.DirectionDevices == null)
 				{
-					direction.DeviceUIDs = new List<Guid>();
+                    direction.DirectionDevices = new List<XDirectionDevice>();
 					result = false;
 				}
 			}

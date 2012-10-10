@@ -12,7 +12,7 @@
                 SelectedItem="{Binding SelectedJournal}">
         <TabControl.ItemTemplate>
             <DataTemplate>
-                <TextBlock Text="{Binding JournalFilter.Name}" />
+                <TextBlock Text="{Binding JournalFilter.Name}" ToolTip="{Binding JournalFilter.StateTypes, Converter={StaticResource EventsToStringConverter}}" />
             </DataTemplate>
         </TabControl.ItemTemplate>
 

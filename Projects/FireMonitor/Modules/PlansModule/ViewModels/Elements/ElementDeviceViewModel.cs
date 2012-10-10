@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using FiresecAPI.Models;
 using FiresecClient;
+using FiresecAPI;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
@@ -19,7 +20,10 @@ namespace PlansModule.ViewModels
 		ElementDevice ElementDevice;
 		public Guid DeviceUID { get; private set; }
 		Device Device;
-		public DeviceState DeviceState { get; private set; }
+		public DeviceState DeviceState
+		{
+			get { return Device.DeviceState; }
+		}
 
 		public ElementDeviceViewModel(ElementDevice elementDevice)
 		{
@@ -32,9 +36,8 @@ namespace PlansModule.ViewModels
 			Device = FiresecManager.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
 			if (Device != null)
 			{
-				DeviceState = Device.DeviceState;
 				DeviceState.StateChanged += new Action(OnDeviceStateChanged);
-                DeviceState.ParametersChanged +=new Action(OnParametersChanged);
+				DeviceState.ParametersChanged += new Action(OnParametersChanged);
 			}
 		}
 
@@ -118,20 +121,18 @@ namespace PlansModule.ViewModels
 			ElementDeviceView._deviceControl.Update();
 		}
 
-        void OnParametersChanged()
-        {
-            OnPropertyChanged("ToolTip");
-        }
+		void OnParametersChanged()
+		{
+			OnPropertyChanged("ToolTip");
+		}
 
 		public string ToolTip
 		{
 			get
 			{
 				var stringBuilder = new StringBuilder();
-				stringBuilder.Append(Device.PresentationAddress);
-				stringBuilder.Append(" - ");
-				stringBuilder.Append(Device.Driver.ShortName);
-				stringBuilder.Append("\n");
+				stringBuilder.AppendLine(Device.PresentationAddress + " - " + Device.Driver.ShortName);
+				stringBuilder.AppendLine("Состояние: " + DeviceState.StateType.ToDescription());
 
 				if (DeviceState.ParentStringStates != null)
 				{
@@ -148,10 +149,9 @@ namespace PlansModule.ViewModels
 
 				if (DeviceState.Parameters != null)
 				{
-					var nullString = "<NULL>";
 					foreach (var parameter in DeviceState.Parameters)
 					{
-						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == nullString)
+						if (string.IsNullOrEmpty(parameter.Value) || parameter.Value == "<NULL>")
 							continue;
 						if ((parameter.Name == "Config$SerialNum") || (parameter.Name == "Config$SoftVersion"))
 							continue;

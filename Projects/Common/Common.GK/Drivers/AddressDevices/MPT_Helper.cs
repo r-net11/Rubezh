@@ -20,11 +20,11 @@ namespace Common.GK
 
 			GKDriversHelper.AddControlAvailableStates(driver);
 
-			AddRegim(driver, 0xBB, "Логика работы выхода 1");
-			AddRegim(driver, 0xBC, "Логика работы выхода 2");
-			AddRegim(driver, 0xBD, "Логика работы выхода 3");
-			AddRegim(driver, 0xBE, "Логика работы выхода 4");
-			AddRegim(driver, 0xBF, "Логика работы выхода 5");
+			AddRegim(driver, 0xBB, "Логика работы выхода 1", 1);
+			AddRegim(driver, 0xBC, "Логика работы выхода 2", 3);
+			AddRegim(driver, 0xBD, "Логика работы выхода 3", 4);
+			AddRegim(driver, 0xBE, "Логика работы выхода 4", 2);
+			AddRegim(driver, 0xBF, "Логика работы выхода 5", 5);
 
 
 			var property1 = new XDriverProperty()
@@ -81,7 +81,7 @@ namespace Common.GK
 
 			GKDriversHelper.AddPlainEnumProprety(driver, 0xC6, "Состояние  режима «Автоматика включена» после включения питания", 6,
 				"после включения питания  режим «Автоматика включена» включен",
-				"после включения питания  режим «Автоматика включена» отключен", 1);
+				"после включения питания  режим «Автоматика включена» отключен", 1, 1);
 
 			return driver;
 		}
@@ -103,25 +103,25 @@ namespace Common.GK
 			driver.Properties.Add(property);
 		}
 
-		static void AddRegim(XDriver driver, byte no, string propertyName)
+		static void AddRegim(XDriver driver, byte no, string propertyName, ushort defaultValue = 1)
 		{
 			var property = new XDriverProperty()
 			{
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = 1,
+				Default = defaultValue,
 				Offset = 0
 			};
 			GKDriversHelper.AddPropertyParameter(property, "Сирена", 1);
 			GKDriversHelper.AddPropertyParameter(property, "Табличка «Уходи»", 2);
 			GKDriversHelper.AddPropertyParameter(property, "Табличка «Не входи»", 3);
 			GKDriversHelper.AddPropertyParameter(property, "Табличка «Автоматика отключена»", 4);
-			GKDriversHelper.AddPropertyParameter(property, "Выход АУП", 4);
+			GKDriversHelper.AddPropertyParameter(property, "Выход АУП", 5);
 			driver.Properties.Add(property);
 		}
 
-		static void AddDetectorState(XDriver driver, byte no, string propertyName, byte offset, ushort dflt)
+		static void AddDetectorState(XDriver driver, byte no, string propertyName, byte offset, ushort defaultValue)
 		{
 			var property = new XDriverProperty()
 			{
