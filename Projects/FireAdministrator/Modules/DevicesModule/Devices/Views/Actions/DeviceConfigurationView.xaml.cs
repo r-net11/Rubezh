@@ -21,7 +21,7 @@ namespace DevicesModule.Views
         private void dataGrid2RowSelected(object sender, RoutedEventArgs e)
         {
             DataGrid1.SelectedIndex = DataGrid2.SelectedIndex;
-        } 
+        }
 
         private void DataGrid1_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
