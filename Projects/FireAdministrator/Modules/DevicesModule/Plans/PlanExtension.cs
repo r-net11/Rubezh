@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using DeviceControls;
-using DevicesModule.Plans.Events;
 using DevicesModule.Plans.InstrumentAdorners;
 using DevicesModule.Plans.ViewModels;
 using FiresecAPI.Models;
@@ -17,6 +16,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using Devices = DevicesModule.ViewModels;
+using FiresecClient;
 
 namespace DevicesModule.Plans
 {
@@ -234,7 +234,7 @@ namespace DevicesModule.Plans
 					var device = Designer.Helper.GetDevice(elementDevice);
 					if (device == null || device.Driver == null || !device.Driver.IsZoneDevice)
 						continue;
-					var zones = new List<Guid>();
+					var zoneUIDs = new List<Guid>();
 					foreach (var elementPolygonZoneItem in _designerCanvas.Items)
 					{
 						var point = new Point((int)(designerItemCenterX - Canvas.GetLeft(elementPolygonZoneItem)), (int)(designerItemCenterY - Canvas.GetTop(elementPolygonZoneItem)));
@@ -243,32 +243,35 @@ namespace DevicesModule.Plans
 						{
 							bool isInPolygon = DesignerHelper.IsPointInPolygon(point, elementPolygonZoneItem.Content as Polygon);
 							if (isInPolygon && elementPolygonZone.ZoneUID != Guid.Empty)
-								zones.Add(elementPolygonZone.ZoneUID);
+								zoneUIDs.Add(elementPolygonZone.ZoneUID);
 						}
 						ElementRectangleZone elementRectangleZone = elementPolygonZoneItem.Element as ElementRectangleZone;
 						if (elementRectangleZone != null)
 						{
 							bool isInRectangle = ((point.X > 0) && (point.X < elementRectangleZone.Width) && (point.Y > 0) && (point.Y < elementRectangleZone.Height));
 							if (isInRectangle && elementRectangleZone.ZoneUID != Guid.Empty)
-								zones.Add(elementRectangleZone.ZoneUID);
+								zoneUIDs.Add(elementRectangleZone.ZoneUID);
 						}
 					}
 
 					if (device.ZoneUID != Guid.Empty)
 					{
-						var isInZone = zones.Any(x => x == device.ZoneUID);
+						var isInZone = zoneUIDs.Any(x => x == device.ZoneUID);
 						if (!isInZone)
 						{
 							if (!deviceInZones.ContainsKey(device))
-								deviceInZones.Add(device, zones.Count > 0 ? zones[0] : Guid.Empty);
-							else if (zones.Count > 0)
-								deviceInZones[device] = zones[0];
+								deviceInZones.Add(device, zoneUIDs.Count > 0 ? zoneUIDs[0] : Guid.Empty);
+							else if (zoneUIDs.Count > 0)
+								deviceInZones[device] = zoneUIDs[0];
 						}
 					}
-					else if (zones.Count > 0)
+					else if (zoneUIDs.Count > 0)
 					{
-						device.ZoneUID = zones[0];
-						ServiceFactory.Events.GetEvent<DeviceInZoneChangedEvent>().Publish(device.UID);
+						var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUIDs[0]);
+						if (zone != null)
+						{
+							FiresecManager.FiresecConfiguration.AddDeviceToZone(device, zone);
+						}
 					}
 				}
 			}

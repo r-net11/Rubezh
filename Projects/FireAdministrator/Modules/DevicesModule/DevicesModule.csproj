@@ -210,7 +210,6 @@
       <DependentUpon>GuardSynchronizationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Plans\Designer\Helper.cs" />
-    <Compile Include="Plans\Events\DeviceInZoneChangedEvent.cs" />
     <Compile Include="Plans\InstrumentAdorners\ZonePolygonAdorner.cs" />
     <Compile Include="Plans\InstrumentAdorners\ZoneRectangleAdorner.cs" />
     <Compile Include="Plans\PlanExtension.cs" />

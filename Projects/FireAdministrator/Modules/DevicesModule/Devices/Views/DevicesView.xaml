@@ -91,7 +91,7 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" MinWidth="100" Cursor="Hand"
+                                    <TextBlock Text="{Binding EditingPresentationZone}" ToolTip="{Binding EditingPresentationZone}" MinWidth="100" Cursor="Hand"
                                                Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
                                         <TextBlock.InputBindings>
                                             <MouseBinding MouseAction="LeftClick" Command="{Binding ShowZoneOrLogicCommand}" />

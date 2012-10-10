@@ -8,16 +8,16 @@ namespace FiresecAPI.Models
             switch (alarmType)
             {
                 case AlarmType.Fire:
-                    return (StateType)0;
+                    return StateType.Fire;
 
                 case AlarmType.Attention:
-                    return (StateType)1;
+                    return StateType.Attention;
 
                 case AlarmType.Info:
-                    return (StateType)6;
+                    return StateType.Info;
 
                 default:
-                    return (StateType)8;
+                    return StateType.No;
             }
         }
 

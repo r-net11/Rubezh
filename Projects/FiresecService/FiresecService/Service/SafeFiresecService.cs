@@ -102,7 +102,7 @@ namespace FiresecService.Service
 
         public void NotifyClientsOnConfigurationChanged()
         {
-            SafeOperationCall(() => { FiresecService.Disconnect(); }, "NotifyClientsOnConfigurationChanged");
+			SafeOperationCall(() => { FiresecService.NotifyClientsOnConfigurationChanged(); }, "NotifyClientsOnConfigurationChanged");
         }
 
         public string GetStatus()

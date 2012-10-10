@@ -136,14 +136,14 @@ namespace AlarmModule.ViewModels
 
 		bool CanShowInstruction()
 		{
-			var instructionViewModel = new InstructionViewModel(Alarm.DeviceUID, Alarm.AlarmType);
+			var instructionViewModel = new InstructionViewModel(Alarm.DeviceUID, Alarm.ZoneUID, Alarm.AlarmType);
 			return instructionViewModel.HasContent;
 		}
 
 		public RelayCommand ShowInstructionCommand { get; private set; }
 		void OnShowInstruction()
 		{
-			var instructionViewModel = new InstructionViewModel(Alarm.DeviceUID, Alarm.AlarmType);
+			var instructionViewModel = new InstructionViewModel(Alarm.DeviceUID, Alarm.ZoneUID, Alarm.AlarmType);
 			DialogService.ShowModalWindow(instructionViewModel);
 		}
 	}

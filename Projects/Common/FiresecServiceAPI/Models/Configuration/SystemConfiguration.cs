@@ -25,5 +25,16 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public List<Camera> Cameras { get; set; }
+
+		public override bool ValidateVersion()
+		{
+			var result = true;
+			if (Instructions == null)
+			{
+				Instructions = new List<Instruction>();
+				result = false;
+			}
+			return result;
+		}
 	}
 }

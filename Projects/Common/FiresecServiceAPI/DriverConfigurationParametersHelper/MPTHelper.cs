@@ -105,7 +105,7 @@ namespace FiresecAPI.Models
 
 		
 
-		static void AddRegime(Driver driver, byte no, string propertyName, string dflt)
+		static void AddRegime(Driver driver, byte no, string propertyName, string defaultValue)
 		{
 			var property = new DriverProperty()
 			{
@@ -113,7 +113,7 @@ namespace FiresecAPI.Models
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = dflt,
+				Default = defaultValue,
 				MaxBit = 3,
 				UseMask = true
 			};
@@ -125,7 +125,7 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 
-		static void AddLogic(Driver driver, byte no, string propertyName, string dflt)
+		static void AddLogic(Driver driver, byte no, string propertyName, string defaultValue)
 		{
 			var property = new DriverProperty()
 			{
@@ -133,7 +133,7 @@ namespace FiresecAPI.Models
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = dflt,
+				Default = defaultValue,
 				BitOffset = 4,
 				UseMask = true
 			};
@@ -151,7 +151,7 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 
-		static void AddDetectorState(Driver driver, byte no, string propertyName, byte offset, byte minBit, byte maxBit, string dflt)
+		static void AddDetectorState(Driver driver, byte no, string propertyName, byte offset, byte minBit, byte maxBit, string defaultValue)
 		{
 			var property = new DriverProperty()
 			{
@@ -159,7 +159,7 @@ namespace FiresecAPI.Models
 				No = no,
 				Name = propertyName,
 				Caption = propertyName,
-				Default = dflt,
+				Default = defaultValue,
 				BitOffset = offset,
 				MinBit = minBit,
 				MaxBit = maxBit,

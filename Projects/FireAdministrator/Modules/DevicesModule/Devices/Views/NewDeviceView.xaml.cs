@@ -4,23 +4,27 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.Views
 {
-    public partial class NewDeviceView : UserControl
-    {
-        public NewDeviceView()
-        {
-            InitializeComponent();
-        }
+	public partial class NewDeviceView : UserControl
+	{
+		public NewDeviceView()
+		{
+			InitializeComponent();
+		}
 
-        private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            IInputElement element = e.MouseDevice.DirectlyOver;
-            if ((element != null && element is FrameworkElement && ((FrameworkElement)element).Parent is DataGridCell) == true)
-            {
-                var dataGrid = sender as DataGrid;
-                var saveCancelDialogContent = dataGrid.DataContext as SaveCancelDialogViewModel;
-                if (saveCancelDialogContent.SaveCommand.CanExecute(null))
-                    saveCancelDialogContent.SaveCommand.Execute();
-            }
-        }
-    }
+		private void OnMouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+			IInputElement element = e.MouseDevice.DirectlyOver;
+			if (!(element != null && element is FrameworkElement && ((FrameworkElement)element).Parent != null))
+			{
+				return;
+			}
+
+			var saveCancelDialogContent = DataContext as SaveCancelDialogViewModel;
+			if (saveCancelDialogContent != null)
+			{
+				if (saveCancelDialogContent.SaveCommand.CanExecute(null))
+					saveCancelDialogContent.SaveCommand.Execute();
+			}
+		}
+	}
 }

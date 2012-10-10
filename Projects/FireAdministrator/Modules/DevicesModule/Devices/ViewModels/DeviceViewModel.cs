@@ -144,7 +144,12 @@ namespace DevicesModule.ViewModels
 		}
 
         #region Zones
-        public string PresentationZone
+		public string PresentationZone
+		{
+			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
+		}
+
+        public string EditingPresentationZone
         {
             get
             {
