@@ -14,6 +14,7 @@ using Infrastructure.Events;
 using Infrastructure.ViewModels;
 using System.Windows.Input;
 using KeyboardKey = System.Windows.Input.Key;
+using System.Windows.Controls;
 
 namespace DevicesModule.ViewModels
 {
