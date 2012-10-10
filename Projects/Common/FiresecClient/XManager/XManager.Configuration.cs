@@ -128,6 +128,7 @@ namespace FiresecClient
                     if (directionDevice.DeviceUID != Guid.Empty)
                     {
                         var device = DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == directionDevice.DeviceUID);
+                        directionDevice.Device = device;
                         if (device != null)
                         {
                             directionDevices.Add(directionDevice);
@@ -144,6 +145,7 @@ namespace FiresecClient
                     if (directionZone.ZoneUID != Guid.Empty)
                     {
                         var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == directionZone.ZoneUID);
+                        directionZone.Zone = zone;
                         if (zone != null)
                         {
                             directionZones.Add(directionZone);

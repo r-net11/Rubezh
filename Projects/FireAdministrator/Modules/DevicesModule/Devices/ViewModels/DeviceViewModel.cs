@@ -56,30 +56,23 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("IsOnPlan");
 		}
 
-		public string Address
-		{
-			get { return Device.PresentationAddress; }
-			set
-			{
-				if (Device.Parent.Children.Where(x => x != Device).Any(x => x.PresentationAddress == value))
-				{
-					MessageBoxService.Show("Устройство с таким адресом уже существует");
-				}
-				else
-				{
-					Device.SetAddress(value);
-					if (Driver.IsChildAddressReservedRange)
-					{
-						foreach (var deviceViewModel in Children)
-						{
-							deviceViewModel.OnPropertyChanged("Address");
-						}
-					}
-					ServiceFactory.SaveService.DevicesChanged = true;
-				}
-				OnPropertyChanged("Address");
-			}
-		}
+        public string Address
+        {
+            get { return Device.PresentationAddress; }
+            set
+            {
+                Device.SetAddress(value);
+                if (Driver.IsChildAddressReservedRange)
+                {
+                    foreach (var deviceViewModel in Children)
+                    {
+                        deviceViewModel.OnPropertyChanged("Address");
+                    }
+                }
+                ServiceFactory.SaveService.DevicesChanged = true;
+                OnPropertyChanged("Address");
+            }
+        }
 
 		public bool IsLocal
 		{

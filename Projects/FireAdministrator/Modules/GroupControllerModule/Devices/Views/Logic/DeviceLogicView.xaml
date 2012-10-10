@@ -8,7 +8,7 @@
 
     <UserControl.Resources>
         <Converters:ClauseConditionConverter x:Key="ClauseConditionConverter" />
-        <Converters:StateTypesConverter x:Key="StateTypesConverter" />
+        <Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
         <Converters:ClauseOperationConverter x:Key="ClauseOperationConverter" />
         <Converters:ClauseJounOperationConverter x:Key="ClauseJounOperationConverter" />
     </UserControl.Resources>
@@ -51,7 +51,7 @@
 											ItemsSource="{Binding StateTypes}" SelectedItem="{Binding SelectedStateType}">
                                             <ComboBox.ItemTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding ., Converter={StaticResource StateTypesConverter}}" />
+                                                    <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" />
                                                 </DataTemplate>
                                             </ComboBox.ItemTemplate>
                                         </ComboBox>

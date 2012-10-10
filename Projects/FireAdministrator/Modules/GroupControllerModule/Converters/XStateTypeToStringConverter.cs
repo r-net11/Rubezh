@@ -5,7 +5,7 @@ using XFiresecAPI;
 
 namespace GKModule.Converters
 {
-	public class StateTypesConverter : IValueConverter
+	public class XStateTypeToStringConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{

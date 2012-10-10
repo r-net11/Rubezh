@@ -19,8 +19,8 @@ namespace GKModule.ViewModels
         public DirectionViewModel(XDirection direction)
         {
             Direction = direction;
-            Zones = new ObservableCollection<ZoneViewModel>();
-            Devices = new ObservableCollection<DeviceViewModel>();
+            Zones = new ObservableCollection<DirectionZoneViewModel>();
+            Devices = new ObservableCollection<DirectionDeviceViewModel>();
             InitializeDirectionZones();
             InitializeDirectionDevices();
         }
@@ -28,20 +28,20 @@ namespace GKModule.ViewModels
         void InitializeDirectionZones()
         {
             Zones.Clear();
-            foreach (var zone in Direction.Zones)
+            foreach (var directionZone in Direction.DirectionZones)
             {
-                var zoneViewModel = new ZoneViewModel(zone);
-                Zones.Add(zoneViewModel);
+                var directionZoneViewModel = new DirectionZoneViewModel(directionZone);
+                Zones.Add(directionZoneViewModel);
             }
         }
 
         void InitializeDirectionDevices()
         {
             Devices.Clear();
-            foreach (var device in Direction.Devices)
+            foreach (var directionDevice in Direction.DirectionDevices)
             {
-                var deviceViewModel = new DeviceViewModel(device, null);
-                Devices.Add(deviceViewModel);
+                var directionDeviceViewModel = new DirectionDeviceViewModel(directionDevice);
+                Devices.Add(directionDeviceViewModel);
             }
         }
 
@@ -50,10 +50,10 @@ namespace GKModule.ViewModels
             OnPropertyChanged("Direction");
         }
 
-        public ObservableCollection<ZoneViewModel> Zones { get; private set; }
+        public ObservableCollection<DirectionZoneViewModel> Zones { get; private set; }
 
-        ZoneViewModel _selectedZone;
-        public ZoneViewModel SelectedZone
+        DirectionZoneViewModel _selectedZone;
+        public DirectionZoneViewModel SelectedZone
         {
             get { return _selectedZone; }
             set
@@ -63,10 +63,10 @@ namespace GKModule.ViewModels
             }
         }
 
-        public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+        public ObservableCollection<DirectionDeviceViewModel> Devices { get; private set; }
 
-        DeviceViewModel _selectedDevice;
-        public DeviceViewModel SelectedDevice
+        DirectionDeviceViewModel _selectedDevice;
+        public DirectionDeviceViewModel SelectedDevice
         {
             get { return _selectedDevice; }
             set

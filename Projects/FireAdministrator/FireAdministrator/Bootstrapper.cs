@@ -34,13 +34,13 @@ namespace FireAdministrator
 					LoadingService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
 					InitializeFs();
-					var FSLoadingError = FiresecDriver.LoadingErrors.ToString();
-					if (!String.IsNullOrEmpty(FSLoadingError))
-					{
-						MessageBoxService.ShowWarning(FSLoadingError, "Ошибки при загрузке драйвера FireSec");
-					}
-					LoadingService.DoStep("Загрузка конфигурации ГК");
-					InitializeGk();
+					//var FSLoadingError = FiresecDriver.LoadingErrors.ToString();
+					//if (!String.IsNullOrEmpty(FSLoadingError))
+					//{
+					//    MessageBoxService.ShowWarning(FSLoadingError, "Ошибки при загрузке драйвера FireSec");
+					//}
+					//LoadingService.DoStep("Загрузка конфигурации ГК");
+					//InitializeGk();
 
 					LoadingService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
@@ -73,11 +73,11 @@ namespace FireAdministrator
 			LoadingService.DoStep("Загрузка конфигурации с сервера");
 			FiresecManager.GetConfiguration();
 			LoadingService.DoStep("Загрузка драйвера устройств");
-			FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
+			//FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
 			LoadingService.DoStep("Синхронизация конфигурации");
-			FiresecManager.FiresecDriver.Synchronyze();
+			//FiresecManager.FiresecDriver.Synchronyze();
 			LoadingService.DoStep("Старт мониторинга");
-			FiresecManager.FiresecDriver.StartWatcher(false, false);
+			//FiresecManager.FiresecDriver.StartWatcher(false, false);
 		}
 
 		void InitializeGk()
