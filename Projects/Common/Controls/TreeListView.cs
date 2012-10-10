@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Collections.Specialized;
 using System.Windows.Media;
+using Infrastructure.Common;
 
 namespace Controls
 {
@@ -23,11 +24,18 @@ namespace Controls
 			set { SetValue(RowHeightProperty, value); }
 		}
 
+		public static readonly DependencyProperty SelectedObjectProperty = DependencyProperty.Register("SelectedObject", typeof(object), typeof(TreeListView), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, SelectedObjectChangedCallback));
+		[Bindable(true)]
+		public object SelectedObject
+		{
+			get { return GetValue(SelectedObjectProperty); }
+			set { SetValue(SelectedObjectProperty, value); }
+		}
+
 		static TreeListView()
 		{
 			DefaultStyleKeyProperty.OverrideMetadata(typeof(TreeListView), new FrameworkPropertyMetadata(typeof(TreeListView)));
 		}
-
 		public TreeListView()
 		{
 			//PreviewMouseDoubleClick += (sender, e) => e.Handled = true;
@@ -55,6 +63,24 @@ namespace Controls
 		protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
 		{
 			base.OnItemsChanged(e);
+		}
+
+
+		protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
+		{
+			SelectedObject = e.NewValue;
+			base.OnSelectedItemChanged(e);
+		}
+
+		private static void SelectedObjectChangedCallback(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+		{
+			TreeListView treeView = (TreeListView)obj;
+			if (!ReferenceEquals(treeView.SelectedItem, e.NewValue))
+			{
+				var item = e.NewValue as TreeItemViewModel;
+				if (item != null)
+					item.IsSelected = true;
+			}
 		}
 	}
 }

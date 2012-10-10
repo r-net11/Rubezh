@@ -51,12 +51,12 @@ namespace Controls
 
 		public EditorPresenter()
 		{
-			LostKeyboardFocus += new KeyboardFocusChangedEventHandler(OnEditorLostKeyboardFocus);
 			IsKeyboardFocusWithinChanged += new DependencyPropertyChangedEventHandler(OnEditorIsKeyboardFocusWithinChanged);
 			LostKeyboardFocus += new KeyboardFocusChangedEventHandler(OnEditorLostKeyboardFocus);
 			LayoutUpdated += new EventHandler(OnEditorLayoutUpdated);
 			KeyDown += new KeyEventHandler(OnEditorKeyDown);
 			FocusVisualStyle = null;
+			IsTabStop = false;
 		}
 
 		private static void ViewTemplateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

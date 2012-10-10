@@ -7,7 +7,31 @@ using System.Collections.Specialized;
 
 namespace Infrastructure.Common
 {
-	public class TreeItemViewModel<T> : BaseViewModel
+	public class TreeItemViewModel : BaseViewModel
+	{
+		private bool _isExpanded;
+		public bool IsExpanded
+		{
+			get { return _isExpanded; }
+			set
+			{
+				_isExpanded = value;
+				OnPropertyChanged("IsExpanded");
+			}
+		}
+
+		private bool _isSelected;
+		public bool IsSelected
+		{
+			get { return _isSelected; }
+			set
+			{
+				_isSelected = value;
+				OnPropertyChanged("IsSelected");
+			}
+		}
+	}
+	public class TreeItemViewModel<T> : TreeItemViewModel
 		where T : TreeItemViewModel<T>
 	{
 		public TreeItemViewModel()
@@ -20,17 +44,6 @@ namespace Infrastructure.Common
 		{
 			foreach (var item in children)
 				Children.Add(item);
-		}
-
-		private bool _isExpanded;
-		public bool IsExpanded
-		{
-			get { return _isExpanded; }
-			set
-			{
-				_isExpanded = value;
-				OnPropertyChanged("IsExpanded");
-			}
 		}
 
 		private ObservableCollection<T> _children;

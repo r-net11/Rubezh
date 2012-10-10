@@ -221,17 +221,20 @@ namespace DevicesModule.ViewModels
 					return;
 			}
 
-			var index = Parent.Children.IndexOf(DevicesViewModel.Current.SelectedDevice);
-
 			FiresecManager.FiresecConfiguration.RemoveDevice(Device);
-			Parent.Children.Remove(this);
-			Parent.Update();
+			var parent = Parent;
+			if (parent != null)
+			{
+				var index = parent.Children.IndexOf(DevicesViewModel.Current.SelectedDevice);
+				parent.Children.Remove(this);
+				parent.Update();
 
-			ServiceFactory.SaveService.DevicesChanged = true;
-			DevicesViewModel.UpdateGuardVisibility();
+				ServiceFactory.SaveService.DevicesChanged = true;
+				DevicesViewModel.UpdateGuardVisibility();
 
-			index = Math.Min(index, Parent.Children.Count - 1);
-			DevicesViewModel.Current.SelectedDevice = index >= 0 ? Parent.Children[index] : Parent;
+				index = Math.Min(index, parent.Children.Count - 1);
+				DevicesViewModel.Current.SelectedDevice = index >= 0 ? parent.Children[index] : parent;
+			}
 		}
 		bool CanRemove()
 		{

@@ -14,7 +14,6 @@
 			<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
 		</ContextMenu>
 		<Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
-		<HierarchicalDataTemplate x:Key="dt" ItemsSource="{Binding Children}" />
 	</UserControl.Resources>
 
 	<Grid>
@@ -24,7 +23,17 @@
 			<RowDefinition Height="150" MinHeight="150" />
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0">
-			<Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}" ItemTemplate="{StaticResource dt}" SelectedItem="{Binding SelectedDevice}">
+			<Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
+				<Controls:TreeListView.Resources>
+					<Style x:Key="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
+						<Setter Property="MinWidth" Value="0" />
+						<Setter Property="MinHeight" Value="0" />
+					</Style>
+					<Style x:Key="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
+						<Setter Property="MinWidth" Value="0" />
+						<Setter Property="MinHeight" Value="0" />
+					</Style>
+				</Controls:TreeListView.Resources>
 				<Controls:TreeListView.Columns>
 					<GridViewColumn Width="250" Header="Устройство">
 						<GridViewColumn.CellTemplate>

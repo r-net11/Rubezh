@@ -67,6 +67,7 @@ namespace DiagnosticsModule.ViewModels
 	public class DeviceViewModel2 : BaseViewModel
 	{
 		public bool IsExpanded { get; set; }
+		public bool IsSelected { get; set; }
 
 		ObservableCollection<DeviceViewModel2> _children;
 		public ObservableCollection<DeviceViewModel2> Children
