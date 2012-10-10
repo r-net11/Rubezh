@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -361,7 +362,6 @@ namespace DevicesModule.Views
 				}
 				toolTip = null;
 				timer = null;
-
 			});
 		}
 	}

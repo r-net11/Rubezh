@@ -6,7 +6,7 @@
         xmlns:Converters="clr-namespace:GKModule.Converters">
 
     <UserControl.Resources>
-        <Converters:StateTypesConverter x:Key="StateTypesConverter" />
+        <Converters:XStateTypeToStringConverter x:Key="StateTypesConverter" />
     </UserControl.Resources>
 
     <Grid>

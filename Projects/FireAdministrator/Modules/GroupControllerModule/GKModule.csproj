@@ -73,6 +73,8 @@
       <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Directions\ViewModels\DirectionDeviceSelectationViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionDeviceViewModel.cs" />
+    <Compile Include="Directions\ViewModels\DirectionZoneViewModel.cs" />
     <Compile Include="Directions\Views\DirectionDeviceSelectationView.xaml.cs">
       <DependentUpon>DirectionDeviceSelectationView.xaml</DependentUpon>
     </Compile>
@@ -95,7 +97,7 @@
     <Compile Include="Devices\ViewModels\DeviceProperties\StringPropertyViewModel.cs" />
     <Compile Include="Converters\ClauseJounOperationConverter.cs" />
     <Compile Include="Converters\ClauseOperationConverter.cs" />
-    <Compile Include="Converters\StateTypesConverter.cs" />
+    <Compile Include="Converters\XStateTypeToStringConverter.cs" />
     <Compile Include="Devices\ViewModels\Logic\DevicesSelectationViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\StateLogicViewModel.cs" />
     <Compile Include="Devices\ViewModels\Logic\ZonesSelectationViewModel.cs" />
