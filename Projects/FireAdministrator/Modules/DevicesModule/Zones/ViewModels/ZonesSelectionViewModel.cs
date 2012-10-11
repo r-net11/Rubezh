@@ -101,24 +101,36 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddOneCommand { get; private set; }
 		void OnAddOne()
 		{
-			var index = SourceZones.IndexOf(SelectedSourceZone);
-			TargetZones.Add(SelectedSourceZone);
-			SelectedTargetZone = SelectedSourceZone;
-			SourceZones.Remove(SelectedSourceZone);
-			if (SourceZones.Count > 0)
-				SelectedSourceZone = SourceZones[Math.Min(index, SourceZones.Count - 1)];
+            var tempZones = new ObservableCollection<ZoneViewModel>(SourceZones);
+            foreach (var zone in SourceZones)
+		    {
+                if (zone.IsSelected)
+                {
+                    TargetZones.Add(zone);
+                    tempZones.Remove(zone);
+                }
+		    }
+            SourceZones = new ObservableCollection<ZoneViewModel>(tempZones);
+            OnPropertyChanged("SourceZones");
+		    SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
 		public RelayCommand RemoveOneCommand { get; private set; }
 		void OnRemoveOne()
 		{
-			var index = TargetZones.IndexOf(SelectedTargetZone);
-			SourceZones.Add(SelectedTargetZone);
-			SelectedSourceZone = SelectedTargetZone;
-			TargetZones.Remove(SelectedTargetZone);
-			SelectedTargetZone = TargetZones.FirstOrDefault();
-			if (TargetZones.Count > 0)
-				SelectedTargetZone = TargetZones[Math.Min(index, TargetZones.Count - 1)];
+            var tempZones = new ObservableCollection<ZoneViewModel>(TargetZones);
+            foreach (var zone in TargetZones)
+            {
+                if (zone.IsSelected)
+                {
+                    SourceZones.Add(zone);
+                    tempZones.Remove(zone);
+                }
+            }
+            TargetZones = new ObservableCollection<ZoneViewModel>(tempZones);
+            OnPropertyChanged("TargetZones");
+            SelectedSourceZone = TargetZones.FirstOrDefault();
+
 		}
 
 		public RelayCommand AddAllCommand { get; private set; }

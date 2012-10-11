@@ -56,6 +56,12 @@ namespace XFiresecAPI
         {
 			bool result = true;
 
+			if (RootDevice == null)
+			{
+
+				result = false;
+			}
+
             Update();
 
 			if (JournalFilters == null)

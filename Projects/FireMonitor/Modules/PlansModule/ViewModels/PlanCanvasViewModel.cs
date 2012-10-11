@@ -91,6 +91,9 @@ namespace PlansModule.ViewModels
 			}
 			foreach (var elementDevice in Plan.ElementDevices)
 			{
+				if (elementDevice.DeviceUID == Guid.Empty)
+					continue;
+
 				var elementDeviceViewModel = new ElementDeviceViewModel(elementDevice);
 				if (elementDeviceViewModel.DeviceState != null)
 				{

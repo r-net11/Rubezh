@@ -143,11 +143,11 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public void StartValveTimer(int timeLeft)
-		{
-			IsControlTabSelected = true;
-			ValveControlViewModel.StartTimer(timeLeft);
-		}
+		//public void StartValveTimer(int timeLeft)
+		//{
+		//    IsControlTabSelected = true;
+		//    ValveControlViewModel.StartTimer(timeLeft);
+		//}
 
 		#region IWindowIdentity Members
 		public Guid Guid

@@ -39,18 +39,18 @@ namespace Common.GK
         void AddFormula(XStateType stateType)
 		{
 			var inputObjectsCount = 0;
-			foreach (var zone in Direction.Zones)
+			foreach (var directionZone in Direction.DirectionZones)
 			{
-				Formula.AddGetBitOff(XStateType.Fire2, zone, DatabaseType);
+				Formula.AddGetBitOff(directionZone.StateType, directionZone.Zone, DatabaseType);
 				if (inputObjectsCount > 0)
 				{
 					Formula.Add(FormulaOperationType.ADD);
 				}
 				inputObjectsCount++;
 			}
-            foreach (var device in Direction.Devices)
+			foreach (var directionDevice in Direction.DirectionDevices)
             {
-                Formula.AddGetBitOff(XStateType.On, device, DatabaseType);
+				Formula.AddGetBitOff(directionDevice.StateType, directionDevice.Device, DatabaseType);
                 if (inputObjectsCount > 0)
                 {
                     Formula.Add(FormulaOperationType.ADD);

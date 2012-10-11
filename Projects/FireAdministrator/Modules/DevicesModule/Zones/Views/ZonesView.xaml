@@ -12,7 +12,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid Grid.Column="0">
-            <Controls:XDataGrid Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionMode="Extended" CanUserSortColumns="True">
+            <Controls:XDataGrid Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionMode="Extended" CanUserSortColumns="True" VirtualizingStackPanel.IsVirtualizing="False">
                 <DataGrid.Resources>
                     <Style TargetType="DataGridRow">
                         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
@@ -25,6 +25,22 @@
                     <DataGridTextColumn Header="Число ИП для перехода в пожар" Width="2*" Binding="{Binding DetectorCount}" />
                 </DataGrid.Columns>
             </Controls:XDataGrid>
+            <!--<ListView Name="_zones" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" SelectionMode="Extended">
+                <ListView.Resources>
+                    <Style TargetType="ListView">
+                        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                    </Style>
+                </ListView.Resources>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="№" DisplayMemberBinding="{Binding Zone.No}" />
+                        <GridViewColumn Header="Наименование" DisplayMemberBinding="{Binding Zone.Name}" />
+                        <GridViewColumn  Header="Примечание" DisplayMemberBinding="{Binding Zone.Description}" />
+                        <GridViewColumn Header="Число ИП для перехода в пожар" DisplayMemberBinding="{Binding DetectorCount}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>-->
+
         </Grid>
 
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />

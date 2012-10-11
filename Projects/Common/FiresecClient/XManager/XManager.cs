@@ -20,21 +20,6 @@ namespace FiresecClient
 		public static void SetEmptyConfiguration()
 		{
 			DeviceConfiguration = new XDeviceConfiguration();
-
-			var systemDriver = DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
-			if (systemDriver != null)
-			{
-				DeviceConfiguration.RootDevice = new XDevice()
-				{
-					DriverUID = systemDriver.UID,
-					Driver = systemDriver
-				};
-			}
-			else
-			{
-				Logger.Error("XManager.SetEmptyConfiguration systemDriver = null");
-			}
-
 			UpdateConfiguration();
 		}
 
@@ -43,6 +28,22 @@ namespace FiresecClient
 			if (DeviceConfiguration == null)
 			{
 				DeviceConfiguration = new XDeviceConfiguration();
+			}
+			if (DeviceConfiguration.RootDevice == null)
+			{
+				var systemDriver = DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+				if (systemDriver != null)
+				{
+					DeviceConfiguration.RootDevice = new XDevice()
+					{
+						DriverUID = systemDriver.UID,
+						Driver = systemDriver
+					};
+				}
+				else
+				{
+					Logger.Error("XManager.SetEmptyConfiguration systemDriver = null");
+				}
 			}
 			DeviceConfiguration.ValidateVersion();
 

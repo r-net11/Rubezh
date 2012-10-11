@@ -15,12 +15,12 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x81,
-				Name = "Конфигурация модуля",
-				Caption = "Конфигурация модуля",
+				Name = "Конфигурация",
+				Caption = "Конфигурация",
 				Default = "4"
 			};
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "4 контроль одного нормально-замкнутого контакта", 4);
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "5 контроль одного нормально-разомкнутого контакта", 5);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "4 Один контакт, нормально замкнутый", 4);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "5 Один контакт, нормально разомкнутый", 5);
 			driver.Properties.Add(property1);
 
 		}

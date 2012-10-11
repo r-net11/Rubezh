@@ -5,6 +5,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using System.Text;
 using Common;
+using System.Threading;
 
 namespace Firesec
 {
@@ -251,7 +252,11 @@ namespace Firesec
 				devicePaths.Add(device.PlaceInTree);
 			}
 
-			FiresecSerializedClient.AddToIgnoreList(devicePaths);
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				FiresecSerializedClient.AddToIgnoreList(devicePaths);
+			}));
+			thread.Start();
 		}
 
 		public void RemoveFromIgnoreList(List<Device> devices)
@@ -262,7 +267,11 @@ namespace Firesec
 				devicePaths.Add(device.PlaceInTree);
 			}
 
-			FiresecSerializedClient.RemoveFromIgnoreList(devicePaths);
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				FiresecSerializedClient.RemoveFromIgnoreList(devicePaths);
+			}));
+			thread.Start();
 		}
 
 		public void SetZoneGuard(Guid secPanelUID, int localZoneNo)

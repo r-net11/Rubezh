@@ -16,7 +16,7 @@ namespace FireMonitor.ViewModels
 			ContentFotter = new UserFotterViewModel();
 			Height = 700;
 			Width = 1100;
-			MinWidth = 800;
+            MinWidth = 980;
 			MinHeight = 550;
 		}
 

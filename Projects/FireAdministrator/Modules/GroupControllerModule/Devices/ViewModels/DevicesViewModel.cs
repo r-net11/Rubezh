@@ -97,26 +97,25 @@ namespace GKModule.ViewModels
 		void BuildTree()
 		{
 			Devices = new ObservableCollection<DeviceViewModel>();
-			var xRootDevice = XManager.DeviceConfiguration.RootDevice;
-			AddDevice(xRootDevice, null);
+			AddDevice(XManager.DeviceConfiguration.RootDevice, null);
 		}
 
-		public DeviceViewModel AddDevice(XDevice xDevice, DeviceViewModel parentDeviceViewModel)
+		public DeviceViewModel AddDevice(XDevice device, DeviceViewModel parentDeviceViewModel)
 		{
-			var xDeviceViewModel = new DeviceViewModel(xDevice, Devices);
-			xDeviceViewModel.Parent = parentDeviceViewModel;
+			var deviceViewModel = new DeviceViewModel(device, Devices);
+			deviceViewModel.Parent = parentDeviceViewModel;
 
 			var indexOf = Devices.IndexOf(parentDeviceViewModel);
-			Devices.Insert(indexOf + 1, xDeviceViewModel);
+			Devices.Insert(indexOf + 1, deviceViewModel);
 
-			if (xDevice != null)
-				foreach (var childDevice in xDevice.Children)
+			if (device != null)
+				foreach (var childDevice in device.Children)
 				{
-					var childDeviceViewModel = AddDevice(childDevice, xDeviceViewModel);
-					xDeviceViewModel.Children.Add(childDeviceViewModel);
+					var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
+					deviceViewModel.Children.Add(childDeviceViewModel);
 				}
 
-			return xDeviceViewModel;
+			return deviceViewModel;
 		}
 
 		public void CollapseChild(DeviceViewModel parentDeviceViewModel)

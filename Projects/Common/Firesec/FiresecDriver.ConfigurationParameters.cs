@@ -10,7 +10,7 @@ namespace Firesec
 {
 	public partial class FiresecDriver
 	{
-		public OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
+		public  OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
 		{
 			var properties = new List<Property>();
 			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
@@ -71,13 +71,13 @@ namespace Firesec
 				int waitCount = 0;
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 				waitCount++;
-				if (waitCount > 600000)
+				if (waitCount > 120)
 				{
 					return new OperationResult<List<Property>>()
 					{
 						Result = null,
 						HasError = true,
-						Error = "Превышено время выполнения запроса"
+						Error = "Превышено время выполнения запроса в 2 минуты"
 					};
 				}
 			}
@@ -97,6 +97,8 @@ namespace Firesec
 
 			if (driverProperty.HighByte)
 				offsetParamValue = highByteValue;
+			else if (driverProperty.LargeValue)
+				offsetParamValue = paramValue;
 			else
 				offsetParamValue = lowByteValue;
 
@@ -205,6 +207,13 @@ namespace Firesec
 					{
 						if (driverProperty.HighByte)
 							binProperty.LowByte += intValue;
+						else if (driverProperty.LargeValue)
+						{
+							var HighVal = intValue / 256;
+							var LowVal = intValue - HighVal;
+							binProperty.LowByte = HighVal;
+							binProperty.HighByte = LowVal;
+						}
 						else
 							binProperty.HighByte += intValue;
 					}
