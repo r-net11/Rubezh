@@ -14,7 +14,7 @@ namespace Infrastructure.Common.Windows
 
 		private void OnKeyDown(object sender, KeyEventArgs e)
 		{
-			if (KeyPressed != null)
+			if (KeyPressed != null && !e.Handled)
 				KeyPressed(this, e);
 		}
 	}

@@ -8,6 +8,7 @@ using DeviceControls;
 using DevicesModule.Plans.InstrumentAdorners;
 using DevicesModule.Plans.ViewModels;
 using FiresecAPI.Models;
+using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
 using Infrustructure.Plans;
@@ -16,7 +17,6 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Events;
 using Infrustructure.Plans.Services;
 using Devices = DevicesModule.ViewModels;
-using FiresecClient;
 
 namespace DevicesModule.Plans
 {

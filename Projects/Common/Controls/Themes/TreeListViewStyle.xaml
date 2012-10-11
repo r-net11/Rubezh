@@ -141,7 +141,7 @@
 		<Setter Property="Border.BorderThickness" Value="2,2,2,2" />
 		<Setter Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
 		<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="{x:Static ScrollBarVisibility.Auto}" />
-		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="{x:Static ScrollBarVisibility.Auto}" />
+		<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="{x:Static ScrollBarVisibility.Visible}" />
 		<Setter Property="ScrollViewer.CanContentScroll" Value="True" />
 		<Setter Property="RowHeight" Value="19" />
 		<Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True" />

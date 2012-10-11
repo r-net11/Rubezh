@@ -33,17 +33,18 @@ namespace DevicesModule.ViewModels
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
 			Menu = new DevicesMenuViewModel(this);
 			PropMenu = new PropertiesViewModel(this);
+			RegisterShortcuts();
 		}
 
 		public void Initialize()
 		{
-			RegisterShortcuts();
 			BuildTree();
 			if (RootDevice != null)
 			{
 				RootDevice.IsExpanded = true;
 				SelectedDevice = RootDevice;
 			}
+			OnPropertyChanged("RootDevices");
 			UpdateGuardVisibility();
 		}
 		private void RegisterShortcuts()

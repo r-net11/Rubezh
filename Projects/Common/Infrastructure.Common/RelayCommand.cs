@@ -3,126 +3,136 @@ using System.Windows.Input;
 
 namespace Infrastructure.Common
 {
-    public delegate bool PredicateDelegate();
+	public delegate bool PredicateDelegate();
 
-    public class RelayCommand : ICommand // a la Josh Smith
-    {
-        #region Fields
+	public class RelayCommand : ICommand // a la Josh Smith
+	{
+		#region Fields
 
-        readonly Action _execute;
-        readonly Predicate<object> _canExecute;
+		readonly Action _execute;
+		readonly Predicate<object> _canExecute;
 
-        #endregion // Fields
+		#endregion // Fields
 
-        #region Ctors
+		#region Ctors
 
-        public RelayCommand(Action execute)
-            : this(execute, (Predicate<object>) null)
-        {
-        }
-        
-        public RelayCommand(Action execute, Predicate<object> canExecute)
-        {
-            if (execute == null)
-                throw new ArgumentNullException("execute");
+		public RelayCommand(Action execute)
+			: this(execute, (Predicate<object>)null)
+		{
+		}
 
-            _execute = execute;
-            _canExecute = canExecute;
-        }
+		public RelayCommand(Action execute, Predicate<object> canExecute)
+		{
+			if (execute == null)
+				throw new ArgumentNullException("execute");
 
-        public RelayCommand(Action execute, PredicateDelegate canExecute)
-        {
-            if (execute == null)
-                throw new ArgumentNullException("execute");
+			_execute = execute;
+			_canExecute = canExecute;
+		}
 
-            _execute = execute;
-            _canExecute = (object obj) => { return canExecute(); };
-        }
+		public RelayCommand(Action execute, PredicateDelegate canExecute)
+		{
+			if (execute == null)
+				throw new ArgumentNullException("execute");
 
-        #endregion // Constructors
+			_execute = execute;
+			_canExecute = (object obj) => { return canExecute(); };
+		}
 
-        public void Execute()
-        {
-            _execute();
-        }
+		#endregion // Constructors
 
-        #region ICommand Members
+		public void Execute()
+		{
+			if (CanExecute(null))
+				ForceExecute();
+		}
+		public void ForceExecute()
+		{
+			_execute();
+		}
 
-        void ICommand.Execute(object parameter)
-        {
-            _execute();
-        }
+		#region ICommand Members
 
-        public bool CanExecute(object parameter)
-        {
-            if (_canExecute != null)
-            {
-                return _canExecute(parameter);
-            }
-            return true;
-        }
+		void ICommand.Execute(object parameter)
+		{
+			_execute();
+		}
 
-        public event EventHandler CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
+		public bool CanExecute(object parameter)
+		{
+			if (_canExecute != null)
+			{
+				return _canExecute(parameter);
+			}
+			return true;
+		}
 
-        #endregion // ICommand Members
-    }
+		public event EventHandler CanExecuteChanged
+		{
+			add { CommandManager.RequerySuggested += value; }
+			remove { CommandManager.RequerySuggested -= value; }
+		}
 
-    public class RelayCommand<T> : ICommand
-    {
-        #region Fields
+		#endregion // ICommand Members
+	}
 
-        readonly Action<T> _execute;
-        readonly Predicate<T> _canExecute;
+	public class RelayCommand<T> : ICommand
+	{
+		#region Fields
 
-        #endregion
+		readonly Action<T> _execute;
+		readonly Predicate<T> _canExecute;
 
-        #region Ctors
+		#endregion
 
-        public RelayCommand(Action<T> execute)
-            : this(execute, null)
-        {
-        }
+		#region Ctors
 
-        public RelayCommand(Action<T> execute, Predicate<T> canExecute)
-        {
-            if (execute == null)
-                throw new ArgumentNullException("execute");
+		public RelayCommand(Action<T> execute)
+			: this(execute, null)
+		{
+		}
 
-            _execute = execute;
-            _canExecute = canExecute;
-        }
+		public RelayCommand(Action<T> execute, Predicate<T> canExecute)
+		{
+			if (execute == null)
+				throw new ArgumentNullException("execute");
 
-        #endregion
+			_execute = execute;
+			_canExecute = canExecute;
+		}
 
-        public void Execute(T parameter)
-        {
-            _execute(parameter);
-        }
+		#endregion
 
-        #region ICommand Members
+		public void Execute(T parameter)
+		{
+			if (CanExecute(parameter))
+				ForceExecute(parameter);
+		}
+		public void ForceExecute(T parameter)
+		{
+			_execute(parameter);
+		}
 
-        void ICommand.Execute(object parameter)
-        {
-            _execute((T) parameter);
-        }
+		#region ICommand Members
 
-        public bool CanExecute(object parameter)
-        {
-            if (_canExecute != null)
-                return _canExecute((T) parameter);
-            return true;
-        }
+		void ICommand.Execute(object parameter)
+		{
+			_execute((T)parameter);
+		}
 
-        event EventHandler ICommand.CanExecuteChanged
-        {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
-        }
+		public bool CanExecute(object parameter)
+		{
+			if (_canExecute != null)
+				return _canExecute((T)parameter);
+			return true;
+		}
 
-        #endregion
-    }
+		event EventHandler ICommand.CanExecuteChanged
+		{
+			add { CommandManager.RequerySuggested += value; }
+			remove { CommandManager.RequerySuggested -= value; }
+		}
+
+		#endregion
+	}
 }
