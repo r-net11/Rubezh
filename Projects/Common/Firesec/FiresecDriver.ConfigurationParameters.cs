@@ -71,13 +71,13 @@ namespace Firesec
 				int waitCount = 0;
 				Thread.Sleep(TimeSpan.FromSeconds(1));
 				waitCount++;
-				if (waitCount > 600000)
+				if (waitCount > 120)
 				{
 					return new OperationResult<List<Property>>()
 					{
 						Result = null,
 						HasError = true,
-						Error = "Превышено время выполнения запроса"
+						Error = "Превышено время выполнения запроса в 2 минуты"
 					};
 				}
 			}
