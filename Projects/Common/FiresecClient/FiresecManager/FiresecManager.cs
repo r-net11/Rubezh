@@ -4,6 +4,7 @@ using System.Linq;
 using Firesec;
 using FiresecAPI;
 using FiresecAPI.Models;
+using System.Text;
 
 namespace FiresecClient
 {
@@ -11,6 +12,17 @@ namespace FiresecClient
 	{
 		public static ClientCredentials ClientCredentials { get; private set; }
 		public static SafeFiresecService FiresecService { get; private set; }
+
+        static StringBuilder LoadingErrors;
+        public static string GetLoadingError()
+        {
+            return FiresecDriver.LoadingErrors.ToString() + LoadingErrors.ToString();
+        }
+
+        static FiresecManager()
+        {
+            LoadingErrors = new StringBuilder();
+        }
 
 		public static string Connect(ClientType clientType, string serverAddress, string login, string password)
 		{

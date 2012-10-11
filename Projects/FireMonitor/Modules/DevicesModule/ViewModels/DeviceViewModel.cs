@@ -47,10 +47,15 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public string PresentationZone
-		{
-			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
-		}
+        public string PresentationZone
+        {
+            get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
+        }
+
+        public string PresentationAddress
+        {
+            get { return Device.PresentationAddress; }
+        }
 
 		void OnStateChanged()
 		{
@@ -363,9 +368,22 @@ namespace DevicesModule.ViewModels
 		{
 			if (ServiceFactory.AppSettings.CanControl)
 			{
+                if (Device.Driver.DriverType == DriverType.MPT)
+                {
+					var deviceDriverState = DeviceState.States.FirstOrDefault(x => x.DriverState.Code == "PropertyNameHere");
+                    if (deviceDriverState != null)
+                    {
+                        var secondsLeft = 1;
+                        var mptTimerViewModel = new MPTTimerViewModel(Device);
+                        DialogService.ShowWindow(mptTimerViewModel);
+                        mptTimerViewModel.StartTimer(secondsLeft);
+                        return;
+                    }
+                }
+
 				if (Device.Driver.HasControlProperties && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
 				{
-					var deviceDriverState = DeviceState.States.FirstOrDefault(x => x.DriverState.Code == "Bolt_On");
+                    var deviceDriverState = DeviceState.States.FirstOrDefault(x => x.DriverState.Code == "PropertyNameHere");
 					if (deviceDriverState != null)
 					{
 						if (DateTime.Now > deviceDriverState.Time)

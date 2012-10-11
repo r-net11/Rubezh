@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using DevicesModule.Events;
 using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
@@ -12,11 +11,6 @@ namespace DevicesModule.ViewModels
 {
 	public class ZonesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		public ZonesViewModel()
-		{
-			ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Subscribe(Select);
-		}
-
 		public void Initialize()
 		{
 			Zones = (from Zone zone in FiresecManager.Zones

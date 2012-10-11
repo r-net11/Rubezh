@@ -42,7 +42,7 @@ namespace SettingsModule.ViewModels
 			{
 				WaitHelper.Execute(() =>
 				{
-                    LoadingService.ShowProgress("Конвертирование конфигурации", "Конвертирование конфигурации", 4);
+                    LoadingService.ShowProgress("Конвертирование конфигурации", "Конвертирование конфигурации", 6);
 					FiresecManager.FiresecDriver.Convert();
 					ServiceFactory.SaveService.DevicesChanged = false;
 					ServiceFactory.SaveService.PlansChanged = false;
@@ -56,6 +56,8 @@ namespace SettingsModule.ViewModels
 					{
 						MessageBoxService.ShowError(result.Error);
 					}
+                    LoadingService.DoStep("Оповещение клиентов об изменении конфигурации");
+                    FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
                     LoadingService.Close();
 				});
 				ServiceFactory.Events.GetEvent<ConfigurationChangedEvent>().Publish(null);

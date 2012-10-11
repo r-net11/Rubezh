@@ -91,40 +91,23 @@
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>
-					<GridViewColumn Width="100" Header="Зона">
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Controls:EditorPresenter>
-									<Controls:EditorPresenter.ViewTemplate>
-										<ControlTemplate>
-											<StackPanel Background="Transparent" Orientation="Horizontal">
-												<Image Width="14" Height="14" Margin="0, 0 ,5, 0" Source="/Controls;component/Images/Link.png" Visibility="{Binding HasExternalDevices, Converter={StaticResource BoolToVisibilityConverter}}" />
-												<TextBlock Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" />
-											</StackPanel>
-										</ControlTemplate>
-									</Controls:EditorPresenter.ViewTemplate>
-									<Controls:EditorPresenter.EditTemplate>
-										<ControlTemplate>
-											<Grid>
-												<ComboBox VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" ItemsSource="{Binding Zones}" SelectedItem="{Binding Zone, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsZoneDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-													<ComboBox.ItemTemplate>
-														<DataTemplate>
-															<TextBlock VerticalAlignment="Stretch" Foreground="Black" Text="{Binding PresentationName}" />
-														</DataTemplate>
-													</ComboBox.ItemTemplate>
-												</ComboBox>
-												<TextBlock Text="{Binding PresentationZone}" Visibility="{Binding Driver.IsZoneLogicDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-													<TextBlock.InputBindings>
-														<MouseBinding Command="{Binding ShowZoneLogicCommand}" MouseAction="LeftDoubleClick" />
-													</TextBlock.InputBindings>
-												</TextBlock>
-											</Grid>
-										</ControlTemplate>
-									</Controls:EditorPresenter.EditTemplate>
-								</Controls:EditorPresenter>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
+
+                    <GridViewColumn Width="100" Header="Зона">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Width="14" Height="14" Margin="0, 0 ,5, 0" Source="/Controls;component/Images/Link.png" Visibility="{Binding HasExternalDevices, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                    <TextBlock Text="{Binding EditingPresentationZone}" ToolTip="{Binding EditingPresentationZone}" MinWidth="100" Cursor="Hand"
+                                               Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock.InputBindings>
+                                            <MouseBinding MouseAction="LeftClick" Command="{Binding ShowZoneOrLogicCommand}" />
+                                        </TextBlock.InputBindings>
+                                    </TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
 					<GridViewColumn Header="Примечание">
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>

@@ -92,6 +92,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="FiresecDriver.Reset.cs" />
+    <Compile Include="Firesec\NativeFiresecClient.Connect.cs" />
     <Compile Include="Firesec\NativeFiresecClient.cs" />
     <Compile Include="Imitator\Converters\BoolToYesConverter.cs" />
     <Compile Include="Imitator\ImitatorService.cs" />

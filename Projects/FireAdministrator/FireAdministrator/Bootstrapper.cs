@@ -34,10 +34,10 @@ namespace FireAdministrator
 					LoadingService.DoStep("Синхронизация файлов");
 					FiresecManager.UpdateFiles();
 					InitializeFs();
-					var FSLoadingError = FiresecDriver.LoadingErrors.ToString();
-					if (!String.IsNullOrEmpty(FSLoadingError))
+                    var loadingError = FiresecManager.GetLoadingError();
+                    if (!String.IsNullOrEmpty(loadingError))
 					{
-						MessageBoxService.ShowWarning(FSLoadingError, "Ошибки при загрузке драйвера FireSec");
+                        MessageBoxService.ShowWarning(loadingError, "Ошибки при загрузке драйвера FireSec");
 					}
 					LoadingService.DoStep("Загрузка конфигурации ГК");
 					InitializeGk();

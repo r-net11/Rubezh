@@ -24,8 +24,7 @@
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                     <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200"
-                                               ToolTip="{Binding ToolTip}">
+                                    <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200">
                                         <TextBlock.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
@@ -41,13 +40,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Адрес" MinWidth="50">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Device.PresentationAddress}" Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="Адрес" MinWidth="50" Binding="{Binding PresentationAddress}" />
                     <DataGridTextColumn Header="Зона" MinWidth="100" Width="100" Binding="{Binding PresentationZone}" />
                     <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Device.Description}" />
                     <DataGridTextColumn Header="Неисправность" MinWidth="200" Binding="{Binding FailureType}" />

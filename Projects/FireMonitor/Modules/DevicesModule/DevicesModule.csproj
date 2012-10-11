@@ -104,7 +104,6 @@
     </Compile>
     <Compile Include="Converters\ZoneStateToColorConverter.cs" />
     <Compile Include="DevicesModuleLoader.cs" />
-    <Compile Include="Events\ZoneSelectedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -130,6 +129,7 @@
     <Compile Include="ViewModels\DeviceDetailsViewModel.cs" />
     <Compile Include="ViewModels\DevicesViewModel.cs" />
     <Compile Include="ViewModels\DeviceViewModel.cs" />
+    <Compile Include="ViewModels\MPTTimerViewModel.cs" />
     <Compile Include="ViewModels\StateViewModel.cs" />
     <Compile Include="ViewModels\ValveControlViewModel.cs" />
     <Compile Include="ViewModels\ZonesViewModel.cs" />
@@ -145,6 +145,9 @@
     </Compile>
     <Compile Include="Views\DevicesView.xaml.cs">
       <DependentUpon>DevicesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MPTTimerView.xaml.cs">
+      <DependentUpon>MPTTimerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ValveControlView.xaml.cs">
       <DependentUpon>ValveControlView.xaml</DependentUpon>
@@ -192,6 +195,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MPTTimerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -32,12 +32,15 @@
                                     <Setter Property="Background" Value="{Binding ZoneState., Converter={StaticResource ZoneStateToColorConverter}}"/>
                                     <Setter Property="BorderThickness" Value="1" />
                                     <Setter Property="BorderBrush" Value="Transparent" />
-                                    <Setter Property="Foreground" Value="Blue" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                    <Setter Property="TextBlock.FontSize" Value="12"/>
                                     <Style.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Trigger.Setters>
-                                                <Setter Property="BorderBrush" Value="Magenta" />
-                                                <Setter Property="Foreground" Value="Red" />
+                                                <Setter Property="BorderBrush" Value="Orange" />
+                                                <Setter Property="Foreground" Value="Orange" />
+                                                <Setter Property="TextBlock.FontSize" Value="14" />
                                             </Trigger.Setters>
                                         </Trigger>
                                     </Style.Triggers>
@@ -45,12 +48,10 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                    <Grid Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
                                             Background="{Binding ZoneState, Converter={StaticResource ZoneStateToColorConverter}}"
-                                            ToolTip="{Binding Tooltip}"
-                                            Command="{Binding SelectCommand}">
-                                        <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                        <Button.ContextMenu>
+                                            ToolTip="{Binding Tooltip}">
+                                        <Grid.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
                                                 <MenuItem Command="{Binding DisableAllCommand}" Header="Отключить все устройства в зоне" />
@@ -58,26 +59,9 @@
                                                 <MenuItem Command="{Binding SetGuardCommand}" Header="Поставить на охрану" />
                                                 <MenuItem Command="{Binding UnSetGuardCommand}" Header="Снять с охраны" />
                                             </ContextMenu>
-                                        </Button.ContextMenu>
-                                        <Button.Style>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="Button">
-                                                            <Border x:Name="Border" CornerRadius="2" Background="{TemplateBinding Background}">
-                                                                <ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True" />
-                                                            </Border>
-                                                            <ControlTemplate.Triggers>
-                                                                <Trigger Property="IsFocused" Value="true">
-                                                                    <Setter TargetName="Border" Property="Background" Value="Orange" />
-                                                                </Trigger>
-                                                            </ControlTemplate.Triggers>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
+                                        </Grid.ContextMenu>
+                                        <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>
@@ -101,13 +85,12 @@
                     <DataGridTemplateColumn Header="Устройство" Width="250">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <WrapPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
+                                <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" />
                                     <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                    <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch"
-                                               ToolTip="{Binding ToolTip}">
+                                    <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch">
                                         <TextBlock.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
@@ -126,7 +109,7 @@
                                             </Style>
                                         </TextBlock.Style>
                                     </TextBlock>
-                                </WrapPanel>
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

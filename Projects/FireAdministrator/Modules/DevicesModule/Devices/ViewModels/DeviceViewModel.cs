@@ -23,6 +23,7 @@ namespace DevicesModule.ViewModels
 			AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ShowZoneLogicCommand = new RelayCommand(OnShowZoneLogic, CanShowZoneLogic);
+            ShowZoneOrLogicCommand = new RelayCommand(OnShowZoneOrLogic);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowZoneCommand = new RelayCommand(OnShowZone);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan);
@@ -39,6 +40,7 @@ namespace DevicesModule.ViewModels
 		{
 			OnPropertyChanged("Address");
 			OnPropertyChanged("PresentationZone");
+            OnPropertyChanged("EditingPresentationZone");
 			OnPropertyChanged("HasExternalDevices");
 		}
 
@@ -101,29 +103,77 @@ namespace DevicesModule.ViewModels
 			get { return Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device); }
 		}
 
-		public IEnumerable<Zone> Zones
-		{
-			get { return from Zone zone in FiresecManager.Zones orderby zone.No select zone; }
-		}
+        //public IEnumerable<Zone> Zones
+        //{
+        //    get { return from Zone zone in FiresecManager.Zones orderby zone.No select zone; }
+        //}
 
-		public Zone Zone
-		{
-			get { return FiresecManager.Zones.FirstOrDefault(x => x.UID == Device.ZoneUID); }
-			set
-			{
-				if (Device.ZoneUID != value.UID)
-				{
-					FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, value);
-					OnPropertyChanged("Zone");
-					ServiceFactory.SaveService.DevicesChanged = true;
-				}
-			}
-		}
+        //public Zone Zone
+        //{
+        //    get { return FiresecManager.Zones.FirstOrDefault(x => x.UID == Device.ZoneUID); }
+        //    set
+        //    {
+        //        if (Device.ZoneUID != value.UID)
+        //        {
+        //            FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, value);
+        //            OnPropertyChanged("Zone");
+        //            ServiceFactory.SaveService.DevicesChanged = true;
+        //        }
+        //    }
+        //}
 
 		public string PresentationZone
 		{
 			get { return FiresecManager.FiresecConfiguration.GetPresentationZone(Device); }
 		}
+
+        public string EditingPresentationZone
+        {
+            get
+            {
+                var presentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
+                if (string.IsNullOrEmpty(presentationZone))
+                {
+                    if (Driver.IsZoneDevice)
+                        presentationZone = "Нажмите для выбора зон";
+                    if (Driver.IsZoneLogicDevice)
+                        presentationZone = "Нажмите для настройки логики";
+                }
+                return presentationZone;
+            }
+        }
+
+        public bool IsZoneOrLogic
+        {
+            get { return Driver.IsZoneDevice || Driver.IsZoneLogicDevice || Driver.DriverType == DriverType.Indicator || Driver.DriverType == DriverType.PDUDirection; }
+        }
+
+        public RelayCommand ShowZoneOrLogicCommand { get; private set; }
+        void OnShowZoneOrLogic()
+        {
+            if (Driver.IsZoneDevice)
+            {
+                var zoneSelectationViewModel = new ZoneSelectationViewModel(Device);
+                if (DialogService.ShowModalWindow(zoneSelectationViewModel))
+                {
+                    ServiceFactory.SaveService.DevicesChanged = true;
+                }
+            }
+            if (Driver.IsZoneLogicDevice)
+            {
+                OnShowZoneLogic();
+            }
+            if (Driver.DriverType == DriverType.Indicator)
+            {
+                OnShowIndicatorLogic();
+            }
+            if (Driver.DriverType == DriverType.PDUDirection)
+            {
+                if (DialogService.ShowModalWindow(new PDUDetailsViewModel(Device)))
+                    ServiceFactory.SaveService.DevicesChanged = true;
+            }
+            OnPropertyChanged("PresentationZone");
+        }
 
 		public bool HasExternalDevices
 		{
@@ -168,7 +218,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanShowZoneLogic()
 		{
-			return (Driver.IsZoneLogicDevice && !Device.IsNotUsed);
+            return (Driver.IsZoneLogicDevice && !Device.IsNotUsed);
 		}
 
 		void OnShowIndicatorLogic()
@@ -241,7 +291,7 @@ namespace DevicesModule.ViewModels
 			{
 				case DriverType.Indicator:
 					OnShowIndicatorLogic();
-					FiresecManager.FiresecConfiguration.InvalidateConfiguration();
+					//FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 					break;
 
 				case DriverType.Valve:

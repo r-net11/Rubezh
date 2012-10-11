@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using DevicesModule.Events;
 using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
@@ -24,7 +23,6 @@ namespace DevicesModule.ViewModels
 
 		public ZoneViewModel(ZoneState zoneState)
 		{
-			SelectCommand = new RelayCommand(OnSelect);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			DisableAllCommand = new RelayCommand(OnDisableAll, CanDisableAll);
 			EnableAllCommand = new RelayCommand(OnEnableAll, CanEnableAll);
@@ -79,12 +77,6 @@ namespace DevicesModule.ViewModels
 				}
 				return toolTip;
 			}
-		}
-
-		public RelayCommand SelectCommand { get; private set; }
-		void OnSelect()
-		{
-            ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Publish(Zone.UID);
 		}
 
 		bool CanShowOnPlan()

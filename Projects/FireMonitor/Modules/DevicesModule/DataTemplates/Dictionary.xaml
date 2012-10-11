@@ -15,6 +15,10 @@
         <Views:DeviceDetailsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:MPTTimerViewModel}">
+        <Views:MPTTimerView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ViewModels:ValveControlViewModel}">
         <Views:ValveControlView />
     </DataTemplate>

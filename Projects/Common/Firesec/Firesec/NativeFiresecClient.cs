@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 namespace Firesec
 {
-	public class NativeFiresecClient : FS_Types.IFS_CallBack
+	public partial class NativeFiresecClient : FS_Types.IFS_CallBack
 	{
 		private int _reguestId = 1;
 		private Dispatcher _dispatcher;
@@ -21,10 +21,11 @@ namespace Firesec
 				{
 					if (_dispatcher != null)
 					{
-						if (_connection != null)
+						if (Connection != null)
 						{
-							Marshal.FinalReleaseComObject(_connection);
-							_connection = null;
+                            StopPoll();
+							Marshal.FinalReleaseComObject(Connection);
+							Connection = null;
 							GC.Collect();
 						}
 						_dispatcher.InvokeShutdown();
@@ -42,23 +43,8 @@ namespace Firesec
 			dispatcherThread.Join(100);
 		}
 
-		FS_Types.IFSC_Connection _connection;
-		FS_Types.IFSC_Connection Connection
-		{
-			get
-			{
-				if (_connection == null)
-					_connection = GetConnection("localhost", 211, "adm", "");
-				return _connection;
-			}
-		}
 
 		#region Operations
-		public OperationResult<bool> Connect(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
-		{
-			return SafeCall<bool>(() => { _connection = GetConnection(FS_Address, FS_Port, FS_Login, FS_Password); return true; }, "Connect");
-		}
-
 		public OperationResult<string> GetCoreConfig()
 		{
 			return SafeCall<string>(() => { return ReadFromStream(Connection.GetCoreConfig()); }, "GetCoreConfig");
@@ -240,61 +226,6 @@ namespace Firesec
 			}
 			return devicePatsString.ToString().TrimEnd();
 		}
-		#endregion
-
-		#region Connection
-		FS_Types.IFSC_Connection GetConnection(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
-		{
-			try
-			{
-				SocketServerHelper.StartIfNotRunning();
-
-				FS_Types.FSC_LIBRARY_CLASSClass library = new FS_Types.FSC_LIBRARY_CLASSClass();
-				var serverInfo = new FS_Types.TFSC_ServerInfo()
-				{
-					ServerName = FS_Address,
-					Port = FS_Port
-				};
-
-				ConnectionTimeoutEvent = new AutoResetEvent(false);
-				ConnectionTimeoutThread = new Thread(new ThreadStart(OnConnectionTimeoutThread));
-				ConnectionTimeoutThread.Start();
-
-				try
-				{
-					FS_Types.IFSC_Connection connectoin = library.Connect2(FS_Login, FS_Password, serverInfo, this);
-					return connectoin;
-				}
-				catch (Exception e)
-				{
-					Logger.Error(e, "NativeFiresecClient.GetConnection");
-					FiresecDriver.LoadingErrors.Append(e.Message);
-					SocketServerHelper.Restart();
-					return null;
-				}
-				finally
-				{
-					ConnectionTimeoutEvent.Set();
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "Исключение при вызове NativeFiresecClient.GetConnection");
-				FiresecDriver.LoadingErrors.Append(e.Message);
-				SocketServerHelper.Restart();
-				return null;
-			}
-		}
-
-		static Thread ConnectionTimeoutThread;
-		static AutoResetEvent ConnectionTimeoutEvent;
-		static void OnConnectionTimeoutThread()
-		{
-			if (!ConnectionTimeoutEvent.WaitOne(60000))
-			{
-				SocketServerHelper.Restart();
-			}
-		}
 
 		string ReadFromStream(mscoree.IStream stream)
 		{
@@ -376,7 +307,6 @@ namespace Firesec
 					SocketServerHelper.StartIfNotRunning();
 				}
 			}
-			//SocketServerHelper.Restart();
 			return resultData;
 		}
 		#endregion
