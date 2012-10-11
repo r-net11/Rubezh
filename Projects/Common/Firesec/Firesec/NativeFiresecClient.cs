@@ -89,7 +89,11 @@ namespace Firesec
 		}
 		public OperationResult<bool> ResetStates(string states)
 		{
-			return SafeCall<bool>(() => { Connection.ResetStates(states); return true; }, "ResetStates");
+			return SafeCall<bool>(() =>
+			{
+				Connection.ResetStates(states);
+				return true;
+			}, "ResetStates");
 		}
 		public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, ref int reguestId)
 		{

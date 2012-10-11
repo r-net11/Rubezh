@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
+using System.Threading;
 
 namespace AlarmModule.ViewModels
 {
@@ -97,8 +98,11 @@ namespace AlarmModule.ViewModels
 			}
 
 			alrmWasReset = true;
-			OnPropertyChanged("HasAlarmsToReset");
-            FiresecManager.FiresecDriver.ResetStates(resetItems);
+			var thread = new Thread(new ThreadStart(()=>
+			{
+				FiresecManager.FiresecDriver.ResetStates(resetItems);
+			}));
+			thread.Start();
 		}
 
 		public bool CanRemoveAllFromIgnoreList()
@@ -122,8 +126,13 @@ namespace AlarmModule.ViewModels
 
 			if (ServiceFactory.SecurityService.Validate())
 			{
-                FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+				var thread = new Thread(new ThreadStart(() =>
+				{
+					FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+				}));
+				thread.Start();
 			}
+			OnPropertyChanged("HasAlarmsToReset");
 		}
 
 		void OnAlarmAdded(Alarm alarm)
