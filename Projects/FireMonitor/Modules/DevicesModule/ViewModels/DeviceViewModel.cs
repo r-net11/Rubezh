@@ -363,7 +363,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (ServiceFactory.AppSettings.CanControl)
 			{
-				if (Device.Driver.DriverType == DriverType.Valve)
+				if (Device.Driver.HasControlProperties && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
 				{
 					var deviceDriverState = DeviceState.States.FirstOrDefault(x => x.DriverState.Code == "Bolt_On");
 					if (deviceDriverState != null)
@@ -375,14 +375,23 @@ namespace DevicesModule.ViewModels
 							var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "Timeout");
 							if (timeoutProperty != null)
 							{
-								var timeout = int.Parse(timeoutProperty.Value);
+								int timeout = 0;
+								try
+								{
+									timeout = int.Parse(timeoutProperty.Value);
+								}
+								catch(Exception e)
+								{
+									Logger.Error(e, "DeviceViewModel.ShowTimerDetails");
+									return;
+								}
 
 								int secondsLeft = timeout - timeSpan.Value.Seconds;
 								if (secondsLeft > 0)
 								{
 									var deviceDetailsViewModel = new DeviceDetailsViewModel(Device);
 									DialogService.ShowWindow(deviceDetailsViewModel);
-									deviceDetailsViewModel.StartValveTimer(secondsLeft);
+									deviceDetailsViewModel.DeviceControlViewModel.StartTimer(secondsLeft);
 								}
 							}
 						}
