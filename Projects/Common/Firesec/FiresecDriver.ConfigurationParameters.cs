@@ -10,7 +10,7 @@ namespace Firesec
 {
 	public partial class FiresecDriver
 	{
-		public OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
+		public  OperationResult<List<Property>> GetConfigurationParameters(Guid deviceUID)
 		{
 			var properties = new List<Property>();
 			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);

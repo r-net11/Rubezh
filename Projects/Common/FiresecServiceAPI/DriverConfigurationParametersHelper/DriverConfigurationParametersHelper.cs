@@ -22,6 +22,7 @@ namespace FiresecAPI.Models
 
 			AM_1_Helper.Create(drivers);
 			AM1_T_Helper.Create(drivers);
+			AM1_O_Helper.Create(drivers);
 		}
 	}
 }
