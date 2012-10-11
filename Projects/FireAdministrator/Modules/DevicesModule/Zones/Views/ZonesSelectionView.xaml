@@ -10,7 +10,12 @@
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}">
+        <DataGrid Name="_zones1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="False">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" Width="auto" />
                 <DataGridTextColumn Header="Выбранные зоны" Binding="{Binding Zone.Name}" Width="*" />
@@ -32,7 +37,12 @@
             <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все зоны" ImageSource="/Controls;component/Images/LeftLeft.png" />
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все зоны" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
-        <DataGrid Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
+        <DataGrid Name="_zones2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="False">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" Width="auto" />
                 <DataGridTextColumn Header="Не выбранные зоны" Binding="{Binding Zone.Name}" Width="*" />
