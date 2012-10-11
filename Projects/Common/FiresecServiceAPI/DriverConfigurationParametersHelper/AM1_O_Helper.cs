@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace FiresecAPI.Models
 {
@@ -19,10 +17,11 @@ namespace FiresecAPI.Models
 				No = 0x81,
 				Name = "Конфигурация",
 				Caption = "Конфигурация",
-				Default = "6"
+				Default = "6",
+				BitOffset = 4
 			};
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "0 Шлейф неадресных тепловых извещателей, контакты нормально замкнутые, один оконечный резистор", 6);
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "1 Шлейф неадресных тепловых извещателей, контакты нор-мально замкнутые, один око-нечный резистор. Параллельно каждому извещателю допол-нительно ставится резистор", 7);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "6 Шлейф неадресных тепловых извещателей, контакты нормально замкнутые, один оконечный резистор", 6);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "7 Шлейф неадресных тепловых извещателей, контакты нор-мально замкнутые, один оконечный резистор. Параллельно каждому извещателю допол-нительно ставится резистор", 7);
 			driver.Properties.Add(property1);
 		}
 	}

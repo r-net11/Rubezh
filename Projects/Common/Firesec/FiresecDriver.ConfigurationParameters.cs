@@ -97,6 +97,8 @@ namespace Firesec
 
 			if (driverProperty.HighByte)
 				offsetParamValue = highByteValue;
+			else if (driverProperty.LargeValue)
+				offsetParamValue = paramValue;
 			else
 				offsetParamValue = lowByteValue;
 
@@ -205,6 +207,13 @@ namespace Firesec
 					{
 						if (driverProperty.HighByte)
 							binProperty.LowByte += intValue;
+						else if (driverProperty.LargeValue)
+						{
+							var HighVal = intValue / 256;
+							var LowVal = intValue - HighVal;
+							binProperty.LowByte = HighVal;
+							binProperty.HighByte = LowVal;
+						}
 						else
 							binProperty.HighByte += intValue;
 					}

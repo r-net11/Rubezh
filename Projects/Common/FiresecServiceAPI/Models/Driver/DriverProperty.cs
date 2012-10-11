@@ -70,6 +70,9 @@ namespace FiresecAPI.Models
 		[DataMember] 
 		public bool HighByte { get; set; }
 
+		[DataMember]
+		public bool LargeValue { get; set; }
+
 		//[DataMember]
 		//public bool MptHighByte { get; set; }
 
