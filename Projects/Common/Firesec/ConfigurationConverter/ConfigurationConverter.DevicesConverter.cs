@@ -370,18 +370,18 @@ namespace Firesec
 				indicatorLogicProperty.value = SerializerHelper.SetIndicatorLogic(indicatorLogic);
 			}
 
-			if ((device.Driver.DriverType == DriverType.PDU) && (device.PDUGroupLogic != null))
+			if ((device.Driver.DriverType == DriverType.PDUDirection) || (device.Driver.DriverType == DriverType.PDU_PTDirection))
 			{
-				var pDUGroupLogicProperty = propertyList.FirstOrDefault(x => x.name == "E98669E4-F602-4E15-8A64-DF9B6203AFC5");
-				if (pDUGroupLogicProperty == null)
+				var pduGroupLogicProperty = propertyList.FirstOrDefault(x => x.name == "E98669E4-F602-4E15-8A64-DF9B6203AFC5");
+				if (pduGroupLogicProperty == null)
 				{
-					pDUGroupLogicProperty = new propType();
-					propertyList.Add(pDUGroupLogicProperty);
+					pduGroupLogicProperty = new propType();
+					propertyList.Add(pduGroupLogicProperty);
 				}
 
-				pDUGroupLogicProperty.name = "E98669E4-F602-4E15-8A64-DF9B6203AFC5";
+				pduGroupLogicProperty.name = "E98669E4-F602-4E15-8A64-DF9B6203AFC5";
 				var pDUGroupLogic = PDUGroupLogicConverter.ConvertBack(device.PDUGroupLogic);
-				pDUGroupLogicProperty.value = SerializerHelper.SeGroupProperty(pDUGroupLogic);
+				pduGroupLogicProperty.value = SerializerHelper.SeGroupProperty(pDUGroupLogic);
 			}
 
 			return propertyList;
