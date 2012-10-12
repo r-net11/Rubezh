@@ -51,7 +51,7 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="2">
                 <Label Content="Выбрать " VerticalAlignment="Center" />
-                <ExtToolkit:IntegerUpDown Maximum="{Binding RecordsMaxCount}" Minimum="1" Value="{Binding JournalFilter.LastRecordsCount}" Height="25" Width="50" />
+                <ExtToolkit:IntegerUpDown Minimum="1" Maximum="100" Value="{Binding JournalFilter.LastRecordsCount}" Height="25" Width="50" />
                 <Label Margin="5,5,0,5" Content="последних записей" />
             </StackPanel>
 
@@ -59,7 +59,7 @@
                 <CheckBox HorizontalAlignment="Center" Content="дополнительный фильтр" IsChecked="{Binding JournalFilter.IsLastDaysCountActive, UpdateSourceTrigger=PropertyChanged}" Foreground="White" />
                 <StackPanel Orientation="Horizontal" Visibility="{Binding JournalFilter.IsLastDaysCountActive, Converter={StaticResource BoolToVisibilityConverter}}">
                     <Label Margin="5,0,5,5" Content="Выбрать записи за последние" VerticalAlignment="Center" />
-                    <ExtToolkit:IntegerUpDown IsEnabled="{Binding JournalFilter.IsLastDaysCountActive}" Minimum="1" Value="{Binding JournalFilter.LastDaysCount}" Height="25" Width="50" />
+                    <ExtToolkit:IntegerUpDown IsEnabled="{Binding JournalFilter.IsLastDaysCountActive}" Minimum="1" Maximum="999" Value="{Binding JournalFilter.LastDaysCount}" Height="25" Width="50" />
                     <Label Margin="5,5,0,5" Content="дн." VerticalAlignment="Center" />
                 </StackPanel>
             </StackPanel>

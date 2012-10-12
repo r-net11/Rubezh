@@ -12,16 +12,12 @@ namespace FiresecAPI.Models
             UID = Guid.NewGuid();
 			ZoneUIDs = new List<Guid>();
             Devices = new List<Guid>();
-            No = 1;
             Name = "";
             Text = "";
         }
 
         [DataMember]
         public Guid UID { get; set; }
-
-        [DataMember]
-		public int No { get; set; }
 
         [DataMember]
         public string Name { get; set; }

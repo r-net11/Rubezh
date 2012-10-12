@@ -76,11 +76,6 @@ namespace FiltersModule.ViewModels
 			}
 		}
 
-		public int RecordsMaxCount
-		{
-			get { return new JournalFilter().LastRecordsCount; }
-		}
-
 		public ObservableCollection<StateTypeViewModel> StateTypes { get; private set; }
 		public ObservableCollection<CategoryViewModel> Categories { get; private set; }
 

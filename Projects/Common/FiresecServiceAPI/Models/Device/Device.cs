@@ -114,7 +114,7 @@ namespace FiresecAPI.Models
 
 		public bool CanBeNotUsed
 		{
-			get { return ((Parent != null) && (Parent.Driver.ChildAddressReserveRangeCount > 0)); }
+			get { return ((Parent != null) && (Parent.Driver.ChildAddressReserveRangeCount > 0) && (Parent.Driver.DriverType != DriverType.FanControl)); }
 		}
 
 		public string EditingPresentationAddress

@@ -31,8 +31,6 @@ namespace InstructionsModule.ViewModels
 				Title = "Новая инструкция";
 				Instruction = new Instruction();
 				CopyProperties();
-				if (FiresecManager.SystemConfiguration.Instructions.IsNotNullOrEmpty())
-					InstructionNo = FiresecManager.SystemConfiguration.Instructions.Select(x => x.No).Max() + 1;
 			}
 		}
 
@@ -41,7 +39,6 @@ namespace InstructionsModule.ViewModels
 			InstructionZones = new ObservableCollection<Guid>();
 			InstructionDevices = new ObservableCollection<Guid>();
 
-			InstructionNo = Instruction.No;
 			Name = Instruction.Name;
 			Text = Instruction.Text;
 			StateType = Instruction.StateType;
@@ -57,17 +54,6 @@ namespace InstructionsModule.ViewModels
 
 				case InstructionType.General:
 					break;
-			}
-		}
-
-		int _instructionNo;
-		public int InstructionNo
-		{
-			get { return _instructionNo; }
-			set
-			{
-				_instructionNo = value;
-				OnPropertyChanged("InstructionNo");
 			}
 		}
 
@@ -186,7 +172,6 @@ namespace InstructionsModule.ViewModels
 
 		protected override bool Save()
 		{
-			Instruction.No = InstructionNo;
 			Instruction.Name = Name;
 			Instruction.Text = Text;
 			Instruction.StateType = StateType;

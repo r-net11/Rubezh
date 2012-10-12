@@ -37,6 +37,8 @@ namespace FiresecClient
 
 				for (int i = autoCreateDriver.MinAutoCreateAddress; i <= autoCreateDriver.MaxAutoCreateAddress; i++)
 				{
+					if (device.Driver.IsChildAddressReservedRange)
+						i += device.IntAddress;
 					AddDevice(device, autoCreateDriver, i);
 				}
 			}

@@ -10,7 +10,7 @@ namespace DevicesModule.ViewModels
 {
 	public class PDUDetailsViewModel : SaveCancelDialogViewModel
     {
-        Device _device;
+        Device Device;
 
         public PDUDetailsViewModel(Device device)
         {
@@ -18,7 +18,7 @@ namespace DevicesModule.ViewModels
             AddCommand = new RelayCommand(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 
-            _device = device;
+            Device = device;
 
             InitializeDevices();
             InitializeAvailableDevices();
@@ -28,10 +28,10 @@ namespace DevicesModule.ViewModels
         {
             Devices = new ObservableCollection<PDUDeviceViewModel>();
 
-            if (_device.PDUGroupLogic == null)
+            if (Device.PDUGroupLogic == null)
                 return;
 
-            foreach (var groupDevice in _device.PDUGroupLogic.Devices)
+            foreach (var groupDevice in Device.PDUGroupLogic.Devices)
             {
                 var pduDeviceViewModel = new PDUDeviceViewModel();
                 pduDeviceViewModel.Initialize(groupDevice);
@@ -50,16 +50,27 @@ namespace DevicesModule.ViewModels
                 if (Devices.Any(x => x.Device.UID == device.UID))
                     continue;
 
-                if (
-                    (device.Driver.DriverType == DriverType.RM_1) ||
-                    (device.Driver.DriverType == DriverType.MDU) ||
-                    (device.Driver.DriverType == DriverType.MRO) ||
-                    (device.Driver.DriverType == DriverType.AM1_T)
-                )
-                {
-                    device.AllParents.ForEach(x => { devices.Add(x); });
-                    devices.Add(device);
-                }
+				if (Device.Parent.Driver.DriverType == DriverType.PDU)
+				{
+					if (
+						(device.Driver.DriverType == DriverType.RM_1) ||
+						(device.Driver.DriverType == DriverType.MDU) ||
+						(device.Driver.DriverType == DriverType.MRO) ||
+						(device.Driver.DriverType == DriverType.AM1_T)
+					)
+					{
+						device.AllParents.ForEach(x => { devices.Add(x); });
+						devices.Add(device);
+					}
+				}
+				if (Device.Parent.Driver.DriverType == DriverType.PDU_PT)
+				{
+					if (device.Driver.DriverType == DriverType.MPT)
+					{
+						device.AllParents.ForEach(x => { devices.Add(x); });
+						devices.Add(device);
+					}
+				}
             }
 
             AvailableDevices = new ObservableCollection<DeviceViewModel>();
@@ -131,7 +142,17 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType != DriverType.AM1_T));
+				if (SelectedDevice != null)
+				{
+					switch (SelectedDevice.Device.Driver.DriverType)
+					{
+						case DriverType.RM_1:
+						case DriverType.MDU:
+						case DriverType.MRO:
+							return true;
+					}
+				}
+				return false;
             }
         }
 
@@ -140,8 +161,11 @@ namespace DevicesModule.ViewModels
             if (SelectedAvailableDevice != null && SelectedAvailableDevice.HasChildren == false)
             {
                 if ((SelectedAvailableDevice.Device.Driver.DriverType == DriverType.AM1_T) &&
-                                        (Devices.Any(x => x.Device.Driver.DriverType == DriverType.AM1_T)))
+						(Devices.Any(x => x.Device.Driver.DriverType == DriverType.AM1_T)))
                     return false;
+				if ((SelectedAvailableDevice.Device.Driver.DriverType == DriverType.MPT) &&
+						(Devices.Any(x => x.Device.Driver.DriverType == DriverType.MPT)))
+					return false;
                 return true;
             }
             return false;
@@ -186,7 +210,7 @@ namespace DevicesModule.ViewModels
 				};
                 pduGroupLogic.Devices.Add(pduGroupDevice);
 			}
-            FiresecManager.FiresecConfiguration.SetPDUGroupLogic(_device, pduGroupLogic);
+            FiresecManager.FiresecConfiguration.SetPDUGroupLogic(Device, pduGroupLogic);
 			return base.Save();
 		}
     }
