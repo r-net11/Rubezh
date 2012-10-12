@@ -9,12 +9,12 @@ namespace FiresecClient
         public static FiresecDriver FiresecDriver { get; private set; }
         static int lastJournalNo;
 
-        public static void InitializeFiresecDriver(string FS_Address, int FS_Port, string FS_Login, string FS_Password)
+        public static void InitializeFiresecDriver(string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
         {
             try
             {
                 lastJournalNo = FiresecService.FiresecService.GetJournalLastId().Result;
-                FiresecDriver = new FiresecDriver(lastJournalNo, FS_Address, FS_Port, FS_Login, FS_Password);
+                FiresecDriver = new FiresecDriver(lastJournalNo, FS_Address, FS_Port, FS_Login, FS_Password, isPing);
             }
             catch (Exception e)
             {

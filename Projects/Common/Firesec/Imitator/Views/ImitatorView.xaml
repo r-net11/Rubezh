@@ -66,6 +66,8 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Header="Влияет на потомков" Binding="{Binding DriverState.AffectChildren, Converter={StaticResource BoolToYesConverter}}" IsReadOnly="True" />
+                <DataGridTextColumn Header="Code" Binding="{Binding DriverState.Code}" />
+                <DataGridTextColumn Header="Id" Binding="{Binding DriverState.Id}" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

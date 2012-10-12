@@ -69,11 +69,11 @@ namespace Firesec
 		{
 			try
 			{
-				if ((string.IsNullOrEmpty(input)) || (input == "0"))
+				if ((string.IsNullOrEmpty(input)) || (input == "0") || !input.StartsWith("<?xml"))
 				{
-					Logger.Error("SerializerHelper.Deserialize<" + typeof(T).ToString() + "> input IsNullOrEmpty");
 					return default(T);
 				}
+				
 				input = input.Replace("&#xD;&#xA;", "");
 				using (var memoryStream = new MemoryStream(Encoding.Default.GetBytes(input)))
 				{

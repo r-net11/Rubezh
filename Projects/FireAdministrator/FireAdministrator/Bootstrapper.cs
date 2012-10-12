@@ -73,7 +73,7 @@ namespace FireAdministrator
 			LoadingService.DoStep("Загрузка конфигурации с сервера");
 			FiresecManager.GetConfiguration();
 			LoadingService.DoStep("Загрузка драйвера устройств");
-			FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
+			FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password, false);
 			LoadingService.DoStep("Синхронизация конфигурации");
 			FiresecManager.FiresecDriver.Synchronyze();
 			LoadingService.DoStep("Старт мониторинга");

@@ -17,13 +17,13 @@ namespace Firesec
 		public Watcher Watcher { get; private set; }
 		public static StringBuilder LoadingErrors { get; private set; }
 
-        public FiresecDriver(int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password)
+		public FiresecDriver(int lastJournalNo, string FS_Address, int FS_Port, string FS_Login, string FS_Password, bool isPing)
 		{
 			LoadingErrors = new StringBuilder();
 			try
 			{
 				FiresecSerializedClient = new FiresecSerializedClient();
-				FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password);
+				FiresecSerializedClient.Connect(FS_Address, FS_Port, FS_Login, FS_Password, isPing);
 				ConfigurationConverter = new ConfigurationConverter()
 				{
 					FiresecSerializedClient = FiresecSerializedClient

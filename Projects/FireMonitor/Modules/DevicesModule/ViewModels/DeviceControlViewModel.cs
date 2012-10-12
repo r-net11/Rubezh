@@ -21,7 +21,6 @@ namespace DevicesModule.ViewModels
 		{
 			Device = device;
 			ConfirmCommand = new RelayCommand(OnConfirm, CanConfirm);
-            StopTimerCommand = new RelayCommand(OnStopTimer);
 
 			Blocks = new List<BlockViewModel>();
 
@@ -169,8 +168,7 @@ namespace DevicesModule.ViewModels
             --TimeLeft;
         }
 
-        public RelayCommand StopTimerCommand { get; private set; }
-        void OnStopTimer()
+        public void StopTimer()
         {
             TimeLeft = 0;
         }

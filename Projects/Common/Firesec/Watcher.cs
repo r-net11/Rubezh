@@ -315,7 +315,7 @@ namespace Firesec
 							Logger.Error("Watcher.PropogateStatesDown chilDevice.PlaceInTree = null");
 							continue;
 						}
-						if (childDevice.PlaceInTree.StartsWith(device.PlaceInTree) && childDevice.PlaceInTree != device.PlaceInTree)
+						if ((childDevice.PlaceInTree + "/").StartsWith(device.PlaceInTree) && childDevice.PlaceInTree != device.PlaceInTree)
 						{
 							var parentDeviceState = new ParentDeviceState()
 							{
@@ -334,6 +334,7 @@ namespace Firesec
 							{
 								existingParentDeviceState.IsDeleting = false;
 							}
+
 						}
 					}
 				}

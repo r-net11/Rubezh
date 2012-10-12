@@ -17,13 +17,15 @@ namespace Firesec
         int Port;
         string Login;
         string Password;
+		bool IsPing;
 
-        public OperationResult<bool> Connect(string address, int port, string login, string password)
+        public OperationResult<bool> Connect(string address, int port, string login, string password, bool isPing)
         {
             Address = address;
             Port = port;
             Login = login;
             Password = password;
+			IsPing = isPing;
             return DoConnect();
         }
 
@@ -47,7 +49,6 @@ namespace Firesec
                             }
                         )
                     ));
-                    //Connection = GetConnection(FS_Address, FS_Port, FS_Login, FS_Password);
                     ConnectionTimeoutEvent.Set();
                     if (Connection != null)
                         break;
@@ -66,7 +67,10 @@ namespace Firesec
                 FiresecDriver.LoadingErrors.Append("Ошибка при загрузке драйвера firesec");
                 return new OperationResult<bool>("Ошибка при загрузке драйвера firesec");
             }
-            StartPing();
+			if (IsPing)
+			{
+				StartPing();
+			}
             return new OperationResult<bool>() { Result = true };
         }
 

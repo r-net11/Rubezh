@@ -28,26 +28,26 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x8f, "Время удержания запуска, мин", 0, 0, 0, 360);
 
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "концевой выключатель «Открыто»", 0, 
-				"0 нормальго-разомкнутый", 
+				"0 нормально-разомкнутый", 
 				"1 нормально-замкнутый", 0, 0, 1);
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "муфтовый выключатель Открыто/ДУ Открыть", 1,
-				"0 нормальго-разомкнутый",
+				"0 нормально-разомкнутый",
 				"1 нормально-замкнутый", 0, 1, 2);
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "концевой выключатель «Закрыто»", 2,
-				"0 нормальго-разомкнутый",
+				"0 нормально-разомкнутый",
 				"1 нормально-замкнутый", 0, 2, 3);
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "муфтовый выключатель Закрыто/ДУ Закрыть", 3,
-				"0 нормальго-разомкнутый",
+				"0 нормально-разомкнутый",
 				"1 нормально-замкнутый", 0, 3, 4);
 			
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "кнопка Открыть УЗЗ", 4,
-				"0 нормальго-разомкнутый",
+				"0 нормально-разомкнутый",
 				"1 нормально-замкнутый", 0, 4, 5);
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "кнопка Закрыть УЗЗ", 5,
-				"0 нормальго-разомкнутый",
+				"0 нормально-разомкнутый",
 				"1 нормально-замкнутый", 0, 5, 6);
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "кнопка Стоп УЗЗ", 6,
-				"0 нормальго-разомкнутый",
+				"0 нормально-разомкнутый",
 				"1 нормально-замкнутый", 0, 6, 7);
 
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "муфтовые выключатели", 1,

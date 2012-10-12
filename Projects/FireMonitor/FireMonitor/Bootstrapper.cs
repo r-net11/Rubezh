@@ -94,7 +94,7 @@ namespace FireMonitor
             if (!reconnect)
             {
                 LoadingService.DoStep("Инициализация драйвера устройств");
-                FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password);
+                FiresecManager.InitializeFiresecDriver(ServiceFactory.AppSettings.FS_Address, ServiceFactory.AppSettings.FS_Port, ServiceFactory.AppSettings.FS_Login, ServiceFactory.AppSettings.FS_Password, true);
             }
             LoadingService.DoStep("Синхронизация конфигурации");
             FiresecManager.FiresecDriver.Synchronyze();

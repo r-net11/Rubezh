@@ -118,6 +118,7 @@ namespace Firesec
 
 		public static void Restart()
 		{
+			Logger.Error("SocketServerHelper.Restart");
 			Stop();
 			StartIfNotRunning();
 		}

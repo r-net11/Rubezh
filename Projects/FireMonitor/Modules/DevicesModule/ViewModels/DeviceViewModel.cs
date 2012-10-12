@@ -108,7 +108,7 @@ namespace DevicesModule.ViewModels
 			OnPropertyChanged("ChildState");
 			OnPropertyChanged("HasChildStates");
 
-			ShowTimerDetails();
+			//ShowTimerDetails();
 		}
 
 		public List<StateViewModel> States { get; private set; }

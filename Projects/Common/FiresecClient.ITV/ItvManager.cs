@@ -27,7 +27,7 @@ namespace FiresecClient.Itv
             if (string.IsNullOrEmpty(result))
             {
 				FiresecManager.GetConfiguration();
-				FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
+				FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password, true);
                 FiresecManager.FiresecDriver.Synchronyze();
 				FiresecManager.FiresecDriver.StartWatcher(true, false);
                 FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>(Watcher_DevicesStateChanged);

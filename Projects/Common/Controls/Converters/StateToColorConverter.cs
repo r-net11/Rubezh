@@ -24,7 +24,7 @@ namespace Controls.Converters
 					return Brushes.Yellow;
 
 				case StateType.Off:
-					return Brushes.Blue;
+					return Brushes.Yellow;
 
 				case StateType.Unknown:
 					return Brushes.Gray;

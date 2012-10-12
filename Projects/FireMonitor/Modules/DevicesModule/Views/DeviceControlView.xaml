@@ -3,12 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <StackPanel>
-        <StackPanel Visibility="{Binding IsTimerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
-            <Label Content="{Binding TimeLeft}" />
-            <Label Content=" сек. " />
-            <Button Content="Отмена пуска" Command="{Binding StopTimerCommand}" Width="100" Margin="2" />
-        </StackPanel>
-
         <TabControl ItemsSource="{Binding Blocks}" SelectedItem="{Binding SelectedBlock}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
