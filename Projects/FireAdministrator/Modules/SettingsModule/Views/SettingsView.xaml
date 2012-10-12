@@ -5,6 +5,7 @@
 
     <UserControl.Resources>
         <Converters:ThemeConverter x:Key="ThemeConverter" />
+        <Converters:ThemeConverter x:Key="ModuleConverter" />
     </UserControl.Resources>
     <TabControl>
         <TabItem Header="Конвертация">
@@ -27,6 +28,34 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                     </StackPanel>
+                </StackPanel>
+            </Border>
+        </TabItem>
+        <TabItem Header="Дополнительные модули">
+            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
+                <StackPanel Margin="10">
+                    <Border CornerRadius="10" BorderThickness="0" Margin="2">
+                        <!--<ListView Grid.Row="0" ItemsSource="{Binding Modules}">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn>
+                                        <CheckBox Margin="10,5">
+                                            <TextBlock Text="{Binding ., Converter={StaticResource ModuleConverter}}" />
+                                        </CheckBox>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>-->
+
+                        <!--<ListBox ItemsSource="{Binding Modules}" SelectedItem="{Binding SelectedModule}" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"/>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>-->
+
+                    </Border>
                 </StackPanel>
             </Border>
         </TabItem>

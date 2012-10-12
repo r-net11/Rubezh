@@ -10,53 +10,29 @@
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Name="_zones1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="False">
-            <DataGrid.Resources>
-                <Style TargetType="DataGridRow">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                </Style>
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" Width="auto" />
-                <DataGridTextColumn Header="Выбранные зоны" Binding="{Binding Zone.Name}" Width="*" />
-                <DataGridTextColumn Header="Примечание" Binding="{Binding Zone.Description}" Width="*" />
-            </DataGrid.Columns>
-            <DataGrid.InputBindings>
-                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding RemoveOneCommand}" />
-            </DataGrid.InputBindings>
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Удалить выбранную зону" Command="{Binding RemoveOneCommand}" />
-                    <MenuItem Header="Удалить все зоны" Command="{Binding RemoveAllCommand}" />
-                </ContextMenu>
-            </DataGrid.ContextMenu>
-        </DataGrid>
         <StackPanel Grid.Column="1" Margin="2">
-            <Controls:ToolBarButton Command="{Binding AddOneCommand}" ToolTip="Добавить выбранную зону" ImageSource="/Controls;component/Images/Left.png" />
-            <Controls:ToolBarButton Command="{Binding RemoveOneCommand}" ToolTip="Удалить выбранную зону" ImageSource="/Controls;component/Images/Right.png" />
+            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные зоны" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=listView2, Path=SelectedItems}"/>
+            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные зоны" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}"/>
             <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все зоны" ImageSource="/Controls;component/Images/LeftLeft.png" />
             <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все зоны" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
-        <DataGrid Name="_zones2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" SelectionMode="Extended" VirtualizingStackPanel.IsVirtualizing="False">
-            <DataGrid.Resources>
-                <Style TargetType="DataGridRow">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
-                </Style>
-            </DataGrid.Resources>
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="№" Binding="{Binding Zone.No}" Width="auto" />
-                <DataGridTextColumn Header="Не выбранные зоны" Binding="{Binding Zone.Name}" Width="*" />
-                <DataGridTextColumn Header="Примечание" Binding="{Binding Zone.Description}" Width="*" />
-            </DataGrid.Columns>
-            <DataGrid.InputBindings>
-                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding AddOneCommand}" />
-            </DataGrid.InputBindings>
-            <DataGrid.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Добавить выбранную зону" Command="{Binding AddOneCommand}" />
-                    <MenuItem Header="Добавить все зоны" Command="{Binding AddAllCommand}" />
-                </ContextMenu>
-            </DataGrid.ContextMenu>
-        </DataGrid>
+        <ListView x:Name="listView1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Zone.No}" Header="№" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Zone.Name}" Header="Не выбранные зоны" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="listView2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Zone.No}" Header="№" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Zone.Name}" Header="Не выбранные зоны" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Zone.Description}" Header="Примечание" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </UserControl>

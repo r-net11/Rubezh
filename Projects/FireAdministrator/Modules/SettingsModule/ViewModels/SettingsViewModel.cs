@@ -12,6 +12,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Common.Theme;
+using Infrastructure.Common.Module;
 using Microsoft.Win32;
 
 namespace SettingsModule.ViewModels
@@ -31,6 +32,11 @@ namespace SettingsModule.ViewModels
                 Themes = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
                 if (ThemeHelper.CurrentTheme != null)
                     SelectedTheme = (Theme)Enum.Parse(typeof(Theme), ThemeHelper.CurrentTheme);
+            }
+            catch { ;}
+            try
+            {
+                Modules = Enum.GetValues(typeof(Module)).Cast<Module>().ToList();
             }
             catch { ;}
         }
@@ -93,5 +99,23 @@ namespace SettingsModule.ViewModels
                 OnPropertyChanged("SelectedTheme");
             }
         }
+
+
+        public List<Module> Modules { get; set; }
+        private Module selectedModule;
+        public Module SelectedModule
+        {
+            get
+            {
+                return selectedModule;
+            }
+            set
+            {
+                selectedModule = value;
+                ModuleHelper.DisabledModules.Add(selectedModule);
+                OnPropertyChanged("SelectedModule");
+            }
+        }
+
 	}
 }
