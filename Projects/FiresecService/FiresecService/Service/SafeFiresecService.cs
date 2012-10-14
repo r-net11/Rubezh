@@ -135,14 +135,14 @@ namespace FiresecService.Service
             SafeOperationCall(() => { FiresecService.SetSystemConfiguration(systemConfiguration); }, "SetSystemConfiguration");
         }
 
-        public FiresecAPI.Models.LibraryConfiguration GetLibraryConfiguration()
+        public FiresecAPI.Models.DeviceLibraryConfiguration GetDeviceLibraryConfiguration()
         {
-            return SafeOperationCall(() => { return FiresecService.GetLibraryConfiguration(); }, "GetLibraryConfiguration");
+            return SafeOperationCall(() => { return FiresecService.GetDeviceLibraryConfiguration(); }, "GetDeviceLibraryConfiguration");
         }
 
-        public void SetLibraryConfiguration(FiresecAPI.Models.LibraryConfiguration libraryConfiguration)
+        public void SetDeviceLibraryConfiguration(FiresecAPI.Models.DeviceLibraryConfiguration deviceLibraryConfiguration)
         {
-            SafeOperationCall(() => { FiresecService.SetLibraryConfiguration(libraryConfiguration); }, "SetLibraryConfiguration");
+            SafeOperationCall(() => { FiresecService.SetDeviceLibraryConfiguration(deviceLibraryConfiguration); }, "SetDeviceLibraryConfiguration");
         }
 
         public FiresecAPI.Models.PlansConfiguration GetPlansConfiguration()

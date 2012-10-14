@@ -8,6 +8,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace DevicesModule.ViewModels
 {
@@ -19,6 +21,7 @@ namespace DevicesModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditOrDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditOrDelete);
 			AddCommand = new RelayCommand(OnAdd);
+            RegisterShortcuts();
 		}
 
 		public void Initialize()
@@ -84,34 +87,26 @@ namespace DevicesModule.ViewModels
 			if (DialogService.ShowModalWindow(directionDetailsViewModel))
 			{
 				FiresecManager.Directions.Add(directionDetailsViewModel.Direction);
-				Directions.Add(new DirectionViewModel(directionDetailsViewModel.Direction));
-
+                var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
+                Directions.Add(directionViewModel);
+                SelectedDirection = directionViewModel;
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}
 		}
 
-		public override void OnShow()
-		{
-			base.OnShow();
-			if (DirectionsMenuView.Current != null)
-				DirectionsMenuView.Current.AcceptKeyboard = true;
-		}
-
-		public override void OnHide()
-		{
-			base.OnHide();
-			if (DirectionsMenuView.Current != null)
-				DirectionsMenuView.Current.AcceptKeyboard = false;
-		}
-
 		#region ISelectable<Guid> Members
-
 		public void Select(Guid directionUID)
 		{
             if (directionUID != Guid.Empty)
                 SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 		}
-
 		#endregion
+
+        private void RegisterShortcuts()
+        {
+            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+        }
 	}
 }

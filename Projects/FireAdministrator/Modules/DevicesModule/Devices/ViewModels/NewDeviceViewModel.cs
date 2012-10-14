@@ -11,6 +11,7 @@ namespace DevicesModule.ViewModels
 {
 	public class NewDeviceViewModel : SaveCancelDialogViewModel
 	{
+        public DeviceViewModel CreatedDeviceViewModel { get; private set; }
 		DeviceViewModel _parentDeviceViewModel;
 		Device _parent;
 
@@ -97,7 +98,7 @@ namespace DevicesModule.ViewModels
 			if (SelectedDriver.HasAddress == false)
 			{
 				Device device = FiresecManager.FiresecConfiguration.AddDevice(_parent, SelectedDriver, 0);
-				NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+                CreatedDeviceViewModel = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
 				return;
 			}
 
@@ -126,7 +127,7 @@ namespace DevicesModule.ViewModels
 				}
 
 				Device device = FiresecManager.FiresecConfiguration.AddDevice(_parent, SelectedDriver, address);
-				NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+                CreatedDeviceViewModel = NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
 			}
 		}
 

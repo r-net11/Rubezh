@@ -543,15 +543,11 @@ namespace DevicesModule.ViewModels
             FiresecManager.FiresecConfiguration.DeviceConfiguration.UpdateGuardConfiguration();
             base.OnShow();
             InitializeDevices();
-            if (GuardMenuView.Current != null)
-                GuardMenuView.Current.AcceptKeyboard = true;
         }
 
         public override void OnHide()
         {
             base.OnHide();
-            if (GuardMenuView.Current != null)
-                GuardMenuView.Current.AcceptKeyboard = false;
         }
     }
 }

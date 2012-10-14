@@ -13,7 +13,7 @@ namespace FiresecClient
 		public static ClientCredentials ClientCredentials { get; private set; }
 		public static SafeFiresecService FiresecService { get; private set; }
 
-        static StringBuilder LoadingErrors;
+        public static StringBuilder LoadingErrors;
         public static string GetLoadingError()
         {
             return FiresecDriver.LoadingErrors.ToString() + LoadingErrors.ToString();

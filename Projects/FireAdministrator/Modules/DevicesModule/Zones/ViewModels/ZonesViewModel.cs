@@ -12,6 +12,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.ViewModels;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace DevicesModule.ViewModels
 {
@@ -27,6 +29,7 @@ namespace DevicesModule.ViewModels
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
 			DeleteAllEmptyCommand = new RelayCommand(OnDeleteAllEmpty, CanDeleteAll);
 			ZoneDevices = new ZoneDevicesViewModel();
+            RegisterShortcuts();
 		}
 
 		public void Initialize()
@@ -137,7 +140,9 @@ namespace DevicesModule.ViewModels
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				FiresecManager.FiresecConfiguration.AddZone(zoneDetailsViewModel.Zone);
-				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.Zone));
+                var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.Zone);
+                Zones.Add(zoneViewModel);
+                SelectedZone = zoneViewModel;
 				ServiceFactory.SaveService.DevicesChanged = true;
 			}
 		}
@@ -197,15 +202,11 @@ namespace DevicesModule.ViewModels
 		{
 			base.OnShow();
 			SelectedZone = SelectedZone;
-			if (ZonesMenuView.Current != null)
-				ZonesMenuView.Current.AcceptKeyboard = true;
 		}
 
 		public override void OnHide()
 		{
 			base.OnHide();
-			if (ZonesMenuView.Current != null)
-				ZonesMenuView.Current.AcceptKeyboard = false;
 		}
 
 		#region ISelectable<Guid> Members
@@ -217,5 +218,12 @@ namespace DevicesModule.ViewModels
 		}
 
 		#endregion
+
+        private void RegisterShortcuts()
+        {
+            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+        }
 	}
 }

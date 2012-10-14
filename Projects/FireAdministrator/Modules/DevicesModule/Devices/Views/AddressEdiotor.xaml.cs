@@ -192,7 +192,7 @@ namespace DevicesModule.Views
 			}
 			else
 			{
-				LeftPartMax = Device.Parent.Driver.ShleifCount;
+                LeftPartMax = Device.ParentPanel.Driver.ShleifCount;
 				if (LeftPartMax == 0)
 					LeftPartMax = 1;
 				if (Device.Parent.Driver.IsChildAddressReservedRange)

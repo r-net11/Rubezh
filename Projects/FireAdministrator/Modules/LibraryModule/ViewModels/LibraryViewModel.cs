@@ -24,7 +24,7 @@ namespace LibraryModule.ViewModels
 
         public void Initialize()
         {
-            foreach (var libraryDevice in FiresecManager.LibraryConfiguration.Devices)
+            foreach (var libraryDevice in FiresecManager.DeviceLibraryConfiguration.Devices)
             {
                 var driver = FiresecClient.FiresecManager.Drivers.First(x => x.UID == libraryDevice.DriverId);
                 if(driver != null)
@@ -36,7 +36,7 @@ namespace LibraryModule.ViewModels
                     Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryDevice.DriverId.ToString());
                 }
             }
-            var devices = from LibraryDevice libraryDevice in FiresecManager.LibraryConfiguration.Devices orderby libraryDevice.Driver.DeviceClassName select libraryDevice;
+            var devices = from LibraryDevice libraryDevice in FiresecManager.DeviceLibraryConfiguration.Devices orderby libraryDevice.Driver.DeviceClassName select libraryDevice;
             Devices = new ObservableCollection<DeviceViewModel>();
             foreach (var device in devices)
             {
@@ -98,7 +98,7 @@ namespace LibraryModule.ViewModels
             var addDeviceViewModel = new DeviceDetailsViewModel();
             if (DialogService.ShowModalWindow(addDeviceViewModel))
             {
-                FiresecManager.LibraryConfiguration.Devices.Add(addDeviceViewModel.SelectedDevice.LibraryDevice);
+                FiresecManager.DeviceLibraryConfiguration.Devices.Add(addDeviceViewModel.SelectedDevice.LibraryDevice);
                 Devices.Add(addDeviceViewModel.SelectedDevice);
                 SelectedDevice = Devices.LastOrDefault();
                 ServiceFactory.SaveService.LibraryChanged = true;
@@ -108,7 +108,7 @@ namespace LibraryModule.ViewModels
         public RelayCommand RemoveDeviceCommand { get; private set; }
         void OnRemoveDevice()
         {
-            FiresecManager.LibraryConfiguration.Devices.Remove(SelectedDevice.LibraryDevice);
+            FiresecManager.DeviceLibraryConfiguration.Devices.Remove(SelectedDevice.LibraryDevice);
             Devices.Remove(SelectedDevice);
             SelectedDevice = Devices.FirstOrDefault();
             ServiceFactory.SaveService.LibraryChanged = true;

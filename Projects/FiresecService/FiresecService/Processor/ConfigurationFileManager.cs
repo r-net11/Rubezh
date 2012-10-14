@@ -12,7 +12,7 @@ namespace FiresecService.Configuration
     public static class ConfigurationFileManager
     {
         readonly static string SystemConfigurationFileName = "SystemConfiguration.xml";
-        readonly static string DeviceLibraryConfigurationFileName = "DeviceLibrary.xml";
+        readonly static string DeviceLibraryConfigurationFileName = "DeviceLibraryConfiguration.xml";
         readonly static string PlansConfigurationFileName = "PlansConfiguration.xml";
         readonly static string DeviceConfigurationFileName = "DeviceConfiguration.xml";
         readonly static string SecurityConfigurationFileName = "SecurityConfiguration.xml";
@@ -56,14 +56,14 @@ namespace FiresecService.Configuration
             Set<SystemConfiguration>(systemConfiguration, SystemConfigurationFileName);
         }
 
-        public static LibraryConfiguration GetLibraryConfiguration()
+        public static DeviceLibraryConfiguration GetLibraryConfiguration()
         {
-            return Get<LibraryConfiguration>(DeviceLibraryConfigurationFileName);
+            return Get<DeviceLibraryConfiguration>(DeviceLibraryConfigurationFileName);
         }
 
-        public static void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
+        public static void SetLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration)
         {
-            Set<LibraryConfiguration>(libraryConfiguration, DeviceLibraryConfigurationFileName);
+            Set<DeviceLibraryConfiguration>(deviceLibraryConfiguration, DeviceLibraryConfigurationFileName);
         }
 
         public static PlansConfiguration GetPlansConfiguration()

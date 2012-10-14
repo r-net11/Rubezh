@@ -24,11 +24,30 @@ namespace FiresecClient
                 }
                 orderedZones = orderedZones.OrderBy(x => x).ToList();
 				int prevZoneNo = orderedZones[0];
-				List<List<int>> groupOfZones = new List<List<int>>();
+				var groupOfZones = new List<List<int>>();
 
 				for (int i = 0; i < orderedZones.Count; i++)
 				{
 					var zoneNo = orderedZones[i];
+
+                    if (orderedZones.Any(x => x == prevZoneNo + 1))
+                    {
+                        if (groupOfZones.Count == 0)
+                        {
+                            groupOfZones.Add(new List<int>() { zoneNo });
+                        }
+                        else
+                        {
+                            groupOfZones.Last().Add(zoneNo);
+                        }
+                    }
+                    else
+                    {
+                        groupOfZones.Add(new List<int>() { zoneNo });
+                    }
+                    prevZoneNo = zoneNo;
+
+                    continue;
 					var haveZonesBetween = DeviceConfiguration.Zones.Any(x => (x.No > prevZoneNo) && (x.No < zoneNo));
 					if (haveZonesBetween)
 					{

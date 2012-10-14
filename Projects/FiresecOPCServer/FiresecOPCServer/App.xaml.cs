@@ -15,9 +15,16 @@ namespace FiresecOPCServer
 
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-            using (new DoubleLaunchLocker(SignalId, WaitId, true))
-            Bootstrapper.Run();
+            try
+            {
+                AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+                using (new DoubleLaunchLocker(SignalId, WaitId, true))
+                    Bootstrapper.Run();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex, "App.OnStartup");
+            }
         }
 
         void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

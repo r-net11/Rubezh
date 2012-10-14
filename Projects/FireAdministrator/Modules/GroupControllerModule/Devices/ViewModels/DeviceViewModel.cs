@@ -17,6 +17,7 @@ namespace GKModule.ViewModels
 		public DeviceViewModel(XDevice device, ObservableCollection<DeviceViewModel> sourceDevices)
 		{
 			AddCommand = new RelayCommand(OnAdd, CanAdd);
+            AddToParentCommand = new RelayCommand(OnAddToParent, CanAddToParent);
 			RemoveCommand = new RelayCommand(OnRemove, CanRemove);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties, CanShowProperties);
 			ShowLogicCommand = new RelayCommand(OnShowLogic, CanShowLogic);
@@ -35,6 +36,7 @@ namespace GKModule.ViewModels
 		{
 			//OnPropertyChanged("Address");
 			//OnPropertyChanged("Description");
+            OnPropertyChanged("PresentationAddress");
 			OnPropertyChanged("PresentationZone");
 		}
 
@@ -73,14 +75,21 @@ namespace GKModule.ViewModels
 					{
 						foreach (var deviceViewModel in Children)
 						{
-							deviceViewModel.OnPropertyChanged("Address");
+                            deviceViewModel.OnPropertyChanged("Address");
+                            deviceViewModel.OnPropertyChanged("PresentationAddress");
 						}
 					}
 				}
 				OnPropertyChanged("Address");
+                OnPropertyChanged("PresentationAddress");
 				ServiceFactory.SaveService.XDevicesChanged = true;
 			}
 		}
+
+        public string PresentationAddress
+        {
+            get { return Device.PresentationAddress; }
+        }
 
 		public string Description
 		{
@@ -92,19 +101,35 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool CanAdd()
-		{
-			return (Driver.Children.Count > 0);
-		}
-
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			if (DialogService.ShowModalWindow(new NewDeviceViewModel(this)))
+            var newDeviceViewModel = new NewDeviceViewModel(this);
+            if (newDeviceViewModel.Drivers.Count == 1)
+            {
+                newDeviceViewModel.SaveCommand.Execute();
+                ServiceFactory.SaveService.XDevicesChanged = true;
+                return;
+            }
+			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
 				ServiceFactory.SaveService.XDevicesChanged = true;
 			}
 		}
+        public bool CanAdd()
+        {
+            return (Driver.Children.Count > 0);
+        }
+
+        public RelayCommand AddToParentCommand { get; private set; }
+        void OnAddToParent()
+        {
+            Parent.AddCommand.Execute();
+        }
+        public bool CanAddToParent()
+        {
+            return ((Parent != null) && (Parent.AddCommand.CanExecute(null)));
+        }
 
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()

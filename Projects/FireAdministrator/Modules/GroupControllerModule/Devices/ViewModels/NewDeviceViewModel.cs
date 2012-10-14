@@ -23,9 +23,10 @@ namespace GKModule.ViewModels
                        select driver);
 
 			SelectedDriver = Drivers.FirstOrDefault();
+            Count = 1;
         }
 
-        public IEnumerable<XDriver> Drivers{get;private set;}
+        public List<XDriver> Drivers { get; private set; }
 
         XDriver _selectedDriver;
         public XDriver SelectedDriver
@@ -34,8 +35,60 @@ namespace GKModule.ViewModels
             set
             {
                 _selectedDriver = value;
+                UpdateAddressRange();
                 OnPropertyChanged("SelectedDriver");
             }
+        }
+
+
+        XDevice _startDevice;
+        public XDevice StartDevice
+        {
+            get { return _startDevice; }
+            set
+            {
+                _startDevice = value;
+                OnPropertyChanged("StartDevice");
+            }
+        }
+
+        string _startAddress;
+        public string StartAddress
+        {
+            get { return _startAddress; }
+            set
+            {
+                if (_startAddress != value)
+                {
+                    _startAddress = value;
+                    OnPropertyChanged("StartAddress");
+                }
+            }
+        }
+
+        int _count;
+        public int Count
+        {
+            get { return _count; }
+            set
+            {
+                _count = value;
+                OnPropertyChanged("Count");
+            }
+        }
+
+        void UpdateAddressRange()
+        {
+            int maxAddress = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
+
+            StartDevice = new XDevice()
+            {
+                Driver = SelectedDriver,
+                ShleifNo = (byte)(maxAddress / 256 + 1),
+                IntAddress = (byte)(maxAddress % 256),
+                Parent = _parent
+            };
+            StartAddress = StartDevice.Address;
         }
 
         protected override bool CanSave()
@@ -45,9 +98,12 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-            byte address = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
-            XDevice device = XManager.AddChild(_parent, SelectedDriver, 1, address);
-            NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+            for (int i = 0; i < Count; i++)
+            {
+                byte address = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
+                XDevice device = XManager.AddChild(_parent, SelectedDriver, 1, address);
+                NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+            }
 
             _parentDeviceViewModel.Update();
             XManager.DeviceConfiguration.Update();

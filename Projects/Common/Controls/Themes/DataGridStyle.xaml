@@ -203,9 +203,9 @@
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu>
-                    <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
-                    <MenuItem Header="Удалить" Command="{Binding DeleteCommand}" />
-                    <MenuItem Header="Редактировать" Command="{Binding EditCommand}" />
+                    <MenuItem Header="Добавить (Ctrl+N)" Command="{Binding AddCommand}" />
+                    <MenuItem Header="Удалить (Ctrl+Del)" Command="{Binding DeleteCommand}" />
+                    <MenuItem Header="Редактировать (Ctrl+E)" Command="{Binding EditCommand}" />
                 </ContextMenu>
             </Setter.Value>
         </Setter>

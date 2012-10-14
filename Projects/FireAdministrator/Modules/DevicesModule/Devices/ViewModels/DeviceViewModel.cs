@@ -98,29 +98,11 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public bool IsZoneDevice
+        #region Zone
+        public bool IsZoneDevice
 		{
 			get { return Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device); }
 		}
-
-        //public IEnumerable<Zone> Zones
-        //{
-        //    get { return from Zone zone in FiresecManager.Zones orderby zone.No select zone; }
-        //}
-
-        //public Zone Zone
-        //{
-        //    get { return FiresecManager.Zones.FirstOrDefault(x => x.UID == Device.ZoneUID); }
-        //    set
-        //    {
-        //        if (Device.ZoneUID != value.UID)
-        //        {
-        //            FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, value);
-        //            OnPropertyChanged("Zone");
-        //            ServiceFactory.SaveService.DevicesChanged = true;
-        //        }
-        //    }
-        //}
 
 		public string PresentationZone
 		{
@@ -134,7 +116,7 @@ namespace DevicesModule.ViewModels
                 var presentationZone = FiresecManager.FiresecConfiguration.GetPresentationZone(Device);
                 if (string.IsNullOrEmpty(presentationZone))
                 {
-                    if (Driver.IsZoneDevice)
+                    if (Driver.IsZoneDevice && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
                         presentationZone = "Нажмите для выбора зон";
                     if (Driver.IsZoneLogicDevice)
                         presentationZone = "Нажмите для настройки логики";
@@ -153,10 +135,13 @@ namespace DevicesModule.ViewModels
         {
             if (Driver.IsZoneDevice)
             {
-                var zoneSelectationViewModel = new ZoneSelectationViewModel(Device);
-                if (DialogService.ShowModalWindow(zoneSelectationViewModel))
+                if (!FiresecManager.FiresecConfiguration.IsChildMPT(Device))
                 {
-                    ServiceFactory.SaveService.DevicesChanged = true;
+                    var zoneSelectationViewModel = new ZoneSelectationViewModel(Device);
+                    if (DialogService.ShowModalWindow(zoneSelectationViewModel))
+                    {
+                        ServiceFactory.SaveService.DevicesChanged = true;
+                    }
                 }
             }
             if (Driver.IsZoneLogicDevice)
@@ -175,7 +160,23 @@ namespace DevicesModule.ViewModels
             OnPropertyChanged("PresentationZone");
         }
 
-		public bool HasExternalDevices
+        public RelayCommand ShowZoneLogicCommand { get; private set; }
+        void OnShowZoneLogic()
+        {
+            var zoneLogicViewModel = new ZoneLogicViewModel(Device);
+            if (DialogService.ShowModalWindow(zoneLogicViewModel))
+            {
+                ServiceFactory.SaveService.DevicesChanged = true;
+            }
+            OnPropertyChanged("PresentationZone");
+        }
+        bool CanShowZoneLogic()
+        {
+            return (Driver.IsZoneLogicDevice && !Device.IsNotUsed);
+        }
+        #endregion
+
+        public bool HasExternalDevices
 		{
 			get { return Device.HasExternalDevices; }
 		}
@@ -206,21 +207,6 @@ namespace DevicesModule.ViewModels
 			get { return !Device.IsNotUsed && (Device.Driver.IsPlaceable || Device.Children.Count > 0); }
 		}
 
-		public RelayCommand ShowZoneLogicCommand { get; private set; }
-		void OnShowZoneLogic()
-		{
-			var zoneLogicViewModel = new ZoneLogicViewModel(Device);
-			if (DialogService.ShowModalWindow(zoneLogicViewModel))
-			{
-				ServiceFactory.SaveService.DevicesChanged = true;
-			}
-			OnPropertyChanged("PresentationZone");
-		}
-		bool CanShowZoneLogic()
-		{
-            return (Driver.IsZoneLogicDevice && !Device.IsNotUsed);
-		}
-
 		void OnShowIndicatorLogic()
 		{
 			var indicatorDetailsViewModel = new IndicatorDetailsViewModel(Device);
@@ -232,8 +218,10 @@ namespace DevicesModule.ViewModels
 		public RelayCommand AddCommand { get; private set; }
 		void OnAdd()
 		{
-			if (DialogService.ShowModalWindow(new NewDeviceViewModel(this)))
+            var newDeviceViewModel = new NewDeviceViewModel(this);
+			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
+                //DevicesViewModel.Current.Select(newDeviceViewModel.CreatedDeviceViewModel.Device.UID);
 				ServiceFactory.SaveService.DevicesChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
 			}
@@ -291,7 +279,6 @@ namespace DevicesModule.ViewModels
 			{
 				case DriverType.Indicator:
 					OnShowIndicatorLogic();
-					//FiresecManager.FiresecConfiguration.InvalidateConfiguration();
 					break;
 
 				case DriverType.Valve:

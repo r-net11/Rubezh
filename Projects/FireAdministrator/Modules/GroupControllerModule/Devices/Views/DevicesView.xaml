@@ -6,14 +6,15 @@
 
     <UserControl.Resources>
         <ContextMenu x:Key="DeviceContextMenu">
-            <MenuItem Header="Копировать" Command="{Binding CopyCommand}" />
-            <MenuItem Header="Вырезать" Command="{Binding CutCommand}" />
-            <MenuItem Header="Вставить" Command="{Binding PasteCommand}" />
+            <MenuItem Command="{Binding CopyCommand}" Header="Копировать (Ctrl+C)" />
+            <MenuItem Command="{Binding CutCommand}" Header="Вырезать (Ctrl+X)" />
+            <MenuItem Command="{Binding PasteCommand}" Header="Вставить (Ctrl+V)" />
             <Separator />
-            <MenuItem Header="Добавить" Command="{Binding AddCommand}" />
-            <MenuItem Header="Удалить" Command="{Binding RemoveCommand}" />
-            <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-            <MenuItem Header="Логика" Command="{Binding ShowLogicCommand}" />
+            <MenuItem Command="{Binding AddCommand}" Header="Добавить дочернее устройство (Ctrl+N)" />
+            <MenuItem Command="{Binding AddToParentCommand}" Header="Добавить к родительскому устройству (Ctrl+M)" />
+            <MenuItem Command="{Binding RemoveCommand}" Header="Удалить (Ctrl+Del)" />
+            <MenuItem Command="{Binding ShowLogicCommand}" Header="Настройка логики исполнительного устройства по состоянию зон" />
+            <MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
         </ContextMenu>
         <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
     </UserControl.Resources>
@@ -55,16 +56,16 @@
                     <DataGridTemplateColumn Header="Адрес" Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Address}" Visibility="{Binding Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                <TextBlock Text="{Binding PresentationAddress}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                         <DataGridTemplateColumn.CellEditingTemplate>
                             <DataTemplate>
-                                <StackPanel>
+                                <Grid>
                                     <Views:AddressEditor Visibility="{Binding Device.CanEditAddress, Converter={StaticResource BoolToVisibilityConverter}}"
                                         Address="{Binding Address}" Device="{Binding Device}" />
                                     <TextBlock Text="{Binding Address}" />
-                                </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellEditingTemplate>
                     </DataGridTemplateColumn>
@@ -72,14 +73,12 @@
                     <DataGridTemplateColumn Header="Зона" Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" MinWidth="100" Cursor="Hand"
-                                               Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <TextBlock.InputBindings>
-                                            <MouseBinding MouseAction="LeftClick" Command="{Binding ShowZoneOrLogicCommand}" />
-                                        </TextBlock.InputBindings>
-                                    </TextBlock>
-                                </StackPanel>
+                                <TextBlock Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" MinWidth="100" Cursor="Hand"
+                                            Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock.InputBindings>
+                                        <MouseBinding MouseAction="LeftClick" Command="{Binding ShowZoneOrLogicCommand}" />
+                                    </TextBlock.InputBindings>
+                                </TextBlock>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

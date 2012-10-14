@@ -53,7 +53,7 @@ namespace DeviceControls
 
 		public void Update()
 		{
-            var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
+            var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
             if (libraryDevice == null)
             {
                 Logger.Error("DeviceControl.Update libraryDevice = null " + DriverId.ToString());
@@ -120,7 +120,7 @@ namespace DeviceControls
 		{
 			UIElement content = null;
 
-			var device = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
+			var device = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == DriverId);
 			if (device != null)
 			{
 				var state = device.States.FirstOrDefault(x => x.Code == null && x.StateType == StateType.No);

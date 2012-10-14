@@ -43,8 +43,8 @@
       <Component Id="Server.SecurityConfiguration.xml" Guid="*" Permanent='yes'>
         <File Id="Server.SecurityConfiguration.xml" Name="SecurityConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
-      <Component Id="Server.DeviceLibrary.xml" Guid="*" Permanent='yes'>
-        <File Id="Server.DeviceLibrary.xml" Name="DeviceLibrary.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
+      <Component Id="Server.DeviceLibraryConfiguration.xml" Guid="*" Permanent='yes'>
+        <File Id="Server.DeviceLibraryConfiguration.xml" Name="DeviceLibraryConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />
       </Component>
       <Component Id="Server.DriversConfiguration.xml" Guid="*" Permanent='yes'>
         <File Id="Server.DriversConfiguration.xml" Name="DriversConfiguration.xml" Source="$(var.Server.TargetDir)Configuration\" KeyPath="yes" />

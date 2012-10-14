@@ -107,8 +107,6 @@ namespace SoundsModule.ViewModels
 		public override void OnShow()
 		{
 			base.OnShow();
-			if (SoundsMenuView.Current != null)
-				SoundsMenuView.Current.AcceptKeyboard = true;
 		}
 
 		public override void OnHide()
@@ -116,9 +114,6 @@ namespace SoundsModule.ViewModels
 			base.OnHide();
 			IsNowPlaying = false;
 			AlarmPlayerHelper.Stop();
-
-			if (SoundsMenuView.Current != null)
-				SoundsMenuView.Current.AcceptKeyboard = false;
 		}
 	}
 }

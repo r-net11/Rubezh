@@ -16,9 +16,9 @@ namespace FiresecClient.Itv
         {
 			get { return FiresecManager.FiresecConfiguration.DeviceConfiguration; }
         }
-        public static LibraryConfiguration LibraryConfiguration
+        public static DeviceLibraryConfiguration DeviceLibraryConfiguration
         {
-            get { return FiresecManager.LibraryConfiguration; }
+            get { return FiresecManager.DeviceLibraryConfiguration; }
         }
 
         public static string Connect(string serverAddress, string login="adm", string password="", string FS_Address="localhost", int FS_Port=211, string FS_Login="adm", string FS_Password="")
@@ -59,6 +59,16 @@ namespace FiresecClient.Itv
         public static void ResetAllStates()
         {
             FiresecManager.ResetAllStates();
+        }
+
+        public static void AddToIgnoreList(List<Device> devices)
+        {
+            FiresecManager.FiresecDriver.AddToIgnoreList(devices);
+        }
+
+        public static void RemoveFromIgnoreList(List<Device> devices)
+        {
+            FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
         }
 
         public static void ShowImitator()

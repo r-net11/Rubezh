@@ -12,7 +12,7 @@ namespace ItvIntegration
 			Devices = new ObservableCollection<DeviceViewModel>();
 			foreach (var device in ItvManager.DeviceConfiguration.Devices)
 			{
-				var deviceViewModel = new DeviceViewModel(device.DeviceState);
+				var deviceViewModel = new DeviceViewModel(device);
 				Devices.Add(deviceViewModel);
 			}
 		}
@@ -26,6 +26,7 @@ namespace ItvIntegration
 			set
 			{
 				_selectedDevice = value;
+                OnPropertyChanged("SelectedDevice");
 				OnPropertyChanged("StateType");
 			}
 		}

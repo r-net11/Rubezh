@@ -11,6 +11,8 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using SecurityModule.Views;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace SecurityModule.ViewModels
 {
@@ -22,6 +24,7 @@ namespace SecurityModule.ViewModels
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             AddCommand = new RelayCommand(OnAdd);
+            RegisterShortcuts();
 		}
 
 		public void Initialize()
@@ -61,8 +64,9 @@ namespace SecurityModule.ViewModels
             if (DialogService.ShowModalWindow(roleDetailsViewModel))
             {
                 FiresecManager.SecurityConfiguration.UserRoles.Add(roleDetailsViewModel.Role);
-                Roles.Add(new RoleViewModel(roleDetailsViewModel.Role));
-
+                var roleViewModel = new RoleViewModel(roleDetailsViewModel.Role);
+                Roles.Add(roleViewModel);
+                SelectedRole = roleViewModel;
                 ServiceFactory.SaveService.SecurityChanged = true;
             }
         }
@@ -121,18 +125,11 @@ namespace SecurityModule.ViewModels
             return SelectedRole != null;
         }
 
-        public override void OnShow()
+        private void RegisterShortcuts()
         {
-			base.OnShow();
-			if (RolesMenuView.Current != null)
-				RolesMenuView.Current.AcceptKeyboard = true;
-        }
-
-        public override void OnHide()
-        {
-			base.OnHide();
-			if (RolesMenuView.Current != null)
-				RolesMenuView.Current.AcceptKeyboard = false;
+            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
         }
     }
 }

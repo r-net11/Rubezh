@@ -167,7 +167,7 @@ namespace RepFileManager
 
 		public static void CreateImages(Driver driver, string driverName)
 		{
-			var libraryDevice = ItvManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == driver.UID);
+			var libraryDevice = ItvManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == driver.UID);
 			if (libraryDevice != null)
 			{
 				foreach (var stateType in Helper.AllStates)

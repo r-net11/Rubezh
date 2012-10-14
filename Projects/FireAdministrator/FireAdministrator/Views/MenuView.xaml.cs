@@ -105,7 +105,7 @@ namespace FireAdministrator.Views
                 if (ServiceFactory.SaveService.LibraryChanged)
                 {
                     LoadingService.DoStep("Сохранение конфигурации библиотеки устройств");
-                    FiresecManager.FiresecService.SetLibraryConfiguration(FiresecManager.LibraryConfiguration);
+                    FiresecManager.FiresecService.SetDeviceLibraryConfiguration(FiresecManager.DeviceLibraryConfiguration);
                 }
 
                 if ((ServiceFactory.SaveService.InstructionsChanged) ||

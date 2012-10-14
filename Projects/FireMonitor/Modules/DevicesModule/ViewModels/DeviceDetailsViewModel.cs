@@ -120,7 +120,7 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
-				var libraryDevice = FiresecManager.LibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == Device.Driver.UID);
+				var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == Device.Driver.UID);
 				if (libraryDevice == null)
 				{
 					return null;

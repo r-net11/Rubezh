@@ -4,9 +4,9 @@ using System.Runtime.Serialization;
 namespace FiresecAPI.Models
 {
 	[DataContract]
-	public class LibraryConfiguration : VersionedConfiguration
+	public class DeviceLibraryConfiguration : VersionedConfiguration
 	{
-		public LibraryConfiguration()
+		public DeviceLibraryConfiguration()
 		{
 			Devices = new List<LibraryDevice>();
 		}

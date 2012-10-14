@@ -16,7 +16,7 @@ namespace FiresecClient
             set { FiresecAPI.Models.ConfigurationCash.PlansConfiguration = value; }
 		}
 
-		public static LibraryConfiguration LibraryConfiguration { get; set; }
+		public static DeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
 		public static SystemConfiguration SystemConfiguration { get; set; }
 		public static SecurityConfiguration SecurityConfiguration { get; set; }
 
@@ -38,7 +38,7 @@ namespace FiresecClient
             try
             {
                 SystemConfiguration = FiresecService.GetSystemConfiguration();
-                LibraryConfiguration = FiresecService.GetLibraryConfiguration();
+                DeviceLibraryConfiguration = FiresecService.GetDeviceLibraryConfiguration();
                 PlansConfiguration = FiresecService.GetPlansConfiguration();
                 SecurityConfiguration = FiresecService.GetSecurityConfiguration();
                 var driversConfiguration = FiresecService.GetDriversConfiguration();

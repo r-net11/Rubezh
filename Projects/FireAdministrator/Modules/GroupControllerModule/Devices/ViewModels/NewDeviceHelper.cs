@@ -11,11 +11,6 @@ namespace GKModule.ViewModels
         {
             XDevice parentAddressSystemDevice = parentDevice;
 
-			//if (driver.DriverType == XDriverType.MPT)
-			//{
-			//    parentAddressSystemDevice = parentAddressSystemDevice.Parent;
-			//}
-
             byte maxAddress = 0;
 
             if (driver.IsRangeEnabled)
@@ -32,7 +27,7 @@ namespace GKModule.ViewModels
                 }
             }
 
-            foreach (var child in parentAddressSystemDevice.Children)
+            foreach (var child in parentDevice.Children)
             {
                 if (child.Driver.IsAutoCreate)
                     continue;

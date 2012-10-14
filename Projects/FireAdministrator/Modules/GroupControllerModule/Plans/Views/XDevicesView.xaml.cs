@@ -47,7 +47,7 @@ namespace GKModule.Plans.Views
 				if (!device.Driver.IsDeviceOnShleif)
 					return;
 
-				if (FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
+				if (FiresecManager.DeviceLibraryConfiguration.Devices.Any(x => x.DriverId == device.DriverUID) == false)
 					return;
 
 				ElementBase plansElement = new ElementXDevice()

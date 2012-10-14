@@ -9,6 +9,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
 using XFiresecAPI;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -25,6 +27,7 @@ namespace GKModule.ViewModels
 			CutCommand = new RelayCommand(OnCut, CanCutCopy);
 			PasteCommand = new RelayCommand(OnPaste, CanPaste);
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
+            RegisterShortcuts();
 		}
 
 		public void Initialize()
@@ -189,5 +192,52 @@ namespace GKModule.ViewModels
 			XManager.DeviceConfiguration.Update();
 			ServiceFactory.SaveService.XDevicesChanged = true;
 		}
+
+        private void RegisterShortcuts()
+        {
+            RegisterShortcut(new KeyGesture(KeyboardKey.C, ModifierKeys.Control), CopyCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.V, ModifierKeys.Control), PasteCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.X, ModifierKeys.Control), CutCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), () =>
+            {
+                if (SelectedDevice != null)
+                {
+                    if (SelectedDevice.AddCommand.CanExecute(null))
+                        SelectedDevice.AddCommand.Execute();
+                }
+            });
+            RegisterShortcut(new KeyGesture(KeyboardKey.M, ModifierKeys.Control), () =>
+            {
+                if (SelectedDevice != null)
+                {
+                    if (SelectedDevice.AddToParentCommand.CanExecute(null))
+                        SelectedDevice.AddToParentCommand.Execute();
+                }
+            });
+            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), () =>
+            {
+                if (SelectedDevice != null)
+                {
+                    if (SelectedDevice.RemoveCommand.CanExecute(null))
+                        SelectedDevice.RemoveCommand.Execute();
+                }
+            });
+            RegisterShortcut(new KeyGesture(KeyboardKey.Right, ModifierKeys.Control), () =>
+            {
+                if (SelectedDevice != null)
+                {
+                    if (SelectedDevice.HasChildren && !SelectedDevice.IsExpanded)
+                        SelectedDevice.IsExpanded = true;
+                }
+            });
+            RegisterShortcut(new KeyGesture(KeyboardKey.Left, ModifierKeys.Control), () =>
+            {
+                if (SelectedDevice != null)
+                {
+                    if (SelectedDevice.HasChildren && SelectedDevice.IsExpanded)
+                        SelectedDevice.IsExpanded = false;
+                }
+            });
+        }
 	}
 }

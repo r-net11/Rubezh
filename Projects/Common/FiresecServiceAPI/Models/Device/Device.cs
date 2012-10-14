@@ -176,6 +176,7 @@ namespace FiresecAPI.Models
 				{
 					reservedCount = int.Parse(reservedCountProperty.Value);
 				}
+                return reservedCount;
 			}
 			return reservedCount - 1;
 		}
@@ -189,14 +190,25 @@ namespace FiresecAPI.Models
                     return;
             }
 
+            var oldIntAddress = IntAddress;
             IntAddress = intAddress;
-			if (Driver.IsChildAddressReservedRange)
-			{
-				for (int i = 0; i < Children.Count; i++)
-				{
-					Children[i].IntAddress = IntAddress + i;
-				}
-			}
+            if (Driver.IsChildAddressReservedRange)
+            {
+                if (Driver.DriverType == DriverType.MRK_30)
+                {
+                    foreach (var child in Children)
+                    {
+                        child.IntAddress += IntAddress - oldIntAddress;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < Children.Count; i++)
+                    {
+                        Children[i].IntAddress = IntAddress + i;
+                    }
+                }
+            }
             OnChanged();
 		}
 
@@ -312,14 +324,10 @@ namespace FiresecAPI.Models
 			}
 		}
 
-		public Device ParentPanel
-		{
-			get
-			{
-				var panelDevice = AllParents.FirstOrDefault(x => (x.Driver.DeviceClassName == "ППКП"));
-				return panelDevice;
-			}
-		}
+        public Device ParentPanel
+        {
+            get { return AllParents.FirstOrDefault(x => (x.Driver.IsPanel)); }
+        }
 
 		public string ConnectedTo
 		{

@@ -68,7 +68,7 @@ namespace FireAdministrator
             return new FullConfiguration()
             {
                 DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration,
-                LibraryConfiguration = FiresecManager.LibraryConfiguration,
+                //DeviceLibraryConfiguration = FiresecManager.DeviceLibraryConfiguration,
                 PlansConfiguration = FiresecManager.PlansConfiguration,
                 SecurityConfiguration = FiresecManager.SecurityConfiguration,
                 SystemConfiguration = FiresecManager.SystemConfiguration,
@@ -82,7 +82,7 @@ namespace FireAdministrator
             FiresecManager.FiresecConfiguration.DeviceConfiguration = fullConfiguration.DeviceConfiguration;
             if (FiresecManager.FiresecConfiguration.DeviceConfiguration == null)
                 FiresecManager.FiresecConfiguration.SetEmptyConfiguration();
-            FiresecManager.LibraryConfiguration = fullConfiguration.LibraryConfiguration;
+            //FiresecManager.DeviceLibraryConfiguration = fullConfiguration.DeviceLibraryConfiguration;
             FiresecManager.PlansConfiguration = fullConfiguration.PlansConfiguration;
             FiresecManager.SecurityConfiguration = fullConfiguration.SecurityConfiguration;
             FiresecManager.SystemConfiguration = fullConfiguration.SystemConfiguration;

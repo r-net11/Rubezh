@@ -7,6 +7,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -18,6 +20,7 @@ namespace GKModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+            RegisterShortcuts();
 		}
 
 		public void Initialize()
@@ -63,7 +66,9 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(filterDetailsViewModel))
 			{
 				XManager.DeviceConfiguration.JournalFilters.Add(filterDetailsViewModel.JournalFilter);
-				JournalFilters.Add(new FilterViewModel(filterDetailsViewModel.JournalFilter));
+                var filterViewModel = new FilterViewModel(filterDetailsViewModel.JournalFilter);
+                JournalFilters.Add(filterViewModel);
+                SelectedJournalFilter = filterViewModel;
 				ServiceFactory.SaveService.XDevicesChanged = true;
 			}
 		}
@@ -103,5 +108,12 @@ namespace GKModule.ViewModels
 		{
 			base.OnHide();
 		}
+
+        private void RegisterShortcuts()
+        {
+            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+        }
 	}
 }

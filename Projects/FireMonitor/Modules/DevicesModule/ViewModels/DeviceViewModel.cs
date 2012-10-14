@@ -301,11 +301,6 @@ namespace DevicesModule.ViewModels
 			ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Device.ZoneUID);
 		}
 
-		public bool CanDisable()
-		{
-			return FiresecManager.CanDisable(DeviceState);
-		}
-
 		public RelayCommand DisableCommand { get; private set; }
 		void OnDisable()
 		{
@@ -314,6 +309,10 @@ namespace DevicesModule.ViewModels
 				FiresecManager.ChangeDisabled(DeviceState);
 			}
 		}
+        public bool CanDisable()
+        {
+            return FiresecManager.CanDisable(DeviceState);
+        }
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
 		void OnShowProperties()

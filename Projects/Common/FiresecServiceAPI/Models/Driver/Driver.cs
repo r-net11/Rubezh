@@ -207,5 +207,10 @@ namespace FiresecAPI.Models
         {
             get { return "/Controls;component/FSIcons/" + this.DriverType.ToString() + ".png"; }
         }
+
+        public bool IsPanel
+        {
+            get { return DeviceClassName == "ППКП"; }
+        }
     }
 }

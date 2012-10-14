@@ -15,7 +15,7 @@ namespace LibraryModule.ViewModels
             Devices = new List<DeviceViewModel>();
 			foreach (var driver in FiresecManager.Drivers)
 			{
-                if (driver.IsPlaceable && !driver.IsIgnore && !FiresecManager.LibraryConfiguration.Devices.Any(x => x.DriverId == driver.UID))
+                if (driver.IsPlaceable && !driver.IsIgnore && !FiresecManager.DeviceLibraryConfiguration.Devices.Any(x => x.DriverId == driver.UID))
                 {
                     var libraryDevice = new LibraryDevice()
                     {

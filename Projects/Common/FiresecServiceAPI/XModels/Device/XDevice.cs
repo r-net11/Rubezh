@@ -78,6 +78,22 @@ namespace XFiresecAPI
 			}
 		}
 
+        public string PresentationAddress
+        {
+            get
+            {
+                var address = Address;
+
+                if (Driver.IsGroupDevice)
+                {
+                    var lastAddressInGroup = ShleifNo.ToString() + "." + (IntAddress + Driver.GroupDeviceChildrenCount).ToString();
+                    address += " - " + lastAddressInGroup;
+                }
+
+                return address;
+            }
+        }
+
 		public string DottedAddress
 		{
 			get

@@ -42,13 +42,13 @@ namespace FiresecService.Service
             ConfigurationFileManager.SetSystemConfiguration(systemConfiguration);
         }
 
-        public LibraryConfiguration GetLibraryConfiguration()
+        public DeviceLibraryConfiguration GetDeviceLibraryConfiguration()
         {
 			return ConfigurationFileManager.GetLibraryConfiguration();
         }
-        public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
+        public void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration)
         {
-            ConfigurationFileManager.SetLibraryConfiguration(libraryConfiguration);
+            ConfigurationFileManager.SetLibraryConfiguration(deviceLibraryConfiguration);
         }
 
         public PlansConfiguration GetPlansConfiguration()

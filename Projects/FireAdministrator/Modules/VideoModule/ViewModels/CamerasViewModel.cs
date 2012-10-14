@@ -8,6 +8,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace VideoModule.ViewModels
 {
@@ -19,6 +21,7 @@ namespace VideoModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
 			EditCommand = new RelayCommand(OnEdit, CanEditDelete);
+            RegisterShortcuts();
 		}
 
 		public void Initialize()
@@ -65,7 +68,9 @@ namespace VideoModule.ViewModels
 			if (DialogService.ShowModalWindow(cameraDetailsViewModel))
 			{
 				FiresecManager.SystemConfiguration.Cameras.Add(cameraDetailsViewModel.Camera);
-				Cameras.Add(new CameraViewModel(cameraDetailsViewModel.Camera));
+                var cameraViewModel = new CameraViewModel(cameraDetailsViewModel.Camera);
+                Cameras.Add(cameraViewModel);
+                SelectedCamera = cameraViewModel;
 				ServiceFactory.SaveService.CamerasChanged = true;
 			}
 		}
@@ -94,5 +99,12 @@ namespace VideoModule.ViewModels
 				ServiceFactory.SaveService.CamerasChanged = true;
 			}
 		}
+
+        private void RegisterShortcuts()
+        {
+            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+        }
 	}
 }

@@ -60,14 +60,14 @@ namespace FiresecClient
             SafeOperationCall(() => { FiresecService.SetSystemConfiguration(systemConfiguration); });
         }
 
-        public LibraryConfiguration GetLibraryConfiguration()
+        public DeviceLibraryConfiguration GetDeviceLibraryConfiguration()
         {
-            return SafeOperationCall(() => { return FiresecService.GetLibraryConfiguration(); });
+            return SafeOperationCall(() => { return FiresecService.GetDeviceLibraryConfiguration(); });
         }
 
-        public void SetLibraryConfiguration(LibraryConfiguration libraryConfiguration)
+        public void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration)
         {
-            SafeOperationCall(() => { FiresecService.SetLibraryConfiguration(libraryConfiguration); });
+            SafeOperationCall(() => { FiresecService.SetDeviceLibraryConfiguration(deviceLibraryConfiguration); });
         }
 
         public SecurityConfiguration GetSecurityConfiguration()

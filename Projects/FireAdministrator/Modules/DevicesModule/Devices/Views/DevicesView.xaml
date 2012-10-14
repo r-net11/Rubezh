@@ -2,14 +2,14 @@
 
 	<UserControl.Resources>
 		<ContextMenu x:Key="DeviceContextMenu">
-			<MenuItem Command="{Binding CopyCommand}" Header="Копировать" />
-			<MenuItem Command="{Binding CutCommand}" Header="Вырезать" />
-			<MenuItem Command="{Binding PasteCommand}" Header="Вставить" />
+			<MenuItem Command="{Binding CopyCommand}" Header="Копировать (Ctrl+C)" />
+            <MenuItem Command="{Binding CutCommand}" Header="Вырезать (Ctrl+X)" />
+            <MenuItem Command="{Binding PasteCommand}" Header="Вставить (Ctrl+V)" />
 			<MenuItem Command="{Binding PasteAsCommand}" Header="Вставить как" />
 			<Separator />
-			<MenuItem Command="{Binding AddCommand}" Header="Добавить дочернее устройство" />
-			<MenuItem Command="{Binding AddToParentCommand}" Header="Добавить к родительскому устройству" />
-			<MenuItem Command="{Binding RemoveCommand}" Header="Удалить" />
+            <MenuItem Command="{Binding AddCommand}" Header="Добавить дочернее устройство (Ctrl+N)" />
+            <MenuItem Command="{Binding AddToParentCommand}" Header="Добавить к родительскому устройству (Ctrl+M)" />
+            <MenuItem Command="{Binding RemoveCommand}" Header="Удалить (Ctrl+Del)" />
 			<MenuItem Command="{Binding ShowZoneLogicCommand}" Header="Настройка логики исполнительного устройства по состоянию зон" />
 			<MenuItem Command="{Binding ShowPropertiesCommand}" Header="Свойства" />
 		</ContextMenu>
@@ -23,7 +23,7 @@
 			<RowDefinition Height="150" MinHeight="150" />
 		</Grid.RowDefinitions>
 		<Grid Grid.Row="0">
-			<Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
+            <Controls:TreeListView Focusable="True" ItemsSource="{Binding RootDevices}" SelectedObject="{Binding SelectedDevice}">
 				<Controls:TreeListView.Resources>
 					<Style x:Key="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
 						<Setter Property="MinWidth" Value="0" />

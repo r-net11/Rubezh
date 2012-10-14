@@ -9,7 +9,7 @@ namespace FiresecAPI.Models
 		public FullConfiguration()
 		{
 			DeviceConfiguration = new DeviceConfiguration();
-			LibraryConfiguration = new LibraryConfiguration();
+			DeviceLibraryConfiguration = new DeviceLibraryConfiguration();
 			PlansConfiguration = new PlansConfiguration();
 			SecurityConfiguration = new SecurityConfiguration();
 			SystemConfiguration = new SystemConfiguration();
@@ -20,7 +20,7 @@ namespace FiresecAPI.Models
 		public DeviceConfiguration DeviceConfiguration { get; set; }
 
 		[DataMember]
-		public LibraryConfiguration LibraryConfiguration { get; set; }
+		public DeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
 
 		[DataMember]
 		public PlansConfiguration PlansConfiguration { get; set; }

@@ -71,6 +71,11 @@ namespace DevicesModule.ViewModels
 			return SelectedZone != null;
 		}
 
+        protected override bool CanSave()
+        {
+            return SelectedZone != null;
+        }
+
 		protected override bool Save()
 		{
             FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, SelectedZone.Zone);

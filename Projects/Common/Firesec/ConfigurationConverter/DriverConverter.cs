@@ -66,6 +66,7 @@ namespace Firesec
 			{
 				driver.DeviceClassName = metadataClass.param.FirstOrDefault(x => x.name == "DeviceClassName").value;
 			}
+            
 
 			driver.CanEditAddress = true;
 			if (innerDriver.ar_no_addr != null)

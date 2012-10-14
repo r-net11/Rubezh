@@ -1,130 +1,160 @@
 ﻿using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
+using System.Collections.Generic;
+using System;
 
 namespace DevicesModule.ViewModels
 {
     public static class NewDeviceHelper
     {
-        public static int GetMinAddress(Driver driver, Device parentDevice)
+        public static DeviceViewModel AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
         {
-            if (driver.UseParentAddressSystem)
+            var deviceViewModel = new DeviceViewModel(device);
+            parentDeviceViewModel.Children.Add(deviceViewModel);
+
+            foreach (var childDevice in device.Children)
             {
-                if (driver.DriverType == DriverType.MPT)
-                {
-					while (parentDevice.Driver.UseParentAddressSystem)
-                    {
-						parentDevice = parentDevice.Parent;
-                    }
-                }
-                else
-                {
-					parentDevice = parentDevice.Parent;
-                }
+                AddDevice(childDevice, deviceViewModel);
             }
-
-            int maxAddress = 0;
-
-            if (driver.IsRangeEnabled)
-            {
-                maxAddress = driver.MinAddress;
-            }
-            else
-            {
-                if (parentDevice.Driver.ShleifCount > 0)
-                    maxAddress = 257;
-
-                if (parentDevice.Driver.IsChildAddressReservedRange)
-                {
-                    maxAddress = parentDevice.IntAddress;
-                }
-            }
-
-			foreach (var child in FiresecManager.FiresecConfiguration.GetAllChildrenForDevice(parentDevice))
-            {
-                if (child.Driver.IsAutoCreate)
-                    continue;
-
-                if (driver.IsRangeEnabled)
-                {
-                    if ((child.IntAddress < driver.MinAddress) || (child.IntAddress > driver.MaxAddress))
-                        continue;
-                }
-
-                if (parentDevice.Driver.IsChildAddressReservedRange)
-                {
-                    int reservedCount = parentDevice.GetReservedCount();
-
-                    if ((child.IntAddress < parentDevice.IntAddress) && (child.IntAddress > parentDevice.IntAddress + reservedCount - 1))
-                        continue;
-                }
-
-                if (child.Driver.AutoChildCount > 0)
-                {
-                    if (child.IntAddress + child.Driver.AutoChildCount - 1 > maxAddress)
-                        maxAddress = child.IntAddress + child.Driver.AutoChildCount - 1;
-                }
-                else
-                {
-                    if (child.IntAddress > maxAddress)
-                        maxAddress = child.IntAddress;
-                }
-
-				if (child.Driver.DriverType == DriverType.MRK_30)
-				{
-					maxAddress = child.IntAddress + child.GetReservedCount();
-				}
-            }
-
-            if (parentDevice.Driver.DriverType == DriverType.MRK_30)
-                maxAddress = parentDevice.IntAddress;
-
-            if (driver.IsRangeEnabled)
-            {
-                if (parentDevice.Children.Count > 0)
-                    if (maxAddress + 1 <= driver.MaxAddress)
-                        maxAddress = maxAddress + 1;
-            }
-            else
-            {
-                if (parentDevice.Driver.IsChildAddressReservedRange)
-                {
-                    int reservedCount = driver.ChildAddressReserveRangeCount;
-                    if (parentDevice.Driver.DriverType == DriverType.MRK_30)
-                    {
-                        reservedCount = 30;
-
-                        var reservedCountProperty = parentDevice.Properties.FirstOrDefault(x => x.Name == "MRK30ChildCount");
-                        if (reservedCountProperty != null)
-                        {
-                            reservedCount = int.Parse(reservedCountProperty.Value);
-                        }
-                    }
-
-                    if (parentDevice.Children.Count > 0)
-                        if (maxAddress + 1 <= parentDevice.IntAddress + reservedCount - 1)
-                            maxAddress = maxAddress + 1;
-                }
-                else
-                {
-                    if (parentDevice.Children.Where(x=>x.Driver.IsAutoCreate == false).ToList().Count > 0)
-                        if (((maxAddress + 1) % 256) != 0)
-                            maxAddress = maxAddress + 1;
-                }
-            }
-
-            return maxAddress;
+            return deviceViewModel;
         }
 
-		public static void AddDevice(Device device, DeviceViewModel parentDeviceViewModel)
-		{
-			var deviceViewModel = new DeviceViewModel(device);
-			parentDeviceViewModel.Children.Add(deviceViewModel);
+        static List<DeviceAddress> Addresses;
 
-			foreach (var childDevice in device.Children)
-			{
-				AddDevice(childDevice, deviceViewModel);
-			}
-		}
+        public static int GetMinAddress(Driver driver, Device parentDevice)
+        {
+            if (driver.IsRangeEnabled)
+            {
+                Addresses = new List<DeviceAddress>();
+                for (int i = driver.MinAddress; i <= driver.MaxAddress; i++)
+                {
+                    Addresses.Add(new DeviceAddress(i));
+                }
+
+                foreach (var child in parentDevice.Children)
+                {
+                    var address = Addresses.FirstOrDefault(x => x.Address == child.IntAddress);
+                    if (address != null)
+                    {
+                        address.IsBuisy = true;
+                    }
+                }
+                return GetBestAddress(driver);
+            }
+
+            Device panel = parentDevice.ParentPanel;
+            if (parentDevice.Driver.IsPanel)
+                panel = parentDevice;
+
+            if (panel != null)
+            {
+                InitializeAddresses(parentDevice);
+                SetBuisyChildAddress(panel);
+                return GetBestAddress(driver);
+            }
+            return 0;
+        }
+
+        static void InitializeAddresses(Device device)
+        {
+            Addresses = new List<DeviceAddress>();
+
+            if (device.Driver.IsChildAddressReservedRange)
+            {
+                for (int i = 1; i < device.GetReservedCount(); i++)
+                {
+                    Addresses.Add(new DeviceAddress(device.IntAddress + i));
+                }
+            }
+            else
+            {
+                var shleifNo = GetMaxShleif(device);
+                for (int i = 1; i < 256; i++)
+                {
+                    Addresses.Add(new DeviceAddress(shleifNo * 256 + i));
+                }
+            }
+        }
+
+        static int GetMaxShleif(Device device)
+        {
+            if (device.Driver.IsDeviceOnShleif)
+                return device.IntAddress / 256;
+
+            int maxShleif = 1;
+            foreach (var child in device.Children)
+            {
+                var shleifNo = child.IntAddress / 256;
+                if (shleifNo > maxShleif)
+                    maxShleif = shleifNo;
+            }
+            return maxShleif;
+        }
+
+        static void SetBuisyChildAddress(Device device)
+        {
+            foreach (var child in device.Children)
+            {
+                var reservedCount = Math.Max(child.GetReservedCount(), 1);
+                for (int i = 0; i < reservedCount; i++)
+                {
+                    var address = Addresses.FirstOrDefault(x => x.Address == child.IntAddress + i);
+                    if (address != null)
+                    {
+                        address.IsBuisy = true;
+                    }
+                }
+                SetBuisyChildAddress(child);
+            }
+        }
+
+        static int GetBestAddress(Driver driver)
+        {
+            var bestAddress = Addresses.FirstOrDefault();
+            foreach (var address in Addresses)
+            {
+                if (address.IsBuisy)
+                    continue;
+
+                bool isPrevAddressBuisy = true;
+                var prevAddress = Addresses.FirstOrDefault(x => x.Address == address.Address-1);
+                if (prevAddress != null)
+                    isPrevAddressBuisy = prevAddress.IsBuisy;
+
+                if (!isPrevAddressBuisy)
+                    continue;
+
+                bool reservedAddressesFree = true;
+                for (int i = 0; i < Math.Max(driver.ChildAddressReserveRangeCount, 1); i++)
+                {
+                    var reservedAddress = Addresses.FirstOrDefault(x => x.Address == address.Address + i);
+                    if (reservedAddress != null)
+                    {
+                        if (reservedAddress.IsBuisy)
+                            reservedAddressesFree = false;
+                    }
+                    else
+                        reservedAddressesFree = false;
+                }
+                if (!reservedAddressesFree)
+                    continue;
+
+                if (address.Address > bestAddress.Address)
+                    bestAddress = address;
+            }
+            return bestAddress.Address;
+        }
+
+        class DeviceAddress
+        {
+            public DeviceAddress(int address)
+            {
+                Address = address;
+            }
+
+            public int Address { get; set; }
+            public bool IsBuisy { get; set; }
+        }
     }
 }

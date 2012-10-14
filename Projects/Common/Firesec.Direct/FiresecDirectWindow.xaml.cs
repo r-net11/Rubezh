@@ -21,7 +21,7 @@ namespace FiresecDirect
 
 		void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			NativeFiresecClient.Connect("localhost", 211, "adm", "");
+			NativeFiresecClient.Connect("localhost", 211, "adm", "", false);
 		}
 
 		void OnSetNewConfig(object sender, RoutedEventArgs e)
@@ -175,7 +175,7 @@ namespace FiresecDirect
 
 		private void OnCreateDrivers(object sender, RoutedEventArgs e)
 		{
-			var firesecDriver = new FiresecDriver(0, "localhost", 211, "adm", "");
+			var firesecDriver = new FiresecDriver(0, "localhost", 211, "adm", "", false);
 			var driversConfiguration = ConfigurationCash.DriversConfiguration;
 
 			try

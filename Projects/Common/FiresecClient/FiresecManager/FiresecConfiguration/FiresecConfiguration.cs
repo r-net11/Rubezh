@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using FiresecAPI.Models;
+using Firesec;
 
 namespace FiresecClient
 {
@@ -23,6 +24,7 @@ namespace FiresecClient
 		{
 			if (DeviceConfiguration == null)
 			{
+                FiresecManager.LoadingErrors.AppendLine("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
 				Logger.Error("FiresecConfiguration.UpdateConfiguration DeviceConfiguration = null");
 				return;
 			}
@@ -35,7 +37,8 @@ namespace FiresecClient
                 device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
                 if (device.Driver == null)
                 {
-                    Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null");
+                    FiresecManager.LoadingErrors.AppendLine("Не удается найти драйвер для " + device.DriverUID.ToString());
+                    Logger.Error("FiresecConfiguration.UpdateConfiguration device.Driver = null " + device.DriverUID.ToString());
                     continue;
                 }
             }

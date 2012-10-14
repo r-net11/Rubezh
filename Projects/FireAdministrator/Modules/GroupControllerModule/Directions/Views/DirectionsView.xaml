@@ -86,7 +86,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <ListView Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDirection}" DataContext="{Binding SelectedDirection}">
+                <ListView Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" DataContext="{Binding SelectedDirection}">
                     <ListView.View>
                         <GridView>
                             <GridView.Columns>

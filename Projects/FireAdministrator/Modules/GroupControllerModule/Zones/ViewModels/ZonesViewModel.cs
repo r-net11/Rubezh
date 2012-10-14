@@ -10,6 +10,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.ViewModels;
 using XFiresecAPI;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -26,6 +28,7 @@ namespace GKModule.ViewModels
             DeleteCommand = new RelayCommand(OnDelete, CanEditDelete);
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             ZoneDevices = new ZoneDevicesViewModel();
+            RegisterShortcuts();
         }
 
         public void Initialize()
@@ -85,7 +88,9 @@ namespace GKModule.ViewModels
 			if (DialogService.ShowModalWindow(zoneDetailsViewModel))
 			{
 				XManager.AddZone(zoneDetailsViewModel.XZone);
-				Zones.Add(new ZoneViewModel(zoneDetailsViewModel.XZone));
+                var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.XZone);
+				Zones.Add(zoneViewModel);
+                SelectedZone = zoneViewModel;
 				ServiceFactory.SaveService.XDevicesChanged = true;
 				return zoneDetailsViewModel;
 			}
@@ -123,6 +128,27 @@ namespace GKModule.ViewModels
             }
         }
 
+        public void CreateZone(CreateXZoneEventArg createZoneEventArg)
+        {
+            ZoneDetailsViewModel result = OnAddResult();
+            if (result == null)
+            {
+                createZoneEventArg.Cancel = true;
+                createZoneEventArg.ZoneUID = Guid.Empty;
+            }
+            else
+            {
+                createZoneEventArg.Cancel = false;
+                createZoneEventArg.ZoneUID = result.XZone.UID;
+            }
+        }
+        public void EditZone(Guid zoneUID)
+        {
+            var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.XZone.UID == zoneUID);
+            if (zoneViewModel != null)
+                OnEdit(zoneViewModel.XZone);
+        }
+
         public override void OnShow()
         {
 			base.OnShow();
@@ -144,25 +170,11 @@ namespace GKModule.ViewModels
 
 		#endregion
 
-		public void CreateZone(CreateXZoneEventArg createZoneEventArg)
-		{
-			ZoneDetailsViewModel result = OnAddResult();
-			if (result == null)
-			{
-				createZoneEventArg.Cancel = true;
-                createZoneEventArg.ZoneUID = Guid.Empty;
-			}
-			else
-			{
-				createZoneEventArg.Cancel = false;
-                createZoneEventArg.ZoneUID = result.XZone.UID;
-			}
-		}
-        public void EditZone(Guid zoneUID)
-		{
-            var zoneViewModel = zoneUID == Guid.Empty ? null : Zones.FirstOrDefault(x => x.XZone.UID == zoneUID);
-			if (zoneViewModel != null)
-				OnEdit(zoneViewModel.XZone);
-		}
+        private void RegisterShortcuts()
+        {
+            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+        }
 	}
 }

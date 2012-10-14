@@ -4,9 +4,9 @@
              xmlns:Controls="clr-namespace:Controls;assembly=Controls">
     
     <StackPanel Orientation="Horizontal" DataContext="{Binding Context}">
-        <Controls:ToolBarButton Name="addButton" Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/add.png" />
-        <Controls:ToolBarButton Name="editButton" Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/edit.png" />
-        <Controls:ToolBarButton Name="deleteButton" Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/delete.png" />
-        <Controls:ToolBarButton Name="deleteAllEmptyButton" Command="{Binding DeleteAllEmptyCommand}" ToolTip="Удалить все пустые зоны" ImageSource="/Controls;component/Images/deleteEmpty.png" />
+        <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/add.png" />
+        <Controls:ToolBarButton Command="{Binding EditCommand}" ToolTip="Редактировать" ImageSource="/Controls;component/Images/edit.png" />
+        <Controls:ToolBarButton Command="{Binding DeleteCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/delete.png" />
+        <Controls:ToolBarButton Command="{Binding DeleteAllEmptyCommand}" ToolTip="Удалить все пустые зоны" ImageSource="/Controls;component/Images/deleteEmpty.png" />
     </StackPanel>
 </UserControl>

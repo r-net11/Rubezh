@@ -8,6 +8,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace GKModule.ViewModels
 {
@@ -21,6 +23,7 @@ namespace GKModule.ViewModels
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             ChangeZonesCommand = new RelayCommand(OnChangeZones, CanEditDelete);
             ChangeDevicesCommand = new RelayCommand(OnChangeDevices, CanEditDelete);
+            RegisterShortcuts();
         }
 
         public void Initialize()
@@ -66,7 +69,9 @@ namespace GKModule.ViewModels
             if (DialogService.ShowModalWindow(directionDetailsViewModel))
             {
                 XManager.AddDirection(directionDetailsViewModel.XDirection);
-                Directions.Add(new DirectionViewModel(directionDetailsViewModel.XDirection));
+                var directionViewModel = new DirectionViewModel(directionDetailsViewModel.XDirection);
+                Directions.Add(directionViewModel);
+                SelectedDirection = directionViewModel;
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }
         }
@@ -128,5 +133,12 @@ namespace GKModule.ViewModels
         }
 
         #endregion
+
+        private void RegisterShortcuts()
+        {
+            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+        }
     }
 }

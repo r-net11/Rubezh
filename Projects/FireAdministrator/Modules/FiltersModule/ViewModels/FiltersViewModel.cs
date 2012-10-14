@@ -6,6 +6,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.ViewModels;
+using System.Windows.Input;
+using KeyboardKey = System.Windows.Input.Key;
 
 namespace FiltersModule.ViewModels
 {
@@ -17,6 +19,7 @@ namespace FiltersModule.ViewModels
 			AddCommand = new RelayCommand(OnAdd);
 			EditCommand = new RelayCommand(OnEdit, CanEditRemove);
 			DeleteCommand = new RelayCommand(OnDelete, CanEditRemove);
+            RegisterShortcuts();
 		}
 
 		public void Initialize()
@@ -57,8 +60,9 @@ namespace FiltersModule.ViewModels
 			{
 				var filter = filterDetailsViewModel.GetModel();
 				FiresecClient.FiresecManager.SystemConfiguration.JournalFilters.Add(filter);
-				Filters.Add(new FilterViewModel(filter));
-
+                var filterViewModel = new FilterViewModel(filter);
+                Filters.Add(filterViewModel);
+                SelectedFilter = filterViewModel;
 				ServiceFactory.SaveService.FilterChanged = true;
 			}
 		}
@@ -91,18 +95,11 @@ namespace FiltersModule.ViewModels
 			ServiceFactory.SaveService.FilterChanged = true;
 		}
 
-		public override void OnShow()
-		{
-			base.OnShow();
-			if (FilterMenuView.Current != null)
-				FilterMenuView.Current.AcceptKeyboard = true;
-		}
-
-		public override void OnHide()
-		{
-			base.OnHide();
-			if (FilterMenuView.Current != null)
-				FilterMenuView.Current.AcceptKeyboard = false;
-		}
+        private void RegisterShortcuts()
+        {
+            RegisterShortcut(new KeyGesture(KeyboardKey.N, ModifierKeys.Control), AddCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.Delete, ModifierKeys.Control), DeleteCommand);
+            RegisterShortcut(new KeyGesture(KeyboardKey.E, ModifierKeys.Control), EditCommand);
+        }
 	}
 }
