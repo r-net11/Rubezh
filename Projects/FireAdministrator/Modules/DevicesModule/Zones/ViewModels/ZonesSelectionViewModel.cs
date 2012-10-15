@@ -96,7 +96,7 @@ namespace DevicesModule.ViewModels
 				OnPropertyChanged("SelectedTargetZone");
 			}
 		}
-        
+
         private ICommand addCommand;
         public ICommand AddCommand
         {
