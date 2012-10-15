@@ -95,13 +95,15 @@ namespace FireAdministrator
         {
             try
             {
+				FullConfiguration fullConfiguration = null;
                 var dataContractSerializer = new DataContractSerializer(typeof(FullConfiguration));
                 using (var fileStream = new FileStream(fileName, FileMode.Open))
                 {
-                    FullConfiguration fullConfiguration = (FullConfiguration)dataContractSerializer.ReadObject(fileStream);
-                    fullConfiguration.ValidateVersion();
-                    return fullConfiguration;
+                    fullConfiguration = (FullConfiguration)dataContractSerializer.ReadObject(fileStream);
                 }
+				if (!fullConfiguration.ValidateVersion())
+					SaveToFile(fullConfiguration, fileName);
+				return fullConfiguration;
             }
             catch (Exception e)
             {

@@ -144,7 +144,16 @@ namespace FiresecAPI.Models
 
         public override bool ValidateVersion()
         {
-            return true;
+			var result = true;
+			foreach (var guardUser in GuardUsers)
+			{
+				if (guardUser.ZoneUIDs == null)
+				{
+					guardUser.ZoneUIDs = new List<Guid>();
+					result = false;
+				}
+			}
+			return result;
         }
 	}
 }

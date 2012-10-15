@@ -235,7 +235,7 @@ namespace DevicesModule.ViewModels
 
                 foreach (var guardUser in FiresecManager.GuardUsers)
                 {
-                    if ((guardUser.DeviceUID == SelectedDevice.UID) || guardUser.ZoneUIDs.Any(x => deviceZones.Contains(x)))
+					if ((guardUser.DeviceUID != Guid.Empty && guardUser.DeviceUID == SelectedDevice.UID) || guardUser.ZoneUIDs.Any(x => deviceZones.Contains(x)))
                         DeviceUsers.Add(new UserViewModel(guardUser));
                     else
                         AvailableUsers.Add(new UserViewModel(guardUser));

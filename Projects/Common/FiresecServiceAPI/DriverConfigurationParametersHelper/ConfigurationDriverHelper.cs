@@ -49,14 +49,14 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 
-		public static void AddIntProprety(Driver driver, byte no, string propertyName, int offset, int defaultValue, int min, int max, bool useMask = false, bool highByte = false)
+		public static void AddIntProprety(Driver driver, byte no, string propertyName, string propertyCaption, int offset, int defaultValue, int min, int max, bool useMask = false, bool highByte = false)
 		{
 			var property = new DriverProperty()
 			{
 				IsAUParameter = true,
 				No = no,
 				Name = propertyName,
-				Caption = propertyName,
+				Caption = propertyCaption,
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				BitOffset = offset,
 				Default = defaultValue.ToString(),

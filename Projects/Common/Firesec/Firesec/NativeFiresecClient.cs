@@ -292,7 +292,7 @@ namespace Firesec
 				}
 				catch (COMException e)
 				{
-					Logger.Error(e, "COMException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString());
+					Logger.Error("COMException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString());
 					resultData.Result = default(T);
 					resultData.HasError = true;
 					resultData.Error = e.Message;

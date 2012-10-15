@@ -280,10 +280,14 @@ namespace FiresecClient
 
 		public void ChangeDriver(Device device, Driver driver)
 		{
+			var changeZone = !(device.Driver.IsZoneDevice && driver.IsZoneDevice);
 			device.Driver = driver;
 			device.DriverUID = driver.UID;
-			RemoveDeviceFromZone(device, null);
-			SetDeviceZoneLogic(device, new ZoneLogic());
+			if (changeZone)
+			{
+				RemoveDeviceFromZone(device, null);
+				SetDeviceZoneLogic(device, new ZoneLogic());
+			}
 			device.Properties = new List<Property>();
 		}
 	}

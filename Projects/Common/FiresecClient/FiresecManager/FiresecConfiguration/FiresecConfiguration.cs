@@ -58,6 +58,25 @@ namespace FiresecClient
             DeviceConfiguration.UpdateCrossReferences();
         }
 
+		public void UpateGuardZoneSecPanelUID()
+		{
+			foreach (var zone in DeviceConfiguration.Zones)
+			{
+				zone.SecPanelUID = Guid.Empty;
+				if (zone.ZoneType == ZoneType.Guard)
+				{
+					foreach (var device in zone.DevicesInZone)
+					{
+						if (device.Driver.DriverType == DriverType.AM1_O)
+						{
+							zone.SecPanelUID = device.ParentPanel.UID;
+							break;
+						}
+					}
+				}
+			}
+		}
+
 		public void CreateStates()
 		{
 			foreach (var device in DeviceConfiguration.Devices)
@@ -151,25 +170,6 @@ namespace FiresecClient
 			if (device.Parent == null)
 				return false;
 			return ((device.Driver.DriverType == DriverType.MPT) && (device.Parent.Driver.DriverType == DriverType.MPT));
-		}
-
-		public void UpateGuardZoneSecPanelUID()
-		{
-			foreach (var zone in DeviceConfiguration.Zones)
-			{
-				zone.SecPanelUID = Guid.Empty;
-				if (zone.ZoneType == ZoneType.Guard)
-				{
-					foreach (var device in zone.DevicesInZone)
-					{
-						if (device.Driver.DriverType == DriverType.AM1_O)
-						{
-							zone.SecPanelUID = device.ParentPanel.UID;
-							break;
-						}
-					}
-				}
-			}
 		}
 
 		public int GetZoneLocalSecNo(Zone zone)

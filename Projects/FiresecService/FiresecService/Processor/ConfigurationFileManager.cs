@@ -129,8 +129,7 @@ namespace FiresecService.Configuration
 						var dataContractSerializer = new DataContractSerializer(typeof(T));
 						configuration = (T)dataContractSerializer.ReadObject(fileStream);
 					}
-					var result = configuration.ValidateVersion();
-					if (!result)
+					if (!configuration.ValidateVersion())
 					{
 						Set<T>(configuration, fileName);
 					}

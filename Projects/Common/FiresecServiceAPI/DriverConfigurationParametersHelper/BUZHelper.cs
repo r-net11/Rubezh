@@ -14,7 +14,7 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x84,
-				Name = "Время хода задвижки, сек",
+				Name = "AU_Delay",
 				Caption = "Время хода задвижки, сек",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Default = "1",
@@ -24,8 +24,8 @@ namespace FiresecAPI.Models
 			};
 			driver.Properties.Add(property);
 			//ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Время хода задвижки, сек", 0, 1, 1, 65535);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0x8e, "Задержка включения, сек", 0, 0, 0, 250);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0x8f, "Время удержания запуска, мин", 0, 0, 0, 360);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0x8e, "Задержка включения, сек", "AU_Delay", 0, 0, 0, 250);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0x8f, "Время удержания запуска, мин", "AU_LaunchDelay", 0, 0, 0, 360);
 
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x8d, "концевой выключатель «Открыто»", 0, 
 				"0 нормально-разомкнутый", 

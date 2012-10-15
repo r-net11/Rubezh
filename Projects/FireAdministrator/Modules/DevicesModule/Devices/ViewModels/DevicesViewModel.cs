@@ -32,7 +32,6 @@ namespace DevicesModule.ViewModels
             PasteAsCommand = new RelayCommand(OnPasteAs, CanPasteAs);
             DeviceCommandsViewModel = new DeviceCommandsViewModel(this);
             Menu = new DevicesMenuViewModel(this);
-            PropMenu = new PropertiesViewModel(this);
             RegisterShortcuts();
         }
 

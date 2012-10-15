@@ -133,9 +133,8 @@ namespace FiresecClient
 		{
 			if (device.Driver.IsZoneDevice)
 			{
-                var zone = DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
-				if (zone != null)
-					return zone.PresentationName;
+				if (device.Zone != null)
+					return device.Zone.PresentationName;
 				return "";
 			}
 

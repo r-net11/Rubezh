@@ -40,7 +40,7 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x84,
-				Name = "Время задержки перед началом движения электропривода в положение ЗАЩИТА, сек",
+				Name = "AU_Delay",
 				Caption = "Время задержки перед началом движения электропривода в положение ЗАЩИТА, сек",
 				Default = "0",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,

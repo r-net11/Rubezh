@@ -105,7 +105,7 @@ namespace Firesec
                 }
                 catch (Exception e)
                 {
-                    Logger.Error(e, "NativeFiresecClient.GetConnection");
+					Logger.Error("NativeFiresecClient.GetConnection " + e.Message);
                     return null;
                 }
             }
@@ -117,7 +117,6 @@ namespace Firesec
         }
 
         static AutoResetEvent StopPollEvent;
-        static bool suspendPoll = false;
 
         public void StopPoll()
         {

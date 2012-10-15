@@ -14,12 +14,6 @@ namespace DevicesModule.DeviceProperties
 		public List<StringPropertyViewModel> StringProperties { get; set; }
 		public List<BoolPropertyViewModel> BoolProperties { get; set; }
 		public List<EnumPropertyViewModel> EnumProperties { get; set; }
-        public static DevicesViewModel Context { get; private set; }
-
-        public PropertiesViewModel(DevicesViewModel deviceViewModel)
-        {
-            Context = deviceViewModel;
-        }
 
 		public PropertiesViewModel(Device device)
 		{

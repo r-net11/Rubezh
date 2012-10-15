@@ -363,6 +363,29 @@ namespace DevicesModule.ViewModels
 			get { return Device.Driver.DriverType == DriverType.Rubezh_2OP || Device.Driver.DriverType == DriverType.USB_Rubezh_2OP; }
 		}
 
+		public string GuardDeviceType
+		{
+			get
+			{
+				if (Device.Driver.DriverType == DriverType.AM1_O)
+				{
+					var property = Device.Properties.FirstOrDefault(x => x.Name == "GuardType");
+					if (property == null)
+						return null;
+					if (property.Value == null)
+						return null;
+					var driverProperty = Device.Driver.Properties.FirstOrDefault(x => x.Name == "GuardType");
+					if (driverProperty == null)
+						return null;
+					var propertyParameter = driverProperty.Parameters.FirstOrDefault(x => x.Value == property.Value);
+					if (propertyParameter == null)
+						return null;
+					return "(" + propertyParameter.Name + ")";
+				}
+				return null;
+			}
+		}
+
 		void ShowTimerDetails()
 		{
 			if (ServiceFactory.AppSettings.CanControl)
