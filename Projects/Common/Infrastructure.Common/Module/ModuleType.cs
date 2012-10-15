@@ -39,6 +39,9 @@ namespace Infrastructure.Common.Module
         DiagnosticsModule,
 
         [DescriptionAttribute("Видео")]
-        VideoModule
+        VideoModule,
+        
+        [DescriptionAttribute("Групповой контроллер")]
+        GKModule
     }
 }

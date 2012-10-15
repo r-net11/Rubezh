@@ -1,11 +1,11 @@
 ﻿<UserControl x:Class="SettingsModule.Views.SettingsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Views="clr-namespace:SettingsModule.Views" xmlns:Converters="clr-namespace:SettingsModule.Converters">
+             xmlns:Views="clr-namespace:SettingsModule.Views" xmlns:Converters="clr-namespace:SettingsModule.Converters" xmlns:System="clr-namespace:System;assembly=mscorlib">
 
     <UserControl.Resources>
         <Converters:ThemeConverter x:Key="ThemeConverter" />
-        <Converters:ThemeConverter x:Key="ModuleConverter" />
+        <Converters:ModuleConverter x:Key="ModuleConverter" />
     </UserControl.Resources>
     <TabControl>
         <TabItem Header="Конвертация">
@@ -32,30 +32,18 @@
             </Border>
         </TabItem>
         <TabItem Header="Дополнительные модули">
-            <Border CornerRadius="10" BorderThickness="0" Background="White" Margin="2">
-                <StackPanel Margin="10">
-                    <Border CornerRadius="10" BorderThickness="0" Margin="2">
-                        <!--<ListView Grid.Row="0" ItemsSource="{Binding Modules}">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn>
-                                        <CheckBox Margin="10,5">
-                                            <TextBlock Text="{Binding ., Converter={StaticResource ModuleConverter}}" />
-                                        </CheckBox>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>-->
-
-                        <!--<ListBox ItemsSource="{Binding Modules}" SelectedItem="{Binding SelectedModule}" >
+            <Border CornerRadius="10" BorderThickness="0" Margin="2">
+                <StackPanel>
+                    <StackPanel Margin="10" Orientation="Horizontal">
+                        <ListBox Name="listBox" ItemsSource="{Binding Modules}" Width="250" HorizontalAlignment="Left" SelectionMode="Multiple">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"/>
+                                    <CheckBox Content="{Binding ., Converter={StaticResource ModuleConverter}}" IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"/>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
-                        </ListBox>-->
-
-                    </Border>
+                        </ListBox>
+                    </StackPanel>
+                    <Button Command="{Binding AcceptCommand}" Content="Применить" CommandParameter="{Binding ElementName=listBox, Path=SelectedItems}"/>
                 </StackPanel>
             </Border>
         </TabItem>

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -100,22 +102,40 @@ namespace SettingsModule.ViewModels
             }
         }
 
-
-        public List<Module> Modules { get; set; }
-        private Module selectedModule;
-        public Module SelectedModule
+        private ICommand acceptCommand;
+        public ICommand AcceptCommand
         {
             get
             {
-                return selectedModule;
-            }
-            set
-            {
-                selectedModule = value;
-                ModuleHelper.DisabledModules.Add(selectedModule);
-                OnPropertyChanged("SelectedModule");
+                if (acceptCommand == null)
+                    acceptCommand = new RelayCommand<object>(param => OnAccept(param));
+                return acceptCommand;
             }
         }
-
+        public List<Module> Modules { get; private set; }
+        public IList SelectedModules;
+        void OnAccept(object parameter)
+        {
+            SelectedModules = (IList)parameter;
+            ModuleHelper.EnableModules = new List<string>();
+            ModuleHelper.DisableModules = new List<string>();
+            foreach (var module in Modules)
+            {
+                bool isSelected = false;
+                foreach (var selectedModule in SelectedModules)
+                {
+                    if (module == (Module)selectedModule)
+                    {
+                        isSelected = true;
+                        break;
+                    }
+                }
+                if(isSelected)
+                    ModuleHelper.EnableModules.Add(Enum.GetName(typeof(Module), module));
+                else
+                    ModuleHelper.DisableModules.Add(Enum.GetName(typeof(Module), module));
+            }
+            ModuleHelper.SetModuleIntoRegister();
+        }
 	}
 }

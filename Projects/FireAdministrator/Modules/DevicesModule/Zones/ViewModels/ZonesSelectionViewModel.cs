@@ -20,6 +20,8 @@ namespace DevicesModule.ViewModels
 		public ZonesSelectionViewModel(Device device, List<Guid> zones, ZoneLogicState zoneLogicState)
 		{
 			Title = "Выбор зон";
+            AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
+            RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
 			Zones = zones;
@@ -97,17 +99,7 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-        private ICommand addCommand;
-        public ICommand AddCommand
-        {
-            get
-            {
-                if (addCommand == null)
-                    addCommand = new RelayCommand<object>(param => OnAdd(param), CanAdd);
-                return addCommand;
-            }
-        }
-
+        public RelayCommand<object> AddCommand { get; private set; }
 	    public IList SelectedSourceZones;
         void OnAdd(object parameter)
 		{
@@ -129,17 +121,7 @@ namespace DevicesModule.ViewModels
 		    SelectedSourceZone = SourceZones.FirstOrDefault();
 		}
 
-        private ICommand removeCommand;
-        public ICommand RemoveCommand
-        {
-            get
-            {
-                if (removeCommand == null)
-                    removeCommand = new RelayCommand<object>(param => OnRemove(param), CanRemove);
-                return removeCommand;
-            }
-        }
-
+        public RelayCommand<object> RemoveCommand { get; private set; }
         public IList SelectedTargetZones;
         void OnRemove(object parameter)
 		{

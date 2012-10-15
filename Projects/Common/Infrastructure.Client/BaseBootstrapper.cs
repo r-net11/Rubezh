@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Common;
@@ -11,6 +12,7 @@ using Infrastructure.Client.Properties;
 using Infrastructure.Common;
 using Infrastructure.Common.About.ViewModels;
 using Infrastructure.Common.Configuration;
+using Infrastructure.Common.Module;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -23,6 +25,7 @@ namespace Infrastructure.Client
 
 		public BaseBootstrapper()
 		{
+            ModuleHelper.LoadModulesFromRegister();
 			_modules = null;
 			RegisterResource();
 		}
@@ -53,8 +56,12 @@ namespace Infrastructure.Client
 			foreach (IModule module in _modules)
 				try
 				{
-					LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
-					module.Initialize();
+                    var moduledescr = module.ToString().Substring(0,module.ToString().LastIndexOf('.'));
+                    if (ModuleHelper.DisableModules.All(x => moduledescr != x))
+                    {
+                        LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
+                        module.Initialize();
+                    }
 				}
 				catch (Exception e)
 				{
@@ -71,9 +78,13 @@ namespace Infrastructure.Client
 		{
 			ReadConfiguration();
 			var navigationItems = new List<NavigationItem>();
-			foreach (IModule module in _modules)
-				navigationItems.AddRange(module.CreateNavigation());
-			return navigationItems;
+            foreach (IModule module in _modules)
+            {
+                var moduledescr = module.ToString().Substring(0, module.ToString().LastIndexOf('.'));
+                if (ModuleHelper.DisableModules.All(x => moduledescr != x))
+                    navigationItems.AddRange(module.CreateNavigation());
+            }
+		    return navigationItems;
 		}
 
 		protected int GetModuleCount()
