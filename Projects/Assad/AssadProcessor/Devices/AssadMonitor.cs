@@ -47,7 +47,7 @@ namespace AssadProcessor.Devices
             foreach (var counter in _stateTypeCounters)
             {
                 var state = new Assad.DeviceTypeState();
-                state.state = EnumsConverter.StateTypeToClassName(counter.StateType);
+                state.state = counter.StateType.ToDescription();
                 state.value = counter.HasOne ? "Есть" : "Нет";
                 states.Add(state);
             }
@@ -101,7 +101,7 @@ namespace AssadProcessor.Devices
             foreach (var stateTypeCounter in counters)
             {
                 var AlarmState = new Assad.CPeventTypeState();
-                AlarmState.state = EnumsConverter.StateTypeToClassName(stateTypeCounter.StateType);
+                AlarmState.state = stateTypeCounter.StateType.ToDescription();
                 AlarmState.value = (stateTypeCounter.HasOne == true) ? "Есть" : "Нет";
                 states.Add(AlarmState);
             }

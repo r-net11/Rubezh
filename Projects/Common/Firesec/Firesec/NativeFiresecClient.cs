@@ -73,14 +73,6 @@ namespace Firesec
 		{
 			return SafeCall<bool>(() => { Connection.SetNewConfig(coreConfig); return true; }, "SetNewConfig");
 		}
-		public OperationResult<bool> ResetStates(string states)
-		{
-			return SafeCall<bool>(() =>
-			{
-				Connection.ResetStates(states);
-				return true;
-			}, "ResetStates");
-		}
 		public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, ref int reguestId)
 		{
 			_reguestId++;
@@ -144,14 +136,48 @@ namespace Firesec
 				}
 			}, "CheckHaspPresence");
 		}
-		public OperationResult<bool> AddToIgnoreList(List<string> devicePaths)
-		{
-			return SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), true); return true; }, "AddToIgnoreList");
-		}
-		public OperationResult<bool> RemoveFromIgnoreList(List<string> devicePaths)
-		{
-			return SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), false); return true; }, "RemoveFromIgnoreList");
-		}
+        public OperationResult<bool> AddToIgnoreList(List<string> devicePaths)
+        {
+            AddTask(() =>
+                {
+                    SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), true); return true; }, "AddToIgnoreList");
+                });
+            return new OperationResult<bool>();
+        }
+        public OperationResult<bool> RemoveFromIgnoreList(List<string> devicePaths)
+        {
+            AddTask(() =>
+                {
+                    SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), false); return true; }, "RemoveFromIgnoreList");
+                });
+            return new OperationResult<bool>();
+        }
+        public OperationResult<bool> ResetStates(string states)
+        {
+            AddTask(() =>
+                {
+                    SafeCall<bool>(() =>
+                    {
+                        Connection.ResetStates(states);
+                        return true;
+                    }, "ResetStates");
+                });
+            return new OperationResult<bool>();
+        }
+        public void SetZoneGuard(string placeInTree, string localZoneNo)
+        {
+            AddTask(() =>
+            {
+                SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "SetZoneToGuard", localZoneNo, ref reguestId); return true; }, "SetZoneGuard");
+            });
+        }
+        public void UnSetZoneGuard(string placeInTree, string localZoneNo)
+        {
+            AddTask(() =>
+            {
+                SafeCall<bool>(() => { int reguestId = 0; ExecuteRuntimeDeviceMethod(placeInTree, "UnSetZoneFromGuard", localZoneNo, ref reguestId); return true; }, "UnSetZoneGuard");
+            });
+        }
 		public OperationResult<bool> AddUserMessage(string message)
 		{
 			return SafeCall<bool>(() => { Connection.StoreUserMessage(message); return true; }, "AddUserMessage");

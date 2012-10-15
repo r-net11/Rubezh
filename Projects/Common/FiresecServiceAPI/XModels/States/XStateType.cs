@@ -62,6 +62,9 @@ namespace XFiresecAPI
 		Reserve1 = 18,
 
 		[DescriptionAttribute("Выключить немедленно")]
-		Reserve2 = 19
+		Reserve2 = 19,
+
+        [DescriptionAttribute("Сохранение состояния")]
+        Save = 31
 	}
 }

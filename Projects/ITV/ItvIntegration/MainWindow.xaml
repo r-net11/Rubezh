@@ -8,6 +8,7 @@
         Closing="OnClosing">
     <Window.Resources>
         <Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
+        <Converters:StateTypeToStringConverter x:Key="StateTypeToStringConverter" />
     </Window.Resources>
 
     <TabControl>
@@ -24,7 +25,6 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                         <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
                                         <TextBlock Text="{Binding Device.Driver.ShortName}" />
                                     </StackPanel>
@@ -32,7 +32,16 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Адрес" Binding="{Binding Device.DottedAddress}" />
-                        <DataGridTextColumn Header="Состояние" Binding="{Binding StateType}" Width="*" />
+                        <DataGridTemplateColumn Header="Состояние" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel Grid.Row="1">
@@ -60,16 +69,18 @@
                 <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}"
                    AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True" RowHeaderWidth="0">
                     <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Зона">
+                        <DataGridTextColumn Header="№" Binding="{Binding No}" />
+                        <DataGridTextColumn Header="Зона" Binding="{Binding Name}" />
+                        <DataGridTemplateColumn Header="Состояние" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Name}" />
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding ZoneState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                        <TextBlock Text="{Binding ZoneState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
                                     </StackPanel>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Состояние" Binding="{Binding StateType}"  Width="*" />
                     </DataGrid.Columns>
                 </DataGrid>
                 <StackPanel Grid.Row="1" Orientation="Horizontal">

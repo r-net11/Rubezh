@@ -12,6 +12,8 @@ using Infrastructure.Common.Windows.ViewModels;
 using Firesec.Imitator;
 using System;
 using Firesec;
+using System.Threading;
+using System.Diagnostics;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -147,34 +149,26 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
 		{
-            Application.Current.Resources.MergedDictionaries.Add(new ResourceDictionary() { Source = new Uri("H://Brushes2.xaml") });
+            AsyncTest = new AsyncTest();
+            AsyncTest.Start();
 		}
 
 		public RelayCommand Test3Command { get; private set; }
 		void OnTest3()
 		{
-			var stringBuilder = new StringBuilder();
-			foreach (var device in FiresecManager.Devices)
-			{
-				if (device.UID == new Guid("47306428-b210-4f3c-81f1-57ca4bf1e968"))
-					stringBuilder.AppendLine(device.PresentationAddress);
-			}
-			foreach (var zone in FiresecManager.Zones)
-			{
-				if (zone.UID == new Guid("47306428-b210-4f3c-81f1-57ca4bf1e968"))
-					stringBuilder.AppendLine(zone.PresentationName);
-			}
-			Text = stringBuilder.ToString();
+            AsyncTest.AddTask(() =>
+                {
+                    Thread.Sleep(2000);
+                    Trace.WriteLine("Hello");
+                });
 		}
 
 		public RelayCommand Test4Command { get; private set; }
 		void OnTest4()
 		{
-            throw new Exception("Тестовое исключение");
-
-			var firesecConfiguration = FiresecManager.FiresecDriver.ConvertBack(FiresecManager.FiresecConfiguration.DeviceConfiguration, true);
-			var stringConfig = SerializerHelper.Serialize<Firesec.Models.CoreConfiguration.config>(firesecConfiguration);
-			Text = stringConfig;
+            AsyncTest.Stop();
 		}
+
+        AsyncTest AsyncTest;
 	}
 }

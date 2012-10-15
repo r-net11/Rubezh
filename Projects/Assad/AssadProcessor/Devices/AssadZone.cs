@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using FiresecAPI;
 using FiresecClient;
 
 namespace AssadProcessor.Devices
@@ -33,7 +34,7 @@ namespace AssadProcessor.Devices
                 var mainState = new Assad.DeviceTypeState()
                 {
                     state = "Состояние",
-                    value = EnumsConverter.StateTypeToClassName(zone.ZoneState.StateType)
+                    value = zone.ZoneState.StateType.ToDescription()
                 };
                 states.Add(mainState);
                 var state1 = new Assad.DeviceTypeState()
@@ -98,7 +99,7 @@ namespace AssadProcessor.Devices
                 eventType.state[0] = new Assad.CPeventTypeState()
                 {
                     state = "Состояние",
-                    value = EnumsConverter.StateTypeToClassName(zone.ZoneState.StateType)
+                    value = zone.ZoneState.StateType.ToDescription()
                 };
             }
 

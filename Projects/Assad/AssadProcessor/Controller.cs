@@ -31,7 +31,7 @@ namespace AssadProcessor
 
 			FiresecManager.Connect(ClientType.Assad, serverAddress, Login, Password);
 			FiresecManager.GetConfiguration();
-			FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password);
+			FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password, false);
             FiresecManager.FiresecDriver.Synchronyze();
 			FiresecManager.FiresecDriver.StartWatcher(true, false);
 

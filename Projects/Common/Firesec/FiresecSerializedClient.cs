@@ -74,11 +74,6 @@ namespace Firesec
 			return NativeFiresecClient.DeviceWriteConfig(SerializerHelper.Serialize<Firesec.Models.CoreConfiguration.config>(coreConfig), devicePath);
 		}
 
-		public OperationResult<bool> ResetStates(Firesec.Models.CoreState.config coreState)
-		{
-			return NativeFiresecClient.ResetStates(SerializerHelper.Serialize<Firesec.Models.CoreState.config>(coreState));
-		}
-
 		public OperationResult<string> ExecuteRuntimeDeviceMethod(string devicePath, string methodName, string parameters, ref int reguestId)
 		{
 			return NativeFiresecClient.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, ref reguestId);
@@ -103,6 +98,23 @@ namespace Firesec
 		{
 			return NativeFiresecClient.RemoveFromIgnoreList(devicePaths);
 		}
+
+        public OperationResult<bool> ResetStates(Firesec.Models.CoreState.config coreState)
+        {
+            return NativeFiresecClient.ResetStates(SerializerHelper.Serialize<Firesec.Models.CoreState.config>(coreState));
+        }
+
+        public OperationResult<bool> SetZoneGuard(string placeInTree, string localZoneNo)
+        {
+            NativeFiresecClient.SetZoneGuard(placeInTree, localZoneNo);
+            return new OperationResult<bool>();
+        }
+
+        public OperationResult<bool> UnSetZoneGuard(string placeInTree, string localZoneNo)
+        {
+            NativeFiresecClient.UnSetZoneGuard(placeInTree, localZoneNo);
+            return new OperationResult<bool>();
+        }
 
 		public OperationResult<bool> AddUserMessage(string message)
 		{

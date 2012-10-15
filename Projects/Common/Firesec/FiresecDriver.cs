@@ -252,11 +252,11 @@ namespace Firesec
 				devicePaths.Add(device.PlaceInTree);
 			}
 
-			var thread = new Thread(new ThreadStart(() =>
-			{
+            //var thread = new Thread(new ThreadStart(() =>
+            //{
 				FiresecSerializedClient.AddToIgnoreList(devicePaths);
-			}));
-			thread.Start();
+            //}));
+            //thread.Start();
 		}
 
 		public void RemoveFromIgnoreList(List<Device> devices)
@@ -267,39 +267,39 @@ namespace Firesec
 				devicePaths.Add(device.PlaceInTree);
 			}
 
-			var thread = new Thread(new ThreadStart(() =>
-			{
+            //var thread = new Thread(new ThreadStart(() =>
+            //{
 				FiresecSerializedClient.RemoveFromIgnoreList(devicePaths);
-			}));
-			thread.Start();
+            //}));
+            //thread.Start();
 		}
 
 		public void SetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
-			var thread = new Thread(new ThreadStart(() =>
-				{
+            //var thread = new Thread(new ThreadStart(() =>
+            //    {
 					var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
 					if (device != null)
 					{
-						int reguestId = 0;
-						FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "SetZoneToGuard", localZoneNo.ToString(), ref reguestId);
+                        FiresecSerializedClient.SetZoneGuard(device.PlaceInTree, localZoneNo.ToString());
 					}
-				}));
-			thread.Start();
+            //    }));
+            //thread.Start();
 		}
 
 		public void UnSetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
-			var thread = new Thread(new ThreadStart(() =>
-			{
+            //var thread = new Thread(new ThreadStart(() =>
+            //{
 				var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
 				if (device != null)
 				{
-					int reguestId = 0;
-					FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "UnSetZoneFromGuard", localZoneNo.ToString(), ref reguestId);
+                    //int reguestId = 0;
+                    //FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "UnSetZoneFromGuard", localZoneNo.ToString(), ref reguestId);
+                    FiresecSerializedClient.UnSetZoneGuard(device.PlaceInTree, localZoneNo.ToString());
 				}
-			}));
-			thread.Start();
+            //}));
+            //thread.Start();
 		}
 
 		public void AddUserMessage(string message)

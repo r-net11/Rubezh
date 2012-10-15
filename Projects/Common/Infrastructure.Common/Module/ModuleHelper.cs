@@ -39,17 +39,20 @@ namespace Infrastructure.Common.Module
             DisableModules = new List<string>();
             try
             {
-                RegistryKey readKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Modules");
-                var Modules = readKey.GetValueNames();
-                foreach (var module in Modules)
+                RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("software\\rubezh\\Modules");
+                if (registryKey != null)
                 {
-                    var status = readKey.GetValue(module);
-                    if(status.Equals("isEnabled"))
-                        EnableModules.Add(module);
-                    else
-                        DisableModules.Add(module);
+                    var Modules = registryKey.GetValueNames();
+                    foreach (var module in Modules)
+                    {
+                        var status = registryKey.GetValue(module);
+                        if (status.Equals("isEnabled"))
+                            EnableModules.Add(module);
+                        else
+                            DisableModules.Add(module);
+                    }
+                    registryKey.Close();
                 }
-                readKey.Close();
             }
             catch (Exception)
             {

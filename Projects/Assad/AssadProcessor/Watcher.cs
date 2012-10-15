@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using FiresecAPI.Models;
+using FiresecAPI;
 using FiresecClient;
 using System.Collections.Generic;
 
@@ -67,7 +68,7 @@ namespace AssadProcessor
 				var assadDevice = Configuration.Devices.FirstOrDefault(x => x.Id == device.PathId);
 				if (assadDevice != null)
 				{
-					string eventName = EnumsConverter.StateTypeToClassName(journalRecord.StateType);
+                    string eventName = journalRecord.StateType.ToDescription();
 					assadDevice.FireEvent(eventName);
 				}
 			}
