@@ -7,8 +7,9 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Button Content="Test1" Command="{Binding Test1Command}" Width="100" Margin="2" />
-            <Button Content="Test2" Command="{Binding Test2Command}" Width="100" Margin="2" />
+            <Button Content="Включать" Command="{Binding Test1Command}" Width="100" Margin="2" />
+            <Button Content="Выключать" Command="{Binding Test2Command}" Width="100" Margin="2" />
+            <Button Content="Сбрасавать все" Command="{Binding Test3Command}" Width="100" Margin="2" />
         </StackPanel>
         <ScrollViewer Grid.Row="1">
             <TextBox Text="{Binding Text}" />

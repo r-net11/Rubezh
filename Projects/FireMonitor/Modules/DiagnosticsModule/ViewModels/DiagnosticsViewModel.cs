@@ -7,53 +7,93 @@ using FiresecAPI;
 using System.Diagnostics;
 using System.Text;
 using FiresecAPI.Models;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace DiagnosticsModule.ViewModels
 {
-    public class DiagnosticsViewModel : ViewPartViewModel
-    {
-        public DiagnosticsViewModel()
-        {
-            Test1Command = new RelayCommand(OnTest1);
-            Test2Command = new RelayCommand(OnTest2);
-        }
+	public class DiagnosticsViewModel : ViewPartViewModel
+	{
+		public DiagnosticsViewModel()
+		{
+			Test1Command = new RelayCommand(OnTest1);
+			Test2Command = new RelayCommand(OnTest2);
+			Test3Command = new RelayCommand(OnTest3);
+		}
 
-        string _text;
-        public string Text
-        {
-            get { return _text; }
-            set
-            {
-                _text = value;
-                OnPropertyChanged("Text");
-            }
-        }
-
-        public RelayCommand Test1Command { get; private set; }
-        void OnTest1()
-        {
-            var stringBuilder = new StringBuilder();
-            foreach (var device in FiresecManager.Devices)
-            {
-                if (device.PlaceInTree == null)
-                    stringBuilder.AppendLine(device.PresentationAddressAndDriver);
-            }
-            Text = stringBuilder.ToString();
-        }
-
-        public RelayCommand Test2Command { get; private set; }
-        void OnTest2()
-        {
-			var stringBuilder = new StringBuilder();
-			foreach (var zone in FiresecManager.Zones)
+		string _text;
+		public string Text
+		{
+			get { return _text; }
+			set
 			{
-				if (zone.ZoneType == ZoneType.Guard)
-				{
-					var localNo = FiresecManager.FiresecConfiguration.GetZoneLocalSecNo(zone);
-					stringBuilder.AppendLine(zone.PresentationName + " - " + localNo.ToString() + " - " + zone.SecPanelUID.ToString());
-				}
+				_text = value;
+				OnPropertyChanged("Text");
 			}
-			Text = stringBuilder.ToString();
-        }
-    }
+		}
+
+		public RelayCommand Test1Command { get; private set; }
+		void OnTest1()
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				var random = new Random(1);
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(100));
+					var zoneIndex = random.Next(0, FiresecManager.Zones.Count - 1);
+					var zone = FiresecManager.Zones[zoneIndex];
+					var devices = new List<Device>();
+					foreach (var device in zone.DevicesInZone)
+					{
+						if (device.Driver.CanDisable)
+						{
+							devices.Add(device);
+						}
+					}
+					FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+				}
+			}));
+			thread.Start();
+		}
+
+		public RelayCommand Test2Command { get; private set; }
+		void OnTest2()
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				var random = new Random(1);
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(100));
+					var zoneIndex = random.Next(0, FiresecManager.Zones.Count - 1);
+					var zone = FiresecManager.Zones[zoneIndex];
+					var devices = new List<Device>();
+					foreach (var device in zone.DevicesInZone)
+					{
+						if (device.Driver.CanDisable)
+						{
+							devices.Add(device);
+						}
+					}
+					FiresecManager.FiresecDriver.AddToIgnoreList(devices);
+				}
+			}));
+			thread.Start();
+		}
+
+		public RelayCommand Test3Command { get; private set; }
+		void OnTest3()
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				while (true)
+				{
+					Thread.Sleep(TimeSpan.FromMilliseconds(100));
+					FiresecManager.ResetAllStates();
+				}
+			}));
+			thread.Start();
+		}
+	}
 }

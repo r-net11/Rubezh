@@ -8,6 +8,8 @@ using Infrastructure.Common;
 using Infrastructure.Events;
 using Microsoft.Practices.Prism.Events;
 using Common;
+using System.Threading;
+using System.Diagnostics;
 
 namespace Infrastructure
 {
@@ -43,9 +45,19 @@ namespace Infrastructure
             FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
             FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
             FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
+			FiresecManager.FiresecDriver.Watcher.Progress +=new Func<int,string,int,int,bool>(Watcher_Progress);
 
             SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
             SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
+		}
+
+		static bool Watcher_Progress(int arg1, string arg2, int arg3, int arg4)
+		{
+			SafeCall(() =>
+			{
+				Trace.WriteLine(arg1.ToString() + " - " + arg2 + " - " + arg3.ToString() + " - " + arg4.ToString());
+			});
+			return true;
 		}
         static void OnDeviceStateChangedEvent(List<DeviceState> deviceStates)
         {
@@ -103,8 +115,12 @@ namespace Infrastructure
 
 		public static void SafeCall(Action action)
 		{
-			if (Application.Current != null && Application.Current.Dispatcher != null)
-				Application.Current.Dispatcher.Invoke(action);
+			var thread = new Thread(new ThreadStart(() =>
+				{
+					if (Application.Current != null && Application.Current.Dispatcher != null)
+						Application.Current.Dispatcher.Invoke(action);
+				}));
+			thread.Start();
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Common;
 using FiresecAPI.Models;
+using System.Threading;
 
 namespace Firesec
 {
@@ -73,7 +74,12 @@ namespace Firesec
 			{
 				dev = innerDevices.ToArray()
 			};
-			FiresecSerializedClient.ResetStates(coreState);
+
+			var thread = new Thread(new ThreadStart(() =>
+				{
+					FiresecSerializedClient.ResetStates(coreState);
+				}));
+			thread.Start();
 		}
 	}
 }

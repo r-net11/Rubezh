@@ -276,22 +276,30 @@ namespace Firesec
 
 		public void SetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
-			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
-			if (device != null)
-			{
-				int reguestId = 0;
-				FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "SetZoneToGuard", localZoneNo.ToString(), ref reguestId);
-			}
+			var thread = new Thread(new ThreadStart(() =>
+				{
+					var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
+					if (device != null)
+					{
+						int reguestId = 0;
+						FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "SetZoneToGuard", localZoneNo.ToString(), ref reguestId);
+					}
+				}));
+			thread.Start();
 		}
 
 		public void UnSetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
-			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
-			if (device != null)
+			var thread = new Thread(new ThreadStart(() =>
 			{
-				int reguestId = 0;
-				FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "UnSetZoneFromGuard", localZoneNo.ToString(), ref reguestId);
-			}
+				var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
+				if (device != null)
+				{
+					int reguestId = 0;
+					FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "UnSetZoneFromGuard", localZoneNo.ToString(), ref reguestId);
+				}
+			}));
+			thread.Start();
 		}
 
 		public void AddUserMessage(string message)

@@ -58,7 +58,7 @@ namespace FiresecClient
             }
             catch (Exception e)
             {
-                Logger.Error(e, "FiresecManager.UpdateFiles");
+				Logger.Error(e, "FiresecManager.GetConfiguration");
                 LoadingErrors.AppendLine(e.Message);
             }
         }
