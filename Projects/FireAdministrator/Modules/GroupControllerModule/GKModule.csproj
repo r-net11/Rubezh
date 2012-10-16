@@ -82,6 +82,12 @@
       <DependentUpon>DirectionDevicesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="FiresecToGKConverter\ConfigurationConverter.cs" />
+    <Compile Include="FiresecToGKConverter\ViewModels\ConvertationViewModel.cs" />
+    <Compile Include="FiresecToGKConverter\ViewModels\FSShleifViewModel.cs" />
+    <Compile Include="FiresecToGKConverter\ViewModels\GKShleifViewModel.cs" />
+    <Compile Include="FiresecToGKConverter\Views\ConvertationView.xaml.cs">
+      <DependentUpon>ConvertationView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Plans\GKPlanExtension.cs" />
     <Compile Include="ParametersHelper.cs" />
     <Compile Include="BinaryFormatViewer\Converters\BytesToStringConverter.cs" />
@@ -160,6 +166,7 @@
     <Compile Include="Devices\ViewModels\NewDeviceViewModel.cs" />
     <Compile Include="BinaryFileConverter.cs" />
     <Compile Include="Validation\DeviceValidationError.cs" />
+    <Compile Include="Validation\DirectionValidationError.cs" />
     <Compile Include="Validation\Validator.cs" />
     <Compile Include="Validation\ZoneValidationError.cs" />
     <Compile Include="Zones\ViewModels\ZoneDetailsViewModel.cs" />
@@ -279,6 +286,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Directions\Views\DirectionDevicesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FiresecToGKConverter\Views\ConvertationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

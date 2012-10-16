@@ -64,7 +64,7 @@ namespace GKModule.ViewModels
 
 			var devices = new HashSet<XDevice>();
 
-			var directionDevices = from XDevice directionDevice in SelectedDirection.Direction.Devices select directionDevice;
+			var directionDevices = from XDevice directionDevice in SelectedDirection.Direction.InputDevices select directionDevice;
 			foreach (var directionDevice in directionDevices)
 			{
 				directionDevice.AllParents.ForEach(x => { devices.Add(x); });

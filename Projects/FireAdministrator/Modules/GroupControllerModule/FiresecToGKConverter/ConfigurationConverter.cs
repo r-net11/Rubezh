@@ -4,6 +4,8 @@ using System.Linq;
 using FiresecAPI.Models;
 using FiresecClient;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
+using GKModule.ViewModels;
 
 namespace GKModule.Converter
 {
@@ -11,9 +13,14 @@ namespace GKModule.Converter
     {
         public void Convert()
         {
-            ConvertDdevices();
-            ConvertZones();
-            ConvertLogic();
+            var convertationViewModel = new ConvertationViewModel();
+            if (DialogService.ShowModalWindow(convertationViewModel))
+            {
+                ConvertDdevices();
+                ConvertZones();
+                ConvertLogic();
+            }
+            XManager.UpdateConfiguration();
         }
 
 		XDevice gkDevice;
@@ -97,7 +104,7 @@ namespace GKModule.Converter
         {
             foreach (var device in FiresecManager.Devices)
             {
-                if (device.Driver.DeviceClassName == "ППКП")
+                if (device.Driver.IsPanel)
                     yield return device;
             }
         }

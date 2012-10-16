@@ -12,8 +12,8 @@ namespace Common.GK
 				DriverTypeNo = 0x71,
 				DriverType = XDriverType.Valve,
 				UID = new Guid("4935848f-0084-4151-a0c8-3a900e3cb5c5"),
-				Name = "Блок управления задвижкой",
-				ShortName = "БУЗ",
+				Name = "Шкаф управления задвижкой",
+				ShortName = "ШУЗ",
 				MaxAddressOnShleif = 8,
 				IsControlDevice = true,
 				HasLogic = true

@@ -78,7 +78,7 @@ namespace GKModule.ViewModels
 
         public void ChangeZones()
         {
-            var zonesSelectationViewModel = new ZonesSelectationViewModel(Direction.Zones);
+            var zonesSelectationViewModel = new ZonesSelectationViewModel(Direction.InputZones);
             if (DialogService.ShowModalWindow(zonesSelectationViewModel))
             {
                 XManager.ChangeDirectionZones(Direction, zonesSelectationViewModel.Zones);
@@ -89,7 +89,7 @@ namespace GKModule.ViewModels
 
         public void ChangeDevices()
         {
-            var devicesSelectationViewModel = new DevicesSelectationViewModel(Direction.Devices);
+            var devicesSelectationViewModel = new DevicesSelectationViewModel(Direction.InputDevices);
             if (DialogService.ShowModalWindow(devicesSelectationViewModel))
             {
                 XManager.ChangeDirectionDevices(Direction, devicesSelectationViewModel.DevicesList);

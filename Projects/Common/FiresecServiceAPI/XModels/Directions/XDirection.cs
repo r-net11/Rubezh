@@ -13,13 +13,15 @@ namespace XFiresecAPI
             DirectionZones = new List<XDirectionZone>();
             DirectionDevices = new List<XDirectionDevice>();
 			Regime = 1;
-			Zones = new List<XZone>();
-			Devices = new List<XDevice>();
+			InputZones = new List<XZone>();
+			InputDevices = new List<XDevice>();
+            OutputDevices = new List<XDevice>();
 		}
 
 		public XDirectionState DirectionState { get; set; }
-		public List<XZone> Zones { get; set; }
-		public List<XDevice> Devices { get; set; }
+		public List<XZone> InputZones { get; set; }
+		public List<XDevice> InputDevices { get; set; }
+        public List<XDevice> OutputDevices { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }

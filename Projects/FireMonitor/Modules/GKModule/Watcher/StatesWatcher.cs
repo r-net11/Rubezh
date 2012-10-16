@@ -27,6 +27,9 @@ namespace GKModule
         {
             foreach (var gkDatabase in DatabaseManager.GkDatabases)
             {
+                if (gkDatabase.RootDevice.GetGKIpAddress() == null)
+                    continue;
+
                 foreach (var binaryObject in gkDatabase.BinaryObjects)
                 {
                     GetState(binaryObject.BinaryBase, gkDatabase.RootDevice);

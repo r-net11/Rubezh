@@ -33,7 +33,7 @@ namespace InstructionsModule.ViewModels
 
             foreach (var device in FiresecManager.Devices)
             {
-                if (device.Driver.DeviceClassName == "ППКП")
+                if (device.Driver.IsPanel)
                 {
                     if (InstructionDevicesList.Contains(device.UID))
                         InstructionDevices.Add(device);

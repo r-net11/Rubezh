@@ -19,17 +19,17 @@ namespace XFiresecAPI
 			PlanElementUIDs = new List<Guid>();
 			IsNotUsed = false;
 
-			OutDependenceUIDs = new List<Guid>();
 			Zones = new List<XZone>();
             Directions = new List<XDirection>();
+            DevicesInLogic = new List<XDevice>();
 		}
 
 		public XDriver Driver { get; set; }
 		public XDevice Parent { get; set; }
 		public XDeviceState DeviceState { get; set; }
-		public List<Guid> OutDependenceUIDs { get; set; }
 		public List<XZone> Zones { get; set; }
         public List<XDirection> Directions { get; set; }
+        public List<XDevice> DevicesInLogic { get; set; }
 
 		[DataMember]
 		public Guid UID { get; set; }
@@ -207,6 +207,11 @@ namespace XFiresecAPI
 				return allParents;
 			}
 		}
+
+        public XDevice GKParent
+        {
+            get { return AllParents.FirstOrDefault(x => x.Driver.DriverType == XDriverType.GK); }
+        }
 
 		public override XBinaryInfo BinaryInfo
 		{

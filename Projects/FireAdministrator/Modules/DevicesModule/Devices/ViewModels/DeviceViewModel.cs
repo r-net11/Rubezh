@@ -246,7 +246,7 @@ namespace DevicesModule.ViewModels
 		public RelayCommand RemoveCommand { get; private set; }
 		void OnRemove()
 		{
-			if (Driver.DeviceClassName == "ППКП")
+			if (Driver.IsPanel)
 			{
 				if (MessageBoxService.ShowQuestion("Вы действительно хотите удалить устройство") != System.Windows.MessageBoxResult.Yes)
 					return;

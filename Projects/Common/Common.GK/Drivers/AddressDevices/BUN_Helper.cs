@@ -12,8 +12,8 @@ namespace Common.GK
 				DriverTypeNo = 0x70,
 				DriverType = XDriverType.Pump,
 				UID = new Guid("8bff7596-aef4-4bee-9d67-1ae3dc63ca94"),
-				Name = "Блок управления насосом",
-				ShortName = "БУН",
+				Name = "Шкаф управления насосом",
+				ShortName = "ШУН",
 				IsControlDevice = true,
 				HasLogic = true
 			};

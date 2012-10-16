@@ -28,9 +28,8 @@ namespace Firesec
 			ConvertDirections();
 			ConvertGuardUsers();
 			ConvertDevices();
-			Update();
-
 			ConfigurationCash.DeviceConfiguration = DeviceConfiguration;
+            Update(ConfigurationCash.DeviceConfiguration);
 			var plans = FiresecSerializedClient.GetPlans().Result;
 			ConfigurationCash.PlansConfiguration = ConvertPlans(plans);
 		}
@@ -91,12 +90,12 @@ namespace Firesec
 			DriverConfigurationParametersHelper.CreateKnownProperties(ConfigurationCash.DriversConfiguration.Drivers);
 		}
 
-        public void Update(DeviceConfiguration deviceConfiguration = null)
+        void Update(DeviceConfiguration deviceConfiguration = null)
         {
 			if (deviceConfiguration == null)
 			{
 				Logger.Error("ConfigurationConverter.Update deviceConfiguration = null");
-				deviceConfiguration = ConfigurationCash.DeviceConfiguration;
+                return;
 			}
 
             var hasInvalidDriver = false;
@@ -119,10 +118,18 @@ namespace Firesec
 
 		public void SynchronyzeConfiguration()
 		{
-			var coreConfig = FiresecSerializedClient.GetCoreConfig().Result;
+            var result = FiresecSerializedClient.GetCoreConfig();
+			if (result.HasError)
+			{
+				Logger.Error("SynchronyzeConfiguration FiresecSerializedClient.GetCoreConfig HasError" + result.Error);
+                DriversError.AppendLine("Ошибка при загрузке конфигурации из драйвера");
+				return;
+			}
+            var coreConfig = result.Result;
 			if (coreConfig == null)
 			{
-				Logger.Error("SynchronyzeConfiguration coreConfig=null");
+                Logger.Error("SynchronyzeConfiguration FiresecSerializedClient.GetCoreConfig coreConfig=null");
+                DriversError.AppendLine("Ошибка при загрузке конфигурации из драйвера");
 				return;
 			}
 
@@ -136,17 +143,20 @@ namespace Firesec
 				{
 					device.PlaceInTree = firesecDevice.GetPlaceInTree();
 					device.DatabaseId = firesecDevice.DatabaseId;
-					//var x1 = device.DatabaseId;
-					//var x2 = firesecDevice.DatabaseId;
-					//if(x1 == null) x1 = "";
-					//if(x2 == null) x2 = "";
-					//Trace.WriteLine(x1 + " - " + x2);
 				}
 				else
 				{
 					DriversError.AppendLine("Для устройства " + device.PresentationAddressAndDriver + " не найдено устройство в конфигурации firesec-1");
 				}
 			}
+            foreach (var firesecDevice in firesecDeviceConfiguration.Devices)
+            {
+                var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.PathId == firesecDevice.PathId);
+                if (device == null)
+                {
+                    DriversError.AppendLine("Для устройства " + firesecDevice.PresentationAddressAndDriver + " не найдено устройство в конфигурации firesec-2");
+                }
+            }
 		}
 	}
 }

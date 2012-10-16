@@ -27,16 +27,19 @@ namespace FiresecClient
 			{
 				device.Zones = new List<XZone>();
 				device.Directions = new List<XDirection>();
+                device.DevicesInLogic = new List<XDevice>();
 			}
 			foreach (var zone in DeviceConfiguration.Zones)
 			{
 				zone.Devices = new List<XDevice>();
 				zone.Directions = new List<XDirection>();
+                zone.DevicesInLogic = new List<XDevice>();
 			}
 			foreach (var direction in DeviceConfiguration.Directions)
 			{
-				direction.Zones = new List<XZone>();
-				direction.Devices = new List<XDevice>();
+				direction.InputZones = new List<XZone>();
+				direction.InputDevices = new List<XDevice>();
+                direction.OutputDevices = new List<XDevice>();
 			}
 		}
 
@@ -80,7 +83,7 @@ namespace FiresecClient
 							{
 								zoneUIDs.Add(zoneUID);
 								clause.Zones.Add(zone);
-								//zone.DevicesInLogic.Add(logicDevice);
+								zone.DevicesInLogic.Add(logicDevice);
 							}
 						}
 						clause.ZoneUIDs = zoneUIDs;
@@ -93,7 +96,7 @@ namespace FiresecClient
 							{
 								deviceUIDs.Add(deviceUID);
 								clause.Devices.Add(device);
-								//device.DevicesInLogic.Add(logicDevice);
+								device.DevicesInLogic.Add(logicDevice);
 							}
 						}
 						clause.DeviceUIDs = deviceUIDs;
@@ -106,7 +109,7 @@ namespace FiresecClient
 							{
 								directionUIDs.Add(directionUID);
 								clause.Directions.Add(direction);
-								//direction.DevicesInLogic.Add(logicDevice);
+                                direction.OutputDevices.Add(logicDevice);
 							}
 						}
 						clause.DirectionUIDs = directionUIDs;
@@ -132,7 +135,7 @@ namespace FiresecClient
                         if (device != null)
                         {
                             directionDevices.Add(directionDevice);
-                            direction.Devices.Add(device);
+                            direction.InputDevices.Add(device);
                             device.Directions.Add(direction);
                         }
                     }
@@ -149,7 +152,7 @@ namespace FiresecClient
                         if (zone != null)
                         {
                             directionZones.Add(directionZone);
-                            direction.Zones.Add(zone);
+                            direction.InputZones.Add(zone);
                             zone.Directions.Add(direction);
                         }
                     }

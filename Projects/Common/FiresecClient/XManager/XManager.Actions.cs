@@ -60,12 +60,12 @@ namespace FiresecClient
 			}
             foreach (var direction in device.Directions)
             {
-                direction.Devices.Remove(device);
+                direction.InputDevices.Remove(device);
                 var directionDevice = direction.DirectionDevices.FirstOrDefault(x => x.Device == device);
                 if (directionDevice != null)
                 {
                     direction.DirectionDevices.Remove(directionDevice);
-                    direction.Devices.Remove(device);
+                    direction.InputDevices.Remove(device);
                 }
                 direction.OnChanged();
             }
@@ -88,12 +88,12 @@ namespace FiresecClient
 			}
 			foreach (var direction in zone.Directions)
 			{
-				direction.Zones.Remove(zone);
+				direction.InputZones.Remove(zone);
                 var directionZone = direction.DirectionZones.FirstOrDefault(x => x.Zone == zone);
                 if (directionZone != null)
                 {
                     direction.DirectionZones.Remove(directionZone);
-                    direction.Zones.Remove(zone);
+                    direction.InputZones.Remove(zone);
                 }
 				direction.OnChanged();
 			}
@@ -108,7 +108,7 @@ namespace FiresecClient
 
 		public static void RemoveDirection(XDirection direction)
 		{
-			foreach (var zone in direction.Zones)
+			foreach (var zone in direction.InputZones)
 			{
 				zone.Directions.Remove(direction);
 				zone.OnChanged();
@@ -119,17 +119,17 @@ namespace FiresecClient
 
 		public static void ChangeDirectionZones(XDirection direction, List<XZone> zones)
 		{
-			foreach (var zone in direction.Zones)
+			foreach (var zone in direction.InputZones)
 			{
 				zone.Directions.Remove(direction);
 				zone.OnChanged();
 			}
-			direction.Zones.Clear();
+			direction.InputZones.Clear();
             var oldDirectionZones = new List<XDirectionZone>(direction.DirectionZones);
             direction.DirectionZones.Clear();
             foreach (var zone in zones)
             {
-                direction.Zones.Add(zone);
+                direction.InputZones.Add(zone);
                 var directionZone = new XDirectionZone()
                 {
                     ZoneUID = zone.UID,
@@ -149,12 +149,12 @@ namespace FiresecClient
 
 		public static void ChangeDirectionDevices(XDirection direction, List<XDevice> devices)
 		{
-            foreach (var device in direction.Devices)
+            foreach (var device in direction.InputDevices)
             {
                 device.Directions.Remove(direction);
                 device.OnChanged();
             }
-            direction.Devices.Clear();
+            direction.InputDevices.Clear();
             var oldDirectionDevices = new List<XDirectionDevice>(direction.DirectionDevices);
             direction.DirectionDevices.Clear();
             foreach (var device in devices)
@@ -170,7 +170,7 @@ namespace FiresecClient
                     directionDevice.StateType = existingDirectionDevice.StateType;
                 }
                 direction.DirectionDevices.Add(directionDevice);
-                direction.Devices.Add(device);
+                direction.InputDevices.Add(device);
                 device.OnChanged();
             }
 			direction.OnChanged();
