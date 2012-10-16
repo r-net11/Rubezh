@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using FiresecClient;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace Common.GK
 {
@@ -100,11 +101,13 @@ namespace Common.GK
 
         static SendResult SendBytes(string ipAddress, List<byte> bytes, ushort inputLenght, bool hasAnswer = true)
         {
-			endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.102"), 1025);
+			//endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.102"), 1025);
+			endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), 1025);
 			udpClient = new UdpClient();
 			udpClient.Client.ReceiveTimeout = 10000;
 			udpClient.Client.SendTimeout = 10000;
-			udpClient.Connect(IPAddress.Parse("172.16.7.102"), 1025);
+			//udpClient.Connect(IPAddress.Parse("172.16.7.102"), 1025);
+			udpClient.Connect(IPAddress.Parse(ipAddress), 1025);
 
             try
             {
@@ -112,6 +115,7 @@ namespace Common.GK
 				if (IsLogging)
 				{
 					StreamWriter.WriteLine("--> " + BytesHelper.BytesToString(bytes));
+					Trace.WriteLine("--> " + BytesHelper.BytesToString(bytes));
 				}
                 var bytesSent = udpClient.Send(bytes.ToArray(), bytes.Count);
 				if (bytesSent != bytes.Count)
@@ -137,6 +141,7 @@ namespace Common.GK
 				if (IsLogging)
 				{
 					StreamWriter.WriteLine("<-- " + BytesHelper.BytesToString(recievedBytes));
+					Trace.WriteLine("<-- " + BytesHelper.BytesToString(recievedBytes));
 				}
             }
             catch (SocketException e)

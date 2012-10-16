@@ -105,7 +105,7 @@ namespace GKModule.ViewModels
 				}
 				var journalItem = new JournalItem(Device, sendResult.Bytes);
 				JournalItems.Add(journalItem);
-                gke.Add(journalItem);
+                //gke.Add(journalItem);
 			}
 			LoadingService.Close();
 		}

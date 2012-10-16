@@ -30,9 +30,15 @@ namespace GKModule
 					GoToTechnologicalRegime(kauDatabase.RootDevice);
 					EraseDatabase(kauDatabase.RootDevice);
 					WriteConfigToDevice(kauDatabase);
-					GoToWorkingRegime(kauDatabase.RootDevice);
+					//GoToWorkingRegime(kauDatabase.RootDevice);
 				}
 				WriteConfigToDevice(gkDatabase);
+
+				foreach (var kauDatabase in gkDatabase.KauDatabases)
+				{
+					GoToWorkingRegime(kauDatabase.RootDevice);
+				}
+
 				GoToWorkingRegime(gkDatabase.RootDevice);
 				SyncronizeTime(gkDatabase.RootDevice);
 
@@ -67,10 +73,6 @@ namespace GKModule
 		static List<List<byte>> CreateDescriptors(BinaryObjectBase binaryObject)
 		{
 			var objectNo = (ushort)(binaryObject.GetNo());
-			if (objectNo == 236)
-			{
-				;
-			}
 
 			var packs = new List<List<byte>>();
 			for (int packNo = 0; packNo <= binaryObject.AllBytes.Count / 256; packNo++)
@@ -87,6 +89,10 @@ namespace GKModule
 					resultBytes.AddRange(packBytes);
 					packs.Add(resultBytes);
 				}
+			}
+			if (packs.Count > 1)
+			{
+				;
 			}
 			return packs;
 		}
