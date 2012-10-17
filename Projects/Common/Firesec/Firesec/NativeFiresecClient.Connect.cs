@@ -71,6 +71,9 @@ namespace Firesec
 			{
 				StartPing();
 			}
+
+			StartThread();
+
             return new OperationResult<bool>() { Result = true };
         }
 

@@ -24,6 +24,7 @@ namespace Firesec
 						if (Connection != null)
 						{
                             StopPoll();
+							StopThread();
 							Marshal.FinalReleaseComObject(Connection);
 							Connection = null;
 							GC.Collect();
@@ -318,7 +319,9 @@ namespace Firesec
 				}
 				catch (COMException e)
 				{
-					Logger.Error("COMException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString());
+					string exceptionText = "COMException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
+					Trace.WriteLine(exceptionText);
+					Logger.Error(exceptionText);
 					resultData.Result = default(T);
 					resultData.HasError = true;
 					resultData.Error = e.Message;
@@ -326,7 +329,9 @@ namespace Firesec
 				}
 				catch (Exception e)
 				{
-					Logger.Error(e, "Исключение при вызове NativeFiresecClient.SafeLoopCall попытка " + i.ToString());
+					string exceptionText = "Исключение при вызове NativeFiresecClient.SafeLoopCall попытка " + i.ToString();
+					Trace.WriteLine(exceptionText);
+					Logger.Error(e, exceptionText);
 					resultData.Result = default(T);
 					resultData.HasError = true;
 					resultData.Error = e.Message;
@@ -340,8 +345,65 @@ namespace Firesec
 		#region Callback
 		public void NewEventsAvailable(int eventMask)
 		{
+			bool evmNewEvents = ((eventMask & 1) == 1);
+			bool evmStateChanged = ((eventMask & 2) == 2);
+			bool evmConfigChanged = ((eventMask & 4) == 4);
+			bool evmDeviceParamsUpdated = ((eventMask & 8) == 8);
+			bool evmPong = ((eventMask & 16) == 16);
+			bool evmDatabaseChanged = ((eventMask & 32) == 32);
+			bool evmReportsChanged = ((eventMask & 64) == 64);
+			bool evmSoundsChanged = ((eventMask & 128) == 128);
+			bool evmLibraryChanged = ((eventMask & 256) == 256);
+			bool evmPing = ((eventMask & 512) == 512);
+			bool evmIgnoreListChanged = ((eventMask & 1024) == 1024);
+			bool evmEventViewChanged = ((eventMask & 2048) == 2048);
+
+			IsSuspending = true;
+			try
+			{
+				if (evmStateChanged)
+				{
+					var result = SafeLoopCall<string>(() => { return ReadFromStream(Connection.GetCoreState()); }, "GetCoreState");
+					if (result != null && result.Result != null)
+					{
+						var coreState = ConvertResultData<Firesec.Models.CoreState.config>(result);
+						StateChanged(coreState.Result);
+					}
+				}
+
+				if (evmDeviceParamsUpdated)
+				{
+					var result = SafeLoopCall<string>(() => { return Connection.GetCoreDeviceParams(); }, "GetCoreDeviceParams");
+					if (result != null && result.Result != null)
+					{
+						var coreParameters = ConvertResultData<Firesec.Models.DeviceParameters.config>(result);
+						ParametersChanged(coreParameters.Result);
+					}
+				}
+
+				if (evmNewEvents)
+				{
+					;
+				}
+			}
+			catch { ;}
+			finally
+			{
+				IsSuspending = false;
+			}
+
 			if (NewEventAvaliable != null)
 				NewEventAvaliable(eventMask);
+		}
+
+		OperationResult<T> ConvertResultData<T>(OperationResult<string> result)
+		{
+			var resultData = new OperationResult<T>();
+			resultData.HasError = result.HasError;
+			resultData.Error = result.Error;
+			if (result.HasError == false)
+				resultData.Result = SerializerHelper.Deserialize<T>(result.Result);
+			return resultData;
 		}
 
 		public bool Progress(int Stage, string Comment, int PercentComplete, int BytesRW)
@@ -361,6 +423,8 @@ namespace Firesec
 			}
 		}
 
+		public event Action<Firesec.Models.CoreState.config> StateChanged;
+		public event Action<Firesec.Models.DeviceParameters.config> ParametersChanged;
 		public event Action<int> NewEventAvaliable;
 		public event Func<int, string, int, int, bool> ProgressEvent;
 		#endregion

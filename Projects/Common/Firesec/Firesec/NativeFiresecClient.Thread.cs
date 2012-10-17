@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Firesec
 {
@@ -12,8 +13,10 @@ namespace Firesec
         object locker = new object();
         Thread WorkThread;
         bool IsStopping;
+		bool IsSuspending = false;
+		ManualResetEvent SuspendEvent;
 
-        public void Start()
+        public void StartThread()
         {
             IsStopping = false;
             WorkThread = new Thread(Work);
@@ -21,7 +24,7 @@ namespace Firesec
             WorkThread.Start();
         }
 
-        public void Stop()
+        public void StopThread()
         {
             IsStopping = true;
             WorkThread.Join(TimeSpan.FromSeconds(2));
@@ -34,6 +37,7 @@ namespace Firesec
                 Tasks.Enqueue(task);
                 Monitor.Pulse(locker);
             }
+			Trace.WriteLine("Tasks Count = " + Tasks.Count.ToString());
         }
 
         void Work()
@@ -48,6 +52,12 @@ namespace Firesec
                     while (Tasks.Count == 0)
                         Monitor.Wait(locker, TimeSpan.FromSeconds(1));
                 }
+
+				if (IsSuspending)
+				{
+					Thread.Sleep(500);
+					continue;
+				}
 
                 var action = Tasks.Dequeue();
                 action();

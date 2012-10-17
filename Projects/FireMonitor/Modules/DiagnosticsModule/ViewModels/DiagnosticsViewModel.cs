@@ -54,6 +54,7 @@ namespace DiagnosticsModule.ViewModels
 					FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
 				}
 			}));
+			thread.IsBackground = true;
 			thread.Start();
 		}
 
@@ -65,7 +66,7 @@ namespace DiagnosticsModule.ViewModels
 				var random = new Random(1);
 				while (true)
 				{
-					Thread.Sleep(TimeSpan.FromMilliseconds(100));
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 					var zoneIndex = random.Next(0, FiresecManager.Zones.Count - 1);
 					var zone = FiresecManager.Zones[zoneIndex];
 					var devices = new List<Device>();
@@ -79,6 +80,7 @@ namespace DiagnosticsModule.ViewModels
 					FiresecManager.FiresecDriver.AddToIgnoreList(devices);
 				}
 			}));
+			thread.IsBackground = true;
 			thread.Start();
 		}
 
@@ -93,6 +95,7 @@ namespace DiagnosticsModule.ViewModels
 					FiresecManager.ResetAllStates();
 				}
 			}));
+			thread.IsBackground = true;
 			thread.Start();
 		}
 	}

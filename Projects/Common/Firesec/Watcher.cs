@@ -29,8 +29,10 @@ namespace Firesec
             if (mustMonitorStates)
             {
 				OnStateChanged();
-				OnParametersChanged();
+				//OnParametersChanged();
 				FiresecSerializedClient.NativeFiresecClient.NewEventAvaliable += new Action<int>(FiresecClient_NewEvent);
+				FiresecSerializedClient.NativeFiresecClient.StateChanged +=new Action<Models.CoreState.config>(StateChanged);
+				FiresecSerializedClient.NativeFiresecClient.ParametersChanged +=new Action<Models.DeviceParameters.config>(OnParametersChanged);
 			}
             FiresecSerializedClient.NativeFiresecClient.ProgressEvent += new Func<int, string, int, int, bool>(OnProgress);
 		}
@@ -51,16 +53,22 @@ namespace Firesec
 			bool evmEventViewChanged = ((EventMask & 2048) == 2048);
 
 			if (evmStateChanged)
-				OnStateChanged();
+			{
+				//OnStateChanged();
+			}
 
 			if (evmDeviceParamsUpdated)
-				OnParametersChanged();
+			{
+				//OnParametersChanged();
+			}
 
 			if (evmNewEvents)
-                if (MustMonitorJournal)
-                {
-                    OnNewEvent();
-                }
+			{
+				if (MustMonitorJournal)
+				{
+					OnNewEvent();
+				}
+			}
 		}
 
 		void SetLastEvent()
@@ -125,11 +133,11 @@ namespace Firesec
 			}
 		}
 
-		public void OnParametersChanged()
+		public void OnParametersChanged(Firesec.Models.DeviceParameters.config coreParameters)
 		{
 			ChangedDevices = new HashSet<DeviceState>();
 			ChangedZones = new HashSet<ZoneState>();
-			var coreParameters = FiresecSerializedClient.GetDeviceParams().Result;
+			//var coreParameters = FiresecSerializedClient.GetDeviceParams().Result;
 			if (coreParameters == null)
 				return;
 			if (coreParameters.dev == null)
@@ -213,7 +221,7 @@ namespace Firesec
 
 		void SetStates(Firesec.Models.CoreState.config coreState)
 		{
-            if (coreState == null && coreState.dev == null)
+            if (coreState == null || coreState.dev == null)
             {
                 return;
             }
