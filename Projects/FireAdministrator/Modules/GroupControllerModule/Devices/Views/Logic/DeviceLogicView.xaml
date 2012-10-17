@@ -118,7 +118,7 @@
                                     <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
 									    Content="{Binding JoinOperator, Converter={StaticResource ClauseJounOperationConverter}}"
 									    Command="{Binding ChangeJoinOperatorCommand}"
-									    Width="75" HorizontalAlignment="Left" Style="{StaticResource ToolarButtonStyle}" Foreground="White" />
+									    Width="75" HorizontalAlignment="Left" Style="{StaticResource ToolBarButtonStyle}" Foreground="White" />
                                 </Grid>
                             </StackPanel>
                         </DataTemplate>

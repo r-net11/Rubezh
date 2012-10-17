@@ -16,7 +16,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Row="0" Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" Style="{StaticResource ToolarButtonStyle}">
+                <Button Grid.Row="0" Command="{Binding ShowFilterCommand}" ToolTip="Задать фильтр" Style="{StaticResource ToolBarButtonStyle}">
                     <Image Source="/Controls;component/Images/Filter.png" Height="24" />
                 </Button>
 
@@ -27,7 +27,7 @@
 
                 <TextBlock Grid.Column="2" Text="{Binding Status}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" />
 
-                <Button Grid.Column="3" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" Style="{StaticResource ToolarButtonStyle}" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <Button Grid.Column="3" Command="{Binding ShowSettingsCommand}" ToolTip="Настройки" Style="{StaticResource ToolBarButtonStyle}" DockPanel.Dock="Right" HorizontalAlignment="Right">
                     <Image Source="/Controls;component/Images/Settings.png" Height="24" />
                 </Button>
             </Grid>

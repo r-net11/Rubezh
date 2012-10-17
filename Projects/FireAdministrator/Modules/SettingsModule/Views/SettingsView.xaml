@@ -5,7 +5,6 @@
 
     <UserControl.Resources>
         <Converters:ThemeConverter x:Key="ThemeConverter" />
-        <Converters:ModuleConverter x:Key="ModuleConverter" />
     </UserControl.Resources>
     <TabControl>
         <TabItem Header="Конвертация">
@@ -32,20 +31,16 @@
             </Border>
         </TabItem>
         <TabItem Header="Дополнительные модули">
-            <Border CornerRadius="10" BorderThickness="0" Margin="2">
-                <StackPanel>
-                    <StackPanel Margin="10" Orientation="Horizontal">
-                        <ListBox Name="listBox" ItemsSource="{Binding Modules}" Width="250" HorizontalAlignment="Left" SelectionMode="Multiple">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Content="{Binding ., Converter={StaticResource ModuleConverter}}" IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}}}"/>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </StackPanel>
-                    <Button Command="{Binding AcceptCommand}" Content="Применить" CommandParameter="{Binding ElementName=listBox, Path=SelectedItems}"/>
-                </StackPanel>
-            </Border>
+            <StackPanel>
+                <ListBox Name="listBox" ItemsSource="{Binding Modules}" Width="194" Height="120" HorizontalAlignment="Left">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Content="{Binding Description}" IsChecked="{Binding IsEnabled}"/>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Command="{Binding AcceptCommand}" Content="Применить" Width="200" HorizontalAlignment="Left"/>
+            </StackPanel>
         </TabItem>
     </TabControl>
 </UserControl>

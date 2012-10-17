@@ -11,7 +11,7 @@
 		<Converters:ZoneLogicJoinOperatorConverter x:Key="ZoneLogicJoinOperatorConverter" />
 	</UserControl.Resources>
 
-	<Border CornerRadius="5" Margin="5" Padding="5" Background="{DynamicResource BackgroundBrush}">
+    <Border Padding="5" Style="{StaticResource BorderStyle}">
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
@@ -51,7 +51,7 @@
 											</ComboBox>
 
 											<Grid Visibility="{Binding CanSelectZones, Converter={StaticResource BoolToVisibilityConverter}}" VerticalAlignment="Center" Margin="2">
-                                                <Button Command="{Binding ShowZonesCommand}" Foreground="White" Style="{StaticResource ToolarButtonStyle}" Background="DarkGray">
+                                                <Button Command="{Binding ShowZonesCommand}" Foreground="White" Style="{StaticResource ToolBarButtonStyle}" Background="DarkGray">
 													<TextBlock Margin="2">
 														<TextBlock.Style>
 															<Style>
@@ -103,7 +103,7 @@
                                     <Button DataContext="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext}"
 										Content="{Binding JoinOperator, Converter={StaticResource ZoneLogicJoinOperatorConverter}}"
 										Command="{Binding ChangeJoinOperatorCommand}"
-										Width="75" HorizontalAlignment="Left" Foreground="White" Background="DarkGray" Style="{StaticResource ToolarButtonStyle}">
+										Width="75" HorizontalAlignment="Left" Foreground="White" Background="DarkGray" Style="{StaticResource ToolBarButtonStyle}">
                                     </Button>
                                 </Grid>
 							</StackPanel>

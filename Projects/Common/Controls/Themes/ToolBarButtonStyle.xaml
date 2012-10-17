@@ -5,7 +5,7 @@
 
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
 	
-	<Style x:Key="ToolarButtonStyle" TargetType="{x:Type Button}">
+	<Style x:Key="ToolBarButtonStyle" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>

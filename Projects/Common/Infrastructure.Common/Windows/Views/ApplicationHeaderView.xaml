@@ -21,13 +21,13 @@
 					<MenuItem Click="OnShowAbout" Header="О программе" />
 				</MenuItem>
 			</Menu>
-			<Button Click="OnMinimize" Style="{StaticResource ToolarButtonStyle}" ToolTip="Свернуть" Visibility="{Binding Content.AllowMinimize, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Button Click="OnMinimize" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Свернуть" Visibility="{Binding Content.AllowMinimize, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Minimize.png" />
 			</Button>
-			<Button Click="OnMaximize" Style="{StaticResource ToolarButtonStyle}" ToolTip="Развернуть" Visibility="{Binding Content.AllowMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Button Click="OnMaximize" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Развернуть" Visibility="{Binding Content.AllowMaximize, Converter={StaticResource BoolToVisibilityConverter}}">
 				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Maximize.png" />
 			</Button>
-			<Button Click="OnClose" Style="{StaticResource ToolarButtonStyle}" ToolTip="Закрыть">
+			<Button Click="OnClose" Style="{StaticResource ToolBarButtonStyle}" ToolTip="Закрыть">
 				<Image Height="12" Margin="-2" Source="/Controls;component/Images/Close.png" />
 			</Button>
 		</StackPanel>

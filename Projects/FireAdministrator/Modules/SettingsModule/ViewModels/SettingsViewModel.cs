@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
@@ -14,8 +10,7 @@ using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Common.Theme;
-using Infrastructure.Common.Module;
-using Microsoft.Win32;
+
 
 namespace SettingsModule.ViewModels
 {
@@ -25,6 +20,7 @@ namespace SettingsModule.ViewModels
 		{
 			ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
 			ConvertJournalCommand = new RelayCommand(OnConvertJournal);
+            AcceptCommand = new RelayCommand(OnAccept, CanAccept);
 		}
 
         public void Initialize()
@@ -36,12 +32,14 @@ namespace SettingsModule.ViewModels
                     SelectedTheme = (Theme)Enum.Parse(typeof(Theme), ThemeHelper.CurrentTheme);
             }
             catch { ;}
-            try
-            {
-                Modules = Enum.GetValues(typeof(Module)).Cast<Module>().ToList();
-            }
-            catch { ;}
+
+            Modules = ModuleViewModel.LoadDisableModulesFromRegister();
+            if(Modules.Count == 0)
+                Modules = ModuleViewModel.ModuleInitialize();
+            canAccept = false;
         }
+
+        public List<ModuleViewModel> Modules { get; private set; }
 
 		public RelayCommand ConvertConfigurationCommand { get; private set; }
 		void OnConvertConfiguration()
@@ -102,40 +100,20 @@ namespace SettingsModule.ViewModels
             }
         }
 
-        private ICommand acceptCommand;
-        public ICommand AcceptCommand
+        public RelayCommand AcceptCommand { get; set; }
+        void OnAccept()
         {
-            get
-            {
-                if (acceptCommand == null)
-                    acceptCommand = new RelayCommand<object>(param => OnAccept(param));
-                return acceptCommand;
-            }
-        }
-        public List<Module> Modules { get; private set; }
-        public IList SelectedModules;
-        void OnAccept(object parameter)
-        {
-            SelectedModules = (IList)parameter;
-            ModuleHelper.EnableModules = new List<string>();
-            ModuleHelper.DisableModules = new List<string>();
             foreach (var module in Modules)
             {
-                bool isSelected = false;
-                foreach (var selectedModule in SelectedModules)
-                {
-                    if (module == (Module)selectedModule)
-                    {
-                        isSelected = true;
-                        break;
-                    }
-                }
-                if(isSelected)
-                    ModuleHelper.EnableModules.Add(Enum.GetName(typeof(Module), module));
-                else
-                    ModuleHelper.DisableModules.Add(Enum.GetName(typeof(Module), module));
+                module.SetDisableModuleIntoRegister(module.IsEnabled);
             }
-            ModuleHelper.SetModuleIntoRegister();
+            canAccept = false;
+        }
+
+	    public static bool canAccept = false;
+        public bool CanAccept()
+        {
+            return canAccept;
         }
 	}
 }

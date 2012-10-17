@@ -20,30 +20,7 @@ namespace FireMonitor
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
-
-            Process[] procs = Process.GetProcessesByName("FiresecService");
-            System.Diagnostics.Process proc = new System.Diagnostics.Process();
-            if (procs.Length == 0)
-            {
-                try
-                {
-                    proc.StartInfo.FileName = "..\\..\\..\\FiresecService\\bin\\Debug\\" + "FiresecService.exe";
-                    proc.Start();
-                }
-                catch (Exception)
-                { }
-            }
-
-			if (e.Args.Any(item => string.Equals(item, "Integrate", StringComparison.InvariantCultureIgnoreCase)))
-			{
-				RegistryHelper.Integrate();
-				Environment.Exit(1);
-			}
-			if (e.Args.Any(item => string.Equals(item, "Desintegrate", StringComparison.InvariantCultureIgnoreCase)))
-			{
-				RegistryHelper.Desintegrate();
-				Environment.Exit(1);
-			}
+            ServerLoadHelper.Load();
 
 #if DEBUG
 			BindingErrorListener.Listen(m => MessageBox.Show(m));

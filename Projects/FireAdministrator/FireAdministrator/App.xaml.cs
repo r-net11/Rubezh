@@ -17,20 +17,7 @@ namespace FireAdministrator
 		protected override void OnStartup(StartupEventArgs e)
 		{
 			base.OnStartup(e);
-
-		    Process[] procs = Process.GetProcessesByName("FiresecService");
-            System.Diagnostics.Process proc = new System.Diagnostics.Process();
-            if(procs.Length == 0)
-            {
-                try
-                {
-                    proc.StartInfo.FileName = "..\\..\\..\\FiresecService\\bin\\Debug\\" + "FiresecService.exe";
-                    proc.Start();
-                }
-                catch (Exception)
-                {}
-            }
-
+            ServerLoadHelper.Load();
 #if DEBUG
             //bool trace = true;
 			//BindingErrorListener.Listen(m => { if (trace) MessageBox.Show(m); });

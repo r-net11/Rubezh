@@ -22,10 +22,10 @@ namespace Infrastructure.Client
 	public class BaseBootstrapper
 	{
 		public List<IModule> _modules;
-
+	    List<ModuleType> modulesFromReg = new List<ModuleType>();
 		public BaseBootstrapper()
 		{
-            ModuleHelper.LoadModulesFromRegister();
+            modulesFromReg = ModuleType.LoadModulesFromRegister();
 			_modules = null;
 			RegisterResource();
 		}
@@ -57,7 +57,7 @@ namespace Infrastructure.Client
 				try
 				{
                     var moduledescr = module.ToString().Substring(0,module.ToString().LastIndexOf('.'));
-                    if (ModuleHelper.DisableModules.All(x => moduledescr != x))
+                    if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
                     {
                         LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
                         module.Initialize();
@@ -81,7 +81,7 @@ namespace Infrastructure.Client
             foreach (IModule module in _modules)
             {
                 var moduledescr = module.ToString().Substring(0, module.ToString().LastIndexOf('.'));
-                if (ModuleHelper.DisableModules.All(x => moduledescr != x))
+               if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
                     navigationItems.AddRange(module.CreateNavigation());
             }
 		    return navigationItems;

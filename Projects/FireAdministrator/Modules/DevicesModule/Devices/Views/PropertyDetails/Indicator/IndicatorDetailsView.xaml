@@ -14,7 +14,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" CornerRadius="5"  Margin="5" Background="{DynamicResource BackgroundBrush}">
+        <Border Grid.Row="0" Style="{StaticResource BorderStyle}">
             <StackPanel>
                 <Label Content="Индикатор состояния" Margin="2" FontWeight="Bold" />
                 <StackPanel Orientation="Horizontal"  Margin="2">
@@ -25,7 +25,7 @@
         </Border>
 
         <Grid Grid.Row="1" Visibility="{Binding IsZone, Converter={StaticResource BoolToVisibilityConverter}}">
-            <Border CornerRadius="5" Margin="5" Background="{DynamicResource BackgroundBrush}">
+            <Border Style="{StaticResource BorderStyle}">
                 <StackPanel Margin="5">
                     <Label Content="Выбранные зоны" FontWeight="Bold" />
                     <TextBlock>
@@ -50,7 +50,7 @@
 
         <Grid Grid.Row="1" Visibility="{Binding IsDevice, Converter={StaticResource BoolToVisibilityConverter}}">
             <StackPanel>
-                <Border CornerRadius="5" Margin="5" Background="{DynamicResource BackgroundBrush}">
+                <Border Style="{StaticResource BorderStyle}">
                     <StackPanel Margin="5">
                         <Label Content="Выбранное устройство" FontWeight="Bold" />
 
@@ -89,7 +89,7 @@
                     </StackPanel>
                 </Border>
 
-                <Border Grid.Row="2" CornerRadius="5" Margin="5" Background="{DynamicResource BackgroundBrush}">
+                <Border Grid.Row="2" Style="{StaticResource BorderStyle}">
                     <Grid Margin="5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
