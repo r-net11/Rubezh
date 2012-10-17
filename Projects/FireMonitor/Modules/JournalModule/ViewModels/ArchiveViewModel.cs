@@ -83,28 +83,36 @@ namespace JournalModule.ViewModels
 		}
 
 		public RelayCommand ShowFilterCommand { get; private set; }
-		void OnShowFilter()
-		{
-			if (_archiveFilter == null)
-				_archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
+        void OnShowFilter()
+        {
+            try
+            {
+                if (_archiveFilter == null)
+                    _archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
 
-			ArchiveFilterViewModel archiveFilterViewModel = null;
+                ArchiveFilterViewModel archiveFilterViewModel = null;
 
-			var result = WaitHelper.Execute(() =>
-			{
-				archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
-			});
+                var result = WaitHelper.Execute(() =>
+                {
+                    archiveFilterViewModel = new ArchiveFilterViewModel(_archiveFilter);
+                });
 
-			if (result)
-			{
-				if (DialogService.ShowModalWindow(archiveFilterViewModel))
-				{
-					_archiveFilter = archiveFilterViewModel.GetModel();
-					OnPropertyChanged("IsFilterExists");
-					IsFilterOn = true;
-				}
-			}
-		}
+                if (result)
+                {
+                    if (DialogService.ShowModalWindow(archiveFilterViewModel))
+                    {
+                        _archiveFilter = archiveFilterViewModel.GetModel();
+                        OnPropertyChanged("IsFilterExists");
+                        IsFilterOn = true;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "ArchiveViewModel.ShowSettingsCommand");
+                MessageBoxService.ShowException(e);
+            }
+        }
 
 		public RelayCommand ShowSettingsCommand { get; private set; }
 		void OnShowSettings()
@@ -123,7 +131,7 @@ namespace JournalModule.ViewModels
 			}
 			catch (Exception e)
 			{
-				Logger.Error(e, "Исключение при вызове ArchiveViewModel.ShowSettingsCommand");
+				Logger.Error(e, "ArchiveViewModel.ShowSettingsCommand");
 				MessageBoxService.ShowException(e);
 			}
 		}
@@ -187,7 +195,7 @@ namespace JournalModule.ViewModels
 			{
 				Status = "Загрузка данных";
 				JournalRecords = new ObservableCollection<JournalRecordViewModel>();
-				_updateThread = new Thread(new ThreadStart(OnUpdate));
+				_updateThread = new Thread(OnUpdate);
 				_updateThread.Start();
 			}
 		}
@@ -206,6 +214,7 @@ namespace JournalModule.ViewModels
 			}
 			catch (Exception e)
 			{
+                Logger.Error(e, "ArchiveViewModel.OnUpdate");
 			}
 			_updateThread = null;
 		}

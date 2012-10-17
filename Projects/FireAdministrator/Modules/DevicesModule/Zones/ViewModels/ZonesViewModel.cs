@@ -198,16 +198,16 @@ namespace DevicesModule.ViewModels
 			}
 		}
 
-		public override void OnShow()
-		{
-			base.OnShow();
-			SelectedZone = SelectedZone;
-		}
+        public override void OnShow()
+        {
+            base.OnShow();
+            SelectedZone = SelectedZone;
+        }
 
-		public override void OnHide()
-		{
-			base.OnHide();
-		}
+        public override void OnHide()
+        {
+            base.OnHide();
+        }
 
 		#region ISelectable<Guid> Members
 

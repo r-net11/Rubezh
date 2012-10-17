@@ -59,18 +59,18 @@ namespace FiresecClient
                 {
 					foreach (var zone in clause.Zones)
 					{
-						device.InputObjects.Add(zone);
-						zone.OutputObjects.Add(device);
+                        AddInputOutputObject(device.InputObjects, zone);
+						AddInputOutputObject(zone.OutputObjects, device);
 					}
                     foreach (var clauseDevice in clause.Devices)
                     {
-                        device.InputObjects.Add(clauseDevice);
-                        clauseDevice.OutputObjects.Add(device);
+                        AddInputOutputObject(device.InputObjects, clauseDevice);
+                        AddInputOutputObject(clauseDevice.OutputObjects, device);
                     }
 					foreach (var direction in clause.Directions)
                     {
-						device.InputObjects.Add(direction);
-						direction.OutputObjects.Add(device);
+						AddInputOutputObject(device.InputObjects, direction);
+						AddInputOutputObject(direction.OutputObjects, device);
                     }
                 }
             }
@@ -79,8 +79,8 @@ namespace FiresecClient
 			{
 				foreach (var device in zone.Devices)
 				{
-					zone.InputObjects.Add(device);
-					device.OutputObjects.Add(zone);
+					AddInputOutputObject(zone.InputObjects, device);
+					AddInputOutputObject(device.OutputObjects, zone);
 				}
 			}
 
@@ -88,14 +88,14 @@ namespace FiresecClient
 			{
 				foreach (var zone in direction.InputZones)
 				{
-					direction.InputObjects.Add(zone);
-					zone.OutputObjects.Add(direction);
+					AddInputOutputObject(direction.InputObjects, zone);
+					AddInputOutputObject(zone.OutputObjects, direction);
 				}
 
 				foreach (var device in direction.InputDevices)
 				{
-					direction.InputObjects.Add(device);
-					device.OutputObjects.Add(direction);
+					AddInputOutputObject(direction.InputObjects, device);
+					AddInputOutputObject(device.OutputObjects, direction);
 				}
 			}
 		}
@@ -142,5 +142,11 @@ namespace FiresecClient
 				}
 			}
 		}
+
+        static void AddInputOutputObject(List<XBinaryBase> objects, XBinaryBase newObject)
+        {
+            if (!objects.Contains(newObject))
+                objects.Add(newObject);
+        }
 	}
 }

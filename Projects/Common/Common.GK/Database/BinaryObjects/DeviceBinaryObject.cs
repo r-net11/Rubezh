@@ -138,12 +138,14 @@ namespace Common.GK
 
                         var binProperty = binProperties.FirstOrDefault(x => x.No == no);
                         if (binProperty == null)
+                        {
                             binProperty = new BinProperty()
                             {
                                 No = no
                             };
+                            binProperties.Add(binProperty);
+                        }
                         binProperty.Value += (ushort)(value << driverProperty.Offset);
-                        binProperties.Add(binProperty);
                     }
                 }
             }

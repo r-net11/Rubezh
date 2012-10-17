@@ -50,23 +50,25 @@ namespace Firesec
 			}
 		}
 
-		public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
-		{
-			try
-			{
-				Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
-				if (mustMonitorStates)
-				{
-					Watcher.OnStateChanged();
-					Watcher.OnParametersChanged();
-				}
-			}
-			catch (Exception e)
-			{
-				Logger.Error(e, "FiresecDriver.Synchronyze");
-				FiresecDriver.LoadingErrors.Append(e.Message);
-			}
-		}
+        public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
+        {
+            try
+            {
+                if (Watcher == null)
+                    Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
+
+                if (mustMonitorStates)
+                {
+                    Watcher.OnStateChanged();
+                    Watcher.OnParametersChanged();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "FiresecDriver.Synchronyze");
+                FiresecDriver.LoadingErrors.Append(e.Message);
+            }
+        }
 
 		public void Convert()
 		{

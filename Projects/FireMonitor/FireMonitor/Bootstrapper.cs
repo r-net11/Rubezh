@@ -98,10 +98,10 @@ namespace FireMonitor
             }
             LoadingService.DoStep("Синхронизация конфигурации");
             FiresecManager.FiresecDriver.Synchronyze();
+            LoadingService.DoStep("Старт мониторинга");
+            FiresecManager.FiresecDriver.StartWatcher(true, true);
             if (!reconnect)
             {
-                LoadingService.DoStep("Старт мониторинга");
-                FiresecManager.FiresecDriver.StartWatcher(true, true);
                 LoadingService.DoStep("Синхронизация журнала событий");
                 FiresecManager.SynchrinizeJournal();
             }

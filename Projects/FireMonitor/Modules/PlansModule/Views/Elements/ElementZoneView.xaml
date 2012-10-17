@@ -13,7 +13,7 @@
                  MouseEnter="_polygon_MouseEnter" MouseLeave="_polygon_MouseLeave" PreviewMouseLeftButtonDown="_polygon_PreviewMouseLeftButtonDown">
             <Polygon.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Показать в дереве" Command="{Binding ShowInTreeCommand}" />
+                    <MenuItem Header="Показать в списке" Command="{Binding ShowInTreeCommand}" />
                     <MenuItem Header="Отключить все устройства в зоне" Command="{Binding DisableAllCommand}" />
                     <MenuItem Header="Включить все устройства в зоне" Command="{Binding EnableAllCommand}" />
                     <MenuItem Command="{Binding SetGuardCommand}" Header="Поставить на охрану" />
