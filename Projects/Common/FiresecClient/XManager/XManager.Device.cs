@@ -12,6 +12,7 @@ namespace FiresecClient
 			{
 				DriverUID = device.DriverUID,
 				Driver = device.Driver,
+				ShleifNo = device.ShleifNo,
 				IntAddress = device.IntAddress,
 				Description = device.Description
 			};

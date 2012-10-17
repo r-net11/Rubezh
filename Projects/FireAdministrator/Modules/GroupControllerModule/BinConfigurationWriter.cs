@@ -6,6 +6,7 @@ using Common.GK;
 using GKModule.ViewModels;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
+using System.Diagnostics;
 
 namespace GKModule
 {
@@ -15,7 +16,7 @@ namespace GKModule
 		{
 			DatabaseManager.Convert();
 
-			//SendManager.StrartLog("D:/GkLog.txt");
+			SendManager.StrartLog("D:/GkLog.txt");
 			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
 				var summaryObjectsCount = 4 + gkDatabase.BinaryObjects.Count;
@@ -40,11 +41,11 @@ namespace GKModule
 				}
 
 				GoToWorkingRegime(gkDatabase.RootDevice);
-				SyncronizeTime(gkDatabase.RootDevice);
+				//SyncronizeTime(gkDatabase.RootDevice);
 
 				LoadingService.Close();
 			}
-			//SendManager.StopLog();
+			SendManager.StopLog();
 		}
 
 		static void WriteConfigToDevice(CommonDatabase commonDatabase)
@@ -61,10 +62,14 @@ namespace GKModule
 					var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack, true);
 					if (sendResult.HasError)
 					{
-						MessageBoxService.Show(sendResult.Error);
+						//MessageBoxService.Show(sendResult.Error);
 						//LoadingService.Close();
 						//break;
 					}
+				}
+				if (packs.Count > 1)
+				{
+					;
 				}
 			}
 			WriteEndDescriptor(commonDatabase);
@@ -75,6 +80,20 @@ namespace GKModule
 			var objectNo = (ushort)(binaryObject.GetNo());
 
 			var packs = new List<List<byte>>();
+
+			//int index = 0;
+			//var allBytes = binaryObject.AllBytes;
+
+			//while (true)
+			//{
+			//    if (index == allBytes.Count)
+			//        break;
+
+			//    var packBytes = new List<byte>();
+			//    packBytes.Add(allBytes[index]);
+			//    index++;
+			//}
+
 			for (int packNo = 0; packNo <= binaryObject.AllBytes.Count / 256; packNo++)
 			{
 				int packLenght = Math.Min(256, binaryObject.AllBytes.Count - packNo * 256);
@@ -90,9 +109,26 @@ namespace GKModule
 					packs.Add(resultBytes);
 				}
 			}
+			//foreach (var pack in packs)
+			//{
+			//    if (packs.IndexOf(pack) < packs.Count - 1)
+			//    {
+			//        if (pack[257] == 0 && pack[258] == 0)
+			//        {
+			//            //pack[257] = 1;
+			//            //pack[258] = 1;
+			//        }
+			//    }
+			//}
 			if (packs.Count > 1)
 			{
-				;
+				var bytesString = BytesHelper.BytesToString(binaryObject.AllBytes);
+				Trace.WriteLine(bytesString);
+				foreach (var pack in packs)
+				{
+					bytesString = BytesHelper.BytesToString(pack);
+					Trace.WriteLine(bytesString);
+				}
 			}
 			return packs;
 		}

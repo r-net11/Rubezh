@@ -11,56 +11,80 @@ namespace GKModule.Converter
 {
     public class ConfigurationConverter
     {
-        public void Convert()
-        {
-            var convertationViewModel = new ConvertationViewModel();
-            if (DialogService.ShowModalWindow(convertationViewModel))
-            {
-                ConvertDdevices();
-                ConvertZones();
-                ConvertLogic();
-            }
-            XManager.UpdateConfiguration();
-        }
-
 		XDevice gkDevice;
-		int shleifPairNo = 0;
-		byte kauAddress = 1;
 
-        public void ConvertDdevices()
-        {
-			XDevice curentKauDevice = null;
-            AddRootDevices();
+		public void Convert()
+		{
+			PrepareKAU();
 
-            foreach (var panelDevice in GetPanels())
-            {
-                shleifPairNo++;
-                if (shleifPairNo == 5)
-                    shleifPairNo = 1;
+			var convertationViewModel = new ConvertationViewModel();
+			if (DialogService.ShowModalWindow(convertationViewModel))
+			{
+				foreach (var fsShleif in convertationViewModel.FSShleifs)
+				{
+					foreach (var childDevice in fsShleif.FSDevice.Children)
+					{
+						if (childDevice.IntAddress / 256 == fsShleif.FSShleifNo)
+							AddDevice(childDevice, fsShleif.KAUDevice, (byte)fsShleif.KAUShleifNo);
+					}
+				}
+				ConvertZones();
+				//ConvertLogic();
+				XManager.UpdateConfiguration();
+			}
+		}
 
-                if (shleifPairNo == 1)
-                {
-                    curentKauDevice = XManager.AddChild(gkDevice, XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU), 0, kauAddress);
-                    curentKauDevice.UID = panelDevice.UID;
-                    XManager.DeviceConfiguration.Devices.Add(curentKauDevice);
-					kauAddress++;
-                }
+		void PrepareKAU()
+		{
+			AddRootDevices();
+			var totalShleifCount = 0;
+			foreach (var panelDevice in GetPanels())
+			{
+				totalShleifCount += panelDevice.Driver.ShleifCount;
+			}
+			var kauCount = (totalShleifCount + 1) / 8 + Math.Min(1, totalShleifCount % 8);
+			for (int i = 0; i < kauCount; i++)
+			{
+				XManager.AddChild(gkDevice, XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU), 0, (byte)(i + 1));
+			}
+			XManager.UpdateConfiguration();
+		}
 
-                foreach (var childDevice in panelDevice.Children)
-                {
-					AddDevice(curentKauDevice, childDevice);
-                }
-            }
-        }
+		public void AddRootDevices()
+		{
+			XManager.DeviceConfiguration = new XDeviceConfiguration();
 
-		public void AddDevice(XDevice parentDevice, Device fsDevice)
+			var systemDevice = new XDevice()
+			{
+				UID = Guid.NewGuid(),
+				DriverUID = XDriver.System_UID,
+				Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
+			};
+			XManager.DeviceConfiguration.Devices.Add(systemDevice);
+			XManager.DeviceConfiguration.RootDevice = systemDevice;
+
+			var gkDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+			gkDevice = XManager.AddChild(systemDevice, gkDriver, 0, 1);
+			gkDevice.UID = Guid.NewGuid();
+			XManager.DeviceConfiguration.Devices.Add(gkDevice);
+		}
+
+		IEnumerable<Device> GetPanels()
+		{
+			foreach (var device in FiresecManager.Devices)
+			{
+				if (device.Driver.IsPanel)
+					yield return device;
+			}
+		}
+
+		public void AddDevice(Device fsDevice, XDevice kauDevice, byte shleifNo)
 		{
 			var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == fsDevice.DriverUID);
 			if (driver == null)
 			{
 				return;
 			}
-			var shleifNo = ((shleifPairNo - 1) * 2) + (fsDevice.IntAddress >> 8);
 
 			var xDevice = new XDevice()
 			{
@@ -72,42 +96,14 @@ namespace GKModule.Converter
 				Description = fsDevice.Description
 			};
 			XManager.DeviceConfiguration.Devices.Add(xDevice);
-			parentDevice.Children.Add(xDevice);
-			xDevice.Parent = parentDevice;
+			kauDevice.Children.Add(xDevice);
+			xDevice.Parent = kauDevice;
 
 			foreach (var fsChildDevice in fsDevice.Children)
 			{
-				AddDevice(xDevice, fsChildDevice);
+				AddDevice(fsChildDevice, xDevice, shleifNo);
 			}
 		}
-
-        public void AddRootDevices()
-        {
-            XManager.DeviceConfiguration = new XDeviceConfiguration();
-
-            var systemDevice = new XDevice()
-            {
-                UID = Guid.NewGuid(),
-				DriverUID = XDriver.System_UID,
-                Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
-            };
-            XManager.DeviceConfiguration.Devices.Add(systemDevice);
-            XManager.DeviceConfiguration.RootDevice = systemDevice;
-
-            var gkDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GK);
-            gkDevice = XManager.AddChild(systemDevice, gkDriver, 0, 1);
-            gkDevice.UID = Guid.NewGuid();
-            XManager.DeviceConfiguration.Devices.Add(gkDevice);
-        }
-
-        IEnumerable<Device> GetPanels()
-        {
-            foreach (var device in FiresecManager.Devices)
-            {
-                if (device.Driver.IsPanel)
-                    yield return device;
-            }
-        }
 
         void ConvertZones()
         {

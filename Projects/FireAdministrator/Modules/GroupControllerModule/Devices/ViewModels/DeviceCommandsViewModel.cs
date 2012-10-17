@@ -91,9 +91,12 @@ namespace GKModule.Models
 		void OnWriteConfig()
 		{
 			//if (ValidateConfiguration())
-			{
-				BinConfigurationWriter.WriteConfig();
-			}
+			//{
+			//    if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") == System.Windows.MessageBoxResult.Yes)
+			//    {
+					BinConfigurationWriter.WriteConfig();
+			//    }
+			//}
 		}
 
 		public RelayCommand ConvertToBinaryFileCommand { get; private set; }

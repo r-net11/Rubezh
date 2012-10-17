@@ -39,8 +39,8 @@ namespace Infrastructure.Common.Module
                         var status = registryKey.GetValue(module);
                         modules.FirstOrDefault(x => x.Name == module).IsEnabled = !status.Equals("False");
                     }
+					registryKey.Close();
                 }
-                registryKey.Close();
             }
             catch (Exception) { }
             return modules;

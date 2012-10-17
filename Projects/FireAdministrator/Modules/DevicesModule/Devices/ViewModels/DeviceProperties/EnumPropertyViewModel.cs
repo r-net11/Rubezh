@@ -68,7 +68,7 @@ namespace DevicesModule.DeviceProperties
 		{
 			get
 			{
-				return _driverProperty.Parameters;
+				return DriverProperty.Parameters;
 			}
 		}
 

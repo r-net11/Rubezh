@@ -174,7 +174,19 @@ namespace FiresecAPI.Models
 				var reservedCountProperty = Properties.FirstOrDefault(x => x.Name == "MRK30ChildCount");
 				if (reservedCountProperty != null)
 				{
-					reservedCount = int.Parse(reservedCountProperty.Value);
+					if (!string.IsNullOrEmpty(reservedCountProperty.Value))
+					{
+						var parcedReservedCount = 0;
+						if (int.TryParse(reservedCountProperty.Value, out parcedReservedCount))
+						{
+							reservedCount = parcedReservedCount;
+							if (reservedCount < 1 || reservedCount > 30)
+							{
+								reservedCount = 30;
+								reservedCountProperty.Value = "30";
+							}
+						}
+					}
 				}
                 return reservedCount;
 			}

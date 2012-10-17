@@ -84,7 +84,6 @@
     <Compile Include="FiresecToGKConverter\ConfigurationConverter.cs" />
     <Compile Include="FiresecToGKConverter\ViewModels\ConvertationViewModel.cs" />
     <Compile Include="FiresecToGKConverter\ViewModels\FSShleifViewModel.cs" />
-    <Compile Include="FiresecToGKConverter\ViewModels\GKShleifViewModel.cs" />
     <Compile Include="FiresecToGKConverter\Views\ConvertationView.xaml.cs">
       <DependentUpon>ConvertationView.xaml</DependentUpon>
     </Compile>

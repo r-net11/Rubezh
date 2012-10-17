@@ -8,14 +8,14 @@ namespace DevicesModule.DeviceProperties
 {
 	public class BasePropertyViewModel : BaseViewModel
 	{
-		protected Device _device;
-		protected DriverProperty _driverProperty;
+		protected Device Device;
+		protected DriverProperty DriverProperty;
 
 		public BasePropertyViewModel(DriverProperty driverProperty, Device device)
 		{
-			_driverProperty = driverProperty;
-			_device = device;
-            if (_device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
+			DriverProperty = driverProperty;
+			Device = device;
+            if (Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
             {
                 Save(driverProperty.Default, false);
             }
@@ -23,25 +23,25 @@ namespace DevicesModule.DeviceProperties
 
 		public string Caption
 		{
-			get { return _driverProperty.Caption; }
+			get { return DriverProperty.Caption; }
 		}
 
 		public string ToolTip
 		{
-			get { return _driverProperty.ToolTip; }
+			get { return DriverProperty.ToolTip; }
 		}
 
 		public bool IsAUParameter
 		{
-			get { return _driverProperty.IsAUParameter; }
+			get { return DriverProperty.IsAUParameter; }
 		}
         public string Default
         {
-            get { return _driverProperty.Default; }
+            get { return DriverProperty.Default; }
         }
         public bool IsControl
         {
-            get { return _driverProperty.IsControl; }
+            get { return DriverProperty.IsControl; }
         }
 
 		protected void Save(string value, bool useSaveService = true)
@@ -51,24 +51,25 @@ namespace DevicesModule.DeviceProperties
                 ServiceFactory.SaveService.DevicesChanged = true;
             }
 
-			if (_device.Properties == null)
-				_device.Properties = new List<Property>();
-			var property = _device.Properties.FirstOrDefault(x => x.Name == _driverProperty.Name);
+			if (Device.Properties == null)
+				Device.Properties = new List<Property>();
+			var property = Device.Properties.FirstOrDefault(x => x.Name == DriverProperty.Name);
 
 			if (property != null)
 			{
-				property.Name = _driverProperty.Name;
+				property.Name = DriverProperty.Name;
 				property.Value = value;
 			}
 			else
 			{
 				var newProperty = new Property()
 				{
-					Name = _driverProperty.Name,
+					Name = DriverProperty.Name,
 					Value = value
 				};
-				_device.Properties.Add(newProperty);
+				Device.Properties.Add(newProperty);
 			}
+			Device.OnChanged();
 		}
 	}
 }

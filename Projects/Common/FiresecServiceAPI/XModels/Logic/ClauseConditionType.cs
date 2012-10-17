@@ -7,7 +7,7 @@ namespace XFiresecAPI
         [DescriptionAttribute("Если")]
         If,
 
-        [DescriptionAttribute("Елси НЕ")]
+		[DescriptionAttribute("Если НЕ")]
         IfNot
     }
 }

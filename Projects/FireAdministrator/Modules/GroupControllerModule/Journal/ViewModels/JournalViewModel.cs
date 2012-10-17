@@ -91,7 +91,7 @@ namespace GKModule.ViewModels
 
 			JournalItems.Clear();
 			LoadingService.Show("Запрос параметра", 2 + EndIndex - StartIndex);
-            GkEvents gke = new GkEvents();
+            //var gke = new GkEvents();
 			for (int i = StartIndex; i <= EndIndex; i++)
 			{
 				var data = new List<byte>();

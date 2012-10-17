@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System.Diagnostics;
+using System.Threading;
 
 namespace Common.GK
 {
@@ -27,14 +28,14 @@ namespace Common.GK
 			StreamWriter.Close();
 		}
 
-        public static SendResult Send(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true)
+        public static SendResult Send(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
         {
-			lock (locker)
-			{
-				return DoSend(device, length, command, inputLenght, data, hasAnswer);
-			}
+			//lock (locker)
+			//{
+				return DoSend(device, length, command, inputLenght, data, hasAnswer, sleepInsteadOfRecieve);
+			//}
 		}
-		public static SendResult DoSend(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true)
+		public static SendResult DoSend(XDevice device, ushort length, byte command, ushort inputLenght, List<byte> data = null, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
 		{
 			byte whom = 0;
 			byte address = 0;
@@ -84,7 +85,7 @@ namespace Common.GK
 				bytes.AddRange(data);
 
 			string ipAddress = XManager.GetIpAddress(device);
-			var resultBytes = SendBytes(ipAddress, bytes, inputLenght, hasAnswer);
+			var resultBytes = SendBytes(ipAddress, bytes, inputLenght, hasAnswer, sleepInsteadOfRecieve);
 			return resultBytes;
 		}
 
@@ -92,51 +93,70 @@ namespace Common.GK
 		static IPEndPoint endPoint;
 		static SendManager()
 		{
-			//endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.102"), 1025);
-			//udpClient = new UdpClient();
-			//udpClient.Client.ReceiveTimeout = 10000;
-			//udpClient.Client.SendTimeout = 10000;
-			//udpClient.Connect(IPAddress.Parse("172.16.7.102"), 1025);
-		}
-
-        static SendResult SendBytes(string ipAddress, List<byte> bytes, ushort inputLenght, bool hasAnswer = true)
-        {
-			//endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.102"), 1025);
-			endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), 1025);
+			endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.102"), 1025);
 			udpClient = new UdpClient();
 			udpClient.Client.ReceiveTimeout = 10000;
 			udpClient.Client.SendTimeout = 10000;
 			//udpClient.Connect(IPAddress.Parse("172.16.7.102"), 1025);
-			udpClient.Connect(IPAddress.Parse(ipAddress), 1025);
+		}
+
+		static SendResult SendBytes(string ipAddress, List<byte> bytes, ushort inputLenght, bool hasAnswer = true, bool sleepInsteadOfRecieve = false)
+        {
+			//Socket socketClient;
+			//socketClient = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+			//socketClient.ReceiveTimeout = 10000;
+			//var remoteEndPoint = new IPEndPoint(IPAddress.Parse("172.16.7.102"), 1025);
+			//var localEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 1025);
+			//socketClient.Bind(localEndPoint);
+			//socketClient.Connect(remoteEndPoint);
+
+
+			//var endPoint = new IPEndPoint(IPAddress.Parse(ipAddress), 1025);
+			//var udpClient = new UdpClient();
+
+			//udpClient.Client.ReceiveTimeout = 10000;
+			//udpClient.Client.SendTimeout = 10000;
+			////udpClient.Connect(IPAddress.Parse(ipAddress), 1025);
 
             try
             {
-                //udpClient.Connect(IPAddress.Parse(ipAddress), 1025);
 				if (IsLogging)
 				{
 					StreamWriter.WriteLine("--> " + BytesHelper.BytesToString(bytes));
 					Trace.WriteLine("--> " + BytesHelper.BytesToString(bytes));
 				}
-                var bytesSent = udpClient.Send(bytes.ToArray(), bytes.Count);
+				//var bytesSent = socketClient.Send(bytes.ToArray());
+				//if (bytesSent != bytes.Count)
+				//{
+				//    MessageBoxService.Show("Не все данные удалось отправить");
+				//}
+				var bytesSent = udpClient.Send(bytes.ToArray(), bytes.Count, endPoint);
 				if (bytesSent != bytes.Count)
 				{
-					MessageBoxService.Show("Не все данные удалось стправить");
+					MessageBoxService.Show("Не все данные удалось отправить");
 				}
             }
             catch
             {
                 OnConnectionLost();
-                udpClient.Close();
+				//udpClient.Close();
                 return new SendResult("Ошибка открытия сокета");
             }
             if (hasAnswer == false)
             {
-                udpClient.Close();
+				//udpClient.Close();
                 return new SendResult(new List<byte>());
             }
             var recievedBytes = new List<byte>();
+			//var recievedBytes = new Byte[1500];
             try
             {
+				if (sleepInsteadOfRecieve)
+				{
+					Thread.Sleep(10000);
+					return new SendResult(new List<byte>());
+				}
+				//socketClient.Receive(recievedBytes);
                 recievedBytes = udpClient.Receive(ref endPoint).ToList();
 				if (IsLogging)
 				{
@@ -147,10 +167,12 @@ namespace Common.GK
             catch (SocketException e)
             {
                 OnConnectionLost();
-                udpClient.Close();
+				//socketClient.Close();
+				//udpClient.Close();
                 return new SendResult("Коммуникационная ошибка " + e.Message);
             }
-            udpClient.Close();
+			//socketClient.Close();
+			//udpClient.Close();
 
             if (recievedBytes[0] != bytes[0])
             {
