@@ -16,8 +16,8 @@ namespace GKModule.ViewModels
 
 		public PropertiesViewModel(XDevice device)
 		{
-            OneCommand = new RelayCommand(OnOne);
-            TwoCommand = new RelayCommand(OnTwo);
+            ParamVisCommand = new RelayCommand(OnParamVis);
+            PropVisCommand = new RelayCommand(OnPropVis);
 			XDevice = device;
 			StringProperties = new List<StringPropertyViewModel>();
 			ShortProperties = new List<ShortPropertyViewModel>();
@@ -84,13 +84,13 @@ namespace GKModule.ViewModels
             }
         }
 
-        public RelayCommand OneCommand { get; private set; }
-        private void OnOne()
+        public RelayCommand ParamVisCommand { get; private set; }
+        private void OnParamVis()
         {
             ParameterVis = true;
         }
-        public RelayCommand TwoCommand { get; private set; }
-        private void OnTwo()
+        public RelayCommand PropVisCommand { get; private set; }
+        private void OnPropVis()
         {
             ParameterVis = false;
         }

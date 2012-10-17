@@ -124,8 +124,8 @@
             </Border>
             <Border  Grid.Column="1" CornerRadius="0,5,5,0" Background="{DynamicResource BackgroundBrush}">
                 <StackPanel DataContext="{Binding PropertiesViewModel}">
-                    <Controls:ToggleButton Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Информация об устройстве" Command="{Binding TwoCommand}" IsChecked="{Binding ParameterVis, Converter={StaticResource InverseBooleanConverter}}" ImageSource="/Controls;component/Images/devparameters.png"/>
-                    <Controls:ToggleButton Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры устройства" Command="{Binding OneCommand}" IsChecked="{Binding ParameterVis}" ImageSource="/Controls;component/Images/adrparameters.png"/>
+                    <Controls:ToggleButton Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Информация об устройстве" Command="{Binding PropVisCommand}" IsChecked="{Binding ParameterVis, Converter={StaticResource InverseBooleanConverter}}" ImageSource="/Controls;component/Images/devparameters.png"/>
+                    <Controls:ToggleButton Visibility="{Binding Choise, Converter={StaticResource BoolToVisibilityConverter}}" ToolTip="Параметры устройства" Command="{Binding ParamVisCommand}" IsChecked="{Binding ParameterVis}" ImageSource="/Controls;component/Images/adrparameters.png"/>
                 </StackPanel>
             </Border>
         </Grid>

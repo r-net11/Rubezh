@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html><!-- removed for now, causes problems in Firefox: manifest="svg-editor.manifest" --><head>
+<meta http-equiv="Content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<link rel="icon" type="image/png" href="http://svg-edit.googlecode.com/svn/branches/2.4/editor/images/logo.png">
+<link rel="stylesheet" href="svg-editor_files/jPicker-1.css" type="text/css">
+<link rel="stylesheet" href="svg-editor_files/jGraduate-0.css" type="text/css">
+<link rel="stylesheet" href="svg-editor_files/svg-editor.css" type="text/css">
+<link rel="stylesheet" href="svg-editor_files/JQuerySpinBtn.css" type="text/css">
+<!-- Development version of script tags:>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="js-hotkeys/jquery.hotkeys.min.js"></script>
+<script type="text/javascript" src="jgraduate/jquery.jgraduate.js"></script>
+<script type="text/javascript" src="svgicons/jquery.svgicons.js"></script>
+<script type="text/javascript" src="spinbtn/JQuerySpinBtn.js"></script>
+<script type="text/javascript" src="locale/locale.js"></script>
+<script type="text/javascript" src="svgcanvas.js"></script>
+<script type="text/javascript" src="svg-editor.js"></script-->
+
+<!-- Release version of script tags: -->
+<script type="text/javascript" src="svg-editor_files/jquery.js"></script>
+<script type="text/javascript" src="svg-editor_files/jquery.txt"></script>
+<script type="text/javascript" src="svg-editor_files/jquery_002.txt"></script>
+<script type="text/javascript" src="svg-editor_files/jquery_003.txt"></script>
+<script type="text/javascript" src="svg-editor_files/JQuerySpinBtn.txt"></script>
+<script type="text/javascript" src="svg-editor_files/locale.js"></script>
+<script type="text/javascript" src="svg-editor_files/svgcanvas.txt"></script>
+<script type="text/javascript" src="svg-editor_files/svg-editor.txt"></script>
+
+<!-- always minified scripts -->
+<script type="text/javascript" src="svg-editor_files/jquery-ui-1.txt"></script>
+<script type="text/javascript" src="svg-editor_files/jpicker-1.txt"></script>
+
+<!-- feeds -->
+<link rel="alternate" type="application/atom+xml" title="SVG-edit General Discussion" href="http://groups.google.com/group/svg-edit/feed/atom_v1_0_msgs.xml">
+<link rel="alternate" type="application/atom+xml" title="SVG-edit Updates (Issues/Fixes/Commits)" href="http://code.google.com/feeds/p/svg-edit/updates/basic">
+
+<!-- Add script with custom handlers here -->
+<title>SVG-edit demo</title>
+</head>
+<body>
+
+<div id="svg_editor">
+
+<div id="workarea">
+<style id="styleoverrides" type="text/css" media="screen" scoped="scoped"></style>
+<div style="width: 640px; height: 480px; left: 363.5px; top: 72px;" id="svgcanvas"><svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" id="svgroot" height="480" width="640"><svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" id="svgcontent"><!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --><g style="pointer-events:all"><title style="pointer-events:inherit">Layer 1</title></g></svg><g id="selectorParentGroup"><rect style="pointer-events:none" display="none" stroke-width="0.5" stroke="#22C" fill-opacity="0.15" fill="#22C" id="selectorRubberBand"></rect></g></svg></div>
+</div>
+
+<div id="sidepanels">
+	<div id="layerpanel">
+		<h3 id="layersLabel">Layers</h3>
+		<fieldset id="layerbuttons">
+			<div id="layer_new" class="layer_button" title="New Layer"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <rect stroke="#606060" fill="#eaeaea" id="svg_55" height="21" width="18" y="1.6692" x="2.42792"></rect>
+  <circle cx="19.16813" cy="6.24769" r="3.83333" id="svg_65" fill="#fff175" stroke="#a0a0a0" stroke-width="0"></circle>
+ </svg></svg></div>
+			<div id="layer_delete" class="layer_button" title="Delete Layer"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1.42011" y="1.70304" width="21.17486" height="20.29514" id="svg_37" fill="#aa0000" stroke="#800000" rx="3" ry="3"></rect>
+  <rect x="2.20258" y="2.53597" width="19.61118" height="18.63022" id="svg_67" fill="#aa0000" stroke="#ff5555" rx="3" ry="3"></rect>
+  <line x1="7.00646" y1="6.85127" x2="17.00646" y2="16.85127" id="svg_68" stroke="#ffffff" fill="none" stroke-width="2"></line>
+  <line x1="17.00646" y1="6.85127" x2="7.00646" y2="16.85127" stroke="#ffffff" fill="none" id="svg_70" stroke-width="2"></line>
+ </svg></svg></div>
+			<div id="layer_rename" class="layer_button" title="Rename Layer"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 158 128" id="svgzoom">
+	  <text font-weight="bold" stroke-opacity="1" fill-opacity="1" text-anchor="middle" font-family="sans-serif" font-size="120pt" stroke-width="0" stroke="#000000" fill="#000000" id="svg_1" y="120" x="58">A</text>
+	  <line stroke-width="5" stroke-opacity="1" fill-opacity="1" fill="none" stroke="#000000" id="svg_2" y2="121" x2="136" y1="7" x1="136"></line>
+	  <line stroke-opacity="1" fill-opacity="1" fill="none" stroke-width="5" stroke="#000000" id="svg_3" y2="4" x2="152" y1="4" x1="120"></line>
+	 <line id="svg_4" stroke-opacity="1" fill-opacity="1" fill="none" stroke-width="5" stroke="#000000" y2="124" x2="152" y1="124" x1="120"></line>
+	</svg></svg></div>
+			<div id="layer_up" class="layer_button" title="Move Layer Up"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+	 <defs>
+	  <linearGradient id="xsvg_74270" x1="0" y1="0" x2="0.7" y2="0">
+	   <stop offset="0" stop-color="#afe853" stop-opacity="1"></stop>
+	   <stop offset="1" stop-color="#52a310" stop-opacity="1"></stop>
+	  </linearGradient>
+	 </defs>
+	  <path d="m5.38492,16.77043l7.07692,0l0,-5.23077l4.15385,0l-7.69231,-10.15385l-7.69231,10.15385l4.15385,0l0,5.23077z" id="svg_33" fill="url(#xsvg_74270)" stroke="#008000"></path>
+	</svg></svg></div>
+			<div id="layer_down" class="layer_button" title="Move Layer Down"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xsvg_75280" x1="0" y1="0" x2="0.7" y2="0">
+   <stop offset="0" stop-color="#afe853" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#52a310" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <path d="m5.3015,1.69202l6.93483,0l0,5.07323l4.07045,0l-7.53786,9.84803l-7.53786,-9.84803l4.07045,0l0,-5.07323z" id="svg_33" fill="url(#xsvg_75280)" stroke="#008000"></path>
+ </svg></svg></div>
+		</fieldset>
+		
+		<table id="layerlist">
+			<tbody><tr class="layer layersel"><td class="layervis"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="14" width="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 17 17" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xsvg_91420" x1="0.42969" y1="0.19141" x2="0.5625" y2="0.79688">
+   <stop offset="0" stop-color="#d3a16b" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#a37c53" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <path d="m0.12852,8.18338c3.59931,-7.71208 13.19749,-7.36932 16.75236,0.08569c-3.02165,7.5407 -13.59741,7.66924 -16.75236,-0.08569z" id="svg_9" fill="url(#xsvg_91420)" stroke="#000000" stroke-width="0"></path>
+  <path d="m0.33033,8.2557c3.5173,-4.97159 12.89675,-4.75063 16.37062,0.05524c-2.95279,4.86111 -13.28756,4.94397 -16.37062,-0.05524z" fill="#ffffff" stroke="#000000" stroke-width="0" id="svg_76"></path>
+  <circle cx="8.45861" cy="7.71116" r="3.08008" id="svg_88" fill="#4f92c1" stroke="#000000" stroke-width="0"></circle>
+  <circle cx="8.43159" cy="7.6539" r="1.27539" id="svg_89" fill="#000000" stroke="#000000" stroke-width="0"></circle>
+ </svg></svg></td><td class="layername">Layer 1</td></tr><tr><td style="color:white">_</td><td></td></tr><tr><td style="color:white">_</td><td></td></tr><tr><td style="color:white">_</td><td></td></tr><tr><td style="color:white">_</td><td></td></tr></tbody></table>
+		<span id="selLayerLabel">Move elements to:</span>
+		<select autocomplete="off" id="selLayerNames" title="Move selected elements to a different layer" disabled="disabled"><option selected="selected" value="Layer 1">Layer 1</option></select>
+	</div>
+	<div id="sidepanel_handle" onselectstart="return false;" title="Drag left/right to resize side panel [X]">L a y e r s</div>
+</div>
+
+<div id="logo">
+	<a href="http://svg-edit.googlecode.com/" target="_blank" title="SVG-edit Home Page">
+	<svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="32" width="32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg enable-background="new 0 0 48 48" viewBox="0 0 48 48" y="0px" x="0px" xmlns="http://www.w3.org/2000/svg" id="svg2" version="1.0">
+	<a xlink:href="http://svg-edit.googlecode.com/" id="a32">
+		
+			<path d="    M30.5,39.3l-6.2,0.5l-4.8,4l-4.8-4l-6.2-0.5L8,33.1l-4-4.8l4-4.8l0.5-6.2l6.2-0.5l4.8-4l4.8,4l6.2,0.5l0.5,6.2l4,4.8l-4,4.8    L30.5,39.3z" fill="#FFFFFF" id="path3216"></path>
+		<path d="M20.6,44.7c2-0.6,3.3-2,3.6-3.9l0.1-0.7l0.4,0.3c2.6,1.9,6.1,1,7.3-1.9c0.7-1.6,0.4-4.1-0.6-4.9    c-0.4-0.3-0.3-0.4,0.5-0.5c5.1-0.7,5.2-8.3,0.2-9.4c-1.1-0.2-1.1-0.2-0.6-0.8c3.2-4.2-2.2-9.7-6.6-6.8l-0.7,0.5l-0.2-1    c-1.2-5-8.7-4.8-9.4,0.3c-0.1,0.8-0.1,0.8-0.7,0.3c-2.4-1.8-6.4-0.6-7.3,2.2c-0.5,1.6-0.2,3.8,0.7,4.6c0.4,0.4,0.4,0.5-0.4,0.6    c-5.3,0.8-5.3,8.8,0,9.5l0.7,0.1l-0.4,0.6c-2.2,3.3,0,7.6,3.9,7.6c1.2,0,2.5-0.4,3-1c0.4-0.4,0.5-0.4,0.5,0.1    C14.7,43.1,18,45.4,20.6,44.7L20.6,44.7z M18,42.1c-1.1-0.8-1.4-2.5-0.7-3.6c0.3-0.4,0.3-0.6,0.3-3.1v-2.7l-1.9,1.9    c-1.5,1.5-1.9,2-1.9,2.3c0,1.6-2.6,2.8-4,1.8C8,37.4,8.4,34.6,10.6,34c0.5-0.1,1-0.5,2.5-2l1.9-1.9l-2.6,0c-2.4,0-2.6,0-3.3,0.4    c-2.9,1.5-5.4-2.4-2.8-4.4c0.8-0.6,2.2-0.6,2.9-0.1c0.5,0.3,0.6,0.3,3.1,0.3h2.6l-1.8-1.8c-1.3-1.3-2-1.9-2.3-1.9    c-2.3-0.5-2.9-3.4-1-4.8c1.3-1,4,0.2,4,1.8c0,0.3,0.4,0.8,1.9,2.2l1.9,1.8l0-2.6c0-2.4,0-2.6-0.3-3c-1.1-1.6,0-3.8,2-4    c2.1-0.2,3.5,1.9,2.5,3.8c-0.4,0.7-0.4,0.9-0.4,3.3l0,2.6l1.8-1.8c1.3-1.3,1.9-2,1.9-2.3c0.5-2.4,3.7-2.9,4.8-0.7    c0.8,1.6,0,3.3-1.7,3.7c-0.5,0.1-1,0.5-2.5,2l-1.8,1.8h2.7c2.4,0,2.7,0,3.1-0.3c1-0.7,2.4-0.5,3.3,0.5c2,2.2-0.9,5.6-3.3,3.9    c-0.4-0.3-0.7-0.3-3.1-0.3h-2.7l1.8,1.8c1.5,1.5,2,1.9,2.5,2c2.9,0.7,2.7,4.9-0.3,5.1c-1.4,0.1-2.8-1.1-2.8-2.3    c0-0.1-0.8-1.1-1.9-2.1l-1.9-1.9l0,2.6c0,2.4,0,2.6,0.4,3.3C23,41.2,20.2,43.7,18,42.1L18,42.1z" id="path34"></path>
+		<g>
+			<g transform="matrix(-4.6717475,0,0,4.6717475,1143.4575,-562.74962)" id="g36">
+				<path d="M240.5,126.5c-0.9-2.9-1.1-3.4-1.2-3.5c0,0,0,0,0,0l-6.3-7      c-0.3-0.4-1.1,0-1.7,0.6c-0.6,0.5-1.1,1.3-0.7,1.6l6.3,7l0,0l3,1.4l0.6,0.2L240.5,126.5L240.5,126.5z" enable-background="new    " opacity="0.2" id="path38"></path>
+				<path d="M240.7,126.3c-0.9-2.9-1.1-3.4-1.2-3.5c0,0,0,0,0,0l-6.3-7      c-0.3-0.4-1.1,0-1.7,0.6c-0.6,0.5-1.1,1.3-0.7,1.6l6.3,7l0,0l3,1.4l0.6,0.2L240.7,126.3L240.7,126.3z" enable-background="new    " opacity="0.2" id="path40"></path>
+				<path d="M240.1,126.1c-0.9-2.9-1.1-3.4-1.2-3.5c0,0,0,0,0,0l-6.3-7      c-0.3-0.4-1.1,0-1.7,0.6c-0.6,0.5-1.1,1.3-0.7,1.6l6.3,7l0,0l3,1.4l0.6,0.2L240.1,126.1L240.1,126.1z" enable-background="new    " opacity="0.2" id="path42"></path>
+				<path d="M240.1,126c-0.9-2.9-1.1-3.4-1.2-3.5c0,0,0,0,0,0l-6.3-7c-0.3-0.4-1.1,0-1.7,0.6      c-0.6,0.5-1.1,1.3-0.7,1.6l6.3,7l0,0l3,1.4l0.6,0.2L240.1,126L240.1,126z" fill="#FFFFFF" id="path44"></path>
+				
+					<linearGradient gradientTransform="matrix(-7.441159e-02 -0.3663 0.3663 -7.441159e-02 239.8726 211.8456)" y2="100.0934" x2="373.0601" y1="30.2918" x1="251.6057" gradientUnits="userSpaceOnUse" id="path46_1_">
+					<stop style="stop-color:#990000" offset="0"></stop>
+					<stop style="stop-color:#7C0000" offset="1"></stop>
+				</linearGradient>
+				<path d="M240.1,126c-0.9-2.9-1.1-3.4-1.2-3.5c0,0,0,0,0,0l-6.3-7c-0.3-0.4-1.1,0-1.7,0.6      c-0.6,0.5-1.1,1.3-0.7,1.6l6.3,7l0,0l3,1.4l0.6,0.2L240.1,126L240.1,126z" fill="url(#path46_1_)" id="path46"></path>
+				
+					<linearGradient gradientTransform="matrix(0.3734 -1.625768e-02 -1.625768e-02 -0.3734 65.4455 75.4761)" y2="-162.6511" x2="469.8885" y1="-141.7113" x1="448.9506" gradientUnits="userSpaceOnUse" id="path48_1_">
+					<stop style="stop-color:#F8F1DC" offset="0"></stop>
+					<stop style="stop-color:#D6A84A" offset="1"></stop>
+				</linearGradient>
+				<path d="M238.5,122.6l1.1,3.1l-2.9-1.4l0,0c0,0,0,0-0.1,0l0,0l-6-6.7l0,0      c-0.2-0.2,0.1-0.7,0.6-1.2c0.5-0.5,1.1-0.7,1.2-0.5L238.5,122.6L238.5,122.6L238.5,122.6z" fill="url(#path48_1_)" id="path48"></path>
+				
+					<linearGradient gradientTransform="matrix(-0.3737 0 0 -0.3737 407.2458 109.9867)" y2="-163.0414" x2="545.7217" y1="-2.063" x1="473.214" gradientUnits="userSpaceOnUse" id="path50_1_">
+					<stop style="stop-color:#FFA700" offset="0"></stop>
+					<stop style="stop-color:#FFD700" offset="0.7753"></stop>
+					<stop style="stop-color:#FF794B" offset="1"></stop>
+				</linearGradient>
+				<path d="M237.1,124.4c0.2,0,0.4-0.1,0.6-0.3c0.1-0.1,0.3-0.2,0.4-0.3      c0.1-0.1,0.2-0.2,0.3-0.3c0.2-0.2,0.3-0.4,0.3-0.6l-0.1-0.3l0-0.1l-6-6.6c0,0.2-0.1,0.5-0.3,0.8c-0.1,0.1-0.2,0.2-0.3,0.3      c-0.1,0.1-0.3,0.2-0.4,0.3c-0.4,0.2-0.7,0.3-0.8,0.2l0,0l6,6.7l0,0c0,0,0,0,0.1,0l0,0L237.1,124.4L237.1,124.4z" fill="url(#path50_1_)" id="path50"></path>
+				<path d="M230.6,117.5c0.1,0.1,0.5,0.1,0.9-0.2c0.1-0.1,0.3-0.2,0.4-0.3c0.1-0.1,0.2-0.2,0.3-0.3      c0.3-0.4,0.4-0.7,0.3-0.8l0,0l6.1,6.7c0.1,0.2,0,0.5-0.3,0.8c-0.1,0.1-0.2,0.2-0.3,0.3c-0.1,0.1-0.3,0.2-0.4,0.3      c-0.4,0.2-0.7,0.3-0.9,0.2c0,0-0.2-0.2-0.2-0.2L230.6,117.5L230.6,117.5L230.6,117.5z" fill="#FFFFFF" id="path52"></path>
+				<path d="M231.2,116.4c0.5-0.5,1.1-0.7,1.2-0.5l1.4,1.5l0.1,2.1l-1.4,0.1l-1.8-2l0,0      C230.5,117.3,230.7,116.8,231.2,116.4L231.2,116.4z" fill="#FFFFFF" id="path54"></path>
+				<path d="M230.6,117.5c0.1,0.1,0.5,0.1,0.9-0.2c0.1-0.1,0.3-0.2,0.4-0.3c0.1-0.1,0.2-0.2,0.3-0.3      c0.3-0.4,0.4-0.7,0.3-0.8l0,0l6.1,6.7c0.1,0.2,0,0.5-0.3,0.8c-0.1,0.1-0.2,0.2-0.3,0.3c-0.1,0.1-0.3,0.2-0.4,0.3      c-0.4,0.2-0.7,0.3-0.9,0.2c0,0-0.2-0.2-0.2-0.2L230.6,117.5L230.6,117.5L230.6,117.5z" fill="#FFFFFF" id="path56"></path>
+				
+					<linearGradient gradientTransform="matrix(0.3734 -1.625768e-02 -1.625768e-02 -0.3734 65.4455 75.4761)" y2="-117.8349" x2="451.6169" y1="-131.0965" x1="440.489" gradientUnits="userSpaceOnUse" id="path58_1_">
+					<stop style="stop-color:#FFC957" offset="0"></stop>
+					<stop style="stop-color:#FF6D00" offset="1"></stop>
+				</linearGradient>
+				<path d="M231.2,116.4c0.5-0.5,1.1-0.7,1.2-0.5l1.4,1.5l0.1,2.1l-1.4,0.1l-1.8-2l0,0      C230.5,117.3,230.7,116.8,231.2,116.4L231.2,116.4z" fill="url(#path58_1_)" id="path58"></path>
+				
+					<linearGradient gradientTransform="matrix(0.3734 -1.625768e-02 -1.625768e-02 -0.3734 65.4455 75.4761)" y2="-226.3438" x2="501.1769" y1="-122.501" x1="454.4041" gradientUnits="userSpaceOnUse" id="path60_1_">
+					<stop style="stop-color:#FFA700" offset="0"></stop>
+					<stop style="stop-color:#FFD700" offset="0.7753"></stop>
+					<stop style="stop-color:#FF9200" offset="1"></stop>
+				</linearGradient>
+				<path d="M230.6,117.5c0.1,0.1,0.5,0.1,0.9-0.2c0.1-0.1,0.3-0.2,0.4-0.3      c0.1-0.1,0.2-0.2,0.3-0.3c0.3-0.4,0.4-0.7,0.3-0.8l0,0l6.1,6.7c0.1,0.2,0,0.5-0.3,0.8c-0.1,0.1-0.2,0.2-0.3,0.3      c-0.1,0.1-0.3,0.2-0.4,0.3c-0.4,0.2-0.7,0.3-0.9,0.2c0,0-0.2-0.2-0.2-0.2L230.6,117.5L230.6,117.5L230.6,117.5z" fill="url(#path60_1_)" id="path60"></path>
+				
+					<linearGradient gradientTransform="matrix(-0.3737 0 0 -0.3737 407.2458 109.9867)" y2="-26.9638" x2="549.3671" y1="-26.9638" x1="472.6249" gradientUnits="userSpaceOnUse" id="path62_1_">
+					<stop style="stop-color:#7D7D99" offset="0"></stop>
+					<stop style="stop-color:#B1B1C5" offset="0.1798"></stop>
+					<stop style="stop-color:#BCBCC8" offset="0.3727"></stop>
+					<stop style="stop-color:#C8C8CB" offset="0.6825"></stop>
+					<stop style="stop-color:#CCCCCC" offset="1"></stop>
+				</linearGradient>
+				<path d="M231.1,118.1c0,0,0.5,0,0.9-0.3c0.1-0.1,0.3-0.2,0.4-0.3c0.1-0.1,0.2-0.2,0.3-0.3      c0.2-0.3,0.4-0.6,0.3-0.7l-0.5-0.6l0,0c0.1,0.2,0,0.5-0.3,0.8c-0.1,0.1-0.2,0.2-0.3,0.3c-0.1,0.1-0.3,0.2-0.4,0.3      c-0.4,0.2-0.7,0.3-0.9,0.2l0,0l5.9,6.5c0,0,0.1,0.2,0.2,0.2c0,0,0.1,0.1,0.1,0.1L231.1,118.1L231.1,118.1z" fill="url(#path62_1_)" id="path62"></path>
+				<path d="M238.9,124.8c-0.1,0.1-0.3,0.2-0.4,0.3l1.1,0.5l-0.4-1.1C239.1,124.7,239,124.8,238.9,124.8z      " fill="#003333" id="path64"></path>
+				<path d="M238.2,123.4l-6.1-6.6c0,0,0,0,0,0      c0.1-0.1,0.2-0.3,0.3-0.4l6.1,6.6C238.4,123.1,238.4,123.2,238.2,123.4L238.2,123.4z" enable-background="new    " fill="#FFFFFF" opacity="0.5" id="path66"></path>
+				<path d="M232.2,116.7c0.1-0.1,0.1-0.1,0.1-0.2l6.1,6.6      c0,0.1-0.1,0.2-0.2,0.3c-0.1,0.1-0.1,0.1-0.2,0.2l-6.1-6.7C232,116.9,232.1,116.8,232.2,116.7L232.2,116.7z" enable-background="new    " fill="#FFFFFF" opacity="0.5" id="path68"></path>
+			</g>
+		</g>
+	</a>
+	</svg></svg></a>
+</div>
+
+<div id="tools_top" class="tools_panel">
+	
+	<!-- File-like buttons: New, Save, Source -->
+	<div id="file_panel">
+		<div class="push_button" id="tool_clear" title="New Image [N]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <rect stroke="#606060" fill="#eaeaea" id="svg_55" height="21" width="18" y="1.6692" x="2.42792"></rect>
+  <circle cx="19.16813" cy="6.24769" r="3.83333" id="svg_65" fill="#fff175" stroke="#a0a0a0" stroke-width="0"></circle>
+ </svg></svg></div>
+		<div class="push_button" id="tool_open" title="Open Image [O]" style="display:none"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+ <defs>
+  <linearGradient id="xsvg_76190" x1="0.42578" y1="0.14063" x2="0.65234" y2="0.91406">
+   <stop offset="0" stop-color="#81bbf4" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#376eb7" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <rect stroke="#606060" fill="#c0c0c0" id="svg_98" height="16.72712" width="9.8" y="3.75" x="1.65"></rect>
+  <rect x="2.89542" y="4.9758" width="6.39585" height="14.17459" id="svg_88" fill="#a0a0a0" stroke="#606060" stroke-width="0"></rect>
+  <path stroke="#404040" fill="#e0e0e0" id="svg_99" d="m18.62576,4.54365l0,6.91443l-9.9395,0l-0.08643,-10.11236l6.828,0l3.19792,3.19793z"></path>
+  <path stroke="#285582" fill="url(#xsvg_76190)" id="svg_97" d="m2.95,20.53644l1.65,-12.03644l16.2,0l-1.5,12l-16.35,0.03643z"></path>
+  <line x1="10.32844" y1="4.28436" x2="13.95851" y2="4.28436" id="svg_89" stroke="#606060" fill="none"></line>
+  <line x1="10.32844" y1="6.53155" x2="14.82282" y2="6.53155" id="svg_91" stroke="#606060" fill="none"></line>
+  <path d="m15.25895,1.95069l-0.00401,2.85225l2.89558,0.00004l-2.89157,-2.85229z" id="svg_100" fill="#ffffff" stroke="#606060" stroke-width="0"></path>
+</svg></svg></div>
+		<div class="push_button" id="tool_save" title="Save Image [S]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	 <defs>
+	  <linearGradient id="xsvg_41180" x1="0" y1="0" x2="1" y2="0">
+	   <stop offset="0" stop-color="#727272" stop-opacity="1"></stop>
+	   <stop offset="1" stop-color="#d6d6d6" stop-opacity="1"></stop>
+	  </linearGradient>
+	  <linearGradient id="xsvg_46181" x1="0.04297" y1="0.00391" x2="0.21484" y2="0.875">
+	   <stop offset="0" stop-color="#81bbf4" stop-opacity="1"></stop>
+	   <stop offset="1" stop-color="#376eb7" stop-opacity="1"></stop>
+	  </linearGradient>
+	 </defs>
+	   <path d="m1.51669,22.3458l21.13245,-0.10111l0,-6.06673l-2.62892,-9.80789l-16.27907,0.10111l-2.32558,9.20121l0.10111,6.67341z" id="svg_21" fill="#e0e0e0" stroke="#202020"></path>
+	   <rect x="2.42667" y="16.58227" width="19.21031" height="4.75108" id="svg_32" fill="url(#xsvg_41180)" stroke="#efefef"></rect>
+	   <path d="m4.55005,11.12235l0.70779,-2.83114l13.04348,0l0.70779,3.13448c-0.70779,2.52781 -4.04479,3.84227 -7.17897,3.84227c-2.72977,0 -6.37007,-1.41557 -7.28008,-4.1456z" id="svg_42" fill="#c0c0c0" stroke="#ffffff"></path>
+	  <path d="m7.14286,9.74903l5.21236,5.79151l5.50193,-5.88803l-2.50965,-0.09653l0,-2.79923c0,-2.3166 -2.3166,-5.59846 -6.56371,-5.59846c-4.05405,0 -6.27413,3.37838 -6.56371,6.75676c0.48263,-1.5444 2.7027,-4.53668 4.44015,-4.44015c2.12355,-0.09653 2.79923,1.64093 2.79923,3.37838l0.09653,2.79923l-2.41313,0.09653z" id="svg_45" fill="url(#xsvg_46181)" stroke="#285582"></path>
+	</svg></svg></div>
+		<div class="push_button" id="tool_docprops" title="Document Properties [I]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	 <defs>
+	  <linearGradient id="xsvg_53200" x1="1" y1="0.5" x2="1" y2="1">
+	   <stop offset="0" stop-color="#606060" stop-opacity="1"></stop>
+	   <stop offset="1" stop-color="#5e5e5e" stop-opacity="0"></stop>
+	  </linearGradient>
+	 </defs>
+	  <rect x="2.42792" y="1.6692" width="18" height="21" id="svg_55" fill="#eaeaea" stroke="#606060"></rect>
+	  <line x1="6.696" y1="4.37757" x2="14.89023" y2="4.37757" id="svg_56" stroke="#a0a0a0" fill="none"></line>
+	  <line x1="6.6948" y1="7.10804" x2="12.92026" y2="7.10804" id="svg_57" stroke="#a0a0a0" fill="none"></line>
+	  <line x1="6.6942" y1="9.84241" x2="15.64716" y2="9.84241" id="svg_58" stroke="#a0a0a0" fill="none"></line>
+	  <line x1="6.69691" y1="12.36585" x2="13.21805" y2="12.36585" id="svg_59" stroke="#a0a0a0" fill="none"></line>
+	  <line x1="6.69691" y1="15.06507" x2="14.43591" y2="15.06507" id="svg_60" stroke="#a0a0a0" fill="none"></line>
+	  <line x1="6.69691" y1="17.84241" x2="13.36979" y2="17.84241" id="svg_61" stroke="#a0a0a0" fill="none"></line>
+	  <g id="svg_54">
+	   <path d="m11.24329,8.73944l0,2.79974l2.53499,0.07777l0,-2.95528c1.78134,0.07777 2.26093,1.39987 2.12391,2.95528c-0.06851,1.63318 -1.30175,3.49967 -3.49418,3.26636c-2.19242,-0.31108 -2.87755,-1.39987 -3.15161,-2.72197c-0.27406,-1.39987 0.41108,-3.34413 1.98689,-3.4219z" id="svg_31" fill="#606060" stroke="#000000" stroke-width="0" transform="rotate(-45, 12.5448, 11.7085)"></path>
+	   <rect x="15.04047" y="12.746" width="2.57974" height="4.85445" id="svg_50" fill="url(#xsvg_53200)" stroke="#000000" stroke-width="0" transform="rotate(-45, 16.2485, 15.1732)" opacity="0.95"></rect>
+	  </g>
+	</svg></svg></div>
+		<div class="push_button" id="tool_source" title="Edit Source [U]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 55 52" xmlns="http://www.w3.org/2000/svg">
+  <text font-weight="bold" x="28.23" y="15" id="svg_40" fill="#019191" stroke="#000000" stroke-width="0" font-size="24" font-family="monospace" text-anchor="middle">s</text>
+  <text font-weight="bold" x="28.23" y="30" id="svg_47" fill="#019191" stroke="#000000" stroke-width="0" font-size="24" font-family="monospace" text-anchor="middle">v</text>
+  <text font-weight="bold" x="28.23" y="44" id="svg_48" fill="#019191" stroke="#000000" stroke-width="0" font-size="24" font-family="monospace" text-anchor="middle">g</text>
+  <line x1="5" y1="25" x2="16" y2="43" id="svg_51" stroke="#aa0000" fill="none" stroke-width="3"></line>
+  <line x1="5" y1="26" x2="16" y2="8" stroke="#aa0000" fill="none" stroke-width="3" id="svg_62"></line>
+  <line x1="50" y1="25" x2="39" y2="43" stroke="#aa0000" fill="none" stroke-width="3" id="svg_63"></line>
+  <line x1="51" y1="26" x2="39" y2="8" stroke="#aa0000" fill="none" stroke-width="3" id="svg_64"></line>
+ </svg></svg></div>
+		<div class="tool_button" id="tool_wireframe" title="Wireframe Mode [F]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="9.5" cy="9.5" r="8" id="svg_49" fill="none" stroke="#000000"></circle>
+  <rect x="8.5" y="8.5" width="14" height="14" id="svg_52" fill="none" stroke="#000000"></rect>
+ </svg></svg></div>
+	</div>
+
+    <!-- History buttons -->
+	<div id="history_panel">
+		<div class="tool_sep"></div>
+		<div class="push_button tool_button_disabled" id="tool_undo" title="Undo [Z]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+ <defs>
+  <linearGradient y2="0.875" x2="0.21484" y1="0.00391" x1="0.04297" id="xsvg_66230">
+   <stop stop-opacity="1" stop-color="#f7f963" offset="0"></stop>
+   <stop stop-opacity="1" stop-color="#d3c310" offset="1"></stop>
+  </linearGradient>
+ </defs>
+  <path stroke="#b7a800" fill="url(#xsvg_66230)" id="svg_45" d="m6.70188,10.72562l6.55493,-7.13388l6.65817,7.24912l-3.79441,0.03193l0,2.72259c-0.04257,2.74017 -2.76516,5.83068 -7.81235,6.02135c-5.18575,0 -7.1226,-3.75464 -7.49302,-7.41944c0.61736,1.6754 3.14913,3.78397 5.3716,3.67918c2.71635,0.1048 4.41501,-0.61714 4.41501,-2.50184l0,-2.64901l-3.89995,0z" transform="rotate(-90, 10.3017, 11.5526)"></path>
+ </svg></svg></div>
+		<div class="push_button tool_button_disabled" id="tool_redo" title="Redo [Y]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+ <defs>
+  <linearGradient id="xsvg_71240" x1="1" y1="0" x2="1" y2="1">
+   <stop offset="0" stop-color="#98fc46" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#56aa25" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <path stroke="#44aa00" fill="url(#xsvg_71240)" id="svg_45" d="m9.11294,12.43144l6.54089,6.84566l6.6439,-6.95624l-3.78628,-0.03064l0,-2.61259c-0.04248,-2.62946 -2.75924,-5.5951 -7.79561,-5.77807c-5.17464,0 -7.10734,3.60294 -7.47697,7.11967c0.61604,-1.60771 3.14238,-3.63109 5.36009,-3.53053c2.71053,-0.10056 4.40555,0.59221 4.40555,2.40076l0,2.54198l-3.89159,0z" transform="rotate(-90, 12.7299, 11.5526)"></path>
+ </svg></svg></div>
+	</div>
+	
+	<!-- Buttons when a single element is selected -->
+	<div id="selected_panel">
+		<div class="toolset">
+			<div class="tool_sep"></div>
+			<div class="push_button" id="tool_clone" title="Clone Element [C]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xsvg_36250" x1="0" y1="0" x2="1" y2="1">
+   <stop offset="0" stop-color="#f9f3de" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#ccbd8f" stop-opacity="1"></stop>
+  </linearGradient>
+  <linearGradient id="xsvg_69251" x1="0" y1="0" x2="0.42578" y2="0.80078">
+   <stop offset="0" stop-color="#f9f3de" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#af995b" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <path d="m2.11676,16.32061l-0.13787,-5.05515l1.93015,-2.02206l10.11029,0l2.02206,2.29779l0,4.77941l-13.92463,0z" id="svg_34" fill="url(#xsvg_69251)" stroke="#8f5902"></path>
+  <rect ry="1" rx="1" stroke="#8f5902" fill="url(#xsvg_36250)" id="svg_38" height="4.3407" width="2.2932" y="6.30027" x="7.85379"></rect>
+  <circle cx="9.11757" cy="4.48149" r="2.96392" id="svg_35" fill="url(#xsvg_36250)" stroke="#8f5902"></circle>
+  <line fill="none" stroke="#f9f3de" id="svg_39" y2="12.03512" x2="15.5524" y1="12.03512" x1="2.44838"></line>
+  <path stroke-width="0" fill-opacity="0.76" stroke="#8f5902" fill="#000000" id="svg_43" d="m6.72427,12.55859l4.74203,0l-2.30831,2.07258l-2.43372,-2.07258z"></path>
+</svg></svg></div>
+			<div class="push_button" id="tool_delete" title="Delete Element [del/backspace]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1.42011" y="1.70304" width="21.17486" height="20.29514" id="svg_37" fill="#aa0000" stroke="#800000" rx="3" ry="3"></rect>
+  <rect x="2.20258" y="2.53597" width="19.61118" height="18.63022" id="svg_67" fill="#aa0000" stroke="#ff5555" rx="3" ry="3"></rect>
+  <line x1="7.00646" y1="6.85127" x2="17.00646" y2="16.85127" id="svg_68" stroke="#ffffff" fill="none" stroke-width="2"></line>
+  <line x1="17.00646" y1="6.85127" x2="7.00646" y2="16.85127" stroke="#ffffff" fill="none" id="svg_70" stroke-width="2"></line>
+ </svg></svg></div>
+			<div class="tool_sep"></div>
+			<div class="push_button" id="tool_move_top" title="Move to Top [shift+up]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 23">
+ <defs>
+  <linearGradient y2="0" x2="1" y1="0" x1="0" id="xsvg_86300">
+   <stop stop-opacity="1" stop-color="#9fdcf4" offset="0"></stop>
+   <stop stop-opacity="1" stop-color="#617e96" offset="1"></stop>
+  </linearGradient>
+ </defs>
+  <line stroke-width="2" fill="none" stroke="#000000" id="svg_72" y2="8.19922" x2="12.8" y1="8.19922" x1="1.3"></line>
+  <line id="svg_73" stroke-width="2" fill="none" stroke="#000000" y2="12.19922" x2="12.79844" y1="12.19922" x1="1.29844"></line>
+  <line id="svg_74" stroke-width="2" fill="none" stroke="#000000" y2="16.19922" x2="12.79922" y1="16.19922" x1="1.29922"></line>
+  <line id="svg_75" stroke-width="2" fill="none" stroke="#000000" y2="20.19922" x2="12.79922" y1="20.19922" x1="1.29922"></line>
+  <rect stroke="#000000" fill="url(#xsvg_86300)" id="svg_77" height="3.2" width="20" y="1.85" x="1.55"></rect>
+  <path stroke-width="0" stroke="#000000" fill="#000000" id="svg_81" d="m16.83475,21.14603l2.33207,0l0,-11.04578l1.98474,0l-3.15077,-3.44869l-3.15077,3.44869l1.98474,0l0,11.04578z"></path>
+ </svg></svg></div>
+			<div class="push_button" id="tool_move_bottom" title="Move to Bottom [shift+down]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xsvg_80290" x1="0" y1="0" x2="1" y2="0">
+   <stop offset="0" stop-color="#bc7f05" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#fcfc9f" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <line x1="10.5" y1="2.5" x2="22" y2="2.5" id="svg_72" stroke="#000000" fill="none" stroke-width="2"></line>
+  <line x1="10.49844" y1="6.5" x2="21.99844" y2="6.5" stroke="#000000" fill="none" stroke-width="2" id="svg_73"></line>
+  <line x1="10.49922" y1="10.5" x2="21.99922" y2="10.5" stroke="#000000" fill="none" stroke-width="2" id="svg_74"></line>
+  <line x1="10.49922" y1="14.5" x2="21.99922" y2="14.5" stroke="#000000" fill="none" stroke-width="2" id="svg_75"></line>
+  <rect x="1.65" y="17.65" width="20" height="2.2" id="svg_77" fill="url(#xsvg_80290)" stroke="#000000"></rect>
+  <path d="m4.25,1.55l2.35,0l0,11.05l2,0l-3.175,3.45l-3.175,-3.45l2,0l0,-11.05z" id="svg_81" fill="#000000" stroke="#000000" stroke-width="0"></path>
+ </svg></svg></div>
+			<div class="push_button" id="tool_topath" title="Convert to Path"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+ <defs>
+  <linearGradient id="xsvg_105310" x1="0.10547" y1="0.10156" x2="0.42969" y2="0.46875">
+   <stop offset="0" stop-color="#ff0000"></stop>
+   <stop offset="1" stop-color="#ff0000" stop-opacity="0"></stop>
+  </linearGradient>
+ </defs>
+ <g>
+  <circle stroke="#000000" fill="url(#xsvg_105310)" id="svg_120" r="18.44531" cy="21.3125" cx="21"></circle>
+  <path id="svg_115" d="m2.875,21.3125c-0.375,-9.25 7.75,-18.875 17.75,-18" stroke="#000000" fill="none"></path>
+  <line fill="none" stroke="#808080" id="svg_116" y2="3.0625" x2="8.5" y1="3.0625" x1="25.375"></line>
+  <line fill="none" stroke="#808080" id="svg_117" y2="9.8125" x2="2.625" y1="24.75" x1="2.625"></line>
+  <circle id="svg_118" stroke-width="0.5" stroke="#0000ff" fill="#00ffff" r="1.95313" cy="2.9375" cx="8.5"></circle>
+  <circle id="svg_119" stroke-width="0.5" stroke="#0000ff" fill="#00ffff" r="1.95313" cy="9.8125" cx="2.625"></circle>
+  <circle stroke="#0000ff" fill="#00ffff" id="svg_112" r="2.5" cy="3.1875" cx="20.875"></circle>
+  <circle id="svg_114" stroke="#0000ff" fill="#00ffff" r="2.5" cy="21.0625" cx="2.875"></circle>
+ </g>
+</svg></svg></div>
+			<div class="push_button" id="tool_reorient" title="Reorient path"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+ <defs>
+  <linearGradient id="xsvg_113330" x1="0" y1="1" x2="1" y2="1">
+   <stop offset="0" stop-color="#0000ff" stop-opacity="0"></stop>
+   <stop offset="1" stop-color="#507ece" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <rect x="2.875" y="2.625" width="18.625" height="19.125" id="svg_108" fill="none" stroke="#0000ff" stroke-dasharray="2,2"></rect>
+  <rect x="4.23267" y="9.10848" width="16" height="6.125" id="svg_107" fill="url(#xsvg_113330)" stroke="#000000" transform="rotate(45, 12.2344, 12.1719)"></rect>
+</svg></svg></div>
+			<div class="tool_sep"></div>
+		</div>
+		<div class="toolset">
+			<label id="group_opacityLabel" class="selected_tool" for="group_opacity">opac:</label>
+			<input autocomplete="off" id="group_opacity" class="selected_tool spin-button" title="Change selected item opacity" size="3" value="100" type="text">
+			<div id="opacity_dropdown" class="dropdown">
+				<button><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="7" width="7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 40">
+	  <path stroke="#000000" fill="#000000" d="m14,-12l0,50l25,-25l-25,-25z" transform="rotate(90, 26, 13)"></path>
+	</svg></svg></button>
+				<ul>
+					<li class="special"><div class="ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" id="opac_slider"><a style="left: 0%;" class="ui-slider-handle ui-state-default ui-corner-all" href="#"></a></div></li>
+					<li>100% (no transparency)</li>
+					<li>0%</li>
+					<li>25%</li>
+					<li>50%</li>
+					<li>75%</li>
+					<li>100%</li>
+				</ul>
+			</div>
+		</div>
+		<div class="toolset">
+			<label id="angleLabel" class="selected_tool">angle:</label>
+			<input autocomplete="off" id="angle" class="selected_tool spin-button" title="Change rotation angle" size="2" value="0" type="text">
+		</div>
+		<div id="xy_panel" class="toolset">
+			<label class="selected_tool">x:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="selected_x" class="selected_tool attr_changer" title="Change X coordinate" size="3" data-attr="x">
+			<label class="selected_tool">y:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="selected_y" class="selected_tool attr_changer" title="Change Y coordinate" size="3" data-attr="y">
+		</div>
+	</div>
+
+	<!-- Buttons when multiple elements are selected -->
+	<div id="multiselected_panel">
+		<div class="tool_sep"></div>
+		<div class="push_button" id="tool_clone_multi" title="Clone Element [C]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xxsvg_3625010" x1="0" y1="0" x2="1" y2="1">
+   <stop offset="0" stop-color="#f9f3de" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#ccbd8f" stop-opacity="1"></stop>
+  </linearGradient>
+  <linearGradient id="xxsvg_6925111" x1="0" y1="0" x2="0.42578" y2="0.80078">
+   <stop offset="0" stop-color="#f9f3de" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#af995b" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <path d="m2.11676,16.32061l-0.13787,-5.05515l1.93015,-2.02206l10.11029,0l2.02206,2.29779l0,4.77941l-13.92463,0z" id="svg_34" fill="url(#xxsvg_6925111)" stroke="#8f5902"></path>
+  <rect ry="1" rx="1" stroke="#8f5902" fill="url(#xxsvg_3625010)" id="svg_38" height="4.3407" width="2.2932" y="6.30027" x="7.85379"></rect>
+  <circle cx="9.11757" cy="4.48149" r="2.96392" id="svg_35" fill="url(#xxsvg_3625010)" stroke="#8f5902"></circle>
+  <line fill="none" stroke="#f9f3de" id="svg_39" y2="12.03512" x2="15.5524" y1="12.03512" x1="2.44838"></line>
+  <path stroke-width="0" fill-opacity="0.76" stroke="#8f5902" fill="#000000" id="svg_43" d="m6.72427,12.55859l4.74203,0l-2.30831,2.07258l-2.43372,-2.07258z"></path>
+</svg></svg></div>
+		<div class="push_button" id="tool_delete_multi" title="Delete Element [del/backspace]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1.42011" y="1.70304" width="21.17486" height="20.29514" id="svg_37" fill="#aa0000" stroke="#800000" rx="3" ry="3"></rect>
+  <rect x="2.20258" y="2.53597" width="19.61118" height="18.63022" id="svg_67" fill="#aa0000" stroke="#ff5555" rx="3" ry="3"></rect>
+  <line x1="7.00646" y1="6.85127" x2="17.00646" y2="16.85127" id="svg_68" stroke="#ffffff" fill="none" stroke-width="2"></line>
+  <line x1="17.00646" y1="6.85127" x2="7.00646" y2="16.85127" stroke="#ffffff" fill="none" id="svg_70" stroke-width="2"></line>
+ </svg></svg></div>
+		<div class="tool_sep"></div>
+		<div class="push_button" id="tool_group" title="Group Elements [G]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+ <defs>
+  <linearGradient y2="1" x2="1" y1="0" x1="0" id="xsvg_90340">
+   <stop stop-opacity="1" stop-color="#ccddff" offset="0"></stop>
+   <stop stop-opacity="1" stop-color="#789fed" offset="1"></stop>
+  </linearGradient>
+  <linearGradient y2="1" x2="1" y1="0" x1="0" id="xsvg_92341">
+   <stop stop-opacity="1" stop-color="#70a1e5" offset="0"></stop>
+   <stop stop-opacity="1" stop-color="#4b6baf" offset="1"></stop>
+  </linearGradient>
+ </defs>
+  <rect id="svg_79" stroke="#555555" fill="#a0a0a0" height="2" width="2" y="0.5" x="13.5"></rect>
+  <rect id="svg_82" stroke="#555555" fill="#a0a0a0" height="2" width="2" y="13.5" x="13.5"></rect>
+  <rect id="svg_83" stroke="#555555" fill="#a0a0a0" height="2" width="2" y="13.5" x="0.5"></rect>
+  <rect id="svg_85" stroke="#555555" fill="#a0a0a0" height="7" width="8" y="2.5" x="2.5"></rect>
+  <rect id="svg_87" stroke="url(#xsvg_92341)" fill="url(#xsvg_90340)" height="7" width="8" y="2.5" x="2.5"></rect>
+  <rect stroke="url(#xsvg_92341)" fill="#7399d6" id="svg_84" height="7" width="8" y="6.5" x="5.5"></rect>
+  <rect stroke="#555555" fill="#a0a0a0" id="svg_78" height="2" width="2" y="0.5" x="0.5"></rect>
+ </svg></svg></div>
+		<div class="push_button" id="tool_alignleft" title="Align Left"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+	  <rect x="2.5" y="2.5" width="12" height="7" id="svg_4" fill="#ffffff" stroke="#606060"></rect>
+	  <rect x="2" y="4" width="11" height="4" id="svg_5" fill="#c0c0c0" stroke="#606060" stroke-width="0"></rect>
+	  <rect x="2.5" y="12.5" width="18" height="7" fill="#ffffff" stroke="#606060" id="svg_6"></rect>
+	  <rect x="2" y="14" width="17" height="4" fill="#c0c0c0" stroke="#606060" stroke-width="0" id="svg_7"></rect>
+	  <rect x="1.5" y="-10" width="2" height="40" id="svg_2" fill="#ef9a23" stroke="#c15909"></rect>
+	</svg></svg></div>
+		<div class="push_button" id="tool_aligncenter" title="Align Center"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+	  <rect id="svg_6" stroke="#606060" fill="#c0c0c0" height="7" width="18" y="12.5" x="1.5"></rect>
+	  <rect stroke="#606060" fill="#c0c0c0" id="svg_4" height="7" width="12" y="2.5" x="4.5"></rect>
+	  <rect stroke="#c15909" fill="#ef9a23" id="svg_2" height="40" width="2" y="-10" x="9.5"></rect>
+	  <rect id="svg_7" stroke="#ffffff" fill="none" height="5" width="16" y="13.5" x="2.5"></rect>
+	  <rect stroke="#ffffff" fill="none" id="svg_5" height="5" width="10" y="3.5" x="5.5"></rect>
+	</svg></svg></div>
+		<div class="push_button" id="tool_alignright" title="Align Right"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+	  <rect stroke="#606060" fill="#ffffff" id="svg_4" height="7" width="12" y="2.5" x="7.5"></rect>
+	  <rect stroke-width="0" stroke="#606060" fill="#c0c0c0" id="svg_5" height="4" width="11" y="4" x="9"></rect>
+	  <rect id="svg_6" stroke="#606060" fill="#ffffff" height="7" width="18" y="12.5" x="1.5"></rect>
+	  <rect id="svg_7" stroke-width="0" stroke="#606060" fill="#c0c0c0" height="4" width="17" y="14" x="3"></rect>
+	  <rect stroke="#c15909" fill="#ef9a23" id="svg_2" height="40" width="2" y="-10" x="18.5"></rect>
+	</svg></svg></div>
+		<div class="push_button" id="tool_aligntop" title="Align Top"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+	  <g id="svg_1" transform="rotate(90, 11, 11)">
+	   <rect stroke="#606060" fill="#ffffff" id="svg_4" height="7" width="12" y="3.5" x="2.5"></rect>
+	   <rect stroke-width="0" stroke="#606060" fill="#c0c0c0" id="svg_5" height="4" width="11" y="5" x="2"></rect>
+	   <rect id="svg_6" stroke="#606060" fill="#ffffff" height="7" width="18" y="13.5" x="2.5"></rect>
+	   <rect id="svg_7" stroke-width="0" stroke="#606060" fill="#c0c0c0" height="4" width="17" y="15" x="2"></rect>
+	   <rect stroke="#c15909" fill="#ef9a23" id="svg_2" height="40" width="2" y="-9" x="1.5"></rect>
+	  </g>
+	</svg></svg></div>
+		<div class="push_button" id="tool_alignmiddle" title="Align Middle"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+  <g id="svg_1" transform="rotate(90, 12, 11.5)">
+   <rect x="3" y="14" width="18" height="7" fill="#c0c0c0" stroke="#606060" id="svg_6"></rect>
+   <rect x="6" y="4" width="12" height="7" id="svg_4" fill="#c0c0c0" stroke="#606060"></rect>
+   <rect x="11" y="-8.5" width="2" height="40" id="svg_2" fill="#ef9a23" stroke="#c15909"></rect>
+   <rect x="4" y="15" width="16" height="5" fill="none" stroke="#ffffff" id="svg_7"></rect>
+   <rect x="7" y="5" width="10" height="5" id="svg_5" fill="none" stroke="#ffffff"></rect>
+   </g>
+</svg></svg></div>
+		<div class="push_button" id="tool_alignbottom" title="Align Bottom"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg">
+  <g id="svg_1" transform="rotate(90, 11, 11)">
+   <rect x="7.5" y="2.5" width="12" height="7" id="svg_4" fill="#ffffff" stroke="#606060"></rect>
+   <rect x="9" y="4" width="11" height="4" id="svg_5" fill="#c0c0c0" stroke="#606060" stroke-width="0"></rect>
+   <rect x="1.5" y="12.5" width="18" height="7" fill="#ffffff" stroke="#606060" id="svg_6"></rect>
+   <rect x="3" y="14" width="17" height="4" fill="#c0c0c0" stroke="#606060" stroke-width="0" id="svg_7"></rect>
+   <rect x="18.5" y="-10" width="2" height="40" id="svg_2" fill="#ef9a23" stroke="#c15909"></rect>
+   </g>
+</svg></svg></div>
+		<span id="relativeToLabel" class="selected_tool">relative to:</span>
+		<select autocomplete="off" id="align_relative_to" class="selected_tool" title="Align relative to ...">
+		<option selected="selected" id="selected_objects" value="selected">selected objects</option>
+		<option id="largest_object" value="largest">largest object</option>
+		<option id="smallest_object" value="smallest">smallest object</option>
+		<option id="page" value="page">page</option>
+		</select>
+		<div class="tool_sep"></div>
+
+	</div>
+
+	<div id="g_panel">
+		<div class="tool_sep"></div>
+		<div class="push_button" id="tool_ungroup" title="Ungroup Elements [G]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+ <defs>
+  <linearGradient y2="1" x2="1" y1="0" x1="0" id="xsvg_90350">
+   <stop stop-opacity="1" stop-color="#ccddff" offset="0"></stop>
+   <stop stop-opacity="1" stop-color="#789fed" offset="1"></stop>
+  </linearGradient>
+  <linearGradient y2="1" x2="1" y1="0" x1="0" id="xsvg_92351">
+   <stop stop-opacity="1" stop-color="#70a1e5" offset="0"></stop>
+   <stop stop-opacity="1" stop-color="#4b6baf" offset="1"></stop>
+  </linearGradient>
+ </defs>
+  <rect id="svg_87" stroke="url(#xsvg_92351)" fill="url(#xsvg_90350)" height="7" width="8" y="2.5" x="2.5"></rect>
+  <rect stroke="url(#xsvg_92351)" fill="#7399d6" id="svg_84" height="7" width="8" y="6.5" x="5.5"></rect>
+  <rect id="svg_79" stroke="#555555" fill="#a0a0a0" height="2" width="2" y="1.5" x="9.5"></rect>
+  <rect id="svg_83" stroke="#555555" fill="#a0a0a0" height="2" width="2" y="8.5" x="1.5"></rect>
+  <rect stroke="#555555" fill="#a0a0a0" id="svg_78" height="2" width="2" y="1.5" x="1.5"></rect>
+  <rect stroke="#555555" fill="#a0a0a0" height="2" width="2" y="5.5" x="12.5" id="svg_93"></rect>
+  <rect stroke="#555555" fill="#a0a0a0" height="2" width="2" y="12.5" x="12.5" id="svg_94"></rect>
+  <rect stroke="#555555" fill="#a0a0a0" height="2" width="2" y="12.5" x="4.5" id="svg_95"></rect>
+  <rect stroke="#555555" fill="#a0a0a0" height="2" width="2" y="5.5" x="4.5" id="svg_96"></rect>
+</svg></svg></div>
+	</div>
+
+	<div id="rect_panel">
+		<div class="toolset">
+			<label id="rwidthLabel" class="rect_tool">width:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="rect_width" class="rect_tool attr_changer" title="Change rectangle width" size="3" data-attr="width">
+			<label id="rheightLabel" class="rect_tool">height:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="rect_height" class="rect_tool attr_changer" title="Change rectangle height" size="3" data-attr="height">
+		</div>
+		<div class="toolset">
+			<label id="cornerRadiusLabel" class="rect_tool">Corner Radius:</label>
+			<input autocomplete="off" id="rect_rx" size="3" value="0" class="rect_tool spin-button" title="Change Rectangle Corner Radius" data-attr="Corner Radius" type="text">
+		</div>	
+	</div>
+
+	<div id="image_panel">
+	<div class="toolset">
+		<label id="iwidthLabel" class="image_tool">width:</label>
+		<input hkid=".attr_changer, #image_url" autocomplete="off" id="image_width" class="image_tool attr_changer" title="Change image width" size="3" data-attr="width">
+		<label id="iheightLabel" class="image_tool">height:</label>
+		<input hkid=".attr_changer, #image_url" autocomplete="off" id="image_height" class="image_tool attr_changer" title="Change image height" size="3" data-attr="height">
+	</div>
+	<div class="toolset">
+		<label class="image_tool">url:</label>
+		<input hkid=".attr_changer, #image_url" autocomplete="off" id="image_url" class="image_tool" title="Change URL" size="35" type="text">
+		<button id="change_image_url" style="display:none;">Change Image</button>
+		<div id="url_notice" title="NOTE: This image cannot be embedded. It will depend on this path to be displayed"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xsvg_110460" x1="0.56641" y1="0.44922" x2="0.57813" y2="0.98047">
+   <stop offset="0" stop-color="#ffff00" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#9e9e00" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <path stroke-width="2" stroke="#916d1f" fill="url(#xsvg_110460)" id="svg_44" d="m1.42857,21.55559l10.71429,-19.36489l10.71429,19.20352l-21.42857,0.16137z"></path>
+  <path d="m11.98371,14.68571c-0.57143,-3.82857 -1.82857,-6.4 0.11429,-6.4c2.11429,0 0.74286,2.57143 0.11429,6.4l-0.22857,0z" id="svg_103" fill="#000000" stroke="#916d1f" stroke-width="0"></path>
+  <circle cx="12.14308" cy="17.37143" r="1.17578" id="svg_104" fill="#000000" stroke="#916d1f" stroke-width="0"></circle>
+ </svg></svg></div>
+	</div>
+  </div>
+
+	<div id="circle_panel">
+		<div class="toolset">
+			<label class="circle_tool">cx:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="circle_cx" class="circle_tool attr_changer" title="Change circle's cx coordinate" size="3" data-attr="cx">
+			<label class="circle_tool">cy:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="circle_cy" class="circle_tool attr_changer" title="Change circle's cy coordinate" size="3" data-attr="cy">
+		</div>
+		<div class="toolset">
+			<label class="circle_tool">r:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="circle_r" class="circle_tool attr_changer" title="Change circle's radius" size="3" data-attr="r">
+		</div>
+	</div>
+
+	<div id="ellipse_panel">
+		<div class="toolset">
+			<label class="ellipse_tool">cx:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="ellipse_cx" class="ellipse_tool attr_changer" title="Change ellipse's cx coordinate" size="3" data-attr="cx">
+			<label class="ellipse_tool">cy:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="ellipse_cy" class="ellipse_tool attr_changer" title="Change ellipse's cy coordinate" size="3" data-attr="cy">
+			</div>
+		<div class="toolset">
+			<label class="ellipse_tool">rx:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="ellipse_rx" class="ellipse_tool attr_changer" title="Change ellipse's x radius" size="3" data-attr="rx">
+			<label class="ellipse_tool">ry:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="ellipse_ry" class="ellipse_tool attr_changer" title="Change ellipse's y radius" size="3" data-attr="ry">
+		</div>
+	</div>
+
+	<div id="line_panel">
+		<div class="toolset">
+			<label class="line_tool">x1:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="line_x1" class="line_tool attr_changer" title="Change line's starting x coordinate" size="3" data-attr="x1">
+			<label class="line_tool">y1:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="line_y1" class="line_tool attr_changer" title="Change line's starting y coordinate" size="3" data-attr="y1">
+		</div>
+		<div class="toolset">
+			<label class="line_tool">x2:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="line_x2" class="line_tool attr_changer" title="Change line's ending x coordinate" size="3" data-attr="x2">
+			<label class="line_tool">y2:</label>
+			<input hkid=".attr_changer, #image_url" autocomplete="off" id="line_y2" class="line_tool attr_changer" title="Change line's ending y coordinate" size="3" data-attr="y2">
+		</div>
+	</div>
+
+	<div id="text_panel">
+		<div class="toolset">
+			<div class="tool_button" id="tool_bold" title="Bold Text [B]"><span></span>B</div>
+			<div class="tool_button" id="tool_italic" title="Italic Text [I]"><span></span>i</div>
+		</div>
+		
+		<div class="toolset">
+			<input autocomplete="off" id="font_family" class="text_tool" title="Change Font Family" size="12" type="text">
+			<div id="font_family_dropdown" class="dropdown">
+				<button><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="7" width="7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 40">
+	  <path stroke="#000000" fill="#000000" d="m14,-12l0,50l25,-25l-25,-25z" transform="rotate(90, 26, 13)"></path>
+	</svg></svg></button>
+				<ul>
+					<li style="font-family:serif">Serif</li>
+					<li style="font-family:sans-serif">Sans-serif</li>
+					<li style="font-family:cursive">Cursive</li>
+					<li style="font-family:fantasy">Fantasy</li>
+					<li style="font-family:monospace">Monospace</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="toolset">
+			<label id="font_sizeLabel" class="text_tool" for="font_size">size:</label>
+			<input autocomplete="off" id="font_size" class="text_tool spin-button" title="Change Font Size" size="3" value="0" type="text">
+		</div>
+		<input autocomplete="off" id="text" class="text_tool" title="Change text contents" size="35" type="text">
+	</div>
+	
+	<div id="path_node_panel">
+		<div class="tool_sep"></div>
+		<div class="tool_button" id="tool_node_link" title="Link Control Points"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+  <path fill="none" stroke="#8dd35f" d="m9.875,23c-2,-4.25 -1.6875,-7.375 1.6875,-10.5c3.375,-3.125 7.5625,-2.75 11.0625,2" id="svg_102" stroke-width="2"></path>
+  <line x1="4" y1="19" x2="19" y2="4" id="svg_109" stroke="#606060" fill="none"></line>
+  <circle cx="11.5" cy="11.5" r="2.17578" id="svg_111" fill="#00ffff" stroke="#0000ff"></circle>
+  <circle cx="19" cy="4" r="2.26172" fill="#00ffff" stroke="#0000ff" id="svg_121" stroke-width="0.5"></circle>
+  <circle cx="4" cy="19" r="2.26172" fill="#00ffff" stroke="#0000ff" stroke-width="0.5" id="svg_123"></circle>
+</svg></svg></div>
+		<div class="tool_sep"></div>
+		<label class="path_node_tool">x:</label>
+		<input hkid=".attr_changer, #image_url" autocomplete="off" id="path_node_x" class="path_node_tool attr_changer" title="Change node's x coordinate" size="3" data-attr="x">
+		<label class="path_node_tool">y:</label>
+		<input hkid=".attr_changer, #image_url" autocomplete="off" id="path_node_y" class="path_node_tool attr_changer" title="Change node's y coordinate" size="3" data-attr="y">
+		<select autocomplete="off" id="seg_type" class="path_node_tool" title="Change Segment type">
+			<option id="straight_segments" selected="selected" value="4">Straight</option>
+			<option id="curve_segments" value="6">Curve</option>
+		</select>
+		<div class="tool_button" id="tool_node_clone" title="Clone Node"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xxsvg_3625020" x1="0" y1="0" x2="1" y2="1">
+   <stop offset="0" stop-color="#f9f3de" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#ccbd8f" stop-opacity="1"></stop>
+  </linearGradient>
+  <linearGradient id="xxsvg_6925121" x1="0" y1="0" x2="0.42578" y2="0.80078">
+   <stop offset="0" stop-color="#f9f3de" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#af995b" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <path d="m2.11676,16.32061l-0.13787,-5.05515l1.93015,-2.02206l10.11029,0l2.02206,2.29779l0,4.77941l-13.92463,0z" id="svg_34" fill="url(#xxsvg_6925121)" stroke="#8f5902"></path>
+  <rect ry="1" rx="1" stroke="#8f5902" fill="url(#xxsvg_3625020)" id="svg_38" height="4.3407" width="2.2932" y="6.30027" x="7.85379"></rect>
+  <circle cx="9.11757" cy="4.48149" r="2.96392" id="svg_35" fill="url(#xxsvg_3625020)" stroke="#8f5902"></circle>
+  <line fill="none" stroke="#f9f3de" id="svg_39" y2="12.03512" x2="15.5524" y1="12.03512" x1="2.44838"></line>
+  <path stroke-width="0" fill-opacity="0.76" stroke="#8f5902" fill="#000000" id="svg_43" d="m6.72427,12.55859l4.74203,0l-2.30831,2.07258l-2.43372,-2.07258z"></path>
+</svg></svg></div>
+		<div class="tool_button" id="tool_node_delete" title="Delete Node"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <rect x="1.42011" y="1.70304" width="21.17486" height="20.29514" id="svg_37" fill="#aa0000" stroke="#800000" rx="3" ry="3"></rect>
+  <rect x="2.20258" y="2.53597" width="19.61118" height="18.63022" id="svg_67" fill="#aa0000" stroke="#ff5555" rx="3" ry="3"></rect>
+  <line x1="7.00646" y1="6.85127" x2="17.00646" y2="16.85127" id="svg_68" stroke="#ffffff" fill="none" stroke-width="2"></line>
+  <line x1="17.00646" y1="6.85127" x2="7.00646" y2="16.85127" stroke="#ffffff" fill="none" id="svg_70" stroke-width="2"></line>
+ </svg></svg></div>
+	</div>
+	
+</div> <!-- tools_top -->
+
+<div id="tools_left" class="tools_panel">
+	<div class="tool_button_current" id="tool_select" title="Select Tool [1]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	  <path d="m7.38168,2.46948l0.07502,17.03258l3.30083,-2.62617l2.62566,5.62751l4.20105,-2.62617l-3.30082,-4.80214l4.57614,-0.37517l-11.47787,-12.23044z" id="svg_13" fill="#000000" stroke="#ffffff"></path>
+	</svg></svg></div>
+	<div class="tool_button" id="tool_fhpath" title="Pencil Tool [2]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 52" id="svgzoom">
+  <defs>
+   <linearGradient y2="0.3945" x2="0.6132" y1="0.1093" x1="0.3046" id="xsvg_990">
+    <stop stop-opacity="1" stop-color="#f9d225" offset="0.0"></stop>
+    <stop stop-opacity="1" stop-color="#bf5f00" offset="1.0"></stop>
+   </linearGradient>
+  </defs>
+  <path stroke-opacity="1" fill-opacity="1" stroke-width="2" stroke="#000000" fill="url(#xsvg_990)" id="svg_2" d="M31.5,0 l-8.75,20.25 l0.75,24 l16.5,-16.5 l6,-12.5"></path>
+  <path stroke-opacity="1" fill-opacity="1" stroke-width="2" stroke="#000000" fill="#fce0a9" id="svg_10" d="M39.5,28.5 c-2,-9.25 -10.25,-11.75 -17,-7.4375 l0.4843,24.4414z"></path>
+  <path id="svg_11" stroke-opacity="1" fill-opacity="1" stroke-width="2" stroke="#000000" fill="#000000" d="M26.9318,41.1745 c-0.4491,-2.3511 -2.3021,-2.9866 -3.8181,-1.8905 l0.1087,6.2126z"></path>
+  <path stroke-opacity="1" fill-opacity="1" stroke-width="2" stroke="#000000" fill="none" id="svg_12" d="M2.3132,4.6197 c12.4998,-1.6891 10.4729,7.0945 0,21.6215 c22.9729,-4.0539 12.1620,5.4053 12.1620,13.1756 c-0.3377,4.0539 8.7836,21.9594 26.0135,-1.3513"></path>
+</svg></svg></div>
+	<div class="tool_button" id="tool_line" title="Line Tool [3]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+	 <defs>
+	  <linearGradient y2="0.39453" x2="0.9375" y1="0.15625" x1="0.46484" id="xsvg_16100">
+	   <stop stop-opacity="1" stop-color="#f2feff" offset="0"></stop>
+	   <stop stop-opacity="1" stop-color="#14609b" offset="1"></stop>
+	  </linearGradient>
+	  <linearGradient y2="0.56641" x2="0.77734" y1="0.26172" x1="0.18359" id="xsvg_19101">
+	   <stop stop-opacity="1" stop-color="#ffffff" offset="0"></stop>
+	   <stop stop-opacity="1" stop-color="#fce564" offset="1"></stop>
+	  </linearGradient>
+	 </defs>
+	  <line fill="none" stroke="#000000" id="svg_5" y2="21.14149" x2="12.97691" y1="1.49067" x1="0.99844"></line>
+	  <path stroke="#000000" fill="#a0a0a0" id="svg_6" d="m14.05272,13.68732l-1.46451,7.52632l4.03769,-6.32571"></path>
+	  <path stroke="#000000" fill="url(#xsvg_19101)" id="svg_7" d="m13.61215,10.26563c-0.38567,1.05257 -0.60723,2.40261 -0.50403,3.125l4.33468,1.81452c0.46153,-0.30769 1.6129,-1.71371 1.6129,-2.52016"></path>
+	  <path stroke="#000000" fill="url(#xsvg_16100)" id="svg_8" d="m16.61335,1.00028l-3.67325,8.60247l7.10285,3.47318l3.17783,-7.20549"></path>
+	</svg></svg></div>
+	<div class="tool_button" id="tools_rect_show" title="Square/Rect Tool [4/Shift+4]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+ <defs>
+  <linearGradient id="xsvg_240" x1="0.36328" y1="0.10156" x2="1" y2="1">
+   <stop offset="0" stop-color="#ffffff" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#3b7e9b" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <rect x="1.5" y="5.5" width="20" height="12" id="svg_1" fill="url(#xsvg_240)" stroke="#000000" transform="matrix(1, 0, 0, 1, 0, 0)"></rect>
+ </svg></svg></div>
+	<div class="flyout_arrow_horiz"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="5" width="5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 25 50" xmlns="http://www.w3.org/2000/svg">
+	  <path d="m0,0l0,50l25,-25l-25,-25z" fill="#000000" stroke="#000000"></path>
+	</svg></svg></div>
+	<div class="tool_button" id="tools_ellipse_show" title="Ellipse/Circle Tool [5/Shift+5]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg id="svgzoom" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xsvg_470" x1="0.171875" y1="0.1875" x2="1.0" y2="1.0">
+   <stop offset="0.0" stop-color="#ffffff" stop-opacity="1"></stop>
+   <stop offset="1.0" stop-color="#ff6666" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+ <g>
+  <ellipse cx="27" cy="27" ry="15" rx="23" id="svg_1" fill="url(#xsvg_470)" stroke="#000000" stroke-width="2" fill-opacity="1" stroke-opacity="1"></ellipse>
+ </g>
+</svg></svg></div>
+	<div class="flyout_arrow_horiz"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="5" width="5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 25 50" xmlns="http://www.w3.org/2000/svg">
+	  <path d="m0,0l0,50l25,-25l-25,-25z" fill="#000000" stroke="#000000"></path>
+	</svg></svg></div>
+	<div class="tool_button" id="tool_path" title="Path Tool [6]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 124 124" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xsvg_4120" x1="0.33594" y1="0.28125" x2="1" y2="1">
+   <stop offset="0" stop-color="#ffffff" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#33a533" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <path d="m6,103l55,-87c85,33.64 -26,37.12 55,87l-110,0z" id="svg_1" fill="url(#xsvg_4120)" stroke="#000000" stroke-width="4" stroke-dasharray="null"></path>
+ </svg></svg></div>
+	<div class="tool_button" id="tool_text" title="Text Tool [7]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 158 128" id="svgzoom">
+	  <text font-weight="bold" stroke-opacity="1" fill-opacity="1" text-anchor="middle" font-family="sans-serif" font-size="120pt" stroke-width="0" stroke="#000000" fill="#000000" id="svg_1" y="120" x="58">A</text>
+	  <line stroke-width="5" stroke-opacity="1" fill-opacity="1" fill="none" stroke="#000000" id="svg_2" y2="121" x2="136" y1="7" x1="136"></line>
+	  <line stroke-opacity="1" fill-opacity="1" fill="none" stroke-width="5" stroke="#000000" id="svg_3" y2="4" x2="152" y1="4" x1="120"></line>
+	 <line id="svg_4" stroke-opacity="1" fill-opacity="1" fill="none" stroke-width="5" stroke="#000000" y2="124" x2="152" y1="124" x1="120"></line>
+	</svg></svg></div>
+	<div class="tool_button" id="tool_image" title="Image Tool [8]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xsvg_25130" x1="1" y1="0" x2="1" y2="1">
+   <stop offset="0" stop-color="#10284c" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#5374ad" stop-opacity="1"></stop>
+  </linearGradient>
+  <linearGradient id="xsvg_23131" x1="1" y1="0" x2="0.99609" y2="0.75781">
+   <stop offset="0" stop-color="#162e84" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#97c4ef" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <rect stroke-width="0" stroke="#ffffff" fill="#202020" id="svg_18" height="17" width="22" y="3.83333" x="1"></rect>
+  <rect x="2.5" y="5.33333" width="19" height="14" id="svg_15" fill="#232947" stroke="#ffffff" stroke-width="1.2"></rect>
+  <rect x="4" y="6.7266" width="15.96424" height="7.02244" id="svg_20" fill="url(#xsvg_23131)"></rect>
+  <rect x="4" y="13.77454" width="15.96303" height="4.02393" id="svg_24" fill="url(#xsvg_25130)"></rect>
+  <circle cx="7.13254" cy="9.82002" r="1.83333" id="svg_26" fill="#ffffad"></circle>
+  <path stroke-width="0" stroke="#000000" fill="#404040" id="svg_14" d="m14.5696,13.77458l0.70243,-4.85313l-3.12899,4.85313l2.42656,0z"></path>
+  <path stroke-width="0" stroke="#000000" fill="#404040" id="svg_17" d="m15.27203,8.98531c2.74584,0.06386 2.42657,4.21456 -0.63857,4.85313c0.70243,-1.27714 1.66028,-3.63985 0.63857,-4.85313z"></path>
+</svg></svg></div>
+	<div class="tool_button" id="tool_zoom" title="Zoom Tool [9]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 150 150">
+	 <defs>
+	  <linearGradient y2="0" x2="1" y1="0" x1="0" id="xsvg_30140">
+	   <stop stop-opacity="1" stop-color="#d3d3d3" offset="0"></stop>
+	   <stop stop-opacity="1" stop-color="#424242" offset="1"></stop>
+	  </linearGradient>
+	 </defs>
+	  <path transform="rotate(-45, 116, 114)" stroke-width="2" stroke="#202020" fill="url(#xsvg_30140)" id="svg_29" d="m107.14774,101.03477l-0.64774,43.96523c5.00857,4.72089 14.00811,5.27188 19,0l-0.31667,-44.16l-9.61514,-19.84l-8.42046,20.03477z"></path>
+	  <circle stroke-width="5" stroke="#202020" fill="#c0c0c0" id="svg_22" r="51" cy="58" cx="58"></circle>
+	  <circle stroke-width="0" stroke="#202020" fill="#aaccff" id="svg_27" r="43" cy="58" cx="58"></circle>
+	  <path stroke-width="0" stroke="#202020" fill="#8cbaff" id="svg_28" d="m15.68604,61.46511c38.13954,17.67442 48.13954,15.34883 85.11628,-0.46511c1.39536,18.60465 -19.30231,41.86047 -42.7907,40.93023c-21.6279,-0.93023 -42.7907,-21.86046 -42.32558,-40.46511z"></path>
+	</svg></svg></div>
+</div> <!-- tools_left -->
+
+<div id="tools_bottom" class="tools_panel">
+
+    <!-- Zoom buttons -->
+	<div id="zoom_panel" class="magic_field">
+		<span id="zoomLabel" class="zoom_tool label">zoom:</span>
+		<input autocomplete="off" id="zoom" class="zoom_tool spin-button" title="Change zoom level" size="3" value="100" type="text">
+		<div id="zoom_dropdown" class="dropdown dropup">
+			<button><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="7" width="7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 40">
+	  <path stroke="#000000" fill="#000000" d="m14,-12l0,50l25,-25l-25,-25z" transform="rotate(90, 26, 13)"></path>
+	</svg></svg></button>
+			<ul>
+				<li>1000%</li>
+				<li>400%</li>
+				<li>200%</li>
+				<li>100%</li>
+				<li>50%</li>
+				<li>25%</li>
+				<li id="fit_to_canvas" data-val="canvas">Fit to canvas</li>
+				<li id="fit_to_sel" data-val="selection">Fit to selection</li>
+				<li id="fit_to_layer_content" data-val="layer">Fit to layer content</li>
+				<li id="fit_to_all" data-val="content">Fit to all content</li>
+				<li>100%</li>
+			</ul>
+		</div>
+		<div class="tool_sep"></div>
+	</div>
+
+	<div id="tools_bottom_2">
+		<table>
+		<tbody><tr>
+			<td id="fill_tool_bottom" class="label">fill:</td>
+			<td><div id="fill_bg"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	  <line x1="0" y1="0" x2="24" y2="24" id="svg_90" stroke="#d40000" fill="none"></line>
+	  <line x1="24" y1="0" x2="0" y2="24" stroke="#d40000" fill="none" id="svg_92"></line>
+	</svg></svg></div><div id="fill_color" class="color_block" title="Change fill color"><svg width="16.5" xmlns="http://www.w3.org/2000/svg"><rect fill="#FF0000" height="100%" width="100%"></rect>		<linearGradient id="gradbox_fill">				<stop offset="0.0" stop-color="#000"></stop>				<stop offset="1.0" stop-color="#FF0000"></stop>		</linearGradient></svg></div></td>
+			<td colspan="3"><div id="fill_opacity" class="label">100%</div></td>
+		</tr><tr>
+			<td id="stroke_tool_bottom" class="label">stroke:</td>
+			<td><div id="stroke_bg"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	  <line x1="0" y1="0" x2="24" y2="24" id="svg_90" stroke="#d40000" fill="none"></line>
+	  <line x1="24" y1="0" x2="0" y2="24" stroke="#d40000" fill="none" id="svg_92"></line>
+	</svg></svg></div><div id="stroke_color" class="color_block" title="Change stroke color"><svg width="16.5" xmlns="http://www.w3.org/2000/svg"><rect fill="#000000" height="100%" width="100%"></rect>		<linearGradient id="gradbox_stroke">				<stop offset="0.0" stop-color="#000"></stop>				<stop offset="1.0" stop-color="#FF0000"></stop>		</linearGradient></svg></div></td>
+			<td><div id="stroke_opacity" class="label">100 %</div></td>
+			<td>
+				<input class="spin-button" autocomplete="off" id="stroke_width" title="Change stroke width" size="2" value="5" data-attr="Stroke Width" type="text">
+			</td>
+			<td>
+				<select autocomplete="off" id="stroke_style" title="Change stroke dash style">
+					<option selected="selected" value="none">---</option>
+					<option value="2,2">...</option>
+					<option value="5,5">- -</option>
+					<option value="5,2,2,2">- .</option>
+					<option value="5,2,2,2,2,2">- ..</option>
+				</select>
+			</td>
+		</tr>
+		</tbody></table>
+	</div>
+
+	<div id="tools_bottom_3">
+		<div id="palette_holder"><div id="palette" title="Click to change fill color, shift-click to change stroke color"><div class="palette_item" data-rgb="none"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	  <line x1="0" y1="0" x2="24" y2="24" id="svg_90" stroke="#d40000" fill="none"></line>
+	  <line x1="24" y1="0" x2="0" y2="24" stroke="#d40000" fill="none" id="svg_92"></line>
+	</svg></svg></div><div class="palette_item" style="background-color: #000000;" data-rgb="#000000"></div><div class="palette_item" style="background-color: #202020;" data-rgb="#202020"></div><div class="palette_item" style="background-color: #404040;" data-rgb="#404040"></div><div class="palette_item" style="background-color: #606060;" data-rgb="#606060"></div><div class="palette_item" style="background-color: #808080;" data-rgb="#808080"></div><div class="palette_item" style="background-color: #a0a0a0;" data-rgb="#a0a0a0"></div><div class="palette_item" style="background-color: #c0c0c0;" data-rgb="#c0c0c0"></div><div class="palette_item" style="background-color: #e0e0e0;" data-rgb="#e0e0e0"></div><div class="palette_item" style="background-color: #ffffff;" data-rgb="#ffffff"></div><div class="palette_item" style="background-color: #800000;" data-rgb="#800000"></div><div class="palette_item" style="background-color: #ff0000;" data-rgb="#ff0000"></div><div class="palette_item" style="background-color: #808000;" data-rgb="#808000"></div><div class="palette_item" style="background-color: #ffff00;" data-rgb="#ffff00"></div><div class="palette_item" style="background-color: #008000;" data-rgb="#008000"></div><div class="palette_item" style="background-color: #00ff00;" data-rgb="#00ff00"></div><div class="palette_item" style="background-color: #008080;" data-rgb="#008080"></div><div class="palette_item" style="background-color: #00ffff;" data-rgb="#00ffff"></div><div class="palette_item" style="background-color: #000080;" data-rgb="#000080"></div><div class="palette_item" style="background-color: #0000ff;" data-rgb="#0000ff"></div><div class="palette_item" style="background-color: #800080;" data-rgb="#800080"></div><div class="palette_item" style="background-color: #ff00ff;" data-rgb="#ff00ff"></div><div class="palette_item" style="background-color: #2b0000;" data-rgb="#2b0000"></div><div class="palette_item" style="background-color: #550000;" data-rgb="#550000"></div><div class="palette_item" style="background-color: #800000;" data-rgb="#800000"></div><div class="palette_item" style="background-color: #aa0000;" data-rgb="#aa0000"></div><div class="palette_item" style="background-color: #d40000;" data-rgb="#d40000"></div><div class="palette_item" style="background-color: #ff0000;" data-rgb="#ff0000"></div><div class="palette_item" style="background-color: #ff2a2a;" data-rgb="#ff2a2a"></div><div class="palette_item" style="background-color: #ff5555;" data-rgb="#ff5555"></div><div class="palette_item" style="background-color: #ff8080;" data-rgb="#ff8080"></div><div class="palette_item" style="background-color: #ffaaaa;" data-rgb="#ffaaaa"></div><div class="palette_item" style="background-color: #ffd5d5;" data-rgb="#ffd5d5"></div><div class="palette_item" style="background-color: #280b0b;" data-rgb="#280b0b"></div><div class="palette_item" style="background-color: #501616;" data-rgb="#501616"></div><div class="palette_item" style="background-color: #782121;" data-rgb="#782121"></div><div class="palette_item" style="background-color: #a02c2c;" data-rgb="#a02c2c"></div><div class="palette_item" style="background-color: #c83737;" data-rgb="#c83737"></div><div class="palette_item" style="background-color: #d35f5f;" data-rgb="#d35f5f"></div><div class="palette_item" style="background-color: #de8787;" data-rgb="#de8787"></div><div class="palette_item" style="background-color: #e9afaf;" data-rgb="#e9afaf"></div><div class="palette_item" style="background-color: #f4d7d7;" data-rgb="#f4d7d7"></div><div class="palette_item" style="background-color: #241c1c;" data-rgb="#241c1c"></div><div class="palette_item" style="background-color: #483737;" data-rgb="#483737"></div><div class="palette_item" style="background-color: #6c5353;" data-rgb="#6c5353"></div><div class="palette_item" style="background-color: #916f6f;" data-rgb="#916f6f"></div><div class="palette_item" style="background-color: #ac9393;" data-rgb="#ac9393"></div><div class="palette_item" style="background-color: #c8b7b7;" data-rgb="#c8b7b7"></div><div class="palette_item" style="background-color: #e3dbdb;" data-rgb="#e3dbdb"></div><div class="palette_item" style="background-color: #2b1100;" data-rgb="#2b1100"></div><div class="palette_item" style="background-color: #552200;" data-rgb="#552200"></div><div class="palette_item" style="background-color: #803300;" data-rgb="#803300"></div><div class="palette_item" style="background-color: #aa4400;" data-rgb="#aa4400"></div><div class="palette_item" style="background-color: #d45500;" data-rgb="#d45500"></div><div class="palette_item" style="background-color: #ff6600;" data-rgb="#ff6600"></div><div class="palette_item" style="background-color: #ff7f2a;" data-rgb="#ff7f2a"></div><div class="palette_item" style="background-color: #ff9955;" data-rgb="#ff9955"></div><div class="palette_item" style="background-color: #ffb380;" data-rgb="#ffb380"></div><div class="palette_item" style="background-color: #ffccaa;" data-rgb="#ffccaa"></div><div class="palette_item" style="background-color: #ffe6d5;" data-rgb="#ffe6d5"></div><div class="palette_item" style="background-color: #28170b;" data-rgb="#28170b"></div><div class="palette_item" style="background-color: #502d16;" data-rgb="#502d16"></div><div class="palette_item" style="background-color: #784421;" data-rgb="#784421"></div><div class="palette_item" style="background-color: #a05a2c;" data-rgb="#a05a2c"></div><div class="palette_item" style="background-color: #c87137;" data-rgb="#c87137"></div><div class="palette_item" style="background-color: #d38d5f;" data-rgb="#d38d5f"></div><div class="palette_item" style="background-color: #deaa87;" data-rgb="#deaa87"></div><div class="palette_item" style="background-color: #e9c6af;" data-rgb="#e9c6af"></div><div class="palette_item" style="background-color: #f4e3d7;" data-rgb="#f4e3d7"></div><div class="palette_item" style="background-color: #241f1c;" data-rgb="#241f1c"></div><div class="palette_item" style="background-color: #483e37;" data-rgb="#483e37"></div><div class="palette_item" style="background-color: #6c5d53;" data-rgb="#6c5d53"></div><div class="palette_item" style="background-color: #917c6f;" data-rgb="#917c6f"></div><div class="palette_item" style="background-color: #ac9d93;" data-rgb="#ac9d93"></div><div class="palette_item" style="background-color: #c8beb7;" data-rgb="#c8beb7"></div><div class="palette_item" style="background-color: #e3dedb;" data-rgb="#e3dedb"></div><div class="palette_item" style="background-color: #2b2200;" data-rgb="#2b2200"></div><div class="palette_item" style="background-color: #554400;" data-rgb="#554400"></div><div class="palette_item" style="background-color: #806600;" data-rgb="#806600"></div><div class="palette_item" style="background-color: #aa8800;" data-rgb="#aa8800"></div><div class="palette_item" style="background-color: #d4aa00;" data-rgb="#d4aa00"></div><div class="palette_item" style="background-color: #ffcc00;" data-rgb="#ffcc00"></div><div class="palette_item" style="background-color: #ffd42a;" data-rgb="#ffd42a"></div><div class="palette_item" style="background-color: #ffdd55;" data-rgb="#ffdd55"></div><div class="palette_item" style="background-color: #ffe680;" data-rgb="#ffe680"></div><div class="palette_item" style="background-color: #ffeeaa;" data-rgb="#ffeeaa"></div><div class="palette_item" style="background-color: #fff6d5;" data-rgb="#fff6d5"></div><div class="palette_item" style="background-color: #28220b;" data-rgb="#28220b"></div><div class="palette_item" style="background-color: #504416;" data-rgb="#504416"></div><div class="palette_item" style="background-color: #786721;" data-rgb="#786721"></div><div class="palette_item" style="background-color: #a0892c;" data-rgb="#a0892c"></div><div class="palette_item" style="background-color: #c8ab37;" data-rgb="#c8ab37"></div><div class="palette_item" style="background-color: #d3bc5f;" data-rgb="#d3bc5f"></div><div class="palette_item" style="background-color: #decd87;" data-rgb="#decd87"></div><div class="palette_item" style="background-color: #e9ddaf;" data-rgb="#e9ddaf"></div><div class="palette_item" style="background-color: #f4eed7;" data-rgb="#f4eed7"></div><div class="palette_item" style="background-color: #24221c;" data-rgb="#24221c"></div><div class="palette_item" style="background-color: #484537;" data-rgb="#484537"></div><div class="palette_item" style="background-color: #6c6753;" data-rgb="#6c6753"></div><div class="palette_item" style="background-color: #918a6f;" data-rgb="#918a6f"></div><div class="palette_item" style="background-color: #aca793;" data-rgb="#aca793"></div><div class="palette_item" style="background-color: #c8c4b7;" data-rgb="#c8c4b7"></div><div class="palette_item" style="background-color: #e3e2db;" data-rgb="#e3e2db"></div><div class="palette_item" style="background-color: #222b00;" data-rgb="#222b00"></div><div class="palette_item" style="background-color: #445500;" data-rgb="#445500"></div><div class="palette_item" style="background-color: #668000;" data-rgb="#668000"></div><div class="palette_item" style="background-color: #88aa00;" data-rgb="#88aa00"></div><div class="palette_item" style="background-color: #aad400;" data-rgb="#aad400"></div><div class="palette_item" style="background-color: #ccff00;" data-rgb="#ccff00"></div><div class="palette_item" style="background-color: #d4ff2a;" data-rgb="#d4ff2a"></div><div class="palette_item" style="background-color: #ddff55;" data-rgb="#ddff55"></div><div class="palette_item" style="background-color: #e5ff80;" data-rgb="#e5ff80"></div><div class="palette_item" style="background-color: #eeffaa;" data-rgb="#eeffaa"></div><div class="palette_item" style="background-color: #f6ffd5;" data-rgb="#f6ffd5"></div><div class="palette_item" style="background-color: #22280b;" data-rgb="#22280b"></div><div class="palette_item" style="background-color: #445016;" data-rgb="#445016"></div><div class="palette_item" style="background-color: #677821;" data-rgb="#677821"></div><div class="palette_item" style="background-color: #89a02c;" data-rgb="#89a02c"></div><div class="palette_item" style="background-color: #abc837;" data-rgb="#abc837"></div><div class="palette_item" style="background-color: #bcd35f;" data-rgb="#bcd35f"></div><div class="palette_item" style="background-color: #cdde87;" data-rgb="#cdde87"></div><div class="palette_item" style="background-color: #dde9af;" data-rgb="#dde9af"></div><div class="palette_item" style="background-color: #eef4d7;" data-rgb="#eef4d7"></div><div class="palette_item" style="background-color: #22241c;" data-rgb="#22241c"></div><div class="palette_item" style="background-color: #454837;" data-rgb="#454837"></div><div class="palette_item" style="background-color: #676c53;" data-rgb="#676c53"></div><div class="palette_item" style="background-color: #8a916f;" data-rgb="#8a916f"></div><div class="palette_item" style="background-color: #a7ac93;" data-rgb="#a7ac93"></div><div class="palette_item" style="background-color: #c4c8b7;" data-rgb="#c4c8b7"></div><div class="palette_item" style="background-color: #e2e3db;" data-rgb="#e2e3db"></div><div class="palette_item" style="background-color: #112b00;" data-rgb="#112b00"></div><div class="palette_item" style="background-color: #225500;" data-rgb="#225500"></div><div class="palette_item" style="background-color: #338000;" data-rgb="#338000"></div><div class="palette_item" style="background-color: #44aa00;" data-rgb="#44aa00"></div><div class="palette_item" style="background-color: #55d400;" data-rgb="#55d400"></div><div class="palette_item" style="background-color: #66ff00;" data-rgb="#66ff00"></div><div class="palette_item" style="background-color: #7fff2a;" data-rgb="#7fff2a"></div><div class="palette_item" style="background-color: #99ff55;" data-rgb="#99ff55"></div><div class="palette_item" style="background-color: #b3ff80;" data-rgb="#b3ff80"></div><div class="palette_item" style="background-color: #ccffaa;" data-rgb="#ccffaa"></div><div class="palette_item" style="background-color: #e5ffd5;" data-rgb="#e5ffd5"></div><div class="palette_item" style="background-color: #17280b;" data-rgb="#17280b"></div><div class="palette_item" style="background-color: #2d5016;" data-rgb="#2d5016"></div><div class="palette_item" style="background-color: #447821;" data-rgb="#447821"></div><div class="palette_item" style="background-color: #5aa02c;" data-rgb="#5aa02c"></div><div class="palette_item" style="background-color: #71c837;" data-rgb="#71c837"></div><div class="palette_item" style="background-color: #8dd35f;" data-rgb="#8dd35f"></div><div class="palette_item" style="background-color: #aade87;" data-rgb="#aade87"></div><div class="palette_item" style="background-color: #c6e9af;" data-rgb="#c6e9af"></div><div class="palette_item" style="background-color: #e3f4d7;" data-rgb="#e3f4d7"></div><div class="palette_item" style="background-color: #1f241c;" data-rgb="#1f241c"></div><div class="palette_item" style="background-color: #3e4837;" data-rgb="#3e4837"></div><div class="palette_item" style="background-color: #5d6c53;" data-rgb="#5d6c53"></div><div class="palette_item" style="background-color: #7c916f;" data-rgb="#7c916f"></div><div class="palette_item" style="background-color: #9dac93;" data-rgb="#9dac93"></div><div class="palette_item" style="background-color: #bec8b7;" data-rgb="#bec8b7"></div><div class="palette_item" style="background-color: #dee3db;" data-rgb="#dee3db"></div><div class="palette_item" style="background-color: #002b00;" data-rgb="#002b00"></div><div class="palette_item" style="background-color: #005500;" data-rgb="#005500"></div><div class="palette_item" style="background-color: #008000;" data-rgb="#008000"></div><div class="palette_item" style="background-color: #00aa00;" data-rgb="#00aa00"></div><div class="palette_item" style="background-color: #00d400;" data-rgb="#00d400"></div><div class="palette_item" style="background-color: #00ff00;" data-rgb="#00ff00"></div><div class="palette_item" style="background-color: #2aff2a;" data-rgb="#2aff2a"></div><div class="palette_item" style="background-color: #55ff55;" data-rgb="#55ff55"></div><div class="palette_item" style="background-color: #80ff80;" data-rgb="#80ff80"></div><div class="palette_item" style="background-color: #aaffaa;" data-rgb="#aaffaa"></div><div class="palette_item" style="background-color: #d5ffd5;" data-rgb="#d5ffd5"></div><div class="palette_item" style="background-color: #0b280b;" data-rgb="#0b280b"></div><div class="palette_item" style="background-color: #165016;" data-rgb="#165016"></div><div class="palette_item" style="background-color: #217821;" data-rgb="#217821"></div><div class="palette_item" style="background-color: #2ca02c;" data-rgb="#2ca02c"></div><div class="palette_item" style="background-color: #37c837;" data-rgb="#37c837"></div><div class="palette_item" style="background-color: #5fd35f;" data-rgb="#5fd35f"></div><div class="palette_item" style="background-color: #87de87;" data-rgb="#87de87"></div><div class="palette_item" style="background-color: #afe9af;" data-rgb="#afe9af"></div><div class="palette_item" style="background-color: #d7f4d7;" data-rgb="#d7f4d7"></div><div class="palette_item" style="background-color: #1c241c;" data-rgb="#1c241c"></div><div class="palette_item" style="background-color: #374837;" data-rgb="#374837"></div><div class="palette_item" style="background-color: #536c53;" data-rgb="#536c53"></div><div class="palette_item" style="background-color: #6f916f;" data-rgb="#6f916f"></div><div class="palette_item" style="background-color: #93ac93;" data-rgb="#93ac93"></div><div class="palette_item" style="background-color: #b7c8b7;" data-rgb="#b7c8b7"></div><div class="palette_item" style="background-color: #dbe3db;" data-rgb="#dbe3db"></div><div class="palette_item" style="background-color: #002b11;" data-rgb="#002b11"></div><div class="palette_item" style="background-color: #005522;" data-rgb="#005522"></div><div class="palette_item" style="background-color: #008033;" data-rgb="#008033"></div><div class="palette_item" style="background-color: #00aa44;" data-rgb="#00aa44"></div><div class="palette_item" style="background-color: #00d455;" data-rgb="#00d455"></div><div class="palette_item" style="background-color: #00ff66;" data-rgb="#00ff66"></div><div class="palette_item" style="background-color: #2aff80;" data-rgb="#2aff80"></div><div class="palette_item" style="background-color: #55ff99;" data-rgb="#55ff99"></div><div class="palette_item" style="background-color: #80ffb3;" data-rgb="#80ffb3"></div><div class="palette_item" style="background-color: #aaffcc;" data-rgb="#aaffcc"></div><div class="palette_item" style="background-color: #d5ffe6;" data-rgb="#d5ffe6"></div><div class="palette_item" style="background-color: #0b2817;" data-rgb="#0b2817"></div><div class="palette_item" style="background-color: #16502d;" data-rgb="#16502d"></div><div class="palette_item" style="background-color: #217844;" data-rgb="#217844"></div><div class="palette_item" style="background-color: #2ca05a;" data-rgb="#2ca05a"></div><div class="palette_item" style="background-color: #37c871;" data-rgb="#37c871"></div><div class="palette_item" style="background-color: #5fd38d;" data-rgb="#5fd38d"></div><div class="palette_item" style="background-color: #87deaa;" data-rgb="#87deaa"></div><div class="palette_item" style="background-color: #afe9c6;" data-rgb="#afe9c6"></div><div class="palette_item" style="background-color: #d7f4e3;" data-rgb="#d7f4e3"></div><div class="palette_item" style="background-color: #1c241f;" data-rgb="#1c241f"></div><div class="palette_item" style="background-color: #37483e;" data-rgb="#37483e"></div><div class="palette_item" style="background-color: #536c5d;" data-rgb="#536c5d"></div><div class="palette_item" style="background-color: #6f917c;" data-rgb="#6f917c"></div><div class="palette_item" style="background-color: #93ac9d;" data-rgb="#93ac9d"></div><div class="palette_item" style="background-color: #b7c8be;" data-rgb="#b7c8be"></div><div class="palette_item" style="background-color: #dbe3de;" data-rgb="#dbe3de"></div><div class="palette_item" style="background-color: #002b22;" data-rgb="#002b22"></div><div class="palette_item" style="background-color: #005544;" data-rgb="#005544"></div><div class="palette_item" style="background-color: #008066;" data-rgb="#008066"></div><div class="palette_item" style="background-color: #00aa88;" data-rgb="#00aa88"></div><div class="palette_item" style="background-color: #00d4aa;" data-rgb="#00d4aa"></div><div class="palette_item" style="background-color: #00ffcc;" data-rgb="#00ffcc"></div><div class="palette_item" style="background-color: #2affd5;" data-rgb="#2affd5"></div><div class="palette_item" style="background-color: #55ffdd;" data-rgb="#55ffdd"></div><div class="palette_item" style="background-color: #80ffe6;" data-rgb="#80ffe6"></div><div class="palette_item" style="background-color: #aaffee;" data-rgb="#aaffee"></div><div class="palette_item" style="background-color: #d5fff6;" data-rgb="#d5fff6"></div><div class="palette_item" style="background-color: #0b2822;" data-rgb="#0b2822"></div><div class="palette_item" style="background-color: #165044;" data-rgb="#165044"></div><div class="palette_item" style="background-color: #217867;" data-rgb="#217867"></div><div class="palette_item" style="background-color: #2ca089;" data-rgb="#2ca089"></div><div class="palette_item" style="background-color: #37c8ab;" data-rgb="#37c8ab"></div><div class="palette_item" style="background-color: #5fd3bc;" data-rgb="#5fd3bc"></div><div class="palette_item" style="background-color: #87decd;" data-rgb="#87decd"></div><div class="palette_item" style="background-color: #afe9dd;" data-rgb="#afe9dd"></div><div class="palette_item" style="background-color: #d7f4ee;" data-rgb="#d7f4ee"></div><div class="palette_item" style="background-color: #1c2422;" data-rgb="#1c2422"></div><div class="palette_item" style="background-color: #374845;" data-rgb="#374845"></div><div class="palette_item" style="background-color: #536c67;" data-rgb="#536c67"></div><div class="palette_item" style="background-color: #6f918a;" data-rgb="#6f918a"></div><div class="palette_item" style="background-color: #93aca7;" data-rgb="#93aca7"></div><div class="palette_item" style="background-color: #b7c8c4;" data-rgb="#b7c8c4"></div><div class="palette_item" style="background-color: #dbe3e2;" data-rgb="#dbe3e2"></div><div class="palette_item" style="background-color: #00222b;" data-rgb="#00222b"></div><div class="palette_item" style="background-color: #004455;" data-rgb="#004455"></div><div class="palette_item" style="background-color: #006680;" data-rgb="#006680"></div><div class="palette_item" style="background-color: #0088aa;" data-rgb="#0088aa"></div><div class="palette_item" style="background-color: #00aad4;" data-rgb="#00aad4"></div><div class="palette_item" style="background-color: #00ccff;" data-rgb="#00ccff"></div><div class="palette_item" style="background-color: #2ad4ff;" data-rgb="#2ad4ff"></div><div class="palette_item" style="background-color: #55ddff;" data-rgb="#55ddff"></div><div class="palette_item" style="background-color: #80e5ff;" data-rgb="#80e5ff"></div><div class="palette_item" style="background-color: #aaeeff;" data-rgb="#aaeeff"></div><div class="palette_item" style="background-color: #d5f6ff;" data-rgb="#d5f6ff"></div><div class="palette_item" style="background-color: #0b2228;" data-rgb="#0b2228"></div><div class="palette_item" style="background-color: #164450;" data-rgb="#164450"></div><div class="palette_item" style="background-color: #216778;" data-rgb="#216778"></div><div class="palette_item" style="background-color: #2c89a0;" data-rgb="#2c89a0"></div><div class="palette_item" style="background-color: #37abc8;" data-rgb="#37abc8"></div><div class="palette_item" style="background-color: #5fbcd3;" data-rgb="#5fbcd3"></div><div class="palette_item" style="background-color: #87cdde;" data-rgb="#87cdde"></div><div class="palette_item" style="background-color: #afdde9;" data-rgb="#afdde9"></div><div class="palette_item" style="background-color: #d7eef4;" data-rgb="#d7eef4"></div><div class="palette_item" style="background-color: #1c2224;" data-rgb="#1c2224"></div><div class="palette_item" style="background-color: #374548;" data-rgb="#374548"></div><div class="palette_item" style="background-color: #53676c;" data-rgb="#53676c"></div><div class="palette_item" style="background-color: #6f8a91;" data-rgb="#6f8a91"></div><div class="palette_item" style="background-color: #93a7ac;" data-rgb="#93a7ac"></div><div class="palette_item" style="background-color: #b7c4c8;" data-rgb="#b7c4c8"></div><div class="palette_item" style="background-color: #dbe2e3;" data-rgb="#dbe2e3"></div><div class="palette_item" style="background-color: #00112b;" data-rgb="#00112b"></div><div class="palette_item" style="background-color: #002255;" data-rgb="#002255"></div><div class="palette_item" style="background-color: #003380;" data-rgb="#003380"></div><div class="palette_item" style="background-color: #0044aa;" data-rgb="#0044aa"></div><div class="palette_item" style="background-color: #0055d4;" data-rgb="#0055d4"></div><div class="palette_item" style="background-color: #0066ff;" data-rgb="#0066ff"></div><div class="palette_item" style="background-color: #2a7fff;" data-rgb="#2a7fff"></div><div class="palette_item" style="background-color: #5599ff;" data-rgb="#5599ff"></div><div class="palette_item" style="background-color: #80b3ff;" data-rgb="#80b3ff"></div><div class="palette_item" style="background-color: #aaccff;" data-rgb="#aaccff"></div><div class="palette_item" style="background-color: #d5e5ff;" data-rgb="#d5e5ff"></div><div class="palette_item" style="background-color: #0b1728;" data-rgb="#0b1728"></div><div class="palette_item" style="background-color: #162d50;" data-rgb="#162d50"></div><div class="palette_item" style="background-color: #214478;" data-rgb="#214478"></div><div class="palette_item" style="background-color: #2c5aa0;" data-rgb="#2c5aa0"></div><div class="palette_item" style="background-color: #3771c8;" data-rgb="#3771c8"></div><div class="palette_item" style="background-color: #5f8dd3;" data-rgb="#5f8dd3"></div><div class="palette_item" style="background-color: #87aade;" data-rgb="#87aade"></div><div class="palette_item" style="background-color: #afc6e9;" data-rgb="#afc6e9"></div><div class="palette_item" style="background-color: #d7e3f4;" data-rgb="#d7e3f4"></div><div class="palette_item" style="background-color: #1c1f24;" data-rgb="#1c1f24"></div><div class="palette_item" style="background-color: #373e48;" data-rgb="#373e48"></div><div class="palette_item" style="background-color: #535d6c;" data-rgb="#535d6c"></div><div class="palette_item" style="background-color: #6f7c91;" data-rgb="#6f7c91"></div><div class="palette_item" style="background-color: #939dac;" data-rgb="#939dac"></div><div class="palette_item" style="background-color: #b7bec8;" data-rgb="#b7bec8"></div><div class="palette_item" style="background-color: #dbdee3;" data-rgb="#dbdee3"></div><div class="palette_item" style="background-color: #00002b;" data-rgb="#00002b"></div><div class="palette_item" style="background-color: #000055;" data-rgb="#000055"></div><div class="palette_item" style="background-color: #000080;" data-rgb="#000080"></div><div class="palette_item" style="background-color: #0000aa;" data-rgb="#0000aa"></div><div class="palette_item" style="background-color: #0000d4;" data-rgb="#0000d4"></div><div class="palette_item" style="background-color: #0000ff;" data-rgb="#0000ff"></div><div class="palette_item" style="background-color: #2a2aff;" data-rgb="#2a2aff"></div><div class="palette_item" style="background-color: #5555ff;" data-rgb="#5555ff"></div><div class="palette_item" style="background-color: #8080ff;" data-rgb="#8080ff"></div><div class="palette_item" style="background-color: #aaaaff;" data-rgb="#aaaaff"></div><div class="palette_item" style="background-color: #d5d5ff;" data-rgb="#d5d5ff"></div><div class="palette_item" style="background-color: #0b0b28;" data-rgb="#0b0b28"></div><div class="palette_item" style="background-color: #161650;" data-rgb="#161650"></div><div class="palette_item" style="background-color: #212178;" data-rgb="#212178"></div><div class="palette_item" style="background-color: #2c2ca0;" data-rgb="#2c2ca0"></div><div class="palette_item" style="background-color: #3737c8;" data-rgb="#3737c8"></div><div class="palette_item" style="background-color: #5f5fd3;" data-rgb="#5f5fd3"></div><div class="palette_item" style="background-color: #8787de;" data-rgb="#8787de"></div><div class="palette_item" style="background-color: #afafe9;" data-rgb="#afafe9"></div><div class="palette_item" style="background-color: #d7d7f4;" data-rgb="#d7d7f4"></div><div class="palette_item" style="background-color: #1c1c24;" data-rgb="#1c1c24"></div><div class="palette_item" style="background-color: #373748;" data-rgb="#373748"></div><div class="palette_item" style="background-color: #53536c;" data-rgb="#53536c"></div><div class="palette_item" style="background-color: #6f6f91;" data-rgb="#6f6f91"></div><div class="palette_item" style="background-color: #9393ac;" data-rgb="#9393ac"></div><div class="palette_item" style="background-color: #b7b7c8;" data-rgb="#b7b7c8"></div><div class="palette_item" style="background-color: #dbdbe3;" data-rgb="#dbdbe3"></div><div class="palette_item" style="background-color: #11002b;" data-rgb="#11002b"></div><div class="palette_item" style="background-color: #220055;" data-rgb="#220055"></div><div class="palette_item" style="background-color: #330080;" data-rgb="#330080"></div><div class="palette_item" style="background-color: #4400aa;" data-rgb="#4400aa"></div><div class="palette_item" style="background-color: #5500d4;" data-rgb="#5500d4"></div><div class="palette_item" style="background-color: #6600ff;" data-rgb="#6600ff"></div><div class="palette_item" style="background-color: #7f2aff;" data-rgb="#7f2aff"></div><div class="palette_item" style="background-color: #9955ff;" data-rgb="#9955ff"></div><div class="palette_item" style="background-color: #b380ff;" data-rgb="#b380ff"></div><div class="palette_item" style="background-color: #ccaaff;" data-rgb="#ccaaff"></div><div class="palette_item" style="background-color: #e5d5ff;" data-rgb="#e5d5ff"></div><div class="palette_item" style="background-color: #170b28;" data-rgb="#170b28"></div><div class="palette_item" style="background-color: #2d1650;" data-rgb="#2d1650"></div><div class="palette_item" style="background-color: #442178;" data-rgb="#442178"></div><div class="palette_item" style="background-color: #5a2ca0;" data-rgb="#5a2ca0"></div><div class="palette_item" style="background-color: #7137c8;" data-rgb="#7137c8"></div><div class="palette_item" style="background-color: #8d5fd3;" data-rgb="#8d5fd3"></div><div class="palette_item" style="background-color: #aa87de;" data-rgb="#aa87de"></div><div class="palette_item" style="background-color: #c6afe9;" data-rgb="#c6afe9"></div><div class="palette_item" style="background-color: #e3d7f4;" data-rgb="#e3d7f4"></div><div class="palette_item" style="background-color: #1f1c24;" data-rgb="#1f1c24"></div><div class="palette_item" style="background-color: #3e3748;" data-rgb="#3e3748"></div><div class="palette_item" style="background-color: #5d536c;" data-rgb="#5d536c"></div><div class="palette_item" style="background-color: #7c6f91;" data-rgb="#7c6f91"></div><div class="palette_item" style="background-color: #9d93ac;" data-rgb="#9d93ac"></div><div class="palette_item" style="background-color: #beb7c8;" data-rgb="#beb7c8"></div><div class="palette_item" style="background-color: #dedbe3;" data-rgb="#dedbe3"></div><div class="palette_item" style="background-color: #22002b;" data-rgb="#22002b"></div><div class="palette_item" style="background-color: #440055;" data-rgb="#440055"></div><div class="palette_item" style="background-color: #660080;" data-rgb="#660080"></div><div class="palette_item" style="background-color: #8800aa;" data-rgb="#8800aa"></div><div class="palette_item" style="background-color: #aa00d4;" data-rgb="#aa00d4"></div><div class="palette_item" style="background-color: #cc00ff;" data-rgb="#cc00ff"></div><div class="palette_item" style="background-color: #d42aff;" data-rgb="#d42aff"></div><div class="palette_item" style="background-color: #dd55ff;" data-rgb="#dd55ff"></div><div class="palette_item" style="background-color: #e580ff;" data-rgb="#e580ff"></div><div class="palette_item" style="background-color: #eeaaff;" data-rgb="#eeaaff"></div><div class="palette_item" style="background-color: #f6d5ff;" data-rgb="#f6d5ff"></div><div class="palette_item" style="background-color: #220b28;" data-rgb="#220b28"></div><div class="palette_item" style="background-color: #441650;" data-rgb="#441650"></div><div class="palette_item" style="background-color: #672178;" data-rgb="#672178"></div><div class="palette_item" style="background-color: #892ca0;" data-rgb="#892ca0"></div><div class="palette_item" style="background-color: #ab37c8;" data-rgb="#ab37c8"></div><div class="palette_item" style="background-color: #bc5fd3;" data-rgb="#bc5fd3"></div><div class="palette_item" style="background-color: #cd87de;" data-rgb="#cd87de"></div><div class="palette_item" style="background-color: #ddafe9;" data-rgb="#ddafe9"></div><div class="palette_item" style="background-color: #eed7f4;" data-rgb="#eed7f4"></div><div class="palette_item" style="background-color: #221c24;" data-rgb="#221c24"></div><div class="palette_item" style="background-color: #453748;" data-rgb="#453748"></div><div class="palette_item" style="background-color: #67536c;" data-rgb="#67536c"></div><div class="palette_item" style="background-color: #8a6f91;" data-rgb="#8a6f91"></div><div class="palette_item" style="background-color: #a793ac;" data-rgb="#a793ac"></div><div class="palette_item" style="background-color: #c4b7c8;" data-rgb="#c4b7c8"></div><div class="palette_item" style="background-color: #e2dbe3;" data-rgb="#e2dbe3"></div><div class="palette_item" style="background-color: #2b0022;" data-rgb="#2b0022"></div><div class="palette_item" style="background-color: #550044;" data-rgb="#550044"></div><div class="palette_item" style="background-color: #800066;" data-rgb="#800066"></div><div class="palette_item" style="background-color: #aa0088;" data-rgb="#aa0088"></div><div class="palette_item" style="background-color: #d400aa;" data-rgb="#d400aa"></div><div class="palette_item" style="background-color: #ff00cc;" data-rgb="#ff00cc"></div><div class="palette_item" style="background-color: #ff2ad4;" data-rgb="#ff2ad4"></div><div class="palette_item" style="background-color: #ff55dd;" data-rgb="#ff55dd"></div><div class="palette_item" style="background-color: #ff80e5;" data-rgb="#ff80e5"></div><div class="palette_item" style="background-color: #ffaaee;" data-rgb="#ffaaee"></div><div class="palette_item" style="background-color: #ffd5f6;" data-rgb="#ffd5f6"></div><div class="palette_item" style="background-color: #280b22;" data-rgb="#280b22"></div><div class="palette_item" style="background-color: #501644;" data-rgb="#501644"></div><div class="palette_item" style="background-color: #782167;" data-rgb="#782167"></div><div class="palette_item" style="background-color: #a02c89;" data-rgb="#a02c89"></div><div class="palette_item" style="background-color: #c837ab;" data-rgb="#c837ab"></div><div class="palette_item" style="background-color: #d35fbc;" data-rgb="#d35fbc"></div><div class="palette_item" style="background-color: #de87cd;" data-rgb="#de87cd"></div><div class="palette_item" style="background-color: #e9afdd;" data-rgb="#e9afdd"></div><div class="palette_item" style="background-color: #f4d7ee;" data-rgb="#f4d7ee"></div><div class="palette_item" style="background-color: #241c22;" data-rgb="#241c22"></div><div class="palette_item" style="background-color: #483745;" data-rgb="#483745"></div><div class="palette_item" style="background-color: #6c5367;" data-rgb="#6c5367"></div><div class="palette_item" style="background-color: #916f8a;" data-rgb="#916f8a"></div><div class="palette_item" style="background-color: #ac93a7;" data-rgb="#ac93a7"></div><div class="palette_item" style="background-color: #c8b7c4;" data-rgb="#c8b7c4"></div><div class="palette_item" style="background-color: #e3dbe2;" data-rgb="#e3dbe2"></div><div class="palette_item" style="background-color: #2b0011;" data-rgb="#2b0011"></div><div class="palette_item" style="background-color: #550022;" data-rgb="#550022"></div><div class="palette_item" style="background-color: #800033;" data-rgb="#800033"></div><div class="palette_item" style="background-color: #aa0044;" data-rgb="#aa0044"></div><div class="palette_item" style="background-color: #d40055;" data-rgb="#d40055"></div><div class="palette_item" style="background-color: #ff0066;" data-rgb="#ff0066"></div><div class="palette_item" style="background-color: #ff2a7f;" data-rgb="#ff2a7f"></div><div class="palette_item" style="background-color: #ff5599;" data-rgb="#ff5599"></div><div class="palette_item" style="background-color: #ff80b2;" data-rgb="#ff80b2"></div><div class="palette_item" style="background-color: #ffaacc;" data-rgb="#ffaacc"></div><div class="palette_item" style="background-color: #ffd5e5;" data-rgb="#ffd5e5"></div><div class="palette_item" style="background-color: #280b17;" data-rgb="#280b17"></div><div class="palette_item" style="background-color: #50162d;" data-rgb="#50162d"></div><div class="palette_item" style="background-color: #782144;" data-rgb="#782144"></div><div class="palette_item" style="background-color: #a02c5a;" data-rgb="#a02c5a"></div><div class="palette_item" style="background-color: #c83771;" data-rgb="#c83771"></div><div class="palette_item" style="background-color: #d35f8d;" data-rgb="#d35f8d"></div><div class="palette_item" style="background-color: #de87aa;" data-rgb="#de87aa"></div><div class="palette_item" style="background-color: #e9afc6;" data-rgb="#e9afc6"></div><div class="palette_item" style="background-color: #f4d7e3;" data-rgb="#f4d7e3"></div><div class="palette_item" style="background-color: #241c1f;" data-rgb="#241c1f"></div><div class="palette_item" style="background-color: #48373e;" data-rgb="#48373e"></div><div class="palette_item" style="background-color: #6c535d;" data-rgb="#6c535d"></div><div class="palette_item" style="background-color: #916f7c;" data-rgb="#916f7c"></div><div class="palette_item" style="background-color: #ac939d;" data-rgb="#ac939d"></div><div class="palette_item" style="background-color: #c8b7be;" data-rgb="#c8b7be"></div><div class="palette_item" style="background-color: #e3dbde;" data-rgb="#e3dbde"></div></div></div>
+	</div>
+	<div id="copyright">Powered by <a href="http://svg-edit.googlecode.com/" target="_blank">SVG-edit v2.4</a></div>
+</div>
+
+<!-- hidden divs -->
+<div id="color_picker"></div>
+
+<div style="left: 4px; top: 173px;" id="tools_rect" class="tools_flyout">
+	<div id="tool_rect" class="tool_flyout_button" title="Rectangle[4]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+ <defs>
+  <linearGradient id="xxsvg_24010" x1="0.36328" y1="0.10156" x2="1" y2="1">
+   <stop offset="0" stop-color="#ffffff" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#3b7e9b" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <rect x="1.5" y="5.5" width="20" height="12" id="svg_1" fill="url(#xxsvg_24010)" stroke="#000000" transform="matrix(1, 0, 0, 1, 0, 0)"></rect>
+ </svg></svg></div>
+	<div id="tool_square" class="tool_flyout_button" title="Square[Shift+4]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient y2="1" x2="1" y1="0.10156" x1="0.36328" id="xsvg_230">
+   <stop stop-opacity="1" stop-color="#ffffff" offset="0"></stop>
+   <stop stop-opacity="1" stop-color="#3b7e9b" offset="1"></stop>
+  </linearGradient>
+ </defs>
+  <rect stroke="#000000" fill="url(#xsvg_230)" id="svg_1" height="20" width="20" y="1.5" x="1.5"></rect>
+ </svg></svg></div>
+	<div id="tool_fhrect" class="tool_flyout_button" title="Free-Hand Rectangle"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xsvg_250" x1="0.36328" y1="0.10156" x2="1" y2="1">
+
+   <stop offset="0" stop-color="#ffffff" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#3b7e9b" stop-opacity="1"></stop>
+  </linearGradient>
+  <linearGradient id="xsvg_951" x1="0.3046" y1="0.1093" x2="0.6132" y2="0.3945">
+   <stop offset="0" stop-color="#f9d225" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#bf5f00" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <rect x="1.25" y="0.75" width="50" height="50" id="svg_1" fill="url(#xsvg_250)" stroke-width="2" stroke="#000000"></rect>
+  <path d="m31.5,0l-8.75,20.25l0.75,24l16.5,-16.5l6,-12.5" id="svg_2" fill="url(#xsvg_951)" stroke="#000000" stroke-width="2"></path>
+  <path d="m39.5,28.5c-2,-9.25 -10.25,-11.75 -17,-7.4375l0.4843,24.4414z" id="svg_10" fill="#fce0a9" stroke="#000000" stroke-width="2"></path>
+  <path d="m26.9318,41.1745c-0.4491,-2.3511 -2.3021,-2.9866 -3.8181,-1.8905l0.1087,6.2126z" fill="#000000" stroke="#000000" stroke-width="2" id="svg_11"></path>
+</svg></svg></div>
+</div>
+
+<div style="left: 4px; top: 205px;" id="tools_ellipse" class="tools_flyout">
+	<div id="tool_ellipse" class="tool_flyout_button" title="Ellipse[5]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg id="svgzoom" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xxsvg_47010" x1="0.171875" y1="0.1875" x2="1.0" y2="1.0">
+   <stop offset="0.0" stop-color="#ffffff" stop-opacity="1"></stop>
+   <stop offset="1.0" stop-color="#ff6666" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+ <g>
+  <ellipse cx="27" cy="27" ry="15" rx="23" id="svg_1" fill="url(#xxsvg_47010)" stroke="#000000" stroke-width="2" fill-opacity="1" stroke-opacity="1"></ellipse>
+ </g>
+</svg></svg></div>
+	<div id="tool_circle" class="tool_flyout_button" title="Circle[Shift+5]"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg id="svgzoom" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xsvg_460" x1="0.171875" y1="0.1875" x2="1.0" y2="1.0">
+   <stop offset="0.0" stop-color="#ffffff" stop-opacity="1"></stop>
+   <stop offset="1.0" stop-color="#ff6666" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+ <g>
+  <circle cx="27" cy="27" r="23" id="svg_1" fill="url(#xsvg_460)" stroke="#000000" stroke-width="2" fill-opacity="1" stroke-opacity="1"></circle>
+ </g>
+</svg></svg></div>
+	<div id="tool_fhellipse" class="tool_flyout_button" title="Free-Hand Ellipse"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="24" width="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+ <defs>
+  <linearGradient y2="0.3945" x2="0.6132" y1="0.1093" x1="0.3046" id="xsvg_980">
+   <stop stop-opacity="1" stop-color="#f9d225" offset="0"></stop>
+   <stop stop-opacity="1" stop-color="#bf5f00" offset="1"></stop>
+  </linearGradient>
+  <linearGradient y2="1" x2="1" y1="0.1875" x1="0.17188" id="xsvg_481">
+   <stop stop-opacity="1" stop-color="#ffffff" offset="0"></stop>
+   <stop stop-opacity="1" stop-color="#ff6666" offset="1"></stop>
+  </linearGradient>
+ </defs>
+  <ellipse cx="27" cy="37" ry="12" rx="23" id="svg_1" fill="url(#xsvg_481)" stroke="#000000" stroke-width="2"></ellipse>
+  <path stroke-width="2" stroke="#000000" fill="url(#xsvg_980)" id="svg_2" d="m31.5,0l-8.75,20.25l0.75,24l16.5,-16.5l6,-12.5"></path>
+  <path stroke-width="2" stroke="#000000" fill="#fce0a9" id="svg_10" d="m39.5,28.5c-2,-9.25 -10.25,-11.75 -17,-7.4375l0.4843,24.4414z"></path>
+  <path id="svg_11" stroke-width="2" stroke="#000000" fill="#000000" d="m26.9318,41.1745c-0.4491,-2.3511 -2.3021,-2.9866 -3.8181,-1.8905l0.1087,6.2126z"></path>
+ </svg></svg></div>
+</div>
+
+</div> <!-- svg_editor -->
+
+<div id="svg_source_editor">
+	<div id="svg_source_overlay"></div>
+	<div id="svg_source_container">
+		<div id="tool_source_back" class="toolbar_button">
+			<button id="tool_source_save"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	 <defs>
+	  <linearGradient id="xsvg_106440" x1="0.42969" y1="0.43359" x2="0.94141" y2="0.65625">
+	   <stop offset="0" stop-color="#38ff45" stop-opacity="1"></stop>
+	   <stop offset="1" stop-color="#127c0c" stop-opacity="1"></stop>
+	  </linearGradient>
+	 </defs>
+	  <path d="m7.9,15.9l4.9,-0.05l0,-13.75l3.8,0l0,17.6l-8.7,0l0,-3.8z" id="svg_101" fill="url(#xsvg_106440)" stroke="#005500" transform="rotate(45, 12, 10)"></path>
+	</svg></svg>Apply Changes</button>
+			<button id="tool_source_cancel"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xsvg_9450" x1="0.42969" y1="0.43359" x2="0.94141" y2="0.65625">
+   <stop offset="0" stop-color="#ff3838" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#7a0c0c" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <path transform="rotate(45, 11.3, 12.3)" d="m2.10526,10.52632l7.36842,0l0,-7.36842l3.68421,0l0,7.36842l7.36842,0l0,3.68421l-7.36842,0l0,7.36842l-3.68421,0l0,-7.36842l-7.36842,0l0,-3.68421z" id="svg_101" fill="url(#xsvg_9450)" stroke="#550000"></path>
+ </svg></svg>Cancel</button>
+		</div>
+		<form>
+			<textarea id="svg_source_textarea" spellcheck="false"></textarea>
+		</form>
+	</div>
+</div>
+
+<div id="svg_docprops">
+	<div id="svg_docprops_overlay"></div>
+	<div class="ui-draggable" id="svg_docprops_container">
+		<div id="tool_docprops_back" class="toolbar_button">
+			<button id="tool_docprops_save"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+	 <defs>
+	  <linearGradient id="xxsvg_10644010" x1="0.42969" y1="0.43359" x2="0.94141" y2="0.65625">
+	   <stop offset="0" stop-color="#38ff45" stop-opacity="1"></stop>
+	   <stop offset="1" stop-color="#127c0c" stop-opacity="1"></stop>
+	  </linearGradient>
+	 </defs>
+	  <path d="m7.9,15.9l4.9,-0.05l0,-13.75l3.8,0l0,17.6l-8.7,0l0,-3.8z" id="svg_101" fill="url(#xxsvg_10644010)" stroke="#005500" transform="rotate(45, 12, 10)"></path>
+	</svg></svg>OK</button>
+			<button id="tool_docprops_cancel"><svg class="svg_icon" xmlns:xlink="http://www.w3.org/1999/xlink" height="16" width="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="xxsvg_945010" x1="0.42969" y1="0.43359" x2="0.94141" y2="0.65625">
+   <stop offset="0" stop-color="#ff3838" stop-opacity="1"></stop>
+   <stop offset="1" stop-color="#7a0c0c" stop-opacity="1"></stop>
+  </linearGradient>
+ </defs>
+  <path transform="rotate(45, 11.3, 12.3)" d="m2.10526,10.52632l7.36842,0l0,-7.36842l3.68421,0l0,7.36842l7.36842,0l0,3.68421l-7.36842,0l0,7.36842l-3.68421,0l0,-7.36842l-7.36842,0l0,-3.68421z" id="svg_101" fill="url(#xxsvg_945010)" stroke="#550000"></path>
+ </svg></svg>Cancel</button>
+		</div>
+
+
+		<fieldset id="svg_docprops_docprops">
+			<legend id="svginfo_image_props">Image Properties</legend>
+			<label>
+				<span id="svginfo_title">Title:</span>
+				<input autocomplete="off" id="canvas_title" size="24" type="text">
+			</label>			
+	
+			<fieldset id="change_resolution">
+				<legend id="svginfo_dim">Canvas Dimensions</legend>
+
+				<label><span id="svginfo_width">Width:</span> <input value="640" autocomplete="off" id="canvas_width" size="6" type="text"></label>
+					
+				<label><span id="svginfo_height">Height:</span> <input value="480" autocomplete="off" id="canvas_height" size="6" type="text"></label>
+				
+				<label>
+					<select autocomplete="off" id="resolution">
+						<option id="selectedPredefined" selected="selected">Select predefined:</option>
+						<option>640x480</option>
+						<option>800x600</option>
+						<option>1024x768</option>
+						<option>1280x960</option>
+						<option>1600x1200</option>
+						<option id="fitToContent" value="content">Fit to Content</option>
+					</select>
+				</label>
+			</fieldset>
+
+			<fieldset id="image_save_opts">
+				<legend id="includedImages">Included Images</legend>
+				<label><input autocomplete="off" name="image_opt" value="embed" checked="checked" type="radio"> <span id="image_opt_embed">Embed data (local files)</span> </label>
+				<label><input autocomplete="off" name="image_opt" value="ref" type="radio"> <span id="image_opt_ref">Use file reference</span> </label>
+			</fieldset>			
+
+
+		</fieldset>
+
+		<fieldset id="svg_docprops_prefs">
+			<legend id="svginfo_editor_prefs">Editor Preferences</legend>
+
+			<label><span id="svginfo_lang">Language:</span>
+				<!-- Source: http://en.wikipedia.org/wiki/Language_names -->
+				<select autocomplete="off" id="lang_select">
+					<option id="lang_cs" value="cs">Čeština</option>
+ 					<option id="lang_de" value="de">Deutsch</option>
+					<option id="lang_en" value="en" selected="selected">English</option>
+					<option id="lang_es" value="es">Español</option>
+					<option id="lang_fa" value="fa">فارسی</option>
+					<option id="lang_fr" value="fr">Français</option>
+					<option id="lang_nl" value="nl">Nederlands</option>
+					<option id="lang_ro" value="ro">Româneşte</option>
+					<option id="lang_sk" value="sk">Slovenčina</option>
+				</select>
+			</label>
+
+			<label><span id="svginfo_icons">Icon size:</span>
+				<select autocomplete="off" id="iconsize">
+					<option id="icon_small" value="s">Small</option>
+					<option id="icon_medium" value="m" selected="selected">Medium</option>
+					<option id="icon_large" value="l">Large</option>
+					<option id="icon_xlarge" value="xl">Extra Large</option>
+				</select>
+			</label>
+
+			<fieldset id="change_background">
+				<legend id="svginfo_change_background">Editor Background</legend>
+				<div id="bg_blocks"><div class="color_block" style="background:#FFF;"></div><div class="color_block" style="background:#888;"></div><div class="color_block" style="background:#000;"></div><div class="color_block" style="background:url(data:image/gif;base64,R0lGODlhEAAQAIAAAP%2F%2F%2F9bW1iH5BAAAAAAALAAAAAAQABAAAAIfjG%2Bgq4jM3IFLJgpswNly%2FXkcBpIiVaInlLJr9FZWAQA7);"></div></div>
+				<label><span id="svginfo_bg_url">URL:</span> <input autocomplete="off" id="canvas_bg_url" size="21" type="text"></label>
+				<p id="svginfo_bg_note">Note: Background will not be saved with image.</p>
+			</fieldset>
+			
+		</fieldset>
+
+	</div>
+</div>
+
+<div id="dialog_box">
+	<div id="dialog_box_overlay"></div>
+	<div class="ui-draggable" id="dialog_container">
+		<div id="dialog_content">
+			Test message
+		</div>
+		<div id="dialog_buttons"></div>
+	</div>
+</div>
+
+
+
+</body></html>
