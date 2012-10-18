@@ -11,7 +11,6 @@ using Infrastructure.Common.Windows.ViewModels;
 using Infrastructure.Events;
 using Infrastructure.Common.Theme;
 
-
 namespace SettingsModule.ViewModels
 {
 	public class SettingsViewModel : ViewPartViewModel

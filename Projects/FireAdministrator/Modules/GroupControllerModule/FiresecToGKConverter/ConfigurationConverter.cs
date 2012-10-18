@@ -29,7 +29,7 @@ namespace GKModule.Converter
 					}
 				}
 				ConvertZones();
-				//ConvertLogic();
+				ConvertLogic();
 				XManager.UpdateConfiguration();
 			}
 		}

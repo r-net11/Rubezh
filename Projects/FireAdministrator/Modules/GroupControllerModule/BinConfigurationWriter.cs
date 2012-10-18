@@ -120,16 +120,17 @@ namespace GKModule
 			//        }
 			//    }
 			//}
-			if (packs.Count > 1)
-			{
-				var bytesString = BytesHelper.BytesToString(binaryObject.AllBytes);
-				Trace.WriteLine(bytesString);
-				foreach (var pack in packs)
-				{
-					bytesString = BytesHelper.BytesToString(pack);
-					Trace.WriteLine(bytesString);
-				}
-			}
+
+			//if (packs.Count > 1)
+			//{
+			//    var bytesString = BytesHelper.BytesToString(binaryObject.AllBytes);
+			//    Trace.WriteLine(bytesString);
+			//    foreach (var pack in packs)
+			//    {
+			//        bytesString = BytesHelper.BytesToString(pack);
+			//        Trace.WriteLine(bytesString);
+			//    }
+			//}
 			return packs;
 		}
 

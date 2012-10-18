@@ -124,6 +124,15 @@ namespace Common.GK
 
 		void SetPropertiesBytes()
 		{
+			if (DatabaseType == DatabaseType.Gk)
+			{
+				if (Device.Parent == null || Device.Parent.Driver.DriverType != XDriverType.GK || Device.Driver.DriverType == XDriverType.KAU)
+				{
+					Parameters = new List<byte>();
+					return;
+				}
+			}
+
 			var binProperties = new List<BinProperty>();
 
             foreach (var property in Device.Properties)

@@ -35,16 +35,19 @@ namespace Common.GK
 
 		public static string BytesToString(List<byte> bytes)
 		{
-			var stringValue = new StringBuilder();
+			var stringBuilder = new StringBuilder();
 			if (bytes != null)
 			{
-				foreach (var b in bytes)
+				for (int index = 0; index < bytes.Count; index++)
 				{
-					stringValue.Append(b.ToString() + " ");
-					//stringValue.Append(b.ToString("x2") + " ");
+					var b = bytes[index];
+					if (index % 16 == 0 && index > 0)
+						stringBuilder.AppendLine("");
+
+					stringBuilder.Append(b.ToString("x2") + " ");
 				}
 			}
-			return stringValue.ToString();
+			return stringBuilder.ToString();
 		}
 
 		public static int SubstructInt(List<byte> bytes, int startByte)

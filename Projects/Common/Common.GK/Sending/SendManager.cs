@@ -93,7 +93,7 @@ namespace Common.GK
 		static IPEndPoint endPoint;
 		static SendManager()
 		{
-			endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.102"), 1025);
+			endPoint = new IPEndPoint(IPAddress.Parse("172.16.7.109"), 1025);
 			udpClient = new UdpClient();
 			udpClient.Client.ReceiveTimeout = 10000;
 			udpClient.Client.SendTimeout = 10000;

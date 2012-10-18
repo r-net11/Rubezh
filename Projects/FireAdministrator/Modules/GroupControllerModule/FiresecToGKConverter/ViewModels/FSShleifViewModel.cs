@@ -9,8 +9,8 @@ using FiresecClient;
 
 namespace GKModule.ViewModels
 {
-    public class FSShleifViewModel : BaseViewModel
-    {
+	public class FSShleifViewModel : BaseViewModel
+	{
 		public FSShleifViewModel()
 		{
 			KAUDevices = new List<XDevice>();
@@ -31,12 +31,51 @@ namespace GKModule.ViewModels
 			KAUShleifNos.Add(8);
 		}
 
-		public Device FSDevice { get; set; }
-        public int FSShleifNo { get; set; }
-		public XDevice KAUDevice { get; set; }
-        public int KAUShleifNo { get; set; }
+		Device _fsDevice;
+		public Device FSDevice
+		{
+			get { return _fsDevice; }
+			set
+			{
+				_fsDevice = value;
+				OnPropertyChanged("FSDevice");
+			}
+		}
+
+		int _fsShleifNo;
+		public int FSShleifNo
+		{
+			get { return _fsShleifNo; }
+			set
+			{
+				_fsShleifNo = value;
+				OnPropertyChanged("FSShleifNo");
+			}
+		}
+
+		XDevice _kauDevice;
+		public XDevice KAUDevice
+		{
+			get { return _kauDevice; }
+			set
+			{
+				_kauDevice = value;
+				OnPropertyChanged("KAUDevice");
+			}
+		}
+
+		int _kauShleifNo;
+		public int KAUShleifNo
+		{
+			get { return _kauShleifNo; }
+			set
+			{
+				_kauShleifNo = value;
+				OnPropertyChanged("KAUShleifNo");
+			}
+		}
 
 		public List<XDevice> KAUDevices { get; private set; }
 		public List<int> KAUShleifNos { get; private set; }
-    }
+	}
 }
