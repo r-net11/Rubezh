@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Common;
 using Infrastructure.Common.Windows.ViewModels;
 using Microsoft.Win32;
 using Infrastructure.Common.Module;
@@ -9,30 +10,40 @@ namespace SettingsModule.ViewModels
 {
     public class ModuleViewModel : BaseViewModel
     {
+
+        public List<ModuleViewModel> Modules { get; private set; }
+        public ModuleViewModel()
+        {
+            Modules = ModuleInitialize();
+        }
         public string Name { get; set; }
         public string Description { get; set; }
 
-        private bool isEnabled = true;
+        bool _isEnabled = true;
         public bool IsEnabled
         {
-            get { return isEnabled; }
+            get { return _isEnabled; }
             set
             {
-                isEnabled = value;
-                SettingsViewModel.canAccept = true;
+                _isEnabled = value;
+                SetDisableModuleIntoRegister(_isEnabled);
                 OnPropertyChanged("IsEnabled");
             }
         }
 
+        public ModuleViewModel(string name, string description, bool isEnabled)
+        {
+            Name = name;
+            Description = description;
+            IsEnabled = isEnabled;
+        }
+
         public static List<ModuleViewModel> ModuleInitialize()
         {
-            var moduleViewModel = new List<ModuleViewModel>();
-            var moduleTypes = ModuleType.ModuleInitialize();
-            foreach (var moduleType in moduleTypes)
-            {
-                moduleViewModel.Add(new ModuleViewModel() { Name = moduleType.Name, Description = moduleType.Description, IsEnabled = moduleType.IsEnabled });
-            }
-            return moduleViewModel;
+            var moduleRegs = ModuleReg.LoadModulesFromRegister();
+            if (moduleRegs.Count == 0)
+                moduleRegs = ModuleReg.ModuleInitialize();
+            return moduleRegs.Select(moduleType => new ModuleViewModel(moduleType.Name, moduleType.Description, moduleType.IsEnabled)).ToList();
         }
 
         public void SetDisableModuleIntoRegister(bool isEnabled)
@@ -43,18 +54,16 @@ namespace SettingsModule.ViewModels
                 saveKey.SetValue(Name, isEnabled);
                 saveKey.Close();
             }
-            catch (Exception) { }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Исключение при вызове SetDisableModuleIntoRegister");
+            }
         }
 
         public static List<ModuleViewModel> LoadDisableModulesFromRegister()
         {
-            var moduleViewModel = new List<ModuleViewModel>();
-            var moduleTypes =  ModuleType.LoadModulesFromRegister();
-            foreach (var  moduleType in moduleTypes)
-            {
-                moduleViewModel.Add(new ModuleViewModel(){Name = moduleType.Name, Description = moduleType.Description, IsEnabled = moduleType.IsEnabled});
-            }
-            return moduleViewModel;
+            var moduleTypes =  ModuleReg.LoadModulesFromRegister();
+            return moduleTypes.Select(moduleType => new ModuleViewModel(moduleType.Name, moduleType.Description, moduleType.IsEnabled)).ToList();
         }
     }
 }

@@ -12,15 +12,14 @@
         <Converter:TimeToStringConverter x:Key="TimeToStringConverter" />
         <Converter:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" MinHeight="200" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="100" MinHeight="100" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" DataGridProperties:DataGridProperties.HeaderBrush="{DynamicResource AlternativeBackgroundBrush}"
-                  ItemsSource="{Binding JournalRecords}" SelectedItem="{Binding SelectedRecord}">
+        <DataGrid Grid.Row="0" ItemsSource="{Binding JournalRecords}" SelectedItem="{Binding SelectedRecord}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Время устройства" Binding="{Binding JournalRecord.DeviceTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />
                 <DataGridTextColumn Header="Системное время" Binding="{Binding JournalRecord.SystemTime, Converter={StaticResource TimeToStringConverter}}" MinWidth="120" />

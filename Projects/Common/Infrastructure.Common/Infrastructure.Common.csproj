@@ -128,7 +128,7 @@
     <Compile Include="Configuration\ModuleCollection.cs" />
     <Compile Include="Configuration\ModuleElement.cs" />
     <Compile Include="Configuration\ModuleSection.cs" />
-    <Compile Include="Module\ModuleType.cs" />
+    <Compile Include="Module\ModuleReg.cs" />
     <Compile Include="ServerLoadHelper.cs" />
     <Compile Include="TreeItemViewModel.cs" />
     <Compile Include="KnownServiceType.cs" />

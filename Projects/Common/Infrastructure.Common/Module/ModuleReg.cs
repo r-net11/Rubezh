@@ -2,30 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Common;
 using Microsoft.Win32;
 
 namespace Infrastructure.Common.Module
 {
-    public class ModuleType
+    public class ModuleReg
     {
         public string Name { get; set; }
         public string Description { get; set; }
         public bool IsEnabled { get; set; }
 
-        public static List<ModuleType> ModuleInitialize()
+        public ModuleReg(string name, string description, bool isEnabled)
         {
-            var modulesViewModel = new List<ModuleType>
+            Name = name;
+            Description = description;
+            IsEnabled = isEnabled;
+        }
+
+        public static List<ModuleReg> ModuleInitialize()
+        {
+            var modulesViewModel = new List<ModuleReg>
             {
-                new ModuleType(){Name = "FiltersModule", Description = "Фильтры журнала событий", IsEnabled = true},
-                new ModuleType(){Name = "InstructionsModule", Description = "Инструкции", IsEnabled = true},
-                new ModuleType(){Name = "LibraryModule", Description = "Библиотека устройств", IsEnabled = true},
-                new ModuleType(){Name = "SoundsModule", Description = "Звуки", IsEnabled = true},
-                new ModuleType(){Name = "ReportsModule", Description = "Отчеты", IsEnabled = true}
+                new ModuleReg("FiltersModule", "Фильтры журнала событий", true),
+                new ModuleReg("InstructionsModule", "Инструкции", true),
+                new ModuleReg("LibraryModule", "Библиотека устройств", true),
+                new ModuleReg("SoundsModule", "Звуки", true),
+                new ModuleReg("ReportsModule", "Отчеты", true)
             };
             return modulesViewModel;
         }
 
-        public static List<ModuleType> LoadModulesFromRegister()
+        public static List<ModuleReg> LoadModulesFromRegister()
         {
             var modules = ModuleInitialize();
             try
@@ -42,7 +50,10 @@ namespace Infrastructure.Common.Module
 					registryKey.Close();
                 }
             }
-            catch (Exception) { }
+            catch (Exception e)
+            {
+                Logger.Error(e, "Исключение при вызове LoadModulesFromRegister");
+            }
             return modules;
         }
     }

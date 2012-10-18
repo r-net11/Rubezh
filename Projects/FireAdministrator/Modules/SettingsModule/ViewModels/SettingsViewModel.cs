@@ -20,28 +20,16 @@ namespace SettingsModule.ViewModels
 		{
 			ConvertConfigurationCommand = new RelayCommand(OnConvertConfiguration);
 			ConvertJournalCommand = new RelayCommand(OnConvertJournal);
-            AcceptCommand = new RelayCommand(OnAccept, CanAccept);
 		}
-
         public void Initialize()
         {
-            try
-            {
-                Themes = Enum.GetValues(typeof(Theme)).Cast<Theme>().ToList();
-                if (ThemeHelper.CurrentTheme != null)
-                    SelectedTheme = (Theme)Enum.Parse(typeof(Theme), ThemeHelper.CurrentTheme);
-            }
-            catch { ;}
-
-            Modules = ModuleViewModel.LoadDisableModulesFromRegister();
-            if(Modules.Count == 0)
-                Modules = ModuleViewModel.ModuleInitialize();
-            canAccept = false;
+            ThemeContext = new ThemeViewModel();
+            ModuleContext = new ModuleViewModel();
         }
 
-        public List<ModuleViewModel> Modules { get; private set; }
-
-		public RelayCommand ConvertConfigurationCommand { get; private set; }
+        public ThemeViewModel ThemeContext { get; set; }
+        public ModuleViewModel ModuleContext { get; set; }
+        public RelayCommand ConvertConfigurationCommand { get; private set; }
 		void OnConvertConfiguration()
 		{
 			if (MessageBoxService.ShowQuestion("Вы уверены, что хотите конвертировать конфигурацию?") == MessageBoxResult.Yes)
@@ -83,37 +71,5 @@ namespace SettingsModule.ViewModels
 			}
 		}
 
-        public List<Theme> Themes { get; private set; }
-        private Theme selectedTheme;
-        public Theme SelectedTheme
-        {
-            get
-            {
-                return selectedTheme;
-            }
-            set
-            {
-                selectedTheme = value;
-                ThemeHelper.SetThemeIntoRegister(selectedTheme);
-                ThemeHelper.LoadThemeFromRegister();
-                OnPropertyChanged("SelectedTheme");
-            }
-        }
-
-        public RelayCommand AcceptCommand { get; set; }
-        void OnAccept()
-        {
-            foreach (var module in Modules)
-            {
-                module.SetDisableModuleIntoRegister(module.IsEnabled);
-            }
-            canAccept = false;
-        }
-
-	    public static bool canAccept = false;
-        public bool CanAccept()
-        {
-            return canAccept;
-        }
 	}
 }

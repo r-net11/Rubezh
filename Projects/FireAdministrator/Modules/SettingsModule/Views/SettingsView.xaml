@@ -16,7 +16,7 @@
             </Border>
         </TabItem>
         <TabItem Header="Выбор темы">
-            <Border CornerRadius="10" BorderThickness="0" Margin="2">
+            <Border CornerRadius="10" BorderThickness="0" Margin="2" DataContext="{Binding ThemeContext}">
                 <StackPanel>
                     <StackPanel Margin="10" Orientation="Horizontal">
                         <ComboBox ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme}" Width="200" HorizontalAlignment="Left">
@@ -31,16 +31,13 @@
             </Border>
         </TabItem>
         <TabItem Header="Дополнительные модули">
-            <StackPanel>
-                <ListBox Name="listBox" ItemsSource="{Binding Modules}" Width="194" Height="120" HorizontalAlignment="Left">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <CheckBox Content="{Binding Description}" IsChecked="{Binding IsEnabled}"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-                <Button Command="{Binding AcceptCommand}" Content="Применить" Width="200" HorizontalAlignment="Left"/>
-            </StackPanel>
+            <ListBox DataContext="{Binding ModuleContext}" ItemsSource="{Binding Modules}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Content="{Binding Description}" IsChecked="{Binding IsEnabled}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </TabItem>
     </TabControl>
 </UserControl>

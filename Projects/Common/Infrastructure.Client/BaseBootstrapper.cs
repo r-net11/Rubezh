@@ -22,10 +22,10 @@ namespace Infrastructure.Client
 	public class BaseBootstrapper
 	{
 		public List<IModule> _modules;
-	    List<ModuleType> modulesFromReg = new List<ModuleType>();
+	    List<ModuleReg> modulesFromReg = new List<ModuleReg>();
 		public BaseBootstrapper()
 		{
-            modulesFromReg = ModuleType.LoadModulesFromRegister();
+            modulesFromReg = ModuleReg.LoadModulesFromRegister();
 			_modules = null;
 			RegisterResource();
 		}
