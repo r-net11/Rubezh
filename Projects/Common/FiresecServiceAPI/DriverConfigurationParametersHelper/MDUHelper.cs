@@ -113,10 +113,9 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property6);
 
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x85, "начальное положение для привода пружинный ДУ", 7,
-				"0 защита",
-				"1 норма", 0, 0, 0, false, false, "0");
+				"защита",
+				"норма", 0, 0, 0, false, false, "0");
 			
-			//ConfigurationDriverHelper.AddBoolProprety(driver, 0x85, "Перейти в защиту(иначе перейти в дежурное положение)", 7);
 		}
 	}
 }

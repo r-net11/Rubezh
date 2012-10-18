@@ -12,20 +12,20 @@ namespace FiresecAPI.Models
 				{
 					driver.HasConfigurationProperties = true;
 					ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01 дб/м", "AU_Smoke", 0, 18, 5, 20);
-					return;
+					//return;
 				}
 				if (driver.DriverType == DriverType.HeatDetector)
 				{
 					driver.HasConfigurationProperties = true;
 					ConfigurationDriverHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", "AU_Temperature", 0, 0, 0, 85);
-					return;
+					//return;
 				}
 				if (driver.DriverType == DriverType.CombinedDetector)
 				{
 					driver.HasConfigurationProperties = true;
 					ConfigurationDriverHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму, 0.01 дб/м", "AU_Smoke", 0, 18, 5, 20);
 					ConfigurationDriverHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре, C", "AU_Temperature", 0, 0, 0, 85);
-					return;
+					//return;
 					//ConfigurationDriverHelper.AddIntProprety(driver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 0, 0, 255);
 				}
 			}

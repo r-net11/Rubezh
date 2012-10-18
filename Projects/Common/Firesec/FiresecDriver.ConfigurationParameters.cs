@@ -53,14 +53,16 @@ namespace Firesec
 				if (requests != null)
 				{
 					int address = requests.request.First().param.FirstOrDefault(x => x.name == "ParamNo").value;
-				    int fullvalue = requests.request.First().param.FirstOrDefault(x => x.name == "ParamValue").value;
+				    
+					int fullvalue = requests.request.First().param.FirstOrDefault(x => x.name == "ParamValue").value;
 					count--;
+					if (address == 0x80)
+					{
+						;
+					}
 					foreach(var driverProperty in device.Driver.Properties.FindAll(x => x.No == address))
 				    {
-						if (address == 0xbf)
-						{ 
-							;
-						}
+						
 						if (properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
 						{
 							properties.Add(CreateProperty(fullvalue, driverProperty));
@@ -148,12 +150,6 @@ namespace Firesec
 				
 				if (driverProperty != null && driverProperty.IsAUParameter)
 				{
-					if (driverProperty.No == 0x80
-						)
-					{
-						;
-					}
-
 					var binProperty = binProperties.FirstOrDefault(x => x.No == driverProperty.No);
 					
 					if (binProperty == null)
@@ -163,6 +159,12 @@ namespace Firesec
 							No = driverProperty.No
 						};
 						binProperties.Add(binProperty);
+					}
+					if (binProperty.No == 0x80
+						//&& binProperty.No <= 0xbf
+					)
+					{
+						;
 					}
 
 					int intValue = 0;
@@ -203,20 +205,18 @@ namespace Firesec
 						binProperty.HighByte += intValue;
 						binProperty.LowByte = 0xFF;
 					}
-					else
+					else if (driverProperty.HighByte)
+						binProperty.LowByte += intValue;
+					else if (driverProperty.LargeValue)
 					{
-						if (driverProperty.HighByte)
-							binProperty.LowByte += intValue;
-						else if (driverProperty.LargeValue)
-						{
-							var HighVal = intValue / 256;
-							var LowVal = intValue - HighVal;
-							binProperty.LowByte = HighVal;
-							binProperty.HighByte = LowVal;
-						}
-						else
-							binProperty.HighByte += intValue;
+						var HighVal = intValue / 256;
+						var LowVal = intValue - HighVal*256;
+						binProperty.LowByte = HighVal;
+						binProperty.HighByte = LowVal;
 					}
+					else
+						binProperty.HighByte += intValue;
+					
 				}
 			}
 

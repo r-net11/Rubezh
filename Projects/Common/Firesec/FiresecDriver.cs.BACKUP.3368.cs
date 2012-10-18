@@ -50,6 +50,7 @@ namespace Firesec
 			}
 		}
 
+<<<<<<< HEAD
         public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
         {
             try
@@ -60,7 +61,7 @@ namespace Firesec
                 if (mustMonitorStates)
                 {
                     Watcher.OnStateChanged();
-                    //Watcher.OnParametersChanged();
+                    Watcher.OnParametersChanged();
                 }
             }
             catch (Exception e)
@@ -69,6 +70,25 @@ namespace Firesec
                 FiresecDriver.LoadingErrors.Append(e.Message);
             }
         }
+=======
+		public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
+		{
+			try
+			{
+				Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
+				if (mustMonitorStates)
+				{
+					Watcher.OnStateChanged();
+					//Watcher.OnParametersChanged();
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecDriver.Synchronyze");
+				FiresecDriver.LoadingErrors.Append(e.Message);
+			}
+		}
+>>>>>>> thread experiment
 
 		public void Convert()
 		{

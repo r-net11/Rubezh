@@ -29,9 +29,9 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Задержка на пуск", "AU_Delay", 0, 0, 0, 250);
 			ConfigurationDriverHelper.AddIntProprety(driver, 0x83, "Время удержания", "AU_Time", 0, 0, 0, 250, false, true);
 
-			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x85, "нормальное положение", 7,
-				"0 норма",
-				"1 защита", 0, 0, 0, false, false, "1");
+			//ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0x85, "нормальное положение", 7,
+			//    "0 норма",
+			//    "1 защита", 0, 0, 0, false, false, "1");
 		}
 	}
 }

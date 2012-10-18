@@ -15,10 +15,10 @@ namespace DevicesModule.DeviceProperties
 		{
 			DriverProperty = driverProperty;
 			Device = device;
-            if (Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
-            {
-                Save(driverProperty.Default, false);
-            }
+			//if (Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
+			//{
+			//    Save(driverProperty.Default, false);
+			//}
 		}
 
 		public string Caption

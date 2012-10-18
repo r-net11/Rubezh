@@ -367,7 +367,8 @@ namespace Firesec
 					if (result != null && result.Result != null)
 					{
 						var coreState = ConvertResultData<Firesec.Models.CoreState.config>(result);
-						StateChanged(coreState.Result);
+						if (coreState.Result.clsid!=null)
+							StateChanged(coreState.Result);
 					}
 				}
 
@@ -377,7 +378,8 @@ namespace Firesec
 					if (result != null && result.Result != null)
 					{
 						var coreParameters = ConvertResultData<Firesec.Models.DeviceParameters.config>(result);
-						ParametersChanged(coreParameters.Result);
+						if (coreParameters.Result.clsid != null)
+							ParametersChanged(coreParameters.Result);
 					}
 				}
 

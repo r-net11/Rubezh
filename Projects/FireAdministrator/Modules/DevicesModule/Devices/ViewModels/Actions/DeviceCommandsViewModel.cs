@@ -265,6 +265,7 @@ namespace DevicesModule.ViewModels
 			int v;
 			return 
 					prop != null &&
+					prop.IsAUParameter &&
 					prop.DriverPropertyType == DriverPropertyTypeEnum.IntType &&
 					(!int.TryParse(property.Value, out v) ||
 					(v < prop.Min || v > prop.Max));

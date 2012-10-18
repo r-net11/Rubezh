@@ -103,8 +103,6 @@ namespace FiresecAPI.Models
 			driver.Properties.Add(property);
 		}
 
-		
-
 		static void AddRegime(Driver driver, byte no, string propertyName, string defaultValue)
 		{
 			var property = new DriverProperty()
