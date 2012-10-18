@@ -8,7 +8,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border Name="Border" Margin="1" CornerRadius="2" Background="{StaticResource BackgroundBrush}">
+                    <Border Name="Border" Margin="1" CornerRadius="2" Background="{DynamicResource BackgroundBrush}">
                         <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="White"
                             Data="{Binding Path=Content, RelativeSource={RelativeSource TemplatedParent}}" />
                     </Border>
@@ -17,7 +17,7 @@
                             <Setter TargetName="Border" Property="Background" Value="Orange" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -67,7 +67,7 @@
                     <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageUpCommand" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
-                    <Thumb Style="{StaticResource ScrollBarThumb}" Margin="0" Background="{StaticResource BackgroundBrush}" BorderThickness="0" />
+                    <Thumb Style="{StaticResource ScrollBarThumb}" Margin="0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" />
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>
                     <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageDownCommand" />
@@ -90,7 +90,7 @@
                     <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageLeftCommand" />
                 </Track.DecreaseRepeatButton>
                 <Track.Thumb>
-                    <Thumb Style="{StaticResource ScrollBarThumb}" Margin="0" Background="{StaticResource BackgroundBrush}" BorderThickness="0" />
+                    <Thumb Style="{StaticResource ScrollBarThumb}" Margin="0" Background="{DynamicResource BackgroundBrush}" BorderThickness="0" />
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>
                     <RepeatButton Style="{StaticResource ScrollBarPageButton}" Command="ScrollBar.PageRightCommand" />
