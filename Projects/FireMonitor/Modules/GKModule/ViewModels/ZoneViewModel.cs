@@ -24,7 +24,6 @@ namespace GKModule.ViewModels
 
 		public ZoneViewModel(XZoneState zoneState)
 		{
-			SelectCommand = new RelayCommand(OnSelect);
 			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ResetFire1Command = new RelayCommand(OnResetFire1, CanResetFire1);
 			ResetFire2Command = new RelayCommand(OnResetFire2, CanResetFire2);
@@ -52,12 +51,6 @@ namespace GKModule.ViewModels
 				toolTip += "\n" + "Количество датчиков для перевода в Пожар 2: " + Zone.Fire2Count.ToString();
 				return toolTip;
 			}
-		}
-
-		public RelayCommand SelectCommand { get; private set; }
-		void OnSelect()
-		{
-			ServiceFactory.Events.GetEvent<ZoneSelectedEvent>().Publish(Zone.UID);
 		}
 
 		public RelayCommand ShowOnPlanCommand { get; private set; }

@@ -10,6 +10,12 @@ namespace GKModule.ViewModels
 {
 	public class DevicesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
+        public static DevicesViewModel Current { get; private set; }
+        public DevicesViewModel()
+        {
+            Current = this;
+        }
+
 		public void Initialize()
 		{
 			StatesWatcher.RequestAllStates();
@@ -96,7 +102,7 @@ namespace GKModule.ViewModels
 		}
 
 		#region DeviceSelection
-		public List<DeviceViewModel> AllDevices;
+        public List<DeviceViewModel> AllDevices { get; private set; }
 
 		public void Select(Guid deviceUID)
 		{

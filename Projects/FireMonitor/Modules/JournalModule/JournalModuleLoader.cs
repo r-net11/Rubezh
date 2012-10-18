@@ -13,8 +13,7 @@ namespace JournalModule
 {
 	public class JournalModuleLoader : ModuleBase, IReportProviderModule
 	{
-		private NavigationItem _journalItem;
-		private int _unreadJournalCount;
+		private NavigationItem _journalNavigationItem;
 		JournalsViewModel JournalsViewModel;
 		ArchiveViewModel ArchiveViewModel;
 
@@ -26,14 +25,15 @@ namespace JournalModule
 			ArchiveViewModel = new ArchiveViewModel();
 		}
 
+        int _unreadJournalCount;
 		private int UnreadJournalCount
 		{
 			get { return _unreadJournalCount; }
 			set
 			{
 				_unreadJournalCount = value;
-				if (_journalItem != null)
-					_journalItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
+				if (_journalNavigationItem != null)
+					_journalNavigationItem.Title = UnreadJournalCount == 0 ? "Журнал событий" : string.Format("Журнал событий {0}", UnreadJournalCount);
 			}
 		}
 
@@ -44,7 +44,7 @@ namespace JournalModule
 		}
         void OnNewJournalRecord(List<JournalRecord> journalRecords)
         {
-            if (_journalItem == null || !_journalItem.IsSelected)
+            if (_journalNavigationItem == null || !_journalNavigationItem.IsSelected)
                 UnreadJournalCount += journalRecords.Count;
         }
 
@@ -55,11 +55,11 @@ namespace JournalModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
-			_journalItem = new NavigationItem<ShowJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
+			_journalNavigationItem = new NavigationItem<ShowJournalEvent>(JournalsViewModel, "Журнал событий", "/Controls;component/Images/book.png");
 			UnreadJournalCount = 0;
 			return new List<NavigationItem>()
 			{
-				_journalItem,
+				_journalNavigationItem,
 				new NavigationItem<ShowArchiveEvent>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
 			};
 		}

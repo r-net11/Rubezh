@@ -85,9 +85,9 @@ namespace FiresecClient
 			IsDisconnected = true;
 		}
 
-        public static void StartPoll()
+        public static void StartPoll(bool isLongPollPeriod)
         {
-            FiresecService.StartPoll();
+            FiresecService.StartShortPoll(isLongPollPeriod);
         }
 
 		public static OperationResult<DeviceConfiguration> AutoDetectDevice(Device device, bool fastSearch)

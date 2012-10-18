@@ -44,6 +44,13 @@ namespace FiresecService.Service
             return null;
         }
 
+        public List<CallbackResult> ShortPoll()
+        {
+            var callbackResults = new List<CallbackResult>(CallbackResults);
+            CallbackResults = new List<CallbackResult>();
+            return callbackResults;
+        }
+
         private void PollCallback(object state)
         {
             PollAsyncResult asyncResult = state as PollAsyncResult;

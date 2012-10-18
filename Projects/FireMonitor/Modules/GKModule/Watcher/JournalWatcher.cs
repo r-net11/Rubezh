@@ -90,7 +90,7 @@ namespace GKModule
 			}
 			if (journalItems.Count > 0)
 			{
-				ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewJournalEvent>().Publish(journalItems); });
+				ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
 			}
 		}
 

@@ -6,7 +6,7 @@
 
     <TabControl>
         <TabItem Header="Основные">
-            <Grid Grid.Row="0">
+            <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
@@ -24,13 +24,12 @@
                 <Label Grid.Row="3" Grid.Column="0" Content="Число датчиков для формирования сигнала Пожар1" HorizontalAlignment="Right" />
                 <Label Grid.Row="4" Grid.Column="0" Content="Число датчиков для формирования сигнала Пожар2" HorizontalAlignment="Right" />
 
-                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" IsEnabled="False" />
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding No}" Margin="2" />
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Name}" Margin="2" />
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Description}" Margin="2" TextWrapping="Wrap" />
                 <extToolkit:IntegerUpDown Grid.Row="3" Grid.Column="1" Value="{Binding Fire1Count}" Minimum="1" Margin="2" />
                 <extToolkit:IntegerUpDown Grid.Row="4" Grid.Column="1" Value="{Binding Fire2Count}" Minimum="1" Margin="2" />
             </Grid>
         </TabItem>
-
     </TabControl>
 </UserControl>

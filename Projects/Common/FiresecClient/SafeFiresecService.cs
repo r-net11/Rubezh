@@ -156,5 +156,17 @@ namespace FiresecClient
                 return null;
             }
         }
+
+        public List<CallbackResult> ShortPoll()
+        {
+            try
+            {
+                return FiresecService.ShortPoll();
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }

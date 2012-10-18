@@ -1,9 +1,10 @@
 ﻿<UserControl x:Class="GKModule.Views.DevicesView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Converters="clr-namespace:GKModule.Converters"
-        xmlns:CommonConverters="clr-namespace:Controls.Converters;assembly=Controls"
-        xmlns:Controls="clr-namespace:Controls;assembly=Controls">
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Converters="clr-namespace:GKModule.Converters"
+             xmlns:CommonConverters="clr-namespace:Controls.Converters;assembly=Controls"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:Views="clr-namespace:GKModule.Views">
     <UserControl.Resources>
         <CommonConverters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
         <Converters:XStateTypeConverter x:Key="XStateTypeConverter" />
@@ -24,44 +25,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
                                     <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                         Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                    <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" VerticalAlignment="Center" />
-                                    <TextBlock Text="{Binding Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200">
-                                        <TextBlock.ContextMenu>
-                                            <ContextMenu Visibility="{Binding Device.IsRealDevice, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
-                                                <MenuItem Header="Команды" DataContext="{Binding DeviceCommandsViewModel}"
-                                                          IsEnabled="{Binding CanControl}">
-                                                    <MenuItem Command="{Binding SetIgnoreCommand}" Header="Поставить в обход" />
-                                                    <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Убрать из обхода" />
-                                                    <Separator />
-                                                    <MenuItem Command="{Binding SetAutomaticCommand}" Header="Включить автоматику" />
-                                                    <MenuItem Command="{Binding ResetAutomaticCommand}" Header="Выключить автоматику" />
-                                                    <Separator />
-                                                    <MenuItem Command="{Binding TurnOnCommand}" Header="Включить" />
-                                                    <MenuItem Command="{Binding TurnOnNowCommand}" Header="Включить немедленно" />
-                                                    <MenuItem Command="{Binding TurnOffCommand}" Header="Выключить" />
-                                                    <MenuItem Command="{Binding TurnOffNowCommand}" Header="Выключить немедленно" />
-                                                    <MenuItem Command="{Binding StopCommand}" Header="Остановить" />
-                                                    <MenuItem Command="{Binding CancelDelayCommand}" Header="Отменить задержку" />
-                                                    <MenuItem Command="{Binding CancelStartCommand}" Header="Запретить пуск" />
-                                                </MenuItem>
-                                                <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                                            </ContextMenu>
-                                        </TextBlock.ContextMenu>
-                                        <TextBlock.ToolTip>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" />
-                                                <ItemsControl ItemsSource="{Binding DeviceState.States}">
-                                                    <ItemsControl.ItemTemplate>
-                                                        <DataTemplate>
-                                                            <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" VerticalAlignment="Center" />
-                                                        </DataTemplate>
-                                                    </ItemsControl.ItemTemplate>
-                                                </ItemsControl>
-                                            </StackPanel>
-                                        </TextBlock.ToolTip>
-                                    </TextBlock>
+                                    <Views:DeviceView />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

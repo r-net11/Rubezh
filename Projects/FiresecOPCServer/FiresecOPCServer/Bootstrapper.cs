@@ -50,10 +50,10 @@ namespace FiresecOPCServer
 			}
 
 			InitializeFs();
-			UILogger.Log("Старт полинга сервера");
-			FiresecManager.StartPoll();
+            //UILogger.Log("Старт полинга сервера");
+            //FiresecManager.StartPoll(false);
 			FiresecOPCManager.Start();
-			SafeFiresecService.ConfigurationChangedEvent += new Action(OnConfigurationChangedEvent);
+			//SafeFiresecService.ConfigurationChangedEvent += new Action(OnConfigurationChangedEvent);
 			UILogger.Log("Готово");
 		}
 

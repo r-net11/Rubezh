@@ -117,9 +117,14 @@ namespace FiresecAPI
         XDeviceConfiguration GetXDeviceConfiguration();
         #endregion
 
+#region
         [OperationContract(AsyncPattern = true)]
         IAsyncResult BeginPoll(int index, DateTime dateTime, AsyncCallback asyncCallback, object state);
 
         List<CallbackResult> EndPoll(IAsyncResult asyncResult);
+
+        [OperationContract]
+        List<CallbackResult> ShortPoll();
+#endregion
     }
 }

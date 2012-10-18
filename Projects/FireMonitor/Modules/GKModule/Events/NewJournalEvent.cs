@@ -4,7 +4,7 @@ using Microsoft.Practices.Prism.Events;
 
 namespace GKModule.Events
 {
-	public class NewJournalEvent : CompositePresentationEvent<List<JournalItem>>
+	public class NewXJournalEvent : CompositePresentationEvent<List<JournalItem>>
 	{
 	}
 }

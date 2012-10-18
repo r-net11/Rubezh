@@ -22,7 +22,7 @@ namespace FireMonitor
         public void Initialize()
         {
             AppConfigHelper.InitializeAppSettings();
-            LoadStyles();
+            ThemeHelper.LoadThemeFromRegister();
             VideoService.Initialize(ServiceFactory.AppSettings.LibVlcDllsPath);
             ServiceFactory.Initialize(new LayoutService(), new SecurityService());
             ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
@@ -45,7 +45,7 @@ namespace FireMonitor
                     InitializeGk();
 
                     LoadingService.DoStep("Старт полинга сервера");
-                    FiresecManager.StartPoll();
+                    FiresecManager.StartPoll(false);
 #if RELEASE
                     LoadingService.DoStep("Проверка HASP-ключа");
                     var operationResult = FiresecManager.FiresecDriver.CheckHaspPresence();
@@ -135,11 +135,6 @@ namespace FireMonitor
         void OnNotify(string message)
         {
             MessageBoxService.Show(message);
-        }
-
-        void LoadStyles()
-        {
-            ThemeHelper.LoadThemeFromRegister();
         }
     }
 }

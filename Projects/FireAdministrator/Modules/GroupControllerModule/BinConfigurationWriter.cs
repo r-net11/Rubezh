@@ -10,207 +10,166 @@ using System.Diagnostics;
 
 namespace GKModule
 {
-	public static class BinConfigurationWriter
-	{
-		public static void WriteConfig()
-		{
-			DatabaseManager.Convert();
+    public static class BinConfigurationWriter
+    {
+        public static void WriteConfig()
+        {
+            DatabaseManager.Convert();
 
-			SendManager.StrartLog("D:/GkLog.txt");
-			foreach (var gkDatabase in DatabaseManager.GkDatabases)
-			{
-				var summaryObjectsCount = 4 + gkDatabase.BinaryObjects.Count;
-				gkDatabase.KauDatabases.ForEach(x => { summaryObjectsCount += 3 + x.BinaryObjects.Count; });
-				LoadingService.ShowProgress("", "Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress, summaryObjectsCount);
+            //SendManager.StrartLog("D:/GkLog.txt");
+            foreach (var gkDatabase in DatabaseManager.GkDatabases)
+            {
+                var summaryObjectsCount = 4 + gkDatabase.BinaryObjects.Count;
+                gkDatabase.KauDatabases.ForEach(x => { summaryObjectsCount += 3 + x.BinaryObjects.Count; });
+                LoadingService.ShowProgress("", "Запись конфигурации в " + gkDatabase.RootDevice.PresentationDriverAndAddress, summaryObjectsCount);
 
-				GoToTechnologicalRegime(gkDatabase.RootDevice);
-				EraseDatabase(gkDatabase.RootDevice);
+                GoToTechnologicalRegime(gkDatabase.RootDevice);
+                EraseDatabase(gkDatabase.RootDevice);
 
-				foreach (var kauDatabase in gkDatabase.KauDatabases)
-				{
-					GoToTechnologicalRegime(kauDatabase.RootDevice);
-					EraseDatabase(kauDatabase.RootDevice);
-					WriteConfigToDevice(kauDatabase);
-					//GoToWorkingRegime(kauDatabase.RootDevice);
-				}
-				WriteConfigToDevice(gkDatabase);
+                foreach (var kauDatabase in gkDatabase.KauDatabases)
+                {
+                    GoToTechnologicalRegime(kauDatabase.RootDevice);
+                    EraseDatabase(kauDatabase.RootDevice);
+                    WriteConfigToDevice(kauDatabase);
+                }
+                WriteConfigToDevice(gkDatabase);
 
-				foreach (var kauDatabase in gkDatabase.KauDatabases)
-				{
-					GoToWorkingRegime(kauDatabase.RootDevice);
-				}
+                foreach (var kauDatabase in gkDatabase.KauDatabases)
+                {
+                    GoToWorkingRegime(kauDatabase.RootDevice);
+                }
 
-				GoToWorkingRegime(gkDatabase.RootDevice);
-				//SyncronizeTime(gkDatabase.RootDevice);
+                GoToWorkingRegime(gkDatabase.RootDevice);
+                SyncronizeTime(gkDatabase.RootDevice);
 
-				LoadingService.Close();
-			}
-			SendManager.StopLog();
-		}
+                LoadingService.Close();
+            }
+            //SendManager.StopLog();
+        }
 
-		static void WriteConfigToDevice(CommonDatabase commonDatabase)
-		{
-			foreach (var binaryObject in commonDatabase.BinaryObjects)
-			{
-				var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись дескриптора " +
-					binaryObject.GetNo().ToString() + " из " + commonDatabase.BinaryObjects.Count.ToString();
-				LoadingService.DoStep(progressStage);
-				var packs = BinConfigurationWriter.CreateDescriptors(binaryObject);
-				foreach (var pack in packs)
-				{
-					var packBytesCount = pack.Count;
-					var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack, true);
-					if (sendResult.HasError)
-					{
-						//MessageBoxService.Show(sendResult.Error);
-						//LoadingService.Close();
-						//break;
-					}
-				}
-				if (packs.Count > 1)
-				{
-					;
-				}
-			}
-			WriteEndDescriptor(commonDatabase);
-		}
+        static void WriteConfigToDevice(CommonDatabase commonDatabase)
+        {
+            foreach (var binaryObject in commonDatabase.BinaryObjects)
+            {
+                var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись дескриптора " +
+                    binaryObject.GetNo().ToString() + " из " + commonDatabase.BinaryObjects.Count.ToString();
+                LoadingService.DoStep(progressStage);
+                var packs = BinConfigurationWriter.CreateDescriptors(binaryObject);
+                foreach (var pack in packs)
+                {
+                    var packBytesCount = pack.Count;
+                    var sendResult = SendManager.Send(commonDatabase.RootDevice, (ushort)(packBytesCount), 17, 0, pack, true);
+                    if (sendResult.HasError)
+                    {
+                        MessageBoxService.Show(sendResult.Error);
+                        //LoadingService.Close();
+                        //break;
+                    }
+                }
+            }
+            WriteEndDescriptor(commonDatabase);
+        }
 
-		static List<List<byte>> CreateDescriptors(BinaryObjectBase binaryObject)
-		{
-			var objectNo = (ushort)(binaryObject.GetNo());
+        static List<List<byte>> CreateDescriptors(BinaryObjectBase binaryObject)
+        {
+            var objectNo = (ushort)(binaryObject.GetNo());
 
-			var packs = new List<List<byte>>();
+            var packs = new List<List<byte>>();
+            for (int packNo = 0; packNo <= binaryObject.AllBytes.Count / 256; packNo++)
+            {
+                int packLenght = Math.Min(256, binaryObject.AllBytes.Count - packNo * 256);
+                var packBytes = binaryObject.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
 
-			//int index = 0;
-			//var allBytes = binaryObject.AllBytes;
+                if (packBytes.Count > 0)
+                {
+                    var resultBytes = new List<byte>();
+                    ushort binaryObjectNo = (ushort)(binaryObject.GetNo());
+                    resultBytes.AddRange(BytesHelper.ShortToBytes(binaryObjectNo));
+                    resultBytes.Add((byte)(packNo + 1));
+                    resultBytes.AddRange(packBytes);
+                    packs.Add(resultBytes);
+                }
+            }
+            return packs;
+        }
 
-			//while (true)
-			//{
-			//    if (index == allBytes.Count)
-			//        break;
+        static List<byte> CreateEndDescriptor(ushort descriptorNo)
+        {
+            var resultBytes = new List<byte>();
+            resultBytes.AddRange(BytesHelper.ShortToBytes(descriptorNo));
+            resultBytes.Add(1);
+            resultBytes.Add(255);
+            resultBytes.Add(255);
+            return resultBytes;
+        }
 
-			//    var packBytes = new List<byte>();
-			//    packBytes.Add(allBytes[index]);
-			//    index++;
-			//}
+        static void GoToTechnologicalRegime(XDevice device)
+        {
+            LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в технологический режим");
+            SendManager.Send(device, 0, 14, 0, null, device.Driver.DriverType == XDriverType.GK);
 
-			for (int packNo = 0; packNo <= binaryObject.AllBytes.Count / 256; packNo++)
-			{
-				int packLenght = Math.Min(256, binaryObject.AllBytes.Count - packNo * 256);
-				var packBytes = binaryObject.AllBytes.Skip(packNo * 256).Take(packLenght).ToList();
+            for (int i = 0; i < 10; i++)
+            {
+                var sendResult = SendManager.Send(device, 0, 1, 1);
+                if (!sendResult.HasError)
+                {
+                    if (sendResult.Bytes.Count > 0)
+                    {
+                        var version = sendResult.Bytes[0];
+                        if (version >= 80)
+                        {
+                            return;
+                        }
+                    }
+                }
+                Thread.Sleep(1000);
+            }
 
-				if (packBytes.Count > 0)
-				{
-					var resultBytes = new List<byte>();
-					ushort binaryObjectNo = (ushort)(binaryObject.GetNo());
-					resultBytes.AddRange(BytesHelper.ShortToBytes(binaryObjectNo));
-					resultBytes.Add((byte)(packNo + 1));
-					resultBytes.AddRange(packBytes);
-					packs.Add(resultBytes);
-				}
-			}
-			//foreach (var pack in packs)
-			//{
-			//    if (packs.IndexOf(pack) < packs.Count - 1)
-			//    {
-			//        if (pack[257] == 0 && pack[258] == 0)
-			//        {
-			//            //pack[257] = 1;
-			//            //pack[258] = 1;
-			//        }
-			//    }
-			//}
+            MessageBoxService.ShowError("Не удалось перевести устройство в технологический режим в заданное время");
+        }
 
-			//if (packs.Count > 1)
-			//{
-			//    var bytesString = BytesHelper.BytesToString(binaryObject.AllBytes);
-			//    Trace.WriteLine(bytesString);
-			//    foreach (var pack in packs)
-			//    {
-			//        bytesString = BytesHelper.BytesToString(pack);
-			//        Trace.WriteLine(bytesString);
-			//    }
-			//}
-			return packs;
-		}
+        static void GoToWorkingRegime(XDevice device)
+        {
+            LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
+            SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
 
-		static List<byte> CreateEndDescriptor(ushort descriptorNo)
-		{
-			var resultBytes = new List<byte>();
-			resultBytes.AddRange(BytesHelper.ShortToBytes(descriptorNo));
-			resultBytes.Add(1);
-			resultBytes.Add(255);
-			resultBytes.Add(255);
-			return resultBytes;
-		}
+            for (int i = 0; i < 10; i++)
+            {
+                var sendResult = SendManager.Send(device, 0, 1, 1);
+                if (!sendResult.HasError)
+                {
+                    if (sendResult.Bytes.Count > 0)
+                    {
+                        var version = sendResult.Bytes[0];
+                        if (version < 80)
+                        {
+                            return;
+                        }
+                    }
+                }
+                Thread.Sleep(1000);
+            }
 
-		static void GoToTechnologicalRegime(XDevice device)
-		{
-			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в технологический режим");
-			SendManager.Send(device, 0, 14, 0, null, device.Driver.DriverType == XDriverType.GK);
+            MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
+        }
 
-			for (int i = 0; i < 10; i++)
-			{
-				var sendResult = SendManager.Send(device, 0, 1, 1);
-				if (!sendResult.HasError)
-				{
-					if (sendResult.Bytes.Count > 0)
-					{
-						var version = sendResult.Bytes[0];
-						if (version >= 80)
-						{
-							return;
-						}
-					}
-				}
-				Thread.Sleep(1000);
-			}
+        static void EraseDatabase(XDevice device)
+        {
+            LoadingService.DoStep(device.ShortPresentationAddressAndDriver + " Стирание базы данных");
+            SendManager.Send(device, 0, 15, 0);
+        }
 
-			MessageBoxService.ShowError("Не удалось перевести устройство в технологический режим в заданное время");
-		}
+        static void WriteEndDescriptor(CommonDatabase commonDatabase)
+        {
+            LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
+            var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.BinaryObjects.Count + 1));
+            SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
+        }
 
-		static void GoToWorkingRegime(XDevice device)
-		{
-			LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
-			SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
-
-			for (int i = 0; i < 10; i++)
-			{
-				var sendResult = SendManager.Send(device, 0, 1, 1);
-				if (!sendResult.HasError)
-				{
-					if (sendResult.Bytes.Count > 0)
-					{
-						var version = sendResult.Bytes[0];
-						if (version < 80)
-						{
-							return;
-						}
-					}
-				}
-				Thread.Sleep(1000);
-			}
-
-			MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
-		}
-
-		static void EraseDatabase(XDevice device)
-		{
-			LoadingService.DoStep(device.ShortPresentationAddressAndDriver + " Стирание базы данных");
-			SendManager.Send(device, 0, 15, 0);
-		}
-
-		static void WriteEndDescriptor(CommonDatabase commonDatabase)
-		{
-			LoadingService.DoStep(commonDatabase.RootDevice.PresentationDriverAndAddress + " Запись завершающего дескриптора");
-			var endBytes = BinConfigurationWriter.CreateEndDescriptor((ushort)(commonDatabase.BinaryObjects.Count + 1));
-			SendManager.Send(commonDatabase.RootDevice, 5, 17, 0, endBytes, true);
-		}
-
-		static void SyncronizeTime(XDevice device)
-		{
-			LoadingService.DoStep(device.PresentationDriverAndAddress + " Синхронизация времени");
-			DeviceTimeHelper.Write(device);
-		}
-	}
+        static void SyncronizeTime(XDevice device)
+        {
+            LoadingService.DoStep(device.PresentationDriverAndAddress + " Синхронизация времени");
+            DeviceTimeHelper.Write(device);
+        }
+    }
 }

@@ -33,11 +33,15 @@
                                     <Setter Property="Background" Value="{Binding ZoneState., Converter={StaticResource XZoneStateToColorConverter}}"/>
                                     <Setter Property="BorderThickness" Value="1" />
                                     <Setter Property="BorderBrush" Value="Transparent" />
-                                    <Setter Property="Foreground" Value="Blue" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="BorderBrush" Value="Transparent" />
+                                    <Setter Property="TextBlock.FontSize" Value="12"/>
                                     <Style.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Trigger.Setters>
                                                 <Setter Property="BorderBrush" Value="Orange" />
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter Property="TextBlock.FontSize" Value="14" />
                                             </Trigger.Setters>
                                         </Trigger>
                                     </Style.Triggers>
@@ -45,12 +49,10 @@
                             </ListBox.ItemContainerStyle>
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Button Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                    <Grid Width="50" Height="25" VerticalAlignment="Center" HorizontalAlignment="Center"
                                             Background="{Binding ZoneState.StateType, Converter={StaticResource StateToColorConverter}}"
-                                            ToolTip="{Binding ToolTip}"
-                                            Command="{Binding SelectCommand}">
-                                        <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                                        <Button.ContextMenu>
+                                            ToolTip="{Binding Tooltip}">
+                                        <Grid.ContextMenu>
                                             <ContextMenu>
                                                 <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
                                                 <Separator />
@@ -60,26 +62,9 @@
                                                 <MenuItem Command="{Binding ResetFire1Command}" Header="Сбросить Пожар 1" />
                                                 <MenuItem Command="{Binding ResetFire2Command}" Header="Сбросить Пожар 2" />
                                             </ContextMenu>
-                                        </Button.ContextMenu>
-                                        <Button.Style>
-                                            <Style TargetType="Button">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="Button">
-                                                            <Border x:Name="Border" CornerRadius="2" Background="{TemplateBinding Background}">
-                                                                <ContentPresenter Margin="2" HorizontalAlignment="Center" VerticalAlignment="Center" RecognizesAccessKey="True"/>
-                                                            </Border>
-                                                            <ControlTemplate.Triggers>
-                                                                <Trigger Property="IsFocused" Value="true">
-                                                                    <Setter TargetName="Border" Property="Background" Value="Orange" />
-                                                                </Trigger>
-                                                            </ControlTemplate.Triggers>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </Button.Style>
-                                    </Button>
+                                        </Grid.ContextMenu>
+                                        <TextBlock Text="{Binding Zone.No}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                    </Grid>
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                             <ListBox.ItemsPanel>

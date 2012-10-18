@@ -22,10 +22,7 @@ namespace GKModule.ViewModels
 			SetAutomaticCommand = new RelayCommand(OnSetAutomatic);
 			ResetAutomaticCommand = new RelayCommand(OnResetAutomatic);
 			TurnOnCommand = new RelayCommand(OnTurnOn);
-			CancelDelayCommand = new RelayCommand(OnCancelDelay);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
-			StopCommand = new RelayCommand(OnStop);
-			CancelStartCommand = new RelayCommand(OnCancelStart);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
 			TurnOffNowCommand = new RelayCommand(OnTurnOffNow);
 
@@ -88,28 +85,10 @@ namespace GKModule.ViewModels
 			SendControlCommand(0x8b);
 		}
 
-		public RelayCommand CancelDelayCommand { get; private set; }
-		void OnCancelDelay()
-		{
-			SendControlCommand(0x8c);
-		}
-
 		public RelayCommand TurnOffCommand { get; private set; }
 		void OnTurnOff()
 		{
 			SendControlCommand(0x8d);
-		}
-
-		public RelayCommand StopCommand { get; private set; }
-		void OnStop()
-		{
-			SendControlCommand(0x8e);
-		}
-
-		public RelayCommand CancelStartCommand { get; private set; }
-		void OnCancelStart()
-		{
-			SendControlCommand(0x8f);
 		}
 
 		public RelayCommand TurnOnNowCommand { get; private set; }

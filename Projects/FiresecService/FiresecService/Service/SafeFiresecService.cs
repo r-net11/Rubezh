@@ -277,5 +277,9 @@ namespace FiresecService.Service
         {
             return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.EndPoll(asyncResult));
         }
+        public List<CallbackResult> ShortPoll()
+        {
+            return SafeContext.Execute<List<CallbackResult>>(() => FiresecService.ShortPoll());
+        }
     }
 }

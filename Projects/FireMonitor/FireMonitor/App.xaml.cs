@@ -23,7 +23,7 @@ namespace FireMonitor
             ServerLoadHelper.Load();
 
 #if DEBUG
-			BindingErrorListener.Listen(m => MessageBox.Show(m));
+			//BindingErrorListener.Listen(m => MessageBox.Show(m));
 #endif
 			AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);

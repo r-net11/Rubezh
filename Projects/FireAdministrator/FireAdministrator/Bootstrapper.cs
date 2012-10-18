@@ -42,6 +42,9 @@ namespace FireAdministrator
 					LoadingService.DoStep("Загрузка конфигурации ГК");
 					InitializeGk();
 
+                    LoadingService.DoStep("Старт полинга сервера");
+                    FiresecManager.StartPoll(true);
+
 					LoadingService.DoStep("Проверка прав пользователя");
 					if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
 					{

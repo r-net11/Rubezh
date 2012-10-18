@@ -10,10 +10,6 @@ namespace GKModule.ViewModels
 {
 	public class DirectionsViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
-		public DirectionsViewModel()
-		{
-		}
-
 		public void Initialize()
 		{
 			Directions = (from XDirection direction in XManager.DeviceConfiguration.Directions
@@ -41,7 +37,7 @@ namespace GKModule.ViewModels
 			set
 			{
 				_selectedDirection = value;
-				InitializeDevices();
+				InitializeInputOutputObjects();
 				OnPropertyChanged("SelectedDirection");
 			}
 		}
@@ -52,46 +48,70 @@ namespace GKModule.ViewModels
 			{
 				SelectedDirection = Directions.FirstOrDefault(x => x.Direction.UID == directionUID);
 			}
-			InitializeDevices();
+			InitializeInputOutputObjects();
 		}
 
-		public ObservableCollection<DeviceViewModel> Devices { get; private set; }
+        //List<XDevice> _inputDevices;
+        public List<DeviceViewModel> InputDevices { get; private set; }
+        //{
+        //    get { return _inputDevices; }
+        //    set
+        //    {
+        //        _inputDevices = value;
+        //        OnPropertyChanged("InputDevices");
+        //    }
+        //}
 
-		void InitializeDevices()
+        //List<XZone> _inputZones;
+        public List<ZoneViewModel> InputZones{get;private set;}
+        //{
+        //    get { return _inputZones; }
+        //    set
+        //    {
+        //        _inputZones = value;
+        //        OnPropertyChanged("InputZones");
+        //    }
+        //}
+
+        //List<XDevice> _outputDevices;
+        public List<DeviceViewModel> OutputDevices{get;private set;}
+        //{
+        //    get { return _outputDevices; }
+        //    set
+        //    {
+        //        _outputDevices = value;
+        //        OnPropertyChanged("OutputDevices");
+        //    }
+        //}
+
+		void InitializeInputOutputObjects()
 		{
 			if (SelectedDirection == null)
 				return;
 
-			var devices = new HashSet<XDevice>();
+            InputDevices = new List<DeviceViewModel>();
+            foreach (var inputDevice in SelectedDirection.Direction.InputDevices)
+            {
+                var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x=>x.Device == inputDevice);
+                InputDevices.Add(deviceViewModel);
+            }
+            OnPropertyChanged("InputDevices");
 
-			var directionDevices = from XDevice directionDevice in SelectedDirection.Direction.InputDevices select directionDevice;
-			foreach (var directionDevice in directionDevices)
-			{
-				directionDevice.AllParents.ForEach(x => { devices.Add(x); });
-				devices.Add(directionDevice);
-			}
+            InputZones = new List<ZoneViewModel>();
+            foreach (var inputZone in SelectedDirection.Direction.InputZones)
+            {
+                var zoneViewModel = ZonesViewModel.Current.Zones.FirstOrDefault(x => x.Zone == inputZone);
+                InputZones.Add(zoneViewModel);
+            }
+            OnPropertyChanged("InputZones");
 
-			Devices = new ObservableCollection<DeviceViewModel>();
-			foreach (var device in devices)
-			{
-				Devices.Add(new DeviceViewModel(device, Devices)
-				{
-					IsExpanded = true,
-					IsBold = directionDevices.Contains(device)
-				});
-			}
-
-			foreach (var device in Devices)
-			{
-				if (device.Device.Parent != null)
-				{
-					var parent = Devices.FirstOrDefault(x => x.Device.UID == device.Device.Parent.UID);
-					device.Parent = parent;
-					parent.Children.Add(device);
-				}
-			}
-
-			OnPropertyChanged("Devices");
+            OutputDevices = new List<DeviceViewModel>();
+            foreach (var outputDevice in SelectedDirection.Direction.OutputDevices)
+            {
+                var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device == outputDevice);
+                OutputDevices.Add(deviceViewModel);
+            }
+            OnPropertyChanged("OutputDevices");
 		}
 	}
 }

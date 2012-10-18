@@ -1,19 +1,24 @@
 ﻿<UserControl x:Class="GKModule.Views.DirectionsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Views="clr-namespace:GKModule.Views">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" Margin="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <DataGrid Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}" Margin="2">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Название" MinWidth="250" Width="250">
+                <DataGridTemplateColumn Header="Направление" MinWidth="250" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{Binding DirectionState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
-                                <TextBlock Text="{Binding Direction.PresentationName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200">
+                                <TextBlock Text="{Binding Direction.Name}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200" Margin="5, 0, 0, 0">
                                     <TextBlock.ContextMenu>
                                         <ContextMenu>
                                             <MenuItem Command="{Binding SetIgnoreCommand}" Header="Поставить в обход" />
@@ -26,9 +31,6 @@
                                             <MenuItem Command="{Binding TurnOnNowCommand}" Header="Включить немедленно" />
                                             <MenuItem Command="{Binding TurnOffCommand}" Header="Выключить" />
                                             <MenuItem Command="{Binding TurnOffNowCommand}" Header="Выключить немедленно" />
-                                            <MenuItem Command="{Binding StopCommand}" Header="Остановить" />
-                                            <MenuItem Command="{Binding CancelDelayCommand}" Header="Отменить задержку" />
-                                            <MenuItem Command="{Binding CancelStartCommand}" Header="Запретить пуск" />
                                         </ContextMenu>
                                     </TextBlock.ContextMenu>
                                 </TextBlock>
@@ -36,57 +38,66 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Состояние" Binding="{Binding DirectionState.StateType, Converter={StaticResource StateTypeToStringConverter}}" />
+                <DataGridTextColumn Header="№" MinWidth="100" Binding="{Binding Direction.No}" />
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <DataGrid Grid.Column="0" Margin="2">
 
-            </DataGrid>
+        <DataGrid Grid.Column="1" Grid.Row="0" ItemsSource="{Binding OutputDevices}" Margin="2">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Выходные устройства" MinWidth="250" Width="250">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Views:DeviceView />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Адрес" MinWidth="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Device.Address}" Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Зона" MinWidth="100" Binding="{Binding PresentationZone}" Width="*" />
+                <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Device.Description}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
 
-            <DataGrid Grid.Column="1" Margin="2">
-                <DataGrid ItemsSource="{Binding Devices}">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Header="Устройство" Width="250">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate>
-                                    <WrapPanel Margin="{Binding Level, Converter={StaticResource LevelToMarginConverter}}">
-                                        <CheckBox Style="{StaticResource TreeExpanderStyle}" IsChecked="{Binding IsExpanded, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                        Visibility="{Binding HasChildren, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                                        <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" />
-                                        <Image Source="{Binding Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                        <TextBlock Text="{Binding Device.Driver.ShortName}">
-                                        <TextBlock.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
-                                                <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
-                                            </ContextMenu>
-                                        </TextBlock.ContextMenu>
-                                        <TextBlock.Style>
-                                            <Style>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding IsBold}" Value="True">
-                                                        <DataTrigger.Setters>
-                                                            <Setter Property="TextBlock.FontWeight" Value="Bold" />
-                                                        </DataTrigger.Setters>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                        </TextBlock>
-                                    </WrapPanel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Адрес" Width="50" Binding="{Binding Device.DottedAddress}" />
-                        <DataGridTextColumn Header="Примечание" Width="*" Binding="{Binding Device.Description}" />
-                    </DataGrid.Columns>
-                </DataGrid>
-            </DataGrid>
-        </Grid>
+        <DataGrid Grid.Column="0" Grid.Row="1" ItemsSource="{Binding InputZones}" Margin="2">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Входные зоны" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding ZoneState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Zone.Name}" Margin="5, 0, 0, 0" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="№" MinWidth="100" Binding="{Binding Zone.No}" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <DataGrid Grid.Column="1" Grid.Row="1" ItemsSource="{Binding InputDevices}" Margin="2">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Входные устройства" MinWidth="250" Width="250">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Views:DeviceView />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Адрес" MinWidth="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Device.Address}" Visibility="{Binding Device.Driver.HasAddress, Converter={StaticResource BoolToVisibilityConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Зона" MinWidth="100" Binding="{Binding PresentationZone}" Width="*" />
+                <DataGridTextColumn Header="Примечание" MinWidth="100" Binding="{Binding Device.Description}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </UserControl>
