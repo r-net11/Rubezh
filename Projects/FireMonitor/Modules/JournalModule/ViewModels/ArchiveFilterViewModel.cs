@@ -21,9 +21,9 @@ namespace JournalModule.ViewModels
 			Initialize();
 
 			StartDate = archiveFilter.StartDate;
-			EndDate = archiveFilter.EndDate;
+			EndDate = DateTime.Now;
 			StartTime = archiveFilter.StartDate;
-			EndTime = archiveFilter.EndDate;
+			EndTime = DateTime.Now;
 			UseSystemDate = archiveFilter.UseSystemDate;
 
 			if (archiveFilter.Descriptions.IsNotNullOrEmpty())

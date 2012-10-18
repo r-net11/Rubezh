@@ -17,8 +17,8 @@ namespace DevicesModule.DeviceProperties
 
 		public PropertiesViewModel(Device device)
 		{
-            ParamVisCommand = new RelayCommand(OnParamVis);
-            PropVisCommand = new RelayCommand(OnPropVis);
+			ParamVisCommand = new RelayCommand(OnParamVis);
+			PropVisCommand = new RelayCommand(OnPropVis);
 			Device = device;
 			StringProperties = new List<StringPropertyViewModel>();
 			BoolProperties = new List<BoolPropertyViewModel>();
@@ -26,6 +26,9 @@ namespace DevicesModule.DeviceProperties
 			foreach (var driverProperty in device.Driver.Properties)
 			{
 				if (driverProperty.IsHidden || driverProperty.IsControl)
+					continue;
+
+				if (IsFakeTimeoutProperty(driverProperty))
 					continue;
 
 				switch (driverProperty.DriverPropertyType)
@@ -58,50 +61,66 @@ namespace DevicesModule.DeviceProperties
 			}
 		}
 
-	    private bool parameterVis;
-        public bool ParameterVis
-	    {
-            get
-            {
-                return parameterVis;
-            }
-            set 
-            {
-                parameterVis = value;
-                OnPropertyChanged("ParameterVis");
-            }
-	    }
-        private bool choise = true;
-	    public bool Choise
-	    {
-            get
-            {
-                bool choise1 = (StringProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
-                               (BoolProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
-                               (EnumProperties.FirstOrDefault(x => x.IsAUParameter) == null);
-                if (choise1)
-                {
-                    choise = false;
-                    ParameterVis = false;
-                }
-                return choise;
-            }
-            set
-            {
-                choise = value;
-                OnPropertyChanged("Choise");
-            }
-	    }
-	 
-        public RelayCommand ParamVisCommand { get; private set; }
-        private void OnParamVis()
-        {
-            ParameterVis = true;
-        }
-        public RelayCommand PropVisCommand { get; private set; }
-        private void OnPropVis()
-        {
-            ParameterVis = false;
-        }
-    }
+		private bool parameterVis;
+		public bool ParameterVis
+		{
+			get
+			{
+				return parameterVis;
+			}
+			set
+			{
+				parameterVis = value;
+				OnPropertyChanged("ParameterVis");
+			}
+		}
+		private bool choise = true;
+		public bool Choise
+		{
+			get
+			{
+				bool choise1 = (StringProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
+							   (BoolProperties.FirstOrDefault(x => x.IsAUParameter) == null) &&
+							   (EnumProperties.FirstOrDefault(x => x.IsAUParameter) == null);
+				if (choise1)
+				{
+					choise = false;
+					ParameterVis = false;
+				}
+				return choise;
+			}
+			set
+			{
+				choise = value;
+				OnPropertyChanged("Choise");
+			}
+		}
+
+		public RelayCommand ParamVisCommand { get; private set; }
+		private void OnParamVis()
+		{
+			ParameterVis = true;
+		}
+		public RelayCommand PropVisCommand { get; private set; }
+		private void OnPropVis()
+		{
+			ParameterVis = false;
+		}
+
+		bool IsFakeTimeoutProperty(DriverProperty driverProperty)
+		{
+			switch (Device.Driver.DriverType)
+			{
+				case DriverType.RM_1:
+				case DriverType.MRO_2:
+				case DriverType.MDU:
+				case DriverType.Valve:
+				case DriverType.MPT:
+					if (driverProperty.Name == "Timeout")
+						return true;
+					return false;
+			}
+			return false;
+		}
+	}
 }

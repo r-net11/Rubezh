@@ -84,7 +84,8 @@ namespace DevicesModule.ViewModels
 					{
 						var timeSpan = deviceDriverState.Time - DateTime.Now;
 
-						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+						//var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "Timeout");
+						var timeoutProperty = Device.Properties.FirstOrDefault(x => x.Name == "AU_Delay");
 						if (timeoutProperty != null)
 						{
 							int timeout = 0;

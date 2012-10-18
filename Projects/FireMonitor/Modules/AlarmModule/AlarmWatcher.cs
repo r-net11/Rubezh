@@ -30,9 +30,6 @@ namespace AlarmModule
 			UpdateDeviceAlarms();
 			UpdateZoneAlarms();
 
-			if (ServiceFactory.AppSettings.CanControl)
-				UpdateValveTimer();
-
 			foreach (var alarm in Alarms)
 			{
 				if (alarm.IsDeleting)
@@ -126,43 +123,6 @@ namespace AlarmModule
 							}
 						}
 						break;
-				}
-			}
-		}
-
-		void UpdateValveTimer()
-		{
-			foreach (var device in FiresecManager.Devices)
-			{
-				if (device.Driver.DriverType != DriverType.Valve)
-					continue;
-
-				foreach (var state in device.DeviceState.States)
-				{
-					if (state.DriverState.Code == "Bolt_On")
-					{
-						if (state.Time.HasValue == false)
-							continue;
-
-						var timeoutProperty = device.Properties.FirstOrDefault(x => x.Name == "Timeout");
-						if (timeoutProperty == null)
-							continue;
-
-						int delta = 0;
-						try
-						{
-							var timeSpan = DateTime.Now - state.Time.Value;
-							delta = int.Parse(timeoutProperty.Value) - timeSpan.Seconds;
-						}
-						catch (Exception e)
-						{
-							Logger.Error(e, "Исключение при вызове AlarmWatcher.UpdateValveTimer");
-							continue;
-						}
-
-						if (delta > 0)
-							ServiceFactory.Events.GetEvent<ShowDeviceDetailsEvent>().Publish(device.UID);
-					}
 				}
 			}
 		}

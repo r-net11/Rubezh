@@ -36,7 +36,7 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddIntProprety(driver, 0xC2, "задержка включения выхода 2, сек", "AU_DelayExit2", 0, 3, 0, 255, true);
 			ConfigurationDriverHelper.AddIntProprety(driver, 0xC3, "задержка включения выхода 3, сек", "AU_DelayExit3", 0, 3, 0, 255, true);
 			ConfigurationDriverHelper.AddIntProprety(driver, 0xC4, "задержка включения выхода 4, сек", "AU_DelayExit4", 0, 3, 0, 255, true);
-			ConfigurationDriverHelper.AddIntProprety(driver, 0xC5, "задержка включения выхода 5, сек", "AU_DelayExit5", 0, 60, 0, 255, true);
+			ConfigurationDriverHelper.AddIntProprety(driver, 0xC5, "задержка включения выхода 5, сек", "AU_Delay", 0, 60, 0, 255, true);
 
 			AddRegime(driver, 0xBB, "логика работы выхода 1", "1");
 			AddRegime(driver, 0xBC, "логика работы выхода 2", "3");

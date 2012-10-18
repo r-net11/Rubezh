@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Common.GK;
-//using Common.GK.Journal;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
@@ -19,7 +18,6 @@ namespace GKModule.ViewModels
 		{
 			Title = "Журнал событий ГК";
 			ReadCommand = new RelayCommand(OnRead);
-			EraseCommand = new RelayCommand(OnErase);
 			JournalItems = new ObservableCollection<JournalItem>();
 			Device = device;
 			StartIndex = 1;
@@ -108,12 +106,6 @@ namespace GKModule.ViewModels
                 //gke.Add(journalItem);
 			}
 			LoadingService.Close();
-		}
-
-		public RelayCommand EraseCommand { get; private set; }
-		void OnErase()
-		{
-			SendManager.Send(Device, 0, 8, 0);
 		}
 	}
 }
