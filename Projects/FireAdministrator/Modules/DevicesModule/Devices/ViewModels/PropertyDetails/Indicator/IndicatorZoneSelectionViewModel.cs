@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,8 +18,8 @@ namespace DevicesModule.ViewModels
 		{
 			Title = "Свойства индикатора";
 
-			AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
-			RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);
+            AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
+            RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
 
@@ -66,22 +67,48 @@ namespace DevicesModule.ViewModels
             }
         }
 
-        public RelayCommand AddOneCommand { get; private set; }
-        void OnAddOne()
+        public RelayCommand<object> AddCommand { get; private set; }
+        public IList SelectedSourceZones;
+        void OnAdd(object parameter)
         {
-            TargetZones.Add(SelectedSourceZone);
-            SelectedTargetZone = SelectedSourceZone;
-            SourceZones.Remove(SelectedSourceZone);
-			SelectedSourceZone = SourceZones.FirstOrDefault();
+            SelectedSourceZones = (IList)parameter;
+            var zoneViewModels = new List<ZoneViewModel>();
+            foreach (var selectedZone in SelectedSourceZones)
+            {
+                ZoneViewModel zoneViewModel = selectedZone as ZoneViewModel;
+                if (zoneViewModel != null)
+                    zoneViewModels.Add(zoneViewModel);
+            }
+            foreach (var zoneViewModel in zoneViewModels)
+            {
+                TargetZones.Add(zoneViewModel);
+                SourceZones.Remove(zoneViewModel);
+            }
+
+            OnPropertyChanged("SourceZones");
+            SelectedSourceZone = SourceZones.FirstOrDefault();
         }
 
-        public RelayCommand RemoveOneCommand { get; private set; }
-        void OnRemoveOne()
+        public RelayCommand<object> RemoveCommand { get; private set; }
+        public IList SelectedTargetZones;
+        void OnRemove(object parameter)
         {
-            SourceZones.Add(SelectedTargetZone);
-            SelectedSourceZone = SelectedTargetZone;
-            TargetZones.Remove(SelectedTargetZone);
-			SelectedTargetZone = TargetZones.FirstOrDefault();
+            SelectedTargetZones = (IList)parameter;
+            var zoneViewModels = new List<ZoneViewModel>();
+            foreach (var selectedZone in SelectedTargetZones)
+            {
+                ZoneViewModel zoneViewModel = selectedZone as ZoneViewModel;
+                if (zoneViewModel != null)
+                    zoneViewModels.Add(zoneViewModel);
+            }
+            foreach (var zoneViewModel in zoneViewModels)
+            {
+                SourceZones.Add(zoneViewModel);
+                TargetZones.Remove(zoneViewModel);
+            }
+
+            OnPropertyChanged("TargetZones");
+            SelectedTargetZone = TargetZones.FirstOrDefault();
         }
 
         public RelayCommand AddAllCommand { get; private set; }
@@ -106,12 +133,12 @@ namespace DevicesModule.ViewModels
 			SelectedSourceZone = SourceZones.FirstOrDefault();
         }
 
-        bool CanAdd()
+        bool CanAdd(object parameter)
         {
             return SelectedSourceZone != null;
         }
 
-        bool CanRemove()
+        bool CanRemove(object parameter)
         {
             return SelectedTargetZone != null;
         }

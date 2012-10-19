@@ -27,28 +27,41 @@ namespace FiresecAPI.Models
 			};
 			var property1Parameter1 = new DriverPropertyParameter()
 			{
-				Name = "0 Шлейф дымовых датчиков с определением двойной сработки",
+				Name = "Шлейф дымовых датчиков с определением двойной сработки",
 				Value = "0"
 			};
 			var property1Parameter2 = new DriverPropertyParameter()
 			{
-				Name = "1 Комбинированный шлейф дымовых и тепловых датчиков без определения двойной сработки тепловых датчиков и с определением двойной сработки дымовых",
+				Name = "Комбинированный шлейф дымовых и тепловых датчиков без определения двойной сработки тепловых датчиков и с определением двойной сработки дымовых",
 				Value = "1"
 			};
 			var property1Parameter3 = new DriverPropertyParameter()
 			{
-				Name = "2 Шлейф тепловых датчиков с определением двойной сработки",
+				Name = "Шлейф тепловых датчиков с определением двойной сработки",
 				Value = "2"
 			};
 			var property1Parameter4 = new DriverPropertyParameter()
 			{
-				Name = "3 Комбинированный шлейф дымовых и тепловых датчиков без определения двойной сработки и без контроля короткого замыкания ШС",
+				Name = "Комбинированный шлейф дымовых и тепловых датчиков без определения двойной сработки и без контроля короткого замыкания ШС",
 				Value = "3"
 			};
+			var property1Parameter6 = new DriverPropertyParameter()
+			{
+				Name = "Охранная конфигурация",
+				Value = "6"
+			};
+			var property1Parameter7 = new DriverPropertyParameter()
+			{
+				Name = "Охранная конфигурация с дополнительным резистором",
+				Value = "7"
+			};
+			
 			property1.Parameters.Add(property1Parameter1);
 			property1.Parameters.Add(property1Parameter2);
 			property1.Parameters.Add(property1Parameter3);
 			property1.Parameters.Add(property1Parameter4);
+			property1.Parameters.Add(property1Parameter6);
+			property1.Parameters.Add(property1Parameter7);
 			driver.Properties.Add(property1);
 
 			var property2 = new DriverProperty()

@@ -59,8 +59,8 @@ namespace Firesec
 
                 if (mustMonitorStates)
                 {
-                    Watcher.OnStateChanged();
-                    //Watcher.OnParametersChanged();
+                    Watcher.ForceStateChanged();
+					Watcher.ForceParametersChanged();
                 }
             }
             catch (Exception e)

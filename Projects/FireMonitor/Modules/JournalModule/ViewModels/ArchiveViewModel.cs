@@ -222,10 +222,13 @@ namespace JournalModule.ViewModels
 		void OnGetFilteredArchiveCompleted(IEnumerable<JournalRecord> journalRecords)
 		{
 			JournalRecords = new ObservableCollection<JournalRecordViewModel>();
-			foreach (var journalRecord in journalRecords)
+			if (journalRecords != null)
 			{
-				var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
-				JournalRecords.Add(journalRecordViewModel);
+				foreach (var journalRecord in journalRecords)
+				{
+					var journalRecordViewModel = new JournalRecordViewModel(journalRecord);
+					JournalRecords.Add(journalRecordViewModel);
+				}
 			}
 			SelectedRecord = JournalRecords.FirstOrDefault();
 

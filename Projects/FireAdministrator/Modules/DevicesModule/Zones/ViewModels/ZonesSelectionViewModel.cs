@@ -152,6 +152,7 @@ namespace DevicesModule.ViewModels
 				TargetZones.Add(zoneViewModel);
 			}
 			SourceZones.Clear();
+            SelectedTargetZone = TargetZones.FirstOrDefault();
 		}
 
 		public RelayCommand RemoveAllCommand { get; private set; }
@@ -162,6 +163,7 @@ namespace DevicesModule.ViewModels
 				SourceZones.Add(zoneViewModel);
 			}
 			TargetZones.Clear();
+            SelectedTargetZone = TargetZones.FirstOrDefault();
 		}
 
         bool CanAdd(object parameter)
