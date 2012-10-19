@@ -11,11 +11,19 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="200" />
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="5" />
             <ColumnDefinition Width="*" MinWidth="200" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <Controls:XDataGrid Name="_directionDataGrid" ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MinHeight="200" />
+            <RowDefinition Height="5" />
+            <RowDefinition Height="*" MinHeight="200" />
+        </Grid.RowDefinitions>
+        <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+        <GridSplitter Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
+
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Binding="{Binding Direction.No}" />
                     <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Direction.Name}" />
@@ -24,120 +32,140 @@
             </Controls:XDataGrid>
         </Grid>
 
-        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Width="5" Background="Transparent" Cursor="SizeWE" />
+        <Grid Grid.Row="0" Grid.Column="0">
+            <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="№" Binding="{Binding Direction.No}" />
+                    <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Direction.Name}" />
+                    <DataGridTextColumn Header="Примечание" Width="1*" Binding="{Binding Direction.Description}" />
+                </DataGrid.Columns>
+            </Controls:XDataGrid>
+        </Grid>
 
-        <Grid Grid.Column="2">
+        <ListView Grid.Row="3" ItemsSource="{Binding OutputDevices}" DataContext="{Binding SelectedDirection}">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Выходные устройства" Width="250">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                        <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Width="200" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding DottedAddress}" Width="100" />
+                        <GridViewColumn Header="Зона" DisplayMemberBinding="{Binding Description}" Width="100" />
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Grid Grid.Column="3" Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" MinHeight="200" />
+                <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" MinHeight="200" Name="bottomRow" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <ListView Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" DataContext="{Binding SelectedDirection}">
-                    <ListView.View>
-                        <GridView>
-                            <GridView.Columns>
-                                <GridViewColumn DisplayMemberBinding="{Binding DirectionZone.Zone.No}" Header="№" />
-                                <GridViewColumn DisplayMemberBinding="{Binding DirectionZone.Zone.Name}" Header="Наименование" />
-                                <GridViewColumn Header="Состояние" Width="250">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Controls:EditorPresenter>
-                                                <Controls:EditorPresenter.ViewTemplate>
-                                                    <ControlTemplate>
-                                                        <TextBlock Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Center" />
-                                                    </ControlTemplate>
-                                                </Controls:EditorPresenter.ViewTemplate>
-                                                <Controls:EditorPresenter.EditTemplate>
-                                                    <ControlTemplate>
-                                                        <Grid>
-                                                            <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
+            <ListView Grid.Row="0" ItemsSource="{Binding Zones}" DataContext="{Binding SelectedDirection}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="№" DisplayMemberBinding="{Binding DirectionZone.Zone.No}" />
+                            <GridViewColumn Header="Входные зоны" DisplayMemberBinding="{Binding DirectionZone.Zone.Name}" />
+                            <GridViewColumn Header="Состояние" Width="250">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Controls:EditorPresenter>
+                                            <Controls:EditorPresenter.ViewTemplate>
+                                                <ControlTemplate>
+                                                    <TextBlock Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Center" />
+                                                </ControlTemplate>
+                                            </Controls:EditorPresenter.ViewTemplate>
+                                            <Controls:EditorPresenter.EditTemplate>
+                                                <ControlTemplate>
+                                                    <Grid>
+                                                        <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
                                                                       VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                                                                <ComboBox.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
-                                                                    </DataTemplate>
-                                                                </ComboBox.ItemTemplate>
-                                                            </ComboBox>
-                                                        </Grid>
-                                                    </ControlTemplate>
-                                                </Controls:EditorPresenter.EditTemplate>
-                                            </Controls:EditorPresenter>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView.Columns>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
-                    <Button Command="{Binding ChangeZonesCommand}" Content="Изменить зоны" Width="150" Margin="2" />
-                </StackPanel>
-            </Grid>
+                                                            <ComboBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
+                                                                </DataTemplate>
+                                                            </ComboBox.ItemTemplate>
+                                                        </ComboBox>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Controls:EditorPresenter.EditTemplate>
+                                        </Controls:EditorPresenter>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
+                <Button Command="{Binding ChangeZonesCommand}" Content="Изменить зоны" Width="250" Margin="2" />
+            </StackPanel>
+        </Grid>
 
-            <GridSplitter Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Height="5" Background="Transparent" Cursor="SizeNS" />
+        <Grid Grid.Column="3" Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ListView Grid.Row="0" ItemsSource="{Binding Devices}" DataContext="{Binding SelectedDirection}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Входные устройства" Width="250">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding DirectionDevice.Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                            <TextBlock Text="{Binding DirectionDevice.Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding DirectionDevice.Device.DottedAddress}" Width="100" />
+                            <GridViewColumn Header="Зона" DisplayMemberBinding="{Binding DirectionDevice.Device.Description}" Width="100" />
 
-            <Grid Grid.Row="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-                <ListView Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}" DataContext="{Binding SelectedDirection}">
-                    <ListView.View>
-                        <GridView>
-                            <GridView.Columns>
-                                <GridViewColumn Header="Обозначение" Width="250">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Orientation="Horizontal">
-                                                <Image Source="{Binding DirectionDevice.Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                                <TextBlock Text="{Binding DirectionDevice.Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200" />
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding DirectionDevice.Device.Address}" Header="Адрес" Width="100" />
-                                <GridViewColumn DisplayMemberBinding="{Binding DirectionDevice.Device.Description}" Header="Зона" Width="100" />
-
-                                <GridViewColumn Header="Состояние" Width="250">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Controls:EditorPresenter>
-                                                <Controls:EditorPresenter.ViewTemplate>
-                                                    <ControlTemplate>
-                                                        <TextBlock Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Center" />
-                                                    </ControlTemplate>
-                                                </Controls:EditorPresenter.ViewTemplate>
-                                                <Controls:EditorPresenter.EditTemplate>
-                                                    <ControlTemplate>
-                                                        <Grid>
-                                                            <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
+                            <GridViewColumn Header="Состояние" Width="250">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Controls:EditorPresenter>
+                                            <Controls:EditorPresenter.ViewTemplate>
+                                                <ControlTemplate>
+                                                    <TextBlock Text="{Binding StateType, Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Center" />
+                                                </ControlTemplate>
+                                            </Controls:EditorPresenter.ViewTemplate>
+                                            <Controls:EditorPresenter.EditTemplate>
+                                                <ControlTemplate>
+                                                    <Grid>
+                                                        <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
                                                                       VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                                                                <ComboBox.ItemTemplate>
-                                                                    <DataTemplate>
-                                                                        <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
-                                                                    </DataTemplate>
-                                                                </ComboBox.ItemTemplate>
-                                                            </ComboBox>
-                                                        </Grid>
-                                                    </ControlTemplate>
-                                                </Controls:EditorPresenter.EditTemplate>
-                                            </Controls:EditorPresenter>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView.Columns>
-                        </GridView>
-                    </ListView.View>
-                </ListView>
-                <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
-                    <Button Command="{Binding ChangeDevicesCommand}" Content="Изменить устройства" Width="150" Margin="2" />
-                </StackPanel>
-            </Grid>
+                                                            <ComboBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
+                                                                </DataTemplate>
+                                                            </ComboBox.ItemTemplate>
+                                                        </ComboBox>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Controls:EditorPresenter.EditTemplate>
+                                        </Controls:EditorPresenter>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
+                <Button Command="{Binding ChangeDevicesCommand}" Content="Изменить Входные устройства" Width="250" Margin="2" />
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

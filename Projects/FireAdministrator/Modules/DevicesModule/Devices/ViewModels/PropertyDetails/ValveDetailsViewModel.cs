@@ -16,7 +16,7 @@ namespace DevicesModule.ViewModels
 
 			var actionProperty = _device.Properties.FirstOrDefault(x => x.Name == "Action");
 			if ((actionProperty == null) || (actionProperty.Value == null))
-				SelectiedAction = "1";
+				SelectiedAction = "0";
 			else
 				SelectiedAction = actionProperty.Value;
 		}

@@ -147,15 +147,6 @@ namespace DevicesModule.ViewModels
 
 		public List<StateViewModel> States { get; private set; }
 		public List<StateViewModel> ParentStates { get; private set; }
-		//public List<DeviceDriverState> States
-		//{
-		//    get { return DeviceState.States; }
-		//}
-
-		//public List<string> ParentStringStates
-		//{
-		//    get { return DeviceState.ParentStringStates; }
-		//}
 
 		public List<string> Parameters
 		{
@@ -222,12 +213,6 @@ namespace DevicesModule.ViewModels
 				OnPropertyChanged("IsControlTabSelected");
 			}
 		}
-
-		//public void StartValveTimer(int timeLeft)
-		//{
-		//    IsControlTabSelected = true;
-		//    ValveControlViewModel.StartTimer(timeLeft);
-		//}
 
 		#region IWindowIdentity Members
 		public Guid Guid

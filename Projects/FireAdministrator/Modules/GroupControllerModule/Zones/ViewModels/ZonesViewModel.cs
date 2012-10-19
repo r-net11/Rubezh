@@ -33,10 +33,12 @@ namespace GKModule.ViewModels
 
         public void Initialize()
         {
-            Zones = new ObservableCollection<ZoneViewModel>(
-                from zone in XManager.DeviceConfiguration.Zones
-                orderby zone.No
-                select new ZoneViewModel(zone));
+			Zones = new ObservableCollection<ZoneViewModel>();
+			foreach (var zone in XManager.DeviceConfiguration.SortedZones)
+			{
+				var zoneViewModel = new ZoneViewModel(zone);
+				Zones.Add(zoneViewModel);
+			}
 			SelectedZone = Zones.FirstOrDefault();
         }
 

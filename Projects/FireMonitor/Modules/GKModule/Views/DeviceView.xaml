@@ -16,8 +16,8 @@
                 <ContextMenu Visibility="{Binding Device.IsRealDevice, Converter={StaticResource BoolToVisibilityConverter}}">
                     <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
                     <MenuItem Header="Команды" DataContext="{Binding DeviceCommandsViewModel}" IsEnabled="{Binding CanControl}">
-                        <MenuItem Command="{Binding SetIgnoreCommand}" Header="Поставить в обход" />
-                        <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Убрать из обхода" />
+                        <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить" />
+                        <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение" />
                         <Separator />
                         <MenuItem Command="{Binding SetAutomaticCommand}" Header="Включить автоматику" />
                         <MenuItem Command="{Binding ResetAutomaticCommand}" Header="Выключить автоматику" />

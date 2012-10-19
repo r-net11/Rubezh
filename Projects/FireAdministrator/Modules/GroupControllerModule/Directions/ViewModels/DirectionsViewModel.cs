@@ -47,15 +47,17 @@ namespace GKModule.ViewModels
         }
 
         DirectionViewModel _selectedDirection;
-        public DirectionViewModel SelectedDirection
-        {
-            get { return _selectedDirection; }
-            set
-            {
-                _selectedDirection = value;
-                OnPropertyChanged("SelectedDirection");
-            }
-        }
+		public DirectionViewModel SelectedDirection
+		{
+			get { return _selectedDirection; }
+			set
+			{
+				_selectedDirection = value;
+				if (value != null)
+					value.Update();
+				OnPropertyChanged("SelectedDirection");
+			}
+		}
 
         bool CanEditDelete()
         {

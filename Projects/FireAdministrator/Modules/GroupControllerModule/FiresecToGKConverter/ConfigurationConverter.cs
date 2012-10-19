@@ -9,8 +9,8 @@ using GKModule.ViewModels;
 
 namespace GKModule.Converter
 {
-    public class ConfigurationConverter
-    {
+	public class ConfigurationConverter
+	{
 		XDevice gkDevice;
 
 		public void Convert()
@@ -105,101 +105,111 @@ namespace GKModule.Converter
 			}
 		}
 
-        void ConvertZones()
-        {
-            foreach (var zone in FiresecManager.Zones)
-            {
-                var xZone = new XZone()
-                {
+		void ConvertZones()
+		{
+			foreach (var zone in FiresecManager.Zones)
+			{
+				var xZone = new XZone()
+				{
 					UID = zone.UID,
-                    No = (ushort)zone.No,
-                    Name = zone.Name,
-                    Description = zone.Description,
-                    Fire1Count = (ushort)zone.DetectorCount,
-                };
-                XManager.DeviceConfiguration.Zones.Add(xZone);
-            }
+					No = (ushort)zone.No,
+					Name = zone.Name,
+					Description = zone.Description,
+					Fire1Count = (ushort)zone.DetectorCount,
+				};
+				XManager.DeviceConfiguration.Zones.Add(xZone);
+			}
 
-            foreach (var device in FiresecManager.Devices)
-            {
-                var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
-                if (xDevice != null)
-                {
+			foreach (var device in FiresecManager.Devices)
+			{
+				var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
+				if (xDevice != null)
+				{
 					if ((device.Driver.IsZoneDevice) && (device.ZoneUID != Guid.Empty) && (device.Driver.DriverType != DriverType.MPT))
-                    {
-                        var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
-                        var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
-                        if (zone != null)
-                        {
-                            xDevice.ZoneUIDs.Add(xZone.UID);
-                        }
-                    }
-                }
-            }
-        }
+					{
+						var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
+						var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
+						if (zone != null)
+						{
+							xDevice.ZoneUIDs.Add(xZone.UID);
+						}
+					}
+				}
+			}
+		}
 
-        void ConvertLogic()
-        {
-            foreach (var xDevice in XManager.DeviceConfiguration.Devices)
-            {
-                var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == xDevice.UID);
-                if (device != null)
-                {
-                    if ((device.Driver.IsZoneLogicDevice) && (device.ZoneLogic != null))
-                    {
-                        var xDeviceLogic = new XDeviceLogic();
+		void ConvertLogic()
+		{
+			foreach (var xDevice in XManager.DeviceConfiguration.Devices)
+			{
+				var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == xDevice.UID);
+				if (device != null)
+				{
+					if ((device.Driver.IsZoneLogicDevice) && (device.ZoneLogic != null))
+					{
+						var xDeviceLogic = new XDeviceLogic();
 
-                        foreach (var clause in device.ZoneLogic.Clauses)
-                        {
-                            var xClause = new XClause()
-                            {
-								ClauseOperationType = ClauseOperationType.AllZones
-                            };
-							if(clause.Operation.HasValue)
-							switch(clause.Operation.Value)
+						foreach (var clause in device.ZoneLogic.Clauses)
+						{
+							var xClause = new XClause()
 							{
-								case ZoneLogicOperation.All:
-									xClause.ClauseOperationType = ClauseOperationType.AllZones;
+								ClauseOperationType = ClauseOperationType.AllZones
+							};
+							if (clause.Operation.HasValue)
+								switch (clause.Operation.Value)
+								{
+									case ZoneLogicOperation.All:
+										xClause.ClauseOperationType = ClauseOperationType.AllZones;
+										break;
+
+									case ZoneLogicOperation.Any:
+										xClause.ClauseOperationType = ClauseOperationType.AnyZone;
+										break;
+								}
+							switch (clause.State)
+							{
+								case FiresecAPI.Models.ZoneLogicState.Attention:
+									xClause.StateType = XStateType.Attention;
 									break;
 
-								case ZoneLogicOperation.Any:
-									xClause.ClauseOperationType = ClauseOperationType.AnyZone;
+								case FiresecAPI.Models.ZoneLogicState.Fire:
+									xClause.StateType = XStateType.Fire1;
 									break;
+
+								case FiresecAPI.Models.ZoneLogicState.Failure:
+									xClause.StateType = XStateType.Failure;
+									break;
+
+								default:
+									continue;
 							}
-                            switch (clause.State)
-                            {
-                                case FiresecAPI.Models.ZoneLogicState.Attention:
-                                    xClause.StateType = XStateType.Attention;
-                                    break;
+							if ((clause.ZoneUIDs == null) || (clause.ZoneUIDs.Count == 0))
+								continue;
 
-                                case FiresecAPI.Models.ZoneLogicState.Fire:
-                                    xClause.StateType = XStateType.Fire1;
-                                    break;
+							foreach (var zoneUID in clause.ZoneUIDs)
+							{
+								var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
+								xClause.ZoneUIDs.Add(xZone.UID);
+							}
 
-                                case FiresecAPI.Models.ZoneLogicState.Failure:
-                                    xClause.StateType = XStateType.Failure;
-                                    break;
+							xDeviceLogic.Clauses.Add(xClause);
+						}
 
-                                default:
-                                    continue;
-                            }
-                            if ((clause.ZoneUIDs == null) || (clause.ZoneUIDs.Count == 0))
-                                continue;
-
-                            foreach (var zoneUID in clause.ZoneUIDs)
-                            {
-                                var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == zoneUID);
-                                xClause.ZoneUIDs.Add(xZone.UID);
-                            }
-
-                            xDeviceLogic.Clauses.Add(xClause);
-                        }
-
-                        if (xDeviceLogic.Clauses.Count > 0)
-                            xDevice.DeviceLogic = xDeviceLogic;
-                    }
-                }
-            }
-        }
-    }
+						if (xDeviceLogic.Clauses.Count > 0)
+							xDevice.DeviceLogic = xDeviceLogic;
+					}
+					if (device.Driver.DriverType == DriverType.MPT)
+					{
+						if (device.Zone != null)
+						{
+							var xClause = new XClause();
+							xClause.ClauseOperationType = ClauseOperationType.AnyZone;
+							xClause.ZoneUIDs.Add(device.Zone.UID);
+							xDevice.DeviceLogic.Clauses.Add(xClause);
+						}
+					}
+				}
+			}
+		}
+	}
 }

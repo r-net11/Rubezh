@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
                     deviceLogic.Clauses.Add(clause);
             }
 
-            Device.DeviceLogic = deviceLogic;
+			XManager.ChangeDeviceLogic(Device, deviceLogic);
             return base.Save();
         }
     }

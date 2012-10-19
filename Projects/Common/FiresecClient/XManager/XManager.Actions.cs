@@ -175,5 +175,20 @@ namespace FiresecClient
             }
 			direction.OnChanged();
 		}
+
+		public static void ChangeDeviceLogic(XDevice device, XDeviceLogic deviceLogic)
+		{
+			foreach (var clause in device.DeviceLogic.Clauses)
+			{
+				foreach (var direction in clause.Directions)
+				{
+					direction.OutputDevices.Remove(device);
+					direction.OnChanged();
+					device.Directions.Remove(direction);
+				}
+			}
+			device.DeviceLogic = deviceLogic;
+			InvalidateOneLogic(device);
+		}
 	}
 }

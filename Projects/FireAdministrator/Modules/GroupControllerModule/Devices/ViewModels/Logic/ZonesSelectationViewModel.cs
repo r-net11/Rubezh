@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
             TargetZones = new ObservableCollection<XZone>();
             SourceZones = new ObservableCollection<XZone>();
 
-			foreach (var zone in XManager.DeviceConfiguration.Zones)
+			foreach (var zone in XManager.DeviceConfiguration.SortedZones)
             {
                 if (Zones.Contains(zone))
                     TargetZones.Add(zone);
