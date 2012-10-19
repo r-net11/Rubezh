@@ -7,7 +7,27 @@ namespace FiresecAPI.Models
 	public class DeviceState
 	{
 		public Device Device { get; set; }
-		public List<DeviceDriverState> States { get; set; }
+
+		object locker = new object();
+		List<DeviceDriverState> _states;
+		public List<DeviceDriverState> States
+		{
+			get
+			{
+				lock (locker)
+				{
+					return _states;
+				}
+			}
+			set
+			{
+				lock (locker)
+				{
+					_states = value;
+				}
+			}
+		}
+
 		public List<ParentDeviceState> ParentStates { get; set; }
 		public List<ChildDeviceState> ChildStates { get; set; }
 		public List<Parameter> Parameters { get; set; }

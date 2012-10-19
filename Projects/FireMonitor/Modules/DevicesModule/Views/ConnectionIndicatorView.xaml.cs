@@ -6,6 +6,7 @@ using System.Windows.Media.Animation;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Events;
+using Common;
 
 namespace DevicesModule.Views
 {
@@ -40,11 +41,18 @@ namespace DevicesModule.Views
 		{
 			foreach (var device in FiresecManager.Devices)
 			{
-				foreach (var state in device.DeviceState.States)
+				try
 				{
-					if (state.DriverState.Name.Contains("Потеря связи") || state.DriverState.Name.Contains("Связь с панелью потеряна"))
-						return true;
+					foreach (var state in device.DeviceState.States)
+					{
+						if (state.DriverState.Name.Contains("Потеря связи") || state.DriverState.Name.Contains("Связь с панелью потеряна"))
+							return true;
 
+					}
+				}
+				catch (Exception e)
+				{
+					Logger.Error(e, "ConnectionIndicatorView.HasLostDevices");
 				}
 			}
 			return false;

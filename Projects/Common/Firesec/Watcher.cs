@@ -28,10 +28,10 @@ namespace Firesec
             }
             if (mustMonitorStates)
             {
-				OnStateChanged();
-				//OnParametersChanged();
+				ForceStateChanged();
+				ForceParametersChanged();
 				FiresecSerializedClient.NativeFiresecClient.NewEventAvaliable += new Action<int>(FiresecClient_NewEvent);
-				FiresecSerializedClient.NativeFiresecClient.StateChanged +=new Action<Models.CoreState.config>(StateChanged);
+				FiresecSerializedClient.NativeFiresecClient.StateChanged +=new Action<Models.CoreState.config>(OnStateChanged);
 				FiresecSerializedClient.NativeFiresecClient.ParametersChanged +=new Action<Models.DeviceParameters.config>(OnParametersChanged);
 			}
             FiresecSerializedClient.NativeFiresecClient.ProgressEvent += new Func<int, string, int, int, bool>(OnProgress);
@@ -133,11 +133,19 @@ namespace Firesec
 			}
 		}
 
+		public void ForceParametersChanged()
+		{
+			var coreParameters = FiresecSerializedClient.GetDeviceParams();
+			if (coreParameters != null && coreParameters.Result != null)
+			{
+				OnParametersChanged(coreParameters.Result);
+			}
+		}
+
 		public void OnParametersChanged(Firesec.Models.DeviceParameters.config coreParameters)
 		{
 			ChangedDevices = new HashSet<DeviceState>();
 			ChangedZones = new HashSet<ZoneState>();
-			//var coreParameters = FiresecSerializedClient.GetDeviceParams().Result;
 			if (coreParameters == null)
 				return;
 			if (coreParameters.dev == null)
@@ -179,19 +187,19 @@ namespace Firesec
 
 		internal static void ImitatorStateChanged(Firesec.Models.CoreState.config coreState)
 		{
-			Current.StateChanged(coreState);
+			Current.OnStateChanged(coreState);
 		}
 
-		public void OnStateChanged()
+		public void ForceStateChanged()
 		{
 			var coreState = FiresecSerializedClient.GetCoreState();
 			if (coreState != null && coreState.Result != null)
 			{
-				StateChanged(coreState.Result);
+				OnStateChanged(coreState.Result);
 			}
 		}
 
-		void StateChanged(Firesec.Models.CoreState.config coreState)
+		void OnStateChanged(Firesec.Models.CoreState.config coreState)
 		{
 			try
 			{
@@ -260,6 +268,7 @@ namespace Firesec
 						var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);
 						if (device.DeviceState.States == null)
 						{
+							device.DeviceState.States = new List<DeviceDriverState>();
 							Logger.Error("Watcher.SetStates deviceState.States = null");
 							return;
 						}
