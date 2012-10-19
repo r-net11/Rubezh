@@ -117,8 +117,8 @@ namespace Common.GK
 			}
 			Formula.AddGetBit(XStateType.Norm, Device, DatabaseType);
 			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-            Formula.AddGetBit(XStateType.Save, Device, DatabaseType);
-            Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом 31");
+            //Formula.AddGetBit(XStateType.Save, Device, DatabaseType);
+            //Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом 31");
 			Formula.AddPutBit(stateType, Device, DatabaseType);
 		}
 
