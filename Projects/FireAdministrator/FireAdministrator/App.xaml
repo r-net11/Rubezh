@@ -5,8 +5,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/Styles.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/Controls, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;component/Themes/ScrollBarStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type Rectangle}" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
