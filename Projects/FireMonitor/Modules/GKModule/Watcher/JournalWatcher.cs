@@ -109,9 +109,9 @@ namespace GKModule
 				return;
 			}
 
-			foreach (var childDeviceState in XManager.GetAllDeviceChildren(gkDevice.DeviceState))
+			foreach (var childDevice in XManager.GetAllDeviceChildren(gkDevice))
 			{
-				childDeviceState.IsConnectionLost = !isConnected;
+				childDevice.DeviceState.IsConnectionLost = !isConnected;
 			}
 			foreach (var zoneState in XManager.GetAllGKZoneStates(gkDevice.DeviceState))
 			{

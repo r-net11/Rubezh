@@ -33,20 +33,20 @@ namespace FiresecClient
 			}
         }
 
-        static List<XDeviceState> alDevicelChildren;
-        public static List<XDeviceState> GetAllDeviceChildren(XDeviceState gkDeviceState)
+        static List<XDevice> allDeviceChildren;
+        public static List<XDevice> GetAllDeviceChildren(XDevice gkDevice)
         {
-            alDevicelChildren = new List<XDeviceState>();
-            AllChildren(gkDeviceState);
-            return alDevicelChildren;
+            allDeviceChildren = new List<XDevice>();
+            AddChildren(gkDevice);
+            return allDeviceChildren;
         }
-        public static void AllChildren(XDeviceState deviceState)
+        public static void AddChildren(XDevice device)
         {
-            alDevicelChildren.Add(deviceState);
-            foreach (var childDevice in deviceState.Device.Children)
+            allDeviceChildren.Add(device);
+            foreach (var childDevice in device.Children)
             {
-				alDevicelChildren.Add(childDevice.DeviceState);
-				AllChildren(childDevice.DeviceState);
+				allDeviceChildren.Add(childDevice);
+				AddChildren(childDevice);
             }
         }
 

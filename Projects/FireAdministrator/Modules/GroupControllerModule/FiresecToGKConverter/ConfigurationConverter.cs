@@ -125,7 +125,7 @@ namespace GKModule.Converter
                 var xDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == device.UID);
                 if (xDevice != null)
                 {
-                    if ((device.Driver.IsZoneDevice) && (device.ZoneUID != Guid.Empty))
+					if ((device.Driver.IsZoneDevice) && (device.ZoneUID != Guid.Empty) && (device.Driver.DriverType != DriverType.MPT))
                     {
                         var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == device.ZoneUID);
                         var xZone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.No == (ushort)zone.No);
