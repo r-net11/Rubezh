@@ -15,7 +15,7 @@ namespace ItvIntegration
             Device = device;
             DeviceState = device.DeviceState;
             _stateType = DeviceState.StateType;
-            ItvManager.DeviceStateChanged += new Action<DeviceState>(OnDeviceStateChangedEvent);
+            ItvManager.DeviceStateChanged += new Action<DeviceState>(OnDeviceStateChanged);
             Name = Device.Driver.ShortName + " - " + Device.DottedAddress;
 
             DeviceCommands = new List<DeviceCommandViewModel>();
@@ -29,7 +29,7 @@ namespace ItvIntegration
             }
         }
 
-        void OnDeviceStateChangedEvent(DeviceState deviceState)
+        void OnDeviceStateChanged(DeviceState deviceState)
         {
             if (DeviceState == deviceState)
             {

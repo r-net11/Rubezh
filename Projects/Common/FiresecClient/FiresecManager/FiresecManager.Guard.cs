@@ -51,7 +51,7 @@ namespace FiresecClient
 				if (device.Driver.DriverType != DriverType.AM1_O)
 					continue;
 
-				if (device.DeviceState.States.Count == 1 && device.DeviceState.States.First().DriverState.Code == "OnGuard")
+                if (device.DeviceState.ThreadSafeStates.Count == 1 && device.DeviceState.ThreadSafeStates.First().DriverState.Code == "OnGuard")
 					return true;
 			}
 			return false;
@@ -68,7 +68,7 @@ namespace FiresecClient
 				if (device.Driver.DriverType != DriverType.AM1_O)
 					continue;
 
-				foreach (var state in device.DeviceState.States)
+                foreach (var state in device.DeviceState.ThreadSafeStates)
 				{
 					if (state.DriverState.Code.Contains("Alarm") || state.DriverState.Code.Contains("InitFailed"))
 						return true;

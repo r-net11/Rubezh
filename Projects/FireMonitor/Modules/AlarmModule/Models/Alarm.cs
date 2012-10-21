@@ -98,7 +98,7 @@ namespace AlarmModule
 			{
                 if (device.ZoneUID == ZoneUID)
 				{
-					if (device.DeviceState.States.Any(x => x.DriverState.StateType == StateType.Fire))
+                    if (device.DeviceState.ThreadSafeStates.Any(x => x.DriverState.StateType == StateType.Fire))
 					{
 						DeviceUID = device.UID;
 						return GetDeviceResetItem();
@@ -127,7 +127,7 @@ namespace AlarmModule
 				case AlarmType.Info:
 				case AlarmType.Failure:
 					resetItem.DeviceState = parentDeviceState;
-					foreach (var state in parentDeviceState.States)
+                    foreach (var state in parentDeviceState.ThreadSafeStates)
 					{
 						if (state.DriverState.StateType == EnumsConverter.AlarmTypeToStateType(AlarmType) && state.DriverState.IsManualReset)
 							resetItem.States.Add(state);
@@ -137,7 +137,7 @@ namespace AlarmModule
 				case AlarmType.Service:
 					resetItem.DeviceState = device.DeviceState;
 					var deviceState = FiresecManager.Devices.FirstOrDefault(x => x.UID == device.UID).DeviceState;
-					foreach (var state in deviceState.States)
+                    foreach (var state in deviceState.ThreadSafeStates)
 					{
 						if (state.DriverState.IsManualReset)
 							resetItem.States.Add(state);

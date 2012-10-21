@@ -116,7 +116,7 @@ namespace PlansModule.ViewModels
 			OnPropertyChanged("ToolTip");
 			ElementDeviceView._deviceControl.StateType = DeviceState.StateType;
 			ElementDeviceView._deviceControl.AdditionalStateCodes = new List<string>(
-				from state in DeviceState.States
+                from state in DeviceState.ThreadSafeStates
 				select state.DriverState.Code);
 			ElementDeviceView._deviceControl.Update();
 		}
@@ -142,7 +142,7 @@ namespace PlansModule.ViewModels
 					}
 				}
 
-				foreach (var state in DeviceState.States)
+                foreach (var state in DeviceState.ThreadSafeStates)
 				{
 					stringBuilder.AppendLine(state.DriverState.Name);
 				}

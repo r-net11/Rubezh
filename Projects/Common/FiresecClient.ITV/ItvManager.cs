@@ -29,9 +29,10 @@ namespace FiresecClient.Itv
 				FiresecManager.GetConfiguration();
 				FiresecManager.InitializeFiresecDriver(FS_Address, FS_Port, FS_Login, FS_Password, true);
                 FiresecManager.FiresecDriver.Synchronyze();
-				FiresecManager.FiresecDriver.StartWatcher(true, false);
+				FiresecManager.FiresecDriver.StartWatcher(true, true);
                 FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>(Watcher_DevicesStateChanged);
                 FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>(Watcher_ZonesStateChanged);
+                FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>(Watcher_NewJournalRecords);
             }
             return result;
         }
@@ -92,7 +93,16 @@ namespace FiresecClient.Itv
                     ZoneStateChanged(zoneState);
             }
         }
+        static void Watcher_NewJournalRecords(List<JournalRecord> journalRecords)
+        {
+            foreach (var journalRecord in journalRecords)
+            {
+                if (NewJournalRecord != null)
+                    NewJournalRecord(journalRecord);
+            }
+        }
         public static event Action<DeviceState> DeviceStateChanged;
         public static event Action<ZoneState> ZoneStateChanged;
+        public static event Action<JournalRecord> NewJournalRecord;
     }
 }

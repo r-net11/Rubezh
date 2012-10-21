@@ -43,7 +43,7 @@ namespace DevicesModule.Views
 			{
 				try
 				{
-					foreach (var state in device.DeviceState.States)
+                    foreach (var state in device.DeviceState.ThreadSafeStates)
 					{
 						if (state.DriverState.Name.Contains("Потеря связи") || state.DriverState.Name.Contains("Связь с панелью потеряна"))
 							return true;

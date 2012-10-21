@@ -43,15 +43,13 @@ namespace AlarmModule
 		{
 			foreach (var device in FiresecManager.Devices)
 			{
-				foreach (var state in device.DeviceState.States)
+                foreach (var state in device.DeviceState.ThreadSafeStates)
 				{
 					AlarmType? alarmType = StateToAlarmType(state, device.Driver);
 					if (alarmType.HasValue == false)
 						continue;
 
-					var stateType = state.DriverState.StateType;
-
-					var alarm = Alarms.FirstOrDefault(x => ((x.StateType == stateType) && (x.DeviceUID == device.UID)));
+                    var alarm = Alarms.FirstOrDefault(x => ((x.StateType == state.DriverState.StateType) && (x.DeviceUID == device.UID)));
 					if (alarm != null)
 					{
 						alarm.IsDeleting = false;
@@ -61,7 +59,7 @@ namespace AlarmModule
 						var newAlarm = new Alarm()
 						{
 							AlarmType = alarmType.Value,
-							StateType = stateType,
+                            StateType = state.DriverState.StateType,
 							DeviceUID = device.UID,
                             ZoneUID = device.ZoneUID,
 							StateName = state.DriverState.Name

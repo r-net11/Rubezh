@@ -44,7 +44,7 @@ namespace DevicesModule.ViewModels
 			//OnPropertyChanged("DeviceState");
 
 			States = new List<StateViewModel>();
-			foreach (var state in DeviceState.States)
+            foreach (var state in DeviceState.ThreadSafeStates)
 			{
 				var stateViewModel = new StateViewModel()
 				{
@@ -77,7 +77,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (Device.Driver.DriverType == driverType)
 			{
-				var deviceDriverState = DeviceState.States.FirstOrDefault(x => x.DriverState.Code == stateCodeName);
+                var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Code == stateCodeName);
 				if (deviceDriverState != null)
 				{
 					if (DateTime.Now > deviceDriverState.Time)
@@ -135,7 +135,7 @@ namespace DevicesModule.ViewModels
 						Height = 50,
 						StateType = DeviceState.StateType,
 						AdditionalStateCodes = new List<string>(
-							from state in DeviceState.States
+                            from state in DeviceState.ThreadSafeStates
 							select state.DriverState.Code)
 					};
 					_deviceControl.Update();

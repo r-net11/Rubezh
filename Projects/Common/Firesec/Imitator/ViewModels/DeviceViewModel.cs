@@ -25,7 +25,7 @@ namespace Firesec.Imitator.ViewModels
                 }
             }
 
-            foreach (var deviceDriverState in deviceState.States)
+            foreach (var deviceDriverState in deviceState.ThreadSafeStates)
             {
                 var state = DriverStates.FirstOrDefault(x => x.DriverState.Code == deviceDriverState.DriverState.Code);
                 state._isActive = true;

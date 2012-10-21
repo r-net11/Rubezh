@@ -11,12 +11,12 @@ namespace ItvIntegration
         {
             ZoneState = zoneState;
             _stateType = zoneState.StateType;
-            ItvManager.ZoneStateChanged += new Action<ZoneState>(OnZoneStateChangedEvent);
+            ItvManager.ZoneStateChanged += new Action<ZoneState>(OnZoneStateChanged);
             No = zoneState.Zone.No;
             Name = zoneState.Zone.Name;
         }
 
-        void OnZoneStateChangedEvent(ZoneState zoneState)
+        void OnZoneStateChanged(ZoneState zoneState)
 		{
             if (ZoneState == zoneState)
 			{

@@ -11,7 +11,7 @@ namespace FiresecClient
             var resetItems = new List<ResetItem>();
             foreach (var device in Devices)
             {
-                foreach (var deviceDriverState in device.DeviceState.States)
+                foreach (var deviceDriverState in device.DeviceState.ThreadSafeStates)
                 {
                     if (deviceDriverState.DriverState.IsManualReset)
                     {
