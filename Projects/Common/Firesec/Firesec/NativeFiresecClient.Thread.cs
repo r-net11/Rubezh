@@ -14,7 +14,6 @@ namespace Firesec
         Thread WorkThread;
         bool IsStopping;
 		bool IsSuspending = false;
-		ManualResetEvent SuspendEvent;
 
         public void StartThread()
         {

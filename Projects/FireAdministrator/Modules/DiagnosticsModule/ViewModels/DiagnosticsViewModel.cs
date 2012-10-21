@@ -10,7 +10,6 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using Firesec.Imitator;
-using System;
 using Firesec;
 using System.Threading;
 using System.Diagnostics;
@@ -154,19 +153,30 @@ namespace DiagnosticsModule.ViewModels
 		}
 
 		public RelayCommand Test3Command { get; private set; }
-		void OnTest3()
-		{
-            AsyncTest.AddTask(() =>
-                {
-                    Thread.Sleep(2000);
-                    Trace.WriteLine("Hello");
-                });
-		}
+        void OnTest3()
+        {
+            using (var dataContext = ConnectionManager.CreateGKDataContext())
+            {
+                var journal = new Journal();
+                journal.DateTime = DateTime.Now;
+                journal.ObjectUID = Guid.NewGuid();
+                journal.GKObjectNo = 1;
+                journal.Description = "Event Description";
+                dataContext.Journal.InsertOnSubmit(journal);
+                dataContext.SubmitChanges();
+            }
+        }
 
 		public RelayCommand Test4Command { get; private set; }
 		void OnTest4()
 		{
-            AsyncTest.Stop();
+            using (var dataContext = ConnectionManager.CreateGKDataContext())
+            {
+                var query = "SELECT * FROM Journal";
+                var result = dataContext.ExecuteQuery<Journal>(query);
+                var journalRecordsCount = result.Count();
+                Trace.WriteLine("Journal Count = " + journalRecordsCount.ToString());
+            }
 		}
 
         AsyncTest AsyncTest;

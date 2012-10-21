@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="GkJournalDatabase" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Table Name="gkEvents" Member="GkEvents">
+    <Type Name="GkEvents">
+      <Column Name="GKNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="EventName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="EventDescription" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="KAUNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="GKObjectNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="KAUAddress" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Code" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ObjectNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ObjectDeviceType" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ObjectDeviceAddress" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ObjectFactoryNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ObjectState" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="Journal">
+    <Type Name="Journal">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Description" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="DateTime" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="ObjectUID" Type="System.Guid" DbType="UniqueIdentifier" CanBeNull="true" />
+      <Column Name="GKObjectNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

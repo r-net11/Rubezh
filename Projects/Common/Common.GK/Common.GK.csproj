@@ -103,12 +103,6 @@
     <Compile Include="Drivers\GroupDevices\RM_3_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_4_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_5_Helper.cs" />
-    <Compile Include="Journal\gkEvents.cs" />
-    <Compile Include="Journal\GkJournalDatabaseModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GkJournalDatabaseModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Journal\JournalItem.cs" />
     <Compile Include="Journal\JournalItemType.cs" />
     <Compile Include="Journal\JournalSourceType.cs" />
@@ -130,13 +124,6 @@
       <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
       <Name>Infrastructure.Common</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
-    <EntityDeploy Include="Journal\GkJournalDatabaseModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GkJournalDatabaseModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">

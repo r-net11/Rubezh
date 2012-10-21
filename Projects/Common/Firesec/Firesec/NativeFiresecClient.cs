@@ -44,7 +44,6 @@ namespace Firesec
 			dispatcherThread.Join(100);
 		}
 
-
 		#region Operations
 		public OperationResult<string> GetCoreConfig()
 		{
