@@ -52,16 +52,16 @@ namespace FiresecAPI.Models
 
 
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0xC6, "Приоритет запуска", 0,
-				"1 происходит отмена задержки запуска при нарушении датчика «Двери-окна» и рестарт после восстановления датчика «Двери-окна»",
-				"2 не происходит отмена задержки запуска при нарушении датчика «Двери-окна»", 1, 0, 2, true, false, "1");
+				"происходит отмена задержки запуска при нарушении датчика «Двери-окна» и рестарт после восстановления датчика «Двери-окна»",
+				"не происходит отмена задержки запуска при нарушении датчика «Двери-окна»", 1, 0, 2, true, false, "1");
 
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0xC6, "Блокировка выключения режима «Автоматика включена» при неисправности", 2,
-				"1 отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»",
-				"2 не отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»", 1, 2, 4, true, false, "1");
+				"отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»",
+				"не отключается при неисправности источника питания прибора, при неисправности ШС, при нарушении датчика «Двери-окна»", 1, 2, 4, true, false, "1");
 
 			ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0xC6, "Восстановление режима «Автоматика включена»", 4,
-				"1 восстанавливается после восстановления датчика «Двери-окна»",
-				"2 не восстанавливается после восстановления  датчика «Двери-окна», восстановление возможно по протоколу RSR", 1, 4, 6, true, false, "2");
+				"восстанавливается после восстановления датчика «Двери-окна»",
+				"не восстанавливается после восстановления  датчика «Двери-окна», восстановление возможно по протоколу RSR", 1, 4, 6, true, false, "2");
 
 			//ConfigurationDriverHelper.AddPlainEnumProprety(driver, 0xC6, "Состояние  режима «Автоматика включена» после включения питания", 6,
 			//    "после включения питания  режим «Автоматика включена» включен",
@@ -96,10 +96,10 @@ namespace FiresecAPI.Models
 				Default = "4",
 				UseMask = true,
 			};
-			ConfigurationDriverHelper.AddPropertyParameter(property, "1 Состояние цепи не контролируется", 1);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "2 Цепь контролируется только на обрыв", 2);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "3 Цепь контролируется только на короткое замыкание", 3);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "4 Цепь контролируется на короткое замыкание и на обрыв", 4);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Состояние цепи не контролируется", 1);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Цепь контролируется только на обрыв", 2);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Цепь контролируется только на короткое замыкание", 3);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Цепь контролируется на короткое замыкание и на обрыв", 4);
 			driver.Properties.Add(property);
 		}
 
@@ -115,11 +115,11 @@ namespace FiresecAPI.Models
 				MaxBit = 3,
 				UseMask = true
 			};
-			ConfigurationDriverHelper.AddPropertyParameter(property, "1 Сирена", 1);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "2 Табличка «Уходи»", 2);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "3 Табличка «Не входи»", 3);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "4 Табличка «Автоматика отключена»", 4);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "5 Выход АУП", 5);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Сирена", 1);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Уходи»", 2);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Не входи»", 3);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Табличка «Автоматика отключена»", 4);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Выход АУП", 5);
 			driver.Properties.Add(property);
 		}
 
@@ -135,17 +135,17 @@ namespace FiresecAPI.Models
 				BitOffset = 4,
 				UseMask = true
 			};
-			ConfigurationDriverHelper.AddPropertyParameter(property, "1 Не включать", 1);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "2 Включить сразу", 2);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "3 Включить после паузы", 3);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "4 Включить на заданное время", 4);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "5 Включить после паузы на заданное время и выключить", 5);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "6 Переключать постоянно", 6);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "7 Начать переключение после паузы", 7);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "8 Переключать заданное время и оставить выключенным", 8);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "9 Начать переключение после паузы, переключать заданное время и оставить выключенным", 9);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "10 Переключать заданное время и оставить выключенным", 10);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "11 Начать переключение после паузы, переключать заданное время и оставить выключенным", 11);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Не включать", 1);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Включить сразу", 2);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Включить после паузы", 3);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Включить на заданное время", 4);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Включить после паузы на заданное время и выключить", 5);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Переключать постоянно", 6);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Начать переключение после паузы", 7);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Переключать заданное время и оставить выключенным", 8);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Начать переключение после паузы, переключать заданное время и оставить выключенным", 9);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Переключать заданное время и оставить выключенным", 10);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Начать переключение после паузы, переключать заданное время и оставить выключенным", 11);
 			driver.Properties.Add(property);
 		}
 
@@ -163,8 +163,8 @@ namespace FiresecAPI.Models
 				MaxBit = maxBit,
 				UseMask = true
 			};
-			ConfigurationDriverHelper.AddPropertyParameter(property, "1 Замкнутое", 1);
-			ConfigurationDriverHelper.AddPropertyParameter(property, "2 Разомкнутое", 2);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Замкнутое", 1);
+			ConfigurationDriverHelper.AddPropertyParameter(property, "Разомкнутое", 2);
 			driver.Properties.Add(property);
 		}
 		#endregion

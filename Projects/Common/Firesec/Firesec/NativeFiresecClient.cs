@@ -87,26 +87,7 @@ namespace Firesec
 		{
 			return SafeCall<string>(() => { Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, parameters, _reguestId++); return null; }, "ExecuteRuntimeDeviceMethod");
 		}
-		public OperationResult<string> GetConfigurationParameters(string devicePath, int paramNo)
-		{
-			return SafeCall<string>(() =>
-			{
-				_reguestId += 1;
-				var result1 = Connection.ExecuteRuntimeDeviceMethod(devicePath, "Device$ReadSimpleParam", paramNo.ToString(), _reguestId);
-				Thread.Sleep(TimeSpan.FromSeconds(1));
-				var result = Connection.ExecuteRuntimeDeviceMethod(devicePath, "StateConfigQueries", null, 0);
-				return result;
-			}, "GetConfigurationParameters");
-		}
-		public OperationResult<string> SetConfigurationParameters(string devicePath, string paramValues)
-		{
-			return SafeCall<string>(() =>
-			{
-				_reguestId += 1;
-				var result = Connection.ExecuteRuntimeDeviceMethod(devicePath, "Device$WriteSimpleParam", paramValues, _reguestId);
-				return result;
-			}, "GetConfigurationParameters");
-		}
+
 		public OperationResult<bool> ExecuteCommand(string devicePath, string methodName)
 		{
 			return SafeCall<bool>(() =>

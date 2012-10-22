@@ -76,17 +76,17 @@ namespace FiresecAPI.Models
 			};
 			var property2Parameter1 = new DriverPropertyParameter()
 			{
-				Name = "0 Выключено",
+				Name = "Выключено",
 				Value = "0"
 			};
 			var property2Parameter2 = new DriverPropertyParameter()
 			{
-				Name = "1 Мерцает",
+				Name = "Мерцает",
 				Value = "1"
 			};
 			var property2Parameter3 = new DriverPropertyParameter()
 			{
-				Name = "2 Включено",
+				Name = "Включено",
 				Value = "2"
 			};
 			property2.Parameters.Add(property2Parameter1);

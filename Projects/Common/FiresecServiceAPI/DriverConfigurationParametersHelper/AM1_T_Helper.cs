@@ -17,10 +17,10 @@ namespace FiresecAPI.Models
 				No = 0x81,
 				Name = "Конфигурация",
 				Caption = "Конфигурация",
-				Default = "4"
+				Default = "5"
 			};
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "4 Один контакт, нормально замкнутый", 4);
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "5 Один контакт, нормально разомкнутый", 5);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "Один контакт, нормально замкнутый", 4);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "Один контакт, нормально разомкнутый", 5);
 			driver.Properties.Add(property1);
 
 		}
