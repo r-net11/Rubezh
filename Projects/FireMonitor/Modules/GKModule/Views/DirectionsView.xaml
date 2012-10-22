@@ -68,9 +68,20 @@
                 <DataGridTemplateColumn Header="Входные зоны" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" ToolTip="{Binding ToolTip}">
                                 <Image Source="{Binding ZoneState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
                                 <TextBlock Text="{Binding Zone.Name}" Margin="5, 0, 0, 0" />
+                                <StackPanel.ContextMenu>
+                                    <ContextMenu TextBlock.FontSize="12">
+                                        <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
+                                        <Separator />
+                                        <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить" />
+                                        <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение" />
+                                        <Separator />
+                                        <MenuItem Command="{Binding ResetFire1Command}" Header="Сбросить Пожар 1" />
+                                        <MenuItem Command="{Binding ResetFire2Command}" Header="Сбросить Пожар 2" />
+                                    </ContextMenu>
+                                </StackPanel.ContextMenu>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

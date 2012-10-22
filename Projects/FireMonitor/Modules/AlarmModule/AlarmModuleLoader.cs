@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.Client;
 using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
+using Infrastructure.Events;
 
 namespace AlarmModule
 {

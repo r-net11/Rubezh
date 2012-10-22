@@ -47,22 +47,10 @@
             <Border CornerRadius="5" BorderThickness="0" Margin="0, 5, 0, 0" Padding="5" Background="{DynamicResource BackgroundBrush}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal" TextBlock.FontWeight="Bold" TextBlock.Foreground="Orange">
-                            <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" />
-                            <TextBlock Text="Состояние" Margin="10, 0, 0, 0" />
-                            <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="2, 0, 0, 0" />
+                        <StackPanel>
+                            <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" FontWeight="Bold" Foreground="Orange" />
+                            <Views:DeviceStateView TextElement.Foreground="White" />
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Номер на ГК" />
-                            <TextBlock Text="{Binding DatabaseNo}" Margin="10, 0, 0, 0" />
-                        </StackPanel>
-                        <ItemsControl ItemsSource="{Binding DeviceState.States}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" VerticalAlignment="Center" />
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
                     </StackPanel>
                 </ScrollViewer>
             </Border>

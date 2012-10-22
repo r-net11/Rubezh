@@ -92,6 +92,7 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="FiresecDriver.Reset.cs" />
+    <Compile Include="Firesec\FiresecExceptionHelper.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Connect.cs" />
     <Compile Include="Firesec\NativeFiresecClient.cs" />
     <Compile Include="Firesec\NativeFiresecClient.Thread.cs" />

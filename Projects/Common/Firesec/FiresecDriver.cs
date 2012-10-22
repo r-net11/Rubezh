@@ -291,21 +291,10 @@ namespace Firesec
 			FiresecSerializedClient.AddUserMessage(message);
 		}
 
-		public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)
-		{
-			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				FiresecSerializedClient.ExecuteCommand(device.PlaceInTree, methodName);
-			}
-			var operationResult = new OperationResult<bool>()
-			{
-				Result = false,
-				HasError = true,
-				Error = "Не найдено устройство по идентификатору"
-			};
-			return operationResult;
-		}
+        public OperationResult<bool> ExecuteCommand(Device device, string methodName)
+        {
+            return FiresecSerializedClient.ExecuteCommand(device.PlaceInTree, methodName);
+        }
 
 		public OperationResult<bool> CheckHaspPresence()
 		{

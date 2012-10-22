@@ -96,10 +96,6 @@ namespace Firesec
 				var result = Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, "Test", _reguestId);
 				return true;
 			}, "ExecuteCommand");
-
-			//Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, null, _reguestId++);
-			//Connection.ExecuteRuntimeDeviceMethod(devicePath, methodName, "Test", _reguestId++);
-			//return new OperationResult<bool>() { Result = true };
 		}
 		public OperationResult<bool> CheckHaspPresence()
 		{
@@ -118,23 +114,21 @@ namespace Firesec
 				}
 			}, "CheckHaspPresence");
 		}
-		public OperationResult<bool> AddToIgnoreList(List<string> devicePaths)
+		public void AddToIgnoreList(List<string> devicePaths)
 		{
 			AddTask(() =>
 				{
 					SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), true); return true; }, "AddToIgnoreList");
 				});
-			return new OperationResult<bool>();
 		}
-		public OperationResult<bool> RemoveFromIgnoreList(List<string> devicePaths)
+		public void RemoveFromIgnoreList(List<string> devicePaths)
 		{
 			AddTask(() =>
 				{
 					SafeCall<bool>(() => { Connection.IgoreListOperation(ConvertDeviceList(devicePaths), false); return true; }, "RemoveFromIgnoreList");
 				});
-			return new OperationResult<bool>();
 		}
-		public OperationResult<bool> ResetStates(string states)
+		public void ResetStates(string states)
 		{
 			AddTask(() =>
 				{
@@ -144,7 +138,6 @@ namespace Firesec
 						return true;
 					}, "ResetStates");
 				});
-			return new OperationResult<bool>();
 		}
 		public void SetZoneGuard(string placeInTree, string localZoneNo)
 		{
@@ -301,9 +294,11 @@ namespace Firesec
 				}
 				catch (COMException e)
 				{
-					string exceptionText = "COMException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
-					Trace.WriteLine(exceptionText);
-					Logger.Error(exceptionText);
+                    if (!FiresecExceptionHelper.IsWellKnownException(e.Message))
+                    {
+                        string exceptionText = "COMException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
+                        Logger.Error(exceptionText);
+                    }
 					resultData.Result = default(T);
 					resultData.HasError = true;
 					resultData.Error = e.Message;
@@ -312,7 +307,6 @@ namespace Firesec
 				catch (Exception e)
 				{
 					string exceptionText = "Исключение при вызове NativeFiresecClient.SafeLoopCall попытка " + i.ToString();
-					Trace.WriteLine(exceptionText);
 					Logger.Error(e, exceptionText);
 					resultData.Result = default(T);
 					resultData.HasError = true;

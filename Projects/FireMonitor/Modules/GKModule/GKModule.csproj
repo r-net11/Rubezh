@@ -89,6 +89,9 @@
     <Compile Include="ViewModels\DirectionViewModel.cs" />
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />
     <Compile Include="Journal\ViewModels\JournalItemViewModel.cs" />
+    <Compile Include="Views\DeviceStateView.xaml.cs">
+      <DependentUpon>DeviceStateView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\DeviceView.xaml.cs">
       <DependentUpon>DeviceView.xaml</DependentUpon>
     </Compile>
@@ -166,6 +169,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\DeviceDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DeviceStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

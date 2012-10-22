@@ -23,7 +23,7 @@ namespace FiresecClient
             FiresecService = FiresecServiceFactory.Create(serverAddress);
         }
 
-        OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, bool reconnectOnException = true)
+        OperationResult<T> SafeOperationCall<T>(Func<OperationResult<T>> func, string methodName, bool reconnectOnException = true)
         {
             try
             {
@@ -34,12 +34,12 @@ namespace FiresecClient
             }
             catch (Exception e)
             {
-                LogException(e);
+                LogException(e, methodName);
                 OnConnectionLost();
                 if (reconnectOnException)
                 {
                     if (Recover())
-                        return SafeOperationCall(func, false);
+                        return SafeOperationCall(func, methodName, false);
                 }
             }
             var operationResult = new OperationResult<T>()
@@ -50,7 +50,7 @@ namespace FiresecClient
             return operationResult;
         }
 
-        T SafeOperationCall<T>(Func<T> func, bool reconnectOnException = true)
+        T SafeOperationCall<T>(Func<T> func, string methodName, bool reconnectOnException = true)
         {
             try
             {
@@ -60,18 +60,18 @@ namespace FiresecClient
             }
             catch (Exception e)
             {
-                LogException(e);
+                LogException(e, methodName);
                 OnConnectionLost();
                 if (reconnectOnException)
                 {
                     if (Recover())
-                        return SafeOperationCall(func, false);
+                        return SafeOperationCall(func, methodName);
                 }
             }
             return default(T);
         }
 
-        void SafeOperationCall(Action action, bool reconnectOnException = true)
+        void SafeOperationCall(Action action, string methodName, bool reconnectOnException = true)
         {
             try
             {
@@ -80,25 +80,25 @@ namespace FiresecClient
             }
             catch (Exception e)
             {
-                LogException(e);
+                LogException(e, methodName);
                 OnConnectionLost();
                 if (reconnectOnException)
                 {
                     if (Recover())
-                        SafeOperationCall(action, false);
+                        SafeOperationCall(action, methodName, false);
                 }
             }
         }
 
-        void LogException(Exception e)
+        void LogException(Exception e, string methodName)
         {
             if (e is CommunicationObjectFaultedException)
             {
-                Logger.Error("Исключение при вызове FiresecClient.SafeOperationCall CommunicationObjectFaultedException");
+                Logger.Error("FiresecClient.SafeOperationCall CommunicationObjectFaultedException " + methodName);
             }
             else
             {
-                Logger.Error(e, "Исключение при вызове FiresecClient.SafeOperationCall");
+                Logger.Error(e, "FiresecClient.SafeOperationCall " + methodName);
             }
         }
 
@@ -124,7 +124,7 @@ namespace FiresecClient
                     HasError = true,
                     Error = "Не удается соединиться с сервером"
                 };
-            });
+            }, "Connect");
         }
 
         public void Dispose()

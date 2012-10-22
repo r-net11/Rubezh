@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Common;
 
 namespace Firesec
 {
@@ -55,21 +56,25 @@ namespace Firesec
 
 				if (requests != null && requests.request.Count() > 0)
 				{
-					if (requestIds.Contains(requests.request.First().id))
-					{
-						int address = requests.request.First().param.FirstOrDefault(x => x.name == "ParamNo").value;
+                    if (requestIds.Contains(requests.request.First().id))
+                    {
+                        int address = requests.request.First().param.FirstOrDefault(x => x.name == "ParamNo").value;
 
-						int fullvalue = requests.request.First().param.FirstOrDefault(x => x.name == "ParamValue").value;
-						count--;
-						foreach (var driverProperty in device.Driver.Properties.FindAll(x => x.No == address))
-						{
+                        int fullvalue = requests.request.First().param.FirstOrDefault(x => x.name == "ParamValue").value;
+                        count--;
+                        foreach (var driverProperty in device.Driver.Properties.FindAll(x => x.No == address))
+                        {
 
-							if (properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
-							{
-								properties.Add(CreateProperty(fullvalue, driverProperty));
-							}
-						}
-					}
+                            if (properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
+                            {
+                                properties.Add(CreateProperty(fullvalue, driverProperty));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Logger.Error("FiresecDriver.GetConfigurationParameters RequestIds.Contains = false");
+                    }
 				}
 					
 				int waitCount = 0;

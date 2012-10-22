@@ -89,31 +89,29 @@ namespace Firesec
 			return NativeFiresecClient.CheckHaspPresence();
 		}
 
-		public OperationResult<bool> AddToIgnoreList(List<string> devicePaths)
+		public void AddToIgnoreList(List<string> devicePaths)
 		{
-			return NativeFiresecClient.AddToIgnoreList(devicePaths);
+			NativeFiresecClient.AddToIgnoreList(devicePaths);
 		}
 
-		public OperationResult<bool> RemoveFromIgnoreList(List<string> devicePaths)
+        public void RemoveFromIgnoreList(List<string> devicePaths)
 		{
-			return NativeFiresecClient.RemoveFromIgnoreList(devicePaths);
+			NativeFiresecClient.RemoveFromIgnoreList(devicePaths);
 		}
 
-        public OperationResult<bool> ResetStates(Firesec.Models.CoreState.config coreState)
+        public void ResetStates(Firesec.Models.CoreState.config coreState)
         {
-            return NativeFiresecClient.ResetStates(SerializerHelper.Serialize<Firesec.Models.CoreState.config>(coreState));
+            NativeFiresecClient.ResetStates(SerializerHelper.Serialize<Firesec.Models.CoreState.config>(coreState));
         }
 
-        public OperationResult<bool> SetZoneGuard(string placeInTree, string localZoneNo)
+        public void SetZoneGuard(string placeInTree, string localZoneNo)
         {
             NativeFiresecClient.SetZoneGuard(placeInTree, localZoneNo);
-            return new OperationResult<bool>();
         }
 
-        public OperationResult<bool> UnSetZoneGuard(string placeInTree, string localZoneNo)
+        public void UnSetZoneGuard(string placeInTree, string localZoneNo)
         {
             NativeFiresecClient.UnSetZoneGuard(placeInTree, localZoneNo);
-            return new OperationResult<bool>();
         }
 
 		public OperationResult<bool> AddUserMessage(string message)
