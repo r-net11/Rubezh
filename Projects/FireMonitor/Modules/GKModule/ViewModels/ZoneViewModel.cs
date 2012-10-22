@@ -88,7 +88,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ResetFire2Command { get; private set; }
 		void OnResetFire2()
 		{
-			SendControlCommand(0x02);
+			SendControlCommand(0x03);
 		}
 		bool CanResetFire2()
 		{
