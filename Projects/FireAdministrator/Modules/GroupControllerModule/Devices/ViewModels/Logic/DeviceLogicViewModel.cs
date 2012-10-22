@@ -33,7 +33,9 @@ namespace GKModule.ViewModels
             {
                 var clauseViewModel = new ClauseViewModel(clause);
                 Clauses.Add(clauseViewModel);
+				JoinOperator = clause.ClauseJounOperationType;
             }
+			UpdateJoinOperatorVisibility();
         }
 
         public DeviceLogicViewModel _deviceDetailsViewModel { get; private set; }
@@ -104,7 +106,8 @@ namespace GKModule.ViewModels
 					ZoneUIDs = clauseViewModel.Zones.Select(x => x.UID).ToList(),
                     DeviceUIDs = clauseViewModel.Devices.Select(x => x.UID).ToList(),
 					DirectionUIDs = clauseViewModel.Directions.Select(x => x.UID).ToList(),
-                    ClauseJounOperationType = clauseViewModel.SelectedClauseJounOperationType,
+                    //ClauseJounOperationType = clauseViewModel.SelectedClauseJounOperationType,
+					ClauseJounOperationType = JoinOperator,
                     ClauseOperationType = clauseViewModel.SelectedClauseOperationType
                 };
                 if (clause.ZoneUIDs.Count > 0 || clause.DeviceUIDs.Count > 0 || clause.DirectionUIDs.Count > 0)

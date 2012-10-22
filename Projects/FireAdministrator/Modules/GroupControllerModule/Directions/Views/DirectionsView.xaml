@@ -57,7 +57,6 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
                         <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding DottedAddress}" Width="100" />
-                        <GridViewColumn Header="Зона" DisplayMemberBinding="{Binding Description}" Width="100" />
                     </GridView.Columns>
                 </GridView>
             </ListView.View>
@@ -130,7 +129,6 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding DirectionDevice.Device.DottedAddress}" Width="100" />
-                            <GridViewColumn Header="Зона" DisplayMemberBinding="{Binding DirectionDevice.Device.Description}" Width="100" />
 
                             <GridViewColumn Header="Состояние" Width="250">
                                 <GridViewColumn.CellTemplate>
@@ -145,7 +143,7 @@
                                                 <ControlTemplate>
                                                     <Grid>
                                                         <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
-                                                                      VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                                VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
                                                             <ComboBox.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />

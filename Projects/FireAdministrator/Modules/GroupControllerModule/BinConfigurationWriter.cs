@@ -40,7 +40,7 @@ namespace GKModule
                 }
 
                 GoToWorkingRegime(gkDatabase.RootDevice);
-                SyncronizeTime(gkDatabase.RootDevice);
+                //SyncronizeTime(gkDatabase.RootDevice);
 
                 LoadingService.Close();
             }
@@ -133,6 +133,7 @@ namespace GKModule
             LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
             SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
 
+			return;
             for (int i = 0; i < 10; i++)
             {
                 var sendResult = SendManager.Send(device, 0, 1, 1);

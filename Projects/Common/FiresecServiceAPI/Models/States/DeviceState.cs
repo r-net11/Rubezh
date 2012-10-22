@@ -23,6 +23,10 @@ namespace FiresecAPI.Models
 			{
 				lock (locker)
 				{
+					if (_states == null)
+					{
+						_states = new List<DeviceDriverState>();
+					}
 					_states = value;
 				}
 			}

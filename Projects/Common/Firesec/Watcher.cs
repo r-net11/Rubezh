@@ -259,19 +259,12 @@ namespace Firesec
 					}
                     if (innerDevice.state == null)
                     {
-                        Logger.Error("Watcher.SetStates innerDevice.state = null");
-                        continue;
+						innerDevice.state = (new List<Firesec.Models.CoreState.stateType>()).ToArray();
                     }
 
 					foreach (var driverState in device.Driver.States)
 					{
 						var innerState = innerDevice.state.FirstOrDefault(a => a.id == driverState.Id);
-						if (device.DeviceState.States == null)
-						{
-							device.DeviceState.States = new List<DeviceDriverState>();
-							Logger.Error("Watcher.SetStates deviceState.States = null");
-							return;
-						}
 						var state = device.DeviceState.States.FirstOrDefault(x => x.DriverState.Code == driverState.Code);
 						if ((state != null) != (innerState != null))
 						{
