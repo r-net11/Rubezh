@@ -98,6 +98,7 @@
     </Compile>
     <Compile Include="AppSettings.cs" />
     <Compile Include="ClientSettings.cs" />
+    <Compile Include="Events\DevicesStateChangedEvent.cs" />
     <Compile Include="Events\ShowDiagnosticsEvent.cs" />
     <Compile Include="Events\DeviceParametersChangedEvent.cs" />
     <Compile Include="Events\DeviceStateChangedEvent.cs" />

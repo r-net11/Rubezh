@@ -15,14 +15,14 @@ namespace FireMonitor.ViewModels
 	{
 		public SoundViewModel()
 		{
-			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
-			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
 
 			PlaySoundCommand = new RelayCommand(OnPlaySound);
 			CurrentStateType = StateType.No;
 			IsSoundOn = true;
 			IsEnabled = false;
-			OnDeviceStateChanged(Guid.Empty);
+			OnDevicesStateChanged(Guid.Empty);
 		}
 
 		public StateType CurrentStateType { get; private set; }
@@ -53,7 +53,7 @@ namespace FireMonitor.ViewModels
 			get { return FiresecClient.FiresecManager.SystemConfiguration.Sounds; }
 		}
 
-		public void OnDeviceStateChanged(Guid deviceUID)
+		public void OnDevicesStateChanged(object obj)
 		{
 			var minState = StateType.No;
 

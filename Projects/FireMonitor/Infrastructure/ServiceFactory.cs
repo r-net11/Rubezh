@@ -41,14 +41,14 @@ namespace Infrastructure
 				Logger.Error("ServiceFactory.SubscribeEvents FiresecManager.FiresecDriver.Watcher = null");
 				return;
 			}
-            FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
-            FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
-            FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
-            FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
-			FiresecManager.FiresecDriver.Watcher.Progress +=new Func<int,string,int,int,bool>(Watcher_Progress);
+			FiresecManager.FiresecDriver.Watcher.DevicesStateChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceStateChangedEvent(x); }); });
+			FiresecManager.FiresecDriver.Watcher.DevicesParametersChanged += new Action<List<DeviceState>>((x) => { SafeCall(() => { OnDeviceParametersChangedEvent(x); }); });
+			FiresecManager.FiresecDriver.Watcher.ZonesStateChanged += new Action<List<ZoneState>>((x) => { SafeCall(() => { OnZoneStateChangedEvent(x); }); });
+			FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
+			FiresecManager.FiresecDriver.Watcher.Progress += new Func<int, string, int, int, bool>(Watcher_Progress);
 
-            SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
-            SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
+			SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { ThreadSafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
+			SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { ThreadSafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
 		}
 
 		static bool Watcher_Progress(int arg1, string arg2, int arg3, int arg4)
@@ -59,49 +59,53 @@ namespace Infrastructure
 			});
 			return true;
 		}
-        static void OnDeviceStateChangedEvent(List<DeviceState> deviceStates)
-        {
-            foreach (var deviceState in deviceStates)
-            {
-                ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Publish(deviceState.Device.UID);
-                if (deviceState != null)
-                {
-                    deviceState.OnStateChanged();
-                }
-            }
-        }
-        static void OnDeviceParametersChangedEvent(List<DeviceState> deviceStates)
-        {
-            foreach (var deviceState in deviceStates)
-            {
-                ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(deviceState.Device.UID);
-                if (deviceState != null)
-                {
-                    deviceState.OnParametersChanged();
-                }
-            }
-        }
-        static void OnZoneStateChangedEvent(List<ZoneState> zoneStates)
-        {
-            foreach (var zoneState in zoneStates)
-            {
-                ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneState.Zone.UID);
-                if (zoneState != null)
-                {
-                    zoneState.OnStateChanged();
-                }
-            }
-        }
+		static void OnDeviceStateChangedEvent(List<DeviceState> deviceStates)
+		{
+			foreach (var deviceState in deviceStates)
+			{
+				if (deviceState != null)
+				{
+					deviceState.OnStateChanged();
+				}
+			}
+			Trace.WriteLine("OnDeviceStateChangedEvent Count = " + deviceStates.Count.ToString());
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Publish(null);
+		}
+		static void OnDeviceParametersChangedEvent(List<DeviceState> deviceStates)
+		{
+			foreach (var deviceState in deviceStates)
+			{
+				Trace.WriteLine("OnDeviceParametersChangedEvent");
+				ServiceFactory.Events.GetEvent<DeviceParametersChangedEvent>().Publish(deviceState.Device.UID);
+				if (deviceState != null)
+				{
+					deviceState.OnParametersChanged();
+				}
+			}
+		}
+		static void OnZoneStateChangedEvent(List<ZoneState> zoneStates)
+		{
+			foreach (var zoneState in zoneStates)
+			{
+				Trace.WriteLine("OnZoneStateChangedEvent");
+				ServiceFactory.Events.GetEvent<ZoneStateChangedEvent>().Publish(zoneState.Zone.UID);
+				if (zoneState != null)
+				{
+					zoneState.OnStateChanged();
+				}
+			}
+		}
 		static void OnNewJournalRecordEvent(List<JournalRecord> journalRecords)
 		{
-            FiresecManager.FiresecService.AddJournalRecords(journalRecords);
+			Trace.WriteLine("OnNewJournalRecordEvent");
+			FiresecManager.FiresecService.AddJournalRecords(journalRecords);
 			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
 		}
 
-        static void OnNewServerJournalRecordEvent(List<JournalRecord> journalRecords)
-        {
-            ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
-        }
+		static void OnNewServerJournalRecordEvent(List<JournalRecord> journalRecords)
+		{
+			ServiceFactory.Events.GetEvent<NewJournalRecordsEvent>().Publish(journalRecords);
+		}
 
 		static void OnGetFilteredArchiveCompletedEvent(IEnumerable<JournalRecord> journalRecords)
 		{
@@ -115,11 +119,17 @@ namespace Infrastructure
 
 		public static void SafeCall(Action action)
 		{
+			if (Application.Current != null && Application.Current.Dispatcher != null)
+				Application.Current.Dispatcher.BeginInvoke(action);
+		}
+
+		public static void ThreadSafeCall(Action action)
+		{
 			var thread = new Thread(new ThreadStart(() =>
-				{
-					if (Application.Current != null && Application.Current.Dispatcher != null)
-						Application.Current.Dispatcher.Invoke(action);
-				}));
+			{
+				if (Application.Current != null && Application.Current.Dispatcher != null)
+					Application.Current.Dispatcher.Invoke(action);
+			}));
 			thread.Start();
 		}
 	}

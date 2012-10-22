@@ -9,6 +9,7 @@ using System.Text;
 using FiresecAPI.Models;
 using System.Threading;
 using System.Collections.Generic;
+using Firesec;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -38,10 +39,12 @@ namespace DiagnosticsModule.ViewModels
         {
             var thread = new Thread(new ThreadStart(() =>
             {
-                var random = new Random(1);
                 while (true)
                 {
-                    Thread.Sleep(TimeSpan.FromMilliseconds(100));
+					if (NativeFiresecClient.TasksCount > 10)
+						continue;
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+
                     var zoneIndex = random.Next(0, FiresecManager.Zones.Count - 1);
                     var zone = FiresecManager.Zones[zoneIndex];
                     var devices = new List<Device>();
@@ -64,10 +67,12 @@ namespace DiagnosticsModule.ViewModels
         {
             var thread = new Thread(new ThreadStart(() =>
             {
-                var random = new Random(1);
                 while (true)
                 {
+					if (NativeFiresecClient.TasksCount > 10)
+						continue;
                     Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+
                     var zoneIndex = random.Next(0, FiresecManager.Zones.Count - 1);
                     var zone = FiresecManager.Zones[zoneIndex];
                     var devices = new List<Device>();
@@ -84,6 +89,8 @@ namespace DiagnosticsModule.ViewModels
             thread.IsBackground = true;
             thread.Start();
         }
+
+		Random random = new Random(1);
 
         public RelayCommand Test3Command { get; private set; }
         void OnTest3()
@@ -103,7 +110,7 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand Test4Command { get; private set; }
         void OnTest4()
         {
-            throw new Exception("Unjnown exception");
+            throw new Exception("Unknown exception");
         }
     }
 }
