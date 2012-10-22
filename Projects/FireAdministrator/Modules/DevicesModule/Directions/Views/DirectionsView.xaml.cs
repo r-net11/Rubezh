@@ -8,11 +8,11 @@ namespace DevicesModule.Views
 		public DirectionsView()
 		{
 			InitializeComponent();
-			Loaded += new RoutedEventHandler(DevicesView_Loaded);
-			_directionDataGrid.SelectionChanged += new SelectionChangedEventHandler(DevicesView_Loaded);
+			Loaded += new RoutedEventHandler(OnSelectionChanged);
+			_directionDataGrid.SelectionChanged += new SelectionChangedEventHandler(OnSelectionChanged);
 		}
 
-		void DevicesView_Loaded(object sender, RoutedEventArgs e)
+		void OnSelectionChanged(object sender, RoutedEventArgs e)
 		{
 			if (_directionDataGrid.SelectedItem != null)
 				_directionDataGrid.ScrollIntoView(_directionDataGrid.SelectedItem);

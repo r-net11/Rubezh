@@ -35,7 +35,7 @@
                                     <Setter Property="BorderBrush" Value="Transparent" />
                                     <Setter Property="Foreground" Value="Black" />
                                     <Setter Property="BorderBrush" Value="Transparent" />
-                                    <Setter Property="TextBlock.FontSize" Value="12"/>
+                                    <Setter Property="TextBlock.FontSize" Value="12" />
                                     <Style.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Trigger.Setters>
@@ -53,11 +53,11 @@
                                             Background="{Binding ZoneState.StateType, Converter={StaticResource StateToColorConverter}}"
                                             ToolTip="{Binding Tooltip}">
                                         <Grid.ContextMenu>
-                                            <ContextMenu>
+                                            <ContextMenu TextBlock.FontSize="12">
                                                 <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
                                                 <Separator />
-                                                <MenuItem Command="{Binding SetIgnoreCommand}" Header="Поставить в обход" />
-                                                <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Убрать из обхода" />
+                                                <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить" />
+                                                <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение" />
                                                 <Separator />
                                                 <MenuItem Command="{Binding ResetFire1Command}" Header="Сбросить Пожар 1" />
                                                 <MenuItem Command="{Binding ResetFire2Command}" Header="Сбросить Пожар 2" />

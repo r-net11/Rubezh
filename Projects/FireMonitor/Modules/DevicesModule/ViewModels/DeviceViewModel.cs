@@ -59,14 +59,8 @@ namespace DevicesModule.ViewModels
 
 		void OnStateChanged()
 		{
-			if (DeviceState.States == null)
-			{
-				Logger.Error("DeviceViewModel.OnStateChanged: DeviceState.States = null");
-				return;
-			}
-
 			States = new List<StateViewModel>();
-			foreach (var state in DeviceState.States)
+            foreach (var state in DeviceState.ThreadSafeStates)
 			{
 				var stateViewModel = new StateViewModel()
 				{
@@ -134,7 +128,7 @@ namespace DevicesModule.ViewModels
 					}
 				}
 
-				foreach (var state in DeviceState.States)
+                foreach (var state in DeviceState.ThreadSafeStates)
 				{
 					stringBuilder.AppendLine(state.DriverState.Name);
 				}
@@ -332,7 +326,7 @@ namespace DevicesModule.ViewModels
 			{
 				DeviceState = DeviceState
 			};
-			var deviceDriverState = DeviceState.States.FirstOrDefault(x => x.DriverState.Name == stateName);
+            var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Name == stateName);
 			resetItem.States.Add(deviceDriverState);
 			resetItems.Add(resetItem);
 			FiresecManager.FiresecDriver.ResetStates(resetItems);
@@ -341,7 +335,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanReset(string stateName)
 		{
-			return DeviceState.States.Any(x => (x.DriverState.Name == stateName && x.DriverState.IsManualReset));
+            return DeviceState.ThreadSafeStates.Any(x => (x.DriverState.Name == stateName && x.DriverState.IsManualReset));
 		}
 
 		public RelayCommand SetGuardCommand { get; private set; }
@@ -392,7 +386,7 @@ namespace DevicesModule.ViewModels
 			{
                 if (Device.Driver.DriverType == DriverType.MPT)
                 {
-					var deviceDriverState = DeviceState.States.FirstOrDefault(x => x.DriverState.Code == "PropertyNameHere");
+                    var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Code == "PropertyNameHere");
                     if (deviceDriverState != null)
                     {
                         var secondsLeft = 1;
@@ -405,7 +399,7 @@ namespace DevicesModule.ViewModels
 
 				if (Device.Driver.HasControlProperties && !FiresecManager.FiresecConfiguration.IsChildMPT(Device))
 				{
-                    var deviceDriverState = DeviceState.States.FirstOrDefault(x => x.DriverState.Code == "PropertyNameHere");
+                    var deviceDriverState = DeviceState.ThreadSafeStates.FirstOrDefault(x => x.DriverState.Code == "PropertyNameHere");
 					if (deviceDriverState != null)
 					{
 						if (DateTime.Now > deviceDriverState.Time)

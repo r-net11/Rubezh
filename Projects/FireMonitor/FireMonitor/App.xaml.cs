@@ -29,14 +29,18 @@ namespace FireMonitor
 			ApplicationService.Closing += new System.ComponentModel.CancelEventHandler(ApplicationService_Closing);
 			
 			_bootstrapper = new Bootstrapper();
-			using (new DoubleLaunchLocker(SignalId, WaitId))
+			using (new DoubleLaunchLocker(SignalId, WaitId, true))
 				_bootstrapper.Initialize();
 		}
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
             Logger.Error(e.ExceptionObject as Exception);
-			ApplicationService.Invoke(() => MessageBoxService.ShowException(e.ExceptionObject as Exception));
+			//ApplicationService.Invoke(() => MessageBoxService.ShowException(e.ExceptionObject as Exception));
+
+            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.MainWindow.Close();
+            Application.Current.Shutdown();
 		}
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{

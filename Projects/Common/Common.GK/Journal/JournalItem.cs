@@ -198,7 +198,7 @@ namespace Common.GK
 							break;
 
 						case 12:
-							EventName = "Обход";
+							EventName = "Отключение";
 							EventYesNo = StringHelper.ToYesNo(bytes[32 + 14]);
 							break;
 					}

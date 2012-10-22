@@ -21,11 +21,11 @@ namespace GKModule.ViewModels
             Direction = direction;
             Zones = new ObservableCollection<DirectionZoneViewModel>();
             Devices = new ObservableCollection<DirectionDeviceViewModel>();
-            InitializeDirectionZones();
-            InitializeDirectionDevices();
+			OutputDevices = new ObservableCollection<XDevice>();
+			Update();
         }
 
-        void InitializeDirectionZones()
+        void InitializeDependences()
         {
             Zones.Clear();
             foreach (var directionZone in Direction.DirectionZones)
@@ -33,48 +33,30 @@ namespace GKModule.ViewModels
                 var directionZoneViewModel = new DirectionZoneViewModel(directionZone);
                 Zones.Add(directionZoneViewModel);
             }
-        }
 
-        void InitializeDirectionDevices()
-        {
             Devices.Clear();
             foreach (var directionDevice in Direction.DirectionDevices)
             {
                 var directionDeviceViewModel = new DirectionDeviceViewModel(directionDevice);
                 Devices.Add(directionDeviceViewModel);
             }
+
+			OutputDevices.Clear();
+			foreach (var outputDevice in Direction.OutputDevices)
+			{
+				OutputDevices.Add(outputDevice);
+			}
         }
 
         public void Update()
         {
+			InitializeDependences();
             OnPropertyChanged("Direction");
         }
 
         public ObservableCollection<DirectionZoneViewModel> Zones { get; private set; }
-
-        DirectionZoneViewModel _selectedZone;
-        public DirectionZoneViewModel SelectedZone
-        {
-            get { return _selectedZone; }
-            set
-            {
-                _selectedZone = value;
-                OnPropertyChanged("SelectedZone");
-            }
-        }
-
         public ObservableCollection<DirectionDeviceViewModel> Devices { get; private set; }
-
-        DirectionDeviceViewModel _selectedDevice;
-        public DirectionDeviceViewModel SelectedDevice
-        {
-            get { return _selectedDevice; }
-            set
-            {
-                _selectedDevice = value;
-                OnPropertyChanged("SelectedDevice");
-            }
-        }
+		public ObservableCollection<XDevice> OutputDevices { get; private set; }
 
         public void ChangeZones()
         {
@@ -82,7 +64,7 @@ namespace GKModule.ViewModels
             if (DialogService.ShowModalWindow(zonesSelectationViewModel))
             {
                 XManager.ChangeDirectionZones(Direction, zonesSelectationViewModel.Zones);
-                InitializeDirectionZones();
+                InitializeDependences();
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }
         }
@@ -93,7 +75,7 @@ namespace GKModule.ViewModels
             if (DialogService.ShowModalWindow(devicesSelectationViewModel))
             {
                 XManager.ChangeDirectionDevices(Direction, devicesSelectationViewModel.DevicesList);
-                InitializeDirectionDevices();
+				InitializeDependences();
                 ServiceFactory.SaveService.XDevicesChanged = true;
             }
         }

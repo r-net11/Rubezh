@@ -79,8 +79,6 @@ namespace FiresecClient
 
         public void StartPoll()
         {
-            return;
-
             try
             {
                 BeginPoll(0, DateTime.Now, new AsyncCallback(CallbackPall), (IFiresecService)this);

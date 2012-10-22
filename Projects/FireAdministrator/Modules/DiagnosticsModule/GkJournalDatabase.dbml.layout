@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="GkJournalDatabase">
+  <DataContextMoniker Name="/GkJournalDatabase" />
+  <nestedChildShapes>
+    <classShape Id="a527cbd2-f14e-401a-aa2e-0279bea8622a" absoluteBounds="0.75, 0.75, 2, 3.5016097005208326">
+      <DataClassMoniker Name="/GkJournalDatabase/GkEvents" />
+      <nestedChildShapes>
+        <elementListCompartment Id="6ca3c6c0-7bbe-440d-aeef-626da7619289" absoluteBounds="0.765, 1.21, 1.9700000000000002, 2.941609700520833" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <classShape Id="88d81610-73ca-4599-a76f-cd911650719d" absoluteBounds="3.75, 1.375, 2, 1.7708968098958331">
+      <DataClassMoniker Name="/GkJournalDatabase/Journal" />
+      <nestedChildShapes>
+        <elementListCompartment Id="3e7c6b21-9bb4-4910-8c43-3e2fc9247b24" absoluteBounds="3.765, 1.835, 1.9700000000000002, 1.2108968098958333" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

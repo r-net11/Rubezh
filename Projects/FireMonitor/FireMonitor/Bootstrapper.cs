@@ -82,7 +82,7 @@ namespace FireMonitor
                 }
             else
                 Application.Current.Shutdown();
-            MutexHelper.KeepAlive();
+            //MutexHelper.KeepAlive();
             ServiceFactory.SubscribeEvents();
         }
 

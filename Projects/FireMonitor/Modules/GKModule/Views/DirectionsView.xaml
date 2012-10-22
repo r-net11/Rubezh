@@ -21,8 +21,8 @@
                                 <TextBlock Text="{Binding Direction.Name}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200" Margin="5, 0, 0, 0">
                                     <TextBlock.ContextMenu>
                                         <ContextMenu>
-                                            <MenuItem Command="{Binding SetIgnoreCommand}" Header="Поставить в обход" />
-                                            <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Убрать из обхода" />
+                                            <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить" />
+                                            <MenuItem Command="{Binding ResetIgnoreCommand}" Header="Снять отключение" />
                                             <Separator />
                                             <MenuItem Command="{Binding SetAutomaticCommand}" Header="Включить автоматику" />
                                             <MenuItem Command="{Binding ResetAutomaticCommand}" Header="Выключить автоматику" />

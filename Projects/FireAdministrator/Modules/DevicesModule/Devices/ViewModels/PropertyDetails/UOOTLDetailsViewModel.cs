@@ -159,8 +159,12 @@ namespace DevicesModule.ViewModels
         {
             try
             {
-                var value = Device.Properties.FirstOrDefault(x => x.Name == name).Value;
-                return System.Convert.ToString(value);
+				var property = Device.Properties.FirstOrDefault(x => x.Name == name);
+				if (property != null)
+				{
+					return property.Value;
+				}
+				return null;
             }
             catch
             {
@@ -171,8 +175,12 @@ namespace DevicesModule.ViewModels
         {
             try
             {
-                var value = Device.Properties.FirstOrDefault(x => x.Name == name).Value;
-                return System.Convert.ToBoolean(value);
+				var property = Device.Properties.FirstOrDefault(x => x.Name == name);
+				if (property != null)
+				{
+					return System.Convert.ToBoolean(property.Value);
+				}
+				return false;
             }
             catch
             {

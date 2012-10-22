@@ -19,10 +19,6 @@
         <Views:MPTTimerView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:ValveControlViewModel}">
-        <Views:ValveControlView />
-    </DataTemplate>
-
 	<DataTemplate DataType="{x:Type ViewModels:ConnectionIndicatorViewModel}">
 		<Views:ConnectionIndicatorView />
 	</DataTemplate>

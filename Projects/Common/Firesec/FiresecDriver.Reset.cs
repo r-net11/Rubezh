@@ -42,11 +42,6 @@ namespace Firesec
 					Logger.Error("FiresecResetHelper.ResetStates: resetItem.States = null");
 					continue;
 				}
-				if (resetItem.DeviceState.States == null)
-				{
-					Logger.Error("FiresecResetHelper.ResetStates: deviceState.States = null");
-					continue;
-				}
 				foreach (var deviceDriverState in resetItem.States)
 				{
 					if (deviceDriverState == null)

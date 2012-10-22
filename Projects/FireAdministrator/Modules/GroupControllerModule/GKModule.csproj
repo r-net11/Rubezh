@@ -191,9 +191,6 @@
     <Compile Include="Zones\Views\ZoneDetailsView.xaml.cs">
       <DependentUpon>ZoneDetailsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Zones\Views\ZoneDevicesView.xaml.cs">
-      <DependentUpon>ZoneDevicesView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Zones\Views\ZonesMenuView.xaml.cs">
       <DependentUpon>ZonesMenuView.xaml</DependentUpon>
     </Compile>
@@ -316,10 +313,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Zones\Views\ZoneDetailsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Zones\Views\ZoneDevicesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

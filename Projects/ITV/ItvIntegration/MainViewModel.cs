@@ -9,6 +9,7 @@ namespace ItvIntegration
     {
         public DevicesViewModel DevicesViewModel { get; private set; }
         public ZonesViewModel ZonesViewModel { get; private set; }
+        public JournalsViewModel JournalsViewModel { get; private set; }
 
         public MainViewModel()
         {
@@ -31,6 +32,7 @@ namespace ItvIntegration
 
             DevicesViewModel = new DevicesViewModel();
             ZonesViewModel = new ZonesViewModel();
+            JournalsViewModel = new JournalsViewModel();
         }
 
         public RelayCommand ShowImitatorCommand { get; private set; }

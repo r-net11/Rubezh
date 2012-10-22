@@ -3,6 +3,7 @@ using System.Runtime.Serialization;
 using FiresecAPI.Models;
 using FiresecAPI;
 using System;
+using System.Linq;
 
 namespace XFiresecAPI
 {
@@ -51,6 +52,17 @@ namespace XFiresecAPI
                 AddChild(device);
             }
         }
+
+		public List<XZone> SortedZones
+		{
+			get
+			{
+				return(
+				from XZone zone in Zones
+				orderby zone.No
+				select zone).ToList();
+			}
+		}
 
         public override bool ValidateVersion()
         {

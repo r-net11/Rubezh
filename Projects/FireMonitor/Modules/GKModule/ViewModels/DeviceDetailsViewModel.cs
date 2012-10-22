@@ -35,6 +35,11 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
+				var libraryDevice = FiresecManager.DeviceLibraryConfiguration.Devices.FirstOrDefault(x => x.DriverId == Device.Driver.UID);
+				if (libraryDevice == null)
+				{
+					return null;
+				}
 				if (DeviceState != null)
 				{
 					_deviceControl = new DeviceControls.DeviceControl()
@@ -44,6 +49,7 @@ namespace GKModule.ViewModels
 						Height = 50,
 						StateType = DeviceState.StateType
 					};
+					_deviceControl.Update();
 				}
 
 				return _deviceControl;

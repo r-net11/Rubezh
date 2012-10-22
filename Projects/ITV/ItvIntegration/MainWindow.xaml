@@ -18,8 +18,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}"
-                   AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True" RowHeaderWidth="0">
+                <DataGrid Grid.Row="0" ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Устройство">
                             <DataGridTemplateColumn.CellTemplate>
@@ -66,8 +65,7 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}"
-                   AutoGenerateColumns="False" SelectionMode="Single" IsReadOnly="True" RowHeaderWidth="0">
+                <DataGrid Grid.Row="0" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="№" Binding="{Binding No}" />
                         <DataGridTextColumn Header="Зона" Binding="{Binding Name}" />
@@ -88,6 +86,14 @@
                     <Button Content="Снять с охраны" Command="{Binding UnSetZoneGuardCommand}" Width="150" Margin="2" />
                 </StackPanel>
             </Grid>
+        </TabItem>
+        <TabItem Header="События" DataContext="{Binding JournalsViewModel}">
+            <DataGrid ItemsSource="{Binding JournalRecords}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Время" Binding="{Binding SystemTime}" />
+                    <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
         </TabItem>
         <TabItem Header="Имитатор" Visibility="Visible">
             <StackPanel>

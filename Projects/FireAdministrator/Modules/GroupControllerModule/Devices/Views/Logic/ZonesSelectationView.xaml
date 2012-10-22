@@ -10,29 +10,49 @@
             <ColumnDefinition Width="50" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <DataGrid ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-                    <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
         <StackPanel Grid.Column="1" Margin="2">
-            <Controls:ToolBarButton Command="{Binding AddOneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Left.png" />
-            <Controls:ToolBarButton Command="{Binding RemoveOneCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Right.png" />
-            <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="/Controls;component/Images/LeftLeft.png" />
-            <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="/Controls;component/Images/RightRight.png" />
+            <Controls:ToolBarButton Command="{Binding AddCommand}" ToolTip="Добавить выбранные зоны" ImageSource="/Controls;component/Images/Left.png" CommandParameter="{Binding ElementName=listView2, Path=SelectedItems}"/>
+            <Controls:ToolBarButton Command="{Binding RemoveCommand}" ToolTip="Удалить выбранные зоны" ImageSource="/Controls;component/Images/Right.png" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}"/>
+            <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все зоны" ImageSource="/Controls;component/Images/LeftLeft.png" />
+            <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все зоны" ImageSource="/Controls;component/Images/RightRight.png" />
         </StackPanel>
-        <Grid Grid.Column="2">
-            <DataGrid ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-                    <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+        <ListView x:Name="listView1" Grid.Column="0" ItemsSource="{Binding TargetZones}" SelectedItem="{Binding SelectedTargetZone}" >
+            <ListView.Resources>
+                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                    <MouseBinding Command="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=listView1, Path=SelectedItems}" />
+                </InputBindingCollection>
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding No}" Header="№" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Не выбранные зоны" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Примечание" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="listView2" Grid.Column="2" ItemsSource="{Binding SourceZones}" SelectedItem="{Binding SelectedSourceZone}" >
+            <ListView.Resources>
+                <InputBindingCollection x:Key="inputCollection" x:Shared="False">
+                    <MouseBinding Command="{Binding DataContext.AddCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ItemsControl}}" MouseAction="LeftDoubleClick" CommandParameter="{Binding ElementName=listView2, Path=SelectedItems}" />
+                </InputBindingCollection>
+            </ListView.Resources>
+            <ListView.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Type ListViewItem}}" TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Controls:Attach.InputBindings" Value="{StaticResource inputCollection}" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding No}" Header="№" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="Не выбранные зоны" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Description}" Header="Примечание" />
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </UserControl>

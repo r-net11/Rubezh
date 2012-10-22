@@ -59,6 +59,7 @@
     <Compile Include="DeviceCommandViewModel.cs" />
     <Compile Include="Infrastructure\BaseViewModel.cs" />
     <Compile Include="Infrastructure\RelayCommand.cs" />
+    <Compile Include="JournalsViewModel.cs" />
     <Compile Include="MainViewModel.cs" />
     <Compile Include="ZonesViewModel.cs" />
     <Compile Include="ZoneViewModel.cs" />
