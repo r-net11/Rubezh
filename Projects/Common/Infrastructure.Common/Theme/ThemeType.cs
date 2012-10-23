@@ -10,10 +10,10 @@ namespace Infrastructure.Common.Theme
 {
     public enum Theme
     {
-        [DescriptionAttribute("Серая тема")]
-        GrayTheme,
-
         [DescriptionAttribute("Синяя тема")]
-        BlueTheme
+        BlueTheme,
+        
+        [DescriptionAttribute("Серая тема")]
+        GrayTheme
     }
 }

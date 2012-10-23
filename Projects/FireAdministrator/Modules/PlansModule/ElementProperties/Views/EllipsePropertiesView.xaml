@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="PlansModule.Views.EllipsePropertiesView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:extToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended"
              MinHeight="400" MinWidth="400">
 
     <TabControl Background="{DynamicResource AlternativeBackgroundBrush}">
@@ -22,7 +23,7 @@
 
                 <ComboBox Grid.Column="1" Grid.Row="0" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BackgroundColor}" Margin="2" />
                 <ComboBox Grid.Column="1" Grid.Row="1" Style="{StaticResource ColorPickerComboBox}" SelectedItem="{Binding BorderColor}" Margin="2" />
-                <TextBox Grid.Column="1" Grid.Row="2" Text="{Binding StrokeThickness}" Margin="2" />
+                <extToolkit:IntegerUpDown Grid.Column="1" Grid.Row="2" Value="{Binding StrokeThickness}" Margin="2" />
             </Grid>
         </TabItem>
         <TabItem Header="Изображение">
