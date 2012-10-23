@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Firesec;
 using Infrastructure;
 using Infrastructure.Events;
+using System.Windows;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -28,6 +29,12 @@ namespace DiagnosticsModule.ViewModels
             Test7Command = new RelayCommand(OnTest7);
 			Test8Command = new RelayCommand(OnTest8);
         }
+
+		public void StopThreads()
+		{
+			IsThreadStoping = true;
+		}
+		bool IsThreadStoping = false;
 
         string _text;
         public string Text
@@ -47,6 +54,8 @@ namespace DiagnosticsModule.ViewModels
             {
                 while (true)
                 {
+					if (IsThreadStoping)
+						break;
 					if (NativeFiresecClient.TasksCount > 10)
 						continue;
 					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
@@ -79,7 +88,7 @@ namespace DiagnosticsModule.ViewModels
 							break;
 
 						case 6:
-							Navigate();
+							Application.Current.Dispatcher.Invoke(new Action(Navigate));
 							break;
 					}
                 }
@@ -197,7 +206,7 @@ namespace DiagnosticsModule.ViewModels
                 {
                     Thread.Sleep(TimeSpan.FromMilliseconds(5000));
 
-					Navigate();
+					Application.Current.Dispatcher.Invoke(new Action(Navigate));
                 }
             }));
             thread.IsBackground = true;

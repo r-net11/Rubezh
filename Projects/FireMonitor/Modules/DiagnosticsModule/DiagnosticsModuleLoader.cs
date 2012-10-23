@@ -38,5 +38,9 @@ namespace DiagnosticsModule
 		{
             get { return "Диагностика"; }
 		}
+		public override void Dispose()
+		{
+			DiagnosticsViewModel.StopThreads();
+		}
 	}
 }
