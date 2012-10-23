@@ -50,25 +50,25 @@ namespace Firesec
 			}
 		}
 
-        public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
-        {
-            try
-            {
-                if (Watcher == null)
-                    Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
+		public void StartWatcher(bool mustMonitorStates, bool mustMonitorJournal)
+		{
+			try
+			{
+				if (Watcher == null)
+					Watcher = new Watcher(FiresecSerializedClient, mustMonitorStates, mustMonitorJournal);
 
-                if (mustMonitorStates)
-                {
-                    Watcher.ForceStateChanged();
+				if (mustMonitorStates)
+				{
+					Watcher.ForceStateChanged();
 					Watcher.ForceParametersChanged();
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error(e, "FiresecDriver.Synchronyze");
-                FiresecDriver.LoadingErrors.Append(e.Message);
-            }
-        }
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecDriver.Synchronyze");
+				FiresecDriver.LoadingErrors.Append(e.Message);
+			}
+		}
 
 		public void Convert()
 		{
@@ -254,11 +254,7 @@ namespace Firesec
 				devicePaths.Add(device.PlaceInTree);
 			}
 
-            //var thread = new Thread(new ThreadStart(() =>
-            //{
-				FiresecSerializedClient.AddToIgnoreList(devicePaths);
-            //}));
-            //thread.Start();
+			FiresecSerializedClient.AddToIgnoreList(devicePaths);
 		}
 
 		public void RemoveFromIgnoreList(List<Device> devices)
@@ -269,39 +265,25 @@ namespace Firesec
 				devicePaths.Add(device.PlaceInTree);
 			}
 
-            //var thread = new Thread(new ThreadStart(() =>
-            //{
-				FiresecSerializedClient.RemoveFromIgnoreList(devicePaths);
-            //}));
-            //thread.Start();
+			FiresecSerializedClient.RemoveFromIgnoreList(devicePaths);
 		}
 
 		public void SetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
-            //var thread = new Thread(new ThreadStart(() =>
-            //    {
-					var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
-					if (device != null)
-					{
-                        FiresecSerializedClient.SetZoneGuard(device.PlaceInTree, localZoneNo.ToString());
-					}
-            //    }));
-            //thread.Start();
+			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
+			if (device != null)
+			{
+				FiresecSerializedClient.SetZoneGuard(device.PlaceInTree, localZoneNo.ToString());
+			}
 		}
 
 		public void UnSetZoneGuard(Guid secPanelUID, int localZoneNo)
 		{
-            //var thread = new Thread(new ThreadStart(() =>
-            //{
-				var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
-				if (device != null)
-				{
-                    //int reguestId = 0;
-                    //FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "UnSetZoneFromGuard", localZoneNo.ToString(), ref reguestId);
-                    FiresecSerializedClient.UnSetZoneGuard(device.PlaceInTree, localZoneNo.ToString());
-				}
-            //}));
-            //thread.Start();
+			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == secPanelUID);
+			if (device != null)
+			{
+				FiresecSerializedClient.UnSetZoneGuard(device.PlaceInTree, localZoneNo.ToString());
+			}
 		}
 
 		public void AddUserMessage(string message)
@@ -309,21 +291,10 @@ namespace Firesec
 			FiresecSerializedClient.AddUserMessage(message);
 		}
 
-		public OperationResult<bool> ExecuteCommand(Guid deviceUID, string methodName)
-		{
-			var device = ConfigurationCash.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
-			if (device != null)
-			{
-				FiresecSerializedClient.ExecuteCommand(device.PlaceInTree, methodName);
-			}
-			var operationResult = new OperationResult<bool>()
-			{
-				Result = false,
-				HasError = true,
-				Error = "Не найдено устройство по идентификатору"
-			};
-			return operationResult;
-		}
+        public OperationResult<bool> ExecuteCommand(Device device, string methodName)
+        {
+            return FiresecSerializedClient.ExecuteCommand(device.PlaceInTree, methodName);
+        }
 
 		public OperationResult<bool> CheckHaspPresence()
 		{

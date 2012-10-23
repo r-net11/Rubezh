@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using FiresecAPI;
 using FiresecAPI.Models;
+using Common;
 
 namespace Firesec
 {
@@ -29,6 +30,7 @@ namespace Firesec
 			foreach (var propertyNo in propertyNos)
 			{
 				FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "Device$ReadSimpleParam", propertyNo.ToString(), ref requestId);
+				Trace.WriteLine("ReadSimpleParam RequestId: " + requestId.ToString());
 				requestIds.Add(requestId);
 			}
 
@@ -37,7 +39,9 @@ namespace Firesec
 			while (count > 0)
 			{
 				var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "StateConfigQueries", null, ref requestId);
-				
+				Trace.WriteLine("StateConfigQueries RequestId: " + requestId.ToString());
+				Trace.WriteLine("GetConfigurationParameters: " + result.Result);
+
 				if (result.HasError)
 				{
 					return new OperationResult<List<Property>>()
@@ -49,25 +53,28 @@ namespace Firesec
 				}
 
 				Firesec.Models.DeviceCustomFunctions.requests requests = SerializerHelper.Deserialize<Firesec.Models.DeviceCustomFunctions.requests>(result.Result);
-				
-				if (requests != null)
+
+				if (requests != null && requests.request.Count() > 0)
 				{
-					int address = requests.request.First().param.FirstOrDefault(x => x.name == "ParamNo").value;
-				    
-					int fullvalue = requests.request.First().param.FirstOrDefault(x => x.name == "ParamValue").value;
-					count--;
-					if (address == 0x80)
-					{
-						;
-					}
-					foreach(var driverProperty in device.Driver.Properties.FindAll(x => x.No == address))
-				    {
-						
-						if (properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
-						{
-							properties.Add(CreateProperty(fullvalue, driverProperty));
-						}
-					}
+                    if (requestIds.Contains(requests.request.First().id))
+                    {
+                        int address = requests.request.First().param.FirstOrDefault(x => x.name == "ParamNo").value;
+
+                        int fullvalue = requests.request.First().param.FirstOrDefault(x => x.name == "ParamValue").value;
+                        count--;
+                        foreach (var driverProperty in device.Driver.Properties.FindAll(x => x.No == address))
+                        {
+
+                            if (properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
+                            {
+                                properties.Add(CreateProperty(fullvalue, driverProperty));
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Logger.Error("FiresecDriver.GetConfigurationParameters RequestIds.Contains = false");
+                    }
 				}
 					
 				int waitCount = 0;

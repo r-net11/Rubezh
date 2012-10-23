@@ -48,10 +48,10 @@ namespace FiresecAPI.Models
 			//    ConfigurationDriverHelper.AddBoolProprety(driver, 0x8b, "ДД/ДУ Стоп", 1);
 			//}
 
-			if (driver.DriverType == DriverType.Pump)
-			{
-				ConfigurationDriverHelper.AddBoolProprety(driver, 0x83, "УЗН Стоп", 4);
-			}
+			//if (driver.DriverType == DriverType.Pump)
+			//{
+			//    ConfigurationDriverHelper.AddBoolProprety(driver, 0x83, "УЗН Стоп", 4);
+			//}
 			//if (driver.DriverType == DriverType.DrenazhPump)
 			//{
 			//    ConfigurationDriverHelper.AddBoolProprety(driver, 0x8b, "Авария", 2);

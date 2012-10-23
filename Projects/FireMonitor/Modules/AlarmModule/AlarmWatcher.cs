@@ -18,12 +18,12 @@ namespace AlarmModule
 		public AlarmWatcher()
 		{
 			Alarms = new List<Alarm>();
-			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
-			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
-			OnDeviceStateChanged(Guid.Empty);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
+			OnDevicesStateChanged(null);
 		}
 
-		void OnDeviceStateChanged(Guid deviceUID)
+		void OnDevicesStateChanged(object obj)
 		{
 			Alarms.ForEach(x => x.IsDeleting = true);
 

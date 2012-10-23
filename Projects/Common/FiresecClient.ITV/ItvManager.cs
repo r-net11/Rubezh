@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using Firesec;
 using Firesec.Imitator;
@@ -44,7 +45,11 @@ namespace FiresecClient.Itv
 
         public static void ExecuteCommand(Guid deviceUID, string methodName)
         {
-            FiresecManager.FiresecDriver.ExecuteCommand(deviceUID, methodName);
+            var device = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+            if (device != null)
+            {
+                FiresecManager.FiresecDriver.ExecuteCommand(device, methodName);
+            }
         }
 
 		public static void SetZoneGuard(Zone zone)

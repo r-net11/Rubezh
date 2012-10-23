@@ -25,13 +25,13 @@ namespace DevicesModule.Views
 			SafeFiresecService.ConnectionLost += new Action(OnConnectionLost);
 			SafeFiresecService.ConnectionAppeared += new Action(OnConnectionAppeared);
 
-			OnDeviceStateChanged(Guid.Empty);
+			OnDevicesStateChanged(Guid.Empty);
 
-			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
-			ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
 		}
 
-		void OnDeviceStateChanged(Guid deviceUID)
+		void OnDevicesStateChanged(object obj)
 		{
 			IsDeviceConnected = !HasLostDevices();
 			_deviceConnectionIndicator.BeginAnimation(Image.VisibilityProperty, GetAnimation(IsDeviceConnected));

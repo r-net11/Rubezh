@@ -13,11 +13,11 @@ namespace VideoModule
     {
         public VideoModuleLoader()
         {
-            ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Unsubscribe(OnDeviceStateChanged);
-            ServiceFactory.Events.GetEvent<DeviceStateChangedEvent>().Subscribe(OnDeviceStateChanged);
+            ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
+            ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
         }
 
-        void OnDeviceStateChanged(Guid deviceUID)
+		void OnDevicesStateChanged(object obj)
         {
             UpdateVideoAlarms();
         }
@@ -42,7 +42,7 @@ namespace VideoModule
 
         public override void Initialize()
         {
-            OnDeviceStateChanged(Guid.Empty);
+            OnDevicesStateChanged(Guid.Empty);
         }
         public override IEnumerable<NavigationItem> CreateNavigation()
         {

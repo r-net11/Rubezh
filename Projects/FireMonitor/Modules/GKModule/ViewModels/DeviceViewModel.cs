@@ -39,11 +39,6 @@ namespace GKModule.ViewModels
 			get { return XManager.GetPresentationZone(Device); }
 		}
 
-		public ushort DatabaseNo
-		{
-			get { return Device.GetDatabaseNo(DatabaseType.Gk); }
-		}
-
 		public RelayCommand ShowPlanCommand { get; private set; }
 		void OnShowPlan()
 		{

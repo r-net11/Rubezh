@@ -22,41 +22,34 @@ namespace GKModule.ViewModels
 			SelectDevicesCommand = new RelayCommand(OnSelectDevices);
 			SelectDirectionCommand = new RelayCommand(OnSelectDirections);
 
-			SelectedClauseJounOperationType = clause.ClauseJounOperationType;
+			ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
+			ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
+			//ClauseJounOperationTypes = Enum.GetValues(typeof(ClauseJounOperationType)).Cast<ClauseJounOperationType>().ToList();
+
+			//SelectedClauseJounOperationType = clause.ClauseJounOperationType;
 			SelectedClauseOperationType = clause.ClauseOperationType;
 			Zones = clause.Zones.ToList();
 			Devices = clause.Devices.ToList();
 			Directions = clause.Directions.ToList();
-
-            ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
-            ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
-			ClauseJounOperationTypes = Enum.GetValues(typeof(ClauseJounOperationType)).Cast<ClauseJounOperationType>().ToList();
-
-            StateTypes = new ObservableCollection<XStateType>();
-			StateTypes.Add(XStateType.Attention);
-			StateTypes.Add(XStateType.Fire1);
-			StateTypes.Add(XStateType.Fire2);
-			StateTypes.Add(XStateType.Test);
-			StateTypes.Add(XStateType.Failure);
 
             SelectedClauseConditionType = clause.ClauseConditionType;
 			SelectedStateType = clause.StateType;
 		}
 
         public List<ClauseConditionType> ClauseConditionTypes { get; private set; }
-		public List<ClauseJounOperationType> ClauseJounOperationTypes { get; private set; }
+		//public List<ClauseJounOperationType> ClauseJounOperationTypes { get; private set; }
 		public List<ClauseOperationType> ClauseOperationTypes { get; private set; }
 
-		ClauseJounOperationType _selectedClauseJounOperationType;
-		public ClauseJounOperationType SelectedClauseJounOperationType
-		{
-			get { return _selectedClauseJounOperationType; }
-			set
-			{
-				_selectedClauseJounOperationType = value;
-				OnPropertyChanged("SelectedClauseJounOperationType");
-			}
-		}
+		//ClauseJounOperationType _selectedClauseJounOperationType;
+		//public ClauseJounOperationType SelectedClauseJounOperationType
+		//{
+		//    get { return _selectedClauseJounOperationType; }
+		//    set
+		//    {
+		//        _selectedClauseJounOperationType = value;
+		//        OnPropertyChanged("SelectedClauseJounOperationType");
+		//    }
+		//}
 
         ClauseConditionType _selectedClauseConditionType;
         public ClauseConditionType SelectedClauseConditionType

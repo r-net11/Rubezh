@@ -9,6 +9,7 @@ namespace Firesec
 {
     public partial class NativeFiresecClient
     {
+		public static int TasksCount;
         Queue<Action> Tasks = new Queue<Action>();
         object locker = new object();
         Thread WorkThread;
@@ -36,7 +37,7 @@ namespace Firesec
                 Tasks.Enqueue(task);
                 Monitor.Pulse(locker);
             }
-			Trace.WriteLine("Tasks Count = " + Tasks.Count.ToString());
+			Trace.WriteLine("Tasks Count = " + TasksCount.ToString());
         }
 
         void Work()
@@ -60,6 +61,7 @@ namespace Firesec
 
                 var action = Tasks.Dequeue();
                 action();
+				TasksCount = Tasks.Count;
             }
         }
     }

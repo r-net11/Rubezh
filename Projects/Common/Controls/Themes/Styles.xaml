@@ -3,7 +3,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Converters.xaml" />
-        <ResourceDictionary Source="GrayTheme.xaml" />
+        <ResourceDictionary Source="BlueTheme.xaml" />
         <ResourceDictionary Source="ScrollBarStyle.xaml" />
         <ResourceDictionary Source="DataGridStyle.xaml" />
         <ResourceDictionary Source="TreeExpanderStyle.xaml" />

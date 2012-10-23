@@ -35,19 +35,23 @@ namespace FiresecClient
 			return "";
 		}
 
-        public static string GetPresentationZone(XDeviceLogic DeviceLogic)
-        {
-            var stringBuilder = new StringBuilder();
-            foreach (var clause in DeviceLogic.Clauses)
-            {
-                stringBuilder.Append(clause.StateType.ToDescription() + " в ");
-                stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
-                stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
-                stringBuilder.Append(GetCommaSeparatedZones(clause.Zones));
+		public static string GetPresentationZone(XDeviceLogic DeviceLogic)
+		{
+			var stringBuilder = new StringBuilder();
+			var index = 0;
+			foreach (var clause in DeviceLogic.Clauses)
+			{
+				if (index > 0)
+					stringBuilder.Append(" " + clause.ClauseJounOperationType.ToDescription() + " ");
+				stringBuilder.Append(clause.StateType.ToDescription() + " в ");
+				stringBuilder.Append(clause.ClauseOperationType.ToDescription() + " ");
+				stringBuilder.Append(GetCommaSeparatedDevices(clause.Devices));
+				stringBuilder.Append(GetCommaSeparatedZones(clause.Zones));
 				stringBuilder.Append(GetCommaSeparatedDirections(clause.Directions));
-            }
-            return stringBuilder.ToString();
-        }
+				index++;
+			}
+			return stringBuilder.ToString();
+		}
 
 		public static string GetCommaSeparatedZones(List<XZone> zones)
 		{
@@ -121,7 +125,7 @@ namespace FiresecClient
 			{
 				if (directionCount > 0)
 					stringBuilder.Append(", ");
-				stringBuilder.Append(direction.PresentationName);
+				stringBuilder.Append(direction.No);
 				directionCount++;
 			}
 			return stringBuilder.ToString();

@@ -4,6 +4,7 @@ using FiresecAPI;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Text;
 
 namespace GKModule.ViewModels
 {
@@ -41,9 +42,13 @@ namespace GKModule.ViewModels
 		{
 			get
 			{
-				var toolTip = Direction.PresentationName;
-				toolTip += "\n" + "Состояние: " + DirectionState.StateType.ToDescription();
-				return toolTip;
+				var stringBuilder = new StringBuilder(Direction.PresentationName);
+				stringBuilder.AppendLine("Состояние: " + DirectionState.StateType.ToDescription());
+				foreach (var stateType in DirectionState.States)
+				{
+					stringBuilder.AppendLine(stateType.ToDescription());
+				}
+				return stringBuilder.ToString();
 			}
 		}
 

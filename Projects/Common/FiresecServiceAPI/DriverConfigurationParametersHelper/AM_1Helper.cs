@@ -17,12 +17,12 @@ namespace FiresecAPI.Models
 				No = 0x81,
 				Name = "Конфигурация модуля",
 				Caption = "Конфигурация модуля",
-				Default = "0"
+				Default = "1"
 			};
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "0 Один контакт, нормально замкнутый", 0);
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "1 Один контакт, нормально разомкнутый", 1);
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "2 Два контакта, нормально замкнутые", 2);
-			ConfigurationDriverHelper.AddPropertyParameter(property1, "3 Два контакта, нормально разомкнутые", 3);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "Один контакт, нормально замкнутый", 0);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "Один контакт, нормально разомкнутый", 1);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "Два контакта, нормально замкнутые", 2);
+			ConfigurationDriverHelper.AddPropertyParameter(property1, "Два контакта, нормально разомкнутые", 3);
 			driver.Properties.Add(property1);
 
 		}

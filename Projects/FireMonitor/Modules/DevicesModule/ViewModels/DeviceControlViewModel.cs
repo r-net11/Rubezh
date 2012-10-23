@@ -82,7 +82,7 @@ namespace DevicesModule.ViewModels
 		{
 			try
 			{
-				var result = FiresecManager.FiresecDriver.ExecuteCommand(Device.UID, GetCommandName());
+				var result = FiresecManager.FiresecDriver.ExecuteCommand(Device, GetCommandName());
 			}
 			catch (Exception e)
 			{

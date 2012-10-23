@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="GKModule.Views.DeviceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Views="clr-namespace:GKModule.Views"
              xmlns:Converters="clr-namespace:GKModule.Converters"
              xmlns:CommonConverters="clr-namespace:Controls.Converters;assembly=Controls">
     <UserControl.Resources>
@@ -36,13 +37,7 @@
             <TextBlock.ToolTip>
                 <StackPanel>
                     <TextBlock Text="{Binding Device.PresentationAddressAndDriver}" />
-                    <ItemsControl ItemsSource="{Binding DeviceState.States}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" VerticalAlignment="Center" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                    <Views:DeviceStateView />
                 </StackPanel>
             </TextBlock.ToolTip>
         </TextBlock>
