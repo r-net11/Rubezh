@@ -64,16 +64,6 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
-    <Compile Include="ConnectionManager.cs" />
-    <Compile Include="GKDBHelper.cs" />
-    <Compile Include="GkJournalDatabase.cs">
-      <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
-    </Compile>
-    <Compile Include="GkJournalDatabase.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -107,18 +97,10 @@
     <Compile Include="Views\XDriversView.xaml.cs">
       <DependentUpon>XDriversView.xaml</DependentUpon>
     </Compile>
-    <None Include="GkJournalDatabase.dbml.layout">
-      <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
-    </None>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="GkJournalDatabase.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>GkJournalDatabase.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

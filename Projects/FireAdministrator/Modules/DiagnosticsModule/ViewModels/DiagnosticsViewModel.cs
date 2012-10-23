@@ -13,6 +13,7 @@ using Firesec.Imitator;
 using Firesec;
 using System.Threading;
 using System.Diagnostics;
+using Common.GK;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -155,28 +156,13 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test3Command { get; private set; }
         void OnTest3()
         {
-            using (var dataContext = ConnectionManager.CreateGKDataContext())
-            {
-                var journal = new Journal();
-                journal.DateTime = DateTime.Now;
-                journal.ObjectUID = Guid.NewGuid();
-                journal.GKObjectNo = 1;
-                journal.Description = "Event Description";
-                dataContext.Journal.InsertOnSubmit(journal);
-                dataContext.SubmitChanges();
-            }
+			GKDBHelper.Add();
         }
 
 		public RelayCommand Test4Command { get; private set; }
 		void OnTest4()
 		{
-            using (var dataContext = ConnectionManager.CreateGKDataContext())
-            {
-                var query = "SELECT * FROM Journal";
-                var result = dataContext.ExecuteQuery<Journal>(query);
-                var journalRecordsCount = result.Count();
-                Trace.WriteLine("Journal Count = " + journalRecordsCount.ToString());
-            }
+			GKDBHelper.Select();
 		}
 
         AsyncTest AsyncTest;

@@ -9,7 +9,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DiagnosticsModule
+namespace Common.GK
 {
 	using System.Data.Linq;
 	using System.Data.Linq.Mapping;
