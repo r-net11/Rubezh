@@ -39,8 +39,7 @@ namespace Common.GK
                 {
                     if (Device.DeviceLogic.Clauses.Count > 0)
                     {
-                        AddClauseFormula(Device.DeviceLogic, XStateType.TurnOn);
-                        AddClauseFormula(Device.DeviceLogic, XStateType.TurnOff);
+                        AddClauseFormula(Device.DeviceLogic);
                     }
                 }
 			}
@@ -48,7 +47,7 @@ namespace Common.GK
 			FormulaBytes = Formula.GetBytes();
 		}
 
-		void AddClauseFormula(XDeviceLogic deviceLogic, XStateType stateType)
+		void AddClauseFormula(XDeviceLogic deviceLogic)
 		{
 			var clauseIndex = 0;
 			foreach (var clause in deviceLogic.Clauses)
@@ -111,15 +110,19 @@ namespace Common.GK
 				clauseIndex++;
 			}
 
-			if (stateType == XStateType.TurnOff)
-			{
-				Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
-			}
+			Formula.Add(FormulaOperationType.DUP);
+			Formula.Add(FormulaOperationType.DUP);
 			Formula.AddGetBit(XStateType.Norm, Device, DatabaseType);
 			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-            //Formula.AddGetBit(XStateType.Save, Device, DatabaseType);
-            //Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом 31");
-			Formula.AddPutBit(stateType, Device, DatabaseType);
+			Formula.AddGetBit(XStateType.Save, Device, DatabaseType);
+			Formula.Add(FormulaOperationType.COM);
+			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом 31");
+			Formula.AddPutBit(XStateType.TurnOn, Device, DatabaseType);
+			Formula.Add(FormulaOperationType.COM);
+			Formula.AddGetBit(XStateType.Norm, Device, DatabaseType);
+			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
+			Formula.AddPutBit(XStateType.TurnOff, Device, DatabaseType);
+			Formula.AddPutBit(XStateType.Save, Device, DatabaseType);
 		}
 
 		void SetPropertiesBytes()

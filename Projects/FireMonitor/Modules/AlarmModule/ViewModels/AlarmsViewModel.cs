@@ -9,6 +9,7 @@ using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace AlarmModule.ViewModels
 {
@@ -19,7 +20,7 @@ namespace AlarmModule.ViewModels
 
 		public AlarmsViewModel()
 		{
-			ResetAllCommand = new RelayCommand(OnResetAll);
+			ResetAllCommand = new RelayCommand(OnResetAll, CanResetAll);
 			RemoveAllFromIgnoreListCommand = new RelayCommand(OnRemoveAllFromIgnoreList, CanRemoveAllFromIgnoreList);
 			ServiceFactory.Events.GetEvent<AlarmRemovedEvent>().Subscribe(OnAlarmRemoved);
 			ServiceFactory.Events.GetEvent<AlarmAddedEvent>().Subscribe(OnAlarmAdded);
@@ -61,17 +62,6 @@ namespace AlarmModule.ViewModels
 			}
 		}
 
-		bool alrmWasReset;
-		public bool HasAlarmsToReset
-		{
-			get
-			{
-				if (alrmWasReset)
-					return false;
-				return Alarms.Any(x => x.Alarm.AlarmType != AlarmType.Off);
-			}
-		}
-
 		public RelayCommand ResetAllCommand { get; private set; }
 		void OnResetAll()
 		{
@@ -97,17 +87,27 @@ namespace AlarmModule.ViewModels
 				}
 			}
 
-			alrmWasReset = true;
-			var thread = new Thread(new ThreadStart(()=>
-			{
-				FiresecManager.FiresecDriver.ResetStates(resetItems);
-			}));
-			thread.Start();
+			//var thread = new Thread(new ThreadStart(()=>
+			//{
+			FiresecManager.FiresecDriver.ResetStates(resetItems);
+			//}));
+			//thread.Start();
+			AllAlarmsResetingTimer = new DispatcherTimer();
+			AllAlarmsResetingTimer.Interval = TimeSpan.FromSeconds(2);
+			AllAlarmsResetingTimer.Tick += new EventHandler(AllAlarmsResetingTimer_Tick);
+			AllAlarmsResetingTimer.Start();
+			IsAllAlarmsReseting = true;
 		}
-
-		public bool CanRemoveAllFromIgnoreList()
+		bool CanResetAll()
 		{
-			return Alarms.Any(x => x.Alarm.AlarmType == AlarmType.Off);
+			return !IsAllAlarmsReseting;
+		}
+		bool IsAllAlarmsReseting = false;
+		DispatcherTimer AllAlarmsResetingTimer;
+		void AllAlarmsResetingTimer_Tick(object sender, EventArgs e)
+		{
+			IsAllAlarmsReseting = false;
+			AllAlarmsResetingTimer.Stop();
 		}
 
 		public RelayCommand RemoveAllFromIgnoreListCommand { get; private set; }
@@ -132,7 +132,10 @@ namespace AlarmModule.ViewModels
 				}));
 				thread.Start();
 			}
-			OnPropertyChanged("HasAlarmsToReset");
+		}
+		public bool CanRemoveAllFromIgnoreList()
+		{
+			return Alarms.Any(x => x.Alarm.AlarmType == AlarmType.Off);
 		}
 
 		void OnAlarmAdded(Alarm alarm)
@@ -142,8 +145,6 @@ namespace AlarmModule.ViewModels
 			if (_alarmType == null || alarm.AlarmType == _alarmType)
 			{
 				Alarms.Insert(0, new AlarmViewModel(alarm));
-				alrmWasReset = false;
-				OnPropertyChanged("HasAlarmsToReset");
 			}
 		}
 
@@ -154,7 +155,6 @@ namespace AlarmModule.ViewModels
 			if (_alarmType == null || alarm.AlarmType == _alarmType)
 			{
 				Alarms.Remove(Alarms.FirstOrDefault(x => x.Alarm.DeviceUID == alarm.DeviceUID));
-				OnPropertyChanged("HasAlarmsToReset");
 			}
 		}
 	}

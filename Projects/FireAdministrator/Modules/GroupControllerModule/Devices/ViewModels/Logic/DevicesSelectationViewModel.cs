@@ -11,7 +11,9 @@ namespace GKModule.ViewModels
 {
 	public class DevicesSelectationViewModel : SaveCancelDialogViewModel
 	{
-		public DevicesSelectationViewModel(List<XDevice> devices)
+		List<XDevice> SourceDevices;
+
+		public DevicesSelectationViewModel(List<XDevice> devices, List<XDevice> sourceDevices = null)
 		{
 			Title = "Выбор устройства";
 			AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
@@ -19,6 +21,10 @@ namespace GKModule.ViewModels
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
+			if (sourceDevices != null)
+				SourceDevices = sourceDevices;
+			else
+				SourceDevices = XManager.DeviceConfiguration.Devices;
 			DevicesList = new List<XDevice>(devices);
 			UpdateDevices();
 		}
@@ -30,7 +36,7 @@ namespace GKModule.ViewModels
 			SelectedAvailableDevice = null;
 			SelectedDevice = null;
 
-			foreach (var device in XManager.DeviceConfiguration.Devices)
+			foreach (var device in SourceDevices)
 			{
 				if (device.Driver.IsDeviceOnShleif && !device.Driver.IsGroupDevice)
 				{

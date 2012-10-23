@@ -9,6 +9,7 @@ namespace XFiresecAPI
     {
         public XClause()
         {
+			ClauseJounOperationType = ClauseJounOperationType.Or;
             StateType = XStateType.Fire1;
 			ZoneUIDs = new List<Guid>();
             DeviceUIDs = new List<Guid>();

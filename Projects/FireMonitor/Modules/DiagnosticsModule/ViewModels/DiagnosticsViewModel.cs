@@ -26,6 +26,7 @@ namespace DiagnosticsModule.ViewModels
             Test5Command = new RelayCommand(OnTest5);
             Test6Command = new RelayCommand(OnTest6);
             Test7Command = new RelayCommand(OnTest7);
+			Test8Command = new RelayCommand(OnTest8);
         }
 
         string _text;
@@ -39,8 +40,8 @@ namespace DiagnosticsModule.ViewModels
             }
         }
 
-        public RelayCommand Test1Command { get; private set; }
-        void OnTest1()
+        public RelayCommand Test8Command { get; private set; }
+        void OnTest8()
         {
             var thread = new Thread(new ThreadStart(() =>
             {
@@ -50,22 +51,60 @@ namespace DiagnosticsModule.ViewModels
 						continue;
 					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
-                    var zoneIndex = random.Next(0, FiresecManager.Zones.Count - 1);
-                    var zone = FiresecManager.Zones[zoneIndex];
-                    var devices = new List<Device>();
-                    foreach (var device in zone.DevicesInZone)
-                    {
-                        if (device.Driver.CanDisable)
-                        {
-                            devices.Add(device);
-                        }
-                    }
-                    FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+					var index = random.Next(0, 10);
+					switch(index)
+					{
+						case 0:
+							RemoveFromIgnoreList();
+							break;
+
+						case 1:
+							AddToIgnoreList();
+							break;
+
+						case 2:
+							FiresecManager.ResetAllStates();;
+							break;
+
+						case 3:
+							ControlDevice();
+							break;
+
+						case 4:
+							ChangeGuardZone();
+							break;
+
+						case 5:
+							ChangeGuardZone();
+							break;
+
+						case 6:
+							Navigate();
+							break;
+					}
                 }
             }));
             thread.IsBackground = true;
             thread.Start();
         }
+
+		public RelayCommand Test1Command { get; private set; }
+		void OnTest1()
+		{
+			var thread = new Thread(new ThreadStart(() =>
+			{
+				while (true)
+				{
+					if (NativeFiresecClient.TasksCount > 10)
+						continue;
+					Thread.Sleep(TimeSpan.FromMilliseconds(1000));
+
+					RemoveFromIgnoreList();
+				}
+			}));
+			thread.IsBackground = true;
+			thread.Start();
+		}
 
         public RelayCommand Test2Command { get; private set; }
         void OnTest2()
@@ -78,17 +117,7 @@ namespace DiagnosticsModule.ViewModels
 						continue;
                     Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
-                    var zoneIndex = random.Next(0, FiresecManager.Zones.Count - 1);
-                    var zone = FiresecManager.Zones[zoneIndex];
-                    var devices = new List<Device>();
-                    foreach (var device in zone.DevicesInZone)
-                    {
-                        if (device.Driver.CanDisable)
-                        {
-                            devices.Add(device);
-                        }
-                    }
-                    FiresecManager.FiresecDriver.AddToIgnoreList(devices);
+					AddToIgnoreList();
                 }
             }));
             thread.IsBackground = true;
@@ -124,23 +153,6 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand Test5Command { get; private set; }
         void OnTest5()
         {
-            var deviceControls = new List<DeviceControl>();
-            foreach (var device in FiresecManager.Devices)
-            {
-                foreach (var property in device.Driver.Properties)
-                {
-                    if (property.IsControl)
-                    {
-                        var deviceControl = new DeviceControl()
-                        {
-                            Device = device,
-                            DriverProperty = property
-                        };
-                        deviceControls.Add(deviceControl);
-                    }
-                }
-            }
-
             var thread = new Thread(new ThreadStart(() =>
             {
                 while (true)
@@ -149,9 +161,7 @@ namespace DiagnosticsModule.ViewModels
                         continue;
                     Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
-                    var deviceControlIndex = random.Next(0, deviceControls.Count - 1);
-                    var deviceControl = deviceControls[deviceControlIndex];
-                    FiresecManager.FiresecDriver.ExecuteCommand(deviceControl.Device, deviceControl.DriverProperty.Name);
+					ControlDevice();
                 }
             }));
             thread.IsBackground = true;
@@ -163,15 +173,6 @@ namespace DiagnosticsModule.ViewModels
         public RelayCommand Test6Command { get; private set; }
         void OnTest6()
         {
-            var guardZones = new List<Zone>();
-            foreach (var zone in FiresecManager.Zones)
-            {
-                if (zone.ZoneType == ZoneType.Guard)
-                {
-                    guardZones.Add(zone);
-                }
-            }
-
             var thread = new Thread(new ThreadStart(() =>
             {
                 while (true)
@@ -180,14 +181,7 @@ namespace DiagnosticsModule.ViewModels
                         continue;
                     Thread.Sleep(TimeSpan.FromMilliseconds(1000));
 
-                    var zoneIndex = random.Next(0, guardZones.Count - 1);
-                    var zone = guardZones[zoneIndex];
-
-                    IsGuardZoneInverse = !IsGuardZoneInverse;
-                    if(IsGuardZoneInverse)
-                        FiresecManager.SetZoneGuard(zone);
-                    else
-                        FiresecManager.UnSetZoneGuard(zone);
+					ChangeGuardZone();
                 }
             }));
             thread.IsBackground = true;
@@ -203,45 +197,125 @@ namespace DiagnosticsModule.ViewModels
                 {
                     Thread.Sleep(TimeSpan.FromMilliseconds(5000));
 
-                    var eventIndex = random.Next(0, 10);
-                    switch(eventIndex)
-                    {
-                        case 0:
-                            ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
-                            break;
-                        case 1:
-                            ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(null);
-                            break;
-                        case 2:
-                            ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
-                            break;
-                        case 3:
-                            ServiceFactory.Events.GetEvent<ShowDiagnosticsEvent>().Publish(null);
-                            break;
-                        case 4:
-                            ServiceFactory.Events.GetEvent<ShowGKEvent>().Publish(null);
-                            break;
-                        case 5:
-                            ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
-                            break;
-                        case 6:
-                            ServiceFactory.Events.GetEvent<ShowNothingEvent>().Publish(null);
-                            break;
-                        case 7:
-                            ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
-                            break;
-                        case 8:
-                            ServiceFactory.Events.GetEvent<ShowReportsEvent>().Publish(null);
-                            break;
-                        case 9:
-                            ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Guid.Empty);
-                            break;
-                    }
+					Navigate();
                 }
             }));
             thread.IsBackground = true;
             thread.Start();
         }
+
+		void RemoveFromIgnoreList()
+		{
+			var zoneIndex = random.Next(0, FiresecManager.Zones.Count - 1);
+			var zone = FiresecManager.Zones[zoneIndex];
+			var devices = new List<Device>();
+			foreach (var device in zone.DevicesInZone)
+			{
+				if (device.Driver.CanDisable)
+				{
+					devices.Add(device);
+				}
+			}
+			FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
+		}
+
+		void AddToIgnoreList()
+		{
+			var zoneIndex = random.Next(0, FiresecManager.Zones.Count - 1);
+			var zone = FiresecManager.Zones[zoneIndex];
+			var devices = new List<Device>();
+			foreach (var device in zone.DevicesInZone)
+			{
+				if (device.Driver.CanDisable)
+				{
+					devices.Add(device);
+				}
+			}
+			FiresecManager.FiresecDriver.AddToIgnoreList(devices);
+		}
+
+		void ControlDevice()
+		{
+			var deviceControls = new List<DeviceControl>();
+			foreach (var device in FiresecManager.Devices)
+			{
+				foreach (var property in device.Driver.Properties)
+				{
+					if (property.IsControl)
+					{
+						var deviceControl = new DeviceControl()
+						{
+							Device = device,
+							DriverProperty = property
+						};
+						deviceControls.Add(deviceControl);
+					}
+				}
+			}
+
+			var deviceControlIndex = random.Next(0, deviceControls.Count - 1);
+			var randomDeviceControl = deviceControls[deviceControlIndex];
+			FiresecManager.FiresecDriver.ExecuteCommand(randomDeviceControl.Device, randomDeviceControl.DriverProperty.Name);
+		}
+
+		void ChangeGuardZone()
+		{
+			var guardZones = new List<Zone>();
+			foreach (var zone in FiresecManager.Zones)
+			{
+				if (zone.ZoneType == ZoneType.Guard)
+				{
+					guardZones.Add(zone);
+				}
+			}
+
+			var zoneIndex = random.Next(0, guardZones.Count - 1);
+			var guardZone = guardZones[zoneIndex];
+
+			IsGuardZoneInverse = !IsGuardZoneInverse;
+			if (IsGuardZoneInverse)
+				FiresecManager.SetZoneGuard(guardZone);
+			else
+				FiresecManager.UnSetZoneGuard(guardZone);
+		}
+
+		void Navigate()
+		{
+			var eventIndex = random.Next(0, 10);
+			switch (eventIndex)
+			{
+				case 0:
+					ServiceFactory.Events.GetEvent<ShowAlarmsEvent>().Publish(null);
+					break;
+				case 1:
+					ServiceFactory.Events.GetEvent<ShowArchiveEvent>().Publish(null);
+					break;
+				case 2:
+					ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
+					break;
+				case 3:
+					ServiceFactory.Events.GetEvent<ShowDiagnosticsEvent>().Publish(null);
+					break;
+				case 4:
+					ServiceFactory.Events.GetEvent<ShowGKEvent>().Publish(null);
+					break;
+				case 5:
+					ServiceFactory.Events.GetEvent<ShowJournalEvent>().Publish(null);
+					break;
+				case 6:
+					ServiceFactory.Events.GetEvent<ShowNothingEvent>().Publish(null);
+					break;
+				case 7:
+					ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
+					break;
+				case 8:
+					ServiceFactory.Events.GetEvent<ShowReportsEvent>().Publish(null);
+					break;
+				case 9:
+					ServiceFactory.Events.GetEvent<ShowZoneEvent>().Publish(Guid.Empty);
+					break;
+			}
+		}
     }
 
     internal class DeviceControl

@@ -26,22 +26,24 @@ namespace FiresecAPI.XModels
 				case XStateType.Test:
 					return 6;
 
-				case XStateType.Off:
+				case XStateType.On:
 				case XStateType.TurningOn:
-				case XStateType.TurningOff:
+					return 6;
+
 				case XStateType.TurnOn:
-				case XStateType.CancelDelay:
 				case XStateType.TurnOff:
+				case XStateType.CancelDelay:
 				case XStateType.Stop:
 				case XStateType.ForbidStart:
 				case XStateType.TurnOnNow:
 				case XStateType.TurnOffNow:
 				case XStateType.Reserve1:
 				case XStateType.Reserve2:
-					return 6;
+					return 7;
 
 				case XStateType.Norm:
-				case XStateType.On:
+				case XStateType.Off:
+				case XStateType.TurningOff:
 					return 7;
 			}
 			return 7;

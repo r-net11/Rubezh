@@ -133,7 +133,6 @@ namespace GKModule
             LoadingService.DoStep(device.PresentationDriverAndAddress + " Переход в рабочий режим");
             SendManager.Send(device, 0, 11, 0, null, device.Driver.DriverType == XDriverType.GK);
 
-			return;
             for (int i = 0; i < 10; i++)
             {
                 var sendResult = SendManager.Send(device, 0, 1, 1);
@@ -151,7 +150,7 @@ namespace GKModule
                 Thread.Sleep(1000);
             }
 
-            MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
+            //MessageBoxService.ShowError("Не удалось перевести устройство в рабочий режим в заданное время");
         }
 
         static void EraseDatabase(XDevice device)

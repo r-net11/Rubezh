@@ -50,6 +50,7 @@ namespace XFiresecAPI
 				{
 					if (_states == null)
 						_states = new List<XStateType>();
+					_states.Remove(XStateType.Save);
 					return _states;
 				}
 			}
