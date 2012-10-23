@@ -5,6 +5,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -15,7 +16,7 @@ namespace GKModule.ViewModels
         public FilterDetailsViewModel(XJournalFilter journalFilter = null)
         {
             StateTypes = new ObservableCollection<StateTypeViewModel>();
-			foreach (StateType stateType in Enum.GetValues(typeof(StateType)))
+            foreach (var stateType in GetAvailableStates())
 			{
 				StateTypes.Add(new StateTypeViewModel(stateType));
 			}
@@ -27,7 +28,7 @@ namespace GKModule.ViewModels
 				JournalFilter = new XJournalFilter()
                 {
                     Name = "Новый фильтр",
-                    Description = "Описание"
+                    Description = "Описание фильтра"
                 };
             }
             else
@@ -84,12 +85,27 @@ namespace GKModule.ViewModels
 
         public ObservableCollection<StateTypeViewModel> StateTypes { get; private set; }
 
+        List<XStateType> GetAvailableStates()
+        {
+            var states = new List<XStateType>();
+            states.Add(XStateType.Norm);
+            states.Add(XStateType.Attention);
+            states.Add(XStateType.Fire1);
+            states.Add(XStateType.Fire2);
+            states.Add(XStateType.Test);
+            states.Add(XStateType.Failure);
+            states.Add(XStateType.Ignore);
+            states.Add(XStateType.On);
+            states.Add(XStateType.Off);
+            return states;
+        }
+
 		protected override bool Save()
 		{
 			JournalFilter.Name = Name;
 			JournalFilter.Description = Description;
             JournalFilter.LastRecordsCount = LastRecordsCount;
-            JournalFilter.StateTypes = StateTypes.Where(x => x.IsChecked).Select(x => x.StateType).Cast<StateType>().ToList();
+            JournalFilter.StateTypes = StateTypes.Where(x => x.IsChecked).Select(x => x.StateType).Cast<XStateType>().ToList();
 			return base.Save();
 		}
     }

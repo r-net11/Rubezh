@@ -26,6 +26,7 @@ namespace PlansModule.ViewModels
 
 		public void Initialize()
 		{
+            FiresecManager.InvalidatePlans();
 			DrawAllPlans();
 
 			Plans = new ObservableCollection<PlanViewModel>();

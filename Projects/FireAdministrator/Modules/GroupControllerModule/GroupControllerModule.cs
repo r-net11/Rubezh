@@ -16,30 +16,32 @@ namespace GKModule
 {
 	public class GroupControllerModule : ModuleBase, IValidationModule
 	{
-		private DevicesViewModel _devicesViewModel;
-		private ZonesViewModel _zonesViewModel;
-		private DirectionsViewModel _directionsViewModel;
-        private FiltersViewModel _filtersViewModel;
-		private GKPlanExtension _planExtension;
+		DevicesViewModel DevicesViewModel;
+		ZonesViewModel ZonesViewModel;
+		DirectionsViewModel DirectionsViewModel;
+        FiltersViewModel FiltersViewModel;
+        DeviceLidraryViewModel DeviceLidraryViewModel;
+		GKPlanExtension _planExtension;
 
 		public GroupControllerModule()
 		{
 			ServiceFactory.Events.GetEvent<CreateXZoneEvent>().Subscribe(OnCreateXZone);
 			ServiceFactory.Events.GetEvent<EditXZoneEvent>().Subscribe(OnEditXZone);
 			
-			_devicesViewModel = new DevicesViewModel();
-			_zonesViewModel = new ZonesViewModel();
-			_directionsViewModel = new DirectionsViewModel();
-            _filtersViewModel = new FiltersViewModel();
-			_planExtension = new GKPlanExtension(_devicesViewModel);
+			DevicesViewModel = new DevicesViewModel();
+			ZonesViewModel = new ZonesViewModel();
+			DirectionsViewModel = new DirectionsViewModel();
+            FiltersViewModel = new FiltersViewModel();
+            DeviceLidraryViewModel = new DeviceLidraryViewModel();
+			_planExtension = new GKPlanExtension(DevicesViewModel);
 		}
 
 		public override void Initialize()
 		{
-			_devicesViewModel.Initialize();
-			_zonesViewModel.Initialize();
-			_directionsViewModel.Initialize();
-            _filtersViewModel.Initialize();
+			DevicesViewModel.Initialize();
+			ZonesViewModel.Initialize();
+			DirectionsViewModel.Initialize();
+            FiltersViewModel.Initialize();
 
 			ServiceFactory.Events.GetEvent<RegisterPlanExtensionEvent<Plan>>().Publish(_planExtension);
 		}
@@ -49,10 +51,11 @@ namespace GKModule
 			{
 				new NavigationItem("ГК", null, new List<NavigationItem>()
 				{
-					new NavigationItem<ShowXDeviceEvent, Guid>(_devicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXZoneEvent, Guid>(_zonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
-					new NavigationItem<ShowXDirectionEvent, Guid>(_directionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
-                    new NavigationItem<ShowXJournalFilterEvent, object>(_filtersViewModel, "Фильтры", "/Controls;component/Images/filter.png")
+					new NavigationItem<ShowXDeviceEvent, Guid>(DevicesViewModel, "Устройства", "/Controls;component/Images/tree.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXZoneEvent, Guid>(ZonesViewModel, "Зоны", "/Controls;component/Images/zones.png", null, null, Guid.Empty),
+					new NavigationItem<ShowXDirectionEvent, Guid>(DirectionsViewModel, "Направления", "/Controls;component/Images/direction.png", null, null, Guid.Empty),
+                    new NavigationItem<ShowXJournalFilterEvent, object>(FiltersViewModel, "Фильтры", "/Controls;component/Images/filter.png"),
+                    new NavigationItem<ShowXDeviceLidraryViewModelEvent, object>(DeviceLidraryViewModel, "Библиотека", "/Controls;component/Images/book.png")
 				}),
 			};
 		}
@@ -78,11 +81,11 @@ namespace GKModule
 
 		private void OnCreateXZone(CreateXZoneEventArg createZoneEventArg)
 		{
-			_zonesViewModel.CreateZone(createZoneEventArg);
+			ZonesViewModel.CreateZone(createZoneEventArg);
 		}
 		private void OnEditXZone(Guid zoneUID)
 		{
-            _zonesViewModel.EditZone(zoneUID);
+            ZonesViewModel.EditZone(zoneUID);
 		}
 	}
 }

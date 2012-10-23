@@ -30,6 +30,9 @@
         <File Id="Server.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
         <File Id="Server.NLog.dll" Name="NLog.dll" Source="$(var.Server.TargetDir)" />
+      </Component>
+
+      <Component Id="Server.DB" Guid="*" Permanent='yes'>
         <File Id="Server.Firesec.sdf" Name="Firesec.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
       </Component>
 

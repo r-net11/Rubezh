@@ -18,9 +18,10 @@ namespace GKModule
 		static DevicesViewModel DevicesViewModel;
 		static ZonesViewModel ZonesViewModel;
         static DirectionsViewModel DirectionsViewModel;
-        private NavigationItem _journalNavigationItem;
+        NavigationItem _journalNavigationItem;
 		static JournalsViewModel JournalsViewModel;
         static ArchiveViewModel ArchiveViewModel;
+        static AlarmsViewModel AlarmsViewModel;
 		NavigationItem _zonesNavigationItem;
 		NavigationItem _directionsNavigationItem;
 
@@ -35,6 +36,7 @@ namespace GKModule
 			DirectionsViewModel = new DirectionsViewModel();
             JournalsViewModel = new JournalsViewModel();
             ArchiveViewModel = new ArchiveViewModel();
+            AlarmsViewModel = new AlarmsViewModel();
 		}
 
         int _unreadJournalCount;
@@ -91,7 +93,8 @@ namespace GKModule
 					_zonesNavigationItem,
 					_directionsNavigationItem,
 					_journalNavigationItem,
-                    new NavigationItem<ShowXArchiveEvent, object>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png")
+                    new NavigationItem<ShowXArchiveEvent, object>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png"),
+                    new NavigationItem<ShowXAlarmsEvent, object>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
 				}),
 			};
 		}

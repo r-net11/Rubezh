@@ -5,6 +5,7 @@
 		<Feature Id="Server.Features" Title="Сервер приложений" Description="Установка приложения Сервер приложений" Level="1" Display="expand"
 						 ConfigurableDirectory="SERVERLOCATION" AllowAdvertise="no" Absent="allow" InstallDefault="local">
 			<ComponentRef Id="Server.Files" />
+      <ComponentRef Id="Server.DB" />
       <ComponentRef Id="Server.SecurityConfiguration.xml" />
       <ComponentRef Id="Server.DeviceLibraryConfiguration.xml" />
       <ComponentRef Id="Server.DriversConfiguration.xml" />

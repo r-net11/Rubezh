@@ -11,6 +11,7 @@ namespace FireMonitor.ViewModels
 	{
 		public ProgressViewModel()
 		{
+            Title = "Опрос устройств";
 			ProgressItems = new ObservableCollection<string>(); ;
 			IsShown = false;
 		}

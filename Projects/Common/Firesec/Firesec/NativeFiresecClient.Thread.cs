@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Diagnostics;
+using Common;
 
 namespace Firesec
 {
@@ -44,24 +45,31 @@ namespace Firesec
         {
             while (true)
             {
-                lock (locker)
+                try
                 {
-                    if (IsStopping)
-                        return;
+                    lock (locker)
+                    {
+                        if (IsStopping)
+                            return;
 
-                    while (Tasks.Count == 0)
-                        Monitor.Wait(locker, TimeSpan.FromSeconds(1));
+                        while (Tasks.Count == 0)
+                            Monitor.Wait(locker, TimeSpan.FromSeconds(1));
+                    }
+
+                    if (IsSuspending)
+                    {
+                        Thread.Sleep(500);
+                        continue;
+                    }
+
+                    var action = Tasks.Dequeue();
+                    action();
+                    TasksCount = Tasks.Count;
                 }
-
-				if (IsSuspending)
-				{
-					Thread.Sleep(500);
-					continue;
-				}
-
-                var action = Tasks.Dequeue();
-                action();
-				TasksCount = Tasks.Count;
+                catch (Exception e)
+                {
+                    Logger.Error(e, "NativeFiresecClient.Work");
+                }
             }
         }
     }

@@ -35,6 +35,10 @@
         <File Id="Monitor.Interop.mscoree.dll" Name="Interop.mscoree.dll" Source="$(var.Monitor.TargetDir)" />
         <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
+
+      <Component Id="Monitor.DB" Guid="*" Permanent='yes'>
+        <File Id="Monitor.GkJournalDatabase.sdf" Name="GkJournalDatabase.sdf" Source="..\..\..\..\..\Deploy\GkJournalDb\" />
+      </Component>
 			
       <Component Id="Monitor.FS_MODULE" Guid="7182915D-56AF-408F-9F8C-4995F4AE5EAA">
 				<File Id="Monitor.DevicesModule.dll" Name="DevicesModule.dll" Source="$(var.Monitor.TargetDir)" KeyPath="yes" />

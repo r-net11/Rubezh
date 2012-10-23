@@ -63,8 +63,9 @@
     </DirectoryRef>
 
     <DirectoryRef Id="Administrator.XslFolder">
-      <Component Id="Administrator.svg2xaml" Guid="*">
+      <Component Id="Administrator.svg2xaml" Guid="393F97E9-1CAB-47BF-BAB2-B0AAB564DBC5">
         <File Id="Administrator.svg2xaml.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\svg2xaml.xsl" />
+        <File Id="Administrator.xaml2svg.xsl" Source="$(var.Administrator.TargetDir)Configuration\XslFiles\xaml2svg.xsl" />
       </Component>
     </DirectoryRef>
 

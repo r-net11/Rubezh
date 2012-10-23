@@ -67,8 +67,6 @@ namespace PlansModule.ViewModels
 				DrawElement(elementTextBlock);
 			foreach (var elementPolygon in Plan.ElementPolygons)
 				DrawElement(elementPolygon);
-			if (Plan.ElementPolylines == null)
-				Plan.ElementPolylines = new List<ElementPolyline>();
 			foreach (var elementPolyline in Plan.ElementPolylines)
 				DrawElement(elementPolyline);
 			foreach (var elementSubPlan in Plan.ElementSubPlans)

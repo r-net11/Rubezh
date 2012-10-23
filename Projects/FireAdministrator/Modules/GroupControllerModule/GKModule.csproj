@@ -68,6 +68,10 @@
     <Compile Include="BinConfigurationWriter.cs" />
     <Compile Include="Converters\ClauseConditionConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="DeviceLibrary\ViewModels\DeviceLidraryViewModel.cs" />
+    <Compile Include="DeviceLibrary\Views\DeviceLidraryView.xaml.cs">
+      <DependentUpon>DeviceLidraryView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Devices\ViewModels\Logic\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\Logic\DirectionsSelectationView.xaml.cs">
       <DependentUpon>DirectionsSelectationView.xaml</DependentUpon>
@@ -237,6 +241,10 @@
   <ItemGroup />
   <ItemGroup>
     <Page Include="DataTemplates\Dictionary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DeviceLibrary\Views\DeviceLidraryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
