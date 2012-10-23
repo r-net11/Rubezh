@@ -54,7 +54,7 @@ namespace DevicesModule.ViewModels
 
 		static void OnUpdatePropgress()
 		{
-			_operationResult_2 = FiresecManager.DeviceUpdateFirmware(_device, _isUsb, new FileInfo(_fileName).Name);
+			_operationResult_2 = FiresecManager.DeviceUpdateFirmware(_device, _isUsb, new FileInfo(_fileName).FullName);
 		}
 
 		static void OnUpdateCompleted()
