@@ -13,7 +13,7 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Дата" Binding="{Binding JournalItem.StringDate}" />
+                <DataGridTextColumn Header="Дата" Binding="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" />
                 <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.EventName}" />
                 <DataGridTextColumn Header="" Binding="{Binding JournalItem.EventYesNo}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.EventDescription}" />

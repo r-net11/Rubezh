@@ -57,8 +57,10 @@ namespace Common.GK
                 inputObjectsCount++;
             }
 
+			//Formula.AddStandardTurning(Direction, DatabaseType);
+
 			Formula.Add(FormulaOperationType.DUP);
-			
+
 			Formula.AddGetBit(XStateType.Norm, Direction, DatabaseType);
 			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
 			Formula.AddPutBit(XStateType.TurnOn, Direction, DatabaseType);

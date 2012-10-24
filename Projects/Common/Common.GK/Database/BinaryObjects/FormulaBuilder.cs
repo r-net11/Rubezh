@@ -56,6 +56,23 @@ namespace Common.GK
 				"Запись состояния " + stateType.ToDescription() + " " + XBinaryBaseToString(binaryBase));
 		}
 
+		public void AddStandardTurning(XBinaryBase binaryBase, DatabaseType databaseType)
+		{
+			Add(FormulaOperationType.DUP);
+			Add(FormulaOperationType.DUP);
+			AddGetBit(XStateType.Norm, binaryBase, databaseType);
+			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
+			AddGetBit(XStateType.Save, binaryBase, databaseType);
+			Add(FormulaOperationType.COM);
+			Add(FormulaOperationType.AND, comment: "Смешивание с битом 31");
+			AddPutBit(XStateType.TurnOn, binaryBase, databaseType);
+			Add(FormulaOperationType.COM);
+			AddGetBit(XStateType.Norm, binaryBase, databaseType);
+			Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
+			AddPutBit(XStateType.TurnOff, binaryBase, databaseType);
+			AddPutBit(XStateType.Save, binaryBase, databaseType);
+		}
+
 		string XBinaryBaseToString(XBinaryBase binaryBase)
 		{
 			return binaryBase.BinaryInfo.Type + " " + binaryBase.BinaryInfo.Name + " " + binaryBase.BinaryInfo.Address;

@@ -15,7 +15,7 @@
         <include name="**\*" />
       </fileset>
     </copy>
-    <copy todir="..\Projects\FireAdministrator\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
+    <copy todir="..\Projects\FireMonitor\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
       <fileset basedir="..\Projects\Deploy\GkJournalDb">
         <include name="**\*" />
       </fileset>

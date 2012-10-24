@@ -110,19 +110,7 @@ namespace Common.GK
 				clauseIndex++;
 			}
 
-			Formula.Add(FormulaOperationType.DUP);
-			Formula.Add(FormulaOperationType.DUP);
-			Formula.AddGetBit(XStateType.Norm, Device, DatabaseType);
-			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			Formula.AddGetBit(XStateType.Save, Device, DatabaseType);
-			Formula.Add(FormulaOperationType.COM);
-			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом 31");
-			Formula.AddPutBit(XStateType.TurnOn, Device, DatabaseType);
-			Formula.Add(FormulaOperationType.COM);
-			Formula.AddGetBit(XStateType.Norm, Device, DatabaseType);
-			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Устройства");
-			Formula.AddPutBit(XStateType.TurnOff, Device, DatabaseType);
-			Formula.AddPutBit(XStateType.Save, Device, DatabaseType);
+			Formula.AddStandardTurning(Device, DatabaseType);
 		}
 
 		void SetPropertiesBytes()

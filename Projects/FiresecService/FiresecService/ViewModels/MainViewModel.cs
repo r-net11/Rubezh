@@ -54,6 +54,7 @@ namespace FiresecService.ViewModels
 				var connectionViewModel = new ClientViewModel()
 				{
 					FiresecService = firesecService,
+					ClientType = firesecService.ClientCredentials.ClientType,
 					UID = firesecService.UID,
 					UserName = firesecService.ClientCredentials.UserName,
 					IpAddress = firesecService.ClientIpAddressAndPort,

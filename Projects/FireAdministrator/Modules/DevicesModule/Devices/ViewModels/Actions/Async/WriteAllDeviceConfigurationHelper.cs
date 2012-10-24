@@ -37,7 +37,7 @@ namespace DevicesModule.ViewModels
                 if (hasError)
                     return;
             }
-            MessageBoxService.Show("Операция завершилась успешно");
+            //MessageBoxService.Show("Операция завершилась успешно");
         }
     }
 }

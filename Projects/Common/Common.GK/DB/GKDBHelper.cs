@@ -8,17 +8,17 @@ namespace Common.GK
 {
     public static class GKDBHelper
     {
-        public static void Add()
+		public static void Add(JournalItem journalItem)
         {
             try
             {
                 using (var dataContext = ConnectionManager.CreateGKDataContext())
                 {
                     var journal = new Journal();
-                    journal.DateTime = DateTime.Now;
-                    journal.ObjectUID = Guid.NewGuid();
-                    journal.GKObjectNo = 1;
-                    journal.Description = "Event Description";
+                    journal.DateTime = journalItem.DateTime;
+                    journal.ObjectUID = journalItem.ObjectUID;
+					journal.GKObjectNo = journalItem.GKObjectNo;
+					journal.Description = journalItem.EventDescription;
                     dataContext.Journal.InsertOnSubmit(journal);
                     dataContext.SubmitChanges();
                 }
@@ -29,15 +29,25 @@ namespace Common.GK
             }
         }
 
-        public static void Select()
+		public static List<JournalItem> Select(XArchiveFilter archiveFilter)
         {
+			var journalItems = new List<JournalItem>();
             try
             {
                 using (var dataContext = ConnectionManager.CreateGKDataContext())
                 {
-                    var query = "SELECT * FROM Journal";
+					var query =
+					"SELECT * FROM Journal WHERE " +
+					"\n DateTime > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+					"\n AND DateTime < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
+
                     var result = dataContext.ExecuteQuery<Journal>(query);
-                    var journalRecordsCount = result.Count();
+					foreach (var journal in result)
+					{
+						var journalItem = new JournalItem(journal);
+						journalItems.Add(journalItem);
+					}
+					var journalRecordsCount = journalItems.Count;
                     Trace.WriteLine("Journal Count = " + journalRecordsCount.ToString());
                 }
             }
@@ -45,6 +55,7 @@ namespace Common.GK
             {
                 Logger.Error(e, "GKDBHelper.Select");
             }
+			return journalItems;
         }
     }
 }
