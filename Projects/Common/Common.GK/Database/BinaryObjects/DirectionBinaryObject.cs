@@ -29,14 +29,13 @@ namespace Common.GK
             Formula = new FormulaBuilder();
             if (Direction.InputZones.Count > 0 || Direction.InputDevices.Count > 0)
             {
-                AddFormula(XStateType.TurnOn);
-                AddFormula(XStateType.TurnOff);
+                AddFormula();
             }
             Formula.Add(FormulaOperationType.END);
             FormulaBytes = Formula.GetBytes();
         }
 
-        void AddFormula(XStateType stateType)
+        void AddFormula()
 		{
 			var inputObjectsCount = 0;
 			foreach (var directionZone in Direction.DirectionZones)
@@ -58,13 +57,18 @@ namespace Common.GK
                 inputObjectsCount++;
             }
 
-            if (stateType == XStateType.TurnOff)
-            {
-                Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
-            }
+			//Formula.AddStandardTurning(Direction, DatabaseType);
+
+			Formula.Add(FormulaOperationType.DUP);
+
 			Formula.AddGetBit(XStateType.Norm, Direction, DatabaseType);
 			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
-            Formula.AddPutBit(stateType, Direction, DatabaseType);
+			Formula.AddPutBit(XStateType.TurnOn, Direction, DatabaseType);
+
+			Formula.Add(FormulaOperationType.COM, comment: "Условие Выключения");
+			Formula.AddGetBit(XStateType.Norm, Direction, DatabaseType);
+			Formula.Add(FormulaOperationType.AND, comment: "Смешивание с битом Дежурный Направления");
+			Formula.AddPutBit(XStateType.TurnOff, Direction, DatabaseType);
 		}
 
 		void SetPropertiesBytes()

@@ -9,7 +9,6 @@
         <Converter:StateToColorConverter x:Key="StateToColorConverter" />
         <Converter:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
         <Converter:ObjectToVisibilityConverter x:Key="ObjectToVisibilityConverter" />
-        <Converter:TimeToStringConverter x:Key="TimeToStringConverter" />
         <Converter:SubsystemTypeToStringConverter x:Key="SubsystemTypeToStringConverter" />
     </UserControl.Resources>
 

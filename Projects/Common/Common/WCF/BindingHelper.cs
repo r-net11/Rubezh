@@ -26,7 +26,7 @@ namespace Common
 			{
 				MaxBufferPoolSize = Int64.MaxValue,
 				MaxConnections = 10,
-				OpenTimeout = TimeSpan.FromMinutes(10),
+				OpenTimeout = TimeSpan.FromMinutes(1),
 				ReceiveTimeout = TimeSpan.FromMinutes(10),
 				MaxBufferSize = Int32.MaxValue,
 				MaxReceivedMessageSize = Int32.MaxValue
@@ -45,7 +45,7 @@ namespace Common
 			{
 				MaxBufferPoolSize = Int64.MaxValue,
 				MaxConnections = 10,
-				OpenTimeout = TimeSpan.FromMinutes(10),
+				OpenTimeout = TimeSpan.FromMinutes(1),
 				ListenBacklog = 10,
 				ReceiveTimeout = TimeSpan.FromMinutes(10),
 				MaxBufferSize = Int32.MaxValue,

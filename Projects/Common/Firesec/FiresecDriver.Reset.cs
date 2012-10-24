@@ -70,11 +70,11 @@ namespace Firesec
 				dev = innerDevices.ToArray()
 			};
 
-			var thread = new Thread(new ThreadStart(() =>
-				{
+			//var thread = new Thread(new ThreadStart(() =>
+			//    {
 					FiresecSerializedClient.ResetStates(coreState);
-				}));
-			thread.Start();
+			//    }));
+			//thread.Start();
 		}
 	}
 }

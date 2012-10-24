@@ -42,25 +42,34 @@
             </Controls:XDataGrid>
         </Grid>
 
-        <ListView Grid.Row="3" ItemsSource="{Binding OutputDevices}" DataContext="{Binding SelectedDirection}">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Выходные устройства" Width="250">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                        <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Width="200" />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding DottedAddress}" Width="100" />
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <Grid Grid.Row="3" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ListView Grid.Row="0" ItemsSource="{Binding OutputDevices}" DataContext="{Binding SelectedDirection}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Выходные устройства" Width="250">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
+                                            <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Width="200" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="Адрес" DisplayMemberBinding="{Binding DottedAddress}" Width="100" />
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
+                <Button Command="{Binding ChangeOutputDevicesCommand}" Content="Изменить Выходные устройства" Width="250" Margin="2" />
+            </StackPanel>
+        </Grid>
 
         <Grid Grid.Column="3" Grid.Row="0">
             <Grid.RowDefinitions>
@@ -105,7 +114,7 @@
                 </ListView.View>
             </ListView>
             <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0, 2, 0, 0">
-                <Button Command="{Binding ChangeZonesCommand}" Content="Изменить зоны" Width="250" Margin="2" />
+                <Button Command="{Binding ChangeZonesCommand}" Content="Изменить Входные зоны" Width="250" Margin="2" />
             </StackPanel>
         </Grid>
 

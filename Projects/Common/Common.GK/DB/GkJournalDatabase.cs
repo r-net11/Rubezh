@@ -1,4 +1,4 @@
-namespace DiagnosticsModule
+namespace Common.GK
 {
     partial class GkJournalDatabase
     {

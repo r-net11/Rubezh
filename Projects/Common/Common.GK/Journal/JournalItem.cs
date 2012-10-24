@@ -26,6 +26,7 @@ namespace Common.GK
 		byte Hour { get; set; }
 		byte Minute { get; set; }
 		byte Second { get; set; }
+		public DateTime DateTime { get; set; }
 
 		public ushort KAUAddress { get; set; }
 		public JournalSourceType Source { get; set; }
@@ -36,14 +37,17 @@ namespace Common.GK
 		public ushort ObjectDeviceAddress { get; set; }
 		public int ObjectFactoryNo { get; set; }
 
-		public JournalItem(XDevice gkDevice, List<byte> bytes)
+		public JournalItem(Journal journal)
 		{
-			GKNo = BytesHelper.SubstructInt(bytes, 0);
-			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
-			KAUNo = BytesHelper.SubstructInt(bytes, 32);
+			DateTime = journal.DateTime.Value;
+			ObjectUID = journal.ObjectUID.Value;
+			GKObjectNo = (ushort)journal.GKObjectNo.Value;
+			EventDescription = journal.Description;
+			InitializeFromObjectUID();
+		}
 
-			JournalItemType = JournalItemType.GK;
-			ObjectUID = gkDevice.UID;
+		void InitializeFromObjectUID()
+		{
 			if (GKObjectNo != 0)
 			{
 				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.GetDatabaseNo(DatabaseType.Gk) == GKObjectNo);
@@ -65,6 +69,17 @@ namespace Common.GK
 					ObjectUID = direction.UID;
 				}
 			}
+		}
+
+		public JournalItem(XDevice gkDevice, List<byte> bytes)
+		{
+			GKNo = BytesHelper.SubstructInt(bytes, 0);
+			GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
+			KAUNo = BytesHelper.SubstructInt(bytes, 32);
+
+			JournalItemType = JournalItemType.GK;
+			ObjectUID = gkDevice.UID;
+			InitializeFromObjectUID();
 
 			Day = bytes[32 + 4];
 			Month = bytes[32 + 5];
@@ -73,6 +88,14 @@ namespace Common.GK
 			Minute = bytes[32 + 8];
 			Second = bytes[32 + 9];
 			StringDate = Day.ToString() + "/" + Month.ToString() + "/" + Year.ToString() + " " + Hour.ToString() + ":" + Minute.ToString() + ":" + Second.ToString();
+			try
+			{
+				DateTime = new DateTime(2000 + Year, Month, Day, Hour, Minute, Second);
+			}
+			catch
+			{
+				DateTime = DateTime.MinValue;
+			}
 
 			KAUAddress = BytesHelper.SubstructShort(bytes, 32 + 10);
 			Source = (JournalSourceType)(int)(bytes[32 + 12]);

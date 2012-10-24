@@ -6,6 +6,7 @@ using GKModule.Events;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using FiresecAPI.XModels;
 
 namespace GKModule.ViewModels
 {
@@ -68,7 +69,18 @@ namespace GKModule.ViewModels
 
         bool FilterRecord(JournalItem journalItem)
         {
-            //JournalFilter.StateTypes
+            if (JournalFilter.StateTypes.Count > 0)
+            {
+                var stateTypes = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+                var containsStateType = false;
+                foreach (var stateType in stateTypes)
+                {
+                    if (JournalFilter.StateTypes.Contains(stateType))
+                        containsStateType = true;
+                }
+                if (!containsStateType)
+                    return false;
+            }
             return true;
         }
 	}

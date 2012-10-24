@@ -7,6 +7,7 @@ namespace FiresecService.ViewModels
     public class ClientViewModel : BaseViewModel
     {
         public FiresecService.Service.FiresecService FiresecService { get; set; }
+		public ClientType ClientType { get; set; }
         public Guid UID { get; set; }
         public string IpAddress { get; set; }
 

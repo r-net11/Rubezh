@@ -123,6 +123,7 @@
     <Compile Include="Converters\StateTypeToIconConverter.cs" />
     <Compile Include="Converters\StateTypeToIntConverter.cs" />
     <Compile Include="Converters\StateTypeToJournalStringConverter.cs" />
+    <Compile Include="Converters\TimeToStringConverter.cs" />
     <Compile Include="EditorPresenter.cs" />
     <Compile Include="HeaderedScrollViewer.cs" />
     <Compile Include="ListViewLayoutManager.cs" />

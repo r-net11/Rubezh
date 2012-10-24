@@ -13,6 +13,8 @@ using Firesec.Imitator;
 using Firesec;
 using System.Threading;
 using System.Diagnostics;
+using Common.GK;
+using DevicesModule.ViewModels;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -72,113 +74,26 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test1Command { get; private set; }
 		void OnTest1()
 		{
-			var stringBuilder = new StringBuilder();
-
-			var Rm1Driver = FiresecManager.Drivers.FirstOrDefault(x => x.DriverType == DriverType.RM_1);
-			foreach (var state in Rm1Driver.States)
+			while (true)
 			{
-				stringBuilder.AppendLine("РМ-1: " + state.Id + " - " + state.Code + " - " + state.Name);
+				WriteAllDeviceConfigurationHelper.Run(false);
+				Trace.WriteLine("WriteAllDeviceConfigurationHelper Done");
 			}
-
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.AffectParent)
-					{
-						stringBuilder.AppendLine("AffectParent - " + driver.Name + " - " + state.Name);
-					}
-				}
-			}
-
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.IsManualReset)
-					{
-						stringBuilder.AppendLine("IsManualReset - " + driver.Name + " - " + state.Name);
-					}
-				}
-			}
-
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.CanResetOnPanel)
-					{
-						stringBuilder.AppendLine("CanResetOnPanel - " + driver.Name + " - " + state.Name);
-					}
-				}
-			}
-
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.IsAutomatic)
-					{
-						stringBuilder.AppendLine("Automatic " + driver.Name + " - " + state.Name);
-					}
-					//if (state.IsAutomatic && state.Name.Contains("AutoOff"))
-					//{
-					//    stringBuilder.AppendLine("Automatic AutoOff - " + driver.Name + " - " + state.Name);
-					//}
-					//if (state.IsAutomatic && state.Name.Contains("Auto_Off"))
-					//{
-					//    stringBuilder.AppendLine("Automatic Auto_Off - " + driver.Name + " - " + state.Name);
-					//}
-				}
-			}
-
-			foreach (var driver in FiresecManager.Drivers)
-			{
-				foreach (var state in driver.States)
-				{
-					if (state.IsAutomatic)
-					{
-						stringBuilder.AppendLine("Automatic - " + driver.Name + " - " + state.Name + " - " + state.Code);
-					}
-				}
-			}
-			Text = stringBuilder.ToString();
 		}
 
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
 		{
-            AsyncTest = new AsyncTest();
-            AsyncTest.Start();
 		}
 
 		public RelayCommand Test3Command { get; private set; }
-        void OnTest3()
-        {
-            using (var dataContext = ConnectionManager.CreateGKDataContext())
-            {
-                var journal = new Journal();
-                journal.DateTime = DateTime.Now;
-                journal.ObjectUID = Guid.NewGuid();
-                journal.GKObjectNo = 1;
-                journal.Description = "Event Description";
-                dataContext.Journal.InsertOnSubmit(journal);
-                dataContext.SubmitChanges();
-            }
-        }
+		void OnTest3()
+		{
+		}
 
 		public RelayCommand Test4Command { get; private set; }
 		void OnTest4()
 		{
-            using (var dataContext = ConnectionManager.CreateGKDataContext())
-            {
-                var query = "SELECT * FROM Journal";
-                var result = dataContext.ExecuteQuery<Journal>(query);
-                var journalRecordsCount = result.Count();
-                Trace.WriteLine("Journal Count = " + journalRecordsCount.ToString());
-            }
 		}
-
-        AsyncTest AsyncTest;
 	}
 }

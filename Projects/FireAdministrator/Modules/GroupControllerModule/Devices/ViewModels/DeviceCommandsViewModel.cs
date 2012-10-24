@@ -21,10 +21,10 @@ namespace GKModule.Models
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
 			ConvertToBinaryFileCommand = new RelayCommand(OnConvertToBinaryFile);
+			WriteConfigCommand = new RelayCommand(OnWriteConfig);
 
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
-			WriteConfigCommand = new RelayCommand(OnWriteConfig);
 			GetParametersCommand = new RelayCommand(OnGetParameters);
 			WriteParametersCommand = new RelayCommand(OnWriteParameters);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
@@ -90,13 +90,17 @@ namespace GKModule.Models
 		public RelayCommand WriteConfigCommand { get; private set; }
 		void OnWriteConfig()
 		{
-			//if (ValidateConfiguration())
-			//{
-			//    if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") == System.Windows.MessageBoxResult.Yes)
-			//    {
+			if (ValidateConfiguration())
+			{
+				BinConfigurationWriter.WriteConfig();
+			}
+			else
+			{
+				if (MessageBoxService.ShowQuestion("Конфигурация содержит ошибки. Продолжить?") == System.Windows.MessageBoxResult.Yes)
+				{
 					BinConfigurationWriter.WriteConfig();
-			//    }
-			//}
+				}
+			}
 		}
 
 		public RelayCommand ConvertToBinaryFileCommand { get; private set; }

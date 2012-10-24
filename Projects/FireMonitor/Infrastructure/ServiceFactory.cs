@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using FiresecAPI.Models;
@@ -10,6 +11,7 @@ using Microsoft.Practices.Prism.Events;
 using Common;
 using System.Threading;
 using System.Diagnostics;
+using FiresecAPI;
 
 namespace Infrastructure
 {
@@ -47,15 +49,20 @@ namespace Infrastructure
 			FiresecManager.FiresecDriver.Watcher.NewJournalRecords += new Action<List<JournalRecord>>((x) => { SafeCall(() => { OnNewJournalRecordEvent(x); }); });
 			FiresecManager.FiresecDriver.Watcher.Progress += new Func<int, string, int, int, bool>(Watcher_Progress);
 
-			SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { ThreadSafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
-			SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { ThreadSafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
+			SafeFiresecService.NewJournalRecordEvent += new Action<JournalRecord>((x) => { SafeCall(() => { OnNewServerJournalRecordEvent(new List<JournalRecord>() { x }); }); });
+			SafeFiresecService.GetFilteredArchiveCompletedEvent += new Action<IEnumerable<JournalRecord>>((x) => { SafeCall(() => { OnGetFilteredArchiveCompletedEvent(x); }); });
 		}
 
-		static bool Watcher_Progress(int arg1, string arg2, int arg3, int arg4)
+		static bool Watcher_Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
 			SafeCall(() =>
 			{
-				Trace.WriteLine(arg1.ToString() + " - " + arg2 + " - " + arg3.ToString() + " - " + arg4.ToString());
+				var deviceState = FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice.DeviceState;
+				if (deviceState.StateType == StateType.Unknown)
+				{
+
+				}
+				Trace.WriteLine(stage.ToString() + " - " + comment + " - " + percentComplete.ToString() + " - " + bytesRW.ToString());
 			});
 			return true;
 		}
@@ -121,16 +128,6 @@ namespace Infrastructure
 		{
 			if (Application.Current != null && Application.Current.Dispatcher != null)
 				Application.Current.Dispatcher.BeginInvoke(action);
-		}
-
-		public static void ThreadSafeCall(Action action)
-		{
-			var thread = new Thread(new ThreadStart(() =>
-			{
-				if (Application.Current != null && Application.Current.Dispatcher != null)
-					Application.Current.Dispatcher.Invoke(action);
-			}));
-			thread.Start();
 		}
 	}
 }

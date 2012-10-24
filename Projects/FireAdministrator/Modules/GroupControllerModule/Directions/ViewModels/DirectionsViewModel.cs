@@ -23,6 +23,7 @@ namespace GKModule.ViewModels
             EditCommand = new RelayCommand(OnEdit, CanEditDelete);
             ChangeZonesCommand = new RelayCommand(OnChangeZones, CanEditDelete);
             ChangeDevicesCommand = new RelayCommand(OnChangeDevices, CanEditDelete);
+			ChangeOutputDevicesCommand = new RelayCommand(OnChangeOutputDevices, CanEditDelete);
             RegisterShortcuts();
         }
 
@@ -113,6 +114,12 @@ namespace GKModule.ViewModels
         void OnChangeDevices()
         {
             SelectedDirection.ChangeDevices();
+        }
+
+		public RelayCommand ChangeOutputDevicesCommand { get; private set; }
+		void OnChangeOutputDevices()
+        {
+			SelectedDirection.ChangeOutputDevices();
         }
 
         public override void OnShow()

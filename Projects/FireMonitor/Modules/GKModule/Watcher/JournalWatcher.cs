@@ -90,6 +90,10 @@ namespace GKModule
 			}
 			if (journalItems.Count > 0)
 			{
+				foreach (var journalItem in journalItems)
+				{
+					GKDBHelper.Add(journalItem);
+				}
 				ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
 			}
 		}

@@ -4,37 +4,64 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using Common;
 using FiresecAPI;
+using Infrastructure.Common;
+using System.Threading;
+using Infrastructure.Common.Windows;
 
 namespace FiresecClient
 {
 	public class FiresecServiceFactory
 	{
-		static FiresecCallback _firesecCallback;
-		DuplexChannelFactory<IFiresecService> _duplexChannelFactory;
-		string _serverAddress;
+		static FiresecCallback FiresecCallback;
+		DuplexChannelFactory<IFiresecService> DuplexChannelFactory;
+		string ServerAddress;
 
 		static FiresecServiceFactory()
 		{
-			_firesecCallback = new FiresecCallback();
+			FiresecCallback = new FiresecCallback();
 		}
 
 		public IFiresecService Create(string serverAddress)
 		{
-			_serverAddress = serverAddress;
-			Binding binding = BindingHelper.CreateBindingFromAddress(_serverAddress);
+			ServerAddress = serverAddress;
 
-			var endpointAddress = new EndpointAddress(new Uri(serverAddress));
-			_duplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(_firesecCallback), binding, endpointAddress);
+			for (int i = 0; i < 3; i++)
+			{
+				try
+				{
+					return TryCreate();
+				}
+				catch(Exception e)
+				{
+					Logger.Error(e, "FiresecServiceFactory.Create");
+					if (serverAddress.StartsWith("net.pipe:"))
+					{
+						ServerLoadHelper.Reload();
+						Thread.Sleep(TimeSpan.FromSeconds(5));
+					}
+				}
+			}
+			MessageBoxService.Show("Невозможно соединиться с сервером");
+			return null;
+		}
 
-			foreach (OperationDescription operationDescription in _duplexChannelFactory.Endpoint.Contract.Operations)
+		public IFiresecService TryCreate()
+		{
+			Binding binding = BindingHelper.CreateBindingFromAddress(ServerAddress);
+
+			var endpointAddress = new EndpointAddress(new Uri(ServerAddress));
+			DuplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(FiresecCallback), binding, endpointAddress);
+
+			foreach (OperationDescription operationDescription in DuplexChannelFactory.Endpoint.Contract.Operations)
 			{
 				DataContractSerializerOperationBehavior dataContractSerializerOperationBehavior = operationDescription.Behaviors.Find<DataContractSerializerOperationBehavior>() as DataContractSerializerOperationBehavior;
 				if (dataContractSerializerOperationBehavior != null)
 					dataContractSerializerOperationBehavior.MaxItemsInObjectGraph = Int32.MaxValue;
 			}
 
-			_duplexChannelFactory.Open();
-			IFiresecService _firesecService = _duplexChannelFactory.CreateChannel();
+				DuplexChannelFactory.Open();
+
+			IFiresecService _firesecService = DuplexChannelFactory.CreateChannel();
 			(_firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(100);
 			return _firesecService;
 		}
@@ -43,13 +70,16 @@ namespace FiresecClient
 		{
 			try
 			{
-				if (_duplexChannelFactory != null)
+				if (DuplexChannelFactory != null)
 				{
 					//_duplexChannelFactory.Abort();
-					_duplexChannelFactory.Close();
+					DuplexChannelFactory.Close();
 				}
 			}
-			catch { ;}
+			catch (Exception e)
+			{
+				Logger.Error(e, "FiresecServiceFactory.Dispose");
+			}
 		}
 	}
 }

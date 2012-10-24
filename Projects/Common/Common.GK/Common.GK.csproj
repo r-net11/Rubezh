@@ -51,6 +51,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -74,6 +75,16 @@
     <Compile Include="Database\BinaryObjects\ObjectType.cs" />
     <Compile Include="Database\BinaryObjects\ZoneBinaryObject.cs" />
     <Compile Include="Database\KauChildrenHelper.cs" />
+    <Compile Include="DB\ConnectionManager.cs" />
+    <Compile Include="DB\GKDBHelper.cs" />
+    <Compile Include="DB\GkJournalDatabase.cs">
+      <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="DB\GkJournalDatabase.designer.cs">
+      <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Include="Drivers\AddressDevices\AM1_O_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\AM1_T_Helper.cs" />
     <Compile Include="Drivers\GKDriversCreator.cs" />
@@ -112,6 +123,10 @@
     <Compile Include="Sending\SendResult.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{FE37B6D4-73E5-40F2-A770-A974561430B8}</Project>
+      <Name>Common %28Common\Common%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FiresecClient\FiresecClient.csproj">
       <Project>{F46953E0-CA12-4659-AE8C-88241B541F6C}</Project>
       <Name>FiresecClient</Name>
@@ -151,6 +166,21 @@
       <ProductName>Установщик Windows 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DB\GkJournalDatabase.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>GkJournalDatabase.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DB\GkJournalDatabase.dbml.layout">
+      <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

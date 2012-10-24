@@ -24,7 +24,7 @@ namespace LibraryModule
 		{
 			return new List<NavigationItem>()
 			{
-                new NavigationItem<ShowLibraryEvent>(LibraryViewModel, "Библиотека","/Controls;component/Images/book.png"),
+                new NavigationItem<ShowLibraryEvent>(LibraryViewModel, "Библиотека", "/Controls;component/Images/book.png"),
 			};
 		}
 		public override string Name

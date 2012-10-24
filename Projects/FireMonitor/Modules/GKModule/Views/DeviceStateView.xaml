@@ -10,16 +10,15 @@
 
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2" />
-            <TextBlock Text="Состояние" Margin="10, 0, 0, 0"  VerticalAlignment="Center" />
-            <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" VerticalAlignment="Center" Margin="5, 2, 2, 2" />
+            <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+            <TextBlock Text="Состояние" Margin="5, 0, 0, 0"  VerticalAlignment="Center" />
+            <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
         </StackPanel>
         <ItemsControl ItemsSource="{Binding DeviceState.States}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="2" />
-                        <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" VerticalAlignment="Center" Margin="5, 2, 2, 2" />
+                        <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeConverter}}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

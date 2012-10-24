@@ -23,4 +23,8 @@
 		<Views:AutoActivationView />
 	</DataTemplate>
 
+    <DataTemplate DataType="{x:Type ViewModels:ProgressViewModel}">
+        <Views:ProgressView />
+    </DataTemplate>
+
 </ResourceDictionary>

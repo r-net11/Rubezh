@@ -195,21 +195,26 @@ namespace GKModule.ViewModels
                 else
                     archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
 
+				var journalRecords = GKDBHelper.Select(archiveFilter);
+
+				Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalRecords); }));
+
                 //FiresecManager.FiresecService.BeginGetFilteredArchive(archiveFilter);
             }
             catch (Exception e)
             {
+				Logger.Error(e, "ArchiveViewModel.OnUpdate");
             }
             _updateThread = null;
         }
 
-        void OnGetFilteredArchiveCompleted(IEnumerable<JournalItem> journalRecords)
+        void OnGetFilteredArchiveCompleted(IEnumerable<JournalItem> journalItems)
         {
             JournalItems = new ObservableCollection<JournalItemViewModel>();
-            foreach (var journalRecord in journalRecords)
+            foreach (var journalItem in journalItems)
             {
-                var journalRecordViewModel = new JournalItemViewModel(journalRecord);
-                JournalItems.Add(journalRecordViewModel);
+                var journalItemViewModel = new JournalItemViewModel(journalItem);
+                JournalItems.Add(journalItemViewModel);
             }
             SelectedJournal = JournalItems.FirstOrDefault();
 

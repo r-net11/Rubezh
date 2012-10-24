@@ -7,13 +7,14 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <Button Content="Включать" Command="{Binding Test1Command}" Width="150" Margin="2" />
-            <Button Content="Выключать" Command="{Binding Test2Command}" Width="150" Margin="2" />
-            <Button Content="Сбрасавать все" Command="{Binding Test3Command}" Width="150" Margin="2" />
-            <Button Content="Исключение" Command="{Binding Test4Command}" Width="150" Margin="2" />
+            <Button Content="Включать" Command="{Binding Test1Command}" Width="250" Margin="2" />
+            <Button Content="Выключать" Command="{Binding Test2Command}" Width="250" Margin="2" />
+            <Button Content="Сбрасавать все" Command="{Binding Test3Command}" Width="250" Margin="2" />
+            <Button Content="Исключение" Command="{Binding Test4Command}" Width="250" Margin="2" />
             <Button Content="Управление устройством" Command="{Binding Test5Command}" Width="250" Margin="2" />
             <Button Content="Охранные зоны" Command="{Binding Test6Command}" Width="250" Margin="2" />
             <Button Content="Переход по вкладкам" Command="{Binding Test7Command}" Width="250" Margin="2" />
+            <Button Content="Все вместе" Command="{Binding Test8Command}" Width="250" Margin="2" />
         </StackPanel>
         <ScrollViewer Grid.Row="1">
             <TextBox Text="{Binding Text}" />

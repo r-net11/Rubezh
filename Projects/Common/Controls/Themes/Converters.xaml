@@ -18,4 +18,5 @@
 	<Converters:NullToBoolConverter x:Key="NullToBoolConverter" />
 	<Converters:LevelToIndentConverter x:Key="LevelToIndentConverter" />
 	<Converters:EventsToStringConverter x:Key="EventsToStringConverter" />
+    <Converters:TimeToStringConverter x:Key="TimeToStringConverter" />
 </ResourceDictionary>

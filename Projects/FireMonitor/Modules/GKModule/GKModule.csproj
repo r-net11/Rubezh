@@ -62,6 +62,10 @@
     <Compile Include="..\..\..\Common\Common\AssemblyInfoCommon.cs">
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
+    <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
+    <Compile Include="Alarms\Views\AlarmsView.xaml.cs">
+      <DependentUpon>AlarmsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
     <Compile Include="Converters\JournalItemTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateTypeConverter.cs" />
@@ -148,6 +152,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Alarms\Views\AlarmsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="DataTemplates\Dictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
