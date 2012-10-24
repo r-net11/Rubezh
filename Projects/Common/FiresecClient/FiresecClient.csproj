@@ -119,7 +119,6 @@
       <Link>Properties\AssemblyInfoCommon.cs</Link>
     </Compile>
     <Compile Include="FileHelper.cs" />
-    <Compile Include="FiresecCallback.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.Actions.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.cs" />
     <Compile Include="FiresecManager\FiresecConfiguration\FiresecConfiguration.Device.cs" />

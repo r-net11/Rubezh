@@ -33,8 +33,8 @@ namespace GKModule.ViewModels
 				MessageBoxService.Show("Ошибка связи с устройством");
 				return;
 			}
-			var journalItem = new JournalItem(Device, sendResult.Bytes);
-			TotalCount = journalItem.GKNo;
+			var internalJournalItem = new InternalJournalItem(Device, sendResult.Bytes);
+			TotalCount = internalJournalItem.GKNo;
 		}
 
 		int _totalCount;
@@ -89,7 +89,6 @@ namespace GKModule.ViewModels
 
 			JournalItems.Clear();
 			LoadingService.Show("Запрос параметра", 2 + EndIndex - StartIndex);
-            //var gke = new GkEvents();
 			for (int i = StartIndex; i <= EndIndex; i++)
 			{
 				var data = new List<byte>();
@@ -101,9 +100,8 @@ namespace GKModule.ViewModels
 					MessageBoxService.Show("Ошибка связи с устройством");
 					break;
 				}
-				var journalItem = new JournalItem(Device, sendResult.Bytes);
-				JournalItems.Add(journalItem);
-                //gke.Add(journalItem);
+                var internalJournalItem = new InternalJournalItem(Device, sendResult.Bytes);
+				JournalItems.Add(internalJournalItem.ToJournalItem());
 			}
 			LoadingService.Close();
 		}

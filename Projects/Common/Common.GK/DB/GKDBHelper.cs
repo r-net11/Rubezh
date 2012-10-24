@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Common.GK.DB;
 
 namespace Common.GK
 {
@@ -17,8 +18,7 @@ namespace Common.GK
                     var journal = new Journal();
                     journal.DateTime = journalItem.DateTime;
                     journal.ObjectUID = journalItem.ObjectUID;
-					journal.GKObjectNo = journalItem.GKObjectNo;
-					journal.Description = journalItem.EventDescription;
+					journal.Description = journalItem.Description;
                     dataContext.Journal.InsertOnSubmit(journal);
                     dataContext.SubmitChanges();
                 }
@@ -44,7 +44,7 @@ namespace Common.GK
                     var result = dataContext.ExecuteQuery<Journal>(query);
 					foreach (var journal in result)
 					{
-						var journalItem = new JournalItem(journal);
+                        var journalItem = JournalItem.FromJournal(journal);
 						journalItems.Add(journalItem);
 					}
 					var journalRecordsCount = journalItems.Count;

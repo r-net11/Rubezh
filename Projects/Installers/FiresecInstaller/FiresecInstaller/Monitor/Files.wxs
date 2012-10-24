@@ -36,8 +36,16 @@
         <File Id="Monitor.Common.GK.dll" Name="Common.GK.dll" Source="$(var.Monitor.TargetDir)" />
 			</Component>
 
-      <Component Id="Monitor.DB" Guid="*" Permanent='yes'>
-        <File Id="Monitor.GkJournalDatabase.sdf" Name="GkJournalDatabase.sdf" Source="..\..\..\..\..\Deploy\GkJournalDb\" />
+      <Component Id="Monitor.DB" Guid="B7677A70-A867-4A2D-BE8E-59D9198BB8DB" Permanent='yes'>
+        <File Id="Monitor.sqlceca35.dll" Name="sqlceca35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Monitor.sqlcecompact35.dll" Name="sqlcecompact35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Monitor.sqlceer35EN.dll" Name="sqlceer35EN.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Monitor.sqlceme35.dll" Name="sqlceme35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Monitor.sqlceoledb35.dll" Name="sqlceoledb35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Monitor.sqlceqp35.dll" Name="sqlceqp35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Monitor.sqlcese35.dll" Name="sqlcese35.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Monitor.System.Data.SqlServerCe.dll" Name="System.Data.SqlServerCe.dll" Source="$(var.Server.TargetDir)" />
+        <File Id="Monitor.GkJournalDatabase.sdf" Name="GkJournalDatabase.sdf" Source="..\..\..\..\..\Deploy\SqlCE\" />
       </Component>
 			
       <Component Id="Monitor.FS_MODULE" Guid="7182915D-56AF-408F-9F8C-4995F4AE5EAA">

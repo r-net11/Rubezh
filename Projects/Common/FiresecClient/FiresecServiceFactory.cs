@@ -12,14 +12,8 @@ namespace FiresecClient
 {
 	public class FiresecServiceFactory
 	{
-		static FiresecCallback FiresecCallback;
-		DuplexChannelFactory<IFiresecService> DuplexChannelFactory;
+		ChannelFactory<IFiresecService> ChannelFactory;
 		string ServerAddress;
-
-		static FiresecServiceFactory()
-		{
-			FiresecCallback = new FiresecCallback();
-		}
 
 		public IFiresecService Create(string serverAddress)
 		{
@@ -50,18 +44,18 @@ namespace FiresecClient
 			Binding binding = BindingHelper.CreateBindingFromAddress(ServerAddress);
 
 			var endpointAddress = new EndpointAddress(new Uri(ServerAddress));
-			DuplexChannelFactory = new DuplexChannelFactory<IFiresecService>(new InstanceContext(FiresecCallback), binding, endpointAddress);
+			ChannelFactory = new ChannelFactory<IFiresecService>(binding, endpointAddress);
 
-			foreach (OperationDescription operationDescription in DuplexChannelFactory.Endpoint.Contract.Operations)
+			foreach (OperationDescription operationDescription in ChannelFactory.Endpoint.Contract.Operations)
 			{
 				DataContractSerializerOperationBehavior dataContractSerializerOperationBehavior = operationDescription.Behaviors.Find<DataContractSerializerOperationBehavior>() as DataContractSerializerOperationBehavior;
 				if (dataContractSerializerOperationBehavior != null)
 					dataContractSerializerOperationBehavior.MaxItemsInObjectGraph = Int32.MaxValue;
 			}
 
-				DuplexChannelFactory.Open();
+				ChannelFactory.Open();
 
-			IFiresecService _firesecService = DuplexChannelFactory.CreateChannel();
+			IFiresecService _firesecService = ChannelFactory.CreateChannel();
 			(_firesecService as IContextChannel).OperationTimeout = TimeSpan.FromMinutes(100);
 			return _firesecService;
 		}
@@ -70,10 +64,10 @@ namespace FiresecClient
 		{
 			try
 			{
-				if (DuplexChannelFactory != null)
+				if (ChannelFactory != null)
 				{
 					//_duplexChannelFactory.Abort();
-					DuplexChannelFactory.Close();
+					ChannelFactory.Close();
 				}
 			}
 			catch (Exception e)
