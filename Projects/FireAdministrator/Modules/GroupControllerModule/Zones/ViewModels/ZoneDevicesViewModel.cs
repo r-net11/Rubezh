@@ -142,7 +142,7 @@ namespace GKModule.ViewModels
 			XManager.AddDeviceToZone(SelectedAvailableDevice.Device, Zone);
             Initialize(Zone);
             UpdateAvailableDevices();
-			ServiceFactory.SaveService.XDevicesChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
         }
 		public bool CanAdd()
 		{
@@ -155,7 +155,7 @@ namespace GKModule.ViewModels
 			XManager.RemoveDeviceFromZone(SelectedDevice.Device, Zone);
             Initialize(Zone);
             UpdateAvailableDevices();
-            ServiceFactory.SaveService.XDevicesChanged = true;
+            ServiceFactory.SaveService.GKChanged = true;
         }
 		public bool CanRemove()
 		{

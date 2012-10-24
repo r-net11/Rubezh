@@ -10,6 +10,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Common.Windows;
 using Infrastructure.Events;
+using XFiresecAPI;
 
 namespace GKModule
 {
@@ -27,6 +28,7 @@ namespace GKModule
 
 		public GKModuleLoader()
 		{
+			ServiceFactory.Layout.AddAlarmGroups(new AlarmsGroupsViewModel());
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowXDeviceDetails);
             ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowJournal);
@@ -37,6 +39,12 @@ namespace GKModule
             JournalsViewModel = new JournalsViewModel();
             ArchiveViewModel = new ArchiveViewModel();
             AlarmsViewModel = new AlarmsViewModel();
+			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Subscribe(OnShowAlarms);
+		}
+
+		void OnShowAlarms(XStateType? stateType)
+		{
+			AlarmsViewModel.Sort(stateType);
 		}
 
         int _unreadJournalCount;
@@ -94,7 +102,7 @@ namespace GKModule
 					_directionsNavigationItem,
 					_journalNavigationItem,
                     new NavigationItem<ShowXArchiveEvent, object>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png"),
-                    new NavigationItem<ShowXAlarmsEvent, object>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
+                    new NavigationItem<ShowXAlarmsEvent, XStateType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
 				}),
 			};
 		}

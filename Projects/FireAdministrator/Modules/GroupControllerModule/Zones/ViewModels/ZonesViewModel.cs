@@ -93,7 +93,7 @@ namespace GKModule.ViewModels
                 var zoneViewModel = new ZoneViewModel(zoneDetailsViewModel.XZone);
 				Zones.Add(zoneViewModel);
                 SelectedZone = zoneViewModel;
-				ServiceFactory.SaveService.XDevicesChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 				return zoneDetailsViewModel;
 			}
 			return null;
@@ -109,7 +109,7 @@ namespace GKModule.ViewModels
                 Zones.Remove(SelectedZone);
 				SelectedZone = Zones.FirstOrDefault();
                 ZoneDevices.UpdateAvailableDevices();
-                ServiceFactory.SaveService.XDevicesChanged = true;
+                ServiceFactory.SaveService.GKChanged = true;
             }
         }
 
@@ -126,7 +126,7 @@ namespace GKModule.ViewModels
                 SelectedZone.XZone = zoneDetailsViewModel.XZone;
                 SelectedZone.Update();
 
-                ServiceFactory.SaveService.XDevicesChanged = true;
+                ServiceFactory.SaveService.GKChanged = true;
             }
         }
 

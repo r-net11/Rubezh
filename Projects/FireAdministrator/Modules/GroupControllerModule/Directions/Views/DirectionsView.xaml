@@ -26,8 +26,8 @@
             <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Binding="{Binding Direction.No}" />
-                    <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Direction.Name}" />
-                    <DataGridTextColumn Header="Примечание" Width="1*" Binding="{Binding Direction.Description}" />
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Direction.Name}" Width="*" />
+                    <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
                 </DataGrid.Columns>
             </Controls:XDataGrid>
         </Grid>
@@ -36,8 +36,8 @@
             <Controls:XDataGrid ItemsSource="{Binding Directions}" SelectedItem="{Binding SelectedDirection}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="№" Binding="{Binding Direction.No}" />
-                    <DataGridTextColumn Header="Наименование" Width="1*" Binding="{Binding Direction.Name}" />
-                    <DataGridTextColumn Header="Примечание" Width="1*" Binding="{Binding Direction.Description}" />
+                    <DataGridTextColumn Header="Наименование" Binding="{Binding Direction.Name}" Width="*" />
+                    <DataGridTextColumn Header="Примечание" Binding="{Binding Direction.Description}" Width="*" />
                 </DataGrid.Columns>
             </Controls:XDataGrid>
         </Grid>
@@ -56,7 +56,7 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="{Binding Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                            <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Width="200" />
+                                            <TextBlock Text="{Binding Driver.ShortName}" HorizontalAlignment="Stretch" Width="*" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -81,7 +81,7 @@
                     <GridView>
                         <GridView.Columns>
                             <GridViewColumn Header="№" DisplayMemberBinding="{Binding DirectionZone.Zone.No}" />
-                            <GridViewColumn Header="Входные зоны" DisplayMemberBinding="{Binding DirectionZone.Zone.Name}" />
+                            <GridViewColumn Header="Входные зоны" DisplayMemberBinding="{Binding DirectionZone.Zone.Name}" Width="*" />
                             <GridViewColumn Header="Состояние" Width="250">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -95,7 +95,7 @@
                                                 <ControlTemplate>
                                                     <Grid>
                                                         <ComboBox ItemsSource="{Binding StateTypes}" SelectedItem="{Binding StateType, UpdateSourceTrigger=PropertyChanged}"
-                                                                      VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
+                                                                VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalAlignment="Stretch">
                                                             <ComboBox.ItemTemplate>
                                                                 <DataTemplate>
                                                                     <TextBlock Text="{Binding ., Converter={StaticResource XStateTypeToStringConverter}}" VerticalAlignment="Stretch" Foreground="Black" />
@@ -132,7 +132,7 @@
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source="{Binding DirectionDevice.Device.Driver.ImageSource}" Width="16" Height="16" Margin="5, 0, 5, 0" />
-                                            <TextBlock Text="{Binding DirectionDevice.Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="200" />
+                                            <TextBlock Text="{Binding DirectionDevice.Device.Driver.ShortName}" HorizontalAlignment="Stretch" Width="*" />
                                         </StackPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

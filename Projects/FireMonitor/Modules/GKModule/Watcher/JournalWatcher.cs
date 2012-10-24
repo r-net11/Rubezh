@@ -83,8 +83,11 @@ namespace GKModule
 					var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
 					if (binaryObject != null)
 					{
-						ApplicationService.Invoke(() => { StatesWatcher.SetObjectStates(binaryObject.BinaryBase, XStatesHelper.StatesFromInt(journalItem.ObjectState)); });
-						//StatesWatcher.RequestObjectState(binaryObject.BinaryBase);
+						ApplicationService.Invoke(() =>
+						{
+							StatesWatcher.SetObjectStates(binaryObject.BinaryBase, XStatesHelper.StatesFromInt(journalItem.ObjectState));
+							ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
+						});
 					}
 				}
 			}

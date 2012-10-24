@@ -65,7 +65,7 @@ namespace GKModule.ViewModels
 			{
 				XManager.ChangeDirectionZones(Direction, zonesSelectationViewModel.Zones);
 				InitializeDependences();
-				ServiceFactory.SaveService.XDevicesChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
@@ -76,7 +76,7 @@ namespace GKModule.ViewModels
 			{
 				XManager.ChangeDirectionDevices(Direction, devicesSelectationViewModel.DevicesList);
 				InitializeDependences();
-				ServiceFactory.SaveService.XDevicesChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
@@ -140,7 +140,7 @@ namespace GKModule.ViewModels
 				Direction.OutputDevices = devices;
 
 				InitializeDependences();
-				ServiceFactory.SaveService.XDevicesChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 	}

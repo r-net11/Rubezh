@@ -21,7 +21,7 @@ namespace OPCModule.ViewModels
 				Zone.IsOPCUsed = value;
 				OnPropertyChanged("IsOPCUsed");
                 ServiceFactory.SaveService.OPCChanged = true;
-                ServiceFactory.SaveService.DevicesChanged = true;
+                ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
 	}

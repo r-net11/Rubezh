@@ -143,7 +143,7 @@ namespace DiagnosticsModule.ViewModels
 							deviceViewModel.OnPropertyChanged("Address");
 						}
 					}
-					ServiceFactory.SaveService.DevicesChanged = true;
+					ServiceFactory.SaveService.FSChanged = true;
 				}
 				OnPropertyChanged("Address");
 			}
@@ -157,7 +157,7 @@ namespace DiagnosticsModule.ViewModels
 				Device.Description = value;
 				Device.OnChanged();
 				OnPropertyChanged("Description");
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
 
@@ -180,7 +180,7 @@ namespace DiagnosticsModule.ViewModels
 				{
 					FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, value);
 					OnPropertyChanged("Zone");
-					ServiceFactory.SaveService.DevicesChanged = true;
+					ServiceFactory.SaveService.FSChanged = true;
 				}
 			}
 		}
@@ -208,7 +208,7 @@ namespace DiagnosticsModule.ViewModels
 				FiresecManager.FiresecConfiguration.SetIsNotUsed(Device, !value);
 				OnPropertyChanged("IsUsed");
 				OnPropertyChanged("ShowOnPlan");
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
 
@@ -227,7 +227,7 @@ namespace DiagnosticsModule.ViewModels
 			var zoneLogicViewModel = new ZoneLogicViewModel(Device);
 			if (DialogService.ShowModalWindow(zoneLogicViewModel))
 			{
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 			}
 			OnPropertyChanged("PresentationZone");
 		}
@@ -240,7 +240,7 @@ namespace DiagnosticsModule.ViewModels
 		{
 			var indicatorDetailsViewModel = new IndicatorDetailsViewModel(Device);
 			if (DialogService.ShowModalWindow(indicatorDetailsViewModel))
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 			OnPropertyChanged("PresentationZone");
 		}
 
@@ -305,7 +305,7 @@ namespace DiagnosticsModule.ViewModels
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged("PropertiesViewModel");
 					Update();
-					ServiceFactory.SaveService.DevicesChanged = true;
+					ServiceFactory.SaveService.FSChanged = true;
 				}
 			}
 		}

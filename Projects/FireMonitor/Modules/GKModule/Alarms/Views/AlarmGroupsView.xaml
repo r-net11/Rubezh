@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="GKModule.Views.AlarmGroupsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Controls="clr-namespace:Controls;assembly=Controls"
+             xmlns:Converters="clr-namespace:GKModule.Converters">
+    <UserControl.Resources>
+        <Converters:AlarmTypeToColorConverter x:Key="AlarmTypeToColorConverter" />
+        <Converters:AlarmTypeToIconPathConverter x:Key="AlarmTypeToIconPathConverter" />
+        <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
+        <Converters:AlarmTypeToShortStringConverter x:Key="AlarmTypeToShortStringConverter" />
+    </UserControl.Resources>
+
+    <ItemsControl ItemsSource="{Binding AlarmGroups}">
+        <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
+        <ItemsControl.ItemTemplate>
+            <DataTemplate>
+                <Grid ToolTip="{Binding AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}">
+                    <Controls:AlarmButton Command="{Binding ShowCommand}" Width="70" Height="70" Margin="5 2"
+                        GlowColor="{Binding AlarmType, Converter={StaticResource AlarmTypeToColorConverter}}"
+                        IsGlowing="{Binding HasAlarms}" IsEnabled="{Binding HasAlarms}">
+                        <TextBlock Text="{Binding AlarmType, Converter={StaticResource AlarmTypeToShortStringConverter}}"
+                            Foreground="White" FontSize="30" />
+                    </Controls:AlarmButton>
+                </Grid>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+</UserControl>

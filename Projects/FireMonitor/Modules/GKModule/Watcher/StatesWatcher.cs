@@ -35,6 +35,7 @@ namespace GKModule
                     GetState(binaryObject.BinaryBase, gkDatabase.RootDevice);
                 }
             }
+			ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null); });
         }
 
 		public static void RequestObjectState(XBinaryBase binaryBase)

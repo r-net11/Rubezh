@@ -69,7 +69,7 @@ namespace GKModule.ViewModels
                 var filterViewModel = new FilterViewModel(filterDetailsViewModel.JournalFilter);
                 JournalFilters.Add(filterViewModel);
                 SelectedJournalFilter = filterViewModel;
-				ServiceFactory.SaveService.XDevicesChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 				XManager.DeviceConfiguration.JournalFilters.Remove(SelectedJournalFilter.JournalFilter);
 				JournalFilters.Remove(SelectedJournalFilter);
 				SelectedJournalFilter = JournalFilters.FirstOrDefault();
-				ServiceFactory.SaveService.XDevicesChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
@@ -94,7 +94,7 @@ namespace GKModule.ViewModels
 			{
 				SelectedJournalFilter.JournalFilter = filterDetailsViewModel.JournalFilter;
 				SelectedJournalFilter.Update();
-				ServiceFactory.SaveService.XDevicesChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 

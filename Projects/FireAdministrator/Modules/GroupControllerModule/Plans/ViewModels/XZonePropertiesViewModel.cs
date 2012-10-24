@@ -22,7 +22,7 @@ namespace GKModule.Plans.ViewModels
 			CreateCommand = new RelayCommand(OnCreate);
 			EditCommand = new RelayCommand(OnEdit, CanEdit);
 			Title = "Свойства фигуры: Зона";
-			Zones = new ObservableCollection<XZone>(XManager.DeviceConfiguration.Zones);
+			Zones = new ObservableCollection<XZone>(XManager.DeviceConfiguration.SortedZones);
             if (iElementZone.ZoneUID != Guid.Empty)
                 SelectedZone = Zones.FirstOrDefault(x => x.UID == iElementZone.ZoneUID);
 		}

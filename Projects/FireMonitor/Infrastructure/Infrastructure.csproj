@@ -127,6 +127,8 @@
     <Compile Include="Events\ShowXJournalEvent.cs" />
     <Compile Include="Events\NotifyEvent.cs" />
     <Compile Include="Events\ShowXDeviceDetailsEvent.cs" />
+    <Compile Include="Events\ShowXDeviceOnPlanEvent.cs" />
+    <Compile Include="Events\GKObjectsStateChangedEvent.cs" />
     <Compile Include="LicenseHelper.cs" />
     <Compile Include="Models\ArchiveDefaultState.cs" />
     <Compile Include="Models\ArchiveDefaultStateType.cs" />

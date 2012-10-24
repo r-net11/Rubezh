@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using PlansModule.ViewModels;
+using XFiresecAPI;
 
 namespace PlansModule
 {
@@ -19,6 +20,7 @@ namespace PlansModule
 		{
 			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(OnShowDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Subscribe(OnShowZoneOnPlan);
+			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Subscribe(OnShowXDeviceOnPlan);
 			PlansViewModel = new PlansViewModel();
 		}
 
@@ -32,6 +34,12 @@ namespace PlansModule
 		{
 			ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
             PlansViewModel.ShowZone(zoneUID);
+		}
+		void OnShowXDeviceOnPlan(XDevice device)
+		{
+			var hasDeviceOnPlan = PlansViewModel.ShowXDevice(device);
+			if (hasDeviceOnPlan)
+				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 		}
 
 		public override void Initialize()

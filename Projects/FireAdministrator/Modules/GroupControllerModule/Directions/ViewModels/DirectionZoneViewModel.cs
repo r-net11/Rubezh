@@ -22,7 +22,7 @@ namespace GKModule.ViewModels
             set
             {
                 DirectionZone.StateType = value;
-                ServiceFactory.SaveService.XDevicesChanged = true;
+                ServiceFactory.SaveService.GKChanged = true;
             }
         }
 

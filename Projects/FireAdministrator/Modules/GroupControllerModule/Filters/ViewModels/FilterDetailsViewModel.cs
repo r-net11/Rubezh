@@ -88,7 +88,6 @@ namespace GKModule.ViewModels
         List<XStateType> GetAvailableStates()
         {
             var states = new List<XStateType>();
-            states.Add(XStateType.Norm);
             states.Add(XStateType.Attention);
             states.Add(XStateType.Fire1);
             states.Add(XStateType.Fire2);
@@ -96,7 +95,6 @@ namespace GKModule.ViewModels
             states.Add(XStateType.Failure);
             states.Add(XStateType.Ignore);
             states.Add(XStateType.On);
-            states.Add(XStateType.Off);
             return states;
         }
 

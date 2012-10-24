@@ -165,7 +165,7 @@ namespace GKModule.ViewModels
 			SelectedDevice.RemoveCommand.Execute();
 
 			XManager.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.XDevicesChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		bool CanPaste()
@@ -190,7 +190,7 @@ namespace GKModule.ViewModels
 			CollapseChild(newDevice);
 
 			XManager.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.XDevicesChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
         private void RegisterShortcuts()

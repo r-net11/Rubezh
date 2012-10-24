@@ -29,7 +29,7 @@ namespace OPCModule.ViewModels
 				Device.IsOPCUsed = value;
 				OnPropertyChanged("IsOPCUsed");
                 ServiceFactory.SaveService.OPCChanged = true;
-                ServiceFactory.SaveService.DevicesChanged = true;
+                ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
 	}

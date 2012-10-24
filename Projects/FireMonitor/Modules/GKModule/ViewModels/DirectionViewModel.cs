@@ -20,8 +20,8 @@ namespace GKModule.ViewModels
 		{
 			SetIgnoreCommand = new RelayCommand(OnSetIgnore, CanSetIgnore);
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
-			SetAutomaticCommand = new RelayCommand(OnSetAutomatic);
-			ResetAutomaticCommand = new RelayCommand(OnResetAutomatic);
+			SetAutomaticCommand = new RelayCommand(OnSetAutomatic, CanSetAutomatic);
+			ResetAutomaticCommand = new RelayCommand(OnResetAutomatic, CanResetAutomatic);
 			TurnOnCommand = new RelayCommand(OnTurnOn);
 			TurnOffCommand = new RelayCommand(OnTurnOff);
 			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
@@ -78,11 +78,19 @@ namespace GKModule.ViewModels
 		{
 			SendControlCommand(0x80);
 		}
+		bool CanSetAutomatic()
+		{
+			return !Direction.DirectionState.States.Contains(XStateType.Norm);
+		}
 
 		public RelayCommand ResetAutomaticCommand { get; private set; }
 		void OnResetAutomatic()
 		{
 			SendControlCommand(0x00);
+		}
+		bool CanResetAutomatic()
+		{
+			return Direction.DirectionState.States.Contains(XStateType.Norm);
 		}
 
 		public RelayCommand TurnOnCommand { get; private set; }

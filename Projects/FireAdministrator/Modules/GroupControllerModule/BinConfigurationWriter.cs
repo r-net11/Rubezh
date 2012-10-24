@@ -51,8 +51,11 @@ namespace GKModule
         {
             foreach (var binaryObject in commonDatabase.BinaryObjects)
             {
-                var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись дескриптора " +
-                    binaryObject.GetNo().ToString() + " из " + commonDatabase.BinaryObjects.Count.ToString();
+				var x = binaryObject.BinaryBase.GetBinaryDescription();
+                var progressStage = commonDatabase.RootDevice.PresentationDriverAndAddress + ": запись " +
+					binaryObject.BinaryBase.GetBinaryDescription() + " " +
+                    "(" + binaryObject.GetNo().ToString() + ")" +
+					" из " + commonDatabase.BinaryObjects.Count.ToString();
                 LoadingService.DoStep(progressStage);
                 var packs = BinConfigurationWriter.CreateDescriptors(binaryObject);
                 foreach (var pack in packs)

@@ -84,7 +84,7 @@ namespace DevicesModule.ViewModels
 			deviceViewModel.ExpandChildren();
 
 			FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.DevicesChanged = true;
+			ServiceFactory.SaveService.FSChanged = true;
 			DevicesViewModel.UpdateGuardVisibility();
 
 			Close(true);

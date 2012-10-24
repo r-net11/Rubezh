@@ -1,10 +1,10 @@
-﻿using FiresecAPI.Models;
+﻿using System;
 using Microsoft.Practices.Prism.Events;
 using XFiresecAPI;
 
 namespace Infrastructure.Events
 {
-	public class ShowXAlarmsEvent : CompositePresentationEvent<XStateType?>
+	public class ShowXDeviceOnPlanEvent : CompositePresentationEvent<XDevice>
 	{
 	}
 }

@@ -37,7 +37,7 @@ namespace SettingsModule.ViewModels
 				{
                     LoadingService.ShowProgress("Конвертирование конфигурации", "Конвертирование конфигурации", 6);
 					FiresecManager.FiresecDriver.Convert();
-					ServiceFactory.SaveService.DevicesChanged = false;
+					ServiceFactory.SaveService.FSChanged = false;
 					ServiceFactory.SaveService.PlansChanged = false;
                     LoadingService.DoStep("Обновление конфигурации");
 					FiresecManager.UpdateConfiguration();
