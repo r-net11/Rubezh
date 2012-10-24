@@ -112,6 +112,7 @@
     </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\AssemblyInfoCommon.cs">
@@ -177,6 +178,10 @@
     <ProjectReference Include="..\Firesec\Firesec.csproj">
       <Project>{D8D5BB16-DAA5-4755-A924-34AC8DCE19E8}</Project>
       <Name>Firesec</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Infrastructure.Common\Infrastructure.Common.csproj">
+      <Project>{D57CB190-A30E-4A3D-A674-F1766CE1CC72}</Project>
+      <Name>Infrastructure.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Infrustructure.Plans\Infrustructure.Plans.csproj">
       <Project>{DA2A8431-7328-4AE8-926F-E191700577A1}</Project>

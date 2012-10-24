@@ -32,8 +32,9 @@ namespace Infrastructure.Common.Windows
 			catch (Exception e)
 			{
 				Logger.Error(e, "Исключение при вызове DialogService.ShowModalWindow");
-				throw;
+				//throw;
 			}
+			return false;
 		}
 		public static void ShowWindow(WindowBaseViewModel model)
 		{

@@ -35,8 +35,7 @@ namespace FireMonitor
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-            Logger.Error(e.ExceptionObject as Exception);
-			//ApplicationService.Invoke(() => MessageBoxService.ShowException(e.ExceptionObject as Exception));
+			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
 
             System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
             Application.Current.MainWindow.Close();

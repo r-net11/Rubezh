@@ -102,7 +102,7 @@
     </Compile>
     <Compile Include="AppConfigHelper.cs" />
     <Compile Include="RegistryHelper.cs" />
-    <Compile Include="Services\ProgressWather.cs" />
+    <Compile Include="Services\ProgressWatcher.cs" />
     <Compile Include="ViewModels\AutoActivationViewModel.cs" />
     <Compile Include="ViewModels\MonitorShellViewModel.cs" />
     <Compile Include="ViewModels\ProgressViewModel.cs" />

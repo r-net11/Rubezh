@@ -76,7 +76,7 @@ namespace DiagnosticsModule.ViewModels
 		{
 			while (true)
 			{
-				WriteAllDeviceConfigurationHelper.Run();
+				WriteAllDeviceConfigurationHelper.Run(false);
 				Trace.WriteLine("WriteAllDeviceConfigurationHelper Done");
 			}
 		}

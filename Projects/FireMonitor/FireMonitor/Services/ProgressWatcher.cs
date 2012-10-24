@@ -9,10 +9,12 @@ using FiresecAPI;
 using Infrastructure.Common.Windows;
 using FireMonitor.ViewModels;
 using System.Windows.Threading;
+using Infrastructure.Events;
+using Infrastructure;
 
 namespace FireMonitor
 {
-	public static class ProgressWather
+	public static class ProgressWatcher
 	{
 		static ProgressViewModel progressViewModel = new ProgressViewModel();
 		static DispatcherTimer ClosingTimer = new DispatcherTimer() { Interval = TimeSpan.FromSeconds(10) };
@@ -25,10 +27,12 @@ namespace FireMonitor
 
 		static bool Watcher_Progress(int stage, string comment, int percentComplete, int bytesRW)
 		{
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
+			ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Subscribe(OnDevicesStateChanged);
+
 			SafeCall(() =>
 			{
-				var deviceState = FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice.DeviceState;
-				if (deviceState.StateType == StateType.Unknown)
+				if (FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice.DeviceState.StateType == StateType.Unknown)
 				{
 					progressViewModel.ProgressItems.Add(comment);
 					progressViewModel.SelectedProgressItem = progressViewModel.ProgressItems.LastOrDefault();
@@ -46,8 +50,17 @@ namespace FireMonitor
 
 		static void ClosingTimer_Tick(object sender, EventArgs e)
 		{
-			ClosingTimer.Stop();
-			progressViewModel.Close();
+			OnDevicesStateChanged(null);
+		}
+
+		static void OnDevicesStateChanged(object obj)
+		{
+			if (FiresecManager.FiresecConfiguration.DeviceConfiguration.RootDevice.DeviceState.StateType != StateType.Unknown)
+			{
+				ServiceFactory.Events.GetEvent<DevicesStateChangedEvent>().Unsubscribe(OnDevicesStateChanged);
+				ClosingTimer.Stop();
+				progressViewModel.Close();
+			}
 		}
 
 		public static void SafeCall(Action action)
