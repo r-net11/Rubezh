@@ -9,6 +9,9 @@ namespace Infrastructure.Common
 	{
 		public static void Load()
 		{
+#if DEBUG
+            return;
+#endif
 			Process[] procs = Process.GetProcessesByName("FiresecService");
 			if (procs.Count() == 0)
 			{
