@@ -43,7 +43,7 @@
         <Views:AlarmsView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:AlarmsGroupsViewModel}">
+    <DataTemplate DataType="{x:Type ViewModels:AlarmGroupsViewModel}">
         <Views:AlarmGroupsView />
     </DataTemplate>
 

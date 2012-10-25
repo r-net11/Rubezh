@@ -14,9 +14,9 @@
         <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата" Binding="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" />
-                <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.EventName}" />
-                <DataGridTextColumn Header="" Binding="{Binding JournalItem.EventYesNo}" />
-                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.EventDescription}" />
+                <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
+                <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo}" />
+                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
                 <DataGridTextColumn Header="Тип Объекта" Binding="{Binding JournalItem.JournalItemType, Converter={StaticResource JournalItemTypeToStringConverter}}" />
                 <DataGridTextColumn Header="Объект" Binding="{Binding PresentationName}" />
                 <DataGridTextColumn Header="Состояние" Binding="{Binding StringStates}" />
@@ -40,9 +40,9 @@
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Состояние" />
             <TextBlock Grid.Row="4" Grid.Column="0" Text="Объект" />
 
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.StringDate}" Margin="2" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.EventName}" Margin="2" />
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.EventDescription}" Margin="2" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
             <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StringStates}" Margin="2" />
             <TextBlock Grid.Row="4" Grid.Column="1" Margin="2">
 				<Hyperlink Command="{Binding ShowObjectCommand}" Style="{StaticResource HyperlinkStyle}">

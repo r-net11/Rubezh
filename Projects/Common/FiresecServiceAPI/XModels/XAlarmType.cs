@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace GKModule
+namespace XFiresecAPI
 {
 	public enum XAlarmType
 	{
 		[DescriptionAttribute("НПТ")]
-		NPT = 0,
+		NPTOn = 0,
 
 		[DescriptionAttribute("Пожар 1")]
 		Fire1 = 1,
@@ -27,7 +23,7 @@ namespace GKModule
 		Ignore = 5,
 
 		[DescriptionAttribute("Автоматика отключена")]
-		Auto = 6,
+		AutoOff = 6,
 
 		[DescriptionAttribute("Требуется обслуживание")]
 		Service = 7,

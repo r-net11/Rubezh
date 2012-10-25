@@ -264,6 +264,7 @@
     <Compile Include="XModels\States\XDriverState.cs" />
     <Compile Include="XModels\States\XStateType.cs" />
     <Compile Include="XModels\States\XZoneState.cs" />
+    <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBinaryBase.cs" />
     <Compile Include="XModels\XBinaryInfo.cs" />
     <Compile Include="XModels\XStatesHelper.cs" />

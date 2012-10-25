@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI.Models;
+using XFiresecAPI;
 
 namespace GKModule.Converters
 {
@@ -10,7 +11,7 @@ namespace GKModule.Converters
         {
             switch ((XAlarmType) value)
             {
-				case XAlarmType.NPT:
+				case XAlarmType.NPTOn:
                     return "/Controls;component/Images/Alarm_shield.png";
 
 				case XAlarmType.Fire1:
@@ -34,7 +35,7 @@ namespace GKModule.Converters
 				case XAlarmType.Service:
                     return "/Controls;component/Images/Alarm_main_6_Service.png";
 
-				case XAlarmType.Auto:
+				case XAlarmType.AutoOff:
                     return "/Controls;component/Images/Alarm_main_7_Auto.png";
 
                 default:

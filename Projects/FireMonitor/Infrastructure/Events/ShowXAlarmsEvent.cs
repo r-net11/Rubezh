@@ -4,7 +4,7 @@ using XFiresecAPI;
 
 namespace Infrastructure.Events
 {
-	public class ShowXAlarmsEvent : CompositePresentationEvent<XStateType?>
+	public class ShowXAlarmsEvent : CompositePresentationEvent<XAlarmType?>
 	{
 	}
 }

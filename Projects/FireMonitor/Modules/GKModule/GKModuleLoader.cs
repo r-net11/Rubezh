@@ -28,7 +28,7 @@ namespace GKModule
 
 		public GKModuleLoader()
 		{
-			ServiceFactory.Layout.AddAlarmGroups(new AlarmsGroupsViewModel());
+			ServiceFactory.Layout.AddAlarmGroups(new AlarmGroupsViewModel());
 			ServiceFactory.Layout.AddToolbarItem(new GKConnectionIndicatorViewModel());
 			ServiceFactory.Events.GetEvent<ShowXDeviceDetailsEvent>().Subscribe(OnShowXDeviceDetails);
             ServiceFactory.Events.GetEvent<ShowXJournalEvent>().Subscribe(OnShowJournal);
@@ -42,9 +42,9 @@ namespace GKModule
 			ServiceFactory.Events.GetEvent<ShowXAlarmsEvent>().Subscribe(OnShowAlarms);
 		}
 
-		void OnShowAlarms(XStateType? stateType)
+		void OnShowAlarms(XAlarmType? alarmType)
 		{
-			AlarmsViewModel.Sort(stateType);
+			AlarmsViewModel.Sort(alarmType);
 		}
 
         int _unreadJournalCount;
@@ -102,7 +102,7 @@ namespace GKModule
 					_directionsNavigationItem,
 					_journalNavigationItem,
                     new NavigationItem<ShowXArchiveEvent, object>(ArchiveViewModel, "Архив", "/Controls;component/Images/archive.png"),
-                    new NavigationItem<ShowXAlarmsEvent, XStateType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
+                    new NavigationItem<ShowXAlarmsEvent, XAlarmType?>(AlarmsViewModel, "Состояния", "/Controls;component/Images/Alarm.png") { SupportMultipleSelect = true}
 				}),
 			};
 		}

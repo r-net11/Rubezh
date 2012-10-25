@@ -18,4 +18,8 @@
     <DataTemplate DataType="{x:Type ViewModels:ArchiveSettingsViewModel}">
         <Views:ArchiveSettingsView />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type ViewModels:ConfirmationViewModel}">
+        <Views:ConfirmationView />
+    </DataTemplate>
 </ResourceDictionary>

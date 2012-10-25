@@ -140,11 +140,7 @@ namespace GKModule.ViewModels
 		{
 			if (Device.Driver.IsDeviceOnShleif)
 			{
-				var bytes = new List<byte>();
-				var databaseNo = Device.GetDatabaseNo(DatabaseType.Gk);
-				bytes.AddRange(BytesHelper.ShortToBytes(databaseNo));
-				bytes.Add(code);
-				SendManager.Send(Device.GkDatabaseParent, 3, 13, 0, bytes);
+				ObjectCommandSendHelper.SendControlCommand(Device, code);
 			}
 		}
 

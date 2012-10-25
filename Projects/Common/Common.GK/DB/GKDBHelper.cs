@@ -16,9 +16,13 @@ namespace Common.GK
                 using (var dataContext = ConnectionManager.CreateGKDataContext())
                 {
                     var journal = new Journal();
+					journal.JournalItemType = (byte)journalItem.JournalItemType;
                     journal.DateTime = journalItem.DateTime;
-                    journal.ObjectUID = journalItem.ObjectUID;
+					journal.Name = journalItem.Name;
+					journal.YesNo = journalItem.YesNo;
 					journal.Description = journalItem.Description;
+					journal.ObjectUID = journalItem.ObjectUID;
+					journal.ObjectState = journalItem.ObjectState;
                     dataContext.Journal.InsertOnSubmit(journal);
                     dataContext.SubmitChanges();
                 }

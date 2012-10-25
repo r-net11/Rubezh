@@ -63,6 +63,32 @@ namespace XFiresecAPI
 			}
 		}
 
+		public XStateType MainState
+		{
+			get
+			{
+				var mainState = XStateType.Norm;
+				var minPriority = 100;
+				foreach (var state in States)
+				{
+					var priority = XStatesHelper.XStateTypeToPriority(state);
+					if (priority < minPriority)
+					{
+						minPriority = priority;
+					}
+				}
+				return mainState;
+			}
+		}
+
+		public XStateClass StateClass
+		{
+			get
+			{
+				return XStateClass.Norm;
+			}
+		}
+
 		public StateType StateType
 		{
 			get

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Data;
 using FiresecAPI.Models;
+using XFiresecAPI;
 
 namespace GKModule.Converters
 {
@@ -10,7 +11,7 @@ namespace GKModule.Converters
         {
             switch ((XAlarmType) value)
             {
-				case XAlarmType.NPT:
+				case XAlarmType.NPTOn:
 					return "ПЗ";
 
 				case XAlarmType.Fire1:
@@ -34,7 +35,7 @@ namespace GKModule.Converters
 				case XAlarmType.Service:
                     return "С";
 
-				case XAlarmType.Auto:
+				case XAlarmType.AutoOff:
                     return "АО";
 
                 default:

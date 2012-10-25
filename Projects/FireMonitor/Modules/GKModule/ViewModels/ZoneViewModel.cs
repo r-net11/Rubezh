@@ -117,10 +117,7 @@ namespace GKModule.ViewModels
 
 		void SendControlCommand(byte code)
 		{
-			var bytes = new List<byte>();
-			bytes.AddRange(BytesHelper.ShortToBytes(Zone.GetDatabaseNo(DatabaseType.Gk)));
-			bytes.Add(code);
-			SendManager.Send(Zone.GkDatabaseParent, 3, 13, 0, bytes);
+			ObjectCommandSendHelper.SendControlCommand(Zone, code);
 		}
 	}
 }
