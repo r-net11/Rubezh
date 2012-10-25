@@ -15,6 +15,7 @@ using System.Threading;
 using System.Diagnostics;
 using Common.GK;
 using DevicesModule.ViewModels;
+using FiresecAPI;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -97,6 +98,18 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test3Command { get; private set; }
 		void OnTest3()
 		{
+			var stringBuilder = new StringBuilder();
+			foreach (var driver in FiresecManager.Drivers)
+			{
+				foreach (var state in driver.States)
+				{
+					if (state.StateType == StateType.Service)
+					{
+						stringBuilder.AppendLine(driver.ShortName + " - " + state.Name);
+					}
+				}
+			}
+			Text = stringBuilder.ToString();
 		}
 
 		public RelayCommand Test4Command { get; private set; }
