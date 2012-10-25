@@ -306,9 +306,21 @@ namespace Firesec
 				}
 				catch (System.Runtime.InteropServices.InvalidComObjectException e)
 				{
-					if (!FiresecExceptionHelper.IsWellKnownInvalidComObjectException(e.Message))
-					{
+					//if (!FiresecExceptionHelper.IsWellKnownInvalidComObjectException(e.Message))
+					//{
 						string exceptionText = "InvalidComObjectException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
+						Logger.Error(exceptionText);
+					//}
+					resultData.Result = default(T);
+					resultData.HasError = true;
+					resultData.Error = e.Message;
+					SocketServerHelper.StartIfNotRunning();
+				}
+				catch (System.Reflection.TargetParameterCountException e)
+				{
+					if (!FiresecExceptionHelper.IsWellKnownTargetParameterCountException(e.Message))
+					{
+						string exceptionText = "TargetParameterCountException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
 						Logger.Error(exceptionText);
 					}
 					resultData.Result = default(T);

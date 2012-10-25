@@ -33,12 +33,18 @@ namespace Firesec
 
         public void AddTask(Action task)
         {
-            lock (locker)
-            {
-                Tasks.Enqueue(task);
-                Monitor.Pulse(locker);
-            }
-			Trace.WriteLine("Tasks Count = " + TasksCount.ToString());
+			try
+			{
+				lock (locker)
+				{
+					Tasks.Enqueue(task);
+					Monitor.Pulse(locker);
+				}
+			}
+			catch (Exception e)
+			{
+				Logger.Error(e, "NativeFiresecClient.AddTask");
+			}
         }
 
         void Work()
@@ -52,6 +58,12 @@ namespace Firesec
                         if (IsStopping)
                             return;
 
+						if (Tasks == null)
+						{
+							Tasks = new Queue<Action>();
+							Logger.Error("NativeFiresecClient.Work Tasks = null");
+						}
+
                         while (Tasks.Count == 0)
                             Monitor.Wait(locker, TimeSpan.FromSeconds(1));
                     }
@@ -63,8 +75,16 @@ namespace Firesec
                     }
 
                     var action = Tasks.Dequeue();
-                    action();
-                    TasksCount = Tasks.Count;
+					if (action != null)
+					{
+						action();
+						TasksCount = Tasks.Count;
+					}
+					else
+					{
+						Tasks = new Queue<Action>();
+						Logger.Error("NativeFiresecClient.Work action = null");
+					}
                 }
                 catch (Exception e)
                 {

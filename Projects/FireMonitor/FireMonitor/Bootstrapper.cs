@@ -83,7 +83,7 @@ namespace FireMonitor
                 Application.Current.Shutdown();
             //MutexHelper.KeepAlive();
             ServiceFactory.SubscribeEvents();
-			//ProgressWather.Run();
+			ProgressWatcher.Run();
         }
 
         void InitializeFs(bool reconnect = false)
