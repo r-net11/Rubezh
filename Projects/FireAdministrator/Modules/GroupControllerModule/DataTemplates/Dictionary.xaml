@@ -84,8 +84,8 @@
         <Views:ConvertationView />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:DeviceLidraryViewModel}">
-        <Views:DeviceLidraryView />
+    <DataTemplate DataType="{x:Type ViewModels:XLibraryViewModel}">
+        <Views:XLibraryView />
     </DataTemplate>
 
 </ResourceDictionary>

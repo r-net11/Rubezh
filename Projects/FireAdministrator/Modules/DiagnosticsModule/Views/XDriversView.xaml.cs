@@ -12,7 +12,7 @@ namespace DiagnosticsModule.Views
 		{
 			InitializeComponent();
 
-			Drivers = (from XDriver driver in XManager.DriversConfiguration.Drivers
+			Drivers = (from XDriver driver in XManager.DriversConfiguration.XDrivers
 					   select driver).ToList();
 
 			DataContext = this;

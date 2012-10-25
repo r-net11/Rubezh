@@ -30,6 +30,10 @@ namespace XFiresecAPI
 		public string Name { get; set; }
 		[DataMember]
 		public string ShortName { get; set; }
+        [DataMember]
+        public string DeviceClassName { get; set; }
+        [DataMember]
+        public List<XDriverState> XStates { get; set; }
 
 		[DataMember]
 		public List<XDriverProperty> Properties { get; set; }

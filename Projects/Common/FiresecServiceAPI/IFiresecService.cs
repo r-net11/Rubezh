@@ -50,6 +50,9 @@ namespace FiresecAPI
         DeviceLibraryConfiguration GetDeviceLibraryConfiguration();
 
         [OperationContract]
+        DeviceLibraryConfiguration GetXDeviceLibraryConfiguration();
+
+        [OperationContract]
         void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration);
 
         [OperationContract]

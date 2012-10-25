@@ -11,7 +11,8 @@
     <Converters:StateTypeToJournalStringConverter x:Key="StateTypeToJournalStringConverter" />
 	<Converters:StateToColorConverter x:Key="StateToColorConverter" />
 	<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
-	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
+    <Converters:XStateTypeToIconConverter x:Key="XStateTypeToIconConverter" />
+    <Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
 	<Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
 	<Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Common;
 using FiresecAPI.Models;
-using Firesec;
+using XFiresecAPI;
 
 namespace FiresecClient
 {
@@ -14,6 +14,13 @@ namespace FiresecClient
 			get { return ConfigurationCash.DriversConfiguration; }
 			set { ConfigurationCash.DriversConfiguration = value; }
 		}
+
+        public XDriversConfiguration XDriversConfiguration
+        {
+            get { return XConfigurationCash.XDriversConfiguration; }
+            set { XConfigurationCash.XDriversConfiguration = value; }
+        }
+
 		public DeviceConfiguration DeviceConfiguration
 		{
 			get { return ConfigurationCash.DeviceConfiguration; }

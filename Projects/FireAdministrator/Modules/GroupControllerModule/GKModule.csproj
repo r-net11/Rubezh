@@ -68,9 +68,21 @@
     <Compile Include="BinConfigurationWriter.cs" />
     <Compile Include="Converters\ClauseConditionConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
-    <Compile Include="DeviceLibrary\ViewModels\DeviceLidraryViewModel.cs" />
-    <Compile Include="DeviceLibrary\Views\DeviceLidraryView.xaml.cs">
-      <DependentUpon>DeviceLidraryView.xaml</DependentUpon>
+    <Compile Include="DeviceLibrary\ImageConverters.cs" />
+    <Compile Include="DeviceLibrary\ViewModels\XDeviceDetailsViewModel.cs" />
+    <Compile Include="DeviceLibrary\ViewModels\XDeviceViewModel.cs" />
+    <Compile Include="DeviceLibrary\ViewModels\XLibraryViewModel.cs" />
+    <Compile Include="DeviceLibrary\ViewModels\XStateDetailsViewModel.cs" />
+    <Compile Include="DeviceLibrary\ViewModels\XStateViewModel.cs" />
+    <Compile Include="DeviceLibrary\ViewModels\XFrameViewModel.cs" />
+    <Compile Include="DeviceLibrary\Views\XDeviceDetailsView.xaml.cs">
+      <DependentUpon>XDeviceDetailsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DeviceLibrary\Views\XLibraryView.xaml.cs">
+      <DependentUpon>XLibraryView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DeviceLibrary\Views\XStateDetailsView.xaml.cs">
+      <DependentUpon>XStateDetailsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Devices\ViewModels\Logic\DirectionsSelectationViewModel.cs" />
     <Compile Include="Devices\Views\Logic\DirectionsSelectationView.xaml.cs">
@@ -244,7 +256,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DeviceLibrary\Views\DeviceLidraryView.xaml">
+    <Page Include="DeviceLibrary\Views\XDeviceDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DeviceLibrary\Views\XLibraryView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DeviceLibrary\Views\XStateDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

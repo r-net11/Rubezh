@@ -18,7 +18,7 @@ namespace Common.GK
 			int state = BytesHelper.SubstructInt(bytes, 44);
 
 			var deviceType = BytesHelper.SubstructShort(bytes, 0);
-			Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
+			Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverTypeNo == deviceType);
 
 			States = XStatesHelper.StatesFromInt(state);
 		}

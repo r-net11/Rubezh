@@ -31,7 +31,7 @@ namespace FiresecClient
 			}
 			if (DeviceConfiguration.RootDevice == null)
 			{
-				var systemDriver = DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
+				var systemDriver = DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.System);
 				if (systemDriver != null)
 				{
 					DeviceConfiguration.RootDevice = new XDevice()
@@ -50,7 +50,7 @@ namespace FiresecClient
 			DeviceConfiguration.Update();
 			foreach (var device in DeviceConfiguration.Devices)
 			{
-				device.Driver = DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
+				device.Driver = DriversConfiguration.XDrivers.FirstOrDefault(x => x.UID == device.DriverUID);
 				if (device.Driver == null)
 				{
 					System.Windows.MessageBox.Show("Ошибка при сопоставлении драйвера устройств ГК");

@@ -88,7 +88,7 @@ namespace GKModule.ViewModels
 
             if (xDevice.Driver.IsGroupDevice)
             {
-                var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == xDevice.Driver.GroupDeviceChildType);
+                var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == xDevice.Driver.GroupDeviceChildType);
 
                 for (byte i = 0; i < xDevice.Driver.GroupDeviceChildrenCount; i++)
                 {

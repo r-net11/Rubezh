@@ -45,7 +45,7 @@ namespace GKModule.Converter
 			var kauCount = (totalShleifCount + 1) / 8 + Math.Min(1, totalShleifCount % 8);
 			for (int i = 0; i < kauCount; i++)
 			{
-				XManager.AddChild(gkDevice, XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU), 0, (byte)(i + 1));
+				XManager.AddChild(gkDevice, XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU), 0, (byte)(i + 1));
 			}
 			XManager.UpdateConfiguration();
 		}
@@ -58,12 +58,12 @@ namespace GKModule.Converter
 			{
 				UID = Guid.NewGuid(),
 				DriverUID = XDriver.System_UID,
-				Driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
+				Driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.System)
 			};
 			XManager.DeviceConfiguration.Devices.Add(systemDevice);
 			XManager.DeviceConfiguration.RootDevice = systemDevice;
 
-			var gkDriver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.DriverType == XDriverType.GK);
+			var gkDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.GK);
 			gkDevice = XManager.AddChild(systemDevice, gkDriver, 0, 1);
 			gkDevice.UID = Guid.NewGuid();
 			XManager.DeviceConfiguration.Devices.Add(gkDevice);
@@ -80,7 +80,7 @@ namespace GKModule.Converter
 
 		public void AddDevice(Device fsDevice, XDevice kauDevice, byte shleifNo)
 		{
-			var driver = XManager.DriversConfiguration.Drivers.FirstOrDefault(x => x.UID == fsDevice.DriverUID);
+			var driver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.UID == fsDevice.DriverUID);
 			if (driver == null)
 			{
 				return;
