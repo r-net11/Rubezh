@@ -45,7 +45,7 @@ namespace GKModule.Models
 
 			DevicesViewModel.Current.Initialize();
 			ZonesViewModel.Current.Initialize();
-			ServiceFactory.SaveService.XDevicesChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		public RelayCommand ConvertToBinCommand { get; private set; }

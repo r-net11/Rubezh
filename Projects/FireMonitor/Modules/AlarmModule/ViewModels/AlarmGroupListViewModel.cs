@@ -5,7 +5,7 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace AlarmModule.ViewModels
 {
-	public class AlarmGroupListViewModel : ViewPartViewModel
+	public class AlarmGroupListViewModel : BaseViewModel
 	{
 		public AlarmGroupListViewModel()
 		{

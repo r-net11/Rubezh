@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using PlansModule.Events;
+using XFiresecAPI;
 
 namespace PlansModule.ViewModels
 {
@@ -15,13 +16,16 @@ namespace PlansModule.ViewModels
 	{
 		public Plan Plan { get; private set; }
         public List<DeviceState> DeviceStates { get; private set; }
-		List<ZoneState> ZoneStates;
+		public List<ZoneState> ZoneStates { get; private set; }
+		public List<XDeviceState> XDeviceStates { get; private set; }
+		public List<XZoneState> XZoneStates { get; private set; }
 		StateType SelfState = StateType.No;
 
 		public PlanViewModel(Plan plan, ObservableCollection<PlanViewModel> source)
 		{
 			Plan = plan;
 			Source = source;
+
 			DeviceStates = new List<DeviceState>();
 			foreach (var elementDevice in plan.ElementDevices)
 			{
@@ -51,6 +55,35 @@ namespace PlansModule.ViewModels
 						ZoneStates.Add(zone.ZoneState);
 				}
 			}
+			XDeviceStates = new List<XDeviceState>();
+			foreach (var elementXDevice in plan.ElementXDevices)
+			{
+				var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementXDevice.XDeviceUID);
+				if (device != null)
+				{
+					XDeviceStates.Add(device.DeviceState);
+					device.DeviceState.StateChanged += new Action(UpdateSelfState);
+				}
+			}
+			XZoneStates = new List<XZoneState>();
+			foreach (var elementRectangleXZone in plan.ElementRectangleXZones)
+			{
+				if (elementRectangleXZone.ZoneUID != Guid.Empty)
+				{
+					var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == elementRectangleXZone.ZoneUID);
+					if (zone != null)
+						XZoneStates.Add(zone.ZoneState);
+				}
+			}
+			foreach (var elementPolygonXZone in plan.ElementPolygonXZones)
+			{
+				if (elementPolygonXZone.ZoneUID != Guid.Empty)
+				{
+					var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == elementPolygonXZone.ZoneUID);
+					if (zone != null)
+						XZoneStates.Add(zone.ZoneState);
+				}
+			}
 			UpdateSelfState();
 		}
 
@@ -69,10 +102,20 @@ namespace PlansModule.ViewModels
 		public void UpdateSelfState()
 		{
 			SelfState = StateType.No;
-            foreach (var deviceState in DeviceStates)
+            foreach (var state in DeviceStates)
 			{
-				if (deviceState.StateType < SelfState)
-					SelfState = deviceState.StateType;
+				if (state.StateType < SelfState)
+					SelfState = state.StateType;
+			}
+			foreach (var state in XDeviceStates)
+			{
+				if (state.StateType < SelfState)
+					SelfState = state.StateType;
+			}
+			foreach (var state in XZoneStates)
+			{
+				if (state.StateType < SelfState)
+					SelfState = state.StateType;
 			}
 			UpdateState();
 		}

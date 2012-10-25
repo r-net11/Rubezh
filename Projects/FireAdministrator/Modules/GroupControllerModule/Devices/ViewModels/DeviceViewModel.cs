@@ -82,7 +82,7 @@ namespace GKModule.ViewModels
 				}
 				OnPropertyChanged("Address");
                 OnPropertyChanged("PresentationAddress");
-				ServiceFactory.SaveService.XDevicesChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
@@ -98,6 +98,7 @@ namespace GKModule.ViewModels
 			{
 				Device.Description = value;
 				OnPropertyChanged("Description");
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
 
@@ -108,12 +109,12 @@ namespace GKModule.ViewModels
             if (newDeviceViewModel.Drivers.Count == 1)
             {
                 newDeviceViewModel.SaveCommand.Execute();
-                ServiceFactory.SaveService.XDevicesChanged = true;
+                ServiceFactory.SaveService.GKChanged = true;
                 return;
             }
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
-				ServiceFactory.SaveService.XDevicesChanged = true;
+				ServiceFactory.SaveService.GKChanged = true;
 			}
 		}
         public bool CanAdd()
@@ -142,7 +143,7 @@ namespace GKModule.ViewModels
 			Parent = null;
 
 			XManager.DeviceConfiguration.Update();
-			ServiceFactory.SaveService.XDevicesChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 		bool CanRemove()
 		{
@@ -185,7 +186,7 @@ namespace GKModule.ViewModels
             if (DialogService.ShowModalWindow(new DeviceLogicViewModel(Device)))
             {
                 OnPropertyChanged("PresentationZone");
-                ServiceFactory.SaveService.XDevicesChanged = true;
+                ServiceFactory.SaveService.GKChanged = true;
             }
 		}
         bool CanShowLogic()
@@ -201,7 +202,7 @@ namespace GKModule.ViewModels
             {
 				XManager.ChangeDeviceZones(Device, zonesSelectationViewModel.Zones);
                 OnPropertyChanged("PresentationZone");
-                ServiceFactory.SaveService.XDevicesChanged = true;
+                ServiceFactory.SaveService.GKChanged = true;
             }
         }
         bool CanShowZones()

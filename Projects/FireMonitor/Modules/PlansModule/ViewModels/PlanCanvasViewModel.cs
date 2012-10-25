@@ -11,6 +11,7 @@ using Infrustructure.Plans.Elements;
 using Infrustructure.Plans.Painters;
 using PlansModule.Events;
 using PlansModule.Views;
+using XFiresecAPI;
 
 namespace PlansModule.ViewModels
 {
@@ -181,6 +182,12 @@ namespace PlansModule.ViewModels
 		{
 			Zones.ForEach(x => x.IsSelected = false);
             Zones.FirstOrDefault(x => x.ZoneUID == zoneUID).IsSelected = true;
+		}
+
+		public void SelectXDevice(XDevice device)
+		{
+			XDevices.ForEach(x => x.IsSelected = false);
+			XDevices.FirstOrDefault(x => x.XDeviceUID == device.UID).IsSelected = true;
 		}
 
 		void OnPlanStateChanged(Guid planUID)

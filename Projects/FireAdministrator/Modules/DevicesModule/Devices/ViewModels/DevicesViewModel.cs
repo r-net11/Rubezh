@@ -142,7 +142,7 @@ namespace DevicesModule.ViewModels
             SelectedDevice.RemoveCommand.Execute();
 
             FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
-            ServiceFactory.SaveService.DevicesChanged = true;
+            ServiceFactory.SaveService.FSChanged = true;
             UpdateGuardVisibility();
         }
         bool CanCutCopy()
@@ -195,7 +195,7 @@ namespace DevicesModule.ViewModels
             newDevice.CollapseChildren();
 
             FiresecManager.FiresecConfiguration.DeviceConfiguration.Update();
-            ServiceFactory.SaveService.DevicesChanged = true;
+            ServiceFactory.SaveService.FSChanged = true;
             UpdateGuardVisibility();
             FillAllDevices();
         }

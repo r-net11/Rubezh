@@ -7,7 +7,7 @@ using XFiresecAPI;
 
 namespace FiresecAPI
 {
-    [ServiceContract(CallbackContract = typeof(IFiresecCallback), SessionMode = SessionMode.Required)]
+    [ServiceContract(SessionMode = SessionMode.Required)]
     public interface IFiresecService : IFiresecServiceSKUD
     {
         #region Service

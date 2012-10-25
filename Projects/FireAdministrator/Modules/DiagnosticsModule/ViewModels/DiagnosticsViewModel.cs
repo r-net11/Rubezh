@@ -84,6 +84,14 @@ namespace DiagnosticsModule.ViewModels
 		public RelayCommand Test2Command { get; private set; }
 		void OnTest2()
 		{
+			while (true)
+			{
+				FiresecManager.FiresecDriver.SetNewConfig(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+				FiresecManager.FiresecService.SetDeviceConfiguration(FiresecManager.FiresecConfiguration.DeviceConfiguration);
+				FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
+				FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
+				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+			}
 		}
 
 		public RelayCommand Test3Command { get; private set; }

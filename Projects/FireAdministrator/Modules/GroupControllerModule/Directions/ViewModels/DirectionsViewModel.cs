@@ -75,7 +75,7 @@ namespace GKModule.ViewModels
                 var directionViewModel = new DirectionViewModel(directionDetailsViewModel.XDirection);
                 Directions.Add(directionViewModel);
                 SelectedDirection = directionViewModel;
-                ServiceFactory.SaveService.XDevicesChanged = true;
+                ServiceFactory.SaveService.GKChanged = true;
             }
         }
 
@@ -88,7 +88,7 @@ namespace GKModule.ViewModels
                 XManager.RemoveDirection(SelectedDirection.Direction);
                 Directions.Remove(SelectedDirection);
                 SelectedDirection = Directions.FirstOrDefault();
-                ServiceFactory.SaveService.XDevicesChanged = true;
+                ServiceFactory.SaveService.GKChanged = true;
             }
         }
 
@@ -100,7 +100,7 @@ namespace GKModule.ViewModels
             {
                 SelectedDirection.Direction = directionDetailsViewModel.XDirection;
                 SelectedDirection.Update();
-                ServiceFactory.SaveService.XDevicesChanged = true;
+                ServiceFactory.SaveService.GKChanged = true;
             }
         }
 

@@ -404,7 +404,7 @@ namespace DevicesModule.ViewModels
             var guardSynchronizationViewModel = new GuardSynchronizationViewModel(SelectedDevice);
             if (DialogService.ShowModalWindow(guardSynchronizationViewModel))
             {
-                ServiceFactory.SaveService.DevicesChanged = true;
+                ServiceFactory.SaveService.FSChanged = true;
             }
         }
 
@@ -418,7 +418,7 @@ namespace DevicesModule.ViewModels
         {
             FiresecManager.GuardUsers.Remove(SelectedAvailableUser.GuardUser);
             AvailableUsers.Remove(SelectedAvailableUser);
-            ServiceFactory.SaveService.DevicesChanged = true;
+            ServiceFactory.SaveService.FSChanged = true;
         }
 
         public RelayCommand EditCommand { get; private set; }
@@ -428,7 +428,7 @@ namespace DevicesModule.ViewModels
             if (DialogService.ShowModalWindow(userDetailsViewModel))
             {
                 SelectedAvailableUser.GuardUser = userDetailsViewModel.GuardUser;
-                ServiceFactory.SaveService.DevicesChanged = true;
+                ServiceFactory.SaveService.FSChanged = true;
             }
         }
 
@@ -440,7 +440,7 @@ namespace DevicesModule.ViewModels
                 if (DialogService.ShowModalWindow(userDetailsViewModel))
                 {
                     SelectedDeviceUser.GuardUser = userDetailsViewModel.GuardUser;
-                    ServiceFactory.SaveService.DevicesChanged = true;
+                    ServiceFactory.SaveService.FSChanged = true;
                 }
             }
         }
@@ -462,7 +462,7 @@ namespace DevicesModule.ViewModels
                 FiresecManager.GuardUsers.Add(userDetailsViewModel.GuardUser);
                 var userViewModel = new UserViewModel(userDetailsViewModel.GuardUser);
                 AvailableUsers.Add(userViewModel);
-                ServiceFactory.SaveService.DevicesChanged = true;
+                ServiceFactory.SaveService.FSChanged = true;
             }
         }
 
@@ -485,7 +485,7 @@ namespace DevicesModule.ViewModels
             AvailableUsers.Remove(SelectedAvailableUser);
 
             UpdateUsersSelectation();
-            ServiceFactory.SaveService.DevicesChanged = true;
+            ServiceFactory.SaveService.FSChanged = true;
         }
 
         bool CanRemoveUser()
@@ -503,7 +503,7 @@ namespace DevicesModule.ViewModels
             DeviceUsers.Remove(SelectedDeviceUser);
 
             UpdateUsersSelectation();
-            ServiceFactory.SaveService.DevicesChanged = true;
+            ServiceFactory.SaveService.FSChanged = true;
         }
 
         bool CanAddZone()
@@ -519,7 +519,7 @@ namespace DevicesModule.ViewModels
             DeviceZones.Remove(SelectedDeviceZone);
 
             UpdateZonesSelectation();
-            ServiceFactory.SaveService.DevicesChanged = true;
+            ServiceFactory.SaveService.FSChanged = true;
         }
 
         bool CanRemoveZone()
@@ -535,7 +535,7 @@ namespace DevicesModule.ViewModels
             UserZones.Remove(SelectedUserZone);
 
             UpdateZonesSelectation();
-            ServiceFactory.SaveService.DevicesChanged = true;
+            ServiceFactory.SaveService.FSChanged = true;
         }
 
         public override void OnShow()

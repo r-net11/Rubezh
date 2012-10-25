@@ -56,8 +56,9 @@ namespace FireAdministrator
                     ServiceFactory.Layout.Close();
                     ServiceFactory.Events.GetEvent<ShowDeviceEvent>().Publish(Guid.Empty);
 
-                    ServiceFactory.SaveService.DevicesChanged = true;
+                    ServiceFactory.SaveService.FSChanged = true;
                     ServiceFactory.SaveService.PlansChanged = true;
+					ServiceFactory.SaveService.GKChanged = true;
                     ServiceFactory.Layout.ShowFooter(null);
                 });
             }
@@ -68,7 +69,6 @@ namespace FireAdministrator
             return new FullConfiguration()
             {
                 DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration,
-                //DeviceLibraryConfiguration = FiresecManager.DeviceLibraryConfiguration,
                 PlansConfiguration = FiresecManager.PlansConfiguration,
                 SecurityConfiguration = FiresecManager.SecurityConfiguration,
                 SystemConfiguration = FiresecManager.SystemConfiguration,
@@ -82,7 +82,6 @@ namespace FireAdministrator
             FiresecManager.FiresecConfiguration.DeviceConfiguration = fullConfiguration.DeviceConfiguration;
             if (FiresecManager.FiresecConfiguration.DeviceConfiguration == null)
                 FiresecManager.FiresecConfiguration.SetEmptyConfiguration();
-            //FiresecManager.DeviceLibraryConfiguration = fullConfiguration.DeviceLibraryConfiguration;
             FiresecManager.PlansConfiguration = fullConfiguration.PlansConfiguration;
             FiresecManager.SecurityConfiguration = fullConfiguration.SecurityConfiguration;
             FiresecManager.SystemConfiguration = fullConfiguration.SystemConfiguration;

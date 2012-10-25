@@ -3,6 +3,7 @@ using System.Threading;
 using Common;
 using Common.GK;
 using Infrastructure.Common.Windows;
+using System;
 
 namespace GKModule
 {
@@ -47,7 +48,10 @@ namespace GKModule
 					journalWatcher.Start();
 				}
 			}
-			catch { }
+			catch(Exception e)
+			{
+				Logger.Error(e, "JournalWatcherManager.OnRun 1");
+			}
 
 			while (true)
 			{
@@ -58,7 +62,10 @@ namespace GKModule
 						journalWatcher.PingJournal();
 					}
 				}
-				catch { }
+				catch (Exception e)
+				{
+					Logger.Error(e, "JournalWatcherManager.OnRun 2");
+				}
 				if (StopEvent.WaitOne(100))
 					break;
 			}

@@ -16,7 +16,7 @@
       </fileset>
     </copy>
     <copy todir="..\Projects\FireMonitor\bin\Debug" includeemptydirs="true" overwrite="true" verbose="true">
-      <fileset basedir="..\Projects\Deploy\GkJournalDb">
+      <fileset basedir="..\Projects\Deploy\SqlCE">
         <include name="**\*" />
       </fileset>
     </copy>

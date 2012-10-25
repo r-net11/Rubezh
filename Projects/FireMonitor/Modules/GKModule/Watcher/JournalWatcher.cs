@@ -50,8 +50,8 @@ namespace GKModule
 				return -1;
 			}
 			ConnectionChanged(true);
-			var journalItem = new JournalItem(GkDatabase.RootDevice, sendResult.Bytes);
-			return journalItem.GKNo;
+			var internalJournalItem = new InternalJournalItem(GkDatabase.RootDevice, sendResult.Bytes);
+			return internalJournalItem.GKNo;
 		}
 
 		JournalItem ReadJournal(int index)
@@ -65,8 +65,8 @@ namespace GKModule
 			}
 			if (sendResult.Bytes.Count == 64)
 			{
-				var journalItem = new JournalItem(GkDatabase.RootDevice, sendResult.Bytes);
-				return journalItem;
+                var internalJournalItem = new InternalJournalItem(GkDatabase.RootDevice, sendResult.Bytes);
+                return internalJournalItem.ToJournalItem();
 			}
 			return null;
 		}
@@ -83,8 +83,11 @@ namespace GKModule
 					var binaryObject = GkDatabase.BinaryObjects.FirstOrDefault(x => x.GetNo() == journalItem.GKObjectNo);
 					if (binaryObject != null)
 					{
-						ApplicationService.Invoke(() => { StatesWatcher.SetObjectStates(binaryObject.BinaryBase, XStatesHelper.StatesFromInt(journalItem.ObjectState)); });
-						//StatesWatcher.RequestObjectState(binaryObject.BinaryBase);
+						ApplicationService.Invoke(() =>
+						{
+							StatesWatcher.SetObjectStates(binaryObject.BinaryBase, XStatesHelper.StatesFromInt(journalItem.ObjectState));
+							ServiceFactory.Events.GetEvent<GKObjectsStateChangedEvent>().Publish(null);
+						});
 					}
 				}
 			}

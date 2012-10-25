@@ -60,7 +60,7 @@ namespace DevicesModule.ViewModels
 			FiresecManager.Directions.Remove(SelectedDirection.Direction);
 			Directions.Remove(SelectedDirection);
 
-			ServiceFactory.SaveService.DevicesChanged = true;
+			ServiceFactory.SaveService.FSChanged = true;
 		}
 
 		public RelayCommand EditCommand { get; private set; }
@@ -71,7 +71,7 @@ namespace DevicesModule.ViewModels
 			{
 				SelectedDirection.Update();
 
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
 
@@ -90,7 +90,7 @@ namespace DevicesModule.ViewModels
                 var directionViewModel = new DirectionViewModel(directionDetailsViewModel.Direction);
                 Directions.Add(directionViewModel);
                 SelectedDirection = directionViewModel;
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
 

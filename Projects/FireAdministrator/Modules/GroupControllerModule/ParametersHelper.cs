@@ -16,7 +16,7 @@ namespace GKModule
 			{
 				GetParametersFromDB(gkDatabase);
 			}
-			ServiceFactory.SaveService.XDevicesChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 
 		static void GetParametersFromDB(CommonDatabase commonDatabase)

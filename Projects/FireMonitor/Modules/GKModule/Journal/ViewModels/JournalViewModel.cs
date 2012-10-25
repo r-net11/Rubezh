@@ -12,7 +12,6 @@ namespace GKModule.ViewModels
 {
 	public class JournalViewModel : BaseViewModel
 	{
-		const int MaxCount = 100;
         public XJournalFilter JournalFilter { get; private set; }
 
         public JournalViewModel(XJournalFilter journalFilter)
@@ -46,26 +45,26 @@ namespace GKModule.ViewModels
 			}
 		}
 
-        void OnNewJournal(List<JournalItem> journalItems)
-        {
-            foreach (var journalItem in journalItems)
-            {
-                if (FilterRecord(journalItem) == false)
-                    continue;
+		void OnNewJournal(List<JournalItem> journalItems)
+		{
+			foreach (var journalItem in journalItems)
+			{
+				if (FilterRecord(journalItem) == false)
+					continue;
 
-                var journalItemViewModel = new JournalItemViewModel(journalItem);
-                if (JournalItems.Count > 0)
-                    JournalItems.Insert(0, journalItemViewModel);
-                else
-                    JournalItems.Add(journalItemViewModel);
+				var journalItemViewModel = new JournalItemViewModel(journalItem);
+				if (JournalItems.Count > 0)
+					JournalItems.Insert(0, journalItemViewModel);
+				else
+					JournalItems.Add(journalItemViewModel);
 
-                if (JournalItems.Count > JournalFilter.LastRecordsCount)
-                    JournalItems.RemoveAt(JournalFilter.LastRecordsCount);
-            }
+				if (JournalItems.Count > JournalFilter.LastRecordsCount)
+					JournalItems.RemoveAt(JournalFilter.LastRecordsCount);
+			}
 
-            if (SelectedJournal == null)
-                SelectedJournal = JournalItems.FirstOrDefault();
-        }
+			if (SelectedJournal == null)
+				SelectedJournal = JournalItems.FirstOrDefault();
+		}
 
         bool FilterRecord(JournalItem journalItem)
         {

@@ -77,13 +77,10 @@
     <Compile Include="Database\KauChildrenHelper.cs" />
     <Compile Include="DB\ConnectionManager.cs" />
     <Compile Include="DB\GKDBHelper.cs" />
-    <Compile Include="DB\GkJournalDatabase.cs">
-      <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
-    </Compile>
     <Compile Include="DB\GkJournalDatabase.designer.cs">
-      <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
-      <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
     </Compile>
     <Compile Include="Drivers\AddressDevices\AM1_O_Helper.cs" />
     <Compile Include="Drivers\AddressDevices\AM1_T_Helper.cs" />
@@ -114,6 +111,7 @@
     <Compile Include="Drivers\GroupDevices\RM_3_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_4_Helper.cs" />
     <Compile Include="Drivers\GroupDevices\RM_5_Helper.cs" />
+    <Compile Include="Journal\InternalJournalItem.cs" />
     <Compile Include="Journal\JournalItem.cs" />
     <Compile Include="Journal\JournalItemType.cs" />
     <Compile Include="Journal\JournalSourceType.cs" />
@@ -168,6 +166,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="DB\GkJournalDatabase.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
       <LastGenOutput>GkJournalDatabase.designer.cs</LastGenOutput>
@@ -178,9 +179,6 @@
     <None Include="DB\GkJournalDatabase.dbml.layout">
       <DependentUpon>GkJournalDatabase.dbml</DependentUpon>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

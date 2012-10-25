@@ -51,38 +51,9 @@ namespace GKModule.ViewModels
 			InitializeInputOutputObjects();
 		}
 
-        //List<XDevice> _inputDevices;
         public List<DeviceViewModel> InputDevices { get; private set; }
-        //{
-        //    get { return _inputDevices; }
-        //    set
-        //    {
-        //        _inputDevices = value;
-        //        OnPropertyChanged("InputDevices");
-        //    }
-        //}
-
-        //List<XZone> _inputZones;
         public List<ZoneViewModel> InputZones{get;private set;}
-        //{
-        //    get { return _inputZones; }
-        //    set
-        //    {
-        //        _inputZones = value;
-        //        OnPropertyChanged("InputZones");
-        //    }
-        //}
-
-        //List<XDevice> _outputDevices;
         public List<DeviceViewModel> OutputDevices{get;private set;}
-        //{
-        //    get { return _outputDevices; }
-        //    set
-        //    {
-        //        _outputDevices = value;
-        //        OnPropertyChanged("OutputDevices");
-        //    }
-        //}
 
 		void InitializeInputOutputObjects()
 		{

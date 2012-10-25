@@ -9,6 +9,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows.ViewModels;
 using PlansModule.Events;
+using XFiresecAPI;
 
 namespace PlansModule.ViewModels
 {
@@ -133,6 +134,20 @@ namespace PlansModule.ViewModels
 				{
 					SelectedPlan = planViewModel;
 					SelectedPlanCanvasViewModel.SelectDevice(deviceUID);
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public bool ShowXDevice(XDevice device)
+		{
+			foreach (var planViewModel in Plans)
+			{
+				if (planViewModel.XDeviceStates.Any(x => x.Device == device))
+				{
+					SelectedPlan = planViewModel;
+					SelectedPlanCanvasViewModel.SelectXDevice(device);
 					return true;
 				}
 			}

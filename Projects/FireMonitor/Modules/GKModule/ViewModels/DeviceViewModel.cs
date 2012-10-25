@@ -42,7 +42,7 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowPlanCommand { get; private set; }
 		void OnShowPlan()
 		{
-			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.UID);
+			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Publish(Device);
 		}
 		public bool CanShowOnPlan()
 		{

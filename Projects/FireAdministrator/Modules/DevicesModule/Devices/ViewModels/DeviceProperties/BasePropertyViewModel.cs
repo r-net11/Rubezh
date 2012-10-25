@@ -48,7 +48,7 @@ namespace DevicesModule.DeviceProperties
 		{
             if (useSaveService)
             {
-                ServiceFactory.SaveService.DevicesChanged = true;
+                ServiceFactory.SaveService.FSChanged = true;
             }
 
 			if (Device.Properties == null)

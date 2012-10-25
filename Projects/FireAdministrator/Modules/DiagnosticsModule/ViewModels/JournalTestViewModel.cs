@@ -7,6 +7,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Common.GK.DB;
 
 namespace DiagnosticsModule.ViewModels
 {

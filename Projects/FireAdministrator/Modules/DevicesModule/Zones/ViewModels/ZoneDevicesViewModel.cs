@@ -159,7 +159,7 @@ namespace DevicesModule.ViewModels
 				SelectedAvailableDevice = null;
 			}
 
-			ServiceFactory.SaveService.DevicesChanged = true;
+			ServiceFactory.SaveService.FSChanged = true;
 		}
         public bool CanAdd()
         {
@@ -187,7 +187,7 @@ namespace DevicesModule.ViewModels
 				SelectedDevice = null;
 			}
 
-			ServiceFactory.SaveService.DevicesChanged = true;
+			ServiceFactory.SaveService.FSChanged = true;
 		}
         public bool CanRemove()
         {
@@ -200,7 +200,7 @@ namespace DevicesModule.ViewModels
 			var zoneLogicViewModel = new ZoneLogicViewModel(SelectedDevice.Device);
 			if (DialogService.ShowModalWindow(zoneLogicViewModel))
 			{
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
                 Initialize(Zone);
 			}
 		}

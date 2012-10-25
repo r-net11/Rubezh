@@ -28,7 +28,7 @@ namespace GKModule.ViewModels
 
 		protected void Save(ushort value)
 		{
-			ServiceFactory.SaveService.XDevicesChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 
 			var property = _xDevice.Properties.FirstOrDefault(x => x.Name == _xDriverProperty.Name);
 			if (property == null)
@@ -55,7 +55,7 @@ namespace GKModule.ViewModels
 			}
 			property.StringValue = value;
 
-			ServiceFactory.SaveService.XDevicesChanged = true;
+			ServiceFactory.SaveService.GKChanged = true;
 		}
 	}
 }

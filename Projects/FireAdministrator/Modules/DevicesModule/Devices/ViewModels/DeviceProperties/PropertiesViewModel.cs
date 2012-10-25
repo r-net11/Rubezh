@@ -63,7 +63,7 @@ namespace DevicesModule.DeviceProperties
 			{
 				Device.IsMonitoringDisabled = value;
 				OnPropertyChanged("IsMonitoringDisabled");
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
 

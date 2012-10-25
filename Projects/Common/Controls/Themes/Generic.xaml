@@ -36,24 +36,27 @@
 
                         <Grid>
                             <Image Source="{Binding Path=PathToIcon, RelativeSource={RelativeSource TemplatedParent}}" Width="41" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                            <Border Name="padding" Margin="{TemplateBinding Padding}" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                                <TextBlock Name="alarmcount">
-                                    <TextBlock.Style>
-                                        <Style TargetType="{x:Type TextBlock}" >
-                                            <Setter Property="Text" Value="{Binding Count}" />
-                                            <Setter Property="Foreground" Value="White" />
-                                            <Setter Property="FontFamily" Value="Arial" />
-                                            <Setter Property="Margin" Value="5" />
-                                            <Setter Property="FontWeight" Value="Bold" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Count}" Value="0">
-                                                    <Setter Property="Text" Value="" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                                <!--<ContentPresenter Name="content" TextBlock.Foreground="White" Margin="5" TextBlock.FontWeight="Bold" />-->
+                            <Border Name="padding" Margin="{TemplateBinding Padding}">
+                                <Grid>
+                                    <TextBlock Name="alarmcount" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}" >
+                                                <Setter Property="Text" Value="{Binding Count}" />
+                                                <Setter Property="Foreground" Value="White" />
+                                                <Setter Property="FontFamily" Value="Arial" />
+                                                <Setter Property="Margin" Value="5" />
+                                                <Setter Property="FontWeight" Value="Bold" />
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Count}" Value="0">
+                                                        <Setter Property="Text" Value="" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                    <ContentPresenter Name="content" TextBlock.Foreground="White" Margin="5" TextBlock.FontWeight="Bold"
+                                        HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
                             </Border>
 
                             <Control Name="Highlight">
@@ -143,19 +146,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:XButton}">
-
                     <Border Name="OuterBorder" CornerRadius="{Binding CornerRadius, ElementName=InnerBorder}"
                             BorderBrush="{TemplateBinding OuterBorderBrush}" BorderThickness="{TemplateBinding OuterBorderThickness}">
-
                         <Border Name="InnerBorder" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}"
                                 BorderBrush="{TemplateBinding InnerBorderBrush}" BorderThickness="{TemplateBinding InnerBorderThickness}">
-
                             <Grid>
-
                                 <Border Name="padding" Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center">
                                     <ContentPresenter Name="content" />
                                 </Border>
-
                                 <Control Name="Highlight">
                                     <Control.Template>
                                         <ControlTemplate TargetType="Control">

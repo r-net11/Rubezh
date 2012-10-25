@@ -18,7 +18,6 @@ namespace FiresecService.Service
     public partial class FiresecService : IFiresecService
     {
         public readonly static FiresecDbConverterDataContext DataBaseContext = ConnectionManager.CreateFiresecDataContext();
-        public IFiresecCallback Callback { get; private set; }
         public Guid UID { get; private set; }
         public ClientCredentials ClientCredentials { get; private set; }
         public string ClientIpAddress { get; private set; }
@@ -53,8 +52,6 @@ namespace FiresecService.Service
             var operationResult = Authenticate(clientCredentials.UserName, clientCredentials.Password);
             if (operationResult.HasError)
                 return operationResult;
-
-            Callback = OperationContext.Current.GetCallbackChannel<IFiresecCallback>();
 
             if (ClientsCash.IsNew(this))
             {

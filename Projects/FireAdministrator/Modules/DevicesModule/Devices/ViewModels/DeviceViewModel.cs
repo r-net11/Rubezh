@@ -71,7 +71,7 @@ namespace DevicesModule.ViewModels
                         deviceViewModel.OnPropertyChanged("Address");
                     }
                 }
-                ServiceFactory.SaveService.DevicesChanged = true;
+                ServiceFactory.SaveService.FSChanged = true;
                 OnPropertyChanged("Address");
             }
         }
@@ -94,7 +94,7 @@ namespace DevicesModule.ViewModels
 				Device.Description = value;
 				Device.OnChanged();
 				OnPropertyChanged("Description");
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
 
@@ -140,7 +140,7 @@ namespace DevicesModule.ViewModels
                     var zoneSelectationViewModel = new ZoneSelectationViewModel(Device);
                     if (DialogService.ShowModalWindow(zoneSelectationViewModel))
                     {
-                        ServiceFactory.SaveService.DevicesChanged = true;
+                        ServiceFactory.SaveService.FSChanged = true;
                     }
                 }
             }
@@ -155,7 +155,7 @@ namespace DevicesModule.ViewModels
             if (Driver.DriverType == DriverType.PDUDirection)
             {
                 if (DialogService.ShowModalWindow(new PDUDetailsViewModel(Device)))
-                    ServiceFactory.SaveService.DevicesChanged = true;
+                    ServiceFactory.SaveService.FSChanged = true;
             }
             OnPropertyChanged("PresentationZone");
         }
@@ -166,7 +166,7 @@ namespace DevicesModule.ViewModels
             var zoneLogicViewModel = new ZoneLogicViewModel(Device);
             if (DialogService.ShowModalWindow(zoneLogicViewModel))
             {
-                ServiceFactory.SaveService.DevicesChanged = true;
+                ServiceFactory.SaveService.FSChanged = true;
             }
             OnPropertyChanged("PresentationZone");
         }
@@ -194,7 +194,7 @@ namespace DevicesModule.ViewModels
 				FiresecManager.FiresecConfiguration.SetIsNotUsed(Device, !value);
 				OnPropertyChanged("IsUsed");
 				OnPropertyChanged("ShowOnPlan");
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 			}
 		}
 
@@ -211,7 +211,7 @@ namespace DevicesModule.ViewModels
 		{
 			var indicatorDetailsViewModel = new IndicatorDetailsViewModel(Device);
 			if (DialogService.ShowModalWindow(indicatorDetailsViewModel))
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 			OnPropertyChanged("PresentationZone");
 		}
 
@@ -222,7 +222,7 @@ namespace DevicesModule.ViewModels
 			if (DialogService.ShowModalWindow(newDeviceViewModel))
 			{
                 //DevicesViewModel.Current.Select(newDeviceViewModel.CreatedDeviceViewModel.Device.UID);
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
 			}
 		}
@@ -260,7 +260,7 @@ namespace DevicesModule.ViewModels
 				parent.Children.Remove(this);
 				parent.Update();
 
-				ServiceFactory.SaveService.DevicesChanged = true;
+				ServiceFactory.SaveService.FSChanged = true;
 				DevicesViewModel.UpdateGuardVisibility();
 
 				index = Math.Min(index, parent.Children.Count - 1);
@@ -284,7 +284,7 @@ namespace DevicesModule.ViewModels
 				case DriverType.Valve:
 					if (DialogService.ShowModalWindow(new ValveDetailsViewModel(Device)))
 					{
-						ServiceFactory.SaveService.DevicesChanged = true;
+						ServiceFactory.SaveService.FSChanged = true;
 						OnPropertyChanged("HasExternalDevices");
 					}
 					break;
@@ -294,22 +294,22 @@ namespace DevicesModule.ViewModels
 				case DriverType.Compressor:
 				case DriverType.CompensationPump:
 					if (DialogService.ShowModalWindow(new PumpDetailsViewModel(Device)))
-						ServiceFactory.SaveService.DevicesChanged = true;
+						ServiceFactory.SaveService.FSChanged = true;
 					break;
 
 				case DriverType.PDUDirection:
 					if (DialogService.ShowModalWindow(new PDUDetailsViewModel(Device)))
-						ServiceFactory.SaveService.DevicesChanged = true;
+						ServiceFactory.SaveService.FSChanged = true;
 					break;
 
 				case DriverType.UOO_TL:
 					if (DialogService.ShowModalWindow(new UOOTLDetailsViewModel(Device)))
-						ServiceFactory.SaveService.DevicesChanged = true;
+						ServiceFactory.SaveService.FSChanged = true;
 					break;
 
 				case DriverType.MPT:
 					if (DialogService.ShowModalWindow(new MptDetailsViewModel(Device)))
-						ServiceFactory.SaveService.DevicesChanged = true;
+						ServiceFactory.SaveService.FSChanged = true;
 					break;
 			}
 			OnPropertyChanged("PresentationZone");
@@ -359,7 +359,7 @@ namespace DevicesModule.ViewModels
 					PropertiesViewModel = new PropertiesViewModel(Device);
 					OnPropertyChanged("PropertiesViewModel");
 					Update();
-					ServiceFactory.SaveService.DevicesChanged = true;
+					ServiceFactory.SaveService.FSChanged = true;
 				}
 			}
 		}

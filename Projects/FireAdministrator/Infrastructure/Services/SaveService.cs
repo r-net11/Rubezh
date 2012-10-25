@@ -4,68 +4,24 @@ namespace Infrastructure
 {
 	public class SaveService
 	{
-		bool _soundsChanged;
-		public bool SoundsChanged
+		bool _fsChanged;
+		public bool FSChanged
 		{
-			get { return _soundsChanged; }
+			get { return _fsChanged; }
 			set
 			{
-				_soundsChanged = value;
+				_fsChanged = value;
 				OnChanged();
 			}
 		}
 
-		bool _devicesChanged;
-		public bool DevicesChanged
+		bool _gkChanged;
+		public bool GKChanged
 		{
-			get { return _devicesChanged; }
+			get { return _gkChanged; }
 			set
 			{
-				_devicesChanged = value;
-				OnChanged();
-			}
-		}
-
-		bool _filterChanged;
-		public bool FilterChanged
-		{
-			get { return _filterChanged; }
-			set
-			{
-				_filterChanged = value;
-				OnChanged();
-			}
-		}
-
-		bool _libraryChanged;
-		public bool LibraryChanged
-		{
-			get { return _libraryChanged; }
-			set
-			{
-				_libraryChanged = value;
-				OnChanged();
-			}
-		}
-
-		bool _instructionsChanged;
-		public bool InstructionsChanged
-		{
-			get { return _instructionsChanged; }
-			set
-			{
-				_instructionsChanged = value;
-				OnChanged();
-			}
-		}
-
-		bool _securityChanged;
-		public bool SecurityChanged
-		{
-			get { return _securityChanged; }
-			set
-			{
-				_securityChanged = value;
+				_gkChanged = value;
 				OnChanged();
 			}
 		}
@@ -81,13 +37,57 @@ namespace Infrastructure
 			}
 		}
 
-		bool _xDevicesChanged;
-		public bool XDevicesChanged
+		bool _libraryChanged;
+		public bool LibraryChanged
 		{
-			get { return _xDevicesChanged; }
+			get { return _libraryChanged; }
 			set
 			{
-				_xDevicesChanged = value;
+				_libraryChanged = value;
+				OnChanged();
+			}
+		}
+
+		bool _filterChanged;
+		public bool FilterChanged
+		{
+			get { return _filterChanged; }
+			set
+			{
+				_filterChanged = value;
+				OnChanged();
+			}
+		}
+
+		bool _securityChanged;
+		public bool SecurityChanged
+		{
+			get { return _securityChanged; }
+			set
+			{
+				_securityChanged = value;
+				OnChanged();
+			}
+		}
+
+		bool _soundsChanged;
+		public bool SoundsChanged
+		{
+			get { return _soundsChanged; }
+			set
+			{
+				_soundsChanged = value;
+				OnChanged();
+			}
+		}
+
+		bool _instructionsChanged;
+		public bool InstructionsChanged
+		{
+			get { return _instructionsChanged; }
+			set
+			{
+				_instructionsChanged = value;
 				OnChanged();
 			}
 		}
@@ -125,20 +125,20 @@ namespace Infrastructure
         {
             get
             {
-                return DevicesChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XDevicesChanged || CamerasChanged || OPCChanged;
+                return FSChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || GKChanged || CamerasChanged || OPCChanged;
             }
         }
 
 		public void Reset()
 		{
-			DevicesChanged = false;
+			FSChanged = false;
+			GKChanged = false;
 			PlansChanged = false;
+			LibraryChanged = false;
 			FilterChanged = false;
 			SecurityChanged = false;
 			SoundsChanged = false;
 			InstructionsChanged = false;
-			LibraryChanged = false;
-			XDevicesChanged = false;
 			CamerasChanged = false;
             OPCChanged = false;
             OnChanged();
