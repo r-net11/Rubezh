@@ -18,6 +18,7 @@ namespace FiresecService.Configuration
         readonly static string SecurityConfigurationFileName = "SecurityConfiguration.xml";
         readonly static string DriversConfigurationFileName = "DriversConfiguration.xml";
         readonly static string XDeviceConfigurationFileName = "XDeviceConfiguration.xml";
+        readonly static string XDeviceLibraryConfigurationFileName = "XDeviceLibraryConfiguration.xml";
 
         public static string ConfigurationDirectory(string FileNameOrDirectory)
         {
@@ -56,12 +57,12 @@ namespace FiresecService.Configuration
             Set<SystemConfiguration>(systemConfiguration, SystemConfigurationFileName);
         }
 
-        public static DeviceLibraryConfiguration GetLibraryConfiguration()
+        public static DeviceLibraryConfiguration GetDeviceLibraryConfiguration()
         {
             return Get<DeviceLibraryConfiguration>(DeviceLibraryConfigurationFileName);
         }
 
-        public static void SetLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration)
+        public static void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration)
         {
             Set<DeviceLibraryConfiguration>(deviceLibraryConfiguration, DeviceLibraryConfigurationFileName);
         }
@@ -94,6 +95,16 @@ namespace FiresecService.Configuration
         public static void SetDriversConfiguration(DriversConfiguration driversConfiguration)
         {
             Set<DriversConfiguration>(driversConfiguration, DriversConfigurationFileName);
+        }
+
+        public static XDeviceLibraryConfiguration GetXDeviceLibraryConfiguration()
+        {
+            return Get<XDeviceLibraryConfiguration>(XDeviceLibraryConfigurationFileName);
+        }
+
+        public static void SetXDeviceLibraryConfiguration(XDeviceLibraryConfiguration xDeviceLibraryConfiguration)
+        {
+            Set<XDeviceLibraryConfiguration>(xDeviceLibraryConfiguration, XDeviceLibraryConfigurationFileName);
         }
 
         public static XDeviceConfiguration GetXDeviceConfiguration()

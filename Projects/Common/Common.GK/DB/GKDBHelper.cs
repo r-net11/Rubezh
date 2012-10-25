@@ -41,7 +41,7 @@ namespace Common.GK
                 using (var dataContext = ConnectionManager.CreateGKDataContext())
                 {
 					var query =
-					"SELECT * FROM Journal WHERE " +
+                    "SELECT * FROM Journal WHERE " +
 					"\n DateTime > '" + archiveFilter.StartDate.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
 					"\n AND DateTime < '" + archiveFilter.EndDate.ToString("yyyy-MM-dd HH:mm:ss") + "'";
 
@@ -60,6 +60,29 @@ namespace Common.GK
                 Logger.Error(e, "GKDBHelper.Select");
             }
 			return journalItems;
+        }
+
+        public static int GetLastGKID(string gkIPAddress)
+        {
+            try
+            {
+                using (var dataContext = ConnectionManager.CreateGKDataContext())
+                {
+                    var query =
+                    "SELECT MAX(GKJournalRecordNo) FROM Journal WHERE GKIpAddress = " + gkIPAddress;
+
+                    var result = dataContext.ExecuteQuery<int?>(query);
+                    var firstResult = result.FirstOrDefault();
+                    if (firstResult != null)
+                        return firstResult.Value;
+                    return 0;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "GKDBHelper.GetLastGKID");
+                return 0;
+            }
         }
     }
 }

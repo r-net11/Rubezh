@@ -11,6 +11,8 @@
       <Column Name="ObjectState" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="ItemType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
       <Column Name="JournalItemType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
+      <Column Name="GKIpAddress" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="GKJournalRecordNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
     </Type>
   </Table>
 </Database>

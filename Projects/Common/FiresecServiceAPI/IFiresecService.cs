@@ -50,9 +50,6 @@ namespace FiresecAPI
         DeviceLibraryConfiguration GetDeviceLibraryConfiguration();
 
         [OperationContract]
-        DeviceLibraryConfiguration GetXDeviceLibraryConfiguration();
-
-        [OperationContract]
         void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration);
 
         [OperationContract]
@@ -118,6 +115,12 @@ namespace FiresecAPI
 
         [OperationContract]
         XDeviceConfiguration GetXDeviceConfiguration();
+
+        [OperationContract]
+        void SetXDeviceLibraryConfiguration(XDeviceLibraryConfiguration xDeviceLibraryConfiguration);
+
+        [OperationContract]
+        XDeviceLibraryConfiguration GetXDeviceLibraryConfiguration();
         #endregion
 
 		#region Poll

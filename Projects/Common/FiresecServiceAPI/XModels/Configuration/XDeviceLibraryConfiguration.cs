@@ -8,14 +8,14 @@ using FiresecAPI;
 namespace XFiresecAPI
 {
     [DataContract]
-    public class XDeviceLibraryConfiguration: VersionedConfiguration
-	{
-		public XDeviceLibraryConfiguration()
-		{
-			XDevices = new List<LibraryXDevice>();
-		}
+    public class XDeviceLibraryConfiguration : VersionedConfiguration
+    {
+        public XDeviceLibraryConfiguration()
+        {
+            XDevices = new List<LibraryXDevice>();
+        }
 
-		[DataMember]
-		public List<LibraryXDevice> XDevices { get; set; }
-	}
+        [DataMember]
+        public List<LibraryXDevice> XDevices { get; set; }
+    }
 }
