@@ -39,9 +39,10 @@ namespace FireAdministrator
 					{
                         MessageBoxService.ShowWarning(loadingError, "Ошибки при загрузке драйвера FireSec");
 					}
+
 					LoadingService.DoStep("Загрузка конфигурации ГК");
 					InitializeGk();
-
+					
                     LoadingService.DoStep("Старт полинга сервера");
                     FiresecManager.StartPoll(true);
 

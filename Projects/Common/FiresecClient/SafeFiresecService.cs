@@ -52,22 +52,24 @@ namespace FiresecClient
 
         T SafeOperationCall<T>(Func<T> func, string methodName, bool reconnectOnException = true)
         {
-            try
-            {
-                var t = func();
-                OnConnectionAppeared();
-                return t;
-            }
-            catch (Exception e)
-            {
-                LogException(e, methodName);
-                OnConnectionLost();
-                if (reconnectOnException)
-                {
-                    if (Recover())
-                        return SafeOperationCall(func, methodName);
-                }
-            }
+			try
+			{
+				var t = func();
+				OnConnectionAppeared();
+				return t;
+			}
+			catch (ActionNotSupportedException)
+			{ }
+			catch (Exception e)
+			{
+				LogException(e, methodName);
+				OnConnectionLost();
+				if (reconnectOnException)
+				{
+					if (Recover())
+						return SafeOperationCall(func, methodName);
+				}
+			}
             return default(T);
         }
 
