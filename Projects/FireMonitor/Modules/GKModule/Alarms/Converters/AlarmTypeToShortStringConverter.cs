@@ -33,7 +33,7 @@ namespace GKModule.Converters
                     return "И";
 
 				case XAlarmType.Service:
-                    return "С";
+                    return "ТО";
 
 				case XAlarmType.AutoOff:
                     return "АО";

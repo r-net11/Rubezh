@@ -16,10 +16,13 @@ namespace GKModule
 	{
 		GkDatabase GkDatabase;
 		int LastId;
+		int LastDBNo;
 
 		public JournalWatcher(GkDatabase gkDatabase)
 		{
 			GkDatabase = gkDatabase;
+			var gkIpAddress = XManager.GetIpAddress(gkDatabase.RootDevice);
+			LastDBNo = GKDBHelper.GetLastGKID(gkIpAddress);
 		}
 
 		public void Start()
@@ -66,7 +69,8 @@ namespace GKModule
 			if (sendResult.Bytes.Count == 64)
 			{
                 var internalJournalItem = new InternalJournalItem(GkDatabase.RootDevice, sendResult.Bytes);
-                return internalJournalItem.ToJournalItem();
+				var journalItem = internalJournalItem.ToJournalItem();
+				return journalItem;
 			}
 			return null;
 		}
@@ -95,7 +99,11 @@ namespace GKModule
 			{
 				foreach (var journalItem in journalItems)
 				{
-					GKDBHelper.Add(journalItem);
+					if (journalItem.GKJournalRecordNo > LastDBNo)
+					{
+						GKDBHelper.Add(journalItem);
+						LastDBNo = journalItem.GKJournalRecordNo.Value;
+					}
 				}
 				ApplicationService.Invoke(() => { ServiceFactory.Events.GetEvent<NewXJournalEvent>().Publish(journalItems); });
 			}
@@ -118,7 +126,10 @@ namespace GKModule
 
 			foreach (var childDevice in XManager.GetAllDeviceChildren(gkDevice))
 			{
-				childDevice.DeviceState.IsConnectionLost = !isConnected;
+				if (childDevice != null)
+				{
+					childDevice.DeviceState.IsConnectionLost = !isConnected;
+				}
 			}
 			foreach (var zoneState in XManager.GetAllGKZoneStates(gkDevice.DeviceState))
 			{

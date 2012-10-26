@@ -3,15 +3,12 @@
 namespace XFiresecAPI
 {
 	[DataContract]
-	public class XDriverState
+	public class XAUParameter
 	{
 		[DataMember]
-		public string Code { get; set; }
+		public byte No { get; set; }
 
 		[DataMember]
 		public string Name { get; set; }
-
-		[DataMember]
-		public XStateType XStateType { get; set; }
 	}
 }

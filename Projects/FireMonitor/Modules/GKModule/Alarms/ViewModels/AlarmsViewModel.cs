@@ -14,6 +14,9 @@ namespace GKModule.ViewModels
 {
 	public class AlarmsViewModel : ViewPartViewModel
 	{
+		List<Alarm> alarms;
+		XAlarmType? sortingAlarmType;
+
 		public AlarmsViewModel()
 		{
 			Alarms = new ObservableCollection<AlarmViewModel>();
@@ -38,7 +41,7 @@ namespace GKModule.ViewModels
 
 		void OnGKObjectsStateChanged(object obj)
 		{
-			var alarms = new List<Alarm>();
+			alarms = new List<Alarm>();
 			foreach (var device in XManager.DeviceConfiguration.Devices)
 			{
 				if (!device.Driver.IsDeviceOnShleif || device.Driver.IsGroupDevice)
@@ -125,6 +128,18 @@ namespace GKModule.ViewModels
 				}
 			}
 
+			UpdateAlarms();
+			AlarmGroupsViewModel.Current.Update(alarms);
+		}
+
+		public void Sort(XAlarmType? alarmType)
+		{
+			sortingAlarmType = alarmType;
+			UpdateAlarms();
+		}
+
+		void UpdateAlarms()
+		{
 			Alarm oldAlarm = null;
 			if (SelectedAlarm != null)
 			{
@@ -133,20 +148,16 @@ namespace GKModule.ViewModels
 			Alarms.Clear();
 			foreach (var alarm in alarms)
 			{
-				var alarmViewModel = new AlarmViewModel(alarm);
-				Alarms.Add(alarmViewModel);
+				if (!sortingAlarmType.HasValue || sortingAlarmType.Value == alarm.AlarmType)
+				{
+					var alarmViewModel = new AlarmViewModel(alarm);
+					Alarms.Add(alarmViewModel);
+				}
 			}
 			if (oldAlarm != null)
 			{
 				SelectedAlarm = Alarms.FirstOrDefault(x => x.Alarm.IsEqualTo(oldAlarm));
 			}
-
-			AlarmGroupsViewModel.Current.Update(alarms);
-		}
-
-		public void Sort(XAlarmType? alarmType)
-		{
-
 		}
 
 		public RelayCommand TurnOnAllCommand { get; private set; }

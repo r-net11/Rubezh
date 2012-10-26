@@ -56,10 +56,13 @@ namespace GKModule
 				}
 				//if (hasChangedProperties)
 				{
-					var deviceViewModel = DevicesViewModel.Current.Devices.FirstOrDefault(x => x.Device.UID == binaryObject.Device.UID);
-					if (deviceViewModel != null)
+					if (binaryObject.Device != null)
 					{
-						deviceViewModel.UpdateProperties();
+						var deviceViewModel = DevicesViewModel.Current.Devices.FirstOrDefault(x => x.Device.UID == binaryObject.Device.UID);
+						if (deviceViewModel != null)
+						{
+							deviceViewModel.UpdateProperties();
+						}
 					}
 				}
 			}

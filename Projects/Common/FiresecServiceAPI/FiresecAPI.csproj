@@ -239,6 +239,7 @@
     <Compile Include="XModels\Device\XProperty.cs" />
     <Compile Include="XModels\Directions\XDirectionDevice.cs" />
     <Compile Include="XModels\Directions\XDirectionZone.cs" />
+    <Compile Include="XModels\Driver\XAUParameter.cs" />
     <Compile Include="XModels\Driver\XDriver.cs" />
     <Compile Include="XModels\Driver\XDriverDeviceParameter.cs" />
     <Compile Include="XModels\Driver\XDriverDeviceParameterType.cs" />

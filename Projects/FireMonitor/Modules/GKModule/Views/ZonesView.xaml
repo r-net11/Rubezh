@@ -41,8 +41,8 @@
                                         <Trigger Property="IsSelected" Value="True">
                                             <Trigger.Setters>
                                                 <Setter Property="BorderBrush" Value="Orange" />
-                                                <Setter Property="Foreground" Value="White" />
                                                 <Setter Property="TextBlock.FontSize" Value="14" />
+                                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
                                             </Trigger.Setters>
                                         </Trigger>
                                     </Style.Triggers>

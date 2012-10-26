@@ -24,15 +24,17 @@ namespace GKModule.ViewModels
 		public JournalItemViewModel(JournalItem journalItem)
 		{
 			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			JournalItem = journalItem;
-			switch(JournalItem.JournalItemType)
+			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
 					var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
 					if (device != null)
 					{
 						DeviceState = device.DeviceState;
-					PresentationName = device.Driver.ShortName + " " + device.DottedAddress;
+						StateType = DeviceState.StateType;
+						PresentationName = device.Driver.ShortName + " " + device.DottedAddress;
 					}
 					break;
 
@@ -41,6 +43,7 @@ namespace GKModule.ViewModels
 					if (zone != null)
 					{
 						ZoneState = zone.ZoneState;
+						StateType = ZoneState.StateType;
 						PresentationName = zone.PresentationName;
 					}
 					break;
@@ -50,6 +53,7 @@ namespace GKModule.ViewModels
 					if (direction != null)
 					{
 						DirectionState = direction.DirectionState;
+						StateType = DirectionState.StateType;
 						PresentationName = DirectionState.Direction.PresentationName;
 					}
 					break;
@@ -75,6 +79,8 @@ namespace GKModule.ViewModels
 			}
 			StringStates = stringBuilder.ToString();
 		}
+
+		public StateType StateType { get; private set; }
 
 		public RelayCommand ShowObjectCommand { get; private set; }
 		void OnShowObject()
@@ -107,6 +113,21 @@ namespace GKModule.ViewModels
 				case JournalItemType.Direction:
 				case JournalItemType.GK:
 					return true;
+			}
+			return false;
+		}
+
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
+		{
+		}
+		bool CanShowOnPlan()
+		{
+			switch (JournalItem.JournalItemType)
+			{
+				case JournalItemType.Device:
+				case JournalItemType.Zone:
+					return false;
 			}
 			return false;
 		}

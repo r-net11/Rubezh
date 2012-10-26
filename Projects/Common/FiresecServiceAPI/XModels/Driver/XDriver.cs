@@ -13,6 +13,7 @@ namespace XFiresecAPI
 		{
 			Children = new List<XDriverType>();
 			Properties = new List<XDriverProperty>();
+			AUParameters = new List<XAUParameter>();
 			AutoCreateChildren = new List<XDriverType>();
 			AvailableStates = new List<XStateType>();
 			CanEditAddress = true;
@@ -39,6 +40,8 @@ namespace XFiresecAPI
 		public List<XDriverProperty> Properties { get; set; }
 		[DataMember]
 		public List<XStateType> AvailableStates { get; set; }
+		[DataMember]
+		public List<XAUParameter> AUParameters { get; set; }
 
 		[DataMember]
 		public List<XDriverType> Children { get; set; }

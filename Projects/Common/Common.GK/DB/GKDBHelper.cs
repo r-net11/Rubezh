@@ -16,6 +16,8 @@ namespace Common.GK
                 using (var dataContext = ConnectionManager.CreateGKDataContext())
                 {
                     var journal = new Journal();
+					journal.GKIpAddress = journalItem.GKIpAddress;
+					journal.GKJournalRecordNo = journalItem.GKJournalRecordNo;
 					journal.JournalItemType = (byte)journalItem.JournalItemType;
                     journal.DateTime = journalItem.DateTime;
 					journal.Name = journalItem.Name;
@@ -69,7 +71,7 @@ namespace Common.GK
                 using (var dataContext = ConnectionManager.CreateGKDataContext())
                 {
                     var query =
-                    "SELECT MAX(GKJournalRecordNo) FROM Journal WHERE GKIpAddress = " + gkIPAddress;
+                    "SELECT MAX(GKJournalRecordNo) FROM Journal WHERE GKIpAddress = '" + gkIPAddress + "'";
 
                     var result = dataContext.ExecuteQuery<int?>(query);
                     var firstResult = result.FirstOrDefault();

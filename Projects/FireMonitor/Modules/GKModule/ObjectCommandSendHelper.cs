@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using XFiresecAPI;
+﻿using System.Collections.Generic;
 using Common.GK;
+using XFiresecAPI;
 
 namespace GKModule
 {
