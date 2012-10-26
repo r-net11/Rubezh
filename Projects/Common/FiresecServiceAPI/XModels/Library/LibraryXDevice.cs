@@ -6,6 +6,7 @@ using System.Text;
 
 namespace XFiresecAPI
 {
+    [DataContract]
     public class LibraryXDevice
     {
         public LibraryXDevice()

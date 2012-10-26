@@ -27,28 +27,12 @@ namespace GKModule.ViewModels
         public LibraryXState XState { get; private set; }
         public XDriver XDriver { get; private set; }
 
-        public bool IsAdditional
-        {
-            get { return XState.Code != null; }
-        }
-
         public string ClassName
         {
             get { return XState.XStateType.ToDescription(); }
         }
 
-        public string AdditionalName
-        {
-            get
-            {
-                var driverState = XDriver.XStates.FirstOrDefault(x => x.Code != null && x.Code == XState.Code);
-                if (driverState != null)
-                {
-                    return IsAdditional ? driverState.Name : null;
-                }
-                return null;
-            }
-        }
+        public string AdditionalName { get; set; }
 
         public bool IsLayerEditingVisible
         {
@@ -63,7 +47,7 @@ namespace GKModule.ViewModels
                 if (value != XState.Layer)
                 {
                     XState.Layer = value;
-                    ServiceFactory.SaveService.LibraryChanged = true;
+                    ServiceFactory.SaveService.XLibraryChanged = true;
                 }
             }
         }
@@ -91,7 +75,7 @@ namespace GKModule.ViewModels
             XState.XFrames.Add(libraryXFrame);
             XFrames.Add(new XFrameViewModel(libraryXFrame));
             SelectedXFrame = XFrames.LastOrDefault();
-            ServiceFactory.SaveService.LibraryChanged = true;
+            ServiceFactory.SaveService.XLibraryChanged = true;
         }
 
         public RelayCommand RemoveXFrameCommand { get; private set; }
@@ -100,7 +84,7 @@ namespace GKModule.ViewModels
             XState.XFrames.Remove(SelectedXFrame.XFrame);
             XFrames.Remove(SelectedXFrame);
             SelectedXFrame = XFrames.FirstOrDefault();
-            ServiceFactory.SaveService.LibraryChanged = true;
+            ServiceFactory.SaveService.XLibraryChanged = true;
         }
         bool CanRemoveXFrame()
         {

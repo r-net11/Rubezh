@@ -27,15 +27,14 @@ namespace GKModule.ViewModels
                 }
             }
 
-            var xdriverStates = from XDriverState xdriverState in libraryXDevice.XDriver.XStates orderby xdriverState.XStateType select xdriverState;
-            foreach (var xdriverState in xdriverStates)
+            var availableStates = from XStateType xdriverState in libraryXDevice.XDriver.AvailableStates orderby xdriverState select xdriverState;
+            foreach (var availableState in availableStates)
             {
-                if (xdriverState.Name != null && !libraryXDevice.XStates.Any(x => x.Code == xdriverState.Code))
+                if (availableState != null && !libraryXDevice.XStates.Any(x => x.XStateType == availableState))
                 {
                     var libraryXState = new LibraryXState()
                     {
-                        XStateType = xdriverState.XStateType,
-                        Code = xdriverState.Code
+                        XStateType = availableState,
                     };
                     libraryXStates.Add(libraryXState);
                 }

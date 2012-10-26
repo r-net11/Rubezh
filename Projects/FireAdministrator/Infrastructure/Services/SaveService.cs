@@ -26,6 +26,17 @@ namespace Infrastructure
 			}
 		}
 
+        bool _xLibraryChanged;
+        public bool XLibraryChanged
+        {
+            get { return _xLibraryChanged; }
+            set
+            {
+                _xLibraryChanged = value;
+                OnChanged();
+            }
+        }
+
 		bool _plansChanged;
 		public bool PlansChanged
 		{
@@ -125,7 +136,7 @@ namespace Infrastructure
         {
             get
             {
-                return FSChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || GKChanged || CamerasChanged || OPCChanged;
+                return FSChanged || PlansChanged || FilterChanged || SecurityChanged || SoundsChanged || InstructionsChanged || LibraryChanged || XLibraryChanged || GKChanged || CamerasChanged || OPCChanged;
             }
         }
 
@@ -135,6 +146,7 @@ namespace Infrastructure
 			GKChanged = false;
 			PlansChanged = false;
 			LibraryChanged = false;
+		    XLibraryChanged = false;
 			FilterChanged = false;
 			SecurityChanged = false;
 			SoundsChanged = false;

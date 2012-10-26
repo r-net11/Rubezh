@@ -94,6 +94,8 @@ namespace DiagnosticsModule.ViewModels
 				FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
 				FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
 				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+                Trace.WriteLine("WriteAllDeviceConfigurationHelper Count=" + counter.ToString());
+                counter++;
 			}
 		}
 

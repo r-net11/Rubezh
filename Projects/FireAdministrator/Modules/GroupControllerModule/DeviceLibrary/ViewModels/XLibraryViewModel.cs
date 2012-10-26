@@ -24,26 +24,26 @@ namespace GKModule.ViewModels
             AddXStateCommand = new RelayCommand(OnAddXState, CanAddXState);
             RemoveXStateCommand = new RelayCommand(OnRemoveXState, CanRemoveState);
 
-            //foreach (var libraryXDevice in FiresecManager.XDeviceLibraryConfiguration.XDevices)
-            //{
-            //    var driver = FiresecClient.FiresecManager.XDrivers.First(x => x.UID == libraryXDevice.XDriverId);
-            //    if (driver != null)
-            //    {
-            //        libraryXDevice.XDriver = driver;
-            //    }
-            //    else
-            //    {
-            //        Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryXDevice.XDriverId.ToString());
-            //    }
-            //}
-            //var xdevices = from LibraryXDevice libraryXDevice in FiresecManager.XDeviceLibraryConfiguration.XDevices orderby libraryXDevice.XDriver.DeviceClassName select libraryXDevice;
+            foreach (var libraryXDevice in FiresecManager.XDeviceLibraryConfiguration.XDevices)
+            {
+                var driver = FiresecClient.FiresecManager.XDrivers.First(x => x.UID == libraryXDevice.XDriverId);
+                if (driver != null)
+                {
+                    libraryXDevice.XDriver = driver;
+                }
+                else
+                {
+                    Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryXDevice.XDriverId.ToString());
+                }
+            }
+            var xdevices = from LibraryXDevice libraryXDevice in FiresecManager.XDeviceLibraryConfiguration.XDevices orderby libraryXDevice.XDriver.DeviceClassName select libraryXDevice;
             XDevices = new ObservableCollection<XDeviceViewModel>();
-            //foreach (var xdevice in xdevices)
-            //{
-            //    var xdeviceViewModel = new XDeviceViewModel(xdevice);
-            //    XDevices.Add(xdeviceViewModel);
-            //}
-            //SelectedXDevice = XDevices.FirstOrDefault();
+            foreach (var xdevice in xdevices)
+            {
+                var xdeviceViewModel = new XDeviceViewModel(xdevice);
+                XDevices.Add(xdeviceViewModel);
+            }
+            SelectedXDevice = XDevices.FirstOrDefault();
         }
 
         ObservableCollection<XDeviceViewModel> _xdevices;
@@ -95,13 +95,13 @@ namespace GKModule.ViewModels
         public RelayCommand AddXDeviceCommand { get; private set; }
         void OnAddXDevice()
         {
-            var addDeviceViewModel = new XDeviceDetailsViewModel();
+            var addDeviceViewModel = new  XDeviceDetailsViewModel();
             if (DialogService.ShowModalWindow(addDeviceViewModel))
             {
-                //FiresecManager.XDeviceLibraryConfiguration.XDevices.Add(addDeviceViewModel.SelectedXDevice.LibraryXDevice);
+                FiresecManager.XDeviceLibraryConfiguration.XDevices.Add(addDeviceViewModel.SelectedXDevice.LibraryXDevice);
                 XDevices.Add(addDeviceViewModel.SelectedXDevice);
                 SelectedXDevice = XDevices.LastOrDefault();
-                ServiceFactory.SaveService.LibraryChanged = true;
+                ServiceFactory.SaveService.XLibraryChanged = true;
             }
         }
 
@@ -111,7 +111,7 @@ namespace GKModule.ViewModels
             FiresecManager.XDeviceLibraryConfiguration.XDevices.Remove(SelectedXDevice.LibraryXDevice);
             XDevices.Remove(SelectedXDevice);
             SelectedXDevice = XDevices.FirstOrDefault();
-            ServiceFactory.SaveService.LibraryChanged = true;
+            ServiceFactory.SaveService.XLibraryChanged = true;
         }
         bool CanRemoveXDevice()
         {
@@ -150,7 +150,7 @@ namespace GKModule.ViewModels
                 SelectedXDevice.LibraryXDevice.XStates.Add(xstateDetailsViewModel.SelectedXState.XState);
                 XStates.Add(xstateDetailsViewModel.SelectedXState);
                 SelectedXState = XStates.LastOrDefault();
-                ServiceFactory.SaveService.LibraryChanged = true;
+                ServiceFactory.SaveService.XLibraryChanged = true;
             }
         }
         bool CanAddXState()
@@ -164,7 +164,7 @@ namespace GKModule.ViewModels
             SelectedXDevice.LibraryXDevice.XStates.Remove(SelectedXState.XState);
             XStates.Remove(SelectedXState);
             SelectedXState = XStates.FirstOrDefault();
-            ServiceFactory.SaveService.LibraryChanged = true;
+            ServiceFactory.SaveService.XLibraryChanged = true;
         }
         bool CanRemoveState()
         {

@@ -41,6 +41,7 @@ namespace FiresecClient
             {
                 SystemConfiguration = FiresecService.GetSystemConfiguration();
                 DeviceLibraryConfiguration = FiresecService.GetDeviceLibraryConfiguration();
+                XDeviceLibraryConfiguration = FiresecService.GetXDeviceLibraryConfiguration();
                 PlansConfiguration = FiresecService.GetPlansConfiguration();
                 SecurityConfiguration = FiresecService.GetSecurityConfiguration();
                 var driversConfiguration = FiresecService.GetDriversConfiguration();

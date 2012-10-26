@@ -86,6 +86,12 @@ namespace FireAdministrator
 					FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
 				}
 
+                if (ServiceFactory.SaveService.XLibraryChanged)
+                {
+                    LoadingService.DoStep("Сохранение конфигурации библиотеки устройств ГК");
+                    FiresecManager.FiresecService.SetXDeviceLibraryConfiguration(XManager.XDeviceLibraryConfiguration);
+                }
+
 				if (ServiceFactory.SaveService.FSChanged ||
 					ServiceFactory.SaveService.PlansChanged ||
 					ServiceFactory.SaveService.GKChanged)

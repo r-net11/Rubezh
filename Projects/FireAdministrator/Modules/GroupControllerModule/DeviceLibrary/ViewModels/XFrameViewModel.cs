@@ -28,7 +28,7 @@ namespace GKModule.ViewModels
                 if (value != XFrame.Duration)
                 {
                     XFrame.Duration = value;
-                    ServiceFactory.SaveService.LibraryChanged = true;
+                    ServiceFactory.SaveService.XLibraryChanged = true;
                 }
             }
         }
@@ -55,7 +55,7 @@ namespace GKModule.ViewModels
                 XFrame.Image = ImageConverters.Svg2Xaml(openFileDialog.FileName);
                 OnPropertyChanged("XamlOfImage");
 
-                ServiceFactory.SaveService.LibraryChanged = true;
+                ServiceFactory.SaveService.XLibraryChanged = true;
             }
         }
 
