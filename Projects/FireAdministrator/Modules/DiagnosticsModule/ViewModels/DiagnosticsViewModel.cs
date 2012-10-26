@@ -72,13 +72,15 @@ namespace DiagnosticsModule.ViewModels
 			DialogService.ShowModalWindow(devicesTreeViewModel);
 		}
 
+		int counter = 0;
 		public RelayCommand Test1Command { get; private set; }
 		void OnTest1()
 		{
 			while (true)
 			{
 				WriteAllDeviceConfigurationHelper.Run(false);
-				Trace.WriteLine("WriteAllDeviceConfigurationHelper Done");
+				Trace.WriteLine("WriteAllDeviceConfigurationHelper Count=" + counter.ToString());
+				counter++;
 			}
 		}
 
