@@ -14,7 +14,8 @@ namespace Common.GK
 				UID = new Guid("d8997f3b-64c4-4037-b176-de15546ce568"),
 				Name = "Пожарная адресная метка АМП",
 				ShortName = "АМП",
-				HasZone = true
+				HasZone = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);

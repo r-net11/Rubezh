@@ -57,7 +57,7 @@ namespace FireAdministrator.Views
 
         public bool CanChangeConfig
         {
-            get { return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ChangeConfigDevices)); }
+            get { return (FiresecManager.CheckPermission(PermissionType.Adm_SetNewConfig)); }
         }
 
         void OnValidate(object sender, RoutedEventArgs e)

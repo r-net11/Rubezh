@@ -30,13 +30,13 @@ namespace Controls.Converters
 					return Brushes.Gray;
 
 				case StateType.Info:
-					return Brushes.LightBlue;
+                    return Brushes.Transparent;
 
 				case StateType.Norm:
-					return Brushes.Green;
+                    return Brushes.Transparent;
 
 				default:
-					return Brushes.Black;
+					return Brushes.Transparent;
 			}
 		}
 

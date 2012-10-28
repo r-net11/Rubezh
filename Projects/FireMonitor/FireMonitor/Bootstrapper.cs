@@ -52,7 +52,7 @@ namespace FireMonitor
                         MessageBoxService.ShowWarning("HASP-ключ на сервере не обнаружен. Время работы приложения будет ограничено");
 #endif
                     LoadingService.DoStep("Проверка прав пользователя");
-                    if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Login))
+                    if (FiresecManager.CheckPermission(PermissionType.Oper_Login))
                     {
                         LoadingService.DoStep("Загрузка клиентских настроек");
                         ClientSettings.LoadSettings();
@@ -73,6 +73,7 @@ namespace FireMonitor
                         FiresecManager.Disconnect();
                     }
                     LoadingService.Close();
+                    GKDBHelper.AddMessage("Вход пользователя в систему");
                 }
                 catch (Exception ex)
                 {

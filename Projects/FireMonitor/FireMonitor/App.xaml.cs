@@ -8,6 +8,7 @@ using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
+using Common.GK;
 
 namespace FireMonitor
 {
@@ -54,6 +55,7 @@ namespace FireMonitor
 		}
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
+            GKDBHelper.AddMessage("Выход пользователя из системы");
 			foreach (var module in ApplicationService.Modules)
 				module.Dispose();
 			AlarmPlayerHelper.Dispose();

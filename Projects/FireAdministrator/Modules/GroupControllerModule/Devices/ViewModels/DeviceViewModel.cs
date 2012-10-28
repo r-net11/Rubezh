@@ -38,6 +38,7 @@ namespace GKModule.ViewModels
 			//OnPropertyChanged("Description");
             OnPropertyChanged("PresentationAddress");
 			OnPropertyChanged("PresentationZone");
+            OnPropertyChanged("EditingPresentationZone");
 		}
 
 		public void UpdateProperties()
@@ -162,6 +163,22 @@ namespace GKModule.ViewModels
         public string PresentationZone
         {
             get { return XManager.GetPresentationZone(Device); }
+        }
+
+        public string EditingPresentationZone
+        {
+            get
+            {
+                var presentationZone = XManager.GetPresentationZone(Device);
+                if (string.IsNullOrEmpty(presentationZone))
+                {
+                    if (Driver.HasZone)
+                        presentationZone = "Нажмите для выбора зон";
+                    if (Driver.HasLogic)
+                        presentationZone = "Нажмите для настройки логики";
+                }
+                return presentationZone;
+            }
         }
 
 		public bool IsOnPlan

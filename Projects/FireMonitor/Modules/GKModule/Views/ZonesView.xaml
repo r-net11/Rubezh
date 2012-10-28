@@ -37,6 +37,7 @@
                                     <Setter Property="Foreground" Value="Black" />
                                     <Setter Property="BorderBrush" Value="Transparent" />
                                     <Setter Property="TextBlock.FontSize" Value="12" />
+                                    <Setter Property="TextBlock.FontWeight" Value="Normal" />
                                     <Style.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Trigger.Setters>

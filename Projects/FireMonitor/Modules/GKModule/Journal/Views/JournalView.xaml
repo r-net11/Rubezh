@@ -19,7 +19,13 @@
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
                 <DataGridTextColumn Header="Тип Объекта" Binding="{Binding JournalItem.JournalItemType, Converter={StaticResource JournalItemTypeToStringConverter}}" />
                 <DataGridTextColumn Header="Объект" Binding="{Binding PresentationName}" />
+
+                <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceState.Device.ShortPresentationAddressAndDriver}" />
+                <DataGridTextColumn Header="Зона" Binding="{Binding ZoneState.Zone.PresentationName}" />
+                <DataGridTextColumn Header="Направление" Binding="{Binding DirectionState.Direction.PresentationName}" />
+
                 <DataGridTextColumn Header="Состояние" Binding="{Binding StringStates}" />
+                <DataGridTextColumn Header="Класс состояния" Binding="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
@@ -47,7 +53,7 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
-                        <Setter Property="Background" Value="{Binding StateType, Converter={StaticResource StateToColorConverter}}" />
+                        <Setter Property="Background" Value="{Binding StateClass, Converter={StaticResource XStateClassToColorConverter}}" />
                     </Style.Setters>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">

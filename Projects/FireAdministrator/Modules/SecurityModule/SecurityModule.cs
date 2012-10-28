@@ -4,6 +4,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SecurityModule.ViewModels;
+using FiresecClient;
+using FiresecAPI.Models;
 
 namespace SecurityModule
 {
@@ -25,6 +27,10 @@ namespace SecurityModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
+            if (!FiresecManager.CheckPermission(PermissionType.Adm_Security))
+                return null;
+
+            //return null;
 			return new List<NavigationItem>()
 			{
 				new NavigationItem("Права доступа", null, new List<NavigationItem>(){

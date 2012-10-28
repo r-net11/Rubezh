@@ -2,6 +2,8 @@
 using Common.GK;
 using Infrastructure.Common;
 using XFiresecAPI;
+using FiresecClient;
+using FiresecAPI.Models;
 
 namespace GKModule.ViewModels
 {
@@ -18,12 +20,12 @@ namespace GKModule.ViewModels
 			SetAutomaticCommand = new RelayCommand(OnSetAutomatic, CanSetAutomatic);
 			ResetAutomaticCommand = new RelayCommand(OnResetAutomatic, CanResetAutomatic);
 			TurnOnCommand = new RelayCommand(OnTurnOn, CanTurnOn);
+            TurnOffCommand = new RelayCommand(OnTurnOff, CanTurnOff);
+            TurnOnNowCommand = new RelayCommand(OnTurnOnNow, CanTurnOnNow);
+            TurnOffNowCommand = new RelayCommand(OnTurnOffNow, CanTurnOffNow);
 			CancelDelayCommand = new RelayCommand(OnCancelDelay, CanCancelDelay);
-			TurnOffCommand = new RelayCommand(OnTurnOff, CanTurnOff);
 			StopCommand = new RelayCommand(OnStop, CanStop);
 			CancelStartCommand = new RelayCommand(OnCancelStart, CanCancelStart);
-			TurnOnNowCommand = new RelayCommand(OnTurnOnNow, CanTurnOnNow);
-			TurnOffNowCommand = new RelayCommand(OnTurnOffNow, CanTurnOffNow);
 		}
 
 		public RelayCommand SetIgnoreCommand { get; private set; }
@@ -33,7 +35,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnore()
 		{
-			return !DeviceState.States.Contains(XStateType.Ignore);
+            return !DeviceState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -43,7 +45,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-			return DeviceState.States.Contains(XStateType.Ignore);
+            return DeviceState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_RemoveFromIgnoreList);
 		}
 
 		public RelayCommand SetAutomaticCommand { get; private set; }
@@ -73,7 +75,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOn()
 		{
-			return Device.Driver.IsControlDevice;
+            return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand CancelDelayCommand { get; private set; }
@@ -93,7 +95,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOff()
 		{
-			return Device.Driver.IsControlDevice;
+            return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand StopCommand { get; private set; }
@@ -123,7 +125,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOnNow()
 		{
-			return Device.Driver.IsControlDevice;
+            return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		public RelayCommand TurnOffNowCommand { get; private set; }
@@ -133,7 +135,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanTurnOffNow()
 		{
-			return Device.Driver.IsControlDevice;
+            return Device.Driver.IsControlDevice && FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
 		}
 
 		void SendControlCommand(byte code)

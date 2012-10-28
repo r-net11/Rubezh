@@ -19,6 +19,7 @@ namespace GKModule.ViewModels
 
 		public AlarmsViewModel()
 		{
+            alarms = new List<Alarm>();
 			Alarms = new ObservableCollection<AlarmViewModel>();
 			TurnOnAllCommand = new RelayCommand(OnTurnOnAll);
 			ResetAllCommand = new RelayCommand(OnResetAll);

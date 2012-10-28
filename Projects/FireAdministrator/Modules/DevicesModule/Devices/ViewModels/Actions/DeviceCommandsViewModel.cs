@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
 			AutoDetectCommand = new RelayCommand(OnAutoDetect, CanAutoDetect);
 			ReadDeviceCommand = new RelayCommand<bool>(OnReadDevice, CanReadDevice);
 			WriteDeviceCommand = new RelayCommand<bool>(OnWriteDevice, CanWriteDevice);
-			WriteAllDeviceCommand = new RelayCommand(OnWriteAllDevice);
+            WriteAllDeviceCommand = new RelayCommand(OnWriteAllDevice, CanWriteAllDevice);
 			SynchronizeDeviceCommand = new RelayCommand<bool>(OnSynchronizeDevice, CanSynchronizeDevice);
 			UpdateSoftCommand = new RelayCommand<bool>(OnUpdateSoft, CanUpdateSoft);
 			GetDescriptionCommand = new RelayCommand<bool>(OnGetDescription, CanGetDescription);
@@ -53,7 +53,7 @@ namespace DevicesModule.ViewModels
 
 		bool CanAutoDetect()
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanAutoDetect));
+			return (SelectedDevice != null && SelectedDevice.Device.Driver.CanAutoDetect);
 		}
 
 		#region ReadWriteDevice
@@ -90,10 +90,9 @@ namespace DevicesModule.ViewModels
 			if (ValidateConfiguration())
 				DeviceWriteConfigurationHelper.Run(SelectedDevice.Device, isUsb);
 		}
-
 		bool CanWriteDevice(bool isUsb)
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanWriteDatabase));
+            return (SelectedDevice != null && SelectedDevice.Device.Driver.CanWriteDatabase && FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig));
 		}
 
 		public RelayCommand WriteAllDeviceCommand { get; private set; }
@@ -104,8 +103,11 @@ namespace DevicesModule.ViewModels
 				WriteAllDeviceConfigurationHelper.Run();
 			}
 		}
+        bool CanWriteAllDevice()
+        {
+            return (FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig));
+        }
 		#endregion
-		
 
 		public RelayCommand<bool> SynchronizeDeviceCommand { get; private set; }
 		void OnSynchronizeDevice(bool isUsb)
@@ -114,11 +116,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanSynchronizeDevice(bool isUsb)
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSynchonize));
-		}
-		bool CanRebootDevice()
-		{
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReboot));
+			return (SelectedDevice != null && SelectedDevice.Device.Driver.CanSynchonize);
 		}
 
 		public RelayCommand<bool> UpdateSoftCommand { get; private set; }
@@ -128,7 +126,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanUpdateSoft(bool isUsb)
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanUpdateSoft));
+            return (SelectedDevice != null && SelectedDevice.Device.Driver.CanUpdateSoft && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		public RelayCommand<bool> GetDescriptionCommand { get; private set; }
@@ -148,7 +146,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanGetDeveceJournal(bool isUsb)
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanReadJournal));
+			return (SelectedDevice != null && SelectedDevice.Device.Driver.CanReadJournal);
 		}
 
 		public RelayCommand<bool> SetPasswordCommand { get; private set; }
@@ -158,7 +156,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanSetPassword(bool isUsb)
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.CanSetPassword));
+			return (SelectedDevice != null && SelectedDevice.Device.Driver.CanSetPassword);
 		}
 
 		public RelayCommand BindMsCommand { get; private set; }
@@ -168,7 +166,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanBindMs()
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.Device.Driver.DriverType == DriverType.MS_1 || SelectedDevice.Device.Driver.DriverType == DriverType.MS_2));
+			return (SelectedDevice != null && (SelectedDevice.Device.Driver.DriverType == DriverType.MS_1 || SelectedDevice.Device.Driver.DriverType == DriverType.MS_2));
 		}
 
 		public RelayCommand<bool> ExecuteCustomAdminFunctionsCommand { get; private set; }
@@ -373,7 +371,7 @@ namespace DevicesModule.ViewModels
 		{
 			get
 			{
-				return  ((SelectedDevice != null) && (SelectedDevice.Device.Driver.IsAlternativeUSB));
+				return  (SelectedDevice != null && SelectedDevice.Device.Driver.IsAlternativeUSB);
 			}
 		}
 

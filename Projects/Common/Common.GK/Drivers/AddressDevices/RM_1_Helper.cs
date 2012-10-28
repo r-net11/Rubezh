@@ -15,7 +15,8 @@ namespace Common.GK
 				Name = "Релейный исполнительный модуль РМ-1",
 				ShortName = "РМ-1",
 				IsControlDevice = true,
-				HasLogic = true
+				HasLogic = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

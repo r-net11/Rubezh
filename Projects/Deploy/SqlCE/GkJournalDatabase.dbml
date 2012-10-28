@@ -13,6 +13,7 @@
       <Column Name="JournalItemType" Type="System.Byte" DbType="TinyInt" CanBeNull="true" />
       <Column Name="GKIpAddress" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
       <Column Name="GKJournalRecordNo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="StateClass" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

@@ -6,6 +6,7 @@ using Infrastructure.Common;
 using Infrastructure.Common.Navigation;
 using Infrastructure.Events;
 using SkudModule.ViewModels;
+using FiresecClient;
 
 namespace SkudModule
 {
@@ -40,6 +41,9 @@ namespace SkudModule
 		}
 		public override IEnumerable<NavigationItem> CreateNavigation()
 		{
+            if (!FiresecManager.CheckPermission(PermissionType.Adm_SKUD))
+                return null;
+
 			return new List<NavigationItem>()
 			{
 				new NavigationItem("СКУД", null, new List<NavigationItem>()

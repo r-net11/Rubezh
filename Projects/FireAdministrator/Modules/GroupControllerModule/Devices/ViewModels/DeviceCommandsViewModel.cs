@@ -9,6 +9,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using FiresecClient;
+using FiresecAPI.Models;
 
 namespace GKModule.Models
 {
@@ -21,12 +23,14 @@ namespace GKModule.Models
 			ConvertFromFiresecCommand = new RelayCommand(OnConvertFromFiresec);
 			ConvertToBinCommand = new RelayCommand(OnConvertToBin);
 			ConvertToBinaryFileCommand = new RelayCommand(OnConvertToBinaryFile);
-			WriteConfigCommand = new RelayCommand(OnWriteConfig);
+            WriteConfigCommand = new RelayCommand(OnWriteConfig, CanWriteConfig);
 
 			SynchroniseTimeCommand = new RelayCommand(OnSynchroniseTime, CanSynchroniseTime);
 			ReadJournalCommand = new RelayCommand(OnReadJournal, CanReadJournal);
-			GetParametersCommand = new RelayCommand(OnGetParameters);
-			WriteParametersCommand = new RelayCommand(OnWriteParameters);
+			GetAllParametersCommand = new RelayCommand(OnGetAllParameters);
+			SetAllParametersCommand = new RelayCommand(OnSetAllParameters);
+            GetSingleParametersCommand = new RelayCommand(GetSingleParameters, CanGetSetSingleParameter);
+            SetSingleParametersCommand = new RelayCommand(OnSetSingleParameters, CanGetSetSingleParameter);
 			UpdateFirmwhareCommand = new RelayCommand(OnUpdateFirmwhare, CanUpdateFirmwhare);
 
 			_devicesViewModel = devicesViewModel;
@@ -102,6 +106,10 @@ namespace GKModule.Models
 				}
 			}
 		}
+        bool CanWriteConfig()
+        {
+            return FiresecManager.CheckPermission(PermissionType.Adm_WriteDeviceConfig);
+        }
 
 		public RelayCommand ConvertToBinaryFileCommand { get; private set; }
 		void OnConvertToBinaryFile()
@@ -111,17 +119,40 @@ namespace GKModule.Models
 			BinaryFileConverter.Convert();
 		}
 
-		public RelayCommand GetParametersCommand { get; private set; }
-		void OnGetParameters()
+		public RelayCommand GetAllParametersCommand { get; private set; }
+		void OnGetAllParameters()
 		{
-			ParametersHelper.GetParameters();
+			ParametersHelper.GetAllParameters();
 		}
 
-		public RelayCommand WriteParametersCommand { get; private set; }
-		void OnWriteParameters()
+		public RelayCommand SetAllParametersCommand { get; private set; }
+		void OnSetAllParameters()
 		{
-			ParametersHelper.SetParameters();
+			ParametersHelper.SetAllParameters();
 		}
+
+		public RelayCommand GetSingleParametersCommand { get; private set; }
+		void GetSingleParameters()
+		{
+			ParametersHelper.GetSingleParameter(SelectedDevice.Device);
+		}
+
+        public RelayCommand SetSingleParametersCommand { get; private set; }
+        void OnSetSingleParameters()
+		{
+            ParametersHelper.SetSingleParameter(SelectedDevice.Device);
+		}
+
+        bool CanGetSetSingleParameter()
+        {
+            if(SelectedDevice == null)
+                return false;
+            if(SelectedDevice.Device.Driver.DriverType == XDriverType.System)
+                return false;
+            if(SelectedDevice.Device.Driver.IsGroupDevice)
+                return false;
+            return true;
+        }
 
 		public RelayCommand UpdateFirmwhareCommand { get; private set; }
 		void OnUpdateFirmwhare()
@@ -130,7 +161,7 @@ namespace GKModule.Models
 		}
 		bool CanUpdateFirmwhare()
 		{
-			return ((SelectedDevice != null) && (SelectedDevice.Driver.DriverType == XDriverType.KAU));
+			return (SelectedDevice != null && SelectedDevice.Driver.DriverType == XDriverType.KAU && FiresecManager.CheckPermission(PermissionType.Adm_ChangeDevicesSoft));
 		}
 
 		bool ValidateConfiguration()

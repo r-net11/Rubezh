@@ -14,7 +14,8 @@ namespace Common.GK
 				UID = new Guid("efca74b2-ad85-4c30-8de8-8115cc6dfdd2"),
 				Name = "Охранная адресная метка АМ1-О",
 				ShortName = "АМ1-О",
-				HasZone = true
+				HasZone = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);

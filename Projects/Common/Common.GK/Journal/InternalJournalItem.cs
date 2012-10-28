@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
 using XFiresecAPI;
+using FiresecAPI.XModels;
 
 namespace Common.GK
 {
@@ -76,6 +77,11 @@ namespace Common.GK
             journalItem.ObjectState = ObjectState;
             journalItem.JournalItemType = JournalItemType;
             journalItem.GKObjectNo = GKObjectNo;
+
+            var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+            var stateClasses = XStateClassHelper.Convert(states, false);
+            journalItem.StateClass = XStateClassHelper.GetMinStateClass(stateClasses);
+
             return journalItem;
         }
 

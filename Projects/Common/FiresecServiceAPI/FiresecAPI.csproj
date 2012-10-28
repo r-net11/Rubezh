@@ -264,6 +264,7 @@
     <Compile Include="XModels\States\XDirectionState.cs" />
     <Compile Include="XModels\States\XDriverState.cs" />
     <Compile Include="XModels\States\XStateClass.cs" />
+    <Compile Include="XModels\States\XStateClassHelper.cs" />
     <Compile Include="XModels\States\XStateType.cs" />
     <Compile Include="XModels\States\XZoneState.cs" />
     <Compile Include="XModels\XAlarmType.cs" />

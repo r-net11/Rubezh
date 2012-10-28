@@ -14,7 +14,8 @@ namespace Common.GK
 				UID = new Guid("641fa899-faa0-455b-b626-646e5fbe785a"),
 				Name = "Ручной извещатель ИПР513-11",
 				ShortName = "РПИ",
-				HasZone = true
+				HasZone = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire2);

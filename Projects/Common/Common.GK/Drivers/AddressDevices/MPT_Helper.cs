@@ -15,7 +15,8 @@ namespace Common.GK
 				Name = "Модуль пожаротушения МПТ-1",
 				ShortName = "МПТ-1",
 				IsControlDevice = true,
-				HasLogic = true
+				HasLogic = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

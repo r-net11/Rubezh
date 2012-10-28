@@ -15,7 +15,8 @@ namespace Common.GK
 				Name = "Шкаф управления насосом",
 				ShortName = "ШУН",
 				IsControlDevice = true,
-				HasLogic = true
+				HasLogic = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

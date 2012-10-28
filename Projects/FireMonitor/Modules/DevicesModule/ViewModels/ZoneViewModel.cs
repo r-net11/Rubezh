@@ -128,7 +128,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (Zone.ZoneType == ZoneType.Guard)
 				return false;
-			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList) && deviceStates.Any(x => !x.IsDisabled));
+            return (FiresecManager.CheckPermission(PermissionType.Oper_RemoveFromIgnoreList) && deviceStates.Any(x => !x.IsDisabled));
 		}
 
 		public RelayCommand EnableAllCommand { get; private set; }
@@ -141,7 +141,7 @@ namespace DevicesModule.ViewModels
 		{
 			if (Zone.ZoneType == ZoneType.Guard)
 				return false;
-			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_AddToIgnoreList) && deviceStates.Any(x => x.IsDisabled));
+			return (FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList) && deviceStates.Any(x => x.IsDisabled));
 		}
 
 		public RelayCommand SetGuardCommand { get; private set; }
@@ -152,7 +152,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanSetGuard()
 		{
-			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (FiresecManager.IsZoneOnGuard(ZoneState) == false));
+			return (Zone.ZoneType == ZoneType.Guard && Zone.SecPanelUID != null && (FiresecManager.IsZoneOnGuard(ZoneState) == false) && FiresecManager.CheckPermission(PermissionType.Oper_SecurityZone));
 		}
 
 		public RelayCommand UnSetGuardCommand { get; private set; }
@@ -163,7 +163,7 @@ namespace DevicesModule.ViewModels
 		}
 		bool CanUnSetGuard()
 		{
-			return ((Zone.ZoneType == ZoneType.Guard) && (Zone.SecPanelUID != null) && (FiresecManager.IsZoneOnGuard(ZoneState) == true));
+            return (Zone.ZoneType == ZoneType.Guard && Zone.SecPanelUID != null && (FiresecManager.IsZoneOnGuard(ZoneState) == true) && FiresecManager.CheckPermission(PermissionType.Oper_SecurityZone));
 		}
 	}
 }

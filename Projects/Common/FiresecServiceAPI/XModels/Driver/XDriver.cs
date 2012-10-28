@@ -19,6 +19,7 @@ namespace XFiresecAPI
 			CanEditAddress = true;
 			HasAddress = true;
 			IsDeviceOnShleif = true;
+            CanPlaceOnPlan = false;
 		}
 
 		[DataMember]
@@ -71,6 +72,8 @@ namespace XFiresecAPI
 		public bool HasZone { get; set; }
 		[DataMember]
 		public bool IsControlDevice { get; set; }
+        [DataMember]
+        public bool CanPlaceOnPlan { get; set; }
 
 		[DataMember]
 		public bool IsGroupDevice { get; set; }

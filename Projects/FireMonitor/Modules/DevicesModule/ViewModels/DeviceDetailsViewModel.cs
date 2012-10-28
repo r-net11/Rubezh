@@ -65,6 +65,7 @@ namespace DevicesModule.ViewModels
 			}
 			OnPropertyChanged("States");
 			OnPropertyChanged("ParentStringStates");
+            OnPropertyChanged("IsAutomaticOff");
 
 			StartTimer(DriverType.RM_1, "RMOn");
 			StartTimer(DriverType.MRO_2, "MRO_On");
@@ -72,6 +73,19 @@ namespace DevicesModule.ViewModels
 			StartTimer(DriverType.Valve, "Bolt_On");
 			StartTimer(DriverType.MPT, "MPT_On");
 		}
+
+        public bool IsAutomaticOff
+        {
+            get
+            {
+                foreach (var state in DeviceState.States)
+                {
+                    if (state.DriverState.IsAutomatic && (state.DriverState.Code.Contains("AutoOff") || state.DriverState.Code.Contains("Auto_Off") || state.DriverState.Code.Contains("Auto_off")))
+                        return true;
+                }
+                return false;
+            }
+        }
 
 		void StartTimer(DriverType driverType, string stateCodeName)
 		{
@@ -181,8 +195,8 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                //if (!ServiceFactory.AppSettings.HasLicenseToControl)
-                //    return "Отсутствует лицензия на управление";
+                if (!ServiceFactory.AppSettings.HasLicenseToControl)
+                    return "Отсутствует лицензия на управление";
 
                 var controlProperty = Device.Properties.FirstOrDefault(x => x.Name == "AllowControl");
                 if (controlProperty != null)
@@ -190,6 +204,8 @@ namespace DevicesModule.ViewModels
                     if (controlProperty.Value != "1")
                         return "Управление запрещено настройкой конфигурации";
                 }
+                if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
+                    return "Управление исполнительными устройствами для данного пользователя запрещено";
 
                 return null;
             }
@@ -202,17 +218,6 @@ namespace DevicesModule.ViewModels
                 return Device.Driver.HasControlProperties && !FiresecManager.FiresecConfiguration.IsChildMPT(Device);
             }
         }
-
-		bool _isControlTabSelected;
-		public bool IsControlTabSelected
-		{
-			get { return _isControlTabSelected; }
-			set
-			{
-				_isControlTabSelected = value;
-				OnPropertyChanged("IsControlTabSelected");
-			}
-		}
 
 		#region IWindowIdentity Members
 		public Guid Guid

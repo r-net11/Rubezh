@@ -95,6 +95,8 @@ namespace Common.GK.DB
 		
 		private System.Nullable<int> _GKJournalRecordNo;
 		
+		private byte _StateClass;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -121,6 +123,8 @@ namespace Common.GK.DB
     partial void OnGKIpAddressChanged();
     partial void OnGKJournalRecordNoChanging(System.Nullable<int> value);
     partial void OnGKJournalRecordNoChanged();
+    partial void OnStateClassChanging(byte value);
+    partial void OnStateClassChanged();
     #endregion
 		
 		public Journal()
@@ -344,6 +348,26 @@ namespace Common.GK.DB
 					this._GKJournalRecordNo = value;
 					this.SendPropertyChanged("GKJournalRecordNo");
 					this.OnGKJournalRecordNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateClass", DbType="TinyInt NOT NULL")]
+		public byte StateClass
+		{
+			get
+			{
+				return this._StateClass;
+			}
+			set
+			{
+				if ((this._StateClass != value))
+				{
+					this.OnStateClassChanging(value);
+					this.SendPropertyChanging();
+					this._StateClass = value;
+					this.SendPropertyChanged("StateClass");
+					this.OnStateClassChanged();
 				}
 			}
 		}

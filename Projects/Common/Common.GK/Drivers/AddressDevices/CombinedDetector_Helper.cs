@@ -14,7 +14,8 @@ namespace Common.GK
 				UID = new Guid("37f13667-bc77-4742-829b-1c43fa404c1f"),
 				Name = "Пожарный комбинированный извещатель ИП212/101-64-А2R1",
 				ShortName = "ИП-64К",
-				HasZone = true
+				HasZone = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Test);

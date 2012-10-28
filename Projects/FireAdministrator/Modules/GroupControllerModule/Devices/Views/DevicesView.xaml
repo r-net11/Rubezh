@@ -73,8 +73,8 @@
                     <DataGridTemplateColumn Header="Зона" Width="100">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding PresentationZone}" ToolTip="{Binding PresentationZone}" MinWidth="100" Cursor="Hand"
-                                            Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBlock Text="{Binding EditingPresentationZone}" ToolTip="{Binding EditingPresentationZone}" MinWidth="100" Cursor="Hand"
+                                        Visibility="{Binding IsZoneOrLogic, Converter={StaticResource BoolToVisibilityConverter}}">
                                     <TextBlock.InputBindings>
                                         <MouseBinding MouseAction="LeftClick" Command="{Binding ShowZoneOrLogicCommand}" />
                                     </TextBlock.InputBindings>

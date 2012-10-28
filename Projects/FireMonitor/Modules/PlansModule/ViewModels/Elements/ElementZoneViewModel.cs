@@ -133,7 +133,7 @@ namespace PlansModule.ViewModels
 		{
 			if (Zone.ZoneType == ZoneType.Guard)
 				return false;
-			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_RemoveFromIgnoreList) && deviceStates.Any(x => !x.IsDisabled));
+            return (FiresecManager.CheckPermission(PermissionType.Oper_RemoveFromIgnoreList) && deviceStates.Any(x => !x.IsDisabled));
 		}
 
 		public RelayCommand EnableAllCommand { get; private set; }
@@ -146,7 +146,7 @@ namespace PlansModule.ViewModels
 		{
 			if (Zone.ZoneType == ZoneType.Guard)
 				return false;
-			return (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_AddToIgnoreList) && deviceStates.Any(x => x.IsDisabled));
+			return (FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList) && deviceStates.Any(x => x.IsDisabled));
 		}
 
 		public RelayCommand SetGuardCommand { get; private set; }

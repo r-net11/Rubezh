@@ -22,9 +22,9 @@ namespace FireMonitor.ViewModels
 
 		public override bool OnClosing(bool isCanceled)
 		{
-			if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_LogoutWithoutPassword))
+			if (FiresecManager.CheckPermission(PermissionType.Oper_LogoutWithoutPassword))
 				return false;
-			if (!FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_Logout))
+			if (!FiresecManager.CheckPermission(PermissionType.Oper_Logout))
 			{
 				MessageBoxService.Show("Нет прав для выхода из программы");
 				return true;

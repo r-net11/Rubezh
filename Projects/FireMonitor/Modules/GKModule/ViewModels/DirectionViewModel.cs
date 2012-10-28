@@ -5,6 +5,8 @@ using Infrastructure.Common;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
 using System.Text;
+using FiresecAPI.Models;
+using FiresecClient;
 
 namespace GKModule.ViewModels
 {
@@ -22,10 +24,10 @@ namespace GKModule.ViewModels
 			ResetIgnoreCommand = new RelayCommand(OnResetIgnore, CanResetIgnore);
 			SetAutomaticCommand = new RelayCommand(OnSetAutomatic, CanSetAutomatic);
 			ResetAutomaticCommand = new RelayCommand(OnResetAutomatic, CanResetAutomatic);
-			TurnOnCommand = new RelayCommand(OnTurnOn);
-			TurnOffCommand = new RelayCommand(OnTurnOff);
-			TurnOnNowCommand = new RelayCommand(OnTurnOnNow);
-			TurnOffNowCommand = new RelayCommand(OnTurnOffNow);
+			TurnOnCommand = new RelayCommand(OnTurnOn, CanControl);
+            TurnOffCommand = new RelayCommand(OnTurnOff, CanControl);
+            TurnOnNowCommand = new RelayCommand(OnTurnOnNow, CanControl);
+            TurnOffNowCommand = new RelayCommand(OnTurnOffNow, CanControl);
 
 			DirectionState = directionState;
 			DirectionState.StateChanged += new System.Action(OnStateChanged);
@@ -60,7 +62,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnore()
 		{
-			return !DirectionState.States.Contains(XStateType.Ignore);
+            return !DirectionState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -70,7 +72,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-			return DirectionState.States.Contains(XStateType.Ignore);
+            return DirectionState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_RemoveFromIgnoreList);
 		}
 
 		public RelayCommand SetAutomaticCommand { get; private set; }
@@ -116,6 +118,11 @@ namespace GKModule.ViewModels
 		{
 			SendControlCommand(0x91);
 		}
+
+        public bool CanControl()
+        {
+             return FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices);
+        }
 
 		void SendControlCommand(byte code)
 		{

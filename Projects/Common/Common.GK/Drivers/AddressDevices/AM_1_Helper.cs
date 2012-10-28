@@ -14,7 +14,8 @@ namespace Common.GK
 				UID = new Guid("dba24d99-b7e1-40f3-a7f7-8a47d4433392"),
 				Name = "Пожарная адресная метка АМ-1",
 				ShortName = "АМ-1",
-				HasZone = true
+				HasZone = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);

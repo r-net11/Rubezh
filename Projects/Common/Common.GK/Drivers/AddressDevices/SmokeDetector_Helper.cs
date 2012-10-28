@@ -15,6 +15,7 @@ namespace Common.GK
 				Name = "Пожарный дымовой извещатель ИП 212-64",
 				ShortName = "ИП-64",
 				HasZone = true,
+                CanPlaceOnPlan = true
 			};
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Test);
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);

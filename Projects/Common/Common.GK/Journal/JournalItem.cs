@@ -19,6 +19,7 @@ namespace Common.GK
         public ushort GKObjectNo { get; set; }
 		public string GKIpAddress { get; set; }
 		public int? GKJournalRecordNo { get; set; }
+        public XStateClass StateClass { get; set; }
 
 		public static JournalItem FromJournal(Journal journal)
 		{
@@ -40,6 +41,7 @@ namespace Common.GK
 			{
 				journalItem.JournalItemType = (JournalItemType)journal.JournalItemType.Value;
 			}
+            journalItem.StateClass = (XStateClass)journal.StateClass;
 
 			return journalItem;
 		}

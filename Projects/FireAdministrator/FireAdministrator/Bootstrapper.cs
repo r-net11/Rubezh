@@ -47,7 +47,7 @@ namespace FireAdministrator
                     FiresecManager.StartPoll(true);
 
 					LoadingService.DoStep("Проверка прав пользователя");
-					if (FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Adm_ViewConfig) == false)
+					if (FiresecManager.CheckPermission(PermissionType.Adm_ViewConfig) == false)
 					{
 						MessageBoxService.Show("Нет прав на работу с программой");
 						FiresecManager.Disconnect();
