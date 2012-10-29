@@ -70,7 +70,7 @@ namespace Common
 
         private static void WriteLog(LogLevel level, string message, params object[] args)
         {
-            //_logger.Log(level, message, args);
+            _logger.Log(level, message, args);
         }
     }
 }
