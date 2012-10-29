@@ -71,8 +71,8 @@ namespace DevicesModule.ViewModels
                         deviceViewModel.OnPropertyChanged("Address");
                     }
                 }
-                ServiceFactory.SaveService.FSChanged = true;
-                OnPropertyChanged("Address");
+				ServiceFactory.SaveService.FSChanged = true;
+				OnPropertyChanged("Address");
             }
         }
 

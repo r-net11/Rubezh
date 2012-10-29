@@ -299,6 +299,11 @@ namespace Firesec
 						string exceptionText = "COMException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
 						Logger.Error(exceptionText);
 					}
+					if (e.Message == "Пользователь не зарегистрировался на сервере")
+					{
+						Logger.Error("NativeFiresecClient.SafeLoopCall Пользователь не зарегистрировался на сервере");
+						DoConnect();
+					}
 					resultData.Result = default(T);
 					resultData.HasError = true;
 					resultData.Error = e.Message;

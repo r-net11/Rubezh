@@ -198,7 +198,7 @@ namespace DevicesModule.ViewModels
                 }
                 SelectedDevice.UpdataConfigurationProperties();
             }
-        }
+		}
 
 		#region GetConfig
 		public RelayCommand GetConfigurationParametersCommand { get; private set; }
@@ -222,13 +222,13 @@ namespace DevicesModule.ViewModels
 						property.Value = resultProperty.Value;
 					}
 					SelectedDevice.UpdataConfigurationProperties();
+					
 				}
 				else
 				{
 					MessageBoxService.Show("При вызове метода на сервере возникло исключение " + result.Error);
 				}
 			});
-			
 		}
 
 		bool CanGetConfigurationParameters()
