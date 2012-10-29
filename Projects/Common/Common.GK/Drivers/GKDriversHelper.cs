@@ -84,12 +84,17 @@ namespace Common.GK
 			AddAvailableStates(driver, XStateType.On);
 		}
 
-		public static void AddAvailableStateClasses(XDriver driver)
+        public static void AddAvailableStateClasses(XDriver driver, XStateClass stateClass)
 		{
 			if (driver.AvailableStateClasses.Count == 0)
 			{
+                driver.AvailableStateClasses.Add(XStateClass.No);
+                driver.AvailableStateClasses.Add(XStateClass.Norm);
+                driver.AvailableStateClasses.Add(XStateClass.Failure);
 				driver.AvailableStateClasses.Add(XStateClass.Ignore);
+                driver.AvailableStateClasses.Add(XStateClass.Unknown);
 			}
+            driver.AvailableStateClasses.Add(stateClass);
 		}
 	}
 }

@@ -20,6 +20,8 @@ namespace Common.GK
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
 			AddRegim(driver, 0xBB, "Логика работы выхода 1", 1);
 			AddRegim(driver, 0xBC, "Логика работы выхода 2", 3);

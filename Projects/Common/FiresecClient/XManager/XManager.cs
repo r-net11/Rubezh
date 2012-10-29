@@ -88,19 +88,22 @@ namespace FiresecClient
 		public static string GetIpAddress(XDevice device)
 		{
 			XDevice gkDevice = null;
-			switch (device.Driver.DriverType)
-			{
-				case XDriverType.GK:
-					gkDevice = device;
-					break;
+            switch (device.Driver.DriverType)
+            {
+                case XDriverType.GK:
+                    gkDevice = device;
+                    break;
 
-				case XDriverType.KAU:
-					gkDevice = device.Parent;
-					break;
+                case XDriverType.KAU:
+                    gkDevice = device.Parent;
+                    break;
 
-				default:
-					throw new Exception("Получить IP адрес можно только у ГК или в КАУ");
-			}
+                default:
+                    {
+                        Logger.Error("XManager.GetIpAddress Получить IP адрес можно только у ГК или в КАУ");
+                        throw new Exception("Получить IP адрес можно только у ГК или в КАУ");
+                    }
+            }
 			var ipAddress = gkDevice.GetGKIpAddress();
 			return ipAddress;
 		}

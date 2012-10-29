@@ -20,6 +20,8 @@ namespace Common.GK
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
 			var property1 = new XDriverProperty()
 			{

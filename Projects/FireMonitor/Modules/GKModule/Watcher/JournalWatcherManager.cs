@@ -12,14 +12,17 @@ namespace GKModule
 		static Thread thread;
 		static AutoResetEvent StopEvent;
 		static List<JournalWatcher> JournalWatchers;
+        public static SafeSendManager SafeSendManager { get; private set; }
 
 		public static void Start()
 		{
+            SafeSendManager = new SafeSendManager();
+
 			JournalWatchers = new List<JournalWatcher>();
 			foreach (var gkDatabase in DatabaseManager.GkDatabases)
 			{
 				var ipAddress = gkDatabase.RootDevice.GetGKIpAddress();
-				if (ipAddress == null)
+				if (string.IsNullOrEmpty(ipAddress))
 				{
 					Logger.Error("JournalWatcherManager.Start ipAddress = null");
 					continue;
@@ -36,6 +39,7 @@ namespace GKModule
 
 		static void ApplicationService_Closing(object sender, System.ComponentModel.CancelEventArgs e)
 		{
+            SafeSendManager.StopThread();
 			StopEvent.Set();
 		}
 

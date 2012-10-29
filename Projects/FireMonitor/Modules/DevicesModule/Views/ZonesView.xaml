@@ -94,7 +94,7 @@
                                     <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch">
                                         <TextBlock.ContextMenu>
                                             <ContextMenu>
-                                                <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
+                                                <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
                                                 <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                                             </ContextMenu>
                                         </TextBlock.ContextMenu>

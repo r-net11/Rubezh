@@ -59,13 +59,10 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool HasAUParameters
-		{
-			get
-			{
-				return Device.Driver.AUParameters.Count > 0;
-			}
-		}
+        public bool HasAUParameters
+        {
+            get { return Device.Driver.AUParameters.Count > 0; }
+        }
 
 		void UpdateAuParameters()
 		{

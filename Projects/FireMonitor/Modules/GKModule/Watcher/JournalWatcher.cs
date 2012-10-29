@@ -128,7 +128,8 @@ namespace GKModule
                     GKIpAddress = XManager.GetIpAddress(GkDatabase.RootDevice),
                     ObjectUID = GkDatabase.RootDevice.UID,
                     GKObjectNo = GkDatabase.RootDevice.GetDatabaseNo(DatabaseType.Gk),
-                    JournalItemType = JournalItemType.GK
+                    JournalItemType = JournalItemType.GK,
+                    StateClass = XStateClass.Unknown
                 };
                 if (isConnected)
                 {

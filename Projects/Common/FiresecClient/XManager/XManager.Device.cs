@@ -74,20 +74,20 @@ namespace FiresecClient
 			{
 				if (xDevice.Children.Count == 14)
 				{
-					xDevice.Children[0].Description = "Неисправность";
-					xDevice.Children[1].Description = "Пожар 1";
-					xDevice.Children[2].Description = "Пожар 2";
-					xDevice.Children[3].Description = "Внимание";
-					xDevice.Children[4].Description = "Включение СПТ";
-					xDevice.Children[5].Description = "Тест";
-					xDevice.Children[6].Description = "Отключение";
-					xDevice.Children[7].Description = "Автоматика отключена";
-					xDevice.Children[8].Description = "Звук отключен";
-					xDevice.Children[9].Description = "Останов пуска";
-					xDevice.Children[10].Description = "Линия 1";
-					xDevice.Children[11].Description = "Линия 2";
-					xDevice.Children[12].Description = "Реле 1";
-					xDevice.Children[13].Description = "Реле 2";
+                    xDevice.Children[0].PredefinedName = "Индикатор Неисправность";
+                    xDevice.Children[1].PredefinedName = "Индикатор Пожар 1";
+                    xDevice.Children[2].PredefinedName = "Индикатор Пожар 2";
+                    xDevice.Children[3].PredefinedName = "Индикатор Внимание";
+                    xDevice.Children[4].PredefinedName = "Индикатор Включение СПТ";
+                    xDevice.Children[5].PredefinedName = "Индикатор Тест";
+                    xDevice.Children[6].PredefinedName = "Индикатор Отключение";
+                    xDevice.Children[7].PredefinedName = "Индикатор Автоматика отключена";
+                    xDevice.Children[8].PredefinedName = "Индикатор Звук отключен";
+                    xDevice.Children[9].PredefinedName = "Индикатор Останов пуска";
+                    xDevice.Children[10].PredefinedName = "Линия 1";
+                    xDevice.Children[11].PredefinedName = "Линия 2";
+                    xDevice.Children[12].PredefinedName = "Реле 1";
+                    xDevice.Children[13].PredefinedName = "Реле 2";
 				}
 			}
 		}

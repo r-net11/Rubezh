@@ -20,6 +20,9 @@ namespace Common.GK
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Test);
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Fire1);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Info);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Fire1);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.Service);
 
 			GKDriversHelper.AddIntProprety(driver, 0x84, "Порог срабатывания по дыму", 0, 18, 5, 20);
 			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре", 0, 70, 0, 85);

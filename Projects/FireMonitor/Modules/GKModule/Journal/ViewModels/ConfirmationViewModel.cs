@@ -14,6 +14,7 @@ namespace GKModule.ViewModels
 		{
 			Title = "Подтверждение критических событий";
 			ConfirmCommand = new RelayCommand(OnConfirm);
+            JournalItem = journalItem;
 		}
 
 		public JournalItem JournalItem { get; private set; }

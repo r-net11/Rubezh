@@ -129,7 +129,7 @@ namespace GKModule.ViewModels
 			var bytes = new List<byte>();
 			bytes.AddRange(BytesHelper.ShortToBytes(Direction.GetDatabaseNo(DatabaseType.Gk)));
 			bytes.Add(code);
-			SendManager.Send(Direction.GkDatabaseParent, 3, 13, 0, bytes);
+            JournalWatcherManager.SafeSendManager.Send(SendPriority.Normal, Direction.GkDatabaseParent, 3, 13, 0, bytes);
 		}
 	}
 }

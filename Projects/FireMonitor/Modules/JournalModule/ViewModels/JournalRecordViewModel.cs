@@ -23,7 +23,7 @@ namespace JournalModule.ViewModels
 
 		public JournalRecordViewModel(JournalRecord journalRecord)
 		{
-			ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowPlan);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowTreeCommand = new RelayCommand(OnShowTree, CanShowTree);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 
@@ -58,13 +58,13 @@ namespace JournalModule.ViewModels
 			}
 		}
 
-		public RelayCommand ShowPlanCommand { get; private set; }
-		void OnShowPlan()
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
 		{
 			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(_device.UID);
 		}
 
-		bool CanShowPlan()
+		bool CanShowOnPlan()
 		{
 			if (_device != null)
 				return ExistsOnPlan();

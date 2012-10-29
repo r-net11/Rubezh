@@ -20,6 +20,8 @@ namespace Common.GK
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.AutoOff);
+            GKDriversHelper.AddAvailableStateClasses(driver, XStateClass.On);
 
 			GKDriversHelper.AddIntProprety(driver, 0x8b, "Максимальное время перезапуска, 0.1 с", 0, 1, 1, 255);
 			GKDriversHelper.AddIntProprety(driver, 0x8b, "Время разновременного пуска, с", 0, 1, 1, 255);

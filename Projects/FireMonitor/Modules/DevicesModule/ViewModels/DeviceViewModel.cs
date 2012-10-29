@@ -21,7 +21,7 @@ namespace DevicesModule.ViewModels
 
 		public DeviceViewModel(Device device, ObservableCollection<DeviceViewModel> sourceDevices)
 		{
-			ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowZoneCommand = new RelayCommand(OnShowZone, CanShowZone);
 			DisableCommand = new RelayCommand(OnDisable, CanDisable);
 			SetGuardCommand = new RelayCommand(OnSetGuard);
@@ -278,8 +278,8 @@ namespace DevicesModule.ViewModels
 			return false;
 		}
 
-		public RelayCommand ShowPlanCommand { get; private set; }
-		void OnShowPlan()
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
 		{
 			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Publish(Device.UID);
 		}

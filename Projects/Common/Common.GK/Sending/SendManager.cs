@@ -85,6 +85,10 @@ namespace Common.GK
                 bytes.AddRange(data);
 
             string ipAddress = XManager.GetIpAddress(device);
+            if (string.IsNullOrEmpty(ipAddress))
+            {
+                return new SendResult("Не задан адрес ГК");
+            }
             var resultBytes = SendBytes(ipAddress, bytes, inputLenght, hasAnswer, sleepInsteadOfRecieve);
             return resultBytes;
         }

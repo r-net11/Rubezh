@@ -27,7 +27,7 @@
                                     <TextBlock Text="{Binding Device.Driver.ShortName}" ToolTip="{Binding ToolTip}" HorizontalAlignment="Stretch" Width="200">
                                         <TextBlock.ContextMenu>
                                             <ContextMenu>
-                                                <MenuItem Header="Показать на плане" Command="{Binding ShowPlanCommand}" />
+                                                <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
                                                 <MenuItem Header="Показать зону" Command="{Binding ShowZoneCommand}" />
                                                 <MenuItem Header="{Binding DeviceState.IsDisabled, Converter={StaticResource IsOffToStringConverter}}" Command="{Binding DisableCommand}" />
                                                 <MenuItem Header="Поставить на охрану" Command="{Binding SetGuardCommand}" Visibility="{Binding IsGuardDevice, Converter={StaticResource BoolToVisibilityConverter}}" />

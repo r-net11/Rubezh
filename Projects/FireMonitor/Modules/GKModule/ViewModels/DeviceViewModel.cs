@@ -25,7 +25,7 @@ namespace GKModule.ViewModels
 			OnStateChanged();
 
 			DeviceCommandsViewModel = new DeviceCommandsViewModel(DeviceState);
-			ShowPlanCommand = new RelayCommand(OnShowPlan, CanShowOnPlan);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
 			ShowPropertiesCommand = new RelayCommand(OnShowProperties);
 		}
 
@@ -39,8 +39,8 @@ namespace GKModule.ViewModels
 			get { return XManager.GetPresentationZone(Device); }
 		}
 
-		public RelayCommand ShowPlanCommand { get; private set; }
-		void OnShowPlan()
+		public RelayCommand ShowOnPlanCommand { get; private set; }
+		void OnShowOnPlan()
 		{
 			ShowOnPlanHelper.ShowDevice(Device);
 		}
