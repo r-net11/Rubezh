@@ -8,16 +8,16 @@ namespace Common.GK
 	{
 		public static void Create()
 		{
-			XManager.XDriversConfiguration = new XDriversConfiguration();
+			XManager.DriversConfiguration = new XDriversConfiguration();
 
-			XManager.XDriversConfiguration.XDrivers.Add(GKSystem_Helper.Create());
-			XManager.XDriversConfiguration.XDrivers.Add(GK_Helper.Create());
-			XManager.XDriversConfiguration.XDrivers.Add(GKIndicator_Helper.Create());
-			XManager.XDriversConfiguration.XDrivers.Add(GKLine_Helper.Create());
-			XManager.XDriversConfiguration.XDrivers.Add(GKRele_Helper.Create());
-			XManager.XDriversConfiguration.XDrivers.Add(GKRele_Helper.Create());
-			XManager.XDriversConfiguration.XDrivers.Add(KAU_Helper.Create());
-			XManager.XDriversConfiguration.XDrivers.Add(KAUIndicator_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(GKSystem_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(GK_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(GKIndicator_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(GKLine_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(GKRele_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(GKRele_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(KAU_Helper.Create());
+			XManager.DriversConfiguration.XDrivers.Add(KAUIndicator_Helper.Create());
 
 			AddDriverToKau(SmokeDetectorHelper.Create());
 			AddDriverToKau(HeatDetector_Helper.Create());
@@ -46,8 +46,8 @@ namespace Common.GK
 
 		static void AddDriverToKau(XDriver driver)
 		{
-			XManager.XDriversConfiguration.XDrivers.Add(driver);
-			var kauDriver = XManager.XDriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
+			XManager.DriversConfiguration.XDrivers.Add(driver);
+			var kauDriver = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.KAU);
 			kauDriver.Children.Add(driver.DriverType);
 		}
 	}

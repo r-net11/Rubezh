@@ -14,7 +14,7 @@ namespace XFiresecAPI
             XStates = new List<LibraryXState>();
             var libraryXState = new LibraryXState()
             {
-                XStateType = XStateType.No,
+                XStateClass = XStateClass.No,
             };
             XStates.Add(libraryXState);
         }

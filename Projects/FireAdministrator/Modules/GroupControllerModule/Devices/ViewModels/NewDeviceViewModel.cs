@@ -20,7 +20,7 @@ namespace GKModule.ViewModels
             _parent = _parentDeviceViewModel.Device;
 
 			Drivers = new List<XDriver>(
-				from XDriver driver in XManager.XDriversConfiguration.XDrivers
+				from XDriver driver in XManager.DriversConfiguration.XDrivers
                        where _parent.Driver.Children.Contains(driver.DriverType)
                        select driver);
 

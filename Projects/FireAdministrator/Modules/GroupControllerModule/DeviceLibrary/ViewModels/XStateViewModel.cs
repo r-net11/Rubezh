@@ -29,7 +29,7 @@ namespace GKModule.ViewModels
 
         public string ClassName
         {
-            get { return XState.XStateType.ToDescription(); }
+            get { return XState.XStateClass.ToDescription(); }
         }
 
         public string AdditionalName { get; set; }

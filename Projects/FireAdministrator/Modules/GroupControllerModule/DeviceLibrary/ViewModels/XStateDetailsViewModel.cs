@@ -15,26 +15,13 @@ namespace GKModule.ViewModels
             Title = "Добавить состояние";
 
             var libraryXStates = new List<LibraryXState>();
-            foreach (XStateType xstateType in Enum.GetValues(typeof(XStateType)))
+            foreach (XStateClass xstateClass in Enum.GetValues(typeof(XStateClass)))
             {
-                if (!libraryXDevice.XStates.Any(x => x.XStateType == xstateType && x.Code == null))
+                if (!libraryXDevice.XStates.Any(x => x.XStateClass == xstateClass && x.Code == null))
                 {
                     var libraryXState = new LibraryXState()
                     {
-                        XStateType = xstateType
-                    };
-                    libraryXStates.Add(libraryXState);
-                }
-            }
-
-            var availableStates = from XStateType xdriverState in libraryXDevice.XDriver.AvailableStates orderby xdriverState select xdriverState;
-            foreach (var availableState in availableStates)
-            {
-                if (availableState != null && !libraryXDevice.XStates.Any(x => x.XStateType == availableState))
-                {
-                    var libraryXState = new LibraryXState()
-                    {
-                        XStateType = availableState,
+                        XStateClass = xstateClass
                     };
                     libraryXStates.Add(libraryXState);
                 }

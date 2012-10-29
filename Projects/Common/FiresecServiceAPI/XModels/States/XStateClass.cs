@@ -34,8 +34,10 @@ namespace XFiresecAPI
         [DescriptionAttribute("Неизвестно")]
         Unknown = 9,
 
-
         [DescriptionAttribute("Норма")]
         Norm = 10,
+
+        [DescriptionAttribute("Нет")]
+        No = 11
 	}
 }

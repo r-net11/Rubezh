@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using Common;
 using Infrastructure;
 using Infrastructure.Common;
 using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using FiresecClient;
-using GKModule.ViewModels;
 using Infrastructure.Common.Windows.ViewModels;
-using Infrastructure.ViewModels;
 
 namespace GKModule.ViewModels
 {
@@ -26,7 +21,7 @@ namespace GKModule.ViewModels
 
             foreach (var libraryXDevice in XManager.XDeviceLibraryConfiguration.XDevices)
             {
-                var driver = XManager.XDriversConfiguration.XDrivers.First(x => x.UID == libraryXDevice.XDriverId);
+                var driver = XManager.DriversConfiguration.XDrivers.First(x => x.UID == libraryXDevice.XDriverId);
                 if (driver != null)
                 {
                     libraryXDevice.XDriver = driver;
@@ -63,10 +58,10 @@ namespace GKModule.ViewModels
             get { return _selectedXDevice; }
             set
             {
-                var oldSelectedXStateType = XStateType.No;
+                var oldSelectedXStateClass = XStateClass.No;
                 if (SelectedXState != null)
                 {
-                    oldSelectedXStateType = SelectedXState.XState.XStateType;
+                    oldSelectedXStateClass = SelectedXState.XState.XStateClass;
                 }
                 _selectedXDevice = value;
                 OnPropertyChanged("SelectedXDevice");
@@ -75,13 +70,13 @@ namespace GKModule.ViewModels
                 {
                     var driver = FiresecManager.XDrivers.FirstOrDefault(x => x.UID == SelectedXDevice.LibraryXDevice.XDriverId);
                     XStates = new ObservableCollection<XStateViewModel>();
-                    var libraryXStates = from LibraryXState libraryXState in SelectedXDevice.LibraryXDevice.XStates orderby libraryXState.XStateType descending select libraryXState;
+                    var libraryXStates = from LibraryXState libraryXState in SelectedXDevice.LibraryXDevice.XStates orderby libraryXState.XStateClass descending select libraryXState;
                     foreach (var libraryXState in libraryXStates)
                     {
                         var stateViewModel = new XStateViewModel(libraryXState, driver);
                         XStates.Add(stateViewModel);
                     }
-                    SelectedXState = XStates.FirstOrDefault(x => x.XState.XStateType == oldSelectedXStateType);
+                    SelectedXState = XStates.FirstOrDefault(x => x.XState.XStateClass == oldSelectedXStateClass);
                     if (SelectedXState == null)
                         SelectedXState = XStates.FirstOrDefault();
                 }
@@ -168,10 +163,10 @@ namespace GKModule.ViewModels
         }
         bool CanRemoveState()
         {
-            return (SelectedXState != null && SelectedXState.XState.XStateType != XStateType.No);
+            return (SelectedXState != null && SelectedXState.XState.XStateClass != XStateClass.No);
         }
 
-        public DeviceControls.DeviceControl XDeviceControl
+        public DeviceControls.XDeviceControl XDeviceControl
         {
             get
             {
@@ -180,11 +175,11 @@ namespace GKModule.ViewModels
                 if (SelectedXState == null)
                     return null;
 
-                var xdeviceControl = new DeviceControls.DeviceControl()
+                var xdeviceControl = new DeviceControls.XDeviceControl()
                 {
-                    DriverId = SelectedXDevice.LibraryXDevice.XDriverId
+                    XDriverId = SelectedXDevice.LibraryXDevice.XDriverId
                 };
-                xdeviceControl.XStateType = SelectedXState.XState.XStateType;
+                xdeviceControl.XStateClass = SelectedXState.XState.XStateClass;
 
                 xdeviceControl.XUpdate();
                 return xdeviceControl;

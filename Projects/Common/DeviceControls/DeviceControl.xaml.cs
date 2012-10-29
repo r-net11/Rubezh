@@ -9,7 +9,6 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecClient;
 using Common;
-using XFiresecAPI;
 
 namespace DeviceControls
 {
@@ -28,8 +27,6 @@ namespace DeviceControls
 		}
 
 		public Guid DriverId { get; set; }
-        public Guid XDriverId { get; set; }
-
 		public bool IsManualUpdate { get; set; }
 
 		StateType _stateType;
@@ -41,16 +38,6 @@ namespace DeviceControls
 				_stateType = value;
 			}
 		}
-
-        XStateType _xstateType;
-        public XStateType XStateType
-        {
-            get { return _xstateType; }
-            set
-            {
-                _xstateType = value;
-            }
-        }
 
 		List<string> _additionalStateCodes;
 		public List<string> AdditionalStateCodes
@@ -130,52 +117,7 @@ namespace DeviceControls
 				_canvas.Children.Add(new Viewbox() { Child = canvas });
 		}
 
-        public void XUpdate()
-        {
-            var libraryXDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == XDriverId);
-            if (libraryXDevice == null)
-            {
-                Logger.Error("DeviceControl.XUpdate libraryXDevice = null " + XDriverId.ToString());
-                return;
-            }
-        
-            var resultLibraryXStates = new List<LibraryXState>();
-
-            if (_xstateViewModelList.IsNotNullOrEmpty())
-                _xstateViewModelList.ForEach(x => x.Dispose());
-            _xstateViewModelList = new List<XStateViewModel>();
-
-            var libraryXState = libraryXDevice.XStates.FirstOrDefault(x => x.Code == null && x.XStateType == XStateType);
-            if (libraryXState == null)
-            {
-                libraryXState = libraryXDevice.XStates.FirstOrDefault(x => x.Code == null && x.XStateType == XStateType.No);
-                if (libraryXState == null)
-                {
-                    Logger.Error("DeviceControl.XUpdate libraryXState = null " + XDriverId.ToString());
-                    return;
-                }
-            }
-
-            if (libraryXState != null)
-            {
-                resultLibraryXStates.Add(libraryXState);
-            }
-
-            var sortedResultLibraryXStates = from LibraryXState xstate in resultLibraryXStates
-                                            orderby xstate.Layer
-                                            select xstate;
-            var canvases = new List<Canvas>();
-            foreach (var libraryXStates in sortedResultLibraryXStates)
-            {
-                _xstateViewModelList.Add(new XStateViewModel(libraryXStates, canvases));
-            }
-
-            _canvas.Children.Clear();
-            foreach (var canvas in canvases)
-                _canvas.Children.Add(new Viewbox() { Child = canvas });
-        }
-
-		public static FrameworkElement GetDefaultPicture(Guid DriverId)
+        public static FrameworkElement GetDefaultPicture(Guid DriverId)
 		{
 			UIElement content = null;
 

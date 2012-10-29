@@ -13,11 +13,11 @@ namespace GKModule.ViewModels
             Title = "Добавить устройство";
 
             XDevices = new List<XDeviceViewModel>();
-            XDrivers = (from XDriver driver in XManager.XDriversConfiguration.XDrivers
+            XDrivers = (from XDriver driver in XManager.DriversConfiguration.XDrivers
                                   select driver).ToList();
             foreach (var driver in XDrivers)
             {
-                if (!XManager.XDeviceLibraryConfiguration.XDevices.Any(x => x.XDriverId == driver.UID))
+                if (!XManager.XDeviceLibraryConfiguration.XDevices.Any(x => x.XDriverId == driver.UID)&&(driver.CanPlaceOnPlan))
                 {
                     var libraryXDevice = new LibraryXDevice()
                     {

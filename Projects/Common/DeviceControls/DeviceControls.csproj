@@ -76,6 +76,9 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Painter.cs" />
     <Compile Include="StateViewModel.cs" />
+    <Compile Include="XDeviceControl.xaml.cs">
+      <DependentUpon>XDeviceControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="XStateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -106,6 +109,10 @@
     <Page Include="DeviceControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="XDeviceControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -20,7 +20,7 @@ namespace GKModule.ViewModels
 
 				case ObjectType.Zone:
 				case ObjectType.Direction:
-					ImageSource = XManager.XDriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.System).ImageSource;
+					ImageSource = XManager.DriversConfiguration.XDrivers.FirstOrDefault(x => x.DriverType == XDriverType.System).ImageSource;
 					break;
 			}
 
