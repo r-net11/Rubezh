@@ -132,7 +132,7 @@ namespace DeviceControls
 
         public void XUpdate()
         {
-            var libraryXDevice = FiresecManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == XDriverId);
+            var libraryXDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == XDriverId);
             if (libraryXDevice == null)
             {
                 Logger.Error("DeviceControl.XUpdate libraryXDevice = null " + XDriverId.ToString());

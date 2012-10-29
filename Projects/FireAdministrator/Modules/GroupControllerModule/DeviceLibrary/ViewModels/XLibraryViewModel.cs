@@ -24,9 +24,9 @@ namespace GKModule.ViewModels
             AddXStateCommand = new RelayCommand(OnAddXState, CanAddXState);
             RemoveXStateCommand = new RelayCommand(OnRemoveXState, CanRemoveState);
 
-            foreach (var libraryXDevice in FiresecManager.XDeviceLibraryConfiguration.XDevices)
+            foreach (var libraryXDevice in XManager.XDeviceLibraryConfiguration.XDevices)
             {
-                var driver = FiresecClient.FiresecManager.XDrivers.First(x => x.UID == libraryXDevice.XDriverId);
+                var driver = XManager.XDriversConfiguration.XDrivers.First(x => x.UID == libraryXDevice.XDriverId);
                 if (driver != null)
                 {
                     libraryXDevice.XDriver = driver;
@@ -36,7 +36,7 @@ namespace GKModule.ViewModels
                     Logger.Error("XLibraryViewModel.Initialize driver = null " + libraryXDevice.XDriverId.ToString());
                 }
             }
-            var xdevices = from LibraryXDevice libraryXDevice in FiresecManager.XDeviceLibraryConfiguration.XDevices orderby libraryXDevice.XDriver.DeviceClassName select libraryXDevice;
+            var xdevices = from LibraryXDevice libraryXDevice in XManager.XDeviceLibraryConfiguration.XDevices orderby libraryXDevice.XDriver.DeviceClassName select libraryXDevice;
             XDevices = new ObservableCollection<XDeviceViewModel>();
             foreach (var xdevice in xdevices)
             {
@@ -98,7 +98,7 @@ namespace GKModule.ViewModels
             var addDeviceViewModel = new  XDeviceDetailsViewModel();
             if (DialogService.ShowModalWindow(addDeviceViewModel))
             {
-                FiresecManager.XDeviceLibraryConfiguration.XDevices.Add(addDeviceViewModel.SelectedXDevice.LibraryXDevice);
+                XManager.XDeviceLibraryConfiguration.XDevices.Add(addDeviceViewModel.SelectedXDevice.LibraryXDevice);
                 XDevices.Add(addDeviceViewModel.SelectedXDevice);
                 SelectedXDevice = XDevices.LastOrDefault();
                 ServiceFactory.SaveService.XLibraryChanged = true;
@@ -108,7 +108,7 @@ namespace GKModule.ViewModels
         public RelayCommand RemoveXDeviceCommand { get; private set; }
         void OnRemoveXDevice()
         {
-            FiresecManager.XDeviceLibraryConfiguration.XDevices.Remove(SelectedXDevice.LibraryXDevice);
+            XManager.XDeviceLibraryConfiguration.XDevices.Remove(SelectedXDevice.LibraryXDevice);
             XDevices.Remove(SelectedXDevice);
             SelectedXDevice = XDevices.FirstOrDefault();
             ServiceFactory.SaveService.XLibraryChanged = true;

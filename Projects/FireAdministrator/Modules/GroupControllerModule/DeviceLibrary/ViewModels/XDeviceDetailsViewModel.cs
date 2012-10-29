@@ -13,12 +13,12 @@ namespace GKModule.ViewModels
             Title = "Добавить устройство";
 
             XDevices = new List<XDeviceViewModel>();
-            XDrivers = (from XDriver driver in XManager.DriversConfiguration.XDrivers
+            XDrivers = (from XDriver driver in XManager.XDriversConfiguration.XDrivers
                                   select driver).ToList();
             foreach (var driver in XDrivers)
             {
-                //if (!FiresecManager.XDeviceLibraryConfiguration.XDevices.Any(x => x.XDriverId == driver.UID))
-                //{
+                if (!XManager.XDeviceLibraryConfiguration.XDevices.Any(x => x.XDriverId == driver.UID))
+                {
                     var libraryXDevice = new LibraryXDevice()
                     {
                         XDriver = driver,
@@ -26,7 +26,7 @@ namespace GKModule.ViewModels
                     };
                     var xdeviceViewModel = new XDeviceViewModel(libraryXDevice);
                     XDevices.Add(xdeviceViewModel);
-                //}
+                }
             }
             SelectedXDevice = XDevices.FirstOrDefault();
         }

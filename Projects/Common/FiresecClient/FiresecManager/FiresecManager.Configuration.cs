@@ -18,7 +18,6 @@ namespace FiresecClient
 		}
 
 		public static DeviceLibraryConfiguration DeviceLibraryConfiguration { get; set; }
-        public static XDeviceLibraryConfiguration XDeviceLibraryConfiguration { get; set; }
 		public static SystemConfiguration SystemConfiguration { get; set; }
 		public static SecurityConfiguration SecurityConfiguration { get; set; }
 
@@ -41,7 +40,7 @@ namespace FiresecClient
             {
                 SystemConfiguration = FiresecService.GetSystemConfiguration();
                 DeviceLibraryConfiguration = FiresecService.GetDeviceLibraryConfiguration();
-                XDeviceLibraryConfiguration = FiresecService.GetXDeviceLibraryConfiguration();
+                XManager.XDeviceLibraryConfiguration = FiresecService.GetXDeviceLibraryConfiguration();
                 PlansConfiguration = FiresecService.GetPlansConfiguration();
                 SecurityConfiguration = FiresecService.GetSecurityConfiguration();
                 var driversConfiguration = FiresecService.GetDriversConfiguration();
