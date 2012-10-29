@@ -15,7 +15,8 @@ namespace Common.GK
 				Name = "Модуль речевого оповещения МРО-2",
 				ShortName = "МРО-2",
 				IsControlDevice = true,
-				HasLogic = true
+				HasLogic = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

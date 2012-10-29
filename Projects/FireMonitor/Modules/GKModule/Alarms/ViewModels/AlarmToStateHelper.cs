@@ -12,7 +12,7 @@ namespace GKModule
 		{
 			switch (alarmType)
 			{
-				case XAlarmType.NPT:
+				case XAlarmType.NPTOn:
 					return XStateType.On;
 
 				case XAlarmType.Fire1:
@@ -30,7 +30,7 @@ namespace GKModule
 				case XAlarmType.Ignore:
 					return XStateType.Ignore;
 
-				case XAlarmType.Auto:
+				case XAlarmType.AutoOff:
 					return XStateType.Norm;
 
 				case XAlarmType.Service:

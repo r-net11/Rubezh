@@ -68,7 +68,7 @@
     <Compile Include="Alarms\Converters\AlarmTypeToStringConverter.cs" />
     <Compile Include="Alarms\Converters\AlarmTypeToShortStringConverter.cs" />
     <Compile Include="Alarms\ViewModels\AlarmGroupsViewModel.cs" />
-    <Compile Include="Alarms\ViewModels\AlarmsGroupViewModel.cs" />
+    <Compile Include="Alarms\ViewModels\AlarmGroupViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmsViewModel.cs" />
     <Compile Include="Alarms\ViewModels\AlarmToStateHelper.cs" />
     <Compile Include="Alarms\ViewModels\AlarmViewModel.cs" />
@@ -78,7 +78,6 @@
     <Compile Include="Alarms\Views\AlarmsView.xaml.cs">
       <DependentUpon>AlarmsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Alarms\XAlarmType.cs" />
     <Compile Include="Converters\ArchiveDefaultStateTypeToStringConverter.cs" />
     <Compile Include="Converters\JournalItemTypeToStringConverter.cs" />
     <Compile Include="Converters\XStateTypeConverter.cs" />
@@ -102,6 +101,7 @@
     <Compile Include="Journal\Views\JournalsView.xaml.cs">
       <DependentUpon>JournalsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ObjectCommandSendHelper.cs" />
     <Compile Include="ViewModels\DirectionsViewModel.cs" />
     <Compile Include="ViewModels\DirectionViewModel.cs" />
     <Compile Include="ViewModels\GKConnectionIndicatorViewModel.cs" />

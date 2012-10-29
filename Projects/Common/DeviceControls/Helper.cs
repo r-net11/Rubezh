@@ -6,7 +6,7 @@ using Common;
 
 namespace DeviceControls
 {
-	public static class Helper
+	internal static class Helper
 	{
 		static readonly XamlReader xamlReader = new XamlReader();
 

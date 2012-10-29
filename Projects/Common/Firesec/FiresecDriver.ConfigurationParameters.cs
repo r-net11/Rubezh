@@ -39,8 +39,8 @@ namespace Firesec
 			while (count > 0)
 			{
 				var result = FiresecSerializedClient.ExecuteRuntimeDeviceMethod(device.PlaceInTree, "StateConfigQueries", null, ref requestId);
-				Trace.WriteLine("StateConfigQueries RequestId: " + requestId.ToString());
-				Trace.WriteLine("GetConfigurationParameters: " + result.Result);
+				//Trace.WriteLine("StateConfigQueries RequestId: " + requestId.ToString());
+				//Trace.WriteLine("GetConfigurationParameters: " + result.Result);
 
 				if (result.HasError)
 				{
@@ -56,25 +56,26 @@ namespace Firesec
 
 				if (requests != null && requests.request.Count() > 0)
 				{
-                    if (requestIds.Contains(requests.request.First().id))
+                    //if (requestIds.Contains(requests.request.First().id))
                     {
-                        int address = requests.request.First().param.FirstOrDefault(x => x.name == "ParamNo").value;
-
-                        int fullvalue = requests.request.First().param.FirstOrDefault(x => x.name == "ParamValue").value;
-                        count--;
+                        
+						int address = requests.request.First().param.FirstOrDefault(x => x.name == "ParamNo").value;
+						int fullvalue = requests.request.First().param.FirstOrDefault(x => x.name == "ParamValue").value;
+						if (fullvalue != -1)
+							Trace.WriteLine(address.ToString() + " " + fullvalue.ToString());
+						count--;
                         foreach (var driverProperty in device.Driver.Properties.FindAll(x => x.No == address))
                         {
-
-                            if (properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
+						    if (properties.FirstOrDefault(x => x.Name == driverProperty.Name) == null)
                             {
                                 properties.Add(CreateProperty(fullvalue, driverProperty));
                             }
-                        }
+						}
                     }
-                    else
-                    {
-                        Logger.Error("FiresecDriver.GetConfigurationParameters RequestIds.Contains = false");
-                    }
+					//else
+					//{
+					//    Logger.Error("FiresecDriver.GetConfigurationParameters RequestIds.Contains = false");
+					//}
 				}
 					
 				int waitCount = 0;
@@ -167,7 +168,7 @@ namespace Firesec
 						};
 						binProperties.Add(binProperty);
 					}
-					if (binProperty.No == 0x80
+					if (binProperty.No == 0x8e
 						//&& binProperty.No <= 0xbf
 					)
 					{

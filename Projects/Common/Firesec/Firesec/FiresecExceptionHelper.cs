@@ -28,5 +28,15 @@
 			}
 			return false;
 		}
+
+		public static bool IsWellKnownTargetParameterCountException(string name)
+		{
+			switch (name)
+			{
+				case "Недопустимое число параметров":
+					return true;
+			}
+			return false;
+		}
 	}
 }

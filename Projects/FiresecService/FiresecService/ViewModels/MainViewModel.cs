@@ -28,11 +28,6 @@ namespace FiresecService.ViewModels
 			}
 		}
 
-		public bool IsDebug
-		{
-			get { return AppSettings.IsDebug; }
-		}
-
 		public ObservableCollection<ClientViewModel> Clients { get; private set; }
 
 		ClientViewModel _selectedClient;

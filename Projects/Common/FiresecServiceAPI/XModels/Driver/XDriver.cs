@@ -13,11 +13,13 @@ namespace XFiresecAPI
 		{
 			Children = new List<XDriverType>();
 			Properties = new List<XDriverProperty>();
+			AUParameters = new List<XAUParameter>();
 			AutoCreateChildren = new List<XDriverType>();
 			AvailableStates = new List<XStateType>();
 			CanEditAddress = true;
 			HasAddress = true;
 			IsDeviceOnShleif = true;
+            CanPlaceOnPlan = false;
 		}
 
 		[DataMember]
@@ -30,11 +32,17 @@ namespace XFiresecAPI
 		public string Name { get; set; }
 		[DataMember]
 		public string ShortName { get; set; }
+        [DataMember]
+        public string DeviceClassName { get; set; }
+        [DataMember]
+        public List<XDriverState> XStates { get; set; }
 
 		[DataMember]
 		public List<XDriverProperty> Properties { get; set; }
 		[DataMember]
 		public List<XStateType> AvailableStates { get; set; }
+		[DataMember]
+		public List<XAUParameter> AUParameters { get; set; }
 
 		[DataMember]
 		public List<XDriverType> Children { get; set; }
@@ -64,6 +72,8 @@ namespace XFiresecAPI
 		public bool HasZone { get; set; }
 		[DataMember]
 		public bool IsControlDevice { get; set; }
+        [DataMember]
+        public bool CanPlaceOnPlan { get; set; }
 
 		[DataMember]
 		public bool IsGroupDevice { get; set; }

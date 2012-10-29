@@ -177,6 +177,8 @@
     <Compile Include="Models\Device\PDU\PDUGroupDevice.cs" />
     <Compile Include="Models\Plans\ElementPolygonXZone.cs" />
     <Compile Include="Models\Plans\ElementRectangleXZone.cs" />
+    <Compile Include="XModels\ConfigurationCash.cs" />
+    <Compile Include="XModels\Configuration\XDeviceLibraryConfiguration.cs" />
     <Compile Include="XModels\Directions\XDirection.cs" />
     <Compile Include="Models\Driver\DriverPropertyParameter.cs" />
     <Compile Include="Models\Driver\DriverPropertyTypeEnum.cs" />
@@ -237,6 +239,7 @@
     <Compile Include="XModels\Device\XProperty.cs" />
     <Compile Include="XModels\Directions\XDirectionDevice.cs" />
     <Compile Include="XModels\Directions\XDirectionZone.cs" />
+    <Compile Include="XModels\Driver\XAUParameter.cs" />
     <Compile Include="XModels\Driver\XDriver.cs" />
     <Compile Include="XModels\Driver\XDriverDeviceParameter.cs" />
     <Compile Include="XModels\Driver\XDriverDeviceParameterType.cs" />
@@ -248,6 +251,9 @@
     <Compile Include="XModels\Filters\XJournalFilter.cs" />
     <Compile Include="XModels\Formula\FormulaOperation.cs" />
     <Compile Include="XModels\Formula\FormulaOperationType.cs" />
+    <Compile Include="XModels\Library\LibraryXDevice.cs" />
+    <Compile Include="XModels\Library\LibraryXFrame.cs" />
+    <Compile Include="XModels\Library\LibraryXState.cs" />
     <Compile Include="XModels\Logic\ClauseConditionType.cs" />
     <Compile Include="XModels\Logic\ClauseJounOperationType.cs" />
     <Compile Include="XModels\Logic\ClauseOperandType.cs" />
@@ -256,8 +262,12 @@
     <Compile Include="XModels\Logic\XDeviceLogic.cs" />
     <Compile Include="XModels\States\XDeviceState.cs" />
     <Compile Include="XModels\States\XDirectionState.cs" />
+    <Compile Include="XModels\States\XDriverState.cs" />
+    <Compile Include="XModels\States\XStateClass.cs" />
+    <Compile Include="XModels\States\XStateClassHelper.cs" />
     <Compile Include="XModels\States\XStateType.cs" />
     <Compile Include="XModels\States\XZoneState.cs" />
+    <Compile Include="XModels\XAlarmType.cs" />
     <Compile Include="XModels\XBinaryBase.cs" />
     <Compile Include="XModels\XBinaryInfo.cs" />
     <Compile Include="XModels\XStatesHelper.cs" />
@@ -312,6 +322,7 @@
       <Name>Infrustructure.Plans</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

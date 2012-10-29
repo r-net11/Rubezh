@@ -11,6 +11,14 @@ namespace FiresecClient
 	{
 		public string GetCommaSeparatedZones(List<Guid> zoneUIDs)
 		{
+			if (zoneUIDs.Count == 1)
+			{
+				var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == zoneUIDs.First());
+				if (zone != null)
+				{
+					return zone.PresentationName;
+				}
+			}
 			if (zoneUIDs.Count > 0)
 			{
                 var orderedZones = new List<int>();

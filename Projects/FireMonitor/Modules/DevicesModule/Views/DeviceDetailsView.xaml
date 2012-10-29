@@ -23,8 +23,8 @@
                 <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" Margin="5" VerticalAlignment="Center" Foreground="White" />
             </StackPanel>
             <StackPanel Grid.Column="1" DataContext="{Binding DeviceControlViewModel}" Visibility="{Binding IsTimerEnabled, Converter={StaticResource BoolToVisibilityConverter}}" Orientation="Horizontal">
-                <Label Content="{Binding TimeLeft}" />
-                <Label Content=" сек. " />
+                <Label Content="{Binding TimeLeft}" FontSize="20" Foreground="Red" />
+                <Label Content=" сек. " FontSize="20" Foreground="Red" />
             </StackPanel>
         </Grid>
         <TabControl Grid.Row="1">
@@ -89,17 +89,11 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        <TextBlock Text="Автоматика отключена" Visibility="{Binding IsAutomaticOff, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <!--<TabItem Header="Управление" Visibility="{Binding CanValveControl, Converter={StaticResource BoolToVisibilityConverter}}"
-                     IsSelected="{Binding IsControlTabSelected}">
-                <Grid>
-                    <Views:ValveControlView DataContext="{Binding ValveControlViewModel}" />
-                </Grid>
-            </TabItem>-->
-            <TabItem Header="Управление" Visibility="{Binding IsControlDevice, Converter={StaticResource BoolToVisibilityConverter}}"
-                     IsSelected="{Binding IsControlTabSelected}">
+            <TabItem Header="Управление" Visibility="{Binding IsControlDevice, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Grid>
                     <Grid Visibility="{Binding CanControl, Converter={StaticResource BoolToVisibilityConverter}}">
                         <Views:DeviceControlView DataContext="{Binding DeviceControlViewModel}" />

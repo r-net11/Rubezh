@@ -16,7 +16,8 @@ namespace Common.GK
 				ShortName = "ШУЗ",
 				MaxAddressOnShleif = 8,
 				IsControlDevice = true,
-				HasLogic = true
+				HasLogic = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

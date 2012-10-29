@@ -155,6 +155,16 @@ namespace FiresecClient
             return SafeOperationCall(() => { return FiresecService.GetXDeviceConfiguration(); }, "GetXDeviceConfiguration");
         }
 
+        public void SetXDeviceLibraryConfiguration(XFiresecAPI.XDeviceLibraryConfiguration xDeviceLibraryConfiguration)
+        {
+            SafeOperationCall(() => { FiresecService.SetXDeviceLibraryConfiguration(xDeviceLibraryConfiguration); }, "SetXDeviceLibraryConfiguration");
+        }
+
+        public XFiresecAPI.XDeviceLibraryConfiguration GetXDeviceLibraryConfiguration()
+        {
+            return SafeOperationCall(() => { return FiresecService.GetXDeviceLibraryConfiguration(); }, "GetXDeviceLibraryConfiguration");
+        }
+
         public OperationResult<bool> SetDeviceConfiguration(DeviceConfiguration deviceConfiguration)
         {
             return SafeOperationCall(() => { return FiresecService.SetDeviceConfiguration(deviceConfiguration); }, "SetDeviceConfiguration");

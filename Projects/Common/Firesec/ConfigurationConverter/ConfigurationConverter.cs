@@ -4,6 +4,7 @@ using System.Text;
 using Common;
 using FiresecAPI.Models;
 using System.Diagnostics;
+using XFiresecAPI;
 
 namespace Firesec
 {

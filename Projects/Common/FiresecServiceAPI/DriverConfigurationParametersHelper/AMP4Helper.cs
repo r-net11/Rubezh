@@ -45,23 +45,26 @@ namespace FiresecAPI.Models
 				Name = "Комбинированный шлейф дымовых и тепловых датчиков без определения двойной сработки и без контроля короткого замыкания ШС",
 				Value = "3"
 			};
-			var property1Parameter6 = new DriverPropertyParameter()
-			{
-				Name = "Охранная конфигурация",
-				Value = "6"
-			};
-			var property1Parameter7 = new DriverPropertyParameter()
-			{
-				Name = "Охранная конфигурация с дополнительным резистором",
-				Value = "7"
-			};
+			
 			
 			property1.Parameters.Add(property1Parameter1);
 			property1.Parameters.Add(property1Parameter2);
 			property1.Parameters.Add(property1Parameter3);
 			property1.Parameters.Add(property1Parameter4);
-			property1.Parameters.Add(property1Parameter6);
-			property1.Parameters.Add(property1Parameter7);
+
+			//var property1Parameter6 = new DriverPropertyParameter()
+			//{
+			//    Name = "Охранная конфигурация",
+			//    Value = "6"
+			//};
+			//var property1Parameter7 = new DriverPropertyParameter()
+			//{
+			//    Name = "Охранная конфигурация с дополнительным резистором",
+			//    Value = "7"
+			//};
+			//property1.Parameters.Add(property1Parameter6);
+			//property1.Parameters.Add(property1Parameter7);
+			
 			driver.Properties.Add(property1);
 
 			var property2 = new DriverProperty()

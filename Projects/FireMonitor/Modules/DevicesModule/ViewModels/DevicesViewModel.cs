@@ -10,6 +10,13 @@ namespace DevicesModule.ViewModels
 {
 	public class DevicesViewModel : ViewPartViewModel, ISelectable<Guid>
 	{
+		public static DevicesViewModel Current;
+
+		public DevicesViewModel()
+		{
+			Current = this;
+		}
+
 		public void Initialize()
 		{
 			BuildDeviceTree();

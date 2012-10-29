@@ -50,10 +50,34 @@
                             <extToolkit:TimePicker Value="{Binding EndTime}" Width="100" Margin="4" VerticalAlignment="Top" />
                         </StackPanel>
                     </Grid>
-                    <CheckBox Margin="2" HorizontalAlignment="Center" Foreground="White"
-                              Content="Использовать дату регистрации события в системе (иначе дату возникновения)"
-                              IsChecked="{Binding UseSystemDate}" />
                 </StackPanel>
+            </TabItem>
+            <TabItem Header="Тип">
+                <ListBox ItemsSource="{Binding JournalItemTypes}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+            <TabItem Header="Состояние">
+                <ListBox ItemsSource="{Binding StateClasses}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Name}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </TabItem>
+            <TabItem Header="ГК">
+                <ListBox ItemsSource="{Binding GKAddresses}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox IsChecked="{Binding IsChecked}" Content="{Binding Address}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </TabItem>
         </TabControl>
     </DockPanel>

@@ -27,9 +27,9 @@
                         <MenuItem Command="{Binding TurnOnNowCommand}" Header="Включить немедленно" />
                         <MenuItem Command="{Binding TurnOffCommand}" Header="Выключить" />
                         <MenuItem Command="{Binding TurnOffNowCommand}" Header="Выключить немедленно" />
-                        <MenuItem Command="{Binding StopCommand}" Header="Остановить" />
-                        <MenuItem Command="{Binding CancelDelayCommand}" Header="Отменить задержку" />
-                        <MenuItem Command="{Binding CancelStartCommand}" Header="Запретить пуск" />
+                        <MenuItem Command="{Binding StopCommand}" Header="Остановить" Visibility="Collapsed" />
+                        <MenuItem Command="{Binding CancelDelayCommand}" Header="Отменить задержку" Visibility="Collapsed" />
+                        <MenuItem Command="{Binding CancelStartCommand}" Header="Запретить пуск" Visibility="Collapsed" />
                     </MenuItem>
                     <MenuItem Header="Свойства" Command="{Binding ShowPropertiesCommand}" />
                 </ContextMenu>

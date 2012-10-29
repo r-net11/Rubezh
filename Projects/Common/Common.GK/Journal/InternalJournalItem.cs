@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using FiresecClient;
 using XFiresecAPI;
+using FiresecAPI.XModels;
 
 namespace Common.GK
 {
     public class InternalJournalItem
     {
-        public int GKNo { get; private set; }
+		public int GKNo { get; private set; }
+		string GKIpAddress;
         string StringDate;
         JournalItemType JournalItemType;
         Guid ObjectUID;
@@ -65,6 +67,8 @@ namespace Common.GK
         public JournalItem ToJournalItem()
         {
             var journalItem = new JournalItem();
+			journalItem.GKIpAddress = GKIpAddress;
+			journalItem.GKJournalRecordNo = GKNo;
             journalItem.DateTime = DateTime;
             journalItem.ObjectUID = ObjectUID;
             journalItem.Name = EventName;
@@ -73,11 +77,17 @@ namespace Common.GK
             journalItem.ObjectState = ObjectState;
             journalItem.JournalItemType = JournalItemType;
             journalItem.GKObjectNo = GKObjectNo;
+
+            var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+            var stateClasses = XStateClassHelper.Convert(states, false);
+            journalItem.StateClass = XStateClassHelper.GetMinStateClass(stateClasses);
+
             return journalItem;
         }
 
         public InternalJournalItem(XDevice gkDevice, List<byte> bytes)
         {
+			GKIpAddress = XManager.GetIpAddress(gkDevice);
             GKNo = BytesHelper.SubstructInt(bytes, 0);
             GKObjectNo = BytesHelper.SubstructShort(bytes, 4);
             KAUNo = BytesHelper.SubstructInt(bytes, 32);

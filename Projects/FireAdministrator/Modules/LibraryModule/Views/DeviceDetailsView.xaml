@@ -6,7 +6,7 @@
     <ListBox ItemsSource="{Binding Devices}" SelectedItem="{Binding SelectedDevice}">
         <ListBox.ItemTemplate>
             <DataTemplate>
-                <StackPanel Orientation="Horizontal" Margin="5, 5, 0, 0">
+                <StackPanel Orientation="Horizontal" Margin="5, 1, 0, 0">
                     <Image Width="14" Margin="5,0" Source="{Binding Driver.ImageSource}" />
                     <TextBlock Text="{Binding Driver.ShortName}" />
                 </StackPanel>

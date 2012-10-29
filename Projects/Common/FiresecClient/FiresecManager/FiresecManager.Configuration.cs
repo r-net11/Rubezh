@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using FiresecAPI.Models;
+using XFiresecAPI;
 using Common;
 
 namespace FiresecClient
@@ -39,6 +40,7 @@ namespace FiresecClient
             {
                 SystemConfiguration = FiresecService.GetSystemConfiguration();
                 DeviceLibraryConfiguration = FiresecService.GetDeviceLibraryConfiguration();
+                XManager.XDeviceLibraryConfiguration = FiresecService.GetXDeviceLibraryConfiguration();
                 PlansConfiguration = FiresecService.GetPlansConfiguration();
                 SecurityConfiguration = FiresecService.GetSecurityConfiguration();
                 var driversConfiguration = FiresecService.GetDriversConfiguration();
@@ -101,6 +103,11 @@ namespace FiresecClient
 		{
 			get { return FiresecConfiguration.DriversConfiguration.Drivers; }
 		}
+
+        public static List<XDriver> XDrivers
+        {
+            get { return FiresecConfiguration.XDriversConfiguration.XDrivers; }
+        }
 
 		public static List<Device> Devices
 		{

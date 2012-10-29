@@ -53,36 +53,33 @@ namespace AlarmModule.ViewModels
 			}
 		}
 
-		public bool MustConfirm
-		{
-			get
-			{
-				return ((Alarm.AlarmType == AlarmType.Fire) &&
-					(FiresecManager.CurrentUser.Permissions.Any(x => x == PermissionType.Oper_NoAlarmConfirm) == false));
-			}
-		}
-
-		bool CanConfirm()
-		{
-			return !Alarm.IsConfirmed;
-		}
-
 		public RelayCommand ConfirmCommand { get; private set; }
 		void OnConfirm()
 		{
 			Alarm.Confirm();
 		}
-
-		public bool CanReset()
-		{
-			return Alarm.CanReset();
-		}
+        bool CanConfirm()
+        {
+            return !Alarm.IsConfirmed;
+        }
+        public bool MustConfirm
+        {
+            get
+            {
+                return ((Alarm.AlarmType == AlarmType.Fire) &&
+                    (FiresecManager.CheckPermission(PermissionType.Oper_NoAlarmConfirm) == false));
+            }
+        }
 
 		public RelayCommand ResetCommand { get; private set; }
 		void OnReset()
 		{
 			Alarm.Reset();
 		}
+        public bool CanReset()
+        {
+            return Alarm.CanReset();
+        }
 
 		public bool CanRemoveFromIgnoreList()
 		{

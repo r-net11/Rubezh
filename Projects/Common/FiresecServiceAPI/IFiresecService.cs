@@ -115,6 +115,12 @@ namespace FiresecAPI
 
         [OperationContract]
         XDeviceConfiguration GetXDeviceConfiguration();
+
+        [OperationContract]
+        void SetXDeviceLibraryConfiguration(XDeviceLibraryConfiguration xDeviceLibraryConfiguration);
+
+        [OperationContract]
+        XDeviceLibraryConfiguration GetXDeviceLibraryConfiguration();
         #endregion
 
 		#region Poll

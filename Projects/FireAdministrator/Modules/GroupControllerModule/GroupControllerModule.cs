@@ -20,7 +20,7 @@ namespace GKModule
 		ZonesViewModel ZonesViewModel;
 		DirectionsViewModel DirectionsViewModel;
         FiltersViewModel FiltersViewModel;
-        DeviceLidraryViewModel DeviceLidraryViewModel;
+        XLibraryViewModel DeviceLidraryViewModel;
 		GKPlanExtension _planExtension;
 
 		public GroupControllerModule()
@@ -32,7 +32,7 @@ namespace GKModule
 			ZonesViewModel = new ZonesViewModel();
 			DirectionsViewModel = new DirectionsViewModel();
             FiltersViewModel = new FiltersViewModel();
-            DeviceLidraryViewModel = new DeviceLidraryViewModel();
+            DeviceLidraryViewModel = new XLibraryViewModel();
 			_planExtension = new GKPlanExtension(DevicesViewModel);
 		}
 

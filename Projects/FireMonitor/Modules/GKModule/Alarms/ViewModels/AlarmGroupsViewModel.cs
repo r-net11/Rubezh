@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Infrastructure.Common.Windows.ViewModels;
+using XFiresecAPI;
 
 namespace GKModule.ViewModels
 {
-	public class AlarmsGroupsViewModel : BaseViewModel
+	public class AlarmGroupsViewModel : BaseViewModel
 	{
-		public static AlarmsGroupsViewModel Current { get; private set; }
+		public static AlarmGroupsViewModel Current { get; private set; }
 
-		public AlarmsGroupsViewModel()
+		public AlarmGroupsViewModel()
 		{
 			Current = this;
 			AlarmGroups = new List<AlarmGroupViewModel>();

@@ -15,7 +15,8 @@ namespace Common.GK
 				Name = "Модуль дымоудаления-1",
 				ShortName = "МДУ-1",
 				IsControlDevice = true,
-				HasLogic = true
+				HasLogic = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddControlAvailableStates(driver);

@@ -1,6 +1,7 @@
 ﻿using FiresecAPI.Models;
 using FiresecService.Configuration;
 using FiresecAPI;
+using XFiresecAPI;
 
 namespace FiresecService.Service
 {
@@ -44,11 +45,11 @@ namespace FiresecService.Service
 
         public DeviceLibraryConfiguration GetDeviceLibraryConfiguration()
         {
-			return ConfigurationFileManager.GetLibraryConfiguration();
+			return ConfigurationFileManager.GetDeviceLibraryConfiguration();
         }
         public void SetDeviceLibraryConfiguration(DeviceLibraryConfiguration deviceLibraryConfiguration)
         {
-            ConfigurationFileManager.SetLibraryConfiguration(deviceLibraryConfiguration);
+            ConfigurationFileManager.SetDeviceLibraryConfiguration(deviceLibraryConfiguration);
         }
 
         public PlansConfiguration GetPlansConfiguration()
@@ -58,6 +59,15 @@ namespace FiresecService.Service
         public void SetPlansConfiguration(PlansConfiguration plansConfiguration)
         {
             ConfigurationFileManager.SetPlansConfiguration(plansConfiguration);
+        }
+
+        public XDeviceLibraryConfiguration GetXDeviceLibraryConfiguration()
+        {
+            return ConfigurationFileManager.GetXDeviceLibraryConfiguration();
+        }
+        public void SetXDeviceLibraryConfiguration(XDeviceLibraryConfiguration xDeviceLibraryConfiguration)
+        {
+            ConfigurationFileManager.SetXDeviceLibraryConfiguration(xDeviceLibraryConfiguration);
         }
     }
 }

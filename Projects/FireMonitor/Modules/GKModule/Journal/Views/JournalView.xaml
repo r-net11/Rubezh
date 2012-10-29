@@ -14,13 +14,55 @@
         <DataGrid Grid.Row="0" ItemsSource="{Binding JournalItems}" SelectedItem="{Binding SelectedJournal}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата" Binding="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" />
-                <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.EventName}" />
-                <DataGridTextColumn Header="" Binding="{Binding JournalItem.EventYesNo}" />
-                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.EventDescription}" />
+                <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
+                <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo}" />
+                <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
                 <DataGridTextColumn Header="Тип Объекта" Binding="{Binding JournalItem.JournalItemType, Converter={StaticResource JournalItemTypeToStringConverter}}" />
                 <DataGridTextColumn Header="Объект" Binding="{Binding PresentationName}" />
+
+                <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceState.Device.ShortPresentationAddressAndDriver}" />
+                <DataGridTextColumn Header="Зона" Binding="{Binding ZoneState.Zone.PresentationName}" />
+                <DataGridTextColumn Header="Направление" Binding="{Binding DirectionState.Direction.PresentationName}" />
+
                 <DataGridTextColumn Header="Состояние" Binding="{Binding StringStates}" />
+                <DataGridTextColumn Header="Класс состояния" Binding="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
             </DataGrid.Columns>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Style.Setters>
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu>
+                                    <MenuItem Header="Показать на плане" Command="{Binding ShowOnPlanCommand}" />
+                                    <MenuItem Header="Показать" Command="{Binding ShowObjectCommand}" />
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                    </Style.Setters>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Setters>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                                        <ContentPresenter VerticalAlignment="Center" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="Background" Value="{Binding StateClass, Converter={StaticResource XStateClassToColorConverter}}" />
+                    </Style.Setters>
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource PressedBackgroundBrush}" />
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
         </DataGrid>
         <Grid Grid.Row="1" DataContext="{Binding SelectedJournal}" TextElement.Foreground="White" Margin="2">
             <Grid.ColumnDefinitions>
@@ -40,9 +82,9 @@
             <TextBlock Grid.Row="3" Grid.Column="0" Text="Состояние" />
             <TextBlock Grid.Row="4" Grid.Column="0" Text="Объект" />
 
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.StringDate}" Margin="2" />
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.EventName}" Margin="2" />
-            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.EventDescription}" Margin="2" />
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
+            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
             <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StringStates}" Margin="2" />
             <TextBlock Grid.Row="4" Grid.Column="1" Margin="2">
 				<Hyperlink Command="{Binding ShowObjectCommand}" Style="{StaticResource HyperlinkStyle}">

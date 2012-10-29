@@ -3,6 +3,8 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrastructure.Common.Windows;
+using System;
 
 namespace GKModule.ViewModels
 {
@@ -18,7 +20,7 @@ namespace GKModule.ViewModels
             _parent = _parentDeviceViewModel.Device;
 
 			Drivers = new List<XDriver>(
-				from XDriver driver in XManager.DriversConfiguration.Drivers
+				from XDriver driver in XManager.XDriversConfiguration.XDrivers
                        where _parent.Driver.Children.Contains(driver.DriverType)
                        select driver);
 
@@ -91,6 +93,37 @@ namespace GKModule.ViewModels
             StartAddress = StartDevice.Address;
         }
 
+        void CreateDevices()
+        {
+            var step = Math.Max(SelectedDriver.GroupDeviceChildrenCount, (byte)1);
+            for (int i = StartDevice.IntAddress; i <= StartDevice.IntAddress + Count * step; i++)
+            {
+                if (_parent.Children.Any(x => x.IntAddress == i && x.ShleifNo == StartDevice.ShleifNo))
+                {
+                    MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
+                    return;
+                }
+            }
+
+            if (_parent.Driver.IsGroupDevice)
+            {
+                Count = Math.Min(Count, _parent.Driver.GroupDeviceChildrenCount);
+            }
+
+            byte shleifNo = StartDevice.ShleifNo;
+            for (int i = 0; i < Count; i++)
+            {
+                var address = StartDevice.IntAddress + i * step;
+                if (address + SelectedDriver.GroupDeviceChildrenCount >= 256)
+                {
+                    return;
+                }
+
+                XDevice device = XManager.AddChild(_parent, SelectedDriver, shleifNo, (byte)address);
+                NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
+            }
+        }
+
         protected override bool CanSave()
         {
             return (SelectedDriver != null);
@@ -98,13 +131,7 @@ namespace GKModule.ViewModels
 
 		protected override bool Save()
 		{
-            for (int i = 0; i < Count; i++)
-            {
-                byte address = NewDeviceHelper.GetMinAddress(SelectedDriver, _parent);
-                XDevice device = XManager.AddChild(_parent, SelectedDriver, 1, address);
-                NewDeviceHelper.AddDevice(device, _parentDeviceViewModel);
-            }
-
+            CreateDevices();
             _parentDeviceViewModel.Update();
             XManager.DeviceConfiguration.Update();
 			return base.Save();

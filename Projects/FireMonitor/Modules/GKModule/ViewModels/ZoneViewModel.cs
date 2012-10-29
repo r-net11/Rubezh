@@ -102,7 +102,7 @@ namespace GKModule.ViewModels
 		}
 		bool CanSetIgnore()
 		{
-			return !ZoneState.States.Contains(XStateType.Ignore);
+            return !ZoneState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
 
 		public RelayCommand ResetIgnoreCommand { get; private set; }
@@ -112,15 +112,12 @@ namespace GKModule.ViewModels
 		}
 		bool CanResetIgnore()
 		{
-			return ZoneState.States.Contains(XStateType.Ignore);
+            return ZoneState.States.Contains(XStateType.Ignore) && FiresecManager.CheckPermission(PermissionType.Oper_AddToIgnoreList);
 		}
 
 		void SendControlCommand(byte code)
 		{
-			var bytes = new List<byte>();
-			bytes.AddRange(BytesHelper.ShortToBytes(Zone.GetDatabaseNo(DatabaseType.Gk)));
-			bytes.Add(code);
-			SendManager.Send(Zone.GkDatabaseParent, 3, 13, 0, bytes);
+			ObjectCommandSendHelper.SendControlCommand(Zone, code);
 		}
 	}
 }

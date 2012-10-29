@@ -60,7 +60,12 @@ namespace Infrastructure.Client
                     if (modulesFromReg.FirstOrDefault(x => (moduledescr == x.Name) && (x.IsEnabled == false)) == null)
                     {
                         LoadingService.DoStep(string.Format("Инициализация модуля {0}", module.Name));
-                        module.Initialize();
+						try
+						{
+							module.Initialize();
+						}
+						catch (Exception)
+						{ };
                     }
 				}
 				catch (Exception e)

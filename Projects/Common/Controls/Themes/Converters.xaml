@@ -11,7 +11,8 @@
     <Converters:StateTypeToJournalStringConverter x:Key="StateTypeToJournalStringConverter" />
 	<Converters:StateToColorConverter x:Key="StateToColorConverter" />
 	<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
-	<Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
+    <Converters:XStateTypeToIconConverter x:Key="XStateTypeToIconConverter" />
+    <Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
 	<Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
 	<Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />
 	<Converters:NullToImageConverter x:Key="NullToImageConverter" />
@@ -20,4 +21,6 @@
 	<Converters:EventsToStringConverter x:Key="EventsToStringConverter" />
     <Converters:TimeToStringConverter x:Key="TimeToStringConverter" />
     <Converters:XStateTypeToStringConverter x:Key="XStateTypeToStringConverter" />
+    <Converters:XStateClassToStringConverter x:Key="XStateClassToStringConverter" />
+    <Converters:XStateClassToColorConverter x:Key="XStateClassToColorConverter" />
 </ResourceDictionary>

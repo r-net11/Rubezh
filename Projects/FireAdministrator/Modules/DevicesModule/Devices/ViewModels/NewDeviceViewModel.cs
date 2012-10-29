@@ -107,7 +107,7 @@ namespace DevicesModule.ViewModels
 			{
 				if (_parent.Children.Any(x => x.IntAddress == i))
 				{
-					MessageBoxService.ShowWarning("В заданном диапазоне уже сущеспвуют устройства");
+                    MessageBoxService.ShowWarning("В заданном диапазоне уже существуют устройства");
 					return;
 				}
 			}

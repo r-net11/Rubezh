@@ -8,10 +8,10 @@ namespace XFiresecAPI
     {
         public XDriversConfiguration()
         {
-            Drivers = new List<XDriver>();
+            XDrivers = new List<XDriver>();
         }
 
         [DataMember]
-        public List<XDriver> Drivers { get; set; }
+        public List<XDriver> XDrivers { get; set; }
     }
 }

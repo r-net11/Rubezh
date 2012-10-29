@@ -65,6 +65,9 @@ namespace XFiresecAPI
 		Reserve2 = 19,
 
         [DescriptionAttribute("Сохранение состояния")]
-        Save = 31
+        Save = 31,
+
+        [DescriptionAttribute("Нет")]
+        No = 32
 	}
 }

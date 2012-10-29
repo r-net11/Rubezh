@@ -91,6 +91,12 @@ namespace Common.GK.DB
 		
 		private System.Nullable<byte> _JournalItemType;
 		
+		private string _GKIpAddress;
+		
+		private System.Nullable<int> _GKJournalRecordNo;
+		
+		private byte _StateClass;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -113,6 +119,12 @@ namespace Common.GK.DB
     partial void OnItemTypeChanged();
     partial void OnJournalItemTypeChanging(System.Nullable<byte> value);
     partial void OnJournalItemTypeChanged();
+    partial void OnGKIpAddressChanging(string value);
+    partial void OnGKIpAddressChanged();
+    partial void OnGKJournalRecordNoChanging(System.Nullable<int> value);
+    partial void OnGKJournalRecordNoChanged();
+    partial void OnStateClassChanging(byte value);
+    partial void OnStateClassChanged();
     #endregion
 		
 		public Journal()
@@ -296,6 +308,66 @@ namespace Common.GK.DB
 					this._JournalItemType = value;
 					this.SendPropertyChanged("JournalItemType");
 					this.OnJournalItemTypeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GKIpAddress", DbType="NVarChar(20)")]
+		public string GKIpAddress
+		{
+			get
+			{
+				return this._GKIpAddress;
+			}
+			set
+			{
+				if ((this._GKIpAddress != value))
+				{
+					this.OnGKIpAddressChanging(value);
+					this.SendPropertyChanging();
+					this._GKIpAddress = value;
+					this.SendPropertyChanged("GKIpAddress");
+					this.OnGKIpAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GKJournalRecordNo", DbType="Int")]
+		public System.Nullable<int> GKJournalRecordNo
+		{
+			get
+			{
+				return this._GKJournalRecordNo;
+			}
+			set
+			{
+				if ((this._GKJournalRecordNo != value))
+				{
+					this.OnGKJournalRecordNoChanging(value);
+					this.SendPropertyChanging();
+					this._GKJournalRecordNo = value;
+					this.SendPropertyChanged("GKJournalRecordNo");
+					this.OnGKJournalRecordNoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_StateClass", DbType="TinyInt NOT NULL")]
+		public byte StateClass
+		{
+			get
+			{
+				return this._StateClass;
+			}
+			set
+			{
+				if ((this._StateClass != value))
+				{
+					this.OnStateClassChanging(value);
+					this.SendPropertyChanging();
+					this._StateClass = value;
+					this.SendPropertyChanged("StateClass");
+					this.OnStateClassChanged();
 				}
 			}
 		}

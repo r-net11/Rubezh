@@ -76,6 +76,7 @@
     <Compile Include="Helper.cs" />
     <Compile Include="Painter.cs" />
     <Compile Include="StateViewModel.cs" />
+    <Compile Include="XStateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

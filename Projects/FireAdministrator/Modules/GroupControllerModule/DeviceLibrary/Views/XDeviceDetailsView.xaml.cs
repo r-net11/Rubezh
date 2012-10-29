@@ -2,9 +2,9 @@
 
 namespace GKModule.Views
 {
-    public partial class DeviceLidraryView : UserControl
+    public partial class XDeviceDetailsView : UserControl
     {
-        public DeviceLidraryView()
+        public XDeviceDetailsView()
         {
             InitializeComponent();
         }

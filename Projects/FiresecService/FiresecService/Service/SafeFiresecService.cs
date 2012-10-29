@@ -6,6 +6,7 @@ using FiresecAPI;
 using FiresecAPI.Models;
 using FiresecAPI.Models.Skud;
 using FiresecService.ViewModels;
+using XFiresecAPI;
 
 namespace FiresecService.Service
 {
@@ -234,10 +235,18 @@ namespace FiresecService.Service
         {
             SafeOperationCall(() => { FiresecService.SetXDeviceConfiguration(xDeviceConfiguration); }, "SetXDeviceConfiguration");
         }
-
         public XFiresecAPI.XDeviceConfiguration GetXDeviceConfiguration()
         {
             return SafeOperationCall(() => { return FiresecService.GetXDeviceConfiguration(); }, "GetXDeviceConfiguration");
+        }
+
+        public XDeviceLibraryConfiguration GetXDeviceLibraryConfiguration()
+        {
+            return SafeOperationCall(() => { return FiresecService.GetXDeviceLibraryConfiguration(); }, "GetXDeviceLibraryConfiguration");
+        }
+        public void SetXDeviceLibraryConfiguration(XDeviceLibraryConfiguration xDeviceLibraryConfiguration)
+        {
+            SafeOperationCall(() => { FiresecService.SetXDeviceLibraryConfiguration(xDeviceLibraryConfiguration); }, "SetXDeviceLibraryConfiguration");
         }
 
         public IEnumerable<EmployeeCard> GetEmployees(EmployeeCardIndexFilter filter)

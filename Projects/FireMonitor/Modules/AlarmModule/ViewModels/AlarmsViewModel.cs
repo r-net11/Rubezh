@@ -87,11 +87,7 @@ namespace AlarmModule.ViewModels
 				}
 			}
 
-			//var thread = new Thread(new ThreadStart(()=>
-			//{
 			FiresecManager.FiresecDriver.ResetStates(resetItems);
-			//}));
-			//thread.Start();
 			AllAlarmsResetingTimer = new DispatcherTimer();
 			AllAlarmsResetingTimer.Interval = TimeSpan.FromSeconds(2);
 			AllAlarmsResetingTimer.Tick += new EventHandler(AllAlarmsResetingTimer_Tick);
@@ -126,11 +122,11 @@ namespace AlarmModule.ViewModels
 
 			if (ServiceFactory.SecurityService.Validate())
 			{
-				var thread = new Thread(new ThreadStart(() =>
-				{
+				//var thread = new Thread(new ThreadStart(() =>
+				//{
 					FiresecManager.FiresecDriver.RemoveFromIgnoreList(devices);
-				}));
-				thread.Start();
+				//}));
+				//thread.Start();
 			}
 		}
 		public bool CanRemoveAllFromIgnoreList()

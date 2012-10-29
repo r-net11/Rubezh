@@ -14,12 +14,12 @@ namespace FiresecAPI.Models
 			{
 				IsAUParameter = true,
 				No = 0x84,
-				Name = "AU_Delay",
+				Name = "Время хода задвижки, сек",
 				Caption = "Время хода задвижки, сек",
 				DriverPropertyType = DriverPropertyTypeEnum.IntType,
 				Default = "180",
 				Min = 1,
-				Max = 65535,
+				Max = 999,
 				LargeValue = true
 			};
 			driver.Properties.Add(property);

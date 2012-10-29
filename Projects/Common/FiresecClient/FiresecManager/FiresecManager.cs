@@ -71,6 +71,10 @@ namespace FiresecClient
 		{
 			get { return SecurityConfiguration.Users.FirstOrDefault(x => x.Login == _userLogin); }
 		}
+        public static bool CheckPermission(PermissionType permissionType)
+        {
+            return CurrentUser.Permissions.Any(x => x == permissionType);
+        }
 
         public static bool IsDisconnected { get; private set; }
 		public static void Disconnect()

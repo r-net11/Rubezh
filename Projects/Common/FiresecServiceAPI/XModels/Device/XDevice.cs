@@ -83,13 +83,11 @@ namespace XFiresecAPI
             get
             {
                 var address = Address;
-
                 if (Driver.IsGroupDevice)
                 {
-                    var lastAddressInGroup = ShleifNo.ToString() + "." + (IntAddress + Driver.GroupDeviceChildrenCount).ToString();
+                    var lastAddressInGroup = ShleifNo.ToString() + "." + (IntAddress + Driver.GroupDeviceChildrenCount - 1).ToString();
                     address += " - " + lastAddressInGroup;
                 }
-
                 return address;
             }
         }

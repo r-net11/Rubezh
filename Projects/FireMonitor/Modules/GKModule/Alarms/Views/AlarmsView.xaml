@@ -1,6 +1,11 @@
 ﻿<UserControl x:Class="GKModule.Views.AlarmsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Converters="clr-namespace:GKModule.Converters">
+    <UserControl.Resources>
+        <Converters:AlarmTypeToStringConverter x:Key="AlarmTypeToStringConverter" />
+    </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -8,14 +13,15 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" ItemsSource="{Binding Alarms}" SelectedItem="{Binding SelectedAlarm}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Состояние" Binding="{Binding Alarm.StateType}" Width="*" />
+                <DataGridTextColumn Header="Состояние" Binding="{Binding Alarm.AlarmType, Converter={StaticResource AlarmTypeToStringConverter}}" Width="*" />
                 <DataGridTextColumn Header="Устройство" Binding="{Binding Alarm.Device.ShortPresentationAddressAndDriver}" Width="*" />
                 <DataGridTextColumn Header="Зона" Binding="{Binding Alarm.Zone.PresentationName}" Width="*" />
                 <DataGridTextColumn Header="Направление" Binding="{Binding Alarm.Direction.PresentationName}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
-        <StackPanel Grid.Row="1">
-            
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Включить все" Command="{Binding TurnOnAllCommand}" Width="150" Margin="2" />
+            <Button Content="Сбросить все" Command="{Binding ResetAllCommand}" Width="150" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

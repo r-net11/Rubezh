@@ -31,7 +31,7 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
-                                <MenuItem Header="Подтвердить" Command="{Binding ConfirmCommand}" Visibility="{Binding MustConfirm, Converter={StaticResource BoolToVisibilityConverter}}" Margin="2" />
+                                <MenuItem Header="Подтвердить" Command="{Binding ConfirmCommand}" Visibility="Collapsed" Margin="2" />
                                 <MenuItem Header="Сбросить" Command="{Binding ResetCommand}" Margin="2" />
                                 <MenuItem Header="Включить" Command="{Binding RemoveFromIgnoreListCommand}" Margin="2" />
                                 <Separator />
@@ -47,12 +47,8 @@
             </DataGrid.RowStyle>
         </DataGrid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" Margin="2">
-                <TextBlock Text="Включить все" FontSize="12" />
-            </Button>
-            <Button Command="{Binding ResetAllCommand}" Width="100" Height="30" Margin="2">
-                <TextBlock Text="Сбросить все" FontSize="12" />
-            </Button>
+            <Button Content="Включить все" Command="{Binding RemoveAllFromIgnoreListCommand}" Width="100" Height="30" Margin="2" />
+            <Button Content="Сбросить все" Command="{Binding ResetAllCommand}" Width="100" Height="30" Margin="2" />
         </StackPanel>
     </Grid>
 </UserControl>

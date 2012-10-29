@@ -14,7 +14,8 @@ namespace Common.GK
 				UID = new Guid("799686b6-9cfa-4848-a0e7-b33149ab940c"),
 				Name = "Пожарный тепловой извещатель ИП 101-29-A3R1",
 				ShortName = "ИП-29",
-				HasZone = true
+				HasZone = true,
+                CanPlaceOnPlan = true
 			};
 
 			GKDriversHelper.AddAvailableStates(driver, XStateType.Test);
@@ -22,6 +23,8 @@ namespace Common.GK
 
 			GKDriversHelper.AddIntProprety(driver, 0x8B, "Порог срабатывания по температуре", 0, 70, 0, 85);
 			GKDriversHelper.AddIntProprety(driver, 0x8C, "Порог срабатывания по градиенту температуры", 0, 100, 0, 255);
+
+			driver.AUParameters.Add(new XAUParameter() { No = 0x83, Name = "Температура" });
 
 			return driver;
 		}

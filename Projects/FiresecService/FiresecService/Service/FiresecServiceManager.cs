@@ -21,17 +21,15 @@ namespace FiresecService.Service
                 var netPipeBinding = Common.BindingHelper.CreateNetNamedPipeBinding();
                 var tcpBinding = Common.BindingHelper.CreateNetTcpBinding();
 
-                string serviceAddress = AppSettings.ServiceAddress;
-                string localServiceAddress = AppSettings.LocalServiceAddress;
-                string machineName = MachineNameHelper.GetMachineName();
-                serviceAddress = serviceAddress.Replace("localhost", machineName);
-
 #if DEBUG
                 var behavior = _serviceHost.Description.Behaviors.Find<ServiceDebugBehavior>();
                 behavior.IncludeExceptionDetailInFaults = true;
 #endif
-                _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", tcpBinding, new Uri(serviceAddress));
-                _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", netPipeBinding, new Uri(localServiceAddress));
+                if (AppSettings.EnableRemoteConnections)
+                {
+                    _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", tcpBinding, new Uri("net.tcp://127.0.0.1:" + AppSettings.Port.ToString() + "/FiresecService/"));
+                }
+                _serviceHost.AddServiceEndpoint("FiresecAPI.IFiresecService", netPipeBinding, new Uri("net.pipe://127.0.0.1/FiresecService/"));
                 _serviceHost.Open();
                 return true;
             }

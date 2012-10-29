@@ -17,7 +17,7 @@ namespace Firesec
         int Port;
         string Login;
         string Password;
-		bool IsPing;
+        bool IsPing;
 
         public OperationResult<bool> Connect(string address, int port, string login, string password, bool isPing)
         {
@@ -25,7 +25,7 @@ namespace Firesec
             Port = port;
             Login = login;
             Password = password;
-			IsPing = isPing;
+            IsPing = isPing;
             return DoConnect();
         }
 
@@ -67,12 +67,12 @@ namespace Firesec
                 FiresecDriver.LoadingErrors.Append("Ошибка при загрузке драйвера firesec");
                 return new OperationResult<bool>("Ошибка при загрузке драйвера firesec");
             }
-			if (IsPing)
-			{
-				StartPing();
-			}
+            if (IsPing)
+            {
+                StartPing();
+            }
 
-			StartThread();
+            StartThread();
 
             return new OperationResult<bool>() { Result = true };
         }
@@ -108,7 +108,7 @@ namespace Firesec
                 }
                 catch (Exception e)
                 {
-					Logger.Error("NativeFiresecClient.GetConnection " + e.Message);
+                    Logger.Error("NativeFiresecClient.GetConnection " + e.Message);
                     return null;
                 }
             }
@@ -149,11 +149,14 @@ namespace Firesec
 
                 if (Connection != null)
                 {
-                    var result = GetCoreState();
-                    if (result.HasError)
+                    if (TasksCount == 0)
                     {
-                        Logger.Error("NativeFiresecClient.OnPing");
-                        DoConnect();
+                        var result = GetCoreState();
+                        if (result.HasError)
+                        {
+                            Logger.Error("NativeFiresecClient.OnPing");
+                            DoConnect();
+                        }
                     }
                 }
             }

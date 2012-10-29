@@ -3,6 +3,8 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Common.GK;
+using System.Collections.Generic;
 
 namespace GKModule.ViewModels
 {
@@ -22,6 +24,7 @@ namespace GKModule.ViewModels
 
 			Title = Device.Driver.ShortName + " " + Device.DottedAddress;
 			TopMost = true;
+			//UpdateAuParameters();
 		}
 
 		void deviceState_StateChanged()
@@ -56,11 +59,56 @@ namespace GKModule.ViewModels
 			}
 		}
 
+		public bool HasAUParameters
+		{
+			get
+			{
+				return Device.Driver.AUParameters.Count > 0;
+			}
+		}
+
+		void UpdateAuParameters()
+		{
+			AUParameterValues = new List<AUParameterValue>();
+			foreach (var auParameter in Device.Driver.AUParameters)
+			{
+				var bytes = new List<byte>();
+				var databaseNo = Device.GetDatabaseNo(DatabaseType.Gk);
+				bytes.Add((byte)Device.Driver.DriverTypeNo);
+				bytes.Add(Device.IntAddress);
+				bytes.Add((byte)(Device.ShleifNo - 1));
+				bytes.Add(auParameter.No);
+				var result = SendManager.Send(Device.GkDatabaseParent, 4, 128, 2, bytes);
+				if (!result.HasError)
+				{
+					if (result.Bytes.Count > 0)
+					{
+						var parameterValue = BytesHelper.SubstructShort(result.Bytes, 0);
+						var auParameterValue = new AUParameterValue()
+						{
+							Name = auParameter.Name,
+							Value = parameterValue
+						};
+						AUParameterValues.Add(auParameterValue);
+					}
+				}
+			}
+			OnPropertyChanged("AUParameterValues");
+		}
+
+		public List<AUParameterValue> AUParameterValues { get; private set; }
+
 		#region IWindowIdentity Members
 		public Guid Guid
 		{
 			get { return _guid; }
 		}
 		#endregion
+	}
+
+	public class AUParameterValue
+	{
+		public string Name { get; set; }
+		public int Value { get; set; }
 	}
 }

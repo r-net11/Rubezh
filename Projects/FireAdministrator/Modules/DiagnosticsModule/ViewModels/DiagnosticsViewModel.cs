@@ -15,6 +15,7 @@ using System.Threading;
 using System.Diagnostics;
 using Common.GK;
 using DevicesModule.ViewModels;
+using FiresecAPI;
 
 namespace DiagnosticsModule.ViewModels
 {
@@ -71,13 +72,15 @@ namespace DiagnosticsModule.ViewModels
 			DialogService.ShowModalWindow(devicesTreeViewModel);
 		}
 
+		int counter = 0;
 		public RelayCommand Test1Command { get; private set; }
 		void OnTest1()
 		{
 			while (true)
 			{
 				WriteAllDeviceConfigurationHelper.Run(false);
-				Trace.WriteLine("WriteAllDeviceConfigurationHelper Done");
+				Trace.WriteLine("WriteAllDeviceConfigurationHelper Count=" + counter.ToString());
+				counter++;
 			}
 		}
 
@@ -91,12 +94,26 @@ namespace DiagnosticsModule.ViewModels
 				FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
 				FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
 				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
+                Trace.WriteLine("WriteAllDeviceConfigurationHelper Count=" + counter.ToString());
+                counter++;
 			}
 		}
 
 		public RelayCommand Test3Command { get; private set; }
 		void OnTest3()
 		{
+			var stringBuilder = new StringBuilder();
+			foreach (var driver in FiresecManager.Drivers)
+			{
+				foreach (var state in driver.States)
+				{
+					if (state.StateType == StateType.Service)
+					{
+						stringBuilder.AppendLine(driver.ShortName + " - " + state.Name);
+					}
+				}
+			}
+			Text = stringBuilder.ToString();
 		}
 
 		public RelayCommand Test4Command { get; private set; }
