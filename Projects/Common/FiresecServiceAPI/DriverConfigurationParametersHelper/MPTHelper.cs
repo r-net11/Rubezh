@@ -80,8 +80,6 @@ namespace FiresecAPI.Models
 			ConfigurationDriverHelper.AddPropertyParameter(property1, "1 Ведущий", 1);
 			ConfigurationDriverHelper.AddPropertyParameter(property1, "2 Ведомый", 2);
 			driver.Properties.Add(property1);
-
-			
 		}
 
 		#region Methods

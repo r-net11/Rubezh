@@ -70,7 +70,6 @@ namespace FireAdministrator
             {
                 DeviceConfiguration = FiresecManager.FiresecConfiguration.DeviceConfiguration,
                 PlansConfiguration = FiresecManager.PlansConfiguration,
-                SecurityConfiguration = FiresecManager.SecurityConfiguration,
                 SystemConfiguration = FiresecManager.SystemConfiguration,
                 XDeviceConfiguration = XManager.DeviceConfiguration,
                 Version = new ConfigurationVersion() { MajorVersion = 1, MinorVersion = 1 }
@@ -83,7 +82,6 @@ namespace FireAdministrator
             if (FiresecManager.FiresecConfiguration.DeviceConfiguration == null)
                 FiresecManager.FiresecConfiguration.SetEmptyConfiguration();
             FiresecManager.PlansConfiguration = fullConfiguration.PlansConfiguration;
-            FiresecManager.SecurityConfiguration = fullConfiguration.SecurityConfiguration;
             FiresecManager.SystemConfiguration = fullConfiguration.SystemConfiguration;
             XManager.DeviceConfiguration = fullConfiguration.XDeviceConfiguration;
             if (XManager.DeviceConfiguration == null)

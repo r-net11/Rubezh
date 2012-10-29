@@ -3,6 +3,10 @@ using System.Linq;
 using FiresecClient;
 using Infrastructure.Common.Windows.ViewModels;
 using XFiresecAPI;
+using Infrastructure;
+using GKModule.Events;
+using Common.GK;
+using Infrastructure.Common.Windows;
 
 namespace GKModule.ViewModels
 {
@@ -13,6 +17,9 @@ namespace GKModule.ViewModels
 			Journals = new List<JournalViewModel>();
 			Journals.Add(new JournalViewModel(new XJournalFilter() { Name = " Все события" }));
 			SelectedJournal = Journals.FirstOrDefault();
+
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Unsubscribe(OnNewJournal);
+			ServiceFactory.Events.GetEvent<NewXJournalEvent>().Subscribe(OnNewJournal);
 		}
 
 		public void Initialize()
@@ -44,6 +51,18 @@ namespace GKModule.ViewModels
 			{
 				_selectedJournal = value;
 				OnPropertyChanged("SelectedJournal");
+			}
+		}
+
+		void OnNewJournal(List<JournalItem> journalItems)
+		{
+			foreach (var journalItem in journalItems)
+			{
+				if (journalItem.StateClass == XStateClass.Fire1 || journalItem.StateClass == XStateClass.Fire2 || journalItem.StateClass == XStateClass.Attention)
+				{
+					var confirmationViewModel = new ConfirmationViewModel(journalItem);
+					DialogService.ShowWindow(confirmationViewModel);
+				}
 			}
 		}
 	}

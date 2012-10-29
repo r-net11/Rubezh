@@ -24,7 +24,6 @@ namespace GKModule.ViewModels
         {
             ShowFilterCommand = new RelayCommand(OnShowFilter);
             ShowSettingsCommand = new RelayCommand(OnShowSettings);
-            //ServiceFactory.Events.GetEvent<GetFilteredArchiveCompletedEvent>().Subscribe(OnGetFilteredArchiveCompleted);
 
             _archiveDefaultState = ClientSettings.ArchiveDefaultState;
             if (_archiveDefaultState == null)
@@ -196,10 +195,7 @@ namespace GKModule.ViewModels
                     archiveFilter = GerFilterFromDefaultState(_archiveDefaultState);
 
 				var journalRecords = GKDBHelper.Select(archiveFilter);
-
 				Dispatcher.BeginInvoke(new Action(() => { OnGetFilteredArchiveCompleted(journalRecords); }));
-
-                //FiresecManager.FiresecService.BeginGetFilteredArchive(archiveFilter);
             }
             catch (Exception e)
             {

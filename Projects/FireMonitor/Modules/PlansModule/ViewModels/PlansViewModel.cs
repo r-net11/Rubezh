@@ -154,6 +154,20 @@ namespace PlansModule.ViewModels
             return false;
         }
 
+		public bool ShowXZone(XZone zone)
+		{
+			foreach (var planViewModel in Plans)
+			{
+				if (planViewModel.XZoneStates.Any(x => x.Zone == zone))
+				{
+					SelectedPlan = planViewModel;
+					SelectedPlanCanvasViewModel.SelectXZone(zone);
+					return true;
+				}
+			}
+			return false;
+		}
+
         public void ShowZone(Guid zoneUID)
         {
             foreach (var planViewModel in Plans)

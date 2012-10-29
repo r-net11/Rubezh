@@ -24,7 +24,7 @@ namespace GKModule.ViewModels
 
 			Title = Device.Driver.ShortName + " " + Device.DottedAddress;
 			TopMost = true;
-			//UpdateAuParameters();
+			UpdateAuParameters();
 		}
 
 		void deviceState_StateChanged()
@@ -73,12 +73,12 @@ namespace GKModule.ViewModels
 			foreach (var auParameter in Device.Driver.AUParameters)
 			{
 				var bytes = new List<byte>();
-				var databaseNo = Device.GetDatabaseNo(DatabaseType.Gk);
+				var databaseNo = Device.GetDatabaseNo(DatabaseType.Kau);
 				bytes.Add((byte)Device.Driver.DriverTypeNo);
 				bytes.Add(Device.IntAddress);
 				bytes.Add((byte)(Device.ShleifNo - 1));
 				bytes.Add(auParameter.No);
-				var result = SendManager.Send(Device.GkDatabaseParent, 4, 128, 2, bytes);
+				var result = SendManager.Send(Device.KauDatabaseParent, 4, 128, 2, bytes);
 				if (!result.HasError)
 				{
 					if (result.Bytes.Count > 0)

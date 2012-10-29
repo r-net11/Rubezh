@@ -11,7 +11,6 @@ namespace FiresecAPI.Models
 			DeviceConfiguration = new DeviceConfiguration();
 			DeviceLibraryConfiguration = new DeviceLibraryConfiguration();
 			PlansConfiguration = new PlansConfiguration();
-			SecurityConfiguration = new SecurityConfiguration();
 			SystemConfiguration = new SystemConfiguration();
 			XDeviceConfiguration = new XDeviceConfiguration();
 		}
@@ -24,9 +23,6 @@ namespace FiresecAPI.Models
 
 		[DataMember]
 		public PlansConfiguration PlansConfiguration { get; set; }
-
-		[DataMember]
-		public SecurityConfiguration SecurityConfiguration { get; set; }
 
 		[DataMember]
 		public SystemConfiguration SystemConfiguration { get; set; }

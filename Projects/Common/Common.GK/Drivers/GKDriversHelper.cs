@@ -81,10 +81,15 @@ namespace Common.GK
 
 		public static void AddControlAvailableStates(XDriver driver)
 		{
-			driver.AvailableStates.Add(XStateType.On);
-			driver.AvailableStates.Add(XStateType.Off);
-			driver.AvailableStates.Add(XStateType.TurningOn);
-			driver.AvailableStates.Add(XStateType.TurnOff);
+			AddAvailableStates(driver, XStateType.On);
+		}
+
+		public static void AddAvailableStateClasses(XDriver driver)
+		{
+			if (driver.AvailableStateClasses.Count == 0)
+			{
+				driver.AvailableStateClasses.Add(XStateClass.Ignore);
+			}
 		}
 	}
 }

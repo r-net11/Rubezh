@@ -1,16 +1,14 @@
 ﻿<UserControl x:Class="GKModule.Views.DeviceStateView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:Converters="clr-namespace:GKModule.Converters"
-             xmlns:CommonConverters="clr-namespace:Controls.Converters;assembly=Controls">
+             xmlns:Converters="clr-namespace:GKModule.Converters">
     <UserControl.Resources>
-        <CommonConverters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
         <Converters:XStateTypeConverter x:Key="XStateTypeConverter" />
     </UserControl.Resources>
 
     <StackPanel>
         <StackPanel Orientation="Horizontal">
-            <Image Source="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
+            <Image Source="{Binding DeviceState.StateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" />
             <TextBlock Text="Состояние" Margin="5, 0, 0, 0"  VerticalAlignment="Center" />
             <TextBlock Text="{Binding DeviceState.StateType, Converter={StaticResource StateTypeToStringConverter}}" VerticalAlignment="Center" Margin="5, 1, 1, 1" />
         </StackPanel>

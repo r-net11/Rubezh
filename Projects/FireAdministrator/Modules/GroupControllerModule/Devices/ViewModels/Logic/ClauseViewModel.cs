@@ -24,9 +24,7 @@ namespace GKModule.ViewModels
 
 			ClauseConditionTypes = Enum.GetValues(typeof(ClauseConditionType)).Cast<ClauseConditionType>().ToList();
 			ClauseOperationTypes = Enum.GetValues(typeof(ClauseOperationType)).Cast<ClauseOperationType>().ToList();
-			//ClauseJounOperationTypes = Enum.GetValues(typeof(ClauseJounOperationType)).Cast<ClauseJounOperationType>().ToList();
 
-			//SelectedClauseJounOperationType = clause.ClauseJounOperationType;
 			SelectedClauseOperationType = clause.ClauseOperationType;
 			Zones = clause.Zones.ToList();
 			Devices = clause.Devices.ToList();
@@ -37,19 +35,7 @@ namespace GKModule.ViewModels
 		}
 
         public List<ClauseConditionType> ClauseConditionTypes { get; private set; }
-		//public List<ClauseJounOperationType> ClauseJounOperationTypes { get; private set; }
 		public List<ClauseOperationType> ClauseOperationTypes { get; private set; }
-
-		//ClauseJounOperationType _selectedClauseJounOperationType;
-		//public ClauseJounOperationType SelectedClauseJounOperationType
-		//{
-		//    get { return _selectedClauseJounOperationType; }
-		//    set
-		//    {
-		//        _selectedClauseJounOperationType = value;
-		//        OnPropertyChanged("SelectedClauseJounOperationType");
-		//    }
-		//}
 
         ClauseConditionType _selectedClauseConditionType;
         public ClauseConditionType SelectedClauseConditionType
@@ -77,11 +63,12 @@ namespace GKModule.ViewModels
                         Zones = new List<XZone>();
                         Directions = new List<XDirection>();
                         StateTypes = new ObservableCollection<XStateType>();
-                        StateTypes.Add(XStateType.Attention);
-                        StateTypes.Add(XStateType.Fire1);
-                        StateTypes.Add(XStateType.Fire2);
-                        StateTypes.Add(XStateType.Test);
+						StateTypes.Add(XStateType.Fire2);
+						StateTypes.Add(XStateType.Fire1);
+						StateTypes.Add(XStateType.On);
+						StateTypes.Add(XStateType.Ignore);
                         StateTypes.Add(XStateType.Failure);
+						StateTypes.Add(XStateType.Test);
                         SelectedStateType = StateTypes.FirstOrDefault();
                         break;
 
@@ -90,9 +77,9 @@ namespace GKModule.ViewModels
                         Devices = new List<XDevice>();
                         Directions = new List<XDirection>();
                         StateTypes = new ObservableCollection<XStateType>();
-                        StateTypes.Add(XStateType.Attention);
-                        StateTypes.Add(XStateType.Fire1);
                         StateTypes.Add(XStateType.Fire2);
+						StateTypes.Add(XStateType.Fire1);
+						StateTypes.Add(XStateType.Attention);
                         SelectedStateType = StateTypes.FirstOrDefault();
                         break;
 
@@ -134,6 +121,12 @@ namespace GKModule.ViewModels
 			{
 				_selectedStateType = value;
 				OnPropertyChanged("SelectedStateType");
+
+				if (SelectedClauseOperationType == ClauseOperationType.AllDevices || SelectedClauseOperationType == ClauseOperationType.AnyDevice)
+				{
+					Devices = new List<XDevice>();
+					OnPropertyChanged("PresenrationDevices");
+				}
 			}
 		}
 
@@ -192,7 +185,13 @@ namespace GKModule.ViewModels
 		public RelayCommand SelectDevicesCommand { get; private set; }
 		void OnSelectDevices()
 		{
-			var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices);
+			var sourceDevices = new List<XDevice>();
+			foreach (var device in XManager.DeviceConfiguration.Devices)
+			{
+				if (device.Driver.AvailableStates.Contains(SelectedStateType))
+					sourceDevices.Add(device);
+			}
+			var devicesSelectationViewModel = new DevicesSelectationViewModel(Devices, sourceDevices);
 			if (DialogService.ShowModalWindow(devicesSelectationViewModel))
 			{
 				Devices = devicesSelectationViewModel.DevicesList;

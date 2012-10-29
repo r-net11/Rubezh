@@ -56,23 +56,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
-            ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Publish(Zone.UID);
+			ShowOnPlanHelper.ShowZone(Zone);
 		}
 		public bool CanShowOnPlan()
 		{
-			return false;
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-			{
-                if (plan.ElementPolygonZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
-				{
-					return true;
-				}
-                if (plan.ElementRectangleZones.Any(x => (x.ZoneUID != Guid.Empty) && (x.ZoneUID == Zone.UID)))
-				{
-					return true;
-				}
-			}
-			return false;
+			return ShowOnPlanHelper.CanShowZone(Zone);
 		}
 
 		public RelayCommand ResetFire1Command { get; private set; }

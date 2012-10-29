@@ -26,15 +26,15 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="Параметры" Visibility="{Binding HasAUParameters}">
+            <TabItem Header="Параметры" Visibility="{Binding HasAUParameters, Converter={StaticResource BoolToVisibilityConverter}}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <ItemsControl ItemsSource="{Binding AUParameterValues}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding Name}" />
-                                        <TextBlock Text="{Binding Value}" Margin="5, 0, 0, 0" />
+                                        <TextBlock Text="{Binding Name}" Foreground="White" />
+                                        <TextBlock Text="{Binding Value}" Foreground="White" Margin="5, 0, 0, 0" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>

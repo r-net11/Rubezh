@@ -118,6 +118,14 @@ namespace XFiresecAPI
 			}
 		}
 
+		public string ShortNameAndDottedAddress
+		{
+			get
+			{
+				return Driver.ShortName + " " + DottedAddress;
+			}
+		}
+
 		public string PresentationAddressAndDriver
 		{
 			get

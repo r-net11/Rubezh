@@ -131,6 +131,7 @@
     <Compile Include="Converters\StateTypeToStringConverter.cs" />
     <Compile Include="Converters\TimeToStringConverter.cs" />
     <Compile Include="Converters\XStateClassToColorConverter.cs" />
+    <Compile Include="Converters\XStateClassToIconConverter.cs" />
     <Compile Include="Converters\XStateClassToStringConverter.cs" />
     <Compile Include="Converters\XStateTypeToIconConverter.cs" />
     <Compile Include="Converters\XStateTypeToStringConverter.cs" />
@@ -734,6 +735,39 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="FSIcons\PDU_PTDirection.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\Failure.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\Fire2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\Fire1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\Attention.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\Ignore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\AutoOff.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\Service.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\On.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\Info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\Unknown.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="StateClassIcons\no.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -55,6 +55,16 @@ namespace XFiresecAPI
 			}
 		}
 
+		public List<XStateClass> StateClasses
+		{
+			get { return XStateClassHelper.Convert(States, IsConnectionLost); }
+		}
+
+		public XStateClass StateClass
+		{
+			get { return XStateClassHelper.GetMinStateClass(StateClasses); }
+		}
+
 		public StateType StateType
 		{
 			get

@@ -12,7 +12,7 @@ namespace GKModule.Converters
 			switch ((XAlarmType)value)
 			{
 				case XAlarmType.NPTOn:
-					return "DarkRed";
+					return "Red";
 
 				case XAlarmType.Fire1:
 					return "Red";

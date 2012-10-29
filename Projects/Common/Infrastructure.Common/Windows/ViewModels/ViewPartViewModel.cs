@@ -28,6 +28,7 @@ namespace Infrastructure.Common.Windows.ViewModels
 		{
 			IsActive = true;
 			OnShow();
+			ApplicationService.Layout.ShortcutService.KeyPressed -= new KeyEventHandler(ShortcutService_KeyPressed);
 			ApplicationService.Layout.ShortcutService.KeyPressed += new KeyEventHandler(ShortcutService_KeyPressed);
 		}
 		internal void Hide()

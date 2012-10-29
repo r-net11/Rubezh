@@ -55,7 +55,7 @@
                                             Background="{Binding ZoneState.StateType, Converter={StaticResource StateToColorConverter}}"
                                             ToolTip="{Binding ToolTip}">
                                         <Grid.ContextMenu>
-                                            <ContextMenu TextBlock.FontSize="12">
+                                            <ContextMenu TextBlock.FontSize="12" TextBlock.FontWeight="Normal">
                                                 <MenuItem Command="{Binding ShowOnPlanCommand}" Header="Показать на плане" />
                                                 <Separator />
                                                 <MenuItem Command="{Binding SetIgnoreCommand}" Header="Отключить" />

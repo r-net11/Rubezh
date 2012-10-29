@@ -79,7 +79,7 @@ namespace DiagnosticsModule.ViewModels
 			while (true)
 			{
 				WriteAllDeviceConfigurationHelper.Run(false);
-				Trace.WriteLine("WriteAllDeviceConfigurationHelper Count=" + counter.ToString());
+				Trace.WriteLine("WriteAllDeviceConfigurationHelper Count=" + counter.ToString() + " " + DateTime.Now.ToString());
 				counter++;
 			}
 		}
@@ -94,7 +94,7 @@ namespace DiagnosticsModule.ViewModels
 				FiresecManager.FiresecService.SetPlansConfiguration(FiresecManager.PlansConfiguration);
 				FiresecManager.FiresecService.SetXDeviceConfiguration(XManager.DeviceConfiguration);
 				FiresecManager.FiresecService.NotifyClientsOnConfigurationChanged();
-                Trace.WriteLine("WriteAllDeviceConfigurationHelper Count=" + counter.ToString());
+                Trace.WriteLine("SetNewConfig Count=" + counter.ToString() + " " + DateTime.Now.ToString());
                 counter++;
 			}
 		}

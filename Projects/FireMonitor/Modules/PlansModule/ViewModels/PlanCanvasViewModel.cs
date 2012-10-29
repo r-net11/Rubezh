@@ -190,6 +190,12 @@ namespace PlansModule.ViewModels
 			XDevices.FirstOrDefault(x => x.XDeviceUID == device.UID).IsSelected = true;
 		}
 
+		public void SelectXZone(XZone zone)
+		{
+			//XZones.ForEach(x => x.IsSelected = false);
+			//XZones.FirstOrDefault(x => x.ZoneUID == zone.UID).IsSelected = true;
+		}
+
 		void OnPlanStateChanged(Guid planUID)
 		{
 			if ((Plan != null) && (Plan.UID == planUID))

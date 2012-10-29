@@ -4,15 +4,15 @@ using XFiresecAPI;
 
 namespace Controls.Converters
 {
-	public class XStateTypeToIconConverter : IValueConverter
+	public class XStateClassToIconConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			var stateType = (XStateType)value;
-			if (stateType == XStateType.Norm)
+			var stateClass = (XStateClass)value;
+			if (stateClass == XStateClass.Norm)
 				return null;
 
-			return "/Controls;component/GKIcons/" + stateType.ToString() + ".png";
+			return "/Controls;component/StateClassIcons/" + stateClass.ToString() + ".png";
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

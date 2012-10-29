@@ -6,15 +6,15 @@ using FiresecAPI.XModels;
 
 namespace XFiresecAPI
 {
-    public class XDeviceState
-    {
+	public class XDeviceState
+	{
 		public XDevice Device { get; set; }
 
-        public XDeviceState()
-        {
+		public XDeviceState()
+		{
 			_states = new List<XStateType>();
 			_isConnectionLost = true;
-        }
+		}
 
 		bool _isConnectionLost;
 		public bool IsConnectionLost
@@ -63,38 +63,32 @@ namespace XFiresecAPI
 			}
 		}
 
-		public XStateType MainState
-		{
-			get
-			{
-				var mainState = XStateType.Norm;
-				var minPriority = 100;
-				foreach (var state in States)
-				{
-					var priority = XStatesHelper.XStateTypeToPriority(state);
-					if (priority < minPriority)
-					{
-						minPriority = priority;
-					}
-				}
-				return mainState;
-			}
-		}
+		//public XStateType MainState
+		//{
+		//    get
+		//    {
+		//        var mainState = XStateType.Norm;
+		//        var minPriority = 100;
+		//        foreach (var state in States)
+		//        {
+		//            var priority = XStatesHelper.XStateTypeToPriority(state);
+		//            if (priority < minPriority)
+		//            {
+		//                minPriority = priority;
+		//            }
+		//        }
+		//        return mainState;
+		//    }
+		//}
 
-        public List<XStateClass> StateClasses
-        {
-            get
-            {
-                return XStateClassHelper.Convert(_states, IsConnectionLost);
-            }
-        }
+		public List<XStateClass> StateClasses
+		{
+			get { return XStateClassHelper.Convert(States, IsConnectionLost); }
+		}
 
 		public XStateClass StateClass
 		{
-			get
-			{
-                return XStateClassHelper.GetMinStateClass(StateClasses);
-			}
+			get { return XStateClassHelper.GetMinStateClass(StateClasses); }
 		}
 
 		public StateType StateType
@@ -111,11 +105,11 @@ namespace XFiresecAPI
 			}
 		}
 
-        public event Action StateChanged;
-        void OnStateChanged()
-        {
-            if (StateChanged != null)
-                StateChanged();
-        }
-    }
+		public event Action StateChanged;
+		void OnStateChanged()
+		{
+			if (StateChanged != null)
+				StateChanged();
+		}
+	}
 }

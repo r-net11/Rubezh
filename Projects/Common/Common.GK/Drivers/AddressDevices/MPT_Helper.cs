@@ -112,7 +112,7 @@ namespace Common.GK
 				Name = propertyName,
 				Caption = propertyName,
 				Default = defaultValue,
-				Offset = 0
+				Offset = 4
 			};
 			GKDriversHelper.AddPropertyParameter(property, "Сирена", 1);
 			GKDriversHelper.AddPropertyParameter(property, "Табличка «Уходи»", 2);

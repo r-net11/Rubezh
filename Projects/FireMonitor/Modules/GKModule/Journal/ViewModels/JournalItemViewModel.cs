@@ -20,80 +20,65 @@ namespace GKModule.ViewModels
 		public XDirectionState DirectionState { get; private set; }
 		public string PresentationName { get; private set; }
 		public string StringStates { get; private set; }
-        public StateType StateType { get; private set; }
-        public XStateClass StateClass { get; private set; }
 
-        public JournalItemViewModel(JournalItem journalItem)
-        {
-            ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
-            ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
-            JournalItem = journalItem;
-            switch (JournalItem.JournalItemType)
-            {
-                case JournalItemType.Device:
-                    var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-                    if (device != null)
-                    {
-                        DeviceState = device.DeviceState;
-                        StateType = DeviceState.StateType;
-                        PresentationName = device.Driver.ShortName + " " + device.DottedAddress;
-                    }
-                    break;
+		public JournalItemViewModel(JournalItem journalItem)
+		{
+			ShowObjectCommand = new RelayCommand(OnShowObject, CanShowObject);
+			ShowOnPlanCommand = new RelayCommand(OnShowOnPlan, CanShowOnPlan);
+			JournalItem = journalItem;
+			switch (JournalItem.JournalItemType)
+			{
+				case JournalItemType.Device:
+					var device = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (device != null)
+					{
+						DeviceState = device.DeviceState;
+						PresentationName = device.Driver.ShortName + " " + device.DottedAddress;
+					}
+					break;
 
-                case JournalItemType.Zone:
-                    var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-                    if (zone != null)
-                    {
-                        ZoneState = zone.ZoneState;
-                        StateType = ZoneState.StateType;
-                        PresentationName = zone.PresentationName;
-                    }
-                    break;
+				case JournalItemType.Zone:
+					var zone = XManager.DeviceConfiguration.Zones.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (zone != null)
+					{
+						ZoneState = zone.ZoneState;
+						PresentationName = zone.PresentationName;
+					}
+					break;
 
-                case JournalItemType.Direction:
-                    var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-                    if (direction != null)
-                    {
-                        DirectionState = direction.DirectionState;
-                        StateType = DirectionState.StateType;
-                        PresentationName = DirectionState.Direction.PresentationName;
-                    }
-                    break;
+				case JournalItemType.Direction:
+					var direction = XManager.DeviceConfiguration.Directions.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (direction != null)
+					{
+						DirectionState = direction.DirectionState;
+						PresentationName = DirectionState.Direction.PresentationName;
+					}
+					break;
 
-                case JournalItemType.GK:
-                    var gkDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
-                    if (gkDevice != null)
-                    {
-                        DeviceState = gkDevice.DeviceState;
-                        PresentationName = DeviceState.Device.Driver.ShortName + " " + DeviceState.Device.DottedAddress;
-                    }
-                    break;
+				case JournalItemType.GK:
+					var gkDevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == JournalItem.ObjectUID);
+					if (gkDevice != null)
+					{
+						DeviceState = gkDevice.DeviceState;
+						PresentationName = DeviceState.Device.ShortNameAndDottedAddress;
+					}
+					break;
 
-                case JournalItemType.System:
-                    break;
-            }
+				case JournalItemType.System:
+					break;
+			}
 
-            var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
-            var stringBuilder = new StringBuilder();
-            foreach (var state in states)
-            {
-                if (state == XStateType.Save)
-                    continue;
+			var states = XStatesHelper.StatesFromInt(journalItem.ObjectState);
+			var stringBuilder = new StringBuilder();
+			foreach (var state in states)
+			{
+				if (state == XStateType.Save)
+					continue;
 
-                stringBuilder.Append(state.ToDescription() + " ");
-            }
-            StringStates = stringBuilder.ToString();
-
-            if (JournalItem.JournalItemType == JournalItemType.System)
-            {
-                StateClass = XStateClass.Info;
-            }
-            else
-            {
-                var stateClasses = XStateClassHelper.Convert(states, false);
-                StateClass = XStateClassHelper.GetMinStateClass(stateClasses);
-            }
-        }
+				stringBuilder.Append(state.ToDescription() + " ");
+			}
+			StringStates = stringBuilder.ToString();
+		}
 
 		public RelayCommand ShowObjectCommand { get; private set; }
 		void OnShowObject()
@@ -133,14 +118,38 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowOnPlanCommand { get; private set; }
 		void OnShowOnPlan()
 		{
+			switch (JournalItem.JournalItemType)
+			{
+				case JournalItemType.Device:
+					if (DeviceState != null)
+					{
+						ShowOnPlanHelper.ShowDevice(DeviceState.Device);
+					}
+					break;
+				case JournalItemType.Zone:
+					if (ZoneState != null)
+					{
+						ShowOnPlanHelper.ShowZone(ZoneState.Zone);
+					}
+					break;
+			}
 		}
 		bool CanShowOnPlan()
 		{
 			switch (JournalItem.JournalItemType)
 			{
 				case JournalItemType.Device:
+					if (DeviceState != null)
+					{
+						return ShowOnPlanHelper.CanShowDevice(DeviceState.Device);
+					}
+					break;
 				case JournalItemType.Zone:
-					return false;
+					if (ZoneState != null)
+					{
+						return ShowOnPlanHelper.CanShowZone(ZoneState.Zone);
+					}
+					break;
 			}
 			return false;
 		}

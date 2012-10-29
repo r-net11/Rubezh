@@ -73,6 +73,8 @@ namespace FiresecClient
 		}
         public static bool CheckPermission(PermissionType permissionType)
         {
+			if (CurrentUser == null)
+				return false;
             return CurrentUser.Permissions.Any(x => x == permissionType);
         }
 

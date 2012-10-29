@@ -12,6 +12,7 @@
 	<Converters:StateToColorConverter x:Key="StateToColorConverter" />
 	<Converters:StateTypeToIconConverter x:Key="StateTypeToIconConverter" />
     <Converters:XStateTypeToIconConverter x:Key="XStateTypeToIconConverter" />
+    <Converters:XStateClassToIconConverter x:Key="XStateClassToIconConverter" />
     <Converters:BeeperTypeToStringConverter x:Key="BeeperTypeToStringConverter" />
 	<Converters:InstructionTypeToStringConverter x:Key="InstructionTypeToStringConverter" />
 	<Converters:IsOffToStringConverter x:Key="IsOffToStringConverter" />

@@ -21,6 +21,7 @@ namespace PlansModule
 			ServiceFactory.Events.GetEvent<ShowDeviceOnPlanEvent>().Subscribe(OnShowDeviceOnPlan);
 			ServiceFactory.Events.GetEvent<ShowZoneOnPlanEvent>().Subscribe(OnShowZoneOnPlan);
 			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Subscribe(OnShowXDeviceOnPlan);
+			ServiceFactory.Events.GetEvent<ShowXZoneOnPlanEvent>().Subscribe(OnShowXZoneOnPlan);
 			PlansViewModel = new PlansViewModel();
 		}
 
@@ -39,6 +40,12 @@ namespace PlansModule
 		{
 			var hasDeviceOnPlan = PlansViewModel.ShowXDevice(device);
 			if (hasDeviceOnPlan)
+				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
+		}
+		void OnShowXZoneOnPlan(XZone zone)
+		{
+			var hasZoneOnPlan = PlansViewModel.ShowXZone(zone);
+			if (hasZoneOnPlan)
 				ServiceFactory.Events.GetEvent<ShowPlansEvent>().Publish(null);
 		}
 

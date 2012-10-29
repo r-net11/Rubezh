@@ -17,15 +17,13 @@
                 <DataGridTextColumn Header="Событие" Binding="{Binding JournalItem.Name}" />
                 <DataGridTextColumn Header="" Binding="{Binding JournalItem.YesNo}" />
                 <DataGridTextColumn Header="Уточнение" Binding="{Binding JournalItem.Description}" />
-                <DataGridTextColumn Header="Тип Объекта" Binding="{Binding JournalItem.JournalItemType, Converter={StaticResource JournalItemTypeToStringConverter}}" />
-                <DataGridTextColumn Header="Объект" Binding="{Binding PresentationName}" />
+                <DataGridTextColumn Header="Тип" Binding="{Binding JournalItem.JournalItemType, Converter={StaticResource JournalItemTypeToStringConverter}}" />
 
-                <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceState.Device.ShortPresentationAddressAndDriver}" />
+                <DataGridTextColumn Header="Устройство" Binding="{Binding DeviceState.Device.ShortNameAndDottedAddress}" />
                 <DataGridTextColumn Header="Зона" Binding="{Binding ZoneState.Zone.PresentationName}" />
                 <DataGridTextColumn Header="Направление" Binding="{Binding DirectionState.Direction.PresentationName}" />
 
-                <DataGridTextColumn Header="Состояние" Binding="{Binding StringStates}" />
-                <DataGridTextColumn Header="Класс состояния" Binding="{Binding StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
+                <DataGridTextColumn Header="Класс состояния" Binding="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" />
             </DataGrid.Columns>
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
@@ -53,7 +51,7 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
-                        <Setter Property="Background" Value="{Binding StateClass, Converter={StaticResource XStateClassToColorConverter}}" />
+                        <Setter Property="Background" Value="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToColorConverter}}" />
                     </Style.Setters>
                     <Style.Triggers>
                         <Trigger Property="IsSelected" Value="True">
@@ -75,18 +73,21 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата" />
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Событие" />
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Уточнение" />
-            <TextBlock Grid.Row="3" Grid.Column="0" Text="Состояние" />
-            <TextBlock Grid.Row="4" Grid.Column="0" Text="Объект" />
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="Состояния" />
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="Класс состояния" />
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="Объект" />
 
             <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding JournalItem.DateTime, Converter={StaticResource TimeToStringConverter}}" Margin="2" />
             <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding JournalItem.Name}" Margin="2" />
             <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding JournalItem.Description}" Margin="2" />
             <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding StringStates}" Margin="2" />
-            <TextBlock Grid.Row="4" Grid.Column="1" Margin="2">
+            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding JournalItem.StateClass, Converter={StaticResource XStateClassToStringConverter}}" Margin="2" />
+            <TextBlock Grid.Row="5" Grid.Column="1" Margin="2">
 				<Hyperlink Command="{Binding ShowObjectCommand}" Style="{StaticResource HyperlinkStyle}">
 					<TextBlock Text="{Binding PresentationName}" />
 				</Hyperlink>

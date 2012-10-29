@@ -42,18 +42,11 @@ namespace GKModule.ViewModels
 		public RelayCommand ShowPlanCommand { get; private set; }
 		void OnShowPlan()
 		{
-			ServiceFactory.Events.GetEvent<ShowXDeviceOnPlanEvent>().Publish(Device);
+			ShowOnPlanHelper.ShowDevice(Device);
 		}
 		public bool CanShowOnPlan()
 		{
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-			{
-				if (plan.ElementXDevices.Any(x => x.XDeviceUID == Device.UID))
-				{
-					return true;
-				}
-			}
-			return false;
+			return ShowOnPlanHelper.CanShowDevice(Device);
 		}
 
 		public RelayCommand ShowPropertiesCommand { get; private set; }
