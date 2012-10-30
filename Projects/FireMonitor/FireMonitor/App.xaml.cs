@@ -40,6 +40,7 @@ namespace FireMonitor
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
+		    FireMonitor.ViewModels.MonitorShellViewModel.IsException = true;
 			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
 
 			if (bootstrapperLoaded)
