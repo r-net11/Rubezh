@@ -7,6 +7,7 @@ using Infrastructure.Common.Windows;
 using XFiresecAPI;
 using System;
 using Common;
+using System.Diagnostics;
 
 namespace GKModule
 {
@@ -107,42 +108,54 @@ namespace GKModule
 			LoadingService.Close();
 		}
 
-		static void GetDeviceParameters(KauDatabase kauDatabase, BinaryObjectBase binaryObject)
-		{
-			var no = binaryObject.GetNo();
-			LoadingService.DoStep("Запрос параметров объекта " + no);
-			var sendResult = SendManager.Send(kauDatabase.RootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
+        static void GetDeviceParameters(KauDatabase kauDatabase, BinaryObjectBase binaryObject)
+        {
+            var no = binaryObject.GetNo();
+            LoadingService.DoStep("Запрос параметров объекта " + no);
+            var sendResult = SendManager.Send(kauDatabase.RootDevice, 2, 9, ushort.MaxValue, BytesHelper.ShortToBytes(no));
 
-			if (sendResult.HasError == false)
-			{
-				for (int i = 0; i < sendResult.Bytes.Count / 4; i++)
-				{
-					byte paramNo = sendResult.Bytes[i * 4];
-					ushort paramValue = BytesHelper.SubstructShort(sendResult.Bytes, i * 4 + 1);
+            if (sendResult.HasError == false)
+            {
+                var binProperties = new List<BinProperty>();
+                for (int i = 0; i < sendResult.Bytes.Count / 4; i++)
+                {
+                    byte paramNo = sendResult.Bytes[i * 4];
+                    ushort paramValue = BytesHelper.SubstructShort(sendResult.Bytes, i * 4 + 1);
+                    var binProperty = new BinProperty()
+                    {
+                        ParamNo = paramNo,
+                        ParamValue = paramValue
+                    };
+                    binProperties.Add(binProperty);
+                }
 
-					if (binaryObject.Device != null)
-					{
-						var driverProperty = binaryObject.Device.Driver.Properties.FirstOrDefault(x => x.No == paramNo);
-						if (driverProperty != null)
-						{
-							var property = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
-							if (property != null)
-							{
-								if (property.Value != paramValue)
-									property.Value = paramValue;
-							}
-							else
-								MessageBoxService.Show("Не найдено свойство устройства");
-						}
-					}
-				}
-			}
-			var deviceViewModel = DevicesViewModel.Current.Devices.FirstOrDefault(x => x.Device.UID == binaryObject.Device.UID);
-			if (deviceViewModel != null)
-			{
-				deviceViewModel.UpdateProperties();
-			}
-		}
+                if (binaryObject.Device != null)
+                {
+                    foreach (var driverProperty in binaryObject.Device.Driver.Properties)
+                    {
+                        var binProperty = binProperties.FirstOrDefault(x => x.ParamNo == driverProperty.No);
+                        if (binProperty != null)
+                        {
+                            var paramValue = (ushort)(binProperty.ParamValue >> driverProperty.Offset);
+
+                            var property = binaryObject.Device.Properties.FirstOrDefault(x => x.Name == driverProperty.Name);
+                            if (property != null)
+                            {
+                                if (property.Value != paramValue)
+                                    property.Value = paramValue;
+
+                                Trace.WriteLine("Property " + property.Name + " " + property.Value + " " + driverProperty.Offset.ToString() + " " + driverProperty.No.ToString());
+                            }
+                        }
+                    }
+                }
+            }
+            var deviceViewModel = DevicesViewModel.Current.Devices.FirstOrDefault(x => x.Device.UID == binaryObject.Device.UID);
+            if (deviceViewModel != null)
+            {
+                deviceViewModel.UpdateProperties();
+            }
+        }
 
 		static void SetDeviceParameters(KauDatabase kauDatabase, BinaryObjectBase binaryObject)
 		{
@@ -158,4 +171,10 @@ namespace GKModule
 			}
 		}
 	}
+
+    class BinProperty
+    {
+        public byte ParamNo { get; set; }
+        public ushort ParamValue { get; set; }
+    }
 }
