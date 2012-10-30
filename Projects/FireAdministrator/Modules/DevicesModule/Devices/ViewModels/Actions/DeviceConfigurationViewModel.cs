@@ -12,27 +12,26 @@ namespace DevicesModule.ViewModels
 {
 	public class DeviceConfigurationViewModel : DialogViewModel
 	{
-		Guid _deviceUID;
-		DeviceConfiguration _deviceConfiguration;
+		DeviceConfiguration RemoteDeviceConfiguration;
 		Device LocalRootDevice;
 		Device RemoteRootDevice;
 
-		public DeviceConfigurationViewModel(Guid deviceUID, DeviceConfiguration deviceConfiguration)
+		public DeviceConfigurationViewModel(Guid deviceUID, DeviceConfiguration remoteDeviceConfiguration)
 		{
 			Title = "Сравнение конфигураций";
 			ReplaceCommand = new RelayCommand(OnReplace);
-			_deviceUID = deviceUID;
-			deviceConfiguration.Reorder();
-			_deviceConfiguration = deviceConfiguration;
-			_deviceConfiguration.Update();
-			foreach (var device in _deviceConfiguration.Devices)
+
+			RemoteDeviceConfiguration = remoteDeviceConfiguration;
+			RemoteDeviceConfiguration.Reorder();
+			RemoteDeviceConfiguration.Update();
+			foreach (var device in RemoteDeviceConfiguration.Devices)
 			{
 				device.Driver = FiresecManager.Drivers.FirstOrDefault(x => x.UID == device.DriverUID);
 			}
 
-			LocalRootDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == _deviceUID);
-			RemoteRootDevice = _deviceConfiguration.Devices.FirstOrDefault(x => x.UID == _deviceUID);
-			var UnionRootDevice = (Device)FiresecManager.Devices.FirstOrDefault(x => x.UID == _deviceUID).Clone();
+			LocalRootDevice = FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			RemoteRootDevice = RemoteDeviceConfiguration.Devices.FirstOrDefault(x => x.UID == deviceUID);
+			var UnionRootDevice = (Device)FiresecManager.Devices.FirstOrDefault(x => x.UID == deviceUID).Clone();
 			UnionRootDevice.Children = new List<Device>();
 			foreach (var localChild in LocalRootDevice.Children)
 			{
@@ -57,8 +56,8 @@ namespace DevicesModule.ViewModels
 				}
 			}
 
-			LocalDevices = new DeviceTreeViewModel(UnionRootDevice, FiresecManager.FiresecConfiguration.DeviceConfiguration);
-			RemoteDevices = new DeviceTreeViewModel(UnionRootDevice, _deviceConfiguration);
+			LocalDevices = new DeviceTreeViewModel(UnionRootDevice, FiresecManager.FiresecConfiguration.DeviceConfiguration, true);
+			RemoteDevices = new DeviceTreeViewModel(UnionRootDevice, RemoteDeviceConfiguration, false);
 		}
 
 		public DeviceTreeViewModel LocalDevices { get; private set; }
@@ -70,11 +69,9 @@ namespace DevicesModule.ViewModels
 			if (MessageBoxService.ShowQuestion("Обратите внимание, что при наличии межпанельных связей, информация о внешних устройствах может быть восстановлена не полностью") != System.Windows.MessageBoxResult.Yes)
 				return;
 
-			var parent = LocalRootDevice.Parent;
-			parent.Children.Remove(LocalRootDevice);
-			parent.Children.Add(RemoteRootDevice);
-			RemoteRootDevice.Parent = parent;
-			//LocalRootDevice = RemoteRootDevice;
+			LocalRootDevice.Parent.Children.Remove(LocalRootDevice);
+			LocalRootDevice.Parent.Children.Add(RemoteRootDevice);
+			RemoteRootDevice.Parent = LocalRootDevice.Parent;
 
 			var deviceViewModel = DevicesViewModel.Current.AllDevices.FirstOrDefault(x => x.Device.UID == RemoteRootDevice.UID);
 			deviceViewModel.CollapseChildren();

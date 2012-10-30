@@ -14,7 +14,8 @@ namespace FiresecClient
 				Driver = device.Driver,
 				IntAddress = device.IntAddress,
 				Description = device.Description,
-				ZoneUID = device.ZoneUID
+				ZoneUID = device.ZoneUID,
+				Zone = device.Zone
 			};
 
 			if (fullCopy)

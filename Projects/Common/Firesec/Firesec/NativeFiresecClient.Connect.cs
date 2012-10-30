@@ -144,6 +144,8 @@ namespace Firesec
         {
             while (true)
             {
+				WatchLifetime();
+
                 if (StopPollEvent.WaitOne(10000))
                     break;
 
@@ -161,5 +163,17 @@ namespace Firesec
                 }
             }
         }
+
+		void WatchLifetime()
+		{
+			if(IsOperationBuisy)
+			{
+				if (DateTime.Now - OperationDateTime > TimeSpan.FromMinutes(10))
+				{
+					Logger.Error("NativeFiresecClient.WatchLifetime");
+					SocketServerHelper.Restart();
+				}
+			}
+		}
     }
 }
