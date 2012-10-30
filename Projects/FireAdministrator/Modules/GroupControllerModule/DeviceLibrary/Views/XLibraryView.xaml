@@ -5,29 +5,40 @@
              xmlns:ExtToolkit="clr-namespace:Microsoft.Windows.Controls;assembly=WPFToolkit.Extended">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="400" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="0" ItemsSource="{Binding XDevices}" SelectedItem="{Binding SelectedXDevice}" Margin="2">
-            <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Устройство" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Image Width="14" Source="{Binding XDriver.ImageSource}" Margin="5, 0, 0, 0" />
-                                <TextBlock Text="{Binding XDriver.ShortName}" Margin="5, 0, 0, 0" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-            <DataGrid.ContextMenu>
+        <ListView Grid.Column="0" ItemsSource="{Binding XDevices}" SelectedItem="{Binding SelectedXDevice}" SelectionMode="Single" Margin="2">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Обозначение" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal" Margin="5, 1, 0, 0">
+                                        <Image Width="14" Margin="5,0" Source="{Binding XDriver.ImageSource}" />
+                                        <TextBlock Text="{Binding XDriver.ShortName}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Наименование" >
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding XDriver.Name}" ToolTip="{Binding XDriver.Name}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+            <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Добавить устройство" Command="{Binding AddXDeviceCommand}" />
                     <MenuItem Header="Удалить устройство" Command="{Binding RemoveXDeviceCommand}" />
                 </ContextMenu>
-            </DataGrid.ContextMenu>
-        </DataGrid>
+            </ListView.ContextMenu>
+        </ListView>
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
