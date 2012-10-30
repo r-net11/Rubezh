@@ -24,6 +24,8 @@ namespace Firesec
 		public void Convert()
 		{
 			FiresecConfiguration = FiresecSerializedClient.GetCoreConfig().Result;
+			if (FiresecConfiguration == null)
+				FiresecConfiguration = new Models.CoreConfiguration.config();
 			DeviceConfiguration = new DeviceConfiguration();
 			ConvertZones();
 			ConvertDirections();
@@ -48,6 +50,8 @@ namespace Firesec
 			if (includeSecurity)
 			{
 				FiresecConfiguration = FiresecSerializedClient.GetCoreConfig().Result;
+				if (FiresecConfiguration == null)
+					FiresecConfiguration = new Models.CoreConfiguration.config();
 				FiresecConfiguration.part = null;
 			}
 			else
