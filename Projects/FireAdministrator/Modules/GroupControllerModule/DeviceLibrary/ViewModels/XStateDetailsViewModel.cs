@@ -17,7 +17,7 @@ namespace GKModule.ViewModels
             var libraryXStates = new List<LibraryXState>();
             foreach (XStateClass xstateClass in Enum.GetValues(typeof(XStateClass)))
             {
-                if (!libraryXDevice.XStates.Any(x => x.XStateClass == xstateClass && x.Code == null))
+                if ((!libraryXDevice.XStates.Any(x => x.XStateClass == xstateClass && x.Code == null)) && (libraryXDevice.XDriver.AvailableStateClasses.Exists(x=>x==xstateClass)))
                 {
                     var libraryXState = new LibraryXState()
                     {
