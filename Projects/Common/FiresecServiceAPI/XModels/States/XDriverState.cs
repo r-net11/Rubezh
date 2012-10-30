@@ -12,6 +12,6 @@ namespace XFiresecAPI
 		public string Name { get; set; }
 
 		[DataMember]
-		public XStateType XStateClass { get; set; }
+		public XStateClass XStateClass { get; set; }
 	}
 }
