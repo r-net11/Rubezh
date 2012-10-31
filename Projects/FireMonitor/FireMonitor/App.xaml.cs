@@ -18,6 +18,7 @@ namespace FireMonitor
 		const string WaitId = "{358D5240-9A07-4134-9EAF-8D7A54BCA81F}";
 		Bootstrapper _bootstrapper;
 		bool bootstrapperLoaded = false;
+		public static bool IsClosingOnException = false;
 
 		protected override void OnStartup(StartupEventArgs e)
 		{
@@ -40,7 +41,7 @@ namespace FireMonitor
 
 		void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
 		{
-		    FireMonitor.ViewModels.MonitorShellViewModel.IsException = true;
+			IsClosingOnException = true;
 			Logger.Error(e.ExceptionObject as Exception, "App.CurrentDomain_UnhandledException");
 
 			if (bootstrapperLoaded)
@@ -56,14 +57,17 @@ namespace FireMonitor
 		}
 		private void ApplicationService_Closing(object sender, CancelEventArgs e)
 		{
-            GKDBHelper.AddMessage("Выход пользователя из системы");
+			GKDBHelper.AddMessage("Выход пользователя из системы");
 			foreach (var module in ApplicationService.Modules)
 				module.Dispose();
 			AlarmPlayerHelper.Dispose();
 			ClientSettings.SaveSettings();
 			FiresecManager.Disconnect();
 			if (RegistryHelper.IsIntegrated)
-				RegistryHelper.ShutDown();
+			{
+				if (!IsClosingOnException)
+					RegistryHelper.ShutDown();
+			}
 		}
 	}
 }

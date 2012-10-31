@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,16 +17,16 @@ namespace GKModule.ViewModels
 		public DirectionsSelectationViewModel(List<XDirection> directions)
         {
             Title = "Выбор зон";
-            AddOneCommand = new RelayCommand(OnAddOne, CanAdd);
-            RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemove);
-            AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
-            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
+            AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
+            RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
+            AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
+            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
 			Directions = directions;
 			TargetDirections = new ObservableCollection<XDirection>();
 			SourceDirections = new ObservableCollection<XDirection>();
 
-			foreach (var direction in XManager.DeviceConfiguration.Directions)
+            foreach (var direction in XManager.DeviceConfiguration.Directions)
             {
 				if (Directions.Contains(direction))
                     TargetDirections.Add(direction);
@@ -62,6 +62,60 @@ namespace GKModule.ViewModels
                 _selectedTargetDirection = value;
 				OnPropertyChanged("SelectedTargetDirection");
             }
+        }
+
+        public RelayCommand<object> AddCommand { get; private set; }
+        public IList SelectedSourceDirections;
+        void OnAdd(object parameter)
+        {
+            SelectedSourceDirections = (IList)parameter;
+            var SourceDirectionViewModels = new List<XDirection>();
+            foreach (var SourceDirection in SelectedSourceDirections)
+            {
+                var SourceDirectionViewModel = SourceDirection as XDirection;
+                if (SourceDirectionViewModel != null)
+                    SourceDirectionViewModels.Add(SourceDirectionViewModel);
+            }
+            foreach (var SourceDirectionViewModel in SourceDirectionViewModels)
+            {
+                TargetDirections.Add(SourceDirectionViewModel);
+                SourceDirections.Remove(SourceDirectionViewModel);
+            }
+
+            OnPropertyChanged("SourceDirections");
+            SelectedSourceDirection = SourceDirections.FirstOrDefault();
+        }
+
+        public RelayCommand<object> RemoveCommand { get; private set; }
+        public IList SelectedTargetDirections;
+        void OnRemove(object parameter)
+        {
+            SelectedTargetDirections = (IList)parameter;
+            var TargetDirectionViewModels = new List<XDirection>();
+            foreach (var TargetDirection in SelectedTargetDirections)
+            {
+                var TargetDirectionViewModel = TargetDirection as XDirection;
+                if (TargetDirectionViewModel != null)
+                    TargetDirectionViewModels.Add(TargetDirectionViewModel);
+            }
+            foreach (var TargetDirectionViewModel in TargetDirectionViewModels)
+            {
+                SourceDirections.Add(TargetDirectionViewModel);
+                TargetDirections.Remove(TargetDirectionViewModel);
+            }
+
+            OnPropertyChanged("TargetDirections");
+            SelectedTargetDirection = TargetDirections.FirstOrDefault();
+        }
+
+        public bool CanAdd(object parameter)
+        {
+            return SelectedSourceDirection != null;
+        }
+
+        public bool CanRemove(object parameter)
+        {
+            return SelectedTargetDirection != null;
         }
 
         public RelayCommand AddOneCommand { get; private set; }
@@ -103,17 +157,15 @@ namespace GKModule.ViewModels
             TargetDirections.Clear();
 			SelectedSourceDirection = SourceDirections.FirstOrDefault();
         }
-
-        bool CanAdd()
+        public bool CanAddAll()
         {
-            return SelectedSourceDirection != null;
+            return (SourceDirections.Count > 0);
         }
 
-        bool CanRemove()
+        public bool CanRemoveAll()
         {
-            return SelectedTargetDirection != null;
+            return (TargetDirections.Count > 0);
         }
-
 		protected override bool Save()
 		{
 			Directions = new List<XDirection>(TargetDirections);

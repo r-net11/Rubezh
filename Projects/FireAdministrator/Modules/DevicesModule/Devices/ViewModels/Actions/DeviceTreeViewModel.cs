@@ -4,14 +4,15 @@ using Infrastructure.Common.Windows.ViewModels;
 
 namespace DevicesModule.ViewModels
 {
-    public class DeviceTreeViewModel : DialogViewModel
+    public class DeviceTreeViewModel : BaseViewModel
     {
+		bool IsRemote;
         Device RootDevice;
         DeviceConfiguration DeviceConfiguration;
 
-        public DeviceTreeViewModel(Device rootDevice, DeviceConfiguration deviceConfiguration)
+        public DeviceTreeViewModel(Device rootDevice, DeviceConfiguration deviceConfiguration, bool isRemote)
         {
-            Title = "Сравнение конфигураций";
+			IsRemote = isRemote;
             RootDevice = rootDevice;
             DeviceConfiguration = deviceConfiguration;
 			DeviceConfiguration.Reorder();
@@ -54,6 +55,10 @@ namespace DevicesModule.ViewModels
 
             foreach (var childDevice in device.Children)
             {
+				if (IsRemote)
+				{
+					ClearExternalZones(childDevice);
+				}
                 var childDeviceViewModel = AddDevice(childDevice, deviceViewModel);
                 deviceViewModel.Children.Add(childDeviceViewModel);
             }
@@ -81,5 +86,39 @@ namespace DevicesModule.ViewModels
                 }
             }
         }
+
+		void ClearExternalZones(Device device)
+		{
+			var zoneLogic = new ZoneLogic();
+			if (device.ZoneLogic != null)
+			{
+				foreach (var clause in device.ZoneLogic.Clauses)
+				{
+					var newClause = new Clause();
+					foreach (var zone in clause.Zones)
+					{
+						if (!HasExternalZone(zone, device))
+						{
+							newClause.ZoneUIDs.Add(zone.UID);
+							newClause.Zones.Add(zone);
+						}
+					}
+					zoneLogic.Clauses.Add(newClause);
+				}
+			}
+			device.ZoneLogic = zoneLogic;
+		}
+
+		bool HasExternalZone(Zone zone, Device device)
+		{
+			foreach (var deviceInZone in zone.DevicesInZone)
+			{
+				if (device.ParentPanel.UID == deviceInZone.ParentPanel.UID)
+				{
+					return true;
+				}
+			}
+			return false;
+		}
     }
 }

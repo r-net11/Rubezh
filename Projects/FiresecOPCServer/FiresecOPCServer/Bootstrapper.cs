@@ -5,6 +5,7 @@ using System.Text;
 using FiresecClient;
 using FiresecAPI.Models;
 using System.Configuration;
+using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
 using FiresecOPCServer.ViewModels;
 using Infrastructure.Common;
@@ -23,7 +24,7 @@ namespace FiresecOPCServer
 		public static void Run()
 		{
 			AppSettingsHelper.InitializeAppSettings();
-
+            ThemeHelper.LoadThemeFromRegister();
 			var resourceService = new ResourceService();
 			resourceService.AddResource(new ResourceDescription(typeof(Bootstrapper).Assembly, "DataTemplates/Dictionary.xaml"));
 			resourceService.AddResource(new ResourceDescription(typeof(ApplicationService).Assembly, "Windows/DataTemplates/Dictionary.xaml"));

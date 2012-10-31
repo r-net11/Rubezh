@@ -16,7 +16,7 @@ namespace XFiresecAPI
 		[DescriptionAttribute("Неисправность")]
 		Failure = 3,
 
-		[DescriptionAttribute("Отключение")]
+        [DescriptionAttribute("Отключено")]
 		Ignore = 4,
 
 		[DescriptionAttribute("Автоматика отключена")]

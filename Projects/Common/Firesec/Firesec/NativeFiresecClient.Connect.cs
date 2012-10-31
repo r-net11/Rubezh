@@ -81,7 +81,7 @@ namespace Firesec
         static AutoResetEvent ConnectionTimeoutEvent;
         static void OnConnectionTimeoutThread()
         {
-            if (!ConnectionTimeoutEvent.WaitOne(60000))
+            if (!ConnectionTimeoutEvent.WaitOne(TimeSpan.FromMinutes(2)))
             {
                 Logger.Error("NativeFiresecClient.OnConnectionTimeoutThread");
                 SocketServerHelper.Restart();
@@ -144,6 +144,8 @@ namespace Firesec
         {
             while (true)
             {
+				WatchLifetime();
+
                 if (StopPollEvent.WaitOne(10000))
                     break;
 
@@ -161,5 +163,17 @@ namespace Firesec
                 }
             }
         }
+
+		void WatchLifetime()
+		{
+			if(IsOperationBuisy)
+			{
+				if (DateTime.Now - OperationDateTime > TimeSpan.FromMinutes(10))
+				{
+					Logger.Error("NativeFiresecClient.WatchLifetime");
+					SocketServerHelper.Restart();
+				}
+			}
+		}
     }
 }

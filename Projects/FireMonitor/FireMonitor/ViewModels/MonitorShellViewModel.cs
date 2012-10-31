@@ -20,13 +20,11 @@ namespace FireMonitor.ViewModels
 			Width = 1100;
             MinWidth = 980;
 			MinHeight = 550;
-		    IsException = false;
 		}
 
-        public static bool IsException { get; set; }
 		public override bool OnClosing(bool isCanceled)
 		{
-            if (IsException)
+            if (App.IsClosingOnException)
                 return false;
             if (!FiresecManager.CheckPermission(PermissionType.Oper_Logout))
             {

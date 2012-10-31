@@ -43,6 +43,9 @@ namespace XFiresecAPI
         public byte Offset { get; set; }
 
 		[DataMember]
+		public bool HighByte { get; set; }
+
+		[DataMember]
 		public List<XDriverPropertyParameter> Parameters { get; set; }
 
 		[DataMember]

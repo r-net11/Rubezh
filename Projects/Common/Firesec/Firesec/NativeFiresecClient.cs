@@ -279,6 +279,10 @@ namespace Firesec
 			return safeCallResult;
 		}
 
+		public static int OperationNo = 0;
+		public static bool IsOperationBuisy = false;
+		public static DateTime OperationDateTime;
+
 		OperationResult<T> SafeLoopCall<T>(Func<T> f, string methodName)
 		{
 			var resultData = new OperationResult<T>();
@@ -286,7 +290,14 @@ namespace Firesec
 			{
 				try
 				{
+					OperationNo++;
+					IsOperationBuisy = true;
+					OperationDateTime = DateTime.Now;
+
 					var result = f();
+
+					IsOperationBuisy = false;
+
 					resultData.Result = result;
 					resultData.HasError = false;
 					resultData.Error = null;
@@ -313,8 +324,8 @@ namespace Firesec
 				{
 					//if (!FiresecExceptionHelper.IsWellKnownInvalidComObjectException(e.Message))
 					//{
-						string exceptionText = "InvalidComObjectException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
-						Logger.Error(exceptionText);
+					string exceptionText = "InvalidComObjectException " + e.Message + " при вызове " + methodName + " попытка " + i.ToString();
+					Logger.Error(exceptionText);
 					//}
 					resultData.Result = default(T);
 					resultData.HasError = true;
@@ -341,6 +352,10 @@ namespace Firesec
 					resultData.HasError = true;
 					resultData.Error = e.Message;
 					SocketServerHelper.StartIfNotRunning();
+				}
+				finally
+				{
+					IsOperationBuisy = false;
 				}
 			}
 			return resultData;

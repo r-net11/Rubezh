@@ -195,17 +195,22 @@ namespace DevicesModule.ViewModels
         {
             get
             {
-                if (!ServiceFactory.AppSettings.HasLicenseToControl)
-                    return "Отсутствует лицензия на управление";
-
                 var controlProperty = Device.Properties.FirstOrDefault(x => x.Name == "AllowControl");
                 if (controlProperty != null)
                 {
                     if (controlProperty.Value != "1")
                         return "Управление запрещено настройкой конфигурации";
                 }
+
                 if (!FiresecManager.CheckPermission(PermissionType.Oper_ControlDevices))
                     return "Управление исполнительными устройствами для данного пользователя запрещено";
+
+#if DEBUG
+				return null;
+#endif
+
+				if (!ServiceFactory.AppSettings.HasLicenseToControl)
+					return "Отсутствует лицензия на управление";
 
                 return null;
             }
