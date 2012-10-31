@@ -46,7 +46,8 @@ namespace Common.GK
 				No = 0x85,
 				Name = "Тип контроля выхода",
 				Caption = "Тип контроля выхода",
-				Default = 1
+				Default = 1,
+				Offset = 8
 			};
 			GKDriversHelper.AddPropertyParameter(property2, "Состояние цепи не контролируется", 1);
 			GKDriversHelper.AddPropertyParameter(property2, "Цепь контролируется только на обрыв", 2);

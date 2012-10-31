@@ -81,7 +81,7 @@ namespace Firesec
         static AutoResetEvent ConnectionTimeoutEvent;
         static void OnConnectionTimeoutThread()
         {
-            if (!ConnectionTimeoutEvent.WaitOne(60000))
+            if (!ConnectionTimeoutEvent.WaitOne(TimeSpan.FromMinutes(2)))
             {
                 Logger.Error("NativeFiresecClient.OnConnectionTimeoutThread");
                 SocketServerHelper.Restart();
