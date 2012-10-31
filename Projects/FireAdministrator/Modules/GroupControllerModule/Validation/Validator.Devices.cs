@@ -12,6 +12,8 @@ namespace GKModule.Validation
     {
         static void ValidateDevices()
         {
+            ValidateAddressEquality();
+
             foreach (var device in XManager.DeviceConfiguration.Devices)
             {
                 if (IsManyGK())
@@ -21,6 +23,19 @@ namespace GKModule.Validation
                 ValidateDeviceLogic(device);
                 ValidateGKNotEmptyChildren(device);
                 ValidateKAUNotEmptyChildren(device);
+            }
+        }
+
+        static void ValidateAddressEquality()
+        {
+            var deviceAddresses = new HashSet<string>();
+            foreach (var device in XManager.DeviceConfiguration.Devices)
+            {
+                if (device.Driver.DriverType == XDriverType.System || device.Driver.DriverType == XDriverType.GK)
+                    continue;
+
+                if(!deviceAddresses.Add(device.DottedAddress))
+                    Errors.Add(new DeviceValidationError(device, "Дублиреутся адрес", ValidationErrorLevel.CannotWrite));
             }
         }
 

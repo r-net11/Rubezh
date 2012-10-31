@@ -42,6 +42,7 @@ namespace DevicesModule.ViewModels
 			if (_operationResult_1.HasError)
 			{
 				MessageBoxService.ShowError(_operationResult_1.Error, "Ошибка при выполнении операции");
+                return;
 			}
 			else
 			{

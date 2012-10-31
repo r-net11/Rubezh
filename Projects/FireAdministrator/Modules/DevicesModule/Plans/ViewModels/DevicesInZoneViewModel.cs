@@ -65,12 +65,15 @@ namespace DevicesModule.Plans.ViewModels
 
         public void Activate()
         {
-			var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == NewZoneUID);
-			if (zone != null)
-			{
-				FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, zone);
-			}
-			FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, null);
+            var zone = FiresecManager.Zones.FirstOrDefault(x => x.UID == NewZoneUID);
+            if (zone != null)
+            {
+                FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, zone);
+            }
+            else
+            {
+                FiresecManager.FiresecConfiguration.AddDeviceToZone(Device, null);
+            }
         }
 
         bool _isActive;

@@ -85,8 +85,7 @@ namespace Firesec
 
 		public Firesec.Models.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
 		{
-			ConfigurationConverter.ConvertBack(deviceConfiguration, includeSecurity);
-			return ConfigurationConverter.FiresecConfiguration;
+            return ConfigurationConverter.ConvertBack(deviceConfiguration, includeSecurity);
 		}
 
 		public OperationResult<bool> SetNewConfig(DeviceConfiguration deviceConfiguration)

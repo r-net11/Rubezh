@@ -39,16 +39,61 @@ namespace FiresecClient
             try
             {
                 SystemConfiguration = FiresecService.GetSystemConfiguration();
+                if (SystemConfiguration == null)
+                {
+                    SystemConfiguration = new SystemConfiguration();
+                    Logger.Error("FiresecManager.SystemConfiguration = null");
+                    LoadingErrors.AppendLine("Нулевая системная конфигурация");
+                }
+
                 DeviceLibraryConfiguration = FiresecService.GetDeviceLibraryConfiguration();
+                if (DeviceLibraryConfiguration == null)
+                {
+                    DeviceLibraryConfiguration = new DeviceLibraryConfiguration();
+                    Logger.Error("FiresecManager.DeviceLibraryConfiguration = null");
+                    LoadingErrors.AppendLine("Нулевая конфигурация библиотеки устройств");
+                }
+
                 XManager.XDeviceLibraryConfiguration = FiresecService.GetXDeviceLibraryConfiguration();
+                if (XManager.XDeviceLibraryConfiguration == null)
+                {
+                    XManager.XDeviceLibraryConfiguration = new XDeviceLibraryConfiguration();
+                    Logger.Error("FiresecManager.XDeviceLibraryConfiguration = null");
+                    LoadingErrors.AppendLine("Нулевая конфигурация библиотеки устройств ГК");
+                }
+
                 PlansConfiguration = FiresecService.GetPlansConfiguration();
+                if (PlansConfiguration == null)
+                {
+                    PlansConfiguration = new PlansConfiguration();
+                    Logger.Error("FiresecManager.PlansConfiguration = null");
+                    LoadingErrors.AppendLine("Нулевая конфигурация графических планов");
+                }
+
                 SecurityConfiguration = FiresecService.GetSecurityConfiguration();
+                if (SecurityConfiguration == null)
+                {
+                    SecurityConfiguration = new SecurityConfiguration();
+                    Logger.Error("FiresecManager.SecurityConfiguration = null");
+                    LoadingErrors.AppendLine("Нулевая конфигурация безопасности");
+                }
+
                 var driversConfiguration = FiresecService.GetDriversConfiguration();
                 if ((driversConfiguration == null) || (driversConfiguration.Drivers == null) || (driversConfiguration.Drivers.Count == 0))
                 {
-                    MessageBox.Show("Ошибка. Список драйверов пуст");
+                    driversConfiguration = new DriversConfiguration();
+                    Logger.Error("FiresecManager.driversConfiguration = null");
+                    MessageBox.Show("Нулевая конфигурация драйверов");
                 }
+
                 var deviceConfiguration = FiresecService.GetDeviceConfiguration();
+                if (deviceConfiguration == null)
+                {
+                    deviceConfiguration = new DeviceConfiguration();
+                    Logger.Error("FiresecManager.deviceConfiguration = null");
+                    LoadingErrors.AppendLine("Нулевая конфигурация устройств");
+                }
+
                 FiresecConfiguration = new FiresecConfiguration()
                 {
                     DriversConfiguration = driversConfiguration,
@@ -65,34 +110,50 @@ namespace FiresecClient
             }
         }
 
-		public static void UpdateConfiguration()
-		{
-			PlansConfiguration.Update();
-			FiresecConfiguration.UpdateConfiguration();
-			UpdatePlansConfiguration();
-		}
+        public static void UpdateConfiguration()
+        {
+            try
+            {
+                PlansConfiguration.Update();
+                FiresecConfiguration.UpdateConfiguration();
+                UpdatePlansConfiguration();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "FiresecManager.UpdateConfiguration");
+                LoadingErrors.AppendLine(e.Message);
+            }
+        }
 
-		public static void UpdatePlansConfiguration()
-		{
-			FiresecConfiguration.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
-			foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
-			{
-				for (int i = plan.ElementDevices.Count(); i > 0; i--)
-				{
-					var elementDevice = plan.ElementDevices[i - 1];
-					var device = FiresecConfiguration.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
-					if (device != null)
-						device.PlanElementUIDs.Add(elementDevice.UID);
-				}
-				for (int i = plan.ElementXDevices.Count(); i > 0; i--)
-				{
-					var elementXDevice = plan.ElementXDevices[i - 1];
-					var xdevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementXDevice.XDeviceUID);
-					if (xdevice != null)
-						xdevice.PlanElementUIDs.Add(elementXDevice.UID);
-				}
-			}
-		}
+        public static void UpdatePlansConfiguration()
+        {
+            try
+            {
+                FiresecConfiguration.DeviceConfiguration.Devices.ForEach(x => { x.PlanElementUIDs = new List<Guid>(); });
+                foreach (var plan in FiresecManager.PlansConfiguration.AllPlans)
+                {
+                    for (int i = plan.ElementDevices.Count(); i > 0; i--)
+                    {
+                        var elementDevice = plan.ElementDevices[i - 1];
+                        var device = FiresecConfiguration.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementDevice.DeviceUID);
+                        if (device != null)
+                            device.PlanElementUIDs.Add(elementDevice.UID);
+                    }
+                    for (int i = plan.ElementXDevices.Count(); i > 0; i--)
+                    {
+                        var elementXDevice = plan.ElementXDevices[i - 1];
+                        var xdevice = XManager.DeviceConfiguration.Devices.FirstOrDefault(x => x.UID == elementXDevice.XDeviceUID);
+                        if (xdevice != null)
+                            xdevice.PlanElementUIDs.Add(elementXDevice.UID);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "FiresecManager.UpdatePlansConfiguration");
+                LoadingErrors.AppendLine(e.Message);
+            }
+        }
 
 		public static void SetEmptyConfiguration()
 		{
@@ -101,32 +162,80 @@ namespace FiresecClient
 
 		public static List<Driver> Drivers
 		{
-			get { return FiresecConfiguration.DriversConfiguration.Drivers; }
+			get
+            {
+                if (FiresecConfiguration == null || FiresecConfiguration.DriversConfiguration == null || FiresecConfiguration.DriversConfiguration.Drivers == null)
+                {
+                    Logger.Error("FiresecManager Drivers = null");
+                    return new List<Driver>();
+                }
+                return FiresecConfiguration.DriversConfiguration.Drivers;
+            }
 		}
 
         public static List<XDriver> XDrivers
         {
-            get { return FiresecConfiguration.XDriversConfiguration.XDrivers; }
+            get
+            {
+                if (FiresecConfiguration == null || FiresecConfiguration.XDriversConfiguration == null || FiresecConfiguration.XDriversConfiguration.XDrivers == null)
+                {
+                    Logger.Error("FiresecManager XDrivers = null");
+                    return new List<XDriver>();
+                }
+                return FiresecConfiguration.XDriversConfiguration.XDrivers;
+            }
         }
 
 		public static List<Device> Devices
 		{
-			get { return FiresecConfiguration.DeviceConfiguration.Devices; }
+			get
+            {
+                if (FiresecConfiguration == null || FiresecConfiguration.DeviceConfiguration == null || FiresecConfiguration.DeviceConfiguration.Devices == null)
+                {
+                    Logger.Error("FiresecManager Devices = null");
+                    return new List<Device>();
+                }
+                return FiresecConfiguration.DeviceConfiguration.Devices;
+            }
 		}
 
 		public static List<Zone> Zones
 		{
-			get { return FiresecConfiguration.DeviceConfiguration.Zones; }
+			get
+            {
+                if (FiresecConfiguration == null || FiresecConfiguration.DeviceConfiguration == null || FiresecConfiguration.DeviceConfiguration.Zones == null)
+                {
+                    Logger.Error("FiresecManager Zones = null");
+                    return new List<Zone>();
+                }
+                return FiresecConfiguration.DeviceConfiguration.Zones;
+            }
 		}
 
 		public static List<Direction> Directions
 		{
-			get { return FiresecConfiguration.DeviceConfiguration.Directions; }
+			get
+            {
+                if (FiresecConfiguration == null || FiresecConfiguration.DeviceConfiguration == null || FiresecConfiguration.DeviceConfiguration.Directions == null)
+                {
+                    Logger.Error("FiresecManager Direction = null");
+                    return new List<Direction>();
+                }
+                return FiresecConfiguration.DeviceConfiguration.Directions;
+            }
 		}
 
 		public static List<GuardUser> GuardUsers
 		{
-			get { return FiresecConfiguration.DeviceConfiguration.GuardUsers; }
+			get
+            {
+                if (FiresecConfiguration == null || FiresecConfiguration.DeviceConfiguration == null || FiresecConfiguration.DeviceConfiguration.GuardUsers == null)
+                {
+                    Logger.Error("FiresecManager GuardUser = null");
+                    return new List<GuardUser>();
+                }
+                return FiresecConfiguration.DeviceConfiguration.GuardUsers;
+            }
 		}
 	}
 }

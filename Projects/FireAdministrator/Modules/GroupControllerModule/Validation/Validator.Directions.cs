@@ -12,12 +12,24 @@ namespace GKModule.Validation
     {
         static void ValidateDirections()
         {
+            ValidateDirectionNoEquality();
+
             foreach (var direction in XManager.DeviceConfiguration.Directions)
             {
                 if (IsManyGK())
                     ValidateDifferentGK(direction);
                 ValidateDirectionInputCount(direction);
                 ValidateDirectionOutputCount(direction);
+            }
+        }
+
+        static void ValidateDirectionNoEquality()
+        {
+            var directionNos = new HashSet<int>();
+            foreach (var direction in XManager.DeviceConfiguration.Directions)
+            {
+                if (!directionNos.Add(direction.No))
+                    Errors.Add(new DirectionValidationError(direction, "Дублиреутся адрес", ValidationErrorLevel.CannotWrite));
             }
         }
 

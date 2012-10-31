@@ -9,12 +9,12 @@ namespace DevicesModule.Plans.Views
             InitializeComponent();
         }
 
-        private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var dataGrid = sender as DataGrid;
-            if (dataGrid.SelectedItem != null)
+            var listView = sender as ListView;
+            if (listView.SelectedItem != null)
             {
-                dataGrid.ScrollIntoView(dataGrid.SelectedItem);
+                listView.ScrollIntoView(listView.SelectedItem);
             }
         }
     }

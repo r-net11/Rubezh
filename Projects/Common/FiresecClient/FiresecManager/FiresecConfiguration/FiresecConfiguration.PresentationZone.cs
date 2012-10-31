@@ -54,25 +54,6 @@ namespace FiresecClient
                         groupOfZones.Add(new List<int>() { zoneNo });
                     }
                     prevZoneNo = zoneNo;
-
-                    continue;
-					var haveZonesBetween = DeviceConfiguration.Zones.Any(x => (x.No > prevZoneNo) && (x.No < zoneNo));
-					if (haveZonesBetween)
-					{
-						groupOfZones.Add(new List<int>() { zoneNo });
-					}
-					else
-					{
-						if (groupOfZones.Count == 0)
-						{
-							groupOfZones.Add(new List<int>() { zoneNo });
-						}
-						else
-						{
-							groupOfZones.Last().Add(zoneNo);
-						}
-					}
-					prevZoneNo = zoneNo;
 				}
 
 				var presenrationZones = new StringBuilder();

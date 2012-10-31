@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using FiresecAPI.Models;
+using System;
+using Common;
 
 namespace FiresecClient
 {
@@ -8,35 +10,42 @@ namespace FiresecClient
     {
         public static void ResetAllStates()
         {
-            var resetItems = new List<ResetItem>();
-            foreach (var device in Devices)
+            try
             {
-                foreach (var deviceDriverState in device.DeviceState.ThreadSafeStates)
+                var resetItems = new List<ResetItem>();
+                foreach (var device in Devices)
                 {
-                    if (deviceDriverState.DriverState.IsManualReset)
+                    foreach (var deviceDriverState in device.DeviceState.ThreadSafeStates)
                     {
-                        var resetItem = new ResetItem()
+                        if (deviceDriverState.DriverState.IsManualReset)
                         {
-                            DeviceState = device.DeviceState
-                        };
-                        var existringResetItem = resetItems.FirstOrDefault(x => x.DeviceState == resetItem.DeviceState);
-                        if (existringResetItem != null)
-                        {
-                            foreach (var driverState in resetItem.States)
+                            var resetItem = new ResetItem()
                             {
-                                if (existringResetItem.States.Any(x => x.DriverState.Code == driverState.DriverState.Code) == false)
-                                    existringResetItem.States.Add(driverState);
+                                DeviceState = device.DeviceState
+                            };
+                            var existringResetItem = resetItems.FirstOrDefault(x => x.DeviceState == resetItem.DeviceState);
+                            if (existringResetItem != null)
+                            {
+                                foreach (var driverState in resetItem.States)
+                                {
+                                    if (existringResetItem.States.Any(x => x.DriverState.Code == driverState.DriverState.Code) == false)
+                                        existringResetItem.States.Add(driverState);
+                                }
                             }
-                        }
-                        else
-                        {
-                            resetItems.Add(resetItem);
+                            else
+                            {
+                                resetItems.Add(resetItem);
+                            }
                         }
                     }
                 }
-            }
 
-            FiresecManager.FiresecDriver.ResetStates(resetItems);
+                FiresecManager.FiresecDriver.ResetStates(resetItems);
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e, "FiresecManager.ResetAllStates");
+            }
         }
     }
 }

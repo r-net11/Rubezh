@@ -12,11 +12,23 @@ namespace GKModule.Validation
     {
         static void ValidateZones()
         {
+            ValidateZoneNoEquality();
+
             foreach (var zone in XManager.DeviceConfiguration.Zones)
             {
                 if (IsManyGK())
                     ValidateDifferentGK(zone);
                 ValidateZoneDetectorCount(zone);
+            }
+        }
+
+        static void ValidateZoneNoEquality()
+        {
+            var zoneNos = new HashSet<int>();
+            foreach (var zone in XManager.DeviceConfiguration.Zones)
+            {
+                if (!zoneNos.Add(zone.No))
+                    Errors.Add(new ZoneValidationError(zone, "Дублиреутся адрес", ValidationErrorLevel.CannotWrite));
             }
         }
 

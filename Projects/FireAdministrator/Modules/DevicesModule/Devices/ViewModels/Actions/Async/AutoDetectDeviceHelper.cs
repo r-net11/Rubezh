@@ -4,6 +4,8 @@ using FiresecAPI.Models;
 using FiresecClient;
 using Infrastructure;
 using Infrastructure.Common.Windows;
+using System;
+using Common;
 
 namespace DevicesModule.ViewModels
 {
@@ -27,6 +29,7 @@ namespace DevicesModule.ViewModels
 
         static void OnPropgress()
         {
+
             _operationResult = FiresecManager.AutoDetectDevice(_deviceViewModel.Device, _fastSearch);
         }
 
@@ -34,7 +37,8 @@ namespace DevicesModule.ViewModels
         {
             if (_operationResult.HasError)
             {
-				MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
+                MessageBoxService.ShowError(_operationResult.Error, "Ошибка при выполнении операции");
+                Logger.Error("AutoDetectDeviceHelper.OnCompleted " + _operationResult.Error);
                 return;
             }
 

@@ -12,6 +12,39 @@ namespace Firesec
 {
     public partial class NativeFiresecClient
     {
+        private int _reguestId = 1;
+        private Dispatcher _dispatcher;
+
+        public NativeFiresecClient()
+        {
+            Dispatcher.CurrentDispatcher.ShutdownStarted += (s, e) =>
+            {
+                if (_dispatcher != null)
+                {
+                    if (Connection != null)
+                    {
+                        StopLifetimeThread();
+                        StopPingThread();
+                        StopOperationQueueThread();
+                        Marshal.FinalReleaseComObject(Connection);
+                        Connection = null;
+                        GC.Collect();
+                    }
+                    _dispatcher.InvokeShutdown();
+                }
+            };
+            var dispatcherThread = new Thread(new ParameterizedThreadStart(obj =>
+            {
+                _dispatcher = Dispatcher.CurrentDispatcher;
+                Dispatcher.Run();
+                Debug.WriteLine("Native Dispatcher Stopped");
+            }));
+            dispatcherThread.SetApartmentState(ApartmentState.STA);
+            dispatcherThread.IsBackground = true;
+            dispatcherThread.Start();
+            dispatcherThread.Join(100);
+        }
+
         FS_Types.IFSC_Connection Connection;
         string Address;
         int Port;
@@ -69,10 +102,11 @@ namespace Firesec
             }
             if (IsPing)
             {
-                StartPing();
+                StartPingThread();
             }
 
-            StartThread();
+            StartLifetimeThread();
+            StartOperationQueueThread();
 
             return new OperationResult<bool>() { Result = true };
         }
@@ -114,66 +148,9 @@ namespace Firesec
             }
             catch (Exception e)
             {
-                Logger.Error(e, "Исключение при вызове NativeFiresecClient.GetConnection");
+                Logger.Error(e, "NativeFiresecClient.GetConnection");
                 return null;
             }
         }
-
-        static AutoResetEvent StopPollEvent;
-
-        public void StopPoll()
-        {
-            if (StopPollEvent != null)
-            {
-                StopPollEvent.Set();
-            }
-        }
-
-        void StartPing()
-        {
-            if (PingThread == null)
-            {
-                StopPollEvent = new AutoResetEvent(false);
-                PingThread = new Thread(new ThreadStart(() => { OnPing(); }));
-                PingThread.Start();
-            }
-        }
-        Thread PingThread;
-
-        void OnPing()
-        {
-            while (true)
-            {
-				WatchLifetime();
-
-                if (StopPollEvent.WaitOne(10000))
-                    break;
-
-                if (Connection != null)
-                {
-                    if (TasksCount == 0)
-                    {
-                        var result = GetCoreState();
-                        if (result.HasError)
-                        {
-                            Logger.Error("NativeFiresecClient.OnPing");
-                            DoConnect();
-                        }
-                    }
-                }
-            }
-        }
-
-		void WatchLifetime()
-		{
-			if(IsOperationBuisy)
-			{
-				if (DateTime.Now - OperationDateTime > TimeSpan.FromMinutes(10))
-				{
-					Logger.Error("NativeFiresecClient.WatchLifetime");
-					SocketServerHelper.Restart();
-				}
-			}
-		}
     }
 }

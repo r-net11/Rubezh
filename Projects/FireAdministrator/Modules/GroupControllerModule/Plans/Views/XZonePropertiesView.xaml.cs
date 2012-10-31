@@ -9,13 +9,13 @@ namespace GKModule.Plans.Views
 			InitializeComponent();
 		}
 
-		private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			var dataGrid = sender as DataGrid;
-			if (dataGrid.SelectedItem != null)
-			{
-				dataGrid.ScrollIntoView(dataGrid.SelectedItem);
-			}
-		}
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var listView = sender as ListView;
+            if (listView.SelectedItem != null)
+            {
+                listView.ScrollIntoView(listView.SelectedItem);
+            }
+        }
 	}
 }

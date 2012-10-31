@@ -184,7 +184,7 @@ namespace FiresecService.Service
 			var operationResult = new OperationResult<List<JournalDescriptionItem>>();
 			try
 			{
-				string query = "SELECT DISTINCT StateType, Description FROM Journal";
+                string query = "SELECT DISTINCT StateType, Description FROM Journal ORDER BY Description";
 				var result = DataBaseContext.ExecuteQuery<JournalDescriptionItem>(query);
 				operationResult.Result = result.ToList();
 			}

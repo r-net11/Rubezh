@@ -37,7 +37,7 @@ namespace Firesec
 			ConfigurationCash.PlansConfiguration = ConvertPlans(plans);
 		}
 
-		public void ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
+        public Firesec.Models.CoreConfiguration.config ConvertBack(DeviceConfiguration deviceConfiguration, bool includeSecurity)
 		{
 			DeviceConfiguration = deviceConfiguration;
 			DeviceConfiguration.Update();
@@ -50,20 +50,25 @@ namespace Firesec
 			if (includeSecurity)
 			{
 				FiresecConfiguration = FiresecSerializedClient.GetCoreConfig().Result;
-				if (FiresecConfiguration == null)
-					FiresecConfiguration = new Models.CoreConfiguration.config();
-				FiresecConfiguration.part = null;
+                if (FiresecConfiguration == null)
+                {
+                    FiresecConfiguration = new Models.CoreConfiguration.config();
+                    Logger.Error("ConfigurationConverter.FiresecConfiguration == null");
+                }
 			}
 			else
 			{
 				FiresecConfiguration = new Firesec.Models.CoreConfiguration.config();
 			}
+            FiresecConfiguration.part = null;
 
 			Gid = 0;
 			ConvertZonesBack();
 			ConvertDevicesBack();
 			ConvertDirectionsBack();
 			ConvertGuardUsersBack();
+
+            return FiresecConfiguration;
 		}
 
 		public DeviceConfiguration ConvertOnlyDevices(Firesec.Models.CoreConfiguration.config firesecConfiguration)

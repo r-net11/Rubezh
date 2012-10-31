@@ -21,7 +21,7 @@ namespace FireAdministrator
 		public void Initialize()
 		{
 			AppSettingsHelper.InitializeAppSettings();
-			LoadStyles();
+            ThemeHelper.LoadThemeFromRegister();
 			ServiceFactory.Initialize(new LayoutService(), new ProgressService(), new ValidationService());
 			ServiceFactory.ResourceService.AddResource(new ResourceDescription(GetType().Assembly, "DataTemplates/Dictionary.xaml"));
 
@@ -93,11 +93,6 @@ namespace FireAdministrator
 		void OnConfigurationChanged(object obj)
 		{
 			InitializeModules();
-		}
-
-		void LoadStyles()
-		{
-			ThemeHelper.LoadThemeFromRegister();
 		}
 	}
 }

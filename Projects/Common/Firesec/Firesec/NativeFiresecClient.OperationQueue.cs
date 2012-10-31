@@ -13,22 +13,28 @@ namespace Firesec
 		public static int TasksCount;
         Queue<Action> Tasks = new Queue<Action>();
         object locker = new object();
-        Thread WorkThread;
+        Thread OperationQueueThread;
         bool IsStopping;
-		bool IsSuspending = false;
+        AutoResetEvent SuspendOperationQueueEvent;
 
-        public void StartThread()
+        public void StartOperationQueueThread()
         {
             IsStopping = false;
-            WorkThread = new Thread(Work);
-            WorkThread.IsBackground = true;
-            WorkThread.Start();
+            if (OperationQueueThread == null)
+            {
+                OperationQueueThread = new Thread(OnOperationQueue);
+                OperationQueueThread.IsBackground = true;
+                OperationQueueThread.Start();
+            }
         }
 
-        public void StopThread()
+        public void StopOperationQueueThread()
         {
             IsStopping = true;
-            WorkThread.Join(TimeSpan.FromSeconds(2));
+            if (OperationQueueThread != null)
+            {
+                OperationQueueThread.Join(TimeSpan.FromSeconds(2));
+            }
         }
 
         public void AddTask(Action task)
@@ -47,7 +53,7 @@ namespace Firesec
 			}
         }
 
-        void Work()
+        void OnOperationQueue()
         {
             while (true)
             {
@@ -68,10 +74,9 @@ namespace Firesec
                             Monitor.Wait(locker, TimeSpan.FromSeconds(1));
                     }
 
-                    if (IsSuspending)
+                    if (SuspendOperationQueueEvent != null)
                     {
-                        Thread.Sleep(500);
-                        continue;
+                        SuspendOperationQueueEvent.WaitOne(TimeSpan.FromMinutes(1));
                     }
 
                     var action = Tasks.Dequeue();
