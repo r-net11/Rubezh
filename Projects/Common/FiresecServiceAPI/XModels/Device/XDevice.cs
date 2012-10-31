@@ -247,13 +247,6 @@ namespace XFiresecAPI
 
         public override string GetBinaryDescription()
         {
-            switch (Driver.DriverType)
-            {
-                case XDriverType.GKIndicator:
-                case XDriverType.GKLine:
-                case XDriverType.GKRele:
-                    return Description;
-            }
             return PresentationDriverAndAddress;
         }
 

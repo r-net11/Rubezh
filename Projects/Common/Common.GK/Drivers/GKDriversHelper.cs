@@ -4,7 +4,7 @@ namespace Common.GK
 {
 	public static class GKDriversHelper
 	{
-		public static void AddPlainEnumProprety(XDriver xDriver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int startValue = 0, ushort defaultValue = 0)
+        public static XDriverProperty AddPlainEnumProprety(XDriver xDriver, byte no, string propertyName, byte offset, string parameter1Name, string parameter2Name, int startValue = 0, ushort defaultValue = 0)
 		{
 			var property = new XDriverProperty()
 			{
@@ -27,6 +27,7 @@ namespace Common.GK
 			property.Parameters.Add(parameter1);
 			property.Parameters.Add(parameter2);
 			xDriver.Properties.Add(property);
+            return property;
 		}
 
 		public static void AddBoolProprety(XDriver xDriver, byte no, string propertyName, byte offset)
@@ -42,7 +43,7 @@ namespace Common.GK
 			xDriver.Properties.Add(property);
 		}
 
-		public static void AddIntProprety(XDriver xDriver, byte no, string propertyName, byte offset, int defaultValue, int min, int max)
+        public static XDriverProperty AddIntProprety(XDriver xDriver, byte no, string propertyName, byte offset, int defaultValue, int min, int max)
 		{
 			var property = new XDriverProperty()
 			{
@@ -56,6 +57,7 @@ namespace Common.GK
 				Max = (ushort)max
 			};
 			xDriver.Properties.Add(property);
+            return property;
 		}
 
 		public static void AddPropertyParameter(XDriverProperty property, string name, int value)

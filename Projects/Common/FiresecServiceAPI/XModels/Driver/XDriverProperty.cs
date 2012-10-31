@@ -34,7 +34,13 @@ namespace XFiresecAPI
 		public string StringDefault { get; set; }
 
 		[DataMember]
-		public byte Offset { get; set; }
+		public bool IsHieghByte { get; set; }
+
+        [DataMember]
+        public bool IsLowByte { get; set; }
+
+        [DataMember]
+        public byte Offset { get; set; }
 
 		[DataMember]
 		public List<XDriverPropertyParameter> Parameters { get; set; }
