@@ -27,7 +27,6 @@ namespace DeviceControls
 		}
 
 		public Guid DriverId { get; set; }
-		public bool IsManualUpdate { get; set; }
 
 		StateType _stateType;
 		public StateType StateType

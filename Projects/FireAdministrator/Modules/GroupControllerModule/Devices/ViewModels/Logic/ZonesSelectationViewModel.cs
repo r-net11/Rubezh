@@ -19,8 +19,8 @@ namespace GKModule.ViewModels
             Title = "Выбор зон";
             AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
-            AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
-            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
+            AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
+            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
             Zones = zones;
             TargetZones = new ObservableCollection<XZone>();
@@ -130,14 +130,24 @@ namespace GKModule.ViewModels
 			SelectedSourceZone = SourceZones.FirstOrDefault();
         }
 
-        bool CanAdd(object parameter)
+        public bool CanAdd(object parameter)
         {
             return SelectedSourceZone != null;
         }
 
-        bool CanRemove(object parameter)
+        public bool CanRemove(object parameter)
         {
             return SelectedTargetZone != null;
+        }
+
+        public bool CanAddAll()
+        {
+            return (SourceZones.Count > 0);
+        }
+
+        public bool CanRemoveAll()
+        {
+            return (TargetZones.Count > 0);
         }
 
 		protected override bool Save()

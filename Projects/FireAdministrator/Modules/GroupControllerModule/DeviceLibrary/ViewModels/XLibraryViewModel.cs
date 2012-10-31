@@ -181,7 +181,7 @@ namespace GKModule.ViewModels
                 };
                 xdeviceControl.XStateClass = SelectedXState.XState.XStateClass;
 
-                xdeviceControl.XUpdate();
+                xdeviceControl.Update();
                 return xdeviceControl;
             }
         }

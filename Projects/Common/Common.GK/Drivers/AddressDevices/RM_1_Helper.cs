@@ -28,7 +28,8 @@ namespace Common.GK
 				No = 0x82,
 				Name = "Конфигурация релейного модуля",
 				Caption = "Конфигурация релейного модуля",
-				Default = 1
+				Default = 1,
+                IsLowByte = true
 			};
 			GKDriversHelper.AddPropertyParameter(property1, "Разомкнуто Замкнуто", 1);
 			GKDriversHelper.AddPropertyParameter(property1, "Разомкнуто Мерцает", 2);
@@ -38,7 +39,7 @@ namespace Common.GK
 			GKDriversHelper.AddPropertyParameter(property1, "Мерцает Замкнуто", 6);
 			driver.Properties.Add(property1);
 
-			GKDriversHelper.AddIntProprety(driver, 0x83, "Задержка на пуск", 0, 0, 0, 255);
+			GKDriversHelper.AddIntProprety(driver, 0x83, "Задержка на пуск", 0, 0, 0, 255).IsLowByte=true;
 			GKDriversHelper.AddIntProprety(driver, 0x83, "Время удержания", 8, 0, 0, 255);
 
 			var property2 = new XDriverProperty()
@@ -47,7 +48,7 @@ namespace Common.GK
 				Name = "Тип контроля выхода",
 				Caption = "Тип контроля выхода",
 				Default = 1,
-				Offset = 8
+                IsLowByte=true
 			};
 			GKDriversHelper.AddPropertyParameter(property2, "Состояние цепи не контролируется", 1);
 			GKDriversHelper.AddPropertyParameter(property2, "Цепь контролируется только на обрыв", 2);

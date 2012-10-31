@@ -13,7 +13,7 @@ namespace XFiresecAPI
         [DescriptionAttribute("во всех устройствах из")]
         AllDevices,
 
-        [DescriptionAttribute("в любм устройстве из")]
+        [DescriptionAttribute("в любом устройстве из")]
         AnyDevice,
 
 		[DescriptionAttribute("во всех направлениях из")]

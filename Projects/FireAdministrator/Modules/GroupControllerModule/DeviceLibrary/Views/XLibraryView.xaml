@@ -47,17 +47,16 @@
             </Grid.RowDefinitions>
             <DataGrid Grid.Row="0" ItemsSource="{Binding XStates}" SelectedItem="{Binding SelectedXState}" Margin="2">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Состояние">
+                    <DataGridTemplateColumn Header="Состояние" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="{Binding XState.StateType, Converter={StaticResource XStateTypeToIconConverter}}" Width="16" />
+                                    <Image Source="{Binding XState.XStateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" />
                                     <TextBlock Text="{Binding ClassName}" />
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Описание" Binding="{Binding AdditionalName}" Width="*" />
                 </DataGrid.Columns>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
@@ -102,8 +101,6 @@
                                     <StackPanel Orientation="Horizontal"
                                                 DataContext="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}, Path=DataContext}"
                                                 Visibility="{Binding IsLayerEditingVisible, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <Label Content="Слой: " VerticalAlignment="Center" />
-                                        <ExtToolkit:IntegerUpDown Minimum="-10" Maximum="10" IsEditable="False" Text="{Binding Layer, Mode=TwoWay}" Height="20" Width="50" />
                                     </StackPanel>
                                     <Label Content=" Длительность, мс: " VerticalAlignment="Center" />
                                     <ExtToolkit:IntegerUpDown Minimum="100" Maximum="10000" Increment="100" IsEditable="False" Text="{Binding Duration, Mode=TwoWay}" Height="20" Width="75" />

@@ -6,6 +6,7 @@ using FiresecService.Configuration;
 using FiresecService.Service;
 using FiresecService.ViewModels;
 using Infrastructure.Common;
+using Infrastructure.Common.Theme;
 using Infrastructure.Common.Windows;
 
 namespace FiresecService
@@ -21,6 +22,7 @@ namespace FiresecService
             try
             {
                 AppSettingsHelper.InitializeAppSettings();
+                ThemeHelper.LoadThemeFromRegister();
                 var directoryInfo = new DirectoryInfo(Environment.GetCommandLineArgs()[0]);
                 Environment.CurrentDirectory = directoryInfo.FullName.Replace(directoryInfo.Name, "");
 
