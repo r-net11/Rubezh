@@ -5,17 +5,16 @@
 
     <DataGrid Focusable="True" ItemsSource="{Binding XStates}" SelectedItem="{Binding SelectedXState}">
         <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Состояние">
+            <DataGridTemplateColumn Header="Состояние" Width="*">
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <Image Source="{Binding XState.XStateType, Converter={StaticResource XStateTypeToIconConverter}}" Width="16" />
+                            <Image Source="{Binding XState.XStateClass, Converter={StaticResource XStateClassToIconConverter}}" Width="16" />
                             <TextBlock Text="{Binding ClassName}" />
                         </StackPanel>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTextColumn Header="Описание" Binding="{Binding AdditionalName}" Width="*" />
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

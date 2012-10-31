@@ -27,7 +27,6 @@ namespace DeviceControls
         }
 
         public Guid XDriverId { get; set; }
-        public bool IsManualUpdate { get; set; }
 
         XStateClass _xstateClass;
         public XStateClass XStateClass
@@ -41,12 +40,12 @@ namespace DeviceControls
         
         List<XStateViewModel> _xstateViewModelList;
         
-        public void XUpdate()
+        public void Update()
         {
             var libraryXDevice = XManager.XDeviceLibraryConfiguration.XDevices.FirstOrDefault(x => x.XDriverId == XDriverId);
             if (libraryXDevice == null)
             {
-                Logger.Error("DeviceControl.XUpdate libraryXDevice = null " + XDriverId.ToString());
+                Logger.Error("XDeviceControl.Update libraryXDevice = null " + XDriverId.ToString());
                 return;
             }
 
@@ -62,7 +61,7 @@ namespace DeviceControls
                 libraryXState = libraryXDevice.XStates.FirstOrDefault(x => x.Code == null && x.XStateClass == XStateClass.No);
                 if (libraryXState == null)
                 {
-                    Logger.Error("DeviceControl.XUpdate libraryXState = null " + XDriverId.ToString());
+                    Logger.Error("XDeviceControl.Update libraryXState = null " + XDriverId.ToString());
                     return;
                 }
             }
@@ -72,11 +71,8 @@ namespace DeviceControls
                 resultLibraryXStates.Add(libraryXState);
             }
 
-            var sortedResultLibraryXStates = from LibraryXState xstate in resultLibraryXStates
-                                             orderby xstate.Layer
-                                             select xstate;
             var canvases = new List<Canvas>();
-            foreach (var libraryXStates in sortedResultLibraryXStates)
+            foreach (var libraryXStates in resultLibraryXStates)
             {
                 _xstateViewModelList.Add(new XStateViewModel(libraryXStates, canvases));
             }

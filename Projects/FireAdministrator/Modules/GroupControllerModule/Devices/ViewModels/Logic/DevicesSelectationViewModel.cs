@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,8 +16,8 @@ namespace GKModule.ViewModels
 		public DevicesSelectationViewModel(List<XDevice> devices, List<XDevice> sourceDevices = null)
 		{
 			Title = "Выбор устройства";
-			AddOneCommand = new RelayCommand(OnAddOne, CanAddOne);
-			RemoveOneCommand = new RelayCommand(OnRemoveOne, CanRemoveOne);
+            AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
+            RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
 			AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
 			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 
@@ -80,19 +80,63 @@ namespace GKModule.ViewModels
 			}
 		}
 
-		public bool CanAddOne()
-		{
-			return (SelectedAvailableDevice != null);
-		}
+        public RelayCommand<object> AddCommand { get; private set; }
+        public IList SelectedAvailableDevices;
+        void OnAdd(object parameter)
+        {
+            SelectedAvailableDevices = (IList)parameter;
+            var availabledeviceViewModels = new List<XDevice>();
+            foreach (var availabledevice in SelectedAvailableDevices)
+            {
+                var availabledeviceViewModel = availabledevice as XDevice;
+                if (availabledeviceViewModel != null)
+                    availabledeviceViewModels.Add(availabledeviceViewModel);
+            }
+            foreach (var availabledeviceViewModel in availabledeviceViewModels)
+            {
+                Devices.Add(availabledeviceViewModel);
+                AvailableDevices.Remove(availabledeviceViewModel);
+            }
+
+            OnPropertyChanged("AvailableDevices");
+            SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
+        }
+
+        public RelayCommand<object> RemoveCommand { get; private set; }
+        public IList SelectedDevices;
+        void OnRemove(object parameter)
+        {
+            SelectedDevices = (IList)parameter;
+            var deviceViewModels = new List<XDevice>();
+            foreach (var device in SelectedDevices)
+            {
+                var deviceViewModel = device as XDevice;
+                if (deviceViewModel != null)
+                    deviceViewModels.Add(deviceViewModel);
+            }
+            foreach (var deviceViewModel in deviceViewModels)
+            {
+                AvailableDevices.Add(deviceViewModel);
+                Devices.Remove(deviceViewModel);
+            }
+
+            OnPropertyChanged("Devices");
+            SelectedDevice = Devices.FirstOrDefault();
+        }
+
+        public bool CanAdd(object parameter)
+        {
+            return SelectedAvailableDevice != null;
+        }
+
+        public bool CanRemove(object parameter)
+        {
+            return SelectedDevice != null;
+        }
 
 		public bool CanAddAll()
 		{
 			return (AvailableDevices.Count > 0);
-		}
-
-		public bool CanRemoveOne()
-		{
-			return (SelectedDevice != null);
 		}
 
 		public bool CanRemoveAll()
@@ -100,35 +144,28 @@ namespace GKModule.ViewModels
 			return (Devices.Count > 0);
 		}
 
-		public RelayCommand AddOneCommand { get; private set; }
-		void OnAddOne()
-		{
-			DevicesList.Add(SelectedAvailableDevice);
-			UpdateDevices();
-		}
 
 		public RelayCommand AddAllCommand { get; private set; }
 		void OnAddAll()
 		{
 			foreach (var device in AvailableDevices)
 			{
-				DevicesList.Add(device);
+				Devices.Add(device);
 			}
-			UpdateDevices();
+            AvailableDevices.Clear();
+            SelectedDevice = Devices.FirstOrDefault();
 		}
 
-		public RelayCommand RemoveOneCommand { get; private set; }
-		void OnRemoveOne()
-		{
-			DevicesList.Remove(SelectedDevice);
-			UpdateDevices();
-		}
 
 		public RelayCommand RemoveAllCommand { get; private set; }
 		void OnRemoveAll()
 		{
-			DevicesList.Clear();
-			UpdateDevices();
+            foreach (var device in Devices)
+            {
+                AvailableDevices.Add(device);
+            }
+            Devices.Clear();
+            SelectedAvailableDevice = AvailableDevices.FirstOrDefault();
 		}
 
 		protected override bool Save()

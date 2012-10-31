@@ -22,8 +22,8 @@ namespace DevicesModule.ViewModels
 			Title = "Выбор зон";
             AddCommand = new RelayCommand<object>(OnAdd, CanAdd);
             RemoveCommand = new RelayCommand<object>(OnRemove, CanRemove);
-			AddAllCommand = new RelayCommand(OnAddAll, CanAdd);
-			RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemove);
+            AddAllCommand = new RelayCommand(OnAddAll, CanAddAll);
+            RemoveAllCommand = new RelayCommand(OnRemoveAll, CanRemoveAll);
 			Zones = zones;
 			TargetZones = new ObservableCollection<ZoneViewModel>();
 			SourceZones = new ObservableCollection<ZoneViewModel>();
@@ -175,6 +175,16 @@ namespace DevicesModule.ViewModels
 		{
 			return SelectedTargetZone != null;
 		}
+
+        public bool CanAddAll()
+        {
+            return (SourceZones.Count > 0);
+        }
+
+        public bool CanRemoveAll()
+        {
+            return (TargetZones.Count > 0);
+        }
 
 		protected override bool Save()
 		{
