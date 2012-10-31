@@ -68,7 +68,8 @@ namespace Controls
 
 		protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
 		{
-			SelectedObject = e.NewValue;
+			var item = e.NewValue as TreeListViewItem;
+			SelectedObject = item != null && item.Header != null && item.Header.GetType().FullName == "MS.Internal.NamedObject" ? null : e.NewValue;
 			base.OnSelectedItemChanged(e);
 		}
 
