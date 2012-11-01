@@ -82,7 +82,7 @@ namespace FiresecAPI.Models
 			//    "0 нет",
 			//    "1 есть", 0, 0, 0, false, true, "0");
 
-			for (byte i = 0; i <= 0x99; i++)
+			for (byte i = 0; i <= 0xfe; i++)
 			{
 				ConfigurationDriverHelper.AddPlainEnumProprety(driver, i, i.ToString(), 0,
 				"0 нет",
