@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using FiresecClient;
 using Infrastructure.Common.Validation;
 using XFiresecAPI;
@@ -43,10 +44,11 @@ namespace GKModule.Validation
         {
             if (device.Driver.DriverType == XDriverType.GK)
             {
+                const string pattern = @"^([01]\d\d?|[01]?[1-9]\d?|2[0-4]\d|25[0-3])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])\.([01]?\d\d?|2[0-4]\d|25[0-5])$";
                 var address = device.GetGKIpAddress();
-                if (!CheckIpAddress(address))
+                if (!Regex.IsMatch(address, pattern))
                 {
-                    Errors.Add(new DeviceValidationError(device, "Не задан IP адрес", ValidationErrorLevel.CannotWrite));
+                    Errors.Add(new DeviceValidationError(device, "Не верно задан IP адрес", ValidationErrorLevel.CannotWrite));
                 }
             }
         }
