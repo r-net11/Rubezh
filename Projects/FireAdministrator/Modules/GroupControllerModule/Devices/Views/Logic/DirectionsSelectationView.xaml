@@ -54,29 +54,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <!--<Grid Grid.Column="0">
-            <DataGrid ItemsSource="{Binding TargetDirections}" SelectedItem="{Binding SelectedTargetDirection}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-                    <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
-        <StackPanel Grid.Column="1" Margin="2">
-            <Controls:ToolBarButton Command="{Binding AddOneCommand}" ToolTip="Добавить" ImageSource="/Controls;component/Images/Left.png" />
-            <Controls:ToolBarButton Command="{Binding RemoveOneCommand}" ToolTip="Удалить" ImageSource="/Controls;component/Images/Right.png" />
-            <Controls:ToolBarButton Command="{Binding AddAllCommand}" ToolTip="Добавить все" ImageSource="/Controls;component/Images/LeftLeft.png" />
-            <Controls:ToolBarButton Command="{Binding RemoveAllCommand}" ToolTip="Удалить все" ImageSource="/Controls;component/Images/RightRight.png" />
-        </StackPanel>
-        <Grid Grid.Column="2">
-            <DataGrid ItemsSource="{Binding SourceDirections}" SelectedItem="{Binding SelectedSourceDirection}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="№" Binding="{Binding No}" Width="auto" />
-                    <DataGridTextColumn Header="Наименование" Binding="{Binding Name}" Width="*" />
-                    <DataGridTextColumn Header="Примечание" Binding="{Binding Description}" Width="*" />
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>-->
     </Grid>
 </UserControl>
